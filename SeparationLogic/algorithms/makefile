@@ -42,6 +42,8 @@ DFS_FILES = DFS/DFS.v DFS/DFS_traditional.v DFS/C10909_MonadProg_DFS.v
 BFS_FILES = BFS/BFS.v BFS/BFS_path.v BFS/Go.v
 Tarjan_FILES = Tarjan/Tarjan.v Tarjan/Tarjan_tactics.v Tarjan/Tarjan_set_tree.v Tarjan/Tarjan_basics.v Tarjan/Tarjan_basics_ex.v Tarjan/Tarjan_is_dfn.v Tarjan/Tarjan_is_low.v Tarjan/Tarjan_no_cross_edge.v Tarjan/Tarjan_bridge_iff.v Tarjan/Tarjan_tarjan.v Tarjan/Tarjan_bridge_iff_ex.v
 
+Kosaraju_FILES = Kosaraju/SCC.v Kosaraju/Kosaraju.v
+
 FILES = \
  MapLib.v \
  Tactics.v \
@@ -51,7 +53,8 @@ FILES = \
  $(Kruskal_FILES) \
  $(DFS_FILES) \
  $(BFS_FILES) \
- $(Tarjan_FILES)
+ $(Tarjan_FILES) \
+ $(Kosaraju_FILES)
 
 $(FILES:%.v=%.vo): %.vo: %.v
 	@echo COQC $(<F)

@@ -1,5 +1,15 @@
 # 使用 QCP 框架证明 Tarjan SCC 算法正确性并用于 2-SAT 的全过程计划
 
+> **⚠️ 架构变更说明 (2026-06-11)**
+>
+> 本计划编写时假设 SCC 基础定义在 `GraphLib/examples/scc_basic.v`。当前仓库已重构：
+> - Tarjan 算法形式化已移至 `SeparationLogic/algorithms/Tarjan/`（8911 行，11 个文件）
+> - `scc_basic.v` 已删除，其 SCC 数学定义（`mutually_reachable`、`is_SCC`、`scc_partition`、`condensation`）尚未在新架构中重写
+> - 新架构使用 `OriginalGraphType`（无向图），而原 `scc_basic.v` 使用自建的 `DirectedGraphType`
+> - **若恢复 SCC 正确性证明工作**，应在 `algorithms/Tarjan/` 下基于 `OriginalGraphType` 重建 SCC 数学规格层
+>
+> 本文档保留作为整体路线参考，但具体文件路径和依赖关系需按新架构调整。
+
 ## 目录
 
 1. [项目背景与 QCP 框架概述](#1-项目背景与-qcp-框架概述)
