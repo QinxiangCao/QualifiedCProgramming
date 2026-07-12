@@ -1,16 +1,11 @@
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.Lists.List.
-From AUXLib Require Import ListLib.
+From AUXLib Require Import ListLib MonotonicList.
 From MaxMinLib Require Import MaxMin Interface.
 
 Import ListNotations.
 Local Open Scope Z_scope.
 Local Open Scope list_scope.
-
-Definition StrictlyIncreasingZList (xs : list Z) : Prop :=
-  forall p q,
-    0 <= p /\ p < q /\ q < Zlength xs ->
-    Znth p xs 0 < Znth q xs 0.
 
 Definition StrictlyIncreasingValues (l idxs : list Z) : Prop :=
   forall p q,
@@ -21,7 +16,7 @@ Definition ValidIncreasingSubsequence
     (l : list Z) (limit : Z) (idxs : list Z) : Prop :=
   0 <= limit <= Zlength l /\
   Forall (fun idx => 0 <= idx < limit) idxs /\
-  StrictlyIncreasingZList idxs /\
+  mono_inc idxs /\
   StrictlyIncreasingValues l idxs.
 
 Definition LastIndexOf (idxs : list Z) (last : Z) : Prop :=
@@ -154,21 +149,21 @@ Qed.
 
 Lemma StrictlyIncreasingZList_snoc :
   forall xs x,
-    StrictlyIncreasingZList xs ->
+    mono_inc xs ->
     Forall (fun idx => idx < x) xs ->
-    StrictlyIncreasingZList (xs ++ x :: nil).
+    mono_inc (xs ++ x :: nil).
 Proof.
   intros xs x Hinc Hall.
-  unfold StrictlyIncreasingZList in *.
-  intros p q [Hp [Hpq Hq]].
-  rewrite Zlength_app_cons in Hq.
-  assert (q < Zlength xs \/ q = Zlength xs) as [Hq_old | Hq_last] by lia.
-  - rewrite !znth_app_singleton_old_Z by lia.
-    apply Hinc. lia.
-  - subst q.
-    rewrite znth_app_singleton_last_Z with (i := Zlength xs) by reflexivity.
-    rewrite znth_app_singleton_old_Z by lia.
-    eapply Forall_Znth; eauto; lia.
+  apply (proj2 (mono_inc_iff_ind (xs ++ x :: nil))).
+  apply (proj2 (mono_inc_ind_app xs (x :: nil))).
+  repeat split.
+  - apply (proj1 (mono_inc_iff_ind xs)); exact Hinc.
+  - apply (proj1 (mono_inc_iff_ind (x :: nil))).
+    apply mono_inc_single.
+  - intros a b Ha Hb.
+    destruct Hb as [Hb | Hb]; [subst b | contradiction].
+    rewrite Forall_forall in Hall.
+    apply Hall; exact Ha.
 Qed.
 
 Lemma StrictlyIncreasingValues_snoc :
@@ -194,15 +189,14 @@ Qed.
 Lemma ValidIncreasingSubsequenceEndingAt_single :
   forall l i,
     0 <= i < Zlength l ->
-    ValidIncreasingSubsequenceEndingAt l i (i :: nil).
+  ValidIncreasingSubsequenceEndingAt l i (i :: nil).
 Proof.
   intros l i Hi.
   unfold ValidIncreasingSubsequenceEndingAt, ValidIncreasingSubsequence,
-    LastIndexOf, StrictlyIncreasingZList, StrictlyIncreasingValues.
+    LastIndexOf, StrictlyIncreasingValues.
   repeat split; try lia.
   - constructor; [lia | constructor].
-  - intros p q [Hp [Hpq Hq]].
-    rewrite Zlength_cons, Zlength_nil in Hq. lia.
+  - apply mono_inc_single.
   - intros p q [Hp [Hpq Hq]].
     rewrite Zlength_cons, Zlength_nil in Hq. lia.
 Qed.
@@ -211,7 +205,7 @@ Lemma ValidIncreasingSubsequenceEndingAt_snoc_strong :
   forall l xs i,
     0 <= i < Zlength l ->
     Forall (fun idx => 0 <= idx < i) xs ->
-    StrictlyIncreasingZList xs ->
+    mono_inc xs ->
     StrictlyIncreasingValues l xs ->
     Forall (fun idx => Znth idx l 0 < Znth i l 0) xs ->
     ValidIncreasingSubsequenceEndingAt l i (xs ++ i :: nil).
@@ -330,13 +324,13 @@ Qed.
 
 Lemma StrictlyIncreasingZList_snoc_inv :
   forall xs x,
-    StrictlyIncreasingZList (xs ++ x :: nil) ->
-    StrictlyIncreasingZList xs.
+    mono_inc (xs ++ x :: nil) ->
+    mono_inc xs.
 Proof.
   intros xs x Hinc.
-  unfold StrictlyIncreasingZList in *.
-  intros p q Hp.
-  specialize (Hinc p q ltac:(rewrite Zlength_app_cons; lia)).
+  unfold mono_inc in *.
+  intros p q Hp Hpq Hq.
+  specialize (Hinc p q Hp Hpq ltac:(rewrite Zlength_app_cons; lia)).
   rewrite !znth_app_singleton_old_Z in Hinc by lia.
   exact Hinc.
 Qed.
@@ -356,18 +350,17 @@ Qed.
 
 Lemma StrictlyIncreasingZList_snoc_last :
   forall xs x,
-    StrictlyIncreasingZList (xs ++ x :: nil) ->
+    mono_inc (xs ++ x :: nil) ->
     Forall (fun idx => idx < x) xs.
 Proof.
   intros xs x Hinc.
   apply (Forall_Znth_intro Z (fun idx => idx < x) xs 0).
   intros p Hp.
-  pose proof (Hinc p (Zlength xs)) as Hlt.
+  pose proof (Hinc p (Zlength xs)
+    ltac:(lia) ltac:(lia) ltac:(rewrite Zlength_app_cons; lia)) as Hlt.
   rewrite znth_app_singleton_old_Z in Hlt by lia.
   rewrite znth_app_singleton_last_Z with (i := Zlength xs) in Hlt by reflexivity.
-  apply Hlt.
-  rewrite Zlength_app_cons.
-  lia.
+  exact Hlt.
 Qed.
 
 Lemma StrictlyIncreasingValues_snoc_last :
@@ -724,8 +717,7 @@ Proof.
     unfold ValidIncreasingSubsequence.
     repeat split; try lia.
     + constructor.
-    + unfold StrictlyIncreasingZList.
-      intros p q Hp; rewrite Zlength_nil in Hp; lia.
+    + apply mono_inc_nil.
     + unfold StrictlyIncreasingValues.
       intros p q Hp; rewrite Zlength_nil in Hp; lia.
   - assert (Hnonempty : x :: xs_tail <> nil) by discriminate.

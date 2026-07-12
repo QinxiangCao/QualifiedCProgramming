@@ -1,0 +1,28 @@
+Luogu P1311. Choosing Inns
+
+There are `n` inns arranged from left to right. Inn `i` has a color
+`colors[i]` in `[0, k - 1]`, and the coffee shop inside inn `i` has minimum
+cost `costs[i]`.
+
+Two tourists want to stay in two different inns with the same color. They will
+meet at a coffee shop located between the two chosen inns, inclusive. The plan
+is valid if there exists at least one inn between the two chosen positions,
+inclusive, whose coffee minimum cost is at most `p`.
+
+Return the number of valid unordered pairs of inns.
+
+Constraints:
+
+- `0 <= n <= 200000`
+- `1 <= k <= 50`
+- `0 <= p <= 100`
+- `0 <= colors[i] < k`
+- `0 <= costs[i] <= 100`
+
+Hint:
+
+- Scan from left to right.
+- `seen[c]` counts how many inns of color `c` have appeared so far.
+- `good[c]` counts how many previously seen inns of color `c` can already form
+  a valid pair with a future inn because there is an affordable coffee shop in
+  the suffix ending at the current position.

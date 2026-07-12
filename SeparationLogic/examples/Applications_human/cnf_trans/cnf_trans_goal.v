@@ -327,7 +327,7 @@ forall (data_pre: Z) (p3_pre: Z) (p2_pre: Z) (max_size: Z) (ccnt: Z) (pcnt: Z) (
   &&  “ ((Zlength (clist)) <= max_size) ” 
   &&  “ (max_size <= 40000) ” 
   &&  “ (pcnt <= 40000) ”
-  &&  (((retval + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval 0 0 3 (all_zero_list (3)) )
   **  (IntArray.full retval_2 3 (all_zero_list (3)) )
   **  (store_predata data_pre clist pcnt ccnt )
@@ -351,7 +351,7 @@ forall (data_pre: Z) (p3_pre: Z) (p2_pre: Z) (max_size: Z) (ccnt: Z) (pcnt: Z) (
   &&  “ ((Zlength (clist)) <= max_size) ” 
   &&  “ (max_size <= 40000) ” 
   &&  “ (pcnt <= 40000) ”
-  &&  (((retval + (1 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval + (1 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval 1 0 3 (replace_Znth (0) (p2_pre) ((all_zero_list (3)))) )
   **  (IntArray.full retval_2 3 (all_zero_list (3)) )
   **  (store_predata data_pre clist pcnt ccnt )
@@ -375,7 +375,7 @@ forall (data_pre: Z) (p3_pre: Z) (p2_pre: Z) (max_size: Z) (ccnt: Z) (pcnt: Z) (
   &&  “ ((Zlength (clist)) <= max_size) ” 
   &&  “ (max_size <= 40000) ” 
   &&  “ (pcnt <= 40000) ”
-  &&  (((retval_2 + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_2 + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_2 0 0 3 (all_zero_list (3)) )
   **  (IntArray.full retval 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) (p2_pre) ((all_zero_list (3)))))) )
   **  (store_predata data_pre clist pcnt ccnt )
@@ -399,7 +399,7 @@ forall (data_pre: Z) (p3_pre: Z) (p2_pre: Z) (max_size: Z) (ccnt: Z) (pcnt: Z) (
   &&  “ ((Zlength (clist)) <= max_size) ” 
   &&  “ (max_size <= 40000) ” 
   &&  “ (pcnt <= 40000) ”
-  &&  (((retval_2 + (1 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_2 + (1 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_2 1 0 3 (replace_Znth (0) ((-p2_pre)) ((all_zero_list (3)))) )
   **  (IntArray.full retval 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) (p2_pre) ((all_zero_list (3)))))) )
   **  (store_predata data_pre clist pcnt ccnt )
@@ -5428,7 +5428,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (max_size <= 40000) ” 
   &&  “ (pcnt <= 40000) ” 
   &&  “ (1 = op_pre) ”
-  &&  (((retval + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval 0 0 3 (all_zero_list (3)) )
   **  (IntArray.full retval_4 3 (all_zero_list (3)) )
   **  (IntArray.full retval_3 3 (all_zero_list (3)) )
@@ -5463,7 +5463,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (max_size <= 40000) ” 
   &&  “ (pcnt <= 40000) ” 
   &&  “ (1 = op_pre) ”
-  &&  (((retval + (1 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval + (1 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval 1 0 3 (replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))) )
   **  (IntArray.full retval_4 3 (all_zero_list (3)) )
   **  (IntArray.full retval_3 3 (all_zero_list (3)) )
@@ -5498,7 +5498,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (max_size <= 40000) ” 
   &&  “ (pcnt <= 40000) ” 
   &&  “ (1 = op_pre) ”
-  &&  (((retval_2 + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_2 + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_2 0 0 3 (all_zero_list (3)) )
   **  (IntArray.full retval 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))))) )
   **  (IntArray.full retval_4 3 (all_zero_list (3)) )
@@ -5533,7 +5533,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (max_size <= 40000) ” 
   &&  “ (pcnt <= 40000) ” 
   &&  “ (1 = op_pre) ”
-  &&  (((retval_2 + (1 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_2 + (1 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_2 1 0 3 (replace_Znth (0) ((-p2_pre)) ((all_zero_list (3)))) )
   **  (IntArray.full retval 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))))) )
   **  (IntArray.full retval_4 3 (all_zero_list (3)) )
@@ -5569,7 +5569,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (max_size <= 40000) ” 
   &&  “ (pcnt <= 40000) ” 
   &&  “ (1 = op_pre) ”
-  &&  (((retval_3 + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_3 + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_3 0 0 3 (all_zero_list (3)) )
   **  (IntArray.full retval_2 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) ((-p2_pre)) ((all_zero_list (3)))))) )
   **  (IntArray.full retval 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))))) )
@@ -5605,7 +5605,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (max_size <= 40000) ” 
   &&  “ (pcnt <= 40000) ” 
   &&  “ (1 = op_pre) ”
-  &&  (((retval_3 + (1 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_3 + (1 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_3 1 0 3 (replace_Znth (0) (p1_pre) ((all_zero_list (3)))) )
   **  (IntArray.full retval_2 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) ((-p2_pre)) ((all_zero_list (3)))))) )
   **  (IntArray.full retval 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))))) )
@@ -5641,7 +5641,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (max_size <= 40000) ” 
   &&  “ (pcnt <= 40000) ” 
   &&  “ (1 = op_pre) ”
-  &&  (((retval_3 + (2 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_3 + (2 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_3 2 0 3 (replace_Znth (1) (p2_pre) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))) )
   **  (IntArray.full retval_2 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) ((-p2_pre)) ((all_zero_list (3)))))) )
   **  (IntArray.full retval 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))))) )
@@ -5677,7 +5677,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (max_size <= 40000) ” 
   &&  “ (pcnt <= 40000) ” 
   &&  “ (1 = op_pre) ”
-  &&  (((retval_3 + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_3 + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_3 0 0 3 (all_zero_list (3)) )
   **  (IntArray.full retval_2 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) ((-p2_pre)) ((all_zero_list (3)))))) )
   **  (IntArray.full retval 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))))) )
@@ -5713,7 +5713,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (max_size <= 40000) ” 
   &&  “ (pcnt <= 40000) ” 
   &&  “ (1 = op_pre) ”
-  &&  (((retval_3 + (1 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_3 + (1 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_3 1 0 3 (replace_Znth (0) (p1_pre) ((all_zero_list (3)))) )
   **  (IntArray.full retval_2 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) ((-p2_pre)) ((all_zero_list (3)))))) )
   **  (IntArray.full retval 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))))) )
@@ -5749,7 +5749,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (pcnt <= 40000) ” 
   &&  “ (1 <> op_pre) ” 
   &&  “ (0 = op_pre) ”
-  &&  (((retval + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval 0 0 3 (all_zero_list (3)) )
   **  (IntArray.full retval_4 3 (all_zero_list (3)) )
   **  (IntArray.full retval_3 3 (all_zero_list (3)) )
@@ -5785,7 +5785,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (pcnt <= 40000) ” 
   &&  “ (1 <> op_pre) ” 
   &&  “ (0 = op_pre) ”
-  &&  (((retval + (1 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval + (1 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval 1 0 3 (replace_Znth (0) (p1_pre) ((all_zero_list (3)))) )
   **  (IntArray.full retval_4 3 (all_zero_list (3)) )
   **  (IntArray.full retval_3 3 (all_zero_list (3)) )
@@ -5821,7 +5821,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (pcnt <= 40000) ” 
   &&  “ (1 <> op_pre) ” 
   &&  “ (0 = op_pre) ”
-  &&  (((retval_2 + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_2 + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_2 0 0 3 (all_zero_list (3)) )
   **  (IntArray.full retval 3 (replace_Znth (1) ((-p3_pre)) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))) )
   **  (IntArray.full retval_4 3 (all_zero_list (3)) )
@@ -5857,7 +5857,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (pcnt <= 40000) ” 
   &&  “ (1 <> op_pre) ” 
   &&  “ (0 = op_pre) ”
-  &&  (((retval_2 + (1 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_2 + (1 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_2 1 0 3 (replace_Znth (0) (p2_pre) ((all_zero_list (3)))) )
   **  (IntArray.full retval 3 (replace_Znth (1) ((-p3_pre)) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))) )
   **  (IntArray.full retval_4 3 (all_zero_list (3)) )
@@ -5894,7 +5894,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (pcnt <= 40000) ” 
   &&  “ (1 <> op_pre) ” 
   &&  “ (0 = op_pre) ”
-  &&  (((retval_3 + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_3 + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_3 0 0 3 (all_zero_list (3)) )
   **  (IntArray.full retval_2 3 (replace_Znth (1) ((-p3_pre)) ((replace_Znth (0) (p2_pre) ((all_zero_list (3)))))) )
   **  (IntArray.full retval 3 (replace_Znth (1) ((-p3_pre)) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))) )
@@ -5931,7 +5931,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (pcnt <= 40000) ” 
   &&  “ (1 <> op_pre) ” 
   &&  “ (0 = op_pre) ”
-  &&  (((retval_3 + (1 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_3 + (1 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_3 1 0 3 (replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))) )
   **  (IntArray.full retval_2 3 (replace_Znth (1) ((-p3_pre)) ((replace_Znth (0) (p2_pre) ((all_zero_list (3)))))) )
   **  (IntArray.full retval 3 (replace_Znth (1) ((-p3_pre)) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))) )
@@ -5968,7 +5968,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (pcnt <= 40000) ” 
   &&  “ (1 <> op_pre) ” 
   &&  “ (0 = op_pre) ”
-  &&  (((retval_3 + (2 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_3 + (2 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_3 2 0 3 (replace_Znth (1) ((-p2_pre)) ((replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))))) )
   **  (IntArray.full retval_2 3 (replace_Znth (1) ((-p3_pre)) ((replace_Znth (0) (p2_pre) ((all_zero_list (3)))))) )
   **  (IntArray.full retval 3 (replace_Znth (1) ((-p3_pre)) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))) )
@@ -6005,7 +6005,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (pcnt <= 40000) ” 
   &&  “ (1 <> op_pre) ” 
   &&  “ (0 = op_pre) ”
-  &&  (((retval_3 + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_3 + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_3 0 0 3 (all_zero_list (3)) )
   **  (IntArray.full retval_2 3 (replace_Znth (1) ((-p3_pre)) ((replace_Znth (0) (p2_pre) ((all_zero_list (3)))))) )
   **  (IntArray.full retval 3 (replace_Znth (1) ((-p3_pre)) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))) )
@@ -6042,7 +6042,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (pcnt <= 40000) ” 
   &&  “ (1 <> op_pre) ” 
   &&  “ (0 = op_pre) ”
-  &&  (((retval_3 + (1 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_3 + (1 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_3 1 0 3 (replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))) )
   **  (IntArray.full retval_2 3 (replace_Znth (1) ((-p3_pre)) ((replace_Znth (0) (p2_pre) ((all_zero_list (3)))))) )
   **  (IntArray.full retval 3 (replace_Znth (1) ((-p3_pre)) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))) )
@@ -6080,7 +6080,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (1 <> op_pre) ” 
   &&  “ (0 <> op_pre) ” 
   &&  “ (2 = op_pre) ”
-  &&  (((retval + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval 0 0 3 (all_zero_list (3)) )
   **  (IntArray.full retval_4 3 (all_zero_list (3)) )
   **  (IntArray.full retval_3 3 (all_zero_list (3)) )
@@ -6118,7 +6118,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (1 <> op_pre) ” 
   &&  “ (0 <> op_pre) ” 
   &&  “ (2 = op_pre) ”
-  &&  (((retval + (1 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval + (1 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval 1 0 3 (replace_Znth (0) (p1_pre) ((all_zero_list (3)))) )
   **  (IntArray.full retval_4 3 (all_zero_list (3)) )
   **  (IntArray.full retval_3 3 (all_zero_list (3)) )
@@ -6156,7 +6156,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (1 <> op_pre) ” 
   &&  “ (0 <> op_pre) ” 
   &&  “ (2 = op_pre) ”
-  &&  (((retval_2 + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_2 + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_2 0 0 3 (all_zero_list (3)) )
   **  (IntArray.full retval 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))) )
   **  (IntArray.full retval_4 3 (all_zero_list (3)) )
@@ -6194,7 +6194,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (1 <> op_pre) ” 
   &&  “ (0 <> op_pre) ” 
   &&  “ (2 = op_pre) ”
-  &&  (((retval_2 + (1 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_2 + (1 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_2 1 0 3 (replace_Znth (0) ((-p2_pre)) ((all_zero_list (3)))) )
   **  (IntArray.full retval 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))) )
   **  (IntArray.full retval_4 3 (all_zero_list (3)) )
@@ -6232,7 +6232,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (1 <> op_pre) ” 
   &&  “ (0 <> op_pre) ” 
   &&  “ (2 = op_pre) ”
-  &&  (((retval_3 + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_3 + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_3 0 0 3 (all_zero_list (3)) )
   **  (IntArray.full retval_2 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) ((-p2_pre)) ((all_zero_list (3)))))) )
   **  (IntArray.full retval 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))) )
@@ -6270,7 +6270,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (1 <> op_pre) ” 
   &&  “ (0 <> op_pre) ” 
   &&  “ (2 = op_pre) ”
-  &&  (((retval_3 + (1 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_3 + (1 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_3 1 0 3 (replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))) )
   **  (IntArray.full retval_2 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) ((-p2_pre)) ((all_zero_list (3)))))) )
   **  (IntArray.full retval 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))) )
@@ -6308,7 +6308,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (1 <> op_pre) ” 
   &&  “ (0 <> op_pre) ” 
   &&  “ (2 = op_pre) ”
-  &&  (((retval_3 + (2 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_3 + (2 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_3 2 0 3 (replace_Znth (1) (p2_pre) ((replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))))) )
   **  (IntArray.full retval_2 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) ((-p2_pre)) ((all_zero_list (3)))))) )
   **  (IntArray.full retval 3 (replace_Znth (1) (p3_pre) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))) )
@@ -6346,7 +6346,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (1 <> op_pre) ” 
   &&  “ (0 <> op_pre) ” 
   &&  “ (2 = op_pre) ”
-  &&  (((retval + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval 0 0 3 (all_zero_list (3)) )
   **  (IntArray.full retval_4 3 (all_zero_list (3)) )
   **  (IntArray.full retval_3 3 (all_zero_list (3)) )
@@ -6385,7 +6385,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (0 <> op_pre) ” 
   &&  “ (2 <> op_pre) ” 
   &&  “ (3 = op_pre) ”
-  &&  (((retval + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval 0 0 3 (all_zero_list (3)) )
   **  (IntArray.full retval_4 3 (all_zero_list (3)) )
   **  (IntArray.full retval_3 3 (all_zero_list (3)) )
@@ -6424,7 +6424,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (0 <> op_pre) ” 
   &&  “ (2 <> op_pre) ” 
   &&  “ (3 = op_pre) ”
-  &&  (((retval + (1 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval + (1 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval 1 0 3 (replace_Znth (0) (p1_pre) ((all_zero_list (3)))) )
   **  (IntArray.full retval_4 3 (all_zero_list (3)) )
   **  (IntArray.full retval_3 3 (all_zero_list (3)) )
@@ -6463,7 +6463,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (0 <> op_pre) ” 
   &&  “ (2 <> op_pre) ” 
   &&  “ (3 = op_pre) ”
-  &&  (((retval + (2 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval + (2 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval 2 0 3 (replace_Znth (1) (p2_pre) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))) )
   **  (IntArray.full retval_4 3 (all_zero_list (3)) )
   **  (IntArray.full retval_3 3 (all_zero_list (3)) )
@@ -6502,7 +6502,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (0 <> op_pre) ” 
   &&  “ (2 <> op_pre) ” 
   &&  “ (3 = op_pre) ”
-  &&  (((retval_2 + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_2 + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_2 0 0 3 (all_zero_list (3)) )
   **  (IntArray.full retval 3 (replace_Znth (2) (p3_pre) ((replace_Znth (1) (p2_pre) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))))) )
   **  (IntArray.full retval_4 3 (all_zero_list (3)) )
@@ -6541,7 +6541,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (0 <> op_pre) ” 
   &&  “ (2 <> op_pre) ” 
   &&  “ (3 = op_pre) ”
-  &&  (((retval_2 + (1 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_2 + (1 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_2 1 0 3 (replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))) )
   **  (IntArray.full retval 3 (replace_Znth (2) (p3_pre) ((replace_Znth (1) (p2_pre) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))))) )
   **  (IntArray.full retval_4 3 (all_zero_list (3)) )
@@ -6580,7 +6580,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (0 <> op_pre) ” 
   &&  “ (2 <> op_pre) ” 
   &&  “ (3 = op_pre) ”
-  &&  (((retval_2 + (2 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_2 + (2 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_2 2 0 3 (replace_Znth (1) ((-p2_pre)) ((replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))))) )
   **  (IntArray.full retval 3 (replace_Znth (2) (p3_pre) ((replace_Znth (1) (p2_pre) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))))) )
   **  (IntArray.full retval_4 3 (all_zero_list (3)) )
@@ -6619,7 +6619,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (0 <> op_pre) ” 
   &&  “ (2 <> op_pre) ” 
   &&  “ (3 = op_pre) ”
-  &&  (((retval_3 + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_3 + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_3 0 0 3 (all_zero_list (3)) )
   **  (IntArray.full retval_2 3 (replace_Znth (2) (p3_pre) ((replace_Znth (1) ((-p2_pre)) ((replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))))))) )
   **  (IntArray.full retval 3 (replace_Znth (2) (p3_pre) ((replace_Znth (1) (p2_pre) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))))) )
@@ -6658,7 +6658,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (0 <> op_pre) ” 
   &&  “ (2 <> op_pre) ” 
   &&  “ (3 = op_pre) ”
-  &&  (((retval_3 + (1 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_3 + (1 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_3 1 0 3 (replace_Znth (0) (p1_pre) ((all_zero_list (3)))) )
   **  (IntArray.full retval_2 3 (replace_Znth (2) (p3_pre) ((replace_Znth (1) ((-p2_pre)) ((replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))))))) )
   **  (IntArray.full retval 3 (replace_Znth (2) (p3_pre) ((replace_Znth (1) (p2_pre) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))))) )
@@ -6697,7 +6697,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (0 <> op_pre) ” 
   &&  “ (2 <> op_pre) ” 
   &&  “ (3 = op_pre) ”
-  &&  (((retval_3 + (2 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_3 + (2 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_3 2 0 3 (replace_Znth (1) ((-p2_pre)) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))) )
   **  (IntArray.full retval_2 3 (replace_Znth (2) (p3_pre) ((replace_Znth (1) ((-p2_pre)) ((replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))))))) )
   **  (IntArray.full retval 3 (replace_Znth (2) (p3_pre) ((replace_Znth (1) (p2_pre) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))))) )
@@ -6736,7 +6736,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (0 <> op_pre) ” 
   &&  “ (2 <> op_pre) ” 
   &&  “ (3 = op_pre) ”
-  &&  (((retval_4 + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_4 + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_4 0 0 3 (all_zero_list (3)) )
   **  (IntArray.full retval_3 3 (replace_Znth (2) ((-p3_pre)) ((replace_Znth (1) ((-p2_pre)) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))))) )
   **  (IntArray.full retval_2 3 (replace_Znth (2) (p3_pre) ((replace_Znth (1) ((-p2_pre)) ((replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))))))) )
@@ -6775,7 +6775,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (0 <> op_pre) ” 
   &&  “ (2 <> op_pre) ” 
   &&  “ (3 = op_pre) ”
-  &&  (((retval_4 + (1 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_4 + (1 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_4 1 0 3 (replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))) )
   **  (IntArray.full retval_3 3 (replace_Znth (2) ((-p3_pre)) ((replace_Znth (1) ((-p2_pre)) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))))) )
   **  (IntArray.full retval_2 3 (replace_Znth (2) (p3_pre) ((replace_Znth (1) ((-p2_pre)) ((replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))))))) )
@@ -6814,7 +6814,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (0 <> op_pre) ” 
   &&  “ (2 <> op_pre) ” 
   &&  “ (3 = op_pre) ”
-  &&  (((retval_4 + (2 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_4 + (2 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_4 2 0 3 (replace_Znth (1) (p2_pre) ((replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))))) )
   **  (IntArray.full retval_3 3 (replace_Znth (2) ((-p3_pre)) ((replace_Znth (1) ((-p2_pre)) ((replace_Znth (0) (p1_pre) ((all_zero_list (3)))))))) )
   **  (IntArray.full retval_2 3 (replace_Znth (2) (p3_pre) ((replace_Znth (1) ((-p2_pre)) ((replace_Znth (0) ((-p1_pre)) ((all_zero_list (3)))))))) )
@@ -6853,7 +6853,7 @@ forall (data_pre: Z) (op_pre: Z) (p3_pre: Z) (p2_pre: Z) (p1_pre: Z) (max_size: 
   &&  “ (0 <> op_pre) ” 
   &&  “ (2 <> op_pre) ” 
   &&  “ (3 = op_pre) ”
-  &&  (((retval + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval 0 0 3 (all_zero_list (3)) )
   **  (IntArray.full retval_4 3 (all_zero_list (3)) )
   **  (IntArray.full retval_3 3 (all_zero_list (3)) )
@@ -14177,16 +14177,12 @@ forall (pcnt: Z) (prop: smt_prop) (op: SmtPropBop) (lt: smt_prop) (rt: smt_prop)
 
 Definition prop2cnf_which_implies_wit_3_split_goal_1 := 
 forall (pcnt: Z) (prop: smt_prop) (op: SmtPropBop) (lt: smt_prop) (rt: smt_prop) (PreH1 : ((prop_cnt_inf_SmtProp (prop)) <= pcnt)) (PreH2 : (prop = (SmtB (op) (lt) (rt)))) ,
-  TT && emp 
-|--
-  “ ((prop_cnt_inf_SmtProp (rt)) <= pcnt) ”
+  ((prop_cnt_inf_SmtProp (rt)) <= pcnt)
 .
 
 Definition prop2cnf_which_implies_wit_3_split_goal_2 := 
 forall (pcnt: Z) (prop: smt_prop) (op: SmtPropBop) (lt: smt_prop) (rt: smt_prop) (PreH1 : ((prop_cnt_inf_SmtProp (prop)) <= pcnt)) (PreH2 : (prop = (SmtB (op) (lt) (rt)))) ,
-  TT && emp 
-|--
-  “ ((prop_cnt_inf_SmtProp (lt)) <= pcnt) ”
+  ((prop_cnt_inf_SmtProp (lt)) <= pcnt)
 .
 
 Definition prop2cnf_which_implies_wit_4 := 
@@ -14209,16 +14205,12 @@ forall (prop: smt_prop) (op: SmtPropBop) (lt: smt_prop) (rt: smt_prop) (PreH1 : 
 
 Definition prop2cnf_which_implies_wit_4_split_goal_1 := 
 forall (prop: smt_prop) (op: SmtPropBop) (lt: smt_prop) (rt: smt_prop) (PreH1 : ((SmtProp_size (prop)) <= 10000)) (PreH2 : (prop = (SmtB (op) (lt) (rt)))) ,
-  TT && emp 
-|--
-  “ ((SmtProp_size (rt)) <= 10000) ”
+  ((SmtProp_size (rt)) <= 10000)
 .
 
 Definition prop2cnf_which_implies_wit_4_split_goal_2 := 
 forall (prop: smt_prop) (op: SmtPropBop) (lt: smt_prop) (rt: smt_prop) (PreH1 : ((SmtProp_size (prop)) <= 10000)) (PreH2 : (prop = (SmtB (op) (lt) (rt)))) ,
-  TT && emp 
-|--
-  “ ((SmtProp_size (lt)) <= 10000) ”
+  ((SmtProp_size (lt)) <= 10000)
 .
 
 Definition prop2cnf_which_implies_wit_5 := 
@@ -14239,9 +14231,7 @@ forall (clist: (@list (@list Z))) (prop: smt_prop) (op: SmtPropBop) (lt: smt_pro
 
 Definition prop2cnf_which_implies_wit_5_split_goal_1 := 
 forall (clist: (@list (@list Z))) (prop: smt_prop) (op: SmtPropBop) (lt: smt_prop) (rt: smt_prop) (PreH1 : ((Zlength (clist)) <= (40000 - (4 * (SmtProp_size (prop)) ) ))) (PreH2 : (prop = (SmtB (op) (lt) (rt)))) ,
-  TT && emp 
-|--
-  “ ((Zlength (clist)) <= (40000 - (4 * (SmtProp_size (lt)) ) )) ”
+  ((Zlength (clist)) <= (40000 - (4 * (SmtProp_size (lt)) ) ))
 .
 
 Definition prop2cnf_which_implies_wit_6 := 
@@ -14262,9 +14252,7 @@ forall (pcnt: Z) (prop: smt_prop) (op: SmtPropBop) (lt: smt_prop) (rt: smt_prop)
 
 Definition prop2cnf_which_implies_wit_6_split_goal_1 := 
 forall (pcnt: Z) (prop: smt_prop) (op: SmtPropBop) (lt: smt_prop) (rt: smt_prop) (PreH1 : (pcnt <= (40000 - (SmtProp_size (prop)) ))) (PreH2 : (prop = (SmtB (op) (lt) (rt)))) ,
-  TT && emp 
-|--
-  “ (pcnt <= (40000 - (SmtProp_size (lt)) )) ”
+  (pcnt <= (40000 - (SmtProp_size (lt)) ))
 .
 
 Definition prop2cnf_which_implies_wit_7 := 
@@ -14285,9 +14273,7 @@ forall (clist: (@list (@list Z))) (prop: smt_prop) (op: SmtPropBop) (lt: smt_pro
 
 Definition prop2cnf_which_implies_wit_7_split_goal_1 := 
 forall (clist: (@list (@list Z))) (prop: smt_prop) (op: SmtPropBop) (lt: smt_prop) (rt: smt_prop) (clist': (@list (@list Z))) (PreH1 : ((Zlength (clist')) <= ((Zlength (clist)) + (4 * (SmtProp_size (lt)) ) ))) (PreH2 : ((Zlength (clist)) <= (40000 - (4 * (SmtProp_size (prop)) ) ))) (PreH3 : (prop = (SmtB (op) (lt) (rt)))) ,
-  TT && emp 
-|--
-  “ ((Zlength (clist')) <= (40000 - (4 * (SmtProp_size (rt)) ) )) ”
+  ((Zlength (clist')) <= (40000 - (4 * (SmtProp_size (rt)) ) ))
 .
 
 Definition prop2cnf_which_implies_wit_8 := 
@@ -14312,16 +14298,12 @@ forall (ccnt: Z) (pcnt: Z) (clist: (@list (@list Z))) (lt: smt_prop) (rt: smt_pr
 
 Definition prop2cnf_which_implies_wit_8_split_goal_1 := 
 forall (ccnt: Z) (pcnt: Z) (clist: (@list (@list Z))) (lt: smt_prop) (rt: smt_prop) (ccnt': Z) (pcnt': Z) (clist': (@list (@list Z))) (p1: Z) (PreH1 : ((make_prop2cnf_ret ((make_predata (clist') (pcnt') (ccnt'))) (p1)) = (prop2cnf_logic (lt) ((make_predata (clist) (pcnt) (ccnt)))))) (PreH2 : ((prop_cnt_inf_SmtProp (rt)) <= pcnt)) ,
-  TT && emp 
-|--
-  “ ((prop_cnt_inf_SmtProp (rt)) <= pcnt') ”
+  ((prop_cnt_inf_SmtProp (rt)) <= pcnt')
 .
 
 Definition prop2cnf_which_implies_wit_8_split_goal_2 := 
 forall (ccnt: Z) (pcnt: Z) (clist: (@list (@list Z))) (lt: smt_prop) (rt: smt_prop) (ccnt': Z) (pcnt': Z) (clist': (@list (@list Z))) (p1: Z) (PreH1 : ((make_prop2cnf_ret ((make_predata (clist') (pcnt') (ccnt'))) (p1)) = (prop2cnf_logic (lt) ((make_predata (clist) (pcnt) (ccnt)))))) (PreH2 : ((prop_cnt_inf_SmtProp (rt)) <= pcnt)) ,
-  TT && emp 
-|--
-  “ (pcnt <= pcnt') ”
+  (pcnt <= pcnt')
 .
 
 Definition prop2cnf_which_implies_wit_9 := 
@@ -14342,9 +14324,7 @@ forall (pcnt: Z) (prop: smt_prop) (op: SmtPropBop) (lt: smt_prop) (rt: smt_prop)
 
 Definition prop2cnf_which_implies_wit_9_split_goal_1 := 
 forall (pcnt: Z) (prop: smt_prop) (op: SmtPropBop) (lt: smt_prop) (rt: smt_prop) (pcnt': Z) (PreH1 : (pcnt' <= (pcnt + (SmtProp_size (lt)) ))) (PreH2 : (pcnt <= (40000 - (SmtProp_size (prop)) ))) (PreH3 : (prop = (SmtB (op) (lt) (rt)))) ,
-  TT && emp 
-|--
-  “ (pcnt' <= (39999 - (SmtProp_size (rt)) )) ”
+  (pcnt' <= (39999 - (SmtProp_size (rt)) ))
 .
 
 Definition prop2cnf_which_implies_wit_10 := 
@@ -14397,16 +14377,12 @@ forall (pcnt: Z) (prop: smt_prop) (pcnt'_2: Z) (rt': smt_prop) (pcnt'_1: Z) (lt'
 
 Definition prop2cnf_which_implies_wit_11_split_goal_1 := 
 forall (pcnt: Z) (prop: smt_prop) (pcnt'_2: Z) (rt': smt_prop) (pcnt'_1: Z) (lt': smt_prop) (op': SmtPropBop) (PreH1 : (pcnt'_2 <= (pcnt'_1 + (SmtProp_size (rt')) ))) (PreH2 : (pcnt'_1 <= (pcnt + (SmtProp_size (lt')) ))) (PreH3 : (pcnt <= (40000 - (SmtProp_size (prop)) ))) (PreH4 : (prop = (SmtB (op') (lt') (rt')))) ,
-  TT && emp 
-|--
-  “ (pcnt'_2 <= 39999) ”
+  (pcnt'_2 <= 39999)
 .
 
 Definition prop2cnf_which_implies_wit_11_split_goal_2 := 
 forall (pcnt: Z) (prop: smt_prop) (pcnt'_2: Z) (rt': smt_prop) (pcnt'_1: Z) (lt': smt_prop) (op': SmtPropBop) (PreH1 : (pcnt'_2 <= (pcnt'_1 + (SmtProp_size (rt')) ))) (PreH2 : (pcnt'_1 <= (pcnt + (SmtProp_size (lt')) ))) (PreH3 : (pcnt <= (40000 - (SmtProp_size (prop)) ))) (PreH4 : (prop = (SmtB (op') (lt') (rt')))) ,
-  TT && emp 
-|--
-  “ (pcnt'_2 <= ((pcnt + (SmtProp_size (prop)) ) - 1 )) ”
+  (pcnt'_2 <= ((pcnt + (SmtProp_size (prop)) ) - 1 ))
 .
 
 Definition prop2cnf_which_implies_wit_12 := 
@@ -14473,9 +14449,7 @@ forall (clist: (@list (@list Z))) (prop: smt_prop) (clist'_2: (@list (@list Z)))
 
 Definition prop2cnf_which_implies_wit_15_split_goal_1 := 
 forall (clist: (@list (@list Z))) (prop: smt_prop) (clist'_2: (@list (@list Z))) (rt': smt_prop) (clist'_1: (@list (@list Z))) (lt': smt_prop) (op': SmtPropBop) (PreH1 : ((Zlength (clist'_2)) <= ((Zlength (clist'_1)) + (4 * (SmtProp_size (rt')) ) ))) (PreH2 : ((Zlength (clist'_1)) <= ((Zlength (clist)) + (4 * (SmtProp_size (lt')) ) ))) (PreH3 : (prop = (SmtB (op') (lt') (rt')))) ,
-  TT && emp 
-|--
-  “ ((Zlength (clist'_2)) <= (((Zlength (clist)) + (4 * (SmtProp_size (prop)) ) ) - 4 )) ”
+  ((Zlength (clist'_2)) <= (((Zlength (clist)) + (4 * (SmtProp_size (prop)) ) ) - 4 ))
 .
 
 Definition prop2cnf_which_implies_wit_16 := 
@@ -14531,9 +14505,7 @@ forall (pcnt: Z) (prop: smt_prop) (op: SmtPropUop) (sub_prop: smt_prop) (PreH1 :
 
 Definition prop2cnf_which_implies_wit_18_split_goal_1 := 
 forall (pcnt: Z) (prop: smt_prop) (op: SmtPropUop) (sub_prop: smt_prop) (PreH1 : ((prop_cnt_inf_SmtProp (prop)) <= pcnt)) (PreH2 : (prop = (SmtU (op) (sub_prop)))) ,
-  TT && emp 
-|--
-  “ ((prop_cnt_inf_SmtProp (sub_prop)) <= pcnt) ”
+  ((prop_cnt_inf_SmtProp (sub_prop)) <= pcnt)
 .
 
 Definition prop2cnf_which_implies_wit_19 := 
@@ -14554,9 +14526,7 @@ forall (prop: smt_prop) (op: SmtPropUop) (sub_prop: smt_prop) (PreH1 : ((SmtProp
 
 Definition prop2cnf_which_implies_wit_19_split_goal_1 := 
 forall (prop: smt_prop) (op: SmtPropUop) (sub_prop: smt_prop) (PreH1 : ((SmtProp_size (prop)) <= 10000)) (PreH2 : (prop = (SmtU (op) (sub_prop)))) ,
-  TT && emp 
-|--
-  “ ((SmtProp_size (sub_prop)) <= 10000) ”
+  ((SmtProp_size (sub_prop)) <= 10000)
 .
 
 Definition prop2cnf_which_implies_wit_20 := 
@@ -14577,9 +14547,7 @@ forall (clist: (@list (@list Z))) (prop: smt_prop) (op: SmtPropUop) (sub_prop: s
 
 Definition prop2cnf_which_implies_wit_20_split_goal_1 := 
 forall (clist: (@list (@list Z))) (prop: smt_prop) (op: SmtPropUop) (sub_prop: smt_prop) (PreH1 : ((Zlength (clist)) <= (40000 - (4 * (SmtProp_size (prop)) ) ))) (PreH2 : (prop = (SmtU (op) (sub_prop)))) ,
-  TT && emp 
-|--
-  “ ((Zlength (clist)) <= (40000 - (4 * (SmtProp_size (sub_prop)) ) )) ”
+  ((Zlength (clist)) <= (40000 - (4 * (SmtProp_size (sub_prop)) ) ))
 .
 
 Definition prop2cnf_which_implies_wit_21 := 
@@ -14600,9 +14568,7 @@ forall (pcnt: Z) (prop: smt_prop) (op: SmtPropUop) (sub_prop: smt_prop) (PreH1 :
 
 Definition prop2cnf_which_implies_wit_21_split_goal_1 := 
 forall (pcnt: Z) (prop: smt_prop) (op: SmtPropUop) (sub_prop: smt_prop) (PreH1 : (pcnt <= (40000 - (SmtProp_size (prop)) ))) (PreH2 : (prop = (SmtU (op) (sub_prop)))) ,
-  TT && emp 
-|--
-  “ (pcnt <= (40000 - (SmtProp_size (sub_prop)) )) ”
+  (pcnt <= (40000 - (SmtProp_size (sub_prop)) ))
 .
 
 Definition prop2cnf_which_implies_wit_22 := 
@@ -14655,16 +14621,12 @@ forall (pcnt: Z) (prop: smt_prop) (pcnt': Z) (sub_prop': smt_prop) (op': SmtProp
 
 Definition prop2cnf_which_implies_wit_23_split_goal_1 := 
 forall (pcnt: Z) (prop: smt_prop) (pcnt': Z) (sub_prop': smt_prop) (op': SmtPropUop) (PreH1 : (pcnt' <= (pcnt + (SmtProp_size (sub_prop')) ))) (PreH2 : (pcnt <= (40000 - (SmtProp_size (prop)) ))) (PreH3 : (prop = (SmtU (op') (sub_prop')))) ,
-  TT && emp 
-|--
-  “ (pcnt' <= 39999) ”
+  (pcnt' <= 39999)
 .
 
 Definition prop2cnf_which_implies_wit_23_split_goal_2 := 
 forall (pcnt: Z) (prop: smt_prop) (pcnt': Z) (sub_prop': smt_prop) (op': SmtPropUop) (PreH1 : (pcnt' <= (pcnt + (SmtProp_size (sub_prop')) ))) (PreH2 : (pcnt <= (40000 - (SmtProp_size (prop)) ))) (PreH3 : (prop = (SmtU (op') (sub_prop')))) ,
-  TT && emp 
-|--
-  “ (pcnt' <= ((pcnt + (SmtProp_size (prop)) ) - 1 )) ”
+  (pcnt' <= ((pcnt + (SmtProp_size (prop)) ) - 1 ))
 .
 
 Definition prop2cnf_which_implies_wit_24 := 
@@ -14731,9 +14693,7 @@ forall (clist: (@list (@list Z))) (prop: smt_prop) (clist': (@list (@list Z))) (
 
 Definition prop2cnf_which_implies_wit_27_split_goal_1 := 
 forall (clist: (@list (@list Z))) (prop: smt_prop) (clist': (@list (@list Z))) (sub_prop': smt_prop) (op': SmtPropUop) (PreH1 : ((Zlength (clist')) <= ((Zlength (clist)) + (4 * (SmtProp_size (sub_prop')) ) ))) (PreH2 : (prop = (SmtU (op') (sub_prop')))) ,
-  TT && emp 
-|--
-  “ ((Zlength (clist')) <= (((Zlength (clist)) + (4 * (SmtProp_size (prop)) ) ) - 4 )) ”
+  ((Zlength (clist')) <= (((Zlength (clist)) + (4 * (SmtProp_size (prop)) ) ) - 4 ))
 .
 
 Definition prop2cnf_which_implies_wit_28 := 

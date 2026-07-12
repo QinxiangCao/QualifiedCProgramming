@@ -35,13 +35,13 @@ Proof.
     replace (2 * 0 + 1) with (0 + 1) by lia.
     replace 1 with (0 + 1) by lia.
     cancel (CharArray.seg &( "s2") 0 (0 + 1) (36 :: nil)).
+    replace (0 + (0 + 1)) with (0 + 1) by lia.
     cancel (CharArray.undef_seg &( "s2") (0 + 1) 2003).
     cancel (IntArray.seg &( "p") 0 (0 + 1) (0 :: nil)).
     assert (Hundef_p:
       IntArray.undef_missing_i &( "p") 0 0 2003 |--
       IntArray.undef_seg &( "p") (0 + 1) 2003).
     { apply IntArray.undef_missing_i_to_undef_seg_head; lia. }
-    sep_apply_l_atomic Hundef_p.
     cancel (IntArray.undef_seg &( "p") (0 + 1) 2003).
   - split_pures; dump_pre_spatial; simpl; auto; try lia.
     unfold ManacherTransformedPrefix; simpl; repeat split; try apply Zlength_nonneg; try lia.

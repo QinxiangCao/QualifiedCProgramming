@@ -361,9 +361,7 @@ forall (numsSize_pre: Z) (l: (@list Z)) (candidate: Z) (x: Z) (vote: Z) (i: Z) (
 
 Definition majorityElement_return_wit_1_split_goal_1 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (candidate: Z) (x: Z) (vote: Z) (i: Z) (l1: (@list Z)) (l2: (@list Z)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (l = (app (l1) (l2)))) (PreH3 : (i = (Zlength (l1)))) (PreH4 : (0 <= i)) (PreH5 : (i <= numsSize_pre)) (PreH6 : (1 <= numsSize_pre)) (PreH7 : (numsSize_pre <= 50000)) (PreH8 : (0 <= vote)) (PreH9 : (vote <= i)) (PreH10 : (IsMajorityElement x l )) (PreH11 : (MajorityOnReduced x candidate vote l2 )) ,
-  TT && emp 
-|--
-  “ (IsMajorityElement candidate l ) ”
+  (IsMajorityElement candidate l )
 .
 
 Definition majorityElement_partial_solve_wit_1 := 
@@ -382,7 +380,7 @@ forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (candidate: Z) (x: Z) (vot
   &&  “ (vote <= i) ” 
   &&  “ (IsMajorityElement x l ) ” 
   &&  “ (MajorityOnReduced x candidate vote l2 ) ”
-  &&  (((nums_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i l 0))
+  &&  (((nums_pre + (i * sizeof(INT)))) # Int  |-> (Znth i l 0))
   **  (IntArray.missing_i nums_pre i 0 numsSize_pre l )
 .
 
@@ -402,7 +400,7 @@ forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (candidate: Z) (x: Z) (vot
   &&  “ (vote <= i) ” 
   &&  “ (IsMajorityElement x l ) ” 
   &&  “ (MajorityOnReduced x candidate vote l2 ) ”
-  &&  (((nums_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i l 0))
+  &&  (((nums_pre + (i * sizeof(INT)))) # Int  |-> (Znth i l 0))
   **  (IntArray.missing_i nums_pre i 0 numsSize_pre l )
 .
 
@@ -422,7 +420,7 @@ forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (candidate: Z) (x: Z) (vot
   &&  “ (vote <= i) ” 
   &&  “ (IsMajorityElement x l ) ” 
   &&  “ (MajorityOnReduced x candidate vote l2 ) ”
-  &&  (((nums_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i l 0))
+  &&  (((nums_pre + (i * sizeof(INT)))) # Int  |-> (Znth i l 0))
   **  (IntArray.missing_i nums_pre i 0 numsSize_pre l )
 .
 

@@ -28,33 +28,81 @@ From SimpleC.EE.Applications_human Require Import los_sortlink_strategy_proof.
 (*----- Function LOS_ListEmpty -----*)
 
 Definition LOS_ListEmpty_return_wit_1 := 
+(
 forall (A: Type) (node_pre: Z) (l: (@list (@DL_Node A))) (storeA: (Z -> (A -> Assertion))) (h: Z) (pt: Z) (PreH1 : (h <> node_pre)) ,
   ((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |-> pt)
   **  ((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |-> h)
   **  (dllseg storeA h node_pre node_pre pt l )
 |--
-  (“ (l <> (@nil (@DL_Node A))) ” 
+  “ (l <> (@nil (@DL_Node A))) ” 
   &&  “ (0 = 0) ”
-  &&  (store_dll storeA node_pre l ))
-  ||
-  (“ (l = (@nil (@DL_Node A))) ” 
-  &&  “ (0 = 1) ”
-  &&  (store_dll storeA node_pre l ))
+  &&  (store_dll storeA node_pre l )
+) \/
+(
+forall (A: Type) (node_pre: Z) (l: (@list (@DL_Node A))) (storeA: (Z -> (A -> Assertion))) (h: Z) (pt: Z) (PreH1 : (h <> node_pre)) ,
+  ((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |-> pt)
+  **  ((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |-> h)
+  **  (dllseg storeA h node_pre node_pre pt l )
+|--
+  “ (l <> (@nil (@DL_Node A))) ”
+  &&  (store_dll storeA node_pre l )
+).
+
+Definition LOS_ListEmpty_return_wit_1_split_goal_1 := 
+forall (A: Type) (node_pre: Z) (l: (@list (@DL_Node A))) (storeA: (Z -> (A -> Assertion))) (h: Z) (pt: Z) (PreH1 : (h <> node_pre)) ,
+  ((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |-> pt)
+  **  ((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |-> h)
+  **  (dllseg storeA h node_pre node_pre pt l )
+|--
+  “ (l <> (@nil (@DL_Node A))) ”
+.
+
+Definition LOS_ListEmpty_return_wit_1_split_goal_spatial := 
+forall (A: Type) (node_pre: Z) (l: (@list (@DL_Node A))) (storeA: (Z -> (A -> Assertion))) (h: Z) (pt: Z) (PreH1 : (h <> node_pre)) ,
+  ((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |-> pt)
+  **  ((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |-> h)
+  **  (dllseg storeA h node_pre node_pre pt l )
+|--
+  (store_dll storeA node_pre l )
 .
 
 Definition LOS_ListEmpty_return_wit_2 := 
+(
 forall (A: Type) (node_pre: Z) (l: (@list (@DL_Node A))) (storeA: (Z -> (A -> Assertion))) (h: Z) (pt: Z) (PreH1 : (h = node_pre)) ,
   ((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |-> pt)
   **  ((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |-> h)
   **  (dllseg storeA h node_pre node_pre pt l )
 |--
-  (“ (l <> (@nil (@DL_Node A))) ” 
-  &&  “ (1 = 0) ”
-  &&  (store_dll storeA node_pre l ))
-  ||
-  (“ (l = (@nil (@DL_Node A))) ” 
+  “ (l = (@nil (@DL_Node A))) ” 
   &&  “ (1 = 1) ”
-  &&  (store_dll storeA node_pre l ))
+  &&  (store_dll storeA node_pre l )
+) \/
+(
+forall (A: Type) (node_pre: Z) (l: (@list (@DL_Node A))) (storeA: (Z -> (A -> Assertion))) (h: Z) (pt: Z) (PreH1 : (h = node_pre)) ,
+  ((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |-> pt)
+  **  ((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |-> h)
+  **  (dllseg storeA h node_pre node_pre pt l )
+|--
+  “ (l = (@nil (@DL_Node A))) ”
+  &&  (store_dll storeA node_pre l )
+).
+
+Definition LOS_ListEmpty_return_wit_2_split_goal_1 := 
+forall (A: Type) (node_pre: Z) (l: (@list (@DL_Node A))) (storeA: (Z -> (A -> Assertion))) (h: Z) (pt: Z) (PreH1 : (h = node_pre)) ,
+  ((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |-> pt)
+  **  ((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |-> h)
+  **  (dllseg storeA h node_pre node_pre pt l )
+|--
+  “ (l = (@nil (@DL_Node A))) ”
+.
+
+Definition LOS_ListEmpty_return_wit_2_split_goal_spatial := 
+forall (A: Type) (node_pre: Z) (l: (@list (@DL_Node A))) (storeA: (Z -> (A -> Assertion))) (h: Z) (pt: Z) (PreH1 : (h = node_pre)) ,
+  ((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstPrev")) # Ptr  |-> pt)
+  **  ((&((node_pre)  # "LOS_DL_LIST" ->ₛ "pstNext")) # Ptr  |-> h)
+  **  (dllseg storeA h node_pre node_pre pt l )
+|--
+  (store_dll storeA node_pre l )
 .
 
 Definition LOS_ListEmpty_partial_solve_wit_1 := 

@@ -104,7 +104,7 @@ Proof.
   apply Some_injection in Htl. erewrite tail_valid in Htl; eauto. 
   rewrite <- nth_error_O in Hhd. 
   unfold tl_error in Htl; rewrite Hlen in Htl.
-  pose proof Hstep g 0%nat u v e ltac:(rewrite Hedge; simpl; lia) ltac:(rewrite Hedge; simpl; auto) Hhd Htl. 
+  pose proof Hstep 0%nat u v e ltac:(rewrite Hedge; simpl; lia) ltac:(rewrite Hedge; simpl; auto) Hhd Htl.
   apply H.
 Qed.
 

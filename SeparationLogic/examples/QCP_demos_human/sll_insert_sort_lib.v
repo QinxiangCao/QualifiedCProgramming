@@ -16,24 +16,6 @@ Import ListNotations.
 Local Open Scope string.
 Local Open Scope list.
 
-Fixpoint increasing_aux (l: list Z) (x: Z): Prop :=
-  match l with
-  | nil => True
-  | y :: l0 => x <= y /\ increasing_aux l0 y
-  end.
-
-Definition increasing (l: list Z): Prop :=
-  match l with
-  | nil => True
-  | x :: l0 => increasing_aux l0 x
-  end.
-
-Fixpoint strict_upperbound (x: Z) (l: list Z): Prop :=
-  match l with
-  | nil => True
-  | y :: l' => y < x /\ strict_upperbound x l'
-  end.
-
 Fixpoint insert (x: Z) (l: list Z): list Z :=
   match l with
   | nil => [x]
@@ -64,18 +46,6 @@ Proof.
   - destruct H. destruct (x >? a) eqn:b; simpl; try lia.
     apply IHl1 in H1. rewrite H1. reflexivity.
 Qed.
-
-Lemma upperbound_app:
-  forall x l v,
-    strict_upperbound x l ->
-    v < x ->
-    strict_upperbound x (l ++ [v]).
-Proof.
-  intros. induction l; simpl; try easy.
-  simpl in H. destruct H.
-  split; try easy.
-  apply IHl; easy.
-Qed. 
 
 Lemma increasing_aux_insert:
   forall x l a,

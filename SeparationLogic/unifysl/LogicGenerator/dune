@@ -1,0 +1,3 @@
+; Keep the demo used by SimpleC, and exclude standalone generator demos that
+; require unconfigured local or external loadpaths.
+(dirs :standard \ demo demo424 demo6 demo7 demo931 demo933 demo_osa demoq)

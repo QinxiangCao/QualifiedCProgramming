@@ -35,7 +35,7 @@ Proof.
 Qed.
 
 Lemma int_array_strategy5_correctness : int_array_strategy5.
-Proof.  
+Proof.
   pre_process_default.
 Qed.
 
@@ -103,6 +103,67 @@ Proof.
   - cancel.
   - dump_pre_spatial.
     reflexivity.
+Qed.
+
+Lemma int_array_strategy13_correctness : int_array_strategy13.
+Proof.
+  pre_process_default.
+  Intros_p H1.
+  subst l2.
+  subst n.
+  sep_apply_l_atomic (IntArray.seg_to_full p 0 i l1).
+  replace (p + 0 * sizeof ( INT )) with p by lia.
+  replace (i - 0) with i by lia.
+  cancel.
+Qed.
+
+Lemma int_array_strategy14_correctness : int_array_strategy14.
+Proof.
+  pre_process_default.
+  Intros_p H1.
+  subst l.
+  subst n.
+  rewrite IntArray.full_empty.
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial.
+    reflexivity.
+Qed.
+
+Lemma int_array_strategy15_correctness : int_array_strategy15.
+Proof.
+  pre_process_default.
+  subst y.
+  prop_apply (IntArray.seg_Zlength p x x l).
+  Intros.
+  assert (l = nil).
+  { destruct l; auto.
+    rewrite Zlength_cons in H.
+    pose proof (Zlength_nonneg l).
+    lia. }
+  subst l.
+  rewrite IntArray.seg_empty.
+  entailer!.
+Qed.
+
+Lemma int_array_strategy16_correctness : int_array_strategy16.
+Proof.
+  pre_process_default.
+  sep_apply_l_atomic (IntArray.seg_single p z v).
+  prop_apply (IntArray.seg_valid p y z l).
+  Intros.
+  sep_apply_l_atomic (IntArray.seg_merge_to_seg p y z (z + 1) l (v :: nil)).
+  - dump_pre_spatial.
+    lia.
+  - cancel.
+Qed.
+
+Lemma int_array_strategy17_correctness : int_array_strategy17.
+Proof.
+  pre_process_default.
+  subst x.
+  rewrite (IntArray.seg_unfold p i y l v).
+  cancel.
 Qed.
 
 Lemma int_array_strategy2_correctness : int_array_strategy2.

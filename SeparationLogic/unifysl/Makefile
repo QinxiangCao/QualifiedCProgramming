@@ -12,6 +12,8 @@ COQC=$(COQBIN)coqc$(SUF)
 COQDEP=$(COQBIN)coqdep$(SUF)
 
 ifeq ($(OS),Windows_NT)
+SHELL := cmd
+
 define BACKUP_FILES
 powershell -NoProfile -Command "$$files = @($(call powershell_list,$(1))); foreach ($$name in $$files) { if (Test-Path -LiteralPath $$name) { Move-Item -Force -LiteralPath $$name -Destination ($$name + '_BACKUP') } }"
 endef

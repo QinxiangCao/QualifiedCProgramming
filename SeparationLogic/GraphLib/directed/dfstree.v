@@ -3,7 +3,7 @@ Require Import GraphLib.reachable.reachable_basic.
 Require Import GraphLib.reachable.reachable_restricted.
 Require Import GraphLib.directed.rootedtree.
 Require Import GraphLib.Syntax.
-Require Import SetsClass.
+Require Import SetsClass.SetsClass.
 Require Import Coq.Logic.Classical.
 Require Import Lia.
 
@@ -72,4 +72,3 @@ Qed.
 
 
 End DFN.
-

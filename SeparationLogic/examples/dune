@@ -1,0 +1,10 @@
+; Verification-cache boundary for examples.
+;
+; Do not declare the whole examples tree as one SimpleC.EE theory here.
+; A whole-tree SimpleC.EE theory would also expose case-specific modules such
+; as SimpleC.EE.LLM_bench.Algorithms.choosing_inns from the main worktree,
+; which can conflict with a round-local theory for the same case.
+;
+; Only public, reusable cache subtheories should be enabled from this parent.
+
+(dirs QCP_demos_LLM)

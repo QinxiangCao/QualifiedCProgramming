@@ -123,16 +123,12 @@ forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) 
 
 Definition glibc_slist_clean_iter_back_entail_wit_1_split_goal_1 := 
 forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (x: Z) (l0: (@list Z)) (PreH1 : (l1_low_level_spec = (cons (x) (l0)))) (PreH2 : (x_pre <> 0)) (PreH3 : (range l1_low_level_spec )) (PreH4 : (safeExec ATrue (glibc_slist_clean_iter_back_M (l1_low_level_spec)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (bind ((glibc_slist_clean_iter_back_M (l0))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (x)))) X_low_level_spec ) ”
+  (safeExec ATrue (bind ((glibc_slist_clean_iter_back_M (l0))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (x)))) X_low_level_spec )
 .
 
 Definition glibc_slist_clean_iter_back_entail_wit_1_split_goal_2 := 
 forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (x: Z) (l0: (@list Z)) (PreH1 : (l1_low_level_spec = (cons (x) (l0)))) (PreH2 : (x_pre <> 0)) (PreH3 : (range l1_low_level_spec )) (PreH4 : (safeExec ATrue (glibc_slist_clean_iter_back_M (l1_low_level_spec)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (range l0 ) ”
+  (range l0 )
 .
 
 Definition glibc_slist_clean_iter_back_entail_wit_2 := 
@@ -162,9 +158,7 @@ forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (v_2: 
 
 Definition glibc_slist_clean_iter_back_entail_wit_2_split_goal_1 := 
 forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (v_2: Z) (ltail: (@list Z)) (l2: (@list Z)) (r: Z) (retval: Z) (PreH1 : (safeExec ATrue (bind ((return ((maketuple (l2) (r))))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (v_2)))) X_low_level_spec )) (PreH2 : (retval = r)) (PreH3 : (range ltail )) (PreH4 : (x_pre <> 0)) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (bind ((return ((maketuple (l2) (retval))))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (v_2)))) X_low_level_spec ) ”
+  (safeExec ATrue (bind ((return ((maketuple (l2) (retval))))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (v_2)))) X_low_level_spec )
 .
 
 Definition glibc_slist_clean_iter_back_return_wit_1 := 
@@ -189,9 +183,7 @@ forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (ltail
 
 Definition glibc_slist_clean_iter_back_return_wit_1_split_goal_1 := 
 forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (ltail: (@list Z)) (r_3: Z) (retval: Z) (ltail_2: (@list Z)) (r_2: Z) (v: Z) (PreH1 : (safeExec ATrue (bind ((return ((maketuple (ltail_2) (r_2))))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (v)))) X_low_level_spec )) (PreH2 : (x_pre <> 0)) (PreH3 : (retval = r_3)) (PreH4 : (range ltail )) (PreH5 : (x_pre <> 0)) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (return ((maketuple ((cons (v) (ltail_2))) ((r_2 + v ))))) X_low_level_spec ) ”
+  (safeExec ATrue (return ((maketuple ((cons (v) (ltail_2))) ((r_2 + v ))))) X_low_level_spec )
 .
 
 Definition glibc_slist_clean_iter_back_return_wit_2 := 
@@ -217,6 +209,13 @@ forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) 
   (sll x_pre l1_low_level_spec )
 |--
   “ (safeExec ATrue (return ((maketuple ((@nil Z)) (0)))) X_low_level_spec ) ”
+.
+
+Definition glibc_slist_clean_iter_back_return_wit_2_split_goal_spatial := 
+forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (PreH1 : (x_pre = 0)) (PreH2 : (range l1_low_level_spec )) (PreH3 : (safeExec ATrue (glibc_slist_clean_iter_back_M (l1_low_level_spec)) X_low_level_spec )) ,
+  (sll x_pre l1_low_level_spec )
+|--
+  TT && emp 
 .
 
 Definition glibc_slist_clean_iter_back_partial_solve_wit_1_pure := 

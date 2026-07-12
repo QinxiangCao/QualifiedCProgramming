@@ -47,9 +47,7 @@ forall (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre > b_pre)) ,
 
 Definition max_return_wit_1_split_goal_1 := 
 forall (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre > b_pre)) ,
-  TT && emp 
-|--
-  “ (a_pre = (max_Z (a_pre) (b_pre))) ”
+  (a_pre = (max_Z (a_pre) (b_pre)))
 .
 
 Definition max_return_wit_2 := 
@@ -70,9 +68,7 @@ forall (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre <= b_pre)) ,
 
 Definition max_return_wit_2_split_goal_1 := 
 forall (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre <= b_pre)) ,
-  TT && emp 
-|--
-  “ (b_pre = (max_Z (a_pre) (b_pre))) ”
+  (b_pre = (max_Z (a_pre) (b_pre)))
 .
 
 (*----- Function max_sub_array -----*)
@@ -188,16 +184,12 @@ forall (n_pre: Z) (l: (@list Z)) (PreH1 : (n_pre <> 0)) (PreH2 : (1 <= n_pre)) (
 
 Definition max_sub_array_entail_wit_1_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (PreH1 : (n_pre <> 0)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < n_pre)) -> (((-10000) <= (Znth k_2 l 0)) /\ ((Znth k_2 l 0) <= 10000)))) ,
-  TT && emp 
-|--
-  “ (MaxSubarraySumPrefix l 1 (Znth 0 l 0) ) ”
+  (MaxSubarraySumPrefix l 1 (Znth 0 l 0) )
 .
 
 Definition max_sub_array_entail_wit_1_split_goal_2 := 
 forall (n_pre: Z) (l: (@list Z)) (PreH1 : (n_pre <> 0)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < n_pre)) -> (((-10000) <= (Znth k_2 l 0)) /\ ((Znth k_2 l 0) <= 10000)))) ,
-  TT && emp 
-|--
-  “ (MaxSuffixSumPrefix l 1 (Znth 0 l 0) ) ”
+  (MaxSuffixSumPrefix l 1 (Znth 0 l 0) )
 .
 
 Definition max_sub_array_entail_wit_2 := 
@@ -251,16 +243,12 @@ forall (n_pre: Z) (l: (@list Z)) (res: Z) (cur: Z) (i: Z) (PreH1 : (i < n_pre)) 
 
 Definition max_sub_array_entail_wit_3_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (res: Z) (cur: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur )) (PreH12 : (MaxSubarraySumPrefix l i res )) (PreH13 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < n_pre)) -> (((-10000) <= (Znth k_2 l 0)) /\ ((Znth k_2 l 0) <= 10000)))) ,
-  TT && emp 
-|--
-  “ ((cur + (Znth i l 0) ) <= INT_MAX) ”
+  ((cur + (Znth i l 0) ) <= INT_MAX)
 .
 
 Definition max_sub_array_entail_wit_3_split_goal_2 := 
 forall (n_pre: Z) (l: (@list Z)) (res: Z) (cur: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur )) (PreH12 : (MaxSubarraySumPrefix l i res )) (PreH13 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < n_pre)) -> (((-10000) <= (Znth k_2 l 0)) /\ ((Znth k_2 l 0) <= 10000)))) ,
-  TT && emp 
-|--
-  “ (INT_MIN <= (cur + (Znth i l 0) )) ”
+  (INT_MIN <= (cur + (Znth i l 0) ))
 .
 
 Definition max_sub_array_entail_wit_4 := 
@@ -294,23 +282,17 @@ forall (n_pre: Z) (l: (@list Z)) (i: Z) (cur: Z) (res: Z) (retval: Z) (PreH1 : (
 
 Definition max_sub_array_entail_wit_4_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (cur: Z) (res: Z) (retval: Z) (PreH1 : (retval = (max_Z ((Znth i l 0)) ((cur + (Znth i l 0) ))))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i < n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (INT_MIN <= (cur + (Znth i l 0) ))) (PreH12 : ((cur + (Znth i l 0) ) <= INT_MAX)) (PreH13 : (MaxSuffixSumPrefix l i cur )) (PreH14 : (MaxSubarraySumPrefix l i res )) (PreH15 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < n_pre)) -> (((-10000) <= (Znth k_2 l 0)) /\ ((Znth k_2 l 0) <= 10000)))) ,
-  TT && emp 
-|--
-  “ (MaxSuffixSumPrefix l (i + 1 ) retval ) ”
+  (MaxSuffixSumPrefix l (i + 1 ) retval )
 .
 
 Definition max_sub_array_entail_wit_4_split_goal_2 := 
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (cur: Z) (res: Z) (retval: Z) (PreH1 : (retval = (max_Z ((Znth i l 0)) ((cur + (Znth i l 0) ))))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i < n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (INT_MIN <= (cur + (Znth i l 0) ))) (PreH12 : ((cur + (Znth i l 0) ) <= INT_MAX)) (PreH13 : (MaxSuffixSumPrefix l i cur )) (PreH14 : (MaxSubarraySumPrefix l i res )) (PreH15 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < n_pre)) -> (((-10000) <= (Znth k_2 l 0)) /\ ((Znth k_2 l 0) <= 10000)))) ,
-  TT && emp 
-|--
-  “ (retval <= 1000000000) ”
+  (retval <= 1000000000)
 .
 
 Definition max_sub_array_entail_wit_4_split_goal_3 := 
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (cur: Z) (res: Z) (retval: Z) (PreH1 : (retval = (max_Z ((Znth i l 0)) ((cur + (Znth i l 0) ))))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i < n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (INT_MIN <= (cur + (Znth i l 0) ))) (PreH12 : ((cur + (Znth i l 0) ) <= INT_MAX)) (PreH13 : (MaxSuffixSumPrefix l i cur )) (PreH14 : (MaxSubarraySumPrefix l i res )) (PreH15 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < n_pre)) -> (((-10000) <= (Znth k_2 l 0)) /\ ((Znth k_2 l 0) <= 10000)))) ,
-  TT && emp 
-|--
-  “ ((-10000) <= retval) ”
+  ((-10000) <= retval)
 .
 
 Definition max_sub_array_entail_wit_5 := 
@@ -344,23 +326,17 @@ forall (n_pre: Z) (l: (@list Z)) (i: Z) (cur: Z) (res: Z) (retval: Z) (PreH1 : (
 
 Definition max_sub_array_entail_wit_5_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (cur: Z) (res: Z) (retval: Z) (PreH1 : (retval = (max_Z (res) (cur)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i < n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l (i + 1 ) cur )) (PreH12 : (MaxSubarraySumPrefix l i res )) (PreH13 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < n_pre)) -> (((-10000) <= (Znth k_2 l 0)) /\ ((Znth k_2 l 0) <= 10000)))) ,
-  TT && emp 
-|--
-  “ (MaxSubarraySumPrefix l (i + 1 ) retval ) ”
+  (MaxSubarraySumPrefix l (i + 1 ) retval )
 .
 
 Definition max_sub_array_entail_wit_5_split_goal_2 := 
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (cur: Z) (res: Z) (retval: Z) (PreH1 : (retval = (max_Z (res) (cur)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i < n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l (i + 1 ) cur )) (PreH12 : (MaxSubarraySumPrefix l i res )) (PreH13 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < n_pre)) -> (((-10000) <= (Znth k_2 l 0)) /\ ((Znth k_2 l 0) <= 10000)))) ,
-  TT && emp 
-|--
-  “ (retval <= 1000000000) ”
+  (retval <= 1000000000)
 .
 
 Definition max_sub_array_entail_wit_5_split_goal_3 := 
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (cur: Z) (res: Z) (retval: Z) (PreH1 : (retval = (max_Z (res) (cur)))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i < n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l (i + 1 ) cur )) (PreH12 : (MaxSubarraySumPrefix l i res )) (PreH13 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < n_pre)) -> (((-10000) <= (Znth k_2 l 0)) /\ ((Znth k_2 l 0) <= 10000)))) ,
-  TT && emp 
-|--
-  “ ((-10000) <= retval) ”
+  ((-10000) <= retval)
 .
 
 Definition max_sub_array_entail_wit_6 := 
@@ -407,16 +383,12 @@ forall (n_pre: Z) (l: (@list Z)) (res: Z) (cur: Z) (i: Z) (PreH1 : (i >= n_pre))
 
 Definition max_sub_array_entail_wit_7_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (res: Z) (cur: Z) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur )) (PreH12 : (MaxSubarraySumPrefix l i res )) (PreH13 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> (((-10000) <= (Znth k l 0)) /\ ((Znth k l 0) <= 10000)))) ,
-  TT && emp 
-|--
-  “ (MaxSubarraySumPrefix l n_pre res ) ”
+  (MaxSubarraySumPrefix l n_pre res )
 .
 
 Definition max_sub_array_entail_wit_7_split_goal_2 := 
 forall (n_pre: Z) (l: (@list Z)) (res: Z) (cur: Z) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : ((-10000) <= cur)) (PreH8 : (cur <= 1000000000)) (PreH9 : ((-10000) <= res)) (PreH10 : (res <= 1000000000)) (PreH11 : (MaxSuffixSumPrefix l i cur )) (PreH12 : (MaxSubarraySumPrefix l i res )) (PreH13 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> (((-10000) <= (Znth k l 0)) /\ ((Znth k l 0) <= 10000)))) ,
-  TT && emp 
-|--
-  “ (MaxSuffixSumPrefix l n_pre cur ) ”
+  (MaxSuffixSumPrefix l n_pre cur )
 .
 
 Definition max_sub_array_return_wit_1 := 
@@ -436,7 +408,7 @@ forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 : (n_pre <> 0)) (PreH2 : (1
   &&  “ (n_pre <= 100000) ” 
   &&  “ ((Zlength (l)) = n_pre) ” 
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> (((-10000) <= (Znth k l 0)) /\ ((Znth k l 0) <= 10000))) ”
-  &&  (((arr_pre + (0 * sizeof(INT) ) )) # Int  |-> (Znth 0 l 0))
+  &&  (((arr_pre + (0 * sizeof(INT)))) # Int  |-> (Znth 0 l 0))
   **  (IntArray.missing_i arr_pre 0 0 n_pre l )
 .
 
@@ -449,7 +421,7 @@ forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 : (n_pre <> 0)) (PreH2 : (1
   &&  “ (n_pre <= 100000) ” 
   &&  “ ((Zlength (l)) = n_pre) ” 
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> (((-10000) <= (Znth k l 0)) /\ ((Znth k l 0) <= 10000))) ”
-  &&  (((arr_pre + (0 * sizeof(INT) ) )) # Int  |-> (Znth 0 l 0))
+  &&  (((arr_pre + (0 * sizeof(INT)))) # Int  |-> (Znth 0 l 0))
   **  (IntArray.missing_i arr_pre 0 0 n_pre l )
 .
 
@@ -471,7 +443,7 @@ forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (i: Z) (cur: Z) (res: Z) (PreH1 : 
   &&  “ (MaxSuffixSumPrefix l i cur ) ” 
   &&  “ (MaxSubarraySumPrefix l i res ) ” 
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> (((-10000) <= (Znth k l 0)) /\ ((Znth k l 0) <= 10000))) ”
-  &&  (((arr_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i l 0))
+  &&  (((arr_pre + (i * sizeof(INT)))) # Int  |-> (Znth i l 0))
   **  (IntArray.missing_i arr_pre i 0 n_pre l )
 .
 
@@ -493,7 +465,7 @@ forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (i: Z) (cur: Z) (res: Z) (PreH1 : 
   &&  “ (MaxSuffixSumPrefix l i cur ) ” 
   &&  “ (MaxSubarraySumPrefix l i res ) ” 
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> (((-10000) <= (Znth k l 0)) /\ ((Znth k l 0) <= 10000))) ”
-  &&  (((arr_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i l 0))
+  &&  (((arr_pre + (i * sizeof(INT)))) # Int  |-> (Znth i l 0))
   **  (IntArray.missing_i arr_pre i 0 n_pre l )
 .
 

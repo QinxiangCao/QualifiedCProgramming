@@ -238,6 +238,13 @@ forall (l: (@list Z)) (x: Z) (ql1_2: Z) (l1: (@list Z)) (l2: (@list Z)) (PreH1 :
   “ ((rev (l2)) = (cons (x) (l))) ”
 .
 
+Definition dequeue_entail_wit_2_split_goal_spatial := 
+forall (l: (@list Z)) (x: Z) (ql1_2: Z) (l1: (@list Z)) (l2: (@list Z)) (PreH1 : (ql1_2 = 0)) (PreH2 : ((cons (x) (l)) = (app (l1) ((rev (l2)))))) ,
+  (sll ql1_2 l1 )
+|--
+  TT && emp 
+.
+
 Definition dequeue_entail_wit_3 := 
 (
 forall (q_pre: Z) (l: (@list Z)) (x: Z) (ql1_2: Z) (ql2_2: Z) (l1: (@list Z)) (l2_2: (@list Z)) (PreH1 : (ql1_2 <> 0)) (PreH2 : ((cons (x) (l)) = (app (l1) ((rev (l2_2)))))) ,

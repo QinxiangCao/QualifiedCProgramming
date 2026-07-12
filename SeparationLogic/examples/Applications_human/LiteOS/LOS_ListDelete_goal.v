@@ -80,7 +80,7 @@ forall (A: Type) (node_pre: Z) (storeA_low_level_spec: (Z -> (A -> Assertion))) 
   TT && emp 
 ).
 
-Definition LOS_ListDelete_return_wit_1_split_goal_emp := 
+Definition LOS_ListDelete_return_wit_1_split_goal_spatial := 
 forall (A: Type) (node_pre: Z) (storeA_low_level_spec: (Z -> (A -> Assertion))) ,
   (dllseg_shift storeA_low_level_spec node_pre node_pre (@nil (@DL_Node A)) )
 |--

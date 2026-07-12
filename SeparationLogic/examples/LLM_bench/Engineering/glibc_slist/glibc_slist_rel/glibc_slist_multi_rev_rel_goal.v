@@ -66,9 +66,7 @@ forall (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_leve
 
 Definition rev_append_local_entail_wit_1_split_goal_1 := 
 forall (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (PreH1 : (safeExec ATrue (rev_append_local_M (l1_low_level_spec) (l2_low_level_spec)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (bind ((rev_append_local_M_loop (l1_low_level_spec) (l2_low_level_spec))) (rev_append_local_M_loop_end)) X_low_level_spec ) ”
+  (safeExec ATrue (bind ((rev_append_local_M_loop (l1_low_level_spec) (l2_low_level_spec))) (rev_append_local_M_loop_end)) X_low_level_spec )
 .
 
 Definition rev_append_local_entail_wit_2 := 
@@ -96,9 +94,7 @@ forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (src: Z) (l1_2: (@list 
 
 Definition rev_append_local_entail_wit_2_split_goal_1 := 
 forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (src: Z) (l1_2: (@list Z)) (l2_2: (@list Z)) (x: Z) (l0: (@list Z)) (PreH1 : (l1_2 = (cons (x) (l0)))) (PreH2 : (src <> 0)) (PreH3 : (safeExec ATrue (bind ((rev_append_local_M_loop (l1_2) (l2_2))) (rev_append_local_M_loop_end)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (bind ((rev_append_local_M_loop (l0) ((cons (x) (l2_2))))) (rev_append_local_M_loop_end)) X_low_level_spec ) ”
+  (safeExec ATrue (bind ((rev_append_local_M_loop (l0) ((cons (x) (l2_2))))) (rev_append_local_M_loop_end)) X_low_level_spec )
 .
 
 Definition rev_append_local_return_wit_1 := 
@@ -124,6 +120,13 @@ forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (src: Z) (l1: (@list Z)
   (sll src l1 )
 |--
   “ (safeExec ATrue (return (l2)) X_low_level_spec ) ”
+.
+
+Definition rev_append_local_return_wit_1_split_goal_spatial := 
+forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (src: Z) (l1: (@list Z)) (l2: (@list Z)) (PreH1 : (src = 0)) (PreH2 : (safeExec ATrue (bind ((rev_append_local_M_loop (l1) (l2))) (rev_append_local_M_loop_end)) X_low_level_spec )) ,
+  (sll src l1 )
+|--
+  TT && emp 
 .
 
 Definition rev_append_local_partial_solve_wit_1 := 
@@ -176,9 +179,7 @@ forall (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_leve
 
 Definition glibc_slist_clean_multi_rev_entail_wit_1_split_goal_1 := 
 forall (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (PreH1 : (safeExec ATrue (glibc_slist_clean_multi_rev_M (l1_low_level_spec) (l2_low_level_spec)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (bind ((rev_append_local_M (l1_low_level_spec) ((@nil Z)))) ((rev_append_local_M (l2_low_level_spec)))) X_low_level_spec ) ”
+  (safeExec ATrue (bind ((rev_append_local_M (l1_low_level_spec) ((@nil Z)))) ((rev_append_local_M (l2_low_level_spec)))) X_low_level_spec )
 .
 
 Definition glibc_slist_clean_multi_rev_entail_wit_2 := 
@@ -202,9 +203,7 @@ forall (l2_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> 
 
 Definition glibc_slist_clean_multi_rev_entail_wit_2_split_goal_1 := 
 forall (l2_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l3_2: (@list Z)) (PreH1 : (safeExec ATrue (bind ((return (l3_2))) ((rev_append_local_M (l2_low_level_spec)))) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (rev_append_local_M (l2_low_level_spec) (l3_2)) X_low_level_spec ) ”
+  (safeExec ATrue (rev_append_local_M (l2_low_level_spec) (l3_2)) X_low_level_spec )
 .
 
 Definition glibc_slist_clean_multi_rev_entail_wit_3 := 

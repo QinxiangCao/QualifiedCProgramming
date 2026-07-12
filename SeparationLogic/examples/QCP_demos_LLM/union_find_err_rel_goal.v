@@ -64,16 +64,12 @@ forall (x_pre: Z) (n_pre: Z) (X_low_level_spec: (Z -> (uf_state -> Prop))) (rs_l
 
 Definition uf_find_c_entail_wit_1_split_goal_1 := 
 forall (x_pre: Z) (n_pre: Z) (X_low_level_spec: (Z -> (uf_state -> Prop))) (rs_low_level_spec: (@list Z)) (ps_low_level_spec: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= INT_MAX)) (PreH3 : (0 <= x_pre)) (PreH4 : (x_pre < n_pre)) (PreH5 : (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (uf_find (x_pre)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (uf_find_after_read (x_pre) ((Znth x_pre ps_low_level_spec 0))) X_low_level_spec ) ”
+  (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (uf_find_after_read (x_pre) ((Znth x_pre ps_low_level_spec 0))) X_low_level_spec )
 .
 
 Definition uf_find_c_entail_wit_1_split_goal_2 := 
 forall (x_pre: Z) (n_pre: Z) (X_low_level_spec: (Z -> (uf_state -> Prop))) (rs_low_level_spec: (@list Z)) (ps_low_level_spec: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= INT_MAX)) (PreH3 : (0 <= x_pre)) (PreH4 : (x_pre < n_pre)) (PreH5 : (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (uf_find (x_pre)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ ((Znth x_pre ps_low_level_spec 0) = (Znth (x_pre) (ps_low_level_spec) (0))) ”
+  ((Znth x_pre ps_low_level_spec 0) = (Znth (x_pre) (ps_low_level_spec) (0)))
 .
 
 Definition uf_find_c_entail_wit_2 := 
@@ -105,23 +101,17 @@ forall (x_pre: Z) (n_pre: Z) (X_low_level_spec: (Z -> (uf_state -> Prop))) (rs_l
 
 Definition uf_find_c_entail_wit_2_split_goal_1 := 
 forall (x_pre: Z) (n_pre: Z) (X_low_level_spec: (Z -> (uf_state -> Prop))) (rs_low_level_spec: (@list Z)) (ps_low_level_spec: (@list Z)) (p: Z) (PreH1 : (p <> x_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= INT_MAX)) (PreH4 : (0 <= x_pre)) (PreH5 : (x_pre < n_pre)) (PreH6 : (p = (Znth (x_pre) (ps_low_level_spec) (0)))) (PreH7 : (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (uf_find_after_read (x_pre) (p)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (bind ((uf_find (p))) ((uf_find_after_rec (x_pre)))) X_low_level_spec ) ”
+  (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (bind ((uf_find (p))) ((uf_find_after_rec (x_pre)))) X_low_level_spec )
 .
 
 Definition uf_find_c_entail_wit_2_split_goal_2 := 
 forall (x_pre: Z) (n_pre: Z) (X_low_level_spec: (Z -> (uf_state -> Prop))) (rs_low_level_spec: (@list Z)) (ps_low_level_spec: (@list Z)) (p: Z) (PreH1 : (p <> x_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= INT_MAX)) (PreH4 : (0 <= x_pre)) (PreH5 : (x_pre < n_pre)) (PreH6 : (p = (Znth (x_pre) (ps_low_level_spec) (0)))) (PreH7 : (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (uf_find_after_read (x_pre) (p)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (p < n_pre) ”
+  (p < n_pre)
 .
 
 Definition uf_find_c_entail_wit_2_split_goal_3 := 
 forall (x_pre: Z) (n_pre: Z) (X_low_level_spec: (Z -> (uf_state -> Prop))) (rs_low_level_spec: (@list Z)) (ps_low_level_spec: (@list Z)) (p: Z) (PreH1 : (p <> x_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= INT_MAX)) (PreH4 : (0 <= x_pre)) (PreH5 : (x_pre < n_pre)) (PreH6 : (p = (Znth (x_pre) (ps_low_level_spec) (0)))) (PreH7 : (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (uf_find_after_read (x_pre) (p)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (0 <= p) ”
+  (0 <= p)
 .
 
 Definition uf_find_c_entail_wit_3 := 
@@ -209,9 +199,7 @@ forall (x_pre: Z) (n_pre: Z) (X_low_level_spec: (Z -> (uf_state -> Prop))) (rs_l
 
 Definition uf_find_c_return_wit_2_split_goal_1 := 
 forall (x_pre: Z) (n_pre: Z) (X_low_level_spec: (Z -> (uf_state -> Prop))) (rs_low_level_spec: (@list Z)) (ps_low_level_spec: (@list Z)) (p: Z) (PreH1 : (p = x_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= INT_MAX)) (PreH4 : (0 <= x_pre)) (PreH5 : (x_pre < n_pre)) (PreH6 : (p = (Znth (x_pre) (ps_low_level_spec) (0)))) (PreH7 : (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (uf_find_after_read (x_pre) (p)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (return (x_pre)) X_low_level_spec ) ”
+  (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (return (x_pre)) X_low_level_spec )
 .
 
 Definition uf_find_c_partial_solve_wit_1 := 
@@ -224,7 +212,7 @@ forall (x_pre: Z) (rank_pre: Z) (parent_pre: Z) (n_pre: Z) (X_low_level_spec: (Z
   &&  “ (0 <= x_pre) ” 
   &&  “ (x_pre < n_pre) ” 
   &&  “ (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (uf_find (x_pre)) X_low_level_spec ) ”
-  &&  (((parent_pre + (x_pre * sizeof(INT) ) )) # Int  |-> (Znth x_pre ps_low_level_spec 0))
+  &&  (((parent_pre + (x_pre * sizeof(INT)))) # Int  |-> (Znth x_pre ps_low_level_spec 0))
   **  (IntArray.missing_i parent_pre x_pre 0 n_pre ps_low_level_spec )
   **  (IntArray.full rank_pre n_pre rs_low_level_spec )
 .
@@ -284,7 +272,7 @@ forall (x_pre: Z) (rank_pre: Z) (parent_pre: Z) (n_pre: Z) (X_low_level_spec: (Z
   &&  “ (r < n_pre) ” 
   &&  “ (p = (Znth (x_pre) (ps_low_level_spec) (0))) ” 
   &&  “ (safeExec (equiv ((uf_state_of (n_pre) (ps1) (rs_low_level_spec)))) (applyf ((uf_find_after_rec (x_pre))) (r)) X_low_level_spec ) ”
-  &&  (((parent_pre + (x_pre * sizeof(INT) ) )) # Int  |->_)
+  &&  (((parent_pre + (x_pre * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i parent_pre x_pre 0 n_pre ps1 )
   **  (IntArray.full rank_pre n_pre rs_low_level_spec )
 .
@@ -353,9 +341,7 @@ forall (y_pre: Z) (x_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (uf_state ->
 
 Definition uf_union_c_entail_wit_1_split_goal_1 := 
 forall (y_pre: Z) (x_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (uf_state -> Prop))) (rs_low_level_spec: (@list Z)) (ps_low_level_spec: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= INT_MAX)) (PreH3 : (0 <= x_pre)) (PreH4 : (x_pre < n_pre)) (PreH5 : (0 <= y_pre)) (PreH6 : (y_pre < n_pre)) (PreH7 : (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (uf_union (x_pre) (y_pre)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (bind ((uf_find (x_pre))) ((uf_union_after_find_x (y_pre)))) X_low_level_spec ) ”
+  (safeExec (equiv ((uf_state_of (n_pre) (ps_low_level_spec) (rs_low_level_spec)))) (bind ((uf_find (x_pre))) ((uf_union_after_find_x (y_pre)))) X_low_level_spec )
 .
 
 Definition uf_union_c_entail_wit_2 := 
@@ -416,9 +402,7 @@ forall (n_pre: Z) (X_low_level_spec: (unit -> (uf_state -> Prop))) (ps2_2: (@lis
 
 Definition uf_union_c_entail_wit_4_split_goal_1 := 
 forall (n_pre: Z) (X_low_level_spec: (unit -> (uf_state -> Prop))) (ps2_2: (@list Z)) (rs2_2: (@list Z)) (rx: Z) (ry: Z) (PreH1 : (rx = ry)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= INT_MAX)) (PreH4 : (0 <= rx)) (PreH5 : (rx < n_pre)) (PreH6 : (0 <= ry)) (PreH7 : (ry < n_pre)) (PreH8 : (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2_2)))) (applyf ((uf_union_after_find_y (rx))) (ry)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2_2)))) (return (tt)) X_low_level_spec ) ”
+  (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2_2)))) (return (tt)) X_low_level_spec )
 .
 
 Definition uf_union_c_entail_wit_5 := 
@@ -451,16 +435,12 @@ forall (n_pre: Z) (X_low_level_spec: (unit -> (uf_state -> Prop))) (ps2_2: (@lis
 
 Definition uf_union_c_entail_wit_5_split_goal_1 := 
 forall (n_pre: Z) (X_low_level_spec: (unit -> (uf_state -> Prop))) (ps2_2: (@list Z)) (rs2: (@list Z)) (rx: Z) (ry: Z) (PreH1 : (rx <> ry)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= INT_MAX)) (PreH4 : (0 <= rx)) (PreH5 : (rx < n_pre)) (PreH6 : (0 <= ry)) (PreH7 : (ry < n_pre)) (PreH8 : (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2)))) (applyf ((uf_union_after_find_y (rx))) (ry)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2)))) (uf_union_after_rank_rx (rx) (ry) ((Znth rx rs2 0))) X_low_level_spec ) ”
+  (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2)))) (uf_union_after_rank_rx (rx) (ry) ((Znth rx rs2 0))) X_low_level_spec )
 .
 
 Definition uf_union_c_entail_wit_5_split_goal_2 := 
 forall (n_pre: Z) (X_low_level_spec: (unit -> (uf_state -> Prop))) (ps2_2: (@list Z)) (rs2: (@list Z)) (rx: Z) (ry: Z) (PreH1 : (rx <> ry)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= INT_MAX)) (PreH4 : (0 <= rx)) (PreH5 : (rx < n_pre)) (PreH6 : (0 <= ry)) (PreH7 : (ry < n_pre)) (PreH8 : (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2)))) (applyf ((uf_union_after_find_y (rx))) (ry)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ ((Znth rx rs2 0) = (Znth (rx) (rs2) (0))) ”
+  ((Znth rx rs2 0) = (Znth (rx) (rs2) (0)))
 .
 
 Definition uf_union_c_entail_wit_6 := 
@@ -494,16 +474,12 @@ forall (n_pre: Z) (X_low_level_spec: (unit -> (uf_state -> Prop))) (ps2_2: (@lis
 
 Definition uf_union_c_entail_wit_6_split_goal_1 := 
 forall (n_pre: Z) (X_low_level_spec: (unit -> (uf_state -> Prop))) (ps2_2: (@list Z)) (rs2: (@list Z)) (rx: Z) (ry: Z) (rx_rank: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= INT_MAX)) (PreH3 : (0 <= rx)) (PreH4 : (rx < n_pre)) (PreH5 : (0 <= ry)) (PreH6 : (ry < n_pre)) (PreH7 : (rx <> ry)) (PreH8 : (rx_rank = (Znth (rx) (rs2) (0)))) (PreH9 : (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2)))) (uf_union_after_rank_rx (rx) (ry) (rx_rank)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2)))) (uf_union_after_rank_ry (rx) (ry) (rx_rank) ((Znth ry rs2 0))) X_low_level_spec ) ”
+  (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2)))) (uf_union_after_rank_ry (rx) (ry) (rx_rank) ((Znth ry rs2 0))) X_low_level_spec )
 .
 
 Definition uf_union_c_entail_wit_6_split_goal_2 := 
 forall (n_pre: Z) (X_low_level_spec: (unit -> (uf_state -> Prop))) (ps2_2: (@list Z)) (rs2: (@list Z)) (rx: Z) (ry: Z) (rx_rank: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= INT_MAX)) (PreH3 : (0 <= rx)) (PreH4 : (rx < n_pre)) (PreH5 : (0 <= ry)) (PreH6 : (ry < n_pre)) (PreH7 : (rx <> ry)) (PreH8 : (rx_rank = (Znth (rx) (rs2) (0)))) (PreH9 : (safeExec (equiv ((uf_state_of (n_pre) (ps2_2) (rs2)))) (uf_union_after_rank_rx (rx) (ry) (rx_rank)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ ((Znth ry rs2 0) = (Znth (ry) (rs2) (0))) ”
+  ((Znth ry rs2 0) = (Znth (ry) (rs2) (0)))
 .
 
 Definition uf_union_c_entail_wit_7 := 
@@ -813,7 +789,7 @@ forall (rank_pre: Z) (parent_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (uf_
   &&  “ (0 <= ry) ” 
   &&  “ (ry < n_pre) ” 
   &&  “ (safeExec (equiv ((uf_state_of (n_pre) (ps2) (rs2)))) (applyf ((uf_union_after_find_y (rx))) (ry)) X_low_level_spec ) ”
-  &&  (((rank_pre + (rx * sizeof(INT) ) )) # Int  |-> (Znth rx rs2 0))
+  &&  (((rank_pre + (rx * sizeof(INT)))) # Int  |-> (Znth rx rs2 0))
   **  (IntArray.missing_i rank_pre rx 0 n_pre rs2 )
   **  (IntArray.full parent_pre n_pre ps2 )
 .
@@ -832,7 +808,7 @@ forall (rank_pre: Z) (parent_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (uf_
   &&  “ (rx <> ry) ” 
   &&  “ (rx_rank = (Znth (rx) (rs2) (0))) ” 
   &&  “ (safeExec (equiv ((uf_state_of (n_pre) (ps2) (rs2)))) (uf_union_after_rank_rx (rx) (ry) (rx_rank)) X_low_level_spec ) ”
-  &&  (((rank_pre + (ry * sizeof(INT) ) )) # Int  |-> (Znth ry rs2 0))
+  &&  (((rank_pre + (ry * sizeof(INT)))) # Int  |-> (Znth ry rs2 0))
   **  (IntArray.missing_i rank_pre ry 0 n_pre rs2 )
   **  (IntArray.full parent_pre n_pre ps2 )
 .
@@ -853,7 +829,7 @@ forall (rank_pre: Z) (parent_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (uf_
   &&  “ (rx_rank = (Znth (rx) (rs2) (0))) ” 
   &&  “ (ry_rank = (Znth (ry) (rs2) (0))) ” 
   &&  “ (safeExec (equiv ((uf_state_of (n_pre) (ps2) (rs2)))) (uf_union_after_rank_ry (rx) (ry) (rx_rank) (ry_rank)) X_low_level_spec ) ”
-  &&  (((parent_pre + (ry * sizeof(INT) ) )) # Int  |->_)
+  &&  (((parent_pre + (ry * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i parent_pre ry 0 n_pre ps2 )
   **  (IntArray.full rank_pre n_pre rs2 )
 .
@@ -875,7 +851,7 @@ forall (rank_pre: Z) (parent_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (uf_
   &&  “ (rx_rank = (Znth (rx) (rs2) (0))) ” 
   &&  “ (ry_rank = (Znth (ry) (rs2) (0))) ” 
   &&  “ (safeExec (equiv ((uf_state_of (n_pre) (ps2) (rs2)))) (uf_union_after_rank_ry (rx) (ry) (rx_rank) (ry_rank)) X_low_level_spec ) ”
-  &&  (((parent_pre + (rx * sizeof(INT) ) )) # Int  |->_)
+  &&  (((parent_pre + (rx * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i parent_pre rx 0 n_pre ps2 )
   **  (IntArray.full rank_pre n_pre rs2 )
 .
@@ -897,7 +873,7 @@ forall (rank_pre: Z) (parent_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (uf_
   &&  “ (rx_rank = (Znth (rx) (rs2) (0))) ” 
   &&  “ (ry_rank = (Znth (ry) (rs2) (0))) ” 
   &&  “ (safeExec (equiv ((uf_state_of (n_pre) (ps2) (rs2)))) (uf_union_after_rank_ry (rx) (ry) (rx_rank) (ry_rank)) X_low_level_spec ) ”
-  &&  (((parent_pre + (rx * sizeof(INT) ) )) # Int  |->_)
+  &&  (((parent_pre + (rx * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i parent_pre rx 0 n_pre ps2 )
   **  (IntArray.full rank_pre n_pre rs2 )
 .
@@ -916,7 +892,7 @@ forall (rank_pre: Z) (parent_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (uf_
   &&  “ (ry_rank = (Znth (ry) (rs2) (0))) ” 
   &&  “ ((ry_rank + 1 ) <= INT_MAX) ” 
   &&  “ (safeExec (equiv ((uf_state_of (n_pre) ((replace_Znth (rx) (ry) (ps2))) (rs2)))) (bump_rank (ry)) X_low_level_spec ) ”
-  &&  (((rank_pre + (ry * sizeof(INT) ) )) # Int  |->_)
+  &&  (((rank_pre + (ry * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i rank_pre ry 0 n_pre rs2 )
   **  (IntArray.full parent_pre n_pre (replace_Znth (rx) (ry) (ps2)) )
 .

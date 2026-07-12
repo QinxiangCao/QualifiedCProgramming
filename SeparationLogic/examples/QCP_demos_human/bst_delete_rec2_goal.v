@@ -202,6 +202,13 @@ forall (t_right: tree) (t_value: Z) (t_key: Z) (t_left: tree) (t_pre_v: Z) (t_pr
   “ (((find_pre (t_left) (t_key) (t_value) (t_right)).(k) ) = t_key) ”
 .
 
+Definition get_pre_return_wit_2_split_goal_spatial := 
+forall (t_right: tree) (t_key: Z) (t_pre_v: Z) (t_pre_v_right: Z) (PreH1 : (t_pre_v_right = 0)) (PreH2 : (t_pre_v <> 0)) (PreH3 : (INT_MIN <= t_key)) (PreH4 : (t_key <= INT_MAX)) ,
+  (store_tree t_pre_v_right t_right )
+|--
+  TT && emp 
+.
+
 Definition get_pre_partial_solve_wit_1_pure := 
 forall (t_pre: Z) (t_right: tree) (t_value: Z) (t_key: Z) (t_left: tree) (t_pre_v: Z) (t_pre_v_left: Z) (t_pre_v_right: Z) (PreH1 : (t_pre_v_right <> 0)) (PreH2 : (t_pre_v <> 0)) (PreH3 : (INT_MIN <= t_key)) (PreH4 : (t_key <= INT_MAX)) ,
   ((( &( "t" ) )) # Ptr  |-> t_pre)
@@ -392,9 +399,7 @@ forall (x_pre: Z) (tr_low_level_spec: tree) (b_pre_v_2: Z) (PreH1 : (b_pre_v_2 =
 
 Definition delete_return_wit_1_split_goal_1 := 
 forall (x_pre: Z) (tr_low_level_spec: tree) (b_pre_v_2: Z) (PreH1 : (b_pre_v_2 = 0)) (PreH2 : (INT_MIN <= x_pre)) (PreH3 : (x_pre <= INT_MAX)) ,
-  TT && emp 
-|--
-  “ (tr_low_level_spec = (tree_delete' (x_pre) (tr_low_level_spec))) ”
+  (tr_low_level_spec = (tree_delete' (x_pre) (tr_low_level_spec)))
 .
 
 Definition delete_return_wit_2 := 
@@ -499,6 +504,13 @@ forall (x_pre: Z) (tr_low_level_spec: tree) (b_pre_v_2: Z) (p_left: Z) (l0: tree
   (store_tree p_left l0 )
 |--
   “ (r0 = (tree_delete' (x_pre) (tr_low_level_spec))) ”
+.
+
+Definition delete_return_wit_4_split_goal_spatial := 
+forall (x_pre: Z) (tr_low_level_spec: tree) (b_pre_v_2: Z) (p_left: Z) (l0: tree) (p_value: Z) (r0: tree) (p_key: Z) (PreH1 : (p_left = 0)) (PreH2 : (x_pre <= p_key)) (PreH3 : (x_pre >= p_key)) (PreH4 : (INT_MIN <= p_key)) (PreH5 : (p_key <= INT_MAX)) (PreH6 : (tr_low_level_spec = (make_tree (l0) (p_key) (p_value) (r0)))) (PreH7 : (b_pre_v_2 <> 0)) (PreH8 : (INT_MIN <= x_pre)) (PreH9 : (x_pre <= INT_MAX)) ,
+  (store_tree p_left l0 )
+|--
+  TT && emp 
 .
 
 Definition delete_return_wit_5 := 

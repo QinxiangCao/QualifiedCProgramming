@@ -53,9 +53,7 @@ forall (x_pre: Z) (PreH1 : (x_pre >= 0)) (PreH2 : (INT_MIN < x_pre)) (PreH3 : (x
 
 Definition abs_return_wit_1_split_goal_1 := 
 forall (x_pre: Z) (PreH1 : (x_pre >= 0)) (PreH2 : (INT_MIN < x_pre)) (PreH3 : (x_pre <= INT_MAX)) ,
-  TT && emp 
-|--
-  “ (x_pre = (Zabs (x_pre))) ”
+  (x_pre = (Zabs (x_pre)))
 .
 
 Definition abs_return_wit_2 := 
@@ -76,9 +74,7 @@ forall (x_pre: Z) (PreH1 : (x_pre < 0)) (PreH2 : (INT_MIN < x_pre)) (PreH3 : (x_
 
 Definition abs_return_wit_2_split_goal_1 := 
 forall (x_pre: Z) (PreH1 : (x_pre < 0)) (PreH2 : (INT_MIN < x_pre)) (PreH3 : (x_pre <= INT_MAX)) ,
-  TT && emp 
-|--
-  “ ((-x_pre) = (Zabs (x_pre))) ”
+  ((-x_pre) = (Zabs (x_pre)))
 .
 
 Module Type VC_Correct.

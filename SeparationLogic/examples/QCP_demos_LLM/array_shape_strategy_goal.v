@@ -321,7 +321,7 @@ Definition array_shape_strategy4 :=
     ).
 
 Definition array_shape_strategy5 :=
-  forall (y : Z) (v : Z) (z : Z) (p : Z),
+  forall (y : Z) (v : Z) (p : Z) (z : Z),
     TT &&
     emp **
     ((UIntArray.seg_shape p y z)) **
@@ -378,7 +378,7 @@ Definition array_shape_strategy14 :=
     ).
 
 Definition array_shape_strategy15 :=
-  forall (y : Z) (v : Z) (z : Z) (p : Z),
+  forall (y : Z) (v : Z) (p : Z) (z : Z),
     TT &&
     emp **
     ((IntArray.seg_shape p y z)) **

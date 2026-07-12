@@ -20,33 +20,6 @@ Local Open Scope list.
 Import naive_C_Rules.
 Local Open Scope sac.
 
-Fixpoint increasing_aux (l: list Z) (x: Z): Prop :=
-  match l with
-  | nil => True
-  | y :: l0 => x <= y /\ increasing_aux l0 y
-  end.
-
-Definition increasing (l: list Z): Prop :=
-  match l with
-  | nil => True
-  | x :: l0 => increasing_aux l0 x
-  end.
-
-Fixpoint strict_upperbound (x: Z) (l: list Z): Prop :=
-  match l with
-  | nil => True
-  | y :: l' => x < y /\ strict_upperbound x l'
-  end.
-
-Fixpoint lowerbound (x: Z) (l: list Z): Prop :=
-  match l with
-  | nil => True
-  | y :: l' => x <= y /\ lowerbound x l'
-  end.
-
-Definition prefix_suffix_sorted (l1 l2: list Z): Prop :=
-  forall x, In x l1 -> lowerbound x l2.
-
 Fixpoint insert (x: Z) (l: list Z): list Z :=
   match l with
   | nil => [x]
@@ -55,7 +28,7 @@ Fixpoint insert (x: Z) (l: list Z): list Z :=
 
 Lemma upperbound_insert_nil:
   forall x l,
-    strict_upperbound x l ->
+    strict_lowerbound x l ->
     insert x l = x :: l.
 Proof.
   intros.
@@ -69,7 +42,7 @@ Qed.
 Lemma upperbound_insert_cons:
   forall x y l,
     y <= x ->
-    strict_upperbound x l ->
+    strict_lowerbound x l ->
     insert x (y :: l) = y :: x :: l.
 Proof.
   intros.
@@ -77,15 +50,6 @@ Proof.
   destruct (x >? y) eqn:b; simpl.
   - rewrite upperbound_insert_nil; auto.
   - assert (x = y) by lia. subst. reflexivity.
-Qed.
-
-Lemma upperbound_app:
-  forall x l v,
-    strict_upperbound x l ->
-    x < v ->
-    strict_upperbound x (v :: l).
-Proof.
-  intros. simpl. tauto.
 Qed.
 
 Lemma increasing_aux_insert:
@@ -119,7 +83,7 @@ Lemma increasing_aux_middle:
   forall l y x l2 start,
     increasing_aux (l ++ y :: l2) start ->
     y <= x ->
-    strict_upperbound x l2 ->
+    strict_lowerbound x l2 ->
     increasing_aux (l ++ y :: x :: l2) start.
 Proof.
   induction l; intros; simpl in *.
@@ -145,7 +109,7 @@ Lemma increasing_middle:
   forall l1 y x l2,
     increasing (l1 ++ y :: l2) ->
     y <= x ->
-    strict_upperbound x l2 ->
+    strict_lowerbound x l2 ->
     increasing (l1 ++ y :: x :: l2).
 Proof.
   destruct l1; intros; simpl in *.
@@ -161,6 +125,223 @@ Proof.
   - eapply increasing_aux_middle; eauto.
 Qed.
 
+Fixpoint last_val_local (default: Z) (l: list Z) : Z :=
+  match l with
+  | nil => default
+  | y :: l' => last_val_local y l'
+  end.
+
+Lemma last_val_local_in :
+  forall x l,
+    In (last_val_local x l) (x :: l).
+Proof.
+  intros x l.
+  induction l as [ | y l IH ] in x |- *; simpl.
+  - left. reflexivity.
+  - right. apply IH.
+Qed.
+
+Lemma increasing_aux_snoc_local :
+  forall l start x,
+    increasing_aux l start ->
+    last_val_local start l <= x ->
+    increasing_aux (l ++ [x]) start.
+Proof.
+  induction l as [ | y l IH ]; intros start x Hinc Hlast; simpl in *.
+  - split; [lia | easy].
+  - destruct Hinc as [Hle Hinc].
+    split.
+    + exact Hle.
+    + apply IH; assumption.
+Qed.
+
+Lemma increasing_snoc_local :
+  forall l x,
+    increasing l ->
+    match l with
+    | nil => True
+    | y :: l' => last_val_local y l' <= x
+    end ->
+    increasing (l ++ [x]).
+Proof.
+  intros l x Hinc Hlast.
+  destruct l as [ | y l ].
+  - simpl. auto.
+  - simpl in *. apply increasing_aux_snoc_local; assumption.
+Qed.
+
+Lemma increasing_cons_local :
+  forall x l,
+    lowerbound x l ->
+    increasing l ->
+    increasing (x :: l).
+Proof.
+  intros x l Hlb Hinc.
+  destruct l; simpl; auto.
+  destruct Hlb as [Hxy _].
+  split; [exact Hxy | exact Hinc].
+Qed.
+
+Lemma prefix_suffix_sorted_perm_local :
+  forall l1 l2 l3,
+    prefix_suffix_sorted l1 l2 ->
+    Permutation l2 l3 ->
+    prefix_suffix_sorted l1 l3.
+Proof.
+  intros l1 l2 l3 Hsorted Hperm.
+  unfold prefix_suffix_sorted in *.
+  intros x Hinx.
+  apply (lowerbound_perm x l2 l3 Hperm).
+  apply Hsorted.
+  exact Hinx.
+Qed.
+
+Lemma prefix_suffix_sorted_prefix_perm_local :
+  forall l1 l2 l3,
+    Permutation l1 l2 ->
+    prefix_suffix_sorted l1 l3 ->
+    prefix_suffix_sorted l2 l3.
+Proof.
+  intros l1 l2 l3 Hperm Hsorted.
+  unfold prefix_suffix_sorted in *.
+  intros x Hinx.
+  apply Hsorted.
+  eapply Permutation_in.
+  - apply Permutation_sym. exact Hperm.
+  - exact Hinx.
+Qed.
+
+Lemma prefix_suffix_sorted_singleton_le_local :
+  forall l x y,
+    prefix_suffix_sorted l [x] ->
+    x <= y ->
+    prefix_suffix_sorted l [y].
+Proof.
+  intros l x y Hsorted Hxy.
+  unfold prefix_suffix_sorted in *.
+  intros z Hz.
+  specialize (Hsorted z Hz).
+  simpl in Hsorted.
+  simpl.
+  destruct Hsorted as [Hzx _].
+  split; [lia | easy].
+Qed.
+
+Lemma prefix_suffix_sorted_snoc_singleton_local :
+  forall l x y,
+    prefix_suffix_sorted l [y] ->
+    x <= y ->
+    prefix_suffix_sorted (l ++ [x]) [y].
+Proof.
+  intros l x y Hsorted Hxy.
+  unfold prefix_suffix_sorted in *.
+  intros z Hz.
+  apply in_app_or in Hz.
+  destruct Hz as [Hz | Hz].
+  - apply Hsorted. exact Hz.
+  - simpl in Hz.
+    destruct Hz as [Hz | Hz].
+    + subst z. simpl. split; [lia | easy].
+    + contradiction.
+Qed.
+
+Lemma prefix_suffix_sorted_extend_suffix_local :
+  forall l x l2,
+    prefix_suffix_sorted l [x] ->
+    prefix_suffix_sorted l l2 ->
+    prefix_suffix_sorted l (x :: l2).
+Proof.
+  intros l x l2 Hsingle Hrest.
+  unfold prefix_suffix_sorted in *.
+  intros y Hy.
+  specialize (Hsingle y Hy).
+  specialize (Hrest y Hy).
+  simpl in Hsingle.
+  simpl.
+  destruct Hsingle as [Hyx _].
+  split; [exact Hyx | exact Hrest].
+Qed.
+
+Lemma prefix_suffix_sorted_last_local :
+  forall l1 x l2,
+    prefix_suffix_sorted l1 (x :: l2) ->
+    match l1 with
+    | nil => True
+    | y :: l' => last_val_local y l' <= x
+    end.
+Proof.
+  intros l1 x l2 Hsorted.
+  destruct l1 as [ | y l' ]; simpl; auto.
+  unfold prefix_suffix_sorted in Hsorted.
+  specialize (Hsorted (last_val_local y l')).
+  assert (Hin : In (last_val_local y l') (y :: l')).
+  { apply last_val_local_in. }
+  specialize (Hsorted Hin).
+  simpl in Hsorted.
+  tauto.
+Qed.
+
+Lemma prefix_suffix_sorted_snoc_local :
+  forall l1 x l2,
+    prefix_suffix_sorted l1 (x :: l2) ->
+    lowerbound x l2 ->
+    prefix_suffix_sorted (l1 ++ [x]) l2.
+Proof.
+  intros l1 x l2 Hsorted Hbound.
+  unfold prefix_suffix_sorted in *.
+  intros y Hy.
+  apply in_app_or in Hy.
+  destruct Hy as [Hy | Hy].
+  - specialize (Hsorted y Hy).
+    simpl in Hsorted.
+    tauto.
+  - simpl in Hy.
+    destruct Hy as [Hy | Hy].
+    + subst y. exact Hbound.
+    + contradiction.
+Qed.
+
+Lemma replace_Znth_length_local {A: Type}:
+  forall (l: list A) n a,
+    Zlength (replace_Znth n a l) = Zlength l.
+Proof.
+  intros l n.
+  unfold replace_Znth.
+  remember (Z.to_nat n) as k; clear Heqk.
+  revert k; induction l; intros.
+  - destruct k; simpl; easy.
+  - destruct k; simpl; repeat rewrite Zlength_cons; auto.
+    rewrite IHl; auto.
+Qed.
+
+Lemma replace_Znth_boundary_local {A: Type} :
+  forall (prefix tail: list A) x y,
+    replace_Znth (Zlength prefix) x (prefix ++ y :: tail) = prefix ++ x :: tail.
+Proof.
+  induction prefix; intros tail x y.
+  - reflexivity.
+  - simpl.
+    rewrite Zlength_cons.
+    pose proof (Zlength_nonneg prefix) as Hlen.
+    assert (Hpos : Z.succ (Zlength prefix) > 0) by lia.
+    rewrite (replace_Znth_cons (Z.succ (Zlength prefix)) x a (prefix ++ y :: tail)) by exact Hpos.
+    replace (Z.succ (Zlength prefix) - 1) with (Zlength prefix) by lia.
+    simpl.
+    f_equal.
+    apply IHprefix.
+Qed.
+
+Lemma replace_Znth_boundary_app_local {A: Type} :
+  forall (prefix middle tail: list A) x y,
+    replace_Znth (Zlength prefix) x ((prefix ++ y :: middle) ++ tail) =
+    (prefix ++ x :: middle) ++ tail.
+Proof.
+  intros prefix middle tail x y.
+  replace ((prefix ++ y :: middle) ++ tail) with (prefix ++ y :: (middle ++ tail)) by (rewrite <- app_assoc; reflexivity).
+  replace ((prefix ++ x :: middle) ++ tail) with (prefix ++ x :: (middle ++ tail)) by (rewrite <- app_assoc; reflexivity).
+  apply replace_Znth_boundary_local.
+Qed.
+
 Lemma perm_insert:
   forall x l,
     Permutation (l ++ [x]) (insert x l).
@@ -169,55 +350,6 @@ Proof.
   destruct (x >? a).
   - rewrite IHl. reflexivity.
   - rewrite <- Permutation_cons_append. apply perm_swap.
-Qed.
-
-Lemma lowerbound_app_cons:
-  forall x l y,
-    lowerbound x l ->
-    x <= y ->
-    lowerbound x (l ++ [y]).
-Proof.
-  intros x l.
-  induction l; intros; simpl in *.
-  - split; [assumption | easy].
-  - destruct H.
-    split.
-    + assumption.
-    + apply IHl; assumption.
-Qed.
-
-Lemma lowerbound_trans:
-  forall x y l,
-    x <= y ->
-    lowerbound y l ->
-    lowerbound x l.
-Proof.
-  intros x y l Hxy.
-  induction l; intros; simpl in *; auto.
-  destruct H.
-  split.
-  - lia.
-  - apply IHl; assumption.
-Qed.
-
-Lemma lowerbound_perm:
-  forall x l1 l2,
-    Permutation l1 l2 ->
-    lowerbound x l1 ->
-    lowerbound x l2.
-Proof.
-  intros x l1 l2 Hperm.
-  induction Hperm; intros Hbound; simpl in *.
-  - assumption.
-  - destruct Hbound.
-    split; [assumption | auto].
-  - destruct Hbound as [Hxy [Hxz Hrest]].
-    split.
-    + assumption.
-    + split; [assumption | assumption].
-  - apply IHHperm2.
-    apply IHHperm1.
-    assumption.
 Qed.
 
 Lemma perm_swap_with_prefix:
@@ -235,5 +367,3 @@ Proof.
     + apply Permutation_sym.
       apply Permutation_middle.
 Qed.
-
-

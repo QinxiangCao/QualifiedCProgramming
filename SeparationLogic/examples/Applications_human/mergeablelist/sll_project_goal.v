@@ -94,7 +94,7 @@ forall (head: Z) (l_rest: (@list Z)) (PreH1 : (head = 0)) ,
   TT && emp 
 ).
 
-Definition free_list_return_wit_1_split_goal_emp := 
+Definition free_list_return_wit_1_split_goal_spatial := 
 forall (head: Z) (l_rest: (@list Z)) (PreH1 : (head = 0)) ,
   (sll head l_rest )
 |--
@@ -787,9 +787,7 @@ forall (l: (@list Z)) (PreH1 : ((Zlength (l)) <= INT_MAX)) ,
 
 Definition sll_length_entail_wit_1_split_goal_1 := 
 forall (l: (@list Z)) (PreH1 : ((Zlength (l)) <= INT_MAX)) ,
-  TT && emp 
-|--
-  “ (0 = (Zlength ((@nil Z)))) ”
+  (0 = (Zlength ((@nil Z))))
 .
 
 Definition sll_length_entail_wit_2 := 
@@ -971,16 +969,12 @@ forall (l: (@list Z)) (retval: Z) (PreH1 : (retval = (Zlength (l)))) (PreH2 : ((
 
 Definition sll2array_entail_wit_1_split_goal_1 := 
 forall (l: (@list Z)) (retval: Z) (PreH1 : (retval = (Zlength (l)))) (PreH2 : ((Zlength (l)) <= INT_MAX)) ,
-  TT && emp 
-|--
-  “ (0 <= retval) ”
+  (0 <= retval)
 .
 
 Definition sll2array_entail_wit_1_split_goal_2 := 
 forall (l: (@list Z)) (retval: Z) (PreH1 : (retval = (Zlength (l)))) (PreH2 : ((Zlength (l)) <= INT_MAX)) ,
-  TT && emp 
-|--
-  “ (0 = (Zlength ((@nil Z)))) ”
+  (0 = (Zlength ((@nil Z))))
 .
 
 Definition sll2array_entail_wit_2 := 
@@ -1212,7 +1206,7 @@ forall (out_array_pre: Z) (head_pre: Z) (l: (@list Z)) (retval: Z) (arr: Z) (p: 
   &&  “ (retval = (Zlength (l))) ” 
   &&  “ ((Zlength (l)) <= INT_MAX) ” 
   &&  “ (p <> 0) ”
-  &&  (((arr + (i * sizeof(UINT) ) )) # UInt  |->_)
+  &&  (((arr + (i * sizeof(UINT)))) # UInt  |->_)
   **  (UIntArray.undef_seg arr (i + 1 ) len )
   **  ((&((p)  # "sll" ->ₛ "data")) # UInt  |-> p_data)
   **  ((&((p)  # "sll" ->ₛ "next")) # Ptr  |-> p_next)

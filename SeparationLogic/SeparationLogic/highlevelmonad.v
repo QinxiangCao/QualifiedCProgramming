@@ -4,7 +4,7 @@ Require Import Coq.Classes.RelationClasses.
 Require Import Coq.Lists.List.
 From SetsClass Require Import SetsClass.
 From AUXLib Require Import relations Axioms. 
-From StateRelMonad Require Import StateRelBasic safeexec_lib.
+From MonadLib.StateRelMonad Require Import StateRelBasic safeexec_lib.
 
 Import SetsNotation.
 Local Open Scope sets.
@@ -14,17 +14,17 @@ Local Open Scope sets.
 Class StateTransitionSys {T: Type} : Type := {
   valid_st: T -> Prop;
   trans: T -> T -> Prop;
-  trans_refl :> Reflexive trans;
+  #[global] trans_refl :: Reflexive trans;
 }.
 
 Class highlevelstatemodel : Type := {
   hmem : Type;
   (* FIRST LEVEL sts state *)
   STS_stateₕ  : Type;
-  STSₕ :>  @StateTransitionSys STS_stateₕ;
+  #[global] STSₕ :: @StateTransitionSys STS_stateₕ;
   (* SECOND LEVEL sts state *)
   STS_stateₕ₂: Type;
-  STSₕ₂ :>  @StateTransitionSys STS_stateₕ₂;
+  #[global] STSₕ₂ :: @StateTransitionSys STS_stateₕ₂;
 }.
 
 Record Hstate {hst: highlevelstatemodel}: Type := mk_hstate {
@@ -298,7 +298,5 @@ Section  monad_instance.
   Qed.
 
 End  monad_instance.
-
-
 
 

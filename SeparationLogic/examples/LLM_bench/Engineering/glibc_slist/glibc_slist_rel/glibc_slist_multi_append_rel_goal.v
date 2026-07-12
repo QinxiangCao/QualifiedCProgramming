@@ -55,9 +55,7 @@ forall (l3_low_level_spec: (@list Z)) (l2_low_level_spec: (@list Z)) (l1_low_lev
 
 Definition glibc_slist_clean_multi_append_entail_wit_1_split_goal_1 := 
 forall (l3_low_level_spec: (@list Z)) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (PreH1 : (safeExec ATrue (glibc_slist_clean_multi_append_M (l1_low_level_spec) (l2_low_level_spec) (l3_low_level_spec)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (bind ((list_append_raw_M (l1_low_level_spec) (l2_low_level_spec))) ((residual_prog_in_glibc_slist_clean_multi_append_M_call_1 (l3_low_level_spec)))) X_low_level_spec ) ”
+  (safeExec ATrue (bind ((list_append_raw_M (l1_low_level_spec) (l2_low_level_spec))) ((residual_prog_in_glibc_slist_clean_multi_append_M_call_1 (l3_low_level_spec)))) X_low_level_spec )
 .
 
 Definition glibc_slist_clean_multi_append_entail_wit_2 := 
@@ -92,9 +90,7 @@ forall (l3_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> 
 
 Definition glibc_slist_clean_multi_append_entail_wit_3_split_goal_1 := 
 forall (l3_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l4_2: (@list Z)) (PreH1 : (safeExec ATrue (bind ((return (l4_2))) ((residual_prog_in_glibc_slist_clean_multi_append_M_call_1 (l3_low_level_spec)))) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (bind ((list_append_raw_M (l4_2) (l3_low_level_spec))) (residual_prog_in_glibc_slist_clean_multi_append_M_call_2)) X_low_level_spec ) ”
+  (safeExec ATrue (bind ((list_append_raw_M (l4_2) (l3_low_level_spec))) (residual_prog_in_glibc_slist_clean_multi_append_M_call_2)) X_low_level_spec )
 .
 
 Definition glibc_slist_clean_multi_append_entail_wit_4 := 
@@ -125,9 +121,7 @@ forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l5: (@list Z)) (PreH1 
 
 Definition glibc_slist_clean_multi_append_return_wit_1_split_goal_1 := 
 forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l5: (@list Z)) (PreH1 : (safeExec ATrue (bind ((return (l5))) (residual_prog_in_glibc_slist_clean_multi_append_M_call_2)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (return (l5)) X_low_level_spec ) ”
+  (safeExec ATrue (return (l5)) X_low_level_spec )
 .
 
 Definition glibc_slist_clean_multi_append_partial_solve_wit_1_pure := 

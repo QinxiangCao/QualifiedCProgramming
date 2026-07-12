@@ -1,0 +1,64 @@
+//test Safeexec rules
+//max rule id:30
+
+#include "safeexec_def.h"
+
+
+
+id : 1
+priority : Pcancel(1)
+left : safeExec{?Sigma, ?A}(?P, ?c, ?X) at 0
+right : safeExec{Sigma, A}(P, c, X) at 1
+        safeExec{Sigma, ?B}(?P2, ?c2, ?X2) at 2
+action : left_erase(0);
+         right_erase(1);
+
+id : 2
+priority : core(2)
+left : safeExec{?Sigma, ?A}(?P, ?c, ?X) at 0
+right : safeExec{Sigma, A}(P, ?c2, ?X) at 1
+action : left_erase(0);
+         right_erase(1);
+         right_add(equiv{program{Sigma, A}}(c, c2));
+
+id : 3
+priority : core(0)
+left : (equiv{program{?Sigma, ?A}}(?x, x)) at 0
+action : left_erase(0);
+
+id : 4
+priority : core(0)
+right : (equiv{program{?Sigma, ?A}}(?x, x)) at 0
+action : right_erase(0);
+
+id : 5
+priority : core(0)
+right : (equiv{program{?Sigma, ?B}}(bind{Sigma, ?A, B}(?c11, ?c12), bind{Sigma, A, B}(?c21, ?c22))) at 0
+action : right_erase(0);
+         right_add(equiv{program{Sigma, A}}(c11, c21));
+         right_add(equiv{A -> program{Sigma, B}}(c12, c22));
+
+id : 6
+priority : core(1)
+right : exists x, (equiv{program{?Sigma, ?A}}(x, ?y)) || (equiv{program{?Sigma, ?A}}(?y, x)) at 0
+action : instantiate(x -> y);
+
+id : 7
+priority : core(1)
+right : exists x, (equiv{?A -> program{?Sigma, ?B}}(x, ?y)) || (equiv{?A -> program{?Sigma, ?B}}(?y, x)) at 0
+action : instantiate(x -> y);
+
+id : 8
+priority : core(0)
+right : (equiv{list{Z} -> program{unit, list{Z}}}(mergesortrec_loc1(?l1), mergesortrec_loc1(?l2))) at 0
+action : right_erase(0);
+         right_add(l1 == l2);
+
+id : 9
+priority : core(0)
+right : (equiv{list{Z} -> program{unit, list{Z}}}(mergesortrec_loc2(?l1), mergesortrec_loc2(?l2))) at 0
+action : right_erase(0);
+         right_add(l1 == l2);
+
+
+

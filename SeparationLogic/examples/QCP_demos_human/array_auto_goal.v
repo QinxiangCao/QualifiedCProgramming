@@ -98,7 +98,7 @@ forall (a_pre: Z) (n_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= i)) (Pr
   &&  “ (i <= n_pre) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ”
-  &&  (((a_pre + (i * sizeof(UINT) ) )) # UInt  |-> x)
+  &&  (((a_pre + (i * sizeof(UINT)))) # UInt  |-> x)
   **  (UIntArray.missing_i_shape a_pre i 0 n_pre )
 .
 
@@ -182,7 +182,7 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2
   &&  “ (i <= n_pre) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ”
-  &&  (((src_pre + (i * sizeof(INT) ) )) # Int  |-> x)
+  &&  (((src_pre + (i * sizeof(INT)))) # Int  |-> x)
   **  (IntArray.missing_i_shape src_pre i 0 n_pre )
   **  (IntArray.seg_shape dest_pre 0 i )
   **  (IntArray.undef_seg dest_pre i n_pre )
@@ -199,7 +199,7 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2
   &&  “ (i <= n_pre) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ”
-  &&  (((dest_pre + (i * sizeof(INT) ) )) # Int  |->_)
+  &&  (((dest_pre + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg dest_pre (i + 1 ) n_pre )
   **  (IntArray.full_shape src_pre n_pre )
   **  (IntArray.seg_shape dest_pre 0 i )
@@ -394,7 +394,7 @@ forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (PreH1 : 
   &&  “ (0 <= n_pre) ” 
   &&  “ (0 <= m_pre) ” 
   &&  “ ((n_pre + m_pre ) < INT_MAX) ”
-  &&  (((a_pre + (i * sizeof(INT) ) )) # Int  |-> x)
+  &&  (((a_pre + (i * sizeof(INT)))) # Int  |-> x)
   **  (IntArray.missing_i_shape a_pre i 0 n_pre )
   **  (IntArray.seg_shape ret_pre 0 i )
   **  (IntArray.undef_seg ret_pre i (n_pre + m_pre ) )
@@ -414,7 +414,7 @@ forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (PreH1 : 
   &&  “ (0 <= n_pre) ” 
   &&  “ (0 <= m_pre) ” 
   &&  “ ((n_pre + m_pre ) < INT_MAX) ”
-  &&  (((ret_pre + (i * sizeof(INT) ) )) # Int  |->_)
+  &&  (((ret_pre + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg ret_pre (i + 1 ) (n_pre + m_pre ) )
   **  (IntArray.full_shape a_pre n_pre )
   **  (IntArray.seg_shape ret_pre 0 i )
@@ -438,7 +438,7 @@ forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (i_2: Z) 
   &&  “ (0 <= n_pre) ” 
   &&  “ (0 <= m_pre) ” 
   &&  “ ((n_pre + m_pre ) < INT_MAX) ”
-  &&  (((b_pre + (i_2 * sizeof(INT) ) )) # Int  |-> x)
+  &&  (((b_pre + (i_2 * sizeof(INT)))) # Int  |-> x)
   **  (IntArray.missing_i_shape b_pre i_2 0 m_pre )
   **  (IntArray.seg_shape ret_pre 0 (n_pre + i_2 ) )
   **  (IntArray.undef_seg ret_pre (n_pre + i_2 ) (n_pre + m_pre ) )
@@ -461,7 +461,7 @@ forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (i_2: Z) 
   &&  “ (0 <= n_pre) ” 
   &&  “ (0 <= m_pre) ” 
   &&  “ ((n_pre + m_pre ) < INT_MAX) ”
-  &&  (((ret_pre + ((n_pre + i_2 ) * sizeof(INT) ) )) # Int  |->_)
+  &&  (((ret_pre + ((n_pre + i_2 ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg ret_pre ((n_pre + i_2 ) + 1 ) (n_pre + m_pre ) )
   **  (IntArray.full_shape b_pre m_pre )
   **  (IntArray.seg_shape ret_pre 0 (n_pre + i_2 ) )
@@ -542,7 +542,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0
   &&  “ (i <= n_pre) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ”
-  &&  (((a_pre + (i * sizeof(INT) ) )) # Int  |-> x)
+  &&  (((a_pre + (i * sizeof(INT)))) # Int  |-> x)
   **  (IntArray.missing_i_shape a_pre i 0 n_pre )
   **  (IntArray.full_shape b_pre n_pre )
 .
@@ -558,7 +558,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0
   &&  “ (i <= n_pre) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ”
-  &&  (((b_pre + (i * sizeof(INT) ) )) # Int  |-> x)
+  &&  (((b_pre + (i * sizeof(INT)))) # Int  |-> x)
   **  (IntArray.missing_i_shape b_pre i 0 n_pre )
   **  (IntArray.full_shape a_pre n_pre )
 .
@@ -573,7 +573,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0
   &&  “ (i <= n_pre) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ”
-  &&  (((a_pre + (i * sizeof(INT) ) )) # Int  |->_)
+  &&  (((a_pre + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i_shape a_pre i 0 n_pre )
   **  (IntArray.full_shape b_pre n_pre )
 .
@@ -588,7 +588,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0
   &&  “ (i <= n_pre) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ”
-  &&  (((b_pre + (i * sizeof(INT) ) )) # Int  |->_)
+  &&  (((b_pre + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i_shape b_pre i 0 n_pre )
   **  (IntArray.full_shape a_pre n_pre )
 .
@@ -684,7 +684,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (PreH1 : (i < n_pre)
   &&  “ (i <= n_pre) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ”
-  &&  (((a_pre + (i * sizeof(UINT) ) )) # UInt  |-> x)
+  &&  (((a_pre + (i * sizeof(UINT)))) # UInt  |-> x)
   **  (UIntArray.missing_i_shape a_pre i 0 n_pre )
   **  (UIntArray.seg_shape ret_pre 0 i )
   **  (UIntArray.undef_seg ret_pre i n_pre )
@@ -704,7 +704,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (PreH1 : (i < n_pre)
   &&  “ (i <= n_pre) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ”
-  &&  (((b_pre + (i * sizeof(UINT) ) )) # UInt  |-> x)
+  &&  (((b_pre + (i * sizeof(UINT)))) # UInt  |-> x)
   **  (UIntArray.missing_i_shape b_pre i 0 n_pre )
   **  (UIntArray.full_shape a_pre n_pre )
   **  (UIntArray.seg_shape ret_pre 0 i )
@@ -723,7 +723,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (PreH1 : (i < n_pre)
   &&  “ (i <= n_pre) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ”
-  &&  (((ret_pre + (i * sizeof(UINT) ) )) # UInt  |->_)
+  &&  (((ret_pre + (i * sizeof(UINT)))) # UInt  |->_)
   **  (UIntArray.undef_seg ret_pre (i + 1 ) n_pre )
   **  (UIntArray.full_shape b_pre n_pre )
   **  (UIntArray.full_shape a_pre n_pre )
@@ -821,7 +821,7 @@ forall (n_pre: Z) (c_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) (PreH1 : (i < n_pre)) 
   &&  “ (i <= n_pre) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ”
-  &&  (((a_pre + (i * sizeof(UINT) ) )) # UInt  |-> x)
+  &&  (((a_pre + (i * sizeof(UINT)))) # UInt  |-> x)
   **  (UIntArray.missing_i_shape a_pre i 0 n_pre )
   **  (UIntArray.seg_shape c_pre 0 i )
   **  (UIntArray.undef_seg c_pre i n_pre )
@@ -841,7 +841,7 @@ forall (n_pre: Z) (c_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) (PreH1 : (i < n_pre)) 
   &&  “ (i <= n_pre) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ”
-  &&  (((b_pre + (i * sizeof(UINT) ) )) # UInt  |-> x)
+  &&  (((b_pre + (i * sizeof(UINT)))) # UInt  |-> x)
   **  (UIntArray.missing_i_shape b_pre i 0 n_pre )
   **  (UIntArray.full_shape a_pre n_pre )
   **  (UIntArray.seg_shape c_pre 0 i )
@@ -860,7 +860,7 @@ forall (n_pre: Z) (c_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) (PreH1 : (i < n_pre)) 
   &&  “ (i <= n_pre) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ”
-  &&  (((c_pre + (i * sizeof(UINT) ) )) # UInt  |->_)
+  &&  (((c_pre + (i * sizeof(UINT)))) # UInt  |->_)
   **  (UIntArray.undef_seg c_pre (i + 1 ) n_pre )
   **  (UIntArray.full_shape b_pre n_pre )
   **  (UIntArray.full_shape a_pre n_pre )
@@ -978,7 +978,7 @@ forall (n_pre: Z) (a_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= i)) (Pr
   &&  “ (i <= n_pre) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ”
-  &&  (((a_pre + (i * sizeof(INT) ) )) # Int  |-> x)
+  &&  (((a_pre + (i * sizeof(INT)))) # Int  |-> x)
   **  (IntArray.missing_i_shape a_pre i 0 n_pre )
 .
 
@@ -993,7 +993,7 @@ forall (n_pre: Z) (a_pre: Z) (i: Z) (v: Z) (x: Z) (PreH1 : (x > v)) (PreH2 : (i 
   &&  “ (i <= n_pre) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ”
-  &&  (((a_pre + (i * sizeof(INT) ) )) # Int  |-> x_2)
+  &&  (((a_pre + (i * sizeof(INT)))) # Int  |-> x_2)
   **  (IntArray.missing_i_shape a_pre i 0 n_pre )
 .
 
@@ -1067,7 +1067,7 @@ forall (n_pre: Z) (a_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= i)) (Pr
   &&  “ (i <= n_pre) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ”
-  &&  (((a_pre + (i * sizeof(INT) ) )) # Int  |->_)
+  &&  (((a_pre + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg a_pre (i + 1 ) n_pre )
   **  (IntArray.seg_shape a_pre 0 i )
 .
@@ -1216,7 +1216,7 @@ forall (n_pre: Z) (a_pre: Z) (retval_next: Z) (retval: Z) (tail_next: Z) (v: Z) 
   &&  “ (retval_next = 0) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ”
-  &&  (((a_pre + (i * sizeof(INT) ) )) # Int  |-> x)
+  &&  (((a_pre + (i * sizeof(INT)))) # Int  |-> x)
   **  (IntArray.missing_i_shape a_pre i 0 n_pre )
   **  ((&((tail)  # "list" ->ₛ "data")) # Int  |-> v)
   **  ((&((tail)  # "list" ->ₛ "next")) # Ptr  |-> tail_next)

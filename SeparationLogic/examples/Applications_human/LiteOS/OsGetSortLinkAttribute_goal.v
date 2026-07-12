@@ -55,63 +55,31 @@ Definition OsGetSortLinkAttribute_return_wit_1 :=
 forall (type_pre: Z) (u: Z) (PreH1 : (type_pre <> 2)) (PreH2 : (type_pre <> 1)) (PreH3 : (( &( "g_taskSortLink" ) ) <> 0)) (PreH4 : (( &( "g_swtmrSortLink" ) ) <> 0)) (PreH5 : (type_pre = u)) ,
   TT && emp 
 |--
-  (“ (u <> 1) ” 
+  “ (u <> 1) ” 
   &&  “ (u <> 2) ” 
   &&  “ (0 = 0) ” 
   &&  “ (type_pre = u) ”
-  &&  emp)
-  ||
-  (“ (u = 2) ” 
-  &&  “ (0 = ( &( "g_swtmrSortLink" ) )) ” 
-  &&  “ (type_pre = u) ”
-  &&  emp)
-  ||
-  (“ (u = 1) ” 
-  &&  “ (0 = ( &( "g_taskSortLink" ) )) ” 
-  &&  “ (type_pre = u) ”
-  &&  emp)
+  &&  emp
 .
 
 Definition OsGetSortLinkAttribute_return_wit_2 := 
 forall (type_pre: Z) (u: Z) (PreH1 : (type_pre = 2)) (PreH2 : (type_pre <> 1)) (PreH3 : (( &( "g_taskSortLink" ) ) <> 0)) (PreH4 : (( &( "g_swtmrSortLink" ) ) <> 0)) (PreH5 : (type_pre = u)) ,
   TT && emp 
 |--
-  (“ (u <> 1) ” 
-  &&  “ (u <> 2) ” 
-  &&  “ (( &( "g_swtmrSortLink" ) ) = 0) ” 
-  &&  “ (type_pre = u) ”
-  &&  emp)
-  ||
-  (“ (u = 2) ” 
+  “ (u = 2) ” 
   &&  “ (( &( "g_swtmrSortLink" ) ) = ( &( "g_swtmrSortLink" ) )) ” 
   &&  “ (type_pre = u) ”
-  &&  emp)
-  ||
-  (“ (u = 1) ” 
-  &&  “ (( &( "g_swtmrSortLink" ) ) = ( &( "g_taskSortLink" ) )) ” 
-  &&  “ (type_pre = u) ”
-  &&  emp)
+  &&  emp
 .
 
 Definition OsGetSortLinkAttribute_return_wit_3 := 
 forall (type_pre: Z) (u: Z) (PreH1 : (type_pre = 1)) (PreH2 : (( &( "g_taskSortLink" ) ) <> 0)) (PreH3 : (( &( "g_swtmrSortLink" ) ) <> 0)) (PreH4 : (type_pre = u)) ,
   TT && emp 
 |--
-  (“ (u <> 1) ” 
-  &&  “ (u <> 2) ” 
-  &&  “ (( &( "g_taskSortLink" ) ) = 0) ” 
-  &&  “ (type_pre = u) ”
-  &&  emp)
-  ||
-  (“ (u = 2) ” 
-  &&  “ (( &( "g_taskSortLink" ) ) = ( &( "g_swtmrSortLink" ) )) ” 
-  &&  “ (type_pre = u) ”
-  &&  emp)
-  ||
-  (“ (u = 1) ” 
+  “ (u = 1) ” 
   &&  “ (( &( "g_taskSortLink" ) ) = ( &( "g_taskSortLink" ) )) ” 
   &&  “ (type_pre = u) ”
-  &&  emp)
+  &&  emp
 .
 
 Module Type VC_Correct.

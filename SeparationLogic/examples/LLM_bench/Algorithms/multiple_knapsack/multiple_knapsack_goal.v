@@ -453,7 +453,6 @@ forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) 
 .
 
 Definition multipleKnapsack_safety_wit_13 := 
-(
 forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) (n_pre: Z) (counts_pre: Z) (values_pre: Z) (weights_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l: (@list Z)) (qidx_l: (@list Z)) (old_l: (@list Z)) (dp_l: (@list Z)) (PreH1 : (pos <= capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= r)) (PreH16 : (r < w)) (PreH17 : (r <= capacity_pre)) (PreH18 : (w = (Znth i weights_l 0))) (PreH19 : (v = (Znth i values_l 0))) (PreH20 : (cnt = (Znth i counts_l 0))) (PreH21 : (1 <= w)) (PreH22 : (w <= (capacity_pre + 1 ))) (PreH23 : (0 <= v)) (PreH24 : (v <= 1000)) (PreH25 : (0 <= cnt)) (PreH26 : (cnt <= capacity_pre)) (PreH27 : (pos = (r + (k * w ) ))) (PreH28 : (0 <= k)) (PreH29 : (k <= (capacity_pre + 1 ))) (PreH30 : (0 <= pos)) (PreH31 : (pos <= (capacity_pre + w ))) (PreH32 : (0 <= head)) (PreH33 : (head <= tail)) (PreH34 : (tail <= k)) (PreH35 : (tail <= (capacity_pre + 1 ))) (PreH36 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l )) (PreH37 : (MKDPValueBound old_l capacity_pre )) (PreH38 : (MKTransitionValueBound old_l w v cnt capacity_pre )) (PreH39 : (MKItemResiduePrefixProgress old_l dp_l r w v cnt k capacity_pre )) (PreH40 : (MKResidueLoopState old_l dp_l qidx_l qval_l r w v cnt k head tail capacity_pre )) (PreH41 : forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre)))) ,
   (IntArray.full old_pre (capacity_pre + 1 ) old_l )
   **  ((( &( "current" ) )) # Int  |->_)
@@ -484,102 +483,6 @@ forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) 
 |--
   “ ((k * v ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (k * v )) ”
-) \/
-(
-forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) (n_pre: Z) (counts_pre: Z) (values_pre: Z) (weights_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l: (@list Z)) (qidx_l: (@list Z)) (old_l: (@list Z)) (dp_l: (@list Z)) (PreH1 : (pos <= capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= r)) (PreH16 : (r < w)) (PreH17 : (r <= capacity_pre)) (PreH18 : (w = (Znth i weights_l 0))) (PreH19 : (v = (Znth i values_l 0))) (PreH20 : (cnt = (Znth i counts_l 0))) (PreH21 : (1 <= w)) (PreH22 : (w <= (capacity_pre + 1 ))) (PreH23 : (0 <= v)) (PreH24 : (v <= 1000)) (PreH25 : (0 <= cnt)) (PreH26 : (cnt <= capacity_pre)) (PreH27 : (pos = (r + (k * w ) ))) (PreH28 : (0 <= k)) (PreH29 : (k <= (capacity_pre + 1 ))) (PreH30 : (0 <= pos)) (PreH31 : (pos <= (capacity_pre + w ))) (PreH32 : (0 <= head)) (PreH33 : (head <= tail)) (PreH34 : (tail <= k)) (PreH35 : (tail <= (capacity_pre + 1 ))) (PreH36 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l )) (PreH37 : (MKDPValueBound old_l capacity_pre )) (PreH38 : (MKTransitionValueBound old_l w v cnt capacity_pre )) (PreH39 : (MKItemResiduePrefixProgress old_l dp_l r w v cnt k capacity_pre )) (PreH40 : (MKResidueLoopState old_l dp_l qidx_l qval_l r w v cnt k head tail capacity_pre )) (PreH41 : forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre)))) ,
-  (IntArray.full old_pre (capacity_pre + 1 ) old_l )
-  **  ((( &( "current" ) )) # Int  |->_)
-  **  ((( &( "weights" ) )) # Ptr  |-> weights_pre)
-  **  ((( &( "values" ) )) # Ptr  |-> values_pre)
-  **  ((( &( "counts" ) )) # Ptr  |-> counts_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "capacity" ) )) # Int  |-> capacity_pre)
-  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
-  **  ((( &( "old" ) )) # Ptr  |-> old_pre)
-  **  ((( &( "q_idx" ) )) # Ptr  |-> q_idx_pre)
-  **  ((( &( "q_val" ) )) # Ptr  |-> q_val_pre)
-  **  ((( &( "i" ) )) # Int  |-> i)
-  **  ((( &( "r" ) )) # Int  |-> r)
-  **  ((( &( "w" ) )) # Int  |-> w)
-  **  ((( &( "v" ) )) # Int  |-> v)
-  **  ((( &( "cnt" ) )) # Int  |-> cnt)
-  **  ((( &( "pos" ) )) # Int  |-> pos)
-  **  ((( &( "k" ) )) # Int  |-> k)
-  **  ((( &( "head" ) )) # Int  |-> head)
-  **  ((( &( "tail" ) )) # Int  |-> tail)
-  **  (IntArray.full weights_pre n_pre weights_l )
-  **  (IntArray.full values_pre n_pre values_l )
-  **  (IntArray.full counts_pre n_pre counts_l )
-  **  (IntArray.full dp_pre (capacity_pre + 1 ) dp_l )
-  **  (IntArray.full q_idx_pre (capacity_pre + 1 ) qidx_l )
-  **  (IntArray.full q_val_pre (capacity_pre + 1 ) qval_l )
-|--
-  “ ((k * v ) <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= (k * v )) ”
-).
-
-Definition multipleKnapsack_safety_wit_13_split_goal_1 := 
-forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) (n_pre: Z) (counts_pre: Z) (values_pre: Z) (weights_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l: (@list Z)) (qidx_l: (@list Z)) (old_l: (@list Z)) (dp_l: (@list Z)) (PreH1 : (pos <= capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= r)) (PreH16 : (r < w)) (PreH17 : (r <= capacity_pre)) (PreH18 : (w = (Znth i weights_l 0))) (PreH19 : (v = (Znth i values_l 0))) (PreH20 : (cnt = (Znth i counts_l 0))) (PreH21 : (1 <= w)) (PreH22 : (w <= (capacity_pre + 1 ))) (PreH23 : (0 <= v)) (PreH24 : (v <= 1000)) (PreH25 : (0 <= cnt)) (PreH26 : (cnt <= capacity_pre)) (PreH27 : (pos = (r + (k * w ) ))) (PreH28 : (0 <= k)) (PreH29 : (k <= (capacity_pre + 1 ))) (PreH30 : (0 <= pos)) (PreH31 : (pos <= (capacity_pre + w ))) (PreH32 : (0 <= head)) (PreH33 : (head <= tail)) (PreH34 : (tail <= k)) (PreH35 : (tail <= (capacity_pre + 1 ))) (PreH36 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l )) (PreH37 : (MKDPValueBound old_l capacity_pre )) (PreH38 : (MKTransitionValueBound old_l w v cnt capacity_pre )) (PreH39 : (MKItemResiduePrefixProgress old_l dp_l r w v cnt k capacity_pre )) (PreH40 : (MKResidueLoopState old_l dp_l qidx_l qval_l r w v cnt k head tail capacity_pre )) (PreH41 : forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre)))) ,
-  (IntArray.full old_pre (capacity_pre + 1 ) old_l )
-  **  ((( &( "current" ) )) # Int  |->_)
-  **  ((( &( "weights" ) )) # Ptr  |-> weights_pre)
-  **  ((( &( "values" ) )) # Ptr  |-> values_pre)
-  **  ((( &( "counts" ) )) # Ptr  |-> counts_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "capacity" ) )) # Int  |-> capacity_pre)
-  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
-  **  ((( &( "old" ) )) # Ptr  |-> old_pre)
-  **  ((( &( "q_idx" ) )) # Ptr  |-> q_idx_pre)
-  **  ((( &( "q_val" ) )) # Ptr  |-> q_val_pre)
-  **  ((( &( "i" ) )) # Int  |-> i)
-  **  ((( &( "r" ) )) # Int  |-> r)
-  **  ((( &( "w" ) )) # Int  |-> w)
-  **  ((( &( "v" ) )) # Int  |-> v)
-  **  ((( &( "cnt" ) )) # Int  |-> cnt)
-  **  ((( &( "pos" ) )) # Int  |-> pos)
-  **  ((( &( "k" ) )) # Int  |-> k)
-  **  ((( &( "head" ) )) # Int  |-> head)
-  **  ((( &( "tail" ) )) # Int  |-> tail)
-  **  (IntArray.full weights_pre n_pre weights_l )
-  **  (IntArray.full values_pre n_pre values_l )
-  **  (IntArray.full counts_pre n_pre counts_l )
-  **  (IntArray.full dp_pre (capacity_pre + 1 ) dp_l )
-  **  (IntArray.full q_idx_pre (capacity_pre + 1 ) qidx_l )
-  **  (IntArray.full q_val_pre (capacity_pre + 1 ) qval_l )
-|--
-  “ ((k * v ) <= INT_MAX) ”
-.
-
-Definition multipleKnapsack_safety_wit_13_split_goal_2 := 
-forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) (n_pre: Z) (counts_pre: Z) (values_pre: Z) (weights_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l: (@list Z)) (qidx_l: (@list Z)) (old_l: (@list Z)) (dp_l: (@list Z)) (PreH1 : (pos <= capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= r)) (PreH16 : (r < w)) (PreH17 : (r <= capacity_pre)) (PreH18 : (w = (Znth i weights_l 0))) (PreH19 : (v = (Znth i values_l 0))) (PreH20 : (cnt = (Znth i counts_l 0))) (PreH21 : (1 <= w)) (PreH22 : (w <= (capacity_pre + 1 ))) (PreH23 : (0 <= v)) (PreH24 : (v <= 1000)) (PreH25 : (0 <= cnt)) (PreH26 : (cnt <= capacity_pre)) (PreH27 : (pos = (r + (k * w ) ))) (PreH28 : (0 <= k)) (PreH29 : (k <= (capacity_pre + 1 ))) (PreH30 : (0 <= pos)) (PreH31 : (pos <= (capacity_pre + w ))) (PreH32 : (0 <= head)) (PreH33 : (head <= tail)) (PreH34 : (tail <= k)) (PreH35 : (tail <= (capacity_pre + 1 ))) (PreH36 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l )) (PreH37 : (MKDPValueBound old_l capacity_pre )) (PreH38 : (MKTransitionValueBound old_l w v cnt capacity_pre )) (PreH39 : (MKItemResiduePrefixProgress old_l dp_l r w v cnt k capacity_pre )) (PreH40 : (MKResidueLoopState old_l dp_l qidx_l qval_l r w v cnt k head tail capacity_pre )) (PreH41 : forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre)))) ,
-  (IntArray.full old_pre (capacity_pre + 1 ) old_l )
-  **  ((( &( "current" ) )) # Int  |->_)
-  **  ((( &( "weights" ) )) # Ptr  |-> weights_pre)
-  **  ((( &( "values" ) )) # Ptr  |-> values_pre)
-  **  ((( &( "counts" ) )) # Ptr  |-> counts_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "capacity" ) )) # Int  |-> capacity_pre)
-  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
-  **  ((( &( "old" ) )) # Ptr  |-> old_pre)
-  **  ((( &( "q_idx" ) )) # Ptr  |-> q_idx_pre)
-  **  ((( &( "q_val" ) )) # Ptr  |-> q_val_pre)
-  **  ((( &( "i" ) )) # Int  |-> i)
-  **  ((( &( "r" ) )) # Int  |-> r)
-  **  ((( &( "w" ) )) # Int  |-> w)
-  **  ((( &( "v" ) )) # Int  |-> v)
-  **  ((( &( "cnt" ) )) # Int  |-> cnt)
-  **  ((( &( "pos" ) )) # Int  |-> pos)
-  **  ((( &( "k" ) )) # Int  |-> k)
-  **  ((( &( "head" ) )) # Int  |-> head)
-  **  ((( &( "tail" ) )) # Int  |-> tail)
-  **  (IntArray.full weights_pre n_pre weights_l )
-  **  (IntArray.full values_pre n_pre values_l )
-  **  (IntArray.full counts_pre n_pre counts_l )
-  **  (IntArray.full dp_pre (capacity_pre + 1 ) dp_l )
-  **  (IntArray.full q_idx_pre (capacity_pre + 1 ) qidx_l )
-  **  (IntArray.full q_val_pre (capacity_pre + 1 ) qval_l )
-|--
-  “ ((INT_MIN) <= (k * v )) ”
 .
 
 Definition multipleKnapsack_safety_wit_14 := 
@@ -1040,16 +943,12 @@ forall (capacity_pre: Z) (n_pre: Z) (qval0: (@list Z)) (qidx0: (@list Z)) (old0:
 
 Definition multipleKnapsack_entail_wit_1_split_goal_1 := 
 forall (capacity_pre: Z) (n_pre: Z) (qval0: (@list Z)) (qidx0: (@list Z)) (old0: (@list Z)) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= capacity_pre)) (PreH4 : (capacity_pre <= 1000)) (PreH5 : ((Zlength (weights_l)) = n_pre)) (PreH6 : ((Zlength (values_l)) = n_pre)) (PreH7 : ((Zlength (counts_l)) = n_pre)) (PreH8 : ((Zlength (old0)) = (capacity_pre + 1 ))) (PreH9 : ((Zlength (qidx0)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (qval0)) = (capacity_pre + 1 ))) (PreH11 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKZeroPrefix (@nil Z) 0 ) ”
+  (MKZeroPrefix (@nil Z) 0 )
 .
 
 Definition multipleKnapsack_entail_wit_1_split_goal_2 := 
 forall (capacity_pre: Z) (n_pre: Z) (qval0: (@list Z)) (qidx0: (@list Z)) (old0: (@list Z)) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= capacity_pre)) (PreH4 : (capacity_pre <= 1000)) (PreH5 : ((Zlength (weights_l)) = n_pre)) (PreH6 : ((Zlength (values_l)) = n_pre)) (PreH7 : ((Zlength (counts_l)) = n_pre)) (PreH8 : ((Zlength (old0)) = (capacity_pre + 1 ))) (PreH9 : ((Zlength (qidx0)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (qval0)) = (capacity_pre + 1 ))) (PreH11 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((@nil Z))) = 0) ”
+  ((Zlength ((@nil Z))) = 0)
 .
 
 Definition multipleKnapsack_entail_wit_2 := 
@@ -1097,16 +996,12 @@ forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) 
 
 Definition multipleKnapsack_entail_wit_2_split_goal_1 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (j: Z) (dp_l_2: (@list Z)) (PreH1 : (j <= capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = j)) (PreH10 : (0 <= j)) (PreH11 : (j <= (capacity_pre + 1 ))) (PreH12 : (MKZeroPrefix dp_l_2 j )) (PreH13 : forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKZeroPrefix (app (dp_l_2) ((cons (0) ((@nil Z))))) (j + 1 ) ) ”
+  (MKZeroPrefix (app (dp_l_2) ((cons (0) ((@nil Z))))) (j + 1 ) )
 .
 
 Definition multipleKnapsack_entail_wit_2_split_goal_2 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (j: Z) (dp_l_2: (@list Z)) (PreH1 : (j <= capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = j)) (PreH10 : (0 <= j)) (PreH11 : (j <= (capacity_pre + 1 ))) (PreH12 : (MKZeroPrefix dp_l_2 j )) (PreH13 : forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((app (dp_l_2) ((cons (0) ((@nil Z))))))) = (j + 1 )) ”
+  ((Zlength ((app (dp_l_2) ((cons (0) ((@nil Z))))))) = (j + 1 ))
 .
 
 Definition multipleKnapsack_entail_wit_3 := 
@@ -1142,23 +1037,29 @@ forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) 
   **  (IntArray.full q_val_pre (capacity_pre + 1 ) qval0 )
 ) \/
 (
-forall (dp_pre: Z) (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (j: Z) (dp_l_2: (@list Z)) (PreH1 : (j > capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = j)) (PreH10 : (0 <= j)) (PreH11 : (j <= (capacity_pre + 1 ))) (PreH12 : (MKZeroPrefix dp_l_2 j )) (PreH13 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  (IntArray.seg dp_pre 0 j dp_l_2 )
+forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (j: Z) (dp_l_2: (@list Z)) (PreH1 : (j > capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = j)) (PreH10 : (0 <= j)) (PreH11 : (j <= (capacity_pre + 1 ))) (PreH12 : (MKZeroPrefix dp_l_2 j )) (PreH13 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
+  TT && emp 
 |--
-  EX (dp_l: (@list Z)) ,
-  “ (0 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ (0 <= capacity_pre) ” 
-  &&  “ (capacity_pre <= 1000) ” 
-  &&  “ ((Zlength (weights_l)) = n_pre) ” 
-  &&  “ ((Zlength (values_l)) = n_pre) ” 
-  &&  “ ((Zlength (counts_l)) = n_pre) ” 
-  &&  “ ((Zlength (dp_l)) = (capacity_pre + 1 )) ” 
-  &&  “ (MKZeroPrefix dp_l (capacity_pre + 1 ) ) ” 
-  &&  “ (MKDPTable weights_l values_l counts_l 0 capacity_pre dp_l ) ” 
-  &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre))) ”
-  &&  (IntArray.full dp_pre (capacity_pre + 1 ) dp_l )
+  “ (MKDPTable weights_l values_l counts_l 0 capacity_pre dp_l_2 ) ” 
+  &&  “ (MKZeroPrefix dp_l_2 (capacity_pre + 1 ) ) ” 
+  &&  “ ((Zlength (dp_l_2)) = (capacity_pre + 1 )) ”
+  &&  emp
 ).
+
+Definition multipleKnapsack_entail_wit_3_split_goal_1 := 
+forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (j: Z) (dp_l_2: (@list Z)) (PreH1 : (j > capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = j)) (PreH10 : (0 <= j)) (PreH11 : (j <= (capacity_pre + 1 ))) (PreH12 : (MKZeroPrefix dp_l_2 j )) (PreH13 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
+  (MKDPTable weights_l values_l counts_l 0 capacity_pre dp_l_2 )
+.
+
+Definition multipleKnapsack_entail_wit_3_split_goal_2 := 
+forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (j: Z) (dp_l_2: (@list Z)) (PreH1 : (j > capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = j)) (PreH10 : (0 <= j)) (PreH11 : (j <= (capacity_pre + 1 ))) (PreH12 : (MKZeroPrefix dp_l_2 j )) (PreH13 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
+  (MKZeroPrefix dp_l_2 (capacity_pre + 1 ) )
+.
+
+Definition multipleKnapsack_entail_wit_3_split_goal_3 := 
+forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (j: Z) (dp_l_2: (@list Z)) (PreH1 : (j > capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = j)) (PreH10 : (0 <= j)) (PreH11 : (j <= (capacity_pre + 1 ))) (PreH12 : (MKZeroPrefix dp_l_2 j )) (PreH13 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
+  ((Zlength (dp_l_2)) = (capacity_pre + 1 ))
+.
 
 Definition multipleKnapsack_entail_wit_4 := 
 (
@@ -1207,23 +1108,17 @@ forall (capacity_pre: Z) (n_pre: Z) (qval0: (@list Z)) (qidx0: (@list Z)) (old0:
 
 Definition multipleKnapsack_entail_wit_4_split_goal_1 := 
 forall (capacity_pre: Z) (n_pre: Z) (qval0: (@list Z)) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= capacity_pre)) (PreH4 : (capacity_pre <= 1000)) (PreH5 : ((Zlength (weights_l)) = n_pre)) (PreH6 : ((Zlength (values_l)) = n_pre)) (PreH7 : ((Zlength (counts_l)) = n_pre)) (PreH8 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH9 : (MKZeroPrefix dp_l_2 (capacity_pre + 1 ) )) (PreH10 : (MKDPTable weights_l values_l counts_l 0 capacity_pre dp_l_2 )) (PreH11 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ ((Zlength (qval0)) = (capacity_pre + 1 )) ”
+  ((Zlength (qval0)) = (capacity_pre + 1 ))
 .
 
 Definition multipleKnapsack_entail_wit_4_split_goal_2 := 
 forall (capacity_pre: Z) (n_pre: Z) (qidx0: (@list Z)) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= capacity_pre)) (PreH4 : (capacity_pre <= 1000)) (PreH5 : ((Zlength (weights_l)) = n_pre)) (PreH6 : ((Zlength (values_l)) = n_pre)) (PreH7 : ((Zlength (counts_l)) = n_pre)) (PreH8 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH9 : (MKZeroPrefix dp_l_2 (capacity_pre + 1 ) )) (PreH10 : (MKDPTable weights_l values_l counts_l 0 capacity_pre dp_l_2 )) (PreH11 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ ((Zlength (qidx0)) = (capacity_pre + 1 )) ”
+  ((Zlength (qidx0)) = (capacity_pre + 1 ))
 .
 
 Definition multipleKnapsack_entail_wit_4_split_goal_3 := 
 forall (capacity_pre: Z) (n_pre: Z) (old0: (@list Z)) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= capacity_pre)) (PreH4 : (capacity_pre <= 1000)) (PreH5 : ((Zlength (weights_l)) = n_pre)) (PreH6 : ((Zlength (values_l)) = n_pre)) (PreH7 : ((Zlength (counts_l)) = n_pre)) (PreH8 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH9 : (MKZeroPrefix dp_l_2 (capacity_pre + 1 ) )) (PreH10 : (MKDPTable weights_l values_l counts_l 0 capacity_pre dp_l_2 )) (PreH11 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ ((Zlength (old0)) = (capacity_pre + 1 )) ”
+  ((Zlength (old0)) = (capacity_pre + 1 ))
 .
 
 Definition multipleKnapsack_entail_wit_5 := 
@@ -1274,9 +1169,7 @@ forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) 
 
 Definition multipleKnapsack_entail_wit_5_split_goal_1 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (i < n_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i <= n_pre)) (PreH15 : (MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2 )) (PreH16 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKCopyPrefix dp_l_2 old_l_2 0 capacity_pre ) ”
+  (MKCopyPrefix dp_l_2 old_l_2 0 capacity_pre )
 .
 
 Definition multipleKnapsack_entail_wit_6 := 
@@ -1328,16 +1221,12 @@ forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) 
 
 Definition multipleKnapsack_entail_wit_6_split_goal_1 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (j: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (j <= capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= j)) (PreH16 : (j <= (capacity_pre + 1 ))) (PreH17 : (MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2 )) (PreH18 : (MKCopyPrefix dp_l_2 old_l_2 j capacity_pre )) (PreH19 : forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKCopyPrefix dp_l_2 (replace_Znth (j) ((Znth j dp_l_2 0)) (old_l_2)) (j + 1 ) capacity_pre ) ”
+  (MKCopyPrefix dp_l_2 (replace_Znth (j) ((Znth j dp_l_2 0)) (old_l_2)) (j + 1 ) capacity_pre )
 .
 
 Definition multipleKnapsack_entail_wit_6_split_goal_2 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (j: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (j <= capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= j)) (PreH16 : (j <= (capacity_pre + 1 ))) (PreH17 : (MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2 )) (PreH18 : (MKCopyPrefix dp_l_2 old_l_2 j capacity_pre )) (PreH19 : forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((replace_Znth (j) ((Znth j dp_l_2 0)) (old_l_2)))) = (capacity_pre + 1 )) ”
+  ((Zlength ((replace_Znth (j) ((Znth j dp_l_2 0)) (old_l_2)))) = (capacity_pre + 1 ))
 .
 
 Definition multipleKnapsack_entail_wit_7 := 
@@ -1407,72 +1296,52 @@ forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) 
 
 Definition multipleKnapsack_entail_wit_7_split_goal_1 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (j: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (j > capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= j)) (PreH16 : (j <= (capacity_pre + 1 ))) (PreH17 : (MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2 )) (PreH18 : (MKCopyPrefix dp_l_2 old_l_2 j capacity_pre )) (PreH19 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKItemResidueProgress old_l_2 dp_l_2 0 (Znth i weights_l 0) (Znth i values_l 0) (Znth i counts_l 0) capacity_pre ) ”
+  (MKItemResidueProgress old_l_2 dp_l_2 0 (Znth i weights_l 0) (Znth i values_l 0) (Znth i counts_l 0) capacity_pre )
 .
 
 Definition multipleKnapsack_entail_wit_7_split_goal_2 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (j: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (j > capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= j)) (PreH16 : (j <= (capacity_pre + 1 ))) (PreH17 : (MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2 )) (PreH18 : (MKCopyPrefix dp_l_2 old_l_2 j capacity_pre )) (PreH19 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKCopyPrefix dp_l_2 old_l_2 (capacity_pre + 1 ) capacity_pre ) ”
+  (MKCopyPrefix dp_l_2 old_l_2 (capacity_pre + 1 ) capacity_pre )
 .
 
 Definition multipleKnapsack_entail_wit_7_split_goal_3 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (j: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (j > capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= j)) (PreH16 : (j <= (capacity_pre + 1 ))) (PreH17 : (MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2 )) (PreH18 : (MKCopyPrefix dp_l_2 old_l_2 j capacity_pre )) (PreH19 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKTransitionValueBound old_l_2 (Znth i weights_l 0) (Znth i values_l 0) (Znth i counts_l 0) capacity_pre ) ”
+  (MKTransitionValueBound old_l_2 (Znth i weights_l 0) (Znth i values_l 0) (Znth i counts_l 0) capacity_pre )
 .
 
 Definition multipleKnapsack_entail_wit_7_split_goal_4 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (j: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (j > capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= j)) (PreH16 : (j <= (capacity_pre + 1 ))) (PreH17 : (MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2 )) (PreH18 : (MKCopyPrefix dp_l_2 old_l_2 j capacity_pre )) (PreH19 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKDPValueBound old_l_2 capacity_pre ) ”
+  (MKDPValueBound old_l_2 capacity_pre )
 .
 
 Definition multipleKnapsack_entail_wit_7_split_goal_5 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (j: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (j > capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= j)) (PreH16 : (j <= (capacity_pre + 1 ))) (PreH17 : (MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2 )) (PreH18 : (MKCopyPrefix dp_l_2 old_l_2 j capacity_pre )) (PreH19 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ ((Znth i counts_l 0) <= capacity_pre) ”
+  ((Znth i counts_l 0) <= capacity_pre)
 .
 
 Definition multipleKnapsack_entail_wit_7_split_goal_6 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (j: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (j > capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= j)) (PreH16 : (j <= (capacity_pre + 1 ))) (PreH17 : (MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2 )) (PreH18 : (MKCopyPrefix dp_l_2 old_l_2 j capacity_pre )) (PreH19 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (0 <= (Znth i counts_l 0)) ”
+  (0 <= (Znth i counts_l 0))
 .
 
 Definition multipleKnapsack_entail_wit_7_split_goal_7 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (j: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (j > capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= j)) (PreH16 : (j <= (capacity_pre + 1 ))) (PreH17 : (MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2 )) (PreH18 : (MKCopyPrefix dp_l_2 old_l_2 j capacity_pre )) (PreH19 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ ((Znth i values_l 0) <= 1000) ”
+  ((Znth i values_l 0) <= 1000)
 .
 
 Definition multipleKnapsack_entail_wit_7_split_goal_8 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (j: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (j > capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= j)) (PreH16 : (j <= (capacity_pre + 1 ))) (PreH17 : (MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2 )) (PreH18 : (MKCopyPrefix dp_l_2 old_l_2 j capacity_pre )) (PreH19 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (0 <= (Znth i values_l 0)) ”
+  (0 <= (Znth i values_l 0))
 .
 
 Definition multipleKnapsack_entail_wit_7_split_goal_9 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (j: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (j > capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= j)) (PreH16 : (j <= (capacity_pre + 1 ))) (PreH17 : (MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2 )) (PreH18 : (MKCopyPrefix dp_l_2 old_l_2 j capacity_pre )) (PreH19 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ ((Znth i weights_l 0) <= (capacity_pre + 1 )) ”
+  ((Znth i weights_l 0) <= (capacity_pre + 1 ))
 .
 
 Definition multipleKnapsack_entail_wit_7_split_goal_10 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (j: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (j > capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= j)) (PreH16 : (j <= (capacity_pre + 1 ))) (PreH17 : (MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2 )) (PreH18 : (MKCopyPrefix dp_l_2 old_l_2 j capacity_pre )) (PreH19 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (1 <= (Znth i weights_l 0)) ”
+  (1 <= (Znth i weights_l 0))
 .
 
 Definition multipleKnapsack_entail_wit_8 := 
@@ -1535,9 +1404,7 @@ forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) 
 
 Definition multipleKnapsack_entail_wit_8_split_goal_1 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (dp_l_2: (@list Z)) (old_l_2: (@list Z)) (qidx_l_2: (@list Z)) (qval_l_2: (@list Z)) (i: Z) (w: Z) (v: Z) (cnt: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= capacity_pre)) (PreH4 : (capacity_pre <= 1000)) (PreH5 : ((Zlength (weights_l)) = n_pre)) (PreH6 : ((Zlength (values_l)) = n_pre)) (PreH7 : ((Zlength (counts_l)) = n_pre)) (PreH8 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH9 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH12 : (0 <= i)) (PreH13 : (i < n_pre)) (PreH14 : (w = (Znth i weights_l 0))) (PreH15 : (v = (Znth i values_l 0))) (PreH16 : (cnt = (Znth i counts_l 0))) (PreH17 : (1 <= w)) (PreH18 : (w <= (capacity_pre + 1 ))) (PreH19 : (0 <= v)) (PreH20 : (v <= 1000)) (PreH21 : (0 <= cnt)) (PreH22 : (cnt <= capacity_pre)) (PreH23 : (MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2 )) (PreH24 : (MKDPValueBound old_l_2 capacity_pre )) (PreH25 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH26 : (MKCopyPrefix dp_l_2 old_l_2 (capacity_pre + 1 ) capacity_pre )) (PreH27 : (MKItemResidueProgress old_l_2 dp_l_2 0 w v cnt capacity_pre )) (PreH28 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 ) ”
+  (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )
 .
 
 Definition multipleKnapsack_entail_wit_9 := 
@@ -1611,16 +1478,12 @@ forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) 
 
 Definition multipleKnapsack_entail_wit_9_split_goal_1 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (r: Z) (cnt: Z) (v: Z) (w: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (r <= capacity_pre)) (PreH2 : (r < w)) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (0 <= capacity_pre)) (PreH6 : (capacity_pre <= 1000)) (PreH7 : ((Zlength (weights_l)) = n_pre)) (PreH8 : ((Zlength (values_l)) = n_pre)) (PreH9 : ((Zlength (counts_l)) = n_pre)) (PreH10 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH13 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH14 : (0 <= i)) (PreH15 : (i < n_pre)) (PreH16 : (w = (Znth i weights_l 0))) (PreH17 : (v = (Znth i values_l 0))) (PreH18 : (cnt = (Znth i counts_l 0))) (PreH19 : (1 <= w)) (PreH20 : (w <= (capacity_pre + 1 ))) (PreH21 : (0 <= v)) (PreH22 : (v <= 1000)) (PreH23 : (0 <= cnt)) (PreH24 : (cnt <= capacity_pre)) (PreH25 : (0 <= r)) (PreH26 : (r <= w)) (PreH27 : (r <= (capacity_pre + 1 ))) (PreH28 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH29 : (MKDPValueBound old_l_2 capacity_pre )) (PreH30 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH31 : (MKItemResidueProgress old_l_2 dp_l_2 r w v cnt capacity_pre )) (PreH32 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKResidueLoopState old_l_2 dp_l_2 qidx_l_2 qval_l_2 r w v cnt 0 0 0 capacity_pre ) ”
+  (MKResidueLoopState old_l_2 dp_l_2 qidx_l_2 qval_l_2 r w v cnt 0 0 0 capacity_pre )
 .
 
 Definition multipleKnapsack_entail_wit_9_split_goal_2 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (r: Z) (cnt: Z) (v: Z) (w: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (r <= capacity_pre)) (PreH2 : (r < w)) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (0 <= capacity_pre)) (PreH6 : (capacity_pre <= 1000)) (PreH7 : ((Zlength (weights_l)) = n_pre)) (PreH8 : ((Zlength (values_l)) = n_pre)) (PreH9 : ((Zlength (counts_l)) = n_pre)) (PreH10 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH13 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH14 : (0 <= i)) (PreH15 : (i < n_pre)) (PreH16 : (w = (Znth i weights_l 0))) (PreH17 : (v = (Znth i values_l 0))) (PreH18 : (cnt = (Znth i counts_l 0))) (PreH19 : (1 <= w)) (PreH20 : (w <= (capacity_pre + 1 ))) (PreH21 : (0 <= v)) (PreH22 : (v <= 1000)) (PreH23 : (0 <= cnt)) (PreH24 : (cnt <= capacity_pre)) (PreH25 : (0 <= r)) (PreH26 : (r <= w)) (PreH27 : (r <= (capacity_pre + 1 ))) (PreH28 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH29 : (MKDPValueBound old_l_2 capacity_pre )) (PreH30 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH31 : (MKItemResidueProgress old_l_2 dp_l_2 r w v cnt capacity_pre )) (PreH32 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt 0 capacity_pre ) ”
+  (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt 0 capacity_pre )
 .
 
 Definition multipleKnapsack_entail_wit_10 := 
@@ -1696,51 +1559,33 @@ forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) 
   &&  “ ((((Znth pos old_l 0) - (k * v ) ) + (k * v ) ) <= 1000000) ” 
   &&  “ (0 <= (((Znth pos old_l 0) - (k * v ) ) + (k * v ) )) ” 
   &&  “ (((Znth pos old_l 0) - (k * v ) ) <= 1000000) ” 
-  &&  “ ((-1000000) <= ((Znth pos old_l 0) - (k * v ) )) ” 
-  &&  “ (k <= capacity_pre) ”
+  &&  “ ((-1000000) <= ((Znth pos old_l 0) - (k * v ) )) ”
   &&  emp
 ).
 
 Definition multipleKnapsack_entail_wit_10_split_goal_1 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (pos <= capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= r)) (PreH16 : (r < w)) (PreH17 : (r <= capacity_pre)) (PreH18 : (w = (Znth i weights_l 0))) (PreH19 : (v = (Znth i values_l 0))) (PreH20 : (cnt = (Znth i counts_l 0))) (PreH21 : (1 <= w)) (PreH22 : (w <= (capacity_pre + 1 ))) (PreH23 : (0 <= v)) (PreH24 : (v <= 1000)) (PreH25 : (0 <= cnt)) (PreH26 : (cnt <= capacity_pre)) (PreH27 : (pos = (r + (k * w ) ))) (PreH28 : (0 <= k)) (PreH29 : (k <= (capacity_pre + 1 ))) (PreH30 : (0 <= pos)) (PreH31 : (pos <= (capacity_pre + w ))) (PreH32 : (0 <= head)) (PreH33 : (head <= tail)) (PreH34 : (tail <= k)) (PreH35 : (tail <= (capacity_pre + 1 ))) (PreH36 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l )) (PreH37 : (MKDPValueBound old_l capacity_pre )) (PreH38 : (MKTransitionValueBound old_l w v cnt capacity_pre )) (PreH39 : (MKItemResiduePrefixProgress old_l dp_l_2 r w v cnt k capacity_pre )) (PreH40 : (MKResidueLoopState old_l dp_l_2 qidx_l_2 qval_l_2 r w v cnt k head tail capacity_pre )) (PreH41 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKQueueDropLoopState old_l qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre ) ”
+  (MKQueueDropLoopState old_l qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre )
 .
 
 Definition multipleKnapsack_entail_wit_10_split_goal_2 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (pos <= capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= r)) (PreH16 : (r < w)) (PreH17 : (r <= capacity_pre)) (PreH18 : (w = (Znth i weights_l 0))) (PreH19 : (v = (Znth i values_l 0))) (PreH20 : (cnt = (Znth i counts_l 0))) (PreH21 : (1 <= w)) (PreH22 : (w <= (capacity_pre + 1 ))) (PreH23 : (0 <= v)) (PreH24 : (v <= 1000)) (PreH25 : (0 <= cnt)) (PreH26 : (cnt <= capacity_pre)) (PreH27 : (pos = (r + (k * w ) ))) (PreH28 : (0 <= k)) (PreH29 : (k <= (capacity_pre + 1 ))) (PreH30 : (0 <= pos)) (PreH31 : (pos <= (capacity_pre + w ))) (PreH32 : (0 <= head)) (PreH33 : (head <= tail)) (PreH34 : (tail <= k)) (PreH35 : (tail <= (capacity_pre + 1 ))) (PreH36 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l )) (PreH37 : (MKDPValueBound old_l capacity_pre )) (PreH38 : (MKTransitionValueBound old_l w v cnt capacity_pre )) (PreH39 : (MKItemResiduePrefixProgress old_l dp_l_2 r w v cnt k capacity_pre )) (PreH40 : (MKResidueLoopState old_l dp_l_2 qidx_l_2 qval_l_2 r w v cnt k head tail capacity_pre )) (PreH41 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ ((((Znth pos old_l 0) - (k * v ) ) + (k * v ) ) <= 1000000) ”
+  ((((Znth pos old_l 0) - (k * v ) ) + (k * v ) ) <= 1000000)
 .
 
 Definition multipleKnapsack_entail_wit_10_split_goal_3 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (pos <= capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= r)) (PreH16 : (r < w)) (PreH17 : (r <= capacity_pre)) (PreH18 : (w = (Znth i weights_l 0))) (PreH19 : (v = (Znth i values_l 0))) (PreH20 : (cnt = (Znth i counts_l 0))) (PreH21 : (1 <= w)) (PreH22 : (w <= (capacity_pre + 1 ))) (PreH23 : (0 <= v)) (PreH24 : (v <= 1000)) (PreH25 : (0 <= cnt)) (PreH26 : (cnt <= capacity_pre)) (PreH27 : (pos = (r + (k * w ) ))) (PreH28 : (0 <= k)) (PreH29 : (k <= (capacity_pre + 1 ))) (PreH30 : (0 <= pos)) (PreH31 : (pos <= (capacity_pre + w ))) (PreH32 : (0 <= head)) (PreH33 : (head <= tail)) (PreH34 : (tail <= k)) (PreH35 : (tail <= (capacity_pre + 1 ))) (PreH36 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l )) (PreH37 : (MKDPValueBound old_l capacity_pre )) (PreH38 : (MKTransitionValueBound old_l w v cnt capacity_pre )) (PreH39 : (MKItemResiduePrefixProgress old_l dp_l_2 r w v cnt k capacity_pre )) (PreH40 : (MKResidueLoopState old_l dp_l_2 qidx_l_2 qval_l_2 r w v cnt k head tail capacity_pre )) (PreH41 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (0 <= (((Znth pos old_l 0) - (k * v ) ) + (k * v ) )) ”
+  (0 <= (((Znth pos old_l 0) - (k * v ) ) + (k * v ) ))
 .
 
 Definition multipleKnapsack_entail_wit_10_split_goal_4 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (pos <= capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= r)) (PreH16 : (r < w)) (PreH17 : (r <= capacity_pre)) (PreH18 : (w = (Znth i weights_l 0))) (PreH19 : (v = (Znth i values_l 0))) (PreH20 : (cnt = (Znth i counts_l 0))) (PreH21 : (1 <= w)) (PreH22 : (w <= (capacity_pre + 1 ))) (PreH23 : (0 <= v)) (PreH24 : (v <= 1000)) (PreH25 : (0 <= cnt)) (PreH26 : (cnt <= capacity_pre)) (PreH27 : (pos = (r + (k * w ) ))) (PreH28 : (0 <= k)) (PreH29 : (k <= (capacity_pre + 1 ))) (PreH30 : (0 <= pos)) (PreH31 : (pos <= (capacity_pre + w ))) (PreH32 : (0 <= head)) (PreH33 : (head <= tail)) (PreH34 : (tail <= k)) (PreH35 : (tail <= (capacity_pre + 1 ))) (PreH36 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l )) (PreH37 : (MKDPValueBound old_l capacity_pre )) (PreH38 : (MKTransitionValueBound old_l w v cnt capacity_pre )) (PreH39 : (MKItemResiduePrefixProgress old_l dp_l_2 r w v cnt k capacity_pre )) (PreH40 : (MKResidueLoopState old_l dp_l_2 qidx_l_2 qval_l_2 r w v cnt k head tail capacity_pre )) (PreH41 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (((Znth pos old_l 0) - (k * v ) ) <= 1000000) ”
+  (((Znth pos old_l 0) - (k * v ) ) <= 1000000)
 .
 
 Definition multipleKnapsack_entail_wit_10_split_goal_5 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (pos <= capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= r)) (PreH16 : (r < w)) (PreH17 : (r <= capacity_pre)) (PreH18 : (w = (Znth i weights_l 0))) (PreH19 : (v = (Znth i values_l 0))) (PreH20 : (cnt = (Znth i counts_l 0))) (PreH21 : (1 <= w)) (PreH22 : (w <= (capacity_pre + 1 ))) (PreH23 : (0 <= v)) (PreH24 : (v <= 1000)) (PreH25 : (0 <= cnt)) (PreH26 : (cnt <= capacity_pre)) (PreH27 : (pos = (r + (k * w ) ))) (PreH28 : (0 <= k)) (PreH29 : (k <= (capacity_pre + 1 ))) (PreH30 : (0 <= pos)) (PreH31 : (pos <= (capacity_pre + w ))) (PreH32 : (0 <= head)) (PreH33 : (head <= tail)) (PreH34 : (tail <= k)) (PreH35 : (tail <= (capacity_pre + 1 ))) (PreH36 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l )) (PreH37 : (MKDPValueBound old_l capacity_pre )) (PreH38 : (MKTransitionValueBound old_l w v cnt capacity_pre )) (PreH39 : (MKItemResiduePrefixProgress old_l dp_l_2 r w v cnt k capacity_pre )) (PreH40 : (MKResidueLoopState old_l dp_l_2 qidx_l_2 qval_l_2 r w v cnt k head tail capacity_pre )) (PreH41 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ ((-1000000) <= ((Znth pos old_l 0) - (k * v ) )) ”
-.
-
-Definition multipleKnapsack_entail_wit_10_split_goal_6 := 
-forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (pos <= capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= r)) (PreH16 : (r < w)) (PreH17 : (r <= capacity_pre)) (PreH18 : (w = (Znth i weights_l 0))) (PreH19 : (v = (Znth i values_l 0))) (PreH20 : (cnt = (Znth i counts_l 0))) (PreH21 : (1 <= w)) (PreH22 : (w <= (capacity_pre + 1 ))) (PreH23 : (0 <= v)) (PreH24 : (v <= 1000)) (PreH25 : (0 <= cnt)) (PreH26 : (cnt <= capacity_pre)) (PreH27 : (pos = (r + (k * w ) ))) (PreH28 : (0 <= k)) (PreH29 : (k <= (capacity_pre + 1 ))) (PreH30 : (0 <= pos)) (PreH31 : (pos <= (capacity_pre + w ))) (PreH32 : (0 <= head)) (PreH33 : (head <= tail)) (PreH34 : (tail <= k)) (PreH35 : (tail <= (capacity_pre + 1 ))) (PreH36 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l )) (PreH37 : (MKDPValueBound old_l capacity_pre )) (PreH38 : (MKTransitionValueBound old_l w v cnt capacity_pre )) (PreH39 : (MKItemResiduePrefixProgress old_l dp_l_2 r w v cnt k capacity_pre )) (PreH40 : (MKResidueLoopState old_l dp_l_2 qidx_l_2 qval_l_2 r w v cnt k head tail capacity_pre )) (PreH41 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (k <= capacity_pre) ”
+  ((-1000000) <= ((Znth pos old_l 0) - (k * v ) ))
 .
 
 Definition multipleKnapsack_entail_wit_11 := 
@@ -1818,9 +1663,7 @@ forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) 
 
 Definition multipleKnapsack_entail_wit_11_split_goal_1 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (current: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : ((Znth head qidx_l_2 0) < (k - cnt ))) (PreH2 : (head < tail)) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (0 <= capacity_pre)) (PreH6 : (capacity_pre <= 1000)) (PreH7 : ((Zlength (weights_l)) = n_pre)) (PreH8 : ((Zlength (values_l)) = n_pre)) (PreH9 : ((Zlength (counts_l)) = n_pre)) (PreH10 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH13 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH14 : (0 <= i)) (PreH15 : (i < n_pre)) (PreH16 : (0 <= r)) (PreH17 : (r < w)) (PreH18 : (r <= capacity_pre)) (PreH19 : (w = (Znth i weights_l 0))) (PreH20 : (v = (Znth i values_l 0))) (PreH21 : (cnt = (Znth i counts_l 0))) (PreH22 : (1 <= w)) (PreH23 : (w <= (capacity_pre + 1 ))) (PreH24 : (0 <= v)) (PreH25 : (v <= 1000)) (PreH26 : (0 <= cnt)) (PreH27 : (cnt <= capacity_pre)) (PreH28 : (pos = (r + (k * w ) ))) (PreH29 : (0 <= k)) (PreH30 : (k <= capacity_pre)) (PreH31 : (0 <= pos)) (PreH32 : (pos <= capacity_pre)) (PreH33 : (current = ((Znth pos old_l_2 0) - (k * v ) ))) (PreH34 : ((-1000000) <= current)) (PreH35 : (current <= 1000000)) (PreH36 : (0 <= (current + (k * v ) ))) (PreH37 : ((current + (k * v ) ) <= 1000000)) (PreH38 : (0 <= head)) (PreH39 : (head <= tail)) (PreH40 : (tail <= k)) (PreH41 : (tail <= (capacity_pre + 1 ))) (PreH42 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH43 : (MKDPValueBound old_l_2 capacity_pre )) (PreH44 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH45 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH46 : (MKQueueDropLoopState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre )) (PreH47 : forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKQueueDropLoopState old_l_2 qidx_l_2 qval_l_2 (head + 1 ) tail r w v cnt k capacity_pre ) ”
+  (MKQueueDropLoopState old_l_2 qidx_l_2 qval_l_2 (head + 1 ) tail r w v cnt k capacity_pre )
 .
 
 Definition multipleKnapsack_entail_wit_12_1 := 
@@ -1899,9 +1742,7 @@ forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) 
 
 Definition multipleKnapsack_entail_wit_12_1_split_goal_1 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (current: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : ((Znth head qidx_l_2 0) >= (k - cnt ))) (PreH2 : (head < tail)) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (0 <= capacity_pre)) (PreH6 : (capacity_pre <= 1000)) (PreH7 : ((Zlength (weights_l)) = n_pre)) (PreH8 : ((Zlength (values_l)) = n_pre)) (PreH9 : ((Zlength (counts_l)) = n_pre)) (PreH10 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH13 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH14 : (0 <= i)) (PreH15 : (i < n_pre)) (PreH16 : (0 <= r)) (PreH17 : (r < w)) (PreH18 : (r <= capacity_pre)) (PreH19 : (w = (Znth i weights_l 0))) (PreH20 : (v = (Znth i values_l 0))) (PreH21 : (cnt = (Znth i counts_l 0))) (PreH22 : (1 <= w)) (PreH23 : (w <= (capacity_pre + 1 ))) (PreH24 : (0 <= v)) (PreH25 : (v <= 1000)) (PreH26 : (0 <= cnt)) (PreH27 : (cnt <= capacity_pre)) (PreH28 : (pos = (r + (k * w ) ))) (PreH29 : (0 <= k)) (PreH30 : (k <= capacity_pre)) (PreH31 : (0 <= pos)) (PreH32 : (pos <= capacity_pre)) (PreH33 : (current = ((Znth pos old_l_2 0) - (k * v ) ))) (PreH34 : ((-1000000) <= current)) (PreH35 : (current <= 1000000)) (PreH36 : (0 <= (current + (k * v ) ))) (PreH37 : ((current + (k * v ) ) <= 1000000)) (PreH38 : (0 <= head)) (PreH39 : (head <= tail)) (PreH40 : (tail <= k)) (PreH41 : (tail <= (capacity_pre + 1 ))) (PreH42 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH43 : (MKDPValueBound old_l_2 capacity_pre )) (PreH44 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH45 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH46 : (MKQueueDropLoopState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre )) (PreH47 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKQueueAfterDrop old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre ) ”
+  (MKQueueAfterDrop old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre )
 .
 
 Definition multipleKnapsack_entail_wit_12_2 := 
@@ -1980,9 +1821,7 @@ forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) 
 
 Definition multipleKnapsack_entail_wit_12_2_split_goal_1 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (current: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (head >= tail)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= r)) (PreH16 : (r < w)) (PreH17 : (r <= capacity_pre)) (PreH18 : (w = (Znth i weights_l 0))) (PreH19 : (v = (Znth i values_l 0))) (PreH20 : (cnt = (Znth i counts_l 0))) (PreH21 : (1 <= w)) (PreH22 : (w <= (capacity_pre + 1 ))) (PreH23 : (0 <= v)) (PreH24 : (v <= 1000)) (PreH25 : (0 <= cnt)) (PreH26 : (cnt <= capacity_pre)) (PreH27 : (pos = (r + (k * w ) ))) (PreH28 : (0 <= k)) (PreH29 : (k <= capacity_pre)) (PreH30 : (0 <= pos)) (PreH31 : (pos <= capacity_pre)) (PreH32 : (current = ((Znth pos old_l_2 0) - (k * v ) ))) (PreH33 : ((-1000000) <= current)) (PreH34 : (current <= 1000000)) (PreH35 : (0 <= (current + (k * v ) ))) (PreH36 : ((current + (k * v ) ) <= 1000000)) (PreH37 : (0 <= head)) (PreH38 : (head <= tail)) (PreH39 : (tail <= k)) (PreH40 : (tail <= (capacity_pre + 1 ))) (PreH41 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH42 : (MKDPValueBound old_l_2 capacity_pre )) (PreH43 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH44 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH45 : (MKQueueDropLoopState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre )) (PreH46 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKQueueAfterDrop old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre ) ”
+  (MKQueueAfterDrop old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre )
 .
 
 Definition multipleKnapsack_entail_wit_13 := 
@@ -2061,9 +1900,7 @@ forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) 
 
 Definition multipleKnapsack_entail_wit_13_split_goal_1 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (dp_l_2: (@list Z)) (old_l_2: (@list Z)) (qidx_l_2: (@list Z)) (qval_l_2: (@list Z)) (i: Z) (r: Z) (w: Z) (v: Z) (cnt: Z) (pos: Z) (k: Z) (current: Z) (head: Z) (tail: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= capacity_pre)) (PreH4 : (capacity_pre <= 1000)) (PreH5 : ((Zlength (weights_l)) = n_pre)) (PreH6 : ((Zlength (values_l)) = n_pre)) (PreH7 : ((Zlength (counts_l)) = n_pre)) (PreH8 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH9 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH12 : (0 <= i)) (PreH13 : (i < n_pre)) (PreH14 : (0 <= r)) (PreH15 : (r < w)) (PreH16 : (r <= capacity_pre)) (PreH17 : (w = (Znth i weights_l 0))) (PreH18 : (v = (Znth i values_l 0))) (PreH19 : (cnt = (Znth i counts_l 0))) (PreH20 : (1 <= w)) (PreH21 : (w <= (capacity_pre + 1 ))) (PreH22 : (0 <= v)) (PreH23 : (v <= 1000)) (PreH24 : (0 <= cnt)) (PreH25 : (cnt <= capacity_pre)) (PreH26 : (pos = (r + (k * w ) ))) (PreH27 : (0 <= k)) (PreH28 : (k <= capacity_pre)) (PreH29 : (0 <= pos)) (PreH30 : (pos <= capacity_pre)) (PreH31 : (current = ((Znth pos old_l_2 0) - (k * v ) ))) (PreH32 : ((-1000000) <= current)) (PreH33 : (current <= 1000000)) (PreH34 : (0 <= (current + (k * v ) ))) (PreH35 : ((current + (k * v ) ) <= 1000000)) (PreH36 : (0 <= head)) (PreH37 : (head <= tail)) (PreH38 : (tail <= k)) (PreH39 : (tail <= (capacity_pre + 1 ))) (PreH40 : ((head < tail) -> ((0 <= (tail - 1 )) /\ ((tail - 1 ) < (capacity_pre + 1 ))))) (PreH41 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH42 : (MKDPValueBound old_l_2 capacity_pre )) (PreH43 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH44 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH45 : (MKQueueAfterDrop old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre )) (PreH46 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKQueuePendingState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current ) ”
+  (MKQueuePendingState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current )
 .
 
 Definition multipleKnapsack_entail_wit_14 := 
@@ -2142,9 +1979,7 @@ forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) 
 
 Definition multipleKnapsack_entail_wit_14_split_goal_1 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (current: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : ((Znth (tail - 1 ) qval_l_2 0) <= current)) (PreH2 : (head < tail)) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (0 <= capacity_pre)) (PreH6 : (capacity_pre <= 1000)) (PreH7 : ((Zlength (weights_l)) = n_pre)) (PreH8 : ((Zlength (values_l)) = n_pre)) (PreH9 : ((Zlength (counts_l)) = n_pre)) (PreH10 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH13 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH14 : (0 <= i)) (PreH15 : (i < n_pre)) (PreH16 : (0 <= r)) (PreH17 : (r < w)) (PreH18 : (r <= capacity_pre)) (PreH19 : (w = (Znth i weights_l 0))) (PreH20 : (v = (Znth i values_l 0))) (PreH21 : (cnt = (Znth i counts_l 0))) (PreH22 : (1 <= w)) (PreH23 : (w <= (capacity_pre + 1 ))) (PreH24 : (0 <= v)) (PreH25 : (v <= 1000)) (PreH26 : (0 <= cnt)) (PreH27 : (cnt <= capacity_pre)) (PreH28 : (pos = (r + (k * w ) ))) (PreH29 : (0 <= k)) (PreH30 : (k <= capacity_pre)) (PreH31 : (0 <= pos)) (PreH32 : (pos <= capacity_pre)) (PreH33 : (current = ((Znth pos old_l_2 0) - (k * v ) ))) (PreH34 : ((-1000000) <= current)) (PreH35 : (current <= 1000000)) (PreH36 : (0 <= (current + (k * v ) ))) (PreH37 : ((current + (k * v ) ) <= 1000000)) (PreH38 : (0 <= head)) (PreH39 : (head <= tail)) (PreH40 : (tail <= k)) (PreH41 : (tail <= (capacity_pre + 1 ))) (PreH42 : ((head < tail) -> ((0 <= (tail - 1 )) /\ ((tail - 1 ) < (capacity_pre + 1 ))))) (PreH43 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH44 : (MKDPValueBound old_l_2 capacity_pre )) (PreH45 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH46 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH47 : (MKQueuePendingState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current )) (PreH48 : forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKQueuePendingState old_l_2 qidx_l_2 qval_l_2 head (tail - 1 ) r w v cnt k capacity_pre current ) ”
+  (MKQueuePendingState old_l_2 qidx_l_2 qval_l_2 head (tail - 1 ) r w v cnt k capacity_pre current )
 .
 
 Definition multipleKnapsack_entail_wit_15_1 := 
@@ -2230,44 +2065,32 @@ forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) 
 
 Definition multipleKnapsack_entail_wit_15_1_split_goal_1 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (current: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : ((Znth (tail - 1 ) qval_l_2 0) > current)) (PreH2 : (head < tail)) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (0 <= capacity_pre)) (PreH6 : (capacity_pre <= 1000)) (PreH7 : ((Zlength (weights_l)) = n_pre)) (PreH8 : ((Zlength (values_l)) = n_pre)) (PreH9 : ((Zlength (counts_l)) = n_pre)) (PreH10 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH13 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH14 : (0 <= i)) (PreH15 : (i < n_pre)) (PreH16 : (0 <= r)) (PreH17 : (r < w)) (PreH18 : (r <= capacity_pre)) (PreH19 : (w = (Znth i weights_l 0))) (PreH20 : (v = (Znth i values_l 0))) (PreH21 : (cnt = (Znth i counts_l 0))) (PreH22 : (1 <= w)) (PreH23 : (w <= (capacity_pre + 1 ))) (PreH24 : (0 <= v)) (PreH25 : (v <= 1000)) (PreH26 : (0 <= cnt)) (PreH27 : (cnt <= capacity_pre)) (PreH28 : (pos = (r + (k * w ) ))) (PreH29 : (0 <= k)) (PreH30 : (k <= capacity_pre)) (PreH31 : (0 <= pos)) (PreH32 : (pos <= capacity_pre)) (PreH33 : (current = ((Znth pos old_l_2 0) - (k * v ) ))) (PreH34 : ((-1000000) <= current)) (PreH35 : (current <= 1000000)) (PreH36 : (0 <= (current + (k * v ) ))) (PreH37 : ((current + (k * v ) ) <= 1000000)) (PreH38 : (0 <= head)) (PreH39 : (head <= tail)) (PreH40 : (tail <= k)) (PreH41 : (tail <= (capacity_pre + 1 ))) (PreH42 : ((head < tail) -> ((0 <= (tail - 1 )) /\ ((tail - 1 ) < (capacity_pre + 1 ))))) (PreH43 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH44 : (MKDPValueBound old_l_2 capacity_pre )) (PreH45 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH46 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH47 : (MKQueuePendingState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current )) (PreH48 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (((Znth head (replace_Znth (tail) (current) (qval_l_2)) 0) + (k * v ) ) <= 1000000) ”
+  (((Znth head (replace_Znth (tail) (current) (qval_l_2)) 0) + (k * v ) ) <= 1000000)
 .
 
 Definition multipleKnapsack_entail_wit_15_1_split_goal_2 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (current: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : ((Znth (tail - 1 ) qval_l_2 0) > current)) (PreH2 : (head < tail)) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (0 <= capacity_pre)) (PreH6 : (capacity_pre <= 1000)) (PreH7 : ((Zlength (weights_l)) = n_pre)) (PreH8 : ((Zlength (values_l)) = n_pre)) (PreH9 : ((Zlength (counts_l)) = n_pre)) (PreH10 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH13 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH14 : (0 <= i)) (PreH15 : (i < n_pre)) (PreH16 : (0 <= r)) (PreH17 : (r < w)) (PreH18 : (r <= capacity_pre)) (PreH19 : (w = (Znth i weights_l 0))) (PreH20 : (v = (Znth i values_l 0))) (PreH21 : (cnt = (Znth i counts_l 0))) (PreH22 : (1 <= w)) (PreH23 : (w <= (capacity_pre + 1 ))) (PreH24 : (0 <= v)) (PreH25 : (v <= 1000)) (PreH26 : (0 <= cnt)) (PreH27 : (cnt <= capacity_pre)) (PreH28 : (pos = (r + (k * w ) ))) (PreH29 : (0 <= k)) (PreH30 : (k <= capacity_pre)) (PreH31 : (0 <= pos)) (PreH32 : (pos <= capacity_pre)) (PreH33 : (current = ((Znth pos old_l_2 0) - (k * v ) ))) (PreH34 : ((-1000000) <= current)) (PreH35 : (current <= 1000000)) (PreH36 : (0 <= (current + (k * v ) ))) (PreH37 : ((current + (k * v ) ) <= 1000000)) (PreH38 : (0 <= head)) (PreH39 : (head <= tail)) (PreH40 : (tail <= k)) (PreH41 : (tail <= (capacity_pre + 1 ))) (PreH42 : ((head < tail) -> ((0 <= (tail - 1 )) /\ ((tail - 1 ) < (capacity_pre + 1 ))))) (PreH43 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH44 : (MKDPValueBound old_l_2 capacity_pre )) (PreH45 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH46 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH47 : (MKQueuePendingState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current )) (PreH48 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (0 <= ((Znth head (replace_Znth (tail) (current) (qval_l_2)) 0) + (k * v ) )) ”
+  (0 <= ((Znth head (replace_Znth (tail) (current) (qval_l_2)) 0) + (k * v ) ))
 .
 
 Definition multipleKnapsack_entail_wit_15_1_split_goal_3 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (current: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : ((Znth (tail - 1 ) qval_l_2 0) > current)) (PreH2 : (head < tail)) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (0 <= capacity_pre)) (PreH6 : (capacity_pre <= 1000)) (PreH7 : ((Zlength (weights_l)) = n_pre)) (PreH8 : ((Zlength (values_l)) = n_pre)) (PreH9 : ((Zlength (counts_l)) = n_pre)) (PreH10 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH13 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH14 : (0 <= i)) (PreH15 : (i < n_pre)) (PreH16 : (0 <= r)) (PreH17 : (r < w)) (PreH18 : (r <= capacity_pre)) (PreH19 : (w = (Znth i weights_l 0))) (PreH20 : (v = (Znth i values_l 0))) (PreH21 : (cnt = (Znth i counts_l 0))) (PreH22 : (1 <= w)) (PreH23 : (w <= (capacity_pre + 1 ))) (PreH24 : (0 <= v)) (PreH25 : (v <= 1000)) (PreH26 : (0 <= cnt)) (PreH27 : (cnt <= capacity_pre)) (PreH28 : (pos = (r + (k * w ) ))) (PreH29 : (0 <= k)) (PreH30 : (k <= capacity_pre)) (PreH31 : (0 <= pos)) (PreH32 : (pos <= capacity_pre)) (PreH33 : (current = ((Znth pos old_l_2 0) - (k * v ) ))) (PreH34 : ((-1000000) <= current)) (PreH35 : (current <= 1000000)) (PreH36 : (0 <= (current + (k * v ) ))) (PreH37 : ((current + (k * v ) ) <= 1000000)) (PreH38 : (0 <= head)) (PreH39 : (head <= tail)) (PreH40 : (tail <= k)) (PreH41 : (tail <= (capacity_pre + 1 ))) (PreH42 : ((head < tail) -> ((0 <= (tail - 1 )) /\ ((tail - 1 ) < (capacity_pre + 1 ))))) (PreH43 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH44 : (MKDPValueBound old_l_2 capacity_pre )) (PreH45 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH46 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH47 : (MKQueuePendingState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current )) (PreH48 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKTransitionValue old_l_2 w v cnt capacity_pre pos ((Znth head (replace_Znth (tail) (current) (qval_l_2)) 0) + (k * v ) ) ) ”
+  (MKTransitionValue old_l_2 w v cnt capacity_pre pos ((Znth head (replace_Znth (tail) (current) (qval_l_2)) 0) + (k * v ) ) )
 .
 
 Definition multipleKnapsack_entail_wit_15_1_split_goal_4 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (current: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : ((Znth (tail - 1 ) qval_l_2 0) > current)) (PreH2 : (head < tail)) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (0 <= capacity_pre)) (PreH6 : (capacity_pre <= 1000)) (PreH7 : ((Zlength (weights_l)) = n_pre)) (PreH8 : ((Zlength (values_l)) = n_pre)) (PreH9 : ((Zlength (counts_l)) = n_pre)) (PreH10 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH13 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH14 : (0 <= i)) (PreH15 : (i < n_pre)) (PreH16 : (0 <= r)) (PreH17 : (r < w)) (PreH18 : (r <= capacity_pre)) (PreH19 : (w = (Znth i weights_l 0))) (PreH20 : (v = (Znth i values_l 0))) (PreH21 : (cnt = (Znth i counts_l 0))) (PreH22 : (1 <= w)) (PreH23 : (w <= (capacity_pre + 1 ))) (PreH24 : (0 <= v)) (PreH25 : (v <= 1000)) (PreH26 : (0 <= cnt)) (PreH27 : (cnt <= capacity_pre)) (PreH28 : (pos = (r + (k * w ) ))) (PreH29 : (0 <= k)) (PreH30 : (k <= capacity_pre)) (PreH31 : (0 <= pos)) (PreH32 : (pos <= capacity_pre)) (PreH33 : (current = ((Znth pos old_l_2 0) - (k * v ) ))) (PreH34 : ((-1000000) <= current)) (PreH35 : (current <= 1000000)) (PreH36 : (0 <= (current + (k * v ) ))) (PreH37 : ((current + (k * v ) ) <= 1000000)) (PreH38 : (0 <= head)) (PreH39 : (head <= tail)) (PreH40 : (tail <= k)) (PreH41 : (tail <= (capacity_pre + 1 ))) (PreH42 : ((head < tail) -> ((0 <= (tail - 1 )) /\ ((tail - 1 ) < (capacity_pre + 1 ))))) (PreH43 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH44 : (MKDPValueBound old_l_2 capacity_pre )) (PreH45 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH46 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH47 : (MKQueuePendingState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current )) (PreH48 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKQueueState old_l_2 (replace_Znth (tail) (k) (qidx_l_2)) (replace_Znth (tail) (current) (qval_l_2)) head (tail + 1 ) r w v cnt (k + 1 ) capacity_pre ) ”
+  (MKQueueState old_l_2 (replace_Znth (tail) (k) (qidx_l_2)) (replace_Znth (tail) (current) (qval_l_2)) head (tail + 1 ) r w v cnt (k + 1 ) capacity_pre )
 .
 
 Definition multipleKnapsack_entail_wit_15_1_split_goal_5 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (current: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : ((Znth (tail - 1 ) qval_l_2 0) > current)) (PreH2 : (head < tail)) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (0 <= capacity_pre)) (PreH6 : (capacity_pre <= 1000)) (PreH7 : ((Zlength (weights_l)) = n_pre)) (PreH8 : ((Zlength (values_l)) = n_pre)) (PreH9 : ((Zlength (counts_l)) = n_pre)) (PreH10 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH13 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH14 : (0 <= i)) (PreH15 : (i < n_pre)) (PreH16 : (0 <= r)) (PreH17 : (r < w)) (PreH18 : (r <= capacity_pre)) (PreH19 : (w = (Znth i weights_l 0))) (PreH20 : (v = (Znth i values_l 0))) (PreH21 : (cnt = (Znth i counts_l 0))) (PreH22 : (1 <= w)) (PreH23 : (w <= (capacity_pre + 1 ))) (PreH24 : (0 <= v)) (PreH25 : (v <= 1000)) (PreH26 : (0 <= cnt)) (PreH27 : (cnt <= capacity_pre)) (PreH28 : (pos = (r + (k * w ) ))) (PreH29 : (0 <= k)) (PreH30 : (k <= capacity_pre)) (PreH31 : (0 <= pos)) (PreH32 : (pos <= capacity_pre)) (PreH33 : (current = ((Znth pos old_l_2 0) - (k * v ) ))) (PreH34 : ((-1000000) <= current)) (PreH35 : (current <= 1000000)) (PreH36 : (0 <= (current + (k * v ) ))) (PreH37 : ((current + (k * v ) ) <= 1000000)) (PreH38 : (0 <= head)) (PreH39 : (head <= tail)) (PreH40 : (tail <= k)) (PreH41 : (tail <= (capacity_pre + 1 ))) (PreH42 : ((head < tail) -> ((0 <= (tail - 1 )) /\ ((tail - 1 ) < (capacity_pre + 1 ))))) (PreH43 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH44 : (MKDPValueBound old_l_2 capacity_pre )) (PreH45 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH46 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH47 : (MKQueuePendingState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current )) (PreH48 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((replace_Znth (tail) (current) (qval_l_2)))) = (capacity_pre + 1 )) ”
+  ((Zlength ((replace_Znth (tail) (current) (qval_l_2)))) = (capacity_pre + 1 ))
 .
 
 Definition multipleKnapsack_entail_wit_15_1_split_goal_6 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (current: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : ((Znth (tail - 1 ) qval_l_2 0) > current)) (PreH2 : (head < tail)) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= 1000)) (PreH5 : (0 <= capacity_pre)) (PreH6 : (capacity_pre <= 1000)) (PreH7 : ((Zlength (weights_l)) = n_pre)) (PreH8 : ((Zlength (values_l)) = n_pre)) (PreH9 : ((Zlength (counts_l)) = n_pre)) (PreH10 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH13 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH14 : (0 <= i)) (PreH15 : (i < n_pre)) (PreH16 : (0 <= r)) (PreH17 : (r < w)) (PreH18 : (r <= capacity_pre)) (PreH19 : (w = (Znth i weights_l 0))) (PreH20 : (v = (Znth i values_l 0))) (PreH21 : (cnt = (Znth i counts_l 0))) (PreH22 : (1 <= w)) (PreH23 : (w <= (capacity_pre + 1 ))) (PreH24 : (0 <= v)) (PreH25 : (v <= 1000)) (PreH26 : (0 <= cnt)) (PreH27 : (cnt <= capacity_pre)) (PreH28 : (pos = (r + (k * w ) ))) (PreH29 : (0 <= k)) (PreH30 : (k <= capacity_pre)) (PreH31 : (0 <= pos)) (PreH32 : (pos <= capacity_pre)) (PreH33 : (current = ((Znth pos old_l_2 0) - (k * v ) ))) (PreH34 : ((-1000000) <= current)) (PreH35 : (current <= 1000000)) (PreH36 : (0 <= (current + (k * v ) ))) (PreH37 : ((current + (k * v ) ) <= 1000000)) (PreH38 : (0 <= head)) (PreH39 : (head <= tail)) (PreH40 : (tail <= k)) (PreH41 : (tail <= (capacity_pre + 1 ))) (PreH42 : ((head < tail) -> ((0 <= (tail - 1 )) /\ ((tail - 1 ) < (capacity_pre + 1 ))))) (PreH43 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH44 : (MKDPValueBound old_l_2 capacity_pre )) (PreH45 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH46 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH47 : (MKQueuePendingState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current )) (PreH48 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((replace_Znth (tail) (k) (qidx_l_2)))) = (capacity_pre + 1 )) ”
+  ((Zlength ((replace_Znth (tail) (k) (qidx_l_2)))) = (capacity_pre + 1 ))
 .
 
 Definition multipleKnapsack_entail_wit_15_2 := 
@@ -2353,44 +2176,32 @@ forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) 
 
 Definition multipleKnapsack_entail_wit_15_2_split_goal_1 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (current: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (head >= tail)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= r)) (PreH16 : (r < w)) (PreH17 : (r <= capacity_pre)) (PreH18 : (w = (Znth i weights_l 0))) (PreH19 : (v = (Znth i values_l 0))) (PreH20 : (cnt = (Znth i counts_l 0))) (PreH21 : (1 <= w)) (PreH22 : (w <= (capacity_pre + 1 ))) (PreH23 : (0 <= v)) (PreH24 : (v <= 1000)) (PreH25 : (0 <= cnt)) (PreH26 : (cnt <= capacity_pre)) (PreH27 : (pos = (r + (k * w ) ))) (PreH28 : (0 <= k)) (PreH29 : (k <= capacity_pre)) (PreH30 : (0 <= pos)) (PreH31 : (pos <= capacity_pre)) (PreH32 : (current = ((Znth pos old_l_2 0) - (k * v ) ))) (PreH33 : ((-1000000) <= current)) (PreH34 : (current <= 1000000)) (PreH35 : (0 <= (current + (k * v ) ))) (PreH36 : ((current + (k * v ) ) <= 1000000)) (PreH37 : (0 <= head)) (PreH38 : (head <= tail)) (PreH39 : (tail <= k)) (PreH40 : (tail <= (capacity_pre + 1 ))) (PreH41 : ((head < tail) -> ((0 <= (tail - 1 )) /\ ((tail - 1 ) < (capacity_pre + 1 ))))) (PreH42 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH43 : (MKDPValueBound old_l_2 capacity_pre )) (PreH44 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH45 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH46 : (MKQueuePendingState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current )) (PreH47 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (((Znth head (replace_Znth (tail) (current) (qval_l_2)) 0) + (k * v ) ) <= 1000000) ”
+  (((Znth head (replace_Znth (tail) (current) (qval_l_2)) 0) + (k * v ) ) <= 1000000)
 .
 
 Definition multipleKnapsack_entail_wit_15_2_split_goal_2 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (current: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (head >= tail)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= r)) (PreH16 : (r < w)) (PreH17 : (r <= capacity_pre)) (PreH18 : (w = (Znth i weights_l 0))) (PreH19 : (v = (Znth i values_l 0))) (PreH20 : (cnt = (Znth i counts_l 0))) (PreH21 : (1 <= w)) (PreH22 : (w <= (capacity_pre + 1 ))) (PreH23 : (0 <= v)) (PreH24 : (v <= 1000)) (PreH25 : (0 <= cnt)) (PreH26 : (cnt <= capacity_pre)) (PreH27 : (pos = (r + (k * w ) ))) (PreH28 : (0 <= k)) (PreH29 : (k <= capacity_pre)) (PreH30 : (0 <= pos)) (PreH31 : (pos <= capacity_pre)) (PreH32 : (current = ((Znth pos old_l_2 0) - (k * v ) ))) (PreH33 : ((-1000000) <= current)) (PreH34 : (current <= 1000000)) (PreH35 : (0 <= (current + (k * v ) ))) (PreH36 : ((current + (k * v ) ) <= 1000000)) (PreH37 : (0 <= head)) (PreH38 : (head <= tail)) (PreH39 : (tail <= k)) (PreH40 : (tail <= (capacity_pre + 1 ))) (PreH41 : ((head < tail) -> ((0 <= (tail - 1 )) /\ ((tail - 1 ) < (capacity_pre + 1 ))))) (PreH42 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH43 : (MKDPValueBound old_l_2 capacity_pre )) (PreH44 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH45 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH46 : (MKQueuePendingState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current )) (PreH47 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (0 <= ((Znth head (replace_Znth (tail) (current) (qval_l_2)) 0) + (k * v ) )) ”
+  (0 <= ((Znth head (replace_Znth (tail) (current) (qval_l_2)) 0) + (k * v ) ))
 .
 
 Definition multipleKnapsack_entail_wit_15_2_split_goal_3 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (current: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (head >= tail)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= r)) (PreH16 : (r < w)) (PreH17 : (r <= capacity_pre)) (PreH18 : (w = (Znth i weights_l 0))) (PreH19 : (v = (Znth i values_l 0))) (PreH20 : (cnt = (Znth i counts_l 0))) (PreH21 : (1 <= w)) (PreH22 : (w <= (capacity_pre + 1 ))) (PreH23 : (0 <= v)) (PreH24 : (v <= 1000)) (PreH25 : (0 <= cnt)) (PreH26 : (cnt <= capacity_pre)) (PreH27 : (pos = (r + (k * w ) ))) (PreH28 : (0 <= k)) (PreH29 : (k <= capacity_pre)) (PreH30 : (0 <= pos)) (PreH31 : (pos <= capacity_pre)) (PreH32 : (current = ((Znth pos old_l_2 0) - (k * v ) ))) (PreH33 : ((-1000000) <= current)) (PreH34 : (current <= 1000000)) (PreH35 : (0 <= (current + (k * v ) ))) (PreH36 : ((current + (k * v ) ) <= 1000000)) (PreH37 : (0 <= head)) (PreH38 : (head <= tail)) (PreH39 : (tail <= k)) (PreH40 : (tail <= (capacity_pre + 1 ))) (PreH41 : ((head < tail) -> ((0 <= (tail - 1 )) /\ ((tail - 1 ) < (capacity_pre + 1 ))))) (PreH42 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH43 : (MKDPValueBound old_l_2 capacity_pre )) (PreH44 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH45 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH46 : (MKQueuePendingState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current )) (PreH47 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKTransitionValue old_l_2 w v cnt capacity_pre pos ((Znth head (replace_Znth (tail) (current) (qval_l_2)) 0) + (k * v ) ) ) ”
+  (MKTransitionValue old_l_2 w v cnt capacity_pre pos ((Znth head (replace_Znth (tail) (current) (qval_l_2)) 0) + (k * v ) ) )
 .
 
 Definition multipleKnapsack_entail_wit_15_2_split_goal_4 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (current: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (head >= tail)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= r)) (PreH16 : (r < w)) (PreH17 : (r <= capacity_pre)) (PreH18 : (w = (Znth i weights_l 0))) (PreH19 : (v = (Znth i values_l 0))) (PreH20 : (cnt = (Znth i counts_l 0))) (PreH21 : (1 <= w)) (PreH22 : (w <= (capacity_pre + 1 ))) (PreH23 : (0 <= v)) (PreH24 : (v <= 1000)) (PreH25 : (0 <= cnt)) (PreH26 : (cnt <= capacity_pre)) (PreH27 : (pos = (r + (k * w ) ))) (PreH28 : (0 <= k)) (PreH29 : (k <= capacity_pre)) (PreH30 : (0 <= pos)) (PreH31 : (pos <= capacity_pre)) (PreH32 : (current = ((Znth pos old_l_2 0) - (k * v ) ))) (PreH33 : ((-1000000) <= current)) (PreH34 : (current <= 1000000)) (PreH35 : (0 <= (current + (k * v ) ))) (PreH36 : ((current + (k * v ) ) <= 1000000)) (PreH37 : (0 <= head)) (PreH38 : (head <= tail)) (PreH39 : (tail <= k)) (PreH40 : (tail <= (capacity_pre + 1 ))) (PreH41 : ((head < tail) -> ((0 <= (tail - 1 )) /\ ((tail - 1 ) < (capacity_pre + 1 ))))) (PreH42 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH43 : (MKDPValueBound old_l_2 capacity_pre )) (PreH44 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH45 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH46 : (MKQueuePendingState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current )) (PreH47 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKQueueState old_l_2 (replace_Znth (tail) (k) (qidx_l_2)) (replace_Znth (tail) (current) (qval_l_2)) head (tail + 1 ) r w v cnt (k + 1 ) capacity_pre ) ”
+  (MKQueueState old_l_2 (replace_Znth (tail) (k) (qidx_l_2)) (replace_Znth (tail) (current) (qval_l_2)) head (tail + 1 ) r w v cnt (k + 1 ) capacity_pre )
 .
 
 Definition multipleKnapsack_entail_wit_15_2_split_goal_5 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (current: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (head >= tail)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= r)) (PreH16 : (r < w)) (PreH17 : (r <= capacity_pre)) (PreH18 : (w = (Znth i weights_l 0))) (PreH19 : (v = (Znth i values_l 0))) (PreH20 : (cnt = (Znth i counts_l 0))) (PreH21 : (1 <= w)) (PreH22 : (w <= (capacity_pre + 1 ))) (PreH23 : (0 <= v)) (PreH24 : (v <= 1000)) (PreH25 : (0 <= cnt)) (PreH26 : (cnt <= capacity_pre)) (PreH27 : (pos = (r + (k * w ) ))) (PreH28 : (0 <= k)) (PreH29 : (k <= capacity_pre)) (PreH30 : (0 <= pos)) (PreH31 : (pos <= capacity_pre)) (PreH32 : (current = ((Znth pos old_l_2 0) - (k * v ) ))) (PreH33 : ((-1000000) <= current)) (PreH34 : (current <= 1000000)) (PreH35 : (0 <= (current + (k * v ) ))) (PreH36 : ((current + (k * v ) ) <= 1000000)) (PreH37 : (0 <= head)) (PreH38 : (head <= tail)) (PreH39 : (tail <= k)) (PreH40 : (tail <= (capacity_pre + 1 ))) (PreH41 : ((head < tail) -> ((0 <= (tail - 1 )) /\ ((tail - 1 ) < (capacity_pre + 1 ))))) (PreH42 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH43 : (MKDPValueBound old_l_2 capacity_pre )) (PreH44 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH45 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH46 : (MKQueuePendingState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current )) (PreH47 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((replace_Znth (tail) (current) (qval_l_2)))) = (capacity_pre + 1 )) ”
+  ((Zlength ((replace_Znth (tail) (current) (qval_l_2)))) = (capacity_pre + 1 ))
 .
 
 Definition multipleKnapsack_entail_wit_15_2_split_goal_6 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (current: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (head >= tail)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= r)) (PreH16 : (r < w)) (PreH17 : (r <= capacity_pre)) (PreH18 : (w = (Znth i weights_l 0))) (PreH19 : (v = (Znth i values_l 0))) (PreH20 : (cnt = (Znth i counts_l 0))) (PreH21 : (1 <= w)) (PreH22 : (w <= (capacity_pre + 1 ))) (PreH23 : (0 <= v)) (PreH24 : (v <= 1000)) (PreH25 : (0 <= cnt)) (PreH26 : (cnt <= capacity_pre)) (PreH27 : (pos = (r + (k * w ) ))) (PreH28 : (0 <= k)) (PreH29 : (k <= capacity_pre)) (PreH30 : (0 <= pos)) (PreH31 : (pos <= capacity_pre)) (PreH32 : (current = ((Znth pos old_l_2 0) - (k * v ) ))) (PreH33 : ((-1000000) <= current)) (PreH34 : (current <= 1000000)) (PreH35 : (0 <= (current + (k * v ) ))) (PreH36 : ((current + (k * v ) ) <= 1000000)) (PreH37 : (0 <= head)) (PreH38 : (head <= tail)) (PreH39 : (tail <= k)) (PreH40 : (tail <= (capacity_pre + 1 ))) (PreH41 : ((head < tail) -> ((0 <= (tail - 1 )) /\ ((tail - 1 ) < (capacity_pre + 1 ))))) (PreH42 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH43 : (MKDPValueBound old_l_2 capacity_pre )) (PreH44 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH45 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH46 : (MKQueuePendingState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current )) (PreH47 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((replace_Znth (tail) (k) (qidx_l_2)))) = (capacity_pre + 1 )) ”
+  ((Zlength ((replace_Znth (tail) (k) (qidx_l_2)))) = (capacity_pre + 1 ))
 .
 
 Definition multipleKnapsack_entail_wit_16 := 
@@ -2466,30 +2277,22 @@ forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) 
 
 Definition multipleKnapsack_entail_wit_16_split_goal_1 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (dp_l_2: (@list Z)) (old_l_2: (@list Z)) (qidx_l_2: (@list Z)) (qval_l_2: (@list Z)) (i: Z) (r: Z) (w: Z) (v: Z) (cnt: Z) (pos: Z) (k: Z) (current: Z) (head: Z) (tail: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= capacity_pre)) (PreH4 : (capacity_pre <= 1000)) (PreH5 : ((Zlength (weights_l)) = n_pre)) (PreH6 : ((Zlength (values_l)) = n_pre)) (PreH7 : ((Zlength (counts_l)) = n_pre)) (PreH8 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH9 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH12 : (0 <= i)) (PreH13 : (i < n_pre)) (PreH14 : (0 <= r)) (PreH15 : (r < w)) (PreH16 : (r <= capacity_pre)) (PreH17 : (w = (Znth i weights_l 0))) (PreH18 : (v = (Znth i values_l 0))) (PreH19 : (cnt = (Znth i counts_l 0))) (PreH20 : (1 <= w)) (PreH21 : (w <= (capacity_pre + 1 ))) (PreH22 : (0 <= v)) (PreH23 : (v <= 1000)) (PreH24 : (0 <= cnt)) (PreH25 : (cnt <= capacity_pre)) (PreH26 : (pos = (r + (k * w ) ))) (PreH27 : (0 <= k)) (PreH28 : (k <= capacity_pre)) (PreH29 : (0 <= pos)) (PreH30 : (pos <= capacity_pre)) (PreH31 : (current = ((Znth pos old_l_2 0) - (k * v ) ))) (PreH32 : ((-1000000) <= current)) (PreH33 : (current <= 1000000)) (PreH34 : (0 <= (current + (k * v ) ))) (PreH35 : ((current + (k * v ) ) <= 1000000)) (PreH36 : (0 <= head)) (PreH37 : (head < tail)) (PreH38 : (tail <= (k + 1 ))) (PreH39 : (tail <= (capacity_pre + 1 ))) (PreH40 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH41 : (MKDPValueBound old_l_2 capacity_pre )) (PreH42 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH43 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH44 : (MKQueueState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt (k + 1 ) capacity_pre )) (PreH45 : (MKTransitionValue old_l_2 w v cnt capacity_pre pos ((Znth head qval_l_2 0) + (k * v ) ) )) (PreH46 : (0 <= ((Znth head qval_l_2 0) + (k * v ) ))) (PreH47 : (((Znth head qval_l_2 0) + (k * v ) ) <= 1000000)) (PreH48 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKResidueLoopState old_l_2 (replace_Znth (pos) (((Znth head qval_l_2 0) + (k * v ) )) (dp_l_2)) qidx_l_2 qval_l_2 r w v cnt (k + 1 ) head tail capacity_pre ) ”
+  (MKResidueLoopState old_l_2 (replace_Znth (pos) (((Znth head qval_l_2 0) + (k * v ) )) (dp_l_2)) qidx_l_2 qval_l_2 r w v cnt (k + 1 ) head tail capacity_pre )
 .
 
 Definition multipleKnapsack_entail_wit_16_split_goal_2 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (dp_l_2: (@list Z)) (old_l_2: (@list Z)) (qidx_l_2: (@list Z)) (qval_l_2: (@list Z)) (i: Z) (r: Z) (w: Z) (v: Z) (cnt: Z) (pos: Z) (k: Z) (current: Z) (head: Z) (tail: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= capacity_pre)) (PreH4 : (capacity_pre <= 1000)) (PreH5 : ((Zlength (weights_l)) = n_pre)) (PreH6 : ((Zlength (values_l)) = n_pre)) (PreH7 : ((Zlength (counts_l)) = n_pre)) (PreH8 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH9 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH12 : (0 <= i)) (PreH13 : (i < n_pre)) (PreH14 : (0 <= r)) (PreH15 : (r < w)) (PreH16 : (r <= capacity_pre)) (PreH17 : (w = (Znth i weights_l 0))) (PreH18 : (v = (Znth i values_l 0))) (PreH19 : (cnt = (Znth i counts_l 0))) (PreH20 : (1 <= w)) (PreH21 : (w <= (capacity_pre + 1 ))) (PreH22 : (0 <= v)) (PreH23 : (v <= 1000)) (PreH24 : (0 <= cnt)) (PreH25 : (cnt <= capacity_pre)) (PreH26 : (pos = (r + (k * w ) ))) (PreH27 : (0 <= k)) (PreH28 : (k <= capacity_pre)) (PreH29 : (0 <= pos)) (PreH30 : (pos <= capacity_pre)) (PreH31 : (current = ((Znth pos old_l_2 0) - (k * v ) ))) (PreH32 : ((-1000000) <= current)) (PreH33 : (current <= 1000000)) (PreH34 : (0 <= (current + (k * v ) ))) (PreH35 : ((current + (k * v ) ) <= 1000000)) (PreH36 : (0 <= head)) (PreH37 : (head < tail)) (PreH38 : (tail <= (k + 1 ))) (PreH39 : (tail <= (capacity_pre + 1 ))) (PreH40 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH41 : (MKDPValueBound old_l_2 capacity_pre )) (PreH42 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH43 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH44 : (MKQueueState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt (k + 1 ) capacity_pre )) (PreH45 : (MKTransitionValue old_l_2 w v cnt capacity_pre pos ((Znth head qval_l_2 0) + (k * v ) ) )) (PreH46 : (0 <= ((Znth head qval_l_2 0) + (k * v ) ))) (PreH47 : (((Znth head qval_l_2 0) + (k * v ) ) <= 1000000)) (PreH48 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKItemResiduePrefixProgress old_l_2 (replace_Znth (pos) (((Znth head qval_l_2 0) + (k * v ) )) (dp_l_2)) r w v cnt (k + 1 ) capacity_pre ) ”
+  (MKItemResiduePrefixProgress old_l_2 (replace_Znth (pos) (((Znth head qval_l_2 0) + (k * v ) )) (dp_l_2)) r w v cnt (k + 1 ) capacity_pre )
 .
 
 Definition multipleKnapsack_entail_wit_16_split_goal_3 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (dp_l_2: (@list Z)) (old_l_2: (@list Z)) (qidx_l_2: (@list Z)) (qval_l_2: (@list Z)) (i: Z) (r: Z) (w: Z) (v: Z) (cnt: Z) (pos: Z) (k: Z) (current: Z) (head: Z) (tail: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= capacity_pre)) (PreH4 : (capacity_pre <= 1000)) (PreH5 : ((Zlength (weights_l)) = n_pre)) (PreH6 : ((Zlength (values_l)) = n_pre)) (PreH7 : ((Zlength (counts_l)) = n_pre)) (PreH8 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH9 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH12 : (0 <= i)) (PreH13 : (i < n_pre)) (PreH14 : (0 <= r)) (PreH15 : (r < w)) (PreH16 : (r <= capacity_pre)) (PreH17 : (w = (Znth i weights_l 0))) (PreH18 : (v = (Znth i values_l 0))) (PreH19 : (cnt = (Znth i counts_l 0))) (PreH20 : (1 <= w)) (PreH21 : (w <= (capacity_pre + 1 ))) (PreH22 : (0 <= v)) (PreH23 : (v <= 1000)) (PreH24 : (0 <= cnt)) (PreH25 : (cnt <= capacity_pre)) (PreH26 : (pos = (r + (k * w ) ))) (PreH27 : (0 <= k)) (PreH28 : (k <= capacity_pre)) (PreH29 : (0 <= pos)) (PreH30 : (pos <= capacity_pre)) (PreH31 : (current = ((Znth pos old_l_2 0) - (k * v ) ))) (PreH32 : ((-1000000) <= current)) (PreH33 : (current <= 1000000)) (PreH34 : (0 <= (current + (k * v ) ))) (PreH35 : ((current + (k * v ) ) <= 1000000)) (PreH36 : (0 <= head)) (PreH37 : (head < tail)) (PreH38 : (tail <= (k + 1 ))) (PreH39 : (tail <= (capacity_pre + 1 ))) (PreH40 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH41 : (MKDPValueBound old_l_2 capacity_pre )) (PreH42 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH43 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH44 : (MKQueueState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt (k + 1 ) capacity_pre )) (PreH45 : (MKTransitionValue old_l_2 w v cnt capacity_pre pos ((Znth head qval_l_2 0) + (k * v ) ) )) (PreH46 : (0 <= ((Znth head qval_l_2 0) + (k * v ) ))) (PreH47 : (((Znth head qval_l_2 0) + (k * v ) ) <= 1000000)) (PreH48 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ ((pos + w ) = (r + ((k + 1 ) * w ) )) ”
+  ((pos + w ) = (r + ((k + 1 ) * w ) ))
 .
 
 Definition multipleKnapsack_entail_wit_16_split_goal_4 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (dp_l_2: (@list Z)) (old_l_2: (@list Z)) (qidx_l_2: (@list Z)) (qval_l_2: (@list Z)) (i: Z) (r: Z) (w: Z) (v: Z) (cnt: Z) (pos: Z) (k: Z) (current: Z) (head: Z) (tail: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= 1000)) (PreH3 : (0 <= capacity_pre)) (PreH4 : (capacity_pre <= 1000)) (PreH5 : ((Zlength (weights_l)) = n_pre)) (PreH6 : ((Zlength (values_l)) = n_pre)) (PreH7 : ((Zlength (counts_l)) = n_pre)) (PreH8 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH9 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH12 : (0 <= i)) (PreH13 : (i < n_pre)) (PreH14 : (0 <= r)) (PreH15 : (r < w)) (PreH16 : (r <= capacity_pre)) (PreH17 : (w = (Znth i weights_l 0))) (PreH18 : (v = (Znth i values_l 0))) (PreH19 : (cnt = (Znth i counts_l 0))) (PreH20 : (1 <= w)) (PreH21 : (w <= (capacity_pre + 1 ))) (PreH22 : (0 <= v)) (PreH23 : (v <= 1000)) (PreH24 : (0 <= cnt)) (PreH25 : (cnt <= capacity_pre)) (PreH26 : (pos = (r + (k * w ) ))) (PreH27 : (0 <= k)) (PreH28 : (k <= capacity_pre)) (PreH29 : (0 <= pos)) (PreH30 : (pos <= capacity_pre)) (PreH31 : (current = ((Znth pos old_l_2 0) - (k * v ) ))) (PreH32 : ((-1000000) <= current)) (PreH33 : (current <= 1000000)) (PreH34 : (0 <= (current + (k * v ) ))) (PreH35 : ((current + (k * v ) ) <= 1000000)) (PreH36 : (0 <= head)) (PreH37 : (head < tail)) (PreH38 : (tail <= (k + 1 ))) (PreH39 : (tail <= (capacity_pre + 1 ))) (PreH40 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH41 : (MKDPValueBound old_l_2 capacity_pre )) (PreH42 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH43 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH44 : (MKQueueState old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt (k + 1 ) capacity_pre )) (PreH45 : (MKTransitionValue old_l_2 w v cnt capacity_pre pos ((Znth head qval_l_2 0) + (k * v ) ) )) (PreH46 : (0 <= ((Znth head qval_l_2 0) + (k * v ) ))) (PreH47 : (((Znth head qval_l_2 0) + (k * v ) ) <= 1000000)) (PreH48 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((replace_Znth (pos) (((Znth head qval_l_2 0) + (k * v ) )) (dp_l_2)))) = (capacity_pre + 1 )) ”
+  ((Zlength ((replace_Znth (pos) (((Znth head qval_l_2 0) + (k * v ) )) (dp_l_2)))) = (capacity_pre + 1 ))
 .
 
 Definition multipleKnapsack_entail_wit_17 := 
@@ -2558,9 +2361,7 @@ forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) 
 
 Definition multipleKnapsack_entail_wit_17_split_goal_1 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (tail: Z) (head: Z) (k: Z) (pos: Z) (cnt: Z) (v: Z) (w: Z) (r: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (pos > capacity_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (0 <= r)) (PreH16 : (r < w)) (PreH17 : (r <= capacity_pre)) (PreH18 : (w = (Znth i weights_l 0))) (PreH19 : (v = (Znth i values_l 0))) (PreH20 : (cnt = (Znth i counts_l 0))) (PreH21 : (1 <= w)) (PreH22 : (w <= (capacity_pre + 1 ))) (PreH23 : (0 <= v)) (PreH24 : (v <= 1000)) (PreH25 : (0 <= cnt)) (PreH26 : (cnt <= capacity_pre)) (PreH27 : (pos = (r + (k * w ) ))) (PreH28 : (0 <= k)) (PreH29 : (k <= (capacity_pre + 1 ))) (PreH30 : (0 <= pos)) (PreH31 : (pos <= (capacity_pre + w ))) (PreH32 : (0 <= head)) (PreH33 : (head <= tail)) (PreH34 : (tail <= k)) (PreH35 : (tail <= (capacity_pre + 1 ))) (PreH36 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH37 : (MKDPValueBound old_l_2 capacity_pre )) (PreH38 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH39 : (MKItemResiduePrefixProgress old_l_2 dp_l_2 r w v cnt k capacity_pre )) (PreH40 : (MKResidueLoopState old_l_2 dp_l_2 qidx_l_2 qval_l_2 r w v cnt k head tail capacity_pre )) (PreH41 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKItemResidueProgress old_l_2 dp_l_2 (r + 1 ) w v cnt capacity_pre ) ”
+  (MKItemResidueProgress old_l_2 dp_l_2 (r + 1 ) w v cnt capacity_pre )
 .
 
 Definition multipleKnapsack_entail_wit_18 := 
@@ -2667,9 +2468,7 @@ forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) 
 
 Definition multipleKnapsack_entail_wit_19_split_goal_1 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (r: Z) (cnt: Z) (v: Z) (w: Z) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (r >= w)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i < n_pre)) (PreH15 : (w = (Znth i weights_l 0))) (PreH16 : (v = (Znth i values_l 0))) (PreH17 : (cnt = (Znth i counts_l 0))) (PreH18 : (1 <= w)) (PreH19 : (w <= (capacity_pre + 1 ))) (PreH20 : (0 <= v)) (PreH21 : (v <= 1000)) (PreH22 : (0 <= cnt)) (PreH23 : (cnt <= capacity_pre)) (PreH24 : (0 <= r)) (PreH25 : (r <= w)) (PreH26 : (r <= (capacity_pre + 1 ))) (PreH27 : (MKDPTable weights_l values_l counts_l i capacity_pre old_l_2 )) (PreH28 : (MKDPValueBound old_l_2 capacity_pre )) (PreH29 : (MKTransitionValueBound old_l_2 w v cnt capacity_pre )) (PreH30 : (MKItemResidueProgress old_l_2 dp_l_2 r w v cnt capacity_pre )) (PreH31 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((((((1 <= (Znth idx_2 weights_l 0)) /\ ((Znth idx_2 weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx_2 values_l 0))) /\ ((Znth idx_2 values_l 0) <= 1000)) /\ (0 <= (Znth idx_2 counts_l 0))) /\ ((Znth idx_2 counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKDPTable weights_l values_l counts_l (i + 1 ) capacity_pre dp_l_2 ) ”
+  (MKDPTable weights_l values_l counts_l (i + 1 ) capacity_pre dp_l_2 )
 .
 
 Definition multipleKnapsack_entail_wit_20 := 
@@ -2751,16 +2550,12 @@ forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) 
 
 Definition multipleKnapsack_entail_wit_21_split_goal_1 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i <= n_pre)) (PreH15 : (MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2 )) (PreH16 : forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MultipleKnapsackAnswer weights_l values_l counts_l capacity_pre (Znth capacity_pre dp_l_2 0) ) ”
+  (MultipleKnapsackAnswer weights_l values_l counts_l capacity_pre (Znth capacity_pre dp_l_2 0) )
 .
 
 Definition multipleKnapsack_entail_wit_21_split_goal_2 := 
 forall (capacity_pre: Z) (n_pre: Z) (counts_l: (@list Z)) (values_l: (@list Z)) (weights_l: (@list Z)) (i: Z) (qval_l_2: (@list Z)) (qidx_l_2: (@list Z)) (old_l_2: (@list Z)) (dp_l_2: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 1000)) (PreH4 : (0 <= capacity_pre)) (PreH5 : (capacity_pre <= 1000)) (PreH6 : ((Zlength (weights_l)) = n_pre)) (PreH7 : ((Zlength (values_l)) = n_pre)) (PreH8 : ((Zlength (counts_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = (capacity_pre + 1 ))) (PreH10 : ((Zlength (old_l_2)) = (capacity_pre + 1 ))) (PreH11 : ((Zlength (qidx_l_2)) = (capacity_pre + 1 ))) (PreH12 : ((Zlength (qval_l_2)) = (capacity_pre + 1 ))) (PreH13 : (0 <= i)) (PreH14 : (i <= n_pre)) (PreH15 : (MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2 )) (PreH16 : forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre)))) ,
-  TT && emp 
-|--
-  “ (MKDPTable weights_l values_l counts_l n_pre capacity_pre dp_l_2 ) ”
+  (MKDPTable weights_l values_l counts_l n_pre capacity_pre dp_l_2 )
 .
 
 Definition multipleKnapsack_return_wit_1 := 
@@ -2809,7 +2604,7 @@ forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) 
   &&  “ (j <= (capacity_pre + 1 )) ” 
   &&  “ (MKZeroPrefix dp_l j ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre))) ”
-  &&  (((dp_pre + (j * sizeof(INT) ) )) # Int  |->_)
+  &&  (((dp_pre + (j * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg dp_pre (j + 1 ) (capacity_pre + 1 ) )
   **  (IntArray.full weights_pre n_pre weights_l )
   **  (IntArray.full values_pre n_pre values_l )
@@ -2849,7 +2644,7 @@ forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) 
   &&  “ (MKDPTable weights_l values_l counts_l i capacity_pre dp_l ) ” 
   &&  “ (MKCopyPrefix dp_l old_l j capacity_pre ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre))) ”
-  &&  (((dp_pre + (j * sizeof(INT) ) )) # Int  |-> (Znth j dp_l 0))
+  &&  (((dp_pre + (j * sizeof(INT)))) # Int  |-> (Znth j dp_l 0))
   **  (IntArray.missing_i dp_pre j 0 (capacity_pre + 1 ) dp_l )
   **  (IntArray.full weights_pre n_pre weights_l )
   **  (IntArray.full values_pre n_pre values_l )
@@ -2888,7 +2683,7 @@ forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) 
   &&  “ (MKDPTable weights_l values_l counts_l i capacity_pre dp_l ) ” 
   &&  “ (MKCopyPrefix dp_l old_l j capacity_pre ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre))) ”
-  &&  (((old_pre + (j * sizeof(INT) ) )) # Int  |->_)
+  &&  (((old_pre + (j * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i old_pre j 0 (capacity_pre + 1 ) old_l )
   **  (IntArray.full dp_pre (capacity_pre + 1 ) dp_l )
   **  (IntArray.full weights_pre n_pre weights_l )
@@ -2927,7 +2722,7 @@ forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) 
   &&  “ (MKDPTable weights_l values_l counts_l i capacity_pre dp_l ) ” 
   &&  “ (MKCopyPrefix dp_l old_l j capacity_pre ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre))) ”
-  &&  (((weights_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i weights_l 0))
+  &&  (((weights_pre + (i * sizeof(INT)))) # Int  |-> (Znth i weights_l 0))
   **  (IntArray.missing_i weights_pre i 0 n_pre weights_l )
   **  (IntArray.full values_pre n_pre values_l )
   **  (IntArray.full counts_pre n_pre counts_l )
@@ -2966,7 +2761,7 @@ forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) 
   &&  “ (MKDPTable weights_l values_l counts_l i capacity_pre dp_l ) ” 
   &&  “ (MKCopyPrefix dp_l old_l j capacity_pre ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre))) ”
-  &&  (((values_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i values_l 0))
+  &&  (((values_pre + (i * sizeof(INT)))) # Int  |-> (Znth i values_l 0))
   **  (IntArray.missing_i values_pre i 0 n_pre values_l )
   **  (IntArray.full weights_pre n_pre weights_l )
   **  (IntArray.full counts_pre n_pre counts_l )
@@ -3005,7 +2800,7 @@ forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) 
   &&  “ (MKDPTable weights_l values_l counts_l i capacity_pre dp_l ) ” 
   &&  “ (MKCopyPrefix dp_l old_l j capacity_pre ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre))) ”
-  &&  (((counts_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i counts_l 0))
+  &&  (((counts_pre + (i * sizeof(INT)))) # Int  |-> (Znth i counts_l 0))
   **  (IntArray.missing_i counts_pre i 0 n_pre counts_l )
   **  (IntArray.full values_pre n_pre values_l )
   **  (IntArray.full weights_pre n_pre weights_l )
@@ -3066,7 +2861,7 @@ forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) 
   &&  “ (MKItemResiduePrefixProgress old_l dp_l r w v cnt k capacity_pre ) ” 
   &&  “ (MKResidueLoopState old_l dp_l qidx_l qval_l r w v cnt k head tail capacity_pre ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre))) ”
-  &&  (((old_pre + (pos * sizeof(INT) ) )) # Int  |-> (Znth pos old_l 0))
+  &&  (((old_pre + (pos * sizeof(INT)))) # Int  |-> (Znth pos old_l 0))
   **  (IntArray.missing_i old_pre pos 0 (capacity_pre + 1 ) old_l )
   **  (IntArray.full weights_pre n_pre weights_l )
   **  (IntArray.full values_pre n_pre values_l )
@@ -3132,7 +2927,7 @@ forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) 
   &&  “ (MKItemResiduePrefixProgress old_l dp_l r w v cnt k capacity_pre ) ” 
   &&  “ (MKQueueDropLoopState old_l qidx_l qval_l head tail r w v cnt k capacity_pre ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre))) ”
-  &&  (((q_idx_pre + (head * sizeof(INT) ) )) # Int  |-> (Znth head qidx_l 0))
+  &&  (((q_idx_pre + (head * sizeof(INT)))) # Int  |-> (Znth head qidx_l 0))
   **  (IntArray.missing_i q_idx_pre head 0 (capacity_pre + 1 ) qidx_l )
   **  (IntArray.full weights_pre n_pre weights_l )
   **  (IntArray.full values_pre n_pre values_l )
@@ -3199,7 +2994,7 @@ forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) 
   &&  “ (MKItemResiduePrefixProgress old_l dp_l r w v cnt k capacity_pre ) ” 
   &&  “ (MKQueuePendingState old_l qidx_l qval_l head tail r w v cnt k capacity_pre current ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre))) ”
-  &&  (((q_val_pre + ((tail - 1 ) * sizeof(INT) ) )) # Int  |-> (Znth (tail - 1 ) qval_l 0))
+  &&  (((q_val_pre + ((tail - 1 ) * sizeof(INT)))) # Int  |-> (Znth (tail - 1 ) qval_l 0))
   **  (IntArray.missing_i q_val_pre (tail - 1 ) 0 (capacity_pre + 1 ) qval_l )
   **  (IntArray.full weights_pre n_pre weights_l )
   **  (IntArray.full values_pre n_pre values_l )
@@ -3266,7 +3061,7 @@ forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) 
   &&  “ (MKItemResiduePrefixProgress old_l dp_l r w v cnt k capacity_pre ) ” 
   &&  “ (MKQueuePendingState old_l qidx_l qval_l head tail r w v cnt k capacity_pre current ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre))) ”
-  &&  (((q_idx_pre + (tail * sizeof(INT) ) )) # Int  |->_)
+  &&  (((q_idx_pre + (tail * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i q_idx_pre tail 0 (capacity_pre + 1 ) qidx_l )
   **  (IntArray.full weights_pre n_pre weights_l )
   **  (IntArray.full values_pre n_pre values_l )
@@ -3334,7 +3129,7 @@ forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) 
   &&  “ (MKItemResiduePrefixProgress old_l dp_l r w v cnt k capacity_pre ) ” 
   &&  “ (MKQueuePendingState old_l qidx_l qval_l head tail r w v cnt k capacity_pre current ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre))) ”
-  &&  (((q_idx_pre + (tail * sizeof(INT) ) )) # Int  |->_)
+  &&  (((q_idx_pre + (tail * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i q_idx_pre tail 0 (capacity_pre + 1 ) qidx_l )
   **  (IntArray.full q_val_pre (capacity_pre + 1 ) qval_l )
   **  (IntArray.full weights_pre n_pre weights_l )
@@ -3401,7 +3196,7 @@ forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) 
   &&  “ (MKItemResiduePrefixProgress old_l dp_l r w v cnt k capacity_pre ) ” 
   &&  “ (MKQueuePendingState old_l qidx_l qval_l head tail r w v cnt k capacity_pre current ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre))) ”
-  &&  (((q_val_pre + (tail * sizeof(INT) ) )) # Int  |->_)
+  &&  (((q_val_pre + (tail * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i q_val_pre tail 0 (capacity_pre + 1 ) qval_l )
   **  (IntArray.full q_idx_pre (capacity_pre + 1 ) (replace_Znth (tail) (k) (qidx_l)) )
   **  (IntArray.full weights_pre n_pre weights_l )
@@ -3469,7 +3264,7 @@ forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) 
   &&  “ (MKItemResiduePrefixProgress old_l dp_l r w v cnt k capacity_pre ) ” 
   &&  “ (MKQueuePendingState old_l qidx_l qval_l head tail r w v cnt k capacity_pre current ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre))) ”
-  &&  (((q_val_pre + (tail * sizeof(INT) ) )) # Int  |->_)
+  &&  (((q_val_pre + (tail * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i q_val_pre tail 0 (capacity_pre + 1 ) qval_l )
   **  (IntArray.full q_idx_pre (capacity_pre + 1 ) (replace_Znth (tail) (k) (qidx_l)) )
   **  (IntArray.full weights_pre n_pre weights_l )
@@ -3537,7 +3332,7 @@ forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) 
   &&  “ (0 <= ((Znth head qval_l 0) + (k * v ) )) ” 
   &&  “ (((Znth head qval_l 0) + (k * v ) ) <= 1000000) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre))) ”
-  &&  (((q_val_pre + (head * sizeof(INT) ) )) # Int  |-> (Znth head qval_l 0))
+  &&  (((q_val_pre + (head * sizeof(INT)))) # Int  |-> (Znth head qval_l 0))
   **  (IntArray.missing_i q_val_pre head 0 (capacity_pre + 1 ) qval_l )
   **  (IntArray.full weights_pre n_pre weights_l )
   **  (IntArray.full values_pre n_pre values_l )
@@ -3605,7 +3400,7 @@ forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) 
   &&  “ (0 <= ((Znth head qval_l 0) + (k * v ) )) ” 
   &&  “ (((Znth head qval_l 0) + (k * v ) ) <= 1000000) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((((((1 <= (Znth idx weights_l 0)) /\ ((Znth idx weights_l 0) <= (capacity_pre + 1 ))) /\ (0 <= (Znth idx values_l 0))) /\ ((Znth idx values_l 0) <= 1000)) /\ (0 <= (Znth idx counts_l 0))) /\ ((Znth idx counts_l 0) <= capacity_pre))) ”
-  &&  (((dp_pre + (pos * sizeof(INT) ) )) # Int  |->_)
+  &&  (((dp_pre + (pos * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i dp_pre pos 0 (capacity_pre + 1 ) dp_l )
   **  (IntArray.full q_val_pre (capacity_pre + 1 ) qval_l )
   **  (IntArray.full weights_pre n_pre weights_l )
@@ -3638,7 +3433,7 @@ forall (q_val_pre: Z) (q_idx_pre: Z) (old_pre: Z) (dp_pre: Z) (capacity_pre: Z) 
   &&  “ ((Zlength (qval_l)) = (capacity_pre + 1 )) ” 
   &&  “ (MKDPTable weights_l values_l counts_l n_pre capacity_pre dp_l ) ” 
   &&  “ (MultipleKnapsackAnswer weights_l values_l counts_l capacity_pre (Znth capacity_pre dp_l 0) ) ”
-  &&  (((dp_pre + (capacity_pre * sizeof(INT) ) )) # Int  |-> (Znth capacity_pre dp_l 0))
+  &&  (((dp_pre + (capacity_pre * sizeof(INT)))) # Int  |-> (Znth capacity_pre dp_l 0))
   **  (IntArray.missing_i dp_pre capacity_pre 0 (capacity_pre + 1 ) dp_l )
   **  (IntArray.full weights_pre n_pre weights_l )
   **  (IntArray.full values_pre n_pre values_l )

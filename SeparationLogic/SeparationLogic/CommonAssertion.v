@@ -13,6 +13,7 @@ From compcert.lib Require Import Coqlib Integers.
 
 From SimpleC.SL Require Import Mem.
 From SimpleC.SL Require Export IntLib.
+From SimpleC.SL Require Export FloatLib.
 From AUXLib Require Export ListLib.
 From SimpleC.SL Require Export CNotation.
 
@@ -65,6 +66,12 @@ Definition isvalidptr_int (x : Z) : Prop :=
 
 Definition isvalidptr_int64 (x : Z) : Prop :=
   x >= 0 /\ x + 7 <= Int.max_unsigned /\ aligned_4 x.
+
+Definition isvalidptr_float (x : Z) : Prop :=
+  x >= 0 /\ x + 3 <= Int.max_unsigned /\ aligned_4 x.
+
+Definition isvalidptr_double (x : Z) : Prop :=
+  x >= 0 /\ x + 7 <= Int.max_unsigned /\ aligned_8 x.
 
 Definition isvalidptr (x : Z) : Prop :=
   x >= 0 /\ x + 3 <= Int.max_unsigned /\ aligned_4 x.
@@ -341,6 +348,40 @@ Definition store_uint64 (x : addr) (v : Z) :=
 Definition undef_store_uint64 (x : addr) :=
   “ isvalidptr_int64 x ” && store_8byte_noninit x.
 
+Definition store_float (x : addr) (v : fp32) :=
+  match bits_of_float_value v with
+  | Some z =>
+      “ isvalidptr_float x /\ 0 <= z <= Int.max_unsigned ” && store_4byte x z
+  | None =>
+      “ False ”
+  end.
+
+Definition store_double (x : addr) (v : fp64) :=
+  match bits_of_double_value v with
+  | Some z =>
+      “ isvalidptr_double x /\ 0 <= z <= Int64.max_unsigned ” && store_8byte x z
+  | None =>
+      “ False ”
+  end.
+
+Definition store_finite_float (x : addr) (v : fp32) :=
+  “ fp32_isFinite v ” && store_float x v.
+
+Definition store_finite_double (x : addr) (v : fp64) :=
+  “ fp64_isFinite v ” && store_double x v.
+
+Definition undef_store_float (x : addr) :=
+  “ isvalidptr_float x ” && store_4byte_noninit x.
+
+Definition undef_store_double (x : addr) :=
+  “ isvalidptr_double x ” && store_8byte_noninit x.
+
+Definition undef_store_finite_float : addr -> CRules.expr :=
+  undef_store_float.
+
+Definition undef_store_finite_double : addr -> CRules.expr :=
+  undef_store_double.
+
 Definition store_ptr (x : addr) (v : Z) := 
   “ isvalidptr x /\ v >= 0 /\ v <= Int.max_unsigned ” && 
   store_4byte x v.
@@ -348,7 +389,7 @@ Definition store_ptr (x : addr) (v : Z) :=
 Definition undef_store_ptr (x : addr) :=
   “ isvalidptr x ” && store_4byte_noninit x.
 
-Definition Invalid_store (x : addr) (v : Z) :=
+Definition Invalid_store {A : Type} (x : addr) (v : A) :=
   “ False ”.
 
 Definition Invalid_undef_store (x : addr) :=
@@ -417,6 +458,10 @@ Notation "x # 'Int' |-> v" := ( store_int x v) (at level 25, no associativity) :
 Notation "x # 'UInt' |-> v" := ( store_uint x v ) (at level 25, no associativity):sac_scope.
 Notation "x # 'Int64' |-> v" := ( store_int64 x v) (at level 25, no associativity):sac_scope.
 Notation "x # 'UInt64' |-> v" := ( store_uint64 x v) (at level 25, no associativity):sac_scope.
+Notation "x # 'Float' |-> v" := (store_float x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'Double' |-> v" := (store_double x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'FiniteFloat' |-> v" := (store_finite_float x v) (at level 25, no associativity) : sac_scope.
+Notation "x # 'FiniteDouble' |-> v" := (store_finite_double x v) (at level 25, no associativity) : sac_scope.
 Notation "x # 'Ptr' |-> v" := (store_ptr x v) (at level 25, no associativity):sac_scope.
 
 Notation " x # 'Char' |->_" := (undef_store_char x) (at level 25, no associativity) : sac_scope.
@@ -427,10 +472,22 @@ Notation "x # 'Int' |->_" := (undef_store_int x) (at level 25, no associativity)
 Notation "x # 'UInt' |->_" := (undef_store_uint x) (at level 25, no associativity):sac_scope.
 Notation "x # 'Int64' |->_" := (undef_store_int64 x) (at level 25, no associativity):sac_scope.
 Notation "x # 'UInt64' |->_" := (undef_store_uint64 x) (at level 25, no associativity):sac_scope.
+Notation "x # 'Float' |->_" := (undef_store_float x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'Double' |->_" := (undef_store_double x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'FiniteFloat' |->_" := (undef_store_finite_float x) (at level 25, no associativity) : sac_scope.
+Notation "x # 'FiniteDouble' |->_" := (undef_store_finite_double x) (at level 25, no associativity) : sac_scope.
 Notation "x # 'Ptr' |->_" := (undef_store_ptr x) (at level 25, no associativity):sac_scope.
 
-Definition poly_store (ty : front_end_type) := 
-  match ty with 
+Definition front_end_type_value (ty : front_end_type) : Type :=
+  match ty with
+  | FET_float => fp32
+  | FET_double => fp64
+  | _ => Z
+  end.
+
+Definition typed_poly_store (ty : front_end_type) :
+  addr -> front_end_type_value ty -> CRules.expr :=
+  match ty as ty0 return addr -> front_end_type_value ty0 -> CRules.expr with
     | FET_int => store_int
     | FET_char => store_char
     | FET_int64 => store_int64
@@ -439,8 +496,26 @@ Definition poly_store (ty : front_end_type) :=
     | FET_uchar => store_uchar
     | FET_uint64 => store_uint64
     | FET_ushort => store_ushort
-    | FET_ptr => store_ptr 
-    | _ => Invalid_store
+    | FET_float => store_float
+    | FET_double => store_double
+    | FET_ptr => store_ptr
+    | _ => @Invalid_store Z
+  end.
+
+Definition poly_store (ty : front_end_type) : addr -> Z -> CRules.expr :=
+  match ty with
+    | FET_int => store_int
+    | FET_char => store_char
+    | FET_int64 => store_int64
+    | FET_short => store_short
+    | FET_uint => store_uint
+    | FET_uchar => store_uchar
+    | FET_uint64 => store_uint64
+    | FET_ushort => store_ushort
+    | FET_float => fun x z => store_float x (fp32_of_bits z)
+    | FET_double => fun x z => store_double x (fp64_of_bits z)
+    | FET_ptr => store_ptr
+    | _ => @Invalid_store Z
   end.
 
 Definition poly_undef_store (ty : front_end_type) := 
@@ -453,6 +528,8 @@ Definition poly_undef_store (ty : front_end_type) :=
     | FET_uchar => undef_store_uchar
     | FET_uint64 => undef_store_uint64
     | FET_ushort => undef_store_ushort
+    | FET_float => undef_store_float
+    | FET_double => undef_store_double
     | FET_ptr => undef_store_ptr
     | _ => Invalid_undef_store
   end.
@@ -912,6 +989,17 @@ Ltac unfold_term t :=
 
 Ltac poly_store_unfold :=
   match goal with 
+    | |- context [@typed_poly_store FET_int] => unfold_term (@typed_poly_store FET_int)
+    | |- context [@typed_poly_store FET_char] => unfold_term (@typed_poly_store FET_char)
+    | |- context [@typed_poly_store FET_int64] => unfold_term (@typed_poly_store FET_int64)
+    | |- context [@typed_poly_store FET_short] => unfold_term (@typed_poly_store FET_short)
+    | |- context [@typed_poly_store FET_uint] => unfold_term (@typed_poly_store FET_uint)
+    | |- context [@typed_poly_store FET_uchar] => unfold_term (@typed_poly_store FET_uchar)
+    | |- context [@typed_poly_store FET_uint64] => unfold_term (@typed_poly_store FET_uint64)
+    | |- context [@typed_poly_store FET_ushort] => unfold_term (@typed_poly_store FET_ushort)
+    | |- context [@typed_poly_store FET_float] => unfold_term (@typed_poly_store FET_float)
+    | |- context [@typed_poly_store FET_double] => unfold_term (@typed_poly_store FET_double)
+    | |- context [@typed_poly_store FET_ptr] => unfold_term (@typed_poly_store FET_ptr)
     | |- context [@poly_store FET_int] => unfold_term (@poly_store FET_int)
     | |- context [@poly_store FET_char] => unfold_term (@poly_store FET_char)
     | |- context [@poly_store FET_int64] => unfold_term (@poly_store FET_int64)
@@ -920,6 +1008,8 @@ Ltac poly_store_unfold :=
     | |- context [@poly_store FET_uchar] => unfold_term (@poly_store FET_uchar)
     | |- context [@poly_store FET_uint64] => unfold_term (@poly_store FET_uint64)
     | |- context [@poly_store FET_ushort] => unfold_term (@poly_store FET_ushort)
+    | |- context [@poly_store FET_float] => unfold_term (@poly_store FET_float)
+    | |- context [@poly_store FET_double] => unfold_term (@poly_store FET_double)
     | |- context [@poly_store FET_ptr] => unfold_term (@poly_store FET_ptr)
     | |- context [@poly_undef_store FET_int] => unfold_term (@poly_undef_store FET_int)
     | |- context [@poly_undef_store FET_char] => unfold_term (@poly_undef_store FET_char)
@@ -929,6 +1019,8 @@ Ltac poly_store_unfold :=
     | |- context [@poly_undef_store FET_uchar] => unfold_term (@poly_undef_store FET_uchar)
     | |- context [@poly_undef_store FET_uint64] => unfold_term (@poly_undef_store FET_uint64)
     | |- context [@poly_undef_store FET_ushort] => unfold_term (@poly_undef_store FET_ushort)
+    | |- context [@poly_undef_store FET_float] => unfold_term (@poly_undef_store FET_float)
+    | |- context [@poly_undef_store FET_double] => unfold_term (@poly_undef_store FET_double)
     | |- context [@poly_undef_store FET_ptr] => unfold_term (@poly_undef_store FET_ptr)
     | |- _ => idtac
     end.
@@ -1380,16 +1472,6 @@ Ltac pre_process :=
   Rename pre_process_pure ;
   try (solve [entailer!]).
 
-Ltac aggressive_pre_process :=
-  try Unfold;
-  match goal with 
-    | |-  _ \/ _ => right
-    | _ => idtac
-  end;
-  intros; poly_store_unfold;
-  Rename pre_process_pure ;
-  try (solve [entailer!]).
-
 Tactic Notation "pre_process_default" := pre_process.
 
 (* ========== LLM-friendly tactics ========== *)
@@ -1807,6 +1889,46 @@ Ltac sep_apply_right H :=
    find_lemmapre_rec h);
   subst_all_strings.
 
+Ltac aggressive_pre_process :=
+  try Unfold;
+  match goal with 
+    | |-  _ \/ _ => right
+    | _ => idtac
+  end;
+  intros; poly_store_unfold;
+  Rename pre_process_pure ;
+  repeat (split_pure_spatial || split_pures);
+  try solve [entailer!];
+  try match goal with
+      | |- emp |-- “ _ ” => dump_pre_spatial
+      end.
+
+Ltac Goal_apply_used H used :=
+  lazymatch type of H with
+  | forall x : ?A, _ =>
+      match reverse goal with
+      | h : A |- _ =>
+          first
+            [ lazymatch used with
+              | context[h] => fail 1
+              end
+            | Goal_apply_used (H h) (h, used) ]
+      end
+  | _ =>
+      let H_inst := fresh "H_goal_inst" in
+      pose proof H as H_inst;
+      repeat rewrite truep_andp_left_equiv in H_inst;
+      repeat rewrite truep_andp_right_equiv in H_inst;
+      first [ exact H_inst | sep_apply H_inst; entailer! ]
+  end.
+
+Ltac Goal_apply H := 
+  pose proof H as H_goal;
+  match type of H_goal with
+  | ?P => try unfold P in H_goal
+  end;
+  Goal_apply_used H_goal tt.
+  
 (* ----- Experimental / disabled ideas kept for reference ----- *)
 
 (* Lemma split_pure_right : forall P Q R, P |-- R -> P |-- “ Q ” -> P |-- R && “ Q ”.

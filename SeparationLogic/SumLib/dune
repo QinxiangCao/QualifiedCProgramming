@@ -1,0 +1,8 @@
+; Converted from:
+; - _CoqProject: -R SeparationLogic/SumLib SumLib
+; - SeparationLogic/_CoqProject: -R SumLib SumLib
+(coq.theory
+ (name SumLib)
+ (theories AUXLib))
+
+(include_subdirs qualified)

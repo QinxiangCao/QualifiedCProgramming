@@ -23,7 +23,6 @@ Local Open Scope sac.
 Lemma proof_of_atype_unify_return_wit_5 : atype_unify_return_wit_5.
 Proof.
   pre_process.
-  Left.
   Exists s_post_3.
   entailer!.
   subst.
@@ -36,7 +35,6 @@ Qed.
 Lemma proof_of_atype_unify_return_wit_6 : atype_unify_return_wit_6.
 Proof.
   pre_process.
-  Right.
   Exists s_post_3.
   entailer!.
   subst.
@@ -248,7 +246,6 @@ Qed.
 Lemma proof_of_atype_unify1_return_wit_5 : atype_unify1_return_wit_5.
 Proof.
   pre_process.
-  Left.
   Exists s_post_3.
   entailer!.
   subst.
@@ -261,7 +258,6 @@ Qed.
 Lemma proof_of_atype_unify1_return_wit_6 : atype_unify1_return_wit_6.
 Proof.
   pre_process.
-  Right.
   Exists s_post_3.
   entailer!.
   subst.
@@ -396,7 +392,6 @@ Qed.
 Lemma proof_of_atype_unify2_return_wit_13 : atype_unify2_return_wit_13.
 Proof.
   pre_process.
-  Right.
   Exists s_pre.
   entailer!.
   subst.
@@ -407,7 +402,6 @@ Qed.
 Lemma proof_of_atype_unify2_return_wit_12 : atype_unify2_return_wit_12.
 Proof.
   pre_process.
-  Left.
   Exists s_post_3.
   entailer!.
   subst.
@@ -422,7 +416,6 @@ Qed.
 Lemma proof_of_atype_unify2_return_wit_11 : atype_unify2_return_wit_11.
 Proof.
   pre_process.
-  Right.
   Exists s_pre.
   entailer!.
   subst.
@@ -433,7 +426,6 @@ Qed.
 Lemma proof_of_atype_unify2_return_wit_10 : atype_unify2_return_wit_10.
 Proof.
   pre_process.
-  Left.
   Exists s_post_3.
   entailer!.
   subst.
@@ -446,7 +438,6 @@ Qed.
 Lemma proof_of_atype_unify2_return_wit_9 : atype_unify2_return_wit_9.
 Proof.
   pre_process.
-  Right.
   Exists s_pre.
   entailer!.
   sep_apply from_aux.
@@ -457,7 +448,6 @@ Qed.
 Lemma proof_of_atype_unify2_return_wit_8 : atype_unify2_return_wit_8.
 Proof.
   pre_process.
-  Right.
   Exists s_post_3.
   entailer!.
   subst.
@@ -470,7 +460,6 @@ Qed.
 Lemma proof_of_atype_unify2_return_wit_6 : atype_unify2_return_wit_6.
 Proof.
   pre_process.
-  Left.
   Exists s_post_4.
   entailer!.
   subst.
@@ -488,7 +477,6 @@ Qed.
 Lemma proof_of_atype_unify2_return_wit_7 : atype_unify2_return_wit_7.
 Proof.
   pre_process.
-  Right.
   Exists s_post_4.
   entailer!.
   subst.
@@ -501,7 +489,6 @@ Qed.
 Lemma proof_of_atype_unify2_return_wit_5 : atype_unify2_return_wit_5.
 Proof.
   pre_process.
-  Right.
   Exists s_post_3.
   entailer!.
   subst.
@@ -514,7 +501,6 @@ Qed.
 Lemma proof_of_atype_unify2_return_wit_3 : atype_unify2_return_wit_3.
 Proof.
   pre_process.
-  Left.
   Exists s_post_4.
   entailer!.
   subst.
@@ -532,7 +518,6 @@ Qed.
 Lemma proof_of_atype_unify2_return_wit_4 : atype_unify2_return_wit_4.
 Proof.
   pre_process.
-  Right.
   Exists s_post_4.
   entailer!.
   subst.
@@ -545,7 +530,6 @@ Qed.
 Lemma proof_of_atype_unify2_return_wit_2 : atype_unify2_return_wit_2.
 Proof.
   pre_process.
-  Left.
   Exists s_pre.
   entailer!.
   subst.
@@ -558,7 +542,6 @@ Qed.
 Lemma proof_of_atype_unify2_return_wit_1 : atype_unify2_return_wit_1.
 Proof.
   pre_process.
-  Right.
   Exists s_pre.
   entailer!.
   subst.

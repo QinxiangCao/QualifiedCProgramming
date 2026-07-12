@@ -958,12 +958,13 @@ forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z
 .
 
 Definition glibc_slist_clean_multi_merge_entail_wit_1_1 := 
+(
 forall (z_pre: Z) (y_pre: Z) (x_pre: Z) (l3_low_level_spec: (@list Z)) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (PreH1 : (y_pre <> 0)) (PreH2 : (x_pre = 0)) (PreH3 : (safeExec ATrue (glibc_slist_clean_multi_merge_M (l1_low_level_spec) (l2_low_level_spec) (l3_low_level_spec)) X_low_level_spec )) ,
   (sll x_pre l1_low_level_spec )
   **  (sll y_pre l2_low_level_spec )
   **  (sll z_pre l3_low_level_spec )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
+  EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y_pre <> 0) ” 
   &&  “ (y_pre <> 0) ” 
@@ -972,37 +973,46 @@ forall (z_pre: Z) (y_pre: Z) (x_pre: Z) (l3_low_level_spec: (@list Z)) (l2_low_l
   **  (sll y_pre l2 )
   **  (sll 0 l3 )
   **  (sll z_pre l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
-  &&  “ (y_pre <> 0) ” 
-  &&  “ (x_pre <> 0) ” 
-  &&  “ (x_pre <> 0) ”
-  &&  (sllseg y_pre y_pre l1_2 )
-  **  (sll y_pre l2_2 )
-  **  (sll 0 l3_2 )
-  **  (sll z_pre l4_2 ))
+  **  (sll x_pre l1_low_level_spec )
+) \/
+(
+forall (y_pre: Z) (x_pre: Z) (l3_low_level_spec: (@list Z)) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (PreH1 : (y_pre <> 0)) (PreH2 : (x_pre = 0)) (PreH3 : (safeExec ATrue (glibc_slist_clean_multi_merge_M (l1_low_level_spec) (l2_low_level_spec) (l3_low_level_spec)) X_low_level_spec )) ,
+  (sll x_pre l1_low_level_spec )
+|--
+  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop ((@nil Z)) (l2_low_level_spec) ((@nil Z)) (l3_low_level_spec))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
+  &&  “ (l1_low_level_spec = (@nil Z)) ”
+  &&  emp
+).
+
+Definition glibc_slist_clean_multi_merge_entail_wit_1_1_split_goal_1 := 
+forall (y_pre: Z) (x_pre: Z) (l3_low_level_spec: (@list Z)) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (PreH1 : (y_pre <> 0)) (PreH2 : (x_pre = 0)) (PreH3 : (safeExec ATrue (glibc_slist_clean_multi_merge_M (l1_low_level_spec) (l2_low_level_spec) (l3_low_level_spec)) X_low_level_spec )) ,
+  (sll x_pre l1_low_level_spec )
+|--
+  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop ((@nil Z)) (l2_low_level_spec) ((@nil Z)) (l3_low_level_spec))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ”
+.
+
+Definition glibc_slist_clean_multi_merge_entail_wit_1_1_split_goal_2 := 
+forall (y_pre: Z) (x_pre: Z) (l3_low_level_spec: (@list Z)) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (PreH1 : (y_pre <> 0)) (PreH2 : (x_pre = 0)) (PreH3 : (safeExec ATrue (glibc_slist_clean_multi_merge_M (l1_low_level_spec) (l2_low_level_spec) (l3_low_level_spec)) X_low_level_spec )) ,
+  (sll x_pre l1_low_level_spec )
+|--
+  “ (l1_low_level_spec = (@nil Z)) ”
+.
+
+Definition glibc_slist_clean_multi_merge_entail_wit_1_1_split_goal_spatial := 
+forall (y_pre: Z) (x_pre: Z) (l3_low_level_spec: (@list Z)) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (PreH1 : (y_pre <> 0)) (PreH2 : (x_pre = 0)) (PreH3 : (safeExec ATrue (glibc_slist_clean_multi_merge_M (l1_low_level_spec) (l2_low_level_spec) (l3_low_level_spec)) X_low_level_spec )) ,
+  (sll x_pre l1_low_level_spec )
+|--
+  TT && emp 
 .
 
 Definition glibc_slist_clean_multi_merge_entail_wit_1_2 := 
+(
 forall (z_pre: Z) (y_pre: Z) (x_pre: Z) (l3_low_level_spec: (@list Z)) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (PreH1 : (x_pre <> 0)) (PreH2 : (x_pre <> 0)) (PreH3 : (safeExec ATrue (glibc_slist_clean_multi_merge_M (l1_low_level_spec) (l2_low_level_spec) (l3_low_level_spec)) X_low_level_spec )) ,
   (sll x_pre l1_low_level_spec )
   **  (sll y_pre l2_low_level_spec )
   **  (sll z_pre l3_low_level_spec )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
-  &&  “ (x_pre <> 0) ” 
-  &&  “ (y_pre <> 0) ” 
-  &&  “ (x_pre = 0) ”
-  &&  (sllseg x_pre x_pre l1 )
-  **  (sll x_pre l2 )
-  **  (sll y_pre l3 )
-  **  (sll z_pre l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
+  EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (x_pre <> 0) ” 
   &&  “ (x_pre <> 0) ” 
@@ -1010,11 +1020,24 @@ forall (z_pre: Z) (y_pre: Z) (x_pre: Z) (l3_low_level_spec: (@list Z)) (l2_low_l
   &&  (sllseg x_pre x_pre l1_2 )
   **  (sll x_pre l2_2 )
   **  (sll y_pre l3_2 )
-  **  (sll z_pre l4_2 ))
+  **  (sll z_pre l4_2 )
+) \/
+(
+forall (x_pre: Z) (l3_low_level_spec: (@list Z)) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (PreH1 : (x_pre <> 0)) (PreH2 : (x_pre <> 0)) (PreH3 : (safeExec ATrue (glibc_slist_clean_multi_merge_M (l1_low_level_spec) (l2_low_level_spec) (l3_low_level_spec)) X_low_level_spec )) ,
+  TT && emp 
+|--
+  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop ((@nil Z)) (l1_low_level_spec) (l2_low_level_spec) (l3_low_level_spec))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ”
+  &&  emp
+).
+
+Definition glibc_slist_clean_multi_merge_entail_wit_1_2_split_goal_1 := 
+forall (x_pre: Z) (l3_low_level_spec: (@list Z)) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (PreH1 : (x_pre <> 0)) (PreH2 : (x_pre <> 0)) (PreH3 : (safeExec ATrue (glibc_slist_clean_multi_merge_M (l1_low_level_spec) (l2_low_level_spec) (l3_low_level_spec)) X_low_level_spec )) ,
+  (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop ((@nil Z)) (l1_low_level_spec) (l2_low_level_spec) (l3_low_level_spec))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )
 .
 
 Definition glibc_slist_clean_multi_merge_entail_wit_2_1 := 
-forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y_3: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y: Z) (x_3: Z) (l0_2: (@list Z)) (y_2: Z) (PreH1 : (y_2 <> 0)) (PreH2 : (ty = 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l3_3 = (cons (x_2) (l0)))) (PreH5 : (z = 0)) (PreH6 : (ty = 0)) (PreH7 : (y_3 <> 0)) (PreH8 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH9 : (cursor <> 0)) (PreH10 : (x_pre <> 0)) (PreH11 : (x_pre <> 0)) ,
+(
+forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y_3: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y: Z) (x_3: Z) (l0_2: (@list Z)) (y_2: Z) (PreH1 : (y_2 <> 0)) (PreH2 : (ty = 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l3_3 = (cons (x_2) (l0)))) (PreH5 : (z = 0)) (PreH6 : (ty = 0)) (PreH7 : (y_3 <> 0)) (PreH8 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH9 : (cursor <> 0)) (PreH10 : (x_pre <> 0)) (PreH11 : (x_pre <> 0)) ,
   ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> y_3)
   **  (sll y_2 l0_2 )
   **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
@@ -1025,19 +1048,7 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sllseg x cursor l1_3 )
   **  (sll z l4_3 )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
-  &&  “ (y_2 <> 0) ” 
-  &&  “ (y_pre <> 0) ” 
-  &&  “ (x_pre = 0) ”
-  &&  ((( &( "node" ) )) # Ptr  |->_)
-  **  (sllseg x y_2 l1 )
-  **  (sll y_2 l2 )
-  **  (sll y l3 )
-  **  (sll z l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
+  EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y_2 <> 0) ” 
   &&  “ (x_pre <> 0) ” 
@@ -1046,10 +1057,27 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sllseg x y_2 l1_2 )
   **  (sll y_2 l2_2 )
   **  (sll y l3_2 )
-  **  (sll z l4_2 ))
-.
+  **  (sll z l4_2 )
+) \/
+(
+forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y_3: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (x_3: Z) (l0_2: (@list Z)) (y_2: Z) (PreH1 : (x_2 <= INT_MAX)) (PreH2 : (x_3 <= INT_MAX)) (PreH3 : (x_2 >= INT_MIN)) (PreH4 : (x_3 >= INT_MIN)) (PreH5 : (y_2 <> 0)) (PreH6 : (ty = 0)) (PreH7 : (l2_3 = (cons (x_3) (l0_2)))) (PreH8 : (l3_3 = (cons (x_2) (l0)))) (PreH9 : (z = 0)) (PreH10 : (ty = 0)) (PreH11 : (y_3 <> 0)) (PreH12 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH13 : (cursor <> 0)) (PreH14 : (x_pre <> 0)) (PreH15 : (x_pre <> 0)) ,
+  ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> y_3)
+  **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
+  **  ((&((y_3)  # "list" ->ₛ "next")) # Ptr  |-> y_2)
+  **  ((&((y_3)  # "list" ->ₛ "data")) # Int  |-> x_2)
+  **  (sllseg x cursor l1_3 )
+  **  (sll z l4_3 )
+|--
+  EX (l1_2: (@list Z)) ,
+  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l0_2) (l0) ((@nil Z)))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
+  &&  “ (y_2 <> 0) ” 
+  &&  “ (x_pre <> 0) ” 
+  &&  “ (x_pre <> 0) ”
+  &&  (sllseg x y_2 l1_2 )
+).
 
 Definition glibc_slist_clean_multi_merge_entail_wit_2_2 := 
+(
 forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y_3: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y: Z) (x_3: Z) (l0_2: (@list Z)) (y_2: Z) (PreH1 : (y_2 <> 0)) (PreH2 : (ty = 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l3_3 = (cons (x_2) (l0)))) (PreH5 : (z = 0)) (PreH6 : (ty = 0)) (PreH7 : (y_3 <> 0)) (PreH8 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH9 : (cursor <> 0)) (PreH10 : (y_pre <> 0)) (PreH11 : (x_pre = 0)) ,
   ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> y_3)
   **  (sll y_2 l0_2 )
@@ -1062,7 +1090,7 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sll z l4_3 )
   **  (sll x_pre l1_low_level_spec )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
+  EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y_2 <> 0) ” 
   &&  “ (y_pre <> 0) ” 
@@ -1072,22 +1100,30 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sll y_2 l2 )
   **  (sll y l3 )
   **  (sll z l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
+  **  (sll x_pre l1_low_level_spec )
+) \/
+(
+forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y_3: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (x_3: Z) (l0_2: (@list Z)) (y_2: Z) (PreH1 : (x_2 <= INT_MAX)) (PreH2 : (x_3 <= INT_MAX)) (PreH3 : (x_2 >= INT_MIN)) (PreH4 : (x_3 >= INT_MIN)) (PreH5 : (y_2 <> 0)) (PreH6 : (ty = 0)) (PreH7 : (l2_3 = (cons (x_3) (l0_2)))) (PreH8 : (l3_3 = (cons (x_2) (l0)))) (PreH9 : (z = 0)) (PreH10 : (ty = 0)) (PreH11 : (y_3 <> 0)) (PreH12 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH13 : (cursor <> 0)) (PreH14 : (y_pre <> 0)) (PreH15 : (x_pre = 0)) ,
+  ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> y_3)
+  **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
+  **  ((&((y_3)  # "list" ->ₛ "next")) # Ptr  |-> y_2)
+  **  ((&((y_3)  # "list" ->ₛ "data")) # Int  |-> x_2)
+  **  (sllseg x cursor l1_3 )
+  **  (sll z l4_3 )
+  **  (sll x_pre l1_low_level_spec )
+|--
+  EX (l1: (@list Z)) ,
+  “ (l1_low_level_spec = (@nil Z)) ” 
+  &&  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l0_2) (l0) ((@nil Z)))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y_2 <> 0) ” 
-  &&  “ (x_pre <> 0) ” 
-  &&  “ (x_pre <> 0) ”
-  &&  ((( &( "node" ) )) # Ptr  |->_)
-  **  (sllseg x y_2 l1_2 )
-  **  (sll y_2 l2_2 )
-  **  (sll y l3_2 )
-  **  (sll z l4_2 ))
-.
+  &&  “ (y_pre <> 0) ” 
+  &&  “ (x_pre = 0) ”
+  &&  (sllseg x y_2 l1 )
+).
 
 Definition glibc_slist_clean_multi_merge_entail_wit_2_3 := 
-forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 <> 0)) (PreH2 : (ty <> 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l4_3 = (cons (x_2) (l0)))) (PreH5 : (z <> 0)) (PreH6 : (y = 0)) (PreH7 : (ty <> 0)) (PreH8 : (z <> 0)) (PreH9 : (y = 0)) (PreH10 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH11 : (cursor <> 0)) (PreH12 : (x_pre <> 0)) (PreH13 : (x_pre <> 0)) ,
+(
+forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 <> 0)) (PreH2 : (ty <> 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l4_3 = (cons (x_2) (l0)))) (PreH5 : (z <> 0)) (PreH6 : (y = 0)) (PreH7 : (ty <> 0)) (PreH8 : (z <> 0)) (PreH9 : (y = 0)) (PreH10 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH11 : (cursor <> 0)) (PreH12 : (x_pre <> 0)) (PreH13 : (x_pre <> 0)) ,
   ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
   **  (sll y_3 l0_2 )
   **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
@@ -1098,19 +1134,7 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sllseg x cursor l1_3 )
   **  (sll y l3_3 )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
-  &&  “ (y_3 <> 0) ” 
-  &&  “ (y_pre <> 0) ” 
-  &&  “ (x_pre = 0) ”
-  &&  ((( &( "node" ) )) # Ptr  |->_)
-  **  (sllseg x y_3 l1 )
-  **  (sll y_3 l2 )
-  **  (sll y l3 )
-  **  (sll y_2 l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
+  EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y_3 <> 0) ” 
   &&  “ (x_pre <> 0) ” 
@@ -1119,10 +1143,27 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sllseg x y_3 l1_2 )
   **  (sll y_3 l2_2 )
   **  (sll y l3_2 )
-  **  (sll y_2 l4_2 ))
-.
+  **  (sll y_2 l4_2 )
+) \/
+(
+forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (x_2 <= INT_MAX)) (PreH2 : (x_3 <= INT_MAX)) (PreH3 : (x_2 >= INT_MIN)) (PreH4 : (x_3 >= INT_MIN)) (PreH5 : (y_3 <> 0)) (PreH6 : (ty <> 0)) (PreH7 : (l2_3 = (cons (x_3) (l0_2)))) (PreH8 : (l4_3 = (cons (x_2) (l0)))) (PreH9 : (z <> 0)) (PreH10 : (y = 0)) (PreH11 : (ty <> 0)) (PreH12 : (z <> 0)) (PreH13 : (y = 0)) (PreH14 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH15 : (cursor <> 0)) (PreH16 : (x_pre <> 0)) (PreH17 : (x_pre <> 0)) ,
+  ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
+  **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
+  **  ((&((z)  # "list" ->ₛ "next")) # Ptr  |-> y_3)
+  **  ((&((z)  # "list" ->ₛ "data")) # Int  |-> x_2)
+  **  (sllseg x cursor l1_3 )
+  **  (sll y l3_3 )
+|--
+  EX (l1_2: (@list Z)) ,
+  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l0_2) ((@nil Z)) (l0))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
+  &&  “ (y_3 <> 0) ” 
+  &&  “ (x_pre <> 0) ” 
+  &&  “ (x_pre <> 0) ”
+  &&  (sllseg x y_3 l1_2 )
+).
 
 Definition glibc_slist_clean_multi_merge_entail_wit_2_4 := 
+(
 forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 <> 0)) (PreH2 : (ty <> 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l4_3 = (cons (x_2) (l0)))) (PreH5 : (z <> 0)) (PreH6 : (y = 0)) (PreH7 : (ty <> 0)) (PreH8 : (z <> 0)) (PreH9 : (y = 0)) (PreH10 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH11 : (cursor <> 0)) (PreH12 : (y_pre <> 0)) (PreH13 : (x_pre = 0)) ,
   ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
   **  (sll y_3 l0_2 )
@@ -1135,7 +1176,7 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sll y l3_3 )
   **  (sll x_pre l1_low_level_spec )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
+  EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y_3 <> 0) ” 
   &&  “ (y_pre <> 0) ” 
@@ -1145,22 +1186,30 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sll y_3 l2 )
   **  (sll y l3 )
   **  (sll y_2 l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
+  **  (sll x_pre l1_low_level_spec )
+) \/
+(
+forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (x_2 <= INT_MAX)) (PreH2 : (x_3 <= INT_MAX)) (PreH3 : (x_2 >= INT_MIN)) (PreH4 : (x_3 >= INT_MIN)) (PreH5 : (y_3 <> 0)) (PreH6 : (ty <> 0)) (PreH7 : (l2_3 = (cons (x_3) (l0_2)))) (PreH8 : (l4_3 = (cons (x_2) (l0)))) (PreH9 : (z <> 0)) (PreH10 : (y = 0)) (PreH11 : (ty <> 0)) (PreH12 : (z <> 0)) (PreH13 : (y = 0)) (PreH14 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH15 : (cursor <> 0)) (PreH16 : (y_pre <> 0)) (PreH17 : (x_pre = 0)) ,
+  ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
+  **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
+  **  ((&((z)  # "list" ->ₛ "next")) # Ptr  |-> y_3)
+  **  ((&((z)  # "list" ->ₛ "data")) # Int  |-> x_2)
+  **  (sllseg x cursor l1_3 )
+  **  (sll y l3_3 )
+  **  (sll x_pre l1_low_level_spec )
+|--
+  EX (l1: (@list Z)) ,
+  “ (l1_low_level_spec = (@nil Z)) ” 
+  &&  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l0_2) ((@nil Z)) (l0))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y_3 <> 0) ” 
-  &&  “ (x_pre <> 0) ” 
-  &&  “ (x_pre <> 0) ”
-  &&  ((( &( "node" ) )) # Ptr  |->_)
-  **  (sllseg x y_3 l1_2 )
-  **  (sll y_3 l2_2 )
-  **  (sll y l3_2 )
-  **  (sll y_2 l4_2 ))
-.
+  &&  “ (y_pre <> 0) ” 
+  &&  “ (x_pre = 0) ”
+  &&  (sllseg x y_3 l1 )
+).
 
 Definition glibc_slist_clean_multi_merge_entail_wit_2_5 := 
-forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 <> 0)) (PreH2 : (ty = 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l4_3 = (cons (x_2) (l0)))) (PreH5 : (z <> 0)) (PreH6 : (ty = 0)) (PreH7 : (y <> 0)) (PreH8 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH9 : (cursor <> 0)) (PreH10 : (x_pre <> 0)) (PreH11 : (x_pre <> 0)) ,
+(
+forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 <> 0)) (PreH2 : (ty = 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l4_3 = (cons (x_2) (l0)))) (PreH5 : (z <> 0)) (PreH6 : (ty = 0)) (PreH7 : (y <> 0)) (PreH8 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH9 : (cursor <> 0)) (PreH10 : (x_pre <> 0)) (PreH11 : (x_pre <> 0)) ,
   ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
   **  (sll y_3 l0_2 )
   **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
@@ -1171,19 +1220,7 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sllseg x cursor l1_3 )
   **  (sll y l3_3 )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
-  &&  “ (y_3 <> 0) ” 
-  &&  “ (y_pre <> 0) ” 
-  &&  “ (x_pre = 0) ”
-  &&  ((( &( "node" ) )) # Ptr  |->_)
-  **  (sllseg x y_3 l1 )
-  **  (sll y_3 l2 )
-  **  (sll y l3 )
-  **  (sll y_2 l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
+  EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y_3 <> 0) ” 
   &&  “ (x_pre <> 0) ” 
@@ -1192,10 +1229,26 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sllseg x y_3 l1_2 )
   **  (sll y_3 l2_2 )
   **  (sll y l3_2 )
-  **  (sll y_2 l4_2 ))
-.
+  **  (sll y_2 l4_2 )
+) \/
+(
+forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (x_2 <= INT_MAX)) (PreH2 : (x_3 <= INT_MAX)) (PreH3 : (x_2 >= INT_MIN)) (PreH4 : (x_3 >= INT_MIN)) (PreH5 : (y_3 <> 0)) (PreH6 : (ty = 0)) (PreH7 : (l2_3 = (cons (x_3) (l0_2)))) (PreH8 : (l4_3 = (cons (x_2) (l0)))) (PreH9 : (z <> 0)) (PreH10 : (ty = 0)) (PreH11 : (y <> 0)) (PreH12 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH13 : (cursor <> 0)) (PreH14 : (x_pre <> 0)) (PreH15 : (x_pre <> 0)) ,
+  ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
+  **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
+  **  ((&((z)  # "list" ->ₛ "next")) # Ptr  |-> y_3)
+  **  ((&((z)  # "list" ->ₛ "data")) # Int  |-> x_2)
+  **  (sllseg x cursor l1_3 )
+|--
+  EX (l1_2: (@list Z)) ,
+  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l0_2) (l3_3) (l0))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
+  &&  “ (y_3 <> 0) ” 
+  &&  “ (x_pre <> 0) ” 
+  &&  “ (x_pre <> 0) ”
+  &&  (sllseg x y_3 l1_2 )
+).
 
 Definition glibc_slist_clean_multi_merge_entail_wit_2_6 := 
+(
 forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 <> 0)) (PreH2 : (ty = 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l4_3 = (cons (x_2) (l0)))) (PreH5 : (z <> 0)) (PreH6 : (ty = 0)) (PreH7 : (y <> 0)) (PreH8 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH9 : (cursor <> 0)) (PreH10 : (y_pre <> 0)) (PreH11 : (x_pre = 0)) ,
   ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
   **  (sll y_3 l0_2 )
@@ -1208,7 +1261,7 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sll y l3_3 )
   **  (sll x_pre l1_low_level_spec )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
+  EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y_3 <> 0) ” 
   &&  “ (y_pre <> 0) ” 
@@ -1218,21 +1271,28 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sll y_3 l2 )
   **  (sll y l3 )
   **  (sll y_2 l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
+  **  (sll x_pre l1_low_level_spec )
+) \/
+(
+forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (x_2 <= INT_MAX)) (PreH2 : (x_3 <= INT_MAX)) (PreH3 : (x_2 >= INT_MIN)) (PreH4 : (x_3 >= INT_MIN)) (PreH5 : (y_3 <> 0)) (PreH6 : (ty = 0)) (PreH7 : (l2_3 = (cons (x_3) (l0_2)))) (PreH8 : (l4_3 = (cons (x_2) (l0)))) (PreH9 : (z <> 0)) (PreH10 : (ty = 0)) (PreH11 : (y <> 0)) (PreH12 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH13 : (cursor <> 0)) (PreH14 : (y_pre <> 0)) (PreH15 : (x_pre = 0)) ,
+  ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
+  **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
+  **  ((&((z)  # "list" ->ₛ "next")) # Ptr  |-> y_3)
+  **  ((&((z)  # "list" ->ₛ "data")) # Int  |-> x_2)
+  **  (sllseg x cursor l1_3 )
+  **  (sll x_pre l1_low_level_spec )
+|--
+  EX (l1: (@list Z)) ,
+  “ (l1_low_level_spec = (@nil Z)) ” 
+  &&  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l0_2) (l3_3) (l0))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y_3 <> 0) ” 
-  &&  “ (x_pre <> 0) ” 
-  &&  “ (x_pre <> 0) ”
-  &&  ((( &( "node" ) )) # Ptr  |->_)
-  **  (sllseg x y_3 l1_2 )
-  **  (sll y_3 l2_2 )
-  **  (sll y l3_2 )
-  **  (sll y_2 l4_2 ))
-.
+  &&  “ (y_pre <> 0) ” 
+  &&  “ (x_pre = 0) ”
+  &&  (sllseg x y_3 l1 )
+).
 
 Definition glibc_slist_clean_multi_merge_entail_wit_2_7 := 
+(
 forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 <> 0)) (PreH2 : (ty = 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l4_3 = (cons (x_2) (l0)))) (PreH5 : (z <> 0)) (PreH6 : (ty = 0)) (PreH7 : (z <> 0)) (PreH8 : (y = 0)) (PreH9 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH10 : (cursor <> 0)) (PreH11 : (y_pre <> 0)) (PreH12 : (x_pre = 0)) ,
   ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
   **  (sll y_3 l0_2 )
@@ -1245,7 +1305,7 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sll y l3_3 )
   **  (sll x_pre l1_low_level_spec )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
+  EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y_3 <> 0) ” 
   &&  “ (y_pre <> 0) ” 
@@ -1255,22 +1315,30 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sll y_3 l2 )
   **  (sll y l3 )
   **  (sll y_2 l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
+  **  (sll x_pre l1_low_level_spec )
+) \/
+(
+forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (x_2 <= INT_MAX)) (PreH2 : (x_3 <= INT_MAX)) (PreH3 : (x_2 >= INT_MIN)) (PreH4 : (x_3 >= INT_MIN)) (PreH5 : (y_3 <> 0)) (PreH6 : (ty = 0)) (PreH7 : (l2_3 = (cons (x_3) (l0_2)))) (PreH8 : (l4_3 = (cons (x_2) (l0)))) (PreH9 : (z <> 0)) (PreH10 : (ty = 0)) (PreH11 : (z <> 0)) (PreH12 : (y = 0)) (PreH13 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH14 : (cursor <> 0)) (PreH15 : (y_pre <> 0)) (PreH16 : (x_pre = 0)) ,
+  ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
+  **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
+  **  ((&((z)  # "list" ->ₛ "next")) # Ptr  |-> y_3)
+  **  ((&((z)  # "list" ->ₛ "data")) # Int  |-> x_2)
+  **  (sllseg x cursor l1_3 )
+  **  (sll y l3_3 )
+  **  (sll x_pre l1_low_level_spec )
+|--
+  EX (l1: (@list Z)) ,
+  “ (l1_low_level_spec = (@nil Z)) ” 
+  &&  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l0_2) ((@nil Z)) (l0))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y_3 <> 0) ” 
-  &&  “ (x_pre <> 0) ” 
-  &&  “ (x_pre <> 0) ”
-  &&  ((( &( "node" ) )) # Ptr  |->_)
-  **  (sllseg x y_3 l1_2 )
-  **  (sll y_3 l2_2 )
-  **  (sll y l3_2 )
-  **  (sll y_2 l4_2 ))
-.
+  &&  “ (y_pre <> 0) ” 
+  &&  “ (x_pre = 0) ”
+  &&  (sllseg x y_3 l1 )
+).
 
 Definition glibc_slist_clean_multi_merge_entail_wit_2_8 := 
-forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 <> 0)) (PreH2 : (ty = 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l4_3 = (cons (x_2) (l0)))) (PreH5 : (z <> 0)) (PreH6 : (ty = 0)) (PreH7 : (z <> 0)) (PreH8 : (y = 0)) (PreH9 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH10 : (cursor <> 0)) (PreH11 : (x_pre <> 0)) (PreH12 : (x_pre <> 0)) ,
+(
+forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 <> 0)) (PreH2 : (ty = 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l4_3 = (cons (x_2) (l0)))) (PreH5 : (z <> 0)) (PreH6 : (ty = 0)) (PreH7 : (z <> 0)) (PreH8 : (y = 0)) (PreH9 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH10 : (cursor <> 0)) (PreH11 : (x_pre <> 0)) (PreH12 : (x_pre <> 0)) ,
   ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
   **  (sll y_3 l0_2 )
   **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
@@ -1281,19 +1349,7 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sllseg x cursor l1_3 )
   **  (sll y l3_3 )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
-  &&  “ (y_3 <> 0) ” 
-  &&  “ (y_pre <> 0) ” 
-  &&  “ (x_pre = 0) ”
-  &&  ((( &( "node" ) )) # Ptr  |->_)
-  **  (sllseg x y_3 l1 )
-  **  (sll y_3 l2 )
-  **  (sll y l3 )
-  **  (sll y_2 l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
+  EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y_3 <> 0) ” 
   &&  “ (x_pre <> 0) ” 
@@ -1302,10 +1358,27 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sllseg x y_3 l1_2 )
   **  (sll y_3 l2_2 )
   **  (sll y l3_2 )
-  **  (sll y_2 l4_2 ))
-.
+  **  (sll y_2 l4_2 )
+) \/
+(
+forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (x_2 <= INT_MAX)) (PreH2 : (x_3 <= INT_MAX)) (PreH3 : (x_2 >= INT_MIN)) (PreH4 : (x_3 >= INT_MIN)) (PreH5 : (y_3 <> 0)) (PreH6 : (ty = 0)) (PreH7 : (l2_3 = (cons (x_3) (l0_2)))) (PreH8 : (l4_3 = (cons (x_2) (l0)))) (PreH9 : (z <> 0)) (PreH10 : (ty = 0)) (PreH11 : (z <> 0)) (PreH12 : (y = 0)) (PreH13 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH14 : (cursor <> 0)) (PreH15 : (x_pre <> 0)) (PreH16 : (x_pre <> 0)) ,
+  ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
+  **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
+  **  ((&((z)  # "list" ->ₛ "next")) # Ptr  |-> y_3)
+  **  ((&((z)  # "list" ->ₛ "data")) # Int  |-> x_2)
+  **  (sllseg x cursor l1_3 )
+  **  (sll y l3_3 )
+|--
+  EX (l1_2: (@list Z)) ,
+  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l0_2) ((@nil Z)) (l0))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
+  &&  “ (y_3 <> 0) ” 
+  &&  “ (x_pre <> 0) ” 
+  &&  “ (x_pre <> 0) ”
+  &&  (sllseg x y_3 l1_2 )
+).
 
 Definition glibc_slist_clean_multi_merge_entail_wit_2_9 := 
+(
 forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y_3: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y: Z) (x_3: Z) (l0_2: (@list Z)) (y_2: Z) (PreH1 : (y_2 <> 0)) (PreH2 : (ty <> 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l3_3 = (cons (x_2) (l0)))) (PreH5 : (y_3 <> 0)) (PreH6 : (ty <> 0)) (PreH7 : (y_3 <> 0)) (PreH8 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH9 : (cursor <> 0)) (PreH10 : (y_pre <> 0)) (PreH11 : (x_pre = 0)) ,
   ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> y_3)
   **  (sll y_2 l0_2 )
@@ -1318,7 +1391,7 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sll z l4_3 )
   **  (sll x_pre l1_low_level_spec )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
+  EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y_2 <> 0) ” 
   &&  “ (y_pre <> 0) ” 
@@ -1328,22 +1401,29 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sll y_2 l2 )
   **  (sll y l3 )
   **  (sll z l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
+  **  (sll x_pre l1_low_level_spec )
+) \/
+(
+forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (y_3: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (x_3: Z) (l0_2: (@list Z)) (y_2: Z) (PreH1 : (x_2 <= INT_MAX)) (PreH2 : (x_3 <= INT_MAX)) (PreH3 : (x_2 >= INT_MIN)) (PreH4 : (x_3 >= INT_MIN)) (PreH5 : (y_2 <> 0)) (PreH6 : (ty <> 0)) (PreH7 : (l2_3 = (cons (x_3) (l0_2)))) (PreH8 : (l3_3 = (cons (x_2) (l0)))) (PreH9 : (y_3 <> 0)) (PreH10 : (ty <> 0)) (PreH11 : (y_3 <> 0)) (PreH12 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH13 : (cursor <> 0)) (PreH14 : (y_pre <> 0)) (PreH15 : (x_pre = 0)) ,
+  ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> y_3)
+  **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
+  **  ((&((y_3)  # "list" ->ₛ "next")) # Ptr  |-> y_2)
+  **  ((&((y_3)  # "list" ->ₛ "data")) # Int  |-> x_2)
+  **  (sllseg x cursor l1_3 )
+  **  (sll x_pre l1_low_level_spec )
+|--
+  EX (l1: (@list Z)) ,
+  “ (l1_low_level_spec = (@nil Z)) ” 
+  &&  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l0_2) (l0) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y_2 <> 0) ” 
-  &&  “ (x_pre <> 0) ” 
-  &&  “ (x_pre <> 0) ”
-  &&  ((( &( "node" ) )) # Ptr  |->_)
-  **  (sllseg x y_2 l1_2 )
-  **  (sll y_2 l2_2 )
-  **  (sll y l3_2 )
-  **  (sll z l4_2 ))
-.
+  &&  “ (y_pre <> 0) ” 
+  &&  “ (x_pre = 0) ”
+  &&  (sllseg x y_2 l1 )
+).
 
 Definition glibc_slist_clean_multi_merge_entail_wit_2_10 := 
-forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y_3: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y: Z) (x_3: Z) (l0_2: (@list Z)) (y_2: Z) (PreH1 : (y_2 <> 0)) (PreH2 : (ty <> 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l3_3 = (cons (x_2) (l0)))) (PreH5 : (y_3 <> 0)) (PreH6 : (ty <> 0)) (PreH7 : (y_3 <> 0)) (PreH8 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH9 : (cursor <> 0)) (PreH10 : (x_pre <> 0)) (PreH11 : (x_pre <> 0)) ,
+(
+forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y_3: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y: Z) (x_3: Z) (l0_2: (@list Z)) (y_2: Z) (PreH1 : (y_2 <> 0)) (PreH2 : (ty <> 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l3_3 = (cons (x_2) (l0)))) (PreH5 : (y_3 <> 0)) (PreH6 : (ty <> 0)) (PreH7 : (y_3 <> 0)) (PreH8 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH9 : (cursor <> 0)) (PreH10 : (x_pre <> 0)) (PreH11 : (x_pre <> 0)) ,
   ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> y_3)
   **  (sll y_2 l0_2 )
   **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
@@ -1354,19 +1434,7 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sllseg x cursor l1_3 )
   **  (sll z l4_3 )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
-  &&  “ (y_2 <> 0) ” 
-  &&  “ (y_pre <> 0) ” 
-  &&  “ (x_pre = 0) ”
-  &&  ((( &( "node" ) )) # Ptr  |->_)
-  **  (sllseg x y_2 l1 )
-  **  (sll y_2 l2 )
-  **  (sll y l3 )
-  **  (sll z l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
+  EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y_2 <> 0) ” 
   &&  “ (x_pre <> 0) ” 
@@ -1375,11 +1443,27 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sllseg x y_2 l1_2 )
   **  (sll y_2 l2_2 )
   **  (sll y l3_2 )
-  **  (sll z l4_2 ))
-.
+  **  (sll z l4_2 )
+) \/
+(
+forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (y_3: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (x_3: Z) (l0_2: (@list Z)) (y_2: Z) (PreH1 : (x_2 <= INT_MAX)) (PreH2 : (x_3 <= INT_MAX)) (PreH3 : (x_2 >= INT_MIN)) (PreH4 : (x_3 >= INT_MIN)) (PreH5 : (y_2 <> 0)) (PreH6 : (ty <> 0)) (PreH7 : (l2_3 = (cons (x_3) (l0_2)))) (PreH8 : (l3_3 = (cons (x_2) (l0)))) (PreH9 : (y_3 <> 0)) (PreH10 : (ty <> 0)) (PreH11 : (y_3 <> 0)) (PreH12 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH13 : (cursor <> 0)) (PreH14 : (x_pre <> 0)) (PreH15 : (x_pre <> 0)) ,
+  ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> y_3)
+  **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
+  **  ((&((y_3)  # "list" ->ₛ "next")) # Ptr  |-> y_2)
+  **  ((&((y_3)  # "list" ->ₛ "data")) # Int  |-> x_2)
+  **  (sllseg x cursor l1_3 )
+|--
+  EX (l1_2: (@list Z)) ,
+  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l0_2) (l0) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
+  &&  “ (y_2 <> 0) ” 
+  &&  “ (x_pre <> 0) ” 
+  &&  “ (x_pre <> 0) ”
+  &&  (sllseg x y_2 l1_2 )
+).
 
 Definition glibc_slist_clean_multi_merge_entail_wit_2_11 := 
-forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 = 0)) (PreH2 : (ty = 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l3_3 = (cons (x_2) (l0)))) (PreH5 : (z = 0)) (PreH6 : (ty = 0)) (PreH7 : (y <> 0)) (PreH8 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH9 : (cursor <> 0)) (PreH10 : (x_pre <> 0)) (PreH11 : (x_pre <> 0)) ,
+(
+forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 = 0)) (PreH2 : (ty = 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l3_3 = (cons (x_2) (l0)))) (PreH5 : (z = 0)) (PreH6 : (ty = 0)) (PreH7 : (y <> 0)) (PreH8 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH9 : (cursor <> 0)) (PreH10 : (x_pre <> 0)) (PreH11 : (x_pre <> 0)) ,
   ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> y)
   **  (sll y_3 l0_2 )
   **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
@@ -1390,19 +1474,7 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sllseg x cursor l1_3 )
   **  (sll z l4_3 )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
-  &&  “ (y <> 0) ” 
-  &&  “ (y_pre <> 0) ” 
-  &&  “ (x_pre = 0) ”
-  &&  ((( &( "node" ) )) # Ptr  |->_)
-  **  (sllseg x y l1 )
-  **  (sll y l2 )
-  **  (sll y_2 l3 )
-  **  (sll z l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
+  EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y <> 0) ” 
   &&  “ (x_pre <> 0) ” 
@@ -1411,10 +1483,27 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sllseg x y l1_2 )
   **  (sll y l2_2 )
   **  (sll y_2 l3_2 )
-  **  (sll z l4_2 ))
-.
+  **  (sll z l4_2 )
+) \/
+(
+forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (x_3 <= INT_MAX)) (PreH2 : (x_3 >= INT_MIN)) (PreH3 : (y_3 = 0)) (PreH4 : (ty = 0)) (PreH5 : (l2_3 = (cons (x_3) (l0_2)))) (PreH6 : (l3_3 = (cons (x_2) (l0)))) (PreH7 : (z = 0)) (PreH8 : (ty = 0)) (PreH9 : (y <> 0)) (PreH10 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH11 : (cursor <> 0)) (PreH12 : (x_pre <> 0)) (PreH13 : (x_pre <> 0)) ,
+  ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> y)
+  **  (sll y_3 l0_2 )
+  **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
+  **  (sllseg x cursor l1_3 )
+  **  (sll z l4_3 )
+|--
+  EX (l1_2: (@list Z)) ,
+  “ (y <> 0) ” 
+  &&  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) ((cons (x_2) ((@nil Z)))) (l0) ((@nil Z)))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
+  &&  “ (y <> 0) ” 
+  &&  “ (x_pre <> 0) ” 
+  &&  “ (x_pre <> 0) ”
+  &&  (sllseg x y l1_2 )
+).
 
 Definition glibc_slist_clean_multi_merge_entail_wit_2_12 := 
+(
 forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 = 0)) (PreH2 : (ty = 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l3_3 = (cons (x_2) (l0)))) (PreH5 : (z = 0)) (PreH6 : (ty = 0)) (PreH7 : (y <> 0)) (PreH8 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH9 : (cursor <> 0)) (PreH10 : (y_pre <> 0)) (PreH11 : (x_pre = 0)) ,
   ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> y)
   **  (sll y_3 l0_2 )
@@ -1427,7 +1516,7 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sll z l4_3 )
   **  (sll x_pre l1_low_level_spec )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
+  EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y <> 0) ” 
   &&  “ (y_pre <> 0) ” 
@@ -1437,22 +1526,30 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sll y l2 )
   **  (sll y_2 l3 )
   **  (sll z l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
+  **  (sll x_pre l1_low_level_spec )
+) \/
+(
+forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (x_3 <= INT_MAX)) (PreH2 : (x_3 >= INT_MIN)) (PreH3 : (y_3 = 0)) (PreH4 : (ty = 0)) (PreH5 : (l2_3 = (cons (x_3) (l0_2)))) (PreH6 : (l3_3 = (cons (x_2) (l0)))) (PreH7 : (z = 0)) (PreH8 : (ty = 0)) (PreH9 : (y <> 0)) (PreH10 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH11 : (cursor <> 0)) (PreH12 : (y_pre <> 0)) (PreH13 : (x_pre = 0)) ,
+  ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> y)
+  **  (sll y_3 l0_2 )
+  **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
+  **  (sllseg x cursor l1_3 )
+  **  (sll z l4_3 )
+  **  (sll x_pre l1_low_level_spec )
+|--
+  EX (l1: (@list Z)) ,
+  “ (y <> 0) ” 
+  &&  “ (l1_low_level_spec = (@nil Z)) ” 
+  &&  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) ((cons (x_2) ((@nil Z)))) (l0) ((@nil Z)))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y <> 0) ” 
-  &&  “ (x_pre <> 0) ” 
-  &&  “ (x_pre <> 0) ”
-  &&  ((( &( "node" ) )) # Ptr  |->_)
-  **  (sllseg x y l1_2 )
-  **  (sll y l2_2 )
-  **  (sll y_2 l3_2 )
-  **  (sll z l4_2 ))
-.
+  &&  “ (y_pre <> 0) ” 
+  &&  “ (x_pre = 0) ”
+  &&  (sllseg x y l1 )
+).
 
 Definition glibc_slist_clean_multi_merge_entail_wit_2_13 := 
-forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 = 0)) (PreH2 : (ty <> 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l4_3 = (cons (x_2) (l0)))) (PreH5 : (z <> 0)) (PreH6 : (y = 0)) (PreH7 : (ty <> 0)) (PreH8 : (z <> 0)) (PreH9 : (y = 0)) (PreH10 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH11 : (cursor <> 0)) (PreH12 : (x_pre <> 0)) (PreH13 : (x_pre <> 0)) ,
+(
+forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 = 0)) (PreH2 : (ty <> 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l4_3 = (cons (x_2) (l0)))) (PreH5 : (z <> 0)) (PreH6 : (y = 0)) (PreH7 : (ty <> 0)) (PreH8 : (z <> 0)) (PreH9 : (y = 0)) (PreH10 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH11 : (cursor <> 0)) (PreH12 : (x_pre <> 0)) (PreH13 : (x_pre <> 0)) ,
   ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
   **  (sll y_3 l0_2 )
   **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
@@ -1463,19 +1560,7 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sllseg x cursor l1_3 )
   **  (sll y l3_3 )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
-  &&  “ (z <> 0) ” 
-  &&  “ (y_pre <> 0) ” 
-  &&  “ (x_pre = 0) ”
-  &&  ((( &( "node" ) )) # Ptr  |->_)
-  **  (sllseg x z l1 )
-  **  (sll z l2 )
-  **  (sll y l3 )
-  **  (sll y_2 l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
+  EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (z <> 0) ” 
   &&  “ (x_pre <> 0) ” 
@@ -1484,10 +1569,27 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sllseg x z l1_2 )
   **  (sll z l2_2 )
   **  (sll y l3_2 )
-  **  (sll y_2 l4_2 ))
-.
+  **  (sll y_2 l4_2 )
+) \/
+(
+forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (x_3 <= INT_MAX)) (PreH2 : (x_3 >= INT_MIN)) (PreH3 : (y_3 = 0)) (PreH4 : (ty <> 0)) (PreH5 : (l2_3 = (cons (x_3) (l0_2)))) (PreH6 : (l4_3 = (cons (x_2) (l0)))) (PreH7 : (z <> 0)) (PreH8 : (y = 0)) (PreH9 : (ty <> 0)) (PreH10 : (z <> 0)) (PreH11 : (y = 0)) (PreH12 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH13 : (cursor <> 0)) (PreH14 : (x_pre <> 0)) (PreH15 : (x_pre <> 0)) ,
+  ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
+  **  (sll y_3 l0_2 )
+  **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
+  **  (sllseg x cursor l1_3 )
+  **  (sll y l3_3 )
+|--
+  EX (l1_2: (@list Z)) ,
+  “ (z <> 0) ” 
+  &&  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) ((cons (x_2) ((@nil Z)))) ((@nil Z)) (l0))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
+  &&  “ (z <> 0) ” 
+  &&  “ (x_pre <> 0) ” 
+  &&  “ (x_pre <> 0) ”
+  &&  (sllseg x z l1_2 )
+).
 
 Definition glibc_slist_clean_multi_merge_entail_wit_2_14 := 
+(
 forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 = 0)) (PreH2 : (ty <> 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l4_3 = (cons (x_2) (l0)))) (PreH5 : (z <> 0)) (PreH6 : (y = 0)) (PreH7 : (ty <> 0)) (PreH8 : (z <> 0)) (PreH9 : (y = 0)) (PreH10 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH11 : (cursor <> 0)) (PreH12 : (y_pre <> 0)) (PreH13 : (x_pre = 0)) ,
   ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
   **  (sll y_3 l0_2 )
@@ -1500,7 +1602,7 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sll y l3_3 )
   **  (sll x_pre l1_low_level_spec )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
+  EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (z <> 0) ” 
   &&  “ (y_pre <> 0) ” 
@@ -1510,22 +1612,30 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sll z l2 )
   **  (sll y l3 )
   **  (sll y_2 l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
+  **  (sll x_pre l1_low_level_spec )
+) \/
+(
+forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (x_3 <= INT_MAX)) (PreH2 : (x_3 >= INT_MIN)) (PreH3 : (y_3 = 0)) (PreH4 : (ty <> 0)) (PreH5 : (l2_3 = (cons (x_3) (l0_2)))) (PreH6 : (l4_3 = (cons (x_2) (l0)))) (PreH7 : (z <> 0)) (PreH8 : (y = 0)) (PreH9 : (ty <> 0)) (PreH10 : (z <> 0)) (PreH11 : (y = 0)) (PreH12 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH13 : (cursor <> 0)) (PreH14 : (y_pre <> 0)) (PreH15 : (x_pre = 0)) ,
+  ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
+  **  (sll y_3 l0_2 )
+  **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
+  **  (sllseg x cursor l1_3 )
+  **  (sll y l3_3 )
+  **  (sll x_pre l1_low_level_spec )
+|--
+  EX (l1: (@list Z)) ,
+  “ (z <> 0) ” 
+  &&  “ (l1_low_level_spec = (@nil Z)) ” 
+  &&  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) ((cons (x_2) ((@nil Z)))) ((@nil Z)) (l0))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (z <> 0) ” 
-  &&  “ (x_pre <> 0) ” 
-  &&  “ (x_pre <> 0) ”
-  &&  ((( &( "node" ) )) # Ptr  |->_)
-  **  (sllseg x z l1_2 )
-  **  (sll z l2_2 )
-  **  (sll y l3_2 )
-  **  (sll y_2 l4_2 ))
-.
+  &&  “ (y_pre <> 0) ” 
+  &&  “ (x_pre = 0) ”
+  &&  (sllseg x z l1 )
+).
 
 Definition glibc_slist_clean_multi_merge_entail_wit_2_15 := 
-forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 = 0)) (PreH2 : (ty = 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l4_3 = (cons (x_2) (l0)))) (PreH5 : (z <> 0)) (PreH6 : (ty = 0)) (PreH7 : (y <> 0)) (PreH8 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH9 : (cursor <> 0)) (PreH10 : (x_pre <> 0)) (PreH11 : (x_pre <> 0)) ,
+(
+forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 = 0)) (PreH2 : (ty = 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l4_3 = (cons (x_2) (l0)))) (PreH5 : (z <> 0)) (PreH6 : (ty = 0)) (PreH7 : (y <> 0)) (PreH8 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH9 : (cursor <> 0)) (PreH10 : (x_pre <> 0)) (PreH11 : (x_pre <> 0)) ,
   ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
   **  (sll y_3 l0_2 )
   **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
@@ -1536,19 +1646,7 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sllseg x cursor l1_3 )
   **  (sll y l3_3 )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
-  &&  “ (z <> 0) ” 
-  &&  “ (y_pre <> 0) ” 
-  &&  “ (x_pre = 0) ”
-  &&  ((( &( "node" ) )) # Ptr  |->_)
-  **  (sllseg x z l1 )
-  **  (sll z l2 )
-  **  (sll y l3 )
-  **  (sll y_2 l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
+  EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (z <> 0) ” 
   &&  “ (x_pre <> 0) ” 
@@ -1557,10 +1655,26 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sllseg x z l1_2 )
   **  (sll z l2_2 )
   **  (sll y l3_2 )
-  **  (sll y_2 l4_2 ))
-.
+  **  (sll y_2 l4_2 )
+) \/
+(
+forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (x_3 <= INT_MAX)) (PreH2 : (x_3 >= INT_MIN)) (PreH3 : (y_3 = 0)) (PreH4 : (ty = 0)) (PreH5 : (l2_3 = (cons (x_3) (l0_2)))) (PreH6 : (l4_3 = (cons (x_2) (l0)))) (PreH7 : (z <> 0)) (PreH8 : (ty = 0)) (PreH9 : (y <> 0)) (PreH10 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH11 : (cursor <> 0)) (PreH12 : (x_pre <> 0)) (PreH13 : (x_pre <> 0)) ,
+  ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
+  **  (sll y_3 l0_2 )
+  **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
+  **  (sllseg x cursor l1_3 )
+|--
+  EX (l1_2: (@list Z)) ,
+  “ (z <> 0) ” 
+  &&  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) ((cons (x_2) ((@nil Z)))) (l3_3) (l0))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
+  &&  “ (z <> 0) ” 
+  &&  “ (x_pre <> 0) ” 
+  &&  “ (x_pre <> 0) ”
+  &&  (sllseg x z l1_2 )
+).
 
 Definition glibc_slist_clean_multi_merge_entail_wit_2_16 := 
+(
 forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 = 0)) (PreH2 : (ty = 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l4_3 = (cons (x_2) (l0)))) (PreH5 : (z <> 0)) (PreH6 : (ty = 0)) (PreH7 : (y <> 0)) (PreH8 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH9 : (cursor <> 0)) (PreH10 : (y_pre <> 0)) (PreH11 : (x_pre = 0)) ,
   ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
   **  (sll y_3 l0_2 )
@@ -1573,7 +1687,7 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sll y l3_3 )
   **  (sll x_pre l1_low_level_spec )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
+  EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (z <> 0) ” 
   &&  “ (y_pre <> 0) ” 
@@ -1583,21 +1697,28 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sll z l2 )
   **  (sll y l3 )
   **  (sll y_2 l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
+  **  (sll x_pre l1_low_level_spec )
+) \/
+(
+forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (x_3 <= INT_MAX)) (PreH2 : (x_3 >= INT_MIN)) (PreH3 : (y_3 = 0)) (PreH4 : (ty = 0)) (PreH5 : (l2_3 = (cons (x_3) (l0_2)))) (PreH6 : (l4_3 = (cons (x_2) (l0)))) (PreH7 : (z <> 0)) (PreH8 : (ty = 0)) (PreH9 : (y <> 0)) (PreH10 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH11 : (cursor <> 0)) (PreH12 : (y_pre <> 0)) (PreH13 : (x_pre = 0)) ,
+  ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
+  **  (sll y_3 l0_2 )
+  **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
+  **  (sllseg x cursor l1_3 )
+  **  (sll x_pre l1_low_level_spec )
+|--
+  EX (l1: (@list Z)) ,
+  “ (z <> 0) ” 
+  &&  “ (l1_low_level_spec = (@nil Z)) ” 
+  &&  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) ((cons (x_2) ((@nil Z)))) (l3_3) (l0))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (z <> 0) ” 
-  &&  “ (x_pre <> 0) ” 
-  &&  “ (x_pre <> 0) ”
-  &&  ((( &( "node" ) )) # Ptr  |->_)
-  **  (sllseg x z l1_2 )
-  **  (sll z l2_2 )
-  **  (sll y l3_2 )
-  **  (sll y_2 l4_2 ))
-.
+  &&  “ (y_pre <> 0) ” 
+  &&  “ (x_pre = 0) ”
+  &&  (sllseg x z l1 )
+).
 
 Definition glibc_slist_clean_multi_merge_entail_wit_2_17 := 
+(
 forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 = 0)) (PreH2 : (ty = 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l4_3 = (cons (x_2) (l0)))) (PreH5 : (z <> 0)) (PreH6 : (ty = 0)) (PreH7 : (z <> 0)) (PreH8 : (y = 0)) (PreH9 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH10 : (cursor <> 0)) (PreH11 : (y_pre <> 0)) (PreH12 : (x_pre = 0)) ,
   ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
   **  (sll y_3 l0_2 )
@@ -1610,7 +1731,7 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sll y l3_3 )
   **  (sll x_pre l1_low_level_spec )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
+  EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (z <> 0) ” 
   &&  “ (y_pre <> 0) ” 
@@ -1620,22 +1741,30 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sll z l2 )
   **  (sll y l3 )
   **  (sll y_2 l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
+  **  (sll x_pre l1_low_level_spec )
+) \/
+(
+forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (x_3 <= INT_MAX)) (PreH2 : (x_3 >= INT_MIN)) (PreH3 : (y_3 = 0)) (PreH4 : (ty = 0)) (PreH5 : (l2_3 = (cons (x_3) (l0_2)))) (PreH6 : (l4_3 = (cons (x_2) (l0)))) (PreH7 : (z <> 0)) (PreH8 : (ty = 0)) (PreH9 : (z <> 0)) (PreH10 : (y = 0)) (PreH11 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH12 : (cursor <> 0)) (PreH13 : (y_pre <> 0)) (PreH14 : (x_pre = 0)) ,
+  ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
+  **  (sll y_3 l0_2 )
+  **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
+  **  (sllseg x cursor l1_3 )
+  **  (sll y l3_3 )
+  **  (sll x_pre l1_low_level_spec )
+|--
+  EX (l1: (@list Z)) ,
+  “ (z <> 0) ” 
+  &&  “ (l1_low_level_spec = (@nil Z)) ” 
+  &&  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) ((cons (x_2) ((@nil Z)))) ((@nil Z)) (l0))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (z <> 0) ” 
-  &&  “ (x_pre <> 0) ” 
-  &&  “ (x_pre <> 0) ”
-  &&  ((( &( "node" ) )) # Ptr  |->_)
-  **  (sllseg x z l1_2 )
-  **  (sll z l2_2 )
-  **  (sll y l3_2 )
-  **  (sll y_2 l4_2 ))
-.
+  &&  “ (y_pre <> 0) ” 
+  &&  “ (x_pre = 0) ”
+  &&  (sllseg x z l1 )
+).
 
 Definition glibc_slist_clean_multi_merge_entail_wit_2_18 := 
-forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 = 0)) (PreH2 : (ty = 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l4_3 = (cons (x_2) (l0)))) (PreH5 : (z <> 0)) (PreH6 : (ty = 0)) (PreH7 : (z <> 0)) (PreH8 : (y = 0)) (PreH9 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH10 : (cursor <> 0)) (PreH11 : (x_pre <> 0)) (PreH12 : (x_pre <> 0)) ,
+(
+forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 = 0)) (PreH2 : (ty = 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l4_3 = (cons (x_2) (l0)))) (PreH5 : (z <> 0)) (PreH6 : (ty = 0)) (PreH7 : (z <> 0)) (PreH8 : (y = 0)) (PreH9 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH10 : (cursor <> 0)) (PreH11 : (x_pre <> 0)) (PreH12 : (x_pre <> 0)) ,
   ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
   **  (sll y_3 l0_2 )
   **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
@@ -1646,19 +1775,7 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sllseg x cursor l1_3 )
   **  (sll y l3_3 )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
-  &&  “ (z <> 0) ” 
-  &&  “ (y_pre <> 0) ” 
-  &&  “ (x_pre = 0) ”
-  &&  ((( &( "node" ) )) # Ptr  |->_)
-  **  (sllseg x z l1 )
-  **  (sll z l2 )
-  **  (sll y l3 )
-  **  (sll y_2 l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
+  EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (z <> 0) ” 
   &&  “ (x_pre <> 0) ” 
@@ -1667,10 +1784,27 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sllseg x z l1_2 )
   **  (sll z l2_2 )
   **  (sll y l3_2 )
-  **  (sll y_2 l4_2 ))
-.
+  **  (sll y_2 l4_2 )
+) \/
+(
+forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (x_3 <= INT_MAX)) (PreH2 : (x_3 >= INT_MIN)) (PreH3 : (y_3 = 0)) (PreH4 : (ty = 0)) (PreH5 : (l2_3 = (cons (x_3) (l0_2)))) (PreH6 : (l4_3 = (cons (x_2) (l0)))) (PreH7 : (z <> 0)) (PreH8 : (ty = 0)) (PreH9 : (z <> 0)) (PreH10 : (y = 0)) (PreH11 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH12 : (cursor <> 0)) (PreH13 : (x_pre <> 0)) (PreH14 : (x_pre <> 0)) ,
+  ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> z)
+  **  (sll y_3 l0_2 )
+  **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
+  **  (sllseg x cursor l1_3 )
+  **  (sll y l3_3 )
+|--
+  EX (l1_2: (@list Z)) ,
+  “ (z <> 0) ” 
+  &&  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) ((cons (x_2) ((@nil Z)))) ((@nil Z)) (l0))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
+  &&  “ (z <> 0) ” 
+  &&  “ (x_pre <> 0) ” 
+  &&  “ (x_pre <> 0) ”
+  &&  (sllseg x z l1_2 )
+).
 
 Definition glibc_slist_clean_multi_merge_entail_wit_2_19 := 
+(
 forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 = 0)) (PreH2 : (ty <> 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l3_3 = (cons (x_2) (l0)))) (PreH5 : (y <> 0)) (PreH6 : (ty <> 0)) (PreH7 : (y <> 0)) (PreH8 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH9 : (cursor <> 0)) (PreH10 : (y_pre <> 0)) (PreH11 : (x_pre = 0)) ,
   ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> y)
   **  (sll y_3 l0_2 )
@@ -1683,7 +1817,7 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sll z l4_3 )
   **  (sll x_pre l1_low_level_spec )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
+  EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y <> 0) ” 
   &&  “ (y_pre <> 0) ” 
@@ -1693,22 +1827,29 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sll y l2 )
   **  (sll y_2 l3 )
   **  (sll z l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
+  **  (sll x_pre l1_low_level_spec )
+) \/
+(
+forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (x_3 <= INT_MAX)) (PreH2 : (x_3 >= INT_MIN)) (PreH3 : (y_3 = 0)) (PreH4 : (ty <> 0)) (PreH5 : (l2_3 = (cons (x_3) (l0_2)))) (PreH6 : (l3_3 = (cons (x_2) (l0)))) (PreH7 : (y <> 0)) (PreH8 : (ty <> 0)) (PreH9 : (y <> 0)) (PreH10 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH11 : (cursor <> 0)) (PreH12 : (y_pre <> 0)) (PreH13 : (x_pre = 0)) ,
+  ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> y)
+  **  (sll y_3 l0_2 )
+  **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
+  **  (sllseg x cursor l1_3 )
+  **  (sll x_pre l1_low_level_spec )
+|--
+  EX (l1: (@list Z)) ,
+  “ (y <> 0) ” 
+  &&  “ (l1_low_level_spec = (@nil Z)) ” 
+  &&  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) ((cons (x_2) ((@nil Z)))) (l0) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y <> 0) ” 
-  &&  “ (x_pre <> 0) ” 
-  &&  “ (x_pre <> 0) ”
-  &&  ((( &( "node" ) )) # Ptr  |->_)
-  **  (sllseg x y l1_2 )
-  **  (sll y l2_2 )
-  **  (sll y_2 l3_2 )
-  **  (sll z l4_2 ))
-.
+  &&  “ (y_pre <> 0) ” 
+  &&  “ (x_pre = 0) ”
+  &&  (sllseg x y l1 )
+).
 
 Definition glibc_slist_clean_multi_merge_entail_wit_2_20 := 
-forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 = 0)) (PreH2 : (ty <> 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l3_3 = (cons (x_2) (l0)))) (PreH5 : (y <> 0)) (PreH6 : (ty <> 0)) (PreH7 : (y <> 0)) (PreH8 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH9 : (cursor <> 0)) (PreH10 : (x_pre <> 0)) (PreH11 : (x_pre <> 0)) ,
+(
+forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (z: Z) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (y_2: Z) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (y_3 = 0)) (PreH2 : (ty <> 0)) (PreH3 : (l2_3 = (cons (x_3) (l0_2)))) (PreH4 : (l3_3 = (cons (x_2) (l0)))) (PreH5 : (y <> 0)) (PreH6 : (ty <> 0)) (PreH7 : (y <> 0)) (PreH8 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH9 : (cursor <> 0)) (PreH10 : (x_pre <> 0)) (PreH11 : (x_pre <> 0)) ,
   ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> y)
   **  (sll y_3 l0_2 )
   **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
@@ -1719,19 +1860,7 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sllseg x cursor l1_3 )
   **  (sll z l4_3 )
 |--
-  (EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z))  (l4: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1) (l2) (l3) (l4))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
-  &&  “ (y <> 0) ” 
-  &&  “ (y_pre <> 0) ” 
-  &&  “ (x_pre = 0) ”
-  &&  ((( &( "node" ) )) # Ptr  |->_)
-  **  (sllseg x y l1 )
-  **  (sll y l2 )
-  **  (sll y_2 l3 )
-  **  (sll z l4 )
-  **  (sll x_pre l1_low_level_spec ))
-  ||
-  (EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
+  EX (l1_2: (@list Z))  (l2_2: (@list Z))  (l3_2: (@list Z))  (l4_2: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) (l2_2) (l3_2) (l4_2))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
   &&  “ (y <> 0) ” 
   &&  “ (x_pre <> 0) ” 
@@ -1740,8 +1869,23 @@ forall (y_pre: Z) (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (
   **  (sllseg x y l1_2 )
   **  (sll y l2_2 )
   **  (sll y_2 l3_2 )
-  **  (sll z l4_2 ))
-.
+  **  (sll z l4_2 )
+) \/
+(
+forall (x_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (y: Z) (x: Z) (ty: Z) (cursor: Z) (l1_3: (@list Z)) (l2_3: (@list Z)) (l3_3: (@list Z)) (l4_3: (@list Z)) (x_2: Z) (l0: (@list Z)) (x_3: Z) (l0_2: (@list Z)) (y_3: Z) (PreH1 : (x_3 <= INT_MAX)) (PreH2 : (x_3 >= INT_MIN)) (PreH3 : (y_3 = 0)) (PreH4 : (ty <> 0)) (PreH5 : (l2_3 = (cons (x_3) (l0_2)))) (PreH6 : (l3_3 = (cons (x_2) (l0)))) (PreH7 : (y <> 0)) (PreH8 : (ty <> 0)) (PreH9 : (y <> 0)) (PreH10 : (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_3) (l2_3) (l3_3) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec )) (PreH11 : (cursor <> 0)) (PreH12 : (x_pre <> 0)) (PreH13 : (x_pre <> 0)) ,
+  ((&((cursor)  # "list" ->ₛ "next")) # Ptr  |-> y)
+  **  (sll y_3 l0_2 )
+  **  ((&((cursor)  # "list" ->ₛ "data")) # Int  |-> x_3)
+  **  (sllseg x cursor l1_3 )
+|--
+  EX (l1_2: (@list Z)) ,
+  “ (y <> 0) ” 
+  &&  “ (safeExec ATrue (bind ((glibc_slist_clean_multi_merge_M_loop (l1_2) ((cons (x_2) ((@nil Z)))) (l0) (l4_3))) (glibc_slist_clean_multi_merge_M_loop_end)) X_low_level_spec ) ” 
+  &&  “ (y <> 0) ” 
+  &&  “ (x_pre <> 0) ” 
+  &&  “ (x_pre <> 0) ”
+  &&  (sllseg x y l1_2 )
+).
 
 Definition glibc_slist_clean_multi_merge_return_wit_1 := 
 (
@@ -1819,6 +1963,14 @@ forall (y_pre: Z) (x_pre: Z) (l3_low_level_spec: (@list Z)) (l2_low_level_spec: 
   **  (sll y_pre l2_low_level_spec )
 |--
   “ (safeExec ATrue (return (l3_low_level_spec)) X_low_level_spec ) ”
+.
+
+Definition glibc_slist_clean_multi_merge_return_wit_3_split_goal_spatial := 
+forall (y_pre: Z) (x_pre: Z) (l3_low_level_spec: (@list Z)) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (PreH1 : (y_pre = 0)) (PreH2 : (x_pre = 0)) (PreH3 : (safeExec ATrue (glibc_slist_clean_multi_merge_M (l1_low_level_spec) (l2_low_level_spec) (l3_low_level_spec)) X_low_level_spec )) ,
+  (sll x_pre l1_low_level_spec )
+  **  (sll y_pre l2_low_level_spec )
+|--
+  TT && emp 
 .
 
 Definition glibc_slist_clean_multi_merge_partial_solve_wit_1 := 

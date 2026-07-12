@@ -53,9 +53,7 @@ forall (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_leve
 
 Definition glibc_slist_clean_app_entail_wit_1_split_goal_1 := 
 forall (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (PreH1 : (safeExec ATrue (glibc_slist_clean_app_M (l1_low_level_spec) (l2_low_level_spec)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (bind ((list_append_raw_M (l1_low_level_spec) (l2_low_level_spec))) (residual_prog_in_glibc_slist_clean_app_M_call_1)) X_low_level_spec ) ”
+  (safeExec ATrue (bind ((list_append_raw_M (l1_low_level_spec) (l2_low_level_spec))) (residual_prog_in_glibc_slist_clean_app_M_call_1)) X_low_level_spec )
 .
 
 Definition glibc_slist_clean_app_return_wit_1 := 
@@ -77,9 +75,7 @@ forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l3_2: (@list Z)) (PreH
 
 Definition glibc_slist_clean_app_return_wit_1_split_goal_1 := 
 forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l3_2: (@list Z)) (PreH1 : (safeExec ATrue (bind ((return (l3_2))) (residual_prog_in_glibc_slist_clean_app_M_call_1)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (return (l3_2)) X_low_level_spec ) ”
+  (safeExec ATrue (return (l3_2)) X_low_level_spec )
 .
 
 Definition glibc_slist_clean_app_partial_solve_wit_1_pure := 

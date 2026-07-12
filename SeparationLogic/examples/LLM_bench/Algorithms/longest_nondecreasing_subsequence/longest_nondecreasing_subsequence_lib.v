@@ -1,32 +1,22 @@
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.Lists.List.
-From AUXLib Require Import ListLib.
+From AUXLib Require Import ListLib MonotonicList.
 From MaxMinLib Require Import MaxMin Interface.
 
 Import ListNotations.
 Local Open Scope Z_scope.
 Local Open Scope list_scope.
 
-Definition NondecreasingZList (xs : list Z) : Prop :=
-  forall p q,
-    0 <= p /\ p < q /\ q < Zlength xs ->
-    Znth p xs 0 <= Znth q xs 0.
-
 Definition NondecreasingValues (l idxs : list Z) : Prop :=
   forall p q,
     0 <= p /\ p < q /\ q < Zlength idxs ->
     Znth (Znth p idxs 0) l 0 <= Znth (Znth q idxs 0) l 0.
 
-Definition StrictlyIncreasingZList (xs : list Z) : Prop :=
-  forall p q,
-    0 <= p /\ p < q /\ q < Zlength xs ->
-    Znth p xs 0 < Znth q xs 0.
-
 Definition ValidNondecreasingSubsequence
     (l : list Z) (limit : Z) (idxs : list Z) : Prop :=
   0 <= limit <= Zlength l /\
   Forall (fun idx => 0 <= idx < limit) idxs /\
-  StrictlyIncreasingZList idxs /\
+  mono_inc idxs /\
   NondecreasingValues l idxs.
 
 Definition LNDSLengthPrefix (l : list Z) (limit ans : Z) : Prop :=
@@ -46,7 +36,7 @@ Definition LNDTailsState (l : list Z) (i : Z) (tails : list Z) (len : Z) : Prop 
   0 <= i <= Zlength l /\
   0 <= len <= i /\
   Zlength tails = len /\
-  NondecreasingZList tails /\
+  increasing tails /\
   LNDSLengthPrefix l i len /\
   (forall k,
       0 <= k < len ->
@@ -68,7 +58,7 @@ Definition UpperBoundSearch
     (tails : list Z) (len x left right : Z) : Prop :=
   Zlength tails = len /\
   0 <= left /\ left <= right /\ right <= len /\
-  NondecreasingZList tails /\
+  increasing tails /\
   (forall k, 0 <= k < left -> Znth k tails 0 <= x) /\
   (forall k, right <= k < len -> x < Znth k tails 0).
 
@@ -158,50 +148,49 @@ Qed.
 
 Lemma StrictlyIncreasingZList_snoc :
   forall xs x,
-    StrictlyIncreasingZList xs ->
+    mono_inc xs ->
     Forall (fun idx => idx < x) xs ->
-    StrictlyIncreasingZList (xs ++ x :: nil).
+    mono_inc (xs ++ x :: nil).
 Proof.
   intros xs x Hinc Hall.
-  unfold StrictlyIncreasingZList in *.
-  intros p q [Hp [Hpq Hq]].
-  rewrite Zlength_app_cons in Hq.
-  assert (q < Zlength xs \/ q = Zlength xs) as [Hq_old | Hq_last] by lia.
-  - rewrite !znth_app_singleton_old_Z by lia.
-    apply Hinc. lia.
-  - subst q.
-    rewrite znth_app_singleton_last_Z with (i := Zlength xs) by reflexivity.
-    rewrite znth_app_singleton_old_Z by lia.
-    eapply Forall_Znth; eauto; lia.
+  apply (proj2 (mono_inc_iff_ind (xs ++ x :: nil))).
+  apply (proj2 (mono_inc_ind_app xs (x :: nil))).
+  repeat split.
+  - apply (proj1 (mono_inc_iff_ind xs)); exact Hinc.
+  - apply (proj1 (mono_inc_iff_ind (x :: nil))).
+    apply mono_inc_single.
+  - intros a b Ha Hb.
+    destruct Hb as [Hb | Hb]; [subst b | contradiction].
+    rewrite Forall_forall in Hall.
+    apply Hall; exact Ha.
 Qed.
 
 Lemma StrictlyIncreasingZList_snoc_inv :
   forall xs x,
-    StrictlyIncreasingZList (xs ++ x :: nil) ->
-    StrictlyIncreasingZList xs.
+    mono_inc (xs ++ x :: nil) ->
+    mono_inc xs.
 Proof.
   intros xs x Hinc.
-  unfold StrictlyIncreasingZList in *.
-  intros p q Hp.
-  specialize (Hinc p q ltac:(rewrite Zlength_app_cons; lia)).
+  unfold mono_inc in *.
+  intros p q Hp Hpq Hq.
+  specialize (Hinc p q Hp Hpq ltac:(rewrite Zlength_app_cons; lia)).
   rewrite !znth_app_singleton_old_Z in Hinc by lia.
   exact Hinc.
 Qed.
 
 Lemma StrictlyIncreasingZList_snoc_last :
   forall xs x,
-    StrictlyIncreasingZList (xs ++ x :: nil) ->
+    mono_inc (xs ++ x :: nil) ->
     Forall (fun idx => idx < x) xs.
 Proof.
   intros xs x Hinc.
   apply (Forall_Znth_intro Z (fun idx => idx < x) xs 0).
   intros p Hp.
-  pose proof (Hinc p (Zlength xs)) as Hlt.
+  pose proof (Hinc p (Zlength xs)
+    ltac:(lia) ltac:(lia) ltac:(rewrite Zlength_app_cons; lia)) as Hlt.
   rewrite znth_app_singleton_old_Z in Hlt by lia.
   rewrite znth_app_singleton_last_Z with (i := Zlength xs) in Hlt by reflexivity.
-  apply Hlt.
-  rewrite Zlength_app_cons.
-  lia.
+  exact Hlt.
 Qed.
 
 Lemma NondecreasingValues_snoc :
@@ -255,22 +244,19 @@ Qed.
 
 Lemma NondecreasingZList_snoc :
   forall xs x,
-    NondecreasingZList xs ->
+    increasing xs ->
     Forall (fun v => v <= x) xs ->
-    NondecreasingZList (xs ++ x :: nil).
+    increasing (xs ++ x :: nil).
 Proof.
   intros xs x Hnd Hall.
-  unfold NondecreasingZList in *.
-  intros p q [Hp [Hpq Hq]].
-  rewrite Zlength_app_cons in Hq.
-  assert (q < Zlength xs \/ q = Zlength xs) as [Hq_old | Hq_last] by lia.
-  - rewrite !znth_app_singleton_old_Z by lia.
-    apply Hnd. lia.
-  - subst q.
-    rewrite znth_app_singleton_last_Z with (i := Zlength xs) by reflexivity.
-    rewrite znth_app_singleton_old_Z by lia.
-    apply (Forall_Znth Z (fun v => v <= x) xs 0 p Hall).
-    lia.
+  apply (proj2 (increasing_app xs (x :: nil))).
+  split; [exact Hnd |].
+  split.
+  - simpl; auto.
+  - intros a b Ha Hb.
+    destruct Hb as [Hb | Hb]; [subst b | contradiction].
+    rewrite Forall_forall in Hall.
+    apply Hall; exact Ha.
 Qed.
 
 Lemma LastValueOf_snoc :
@@ -312,9 +298,7 @@ Proof.
   split; [lia |].
   split; [constructor |].
   split.
-  - unfold StrictlyIncreasingZList.
-    intros p q [Hp [Hpq Hq]].
-    rewrite Zlength_nil in Hq. lia.
+  - apply mono_inc_nil.
   - unfold NondecreasingValues.
     intros p q [Hp [Hpq Hq]].
     rewrite Zlength_nil in Hq. lia.
@@ -363,9 +347,7 @@ Proof.
   split.
   - rewrite Zlength_nil. reflexivity.
   - split.
-    + unfold NondecreasingZList.
-      intros p q [Hp [Hpq Hq]].
-      rewrite Zlength_nil in Hq. lia.
+    + simpl; auto.
     + split.
       * apply LNDSLengthPrefix_empty.
       * split.
@@ -380,7 +362,7 @@ Qed.
 Lemma UpperBoundSearch_full :
   forall tails len x,
     Zlength tails = len ->
-    NondecreasingZList tails ->
+    increasing tails ->
     0 <= len ->
     UpperBoundSearch tails len x 0 len.
 Proof.
@@ -406,8 +388,8 @@ Proof.
   destruct (Z.eq_dec k mid) as [Heq | Hneq].
   - subst k. apply Z.gt_lt in Hmid. exact Hmid.
   - assert (mid < k \/ right <= k) as [Hmk | Hrk] by lia.
-    + unfold NondecreasingZList in Hnd.
-      pose proof (Hnd mid k ltac:(lia)).
+    + pose proof (proj2 (mono_nondec_iff_increasing tails) Hnd) as Hmono.
+      pose proof (Hmono mid k ltac:(lia) ltac:(lia) ltac:(lia)).
       apply Z.gt_lt in Hmid. lia.
     + apply Hhigh. lia.
 Qed.
@@ -430,8 +412,8 @@ Proof.
   - apply Hlow. lia.
   - assert (k = mid \/ k < mid) as [Heq | Hkm] by lia.
     + subst k. exact Hmid.
-    + unfold NondecreasingZList in Hnd.
-      pose proof (Hnd k mid ltac:(lia)).
+    + pose proof (proj2 (mono_nondec_iff_increasing tails) Hnd) as Hmono.
+      pose proof (Hmono k mid ltac:(lia) ltac:(lia) ltac:(lia)).
       lia.
 Qed.
 
@@ -636,9 +618,7 @@ Proof.
   unfold ValidNondecreasingSubsequence.
   repeat split; try lia.
   - constructor; [lia | constructor].
-  - unfold StrictlyIncreasingZList.
-    intros p q [Hp [Hpq Hq]].
-    rewrite Zlength_cons, Zlength_nil in Hq. lia.
+  - apply mono_inc_single.
   - unfold NondecreasingValues.
     intros p q [Hp [Hpq Hq]].
     rewrite Zlength_cons, Zlength_nil in Hq. lia.
@@ -661,8 +641,7 @@ Proof.
     unfold ValidNondecreasingSubsequence.
     repeat split; try lia.
     + constructor.
-    + unfold StrictlyIncreasingZList.
-      intros p q Hp. rewrite Zlength_nil in Hp. lia.
+    + apply mono_inc_nil.
     + unfold NondecreasingValues.
       intros p q Hp. rewrite Zlength_nil in Hp. lia.
   - assert (Hnonempty : first :: rest <> nil) by discriminate.
@@ -701,29 +680,34 @@ Qed.
 Lemma NondecreasingZList_replace_upper_bound :
   forall tails len x left,
     Zlength tails = len ->
-    NondecreasingZList tails ->
+    increasing tails ->
     0 <= left < len ->
     (forall k, 0 <= k < left -> Znth k tails 0 <= x) ->
     (forall k, left <= k < len -> x < Znth k tails 0) ->
-    NondecreasingZList (replace_Znth left x tails).
+    increasing (replace_Znth left x tails).
 Proof.
   intros tails len x left Hlen Hnd Hleft Hlow Hhigh.
-  unfold NondecreasingZList in *.
-  intros p q [Hp [Hpq Hq]].
+  apply (proj1 (mono_nondec_iff_increasing _)).
+  pose proof (proj2 (mono_nondec_iff_increasing tails) Hnd) as Hmono.
+  unfold mono_nondec in *.
+  intros p q Hp Hpq Hq.
   rewrite Zlength_replace_Znth in Hq.
-  destruct (Z.eq_dec p left) as [Hp_left | Hp_left];
-  destruct (Z.eq_dec q left) as [Hq_left | Hq_left].
+  destruct (Z.eq_dec p q) as [-> | Hpq_neq].
   - lia.
-  - subst p.
-    rewrite Znth_replace_Znth_Same by lia.
-    rewrite Znth_replace_Znth_Diff by lia.
-    apply Z.lt_le_incl. apply Hhigh. lia.
-  - subst q.
-    rewrite Znth_replace_Znth_Diff by lia.
-    rewrite Znth_replace_Znth_Same by lia.
-    apply Hlow. lia.
-  - rewrite !Znth_replace_Znth_Diff by lia.
-    apply Hnd. lia.
+  - assert (Hpq_lt : p < q) by lia.
+    destruct (Z.eq_dec p left) as [Hp_left | Hp_left];
+    destruct (Z.eq_dec q left) as [Hq_left | Hq_left].
+    + lia.
+    + subst p.
+      rewrite Znth_replace_Znth_Same by lia.
+      rewrite Znth_replace_Znth_Diff by lia.
+      apply Z.lt_le_incl. apply Hhigh. lia.
+    + subst q.
+      rewrite Znth_replace_Znth_Diff by lia.
+      rewrite Znth_replace_Znth_Same by lia.
+      apply Hlow. lia.
+    + rewrite !Znth_replace_Znth_Diff by lia.
+      apply Hmono; lia.
 Qed.
 
 Lemma LNDTailsState_extend_at :

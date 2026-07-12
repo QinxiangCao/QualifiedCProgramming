@@ -3,7 +3,7 @@
 #include "int_array_def.h"
 
 /*@ Extern Coq (Permutation : list Z -> list Z -> Prop) */
-/*@ Extern Coq (Nondecreasing : list Z -> Prop) */
+/*@ Extern Coq (increasing : list Z -> Prop) */
 /*@ Extern Coq (same_outside_range : list Z -> list Z -> Z -> Z -> Prop) */
 /*@ Extern Coq (partitioned_at : list Z -> Z -> Z -> Z -> Prop) */
 /*@ Extern Coq (range_nondecreasing : list Z -> Z -> Z -> Prop) */
@@ -120,7 +120,7 @@ void dual_loop_quicksort(int *arr, int n)
             IntArray::full(arr, n, l)
     Ensure exists l1,
             Permutation(l, l1) &&
-            Nondecreasing(l1) &&
+            increasing(l1) &&
             Zlength(l1) == n &&
             IntArray::full(arr, n, l1)
 */

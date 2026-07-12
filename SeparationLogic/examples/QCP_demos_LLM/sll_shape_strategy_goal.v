@@ -94,6 +94,41 @@ Definition sll_shape_strategy15 :=
     ((poly_store FET_int &( ((p)) # "list" ->ₛ "data") q) || (poly_store FET_ptr &( ((p)) # "list" ->ₛ "next") q))
     ).
 
+Definition sll_shape_strategy23 :=
+  TT &&
+  emp
+  |--
+  (
+  TT &&
+  emp
+  ) ** (
+  ALL (p : Z),
+    TT &&
+    emp -*
+    TT &&
+    emp **
+    ((lseg p p))
+    ).
+
+Definition sll_shape_strategy25 :=
+  forall (p : Z) (q : Z),
+    TT &&
+    (“ (p = q) ”) &&
+    emp **
+    ((lseg p q)) **
+    ((listrep q))
+    |--
+    (
+    TT &&
+    emp **
+    ((listrep q))
+    ) ** (
+    TT &&
+    emp -*
+    TT &&
+    emp
+    ).
+
 Definition sll_shape_strategy6 :=
   forall (p : Z),
     TT &&
@@ -151,6 +186,24 @@ Definition sll_shape_strategy16 :=
       emp **
       ((lseg p z))
       ).
+
+Definition sll_shape_strategy21 :=
+  forall (q : Z) (p : Z),
+    TT &&
+    (“ (q = 0) ”) &&
+    emp **
+    ((listrep p))
+    |--
+    (
+    TT &&
+    emp
+    ) ** (
+    TT &&
+    emp -*
+    TT &&
+    emp **
+    ((lseg p q))
+    ).
 
 Definition sll_shape_strategy11 :=
   forall (p : Z) (q : Z),
@@ -255,6 +308,24 @@ Definition sll_shape_strategy20 :=
     ((lseg p q))
     ).
 
+Definition sll_shape_strategy24 :=
+  forall (p : Z) (q : Z),
+    TT &&
+    (“ (p = 0) ”) &&
+    emp **
+    ((lseg p q))
+    |--
+    (
+    TT &&
+    (“ (q = 0) ”) &&
+    emp
+    ) ** (
+    TT &&
+    emp -*
+    TT &&
+    emp
+    ).
+
 Definition sll_shape_strategy7 :=
   forall (p : Z),
     TT &&
@@ -319,6 +390,33 @@ Definition sll_shape_strategy9 :=
       ((listrep p))
       ).
 
+Definition sll_shape_strategy22 :=
+  forall (p : Z) (q : Z),
+    TT &&
+    (“ (p <> q) ” || “ (q <> p) ”) &&
+    (“ (p <> 0) ” || “ (0 <> p) ”) &&
+    emp **
+    ((lseg p q))
+    |--
+    EX (x : Z) (y : Z),
+      (
+      TT &&
+      (“ (p <> q) ” || “ (q <> p) ”) &&
+      (“ (p <> 0) ” || “ (0 <> p) ”) &&
+      emp **
+      ((poly_store FET_int &( ((p)) # "list" ->ₛ "data") x)) **
+      ((poly_store FET_ptr &( ((p)) # "list" ->ₛ "next") y)) **
+      ((lseg y q))
+      ) ** (
+      ALL (v : Z) (n : Z),
+        TT &&
+        emp **
+        ((poly_store FET_int &( ((p)) # "list" ->ₛ "data") v) || (poly_store FET_ptr &( ((p)) # "list" ->ₛ "next") n)) -*
+        TT &&
+        emp **
+        ((poly_store FET_int &( ((p)) # "list" ->ₛ "data") v) || (poly_store FET_ptr &( ((p)) # "list" ->ₛ "next") n))
+        ).
+
 Module Type sll_shape_Strategy_Correct.
 
   Axiom sll_shape_strategy3_correctness : sll_shape_strategy3.
@@ -326,16 +424,21 @@ Module Type sll_shape_Strategy_Correct.
   Axiom sll_shape_strategy5_correctness : sll_shape_strategy5.
   Axiom sll_shape_strategy14_correctness : sll_shape_strategy14.
   Axiom sll_shape_strategy15_correctness : sll_shape_strategy15.
+  Axiom sll_shape_strategy23_correctness : sll_shape_strategy23.
+  Axiom sll_shape_strategy25_correctness : sll_shape_strategy25.
   Axiom sll_shape_strategy6_correctness : sll_shape_strategy6.
   Axiom sll_shape_strategy10_correctness : sll_shape_strategy10.
   Axiom sll_shape_strategy16_correctness : sll_shape_strategy16.
+  Axiom sll_shape_strategy21_correctness : sll_shape_strategy21.
   Axiom sll_shape_strategy11_correctness : sll_shape_strategy11.
   Axiom sll_shape_strategy17_correctness : sll_shape_strategy17.
   Axiom sll_shape_strategy18_correctness : sll_shape_strategy18.
   Axiom sll_shape_strategy19_correctness : sll_shape_strategy19.
   Axiom sll_shape_strategy20_correctness : sll_shape_strategy20.
+  Axiom sll_shape_strategy24_correctness : sll_shape_strategy24.
   Axiom sll_shape_strategy7_correctness : sll_shape_strategy7.
   Axiom sll_shape_strategy8_correctness : sll_shape_strategy8.
   Axiom sll_shape_strategy9_correctness : sll_shape_strategy9.
+  Axiom sll_shape_strategy22_correctness : sll_shape_strategy22.
 
 End sll_shape_Strategy_Correct.

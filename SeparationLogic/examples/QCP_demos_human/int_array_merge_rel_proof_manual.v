@@ -120,7 +120,6 @@ Qed.
 Lemma proof_of_merge_entail_wit_3_2 : merge_entail_wit_3_2.
 Proof. 
   pre_process.
-  Right.
   Exists l6_2 l5_2 l4_2.
   Exists l1_2 l2_2 l3_2.
   prop_apply (IntArray.seg_length arr_pre j).

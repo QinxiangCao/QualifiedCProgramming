@@ -46,9 +46,7 @@ forall (j_pre: Z) (i_pre: Z) (l: (@list Z)) (n: Z) (PreH1 : (0 <= i_pre)) (PreH2
 
 Definition swap_return_wit_1_split_goal_1 := 
 forall (j_pre: Z) (i_pre: Z) (l: (@list Z)) (n: Z) (PreH1 : (0 <= i_pre)) (PreH2 : (i_pre < n)) (PreH3 : (0 <= j_pre)) (PreH4 : (j_pre < n)) ,
-  TT && emp 
-|--
-  “ ((replace_Znth (j_pre) ((Znth i_pre l 0)) ((replace_Znth (i_pre) ((Znth j_pre l 0)) (l)))) = (replace_Znth (j_pre) ((Znth (i_pre) (l) (0))) ((replace_Znth (i_pre) ((Znth (j_pre) (l) (0))) (l))))) ”
+  ((replace_Znth (j_pre) ((Znth i_pre l 0)) ((replace_Znth (i_pre) ((Znth j_pre l 0)) (l)))) = (replace_Znth (j_pre) ((Znth (i_pre) (l) (0))) ((replace_Znth (i_pre) ((Znth (j_pre) (l) (0))) (l)))))
 .
 
 Definition swap_partial_solve_wit_1 := 
@@ -59,7 +57,7 @@ forall (j_pre: Z) (i_pre: Z) (arr_pre: Z) (l: (@list Z)) (n: Z) (PreH1 : (0 <= i
   &&  “ (i_pre < n) ” 
   &&  “ (0 <= j_pre) ” 
   &&  “ (j_pre < n) ”
-  &&  (((arr_pre + (i_pre * sizeof(INT) ) )) # Int  |-> (Znth i_pre l 0))
+  &&  (((arr_pre + (i_pre * sizeof(INT)))) # Int  |-> (Znth i_pre l 0))
   **  (IntArray.missing_i arr_pre i_pre 0 n l )
 .
 
@@ -71,7 +69,7 @@ forall (j_pre: Z) (i_pre: Z) (arr_pre: Z) (l: (@list Z)) (n: Z) (PreH1 : (0 <= i
   &&  “ (i_pre < n) ” 
   &&  “ (0 <= j_pre) ” 
   &&  “ (j_pre < n) ”
-  &&  (((arr_pre + (j_pre * sizeof(INT) ) )) # Int  |-> (Znth j_pre l 0))
+  &&  (((arr_pre + (j_pre * sizeof(INT)))) # Int  |-> (Znth j_pre l 0))
   **  (IntArray.missing_i arr_pre j_pre 0 n l )
 .
 
@@ -83,7 +81,7 @@ forall (j_pre: Z) (i_pre: Z) (arr_pre: Z) (l: (@list Z)) (n: Z) (PreH1 : (0 <= i
   &&  “ (i_pre < n) ” 
   &&  “ (0 <= j_pre) ” 
   &&  “ (j_pre < n) ”
-  &&  (((arr_pre + (i_pre * sizeof(INT) ) )) # Int  |->_)
+  &&  (((arr_pre + (i_pre * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i arr_pre i_pre 0 n l )
 .
 
@@ -95,7 +93,7 @@ forall (j_pre: Z) (i_pre: Z) (arr_pre: Z) (l: (@list Z)) (n: Z) (PreH1 : (0 <= i
   &&  “ (i_pre < n) ” 
   &&  “ (0 <= j_pre) ” 
   &&  “ (j_pre < n) ”
-  &&  (((arr_pre + (j_pre * sizeof(INT) ) )) # Int  |->_)
+  &&  (((arr_pre + (j_pre * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i arr_pre j_pre 0 n (replace_Znth (i_pre) ((Znth j_pre l 0)) (l)) )
 .
 
@@ -257,16 +255,12 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (0 <= low_p
 
 Definition partition_entail_wit_1_split_goal_1 := 
 forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (0 <= low_pre)) (PreH2 : (low_pre <= high_pre)) (PreH3 : (high_pre < n_pre)) ,
-  TT && emp 
-|--
-  “ (partition_scan_inv l l low_pre high_pre (Znth high_pre l 0) (low_pre - 1 ) low_pre ) ”
+  (partition_scan_inv l l low_pre high_pre (Znth high_pre l 0) (low_pre - 1 ) low_pre )
 .
 
 Definition partition_entail_wit_1_split_goal_2 := 
 forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (0 <= low_pre)) (PreH2 : (low_pre <= high_pre)) (PreH3 : (high_pre < n_pre)) ,
-  TT && emp 
-|--
-  “ ((Znth high_pre l 0) = (Znth (high_pre) (l) (0))) ”
+  ((Znth high_pre l 0) = (Znth (high_pre) (l) (0)))
 .
 
 Definition partition_entail_wit_2_1 := 
@@ -295,9 +289,7 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j
 
 Definition partition_entail_wit_2_1_split_goal_1 := 
 forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : ((Znth j l1_2 0) <= pivot)) (PreH2 : (j < high_pre)) (PreH3 : (pivot = (Znth (high_pre) (l) (0)))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (partition_scan_inv l l1_2 low_pre high_pre pivot i j )) ,
-  TT && emp 
-|--
-  “ (partition_scan_inv l (replace_Znth (j) ((Znth ((i + 1 )) (l1_2) (0))) ((replace_Znth ((i + 1 )) ((Znth (j) (l1_2) (0))) (l1_2)))) low_pre high_pre pivot (i + 1 ) (j + 1 ) ) ”
+  (partition_scan_inv l (replace_Znth (j) ((Znth ((i + 1 )) (l1_2) (0))) ((replace_Znth ((i + 1 )) ((Znth (j) (l1_2) (0))) (l1_2)))) low_pre high_pre pivot (i + 1 ) (j + 1 ) )
 .
 
 Definition partition_entail_wit_2_2 := 
@@ -326,9 +318,7 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j
 
 Definition partition_entail_wit_2_2_split_goal_1 := 
 forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : ((Znth j l1_2 0) > pivot)) (PreH2 : (j < high_pre)) (PreH3 : (pivot = (Znth (high_pre) (l) (0)))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (partition_scan_inv l l1_2 low_pre high_pre pivot i j )) ,
-  TT && emp 
-|--
-  “ (partition_scan_inv l l1_2 low_pre high_pre pivot i (j + 1 ) ) ”
+  (partition_scan_inv l l1_2 low_pre high_pre pivot i (j + 1 ) )
 .
 
 Definition partition_return_wit_1 := 
@@ -356,23 +346,17 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j
 
 Definition partition_return_wit_1_split_goal_1 := 
 forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : (j >= high_pre)) (PreH2 : (pivot = (Znth (high_pre) (l) (0)))) (PreH3 : (0 <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < n_pre)) (PreH6 : ((low_pre - 1 ) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (partition_scan_inv l l1_2 low_pre high_pre pivot i j )) ,
-  TT && emp 
-|--
-  “ (partitioned_at (replace_Znth (high_pre) ((Znth ((i + 1 )) (l1_2) (0))) ((replace_Znth ((i + 1 )) ((Znth (high_pre) (l1_2) (0))) (l1_2)))) low_pre high_pre (i + 1 ) ) ”
+  (partitioned_at (replace_Znth (high_pre) ((Znth ((i + 1 )) (l1_2) (0))) ((replace_Znth ((i + 1 )) ((Znth (high_pre) (l1_2) (0))) (l1_2)))) low_pre high_pre (i + 1 ) )
 .
 
 Definition partition_return_wit_1_split_goal_2 := 
 forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : (j >= high_pre)) (PreH2 : (pivot = (Znth (high_pre) (l) (0)))) (PreH3 : (0 <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < n_pre)) (PreH6 : ((low_pre - 1 ) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (partition_scan_inv l l1_2 low_pre high_pre pivot i j )) ,
-  TT && emp 
-|--
-  “ (same_outside_range l (replace_Znth (high_pre) ((Znth ((i + 1 )) (l1_2) (0))) ((replace_Znth ((i + 1 )) ((Znth (high_pre) (l1_2) (0))) (l1_2)))) low_pre high_pre ) ”
+  (same_outside_range l (replace_Znth (high_pre) ((Znth ((i + 1 )) (l1_2) (0))) ((replace_Znth ((i + 1 )) ((Znth (high_pre) (l1_2) (0))) (l1_2)))) low_pre high_pre )
 .
 
 Definition partition_return_wit_1_split_goal_3 := 
 forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : (j >= high_pre)) (PreH2 : (pivot = (Znth (high_pre) (l) (0)))) (PreH3 : (0 <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < n_pre)) (PreH6 : ((low_pre - 1 ) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (partition_scan_inv l l1_2 low_pre high_pre pivot i j )) ,
-  TT && emp 
-|--
-  “ (permutation l (replace_Znth (high_pre) ((Znth ((i + 1 )) (l1_2) (0))) ((replace_Znth ((i + 1 )) ((Znth (high_pre) (l1_2) (0))) (l1_2)))) ) ”
+  (permutation l (replace_Znth (high_pre) ((Znth ((i + 1 )) (l1_2) (0))) ((replace_Znth ((i + 1 )) ((Znth (high_pre) (l1_2) (0))) (l1_2)))) )
 .
 
 Definition partition_partial_solve_wit_1 := 
@@ -382,7 +366,7 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 
   “ (0 <= low_pre) ” 
   &&  “ (low_pre <= high_pre) ” 
   &&  “ (high_pre < n_pre) ”
-  &&  (((arr_pre + (high_pre * sizeof(INT) ) )) # Int  |-> (Znth high_pre l 0))
+  &&  (((arr_pre + (high_pre * sizeof(INT)))) # Int  |-> (Znth high_pre l 0))
   **  (IntArray.missing_i arr_pre high_pre 0 n_pre l )
 .
 
@@ -399,7 +383,7 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@
   &&  “ (i < j) ” 
   &&  “ (j <= high_pre) ” 
   &&  “ (partition_scan_inv l l1 low_pre high_pre pivot i j ) ”
-  &&  (((arr_pre + (j * sizeof(INT) ) )) # Int  |-> (Znth j l1 0))
+  &&  (((arr_pre + (j * sizeof(INT)))) # Int  |-> (Znth j l1 0))
   **  (IntArray.missing_i arr_pre j 0 n_pre l1 )
 .
 
@@ -596,23 +580,17 @@ forall (right_pre: Z) (left_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) 
 
 Definition quicksort_range_return_wit_1_split_goal_1 := 
 forall (right_pre: Z) (left_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (retval: Z) (l1_3: (@list Z)) (l1_4: (@list Z)) (PreH1 : (permutation l1_3 l1_4 )) (PreH2 : (same_outside_range l1_3 l1_4 (retval + 1 ) right_pre )) (PreH3 : (sorted_range l1_4 (retval + 1 ) right_pre )) (PreH4 : (retval < right_pre)) (PreH5 : (permutation l1_2 l1_3 )) (PreH6 : (same_outside_range l1_2 l1_3 left_pre (retval - 1 ) )) (PreH7 : (sorted_range l1_3 left_pre (retval - 1 ) )) (PreH8 : (retval > left_pre)) (PreH9 : (left_pre <= retval)) (PreH10 : (retval <= right_pre)) (PreH11 : (permutation l l1_2 )) (PreH12 : (same_outside_range l l1_2 left_pre right_pre )) (PreH13 : (partitioned_at l1_2 left_pre right_pre retval )) (PreH14 : (left_pre < right_pre)) (PreH15 : (0 <= n_pre)) (PreH16 : (0 <= left_pre)) (PreH17 : ((-1) <= right_pre)) (PreH18 : (right_pre < n_pre)) ,
-  TT && emp 
-|--
-  “ (sorted_range l1_4 left_pre right_pre ) ”
+  (sorted_range l1_4 left_pre right_pre )
 .
 
 Definition quicksort_range_return_wit_1_split_goal_2 := 
 forall (right_pre: Z) (left_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (retval: Z) (l1_3: (@list Z)) (l1_4: (@list Z)) (PreH1 : (permutation l1_3 l1_4 )) (PreH2 : (same_outside_range l1_3 l1_4 (retval + 1 ) right_pre )) (PreH3 : (sorted_range l1_4 (retval + 1 ) right_pre )) (PreH4 : (retval < right_pre)) (PreH5 : (permutation l1_2 l1_3 )) (PreH6 : (same_outside_range l1_2 l1_3 left_pre (retval - 1 ) )) (PreH7 : (sorted_range l1_3 left_pre (retval - 1 ) )) (PreH8 : (retval > left_pre)) (PreH9 : (left_pre <= retval)) (PreH10 : (retval <= right_pre)) (PreH11 : (permutation l l1_2 )) (PreH12 : (same_outside_range l l1_2 left_pre right_pre )) (PreH13 : (partitioned_at l1_2 left_pre right_pre retval )) (PreH14 : (left_pre < right_pre)) (PreH15 : (0 <= n_pre)) (PreH16 : (0 <= left_pre)) (PreH17 : ((-1) <= right_pre)) (PreH18 : (right_pre < n_pre)) ,
-  TT && emp 
-|--
-  “ (same_outside_range l l1_4 left_pre right_pre ) ”
+  (same_outside_range l l1_4 left_pre right_pre )
 .
 
 Definition quicksort_range_return_wit_1_split_goal_3 := 
 forall (right_pre: Z) (left_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (retval: Z) (l1_3: (@list Z)) (l1_4: (@list Z)) (PreH1 : (permutation l1_3 l1_4 )) (PreH2 : (same_outside_range l1_3 l1_4 (retval + 1 ) right_pre )) (PreH3 : (sorted_range l1_4 (retval + 1 ) right_pre )) (PreH4 : (retval < right_pre)) (PreH5 : (permutation l1_2 l1_3 )) (PreH6 : (same_outside_range l1_2 l1_3 left_pre (retval - 1 ) )) (PreH7 : (sorted_range l1_3 left_pre (retval - 1 ) )) (PreH8 : (retval > left_pre)) (PreH9 : (left_pre <= retval)) (PreH10 : (retval <= right_pre)) (PreH11 : (permutation l l1_2 )) (PreH12 : (same_outside_range l l1_2 left_pre right_pre )) (PreH13 : (partitioned_at l1_2 left_pre right_pre retval )) (PreH14 : (left_pre < right_pre)) (PreH15 : (0 <= n_pre)) (PreH16 : (0 <= left_pre)) (PreH17 : ((-1) <= right_pre)) (PreH18 : (right_pre < n_pre)) ,
-  TT && emp 
-|--
-  “ (permutation l l1_4 ) ”
+  (permutation l l1_4 )
 .
 
 Definition quicksort_range_return_wit_2 := 
@@ -638,23 +616,17 @@ forall (right_pre: Z) (left_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) 
 
 Definition quicksort_range_return_wit_2_split_goal_1 := 
 forall (right_pre: Z) (left_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (retval: Z) (l1_3: (@list Z)) (PreH1 : (permutation l1_2 l1_3 )) (PreH2 : (same_outside_range l1_2 l1_3 (retval + 1 ) right_pre )) (PreH3 : (sorted_range l1_3 (retval + 1 ) right_pre )) (PreH4 : (retval < right_pre)) (PreH5 : (retval <= left_pre)) (PreH6 : (left_pre <= retval)) (PreH7 : (retval <= right_pre)) (PreH8 : (permutation l l1_2 )) (PreH9 : (same_outside_range l l1_2 left_pre right_pre )) (PreH10 : (partitioned_at l1_2 left_pre right_pre retval )) (PreH11 : (left_pre < right_pre)) (PreH12 : (0 <= n_pre)) (PreH13 : (0 <= left_pre)) (PreH14 : ((-1) <= right_pre)) (PreH15 : (right_pre < n_pre)) ,
-  TT && emp 
-|--
-  “ (sorted_range l1_3 left_pre right_pre ) ”
+  (sorted_range l1_3 left_pre right_pre )
 .
 
 Definition quicksort_range_return_wit_2_split_goal_2 := 
 forall (right_pre: Z) (left_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (retval: Z) (l1_3: (@list Z)) (PreH1 : (permutation l1_2 l1_3 )) (PreH2 : (same_outside_range l1_2 l1_3 (retval + 1 ) right_pre )) (PreH3 : (sorted_range l1_3 (retval + 1 ) right_pre )) (PreH4 : (retval < right_pre)) (PreH5 : (retval <= left_pre)) (PreH6 : (left_pre <= retval)) (PreH7 : (retval <= right_pre)) (PreH8 : (permutation l l1_2 )) (PreH9 : (same_outside_range l l1_2 left_pre right_pre )) (PreH10 : (partitioned_at l1_2 left_pre right_pre retval )) (PreH11 : (left_pre < right_pre)) (PreH12 : (0 <= n_pre)) (PreH13 : (0 <= left_pre)) (PreH14 : ((-1) <= right_pre)) (PreH15 : (right_pre < n_pre)) ,
-  TT && emp 
-|--
-  “ (same_outside_range l l1_3 left_pre right_pre ) ”
+  (same_outside_range l l1_3 left_pre right_pre )
 .
 
 Definition quicksort_range_return_wit_2_split_goal_3 := 
 forall (right_pre: Z) (left_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (retval: Z) (l1_3: (@list Z)) (PreH1 : (permutation l1_2 l1_3 )) (PreH2 : (same_outside_range l1_2 l1_3 (retval + 1 ) right_pre )) (PreH3 : (sorted_range l1_3 (retval + 1 ) right_pre )) (PreH4 : (retval < right_pre)) (PreH5 : (retval <= left_pre)) (PreH6 : (left_pre <= retval)) (PreH7 : (retval <= right_pre)) (PreH8 : (permutation l l1_2 )) (PreH9 : (same_outside_range l l1_2 left_pre right_pre )) (PreH10 : (partitioned_at l1_2 left_pre right_pre retval )) (PreH11 : (left_pre < right_pre)) (PreH12 : (0 <= n_pre)) (PreH13 : (0 <= left_pre)) (PreH14 : ((-1) <= right_pre)) (PreH15 : (right_pre < n_pre)) ,
-  TT && emp 
-|--
-  “ (permutation l l1_3 ) ”
+  (permutation l l1_3 )
 .
 
 Definition quicksort_range_return_wit_3 := 
@@ -680,23 +652,17 @@ forall (right_pre: Z) (left_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) 
 
 Definition quicksort_range_return_wit_3_split_goal_1 := 
 forall (right_pre: Z) (left_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (retval: Z) (l1_3: (@list Z)) (PreH1 : (retval >= right_pre)) (PreH2 : (permutation l1_2 l1_3 )) (PreH3 : (same_outside_range l1_2 l1_3 left_pre (retval - 1 ) )) (PreH4 : (sorted_range l1_3 left_pre (retval - 1 ) )) (PreH5 : (retval > left_pre)) (PreH6 : (left_pre <= retval)) (PreH7 : (retval <= right_pre)) (PreH8 : (permutation l l1_2 )) (PreH9 : (same_outside_range l l1_2 left_pre right_pre )) (PreH10 : (partitioned_at l1_2 left_pre right_pre retval )) (PreH11 : (left_pre < right_pre)) (PreH12 : (0 <= n_pre)) (PreH13 : (0 <= left_pre)) (PreH14 : ((-1) <= right_pre)) (PreH15 : (right_pre < n_pre)) ,
-  TT && emp 
-|--
-  “ (sorted_range l1_3 left_pre right_pre ) ”
+  (sorted_range l1_3 left_pre right_pre )
 .
 
 Definition quicksort_range_return_wit_3_split_goal_2 := 
 forall (right_pre: Z) (left_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (retval: Z) (l1_3: (@list Z)) (PreH1 : (retval >= right_pre)) (PreH2 : (permutation l1_2 l1_3 )) (PreH3 : (same_outside_range l1_2 l1_3 left_pre (retval - 1 ) )) (PreH4 : (sorted_range l1_3 left_pre (retval - 1 ) )) (PreH5 : (retval > left_pre)) (PreH6 : (left_pre <= retval)) (PreH7 : (retval <= right_pre)) (PreH8 : (permutation l l1_2 )) (PreH9 : (same_outside_range l l1_2 left_pre right_pre )) (PreH10 : (partitioned_at l1_2 left_pre right_pre retval )) (PreH11 : (left_pre < right_pre)) (PreH12 : (0 <= n_pre)) (PreH13 : (0 <= left_pre)) (PreH14 : ((-1) <= right_pre)) (PreH15 : (right_pre < n_pre)) ,
-  TT && emp 
-|--
-  “ (same_outside_range l l1_3 left_pre right_pre ) ”
+  (same_outside_range l l1_3 left_pre right_pre )
 .
 
 Definition quicksort_range_return_wit_3_split_goal_3 := 
 forall (right_pre: Z) (left_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (retval: Z) (l1_3: (@list Z)) (PreH1 : (retval >= right_pre)) (PreH2 : (permutation l1_2 l1_3 )) (PreH3 : (same_outside_range l1_2 l1_3 left_pre (retval - 1 ) )) (PreH4 : (sorted_range l1_3 left_pre (retval - 1 ) )) (PreH5 : (retval > left_pre)) (PreH6 : (left_pre <= retval)) (PreH7 : (retval <= right_pre)) (PreH8 : (permutation l l1_2 )) (PreH9 : (same_outside_range l l1_2 left_pre right_pre )) (PreH10 : (partitioned_at l1_2 left_pre right_pre retval )) (PreH11 : (left_pre < right_pre)) (PreH12 : (0 <= n_pre)) (PreH13 : (0 <= left_pre)) (PreH14 : ((-1) <= right_pre)) (PreH15 : (right_pre < n_pre)) ,
-  TT && emp 
-|--
-  “ (permutation l l1_3 ) ”
+  (permutation l l1_3 )
 .
 
 Definition quicksort_range_return_wit_4 := 
@@ -722,23 +688,17 @@ forall (right_pre: Z) (left_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (left_pre
 
 Definition quicksort_range_return_wit_4_split_goal_1 := 
 forall (right_pre: Z) (left_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (left_pre >= right_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (0 <= left_pre)) (PreH4 : ((-1) <= right_pre)) (PreH5 : (right_pre < n_pre)) ,
-  TT && emp 
-|--
-  “ (sorted_range l left_pre right_pre ) ”
+  (sorted_range l left_pre right_pre )
 .
 
 Definition quicksort_range_return_wit_4_split_goal_2 := 
 forall (right_pre: Z) (left_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (left_pre >= right_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (0 <= left_pre)) (PreH4 : ((-1) <= right_pre)) (PreH5 : (right_pre < n_pre)) ,
-  TT && emp 
-|--
-  “ (same_outside_range l l left_pre right_pre ) ”
+  (same_outside_range l l left_pre right_pre )
 .
 
 Definition quicksort_range_return_wit_4_split_goal_3 := 
 forall (right_pre: Z) (left_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (left_pre >= right_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (0 <= left_pre)) (PreH4 : ((-1) <= right_pre)) (PreH5 : (right_pre < n_pre)) ,
-  TT && emp 
-|--
-  “ (permutation l l ) ”
+  (permutation l l )
 .
 
 Definition quicksort_range_partial_solve_wit_1_pure := 
@@ -946,9 +906,7 @@ forall (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (PreH1 : (permutation l l1_2 
 
 Definition int_array_quicksort_return_wit_1_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (PreH1 : (permutation l l1_2 )) (PreH2 : (same_outside_range l l1_2 0 (n_pre - 1 ) )) (PreH3 : (sorted_range l1_2 0 (n_pre - 1 ) )) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 50000)) ,
-  TT && emp 
-|--
-  “ (increasing l1_2 ) ”
+  (increasing l1_2 )
 .
 
 Definition int_array_quicksort_partial_solve_wit_1_pure := 

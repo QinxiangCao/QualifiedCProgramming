@@ -124,3 +124,42 @@ check : infer(x <= i);
 action : left_erase(1);
          left_erase(0);
          left_add(IntArray::seg(p, x, y, replace_Znth{Z}(i - x, v, l)));
+
+id : 13
+priority : core(1)
+left : IntArray::seg(?p, 0, ?i, ?l1) at 0
+right : IntArray::full(?p, ?n, ?l2) at 1
+check : infer(i == n);
+action : left_erase(0);
+         right_erase(1);
+         right_add(l1 == l2);
+
+id : 14
+priority : core(1)
+right : IntArray::full(?p, ?n, ?l) at 0
+check : infer(n == 0);
+action : right_add(l == nil{Z});
+         right_erase(0);
+
+id : 15
+priority : core(1)
+left : IntArray::seg(?p, ?x, ?y, ?l) at 0
+check : infer(x == y);
+action : left_erase(0);
+
+id : 16
+priority : post(1)
+left : IntArray::seg(?p, ?y, ?z, ?l) at 0
+       store(p + (z * sizeof(I32)), I32, ?v) at 1
+action : left_erase(1);
+         left_erase(0);
+         left_add(IntArray::seg(p, y, z + 1, app{Z}(l, cons{Z}(v, nil{Z}))));
+
+id : 17
+priority : post(1)
+left : IntArray::seg(?p, ?x, ?y, ?l) at 0
+       store(p + (?i * sizeof(I32)), I32, ?v) at 1
+check : infer(x == i + 1);
+action : left_erase(1);
+         left_erase(0);
+         left_add(IntArray::seg(p, i, y, cons{Z}(v, l)));

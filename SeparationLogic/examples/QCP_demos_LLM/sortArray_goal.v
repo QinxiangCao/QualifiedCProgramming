@@ -65,7 +65,7 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (i: Z)
 .
 
 Definition sortArray_safety_wit_4 := 
-forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 50000)) (PreH3 : (l = (app (l1) ((cons (key) (l4)))))) (PreH4 : (numsSize_pre = (Zlength (l)))) (PreH5 : (i = (Zlength (l1)))) (PreH6 : (1 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (Permutation l1 l0 )) (PreH9 : (increasing l0 )) (PreH10 : (l0 = (app (l2) (l3)))) (PreH11 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH12 : (0 <= (j + 1 ))) (PreH13 : ((j + 1 ) = (Zlength (l2)))) (PreH14 : ((j + 1 ) <= i)) (PreH15 : ((j + 1 ) < numsSize_pre)) (PreH16 : (strict_upperbound key l3 )) ,
+forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 50000)) (PreH3 : (l = (app (l1) ((cons (key) (l4)))))) (PreH4 : (numsSize_pre = (Zlength (l)))) (PreH5 : (i = (Zlength (l1)))) (PreH6 : (1 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (Permutation l1 l0 )) (PreH9 : (increasing l0 )) (PreH10 : (l0 = (app (l2) (l3)))) (PreH11 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH12 : (0 <= (j + 1 ))) (PreH13 : ((j + 1 ) = (Zlength (l2)))) (PreH14 : ((j + 1 ) <= i)) (PreH15 : ((j + 1 ) < numsSize_pre)) (PreH16 : (strict_lowerbound key l3 )) ,
   ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "returnSize" ) )) # Ptr  |-> returnSize_pre)
@@ -80,7 +80,7 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
 .
 
 Definition sortArray_safety_wit_5 := 
-forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) > key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0 )) (PreH11 : (increasing l0 )) (PreH12 : (l0 = (app (l2) (l3)))) (PreH13 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_upperbound key l3 )) ,
+forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) > key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0 )) (PreH11 : (increasing l0 )) (PreH12 : (l0 = (app (l2) (l3)))) (PreH13 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3 )) ,
   (IntArray.full nums_pre numsSize_pre l5 )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -95,7 +95,7 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
 .
 
 Definition sortArray_safety_wit_6 := 
-forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) > key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0 )) (PreH11 : (increasing l0 )) (PreH12 : (l0 = (app (l2) (l3)))) (PreH13 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_upperbound key l3 )) ,
+forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) > key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0 )) (PreH11 : (increasing l0 )) (PreH12 : (l0 = (app (l2) (l3)))) (PreH13 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3 )) ,
   (IntArray.full nums_pre numsSize_pre l5 )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -110,7 +110,7 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
 .
 
 Definition sortArray_safety_wit_7 := 
-forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) > key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0 )) (PreH11 : (increasing l0 )) (PreH12 : (l0 = (app (l2) (l3)))) (PreH13 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_upperbound key l3 )) ,
+forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) > key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0 )) (PreH11 : (increasing l0 )) (PreH12 : (l0 = (app (l2) (l3)))) (PreH13 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3 )) ,
   (IntArray.full nums_pre numsSize_pre (replace_Znth ((j + 1 )) ((Znth j l5 0)) (l5)) )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -125,7 +125,7 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
 .
 
 Definition sortArray_safety_wit_8 := 
-forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) <= key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0 )) (PreH11 : (increasing l0 )) (PreH12 : (l0 = (app (l2) (l3)))) (PreH13 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_upperbound key l3 )) ,
+forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) <= key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0 )) (PreH11 : (increasing l0 )) (PreH12 : (l0 = (app (l2) (l3)))) (PreH13 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3 )) ,
   (IntArray.full nums_pre numsSize_pre l5 )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -140,7 +140,7 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
 .
 
 Definition sortArray_safety_wit_9 := 
-forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : (j < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (app (l1) ((cons (key) (l4)))))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1 l0 )) (PreH10 : (increasing l0 )) (PreH11 : (l0 = (app (l2) (l3)))) (PreH12 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH13 : (0 <= (j + 1 ))) (PreH14 : ((j + 1 ) = (Zlength (l2)))) (PreH15 : ((j + 1 ) <= i)) (PreH16 : ((j + 1 ) < numsSize_pre)) (PreH17 : (strict_upperbound key l3 )) ,
+forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : (j < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (app (l1) ((cons (key) (l4)))))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1 l0 )) (PreH10 : (increasing l0 )) (PreH11 : (l0 = (app (l2) (l3)))) (PreH12 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH13 : (0 <= (j + 1 ))) (PreH14 : ((j + 1 ) = (Zlength (l2)))) (PreH15 : ((j + 1 ) <= i)) (PreH16 : ((j + 1 ) < numsSize_pre)) (PreH17 : (strict_lowerbound key l3 )) ,
   ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "returnSize" ) )) # Ptr  |-> returnSize_pre)
@@ -155,7 +155,7 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
 .
 
 Definition sortArray_safety_wit_10 := 
-forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : (j < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (app (l1) ((cons (key) (l4)))))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1 l0 )) (PreH10 : (increasing l0 )) (PreH11 : (l0 = (app (l2) (l3)))) (PreH12 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH13 : (0 <= (j + 1 ))) (PreH14 : ((j + 1 ) = (Zlength (l2)))) (PreH15 : ((j + 1 ) <= i)) (PreH16 : ((j + 1 ) < numsSize_pre)) (PreH17 : (strict_upperbound key l3 )) ,
+forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : (j < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (app (l1) ((cons (key) (l4)))))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1 l0 )) (PreH10 : (increasing l0 )) (PreH11 : (l0 = (app (l2) (l3)))) (PreH12 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH13 : (0 <= (j + 1 ))) (PreH14 : ((j + 1 ) = (Zlength (l2)))) (PreH15 : ((j + 1 ) <= i)) (PreH16 : ((j + 1 ) < numsSize_pre)) (PreH17 : (strict_lowerbound key l3 )) ,
   ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "returnSize" ) )) # Ptr  |-> returnSize_pre)
@@ -170,7 +170,7 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
 .
 
 Definition sortArray_safety_wit_11 := 
-forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) <= key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0 )) (PreH11 : (increasing l0 )) (PreH12 : (l0 = (app (l2) (l3)))) (PreH13 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_upperbound key l3 )) ,
+forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) <= key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0 )) (PreH11 : (increasing l0 )) (PreH12 : (l0 = (app (l2) (l3)))) (PreH13 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3 )) ,
   (IntArray.full nums_pre numsSize_pre l5 )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -185,7 +185,7 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
 .
 
 Definition sortArray_safety_wit_12 := 
-forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : (j < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (app (l1) ((cons (key) (l4)))))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1 l0 )) (PreH10 : (increasing l0 )) (PreH11 : (l0 = (app (l2) (l3)))) (PreH12 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH13 : (0 <= (j + 1 ))) (PreH14 : ((j + 1 ) = (Zlength (l2)))) (PreH15 : ((j + 1 ) <= i)) (PreH16 : ((j + 1 ) < numsSize_pre)) (PreH17 : (strict_upperbound key l3 )) ,
+forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : (j < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (app (l1) ((cons (key) (l4)))))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1 l0 )) (PreH10 : (increasing l0 )) (PreH11 : (l0 = (app (l2) (l3)))) (PreH12 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH13 : (0 <= (j + 1 ))) (PreH14 : ((j + 1 ) = (Zlength (l2)))) (PreH15 : ((j + 1 ) <= i)) (PreH16 : ((j + 1 ) < numsSize_pre)) (PreH17 : (strict_lowerbound key l3 )) ,
   (IntArray.full nums_pre numsSize_pre (replace_Znth ((j + 1 )) (key) (l5)) )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -198,7 +198,7 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
 .
 
 Definition sortArray_safety_wit_13 := 
-forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) <= key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0 )) (PreH11 : (increasing l0 )) (PreH12 : (l0 = (app (l2) (l3)))) (PreH13 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_upperbound key l3 )) ,
+forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) <= key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0 )) (PreH11 : (increasing l0 )) (PreH12 : (l0 = (app (l2) (l3)))) (PreH13 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3 )) ,
   (IntArray.full nums_pre numsSize_pre (replace_Znth ((j + 1 )) (key) (l5)) )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -270,7 +270,7 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (i: Z)
   &&  “ (((i - 1 ) + 1 ) = (Zlength (l2))) ” 
   &&  “ (((i - 1 ) + 1 ) <= i) ” 
   &&  “ (((i - 1 ) + 1 ) < numsSize_pre) ” 
-  &&  “ (strict_upperbound (Znth i l3 0) l3_2 ) ”
+  &&  “ (strict_lowerbound (Znth i l3 0) l3_2 ) ”
   &&  ((returnSize_pre) # Int  |-> numsSize_pre)
   **  (IntArray.full nums_pre numsSize_pre l5 )
 ) \/
@@ -293,13 +293,13 @@ forall (numsSize_pre: Z) (l: (@list Z)) (i: Z) (l0_2: (@list Z)) (l3: (@list Z))
   &&  “ (((i - 1 ) + 1 ) = (Zlength (l2))) ” 
   &&  “ (((i - 1 ) + 1 ) <= i) ” 
   &&  “ (((i - 1 ) + 1 ) < numsSize_pre) ” 
-  &&  “ (strict_upperbound (Znth i l3 0) l3_2 ) ”
+  &&  “ (strict_lowerbound (Znth i l3 0) l3_2 ) ”
   &&  emp
 ).
 
 Definition sortArray_entail_wit_3 := 
 (
-forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5_2: (@list Z)) (l2_2: (@list Z)) (l3_2: (@list Z)) (l0_2: (@list Z)) (i: Z) (l1_2: (@list Z)) (key: Z) (l4_2: (@list Z)) (PreH1 : ((Znth j l5_2 0) > key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1_2) ((cons (key) (l4_2)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1_2 l0_2 )) (PreH11 : (increasing l0_2 )) (PreH12 : (l0_2 = (app (l2_2) (l3_2)))) (PreH13 : (l5_2 = (app ((app (l2_2) ((cons ((Znth ((j + 1 )) (l0_2) (key))) (l3_2))))) (l4_2)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2_2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_upperbound key l3_2 )) ,
+forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5_2: (@list Z)) (l2_2: (@list Z)) (l3_2: (@list Z)) (l0_2: (@list Z)) (i: Z) (l1_2: (@list Z)) (key: Z) (l4_2: (@list Z)) (PreH1 : ((Znth j l5_2 0) > key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1_2) ((cons (key) (l4_2)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1_2 l0_2 )) (PreH11 : (increasing l0_2 )) (PreH12 : (l0_2 = (app (l2_2) (l3_2)))) (PreH13 : (l5_2 = (app ((app (l2_2) ((cons ((Znth ((j + 1 )) (l0_2) (key))) (l3_2))))) (l4_2)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2_2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3_2 )) ,
   (IntArray.full nums_pre numsSize_pre (replace_Znth ((j + 1 )) ((Znth j l5_2 0)) (l5_2)) )
   **  ((returnSize_pre) # Int  |-> numsSize_pre)
 |--
@@ -319,12 +319,12 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
   &&  “ (((j - 1 ) + 1 ) = (Zlength (l2))) ” 
   &&  “ (((j - 1 ) + 1 ) <= i) ” 
   &&  “ (((j - 1 ) + 1 ) < numsSize_pre) ” 
-  &&  “ (strict_upperbound key l3 ) ”
+  &&  “ (strict_lowerbound key l3 ) ”
   &&  ((returnSize_pre) # Int  |-> numsSize_pre)
   **  (IntArray.full nums_pre numsSize_pre l5 )
 ) \/
 (
-forall (numsSize_pre: Z) (l: (@list Z)) (j: Z) (l5_2: (@list Z)) (l2_2: (@list Z)) (l3_2: (@list Z)) (l0_2: (@list Z)) (i: Z) (l1_2: (@list Z)) (key: Z) (l4_2: (@list Z)) (PreH1 : ((Znth j l5_2 0) > key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1_2) ((cons (key) (l4_2)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1_2 l0_2 )) (PreH11 : (increasing l0_2 )) (PreH12 : (l0_2 = (app (l2_2) (l3_2)))) (PreH13 : (l5_2 = (app ((app (l2_2) ((cons ((Znth ((j + 1 )) (l0_2) (key))) (l3_2))))) (l4_2)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2_2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_upperbound key l3_2 )) ,
+forall (numsSize_pre: Z) (l: (@list Z)) (j: Z) (l5_2: (@list Z)) (l2_2: (@list Z)) (l3_2: (@list Z)) (l0_2: (@list Z)) (i: Z) (l1_2: (@list Z)) (key: Z) (l4_2: (@list Z)) (PreH1 : ((Znth j l5_2 0) > key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1_2) ((cons (key) (l4_2)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1_2 l0_2 )) (PreH11 : (increasing l0_2 )) (PreH12 : (l0_2 = (app (l2_2) (l3_2)))) (PreH13 : (l5_2 = (app ((app (l2_2) ((cons ((Znth ((j + 1 )) (l0_2) (key))) (l3_2))))) (l4_2)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2_2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3_2 )) ,
   TT && emp 
 |--
   EX (l2: (@list Z))  (l3: (@list Z))  (l1: (@list Z))  (l4: (@list Z)) ,
@@ -342,13 +342,13 @@ forall (numsSize_pre: Z) (l: (@list Z)) (j: Z) (l5_2: (@list Z)) (l2_2: (@list Z
   &&  “ (((j - 1 ) + 1 ) = (Zlength (l2))) ” 
   &&  “ (((j - 1 ) + 1 ) <= i) ” 
   &&  “ (((j - 1 ) + 1 ) < numsSize_pre) ” 
-  &&  “ (strict_upperbound key l3 ) ”
+  &&  “ (strict_lowerbound key l3 ) ”
   &&  emp
 ).
 
 Definition sortArray_entail_wit_4_1 := 
 (
-forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2_2: (@list Z)) (l3_2: (@list Z)) (l0_2: (@list Z)) (i: Z) (l1_2: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : (j < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (app (l1_2) ((cons (key) (l4)))))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1_2)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1_2 l0_2 )) (PreH10 : (increasing l0_2 )) (PreH11 : (l0_2 = (app (l2_2) (l3_2)))) (PreH12 : (l5 = (app ((app (l2_2) ((cons ((Znth ((j + 1 )) (l0_2) (key))) (l3_2))))) (l4)))) (PreH13 : (0 <= (j + 1 ))) (PreH14 : ((j + 1 ) = (Zlength (l2_2)))) (PreH15 : ((j + 1 ) <= i)) (PreH16 : ((j + 1 ) < numsSize_pre)) (PreH17 : (strict_upperbound key l3_2 )) ,
+forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2_2: (@list Z)) (l3_2: (@list Z)) (l0_2: (@list Z)) (i: Z) (l1_2: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : (j < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (app (l1_2) ((cons (key) (l4)))))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1_2)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1_2 l0_2 )) (PreH10 : (increasing l0_2 )) (PreH11 : (l0_2 = (app (l2_2) (l3_2)))) (PreH12 : (l5 = (app ((app (l2_2) ((cons ((Znth ((j + 1 )) (l0_2) (key))) (l3_2))))) (l4)))) (PreH13 : (0 <= (j + 1 ))) (PreH14 : ((j + 1 ) = (Zlength (l2_2)))) (PreH15 : ((j + 1 ) <= i)) (PreH16 : ((j + 1 ) < numsSize_pre)) (PreH17 : (strict_lowerbound key l3_2 )) ,
   (IntArray.full nums_pre numsSize_pre (replace_Znth ((j + 1 )) (key) (l5)) )
   **  ((returnSize_pre) # Int  |-> numsSize_pre)
 |--
@@ -367,7 +367,7 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
   **  (IntArray.full nums_pre numsSize_pre l3 )
 ) \/
 (
-forall (numsSize_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2_2: (@list Z)) (l3_2: (@list Z)) (l0_2: (@list Z)) (i: Z) (l1_2: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : (j < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (app (l1_2) ((cons (key) (l4)))))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1_2)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1_2 l0_2 )) (PreH10 : (increasing l0_2 )) (PreH11 : (l0_2 = (app (l2_2) (l3_2)))) (PreH12 : (l5 = (app ((app (l2_2) ((cons ((Znth ((j + 1 )) (l0_2) (key))) (l3_2))))) (l4)))) (PreH13 : (0 <= (j + 1 ))) (PreH14 : ((j + 1 ) = (Zlength (l2_2)))) (PreH15 : ((j + 1 ) <= i)) (PreH16 : ((j + 1 ) < numsSize_pre)) (PreH17 : (strict_upperbound key l3_2 )) ,
+forall (numsSize_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2_2: (@list Z)) (l3_2: (@list Z)) (l0_2: (@list Z)) (i: Z) (l1_2: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : (j < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (app (l1_2) ((cons (key) (l4)))))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1_2)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1_2 l0_2 )) (PreH10 : (increasing l0_2 )) (PreH11 : (l0_2 = (app (l2_2) (l3_2)))) (PreH12 : (l5 = (app ((app (l2_2) ((cons ((Znth ((j + 1 )) (l0_2) (key))) (l3_2))))) (l4)))) (PreH13 : (0 <= (j + 1 ))) (PreH14 : ((j + 1 ) = (Zlength (l2_2)))) (PreH15 : ((j + 1 ) <= i)) (PreH16 : ((j + 1 ) < numsSize_pre)) (PreH17 : (strict_lowerbound key l3_2 )) ,
   TT && emp 
 |--
   EX (l0: (@list Z))  (l1: (@list Z))  (l2: (@list Z)) ,
@@ -386,7 +386,7 @@ forall (numsSize_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2_2: (@list Z))
 
 Definition sortArray_entail_wit_4_2 := 
 (
-forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2_2: (@list Z)) (l3_2: (@list Z)) (l0_2: (@list Z)) (i: Z) (l1_2: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) <= key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1_2) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1_2 l0_2 )) (PreH11 : (increasing l0_2 )) (PreH12 : (l0_2 = (app (l2_2) (l3_2)))) (PreH13 : (l5 = (app ((app (l2_2) ((cons ((Znth ((j + 1 )) (l0_2) (key))) (l3_2))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2_2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_upperbound key l3_2 )) ,
+forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2_2: (@list Z)) (l3_2: (@list Z)) (l0_2: (@list Z)) (i: Z) (l1_2: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) <= key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1_2) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1_2 l0_2 )) (PreH11 : (increasing l0_2 )) (PreH12 : (l0_2 = (app (l2_2) (l3_2)))) (PreH13 : (l5 = (app ((app (l2_2) ((cons ((Znth ((j + 1 )) (l0_2) (key))) (l3_2))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2_2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3_2 )) ,
   (IntArray.full nums_pre numsSize_pre (replace_Znth ((j + 1 )) (key) (l5)) )
   **  ((returnSize_pre) # Int  |-> numsSize_pre)
 |--
@@ -405,7 +405,7 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
   **  (IntArray.full nums_pre numsSize_pre l3 )
 ) \/
 (
-forall (numsSize_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2_2: (@list Z)) (l3_2: (@list Z)) (l0_2: (@list Z)) (i: Z) (l1_2: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) <= key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1_2) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1_2 l0_2 )) (PreH11 : (increasing l0_2 )) (PreH12 : (l0_2 = (app (l2_2) (l3_2)))) (PreH13 : (l5 = (app ((app (l2_2) ((cons ((Znth ((j + 1 )) (l0_2) (key))) (l3_2))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2_2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_upperbound key l3_2 )) ,
+forall (numsSize_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2_2: (@list Z)) (l3_2: (@list Z)) (l0_2: (@list Z)) (i: Z) (l1_2: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) <= key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1_2) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1_2 l0_2 )) (PreH11 : (increasing l0_2 )) (PreH12 : (l0_2 = (app (l2_2) (l3_2)))) (PreH13 : (l5 = (app ((app (l2_2) ((cons ((Znth ((j + 1 )) (l0_2) (key))) (l3_2))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2_2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3_2 )) ,
   TT && emp 
 |--
   EX (l0: (@list Z))  (l1: (@list Z))  (l2: (@list Z)) ,
@@ -447,23 +447,17 @@ forall (numsSize_pre: Z) (l: (@list Z)) (i: Z) (l0: (@list Z)) (l3: (@list Z)) (
 
 Definition sortArray_return_wit_1_split_goal_1 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (i: Z) (l0: (@list Z)) (l3: (@list Z)) (l1_2: (@list Z)) (l2: (@list Z)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (app (l1_2) (l2)))) (PreH5 : (l3 = (app (l0) (l2)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1_2 l0 )) (PreH11 : (increasing l0 )) ,
-  TT && emp 
-|--
-  “ ((Zlength (l3)) = numsSize_pre) ”
+  ((Zlength (l3)) = numsSize_pre)
 .
 
 Definition sortArray_return_wit_1_split_goal_2 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (i: Z) (l0: (@list Z)) (l3: (@list Z)) (l1_2: (@list Z)) (l2: (@list Z)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (app (l1_2) (l2)))) (PreH5 : (l3 = (app (l0) (l2)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1_2 l0 )) (PreH11 : (increasing l0 )) ,
-  TT && emp 
-|--
-  “ (increasing l3 ) ”
+  (increasing l3 )
 .
 
 Definition sortArray_return_wit_1_split_goal_3 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (i: Z) (l0: (@list Z)) (l3: (@list Z)) (l1_2: (@list Z)) (l2: (@list Z)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (app (l1_2) (l2)))) (PreH5 : (l3 = (app (l0) (l2)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1_2 l0 )) (PreH11 : (increasing l0 )) ,
-  TT && emp 
-|--
-  “ (Permutation l l3 ) ”
+  (Permutation l l3 )
 .
 
 Definition sortArray_partial_solve_wit_1 := 
@@ -482,13 +476,13 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (i: Z)
   &&  “ (i <= numsSize_pre) ” 
   &&  “ (Permutation l1 l0 ) ” 
   &&  “ (increasing l0 ) ”
-  &&  (((nums_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i l3 0))
+  &&  (((nums_pre + (i * sizeof(INT)))) # Int  |-> (Znth i l3 0))
   **  (IntArray.missing_i nums_pre i 0 numsSize_pre l3 )
   **  ((returnSize_pre) # Int  |-> numsSize_pre)
 .
 
 Definition sortArray_partial_solve_wit_2 := 
-forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : (j >= 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (app (l1) ((cons (key) (l4)))))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1 l0 )) (PreH10 : (increasing l0 )) (PreH11 : (l0 = (app (l2) (l3)))) (PreH12 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH13 : (0 <= (j + 1 ))) (PreH14 : ((j + 1 ) = (Zlength (l2)))) (PreH15 : ((j + 1 ) <= i)) (PreH16 : ((j + 1 ) < numsSize_pre)) (PreH17 : (strict_upperbound key l3 )) ,
+forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : (j >= 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (app (l1) ((cons (key) (l4)))))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1 l0 )) (PreH10 : (increasing l0 )) (PreH11 : (l0 = (app (l2) (l3)))) (PreH12 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH13 : (0 <= (j + 1 ))) (PreH14 : ((j + 1 ) = (Zlength (l2)))) (PreH15 : ((j + 1 ) <= i)) (PreH16 : ((j + 1 ) < numsSize_pre)) (PreH17 : (strict_lowerbound key l3 )) ,
   ((returnSize_pre) # Int  |-> numsSize_pre)
   **  (IntArray.full nums_pre numsSize_pre l5 )
 |--
@@ -508,14 +502,14 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
   &&  “ ((j + 1 ) = (Zlength (l2))) ” 
   &&  “ ((j + 1 ) <= i) ” 
   &&  “ ((j + 1 ) < numsSize_pre) ” 
-  &&  “ (strict_upperbound key l3 ) ”
-  &&  (((nums_pre + (j * sizeof(INT) ) )) # Int  |-> (Znth j l5 0))
+  &&  “ (strict_lowerbound key l3 ) ”
+  &&  (((nums_pre + (j * sizeof(INT)))) # Int  |-> (Znth j l5 0))
   **  (IntArray.missing_i nums_pre j 0 numsSize_pre l5 )
   **  ((returnSize_pre) # Int  |-> numsSize_pre)
 .
 
 Definition sortArray_partial_solve_wit_3 := 
-forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) > key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0 )) (PreH11 : (increasing l0 )) (PreH12 : (l0 = (app (l2) (l3)))) (PreH13 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_upperbound key l3 )) ,
+forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) > key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0 )) (PreH11 : (increasing l0 )) (PreH12 : (l0 = (app (l2) (l3)))) (PreH13 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3 )) ,
   (IntArray.full nums_pre numsSize_pre l5 )
   **  ((returnSize_pre) # Int  |-> numsSize_pre)
 |--
@@ -536,14 +530,14 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
   &&  “ ((j + 1 ) = (Zlength (l2))) ” 
   &&  “ ((j + 1 ) <= i) ” 
   &&  “ ((j + 1 ) < numsSize_pre) ” 
-  &&  “ (strict_upperbound key l3 ) ”
-  &&  (((nums_pre + (j * sizeof(INT) ) )) # Int  |-> (Znth j l5 0))
+  &&  “ (strict_lowerbound key l3 ) ”
+  &&  (((nums_pre + (j * sizeof(INT)))) # Int  |-> (Znth j l5 0))
   **  (IntArray.missing_i nums_pre j 0 numsSize_pre l5 )
   **  ((returnSize_pre) # Int  |-> numsSize_pre)
 .
 
 Definition sortArray_partial_solve_wit_4 := 
-forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) > key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0 )) (PreH11 : (increasing l0 )) (PreH12 : (l0 = (app (l2) (l3)))) (PreH13 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_upperbound key l3 )) ,
+forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) > key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0 )) (PreH11 : (increasing l0 )) (PreH12 : (l0 = (app (l2) (l3)))) (PreH13 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3 )) ,
   (IntArray.full nums_pre numsSize_pre l5 )
   **  ((returnSize_pre) # Int  |-> numsSize_pre)
 |--
@@ -564,14 +558,14 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
   &&  “ ((j + 1 ) = (Zlength (l2))) ” 
   &&  “ ((j + 1 ) <= i) ” 
   &&  “ ((j + 1 ) < numsSize_pre) ” 
-  &&  “ (strict_upperbound key l3 ) ”
-  &&  (((nums_pre + ((j + 1 ) * sizeof(INT) ) )) # Int  |->_)
+  &&  “ (strict_lowerbound key l3 ) ”
+  &&  (((nums_pre + ((j + 1 ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i nums_pre (j + 1 ) 0 numsSize_pre l5 )
   **  ((returnSize_pre) # Int  |-> numsSize_pre)
 .
 
 Definition sortArray_partial_solve_wit_5 := 
-forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : (j < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (app (l1) ((cons (key) (l4)))))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1 l0 )) (PreH10 : (increasing l0 )) (PreH11 : (l0 = (app (l2) (l3)))) (PreH12 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH13 : (0 <= (j + 1 ))) (PreH14 : ((j + 1 ) = (Zlength (l2)))) (PreH15 : ((j + 1 ) <= i)) (PreH16 : ((j + 1 ) < numsSize_pre)) (PreH17 : (strict_upperbound key l3 )) ,
+forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : (j < 0)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (app (l1) ((cons (key) (l4)))))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l1)))) (PreH7 : (1 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (Permutation l1 l0 )) (PreH10 : (increasing l0 )) (PreH11 : (l0 = (app (l2) (l3)))) (PreH12 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH13 : (0 <= (j + 1 ))) (PreH14 : ((j + 1 ) = (Zlength (l2)))) (PreH15 : ((j + 1 ) <= i)) (PreH16 : ((j + 1 ) < numsSize_pre)) (PreH17 : (strict_lowerbound key l3 )) ,
   ((returnSize_pre) # Int  |-> numsSize_pre)
   **  (IntArray.full nums_pre numsSize_pre l5 )
 |--
@@ -591,14 +585,14 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
   &&  “ ((j + 1 ) = (Zlength (l2))) ” 
   &&  “ ((j + 1 ) <= i) ” 
   &&  “ ((j + 1 ) < numsSize_pre) ” 
-  &&  “ (strict_upperbound key l3 ) ”
-  &&  (((nums_pre + ((j + 1 ) * sizeof(INT) ) )) # Int  |->_)
+  &&  “ (strict_lowerbound key l3 ) ”
+  &&  (((nums_pre + ((j + 1 ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i nums_pre (j + 1 ) 0 numsSize_pre l5 )
   **  ((returnSize_pre) # Int  |-> numsSize_pre)
 .
 
 Definition sortArray_partial_solve_wit_6 := 
-forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) <= key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0 )) (PreH11 : (increasing l0 )) (PreH12 : (l0 = (app (l2) (l3)))) (PreH13 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_upperbound key l3 )) ,
+forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z) (l5: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (l0: (@list Z)) (i: Z) (l1: (@list Z)) (key: Z) (l4: (@list Z)) (PreH1 : ((Znth j l5 0) <= key)) (PreH2 : (j >= 0)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (l = (app (l1) ((cons (key) (l4)))))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1)))) (PreH8 : (1 <= i)) (PreH9 : (i < numsSize_pre)) (PreH10 : (Permutation l1 l0 )) (PreH11 : (increasing l0 )) (PreH12 : (l0 = (app (l2) (l3)))) (PreH13 : (l5 = (app ((app (l2) ((cons ((Znth ((j + 1 )) (l0) (key))) (l3))))) (l4)))) (PreH14 : (0 <= (j + 1 ))) (PreH15 : ((j + 1 ) = (Zlength (l2)))) (PreH16 : ((j + 1 ) <= i)) (PreH17 : ((j + 1 ) < numsSize_pre)) (PreH18 : (strict_lowerbound key l3 )) ,
   (IntArray.full nums_pre numsSize_pre l5 )
   **  ((returnSize_pre) # Int  |-> numsSize_pre)
 |--
@@ -619,8 +613,8 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
   &&  “ ((j + 1 ) = (Zlength (l2))) ” 
   &&  “ ((j + 1 ) <= i) ” 
   &&  “ ((j + 1 ) < numsSize_pre) ” 
-  &&  “ (strict_upperbound key l3 ) ”
-  &&  (((nums_pre + ((j + 1 ) * sizeof(INT) ) )) # Int  |->_)
+  &&  “ (strict_lowerbound key l3 ) ”
+  &&  (((nums_pre + ((j + 1 ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i nums_pre (j + 1 ) 0 numsSize_pre l5 )
   **  ((returnSize_pre) # Int  |-> numsSize_pre)
 .

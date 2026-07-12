@@ -930,12 +930,349 @@ Proof.
     + constructor; auto; try lia.
 Qed.
 
-Inductive increasing : list Z -> Prop :=
-  | increasing_nil: increasing []
-  | increasing_cons: forall x l',
-      increasing l' ->
-      Forall (fun x' => x <= x') l' ->
-      increasing (x :: l').
+Fixpoint increasing_aux (l: list Z) (x: Z): Prop :=
+  match l with
+  | nil => True
+  | y :: l0 => x <= y /\ increasing_aux l0 y
+  end.
+
+Definition increasing (l: list Z): Prop :=
+  match l with
+  | nil => True
+  | x :: l0 => increasing_aux l0 x
+  end.
+
+Lemma increasing_aux_tail_increasing :
+  forall l x,
+    increasing_aux l x ->
+    increasing l.
+Proof.
+  intros l x Hinc.
+  destruct l; simpl in *; auto.
+  destruct Hinc as [_ Hinc].
+  exact Hinc.
+Qed.
+
+Lemma increasing_aux_head_le_all_In :
+  forall l x y,
+    increasing_aux l x ->
+    In y l ->
+    x <= y.
+Proof.
+  induction l as [| a l IH]; intros x y Hinc Hin; simpl in *.
+  - contradiction.
+  - destruct Hinc as [Hxa Hinc].
+    destruct Hin as [Hy | Hin].
+    + subst. exact Hxa.
+    + eapply Z.le_trans; [exact Hxa |].
+      eapply IH; eauto.
+Qed.
+
+Fixpoint decreasing_aux (l: list Z) (x: Z): Prop :=
+  match l with
+  | nil => True
+  | y :: l0 => y <= x /\ decreasing_aux l0 y
+  end.
+
+Definition decreasing (l: list Z): Prop :=
+  match l with
+  | nil => True
+  | x :: l0 => decreasing_aux l0 x
+  end.
+
+Lemma decreasing_aux_tail_decreasing :
+  forall l x,
+    decreasing_aux l x ->
+    decreasing l.
+Proof.
+  intros l x Hdec.
+  destruct l; simpl in *; auto.
+  destruct Hdec as [_ Hdec].
+  exact Hdec.
+Qed.
+
+Lemma decreasing_aux_head_ge_all_In :
+  forall l x y,
+    decreasing_aux l x ->
+    In y l ->
+    y <= x.
+Proof.
+  induction l as [| a l IH]; intros x y Hdec Hin; simpl in *.
+  - contradiction.
+  - destruct Hdec as [Hax Hdec].
+    destruct Hin as [Hy | Hin].
+    + subst. exact Hax.
+    + eapply Z.le_trans; [| exact Hax].
+      eapply IH; eauto.
+Qed.
+
+Fixpoint strict_decreasing_aux (l: list Z) (x: Z): Prop :=
+  match l with
+  | nil => True
+  | y :: l0 => y < x /\ strict_decreasing_aux l0 y
+  end.
+
+Definition strict_decreasing (l: list Z): Prop :=
+  match l with
+  | nil => True
+  | x :: l0 => strict_decreasing_aux l0 x
+  end.
+
+Lemma strict_decreasing_aux_tail_strict_decreasing :
+  forall l x,
+    strict_decreasing_aux l x ->
+    strict_decreasing l.
+Proof.
+  intros l x Hdec.
+  destruct l; simpl in *; auto.
+  destruct Hdec as [_ Hdec].
+  exact Hdec.
+Qed.
+
+Lemma strict_decreasing_aux_head_gt_all_In :
+  forall l x y,
+    strict_decreasing_aux l x ->
+    In y l ->
+    y < x.
+Proof.
+  induction l as [| a l IH]; intros x y Hdec Hin; simpl in *.
+  - contradiction.
+  - destruct Hdec as [Hax Hdec].
+    destruct Hin as [Hy | Hin].
+    + subst. exact Hax.
+    + eapply Z.lt_trans; [| exact Hax].
+      eapply IH; eauto.
+Qed.
+
+Fixpoint upperbound (x: Z) (l: list Z): Prop :=
+  match l with
+  | nil => True
+  | y :: l' => y <= x /\ upperbound x l'
+  end.
+
+Definition upper_bound := upperbound.
+
+Fixpoint strict_upperbound (x: Z) (l: list Z): Prop :=
+  match l with
+  | nil => True
+  | y :: l' => y < x /\ strict_upperbound x l'
+  end.
+
+Fixpoint lowerbound (x: Z) (l: list Z): Prop :=
+  match l with
+  | nil => True
+  | y :: l' => x <= y /\ lowerbound x l'
+  end.
+
+Definition lower_bound := lowerbound.
+
+Fixpoint strict_lowerbound (x: Z) (l: list Z): Prop :=
+  match l with
+  | nil => True
+  | y :: l' => x < y /\ strict_lowerbound x l'
+  end.
+
+Definition prefix_suffix_sorted (prefix suffix: list Z): Prop :=
+  forall x, In x prefix -> lowerbound x suffix.
+
+Lemma upperbound_Znth :
+  forall x l i,
+    upperbound x l ->
+    0 <= i < Zlength l ->
+    Znth i l 0 <= x.
+Proof.
+  induction l as [| a l IH]; intros i Hbound Hi.
+  - rewrite Zlength_nil in Hi. lia.
+  - simpl in Hbound. destruct Hbound as [Ha Hbound].
+    destruct (Z.eq_dec i 0) as [-> | Hi0].
+    + rewrite Znth0_cons. exact Ha.
+    + rewrite Znth_cons by lia. apply IH; auto.
+      rewrite Zlength_cons in Hi. lia.
+Qed.
+
+Lemma lowerbound_Znth :
+  forall x l i,
+    lowerbound x l ->
+    0 <= i < Zlength l ->
+    x <= Znth i l 0.
+Proof.
+  induction l as [| a l IH]; intros i Hbound Hi.
+  - rewrite Zlength_nil in Hi. lia.
+  - simpl in Hbound. destruct Hbound as [Ha Hbound].
+    destruct (Z.eq_dec i 0) as [-> | Hi0].
+    + rewrite Znth0_cons. exact Ha.
+    + rewrite Znth_cons by lia. apply IH; auto.
+      rewrite Zlength_cons in Hi. lia.
+Qed.
+
+Lemma upperbound_intro_Znth :
+  forall x l,
+    (forall i, 0 <= i < Zlength l -> Znth i l 0 <= x) ->
+    upperbound x l.
+Proof.
+  induction l as [| a l IH]; intros Hpoint; simpl; auto.
+  pose proof (Zlength_nonneg l) as Hlen.
+  split.
+  - specialize (Hpoint 0 ltac:(rewrite Zlength_cons; lia)).
+    rewrite Znth0_cons in Hpoint. exact Hpoint.
+  - apply IH. intros i Hi.
+    specialize (Hpoint (i + 1) ltac:(rewrite Zlength_cons; lia)).
+    rewrite Znth_cons in Hpoint by lia.
+    replace (i + 1 - 1) with i in Hpoint by lia.
+    exact Hpoint.
+Qed.
+
+Lemma lowerbound_intro_Znth :
+  forall x l,
+    (forall i, 0 <= i < Zlength l -> x <= Znth i l 0) ->
+    lowerbound x l.
+Proof.
+  induction l as [| a l IH]; intros Hpoint; simpl; auto.
+  pose proof (Zlength_nonneg l) as Hlen.
+  split.
+  - specialize (Hpoint 0 ltac:(rewrite Zlength_cons; lia)).
+    rewrite Znth0_cons in Hpoint. exact Hpoint.
+  - apply IH. intros i Hi.
+    specialize (Hpoint (i + 1) ltac:(rewrite Zlength_cons; lia)).
+    rewrite Znth_cons in Hpoint by lia.
+    replace (i + 1 - 1) with i in Hpoint by lia.
+    exact Hpoint.
+Qed.
+
+Lemma strict_upperbound_app :
+  forall x l v,
+    strict_upperbound x l ->
+    v < x ->
+    strict_upperbound x (l ++ [v]).
+Proof.
+  intros x l.
+  induction l as [| a l IH]; intros v Hbound Hv; simpl in *.
+  - split; auto.
+  - destruct Hbound as [Ha Hbound]. split; auto.
+Qed.
+
+Lemma upperbound_app :
+  forall x l v,
+    strict_upperbound x l ->
+    v < x ->
+    strict_upperbound x (l ++ [v]).
+Proof.
+  apply strict_upperbound_app.
+Qed.
+
+Lemma strict_lowerbound_cons :
+  forall x l v,
+    strict_lowerbound x l ->
+    x < v ->
+    strict_lowerbound x (v :: l).
+Proof.
+  intros. simpl. tauto.
+Qed.
+
+Lemma lowerbound_app_cons :
+  forall x l y,
+    lowerbound x l ->
+    x <= y ->
+    lowerbound x (l ++ [y]).
+Proof.
+  intros x l.
+  induction l as [| a l IH]; intros y Hbound Hy; simpl in *.
+  - split; auto.
+  - destruct Hbound as [Ha Hbound]. split; auto.
+Qed.
+
+Lemma lowerbound_trans :
+  forall x y l,
+    x <= y ->
+    lowerbound y l ->
+    lowerbound x l.
+Proof.
+  intros x y l Hxy.
+  induction l as [| a l IH]; intros Hbound; simpl in *; auto.
+  destruct Hbound as [Ha Hbound]. split; [lia | auto].
+Qed.
+
+Lemma lowerbound_perm :
+  forall x l1 l2,
+    Permutation l1 l2 ->
+    lowerbound x l1 ->
+    lowerbound x l2.
+Proof.
+  intros x l1 l2 Hperm.
+  induction Hperm; intros Hbound; simpl in *.
+  - exact Hbound.
+  - destruct Hbound as [Hx Hbound]. split; auto.
+  - destruct Hbound as [Hx [Hy Hbound]]. split; [exact Hy | split; auto].
+  - apply IHHperm2. apply IHHperm1. exact Hbound.
+Qed.
+
+Lemma upperbound_sublist_elim :
+  forall x l lo hi i,
+    0 <= lo <= hi ->
+    hi <= Zlength l ->
+    upperbound x (sublist lo hi l) ->
+    lo <= i < hi ->
+    Znth i l 0 <= x.
+Proof.
+  intros x l lo hi i Hlohi Hhi Hub Hi.
+  pose proof (upperbound_Znth x (sublist lo hi l) (i - lo) Hub) as Hle.
+  rewrite Znth_sublist in Hle by lia.
+  replace (i - lo + lo) with i in Hle by lia.
+  apply Hle.
+  rewrite Zlength_sublist by lia.
+  lia.
+Qed.
+
+Lemma upperbound_sublist_intro :
+  forall x l lo hi,
+    0 <= lo <= hi ->
+    hi <= Zlength l ->
+    (forall i, lo <= i < hi -> Znth i l 0 <= x) ->
+    upperbound x (sublist lo hi l).
+Proof.
+  intros x l lo hi Hlohi Hhi Hrange.
+  apply upperbound_intro_Znth.
+  intros i Hi.
+  assert (Hi' : 0 <= i < hi - lo).
+  { rewrite Zlength_sublist in Hi by lia. lia. }
+  rewrite Znth_sublist by lia.
+  apply Hrange.
+  lia.
+Qed.
+
+Lemma lowerbound_sublist_elim :
+  forall x l lo hi i,
+    0 <= lo <= hi ->
+    hi <= Zlength l ->
+    lowerbound x (sublist lo hi l) ->
+    lo <= i < hi ->
+    x <= Znth i l 0.
+Proof.
+  intros x l lo hi i Hlohi Hhi Hlb Hi.
+  pose proof (lowerbound_Znth x (sublist lo hi l) (i - lo) Hlb) as Hle.
+  rewrite Znth_sublist in Hle by lia.
+  replace (i - lo + lo) with i in Hle by lia.
+  apply Hle.
+  rewrite Zlength_sublist by lia.
+  lia.
+Qed.
+
+Lemma lowerbound_sublist_intro :
+  forall x l lo hi,
+    0 <= lo <= hi ->
+    hi <= Zlength l ->
+    (forall i, lo <= i < hi -> x <= Znth i l 0) ->
+    lowerbound x (sublist lo hi l).
+Proof.
+  intros x l lo hi Hlohi Hhi Hrange.
+  apply lowerbound_intro_Znth.
+  intros i Hi.
+  assert (Hi' : 0 <= i < hi - lo).
+  { rewrite Zlength_sublist in Hi by lia. lia. }
+  rewrite Znth_sublist by lia.
+  apply Hrange.
+  lia.
+Qed.
 
 Fixpoint list_insert (i : Z) (l : list Z) :=
   match l with
@@ -965,30 +1302,39 @@ Proof.
       destruct H as [[? | ?] | ?]; auto.
 Qed.
 
+Lemma increasing_aux_list_insert :
+  forall a l x,
+    increasing_aux l x ->
+    x <= a ->
+    increasing_aux (list_insert a l) x.
+Proof.
+  intros a l.
+  induction l as [| y l IH]; intros x Hinc Hxa; simpl in *; auto.
+  destruct Hinc as [Hxy Hinc].
+  destruct (Z_le_gt_dec a y).
+  - repeat split; auto; lia.
+  - split; auto.
+    apply IH; auto; lia.
+Qed.
+
+Lemma increasing_list_insert :
+  forall a l,
+    increasing l ->
+    increasing (list_insert a l).
+Proof.
+  intros a l Hinc.
+  destruct l as [| y l]; simpl in *; auto.
+  destruct (Z_le_gt_dec a y).
+  - repeat split; auto; lia.
+  - apply increasing_aux_list_insert; auto; lia.
+Qed.
+
 Theorem sort_list_increasing : forall l, increasing (sort l).
 Proof.
   intros.
   induction l; simpl in *; auto.
-  - constructor.
-  - remember (sort l) as l1.
-    clear Heql1 l. rename l1 into l.
-    induction l; simpl in *; auto.
-    + constructor; auto.
-    + destruct (Z_le_gt_dec a a0).
-      * constructor; auto.
-        inversion IHl; subst.
-        constructor; auto.
-        rewrite Forall_forall in *.
-        intros.
-        specialize (H2 _ H).
-        lia.
-      * inversion IHl; subst.
-        constructor; auto.
-        rewrite Forall_forall in *.
-        intros.
-        rewrite list_insert_In in H.
-        destruct H; auto.
-        lia.
+  apply increasing_list_insert.
+  exact IHl.
 Qed.
 
 Lemma list_insert_perm : forall x l, Permutation (x :: l) (list_insert x l).
@@ -1023,40 +1369,45 @@ Proof.
 Qed.
 
 Theorem increasing_interval_list_range : forall l pace lo hi, pace >= 0 ->
-lo <= hi ->
+lo <= hi -> 
 interval_list pace lo hi l -> increasing l ->
 lo + Zlength l * (pace + 1) <= hi + pace + 1.
 Proof.
   intros. generalize dependent lo.
-  induction l; simpl; intros; auto.
+  induction l as [| a l IHl]; simpl; intros; auto.
   - lia.
-  - inversion H2; subst.
-    inversion H1; subst.
-    apply Zle_lt_or_eq in H9.
-    destruct H9.
-    + specialize (IHl H5 (a + pace + 1) (ltac:(lia))).
-      rewrite Zlength_cons.
-      assert (interval_list pace (a + pace + 1) hi l).
+  - inversion H1 as [| ? ? Hinter Hlo_a Ha_hi Hsep]; subst.
+    rewrite Zlength_cons.
+    assert (Htail_interval : interval_list pace (a + pace + 1) hi l).
+    {
+      apply interval_list_compress with (lo1 := lo) (hi1 := hi); auto; try lia.
+      pose proof (interval_list_valid3 _ _ _ _ Hinter) as Hvalid.
+      rewrite Forall_forall in *.
+      intros x Hx.
+      specialize (Hvalid _ Hx).
+      specialize (Hsep _ Hx).
+      pose proof (increasing_aux_head_le_all_In _ _ _ H2 Hx).
+      lia.
+    }
+    assert (Htail_inc : increasing l).
+    {
+      apply increasing_aux_tail_increasing with (x := a).
+      exact H2.
+    }
+    destruct l as [| b l'].
+    + rewrite Zlength_nil. lia.
+    + assert (Htail_lo_hi : a + pace + 1 <= hi).
       {
-        apply interval_list_compress with (lo1 := lo) (hi1 := hi); auto; try lia.
-        pose proof (interval_list_valid3 _ _ _ _ H7).
-        rewrite Forall_forall in *.
-        intros.
-        specialize (H10 _ H9).
-        specialize (H4 _ H9).
-        specialize (H6 _ H9).
+        pose proof (interval_list_valid3 _ _ _ _ Hinter) as Hvalid.
+        rewrite Forall_forall in Hvalid.
+        rewrite Forall_forall in Hsep.
+        specialize (Hvalid b (or_introl eq_refl)).
+        specialize (Hsep b (or_introl eq_refl)).
+        pose proof (increasing_aux_head_le_all_In _ _ _ H2 (or_introl eq_refl)).
         lia.
       }
-      specialize (IHl H4).
+      specialize (IHl Htail_inc (a + pace + 1) Htail_lo_hi Htail_interval).
       lia.
-    + destruct l.
-      * replace (Zlength [a]) with 1 by auto.
-        lia.
-      * exfalso.
-        inversion H7; subst.
-        inversion H10; subst.
-        inversion H6; subst.
-        lia.
 Qed.
 
 Theorem interval_list_range : forall l pace lo hi, pace >= 0 ->

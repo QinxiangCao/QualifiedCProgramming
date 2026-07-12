@@ -1,0 +1,8 @@
+; Converted from:
+; - _CoqProject: -R SeparationLogic/stdlib SimpleC.StdLib
+; - SeparationLogic/_CoqProject: -R stdlib SimpleC.StdLib
+(coq.theory
+ (name SimpleC.StdLib)
+ (theories AUXLib Logic SetsClass SimpleC.SL))
+
+(include_subdirs qualified)

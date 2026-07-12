@@ -49,9 +49,7 @@ forall (tickPrecision_pre: Z) (startTime_pre: Z) (l2: (@list (@DL_Node (@sortedL
 
 Definition OsGetNextExpireTime_return_wit_1_split_goal_1 := 
 forall (tickPrecision_pre: Z) (startTime_pre: Z) (l2: (@list (@DL_Node (@sortedLinkNode Z)))) (l1: (@list (@DL_Node (@sortedLinkNode Z)))) (retval_2: Z) (retval: Z) (PreH1 : (retval_2 >= retval)) (PreH2 : (retval = (getFirstNodeExpireTime (l2) (startTime_pre) (tickPrecision_pre)))) (PreH3 : (retval_2 = (getFirstNodeExpireTime (l1) (startTime_pre) (tickPrecision_pre)))) ,
-  TT && emp 
-|--
-  “ (retval = (getminExpireTime (l1) (l2) (startTime_pre) (tickPrecision_pre))) ”
+  (retval = (getminExpireTime (l1) (l2) (startTime_pre) (tickPrecision_pre)))
 .
 
 Definition OsGetNextExpireTime_return_wit_2 := 
@@ -76,9 +74,7 @@ forall (tickPrecision_pre: Z) (startTime_pre: Z) (l2: (@list (@DL_Node (@sortedL
 
 Definition OsGetNextExpireTime_return_wit_2_split_goal_1 := 
 forall (tickPrecision_pre: Z) (startTime_pre: Z) (l2: (@list (@DL_Node (@sortedLinkNode Z)))) (l1: (@list (@DL_Node (@sortedLinkNode Z)))) (retval: Z) (retval_2: Z) (PreH1 : (retval < retval_2)) (PreH2 : (retval_2 = (getFirstNodeExpireTime (l2) (startTime_pre) (tickPrecision_pre)))) (PreH3 : (retval = (getFirstNodeExpireTime (l1) (startTime_pre) (tickPrecision_pre)))) ,
-  TT && emp 
-|--
-  “ (retval = (getminExpireTime (l1) (l2) (startTime_pre) (tickPrecision_pre))) ”
+  (retval = (getminExpireTime (l1) (l2) (startTime_pre) (tickPrecision_pre)))
 .
 
 Definition OsGetNextExpireTime_partial_solve_wit_1_pure := 

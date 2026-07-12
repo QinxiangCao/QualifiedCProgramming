@@ -2,7 +2,7 @@
 
 ## File Structure
 - `linux-binary/`, `win-binary/`, `mac-x86-64-binary/`, `mac-arm64-binary/`: Precompiled QCP binaries, including `symexec`, `StrategyCheck`, `lsp`, and `mcp`.
-- `QCP_examples/`: Annotated C programs used as QCP inputs. Current subtrees are `Applications_human/`, `QCP_demos_human/`, `QCP_demos_LLM/`, and `LLM_bench/`.
+- `QCP_examples/`: Annotated C programs used as QCP inputs. Current subtrees are `Applications_human/`, `QCP_demos_human/`, `QCP_demos_LLM/`, `QCP_demos_tutorial/`, and `LLM_bench/`.
 - `SeparationLogic/`: Rocq libraries and generated verification artifacts used to check QCP-generated VCs. Its `examples/` subtree mirrors the main `QCP_examples/` layout.
 - `mcp/`: MCP server integrations. `mcp/qcp-mcp/` provides the QCP MCP server, and `mcp/rocq-mcp/` is a submodule for Rocq interaction.
 - `.agents/`: Agent-facing verification workflow assets. It contains local skills for orchestration, annotation, VC checking, VC proving, and final consistency checks.
@@ -11,7 +11,7 @@
 - `.codex/`, `.vscode/`, `.devcontainer/`: Local agent/editor/container configuration.
 - `scripts/`: Utility scripts for repository-level analysis.
 - `tutorial/`: Step-by-step QCP usage guide.
-- `run-example-linux.sh`, `run-example-windows.sh`: Scripts that run QCP examples and refresh generated Rocq files.
+- `run-example-linux.sh`, `run-example-windows.cmd`: Scripts that run QCP examples and refresh generated Rocq files.
 - `categories.json`, `categories.md`: Case categorization metadata.
 - `qide.vsix`: QCP VS Code extension.
 - `vscoq-2.2.3.vsix`: Windows-tested VsCoq extension package for Coq 8.20 proof interaction.
@@ -22,7 +22,7 @@
 We provide two environment setup options:
 
 1. Non-Docker local environment setup (build and run directly on your host machine).
-2. Docker-based environment setup (recommended for reproducibility).
+2. Docker-based environment setup.
 
 You can choose either option according to your needs.
 
@@ -68,6 +68,7 @@ make depend-examples && make examples
 # Only one examples subtree
 make depend-examples-applications && make examples-applications
 make depend-examples-qcp-democases && make examples-qcp-democases
+make depend-examples-qcp-demo-tutorial && make examples-qcp-demo-tutorial
 make depend-examples-llm-friendly-cases && make examples-llm-friendly-cases
 make depend-examples-llm-bench && make examples-llm-bench
 
@@ -76,12 +77,13 @@ make clean-core
 make clean-examples
 make clean-examples-applications
 make clean-examples-qcp-democases
+make clean-examples-qcp-demo-tutorial
 make clean-examples-llm-friendly-cases
 make clean-examples-llm-bench
 make clean-deps
 ```
 
-This is useful because `SeparationLogic/examples` is organized into `Applications_human`, `QCP_demos_human`, `QCP_demos_LLM`, and `LLM_bench`, and you no longer need to regenerate dependencies for all example folders every time.
+This is useful because `SeparationLogic/examples` is organized into `Applications_human`, `QCP_demos_human`, `QCP_demos_LLM`, `QCP_demos_tutorial`, and `LLM_bench`, and you no longer need to regenerate dependencies for all example folders every time.
 The clean targets follow the same split, so you can remove only core outputs, all example outputs, one example subtree, or just the generated dependency files.
 
 ### Docker Environment Setup
@@ -140,7 +142,7 @@ Platform-specific QIDE notes:
 
 ### QCP Command-Line Tool
 
-The `run-example-linux.sh` and `run-example-windows.sh` scripts in the root directory give examples of how to run QCP command-line tool. You can directly execute them if you have the required environment set up.
+The `run-example-linux.sh` and `run-example-windows.cmd` scripts in the root directory give examples of how to run QCP command-line tool. You can directly execute them if you have the required environment set up. The Windows script runs natively from both Command Prompt and PowerShell and does not require Bash.
 
 Platform-specific command-line notes:
 
@@ -169,13 +171,15 @@ linux-binary/symexec [options]
 - `--coq-logic-path=<path>`: Specify the Coq logic path for the goal file.
 - `-slp <dir> <path>`: Add a directory to the strategy search paths.
 - `-I<dir>`: Add a directory to the include search paths.
+- `--compile-commands <file>`: Read include paths from a `compile_commands.json` compilation database.
+- `--float-finite-vc`: Generate finite-value safety VCs for floating-point operations.
+- `--no-float-finite-vc`: Do not generate finite-value safety VCs for floating-point operations.
+- `--strategy-application-limit <count>`: Stop a solver run after the given number of successful strategy applications. The default is `4096`; valid values range from `1` to `100000000`.
 
 **Preprocessing:**
-If your C source uses preprocessor directives (`#define`, `#include`, etc.), preprocess it first:
-```
-cpp -C <input-file> <output-file>
-```
-Note: Only `#include` is natively supported.
+QCP has a built-in C preprocessor, so source files do not need to be passed through `cpp` first. It supports object-like and function-like macros in both ordinary C expressions and annotations, nested conditional directives (`#if`, `#ifdef`, `#ifndef`, `#elif`, `#else`, and `#endif`), quoted and angle-bracket includes, include guards, and `#pragma once`.
+
+Use `-I<dir>` to add include search paths, or `--compile-commands <file>` to load them from a compilation database. Macro expansion preserves original source locations for diagnostics. Pass `--debug-preprocessor` when you need to inspect macro expansions.
 
 **Coq Integration:**
 The generated `.v` files must be used with SeparationLogic. For details, see `SeparationLogic/README.md`.
@@ -248,7 +252,7 @@ Downstream phases may return to `annotation` or `vc-proving` when they expose st
 
 ## Evaluation
 
-Our evaluation consists of two parts: the Tool component and the VSCode Extension component. 
-- The Tool component allows you to check files in the ``QCP_examples`` tree by running ``sh ./run-example-linux.sh``, and it generates the corresponding Coq files in the ``SeparationLogic/examples/`` directory, grouped under ``Applications_human/``, ``QCP_demos_human/``, ``QCP_demos_LLM/``, and ``LLM_bench/``.
-- The Rocq build in ``SeparationLogic/`` mirrors this layout with folder-specific targets: ``examples-applications``, ``examples-qcp-democases``, ``examples-llm-friendly-cases``, and ``examples-llm-bench``, together with matching ``depend-examples-*`` targets.
+Our evaluation consists of two parts: the Tool component and the VSCode Extension component.
+- The Tool component allows you to check files in the ``QCP_examples`` tree by running ``sh ./run-example-linux.sh``, and it generates the corresponding Coq files in the ``SeparationLogic/examples/`` directory, grouped under ``Applications_human/``, ``QCP_demos_human/``, ``QCP_demos_LLM/``, ``QCP_demos_tutorial/``, and ``LLM_bench/``. Tutorial examples include the step-by-step swap cases and branch-control examples.
+- The Rocq build in ``SeparationLogic/`` mirrors this layout with folder-specific targets: ``examples-applications``, ``examples-qcp-democases``, ``examples-qcp-demo-tutorial``, ``examples-llm-friendly-cases``, and ``examples-llm-bench``, together with matching ``depend-examples-*`` targets.
 - The VSCode Extension component is designed to support real-time verification interaction. You can open any annotated C file to view the current assertion state, which facilitates the continued writing of annotations for proofs.

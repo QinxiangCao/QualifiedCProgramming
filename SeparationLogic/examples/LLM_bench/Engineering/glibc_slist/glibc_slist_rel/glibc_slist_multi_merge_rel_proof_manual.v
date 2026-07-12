@@ -37,7 +37,6 @@ Proof.
   sep_apply_left (sll_not_zero y_pre l2_low_level_spec PreH1).
   Intros y x l0.
   subst_eqs.
-  Left.
   Exists nil. Exists (x :: l0). Exists nil. Exists l3_low_level_spec.
   split_pure_spatial.
   - unfold sllseg, sll.
@@ -63,7 +62,6 @@ Proof.
   sep_apply_left (sll_not_zero x_pre l1_low_level_spec PreH1).
   Intros y x l0.
   subst_eqs.
-  Right.
   Exists nil. Exists (x :: l0). Exists l2_low_level_spec. Exists l3_low_level_spec.
   split_pure_spatial.
   - entailer!.
@@ -93,7 +91,7 @@ Proof.
   - unfold sll.
     Intros.
     contradiction.
-  - Right.
+  -
     Exists (l1_3 ++ x_3 :: x_2 :: nil). Exists (l0_2_head :: l0_2_tail). Exists l0. Exists nil.
     split_pure_spatial.
     + sep_apply_left (sllseg_len1 cursor x_3 y_3 PreH9).
@@ -147,7 +145,7 @@ Proof.
   - unfold sll.
     Intros.
     contradiction.
-  - Left.
+  -
     Exists (l1_3 ++ x_3 :: x_2 :: nil).
     Exists (l0_2_head :: l0_2_tail).
     Exists l0.
@@ -202,7 +200,7 @@ Proof.
   - unfold sll.
     Intros.
     contradiction.
-  - Right.
+  -
     Exists (l1_3 ++ x_3 :: x_2 :: nil).
     Exists (l0_2_head :: l0_2_tail).
     Exists l3_3.
@@ -257,7 +255,7 @@ Proof.
   - unfold sll.
     Intros.
     contradiction.
-  - Left.
+  -
     Exists (l1_3 ++ x_3 :: x_2 :: nil).
     Exists (l0_2_head :: l0_2_tail).
     Exists l3_3.
@@ -312,7 +310,7 @@ Proof.
   - unfold sll.
     Intros.
     contradiction.
-  - Right.
+  -
     Exists (l1_3 ++ x_3 :: x_2 :: nil).
     Exists (l0_2_head :: l0_2_tail).
     Exists l3_3.
@@ -367,7 +365,7 @@ Proof.
   - unfold sll.
     Intros.
     contradiction.
-  - Left.
+  -
     Exists (l1_3 ++ x_3 :: x_2 :: nil).
     Exists (l0_2_head :: l0_2_tail).
     Exists l3_3.
@@ -422,7 +420,7 @@ Proof.
   - unfold sll.
     Intros.
     contradiction.
-  - Left.
+  -
     Exists (l1_3 ++ x_3 :: x_2 :: nil).
     Exists (l0_2_head :: l0_2_tail).
     Exists l3_3.
@@ -477,7 +475,7 @@ Proof.
   - unfold sll.
     Intros.
     contradiction.
-  - Right.
+  -
     Exists (l1_3 ++ x_3 :: x_2 :: nil).
     Exists (l0_2_head :: l0_2_tail).
     Exists l3_3.
@@ -532,7 +530,7 @@ Proof.
   - unfold sll.
     Intros.
     contradiction.
-  - Left.
+  -
     Exists (l1_3 ++ x_3 :: x_2 :: nil).
     Exists (l0_2_head :: l0_2_tail).
     Exists l0.
@@ -587,7 +585,7 @@ Proof.
   - unfold sll.
     Intros.
     contradiction.
-  - Right.
+  -
     Exists (l1_3 ++ x_3 :: x_2 :: nil).
     Exists (l0_2_head :: l0_2_tail).
     Exists l0.
@@ -641,7 +639,6 @@ Proof.
   sep_apply_left (sll_zero 0 l0_2 eq_refl).
   Intros.
   subst l0_2.
-  Right.
   Exists (l1_3 ++ x_3 :: nil). Exists (x_2 :: nil). Exists l0. Exists l4_3.
   split_pure_spatial.
   - sep_apply_left (sllseg_len1 cursor x_3 y PreH9).
@@ -688,7 +685,6 @@ Proof.
   sep_apply_left (sll_zero 0 l0_2 eq_refl).
   Intros.
   subst l0_2.
-  Left.
   Exists (l1_3 ++ x_3 :: nil). Exists (x_2 :: nil). Exists l0. Exists l4_3.
   split_pure_spatial.
   - sep_apply_left (sllseg_len1 cursor x_3 y PreH9).
@@ -735,7 +731,6 @@ Proof.
   sep_apply_left (sll_zero 0 l0_2 eq_refl).
   Intros.
   subst l0_2.
-  Right.
   Exists (l1_3 ++ x_3 :: nil).
   Exists (x_2 :: nil).
   Exists l3_3.
@@ -785,7 +780,6 @@ Proof.
   sep_apply_left (sll_zero 0 l0_2 eq_refl).
   Intros.
   subst l0_2.
-  Left.
   Exists (l1_3 ++ x_3 :: nil).
   Exists (x_2 :: nil).
   Exists l3_3.
@@ -835,7 +829,6 @@ Proof.
   sep_apply_left (sll_zero 0 l0_2 eq_refl).
   Intros.
   subst l0_2.
-  Right.
   Exists (l1_3 ++ x_3 :: nil).
   Exists (x_2 :: nil).
   Exists l3_3.
@@ -885,7 +878,6 @@ Proof.
   sep_apply_left (sll_zero 0 l0_2 eq_refl).
   Intros.
   subst l0_2.
-  Left.
   Exists (l1_3 ++ x_3 :: nil).
   Exists (x_2 :: nil).
   Exists l3_3.
@@ -935,7 +927,6 @@ Proof.
   sep_apply_left (sll_zero 0 l0_2 eq_refl).
   Intros.
   subst l0_2.
-  Left.
   Exists (l1_3 ++ x_3 :: nil).
   Exists (x_2 :: nil).
   Exists l3_3.
@@ -985,7 +976,6 @@ Proof.
   sep_apply_left (sll_zero 0 l0_2 eq_refl).
   Intros.
   subst l0_2.
-  Right.
   Exists (l1_3 ++ x_3 :: nil).
   Exists (x_2 :: nil).
   Exists l3_3.
@@ -1035,7 +1025,6 @@ Proof.
   sep_apply_left (sll_zero 0 l0_2 eq_refl).
   Intros.
   subst l0_2.
-  Left.
   Exists (l1_3 ++ x_3 :: nil).
   Exists (x_2 :: nil).
   Exists l0.
@@ -1085,7 +1074,6 @@ Proof.
   sep_apply_left (sll_zero 0 l0_2 eq_refl).
   Intros.
   subst l0_2.
-  Right.
   Exists (l1_3 ++ x_3 :: nil).
   Exists (x_2 :: nil).
   Exists l0.

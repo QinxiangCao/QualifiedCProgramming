@@ -25,7 +25,6 @@ Lemma proof_of_OsSortLinkGetRemainTime_return_wit_2 : OsSortLinkGetRemainTime_re
 Proof. 
     pre_process.
     intros.
-    Right.
     entailer!.
     unfold storesortedLinkNode.
     simpl.
@@ -38,7 +37,6 @@ Lemma proof_of_OsSortLinkGetRemainTime_return_wit_1 : OsSortLinkGetRemainTime_re
 Proof. 
     pre_process.
     intros.
-    Left.
     prop_apply (store_uint64_range (&(targetSortList_pre # "SortLinkList" ->ₛ "responseTime")) t).
     unfold storesortedLinkNode.
     simpl.

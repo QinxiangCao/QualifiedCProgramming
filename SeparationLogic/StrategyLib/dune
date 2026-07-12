@@ -1,0 +1,7 @@
+; Converted from:
+; - _CoqProject: -R SeparationLogic/StrategyLib SimpleC.StrategyLib
+; - SeparationLogic/_CoqProject: -R StrategyLib SimpleC.StrategyLib
+(coq.theory
+ (name SimpleC.StrategyLib))
+
+(include_subdirs qualified)

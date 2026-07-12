@@ -146,16 +146,12 @@ forall (src_str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1
 
 Definition strcpy_entail_wit_2_split_goal_1 := 
 forall (src_str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : ((Znth i (c_string (src_str)) 0) <> 0)) (PreH3 : (valid_string src_str )) (PreH4 : ((string_length (src_str)) < INT_MAX)) (PreH5 : (0 <= i)) (PreH6 : (i <= (string_length (src_str)))) ,
-  TT && emp 
-|--
-  “ ((i + 1 ) <= (string_length (src_str))) ”
+  ((i + 1 ) <= (string_length (src_str)))
 .
 
 Definition strcpy_entail_wit_2_split_goal_2 := 
 forall (src_str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : ((Znth i (c_string (src_str)) 0) <> 0)) (PreH3 : (valid_string src_str )) (PreH4 : ((string_length (src_str)) < INT_MAX)) (PreH5 : (0 <= i)) (PreH6 : (i <= (string_length (src_str)))) ,
-  TT && emp 
-|--
-  “ ((app ((sublist (0) (i) (src_str))) ((cons ((Znth i (c_string (src_str)) 0)) ((@nil Z))))) = (sublist (0) ((i + 1 )) (src_str))) ”
+  ((app ((sublist (0) (i) (src_str))) ((cons ((Znth i (c_string (src_str)) 0)) ((@nil Z))))) = (sublist (0) ((i + 1 )) (src_str)))
 .
 
 Definition strcpy_return_wit_1 := 
@@ -197,7 +193,7 @@ forall (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (i: Z) (PreH1 : ((Znth i 
   &&  “ ((string_length (src_str)) < INT_MAX) ” 
   &&  “ (0 <= i) ” 
   &&  “ (i <= (string_length (src_str))) ”
-  &&  (((dest_pre + (i * sizeof(CHAR) ) )) # Char  |->_)
+  &&  (((dest_pre + (i * sizeof(CHAR)))) # Char  |->_)
   **  (CharArray.full src_pre ((string_length (src_str)) + 1 ) (c_string (src_str)) )
   **  (CharArray.undef_missing_i dest_pre i i ((string_length (src_str)) + 1 ) )
   **  (CharArray.full dest_pre i (sublist (0) (i) (src_str)) )
@@ -215,7 +211,7 @@ forall (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (i: Z) (PreH1 : ((Znth i 
   &&  “ ((string_length (src_str)) < INT_MAX) ” 
   &&  “ (0 <= i) ” 
   &&  “ (i <= (string_length (src_str))) ”
-  &&  (((dest_pre + (i * sizeof(CHAR) ) )) # Char  |->_)
+  &&  (((dest_pre + (i * sizeof(CHAR)))) # Char  |->_)
   **  (CharArray.full src_pre ((string_length (src_str)) + 1 ) (c_string (src_str)) )
   **  (CharArray.undef_missing_i dest_pre i i ((string_length (src_str)) + 1 ) )
   **  (CharArray.full dest_pre i (sublist (0) (i) (src_str)) )
@@ -366,16 +362,12 @@ forall (n_pre: Z) (src_str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (sr
 
 Definition strncpy_entail_wit_2_split_goal_1 := 
 forall (n_pre: Z) (src_str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : ((Znth i (c_string (src_str)) 0) <> 0)) (PreH3 : (i < n_pre)) (PreH4 : (valid_string src_str )) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (i <= (string_length (src_str)))) ,
-  TT && emp 
-|--
-  “ ((i + 1 ) <= (string_length (src_str))) ”
+  ((i + 1 ) <= (string_length (src_str)))
 .
 
 Definition strncpy_entail_wit_2_split_goal_2 := 
 forall (n_pre: Z) (src_str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : ((Znth i (c_string (src_str)) 0) <> 0)) (PreH3 : (i < n_pre)) (PreH4 : (valid_string src_str )) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (i <= (string_length (src_str)))) ,
-  TT && emp 
-|--
-  “ ((app ((sublist (0) (i) (src_str))) ((cons ((Znth i (c_string (src_str)) 0)) ((@nil Z))))) = (sublist (0) ((i + 1 )) (src_str))) ”
+  ((app ((sublist (0) (i) (src_str))) ((cons ((Znth i (c_string (src_str)) 0)) ((@nil Z))))) = (sublist (0) ((i + 1 )) (src_str)))
 .
 
 Definition strncpy_entail_wit_3_1 := 
@@ -407,9 +399,7 @@ forall (n_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (i: Z) (PreH1 : (0 <= ((str
 
 Definition strncpy_entail_wit_3_1_split_goal_1 := 
 forall (n_pre: Z) (src_str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (i >= n_pre)) (PreH3 : (valid_string src_str )) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : (0 <= i)) (PreH7 : (i <= n_pre)) (PreH8 : (i <= (string_length (src_str)))) ,
-  TT && emp 
-|--
-  “ (strncpy_content src_str i (sublist (0) (i) (src_str)) ) ”
+  (strncpy_content src_str i (sublist (0) (i) (src_str)) )
 .
 
 Definition strncpy_entail_wit_3_1_split_goal_spatial := 
@@ -449,16 +439,12 @@ forall (n_pre: Z) (src_str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (sr
 
 Definition strncpy_entail_wit_3_2_split_goal_1 := 
 forall (n_pre: Z) (src_str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : ((Znth i (c_string (src_str)) 0) = 0)) (PreH3 : (i < n_pre)) (PreH4 : (valid_string src_str )) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (i <= (string_length (src_str)))) ,
-  TT && emp 
-|--
-  “ ((i < n_pre) -> ((string_length (src_str)) <= i)) ”
+  ((i < n_pre) -> ((string_length (src_str)) <= i))
 .
 
 Definition strncpy_entail_wit_3_2_split_goal_2 := 
 forall (n_pre: Z) (src_str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : ((Znth i (c_string (src_str)) 0) = 0)) (PreH3 : (i < n_pre)) (PreH4 : (valid_string src_str )) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (i <= (string_length (src_str)))) ,
-  TT && emp 
-|--
-  “ (strncpy_content src_str i (sublist (0) (i) (src_str)) ) ”
+  (strncpy_content src_str i (sublist (0) (i) (src_str)) )
 .
 
 Definition strncpy_entail_wit_4 := 
@@ -490,9 +476,7 @@ forall (n_pre: Z) (src_str: (@list Z)) (out_2: (@list Z)) (i: Z) (PreH1 : (0 <= 
 
 Definition strncpy_entail_wit_4_split_goal_1 := 
 forall (n_pre: Z) (src_str: (@list Z)) (out_2: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (i < n_pre)) (PreH3 : (valid_string src_str )) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : (0 <= i)) (PreH7 : (i <= n_pre)) (PreH8 : (strncpy_content src_str i out_2 )) (PreH9 : ((i < n_pre) -> ((string_length (src_str)) <= i))) ,
-  TT && emp 
-|--
-  “ (strncpy_content src_str (i + 1 ) (app (out_2) ((cons (0) ((@nil Z))))) ) ”
+  (strncpy_content src_str (i + 1 ) (app (out_2) ((cons (0) ((@nil Z))))) )
 .
 
 Definition strncpy_return_wit_1 := 
@@ -532,7 +516,7 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (i: Z) (PreH1 
   &&  “ (0 <= i) ” 
   &&  “ (i <= n_pre) ” 
   &&  “ (i <= (string_length (src_str))) ”
-  &&  (((dest_pre + (i * sizeof(CHAR) ) )) # Char  |->_)
+  &&  (((dest_pre + (i * sizeof(CHAR)))) # Char  |->_)
   **  (CharArray.full src_pre ((string_length (src_str)) + 1 ) (c_string (src_str)) )
   **  (CharArray.undef_missing_i dest_pre i i n_pre )
   **  (CharArray.full dest_pre i (sublist (0) (i) (src_str)) )
@@ -553,7 +537,7 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (out: (@list Z
   &&  “ (i <= n_pre) ” 
   &&  “ (strncpy_content src_str i out ) ” 
   &&  “ ((i < n_pre) -> ((string_length (src_str)) <= i)) ”
-  &&  (((dest_pre + (i * sizeof(CHAR) ) )) # Char  |->_)
+  &&  (((dest_pre + (i * sizeof(CHAR)))) # Char  |->_)
   **  (CharArray.full src_pre ((string_length (src_str)) + 1 ) (c_string (src_str)) )
   **  (CharArray.undef_missing_i dest_pre i i n_pre )
   **  (CharArray.full dest_pre i out )

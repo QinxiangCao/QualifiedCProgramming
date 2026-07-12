@@ -1,6 +1,6 @@
 Require Import GraphLib.graph_basic.
 Require Import GraphLib.Syntax.
-Require Import SetsClass.
+Require Import SetsClass.SetsClass.
 
 Section reachable.
   

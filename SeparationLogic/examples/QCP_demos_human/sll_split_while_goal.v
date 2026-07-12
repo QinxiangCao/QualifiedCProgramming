@@ -140,6 +140,13 @@ forall (X_low_level_spec: (((@list Z) * (@list Z)) -> (unit -> Prop))) (p_pre_v:
   “ (safeExec ATrue (split_rec_rel ((@nil Z)) ((cons (x_data) (l1_2))) (l2_2)) X_low_level_spec ) ”
 .
 
+Definition split_while_entail_wit_2_2_split_goal_spatial := 
+forall (X_low_level_spec: (((@list Z) * (@list Z)) -> (unit -> Prop))) (p_pre_v: Z) (q_pre_v: Z) (x: Z) (l_2: (@list Z)) (l1_2: (@list Z)) (l2_2: (@list Z)) (x_next: Z) (x_data: Z) (l1_new: (@list Z)) (PreH1 : (x_next = 0)) (PreH2 : (safeExec ATrue (bind ((split_rec_rel (l1_new) (l2_2) ((cons (x_data) (l1_2))))) (reversepair)) X_low_level_spec )) (PreH3 : (l_2 = (cons (x_data) (l1_new)))) (PreH4 : (x <> 0)) (PreH5 : (q_pre_v = 0)) (PreH6 : (p_pre_v = 0)) ,
+  (sll x_next l1_new )
+|--
+  TT && emp 
+.
+
 Definition split_while_return_wit_1 := 
 (
 forall (q_pre: Z) (p_pre: Z) (X_low_level_spec: (((@list Z) * (@list Z)) -> (unit -> Prop))) (p_pre_v_2: Z) (q_pre_v_2: Z) (q_v: Z) (p_v: Z) (x: Z) (l: (@list Z)) (l1: (@list Z)) (l2: (@list Z)) (PreH1 : (x = 0)) (PreH2 : (safeExec ATrue (split_rec_rel (l) (l1) (l2)) X_low_level_spec )) (PreH3 : (q_pre_v_2 = 0)) (PreH4 : (p_pre_v_2 = 0)) ,
@@ -169,6 +176,13 @@ forall (X_low_level_spec: (((@list Z) * (@list Z)) -> (unit -> Prop))) (p_pre_v_
   (sll x l )
 |--
   “ (safeExec ATrue (return ((maketuple (l1) (l2)))) X_low_level_spec ) ”
+.
+
+Definition split_while_return_wit_1_split_goal_spatial := 
+forall (X_low_level_spec: (((@list Z) * (@list Z)) -> (unit -> Prop))) (p_pre_v_2: Z) (q_pre_v_2: Z) (x: Z) (l: (@list Z)) (l1: (@list Z)) (l2: (@list Z)) (PreH1 : (x = 0)) (PreH2 : (safeExec ATrue (split_rec_rel (l) (l1) (l2)) X_low_level_spec )) (PreH3 : (q_pre_v_2 = 0)) (PreH4 : (p_pre_v_2 = 0)) ,
+  (sll x l )
+|--
+  TT && emp 
 .
 
 Definition split_while_partial_solve_wit_1_pure := 
@@ -391,9 +405,7 @@ forall (X_low_level_spec: (((@list Z) * (@list Z)) -> (unit -> Prop))) (x_data: 
 
 Definition split_while_which_implies_wit_2_split_goal_1 := 
 forall (X_low_level_spec: (((@list Z) * (@list Z)) -> (unit -> Prop))) (x_data: Z) (l_new: (@list Z)) (l2: (@list Z)) (l1: (@list Z)) (l: (@list Z)) (p_v: Z) (PreH1 : (safeExec ATrue (split_rec_rel (l) (l1) (l2)) X_low_level_spec )) (PreH2 : (l = (cons (x_data) (l_new)))) (PreH3 : (p_v <> 0)) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (bind ((split_rec_rel (l_new) (l2) ((cons (x_data) (l1))))) (reversepair)) X_low_level_spec ) ”
+  (safeExec ATrue (bind ((split_rec_rel (l_new) (l2) ((cons (x_data) (l1))))) (reversepair)) X_low_level_spec )
 .
 
 Definition split_while_which_implies_wit_3 := 
@@ -435,9 +447,7 @@ forall (X_low_level_spec: (((@list Z) * (@list Z)) -> (unit -> Prop))) (x_data2:
 
 Definition split_while_which_implies_wit_4_split_goal_1 := 
 forall (X_low_level_spec: (((@list Z) * (@list Z)) -> (unit -> Prop))) (x_data2: Z) (x_data: Z) (l_new: (@list Z)) (l2: (@list Z)) (l1: (@list Z)) (l: (@list Z)) (q_v: Z) (PreH1 : (safeExec ATrue (bind ((split_rec_rel (l) (l2) ((cons (x_data) (l1))))) (reversepair)) X_low_level_spec )) (PreH2 : (l = (cons (x_data2) (l_new)))) (PreH3 : (q_v <> 0)) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (split_rec_rel (l_new) ((cons (x_data) (l1))) ((cons (x_data2) (l2)))) X_low_level_spec ) ”
+  (safeExec ATrue (split_rec_rel (l_new) ((cons (x_data) (l1))) ((cons (x_data2) (l2)))) X_low_level_spec )
 .
 
 Module Type VC_Correct.

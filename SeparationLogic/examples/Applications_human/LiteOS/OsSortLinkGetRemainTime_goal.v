@@ -39,31 +39,64 @@ forall (A: Type) (targetSortList_pre: Z) (currTime_pre: Z) (t: Z) (a: A) (storeA
 .
 
 Definition OsSortLinkGetRemainTime_return_wit_1 := 
+(
 forall (A: Type) (targetSortList_pre: Z) (currTime_pre: Z) (t: Z) (a: A) (storeA: (Z -> (A -> Assertion))) (PreH1 : (currTime_pre < t)) (PreH2 : (currTime_pre >= 0)) ,
   (storeA &((targetSortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") a )
   **  ((&((targetSortList_pre)  # "SortLinkList" ->ₛ "responseTime")) # UInt64  |-> t)
 |--
-  (“ (currTime_pre < t) ” 
+  “ (currTime_pre < t) ” 
   &&  “ ((unsigned_last_nbits ((t - currTime_pre )) (64)) = (t - currTime_pre )) ”
-  &&  (storesortedLinkNode storeA &((targetSortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") (mksortedLinkNode (a) (t)) ))
-  ||
-  (“ (currTime_pre >= t) ” 
-  &&  “ ((unsigned_last_nbits ((t - currTime_pre )) (64)) = 0) ”
-  &&  (storesortedLinkNode storeA &((targetSortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") (mksortedLinkNode (a) (t)) ))
+  &&  (storesortedLinkNode storeA &((targetSortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") (mksortedLinkNode (a) (t)) )
+) \/
+(
+forall (A: Type) (targetSortList_pre: Z) (currTime_pre: Z) (t: Z) (a: A) (storeA: (Z -> (A -> Assertion))) (PreH1 : (currTime_pre < t)) (PreH2 : (currTime_pre >= 0)) ,
+  (storeA &((targetSortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") a )
+  **  ((&((targetSortList_pre)  # "SortLinkList" ->ₛ "responseTime")) # UInt64  |-> t)
+|--
+  “ ((unsigned_last_nbits ((t - currTime_pre )) (64)) = (t - currTime_pre )) ”
+  &&  (storesortedLinkNode storeA &((targetSortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") (mksortedLinkNode (a) (t)) )
+).
+
+Definition OsSortLinkGetRemainTime_return_wit_1_split_goal_1 := 
+forall (A: Type) (targetSortList_pre: Z) (currTime_pre: Z) (t: Z) (a: A) (storeA: (Z -> (A -> Assertion))) (PreH1 : (currTime_pre < t)) (PreH2 : (currTime_pre >= 0)) ,
+  (storeA &((targetSortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") a )
+  **  ((&((targetSortList_pre)  # "SortLinkList" ->ₛ "responseTime")) # UInt64  |-> t)
+|--
+  “ ((unsigned_last_nbits ((t - currTime_pre )) (64)) = (t - currTime_pre )) ”
+.
+
+Definition OsSortLinkGetRemainTime_return_wit_1_split_goal_spatial := 
+forall (A: Type) (targetSortList_pre: Z) (currTime_pre: Z) (t: Z) (a: A) (storeA: (Z -> (A -> Assertion))) (PreH1 : (currTime_pre < t)) (PreH2 : (currTime_pre >= 0)) ,
+  (storeA &((targetSortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") a )
+  **  ((&((targetSortList_pre)  # "SortLinkList" ->ₛ "responseTime")) # UInt64  |-> t)
+|--
+  (storesortedLinkNode storeA &((targetSortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") (mksortedLinkNode (a) (t)) )
 .
 
 Definition OsSortLinkGetRemainTime_return_wit_2 := 
+(
 forall (A: Type) (targetSortList_pre: Z) (currTime_pre: Z) (t: Z) (a: A) (storeA: (Z -> (A -> Assertion))) (PreH1 : (currTime_pre >= t)) (PreH2 : (currTime_pre >= 0)) ,
   (storeA &((targetSortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") a )
   **  ((&((targetSortList_pre)  # "SortLinkList" ->ₛ "responseTime")) # UInt64  |-> t)
 |--
-  (“ (currTime_pre < t) ” 
-  &&  “ (0 = (t - currTime_pre )) ”
-  &&  (storesortedLinkNode storeA &((targetSortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") (mksortedLinkNode (a) (t)) ))
-  ||
-  (“ (currTime_pre >= t) ” 
+  “ (currTime_pre >= t) ” 
   &&  “ (0 = 0) ”
-  &&  (storesortedLinkNode storeA &((targetSortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") (mksortedLinkNode (a) (t)) ))
+  &&  (storesortedLinkNode storeA &((targetSortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") (mksortedLinkNode (a) (t)) )
+) \/
+(
+forall (A: Type) (targetSortList_pre: Z) (currTime_pre: Z) (t: Z) (a: A) (storeA: (Z -> (A -> Assertion))) (PreH1 : (currTime_pre >= t)) (PreH2 : (currTime_pre >= 0)) ,
+  (storeA &((targetSortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") a )
+  **  ((&((targetSortList_pre)  # "SortLinkList" ->ₛ "responseTime")) # UInt64  |-> t)
+|--
+  (storesortedLinkNode storeA &((targetSortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") (mksortedLinkNode (a) (t)) )
+).
+
+Definition OsSortLinkGetRemainTime_return_wit_2_split_goal_spatial := 
+forall (A: Type) (targetSortList_pre: Z) (currTime_pre: Z) (t: Z) (a: A) (storeA: (Z -> (A -> Assertion))) (PreH1 : (currTime_pre >= t)) (PreH2 : (currTime_pre >= 0)) ,
+  (storeA &((targetSortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") a )
+  **  ((&((targetSortList_pre)  # "SortLinkList" ->ₛ "responseTime")) # UInt64  |-> t)
+|--
+  (storesortedLinkNode storeA &((targetSortList_pre)  # "SortLinkList" ->ₛ "sortLinkNode") (mksortedLinkNode (a) (t)) )
 .
 
 Definition OsSortLinkGetRemainTime_partial_solve_wit_1 := 

@@ -251,8 +251,8 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (valid_st
 
 Definition longestPalindrom_safety_wit_13 := 
 forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (valid_string str )) (PreH3 : (AlnumString str )) (PreH4 : ((string_length (str)) = n_pre)) (PreH5 : (1 <= n_pre)) (PreH6 : (n_pre <= 1000)) ,
-  (((( &( "p" ) ) + (0 * sizeof(INT) ) )) # Int  |-> 0)
-  **  (IntArray.undef_missing_i ( &( "p" ) ) 0 0 2003 )
+  (((( &( "p" ) ) + (0 * sizeof(INT)))) # Int  |-> 0)
+  **  (IntArray.undef_seg ( &( "p" ) ) 1 2003 )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.undef_full ( &( "s2" ) ) 2003 )
   **  ((( &( "ret" ) )) # Int  |-> 0)
@@ -276,8 +276,8 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (0 <= ((s
 
 Definition longestPalindrom_safety_wit_14 := 
 forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (valid_string str )) (PreH3 : (AlnumString str )) (PreH4 : ((string_length (str)) = n_pre)) (PreH5 : (1 <= n_pre)) (PreH6 : (n_pre <= 1000)) ,
-  (((( &( "p" ) ) + (0 * sizeof(INT) ) )) # Int  |-> 0)
-  **  (IntArray.undef_missing_i ( &( "p" ) ) 0 0 2003 )
+  (((( &( "p" ) ) + (0 * sizeof(INT)))) # Int  |-> 0)
+  **  (IntArray.undef_seg ( &( "p" ) ) 1 2003 )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.undef_full ( &( "s2" ) ) 2003 )
   **  ((( &( "ret" ) )) # Int  |-> 0)
@@ -536,7 +536,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_pre: (@list Z))
 Definition longestPalindrom_safety_wit_24 := 
 forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_pre: (@list Z)) (s2_pre: (@list Z)) (ret: Z) (mirror: Z) (r: Z) (maxId: Z) (maxLen: Z) (limit: Z) (id: Z) (len: Z) (j: Z) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (i < n_pre)) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (0 <= i)) (PreH9 : (i <= n_pre)) (PreH10 : (j = 0)) (PreH11 : (len = 0)) (PreH12 : (id = 0)) (PreH13 : (limit = 0)) (PreH14 : (maxLen = 0)) (PreH15 : (maxId = 0)) (PreH16 : (r = 0)) (PreH17 : (mirror = 0)) (PreH18 : (ret = 0)) (PreH19 : ((Zlength (s2_pre)) = ((2 * i ) + 1 ))) (PreH20 : ((Zlength (p_pre)) = 1)) (PreH21 : (ManacherTransformedPrefix str s2_pre i )) ,
   (CharArray.seg ( &( "s2" ) ) 0 ((((2 * i ) + 1 ) + 1 ) + 1 ) (app ((app (s2_pre) ((cons (35) ((@nil Z)))))) ((cons ((Znth i (c_string (str)) 0)) ((@nil Z))))) )
-  **  (CharArray.undef_seg ( &( "s2" ) ) (((2 * i ) + 2 ) + 1 ) 2003 )
+  **  (CharArray.undef_seg ( &( "s2" ) ) ((((2 * i ) + 1 ) + 1 ) + 1 ) 2003 )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
@@ -822,7 +822,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_pre: (@list Z))
 Definition longestPalindrom_safety_wit_35 := 
 forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_pre: (@list Z)) (s2_pre: (@list Z)) (ret: Z) (mirror: Z) (r: Z) (maxId: Z) (maxLen: Z) (limit: Z) (id: Z) (len: Z) (j: Z) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (i >= n_pre)) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (0 <= i)) (PreH9 : (i <= n_pre)) (PreH10 : (j = 0)) (PreH11 : (len = 0)) (PreH12 : (id = 0)) (PreH13 : (limit = 0)) (PreH14 : (maxLen = 0)) (PreH15 : (maxId = 0)) (PreH16 : (r = 0)) (PreH17 : (mirror = 0)) (PreH18 : (ret = 0)) (PreH19 : ((Zlength (s2_pre)) = ((2 * i ) + 1 ))) (PreH20 : ((Zlength (p_pre)) = 1)) (PreH21 : (ManacherTransformedPrefix str s2_pre i )) ,
   (CharArray.seg ( &( "s2" ) ) 0 ((((2 * i ) + 1 ) + 1 ) + 1 ) (app ((app (s2_pre) ((cons (35) ((@nil Z)))))) ((cons (0) ((@nil Z))))) )
-  **  (CharArray.undef_seg ( &( "s2" ) ) (((2 * i ) + 2 ) + 1 ) 2003 )
+  **  (CharArray.undef_seg ( &( "s2" ) ) ((((2 * i ) + 1 ) + 1 ) + 1 ) 2003 )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
@@ -848,7 +848,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_pre: (@list Z))
 Definition longestPalindrom_safety_wit_36 := 
 forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_pre: (@list Z)) (s2_pre: (@list Z)) (ret: Z) (mirror: Z) (r: Z) (maxId: Z) (maxLen: Z) (limit: Z) (id: Z) (len: Z) (j: Z) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (i >= n_pre)) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (0 <= i)) (PreH9 : (i <= n_pre)) (PreH10 : (j = 0)) (PreH11 : (len = 0)) (PreH12 : (id = 0)) (PreH13 : (limit = 0)) (PreH14 : (maxLen = 0)) (PreH15 : (maxId = 0)) (PreH16 : (r = 0)) (PreH17 : (mirror = 0)) (PreH18 : (ret = 0)) (PreH19 : ((Zlength (s2_pre)) = ((2 * i ) + 1 ))) (PreH20 : ((Zlength (p_pre)) = 1)) (PreH21 : (ManacherTransformedPrefix str s2_pre i )) ,
   (CharArray.seg ( &( "s2" ) ) 0 ((((2 * i ) + 1 ) + 1 ) + 1 ) (app ((app (s2_pre) ((cons (35) ((@nil Z)))))) ((cons (0) ((@nil Z))))) )
-  **  (CharArray.undef_seg ( &( "s2" ) ) (((2 * i ) + 2 ) + 1 ) 2003 )
+  **  (CharArray.undef_seg ( &( "s2" ) ) ((((2 * i ) + 1 ) + 1 ) + 1 ) 2003 )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
@@ -874,7 +874,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_pre: (@list Z))
 Definition longestPalindrom_safety_wit_37 := 
 forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_pre: (@list Z)) (s2_pre: (@list Z)) (ret: Z) (mirror: Z) (r: Z) (maxId: Z) (maxLen: Z) (limit: Z) (id: Z) (len: Z) (j: Z) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (i >= n_pre)) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (0 <= i)) (PreH9 : (i <= n_pre)) (PreH10 : (j = 0)) (PreH11 : (len = 0)) (PreH12 : (id = 0)) (PreH13 : (limit = 0)) (PreH14 : (maxLen = 0)) (PreH15 : (maxId = 0)) (PreH16 : (r = 0)) (PreH17 : (mirror = 0)) (PreH18 : (ret = 0)) (PreH19 : ((Zlength (s2_pre)) = ((2 * i ) + 1 ))) (PreH20 : ((Zlength (p_pre)) = 1)) (PreH21 : (ManacherTransformedPrefix str s2_pre i )) ,
   (CharArray.seg ( &( "s2" ) ) 0 ((((2 * i ) + 1 ) + 1 ) + 1 ) (app ((app (s2_pre) ((cons (35) ((@nil Z)))))) ((cons (0) ((@nil Z))))) )
-  **  (CharArray.undef_seg ( &( "s2" ) ) (((2 * i ) + 2 ) + 1 ) 2003 )
+  **  (CharArray.undef_seg ( &( "s2" ) ) ((((2 * i ) + 1 ) + 1 ) + 1 ) 2003 )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
@@ -900,7 +900,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_pre: (@list Z))
 Definition longestPalindrom_safety_wit_38 := 
 forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_pre: (@list Z)) (s2_pre: (@list Z)) (ret: Z) (mirror: Z) (r: Z) (maxId: Z) (maxLen: Z) (limit: Z) (id: Z) (len: Z) (j: Z) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (i >= n_pre)) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (0 <= i)) (PreH9 : (i <= n_pre)) (PreH10 : (j = 0)) (PreH11 : (len = 0)) (PreH12 : (id = 0)) (PreH13 : (limit = 0)) (PreH14 : (maxLen = 0)) (PreH15 : (maxId = 0)) (PreH16 : (r = 0)) (PreH17 : (mirror = 0)) (PreH18 : (ret = 0)) (PreH19 : ((Zlength (s2_pre)) = ((2 * i ) + 1 ))) (PreH20 : ((Zlength (p_pre)) = 1)) (PreH21 : (ManacherTransformedPrefix str s2_pre i )) ,
   (CharArray.seg ( &( "s2" ) ) 0 ((((2 * i ) + 1 ) + 1 ) + 1 ) (app ((app (s2_pre) ((cons (35) ((@nil Z)))))) ((cons (0) ((@nil Z))))) )
-  **  (CharArray.undef_seg ( &( "s2" ) ) (((2 * i ) + 2 ) + 1 ) 2003 )
+  **  (CharArray.undef_seg ( &( "s2" ) ) ((((2 * i ) + 1 ) + 1 ) + 1 ) 2003 )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
@@ -926,7 +926,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_pre: (@list Z))
 Definition longestPalindrom_safety_wit_39 := 
 forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_pre: (@list Z)) (s2_pre: (@list Z)) (ret: Z) (mirror: Z) (r: Z) (maxId: Z) (maxLen: Z) (limit: Z) (id: Z) (len: Z) (j: Z) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (i >= n_pre)) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (0 <= i)) (PreH9 : (i <= n_pre)) (PreH10 : (j = 0)) (PreH11 : (len = 0)) (PreH12 : (id = 0)) (PreH13 : (limit = 0)) (PreH14 : (maxLen = 0)) (PreH15 : (maxId = 0)) (PreH16 : (r = 0)) (PreH17 : (mirror = 0)) (PreH18 : (ret = 0)) (PreH19 : ((Zlength (s2_pre)) = ((2 * i ) + 1 ))) (PreH20 : ((Zlength (p_pre)) = 1)) (PreH21 : (ManacherTransformedPrefix str s2_pre i )) ,
   (CharArray.seg ( &( "s2" ) ) 0 ((((2 * i ) + 1 ) + 1 ) + 1 ) (app ((app (s2_pre) ((cons (35) ((@nil Z)))))) ((cons (0) ((@nil Z))))) )
-  **  (CharArray.undef_seg ( &( "s2" ) ) (((2 * i ) + 2 ) + 1 ) 2003 )
+  **  (CharArray.undef_seg ( &( "s2" ) ) ((((2 * i ) + 1 ) + 1 ) + 1 ) 2003 )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
@@ -1868,10 +1868,10 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (id: Z) (limit: Z)
 Definition longestPalindrom_entail_wit_1 := 
 (
 forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (valid_string str )) (PreH3 : (AlnumString str )) (PreH4 : ((string_length (str)) = n_pre)) (PreH5 : (1 <= n_pre)) (PreH6 : (n_pre <= 1000)) ,
-  (CharArray.undef_seg ( &( "s2" ) ) (0 + 1 ) 2003 )
-  **  (((( &( "s2" ) ) + (0 * sizeof(CHAR) ) )) # Char  |-> 36)
-  **  (((( &( "p" ) ) + (0 * sizeof(INT) ) )) # Int  |-> 0)
-  **  (IntArray.undef_missing_i ( &( "p" ) ) 0 0 2003 )
+  (((( &( "s2" ) ) + (0 * sizeof(CHAR)))) # Char  |-> 36)
+  **  (CharArray.undef_seg ( &( "s2" ) ) 1 2003 )
+  **  (((( &( "p" ) ) + (0 * sizeof(INT)))) # Int  |-> 0)
+  **  (IntArray.undef_seg ( &( "p" ) ) 1 2003 )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
@@ -1904,9 +1904,8 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (0 <= ((s
 ) \/
 (
 forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (PreH1 : (0 <= INT_MAX)) (PreH2 : (0 >= INT_MIN)) (PreH3 : (0 <= ((string_length (str)) + 1 ))) (PreH4 : (valid_string str )) (PreH5 : (AlnumString str )) (PreH6 : ((string_length (str)) = n_pre)) (PreH7 : (1 <= n_pre)) (PreH8 : (n_pre <= 1000)) ,
-  (((( &( "s2" ) ) + (0 * sizeof(CHAR) ) )) # Char  |-> 36)
-  **  (((( &( "p" ) ) + (0 * sizeof(INT) ) )) # Int  |-> 0)
-  **  (IntArray.undef_missing_i ( &( "p" ) ) 0 0 2003 )
+  (((( &( "s2" ) ) + (0 * sizeof(CHAR)))) # Char  |-> 36)
+  **  (((( &( "p" ) ) + (0 * sizeof(INT)))) # Int  |-> 0)
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
   EX (p_pre: (@list Z))  (s2_pre: (@list Z)) ,
@@ -1923,14 +1922,13 @@ forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (PreH1 : (0 <= INT_MAX)) (Pre
   &&  (CharArray.undef_full output_pre (n_pre + 1 ) )
   **  (CharArray.seg ( &( "s2" ) ) 0 ((2 * 0 ) + 1 ) s2_pre )
   **  (IntArray.seg ( &( "p" ) ) 0 1 p_pre )
-  **  (IntArray.undef_seg ( &( "p" ) ) 1 2003 )
 ).
 
 Definition longestPalindrom_entail_wit_2 := 
 (
 forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_pre_2: (@list Z)) (s2_pre_2: (@list Z)) (ret: Z) (mirror: Z) (r: Z) (maxId: Z) (maxLen: Z) (limit: Z) (id: Z) (len: Z) (j: Z) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (i < n_pre)) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (0 <= i)) (PreH9 : (i <= n_pre)) (PreH10 : (j = 0)) (PreH11 : (len = 0)) (PreH12 : (id = 0)) (PreH13 : (limit = 0)) (PreH14 : (maxLen = 0)) (PreH15 : (maxId = 0)) (PreH16 : (r = 0)) (PreH17 : (mirror = 0)) (PreH18 : (ret = 0)) (PreH19 : ((Zlength (s2_pre_2)) = ((2 * i ) + 1 ))) (PreH20 : ((Zlength (p_pre_2)) = 1)) (PreH21 : (ManacherTransformedPrefix str s2_pre_2 i )) ,
   (CharArray.seg ( &( "s2" ) ) 0 ((((2 * i ) + 1 ) + 1 ) + 1 ) (app ((app (s2_pre_2) ((cons (35) ((@nil Z)))))) ((cons ((Znth i (c_string (str)) 0)) ((@nil Z))))) )
-  **  (CharArray.undef_seg ( &( "s2" ) ) (((2 * i ) + 2 ) + 1 ) 2003 )
+  **  (CharArray.undef_seg ( &( "s2" ) ) ((((2 * i ) + 1 ) + 1 ) + 1 ) 2003 )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
   **  (IntArray.seg ( &( "p" ) ) 0 1 p_pre_2 )
@@ -1996,7 +1994,7 @@ Definition longestPalindrom_entail_wit_3 :=
 (
 forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_pre_2: (@list Z)) (s2_pre: (@list Z)) (ret: Z) (mirror: Z) (r: Z) (maxId: Z) (maxLen: Z) (limit: Z) (id: Z) (len: Z) (j: Z) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (i >= n_pre)) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (0 <= i)) (PreH9 : (i <= n_pre)) (PreH10 : (j = 0)) (PreH11 : (len = 0)) (PreH12 : (id = 0)) (PreH13 : (limit = 0)) (PreH14 : (maxLen = 0)) (PreH15 : (maxId = 0)) (PreH16 : (r = 0)) (PreH17 : (mirror = 0)) (PreH18 : (ret = 0)) (PreH19 : ((Zlength (s2_pre)) = ((2 * i ) + 1 ))) (PreH20 : ((Zlength (p_pre_2)) = 1)) (PreH21 : (ManacherTransformedPrefix str s2_pre i )) ,
   (CharArray.seg ( &( "s2" ) ) 0 ((((2 * i ) + 1 ) + 1 ) + 1 ) (app ((app (s2_pre) ((cons (35) ((@nil Z)))))) ((cons (0) ((@nil Z))))) )
-  **  (CharArray.undef_seg ( &( "s2" ) ) (((2 * i ) + 2 ) + 1 ) 2003 )
+  **  (CharArray.undef_seg ( &( "s2" ) ) ((((2 * i ) + 1 ) + 1 ) + 1 ) 2003 )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
   **  (IntArray.seg ( &( "p" ) ) 0 1 p_pre_2 )
@@ -3262,16 +3260,12 @@ forall (n_pre: Z) (str: (@list Z)) (id: Z) (limit: Z) (p_done_2: (@list Z)) (s2_
 
 Definition longestPalindrom_entail_wit_14_1_split_goal_1 := 
 forall (n_pre: Z) (str: (@list Z)) (id: Z) (limit: Z) (p_done_2: (@list Z)) (s2_full_2: (@list Z)) (out_prefix_2: (@list Z)) (ret: Z) (mirror: Z) (r: Z) (j: Z) (i: Z) (maxId: Z) (maxLen: Z) (len: Z) (PreH1 : ((Znth (i - 0 ) s2_full_2 0) <> 35)) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (i <= (maxId + maxLen ))) (PreH4 : (valid_string str )) (PreH5 : (AlnumString str )) (PreH6 : ((string_length (str)) = n_pre)) (PreH7 : (1 <= n_pre)) (PreH8 : (n_pre <= 1000)) (PreH9 : (len = ((2 * n_pre ) + 2 ))) (PreH10 : (len <= 2002)) (PreH11 : (1 <= maxLen)) (PreH12 : (0 <= maxLen)) (PreH13 : (maxLen <= n_pre)) (PreH14 : (0 <= (maxId - maxLen ))) (PreH15 : ((maxId + maxLen ) < len)) (PreH16 : ((maxId - maxLen ) <= i)) (PreH17 : (i <= ((maxId + maxLen ) + 1 ))) (PreH18 : (0 <= j)) (PreH19 : (j <= maxLen)) (PreH20 : (r = 0)) (PreH21 : (mirror = 0)) (PreH22 : (ret = 0)) (PreH23 : (OutputCopyPrefix s2_full_2 out_prefix_2 (maxId - maxLen ) i j )) (PreH24 : forall (cur: Z) , ((((maxId - maxLen ) <= cur) /\ (cur <= ((maxId + maxLen ) + 1 ))) -> (OutputCopyBound s2_full_2 (maxId - maxLen ) cur maxLen ))) (PreH25 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH26 : ((Zlength (p_done_2)) = len)) (PreH27 : (ManacherLoopState str s2_full_2 len p_done_2 len id limit maxId maxLen )) ,
-  TT && emp 
-|--
-  “ (OutputCopyPrefix s2_full_2 (app (out_prefix_2) ((cons ((Znth (i - 0 ) s2_full_2 0)) ((@nil Z))))) (maxId - maxLen ) (i + 1 ) (j + 1 ) ) ”
+  (OutputCopyPrefix s2_full_2 (app (out_prefix_2) ((cons ((Znth (i - 0 ) s2_full_2 0)) ((@nil Z))))) (maxId - maxLen ) (i + 1 ) (j + 1 ) )
 .
 
 Definition longestPalindrom_entail_wit_14_1_split_goal_2 := 
 forall (n_pre: Z) (str: (@list Z)) (id: Z) (limit: Z) (p_done_2: (@list Z)) (s2_full_2: (@list Z)) (out_prefix_2: (@list Z)) (ret: Z) (mirror: Z) (r: Z) (j: Z) (i: Z) (maxId: Z) (maxLen: Z) (len: Z) (PreH1 : ((Znth (i - 0 ) s2_full_2 0) <> 35)) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (i <= (maxId + maxLen ))) (PreH4 : (valid_string str )) (PreH5 : (AlnumString str )) (PreH6 : ((string_length (str)) = n_pre)) (PreH7 : (1 <= n_pre)) (PreH8 : (n_pre <= 1000)) (PreH9 : (len = ((2 * n_pre ) + 2 ))) (PreH10 : (len <= 2002)) (PreH11 : (1 <= maxLen)) (PreH12 : (0 <= maxLen)) (PreH13 : (maxLen <= n_pre)) (PreH14 : (0 <= (maxId - maxLen ))) (PreH15 : ((maxId + maxLen ) < len)) (PreH16 : ((maxId - maxLen ) <= i)) (PreH17 : (i <= ((maxId + maxLen ) + 1 ))) (PreH18 : (0 <= j)) (PreH19 : (j <= maxLen)) (PreH20 : (r = 0)) (PreH21 : (mirror = 0)) (PreH22 : (ret = 0)) (PreH23 : (OutputCopyPrefix s2_full_2 out_prefix_2 (maxId - maxLen ) i j )) (PreH24 : forall (cur: Z) , ((((maxId - maxLen ) <= cur) /\ (cur <= ((maxId + maxLen ) + 1 ))) -> (OutputCopyBound s2_full_2 (maxId - maxLen ) cur maxLen ))) (PreH25 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH26 : ((Zlength (p_done_2)) = len)) (PreH27 : (ManacherLoopState str s2_full_2 len p_done_2 len id limit maxId maxLen )) ,
-  TT && emp 
-|--
-  “ ((j + 1 ) <= maxLen) ”
+  ((j + 1 ) <= maxLen)
 .
 
 Definition longestPalindrom_entail_wit_14_2 := 
@@ -3328,9 +3322,7 @@ forall (n_pre: Z) (str: (@list Z)) (id: Z) (limit: Z) (p_done_2: (@list Z)) (s2_
 
 Definition longestPalindrom_entail_wit_14_2_split_goal_1 := 
 forall (n_pre: Z) (str: (@list Z)) (id: Z) (limit: Z) (p_done_2: (@list Z)) (s2_full_2: (@list Z)) (out_prefix_2: (@list Z)) (ret: Z) (mirror: Z) (r: Z) (j: Z) (i: Z) (maxId: Z) (maxLen: Z) (len: Z) (PreH1 : ((Znth (i - 0 ) s2_full_2 0) = 35)) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (i <= (maxId + maxLen ))) (PreH4 : (valid_string str )) (PreH5 : (AlnumString str )) (PreH6 : ((string_length (str)) = n_pre)) (PreH7 : (1 <= n_pre)) (PreH8 : (n_pre <= 1000)) (PreH9 : (len = ((2 * n_pre ) + 2 ))) (PreH10 : (len <= 2002)) (PreH11 : (1 <= maxLen)) (PreH12 : (0 <= maxLen)) (PreH13 : (maxLen <= n_pre)) (PreH14 : (0 <= (maxId - maxLen ))) (PreH15 : ((maxId + maxLen ) < len)) (PreH16 : ((maxId - maxLen ) <= i)) (PreH17 : (i <= ((maxId + maxLen ) + 1 ))) (PreH18 : (0 <= j)) (PreH19 : (j <= maxLen)) (PreH20 : (r = 0)) (PreH21 : (mirror = 0)) (PreH22 : (ret = 0)) (PreH23 : (OutputCopyPrefix s2_full_2 out_prefix_2 (maxId - maxLen ) i j )) (PreH24 : forall (cur: Z) , ((((maxId - maxLen ) <= cur) /\ (cur <= ((maxId + maxLen ) + 1 ))) -> (OutputCopyBound s2_full_2 (maxId - maxLen ) cur maxLen ))) (PreH25 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH26 : ((Zlength (p_done_2)) = len)) (PreH27 : (ManacherLoopState str s2_full_2 len p_done_2 len id limit maxId maxLen )) ,
-  TT && emp 
-|--
-  “ (OutputCopyPrefix s2_full_2 out_prefix_2 (maxId - maxLen ) (i + 1 ) j ) ”
+  (OutputCopyPrefix s2_full_2 out_prefix_2 (maxId - maxLen ) (i + 1 ) j )
 .
 
 Definition longestPalindrom_entail_wit_15 := 
@@ -3446,8 +3438,8 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (valid_st
   &&  “ ((string_length (str)) = n_pre) ” 
   &&  “ (1 <= n_pre) ” 
   &&  “ (n_pre <= 1000) ”
-  &&  (((( &( "p" ) ) + (0 * sizeof(INT) ) )) # Int  |->_)
-  **  (IntArray.undef_missing_i ( &( "p" ) ) 0 0 2003 )
+  &&  (((( &( "p" ) ) + (0 * sizeof(INT)))) # Int  |->_)
+  **  (IntArray.undef_seg ( &( "p" ) ) 1 2003 )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.undef_full ( &( "s2" ) ) 2003 )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
@@ -3455,8 +3447,8 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (valid_st
 
 Definition longestPalindrom_partial_solve_wit_2 := 
 forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (valid_string str )) (PreH3 : (AlnumString str )) (PreH4 : ((string_length (str)) = n_pre)) (PreH5 : (1 <= n_pre)) (PreH6 : (n_pre <= 1000)) ,
-  (((( &( "p" ) ) + (0 * sizeof(INT) ) )) # Int  |-> 0)
-  **  (IntArray.undef_missing_i ( &( "p" ) ) 0 0 2003 )
+  (((( &( "p" ) ) + (0 * sizeof(INT)))) # Int  |-> 0)
+  **  (IntArray.undef_seg ( &( "p" ) ) 1 2003 )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.undef_full ( &( "s2" ) ) 2003 )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
@@ -3467,10 +3459,10 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (0 <= ((s
   &&  “ ((string_length (str)) = n_pre) ” 
   &&  “ (1 <= n_pre) ” 
   &&  “ (n_pre <= 1000) ”
-  &&  (((( &( "s2" ) ) + (0 * sizeof(CHAR) ) )) # Char  |->_)
-  **  (CharArray.undef_missing_i ( &( "s2" ) ) 0 0 2003 )
-  **  (((( &( "p" ) ) + (0 * sizeof(INT) ) )) # Int  |-> 0)
-  **  (IntArray.undef_missing_i ( &( "p" ) ) 0 0 2003 )
+  &&  (((( &( "s2" ) ) + (0 * sizeof(CHAR)))) # Char  |->_)
+  **  (CharArray.undef_seg ( &( "s2" ) ) 1 2003 )
+  **  (((( &( "p" ) ) + (0 * sizeof(INT)))) # Int  |-> 0)
+  **  (IntArray.undef_seg ( &( "p" ) ) 1 2003 )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
 .
@@ -3505,7 +3497,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_pre: (@list Z))
   &&  “ ((Zlength (s2_pre)) = ((2 * i ) + 1 )) ” 
   &&  “ ((Zlength (p_pre)) = 1) ” 
   &&  “ (ManacherTransformedPrefix str s2_pre i ) ”
-  &&  (((( &( "s2" ) ) + (((2 * i ) + 1 ) * sizeof(CHAR) ) )) # Char  |->_)
+  &&  (((( &( "s2" ) ) + (((2 * i ) + 1 ) * sizeof(CHAR)))) # Char  |->_)
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.undef_missing_i ( &( "s2" ) ) ((2 * i ) + 1 ) ((2 * i ) + 1 ) 2003 )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
@@ -3544,7 +3536,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_pre: (@list Z))
   &&  “ ((Zlength (s2_pre)) = ((2 * i ) + 1 )) ” 
   &&  “ ((Zlength (p_pre)) = 1) ” 
   &&  “ (ManacherTransformedPrefix str s2_pre i ) ”
-  &&  (((s_pre + (i * sizeof(CHAR) ) )) # Char  |-> (Znth i (c_string (str)) 0))
+  &&  (((s_pre + (i * sizeof(CHAR)))) # Char  |-> (Znth i (c_string (str)) 0))
   **  (CharArray.missing_i s_pre i 0 ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.seg ( &( "s2" ) ) 0 (((2 * i ) + 1 ) + 1 ) (app (s2_pre) ((cons (35) ((@nil Z))))) )
   **  (CharArray.undef_seg ( &( "s2" ) ) (((2 * i ) + 1 ) + 1 ) 2003 )
@@ -3583,7 +3575,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_pre: (@list Z))
   &&  “ ((Zlength (s2_pre)) = ((2 * i ) + 1 )) ” 
   &&  “ ((Zlength (p_pre)) = 1) ” 
   &&  “ (ManacherTransformedPrefix str s2_pre i ) ”
-  &&  (((( &( "s2" ) ) + (((2 * i ) + 2 ) * sizeof(CHAR) ) )) # Char  |->_)
+  &&  (((( &( "s2" ) ) + (((2 * i ) + 2 ) * sizeof(CHAR)))) # Char  |->_)
   **  (CharArray.undef_missing_i ( &( "s2" ) ) ((2 * i ) + 2 ) (((2 * i ) + 1 ) + 1 ) 2003 )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.seg ( &( "s2" ) ) 0 (((2 * i ) + 1 ) + 1 ) (app (s2_pre) ((cons (35) ((@nil Z))))) )
@@ -3622,7 +3614,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_pre: (@list Z))
   &&  “ ((Zlength (s2_pre)) = ((2 * i ) + 1 )) ” 
   &&  “ ((Zlength (p_pre)) = 1) ” 
   &&  “ (ManacherTransformedPrefix str s2_pre i ) ”
-  &&  (((( &( "s2" ) ) + (((2 * i ) + 1 ) * sizeof(CHAR) ) )) # Char  |->_)
+  &&  (((( &( "s2" ) ) + (((2 * i ) + 1 ) * sizeof(CHAR)))) # Char  |->_)
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.undef_missing_i ( &( "s2" ) ) ((2 * i ) + 1 ) ((2 * i ) + 1 ) 2003 )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
@@ -3661,7 +3653,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_pre: (@list Z))
   &&  “ ((Zlength (s2_pre)) = ((2 * i ) + 1 )) ” 
   &&  “ ((Zlength (p_pre)) = 1) ” 
   &&  “ (ManacherTransformedPrefix str s2_pre i ) ”
-  &&  (((( &( "s2" ) ) + (((2 * i ) + 2 ) * sizeof(CHAR) ) )) # Char  |->_)
+  &&  (((( &( "s2" ) ) + (((2 * i ) + 2 ) * sizeof(CHAR)))) # Char  |->_)
   **  (CharArray.undef_missing_i ( &( "s2" ) ) ((2 * i ) + 2 ) (((2 * i ) + 1 ) + 1 ) 2003 )
   **  (CharArray.seg ( &( "s2" ) ) 0 (((2 * i ) + 1 ) + 1 ) (app (s2_pre) ((cons (35) ((@nil Z))))) )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
@@ -3700,7 +3692,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (s2_full: (@list Z
   &&  “ ((Zlength (s2_full)) = (len + 1 )) ” 
   &&  “ ((Zlength (p_cur)) = i) ” 
   &&  “ (ManacherLoopState str s2_full len p_cur i id limit maxId maxLen ) ”
-  &&  (((( &( "p" ) ) + (mirror * sizeof(INT) ) )) # Int  |-> (Znth (mirror - 0 ) p_cur 0))
+  &&  (((( &( "p" ) ) + (mirror * sizeof(INT)))) # Int  |-> (Znth (mirror - 0 ) p_cur 0))
   **  (IntArray.missing_i ( &( "p" ) ) mirror 0 i p_cur )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
@@ -3740,7 +3732,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (s2_full: (@list Z
   &&  “ ((Zlength (s2_full)) = (len + 1 )) ” 
   &&  “ ((Zlength (p_cur)) = i) ” 
   &&  “ (ManacherLoopState str s2_full len p_cur i id limit maxId maxLen ) ”
-  &&  (((( &( "p" ) ) + (mirror * sizeof(INT) ) )) # Int  |-> (Znth (mirror - 0 ) p_cur 0))
+  &&  (((( &( "p" ) ) + (mirror * sizeof(INT)))) # Int  |-> (Znth (mirror - 0 ) p_cur 0))
   **  (IntArray.missing_i ( &( "p" ) ) mirror 0 i p_cur )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
@@ -3780,7 +3772,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (s2_full: (@list Z
   &&  “ ((Zlength (s2_full)) = (len + 1 )) ” 
   &&  “ ((Zlength (p_cur)) = i) ” 
   &&  “ (ManacherLoopState str s2_full len p_cur i id limit maxId maxLen ) ”
-  &&  (((( &( "p" ) ) + (i * sizeof(INT) ) )) # Int  |->_)
+  &&  (((( &( "p" ) ) + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg ( &( "p" ) ) (i + 1 ) 2003 )
   **  (IntArray.seg ( &( "p" ) ) 0 i p_cur )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
@@ -3820,7 +3812,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (s2_full: (@list Z
   &&  “ ((Zlength (s2_full)) = (len + 1 )) ” 
   &&  “ ((Zlength (p_cur)) = i) ” 
   &&  “ (ManacherLoopState str s2_full len p_cur i id limit maxId maxLen ) ”
-  &&  (((( &( "p" ) ) + (i * sizeof(INT) ) )) # Int  |->_)
+  &&  (((( &( "p" ) ) + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg ( &( "p" ) ) (i + 1 ) 2003 )
   **  (IntArray.seg ( &( "p" ) ) 0 i p_cur )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
@@ -3865,7 +3857,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_cur: (@list Z))
   &&  “ ((Zlength (s2_full)) = (len + 1 )) ” 
   &&  “ ((Zlength (p_cur)) = i) ” 
   &&  “ (ManacherLoopState str s2_full len p_cur i id limit maxId maxLen ) ”
-  &&  (((( &( "p" ) ) + (i * sizeof(INT) ) )) # Int  |->_)
+  &&  (((( &( "p" ) ) + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg ( &( "p" ) ) (i + 1 ) 2003 )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
@@ -3912,7 +3904,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_written: (@list
   &&  “ ((Zlength (p_written)) = (i + 1 )) ” 
   &&  “ (ExpansionLoopState str s2_full len p_written i r id limit maxId maxLen ) ” 
   &&  “ (ExpansionCandidate s2_full len i r ) ”
-  &&  (((( &( "s2" ) ) + ((i + r ) * sizeof(CHAR) ) )) # Char  |-> (Znth ((i + r ) - 0 ) s2_full 0))
+  &&  (((( &( "s2" ) ) + ((i + r ) * sizeof(CHAR)))) # Char  |-> (Znth ((i + r ) - 0 ) s2_full 0))
   **  (CharArray.missing_i ( &( "s2" ) ) (i + r ) 0 (len + 1 ) s2_full )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
@@ -3959,7 +3951,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_written: (@list
   &&  “ ((Zlength (p_written)) = (i + 1 )) ” 
   &&  “ (ExpansionLoopState str s2_full len p_written i r id limit maxId maxLen ) ” 
   &&  “ (ExpansionCandidate s2_full len i r ) ”
-  &&  (((( &( "s2" ) ) + ((i - r ) * sizeof(CHAR) ) )) # Char  |-> (Znth ((i - r ) - 0 ) s2_full 0))
+  &&  (((( &( "s2" ) ) + ((i - r ) * sizeof(CHAR)))) # Char  |-> (Znth ((i - r ) - 0 ) s2_full 0))
   **  (CharArray.missing_i ( &( "s2" ) ) (i - r ) 0 (len + 1 ) s2_full )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
@@ -4006,7 +3998,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (s2_full: (@list Z
   &&  “ ((Zlength (p_written)) = (i + 1 )) ” 
   &&  “ (ExpansionLoopState str s2_full len p_written i r id limit maxId maxLen ) ” 
   &&  “ (ExpansionAfterMatch s2_full len i r ) ”
-  &&  (((( &( "p" ) ) + (i * sizeof(INT) ) )) # Int  |->_)
+  &&  (((( &( "p" ) ) + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i ( &( "p" ) ) i 0 (i + 1 ) p_written )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
@@ -4051,7 +4043,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (id: Z) (limit: Z)
   &&  “ ((Zlength (s2_full)) = (len + 1 )) ” 
   &&  “ ((Zlength (p_done)) = len) ” 
   &&  “ (ManacherLoopState str s2_full len p_done len id limit maxId maxLen ) ”
-  &&  (((( &( "s2" ) ) + (i * sizeof(CHAR) ) )) # Char  |-> (Znth (i - 0 ) s2_full 0))
+  &&  (((( &( "s2" ) ) + (i * sizeof(CHAR)))) # Char  |-> (Znth (i - 0 ) s2_full 0))
   **  (CharArray.missing_i ( &( "s2" ) ) i 0 (len + 1 ) s2_full )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.full output_pre j out_prefix )
@@ -4098,7 +4090,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (id: Z) (limit: Z)
   &&  “ ((Zlength (s2_full)) = (len + 1 )) ” 
   &&  “ ((Zlength (p_done)) = len) ” 
   &&  “ (ManacherLoopState str s2_full len p_done len id limit maxId maxLen ) ”
-  &&  (((( &( "s2" ) ) + (i * sizeof(CHAR) ) )) # Char  |-> (Znth (i - 0 ) s2_full 0))
+  &&  (((( &( "s2" ) ) + (i * sizeof(CHAR)))) # Char  |-> (Znth (i - 0 ) s2_full 0))
   **  (CharArray.missing_i ( &( "s2" ) ) i 0 (len + 1 ) s2_full )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.full output_pre j out_prefix )
@@ -4145,7 +4137,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (id: Z) (limit: Z)
   &&  “ ((Zlength (s2_full)) = (len + 1 )) ” 
   &&  “ ((Zlength (p_done)) = len) ” 
   &&  “ (ManacherLoopState str s2_full len p_done len id limit maxId maxLen ) ”
-  &&  (((output_pre + (j * sizeof(CHAR) ) )) # Char  |->_)
+  &&  (((output_pre + (j * sizeof(CHAR)))) # Char  |->_)
   **  (CharArray.undef_missing_i output_pre j j (n_pre + 1 ) )
   **  (CharArray.seg ( &( "s2" ) ) 0 (len + 1 ) s2_full )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
@@ -4191,7 +4183,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (id: Z) (limit: Z)
   &&  “ ((Zlength (s2_full)) = (len + 1 )) ” 
   &&  “ ((Zlength (p_done)) = len) ” 
   &&  “ (ManacherLoopState str s2_full len p_done len id limit maxId maxLen ) ”
-  &&  (((output_pre + (j * sizeof(CHAR) ) )) # Char  |->_)
+  &&  (((output_pre + (j * sizeof(CHAR)))) # Char  |->_)
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.undef_missing_i output_pre j j (n_pre + 1 ) )
   **  (CharArray.full output_pre j out_prefix )

@@ -2405,9 +2405,7 @@ forall (X: (solve_res -> (unit -> Prop))) (g: term) (l: (@list var_sub)) (t: ter
 
 Definition thm_apply_which_implies_wit_4_split_goal_1 := 
 forall (X: (solve_res -> (unit -> Prop))) (g: term) (l: (@list var_sub)) (t: term) (st: term) (pq: partial_quant) (PreH1 : ((term_alpha_eqn (st) (g)) = 0)) (PreH2 : (thm_subst_allres_rel t l pq st )) (PreH3 : (safeExec ATrue (thm_app_rel (t) (l) (g)) X )) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (bind ((check_rel (st) (g))) (get_list)) X ) ”
+  (safeExec ATrue (bind ((check_rel (st) (g))) (get_list)) X )
 .
 
 Definition check_list_gen_derive_low_level_spec_aux_by_low_level_spec := 

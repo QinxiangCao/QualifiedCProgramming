@@ -309,9 +309,7 @@ forall (numsSize_pre: Z) (tails_l: (@list Z)) (l: (@list Z)) (PreH1 : (0 <= nums
 
 Definition lengthOfLNDS_entail_wit_1_split_goal_1 := 
 forall (numsSize_pre: Z) (tails_l: (@list Z)) (l: (@list Z)) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_l)) = numsSize_pre)) ,
-  TT && emp 
-|--
-  “ (LNDTailsState l 0 (sublist (0) (0) (tails_l)) 0 ) ”
+  (LNDTailsState l 0 (sublist (0) (0) (tails_l)) 0 )
 .
 
 Definition lengthOfLNDS_entail_wit_2 := 
@@ -368,9 +366,7 @@ forall (numsSize_pre: Z) (l: (@list Z)) (tails_cur_2: (@list Z)) (i: Z) (len: Z)
 
 Definition lengthOfLNDS_entail_wit_3_split_goal_1 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (tails_cur_2: (@list Z)) (i: Z) (len: Z) (x: Z) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= len)) (PreH8 : (len <= i)) (PreH9 : (x = (Znth i l 0))) (PreH10 : (LNDTailsState l i (sublist (0) (len) (tails_cur_2)) len )) ,
-  TT && emp 
-|--
-  “ (UpperBoundSearch (sublist (0) (len) (tails_cur_2)) len x 0 len ) ”
+  (UpperBoundSearch (sublist (0) (len) (tails_cur_2)) len x 0 len )
 .
 
 Definition lengthOfLNDS_entail_wit_4 := 
@@ -410,16 +406,12 @@ forall (numsSize_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i:
 
 Definition lengthOfLNDS_entail_wit_4_split_goal_1 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur_2: (@list Z)) (PreH1 : (left < right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsState l i (sublist (0) (len) (tails_cur_2)) len )) (PreH15 : (UpperBoundSearch (sublist (0) (len) (tails_cur_2)) len x left right )) ,
-  TT && emp 
-|--
-  “ ((left + ((right - left ) ÷ 2 ) ) < right) ”
+  ((left + ((right - left ) ÷ 2 ) ) < right)
 .
 
 Definition lengthOfLNDS_entail_wit_4_split_goal_2 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur_2: (@list Z)) (PreH1 : (left < right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsState l i (sublist (0) (len) (tails_cur_2)) len )) (PreH15 : (UpperBoundSearch (sublist (0) (len) (tails_cur_2)) len x left right )) ,
-  TT && emp 
-|--
-  “ (left <= (left + ((right - left ) ÷ 2 ) )) ”
+  (left <= (left + ((right - left ) ÷ 2 ) ))
 .
 
 Definition lengthOfLNDS_entail_wit_5_1 := 
@@ -456,9 +448,7 @@ forall (numsSize_pre: Z) (l: (@list Z)) (tails_cur_2: (@list Z)) (i: Z) (len: Z)
 
 Definition lengthOfLNDS_entail_wit_5_1_split_goal_1 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (tails_cur_2: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (mid: Z) (PreH1 : ((Znth mid tails_cur_2 0) <= x)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left < right)) (PreH13 : (right <= len)) (PreH14 : (left <= mid)) (PreH15 : (mid < right)) (PreH16 : (LNDTailsState l i (sublist (0) (len) (tails_cur_2)) len )) (PreH17 : (UpperBoundSearch (sublist (0) (len) (tails_cur_2)) len x left right )) ,
-  TT && emp 
-|--
-  “ (UpperBoundSearch (sublist (0) (len) (tails_cur_2)) len x (mid + 1 ) right ) ”
+  (UpperBoundSearch (sublist (0) (len) (tails_cur_2)) len x (mid + 1 ) right )
 .
 
 Definition lengthOfLNDS_entail_wit_5_2 := 
@@ -495,9 +485,7 @@ forall (numsSize_pre: Z) (l: (@list Z)) (tails_cur_2: (@list Z)) (i: Z) (len: Z)
 
 Definition lengthOfLNDS_entail_wit_5_2_split_goal_1 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (tails_cur_2: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (mid: Z) (PreH1 : ((Znth mid tails_cur_2 0) > x)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left < right)) (PreH13 : (right <= len)) (PreH14 : (left <= mid)) (PreH15 : (mid < right)) (PreH16 : (LNDTailsState l i (sublist (0) (len) (tails_cur_2)) len )) (PreH17 : (UpperBoundSearch (sublist (0) (len) (tails_cur_2)) len x left right )) ,
-  TT && emp 
-|--
-  “ (UpperBoundSearch (sublist (0) (len) (tails_cur_2)) len x left mid ) ”
+  (UpperBoundSearch (sublist (0) (len) (tails_cur_2)) len x left mid )
 .
 
 Definition lengthOfLNDS_entail_wit_6 := 
@@ -534,9 +522,7 @@ forall (numsSize_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i:
 
 Definition lengthOfLNDS_entail_wit_6_split_goal_1 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur_2: (@list Z)) (PreH1 : (left >= right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsState l i (sublist (0) (len) (tails_cur_2)) len )) (PreH15 : (UpperBoundSearch (sublist (0) (len) (tails_cur_2)) len x left right )) ,
-  TT && emp 
-|--
-  “ (UpperBoundSearch (sublist (0) (len) (tails_cur_2)) len x left left ) ”
+  (UpperBoundSearch (sublist (0) (len) (tails_cur_2)) len x left left )
 .
 
 Definition lengthOfLNDS_entail_wit_7 := 
@@ -620,16 +606,12 @@ forall (numsSize_pre: Z) (l: (@list Z)) (tails_old: (@list Z)) (i: Z) (len: Z) (
 
 Definition lengthOfLNDS_entail_wit_8_1_split_goal_1 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (tails_old: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (PreH1 : (left <> len)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_old)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= len)) (PreH13 : (right = left)) (PreH14 : (LNDTailsState l i (sublist (0) (len) (tails_old)) len )) (PreH15 : (UpperBoundSearch (sublist (0) (len) (tails_old)) len x left left )) ,
-  TT && emp 
-|--
-  “ (LNDTailsState l (i + 1 ) (sublist (0) (len) ((app ((sublist (0) (left) (tails_old))) ((cons (x) ((sublist ((left + 1 )) (numsSize_pre) (tails_old)))))))) len ) ”
+  (LNDTailsState l (i + 1 ) (sublist (0) (len) ((app ((sublist (0) (left) (tails_old))) ((cons (x) ((sublist ((left + 1 )) (numsSize_pre) (tails_old)))))))) len )
 .
 
 Definition lengthOfLNDS_entail_wit_8_1_split_goal_2 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (tails_old: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (PreH1 : (left <> len)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_old)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= len)) (PreH13 : (right = left)) (PreH14 : (LNDTailsState l i (sublist (0) (len) (tails_old)) len )) (PreH15 : (UpperBoundSearch (sublist (0) (len) (tails_old)) len x left left )) ,
-  TT && emp 
-|--
-  “ ((Zlength ((app ((sublist (0) (left) (tails_old))) ((cons (x) ((sublist ((left + 1 )) (numsSize_pre) (tails_old)))))))) = numsSize_pre) ”
+  ((Zlength ((app ((sublist (0) (left) (tails_old))) ((cons (x) ((sublist ((left + 1 )) (numsSize_pre) (tails_old)))))))) = numsSize_pre)
 .
 
 Definition lengthOfLNDS_entail_wit_8_2 := 
@@ -666,16 +648,12 @@ forall (numsSize_pre: Z) (l: (@list Z)) (tails_old: (@list Z)) (i: Z) (len: Z) (
 
 Definition lengthOfLNDS_entail_wit_8_2_split_goal_1 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (tails_old: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (PreH1 : (left = len)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_old)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= len)) (PreH13 : (right = left)) (PreH14 : (LNDTailsState l i (sublist (0) (len) (tails_old)) len )) (PreH15 : (UpperBoundSearch (sublist (0) (len) (tails_old)) len x left left )) ,
-  TT && emp 
-|--
-  “ (LNDTailsState l (i + 1 ) (sublist (0) ((len + 1 )) ((app ((sublist (0) (left) (tails_old))) ((cons (x) ((sublist ((left + 1 )) (numsSize_pre) (tails_old)))))))) (len + 1 ) ) ”
+  (LNDTailsState l (i + 1 ) (sublist (0) ((len + 1 )) ((app ((sublist (0) (left) (tails_old))) ((cons (x) ((sublist ((left + 1 )) (numsSize_pre) (tails_old)))))))) (len + 1 ) )
 .
 
 Definition lengthOfLNDS_entail_wit_8_2_split_goal_2 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (tails_old: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (PreH1 : (left = len)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_old)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= len)) (PreH13 : (right = left)) (PreH14 : (LNDTailsState l i (sublist (0) (len) (tails_old)) len )) (PreH15 : (UpperBoundSearch (sublist (0) (len) (tails_old)) len x left left )) ,
-  TT && emp 
-|--
-  “ ((Zlength ((app ((sublist (0) (left) (tails_old))) ((cons (x) ((sublist ((left + 1 )) (numsSize_pre) (tails_old)))))))) = numsSize_pre) ”
+  ((Zlength ((app ((sublist (0) (left) (tails_old))) ((cons (x) ((sublist ((left + 1 )) (numsSize_pre) (tails_old)))))))) = numsSize_pre)
 .
 
 Definition lengthOfLNDS_entail_wit_9 := 
@@ -724,9 +702,7 @@ forall (numsSize_pre: Z) (l: (@list Z)) (len: Z) (i: Z) (tails_cur_2: (@list Z))
 
 Definition lengthOfLNDS_entail_wit_10_split_goal_1 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (len: Z) (i: Z) (tails_cur_2: (@list Z)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (LNDTailsState l i (sublist (0) (len) (tails_cur_2)) len )) ,
-  TT && emp 
-|--
-  “ (LNDSLength l len ) ”
+  (LNDSLength l len )
 .
 
 Definition lengthOfLNDS_return_wit_1 := 
@@ -758,7 +734,7 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (len: Z) (i
   &&  “ (0 <= len) ” 
   &&  “ (len <= i) ” 
   &&  “ (LNDTailsState l i (sublist (0) (len) (tails_cur)) len ) ”
-  &&  (((nums_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i l 0))
+  &&  (((nums_pre + (i * sizeof(INT)))) # Int  |-> (Znth i l 0))
   **  (IntArray.missing_i nums_pre i 0 numsSize_pre l )
   **  (IntArray.full tails_pre numsSize_pre tails_cur )
 .
@@ -784,7 +760,7 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur:
   &&  “ (mid < right) ” 
   &&  “ (LNDTailsState l i (sublist (0) (len) (tails_cur)) len ) ” 
   &&  “ (UpperBoundSearch (sublist (0) (len) (tails_cur)) len x left right ) ”
-  &&  (((tails_pre + (mid * sizeof(INT) ) )) # Int  |-> (Znth mid tails_cur 0))
+  &&  (((tails_pre + (mid * sizeof(INT)))) # Int  |-> (Znth mid tails_cur 0))
   **  (IntArray.missing_i tails_pre mid 0 numsSize_pre tails_cur )
   **  (IntArray.full nums_pre numsSize_pre l )
 .
@@ -808,7 +784,7 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur:
   &&  “ (right = left) ” 
   &&  “ (LNDTailsState l i (sublist (0) (len) (tails_cur)) len ) ” 
   &&  “ (UpperBoundSearch (sublist (0) (len) (tails_cur)) len x left left ) ”
-  &&  (((tails_pre + (left * sizeof(INT) ) )) # Int  |->_)
+  &&  (((tails_pre + (left * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i tails_pre left 0 numsSize_pre tails_cur )
   **  (IntArray.full nums_pre numsSize_pre l )
 .

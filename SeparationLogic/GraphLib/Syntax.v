@@ -1,6 +1,6 @@
 Require Import Coq.Logic.Classical.
 Require Import Relations.
-Require Import SetsClass.
+Require Import SetsClass.SetsClass.
 
 Ltac destruct_equality_impl x y :=
   let Heq := fresh "eq_" x y in

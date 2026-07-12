@@ -385,7 +385,6 @@ forall (st_pre: Z) (K_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (st_l: (@li
 .
 
 Definition build_safety_wit_20 := 
-(
 forall (st_pre: Z) (K_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (st_l: (@list Z)) (j: Z) (half: Z) (len: Z) (i: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH9 : (1 <= j)) (PreH10 : (j < K_pre)) (PreH11 : (half = (Power2 ((j - 1 ))))) (PreH12 : (len = (Power2 (j)))) (PreH13 : (0 <= i)) (PreH14 : ((i + len ) <= n_pre)) (PreH15 : (0 <= (((i * K_pre ) + j ) - 1 ))) (PreH16 : ((((i * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH17 : (0 <= ((((i + half ) * K_pre ) + j ) - 1 ))) (PreH18 : (((((i + half ) * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH19 : (0 <= ((i * K_pre ) + j ))) (PreH20 : (((i * K_pre ) + j ) < (n_pre * K_pre ))) (PreH21 : (STBuiltBeforeLevel l st_l K_pre n_pre j )) (PreH22 : (STLevelPrefix l st_l K_pre n_pre j i )) (PreH23 : (STCellRangeMax l st_l K_pre i (j - 1 ) )) (PreH24 : (STCellRangeMax l st_l K_pre (i + half ) (j - 1 ) )) (PreH25 : forall (p: Z) , (((0 <= p) /\ (p < n_pre)) -> ((INT_MIN <= (Znth p l 0)) /\ ((Znth p l 0) <= INT_MAX)))) ,
   ((( &( "b" ) )) # Int  |->_)
   **  (IntArray.full st_pre (n_pre * K_pre ) st_l )
@@ -402,60 +401,6 @@ forall (st_pre: Z) (K_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (st_l: (@li
 |--
   “ ((i + half ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i + half )) ”
-) \/
-(
-forall (st_pre: Z) (K_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (st_l: (@list Z)) (j: Z) (half: Z) (len: Z) (i: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH9 : (1 <= j)) (PreH10 : (j < K_pre)) (PreH11 : (half = (Power2 ((j - 1 ))))) (PreH12 : (len = (Power2 (j)))) (PreH13 : (0 <= i)) (PreH14 : ((i + len ) <= n_pre)) (PreH15 : (0 <= (((i * K_pre ) + j ) - 1 ))) (PreH16 : ((((i * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH17 : (0 <= ((((i + half ) * K_pre ) + j ) - 1 ))) (PreH18 : (((((i + half ) * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH19 : (0 <= ((i * K_pre ) + j ))) (PreH20 : (((i * K_pre ) + j ) < (n_pre * K_pre ))) (PreH21 : (STBuiltBeforeLevel l st_l K_pre n_pre j )) (PreH22 : (STLevelPrefix l st_l K_pre n_pre j i )) (PreH23 : (STCellRangeMax l st_l K_pre i (j - 1 ) )) (PreH24 : (STCellRangeMax l st_l K_pre (i + half ) (j - 1 ) )) (PreH25 : forall (p: Z) , (((0 <= p) /\ (p < n_pre)) -> ((INT_MIN <= (Znth p l 0)) /\ ((Znth p l 0) <= INT_MAX)))) ,
-  ((( &( "b" ) )) # Int  |->_)
-  **  (IntArray.full st_pre (n_pre * K_pre ) st_l )
-  **  ((( &( "a" ) )) # Int  |-> (Znth (((i * K_pre ) + j ) - 1 ) st_l 0))
-  **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "K" ) )) # Int  |-> K_pre)
-  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
-  **  ((( &( "j" ) )) # Int  |-> j)
-  **  ((( &( "half" ) )) # Int  |-> half)
-  **  ((( &( "len" ) )) # Int  |-> len)
-  **  ((( &( "i" ) )) # Int  |-> i)
-  **  (IntArray.full arr_pre n_pre l )
-|--
-  “ ((i + half ) <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= (i + half )) ”
-).
-
-Definition build_safety_wit_20_split_goal_1 := 
-forall (st_pre: Z) (K_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (st_l: (@list Z)) (j: Z) (half: Z) (len: Z) (i: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH9 : (1 <= j)) (PreH10 : (j < K_pre)) (PreH11 : (half = (Power2 ((j - 1 ))))) (PreH12 : (len = (Power2 (j)))) (PreH13 : (0 <= i)) (PreH14 : ((i + len ) <= n_pre)) (PreH15 : (0 <= (((i * K_pre ) + j ) - 1 ))) (PreH16 : ((((i * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH17 : (0 <= ((((i + half ) * K_pre ) + j ) - 1 ))) (PreH18 : (((((i + half ) * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH19 : (0 <= ((i * K_pre ) + j ))) (PreH20 : (((i * K_pre ) + j ) < (n_pre * K_pre ))) (PreH21 : (STBuiltBeforeLevel l st_l K_pre n_pre j )) (PreH22 : (STLevelPrefix l st_l K_pre n_pre j i )) (PreH23 : (STCellRangeMax l st_l K_pre i (j - 1 ) )) (PreH24 : (STCellRangeMax l st_l K_pre (i + half ) (j - 1 ) )) (PreH25 : forall (p: Z) , (((0 <= p) /\ (p < n_pre)) -> ((INT_MIN <= (Znth p l 0)) /\ ((Znth p l 0) <= INT_MAX)))) ,
-  ((( &( "b" ) )) # Int  |->_)
-  **  (IntArray.full st_pre (n_pre * K_pre ) st_l )
-  **  ((( &( "a" ) )) # Int  |-> (Znth (((i * K_pre ) + j ) - 1 ) st_l 0))
-  **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "K" ) )) # Int  |-> K_pre)
-  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
-  **  ((( &( "j" ) )) # Int  |-> j)
-  **  ((( &( "half" ) )) # Int  |-> half)
-  **  ((( &( "len" ) )) # Int  |-> len)
-  **  ((( &( "i" ) )) # Int  |-> i)
-  **  (IntArray.full arr_pre n_pre l )
-|--
-  “ ((i + half ) <= INT_MAX) ”
-.
-
-Definition build_safety_wit_20_split_goal_2 := 
-forall (st_pre: Z) (K_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (st_l: (@list Z)) (j: Z) (half: Z) (len: Z) (i: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH9 : (1 <= j)) (PreH10 : (j < K_pre)) (PreH11 : (half = (Power2 ((j - 1 ))))) (PreH12 : (len = (Power2 (j)))) (PreH13 : (0 <= i)) (PreH14 : ((i + len ) <= n_pre)) (PreH15 : (0 <= (((i * K_pre ) + j ) - 1 ))) (PreH16 : ((((i * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH17 : (0 <= ((((i + half ) * K_pre ) + j ) - 1 ))) (PreH18 : (((((i + half ) * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH19 : (0 <= ((i * K_pre ) + j ))) (PreH20 : (((i * K_pre ) + j ) < (n_pre * K_pre ))) (PreH21 : (STBuiltBeforeLevel l st_l K_pre n_pre j )) (PreH22 : (STLevelPrefix l st_l K_pre n_pre j i )) (PreH23 : (STCellRangeMax l st_l K_pre i (j - 1 ) )) (PreH24 : (STCellRangeMax l st_l K_pre (i + half ) (j - 1 ) )) (PreH25 : forall (p: Z) , (((0 <= p) /\ (p < n_pre)) -> ((INT_MIN <= (Znth p l 0)) /\ ((Znth p l 0) <= INT_MAX)))) ,
-  ((( &( "b" ) )) # Int  |->_)
-  **  (IntArray.full st_pre (n_pre * K_pre ) st_l )
-  **  ((( &( "a" ) )) # Int  |-> (Znth (((i * K_pre ) + j ) - 1 ) st_l 0))
-  **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "K" ) )) # Int  |-> K_pre)
-  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
-  **  ((( &( "j" ) )) # Int  |-> j)
-  **  ((( &( "half" ) )) # Int  |-> half)
-  **  ((( &( "len" ) )) # Int  |-> len)
-  **  ((( &( "i" ) )) # Int  |-> i)
-  **  (IntArray.full arr_pre n_pre l )
-|--
-  “ ((INT_MIN) <= (i + half )) ”
 .
 
 Definition build_safety_wit_21 := 
@@ -739,23 +684,13 @@ forall (st_pre: Z) (K_pre: Z) (n_pre: Z) (arr_pre: Z) (st0: (@list Z)) (l: (@lis
 forall (K_pre: Z) (n_pre: Z) (st0: (@list Z)) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : ((Zlength (st0)) = (n_pre * K_pre ))) (PreH9 : forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((INT_MIN <= (Znth idx l 0)) /\ ((Znth idx l 0) <= INT_MAX)))) ,
   TT && emp 
 |--
-  “ (STZeroPrefix st0 0 ) ” 
-  &&  “ (0 <= (n_pre * K_pre )) ”
+  “ (STZeroPrefix st0 0 ) ”
   &&  emp
 ).
 
 Definition build_entail_wit_1_split_goal_1 := 
 forall (K_pre: Z) (n_pre: Z) (st0: (@list Z)) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : ((Zlength (st0)) = (n_pre * K_pre ))) (PreH9 : forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((INT_MIN <= (Znth idx l 0)) /\ ((Znth idx l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (STZeroPrefix st0 0 ) ”
-.
-
-Definition build_entail_wit_1_split_goal_2 := 
-forall (K_pre: Z) (n_pre: Z) (st0: (@list Z)) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : ((Zlength (st0)) = (n_pre * K_pre ))) (PreH9 : forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((INT_MIN <= (Znth idx l 0)) /\ ((Znth idx l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (0 <= (n_pre * K_pre )) ”
+  (STZeroPrefix st0 0 )
 .
 
 Definition build_entail_wit_2 := 
@@ -791,16 +726,12 @@ forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (idx: Z) (st_l_2: (@list Z)) (PreH1 
 
 Definition build_entail_wit_2_split_goal_1 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (idx: Z) (st_l_2: (@list Z)) (PreH1 : (idx < (n_pre * K_pre ))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (0 <= idx)) (PreH11 : (idx <= (n_pre * K_pre ))) (PreH12 : (STZeroPrefix st_l_2 idx )) (PreH13 : forall (p: Z) , (((0 <= p) /\ (p < n_pre)) -> ((INT_MIN <= (Znth p l 0)) /\ ((Znth p l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (STZeroPrefix (replace_Znth (idx) (0) (st_l_2)) (idx + 1 ) ) ”
+  (STZeroPrefix (replace_Znth (idx) (0) (st_l_2)) (idx + 1 ) )
 .
 
 Definition build_entail_wit_2_split_goal_2 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (idx: Z) (st_l_2: (@list Z)) (PreH1 : (idx < (n_pre * K_pre ))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (0 <= idx)) (PreH11 : (idx <= (n_pre * K_pre ))) (PreH12 : (STZeroPrefix st_l_2 idx )) (PreH13 : forall (p: Z) , (((0 <= p) /\ (p < n_pre)) -> ((INT_MIN <= (Znth p l 0)) /\ ((Znth p l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((replace_Znth (idx) (0) (st_l_2)))) = (n_pre * K_pre )) ”
+  ((Zlength ((replace_Znth (idx) (0) (st_l_2)))) = (n_pre * K_pre ))
 .
 
 Definition build_entail_wit_3 := 
@@ -833,9 +764,7 @@ forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (idx: Z) (st_l_2: (@list Z)) (PreH1 
 
 Definition build_entail_wit_3_split_goal_1 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (idx: Z) (st_l_2: (@list Z)) (PreH1 : (idx >= (n_pre * K_pre ))) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (0 <= idx)) (PreH11 : (idx <= (n_pre * K_pre ))) (PreH12 : (STZeroPrefix st_l_2 idx )) (PreH13 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (STZeroPrefix st_l_2 (n_pre * K_pre ) ) ”
+  (STZeroPrefix st_l_2 (n_pre * K_pre ) )
 .
 
 Definition build_entail_wit_4 := 
@@ -870,9 +799,7 @@ forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (PreH1 : (1 <= n
 
 Definition build_entail_wit_4_split_goal_1 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH9 : (STZeroPrefix st_l_2 (n_pre * K_pre ) )) (PreH10 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (STBasePrefix l st_l_2 K_pre n_pre 0 ) ”
+  (STBasePrefix l st_l_2 K_pre n_pre 0 )
 .
 
 Definition build_entail_wit_5 := 
@@ -903,23 +830,13 @@ forall (st_pre: Z) (K_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (i: Z) (st_
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (i: Z) (st_l_2: (@list Z)) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (0 <= i)) (PreH11 : (i <= n_pre)) (PreH12 : (STBasePrefix l st_l_2 K_pre n_pre i )) (PreH13 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
   TT && emp 
 |--
-  “ ((i * K_pre ) < (n_pre * K_pre )) ” 
-  &&  “ (0 <= (i * K_pre )) ”
+  “ ((i * K_pre ) < (n_pre * K_pre )) ”
   &&  emp
 ).
 
 Definition build_entail_wit_5_split_goal_1 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (i: Z) (st_l_2: (@list Z)) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (0 <= i)) (PreH11 : (i <= n_pre)) (PreH12 : (STBasePrefix l st_l_2 K_pre n_pre i )) (PreH13 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ ((i * K_pre ) < (n_pre * K_pre )) ”
-.
-
-Definition build_entail_wit_5_split_goal_2 := 
-forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (i: Z) (st_l_2: (@list Z)) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (0 <= i)) (PreH11 : (i <= n_pre)) (PreH12 : (STBasePrefix l st_l_2 K_pre n_pre i )) (PreH13 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (0 <= (i * K_pre )) ”
+  ((i * K_pre ) < (n_pre * K_pre ))
 .
 
 Definition build_entail_wit_6 := 
@@ -955,16 +872,12 @@ forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (i: Z) (PreH1 : 
 
 Definition build_entail_wit_6_split_goal_1 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (i: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH9 : (0 <= i)) (PreH10 : (i < n_pre)) (PreH11 : (0 <= (i * K_pre ))) (PreH12 : ((i * K_pre ) < (n_pre * K_pre ))) (PreH13 : (STBasePrefix l st_l_2 K_pre n_pre i )) (PreH14 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (STBasePrefix l (replace_Znth ((i * K_pre )) ((Znth i l 0)) (st_l_2)) K_pre n_pre (i + 1 ) ) ”
+  (STBasePrefix l (replace_Znth ((i * K_pre )) ((Znth i l 0)) (st_l_2)) K_pre n_pre (i + 1 ) )
 .
 
 Definition build_entail_wit_6_split_goal_2 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (i: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH9 : (0 <= i)) (PreH10 : (i < n_pre)) (PreH11 : (0 <= (i * K_pre ))) (PreH12 : ((i * K_pre ) < (n_pre * K_pre ))) (PreH13 : (STBasePrefix l st_l_2 K_pre n_pre i )) (PreH14 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((replace_Znth ((i * K_pre )) ((Znth i l 0)) (st_l_2)))) = (n_pre * K_pre )) ”
+  ((Zlength ((replace_Znth ((i * K_pre )) ((Znth i l 0)) (st_l_2)))) = (n_pre * K_pre ))
 .
 
 Definition build_entail_wit_7 := 
@@ -1019,9 +932,7 @@ forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (i: Z) (st_l_2: (@list Z)) (PreH1 : 
 
 Definition build_entail_wit_8_split_goal_1 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (i: Z) (st_l_2: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (0 <= i)) (PreH11 : (i <= n_pre)) (PreH12 : (STBasePrefix l st_l_2 K_pre n_pre i )) (PreH13 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (STBuiltBeforeLevel l st_l_2 K_pre n_pre 1 ) ”
+  (STBuiltBeforeLevel l st_l_2 K_pre n_pre 1 )
 .
 
 Definition build_entail_wit_9 := 
@@ -1059,16 +970,12 @@ forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (PreH1 : (1 <= n
 
 Definition build_entail_wit_9_split_goal_1 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH9 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre 1 )) (PreH10 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (2 = (Power2 (1))) ”
+  (2 = (Power2 (1)))
 .
 
 Definition build_entail_wit_9_split_goal_2 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH9 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre 1 )) (PreH10 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (1 = (Power2 ((1 - 1 )))) ”
+  (1 = (Power2 ((1 - 1 ))))
 .
 
 Definition build_entail_wit_10 := 
@@ -1108,9 +1015,7 @@ forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (len: Z) (half: Z) (j: Z) (st_l_2: (
 
 Definition build_entail_wit_10_split_goal_1 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (len: Z) (half: Z) (j: Z) (st_l_2: (@list Z)) (PreH1 : (j < K_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (1 <= j)) (PreH11 : (j <= K_pre)) (PreH12 : (half = (Power2 ((j - 1 ))))) (PreH13 : (len = (Power2 (j)))) (PreH14 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH15 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (STLevelPrefix l st_l_2 K_pre n_pre j 0 ) ”
+  (STLevelPrefix l st_l_2 K_pre n_pre j 0 )
 .
 
 Definition build_entail_wit_11 := 
@@ -1155,68 +1060,40 @@ forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (i: Z) (len: Z) (half: Z) (j: Z) (st
   “ (STCellRangeMax l st_l_2 K_pre (i + half ) (j - 1 ) ) ” 
   &&  “ (STCellRangeMax l st_l_2 K_pre i (j - 1 ) ) ” 
   &&  “ (((i * K_pre ) + j ) < (n_pre * K_pre )) ” 
-  &&  “ (0 <= ((i * K_pre ) + j )) ” 
   &&  “ (((((i + half ) * K_pre ) + j ) - 1 ) < (n_pre * K_pre )) ” 
   &&  “ (0 <= ((((i + half ) * K_pre ) + j ) - 1 )) ” 
-  &&  “ ((((i * K_pre ) + j ) - 1 ) < (n_pre * K_pre )) ” 
-  &&  “ (0 <= (((i * K_pre ) + j ) - 1 )) ”
+  &&  “ ((((i * K_pre ) + j ) - 1 ) < (n_pre * K_pre )) ”
   &&  emp
 ).
 
 Definition build_entail_wit_11_split_goal_1 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (i: Z) (len: Z) (half: Z) (j: Z) (st_l_2: (@list Z)) (PreH1 : ((i + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (1 <= j)) (PreH11 : (j < K_pre)) (PreH12 : (half = (Power2 ((j - 1 ))))) (PreH13 : (len = (Power2 (j)))) (PreH14 : (0 <= i)) (PreH15 : (i <= n_pre)) (PreH16 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH17 : (STLevelPrefix l st_l_2 K_pre n_pre j i )) (PreH18 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (STCellRangeMax l st_l_2 K_pre (i + half ) (j - 1 ) ) ”
+  (STCellRangeMax l st_l_2 K_pre (i + half ) (j - 1 ) )
 .
 
 Definition build_entail_wit_11_split_goal_2 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (i: Z) (len: Z) (half: Z) (j: Z) (st_l_2: (@list Z)) (PreH1 : ((i + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (1 <= j)) (PreH11 : (j < K_pre)) (PreH12 : (half = (Power2 ((j - 1 ))))) (PreH13 : (len = (Power2 (j)))) (PreH14 : (0 <= i)) (PreH15 : (i <= n_pre)) (PreH16 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH17 : (STLevelPrefix l st_l_2 K_pre n_pre j i )) (PreH18 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (STCellRangeMax l st_l_2 K_pre i (j - 1 ) ) ”
+  (STCellRangeMax l st_l_2 K_pre i (j - 1 ) )
 .
 
 Definition build_entail_wit_11_split_goal_3 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (i: Z) (len: Z) (half: Z) (j: Z) (st_l_2: (@list Z)) (PreH1 : ((i + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (1 <= j)) (PreH11 : (j < K_pre)) (PreH12 : (half = (Power2 ((j - 1 ))))) (PreH13 : (len = (Power2 (j)))) (PreH14 : (0 <= i)) (PreH15 : (i <= n_pre)) (PreH16 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH17 : (STLevelPrefix l st_l_2 K_pre n_pre j i )) (PreH18 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (((i * K_pre ) + j ) < (n_pre * K_pre )) ”
+  (((i * K_pre ) + j ) < (n_pre * K_pre ))
 .
 
 Definition build_entail_wit_11_split_goal_4 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (i: Z) (len: Z) (half: Z) (j: Z) (st_l_2: (@list Z)) (PreH1 : ((i + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (1 <= j)) (PreH11 : (j < K_pre)) (PreH12 : (half = (Power2 ((j - 1 ))))) (PreH13 : (len = (Power2 (j)))) (PreH14 : (0 <= i)) (PreH15 : (i <= n_pre)) (PreH16 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH17 : (STLevelPrefix l st_l_2 K_pre n_pre j i )) (PreH18 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (0 <= ((i * K_pre ) + j )) ”
+  (((((i + half ) * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))
 .
 
 Definition build_entail_wit_11_split_goal_5 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (i: Z) (len: Z) (half: Z) (j: Z) (st_l_2: (@list Z)) (PreH1 : ((i + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (1 <= j)) (PreH11 : (j < K_pre)) (PreH12 : (half = (Power2 ((j - 1 ))))) (PreH13 : (len = (Power2 (j)))) (PreH14 : (0 <= i)) (PreH15 : (i <= n_pre)) (PreH16 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH17 : (STLevelPrefix l st_l_2 K_pre n_pre j i )) (PreH18 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (((((i + half ) * K_pre ) + j ) - 1 ) < (n_pre * K_pre )) ”
+  (0 <= ((((i + half ) * K_pre ) + j ) - 1 ))
 .
 
 Definition build_entail_wit_11_split_goal_6 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (i: Z) (len: Z) (half: Z) (j: Z) (st_l_2: (@list Z)) (PreH1 : ((i + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (1 <= j)) (PreH11 : (j < K_pre)) (PreH12 : (half = (Power2 ((j - 1 ))))) (PreH13 : (len = (Power2 (j)))) (PreH14 : (0 <= i)) (PreH15 : (i <= n_pre)) (PreH16 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH17 : (STLevelPrefix l st_l_2 K_pre n_pre j i )) (PreH18 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (0 <= ((((i + half ) * K_pre ) + j ) - 1 )) ”
-.
-
-Definition build_entail_wit_11_split_goal_7 := 
-forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (i: Z) (len: Z) (half: Z) (j: Z) (st_l_2: (@list Z)) (PreH1 : ((i + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (1 <= j)) (PreH11 : (j < K_pre)) (PreH12 : (half = (Power2 ((j - 1 ))))) (PreH13 : (len = (Power2 (j)))) (PreH14 : (0 <= i)) (PreH15 : (i <= n_pre)) (PreH16 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH17 : (STLevelPrefix l st_l_2 K_pre n_pre j i )) (PreH18 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ ((((i * K_pre ) + j ) - 1 ) < (n_pre * K_pre )) ”
-.
-
-Definition build_entail_wit_11_split_goal_8 := 
-forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (i: Z) (len: Z) (half: Z) (j: Z) (st_l_2: (@list Z)) (PreH1 : ((i + len ) <= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (1 <= j)) (PreH11 : (j < K_pre)) (PreH12 : (half = (Power2 ((j - 1 ))))) (PreH13 : (len = (Power2 (j)))) (PreH14 : (0 <= i)) (PreH15 : (i <= n_pre)) (PreH16 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH17 : (STLevelPrefix l st_l_2 K_pre n_pre j i )) (PreH18 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (0 <= (((i * K_pre ) + j ) - 1 )) ”
+  ((((i * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))
 .
 
 Definition build_entail_wit_12 := 
@@ -1299,37 +1176,27 @@ forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (j: Z) (half: Z)
 
 Definition build_entail_wit_13_1_split_goal_1 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (j: Z) (half: Z) (len: Z) (i: Z) (a: Z) (b: Z) (PreH1 : (a < b)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (1 <= j)) (PreH11 : (j < K_pre)) (PreH12 : (half = (Power2 ((j - 1 ))))) (PreH13 : (len = (Power2 (j)))) (PreH14 : (0 <= i)) (PreH15 : ((i + len ) <= n_pre)) (PreH16 : (0 <= (((i * K_pre ) + j ) - 1 ))) (PreH17 : ((((i * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH18 : (0 <= ((((i + half ) * K_pre ) + j ) - 1 ))) (PreH19 : (((((i + half ) * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH20 : (0 <= ((i * K_pre ) + j ))) (PreH21 : (((i * K_pre ) + j ) < (n_pre * K_pre ))) (PreH22 : (a = (Znth (((i * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH23 : (b = (Znth ((((i + half ) * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH24 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH25 : (STLevelPrefix l st_l_2 K_pre n_pre j i )) (PreH26 : (STCellRangeMax l st_l_2 K_pre i (j - 1 ) )) (PreH27 : (STCellRangeMax l st_l_2 K_pre (i + half ) (j - 1 ) )) (PreH28 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (STLevelPrefix l (replace_Znth (((i * K_pre ) + j )) (b) (st_l_2)) K_pre n_pre j (i + 1 ) ) ”
+  (STLevelPrefix l (replace_Znth (((i * K_pre ) + j )) (b) (st_l_2)) K_pre n_pre j (i + 1 ) )
 .
 
 Definition build_entail_wit_13_1_split_goal_2 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (j: Z) (half: Z) (len: Z) (i: Z) (a: Z) (b: Z) (PreH1 : (a < b)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (1 <= j)) (PreH11 : (j < K_pre)) (PreH12 : (half = (Power2 ((j - 1 ))))) (PreH13 : (len = (Power2 (j)))) (PreH14 : (0 <= i)) (PreH15 : ((i + len ) <= n_pre)) (PreH16 : (0 <= (((i * K_pre ) + j ) - 1 ))) (PreH17 : ((((i * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH18 : (0 <= ((((i + half ) * K_pre ) + j ) - 1 ))) (PreH19 : (((((i + half ) * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH20 : (0 <= ((i * K_pre ) + j ))) (PreH21 : (((i * K_pre ) + j ) < (n_pre * K_pre ))) (PreH22 : (a = (Znth (((i * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH23 : (b = (Znth ((((i + half ) * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH24 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH25 : (STLevelPrefix l st_l_2 K_pre n_pre j i )) (PreH26 : (STCellRangeMax l st_l_2 K_pre i (j - 1 ) )) (PreH27 : (STCellRangeMax l st_l_2 K_pre (i + half ) (j - 1 ) )) (PreH28 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (STBuiltBeforeLevel l (replace_Znth (((i * K_pre ) + j )) (b) (st_l_2)) K_pre n_pre j ) ”
+  (STBuiltBeforeLevel l (replace_Znth (((i * K_pre ) + j )) (b) (st_l_2)) K_pre n_pre j )
 .
 
 Definition build_entail_wit_13_1_split_goal_3 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (j: Z) (half: Z) (len: Z) (i: Z) (a: Z) (b: Z) (PreH1 : (a < b)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (1 <= j)) (PreH11 : (j < K_pre)) (PreH12 : (half = (Power2 ((j - 1 ))))) (PreH13 : (len = (Power2 (j)))) (PreH14 : (0 <= i)) (PreH15 : ((i + len ) <= n_pre)) (PreH16 : (0 <= (((i * K_pre ) + j ) - 1 ))) (PreH17 : ((((i * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH18 : (0 <= ((((i + half ) * K_pre ) + j ) - 1 ))) (PreH19 : (((((i + half ) * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH20 : (0 <= ((i * K_pre ) + j ))) (PreH21 : (((i * K_pre ) + j ) < (n_pre * K_pre ))) (PreH22 : (a = (Znth (((i * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH23 : (b = (Znth ((((i + half ) * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH24 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH25 : (STLevelPrefix l st_l_2 K_pre n_pre j i )) (PreH26 : (STCellRangeMax l st_l_2 K_pre i (j - 1 ) )) (PreH27 : (STCellRangeMax l st_l_2 K_pre (i + half ) (j - 1 ) )) (PreH28 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (b = (Znth ((((i + half ) * K_pre ) + j ) - 1 ) (replace_Znth (((i * K_pre ) + j )) (b) (st_l_2)) 0)) ”
+  (b = (Znth ((((i + half ) * K_pre ) + j ) - 1 ) (replace_Znth (((i * K_pre ) + j )) (b) (st_l_2)) 0))
 .
 
 Definition build_entail_wit_13_1_split_goal_4 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (j: Z) (half: Z) (len: Z) (i: Z) (a: Z) (b: Z) (PreH1 : (a < b)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (1 <= j)) (PreH11 : (j < K_pre)) (PreH12 : (half = (Power2 ((j - 1 ))))) (PreH13 : (len = (Power2 (j)))) (PreH14 : (0 <= i)) (PreH15 : ((i + len ) <= n_pre)) (PreH16 : (0 <= (((i * K_pre ) + j ) - 1 ))) (PreH17 : ((((i * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH18 : (0 <= ((((i + half ) * K_pre ) + j ) - 1 ))) (PreH19 : (((((i + half ) * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH20 : (0 <= ((i * K_pre ) + j ))) (PreH21 : (((i * K_pre ) + j ) < (n_pre * K_pre ))) (PreH22 : (a = (Znth (((i * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH23 : (b = (Znth ((((i + half ) * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH24 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH25 : (STLevelPrefix l st_l_2 K_pre n_pre j i )) (PreH26 : (STCellRangeMax l st_l_2 K_pre i (j - 1 ) )) (PreH27 : (STCellRangeMax l st_l_2 K_pre (i + half ) (j - 1 ) )) (PreH28 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (a = (Znth (((i * K_pre ) + j ) - 1 ) (replace_Znth (((i * K_pre ) + j )) (b) (st_l_2)) 0)) ”
+  (a = (Znth (((i * K_pre ) + j ) - 1 ) (replace_Znth (((i * K_pre ) + j )) (b) (st_l_2)) 0))
 .
 
 Definition build_entail_wit_13_1_split_goal_5 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (j: Z) (half: Z) (len: Z) (i: Z) (a: Z) (b: Z) (PreH1 : (a < b)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (1 <= j)) (PreH11 : (j < K_pre)) (PreH12 : (half = (Power2 ((j - 1 ))))) (PreH13 : (len = (Power2 (j)))) (PreH14 : (0 <= i)) (PreH15 : ((i + len ) <= n_pre)) (PreH16 : (0 <= (((i * K_pre ) + j ) - 1 ))) (PreH17 : ((((i * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH18 : (0 <= ((((i + half ) * K_pre ) + j ) - 1 ))) (PreH19 : (((((i + half ) * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH20 : (0 <= ((i * K_pre ) + j ))) (PreH21 : (((i * K_pre ) + j ) < (n_pre * K_pre ))) (PreH22 : (a = (Znth (((i * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH23 : (b = (Znth ((((i + half ) * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH24 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH25 : (STLevelPrefix l st_l_2 K_pre n_pre j i )) (PreH26 : (STCellRangeMax l st_l_2 K_pre i (j - 1 ) )) (PreH27 : (STCellRangeMax l st_l_2 K_pre (i + half ) (j - 1 ) )) (PreH28 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((replace_Znth (((i * K_pre ) + j )) (b) (st_l_2)))) = (n_pre * K_pre )) ”
+  ((Zlength ((replace_Znth (((i * K_pre ) + j )) (b) (st_l_2)))) = (n_pre * K_pre ))
 .
 
 Definition build_entail_wit_13_2 := 
@@ -1375,37 +1242,27 @@ forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (j: Z) (half: Z)
 
 Definition build_entail_wit_13_2_split_goal_1 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (j: Z) (half: Z) (len: Z) (i: Z) (a: Z) (b: Z) (PreH1 : (a >= b)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (1 <= j)) (PreH11 : (j < K_pre)) (PreH12 : (half = (Power2 ((j - 1 ))))) (PreH13 : (len = (Power2 (j)))) (PreH14 : (0 <= i)) (PreH15 : ((i + len ) <= n_pre)) (PreH16 : (0 <= (((i * K_pre ) + j ) - 1 ))) (PreH17 : ((((i * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH18 : (0 <= ((((i + half ) * K_pre ) + j ) - 1 ))) (PreH19 : (((((i + half ) * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH20 : (0 <= ((i * K_pre ) + j ))) (PreH21 : (((i * K_pre ) + j ) < (n_pre * K_pre ))) (PreH22 : (a = (Znth (((i * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH23 : (b = (Znth ((((i + half ) * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH24 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH25 : (STLevelPrefix l st_l_2 K_pre n_pre j i )) (PreH26 : (STCellRangeMax l st_l_2 K_pre i (j - 1 ) )) (PreH27 : (STCellRangeMax l st_l_2 K_pre (i + half ) (j - 1 ) )) (PreH28 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (STLevelPrefix l (replace_Znth (((i * K_pre ) + j )) (a) (st_l_2)) K_pre n_pre j (i + 1 ) ) ”
+  (STLevelPrefix l (replace_Znth (((i * K_pre ) + j )) (a) (st_l_2)) K_pre n_pre j (i + 1 ) )
 .
 
 Definition build_entail_wit_13_2_split_goal_2 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (j: Z) (half: Z) (len: Z) (i: Z) (a: Z) (b: Z) (PreH1 : (a >= b)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (1 <= j)) (PreH11 : (j < K_pre)) (PreH12 : (half = (Power2 ((j - 1 ))))) (PreH13 : (len = (Power2 (j)))) (PreH14 : (0 <= i)) (PreH15 : ((i + len ) <= n_pre)) (PreH16 : (0 <= (((i * K_pre ) + j ) - 1 ))) (PreH17 : ((((i * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH18 : (0 <= ((((i + half ) * K_pre ) + j ) - 1 ))) (PreH19 : (((((i + half ) * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH20 : (0 <= ((i * K_pre ) + j ))) (PreH21 : (((i * K_pre ) + j ) < (n_pre * K_pre ))) (PreH22 : (a = (Znth (((i * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH23 : (b = (Znth ((((i + half ) * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH24 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH25 : (STLevelPrefix l st_l_2 K_pre n_pre j i )) (PreH26 : (STCellRangeMax l st_l_2 K_pre i (j - 1 ) )) (PreH27 : (STCellRangeMax l st_l_2 K_pre (i + half ) (j - 1 ) )) (PreH28 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (STBuiltBeforeLevel l (replace_Znth (((i * K_pre ) + j )) (a) (st_l_2)) K_pre n_pre j ) ”
+  (STBuiltBeforeLevel l (replace_Znth (((i * K_pre ) + j )) (a) (st_l_2)) K_pre n_pre j )
 .
 
 Definition build_entail_wit_13_2_split_goal_3 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (j: Z) (half: Z) (len: Z) (i: Z) (a: Z) (b: Z) (PreH1 : (a >= b)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (1 <= j)) (PreH11 : (j < K_pre)) (PreH12 : (half = (Power2 ((j - 1 ))))) (PreH13 : (len = (Power2 (j)))) (PreH14 : (0 <= i)) (PreH15 : ((i + len ) <= n_pre)) (PreH16 : (0 <= (((i * K_pre ) + j ) - 1 ))) (PreH17 : ((((i * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH18 : (0 <= ((((i + half ) * K_pre ) + j ) - 1 ))) (PreH19 : (((((i + half ) * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH20 : (0 <= ((i * K_pre ) + j ))) (PreH21 : (((i * K_pre ) + j ) < (n_pre * K_pre ))) (PreH22 : (a = (Znth (((i * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH23 : (b = (Znth ((((i + half ) * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH24 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH25 : (STLevelPrefix l st_l_2 K_pre n_pre j i )) (PreH26 : (STCellRangeMax l st_l_2 K_pre i (j - 1 ) )) (PreH27 : (STCellRangeMax l st_l_2 K_pre (i + half ) (j - 1 ) )) (PreH28 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (b = (Znth ((((i + half ) * K_pre ) + j ) - 1 ) (replace_Znth (((i * K_pre ) + j )) (a) (st_l_2)) 0)) ”
+  (b = (Znth ((((i + half ) * K_pre ) + j ) - 1 ) (replace_Znth (((i * K_pre ) + j )) (a) (st_l_2)) 0))
 .
 
 Definition build_entail_wit_13_2_split_goal_4 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (j: Z) (half: Z) (len: Z) (i: Z) (a: Z) (b: Z) (PreH1 : (a >= b)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (1 <= j)) (PreH11 : (j < K_pre)) (PreH12 : (half = (Power2 ((j - 1 ))))) (PreH13 : (len = (Power2 (j)))) (PreH14 : (0 <= i)) (PreH15 : ((i + len ) <= n_pre)) (PreH16 : (0 <= (((i * K_pre ) + j ) - 1 ))) (PreH17 : ((((i * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH18 : (0 <= ((((i + half ) * K_pre ) + j ) - 1 ))) (PreH19 : (((((i + half ) * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH20 : (0 <= ((i * K_pre ) + j ))) (PreH21 : (((i * K_pre ) + j ) < (n_pre * K_pre ))) (PreH22 : (a = (Znth (((i * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH23 : (b = (Znth ((((i + half ) * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH24 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH25 : (STLevelPrefix l st_l_2 K_pre n_pre j i )) (PreH26 : (STCellRangeMax l st_l_2 K_pre i (j - 1 ) )) (PreH27 : (STCellRangeMax l st_l_2 K_pre (i + half ) (j - 1 ) )) (PreH28 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (a = (Znth (((i * K_pre ) + j ) - 1 ) (replace_Znth (((i * K_pre ) + j )) (a) (st_l_2)) 0)) ”
+  (a = (Znth (((i * K_pre ) + j ) - 1 ) (replace_Znth (((i * K_pre ) + j )) (a) (st_l_2)) 0))
 .
 
 Definition build_entail_wit_13_2_split_goal_5 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (j: Z) (half: Z) (len: Z) (i: Z) (a: Z) (b: Z) (PreH1 : (a >= b)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (1 <= j)) (PreH11 : (j < K_pre)) (PreH12 : (half = (Power2 ((j - 1 ))))) (PreH13 : (len = (Power2 (j)))) (PreH14 : (0 <= i)) (PreH15 : ((i + len ) <= n_pre)) (PreH16 : (0 <= (((i * K_pre ) + j ) - 1 ))) (PreH17 : ((((i * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH18 : (0 <= ((((i + half ) * K_pre ) + j ) - 1 ))) (PreH19 : (((((i + half ) * K_pre ) + j ) - 1 ) < (n_pre * K_pre ))) (PreH20 : (0 <= ((i * K_pre ) + j ))) (PreH21 : (((i * K_pre ) + j ) < (n_pre * K_pre ))) (PreH22 : (a = (Znth (((i * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH23 : (b = (Znth ((((i + half ) * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH24 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH25 : (STLevelPrefix l st_l_2 K_pre n_pre j i )) (PreH26 : (STCellRangeMax l st_l_2 K_pre i (j - 1 ) )) (PreH27 : (STCellRangeMax l st_l_2 K_pre (i + half ) (j - 1 ) )) (PreH28 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((replace_Znth (((i * K_pre ) + j )) (a) (st_l_2)))) = (n_pre * K_pre )) ”
+  ((Zlength ((replace_Znth (((i * K_pre ) + j )) (a) (st_l_2)))) = (n_pre * K_pre ))
 .
 
 Definition build_entail_wit_14 := 
@@ -1445,9 +1302,7 @@ forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (j: Z) (half: Z)
 
 Definition build_entail_wit_14_split_goal_1 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (j: Z) (half: Z) (len: Z) (i: Z) (a: Z) (b: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH9 : (1 <= j)) (PreH10 : (j < K_pre)) (PreH11 : (half = (Power2 ((j - 1 ))))) (PreH12 : (len = (Power2 (j)))) (PreH13 : (0 <= i)) (PreH14 : ((i + len ) <= n_pre)) (PreH15 : (a = (Znth (((i * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH16 : (b = (Znth ((((i + half ) * K_pre ) + j ) - 1 ) st_l_2 0))) (PreH17 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH18 : (STLevelPrefix l st_l_2 K_pre n_pre j (i + 1 ) )) (PreH19 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ ((i + 1 ) <= n_pre) ”
+  ((i + 1 ) <= n_pre)
 .
 
 Definition build_entail_wit_15 := 
@@ -1484,9 +1339,7 @@ forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (i: Z) (len: Z) (half: Z) (j: Z) (st
 
 Definition build_entail_wit_15_split_goal_1 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (i: Z) (len: Z) (half: Z) (j: Z) (st_l_2: (@list Z)) (PreH1 : ((i + len ) > n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (1 <= j)) (PreH11 : (j < K_pre)) (PreH12 : (half = (Power2 ((j - 1 ))))) (PreH13 : (len = (Power2 (j)))) (PreH14 : (0 <= i)) (PreH15 : (i <= n_pre)) (PreH16 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH17 : (STLevelPrefix l st_l_2 K_pre n_pre j i )) (PreH18 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (STBuiltBeforeLevel l st_l_2 K_pre n_pre (j + 1 ) ) ”
+  (STBuiltBeforeLevel l st_l_2 K_pre n_pre (j + 1 ) )
 .
 
 Definition build_entail_wit_16 := 
@@ -1524,16 +1377,12 @@ forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (j: Z) (half: Z)
 
 Definition build_entail_wit_16_split_goal_1 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (j: Z) (half: Z) (len: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH9 : (1 <= j)) (PreH10 : (j < K_pre)) (PreH11 : (half = (Power2 ((j - 1 ))))) (PreH12 : (len = (Power2 (j)))) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre (j + 1 ) )) (PreH14 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ ((len * 2 ) = (Power2 ((j + 1 )))) ”
+  ((len * 2 ) = (Power2 ((j + 1 ))))
 .
 
 Definition build_entail_wit_16_split_goal_2 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (st_l_2: (@list Z)) (j: Z) (half: Z) (len: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH9 : (1 <= j)) (PreH10 : (j < K_pre)) (PreH11 : (half = (Power2 ((j - 1 ))))) (PreH12 : (len = (Power2 (j)))) (PreH13 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre (j + 1 ) )) (PreH14 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < n_pre)) -> ((INT_MIN <= (Znth p_2 l 0)) /\ ((Znth p_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (len = (Power2 (((j + 1 ) - 1 )))) ”
+  (len = (Power2 (((j + 1 ) - 1 ))))
 .
 
 Definition build_return_wit_1 := 
@@ -1558,9 +1407,7 @@ forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (len: Z) (half: Z) (j: Z) (st_l_2: (
 
 Definition build_return_wit_1_split_goal_1 := 
 forall (K_pre: Z) (n_pre: Z) (l: (@list Z)) (len: Z) (half: Z) (j: Z) (st_l_2: (@list Z)) (PreH1 : (j >= K_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : ((Zlength (st_l_2)) = (n_pre * K_pre ))) (PreH10 : (1 <= j)) (PreH11 : (j <= K_pre)) (PreH12 : (half = (Power2 ((j - 1 ))))) (PreH13 : (len = (Power2 (j)))) (PreH14 : (STBuiltBeforeLevel l st_l_2 K_pre n_pre j )) (PreH15 : forall (p: Z) , (((0 <= p) /\ (p < n_pre)) -> ((INT_MIN <= (Znth p l 0)) /\ ((Znth p l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (STBuilt l st_l_2 K_pre n_pre ) ”
+  (STBuilt l st_l_2 K_pre n_pre )
 .
 
 Definition build_partial_solve_wit_1 := 
@@ -1581,7 +1428,7 @@ forall (st_pre: Z) (K_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (idx: Z) (s
   &&  “ (idx <= (n_pre * K_pre )) ” 
   &&  “ (STZeroPrefix st_l idx ) ” 
   &&  “ forall (p: Z) , (((0 <= p) /\ (p < n_pre)) -> ((INT_MIN <= (Znth p l 0)) /\ ((Znth p l 0) <= INT_MAX))) ”
-  &&  (((st_pre + (idx * sizeof(INT) ) )) # Int  |->_)
+  &&  (((st_pre + (idx * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i st_pre idx 0 (n_pre * K_pre ) st_l )
   **  (IntArray.full arr_pre n_pre l )
 .
@@ -1605,7 +1452,7 @@ forall (st_pre: Z) (K_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (st_l: (@li
   &&  “ ((i * K_pre ) < (n_pre * K_pre )) ” 
   &&  “ (STBasePrefix l st_l K_pre n_pre i ) ” 
   &&  “ forall (p: Z) , (((0 <= p) /\ (p < n_pre)) -> ((INT_MIN <= (Znth p l 0)) /\ ((Znth p l 0) <= INT_MAX))) ”
-  &&  (((arr_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i l 0))
+  &&  (((arr_pre + (i * sizeof(INT)))) # Int  |-> (Znth i l 0))
   **  (IntArray.missing_i arr_pre i 0 n_pre l )
   **  (IntArray.full st_pre (n_pre * K_pre ) st_l )
 .
@@ -1629,7 +1476,7 @@ forall (st_pre: Z) (K_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (st_l: (@li
   &&  “ ((i * K_pre ) < (n_pre * K_pre )) ” 
   &&  “ (STBasePrefix l st_l K_pre n_pre i ) ” 
   &&  “ forall (p: Z) , (((0 <= p) /\ (p < n_pre)) -> ((INT_MIN <= (Znth p l 0)) /\ ((Znth p l 0) <= INT_MAX))) ”
-  &&  (((st_pre + ((i * K_pre ) * sizeof(INT) ) )) # Int  |->_)
+  &&  (((st_pre + ((i * K_pre ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i st_pre (i * K_pre ) 0 (n_pre * K_pre ) st_l )
   **  (IntArray.full arr_pre n_pre l )
 .
@@ -1664,7 +1511,7 @@ forall (st_pre: Z) (K_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (st_l: (@li
   &&  “ (STCellRangeMax l st_l K_pre i (j - 1 ) ) ” 
   &&  “ (STCellRangeMax l st_l K_pre (i + half ) (j - 1 ) ) ” 
   &&  “ forall (p: Z) , (((0 <= p) /\ (p < n_pre)) -> ((INT_MIN <= (Znth p l 0)) /\ ((Znth p l 0) <= INT_MAX))) ”
-  &&  (((st_pre + ((((i * K_pre ) + j ) - 1 ) * sizeof(INT) ) )) # Int  |-> (Znth (((i * K_pre ) + j ) - 1 ) st_l 0))
+  &&  (((st_pre + ((((i * K_pre ) + j ) - 1 ) * sizeof(INT)))) # Int  |-> (Znth (((i * K_pre ) + j ) - 1 ) st_l 0))
   **  (IntArray.missing_i st_pre (((i * K_pre ) + j ) - 1 ) 0 (n_pre * K_pre ) st_l )
   **  (IntArray.full arr_pre n_pre l )
 .
@@ -1699,7 +1546,7 @@ forall (st_pre: Z) (K_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (st_l: (@li
   &&  “ (STCellRangeMax l st_l K_pre i (j - 1 ) ) ” 
   &&  “ (STCellRangeMax l st_l K_pre (i + half ) (j - 1 ) ) ” 
   &&  “ forall (p: Z) , (((0 <= p) /\ (p < n_pre)) -> ((INT_MIN <= (Znth p l 0)) /\ ((Znth p l 0) <= INT_MAX))) ”
-  &&  (((st_pre + (((((i + half ) * K_pre ) + j ) - 1 ) * sizeof(INT) ) )) # Int  |-> (Znth ((((i + half ) * K_pre ) + j ) - 1 ) st_l 0))
+  &&  (((st_pre + (((((i + half ) * K_pre ) + j ) - 1 ) * sizeof(INT)))) # Int  |-> (Znth ((((i + half ) * K_pre ) + j ) - 1 ) st_l 0))
   **  (IntArray.missing_i st_pre ((((i + half ) * K_pre ) + j ) - 1 ) 0 (n_pre * K_pre ) st_l )
   **  (IntArray.full arr_pre n_pre l )
 .
@@ -1737,7 +1584,7 @@ forall (st_pre: Z) (K_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (st_l: (@li
   &&  “ (STCellRangeMax l st_l K_pre i (j - 1 ) ) ” 
   &&  “ (STCellRangeMax l st_l K_pre (i + half ) (j - 1 ) ) ” 
   &&  “ forall (p: Z) , (((0 <= p) /\ (p < n_pre)) -> ((INT_MIN <= (Znth p l 0)) /\ ((Znth p l 0) <= INT_MAX))) ”
-  &&  (((st_pre + (((i * K_pre ) + j ) * sizeof(INT) ) )) # Int  |->_)
+  &&  (((st_pre + (((i * K_pre ) + j ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i st_pre ((i * K_pre ) + j ) 0 (n_pre * K_pre ) st_l )
   **  (IntArray.full arr_pre n_pre l )
 .
@@ -1775,7 +1622,7 @@ forall (st_pre: Z) (K_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (st_l: (@li
   &&  “ (STCellRangeMax l st_l K_pre i (j - 1 ) ) ” 
   &&  “ (STCellRangeMax l st_l K_pre (i + half ) (j - 1 ) ) ” 
   &&  “ forall (p: Z) , (((0 <= p) /\ (p < n_pre)) -> ((INT_MIN <= (Znth p l 0)) /\ ((Znth p l 0) <= INT_MAX))) ”
-  &&  (((st_pre + (((i * K_pre ) + j ) * sizeof(INT) ) )) # Int  |->_)
+  &&  (((st_pre + (((i * K_pre ) + j ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i st_pre ((i * K_pre ) + j ) 0 (n_pre * K_pre ) st_l )
   **  (IntArray.full arr_pre n_pre l )
 .
@@ -2091,7 +1938,6 @@ forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@l
 .
 
 Definition query_safety_wit_12 := 
-(
 forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (len: Z) (pow: Z) (k: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : (0 <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre ) + 1 ))) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH13 : (STBuilt l st_l K_pre n_pre )) (PreH14 : (QueryLogFinalState K_pre n_pre len k pow )) (PreH15 : (0 <= ((left_pre * K_pre ) + k ))) (PreH16 : (((left_pre * K_pre ) + k ) < (n_pre * K_pre ))) (PreH17 : (0 <= ((((right_pre - pow ) + 1 ) * K_pre ) + k ))) (PreH18 : (((((right_pre - pow ) + 1 ) * K_pre ) + k ) < (n_pre * K_pre ))) (PreH19 : (STCellRangeMax l st_l K_pre left_pre k )) (PreH20 : (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k )) ,
   ((( &( "a" ) )) # Int  |->_)
   **  ((( &( "st" ) )) # Ptr  |-> st_pre)
@@ -2106,54 +1952,6 @@ forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@l
 |--
   “ ((left_pre * K_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (left_pre * K_pre )) ”
-) \/
-(
-forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (len: Z) (pow: Z) (k: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : (0 <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre ) + 1 ))) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH13 : (STBuilt l st_l K_pre n_pre )) (PreH14 : (QueryLogFinalState K_pre n_pre len k pow )) (PreH15 : (0 <= ((left_pre * K_pre ) + k ))) (PreH16 : (((left_pre * K_pre ) + k ) < (n_pre * K_pre ))) (PreH17 : (0 <= ((((right_pre - pow ) + 1 ) * K_pre ) + k ))) (PreH18 : (((((right_pre - pow ) + 1 ) * K_pre ) + k ) < (n_pre * K_pre ))) (PreH19 : (STCellRangeMax l st_l K_pre left_pre k )) (PreH20 : (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k )) ,
-  ((( &( "a" ) )) # Int  |->_)
-  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "K" ) )) # Int  |-> K_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "len" ) )) # Int  |-> len)
-  **  ((( &( "pow" ) )) # Int  |-> pow)
-  **  ((( &( "k" ) )) # Int  |-> k)
-  **  (IntArray.full st_pre (n_pre * K_pre ) st_l )
-|--
-  “ ((left_pre * K_pre ) <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= (left_pre * K_pre )) ”
-).
-
-Definition query_safety_wit_12_split_goal_1 := 
-forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (len: Z) (pow: Z) (k: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : (0 <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre ) + 1 ))) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH13 : (STBuilt l st_l K_pre n_pre )) (PreH14 : (QueryLogFinalState K_pre n_pre len k pow )) (PreH15 : (0 <= ((left_pre * K_pre ) + k ))) (PreH16 : (((left_pre * K_pre ) + k ) < (n_pre * K_pre ))) (PreH17 : (0 <= ((((right_pre - pow ) + 1 ) * K_pre ) + k ))) (PreH18 : (((((right_pre - pow ) + 1 ) * K_pre ) + k ) < (n_pre * K_pre ))) (PreH19 : (STCellRangeMax l st_l K_pre left_pre k )) (PreH20 : (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k )) ,
-  ((( &( "a" ) )) # Int  |->_)
-  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "K" ) )) # Int  |-> K_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "len" ) )) # Int  |-> len)
-  **  ((( &( "pow" ) )) # Int  |-> pow)
-  **  ((( &( "k" ) )) # Int  |-> k)
-  **  (IntArray.full st_pre (n_pre * K_pre ) st_l )
-|--
-  “ ((left_pre * K_pre ) <= INT_MAX) ”
-.
-
-Definition query_safety_wit_12_split_goal_2 := 
-forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (len: Z) (pow: Z) (k: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : (0 <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre ) + 1 ))) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH13 : (STBuilt l st_l K_pre n_pre )) (PreH14 : (QueryLogFinalState K_pre n_pre len k pow )) (PreH15 : (0 <= ((left_pre * K_pre ) + k ))) (PreH16 : (((left_pre * K_pre ) + k ) < (n_pre * K_pre ))) (PreH17 : (0 <= ((((right_pre - pow ) + 1 ) * K_pre ) + k ))) (PreH18 : (((((right_pre - pow ) + 1 ) * K_pre ) + k ) < (n_pre * K_pre ))) (PreH19 : (STCellRangeMax l st_l K_pre left_pre k )) (PreH20 : (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k )) ,
-  ((( &( "a" ) )) # Int  |->_)
-  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "K" ) )) # Int  |-> K_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "len" ) )) # Int  |-> len)
-  **  ((( &( "pow" ) )) # Int  |-> pow)
-  **  ((( &( "k" ) )) # Int  |-> k)
-  **  (IntArray.full st_pre (n_pre * K_pre ) st_l )
-|--
-  “ ((INT_MIN) <= (left_pre * K_pre )) ”
 .
 
 Definition query_safety_wit_13 := 
@@ -2175,7 +1973,6 @@ forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@l
 .
 
 Definition query_safety_wit_14 := 
-(
 forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (len: Z) (pow: Z) (k: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : (0 <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre ) + 1 ))) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH13 : (STBuilt l st_l K_pre n_pre )) (PreH14 : (QueryLogFinalState K_pre n_pre len k pow )) (PreH15 : (0 <= ((left_pre * K_pre ) + k ))) (PreH16 : (((left_pre * K_pre ) + k ) < (n_pre * K_pre ))) (PreH17 : (0 <= ((((right_pre - pow ) + 1 ) * K_pre ) + k ))) (PreH18 : (((((right_pre - pow ) + 1 ) * K_pre ) + k ) < (n_pre * K_pre ))) (PreH19 : (STCellRangeMax l st_l K_pre left_pre k )) (PreH20 : (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k )) ,
   ((( &( "b" ) )) # Int  |->_)
   **  (IntArray.full st_pre (n_pre * K_pre ) st_l )
@@ -2191,61 +1988,9 @@ forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@l
 |--
   “ ((((right_pre - pow ) + 1 ) * K_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (((right_pre - pow ) + 1 ) * K_pre )) ”
-) \/
-(
-forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (len: Z) (pow: Z) (k: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : (0 <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre ) + 1 ))) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH13 : (STBuilt l st_l K_pre n_pre )) (PreH14 : (QueryLogFinalState K_pre n_pre len k pow )) (PreH15 : (0 <= ((left_pre * K_pre ) + k ))) (PreH16 : (((left_pre * K_pre ) + k ) < (n_pre * K_pre ))) (PreH17 : (0 <= ((((right_pre - pow ) + 1 ) * K_pre ) + k ))) (PreH18 : (((((right_pre - pow ) + 1 ) * K_pre ) + k ) < (n_pre * K_pre ))) (PreH19 : (STCellRangeMax l st_l K_pre left_pre k )) (PreH20 : (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k )) ,
-  ((( &( "b" ) )) # Int  |->_)
-  **  (IntArray.full st_pre (n_pre * K_pre ) st_l )
-  **  ((( &( "a" ) )) # Int  |-> (Znth ((left_pre * K_pre ) + k ) st_l 0))
-  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "K" ) )) # Int  |-> K_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "len" ) )) # Int  |-> len)
-  **  ((( &( "pow" ) )) # Int  |-> pow)
-  **  ((( &( "k" ) )) # Int  |-> k)
-|--
-  “ ((((right_pre - pow ) + 1 ) * K_pre ) <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= (((right_pre - pow ) + 1 ) * K_pre )) ”
-).
-
-Definition query_safety_wit_14_split_goal_1 := 
-forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (len: Z) (pow: Z) (k: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : (0 <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre ) + 1 ))) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH13 : (STBuilt l st_l K_pre n_pre )) (PreH14 : (QueryLogFinalState K_pre n_pre len k pow )) (PreH15 : (0 <= ((left_pre * K_pre ) + k ))) (PreH16 : (((left_pre * K_pre ) + k ) < (n_pre * K_pre ))) (PreH17 : (0 <= ((((right_pre - pow ) + 1 ) * K_pre ) + k ))) (PreH18 : (((((right_pre - pow ) + 1 ) * K_pre ) + k ) < (n_pre * K_pre ))) (PreH19 : (STCellRangeMax l st_l K_pre left_pre k )) (PreH20 : (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k )) ,
-  ((( &( "b" ) )) # Int  |->_)
-  **  (IntArray.full st_pre (n_pre * K_pre ) st_l )
-  **  ((( &( "a" ) )) # Int  |-> (Znth ((left_pre * K_pre ) + k ) st_l 0))
-  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "K" ) )) # Int  |-> K_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "len" ) )) # Int  |-> len)
-  **  ((( &( "pow" ) )) # Int  |-> pow)
-  **  ((( &( "k" ) )) # Int  |-> k)
-|--
-  “ ((((right_pre - pow ) + 1 ) * K_pre ) <= INT_MAX) ”
-.
-
-Definition query_safety_wit_14_split_goal_2 := 
-forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (len: Z) (pow: Z) (k: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : (0 <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre ) + 1 ))) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH13 : (STBuilt l st_l K_pre n_pre )) (PreH14 : (QueryLogFinalState K_pre n_pre len k pow )) (PreH15 : (0 <= ((left_pre * K_pre ) + k ))) (PreH16 : (((left_pre * K_pre ) + k ) < (n_pre * K_pre ))) (PreH17 : (0 <= ((((right_pre - pow ) + 1 ) * K_pre ) + k ))) (PreH18 : (((((right_pre - pow ) + 1 ) * K_pre ) + k ) < (n_pre * K_pre ))) (PreH19 : (STCellRangeMax l st_l K_pre left_pre k )) (PreH20 : (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k )) ,
-  ((( &( "b" ) )) # Int  |->_)
-  **  (IntArray.full st_pre (n_pre * K_pre ) st_l )
-  **  ((( &( "a" ) )) # Int  |-> (Znth ((left_pre * K_pre ) + k ) st_l 0))
-  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "K" ) )) # Int  |-> K_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "len" ) )) # Int  |-> len)
-  **  ((( &( "pow" ) )) # Int  |-> pow)
-  **  ((( &( "k" ) )) # Int  |-> k)
-|--
-  “ ((INT_MIN) <= (((right_pre - pow ) + 1 ) * K_pre )) ”
 .
 
 Definition query_safety_wit_15 := 
-(
 forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (len: Z) (pow: Z) (k: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : (0 <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre ) + 1 ))) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH13 : (STBuilt l st_l K_pre n_pre )) (PreH14 : (QueryLogFinalState K_pre n_pre len k pow )) (PreH15 : (0 <= ((left_pre * K_pre ) + k ))) (PreH16 : (((left_pre * K_pre ) + k ) < (n_pre * K_pre ))) (PreH17 : (0 <= ((((right_pre - pow ) + 1 ) * K_pre ) + k ))) (PreH18 : (((((right_pre - pow ) + 1 ) * K_pre ) + k ) < (n_pre * K_pre ))) (PreH19 : (STCellRangeMax l st_l K_pre left_pre k )) (PreH20 : (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k )) ,
   ((( &( "b" ) )) # Int  |->_)
   **  (IntArray.full st_pre (n_pre * K_pre ) st_l )
@@ -2261,61 +2006,9 @@ forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@l
 |--
   “ (((right_pre - pow ) + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((right_pre - pow ) + 1 )) ”
-) \/
-(
-forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (len: Z) (pow: Z) (k: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : (0 <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre ) + 1 ))) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH13 : (STBuilt l st_l K_pre n_pre )) (PreH14 : (QueryLogFinalState K_pre n_pre len k pow )) (PreH15 : (0 <= ((left_pre * K_pre ) + k ))) (PreH16 : (((left_pre * K_pre ) + k ) < (n_pre * K_pre ))) (PreH17 : (0 <= ((((right_pre - pow ) + 1 ) * K_pre ) + k ))) (PreH18 : (((((right_pre - pow ) + 1 ) * K_pre ) + k ) < (n_pre * K_pre ))) (PreH19 : (STCellRangeMax l st_l K_pre left_pre k )) (PreH20 : (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k )) ,
-  ((( &( "b" ) )) # Int  |->_)
-  **  (IntArray.full st_pre (n_pre * K_pre ) st_l )
-  **  ((( &( "a" ) )) # Int  |-> (Znth ((left_pre * K_pre ) + k ) st_l 0))
-  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "K" ) )) # Int  |-> K_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "len" ) )) # Int  |-> len)
-  **  ((( &( "pow" ) )) # Int  |-> pow)
-  **  ((( &( "k" ) )) # Int  |-> k)
-|--
-  “ (((right_pre - pow ) + 1 ) <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= ((right_pre - pow ) + 1 )) ”
-).
-
-Definition query_safety_wit_15_split_goal_1 := 
-forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (len: Z) (pow: Z) (k: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : (0 <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre ) + 1 ))) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH13 : (STBuilt l st_l K_pre n_pre )) (PreH14 : (QueryLogFinalState K_pre n_pre len k pow )) (PreH15 : (0 <= ((left_pre * K_pre ) + k ))) (PreH16 : (((left_pre * K_pre ) + k ) < (n_pre * K_pre ))) (PreH17 : (0 <= ((((right_pre - pow ) + 1 ) * K_pre ) + k ))) (PreH18 : (((((right_pre - pow ) + 1 ) * K_pre ) + k ) < (n_pre * K_pre ))) (PreH19 : (STCellRangeMax l st_l K_pre left_pre k )) (PreH20 : (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k )) ,
-  ((( &( "b" ) )) # Int  |->_)
-  **  (IntArray.full st_pre (n_pre * K_pre ) st_l )
-  **  ((( &( "a" ) )) # Int  |-> (Znth ((left_pre * K_pre ) + k ) st_l 0))
-  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "K" ) )) # Int  |-> K_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "len" ) )) # Int  |-> len)
-  **  ((( &( "pow" ) )) # Int  |-> pow)
-  **  ((( &( "k" ) )) # Int  |-> k)
-|--
-  “ (((right_pre - pow ) + 1 ) <= INT_MAX) ”
-.
-
-Definition query_safety_wit_15_split_goal_2 := 
-forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (len: Z) (pow: Z) (k: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : (0 <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre ) + 1 ))) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH13 : (STBuilt l st_l K_pre n_pre )) (PreH14 : (QueryLogFinalState K_pre n_pre len k pow )) (PreH15 : (0 <= ((left_pre * K_pre ) + k ))) (PreH16 : (((left_pre * K_pre ) + k ) < (n_pre * K_pre ))) (PreH17 : (0 <= ((((right_pre - pow ) + 1 ) * K_pre ) + k ))) (PreH18 : (((((right_pre - pow ) + 1 ) * K_pre ) + k ) < (n_pre * K_pre ))) (PreH19 : (STCellRangeMax l st_l K_pre left_pre k )) (PreH20 : (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k )) ,
-  ((( &( "b" ) )) # Int  |->_)
-  **  (IntArray.full st_pre (n_pre * K_pre ) st_l )
-  **  ((( &( "a" ) )) # Int  |-> (Znth ((left_pre * K_pre ) + k ) st_l 0))
-  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "K" ) )) # Int  |-> K_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "len" ) )) # Int  |-> len)
-  **  ((( &( "pow" ) )) # Int  |-> pow)
-  **  ((( &( "k" ) )) # Int  |-> k)
-|--
-  “ ((INT_MIN) <= ((right_pre - pow ) + 1 )) ”
 .
 
 Definition query_safety_wit_16 := 
-(
 forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (len: Z) (pow: Z) (k: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : (0 <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre ) + 1 ))) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH13 : (STBuilt l st_l K_pre n_pre )) (PreH14 : (QueryLogFinalState K_pre n_pre len k pow )) (PreH15 : (0 <= ((left_pre * K_pre ) + k ))) (PreH16 : (((left_pre * K_pre ) + k ) < (n_pre * K_pre ))) (PreH17 : (0 <= ((((right_pre - pow ) + 1 ) * K_pre ) + k ))) (PreH18 : (((((right_pre - pow ) + 1 ) * K_pre ) + k ) < (n_pre * K_pre ))) (PreH19 : (STCellRangeMax l st_l K_pre left_pre k )) (PreH20 : (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k )) ,
   ((( &( "b" ) )) # Int  |->_)
   **  (IntArray.full st_pre (n_pre * K_pre ) st_l )
@@ -2331,57 +2024,6 @@ forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@l
 |--
   “ ((right_pre - pow ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (right_pre - pow )) ”
-) \/
-(
-forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (len: Z) (pow: Z) (k: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : (0 <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre ) + 1 ))) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH13 : (STBuilt l st_l K_pre n_pre )) (PreH14 : (QueryLogFinalState K_pre n_pre len k pow )) (PreH15 : (0 <= ((left_pre * K_pre ) + k ))) (PreH16 : (((left_pre * K_pre ) + k ) < (n_pre * K_pre ))) (PreH17 : (0 <= ((((right_pre - pow ) + 1 ) * K_pre ) + k ))) (PreH18 : (((((right_pre - pow ) + 1 ) * K_pre ) + k ) < (n_pre * K_pre ))) (PreH19 : (STCellRangeMax l st_l K_pre left_pre k )) (PreH20 : (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k )) ,
-  ((( &( "b" ) )) # Int  |->_)
-  **  (IntArray.full st_pre (n_pre * K_pre ) st_l )
-  **  ((( &( "a" ) )) # Int  |-> (Znth ((left_pre * K_pre ) + k ) st_l 0))
-  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "K" ) )) # Int  |-> K_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "len" ) )) # Int  |-> len)
-  **  ((( &( "pow" ) )) # Int  |-> pow)
-  **  ((( &( "k" ) )) # Int  |-> k)
-|--
-  “ ((right_pre - pow ) <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= (right_pre - pow )) ”
-).
-
-Definition query_safety_wit_16_split_goal_1 := 
-forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (len: Z) (pow: Z) (k: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : (0 <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre ) + 1 ))) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH13 : (STBuilt l st_l K_pre n_pre )) (PreH14 : (QueryLogFinalState K_pre n_pre len k pow )) (PreH15 : (0 <= ((left_pre * K_pre ) + k ))) (PreH16 : (((left_pre * K_pre ) + k ) < (n_pre * K_pre ))) (PreH17 : (0 <= ((((right_pre - pow ) + 1 ) * K_pre ) + k ))) (PreH18 : (((((right_pre - pow ) + 1 ) * K_pre ) + k ) < (n_pre * K_pre ))) (PreH19 : (STCellRangeMax l st_l K_pre left_pre k )) (PreH20 : (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k )) ,
-  ((( &( "b" ) )) # Int  |->_)
-  **  (IntArray.full st_pre (n_pre * K_pre ) st_l )
-  **  ((( &( "a" ) )) # Int  |-> (Znth ((left_pre * K_pre ) + k ) st_l 0))
-  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "K" ) )) # Int  |-> K_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "len" ) )) # Int  |-> len)
-  **  ((( &( "pow" ) )) # Int  |-> pow)
-  **  ((( &( "k" ) )) # Int  |-> k)
-|--
-  “ ((right_pre - pow ) <= INT_MAX) ”
-.
-
-Definition query_safety_wit_16_split_goal_2 := 
-forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (len: Z) (pow: Z) (k: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : (0 <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : (len = ((right_pre - left_pre ) + 1 ))) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH13 : (STBuilt l st_l K_pre n_pre )) (PreH14 : (QueryLogFinalState K_pre n_pre len k pow )) (PreH15 : (0 <= ((left_pre * K_pre ) + k ))) (PreH16 : (((left_pre * K_pre ) + k ) < (n_pre * K_pre ))) (PreH17 : (0 <= ((((right_pre - pow ) + 1 ) * K_pre ) + k ))) (PreH18 : (((((right_pre - pow ) + 1 ) * K_pre ) + k ) < (n_pre * K_pre ))) (PreH19 : (STCellRangeMax l st_l K_pre left_pre k )) (PreH20 : (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k )) ,
-  ((( &( "b" ) )) # Int  |->_)
-  **  (IntArray.full st_pre (n_pre * K_pre ) st_l )
-  **  ((( &( "a" ) )) # Int  |-> (Znth ((left_pre * K_pre ) + k ) st_l 0))
-  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "K" ) )) # Int  |-> K_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "len" ) )) # Int  |-> len)
-  **  ((( &( "pow" ) )) # Int  |-> pow)
-  **  ((( &( "k" ) )) # Int  |-> k)
-|--
-  “ ((INT_MIN) <= (right_pre - pow )) ”
 .
 
 Definition query_safety_wit_17 := 
@@ -2433,9 +2075,7 @@ forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_l: (@list Z)) (l: 
 
 Definition query_entail_wit_1_split_goal_1 := 
 forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= K_pre)) (PreH4 : (K_pre <= 30)) (PreH5 : ((n_pre * K_pre ) <= 1000000)) (PreH6 : (n_pre < (Power2 (K_pre)))) (PreH7 : (0 <= left_pre)) (PreH8 : (left_pre <= right_pre)) (PreH9 : (right_pre < n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH12 : (STBuilt l st_l K_pre n_pre )) ,
-  TT && emp 
-|--
-  “ (QueryLogLoopState K_pre n_pre ((right_pre - left_pre ) + 1 ) 0 1 ) ”
+  (QueryLogLoopState K_pre n_pre ((right_pre - left_pre ) + 1 ) 0 1 )
 .
 
 Definition query_entail_wit_2 := 
@@ -2469,9 +2109,7 @@ forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_l: (@list Z)) (l: 
 
 Definition query_entail_wit_2_split_goal_1 := 
 forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (k: Z) (pow: Z) (len: Z) (PreH1 : ((pow * 2 ) <= len)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : (0 <= left_pre)) (PreH9 : (left_pre <= right_pre)) (PreH10 : (right_pre < n_pre)) (PreH11 : (len = ((right_pre - left_pre ) + 1 ))) (PreH12 : ((Zlength (l)) = n_pre)) (PreH13 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH14 : (STBuilt l st_l K_pre n_pre )) (PreH15 : (QueryLogLoopState K_pre n_pre len k pow )) ,
-  TT && emp 
-|--
-  “ (QueryLogLoopState K_pre n_pre len (k + 1 ) (pow * 2 ) ) ”
+  (QueryLogLoopState K_pre n_pre len (k + 1 ) (pow * 2 ) )
 .
 
 Definition query_entail_wit_3 := 
@@ -2517,51 +2155,37 @@ forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_l: (@list Z)) (l: 
 
 Definition query_entail_wit_3_split_goal_1 := 
 forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (k: Z) (pow: Z) (len: Z) (PreH1 : ((pow * 2 ) > len)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : (0 <= left_pre)) (PreH9 : (left_pre <= right_pre)) (PreH10 : (right_pre < n_pre)) (PreH11 : (len = ((right_pre - left_pre ) + 1 ))) (PreH12 : ((Zlength (l)) = n_pre)) (PreH13 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH14 : (STBuilt l st_l K_pre n_pre )) (PreH15 : (QueryLogLoopState K_pre n_pre len k pow )) ,
-  TT && emp 
-|--
-  “ (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k ) ”
+  (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k )
 .
 
 Definition query_entail_wit_3_split_goal_2 := 
 forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (k: Z) (pow: Z) (len: Z) (PreH1 : ((pow * 2 ) > len)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : (0 <= left_pre)) (PreH9 : (left_pre <= right_pre)) (PreH10 : (right_pre < n_pre)) (PreH11 : (len = ((right_pre - left_pre ) + 1 ))) (PreH12 : ((Zlength (l)) = n_pre)) (PreH13 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH14 : (STBuilt l st_l K_pre n_pre )) (PreH15 : (QueryLogLoopState K_pre n_pre len k pow )) ,
-  TT && emp 
-|--
-  “ (STCellRangeMax l st_l K_pre left_pre k ) ”
+  (STCellRangeMax l st_l K_pre left_pre k )
 .
 
 Definition query_entail_wit_3_split_goal_3 := 
 forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (k: Z) (pow: Z) (len: Z) (PreH1 : ((pow * 2 ) > len)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : (0 <= left_pre)) (PreH9 : (left_pre <= right_pre)) (PreH10 : (right_pre < n_pre)) (PreH11 : (len = ((right_pre - left_pre ) + 1 ))) (PreH12 : ((Zlength (l)) = n_pre)) (PreH13 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH14 : (STBuilt l st_l K_pre n_pre )) (PreH15 : (QueryLogLoopState K_pre n_pre len k pow )) ,
-  TT && emp 
-|--
-  “ (((((right_pre - pow ) + 1 ) * K_pre ) + k ) < (n_pre * K_pre )) ”
+  (((((right_pre - pow ) + 1 ) * K_pre ) + k ) < (n_pre * K_pre ))
 .
 
 Definition query_entail_wit_3_split_goal_4 := 
 forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (k: Z) (pow: Z) (len: Z) (PreH1 : ((pow * 2 ) > len)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : (0 <= left_pre)) (PreH9 : (left_pre <= right_pre)) (PreH10 : (right_pre < n_pre)) (PreH11 : (len = ((right_pre - left_pre ) + 1 ))) (PreH12 : ((Zlength (l)) = n_pre)) (PreH13 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH14 : (STBuilt l st_l K_pre n_pre )) (PreH15 : (QueryLogLoopState K_pre n_pre len k pow )) ,
-  TT && emp 
-|--
-  “ (0 <= ((((right_pre - pow ) + 1 ) * K_pre ) + k )) ”
+  (0 <= ((((right_pre - pow ) + 1 ) * K_pre ) + k ))
 .
 
 Definition query_entail_wit_3_split_goal_5 := 
 forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (k: Z) (pow: Z) (len: Z) (PreH1 : ((pow * 2 ) > len)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : (0 <= left_pre)) (PreH9 : (left_pre <= right_pre)) (PreH10 : (right_pre < n_pre)) (PreH11 : (len = ((right_pre - left_pre ) + 1 ))) (PreH12 : ((Zlength (l)) = n_pre)) (PreH13 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH14 : (STBuilt l st_l K_pre n_pre )) (PreH15 : (QueryLogLoopState K_pre n_pre len k pow )) ,
-  TT && emp 
-|--
-  “ (((left_pre * K_pre ) + k ) < (n_pre * K_pre )) ”
+  (((left_pre * K_pre ) + k ) < (n_pre * K_pre ))
 .
 
 Definition query_entail_wit_3_split_goal_6 := 
 forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (k: Z) (pow: Z) (len: Z) (PreH1 : ((pow * 2 ) > len)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : (0 <= left_pre)) (PreH9 : (left_pre <= right_pre)) (PreH10 : (right_pre < n_pre)) (PreH11 : (len = ((right_pre - left_pre ) + 1 ))) (PreH12 : ((Zlength (l)) = n_pre)) (PreH13 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH14 : (STBuilt l st_l K_pre n_pre )) (PreH15 : (QueryLogLoopState K_pre n_pre len k pow )) ,
-  TT && emp 
-|--
-  “ (0 <= ((left_pre * K_pre ) + k )) ”
+  (0 <= ((left_pre * K_pre ) + k ))
 .
 
 Definition query_entail_wit_3_split_goal_7 := 
 forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (k: Z) (pow: Z) (len: Z) (PreH1 : ((pow * 2 ) > len)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : (0 <= left_pre)) (PreH9 : (left_pre <= right_pre)) (PreH10 : (right_pre < n_pre)) (PreH11 : (len = ((right_pre - left_pre ) + 1 ))) (PreH12 : ((Zlength (l)) = n_pre)) (PreH13 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH14 : (STBuilt l st_l K_pre n_pre )) (PreH15 : (QueryLogLoopState K_pre n_pre len k pow )) ,
-  TT && emp 
-|--
-  “ (QueryLogFinalState K_pre n_pre len k pow ) ”
+  (QueryLogFinalState K_pre n_pre len k pow )
 .
 
 Definition query_entail_wit_4 := 
@@ -2620,9 +2244,7 @@ forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_l: (@list Z)) (l: 
 
 Definition query_entail_wit_5_split_goal_1 := 
 forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (len: Z) (a: Z) (k: Z) (b: Z) (pow: Z) (PreH1 : (a >= b)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : (0 <= left_pre)) (PreH9 : (left_pre <= right_pre)) (PreH10 : (right_pre < n_pre)) (PreH11 : (len = ((right_pre - left_pre ) + 1 ))) (PreH12 : ((Zlength (l)) = n_pre)) (PreH13 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH14 : (a = (Znth ((left_pre * K_pre ) + k ) st_l 0))) (PreH15 : (b = (Znth ((((right_pre - pow ) + 1 ) * K_pre ) + k ) st_l 0))) (PreH16 : (STBuilt l st_l K_pre n_pre )) (PreH17 : (QueryLogFinalState K_pre n_pre len k pow )) (PreH18 : (STCellRangeMax l st_l K_pre left_pre k )) (PreH19 : (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k )) ,
-  TT && emp 
-|--
-  “ (RangeMaxValue l left_pre (right_pre + 1 ) a ) ”
+  (RangeMaxValue l left_pre (right_pre + 1 ) a )
 .
 
 Definition query_entail_wit_6 := 
@@ -2656,9 +2278,7 @@ forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_l: (@list Z)) (l: 
 
 Definition query_entail_wit_6_split_goal_1 := 
 forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_l: (@list Z)) (l: (@list Z)) (len: Z) (a: Z) (k: Z) (b: Z) (pow: Z) (PreH1 : (a < b)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= K_pre)) (PreH5 : (K_pre <= 30)) (PreH6 : ((n_pre * K_pre ) <= 1000000)) (PreH7 : (n_pre < (Power2 (K_pre)))) (PreH8 : (0 <= left_pre)) (PreH9 : (left_pre <= right_pre)) (PreH10 : (right_pre < n_pre)) (PreH11 : (len = ((right_pre - left_pre ) + 1 ))) (PreH12 : ((Zlength (l)) = n_pre)) (PreH13 : ((Zlength (st_l)) = (n_pre * K_pre ))) (PreH14 : (a = (Znth ((left_pre * K_pre ) + k ) st_l 0))) (PreH15 : (b = (Znth ((((right_pre - pow ) + 1 ) * K_pre ) + k ) st_l 0))) (PreH16 : (STBuilt l st_l K_pre n_pre )) (PreH17 : (QueryLogFinalState K_pre n_pre len k pow )) (PreH18 : (STCellRangeMax l st_l K_pre left_pre k )) (PreH19 : (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k )) ,
-  TT && emp 
-|--
-  “ (RangeMaxValue l left_pre (right_pre + 1 ) b ) ”
+  (RangeMaxValue l left_pre (right_pre + 1 ) b )
 .
 
 Definition query_return_wit_1 := 
@@ -2701,7 +2321,7 @@ forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@l
   &&  “ (((((right_pre - pow ) + 1 ) * K_pre ) + k ) < (n_pre * K_pre )) ” 
   &&  “ (STCellRangeMax l st_l K_pre left_pre k ) ” 
   &&  “ (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k ) ”
-  &&  (((st_pre + (((left_pre * K_pre ) + k ) * sizeof(INT) ) )) # Int  |-> (Znth ((left_pre * K_pre ) + k ) st_l 0))
+  &&  (((st_pre + (((left_pre * K_pre ) + k ) * sizeof(INT)))) # Int  |-> (Znth ((left_pre * K_pre ) + k ) st_l 0))
   **  (IntArray.missing_i st_pre ((left_pre * K_pre ) + k ) 0 (n_pre * K_pre ) st_l )
 .
 
@@ -2729,7 +2349,7 @@ forall (right_pre: Z) (left_pre: Z) (K_pre: Z) (n_pre: Z) (st_pre: Z) (st_l: (@l
   &&  “ (((((right_pre - pow ) + 1 ) * K_pre ) + k ) < (n_pre * K_pre )) ” 
   &&  “ (STCellRangeMax l st_l K_pre left_pre k ) ” 
   &&  “ (STCellRangeMax l st_l K_pre ((right_pre - pow ) + 1 ) k ) ”
-  &&  (((st_pre + (((((right_pre - pow ) + 1 ) * K_pre ) + k ) * sizeof(INT) ) )) # Int  |-> (Znth ((((right_pre - pow ) + 1 ) * K_pre ) + k ) st_l 0))
+  &&  (((st_pre + (((((right_pre - pow ) + 1 ) * K_pre ) + k ) * sizeof(INT)))) # Int  |-> (Znth ((((right_pre - pow ) + 1 ) * K_pre ) + k ) st_l 0))
   **  (IntArray.missing_i st_pre ((((right_pre - pow ) + 1 ) * K_pre ) + k ) 0 (n_pre * K_pre ) st_l )
 .
 

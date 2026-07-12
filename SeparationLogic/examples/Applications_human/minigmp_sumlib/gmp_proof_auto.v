@@ -42,6 +42,9 @@ Proof. Admitted.
 Lemma proof_of_gmp_cmp_return_wit_1 : gmp_cmp_return_wit_1.
 Proof. Admitted. 
 
+Lemma proof_of_gmp_cmp_return_wit_2 : gmp_cmp_return_wit_2.
+Proof. Admitted. 
+
 Lemma proof_of_gmp_cmp_return_wit_3 : gmp_cmp_return_wit_3.
 Proof. Admitted. 
 

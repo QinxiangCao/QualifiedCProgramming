@@ -1,0 +1,5 @@
+From SimpleC.EE.QCP_demos_tutorial Require Import swap_simple2_strategy_goal swap_simple2_strategy_proof.
+
+Module swap_simple2_Strategy_Correctness : swap_simple2_Strategy_Correct.
+  Include swap_simple2_strategy_proof.
+End swap_simple2_Strategy_Correctness.

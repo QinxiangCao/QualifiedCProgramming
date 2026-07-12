@@ -103,9 +103,7 @@ forall (n_pre: Z) (c_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : ((Znth i bytes 0
 
 Definition memchr_entail_wit_2_split_goal_1 := 
 forall (n_pre: Z) (c_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : ((Znth i bytes 0) <> c_pre)) (PreH2 : (i < n_pre)) (PreH3 : (all_ascii bytes )) (PreH4 : ((Zlength (bytes)) = n_pre)) (PreH5 : (0 <= c_pre)) (PreH6 : (c_pre <= 127)) (PreH7 : (0 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (bytes) (0)) <> c_pre))) ,
-  TT && emp 
-|--
-  “ (((Znth (0) (bytes) (0)) <> c_pre) /\ ((Znth (((i + 1 ) - 1 )) (bytes) (0)) <> c_pre)) ”
+  (((Znth (0) (bytes) (0)) <> c_pre) /\ ((Znth (((i + 1 ) - 1 )) (bytes) (0)) <> c_pre))
 .
 
 Definition memchr_return_wit_1 := 
@@ -126,9 +124,7 @@ forall (n_pre: Z) (c_pre: Z) (s_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : (i >=
 
 Definition memchr_return_wit_1_split_goal_1 := 
 forall (n_pre: Z) (c_pre: Z) (s_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (all_ascii bytes )) (PreH3 : ((Zlength (bytes)) = n_pre)) (PreH4 : (0 <= c_pre)) (PreH5 : (c_pre <= 127)) (PreH6 : (0 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : (0 <= i)) (PreH9 : (i <= n_pre)) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (bytes) (0)) <> c_pre))) ,
-  TT && emp 
-|--
-  “ (memchr_result bytes c_pre n_pre 0 s_pre ) ”
+  (memchr_result bytes c_pre n_pre 0 s_pre )
 .
 
 Definition memchr_return_wit_2 := 
@@ -136,22 +132,20 @@ Definition memchr_return_wit_2 :=
 forall (n_pre: Z) (c_pre: Z) (s_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : ((Znth i bytes 0) = c_pre)) (PreH2 : (i < n_pre)) (PreH3 : (all_ascii bytes )) (PreH4 : ((Zlength (bytes)) = n_pre)) (PreH5 : (0 <= c_pre)) (PreH6 : (c_pre <= 127)) (PreH7 : (0 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (bytes) (0)) <> c_pre))) ,
   (CharArray.full s_pre n_pre bytes )
 |--
-  “ (memchr_result bytes c_pre n_pre (s_pre + (i * sizeof(CHAR) ) ) s_pre ) ”
+  “ (memchr_result bytes c_pre n_pre (s_pre + (i * sizeof(CHAR))) s_pre ) ”
   &&  (CharArray.full s_pre n_pre bytes )
 ) \/
 (
 forall (n_pre: Z) (c_pre: Z) (s_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : ((Znth i bytes 0) = c_pre)) (PreH2 : (i < n_pre)) (PreH3 : (all_ascii bytes )) (PreH4 : ((Zlength (bytes)) = n_pre)) (PreH5 : (0 <= c_pre)) (PreH6 : (c_pre <= 127)) (PreH7 : (0 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (bytes) (0)) <> c_pre))) ,
   TT && emp 
 |--
-  “ (memchr_result bytes c_pre n_pre (s_pre + (i * sizeof(CHAR) ) ) s_pre ) ”
+  “ (memchr_result bytes c_pre n_pre (s_pre + (i * sizeof(CHAR))) s_pre ) ”
   &&  emp
 ).
 
 Definition memchr_return_wit_2_split_goal_1 := 
 forall (n_pre: Z) (c_pre: Z) (s_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : ((Znth i bytes 0) = c_pre)) (PreH2 : (i < n_pre)) (PreH3 : (all_ascii bytes )) (PreH4 : ((Zlength (bytes)) = n_pre)) (PreH5 : (0 <= c_pre)) (PreH6 : (c_pre <= 127)) (PreH7 : (0 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (bytes) (0)) <> c_pre))) ,
-  TT && emp 
-|--
-  “ (memchr_result bytes c_pre n_pre (s_pre + (i * sizeof(CHAR) ) ) s_pre ) ”
+  (memchr_result bytes c_pre n_pre (s_pre + (i * sizeof(CHAR))) s_pre )
 .
 
 Definition memchr_partial_solve_wit_1 := 
@@ -168,7 +162,7 @@ forall (n_pre: Z) (c_pre: Z) (s_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : (i < 
   &&  “ (0 <= i) ” 
   &&  “ (i <= n_pre) ” 
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (bytes) (0)) <> c_pre)) ”
-  &&  (((s_pre + (i * sizeof(CHAR) ) )) # Char  |-> (Znth i bytes 0))
+  &&  (((s_pre + (i * sizeof(CHAR)))) # Char  |-> (Znth i bytes 0))
   **  (CharArray.missing_i s_pre i 0 n_pre bytes )
 .
 
@@ -253,9 +247,7 @@ forall (c_pre: Z) (str: (@list Z)) (PreH1 : (0 <= ((string_length (str)) + 1 )))
 
 Definition strchr_entail_wit_1_split_goal_1 := 
 forall (c_pre: Z) (str: (@list Z)) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (valid_string str )) (PreH3 : (0 <= c_pre)) (PreH4 : (c_pre <= 127)) (PreH5 : ((string_length (str)) < INT_MAX)) ,
-  TT && emp 
-|--
-  “ (0 <= (string_length (str))) ”
+  (0 <= (string_length (str)))
 .
 
 Definition strchr_entail_wit_2 := 
@@ -283,16 +275,12 @@ forall (c_pre: Z) (str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str)) 
 
 Definition strchr_entail_wit_2_split_goal_1 := 
 forall (c_pre: Z) (str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : ((Znth i (c_string (str)) 0) <> c_pre)) (PreH3 : ((Znth i (c_string (str)) 0) <> 0)) (PreH4 : (valid_string str )) (PreH5 : (0 <= c_pre)) (PreH6 : (c_pre <= 127)) (PreH7 : ((string_length (str)) < INT_MAX)) (PreH8 : (0 <= i)) (PreH9 : (i <= (string_length (str)))) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (str) (0)) <> c_pre))) ,
-  TT && emp 
-|--
-  “ (((Znth (0) (str) (0)) <> c_pre) /\ ((Znth (((i + 1 ) - 1 )) (str) (0)) <> c_pre)) ”
+  (((Znth (0) (str) (0)) <> c_pre) /\ ((Znth (((i + 1 ) - 1 )) (str) (0)) <> c_pre))
 .
 
 Definition strchr_entail_wit_2_split_goal_2 := 
 forall (c_pre: Z) (str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : ((Znth i (c_string (str)) 0) <> c_pre)) (PreH3 : ((Znth i (c_string (str)) 0) <> 0)) (PreH4 : (valid_string str )) (PreH5 : (0 <= c_pre)) (PreH6 : (c_pre <= 127)) (PreH7 : ((string_length (str)) < INT_MAX)) (PreH8 : (0 <= i)) (PreH9 : (i <= (string_length (str)))) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (str) (0)) <> c_pre))) ,
-  TT && emp 
-|--
-  “ ((i + 1 ) <= (string_length (str))) ”
+  ((i + 1 ) <= (string_length (str)))
 .
 
 Definition strchr_return_wit_1 := 
@@ -313,9 +301,7 @@ forall (c_pre: Z) (s_pre: Z) (str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_len
 
 Definition strchr_return_wit_1_split_goal_1 := 
 forall (c_pre: Z) (s_pre: Z) (str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (c_pre <> 0)) (PreH3 : ((Znth i (c_string (str)) 0) = 0)) (PreH4 : (valid_string str )) (PreH5 : (0 <= c_pre)) (PreH6 : (c_pre <= 127)) (PreH7 : ((string_length (str)) < INT_MAX)) (PreH8 : (0 <= i)) (PreH9 : (i <= (string_length (str)))) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (str) (0)) <> c_pre))) ,
-  TT && emp 
-|--
-  “ (strchr_result str c_pre 0 s_pre ) ”
+  (strchr_result str c_pre 0 s_pre )
 .
 
 Definition strchr_return_wit_2 := 
@@ -323,22 +309,20 @@ Definition strchr_return_wit_2 :=
 forall (c_pre: Z) (s_pre: Z) (str: (@list Z)) (i: Z) (PreH1 : (c_pre = 0)) (PreH2 : ((Znth i (c_string (str)) 0) = 0)) (PreH3 : (valid_string str )) (PreH4 : (0 <= c_pre)) (PreH5 : (c_pre <= 127)) (PreH6 : ((string_length (str)) < INT_MAX)) (PreH7 : (0 <= i)) (PreH8 : (i <= (string_length (str)))) (PreH9 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (str) (0)) <> c_pre))) ,
   (store_string s_pre str )
 |--
-  “ (strchr_result str c_pre (s_pre + (i * sizeof(CHAR) ) ) s_pre ) ”
+  “ (strchr_result str c_pre (s_pre + (i * sizeof(CHAR))) s_pre ) ”
   &&  (store_string s_pre str )
 ) \/
 (
 forall (c_pre: Z) (s_pre: Z) (str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (c_pre = 0)) (PreH3 : ((Znth i (c_string (str)) 0) = 0)) (PreH4 : (valid_string str )) (PreH5 : (0 <= c_pre)) (PreH6 : (c_pre <= 127)) (PreH7 : ((string_length (str)) < INT_MAX)) (PreH8 : (0 <= i)) (PreH9 : (i <= (string_length (str)))) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (str) (0)) <> c_pre))) ,
   TT && emp 
 |--
-  “ (strchr_result str c_pre (s_pre + (i * sizeof(CHAR) ) ) s_pre ) ”
+  “ (strchr_result str c_pre (s_pre + (i * sizeof(CHAR))) s_pre ) ”
   &&  emp
 ).
 
 Definition strchr_return_wit_2_split_goal_1 := 
 forall (c_pre: Z) (s_pre: Z) (str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (c_pre = 0)) (PreH3 : ((Znth i (c_string (str)) 0) = 0)) (PreH4 : (valid_string str )) (PreH5 : (0 <= c_pre)) (PreH6 : (c_pre <= 127)) (PreH7 : ((string_length (str)) < INT_MAX)) (PreH8 : (0 <= i)) (PreH9 : (i <= (string_length (str)))) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (str) (0)) <> c_pre))) ,
-  TT && emp 
-|--
-  “ (strchr_result str c_pre (s_pre + (i * sizeof(CHAR) ) ) s_pre ) ”
+  (strchr_result str c_pre (s_pre + (i * sizeof(CHAR))) s_pre )
 .
 
 Definition strchr_return_wit_3 := 
@@ -346,22 +330,20 @@ Definition strchr_return_wit_3 :=
 forall (c_pre: Z) (s_pre: Z) (str: (@list Z)) (i: Z) (PreH1 : ((Znth i (c_string (str)) 0) = c_pre)) (PreH2 : ((Znth i (c_string (str)) 0) <> 0)) (PreH3 : (valid_string str )) (PreH4 : (0 <= c_pre)) (PreH5 : (c_pre <= 127)) (PreH6 : ((string_length (str)) < INT_MAX)) (PreH7 : (0 <= i)) (PreH8 : (i <= (string_length (str)))) (PreH9 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (str) (0)) <> c_pre))) ,
   (store_string s_pre str )
 |--
-  “ (strchr_result str c_pre (s_pre + (i * sizeof(CHAR) ) ) s_pre ) ”
+  “ (strchr_result str c_pre (s_pre + (i * sizeof(CHAR))) s_pre ) ”
   &&  (store_string s_pre str )
 ) \/
 (
 forall (c_pre: Z) (s_pre: Z) (str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : ((Znth i (c_string (str)) 0) = c_pre)) (PreH3 : ((Znth i (c_string (str)) 0) <> 0)) (PreH4 : (valid_string str )) (PreH5 : (0 <= c_pre)) (PreH6 : (c_pre <= 127)) (PreH7 : ((string_length (str)) < INT_MAX)) (PreH8 : (0 <= i)) (PreH9 : (i <= (string_length (str)))) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (str) (0)) <> c_pre))) ,
   TT && emp 
 |--
-  “ (strchr_result str c_pre (s_pre + (i * sizeof(CHAR) ) ) s_pre ) ”
+  “ (strchr_result str c_pre (s_pre + (i * sizeof(CHAR))) s_pre ) ”
   &&  emp
 ).
 
 Definition strchr_return_wit_3_split_goal_1 := 
 forall (c_pre: Z) (s_pre: Z) (str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : ((Znth i (c_string (str)) 0) = c_pre)) (PreH3 : ((Znth i (c_string (str)) 0) <> 0)) (PreH4 : (valid_string str )) (PreH5 : (0 <= c_pre)) (PreH6 : (c_pre <= 127)) (PreH7 : ((string_length (str)) < INT_MAX)) (PreH8 : (0 <= i)) (PreH9 : (i <= (string_length (str)))) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (str) (0)) <> c_pre))) ,
-  TT && emp 
-|--
-  “ (strchr_result str c_pre (s_pre + (i * sizeof(CHAR) ) ) s_pre ) ”
+  (strchr_result str c_pre (s_pre + (i * sizeof(CHAR))) s_pre )
 .
 
 Module Type VC_Correct.

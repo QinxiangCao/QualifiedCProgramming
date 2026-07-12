@@ -166,7 +166,7 @@ forall (pre_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (pref: (@list Z)) (i:
 Definition build_prefix_entail_wit_1 := 
 (
 forall (pre_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (PrefixSums l ps )) (PreH5 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx_2 ps 0)) /\ ((Znth idx_2 ps 0) <= INT_MAX)))) (PreH6 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < n_pre)) -> (((-1000) <= (Znth idx_3 l 0)) /\ ((Znth idx_3 l 0) <= 1000)))) ,
-  (((pre_pre + (0 * sizeof(INT) ) )) # Int  |-> 0)
+  (((pre_pre + (0 * sizeof(INT)))) # Int  |-> 0)
   **  (IntArray.undef_seg pre_pre 1 (n_pre + 1 ) )
   **  (IntArray.full arr_pre n_pre l )
 |--
@@ -184,7 +184,7 @@ forall (pre_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps: (@list Z)) (PreH
 ) \/
 (
 forall (pre_pre: Z) (n_pre: Z) (l: (@list Z)) (ps: (@list Z)) (PreH1 : (0 <= INT_MAX)) (PreH2 : (0 >= INT_MIN)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : ((Zlength (l)) = n_pre)) (PreH6 : (PrefixSums l ps )) (PreH7 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx_2 ps 0)) /\ ((Znth idx_2 ps 0) <= INT_MAX)))) (PreH8 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < n_pre)) -> (((-1000) <= (Znth idx_3 l 0)) /\ ((Znth idx_3 l 0) <= 1000)))) ,
-  (((pre_pre + (0 * sizeof(INT) ) )) # Int  |-> 0)
+  (((pre_pre + (0 * sizeof(INT)))) # Int  |-> 0)
 |--
   EX (pref: (@list Z)) ,
   “ (1 <= n_pre) ” 
@@ -260,9 +260,7 @@ forall (n_pre: Z) (l: (@list Z)) (pref_2: (@list Z)) (i: Z) (PreH1 : (i < n_pre)
 
 Definition build_prefix_entail_wit_3_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (pref_2: (@list Z)) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (PrefixArrayPrefix l pref_2 i )) (PreH8 : forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> (((-1000) <= (Znth idx l 0)) /\ ((Znth idx l 0) <= 1000)))) ,
-  TT && emp 
-|--
-  “ (PrefixArrayPrefix l (app (pref_2) ((cons (((Znth (i - 0 ) pref_2 0) + (Znth i l 0) )) ((@nil Z))))) (i + 1 ) ) ”
+  (PrefixArrayPrefix l (app (pref_2) ((cons (((Znth (i - 0 ) pref_2 0) + (Znth i l 0) )) ((@nil Z))))) (i + 1 ) )
 .
 
 Definition build_prefix_return_wit_1 := 
@@ -279,14 +277,23 @@ forall (pre_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (pref: (@list Z)) (i:
   **  (IntArray.full pre_pre (n_pre + 1 ) ps )
 ) \/
 (
-forall (pre_pre: Z) (n_pre: Z) (l: (@list Z)) (pref: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (PrefixArrayPrefix l pref i )) (PreH8 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
-  (IntArray.seg pre_pre 0 (i + 1 ) pref )
+forall (n_pre: Z) (l: (@list Z)) (pref: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (PrefixArrayPrefix l pref i )) (PreH8 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
+  TT && emp 
 |--
-  EX (ps: (@list Z)) ,
-  “ (PrefixSums l ps ) ” 
-  &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx ps 0)) /\ ((Znth idx ps 0) <= INT_MAX))) ”
-  &&  (IntArray.full pre_pre (n_pre + 1 ) ps )
+  “ (((INT_MIN <= (Znth 0 pref 0)) /\ ((Znth 0 pref 0) <= INT_MAX)) /\ ((INT_MIN <= (Znth ((n_pre + 1 ) - 1 ) pref 0)) /\ ((Znth ((n_pre + 1 ) - 1 ) pref 0) <= INT_MAX))) ” 
+  &&  “ (PrefixSums l pref ) ”
+  &&  emp
 ).
+
+Definition build_prefix_return_wit_1_split_goal_1 := 
+forall (n_pre: Z) (l: (@list Z)) (pref: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (PrefixArrayPrefix l pref i )) (PreH8 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
+  (((INT_MIN <= (Znth 0 pref 0)) /\ ((Znth 0 pref 0) <= INT_MAX)) /\ ((INT_MIN <= (Znth ((n_pre + 1 ) - 1 ) pref 0)) /\ ((Znth ((n_pre + 1 ) - 1 ) pref 0) <= INT_MAX)))
+.
+
+Definition build_prefix_return_wit_1_split_goal_2 := 
+forall (n_pre: Z) (l: (@list Z)) (pref: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (PrefixArrayPrefix l pref i )) (PreH8 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
+  (PrefixSums l pref )
+.
 
 Definition build_prefix_partial_solve_wit_1 := 
 forall (pre_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (PrefixSums l ps )) (PreH5 : forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx ps 0)) /\ ((Znth idx ps 0) <= INT_MAX)))) (PreH6 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
@@ -299,7 +306,7 @@ forall (pre_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps: (@list Z)) (PreH
   &&  “ (PrefixSums l ps ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx ps 0)) /\ ((Znth idx ps 0) <= INT_MAX))) ” 
   &&  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000))) ”
-  &&  (((pre_pre + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((pre_pre + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg pre_pre 1 (n_pre + 1 ) )
   **  (IntArray.full arr_pre n_pre l )
 .
@@ -318,7 +325,7 @@ forall (pre_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (pref: (@list Z)) (i:
   &&  “ (i <= n_pre) ” 
   &&  “ (PrefixArrayPrefix l pref i ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> (((-1000) <= (Znth idx l 0)) /\ ((Znth idx l 0) <= 1000))) ”
-  &&  (((pre_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth (i - 0 ) pref 0))
+  &&  (((pre_pre + (i * sizeof(INT)))) # Int  |-> (Znth (i - 0 ) pref 0))
   **  (IntArray.missing_i pre_pre i 0 (i + 1 ) pref )
   **  (IntArray.full arr_pre n_pre l )
   **  (IntArray.undef_seg pre_pre (i + 1 ) (n_pre + 1 ) )
@@ -338,7 +345,7 @@ forall (pre_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (pref: (@list Z)) (i:
   &&  “ (i <= n_pre) ” 
   &&  “ (PrefixArrayPrefix l pref i ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> (((-1000) <= (Znth idx l 0)) /\ ((Znth idx l 0) <= 1000))) ”
-  &&  (((arr_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i l 0))
+  &&  (((arr_pre + (i * sizeof(INT)))) # Int  |-> (Znth i l 0))
   **  (IntArray.missing_i arr_pre i 0 n_pre l )
   **  (IntArray.seg pre_pre 0 (i + 1 ) pref )
   **  (IntArray.undef_seg pre_pre (i + 1 ) (n_pre + 1 ) )
@@ -358,7 +365,7 @@ forall (pre_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (pref: (@list Z)) (i:
   &&  “ (i <= n_pre) ” 
   &&  “ (PrefixArrayPrefix l pref i ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> (((-1000) <= (Znth idx l 0)) /\ ((Znth idx l 0) <= 1000))) ”
-  &&  (((pre_pre + ((i + 1 ) * sizeof(INT) ) )) # Int  |->_)
+  &&  (((pre_pre + ((i + 1 ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg pre_pre ((i + 1 ) + 1 ) (n_pre + 1 ) )
   **  (IntArray.full arr_pre n_pre l )
   **  (IntArray.seg pre_pre 0 (i + 1 ) pref )
@@ -4333,7 +4340,7 @@ forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) 
   **  (IntArray.full heap_hi_pre heap_cap his )
   **  (IntArray.full heap_best_pre heap_cap bests )
 |--
-  (“ (1 <= n_pre) ” 
+  “ (1 <= n_pre) ” 
   &&  “ (n_pre <= 100000) ” 
   &&  “ (1 <= L_pre) ” 
   &&  “ (L_pre <= R_pre) ” 
@@ -4377,67 +4384,7 @@ forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) 
   **  (IntArray.full heap_start_pre heap_cap starts )
   **  (IntArray.full heap_lo_pre heap_cap los )
   **  (IntArray.full heap_hi_pre heap_cap his )
-  **  (IntArray.full heap_best_pre heap_cap bests ))
-  ||
-  (EX (vals_out: (@list Z))  (starts_out: (@list Z))  (los_out: (@list Z))  (his_out: (@list Z))  (bests_out: (@list Z))  (slots_out: (@list ((((Z * Z) * Z) * Z) * Z)))  (chosen_2: (@list Z))  (hsize_2: Z)  (vals_2: (@list Z))  (starts_2: (@list Z))  (los_2: (@list Z))  (his_2: (@list Z))  (bests_2: (@list Z))  (slots_2: (@list ((((Z * Z) * Z) * Z) * Z)))  (ans_2: Z)  (st_slots_2: (@list Z))  (ps_2: (@list Z)) ,
-  “ (has_left <> 0) ” 
-  &&  “ ((Zlength (slots_out)) = heap_cap) ” 
-  &&  “ (NodeArrays slots_out vals_out starts_out los_out his_out bests_out ) ” 
-  &&  “ (NodeHeapState slots_out (hsize_2 + 1 ) ) ” 
-  &&  “ (FrontierPushFields slots_2 hsize_2 left_value start lo (best - 1 ) left_best slots_out ) ” 
-  &&  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 100000) ” 
-  &&  “ (1 <= L_pre) ” 
-  &&  “ (L_pre <= R_pre) ” 
-  &&  “ (R_pre <= n_pre) ” 
-  &&  “ (1 <= k_pre) ” 
-  &&  “ (((n_pre + k_pre ) + 1 ) <= 200000) ” 
-  &&  “ (heap_cap = ((n_pre + k_pre ) + 1 )) ” 
-  &&  “ ((Zlength (l)) = n_pre) ” 
-  &&  “ (PrefixSums l ps_2 ) ” 
-  &&  “ (SparseArgmaxBuilt ps_2 st_slots_2 (n_pre + 1 ) ) ” 
-  &&  “ (SuperPianoAnswerByPrefix ps_2 n_pre L_pre R_pre k_pre ans_2 ) ” 
-  &&  “ ((Zlength (slots_2)) = heap_cap) ” 
-  &&  “ (NodeArrays slots_2 vals_2 starts_2 los_2 his_2 bests_2 ) ” 
-  &&  “ (has_left = 1) ” 
-  &&  “ (has_right = 0) ” 
-  &&  “ (0 <= t) ” 
-  &&  “ (t < k_pre) ” 
-  &&  “ (0 <= hsize_2) ” 
-  &&  “ (hsize_2 < heap_cap) ” 
-  &&  “ (((hsize_2 + 1 ) + (k_pre - t ) ) < heap_cap) ” 
-  &&  “ (FrontierSplitState ps_2 n_pre L_pre R_pre (cons ((ChordCode (n_pre) (start) (best))) (chosen_2)) (t + 1 ) total (cons ((mkNode (left_value) (start) (lo) ((best - 1 )) (left_best))) ((@nil ((((Z * Z) * Z) * Z) * Z)))) (sublist (0) (hsize_2) (slots_2)) ) ” 
-  &&  “ (NodeHeapState slots_2 hsize_2 ) ” 
-  &&  “ (1 <= start) ” 
-  &&  “ (start <= n_pre) ” 
-  &&  “ (0 <= (start - 1 )) ” 
-  &&  “ ((start - 1 ) < (n_pre + 1 )) ” 
-  &&  “ (0 <= lo) ” 
-  &&  “ (lo <= (best - 1 )) ” 
-  &&  “ (best <= hi) ” 
-  &&  “ (hi <= n_pre) ” 
-  &&  “ ((best - 1 ) <= n_pre) ” 
-  &&  “ (RangeArgmax ps_2 lo (best - 1 ) left_best ) ” 
-  &&  “ (0 <= left_best) ” 
-  &&  “ (left_best < (n_pre + 1 )) ” 
-  &&  “ (lo <= left_best) ” 
-  &&  “ (left_best <= (best - 1 )) ” 
-  &&  “ (ValidNodeFields ps_2 n_pre L_pre R_pre left_value start lo (best - 1 ) left_best ) ” 
-  &&  “ (hi <= best) ” 
-  &&  “ (right_best = 0) ” 
-  &&  “ (right_value = 0) ” 
-  &&  “ (ValidNodeFields ps_2 n_pre L_pre R_pre value start lo hi best ) ” 
-  &&  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000))) ” 
-  &&  “ (has_right = 0) ”
-  &&  (IntArray.full heap_value_pre heap_cap vals_out )
-  **  (IntArray.full heap_start_pre heap_cap starts_out )
-  **  (IntArray.full heap_lo_pre heap_cap los_out )
-  **  (IntArray.full heap_hi_pre heap_cap his_out )
-  **  (IntArray.full heap_best_pre heap_cap bests_out )
-  **  ((( &( "hsize" ) )) # Int  |-> (hsize_2 + 1 ))
-  **  (IntArray.full arr_pre n_pre l )
-  **  (IntArray.full prefix_pre (n_pre + 1 ) ps_2 )
-  **  (IntArray.full st_pre ((n_pre + 1 ) * ST_LEVELS ) st_slots_2 ))
+  **  (IntArray.full heap_best_pre heap_cap bests )
 .
 
 Definition superPiano_entail_wit_10_2 := 
@@ -4451,53 +4398,7 @@ forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) 
   **  (IntArray.full prefix_pre (n_pre + 1 ) ps_2 )
   **  (IntArray.full st_pre ((n_pre + 1 ) * ST_LEVELS ) st_slots_2 )
 |--
-  (EX (chosen: (@list Z))  (vals: (@list Z))  (starts: (@list Z))  (los: (@list Z))  (his: (@list Z))  (bests: (@list Z))  (slots: (@list ((((Z * Z) * Z) * Z) * Z)))  (ans: Z)  (st_slots: (@list Z))  (ps: (@list Z)) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 100000) ” 
-  &&  “ (1 <= L_pre) ” 
-  &&  “ (L_pre <= R_pre) ” 
-  &&  “ (R_pre <= n_pre) ” 
-  &&  “ (1 <= k_pre) ” 
-  &&  “ (((n_pre + k_pre ) + 1 ) <= 200000) ” 
-  &&  “ (heap_cap = ((n_pre + k_pre ) + 1 )) ” 
-  &&  “ ((Zlength (l)) = n_pre) ” 
-  &&  “ (PrefixSums l ps ) ” 
-  &&  “ (SparseArgmaxBuilt ps st_slots (n_pre + 1 ) ) ” 
-  &&  “ (SuperPianoAnswerByPrefix ps n_pre L_pre R_pre k_pre ans ) ” 
-  &&  “ ((Zlength (slots)) = heap_cap) ” 
-  &&  “ (NodeArrays slots vals starts los his bests ) ” 
-  &&  “ (has_left = 0) ” 
-  &&  “ (has_right = 0) ” 
-  &&  “ (left_best = 0) ” 
-  &&  “ (left_value = 0) ” 
-  &&  “ (right_best = 0) ” 
-  &&  “ (right_value = 0) ” 
-  &&  “ (0 <= t) ” 
-  &&  “ (t < k_pre) ” 
-  &&  “ (0 <= (hsize + 1 )) ” 
-  &&  “ ((hsize + 1 ) < heap_cap) ” 
-  &&  “ (((hsize + 1 ) + (k_pre - (t + 1 ) ) ) < heap_cap) ” 
-  &&  “ (FrontierSplitState ps n_pre L_pre R_pre (cons ((ChordCode (n_pre) (start) (best))) (chosen)) (t + 1 ) total (@nil ((((Z * Z) * Z) * Z) * Z)) (sublist (0) ((hsize + 1 )) (slots)) ) ” 
-  &&  “ (NodeHeapState slots (hsize + 1 ) ) ” 
-  &&  “ (1 <= start) ” 
-  &&  “ (start <= n_pre) ” 
-  &&  “ (0 <= (start - 1 )) ” 
-  &&  “ ((start - 1 ) < (n_pre + 1 )) ” 
-  &&  “ (lo = best) ” 
-  &&  “ (best = hi) ” 
-  &&  “ (ValidNodeFields ps n_pre L_pre R_pre value start lo hi best ) ” 
-  &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> (((-1000) <= (Znth idx l 0)) /\ ((Znth idx l 0) <= 1000))) ” 
-  &&  “ (has_right = 0) ”
-  &&  (IntArray.full arr_pre n_pre l )
-  **  (IntArray.full prefix_pre (n_pre + 1 ) ps )
-  **  (IntArray.full st_pre ((n_pre + 1 ) * ST_LEVELS ) st_slots )
-  **  (IntArray.full heap_value_pre heap_cap vals )
-  **  (IntArray.full heap_start_pre heap_cap starts )
-  **  (IntArray.full heap_lo_pre heap_cap los )
-  **  (IntArray.full heap_hi_pre heap_cap his )
-  **  (IntArray.full heap_best_pre heap_cap bests ))
-  ||
-  (“ (has_left <> 0) ” 
+  “ (has_left <> 0) ” 
   &&  “ ((Zlength (slots_out)) = heap_cap) ” 
   &&  “ (NodeArrays slots_out vals_out starts_out los_out his_out bests_out ) ” 
   &&  “ (NodeHeapState slots_out (hsize + 1 ) ) ” 
@@ -4553,7 +4454,7 @@ forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) 
   **  (IntArray.full heap_best_pre heap_cap bests_out )
   **  (IntArray.full arr_pre n_pre l )
   **  (IntArray.full prefix_pre (n_pre + 1 ) ps_2 )
-  **  (IntArray.full st_pre ((n_pre + 1 ) * ST_LEVELS ) st_slots_2 ))
+  **  (IntArray.full st_pre ((n_pre + 1 ) * ST_LEVELS ) st_slots_2 )
 .
 
 Definition superPiano_entail_wit_10_3 := 
@@ -5002,7 +4903,7 @@ forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) 
   **  (IntArray.full prefix_pre (n_pre + 1 ) ps )
   **  (IntArray.full st_pre ((n_pre + 1 ) * ST_LEVELS ) st_slots )
 |--
-  (“ (has_left <> 0) ” 
+  “ (has_left <> 0) ” 
   &&  “ ((Zlength (slots_out)) = heap_cap) ” 
   &&  “ (NodeArrays slots_out vals_out starts_out los_out his_out bests_out ) ” 
   &&  “ (NodeHeapState slots_out (hsize + 1 ) ) ” 
@@ -5068,73 +4969,7 @@ forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) 
   **  ((( &( "total" ) )) # Int64  |-> total)
   **  (IntArray.full arr_pre n_pre l )
   **  (IntArray.full prefix_pre (n_pre + 1 ) ps )
-  **  (IntArray.full st_pre ((n_pre + 1 ) * ST_LEVELS ) st_slots ))
-  ||
-  (EX (vals_out_2: (@list Z))  (starts_out_2: (@list Z))  (los_out_2: (@list Z))  (his_out_2: (@list Z))  (bests_out_2: (@list Z))  (slots_out_2: (@list ((((Z * Z) * Z) * Z) * Z)))  (chosen_2: (@list Z))  (total_2: Z)  (hsize_2: Z)  (vals_2: (@list Z))  (starts_2: (@list Z))  (los_2: (@list Z))  (his_2: (@list Z))  (bests_2: (@list Z))  (ans_2: Z)  (st_slots_2: (@list Z))  (ps_2: (@list Z))  (slots_2: (@list ((((Z * Z) * Z) * Z) * Z))) ,
-  “ (RangeArgmax ps_2 (best + 1 ) hi right_best ) ” 
-  &&  “ (0 <= right_best) ” 
-  &&  “ (right_best < (n_pre + 1 )) ” 
-  &&  “ ((best + 1 ) <= right_best) ” 
-  &&  “ (right_best <= hi) ” 
-  &&  “ (SparseArgmaxBuilt ps_2 st_slots_2 (n_pre + 1 ) ) ” 
-  &&  “ ((best + 1 ) <= hi) ” 
-  &&  “ (lo > (best - 1 )) ” 
-  &&  “ ((Zlength (slots_out_2)) = heap_cap) ” 
-  &&  “ (NodeArrays slots_out_2 vals_out_2 starts_out_2 los_out_2 his_out_2 bests_out_2 ) ” 
-  &&  “ (NodeHeapState slots_out_2 (hsize_2 - 1 ) ) ” 
-  &&  “ (FrontierPopTop slots_2 hsize_2 slots_out_2 ) ” 
-  &&  “ (value = (heap_top_value (slots_2))) ” 
-  &&  “ (start = (heap_top_start (slots_2))) ” 
-  &&  “ (lo = (heap_top_lo (slots_2))) ” 
-  &&  “ (hi = (heap_top_hi (slots_2))) ” 
-  &&  “ (best = (heap_top_best (slots_2))) ” 
-  &&  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 100000) ” 
-  &&  “ (1 <= L_pre) ” 
-  &&  “ (L_pre <= R_pre) ” 
-  &&  “ (R_pre <= n_pre) ” 
-  &&  “ (1 <= k_pre) ” 
-  &&  “ (((n_pre + k_pre ) + 1 ) <= 200000) ” 
-  &&  “ (heap_cap = ((n_pre + k_pre ) + 1 )) ” 
-  &&  “ ((Zlength (l)) = n_pre) ” 
-  &&  “ (PrefixSums l ps_2 ) ” 
-  &&  “ (SparseArgmaxBuilt ps_2 st_slots_2 (n_pre + 1 ) ) ” 
-  &&  “ (SuperPianoAnswerByPrefix ps_2 n_pre L_pre R_pre k_pre ans_2 ) ” 
-  &&  “ ((Zlength (slots_2)) = heap_cap) ” 
-  &&  “ (NodeArrays slots_2 vals_2 starts_2 los_2 his_2 bests_2 ) ” 
-  &&  “ (0 <= t) ” 
-  &&  “ (t < k_pre) ” 
-  &&  “ (0 < hsize_2) ” 
-  &&  “ (hsize_2 <= heap_cap) ” 
-  &&  “ ((hsize_2 + (k_pre - t ) ) < heap_cap) ” 
-  &&  “ (FrontierState ps_2 n_pre L_pre R_pre chosen_2 t total_2 (sublist (0) (hsize_2) (slots_2)) ) ” 
-  &&  “ (NodeHeapState slots_2 hsize_2 ) ” 
-  &&  “ (ValidNodeFields ps_2 n_pre L_pre R_pre value start lo hi best ) ” 
-  &&  “ (1 <= start) ” 
-  &&  “ (start <= n_pre) ” 
-  &&  “ (0 <= (start - 1 )) ” 
-  &&  “ ((start - 1 ) < (n_pre + 1 )) ” 
-  &&  “ (((start + L_pre ) - 1 ) <= lo) ” 
-  &&  “ (0 <= lo) ” 
-  &&  “ (lo <= best) ” 
-  &&  “ (best <= hi) ” 
-  &&  “ (hi <= n_pre) ” 
-  &&  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000))) ”
-  &&  (IntArray.full prefix_pre (n_pre + 1 ) ps_2 )
-  **  (IntArray.full st_pre ((n_pre + 1 ) * ST_LEVELS ) st_slots_2 )
-  **  ((( &( "right_value" ) )) # Int  |-> ((Znth right_best ps_2 0) - (Znth (start - 1 ) ps_2 0) ))
-  **  ((( &( "has_right" ) )) # Int  |-> 1)
-  **  ((( &( "left_value" ) )) # Int  |-> 0)
-  **  ((( &( "left_best" ) )) # Int  |-> 0)
-  **  ((( &( "has_left" ) )) # Int  |-> 0)
-  **  (IntArray.full heap_value_pre heap_cap vals_out_2 )
-  **  (IntArray.full heap_start_pre heap_cap starts_out_2 )
-  **  (IntArray.full heap_lo_pre heap_cap los_out_2 )
-  **  (IntArray.full heap_hi_pre heap_cap his_out_2 )
-  **  (IntArray.full heap_best_pre heap_cap bests_out_2 )
-  **  ((( &( "hsize" ) )) # Int  |-> (hsize_2 - 1 ))
-  **  ((( &( "total" ) )) # Int64  |-> (total_2 + value ))
-  **  (IntArray.full arr_pre n_pre l ))
+  **  (IntArray.full st_pre ((n_pre + 1 ) * ST_LEVELS ) st_slots )
 .
 
 Definition superPiano_entail_wit_11_4 := 
@@ -5149,70 +4984,7 @@ forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) 
   **  ((( &( "hsize" ) )) # Int  |-> (hsize_2 - 1 ))
   **  (IntArray.full arr_pre n_pre l )
 |--
-  (EX (vals_out: (@list Z))  (starts_out: (@list Z))  (los_out: (@list Z))  (his_out: (@list Z))  (bests_out: (@list Z))  (slots_out: (@list ((((Z * Z) * Z) * Z) * Z)))  (chosen: (@list Z))  (hsize: Z)  (vals: (@list Z))  (starts: (@list Z))  (los: (@list Z))  (his: (@list Z))  (bests: (@list Z))  (slots: (@list ((((Z * Z) * Z) * Z) * Z)))  (ans: Z)  (st_slots: (@list Z))  (ps_2: (@list Z)) ,
-  “ (0 <> 0) ” 
-  &&  “ ((Zlength (slots_out)) = heap_cap) ” 
-  &&  “ (NodeArrays slots_out vals_out starts_out los_out his_out bests_out ) ” 
-  &&  “ (NodeHeapState slots_out (hsize + 1 ) ) ” 
-  &&  “ (FrontierPushFields slots hsize 0 start lo (best - 1 ) 0 slots_out ) ” 
-  &&  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 100000) ” 
-  &&  “ (1 <= L_pre) ” 
-  &&  “ (L_pre <= R_pre) ” 
-  &&  “ (R_pre <= n_pre) ” 
-  &&  “ (1 <= k_pre) ” 
-  &&  “ (((n_pre + k_pre ) + 1 ) <= 200000) ” 
-  &&  “ (heap_cap = ((n_pre + k_pre ) + 1 )) ” 
-  &&  “ ((Zlength (l)) = n_pre) ” 
-  &&  “ (PrefixSums l ps_2 ) ” 
-  &&  “ (SparseArgmaxBuilt ps_2 st_slots (n_pre + 1 ) ) ” 
-  &&  “ (SuperPianoAnswerByPrefix ps_2 n_pre L_pre R_pre k_pre ans ) ” 
-  &&  “ ((Zlength (slots)) = heap_cap) ” 
-  &&  “ (NodeArrays slots vals starts los his bests ) ” 
-  &&  “ (0 = 1) ” 
-  &&  “ (1 = 1) ” 
-  &&  “ (0 <= t) ” 
-  &&  “ (t < k_pre) ” 
-  &&  “ (0 <= hsize) ” 
-  &&  “ (hsize < heap_cap) ” 
-  &&  “ (((hsize + 1 ) + (k_pre - t ) ) < heap_cap) ” 
-  &&  “ (FrontierSplitState ps_2 n_pre L_pre R_pre (cons ((ChordCode (n_pre) (start) (best))) (chosen)) (t + 1 ) (total + value ) (cons ((mkNode (0) (start) (lo) ((best - 1 )) (0))) ((cons ((mkNode (((Znth retval ps 0) - (Znth (start - 1 ) ps 0) )) (start) ((best + 1 )) (hi) (retval))) ((@nil ((((Z * Z) * Z) * Z) * Z)))))) (sublist (0) (hsize) (slots)) ) ” 
-  &&  “ (NodeHeapState slots hsize ) ” 
-  &&  “ (1 <= start) ” 
-  &&  “ (start <= n_pre) ” 
-  &&  “ (0 <= (start - 1 )) ” 
-  &&  “ ((start - 1 ) < (n_pre + 1 )) ” 
-  &&  “ (0 <= lo) ” 
-  &&  “ (lo <= (best - 1 )) ” 
-  &&  “ ((best + 1 ) <= hi) ” 
-  &&  “ (hi <= n_pre) ” 
-  &&  “ ((best - 1 ) <= n_pre) ” 
-  &&  “ (RangeArgmax ps_2 lo (best - 1 ) 0 ) ” 
-  &&  “ (0 <= 0) ” 
-  &&  “ (0 < (n_pre + 1 )) ” 
-  &&  “ (lo <= 0) ” 
-  &&  “ (0 <= (best - 1 )) ” 
-  &&  “ (ValidNodeFields ps_2 n_pre L_pre R_pre 0 start lo (best - 1 ) 0 ) ” 
-  &&  “ (RangeArgmax ps_2 (best + 1 ) hi retval ) ” 
-  &&  “ (0 <= retval) ” 
-  &&  “ (retval < (n_pre + 1 )) ” 
-  &&  “ ((best + 1 ) <= retval) ” 
-  &&  “ (retval <= hi) ” 
-  &&  “ (ValidNodeFields ps_2 n_pre L_pre R_pre ((Znth retval ps 0) - (Znth (start - 1 ) ps 0) ) start (best + 1 ) hi retval ) ” 
-  &&  “ (ValidNodeFields ps_2 n_pre L_pre R_pre value start lo hi best ) ” 
-  &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> (((-1000) <= (Znth idx l 0)) /\ ((Znth idx l 0) <= 1000))) ” 
-  &&  “ (1 <> 0) ”
-  &&  (IntArray.full heap_value_pre heap_cap vals_out )
-  **  (IntArray.full heap_start_pre heap_cap starts_out )
-  **  (IntArray.full heap_lo_pre heap_cap los_out )
-  **  (IntArray.full heap_hi_pre heap_cap his_out )
-  **  (IntArray.full heap_best_pre heap_cap bests_out )
-  **  ((( &( "hsize" ) )) # Int  |-> (hsize + 1 ))
-  **  (IntArray.full arr_pre n_pre l )
-  **  (IntArray.full prefix_pre (n_pre + 1 ) ps_2 )
-  **  (IntArray.full st_pre ((n_pre + 1 ) * ST_LEVELS ) st_slots ))
-  ||
-  (“ (RangeArgmax ps (best + 1 ) hi retval ) ” 
+  “ (RangeArgmax ps (best + 1 ) hi retval ) ” 
   &&  “ (0 <= retval) ” 
   &&  “ (retval < (n_pre + 1 )) ” 
   &&  “ ((best + 1 ) <= retval) ” 
@@ -5269,7 +5041,7 @@ forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) 
   **  (IntArray.full heap_hi_pre heap_cap his_out_2 )
   **  (IntArray.full heap_best_pre heap_cap bests_out_2 )
   **  ((( &( "hsize" ) )) # Int  |-> (hsize_2 - 1 ))
-  **  (IntArray.full arr_pre n_pre l ))
+  **  (IntArray.full arr_pre n_pre l )
 .
 
 Definition superPiano_entail_wit_12_1 := 
@@ -7411,7 +7183,7 @@ forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) 
   &&  “ (best <= hi) ” 
   &&  “ (hi <= n_pre) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> (((-1000) <= (Znth idx l 0)) /\ ((Znth idx l 0) <= 1000))) ”
-  &&  (((prefix_pre + (retval * sizeof(INT) ) )) # Int  |-> (Znth retval ps 0))
+  &&  (((prefix_pre + (retval * sizeof(INT)))) # Int  |-> (Znth retval ps 0))
   **  (IntArray.missing_i prefix_pre retval 0 (n_pre + 1 ) ps )
   **  (IntArray.full st_pre ((n_pre + 1 ) * ST_LEVELS ) st_slots )
   **  (IntArray.full heap_value_pre heap_cap vals_out )
@@ -7481,7 +7253,7 @@ forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) 
   &&  “ (best <= hi) ” 
   &&  “ (hi <= n_pre) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> (((-1000) <= (Znth idx l 0)) /\ ((Znth idx l 0) <= 1000))) ”
-  &&  (((prefix_pre + ((start - 1 ) * sizeof(INT) ) )) # Int  |-> (Znth (start - 1 ) ps 0))
+  &&  (((prefix_pre + ((start - 1 ) * sizeof(INT)))) # Int  |-> (Znth (start - 1 ) ps 0))
   **  (IntArray.missing_i prefix_pre (start - 1 ) 0 (n_pre + 1 ) ps )
   **  (IntArray.full st_pre ((n_pre + 1 ) * ST_LEVELS ) st_slots )
   **  (IntArray.full heap_value_pre heap_cap vals_out )
@@ -7800,7 +7572,7 @@ forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) 
   &&  “ (best <= hi) ” 
   &&  “ (hi <= n_pre) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> (((-1000) <= (Znth idx l 0)) /\ ((Znth idx l 0) <= 1000))) ”
-  &&  (((prefix_pre + (retval_2 * sizeof(INT) ) )) # Int  |-> (Znth retval_2 ps 0))
+  &&  (((prefix_pre + (retval_2 * sizeof(INT)))) # Int  |-> (Znth retval_2 ps 0))
   **  (IntArray.missing_i prefix_pre retval_2 0 (n_pre + 1 ) ps )
   **  (IntArray.full st_pre ((n_pre + 1 ) * ST_LEVELS ) st_slots )
   **  (IntArray.full heap_value_pre heap_cap vals_out )
@@ -7877,7 +7649,7 @@ forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) 
   &&  “ (best <= hi) ” 
   &&  “ (hi <= n_pre) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> (((-1000) <= (Znth idx l 0)) /\ ((Znth idx l 0) <= 1000))) ”
-  &&  (((prefix_pre + ((start - 1 ) * sizeof(INT) ) )) # Int  |-> (Znth (start - 1 ) ps 0))
+  &&  (((prefix_pre + ((start - 1 ) * sizeof(INT)))) # Int  |-> (Znth (start - 1 ) ps 0))
   **  (IntArray.missing_i prefix_pre (start - 1 ) 0 (n_pre + 1 ) ps )
   **  (IntArray.full st_pre ((n_pre + 1 ) * ST_LEVELS ) st_slots )
   **  (IntArray.full heap_value_pre heap_cap vals_out )
@@ -7948,7 +7720,7 @@ forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) 
   &&  “ (best <= hi) ” 
   &&  “ (hi <= n_pre) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> (((-1000) <= (Znth idx l 0)) /\ ((Znth idx l 0) <= 1000))) ”
-  &&  (((prefix_pre + (retval * sizeof(INT) ) )) # Int  |-> (Znth retval ps 0))
+  &&  (((prefix_pre + (retval * sizeof(INT)))) # Int  |-> (Znth retval ps 0))
   **  (IntArray.missing_i prefix_pre retval 0 (n_pre + 1 ) ps )
   **  (IntArray.full st_pre ((n_pre + 1 ) * ST_LEVELS ) st_slots )
   **  (IntArray.full heap_value_pre heap_cap vals_out )
@@ -8019,7 +7791,7 @@ forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) 
   &&  “ (best <= hi) ” 
   &&  “ (hi <= n_pre) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> (((-1000) <= (Znth idx l 0)) /\ ((Znth idx l 0) <= 1000))) ”
-  &&  (((prefix_pre + ((start - 1 ) * sizeof(INT) ) )) # Int  |-> (Znth (start - 1 ) ps 0))
+  &&  (((prefix_pre + ((start - 1 ) * sizeof(INT)))) # Int  |-> (Znth (start - 1 ) ps 0))
   **  (IntArray.missing_i prefix_pre (start - 1 ) 0 (n_pre + 1 ) ps )
   **  (IntArray.full st_pre ((n_pre + 1 ) * ST_LEVELS ) st_slots )
   **  (IntArray.full heap_value_pre heap_cap vals_out )

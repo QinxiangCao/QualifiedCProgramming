@@ -115,9 +115,7 @@ forall (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * (@list Z)
 
 Definition glibc_slist_clean_copy_entail_wit_1_split_goal_1 := 
 forall (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * (@list Z)) -> (unit -> Prop))) (PreH1 : (safeExec ATrue (glibc_slist_clean_copy_M (l1_low_level_spec)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (bind ((glibc_slist_clean_copy_M_loop ((@nil Z)) (l1_low_level_spec) ((@nil Z)))) (glibc_slist_clean_copy_M_after_loop)) X_low_level_spec ) ”
+  (safeExec ATrue (bind ((glibc_slist_clean_copy_M_loop ((@nil Z)) (l1_low_level_spec) ((@nil Z)))) (glibc_slist_clean_copy_M_after_loop)) X_low_level_spec )
 .
 
 Definition glibc_slist_clean_copy_entail_wit_2 := 

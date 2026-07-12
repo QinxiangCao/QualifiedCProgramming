@@ -29,7 +29,13 @@ Proof. Admitted.
 Lemma proof_of_Always_positive_simple_safety_wit_3 : Always_positive_simple_safety_wit_3.
 Proof. Admitted. 
 
+Lemma proof_of_Always_positive_simple_safety_wit_4 : Always_positive_simple_safety_wit_4.
+Proof. Admitted. 
+
 Lemma proof_of_Always_positive_simple_safety_wit_5 : Always_positive_simple_safety_wit_5.
+Proof. Admitted. 
+
+Lemma proof_of_Always_positive_simple_safety_wit_6 : Always_positive_simple_safety_wit_6.
 Proof. Admitted. 
 
 Lemma proof_of_Always_positive_simple_safety_wit_7 : Always_positive_simple_safety_wit_7.
@@ -50,6 +56,12 @@ Proof. Admitted.
 Lemma proof_of_Always_positive_safety_wit_2 : Always_positive_safety_wit_2.
 Proof. Admitted. 
 
+Lemma proof_of_Always_positive_safety_wit_3 : Always_positive_safety_wit_3.
+Proof. Admitted. 
+
+Lemma proof_of_Always_positive_safety_wit_4 : Always_positive_safety_wit_4.
+Proof. Admitted. 
+
 Lemma proof_of_Always_positive_safety_wit_5 : Always_positive_safety_wit_5.
 Proof. Admitted. 
 
@@ -57,6 +69,9 @@ Lemma proof_of_Always_positive_safety_wit_6 : Always_positive_safety_wit_6.
 Proof. Admitted. 
 
 Lemma proof_of_Always_positive_safety_wit_7 : Always_positive_safety_wit_7.
+Proof. Admitted. 
+
+Lemma proof_of_Always_positive_safety_wit_8 : Always_positive_safety_wit_8.
 Proof. Admitted. 
 
 Lemma proof_of_Always_positive_safety_wit_9 : Always_positive_safety_wit_9.

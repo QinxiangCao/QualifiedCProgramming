@@ -1,0 +1,43 @@
+#include "swap_simple3.h"
+
+id : 0
+priority : core(1)
+left : store_int_pair(?p, ?x, ?y) at 0
+right : store(field_addr(?p, int_pair, a), I32, ?v) at 1
+action : left_erase(0);
+         right_erase(1);
+         left_add(store(field_addr(p, int_pair, b), I32, y));
+         right_add(v == x);
+
+id : 1
+priority : core(1)
+left : store_int_pair(?p, ?x, ?y) at 0
+right : store(field_addr(?p, int_pair, b), I32, ?v) at 1
+action : left_erase(0);
+         right_erase(1);
+         left_add(store(field_addr(p, int_pair, a), I32, x));
+         right_add(v == y);
+
+id : 2
+priority : core(1)
+left : store_int_pair(?p, ?x, ?y) at 0
+right : undef_data_at(field_addr(?p, int_pair, a), I32) at 1
+action : left_erase(0);
+         right_erase(1);
+         left_add(store(field_addr(p, int_pair, b), I32, y));
+
+id : 3
+priority : core(1)
+left : store_int_pair(?p, ?x, ?y) at 0
+right : undef_data_at(field_addr(?p, int_pair, b), I32) at 1
+action : left_erase(0);
+         right_erase(1);
+         left_add(store(field_addr(p, int_pair, a), I32, x));
+
+id : 4
+priority : post(1)
+left : store(field_addr(?p, int_pair, a), I32, ?x) at 0
+       store(field_addr(p, int_pair, b), I32, ?y) at 1
+action : left_erase(0);
+         left_erase(1);
+         left_add(store_int_pair(p, x, y));

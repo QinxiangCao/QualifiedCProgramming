@@ -511,16 +511,12 @@ forall (numsSize_pre: Z) (l: (@list Z)) (i: Z) (l1_2: (@list Z)) (l2: (@list Z))
 
 Definition sortArray_return_wit_1_split_goal_1 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (i: Z) (l1_2: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (PreH1 : (i >= (numsSize_pre - 1 ))) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l3 = (app (l1_2) (l2)))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l2)))) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (1 <= (Zlength (l1_2)))) (PreH10 : (Permutation l l3 )) (PreH11 : (increasing l2 )) (PreH12 : (prefix_suffix_sorted l1_2 l2 )) ,
-  TT && emp 
-|--
-  “ ((Zlength (l3)) = numsSize_pre) ”
+  ((Zlength (l3)) = numsSize_pre)
 .
 
 Definition sortArray_return_wit_1_split_goal_2 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (i: Z) (l1_2: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (PreH1 : (i >= (numsSize_pre - 1 ))) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l3 = (app (l1_2) (l2)))) (PreH5 : (numsSize_pre = (Zlength (l)))) (PreH6 : (i = (Zlength (l2)))) (PreH7 : (0 <= i)) (PreH8 : (i < numsSize_pre)) (PreH9 : (1 <= (Zlength (l1_2)))) (PreH10 : (Permutation l l3 )) (PreH11 : (increasing l2 )) (PreH12 : (prefix_suffix_sorted l1_2 l2 )) ,
-  TT && emp 
-|--
-  “ (increasing l3 ) ”
+  (increasing l3 )
 .
 
 Definition sortArray_return_wit_2 := 
@@ -547,16 +543,12 @@ forall (numsSize_pre: Z) (l: (@list Z)) (PreH1 : (numsSize_pre <= 1)) (PreH2 : (
 
 Definition sortArray_return_wit_2_split_goal_1 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (PreH1 : (numsSize_pre <= 1)) (PreH2 : ((Zlength (l)) = numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) ,
-  TT && emp 
-|--
-  “ (increasing l ) ”
+  (increasing l )
 .
 
 Definition sortArray_return_wit_2_split_goal_2 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (PreH1 : (numsSize_pre <= 1)) (PreH2 : ((Zlength (l)) = numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) ,
-  TT && emp 
-|--
-  “ (Permutation l l ) ”
+  (Permutation l l )
 .
 
 Definition sortArray_partial_solve_wit_1 := 
@@ -581,7 +573,7 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
   &&  “ (increasing l4 ) ” 
   &&  “ (prefix_suffix_sorted (app (l1) ((cons (key) (l2)))) l4 ) ” 
   &&  “ (prefix_suffix_sorted l1 (cons (key) ((@nil Z))) ) ”
-  &&  (((nums_pre + (j * sizeof(INT) ) )) # Int  |-> (Znth j l3 0))
+  &&  (((nums_pre + (j * sizeof(INT)))) # Int  |-> (Znth j l3 0))
   **  (IntArray.missing_i nums_pre j 0 numsSize_pre l3 )
   **  ((returnSize_pre) # Int  |-> numsSize_pre)
 .
@@ -608,7 +600,7 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
   &&  “ (increasing l4 ) ” 
   &&  “ (prefix_suffix_sorted (app (l1) ((cons (key) (l2)))) l4 ) ” 
   &&  “ (prefix_suffix_sorted l1 (cons (key) ((@nil Z))) ) ”
-  &&  (((nums_pre + ((j + 1 ) * sizeof(INT) ) )) # Int  |-> (Znth (j + 1 ) l3 0))
+  &&  (((nums_pre + ((j + 1 ) * sizeof(INT)))) # Int  |-> (Znth (j + 1 ) l3 0))
   **  (IntArray.missing_i nums_pre (j + 1 ) 0 numsSize_pre l3 )
   **  ((returnSize_pre) # Int  |-> numsSize_pre)
 .
@@ -636,7 +628,7 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
   &&  “ (increasing l4 ) ” 
   &&  “ (prefix_suffix_sorted (app (l1) ((cons (key) (l2)))) l4 ) ” 
   &&  “ (prefix_suffix_sorted l1 (cons (key) ((@nil Z))) ) ”
-  &&  (((nums_pre + (j * sizeof(INT) ) )) # Int  |-> (Znth j l3 0))
+  &&  (((nums_pre + (j * sizeof(INT)))) # Int  |-> (Znth j l3 0))
   **  (IntArray.missing_i nums_pre j 0 numsSize_pre l3 )
   **  ((returnSize_pre) # Int  |-> numsSize_pre)
 .
@@ -664,7 +656,7 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
   &&  “ (increasing l4 ) ” 
   &&  “ (prefix_suffix_sorted (app (l1) ((cons (key) (l2)))) l4 ) ” 
   &&  “ (prefix_suffix_sorted l1 (cons (key) ((@nil Z))) ) ”
-  &&  (((nums_pre + ((j + 1 ) * sizeof(INT) ) )) # Int  |-> (Znth (j + 1 ) l3 0))
+  &&  (((nums_pre + ((j + 1 ) * sizeof(INT)))) # Int  |-> (Znth (j + 1 ) l3 0))
   **  (IntArray.missing_i nums_pre (j + 1 ) 0 numsSize_pre l3 )
   **  ((returnSize_pre) # Int  |-> numsSize_pre)
 .
@@ -692,7 +684,7 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
   &&  “ (increasing l4 ) ” 
   &&  “ (prefix_suffix_sorted (app (l1) ((cons (key) (l2)))) l4 ) ” 
   &&  “ (prefix_suffix_sorted l1 (cons (key) ((@nil Z))) ) ”
-  &&  (((nums_pre + (j * sizeof(INT) ) )) # Int  |->_)
+  &&  (((nums_pre + (j * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i nums_pre j 0 numsSize_pre l3 )
   **  ((returnSize_pre) # Int  |-> numsSize_pre)
 .
@@ -720,7 +712,7 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (j: Z)
   &&  “ (increasing l4 ) ” 
   &&  “ (prefix_suffix_sorted (app (l1) ((cons (key) (l2)))) l4 ) ” 
   &&  “ (prefix_suffix_sorted l1 (cons (key) ((@nil Z))) ) ”
-  &&  (((nums_pre + ((j + 1 ) * sizeof(INT) ) )) # Int  |->_)
+  &&  (((nums_pre + ((j + 1 ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i nums_pre (j + 1 ) 0 numsSize_pre (replace_Znth (j) ((Znth (j + 1 ) l3 0)) (l3)) )
   **  ((returnSize_pre) # Int  |-> numsSize_pre)
 .

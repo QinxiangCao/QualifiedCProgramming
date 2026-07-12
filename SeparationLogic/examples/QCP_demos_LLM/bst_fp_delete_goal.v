@@ -113,16 +113,12 @@ forall (ptr_pre: Z) (k: Z) (tr: tree) (b_pre_v: Z) (PreH1 : (ptr_pre <> 0)) (Pre
 
 Definition replace_min_entail_wit_1_split_goal_1 := 
 forall (ptr_pre: Z) (k: Z) (tr: tree) (b_pre_v: Z) (PreH1 : (ptr_pre <> 0)) (PreH2 : (INT_MIN <= k)) (PreH3 : (k <= INT_MAX)) (PreH4 : (b_pre_v <> 0)) ,
-  TT && emp 
-|--
-  “ ((delete_min (tr)) = (combine_tree (empty_partial_tree) ((delete_min (tr))))) ”
+  ((delete_min (tr)) = (combine_tree (empty_partial_tree) ((delete_min (tr)))))
 .
 
 Definition replace_min_entail_wit_1_split_goal_2 := 
 forall (ptr_pre: Z) (k: Z) (tr: tree) (b_pre_v: Z) (PreH1 : (ptr_pre <> 0)) (PreH2 : (INT_MIN <= k)) (PreH3 : (k <= INT_MAX)) (PreH4 : (b_pre_v <> 0)) ,
-  TT && emp 
-|--
-  “ (tr = (combine_tree (empty_partial_tree) (tr))) ”
+  (tr = (combine_tree (empty_partial_tree) (tr)))
 .
 
 Definition replace_min_entail_wit_2 := 
@@ -653,9 +649,7 @@ forall (x_pre: Z) (tr_low_level_spec: tree) (PreH1 : (INT_MIN <= x_pre)) (PreH2 
 
 Definition Delete_entail_wit_1_split_goal_1 := 
 forall (x_pre: Z) (tr_low_level_spec: tree) (PreH1 : (INT_MIN <= x_pre)) (PreH2 : (x_pre <= INT_MAX)) ,
-  TT && emp 
-|--
-  “ ((combine_tree (empty_partial_tree) ((tree_delete (x_pre) (tr_low_level_spec)))) = (tree_delete (x_pre) (tr_low_level_spec))) ”
+  ((combine_tree (empty_partial_tree) ((tree_delete (x_pre) (tr_low_level_spec)))) = (tree_delete (x_pre) (tr_low_level_spec)))
 .
 
 Definition Delete_entail_wit_2 := 

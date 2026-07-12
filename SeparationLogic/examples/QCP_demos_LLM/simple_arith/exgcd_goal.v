@@ -164,7 +164,6 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (b_pre <> 0)) (PreH2
 .
 
 Definition exgcd_safety_wit_12 := 
-(
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) = 0)) (PreH4 : ((Zabs (x_callee_v)) <= 1)) (PreH5 : (y_callee_v = 0)) (PreH6 : (b_pre <> 0)) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
   ((y_pre) # Int  |-> x_callee_v)
   **  ((x_pre) # Int  |-> y_callee_v)
@@ -176,49 +175,9 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: 
 |--
   “ ((x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) )) ”
-) \/
-(
-forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) = 0)) (PreH4 : ((Zabs (x_callee_v)) <= 1)) (PreH5 : (y_callee_v = 0)) (PreH6 : (b_pre <> 0)) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int  |-> x_callee_v)
-  **  ((x_pre) # Int  |-> y_callee_v)
-  **  ((( &( "g" ) )) # Int  |-> retval)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-  **  ((( &( "b" ) )) # Int  |-> b_pre)
-  **  ((( &( "a" ) )) # Int  |-> a_pre)
-|--
-  “ ((x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) ) <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= (x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) )) ”
-).
-
-Definition exgcd_safety_wit_12_split_goal_1 := 
-forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) = 0)) (PreH4 : ((Zabs (x_callee_v)) <= 1)) (PreH5 : (y_callee_v = 0)) (PreH6 : (b_pre <> 0)) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int  |-> x_callee_v)
-  **  ((x_pre) # Int  |-> y_callee_v)
-  **  ((( &( "g" ) )) # Int  |-> retval)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-  **  ((( &( "b" ) )) # Int  |-> b_pre)
-  **  ((( &( "a" ) )) # Int  |-> a_pre)
-|--
-  “ ((x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) ) <= INT_MAX) ”
-.
-
-Definition exgcd_safety_wit_12_split_goal_2 := 
-forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) = 0)) (PreH4 : ((Zabs (x_callee_v)) <= 1)) (PreH5 : (y_callee_v = 0)) (PreH6 : (b_pre <> 0)) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int  |-> x_callee_v)
-  **  ((x_pre) # Int  |-> y_callee_v)
-  **  ((( &( "g" ) )) # Int  |-> retval)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-  **  ((( &( "b" ) )) # Int  |-> b_pre)
-  **  ((( &( "a" ) )) # Int  |-> a_pre)
-|--
-  “ ((INT_MIN) <= (x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) )) ”
 .
 
 Definition exgcd_safety_wit_13 := 
-(
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) = 0)) (PreH4 : ((Zabs (x_callee_v)) <= 1)) (PreH5 : (y_callee_v = 0)) (PreH6 : (b_pre <> 0)) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
   ((y_pre) # Int  |-> x_callee_v)
   **  ((x_pre) # Int  |-> y_callee_v)
@@ -230,45 +189,6 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: 
 |--
   “ (((a_pre ÷ b_pre ) * y_callee_v ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((a_pre ÷ b_pre ) * y_callee_v )) ”
-) \/
-(
-forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) = 0)) (PreH4 : ((Zabs (x_callee_v)) <= 1)) (PreH5 : (y_callee_v = 0)) (PreH6 : (b_pre <> 0)) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int  |-> x_callee_v)
-  **  ((x_pre) # Int  |-> y_callee_v)
-  **  ((( &( "g" ) )) # Int  |-> retval)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-  **  ((( &( "b" ) )) # Int  |-> b_pre)
-  **  ((( &( "a" ) )) # Int  |-> a_pre)
-|--
-  “ (((a_pre ÷ b_pre ) * y_callee_v ) <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= ((a_pre ÷ b_pre ) * y_callee_v )) ”
-).
-
-Definition exgcd_safety_wit_13_split_goal_1 := 
-forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) = 0)) (PreH4 : ((Zabs (x_callee_v)) <= 1)) (PreH5 : (y_callee_v = 0)) (PreH6 : (b_pre <> 0)) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int  |-> x_callee_v)
-  **  ((x_pre) # Int  |-> y_callee_v)
-  **  ((( &( "g" ) )) # Int  |-> retval)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-  **  ((( &( "b" ) )) # Int  |-> b_pre)
-  **  ((( &( "a" ) )) # Int  |-> a_pre)
-|--
-  “ (((a_pre ÷ b_pre ) * y_callee_v ) <= INT_MAX) ”
-.
-
-Definition exgcd_safety_wit_13_split_goal_2 := 
-forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) = 0)) (PreH4 : ((Zabs (x_callee_v)) <= 1)) (PreH5 : (y_callee_v = 0)) (PreH6 : (b_pre <> 0)) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
-  ((y_pre) # Int  |-> x_callee_v)
-  **  ((x_pre) # Int  |-> y_callee_v)
-  **  ((( &( "g" ) )) # Int  |-> retval)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
-  **  ((( &( "b" ) )) # Int  |-> b_pre)
-  **  ((( &( "a" ) )) # Int  |-> a_pre)
-|--
-  “ ((INT_MIN) <= ((a_pre ÷ b_pre ) * y_callee_v )) ”
 .
 
 Definition exgcd_safety_wit_14 := 
@@ -530,20 +450,12 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: 
 .
 
 Definition exgcd_return_wit_1 := 
+(
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) = 0)) (PreH4 : ((Zabs (x_callee_v)) <= 1)) (PreH5 : (y_callee_v = 0)) (PreH6 : (b_pre <> 0)) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
   ((y_pre) # Int  |-> (x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) ))
   **  ((x_pre) # Int  |-> y_callee_v)
 |--
-  (EX (y_pre_v: Z)  (x_pre_v: Z) ,
-  “ (retval = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (((a_pre * x_pre_v ) + (b_pre * y_pre_v ) ) = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (b_pre = 0) ” 
-  &&  “ ((Zabs (x_pre_v)) <= 1) ” 
-  &&  “ (y_pre_v = 0) ”
-  &&  ((x_pre) # Int  |-> x_pre_v)
-  **  ((y_pre) # Int  |-> y_pre_v))
-  ||
-  (EX (y_pre_v_2: Z)  (x_pre_v_2: Z) ,
+  EX (y_pre_v_2: Z)  (x_pre_v_2: Z) ,
   “ (retval = (Zgcd (a_pre) (b_pre))) ” 
   &&  “ (((a_pre * x_pre_v_2 ) + (b_pre * y_pre_v_2 ) ) = (Zgcd (a_pre) (b_pre))) ” 
   &&  “ (b_pre <> 0) ” 
@@ -551,44 +463,40 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: 
   &&  “ (x_pre_v_2 = 0) ” 
   &&  “ ((Zabs (y_pre_v_2)) <= 1) ”
   &&  ((x_pre) # Int  |-> x_pre_v_2)
-  **  ((y_pre) # Int  |-> y_pre_v_2))
-  ||
-  (EX (y_pre_v_3: Z)  (x_pre_v_3: Z) ,
-  “ (retval = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (((a_pre * x_pre_v_3 ) + (b_pre * y_pre_v_3 ) ) = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (b_pre <> 0) ” 
-  &&  “ ((a_pre % ( b_pre ) ) <> 0) ” 
-  &&  “ ((Zabs (x_pre_v_3)) <= ((Zabs (b_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) ” 
-  &&  “ ((Zabs (y_pre_v_3)) <= ((Zabs (a_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) ”
-  &&  ((x_pre) # Int  |-> x_pre_v_3)
-  **  ((y_pre) # Int  |-> y_pre_v_3))
+  **  ((y_pre) # Int  |-> y_pre_v_2)
+) \/
+(
+forall (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) = 0)) (PreH4 : ((Zabs (x_callee_v)) <= 1)) (PreH5 : (y_callee_v = 0)) (PreH6 : (b_pre <> 0)) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
+  TT && emp 
+|--
+  “ ((Zabs ((x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) ))) <= 1) ” 
+  &&  “ (((a_pre * 0 ) + (b_pre * (x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) ) ) ) = (Zgcd (a_pre) (b_pre))) ” 
+  &&  “ (retval = (Zgcd (a_pre) (b_pre))) ”
+  &&  emp
+).
+
+Definition exgcd_return_wit_1_split_goal_1 := 
+forall (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) = 0)) (PreH4 : ((Zabs (x_callee_v)) <= 1)) (PreH5 : (y_callee_v = 0)) (PreH6 : (b_pre <> 0)) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
+  ((Zabs ((x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) ))) <= 1)
+.
+
+Definition exgcd_return_wit_1_split_goal_2 := 
+forall (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) = 0)) (PreH4 : ((Zabs (x_callee_v)) <= 1)) (PreH5 : (y_callee_v = 0)) (PreH6 : (b_pre <> 0)) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
+  (((a_pre * 0 ) + (b_pre * (x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) ) ) ) = (Zgcd (a_pre) (b_pre)))
+.
+
+Definition exgcd_return_wit_1_split_goal_3 := 
+forall (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) = 0)) (PreH4 : ((Zabs (x_callee_v)) <= 1)) (PreH5 : (y_callee_v = 0)) (PreH6 : (b_pre <> 0)) (PreH7 : (INT_MIN < a_pre)) (PreH8 : (a_pre <= INT_MAX)) (PreH9 : (INT_MIN < b_pre)) (PreH10 : (b_pre <= INT_MAX)) ,
+  (retval = (Zgcd (a_pre) (b_pre)))
 .
 
 Definition exgcd_return_wit_2 := 
+(
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) <> 0)) (PreH4 : ((b_pre % ( (a_pre % ( b_pre ) ) ) ) = 0)) (PreH5 : (x_callee_v = 0)) (PreH6 : ((Zabs (y_callee_v)) <= 1)) (PreH7 : (b_pre <> 0)) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
   ((y_pre) # Int  |-> (x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) ))
   **  ((x_pre) # Int  |-> y_callee_v)
 |--
-  (EX (y_pre_v: Z)  (x_pre_v: Z) ,
-  “ (retval = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (((a_pre * x_pre_v ) + (b_pre * y_pre_v ) ) = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (b_pre = 0) ” 
-  &&  “ ((Zabs (x_pre_v)) <= 1) ” 
-  &&  “ (y_pre_v = 0) ”
-  &&  ((x_pre) # Int  |-> x_pre_v)
-  **  ((y_pre) # Int  |-> y_pre_v))
-  ||
-  (EX (y_pre_v_2: Z)  (x_pre_v_2: Z) ,
-  “ (retval = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (((a_pre * x_pre_v_2 ) + (b_pre * y_pre_v_2 ) ) = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (b_pre <> 0) ” 
-  &&  “ ((a_pre % ( b_pre ) ) = 0) ” 
-  &&  “ (x_pre_v_2 = 0) ” 
-  &&  “ ((Zabs (y_pre_v_2)) <= 1) ”
-  &&  ((x_pre) # Int  |-> x_pre_v_2)
-  **  ((y_pre) # Int  |-> y_pre_v_2))
-  ||
-  (EX (y_pre_v_3: Z)  (x_pre_v_3: Z) ,
+  EX (y_pre_v_3: Z)  (x_pre_v_3: Z) ,
   “ (retval = (Zgcd (a_pre) (b_pre))) ” 
   &&  “ (((a_pre * x_pre_v_3 ) + (b_pre * y_pre_v_3 ) ) = (Zgcd (a_pre) (b_pre))) ” 
   &&  “ (b_pre <> 0) ” 
@@ -596,34 +504,46 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: 
   &&  “ ((Zabs (x_pre_v_3)) <= ((Zabs (b_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) ” 
   &&  “ ((Zabs (y_pre_v_3)) <= ((Zabs (a_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) ”
   &&  ((x_pre) # Int  |-> x_pre_v_3)
-  **  ((y_pre) # Int  |-> y_pre_v_3))
+  **  ((y_pre) # Int  |-> y_pre_v_3)
+) \/
+(
+forall (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) <> 0)) (PreH4 : ((b_pre % ( (a_pre % ( b_pre ) ) ) ) = 0)) (PreH5 : (x_callee_v = 0)) (PreH6 : ((Zabs (y_callee_v)) <= 1)) (PreH7 : (b_pre <> 0)) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  TT && emp 
+|--
+  “ ((Zabs ((x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) ))) <= ((Zabs (a_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) ” 
+  &&  “ ((Zabs (y_callee_v)) <= ((Zabs (b_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) ” 
+  &&  “ (((a_pre * y_callee_v ) + (b_pre * (x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) ) ) ) = (Zgcd (a_pre) (b_pre))) ” 
+  &&  “ (retval = (Zgcd (a_pre) (b_pre))) ”
+  &&  emp
+).
+
+Definition exgcd_return_wit_2_split_goal_1 := 
+forall (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) <> 0)) (PreH4 : ((b_pre % ( (a_pre % ( b_pre ) ) ) ) = 0)) (PreH5 : (x_callee_v = 0)) (PreH6 : ((Zabs (y_callee_v)) <= 1)) (PreH7 : (b_pre <> 0)) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((Zabs ((x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) ))) <= ((Zabs (a_pre)) ÷ (Zgcd (a_pre) (b_pre)) ))
+.
+
+Definition exgcd_return_wit_2_split_goal_2 := 
+forall (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) <> 0)) (PreH4 : ((b_pre % ( (a_pre % ( b_pre ) ) ) ) = 0)) (PreH5 : (x_callee_v = 0)) (PreH6 : ((Zabs (y_callee_v)) <= 1)) (PreH7 : (b_pre <> 0)) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((Zabs (y_callee_v)) <= ((Zabs (b_pre)) ÷ (Zgcd (a_pre) (b_pre)) ))
+.
+
+Definition exgcd_return_wit_2_split_goal_3 := 
+forall (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) <> 0)) (PreH4 : ((b_pre % ( (a_pre % ( b_pre ) ) ) ) = 0)) (PreH5 : (x_callee_v = 0)) (PreH6 : ((Zabs (y_callee_v)) <= 1)) (PreH7 : (b_pre <> 0)) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  (((a_pre * y_callee_v ) + (b_pre * (x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) ) ) ) = (Zgcd (a_pre) (b_pre)))
+.
+
+Definition exgcd_return_wit_2_split_goal_4 := 
+forall (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) <> 0)) (PreH4 : ((b_pre % ( (a_pre % ( b_pre ) ) ) ) = 0)) (PreH5 : (x_callee_v = 0)) (PreH6 : ((Zabs (y_callee_v)) <= 1)) (PreH7 : (b_pre <> 0)) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  (retval = (Zgcd (a_pre) (b_pre)))
 .
 
 Definition exgcd_return_wit_3 := 
+(
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) <> 0)) (PreH4 : ((b_pre % ( (a_pre % ( b_pre ) ) ) ) <> 0)) (PreH5 : ((Zabs (x_callee_v)) <= ((Zabs ((a_pre % ( b_pre ) ))) ÷ (Zgcd (b_pre) ((a_pre % ( b_pre ) ))) ))) (PreH6 : ((Zabs (y_callee_v)) <= ((Zabs (b_pre)) ÷ (Zgcd (b_pre) ((a_pre % ( b_pre ) ))) ))) (PreH7 : (b_pre <> 0)) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
   ((y_pre) # Int  |-> (x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) ))
   **  ((x_pre) # Int  |-> y_callee_v)
 |--
-  (EX (y_pre_v: Z)  (x_pre_v: Z) ,
-  “ (retval = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (((a_pre * x_pre_v ) + (b_pre * y_pre_v ) ) = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (b_pre = 0) ” 
-  &&  “ ((Zabs (x_pre_v)) <= 1) ” 
-  &&  “ (y_pre_v = 0) ”
-  &&  ((x_pre) # Int  |-> x_pre_v)
-  **  ((y_pre) # Int  |-> y_pre_v))
-  ||
-  (EX (y_pre_v_2: Z)  (x_pre_v_2: Z) ,
-  “ (retval = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (((a_pre * x_pre_v_2 ) + (b_pre * y_pre_v_2 ) ) = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (b_pre <> 0) ” 
-  &&  “ ((a_pre % ( b_pre ) ) = 0) ” 
-  &&  “ (x_pre_v_2 = 0) ” 
-  &&  “ ((Zabs (y_pre_v_2)) <= 1) ”
-  &&  ((x_pre) # Int  |-> x_pre_v_2)
-  **  ((y_pre) # Int  |-> y_pre_v_2))
-  ||
-  (EX (y_pre_v_3: Z)  (x_pre_v_3: Z) ,
+  EX (y_pre_v_3: Z)  (x_pre_v_3: Z) ,
   “ (retval = (Zgcd (a_pre) (b_pre))) ” 
   &&  “ (((a_pre * x_pre_v_3 ) + (b_pre * y_pre_v_3 ) ) = (Zgcd (a_pre) (b_pre))) ” 
   &&  “ (b_pre <> 0) ” 
@@ -631,112 +551,157 @@ forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: 
   &&  “ ((Zabs (x_pre_v_3)) <= ((Zabs (b_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) ” 
   &&  “ ((Zabs (y_pre_v_3)) <= ((Zabs (a_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) ”
   &&  ((x_pre) # Int  |-> x_pre_v_3)
-  **  ((y_pre) # Int  |-> y_pre_v_3))
+  **  ((y_pre) # Int  |-> y_pre_v_3)
+) \/
+(
+forall (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) <> 0)) (PreH4 : ((b_pre % ( (a_pre % ( b_pre ) ) ) ) <> 0)) (PreH5 : ((Zabs (x_callee_v)) <= ((Zabs ((a_pre % ( b_pre ) ))) ÷ (Zgcd (b_pre) ((a_pre % ( b_pre ) ))) ))) (PreH6 : ((Zabs (y_callee_v)) <= ((Zabs (b_pre)) ÷ (Zgcd (b_pre) ((a_pre % ( b_pre ) ))) ))) (PreH7 : (b_pre <> 0)) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  TT && emp 
+|--
+  “ ((Zabs ((x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) ))) <= ((Zabs (a_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) ” 
+  &&  “ ((Zabs (y_callee_v)) <= ((Zabs (b_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) ” 
+  &&  “ (((a_pre * y_callee_v ) + (b_pre * (x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) ) ) ) = (Zgcd (a_pre) (b_pre))) ” 
+  &&  “ (retval = (Zgcd (a_pre) (b_pre))) ”
+  &&  emp
+).
+
+Definition exgcd_return_wit_3_split_goal_1 := 
+forall (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) <> 0)) (PreH4 : ((b_pre % ( (a_pre % ( b_pre ) ) ) ) <> 0)) (PreH5 : ((Zabs (x_callee_v)) <= ((Zabs ((a_pre % ( b_pre ) ))) ÷ (Zgcd (b_pre) ((a_pre % ( b_pre ) ))) ))) (PreH6 : ((Zabs (y_callee_v)) <= ((Zabs (b_pre)) ÷ (Zgcd (b_pre) ((a_pre % ( b_pre ) ))) ))) (PreH7 : (b_pre <> 0)) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((Zabs ((x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) ))) <= ((Zabs (a_pre)) ÷ (Zgcd (a_pre) (b_pre)) ))
+.
+
+Definition exgcd_return_wit_3_split_goal_2 := 
+forall (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) <> 0)) (PreH4 : ((b_pre % ( (a_pre % ( b_pre ) ) ) ) <> 0)) (PreH5 : ((Zabs (x_callee_v)) <= ((Zabs ((a_pre % ( b_pre ) ))) ÷ (Zgcd (b_pre) ((a_pre % ( b_pre ) ))) ))) (PreH6 : ((Zabs (y_callee_v)) <= ((Zabs (b_pre)) ÷ (Zgcd (b_pre) ((a_pre % ( b_pre ) ))) ))) (PreH7 : (b_pre <> 0)) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  ((Zabs (y_callee_v)) <= ((Zabs (b_pre)) ÷ (Zgcd (a_pre) (b_pre)) ))
+.
+
+Definition exgcd_return_wit_3_split_goal_3 := 
+forall (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) <> 0)) (PreH4 : ((b_pre % ( (a_pre % ( b_pre ) ) ) ) <> 0)) (PreH5 : ((Zabs (x_callee_v)) <= ((Zabs ((a_pre % ( b_pre ) ))) ÷ (Zgcd (b_pre) ((a_pre % ( b_pre ) ))) ))) (PreH6 : ((Zabs (y_callee_v)) <= ((Zabs (b_pre)) ÷ (Zgcd (b_pre) ((a_pre % ( b_pre ) ))) ))) (PreH7 : (b_pre <> 0)) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  (((a_pre * y_callee_v ) + (b_pre * (x_callee_v - ((a_pre ÷ b_pre ) * y_callee_v ) ) ) ) = (Zgcd (a_pre) (b_pre)))
+.
+
+Definition exgcd_return_wit_3_split_goal_4 := 
+forall (b_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : (retval = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH2 : (((b_pre * x_callee_v ) + ((a_pre % ( b_pre ) ) * y_callee_v ) ) = (Zgcd (b_pre) ((a_pre % ( b_pre ) ))))) (PreH3 : ((a_pre % ( b_pre ) ) <> 0)) (PreH4 : ((b_pre % ( (a_pre % ( b_pre ) ) ) ) <> 0)) (PreH5 : ((Zabs (x_callee_v)) <= ((Zabs ((a_pre % ( b_pre ) ))) ÷ (Zgcd (b_pre) ((a_pre % ( b_pre ) ))) ))) (PreH6 : ((Zabs (y_callee_v)) <= ((Zabs (b_pre)) ÷ (Zgcd (b_pre) ((a_pre % ( b_pre ) ))) ))) (PreH7 : (b_pre <> 0)) (PreH8 : (INT_MIN < a_pre)) (PreH9 : (a_pre <= INT_MAX)) (PreH10 : (INT_MIN < b_pre)) (PreH11 : (b_pre <= INT_MAX)) ,
+  (retval = (Zgcd (a_pre) (b_pre)))
 .
 
 Definition exgcd_return_wit_4 := 
+(
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (retval: Z) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre < 0)) (PreH3 : (b_pre = 0)) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
   ((x_pre) # Int  |-> (-1))
   **  ((y_pre) # Int  |-> 0)
 |--
-  (EX (y_pre_v: Z)  (x_pre_v: Z) ,
+  EX (y_pre_v: Z)  (x_pre_v: Z) ,
   “ (retval = (Zgcd (a_pre) (b_pre))) ” 
   &&  “ (((a_pre * x_pre_v ) + (b_pre * y_pre_v ) ) = (Zgcd (a_pre) (b_pre))) ” 
   &&  “ (b_pre = 0) ” 
   &&  “ ((Zabs (x_pre_v)) <= 1) ” 
   &&  “ (y_pre_v = 0) ”
   &&  ((x_pre) # Int  |-> x_pre_v)
-  **  ((y_pre) # Int  |-> y_pre_v))
-  ||
-  (EX (y_pre_v_2: Z)  (x_pre_v_2: Z) ,
-  “ (retval = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (((a_pre * x_pre_v_2 ) + (b_pre * y_pre_v_2 ) ) = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (b_pre <> 0) ” 
-  &&  “ ((a_pre % ( b_pre ) ) = 0) ” 
-  &&  “ (x_pre_v_2 = 0) ” 
-  &&  “ ((Zabs (y_pre_v_2)) <= 1) ”
-  &&  ((x_pre) # Int  |-> x_pre_v_2)
-  **  ((y_pre) # Int  |-> y_pre_v_2))
-  ||
-  (EX (y_pre_v_3: Z)  (x_pre_v_3: Z) ,
-  “ (retval = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (((a_pre * x_pre_v_3 ) + (b_pre * y_pre_v_3 ) ) = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (b_pre <> 0) ” 
-  &&  “ ((a_pre % ( b_pre ) ) <> 0) ” 
-  &&  “ ((Zabs (x_pre_v_3)) <= ((Zabs (b_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) ” 
-  &&  “ ((Zabs (y_pre_v_3)) <= ((Zabs (a_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) ”
-  &&  ((x_pre) # Int  |-> x_pre_v_3)
-  **  ((y_pre) # Int  |-> y_pre_v_3))
+  **  ((y_pre) # Int  |-> y_pre_v)
+) \/
+(
+forall (b_pre: Z) (a_pre: Z) (retval: Z) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre < 0)) (PreH3 : (b_pre = 0)) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
+  TT && emp 
+|--
+  “ ((Zabs ((-1))) <= 1) ” 
+  &&  “ (((a_pre * (-1) ) + (b_pre * 0 ) ) = (Zgcd (a_pre) (b_pre))) ” 
+  &&  “ (retval = (Zgcd (a_pre) (b_pre))) ”
+  &&  emp
+).
+
+Definition exgcd_return_wit_4_split_goal_1 := 
+forall (b_pre: Z) (a_pre: Z) (retval: Z) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre < 0)) (PreH3 : (b_pre = 0)) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
+  ((Zabs ((-1))) <= 1)
+.
+
+Definition exgcd_return_wit_4_split_goal_2 := 
+forall (b_pre: Z) (a_pre: Z) (retval: Z) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre < 0)) (PreH3 : (b_pre = 0)) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
+  (((a_pre * (-1) ) + (b_pre * 0 ) ) = (Zgcd (a_pre) (b_pre)))
+.
+
+Definition exgcd_return_wit_4_split_goal_3 := 
+forall (b_pre: Z) (a_pre: Z) (retval: Z) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre < 0)) (PreH3 : (b_pre = 0)) (PreH4 : (INT_MIN < a_pre)) (PreH5 : (a_pre <= INT_MAX)) (PreH6 : (INT_MIN < b_pre)) (PreH7 : (b_pre <= INT_MAX)) ,
+  (retval = (Zgcd (a_pre) (b_pre)))
 .
 
 Definition exgcd_return_wit_5 := 
+(
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (retval: Z) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre = 0)) (PreH3 : (a_pre >= 0)) (PreH4 : (b_pre = 0)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
   ((x_pre) # Int  |-> 0)
   **  ((y_pre) # Int  |-> 0)
 |--
-  (EX (y_pre_v: Z)  (x_pre_v: Z) ,
+  EX (y_pre_v: Z)  (x_pre_v: Z) ,
   “ (retval = (Zgcd (a_pre) (b_pre))) ” 
   &&  “ (((a_pre * x_pre_v ) + (b_pre * y_pre_v ) ) = (Zgcd (a_pre) (b_pre))) ” 
   &&  “ (b_pre = 0) ” 
   &&  “ ((Zabs (x_pre_v)) <= 1) ” 
   &&  “ (y_pre_v = 0) ”
   &&  ((x_pre) # Int  |-> x_pre_v)
-  **  ((y_pre) # Int  |-> y_pre_v))
-  ||
-  (EX (y_pre_v_2: Z)  (x_pre_v_2: Z) ,
-  “ (retval = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (((a_pre * x_pre_v_2 ) + (b_pre * y_pre_v_2 ) ) = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (b_pre <> 0) ” 
-  &&  “ ((a_pre % ( b_pre ) ) = 0) ” 
-  &&  “ (x_pre_v_2 = 0) ” 
-  &&  “ ((Zabs (y_pre_v_2)) <= 1) ”
-  &&  ((x_pre) # Int  |-> x_pre_v_2)
-  **  ((y_pre) # Int  |-> y_pre_v_2))
-  ||
-  (EX (y_pre_v_3: Z)  (x_pre_v_3: Z) ,
-  “ (retval = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (((a_pre * x_pre_v_3 ) + (b_pre * y_pre_v_3 ) ) = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (b_pre <> 0) ” 
-  &&  “ ((a_pre % ( b_pre ) ) <> 0) ” 
-  &&  “ ((Zabs (x_pre_v_3)) <= ((Zabs (b_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) ” 
-  &&  “ ((Zabs (y_pre_v_3)) <= ((Zabs (a_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) ”
-  &&  ((x_pre) # Int  |-> x_pre_v_3)
-  **  ((y_pre) # Int  |-> y_pre_v_3))
+  **  ((y_pre) # Int  |-> y_pre_v)
+) \/
+(
+forall (b_pre: Z) (a_pre: Z) (retval: Z) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre = 0)) (PreH3 : (a_pre >= 0)) (PreH4 : (b_pre = 0)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
+  TT && emp 
+|--
+  “ ((Zabs (0)) <= 1) ” 
+  &&  “ (((a_pre * 0 ) + (b_pre * 0 ) ) = (Zgcd (a_pre) (b_pre))) ” 
+  &&  “ (retval = (Zgcd (a_pre) (b_pre))) ”
+  &&  emp
+).
+
+Definition exgcd_return_wit_5_split_goal_1 := 
+forall (b_pre: Z) (a_pre: Z) (retval: Z) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre = 0)) (PreH3 : (a_pre >= 0)) (PreH4 : (b_pre = 0)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
+  ((Zabs (0)) <= 1)
+.
+
+Definition exgcd_return_wit_5_split_goal_2 := 
+forall (b_pre: Z) (a_pre: Z) (retval: Z) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre = 0)) (PreH3 : (a_pre >= 0)) (PreH4 : (b_pre = 0)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
+  (((a_pre * 0 ) + (b_pre * 0 ) ) = (Zgcd (a_pre) (b_pre)))
+.
+
+Definition exgcd_return_wit_5_split_goal_3 := 
+forall (b_pre: Z) (a_pre: Z) (retval: Z) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre = 0)) (PreH3 : (a_pre >= 0)) (PreH4 : (b_pre = 0)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
+  (retval = (Zgcd (a_pre) (b_pre)))
 .
 
 Definition exgcd_return_wit_6 := 
+(
 forall (y_pre: Z) (x_pre: Z) (b_pre: Z) (a_pre: Z) (retval: Z) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre <> 0)) (PreH3 : (a_pre >= 0)) (PreH4 : (b_pre = 0)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
   ((x_pre) # Int  |-> 1)
   **  ((y_pre) # Int  |-> 0)
 |--
-  (EX (y_pre_v: Z)  (x_pre_v: Z) ,
+  EX (y_pre_v: Z)  (x_pre_v: Z) ,
   “ (retval = (Zgcd (a_pre) (b_pre))) ” 
   &&  “ (((a_pre * x_pre_v ) + (b_pre * y_pre_v ) ) = (Zgcd (a_pre) (b_pre))) ” 
   &&  “ (b_pre = 0) ” 
   &&  “ ((Zabs (x_pre_v)) <= 1) ” 
   &&  “ (y_pre_v = 0) ”
   &&  ((x_pre) # Int  |-> x_pre_v)
-  **  ((y_pre) # Int  |-> y_pre_v))
-  ||
-  (EX (y_pre_v_2: Z)  (x_pre_v_2: Z) ,
-  “ (retval = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (((a_pre * x_pre_v_2 ) + (b_pre * y_pre_v_2 ) ) = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (b_pre <> 0) ” 
-  &&  “ ((a_pre % ( b_pre ) ) = 0) ” 
-  &&  “ (x_pre_v_2 = 0) ” 
-  &&  “ ((Zabs (y_pre_v_2)) <= 1) ”
-  &&  ((x_pre) # Int  |-> x_pre_v_2)
-  **  ((y_pre) # Int  |-> y_pre_v_2))
-  ||
-  (EX (y_pre_v_3: Z)  (x_pre_v_3: Z) ,
-  “ (retval = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (((a_pre * x_pre_v_3 ) + (b_pre * y_pre_v_3 ) ) = (Zgcd (a_pre) (b_pre))) ” 
-  &&  “ (b_pre <> 0) ” 
-  &&  “ ((a_pre % ( b_pre ) ) <> 0) ” 
-  &&  “ ((Zabs (x_pre_v_3)) <= ((Zabs (b_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) ” 
-  &&  “ ((Zabs (y_pre_v_3)) <= ((Zabs (a_pre)) ÷ (Zgcd (a_pre) (b_pre)) )) ”
-  &&  ((x_pre) # Int  |-> x_pre_v_3)
-  **  ((y_pre) # Int  |-> y_pre_v_3))
+  **  ((y_pre) # Int  |-> y_pre_v)
+) \/
+(
+forall (b_pre: Z) (a_pre: Z) (retval: Z) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre <> 0)) (PreH3 : (a_pre >= 0)) (PreH4 : (b_pre = 0)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
+  TT && emp 
+|--
+  “ ((Zabs (1)) <= 1) ” 
+  &&  “ (((a_pre * 1 ) + (b_pre * 0 ) ) = (Zgcd (a_pre) (b_pre))) ” 
+  &&  “ (retval = (Zgcd (a_pre) (b_pre))) ”
+  &&  emp
+).
+
+Definition exgcd_return_wit_6_split_goal_1 := 
+forall (b_pre: Z) (a_pre: Z) (retval: Z) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre <> 0)) (PreH3 : (a_pre >= 0)) (PreH4 : (b_pre = 0)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
+  ((Zabs (1)) <= 1)
+.
+
+Definition exgcd_return_wit_6_split_goal_2 := 
+forall (b_pre: Z) (a_pre: Z) (retval: Z) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre <> 0)) (PreH3 : (a_pre >= 0)) (PreH4 : (b_pre = 0)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
+  (((a_pre * 1 ) + (b_pre * 0 ) ) = (Zgcd (a_pre) (b_pre)))
+.
+
+Definition exgcd_return_wit_6_split_goal_3 := 
+forall (b_pre: Z) (a_pre: Z) (retval: Z) (PreH1 : (retval = (Zabs (a_pre)))) (PreH2 : (a_pre <> 0)) (PreH3 : (a_pre >= 0)) (PreH4 : (b_pre = 0)) (PreH5 : (INT_MIN < a_pre)) (PreH6 : (a_pre <= INT_MAX)) (PreH7 : (INT_MIN < b_pre)) (PreH8 : (b_pre <= INT_MAX)) ,
+  (retval = (Zgcd (a_pre) (b_pre)))
 .
 
 Definition exgcd_partial_solve_wit_1_pure := 

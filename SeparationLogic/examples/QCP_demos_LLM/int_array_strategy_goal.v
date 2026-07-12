@@ -170,6 +170,62 @@ Definition int_array_strategy10 :=
     ((IntArray.seg p x x l))
     ).
 
+Definition int_array_strategy13 :=
+  forall (i : Z) (n : Z) (p : Z) (l1 : (@list Z)),
+    TT &&
+    (“ (i = n) ”) &&
+    emp **
+    ((IntArray.seg p 0 i l1))
+    |--
+    (
+    TT &&
+    emp
+    ) ** (
+    ALL (l2 : (@list Z)),
+      TT &&
+      (“ (l1 = l2) ”) &&
+      emp -*
+      TT &&
+      emp **
+      ((IntArray.full p n l2))
+      ).
+
+Definition int_array_strategy14 :=
+  forall (n : Z),
+    TT &&
+    (“ (n = 0) ”) &&
+    emp
+    |--
+    (
+    TT &&
+    emp
+    ) ** (
+    ALL (l : (@list Z)) (p : Z),
+      TT &&
+      (“ (l = (@nil Z)) ”) &&
+      emp -*
+      TT &&
+      emp **
+      ((IntArray.full p n l))
+      ).
+
+Definition int_array_strategy15 :=
+  forall (x : Z) (y : Z) (p : Z) (l : (@list Z)),
+    TT &&
+    (“ (x = y) ”) &&
+    emp **
+    ((IntArray.seg p x y l))
+    |--
+    (
+    TT &&
+    emp
+    ) ** (
+    TT &&
+    emp -*
+    TT &&
+    emp
+    ).
+
 Definition int_array_strategy2 :=
   forall (i : Z) (n : Z) (l : (@list Z)) (p : Z),
     TT &&
@@ -203,6 +259,43 @@ Definition int_array_strategy11 :=
     TT &&
     emp **
     ((IntArray.seg p x y l))
+    ) ** (
+    TT &&
+    emp -*
+    TT &&
+    emp
+    ).
+
+Definition int_array_strategy16 :=
+  forall (y : Z) (l : (@list Z)) (v : Z) (p : Z) (z : Z),
+    TT &&
+    emp **
+    ((IntArray.seg p y z l)) **
+    ((poly_store FET_int (Z.add p (Z.mul z (@sizeof_front_end_type FET_int))) v))
+    |--
+    (
+    TT &&
+    emp **
+    ((IntArray.seg p y (Z.add z 1) (@app Z l (@cons Z v (@nil Z)))))
+    ) ** (
+    TT &&
+    emp -*
+    TT &&
+    emp
+    ).
+
+Definition int_array_strategy17 :=
+  forall (x : Z) (i : Z) (l : (@list Z)) (y : Z) (v : Z) (p : Z),
+    TT &&
+    (“ (x = (Z.add i 1)) ”) &&
+    emp **
+    ((IntArray.seg p x y l)) **
+    ((poly_store FET_int (Z.add p (Z.mul i (@sizeof_front_end_type FET_int))) v))
+    |--
+    (
+    TT &&
+    emp **
+    ((IntArray.seg p i y (@cons Z v l)))
     ) ** (
     TT &&
     emp -*
@@ -260,8 +353,13 @@ Module Type int_array_Strategy_Correct.
   Axiom int_array_strategy8_correctness : int_array_strategy8.
   Axiom int_array_strategy9_correctness : int_array_strategy9.
   Axiom int_array_strategy10_correctness : int_array_strategy10.
+  Axiom int_array_strategy13_correctness : int_array_strategy13.
+  Axiom int_array_strategy14_correctness : int_array_strategy14.
+  Axiom int_array_strategy15_correctness : int_array_strategy15.
   Axiom int_array_strategy2_correctness : int_array_strategy2.
   Axiom int_array_strategy11_correctness : int_array_strategy11.
+  Axiom int_array_strategy16_correctness : int_array_strategy16.
+  Axiom int_array_strategy17_correctness : int_array_strategy17.
   Axiom int_array_strategy3_correctness : int_array_strategy3.
   Axiom int_array_strategy12_correctness : int_array_strategy12.
 

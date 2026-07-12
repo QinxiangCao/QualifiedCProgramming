@@ -123,28 +123,12 @@ Proof.
     rewrite Hsingle_bytes.
     reflexivity.
   }
-  sep_apply_l_atomic (CharArray.undef_missing_i_to_undef_seg_tail dest_pre 0 i).
-  - dump_pre_spatial.
-    lia.
-  - sep_apply_l_atomic (CharArray.seg_single dest_pre (i - 1) (Znth (i - 1) bytes 0)).
-    sep_apply_l_atomic (CharArray.seg_to_full dest_pre (i - 1) (i - 1 + 1)
-      (Znth (i - 1) bytes 0 :: nil)).
-    replace (dest_pre + i * sizeof(CHAR))
-      with (dest_pre + (i - 1) * sizeof(CHAR) + 1 * sizeof(CHAR)) by lia.
-    replace (n_pre - i) with (n_pre - (i - 1) - 1) by lia.
-    replace (i - 1 + 1 - (i - 1)) with 1 by lia.
-    sep_apply_l_atomic (CharArray.full_merge_to_full
-      (dest_pre + (i - 1) * sizeof(CHAR)) 1 (n_pre - (i - 1))
-      (Znth (i - 1) bytes 0 :: nil) (sublist i n_pre bytes)).
-    + dump_pre_spatial.
-      lia.
-    + split_pure_spatial.
-      * cancel (CharArray.undef_seg dest_pre 0 (i - 1)).
-        cancel (CharArray.full (dest_pre + (i - 1) * sizeof(CHAR))
-          (n_pre - (i - 1))
-          ((Znth (i - 1) bytes 0 :: nil) ++ sublist i n_pre bytes)).
-        cancel (CharArray.full src_pre n_pre bytes).
-      * split_pures; dump_pre_spatial; try lia; try assumption.
+  split_pure_spatial.
+  - cancel (CharArray.undef_seg dest_pre 0 (i - 1)).
+    cancel (CharArray.full src_pre n_pre bytes).
+    replace (n_pre - (i - 1)) with (n_pre - i + 1) by lia.
+    simpl. cancel.
+  - split_pures; dump_pre_spatial; try lia; try assumption.
 Qed.
 
 Lemma proof_of_memmove_return_wit_2 : memmove_return_wit_2.

@@ -20,26 +20,6 @@ Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.zero_one_knapsack.zero_one_knapsack_lib.
 Local Open Scope sac.
 
-Lemma proof_of_zeroOneKnapsack_safety_wit_5 : zeroOneKnapsack_safety_wit_5.
-Proof.
-  pre_process.
-Qed.
-
-Lemma proof_of_zeroOneKnapsack_safety_wit_6 : zeroOneKnapsack_safety_wit_6.
-Proof.
-  pre_process.
-Qed.
-
-Lemma proof_of_zeroOneKnapsack_safety_wit_25 : zeroOneKnapsack_safety_wit_25.
-Proof.
-  pre_process.
-Qed.
-
-Lemma proof_of_zeroOneKnapsack_safety_wit_26 : zeroOneKnapsack_safety_wit_26.
-Proof.
-  pre_process.
-Qed.
-
 Lemma proof_of_zeroOneKnapsack_entail_wit_2 : zeroOneKnapsack_entail_wit_2.
 Proof.
   pre_process.

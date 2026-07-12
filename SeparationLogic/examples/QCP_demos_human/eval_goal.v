@@ -2363,7 +2363,7 @@ forall (var_value_pre: Z) (e_pre: Z) (l: (@list Z)) (e0: expr) (e_t: Z) (n: Z) (
   &&  “ (safe_eval e0 l ) ” 
   &&  “ (0 <> e_t) ” 
   &&  “ (1 = e_t) ”
-  &&  (((var_value_pre + (n * sizeof(INT) ) )) # Int  |-> (Znth n l 0))
+  &&  (((var_value_pre + (n * sizeof(INT)))) # Int  |-> (Znth n l 0))
   **  (IntArray.missing_i var_value_pre n 0 100 l )
   **  ((&((e_pre)  # "expr" ->ₛ "t")) # Int  |-> 1)
   **  ((&((e_pre)  # "expr" ->ₛ "d" .ₛ "VAR" .ₛ "name")) # Int  |-> n)

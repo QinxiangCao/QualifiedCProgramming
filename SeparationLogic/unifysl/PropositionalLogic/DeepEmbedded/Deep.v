@@ -21,7 +21,7 @@ Definition iffp x y: expr := andp (impp x y) (impp y x).
 
 Fixpoint beq e1 e2 :=
   match e1, e2 with
-  | varp x, varp y => EqNat.beq_nat x y
+  | varp x, varp y => Nat.eqb x y
   | andp p11 p12, andp p21 p22 => andb (beq p11 p21) (beq p12 p22)
   | impp p11 p12, impp p21 p22 => andb (beq p11 p21) (beq p12 p22)
   | _, _ => false
@@ -32,11 +32,11 @@ Proof.
   split.
   - generalize dependent e2.
     induction e1; intros; destruct e2; simpl in H;
-      try congruence; auto using EqNat.beq_nat_true.
+      try congruence; auto using Nat.eqb_eq.
     all: apply andb_prop in H; destruct H;
       rewrite (IHe1_1 _ H); rewrite (IHe1_2 _ H0); reflexivity.
   - intros. subst e2.
-    induction e1; simpl; auto using andb_true_intro, EqNat.beq_nat_refl.
+    induction e1; simpl; auto using andb_true_intro, Nat.eqb_refl.
 Qed.
 
 Local Instance L : Language := Build_Language expr .

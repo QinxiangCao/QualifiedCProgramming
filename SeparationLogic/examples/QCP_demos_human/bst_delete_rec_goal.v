@@ -287,9 +287,7 @@ forall (x_pre: Z) (tr_low_level_spec: tree) (b_pre_v_2: Z) (PreH1 : (b_pre_v_2 =
 
 Definition delete_return_wit_1_split_goal_1 := 
 forall (x_pre: Z) (tr_low_level_spec: tree) (b_pre_v_2: Z) (PreH1 : (b_pre_v_2 = 0)) (PreH2 : (INT_MIN <= x_pre)) (PreH3 : (x_pre <= INT_MAX)) ,
-  TT && emp 
-|--
-  “ (tr_low_level_spec = (tree_delete (x_pre) (tr_low_level_spec))) ”
+  (tr_low_level_spec = (tree_delete (x_pre) (tr_low_level_spec)))
 .
 
 Definition delete_return_wit_2 := 
@@ -394,6 +392,13 @@ forall (x_pre: Z) (tr_low_level_spec: tree) (b_pre_v_2: Z) (p_left: Z) (l0: tree
   (store_tree p_left l0 )
 |--
   “ (r0 = (tree_delete (x_pre) (tr_low_level_spec))) ”
+.
+
+Definition delete_return_wit_4_split_goal_spatial := 
+forall (x_pre: Z) (tr_low_level_spec: tree) (b_pre_v_2: Z) (p_left: Z) (l0: tree) (p_value: Z) (r0: tree) (p_key: Z) (PreH1 : (p_left = 0)) (PreH2 : (x_pre <= p_key)) (PreH3 : (x_pre >= p_key)) (PreH4 : (INT_MIN <= p_key)) (PreH5 : (p_key <= INT_MAX)) (PreH6 : (tr_low_level_spec = (make_tree (l0) (p_key) (p_value) (r0)))) (PreH7 : (b_pre_v_2 <> 0)) (PreH8 : (INT_MIN <= x_pre)) (PreH9 : (x_pre <= INT_MAX)) ,
+  (store_tree p_left l0 )
+|--
+  TT && emp 
 .
 
 Definition delete_return_wit_5 := 

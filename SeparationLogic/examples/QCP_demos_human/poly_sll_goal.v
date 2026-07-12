@@ -53,9 +53,7 @@ forall (A: Type) (l: (@list A)) ,
 
 Definition reverse_entail_wit_1_split_goal_1 := 
 forall (A: Type) (l: (@list A)) ,
-  TT && emp 
-|--
-  “ (l = (app ((rev ((@nil A)))) (l))) ”
+  (l = (app ((rev ((@nil A)))) (l)))
 .
 
 Definition reverse_entail_wit_2 := 
@@ -82,9 +80,7 @@ forall (A: Type) (l: (@list A)) (v: Z) (l1_2: (@list A)) (l2_2: (@list A)) (x: A
 
 Definition reverse_entail_wit_2_split_goal_1 := 
 forall (A: Type) (l: (@list A)) (v: Z) (l1_2: (@list A)) (l2_2: (@list A)) (x: A) (xs: (@list A)) (PreH1 : (l2_2 = (cons (x) (xs)))) (PreH2 : (l = (app ((rev (l1_2))) (l2_2)))) (PreH3 : (v <> 0)) ,
-  TT && emp 
-|--
-  “ (l = (app ((rev ((cons (x) (l1_2))))) (xs))) ”
+  (l = (app ((rev ((cons (x) (l1_2))))) (xs)))
 .
 
 Definition reverse_return_wit_1 := 
@@ -108,6 +104,13 @@ forall (A: Type) (l: (@list A)) (storeA: (Z -> (A -> Assertion))) (v: Z) (l1: (@
   (sll storeA v l2 )
 |--
   “ (l1 = (rev (l))) ”
+.
+
+Definition reverse_return_wit_1_split_goal_spatial := 
+forall (A: Type) (l: (@list A)) (storeA: (Z -> (A -> Assertion))) (v: Z) (l1: (@list A)) (l2: (@list A)) (PreH1 : (l = (app ((rev (l1))) (l2)))) (PreH2 : (v = 0)) ,
+  (sll storeA v l2 )
+|--
+  TT && emp 
 .
 
 Definition reverse_partial_solve_wit_1_pure := 

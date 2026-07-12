@@ -1,0 +1,8 @@
+; Converted from:
+; - _CoqProject: -R SeparationLogic/MonadLib MonadLib
+; - SeparationLogic/_CoqProject: -R MonadLib MonadLib
+(coq.theory
+ (name MonadLib)
+ (theories AUXLib FP SetsClass))
+
+(include_subdirs qualified)

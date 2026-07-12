@@ -1,0 +1,7 @@
+; Converted from:
+; - _CoqProject: -R SeparationLogic/sets SetsClass
+; - SeparationLogic/_CoqProject: -R sets SetsClass
+(coq.theory
+ (name SetsClass))
+
+(include_subdirs qualified)

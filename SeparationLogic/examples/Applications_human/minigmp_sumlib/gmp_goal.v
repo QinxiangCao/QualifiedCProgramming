@@ -57,9 +57,7 @@ forall (x_pre: Z) (PreH1 : (x_pre >= 0)) (PreH2 : (INT_MIN < x_pre)) (PreH3 : (x
 
 Definition gmp_abs_return_wit_1_split_goal_1 := 
 forall (x_pre: Z) (PreH1 : (x_pre >= 0)) (PreH2 : (INT_MIN < x_pre)) (PreH3 : (x_pre <= INT_MAX)) ,
-  TT && emp 
-|--
-  “ (x_pre = (Zabs (x_pre))) ”
+  (x_pre = (Zabs (x_pre)))
 .
 
 Definition gmp_abs_return_wit_2 := 
@@ -80,9 +78,7 @@ forall (x_pre: Z) (PreH1 : (x_pre < 0)) (PreH2 : (INT_MIN < x_pre)) (PreH3 : (x_
 
 Definition gmp_abs_return_wit_2_split_goal_1 := 
 forall (x_pre: Z) (PreH1 : (x_pre < 0)) (PreH2 : (INT_MIN < x_pre)) (PreH3 : (x_pre <= INT_MAX)) ,
-  TT && emp 
-|--
-  “ ((-x_pre) = (Zabs (x_pre))) ”
+  ((-x_pre) = (Zabs (x_pre)))
 .
 
 (*----- Function gmp_max -----*)
@@ -105,9 +101,7 @@ forall (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre > b_pre)) ,
 
 Definition gmp_max_return_wit_1_split_goal_1 := 
 forall (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre > b_pre)) ,
-  TT && emp 
-|--
-  “ (a_pre = (Z.max (a_pre) (b_pre))) ”
+  (a_pre = (Z.max (a_pre) (b_pre)))
 .
 
 Definition gmp_max_return_wit_2 := 
@@ -128,9 +122,7 @@ forall (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre <= b_pre)) ,
 
 Definition gmp_max_return_wit_2_split_goal_1 := 
 forall (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre <= b_pre)) ,
-  TT && emp 
-|--
-  “ (b_pre = (Z.max (a_pre) (b_pre))) ”
+  (b_pre = (Z.max (a_pre) (b_pre)))
 .
 
 (*----- Function gmp_cmp -----*)
@@ -174,51 +166,27 @@ Definition gmp_cmp_return_wit_1 :=
 forall (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre >= b_pre)) (PreH2 : (a_pre <= b_pre)) ,
   TT && emp 
 |--
-  (“ (a_pre < b_pre) ” 
-  &&  “ ((0 - 0 ) = (-1)) ”
-  &&  emp)
-  ||
-  (“ (a_pre = b_pre) ” 
+  “ (a_pre = b_pre) ” 
   &&  “ ((0 - 0 ) = 0) ”
-  &&  emp)
-  ||
-  (“ (a_pre > b_pre) ” 
-  &&  “ ((0 - 0 ) = 1) ”
-  &&  emp)
+  &&  emp
 .
 
 Definition gmp_cmp_return_wit_2 := 
 forall (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre < b_pre)) (PreH2 : (a_pre <= b_pre)) ,
   TT && emp 
 |--
-  (“ (a_pre < b_pre) ” 
+  “ (a_pre < b_pre) ” 
   &&  “ ((0 - 1 ) = (-1)) ”
-  &&  emp)
-  ||
-  (“ (a_pre = b_pre) ” 
-  &&  “ ((0 - 1 ) = 0) ”
-  &&  emp)
-  ||
-  (“ (a_pre > b_pre) ” 
-  &&  “ ((0 - 1 ) = 1) ”
-  &&  emp)
+  &&  emp
 .
 
 Definition gmp_cmp_return_wit_3 := 
 forall (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre >= b_pre)) (PreH2 : (a_pre > b_pre)) ,
   TT && emp 
 |--
-  (“ (a_pre < b_pre) ” 
-  &&  “ ((1 - 0 ) = (-1)) ”
-  &&  emp)
-  ||
-  (“ (a_pre = b_pre) ” 
-  &&  “ ((1 - 0 ) = 0) ”
-  &&  emp)
-  ||
-  (“ (a_pre > b_pre) ” 
+  “ (a_pre > b_pre) ” 
   &&  “ ((1 - 0 ) = 1) ”
-  &&  emp)
+  &&  emp
 .
 
 (*----- Function mpn_copyi -----*)
@@ -276,16 +244,12 @@ forall (n_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : ((Zlength (l)) = n_pre)) (Pre
 
 Definition mpn_copyi_entail_wit_1_split_goal_1 := 
 forall (n_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : ((Zlength (l)) = n_pre)) (PreH2 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH3 : (list_within_bound UINT_MOD l )) ,
-  TT && emp 
-|--
-  “ (0 <= n_pre) ”
+  (0 <= n_pre)
 .
 
 Definition mpn_copyi_entail_wit_1_split_goal_2 := 
 forall (n_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : ((Zlength (l)) = n_pre)) (PreH2 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH3 : (list_within_bound UINT_MOD l )) ,
-  TT && emp 
-|--
-  “ ((sublist (0) (0) (l)) = (@nil Z)) ”
+  ((sublist (0) (0) (l)) = (@nil Z))
 .
 
 Definition mpn_copyi_entail_wit_2 := 
@@ -314,9 +278,7 @@ forall (n_pre: Z) (val: Z) (l: (@list Z)) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : 
 
 Definition mpn_copyi_entail_wit_2_split_goal_1 := 
 forall (n_pre: Z) (val: Z) (l: (@list Z)) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= i)) (PreH3 : (i <= n_pre)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH6 : (list_within_bound UINT_MOD l )) ,
-  TT && emp 
-|--
-  “ ((app ((sublist (0) (i) (l))) ((cons ((Znth i l 0)) ((@nil Z))))) = (sublist (0) ((i + 1 )) (l))) ”
+  ((app ((sublist (0) (i) (l))) ((cons ((Znth i l 0)) ((@nil Z))))) = (sublist (0) ((i + 1 )) (l)))
 .
 
 Definition mpn_copyi_return_wit_1 := 
@@ -368,7 +330,7 @@ forall (n_pre: Z) (s_pre: Z) (d_pre: Z) (val: Z) (l: (@list Z)) (i: Z) (PreH1 : 
   &&  “ ((Zlength (l)) = n_pre) ” 
   &&  “ ((list_to_Z (UINT_MOD) (l)) = val) ” 
   &&  “ (list_within_bound UINT_MOD l ) ”
-  &&  (((s_pre + (i * sizeof(UINT) ) )) # UInt  |-> (Znth i l 0))
+  &&  (((s_pre + (i * sizeof(UINT)))) # UInt  |-> (Znth i l 0))
   **  (UIntArray.missing_i s_pre i 0 n_pre l )
   **  (UIntArray.full d_pre i (sublist (0) (i) (l)) )
   **  (UIntArray.undef_seg d_pre i n_pre )
@@ -386,7 +348,7 @@ forall (n_pre: Z) (s_pre: Z) (d_pre: Z) (val: Z) (l: (@list Z)) (i: Z) (PreH1 : 
   &&  “ ((Zlength (l)) = n_pre) ” 
   &&  “ ((list_to_Z (UINT_MOD) (l)) = val) ” 
   &&  “ (list_within_bound UINT_MOD l ) ”
-  &&  (((d_pre + (i * sizeof(UINT) ) )) # UInt  |->_)
+  &&  (((d_pre + (i * sizeof(UINT)))) # UInt  |->_)
   **  (UIntArray.undef_seg d_pre (i + 1 ) n_pre )
   **  (UIntArray.full s_pre n_pre l )
   **  (UIntArray.full d_pre i (sublist (0) (i) (l)) )
@@ -530,9 +492,7 @@ forall (n_pre: Z) (val2: Z) (val1: Z) (l1: (@list Z)) (l2: (@list Z)) (PreH1 : (
 
 Definition mpn_cmp_entail_wit_1_split_goal_1 := 
 forall (n_pre: Z) (val2: Z) (val1: Z) (l1: (@list Z)) (l2: (@list Z)) (PreH1 : ((list_to_Z (UINT_MOD) (l1)) = val1)) (PreH2 : ((last (l1) (1)) >= 1)) (PreH3 : (list_within_bound UINT_MOD l1 )) (PreH4 : ((list_to_Z (UINT_MOD) (l2)) = val2)) (PreH5 : ((last (l2) (1)) >= 1)) (PreH6 : (list_within_bound UINT_MOD l2 )) (PreH7 : (n_pre = (Zlength (l1)))) (PreH8 : (n_pre = (Zlength (l2)))) (PreH9 : (0 <= n_pre)) ,
-  TT && emp 
-|--
-  “ ((sublist (((n_pre - 1 ) + 1 )) (n_pre) (l1)) = (sublist (((n_pre - 1 ) + 1 )) (n_pre) (l2))) ”
+  ((sublist (((n_pre - 1 ) + 1 )) (n_pre) (l1)) = (sublist (((n_pre - 1 ) + 1 )) (n_pre) (l2)))
 .
 
 Definition mpn_cmp_entail_wit_2 := 
@@ -566,72 +526,121 @@ forall (n_pre: Z) (val2: Z) (val1: Z) (l1: (@list Z)) (l2: (@list Z)) (n: Z) (Pr
 
 Definition mpn_cmp_entail_wit_2_split_goal_1 := 
 forall (n_pre: Z) (val2: Z) (val1: Z) (l1: (@list Z)) (l2: (@list Z)) (n: Z) (PreH1 : ((Znth n l1 0) = (Znth n l2 0))) (PreH2 : (n >= 0)) (PreH3 : ((-1) <= n)) (PreH4 : (n < n_pre)) (PreH5 : ((sublist ((n + 1 )) (n_pre) (l1)) = (sublist ((n + 1 )) (n_pre) (l2)))) (PreH6 : ((list_to_Z (UINT_MOD) (l1)) = val1)) (PreH7 : ((last (l1) (1)) >= 1)) (PreH8 : (list_within_bound UINT_MOD l1 )) (PreH9 : ((list_to_Z (UINT_MOD) (l2)) = val2)) (PreH10 : ((last (l2) (1)) >= 1)) (PreH11 : (list_within_bound UINT_MOD l2 )) (PreH12 : (n_pre = (Zlength (l1)))) (PreH13 : (n_pre = (Zlength (l2)))) (PreH14 : (0 <= n_pre)) ,
-  TT && emp 
-|--
-  “ ((sublist (((n - 1 ) + 1 )) (n_pre) (l1)) = (sublist (((n - 1 ) + 1 )) (n_pre) (l2))) ”
+  ((sublist (((n - 1 ) + 1 )) (n_pre) (l1)) = (sublist (((n - 1 ) + 1 )) (n_pre) (l2)))
 .
 
 Definition mpn_cmp_return_wit_1 := 
+(
 forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (l1: (@list Z)) (l2: (@list Z)) (n: Z) (PreH1 : (n < 0)) (PreH2 : ((-1) <= n)) (PreH3 : (n < n_pre)) (PreH4 : ((sublist ((n + 1 )) (n_pre) (l1)) = (sublist ((n + 1 )) (n_pre) (l2)))) (PreH5 : ((list_to_Z (UINT_MOD) (l1)) = val1)) (PreH6 : ((last (l1) (1)) >= 1)) (PreH7 : (list_within_bound UINT_MOD l1 )) (PreH8 : ((list_to_Z (UINT_MOD) (l2)) = val2)) (PreH9 : ((last (l2) (1)) >= 1)) (PreH10 : (list_within_bound UINT_MOD l2 )) (PreH11 : (n_pre = (Zlength (l1)))) (PreH12 : (n_pre = (Zlength (l2)))) (PreH13 : (0 <= n_pre)) ,
   (UIntArray.full ap_pre n_pre l1 )
   **  (UIntArray.full bp_pre n_pre l2 )
 |--
-  (“ (val1 < val2) ” 
-  &&  “ (0 = (-1)) ”
-  &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 n_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 n_pre ))
-  ||
-  (“ (val1 = val2) ” 
+  “ (val1 = val2) ” 
   &&  “ (0 = 0) ”
   &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 n_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 n_pre ))
-  ||
-  (“ (val1 > val2) ” 
-  &&  “ (0 = 1) ”
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 n_pre )
+) \/
+(
+forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (l1: (@list Z)) (l2: (@list Z)) (n: Z) (PreH1 : (n < 0)) (PreH2 : ((-1) <= n)) (PreH3 : (n < n_pre)) (PreH4 : ((sublist ((n + 1 )) (n_pre) (l1)) = (sublist ((n + 1 )) (n_pre) (l2)))) (PreH5 : ((list_to_Z (UINT_MOD) (l1)) = val1)) (PreH6 : ((last (l1) (1)) >= 1)) (PreH7 : (list_within_bound UINT_MOD l1 )) (PreH8 : ((list_to_Z (UINT_MOD) (l2)) = val2)) (PreH9 : ((last (l2) (1)) >= 1)) (PreH10 : (list_within_bound UINT_MOD l2 )) (PreH11 : (n_pre = (Zlength (l1)))) (PreH12 : (n_pre = (Zlength (l2)))) (PreH13 : (0 <= n_pre)) ,
+  (UIntArray.full ap_pre n_pre l1 )
+  **  (UIntArray.full bp_pre n_pre l2 )
+|--
+  “ (val1 = val2) ”
   &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 n_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 n_pre ))
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 n_pre )
+).
+
+Definition mpn_cmp_return_wit_1_split_goal_1 := 
+forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (l1: (@list Z)) (l2: (@list Z)) (n: Z) (PreH1 : (n < 0)) (PreH2 : ((-1) <= n)) (PreH3 : (n < n_pre)) (PreH4 : ((sublist ((n + 1 )) (n_pre) (l1)) = (sublist ((n + 1 )) (n_pre) (l2)))) (PreH5 : ((list_to_Z (UINT_MOD) (l1)) = val1)) (PreH6 : ((last (l1) (1)) >= 1)) (PreH7 : (list_within_bound UINT_MOD l1 )) (PreH8 : ((list_to_Z (UINT_MOD) (l2)) = val2)) (PreH9 : ((last (l2) (1)) >= 1)) (PreH10 : (list_within_bound UINT_MOD l2 )) (PreH11 : (n_pre = (Zlength (l1)))) (PreH12 : (n_pre = (Zlength (l2)))) (PreH13 : (0 <= n_pre)) ,
+  (UIntArray.full ap_pre n_pre l1 )
+  **  (UIntArray.full bp_pre n_pre l2 )
+|--
+  “ (val1 = val2) ”
+.
+
+Definition mpn_cmp_return_wit_1_split_goal_spatial := 
+forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (l1: (@list Z)) (l2: (@list Z)) (n: Z) (PreH1 : (n < 0)) (PreH2 : ((-1) <= n)) (PreH3 : (n < n_pre)) (PreH4 : ((sublist ((n + 1 )) (n_pre) (l1)) = (sublist ((n + 1 )) (n_pre) (l2)))) (PreH5 : ((list_to_Z (UINT_MOD) (l1)) = val1)) (PreH6 : ((last (l1) (1)) >= 1)) (PreH7 : (list_within_bound UINT_MOD l1 )) (PreH8 : ((list_to_Z (UINT_MOD) (l2)) = val2)) (PreH9 : ((last (l2) (1)) >= 1)) (PreH10 : (list_within_bound UINT_MOD l2 )) (PreH11 : (n_pre = (Zlength (l1)))) (PreH12 : (n_pre = (Zlength (l2)))) (PreH13 : (0 <= n_pre)) ,
+  (UIntArray.full ap_pre n_pre l1 )
+  **  (UIntArray.full bp_pre n_pre l2 )
+|--
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 n_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 n_pre )
 .
 
 Definition mpn_cmp_return_wit_2 := 
+(
 forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (l1: (@list Z)) (l2: (@list Z)) (n: Z) (PreH1 : ((Znth n l1 0) > (Znth n l2 0))) (PreH2 : ((Znth n l1 0) <> (Znth n l2 0))) (PreH3 : (n >= 0)) (PreH4 : ((-1) <= n)) (PreH5 : (n < n_pre)) (PreH6 : ((sublist ((n + 1 )) (n_pre) (l1)) = (sublist ((n + 1 )) (n_pre) (l2)))) (PreH7 : ((list_to_Z (UINT_MOD) (l1)) = val1)) (PreH8 : ((last (l1) (1)) >= 1)) (PreH9 : (list_within_bound UINT_MOD l1 )) (PreH10 : ((list_to_Z (UINT_MOD) (l2)) = val2)) (PreH11 : ((last (l2) (1)) >= 1)) (PreH12 : (list_within_bound UINT_MOD l2 )) (PreH13 : (n_pre = (Zlength (l1)))) (PreH14 : (n_pre = (Zlength (l2)))) (PreH15 : (0 <= n_pre)) ,
   (UIntArray.full bp_pre n_pre l2 )
   **  (UIntArray.full ap_pre n_pre l1 )
 |--
-  (“ (val1 < val2) ” 
-  &&  “ (1 = (-1)) ”
-  &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 n_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 n_pre ))
-  ||
-  (“ (val1 = val2) ” 
-  &&  “ (1 = 0) ”
-  &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 n_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 n_pre ))
-  ||
-  (“ (val1 > val2) ” 
+  “ (val1 > val2) ” 
   &&  “ (1 = 1) ”
   &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 n_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 n_pre ))
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 n_pre )
+) \/
+(
+forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (l1: (@list Z)) (l2: (@list Z)) (n: Z) (PreH1 : ((Znth n l1 0) > (Znth n l2 0))) (PreH2 : ((Znth n l1 0) <> (Znth n l2 0))) (PreH3 : (n >= 0)) (PreH4 : ((-1) <= n)) (PreH5 : (n < n_pre)) (PreH6 : ((sublist ((n + 1 )) (n_pre) (l1)) = (sublist ((n + 1 )) (n_pre) (l2)))) (PreH7 : ((list_to_Z (UINT_MOD) (l1)) = val1)) (PreH8 : ((last (l1) (1)) >= 1)) (PreH9 : (list_within_bound UINT_MOD l1 )) (PreH10 : ((list_to_Z (UINT_MOD) (l2)) = val2)) (PreH11 : ((last (l2) (1)) >= 1)) (PreH12 : (list_within_bound UINT_MOD l2 )) (PreH13 : (n_pre = (Zlength (l1)))) (PreH14 : (n_pre = (Zlength (l2)))) (PreH15 : (0 <= n_pre)) ,
+  (UIntArray.full bp_pre n_pre l2 )
+  **  (UIntArray.full ap_pre n_pre l1 )
+|--
+  “ (val1 > val2) ”
+  &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 n_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 n_pre )
+).
+
+Definition mpn_cmp_return_wit_2_split_goal_1 := 
+forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (l1: (@list Z)) (l2: (@list Z)) (n: Z) (PreH1 : ((Znth n l1 0) > (Znth n l2 0))) (PreH2 : ((Znth n l1 0) <> (Znth n l2 0))) (PreH3 : (n >= 0)) (PreH4 : ((-1) <= n)) (PreH5 : (n < n_pre)) (PreH6 : ((sublist ((n + 1 )) (n_pre) (l1)) = (sublist ((n + 1 )) (n_pre) (l2)))) (PreH7 : ((list_to_Z (UINT_MOD) (l1)) = val1)) (PreH8 : ((last (l1) (1)) >= 1)) (PreH9 : (list_within_bound UINT_MOD l1 )) (PreH10 : ((list_to_Z (UINT_MOD) (l2)) = val2)) (PreH11 : ((last (l2) (1)) >= 1)) (PreH12 : (list_within_bound UINT_MOD l2 )) (PreH13 : (n_pre = (Zlength (l1)))) (PreH14 : (n_pre = (Zlength (l2)))) (PreH15 : (0 <= n_pre)) ,
+  (UIntArray.full bp_pre n_pre l2 )
+  **  (UIntArray.full ap_pre n_pre l1 )
+|--
+  “ (val1 > val2) ”
+.
+
+Definition mpn_cmp_return_wit_2_split_goal_spatial := 
+forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (l1: (@list Z)) (l2: (@list Z)) (n: Z) (PreH1 : ((Znth n l1 0) > (Znth n l2 0))) (PreH2 : ((Znth n l1 0) <> (Znth n l2 0))) (PreH3 : (n >= 0)) (PreH4 : ((-1) <= n)) (PreH5 : (n < n_pre)) (PreH6 : ((sublist ((n + 1 )) (n_pre) (l1)) = (sublist ((n + 1 )) (n_pre) (l2)))) (PreH7 : ((list_to_Z (UINT_MOD) (l1)) = val1)) (PreH8 : ((last (l1) (1)) >= 1)) (PreH9 : (list_within_bound UINT_MOD l1 )) (PreH10 : ((list_to_Z (UINT_MOD) (l2)) = val2)) (PreH11 : ((last (l2) (1)) >= 1)) (PreH12 : (list_within_bound UINT_MOD l2 )) (PreH13 : (n_pre = (Zlength (l1)))) (PreH14 : (n_pre = (Zlength (l2)))) (PreH15 : (0 <= n_pre)) ,
+  (UIntArray.full bp_pre n_pre l2 )
+  **  (UIntArray.full ap_pre n_pre l1 )
+|--
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 n_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 n_pre )
 .
 
 Definition mpn_cmp_return_wit_3 := 
+(
 forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (l1: (@list Z)) (l2: (@list Z)) (n: Z) (PreH1 : ((Znth n l1 0) <= (Znth n l2 0))) (PreH2 : ((Znth n l1 0) <> (Znth n l2 0))) (PreH3 : (n >= 0)) (PreH4 : ((-1) <= n)) (PreH5 : (n < n_pre)) (PreH6 : ((sublist ((n + 1 )) (n_pre) (l1)) = (sublist ((n + 1 )) (n_pre) (l2)))) (PreH7 : ((list_to_Z (UINT_MOD) (l1)) = val1)) (PreH8 : ((last (l1) (1)) >= 1)) (PreH9 : (list_within_bound UINT_MOD l1 )) (PreH10 : ((list_to_Z (UINT_MOD) (l2)) = val2)) (PreH11 : ((last (l2) (1)) >= 1)) (PreH12 : (list_within_bound UINT_MOD l2 )) (PreH13 : (n_pre = (Zlength (l1)))) (PreH14 : (n_pre = (Zlength (l2)))) (PreH15 : (0 <= n_pre)) ,
   (UIntArray.full bp_pre n_pre l2 )
   **  (UIntArray.full ap_pre n_pre l1 )
 |--
-  (“ (val1 < val2) ” 
+  “ (val1 < val2) ” 
   &&  “ ((-1) = (-1)) ”
   &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 n_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 n_pre ))
-  ||
-  (“ (val1 = val2) ” 
-  &&  “ ((-1) = 0) ”
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 n_pre )
+) \/
+(
+forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (l1: (@list Z)) (l2: (@list Z)) (n: Z) (PreH1 : ((Znth n l1 0) <= (Znth n l2 0))) (PreH2 : ((Znth n l1 0) <> (Znth n l2 0))) (PreH3 : (n >= 0)) (PreH4 : ((-1) <= n)) (PreH5 : (n < n_pre)) (PreH6 : ((sublist ((n + 1 )) (n_pre) (l1)) = (sublist ((n + 1 )) (n_pre) (l2)))) (PreH7 : ((list_to_Z (UINT_MOD) (l1)) = val1)) (PreH8 : ((last (l1) (1)) >= 1)) (PreH9 : (list_within_bound UINT_MOD l1 )) (PreH10 : ((list_to_Z (UINT_MOD) (l2)) = val2)) (PreH11 : ((last (l2) (1)) >= 1)) (PreH12 : (list_within_bound UINT_MOD l2 )) (PreH13 : (n_pre = (Zlength (l1)))) (PreH14 : (n_pre = (Zlength (l2)))) (PreH15 : (0 <= n_pre)) ,
+  (UIntArray.full bp_pre n_pre l2 )
+  **  (UIntArray.full ap_pre n_pre l1 )
+|--
+  “ (val1 < val2) ”
   &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 n_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 n_pre ))
-  ||
-  (“ (val1 > val2) ” 
-  &&  “ ((-1) = 1) ”
-  &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 n_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 n_pre ))
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 n_pre )
+).
+
+Definition mpn_cmp_return_wit_3_split_goal_1 := 
+forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (l1: (@list Z)) (l2: (@list Z)) (n: Z) (PreH1 : ((Znth n l1 0) <= (Znth n l2 0))) (PreH2 : ((Znth n l1 0) <> (Znth n l2 0))) (PreH3 : (n >= 0)) (PreH4 : ((-1) <= n)) (PreH5 : (n < n_pre)) (PreH6 : ((sublist ((n + 1 )) (n_pre) (l1)) = (sublist ((n + 1 )) (n_pre) (l2)))) (PreH7 : ((list_to_Z (UINT_MOD) (l1)) = val1)) (PreH8 : ((last (l1) (1)) >= 1)) (PreH9 : (list_within_bound UINT_MOD l1 )) (PreH10 : ((list_to_Z (UINT_MOD) (l2)) = val2)) (PreH11 : ((last (l2) (1)) >= 1)) (PreH12 : (list_within_bound UINT_MOD l2 )) (PreH13 : (n_pre = (Zlength (l1)))) (PreH14 : (n_pre = (Zlength (l2)))) (PreH15 : (0 <= n_pre)) ,
+  (UIntArray.full bp_pre n_pre l2 )
+  **  (UIntArray.full ap_pre n_pre l1 )
+|--
+  “ (val1 < val2) ”
+.
+
+Definition mpn_cmp_return_wit_3_split_goal_spatial := 
+forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (l1: (@list Z)) (l2: (@list Z)) (n: Z) (PreH1 : ((Znth n l1 0) <= (Znth n l2 0))) (PreH2 : ((Znth n l1 0) <> (Znth n l2 0))) (PreH3 : (n >= 0)) (PreH4 : ((-1) <= n)) (PreH5 : (n < n_pre)) (PreH6 : ((sublist ((n + 1 )) (n_pre) (l1)) = (sublist ((n + 1 )) (n_pre) (l2)))) (PreH7 : ((list_to_Z (UINT_MOD) (l1)) = val1)) (PreH8 : ((last (l1) (1)) >= 1)) (PreH9 : (list_within_bound UINT_MOD l1 )) (PreH10 : ((list_to_Z (UINT_MOD) (l2)) = val2)) (PreH11 : ((last (l2) (1)) >= 1)) (PreH12 : (list_within_bound UINT_MOD l2 )) (PreH13 : (n_pre = (Zlength (l1)))) (PreH14 : (n_pre = (Zlength (l2)))) (PreH15 : (0 <= n_pre)) ,
+  (UIntArray.full bp_pre n_pre l2 )
+  **  (UIntArray.full ap_pre n_pre l1 )
+|--
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 n_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 n_pre )
 .
 
 Definition mpn_cmp_partial_solve_wit_1 := 
@@ -662,7 +671,7 @@ forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (l1: (@list Z)) (l
   &&  “ (n_pre = (Zlength (l1))) ” 
   &&  “ (n_pre = (Zlength (l2))) ” 
   &&  “ (0 <= n_pre) ”
-  &&  (((ap_pre + (n * sizeof(UINT) ) )) # UInt  |-> (Znth n l1 0))
+  &&  (((ap_pre + (n * sizeof(UINT)))) # UInt  |-> (Znth n l1 0))
   **  (UIntArray.missing_i ap_pre n 0 n_pre l1 )
   **  (UIntArray.full bp_pre n_pre l2 )
 .
@@ -685,7 +694,7 @@ forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (l1: (@list Z)) (l
   &&  “ (n_pre = (Zlength (l1))) ” 
   &&  “ (n_pre = (Zlength (l2))) ” 
   &&  “ (0 <= n_pre) ”
-  &&  (((bp_pre + (n * sizeof(UINT) ) )) # UInt  |-> (Znth n l2 0))
+  &&  (((bp_pre + (n * sizeof(UINT)))) # UInt  |-> (Znth n l2 0))
   **  (UIntArray.missing_i bp_pre n 0 n_pre l2 )
   **  (UIntArray.full ap_pre n_pre l1 )
 .
@@ -709,7 +718,7 @@ forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (l1: (@list Z)) (l
   &&  “ (n_pre = (Zlength (l1))) ” 
   &&  “ (n_pre = (Zlength (l2))) ” 
   &&  “ (0 <= n_pre) ”
-  &&  (((ap_pre + (n * sizeof(UINT) ) )) # UInt  |-> (Znth n l1 0))
+  &&  (((ap_pre + (n * sizeof(UINT)))) # UInt  |-> (Znth n l1 0))
   **  (UIntArray.missing_i ap_pre n 0 n_pre l1 )
   **  (UIntArray.full bp_pre n_pre l2 )
 .
@@ -733,7 +742,7 @@ forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (l1: (@list Z)) (l
   &&  “ (n_pre = (Zlength (l1))) ” 
   &&  “ (n_pre = (Zlength (l2))) ” 
   &&  “ (0 <= n_pre) ”
-  &&  (((bp_pre + (n * sizeof(UINT) ) )) # UInt  |-> (Znth n l2 0))
+  &&  (((bp_pre + (n * sizeof(UINT)))) # UInt  |-> (Znth n l2 0))
   **  (UIntArray.missing_i bp_pre n 0 n_pre l2 )
   **  (UIntArray.full ap_pre n_pre l1 )
 .
@@ -815,108 +824,166 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (PreH
 .
 
 Definition mpn_cmp4_return_wit_1 := 
+(
 forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (retval: Z) (PreH1 : (val1 < val2)) (PreH2 : (retval = (-1))) (PreH3 : (an_pre = bn_pre)) (PreH4 : (an_pre >= 0)) (PreH5 : (bn_pre >= 0)) ,
   (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
   **  (mpd_store_Z_compact UINT_MOD bp_pre val2 an_pre )
 |--
-  (“ (val1 < val2) ” 
+  “ (val1 < val2) ” 
   &&  “ (retval = (-1)) ”
   &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre ))
-  ||
-  (“ (val1 = val2) ” 
-  &&  “ (retval = 0) ”
-  &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre ))
-  ||
-  (“ (val1 > val2) ” 
-  &&  “ (retval = 1) ”
-  &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre ))
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
+) \/
+(
+forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (retval: Z) (PreH1 : (val1 < val2)) (PreH2 : (retval = (-1))) (PreH3 : (an_pre = bn_pre)) (PreH4 : (an_pre >= 0)) (PreH5 : (bn_pre >= 0)) ,
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 an_pre )
+|--
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
+).
+
+Definition mpn_cmp4_return_wit_1_split_goal_spatial := 
+forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (retval: Z) (PreH1 : (val1 < val2)) (PreH2 : (retval = (-1))) (PreH3 : (an_pre = bn_pre)) (PreH4 : (an_pre >= 0)) (PreH5 : (bn_pre >= 0)) ,
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 an_pre )
+|--
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
 .
 
 Definition mpn_cmp4_return_wit_2 := 
+(
 forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (retval: Z) (PreH1 : (val1 = val2)) (PreH2 : (retval = 0)) (PreH3 : (an_pre = bn_pre)) (PreH4 : (an_pre >= 0)) (PreH5 : (bn_pre >= 0)) ,
   (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
   **  (mpd_store_Z_compact UINT_MOD bp_pre val2 an_pre )
 |--
-  (“ (val1 < val2) ” 
-  &&  “ (retval = (-1)) ”
-  &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre ))
-  ||
-  (“ (val1 = val2) ” 
+  “ (val1 = val2) ” 
   &&  “ (retval = 0) ”
   &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre ))
-  ||
-  (“ (val1 > val2) ” 
-  &&  “ (retval = 1) ”
-  &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre ))
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
+) \/
+(
+forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (retval: Z) (PreH1 : (val1 = val2)) (PreH2 : (retval = 0)) (PreH3 : (an_pre = bn_pre)) (PreH4 : (an_pre >= 0)) (PreH5 : (bn_pre >= 0)) ,
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 an_pre )
+|--
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
+).
+
+Definition mpn_cmp4_return_wit_2_split_goal_spatial := 
+forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (retval: Z) (PreH1 : (val1 = val2)) (PreH2 : (retval = 0)) (PreH3 : (an_pre = bn_pre)) (PreH4 : (an_pre >= 0)) (PreH5 : (bn_pre >= 0)) ,
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 an_pre )
+|--
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
 .
 
 Definition mpn_cmp4_return_wit_3 := 
+(
 forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (retval: Z) (PreH1 : (val1 > val2)) (PreH2 : (retval = 1)) (PreH3 : (an_pre = bn_pre)) (PreH4 : (an_pre >= 0)) (PreH5 : (bn_pre >= 0)) ,
   (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
   **  (mpd_store_Z_compact UINT_MOD bp_pre val2 an_pre )
 |--
-  (“ (val1 < val2) ” 
-  &&  “ (retval = (-1)) ”
-  &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre ))
-  ||
-  (“ (val1 = val2) ” 
-  &&  “ (retval = 0) ”
-  &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre ))
-  ||
-  (“ (val1 > val2) ” 
+  “ (val1 > val2) ” 
   &&  “ (retval = 1) ”
   &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre ))
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
+) \/
+(
+forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (retval: Z) (PreH1 : (val1 > val2)) (PreH2 : (retval = 1)) (PreH3 : (an_pre = bn_pre)) (PreH4 : (an_pre >= 0)) (PreH5 : (bn_pre >= 0)) ,
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 an_pre )
+|--
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
+).
+
+Definition mpn_cmp4_return_wit_3_split_goal_spatial := 
+forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (retval: Z) (PreH1 : (val1 > val2)) (PreH2 : (retval = 1)) (PreH3 : (an_pre = bn_pre)) (PreH4 : (an_pre >= 0)) (PreH5 : (bn_pre >= 0)) ,
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 an_pre )
+|--
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
 .
 
 Definition mpn_cmp4_return_wit_4 := 
+(
 forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (PreH1 : (an_pre < bn_pre)) (PreH2 : (an_pre <> bn_pre)) (PreH3 : (an_pre >= 0)) (PreH4 : (bn_pre >= 0)) ,
   (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
   **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
 |--
-  (“ (val1 < val2) ” 
+  “ (val1 < val2) ” 
   &&  “ ((-1) = (-1)) ”
   &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre ))
-  ||
-  (“ (val1 = val2) ” 
-  &&  “ ((-1) = 0) ”
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
+) \/
+(
+forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (PreH1 : (an_pre < bn_pre)) (PreH2 : (an_pre <> bn_pre)) (PreH3 : (an_pre >= 0)) (PreH4 : (bn_pre >= 0)) ,
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
+|--
+  “ (val1 < val2) ”
   &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre ))
-  ||
-  (“ (val1 > val2) ” 
-  &&  “ ((-1) = 1) ”
-  &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre ))
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
+).
+
+Definition mpn_cmp4_return_wit_4_split_goal_1 := 
+forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (PreH1 : (an_pre < bn_pre)) (PreH2 : (an_pre <> bn_pre)) (PreH3 : (an_pre >= 0)) (PreH4 : (bn_pre >= 0)) ,
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
+|--
+  “ (val1 < val2) ”
+.
+
+Definition mpn_cmp4_return_wit_4_split_goal_spatial := 
+forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (PreH1 : (an_pre < bn_pre)) (PreH2 : (an_pre <> bn_pre)) (PreH3 : (an_pre >= 0)) (PreH4 : (bn_pre >= 0)) ,
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
+|--
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
 .
 
 Definition mpn_cmp4_return_wit_5 := 
+(
 forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (PreH1 : (an_pre >= bn_pre)) (PreH2 : (an_pre <> bn_pre)) (PreH3 : (an_pre >= 0)) (PreH4 : (bn_pre >= 0)) ,
   (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
   **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
 |--
-  (“ (val1 < val2) ” 
-  &&  “ (1 = (-1)) ”
-  &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre ))
-  ||
-  (“ (val1 = val2) ” 
-  &&  “ (1 = 0) ”
-  &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre ))
-  ||
-  (“ (val1 > val2) ” 
+  “ (val1 > val2) ” 
   &&  “ (1 = 1) ”
   &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
-  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre ))
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
+) \/
+(
+forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (PreH1 : (an_pre >= bn_pre)) (PreH2 : (an_pre <> bn_pre)) (PreH3 : (an_pre >= 0)) (PreH4 : (bn_pre >= 0)) ,
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
+|--
+  “ (val1 > val2) ”
+  &&  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
+).
+
+Definition mpn_cmp4_return_wit_5_split_goal_1 := 
+forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (PreH1 : (an_pre >= bn_pre)) (PreH2 : (an_pre <> bn_pre)) (PreH3 : (an_pre >= 0)) (PreH4 : (bn_pre >= 0)) ,
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
+|--
+  “ (val1 > val2) ”
+.
+
+Definition mpn_cmp4_return_wit_5_split_goal_spatial := 
+forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (PreH1 : (an_pre >= bn_pre)) (PreH2 : (an_pre <> bn_pre)) (PreH3 : (an_pre >= 0)) (PreH4 : (bn_pre >= 0)) ,
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
+|--
+  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
+  **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
 .
 
 Definition mpn_cmp4_partial_solve_wit_1_pure := 
@@ -1046,16 +1113,12 @@ forall (n_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : (n_pre <= INT_MAX)) (PreH2 : 
 
 Definition mpn_normalized_size_entail_wit_2_split_goal_1 := 
 forall (n_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : (n_pre <= INT_MAX)) (PreH2 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH3 : (list_within_bound UINT_MOD l )) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (0 <= n_pre)) ,
-  TT && emp 
-|--
-  “ ((list_to_Z (UINT_MOD) ((sublist (0) (n_pre) (l)))) = val) ”
+  ((list_to_Z (UINT_MOD) ((sublist (0) (n_pre) (l)))) = val)
 .
 
 Definition mpn_normalized_size_entail_wit_2_split_goal_2 := 
 forall (n_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : (n_pre <= INT_MAX)) (PreH2 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH3 : (list_within_bound UINT_MOD l )) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (0 <= n_pre)) ,
-  TT && emp 
-|--
-  “ (l = (sublist (0) (n_pre) (l))) ”
+  (l = (sublist (0) (n_pre) (l)))
 .
 
 Definition mpn_normalized_size_entail_wit_3 := 
@@ -1174,7 +1237,7 @@ forall (n_pre: Z) (xp_pre: Z) (val: Z) (l: (@list Z)) (n: Z) (PreH1 : (n > 0)) (
   &&  “ (list_within_bound UINT_MOD l ) ” 
   &&  “ ((Zlength (l)) = n_pre) ” 
   &&  “ (0 <= n_pre) ”
-  &&  (((xp_pre + ((n - 1 ) * sizeof(UINT) ) )) # UInt  |-> (Znth (n - 1 ) (sublist (0) (n) (l)) 0))
+  &&  (((xp_pre + ((n - 1 ) * sizeof(UINT)))) # UInt  |-> (Znth (n - 1 ) (sublist (0) (n) (l)) 0))
   **  (UIntArray.missing_i xp_pre (n - 1 ) 0 n (sublist (0) (n) (l)) )
   **  (UIntArray.undef_seg xp_pre n n_pre )
 .
@@ -1219,8 +1282,8 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (Pr
 
 Definition mpn_add_1_safety_wit_2 := 
 forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : ((unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)) >= b_pre)) (PreH2 : ((Zlength (l)) = n_pre)) (PreH3 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH4 : (list_within_bound UINT_MOD l )) (PreH5 : (n_pre > 0)) (PreH6 : (0 <= b_pre)) (PreH7 : (b_pre <= UINT_MAX)) ,
-  (((rp_pre + (0 * sizeof(UINT) ) )) # UInt  |-> (unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)))
-  **  (UIntArray.undef_missing_i rp_pre 0 0 n_pre )
+  (((rp_pre + (0 * sizeof(UINT)))) # UInt  |-> (unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)))
+  **  (UIntArray.undef_seg rp_pre 1 n_pre )
   **  (UIntArray.full ap_pre n_pre l )
   **  ((( &( "r" ) )) # UInt  |-> (unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)))
   **  ((( &( "i" ) )) # Int  |-> 0)
@@ -1235,8 +1298,8 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (Pr
 
 Definition mpn_add_1_safety_wit_3 := 
 forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : ((unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)) < b_pre)) (PreH2 : ((Zlength (l)) = n_pre)) (PreH3 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH4 : (list_within_bound UINT_MOD l )) (PreH5 : (n_pre > 0)) (PreH6 : (0 <= b_pre)) (PreH7 : (b_pre <= UINT_MAX)) ,
-  (((rp_pre + (0 * sizeof(UINT) ) )) # UInt  |-> (unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)))
-  **  (UIntArray.undef_missing_i rp_pre 0 0 n_pre )
+  (((rp_pre + (0 * sizeof(UINT)))) # UInt  |-> (unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)))
+  **  (UIntArray.undef_seg rp_pre 1 n_pre )
   **  (UIntArray.full ap_pre n_pre l )
   **  ((( &( "r" ) )) # UInt  |-> (unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)))
   **  ((( &( "i" ) )) # Int  |-> 0)
@@ -1317,23 +1380,17 @@ forall (b_pre: Z) (n_pre: Z) (val: Z) (l: (@list Z)) (l'_2: (@list Z)) (val1_2: 
 
 Definition mpn_add_1_entail_wit_1_1_split_goal_1 := 
 forall (b_pre: Z) (n_pre: Z) (val: Z) (l: (@list Z)) (l'_2: (@list Z)) (val1_2: Z) (val2_2: Z) (b: Z) (i: Z) (PreH1 : ((unsigned_last_nbits (((Znth i l 0) + b )) (32)) >= b)) (PreH2 : (i < n_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (0 <= b)) (PreH6 : (b < UINT_MOD)) (PreH7 : ((val2_2 + (b * (Z.pow (UINT_MOD) (i)) ) ) = (val1_2 + b_pre ))) (PreH8 : ((Zlength (l'_2)) = i)) (PreH9 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l)))) = val1_2)) (PreH10 : ((list_to_Z (UINT_MOD) (l'_2)) = val2_2)) (PreH11 : (list_within_bound UINT_MOD l'_2 )) (PreH12 : ((Zlength (l)) = n_pre)) (PreH13 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH14 : (list_within_bound UINT_MOD l )) ,
-  TT && emp 
-|--
-  “ (list_within_bound UINT_MOD (app (l'_2) ((cons ((unsigned_last_nbits (((Znth i l 0) + b )) (32))) ((@nil Z))))) ) ”
+  (list_within_bound UINT_MOD (app (l'_2) ((cons ((unsigned_last_nbits (((Znth i l 0) + b )) (32))) ((@nil Z))))) )
 .
 
 Definition mpn_add_1_entail_wit_1_1_split_goal_2 := 
 forall (b_pre: Z) (n_pre: Z) (val: Z) (l: (@list Z)) (l'_2: (@list Z)) (val1_2: Z) (val2_2: Z) (b: Z) (i: Z) (PreH1 : ((unsigned_last_nbits (((Znth i l 0) + b )) (32)) >= b)) (PreH2 : (i < n_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (0 <= b)) (PreH6 : (b < UINT_MOD)) (PreH7 : ((val2_2 + (b * (Z.pow (UINT_MOD) (i)) ) ) = (val1_2 + b_pre ))) (PreH8 : ((Zlength (l'_2)) = i)) (PreH9 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l)))) = val1_2)) (PreH10 : ((list_to_Z (UINT_MOD) (l'_2)) = val2_2)) (PreH11 : (list_within_bound UINT_MOD l'_2 )) (PreH12 : ((Zlength (l)) = n_pre)) (PreH13 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH14 : (list_within_bound UINT_MOD l )) ,
-  TT && emp 
-|--
-  “ ((Zlength ((app (l'_2) ((cons ((unsigned_last_nbits (((Znth i l 0) + b )) (32))) ((@nil Z))))))) = (i + 1 )) ”
+  ((Zlength ((app (l'_2) ((cons ((unsigned_last_nbits (((Znth i l 0) + b )) (32))) ((@nil Z))))))) = (i + 1 ))
 .
 
 Definition mpn_add_1_entail_wit_1_1_split_goal_3 := 
 forall (b_pre: Z) (n_pre: Z) (val: Z) (l: (@list Z)) (l'_2: (@list Z)) (val1_2: Z) (val2_2: Z) (b: Z) (i: Z) (PreH1 : ((unsigned_last_nbits (((Znth i l 0) + b )) (32)) >= b)) (PreH2 : (i < n_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (0 <= b)) (PreH6 : (b < UINT_MOD)) (PreH7 : ((val2_2 + (b * (Z.pow (UINT_MOD) (i)) ) ) = (val1_2 + b_pre ))) (PreH8 : ((Zlength (l'_2)) = i)) (PreH9 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l)))) = val1_2)) (PreH10 : ((list_to_Z (UINT_MOD) (l'_2)) = val2_2)) (PreH11 : (list_within_bound UINT_MOD l'_2 )) (PreH12 : ((Zlength (l)) = n_pre)) (PreH13 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH14 : (list_within_bound UINT_MOD l )) ,
-  TT && emp 
-|--
-  “ (((list_to_Z (UINT_MOD) ((app (l'_2) ((cons ((unsigned_last_nbits (((Znth i l 0) + b )) (32))) ((@nil Z))))))) + (0 * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l)))) + b_pre )) ”
+  (((list_to_Z (UINT_MOD) ((app (l'_2) ((cons ((unsigned_last_nbits (((Znth i l 0) + b )) (32))) ((@nil Z))))))) + (0 * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l)))) + b_pre ))
 .
 
 Definition mpn_add_1_entail_wit_1_2 := 
@@ -1373,37 +1430,29 @@ forall (b_pre: Z) (n_pre: Z) (val: Z) (l: (@list Z)) (l'_2: (@list Z)) (val1_2: 
 
 Definition mpn_add_1_entail_wit_1_2_split_goal_1 := 
 forall (b_pre: Z) (n_pre: Z) (val: Z) (l: (@list Z)) (l'_2: (@list Z)) (val1_2: Z) (val2_2: Z) (b: Z) (i: Z) (PreH1 : ((unsigned_last_nbits (((Znth i l 0) + b )) (32)) < b)) (PreH2 : (i < n_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (0 <= b)) (PreH6 : (b < UINT_MOD)) (PreH7 : ((val2_2 + (b * (Z.pow (UINT_MOD) (i)) ) ) = (val1_2 + b_pre ))) (PreH8 : ((Zlength (l'_2)) = i)) (PreH9 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l)))) = val1_2)) (PreH10 : ((list_to_Z (UINT_MOD) (l'_2)) = val2_2)) (PreH11 : (list_within_bound UINT_MOD l'_2 )) (PreH12 : ((Zlength (l)) = n_pre)) (PreH13 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH14 : (list_within_bound UINT_MOD l )) ,
-  TT && emp 
-|--
-  “ (list_within_bound UINT_MOD (app (l'_2) ((cons ((unsigned_last_nbits (((Znth i l 0) + b )) (32))) ((@nil Z))))) ) ”
+  (list_within_bound UINT_MOD (app (l'_2) ((cons ((unsigned_last_nbits (((Znth i l 0) + b )) (32))) ((@nil Z))))) )
 .
 
 Definition mpn_add_1_entail_wit_1_2_split_goal_2 := 
 forall (b_pre: Z) (n_pre: Z) (val: Z) (l: (@list Z)) (l'_2: (@list Z)) (val1_2: Z) (val2_2: Z) (b: Z) (i: Z) (PreH1 : ((unsigned_last_nbits (((Znth i l 0) + b )) (32)) < b)) (PreH2 : (i < n_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (0 <= b)) (PreH6 : (b < UINT_MOD)) (PreH7 : ((val2_2 + (b * (Z.pow (UINT_MOD) (i)) ) ) = (val1_2 + b_pre ))) (PreH8 : ((Zlength (l'_2)) = i)) (PreH9 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l)))) = val1_2)) (PreH10 : ((list_to_Z (UINT_MOD) (l'_2)) = val2_2)) (PreH11 : (list_within_bound UINT_MOD l'_2 )) (PreH12 : ((Zlength (l)) = n_pre)) (PreH13 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH14 : (list_within_bound UINT_MOD l )) ,
-  TT && emp 
-|--
-  “ ((Zlength ((app (l'_2) ((cons ((unsigned_last_nbits (((Znth i l 0) + b )) (32))) ((@nil Z))))))) = (i + 1 )) ”
+  ((Zlength ((app (l'_2) ((cons ((unsigned_last_nbits (((Znth i l 0) + b )) (32))) ((@nil Z))))))) = (i + 1 ))
 .
 
 Definition mpn_add_1_entail_wit_1_2_split_goal_3 := 
 forall (b_pre: Z) (n_pre: Z) (val: Z) (l: (@list Z)) (l'_2: (@list Z)) (val1_2: Z) (val2_2: Z) (b: Z) (i: Z) (PreH1 : ((unsigned_last_nbits (((Znth i l 0) + b )) (32)) < b)) (PreH2 : (i < n_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (0 <= b)) (PreH6 : (b < UINT_MOD)) (PreH7 : ((val2_2 + (b * (Z.pow (UINT_MOD) (i)) ) ) = (val1_2 + b_pre ))) (PreH8 : ((Zlength (l'_2)) = i)) (PreH9 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l)))) = val1_2)) (PreH10 : ((list_to_Z (UINT_MOD) (l'_2)) = val2_2)) (PreH11 : (list_within_bound UINT_MOD l'_2 )) (PreH12 : ((Zlength (l)) = n_pre)) (PreH13 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH14 : (list_within_bound UINT_MOD l )) ,
-  TT && emp 
-|--
-  “ (((list_to_Z (UINT_MOD) ((app (l'_2) ((cons ((unsigned_last_nbits (((Znth i l 0) + b )) (32))) ((@nil Z))))))) + (1 * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l)))) + b_pre )) ”
+  (((list_to_Z (UINT_MOD) ((app (l'_2) ((cons ((unsigned_last_nbits (((Znth i l 0) + b )) (32))) ((@nil Z))))))) + (1 * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l)))) + b_pre ))
 .
 
 Definition mpn_add_1_entail_wit_1_2_split_goal_4 := 
 forall (b_pre: Z) (n_pre: Z) (val: Z) (l: (@list Z)) (l'_2: (@list Z)) (val1_2: Z) (val2_2: Z) (b: Z) (i: Z) (PreH1 : ((unsigned_last_nbits (((Znth i l 0) + b )) (32)) < b)) (PreH2 : (i < n_pre)) (PreH3 : (1 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (0 <= b)) (PreH6 : (b < UINT_MOD)) (PreH7 : ((val2_2 + (b * (Z.pow (UINT_MOD) (i)) ) ) = (val1_2 + b_pre ))) (PreH8 : ((Zlength (l'_2)) = i)) (PreH9 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l)))) = val1_2)) (PreH10 : ((list_to_Z (UINT_MOD) (l'_2)) = val2_2)) (PreH11 : (list_within_bound UINT_MOD l'_2 )) (PreH12 : ((Zlength (l)) = n_pre)) (PreH13 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH14 : (list_within_bound UINT_MOD l )) ,
-  TT && emp 
-|--
-  “ (1 < UINT_MOD) ”
+  (1 < UINT_MOD)
 .
 
 Definition mpn_add_1_entail_wit_2_1 := 
 (
 forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : ((unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)) >= b_pre)) (PreH2 : ((Zlength (l)) = n_pre)) (PreH3 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH4 : (list_within_bound UINT_MOD l )) (PreH5 : (n_pre > 0)) (PreH6 : (0 <= b_pre)) (PreH7 : (b_pre <= UINT_MAX)) ,
-  (((rp_pre + (0 * sizeof(UINT) ) )) # UInt  |-> (unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)))
-  **  (UIntArray.undef_missing_i rp_pre 0 0 n_pre )
+  (((rp_pre + (0 * sizeof(UINT)))) # UInt  |-> (unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)))
+  **  (UIntArray.undef_seg rp_pre 1 n_pre )
   **  (UIntArray.full ap_pre n_pre l )
 |--
   EX (l': (@list Z))  (val1: Z)  (val2: Z) ,
@@ -1425,8 +1474,7 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (Pr
 ) \/
 (
 forall (b_pre: Z) (n_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : ((unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)) <= UINT_MAX)) (PreH2 : ((unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)) >= 0)) (PreH3 : ((unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)) >= b_pre)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH6 : (list_within_bound UINT_MOD l )) (PreH7 : (n_pre > 0)) (PreH8 : (0 <= b_pre)) (PreH9 : (b_pre <= UINT_MAX)) ,
-  (((rp_pre + (0 * sizeof(UINT) ) )) # UInt  |-> (unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)))
-  **  (UIntArray.undef_missing_i rp_pre 0 0 n_pre )
+  (((rp_pre + (0 * sizeof(UINT)))) # UInt  |-> (unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)))
 |--
   EX (l': (@list Z)) ,
   “ (1 <= (0 + 1 )) ” 
@@ -1440,14 +1488,13 @@ forall (b_pre: Z) (n_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : ((unsi
   &&  “ ((list_to_Z (UINT_MOD) (l)) = val) ” 
   &&  “ (list_within_bound UINT_MOD l ) ”
   &&  (UIntArray.full rp_pre (0 + 1 ) l' )
-  **  (UIntArray.undef_seg rp_pre (0 + 1 ) n_pre )
 ).
 
 Definition mpn_add_1_entail_wit_2_2 := 
 (
 forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : ((unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)) < b_pre)) (PreH2 : ((Zlength (l)) = n_pre)) (PreH3 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH4 : (list_within_bound UINT_MOD l )) (PreH5 : (n_pre > 0)) (PreH6 : (0 <= b_pre)) (PreH7 : (b_pre <= UINT_MAX)) ,
-  (((rp_pre + (0 * sizeof(UINT) ) )) # UInt  |-> (unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)))
-  **  (UIntArray.undef_missing_i rp_pre 0 0 n_pre )
+  (((rp_pre + (0 * sizeof(UINT)))) # UInt  |-> (unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)))
+  **  (UIntArray.undef_seg rp_pre 1 n_pre )
   **  (UIntArray.full ap_pre n_pre l )
 |--
   EX (l': (@list Z))  (val1: Z)  (val2: Z) ,
@@ -1469,8 +1516,7 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (Pr
 ) \/
 (
 forall (b_pre: Z) (n_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : ((unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)) <= UINT_MAX)) (PreH2 : ((unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)) >= 0)) (PreH3 : ((unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)) < b_pre)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH6 : (list_within_bound UINT_MOD l )) (PreH7 : (n_pre > 0)) (PreH8 : (0 <= b_pre)) (PreH9 : (b_pre <= UINT_MAX)) ,
-  (((rp_pre + (0 * sizeof(UINT) ) )) # UInt  |-> (unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)))
-  **  (UIntArray.undef_missing_i rp_pre 0 0 n_pre )
+  (((rp_pre + (0 * sizeof(UINT)))) # UInt  |-> (unsigned_last_nbits (((Znth 0 l 0) + b_pre )) (32)))
 |--
   EX (l': (@list Z)) ,
   “ (1 <= (0 + 1 )) ” 
@@ -1484,7 +1530,6 @@ forall (b_pre: Z) (n_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : ((unsi
   &&  “ ((list_to_Z (UINT_MOD) (l)) = val) ” 
   &&  “ (list_within_bound UINT_MOD l ) ”
   &&  (UIntArray.full rp_pre (0 + 1 ) l' )
-  **  (UIntArray.undef_seg rp_pre (0 + 1 ) n_pre )
 ).
 
 Definition mpn_add_1_return_wit_1 := 
@@ -1533,7 +1578,7 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (Pr
   &&  “ (n_pre > 0) ” 
   &&  “ (0 <= b_pre) ” 
   &&  “ (b_pre <= UINT_MAX) ”
-  &&  (((ap_pre + (0 * sizeof(UINT) ) )) # UInt  |-> (Znth 0 l 0))
+  &&  (((ap_pre + (0 * sizeof(UINT)))) # UInt  |-> (Znth 0 l 0))
   **  (UIntArray.missing_i ap_pre 0 0 n_pre l )
   **  (UIntArray.undef_full rp_pre n_pre )
 .
@@ -1550,8 +1595,8 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (Pr
   &&  “ (n_pre > 0) ” 
   &&  “ (0 <= b_pre) ” 
   &&  “ (b_pre <= UINT_MAX) ”
-  &&  (((rp_pre + (0 * sizeof(UINT) ) )) # UInt  |->_)
-  **  (UIntArray.undef_missing_i rp_pre 0 0 n_pre )
+  &&  (((rp_pre + (0 * sizeof(UINT)))) # UInt  |->_)
+  **  (UIntArray.undef_seg rp_pre 1 n_pre )
   **  (UIntArray.full ap_pre n_pre l )
 .
 
@@ -1567,8 +1612,8 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (Pr
   &&  “ (n_pre > 0) ” 
   &&  “ (0 <= b_pre) ” 
   &&  “ (b_pre <= UINT_MAX) ”
-  &&  (((rp_pre + (0 * sizeof(UINT) ) )) # UInt  |->_)
-  **  (UIntArray.undef_missing_i rp_pre 0 0 n_pre )
+  &&  (((rp_pre + (0 * sizeof(UINT)))) # UInt  |->_)
+  **  (UIntArray.undef_seg rp_pre 1 n_pre )
   **  (UIntArray.full ap_pre n_pre l )
 .
 
@@ -1592,7 +1637,7 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (l'
   &&  “ ((Zlength (l)) = n_pre) ” 
   &&  “ ((list_to_Z (UINT_MOD) (l)) = val) ” 
   &&  “ (list_within_bound UINT_MOD l ) ”
-  &&  (((rp_pre + (i * sizeof(UINT) ) )) # UInt  |->_)
+  &&  (((rp_pre + (i * sizeof(UINT)))) # UInt  |->_)
   **  (UIntArray.undef_seg rp_pre (i + 1 ) n_pre )
   **  (UIntArray.full ap_pre n_pre l )
   **  (UIntArray.full rp_pre i l' )
@@ -1618,7 +1663,7 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (l'
   &&  “ ((Zlength (l)) = n_pre) ” 
   &&  “ ((list_to_Z (UINT_MOD) (l)) = val) ” 
   &&  “ (list_within_bound UINT_MOD l ) ”
-  &&  (((rp_pre + (i * sizeof(UINT) ) )) # UInt  |->_)
+  &&  (((rp_pre + (i * sizeof(UINT)))) # UInt  |->_)
   **  (UIntArray.undef_seg rp_pre (i + 1 ) n_pre )
   **  (UIntArray.full ap_pre n_pre l )
   **  (UIntArray.full rp_pre i l' )
@@ -1643,7 +1688,7 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (l'
   &&  “ ((Zlength (l)) = n_pre) ” 
   &&  “ ((list_to_Z (UINT_MOD) (l)) = val) ” 
   &&  “ (list_within_bound UINT_MOD l ) ”
-  &&  (((ap_pre + (i * sizeof(UINT) ) )) # UInt  |-> (Znth i l 0))
+  &&  (((ap_pre + (i * sizeof(UINT)))) # UInt  |-> (Znth i l 0))
   **  (UIntArray.missing_i ap_pre i 0 n_pre l )
   **  (UIntArray.full rp_pre i l' )
   **  (UIntArray.undef_seg rp_pre i n_pre )
@@ -1827,23 +1872,17 @@ forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (PreH1
 
 Definition mpn_add_n_entail_wit_1_split_goal_1 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (PreH1 : ((Zlength (l_a)) = n_pre)) (PreH2 : ((Zlength (l_b)) = n_pre)) (PreH3 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH4 : (list_within_bound UINT_MOD l_a )) (PreH5 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH6 : (list_within_bound UINT_MOD l_b )) (PreH7 : (n_pre >= 0)) ,
-  TT && emp 
-|--
-  “ (((list_to_Z (UINT_MOD) ((@nil Z))) + (0 * (Z.pow (UINT_MOD) (0)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (0) (l_a)))) + (list_to_Z (UINT_MOD) ((sublist (0) (0) (l_b)))) )) ”
+  (((list_to_Z (UINT_MOD) ((@nil Z))) + (0 * (Z.pow (UINT_MOD) (0)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (0) (l_a)))) + (list_to_Z (UINT_MOD) ((sublist (0) (0) (l_b)))) ))
 .
 
 Definition mpn_add_n_entail_wit_1_split_goal_2 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (PreH1 : ((Zlength (l_a)) = n_pre)) (PreH2 : ((Zlength (l_b)) = n_pre)) (PreH3 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH4 : (list_within_bound UINT_MOD l_a )) (PreH5 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH6 : (list_within_bound UINT_MOD l_b )) (PreH7 : (n_pre >= 0)) ,
-  TT && emp 
-|--
-  “ ((Zlength ((@nil Z))) = 0) ”
+  ((Zlength ((@nil Z))) = 0)
 .
 
 Definition mpn_add_n_entail_wit_1_split_goal_3 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (PreH1 : ((Zlength (l_a)) = n_pre)) (PreH2 : ((Zlength (l_b)) = n_pre)) (PreH3 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH4 : (list_within_bound UINT_MOD l_a )) (PreH5 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH6 : (list_within_bound UINT_MOD l_b )) (PreH7 : (n_pre >= 0)) ,
-  TT && emp 
-|--
-  “ (list_within_bound UINT_MOD (@nil Z) ) ”
+  (list_within_bound UINT_MOD (@nil Z) )
 .
 
 Definition mpn_add_n_entail_wit_2_1 := 
@@ -1889,23 +1928,17 @@ forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (val_r
 
 Definition mpn_add_n_entail_wit_2_1_split_goal_1 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (val_r_2: Z) (l_r_2: (@list Z)) (val_b_prefix_2: Z) (val_a_prefix_2: Z) (cy: Z) (i: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32)) >= (Znth i l_b 0))) (PreH2 : ((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) >= cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= UINT_MAX)) (PreH8 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) = val_a_prefix_2)) (PreH9 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) = val_b_prefix_2)) (PreH10 : ((list_to_Z (UINT_MOD) (l_r_2)) = val_r_2)) (PreH11 : (list_within_bound UINT_MOD l_r_2 )) (PreH12 : ((Zlength (l_r_2)) = i)) (PreH13 : ((val_r_2 + (cy * (Z.pow (UINT_MOD) (i)) ) ) = (val_a_prefix_2 + val_b_prefix_2 ))) (PreH14 : ((Zlength (l_a)) = n_pre)) (PreH15 : ((Zlength (l_b)) = n_pre)) (PreH16 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH17 : (list_within_bound UINT_MOD l_a )) (PreH18 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH19 : (list_within_bound UINT_MOD l_b )) (PreH20 : (n_pre >= 0)) ,
-  TT && emp 
-|--
-  “ (((list_to_Z (UINT_MOD) ((app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))))) + ((0 + 0 ) * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_a)))) + (list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_b)))) )) ”
+  (((list_to_Z (UINT_MOD) ((app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))))) + ((0 + 0 ) * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_a)))) + (list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_b)))) ))
 .
 
 Definition mpn_add_n_entail_wit_2_1_split_goal_2 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (val_r_2: Z) (l_r_2: (@list Z)) (val_b_prefix_2: Z) (val_a_prefix_2: Z) (cy: Z) (i: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32)) >= (Znth i l_b 0))) (PreH2 : ((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) >= cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= UINT_MAX)) (PreH8 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) = val_a_prefix_2)) (PreH9 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) = val_b_prefix_2)) (PreH10 : ((list_to_Z (UINT_MOD) (l_r_2)) = val_r_2)) (PreH11 : (list_within_bound UINT_MOD l_r_2 )) (PreH12 : ((Zlength (l_r_2)) = i)) (PreH13 : ((val_r_2 + (cy * (Z.pow (UINT_MOD) (i)) ) ) = (val_a_prefix_2 + val_b_prefix_2 ))) (PreH14 : ((Zlength (l_a)) = n_pre)) (PreH15 : ((Zlength (l_b)) = n_pre)) (PreH16 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH17 : (list_within_bound UINT_MOD l_a )) (PreH18 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH19 : (list_within_bound UINT_MOD l_b )) (PreH20 : (n_pre >= 0)) ,
-  TT && emp 
-|--
-  “ ((Zlength ((app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))))) = (i + 1 )) ”
+  ((Zlength ((app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))))) = (i + 1 ))
 .
 
 Definition mpn_add_n_entail_wit_2_1_split_goal_3 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (val_r_2: Z) (l_r_2: (@list Z)) (val_b_prefix_2: Z) (val_a_prefix_2: Z) (cy: Z) (i: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32)) >= (Znth i l_b 0))) (PreH2 : ((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) >= cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= UINT_MAX)) (PreH8 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) = val_a_prefix_2)) (PreH9 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) = val_b_prefix_2)) (PreH10 : ((list_to_Z (UINT_MOD) (l_r_2)) = val_r_2)) (PreH11 : (list_within_bound UINT_MOD l_r_2 )) (PreH12 : ((Zlength (l_r_2)) = i)) (PreH13 : ((val_r_2 + (cy * (Z.pow (UINT_MOD) (i)) ) ) = (val_a_prefix_2 + val_b_prefix_2 ))) (PreH14 : ((Zlength (l_a)) = n_pre)) (PreH15 : ((Zlength (l_b)) = n_pre)) (PreH16 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH17 : (list_within_bound UINT_MOD l_a )) (PreH18 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH19 : (list_within_bound UINT_MOD l_b )) (PreH20 : (n_pre >= 0)) ,
-  TT && emp 
-|--
-  “ (list_within_bound UINT_MOD (app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))) ) ”
+  (list_within_bound UINT_MOD (app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))) )
 .
 
 Definition mpn_add_n_entail_wit_2_2 := 
@@ -1951,23 +1984,17 @@ forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (val_r
 
 Definition mpn_add_n_entail_wit_2_2_split_goal_1 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (val_r_2: Z) (l_r_2: (@list Z)) (val_b_prefix_2: Z) (val_a_prefix_2: Z) (cy: Z) (i: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32)) < (Znth i l_b 0))) (PreH2 : ((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) >= cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= UINT_MAX)) (PreH8 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) = val_a_prefix_2)) (PreH9 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) = val_b_prefix_2)) (PreH10 : ((list_to_Z (UINT_MOD) (l_r_2)) = val_r_2)) (PreH11 : (list_within_bound UINT_MOD l_r_2 )) (PreH12 : ((Zlength (l_r_2)) = i)) (PreH13 : ((val_r_2 + (cy * (Z.pow (UINT_MOD) (i)) ) ) = (val_a_prefix_2 + val_b_prefix_2 ))) (PreH14 : ((Zlength (l_a)) = n_pre)) (PreH15 : ((Zlength (l_b)) = n_pre)) (PreH16 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH17 : (list_within_bound UINT_MOD l_a )) (PreH18 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH19 : (list_within_bound UINT_MOD l_b )) (PreH20 : (n_pre >= 0)) ,
-  TT && emp 
-|--
-  “ (((list_to_Z (UINT_MOD) ((app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))))) + ((0 + 1 ) * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_a)))) + (list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_b)))) )) ”
+  (((list_to_Z (UINT_MOD) ((app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))))) + ((0 + 1 ) * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_a)))) + (list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_b)))) ))
 .
 
 Definition mpn_add_n_entail_wit_2_2_split_goal_2 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (val_r_2: Z) (l_r_2: (@list Z)) (val_b_prefix_2: Z) (val_a_prefix_2: Z) (cy: Z) (i: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32)) < (Znth i l_b 0))) (PreH2 : ((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) >= cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= UINT_MAX)) (PreH8 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) = val_a_prefix_2)) (PreH9 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) = val_b_prefix_2)) (PreH10 : ((list_to_Z (UINT_MOD) (l_r_2)) = val_r_2)) (PreH11 : (list_within_bound UINT_MOD l_r_2 )) (PreH12 : ((Zlength (l_r_2)) = i)) (PreH13 : ((val_r_2 + (cy * (Z.pow (UINT_MOD) (i)) ) ) = (val_a_prefix_2 + val_b_prefix_2 ))) (PreH14 : ((Zlength (l_a)) = n_pre)) (PreH15 : ((Zlength (l_b)) = n_pre)) (PreH16 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH17 : (list_within_bound UINT_MOD l_a )) (PreH18 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH19 : (list_within_bound UINT_MOD l_b )) (PreH20 : (n_pre >= 0)) ,
-  TT && emp 
-|--
-  “ ((Zlength ((app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))))) = (i + 1 )) ”
+  ((Zlength ((app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))))) = (i + 1 ))
 .
 
 Definition mpn_add_n_entail_wit_2_2_split_goal_3 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (val_r_2: Z) (l_r_2: (@list Z)) (val_b_prefix_2: Z) (val_a_prefix_2: Z) (cy: Z) (i: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32)) < (Znth i l_b 0))) (PreH2 : ((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) >= cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= UINT_MAX)) (PreH8 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) = val_a_prefix_2)) (PreH9 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) = val_b_prefix_2)) (PreH10 : ((list_to_Z (UINT_MOD) (l_r_2)) = val_r_2)) (PreH11 : (list_within_bound UINT_MOD l_r_2 )) (PreH12 : ((Zlength (l_r_2)) = i)) (PreH13 : ((val_r_2 + (cy * (Z.pow (UINT_MOD) (i)) ) ) = (val_a_prefix_2 + val_b_prefix_2 ))) (PreH14 : ((Zlength (l_a)) = n_pre)) (PreH15 : ((Zlength (l_b)) = n_pre)) (PreH16 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH17 : (list_within_bound UINT_MOD l_a )) (PreH18 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH19 : (list_within_bound UINT_MOD l_b )) (PreH20 : (n_pre >= 0)) ,
-  TT && emp 
-|--
-  “ (list_within_bound UINT_MOD (app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))) ) ”
+  (list_within_bound UINT_MOD (app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))) )
 .
 
 Definition mpn_add_n_entail_wit_2_3 := 
@@ -2013,23 +2040,17 @@ forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (val_r
 
 Definition mpn_add_n_entail_wit_2_3_split_goal_1 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (val_r_2: Z) (l_r_2: (@list Z)) (val_b_prefix_2: Z) (val_a_prefix_2: Z) (cy: Z) (i: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32)) >= (Znth i l_b 0))) (PreH2 : ((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) < cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= UINT_MAX)) (PreH8 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) = val_a_prefix_2)) (PreH9 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) = val_b_prefix_2)) (PreH10 : ((list_to_Z (UINT_MOD) (l_r_2)) = val_r_2)) (PreH11 : (list_within_bound UINT_MOD l_r_2 )) (PreH12 : ((Zlength (l_r_2)) = i)) (PreH13 : ((val_r_2 + (cy * (Z.pow (UINT_MOD) (i)) ) ) = (val_a_prefix_2 + val_b_prefix_2 ))) (PreH14 : ((Zlength (l_a)) = n_pre)) (PreH15 : ((Zlength (l_b)) = n_pre)) (PreH16 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH17 : (list_within_bound UINT_MOD l_a )) (PreH18 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH19 : (list_within_bound UINT_MOD l_b )) (PreH20 : (n_pre >= 0)) ,
-  TT && emp 
-|--
-  “ (((list_to_Z (UINT_MOD) ((app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))))) + ((1 + 0 ) * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_a)))) + (list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_b)))) )) ”
+  (((list_to_Z (UINT_MOD) ((app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))))) + ((1 + 0 ) * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_a)))) + (list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_b)))) ))
 .
 
 Definition mpn_add_n_entail_wit_2_3_split_goal_2 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (val_r_2: Z) (l_r_2: (@list Z)) (val_b_prefix_2: Z) (val_a_prefix_2: Z) (cy: Z) (i: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32)) >= (Znth i l_b 0))) (PreH2 : ((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) < cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= UINT_MAX)) (PreH8 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) = val_a_prefix_2)) (PreH9 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) = val_b_prefix_2)) (PreH10 : ((list_to_Z (UINT_MOD) (l_r_2)) = val_r_2)) (PreH11 : (list_within_bound UINT_MOD l_r_2 )) (PreH12 : ((Zlength (l_r_2)) = i)) (PreH13 : ((val_r_2 + (cy * (Z.pow (UINT_MOD) (i)) ) ) = (val_a_prefix_2 + val_b_prefix_2 ))) (PreH14 : ((Zlength (l_a)) = n_pre)) (PreH15 : ((Zlength (l_b)) = n_pre)) (PreH16 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH17 : (list_within_bound UINT_MOD l_a )) (PreH18 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH19 : (list_within_bound UINT_MOD l_b )) (PreH20 : (n_pre >= 0)) ,
-  TT && emp 
-|--
-  “ ((Zlength ((app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))))) = (i + 1 )) ”
+  ((Zlength ((app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))))) = (i + 1 ))
 .
 
 Definition mpn_add_n_entail_wit_2_3_split_goal_3 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (val_r_2: Z) (l_r_2: (@list Z)) (val_b_prefix_2: Z) (val_a_prefix_2: Z) (cy: Z) (i: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32)) >= (Znth i l_b 0))) (PreH2 : ((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) < cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= UINT_MAX)) (PreH8 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) = val_a_prefix_2)) (PreH9 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) = val_b_prefix_2)) (PreH10 : ((list_to_Z (UINT_MOD) (l_r_2)) = val_r_2)) (PreH11 : (list_within_bound UINT_MOD l_r_2 )) (PreH12 : ((Zlength (l_r_2)) = i)) (PreH13 : ((val_r_2 + (cy * (Z.pow (UINT_MOD) (i)) ) ) = (val_a_prefix_2 + val_b_prefix_2 ))) (PreH14 : ((Zlength (l_a)) = n_pre)) (PreH15 : ((Zlength (l_b)) = n_pre)) (PreH16 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH17 : (list_within_bound UINT_MOD l_a )) (PreH18 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH19 : (list_within_bound UINT_MOD l_b )) (PreH20 : (n_pre >= 0)) ,
-  TT && emp 
-|--
-  “ (list_within_bound UINT_MOD (app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))) ) ”
+  (list_within_bound UINT_MOD (app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))) )
 .
 
 Definition mpn_add_n_entail_wit_2_4 := 
@@ -2075,23 +2096,17 @@ forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (val_r
 
 Definition mpn_add_n_entail_wit_2_4_split_goal_1 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (val_r_2: Z) (l_r_2: (@list Z)) (val_b_prefix_2: Z) (val_a_prefix_2: Z) (cy: Z) (i: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32)) < (Znth i l_b 0))) (PreH2 : ((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) < cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= UINT_MAX)) (PreH8 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) = val_a_prefix_2)) (PreH9 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) = val_b_prefix_2)) (PreH10 : ((list_to_Z (UINT_MOD) (l_r_2)) = val_r_2)) (PreH11 : (list_within_bound UINT_MOD l_r_2 )) (PreH12 : ((Zlength (l_r_2)) = i)) (PreH13 : ((val_r_2 + (cy * (Z.pow (UINT_MOD) (i)) ) ) = (val_a_prefix_2 + val_b_prefix_2 ))) (PreH14 : ((Zlength (l_a)) = n_pre)) (PreH15 : ((Zlength (l_b)) = n_pre)) (PreH16 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH17 : (list_within_bound UINT_MOD l_a )) (PreH18 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH19 : (list_within_bound UINT_MOD l_b )) (PreH20 : (n_pre >= 0)) ,
-  TT && emp 
-|--
-  “ (((list_to_Z (UINT_MOD) ((app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))))) + ((1 + 1 ) * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_a)))) + (list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_b)))) )) ”
+  (((list_to_Z (UINT_MOD) ((app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))))) + ((1 + 1 ) * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_a)))) + (list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_b)))) ))
 .
 
 Definition mpn_add_n_entail_wit_2_4_split_goal_2 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (val_r_2: Z) (l_r_2: (@list Z)) (val_b_prefix_2: Z) (val_a_prefix_2: Z) (cy: Z) (i: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32)) < (Znth i l_b 0))) (PreH2 : ((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) < cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= UINT_MAX)) (PreH8 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) = val_a_prefix_2)) (PreH9 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) = val_b_prefix_2)) (PreH10 : ((list_to_Z (UINT_MOD) (l_r_2)) = val_r_2)) (PreH11 : (list_within_bound UINT_MOD l_r_2 )) (PreH12 : ((Zlength (l_r_2)) = i)) (PreH13 : ((val_r_2 + (cy * (Z.pow (UINT_MOD) (i)) ) ) = (val_a_prefix_2 + val_b_prefix_2 ))) (PreH14 : ((Zlength (l_a)) = n_pre)) (PreH15 : ((Zlength (l_b)) = n_pre)) (PreH16 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH17 : (list_within_bound UINT_MOD l_a )) (PreH18 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH19 : (list_within_bound UINT_MOD l_b )) (PreH20 : (n_pre >= 0)) ,
-  TT && emp 
-|--
-  “ ((Zlength ((app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))))) = (i + 1 )) ”
+  ((Zlength ((app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))))) = (i + 1 ))
 .
 
 Definition mpn_add_n_entail_wit_2_4_split_goal_3 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (val_r_2: Z) (l_r_2: (@list Z)) (val_b_prefix_2: Z) (val_a_prefix_2: Z) (cy: Z) (i: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32)) < (Znth i l_b 0))) (PreH2 : ((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) < cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= UINT_MAX)) (PreH8 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) = val_a_prefix_2)) (PreH9 : ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) = val_b_prefix_2)) (PreH10 : ((list_to_Z (UINT_MOD) (l_r_2)) = val_r_2)) (PreH11 : (list_within_bound UINT_MOD l_r_2 )) (PreH12 : ((Zlength (l_r_2)) = i)) (PreH13 : ((val_r_2 + (cy * (Z.pow (UINT_MOD) (i)) ) ) = (val_a_prefix_2 + val_b_prefix_2 ))) (PreH14 : ((Zlength (l_a)) = n_pre)) (PreH15 : ((Zlength (l_b)) = n_pre)) (PreH16 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH17 : (list_within_bound UINT_MOD l_a )) (PreH18 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH19 : (list_within_bound UINT_MOD l_b )) (PreH20 : (n_pre >= 0)) ,
-  TT && emp 
-|--
-  “ (list_within_bound UINT_MOD (app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))) ) ”
+  (list_within_bound UINT_MOD (app (l_r_2) ((cons ((unsigned_last_nbits (((unsigned_last_nbits (((Znth i l_a 0) + cy )) (32)) + (Znth i l_b 0) )) (32))) ((@nil Z))))) )
 .
 
 Definition mpn_add_n_return_wit_1 := 
@@ -2158,7 +2173,7 @@ forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (l_a
   &&  “ ((list_to_Z (UINT_MOD) (l_b)) = val_b) ” 
   &&  “ (list_within_bound UINT_MOD l_b ) ” 
   &&  “ (n_pre >= 0) ”
-  &&  (((ap_pre + (i * sizeof(UINT) ) )) # UInt  |-> (Znth i l_a 0))
+  &&  (((ap_pre + (i * sizeof(UINT)))) # UInt  |-> (Znth i l_a 0))
   **  (UIntArray.missing_i ap_pre i 0 n_pre l_a )
   **  (UIntArray.full rp_pre i l_r )
   **  (UIntArray.undef_seg rp_pre i n_pre )
@@ -2190,7 +2205,7 @@ forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (l_a
   &&  “ ((list_to_Z (UINT_MOD) (l_b)) = val_b) ” 
   &&  “ (list_within_bound UINT_MOD l_b ) ” 
   &&  “ (n_pre >= 0) ”
-  &&  (((bp_pre + (i * sizeof(UINT) ) )) # UInt  |-> (Znth i l_b 0))
+  &&  (((bp_pre + (i * sizeof(UINT)))) # UInt  |-> (Znth i l_b 0))
   **  (UIntArray.missing_i bp_pre i 0 n_pre l_b )
   **  (UIntArray.full ap_pre n_pre l_a )
   **  (UIntArray.full rp_pre i l_r )
@@ -2224,7 +2239,7 @@ forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (l_a
   &&  “ ((list_to_Z (UINT_MOD) (l_b)) = val_b) ” 
   &&  “ (list_within_bound UINT_MOD l_b ) ” 
   &&  “ (n_pre >= 0) ”
-  &&  (((rp_pre + (i * sizeof(UINT) ) )) # UInt  |->_)
+  &&  (((rp_pre + (i * sizeof(UINT)))) # UInt  |->_)
   **  (UIntArray.undef_seg rp_pre (i + 1 ) n_pre )
   **  (UIntArray.full bp_pre n_pre l_b )
   **  (UIntArray.full ap_pre n_pre l_a )
@@ -2258,7 +2273,7 @@ forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (l_a
   &&  “ ((list_to_Z (UINT_MOD) (l_b)) = val_b) ” 
   &&  “ (list_within_bound UINT_MOD l_b ) ” 
   &&  “ (n_pre >= 0) ”
-  &&  (((rp_pre + (i * sizeof(UINT) ) )) # UInt  |->_)
+  &&  (((rp_pre + (i * sizeof(UINT)))) # UInt  |->_)
   **  (UIntArray.undef_seg rp_pre (i + 1 ) n_pre )
   **  (UIntArray.full bp_pre n_pre l_b )
   **  (UIntArray.full ap_pre n_pre l_a )
@@ -2292,7 +2307,7 @@ forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (l_a
   &&  “ ((list_to_Z (UINT_MOD) (l_b)) = val_b) ” 
   &&  “ (list_within_bound UINT_MOD l_b ) ” 
   &&  “ (n_pre >= 0) ”
-  &&  (((rp_pre + (i * sizeof(UINT) ) )) # UInt  |->_)
+  &&  (((rp_pre + (i * sizeof(UINT)))) # UInt  |->_)
   **  (UIntArray.undef_seg rp_pre (i + 1 ) n_pre )
   **  (UIntArray.full bp_pre n_pre l_b )
   **  (UIntArray.full ap_pre n_pre l_a )
@@ -2326,7 +2341,7 @@ forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (l_a
   &&  “ ((list_to_Z (UINT_MOD) (l_b)) = val_b) ” 
   &&  “ (list_within_bound UINT_MOD l_b ) ” 
   &&  “ (n_pre >= 0) ”
-  &&  (((rp_pre + (i * sizeof(UINT) ) )) # UInt  |->_)
+  &&  (((rp_pre + (i * sizeof(UINT)))) # UInt  |->_)
   **  (UIntArray.undef_seg rp_pre (i + 1 ) n_pre )
   **  (UIntArray.full bp_pre n_pre l_b )
   **  (UIntArray.full ap_pre n_pre l_a )
@@ -2376,9 +2391,9 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   **  (mpd_store_Z UINT_MOD ap_pre val_a_low bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
   **  ((( &( "an" ) )) # Int  |-> an_pre)
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
   **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_high (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_high (an_pre - bn_pre ) )
   **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
 |--
   “ ((an_pre - bn_pre ) <= INT_MAX) ” 
@@ -2393,9 +2408,9 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   **  (mpd_store_Z UINT_MOD ap_pre val_a_low bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
   **  ((( &( "an" ) )) # Int  |-> an_pre)
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
   **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_high (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_high (an_pre - bn_pre ) )
   **  ((( &( "cy" ) )) # UInt  |-> retval)
   **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
 |--
@@ -2420,17 +2435,17 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   **  (mpd_store_Z UINT_MOD ap_pre val_a_low bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
   **  ((( &( "an" ) )) # Int  |-> an_pre)
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
   **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_high (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_high (an_pre - bn_pre ) )
   **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
 .
 
 Definition mpn_add_return_wit_1 := 
 (
 forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (val_a_low: Z) (val_a_high: Z) (val_r_out_2: Z) (retval_2: Z) (l_r: (@list Z)) (val': Z) (retval: Z) (PreH1 : ((val' + (retval * (Z.pow (UINT_MOD) ((an_pre - bn_pre ))) ) ) = (val_a_high + retval_2 ))) (PreH2 : (an_pre > bn_pre)) (PreH3 : (0 <= retval_2)) (PreH4 : (retval_2 <= UINT_MAX)) (PreH5 : (an_pre <= INT_MAX)) (PreH6 : (bn_pre <= INT_MAX)) (PreH7 : (an_pre >= INT_MIN)) (PreH8 : (bn_pre >= INT_MIN)) (PreH9 : ((Zlength (l_r)) = bn_pre)) (PreH10 : ((list_to_Z (UINT_MOD) (l_r)) = val_r_out_2)) (PreH11 : (list_within_bound UINT_MOD l_r )) (PreH12 : ((val_r_out_2 + (retval_2 * (Z.pow (UINT_MOD) (bn_pre)) ) ) = (val_a_low + val_b ))) (PreH13 : (val_a = (val_a_low + (val_a_high * (Z.pow (UINT_MOD) (bn_pre)) ) ))) (PreH14 : (an_pre >= bn_pre)) (PreH15 : (an_pre >= 0)) (PreH16 : (bn_pre >= 0)) ,
-  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_high (an_pre - bn_pre ) )
-  **  (mpd_store_Z UINT_MOD (rp_pre + (bn_pre * sizeof(UINT) ) ) val' (an_pre - bn_pre ) )
+  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_high (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (rp_pre + (bn_pre * sizeof(UINT))) val' (an_pre - bn_pre ) )
   **  (UIntArray.full rp_pre bn_pre l_r )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_low bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
@@ -2443,8 +2458,8 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
 ) \/
 (
 forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (val_a_low: Z) (val_a_high: Z) (val_r_out_2: Z) (retval_2: Z) (l_r: (@list Z)) (val': Z) (retval: Z) (PreH1 : ((val' + (retval * (Z.pow (UINT_MOD) ((an_pre - bn_pre ))) ) ) = (val_a_high + retval_2 ))) (PreH2 : (an_pre > bn_pre)) (PreH3 : (0 <= retval_2)) (PreH4 : (retval_2 <= UINT_MAX)) (PreH5 : (an_pre <= INT_MAX)) (PreH6 : (bn_pre <= INT_MAX)) (PreH7 : (an_pre >= INT_MIN)) (PreH8 : (bn_pre >= INT_MIN)) (PreH9 : ((Zlength (l_r)) = bn_pre)) (PreH10 : ((list_to_Z (UINT_MOD) (l_r)) = val_r_out_2)) (PreH11 : (list_within_bound UINT_MOD l_r )) (PreH12 : ((val_r_out_2 + (retval_2 * (Z.pow (UINT_MOD) (bn_pre)) ) ) = (val_a_low + val_b ))) (PreH13 : (val_a = (val_a_low + (val_a_high * (Z.pow (UINT_MOD) (bn_pre)) ) ))) (PreH14 : (an_pre >= bn_pre)) (PreH15 : (an_pre >= 0)) (PreH16 : (bn_pre >= 0)) ,
-  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_high (an_pre - bn_pre ) )
-  **  (mpd_store_Z UINT_MOD (rp_pre + (bn_pre * sizeof(UINT) ) ) val' (an_pre - bn_pre ) )
+  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_high (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (rp_pre + (bn_pre * sizeof(UINT))) val' (an_pre - bn_pre ) )
   **  (UIntArray.full rp_pre bn_pre l_r )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_low bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
@@ -2462,8 +2477,8 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   (UIntArray.full rp_pre bn_pre l_r )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_low bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_high (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_high (an_pre - bn_pre ) )
 |--
   EX (val_r_out: Z) ,
   “ ((val_r_out + (retval * (Z.pow (UINT_MOD) (an_pre)) ) ) = (val_a + val_b )) ”
@@ -2476,8 +2491,8 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   (UIntArray.full rp_pre bn_pre l_r )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_low bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_high (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_high (an_pre - bn_pre ) )
 |--
   EX (val_r_out: Z) ,
   “ ((val_r_out + (retval * (Z.pow (UINT_MOD) (an_pre)) ) ) = (val_a + val_b )) ”
@@ -2526,7 +2541,7 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
   **  (mpd_store_Z UINT_MOD ap_pre val_a_low bn_pre )
   **  ((( &( "an" ) )) # Int  |-> an_pre)
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_high (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_high (an_pre - bn_pre ) )
   **  ((( &( "cy" ) )) # UInt  |->_)
   **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
   **  ((( &( "rp" ) )) # Ptr  |-> rp_pre)
@@ -2540,7 +2555,7 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
 Definition mpn_add_partial_solve_wit_2_aux := 
 forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (val_a_low: Z) (val_a_high: Z) (PreH1 : (val_a = (val_a_low + (val_a_high * (Z.pow (UINT_MOD) (bn_pre)) ) ))) (PreH2 : (an_pre >= bn_pre)) (PreH3 : (an_pre >= 0)) (PreH4 : (bn_pre >= 0)) ,
   (mpd_store_Z UINT_MOD ap_pre val_a_low bn_pre )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_high (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_high (an_pre - bn_pre ) )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
   **  (UIntArray.undef_full rp_pre an_pre )
 |--
@@ -2552,7 +2567,7 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   &&  “ (bn_pre >= 0) ”
   &&  (UIntArray.undef_full rp_pre an_pre )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_low bn_pre )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_high (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_high (an_pre - bn_pre ) )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
 .
 
@@ -2564,10 +2579,10 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   **  ((( &( "rp" ) )) # Ptr  |-> rp_pre)
   **  (UIntArray.undef_full rp_pre bn_pre )
   **  ((( &( "an" ) )) # Int  |-> an_pre)
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
   **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
   **  (mpd_store_Z UINT_MOD ap_pre val_a_low bn_pre )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_high (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_high (an_pre - bn_pre ) )
   **  ((( &( "cy" ) )) # UInt  |->_)
   **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
@@ -2578,9 +2593,9 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
 Definition mpn_add_partial_solve_wit_3_aux := 
 forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (val_a_low: Z) (val_a_high: Z) (PreH1 : (val_a = (val_a_low + (val_a_high * (Z.pow (UINT_MOD) (bn_pre)) ) ))) (PreH2 : (an_pre >= bn_pre)) (PreH3 : (an_pre >= 0)) (PreH4 : (bn_pre >= 0)) ,
   (UIntArray.undef_full rp_pre bn_pre )
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_low bn_pre )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_high (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_high (an_pre - bn_pre ) )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
 |--
   “ (bn_pre >= 0) ” 
@@ -2591,8 +2606,8 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   &&  (mpd_store_Z UINT_MOD ap_pre val_a_low bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
   **  (UIntArray.undef_full rp_pre bn_pre )
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_high (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_high (an_pre - bn_pre ) )
 .
 
 Definition mpn_add_partial_solve_wit_3 := mpn_add_partial_solve_wit_3_pure -> mpn_add_partial_solve_wit_3_aux.
@@ -2602,8 +2617,8 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   (mpd_store_Z UINT_MOD ap_pre val_a_low bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
   **  (mpd_store_Z UINT_MOD rp_pre val_r_out bn_pre )
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_high (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_high (an_pre - bn_pre ) )
 |--
   “ ((val_r_out + (retval * (Z.pow (UINT_MOD) (bn_pre)) ) ) = (val_a_low + val_b )) ” 
   &&  “ (val_a = (val_a_low + (val_a_high * (Z.pow (UINT_MOD) (bn_pre)) ) )) ” 
@@ -2613,8 +2628,8 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   &&  (mpd_store_Z UINT_MOD rp_pre val_r_out bn_pre )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_low bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_high (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_high (an_pre - bn_pre ) )
 .
 
 Definition mpn_add_partial_solve_wit_5_pure := 
@@ -2626,9 +2641,9 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   **  (mpd_store_Z UINT_MOD ap_pre val_a_low bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
   **  ((( &( "an" ) )) # Int  |-> an_pre)
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
   **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_high (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_high (an_pre - bn_pre ) )
   **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
 |--
   “ ((an_pre - bn_pre ) > 0) ” 
@@ -2641,8 +2656,8 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   (UIntArray.full rp_pre bn_pre l_r )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_low bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_high (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_high (an_pre - bn_pre ) )
 |--
   “ ((an_pre - bn_pre ) > 0) ” 
   &&  “ (0 <= retval) ” 
@@ -2662,8 +2677,8 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   &&  “ (an_pre >= bn_pre) ” 
   &&  “ (an_pre >= 0) ” 
   &&  “ (bn_pre >= 0) ”
-  &&  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_high (an_pre - bn_pre ) )
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
+  &&  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_high (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
   **  (UIntArray.full rp_pre bn_pre l_r )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_low bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
@@ -2679,7 +2694,7 @@ forall (val_a: Z) (an: Z) (ap: Z) (bn: Z) (PreH1 : (an >= bn)) (PreH2 : (bn >= 0
   EX (val_a_high: Z)  (val_a_low: Z) ,
   “ (val_a = (val_a_low + (val_a_high * (Z.pow (UINT_MOD) (bn)) ) )) ”
   &&  (mpd_store_Z UINT_MOD ap val_a_low bn )
-  **  (mpd_store_Z UINT_MOD (ap + (bn * sizeof(UINT) ) ) val_a_high (an - bn ) )
+  **  (mpd_store_Z UINT_MOD (ap + (bn * sizeof(UINT))) val_a_high (an - bn ) )
 ) \/
 (
 forall (val_a: Z) (an: Z) (ap: Z) (bn: Z) (PreH1 : (an >= bn)) (PreH2 : (bn >= 0)) ,
@@ -2688,7 +2703,7 @@ forall (val_a: Z) (an: Z) (ap: Z) (bn: Z) (PreH1 : (an >= bn)) (PreH2 : (bn >= 0
   EX (val_a_high: Z)  (val_a_low: Z) ,
   “ (val_a = (val_a_low + (val_a_high * (Z.pow (UINT_MOD) (bn)) ) )) ”
   &&  (mpd_store_Z UINT_MOD ap val_a_low bn )
-  **  (mpd_store_Z UINT_MOD (ap + (bn * sizeof(UINT) ) ) val_a_high (an - bn ) )
+  **  (mpd_store_Z UINT_MOD (ap + (bn * sizeof(UINT))) val_a_high (an - bn ) )
 ).
 
 Definition mpn_add_which_implies_wit_2 := 
@@ -2697,14 +2712,14 @@ forall (an: Z) (bn: Z) (rp: Z) (PreH1 : (an >= bn)) (PreH2 : (bn >= 0)) ,
   (UIntArray.undef_full rp an )
 |--
   (UIntArray.undef_full rp bn )
-  **  (UIntArray.undef_full (rp + (bn * sizeof(UINT) ) ) (an - bn ) )
+  **  (UIntArray.undef_full (rp + (bn * sizeof(UINT))) (an - bn ) )
 ) \/
 (
 forall (an: Z) (bn: Z) (rp: Z) (PreH1 : (an >= bn)) (PreH2 : (bn >= 0)) ,
   (UIntArray.undef_full rp an )
 |--
   (UIntArray.undef_full rp bn )
-  **  (UIntArray.undef_full (rp + (bn * sizeof(UINT) ) ) (an - bn ) )
+  **  (UIntArray.undef_full (rp + (bn * sizeof(UINT))) (an - bn ) )
 ).
 
 Definition mpn_add_which_implies_wit_2_split_goal_spatial := 
@@ -2712,7 +2727,7 @@ forall (an: Z) (bn: Z) (rp: Z) (PreH1 : (an >= bn)) (PreH2 : (bn >= 0)) ,
   (UIntArray.undef_full rp an )
 |--
   (UIntArray.undef_full rp bn )
-  **  (UIntArray.undef_full (rp + (bn * sizeof(UINT) ) ) (an - bn ) )
+  **  (UIntArray.undef_full (rp + (bn * sizeof(UINT))) (an - bn ) )
 .
 
 Definition mpn_add_which_implies_wit_3 := 
@@ -3285,9 +3300,7 @@ forall (v_pre: Z) (u_pre: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbi
 
 Definition gmp_umul_ppmm_return_wit_1_split_goal_1 := 
 forall (v_pre: Z) (u_pre: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)) < (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)))) (PreH2 : (0 <= v_pre)) (PreH3 : (v_pre <= UINT_MAX)) (PreH4 : (0 <= u_pre)) (PreH5 : (u_pre <= UINT_MAX)) (PreH6 : (u_pre <= UINT_MAX)) (PreH7 : (v_pre <= UINT_MAX)) (PreH8 : (u_pre >= 0)) (PreH9 : (v_pre >= 0)) ,
-  TT && emp 
-|--
-  “ ((((unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.shiftr v_pre 16) )) (32)) + 65536 )) (32)) + (Z.shiftr (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)) 16) )) (32)) * UINT_MOD ) + (unsigned_last_nbits (((unsigned_last_nbits ((Z.shiftl (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)) 16)) (32)) + (Z.land ((Z.land u_pre 65535) * (Z.land v_pre 65535) ) 65535) )) (32)) ) = (u_pre * v_pre )) ”
+  ((((unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.shiftr v_pre 16) )) (32)) + 65536 )) (32)) + (Z.shiftr (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)) 16) )) (32)) * UINT_MOD ) + (unsigned_last_nbits (((unsigned_last_nbits ((Z.shiftl (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)) 16)) (32)) + (Z.land ((Z.land u_pre 65535) * (Z.land v_pre 65535) ) 65535) )) (32)) ) = (u_pre * v_pre ))
 .
 
 Definition gmp_umul_ppmm_return_wit_2 := 
@@ -3311,9 +3324,7 @@ forall (v_pre: Z) (u_pre: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbi
 
 Definition gmp_umul_ppmm_return_wit_2_split_goal_1 := 
 forall (v_pre: Z) (u_pre: Z) (PreH1 : ((unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)) >= (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)))) (PreH2 : (0 <= v_pre)) (PreH3 : (v_pre <= UINT_MAX)) (PreH4 : (0 <= u_pre)) (PreH5 : (u_pre <= UINT_MAX)) (PreH6 : (u_pre <= UINT_MAX)) (PreH7 : (v_pre <= UINT_MAX)) (PreH8 : (u_pre >= 0)) (PreH9 : (v_pre >= 0)) ,
-  TT && emp 
-|--
-  “ ((((unsigned_last_nbits (((unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)) 16) )) (32)) * UINT_MOD ) + (unsigned_last_nbits (((unsigned_last_nbits ((Z.shiftl (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)) 16)) (32)) + (Z.land ((Z.land u_pre 65535) * (Z.land v_pre 65535) ) 65535) )) (32)) ) = (u_pre * v_pre )) ”
+  ((((unsigned_last_nbits (((unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)) 16) )) (32)) * UINT_MOD ) + (unsigned_last_nbits (((unsigned_last_nbits ((Z.shiftl (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)) 16)) (32)) + (Z.land ((Z.land u_pre 65535) * (Z.land v_pre 65535) ) 65535) )) (32)) ) = (u_pre * v_pre ))
 .
 
 (*----- Function mpn_mul_1 -----*)
@@ -3466,23 +3477,17 @@ forall (vl_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (n_pre > 0)) (PreH2 : (n_p
 
 Definition mpn_mul_1_entail_wit_1_split_goal_1 := 
 forall (vl_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (n_pre > 0)) (PreH2 : (n_pre <= INT_MAX)) (PreH3 : (0 <= vl_pre)) (PreH4 : (vl_pre <= UINT_MAX)) (PreH5 : ((Zlength (l)) = n_pre)) (PreH6 : (list_within_bound UINT_MOD l )) ,
-  TT && emp 
-|--
-  “ (((list_to_Z (UINT_MOD) ((@nil Z))) + (0 * (Z.pow (UINT_MOD) (0)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (0) (l)))) * vl_pre )) ”
+  (((list_to_Z (UINT_MOD) ((@nil Z))) + (0 * (Z.pow (UINT_MOD) (0)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (0) (l)))) * vl_pre ))
 .
 
 Definition mpn_mul_1_entail_wit_1_split_goal_2 := 
 forall (vl_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (n_pre > 0)) (PreH2 : (n_pre <= INT_MAX)) (PreH3 : (0 <= vl_pre)) (PreH4 : (vl_pre <= UINT_MAX)) (PreH5 : ((Zlength (l)) = n_pre)) (PreH6 : (list_within_bound UINT_MOD l )) ,
-  TT && emp 
-|--
-  “ (list_within_bound UINT_MOD (@nil Z) ) ”
+  (list_within_bound UINT_MOD (@nil Z) )
 .
 
 Definition mpn_mul_1_entail_wit_1_split_goal_3 := 
 forall (vl_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (n_pre > 0)) (PreH2 : (n_pre <= INT_MAX)) (PreH3 : (0 <= vl_pre)) (PreH4 : (vl_pre <= UINT_MAX)) (PreH5 : ((Zlength (l)) = n_pre)) (PreH6 : (list_within_bound UINT_MOD l )) ,
-  TT && emp 
-|--
-  “ ((Zlength ((@nil Z))) = 0) ”
+  ((Zlength ((@nil Z))) = 0)
 .
 
 Definition mpn_mul_1_entail_wit_2 := 
@@ -3776,7 +3781,7 @@ forall (vl_pre: Z) (n_pre: Z) (up_pre: Z) (rp_pre: Z) (l: (@list Z)) (l_rp: (@li
   &&  “ (vl_pre <= UINT_MAX) ” 
   &&  “ ((Zlength (l)) = n_pre) ” 
   &&  “ (list_within_bound UINT_MOD l ) ”
-  &&  (((up_pre + (i * sizeof(UINT) ) )) # UInt  |-> (Znth i l 0))
+  &&  (((up_pre + (i * sizeof(UINT)))) # UInt  |-> (Znth i l 0))
   **  (UIntArray.missing_i up_pre i 0 n_pre l )
   **  (UIntArray.seg rp_pre 0 i l_rp )
   **  (UIntArray.undef_seg rp_pre i n_pre )
@@ -3832,7 +3837,7 @@ forall (vl_pre: Z) (n_pre: Z) (up_pre: Z) (rp_pre: Z) (l: (@list Z)) (l_rp: (@li
   &&  “ (vl_pre <= UINT_MAX) ” 
   &&  “ ((Zlength (l)) = n_pre) ” 
   &&  “ (list_within_bound UINT_MOD l ) ”
-  &&  (((rp_pre + (i * sizeof(UINT) ) )) # UInt  |->_)
+  &&  (((rp_pre + (i * sizeof(UINT)))) # UInt  |->_)
   **  (UIntArray.undef_seg rp_pre (i + 1 ) n_pre )
   **  (UIntArray.full up_pre n_pre l )
   **  (UIntArray.seg rp_pre 0 i l_rp )
@@ -3863,7 +3868,7 @@ forall (vl_pre: Z) (n_pre: Z) (up_pre: Z) (rp_pre: Z) (l: (@list Z)) (l_rp: (@li
   &&  “ (vl_pre <= UINT_MAX) ” 
   &&  “ ((Zlength (l)) = n_pre) ” 
   &&  “ (list_within_bound UINT_MOD l ) ”
-  &&  (((rp_pre + (i * sizeof(UINT) ) )) # UInt  |->_)
+  &&  (((rp_pre + (i * sizeof(UINT)))) # UInt  |->_)
   **  (UIntArray.undef_seg rp_pre (i + 1 ) n_pre )
   **  (UIntArray.full up_pre n_pre l )
   **  (UIntArray.seg rp_pre 0 i l_rp )
@@ -3887,8 +3892,8 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (Pr
 
 Definition mpn_sub_1_safety_wit_2 := 
 forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : ((Znth 0 l 0) >= b_pre)) (PreH2 : ((Zlength (l)) = n_pre)) (PreH3 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH4 : (list_within_bound UINT_MOD l )) (PreH5 : (n_pre > 0)) (PreH6 : (0 <= b_pre)) (PreH7 : (b_pre <= UINT_MAX)) ,
-  (((rp_pre + (0 * sizeof(UINT) ) )) # UInt  |-> ((Znth 0 l 0) - b_pre ))
-  **  (UIntArray.undef_missing_i rp_pre 0 0 n_pre )
+  (((rp_pre + (0 * sizeof(UINT)))) # UInt  |-> ((Znth 0 l 0) - b_pre ))
+  **  (UIntArray.undef_seg rp_pre 1 n_pre )
   **  ((( &( "cy" ) )) # UInt  |-> 0)
   **  (UIntArray.full ap_pre n_pre l )
   **  ((( &( "a" ) )) # UInt  |-> (Znth 0 l 0))
@@ -3904,8 +3909,8 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (Pr
 
 Definition mpn_sub_1_safety_wit_3 := 
 forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : ((Znth 0 l 0) < b_pre)) (PreH2 : ((Zlength (l)) = n_pre)) (PreH3 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH4 : (list_within_bound UINT_MOD l )) (PreH5 : (n_pre > 0)) (PreH6 : (0 <= b_pre)) (PreH7 : (b_pre <= UINT_MAX)) ,
-  (((rp_pre + (0 * sizeof(UINT) ) )) # UInt  |-> (unsigned_last_nbits (((Znth 0 l 0) - b_pre )) (32)))
-  **  (UIntArray.undef_missing_i rp_pre 0 0 n_pre )
+  (((rp_pre + (0 * sizeof(UINT)))) # UInt  |-> (unsigned_last_nbits (((Znth 0 l 0) - b_pre )) (32)))
+  **  (UIntArray.undef_seg rp_pre 1 n_pre )
   **  ((( &( "cy" ) )) # UInt  |-> 1)
   **  (UIntArray.full ap_pre n_pre l )
   **  ((( &( "a" ) )) # UInt  |-> (Znth 0 l 0))
@@ -3987,23 +3992,17 @@ forall (b_pre: Z) (n_pre: Z) (val: Z) (l: (@list Z)) (data_rp_partial_2: (@list 
 
 Definition mpn_sub_1_entail_wit_1_1_split_goal_1 := 
 forall (b_pre: Z) (n_pre: Z) (val: Z) (l: (@list Z)) (data_rp_partial_2: (@list Z)) (b: Z) (i: Z) (PreH1 : ((Znth i l 0) >= b)) (PreH2 : (i < n_pre)) (PreH3 : (0 < i)) (PreH4 : (i <= n_pre)) (PreH5 : (0 <= b)) (PreH6 : (b <= 1)) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : ((Zlength (data_rp_partial_2)) = i)) (PreH9 : (list_within_bound UINT_MOD l )) (PreH10 : (list_within_bound UINT_MOD data_rp_partial_2 )) (PreH11 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH12 : (((list_to_Z (UINT_MOD) (data_rp_partial_2)) - (b * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l)))) - b_pre ))) ,
-  TT && emp 
-|--
-  “ (((list_to_Z (UINT_MOD) ((app (data_rp_partial_2) ((cons (((Znth i l 0) - b )) ((@nil Z))))))) - (0 * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l)))) - b_pre )) ”
+  (((list_to_Z (UINT_MOD) ((app (data_rp_partial_2) ((cons (((Znth i l 0) - b )) ((@nil Z))))))) - (0 * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l)))) - b_pre ))
 .
 
 Definition mpn_sub_1_entail_wit_1_1_split_goal_2 := 
 forall (b_pre: Z) (n_pre: Z) (val: Z) (l: (@list Z)) (data_rp_partial_2: (@list Z)) (b: Z) (i: Z) (PreH1 : ((Znth i l 0) >= b)) (PreH2 : (i < n_pre)) (PreH3 : (0 < i)) (PreH4 : (i <= n_pre)) (PreH5 : (0 <= b)) (PreH6 : (b <= 1)) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : ((Zlength (data_rp_partial_2)) = i)) (PreH9 : (list_within_bound UINT_MOD l )) (PreH10 : (list_within_bound UINT_MOD data_rp_partial_2 )) (PreH11 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH12 : (((list_to_Z (UINT_MOD) (data_rp_partial_2)) - (b * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l)))) - b_pre ))) ,
-  TT && emp 
-|--
-  “ (list_within_bound UINT_MOD (app (data_rp_partial_2) ((cons (((Znth i l 0) - b )) ((@nil Z))))) ) ”
+  (list_within_bound UINT_MOD (app (data_rp_partial_2) ((cons (((Znth i l 0) - b )) ((@nil Z))))) )
 .
 
 Definition mpn_sub_1_entail_wit_1_1_split_goal_3 := 
 forall (b_pre: Z) (n_pre: Z) (val: Z) (l: (@list Z)) (data_rp_partial_2: (@list Z)) (b: Z) (i: Z) (PreH1 : ((Znth i l 0) >= b)) (PreH2 : (i < n_pre)) (PreH3 : (0 < i)) (PreH4 : (i <= n_pre)) (PreH5 : (0 <= b)) (PreH6 : (b <= 1)) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : ((Zlength (data_rp_partial_2)) = i)) (PreH9 : (list_within_bound UINT_MOD l )) (PreH10 : (list_within_bound UINT_MOD data_rp_partial_2 )) (PreH11 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH12 : (((list_to_Z (UINT_MOD) (data_rp_partial_2)) - (b * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l)))) - b_pre ))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((app (data_rp_partial_2) ((cons (((Znth i l 0) - b )) ((@nil Z))))))) = (i + 1 )) ”
+  ((Zlength ((app (data_rp_partial_2) ((cons (((Znth i l 0) - b )) ((@nil Z))))))) = (i + 1 ))
 .
 
 Definition mpn_sub_1_entail_wit_1_2 := 
@@ -4040,30 +4039,24 @@ forall (b_pre: Z) (n_pre: Z) (val: Z) (l: (@list Z)) (data_rp_partial_2: (@list 
 
 Definition mpn_sub_1_entail_wit_1_2_split_goal_1 := 
 forall (b_pre: Z) (n_pre: Z) (val: Z) (l: (@list Z)) (data_rp_partial_2: (@list Z)) (b: Z) (i: Z) (PreH1 : ((Znth i l 0) < b)) (PreH2 : (i < n_pre)) (PreH3 : (0 < i)) (PreH4 : (i <= n_pre)) (PreH5 : (0 <= b)) (PreH6 : (b <= 1)) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : ((Zlength (data_rp_partial_2)) = i)) (PreH9 : (list_within_bound UINT_MOD l )) (PreH10 : (list_within_bound UINT_MOD data_rp_partial_2 )) (PreH11 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH12 : (((list_to_Z (UINT_MOD) (data_rp_partial_2)) - (b * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l)))) - b_pre ))) ,
-  TT && emp 
-|--
-  “ (((list_to_Z (UINT_MOD) ((app (data_rp_partial_2) ((cons ((unsigned_last_nbits (((Znth i l 0) - b )) (32))) ((@nil Z))))))) - (1 * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l)))) - b_pre )) ”
+  (((list_to_Z (UINT_MOD) ((app (data_rp_partial_2) ((cons ((unsigned_last_nbits (((Znth i l 0) - b )) (32))) ((@nil Z))))))) - (1 * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l)))) - b_pre ))
 .
 
 Definition mpn_sub_1_entail_wit_1_2_split_goal_2 := 
 forall (b_pre: Z) (n_pre: Z) (val: Z) (l: (@list Z)) (data_rp_partial_2: (@list Z)) (b: Z) (i: Z) (PreH1 : ((Znth i l 0) < b)) (PreH2 : (i < n_pre)) (PreH3 : (0 < i)) (PreH4 : (i <= n_pre)) (PreH5 : (0 <= b)) (PreH6 : (b <= 1)) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : ((Zlength (data_rp_partial_2)) = i)) (PreH9 : (list_within_bound UINT_MOD l )) (PreH10 : (list_within_bound UINT_MOD data_rp_partial_2 )) (PreH11 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH12 : (((list_to_Z (UINT_MOD) (data_rp_partial_2)) - (b * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l)))) - b_pre ))) ,
-  TT && emp 
-|--
-  “ (list_within_bound UINT_MOD (app (data_rp_partial_2) ((cons ((unsigned_last_nbits (((Znth i l 0) - b )) (32))) ((@nil Z))))) ) ”
+  (list_within_bound UINT_MOD (app (data_rp_partial_2) ((cons ((unsigned_last_nbits (((Znth i l 0) - b )) (32))) ((@nil Z))))) )
 .
 
 Definition mpn_sub_1_entail_wit_1_2_split_goal_3 := 
 forall (b_pre: Z) (n_pre: Z) (val: Z) (l: (@list Z)) (data_rp_partial_2: (@list Z)) (b: Z) (i: Z) (PreH1 : ((Znth i l 0) < b)) (PreH2 : (i < n_pre)) (PreH3 : (0 < i)) (PreH4 : (i <= n_pre)) (PreH5 : (0 <= b)) (PreH6 : (b <= 1)) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : ((Zlength (data_rp_partial_2)) = i)) (PreH9 : (list_within_bound UINT_MOD l )) (PreH10 : (list_within_bound UINT_MOD data_rp_partial_2 )) (PreH11 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH12 : (((list_to_Z (UINT_MOD) (data_rp_partial_2)) - (b * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l)))) - b_pre ))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((app (data_rp_partial_2) ((cons ((unsigned_last_nbits (((Znth i l 0) - b )) (32))) ((@nil Z))))))) = (i + 1 )) ”
+  ((Zlength ((app (data_rp_partial_2) ((cons ((unsigned_last_nbits (((Znth i l 0) - b )) (32))) ((@nil Z))))))) = (i + 1 ))
 .
 
 Definition mpn_sub_1_entail_wit_2_1 := 
 (
 forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : ((Znth 0 l 0) >= b_pre)) (PreH2 : ((Zlength (l)) = n_pre)) (PreH3 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH4 : (list_within_bound UINT_MOD l )) (PreH5 : (n_pre > 0)) (PreH6 : (0 <= b_pre)) (PreH7 : (b_pre <= UINT_MAX)) ,
-  (((rp_pre + (0 * sizeof(UINT) ) )) # UInt  |-> ((Znth 0 l 0) - b_pre ))
-  **  (UIntArray.undef_missing_i rp_pre 0 0 n_pre )
+  (((rp_pre + (0 * sizeof(UINT)))) # UInt  |-> ((Znth 0 l 0) - b_pre ))
+  **  (UIntArray.undef_seg rp_pre 1 n_pre )
   **  (UIntArray.full ap_pre n_pre l )
 |--
   EX (data_rp_partial: (@list Z)) ,
@@ -4083,8 +4076,7 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (Pr
 ) \/
 (
 forall (b_pre: Z) (n_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : (((Znth 0 l 0) - b_pre ) <= UINT_MAX)) (PreH2 : (((Znth 0 l 0) - b_pre ) >= 0)) (PreH3 : ((Znth 0 l 0) >= b_pre)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH6 : (list_within_bound UINT_MOD l )) (PreH7 : (n_pre > 0)) (PreH8 : (0 <= b_pre)) (PreH9 : (b_pre <= UINT_MAX)) ,
-  (((rp_pre + (0 * sizeof(UINT) ) )) # UInt  |-> ((Znth 0 l 0) - b_pre ))
-  **  (UIntArray.undef_missing_i rp_pre 0 0 n_pre )
+  (((rp_pre + (0 * sizeof(UINT)))) # UInt  |-> ((Znth 0 l 0) - b_pre ))
 |--
   EX (data_rp_partial: (@list Z)) ,
   “ (0 < (0 + 1 )) ” 
@@ -4098,14 +4090,13 @@ forall (b_pre: Z) (n_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : (((Znt
   &&  “ ((list_to_Z (UINT_MOD) (l)) = val) ” 
   &&  “ (((list_to_Z (UINT_MOD) (data_rp_partial)) - (0 * (Z.pow (UINT_MOD) ((0 + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((0 + 1 )) (l)))) - b_pre )) ”
   &&  (UIntArray.seg rp_pre 0 (0 + 1 ) data_rp_partial )
-  **  (UIntArray.undef_seg rp_pre (0 + 1 ) n_pre )
 ).
 
 Definition mpn_sub_1_entail_wit_2_2 := 
 (
 forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : ((Znth 0 l 0) < b_pre)) (PreH2 : ((Zlength (l)) = n_pre)) (PreH3 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH4 : (list_within_bound UINT_MOD l )) (PreH5 : (n_pre > 0)) (PreH6 : (0 <= b_pre)) (PreH7 : (b_pre <= UINT_MAX)) ,
-  (((rp_pre + (0 * sizeof(UINT) ) )) # UInt  |-> (unsigned_last_nbits (((Znth 0 l 0) - b_pre )) (32)))
-  **  (UIntArray.undef_missing_i rp_pre 0 0 n_pre )
+  (((rp_pre + (0 * sizeof(UINT)))) # UInt  |-> (unsigned_last_nbits (((Znth 0 l 0) - b_pre )) (32)))
+  **  (UIntArray.undef_seg rp_pre 1 n_pre )
   **  (UIntArray.full ap_pre n_pre l )
 |--
   EX (data_rp_partial: (@list Z)) ,
@@ -4125,8 +4116,7 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (Pr
 ) \/
 (
 forall (b_pre: Z) (n_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : ((unsigned_last_nbits (((Znth 0 l 0) - b_pre )) (32)) <= UINT_MAX)) (PreH2 : ((unsigned_last_nbits (((Znth 0 l 0) - b_pre )) (32)) >= 0)) (PreH3 : ((Znth 0 l 0) < b_pre)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : ((list_to_Z (UINT_MOD) (l)) = val)) (PreH6 : (list_within_bound UINT_MOD l )) (PreH7 : (n_pre > 0)) (PreH8 : (0 <= b_pre)) (PreH9 : (b_pre <= UINT_MAX)) ,
-  (((rp_pre + (0 * sizeof(UINT) ) )) # UInt  |-> (unsigned_last_nbits (((Znth 0 l 0) - b_pre )) (32)))
-  **  (UIntArray.undef_missing_i rp_pre 0 0 n_pre )
+  (((rp_pre + (0 * sizeof(UINT)))) # UInt  |-> (unsigned_last_nbits (((Znth 0 l 0) - b_pre )) (32)))
 |--
   EX (data_rp_partial: (@list Z)) ,
   “ (0 < (0 + 1 )) ” 
@@ -4140,7 +4130,6 @@ forall (b_pre: Z) (n_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (PreH1 : ((unsi
   &&  “ ((list_to_Z (UINT_MOD) (l)) = val) ” 
   &&  “ (((list_to_Z (UINT_MOD) (data_rp_partial)) - (1 * (Z.pow (UINT_MOD) ((0 + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((0 + 1 )) (l)))) - b_pre )) ”
   &&  (UIntArray.seg rp_pre 0 (0 + 1 ) data_rp_partial )
-  **  (UIntArray.undef_seg rp_pre (0 + 1 ) n_pre )
 ).
 
 Definition mpn_sub_1_return_wit_1 := 
@@ -4189,7 +4178,7 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (Pr
   &&  “ (n_pre > 0) ” 
   &&  “ (0 <= b_pre) ” 
   &&  “ (b_pre <= UINT_MAX) ”
-  &&  (((ap_pre + (0 * sizeof(UINT) ) )) # UInt  |-> (Znth 0 l 0))
+  &&  (((ap_pre + (0 * sizeof(UINT)))) # UInt  |-> (Znth 0 l 0))
   **  (UIntArray.missing_i ap_pre 0 0 n_pre l )
   **  (UIntArray.undef_full rp_pre n_pre )
 .
@@ -4206,8 +4195,8 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (Pr
   &&  “ (n_pre > 0) ” 
   &&  “ (0 <= b_pre) ” 
   &&  “ (b_pre <= UINT_MAX) ”
-  &&  (((rp_pre + (0 * sizeof(UINT) ) )) # UInt  |->_)
-  **  (UIntArray.undef_missing_i rp_pre 0 0 n_pre )
+  &&  (((rp_pre + (0 * sizeof(UINT)))) # UInt  |->_)
+  **  (UIntArray.undef_seg rp_pre 1 n_pre )
   **  (UIntArray.full ap_pre n_pre l )
 .
 
@@ -4223,8 +4212,8 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (Pr
   &&  “ (n_pre > 0) ” 
   &&  “ (0 <= b_pre) ” 
   &&  “ (b_pre <= UINT_MAX) ”
-  &&  (((rp_pre + (0 * sizeof(UINT) ) )) # UInt  |->_)
-  **  (UIntArray.undef_missing_i rp_pre 0 0 n_pre )
+  &&  (((rp_pre + (0 * sizeof(UINT)))) # UInt  |->_)
+  **  (UIntArray.undef_seg rp_pre 1 n_pre )
   **  (UIntArray.full ap_pre n_pre l )
 .
 
@@ -4246,7 +4235,7 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (da
   &&  “ (list_within_bound UINT_MOD data_rp_partial ) ” 
   &&  “ ((list_to_Z (UINT_MOD) (l)) = val) ” 
   &&  “ (((list_to_Z (UINT_MOD) (data_rp_partial)) - (b * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l)))) - b_pre )) ”
-  &&  (((rp_pre + (i * sizeof(UINT) ) )) # UInt  |->_)
+  &&  (((rp_pre + (i * sizeof(UINT)))) # UInt  |->_)
   **  (UIntArray.undef_seg rp_pre (i + 1 ) n_pre )
   **  (UIntArray.full ap_pre n_pre l )
   **  (UIntArray.seg rp_pre 0 i data_rp_partial )
@@ -4270,7 +4259,7 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (da
   &&  “ (list_within_bound UINT_MOD data_rp_partial ) ” 
   &&  “ ((list_to_Z (UINT_MOD) (l)) = val) ” 
   &&  “ (((list_to_Z (UINT_MOD) (data_rp_partial)) - (b * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l)))) - b_pre )) ”
-  &&  (((rp_pre + (i * sizeof(UINT) ) )) # UInt  |->_)
+  &&  (((rp_pre + (i * sizeof(UINT)))) # UInt  |->_)
   **  (UIntArray.undef_seg rp_pre (i + 1 ) n_pre )
   **  (UIntArray.full ap_pre n_pre l )
   **  (UIntArray.seg rp_pre 0 i data_rp_partial )
@@ -4293,7 +4282,7 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (da
   &&  “ (list_within_bound UINT_MOD data_rp_partial ) ” 
   &&  “ ((list_to_Z (UINT_MOD) (l)) = val) ” 
   &&  “ (((list_to_Z (UINT_MOD) (data_rp_partial)) - (b * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l)))) - b_pre )) ”
-  &&  (((ap_pre + (i * sizeof(UINT) ) )) # UInt  |-> (Znth i l 0))
+  &&  (((ap_pre + (i * sizeof(UINT)))) # UInt  |-> (Znth i l 0))
   **  (UIntArray.missing_i ap_pre i 0 n_pre l )
   **  (UIntArray.seg rp_pre 0 i data_rp_partial )
   **  (UIntArray.undef_seg rp_pre i n_pre )
@@ -4461,23 +4450,17 @@ forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (PreH1
 
 Definition mpn_sub_n_entail_wit_1_split_goal_1 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (PreH1 : ((Zlength (l_a)) = n_pre)) (PreH2 : ((Zlength (l_b)) = n_pre)) (PreH3 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH4 : (list_within_bound UINT_MOD l_a )) (PreH5 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH6 : (list_within_bound UINT_MOD l_b )) (PreH7 : (n_pre >= 0)) ,
-  TT && emp 
-|--
-  “ (((list_to_Z (UINT_MOD) ((@nil Z))) - (0 * (Z.pow (UINT_MOD) (0)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (0) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) (0) (l_b)))) )) ”
+  (((list_to_Z (UINT_MOD) ((@nil Z))) - (0 * (Z.pow (UINT_MOD) (0)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (0) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) (0) (l_b)))) ))
 .
 
 Definition mpn_sub_n_entail_wit_1_split_goal_2 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (PreH1 : ((Zlength (l_a)) = n_pre)) (PreH2 : ((Zlength (l_b)) = n_pre)) (PreH3 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH4 : (list_within_bound UINT_MOD l_a )) (PreH5 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH6 : (list_within_bound UINT_MOD l_b )) (PreH7 : (n_pre >= 0)) ,
-  TT && emp 
-|--
-  “ (list_within_bound UINT_MOD (@nil Z) ) ”
+  (list_within_bound UINT_MOD (@nil Z) )
 .
 
 Definition mpn_sub_n_entail_wit_1_split_goal_3 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (PreH1 : ((Zlength (l_a)) = n_pre)) (PreH2 : ((Zlength (l_b)) = n_pre)) (PreH3 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH4 : (list_within_bound UINT_MOD l_a )) (PreH5 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH6 : (list_within_bound UINT_MOD l_b )) (PreH7 : (n_pre >= 0)) ,
-  TT && emp 
-|--
-  “ ((Zlength ((@nil Z))) = 0) ”
+  ((Zlength ((@nil Z))) = 0)
 .
 
 Definition mpn_sub_n_entail_wit_2_1 := 
@@ -4519,23 +4502,17 @@ forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (data_
 
 Definition mpn_sub_n_entail_wit_2_1_split_goal_1 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (data_rp_partial_2: (@list Z)) (cy: Z) (i: Z) (PreH1 : ((Znth i l_a 0) >= (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)))) (PreH2 : ((unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) >= cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= 2)) (PreH8 : ((Zlength (l_a)) = n_pre)) (PreH9 : ((Zlength (l_b)) = n_pre)) (PreH10 : ((Zlength (data_rp_partial_2)) = i)) (PreH11 : (list_within_bound UINT_MOD l_a )) (PreH12 : (list_within_bound UINT_MOD l_b )) (PreH13 : (list_within_bound UINT_MOD data_rp_partial_2 )) (PreH14 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH15 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH16 : (((list_to_Z (UINT_MOD) (data_rp_partial_2)) - (cy * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) ))) ,
-  TT && emp 
-|--
-  “ (((list_to_Z (UINT_MOD) ((app (data_rp_partial_2) ((cons (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) ((@nil Z))))))) - ((0 + 0 ) * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_b)))) )) ”
+  (((list_to_Z (UINT_MOD) ((app (data_rp_partial_2) ((cons (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) ((@nil Z))))))) - ((0 + 0 ) * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_b)))) ))
 .
 
 Definition mpn_sub_n_entail_wit_2_1_split_goal_2 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (data_rp_partial_2: (@list Z)) (cy: Z) (i: Z) (PreH1 : ((Znth i l_a 0) >= (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)))) (PreH2 : ((unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) >= cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= 2)) (PreH8 : ((Zlength (l_a)) = n_pre)) (PreH9 : ((Zlength (l_b)) = n_pre)) (PreH10 : ((Zlength (data_rp_partial_2)) = i)) (PreH11 : (list_within_bound UINT_MOD l_a )) (PreH12 : (list_within_bound UINT_MOD l_b )) (PreH13 : (list_within_bound UINT_MOD data_rp_partial_2 )) (PreH14 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH15 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH16 : (((list_to_Z (UINT_MOD) (data_rp_partial_2)) - (cy * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) ))) ,
-  TT && emp 
-|--
-  “ (list_within_bound UINT_MOD (app (data_rp_partial_2) ((cons (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) ((@nil Z))))) ) ”
+  (list_within_bound UINT_MOD (app (data_rp_partial_2) ((cons (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) ((@nil Z))))) )
 .
 
 Definition mpn_sub_n_entail_wit_2_1_split_goal_3 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (data_rp_partial_2: (@list Z)) (cy: Z) (i: Z) (PreH1 : ((Znth i l_a 0) >= (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)))) (PreH2 : ((unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) >= cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= 2)) (PreH8 : ((Zlength (l_a)) = n_pre)) (PreH9 : ((Zlength (l_b)) = n_pre)) (PreH10 : ((Zlength (data_rp_partial_2)) = i)) (PreH11 : (list_within_bound UINT_MOD l_a )) (PreH12 : (list_within_bound UINT_MOD l_b )) (PreH13 : (list_within_bound UINT_MOD data_rp_partial_2 )) (PreH14 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH15 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH16 : (((list_to_Z (UINT_MOD) (data_rp_partial_2)) - (cy * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) ))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((app (data_rp_partial_2) ((cons (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) ((@nil Z))))))) = (i + 1 )) ”
+  ((Zlength ((app (data_rp_partial_2) ((cons (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) ((@nil Z))))))) = (i + 1 ))
 .
 
 Definition mpn_sub_n_entail_wit_2_2 := 
@@ -4577,23 +4554,17 @@ forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (data_
 
 Definition mpn_sub_n_entail_wit_2_2_split_goal_1 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (data_rp_partial_2: (@list Z)) (cy: Z) (i: Z) (PreH1 : ((Znth i l_a 0) < (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)))) (PreH2 : ((unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) >= cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= 2)) (PreH8 : ((Zlength (l_a)) = n_pre)) (PreH9 : ((Zlength (l_b)) = n_pre)) (PreH10 : ((Zlength (data_rp_partial_2)) = i)) (PreH11 : (list_within_bound UINT_MOD l_a )) (PreH12 : (list_within_bound UINT_MOD l_b )) (PreH13 : (list_within_bound UINT_MOD data_rp_partial_2 )) (PreH14 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH15 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH16 : (((list_to_Z (UINT_MOD) (data_rp_partial_2)) - (cy * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) ))) ,
-  TT && emp 
-|--
-  “ (((list_to_Z (UINT_MOD) ((app (data_rp_partial_2) ((cons ((unsigned_last_nbits (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) (32))) ((@nil Z))))))) - ((0 + 1 ) * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_b)))) )) ”
+  (((list_to_Z (UINT_MOD) ((app (data_rp_partial_2) ((cons ((unsigned_last_nbits (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) (32))) ((@nil Z))))))) - ((0 + 1 ) * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_b)))) ))
 .
 
 Definition mpn_sub_n_entail_wit_2_2_split_goal_2 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (data_rp_partial_2: (@list Z)) (cy: Z) (i: Z) (PreH1 : ((Znth i l_a 0) < (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)))) (PreH2 : ((unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) >= cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= 2)) (PreH8 : ((Zlength (l_a)) = n_pre)) (PreH9 : ((Zlength (l_b)) = n_pre)) (PreH10 : ((Zlength (data_rp_partial_2)) = i)) (PreH11 : (list_within_bound UINT_MOD l_a )) (PreH12 : (list_within_bound UINT_MOD l_b )) (PreH13 : (list_within_bound UINT_MOD data_rp_partial_2 )) (PreH14 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH15 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH16 : (((list_to_Z (UINT_MOD) (data_rp_partial_2)) - (cy * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) ))) ,
-  TT && emp 
-|--
-  “ (list_within_bound UINT_MOD (app (data_rp_partial_2) ((cons ((unsigned_last_nbits (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) (32))) ((@nil Z))))) ) ”
+  (list_within_bound UINT_MOD (app (data_rp_partial_2) ((cons ((unsigned_last_nbits (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) (32))) ((@nil Z))))) )
 .
 
 Definition mpn_sub_n_entail_wit_2_2_split_goal_3 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (data_rp_partial_2: (@list Z)) (cy: Z) (i: Z) (PreH1 : ((Znth i l_a 0) < (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)))) (PreH2 : ((unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) >= cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= 2)) (PreH8 : ((Zlength (l_a)) = n_pre)) (PreH9 : ((Zlength (l_b)) = n_pre)) (PreH10 : ((Zlength (data_rp_partial_2)) = i)) (PreH11 : (list_within_bound UINT_MOD l_a )) (PreH12 : (list_within_bound UINT_MOD l_b )) (PreH13 : (list_within_bound UINT_MOD data_rp_partial_2 )) (PreH14 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH15 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH16 : (((list_to_Z (UINT_MOD) (data_rp_partial_2)) - (cy * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) ))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((app (data_rp_partial_2) ((cons ((unsigned_last_nbits (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) (32))) ((@nil Z))))))) = (i + 1 )) ”
+  ((Zlength ((app (data_rp_partial_2) ((cons ((unsigned_last_nbits (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) (32))) ((@nil Z))))))) = (i + 1 ))
 .
 
 Definition mpn_sub_n_entail_wit_2_3 := 
@@ -4635,23 +4606,17 @@ forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (data_
 
 Definition mpn_sub_n_entail_wit_2_3_split_goal_1 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (data_rp_partial_2: (@list Z)) (cy: Z) (i: Z) (PreH1 : ((Znth i l_a 0) >= (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)))) (PreH2 : ((unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) < cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= 2)) (PreH8 : ((Zlength (l_a)) = n_pre)) (PreH9 : ((Zlength (l_b)) = n_pre)) (PreH10 : ((Zlength (data_rp_partial_2)) = i)) (PreH11 : (list_within_bound UINT_MOD l_a )) (PreH12 : (list_within_bound UINT_MOD l_b )) (PreH13 : (list_within_bound UINT_MOD data_rp_partial_2 )) (PreH14 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH15 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH16 : (((list_to_Z (UINT_MOD) (data_rp_partial_2)) - (cy * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) ))) ,
-  TT && emp 
-|--
-  “ (((list_to_Z (UINT_MOD) ((app (data_rp_partial_2) ((cons (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) ((@nil Z))))))) - ((1 + 0 ) * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_b)))) )) ”
+  (((list_to_Z (UINT_MOD) ((app (data_rp_partial_2) ((cons (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) ((@nil Z))))))) - ((1 + 0 ) * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_b)))) ))
 .
 
 Definition mpn_sub_n_entail_wit_2_3_split_goal_2 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (data_rp_partial_2: (@list Z)) (cy: Z) (i: Z) (PreH1 : ((Znth i l_a 0) >= (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)))) (PreH2 : ((unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) < cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= 2)) (PreH8 : ((Zlength (l_a)) = n_pre)) (PreH9 : ((Zlength (l_b)) = n_pre)) (PreH10 : ((Zlength (data_rp_partial_2)) = i)) (PreH11 : (list_within_bound UINT_MOD l_a )) (PreH12 : (list_within_bound UINT_MOD l_b )) (PreH13 : (list_within_bound UINT_MOD data_rp_partial_2 )) (PreH14 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH15 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH16 : (((list_to_Z (UINT_MOD) (data_rp_partial_2)) - (cy * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) ))) ,
-  TT && emp 
-|--
-  “ (list_within_bound UINT_MOD (app (data_rp_partial_2) ((cons (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) ((@nil Z))))) ) ”
+  (list_within_bound UINT_MOD (app (data_rp_partial_2) ((cons (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) ((@nil Z))))) )
 .
 
 Definition mpn_sub_n_entail_wit_2_3_split_goal_3 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (data_rp_partial_2: (@list Z)) (cy: Z) (i: Z) (PreH1 : ((Znth i l_a 0) >= (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)))) (PreH2 : ((unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) < cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= 2)) (PreH8 : ((Zlength (l_a)) = n_pre)) (PreH9 : ((Zlength (l_b)) = n_pre)) (PreH10 : ((Zlength (data_rp_partial_2)) = i)) (PreH11 : (list_within_bound UINT_MOD l_a )) (PreH12 : (list_within_bound UINT_MOD l_b )) (PreH13 : (list_within_bound UINT_MOD data_rp_partial_2 )) (PreH14 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH15 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH16 : (((list_to_Z (UINT_MOD) (data_rp_partial_2)) - (cy * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) ))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((app (data_rp_partial_2) ((cons (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) ((@nil Z))))))) = (i + 1 )) ”
+  ((Zlength ((app (data_rp_partial_2) ((cons (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) ((@nil Z))))))) = (i + 1 ))
 .
 
 Definition mpn_sub_n_entail_wit_2_4 := 
@@ -4693,23 +4658,17 @@ forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (data_
 
 Definition mpn_sub_n_entail_wit_2_4_split_goal_1 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (data_rp_partial_2: (@list Z)) (cy: Z) (i: Z) (PreH1 : ((Znth i l_a 0) < (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)))) (PreH2 : ((unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) < cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= 2)) (PreH8 : ((Zlength (l_a)) = n_pre)) (PreH9 : ((Zlength (l_b)) = n_pre)) (PreH10 : ((Zlength (data_rp_partial_2)) = i)) (PreH11 : (list_within_bound UINT_MOD l_a )) (PreH12 : (list_within_bound UINT_MOD l_b )) (PreH13 : (list_within_bound UINT_MOD data_rp_partial_2 )) (PreH14 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH15 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH16 : (((list_to_Z (UINT_MOD) (data_rp_partial_2)) - (cy * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) ))) ,
-  TT && emp 
-|--
-  “ (((list_to_Z (UINT_MOD) ((app (data_rp_partial_2) ((cons ((unsigned_last_nbits (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) (32))) ((@nil Z))))))) - ((1 + 1 ) * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_b)))) )) ”
+  (((list_to_Z (UINT_MOD) ((app (data_rp_partial_2) ((cons ((unsigned_last_nbits (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) (32))) ((@nil Z))))))) - ((1 + 1 ) * (Z.pow (UINT_MOD) ((i + 1 ))) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) ((i + 1 )) (l_b)))) ))
 .
 
 Definition mpn_sub_n_entail_wit_2_4_split_goal_2 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (data_rp_partial_2: (@list Z)) (cy: Z) (i: Z) (PreH1 : ((Znth i l_a 0) < (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)))) (PreH2 : ((unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) < cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= 2)) (PreH8 : ((Zlength (l_a)) = n_pre)) (PreH9 : ((Zlength (l_b)) = n_pre)) (PreH10 : ((Zlength (data_rp_partial_2)) = i)) (PreH11 : (list_within_bound UINT_MOD l_a )) (PreH12 : (list_within_bound UINT_MOD l_b )) (PreH13 : (list_within_bound UINT_MOD data_rp_partial_2 )) (PreH14 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH15 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH16 : (((list_to_Z (UINT_MOD) (data_rp_partial_2)) - (cy * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) ))) ,
-  TT && emp 
-|--
-  “ (list_within_bound UINT_MOD (app (data_rp_partial_2) ((cons ((unsigned_last_nbits (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) (32))) ((@nil Z))))) ) ”
+  (list_within_bound UINT_MOD (app (data_rp_partial_2) ((cons ((unsigned_last_nbits (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) (32))) ((@nil Z))))) )
 .
 
 Definition mpn_sub_n_entail_wit_2_4_split_goal_3 := 
 forall (n_pre: Z) (val_b: Z) (val_a: Z) (l_a: (@list Z)) (l_b: (@list Z)) (data_rp_partial_2: (@list Z)) (cy: Z) (i: Z) (PreH1 : ((Znth i l_a 0) < (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)))) (PreH2 : ((unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) < cy)) (PreH3 : (i < n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (0 <= cy)) (PreH7 : (cy <= 2)) (PreH8 : ((Zlength (l_a)) = n_pre)) (PreH9 : ((Zlength (l_b)) = n_pre)) (PreH10 : ((Zlength (data_rp_partial_2)) = i)) (PreH11 : (list_within_bound UINT_MOD l_a )) (PreH12 : (list_within_bound UINT_MOD l_b )) (PreH13 : (list_within_bound UINT_MOD data_rp_partial_2 )) (PreH14 : ((list_to_Z (UINT_MOD) (l_a)) = val_a)) (PreH15 : ((list_to_Z (UINT_MOD) (l_b)) = val_b)) (PreH16 : (((list_to_Z (UINT_MOD) (data_rp_partial_2)) - (cy * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) ))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((app (data_rp_partial_2) ((cons ((unsigned_last_nbits (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) (32))) ((@nil Z))))))) = (i + 1 )) ”
+  ((Zlength ((app (data_rp_partial_2) ((cons ((unsigned_last_nbits (((Znth i l_a 0) - (unsigned_last_nbits (((Znth i l_b 0) + cy )) (32)) )) (32))) ((@nil Z))))))) = (i + 1 ))
 .
 
 Definition mpn_sub_n_return_wit_1 := 
@@ -4772,7 +4731,7 @@ forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (l_a
   &&  “ ((list_to_Z (UINT_MOD) (l_a)) = val_a) ” 
   &&  “ ((list_to_Z (UINT_MOD) (l_b)) = val_b) ” 
   &&  “ (((list_to_Z (UINT_MOD) (data_rp_partial)) - (cy * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) )) ”
-  &&  (((ap_pre + (i * sizeof(UINT) ) )) # UInt  |-> (Znth i l_a 0))
+  &&  (((ap_pre + (i * sizeof(UINT)))) # UInt  |-> (Znth i l_a 0))
   **  (UIntArray.missing_i ap_pre i 0 n_pre l_a )
   **  (UIntArray.full bp_pre n_pre l_b )
   **  (UIntArray.seg rp_pre 0 i data_rp_partial )
@@ -4800,7 +4759,7 @@ forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (l_a
   &&  “ ((list_to_Z (UINT_MOD) (l_a)) = val_a) ” 
   &&  “ ((list_to_Z (UINT_MOD) (l_b)) = val_b) ” 
   &&  “ (((list_to_Z (UINT_MOD) (data_rp_partial)) - (cy * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) )) ”
-  &&  (((bp_pre + (i * sizeof(UINT) ) )) # UInt  |-> (Znth i l_b 0))
+  &&  (((bp_pre + (i * sizeof(UINT)))) # UInt  |-> (Znth i l_b 0))
   **  (UIntArray.missing_i bp_pre i 0 n_pre l_b )
   **  (UIntArray.full ap_pre n_pre l_a )
   **  (UIntArray.seg rp_pre 0 i data_rp_partial )
@@ -4830,7 +4789,7 @@ forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (l_a
   &&  “ ((list_to_Z (UINT_MOD) (l_a)) = val_a) ” 
   &&  “ ((list_to_Z (UINT_MOD) (l_b)) = val_b) ” 
   &&  “ (((list_to_Z (UINT_MOD) (data_rp_partial)) - (cy * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) )) ”
-  &&  (((rp_pre + (i * sizeof(UINT) ) )) # UInt  |->_)
+  &&  (((rp_pre + (i * sizeof(UINT)))) # UInt  |->_)
   **  (UIntArray.undef_seg rp_pre (i + 1 ) n_pre )
   **  (UIntArray.full bp_pre n_pre l_b )
   **  (UIntArray.full ap_pre n_pre l_a )
@@ -4860,7 +4819,7 @@ forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (l_a
   &&  “ ((list_to_Z (UINT_MOD) (l_a)) = val_a) ” 
   &&  “ ((list_to_Z (UINT_MOD) (l_b)) = val_b) ” 
   &&  “ (((list_to_Z (UINT_MOD) (data_rp_partial)) - (cy * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) )) ”
-  &&  (((rp_pre + (i * sizeof(UINT) ) )) # UInt  |->_)
+  &&  (((rp_pre + (i * sizeof(UINT)))) # UInt  |->_)
   **  (UIntArray.undef_seg rp_pre (i + 1 ) n_pre )
   **  (UIntArray.full bp_pre n_pre l_b )
   **  (UIntArray.full ap_pre n_pre l_a )
@@ -4890,7 +4849,7 @@ forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (l_a
   &&  “ ((list_to_Z (UINT_MOD) (l_a)) = val_a) ” 
   &&  “ ((list_to_Z (UINT_MOD) (l_b)) = val_b) ” 
   &&  “ (((list_to_Z (UINT_MOD) (data_rp_partial)) - (cy * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) )) ”
-  &&  (((rp_pre + (i * sizeof(UINT) ) )) # UInt  |->_)
+  &&  (((rp_pre + (i * sizeof(UINT)))) # UInt  |->_)
   **  (UIntArray.undef_seg rp_pre (i + 1 ) n_pre )
   **  (UIntArray.full bp_pre n_pre l_b )
   **  (UIntArray.full ap_pre n_pre l_a )
@@ -4920,7 +4879,7 @@ forall (n_pre: Z) (bp_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (l_a
   &&  “ ((list_to_Z (UINT_MOD) (l_a)) = val_a) ” 
   &&  “ ((list_to_Z (UINT_MOD) (l_b)) = val_b) ” 
   &&  “ (((list_to_Z (UINT_MOD) (data_rp_partial)) - (cy * (Z.pow (UINT_MOD) (i)) ) ) = ((list_to_Z (UINT_MOD) ((sublist (0) (i) (l_a)))) - (list_to_Z (UINT_MOD) ((sublist (0) (i) (l_b)))) )) ”
-  &&  (((rp_pre + (i * sizeof(UINT) ) )) # UInt  |->_)
+  &&  (((rp_pre + (i * sizeof(UINT)))) # UInt  |->_)
   **  (UIntArray.undef_seg rp_pre (i + 1 ) n_pre )
   **  (UIntArray.full bp_pre n_pre l_b )
   **  (UIntArray.full ap_pre n_pre l_a )
@@ -4970,9 +4929,9 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   **  (UIntArray.full rp_pre bn_pre l_r )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_lo bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
   **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_hi (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_hi (an_pre - bn_pre ) )
   **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
 |--
   “ ((an_pre - bn_pre ) <= INT_MAX) ” 
@@ -4987,9 +4946,9 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   **  (mpd_store_Z UINT_MOD ap_pre val_a_lo bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
   **  ((( &( "an" ) )) # Int  |-> an_pre)
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
   **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_hi (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_hi (an_pre - bn_pre ) )
   **  ((( &( "cy" ) )) # UInt  |-> retval)
   **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
 |--
@@ -5014,9 +4973,9 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   **  (mpd_store_Z UINT_MOD ap_pre val_a_lo bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
   **  ((( &( "an" ) )) # Int  |-> an_pre)
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
   **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_hi (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_hi (an_pre - bn_pre ) )
   **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
 .
 
@@ -5025,8 +4984,8 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   (UIntArray.full rp_pre bn_pre l_r )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_lo bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_hi (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_hi (an_pre - bn_pre ) )
 |--
   “ (an_pre > bn_pre) ” 
   &&  “ ((an_pre - bn_pre ) > 0) ” 
@@ -5048,15 +5007,15 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   &&  (UIntArray.full rp_pre bn_pre l_r )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_lo bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_hi (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_hi (an_pre - bn_pre ) )
 .
 
 Definition mpn_sub_return_wit_1 := 
 (
 forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (val_a_lo: Z) (val_a_hi: Z) (val_r: Z) (retval_2: Z) (l_r: (@list Z)) (val': Z) (retval: Z) (PreH1 : ((val' - (retval * (Z.pow (UINT_MOD) ((an_pre - bn_pre ))) ) ) = (val_a_hi - retval_2 ))) (PreH2 : (an_pre > bn_pre)) (PreH3 : ((an_pre - bn_pre ) > 0)) (PreH4 : (an_pre > bn_pre)) (PreH5 : (0 <= retval_2)) (PreH6 : (retval_2 <= UINT_MAX)) (PreH7 : (an_pre <= INT_MAX)) (PreH8 : (bn_pre <= INT_MAX)) (PreH9 : (an_pre >= INT_MIN)) (PreH10 : (bn_pre >= INT_MIN)) (PreH11 : ((Zlength (l_r)) = bn_pre)) (PreH12 : ((list_to_Z (UINT_MOD) (l_r)) = val_r)) (PreH13 : (list_within_bound UINT_MOD l_r )) (PreH14 : ((val_r - (retval_2 * (Z.pow (UINT_MOD) (bn_pre)) ) ) = (val_a_lo - val_b ))) (PreH15 : (val_a = (val_a_lo + (val_a_hi * (Z.pow (UINT_MOD) (bn_pre)) ) ))) (PreH16 : (an_pre >= bn_pre)) (PreH17 : (an_pre > 0)) (PreH18 : (bn_pre >= 0)) ,
-  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_hi (an_pre - bn_pre ) )
-  **  (mpd_store_Z UINT_MOD (rp_pre + (bn_pre * sizeof(UINT) ) ) val' (an_pre - bn_pre ) )
+  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_hi (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (rp_pre + (bn_pre * sizeof(UINT))) val' (an_pre - bn_pre ) )
   **  (UIntArray.full rp_pre bn_pre l_r )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_lo bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
@@ -5069,8 +5028,8 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
 ) \/
 (
 forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (val_a_lo: Z) (val_a_hi: Z) (val_r: Z) (retval_2: Z) (l_r: (@list Z)) (val': Z) (retval: Z) (PreH1 : ((val' - (retval * (Z.pow (UINT_MOD) ((an_pre - bn_pre ))) ) ) = (val_a_hi - retval_2 ))) (PreH2 : (an_pre > bn_pre)) (PreH3 : ((an_pre - bn_pre ) > 0)) (PreH4 : (an_pre > bn_pre)) (PreH5 : (0 <= retval_2)) (PreH6 : (retval_2 <= UINT_MAX)) (PreH7 : (an_pre <= INT_MAX)) (PreH8 : (bn_pre <= INT_MAX)) (PreH9 : (an_pre >= INT_MIN)) (PreH10 : (bn_pre >= INT_MIN)) (PreH11 : ((Zlength (l_r)) = bn_pre)) (PreH12 : ((list_to_Z (UINT_MOD) (l_r)) = val_r)) (PreH13 : (list_within_bound UINT_MOD l_r )) (PreH14 : ((val_r - (retval_2 * (Z.pow (UINT_MOD) (bn_pre)) ) ) = (val_a_lo - val_b ))) (PreH15 : (val_a = (val_a_lo + (val_a_hi * (Z.pow (UINT_MOD) (bn_pre)) ) ))) (PreH16 : (an_pre >= bn_pre)) (PreH17 : (an_pre > 0)) (PreH18 : (bn_pre >= 0)) ,
-  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_hi (an_pre - bn_pre ) )
-  **  (mpd_store_Z UINT_MOD (rp_pre + (bn_pre * sizeof(UINT) ) ) val' (an_pre - bn_pre ) )
+  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_hi (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (rp_pre + (bn_pre * sizeof(UINT))) val' (an_pre - bn_pre ) )
   **  (UIntArray.full rp_pre bn_pre l_r )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_lo bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
@@ -5088,8 +5047,8 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   (UIntArray.full rp_pre bn_pre l_r )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_lo bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_hi (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_hi (an_pre - bn_pre ) )
 |--
   EX (val_r_out: Z) ,
   “ ((val_r_out - (retval * (Z.pow (UINT_MOD) (an_pre)) ) ) = (val_a - val_b )) ”
@@ -5102,8 +5061,8 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   (UIntArray.full rp_pre bn_pre l_r )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_lo bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_hi (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_hi (an_pre - bn_pre ) )
 |--
   EX (val_r_out: Z) ,
   “ ((val_r_out - (retval * (Z.pow (UINT_MOD) (an_pre)) ) ) = (val_a - val_b )) ”
@@ -5154,7 +5113,7 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
   **  (mpd_store_Z UINT_MOD ap_pre val_a_lo bn_pre )
   **  ((( &( "an" ) )) # Int  |-> an_pre)
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_hi (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_hi (an_pre - bn_pre ) )
   **  ((( &( "cy" ) )) # UInt  |->_)
   **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
   **  ((( &( "rp" ) )) # Ptr  |-> rp_pre)
@@ -5168,7 +5127,7 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
 Definition mpn_sub_partial_solve_wit_2_aux := 
 forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (val_a_lo: Z) (val_a_hi: Z) (PreH1 : (val_a = (val_a_lo + (val_a_hi * (Z.pow (UINT_MOD) (bn_pre)) ) ))) (PreH2 : (an_pre >= bn_pre)) (PreH3 : (an_pre > 0)) (PreH4 : (bn_pre >= 0)) ,
   (mpd_store_Z UINT_MOD ap_pre val_a_lo bn_pre )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_hi (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_hi (an_pre - bn_pre ) )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
   **  (UIntArray.undef_full rp_pre an_pre )
 |--
@@ -5180,7 +5139,7 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   &&  “ (bn_pre >= 0) ”
   &&  (UIntArray.undef_full rp_pre an_pre )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_lo bn_pre )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_hi (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_hi (an_pre - bn_pre ) )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
 .
 
@@ -5192,10 +5151,10 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   **  ((( &( "rp" ) )) # Ptr  |-> rp_pre)
   **  (UIntArray.undef_full rp_pre bn_pre )
   **  ((( &( "an" ) )) # Int  |-> an_pre)
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
   **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
   **  (mpd_store_Z UINT_MOD ap_pre val_a_lo bn_pre )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_hi (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_hi (an_pre - bn_pre ) )
   **  ((( &( "cy" ) )) # UInt  |->_)
   **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
@@ -5206,9 +5165,9 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
 Definition mpn_sub_partial_solve_wit_3_aux := 
 forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (val_a_lo: Z) (val_a_hi: Z) (PreH1 : (val_a = (val_a_lo + (val_a_hi * (Z.pow (UINT_MOD) (bn_pre)) ) ))) (PreH2 : (an_pre >= bn_pre)) (PreH3 : (an_pre > 0)) (PreH4 : (bn_pre >= 0)) ,
   (UIntArray.undef_full rp_pre bn_pre )
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_lo bn_pre )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_hi (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_hi (an_pre - bn_pre ) )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
 |--
   “ (bn_pre >= 0) ” 
@@ -5219,8 +5178,8 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   &&  (mpd_store_Z UINT_MOD ap_pre val_a_lo bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
   **  (UIntArray.undef_full rp_pre bn_pre )
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_hi (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_hi (an_pre - bn_pre ) )
 .
 
 Definition mpn_sub_partial_solve_wit_3 := mpn_sub_partial_solve_wit_3_pure -> mpn_sub_partial_solve_wit_3_aux.
@@ -5230,8 +5189,8 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   (mpd_store_Z UINT_MOD ap_pre val_a_lo bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
   **  (mpd_store_Z UINT_MOD rp_pre val_r bn_pre )
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_hi (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_hi (an_pre - bn_pre ) )
 |--
   “ ((val_r - (retval * (Z.pow (UINT_MOD) (bn_pre)) ) ) = (val_a_lo - val_b )) ” 
   &&  “ (val_a = (val_a_lo + (val_a_hi * (Z.pow (UINT_MOD) (bn_pre)) ) )) ” 
@@ -5241,8 +5200,8 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   &&  (mpd_store_Z UINT_MOD rp_pre val_r bn_pre )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_lo bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_hi (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_hi (an_pre - bn_pre ) )
 .
 
 Definition mpn_sub_partial_solve_wit_5_pure := 
@@ -5254,9 +5213,9 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   **  (UIntArray.full rp_pre bn_pre l_r )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_lo bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
   **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_hi (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_hi (an_pre - bn_pre ) )
   **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
 |--
   “ ((an_pre - bn_pre ) > 0) ” 
@@ -5269,8 +5228,8 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   (UIntArray.full rp_pre bn_pre l_r )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_lo bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
-  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_hi (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
+  **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_hi (an_pre - bn_pre ) )
 |--
   “ ((an_pre - bn_pre ) > 0) ” 
   &&  “ (0 <= retval) ” 
@@ -5292,8 +5251,8 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   &&  “ (an_pre >= bn_pre) ” 
   &&  “ (an_pre > 0) ” 
   &&  “ (bn_pre >= 0) ”
-  &&  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT) ) ) val_a_hi (an_pre - bn_pre ) )
-  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT) ) ) (an_pre - bn_pre ) )
+  &&  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_hi (an_pre - bn_pre ) )
+  **  (UIntArray.undef_full (rp_pre + (bn_pre * sizeof(UINT))) (an_pre - bn_pre ) )
   **  (UIntArray.full rp_pre bn_pre l_r )
   **  (mpd_store_Z UINT_MOD ap_pre val_a_lo bn_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
@@ -5309,7 +5268,7 @@ forall (val_a: Z) (an: Z) (bn: Z) (ap: Z) (PreH1 : (an >= bn)) (PreH2 : (an > 0)
   EX (val_a_hi: Z)  (val_a_lo: Z) ,
   “ (val_a = (val_a_lo + (val_a_hi * (Z.pow (UINT_MOD) (bn)) ) )) ”
   &&  (mpd_store_Z UINT_MOD ap val_a_lo bn )
-  **  (mpd_store_Z UINT_MOD (ap + (bn * sizeof(UINT) ) ) val_a_hi (an - bn ) )
+  **  (mpd_store_Z UINT_MOD (ap + (bn * sizeof(UINT))) val_a_hi (an - bn ) )
 ) \/
 (
 forall (val_a: Z) (an: Z) (bn: Z) (ap: Z) (PreH1 : (an >= bn)) (PreH2 : (an > 0)) (PreH3 : (bn >= 0)) ,
@@ -5318,7 +5277,7 @@ forall (val_a: Z) (an: Z) (bn: Z) (ap: Z) (PreH1 : (an >= bn)) (PreH2 : (an > 0)
   EX (val_a_hi: Z)  (val_a_lo: Z) ,
   “ (val_a = (val_a_lo + (val_a_hi * (Z.pow (UINT_MOD) (bn)) ) )) ”
   &&  (mpd_store_Z UINT_MOD ap val_a_lo bn )
-  **  (mpd_store_Z UINT_MOD (ap + (bn * sizeof(UINT) ) ) val_a_hi (an - bn ) )
+  **  (mpd_store_Z UINT_MOD (ap + (bn * sizeof(UINT))) val_a_hi (an - bn ) )
 ).
 
 Definition mpn_sub_which_implies_wit_2 := 
@@ -5327,14 +5286,14 @@ forall (an: Z) (bn: Z) (rp: Z) (PreH1 : (an >= bn)) (PreH2 : (bn >= 0)) ,
   (UIntArray.undef_full rp an )
 |--
   (UIntArray.undef_full rp bn )
-  **  (UIntArray.undef_full (rp + (bn * sizeof(UINT) ) ) (an - bn ) )
+  **  (UIntArray.undef_full (rp + (bn * sizeof(UINT))) (an - bn ) )
 ) \/
 (
 forall (an: Z) (bn: Z) (rp: Z) (PreH1 : (an >= bn)) (PreH2 : (bn >= 0)) ,
   (UIntArray.undef_full rp an )
 |--
   (UIntArray.undef_full rp bn )
-  **  (UIntArray.undef_full (rp + (bn * sizeof(UINT) ) ) (an - bn ) )
+  **  (UIntArray.undef_full (rp + (bn * sizeof(UINT))) (an - bn ) )
 ).
 
 Definition mpn_sub_which_implies_wit_2_split_goal_spatial := 
@@ -5342,7 +5301,7 @@ forall (an: Z) (bn: Z) (rp: Z) (PreH1 : (an >= bn)) (PreH2 : (bn >= 0)) ,
   (UIntArray.undef_full rp an )
 |--
   (UIntArray.undef_full rp bn )
-  **  (UIntArray.undef_full (rp + (bn * sizeof(UINT) ) ) (an - bn ) )
+  **  (UIntArray.undef_full (rp + (bn * sizeof(UINT))) (an - bn ) )
 .
 
 Definition mpn_sub_which_implies_wit_3 := 
@@ -5403,7 +5362,7 @@ forall (n: Z) (ptr_2: Z) (size_2: Z) (cap_2: Z) (PreH1 : (same_sign n size_2 )) 
   TT && emp 
 ).
 
-Definition mpz_clear_return_wit_2_split_goal_emp := 
+Definition mpz_clear_return_wit_2_split_goal_spatial := 
 forall (n: Z) (ptr_2: Z) (size_2: Z) (cap_2: Z) (PreH1 : (same_sign n size_2 )) (PreH2 : ((Zabs (size_2)) <= cap_2)) (PreH3 : (cap_2 = 0)) ,
   (UIntArray.undef_seg ptr_2 (Zabs (size_2)) cap_2 )
   **  (mpd_store_Z_compact UINT_MOD ptr_2 (Zabs (n)) (Zabs (size_2)) )
@@ -6116,6 +6075,7 @@ forall (u_pre: Z) (n: Z) (ptr: Z) (size: Z) (cap: Z) (PreH1 : (same_sign n size 
 .
 
 Definition mpz_sgn_return_wit_1 := 
+(
 forall (u_pre: Z) (n: Z) (ptr: Z) (size: Z) (cap: Z) (retval: Z) (PreH1 : (size < 0)) (PreH2 : (retval = (-1))) (PreH3 : (same_sign n size )) (PreH4 : ((Zabs (size)) <= cap)) ,
   ((&((u_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> size)
   **  (UIntArray.undef_seg ptr (Zabs (size)) cap )
@@ -6123,20 +6083,34 @@ forall (u_pre: Z) (n: Z) (ptr: Z) (size: Z) (cap: Z) (retval: Z) (PreH1 : (size 
   **  ((&((u_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((u_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
 |--
-  (“ (n < 0) ” 
+  “ (n < 0) ” 
   &&  “ (retval = (-1)) ”
-  &&  (store_Z u_pre n ))
-  ||
-  (“ (n = 0) ” 
-  &&  “ (retval = 0) ”
-  &&  (store_Z u_pre n ))
-  ||
-  (“ (n > 0) ” 
-  &&  “ (retval = 1) ”
-  &&  (store_Z u_pre n ))
+  &&  (store_Z u_pre n )
+) \/
+(
+forall (n: Z) (ptr: Z) (size: Z) (cap: Z) (retval: Z) (PreH1 : (size < 0)) (PreH2 : (retval = (-1))) (PreH3 : (same_sign n size )) (PreH4 : ((Zabs (size)) <= cap)) ,
+  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (size)) )
+|--
+  “ (n < 0) ”
+  &&  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (size)) )
+).
+
+Definition mpz_sgn_return_wit_1_split_goal_1 := 
+forall (n: Z) (ptr: Z) (size: Z) (cap: Z) (retval: Z) (PreH1 : (size < 0)) (PreH2 : (retval = (-1))) (PreH3 : (same_sign n size )) (PreH4 : ((Zabs (size)) <= cap)) ,
+  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (size)) )
+|--
+  “ (n < 0) ”
+.
+
+Definition mpz_sgn_return_wit_1_split_goal_spatial := 
+forall (n: Z) (ptr: Z) (size: Z) (cap: Z) (retval: Z) (PreH1 : (size < 0)) (PreH2 : (retval = (-1))) (PreH3 : (same_sign n size )) (PreH4 : ((Zabs (size)) <= cap)) ,
+  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (size)) )
+|--
+  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (size)) )
 .
 
 Definition mpz_sgn_return_wit_2 := 
+(
 forall (u_pre: Z) (n: Z) (ptr: Z) (size: Z) (cap: Z) (retval: Z) (PreH1 : (size = 0)) (PreH2 : (retval = 0)) (PreH3 : (same_sign n size )) (PreH4 : ((Zabs (size)) <= cap)) ,
   ((&((u_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> size)
   **  (UIntArray.undef_seg ptr (Zabs (size)) cap )
@@ -6144,20 +6118,34 @@ forall (u_pre: Z) (n: Z) (ptr: Z) (size: Z) (cap: Z) (retval: Z) (PreH1 : (size 
   **  ((&((u_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((u_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
 |--
-  (“ (n < 0) ” 
-  &&  “ (retval = (-1)) ”
-  &&  (store_Z u_pre n ))
-  ||
-  (“ (n = 0) ” 
+  “ (n = 0) ” 
   &&  “ (retval = 0) ”
-  &&  (store_Z u_pre n ))
-  ||
-  (“ (n > 0) ” 
-  &&  “ (retval = 1) ”
-  &&  (store_Z u_pre n ))
+  &&  (store_Z u_pre n )
+) \/
+(
+forall (n: Z) (ptr: Z) (size: Z) (cap: Z) (retval: Z) (PreH1 : (size = 0)) (PreH2 : (retval = 0)) (PreH3 : (same_sign n size )) (PreH4 : ((Zabs (size)) <= cap)) ,
+  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (size)) )
+|--
+  “ (n = 0) ”
+  &&  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (size)) )
+).
+
+Definition mpz_sgn_return_wit_2_split_goal_1 := 
+forall (n: Z) (ptr: Z) (size: Z) (cap: Z) (retval: Z) (PreH1 : (size = 0)) (PreH2 : (retval = 0)) (PreH3 : (same_sign n size )) (PreH4 : ((Zabs (size)) <= cap)) ,
+  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (size)) )
+|--
+  “ (n = 0) ”
+.
+
+Definition mpz_sgn_return_wit_2_split_goal_spatial := 
+forall (n: Z) (ptr: Z) (size: Z) (cap: Z) (retval: Z) (PreH1 : (size = 0)) (PreH2 : (retval = 0)) (PreH3 : (same_sign n size )) (PreH4 : ((Zabs (size)) <= cap)) ,
+  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (size)) )
+|--
+  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (size)) )
 .
 
 Definition mpz_sgn_return_wit_3 := 
+(
 forall (u_pre: Z) (n: Z) (ptr: Z) (size: Z) (cap: Z) (retval: Z) (PreH1 : (size > 0)) (PreH2 : (retval = 1)) (PreH3 : (same_sign n size )) (PreH4 : ((Zabs (size)) <= cap)) ,
   ((&((u_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> size)
   **  (UIntArray.undef_seg ptr (Zabs (size)) cap )
@@ -6165,17 +6153,30 @@ forall (u_pre: Z) (n: Z) (ptr: Z) (size: Z) (cap: Z) (retval: Z) (PreH1 : (size 
   **  ((&((u_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((u_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
 |--
-  (“ (n < 0) ” 
-  &&  “ (retval = (-1)) ”
-  &&  (store_Z u_pre n ))
-  ||
-  (“ (n = 0) ” 
-  &&  “ (retval = 0) ”
-  &&  (store_Z u_pre n ))
-  ||
-  (“ (n > 0) ” 
+  “ (n > 0) ” 
   &&  “ (retval = 1) ”
-  &&  (store_Z u_pre n ))
+  &&  (store_Z u_pre n )
+) \/
+(
+forall (n: Z) (ptr: Z) (size: Z) (cap: Z) (retval: Z) (PreH1 : (size > 0)) (PreH2 : (retval = 1)) (PreH3 : (same_sign n size )) (PreH4 : ((Zabs (size)) <= cap)) ,
+  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (size)) )
+|--
+  “ (n > 0) ”
+  &&  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (size)) )
+).
+
+Definition mpz_sgn_return_wit_3_split_goal_1 := 
+forall (n: Z) (ptr: Z) (size: Z) (cap: Z) (retval: Z) (PreH1 : (size > 0)) (PreH2 : (retval = 1)) (PreH3 : (same_sign n size )) (PreH4 : ((Zabs (size)) <= cap)) ,
+  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (size)) )
+|--
+  “ (n > 0) ”
+.
+
+Definition mpz_sgn_return_wit_3_split_goal_spatial := 
+forall (n: Z) (ptr: Z) (size: Z) (cap: Z) (retval: Z) (PreH1 : (size > 0)) (PreH2 : (retval = 1)) (PreH3 : (same_sign n size )) (PreH4 : ((Zabs (size)) <= cap)) ,
+  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (size)) )
+|--
+  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (size)) )
 .
 
 Definition mpz_sgn_partial_solve_wit_1 := 
@@ -6668,7 +6669,7 @@ forall (b_pre: Z) (a_pre: Z) (l: Z) (m: Z) (n: Z) (n_new_2: Z) (m_new_2: Z) (apt
 Definition mpz_abs_add_return_wit_1 := 
 (
 forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (n_new: Z) (m_new: Z) (aptr: Z) (bptr: Z) (asize: Z) (bsize: Z) (acap: Z) (bcap: Z) (rsize: Z) (rcap: Z) (b: Z) (a: Z) (an: Z) (bn: Z) (r__mp_alloc: Z) (r__mp_d: Z) (rp: Z) (val_r_out: Z) (retval: Z) (PreH1 : ((val_r_out + (retval * (Z.pow (UINT_MOD) (an)) ) ) = ((Zabs (n_new)) + (Zabs (m_new)) ))) (PreH2 : (is_compact_Z UINT_MOD (Zabs (m_new)) bn )) (PreH3 : (is_compact_Z UINT_MOD (Zabs (n_new)) an )) (PreH4 : (Permutation (cons ((Prod2 (a) (n_new))) ((cons ((Prod2 (b) (m_new))) ((@nil (Z * Z)))))) (cons ((Prod2 (a_pre) (n))) ((cons ((Prod2 (b_pre) (m))) ((@nil (Z * Z)))))) )) (PreH5 : (an >= bn)) (PreH6 : (an = (Zabs (asize)))) (PreH7 : (bn = (Zabs (bsize)))) (PreH8 : (an <= acap)) (PreH9 : (bn <= bcap)) (PreH10 : (same_sign n_new asize )) (PreH11 : (same_sign m_new bsize )) (PreH12 : (same_sign l rsize )) (PreH13 : ((Zabs (rsize)) <= rcap)) (PreH14 : (rcap >= 0)) (PreH15 : (r__mp_alloc = (Z.max ((Z.max ((an + 1 )) (1))) (rcap)))) (PreH16 : (r__mp_d = rp)) (PreH17 : (is_compact_Z UINT_MOD (Zabs (l)) (Zabs (rsize)) )) (PreH18 : (an < (Z.max ((Z.max ((an + 1 )) (1))) (rcap)))) ,
-  (((rp + (an * sizeof(UINT) ) )) # UInt  |-> retval)
+  (((rp + (an * sizeof(UINT)))) # UInt  |-> retval)
   **  (UIntArray.undef_seg rp (an + 1 ) (Z.max ((Z.max ((an + 1 )) (1))) (rcap)) )
   **  (mpd_store_Z UINT_MOD aptr (Zabs (n_new)) an )
   **  (mpd_store_Z UINT_MOD bptr (Zabs (m_new)) bn )
@@ -6691,7 +6692,7 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (n_new: Z) (m_new: 
 ) \/
 (
 forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (n_new: Z) (m_new: Z) (aptr: Z) (bptr: Z) (asize: Z) (bsize: Z) (acap: Z) (bcap: Z) (rsize: Z) (rcap: Z) (b: Z) (a: Z) (an: Z) (bn: Z) (r__mp_alloc: Z) (r__mp_d: Z) (rp: Z) (val_r_out: Z) (retval: Z) (PreH1 : (retval <= UINT_MAX)) (PreH2 : (retval >= 0)) (PreH3 : (bcap <= INT_MAX)) (PreH4 : (bsize <= INT_MAX)) (PreH5 : (acap <= INT_MAX)) (PreH6 : (asize <= INT_MAX)) (PreH7 : (r__mp_alloc <= INT_MAX)) (PreH8 : (rsize <= INT_MAX)) (PreH9 : (bcap >= INT_MIN)) (PreH10 : (bsize >= INT_MIN)) (PreH11 : (acap >= INT_MIN)) (PreH12 : (asize >= INT_MIN)) (PreH13 : (r__mp_alloc >= INT_MIN)) (PreH14 : (rsize >= INT_MIN)) (PreH15 : ((val_r_out + (retval * (Z.pow (UINT_MOD) (an)) ) ) = ((Zabs (n_new)) + (Zabs (m_new)) ))) (PreH16 : (is_compact_Z UINT_MOD (Zabs (m_new)) bn )) (PreH17 : (is_compact_Z UINT_MOD (Zabs (n_new)) an )) (PreH18 : (Permutation (cons ((Prod2 (a) (n_new))) ((cons ((Prod2 (b) (m_new))) ((@nil (Z * Z)))))) (cons ((Prod2 (a_pre) (n))) ((cons ((Prod2 (b_pre) (m))) ((@nil (Z * Z)))))) )) (PreH19 : (an >= bn)) (PreH20 : (an = (Zabs (asize)))) (PreH21 : (bn = (Zabs (bsize)))) (PreH22 : (an <= acap)) (PreH23 : (bn <= bcap)) (PreH24 : (same_sign n_new asize )) (PreH25 : (same_sign m_new bsize )) (PreH26 : (same_sign l rsize )) (PreH27 : ((Zabs (rsize)) <= rcap)) (PreH28 : (rcap >= 0)) (PreH29 : (r__mp_alloc = (Z.max ((Z.max ((an + 1 )) (1))) (rcap)))) (PreH30 : (r__mp_d = rp)) (PreH31 : (is_compact_Z UINT_MOD (Zabs (l)) (Zabs (rsize)) )) (PreH32 : (an < (Z.max ((Z.max ((an + 1 )) (1))) (rcap)))) ,
-  (((rp + (an * sizeof(UINT) ) )) # UInt  |-> retval)
+  (((rp + (an * sizeof(UINT)))) # UInt  |-> retval)
   **  (UIntArray.undef_seg rp (an + 1 ) (Z.max ((Z.max ((an + 1 )) (1))) (rcap)) )
   **  (mpd_store_Z UINT_MOD aptr (Zabs (n_new)) an )
   **  (mpd_store_Z UINT_MOD bptr (Zabs (m_new)) bn )
@@ -6715,7 +6716,7 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (n_new: Z) (m_new: 
 
 Definition mpz_abs_add_return_wit_1_split_goal_spatial := 
 forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (n_new: Z) (m_new: Z) (aptr: Z) (bptr: Z) (asize: Z) (bsize: Z) (acap: Z) (bcap: Z) (rsize: Z) (rcap: Z) (b: Z) (a: Z) (an: Z) (bn: Z) (r__mp_alloc: Z) (r__mp_d: Z) (rp: Z) (val_r_out: Z) (retval: Z) (PreH1 : (retval <= UINT_MAX)) (PreH2 : (retval >= 0)) (PreH3 : (bcap <= INT_MAX)) (PreH4 : (bsize <= INT_MAX)) (PreH5 : (acap <= INT_MAX)) (PreH6 : (asize <= INT_MAX)) (PreH7 : (r__mp_alloc <= INT_MAX)) (PreH8 : (rsize <= INT_MAX)) (PreH9 : (bcap >= INT_MIN)) (PreH10 : (bsize >= INT_MIN)) (PreH11 : (acap >= INT_MIN)) (PreH12 : (asize >= INT_MIN)) (PreH13 : (r__mp_alloc >= INT_MIN)) (PreH14 : (rsize >= INT_MIN)) (PreH15 : ((val_r_out + (retval * (Z.pow (UINT_MOD) (an)) ) ) = ((Zabs (n_new)) + (Zabs (m_new)) ))) (PreH16 : (is_compact_Z UINT_MOD (Zabs (m_new)) bn )) (PreH17 : (is_compact_Z UINT_MOD (Zabs (n_new)) an )) (PreH18 : (Permutation (cons ((Prod2 (a) (n_new))) ((cons ((Prod2 (b) (m_new))) ((@nil (Z * Z)))))) (cons ((Prod2 (a_pre) (n))) ((cons ((Prod2 (b_pre) (m))) ((@nil (Z * Z)))))) )) (PreH19 : (an >= bn)) (PreH20 : (an = (Zabs (asize)))) (PreH21 : (bn = (Zabs (bsize)))) (PreH22 : (an <= acap)) (PreH23 : (bn <= bcap)) (PreH24 : (same_sign n_new asize )) (PreH25 : (same_sign m_new bsize )) (PreH26 : (same_sign l rsize )) (PreH27 : ((Zabs (rsize)) <= rcap)) (PreH28 : (rcap >= 0)) (PreH29 : (r__mp_alloc = (Z.max ((Z.max ((an + 1 )) (1))) (rcap)))) (PreH30 : (r__mp_d = rp)) (PreH31 : (is_compact_Z UINT_MOD (Zabs (l)) (Zabs (rsize)) )) (PreH32 : (an < (Z.max ((Z.max ((an + 1 )) (1))) (rcap)))) ,
-  (((rp + (an * sizeof(UINT) ) )) # UInt  |-> retval)
+  (((rp + (an * sizeof(UINT)))) # UInt  |-> retval)
   **  (UIntArray.undef_seg rp (an + 1 ) (Z.max ((Z.max ((an + 1 )) (1))) (rcap)) )
   **  (mpd_store_Z UINT_MOD aptr (Zabs (n_new)) an )
   **  (mpd_store_Z UINT_MOD bptr (Zabs (m_new)) bn )
@@ -7536,7 +7537,7 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (n_new: Z) (m_new: 
   &&  “ (r__mp_d = rp) ” 
   &&  “ (is_compact_Z UINT_MOD (Zabs (l)) (Zabs (rsize)) ) ” 
   &&  “ (an < (Z.max ((Z.max ((an + 1 )) (1))) (rcap))) ”
-  &&  (((rp + (an * sizeof(UINT) ) )) # UInt  |->_)
+  &&  (((rp + (an * sizeof(UINT)))) # UInt  |->_)
   **  (UIntArray.undef_seg rp (an + 1 ) (Z.max ((Z.max ((an + 1 )) (1))) (rcap)) )
   **  (mpd_store_Z UINT_MOD aptr (Zabs (n_new)) an )
   **  (mpd_store_Z UINT_MOD bptr (Zabs (m_new)) bn )

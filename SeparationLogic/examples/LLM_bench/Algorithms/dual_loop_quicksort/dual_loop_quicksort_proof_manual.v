@@ -480,7 +480,7 @@ Proof.
       rewrite Hn0 in PreH2.
       apply Zlength_nil_inv in PreH2.
       subst l.
-      unfold Nondecreasing.
+      unfold increasing.
       auto.
     + dump_pre_spatial.
       lia.
@@ -503,7 +503,7 @@ Proof.
       exact PreH1.
     + dump_pre_spatial.
       rewrite <- Hlen1_2 in PreH3.
-      apply range_nondecreasing_full_to_Nondecreasing.
+      apply range_nondecreasing_full_to_increasing.
       exact PreH3.
     + dump_pre_spatial.
       exact Hlen1_2.

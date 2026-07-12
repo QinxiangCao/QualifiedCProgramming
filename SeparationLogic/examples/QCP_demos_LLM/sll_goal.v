@@ -106,16 +106,12 @@ forall (l: (@list Z)) (PreH1 : ((Zlength (l)) <= INT_MAX)) ,
 
 Definition length_entail_wit_1_split_goal_1 := 
 forall (l: (@list Z)) (PreH1 : ((Zlength (l)) <= INT_MAX)) ,
-  TT && emp 
-|--
-  “ (0 = (Zlength ((@nil Z)))) ”
+  (0 = (Zlength ((@nil Z))))
 .
 
 Definition length_entail_wit_1_split_goal_2 := 
 forall (l: (@list Z)) (PreH1 : ((Zlength (l)) <= INT_MAX)) ,
-  TT && emp 
-|--
-  “ (l = (app ((@nil Z)) (l))) ”
+  (l = (app ((@nil Z)) (l)))
 .
 
 Definition length_entail_wit_2 := 
@@ -229,9 +225,7 @@ forall (l: (@list Z)) ,
 
 Definition reverse_entail_wit_1_split_goal_1 := 
 forall (l: (@list Z)) ,
-  TT && emp 
-|--
-  “ (l = (app ((rev ((@nil Z)))) (l))) ”
+  (l = (app ((rev ((@nil Z)))) (l)))
 .
 
 Definition reverse_entail_wit_2 := 
@@ -272,9 +266,7 @@ forall (l: (@list Z)) (l1_2: (@list Z)) (l2_2: (@list Z)) (l2_new: (@list Z)) (v
 
 Definition reverse_entail_wit_3_split_goal_1 := 
 forall (l: (@list Z)) (l1_2: (@list Z)) (l2_2: (@list Z)) (l2_new: (@list Z)) (vdata: Z) (v: Z) (PreH1 : (l = (app ((rev (l1_2))) (l2_2)))) (PreH2 : (v <> 0)) (PreH3 : (l2_2 = (cons (vdata) (l2_new)))) ,
-  TT && emp 
-|--
-  “ (l = (app ((rev ((cons (vdata) (l1_2))))) (l2_new))) ”
+  (l = (app ((rev ((cons (vdata) (l1_2))))) (l2_new)))
 .
 
 Definition reverse_return_wit_1 := 
@@ -298,6 +290,13 @@ forall (l: (@list Z)) (v: Z) (l1: (@list Z)) (l2: (@list Z)) (PreH1 : (l = (app 
   (sll v l2 )
 |--
   “ (l1 = (rev (l))) ”
+.
+
+Definition reverse_return_wit_1_split_goal_spatial := 
+forall (l: (@list Z)) (v: Z) (l1: (@list Z)) (l2: (@list Z)) (PreH1 : (l = (app ((rev (l1))) (l2)))) (PreH2 : (v = 0)) ,
+  (sll v l2 )
+|--
+  TT && emp 
 .
 
 (*----- Function reverse_alter_style1 -----*)
@@ -332,9 +331,7 @@ forall (l: (@list Z)) ,
 
 Definition reverse_alter_style1_entail_wit_1_split_goal_1 := 
 forall (l: (@list Z)) ,
-  TT && emp 
-|--
-  “ (l = (app ((rev ((@nil Z)))) (l))) ”
+  (l = (app ((rev ((@nil Z)))) (l)))
 .
 
 Definition reverse_alter_style1_entail_wit_2 := 
@@ -375,9 +372,7 @@ forall (l: (@list Z)) (l1_2: (@list Z)) (l2_2: (@list Z)) (x: Z) (xs: (@list Z))
 
 Definition reverse_alter_style1_entail_wit_3_split_goal_1 := 
 forall (l: (@list Z)) (l1_2: (@list Z)) (l2_2: (@list Z)) (x: Z) (xs: (@list Z)) (v: Z) (PreH1 : (l = (app ((rev (l1_2))) (l2_2)))) (PreH2 : (v <> 0)) (PreH3 : (l2_2 = (cons (x) (xs)))) ,
-  TT && emp 
-|--
-  “ (l = (app ((rev ((cons (x) (l1_2))))) (xs))) ”
+  (l = (app ((rev ((cons (x) (l1_2))))) (xs)))
 .
 
 Definition reverse_alter_style1_return_wit_1 := 
@@ -401,6 +396,13 @@ forall (l: (@list Z)) (v: Z) (l1: (@list Z)) (l2: (@list Z)) (PreH1 : (l = (app 
   (sll v l2 )
 |--
   “ (l1 = (rev (l))) ”
+.
+
+Definition reverse_alter_style1_return_wit_1_split_goal_spatial := 
+forall (l: (@list Z)) (v: Z) (l1: (@list Z)) (l2: (@list Z)) (PreH1 : (l = (app ((rev (l1))) (l2)))) (PreH2 : (v = 0)) ,
+  (sll v l2 )
+|--
+  TT && emp 
 .
 
 (*----- Function reverse_alter_style2 -----*)
@@ -435,9 +437,7 @@ forall (l: (@list Z)) ,
 
 Definition reverse_alter_style2_entail_wit_1_split_goal_1 := 
 forall (l: (@list Z)) ,
-  TT && emp 
-|--
-  “ (l = (app ((rev ((@nil Z)))) (l))) ”
+  (l = (app ((rev ((@nil Z)))) (l)))
 .
 
 Definition reverse_alter_style2_entail_wit_2 := 
@@ -478,9 +478,7 @@ forall (l: (@list Z)) (l1_2: (@list Z)) (l2_2: (@list Z)) (v_inv: Z) (x: Z) (xs:
 
 Definition reverse_alter_style2_entail_wit_3_split_goal_1 := 
 forall (l: (@list Z)) (l1_2: (@list Z)) (l2_2: (@list Z)) (v_inv: Z) (x: Z) (xs: (@list Z)) (PreH1 : (l = (app ((rev (l1_2))) (l2_2)))) (PreH2 : (v_inv <> 0)) (PreH3 : (l2_2 = (cons (x) (xs)))) ,
-  TT && emp 
-|--
-  “ (l = (app ((rev ((cons (x) (l1_2))))) (xs))) ”
+  (l = (app ((rev ((cons (x) (l1_2))))) (xs)))
 .
 
 Definition reverse_alter_style2_return_wit_1 := 
@@ -504,6 +502,13 @@ forall (l: (@list Z)) (v_inv: Z) (l1: (@list Z)) (l2: (@list Z)) (PreH1 : (l = (
   (sll v_inv l2 )
 |--
   “ (l1 = (rev (l))) ”
+.
+
+Definition reverse_alter_style2_return_wit_1_split_goal_spatial := 
+forall (l: (@list Z)) (v_inv: Z) (l1: (@list Z)) (l2: (@list Z)) (PreH1 : (l = (app ((rev (l1))) (l2)))) (PreH2 : (v_inv = 0)) ,
+  (sll v_inv l2 )
+|--
+  TT && emp 
 .
 
 (*----- Function reverse_alter_style3 -----*)
@@ -550,9 +555,7 @@ forall (p_pre: Z) (l: (@list Z)) (w: Z) (v: Z) (PreH1 : (w = 0)) (PreH2 : (w = 0
 
 Definition reverse_alter_style3_entail_wit_2_split_goal_1 := 
 forall (p_pre: Z) (l: (@list Z)) (w: Z) (v: Z) (PreH1 : (w = 0)) (PreH2 : (w = 0)) (PreH3 : (v = p_pre)) ,
-  TT && emp 
-|--
-  “ (l = (app ((rev ((@nil Z)))) (l))) ”
+  (l = (app ((rev ((@nil Z)))) (l)))
 .
 
 Definition reverse_alter_style3_entail_wit_3 := 
@@ -593,9 +596,7 @@ forall (l: (@list Z)) (l1_2: (@list Z)) (l2_2: (@list Z)) (l2_new: (@list Z)) (v
 
 Definition reverse_alter_style3_entail_wit_4_split_goal_1 := 
 forall (l: (@list Z)) (l1_2: (@list Z)) (l2_2: (@list Z)) (l2_new: (@list Z)) (vdata: Z) (v: Z) (PreH1 : (l = (app ((rev (l1_2))) (l2_2)))) (PreH2 : (v <> 0)) (PreH3 : (l2_2 = (cons (vdata) (l2_new)))) ,
-  TT && emp 
-|--
-  “ (l = (app ((rev ((cons (vdata) (l1_2))))) (l2_new))) ”
+  (l = (app ((rev ((cons (vdata) (l1_2))))) (l2_new)))
 .
 
 Definition reverse_alter_style3_return_wit_1 := 
@@ -619,6 +620,13 @@ forall (l: (@list Z)) (v: Z) (l1: (@list Z)) (l2: (@list Z)) (PreH1 : (l = (app 
   (sll v l2 )
 |--
   “ (l1 = (rev (l))) ”
+.
+
+Definition reverse_alter_style3_return_wit_1_split_goal_spatial := 
+forall (l: (@list Z)) (v: Z) (l1: (@list Z)) (l2: (@list Z)) (PreH1 : (l = (app ((rev (l1))) (l2)))) (PreH2 : (v = 0)) ,
+  (sll v l2 )
+|--
+  TT && emp 
 .
 
 (*----- Function append -----*)
@@ -695,9 +703,7 @@ forall (x_pre: Z) (l1: (@list Z)) (a: Z) (l1n: (@list Z)) (PreH1 : (x_pre <> 0))
 
 Definition append_entail_wit_2_split_goal_1 := 
 forall (x_pre: Z) (l1: (@list Z)) (a: Z) (l1n: (@list Z)) (PreH1 : (x_pre <> 0)) (PreH2 : (l1 = (cons (a) (l1n)))) ,
-  TT && emp 
-|--
-  “ ((app ((@nil Z)) ((cons (a) (l1n)))) = l1) ”
+  ((app ((@nil Z)) ((cons (a) (l1n)))) = l1)
 .
 
 Definition append_entail_wit_3 := 
@@ -809,6 +815,13 @@ forall (x_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (PreH1 : (x_pre = 0)) ,
   “ (l2 = (app (l1) (l2))) ”
 .
 
+Definition append_return_wit_2_split_goal_spatial := 
+forall (x_pre: Z) (l1: (@list Z)) (PreH1 : (x_pre = 0)) ,
+  (sll x_pre l1 )
+|--
+  TT && emp 
+.
+
 (*----- Function append_long -----*)
 
 Definition append_long_safety_wit_1 := 
@@ -898,9 +911,7 @@ forall (x_pre: Z) (l1: (@list Z)) (a: Z) (l1b: (@list Z)) (xn: Z) (PreH1 : (xn <
 
 Definition append_long_entail_wit_2_split_goal_1 := 
 forall (x_pre: Z) (l1: (@list Z)) (a: Z) (l1b: (@list Z)) (xn: Z) (PreH1 : (xn <> 0)) (PreH2 : (x_pre <> 0)) (PreH3 : (l1 = (cons (a) (l1b)))) ,
-  TT && emp 
-|--
-  “ ((app ((@nil Z)) ((cons (a) (l1b)))) = l1) ”
+  ((app ((@nil Z)) ((cons (a) (l1b)))) = l1)
 .
 
 Definition append_long_entail_wit_3 := 
@@ -1014,6 +1025,13 @@ forall (x_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (a: Z) (l1b: (@list Z)) (xn: Z
   “ ((app (l1) (l2)) = (cons (a) (l2))) ”
 .
 
+Definition append_long_return_wit_2_split_goal_spatial := 
+forall (x_pre: Z) (l1: (@list Z)) (a: Z) (l1b: (@list Z)) (xn: Z) (PreH1 : (xn = 0)) (PreH2 : (x_pre <> 0)) (PreH3 : (l1 = (cons (a) (l1b)))) ,
+  (sll xn l1b )
+|--
+  TT && emp 
+.
+
 Definition append_long_return_wit_3 := 
 (
 forall (y_pre: Z) (x_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (PreH1 : (x_pre = 0)) ,
@@ -1035,6 +1053,13 @@ forall (x_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (PreH1 : (x_pre = 0)) ,
   (sll x_pre l1 )
 |--
   “ (l2 = (app (l1) (l2))) ”
+.
+
+Definition append_long_return_wit_3_split_goal_spatial := 
+forall (x_pre: Z) (l1: (@list Z)) (PreH1 : (x_pre = 0)) ,
+  (sll x_pre l1 )
+|--
+  TT && emp 
 .
 
 (*----- Function append_2p -----*)

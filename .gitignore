@@ -14,6 +14,8 @@ CONFIGURE
 # Generated files
 .depend
 .depend.core
+.depend.core.flocq
+.depend.core.project
 .depend.examples
 .depend.examples.applications
 .depend.examples.applications.tmp
@@ -21,6 +23,10 @@ CONFIGURE
 .depend.examples.llm_friendly_cases.tmp
 .depend.examples.qcp_democases
 .depend.examples.qcp_democases.tmp
+.depend.examples.qcp_demo_feature_cases
+.depend.examples.qcp_demo_feature_cases.tmp
+.depend.examples.qcp_demo_tutorial
+.depend.examples.qcp_demo_tutorial.tmp
 .depend.tmp
 .depend.examples.llm_bench
 
@@ -47,7 +53,13 @@ Makefile.conf
 .vscode
 __pycache__/
 *.pyc
+*.py[cod]
+.pytest_cache/
 *.Identifier
 .codex
 .claude
 .tmp
+worktrees/
+instructions/
+system-report/
+sessiontrans-js2html/

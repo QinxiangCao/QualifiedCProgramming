@@ -1,0 +1,7 @@
+; Converted from:
+; - _CoqProject: -R SeparationLogic/listlib ListLib
+; - SeparationLogic/_CoqProject: -R listlib ListLib
+(coq.theory
+ (name ListLib))
+
+(include_subdirs qualified)

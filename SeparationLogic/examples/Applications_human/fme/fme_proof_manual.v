@@ -481,7 +481,6 @@ Lemma proof_of_generate_new_constr_return_wit_1 : generate_new_constr_return_wit
 Proof.  
   pre_process.
   prop_apply (coef_array_length r2_pre). 
-  Left.
   Exists c3_2. Intros.
   prop_apply (coef_array_length r1_pre).
   prop_apply (coef_array_length res).
@@ -718,7 +717,6 @@ Qed.
 Lemma proof_of_real_shadow_return_wit_1 : real_shadow_return_wit_1.
 Proof.
   pre_process.
-  Right.
   Exists r l2_2.
   entailer!.
   replace (cnt + 1) with 1 in * by lia.
@@ -728,7 +726,6 @@ Qed.
 Lemma proof_of_real_shadow_return_wit_3 : real_shadow_return_wit_3.
 Proof.
   pre_process.
-  Left.
   rewrite PreH1.
   sep_apply inequlist_0_implies_nil.
   entailer!.
@@ -739,7 +736,6 @@ Qed.
 Lemma proof_of_real_shadow_return_wit_5 : real_shadow_return_wit_5.
 Proof.
   pre_process.
-  Left.
   rewrite PreH1.
   sep_apply inequlist_0_implies_nil.
   entailer!.
@@ -750,7 +746,6 @@ Qed.
 Lemma proof_of_real_shadow_return_wit_7 : real_shadow_return_wit_7.
 Proof. 
   pre_process.
-  Right.
   rewrite PreH1, PreH2.
   repeat sep_apply inequlist_0_implies_nil.
   Exists 0 nil.
@@ -765,7 +760,7 @@ Qed.
 Lemma proof_of_real_shadow_return_wit_6 : real_shadow_return_wit_6.
 Proof. 
   pre_process. subst.
-  Right; Exists 0 nil.
+  Exists 0 nil.
   entailer!.
   - do 3 sep_apply store_ptr_undef_store_ptr.
     repeat sep_apply inequlist_0_implies_nil.
@@ -807,7 +802,6 @@ Qed.
 Lemma proof_of_lia_deduction_return_wit_2 : lia_deduction_return_wit_2.
 Proof.
   pre_process.
-  Left. Right.
   Exists BP0_4 p2_3.
   entailer!.
   eapply LP_Implies_UNSAT ; eauto.
@@ -833,7 +827,6 @@ Qed.
 Lemma proof_of_lia_deduction_return_wit_1 : lia_deduction_return_wit_1.
 Proof.
   pre_process.
-  Right.
   Exists BP0_4 p2_3 l2_2.
   entailer!.
   sep_apply InequList_seg_append_list; try (unfold NULL; lia).

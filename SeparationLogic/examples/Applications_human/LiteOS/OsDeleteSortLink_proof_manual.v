@@ -56,7 +56,6 @@ Qed.
 Lemma proof_of_OsDeleteSortLink_return_wit_3 : OsDeleteSortLink_return_wit_3.
 Proof.
   pre_process.
-  Right.
   entailer!.
   unfold store_sorted_dll.
   entailer!.

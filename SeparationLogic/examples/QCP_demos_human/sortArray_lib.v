@@ -20,24 +20,6 @@ Local Open Scope list.
 Import naive_C_Rules.
 Local Open Scope sac.
 
-Fixpoint increasing_aux (l: list Z) (x: Z): Prop :=
-  match l with
-  | nil => True
-  | y :: l0 => x <= y /\ increasing_aux l0 y
-  end.
-
-Definition increasing (l: list Z): Prop :=
-  match l with
-  | nil => True
-  | x :: l0 => increasing_aux l0 x
-  end.
-
-Fixpoint strict_upperbound (x: Z) (l: list Z): Prop :=
-  match l with
-  | nil => True
-  | y :: l' => x < y /\ strict_upperbound x l'
-  end.
-
 Fixpoint insert (x: Z) (l: list Z): list Z :=
   match l with
   | nil => [x]
@@ -46,7 +28,7 @@ Fixpoint insert (x: Z) (l: list Z): list Z :=
 
 Lemma upperbound_insert_nil:
   forall x l,
-    strict_upperbound x l ->
+    strict_lowerbound x l ->
     insert x l = x :: l.
 Proof.
   intros.
@@ -60,7 +42,7 @@ Qed.
 Lemma upperbound_insert_cons:
   forall x y l,
     y <= x ->
-    strict_upperbound x l ->
+    strict_lowerbound x l ->
     insert x (y :: l) = y :: x :: l.
 Proof.
   intros.
@@ -68,15 +50,6 @@ Proof.
   destruct (x >? y) eqn:b; simpl.
   - rewrite upperbound_insert_nil; auto.
   - assert (x = y) by lia. subst. reflexivity.
-Qed.
-
-Lemma upperbound_app:
-  forall x l v,
-    strict_upperbound x l ->
-    x < v ->
-    strict_upperbound x (v :: l).
-Proof.
-  intros. simpl. tauto.
 Qed.
 
 Lemma increasing_aux_insert:
@@ -110,7 +83,7 @@ Lemma increasing_aux_middle:
   forall l y x l2 start,
     increasing_aux (l ++ y :: l2) start ->
     y <= x ->
-    strict_upperbound x l2 ->
+    strict_lowerbound x l2 ->
     increasing_aux (l ++ y :: x :: l2) start.
 Proof.
   induction l; intros; simpl in *.
@@ -136,7 +109,7 @@ Lemma increasing_middle:
   forall l1 y x l2,
     increasing (l1 ++ y :: l2) ->
     y <= x ->
-    strict_upperbound x l2 ->
+    strict_lowerbound x l2 ->
     increasing (l1 ++ y :: x :: l2).
 Proof.
   destruct l1; intros; simpl in *.
@@ -161,4 +134,3 @@ Proof.
   - rewrite IHl. reflexivity.
   - rewrite <- Permutation_cons_append. apply perm_swap.
 Qed.
-

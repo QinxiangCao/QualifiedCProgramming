@@ -18,35 +18,106 @@ Local Open Scope list.
 From SimpleC.EE.QCP_demos_human Require Import bst_lib.
 Import get_right_most.
 Import naive_C_Rules.
-Import naive_C_Rules.
 Local Open Scope sac.
+
+Lemma proof_of_get_pre_return_wit_2_split_goal_1 : get_pre_return_wit_2_split_goal_1.
+Proof.
+  pre_process.
+  sep_apply store_tree_zero ; try auto.
+  Intros.
+  dump_pre_spatial.
+  rewrite H0.
+  simpl. tauto.
+Qed.
+
+Lemma proof_of_get_pre_return_wit_2_split_goal_2 : get_pre_return_wit_2_split_goal_2.
+Proof.
+  pre_process.
+  sep_apply store_tree_zero ; try auto.
+  Intros.
+  dump_pre_spatial. 
+  rewrite H0.
+  simpl. tauto.
+Qed.
+
+Lemma proof_of_get_pre_return_wit_2_split_goal_3 : get_pre_return_wit_2_split_goal_3.
+Proof.
+  pre_process.
+  sep_apply store_tree_zero ; try auto.
+  Intros.
+  dump_pre_spatial. 
+  rewrite H0.
+  simpl. tauto.
+Qed.
+
+Lemma proof_of_get_pre_return_wit_2_split_goal_4 : get_pre_return_wit_2_split_goal_4.
+Proof.
+  pre_process.
+  sep_apply store_tree_zero ; try auto.
+  Intros.
+  dump_pre_spatial. 
+  rewrite H0.
+  simpl. tauto.
+Qed.
+
+Lemma proof_of_get_pre_return_wit_2_split_goal_spatial : get_pre_return_wit_2_split_goal_spatial.
+Proof.
+  pre_process.
+  sep_apply store_tree_zero ; try auto.
+  entailer!.
+Qed.
 
 Lemma proof_of_get_pre_return_wit_2 : get_pre_return_wit_2.
 Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_get_pre_return_wit_2_split_goal_spatial.
+  - Goal_apply proof_of_get_pre_return_wit_2_split_goal_1.
+  - Goal_apply proof_of_get_pre_return_wit_2_split_goal_2.
+  - Goal_apply proof_of_get_pre_return_wit_2_split_goal_3.
+  - Goal_apply proof_of_get_pre_return_wit_2_split_goal_4.
+Qed.
+
+Lemma proof_of_get_pre_return_wit_1_split_goal_1 : get_pre_return_wit_1_split_goal_1.
+Proof.
   pre_process.
-  Exists t_pre_v_left t_pre_v_right t_left nil.
-  Exists t_value t_key t_pre_v.
-  sep_apply (store_tree_zero t_pre_v_right t_right); simpl.
-  entailer!; rewrite H0; simpl; auto.
-  tauto.
+  dump_pre_spatial. 
+  rewrite PreH14.
+  simpl. tauto.
+Qed.
+
+Lemma proof_of_get_pre_return_wit_1_split_goal_2 : get_pre_return_wit_1_split_goal_2.
+Proof.
+  pre_process.
+  dump_pre_spatial. 
+  rewrite PreH14.
+  simpl. tauto.
+Qed.
+
+Lemma proof_of_get_pre_return_wit_1_split_goal_3 : get_pre_return_wit_1_split_goal_3.
+Proof.
+  pre_process.
+  dump_pre_spatial. 
+  rewrite PreH14.
+  simpl. tauto.
+Qed.
+
+Lemma proof_of_get_pre_return_wit_1_split_goal_spatial : get_pre_return_wit_1_split_goal_spatial.
+Proof.
+  pre_process.
+  sep_apply (store_ptb_RH).
+  sep_apply (store_ptb_app retval &( t_pre_v # "tree" ->ₛ "right") t_pre t_pt_2 (RH t_key t_value t_left :: nil)).
+  rewrite PreH14. simpl. rewrite PreH9.
+  entailer!.
+  all :  tauto.
 Qed.
 
 Lemma proof_of_get_pre_return_wit_1 : get_pre_return_wit_1.
 Proof.
-  pre_process.
-  Exists retval_v_left_2 retval_v_right_2 ret_left_2.
-  Exists (t_pt_2 ++ (RH t_key t_value t_left :: nil)).
-  Exists retval_v_value_2 retval_v_key_2 retval_v_2.
-  entailer!.
-  + sep_apply (store_ptb_RH).
-    sep_apply (store_ptb_app retval &( t_pre_v # "tree" ->ₛ "right") t_pre t_pt_2 (RH t_key t_value t_left :: nil)).
-    entailer!.
-    - tauto.
-    - tauto.
-  + rewrite PreH11. simpl. tauto.
-  + rewrite PreH11. simpl. rewrite PreH6. tauto.
-  + rewrite PreH11. simpl. tauto.
-  + rewrite PreH11. simpl. tauto.
+  aggressive_pre_process.
+  - Goal_apply proof_of_get_pre_return_wit_1_split_goal_spatial.
+  - Goal_apply proof_of_get_pre_return_wit_1_split_goal_1.
+  - Goal_apply proof_of_get_pre_return_wit_1_split_goal_2.
+  - Goal_apply proof_of_get_pre_return_wit_1_split_goal_3.
 Qed.
 
 Lemma proof_of_get_pre_which_implies_wit_1 : get_pre_which_implies_wit_1.

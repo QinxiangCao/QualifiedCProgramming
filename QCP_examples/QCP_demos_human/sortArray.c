@@ -4,7 +4,7 @@
 
 /*@ Extern Coq (Permutation : list Z -> list Z -> Prop) */
 /*@ Extern Coq (increasing : list Z -> Prop) */
-/*@ Extern Coq (strict_upperbound : Z -> list Z -> Prop) */
+/*@ Extern Coq (strict_lowerbound : Z -> list Z -> Prop) */
 /*@ Import Coq Require Import SimpleC.EE.QCP_demos_human.sortArray_lib */
 
 int* sortArray(int* nums, int numsSize, int* returnSize) 
@@ -39,7 +39,7 @@ int* sortArray(int* nums, int numsSize, int* returnSize)
                 Permutation(l1, l0) && increasing(l0) &&
                 l0 == app(l2, l3) &&
                 j + 1 == Zlength(l2) && j + 1 <= i && 
-                strict_upperbound(key, l3) &&
+                strict_lowerbound(key, l3) &&
                 *returnSize == numsSize@pre &&
                 IntArray::seg(nums, 0, j + 1, l2) *
                 undef_data_at(nums + ((j + 1) * sizeof(int)), int) *
@@ -57,7 +57,7 @@ int* sortArray(int* nums, int numsSize, int* returnSize)
                     1 <= i && i <= numsSize && 
                     Permutation(l1, l0) && increasing(l0) &&
                     l0 == app(l2, l3) &&
-                    strict_upperbound(key, l3) &&
+                    strict_lowerbound(key, l3) &&
                     0 <= j && l2[j] > key &&
                     *returnSize == numsSize@pre &&
                     IntArray::seg(nums, 0, j, l5) *
@@ -77,7 +77,7 @@ int* sortArray(int* nums, int numsSize, int* returnSize)
                     1 <= i && i <= numsSize &&
                     Permutation(l1, l0) && increasing(l0) &&
                     l0 == app(l2, l3) &&
-                    strict_upperbound(key, l3) &&
+                    strict_lowerbound(key, l3) &&
                     0 <= j && l2[j] > key &&
                     *returnSize == numsSize@pre &&
                     IntArray::seg(nums, 0, j, l5) *

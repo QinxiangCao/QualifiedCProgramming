@@ -223,7 +223,7 @@ Lemma mem_join_eq_inv2 : forall m1 m1' m2 m2' m m',
   f_eq m m' ->
   mem_join m1 m2 m ->
   mem_join m1' m2' m' ->
-  f_eq m1 m1'.
+  f_eq m2 m2'.
 Proof.
   unfold mem_join, f_eq.
   intros. rename x into p.

@@ -126,9 +126,7 @@ forall (value_pre: Z) (x_pre: Z) (tr_low_level_spec: tree) (PreH1 : (INT_MIN <= 
 
 Definition insert_entail_wit_1_split_goal_1 := 
 forall (value_pre: Z) (x_pre: Z) (tr_low_level_spec: tree) (PreH1 : (INT_MIN <= x_pre)) (PreH2 : (x_pre <= INT_MAX)) ,
-  TT && emp 
-|--
-  “ ((combine_tree (empty_partial_tree) ((tree_insert (x_pre) (value_pre) (tr_low_level_spec)))) = (tree_insert (x_pre) (value_pre) (tr_low_level_spec))) ”
+  ((combine_tree (empty_partial_tree) ((tree_insert (x_pre) (value_pre) (tr_low_level_spec)))) = (tree_insert (x_pre) (value_pre) (tr_low_level_spec)))
 .
 
 Definition insert_entail_wit_2_1 := 

@@ -85,9 +85,7 @@ forall (A: Type) (tickPrecision_pre: Z) (startTime_pre: Z) (sortHead_pre: Z) (l:
 
 Definition GetSortLinkNextExpireTime_entail_wit_1_split_goal_1 := 
 forall (A: Type) (tickPrecision_pre: Z) (startTime_pre: Z) (sortHead_pre: Z) (l: (@list (@DL_Node (@sortedLinkNode A)))) (h: Z) (PreH1 : (increasingSortedNode l )) (PreH2 : ((startTime_pre + tickPrecision_pre ) <= ULLONG_MAX)) (PreH3 : (startTime_pre >= 0)) (PreH4 : (startTime_pre <= ULLONG_MAX)) (PreH5 : (tickPrecision_pre >= 0)) (PreH6 : (tickPrecision_pre <= ULLONG_MAX)) ,
-  TT && emp 
-|--
-  “ (h = (obtian_first_pointer (&((sortHead_pre)  # "SortLinkAttribute" ->ₛ "sortLink")) ((map (sortedLinkNodeMapping) (l))))) ”
+  (h = (obtian_first_pointer (&((sortHead_pre)  # "SortLinkAttribute" ->ₛ "sortLink")) ((map (sortedLinkNodeMapping) (l)))))
 .
 
 Definition GetSortLinkNextExpireTime_entail_wit_2_1 := 

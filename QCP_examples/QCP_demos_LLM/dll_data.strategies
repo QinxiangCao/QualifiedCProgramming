@@ -1,0 +1,156 @@
+// Data-carrying counterpart of dll_shape.strategies.
+// dlistrep_shape(p, prev) ~ dlistrep(p, prev, l)
+// dllseg_shape(p, q, r, s) ~ dllseg(p, q, r, s, l)
+
+#include "dll_data_def.h"
+
+id : 1
+priority : core(0)
+left : dlistrep(NULL, ?prev, ?l) at 0
+action : left_erase(0);
+         left_add(l == nil{Z});
+
+id : 2
+priority : core(0)
+right : dlistrep(NULL, ?prev, ?l) at 0
+action : right_erase(0);
+         right_add(l == nil{Z});
+
+id : 3
+priority : core(0)
+left : (?p : Z == NULL || NULL == ?p : Z) at 0
+right : dlistrep(p, ?prev, ?l) at 1
+action : right_erase(1);
+         right_add(l == nil{Z});
+
+id : 4
+priority : core(1)
+left : dlistrep(?p : Z, ?prev, ?l) at 0
+       (p == NULL || NULL == p) at 1
+action : left_erase(0);
+         left_add(l == nil{Z});
+
+id : 5
+priority : core(6)
+left : dlistrep(?p : Z, ?prev, ?l) at 0
+       (p != NULL || NULL != p) at 1
+right : (store(field_addr(p, list, data), I32, ?q : Z) || store(field_addr(p, list, next), PTR(struct list), ?q : Z) || store(field_addr(p, list, prev), PTR(struct list), ?q : Z)) at 2
+action : left_erase(0);
+         left_exist_add(x : Z);
+         left_exist_add(y : Z);
+         left_exist_add(l0);
+         left_add(store(field_addr(p, list, data), I32, x));
+         left_add(store(field_addr(p, list, next), PTR(struct list), y));
+         left_add(store(field_addr(p, list, prev), PTR(struct list), prev));
+         left_add(dlistrep(y, p, l0));
+         left_add(l == cons{Z}(x, l0));
+
+id : 6
+priority : core(6)
+left : (?p : Z != NULL || NULL != ?p : Z) at 0
+right : dlistrep(p, ?prev, ?l) at 1
+action : right_erase(1);
+         right_exist_add(x : Z);
+         right_exist_add(y : Z);
+         right_exist_add(l0);
+         right_add(store(field_addr(p, list, data), I32, x));
+         right_add(store(field_addr(p, list, next), PTR(struct list), y));
+         right_add(store(field_addr(p, list, prev), PTR(struct list), prev));
+         right_add(dlistrep(y, p, l0));
+         right_add(l == cons{Z}(x, l0));
+
+id : 7
+priority : core(3)
+left : dllseg(?p : Z, ?s : Z, ?q : Z, ?r : Z, ?l1) at 0
+right : dlistrep(p, ?x, ?l2) at 1
+check : infer(q == x);
+action : right_erase(1);
+         left_erase(0);
+         right_exist_add(l3);
+         right_add(dlistrep(s, r, l3));
+         right_add(l2 == app{Z}(l1, l3));
+
+id : 8
+priority : core(5)
+left : dlistrep(?p : Z, ?x, ?l1) at 0
+right : dlistrep(p, ?y, ?l2) at 1
+action : left_erase(0);
+         right_erase(1);
+         right_add(x == y);
+         right_add(l1 == l2);
+
+id : 11
+priority : core(5)
+right : dllseg(?p : Z, ?s : Z, ?q : Z, ?r : Z, ?l) at 0
+check : infer(q == r);
+        infer(p == s);
+action : right_erase(0);
+         right_add(l == nil{Z});
+
+id : 12
+priority : core(1)
+right : dllseg(?p : Z, p, ?q : Z, ?r : Z, ?l1) at 0
+        dlistrep(p, ?x, ?l2) at 1
+action : right_erase(0);
+         right_add(q == r);
+         right_add(x == q);
+         right_add(l1 == nil{Z});
+
+id : 13
+priority : core(3)
+right : dllseg(?p, ?m : Z, ?q, ?s, ?l) at 1
+left : store(field_addr(s, list, next), PTR(struct list), ?n) at 2
+check : infer(m == n);
+        infer(s != 0);
+action : right_erase(1);
+         right_exist_add(x : Z);
+         right_exist_add(y : Z);
+         right_exist_add(l0);
+         right_add(store(field_addr(s, list, data), I32, x));
+         right_add(store(field_addr(s, list, next), PTR(struct list), m));
+         right_add(store(field_addr(s, list, prev), PTR(struct list), y));
+         right_add(dllseg(p, s, q, y, l0));
+         right_add(l == app{Z}(l0, cons{Z}(x, nil{Z})));
+
+id : 14
+priority : core(3)
+left : dllseg(?p, ?m : Z, ?q, ?s, ?l) at 0
+right : store(field_addr(s, list, prev), PTR(struct list), ?n) at 1
+check : infer(m != p);
+action : left_erase(0);
+         left_exist_add(x : Z);
+         left_exist_add(y : Z);
+         left_exist_add(l0);
+         left_add(store(field_addr(s, list, data), I32, x));
+         left_add(store(field_addr(s, list, next), PTR(struct list), m));
+         left_add(store(field_addr(s, list, prev), PTR(struct list), y));
+         left_add(dllseg(p, s, q, y, l0));
+         left_add(l == app{Z}(l0, cons{Z}(x, nil{Z})));
+         left_add(s != 0);
+
+id : 15
+priority : core(3)
+left : dllseg(?p : Z, ?s : Z, ?q : Z, ?r : Z, ?l1) at 0
+right : dlistrep(?t, ?x, ?l2) at 1
+check : infer(p == t);
+        infer(q == x);
+action : right_erase(1);
+         left_erase(0);
+         right_exist_add(l3);
+         right_add(dlistrep(s, r, l3));
+         right_add(l2 == app{Z}(l1, l3));
+
+id : 16
+priority : core(3)
+left : dllseg(?p, ?m : Z, ?q, ?s, ?l) at 1
+right : store(field_addr(s, list, next), PTR(struct list), ?n) at 2
+check : infer(s != q);
+action : left_erase(1);
+         left_exist_add(x : Z);
+         left_exist_add(y : Z);
+         left_exist_add(l0);
+         left_add(store(field_addr(s, list, data), I32, x));
+         left_add(store(field_addr(s, list, next), PTR(struct list), m));
+         left_add(store(field_addr(s, list, prev), PTR(struct list), y));
+         left_add(dllseg(p, s, q, y, l0));
+         left_add(l == app{Z}(l0, cons{Z}(x, nil{Z})));

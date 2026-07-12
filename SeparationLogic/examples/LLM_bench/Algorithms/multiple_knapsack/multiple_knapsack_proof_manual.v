@@ -32,11 +32,6 @@ Proof.
     nia.
 Qed.
 
-Lemma proof_of_multipleKnapsack_safety_wit_13 : multipleKnapsack_safety_wit_13.
-Proof.
-  pre_process.
-Qed.
-
 Lemma proof_of_multipleKnapsack_entail_wit_1 : multipleKnapsack_entail_wit_1.
 Proof.
   pre_process.

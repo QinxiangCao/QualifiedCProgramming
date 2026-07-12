@@ -490,9 +490,7 @@ forall (r_pre: Z) (q_pre: Z) (p_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (s2: 
 
 Definition merge_entail_wit_1_split_goal_1 := 
 forall (r_pre: Z) (q_pre: Z) (p_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (s2: (@list Z)) (s1: (@list Z)) (PreH1 : (safeExec ATrue (merge_rel (s1) (s2)) X )) (PreH2 : (0 <= p_pre)) (PreH3 : (p_pre <= q_pre)) (PreH4 : (q_pre < r_pre)) (PreH5 : ((r_pre + 1 ) <= INT_MAX)) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (merge_from_mid_rel (s1) (s2) ((@nil Z))) X ) ”
+  (safeExec ATrue (merge_from_mid_rel (s1) (s2) ((@nil Z))) X )
 .
 
 Definition merge_entail_wit_2_1 := 
@@ -636,6 +634,7 @@ forall (ret_pre: Z) (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z)
 .
 
 Definition merge_entail_wit_3_2 := 
+(
 forall (ret_pre: Z) (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (l6_2: (@list Z)) (l5_2: (@list Z)) (l4_2: (@list Z)) (k: Z) (j: Z) (i: Z) (l1_2: (@list Z)) (l2_2: (@list Z)) (l3_2: (@list Z)) (PreH1 : (j >= (r_pre + 1 ))) (PreH2 : (i < (q_pre + 1 ))) (PreH3 : (safeExec ATrue (merge_from_mid_rel (l1_2) (l2_2) (l3_2)) X )) (PreH4 : (p_pre <= i)) (PreH5 : ((q_pre + 1 ) <= j)) (PreH6 : (k = ((p_pre + (i - p_pre ) ) + (j - (q_pre + 1 ) ) ))) (PreH7 : (0 <= p_pre)) (PreH8 : (p_pre <= q_pre)) (PreH9 : (q_pre < r_pre)) (PreH10 : ((r_pre + 1 ) <= INT_MAX)) ,
   (IntArray.seg arr_pre p_pre i l4_2 )
   **  (IntArray.seg arr_pre i (q_pre + 1 ) l1_2 )
@@ -644,24 +643,7 @@ forall (ret_pre: Z) (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z)
   **  (IntArray.seg ret_pre p_pre k l3_2 )
   **  (IntArray.seg ret_pre k (r_pre + 1 ) l6_2 )
 |--
-  (EX (l6: (@list Z))  (l5: (@list Z))  (l4: (@list Z))  (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z)) ,
-  “ (safeExec ATrue (merge_from_mid_rel (l1) (l2) (l3)) X ) ” 
-  &&  “ (0 <= p_pre) ” 
-  &&  “ (p_pre <= q_pre) ” 
-  &&  “ (q_pre < r_pre) ” 
-  &&  “ ((r_pre + 1 ) <= INT_MAX) ” 
-  &&  “ (p_pre <= i) ” 
-  &&  “ ((q_pre + 1 ) <= j) ” 
-  &&  “ (k = ((p_pre + (i - p_pre ) ) + (j - (q_pre + 1 ) ) )) ” 
-  &&  “ (i = (q_pre + 1 )) ”
-  &&  (IntArray.seg arr_pre p_pre i l4 )
-  **  (IntArray.seg arr_pre i (q_pre + 1 ) l1 )
-  **  (IntArray.seg arr_pre (q_pre + 1 ) j l5 )
-  **  (IntArray.seg arr_pre j (r_pre + 1 ) l2 )
-  **  (IntArray.seg ret_pre p_pre k l3 )
-  **  (IntArray.seg ret_pre k (r_pre + 1 ) l6 ))
-  ||
-  (EX (l6: (@list Z))  (l5: (@list Z))  (l4: (@list Z))  (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z)) ,
+  EX (l6: (@list Z))  (l5: (@list Z))  (l4: (@list Z))  (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z)) ,
   “ (safeExec ATrue (merge_from_mid_rel (l1) (l2) (l3)) X ) ” 
   &&  “ (0 <= p_pre) ” 
   &&  “ (p_pre <= q_pre) ” 
@@ -676,7 +658,19 @@ forall (ret_pre: Z) (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z)
   **  (IntArray.seg arr_pre (q_pre + 1 ) j l5 )
   **  (IntArray.seg arr_pre j (r_pre + 1 ) l2 )
   **  (IntArray.seg ret_pre p_pre k l3 )
-  **  (IntArray.seg ret_pre k (r_pre + 1 ) l6 ))
+  **  (IntArray.seg ret_pre k (r_pre + 1 ) l6 )
+) \/
+(
+forall (r_pre: Z) (q_pre: Z) (p_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (k: Z) (j: Z) (i: Z) (l1_2: (@list Z)) (l2_2: (@list Z)) (l3_2: (@list Z)) (PreH1 : (j >= (r_pre + 1 ))) (PreH2 : (i < (q_pre + 1 ))) (PreH3 : (safeExec ATrue (merge_from_mid_rel (l1_2) (l2_2) (l3_2)) X )) (PreH4 : (p_pre <= i)) (PreH5 : ((q_pre + 1 ) <= j)) (PreH6 : (k = ((p_pre + (i - p_pre ) ) + (j - (q_pre + 1 ) ) ))) (PreH7 : (0 <= p_pre)) (PreH8 : (p_pre <= q_pre)) (PreH9 : (q_pre < r_pre)) (PreH10 : ((r_pre + 1 ) <= INT_MAX)) ,
+  TT && emp 
+|--
+  “ (j = (r_pre + 1 )) ”
+  &&  emp
+).
+
+Definition merge_entail_wit_3_2_split_goal_1 := 
+forall (r_pre: Z) (q_pre: Z) (p_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (k: Z) (j: Z) (i: Z) (l1_2: (@list Z)) (l2_2: (@list Z)) (l3_2: (@list Z)) (PreH1 : (j >= (r_pre + 1 ))) (PreH2 : (i < (q_pre + 1 ))) (PreH3 : (safeExec ATrue (merge_from_mid_rel (l1_2) (l2_2) (l3_2)) X )) (PreH4 : (p_pre <= i)) (PreH5 : ((q_pre + 1 ) <= j)) (PreH6 : (k = ((p_pre + (i - p_pre ) ) + (j - (q_pre + 1 ) ) ))) (PreH7 : (0 <= p_pre)) (PreH8 : (p_pre <= q_pre)) (PreH9 : (q_pre < r_pre)) (PreH10 : ((r_pre + 1 ) <= INT_MAX)) ,
+  (j = (r_pre + 1 ))
 .
 
 Definition merge_entail_wit_4 := 
@@ -764,6 +758,13 @@ forall (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> 
   “ (safeExec ATrue (merge_from_mid_rel ((@nil Z)) (l2_2) (l3_2)) X ) ”
 .
 
+Definition merge_entail_wit_5_1_split_goal_spatial := 
+forall (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (k: Z) (j: Z) (i: Z) (l1: (@list Z)) (l2_2: (@list Z)) (l3_2: (@list Z)) (PreH1 : (i >= (q_pre + 1 ))) (PreH2 : (safeExec ATrue (merge_from_mid_rel (l1) (l2_2) (l3_2)) X )) (PreH3 : (0 <= p_pre)) (PreH4 : (p_pre <= q_pre)) (PreH5 : (q_pre < r_pre)) (PreH6 : ((r_pre + 1 ) <= INT_MAX)) (PreH7 : (p_pre <= i)) (PreH8 : ((q_pre + 1 ) <= j)) (PreH9 : (k = ((p_pre + (i - p_pre ) ) + (j - (q_pre + 1 ) ) ))) (PreH10 : (i = (q_pre + 1 ))) ,
+  (IntArray.seg arr_pre i (q_pre + 1 ) l1 )
+|--
+  TT && emp 
+.
+
 Definition merge_entail_wit_5_2 := 
 (
 forall (ret_pre: Z) (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (l6_2: (@list Z)) (l5_2: (@list Z)) (l4_2: (@list Z)) (k: Z) (j: Z) (i: Z) (l1: (@list Z)) (l2_2: (@list Z)) (l3_2: (@list Z)) (PreH1 : (i >= (q_pre + 1 ))) (PreH2 : (safeExec ATrue (merge_from_mid_rel (l1) (l2_2) (l3_2)) X )) (PreH3 : (0 <= p_pre)) (PreH4 : (p_pre <= q_pre)) (PreH5 : (q_pre < r_pre)) (PreH6 : ((r_pre + 1 ) <= INT_MAX)) (PreH7 : (p_pre <= i)) (PreH8 : ((q_pre + 1 ) <= j)) (PreH9 : (k = ((p_pre + (i - p_pre ) ) + (j - (q_pre + 1 ) ) ))) (PreH10 : (j = (r_pre + 1 ))) ,
@@ -811,6 +812,13 @@ forall (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> 
   (IntArray.seg arr_pre i (q_pre + 1 ) l1 )
 |--
   “ (safeExec ATrue (merge_from_mid_rel ((@nil Z)) (l2_2) (l3_2)) X ) ”
+.
+
+Definition merge_entail_wit_5_2_split_goal_spatial := 
+forall (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (k: Z) (j: Z) (i: Z) (l1: (@list Z)) (l2_2: (@list Z)) (l3_2: (@list Z)) (PreH1 : (i >= (q_pre + 1 ))) (PreH2 : (safeExec ATrue (merge_from_mid_rel (l1) (l2_2) (l3_2)) X )) (PreH3 : (0 <= p_pre)) (PreH4 : (p_pre <= q_pre)) (PreH5 : (q_pre < r_pre)) (PreH6 : ((r_pre + 1 ) <= INT_MAX)) (PreH7 : (p_pre <= i)) (PreH8 : ((q_pre + 1 ) <= j)) (PreH9 : (k = ((p_pre + (i - p_pre ) ) + (j - (q_pre + 1 ) ) ))) (PreH10 : (j = (r_pre + 1 ))) ,
+  (IntArray.seg arr_pre i (q_pre + 1 ) l1 )
+|--
+  TT && emp 
 .
 
 Definition merge_entail_wit_6 := 
@@ -908,7 +916,7 @@ forall (ret_pre: Z) (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z)
   &&  “ (p_pre <= q_pre) ” 
   &&  “ (q_pre < r_pre) ” 
   &&  “ ((r_pre + 1 ) <= INT_MAX) ”
-  &&  (((arr_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth (i - i ) l1 0))
+  &&  (((arr_pre + (i * sizeof(INT)))) # Int  |-> (Znth (i - i ) l1 0))
   **  (IntArray.missing_i arr_pre i i (q_pre + 1 ) l1 )
   **  (IntArray.seg arr_pre p_pre i l4 )
   **  (IntArray.seg arr_pre (q_pre + 1 ) j l5 )
@@ -936,7 +944,7 @@ forall (ret_pre: Z) (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z)
   &&  “ (p_pre <= q_pre) ” 
   &&  “ (q_pre < r_pre) ” 
   &&  “ ((r_pre + 1 ) <= INT_MAX) ”
-  &&  (((arr_pre + (j * sizeof(INT) ) )) # Int  |-> (Znth (j - j ) l2 0))
+  &&  (((arr_pre + (j * sizeof(INT)))) # Int  |-> (Znth (j - j ) l2 0))
   **  (IntArray.missing_i arr_pre j j (r_pre + 1 ) l2 )
   **  (IntArray.seg arr_pre i (q_pre + 1 ) l1 )
   **  (IntArray.seg arr_pre p_pre i l4 )
@@ -965,7 +973,7 @@ forall (ret_pre: Z) (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z)
   &&  “ (p_pre <= q_pre) ” 
   &&  “ (q_pre < r_pre) ” 
   &&  “ ((r_pre + 1 ) <= INT_MAX) ”
-  &&  (((arr_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth (i - i ) l1 0))
+  &&  (((arr_pre + (i * sizeof(INT)))) # Int  |-> (Znth (i - i ) l1 0))
   **  (IntArray.missing_i arr_pre i i (q_pre + 1 ) l1 )
   **  (IntArray.seg arr_pre j (r_pre + 1 ) l2 )
   **  (IntArray.seg arr_pre p_pre i l4 )
@@ -994,7 +1002,7 @@ forall (ret_pre: Z) (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z)
   &&  “ (p_pre <= q_pre) ” 
   &&  “ (q_pre < r_pre) ” 
   &&  “ ((r_pre + 1 ) <= INT_MAX) ”
-  &&  (((ret_pre + (k * sizeof(INT) ) )) # Int  |->_)
+  &&  (((ret_pre + (k * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i ret_pre k k (r_pre + 1 ) l6 )
   **  (IntArray.seg arr_pre i (q_pre + 1 ) l1 )
   **  (IntArray.seg arr_pre j (r_pre + 1 ) l2 )
@@ -1023,7 +1031,7 @@ forall (ret_pre: Z) (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z)
   &&  “ (p_pre <= q_pre) ” 
   &&  “ (q_pre < r_pre) ” 
   &&  “ ((r_pre + 1 ) <= INT_MAX) ”
-  &&  (((arr_pre + (j * sizeof(INT) ) )) # Int  |-> (Znth (j - j ) l2 0))
+  &&  (((arr_pre + (j * sizeof(INT)))) # Int  |-> (Znth (j - j ) l2 0))
   **  (IntArray.missing_i arr_pre j j (r_pre + 1 ) l2 )
   **  (IntArray.seg arr_pre i (q_pre + 1 ) l1 )
   **  (IntArray.seg arr_pre p_pre i l4 )
@@ -1052,7 +1060,7 @@ forall (ret_pre: Z) (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z)
   &&  “ (p_pre <= q_pre) ” 
   &&  “ (q_pre < r_pre) ” 
   &&  “ ((r_pre + 1 ) <= INT_MAX) ”
-  &&  (((ret_pre + (k * sizeof(INT) ) )) # Int  |->_)
+  &&  (((ret_pre + (k * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i ret_pre k k (r_pre + 1 ) l6 )
   **  (IntArray.seg arr_pre j (r_pre + 1 ) l2 )
   **  (IntArray.seg arr_pre i (q_pre + 1 ) l1 )
@@ -1080,7 +1088,7 @@ forall (ret_pre: Z) (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z)
   &&  “ ((q_pre + 1 ) <= j) ” 
   &&  “ (k = ((p_pre + (i - p_pre ) ) + (j - (q_pre + 1 ) ) )) ” 
   &&  “ (j = (r_pre + 1 )) ”
-  &&  (((arr_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth (i - i ) l1 0))
+  &&  (((arr_pre + (i * sizeof(INT)))) # Int  |-> (Znth (i - i ) l1 0))
   **  (IntArray.missing_i arr_pre i i (q_pre + 1 ) l1 )
   **  (IntArray.seg arr_pre p_pre i l4 )
   **  (IntArray.seg arr_pre (q_pre + 1 ) j l5 )
@@ -1108,7 +1116,7 @@ forall (ret_pre: Z) (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z)
   &&  “ ((q_pre + 1 ) <= j) ” 
   &&  “ (k = ((p_pre + (i - p_pre ) ) + (j - (q_pre + 1 ) ) )) ” 
   &&  “ (j = (r_pre + 1 )) ”
-  &&  (((ret_pre + (k * sizeof(INT) ) )) # Int  |->_)
+  &&  (((ret_pre + (k * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i ret_pre k k (r_pre + 1 ) l6 )
   **  (IntArray.seg arr_pre i (q_pre + 1 ) l1 )
   **  (IntArray.seg arr_pre p_pre i l4 )
@@ -1135,7 +1143,7 @@ forall (ret_pre: Z) (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z)
   &&  “ ((q_pre + 1 ) <= j) ” 
   &&  “ (k = ((p_pre + (i - p_pre ) ) + (j - (q_pre + 1 ) ) )) ” 
   &&  “ (i = (q_pre + 1 )) ”
-  &&  (((arr_pre + (j * sizeof(INT) ) )) # Int  |-> (Znth (j - j ) l2 0))
+  &&  (((arr_pre + (j * sizeof(INT)))) # Int  |-> (Znth (j - j ) l2 0))
   **  (IntArray.missing_i arr_pre j j (r_pre + 1 ) l2 )
   **  (IntArray.seg arr_pre p_pre i l4 )
   **  (IntArray.seg arr_pre (q_pre + 1 ) j l5 )
@@ -1161,7 +1169,7 @@ forall (ret_pre: Z) (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z)
   &&  “ ((q_pre + 1 ) <= j) ” 
   &&  “ (k = ((p_pre + (i - p_pre ) ) + (j - (q_pre + 1 ) ) )) ” 
   &&  “ (i = (q_pre + 1 )) ”
-  &&  (((ret_pre + (k * sizeof(INT) ) )) # Int  |->_)
+  &&  (((ret_pre + (k * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i ret_pre k k (r_pre + 1 ) l6 )
   **  (IntArray.seg arr_pre j (r_pre + 1 ) l2 )
   **  (IntArray.seg arr_pre p_pre i l4 )
@@ -1368,9 +1376,7 @@ forall (r_pre: Z) (l_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (
 
 Definition mergeSort_entail_wit_2_split_goal_1 := 
 forall (r_pre: Z) (l_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l2_2: (@list Z)) (m: Z) (l1_2: (@list Z)) (PreH1 : (safeExec ATrue (applyf ((gmergesortrec_loc1 (l2_2))) (l1_2)) X_low_level_spec )) (PreH2 : (0 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : ((r_pre + 1 ) <= INT_MAX)) (PreH5 : (l_pre < r_pre)) (PreH6 : (l_pre <= m)) (PreH7 : (m < r_pre)) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (bind ((gmergesortrec (l2_2))) ((mergesortrec_loc2 (l1_2)))) X_low_level_spec ) ”
+  (safeExec ATrue (bind ((gmergesortrec (l2_2))) ((mergesortrec_loc2 (l1_2)))) X_low_level_spec )
 .
 
 Definition mergeSort_entail_wit_3 := 
@@ -1403,9 +1409,7 @@ forall (r_pre: Z) (l_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (
 
 Definition mergeSort_entail_wit_3_split_goal_1 := 
 forall (r_pre: Z) (l_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (m: Z) (l1: (@list Z)) (l1_2: (@list Z)) (PreH1 : (safeExec ATrue (applyf ((mergesortrec_loc2 (l1))) (l1_2)) X_low_level_spec )) (PreH2 : (0 <= l_pre)) (PreH3 : (l_pre <= r_pre)) (PreH4 : ((r_pre + 1 ) <= INT_MAX)) (PreH5 : (l_pre < r_pre)) (PreH6 : (l_pre <= m)) (PreH7 : (m < r_pre)) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (merge_rel (l1) (l1_2)) X_low_level_spec ) ”
+  (safeExec ATrue (merge_rel (l1) (l1_2)) X_low_level_spec )
 .
 
 Definition mergeSort_return_wit_1 := 
@@ -1440,9 +1444,7 @@ forall (r_pre: Z) (l_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (
 
 Definition mergeSort_return_wit_2_split_goal_1 := 
 forall (r_pre: Z) (l_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (s1_low_level_spec: (@list Z)) (PreH1 : (l_pre >= r_pre)) (PreH2 : (safeExec ATrue (gmergesortrec (s1_low_level_spec)) X_low_level_spec )) (PreH3 : (0 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : ((r_pre + 1 ) <= INT_MAX)) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (return (s1_low_level_spec)) X_low_level_spec ) ”
+  (safeExec ATrue (return (s1_low_level_spec)) X_low_level_spec )
 .
 
 Definition mergeSort_partial_solve_wit_1_pure := 

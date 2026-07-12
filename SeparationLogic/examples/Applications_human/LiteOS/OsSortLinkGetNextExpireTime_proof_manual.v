@@ -124,7 +124,6 @@ Proof.
     pre_process.
     intros.
     Left.
-    Right.
     Exists SysTick_5.
     unfold store_sorted_dll.
     entailer!.
@@ -164,8 +163,6 @@ Lemma proof_of_OsSortLinkGetNextExpireTime_return_wit_2 : OsSortLinkGetNextExpir
 Proof. 
     pre_process.
     intros.
-    Left.
-    Left.
     Exists SysTick_5.
     unfold store_sorted_dll.
     entailer!.

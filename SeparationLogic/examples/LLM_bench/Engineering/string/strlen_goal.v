@@ -77,9 +77,7 @@ forall (str: (@list Z)) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (
 
 Definition strlen_entail_wit_1_split_goal_1 := 
 forall (str: (@list Z)) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (valid_string str )) (PreH3 : ((string_length (str)) < INT_MAX)) ,
-  TT && emp 
-|--
-  “ (0 <= (string_length (str))) ”
+  (0 <= (string_length (str)))
 .
 
 Definition strlen_entail_wit_2 := 
@@ -105,16 +103,12 @@ forall (str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (Pr
 
 Definition strlen_entail_wit_2_split_goal_1 := 
 forall (str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : ((Znth i (c_string (str)) 0) <> 0)) (PreH3 : (valid_string str )) (PreH4 : ((string_length (str)) < INT_MAX)) (PreH5 : (0 <= i)) (PreH6 : (i <= (string_length (str)))) (PreH7 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (str) (0)) <> 0))) ,
-  TT && emp 
-|--
-  “ (((Znth (0) (str) (0)) <> 0) /\ ((Znth (((i + 1 ) - 1 )) (str) (0)) <> 0)) ”
+  (((Znth (0) (str) (0)) <> 0) /\ ((Znth (((i + 1 ) - 1 )) (str) (0)) <> 0))
 .
 
 Definition strlen_entail_wit_2_split_goal_2 := 
 forall (str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : ((Znth i (c_string (str)) 0) <> 0)) (PreH3 : (valid_string str )) (PreH4 : ((string_length (str)) < INT_MAX)) (PreH5 : (0 <= i)) (PreH6 : (i <= (string_length (str)))) (PreH7 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (str) (0)) <> 0))) ,
-  TT && emp 
-|--
-  “ ((i + 1 ) <= (string_length (str))) ”
+  ((i + 1 ) <= (string_length (str)))
 .
 
 Definition strlen_return_wit_1 := 
@@ -135,9 +129,7 @@ forall (str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (Pr
 
 Definition strlen_return_wit_1_split_goal_1 := 
 forall (str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : ((Znth i (c_string (str)) 0) = 0)) (PreH3 : (valid_string str )) (PreH4 : ((string_length (str)) < INT_MAX)) (PreH5 : (0 <= i)) (PreH6 : (i <= (string_length (str)))) (PreH7 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (str) (0)) <> 0))) ,
-  TT && emp 
-|--
-  “ (i = (string_length (str))) ”
+  (i = (string_length (str)))
 .
 
 Module Type VC_Correct.

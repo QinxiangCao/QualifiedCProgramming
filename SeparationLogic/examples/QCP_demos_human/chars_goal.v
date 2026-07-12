@@ -67,9 +67,7 @@ forall (m_pre: Z) (n_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) 
 
 Definition chars_initialize_entail_wit_1_split_goal_1 := 
 forall (m_pre: Z) (n_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
-  TT && emp 
-|--
-  “ ((repeat_Z (m_pre) (0)) = (@nil Z)) ”
+  ((repeat_Z (m_pre) (0)) = (@nil Z))
 .
 
 Definition chars_initialize_entail_wit_2 := 
@@ -95,9 +93,7 @@ forall (m_pre: Z) (n_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= i)) (Pr
 
 Definition chars_initialize_entail_wit_2_split_goal_1 := 
 forall (m_pre: Z) (n_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= i)) (PreH3 : (i <= n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
-  TT && emp 
-|--
-  “ ((app ((repeat_Z (m_pre) (i))) ((cons (m_pre) ((@nil Z))))) = (repeat_Z (m_pre) ((i + 1 )))) ”
+  ((app ((repeat_Z (m_pre) (i))) ((cons (m_pre) ((@nil Z))))) = (repeat_Z (m_pre) ((i + 1 ))))
 .
 
 Definition chars_initialize_return_wit_1 := 
@@ -132,7 +128,7 @@ forall (m_pre: Z) (n_pre: Z) (a_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0
   &&  “ (i <= n_pre) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ”
-  &&  (((a_pre + (i * sizeof(CHAR) ) )) # Char  |->_)
+  &&  (((a_pre + (i * sizeof(CHAR)))) # Char  |->_)
   **  (CharArray.undef_seg a_pre (i + 1 ) n_pre )
   **  (CharArray.full a_pre i (repeat_Z (m_pre) (i)) )
 .

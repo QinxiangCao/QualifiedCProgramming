@@ -298,3 +298,82 @@ Proof.
   - dump_pre_spatial.
     reflexivity.
 Qed.
+
+Lemma sll_shape_strategy21_correctness : sll_shape_strategy21.
+Proof.
+  pre_process_default.
+  subst q.
+  unfold listrep, lseg.
+  Intros l.
+  Exists l.
+  revert p.
+  induction l; intros p.
+  - simpl. entailer!.
+  - simpl. Intros y. Exists y. sep_apply IHl. entailer!.
+Qed.
+
+Lemma sll_shape_strategy23_correctness : sll_shape_strategy23.
+Proof.
+  pre_process_default.
+  unfold lseg.
+  Exists (@nil Z).
+  normalize.
+  simpl.
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial.
+    reflexivity.
+Qed.
+
+Lemma sll_shape_strategy24_correctness : sll_shape_strategy24.
+Proof.
+  pre_process_default.
+  subst p.
+  unfold lseg.
+  Intros l.
+  destruct l as [| a l0].
+  - simpl. Intros_p Hq. subst q. entailer!.
+  - simpl. Intros z. contradiction.
+Qed.
+
+Lemma sll_shape_strategy25_correctness : sll_shape_strategy25.
+Proof.
+  pre_process_default.
+  subst p.
+  unfold lseg, listrep.
+  Intros l.
+  Intros l'.
+  sep_apply (sllseg_sll q q l l').
+  Exists (@app Z l l').
+  entailer!.
+Qed.
+
+Lemma sll_shape_strategy22_correctness : sll_shape_strategy22.
+Proof.
+  pre_process_default.
+  rewrite <- logic_equiv_coq_prop_or.
+  rewrite <- logic_equiv_coq_prop_or.
+  Intros_p Hpq.
+  Intros_p Hp.
+  assert (Hpne : p <> q) by (destruct Hpq as [H | H]; [exact H | intro Hc; apply H; symmetry; exact Hc]).
+  unfold lseg.
+  Intros l.
+  sep_apply (sllseg_unfold_head p q l Hpne).
+  Intros a z l'.
+  Exists a z.
+  unfold lseg.
+  Exists l'.
+  rewrite <- logic_equiv_coq_prop_or.
+  rewrite <- logic_equiv_coq_prop_or.
+  normalize.
+  split_pure_spatial.
+  - cancel (&(p # "list" ->ₛ "data") # Int |-> a).
+    cancel (&(p # "list" ->ₛ "next") # Ptr |-> z).
+    cancel (sllseg z q l').
+    Intros_r v.
+    Intros_r n.
+    apply_sepcon_adjoint.
+    elim_emp.
+    cancel.
+  - entailer!.
+Qed.

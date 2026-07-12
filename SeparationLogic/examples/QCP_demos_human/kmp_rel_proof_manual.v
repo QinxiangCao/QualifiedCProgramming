@@ -115,14 +115,26 @@ Qed.
 Lemma proof_of_constr_entail_wit_2 : constr_entail_wit_2.
 Proof. 
   pre_process.
-  Exists l1 (vnext0_2 ++ (retval::nil)).
   prop_apply (IntArray.full_Zlength vnext).
-  entailer!.
-  sep_apply IntArray.seg_single.
-  sep_apply IntArray.full_to_seg.
-  sep_apply IntArray.seg_merge_to_full ; try lia.
-  replace (vnext + 0 * sizeof ( INT )) with vnext by lia.
-  replace (i + 1 - 0) with (i + 1) by lia.
+  Intros_p Hlen.
+  assert (Hvnext0_len : Zlength vnext0_2 = i).
+  {
+    rewrite Zlength_replace_Znth in Hlen.
+    rewrite Zlength_app, Zlength_cons, Zlength_nil in Hlen.
+    lia.
+  }
+  assert (Hrep :
+    replace_Znth i retval (vnext0_2 ++ (a :: nil)) =
+    vnext0_2 ++ (retval :: nil)).
+  {
+    rewrite replace_Znth_app_r by lia.
+    rewrite replace_Znth_nothing by lia.
+    replace (i - Zlength vnext0_2) with 0 by lia.
+    unfold replace_Znth. simpl. reflexivity.
+  }
+  Exists l1 (vnext0_2 ++ (retval :: nil)).
+  rewrite Hrep.
+  unfold constr_loop_from_after in PreH2.
   entailer!.
 Qed. 
 

@@ -26,7 +26,6 @@ Lemma proof_of_LOS_ListEmpty_return_wit_1 : LOS_ListEmpty_return_wit_1.
 Proof.
     pre_process.
     intros.
-    Left.
     unfold store_dll.
     Exists h pt.
     induction l.
@@ -69,7 +68,6 @@ Lemma proof_of_LOS_ListEmpty_return_wit_2 : LOS_ListEmpty_return_wit_2.
 Proof. 
     pre_process.
     intros.
-    Right.
     unfold store_dll.
     Exists h pt.
     induction l.

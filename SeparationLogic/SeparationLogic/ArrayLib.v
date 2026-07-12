@@ -608,4 +608,276 @@ End StorePtrAsElement.
 
 Module PtrArray := ArrayLib (StorePtrAsElement).
 
+Module StoreFloatAsElement <: ELEMENT_STORE.
+  Definition A := fp32.
+  Definition storeA (x: addr) (lo: Z) (a: fp32): Assertion :=
+    (x + lo * sizeof(FLOAT)) # Float |-> a.
+  Definition undefstoreA (x: addr) (lo: Z): Assertion :=
+    (x + lo * sizeof(FLOAT)) # Float |->_ .
+  Definition sizeA := sizeof(FLOAT).
+
+  Lemma store_to_undefstore : forall x lo a,
+    storeA x lo a |-- undefstoreA x lo.
+  Proof.
+    intros.
+    apply store_float_undef_store_float.
+  Qed.
+
+  Lemma storeA_shift : forall x n lo a,
+    storeA (x + n * sizeA) lo a --||-- storeA x (lo + n) a.
+  Proof.
+    intros.
+    unfold storeA, sizeA.
+    rewrite sizeof_float.
+    replace (x + n * 4 + lo * 4) with (x + (lo + n) * 4) by lia.
+    entailer!.
+  Qed.
+
+  Lemma undefstoreA_shift : forall x n lo,
+    undefstoreA (x + n * sizeA) lo --||-- undefstoreA x (lo + n).
+  Proof.
+    intros.
+    unfold undefstoreA, sizeA.
+    rewrite sizeof_float.
+    replace (x + n * 4 + lo * 4) with (x + (lo + n) * 4) by lia.
+    entailer!.
+  Qed.
+
+  Lemma store_to_align : forall x lo a,
+    storeA x lo a |-- store_align_n sizeA.
+  Proof.
+    intros.
+    unfold storeA, sizeA.
+    rewrite sizeof_float.
+    apply store_float_align.
+  Qed.
+
+  Lemma undefstore_to_align : forall x lo,
+    undefstoreA x lo |-- store_align_n sizeA.
+  Proof.
+    intros.
+    unfold undefstoreA, sizeA.
+    rewrite sizeof_float.
+    eapply derivable1_trans.
+    - apply undef_store_float_align4.
+    - replace 4 with (4 * 1) by lia.
+      apply store_align4_to_store_align.
+  Qed.
+
+  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
+  Proof.
+    unfold sizeA.
+    rewrite sizeof_float.
+    replace Int.max_unsigned with 4294967295 by reflexivity.
+    lia.
+  Qed.
+
+End StoreFloatAsElement.
+
+Module FloatArray := ArrayLib (StoreFloatAsElement).
+
+Module StoreDoubleAsElement <: ELEMENT_STORE.
+  Definition A := fp64.
+  Definition storeA (x: addr) (lo: Z) (a: fp64): Assertion :=
+    (x + lo * sizeof(DOUBLE)) # Double |-> a.
+  Definition undefstoreA (x: addr) (lo: Z): Assertion :=
+    (x + lo * sizeof(DOUBLE)) # Double |->_ .
+  Definition sizeA := sizeof(DOUBLE).
+
+  Lemma store_to_undefstore : forall x lo a,
+    storeA x lo a |-- undefstoreA x lo.
+  Proof.
+    intros.
+    apply store_double_undef_store_double.
+  Qed.
+
+  Lemma storeA_shift : forall x n lo a,
+    storeA (x + n * sizeA) lo a --||-- storeA x (lo + n) a.
+  Proof.
+    intros.
+    unfold storeA, sizeA.
+    rewrite sizeof_double.
+    replace (x + n * 8 + lo * 8) with (x + (lo + n) * 8) by lia.
+    entailer!.
+  Qed.
+
+  Lemma undefstoreA_shift : forall x n lo,
+    undefstoreA (x + n * sizeA) lo --||-- undefstoreA x (lo + n).
+  Proof.
+    intros.
+    unfold undefstoreA, sizeA.
+    rewrite sizeof_double.
+    replace (x + n * 8 + lo * 8) with (x + (lo + n) * 8) by lia.
+    entailer!.
+  Qed.
+
+  Lemma store_to_align : forall x lo a,
+    storeA x lo a |-- store_align_n sizeA.
+  Proof.
+    intros.
+    unfold storeA, sizeA.
+    rewrite sizeof_double.
+    apply store_double_align.
+  Qed.
+
+  Lemma undefstore_to_align : forall x lo,
+    undefstoreA x lo |-- store_align_n sizeA.
+  Proof.
+    intros.
+    unfold undefstoreA, sizeA.
+    rewrite sizeof_double.
+    eapply derivable1_trans.
+    - apply undef_store_double_align4.
+    - replace 8 with (4 * 2) by lia.
+      apply store_align4_to_store_align.
+  Qed.
+
+  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
+  Proof.
+    unfold sizeA.
+    rewrite sizeof_double.
+    replace Int.max_unsigned with 4294967295 by reflexivity.
+    lia.
+  Qed.
+
+End StoreDoubleAsElement.
+
+Module DoubleArray := ArrayLib (StoreDoubleAsElement).
+
+Module StoreFiniteFloatAsElement <: ELEMENT_STORE.
+  Definition A := fp32.
+  Definition storeA (x: addr) (lo: Z) (a: fp32): Assertion :=
+    (x + lo * sizeof(FLOAT)) # FiniteFloat |-> a.
+  Definition undefstoreA (x: addr) (lo: Z): Assertion :=
+    (x + lo * sizeof(FLOAT)) # FiniteFloat |->_ .
+  Definition sizeA := sizeof(FLOAT).
+
+  Lemma store_to_undefstore : forall x lo a,
+    storeA x lo a |-- undefstoreA x lo.
+  Proof.
+    intros.
+    apply store_finite_float_undef_store_finite_float.
+  Qed.
+
+  Lemma storeA_shift : forall x n lo a,
+    storeA (x + n * sizeA) lo a --||-- storeA x (lo + n) a.
+  Proof.
+    intros.
+    unfold storeA, sizeA.
+    rewrite sizeof_float.
+    replace (x + n * 4 + lo * 4) with (x + (lo + n) * 4) by lia.
+    entailer!.
+  Qed.
+
+  Lemma undefstoreA_shift : forall x n lo,
+    undefstoreA (x + n * sizeA) lo --||-- undefstoreA x (lo + n).
+  Proof.
+    intros.
+    unfold undefstoreA, sizeA.
+    rewrite sizeof_float.
+    replace (x + n * 4 + lo * 4) with (x + (lo + n) * 4) by lia.
+    entailer!.
+  Qed.
+
+  Lemma store_to_align : forall x lo a,
+    storeA x lo a |-- store_align_n sizeA.
+  Proof.
+    intros.
+    unfold storeA, sizeA.
+    rewrite sizeof_float.
+    apply store_finite_float_align.
+  Qed.
+
+  Lemma undefstore_to_align : forall x lo,
+    undefstoreA x lo |-- store_align_n sizeA.
+  Proof.
+    intros.
+    unfold undefstoreA, sizeA, undef_store_finite_float.
+    rewrite sizeof_float.
+    eapply derivable1_trans.
+    - apply undef_store_float_align4.
+    - replace 4 with (4 * 1) by lia.
+      apply store_align4_to_store_align.
+  Qed.
+
+  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
+  Proof.
+    unfold sizeA.
+    rewrite sizeof_float.
+    replace Int.max_unsigned with 4294967295 by reflexivity.
+    lia.
+  Qed.
+
+End StoreFiniteFloatAsElement.
+
+Module FiniteFloatArray := ArrayLib (StoreFiniteFloatAsElement).
+
+Module StoreFiniteDoubleAsElement <: ELEMENT_STORE.
+  Definition A := fp64.
+  Definition storeA (x: addr) (lo: Z) (a: fp64): Assertion :=
+    (x + lo * sizeof(DOUBLE)) # FiniteDouble |-> a.
+  Definition undefstoreA (x: addr) (lo: Z): Assertion :=
+    (x + lo * sizeof(DOUBLE)) # FiniteDouble |->_ .
+  Definition sizeA := sizeof(DOUBLE).
+
+  Lemma store_to_undefstore : forall x lo a,
+    storeA x lo a |-- undefstoreA x lo.
+  Proof.
+    intros.
+    apply store_finite_double_undef_store_finite_double.
+  Qed.
+
+  Lemma storeA_shift : forall x n lo a,
+    storeA (x + n * sizeA) lo a --||-- storeA x (lo + n) a.
+  Proof.
+    intros.
+    unfold storeA, sizeA.
+    rewrite sizeof_double.
+    replace (x + n * 8 + lo * 8) with (x + (lo + n) * 8) by lia.
+    entailer!.
+  Qed.
+
+  Lemma undefstoreA_shift : forall x n lo,
+    undefstoreA (x + n * sizeA) lo --||-- undefstoreA x (lo + n).
+  Proof.
+    intros.
+    unfold undefstoreA, sizeA.
+    rewrite sizeof_double.
+    replace (x + n * 8 + lo * 8) with (x + (lo + n) * 8) by lia.
+    entailer!.
+  Qed.
+
+  Lemma store_to_align : forall x lo a,
+    storeA x lo a |-- store_align_n sizeA.
+  Proof.
+    intros.
+    unfold storeA, sizeA.
+    rewrite sizeof_double.
+    apply store_finite_double_align.
+  Qed.
+
+  Lemma undefstore_to_align : forall x lo,
+    undefstoreA x lo |-- store_align_n sizeA.
+  Proof.
+    intros.
+    unfold undefstoreA, sizeA, undef_store_finite_double.
+    rewrite sizeof_double.
+    eapply derivable1_trans.
+    - apply undef_store_double_align4.
+    - replace 8 with (4 * 2) by lia.
+      apply store_align4_to_store_align.
+  Qed.
+
+  Lemma sizeA_valid : 0 < sizeA < Int.max_unsigned.
+  Proof.
+    unfold sizeA.
+    rewrite sizeof_double.
+    replace Int.max_unsigned with 4294967295 by reflexivity.
+    lia.
+  Qed.
+
+End StoreFiniteDoubleAsElement.
+
+Module FiniteDoubleArray := ArrayLib (StoreFiniteDoubleAsElement).
+
 End ArrayLibSig.

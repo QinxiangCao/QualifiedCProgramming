@@ -1,0 +1,9 @@
+; Converted from:
+; - _CoqProject: -R SeparationLogic/GraphLib GraphLib
+; - SeparationLogic/_CoqProject: -R GraphLib GraphLib
+(coq.theory
+ (name GraphLib)
+ (theories ListLib MaxMinLib SetsClass)
+ (modules (:standard \ directed.dfstree_dfn)))
+
+(include_subdirs qualified)

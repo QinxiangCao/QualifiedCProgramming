@@ -74,6 +74,9 @@ Proof. Admitted.
 Lemma proof_of_build_safety_wit_19 : build_safety_wit_19.
 Proof. Admitted. 
 
+Lemma proof_of_build_safety_wit_20 : build_safety_wit_20.
+Proof. Admitted. 
+
 Lemma proof_of_build_safety_wit_21 : build_safety_wit_21.
 Proof. Admitted. 
 
@@ -146,7 +149,19 @@ Proof. Admitted.
 Lemma proof_of_query_safety_wit_11 : query_safety_wit_11.
 Proof. Admitted. 
 
+Lemma proof_of_query_safety_wit_12 : query_safety_wit_12.
+Proof. Admitted. 
+
 Lemma proof_of_query_safety_wit_13 : query_safety_wit_13.
+Proof. Admitted. 
+
+Lemma proof_of_query_safety_wit_14 : query_safety_wit_14.
+Proof. Admitted. 
+
+Lemma proof_of_query_safety_wit_15 : query_safety_wit_15.
+Proof. Admitted. 
+
+Lemma proof_of_query_safety_wit_16 : query_safety_wit_16.
 Proof. Admitted. 
 
 Lemma proof_of_query_safety_wit_17 : query_safety_wit_17.

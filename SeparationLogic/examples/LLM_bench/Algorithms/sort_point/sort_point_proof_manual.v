@@ -188,12 +188,7 @@ Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_7 : cmp_polar_values_return_wit_7.
 Proof.
-  pre_process.
-Qed.
-
-Lemma proof_of_cmp_polar_values_return_wit_8 : cmp_polar_values_return_wit_8.
-Proof.
-  pre_process.
+  aggressive_pre_process. 
   entailer!.
   unfold PolarCmpResult.
   cbn.
@@ -206,7 +201,7 @@ Proof.
   - unfold point_dist2. cbn. nia.
 Qed.
 
-Lemma proof_of_cmp_polar_values_return_wit_9 : cmp_polar_values_return_wit_9.
+Lemma proof_of_cmp_polar_values_return_wit_8 : cmp_polar_values_return_wit_8.
 Proof.
   pre_process.
   entailer!.
@@ -221,17 +216,12 @@ Proof.
   - unfold point_dist2. cbn. nia.
 Qed.
 
+Lemma proof_of_cmp_polar_values_return_wit_9 : cmp_polar_values_return_wit_9.
+Proof.
+  pre_process.
+Qed.
+
 Lemma proof_of_cmp_polar_values_return_wit_10 : cmp_polar_values_return_wit_10.
-Proof.
-  pre_process.
-Qed.
-
-Lemma proof_of_cmp_polar_values_return_wit_11 : cmp_polar_values_return_wit_11.
-Proof.
-  pre_process.
-Qed.
-
-Lemma proof_of_cmp_polar_values_return_wit_12 : cmp_polar_values_return_wit_12.
 Proof.
   pre_process.
   entailer!.
@@ -246,12 +236,28 @@ Proof.
   - unfold point_dist2. cbn. lia.
 Qed.
 
-Lemma proof_of_cmp_polar_values_return_wit_13 : cmp_polar_values_return_wit_13.
+Lemma proof_of_cmp_polar_values_return_wit_11 : cmp_polar_values_return_wit_11.
+Proof.
+  pre_process.
+  try
+      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
+       simpl in *; entailer!).
+Qed.
+
+Lemma proof_of_cmp_polar_values_return_wit_12 : cmp_polar_values_return_wit_12.
 Proof.
   pre_process;
     try
       (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
        simpl in *; entailer!).
+Qed.
+
+Lemma proof_of_cmp_polar_values_return_wit_13 : cmp_polar_values_return_wit_13.
+Proof.
+  pre_process;
+     try
+       (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
+        simpl in *; entailer!).
 Qed. 
 
 Lemma proof_of_cmp_polar_values_return_wit_14 : cmp_polar_values_return_wit_14.
@@ -380,7 +386,11 @@ Proof.
     try (
       unfold PolarCmpResult; entailer!;
       first
-        [ do 5 right; left; repeat split;
+        [ do 2 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 3 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 5 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
         | do 4 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
@@ -393,7 +403,11 @@ Proof.
     try (
       unfold PolarCmpResult; entailer!;
       first
-        [ do 5 right; left; repeat split;
+        [ do 2 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 3 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 5 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
         | do 4 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
@@ -406,7 +420,11 @@ Proof.
     try (
       unfold PolarCmpResult; entailer!;
       first
-        [ do 5 right; left; repeat split;
+        [ do 2 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 3 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 5 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
         | do 4 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
@@ -419,7 +437,11 @@ Proof.
     try (
       unfold PolarCmpResult; entailer!;
       first
-        [ do 5 right; left; repeat split;
+        [ do 2 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 3 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 5 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
         | do 4 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
@@ -432,7 +454,9 @@ Proof.
     try (
       unfold PolarCmpResult; entailer!;
       first
-        [ do 5 right; left; repeat split;
+        [ do 3 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 5 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
         | do 4 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
@@ -445,7 +469,9 @@ Proof.
     try (
       unfold PolarCmpResult; entailer!;
       first
-        [ do 5 right; left; repeat split;
+        [ do 3 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 5 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
         | do 4 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
@@ -458,7 +484,9 @@ Proof.
     try (
       unfold PolarCmpResult; entailer!;
       first
-        [ do 5 right; left; repeat split;
+        [ do 3 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 5 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
         | do 4 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
@@ -471,7 +499,9 @@ Proof.
     try (
       unfold PolarCmpResult; entailer!;
       first
-        [ do 5 right; left; repeat split;
+        [ do 3 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 5 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
         | do 4 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
@@ -484,7 +514,9 @@ Proof.
     try (
       unfold PolarCmpResult; entailer!;
       first
-        [ do 5 right; left; repeat split;
+        [ do 3 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 5 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
         | do 4 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
@@ -497,7 +529,9 @@ Proof.
     try (
       unfold PolarCmpResult; entailer!;
       first
-        [ do 5 right; left; repeat split;
+        [ do 3 right; left; repeat split;
+          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
+        | do 5 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
         | do 4 right; left; repeat split;
           unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
@@ -506,211 +540,81 @@ Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_39 : cmp_polar_values_return_wit_39.
 Proof.
-  pre_process;
-    try (
-      unfold PolarCmpResult; entailer!;
-      first
-        [ do 5 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        | do 4 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
+  pre_process.
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures.
+    + dump_pre_spatial.
+      unfold PolarCmpResult.
+      cbn.
+      do 2 right; left.
+      repeat split; try lia.
+      * rewrite (polar_upper_half_true_of_pos_y gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        rewrite (polar_upper_half_true_of_pos_y gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
+      * unfold polar_cross. cbn. lia.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_40 : cmp_polar_values_return_wit_40.
 Proof.
-  pre_process;
-    try (
-      unfold PolarCmpResult; entailer!;
-      first
-        [ do 5 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        | do 4 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
+  pre_process.
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures.
+    + dump_pre_spatial.
+      unfold PolarCmpResult.
+      cbn.
+      do 2 right; left.
+      repeat split; try lia.
+      * rewrite (polar_upper_half_true_of_zero_y_nonneg_x gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        rewrite (polar_upper_half_true_of_pos_y gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
+      * unfold polar_cross. cbn. lia.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_41 : cmp_polar_values_return_wit_41.
 Proof.
-  pre_process;
-    try (
-      unfold PolarCmpResult; entailer!;
-      first
-        [ do 5 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        | do 4 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
+  pre_process.
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures.
+    + dump_pre_spatial.
+      unfold PolarCmpResult.
+      cbn.
+      do 2 right; left.
+      repeat split; try lia.
+      * rewrite (polar_upper_half_false_of_zero_y_neg_x gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        rewrite (polar_upper_half_false_of_nonpos_nonzero_y gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
+      * unfold polar_cross. cbn. lia.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_42 : cmp_polar_values_return_wit_42.
 Proof.
-  pre_process;
-    try (
-      unfold PolarCmpResult; entailer!;
-      first
-        [ do 5 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        | do 4 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
+  pre_process.
+  split_pure_spatial.
+  - cancel.
+  - repeat split_pures.
+    + dump_pre_spatial.
+      unfold PolarCmpResult.
+      cbn.
+      do 2 right; left.
+      repeat split; try lia.
+      * rewrite (polar_upper_half_false_of_nonpos_nonzero_y gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        rewrite (polar_upper_half_false_of_nonpos_nonzero_y gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
+      * unfold polar_cross. cbn. lia.
+    + dump_pre_spatial. lia.
+    + dump_pre_spatial. lia.
 Qed.
 
 Lemma proof_of_cmp_polar_values_return_wit_43 : cmp_polar_values_return_wit_43.
-Proof.
-  pre_process;
-    try (
-      unfold PolarCmpResult; entailer!;
-      first
-        [ do 5 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        | do 4 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
-Qed.
-
-Lemma proof_of_cmp_polar_values_return_wit_44 : cmp_polar_values_return_wit_44.
-Proof.
-  pre_process;
-    try (
-      unfold PolarCmpResult; entailer!;
-      first
-        [ do 5 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        | do 4 right; left; repeat split;
-          unfold polar_upper_half, polar_cross, point_dist2; simpl; lia
-        ]).
-Qed.
-
-Lemma proof_of_cmp_polar_values_return_wit_45 : cmp_polar_values_return_wit_45.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_46 : cmp_polar_values_return_wit_46.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_47 : cmp_polar_values_return_wit_47.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_48 : cmp_polar_values_return_wit_48.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_49 : cmp_polar_values_return_wit_49.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_50 : cmp_polar_values_return_wit_50.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_51 : cmp_polar_values_return_wit_51.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_52 : cmp_polar_values_return_wit_52.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_53 : cmp_polar_values_return_wit_53.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_54 : cmp_polar_values_return_wit_54.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_55 : cmp_polar_values_return_wit_55.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_56 : cmp_polar_values_return_wit_56.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_57 : cmp_polar_values_return_wit_57.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_58 : cmp_polar_values_return_wit_58.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_59 : cmp_polar_values_return_wit_59.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_60 : cmp_polar_values_return_wit_60.
-Proof.
-  pre_process;
-    try
-      (unfold PolarCmpResult, polar_upper_half, polar_cross, point_dist2 in *;
-       simpl in *; entailer!).
-Qed. 
-
-Lemma proof_of_cmp_polar_values_return_wit_61 : cmp_polar_values_return_wit_61.
 Proof.
   pre_process.
   split_pure_spatial.
@@ -721,8 +625,7 @@ Proof.
       cbn.
       right; left.
       repeat split; try lia.
-      * pose proof (polar_upper_half_false_of_zero_y_neg_x gx_pre gy_pre a_x_pre a_y_pre PreH2 PreH3) as Ha_upper.
-        rewrite Ha_upper.
+      * rewrite (polar_upper_half_false_of_zero_y_neg_x gx_pre gy_pre a_x_pre a_y_pre) by lia.
         reflexivity.
       * rewrite (polar_upper_half_true_of_pos_y gx_pre gy_pre b_x_pre b_y_pre) by lia.
         reflexivity.
@@ -730,7 +633,7 @@ Proof.
     + dump_pre_spatial. lia.
 Qed.
 
-Lemma proof_of_cmp_polar_values_return_wit_62 : cmp_polar_values_return_wit_62.
+Lemma proof_of_cmp_polar_values_return_wit_44 : cmp_polar_values_return_wit_44.
 Proof.
   pre_process.
   split_pure_spatial.
@@ -741,13 +644,15 @@ Proof.
       cbn.
       right; left.
       repeat split; try lia.
-      * apply polar_upper_half_false_of_nonpos_nonzero_y; lia.
-      * apply polar_upper_half_true_of_pos_y; lia.
+      * rewrite (polar_upper_half_false_of_nonpos_nonzero_y gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        reflexivity.
+      * rewrite (polar_upper_half_true_of_pos_y gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. lia.
 Qed.
 
-Lemma proof_of_cmp_polar_values_return_wit_63 : cmp_polar_values_return_wit_63.
+Lemma proof_of_cmp_polar_values_return_wit_45 : cmp_polar_values_return_wit_45.
 Proof.
   pre_process.
   split_pure_spatial.
@@ -758,13 +663,15 @@ Proof.
       cbn.
       right; left.
       repeat split; try lia.
-      * apply polar_upper_half_false_of_zero_y_neg_x; lia.
-      * apply polar_upper_half_true_of_zero_y_nonneg_x; lia.
+      * rewrite (polar_upper_half_false_of_zero_y_neg_x gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        reflexivity.
+      * rewrite (polar_upper_half_true_of_zero_y_nonneg_x gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. lia.
-Qed.
+Qed. 
 
-Lemma proof_of_cmp_polar_values_return_wit_64 : cmp_polar_values_return_wit_64.
+Lemma proof_of_cmp_polar_values_return_wit_46 : cmp_polar_values_return_wit_46.
 Proof.
   pre_process.
   split_pure_spatial.
@@ -775,13 +682,15 @@ Proof.
       cbn.
       right; left.
       repeat split; try lia.
-      * apply polar_upper_half_false_of_nonpos_nonzero_y; lia.
-      * apply polar_upper_half_true_of_zero_y_nonneg_x; lia.
+      * rewrite (polar_upper_half_false_of_nonpos_nonzero_y gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        reflexivity.
+      * rewrite (polar_upper_half_true_of_zero_y_nonneg_x gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. lia.
-Qed.
+Qed. 
 
-Lemma proof_of_cmp_polar_values_return_wit_65 : cmp_polar_values_return_wit_65.
+Lemma proof_of_cmp_polar_values_return_wit_47 : cmp_polar_values_return_wit_47.
 Proof.
   pre_process.
   split_pure_spatial.
@@ -792,13 +701,15 @@ Proof.
       cbn.
       left.
       repeat split; try lia.
-      * apply polar_upper_half_true_of_pos_y; lia.
-      * apply polar_upper_half_false_of_zero_y_neg_x; lia.
+      * rewrite (polar_upper_half_true_of_pos_y gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        reflexivity.
+      * rewrite (polar_upper_half_false_of_zero_y_neg_x gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. lia.
-Qed.
+Qed. 
 
-Lemma proof_of_cmp_polar_values_return_wit_66 : cmp_polar_values_return_wit_66.
+Lemma proof_of_cmp_polar_values_return_wit_48 : cmp_polar_values_return_wit_48.
 Proof.
   pre_process.
   split_pure_spatial.
@@ -809,13 +720,15 @@ Proof.
       cbn.
       left.
       repeat split; try lia.
-      * apply polar_upper_half_true_of_zero_y_nonneg_x; lia.
-      * apply polar_upper_half_false_of_zero_y_neg_x; lia.
+      * rewrite (polar_upper_half_true_of_zero_y_nonneg_x gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        reflexivity.
+      * rewrite (polar_upper_half_false_of_zero_y_neg_x gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. lia.
-Qed.
+Qed. 
 
-Lemma proof_of_cmp_polar_values_return_wit_67 : cmp_polar_values_return_wit_67.
+Lemma proof_of_cmp_polar_values_return_wit_49 : cmp_polar_values_return_wit_49.
 Proof.
   pre_process.
   split_pure_spatial.
@@ -824,33 +737,17 @@ Proof.
     + dump_pre_spatial.
       unfold PolarCmpResult.
       cbn.
-      match goal with
-      | H : a_y_pre > b_y_pre |- _ =>
-          assert (Ha_upper :
-            polar_upper_half (mk_point gx_pre gy_pre) (mk_point a_x_pre a_y_pre) = false)
-            by (apply polar_upper_half_false_of_nonpos_nonzero_y; lia);
-          assert (Hb_upper :
-            polar_upper_half (mk_point gx_pre gy_pre) (mk_point b_x_pre b_y_pre) = false)
-            by (apply polar_upper_half_false_of_nonpos_nonzero_y; lia);
-          do 9 right; left;
-          repeat split;
-          [ rewrite Ha_upper; rewrite Hb_upper; reflexivity
-          | unfold polar_cross; cbn; lia
-          | unfold point_dist2; cbn; lia
-          | cbn; lia
-          | cbn; lia
-          | lia ]
-      | _ =>
-          left;
-          repeat split; try lia;
-          [ apply polar_upper_half_true_of_pos_y; lia
-          | apply polar_upper_half_false_of_nonpos_nonzero_y; lia ]
-      end.
+      left.
+      repeat split; try lia.
+      * rewrite (polar_upper_half_true_of_pos_y gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        reflexivity.
+      * rewrite (polar_upper_half_false_of_nonpos_nonzero_y gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. lia.
-Qed.
+Qed. 
 
-Lemma proof_of_cmp_polar_values_return_wit_68 : cmp_polar_values_return_wit_68.
+Lemma proof_of_cmp_polar_values_return_wit_50 : cmp_polar_values_return_wit_50.
 Proof.
   pre_process.
   split_pure_spatial.
@@ -859,31 +756,15 @@ Proof.
     + dump_pre_spatial.
       unfold PolarCmpResult.
       cbn.
-      match goal with
-      | H : a_y_pre > b_y_pre |- _ =>
-          assert (Ha_upper :
-            polar_upper_half (mk_point gx_pre gy_pre) (mk_point a_x_pre a_y_pre) = false)
-            by (apply polar_upper_half_false_of_nonpos_nonzero_y; lia);
-          assert (Hb_upper :
-            polar_upper_half (mk_point gx_pre gy_pre) (mk_point b_x_pre b_y_pre) = false)
-            by (apply polar_upper_half_false_of_nonpos_nonzero_y; lia);
-          do 9 right; left;
-          repeat split;
-          [ rewrite Ha_upper; rewrite Hb_upper; reflexivity
-          | unfold polar_cross; cbn; lia
-          | unfold point_dist2; cbn; lia
-          | cbn; lia
-          | cbn; lia
-          | lia ]
-      | _ =>
-          left;
-          repeat split; try lia;
-          [ apply polar_upper_half_true_of_zero_y_nonneg_x; lia
-          | apply polar_upper_half_false_of_nonpos_nonzero_y; lia ]
-      end.
+      left.
+      repeat split; try lia.
+      * rewrite (polar_upper_half_true_of_zero_y_nonneg_x gx_pre gy_pre a_x_pre a_y_pre) by lia.
+        reflexivity.
+      * rewrite (polar_upper_half_false_of_nonpos_nonzero_y gx_pre gy_pre b_x_pre b_y_pre) by lia.
+        reflexivity.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. lia.
-Qed.
+Qed. 
 
 Lemma proof_of_swap_points_return_wit_1 : swap_points_return_wit_1.
 Proof.

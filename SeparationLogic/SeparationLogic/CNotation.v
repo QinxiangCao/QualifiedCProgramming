@@ -28,6 +28,8 @@ Inductive front_end_type: Type :=
   | FET_uchar : front_end_type
   | FET_uint64 : front_end_type
   | FET_ushort : front_end_type
+  | FET_float : front_end_type
+  | FET_double : front_end_type
   | FET_ptr: front_end_type.
 
 Inductive rvalue_expr: Type :=
@@ -42,16 +44,64 @@ with lvalue_expr: Type :=
   | LE_dot_field (p: lvalue_expr) (s: string): lvalue_expr.
 
 Parameter eval_addr_expr: rvalue_expr -> addr.
-Parameter sizeof_front_end_type: front_end_type -> Z.
-Axiom sizeof_int: sizeof_front_end_type FET_int = 4.
-Axiom sizeof_char: sizeof_front_end_type FET_char = 1.
-Axiom sizeof_int64: sizeof_front_end_type FET_int64 = 8.
-Axiom sizeof_short: sizeof_front_end_type FET_short = 2.
-Axiom sizeof_uint: sizeof_front_end_type FET_uint = 4.
-Axiom sizeof_uchar: sizeof_front_end_type FET_uchar = 1.
-Axiom sizeof_uint64: sizeof_front_end_type FET_uint64 = 8.
-Axiom sizeof_ushort: sizeof_front_end_type FET_ushort = 2.
-Axiom sizeof_ptr: sizeof_front_end_type FET_ptr = 4.
+Parameter sizeof_struct_type: string -> Z.
+Parameter sizeof_union_type: string -> Z.
+Parameter sizeof_enum_type: string -> Z.
+Parameter sizeof_alias_type: string -> Z.
+
+Definition sizeof_front_end_type (ty : front_end_type) : Z :=
+  match ty with
+  | FET_struct x => sizeof_struct_type x
+  | FET_union x => sizeof_union_type x
+  | FET_enum x => sizeof_enum_type x
+  | FET_alias x => sizeof_alias_type x
+  | FET_int => 4
+  | FET_char => 1
+  | FET_int64 => 8
+  | FET_short => 2
+  | FET_uint => 4
+  | FET_uchar => 1
+  | FET_uint64 => 8
+  | FET_ushort => 2
+  | FET_float => 4
+  | FET_double => 8
+  | FET_ptr => 4
+  end.
+
+Lemma sizeof_int: sizeof_front_end_type FET_int = 4.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_char: sizeof_front_end_type FET_char = 1.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_int64: sizeof_front_end_type FET_int64 = 8.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_short: sizeof_front_end_type FET_short = 2.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_uint: sizeof_front_end_type FET_uint = 4.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_uchar: sizeof_front_end_type FET_uchar = 1.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_uint64: sizeof_front_end_type FET_uint64 = 8.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_ushort: sizeof_front_end_type FET_ushort = 2.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_float: sizeof_front_end_type FET_float = 4.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_double: sizeof_front_end_type FET_double = 8.
+Proof. reflexivity. Qed.
+
+Lemma sizeof_ptr: sizeof_front_end_type FET_ptr = 4.
+Proof. reflexivity. Qed.
+
+Global Opaque sizeof_front_end_type.
 Declare Custom Entry addr_expr_entry.
 Declare Custom Entry lvalue_expr_entry.
 Declare Custom Entry rvalue_expr_entry.
@@ -165,6 +215,16 @@ Notation "p # 'USHORT'" := (RE_const p FET_ushort)
    p custom rvalue_expr_entry,
    no associativity).
 
+Notation "p # 'FLOAT'" := (RE_const p FET_float)
+  (in custom rvalue_expr_entry at level 40,
+   p custom rvalue_expr_entry,
+   no associativity).
+
+Notation "p # 'DOUBLE'" := (RE_const p FET_double)
+  (in custom rvalue_expr_entry at level 40,
+   p custom rvalue_expr_entry,
+   no associativity).
+
 Notation "p # 'PTR'" := (RE_const p FET_ptr)
   (in custom rvalue_expr_entry at level 40,
    p custom rvalue_expr_entry,
@@ -216,6 +276,16 @@ Notation "p # 'UINT64'" := (RE_const p FET_uint64)
    no associativity).
 
 Notation "p # 'USHORT'" := (RE_const p FET_ushort)
+  (in custom lvalue_expr_entry at level 40,
+   p custom lvalue_expr_entry,
+   no associativity).
+
+Notation "p # 'FLOAT'" := (RE_const p FET_float)
+  (in custom lvalue_expr_entry at level 40,
+   p custom lvalue_expr_entry,
+   no associativity).
+
+Notation "p # 'DOUBLE'" := (RE_const p FET_double)
   (in custom lvalue_expr_entry at level 40,
    p custom lvalue_expr_entry,
    no associativity).
@@ -290,6 +360,12 @@ Notation "'sizeof' ( 'UINT64' )" := (sizeof_front_end_type FET_uint64)
   (at level 1).
 
 Notation "'sizeof' ( 'USHORT' )" := (sizeof_front_end_type FET_ushort)
+  (at level 1).
+
+Notation "'sizeof' ( 'FLOAT' )" := (sizeof_front_end_type FET_float)
+  (at level 1).
+
+Notation "'sizeof' ( 'DOUBLE' )" := (sizeof_front_end_type FET_double)
   (at level 1).
 
 Notation "'sizeof' ( 'PTR' )" := (sizeof_front_end_type FET_ptr)
@@ -560,5 +636,3 @@ Proof.
 Qed.
 
 End TestNotations.
-
-

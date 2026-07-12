@@ -191,10 +191,13 @@ Proof. Admitted.
 Lemma proof_of_rotateRL_partial_solve_wit_2 : rotateRL_partial_solve_wit_2.
 Proof. Admitted. 
 
-Lemma proof_of_rotateRL_partial_solve_wit_3_pure : rotateRL_partial_solve_wit_3_pure.
+Lemma proof_of_rotateRL_partial_solve_wit_3 : rotateRL_partial_solve_wit_3.
 Proof. Admitted. 
 
-Lemma proof_of_rotateRL_partial_solve_wit_3 : rotateRL_partial_solve_wit_3.
+Lemma proof_of_rotateRL_partial_solve_wit_4_pure : rotateRL_partial_solve_wit_4_pure.
+Proof. Admitted. 
+
+Lemma proof_of_rotateRL_partial_solve_wit_4 : rotateRL_partial_solve_wit_4.
 Proof. Admitted. 
 
 Lemma proof_of_rotateLR_return_wit_1 : rotateLR_return_wit_1.
@@ -209,10 +212,13 @@ Proof. Admitted.
 Lemma proof_of_rotateLR_partial_solve_wit_2 : rotateLR_partial_solve_wit_2.
 Proof. Admitted. 
 
-Lemma proof_of_rotateLR_partial_solve_wit_3_pure : rotateLR_partial_solve_wit_3_pure.
+Lemma proof_of_rotateLR_partial_solve_wit_3 : rotateLR_partial_solve_wit_3.
 Proof. Admitted. 
 
-Lemma proof_of_rotateLR_partial_solve_wit_3 : rotateLR_partial_solve_wit_3.
+Lemma proof_of_rotateLR_partial_solve_wit_4_pure : rotateLR_partial_solve_wit_4_pure.
+Proof. Admitted. 
+
+Lemma proof_of_rotateLR_partial_solve_wit_4 : rotateLR_partial_solve_wit_4.
 Proof. Admitted. 
 
 Lemma proof_of_balance_factor_safety_wit_1 : balance_factor_safety_wit_1.

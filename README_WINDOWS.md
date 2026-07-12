@@ -90,20 +90,23 @@ If you previously installed other Coq-focused VS Code extensions, disable them f
 
 ### Workspace Settings
 
-The repository workspace is already configured in `.vscode/settings.json` for this setup:
+Add or update the following settings in your workspace `.vscode/settings.json`:
 
 ```json
 {
   "vscoq.path": "D:/Coq8.20/bin/vscoqtop.exe",
   "vscoq.args": [],
-  "vscoq-language-server.trace.server": "messages",
-  "vscoq.proof.mode": 1
+  "vscoq-language-server.trace.server": "off",
+  "vscoq.proof.mode": 0,
+  "vscoq.proof.pointInterpretationMode": 1,
+  "vscoq.proof.delegation": "None",
+  "vscoq.proof.display-buttons": false
 }
 ```
 
-If your Coq installation lives somewhere else, update only `vscoq.path` so that it points to the directory containing `vscoqtop.exe`.
+The `vscoq.path` value above is an example path. Replace it with the path to `vscoqtop.exe` in your own Coq installation.
 
-`vscoq.proof.mode: 1` means continuous checking.
+`vscoq.proof.mode: 0` means manual proof checking.
 
 ### Expected Binary Layout
 
@@ -117,9 +120,15 @@ After installing the VSIX, reload the VS Code window and open a `.v` file to ver
 
 ## QCP Command-Line Tool
 
-Use `win-binary/symexec.exe` directly, or refer to:
+Use `win-binary/symexec.exe` directly, or run all examples with the native Windows script. It can be launched from either shell without Bash:
 
-- `run-example-windows.sh`
+```cmd
+run-example-windows.cmd
+```
+
+```powershell
+.\run-example-windows.cmd
+```
 
 ## MCP Setup
 

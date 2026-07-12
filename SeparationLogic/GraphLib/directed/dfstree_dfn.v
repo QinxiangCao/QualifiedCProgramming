@@ -4,7 +4,7 @@ Require Import GraphLib.reachable.reachable_restricted.
 Require Import GraphLib.directed.rootedtree.
 Require Import GraphLib.subgraph.subgraph.
 Require Import GraphLib.Syntax.
-Require Import SetsClass.
+Require Import SetsClass.SetsClass.
 Require Import Coq.Logic.Classical.
 Require Import Lia.
 
@@ -67,4 +67,3 @@ Qed.
 
 (* Definition dominate (w: V): V -> Prop := 
     fun v => forall p: vpath, p dfstree.root w -> In v p. *)
-

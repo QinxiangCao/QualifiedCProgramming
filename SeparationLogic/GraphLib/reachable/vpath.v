@@ -128,7 +128,7 @@ Proof.
     rewrite Hv, Hle in *. 
     simpl in *. lia.
   - pose proof vpath_iff_epath g Pp Hp as [_ Hpstep]. 
-    specialize (Hpstep g 0 u v e ltac:(rewrite Hle; simpl; lia) ltac:(rewrite Hle; simpl; auto) 
+    specialize (Hpstep 0 u v e ltac:(rewrite Hle; simpl; lia) ltac:(rewrite Hle; simpl; auto)
     ltac:(rewrite Hv; simpl; auto) ltac:(rewrite Hv; simpl; auto)). 
     eapply step_trivial; eauto.
 Qed.

@@ -489,6 +489,42 @@ Section exec_rules.
     auto. 
   Qed.
 
+  Lemma safeExec_bind_reta_target: forall {A B : Type}
+    (c1 : program Σ  A) (c2 : A -> program Σ B)
+    (P P' : Σ  -> Prop) (a : A) (c : program Σ  B),
+  (forall X, safeExec P c1 X -> safeExec P' (return a) X) ->
+  forall X,
+    safeExec P (x <- c1 ;; c2 x) X ->
+    c = c2 a ->
+    safeExec P' c X.
+  Proof.
+    intros * Hret X Hbind Heq.
+    subst c.
+    eapply safeExec_bind_reta.
+    - exact Hret.
+    - exact Hbind.
+  Qed.
+
+  Lemma safeExec_bind_partial_target: forall {A B : Type}
+    (c1 c1': program Σ  A) (c2 : A -> program Σ B)
+    (P P' : Σ  -> Prop) (c : program Σ  B),
+  (forall X, safeExec P c1 X -> safeExec P' c1' X) ->
+  forall X,
+    safeExec P (x <- c1 ;; c2 x) X ->
+    c = (x <- c1' ;; c2 x) ->
+    safeExec P' c X.
+  Proof.
+    intros * Hret X Hbind Heq.
+    subst c.
+    unfold safeExec, safe in *.
+    destructs Hbind.
+    rewrite wp_bind in H.
+    specialize (Hret (fun a : A => weakestpre (c2 a) X) (ltac:(eexists;eauto))) as [? [? ?]]. 
+    eexists;split;eauto.
+    rewrite wp_bind.
+    auto.
+  Qed.
+
   Lemma safeExec_bind'  : forall {A B: Type} (c1: program Σ A) (c2: A -> program Σ B) (P : Σ -> Prop) P',
     (forall X, safeExec P c1 X -> exists a, safeExec (P')  (ret a) X) ->
     (forall X, safeExec P (x <- c1 ;; c2 x) X -> exists a, safeExec (P') (c2 a) X).

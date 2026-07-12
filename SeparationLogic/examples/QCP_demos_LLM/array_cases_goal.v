@@ -82,9 +82,7 @@ forall (n_pre: Z) (l: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < 100)) 
 
 Definition arr_sum_entail_wit_1_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < 100)) (PreH3 : forall (i_2: Z) , (((0 <= i_2) /\ (i_2 < n_pre)) -> ((0 <= (Znth i_2 l 0)) /\ ((Znth i_2 l 0) < 100)))) ,
-  TT && emp 
-|--
-  “ (0 = (sum ((sublist (0) (0) (l))))) ”
+  (0 = (sum ((sublist (0) (0) (l)))))
 .
 
 Definition arr_sum_entail_wit_2 := 
@@ -110,9 +108,7 @@ forall (n_pre: Z) (l: (@list Z)) (ret: Z) (i_2: Z) (PreH1 : (i_2 < n_pre)) (PreH
 
 Definition arr_sum_entail_wit_2_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (ret: Z) (i_2: Z) (PreH1 : (i_2 < n_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre < 100)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 <= n_pre)) (PreH6 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100)))) (PreH7 : (ret = (sum ((sublist (0) (i_2) (l)))))) ,
-  TT && emp 
-|--
-  “ ((unsigned_last_nbits ((ret + (Znth i_2 l 0) )) (32)) = (sum ((sublist (0) ((i_2 + 1 )) (l))))) ”
+  ((unsigned_last_nbits ((ret + (Znth i_2 l 0) )) (32)) = (sum ((sublist (0) ((i_2 + 1 )) (l)))))
 .
 
 Definition arr_sum_return_wit_1 := 
@@ -133,9 +129,7 @@ forall (n_pre: Z) (l: (@list Z)) (ret: Z) (i_2: Z) (PreH1 : (i_2 >= n_pre)) (Pre
 
 Definition arr_sum_return_wit_1_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (ret: Z) (i_2: Z) (PreH1 : (i_2 >= n_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre < 100)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 <= n_pre)) (PreH6 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100)))) (PreH7 : (ret = (sum ((sublist (0) (i_2) (l)))))) ,
-  TT && emp 
-|--
-  “ (ret = (sum (l))) ”
+  (ret = (sum (l)))
 .
 
 Definition arr_sum_partial_solve_wit_1 := 
@@ -149,7 +143,7 @@ forall (a_pre: Z) (n_pre: Z) (l: (@list Z)) (ret: Z) (i_2: Z) (PreH1 : (i_2 < n_
   &&  “ (i_2 <= n_pre) ” 
   &&  “ forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100))) ” 
   &&  “ (ret = (sum ((sublist (0) (i_2) (l))))) ”
-  &&  (((a_pre + (i_2 * sizeof(UINT) ) )) # UInt  |-> (Znth i_2 l 0))
+  &&  (((a_pre + (i_2 * sizeof(UINT)))) # UInt  |-> (Znth i_2 l 0))
   **  (UIntArray.missing_i a_pre i_2 0 n_pre l )
 .
 
@@ -206,9 +200,7 @@ forall (n_pre: Z) (l: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MA
 
 Definition array_copy1_entail_wit_1_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
-  TT && emp 
-|--
-  “ ((sublist (0) (0) (l)) = (@nil Z)) ”
+  ((sublist (0) (0) (l)) = (@nil Z))
 .
 
 Definition array_copy1_entail_wit_2 := 
@@ -236,9 +228,7 @@ forall (n_pre: Z) (l: (@list Z)) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= i))
 
 Definition array_copy1_entail_wit_2_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= i)) (PreH3 : (i <= n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
-  TT && emp 
-|--
-  “ ((app ((sublist (0) (i) (l))) ((cons ((Znth i l 0)) ((@nil Z))))) = (sublist (0) ((i + 1 )) (l))) ”
+  ((app ((sublist (0) (i) (l))) ((cons ((Znth i l 0)) ((@nil Z))))) = (sublist (0) ((i + 1 )) (l)))
 .
 
 Definition array_copy1_return_wit_1 := 
@@ -276,7 +266,7 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (l: (@list Z)) (i: Z) (PreH1 : (i <
   &&  “ (i <= n_pre) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ”
-  &&  (((src_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i l 0))
+  &&  (((src_pre + (i * sizeof(INT)))) # Int  |-> (Znth i l 0))
   **  (IntArray.missing_i src_pre i 0 n_pre l )
   **  (IntArray.seg dest_pre 0 i (sublist (0) (i) (l)) )
   **  (IntArray.undef_seg dest_pre i n_pre )
@@ -293,7 +283,7 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (l: (@list Z)) (i: Z) (PreH1 : (i <
   &&  “ (i <= n_pre) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ”
-  &&  (((dest_pre + (i * sizeof(INT) ) )) # Int  |->_)
+  &&  (((dest_pre + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg dest_pre (i + 1 ) n_pre )
   **  (IntArray.full src_pre n_pre l )
   **  (IntArray.seg dest_pre 0 i (sublist (0) (i) (l)) )
@@ -412,9 +402,7 @@ forall (m_pre: Z) (n_pre: Z) (l1: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (0 
 
 Definition array_concat_entail_wit_1_split_goal_1 := 
 forall (m_pre: Z) (n_pre: Z) (l1: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (0 <= m_pre)) (PreH3 : ((n_pre + m_pre ) < INT_MAX)) ,
-  TT && emp 
-|--
-  “ ((sublist (0) (0) (l1)) = (@nil Z)) ”
+  ((sublist (0) (0) (l1)) = (@nil Z))
 .
 
 Definition array_concat_entail_wit_2 := 
@@ -445,9 +433,7 @@ forall (m_pre: Z) (n_pre: Z) (l1: (@list Z)) (i: Z) (PreH1 : (i < n_pre)) (PreH2
 
 Definition array_concat_entail_wit_2_split_goal_1 := 
 forall (m_pre: Z) (n_pre: Z) (l1: (@list Z)) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= i)) (PreH3 : (i <= n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (0 <= m_pre)) (PreH6 : ((n_pre + m_pre ) < INT_MAX)) ,
-  TT && emp 
-|--
-  “ ((app ((sublist (0) (i) (l1))) ((cons ((Znth i l1 0)) ((@nil Z))))) = (sublist (0) ((i + 1 )) (l1))) ”
+  ((app ((sublist (0) (i) (l1))) ((cons ((Znth i l1 0)) ((@nil Z))))) = (sublist (0) ((i + 1 )) (l1)))
 .
 
 Definition array_concat_entail_wit_3 := 
@@ -553,7 +539,7 @@ forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (l2: (@list Z)) 
   &&  “ (0 <= n_pre) ” 
   &&  “ (0 <= m_pre) ” 
   &&  “ ((n_pre + m_pre ) < INT_MAX) ”
-  &&  (((a_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i l1 0))
+  &&  (((a_pre + (i * sizeof(INT)))) # Int  |-> (Znth i l1 0))
   **  (IntArray.missing_i a_pre i 0 n_pre l1 )
   **  (IntArray.seg ret_pre 0 i (sublist (0) (i) (l1)) )
   **  (IntArray.undef_seg ret_pre i (n_pre + m_pre ) )
@@ -573,7 +559,7 @@ forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (l2: (@list Z)) 
   &&  “ (0 <= n_pre) ” 
   &&  “ (0 <= m_pre) ” 
   &&  “ ((n_pre + m_pre ) < INT_MAX) ”
-  &&  (((ret_pre + (i * sizeof(INT) ) )) # Int  |->_)
+  &&  (((ret_pre + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg ret_pre (i + 1 ) (n_pre + m_pre ) )
   **  (IntArray.full a_pre n_pre l1 )
   **  (IntArray.seg ret_pre 0 i (sublist (0) (i) (l1)) )
@@ -593,7 +579,7 @@ forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (l2: (@list Z)) 
   &&  “ (0 <= n_pre) ” 
   &&  “ (0 <= m_pre) ” 
   &&  “ ((n_pre + m_pre ) < INT_MAX) ”
-  &&  (((b_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i l2 0))
+  &&  (((b_pre + (i * sizeof(INT)))) # Int  |-> (Znth i l2 0))
   **  (IntArray.missing_i b_pre i 0 m_pre l2 )
   **  (IntArray.seg ret_pre 0 (n_pre + i ) (app (l1) ((sublist (0) (i) (l2)))) )
   **  (IntArray.undef_seg ret_pre (n_pre + i ) (n_pre + m_pre ) )
@@ -613,7 +599,7 @@ forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (l2: (@list Z)) 
   &&  “ (0 <= n_pre) ” 
   &&  “ (0 <= m_pre) ” 
   &&  “ ((n_pre + m_pre ) < INT_MAX) ”
-  &&  (((ret_pre + ((n_pre + i ) * sizeof(INT) ) )) # Int  |->_)
+  &&  (((ret_pre + ((n_pre + i ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg ret_pre ((n_pre + i ) + 1 ) (n_pre + m_pre ) )
   **  (IntArray.full b_pre m_pre l2 )
   **  (IntArray.seg ret_pre 0 (n_pre + i ) (app (l1) ((sublist (0) (i) (l2)))) )
@@ -674,16 +660,12 @@ forall (n_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 
 
 Definition array_swap_entail_wit_1_split_goal_1 := 
 forall (n_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : ((Zlength (l1)) = n_pre)) (PreH4 : ((Zlength (l2)) = n_pre)) ,
-  TT && emp 
-|--
-  “ (l1 = (app ((sublist (0) (0) (l2))) ((sublist (0) (n_pre) (l1))))) ”
+  (l1 = (app ((sublist (0) (0) (l2))) ((sublist (0) (n_pre) (l1)))))
 .
 
 Definition array_swap_entail_wit_1_split_goal_2 := 
 forall (n_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : ((Zlength (l1)) = n_pre)) (PreH4 : ((Zlength (l2)) = n_pre)) ,
-  TT && emp 
-|--
-  “ (l2 = (app ((sublist (0) (0) (l1))) ((sublist (0) (n_pre) (l2))))) ”
+  (l2 = (app ((sublist (0) (0) (l1))) ((sublist (0) (n_pre) (l2)))))
 .
 
 Definition array_swap_entail_wit_2 := 
@@ -712,16 +694,12 @@ forall (n_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (i: Z) (PreH1 : (i < n_pre)) (
 
 Definition array_swap_entail_wit_2_split_goal_1 := 
 forall (n_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= i)) (PreH3 : (i <= n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : ((Zlength (l1)) = n_pre)) (PreH7 : ((Zlength (l2)) = n_pre)) ,
-  TT && emp 
-|--
-  “ ((replace_Znth (i) ((Znth i (app ((sublist (0) (i) (l2))) ((sublist (i) (n_pre) (l1)))) 0)) ((app ((sublist (0) (i) (l1))) ((sublist (i) (n_pre) (l2)))))) = (app ((sublist (0) ((i + 1 )) (l1))) ((sublist ((i + 1 )) (n_pre) (l2))))) ”
+  ((replace_Znth (i) ((Znth i (app ((sublist (0) (i) (l2))) ((sublist (i) (n_pre) (l1)))) 0)) ((app ((sublist (0) (i) (l1))) ((sublist (i) (n_pre) (l2)))))) = (app ((sublist (0) ((i + 1 )) (l1))) ((sublist ((i + 1 )) (n_pre) (l2)))))
 .
 
 Definition array_swap_entail_wit_2_split_goal_2 := 
 forall (n_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= i)) (PreH3 : (i <= n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : ((Zlength (l1)) = n_pre)) (PreH7 : ((Zlength (l2)) = n_pre)) ,
-  TT && emp 
-|--
-  “ ((replace_Znth (i) ((Znth i (app ((sublist (0) (i) (l1))) ((sublist (i) (n_pre) (l2)))) 0)) ((app ((sublist (0) (i) (l2))) ((sublist (i) (n_pre) (l1)))))) = (app ((sublist (0) ((i + 1 )) (l2))) ((sublist ((i + 1 )) (n_pre) (l1))))) ”
+  ((replace_Znth (i) ((Znth i (app ((sublist (0) (i) (l1))) ((sublist (i) (n_pre) (l2)))) 0)) ((app ((sublist (0) (i) (l2))) ((sublist (i) (n_pre) (l1)))))) = (app ((sublist (0) ((i + 1 )) (l2))) ((sublist ((i + 1 )) (n_pre) (l1)))))
 .
 
 Definition array_swap_return_wit_1 := 
@@ -744,16 +722,12 @@ forall (n_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) 
 
 Definition array_swap_return_wit_1_split_goal_1 := 
 forall (n_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (0 <= i)) (PreH3 : (i <= n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : ((Zlength (l1)) = n_pre)) (PreH7 : ((Zlength (l2)) = n_pre)) ,
-  TT && emp 
-|--
-  “ ((app ((sublist (0) (i) (l2))) ((sublist (i) (n_pre) (l1)))) = l2) ”
+  ((app ((sublist (0) (i) (l2))) ((sublist (i) (n_pre) (l1)))) = l2)
 .
 
 Definition array_swap_return_wit_1_split_goal_2 := 
 forall (n_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (0 <= i)) (PreH3 : (i <= n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : ((Zlength (l1)) = n_pre)) (PreH7 : ((Zlength (l2)) = n_pre)) ,
-  TT && emp 
-|--
-  “ ((app ((sublist (0) (i) (l1))) ((sublist (i) (n_pre) (l2)))) = l1) ”
+  ((app ((sublist (0) (i) (l1))) ((sublist (i) (n_pre) (l2)))) = l1)
 .
 
 Definition array_swap_partial_solve_wit_1 := 
@@ -768,7 +742,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (i: Z) (
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ ((Zlength (l1)) = n_pre) ” 
   &&  “ ((Zlength (l2)) = n_pre) ”
-  &&  (((a_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i (app ((sublist (0) (i) (l2))) ((sublist (i) (n_pre) (l1)))) 0))
+  &&  (((a_pre + (i * sizeof(INT)))) # Int  |-> (Znth i (app ((sublist (0) (i) (l2))) ((sublist (i) (n_pre) (l1)))) 0))
   **  (IntArray.missing_i a_pre i 0 n_pre (app ((sublist (0) (i) (l2))) ((sublist (i) (n_pre) (l1)))) )
   **  (IntArray.full b_pre n_pre (app ((sublist (0) (i) (l1))) ((sublist (i) (n_pre) (l2)))) )
 .
@@ -785,7 +759,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (i: Z) (
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ ((Zlength (l1)) = n_pre) ” 
   &&  “ ((Zlength (l2)) = n_pre) ”
-  &&  (((b_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i (app ((sublist (0) (i) (l1))) ((sublist (i) (n_pre) (l2)))) 0))
+  &&  (((b_pre + (i * sizeof(INT)))) # Int  |-> (Znth i (app ((sublist (0) (i) (l1))) ((sublist (i) (n_pre) (l2)))) 0))
   **  (IntArray.missing_i b_pre i 0 n_pre (app ((sublist (0) (i) (l1))) ((sublist (i) (n_pre) (l2)))) )
   **  (IntArray.full a_pre n_pre (app ((sublist (0) (i) (l2))) ((sublist (i) (n_pre) (l1)))) )
 .
@@ -802,7 +776,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (i: Z) (
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ ((Zlength (l1)) = n_pre) ” 
   &&  “ ((Zlength (l2)) = n_pre) ”
-  &&  (((a_pre + (i * sizeof(INT) ) )) # Int  |->_)
+  &&  (((a_pre + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i a_pre i 0 n_pre (app ((sublist (0) (i) (l2))) ((sublist (i) (n_pre) (l1)))) )
   **  (IntArray.full b_pre n_pre (app ((sublist (0) (i) (l1))) ((sublist (i) (n_pre) (l2)))) )
 .
@@ -819,7 +793,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (i: Z) (
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ ((Zlength (l1)) = n_pre) ” 
   &&  “ ((Zlength (l2)) = n_pre) ”
-  &&  (((b_pre + (i * sizeof(INT) ) )) # Int  |->_)
+  &&  (((b_pre + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i b_pre i 0 n_pre (app ((sublist (0) (i) (l1))) ((sublist (i) (n_pre) (l2)))) )
   **  (IntArray.full a_pre n_pre (replace_Znth (i) ((Znth i (app ((sublist (0) (i) (l1))) ((sublist (i) (n_pre) (l2)))) 0)) ((app ((sublist (0) (i) (l2))) ((sublist (i) (n_pre) (l1)))))) )
 .
@@ -888,9 +862,7 @@ forall (n_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 
 
 Definition array_vector_sum_entail_wit_1_split_goal_1 := 
 forall (n_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < 100)) (PreH3 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l1 0)) /\ ((Znth i l1 0) < 100)))) (PreH4 : forall (i_2: Z) , (((0 <= i_2) /\ (i_2 < n_pre)) -> ((0 <= (Znth i_2 l2 0)) /\ ((Znth i_2 l2 0) < 100)))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((@nil Z))) = 0) ”
+  ((Zlength ((@nil Z))) = 0)
 .
 
 Definition array_vector_sum_entail_wit_2 := 
@@ -926,16 +898,12 @@ forall (n_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (l3_2: (@list Z)) (i: Z) (PreH
 
 Definition array_vector_sum_entail_wit_2_split_goal_1 := 
 forall (n_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (l3_2: (@list Z)) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= i)) (PreH3 : (i <= n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < 100)) (PreH6 : ((Zlength (l3_2)) = i)) (PreH7 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l1 0)) /\ ((Znth k l1 0) < 100)))) (PreH8 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < n_pre)) -> ((0 <= (Znth k_2 l2 0)) /\ ((Znth k_2 l2 0) < 100)))) (PreH9 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < i)) -> ((Znth k_3 l3_2 0) = ((Znth k_3 l1 0) + (Znth k_3 l2 0) )))) ,
-  TT && emp 
-|--
-  “ (((Znth 0 (app (l3_2) ((cons ((unsigned_last_nbits (((Znth i l1 0) + (Znth i l2 0) )) (32))) ((@nil Z))))) 0) = ((Znth 0 l1 0) + (Znth 0 l2 0) )) /\ ((Znth ((i + 1 ) - 1 ) (app (l3_2) ((cons ((unsigned_last_nbits (((Znth i l1 0) + (Znth i l2 0) )) (32))) ((@nil Z))))) 0) = ((Znth ((i + 1 ) - 1 ) l1 0) + (Znth ((i + 1 ) - 1 ) l2 0) ))) ”
+  (((Znth 0 (app (l3_2) ((cons ((unsigned_last_nbits (((Znth i l1 0) + (Znth i l2 0) )) (32))) ((@nil Z))))) 0) = ((Znth 0 l1 0) + (Znth 0 l2 0) )) /\ ((Znth ((i + 1 ) - 1 ) (app (l3_2) ((cons ((unsigned_last_nbits (((Znth i l1 0) + (Znth i l2 0) )) (32))) ((@nil Z))))) 0) = ((Znth ((i + 1 ) - 1 ) l1 0) + (Znth ((i + 1 ) - 1 ) l2 0) )))
 .
 
 Definition array_vector_sum_entail_wit_2_split_goal_2 := 
 forall (n_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (l3_2: (@list Z)) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= i)) (PreH3 : (i <= n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < 100)) (PreH6 : ((Zlength (l3_2)) = i)) (PreH7 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l1 0)) /\ ((Znth k l1 0) < 100)))) (PreH8 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < n_pre)) -> ((0 <= (Znth k_2 l2 0)) /\ ((Znth k_2 l2 0) < 100)))) (PreH9 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < i)) -> ((Znth k_3 l3_2 0) = ((Znth k_3 l1 0) + (Znth k_3 l2 0) )))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((app (l3_2) ((cons ((unsigned_last_nbits (((Znth i l1 0) + (Znth i l2 0) )) (32))) ((@nil Z))))))) = (i + 1 )) ”
+  ((Zlength ((app (l3_2) ((cons ((unsigned_last_nbits (((Znth i l1 0) + (Znth i l2 0) )) (32))) ((@nil Z))))))) = (i + 1 ))
 .
 
 Definition array_vector_sum_return_wit_1 := 
@@ -979,7 +947,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (ret_pre: Z) (l2: (@list Z)) (l1: (@list
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l1 0)) /\ ((Znth k l1 0) < 100))) ” 
   &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < n_pre)) -> ((0 <= (Znth k_2 l2 0)) /\ ((Znth k_2 l2 0) < 100))) ” 
   &&  “ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < i)) -> ((Znth k_3 l3 0) = ((Znth k_3 l1 0) + (Znth k_3 l2 0) ))) ”
-  &&  (((a_pre + (i * sizeof(UINT) ) )) # UInt  |-> (Znth i l1 0))
+  &&  (((a_pre + (i * sizeof(UINT)))) # UInt  |-> (Znth i l1 0))
   **  (UIntArray.missing_i a_pre i 0 n_pre l1 )
   **  (UIntArray.seg ret_pre 0 i l3 )
   **  (UIntArray.undef_seg ret_pre i n_pre )
@@ -1002,7 +970,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (ret_pre: Z) (l2: (@list Z)) (l1: (@list
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l1 0)) /\ ((Znth k l1 0) < 100))) ” 
   &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < n_pre)) -> ((0 <= (Znth k_2 l2 0)) /\ ((Znth k_2 l2 0) < 100))) ” 
   &&  “ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < i)) -> ((Znth k_3 l3 0) = ((Znth k_3 l1 0) + (Znth k_3 l2 0) ))) ”
-  &&  (((b_pre + (i * sizeof(UINT) ) )) # UInt  |-> (Znth i l2 0))
+  &&  (((b_pre + (i * sizeof(UINT)))) # UInt  |-> (Znth i l2 0))
   **  (UIntArray.missing_i b_pre i 0 n_pre l2 )
   **  (UIntArray.full a_pre n_pre l1 )
   **  (UIntArray.seg ret_pre 0 i l3 )
@@ -1025,7 +993,7 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (ret_pre: Z) (l2: (@list Z)) (l1: (@list
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l1 0)) /\ ((Znth k l1 0) < 100))) ” 
   &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < n_pre)) -> ((0 <= (Znth k_2 l2 0)) /\ ((Znth k_2 l2 0) < 100))) ” 
   &&  “ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < i)) -> ((Znth k_3 l3 0) = ((Znth k_3 l1 0) + (Znth k_3 l2 0) ))) ”
-  &&  (((ret_pre + (i * sizeof(UINT) ) )) # UInt  |->_)
+  &&  (((ret_pre + (i * sizeof(UINT)))) # UInt  |->_)
   **  (UIntArray.undef_seg ret_pre (i + 1 ) n_pre )
   **  (UIntArray.full b_pre n_pre l2 )
   **  (UIntArray.full a_pre n_pre l1 )
@@ -1096,9 +1064,7 @@ forall (n_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 
 
 Definition pointwise_mul_entail_wit_1_split_goal_1 := 
 forall (n_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < 100)) (PreH3 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l1 0)) /\ ((Znth i l1 0) < 100)))) (PreH4 : forall (i_2: Z) , (((0 <= i_2) /\ (i_2 < n_pre)) -> ((0 <= (Znth i_2 l2 0)) /\ ((Znth i_2 l2 0) < 100)))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((@nil Z))) = 0) ”
+  ((Zlength ((@nil Z))) = 0)
 .
 
 Definition pointwise_mul_entail_wit_2 := 
@@ -1134,16 +1100,12 @@ forall (n_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (l3_2: (@list Z)) (i: Z) (PreH
 
 Definition pointwise_mul_entail_wit_2_split_goal_1 := 
 forall (n_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (l3_2: (@list Z)) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= i)) (PreH3 : (i <= n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < 100)) (PreH6 : ((Zlength (l3_2)) = i)) (PreH7 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l1 0)) /\ ((Znth k l1 0) < 100)))) (PreH8 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < n_pre)) -> ((0 <= (Znth k_2 l2 0)) /\ ((Znth k_2 l2 0) < 100)))) (PreH9 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < i)) -> ((Znth k_3 l3_2 0) = ((Znth k_3 l1 0) * (Znth k_3 l2 0) )))) ,
-  TT && emp 
-|--
-  “ (((Znth 0 (app (l3_2) ((cons ((unsigned_last_nbits (((Znth i l1 0) * (Znth i l2 0) )) (32))) ((@nil Z))))) 0) = ((Znth 0 l1 0) * (Znth 0 l2 0) )) /\ ((Znth ((i + 1 ) - 1 ) (app (l3_2) ((cons ((unsigned_last_nbits (((Znth i l1 0) * (Znth i l2 0) )) (32))) ((@nil Z))))) 0) = ((Znth ((i + 1 ) - 1 ) l1 0) * (Znth ((i + 1 ) - 1 ) l2 0) ))) ”
+  (((Znth 0 (app (l3_2) ((cons ((unsigned_last_nbits (((Znth i l1 0) * (Znth i l2 0) )) (32))) ((@nil Z))))) 0) = ((Znth 0 l1 0) * (Znth 0 l2 0) )) /\ ((Znth ((i + 1 ) - 1 ) (app (l3_2) ((cons ((unsigned_last_nbits (((Znth i l1 0) * (Znth i l2 0) )) (32))) ((@nil Z))))) 0) = ((Znth ((i + 1 ) - 1 ) l1 0) * (Znth ((i + 1 ) - 1 ) l2 0) )))
 .
 
 Definition pointwise_mul_entail_wit_2_split_goal_2 := 
 forall (n_pre: Z) (l2: (@list Z)) (l1: (@list Z)) (l3_2: (@list Z)) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= i)) (PreH3 : (i <= n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < 100)) (PreH6 : ((Zlength (l3_2)) = i)) (PreH7 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l1 0)) /\ ((Znth k l1 0) < 100)))) (PreH8 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < n_pre)) -> ((0 <= (Znth k_2 l2 0)) /\ ((Znth k_2 l2 0) < 100)))) (PreH9 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < i)) -> ((Znth k_3 l3_2 0) = ((Znth k_3 l1 0) * (Znth k_3 l2 0) )))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((app (l3_2) ((cons ((unsigned_last_nbits (((Znth i l1 0) * (Znth i l2 0) )) (32))) ((@nil Z))))))) = (i + 1 )) ”
+  ((Zlength ((app (l3_2) ((cons ((unsigned_last_nbits (((Znth i l1 0) * (Znth i l2 0) )) (32))) ((@nil Z))))))) = (i + 1 ))
 .
 
 Definition pointwise_mul_return_wit_1 := 
@@ -1187,7 +1149,7 @@ forall (n_pre: Z) (c_pre: Z) (b_pre: Z) (a_pre: Z) (l2: (@list Z)) (l1: (@list Z
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l1 0)) /\ ((Znth k l1 0) < 100))) ” 
   &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < n_pre)) -> ((0 <= (Znth k_2 l2 0)) /\ ((Znth k_2 l2 0) < 100))) ” 
   &&  “ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < i)) -> ((Znth k_3 l3 0) = ((Znth k_3 l1 0) * (Znth k_3 l2 0) ))) ”
-  &&  (((a_pre + (i * sizeof(UINT) ) )) # UInt  |-> (Znth i l1 0))
+  &&  (((a_pre + (i * sizeof(UINT)))) # UInt  |-> (Znth i l1 0))
   **  (UIntArray.missing_i a_pre i 0 n_pre l1 )
   **  (UIntArray.seg c_pre 0 i l3 )
   **  (UIntArray.undef_seg c_pre i n_pre )
@@ -1210,7 +1172,7 @@ forall (n_pre: Z) (c_pre: Z) (b_pre: Z) (a_pre: Z) (l2: (@list Z)) (l1: (@list Z
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l1 0)) /\ ((Znth k l1 0) < 100))) ” 
   &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < n_pre)) -> ((0 <= (Znth k_2 l2 0)) /\ ((Znth k_2 l2 0) < 100))) ” 
   &&  “ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < i)) -> ((Znth k_3 l3 0) = ((Znth k_3 l1 0) * (Znth k_3 l2 0) ))) ”
-  &&  (((b_pre + (i * sizeof(UINT) ) )) # UInt  |-> (Znth i l2 0))
+  &&  (((b_pre + (i * sizeof(UINT)))) # UInt  |-> (Znth i l2 0))
   **  (UIntArray.missing_i b_pre i 0 n_pre l2 )
   **  (UIntArray.full a_pre n_pre l1 )
   **  (UIntArray.seg c_pre 0 i l3 )
@@ -1233,7 +1195,7 @@ forall (n_pre: Z) (c_pre: Z) (b_pre: Z) (a_pre: Z) (l2: (@list Z)) (l1: (@list Z
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l1 0)) /\ ((Znth k l1 0) < 100))) ” 
   &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < n_pre)) -> ((0 <= (Znth k_2 l2 0)) /\ ((Znth k_2 l2 0) < 100))) ” 
   &&  “ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < i)) -> ((Znth k_3 l3 0) = ((Znth k_3 l1 0) * (Znth k_3 l2 0) ))) ”
-  &&  (((c_pre + (i * sizeof(UINT) ) )) # UInt  |->_)
+  &&  (((c_pre + (i * sizeof(UINT)))) # UInt  |->_)
   **  (UIntArray.undef_seg c_pre (i + 1 ) n_pre )
   **  (UIntArray.full b_pre n_pre l2 )
   **  (UIntArray.full a_pre n_pre l1 )
@@ -1339,9 +1301,7 @@ forall (n_pre: Z) (l: (@list Z)) (k_2: Z) (i: Z) (v: Z) (PreH1 : ((Znth i l 0) >
 
 Definition array_max_entail_wit_2_1_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (k_2: Z) (i: Z) (v: Z) (PreH1 : ((Znth i l 0) > v)) (PreH2 : (i < n_pre)) (PreH3 : (0 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> (0 <= (Znth k l 0)))) (PreH8 : ((i = 0) -> (v = (-1)))) (PreH9 : ((0 < i) -> (exists (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) /\ (v = (Znth k_2 l 0))) /\ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < i)) -> ((Znth k_3 l 0) <= v))))) ,
-  TT && emp 
-|--
-  “ ((0 < (i + 1 )) -> (exists (k_2: Z) , (((0 <= k_2) /\ (k_2 < (i + 1 ))) /\ ((Znth i l 0) = (Znth k_2 l 0))) /\ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < (i + 1 ))) -> ((Znth k_3 l 0) <= (Znth i l 0))))) ”
+  ((0 < (i + 1 )) -> (exists (k_2: Z) , (((0 <= k_2) /\ (k_2 < (i + 1 ))) /\ ((Znth i l 0) = (Znth k_2 l 0))) /\ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < (i + 1 ))) -> ((Znth k_3 l 0) <= (Znth i l 0)))))
 .
 
 Definition array_max_entail_wit_2_2 := 
@@ -1368,9 +1328,7 @@ forall (n_pre: Z) (l: (@list Z)) (k_2: Z) (i: Z) (v: Z) (PreH1 : ((Znth i l 0) <
 
 Definition array_max_entail_wit_2_2_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (k_2: Z) (i: Z) (v: Z) (PreH1 : ((Znth i l 0) <= v)) (PreH2 : (i < n_pre)) (PreH3 : (0 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> (0 <= (Znth k l 0)))) (PreH8 : ((i = 0) -> (v = (-1)))) (PreH9 : ((0 < i) -> (exists (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) /\ (v = (Znth k_2 l 0))) /\ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < i)) -> ((Znth k_3 l 0) <= v))))) ,
-  TT && emp 
-|--
-  “ ((0 < (i + 1 )) -> (exists (k_2: Z) , (((0 <= k_2) /\ (k_2 < (i + 1 ))) /\ (v = (Znth k_2 l 0))) /\ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < (i + 1 ))) -> ((Znth k_3 l 0) <= v)))) ”
+  ((0 < (i + 1 )) -> (exists (k_2: Z) , (((0 <= k_2) /\ (k_2 < (i + 1 ))) /\ (v = (Znth k_2 l 0))) /\ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < (i + 1 ))) -> ((Znth k_3 l 0) <= v))))
 .
 
 Definition array_max_return_wit_1 := 
@@ -1392,9 +1350,7 @@ forall (n_pre: Z) (l: (@list Z)) (i: Z) (k_2: Z) (i_3: Z) (v: Z) (PreH1 : (i_3 >
 
 Definition array_max_return_wit_1_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (k_2: Z) (i_3: Z) (v: Z) (PreH1 : (i_3 >= n_pre)) (PreH2 : (0 <= i_3)) (PreH3 : (i_3 <= n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> (0 <= (Znth k l 0)))) (PreH7 : ((i_3 = 0) -> (v = (-1)))) (PreH8 : ((0 < i_3) -> (exists (k_2: Z) , (((0 <= k_2) /\ (k_2 < i_3)) /\ (v = (Znth k_2 l 0))) /\ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < i_3)) -> ((Znth k_3 l 0) <= v))))) ,
-  TT && emp 
-|--
-  “ ((0 < n_pre) -> (exists (i: Z) , (((0 <= i) /\ (i < n_pre)) /\ (v = (Znth i l 0))) /\ forall (i_2: Z) , (((0 <= i_2) /\ (i_2 < n_pre)) -> ((Znth i_2 l 0) <= v)))) ”
+  ((0 < n_pre) -> (exists (i: Z) , (((0 <= i) /\ (i < n_pre)) /\ (v = (Znth i l 0))) /\ forall (i_2: Z) , (((0 <= i_2) /\ (i_2 < n_pre)) -> ((Znth i_2 l 0) <= v))))
 .
 
 Definition array_max_partial_solve_wit_1 := 
@@ -1409,7 +1365,7 @@ forall (n_pre: Z) (a_pre: Z) (l: (@list Z)) (k_2: Z) (i: Z) (v: Z) (PreH1 : (i <
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> (0 <= (Znth k l 0))) ” 
   &&  “ ((i = 0) -> (v = (-1))) ” 
   &&  “ ((0 < i) -> (exists (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) /\ (v = (Znth k_2 l 0))) /\ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < i)) -> ((Znth k_3 l 0) <= v)))) ”
-  &&  (((a_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i l 0))
+  &&  (((a_pre + (i * sizeof(INT)))) # Int  |-> (Znth i l 0))
   **  (IntArray.missing_i a_pre i 0 n_pre l )
 .
 
@@ -1426,7 +1382,7 @@ forall (n_pre: Z) (a_pre: Z) (l: (@list Z)) (k_2: Z) (i: Z) (v: Z) (PreH1 : ((Zn
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> (0 <= (Znth k l 0))) ” 
   &&  “ ((i = 0) -> (v = (-1))) ” 
   &&  “ ((0 < i) -> (exists (k_2: Z) , (((0 <= k_2) /\ (k_2 < i)) /\ (v = (Znth k_2 l 0))) /\ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < i)) -> ((Znth k_3 l 0) <= v)))) ”
-  &&  (((a_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i l 0))
+  &&  (((a_pre + (i * sizeof(INT)))) # Int  |-> (Znth i l 0))
   **  (IntArray.missing_i a_pre i 0 n_pre l )
 .
 
@@ -1482,9 +1438,7 @@ forall (n_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
 
 Definition memset_entail_wit_1_split_goal_1 := 
 forall (n_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
-  TT && emp 
-|--
-  “ ((Zlength ((@nil Z))) = 0) ”
+  ((Zlength ((@nil Z))) = 0)
 .
 
 Definition memset_entail_wit_2 := 
@@ -1514,16 +1468,12 @@ forall (value_pre: Z) (n_pre: Z) (l_2: (@list Z)) (i: Z) (PreH1 : (i < n_pre)) (
 
 Definition memset_entail_wit_2_split_goal_1 := 
 forall (value_pre: Z) (n_pre: Z) (l_2: (@list Z)) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= i)) (PreH3 : (i <= n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : ((Zlength (l_2)) = i)) (PreH7 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth k l_2 0) = value_pre))) ,
-  TT && emp 
-|--
-  “ (((Znth 0 (app (l_2) ((cons (value_pre) ((@nil Z))))) 0) = value_pre) /\ ((Znth ((i + 1 ) - 1 ) (app (l_2) ((cons (value_pre) ((@nil Z))))) 0) = value_pre)) ”
+  (((Znth 0 (app (l_2) ((cons (value_pre) ((@nil Z))))) 0) = value_pre) /\ ((Znth ((i + 1 ) - 1 ) (app (l_2) ((cons (value_pre) ((@nil Z))))) 0) = value_pre))
 .
 
 Definition memset_entail_wit_2_split_goal_2 := 
 forall (value_pre: Z) (n_pre: Z) (l_2: (@list Z)) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= i)) (PreH3 : (i <= n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : ((Zlength (l_2)) = i)) (PreH7 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth k l_2 0) = value_pre))) ,
-  TT && emp 
-|--
-  “ ((Zlength ((app (l_2) ((cons (value_pre) ((@nil Z))))))) = (i + 1 )) ”
+  ((Zlength ((app (l_2) ((cons (value_pre) ((@nil Z))))))) = (i + 1 ))
 .
 
 Definition memset_return_wit_1 := 
@@ -1559,7 +1509,7 @@ forall (value_pre: Z) (n_pre: Z) (a_pre: Z) (l: (@list Z)) (i: Z) (PreH1 : (i < 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ ((Zlength (l)) = i) ” 
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth k l 0) = value_pre)) ”
-  &&  (((a_pre + (i * sizeof(INT) ) )) # Int  |->_)
+  &&  (((a_pre + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg a_pre (i + 1 ) n_pre )
   **  (IntArray.seg a_pre 0 i l )
 .
@@ -1670,23 +1620,17 @@ forall (n_pre: Z) (l: (@list Z)) (retval_next: Z) (retval: Z) (PreH1 : (retval <
 
 Definition array_to_list_entail_wit_1_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (retval_next: Z) (retval: Z) (PreH1 : (retval <> 0)) (PreH2 : (retval_next = 0)) (PreH3 : (n_pre <> 0)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
-  TT && emp 
-|--
-  “ ((Znth 0 l 0) = (Znth ((1 - 1 )) (l) (0))) ”
+  ((Znth 0 l 0) = (Znth ((1 - 1 )) (l) (0)))
 .
 
 Definition array_to_list_entail_wit_1_split_goal_2 := 
 forall (n_pre: Z) (l: (@list Z)) (retval_next: Z) (retval: Z) (PreH1 : (retval <> 0)) (PreH2 : (retval_next = 0)) (PreH3 : (n_pre <> 0)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
-  TT && emp 
-|--
-  “ ((sublist (0) ((1 - 1 )) (l)) = (@nil Z)) ”
+  ((sublist (0) ((1 - 1 )) (l)) = (@nil Z))
 .
 
 Definition array_to_list_entail_wit_1_split_goal_3 := 
 forall (n_pre: Z) (l: (@list Z)) (retval_next: Z) (retval: Z) (PreH1 : (retval <> 0)) (PreH2 : (retval_next = 0)) (PreH3 : (n_pre <> 0)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
-  TT && emp 
-|--
-  “ ((Znth 0 l 0) = (Znth ((1 - 1 )) (l) (0))) ”
+  ((Znth 0 l 0) = (Znth ((1 - 1 )) (l) (0)))
 .
 
 Definition array_to_list_entail_wit_2 := 
@@ -1793,9 +1737,7 @@ forall (n_pre: Z) (l: (@list Z)) (PreH1 : (n_pre = 0)) (PreH2 : (0 <= n_pre)) (P
 
 Definition array_to_list_return_wit_2_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (PreH1 : (n_pre = 0)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) ,
-  TT && emp 
-|--
-  “ (l = (@nil Z)) ”
+  (l = (@nil Z))
 .
 
 Definition array_to_list_partial_solve_wit_1 := 
@@ -1805,7 +1747,7 @@ forall (n_pre: Z) (a_pre: Z) (l: (@list Z)) (PreH1 : (n_pre <> 0)) (PreH2 : (0 <
   “ (n_pre <> 0) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ”
-  &&  (((a_pre + (0 * sizeof(INT) ) )) # Int  |-> (Znth 0 l 0))
+  &&  (((a_pre + (0 * sizeof(INT)))) # Int  |-> (Znth 0 l 0))
   **  (IntArray.missing_i a_pre 0 0 n_pre l )
 .
 
@@ -1849,7 +1791,7 @@ forall (n_pre: Z) (a_pre: Z) (l: (@list Z)) (v: Z) (tail: Z) (head: Z) (i: Z) (P
   &&  “ (0 < n_pre) ” 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (v = (Znth ((i - 1 )) (l) (0))) ”
-  &&  (((a_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i l 0))
+  &&  (((a_pre + (i * sizeof(INT)))) # Int  |-> (Znth i l 0))
   **  (IntArray.missing_i a_pre i 0 n_pre l )
   **  ((&((tail)  # "list" ->ₛ "data")) # Int  |-> v)
   **  ((&((tail)  # "list" ->ₛ "next")) # Ptr  |-> 0)

@@ -170,30 +170,22 @@ forall (x_pre: Z) (n_pre: Z) (l: (@list Z)) (l_cur_2: (@list Z)) (child: Z) (Pre
 
 Definition push_entail_wit_3_split_goal_1 := 
 forall (x_pre: Z) (n_pre: Z) (l: (@list Z)) (l_cur_2: (@list Z)) (child: Z) (PreH1 : (child > 0)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre < 100000)) (PreH4 : (0 <= child)) (PreH5 : (child <= n_pre)) (PreH6 : ((Zlength (l)) = (n_pre + 1 ))) (PreH7 : ((Znth n_pre l 0) = x_pre)) (PreH8 : (PushLoopState l l_cur_2 n_pre child x_pre )) (PreH9 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx_2 l_cur_2 0)) /\ ((Znth idx_2 l_cur_2 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (((child - 1 ) ÷ 2 ) = (HeapParent (child))) ”
+  (((child - 1 ) ÷ 2 ) = (HeapParent (child)))
 .
 
 Definition push_entail_wit_3_split_goal_2 := 
 forall (x_pre: Z) (n_pre: Z) (l: (@list Z)) (l_cur_2: (@list Z)) (child: Z) (PreH1 : (child > 0)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre < 100000)) (PreH4 : (0 <= child)) (PreH5 : (child <= n_pre)) (PreH6 : ((Zlength (l)) = (n_pre + 1 ))) (PreH7 : ((Znth n_pre l 0) = x_pre)) (PreH8 : (PushLoopState l l_cur_2 n_pre child x_pre )) (PreH9 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx_2 l_cur_2 0)) /\ ((Znth idx_2 l_cur_2 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (((child - 1 ) ÷ 2 ) <= n_pre) ”
+  (((child - 1 ) ÷ 2 ) <= n_pre)
 .
 
 Definition push_entail_wit_3_split_goal_3 := 
 forall (x_pre: Z) (n_pre: Z) (l: (@list Z)) (l_cur_2: (@list Z)) (child: Z) (PreH1 : (child > 0)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre < 100000)) (PreH4 : (0 <= child)) (PreH5 : (child <= n_pre)) (PreH6 : ((Zlength (l)) = (n_pre + 1 ))) (PreH7 : ((Znth n_pre l 0) = x_pre)) (PreH8 : (PushLoopState l l_cur_2 n_pre child x_pre )) (PreH9 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx_2 l_cur_2 0)) /\ ((Znth idx_2 l_cur_2 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (((child - 1 ) ÷ 2 ) < child) ”
+  (((child - 1 ) ÷ 2 ) < child)
 .
 
 Definition push_entail_wit_3_split_goal_4 := 
 forall (x_pre: Z) (n_pre: Z) (l: (@list Z)) (l_cur_2: (@list Z)) (child: Z) (PreH1 : (child > 0)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre < 100000)) (PreH4 : (0 <= child)) (PreH5 : (child <= n_pre)) (PreH6 : ((Zlength (l)) = (n_pre + 1 ))) (PreH7 : ((Znth n_pre l 0) = x_pre)) (PreH8 : (PushLoopState l l_cur_2 n_pre child x_pre )) (PreH9 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx_2 l_cur_2 0)) /\ ((Znth idx_2 l_cur_2 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (0 <= ((child - 1 ) ÷ 2 )) ”
+  (0 <= ((child - 1 ) ÷ 2 ))
 .
 
 Definition push_entail_wit_4 := 
@@ -228,23 +220,17 @@ forall (x_pre: Z) (n_pre: Z) (l: (@list Z)) (l_cur_2: (@list Z)) (child: Z) (par
 
 Definition push_entail_wit_4_split_goal_1 := 
 forall (x_pre: Z) (n_pre: Z) (l: (@list Z)) (l_cur_2: (@list Z)) (child: Z) (parent: Z) (PreH1 : ((Znth (parent - 0 ) l_cur_2 0) >= (Znth (child - 0 ) l_cur_2 0))) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre < 100000)) (PreH4 : (0 < child)) (PreH5 : (child <= n_pre)) (PreH6 : (0 <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent <= n_pre)) (PreH9 : (parent = (HeapParent (child)))) (PreH10 : ((Zlength (l)) = (n_pre + 1 ))) (PreH11 : ((Znth n_pre l 0) = x_pre)) (PreH12 : (PushLoopState l l_cur_2 n_pre child x_pre )) (PreH13 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx_2 l_cur_2 0)) /\ ((Znth idx_2 l_cur_2 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (PriorityQueuePrefix l_cur_2 (n_pre + 1 ) ) ”
+  (PriorityQueuePrefix l_cur_2 (n_pre + 1 ) )
 .
 
 Definition push_entail_wit_4_split_goal_2 := 
 forall (x_pre: Z) (n_pre: Z) (l: (@list Z)) (l_cur_2: (@list Z)) (child: Z) (parent: Z) (PreH1 : ((Znth (parent - 0 ) l_cur_2 0) >= (Znth (child - 0 ) l_cur_2 0))) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre < 100000)) (PreH4 : (0 < child)) (PreH5 : (child <= n_pre)) (PreH6 : (0 <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent <= n_pre)) (PreH9 : (parent = (HeapParent (child)))) (PreH10 : ((Zlength (l)) = (n_pre + 1 ))) (PreH11 : ((Znth n_pre l 0) = x_pre)) (PreH12 : (PushLoopState l l_cur_2 n_pre child x_pre )) (PreH13 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx_2 l_cur_2 0)) /\ ((Znth idx_2 l_cur_2 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (PushResult l l_cur_2 n_pre x_pre ) ”
+  (PushResult l l_cur_2 n_pre x_pre )
 .
 
 Definition push_entail_wit_4_split_goal_3 := 
 forall (x_pre: Z) (n_pre: Z) (l: (@list Z)) (l_cur_2: (@list Z)) (child: Z) (parent: Z) (PreH1 : ((Znth (parent - 0 ) l_cur_2 0) >= (Znth (child - 0 ) l_cur_2 0))) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre < 100000)) (PreH4 : (0 < child)) (PreH5 : (child <= n_pre)) (PreH6 : (0 <= parent)) (PreH7 : (parent < child)) (PreH8 : (parent <= n_pre)) (PreH9 : (parent = (HeapParent (child)))) (PreH10 : ((Zlength (l)) = (n_pre + 1 ))) (PreH11 : ((Znth n_pre l 0) = x_pre)) (PreH12 : (PushLoopState l l_cur_2 n_pre child x_pre )) (PreH13 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx_2 l_cur_2 0)) /\ ((Znth idx_2 l_cur_2 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ ((Znth parent l_cur_2 0) >= (Znth child l_cur_2 0)) ”
+  ((Znth parent l_cur_2 0) >= (Znth child l_cur_2 0))
 .
 
 Definition push_entail_wit_5 := 
@@ -312,16 +298,12 @@ forall (x_pre: Z) (n_pre: Z) (l: (@list Z)) (l_cur_2: (@list Z)) (child: Z) (par
 
 Definition push_entail_wit_6_split_goal_1 := 
 forall (x_pre: Z) (n_pre: Z) (l: (@list Z)) (l_cur_2: (@list Z)) (child: Z) (parent: Z) (tmp: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < 100000)) (PreH3 : (0 < child)) (PreH4 : (child <= n_pre)) (PreH5 : (0 <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent <= n_pre)) (PreH8 : (parent = (HeapParent (child)))) (PreH9 : (tmp = (Znth child l_cur_2 0))) (PreH10 : (PushLoopState l l_cur_2 n_pre parent x_pre )) (PreH11 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx_2 l_cur_2 0)) /\ ((Znth idx_2 l_cur_2 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ ((Znth n_pre l 0) = x_pre) ”
+  ((Znth n_pre l 0) = x_pre)
 .
 
 Definition push_entail_wit_6_split_goal_2 := 
 forall (x_pre: Z) (n_pre: Z) (l: (@list Z)) (l_cur_2: (@list Z)) (child: Z) (parent: Z) (tmp: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < 100000)) (PreH3 : (0 < child)) (PreH4 : (child <= n_pre)) (PreH5 : (0 <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent <= n_pre)) (PreH8 : (parent = (HeapParent (child)))) (PreH9 : (tmp = (Znth child l_cur_2 0))) (PreH10 : (PushLoopState l l_cur_2 n_pre parent x_pre )) (PreH11 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx_2 l_cur_2 0)) /\ ((Znth idx_2 l_cur_2 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ ((Zlength (l)) = (n_pre + 1 )) ”
+  ((Zlength (l)) = (n_pre + 1 ))
 .
 
 Definition push_entail_wit_7_1 := 
@@ -365,16 +347,12 @@ forall (x_pre: Z) (n_pre: Z) (l: (@list Z)) (l_cur: (@list Z)) (child: Z) (PreH1
 
 Definition push_entail_wit_7_2_split_goal_1 := 
 forall (x_pre: Z) (n_pre: Z) (l: (@list Z)) (l_cur: (@list Z)) (child: Z) (PreH1 : (child <= 0)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre < 100000)) (PreH4 : (0 <= child)) (PreH5 : (child <= n_pre)) (PreH6 : ((Zlength (l)) = (n_pre + 1 ))) (PreH7 : ((Znth n_pre l 0) = x_pre)) (PreH8 : (PushLoopState l l_cur n_pre child x_pre )) (PreH9 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx_2 l_cur 0)) /\ ((Znth idx_2 l_cur 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (PriorityQueuePrefix l_cur (n_pre + 1 ) ) ”
+  (PriorityQueuePrefix l_cur (n_pre + 1 ) )
 .
 
 Definition push_entail_wit_7_2_split_goal_2 := 
 forall (x_pre: Z) (n_pre: Z) (l: (@list Z)) (l_cur: (@list Z)) (child: Z) (PreH1 : (child <= 0)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre < 100000)) (PreH4 : (0 <= child)) (PreH5 : (child <= n_pre)) (PreH6 : ((Zlength (l)) = (n_pre + 1 ))) (PreH7 : ((Znth n_pre l 0) = x_pre)) (PreH8 : (PushLoopState l l_cur n_pre child x_pre )) (PreH9 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx_2 l_cur 0)) /\ ((Znth idx_2 l_cur 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (PushResult l l_cur n_pre x_pre ) ”
+  (PushResult l l_cur n_pre x_pre )
 .
 
 Definition push_return_wit_1 := 
@@ -400,7 +378,7 @@ forall (x_pre: Z) (n_pre: Z) (heap_pre: Z) (l: (@list Z)) (PreH1 : (0 <= n_pre))
   &&  “ (x_pre <= INT_MAX) ” 
   &&  “ (MaxHeapPrefix l n_pre ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx l 0)) /\ ((Znth idx l 0) <= INT_MAX))) ”
-  &&  (((heap_pre + (n_pre * sizeof(INT) ) )) # Int  |->_)
+  &&  (((heap_pre + (n_pre * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i heap_pre n_pre 0 (n_pre + 1 ) l )
 .
 
@@ -420,7 +398,7 @@ forall (x_pre: Z) (n_pre: Z) (heap_pre: Z) (l: (@list Z)) (l_cur: (@list Z)) (ch
   &&  “ ((Znth n_pre l 0) = x_pre) ” 
   &&  “ (PushLoopState l l_cur n_pre child x_pre ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx l_cur 0)) /\ ((Znth idx l_cur 0) <= INT_MAX))) ”
-  &&  (((heap_pre + (parent * sizeof(INT) ) )) # Int  |-> (Znth (parent - 0 ) l_cur 0))
+  &&  (((heap_pre + (parent * sizeof(INT)))) # Int  |-> (Znth (parent - 0 ) l_cur 0))
   **  (IntArray.missing_i heap_pre parent 0 (n_pre + 1 ) l_cur )
 .
 
@@ -440,7 +418,7 @@ forall (x_pre: Z) (n_pre: Z) (heap_pre: Z) (l: (@list Z)) (l_cur: (@list Z)) (ch
   &&  “ ((Znth n_pre l 0) = x_pre) ” 
   &&  “ (PushLoopState l l_cur n_pre child x_pre ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx l_cur 0)) /\ ((Znth idx l_cur 0) <= INT_MAX))) ”
-  &&  (((heap_pre + (child * sizeof(INT) ) )) # Int  |-> (Znth (child - 0 ) l_cur 0))
+  &&  (((heap_pre + (child * sizeof(INT)))) # Int  |-> (Znth (child - 0 ) l_cur 0))
   **  (IntArray.missing_i heap_pre child 0 (n_pre + 1 ) l_cur )
 .
 
@@ -461,7 +439,7 @@ forall (x_pre: Z) (n_pre: Z) (heap_pre: Z) (l: (@list Z)) (l_cur: (@list Z)) (ch
   &&  “ ((Znth n_pre l 0) = x_pre) ” 
   &&  “ (PushLoopState l l_cur n_pre child x_pre ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx l_cur 0)) /\ ((Znth idx l_cur 0) <= INT_MAX))) ”
-  &&  (((heap_pre + (parent * sizeof(INT) ) )) # Int  |-> (Znth (parent - 0 ) l_cur 0))
+  &&  (((heap_pre + (parent * sizeof(INT)))) # Int  |-> (Znth (parent - 0 ) l_cur 0))
   **  (IntArray.missing_i heap_pre parent 0 (n_pre + 1 ) l_cur )
 .
 
@@ -482,7 +460,7 @@ forall (x_pre: Z) (n_pre: Z) (heap_pre: Z) (l: (@list Z)) (l_cur: (@list Z)) (ch
   &&  “ ((Znth n_pre l 0) = x_pre) ” 
   &&  “ (PushLoopState l l_cur n_pre child x_pre ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx l_cur 0)) /\ ((Znth idx l_cur 0) <= INT_MAX))) ”
-  &&  (((heap_pre + (child * sizeof(INT) ) )) # Int  |-> (Znth (child - 0 ) l_cur 0))
+  &&  (((heap_pre + (child * sizeof(INT)))) # Int  |-> (Znth (child - 0 ) l_cur 0))
   **  (IntArray.missing_i heap_pre child 0 (n_pre + 1 ) l_cur )
 .
 
@@ -503,7 +481,7 @@ forall (x_pre: Z) (n_pre: Z) (heap_pre: Z) (l: (@list Z)) (l_cur: (@list Z)) (ch
   &&  “ ((Znth n_pre l 0) = x_pre) ” 
   &&  “ (PushLoopState l l_cur n_pre child x_pre ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx l_cur 0)) /\ ((Znth idx l_cur 0) <= INT_MAX))) ”
-  &&  (((heap_pre + (parent * sizeof(INT) ) )) # Int  |->_)
+  &&  (((heap_pre + (parent * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i heap_pre parent 0 (n_pre + 1 ) l_cur )
 .
 
@@ -524,7 +502,7 @@ forall (x_pre: Z) (n_pre: Z) (heap_pre: Z) (l: (@list Z)) (l_cur: (@list Z)) (ch
   &&  “ ((Znth n_pre l 0) = x_pre) ” 
   &&  “ (PushLoopState l l_cur n_pre child x_pre ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx l_cur 0)) /\ ((Znth idx l_cur 0) <= INT_MAX))) ”
-  &&  (((heap_pre + (child * sizeof(INT) ) )) # Int  |->_)
+  &&  (((heap_pre + (child * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i heap_pre child 0 (n_pre + 1 ) (replace_Znth (parent) ((Znth (child - 0 ) l_cur 0)) (l_cur)) )
 .
 
@@ -579,16 +557,12 @@ forall (n_pre: Z) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 10000
 
 Definition build_entail_wit_1_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((INT_MIN <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (PriorityQueuePrefix l 1 ) ”
+  (PriorityQueuePrefix l 1 )
 .
 
 Definition build_entail_wit_1_split_goal_2 := 
 forall (n_pre: Z) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((INT_MIN <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (BuildPrefixState l l 1 ) ”
+  (BuildPrefixState l l 1 )
 .
 
 Definition build_entail_wit_2 := 
@@ -705,16 +679,12 @@ forall (n_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (i: Z) (PreH1 : (i >= n_pre
 
 Definition build_return_wit_1_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (BuildPrefixState l heap_l i )) (PreH8 : (PriorityQueuePrefix heap_l i )) (PreH9 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((INT_MIN <= (Znth idx_2 heap_l 0)) /\ ((Znth idx_2 heap_l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (PriorityQueuePrefix heap_l n_pre ) ”
+  (PriorityQueuePrefix heap_l n_pre )
 .
 
 Definition build_return_wit_1_split_goal_2 := 
 forall (n_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (BuildPrefixState l heap_l i )) (PreH8 : (PriorityQueuePrefix heap_l i )) (PreH9 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((INT_MIN <= (Znth idx_2 heap_l 0)) /\ ((Znth idx_2 heap_l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (BuildPrefixState l heap_l n_pre ) ”
+  (BuildPrefixState l heap_l n_pre )
 .
 
 Definition build_partial_solve_wit_1 := 
@@ -730,7 +700,7 @@ forall (n_pre: Z) (heap_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (i: Z) (PreH1
   &&  “ (BuildPrefixState l heap_l i ) ” 
   &&  “ (PriorityQueuePrefix heap_l i ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((INT_MIN <= (Znth idx heap_l 0)) /\ ((Znth idx heap_l 0) <= INT_MAX))) ”
-  &&  (((heap_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i heap_l 0))
+  &&  (((heap_pre + (i * sizeof(INT)))) # Int  |-> (Znth i heap_l 0))
   **  (IntArray.missing_i heap_pre i 0 n_pre heap_l )
 .
 
@@ -1161,9 +1131,7 @@ forall (n_pre: Z) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 10000
 
 Definition pop_entail_wit_1_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (PriorityQueuePrefix l n_pre )) (PreH5 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((INT_MIN <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (PrefixMaxValue l n_pre (Znth 0 l 0) ) ”
+  (PrefixMaxValue l n_pre (Znth 0 l 0) )
 .
 
 Definition pop_entail_wit_2 := 
@@ -1189,9 +1157,7 @@ forall (n_pre: Z) (l: (@list Z)) (ret: Z) (PreH1 : (n_pre = 1)) (PreH2 : (1 <= n
 
 Definition pop_entail_wit_2_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (ret: Z) (PreH1 : (n_pre = 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (ret = (Znth 0 l 0))) (PreH6 : (INT_MIN <= ret)) (PreH7 : (ret <= INT_MAX)) (PreH8 : (PriorityQueuePrefix l n_pre )) (PreH9 : (PrefixMaxValue l n_pre ret )) (PreH10 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((INT_MIN <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (PopResult l l n_pre ret ) ”
+  (PopResult l l n_pre ret )
 .
 
 Definition pop_entail_wit_3 := 
@@ -1222,16 +1188,12 @@ forall (n_pre: Z) (l: (@list Z)) (ret: Z) (PreH1 : (n_pre <> 1)) (PreH2 : (1 <= 
 
 Definition pop_entail_wit_3_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (ret: Z) (PreH1 : (n_pre <> 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (ret = (Znth 0 l 0))) (PreH6 : (INT_MIN <= ret)) (PreH7 : (ret <= INT_MAX)) (PreH8 : (PriorityQueuePrefix l n_pre )) (PreH9 : (PrefixMaxValue l n_pre ret )) (PreH10 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((INT_MIN <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (((INT_MIN <= (Znth 0 (replace_Znth (0) ((Znth (n_pre - 1 ) l 0)) (l)) 0)) /\ ((Znth 0 (replace_Znth (0) ((Znth (n_pre - 1 ) l 0)) (l)) 0) <= INT_MAX)) /\ ((INT_MIN <= (Znth (n_pre - 1 ) (replace_Znth (0) ((Znth (n_pre - 1 ) l 0)) (l)) 0)) /\ ((Znth (n_pre - 1 ) (replace_Znth (0) ((Znth (n_pre - 1 ) l 0)) (l)) 0) <= INT_MAX))) ”
+  (((INT_MIN <= (Znth 0 (replace_Znth (0) ((Znth (n_pre - 1 ) l 0)) (l)) 0)) /\ ((Znth 0 (replace_Znth (0) ((Znth (n_pre - 1 ) l 0)) (l)) 0) <= INT_MAX)) /\ ((INT_MIN <= (Znth (n_pre - 1 ) (replace_Znth (0) ((Znth (n_pre - 1 ) l 0)) (l)) 0)) /\ ((Znth (n_pre - 1 ) (replace_Znth (0) ((Znth (n_pre - 1 ) l 0)) (l)) 0) <= INT_MAX)))
 .
 
 Definition pop_entail_wit_3_split_goal_2 := 
 forall (n_pre: Z) (l: (@list Z)) (ret: Z) (PreH1 : (n_pre <> 1)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (ret = (Znth 0 l 0))) (PreH6 : (INT_MIN <= ret)) (PreH7 : (ret <= INT_MAX)) (PreH8 : (PriorityQueuePrefix l n_pre )) (PreH9 : (PrefixMaxValue l n_pre ret )) (PreH10 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((INT_MIN <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (PopLoopState l (replace_Znth (0) ((Znth (n_pre - 1 ) l 0)) (l)) n_pre 0 ) ”
+  (PopLoopState l (replace_Znth (0) ((Znth (n_pre - 1 ) l 0)) (l)) n_pre 0 )
 .
 
 Definition pop_entail_wit_4 := 
@@ -1313,9 +1275,7 @@ forall (n_pre: Z) (l: (@list Z)) (heap_l_2: (@list Z)) (ret: Z) (idx: Z) (left: 
 
 Definition pop_entail_wit_6_1_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (heap_l_2: (@list Z)) (ret: Z) (idx: Z) (left: Z) (right: Z) (largest: Z) (PreH1 : ((Znth left heap_l_2 0) >= (Znth right heap_l_2 0))) (PreH2 : (right < (n_pre - 1 ))) (PreH3 : (1 < n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (ret = (Znth 0 l 0))) (PreH6 : (INT_MIN <= ret)) (PreH7 : (ret <= INT_MAX)) (PreH8 : (PrefixMaxValue l n_pre ret )) (PreH9 : (0 <= idx)) (PreH10 : (idx < (n_pre - 1 ))) (PreH11 : (left = ((idx * 2 ) + 1 ))) (PreH12 : (right = (left + 1 ))) (PreH13 : (largest = left)) (PreH14 : (0 <= left)) (PreH15 : (left < (n_pre - 1 ))) (PreH16 : (0 <= right)) (PreH17 : (right <= (n_pre - 1 ))) (PreH18 : (PopLoopState l heap_l_2 n_pre idx )) (PreH19 : forall (pos_2: Z) , (((0 <= pos_2) /\ (pos_2 < n_pre)) -> ((INT_MIN <= (Znth pos_2 heap_l_2 0)) /\ ((Znth pos_2 heap_l_2 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (PopSelectedChild heap_l_2 (n_pre - 1 ) idx largest ) ”
+  (PopSelectedChild heap_l_2 (n_pre - 1 ) idx largest )
 .
 
 Definition pop_entail_wit_6_2 := 
@@ -1351,9 +1311,7 @@ forall (n_pre: Z) (l: (@list Z)) (heap_l_2: (@list Z)) (ret: Z) (idx: Z) (left: 
 
 Definition pop_entail_wit_6_2_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (heap_l_2: (@list Z)) (ret: Z) (idx: Z) (left: Z) (right: Z) (largest: Z) (PreH1 : (right >= (n_pre - 1 ))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (ret = (Znth 0 l 0))) (PreH5 : (INT_MIN <= ret)) (PreH6 : (ret <= INT_MAX)) (PreH7 : (PrefixMaxValue l n_pre ret )) (PreH8 : (0 <= idx)) (PreH9 : (idx < (n_pre - 1 ))) (PreH10 : (left = ((idx * 2 ) + 1 ))) (PreH11 : (right = (left + 1 ))) (PreH12 : (largest = left)) (PreH13 : (0 <= left)) (PreH14 : (left < (n_pre - 1 ))) (PreH15 : (0 <= right)) (PreH16 : (right <= (n_pre - 1 ))) (PreH17 : (PopLoopState l heap_l_2 n_pre idx )) (PreH18 : forall (pos_2: Z) , (((0 <= pos_2) /\ (pos_2 < n_pre)) -> ((INT_MIN <= (Znth pos_2 heap_l_2 0)) /\ ((Znth pos_2 heap_l_2 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (PopSelectedChild heap_l_2 (n_pre - 1 ) idx largest ) ”
+  (PopSelectedChild heap_l_2 (n_pre - 1 ) idx largest )
 .
 
 Definition pop_entail_wit_6_3 := 
@@ -1389,9 +1347,7 @@ forall (n_pre: Z) (l: (@list Z)) (heap_l_2: (@list Z)) (ret: Z) (idx: Z) (left: 
 
 Definition pop_entail_wit_6_3_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (heap_l_2: (@list Z)) (ret: Z) (idx: Z) (left: Z) (right: Z) (largest: Z) (PreH1 : ((Znth left heap_l_2 0) < (Znth right heap_l_2 0))) (PreH2 : (right < (n_pre - 1 ))) (PreH3 : (1 < n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (ret = (Znth 0 l 0))) (PreH6 : (INT_MIN <= ret)) (PreH7 : (ret <= INT_MAX)) (PreH8 : (PrefixMaxValue l n_pre ret )) (PreH9 : (0 <= idx)) (PreH10 : (idx < (n_pre - 1 ))) (PreH11 : (left = ((idx * 2 ) + 1 ))) (PreH12 : (right = (left + 1 ))) (PreH13 : (largest = left)) (PreH14 : (0 <= left)) (PreH15 : (left < (n_pre - 1 ))) (PreH16 : (0 <= right)) (PreH17 : (right <= (n_pre - 1 ))) (PreH18 : (PopLoopState l heap_l_2 n_pre idx )) (PreH19 : forall (pos_2: Z) , (((0 <= pos_2) /\ (pos_2 < n_pre)) -> ((INT_MIN <= (Znth pos_2 heap_l_2 0)) /\ ((Znth pos_2 heap_l_2 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (PopSelectedChild heap_l_2 (n_pre - 1 ) idx right ) ”
+  (PopSelectedChild heap_l_2 (n_pre - 1 ) idx right )
 .
 
 Definition pop_entail_wit_7 := 
@@ -1434,23 +1390,17 @@ forall (n_pre: Z) (l: (@list Z)) (heap_l_2: (@list Z)) (ret: Z) (idx: Z) (left: 
 
 Definition pop_entail_wit_7_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (heap_l_2: (@list Z)) (ret: Z) (idx: Z) (left: Z) (right: Z) (largest: Z) (PreH1 : ((Znth idx heap_l_2 0) >= (Znth largest heap_l_2 0))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (ret = (Znth 0 l 0))) (PreH5 : (INT_MIN <= ret)) (PreH6 : (ret <= INT_MAX)) (PreH7 : (PrefixMaxValue l n_pre ret )) (PreH8 : (0 <= idx)) (PreH9 : (idx < (n_pre - 1 ))) (PreH10 : (left = ((idx * 2 ) + 1 ))) (PreH11 : (right = (left + 1 ))) (PreH12 : (0 <= largest)) (PreH13 : (largest < (n_pre - 1 ))) (PreH14 : (PopSelectedChild heap_l_2 (n_pre - 1 ) idx largest )) (PreH15 : (PopLoopState l heap_l_2 n_pre idx )) (PreH16 : forall (pos_2: Z) , (((0 <= pos_2) /\ (pos_2 < n_pre)) -> ((INT_MIN <= (Znth pos_2 heap_l_2 0)) /\ ((Znth pos_2 heap_l_2 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (PopReadyState l heap_l_2 n_pre ret ) ”
+  (PopReadyState l heap_l_2 n_pre ret )
 .
 
 Definition pop_entail_wit_7_split_goal_2 := 
 forall (n_pre: Z) (l: (@list Z)) (heap_l_2: (@list Z)) (ret: Z) (idx: Z) (left: Z) (right: Z) (largest: Z) (PreH1 : ((Znth idx heap_l_2 0) >= (Znth largest heap_l_2 0))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (ret = (Znth 0 l 0))) (PreH5 : (INT_MIN <= ret)) (PreH6 : (ret <= INT_MAX)) (PreH7 : (PrefixMaxValue l n_pre ret )) (PreH8 : (0 <= idx)) (PreH9 : (idx < (n_pre - 1 ))) (PreH10 : (left = ((idx * 2 ) + 1 ))) (PreH11 : (right = (left + 1 ))) (PreH12 : (0 <= largest)) (PreH13 : (largest < (n_pre - 1 ))) (PreH14 : (PopSelectedChild heap_l_2 (n_pre - 1 ) idx largest )) (PreH15 : (PopLoopState l heap_l_2 n_pre idx )) (PreH16 : forall (pos_2: Z) , (((0 <= pos_2) /\ (pos_2 < n_pre)) -> ((INT_MIN <= (Znth pos_2 heap_l_2 0)) /\ ((Znth pos_2 heap_l_2 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (right <= (n_pre - 1 )) ”
+  (right <= (n_pre - 1 ))
 .
 
 Definition pop_entail_wit_7_split_goal_3 := 
 forall (n_pre: Z) (l: (@list Z)) (heap_l_2: (@list Z)) (ret: Z) (idx: Z) (left: Z) (right: Z) (largest: Z) (PreH1 : ((Znth idx heap_l_2 0) >= (Znth largest heap_l_2 0))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (ret = (Znth 0 l 0))) (PreH5 : (INT_MIN <= ret)) (PreH6 : (ret <= INT_MAX)) (PreH7 : (PrefixMaxValue l n_pre ret )) (PreH8 : (0 <= idx)) (PreH9 : (idx < (n_pre - 1 ))) (PreH10 : (left = ((idx * 2 ) + 1 ))) (PreH11 : (right = (left + 1 ))) (PreH12 : (0 <= largest)) (PreH13 : (largest < (n_pre - 1 ))) (PreH14 : (PopSelectedChild heap_l_2 (n_pre - 1 ) idx largest )) (PreH15 : (PopLoopState l heap_l_2 n_pre idx )) (PreH16 : forall (pos_2: Z) , (((0 <= pos_2) /\ (pos_2 < n_pre)) -> ((INT_MIN <= (Znth pos_2 heap_l_2 0)) /\ ((Znth pos_2 heap_l_2 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (left < (n_pre - 1 )) ”
+  (left < (n_pre - 1 ))
 .
 
 Definition pop_entail_wit_8 := 
@@ -1496,44 +1446,32 @@ forall (n_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (ret: Z) (idx: Z) (left: Z)
 
 Definition pop_entail_wit_8_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (ret: Z) (idx: Z) (left: Z) (right: Z) (largest: Z) (PreH1 : ((Znth idx heap_l 0) < (Znth largest heap_l 0))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (ret = (Znth 0 l 0))) (PreH5 : (INT_MIN <= ret)) (PreH6 : (ret <= INT_MAX)) (PreH7 : (PrefixMaxValue l n_pre ret )) (PreH8 : (0 <= idx)) (PreH9 : (idx < (n_pre - 1 ))) (PreH10 : (left = ((idx * 2 ) + 1 ))) (PreH11 : (right = (left + 1 ))) (PreH12 : (0 <= largest)) (PreH13 : (largest < (n_pre - 1 ))) (PreH14 : (PopSelectedChild heap_l (n_pre - 1 ) idx largest )) (PreH15 : (PopLoopState l heap_l n_pre idx )) (PreH16 : forall (pos_2: Z) , (((0 <= pos_2) /\ (pos_2 < n_pre)) -> ((INT_MIN <= (Znth pos_2 heap_l 0)) /\ ((Znth pos_2 heap_l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (((INT_MIN <= (Znth 0 (replace_Znth (largest) ((Znth idx heap_l 0)) ((replace_Znth (idx) ((Znth largest heap_l 0)) (heap_l)))) 0)) /\ ((Znth 0 (replace_Znth (largest) ((Znth idx heap_l 0)) ((replace_Znth (idx) ((Znth largest heap_l 0)) (heap_l)))) 0) <= INT_MAX)) /\ ((INT_MIN <= (Znth (n_pre - 1 ) (replace_Znth (largest) ((Znth idx heap_l 0)) ((replace_Znth (idx) ((Znth largest heap_l 0)) (heap_l)))) 0)) /\ ((Znth (n_pre - 1 ) (replace_Znth (largest) ((Znth idx heap_l 0)) ((replace_Znth (idx) ((Znth largest heap_l 0)) (heap_l)))) 0) <= INT_MAX))) ”
+  (((INT_MIN <= (Znth 0 (replace_Znth (largest) ((Znth idx heap_l 0)) ((replace_Znth (idx) ((Znth largest heap_l 0)) (heap_l)))) 0)) /\ ((Znth 0 (replace_Znth (largest) ((Znth idx heap_l 0)) ((replace_Znth (idx) ((Znth largest heap_l 0)) (heap_l)))) 0) <= INT_MAX)) /\ ((INT_MIN <= (Znth (n_pre - 1 ) (replace_Znth (largest) ((Znth idx heap_l 0)) ((replace_Znth (idx) ((Znth largest heap_l 0)) (heap_l)))) 0)) /\ ((Znth (n_pre - 1 ) (replace_Znth (largest) ((Znth idx heap_l 0)) ((replace_Znth (idx) ((Znth largest heap_l 0)) (heap_l)))) 0) <= INT_MAX)))
 .
 
 Definition pop_entail_wit_8_split_goal_2 := 
 forall (n_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (ret: Z) (idx: Z) (left: Z) (right: Z) (largest: Z) (PreH1 : ((Znth idx heap_l 0) < (Znth largest heap_l 0))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (ret = (Znth 0 l 0))) (PreH5 : (INT_MIN <= ret)) (PreH6 : (ret <= INT_MAX)) (PreH7 : (PrefixMaxValue l n_pre ret )) (PreH8 : (0 <= idx)) (PreH9 : (idx < (n_pre - 1 ))) (PreH10 : (left = ((idx * 2 ) + 1 ))) (PreH11 : (right = (left + 1 ))) (PreH12 : (0 <= largest)) (PreH13 : (largest < (n_pre - 1 ))) (PreH14 : (PopSelectedChild heap_l (n_pre - 1 ) idx largest )) (PreH15 : (PopLoopState l heap_l n_pre idx )) (PreH16 : forall (pos_2: Z) , (((0 <= pos_2) /\ (pos_2 < n_pre)) -> ((INT_MIN <= (Znth pos_2 heap_l 0)) /\ ((Znth pos_2 heap_l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (PopLoopState l (replace_Znth (largest) ((Znth idx heap_l 0)) ((replace_Znth (idx) ((Znth largest heap_l 0)) (heap_l)))) n_pre largest ) ”
+  (PopLoopState l (replace_Znth (largest) ((Znth idx heap_l 0)) ((replace_Znth (idx) ((Znth largest heap_l 0)) (heap_l)))) n_pre largest )
 .
 
 Definition pop_entail_wit_8_split_goal_3 := 
 forall (n_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (ret: Z) (idx: Z) (left: Z) (right: Z) (largest: Z) (PreH1 : ((Znth idx heap_l 0) < (Znth largest heap_l 0))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (ret = (Znth 0 l 0))) (PreH5 : (INT_MIN <= ret)) (PreH6 : (ret <= INT_MAX)) (PreH7 : (PrefixMaxValue l n_pre ret )) (PreH8 : (0 <= idx)) (PreH9 : (idx < (n_pre - 1 ))) (PreH10 : (left = ((idx * 2 ) + 1 ))) (PreH11 : (right = (left + 1 ))) (PreH12 : (0 <= largest)) (PreH13 : (largest < (n_pre - 1 ))) (PreH14 : (PopSelectedChild heap_l (n_pre - 1 ) idx largest )) (PreH15 : (PopLoopState l heap_l n_pre idx )) (PreH16 : forall (pos_2: Z) , (((0 <= pos_2) /\ (pos_2 < n_pre)) -> ((INT_MIN <= (Znth pos_2 heap_l 0)) /\ ((Znth pos_2 heap_l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ ((Znth idx heap_l 0) = (Znth largest (replace_Znth (largest) ((Znth idx heap_l 0)) ((replace_Znth (idx) ((Znth largest heap_l 0)) (heap_l)))) 0)) ”
+  ((Znth idx heap_l 0) = (Znth largest (replace_Znth (largest) ((Znth idx heap_l 0)) ((replace_Znth (idx) ((Znth largest heap_l 0)) (heap_l)))) 0))
 .
 
 Definition pop_entail_wit_8_split_goal_4 := 
 forall (n_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (ret: Z) (idx: Z) (left: Z) (right: Z) (largest: Z) (PreH1 : ((Znth idx heap_l 0) < (Znth largest heap_l 0))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (ret = (Znth 0 l 0))) (PreH5 : (INT_MIN <= ret)) (PreH6 : (ret <= INT_MAX)) (PreH7 : (PrefixMaxValue l n_pre ret )) (PreH8 : (0 <= idx)) (PreH9 : (idx < (n_pre - 1 ))) (PreH10 : (left = ((idx * 2 ) + 1 ))) (PreH11 : (right = (left + 1 ))) (PreH12 : (0 <= largest)) (PreH13 : (largest < (n_pre - 1 ))) (PreH14 : (PopSelectedChild heap_l (n_pre - 1 ) idx largest )) (PreH15 : (PopLoopState l heap_l n_pre idx )) (PreH16 : forall (pos_2: Z) , (((0 <= pos_2) /\ (pos_2 < n_pre)) -> ((INT_MIN <= (Znth pos_2 heap_l 0)) /\ ((Znth pos_2 heap_l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (idx < largest) ”
+  (idx < largest)
 .
 
 Definition pop_entail_wit_8_split_goal_5 := 
 forall (n_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (ret: Z) (idx: Z) (left: Z) (right: Z) (largest: Z) (PreH1 : ((Znth idx heap_l 0) < (Znth largest heap_l 0))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (ret = (Znth 0 l 0))) (PreH5 : (INT_MIN <= ret)) (PreH6 : (ret <= INT_MAX)) (PreH7 : (PrefixMaxValue l n_pre ret )) (PreH8 : (0 <= idx)) (PreH9 : (idx < (n_pre - 1 ))) (PreH10 : (left = ((idx * 2 ) + 1 ))) (PreH11 : (right = (left + 1 ))) (PreH12 : (0 <= largest)) (PreH13 : (largest < (n_pre - 1 ))) (PreH14 : (PopSelectedChild heap_l (n_pre - 1 ) idx largest )) (PreH15 : (PopLoopState l heap_l n_pre idx )) (PreH16 : forall (pos_2: Z) , (((0 <= pos_2) /\ (pos_2 < n_pre)) -> ((INT_MIN <= (Znth pos_2 heap_l 0)) /\ ((Znth pos_2 heap_l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (right <= (n_pre - 1 )) ”
+  (right <= (n_pre - 1 ))
 .
 
 Definition pop_entail_wit_8_split_goal_6 := 
 forall (n_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (ret: Z) (idx: Z) (left: Z) (right: Z) (largest: Z) (PreH1 : ((Znth idx heap_l 0) < (Znth largest heap_l 0))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (ret = (Znth 0 l 0))) (PreH5 : (INT_MIN <= ret)) (PreH6 : (ret <= INT_MAX)) (PreH7 : (PrefixMaxValue l n_pre ret )) (PreH8 : (0 <= idx)) (PreH9 : (idx < (n_pre - 1 ))) (PreH10 : (left = ((idx * 2 ) + 1 ))) (PreH11 : (right = (left + 1 ))) (PreH12 : (0 <= largest)) (PreH13 : (largest < (n_pre - 1 ))) (PreH14 : (PopSelectedChild heap_l (n_pre - 1 ) idx largest )) (PreH15 : (PopLoopState l heap_l n_pre idx )) (PreH16 : forall (pos_2: Z) , (((0 <= pos_2) /\ (pos_2 < n_pre)) -> ((INT_MIN <= (Znth pos_2 heap_l 0)) /\ ((Znth pos_2 heap_l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (left < (n_pre - 1 )) ”
+  (left < (n_pre - 1 ))
 .
 
 Definition pop_entail_wit_9 := 
@@ -1567,9 +1505,7 @@ forall (n_pre: Z) (l: (@list Z)) (heap_l_2: (@list Z)) (ret: Z) (idx: Z) (left: 
 
 Definition pop_entail_wit_9_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (heap_l_2: (@list Z)) (ret: Z) (idx: Z) (left: Z) (right: Z) (largest: Z) (tmp: Z) (PreH1 : (1 < n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (ret = (Znth 0 l 0))) (PreH4 : (INT_MIN <= ret)) (PreH5 : (ret <= INT_MAX)) (PreH6 : (PrefixMaxValue l n_pre ret )) (PreH7 : (0 <= idx)) (PreH8 : (idx < (n_pre - 1 ))) (PreH9 : (left = ((idx * 2 ) + 1 ))) (PreH10 : (right = (left + 1 ))) (PreH11 : (0 <= left)) (PreH12 : (left < (n_pre - 1 ))) (PreH13 : (0 <= right)) (PreH14 : (right <= (n_pre - 1 ))) (PreH15 : (0 <= largest)) (PreH16 : (largest < (n_pre - 1 ))) (PreH17 : (idx < largest)) (PreH18 : (tmp = (Znth largest heap_l_2 0))) (PreH19 : (PopLoopState l heap_l_2 n_pre largest )) (PreH20 : forall (pos_2: Z) , (((0 <= pos_2) /\ (pos_2 < n_pre)) -> ((INT_MIN <= (Znth pos_2 heap_l_2 0)) /\ ((Znth pos_2 heap_l_2 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ ((Zlength (l)) = n_pre) ”
+  ((Zlength (l)) = n_pre)
 .
 
 Definition pop_entail_wit_10_1 := 
@@ -1618,9 +1554,7 @@ forall (n_pre: Z) (l: (@list Z)) (heap_l_2: (@list Z)) (idx: Z) (ret: Z) (PreH1 
 
 Definition pop_entail_wit_10_2_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (heap_l_2: (@list Z)) (idx: Z) (ret: Z) (PreH1 : (((idx * 2 ) + 1 ) >= (n_pre - 1 ))) (PreH2 : (1 < n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (ret = (Znth 0 l 0))) (PreH6 : (INT_MIN <= ret)) (PreH7 : (ret <= INT_MAX)) (PreH8 : (PrefixMaxValue l n_pre ret )) (PreH9 : (0 <= idx)) (PreH10 : (idx < (n_pre - 1 ))) (PreH11 : (0 <= ((idx * 2 ) + 1 ))) (PreH12 : (((idx * 2 ) + 1 ) <= INT_MAX)) (PreH13 : (PopLoopState l heap_l_2 n_pre idx )) (PreH14 : forall (pos_2: Z) , (((0 <= pos_2) /\ (pos_2 < n_pre)) -> ((INT_MIN <= (Znth pos_2 heap_l_2 0)) /\ ((Znth pos_2 heap_l_2 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (PopReadyState l heap_l_2 n_pre ret ) ”
+  (PopReadyState l heap_l_2 n_pre ret )
 .
 
 Definition pop_entail_wit_11 := 
@@ -1652,16 +1586,12 @@ forall (n_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (ret: Z) (idx: Z) (PreH1 : 
 
 Definition pop_entail_wit_11_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (ret: Z) (idx: Z) (PreH1 : (1 < n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (ret = (Znth 0 l 0))) (PreH4 : (INT_MIN <= ret)) (PreH5 : (ret <= INT_MAX)) (PreH6 : (PrefixMaxValue l n_pre ret )) (PreH7 : (0 <= idx)) (PreH8 : (idx < (n_pre - 1 ))) (PreH9 : (PopReadyState l heap_l n_pre ret )) (PreH10 : forall (pos_2: Z) , (((0 <= pos_2) /\ (pos_2 < n_pre)) -> ((INT_MIN <= (Znth pos_2 heap_l 0)) /\ ((Znth pos_2 heap_l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (((INT_MIN <= (Znth 0 (replace_Znth ((n_pre - 1 )) (ret) (heap_l)) 0)) /\ ((Znth 0 (replace_Znth ((n_pre - 1 )) (ret) (heap_l)) 0) <= INT_MAX)) /\ ((INT_MIN <= (Znth (n_pre - 1 ) (replace_Znth ((n_pre - 1 )) (ret) (heap_l)) 0)) /\ ((Znth (n_pre - 1 ) (replace_Znth ((n_pre - 1 )) (ret) (heap_l)) 0) <= INT_MAX))) ”
+  (((INT_MIN <= (Znth 0 (replace_Znth ((n_pre - 1 )) (ret) (heap_l)) 0)) /\ ((Znth 0 (replace_Znth ((n_pre - 1 )) (ret) (heap_l)) 0) <= INT_MAX)) /\ ((INT_MIN <= (Znth (n_pre - 1 ) (replace_Znth ((n_pre - 1 )) (ret) (heap_l)) 0)) /\ ((Znth (n_pre - 1 ) (replace_Znth ((n_pre - 1 )) (ret) (heap_l)) 0) <= INT_MAX)))
 .
 
 Definition pop_entail_wit_11_split_goal_2 := 
 forall (n_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (ret: Z) (idx: Z) (PreH1 : (1 < n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (ret = (Znth 0 l 0))) (PreH4 : (INT_MIN <= ret)) (PreH5 : (ret <= INT_MAX)) (PreH6 : (PrefixMaxValue l n_pre ret )) (PreH7 : (0 <= idx)) (PreH8 : (idx < (n_pre - 1 ))) (PreH9 : (PopReadyState l heap_l n_pre ret )) (PreH10 : forall (pos_2: Z) , (((0 <= pos_2) /\ (pos_2 < n_pre)) -> ((INT_MIN <= (Znth pos_2 heap_l 0)) /\ ((Znth pos_2 heap_l 0) <= INT_MAX)))) ,
-  TT && emp 
-|--
-  “ (PopResult l (replace_Znth ((n_pre - 1 )) (ret) (heap_l)) n_pre ret ) ”
+  (PopResult l (replace_Znth ((n_pre - 1 )) (ret) (heap_l)) n_pre ret )
 .
 
 Definition pop_return_wit_1 := 
@@ -1697,7 +1627,7 @@ forall (n_pre: Z) (heap_pre: Z) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (
   &&  “ ((Zlength (l)) = n_pre) ” 
   &&  “ (PriorityQueuePrefix l n_pre ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((INT_MIN <= (Znth idx l 0)) /\ ((Znth idx l 0) <= INT_MAX))) ”
-  &&  (((heap_pre + (0 * sizeof(INT) ) )) # Int  |-> (Znth 0 l 0))
+  &&  (((heap_pre + (0 * sizeof(INT)))) # Int  |-> (Znth 0 l 0))
   **  (IntArray.missing_i heap_pre 0 0 n_pre l )
 .
 
@@ -1715,7 +1645,7 @@ forall (n_pre: Z) (heap_pre: Z) (l: (@list Z)) (ret: Z) (PreH1 : (n_pre <> 1)) (
   &&  “ (PriorityQueuePrefix l n_pre ) ” 
   &&  “ (PrefixMaxValue l n_pre ret ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((INT_MIN <= (Znth idx l 0)) /\ ((Znth idx l 0) <= INT_MAX))) ”
-  &&  (((heap_pre + ((n_pre - 1 ) * sizeof(INT) ) )) # Int  |-> (Znth (n_pre - 1 ) l 0))
+  &&  (((heap_pre + ((n_pre - 1 ) * sizeof(INT)))) # Int  |-> (Znth (n_pre - 1 ) l 0))
   **  (IntArray.missing_i heap_pre (n_pre - 1 ) 0 n_pre l )
 .
 
@@ -1733,7 +1663,7 @@ forall (n_pre: Z) (heap_pre: Z) (l: (@list Z)) (ret: Z) (PreH1 : (n_pre <> 1)) (
   &&  “ (PriorityQueuePrefix l n_pre ) ” 
   &&  “ (PrefixMaxValue l n_pre ret ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((INT_MIN <= (Znth idx l 0)) /\ ((Znth idx l 0) <= INT_MAX))) ”
-  &&  (((heap_pre + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((heap_pre + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i heap_pre 0 0 n_pre l )
 .
 
@@ -1759,7 +1689,7 @@ forall (n_pre: Z) (heap_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (ret: Z) (idx
   &&  “ (right <= (n_pre - 1 )) ” 
   &&  “ (PopLoopState l heap_l n_pre idx ) ” 
   &&  “ forall (pos: Z) , (((0 <= pos) /\ (pos < n_pre)) -> ((INT_MIN <= (Znth pos heap_l 0)) /\ ((Znth pos heap_l 0) <= INT_MAX))) ”
-  &&  (((heap_pre + (left * sizeof(INT) ) )) # Int  |-> (Znth left heap_l 0))
+  &&  (((heap_pre + (left * sizeof(INT)))) # Int  |-> (Znth left heap_l 0))
   **  (IntArray.missing_i heap_pre left 0 n_pre heap_l )
 .
 
@@ -1785,7 +1715,7 @@ forall (n_pre: Z) (heap_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (ret: Z) (idx
   &&  “ (right <= (n_pre - 1 )) ” 
   &&  “ (PopLoopState l heap_l n_pre idx ) ” 
   &&  “ forall (pos: Z) , (((0 <= pos) /\ (pos < n_pre)) -> ((INT_MIN <= (Znth pos heap_l 0)) /\ ((Znth pos heap_l 0) <= INT_MAX))) ”
-  &&  (((heap_pre + (right * sizeof(INT) ) )) # Int  |-> (Znth right heap_l 0))
+  &&  (((heap_pre + (right * sizeof(INT)))) # Int  |-> (Znth right heap_l 0))
   **  (IntArray.missing_i heap_pre right 0 n_pre heap_l )
 .
 
@@ -1808,7 +1738,7 @@ forall (n_pre: Z) (heap_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (ret: Z) (idx
   &&  “ (PopSelectedChild heap_l (n_pre - 1 ) idx largest ) ” 
   &&  “ (PopLoopState l heap_l n_pre idx ) ” 
   &&  “ forall (pos: Z) , (((0 <= pos) /\ (pos < n_pre)) -> ((INT_MIN <= (Znth pos heap_l 0)) /\ ((Znth pos heap_l 0) <= INT_MAX))) ”
-  &&  (((heap_pre + (idx * sizeof(INT) ) )) # Int  |-> (Znth idx heap_l 0))
+  &&  (((heap_pre + (idx * sizeof(INT)))) # Int  |-> (Znth idx heap_l 0))
   **  (IntArray.missing_i heap_pre idx 0 n_pre heap_l )
 .
 
@@ -1831,7 +1761,7 @@ forall (n_pre: Z) (heap_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (ret: Z) (idx
   &&  “ (PopSelectedChild heap_l (n_pre - 1 ) idx largest ) ” 
   &&  “ (PopLoopState l heap_l n_pre idx ) ” 
   &&  “ forall (pos: Z) , (((0 <= pos) /\ (pos < n_pre)) -> ((INT_MIN <= (Znth pos heap_l 0)) /\ ((Znth pos heap_l 0) <= INT_MAX))) ”
-  &&  (((heap_pre + (largest * sizeof(INT) ) )) # Int  |-> (Znth largest heap_l 0))
+  &&  (((heap_pre + (largest * sizeof(INT)))) # Int  |-> (Znth largest heap_l 0))
   **  (IntArray.missing_i heap_pre largest 0 n_pre heap_l )
 .
 
@@ -1855,7 +1785,7 @@ forall (n_pre: Z) (heap_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (ret: Z) (idx
   &&  “ (PopSelectedChild heap_l (n_pre - 1 ) idx largest ) ” 
   &&  “ (PopLoopState l heap_l n_pre idx ) ” 
   &&  “ forall (pos: Z) , (((0 <= pos) /\ (pos < n_pre)) -> ((INT_MIN <= (Znth pos heap_l 0)) /\ ((Znth pos heap_l 0) <= INT_MAX))) ”
-  &&  (((heap_pre + (idx * sizeof(INT) ) )) # Int  |-> (Znth idx heap_l 0))
+  &&  (((heap_pre + (idx * sizeof(INT)))) # Int  |-> (Znth idx heap_l 0))
   **  (IntArray.missing_i heap_pre idx 0 n_pre heap_l )
 .
 
@@ -1879,7 +1809,7 @@ forall (n_pre: Z) (heap_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (ret: Z) (idx
   &&  “ (PopSelectedChild heap_l (n_pre - 1 ) idx largest ) ” 
   &&  “ (PopLoopState l heap_l n_pre idx ) ” 
   &&  “ forall (pos: Z) , (((0 <= pos) /\ (pos < n_pre)) -> ((INT_MIN <= (Znth pos heap_l 0)) /\ ((Znth pos heap_l 0) <= INT_MAX))) ”
-  &&  (((heap_pre + (largest * sizeof(INT) ) )) # Int  |-> (Znth largest heap_l 0))
+  &&  (((heap_pre + (largest * sizeof(INT)))) # Int  |-> (Znth largest heap_l 0))
   **  (IntArray.missing_i heap_pre largest 0 n_pre heap_l )
 .
 
@@ -1903,7 +1833,7 @@ forall (n_pre: Z) (heap_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (ret: Z) (idx
   &&  “ (PopSelectedChild heap_l (n_pre - 1 ) idx largest ) ” 
   &&  “ (PopLoopState l heap_l n_pre idx ) ” 
   &&  “ forall (pos: Z) , (((0 <= pos) /\ (pos < n_pre)) -> ((INT_MIN <= (Znth pos heap_l 0)) /\ ((Znth pos heap_l 0) <= INT_MAX))) ”
-  &&  (((heap_pre + (idx * sizeof(INT) ) )) # Int  |->_)
+  &&  (((heap_pre + (idx * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i heap_pre idx 0 n_pre heap_l )
 .
 
@@ -1927,7 +1857,7 @@ forall (n_pre: Z) (heap_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (ret: Z) (idx
   &&  “ (PopSelectedChild heap_l (n_pre - 1 ) idx largest ) ” 
   &&  “ (PopLoopState l heap_l n_pre idx ) ” 
   &&  “ forall (pos: Z) , (((0 <= pos) /\ (pos < n_pre)) -> ((INT_MIN <= (Znth pos heap_l 0)) /\ ((Znth pos heap_l 0) <= INT_MAX))) ”
-  &&  (((heap_pre + (largest * sizeof(INT) ) )) # Int  |->_)
+  &&  (((heap_pre + (largest * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i heap_pre largest 0 n_pre (replace_Znth (idx) ((Znth largest heap_l 0)) (heap_l)) )
 .
 
@@ -1945,7 +1875,7 @@ forall (n_pre: Z) (heap_pre: Z) (l: (@list Z)) (heap_l: (@list Z)) (ret: Z) (idx
   &&  “ (idx < (n_pre - 1 )) ” 
   &&  “ (PopReadyState l heap_l n_pre ret ) ” 
   &&  “ forall (pos: Z) , (((0 <= pos) /\ (pos < n_pre)) -> ((INT_MIN <= (Znth pos heap_l 0)) /\ ((Znth pos heap_l 0) <= INT_MAX))) ”
-  &&  (((heap_pre + ((n_pre - 1 ) * sizeof(INT) ) )) # Int  |->_)
+  &&  (((heap_pre + ((n_pre - 1 ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i heap_pre (n_pre - 1 ) 0 n_pre heap_l )
 .
 

@@ -178,6 +178,26 @@ Proof.
       exact H.
 Qed.
 
+Lemma sllseg_unfold_head : forall p q l,
+  p <> q ->
+  sllseg p q l |--
+  EX a z l',
+    “ l = a :: l' ” &&
+    &(p # "list" ->ₛ "data") # Int |-> a **
+    &(p # "list" ->ₛ "next") # Ptr |-> z **
+    sllseg z q l'.
+Proof.
+  intros p q l Hpq.
+  destruct l as [| a l'].
+  - simpl.
+    Intros_p Heq.
+    destruct (Hpq Heq).
+  - simpl.
+    Intros z.
+    Exists a z l'.
+    entailer!.
+Qed.
+
 Lemma sllbseg_2_sllseg: forall x y z l,
   sllbseg x y l ** y # Ptr |-> z |--
   EX y': addr, x # Ptr |-> y' ** sllseg y' z l.

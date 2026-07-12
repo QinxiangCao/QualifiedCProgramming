@@ -44,9 +44,3 @@ Proof.
   destruct (Z.eq_dec c_pre 0) ; try lia.
   destruct (Z_lt_ge_dec (a_pre * b_pre ÷ c_pre) 0) ; try lia.
 Qed.
-
-Lemma proof_of_div_test_safety_wit_3 : div_test_safety_wit_3.
-Proof. pre_process. Qed.
-
-Lemma proof_of_div_test_safety_wit_4 : div_test_safety_wit_4.
-Proof. pre_process. Qed.

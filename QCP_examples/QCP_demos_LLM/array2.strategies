@@ -14,6 +14,20 @@ action : right_erase(1);
          left_add(IntArray::missing_i(p + (i * m * sizeof(I32)), j, 0, m, rows[i]));
          right_add(v == Znth{Z}(j, rows[i], 0));
 
+id : 6
+priority : core(1)
+left : IntArray2::full(?p, ?n, ?m, ?rows) at 0
+right : data_at(pointer_offset(?p, ((?i * ?m) + ?j), I32), I32, ?v) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(0 <= j);
+        infer(j < m);
+action : right_erase(1);
+         left_erase(0);
+         left_add(IntArray2::missing_i(p, i, 0, n, m, rows));
+         left_add(IntArray::missing_i(pointer_offset(p, (i * m), I32), j, 0, m, rows[i]));
+         right_add(v == Znth{Z}(j, rows[i], 0));
+
 id : 2
 priority : post(1)
 left : IntArray2::missing_i(?p, ?i, 0, ?n, ?m, ?rows) at 0

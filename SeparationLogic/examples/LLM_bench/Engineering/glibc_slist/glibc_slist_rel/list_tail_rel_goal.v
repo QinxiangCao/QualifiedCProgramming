@@ -85,9 +85,7 @@ forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) 
 
 Definition list_tail_entail_wit_1_split_goal_1 := 
 forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (PreH1 : (x_pre <> 0)) (PreH2 : (safeExec ATrue (list_tail_M (l1_low_level_spec)) X_low_level_spec )) (PreH3 : (x_pre <> 0)) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (bind ((list_tail_M_loop ((@nil Z)) (l1_low_level_spec))) (list_tail_M_loop_end)) X_low_level_spec ) ”
+  (safeExec ATrue (bind ((list_tail_M_loop ((@nil Z)) (l1_low_level_spec))) (list_tail_M_loop_end)) X_low_level_spec )
 .
 
 Definition list_tail_entail_wit_2 := 

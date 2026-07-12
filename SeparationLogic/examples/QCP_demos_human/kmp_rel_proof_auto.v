@@ -95,6 +95,9 @@ Proof. Admitted.
 Lemma proof_of_constr_partial_solve_wit_6 : constr_partial_solve_wit_6.
 Proof. Admitted. 
 
+Lemma proof_of_constr_partial_solve_wit_7 : constr_partial_solve_wit_7.
+Proof. Admitted. 
+
 Lemma proof_of_match_safety_wit_1 : match_safety_wit_1.
 Proof. Admitted. 
 

@@ -392,7 +392,8 @@ Proof.
   - unfold string_lib.store_string, string_lib.string_length,
       string_lib.c_string in *.
     cancel (CharArray.full src_pre (Zlength src_str + 1) (src_str ++ 0 :: nil)).
-    cancel (CharArray.undef_seg dest_pre (Zlength dst_str + (j + 1) + 1)
+    replace (Zlength dst_str + (j + 1) + 1) with (Zlength dst_str + j + 1 + 1) by lia. 
+    cancel (CharArray.undef_seg dest_pre (Zlength dst_str + j + 1 + 1)
       (Zlength dst_str + n_pre + 1)).
     replace (((dst_str ++ sublist 0 j src_str) ++
                 Znth j (src_str ++ 0 :: nil) 0 :: nil) ++ 0 :: nil)

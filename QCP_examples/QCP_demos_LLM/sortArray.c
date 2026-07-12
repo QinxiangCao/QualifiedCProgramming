@@ -4,7 +4,7 @@
 
 /*@ Extern Coq (Permutation : list Z -> list Z -> Prop) */
 /*@ Extern Coq (increasing : list Z -> Prop) */
-/*@ Extern Coq (strict_upperbound : Z -> list Z -> Prop) */
+/*@ Extern Coq (strict_lowerbound : Z -> list Z -> Prop) */
 /*@ Import Coq Require Import SimpleC.EE.QCP_demos_LLM.sortArray_lib */
 
 int* sortArray(int* nums, int numsSize, int* returnSize) 
@@ -42,7 +42,7 @@ int* sortArray(int* nums, int numsSize, int* returnSize)
                 l0 == app(l2, l3) &&
                 l5 == app(app(l2, cons(Znth(j+1, l0, key), l3)), l4) &&
                 0 <= j + 1 && j + 1 == Zlength(l2) && j + 1 <= i && j + 1 < numsSize &&
-                strict_upperbound(key, l3) &&
+                strict_lowerbound(key, l3) &&
                 *returnSize == numsSize@pre &&
                 IntArray::full(nums, numsSize, l5)
         */

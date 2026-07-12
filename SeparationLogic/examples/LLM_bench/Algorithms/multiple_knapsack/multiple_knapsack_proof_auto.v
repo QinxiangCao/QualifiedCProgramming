@@ -53,6 +53,9 @@ Proof. Admitted.
 Lemma proof_of_multipleKnapsack_safety_wit_11 : multipleKnapsack_safety_wit_11.
 Proof. Admitted. 
 
+Lemma proof_of_multipleKnapsack_safety_wit_13 : multipleKnapsack_safety_wit_13.
+Proof. Admitted. 
+
 Lemma proof_of_multipleKnapsack_safety_wit_14 : multipleKnapsack_safety_wit_14.
 Proof. Admitted. 
 

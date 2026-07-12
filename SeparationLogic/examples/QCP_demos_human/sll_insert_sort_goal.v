@@ -448,6 +448,13 @@ forall (l: (@list Z)) (p: Z) (l0_2: (@list Z)) (l1: (@list Z)) (l2: (@list Z)) (
   “ (Permutation l l0_2 ) ”
 .
 
+Definition insertion_sort_return_wit_1_split_goal_spatial := 
+forall (l: (@list Z)) (p: Z) (l0_2: (@list Z)) (l1: (@list Z)) (l2: (@list Z)) (PreH1 : (p = 0)) (PreH2 : (l = (app (l1) (l2)))) (PreH3 : (Permutation l1 l0_2 )) (PreH4 : (increasing l0_2 )) ,
+  (sll p l2 )
+|--
+  TT && emp 
+.
+
 Definition insertion_sort_partial_solve_wit_1_pure := 
 forall (x_pre: Z) (l: (@list Z)) (p: Z) (res: Z) (l0: (@list Z)) (l1: (@list Z)) (l2: (@list Z)) (PreH1 : (p <> 0)) (PreH2 : (l = (app (l1) (l2)))) (PreH3 : (Permutation l1 l0 )) (PreH4 : (increasing l0 )) ,
   ((( &( "res" ) )) # Ptr  |-> res)

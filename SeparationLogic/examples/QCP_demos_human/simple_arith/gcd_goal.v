@@ -70,9 +70,7 @@ forall (y_pre: Z) (x_pre: Z) (retval: Z) (PreH1 : (retval = (Zgcd (y_pre) ((x_pr
 
 Definition gcd_return_wit_1_split_goal_1 := 
 forall (y_pre: Z) (x_pre: Z) (retval: Z) (PreH1 : (retval = (Zgcd (y_pre) ((x_pre % ( y_pre ) ))))) (PreH2 : (y_pre <> 0)) (PreH3 : (x_pre <= INT_MAX)) (PreH4 : (y_pre <= INT_MAX)) (PreH5 : (y_pre >= INT_MIN)) (PreH6 : (INT_MIN < x_pre)) (PreH7 : (INT_MIN < y_pre)) ,
-  TT && emp 
-|--
-  “ (retval = (Zgcd (x_pre) (y_pre))) ”
+  (retval = (Zgcd (x_pre) (y_pre)))
 .
 
 Definition gcd_return_wit_2 := 
@@ -93,9 +91,7 @@ forall (y_pre: Z) (x_pre: Z) (retval: Z) (PreH1 : (retval = (Zabs (x_pre)))) (Pr
 
 Definition gcd_return_wit_2_split_goal_1 := 
 forall (y_pre: Z) (x_pre: Z) (retval: Z) (PreH1 : (retval = (Zabs (x_pre)))) (PreH2 : (y_pre = 0)) (PreH3 : (x_pre <= INT_MAX)) (PreH4 : (y_pre <= INT_MAX)) (PreH5 : (y_pre >= INT_MIN)) (PreH6 : (INT_MIN < x_pre)) (PreH7 : (INT_MIN < y_pre)) ,
-  TT && emp 
-|--
-  “ (retval = (Zgcd (x_pre) (y_pre))) ”
+  (retval = (Zgcd (x_pre) (y_pre)))
 .
 
 Definition gcd_partial_solve_wit_1_pure := 

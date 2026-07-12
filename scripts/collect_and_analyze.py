@@ -28,13 +28,28 @@ OUT_STATS_JSON = 'examples_strategies_stats.json'
 OUT_STATS_PY = 'examples_strategies_stats.py'
 OUT_STATS_CSV = 'examples_strategies_stats.csv'
 
+CASE_ROOT_PREFIXES = (
+    'Applications_human',
+    'QCP_demos_human',
+    'QCP_demos_tutorial',
+    'QCP_demos_LLM',
+)
+
+
+def normalize_case_relative_path(path):
+    for prefix in CASE_ROOT_PREFIXES:
+        head = prefix + os.sep
+        if path.startswith(head):
+            return path[len(head):]
+    return path
+
 
 def collect_lists(base=BASE_DIR):
     examples = []
     strategies = []
     for root, dirs, files in os.walk(base):
         for fn in files:
-            rel = os.path.relpath(os.path.join(root, fn), base)
+            rel = os.path.relpath(os.path.join(root, fn), base).replace(os.sep, '/')
             if fn.endswith('.c'):
                 examples.append(rel)
             elif fn.endswith('.strategies'):
@@ -324,8 +339,14 @@ def count_manual_proof_stats(manual_rel):
 
 def get_category_for(path, base, categories_map=None):
     # Priority: explicit categories.json mapping -> header comment -> directory name -> 'uncategorized'
+    logical_path = normalize_case_relative_path(path)
+
     if categories_map:
         val = categories_map.get(path)
+        if val and str(val).strip():
+            return str(val).strip()
+
+        val = categories_map.get(logical_path)
         if val and str(val).strip():
             return str(val).strip()
 
@@ -342,7 +363,7 @@ def get_category_for(path, base, categories_map=None):
                     return m.group(1)
 
     # fallback to top-level directory name
-    parts = path.split(os.sep)
+    parts = logical_path.split(os.sep)
     if len(parts) > 1:
         return parts[0]
     return 'uncategorized'
@@ -907,7 +928,12 @@ def main():
 
     # If categories mapping exists, ensure all examples are annotated (non-empty)
     if categories_map:
-        uncategorized = [p for p in examples if p not in categories_map or str(categories_map.get(p, '')).strip() == '']
+        uncategorized = []
+        for p in examples:
+            direct = str(categories_map.get(p, '')).strip()
+            normalized = str(categories_map.get(normalize_case_relative_path(p), '')).strip()
+            if not direct and not normalized:
+                uncategorized.append(p)
         if uncategorized:
             # Append uncategorized entries to categories.json (preserve original order, add new keys at end)
             merged = OrderedDict()

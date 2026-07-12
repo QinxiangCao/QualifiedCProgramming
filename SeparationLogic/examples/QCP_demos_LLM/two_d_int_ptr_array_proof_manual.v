@@ -167,9 +167,8 @@ Proof.
       (IntArray.full row_ptr (Zlength (Znth i rows __default__List_Z))
         (Znth i rows __default__List_Z)).
     entailer!.
-    rewrite sizeof_ptr.
-    cancel.
 Qed.
+
 Lemma proof_of_max_fill_entail_wit_3_split_goal_1 : max_fill_entail_wit_3_split_goal_1.
 Proof. Abort.
 

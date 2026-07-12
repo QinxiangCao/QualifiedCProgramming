@@ -1,0 +1,7 @@
+; Converted from:
+; - _CoqProject: -R SeparationLogic/Common SimpleC.Common
+; - SeparationLogic/_CoqProject: -R Common SimpleC.Common
+(coq.theory
+ (name SimpleC.Common))
+
+(include_subdirs qualified)

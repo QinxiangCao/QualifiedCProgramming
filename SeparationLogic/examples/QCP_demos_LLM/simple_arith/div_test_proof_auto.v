@@ -26,6 +26,12 @@ Proof. Admitted.
 Lemma proof_of_div_test_safety_wit_2 : div_test_safety_wit_2.
 Proof. Admitted. 
 
+Lemma proof_of_div_test_safety_wit_3 : div_test_safety_wit_3.
+Proof. Admitted. 
+
+Lemma proof_of_div_test_safety_wit_4 : div_test_safety_wit_4.
+Proof. Admitted. 
+
 Lemma proof_of_div_test_safety_wit_5 : div_test_safety_wit_5.
 Proof. Admitted. 
 

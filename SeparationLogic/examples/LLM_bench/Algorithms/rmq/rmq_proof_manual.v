@@ -29,11 +29,6 @@ Proof.
   - eapply worker_Power2_plus_n_int_bound_30; eauto.
 Qed.
 
-Lemma proof_of_build_safety_wit_20 : build_safety_wit_20.
-Proof.
-  pre_process.
-Qed.
-
 Lemma proof_of_build_safety_wit_26 : build_safety_wit_26.
 Proof.
   pre_process.
@@ -364,26 +359,6 @@ Proof.
            Hk_nonneg & Hk_lt & Hpow & Hpow_len);
         lia
     end.
-Qed.
-
-Lemma proof_of_query_safety_wit_12 : query_safety_wit_12.
-Proof.
-  pre_process.
-Qed.
-
-Lemma proof_of_query_safety_wit_14 : query_safety_wit_14.
-Proof.
-  pre_process.
-Qed.
-
-Lemma proof_of_query_safety_wit_15 : query_safety_wit_15.
-Proof.
-  pre_process.
-Qed.
-
-Lemma proof_of_query_safety_wit_16 : query_safety_wit_16.
-Proof.
-  pre_process.
 Qed.
 
 Lemma proof_of_query_entail_wit_1 : query_entail_wit_1.

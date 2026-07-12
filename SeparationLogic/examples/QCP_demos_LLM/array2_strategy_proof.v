@@ -63,3 +63,24 @@ m (Znth i rows __default_app1_Z)) with (IntArray.full (p + i * m * sizeof ( INT 
   rewrite replace_Znth_Znth by lia.
   cancel.
 Qed.
+
+
+Lemma array2_strategy6_correctness : array2_strategy6.
+Proof.
+  pre_process_default.
+  prop_apply (IntArray2.full_Zlength p n m rows). Intros.
+  sep_apply (IntArray2.full_split_to_missing_i p i n m rows) ; try lia.
+  entailer!.
+  replace (Znth i rows nil) with (Znth i rows __default_app1_Z).
+  change (IntArray2.ElemArray.full (IntArray2.row_addr p m i) m (Znth i rows __default_app1_Z)) with
+    (IntArray.full (p + i * m * sizeof ( INT )) m (Znth i rows __default_app1_Z)).
+  sep_apply (IntArray.full_split_to_missing_i (p + i * m * sizeof ( INT )) j m (Znth i rows __default_app1_Z ) 0) ; try lia.
+  entailer!.
+  Intros_r v.
+  pre_process_default.
+  Intros. subst.
+  replace ((i * m + j) * sizeof ( INT )) with (i * m * sizeof ( INT ) + j * sizeof ( INT )) by lia.
+  rewrite Z.add_assoc.
+  entailer!.
+  apply Znth_indep ; try lia.
+Qed.

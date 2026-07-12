@@ -98,10 +98,6 @@ int arr_sum_update(int n, int *a)
     */
     ret += a[i];
     a[i] = 0;
-    /*@ 0 <= i && i < n@pre && a == a@pre && n@pre == Zlength(l) && IntArray::missing_i(a, i, 0, n@pre, app(zeros(i), sublist(i, n@pre, l))) * store(a + (i * sizeof(int)), int, 0)
-        which implies
-        a == a@pre && IntArray::full(a, n@pre, app(zeros(i + 1), sublist(i + 1, n@pre, l)))
-    */
   }
   return ret;
 }

@@ -105,9 +105,7 @@ forall (x_pre: Z) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) 
 
 Definition glibc_slist_clean_merge_entail_wit_1_split_goal_1 := 
 forall (x_pre: Z) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (PreH1 : (x_pre <> 0)) (PreH2 : (safeExec ATrue (glibc_slist_clean_merge_M (l1_low_level_spec) (l2_low_level_spec)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (bind ((glibc_slist_clean_merge_M_loop ((@nil Z)) (l1_low_level_spec) (l2_low_level_spec))) (glibc_slist_clean_merge_M_after_loop)) X_low_level_spec ) ”
+  (safeExec ATrue (bind ((glibc_slist_clean_merge_M_loop ((@nil Z)) (l1_low_level_spec) (l2_low_level_spec))) (glibc_slist_clean_merge_M_after_loop)) X_low_level_spec )
 .
 
 Definition glibc_slist_clean_merge_entail_wit_2 := 
@@ -221,6 +219,13 @@ forall (x_pre: Z) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) 
   (sll x_pre l1_low_level_spec )
 |--
   “ (safeExec ATrue (return (l2_low_level_spec)) X_low_level_spec ) ”
+.
+
+Definition glibc_slist_clean_merge_return_wit_3_split_goal_spatial := 
+forall (x_pre: Z) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (PreH1 : (x_pre = 0)) (PreH2 : (safeExec ATrue (glibc_slist_clean_merge_M (l1_low_level_spec) (l2_low_level_spec)) X_low_level_spec )) ,
+  (sll x_pre l1_low_level_spec )
+|--
+  TT && emp 
 .
 
 Definition glibc_slist_clean_merge_partial_solve_wit_1 := 

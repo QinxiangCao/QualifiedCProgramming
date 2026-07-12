@@ -20,18 +20,6 @@ Local Open Scope list.
 Import naive_C_Rules.
 Local Open Scope sac.
 
-Fixpoint nondecreasing_from (x : Z) (l : list Z) : Prop :=
-  match l with
-  | nil => True
-  | y :: l' => x <= y /\ nondecreasing_from y l'
-  end.
-
-Definition Nondecreasing (l : list Z) : Prop :=
-  match l with
-  | nil => True
-  | x :: l' => nondecreasing_from x l'
-  end.
-
 Definition same_outside_range (l l1 : list Z) (left right : Z) : Prop :=
   Zlength l = Zlength l1 /\
   forall k,
@@ -508,10 +496,10 @@ Proof.
         apply Hright. lia.
 Qed.
 
-Lemma range_nondecreasing_full_to_Nondecreasing :
+Lemma range_nondecreasing_full_to_increasing :
   forall l,
     range_nondecreasing l 0 (Zlength l - 1) ->
-    Nondecreasing l.
+    increasing l.
 Proof.
   intros l Hrange.
   destruct l as [|x l']; simpl; auto.

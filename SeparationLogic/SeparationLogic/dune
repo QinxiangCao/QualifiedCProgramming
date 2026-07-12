@@ -1,0 +1,9 @@
+; Converted from:
+; - _CoqProject: -R SeparationLogic/SeparationLogic SimpleC.SL
+; - SeparationLogic/_CoqProject: -R SeparationLogic SimpleC.SL
+(coq.theory
+ (name SimpleC.SL)
+ (theories AUXLib Logic MonadLib SetsClass compcert.lib)
+ (modules (:standard \ ConAssertion_D highlevelmonad poc pocv01 pocv02)))
+
+(include_subdirs qualified)

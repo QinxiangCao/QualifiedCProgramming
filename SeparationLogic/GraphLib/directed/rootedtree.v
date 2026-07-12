@@ -3,7 +3,7 @@ Require Import GraphLib.graph_basic.
 Require Import GraphLib.reachable.reachable_basic.
 Require Import GraphLib.reachable.reachable_restricted.
 Require Import GraphLib.Syntax.
-Require Import SetsClass.
+Require Import SetsClass.SetsClass.
 Require Import Coq.Logic.Classical.
 Require Import Coq.Lists.List.
 Require Import Lia.

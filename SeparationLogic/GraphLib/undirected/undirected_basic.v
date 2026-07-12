@@ -1,7 +1,7 @@
 Require Import GraphLib.graph_basic.
 Require Import GraphLib.reachable.reachable_basic.
 Require Import GraphLib.reachable.reachable_restricted.
-Require Import SetsClass.
+Require Import SetsClass.SetsClass.
 
 Section UNDIRECTED.
 

@@ -130,3 +130,44 @@ right : lseg(?p : Z, ?q) at 0
 check : infer(p == 0);
         infer(q == 0);
 action : right_erase(0);
+
+
+id : 21
+priority : core(3)
+left : listrep(?p : Z) at 0
+right : lseg(p, ?q : Z) at 1
+check : infer(q == 0);
+action : left_erase(0);
+         right_erase(1);
+
+id : 22
+priority : core(6)
+left : lseg(?p : Z, ?q : Z) at 0
+       (p != q || q != p) at 1
+       (p != NULL || NULL != p) at 2
+right : (store(field_addr(p, list, data), I32, ?v : Z) || store(field_addr(p, list, next), PTR(struct list), ?n : Z)) at 3
+action : left_erase(0);
+         left_exist_add(x : Z);
+         left_exist_add(y : Z);
+         left_add(store(field_addr(p, list, data), I32, x));
+         left_add(store(field_addr(p, list, next), PTR(struct list), y));
+         left_add(lseg(y, q));
+
+id : 23
+priority : core(0)
+right : lseg(?p : Z, p) at 0
+action : right_erase(0);
+
+id : 24
+priority : core(4)
+left : lseg(?p : Z, ?q : Z) at 0
+check : infer(p == 0);
+action : left_erase(0);
+         left_add(q == 0);
+
+id : 25
+priority : core(0)
+left : lseg(?p : Z, ?q : Z) at 0
+        listrep(q) at 1
+check : infer(p == q);
+action : left_erase(0);

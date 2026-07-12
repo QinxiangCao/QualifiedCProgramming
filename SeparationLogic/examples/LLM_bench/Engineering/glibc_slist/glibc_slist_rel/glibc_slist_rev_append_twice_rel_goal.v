@@ -80,9 +80,7 @@ forall (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_leve
 
 Definition glibc_slist_clean_rev_append_twice_entail_wit_1_split_goal_1 := 
 forall (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (PreH1 : (safeExec ATrue (glibc_slist_clean_rev_append_twice_M (l1_low_level_spec) (l2_low_level_spec)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (bind ((glibc_slist_clean_rev_append_twice_M_loop (l1_low_level_spec) (l2_low_level_spec))) (glibc_slist_clean_rev_append_twice_M_loop_end)) X_low_level_spec ) ”
+  (safeExec ATrue (bind ((glibc_slist_clean_rev_append_twice_M_loop (l1_low_level_spec) (l2_low_level_spec))) (glibc_slist_clean_rev_append_twice_M_loop_end)) X_low_level_spec )
 .
 
 Definition glibc_slist_clean_rev_append_twice_entail_wit_2_1 := 
@@ -112,9 +110,7 @@ forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (x: Z) (l1_2: (@list Z)
 
 Definition glibc_slist_clean_rev_append_twice_entail_wit_2_1_split_goal_1 := 
 forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (x: Z) (l1_2: (@list Z)) (l2_2: (@list Z)) (x_2: Z) (l0: (@list Z)) (y: Z) (x_3: Z) (l0_2: (@list Z)) (PreH1 : (l0 = (cons (x_3) (l0_2)))) (PreH2 : (y <> 0)) (PreH3 : (l1_2 = (cons (x_2) (l0)))) (PreH4 : (x <> 0)) (PreH5 : (safeExec ATrue (bind ((glibc_slist_clean_rev_append_twice_M_loop (l1_2) (l2_2))) (glibc_slist_clean_rev_append_twice_M_loop_end)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (bind ((glibc_slist_clean_rev_append_twice_M_loop (l0_2) ((cons (x_3) ((cons (x_2) (l2_2))))))) (glibc_slist_clean_rev_append_twice_M_loop_end)) X_low_level_spec ) ”
+  (safeExec ATrue (bind ((glibc_slist_clean_rev_append_twice_M_loop (l0_2) ((cons (x_3) ((cons (x_2) (l2_2))))))) (glibc_slist_clean_rev_append_twice_M_loop_end)) X_low_level_spec )
 .
 
 Definition glibc_slist_clean_rev_append_twice_entail_wit_2_2 := 
@@ -147,6 +143,13 @@ forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (x: Z) (l1_2: (@list Z)
   “ (safeExec ATrue (bind ((glibc_slist_clean_rev_append_twice_M_loop ((@nil Z)) ((cons (x_2) (l2_2))))) (glibc_slist_clean_rev_append_twice_M_loop_end)) X_low_level_spec ) ”
 .
 
+Definition glibc_slist_clean_rev_append_twice_entail_wit_2_2_split_goal_spatial := 
+forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (x: Z) (l1_2: (@list Z)) (l2_2: (@list Z)) (x_2: Z) (l0: (@list Z)) (y: Z) (PreH1 : (y = 0)) (PreH2 : (l1_2 = (cons (x_2) (l0)))) (PreH3 : (x <> 0)) (PreH4 : (safeExec ATrue (bind ((glibc_slist_clean_rev_append_twice_M_loop (l1_2) (l2_2))) (glibc_slist_clean_rev_append_twice_M_loop_end)) X_low_level_spec )) ,
+  (sll y l0 )
+|--
+  TT && emp 
+.
+
 Definition glibc_slist_clean_rev_append_twice_return_wit_1 := 
 (
 forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (y: Z) (x: Z) (l1: (@list Z)) (l2: (@list Z)) (PreH1 : (x = 0)) (PreH2 : (safeExec ATrue (bind ((glibc_slist_clean_rev_append_twice_M_loop (l1) (l2))) (glibc_slist_clean_rev_append_twice_M_loop_end)) X_low_level_spec )) ,
@@ -170,6 +173,13 @@ forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (x: Z) (l1: (@list Z)) 
   (sll x l1 )
 |--
   “ (safeExec ATrue (return (l2)) X_low_level_spec ) ”
+.
+
+Definition glibc_slist_clean_rev_append_twice_return_wit_1_split_goal_spatial := 
+forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (x: Z) (l1: (@list Z)) (l2: (@list Z)) (PreH1 : (x = 0)) (PreH2 : (safeExec ATrue (bind ((glibc_slist_clean_rev_append_twice_M_loop (l1) (l2))) (glibc_slist_clean_rev_append_twice_M_loop_end)) X_low_level_spec )) ,
+  (sll x l1 )
+|--
+  TT && emp 
 .
 
 Definition glibc_slist_clean_rev_append_twice_partial_solve_wit_1 := 

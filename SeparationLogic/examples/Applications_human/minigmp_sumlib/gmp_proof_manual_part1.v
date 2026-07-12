@@ -32,12 +32,6 @@ Proof. pre_process. Qed.
 Lemma proof_of_gmp_max_return_wit_1 : gmp_max_return_wit_1.
 Proof. pre_process. Qed.
 
-Lemma proof_of_gmp_cmp_return_wit_2 : gmp_cmp_return_wit_2.
-Proof.
-  pre_process. 
-  Left. Left. entailer!.
-Qed.
-
 Lemma proof_of_mpn_copyi_entail_wit_1 : mpn_copyi_entail_wit_1.
 Proof.
   pre_process.
@@ -106,7 +100,6 @@ Qed.
 Lemma proof_of_mpn_cmp_return_wit_3 : mpn_cmp_return_wit_3.
 Proof. 
   pre_process.
-  Left. Left.
   entailer!.
   + unfold mpd_store_Z_compact.
     Exists l1 l2.
@@ -125,7 +118,6 @@ Qed.
 Lemma proof_of_mpn_cmp_return_wit_2 : mpn_cmp_return_wit_2.
 Proof.
   pre_process.
-  Right.
   entailer!.
   + unfold mpd_store_Z_compact.
     Exists l1 l2.
@@ -144,7 +136,6 @@ Qed.
 Lemma proof_of_mpn_cmp_return_wit_1 : mpn_cmp_return_wit_1.
 Proof. 
   pre_process.
-  Left. Right.
   unfold mpd_store_Z_compact.
   Exists l1 l2.
   unfold mpd_store_list.
@@ -170,7 +161,6 @@ Qed.
 Lemma proof_of_mpn_cmp4_return_wit_5 : mpn_cmp4_return_wit_5.
 Proof.
   pre_process.
-  Right.
   unfold mpd_store_Z_compact.
   Intros l1 l2.
   Exists l1 l2.
@@ -183,7 +173,6 @@ Qed.
 Lemma proof_of_mpn_cmp4_return_wit_4 : mpn_cmp4_return_wit_4.
 Proof.
   pre_process.
-  Left. Left.
   unfold mpd_store_Z_compact.
   Intros l1 l2.
   Exists l1 l2.
@@ -195,22 +184,19 @@ Qed.
 
 Lemma proof_of_mpn_cmp4_return_wit_3 : mpn_cmp4_return_wit_3.
 Proof.
-  pre_process.
-  Right. subst.
+  pre_process. subst.
   entailer!.
 Qed.
 
 Lemma proof_of_mpn_cmp4_return_wit_2 : mpn_cmp4_return_wit_2.
 Proof.
-  pre_process.
-  Left. Right. subst.
+  pre_process. subst.
   entailer!.
 Qed.
 
 Lemma proof_of_mpn_cmp4_return_wit_1 : mpn_cmp4_return_wit_1.
 Proof.
-  pre_process.
-  Left. Left. subst.
+  pre_process. subst.
   entailer!.
 Qed.
 

@@ -1,0 +1,7 @@
+; Converted from:
+; - _CoqProject: -R SeparationLogic/compcert_lib compcert.lib
+; - SeparationLogic/_CoqProject: -R compcert_lib compcert.lib
+(coq.theory
+ (name compcert.lib))
+
+(include_subdirs qualified)

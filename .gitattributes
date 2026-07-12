@@ -1,2 +1,6 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Auto-detect text files and enforce LF line endings
+* text=auto eol=lf
+
+# Specify additional file types to be treated as text
+*.v text eol=lf
+*.cmd text eol=crlf

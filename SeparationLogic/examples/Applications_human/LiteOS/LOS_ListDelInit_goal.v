@@ -48,7 +48,7 @@ forall (A: Type) (list_pre: Z) (storeA: (Z -> (A -> Assertion))) ,
   TT && emp 
 ).
 
-Definition LOS_ListDelInit_return_wit_1_split_goal_emp := 
+Definition LOS_ListDelInit_return_wit_1_split_goal_spatial := 
 forall (A: Type) (list_pre: Z) (storeA: (Z -> (A -> Assertion))) ,
   (dllseg_shift storeA list_pre list_pre (@nil (@DL_Node A)) )
 |--

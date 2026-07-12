@@ -1,5 +1,5 @@
 # Use official Coq 8.20.1 image
-FROM coqorg/coq:8.20.1-ocaml-4.14.2-flambda
+FROM coqorg/coq:8.20.1-ocaml-4.13.1-flambda
 
 # Set working directory
 WORKDIR /home/coq/qcp

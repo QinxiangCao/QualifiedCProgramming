@@ -119,7 +119,7 @@ Qed.
 Lemma proof_of_mpz_sgn_return_wit_1 : mpz_sgn_return_wit_1.
 Proof. 
   pre_process. 
-  Left. Left. unfold store_Z.
+  unfold store_Z.
   Exists ptr size cap.
   entailer!.
   unfold same_sign in PreH3.
@@ -129,7 +129,7 @@ Qed.
 Lemma proof_of_mpz_sgn_return_wit_2 : mpz_sgn_return_wit_2.
 Proof.
   pre_process. 
-  Left. Right. unfold store_Z.
+  unfold store_Z.
   Exists ptr size cap.
   replace (Zabs size) with size by lia.
   subst size.
@@ -143,7 +143,7 @@ Qed.
 Lemma proof_of_mpz_sgn_return_wit_3 : mpz_sgn_return_wit_3.
 Proof.
   pre_process. 
-  Right. unfold store_Z.
+  unfold store_Z.
   Exists ptr size cap.
   replace (Zabs size) with size by lia.
   prop_apply (mpd_store_Z_compact_pos); try lia.

@@ -62,14 +62,6 @@ Proof.
   destruct (Z_gt_le_dec a_pre 0) ; try lia.
 Qed. 
 
-Lemma proof_of_Always_positive_simple_safety_wit_4 : Always_positive_simple_safety_wit_4.
-Proof.
-  pre_process.
-Qed. 
-
-Lemma proof_of_Always_positive_simple_safety_wit_6 : Always_positive_simple_safety_wit_6.
-Proof. pre_process. Qed.  
-
 Lemma proof_of_Always_positive_entail_wit_2 : Always_positive_entail_wit_2.
 Proof. 
   pre_process.
@@ -120,12 +112,3 @@ Proof.
   destruct (Z_ge_lt_dec (b_pre * b_pre - 4 * a_pre * c_pre) 0); try nia.
   destruct (Z_gt_le_dec a_pre 0); try lia.
 Qed.
-
-Lemma proof_of_Always_positive_safety_wit_3 : Always_positive_safety_wit_3.
-Proof. pre_process. Qed. 
-
-Lemma proof_of_Always_positive_safety_wit_4 : Always_positive_safety_wit_4.
-Proof. pre_process. Qed. 
-
-Lemma proof_of_Always_positive_safety_wit_8 : Always_positive_safety_wit_8.
-Proof. pre_process. Qed. 

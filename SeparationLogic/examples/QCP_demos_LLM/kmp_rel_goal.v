@@ -157,16 +157,12 @@ forall (X_low_level_spec: (Z -> (unit -> Prop))) (m_low_level_spec: Z) (n_low_le
 
 Definition inner_entail_wit_2_split_goal_1 := 
 forall (X_low_level_spec: (Z -> (unit -> Prop))) (m_low_level_spec: Z) (n_low_level_spec: Z) (vnext0_low_level_spec: (@list Z)) (str0_low_level_spec: (@list Z)) (ch: Z) (j: Z) (PreH1 : (safeExec ATrue (inner_loop (0) (str0_low_level_spec) (vnext0_low_level_spec) (ch) (j)) X_low_level_spec )) (PreH2 : (m_low_level_spec <= n_low_level_spec)) (PreH3 : (n_low_level_spec < INT_MAX)) ,
-  TT && emp 
-|--
-  “ (j < m_low_level_spec) ”
+  (j < m_low_level_spec)
 .
 
 Definition inner_entail_wit_2_split_goal_2 := 
 forall (X_low_level_spec: (Z -> (unit -> Prop))) (m_low_level_spec: Z) (n_low_level_spec: Z) (vnext0_low_level_spec: (@list Z)) (str0_low_level_spec: (@list Z)) (ch: Z) (j: Z) (PreH1 : (safeExec ATrue (inner_loop (0) (str0_low_level_spec) (vnext0_low_level_spec) (ch) (j)) X_low_level_spec )) (PreH2 : (m_low_level_spec <= n_low_level_spec)) (PreH3 : (n_low_level_spec < INT_MAX)) ,
-  TT && emp 
-|--
-  “ (0 <= j) ”
+  (0 <= j)
 .
 
 Definition inner_entail_wit_3 := 
@@ -191,9 +187,7 @@ forall (X_low_level_spec: (Z -> (unit -> Prop))) (m_low_level_spec: Z) (n_low_le
 
 Definition inner_entail_wit_3_split_goal_1 := 
 forall (X_low_level_spec: (Z -> (unit -> Prop))) (m_low_level_spec: Z) (n_low_level_spec: Z) (vnext0_low_level_spec: (@list Z)) (str0_low_level_spec: (@list Z)) (ch: Z) (j: Z) (PreH1 : (j <> 0)) (PreH2 : ((Znth j (app (str0_low_level_spec) ((cons (0) ((@nil Z))))) 0) <> ch)) (PreH3 : (0 <= j)) (PreH4 : (j < m_low_level_spec)) (PreH5 : (safeExec ATrue (inner_loop (0) (str0_low_level_spec) (vnext0_low_level_spec) (ch) (j)) X_low_level_spec )) (PreH6 : (m_low_level_spec <= n_low_level_spec)) (PreH7 : (n_low_level_spec < INT_MAX)) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (inner_loop (0) (str0_low_level_spec) (vnext0_low_level_spec) (ch) ((Znth (j - 1 ) vnext0_low_level_spec 0))) X_low_level_spec ) ”
+  (safeExec ATrue (inner_loop (0) (str0_low_level_spec) (vnext0_low_level_spec) (ch) ((Znth (j - 1 ) vnext0_low_level_spec 0))) X_low_level_spec )
 .
 
 Definition inner_return_wit_1 := 
@@ -218,9 +212,7 @@ forall (X_low_level_spec: (Z -> (unit -> Prop))) (m_low_level_spec: Z) (n_low_le
 
 Definition inner_return_wit_1_split_goal_1 := 
 forall (X_low_level_spec: (Z -> (unit -> Prop))) (m_low_level_spec: Z) (n_low_level_spec: Z) (vnext0_low_level_spec: (@list Z)) (str0_low_level_spec: (@list Z)) (ch: Z) (j: Z) (PreH1 : (j = 0)) (PreH2 : ((Znth j (app (str0_low_level_spec) ((cons (0) ((@nil Z))))) 0) <> ch)) (PreH3 : (0 <= j)) (PreH4 : (j < m_low_level_spec)) (PreH5 : (safeExec ATrue (inner_loop (0) (str0_low_level_spec) (vnext0_low_level_spec) (ch) (j)) X_low_level_spec )) (PreH6 : (m_low_level_spec <= n_low_level_spec)) (PreH7 : (n_low_level_spec < INT_MAX)) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (return (0)) X_low_level_spec ) ”
+  (safeExec ATrue (return (0)) X_low_level_spec )
 .
 
 Definition inner_return_wit_2 := 
@@ -245,9 +237,7 @@ forall (X_low_level_spec: (Z -> (unit -> Prop))) (m_low_level_spec: Z) (n_low_le
 
 Definition inner_return_wit_2_split_goal_1 := 
 forall (X_low_level_spec: (Z -> (unit -> Prop))) (m_low_level_spec: Z) (n_low_level_spec: Z) (vnext0_low_level_spec: (@list Z)) (str0_low_level_spec: (@list Z)) (ch: Z) (j: Z) (PreH1 : ((Znth j (app (str0_low_level_spec) ((cons (0) ((@nil Z))))) 0) = ch)) (PreH2 : (0 <= j)) (PreH3 : (j < m_low_level_spec)) (PreH4 : (safeExec ATrue (inner_loop (0) (str0_low_level_spec) (vnext0_low_level_spec) (ch) (j)) X_low_level_spec )) (PreH5 : (m_low_level_spec <= n_low_level_spec)) (PreH6 : (n_low_level_spec < INT_MAX)) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (return ((j + 1 ))) X_low_level_spec ) ”
+  (safeExec ATrue (return ((j + 1 ))) X_low_level_spec )
 .
 
 Definition inner_partial_solve_wit_1 := 
@@ -260,7 +250,7 @@ forall (vnext_pre: Z) (str_pre: Z) (X_low_level_spec: (Z -> (unit -> Prop))) (m_
   &&  “ (safeExec ATrue (inner_loop (0) (str0_low_level_spec) (vnext0_low_level_spec) (ch) (j)) X_low_level_spec ) ” 
   &&  “ (m_low_level_spec <= n_low_level_spec) ” 
   &&  “ (n_low_level_spec < INT_MAX) ”
-  &&  (((str_pre + (j * sizeof(CHAR) ) )) # Char  |-> (Znth j (app (str0_low_level_spec) ((cons (0) ((@nil Z))))) 0))
+  &&  (((str_pre + (j * sizeof(CHAR)))) # Char  |-> (Znth j (app (str0_low_level_spec) ((cons (0) ((@nil Z))))) 0))
   **  (CharArray.missing_i str_pre j 0 (n_low_level_spec + 1 ) (app (str0_low_level_spec) ((cons (0) ((@nil Z))))) )
   **  (IntArray.full vnext_pre m_low_level_spec vnext0_low_level_spec )
 .
@@ -277,7 +267,7 @@ forall (vnext_pre: Z) (str_pre: Z) (X_low_level_spec: (Z -> (unit -> Prop))) (m_
   &&  “ (safeExec ATrue (inner_loop (0) (str0_low_level_spec) (vnext0_low_level_spec) (ch) (j)) X_low_level_spec ) ” 
   &&  “ (m_low_level_spec <= n_low_level_spec) ” 
   &&  “ (n_low_level_spec < INT_MAX) ”
-  &&  (((vnext_pre + ((j - 1 ) * sizeof(INT) ) )) # Int  |-> (Znth (j - 1 ) vnext0_low_level_spec 0))
+  &&  (((vnext_pre + ((j - 1 ) * sizeof(INT)))) # Int  |-> (Znth (j - 1 ) vnext0_low_level_spec 0))
   **  (IntArray.missing_i vnext_pre (j - 1 ) 0 m_low_level_spec vnext0_low_level_spec )
   **  (CharArray.full str_pre (n_low_level_spec + 1 ) (app (str0_low_level_spec) ((cons (0) ((@nil Z))))) )
 .
@@ -363,7 +353,7 @@ forall (patn_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_le
   &&  ((( &( "len" ) )) # Int  |-> n_low_level_spec)
   **  (CharArray.full patn_pre (n_low_level_spec + 1 ) (app (str_low_level_spec) ((cons (0) ((@nil Z))))) )
   **  (IntArray.full retval 1 vnext0 )
-  **  (IntArray.full (retval + (1 * sizeof(INT) ) ) (n_low_level_spec - 1 ) l0 )
+  **  (IntArray.full (retval + (1 * sizeof(INT))) (n_low_level_spec - 1 ) l0 )
 ) \/
 (
 forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_level_spec: Z) (str_low_level_spec: (@list Z)) (retval_2: Z) (l: (@list Z)) (retval: Z) (PreH1 : (retval_2 = n_low_level_spec)) (PreH2 : (safeExec ATrue (constr_loop (0) (str_low_level_spec)) X_low_level_spec )) (PreH3 : (n_low_level_spec > 0)) (PreH4 : (n_low_level_spec < INT_MAX)) ,
@@ -375,7 +365,7 @@ forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_level_spec: Z) (
   &&  “ (n_low_level_spec < INT_MAX) ” 
   &&  “ (1 <= 1) ”
   &&  (IntArray.full retval 1 vnext0 )
-  **  (IntArray.full (retval + (1 * sizeof(INT) ) ) (n_low_level_spec - 1 ) l0 )
+  **  (IntArray.full (retval + (1 * sizeof(INT))) (n_low_level_spec - 1 ) l0 )
 ).
 
 Definition constr_entail_wit_2 := 
@@ -383,7 +373,7 @@ Definition constr_entail_wit_2 :=
 forall (patn_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_level_spec: Z) (str_low_level_spec: (@list Z)) (vnext: Z) (i: Z) (vnext0: (@list Z)) (l0: (@list Z)) (retval: Z) (PreH1 : (safeExec ATrue (applyf ((constr_loop_from_after (0) (str_low_level_spec) (i) (vnext0))) (retval)) X_low_level_spec )) (PreH2 : (0 <= retval)) (PreH3 : (retval < (i + 1 ))) (PreH4 : (i < n_low_level_spec)) (PreH5 : (n_low_level_spec < INT_MAX)) (PreH6 : (1 <= i)) ,
   (CharArray.full patn_pre (n_low_level_spec + 1 ) (app (str_low_level_spec) ((cons (0) ((@nil Z))))) )
   **  (IntArray.full vnext i vnext0 )
-  **  (IntArray.full (vnext + (i * sizeof(INT) ) ) (n_low_level_spec - i ) l0 )
+  **  (IntArray.full (vnext + (i * sizeof(INT))) (n_low_level_spec - i ) l0 )
 |--
   EX (l: (@list Z)) ,
   “ (safeExec ATrue (constr_loop_from_after (0) (str_low_level_spec) (i) (vnext0) (retval)) X_low_level_spec ) ” 
@@ -400,7 +390,7 @@ forall (patn_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_le
 (
 forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_level_spec: Z) (str_low_level_spec: (@list Z)) (vnext: Z) (i: Z) (vnext0: (@list Z)) (l0: (@list Z)) (retval: Z) (PreH1 : (safeExec ATrue (applyf ((constr_loop_from_after (0) (str_low_level_spec) (i) (vnext0))) (retval)) X_low_level_spec )) (PreH2 : (0 <= retval)) (PreH3 : (retval < (i + 1 ))) (PreH4 : (i < n_low_level_spec)) (PreH5 : (n_low_level_spec < INT_MAX)) (PreH6 : (1 <= i)) ,
   (IntArray.full vnext i vnext0 )
-  **  (IntArray.full (vnext + (i * sizeof(INT) ) ) (n_low_level_spec - i ) l0 )
+  **  (IntArray.full (vnext + (i * sizeof(INT))) (n_low_level_spec - i ) l0 )
 |--
   “ ((Zlength (vnext0)) = i) ” 
   &&  “ (safeExec ATrue (constr_loop_from_after (0) (str_low_level_spec) (i) (vnext0) (retval)) X_low_level_spec ) ”
@@ -410,7 +400,7 @@ forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_level_spec: Z) (
 Definition constr_entail_wit_2_split_goal_1 := 
 forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_level_spec: Z) (str_low_level_spec: (@list Z)) (vnext: Z) (i: Z) (vnext0: (@list Z)) (l0: (@list Z)) (retval: Z) (PreH1 : (safeExec ATrue (applyf ((constr_loop_from_after (0) (str_low_level_spec) (i) (vnext0))) (retval)) X_low_level_spec )) (PreH2 : (0 <= retval)) (PreH3 : (retval < (i + 1 ))) (PreH4 : (i < n_low_level_spec)) (PreH5 : (n_low_level_spec < INT_MAX)) (PreH6 : (1 <= i)) ,
   (IntArray.full vnext i vnext0 )
-  **  (IntArray.full (vnext + (i * sizeof(INT) ) ) (n_low_level_spec - i ) l0 )
+  **  (IntArray.full (vnext + (i * sizeof(INT))) (n_low_level_spec - i ) l0 )
 |--
   “ ((Zlength (vnext0)) = i) ”
 .
@@ -418,7 +408,7 @@ forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_level_spec: Z) (
 Definition constr_entail_wit_2_split_goal_2 := 
 forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_level_spec: Z) (str_low_level_spec: (@list Z)) (vnext: Z) (i: Z) (vnext0: (@list Z)) (l0: (@list Z)) (retval: Z) (PreH1 : (safeExec ATrue (applyf ((constr_loop_from_after (0) (str_low_level_spec) (i) (vnext0))) (retval)) X_low_level_spec )) (PreH2 : (0 <= retval)) (PreH3 : (retval < (i + 1 ))) (PreH4 : (i < n_low_level_spec)) (PreH5 : (n_low_level_spec < INT_MAX)) (PreH6 : (1 <= i)) ,
   (IntArray.full vnext i vnext0 )
-  **  (IntArray.full (vnext + (i * sizeof(INT) ) ) (n_low_level_spec - i ) l0 )
+  **  (IntArray.full (vnext + (i * sizeof(INT))) (n_low_level_spec - i ) l0 )
 |--
   “ (safeExec ATrue (constr_loop_from_after (0) (str_low_level_spec) (i) (vnext0) (retval)) X_low_level_spec ) ”
 .
@@ -426,7 +416,7 @@ forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_level_spec: Z) (
 Definition constr_entail_wit_2_split_goal_spatial := 
 forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_level_spec: Z) (str_low_level_spec: (@list Z)) (vnext: Z) (i: Z) (vnext0: (@list Z)) (l0: (@list Z)) (retval: Z) (PreH1 : (safeExec ATrue (applyf ((constr_loop_from_after (0) (str_low_level_spec) (i) (vnext0))) (retval)) X_low_level_spec )) (PreH2 : (0 <= retval)) (PreH3 : (retval < (i + 1 ))) (PreH4 : (i < n_low_level_spec)) (PreH5 : (n_low_level_spec < INT_MAX)) (PreH6 : (1 <= i)) ,
   (IntArray.full vnext i vnext0 )
-  **  (IntArray.full (vnext + (i * sizeof(INT) ) ) (n_low_level_spec - i ) l0 )
+  **  (IntArray.full (vnext + (i * sizeof(INT))) (n_low_level_spec - i ) l0 )
 |--
   (IntArray.full vnext n_low_level_spec (app (vnext0) (l0)) )
 .
@@ -443,7 +433,7 @@ forall (patn_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_le
   &&  “ (1 <= (i + 1 )) ”
   &&  (CharArray.full patn_pre (n_low_level_spec + 1 ) (app (str_low_level_spec) ((cons (0) ((@nil Z))))) )
   **  (IntArray.full vnext (i + 1 ) vnext0 )
-  **  (IntArray.full (vnext + ((i + 1 ) * sizeof(INT) ) ) (n_low_level_spec - (i + 1 ) ) l0 )
+  **  (IntArray.full (vnext + ((i + 1 ) * sizeof(INT))) (n_low_level_spec - (i + 1 ) ) l0 )
 ) \/
 (
 forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_level_spec: Z) (str_low_level_spec: (@list Z)) (vnext0_2: (@list Z)) (l0_2: (@list Z)) (l: (@list Z)) (j: Z) (i: Z) (vnext: Z) (PreH1 : (safeExec ATrue (constr_loop_from_after (0) (str_low_level_spec) (i) (vnext0_2) (j)) X_low_level_spec )) (PreH2 : (n_low_level_spec < INT_MAX)) (PreH3 : (1 <= i)) (PreH4 : (i < n_low_level_spec)) (PreH5 : (l = (app (vnext0_2) (l0_2)))) (PreH6 : ((Zlength (vnext0_2)) = i)) (PreH7 : (0 <= j)) (PreH8 : (j < (i + 1 ))) ,
@@ -454,7 +444,7 @@ forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_level_spec: Z) (
   &&  “ (n_low_level_spec < INT_MAX) ” 
   &&  “ (1 <= (i + 1 )) ”
   &&  (IntArray.full vnext (i + 1 ) vnext0 )
-  **  (IntArray.full (vnext + ((i + 1 ) * sizeof(INT) ) ) (n_low_level_spec - (i + 1 ) ) l0 )
+  **  (IntArray.full (vnext + ((i + 1 ) * sizeof(INT))) (n_low_level_spec - (i + 1 ) ) l0 )
 ).
 
 Definition constr_return_wit_1 := 
@@ -462,7 +452,7 @@ Definition constr_return_wit_1 :=
 forall (patn_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_level_spec: Z) (str_low_level_spec: (@list Z)) (l0: (@list Z)) (vnext_2: Z) (i: Z) (vnext0: (@list Z)) (j: Z) (PreH1 : (i >= n_low_level_spec)) (PreH2 : (safeExec ATrue (constr_loop_from (0) (str_low_level_spec) (i) (vnext0) (j)) X_low_level_spec )) (PreH3 : (n_low_level_spec < INT_MAX)) (PreH4 : (1 <= i)) ,
   (CharArray.full patn_pre (n_low_level_spec + 1 ) (app (str_low_level_spec) ((cons (0) ((@nil Z))))) )
   **  (IntArray.full vnext_2 i vnext0 )
-  **  (IntArray.full (vnext_2 + (i * sizeof(INT) ) ) (n_low_level_spec - i ) l0 )
+  **  (IntArray.full (vnext_2 + (i * sizeof(INT))) (n_low_level_spec - i ) l0 )
 |--
   EX (vnext: (@list Z)) ,
   “ (safeExec ATrue (return (vnext)) X_low_level_spec ) ”
@@ -472,7 +462,7 @@ forall (patn_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_le
 (
 forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_level_spec: Z) (str_low_level_spec: (@list Z)) (l0: (@list Z)) (vnext_2: Z) (i: Z) (vnext0: (@list Z)) (j: Z) (PreH1 : (i >= n_low_level_spec)) (PreH2 : (safeExec ATrue (constr_loop_from (0) (str_low_level_spec) (i) (vnext0) (j)) X_low_level_spec )) (PreH3 : (n_low_level_spec < INT_MAX)) (PreH4 : (1 <= i)) ,
   (IntArray.full vnext_2 i vnext0 )
-  **  (IntArray.full (vnext_2 + (i * sizeof(INT) ) ) (n_low_level_spec - i ) l0 )
+  **  (IntArray.full (vnext_2 + (i * sizeof(INT))) (n_low_level_spec - i ) l0 )
 |--
   EX (vnext: (@list Z)) ,
   “ (safeExec ATrue (return (vnext)) X_low_level_spec ) ”
@@ -522,7 +512,7 @@ forall (patn_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_le
   &&  “ (safeExec ATrue (constr_loop (0) (str_low_level_spec)) X_low_level_spec ) ” 
   &&  “ (n_low_level_spec > 0) ” 
   &&  “ (n_low_level_spec < INT_MAX) ”
-  &&  (((retval_2 + (0 * sizeof(INT) ) )) # Int  |->_)
+  &&  (((retval_2 + (0 * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i retval_2 0 0 retval l )
   **  (CharArray.full patn_pre (n_low_level_spec + 1 ) (app (str_low_level_spec) ((cons (0) ((@nil Z))))) )
 .
@@ -531,16 +521,16 @@ Definition constr_partial_solve_wit_4 :=
 forall (patn_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_level_spec: Z) (str_low_level_spec: (@list Z)) (vnext: Z) (i: Z) (j: Z) (vnext0: (@list Z)) (l0: (@list Z)) (PreH1 : (i < n_low_level_spec)) (PreH2 : (safeExec ATrue (constr_loop_from (0) (str_low_level_spec) (i) (vnext0) (j)) X_low_level_spec )) (PreH3 : (n_low_level_spec < INT_MAX)) (PreH4 : (1 <= i)) ,
   (CharArray.full patn_pre (n_low_level_spec + 1 ) (app (str_low_level_spec) ((cons (0) ((@nil Z))))) )
   **  (IntArray.full vnext i vnext0 )
-  **  (IntArray.full (vnext + (i * sizeof(INT) ) ) (n_low_level_spec - i ) l0 )
+  **  (IntArray.full (vnext + (i * sizeof(INT))) (n_low_level_spec - i ) l0 )
 |--
   “ (i < n_low_level_spec) ” 
   &&  “ (safeExec ATrue (constr_loop_from (0) (str_low_level_spec) (i) (vnext0) (j)) X_low_level_spec ) ” 
   &&  “ (n_low_level_spec < INT_MAX) ” 
   &&  “ (1 <= i) ”
-  &&  (((patn_pre + (i * sizeof(CHAR) ) )) # Char  |-> (Znth i (app (str_low_level_spec) ((cons (0) ((@nil Z))))) 0))
+  &&  (((patn_pre + (i * sizeof(CHAR)))) # Char  |-> (Znth i (app (str_low_level_spec) ((cons (0) ((@nil Z))))) 0))
   **  (CharArray.missing_i patn_pre i 0 (n_low_level_spec + 1 ) (app (str_low_level_spec) ((cons (0) ((@nil Z))))) )
   **  (IntArray.full vnext i vnext0 )
-  **  (IntArray.full (vnext + (i * sizeof(INT) ) ) (n_low_level_spec - i ) l0 )
+  **  (IntArray.full (vnext + (i * sizeof(INT))) (n_low_level_spec - i ) l0 )
 .
 
 Definition constr_partial_solve_wit_5_pure := 
@@ -553,7 +543,7 @@ forall (patn_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_le
   **  ((( &( "len" ) )) # Int  |-> n_low_level_spec)
   **  ((( &( "vnext" ) )) # Ptr  |-> vnext)
   **  (IntArray.full vnext i vnext0 )
-  **  (IntArray.full (vnext + (i * sizeof(INT) ) ) (n_low_level_spec - i ) l0 )
+  **  (IntArray.full (vnext + (i * sizeof(INT))) (n_low_level_spec - i ) l0 )
 |--
   “ (i <= n_low_level_spec) ” 
   &&  “ (n_low_level_spec < INT_MAX) ” 
@@ -568,7 +558,7 @@ forall (patn_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_le
   **  ((( &( "len" ) )) # Int  |-> n_low_level_spec)
   **  ((( &( "vnext" ) )) # Ptr  |-> vnext)
   **  (IntArray.full vnext i vnext0 )
-  **  (IntArray.full (vnext + (i * sizeof(INT) ) ) (n_low_level_spec - i ) l0 )
+  **  (IntArray.full (vnext + (i * sizeof(INT))) (n_low_level_spec - i ) l0 )
 |--
   “ (safeExec ATrue (bind ((inner_loop (0) (str_low_level_spec) (vnext0) ((Znth i (app (str_low_level_spec) ((cons (0) ((@nil Z))))) 0)) (j))) ((constr_loop_from_after (0) (str_low_level_spec) (i) (vnext0)))) X_low_level_spec ) ”
 ).
@@ -582,7 +572,7 @@ forall (patn_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_le
   **  ((( &( "len" ) )) # Int  |-> n_low_level_spec)
   **  ((( &( "vnext" ) )) # Ptr  |-> vnext)
   **  (IntArray.full vnext i vnext0 )
-  **  (IntArray.full (vnext + (i * sizeof(INT) ) ) (n_low_level_spec - i ) l0 )
+  **  (IntArray.full (vnext + (i * sizeof(INT))) (n_low_level_spec - i ) l0 )
 |--
   “ (safeExec ATrue (bind ((inner_loop (0) (str_low_level_spec) (vnext0) ((Znth i (app (str_low_level_spec) ((cons (0) ((@nil Z))))) 0)) (j))) ((constr_loop_from_after (0) (str_low_level_spec) (i) (vnext0)))) X_low_level_spec ) ”
 .
@@ -591,7 +581,7 @@ Definition constr_partial_solve_wit_5_aux :=
 forall (patn_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_level_spec: Z) (str_low_level_spec: (@list Z)) (vnext: Z) (i: Z) (j: Z) (vnext0: (@list Z)) (l0: (@list Z)) (PreH1 : (i < n_low_level_spec)) (PreH2 : (safeExec ATrue (constr_loop_from (0) (str_low_level_spec) (i) (vnext0) (j)) X_low_level_spec )) (PreH3 : (n_low_level_spec < INT_MAX)) (PreH4 : (1 <= i)) ,
   (CharArray.full patn_pre (n_low_level_spec + 1 ) (app (str_low_level_spec) ((cons (0) ((@nil Z))))) )
   **  (IntArray.full vnext i vnext0 )
-  **  (IntArray.full (vnext + (i * sizeof(INT) ) ) (n_low_level_spec - i ) l0 )
+  **  (IntArray.full (vnext + (i * sizeof(INT))) (n_low_level_spec - i ) l0 )
 |--
   “ (i <= n_low_level_spec) ” 
   &&  “ (n_low_level_spec < INT_MAX) ” 
@@ -602,7 +592,7 @@ forall (patn_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_le
   &&  “ (1 <= i) ”
   &&  (CharArray.full patn_pre (n_low_level_spec + 1 ) (app (str_low_level_spec) ((cons (0) ((@nil Z))))) )
   **  (IntArray.full vnext i vnext0 )
-  **  (IntArray.full (vnext + (i * sizeof(INT) ) ) (n_low_level_spec - i ) l0 )
+  **  (IntArray.full (vnext + (i * sizeof(INT))) (n_low_level_spec - i ) l0 )
 .
 
 Definition constr_partial_solve_wit_5 := constr_partial_solve_wit_5_pure -> constr_partial_solve_wit_5_aux.
@@ -620,7 +610,7 @@ forall (patn_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (n_low_le
   &&  “ ((Zlength (vnext0)) = i) ” 
   &&  “ (0 <= j) ” 
   &&  “ (j < (i + 1 )) ”
-  &&  (((vnext + (i * sizeof(INT) ) )) # Int  |->_)
+  &&  (((vnext + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i vnext i 0 n_low_level_spec l )
   **  (CharArray.full patn_pre (n_low_level_spec + 1 ) (app (str_low_level_spec) ((cons (0) ((@nil Z))))) )
 .
@@ -788,9 +778,7 @@ forall (X_low_level_spec: ((@option Z) -> (unit -> Prop))) (m_low_level_spec: Z)
 
 Definition match_entail_wit_1_split_goal_1 := 
 forall (X_low_level_spec: ((@option Z) -> (unit -> Prop))) (m_low_level_spec: Z) (n_low_level_spec: Z) (vnext0_low_level_spec: (@list Z)) (text0_low_level_spec: (@list Z)) (patn0_low_level_spec: (@list Z)) (retval: Z) (retval_2: Z) (PreH1 : (retval_2 = n_low_level_spec)) (PreH2 : (retval = m_low_level_spec)) (PreH3 : (safeExec ATrue (match_loop (0) (patn0_low_level_spec) (text0_low_level_spec) (vnext0_low_level_spec)) X_low_level_spec )) (PreH4 : (n_low_level_spec > 0)) (PreH5 : (n_low_level_spec < INT_MAX)) (PreH6 : (m_low_level_spec < INT_MAX)) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (match_loop_from (0) (patn0_low_level_spec) (text0_low_level_spec) (vnext0_low_level_spec) (0) (0)) X_low_level_spec ) ”
+  (safeExec ATrue (match_loop_from (0) (patn0_low_level_spec) (text0_low_level_spec) (vnext0_low_level_spec) (0) (0)) X_low_level_spec )
 .
 
 Definition match_entail_wit_2 := 
@@ -818,9 +806,7 @@ forall (X_low_level_spec: ((@option Z) -> (unit -> Prop))) (m_low_level_spec: Z)
 
 Definition match_entail_wit_2_split_goal_1 := 
 forall (X_low_level_spec: ((@option Z) -> (unit -> Prop))) (m_low_level_spec: Z) (n_low_level_spec: Z) (vnext0_low_level_spec: (@list Z)) (text0_low_level_spec: (@list Z)) (patn0_low_level_spec: (@list Z)) (i: Z) (retval: Z) (PreH1 : (retval <> n_low_level_spec)) (PreH2 : (safeExec ATrue (applyf ((match_loop_from_after (0) (patn0_low_level_spec) (text0_low_level_spec) (vnext0_low_level_spec) (i))) (retval)) X_low_level_spec )) (PreH3 : (0 <= retval)) (PreH4 : (retval < (n_low_level_spec + 1 ))) (PreH5 : (i < m_low_level_spec)) (PreH6 : (n_low_level_spec < INT_MAX)) (PreH7 : (m_low_level_spec < INT_MAX)) (PreH8 : (i >= 0)) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (match_loop_from (0) (patn0_low_level_spec) (text0_low_level_spec) (vnext0_low_level_spec) ((i + 1 )) (retval)) X_low_level_spec ) ”
+  (safeExec ATrue (match_loop_from (0) (patn0_low_level_spec) (text0_low_level_spec) (vnext0_low_level_spec) ((i + 1 )) (retval)) X_low_level_spec )
 .
 
 Definition match_return_wit_1 := 
@@ -913,7 +899,7 @@ forall (vnext_pre: Z) (text_pre: Z) (patn_pre: Z) (X_low_level_spec: ((@option Z
   &&  “ (n_low_level_spec < INT_MAX) ” 
   &&  “ (m_low_level_spec < INT_MAX) ” 
   &&  “ (i >= 0) ”
-  &&  (((text_pre + (i * sizeof(CHAR) ) )) # Char  |-> (Znth i (app (text0_low_level_spec) ((cons (0) ((@nil Z))))) 0))
+  &&  (((text_pre + (i * sizeof(CHAR)))) # Char  |-> (Znth i (app (text0_low_level_spec) ((cons (0) ((@nil Z))))) 0))
   **  (CharArray.missing_i text_pre i 0 (m_low_level_spec + 1 ) (app (text0_low_level_spec) ((cons (0) ((@nil Z))))) )
   **  (CharArray.full patn_pre (n_low_level_spec + 1 ) (app (patn0_low_level_spec) ((cons (0) ((@nil Z))))) )
   **  (IntArray.full vnext_pre n_low_level_spec vnext0_low_level_spec )
@@ -1013,15 +999,10 @@ forall (text_pre: Z) (patn_pre: Z) (m: Z) (n: Z) (text0: (@list Z)) (patn0: (@li
   (CharArray.full patn_pre (n + 1 ) (app (patn0) ((cons (0) ((@nil Z))))) )
   **  (CharArray.full text_pre (m + 1 ) (app (text0) ((cons (0) ((@nil Z))))) )
 |--
-  (“ (retval = (-1)) ” 
+  “ (retval = (-1)) ” 
   &&  “ (no_occurance patn0 text0 ) ”
   &&  (CharArray.full patn_pre (n + 1 ) (app (patn0) ((cons (0) ((@nil Z))))) )
-  **  (CharArray.full text_pre (m + 1 ) (app (text0) ((cons (0) ((@nil Z))))) ))
-  ||
-  (“ (retval >= 0) ” 
-  &&  “ (first_occur patn0 text0 retval ) ”
-  &&  (CharArray.full patn_pre (n + 1 ) (app (patn0) ((cons (0) ((@nil Z))))) )
-  **  (CharArray.full text_pre (m + 1 ) (app (text0) ((cons (0) ((@nil Z))))) ))
+  **  (CharArray.full text_pre (m + 1 ) (app (text0) ((cons (0) ((@nil Z))))) )
 .
 
 Definition main_return_wit_2 := 
@@ -1029,15 +1010,10 @@ forall (text_pre: Z) (patn_pre: Z) (m: Z) (n: Z) (text0: (@list Z)) (patn0: (@li
   (CharArray.full patn_pre (n + 1 ) (app (patn0) ((cons (0) ((@nil Z))))) )
   **  (CharArray.full text_pre (m + 1 ) (app (text0) ((cons (0) ((@nil Z))))) )
 |--
-  (“ (retval = (-1)) ” 
-  &&  “ (no_occurance patn0 text0 ) ”
-  &&  (CharArray.full patn_pre (n + 1 ) (app (patn0) ((cons (0) ((@nil Z))))) )
-  **  (CharArray.full text_pre (m + 1 ) (app (text0) ((cons (0) ((@nil Z))))) ))
-  ||
-  (“ (retval >= 0) ” 
+  “ (retval >= 0) ” 
   &&  “ (first_occur patn0 text0 retval ) ”
   &&  (CharArray.full patn_pre (n + 1 ) (app (patn0) ((cons (0) ((@nil Z))))) )
-  **  (CharArray.full text_pre (m + 1 ) (app (text0) ((cons (0) ((@nil Z))))) ))
+  **  (CharArray.full text_pre (m + 1 ) (app (text0) ((cons (0) ((@nil Z))))) )
 .
 
 Definition main_partial_solve_wit_1_pure := 

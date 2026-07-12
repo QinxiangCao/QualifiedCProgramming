@@ -52,6 +52,12 @@ Proof. Admitted.
 Lemma proof_of_exgcd_safety_wit_11 : exgcd_safety_wit_11.
 Proof. Admitted. 
 
+Lemma proof_of_exgcd_safety_wit_12 : exgcd_safety_wit_12.
+Proof. Admitted. 
+
+Lemma proof_of_exgcd_safety_wit_13 : exgcd_safety_wit_13.
+Proof. Admitted. 
+
 Lemma proof_of_exgcd_safety_wit_14 : exgcd_safety_wit_14.
 Proof. Admitted. 
 

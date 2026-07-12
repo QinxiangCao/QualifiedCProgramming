@@ -79,10 +79,13 @@ Proof. Admitted.
 Lemma proof_of_arr_sum_which_implies_partial_solve_wit_1 : arr_sum_which_implies_partial_solve_wit_1.
 Proof. Admitted. 
 
-Lemma proof_of_arr_sum_which_implies_partial_solve_wit_2_pure : arr_sum_which_implies_partial_solve_wit_2_pure.
+Lemma proof_of_arr_sum_which_implies_partial_solve_wit_2 : arr_sum_which_implies_partial_solve_wit_2.
 Proof. Admitted. 
 
-Lemma proof_of_arr_sum_which_implies_partial_solve_wit_2 : arr_sum_which_implies_partial_solve_wit_2.
+Lemma proof_of_arr_sum_which_implies_partial_solve_wit_3_pure : arr_sum_which_implies_partial_solve_wit_3_pure.
+Proof. Admitted. 
+
+Lemma proof_of_arr_sum_which_implies_partial_solve_wit_3 : arr_sum_which_implies_partial_solve_wit_3.
 Proof. Admitted. 
 
 Lemma proof_of_arr_sum_which_implies_which_implies_wit_1 : arr_sum_which_implies_which_implies_wit_1.
@@ -106,10 +109,10 @@ Proof. Admitted.
 Lemma proof_of_arr_sum_update_partial_solve_wit_1 : arr_sum_update_partial_solve_wit_1.
 Proof. Admitted. 
 
-Lemma proof_of_arr_sum_update_partial_solve_wit_2_pure : arr_sum_update_partial_solve_wit_2_pure.
+Lemma proof_of_arr_sum_update_partial_solve_wit_2 : arr_sum_update_partial_solve_wit_2.
 Proof. Admitted. 
 
-Lemma proof_of_arr_sum_update_partial_solve_wit_2 : arr_sum_update_partial_solve_wit_2.
+Lemma proof_of_arr_sum_update_partial_solve_wit_3 : arr_sum_update_partial_solve_wit_3.
 Proof. Admitted. 
 
 Lemma proof_of_arr_sum_pointer_safety_wit_1 : arr_sum_pointer_safety_wit_1.

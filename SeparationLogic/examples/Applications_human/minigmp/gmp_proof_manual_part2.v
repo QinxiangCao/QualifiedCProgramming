@@ -32,10 +32,6 @@ Proof.
   Exists (list_to_Z UINT_MOD (sublist 0 1 l)).
   Exists (list_to_Z UINT_MOD (unsigned_last_nbits (Znth 0 l 0 + b_pre) 32 :: nil)).
   entailer! ; unfold UINT_MOD in * ; simpl ; pose proof (unsigned_Lastnbits_range (Znth 0 l 0 + b_pre) 32) ; try lia.
-  sep_apply UIntArray.undef_missing_i_to_undef_seg_head ; try lia.
-  replace (0 + 1) with 1 by lia.
-  entailer!.
-  simpl.
   unfold unsigned_last_nbits in *.
   replace (2 ^ 32) with 4294967296 in * by reflexivity.
   rewrite (sublist_single 0) ; try lia. simpl. 
@@ -57,9 +53,6 @@ Proof.
   Exists (list_to_Z UINT_MOD (sublist 0 1 l)).
   Exists (list_to_Z UINT_MOD (unsigned_last_nbits (Znth 0 l 0 + b_pre) 32 :: nil)).
   entailer! ; unfold UINT_MOD in * ; simpl ; pose proof (unsigned_Lastnbits_range (Znth 0 l 0 + b_pre) 32) ; try lia.
-  sep_apply UIntArray.undef_missing_i_to_undef_seg_head ; try lia.
-  replace (0 + 1) with 1 by lia.
-  entailer!.
   rewrite (sublist_single 0) ; try lia.
   simpl.
   unfold unsigned_last_nbits in *.
@@ -538,7 +531,6 @@ Qed.
 Lemma proof_of_mpn_sub_1_entail_wit_2_1 : mpn_sub_1_entail_wit_2_1.
 Proof.
   pre_process.
-  sep_apply (UIntArray.undef_missing_i_to_undef_seg_head rp_pre 0 n_pre); try lia.
   Exists ((Znth 0 l 0 - b_pre) :: nil).
   entailer!.
   - sep_apply_l_atomic (UIntArray.seg_single rp_pre 0 (Znth 0 l 0 - b_pre)).
@@ -555,7 +547,7 @@ Proof.
     + simpl. rewrite Zlength_nil in PreH2. lia.
     + simpl in PreH4. destruct PreH4 as [[Hd_ge Hd_lt] _].
       unfold UINT_MOD in *.
-      simpl in H. unfold Znth in H. simpl in H.
+      unfold Znth in PreH1. simpl in PreH1.
       change (Znth 0 (z :: l) 0) with z.
       change (Znth 0 (z :: l) 0) with z in PreH1.
       split; [lia | exact I].
@@ -564,7 +556,6 @@ Qed.
 Lemma proof_of_mpn_sub_1_entail_wit_2_2 : mpn_sub_1_entail_wit_2_2.
 Proof.
   pre_process.
-  sep_apply (UIntArray.undef_missing_i_to_undef_seg_head rp_pre 0 n_pre); try lia.
   Exists ((unsigned_last_nbits (Znth 0 l 0 - b_pre) 32) :: nil).
   entailer!.
   - sep_apply_l_atomic (UIntArray.seg_single rp_pre 0 (unsigned_last_nbits (Znth 0 l 0 - b_pre) 32)).

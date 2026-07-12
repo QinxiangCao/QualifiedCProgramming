@@ -634,6 +634,98 @@ Proof.
   apply store_8byte_store_8byte_noinit.
 Qed.
 
+Lemma store_float_undef_store_float:
+  forall x v,
+    x # Float |-> v |-- x # Float |->_.
+Proof.
+  intros.
+  unfold store_float, undef_store_float.
+  destruct (bits_of_float_value v).
+  - apply derivable1_andp_mono.
+    + apply coq_prop_imply. tauto.
+    + apply store_4byte_store_4byte_noinit.
+  - apply coq_prop_False_left. tauto.
+Qed.
+
+Lemma store_double_undef_store_double:
+  forall x v,
+    x # Double |-> v |-- x # Double |->_.
+Proof.
+  intros.
+  unfold store_double, undef_store_double.
+  destruct (bits_of_double_value v).
+  - apply derivable1_andp_mono.
+    + apply coq_prop_imply. tauto.
+    + apply store_8byte_store_8byte_noinit.
+  - apply coq_prop_False_left. tauto.
+Qed.
+
+Lemma store_finite_float_undef_store_finite_float:
+  forall x v,
+    x # FiniteFloat |-> v |-- x # FiniteFloat |->_.
+Proof.
+  intros.
+  unfold store_finite_float, undef_store_finite_float.
+  apply coq_prop_andp_left. intros _.
+  apply store_float_undef_store_float.
+Qed.
+
+Lemma store_finite_double_undef_store_finite_double:
+  forall x v,
+    x # FiniteDouble |-> v |-- x # FiniteDouble |->_.
+Proof.
+  intros.
+  unfold store_finite_double, undef_store_finite_double.
+  apply coq_prop_andp_left. intros _.
+  apply store_double_undef_store_double.
+Qed.
+
+Lemma valid_store_float:
+  forall x v,
+    x # Float |-> v |-- “ isvalidptr_float x ”.
+Proof.
+  intros.
+  unfold store_float.
+  destruct (bits_of_float_value v); entailer!.
+Qed.
+
+Lemma valid_store_double:
+  forall x v,
+    x # Double |-> v |-- “ isvalidptr_double x ”.
+Proof.
+  intros.
+  unfold store_double.
+  destruct (bits_of_double_value v); entailer!.
+Qed.
+
+Lemma valid_store_finite_float:
+  forall x v,
+    x # FiniteFloat |-> v |--
+    “ fp32_isFinite v /\ isvalidptr_float x ”.
+Proof.
+  intros.
+  unfold store_finite_float.
+  apply coq_prop_andp_left. intros Hfinite.
+  eapply derivable1_trans.
+  - apply valid_store_float.
+  - apply coq_prop_imply. intros Hvalid.
+    split; auto.
+Qed.
+
+Lemma valid_store_finite_double:
+  forall x v,
+    x # FiniteDouble |-> v |--
+    “ fp64_isFinite v /\ isvalidptr_double x ”.
+Proof.
+  intros.
+  unfold store_finite_double.
+  apply coq_prop_andp_left. intros Hfinite.
+  eapply derivable1_trans.
+  - apply valid_store_double.
+  - apply coq_prop_imply. intros Hvalid.
+    split; auto.
+Qed.
+
 Lemma poly_store_poly_undef_store: forall x ty v,
   poly_store ty x v |-- poly_undef_store ty x.
 Proof.
@@ -651,6 +743,31 @@ Proof.
   + apply store_uchar_undef_store_uchar.
   + apply store_uint64_undef_store_uint64.
   + apply store_ushort_undef_store_ushort.
+  + apply store_float_undef_store_float.
+  + apply store_double_undef_store_double.
+  + apply store_ptr_undef_store_ptr.
+Qed.
+
+Lemma typed_poly_store_poly_undef_store:
+  forall x ty (v : front_end_type_value ty),
+    typed_poly_store ty x v |-- poly_undef_store ty x.
+Proof.
+  intros.
+  destruct ty; simpl.
+  + unfold Invalid_store; entailer!.
+  + unfold Invalid_store; entailer!.
+  + unfold Invalid_store; entailer!.
+  + unfold Invalid_store; entailer!.
+  + apply store_int_undef_store_int.
+  + apply store_char_undef_store_char.
+  + apply store_int64_undef_store_int64.
+  + apply store_short_undef_store_short.
+  + apply store_uint_undef_store_uint.
+  + apply store_uchar_undef_store_uchar.
+  + apply store_uint64_undef_store_uint64.
+  + apply store_ushort_undef_store_ushort.
+  + apply store_float_undef_store_float.
+  + apply store_double_undef_store_double.
   + apply store_ptr_undef_store_ptr.
 Qed.
 
@@ -1271,6 +1388,120 @@ Proof.
   entailer!.
 Qed.
 
+Lemma aligned_8_aligned_4 :
+  forall x, aligned_8 x -> aligned_4 x.
+Proof.
+  unfold aligned_8, aligned_4.
+  intros x H.
+  apply Z.mod_divide in H; try lia.
+  destruct H as [k Hk].
+  subst x.
+  replace (k * 8) with ((2 * k) * 4) by ring.
+  apply Z_mod_mult.
+Qed.
+
+Lemma store_float_aligned4 :
+  forall x v,
+    x # Float |-> v |-- “ aligned_4 x ”.
+Proof.
+  intros.
+  unfold store_float.
+  destruct (bits_of_float_value v); entailer!.
+  unfold isvalidptr_float in H. tauto.
+Qed.
+
+Lemma store_double_aligned8 :
+  forall x v,
+    x # Double |-> v |-- “ aligned_8 x ”.
+Proof.
+  intros.
+  unfold store_double.
+  destruct (bits_of_double_value v); entailer!.
+  unfold isvalidptr_double in H. tauto.
+Qed.
+
+Lemma store_finite_float_aligned4 :
+  forall x v,
+    x # FiniteFloat |-> v |-- “ aligned_4 x ”.
+Proof.
+  intros.
+  unfold store_finite_float.
+  apply coq_prop_andp_left. intros _.
+  apply store_float_aligned4.
+Qed.
+
+Lemma store_finite_double_aligned8 :
+  forall x v,
+    x # FiniteDouble |-> v |-- “ aligned_8 x ”.
+Proof.
+  intros.
+  unfold store_finite_double.
+  apply coq_prop_andp_left. intros _.
+  apply store_double_aligned8.
+Qed.
+
+Lemma undef_store_float_align4 :
+  forall x, x # Float |->_ |-- store_align4_n 1.
+Proof.
+  intros.
+  unfold undef_store_float, store_align4_n. simpl.
+  Intros. Exists [x].
+  simpl.
+  entailer!.
+  unfold isvalidptr_float, aligned_4 in H.
+  constructor; auto; try lia.
+  constructor.
+Qed.
+
+Lemma store_float_align4 :
+  forall x v,
+    x # Float |-> v |-- store_align4_n 1.
+Proof.
+  intros.
+  sep_apply store_float_undef_store_float.
+  sep_apply undef_store_float_align4.
+  entailer!.
+Qed.
+
+Lemma undef_store_double_align4 :
+  forall x, x # Double |->_ |-- store_align4_n 2.
+Proof.
+  intros.
+  unfold undef_store_double, store_align4_n. simpl.
+  Intros. Exists (x :: [x + 4]).
+  simpl.
+  entailer!.
+  - unfold store_8byte_noninit, store_4byte_noninit.
+    replace (x + 4 + 1) with (x + 5) by lia.
+    replace (x + 4 + 2) with (x + 6) by lia.
+    replace (x + 4 + 3) with (x + 7) by lia.
+    entailer!.
+		  - unfold isvalidptr_double in H. unfold isvalidptr.
+		    repeat split; try lia.
+		    destruct H as [? [? H8]].
+		    pose proof (aligned_8_aligned_4 x H8) as H4.
+		    unfold aligned_4 in *.
+		    rewrite <- Zplus_mod_idemp_l.
+		    rewrite H4. reflexivity.
+	  - unfold isvalidptr_double in H. unfold isvalidptr.
+	    repeat split; try lia.
+	    destruct H as [? [? H8]].
+	    pose proof (aligned_8_aligned_4 x H8) as H4.
+	    exact H4.
+  - unfold isvalidptr_double, aligned_8 in H.
+    repeat constructor; try lia.
+Qed.
+
+Lemma store_double_align4 :
+  forall x v,
+    x # Double |-> v |-- store_align4_n 2.
+Proof.
+  intros.
+  sep_apply store_double_undef_store_double.
+  sep_apply undef_store_double_align4.
+  entailer!.
+Qed.
+
 Lemma undef_store_ptr_align4 : forall x, x # Ptr |->_ |-- store_align4_n 1.
 Proof.
   intros.
@@ -1497,6 +1728,48 @@ Proof.
       split ; try lia.
       destruct H. inversion H1.
       auto.
+Qed.
+
+Lemma store_float_align :
+  forall x v,
+    x # Float |-> v |-- store_align_n 4.
+Proof.
+  intros.
+  eapply derivable1_trans.
+  - apply store_float_align4.
+  - replace 4 with (4 * 1) by lia.
+    apply store_align4_to_store_align.
+Qed.
+
+Lemma store_double_align :
+  forall x v,
+    x # Double |-> v |-- store_align_n 8.
+Proof.
+  intros.
+  eapply derivable1_trans.
+  - apply store_double_align4.
+  - replace 8 with (4 * 2) by lia.
+    apply store_align4_to_store_align.
+Qed.
+
+Lemma store_finite_float_align :
+  forall x v,
+    x # FiniteFloat |-> v |-- store_align_n 4.
+Proof.
+  intros.
+  unfold store_finite_float.
+  apply coq_prop_andp_left. intros _.
+  apply store_float_align.
+Qed.
+
+Lemma store_finite_double_align :
+  forall x v,
+    x # FiniteDouble |-> v |-- store_align_n 8.
+Proof.
+  intros.
+  unfold store_finite_double.
+  apply coq_prop_andp_left. intros _.
+  apply store_double_align.
 Qed.
 
 Lemma store_ptr_store_uint : forall x v, x # Ptr |-> v |-- x # UInt |-> v.

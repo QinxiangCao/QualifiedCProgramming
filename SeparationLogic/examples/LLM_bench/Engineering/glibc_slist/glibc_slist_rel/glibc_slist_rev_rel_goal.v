@@ -76,9 +76,7 @@ forall (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> 
 
 Definition glibc_slist_clean_rev_entail_wit_1_split_goal_1 := 
 forall (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (PreH1 : (safeExec ATrue (glibc_slist_clean_rev_M (l1_low_level_spec)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (bind ((glibc_slist_clean_rev_M_loop ((@nil Z)) (l1_low_level_spec))) (glibc_slist_clean_rev_M_loop_end)) X_low_level_spec ) ”
+  (safeExec ATrue (bind ((glibc_slist_clean_rev_M_loop ((@nil Z)) (l1_low_level_spec))) (glibc_slist_clean_rev_M_loop_end)) X_low_level_spec )
 .
 
 Definition glibc_slist_clean_rev_entail_wit_2 := 
@@ -106,9 +104,7 @@ forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (x: Z) (l1_2: (@list Z)
 
 Definition glibc_slist_clean_rev_entail_wit_2_split_goal_1 := 
 forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (x: Z) (l1_2: (@list Z)) (l2_2: (@list Z)) (x_2: Z) (l0: (@list Z)) (PreH1 : (l2_2 = (cons (x_2) (l0)))) (PreH2 : (x <> 0)) (PreH3 : (safeExec ATrue (bind ((glibc_slist_clean_rev_M_loop (l1_2) (l2_2))) (glibc_slist_clean_rev_M_loop_end)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (bind ((glibc_slist_clean_rev_M_loop ((cons (x_2) (l1_2))) (l0))) (glibc_slist_clean_rev_M_loop_end)) X_low_level_spec ) ”
+  (safeExec ATrue (bind ((glibc_slist_clean_rev_M_loop ((cons (x_2) (l1_2))) (l0))) (glibc_slist_clean_rev_M_loop_end)) X_low_level_spec )
 .
 
 Definition glibc_slist_clean_rev_return_wit_1 := 
@@ -134,6 +130,13 @@ forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (x: Z) (l1: (@list Z)) 
   (sll x l2_2 )
 |--
   “ (safeExec ATrue (return (l1)) X_low_level_spec ) ”
+.
+
+Definition glibc_slist_clean_rev_return_wit_1_split_goal_spatial := 
+forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (x: Z) (l1: (@list Z)) (l2_2: (@list Z)) (PreH1 : (x = 0)) (PreH2 : (safeExec ATrue (bind ((glibc_slist_clean_rev_M_loop (l1) (l2_2))) (glibc_slist_clean_rev_M_loop_end)) X_low_level_spec )) ,
+  (sll x l2_2 )
+|--
+  TT && emp 
 .
 
 Definition glibc_slist_clean_rev_partial_solve_wit_1 := 

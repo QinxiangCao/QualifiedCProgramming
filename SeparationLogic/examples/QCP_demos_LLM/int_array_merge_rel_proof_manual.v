@@ -206,7 +206,6 @@ Lemma proof_of_merge_entail_wit_3_2 : merge_entail_wit_3_2.
 Proof.
   pre_process.
   prop_apply (IntArray.seg_valid arr_pre j (r_pre + 1) l2_2). Intros.
-  Right.
   Exists l6_2. Exists l5_2. Exists l4_2. Exists l1_2. Exists l2_2. Exists l3_2.
   repeat (split_pure_spatial || split_pures).
   + repeat cancel.

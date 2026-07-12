@@ -1,0 +1,8 @@
+; Converted from:
+; - _CoqProject: -R SeparationLogic/MaxMinLib MaxMinLib
+; - SeparationLogic/_CoqProject: -R MaxMinLib MaxMinLib
+(coq.theory
+ (name MaxMinLib)
+ (theories SetsClass))
+
+(include_subdirs qualified)

@@ -1,4 +1,4 @@
-Require Import SetsClass.
+Require Import SetsClass.SetsClass.
 Require Import Coq.Lists.List.
 Require Import Lia.
 Require Import Coq.Logic.Classical.
@@ -9,15 +9,16 @@ From ListLib Require Import Base.Inductive.
 
 Import ListNotations.
 
-Record vpath_iff_epath_prop 
-    {G V E: Type} 
-    `{pg: Graph G V E} 
-    `{gv: GValid G} 
-    (pv: list V) 
+Record vpath_iff_epath_prop
+    {G V E: Type}
+    `{pg: Graph G V E}
+    `{gv: GValid G}
+    (g: G)
+    (pv: list V)
     (pe: list E): Prop := {
     vpath_iff_epath_length: length pv = length pe + 1;
-    vpath_iff_epath_step: 
-        forall g n u v e, 0 <= n < length pe -> 
+    vpath_iff_epath_step:
+        forall n u v e, 0 <= n < length pe ->
             nth_error pe n = Some e ->
             nth_error pv n = Some u ->
             nth_error pv (S n) = Some v ->
@@ -45,9 +46,9 @@ Class Path
             Some (tail p) = tl_error (vertex_in_path p);
     edge_in_path: 
         P -> list E;
-    vpath_iff_epath: 
-        forall g p, path_valid g p -> 
-            vpath_iff_epath_prop (vertex_in_path p) (edge_in_path p);
+    vpath_iff_epath:
+        forall g p, path_valid g p ->
+            vpath_iff_epath_prop g (vertex_in_path p) (edge_in_path p);
 }.
 
 Class EmptyPath 
