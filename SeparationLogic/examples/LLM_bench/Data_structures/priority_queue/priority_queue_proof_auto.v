@@ -35,15 +35,6 @@ Proof. Admitted.
 Lemma proof_of_push_safety_wit_5 : push_safety_wit_5.
 Proof. Admitted. 
 
-Lemma proof_of_push_entail_wit_2 : push_entail_wit_2.
-Proof. Admitted. 
-
-Lemma proof_of_push_entail_wit_7_1 : push_entail_wit_7_1.
-Proof. Admitted. 
-
-Lemma proof_of_push_return_wit_1 : push_return_wit_1.
-Proof. Admitted. 
-
 Lemma proof_of_push_partial_solve_wit_1 : push_partial_solve_wit_1.
 Proof. Admitted. 
 
@@ -69,9 +60,6 @@ Lemma proof_of_build_safety_wit_1 : build_safety_wit_1.
 Proof. Admitted. 
 
 Lemma proof_of_build_safety_wit_2 : build_safety_wit_2.
-Proof. Admitted. 
-
-Lemma proof_of_build_entail_wit_4 : build_entail_wit_4.
 Proof. Admitted. 
 
 Lemma proof_of_build_partial_solve_wit_1 : build_partial_solve_wit_1.
@@ -144,21 +132,6 @@ Lemma proof_of_pop_safety_wit_21 : pop_safety_wit_21.
 Proof. Admitted. 
 
 Lemma proof_of_pop_safety_wit_22 : pop_safety_wit_22.
-Proof. Admitted. 
-
-Lemma proof_of_pop_entail_wit_4 : pop_entail_wit_4.
-Proof. Admitted. 
-
-Lemma proof_of_pop_entail_wit_5 : pop_entail_wit_5.
-Proof. Admitted. 
-
-Lemma proof_of_pop_entail_wit_10_1 : pop_entail_wit_10_1.
-Proof. Admitted. 
-
-Lemma proof_of_pop_return_wit_1 : pop_return_wit_1.
-Proof. Admitted. 
-
-Lemma proof_of_pop_return_wit_2 : pop_return_wit_2.
 Proof. Admitted. 
 
 Lemma proof_of_pop_partial_solve_wit_1 : pop_partial_solve_wit_1.

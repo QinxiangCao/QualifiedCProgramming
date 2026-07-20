@@ -246,6 +246,38 @@ Definition BFS_IH (d: nat) (s: St) : Prop :=
   (* (3) queue = exactly the nodes at BFS distance d *)
   (forall v, In v s.(q) <-> bfs_dist v d).
 
+Definition BFSLayerCond (d: nat) (s: St) : Prop :=
+  exists v, In v s.(q) /\ bfs_dist v d.
+
+Definition BFSLayerInv (d: nat) (s: St) : Prop :=
+  (* All vertices from completed layers [<= d] already have their final
+     shortest-path distances recorded in [dist]. *)
+  (forall v d', bfs_dist v d' -> d' <= d -> s.(dist) v = Some d') /\
+  (* Vertices outside the completed/current frontier [<= S d] are still
+     undiscovered. *)
+  (forall v, ~ bfs_dist_le v (S d) -> s.(dist) v = None) /\
+  exists qd qnext,
+    (* The queue is split into the unprocessed remainder of layer [d] and the
+       already-discovered vertices of the next layer. *)
+    s.(q) = qd ++ qnext /\
+    (* The current-layer part of the queue contains only distance-[d]
+       vertices. *)
+    (forall v, In v qd -> bfs_dist v d) /\
+    (* The next-layer queue is exactly the set of vertices whose distance has
+       already been set to [S d]. *)
+    (forall v, In v qnext <-> s.(dist) v = Some (S d)) /\
+    (* Every vertex already placed in [qnext] is a next-layer neighbor
+       of some current-layer vertex. *)
+    (forall v, In v qnext ->
+      exists u, bfs_dist u d /\ step u v /\ bfs_dist v (S d)) /\
+    (* Every next-layer neighbor of an already-popped current-layer vertex has
+       already been placed in [qnext]. *)
+    (forall u v,
+      bfs_dist u d -> ~ In u qd ->
+      step u v -> bfs_dist v (S d) -> In v qnext) /\
+    (* Other next-layer vertices have not been discovered yet. *)
+    (forall v, bfs_dist v (S d) -> ~ In v qnext -> s.(dist) v = None).
+
 Definition BFSRelPre (n: nat) :=
   fun '(l1, l2, dmap, d) s =>
     s.(q) = l1 ++ l2 /\
@@ -312,6 +344,153 @@ Proof.
         subst v.
         simpl.
         auto.
+Qed.
+
+Lemma BFSLayerInv_qnext_sound :
+  forall d s (qnext: list V),
+    (forall v, In v qnext ->
+      exists u, bfs_dist u d /\ step u v /\ bfs_dist v (S d)) ->
+    (forall v, In v qnext <-> s.(dist) v = Some (S d)) ->
+    forall v, s.(dist) v = Some (S d) -> bfs_dist v (S d).
+Proof.
+  intros d s qnext Hqnext_step Hqnext v Hdist.
+  apply Hqnext in Hdist.
+  destruct (Hqnext_step v Hdist) as [u [_ [_ Hv_Sd]]].
+  exact Hv_Sd.
+Qed.
+
+Lemma BFS_IH_to_BFSLayerInv :
+  forall d s,
+    BFS_IH d s ->
+    BFSLayerInv d s.
+Proof.
+  intros d s [Hcorrect [Hnone Hqueue]].
+  unfold BFSLayerInv.
+  split.
+  - exact Hcorrect.
+  - split.
+    + intros v Hnot_le_S.
+      apply Hnone.
+      intro Hle_d.
+      apply Hnot_le_S.
+      destruct Hle_d as [k [Hk Hkle]].
+      exists k.
+      split; [exact Hk | lia].
+    + exists s.(q), nil.
+      split.
+      * rewrite app_nil_r. reflexivity.
+      * split.
+        -- intros v Hin.
+           apply Hqueue.
+           exact Hin.
+        -- split.
+           ++ intros v.
+              split; intro H.
+              ** contradiction.
+              ** assert (~ bfs_dist_le v d).
+                 {
+                   intro Hle.
+                   destruct Hle as [k [Hk Hkle]].
+                   pose proof (Hcorrect v k Hk Hkle) as Hsome.
+                   rewrite H in Hsome.
+                   inversion Hsome.
+                   lia.
+                 }
+                 pose proof (Hnone v H0) as Hnone_v.
+                 rewrite H in Hnone_v.
+                 discriminate.
+           ++ split.
+              ** intros v Hin.
+                 contradiction.
+              ** split.
+                 --- intros u v Hu Hnotin _ _.
+                     apply Hnotin.
+                     apply Hqueue.
+                     exact Hu.
+                 --- intros v HvS _.
+                     apply Hnone.
+                     eapply bfs_dist_not_le_lt;
+                       [exact HvS | lia].
+Qed.
+
+Lemma BFS_IH_nonempty_to_BFSLayerCond :
+  forall d s,
+    BFS_IH d s ->
+    s.(q) <> nil ->
+    BFSLayerCond d s.
+Proof.
+  intros d s [_ [_ Hqueue]] Hqnn.
+  unfold BFSLayerCond.
+  destruct s.(q) as [|u qs] eqn:Hq.
+  - contradiction.
+  - exists u.
+    split.
+    + simpl. auto.
+    + apply Hqueue.
+      simpl. auto.
+Qed.
+
+Lemma BFSLayerInv_done_BFS_IH :
+  forall d s,
+    BFSLayerInv d s ->
+    ~ BFSLayerCond d s ->
+    BFS_IH (S d) s.
+Proof.
+  intros d s Hinv Hnotcond.
+  destruct Hinv as [Hcorrect [Hnone Hrest]].
+  destruct Hrest as
+    [qd [qnext
+      [Hq [Hqd [Hqnext [Hqnext_step [Hcomplete Hnext_none]]]]]]].
+  assert (Hqd_nil: qd = nil).
+  {
+    destruct qd as [|u qd']; [reflexivity |].
+    exfalso.
+    apply Hnotcond.
+    unfold BFSLayerCond.
+    exists u.
+    split.
+    - rewrite Hq. simpl. auto.
+    - apply Hqd. simpl. auto.
+  }
+  unfold BFS_IH.
+  split.
+  - intros v d' Hdist Hdle.
+    destruct (Nat.eq_dec d' (S d)) as [Heq | Hneq].
+    + subst d'.
+      pose proof Hdist as Hpred.
+      apply bfs_dist_S_pred in Hpred.
+      destruct Hpred as [u [Hu Hstep]].
+      apply Hqnext.
+      eapply Hcomplete; [exact Hu | | exact Hstep | exact Hdist].
+      rewrite Hqd_nil.
+      intros Hin.
+      contradiction.
+    + apply Hcorrect with (d' := d'); [exact Hdist | lia].
+  - split.
+    + intros v Hnot.
+      apply Hnone.
+      intro Hle.
+      apply Hnot.
+      destruct Hle as [k [Hk Hkle]].
+      exists k.
+      split; [exact Hk | lia].
+    + intros v.
+      split.
+      * intros Hin.
+        rewrite Hq, Hqd_nil in Hin.
+        simpl in Hin.
+        apply Hqnext in Hin.
+        eapply BFSLayerInv_qnext_sound; eauto.
+      * intros Hdist.
+        rewrite Hq, Hqd_nil.
+        simpl.
+        pose proof Hdist as Hpred.
+        apply bfs_dist_S_pred in Hpred.
+        destruct Hpred as [u [Hu Hstep]].
+        eapply Hcomplete; [exact Hu | | exact Hstep | exact Hdist].
+        rewrite Hqd_nil.
+        intros Hin.
+        contradiction.
 Qed.
 
 Lemma BFSRel_assoc m n s1 s2 s3:
@@ -692,6 +871,180 @@ Proof.
     }
 Qed.
 
+Lemma bfs_body_BFSLayerInv :
+  forall d,
+    Hoare
+      (fun s => BFSLayerInv d s /\ BFSLayerCond d s)
+      bfs_body
+      (fun _ => BFSLayerInv d).
+Proof.
+  intros d.
+  intro_state.
+  destruct H as [Hinv Hcond_layer].
+  destruct Hinv as [Hcorrect [Hnone Hrest]].
+  destruct Hrest as
+    [qd [qnext
+      [Hq [Hqd [Hqnext [Hqnext_step [Hcomplete Hnext_none]]]]]]].
+  assert (Hqd_nonempty: qd <> nil).
+  {
+    destruct Hcond_layer as [v [Hin Hv_d]].
+    rewrite Hq in Hin.
+    apply in_app_or in Hin.
+    destruct Hin as [Hin_qd | Hin_qnext].
+    - intro Hnil. rewrite Hnil in Hin_qd. contradiction.
+    - apply Hqnext in Hin_qnext.
+      pose proof (BFSLayerInv_qnext_sound
+        d s0 qnext Hqnext_step Hqnext v Hin_qnext) as Hv_Sd.
+      pose proof (bfs_dist_unique v d (S d) Hv_d Hv_Sd).
+      lia.
+  }
+  destruct qd as [|u qd']; [contradiction |].
+  set (tail := qd' ++ qnext).
+  assert (Hu_d: bfs_dist u d).
+  { apply Hqd. simpl. auto. }
+  pose proof Hu_d as [Hpath_u _].
+  assert (Hpre: BFSRelPre 1 ((u :: nil), tail, dist s0, d) s0).
+  {
+    unfold BFSRelPre.
+    simpl.
+    split.
+    - rewrite Hq. simpl. reflexivity.
+    - split; [reflexivity |].
+      split; [reflexivity |].
+      intros v Hin.
+      simpl in Hin.
+      destruct Hin as [Hv | []].
+      subst v.
+      apply Hcorrect with (d' := d); [exact Hu_d | lia].
+  }
+  eapply Hoare_conseq with
+    (P2 := BFSRelPre 1 ((u :: nil), tail, dist s0, d))
+    (Q2 := fun _ => BFSRelPost 1 ((u :: nil), tail, dist s0, d)).
+  - intros s Hs.
+    subst s.
+    exact Hpre.
+  - intros _ s2 Hpost.
+    unfold BFSRelPost in Hpost.
+    simpl in Hpost.
+    destruct Hpost as [l3 [Hq2 [Hl3 [Hset Hkeep]]]].
+    assert (Hl3_one:
+      forall v, In v l3 <-> step u v /\ dist s0 v = None).
+    {
+      intro v.
+      split; intro Hv.
+      - destruct (proj1 (Hl3 v) Hv) as [u0 [Hu0 [Hstep_v Hnone_v]]].
+        simpl in Hu0.
+        destruct Hu0 as [Hu0 | []].
+        subst u0.
+        split; assumption.
+      - apply (proj2 (Hl3 v)).
+        exists u.
+        split; [simpl; auto |].
+        destruct Hv as [Hstep_v Hnone_v].
+        split; assumption.
+    }
+    unfold BFSLayerInv.
+    split.
+    + intros v k Hv_k Hk_le.
+      destruct (classic (In v l3)) as [Hin3 | Hnin3].
+      * apply Hl3_one in Hin3.
+        destruct Hin3 as [_ Hold_none].
+        pose proof (Hcorrect v k Hv_k Hk_le) as Hold_some.
+        rewrite Hold_some in Hold_none.
+        discriminate.
+      * rewrite Hkeep by exact Hnin3.
+        apply Hcorrect with (d' := k); assumption.
+    + split.
+      * intros v Hnot_le.
+        rewrite Hkeep.
+        -- apply Hnone. exact Hnot_le.
+        -- intro Hin3.
+           apply Hl3_one in Hin3.
+           destruct Hin3 as [Hstep Hold_none].
+           apply Hnot_le.
+           destruct (path_of_len_min v (S d)
+             ltac:(eapply pol_S; [exact Hpath_u | eauto])) as [k [Hk Hkle]].
+           exists k.
+           split; [exact Hk | exact Hkle].
+      * exists qd', (qnext ++ l3).
+        split.
+        -- rewrite Hq2.
+           unfold tail.
+           rewrite app_assoc.
+           reflexivity.
+        -- split.
+           ++ intros v Hin.
+              apply Hqd. simpl. auto.
+           ++ split.
+              ** intros v.
+                 rewrite in_app_iff.
+                 split; intro H.
+                 --- destruct H as [Hin_qnext | Hin_l3].
+                     { destruct (classic (In v l3)) as [Hin3 | Hnin3].
+                       { apply Hset. exact Hin3. }
+                       { rewrite Hkeep by exact Hnin3.
+                         apply Hqnext. exact Hin_qnext. } }
+                     { apply Hset. exact Hin_l3. }
+                 --- destruct (classic (In v l3)) as [Hin3 | Hnin3].
+                     { right. exact Hin3. }
+                     { left.
+                       apply Hqnext.
+                       rewrite <- Hkeep by exact Hnin3.
+                       exact H. }
+              ** split.
+                 --- intros v Hin.
+                     apply in_app_or in Hin.
+                     destruct Hin as [Hin_qnext | Hin_l3].
+                     +++ apply Hqnext_step.
+                         exact Hin_qnext.
+                     +++ apply Hl3_one in Hin_l3.
+                         destruct Hin_l3 as [Hstep Hold_none].
+                         exists u.
+                         split; [exact Hu_d |].
+                         split; [exact Hstep |].
+                         destruct (path_of_len_min v (S d)
+                           ltac:(eapply pol_S; [exact Hpath_u | eauto])) as [k [Hk Hkle]].
+                         destruct (Nat.eq_dec k (S d)) as [Heq | Hneq].
+                         { subst k. exact Hk. }
+                         { assert (Hk_le_d: k <= d) by lia.
+                           pose proof (Hcorrect v k Hk Hk_le_d) as Hold_some.
+                           rewrite Hold_some in Hold_none.
+                           discriminate. }
+                 --- split.
+                     +++ intros u0 v Hu0 Hnotin_qd' Hstep0 Hv_Sd.
+                         destruct (classic (u0 = u)) as [Hu0_eq | Hu0_neq].
+                         { subst u0.
+                           destruct (classic (In v qnext)) as [Hin_qnext | Hnotin_qnext].
+                           { apply in_or_app.
+                             left. exact Hin_qnext. }
+                           { apply in_or_app.
+                             right.
+                             apply Hl3_one.
+                             split; [exact Hstep0 |].
+                             apply Hnext_none; assumption. } }
+                         { apply in_or_app.
+                           left.
+                           eapply Hcomplete; [exact Hu0 | | exact Hstep0 | exact Hv_Sd].
+                           intro Hin_qd.
+                           simpl in Hin_qd.
+                           destruct Hin_qd as [Hu0_eq | Hin_qd'].
+                           { apply Hu0_neq. symmetry. exact Hu0_eq. }
+                           { apply Hnotin_qd'. exact Hin_qd'. } }
+                     +++ intros v Hv_Sd Hnotin_new.
+                         rewrite Hkeep.
+                         { apply Hnext_none.
+                           - exact Hv_Sd.
+                           - intro Hin_qnext.
+                             apply Hnotin_new.
+                             apply in_or_app.
+                             left. exact Hin_qnext. }
+                         { intro Hin_l3.
+                           apply Hnotin_new.
+                           apply in_or_app.
+                           right. exact Hin_l3. }
+  - apply bfs_body_AbsRel.
+Qed.
+
 Lemma bfs_body_assert_AbsRel_nrm :
   forall lv, Hoare_nrm (BFSRelPre 1 lv) bfs_body_assert (fun _ => BFSRelPost 1 lv).
 Proof.
@@ -887,6 +1240,172 @@ Proof.
       * intros Hdist.
         exfalso.
         exact (Hno_Sd v Hdist).
+Qed.
+
+Lemma BFSLayerCond_implies_bfs_cond :
+  forall d s,
+    BFSLayerCond d s ->
+    bfs_cond s.
+Proof.
+  intros d s [v [Hin _]].
+  unfold bfs_cond.
+  exists v.
+  exact Hin.
+Qed.
+
+Lemma liftG_bfs_init_state :
+  Hoare
+    (fun '(_, tr) => tr = @nil St)
+    (liftG bfs_init)
+    (fun _ '(s, tr) => s = bfs_init_state /\ tr = @nil St).
+Proof.
+  eapply Hoare_liftG'.
+  intros tr.
+  unfold Hoare, bfs_init, update', update; sets_unfold.
+  split.
+  - intros s1 a s2 Hpre Heval.
+    split.
+    + unfold bfs_init_state. exact Heval.
+    + exact Hpre.
+  - intros s1 Hpre Herr; tauto.
+Qed.
+
+Lemma BFS_trace_step_from_inner :
+  forall d tr,
+    TraceImplies
+      (haveS (sLift (BFSLayerInv d)))
+      (haveS (sLift (fun s => BFSLayerInv d s /\ ~ BFSLayerCond d s)))
+      tr ->
+    TraceImplies
+      (haveS (sLift (BFS_IH d)))
+      (haveS (sLift (BFS_IH (S d))))
+      tr.
+Proof.
+  intros d tr Hinner.
+  unfold TraceImplies, impliesS, trace_implies, last_satisfyS in *.
+  intro Hhave_IH.
+  destruct (haveS_exists_nth tr (BFS_IH d) St_default Hhave_IH)
+    as [i [Hi HIH_i]].
+  destruct (q (nth i tr St_default)) as [|u qs] eqn:Hq_i.
+  - apply nth_haveS with (i := i) (d := St_default); [exact Hi |].
+    apply BFS_IH_empty_queue_succ with (d := d); assumption.
+  - assert (Hcond_i: BFSLayerCond d (nth i tr St_default)).
+    {
+      apply BFS_IH_nonempty_to_BFSLayerCond; [exact HIH_i |].
+      rewrite Hq_i.
+      discriminate.
+    }
+    assert (Hinv_i: BFSLayerInv d (nth i tr St_default)).
+    { apply BFS_IH_to_BFSLayerInv. exact HIH_i. }
+    assert (Hhave_inner:
+      last_satisfyS
+        (haveS (sLift (BFSLayerInv d))) tr).
+    {
+      apply nth_haveS with (i := i) (d := St_default); [exact Hi |].
+      exact Hinv_i.
+    }
+    specialize (Hinner Hhave_inner).
+    destruct (haveS_exists_nth tr
+      (fun s => BFSLayerInv d s /\ ~ BFSLayerCond d s)
+      St_default Hinner) as [j [Hj [Hinv_j Hdone_j]]].
+    apply nth_haveS with (i := j) (d := St_default); [exact Hj |].
+    eapply BFSLayerInv_done_BFS_IH; eauto.
+Qed.
+
+Lemma snapshot_loop_BFS_IH_step :
+  forall d,
+    Hoare
+      (fun '(_, tr) => tr = nil)
+      (snapshot_loop bfs_cond bfs_body)
+      (fun _ '(_, tr) =>
+        TraceImplies
+          (haveS (sLift (BFS_IH d)))
+          (haveS (sLift (BFS_IH (S d))))
+          tr).
+Proof.
+  intros d.
+  eapply Hoare_conseq_post.
+  2:{
+    eapply snapshot_loop_inner_have with
+      (inner_cond := BFSLayerCond d)
+      (inner_inv := BFSLayerInv d).
+    - exact bfs_body_safe.
+    - apply BFSLayerCond_implies_bfs_cond.
+    - apply bfs_body_BFSLayerInv.
+  }
+  intros _ (s, tr) Hinner.
+  apply BFS_trace_step_from_inner.
+  exact Hinner.
+Qed.
+
+Theorem BFS_t_IH0_have :
+  Hoare
+    (fun '(_, tr) => tr = nil)
+    BFS_t
+    (fun _ '(_, tr) => TraceHave (BFS_IH 0) tr).
+Proof.
+  unfold BFS_t.
+  eapply Hoare_bind with
+    (Q := fun _ '(s, tr) => s = bfs_init_state /\ tr = nil).
+  - apply liftG_bfs_init_state.
+  - intros _.
+    eapply snapshot_loop_initial_have.
+    + exact bfs_body_safe.
+    + intros s Hs.
+      subst s.
+      apply BFS_IH_0_init.
+Qed.
+
+Theorem BFS_t_IH_step_implies :
+  Hoare
+    (fun '(_, tr) => tr = nil)
+    BFS_t
+    (fun _ '(_, tr) =>
+      forall d,
+        TraceImplies
+          (haveS (sLift (BFS_IH d)))
+          (haveS (sLift (BFS_IH (S d))))
+          tr).
+Proof.
+  unfold BFS_t.
+  eapply Hoare_bind with
+    (Q := fun _ '(s, tr) => s = bfs_init_state /\ tr = nil).
+  - apply liftG_bfs_init_state.
+  - intros _.
+    unfold Hoare.
+    split.
+    + intros [] [s1 tr1] [s2 tr2] [_ Hnil] Hrun d.
+      destruct (snapshot_loop_BFS_IH_step d) as [Hnrm _].
+      change (TraceImplies
+        (haveS (sLift (BFS_IH d)))
+        (haveS (sLift (BFS_IH (S d))))
+        tr2).
+      pose proof (Hnrm tt (s1, tr1) (s2, tr2) Hnil Hrun) as Hstep.
+      exact Hstep.
+    + intros [s1 tr1] [_ Hnil] Herr.
+      destruct (snapshot_loop_BFS_IH_step 0) as [_ Herr_step].
+      eapply (Herr_step (s1, tr1)); [exact Hnil | exact Herr].
+Qed.
+
+Theorem BFS_trace_IH_have :
+  Hoare
+    (fun '(_, tr) => tr = nil)
+    BFS_t
+    (fun _ '(_, tr) => forall d, TraceHave (BFS_IH d) tr).
+Proof.
+  eapply Hoare_conseq_post.
+  2:{
+    apply Hoare_conj.
+    - apply BFS_t_IH0_have.
+    - apply BFS_t_IH_step_implies.
+  }
+  intros _ (s, tr) [Hbase Hstep] d.
+  induction d as [|d IH].
+  - exact Hbase.
+  - specialize (Hstep d).
+    unfold TraceHave in *.
+    unfold TraceImplies, impliesS, trace_implies, last_satisfyS in Hstep.
+    exact (Hstep IH).
 Qed.
 
 Lemma nth_last_default :
@@ -1245,130 +1764,6 @@ Proof.
         assumption.
 Qed.
 
-(** Hoare wrapper around [BFS_trace_IH_from_facts].  The loop-specific Hoare
-    rules provide [TraceShape] and [TraceAbsRel]; all layer reasoning remains
-    in the pure trace lemma above. *)
-Theorem BFS_trace_IH :
-  Hoare
-    (fun '(_, tr) => tr = nil)
-    BFS_t
-    (fun _ '(_, tr) =>
-        forall d, exists i,
-          i < length tr /\
-          BFS_IH d (nth i tr St_default)).
-Proof.
-  unfold BFS_t.
-  eapply Hoare_bind with
-    (Q := fun _ '(s, tr) => s = bfs_init_state /\ tr = nil).
-  - eapply Hoare_liftG'.
-    intros tr.
-    unfold Hoare, bfs_init, update', update; sets_unfold.
-    split.
-    + intros s1 a s2 Hpre Heval.
-      split.
-      * unfold bfs_init_state. exact Heval.
-      * exact Hpre.
-    + intros s1 Hpre Herr; tauto.
-  - intros _.
-    eapply Hoare_conseq_post with
-      (Q2 := fun _ x =>
-        (let '(s, tr) := x in
-         TraceShape St_default bfs_cond (fun s => s = bfs_init_state) s tr) /\
-        (let '(_, tr) := x in
-         TraceAbsRel St_default BFSRelPre BFSRelPost tr)).
-	    + intros _ (s, tr) [Hshape Hrel].
-        exact (BFS_trace_IH_from_facts s tr Hshape Hrel).
-	    + eapply Hoare_conseq_post with
-	        (Q2 := fun _ x =>
-            (let '(s, tr) := x in
-             TraceShape St_default bfs_cond (fun s => s = bfs_init_state) s tr) /\
-            (let '(_, tr) := x in
-             TraceAbsRel St_default BFSRelPre BFSRelPost tr)).
-        {
-	        intros _ (s, tr) [Hshape Hrel].
-	        destruct Hshape as [Hhd [Hlast [Hncond Hprefix]]].
-	        repeat split; auto.
-        }
-        {
-          eapply (@Hoare_conj unit (St * list St)
-            (fun '(s, tr) => s = bfs_init_state /\ tr = nil)
-            (snapshot_loop bfs_cond bfs_body)
-            (fun _ '(s, tr) =>
-              TraceShape St_default bfs_cond (fun s => s = bfs_init_state) s tr)
-            (fun _ '(_, tr) =>
-              TraceAbsRel St_default BFSRelPre BFSRelPost tr)).
-	          + eapply snapshot_loop_trace_shape.
-	            exact bfs_body_safe.
-	          + eapply Hoare_cons_pre.
-	            2:{
-	              eapply snapshot_loop_AbsRel_trace.
-	              * exact bfs_body_safe.
-	              * apply bfs_body_AbsRel.
-	              * intros s1 s2 s3 m n.
-	                apply BFSRel_assoc.
-	            }
-            intros [s0 tr0] [_ Hnil].
-            exact Hnil.
-        }
-Qed.
-
-(** Global trace shape for the whole traced BFS program.  The first snapshot is
-    the initialized state, the last snapshot is the returned state, and every
-    non-final snapshot is a state where the while condition still holds. *)
-Theorem BFS_t_trace_shape :
-  Hoare
-    (fun '(_, tr) => tr = nil)
-    BFS_t
-    (fun _ '(s, tr) =>
-      bfs_init_state = hd St_default tr /\
-      last tr St_default = s /\
-      ~ bfs_cond s /\
-      forall i, i >= 0 -> i < length tr - 1 ->
-        bfs_cond (nth i tr St_default)).
-Proof.
-  unfold BFS_t.
-  eapply Hoare_bind with
-    (Q := fun _ '(s, tr) => s = bfs_init_state /\ tr = nil).
-  - eapply Hoare_liftG'.
-    intros tr.
-    unfold Hoare, bfs_init, update', update; sets_unfold.
-    split.
-    + intros s1 a s2 Hpre Heval.
-      split.
-      * unfold bfs_init_state. exact Heval.
-      * exact Hpre.
-    + intros s1 Hpre Herr; tauto.
-  - intros _.
-    eapply Hoare_conseq_post with
-      (Q2 := fun _ x =>
-        (let '(s, tr) := x in
-         TraceShape St_default bfs_cond (fun s => s = bfs_init_state) s tr) /\
-        (let '(_, tr) := x in
-         TraceAbsRel St_default BFSRelPre BFSRelPost tr)).
-    + intros _ (s, tr) [Hshape _].
-      destruct Hshape as [Hhd [Hlast [Hncond Hprefix]]].
-      repeat split; auto.
-    + eapply (@Hoare_conj unit (St * list St)
-        (fun '(s, tr) => s = bfs_init_state /\ tr = nil)
-        (snapshot_loop bfs_cond bfs_body)
-        (fun _ '(s, tr) =>
-          TraceShape St_default bfs_cond (fun s => s = bfs_init_state) s tr)
-        (fun _ '(_, tr) =>
-          TraceAbsRel St_default BFSRelPre BFSRelPost tr)).
-	      * eapply snapshot_loop_trace_shape.
-	        exact bfs_body_safe.
-      * eapply Hoare_cons_pre.
-	        2:{
-	          eapply snapshot_loop_AbsRel_trace.
-	          - exact bfs_body_safe.
-	          - apply bfs_body_AbsRel.
-	          - intros s1 s2 s3 m n.
-	            apply BFSRel_assoc.
-	        }
-        intros [s0 tr0] [_ Hnil].
-        exact Hnil.
-Qed.
-
 Lemma BFS_IH_empty_correct :
   forall d s,
     BFS_IH d s ->
@@ -1404,34 +1799,73 @@ Proof.
 	      discriminate.
 Qed.
 
+(** If layer [d] is empty, then any state satisfying [BFS_IH d] is already a
+    loop-exit state. *)
+Lemma BFS_IH_no_layer_no_cond :
+  forall d,
+    (forall v, ~ bfs_dist v d) ->
+    forall s, BFS_IH d s -> ~ bfs_cond s.
+Proof.
+  intros d Hno_layer s [_ [_ Hqueue]] Hcond.
+  destruct Hcond as [v Hin].
+  apply (Hno_layer v).
+  apply Hqueue.
+  exact Hin.
+Qed.
+
+Lemma BFS_IH_no_layer_queue_nil :
+  forall d,
+    (forall v, ~ bfs_dist v d) ->
+    forall s, BFS_IH d s -> s.(q) = nil.
+Proof.
+  intros d Hno_layer s HIH.
+  destruct s.(q) as [|v qs] eqn:Hq; [reflexivity |].
+  exfalso.
+  eapply BFS_IH_no_layer_no_cond; eauto.
+  unfold bfs_cond.
+  exists v.
+  rewrite Hq.
+  simpl.
+  auto.
+Qed.
+
+Lemma BFS_t_have_final_BFS_IH :
+  forall d,
+    (forall v, ~ bfs_dist v d) ->
+    Hoare
+      (fun '(_, tr) => tr = nil)
+      BFS_t
+      (fun _ '(s, tr) => TraceHave (BFS_IH d) tr -> BFS_IH d s).
+Proof.
+  intros d Hno_layer.
+  unfold BFS_t.
+  eapply Hoare_bind with
+    (Q := fun _ '(s, tr) => s = bfs_init_state /\ tr = nil).
+  - apply liftG_bfs_init_state.
+  - intros _.
+    eapply Hoare_conseq with
+      (P2 := fun '(_, tr) => tr = nil)
+      (Q2 := fun _ '(s, tr) => TraceHave (BFS_IH d) tr -> BFS_IH d s).
+    + intros [s tr] [_ Hnil].
+      exact Hnil.
+    + intros _ (s, tr) Hfinal.
+      exact Hfinal.
+    + eapply (@snapshot_loop_have_final St St_default
+        bfs_cond (BFS_IH d) bfs_body bfs_body_safe).
+      intros s HIH.
+      eapply BFS_IH_no_layer_no_cond; eauto.
+Qed.
+
 (** Final loop-exit invariant, now following the standard finite-graph
     argument.  Let [dmax] bound every reachable shortest-path distance.  The
-    layer [S dmax] is empty, but [BFS_trace_IH] still provides a snapshot
-    satisfying [BFS_IH (S dmax)].  Its queue is therefore empty.  Since every
-    non-final snapshot satisfies the loop condition and hence has a nonempty
-    queue, that snapshot can only be the final state. *)
+    layer [S dmax] is empty, and [snapshot_loop_have_final] turns the trace
+    occurrence of [BFS_IH (S dmax)] into a fact about the final state. *)
 Theorem BFS_t_exit_IH :
   Hoare
     (fun '(_, tr) => tr = nil)
     BFS_t
     (fun _ '(s, tr) => exists d, BFS_IH d s /\ s.(q) = nil).
 Proof.
-  eapply Hoare_conseq_post.
-  2: {
-    apply Hoare_conj.
-    - apply BFS_t_trace_shape.
-    - apply BFS_trace_IH.
-    }
-  intros _ (s, tr) [Hshape Hall].
-  destruct Hshape as [Hhd [Hlast [Hncond Hprefix]]].
-  assert (Htr_nonempty: tr <> nil).
-  {
-    intro Hnil.
-    subst tr.
-    simpl in Hhd.
-    apply bfs_init_state_neq_default.
-    exact Hhd.
-  }
   destruct finite_bfs_dist_bound as [dmax Hbound].
   set (dmax_plus_one := S dmax).
   assert (Hno_layer: forall v, ~ bfs_dist v dmax_plus_one).
@@ -1441,40 +1875,37 @@ Proof.
     pose proof (Hbound v (S dmax) Hdist).
     lia.
   }
-  destruct (Hall dmax_plus_one) as [i [Hi_lt HIH_i]].
-  assert (Hq_nil: q (nth i tr St_default) = nil).
-  {
-    destruct (q (nth i tr St_default)) as [|u qs] eqn:Hq; [reflexivity |].
-    exfalso.
-    apply (Hno_layer u).
-    destruct HIH_i as [_ [_ Hqueue]].
-    apply Hqueue.
-    rewrite Hq.
-    simpl.
-    auto.
+  eapply Hoare_conseq_post.
+  2:{
+    apply Hoare_conj.
+    - apply BFS_t_IH0_have.
+    - apply Hoare_conj.
+      + apply BFS_t_IH_step_implies.
+      + apply BFS_t_have_final_BFS_IH.
+        exact Hno_layer.
   }
-  assert (Hi_eq: i = length tr - 1).
-  {
-    destruct (Nat.lt_ge_cases i (length tr - 1)) as [Hi_final | Hfinal_i].
-    - exfalso.
-      assert (Hcond_i: bfs_cond (nth i tr St_default)).
-      { apply Hprefix; lia. }
-      unfold bfs_cond in Hcond_i.
-      destruct Hcond_i as [u Hu].
-      rewrite Hq_nil in Hu.
-      contradiction.
-    - lia.
-  }
+  intros _ (s, tr) [Hbase [Hstep Hfinal]].
   exists dmax_plus_one.
-  assert (Hlast_state: nth i tr St_default = s).
+  assert (Hall_have: forall d, TraceHave (BFS_IH d) tr).
   {
-    rewrite Hi_eq.
-    rewrite (nth_last_default tr (length tr - 1) St_default
-              Htr_nonempty eq_refl).
-    exact Hlast.
+    intro d.
+    induction d as [|d IH].
+    - exact Hbase.
+    - specialize (Hstep d).
+      unfold TraceHave in *.
+      unfold TraceImplies, impliesS, trace_implies, last_satisfyS in Hstep.
+      exact (Hstep IH).
   }
-  rewrite Hlast_state in HIH_i, Hq_nil.
-  split; assumption.
+  assert (Hhave_target: TraceHave (BFS_IH dmax_plus_one) tr).
+  { apply Hall_have. }
+  assert (HIH_final: BFS_IH dmax_plus_one s).
+  {
+    apply Hfinal.
+    exact Hhave_target.
+  }
+  split.
+  - exact HIH_final.
+  - eapply BFS_IH_no_layer_queue_nil; eauto.
 Qed.
 
 Theorem BFS_t_correct :

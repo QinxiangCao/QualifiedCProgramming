@@ -33,8 +33,8 @@ From SimpleC.EE.QCP_demos_human Require Import safeexec_strategy_proof.
 
 Definition alpha_equiv_safety_wit_1 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) ,
-  ((( &( "t2" ) )) # Ptr  |-> t2_pre)
-  **  ((( &( "t1" ) )) # Ptr  |-> t1_pre)
+  ((( &( "t1" ) )) # Ptr  |-> t1_pre)
+  **  ((( &( "t2" ) )) # Ptr  |-> t2_pre)
   **  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 |--
@@ -44,8 +44,8 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) ,
 
 Definition alpha_equiv_safety_wit_2 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (PreH1 : (t1_pre <> 0)) ,
-  ((( &( "t2" ) )) # Ptr  |-> t2_pre)
-  **  ((( &( "t1" ) )) # Ptr  |-> t1_pre)
+  ((( &( "t1" ) )) # Ptr  |-> t1_pre)
+  **  ((( &( "t2" ) )) # Ptr  |-> t2_pre)
   **  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 |--
@@ -55,8 +55,8 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (PreH1 : (t1_pre <> 0
 
 Definition alpha_equiv_safety_wit_3 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (PreH1 : (t1_pre = 0)) ,
-  ((( &( "t2" ) )) # Ptr  |-> t2_pre)
-  **  ((( &( "t1" ) )) # Ptr  |-> t1_pre)
+  ((( &( "t1" ) )) # Ptr  |-> t1_pre)
+  **  ((( &( "t2" ) )) # Ptr  |-> t2_pre)
   **  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 |--
@@ -66,8 +66,8 @@ forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (PreH1 : (t1_pre = 0)
 
 Definition alpha_equiv_safety_wit_4 := 
 forall (t2_pre: Z) (t1_pre: Z) (term2: term) (term1: term) (PreH1 : (t2_pre = 0)) (PreH2 : (t1_pre <> 0)) ,
-  ((( &( "t2" ) )) # Ptr  |-> t2_pre)
-  **  ((( &( "t1" ) )) # Ptr  |-> t1_pre)
+  ((( &( "t1" ) )) # Ptr  |-> t1_pre)
+  **  ((( &( "t2" ) )) # Ptr  |-> t2_pre)
   **  (store_term t1_pre term1 )
   **  (store_term t2_pre term2 )
 |--

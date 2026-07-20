@@ -32,10 +32,10 @@ From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_proof.
 Definition energyNecklace_safety_wit_1 := 
 forall (dp_pre: Z) (vals_pre: Z) (n_pre: Z) (beads_pre: Z) (beads_l: (@list Z)) (PreH1 : (4 <= n_pre)) (PreH2 : (n_pre <= 100)) (PreH3 : ((Zlength (beads_l)) = n_pre)) (PreH4 : (EnergyLabelsBounded beads_l n_pre )) (PreH5 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
   ((( &( "total" ) )) # Int  |->_)
-  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
-  **  ((( &( "vals" ) )) # Ptr  |-> vals_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "beads" ) )) # Ptr  |-> beads_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "vals" ) )) # Ptr  |-> vals_pre)
+  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
   **  (IntArray.full beads_pre n_pre beads_l )
   **  (IntArray.undef_full vals_pre (2 * n_pre ) )
   **  (IntArray.undef_full dp_pre ((2 * n_pre ) * (2 * n_pre ) ) )
@@ -47,10 +47,10 @@ forall (dp_pre: Z) (vals_pre: Z) (n_pre: Z) (beads_pre: Z) (beads_l: (@list Z)) 
 Definition energyNecklace_safety_wit_2 := 
 forall (dp_pre: Z) (vals_pre: Z) (n_pre: Z) (beads_pre: Z) (beads_l: (@list Z)) (PreH1 : (4 <= n_pre)) (PreH2 : (n_pre <= 100)) (PreH3 : ((Zlength (beads_l)) = n_pre)) (PreH4 : (EnergyLabelsBounded beads_l n_pre )) (PreH5 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
   ((( &( "total" ) )) # Int  |->_)
-  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
-  **  ((( &( "vals" ) )) # Ptr  |-> vals_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "beads" ) )) # Ptr  |-> beads_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "vals" ) )) # Ptr  |-> vals_pre)
+  **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
   **  (IntArray.full beads_pre n_pre beads_l )
   **  (IntArray.undef_full vals_pre (2 * n_pre ) )
   **  (IntArray.undef_full dp_pre ((2 * n_pre ) * (2 * n_pre ) ) )
@@ -1259,11 +1259,19 @@ forall (dp_pre: Z) (vals_pre: Z) (n_pre: Z) (beads_pre: Z) (beads_l: (@list Z)) 
 forall (dp_pre: Z) (n_pre: Z) (beads_l: (@list Z)) (total: Z) (width: Z) (PreH1 : (total = (2 * n_pre ))) (PreH2 : (width = total)) (PreH3 : (4 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (8 <= total)) (PreH6 : (total <= 200)) (PreH7 : ((Zlength (beads_l)) = n_pre)) (PreH8 : (EnergyLabelsBounded beads_l n_pre )) (PreH9 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
   (IntArray.undef_full dp_pre (total * width ) )
 |--
-  “ ((Zlength ((@nil Z))) = 0) ”
+  “ forall (k: Z) , (((0 <= k) /\ (k < 0)) -> ((Znth k (@nil Z) 0) = (Znth k beads_l 0))) ” 
+  &&  “ ((Zlength ((@nil Z))) = 0) ”
   &&  (IntArray.undef_full dp_pre (total * width ) )
 ).
 
 Definition energyNecklace_entail_wit_2_split_goal_1 := 
+forall (dp_pre: Z) (n_pre: Z) (beads_l: (@list Z)) (total: Z) (width: Z) (PreH1 : (total = (2 * n_pre ))) (PreH2 : (width = total)) (PreH3 : (4 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (8 <= total)) (PreH6 : (total <= 200)) (PreH7 : ((Zlength (beads_l)) = n_pre)) (PreH8 : (EnergyLabelsBounded beads_l n_pre )) (PreH9 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
+  (IntArray.undef_full dp_pre (total * width ) )
+|--
+  “ forall (k: Z) , (((0 <= k) /\ (k < 0)) -> ((Znth k (@nil Z) 0) = (Znth k beads_l 0))) ”
+.
+
+Definition energyNecklace_entail_wit_2_split_goal_2 := 
 forall (dp_pre: Z) (n_pre: Z) (beads_l: (@list Z)) (total: Z) (width: Z) (PreH1 : (total = (2 * n_pre ))) (PreH2 : (width = total)) (PreH3 : (4 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (8 <= total)) (PreH6 : (total <= 200)) (PreH7 : ((Zlength (beads_l)) = n_pre)) (PreH8 : (EnergyLabelsBounded beads_l n_pre )) (PreH9 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
   (IntArray.undef_full dp_pre (total * width ) )
 |--
@@ -1308,19 +1316,11 @@ forall (dp_pre: Z) (vals_pre: Z) (n_pre: Z) (beads_pre: Z) (beads_l: (@list Z)) 
 forall (dp_pre: Z) (n_pre: Z) (beads_l: (@list Z)) (i: Z) (vals_l_2: (@list Z)) (width: Z) (total: Z) (PreH1 : (i < n_pre)) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : ((Zlength (beads_l)) = n_pre)) (PreH9 : ((Zlength (vals_l_2)) = i)) (PreH10 : (0 <= i)) (PreH11 : (i <= n_pre)) (PreH12 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth k vals_l_2 0) = (Znth k beads_l 0)))) (PreH13 : (EnergyLabelsBounded beads_l n_pre )) (PreH14 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
   (IntArray.undef_full dp_pre (total * width ) )
 |--
-  “ (((Znth 0 (app (vals_l_2) ((cons ((Znth i beads_l 0)) ((@nil Z))))) 0) = (Znth 0 beads_l 0)) /\ ((Znth ((i + 1 ) - 1 ) (app (vals_l_2) ((cons ((Znth i beads_l 0)) ((@nil Z))))) 0) = (Znth ((i + 1 ) - 1 ) beads_l 0))) ” 
-  &&  “ ((Zlength ((app (vals_l_2) ((cons ((Znth i beads_l 0)) ((@nil Z))))))) = (i + 1 )) ”
+  “ ((Zlength ((app (vals_l_2) ((cons ((Znth i beads_l 0)) ((@nil Z))))))) = (i + 1 )) ”
   &&  (IntArray.undef_full dp_pre (total * width ) )
 ).
 
 Definition energyNecklace_entail_wit_3_split_goal_1 := 
-forall (dp_pre: Z) (n_pre: Z) (beads_l: (@list Z)) (i: Z) (vals_l_2: (@list Z)) (width: Z) (total: Z) (PreH1 : (i < n_pre)) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : ((Zlength (beads_l)) = n_pre)) (PreH9 : ((Zlength (vals_l_2)) = i)) (PreH10 : (0 <= i)) (PreH11 : (i <= n_pre)) (PreH12 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth k vals_l_2 0) = (Znth k beads_l 0)))) (PreH13 : (EnergyLabelsBounded beads_l n_pre )) (PreH14 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
-  (IntArray.undef_full dp_pre (total * width ) )
-|--
-  “ (((Znth 0 (app (vals_l_2) ((cons ((Znth i beads_l 0)) ((@nil Z))))) 0) = (Znth 0 beads_l 0)) /\ ((Znth ((i + 1 ) - 1 ) (app (vals_l_2) ((cons ((Znth i beads_l 0)) ((@nil Z))))) 0) = (Znth ((i + 1 ) - 1 ) beads_l 0))) ”
-.
-
-Definition energyNecklace_entail_wit_3_split_goal_2 := 
 forall (dp_pre: Z) (n_pre: Z) (beads_l: (@list Z)) (i: Z) (vals_l_2: (@list Z)) (width: Z) (total: Z) (PreH1 : (i < n_pre)) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : ((Zlength (beads_l)) = n_pre)) (PreH9 : ((Zlength (vals_l_2)) = i)) (PreH10 : (0 <= i)) (PreH11 : (i <= n_pre)) (PreH12 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth k vals_l_2 0) = (Znth k beads_l 0)))) (PreH13 : (EnergyLabelsBounded beads_l n_pre )) (PreH14 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
   (IntArray.undef_full dp_pre (total * width ) )
 |--
@@ -1560,11 +1560,17 @@ forall (dp_pre: Z) (vals_pre: Z) (n_pre: Z) (beads_pre: Z) (beads_l: (@list Z)) 
 forall (n_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (total: Z) (width: Z) (PreH1 : (total = (2 * n_pre ))) (PreH2 : (width = total)) (PreH3 : (4 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (8 <= total)) (PreH6 : (total <= 200)) (PreH7 : ((Zlength (beads_l)) = n_pre)) (PreH8 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH9 : (EnergyLabelsBounded beads_l n_pre )) (PreH10 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
   TT && emp 
 |--
-  “ ((Zlength ((@nil Z))) = 0) ”
+  “ forall (k: Z) , (((0 <= k) /\ (k < 0)) -> ((Znth k (@nil Z) 0) = 0)) ” 
+  &&  “ ((Zlength ((@nil Z))) = 0) ”
   &&  emp
 ).
 
 Definition energyNecklace_entail_wit_8_split_goal_1 := 
+forall (n_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (total: Z) (width: Z) (PreH1 : (total = (2 * n_pre ))) (PreH2 : (width = total)) (PreH3 : (4 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (8 <= total)) (PreH6 : (total <= 200)) (PreH7 : ((Zlength (beads_l)) = n_pre)) (PreH8 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH9 : (EnergyLabelsBounded beads_l n_pre )) (PreH10 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
+  forall (k: Z) , (((0 <= k) /\ (k < 0)) -> ((Znth k (@nil Z) 0) = 0))
+.
+
+Definition energyNecklace_entail_wit_8_split_goal_2 := 
 forall (n_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (total: Z) (width: Z) (PreH1 : (total = (2 * n_pre ))) (PreH2 : (width = total)) (PreH3 : (4 <= n_pre)) (PreH4 : (n_pre <= 100)) (PreH5 : (8 <= total)) (PreH6 : (total <= 200)) (PreH7 : ((Zlength (beads_l)) = n_pre)) (PreH8 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH9 : (EnergyLabelsBounded beads_l n_pre )) (PreH10 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
   ((Zlength ((@nil Z))) = 0)
 .
@@ -1601,17 +1607,11 @@ forall (dp_pre: Z) (vals_pre: Z) (n_pre: Z) (beads_pre: Z) (beads_l: (@list Z)) 
 forall (n_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (i: Z) (dp_l_2: (@list Z)) (width: Z) (total: Z) (PreH1 : (i < (total * width ))) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : ((Zlength (beads_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = i)) (PreH10 : (0 <= i)) (PreH11 : (i <= (total * width ))) (PreH12 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth k dp_l_2 0) = 0))) (PreH13 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH14 : (EnergyLabelsBounded beads_l n_pre )) (PreH15 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
   TT && emp 
 |--
-  “ (((Znth 0 (app (dp_l_2) ((cons (0) ((@nil Z))))) 0) = 0) /\ ((Znth ((i + 1 ) - 1 ) (app (dp_l_2) ((cons (0) ((@nil Z))))) 0) = 0)) ” 
-  &&  “ ((Zlength ((app (dp_l_2) ((cons (0) ((@nil Z))))))) = (i + 1 )) ”
+  “ ((Zlength ((app (dp_l_2) ((cons (0) ((@nil Z))))))) = (i + 1 )) ”
   &&  emp
 ).
 
 Definition energyNecklace_entail_wit_9_split_goal_1 := 
-forall (n_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (i: Z) (dp_l_2: (@list Z)) (width: Z) (total: Z) (PreH1 : (i < (total * width ))) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : ((Zlength (beads_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = i)) (PreH10 : (0 <= i)) (PreH11 : (i <= (total * width ))) (PreH12 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth k dp_l_2 0) = 0))) (PreH13 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH14 : (EnergyLabelsBounded beads_l n_pre )) (PreH15 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
-  (((Znth 0 (app (dp_l_2) ((cons (0) ((@nil Z))))) 0) = 0) /\ ((Znth ((i + 1 ) - 1 ) (app (dp_l_2) ((cons (0) ((@nil Z))))) 0) = 0))
-.
-
-Definition energyNecklace_entail_wit_9_split_goal_2 := 
 forall (n_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (i: Z) (dp_l_2: (@list Z)) (width: Z) (total: Z) (PreH1 : (i < (total * width ))) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : ((Zlength (beads_l)) = n_pre)) (PreH9 : ((Zlength (dp_l_2)) = i)) (PreH10 : (0 <= i)) (PreH11 : (i <= (total * width ))) (PreH12 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth k dp_l_2 0) = 0))) (PreH13 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH14 : (EnergyLabelsBounded beads_l n_pre )) (PreH15 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
   ((Zlength ((app (dp_l_2) ((cons (0) ((@nil Z))))))) = (i + 1 ))
 .
@@ -1960,6 +1960,59 @@ forall (n_pre: Z) (beads_l: (@list Z)) (vals_l: (@list Z)) (dp_l: (@list Z)) (to
 
 Definition energyNecklace_entail_wit_17_1 := 
 (
+forall (dp_pre: Z) (vals_pre: Z) (n_pre: Z) (beads_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (dp_l_2: (@list Z)) (total: Z) (width: Z) (len: Z) (left: Z) (right: Z) (split: Z) (left_value: Z) (right_value: Z) (gain: Z) (candidate: Z) (best: Z) (PreH1 : (candidate > best)) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left < (total - len ))) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split < right)) (PreH15 : (0 <= right)) (PreH16 : (right < total)) (PreH17 : ((right + 1 ) < total)) (PreH18 : (left_value = (Znth ((left * width ) + split ) dp_l_2 0))) (PreH19 : (right_value = (Znth (((split + 1 ) * width ) + right ) dp_l_2 0))) (PreH20 : (gain = (((Znth left vals_l_2 0) * (Znth (split + 1 ) vals_l_2 0) ) * (Znth (right + 1 ) vals_l_2 0) ))) (PreH21 : (candidate = ((left_value + right_value ) + gain ))) (PreH22 : (0 <= candidate)) (PreH23 : (candidate <= 2100000000)) (PreH24 : ((Zlength (beads_l)) = n_pre)) (PreH25 : ((Zlength (dp_l_2)) = (total * width ))) (PreH26 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH27 : (EnergySplitProgress vals_l_2 dp_l_2 total width len left split best )) (PreH28 : (EnergyLabelsBounded beads_l n_pre )) (PreH29 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
+  (IntArray.full beads_pre n_pre beads_l )
+  **  (IntArray.full vals_pre total vals_l_2 )
+  **  (IntArray.full dp_pre (total * width ) dp_l_2 )
+|--
+  EX (vals_l: (@list Z))  (dp_l: (@list Z)) ,
+  “ (total = (2 * n_pre )) ” 
+  &&  “ (width = total) ” 
+  &&  “ (4 <= n_pre) ” 
+  &&  “ (n_pre <= 100) ” 
+  &&  “ (8 <= total) ” 
+  &&  “ (total <= 200) ” 
+  &&  “ (2 <= len) ” 
+  &&  “ (len <= n_pre) ” 
+  &&  “ (0 <= left) ” 
+  &&  “ (left < (total - len )) ” 
+  &&  “ (right = ((left + len ) - 1 )) ” 
+  &&  “ (left <= split) ” 
+  &&  “ (split < right) ” 
+  &&  “ ((right + 1 ) < total) ” 
+  &&  “ (left_value = (Znth ((left * width ) + split ) dp_l 0)) ” 
+  &&  “ (right_value = (Znth (((split + 1 ) * width ) + right ) dp_l 0)) ” 
+  &&  “ (gain = (((Znth left vals_l 0) * (Znth (split + 1 ) vals_l 0) ) * (Znth (right + 1 ) vals_l 0) )) ” 
+  &&  “ (candidate = ((left_value + right_value ) + gain )) ” 
+  &&  “ (0 <= candidate) ” 
+  &&  “ (candidate <= 2100000000) ” 
+  &&  “ (0 <= candidate) ” 
+  &&  “ (candidate <= 2100000000) ” 
+  &&  “ ((Zlength (beads_l)) = n_pre) ” 
+  &&  “ ((Zlength (dp_l)) = (total * width )) ” 
+  &&  “ (EnergyValsDuplicated beads_l vals_l n_pre ) ” 
+  &&  “ (EnergySplitProgress vals_l dp_l total width len left (split + 1 ) candidate ) ” 
+  &&  “ (EnergyLabelsBounded beads_l n_pre ) ” 
+  &&  “ (EnergyComputationBounded beads_l n_pre 2100000000 ) ”
+  &&  (IntArray.full beads_pre n_pre beads_l )
+  **  (IntArray.full vals_pre total vals_l )
+  **  (IntArray.full dp_pre (total * width ) dp_l )
+) \/
+(
+forall (n_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (dp_l_2: (@list Z)) (total: Z) (width: Z) (len: Z) (left: Z) (right: Z) (split: Z) (left_value: Z) (right_value: Z) (gain: Z) (candidate: Z) (best: Z) (PreH1 : (candidate > best)) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left < (total - len ))) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split < right)) (PreH15 : (0 <= right)) (PreH16 : (right < total)) (PreH17 : ((right + 1 ) < total)) (PreH18 : (left_value = (Znth ((left * width ) + split ) dp_l_2 0))) (PreH19 : (right_value = (Znth (((split + 1 ) * width ) + right ) dp_l_2 0))) (PreH20 : (gain = (((Znth left vals_l_2 0) * (Znth (split + 1 ) vals_l_2 0) ) * (Znth (right + 1 ) vals_l_2 0) ))) (PreH21 : (candidate = ((left_value + right_value ) + gain ))) (PreH22 : (0 <= candidate)) (PreH23 : (candidate <= 2100000000)) (PreH24 : ((Zlength (beads_l)) = n_pre)) (PreH25 : ((Zlength (dp_l_2)) = (total * width ))) (PreH26 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH27 : (EnergySplitProgress vals_l_2 dp_l_2 total width len left split best )) (PreH28 : (EnergyLabelsBounded beads_l n_pre )) (PreH29 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
+  TT && emp 
+|--
+  “ (EnergySplitProgress vals_l_2 dp_l_2 total width len left (split + 1 ) candidate ) ”
+  &&  emp
+).
+
+Definition energyNecklace_entail_wit_17_1_split_goal_1 := 
+forall (n_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (dp_l_2: (@list Z)) (total: Z) (width: Z) (len: Z) (left: Z) (right: Z) (split: Z) (left_value: Z) (right_value: Z) (gain: Z) (candidate: Z) (best: Z) (PreH1 : (candidate > best)) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left < (total - len ))) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split < right)) (PreH15 : (0 <= right)) (PreH16 : (right < total)) (PreH17 : ((right + 1 ) < total)) (PreH18 : (left_value = (Znth ((left * width ) + split ) dp_l_2 0))) (PreH19 : (right_value = (Znth (((split + 1 ) * width ) + right ) dp_l_2 0))) (PreH20 : (gain = (((Znth left vals_l_2 0) * (Znth (split + 1 ) vals_l_2 0) ) * (Znth (right + 1 ) vals_l_2 0) ))) (PreH21 : (candidate = ((left_value + right_value ) + gain ))) (PreH22 : (0 <= candidate)) (PreH23 : (candidate <= 2100000000)) (PreH24 : ((Zlength (beads_l)) = n_pre)) (PreH25 : ((Zlength (dp_l_2)) = (total * width ))) (PreH26 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH27 : (EnergySplitProgress vals_l_2 dp_l_2 total width len left split best )) (PreH28 : (EnergyLabelsBounded beads_l n_pre )) (PreH29 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
+  (EnergySplitProgress vals_l_2 dp_l_2 total width len left (split + 1 ) candidate )
+.
+
+Definition energyNecklace_entail_wit_17_2 := 
+(
 forall (dp_pre: Z) (vals_pre: Z) (n_pre: Z) (beads_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (dp_l_2: (@list Z)) (total: Z) (width: Z) (len: Z) (left: Z) (right: Z) (split: Z) (left_value: Z) (right_value: Z) (gain: Z) (candidate: Z) (best: Z) (PreH1 : (candidate <= best)) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left < (total - len ))) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split < right)) (PreH15 : (0 <= right)) (PreH16 : (right < total)) (PreH17 : ((right + 1 ) < total)) (PreH18 : (left_value = (Znth ((left * width ) + split ) dp_l_2 0))) (PreH19 : (right_value = (Znth (((split + 1 ) * width ) + right ) dp_l_2 0))) (PreH20 : (gain = (((Znth left vals_l_2 0) * (Znth (split + 1 ) vals_l_2 0) ) * (Znth (right + 1 ) vals_l_2 0) ))) (PreH21 : (candidate = ((left_value + right_value ) + gain ))) (PreH22 : (0 <= candidate)) (PreH23 : (candidate <= 2100000000)) (PreH24 : ((Zlength (beads_l)) = n_pre)) (PreH25 : ((Zlength (dp_l_2)) = (total * width ))) (PreH26 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH27 : (EnergySplitProgress vals_l_2 dp_l_2 total width len left split best )) (PreH28 : (EnergyLabelsBounded beads_l n_pre )) (PreH29 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
   (IntArray.full beads_pre n_pre beads_l )
   **  (IntArray.full vals_pre total vals_l_2 )
@@ -2007,67 +2060,14 @@ forall (n_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (dp_l_2: (@list Z))
   &&  emp
 ).
 
-Definition energyNecklace_entail_wit_17_1_split_goal_1 := 
+Definition energyNecklace_entail_wit_17_2_split_goal_1 := 
 forall (n_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (dp_l_2: (@list Z)) (total: Z) (width: Z) (len: Z) (left: Z) (right: Z) (split: Z) (left_value: Z) (right_value: Z) (gain: Z) (candidate: Z) (best: Z) (PreH1 : (candidate <= best)) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left < (total - len ))) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split < right)) (PreH15 : (0 <= right)) (PreH16 : (right < total)) (PreH17 : ((right + 1 ) < total)) (PreH18 : (left_value = (Znth ((left * width ) + split ) dp_l_2 0))) (PreH19 : (right_value = (Znth (((split + 1 ) * width ) + right ) dp_l_2 0))) (PreH20 : (gain = (((Znth left vals_l_2 0) * (Znth (split + 1 ) vals_l_2 0) ) * (Znth (right + 1 ) vals_l_2 0) ))) (PreH21 : (candidate = ((left_value + right_value ) + gain ))) (PreH22 : (0 <= candidate)) (PreH23 : (candidate <= 2100000000)) (PreH24 : ((Zlength (beads_l)) = n_pre)) (PreH25 : ((Zlength (dp_l_2)) = (total * width ))) (PreH26 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH27 : (EnergySplitProgress vals_l_2 dp_l_2 total width len left split best )) (PreH28 : (EnergyLabelsBounded beads_l n_pre )) (PreH29 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
   (EnergySplitProgress vals_l_2 dp_l_2 total width len left (split + 1 ) best )
 .
 
-Definition energyNecklace_entail_wit_17_1_split_goal_2 := 
+Definition energyNecklace_entail_wit_17_2_split_goal_2 := 
 forall (n_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (dp_l_2: (@list Z)) (total: Z) (width: Z) (len: Z) (left: Z) (right: Z) (split: Z) (left_value: Z) (right_value: Z) (gain: Z) (candidate: Z) (best: Z) (PreH1 : (candidate <= best)) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left < (total - len ))) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split < right)) (PreH15 : (0 <= right)) (PreH16 : (right < total)) (PreH17 : ((right + 1 ) < total)) (PreH18 : (left_value = (Znth ((left * width ) + split ) dp_l_2 0))) (PreH19 : (right_value = (Znth (((split + 1 ) * width ) + right ) dp_l_2 0))) (PreH20 : (gain = (((Znth left vals_l_2 0) * (Znth (split + 1 ) vals_l_2 0) ) * (Znth (right + 1 ) vals_l_2 0) ))) (PreH21 : (candidate = ((left_value + right_value ) + gain ))) (PreH22 : (0 <= candidate)) (PreH23 : (candidate <= 2100000000)) (PreH24 : ((Zlength (beads_l)) = n_pre)) (PreH25 : ((Zlength (dp_l_2)) = (total * width ))) (PreH26 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH27 : (EnergySplitProgress vals_l_2 dp_l_2 total width len left split best )) (PreH28 : (EnergyLabelsBounded beads_l n_pre )) (PreH29 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
   (best <= 2100000000)
-.
-
-Definition energyNecklace_entail_wit_17_2 := 
-(
-forall (dp_pre: Z) (vals_pre: Z) (n_pre: Z) (beads_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (dp_l_2: (@list Z)) (total: Z) (width: Z) (len: Z) (left: Z) (right: Z) (split: Z) (left_value: Z) (right_value: Z) (gain: Z) (candidate: Z) (best: Z) (PreH1 : (candidate > best)) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left < (total - len ))) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split < right)) (PreH15 : (0 <= right)) (PreH16 : (right < total)) (PreH17 : ((right + 1 ) < total)) (PreH18 : (left_value = (Znth ((left * width ) + split ) dp_l_2 0))) (PreH19 : (right_value = (Znth (((split + 1 ) * width ) + right ) dp_l_2 0))) (PreH20 : (gain = (((Znth left vals_l_2 0) * (Znth (split + 1 ) vals_l_2 0) ) * (Znth (right + 1 ) vals_l_2 0) ))) (PreH21 : (candidate = ((left_value + right_value ) + gain ))) (PreH22 : (0 <= candidate)) (PreH23 : (candidate <= 2100000000)) (PreH24 : ((Zlength (beads_l)) = n_pre)) (PreH25 : ((Zlength (dp_l_2)) = (total * width ))) (PreH26 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH27 : (EnergySplitProgress vals_l_2 dp_l_2 total width len left split best )) (PreH28 : (EnergyLabelsBounded beads_l n_pre )) (PreH29 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
-  (IntArray.full beads_pre n_pre beads_l )
-  **  (IntArray.full vals_pre total vals_l_2 )
-  **  (IntArray.full dp_pre (total * width ) dp_l_2 )
-|--
-  EX (vals_l: (@list Z))  (dp_l: (@list Z)) ,
-  “ (total = (2 * n_pre )) ” 
-  &&  “ (width = total) ” 
-  &&  “ (4 <= n_pre) ” 
-  &&  “ (n_pre <= 100) ” 
-  &&  “ (8 <= total) ” 
-  &&  “ (total <= 200) ” 
-  &&  “ (2 <= len) ” 
-  &&  “ (len <= n_pre) ” 
-  &&  “ (0 <= left) ” 
-  &&  “ (left < (total - len )) ” 
-  &&  “ (right = ((left + len ) - 1 )) ” 
-  &&  “ (left <= split) ” 
-  &&  “ (split < right) ” 
-  &&  “ ((right + 1 ) < total) ” 
-  &&  “ (left_value = (Znth ((left * width ) + split ) dp_l 0)) ” 
-  &&  “ (right_value = (Znth (((split + 1 ) * width ) + right ) dp_l 0)) ” 
-  &&  “ (gain = (((Znth left vals_l 0) * (Znth (split + 1 ) vals_l 0) ) * (Znth (right + 1 ) vals_l 0) )) ” 
-  &&  “ (candidate = ((left_value + right_value ) + gain )) ” 
-  &&  “ (0 <= candidate) ” 
-  &&  “ (candidate <= 2100000000) ” 
-  &&  “ (0 <= candidate) ” 
-  &&  “ (candidate <= 2100000000) ” 
-  &&  “ ((Zlength (beads_l)) = n_pre) ” 
-  &&  “ ((Zlength (dp_l)) = (total * width )) ” 
-  &&  “ (EnergyValsDuplicated beads_l vals_l n_pre ) ” 
-  &&  “ (EnergySplitProgress vals_l dp_l total width len left (split + 1 ) candidate ) ” 
-  &&  “ (EnergyLabelsBounded beads_l n_pre ) ” 
-  &&  “ (EnergyComputationBounded beads_l n_pre 2100000000 ) ”
-  &&  (IntArray.full beads_pre n_pre beads_l )
-  **  (IntArray.full vals_pre total vals_l )
-  **  (IntArray.full dp_pre (total * width ) dp_l )
-) \/
-(
-forall (n_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (dp_l_2: (@list Z)) (total: Z) (width: Z) (len: Z) (left: Z) (right: Z) (split: Z) (left_value: Z) (right_value: Z) (gain: Z) (candidate: Z) (best: Z) (PreH1 : (candidate > best)) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left < (total - len ))) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split < right)) (PreH15 : (0 <= right)) (PreH16 : (right < total)) (PreH17 : ((right + 1 ) < total)) (PreH18 : (left_value = (Znth ((left * width ) + split ) dp_l_2 0))) (PreH19 : (right_value = (Znth (((split + 1 ) * width ) + right ) dp_l_2 0))) (PreH20 : (gain = (((Znth left vals_l_2 0) * (Znth (split + 1 ) vals_l_2 0) ) * (Znth (right + 1 ) vals_l_2 0) ))) (PreH21 : (candidate = ((left_value + right_value ) + gain ))) (PreH22 : (0 <= candidate)) (PreH23 : (candidate <= 2100000000)) (PreH24 : ((Zlength (beads_l)) = n_pre)) (PreH25 : ((Zlength (dp_l_2)) = (total * width ))) (PreH26 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH27 : (EnergySplitProgress vals_l_2 dp_l_2 total width len left split best )) (PreH28 : (EnergyLabelsBounded beads_l n_pre )) (PreH29 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
-  TT && emp 
-|--
-  “ (EnergySplitProgress vals_l_2 dp_l_2 total width len left (split + 1 ) candidate ) ”
-  &&  emp
-).
-
-Definition energyNecklace_entail_wit_17_2_split_goal_1 := 
-forall (n_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (dp_l_2: (@list Z)) (total: Z) (width: Z) (len: Z) (left: Z) (right: Z) (split: Z) (left_value: Z) (right_value: Z) (gain: Z) (candidate: Z) (best: Z) (PreH1 : (candidate > best)) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : (2 <= len)) (PreH9 : (len <= n_pre)) (PreH10 : (0 <= left)) (PreH11 : (left < (total - len ))) (PreH12 : (right = ((left + len ) - 1 ))) (PreH13 : (left <= split)) (PreH14 : (split < right)) (PreH15 : (0 <= right)) (PreH16 : (right < total)) (PreH17 : ((right + 1 ) < total)) (PreH18 : (left_value = (Znth ((left * width ) + split ) dp_l_2 0))) (PreH19 : (right_value = (Znth (((split + 1 ) * width ) + right ) dp_l_2 0))) (PreH20 : (gain = (((Znth left vals_l_2 0) * (Znth (split + 1 ) vals_l_2 0) ) * (Znth (right + 1 ) vals_l_2 0) ))) (PreH21 : (candidate = ((left_value + right_value ) + gain ))) (PreH22 : (0 <= candidate)) (PreH23 : (candidate <= 2100000000)) (PreH24 : ((Zlength (beads_l)) = n_pre)) (PreH25 : ((Zlength (dp_l_2)) = (total * width ))) (PreH26 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH27 : (EnergySplitProgress vals_l_2 dp_l_2 total width len left split best )) (PreH28 : (EnergyLabelsBounded beads_l n_pre )) (PreH29 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
-  (EnergySplitProgress vals_l_2 dp_l_2 total width len left (split + 1 ) candidate )
 .
 
 Definition energyNecklace_entail_wit_18 := 
@@ -2515,6 +2515,52 @@ forall (n_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (dp_l: (@list Z)) (
 
 Definition energyNecklace_entail_wit_28_1 := 
 (
+forall (dp_pre: Z) (vals_pre: Z) (n_pre: Z) (beads_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (dp_l_2: (@list Z)) (total: Z) (width: Z) (start: Z) (value: Z) (answer: Z) (PreH1 : (value > answer)) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : (0 <= start)) (PreH9 : (start < n_pre)) (PreH10 : (value = (Znth ((((start * width ) + start ) + n_pre ) - 1 ) dp_l_2 0))) (PreH11 : (0 <= value)) (PreH12 : (value <= 2100000000)) (PreH13 : ((Zlength (beads_l)) = n_pre)) (PreH14 : ((Zlength (dp_l_2)) = (total * width ))) (PreH15 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH16 : (EnergyLenDone vals_l_2 dp_l_2 total width (n_pre + 1 ) )) (PreH17 : (EnergyAnswerProgress beads_l vals_l_2 dp_l_2 n_pre total width start answer )) (PreH18 : (EnergyIntervalBest vals_l_2 start ((start + n_pre ) - 1 ) value )) (PreH19 : (EnergyLabelsBounded beads_l n_pre )) (PreH20 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
+  (IntArray.full beads_pre n_pre beads_l )
+  **  (IntArray.full vals_pre total vals_l_2 )
+  **  (IntArray.full dp_pre (total * width ) dp_l_2 )
+|--
+  EX (vals_l: (@list Z))  (dp_l: (@list Z)) ,
+  “ (total = (2 * n_pre )) ” 
+  &&  “ (width = total) ” 
+  &&  “ (4 <= n_pre) ” 
+  &&  “ (n_pre <= 100) ” 
+  &&  “ (8 <= total) ” 
+  &&  “ (total <= 200) ” 
+  &&  “ (0 <= start) ” 
+  &&  “ (start < n_pre) ” 
+  &&  “ (value = (Znth ((((start * width ) + start ) + n_pre ) - 1 ) dp_l 0)) ” 
+  &&  “ (0 <= value) ” 
+  &&  “ (value <= 2100000000) ” 
+  &&  “ (0 <= value) ” 
+  &&  “ (value <= 2100000000) ” 
+  &&  “ ((Zlength (beads_l)) = n_pre) ” 
+  &&  “ ((Zlength (dp_l)) = (total * width )) ” 
+  &&  “ (EnergyValsDuplicated beads_l vals_l n_pre ) ” 
+  &&  “ (EnergyLenDone vals_l dp_l total width (n_pre + 1 ) ) ” 
+  &&  “ (EnergyIntervalBest vals_l start ((start + n_pre ) - 1 ) value ) ” 
+  &&  “ (EnergyAnswerProgress beads_l vals_l dp_l n_pre total width (start + 1 ) value ) ” 
+  &&  “ (EnergyLabelsBounded beads_l n_pre ) ” 
+  &&  “ (EnergyComputationBounded beads_l n_pre 2100000000 ) ”
+  &&  (IntArray.full beads_pre n_pre beads_l )
+  **  (IntArray.full vals_pre total vals_l )
+  **  (IntArray.full dp_pre (total * width ) dp_l )
+) \/
+(
+forall (n_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (dp_l_2: (@list Z)) (total: Z) (width: Z) (start: Z) (value: Z) (answer: Z) (PreH1 : (value > answer)) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : (0 <= start)) (PreH9 : (start < n_pre)) (PreH10 : (value = (Znth ((((start * width ) + start ) + n_pre ) - 1 ) dp_l_2 0))) (PreH11 : (0 <= value)) (PreH12 : (value <= 2100000000)) (PreH13 : ((Zlength (beads_l)) = n_pre)) (PreH14 : ((Zlength (dp_l_2)) = (total * width ))) (PreH15 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH16 : (EnergyLenDone vals_l_2 dp_l_2 total width (n_pre + 1 ) )) (PreH17 : (EnergyAnswerProgress beads_l vals_l_2 dp_l_2 n_pre total width start answer )) (PreH18 : (EnergyIntervalBest vals_l_2 start ((start + n_pre ) - 1 ) value )) (PreH19 : (EnergyLabelsBounded beads_l n_pre )) (PreH20 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
+  TT && emp 
+|--
+  “ (EnergyAnswerProgress beads_l vals_l_2 dp_l_2 n_pre total width (start + 1 ) value ) ”
+  &&  emp
+).
+
+Definition energyNecklace_entail_wit_28_1_split_goal_1 := 
+forall (n_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (dp_l_2: (@list Z)) (total: Z) (width: Z) (start: Z) (value: Z) (answer: Z) (PreH1 : (value > answer)) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : (0 <= start)) (PreH9 : (start < n_pre)) (PreH10 : (value = (Znth ((((start * width ) + start ) + n_pre ) - 1 ) dp_l_2 0))) (PreH11 : (0 <= value)) (PreH12 : (value <= 2100000000)) (PreH13 : ((Zlength (beads_l)) = n_pre)) (PreH14 : ((Zlength (dp_l_2)) = (total * width ))) (PreH15 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH16 : (EnergyLenDone vals_l_2 dp_l_2 total width (n_pre + 1 ) )) (PreH17 : (EnergyAnswerProgress beads_l vals_l_2 dp_l_2 n_pre total width start answer )) (PreH18 : (EnergyIntervalBest vals_l_2 start ((start + n_pre ) - 1 ) value )) (PreH19 : (EnergyLabelsBounded beads_l n_pre )) (PreH20 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
+  (EnergyAnswerProgress beads_l vals_l_2 dp_l_2 n_pre total width (start + 1 ) value )
+.
+
+Definition energyNecklace_entail_wit_28_2 := 
+(
 forall (dp_pre: Z) (vals_pre: Z) (n_pre: Z) (beads_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (dp_l_2: (@list Z)) (total: Z) (width: Z) (start: Z) (value: Z) (answer: Z) (PreH1 : (value <= answer)) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : (0 <= start)) (PreH9 : (start < n_pre)) (PreH10 : (value = (Znth ((((start * width ) + start ) + n_pre ) - 1 ) dp_l_2 0))) (PreH11 : (0 <= value)) (PreH12 : (value <= 2100000000)) (PreH13 : ((Zlength (beads_l)) = n_pre)) (PreH14 : ((Zlength (dp_l_2)) = (total * width ))) (PreH15 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH16 : (EnergyLenDone vals_l_2 dp_l_2 total width (n_pre + 1 ) )) (PreH17 : (EnergyAnswerProgress beads_l vals_l_2 dp_l_2 n_pre total width start answer )) (PreH18 : (EnergyIntervalBest vals_l_2 start ((start + n_pre ) - 1 ) value )) (PreH19 : (EnergyLabelsBounded beads_l n_pre )) (PreH20 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
   (IntArray.full beads_pre n_pre beads_l )
   **  (IntArray.full vals_pre total vals_l_2 )
@@ -2555,60 +2601,14 @@ forall (n_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (dp_l_2: (@list Z))
   &&  emp
 ).
 
-Definition energyNecklace_entail_wit_28_1_split_goal_1 := 
+Definition energyNecklace_entail_wit_28_2_split_goal_1 := 
 forall (n_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (dp_l_2: (@list Z)) (total: Z) (width: Z) (start: Z) (value: Z) (answer: Z) (PreH1 : (value <= answer)) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : (0 <= start)) (PreH9 : (start < n_pre)) (PreH10 : (value = (Znth ((((start * width ) + start ) + n_pre ) - 1 ) dp_l_2 0))) (PreH11 : (0 <= value)) (PreH12 : (value <= 2100000000)) (PreH13 : ((Zlength (beads_l)) = n_pre)) (PreH14 : ((Zlength (dp_l_2)) = (total * width ))) (PreH15 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH16 : (EnergyLenDone vals_l_2 dp_l_2 total width (n_pre + 1 ) )) (PreH17 : (EnergyAnswerProgress beads_l vals_l_2 dp_l_2 n_pre total width start answer )) (PreH18 : (EnergyIntervalBest vals_l_2 start ((start + n_pre ) - 1 ) value )) (PreH19 : (EnergyLabelsBounded beads_l n_pre )) (PreH20 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
   (EnergyAnswerProgress beads_l vals_l_2 dp_l_2 n_pre total width (start + 1 ) answer )
 .
 
-Definition energyNecklace_entail_wit_28_1_split_goal_2 := 
+Definition energyNecklace_entail_wit_28_2_split_goal_2 := 
 forall (n_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (dp_l_2: (@list Z)) (total: Z) (width: Z) (start: Z) (value: Z) (answer: Z) (PreH1 : (value <= answer)) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : (0 <= start)) (PreH9 : (start < n_pre)) (PreH10 : (value = (Znth ((((start * width ) + start ) + n_pre ) - 1 ) dp_l_2 0))) (PreH11 : (0 <= value)) (PreH12 : (value <= 2100000000)) (PreH13 : ((Zlength (beads_l)) = n_pre)) (PreH14 : ((Zlength (dp_l_2)) = (total * width ))) (PreH15 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH16 : (EnergyLenDone vals_l_2 dp_l_2 total width (n_pre + 1 ) )) (PreH17 : (EnergyAnswerProgress beads_l vals_l_2 dp_l_2 n_pre total width start answer )) (PreH18 : (EnergyIntervalBest vals_l_2 start ((start + n_pre ) - 1 ) value )) (PreH19 : (EnergyLabelsBounded beads_l n_pre )) (PreH20 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
   (answer <= 2100000000)
-.
-
-Definition energyNecklace_entail_wit_28_2 := 
-(
-forall (dp_pre: Z) (vals_pre: Z) (n_pre: Z) (beads_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (dp_l_2: (@list Z)) (total: Z) (width: Z) (start: Z) (value: Z) (answer: Z) (PreH1 : (value > answer)) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : (0 <= start)) (PreH9 : (start < n_pre)) (PreH10 : (value = (Znth ((((start * width ) + start ) + n_pre ) - 1 ) dp_l_2 0))) (PreH11 : (0 <= value)) (PreH12 : (value <= 2100000000)) (PreH13 : ((Zlength (beads_l)) = n_pre)) (PreH14 : ((Zlength (dp_l_2)) = (total * width ))) (PreH15 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH16 : (EnergyLenDone vals_l_2 dp_l_2 total width (n_pre + 1 ) )) (PreH17 : (EnergyAnswerProgress beads_l vals_l_2 dp_l_2 n_pre total width start answer )) (PreH18 : (EnergyIntervalBest vals_l_2 start ((start + n_pre ) - 1 ) value )) (PreH19 : (EnergyLabelsBounded beads_l n_pre )) (PreH20 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
-  (IntArray.full beads_pre n_pre beads_l )
-  **  (IntArray.full vals_pre total vals_l_2 )
-  **  (IntArray.full dp_pre (total * width ) dp_l_2 )
-|--
-  EX (vals_l: (@list Z))  (dp_l: (@list Z)) ,
-  “ (total = (2 * n_pre )) ” 
-  &&  “ (width = total) ” 
-  &&  “ (4 <= n_pre) ” 
-  &&  “ (n_pre <= 100) ” 
-  &&  “ (8 <= total) ” 
-  &&  “ (total <= 200) ” 
-  &&  “ (0 <= start) ” 
-  &&  “ (start < n_pre) ” 
-  &&  “ (value = (Znth ((((start * width ) + start ) + n_pre ) - 1 ) dp_l 0)) ” 
-  &&  “ (0 <= value) ” 
-  &&  “ (value <= 2100000000) ” 
-  &&  “ (0 <= value) ” 
-  &&  “ (value <= 2100000000) ” 
-  &&  “ ((Zlength (beads_l)) = n_pre) ” 
-  &&  “ ((Zlength (dp_l)) = (total * width )) ” 
-  &&  “ (EnergyValsDuplicated beads_l vals_l n_pre ) ” 
-  &&  “ (EnergyLenDone vals_l dp_l total width (n_pre + 1 ) ) ” 
-  &&  “ (EnergyIntervalBest vals_l start ((start + n_pre ) - 1 ) value ) ” 
-  &&  “ (EnergyAnswerProgress beads_l vals_l dp_l n_pre total width (start + 1 ) value ) ” 
-  &&  “ (EnergyLabelsBounded beads_l n_pre ) ” 
-  &&  “ (EnergyComputationBounded beads_l n_pre 2100000000 ) ”
-  &&  (IntArray.full beads_pre n_pre beads_l )
-  **  (IntArray.full vals_pre total vals_l )
-  **  (IntArray.full dp_pre (total * width ) dp_l )
-) \/
-(
-forall (n_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (dp_l_2: (@list Z)) (total: Z) (width: Z) (start: Z) (value: Z) (answer: Z) (PreH1 : (value > answer)) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : (0 <= start)) (PreH9 : (start < n_pre)) (PreH10 : (value = (Znth ((((start * width ) + start ) + n_pre ) - 1 ) dp_l_2 0))) (PreH11 : (0 <= value)) (PreH12 : (value <= 2100000000)) (PreH13 : ((Zlength (beads_l)) = n_pre)) (PreH14 : ((Zlength (dp_l_2)) = (total * width ))) (PreH15 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH16 : (EnergyLenDone vals_l_2 dp_l_2 total width (n_pre + 1 ) )) (PreH17 : (EnergyAnswerProgress beads_l vals_l_2 dp_l_2 n_pre total width start answer )) (PreH18 : (EnergyIntervalBest vals_l_2 start ((start + n_pre ) - 1 ) value )) (PreH19 : (EnergyLabelsBounded beads_l n_pre )) (PreH20 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
-  TT && emp 
-|--
-  “ (EnergyAnswerProgress beads_l vals_l_2 dp_l_2 n_pre total width (start + 1 ) value ) ”
-  &&  emp
-).
-
-Definition energyNecklace_entail_wit_28_2_split_goal_1 := 
-forall (n_pre: Z) (beads_l: (@list Z)) (vals_l_2: (@list Z)) (dp_l_2: (@list Z)) (total: Z) (width: Z) (start: Z) (value: Z) (answer: Z) (PreH1 : (value > answer)) (PreH2 : (total = (2 * n_pre ))) (PreH3 : (width = total)) (PreH4 : (4 <= n_pre)) (PreH5 : (n_pre <= 100)) (PreH6 : (8 <= total)) (PreH7 : (total <= 200)) (PreH8 : (0 <= start)) (PreH9 : (start < n_pre)) (PreH10 : (value = (Znth ((((start * width ) + start ) + n_pre ) - 1 ) dp_l_2 0))) (PreH11 : (0 <= value)) (PreH12 : (value <= 2100000000)) (PreH13 : ((Zlength (beads_l)) = n_pre)) (PreH14 : ((Zlength (dp_l_2)) = (total * width ))) (PreH15 : (EnergyValsDuplicated beads_l vals_l_2 n_pre )) (PreH16 : (EnergyLenDone vals_l_2 dp_l_2 total width (n_pre + 1 ) )) (PreH17 : (EnergyAnswerProgress beads_l vals_l_2 dp_l_2 n_pre total width start answer )) (PreH18 : (EnergyIntervalBest vals_l_2 start ((start + n_pre ) - 1 ) value )) (PreH19 : (EnergyLabelsBounded beads_l n_pre )) (PreH20 : (EnergyComputationBounded beads_l n_pre 2100000000 )) ,
-  (EnergyAnswerProgress beads_l vals_l_2 dp_l_2 n_pre total width (start + 1 ) value )
 .
 
 Definition energyNecklace_entail_wit_29 := 

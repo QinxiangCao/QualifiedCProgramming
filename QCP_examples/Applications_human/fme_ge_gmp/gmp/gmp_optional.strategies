@@ -1,0 +1,81 @@
+// Strategies for optional mpz object predicates.
+
+#include "fme_ge_gmp/gmp/gmp_def.h"
+
+id : 1
+priority : core(3)
+left : optional_store_Z(?x, ?z) at 0
+       x != NULL at 1
+action : left_erase(0);
+         left_add(store_Z(x, z));
+
+id : 2
+priority : core(3)
+left : ?x != NULL at 0
+right : optional_store_Z(?x, ?z) at 1
+action : right_erase(1);
+         right_add(store_Z(x, z));
+
+id : 3
+priority : core(3)
+left : optional_store_Z(?x, ?z) at 0
+       x == NULL at 1
+action : left_erase(0);
+
+id : 4
+priority : core(3)
+left : ?x == NULL at 0
+right : optional_store_Z(?x, ?z) at 1
+action : right_erase(1);
+
+id : 5
+priority : core(3)
+left : optional_q_undef(?x, ?n) at 0
+       x != NULL at 1
+action : left_erase(0);
+         left_add(UIntArray::undef_full(x, n));
+
+id : 6
+priority : core(3)
+left : ?x != NULL at 0
+right : optional_q_undef(?x, ?n) at 1
+action : right_erase(1);
+         right_add(UIntArray::undef_full(x, n));
+
+id : 7
+priority : core(3)
+left : optional_q_undef(?x, ?n) at 0
+       x == NULL at 1
+action : left_erase(0);
+
+id : 8
+priority : core(3)
+left : ?x == NULL at 0
+right : optional_q_undef(?x, ?n) at 1
+action : right_erase(1);
+
+id : 9
+priority : core(3)
+left : optional_q_full(?x, ?n, ?l) at 0
+       x != NULL at 1
+action : left_erase(0);
+         left_add(UIntArray::full(x, n, l));
+
+id : 10
+priority : core(3)
+left : ?x != NULL at 0
+right : optional_q_full(?x, ?n, ?l) at 1
+action : right_erase(1);
+         right_add(UIntArray::full(x, n, l));
+
+id : 11
+priority : core(3)
+left : optional_q_full(?x, ?n, ?l) at 0
+       x == NULL at 1
+action : left_erase(0);
+
+id : 12
+priority : core(3)
+left : ?x == NULL at 0
+right : optional_q_full(?x, ?n, ?l) at 1
+action : right_erase(1);

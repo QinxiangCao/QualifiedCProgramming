@@ -377,6 +377,51 @@ Proof.
         lia.
 Qed. 
 
+Lemma proof_of_zeroOneKnapsack_entail_wit_14_1 : zeroOneKnapsack_entail_wit_14_1.
+Proof.
+  pre_process.
+  Exists dp_l_2.
+  split_pure_spatial.
+  - repeat cancel.
+  - split_pures; dump_pre_spatial; auto; try lia.
+Qed.
+
+Lemma proof_of_zeroOneKnapsack_entail_wit_14_2 : zeroOneKnapsack_entail_wit_14_2.
+Proof.
+  pre_process.
+  Exists dp_l_2.
+  split_pure_spatial.
+  - repeat cancel.
+  - split_pures; dump_pre_spatial; auto; try lia.
+Qed.
+
+Lemma proof_of_zeroOneKnapsack_entail_wit_14_3 : zeroOneKnapsack_entail_wit_14_3.
+Proof.
+  pre_process.
+  Exists dp_l_2.
+  split_pure_spatial.
+  - repeat cancel.
+  - split_pures; dump_pre_spatial; auto; try lia.
+Qed.
+
+Lemma proof_of_zeroOneKnapsack_entail_wit_14_4 : zeroOneKnapsack_entail_wit_14_4.
+Proof.
+  pre_process.
+  Exists dp_l_2.
+  split_pure_spatial.
+  - repeat cancel.
+  - split_pures; dump_pre_spatial; auto; try lia.
+Qed.
+
+Lemma proof_of_zeroOneKnapsack_entail_wit_14_5 : zeroOneKnapsack_entail_wit_14_5.
+Proof.
+  pre_process.
+  Exists dp_l_2.
+  split_pure_spatial.
+  - repeat cancel.
+  - split_pures; dump_pre_spatial; auto; try lia.
+Qed.
+
 Lemma proof_of_zeroOneKnapsack_entail_wit_15 : zeroOneKnapsack_entail_wit_15.
 Proof.
   pre_process.

@@ -28,8 +28,8 @@ Definition check_dict_case_safety_wit_1 :=
 forall (dict_size_pre: Z) (keys_pre: Z) (rows: (@list (@list Z))) (PreH1 : (0 <= dict_size_pre)) (PreH2 : (dict_size_pre <= 100)) (PreH3 : ((Zlength (rows)) = dict_size_pre)) (PreH4 : forall (k: Z) , (((0 <= k) /\ (k < dict_size_pre)) -> (((0 < (Zlength ((Znth (k) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (k) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (k) (rows) ((@nil Z))))) - 1 )) ((Znth (k) (rows) ((@nil Z)))) (0)) = 0)))) (PreH5 : forall (k_2: Z) , forall (i: Z) , (((((0 <= k_2) /\ (k_2 < dict_size_pre)) /\ (0 <= i)) /\ (i < ((Zlength ((Znth (k_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i) ((Znth (k_2) (rows) ((@nil Z)))) (0)) <> 0))) ,
   ((( &( "isupper" ) )) # Int  |->_)
   **  ((( &( "islower" ) )) # Int  |-> 0)
-  **  ((( &( "dict_size" ) )) # Int  |-> dict_size_pre)
   **  ((( &( "keys" ) )) # Ptr  |-> keys_pre)
+  **  ((( &( "dict_size" ) )) # Int  |-> dict_size_pre)
   **  (CharPtrArray2.full keys_pre dict_size_pre rows )
 |--
   “ (0 <= INT_MAX) ” 
@@ -39,8 +39,8 @@ forall (dict_size_pre: Z) (keys_pre: Z) (rows: (@list (@list Z))) (PreH1 : (0 <=
 Definition check_dict_case_safety_wit_2 := 
 forall (dict_size_pre: Z) (keys_pre: Z) (rows: (@list (@list Z))) (PreH1 : (0 <= dict_size_pre)) (PreH2 : (dict_size_pre <= 100)) (PreH3 : ((Zlength (rows)) = dict_size_pre)) (PreH4 : forall (k: Z) , (((0 <= k) /\ (k < dict_size_pre)) -> (((0 < (Zlength ((Znth (k) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (k) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (k) (rows) ((@nil Z))))) - 1 )) ((Znth (k) (rows) ((@nil Z)))) (0)) = 0)))) (PreH5 : forall (k_2: Z) , forall (i: Z) , (((((0 <= k_2) /\ (k_2 < dict_size_pre)) /\ (0 <= i)) /\ (i < ((Zlength ((Znth (k_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i) ((Znth (k_2) (rows) ((@nil Z)))) (0)) <> 0))) ,
   ((( &( "islower" ) )) # Int  |->_)
-  **  ((( &( "dict_size" ) )) # Int  |-> dict_size_pre)
   **  ((( &( "keys" ) )) # Ptr  |-> keys_pre)
+  **  ((( &( "dict_size" ) )) # Int  |-> dict_size_pre)
   **  (CharPtrArray2.full keys_pre dict_size_pre rows )
 |--
   “ (0 <= INT_MAX) ” 
@@ -51,8 +51,8 @@ Definition check_dict_case_safety_wit_3 :=
 forall (dict_size_pre: Z) (keys_pre: Z) (rows: (@list (@list Z))) (PreH1 : (0 <= dict_size_pre)) (PreH2 : (dict_size_pre <= 100)) (PreH3 : ((Zlength (rows)) = dict_size_pre)) (PreH4 : forall (k: Z) , (((0 <= k) /\ (k < dict_size_pre)) -> (((0 < (Zlength ((Znth (k) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (k) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (k) (rows) ((@nil Z))))) - 1 )) ((Znth (k) (rows) ((@nil Z)))) (0)) = 0)))) (PreH5 : forall (k_2: Z) , forall (i: Z) , (((((0 <= k_2) /\ (k_2 < dict_size_pre)) /\ (0 <= i)) /\ (i < ((Zlength ((Znth (k_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i) ((Znth (k_2) (rows) ((@nil Z)))) (0)) <> 0))) ,
   ((( &( "isupper" ) )) # Int  |-> 0)
   **  ((( &( "islower" ) )) # Int  |-> 0)
-  **  ((( &( "dict_size" ) )) # Int  |-> dict_size_pre)
   **  ((( &( "keys" ) )) # Ptr  |-> keys_pre)
+  **  ((( &( "dict_size" ) )) # Int  |-> dict_size_pre)
   **  (CharPtrArray2.full keys_pre dict_size_pre rows )
 |--
   “ (0 <= INT_MAX) ” 
@@ -63,8 +63,8 @@ Definition check_dict_case_safety_wit_4 :=
 forall (dict_size_pre: Z) (keys_pre: Z) (rows: (@list (@list Z))) (PreH1 : (dict_size_pre = 0)) (PreH2 : (0 <= dict_size_pre)) (PreH3 : (dict_size_pre <= 100)) (PreH4 : ((Zlength (rows)) = dict_size_pre)) (PreH5 : forall (k: Z) , (((0 <= k) /\ (k < dict_size_pre)) -> (((0 < (Zlength ((Znth (k) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (k) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (k) (rows) ((@nil Z))))) - 1 )) ((Znth (k) (rows) ((@nil Z)))) (0)) = 0)))) (PreH6 : forall (k_2: Z) , forall (i: Z) , (((((0 <= k_2) /\ (k_2 < dict_size_pre)) /\ (0 <= i)) /\ (i < ((Zlength ((Znth (k_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i) ((Znth (k_2) (rows) ((@nil Z)))) (0)) <> 0))) ,
   ((( &( "isupper" ) )) # Int  |-> 0)
   **  ((( &( "islower" ) )) # Int  |-> 0)
-  **  ((( &( "dict_size" ) )) # Int  |-> dict_size_pre)
   **  ((( &( "keys" ) )) # Ptr  |-> keys_pre)
+  **  ((( &( "dict_size" ) )) # Int  |-> dict_size_pre)
   **  (CharPtrArray2.full keys_pre dict_size_pre rows )
 |--
   “ (0 <= INT_MAX) ” 
@@ -76,8 +76,8 @@ forall (dict_size_pre: Z) (keys_pre: Z) (rows: (@list (@list Z))) (PreH1 : (dict
   ((( &( "k" ) )) # Int  |->_)
   **  ((( &( "isupper" ) )) # Int  |-> 0)
   **  ((( &( "islower" ) )) # Int  |-> 0)
-  **  ((( &( "dict_size" ) )) # Int  |-> dict_size_pre)
   **  ((( &( "keys" ) )) # Ptr  |-> keys_pre)
+  **  ((( &( "dict_size" ) )) # Int  |-> dict_size_pre)
   **  (CharPtrArray2.full keys_pre dict_size_pre rows )
 |--
   “ (0 <= INT_MAX) ” 
@@ -816,13 +816,19 @@ forall (dict_size_pre: Z) (keys_pre: Z) (rows: (@list (@list Z))) (PreH1 : (dict
 forall (dict_size_pre: Z) (rows: (@list (@list Z))) (PreH1 : (dict_size_pre <> 0)) (PreH2 : (0 <= dict_size_pre)) (PreH3 : (dict_size_pre <= 100)) (PreH4 : ((Zlength (rows)) = dict_size_pre)) (PreH5 : forall (k: Z) , (((0 <= k) /\ (k < dict_size_pre)) -> (((0 < (Zlength ((Znth (k) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (k) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (k) (rows) ((@nil Z))))) - 1 )) ((Znth (k) (rows) ((@nil Z)))) (0)) = 0)))) (PreH6 : forall (k_2: Z) , forall (i_2: Z) , (((((0 <= k_2) /\ (k_2 < dict_size_pre)) /\ (0 <= i_2)) /\ (i_2 < ((Zlength ((Znth (k_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i_2) ((Znth (k_2) (rows) ((@nil Z)))) (0)) <> 0))) ,
   TT && emp 
 |--
-  “ forall (r_2: Z) , forall (i: Z) , (((((0 <= r_2) /\ (r_2 < dict_size_pre)) /\ (0 <= i)) /\ (i < ((Zlength ((Znth (r_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i) ((Znth (r_2) (rows) ((@nil Z)))) (0)) <> 0)) ”
+  “ forall (r_2: Z) , forall (i: Z) , (((((0 <= r_2) /\ (r_2 < dict_size_pre)) /\ (0 <= i)) /\ (i < ((Zlength ((Znth (r_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i) ((Znth (r_2) (rows) ((@nil Z)))) (0)) <> 0)) ” 
+  &&  “ forall (r: Z) , (((0 <= r) /\ (r < dict_size_pre)) -> (((0 < (Zlength ((Znth (r) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r) (rows) ((@nil Z))))) - 1 )) ((Znth (r) (rows) ((@nil Z)))) (0)) = 0))) ”
   &&  emp
 ).
 
 Definition check_dict_case_entail_wit_1_split_goal_1 := 
 forall (dict_size_pre: Z) (rows: (@list (@list Z))) (PreH1 : (dict_size_pre <> 0)) (PreH2 : (0 <= dict_size_pre)) (PreH3 : (dict_size_pre <= 100)) (PreH4 : ((Zlength (rows)) = dict_size_pre)) (PreH5 : forall (k: Z) , (((0 <= k) /\ (k < dict_size_pre)) -> (((0 < (Zlength ((Znth (k) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (k) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (k) (rows) ((@nil Z))))) - 1 )) ((Znth (k) (rows) ((@nil Z)))) (0)) = 0)))) (PreH6 : forall (k_2: Z) , forall (i_2: Z) , (((((0 <= k_2) /\ (k_2 < dict_size_pre)) /\ (0 <= i_2)) /\ (i_2 < ((Zlength ((Znth (k_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i_2) ((Znth (k_2) (rows) ((@nil Z)))) (0)) <> 0))) ,
   forall (r_2: Z) , forall (i: Z) , (((((0 <= r_2) /\ (r_2 < dict_size_pre)) /\ (0 <= i)) /\ (i < ((Zlength ((Znth (r_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i) ((Znth (r_2) (rows) ((@nil Z)))) (0)) <> 0))
+.
+
+Definition check_dict_case_entail_wit_1_split_goal_2 := 
+forall (dict_size_pre: Z) (rows: (@list (@list Z))) (PreH1 : (dict_size_pre <> 0)) (PreH2 : (0 <= dict_size_pre)) (PreH3 : (dict_size_pre <= 100)) (PreH4 : ((Zlength (rows)) = dict_size_pre)) (PreH5 : forall (k: Z) , (((0 <= k) /\ (k < dict_size_pre)) -> (((0 < (Zlength ((Znth (k) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (k) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (k) (rows) ((@nil Z))))) - 1 )) ((Znth (k) (rows) ((@nil Z)))) (0)) = 0)))) (PreH6 : forall (k_2: Z) , forall (i_2: Z) , (((((0 <= k_2) /\ (k_2 < dict_size_pre)) /\ (0 <= i_2)) /\ (i_2 < ((Zlength ((Znth (k_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i_2) ((Znth (k_2) (rows) ((@nil Z)))) (0)) <> 0))) ,
+  forall (r: Z) , (((0 <= r) /\ (r < dict_size_pre)) -> (((0 < (Zlength ((Znth (r) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r) (rows) ((@nil Z))))) - 1 )) ((Znth (r) (rows) ((@nil Z)))) (0)) = 0)))
 .
 
 Definition check_dict_case_entail_wit_2 := 
@@ -850,7 +856,8 @@ forall (dict_size_pre: Z) (keys_pre: Z) (rows: (@list (@list Z))) (isupper: Z) (
 forall (dict_size_pre: Z) (rows: (@list (@list Z))) (isupper: Z) (islower: Z) (k: Z) (row_ptr_2: Z)  __default__List_Z (PreH1 : (0 <= (Zlength ((Znth k rows __default__List_Z))))) (PreH2 : (k < dict_size_pre)) (PreH3 : (0 <= k)) (PreH4 : (k <= dict_size_pre)) (PreH5 : (0 <= dict_size_pre)) (PreH6 : (dict_size_pre <= 100)) (PreH7 : ((Zlength (rows)) = dict_size_pre)) (PreH8 : forall (r_3: Z) , (((0 <= r_3) /\ (r_3 < dict_size_pre)) -> (((0 < (Zlength ((Znth (r_3) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r_3) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r_3) (rows) ((@nil Z))))) - 1 )) ((Znth (r_3) (rows) ((@nil Z)))) (0)) = 0)))) (PreH9 : forall (r_4: Z) , forall (i_2: Z) , (((((0 <= r_4) /\ (r_4 < dict_size_pre)) /\ (0 <= i_2)) /\ (i_2 < ((Zlength ((Znth (r_4) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i_2) ((Znth (r_4) (rows) ((@nil Z)))) (0)) <> 0))) (PreH10 : (0 <= islower)) (PreH11 : (islower <= 1)) (PreH12 : (0 <= isupper)) (PreH13 : (isupper <= 1)) ,
   (CharArray.full row_ptr_2 (Zlength ((Znth k rows __default__List_Z))) (Znth k rows __default__List_Z) )
 |--
-  “ forall (r_2: Z) , forall (i: Z) , (((((0 <= r_2) /\ (r_2 < dict_size_pre)) /\ (0 <= i)) /\ (i < ((Zlength ((Znth (r_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i) ((Znth (r_2) (rows) ((@nil Z)))) (0)) <> 0)) ”
+  “ forall (r_2: Z) , forall (i: Z) , (((((0 <= r_2) /\ (r_2 < dict_size_pre)) /\ (0 <= i)) /\ (i < ((Zlength ((Znth (r_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i) ((Znth (r_2) (rows) ((@nil Z)))) (0)) <> 0)) ” 
+  &&  “ forall (r: Z) , (((0 <= r) /\ (r < dict_size_pre)) -> (((0 < (Zlength ((Znth (r) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r) (rows) ((@nil Z))))) - 1 )) ((Znth (r) (rows) ((@nil Z)))) (0)) = 0))) ”
   &&  (CharArray.full row_ptr_2 (Zlength ((Znth (k) (rows) ((@nil Z))))) (Znth (k) (rows) ((@nil Z))) )
 ).
 
@@ -859,6 +866,13 @@ forall (dict_size_pre: Z) (rows: (@list (@list Z))) (isupper: Z) (islower: Z) (k
   (CharArray.full row_ptr_2 (Zlength ((Znth k rows __default__List_Z))) (Znth k rows __default__List_Z) )
 |--
   “ forall (r_2: Z) , forall (i: Z) , (((((0 <= r_2) /\ (r_2 < dict_size_pre)) /\ (0 <= i)) /\ (i < ((Zlength ((Znth (r_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i) ((Znth (r_2) (rows) ((@nil Z)))) (0)) <> 0)) ”
+.
+
+Definition check_dict_case_entail_wit_2_split_goal_2 := 
+forall (dict_size_pre: Z) (rows: (@list (@list Z))) (isupper: Z) (islower: Z) (k: Z) (row_ptr_2: Z)  __default__List_Z (PreH1 : (0 <= (Zlength ((Znth k rows __default__List_Z))))) (PreH2 : (k < dict_size_pre)) (PreH3 : (0 <= k)) (PreH4 : (k <= dict_size_pre)) (PreH5 : (0 <= dict_size_pre)) (PreH6 : (dict_size_pre <= 100)) (PreH7 : ((Zlength (rows)) = dict_size_pre)) (PreH8 : forall (r_3: Z) , (((0 <= r_3) /\ (r_3 < dict_size_pre)) -> (((0 < (Zlength ((Znth (r_3) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r_3) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r_3) (rows) ((@nil Z))))) - 1 )) ((Znth (r_3) (rows) ((@nil Z)))) (0)) = 0)))) (PreH9 : forall (r_4: Z) , forall (i_2: Z) , (((((0 <= r_4) /\ (r_4 < dict_size_pre)) /\ (0 <= i_2)) /\ (i_2 < ((Zlength ((Znth (r_4) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i_2) ((Znth (r_4) (rows) ((@nil Z)))) (0)) <> 0))) (PreH10 : (0 <= islower)) (PreH11 : (islower <= 1)) (PreH12 : (0 <= isupper)) (PreH13 : (isupper <= 1)) ,
+  (CharArray.full row_ptr_2 (Zlength ((Znth k rows __default__List_Z))) (Znth k rows __default__List_Z) )
+|--
+  “ forall (r: Z) , (((0 <= r) /\ (r < dict_size_pre)) -> (((0 < (Zlength ((Znth (r) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r) (rows) ((@nil Z))))) - 1 )) ((Znth (r) (rows) ((@nil Z)))) (0)) = 0))) ”
 .
 
 Definition check_dict_case_entail_wit_2_split_goal_spatial := 
@@ -894,13 +908,19 @@ forall (dict_size_pre: Z) (keys_pre: Z) (rows: (@list (@list Z))) (row_ptr: Z) (
 forall (dict_size_pre: Z) (rows: (@list (@list Z))) (k: Z) (islower: Z) (isupper: Z) (PreH1 : (0 <= k)) (PreH2 : (k < dict_size_pre)) (PreH3 : (0 <= dict_size_pre)) (PreH4 : (dict_size_pre <= 100)) (PreH5 : ((Zlength (rows)) = dict_size_pre)) (PreH6 : forall (r_3: Z) , (((0 <= r_3) /\ (r_3 < dict_size_pre)) -> (((0 < (Zlength ((Znth (r_3) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r_3) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r_3) (rows) ((@nil Z))))) - 1 )) ((Znth (r_3) (rows) ((@nil Z)))) (0)) = 0)))) (PreH7 : forall (r_4: Z) , forall (i_2: Z) , (((((0 <= r_4) /\ (r_4 < dict_size_pre)) /\ (0 <= i_2)) /\ (i_2 < ((Zlength ((Znth (r_4) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i_2) ((Znth (r_4) (rows) ((@nil Z)))) (0)) <> 0))) (PreH8 : (0 <= islower)) (PreH9 : (islower <= 1)) (PreH10 : (0 <= isupper)) (PreH11 : (isupper <= 1)) ,
   TT && emp 
 |--
-  “ forall (r_2: Z) , forall (i: Z) , (((((0 <= r_2) /\ (r_2 < dict_size_pre)) /\ (0 <= i)) /\ (i < ((Zlength ((Znth (r_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i) ((Znth (r_2) (rows) ((@nil Z)))) (0)) <> 0)) ”
+  “ forall (r_2: Z) , forall (i: Z) , (((((0 <= r_2) /\ (r_2 < dict_size_pre)) /\ (0 <= i)) /\ (i < ((Zlength ((Znth (r_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i) ((Znth (r_2) (rows) ((@nil Z)))) (0)) <> 0)) ” 
+  &&  “ forall (r: Z) , (((0 <= r) /\ (r < dict_size_pre)) -> (((0 < (Zlength ((Znth (r) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r) (rows) ((@nil Z))))) - 1 )) ((Znth (r) (rows) ((@nil Z)))) (0)) = 0))) ”
   &&  emp
 ).
 
 Definition check_dict_case_entail_wit_3_split_goal_1 := 
 forall (dict_size_pre: Z) (rows: (@list (@list Z))) (k: Z) (islower: Z) (isupper: Z) (PreH1 : (0 <= k)) (PreH2 : (k < dict_size_pre)) (PreH3 : (0 <= dict_size_pre)) (PreH4 : (dict_size_pre <= 100)) (PreH5 : ((Zlength (rows)) = dict_size_pre)) (PreH6 : forall (r_3: Z) , (((0 <= r_3) /\ (r_3 < dict_size_pre)) -> (((0 < (Zlength ((Znth (r_3) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r_3) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r_3) (rows) ((@nil Z))))) - 1 )) ((Znth (r_3) (rows) ((@nil Z)))) (0)) = 0)))) (PreH7 : forall (r_4: Z) , forall (i_2: Z) , (((((0 <= r_4) /\ (r_4 < dict_size_pre)) /\ (0 <= i_2)) /\ (i_2 < ((Zlength ((Znth (r_4) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i_2) ((Znth (r_4) (rows) ((@nil Z)))) (0)) <> 0))) (PreH8 : (0 <= islower)) (PreH9 : (islower <= 1)) (PreH10 : (0 <= isupper)) (PreH11 : (isupper <= 1)) ,
   forall (r_2: Z) , forall (i: Z) , (((((0 <= r_2) /\ (r_2 < dict_size_pre)) /\ (0 <= i)) /\ (i < ((Zlength ((Znth (r_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i) ((Znth (r_2) (rows) ((@nil Z)))) (0)) <> 0))
+.
+
+Definition check_dict_case_entail_wit_3_split_goal_2 := 
+forall (dict_size_pre: Z) (rows: (@list (@list Z))) (k: Z) (islower: Z) (isupper: Z) (PreH1 : (0 <= k)) (PreH2 : (k < dict_size_pre)) (PreH3 : (0 <= dict_size_pre)) (PreH4 : (dict_size_pre <= 100)) (PreH5 : ((Zlength (rows)) = dict_size_pre)) (PreH6 : forall (r_3: Z) , (((0 <= r_3) /\ (r_3 < dict_size_pre)) -> (((0 < (Zlength ((Znth (r_3) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r_3) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r_3) (rows) ((@nil Z))))) - 1 )) ((Znth (r_3) (rows) ((@nil Z)))) (0)) = 0)))) (PreH7 : forall (r_4: Z) , forall (i_2: Z) , (((((0 <= r_4) /\ (r_4 < dict_size_pre)) /\ (0 <= i_2)) /\ (i_2 < ((Zlength ((Znth (r_4) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i_2) ((Znth (r_4) (rows) ((@nil Z)))) (0)) <> 0))) (PreH8 : (0 <= islower)) (PreH9 : (islower <= 1)) (PreH10 : (0 <= isupper)) (PreH11 : (isupper <= 1)) ,
+  forall (r: Z) , (((0 <= r) /\ (r < dict_size_pre)) -> (((0 < (Zlength ((Znth (r) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r) (rows) ((@nil Z))))) - 1 )) ((Znth (r) (rows) ((@nil Z)))) (0)) = 0)))
 .
 
 Definition check_dict_case_entail_wit_4 := 
@@ -932,6 +952,7 @@ forall (dict_size_pre: Z) (rows: (@list (@list Z))) (k: Z) (islower: Z) (isupper
   TT && emp 
 |--
   “ forall (r_2: Z) , forall (i0: Z) , (((((0 <= r_2) /\ (r_2 < dict_size_pre)) /\ (0 <= i0)) /\ (i0 < ((Zlength ((Znth (r_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i0) ((Znth (r_2) (rows) ((@nil Z)))) (0)) <> 0)) ” 
+  &&  “ forall (r: Z) , (((0 <= r) /\ (r < dict_size_pre)) -> (((0 < (Zlength ((Znth (r) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r) (rows) ((@nil Z))))) - 1 )) ((Znth (r) (rows) ((@nil Z)))) (0)) = 0))) ” 
   &&  “ (0 < (Zlength ((Znth (k) (rows) ((@nil Z)))))) ”
   &&  emp
 ).
@@ -942,6 +963,11 @@ forall (dict_size_pre: Z) (rows: (@list (@list Z))) (k: Z) (islower: Z) (isupper
 .
 
 Definition check_dict_case_entail_wit_4_split_goal_2 := 
+forall (dict_size_pre: Z) (rows: (@list (@list Z))) (k: Z) (islower: Z) (isupper: Z) (PreH1 : (0 <= k)) (PreH2 : (k < dict_size_pre)) (PreH3 : (0 <= dict_size_pre)) (PreH4 : (dict_size_pre <= 100)) (PreH5 : ((Zlength (rows)) = dict_size_pre)) (PreH6 : forall (r_3: Z) , (((0 <= r_3) /\ (r_3 < dict_size_pre)) -> (((0 < (Zlength ((Znth (r_3) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r_3) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r_3) (rows) ((@nil Z))))) - 1 )) ((Znth (r_3) (rows) ((@nil Z)))) (0)) = 0)))) (PreH7 : forall (r_4: Z) , forall (i: Z) , (((((0 <= r_4) /\ (r_4 < dict_size_pre)) /\ (0 <= i)) /\ (i < ((Zlength ((Znth (r_4) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i) ((Znth (r_4) (rows) ((@nil Z)))) (0)) <> 0))) (PreH8 : (0 <= islower)) (PreH9 : (islower <= 1)) (PreH10 : (0 <= isupper)) (PreH11 : (isupper <= 1)) ,
+  forall (r: Z) , (((0 <= r) /\ (r < dict_size_pre)) -> (((0 < (Zlength ((Znth (r) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r) (rows) ((@nil Z))))) - 1 )) ((Znth (r) (rows) ((@nil Z)))) (0)) = 0)))
+.
+
+Definition check_dict_case_entail_wit_4_split_goal_3 := 
 forall (dict_size_pre: Z) (rows: (@list (@list Z))) (k: Z) (islower: Z) (isupper: Z) (PreH1 : (0 <= k)) (PreH2 : (k < dict_size_pre)) (PreH3 : (0 <= dict_size_pre)) (PreH4 : (dict_size_pre <= 100)) (PreH5 : ((Zlength (rows)) = dict_size_pre)) (PreH6 : forall (r_3: Z) , (((0 <= r_3) /\ (r_3 < dict_size_pre)) -> (((0 < (Zlength ((Znth (r_3) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r_3) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r_3) (rows) ((@nil Z))))) - 1 )) ((Znth (r_3) (rows) ((@nil Z)))) (0)) = 0)))) (PreH7 : forall (r_4: Z) , forall (i: Z) , (((((0 <= r_4) /\ (r_4 < dict_size_pre)) /\ (0 <= i)) /\ (i < ((Zlength ((Znth (r_4) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i) ((Znth (r_4) (rows) ((@nil Z)))) (0)) <> 0))) (PreH8 : (0 <= islower)) (PreH9 : (islower <= 1)) (PreH10 : (0 <= isupper)) (PreH11 : (isupper <= 1)) ,
   (0 < (Zlength ((Znth (k) (rows) ((@nil Z))))))
 .
@@ -1046,7 +1072,8 @@ forall (dict_size_pre: Z) (keys_pre: Z) (rows: (@list (@list Z))) (isupper: Z) (
   **  (CharPtrArray2.missing_i keys_pre dict_size_pre k row_ptr rows )
   **  (((keys_pre + (k * sizeof(PTR)))) # Ptr  |-> row_ptr)
 |--
-  “ forall (r_2: Z) , forall (i0: Z) , (((((0 <= r_2) /\ (r_2 < dict_size_pre)) /\ (0 <= i0)) /\ (i0 < ((Zlength ((Znth (r_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i0) ((Znth (r_2) (rows) ((@nil Z)))) (0)) <> 0)) ”
+  “ forall (r_2: Z) , forall (i0: Z) , (((((0 <= r_2) /\ (r_2 < dict_size_pre)) /\ (0 <= i0)) /\ (i0 < ((Zlength ((Znth (r_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i0) ((Znth (r_2) (rows) ((@nil Z)))) (0)) <> 0)) ” 
+  &&  “ forall (r: Z) , (((0 <= r) /\ (r < dict_size_pre)) -> (((0 < (Zlength ((Znth (r) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r) (rows) ((@nil Z))))) - 1 )) ((Znth (r) (rows) ((@nil Z)))) (0)) = 0))) ”
   &&  (CharPtrArray2.full keys_pre dict_size_pre rows )
 ).
 
@@ -1057,6 +1084,15 @@ forall (dict_size_pre: Z) (keys_pre: Z) (rows: (@list (@list Z))) (isupper: Z) (
   **  (((keys_pre + (k * sizeof(PTR)))) # Ptr  |-> row_ptr)
 |--
   “ forall (r_2: Z) , forall (i0: Z) , (((((0 <= r_2) /\ (r_2 < dict_size_pre)) /\ (0 <= i0)) /\ (i0 < ((Zlength ((Znth (r_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i0) ((Znth (r_2) (rows) ((@nil Z)))) (0)) <> 0)) ”
+.
+
+Definition check_dict_case_entail_wit_6_split_goal_2 := 
+forall (dict_size_pre: Z) (keys_pre: Z) (rows: (@list (@list Z))) (isupper: Z) (islower: Z) (row_ptr: Z) (k: Z) (i: Z) (PreH1 : (0 <= (Zlength ((Znth (k) (rows) ((@nil Z))))))) (PreH2 : ((Znth i (Znth (k) (rows) ((@nil Z))) 0) = 0)) (PreH3 : (0 <= i)) (PreH4 : (i < (Zlength ((Znth (k) (rows) ((@nil Z))))))) (PreH5 : (0 <= k)) (PreH6 : (k < dict_size_pre)) (PreH7 : (0 <= dict_size_pre)) (PreH8 : (dict_size_pre <= 100)) (PreH9 : ((Zlength (rows)) = dict_size_pre)) (PreH10 : forall (r_3: Z) , (((0 <= r_3) /\ (r_3 < dict_size_pre)) -> (((0 < (Zlength ((Znth (r_3) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r_3) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r_3) (rows) ((@nil Z))))) - 1 )) ((Znth (r_3) (rows) ((@nil Z)))) (0)) = 0)))) (PreH11 : forall (r_4: Z) , forall (i0_2: Z) , (((((0 <= r_4) /\ (r_4 < dict_size_pre)) /\ (0 <= i0_2)) /\ (i0_2 < ((Zlength ((Znth (r_4) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i0_2) ((Znth (r_4) (rows) ((@nil Z)))) (0)) <> 0))) (PreH12 : (0 <= islower)) (PreH13 : (islower <= 1)) (PreH14 : (0 <= isupper)) (PreH15 : (isupper <= 1)) ,
+  (CharArray.full row_ptr (Zlength ((Znth (k) (rows) ((@nil Z))))) (Znth (k) (rows) ((@nil Z))) )
+  **  (CharPtrArray2.missing_i keys_pre dict_size_pre k row_ptr rows )
+  **  (((keys_pre + (k * sizeof(PTR)))) # Ptr  |-> row_ptr)
+|--
+  “ forall (r: Z) , (((0 <= r) /\ (r < dict_size_pre)) -> (((0 < (Zlength ((Znth (r) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r) (rows) ((@nil Z))))) - 1 )) ((Znth (r) (rows) ((@nil Z)))) (0)) = 0))) ”
 .
 
 Definition check_dict_case_entail_wit_6_split_goal_spatial := 
@@ -1090,13 +1126,19 @@ forall (dict_size_pre: Z) (keys_pre: Z) (rows: (@list (@list Z))) (k: Z) (islowe
 forall (dict_size_pre: Z) (rows: (@list (@list Z))) (k: Z) (islower: Z) (isupper: Z) (PreH1 : (0 <= k)) (PreH2 : (k < dict_size_pre)) (PreH3 : (0 <= islower)) (PreH4 : (islower <= 1)) (PreH5 : (0 <= isupper)) (PreH6 : (isupper <= 1)) (PreH7 : (0 <= dict_size_pre)) (PreH8 : (dict_size_pre <= 100)) (PreH9 : ((Zlength (rows)) = dict_size_pre)) (PreH10 : forall (r_3: Z) , (((0 <= r_3) /\ (r_3 < dict_size_pre)) -> (((0 < (Zlength ((Znth (r_3) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r_3) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r_3) (rows) ((@nil Z))))) - 1 )) ((Znth (r_3) (rows) ((@nil Z)))) (0)) = 0)))) (PreH11 : forall (r_4: Z) , forall (i0: Z) , (((((0 <= r_4) /\ (r_4 < dict_size_pre)) /\ (0 <= i0)) /\ (i0 < ((Zlength ((Znth (r_4) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i0) ((Znth (r_4) (rows) ((@nil Z)))) (0)) <> 0))) ,
   TT && emp 
 |--
-  “ forall (r_2: Z) , forall (i: Z) , (((((0 <= r_2) /\ (r_2 < dict_size_pre)) /\ (0 <= i)) /\ (i < ((Zlength ((Znth (r_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i) ((Znth (r_2) (rows) ((@nil Z)))) (0)) <> 0)) ”
+  “ forall (r_2: Z) , forall (i: Z) , (((((0 <= r_2) /\ (r_2 < dict_size_pre)) /\ (0 <= i)) /\ (i < ((Zlength ((Znth (r_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i) ((Znth (r_2) (rows) ((@nil Z)))) (0)) <> 0)) ” 
+  &&  “ forall (r: Z) , (((0 <= r) /\ (r < dict_size_pre)) -> (((0 < (Zlength ((Znth (r) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r) (rows) ((@nil Z))))) - 1 )) ((Znth (r) (rows) ((@nil Z)))) (0)) = 0))) ”
   &&  emp
 ).
 
 Definition check_dict_case_entail_wit_7_split_goal_1 := 
 forall (dict_size_pre: Z) (rows: (@list (@list Z))) (k: Z) (islower: Z) (isupper: Z) (PreH1 : (0 <= k)) (PreH2 : (k < dict_size_pre)) (PreH3 : (0 <= islower)) (PreH4 : (islower <= 1)) (PreH5 : (0 <= isupper)) (PreH6 : (isupper <= 1)) (PreH7 : (0 <= dict_size_pre)) (PreH8 : (dict_size_pre <= 100)) (PreH9 : ((Zlength (rows)) = dict_size_pre)) (PreH10 : forall (r_3: Z) , (((0 <= r_3) /\ (r_3 < dict_size_pre)) -> (((0 < (Zlength ((Znth (r_3) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r_3) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r_3) (rows) ((@nil Z))))) - 1 )) ((Znth (r_3) (rows) ((@nil Z)))) (0)) = 0)))) (PreH11 : forall (r_4: Z) , forall (i0: Z) , (((((0 <= r_4) /\ (r_4 < dict_size_pre)) /\ (0 <= i0)) /\ (i0 < ((Zlength ((Znth (r_4) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i0) ((Znth (r_4) (rows) ((@nil Z)))) (0)) <> 0))) ,
   forall (r_2: Z) , forall (i: Z) , (((((0 <= r_2) /\ (r_2 < dict_size_pre)) /\ (0 <= i)) /\ (i < ((Zlength ((Znth (r_2) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i) ((Znth (r_2) (rows) ((@nil Z)))) (0)) <> 0))
+.
+
+Definition check_dict_case_entail_wit_7_split_goal_2 := 
+forall (dict_size_pre: Z) (rows: (@list (@list Z))) (k: Z) (islower: Z) (isupper: Z) (PreH1 : (0 <= k)) (PreH2 : (k < dict_size_pre)) (PreH3 : (0 <= islower)) (PreH4 : (islower <= 1)) (PreH5 : (0 <= isupper)) (PreH6 : (isupper <= 1)) (PreH7 : (0 <= dict_size_pre)) (PreH8 : (dict_size_pre <= 100)) (PreH9 : ((Zlength (rows)) = dict_size_pre)) (PreH10 : forall (r_3: Z) , (((0 <= r_3) /\ (r_3 < dict_size_pre)) -> (((0 < (Zlength ((Znth (r_3) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r_3) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r_3) (rows) ((@nil Z))))) - 1 )) ((Znth (r_3) (rows) ((@nil Z)))) (0)) = 0)))) (PreH11 : forall (r_4: Z) , forall (i0: Z) , (((((0 <= r_4) /\ (r_4 < dict_size_pre)) /\ (0 <= i0)) /\ (i0 < ((Zlength ((Znth (r_4) (rows) ((@nil Z))))) - 1 ))) -> ((Znth (i0) ((Znth (r_4) (rows) ((@nil Z)))) (0)) <> 0))) ,
+  forall (r: Z) , (((0 <= r) /\ (r < dict_size_pre)) -> (((0 < (Zlength ((Znth (r) (rows) ((@nil Z)))))) /\ ((Zlength ((Znth (r) (rows) ((@nil Z))))) <= 100)) /\ ((Znth (((Zlength ((Znth (r) (rows) ((@nil Z))))) - 1 )) ((Znth (r) (rows) ((@nil Z)))) (0)) = 0)))
 .
 
 Definition check_dict_case_return_wit_1 := 

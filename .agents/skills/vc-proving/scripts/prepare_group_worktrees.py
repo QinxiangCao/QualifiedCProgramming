@@ -53,8 +53,23 @@ def _formal_file_candidates(manual_rel: Path) -> list[Path]:
 
 
 def _sync_round_files(round_worktree: Path, group_worktree: Path, manifest: dict[str, Any]) -> None:
-    rels = set(_formal_file_candidates(Path(str(manifest["proof_manual_file"]))))
+    manual_rel = Path(str(manifest["proof_manual_file"]))
+    rels = set(_formal_file_candidates(manual_rel))
     rels.add(Path(str(manifest["case_lib"])))
+    manual_suffix = "_proof_manual.v"
+    if manual_rel.name.endswith(manual_suffix):
+        case_name = manual_rel.name[: -len(manual_suffix)]
+        sibling_case_lib = manual_rel.parent.parent / f"{case_name}_lib.v"
+        if (round_worktree / sibling_case_lib).is_file():
+            rels.add(sibling_case_lib)
+        case_dir = round_worktree / manual_rel.parent
+        # Strategy modules imported by the generated case goal are not
+        # necessarily named after the case (for example pointf_array_* in
+        # convex_hull_float).  They are read-only formal dependencies and
+        # must be materialized with the rest of the accepted round snapshot.
+        for dependency in case_dir.glob("*_strategy*.v"):
+            if dependency.is_file():
+                rels.add(dependency.relative_to(round_worktree))
     for rel in rels:
         src = round_worktree / rel
         if not src.is_file():

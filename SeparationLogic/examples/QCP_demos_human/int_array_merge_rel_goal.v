@@ -33,11 +33,11 @@ Definition merge_safety_wit_1 :=
 forall (ret_pre: Z) (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (l0: (@list Z)) (s2: (@list Z)) (s1: (@list Z)) (PreH1 : (safeExec ATrue (merge_rel (s1) (s2)) X )) (PreH2 : (0 <= p_pre)) (PreH3 : (p_pre <= q_pre)) (PreH4 : (q_pre < r_pre)) (PreH5 : ((r_pre + 1 ) <= INT_MAX)) ,
   ((( &( "j" ) )) # Int  |->_)
   **  ((( &( "i" ) )) # Int  |-> p_pre)
-  **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
-  **  ((( &( "r" ) )) # Int  |-> r_pre)
-  **  ((( &( "q" ) )) # Int  |-> q_pre)
-  **  ((( &( "p" ) )) # Int  |-> p_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
+  **  ((( &( "p" ) )) # Int  |-> p_pre)
+  **  ((( &( "q" ) )) # Int  |-> q_pre)
+  **  ((( &( "r" ) )) # Int  |-> r_pre)
+  **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
   **  (IntArray.seg arr_pre p_pre (q_pre + 1 ) s1 )
   **  (IntArray.seg arr_pre (q_pre + 1 ) (r_pre + 1 ) s2 )
   **  (IntArray.seg ret_pre p_pre (r_pre + 1 ) l0 )
@@ -50,11 +50,11 @@ Definition merge_safety_wit_2 :=
 forall (ret_pre: Z) (r_pre: Z) (q_pre: Z) (p_pre: Z) (arr_pre: Z) (X: ((@list Z) -> (unit -> Prop))) (l0: (@list Z)) (s2: (@list Z)) (s1: (@list Z)) (PreH1 : (safeExec ATrue (merge_rel (s1) (s2)) X )) (PreH2 : (0 <= p_pre)) (PreH3 : (p_pre <= q_pre)) (PreH4 : (q_pre < r_pre)) (PreH5 : ((r_pre + 1 ) <= INT_MAX)) ,
   ((( &( "j" ) )) # Int  |->_)
   **  ((( &( "i" ) )) # Int  |-> p_pre)
-  **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
-  **  ((( &( "r" ) )) # Int  |-> r_pre)
-  **  ((( &( "q" ) )) # Int  |-> q_pre)
-  **  ((( &( "p" ) )) # Int  |-> p_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
+  **  ((( &( "p" ) )) # Int  |-> p_pre)
+  **  ((( &( "q" ) )) # Int  |-> q_pre)
+  **  ((( &( "r" ) )) # Int  |-> r_pre)
+  **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
   **  (IntArray.seg arr_pre p_pre (q_pre + 1 ) s1 )
   **  (IntArray.seg arr_pre (q_pre + 1 ) (r_pre + 1 ) s2 )
   **  (IntArray.seg ret_pre p_pre (r_pre + 1 ) l0 )
@@ -1183,10 +1183,10 @@ Definition mergeSort_safety_wit_1 :=
 (
 forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (s1_low_level_spec: (@list Z)) (PreH1 : (l_pre < r_pre)) (PreH2 : (safeExec ATrue (gmergesortrec (s1_low_level_spec)) X_low_level_spec )) (PreH3 : (0 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : ((r_pre + 1 ) <= INT_MAX)) ,
   ((( &( "m" ) )) # Int  |->_)
-  **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
-  **  ((( &( "r" ) )) # Int  |-> r_pre)
-  **  ((( &( "l" ) )) # Int  |-> l_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
+  **  ((( &( "l" ) )) # Int  |-> l_pre)
+  **  ((( &( "r" ) )) # Int  |-> r_pre)
+  **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
   **  (IntArray.seg arr_pre l_pre (r_pre + 1 ) s1_low_level_spec )
   **  (IntArray.seg ret_pre l_pre (r_pre + 1 ) s1_low_level_spec )
 |--
@@ -1196,10 +1196,10 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@lis
 (
 forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (s1_low_level_spec: (@list Z)) (PreH1 : (l_pre < r_pre)) (PreH2 : (safeExec ATrue (gmergesortrec (s1_low_level_spec)) X_low_level_spec )) (PreH3 : (0 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : ((r_pre + 1 ) <= INT_MAX)) ,
   ((( &( "m" ) )) # Int  |->_)
-  **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
-  **  ((( &( "r" ) )) # Int  |-> r_pre)
-  **  ((( &( "l" ) )) # Int  |-> l_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
+  **  ((( &( "l" ) )) # Int  |-> l_pre)
+  **  ((( &( "r" ) )) # Int  |-> r_pre)
+  **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
   **  (IntArray.seg arr_pre l_pre (r_pre + 1 ) s1_low_level_spec )
   **  (IntArray.seg ret_pre l_pre (r_pre + 1 ) s1_low_level_spec )
 |--
@@ -1210,10 +1210,10 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@lis
 Definition mergeSort_safety_wit_1_split_goal_1 := 
 forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (s1_low_level_spec: (@list Z)) (PreH1 : (l_pre < r_pre)) (PreH2 : (safeExec ATrue (gmergesortrec (s1_low_level_spec)) X_low_level_spec )) (PreH3 : (0 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : ((r_pre + 1 ) <= INT_MAX)) ,
   ((( &( "m" ) )) # Int  |->_)
-  **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
-  **  ((( &( "r" ) )) # Int  |-> r_pre)
-  **  ((( &( "l" ) )) # Int  |-> l_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
+  **  ((( &( "l" ) )) # Int  |-> l_pre)
+  **  ((( &( "r" ) )) # Int  |-> r_pre)
+  **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
   **  (IntArray.seg arr_pre l_pre (r_pre + 1 ) s1_low_level_spec )
   **  (IntArray.seg ret_pre l_pre (r_pre + 1 ) s1_low_level_spec )
 |--
@@ -1223,10 +1223,10 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@lis
 Definition mergeSort_safety_wit_1_split_goal_2 := 
 forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (s1_low_level_spec: (@list Z)) (PreH1 : (l_pre < r_pre)) (PreH2 : (safeExec ATrue (gmergesortrec (s1_low_level_spec)) X_low_level_spec )) (PreH3 : (0 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : ((r_pre + 1 ) <= INT_MAX)) ,
   ((( &( "m" ) )) # Int  |->_)
-  **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
-  **  ((( &( "r" ) )) # Int  |-> r_pre)
-  **  ((( &( "l" ) )) # Int  |-> l_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
+  **  ((( &( "l" ) )) # Int  |-> l_pre)
+  **  ((( &( "r" ) )) # Int  |-> r_pre)
+  **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
   **  (IntArray.seg arr_pre l_pre (r_pre + 1 ) s1_low_level_spec )
   **  (IntArray.seg ret_pre l_pre (r_pre + 1 ) s1_low_level_spec )
 |--
@@ -1236,10 +1236,10 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@lis
 Definition mergeSort_safety_wit_2 := 
 forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (s1_low_level_spec: (@list Z)) (PreH1 : (l_pre < r_pre)) (PreH2 : (safeExec ATrue (gmergesortrec (s1_low_level_spec)) X_low_level_spec )) (PreH3 : (0 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : ((r_pre + 1 ) <= INT_MAX)) ,
   ((( &( "m" ) )) # Int  |->_)
-  **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
-  **  ((( &( "r" ) )) # Int  |-> r_pre)
-  **  ((( &( "l" ) )) # Int  |-> l_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
+  **  ((( &( "l" ) )) # Int  |-> l_pre)
+  **  ((( &( "r" ) )) # Int  |-> r_pre)
+  **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
   **  (IntArray.seg arr_pre l_pre (r_pre + 1 ) s1_low_level_spec )
   **  (IntArray.seg ret_pre l_pre (r_pre + 1 ) s1_low_level_spec )
 |--
@@ -1250,10 +1250,10 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@lis
 Definition mergeSort_safety_wit_3 := 
 forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (s1_low_level_spec: (@list Z)) (PreH1 : (l_pre < r_pre)) (PreH2 : (safeExec ATrue (gmergesortrec (s1_low_level_spec)) X_low_level_spec )) (PreH3 : (0 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : ((r_pre + 1 ) <= INT_MAX)) ,
   ((( &( "m" ) )) # Int  |->_)
-  **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
-  **  ((( &( "r" ) )) # Int  |-> r_pre)
-  **  ((( &( "l" ) )) # Int  |-> l_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
+  **  ((( &( "l" ) )) # Int  |-> l_pre)
+  **  ((( &( "r" ) )) # Int  |-> r_pre)
+  **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
   **  (IntArray.seg arr_pre l_pre (r_pre + 1 ) s1_low_level_spec )
   **  (IntArray.seg ret_pre l_pre (r_pre + 1 ) s1_low_level_spec )
 |--
@@ -1264,10 +1264,10 @@ forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@lis
 Definition mergeSort_safety_wit_4 := 
 forall (ret_pre: Z) (r_pre: Z) (l_pre: Z) (arr_pre: Z) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (s1_low_level_spec: (@list Z)) (PreH1 : (l_pre < r_pre)) (PreH2 : (safeExec ATrue (gmergesortrec (s1_low_level_spec)) X_low_level_spec )) (PreH3 : (0 <= l_pre)) (PreH4 : (l_pre <= r_pre)) (PreH5 : ((r_pre + 1 ) <= INT_MAX)) ,
   ((( &( "m" ) )) # Int  |->_)
-  **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
-  **  ((( &( "r" ) )) # Int  |-> r_pre)
-  **  ((( &( "l" ) )) # Int  |-> l_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
+  **  ((( &( "l" ) )) # Int  |-> l_pre)
+  **  ((( &( "r" ) )) # Int  |-> r_pre)
+  **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
   **  (IntArray.seg arr_pre l_pre (r_pre + 1 ) s1_low_level_spec )
   **  (IntArray.seg ret_pre l_pre (r_pre + 1 ) s1_low_level_spec )
 |--

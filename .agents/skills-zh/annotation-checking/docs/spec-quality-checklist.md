@@ -1,13 +1,13 @@
 # Spec 质量检查清单
 
-检查目标不是证明所有 VC，而是在 `annotation-check-round` 前拦住明显错误的 C annotation 和 `case_lib`。
+检查目标不是证明所有 VC，而是在 `annotation-check-round` 前拦住明显错误的 C annotation 和 `formal_case_lib`。
 
-## `case_lib`
+## `formal_case_lib`
 
 对每个出现在 C annotation 中的 external Rocq predicate / function / relation，确认：
 
 - declaration 存在，名称、参数数量和顺序与 C annotation 一致。
-- `coq_tooling.py check --target-kind case_lib` 通过，target file 指向 Rocq formal `case_lib`，不是 C source directory。
+- handoff 的 `controller.py coq-check --target-kind formal-case-lib` 通过；agent不直接调用internal helper，也不自行拼 target/build path。
 - 内容是 mathematical spec，不是当前 C 程序的控制流复刻。
 - 强度足以推出函数 `Ensure` 的结果语义，又不把某个具体实现策略写成唯一允许行为。
 - 不含 `Admitted.`、extra `Axiom` 或当前 case generated artifact 的 `SimpleC.EE.*` import。
@@ -36,9 +36,9 @@ loop invariant 至少包含：
 
 ## QCP evidence 检查
 
-`canonical_symexec_evidence` 必须来自当前 annotation round worktree，并匹配当前 `source_version`。evidence 记录实际 QCP driver、cwd、target `.c`、`-IQCP_examples/QCP_demos_LLM/` 和 `-slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM`。
+exact `controller.py symexec` 必须在 current main root/current round通过。driver、cwd与 canonical include/SLP由 controller code固定，不要求 agent把这些字段复制到 report。
 
-若 evidence 指向 stale file、stale line 或 stale worktree，返回 `failed`。若 qcp-mcp 交互检查来自共享 stateful session，返回 `failed` 或 `skipped` 并说明原因。
+若 evidence 指向 stale file、stale line 或 stale directory，返回 `failed`。若 qcp-mcp 交互检查来自共享 stateful session，返回 `failed` 或 `skipped` 并说明原因。
 
 ## Generated VC 语义预检
 
@@ -57,24 +57,18 @@ canonical QCP 生成当前 case 的 generated/proof artifacts 后，可以读取
 
 - spec 缺失或方向错误：`failed`，回到 `annotation-filling`。
 - spec 合理但 C annotation 没使用：`failed`，修正 function spec / loop invariant。
-- annotation 和 `case_lib` 合理，但可能需要 helper：`passed`，并记录风险摘要。
+- annotation 和 `formal_case_lib` 合理，但可能需要 helper：`passed`，并记录风险摘要。
 - 输入 stale：建议 annotation result 写 `stale`。
-- 工具 evidence 不可信、文件边界不清或 spec/annotation 方向错误：返回 `failed` + `rework_plan[]`，让 annotation-filling 在同一 spawn 内修复。
+- 工具 evidence 不可信、文件边界不清或 spec/annotation 方向错误：返回 `failed`，并在 current `agent_output.md` 写简短 rework plan，让 annotation-filling 在同一 agent turn 内修复。
 - annotation-checking 所需必要工具完全不可运行并有 command evidence：建议 annotation result 写 `blocked`。
 - context compaction：只记录 `compact-error` 事实；是否重试或最终 block 由 controller / main agent 判定。
 
-`passed` 只表示 candidate 可交给 main agent 执行 `annotation-check-round`；main agent 仍要检查 diff、evidence、`case_lib` contract，并在 round worktree 内运行 canonical symbolic execution。
+`passed` 只表示 candidate 可交给 main agent 执行 `annotation-check-round`；main agent 仍要检查 diff、evidence、`formal_case_lib` contract，并在 main root 内运行 canonical symbolic execution。
 
-## Rework plan 输出
+## Rework plan notes
 
-`failed` result 必须给出 `rework_plan[]`，默认要求 annotation-subagent 同 round 继续修复。每项包含：
+`failed` 时在本次 `agent_output.md` 写可直接执行的 rework plan，默认要求同一个 annotation-subagent 在当前 turn 继续修复。每项说明 failure class、repair target、message 与 expected next check；只有确实有助于调度时才补 `self_reworkable`。若是 main agent append 的后续迭代，必须先重新完整读取两个 annotation skills、main agent blocker summary和 handoff列出的 Markdown/JSON blocker 原文件。
 
-- `failure_class`
-- `repair_target`
-- `self_reworkable`
-- `message`
-- `expected_next_check`
+`spec-quality`、`formal_case_lib-coqc`、`qcp-symbolic-execution`、`where-instantiation`、`invariant-too-weak`、`invariant-too-strong` 和 `resource-loss` 默认可在当前 spawn 修复。这些失败不得建议 terminal `blocked`；notes 可简记已尝试的修复次数，但不把可修问题升级成 hard blocker。
 
-`spec-quality`、`case_lib-coqc`、`qcp-symbolic-execution`、`where-instantiation`、`invariant-too-weak`、`invariant-too-strong` 和 `resource-loss` 默认 `self_reworkable = true`。这些失败不得建议 terminal `blocked`；`self_repair_budget` 只记录本次 spawn 已经做过多少修复尝试，不把可修问题升级成 hard blocker。
-
-QCP evidence 字段必须拆分为 `canonical_symexec_evidence`、`qcp_mcp_interactive_evidence` 和 `case_lib_coqc_evidence`；不要用 legacy flag 混淆 direct symexec 与 qcp-mcp interactive evidence。
+terminal report只写三个 check status；失败 evidence、qcp-mcp交互提示与 rework plan写 `agent_output.md`。

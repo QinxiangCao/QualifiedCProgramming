@@ -29,10 +29,10 @@ Proof. Admitted.
 Lemma proof_of_rob_safety_wit_3 : rob_safety_wit_3.
 Proof. Admitted. 
 
-Lemma proof_of_rob_safety_wit_5 : rob_safety_wit_5.
+Lemma proof_of_rob_safety_wit_4 : rob_safety_wit_4.
 Proof. Admitted. 
 
-Lemma proof_of_rob_entail_wit_3 : rob_entail_wit_3.
+Lemma proof_of_rob_safety_wit_5 : rob_safety_wit_5.
 Proof. Admitted. 
 
 Lemma proof_of_rob_partial_solve_wit_1 : rob_partial_solve_wit_1.

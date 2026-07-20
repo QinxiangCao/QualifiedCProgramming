@@ -328,8 +328,8 @@ Definition get_pre_partial_solve_wit_1 := get_pre_partial_solve_wit_1_pure -> ge
 Definition delete_safety_wit_1 := 
 forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_pre_v: Z) (PreH1 : (INT_MIN <= x_pre)) (PreH2 : (x_pre <= INT_MAX)) ,
   ((( &( "p" ) )) # Ptr  |-> b_pre_v)
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((b_pre) # Ptr  |-> b_pre_v)
   **  (store_tree b_pre_v tr_low_level_spec )
 |--

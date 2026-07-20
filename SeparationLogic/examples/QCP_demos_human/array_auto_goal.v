@@ -27,8 +27,8 @@ Definition arr_sum_safety_wit_1 :=
 forall (a_pre: Z) (n_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
   ((( &( "ret" ) )) # UInt  |->_)
   **  ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  (UIntArray.full_shape a_pre n_pre )
 |--
   “ (0 <= INT_MAX) ” 
@@ -39,8 +39,8 @@ Definition arr_sum_safety_wit_2 :=
 forall (a_pre: Z) (n_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
   ((( &( "ret" ) )) # UInt  |-> 0)
   **  ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  (UIntArray.full_shape a_pre n_pre )
 |--
   “ (0 <= INT_MAX) ” 
@@ -52,8 +52,8 @@ forall (a_pre: Z) (n_pre: Z) (i: Z) (v: Z) (x: Z) (PreH1 : (i < n_pre)) (PreH2 :
   (UIntArray.full_shape a_pre n_pre )
   **  ((( &( "ret" ) )) # UInt  |-> (unsigned_last_nbits ((v + x )) (32)))
   **  ((( &( "i" ) )) # Int  |-> i)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
 |--
   “ ((i + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i + 1 )) ”
@@ -107,9 +107,9 @@ forall (a_pre: Z) (n_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= i)) (Pr
 Definition array_copy1_safety_wit_1 := 
 forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "dest" ) )) # Ptr  |-> dest_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (IntArray.undef_full dest_pre n_pre )
   **  (IntArray.full_shape src_pre n_pre )
 |--
@@ -123,9 +123,9 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2
   **  (IntArray.undef_seg dest_pre (i + 1 ) n_pre )
   **  (IntArray.full_shape src_pre n_pre )
   **  ((( &( "i" ) )) # Int  |-> i)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "dest" ) )) # Ptr  |-> dest_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
 |--
   “ ((i + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i + 1 )) ”
@@ -210,11 +210,11 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2
 Definition array_concat_safety_wit_1 := 
 forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (0 <= m_pre)) (PreH3 : ((n_pre + m_pre ) < INT_MAX)) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  (IntArray.full_shape a_pre n_pre )
   **  (IntArray.full_shape b_pre m_pre )
   **  (IntArray.undef_full ret_pre (n_pre + m_pre ) )
@@ -229,11 +229,11 @@ forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (PreH1 : 
   **  (IntArray.undef_seg ret_pre (i + 1 ) (n_pre + m_pre ) )
   **  (IntArray.full_shape a_pre n_pre )
   **  ((( &( "i" ) )) # Int  |-> i)
-  **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  (IntArray.full_shape b_pre m_pre )
 |--
   “ ((i + 1 ) <= INT_MAX) ” 
@@ -245,11 +245,11 @@ forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (PreH1 : 
   ((( &( "i" ) )) # Int  |-> i)
   **  (IntArray.seg_shape ret_pre 0 i )
   **  (IntArray.undef_seg ret_pre i (n_pre + m_pre ) )
-  **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  (IntArray.full_shape a_pre n_pre )
   **  (IntArray.full_shape b_pre m_pre )
 |--
@@ -262,11 +262,11 @@ forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (i_2: Z) (i: Z) 
   ((( &( "i" ) )) # Int  |-> i)
   **  (IntArray.seg_shape ret_pre 0 (n_pre + i ) )
   **  (IntArray.undef_seg ret_pre (n_pre + i ) (n_pre + m_pre ) )
-  **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  (IntArray.full_shape a_pre n_pre )
   **  (IntArray.full_shape b_pre m_pre )
 |--
@@ -280,11 +280,11 @@ forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (i_2: Z) (i: Z) 
   **  (IntArray.undef_seg ret_pre ((n_pre + i ) + 1 ) (n_pre + m_pre ) )
   **  (IntArray.full_shape b_pre m_pre )
   **  ((( &( "i" ) )) # Int  |-> i)
-  **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  (IntArray.full_shape a_pre n_pre )
 |--
   “ ((i + 1 ) <= INT_MAX) ” 
@@ -473,9 +473,9 @@ forall (m_pre: Z) (b_pre: Z) (n_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (i_2: Z) 
 Definition array_swap_safety_wit_1 := 
 forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (IntArray.full_shape a_pre n_pre )
   **  (IntArray.full_shape b_pre n_pre )
 |--
@@ -488,9 +488,9 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0
   (IntArray.full_shape b_pre n_pre )
   **  (IntArray.full_shape a_pre n_pre )
   **  ((( &( "i" ) )) # Int  |-> i)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
 |--
   “ ((i + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i + 1 )) ”
@@ -598,10 +598,10 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0
 Definition array_vector_sum_safety_wit_1 := 
 forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (ret_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (UIntArray.full_shape a_pre n_pre )
   **  (UIntArray.full_shape b_pre n_pre )
   **  (UIntArray.undef_full ret_pre n_pre )
@@ -617,10 +617,10 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (PreH1 : (i < n_pre)
   **  (UIntArray.full_shape b_pre n_pre )
   **  (UIntArray.full_shape a_pre n_pre )
   **  ((( &( "i" ) )) # Int  |-> i)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "ret" ) )) # Ptr  |-> ret_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
 |--
   “ ((i + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i + 1 )) ”
@@ -735,10 +735,10 @@ forall (n_pre: Z) (b_pre: Z) (a_pre: Z) (ret_pre: Z) (i: Z) (PreH1 : (i < n_pre)
 Definition pointwise_mul_safety_wit_1 := 
 forall (n_pre: Z) (c_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "c" ) )) # Ptr  |-> c_pre)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "c" ) )) # Ptr  |-> c_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (UIntArray.full_shape a_pre n_pre )
   **  (UIntArray.full_shape b_pre n_pre )
   **  (UIntArray.undef_full c_pre n_pre )
@@ -754,10 +754,10 @@ forall (n_pre: Z) (c_pre: Z) (b_pre: Z) (a_pre: Z) (i: Z) (PreH1 : (i < n_pre)) 
   **  (UIntArray.full_shape b_pre n_pre )
   **  (UIntArray.full_shape a_pre n_pre )
   **  ((( &( "i" ) )) # Int  |-> i)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "c" ) )) # Ptr  |-> c_pre)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "c" ) )) # Ptr  |-> c_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
 |--
   “ ((i + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i + 1 )) ”
@@ -873,8 +873,8 @@ Definition array_max_safety_wit_1 :=
 forall (n_pre: Z) (a_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
   ((( &( "max" ) )) # Int  |->_)
   **  ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (IntArray.full_shape a_pre n_pre )
 |--
   “ (1 <> (INT_MIN)) ”
@@ -884,8 +884,8 @@ Definition array_max_safety_wit_2 :=
 forall (n_pre: Z) (a_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
   ((( &( "max" ) )) # Int  |->_)
   **  ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (IntArray.full_shape a_pre n_pre )
 |--
   “ (1 <= INT_MAX) ” 
@@ -896,8 +896,8 @@ Definition array_max_safety_wit_3 :=
 forall (n_pre: Z) (a_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
   ((( &( "max" ) )) # Int  |-> (-1))
   **  ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (IntArray.full_shape a_pre n_pre )
 |--
   “ (0 <= INT_MAX) ” 
@@ -909,8 +909,8 @@ forall (n_pre: Z) (a_pre: Z) (i: Z) (v: Z) (x: Z) (x_2: Z) (PreH1 : (x > v)) (Pr
   (IntArray.full_shape a_pre n_pre )
   **  ((( &( "max" ) )) # Int  |-> x_2)
   **  ((( &( "i" ) )) # Int  |-> i)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
 |--
   “ ((i + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i + 1 )) ”
@@ -921,8 +921,8 @@ forall (n_pre: Z) (a_pre: Z) (i: Z) (v: Z) (x: Z) (PreH1 : (x <= v)) (PreH2 : (i
   (IntArray.full_shape a_pre n_pre )
   **  ((( &( "max" ) )) # Int  |-> v)
   **  ((( &( "i" ) )) # Int  |-> i)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
 |--
   “ ((i + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i + 1 )) ”
@@ -1002,9 +1002,9 @@ forall (n_pre: Z) (a_pre: Z) (i: Z) (v: Z) (x: Z) (PreH1 : (x > v)) (PreH2 : (i 
 Definition memset_safety_wit_1 := 
 forall (value_pre: Z) (n_pre: Z) (a_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "value" ) )) # Int  |-> value_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "value" ) )) # Int  |-> value_pre)
   **  (IntArray.undef_full a_pre n_pre )
 |--
   “ (0 <= INT_MAX) ” 
@@ -1016,9 +1016,9 @@ forall (value_pre: Z) (n_pre: Z) (a_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 
   (IntArray.seg_shape a_pre 0 (i + 1 ) )
   **  (IntArray.undef_seg a_pre (i + 1 ) n_pre )
   **  ((( &( "i" ) )) # Int  |-> i)
-  **  ((( &( "value" ) )) # Int  |-> value_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "value" ) )) # Int  |-> value_pre)
 |--
   “ ((i + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i + 1 )) ”
@@ -1077,8 +1077,8 @@ forall (n_pre: Z) (a_pre: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= i)) (Pr
 Definition array_to_list_safety_wit_1 := 
 forall (n_pre: Z) (a_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
   ((( &( "head" ) )) # Ptr  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (IntArray.full_shape a_pre n_pre )
 |--
   “ (0 <= INT_MAX) ” 
@@ -1092,8 +1092,8 @@ forall (n_pre: Z) (a_pre: Z) (retval_next: Z) (retval: Z) (PreH1 : (retval <> 0)
   **  ((&((retval)  # "list" ->ₛ "data")) # Int  |-> 0)
   **  ((&((retval)  # "list" ->ₛ "next")) # Ptr  |-> retval_next)
   **  ((( &( "head" ) )) # Ptr  |-> retval)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (IntArray.full_shape a_pre n_pre )
 |--
   “ (0 <= INT_MAX) ” 
@@ -1111,8 +1111,8 @@ forall (n_pre: Z) (a_pre: Z) (retval_next: Z) (retval: Z) (tail_next: Z) (v: Z) 
   **  ((&((tail)  # "list" ->ₛ "data")) # Int  |-> v)
   **  ((&((tail)  # "list" ->ₛ "next")) # Ptr  |-> retval_2)
   **  (lseg head tail )
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
 |--
   “ ((i + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i + 1 )) ”
@@ -1179,8 +1179,8 @@ forall (n_pre: Z) (a_pre: Z) (retval_next: Z) (retval: Z) (tail_next: Z) (v: Z) 
 Definition array_to_list_partial_solve_wit_1_pure := 
 forall (n_pre: Z) (a_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
   ((( &( "head" ) )) # Ptr  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (IntArray.full_shape a_pre n_pre )
 |--
   “ (0 = 0) ”
@@ -1233,8 +1233,8 @@ forall (n_pre: Z) (a_pre: Z) (retval_next: Z) (retval: Z) (tail_next: Z) (v: Z) 
   **  ((&((tail)  # "list" ->ₛ "data")) # Int  |-> v)
   **  ((&((tail)  # "list" ->ₛ "next")) # Ptr  |-> tail_next)
   **  (lseg head tail )
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
 |--
   “ (x = x) ”
 .

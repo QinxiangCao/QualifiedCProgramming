@@ -2,7 +2,7 @@ Require Import Coq.Logic.Classical_Prop.
 Require Import Coq.Lists.List.
 Require Import Coq.Classes.Morphisms.
 Require Import Lia.
-Require Import SetsClass.
+Require Import SetsClass.SetsClass.
 From MonadLib.StateRelMonad Require Import StateRelBasic StateRelHoare FixpointLib.
 From TraceLib Require Import TraceBasic TraceLogic TraceRecur CommonTactics MapLib.
 From GraphLib Require Import GraphLib tarjan.
@@ -479,8 +479,6 @@ Proof.
 Qed.
 
 End BRIDGE_IFF.
-
-
 
 
 

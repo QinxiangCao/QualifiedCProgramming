@@ -66,6 +66,21 @@ COQDEP_ARG_FILES = \
 	.coqdep.examples.llm_friendly_cases.args.tmp \
 	.coqdep.examples.llm_bench.args.tmp
 
+TMP_FILES = \
+	$(COQDEP_ARG_FILES) \
+	.depend.convex_hull.tmp \
+	.depend.core.flocq.tmp \
+	.depend.core.project.tmp \
+	.depend.core.tmp \
+	.depend.examples.applications.tmp \
+	.depend.examples.qcp_democases.tmp \
+	.depend.examples.qcp_demo_feature_cases.tmp \
+	.depend.examples.qcp_demo_tutorial.tmp \
+	.depend.examples.llm_friendly_cases.tmp \
+	.depend.examples.llm_bench.tmp \
+	.depend.examples.tmp \
+	.depend.tmp
+
 # Native Windows needs GNU Make to write long argument lists without passing
 # them through cmd.exe.  POSIX systems use printf, which also works with the
 # older GNU Make shipped by macOS and is well below their ARG_MAX limit.
@@ -81,7 +96,7 @@ endif
 
 DIRS = \
 	Common auxlibs compcert_lib SeparationLogic sets unifysl StrategyLib fixedpoints MonadLib examples MaxMinLib GraphLib listlib tracelib algorithms coq-record-update
- 
+
 COQ_FLAG = -R flocq/src Flocq -R SeparationLogic SimpleC.SL -R unifysl Logic -R sets SetsClass -R compcert_lib compcert.lib -R auxlibs AUXLib -R examples SimpleC.EE -R stdlib SimpleC.StdLib -R StrategyLib SimpleC.StrategyLib -R Common SimpleC.Common -R fixedpoints FP -R MonadLib MonadLib -R listlib ListLib -R MaxMinLib MaxMinLib -R GraphLib GraphLib -R SumLib SumLib -R tracelib TraceLib -R coq-record-update/src RecordUpdate -Q algorithms Algorithms
 
 DEP_FLAG = -R flocq/src Flocq -R SeparationLogic SimpleC.SL -R unifysl Logic -R sets SetsClass -R compcert_lib compcert.lib -R auxlibs AUXLib -R examples SimpleC.EE -R stdlib SimpleC.StdLib -R StrategyLib SimpleC.StrategyLib -R Common SimpleC.Common -R fixedpoints FP -R MonadLib MonadLib -R listlib ListLib -R MaxMinLib MaxMinLib -R GraphLib GraphLib -R SumLib SumLib -R tracelib TraceLib -R coq-record-update/src RecordUpdate -Q algorithms Algorithms
@@ -94,10 +109,10 @@ Compcertlib_FILES = \
 
 ListLib_FILES = \
 	Base/Positional.v Base/Inductive.v \
-	General/Length.v General/Presuffix.v General/Forall.v General/IndexedElements.v General/NoDup.v 
+	General/Length.v General/Presuffix.v General/Forall.v General/IndexedElements.v General/NoDup.v
 
 MaxMinLib_FILES = \
-	MaxMin.v Interface.v 
+	MaxMin.v Interface.v
 
 GraphLib_BASE_FILES = graph_basic.v Syntax.v GraphLib.v
 
@@ -114,7 +129,7 @@ GraphLib_SUBGRAPH_FILES = subgraph/subgraph.v
 
 GraphLib_UNDIRECTED_FILES = undirected/undirected_basic.v undirected/tree.v
 
-GraphLib_EXAMPLES_FILES = examples/floyd.v examples/dijkstra.v examples/prim.v examples/kruskal.v examples/tarjan.v 
+GraphLib_EXAMPLES_FILES = examples/floyd.v examples/dijkstra.v examples/prim.v examples/kruskal.v examples/tarjan.v
 
 GraphLib_FILES = \
 	$(GraphLib_BASE_FILES) \
@@ -128,7 +143,7 @@ RecordUpdate_FILES = \
 	src/RecordEta.v src/RecordSet.v src/Lens.v src/RecordUpdate.v
 
 TraceLib_BASE_FILES = \
-	CommonTactics.v TraceBasic.v TraceRecur.v TraceLogic.v GhostCode.v TraceLoop.v MapLib.v TraceLib.v
+	CommonTactics.v TraceBasic.v TraceRecur.v TraceLogic.v TraceStatement.v GhostCode.v TraceLoop.v MapLib.v TraceLib.v
 
 TraceLib_STATEREL_FILES = \
 	StateRel/StateRelCommonTactics.v \
@@ -158,7 +173,7 @@ Algorithms_FILES = \
 	Prim/Prim.v \
 	Kruskal/Kruskal.v \
 	DFS/DFS.v DFS/DFS_traditional.v DFS/C10909_MonadProg_DFS.v \
-	BFS/BFS.v BFS/BFS_path.v BFS/Go.v \
+	BFS/BFS.v BFS/BFS_assert.v BFS/BFS_path.v BFS/Go.v \
 	Tarjan/Tarjan.v Tarjan/Tarjan_tactics.v Tarjan/Tarjan_set_tree.v \
 	Tarjan/Tarjan_basics.v Tarjan/Tarjan_basics_ex.v \
 	Tarjan/Tarjan_is_dfn.v Tarjan/Tarjan_no_cross_edge.v Tarjan/Tarjan_is_low.v \
@@ -224,7 +239,7 @@ Sets_FILES = \
   SetsClass.v SetsClass_AxiomFree.v SetsDomain.v SetElement.v SetElementProperties.v RelsDomain.v SetProd.v SetsDomain_Classic.v
 
 Unify_FILES = \
-   Interface.v 
+   Interface.v
 
 FIXPOINT_FILES = \
   Coqlib.v LiftConstructors.v  PartialOrder_Setoid.v  KnasterTarski.v  BourbakiWitt.v AllFramework.v SetsFixedpoints.v
@@ -244,9 +259,21 @@ StateRelMonad_Files = \
 MonadErr_Files = \
 	MonadErrBasic.v MonadErrLoop.v MonadErrHoare.v MonadErrHoarePartial.v monadesafe_lib.v StateRelMonadErr.v
 
+Rec_Interface_Test_Files = \
+	test/RecInterface_Set.v \
+	test/RecInterface_StateRel.v \
+	test/RecInterface_MonadErr.v
+
+Notation_Test_Files = \
+	test/NotationTest_Set.v \
+	test/NotationTest_StateRel.v \
+	test/NotationTest_MonadErr.v \
+	test/NotationTest_Option.v \
+	test/NotationTest_List.v
+
 MonadExample_FILES = \
-	kmp.v mergesort.v union_find_err.v 
-  
+	kmp.v mergesort.v union_find_err.v fme_rel.v
+
 MONAD_FILES = \
 	MonadLib/MonadLib.v \
 	MonadLib/Monad.v \
@@ -256,6 +283,8 @@ MONAD_FILES = \
 	$(StateRelMonad_Files:%.v=MonadLib/StateRelMonad/%.v) \
 	$(MonadErr_Files:%.v=MonadLib/MonadErr/%.v) \
 	$(MonadExample_FILES:%.v=MonadLib/Examples/%.v) \
+	$(Rec_Interface_Test_Files:%.v=MonadLib/%.v) \
+	$(Notation_Test_Files:%.v=MonadLib/%.v) \
 
 SL_FILES = \
   CommonAssertion.v Assertion.v Mem.v ConAssertion.v \
@@ -268,7 +297,7 @@ StrategyLib_FILES = \
 
 QCP_DEMO_Example_Lib_FILES = \
 	poly_sll_lib.v sll_lib.v sll_insert_sort_lib.v functional_queue_lib.v dll_queue_lib.v sll_queue_lib.v simple_arith/Apos_lib.v simple_arith/PDiv_lib.v bst_lib.v bst_fp_lib.v swap_lib.v eval_lib.v avl_shape.v sll_shape_lib.v dll_shape_lib.v \
-	sll_merge_rel_lib.v kmp_lib.v kmp_rel_lib.v int_array_merge_rel_lib.v majorityElement_lib.v \
+	sll_merge_rel_lib.v kmp_lib.v kmp_rel_lib.v int_array_merge_rel_lib.v \
 
 QCP_DEMO_TUTORIAL_FEATURE_Lib_FILES = \
 	branch_join_private_condition_lib.v
@@ -280,19 +309,30 @@ QCP_DEMO_TUTORIAL_Lib_FILES = \
 LLM_FRIENDLY_CASES_Lib_FILES = \
 	poly_sll_lib.v sll_lib.v sll_insert_sort_lib.v functional_queue_lib.v dll_queue_lib.v sll_queue_lib.v simple_arith/Apos_lib.v simple_arith/PDiv_lib.v bst_lib.v bst_fp_lib.v swap_lib.v eval_lib.v avl_shape.v sll_shape_lib.v dll_shape_lib.v \
 	sll_merge_rel_lib.v kmp_lib.v kmp_rel_lib.v int_array_merge_rel_lib.v \
-	majorityElement_lib.v bubble_sort_lib.v sortArray_lib.v zephyr_slist_lib.v union_find_err_rel_lib.v simple_arith/test_prime_lib.v \
+	bubble_sort_lib.v zephyr_slist_lib.v union_find_err_rel_lib.v simple_arith/test_prime_lib.v \
 
 LLM_BENCH_Lib_FILES = \
+	Algorithms/bubble_sort/bubble_sort_lib.v \
+	Algorithms/choosing_inns/choosing_inns_lib.v \
 	Algorithms/coin_change/coin_change_lib.v \
-	Algorithms/dual_loop_quicksort/dual_loop_quicksort_lib.v \
+	Algorithms/convex_hull_float/convex_hull_float_lib.v \
+	Algorithms/discretize/discretize_lib.v \
+	Algorithms/edit_strings/edit_strings_lib.v \
 	Algorithms/energy_necklace/energy_necklace_lib.v \
 	Algorithms/house_robber/house_robber_lib.v \
+	Algorithms/insertion_sort/insertion_sort_lib.v \
+	Algorithms/kings_game/kings_game_lib.v \
 	Algorithms/longest_increasing_subsequence/longest_increasing_subsequence_lib.v \
 	Algorithms/longest_nondecreasing_subsequence/longest_nondecreasing_subsequence_lib.v \
+	Algorithms/majority_element/majority_element_lib.v \
 	Algorithms/maximum_subarray/maximum_subarray_lib.v \
+	Algorithms/merging_stones/merging_stones_lib.v \
 	Algorithms/multiple_knapsack/multiple_knapsack_lib.v \
-	Algorithms/quicksort/int_array_quicksort_lib.v \
+	Algorithms/quicksort_hoare_swap_index/quicksort_lib.v \
+	Algorithms/quicksort_lomuto_index/quicksort_lib.v \
 	Algorithms/rmq/rmq_lib.v \
+	Algorithms/selection_sort/selection_sort_lib.v \
+	Algorithms/sieve_of_eratosthenes/sieve_of_eratosthenes_lib.v \
 	Algorithms/sliding_window_maximum/sliding_window_maximum_lib.v \
 	Algorithms/sort_point/sort_point_lib.v \
 	Algorithms/split_array_largest_sum/split_array_largest_sum_lib.v \
@@ -337,10 +377,15 @@ APPLICATION_Lib_FILES += \
 	convex_hull/Graham_Scan.v convex_hull/Graham_Scan_M.v convex_hull/Andrew_Monotone_Chain.v \
 	convex_hull/Andrew_Monotone_Chain_M.v convex_hull/Reversal.v convex_hull/ConvexHull.v convex_hull/convex_hull_lib.v
 
+APPLICATION_Lib_FILES += \
+	fme_ge_gmp/gmp/GmpAux.v fme_ge_gmp/gmp/GmpNumber.v fme_ge_gmp/gmp/GmpMul.v fme_ge_gmp/gmp/GmpDiv.v fme_ge_gmp/gmp/GmpGcd.v fme_ge_gmp/gmp/gmp_lib.v \
+	fme_ge_gmp/fme/fme_gmp_lib.v \
+	fme_ge_gmp/ge/GeGmpMatrix.v fme_ge_gmp/ge/GeGmpMod.v fme_ge_gmp/ge/GeGmpRank.v fme_ge_gmp/ge/GeGmpInverse.v fme_ge_gmp/ge/GeGmpArray.v fme_ge_gmp/ge/ge_gmp_lib.v
+
 QCP_DEMO_EXAMPLE_FILE_NAME = \
 	poly_sll sll sll_insert_sort functional_queue dll_queue sll_queue simple_arith/abs simple_arith/add simple_arith/max3 simple_arith/gcd simple_arith/Always_pos simple_arith/div_test simple_arith/exgcd \
 	sum bst_insert bst_insert_rec bst_fp_insert bst_fp_delete swap eval bst_delete_rec bst_delete_rec2 avl_insert sll_auto dll_auto array_auto chars \
-	kmp_rel int_array_merge_rel sll_merge_rel sll_split_while majorityElement
+	kmp_rel int_array_merge_rel sll_merge_rel sll_split_while
 
 QCP_DEMO_TUTORIAL_FEATURE_EXAMPLE_FILE_NAME = \
 	branch_destruct branch_join_private_condition multiinv_examples
@@ -352,20 +397,34 @@ QCP_DEMO_TUTORIAL_EXAMPLE_FILE_NAME = \
 LLM_FRIENDLY_CASES_EXAMPLE_FILE_NAME = \
 	poly_sll sll sll_insert_sort functional_queue dll_queue sll_queue simple_arith/abs simple_arith/add simple_arith/max3 simple_arith/gcd simple_arith/Always_pos simple_arith/div_test simple_arith/exgcd simple_arith/delta simple_arith/test_prime \
 	sum bst_insert bst_insert_rec bst_fp_insert bst_fp_delete swap eval bst_delete_rec bst_delete_rec2 avl_insert sll_auto dll_auto array_auto chars \
-	kmp_rel int_array_merge_rel sll_merge_rel sll_split_while majorityElement bubble_sort sortArray sortArray2 sortArray3 array_cases union_find_err_rel \
+	kmp_rel int_array_merge_rel sll_merge_rel sll_split_while bubble_sort array_cases union_find_err_rel \
 	two_d_int_array two_d_int_ptr_array two_d_char_ptr_array
 
 LLM_BENCH_EXAMPLE_FILE_NAME = \
+	Algorithms/bubble_sort/bubble_sort \
+	Algorithms/choosing_inns/choosing_inns \
 	Algorithms/coin_change/coin_change \
-	Algorithms/dual_loop_quicksort/dual_loop_quicksort \
+	Algorithms/convex_hull_float/convex_hull_float \
+	Algorithms/discretize/discretize \
+	Algorithms/edit_strings/edit_strings \
 	Algorithms/energy_necklace/energy_necklace \
 	Algorithms/house_robber/house_robber \
+	Algorithms/insertion_sort/insertion_sort \
+	Algorithms/kings_game/kings_game \
 	Algorithms/longest_increasing_subsequence/longest_increasing_subsequence \
 	Algorithms/longest_nondecreasing_subsequence/longest_nondecreasing_subsequence \
+	Algorithms/majority_element/majority_element \
 	Algorithms/maximum_subarray/maximum_subarray \
+	Algorithms/merging_stones/merging_stones \
 	Algorithms/multiple_knapsack/multiple_knapsack \
-	Algorithms/quicksort/int_array_quicksort \
+	Algorithms/quicksort_hoare_fill_index/quicksort \
+	Algorithms/quicksort_hoare_fill_index2/quicksort \
+	Algorithms/quicksort_hoare_swap_index/quicksort \
+	Algorithms/quicksort_hoare_swap_index2/quicksort \
+	Algorithms/quicksort_lomuto_index/quicksort \
 	Algorithms/rmq/rmq \
+	Algorithms/selection_sort/selection_sort \
+	Algorithms/sieve_of_eratosthenes/sieve_of_eratosthenes \
 	Algorithms/sliding_window_maximum/sliding_window_maximum \
 	Algorithms/sort_point/sort_point \
 	Algorithms/split_array_largest_sum/split_array_largest_sum \
@@ -398,6 +457,7 @@ LLM_BENCH_EXAMPLE_FILE_NAME = \
 	Engineering/glibc_slist/glibc_slist_rel/glibc_slist_rev_rel
 
 LLM_BENCH_STRATEGY_FILE_NAME = \
+	Algorithms/convex_hull_float/pointf_array \
 	Engineering/string/string
 
 APPLICATION_FILE_NAME = \
@@ -409,7 +469,39 @@ APPLICATION_FILE_NAME = \
 APPLICATION_FILE_NAME += \
 	convex_hull/graham_scan convex_hull/graham_scan_dedup convex_hull/andrew_monotone_chain
 
+APPLICATION_FILE_NAME += \
+	fme_ge_gmp/fme/fme_gmp \
+	fme_ge_gmp/ge/build_aug_basis_gmp fme_ge_gmp/ge/build_inverse_cols_gmp fme_ge_gmp/ge/col_swap_mod_gmp fme_ge_gmp/ge/copy_vector_to_col_gmp \
+	fme_ge_gmp/ge/gauss_solve_mod_gmp fme_ge_gmp/ge/matrix_inverse_gmp fme_ge_gmp/ge/mod_inv_gmp fme_ge_gmp/ge/mod_norm_gmp \
+	fme_ge_gmp/ge/rank_mod_gmp fme_ge_gmp/ge/row_elim_mod_gmp fme_ge_gmp/ge/row_scale_mod_gmp fme_ge_gmp/ge/row_swap_mod_gmp fme_ge_gmp/ge/solve_basis_into_col_gmp \
+	fme_ge_gmp/gmp/gmp_clz fme_ge_gmp/gmp/gmp_udiv_qr_3by2 fme_ge_gmp/gmp/gmp_udiv_qrnnd_preinv \
+	fme_ge_gmp/gmp/mpn_add fme_ge_gmp/gmp/mpn_add_1 fme_ge_gmp/gmp/mpn_add_n fme_ge_gmp/gmp/mpn_addmul_1 \
+	fme_ge_gmp/gmp/mpn_div_qr fme_ge_gmp/gmp/mpn_div_qr_1_invert fme_ge_gmp/gmp/mpn_div_qr_1_preinv \
+	fme_ge_gmp/gmp/mpn_div_qr_2_invert fme_ge_gmp/gmp/mpn_div_qr_2_preinv fme_ge_gmp/gmp/mpn_div_qr_invert \
+	fme_ge_gmp/gmp/mpn_div_qr_pi1 fme_ge_gmp/gmp/mpn_div_qr_preinv fme_ge_gmp/gmp/mpn_gcd_11 fme_ge_gmp/gmp/mpn_invert_3by2 \
+	fme_ge_gmp/gmp/mpn_lshift fme_ge_gmp/gmp/mpn_mul fme_ge_gmp/gmp/mpn_rshift \
+	fme_ge_gmp/gmp/mpn_sub fme_ge_gmp/gmp/mpn_sub_1 fme_ge_gmp/gmp/mpn_sub_n fme_ge_gmp/gmp/mpn_submul_1 \
+	fme_ge_gmp/gmp/mpz_abs fme_ge_gmp/gmp/mpz_abs_add fme_ge_gmp/gmp/mpz_abs_sub \
+	fme_ge_gmp/gmp/mpz_add fme_ge_gmp/gmp/mpz_add_ui fme_ge_gmp/gmp/mpz_addmul fme_ge_gmp/gmp/mpz_cmp \
+	fme_ge_gmp/gmp/mpz_div_qr fme_ge_gmp/gmp/mpz_divexact fme_ge_gmp/gmp/mpz_gcd \
+	fme_ge_gmp/gmp/mpz_init fme_ge_gmp/gmp/mpz_init_set fme_ge_gmp/gmp/mpz_init_set_ui fme_ge_gmp/gmp/mpz_init2 \
+	fme_ge_gmp/gmp/mpz_make_odd fme_ge_gmp/gmp/mpz_mul fme_ge_gmp/gmp/mpz_mul_2exp \
+	fme_ge_gmp/gmp/mpz_mul_r_eq_op1 fme_ge_gmp/gmp/mpz_mul_r_eq_op2 fme_ge_gmp/gmp/mpz_neg \
+	fme_ge_gmp/gmp/mpz_set fme_ge_gmp/gmp/mpz_set_si fme_ge_gmp/gmp/mpz_set_ui \
+	fme_ge_gmp/gmp/mpz_sub fme_ge_gmp/gmp/mpz_sub_ui fme_ge_gmp/gmp/mpz_tdiv_q_2exp \
+	fme_ge_gmp/gmp/mpz_tdiv_r fme_ge_gmp/gmp/mpz_tdiv_r_read0 fme_ge_gmp/gmp/mpz_ui_sub fme_ge_gmp/gmp/mrz_realloc_if
+
 APPLICATION_PROOF_SPLIT_FILES = \
+	fme_ge_gmp/gmp/gmp_udiv_qr_3by2_proof_manual_part1.v \
+	fme_ge_gmp/gmp/gmp_udiv_qr_3by2_proof_manual_part2.v \
+	fme_ge_gmp/gmp/gmp_udiv_qr_3by2_proof_manual_part3.v \
+	fme_ge_gmp/gmp/gmp_udiv_qr_3by2_proof_manual_part4.v \
+	fme_ge_gmp/gmp/gmp_udiv_qr_3by2_proof_manual_part5.v \
+	fme_ge_gmp/gmp/gmp_udiv_qr_3by2_proof_manual_part6.v \
+	fme_ge_gmp/gmp/gmp_udiv_qr_3by2_proof_manual_part7.v \
+	fme_ge_gmp/gmp/gmp_udiv_qr_3by2_proof_manual_part8.v \
+	fme_ge_gmp/gmp/gmp_udiv_qr_3by2_proof_manual_part9.v \
+	fme_ge_gmp/gmp/gmp_udiv_qr_3by2_proof_manual_part10.v \
 	minigmp/gmp_proof_manual_part1.v \
 	minigmp/gmp_proof_manual_part2.v \
 	minigmp/gmp_proof_manual_part3.v \
@@ -514,7 +606,12 @@ LLM_FRIENDLY_CASES_STRATEGY_FILE_NAME = \
 
 APPLICATION_STRATEGY_FILE_NAME = \
 	fme/fme typeinfer/typeinfer minigmp/gmp mergeablelist/sll_project convex_hull/point_array convex_hull/safeexec
-  
+
+APPLICATION_STRATEGY_FILE_NAME += \
+	fme_ge_gmp/fme/fme_gmp fme_ge_gmp/fme/safeexec_fme_gmp \
+	fme_ge_gmp/ge/ge_gmp_array \
+	fme_ge_gmp/gmp/gmp fme_ge_gmp/gmp/gmp_optional fme_ge_gmp/gmp/mpz_div_qr fme_ge_gmp/gmp/mpz_tdiv_r_read0
+
 QCP_DEMO_StrategyProof_FILES = \
 	$(addsuffix _strategy_goal.v, $(QCP_DEMO_STRATEGY_FILE_NAME:%=QCP_demos_human/%)) \
 	$(addsuffix _strategy_goal_check.v, $(QCP_DEMO_STRATEGY_FILE_NAME:%=QCP_demos_human/%)) \
@@ -706,18 +803,21 @@ else
 	$(call timeit,COQC $*.v,$(COQC) $(COQ_FLAG) $(CURRENT_DIR)/$*.v)
 endif
 
-	
+
 
 all: \
-	$(EXAMPLE:%.v=%.vo) \
+	$(EXAMPLE:%.v=%.vo)
+	@$(call REMOVE_FILES,$(TMP_FILES))
 
 convex-hull: \
 	examples/Applications_human/convex_hull/graham_scan_goal_check.vo \
 	examples/Applications_human/convex_hull/graham_scan_dedup_goal_check.vo \
 	examples/Applications_human/convex_hull/andrew_monotone_chain_goal_check.vo
+	@$(call REMOVE_FILES,$(TMP_FILES))
 
 core: \
-	$(CORE_EXAMPLE:%.v=%.vo) \
+	$(CORE_EXAMPLE:%.v=%.vo)
+	@$(call REMOVE_FILES,$(TMP_FILES))
 
 coq-record-update: \
 	$(RecordUpdate_FILES:%.v=coq-record-update/%.vo)
@@ -729,25 +829,32 @@ algorithms: \
 	$(Algorithms_FILES:%.v=algorithms/%.vo)
 
 examples : \
-	$(EXAMPLE:%.v=%.vo) 
+	$(EXAMPLE:%.v=%.vo)
+	@$(call REMOVE_FILES,$(TMP_FILES))
 
 examples-applications: \
-	$(APPLICATION_EXAMPLE_ONLY:%.v=%.vo) \
+	$(APPLICATION_EXAMPLE_ONLY:%.v=%.vo)
+	@$(call REMOVE_FILES,$(TMP_FILES))
 
 examples-qcp-democases: \
-	$(QCP_DEMO_EXAMPLE_ONLY:%.v=%.vo) \
+	$(QCP_DEMO_EXAMPLE_ONLY:%.v=%.vo)
+	@$(call REMOVE_FILES,$(TMP_FILES))
 
 examples-qcp-demo-feature-cases: \
-	$(QCP_DEMO_TUTORIAL_FEATURE_EXAMPLE_ONLY:%.v=%.vo) \
+	$(QCP_DEMO_TUTORIAL_FEATURE_EXAMPLE_ONLY:%.v=%.vo)
+	@$(call REMOVE_FILES,$(TMP_FILES))
 
 examples-qcp-demo-tutorial: \
-	$(QCP_DEMO_TUTORIAL_EXAMPLE_ONLY:%.v=%.vo) \
+	$(QCP_DEMO_TUTORIAL_EXAMPLE_ONLY:%.v=%.vo)
+	@$(call REMOVE_FILES,$(TMP_FILES))
 
 examples-llm-friendly-cases: \
-	$(LLM_FRIENDLY_CASES_EXAMPLE_ONLY:%.v=%.vo) \
+	$(LLM_FRIENDLY_CASES_EXAMPLE_ONLY:%.v=%.vo)
+	@$(call REMOVE_FILES,$(TMP_FILES))
 
 examples-llm-bench: \
-	$(LLM_BENCH_EXAMPLE_ONLY:%.v=%.vo) \
+	$(LLM_BENCH_EXAMPLE_ONLY:%.v=%.vo)
+	@$(call REMOVE_FILES,$(TMP_FILES))
 
 _CoqProject:
 	@echo $(COQ_FLAG) > _CoqProject
@@ -755,6 +862,7 @@ _CoqProject:
 .depend.convex_hull: Makefile $(CONVEX_HULL_EXAMPLE_FILES)
 	@$(COQDEP) $(DEP_FLAG) $(CONVEX_HULL_EXAMPLE_FILES) > .depend.convex_hull.tmp
 	@$(call MOVE_FILE,.depend.convex_hull.tmp,.depend.convex_hull)
+	@$(call REMOVE_FILES,$(TMP_FILES))
 
 depend:
 	@$(call RUN_COQDEP,.coqdep.core.flocq.args.tmp,$(FLOCQ_EXAMPLE),.depend.core.flocq.tmp)
@@ -777,6 +885,7 @@ depend:
 	@$(call MOVE_FILE,.depend.examples.tmp,.depend.examples)
 	@$(call CONCAT_FILES,.depend.core .depend.examples,.depend.tmp)
 	@$(call MOVE_FILE,.depend.tmp,.depend)
+	@$(call REMOVE_FILES,$(TMP_FILES))
 
 depend-core:
 	@$(call RUN_COQDEP,.coqdep.core.flocq.args.tmp,$(FLOCQ_EXAMPLE),.depend.core.flocq.tmp)
@@ -785,6 +894,7 @@ depend-core:
 	@$(call MOVE_FILE,.depend.core.project.tmp,.depend.core.project)
 	@$(call CONCAT_FILES,.depend.core.flocq .depend.core.project,.depend.core.tmp)
 	@$(call MOVE_FILE,.depend.core.tmp,.depend.core)
+	@$(call REMOVE_FILES,$(TMP_FILES))
 
 depend-examples:
 	@$(call RUN_COQDEP,.coqdep.examples.applications.args.tmp,$(APPLICATION_EXAMPLE_ONLY),.depend.examples.applications.tmp)
@@ -799,30 +909,37 @@ depend-examples:
 	@$(call MOVE_FILE,.depend.examples.llm_bench.tmp,.depend.examples.llm_bench)
 	@$(call CONCAT_FILES,.depend.examples.applications .depend.examples.qcp_democases .depend.examples.qcp_demo_tutorial .depend.examples.llm_friendly_cases .depend.examples.llm_bench,.depend.examples.tmp)
 	@$(call MOVE_FILE,.depend.examples.tmp,.depend.examples)
+	@$(call REMOVE_FILES,$(TMP_FILES))
 
 depend-examples-applications:
 	@$(call RUN_COQDEP,.coqdep.examples.applications.args.tmp,$(APPLICATION_EXAMPLE_ONLY),.depend.examples.applications.tmp)
 	@$(call MOVE_FILE,.depend.examples.applications.tmp,.depend.examples.applications)
+	@$(call REMOVE_FILES,$(TMP_FILES))
 
 depend-examples-qcp-democases:
 	@$(call RUN_COQDEP,.coqdep.examples.qcp_democases.args.tmp,$(QCP_DEMO_EXAMPLE_ONLY),.depend.examples.qcp_democases.tmp)
 	@$(call MOVE_FILE,.depend.examples.qcp_democases.tmp,.depend.examples.qcp_democases)
+	@$(call REMOVE_FILES,$(TMP_FILES))
 
 depend-examples-qcp-demo-feature-cases:
 	@$(call RUN_COQDEP,.coqdep.examples.qcp_demo_feature_cases.args.tmp,$(QCP_DEMO_TUTORIAL_FEATURE_EXAMPLE_ONLY),.depend.examples.qcp_demo_feature_cases.tmp)
 	@$(call MOVE_FILE,.depend.examples.qcp_demo_feature_cases.tmp,.depend.examples.qcp_demo_feature_cases)
+	@$(call REMOVE_FILES,$(TMP_FILES))
 
 depend-examples-qcp-demo-tutorial:
 	@$(call RUN_COQDEP,.coqdep.examples.qcp_demo_tutorial.args.tmp,$(QCP_DEMO_TUTORIAL_EXAMPLE_ONLY),.depend.examples.qcp_demo_tutorial.tmp)
 	@$(call MOVE_FILE,.depend.examples.qcp_demo_tutorial.tmp,.depend.examples.qcp_demo_tutorial)
+	@$(call REMOVE_FILES,$(TMP_FILES))
 
 depend-examples-llm-friendly-cases:
 	@$(call RUN_COQDEP,.coqdep.examples.llm_friendly_cases.args.tmp,$(LLM_FRIENDLY_CASES_EXAMPLE_ONLY),.depend.examples.llm_friendly_cases.tmp)
 	@$(call MOVE_FILE,.depend.examples.llm_friendly_cases.tmp,.depend.examples.llm_friendly_cases)
+	@$(call REMOVE_FILES,$(TMP_FILES))
 
 depend-examples-llm-bench:
 	@$(call RUN_COQDEP,.coqdep.examples.llm_bench.args.tmp,$(LLM_BENCH_EXAMPLE_ONLY),.depend.examples.llm_bench.tmp)
 	@$(call MOVE_FILE,.depend.examples.llm_bench.tmp,.depend.examples.llm_bench)
+	@$(call REMOVE_FILES,$(TMP_FILES))
 
 .depend:
 	@$(MAKE) depend
@@ -867,14 +984,19 @@ clean-examples-llm-bench:
 	@$(call REMOVE_FILES,.depend.examples.llm_bench .depend.examples.llm_bench.tmp .depend.examples .depend.examples.tmp .depend.tmp .depend)
 
 clean-deps:
-	@$(call REMOVE_FILES,$(COQDEP_ARG_FILES))
+	@$(call REMOVE_FILES,$(TMP_FILES))
 	@$(call REMOVE_FILES,.depend.convex_hull .depend.convex_hull.tmp .depend.core.flocq .depend.core.flocq.tmp .depend.core.project .depend.core.project.tmp .depend.core .depend.core.tmp .depend.examples.applications .depend.examples.applications.tmp .depend.examples.qcp_democases .depend.examples.qcp_democases.tmp .depend.examples.qcp_demo_feature_cases .depend.examples.qcp_demo_feature_cases.tmp .depend.examples.qcp_demo_tutorial .depend.examples.qcp_demo_tutorial.tmp .depend.examples.llm_friendly_cases .depend.examples.llm_friendly_cases.tmp .depend.examples.llm_bench .depend.examples.llm_bench.tmp .depend.examples .depend.examples.tmp .depend.tmp .depend)
 
-.PHONY: clean clean-core clean-examples clean-examples-applications clean-examples-qcp-democases clean-examples-qcp-demo-feature-cases clean-examples-qcp-demo-tutorial clean-examples-llm-friendly-cases clean-examples-llm-bench clean-deps depend depend-core depend-examples depend-examples-applications depend-examples-qcp-democases depend-examples-qcp-demo-feature-cases depend-examples-qcp-demo-tutorial depend-examples-llm-friendly-cases depend-examples-llm-bench core coq-record-update tracelib algorithms convex-hull examples-applications examples-qcp-democases examples-qcp-demo-feature-cases examples-qcp-demo-tutorial examples-llm-friendly-cases examples-llm-bench
-.DEFAULT_GOAL := all
+clean-tmp:
+	@$(call REMOVE_FILES,$(TMP_FILES))
+
+.PHONY: all examples clean clean-core clean-examples clean-examples-applications clean-examples-qcp-democases clean-examples-qcp-demo-feature-cases clean-examples-qcp-demo-tutorial clean-examples-llm-friendly-cases clean-examples-llm-bench clean-deps clean-tmp depend depend-core depend-examples depend-examples-applications depend-examples-qcp-democases depend-examples-qcp-demo-feature-cases depend-examples-qcp-demo-tutorial depend-examples-llm-friendly-cases depend-examples-llm-bench core coq-record-update tracelib algorithms convex-hull examples-applications examples-qcp-democases examples-qcp-demo-feature-cases examples-qcp-demo-tutorial examples-llm-friendly-cases examples-llm-bench
+.DEFAULT_GOAL := core
 
 ifeq ($(strip $(MAKECMDGOALS)),)
--include .depend
+-include .depend.core
+else ifeq ($(strip $(MAKECMDGOALS)),core)
+-include .depend.core
 else ifneq ($(filter convex-hull,$(MAKECMDGOALS)),)
 -include .depend
 -include .depend.convex_hull

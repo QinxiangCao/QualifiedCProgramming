@@ -333,7 +333,7 @@ Proof.
     + eapply valid_node_fields_right_child; eauto.
 Qed. 
 
-Lemma proof_of_superPiano_entail_wit_15_1 : superPiano_entail_wit_15_1.
+Lemma proof_of_superPiano_entail_wit_15_4 : superPiano_entail_wit_15_4.
 Proof.
   pre_process.
   assert (Hright_int : -2147483648 <= right_value <= 2147483647).
@@ -376,7 +376,7 @@ Proof.
       * exact PreH27.
 Qed. 
 
-Lemma proof_of_superPiano_entail_wit_15_2 : superPiano_entail_wit_15_2.
+Lemma proof_of_superPiano_entail_wit_15_3 : superPiano_entail_wit_15_3.
 Proof.
   pre_process.
   assert (Hright_int : -2147483648 <= right_value <= 2147483647).
@@ -405,7 +405,7 @@ Proof.
     all: dump_pre_spatial; try assumption; try lia.
 Qed. 
 
-Lemma proof_of_superPiano_entail_wit_15_3 : superPiano_entail_wit_15_3.
+Lemma proof_of_superPiano_entail_wit_15_2 : superPiano_entail_wit_15_2.
 Proof.
   pre_process.
   assert (Hleft_int : -2147483648 <= left_value <= 2147483647).
@@ -448,7 +448,7 @@ Proof.
         end.
 Qed. 
 
-Lemma proof_of_superPiano_entail_wit_15_4 : superPiano_entail_wit_15_4.
+Lemma proof_of_superPiano_entail_wit_15_1 : superPiano_entail_wit_15_1.
 Proof.
   pre_process.
   Exists chosen_2; Exists vals_out; Exists starts_out; Exists los_out.
@@ -550,6 +550,11 @@ Proof.
     eapply frontier_state_complete_implies_answer.
     exact PreH21.
 Qed. 
+
+Lemma proof_of_superPiano_partial_solve_wit_1_pure : superPiano_partial_solve_wit_1_pure.
+Proof.
+  pre_process.
+Qed.
 
 Lemma proof_of_superPiano_partial_solve_wit_2_pure : superPiano_partial_solve_wit_2_pure.
 Proof.

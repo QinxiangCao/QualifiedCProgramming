@@ -14,6 +14,18 @@ Local Ltac split_r n :=
   | O => idtac
   | S ?n' => split; [|split_r n']
   end.
+
+Section TraceConnectives.
+Context {TR: Type}.
+
+Definition trace_and (P Q: TR -> nat -> Prop): TR -> nat -> Prop :=
+  fun tr i => P tr i /\ Q tr i.
+
+Definition trace_implies (P Q: TR -> nat -> Prop): TR -> nat -> Prop :=
+  fun tr i => P tr i -> Q tr i.
+
+End TraceConnectives.
+
 Section TraceLogic.
 Context {Σ: Type}
         {T: Type}.
@@ -39,15 +51,14 @@ Coercion lift: Atom >-> Funclass.
 (* temporal operators *)
 Definition alw (P: list (T * Σ) -> nat -> Prop): list (T * Σ) -> nat -> Prop :=
   fun tr i => forall j, 1 <= j <= i -> P tr j.
-Definition will_alw (P: list (T * Σ) -> nat -> Prop): list (T * Σ) -> nat -> Prop :=
-  fun tr i => forall j, i < j <= length tr -> P tr j.
 Definition have (P: list (T * Σ) -> nat -> Prop): list (T * Σ) -> nat -> Prop :=
   fun tr i => exists j, 1 <= j <= i /\ P tr j.
-Definition will (P: list (T * Σ) -> nat -> Prop): list (T * Σ) -> nat -> Prop :=
-  fun tr i => exists j, i < j <= length tr /\ P tr j.
 
 Definition implies (P Q: list (T * Σ) -> nat -> Prop): list (T * Σ) -> nat -> Prop :=
-  fun tr i => P tr i -> Q tr i.
+  trace_implies P Q.
+
+Definition both (P Q: list (T * Σ) -> nat -> Prop): list (T * Σ) -> nat -> Prop :=
+  trace_and P Q.
 
 Definition last_satisfy (P: list (T * Σ) -> nat -> Prop): list (T * Σ) -> Prop :=
 	fun tr => P tr (length tr).
@@ -78,16 +89,293 @@ Definition have_both (P: list (T * Σ) -> nat -> Prop) (Q: list (T * Σ) -> nat 
 (** Tradeoff between the definition of last_satisfy, alw, have and lift *)
 End TraceLogic.
 
+Section StateTraceLogic.
+Context {Σ: Type}.
+
+Definition SAtom := Σ -> Prop.
+
+Definition sLift (A: SAtom): list Σ -> nat -> Prop :=
+  fun tr i => match nth_error tr (i - 1) with
+    | Some s => A s
+    | None => False
+  end.
+Coercion sLift: SAtom >-> Funclass.
+
+Definition alwS (P: list Σ -> nat -> Prop): list Σ -> nat -> Prop :=
+  fun tr i => forall j, 1 <= j <= i -> P tr j.
+Definition haveS (P: list Σ -> nat -> Prop): list Σ -> nat -> Prop :=
+  fun tr i => exists j, 1 <= j <= i /\ P tr j.
+
+Definition impliesS (P Q: list Σ -> nat -> Prop): list Σ -> nat -> Prop :=
+  trace_implies P Q.
+
+Definition bothS (P Q: list Σ -> nat -> Prop): list Σ -> nat -> Prop :=
+  trace_and P Q.
+
+Definition last_satisfyS (P: list Σ -> nat -> Prop): list Σ -> Prop :=
+  fun tr => P tr (length tr).
+
+Definition have_firstS (P: list Σ -> nat -> Prop): list Σ -> nat -> Prop :=
+  fun tr i => exists j, 1 <= j <= i /\ P tr j /\ (forall k, 1 <= k < j -> ~ P tr k).
+Definition have_onceS (P: list Σ -> nat -> Prop): list Σ -> nat -> Prop :=
+  fun tr i => exists ! j, 1 <= j <= i /\ P tr j.
+
+End StateTraceLogic.
+
 Declare Scope trace_scope.
 Delimit Scope trace_scope with trace.
 Notation "'t↑' T" := (tAtom T) (at level 10) : trace_scope.
 Notation "'s↑' P" := (sAtom P) (at level 10) : trace_scope.
 Notation "'ts↑' P" := (tsAtom P) (at level 10) : trace_scope.
-Notation "P 't->' Q" := (implies P Q) (at level 61): trace_scope. 
+Notation "'S↑' P" := (sLift P) (at level 10) : trace_scope.
+Notation "P 't/\\' Q" := (both P Q) (at level 40, left associativity): trace_scope.
+Notation "P 's/\\' Q" := (bothS P Q) (at level 40, left associativity): trace_scope.
+Notation "P 't->' Q" := (implies P Q) (at level 61): trace_scope.
+Notation "P 's->' Q" := (impliesS P Q) (at level 61): trace_scope.
 Notation "↑ P" := (lift P) (at level 5) : trace_scope.
 Notation "l '|=' P" := (last_satisfy P l) (at level 99) : trace_scope.
+Notation "l '|=S' P" := (last_satisfyS P l) (at level 99) : trace_scope.
 
 Local Open Scope trace_scope.
+
+Section StateTraceRule.
+Context {Σ: Type}.
+
+Local Definition STR := list Σ.
+
+Lemma singleton_haveS_atom (a: SAtom) (x: Σ):
+  (x :: nil |=S haveS (S↑ a)) <-> a x.
+Proof.
+  unfold last_satisfyS, haveS, sLift.
+  split.
+  - intros [j [Hj HP]].
+    simpl in Hj.
+    replace (j - 1) with 0 in HP by lia.
+    exact HP.
+  - intros H.
+    exists 1.
+    simpl.
+    auto.
+Qed.
+
+Lemma singleton_alwS_atom (a: SAtom) (x: Σ):
+  (x :: nil |=S alwS (S↑ a)) <-> a x.
+Proof.
+  unfold last_satisfyS, alwS, sLift.
+  split.
+  - intros H.
+    specialize (H 1).
+    simpl in H.
+    auto.
+  - intros H.
+    simpl.
+    intros j Hj.
+    replace (j - 1) with 0 by lia.
+    simpl.
+    auto.
+Qed.
+
+Lemma nil_alwS (P: STR -> nat -> Prop):
+  nil |=S alwS P.
+Proof.
+  unfold last_satisfyS, alwS; simpl; lia.
+Qed.
+
+Lemma not_nil_haveS (P: STR -> nat -> Prop):
+  ~(nil |=S haveS P).
+Proof.
+  unfold last_satisfyS, haveS.
+  simpl.
+  intros [j [H _]].
+  lia.
+Qed.
+
+Lemma app_lastS_atom (tr: STR) (x: Σ) (a: SAtom):
+  (tr ++ x :: nil |=S S↑ a) <-> a x.
+Proof.
+  unfold last_satisfyS, sLift.
+  rewrite length_app.
+  simpl.
+  rewrite nth_error_app2 by lia.
+  replace (length tr + 1 - 1 - length tr) with 0 by lia.
+  simpl.
+  easy.
+Qed.
+
+Lemma lastS_atom_implies (tr: STR) (a0 a1: SAtom):
+  (forall x, a0 x -> a1 x) ->
+  tr |=S S↑ a0 ->
+  tr |=S S↑ a1.
+Proof.
+  unfold last_satisfyS, sLift.
+  intros Himpl Hlast.
+  destruct (nth_error tr (length tr - 1)); auto.
+Qed.
+
+Lemma last_haveS_atom (tr: STR) (a: SAtom):
+  tr |=S S↑ a ->
+  tr |=S haveS (S↑ a).
+Proof.
+  unfold haveS, last_satisfyS, sLift.
+  intros H.
+  destruct tr.
+  - simpl in H. tauto.
+  - simpl in *.
+    replace (length tr - 0) with (S (length tr) - 1) in H by lia.
+    exists (S (length tr)).
+    split; [lia | exact H].
+Qed.
+
+Lemma haveS_atom_conseq (tr: STR) (a0 a1: SAtom):
+  (forall x, a0 x -> a1 x) ->
+  tr |=S haveS (S↑ a0) ->
+  tr |=S haveS (S↑ a1).
+Proof.
+  unfold haveS, last_satisfyS, sLift.
+  intros Himpl [j [Hj HP]].
+  exists j.
+  split; [exact Hj |].
+  destruct (nth_error tr (j - 1)); auto.
+Qed.
+
+Lemma app_haveS_atom (tr1 tr2: STR) (a: SAtom):
+  (tr1 ++ tr2 |=S haveS (S↑ a)) <->
+  (tr1 |=S haveS (S↑ a)) \/ (tr2 |=S haveS (S↑ a)).
+Proof.
+  unfold last_satisfyS, haveS, sLift.
+  split.
+  - intros [j [Hj HP]].
+    rewrite length_app in Hj.
+    destruct (le_gt_dec j (length tr1)).
+    + left.
+      exists j.
+      rewrite nth_error_app1 in HP by lia.
+      split; [lia | exact HP].
+    + right.
+      exists (j - length tr1).
+      rewrite nth_error_app2 in HP by lia.
+      replace (j - length tr1 - 1) with (j - 1 - length tr1) by lia.
+      split; [lia | exact HP].
+  - rewrite length_app.
+    intros [[j [Hj Ht]] | [j [Hj Ht]]].
+    + exists j.
+      rewrite nth_error_app1 by lia.
+      split; [lia | exact Ht].
+    + exists (j + length tr1).
+      split; [lia |].
+      rewrite nth_error_app2 by lia.
+      replace (j + length tr1 - 1 - length tr1) with (j - 1) by lia.
+      exact Ht.
+Qed.
+
+Lemma app_last_haveS_atom (tr: STR) (x: Σ) (a: SAtom):
+  a x -> (tr ++ x :: nil |=S haveS (S↑ a)).
+Proof.
+  intros H.
+  apply last_haveS_atom.
+  apply app_lastS_atom.
+  exact H.
+Qed.
+
+Lemma haveS_app_l (tr1 tr2: STR) (a: SAtom):
+  tr1 |=S haveS (S↑ a) ->
+  tr1 ++ tr2 |=S haveS (S↑ a).
+Proof.
+  intros H.
+  apply app_haveS_atom.
+  left.
+  exact H.
+Qed.
+
+Lemma haveS_app_r (tr1 tr2: STR) (a: SAtom):
+  tr2 |=S haveS (S↑ a) ->
+  tr1 ++ tr2 |=S haveS (S↑ a).
+Proof.
+  intros H.
+  apply app_haveS_atom.
+  right.
+  exact H.
+Qed.
+
+Lemma haveS_app_single_inv (tr: STR) (x: Σ) (a: SAtom):
+  tr ++ x :: nil |=S haveS (S↑ a) ->
+  (tr |=S haveS (S↑ a)) \/ a x.
+Proof.
+  intros H.
+  apply app_haveS_atom in H.
+  destruct H as [H | H].
+  - left. exact H.
+  - right.
+    apply singleton_haveS_atom.
+    exact H.
+Qed.
+
+Lemma nth_error_last_nonempty {A: Type} (l: list A) (d: A):
+  l <> nil ->
+  nth_error l (length l - 1) = Some (last l d).
+Proof.
+  induction l as [|a l IH]; intros Hnn.
+  - contradiction.
+  - destruct l as [|b l'].
+    + simpl. reflexivity.
+    + destruct l' as [|c l''].
+      * simpl. reflexivity.
+      * simpl.
+        apply IH.
+        discriminate.
+Qed.
+
+Lemma nth_lastS_nonempty (l: STR) (d: Σ):
+  l <> nil ->
+  nth (length l - 1) l d = last l d.
+Proof.
+  intros Hnn.
+  pose proof (nth_error_last_nonempty l d Hnn) as Hnth.
+  apply nth_error_nth with (d := d) in Hnth.
+  exact Hnth.
+Qed.
+
+Lemma last_state_satisfy (tr: STR) (d: Σ) (P: Σ -> Prop):
+  tr <> nil ->
+  P (last tr d) ->
+  tr |=S S↑ P.
+Proof.
+  intros Hnn HP.
+  unfold last_satisfyS, sLift.
+  rewrite nth_error_last_nonempty with (d := d) by exact Hnn.
+  exact HP.
+Qed.
+
+Lemma haveS_exists_nth (tr: STR) (P: Σ -> Prop) (d: Σ):
+  tr |=S haveS (S↑ P) ->
+  exists i, i < length tr /\ P (nth i tr d).
+Proof.
+  unfold last_satisfyS, haveS, sLift.
+  intros [j [[Hjlo Hjhi] HP]].
+  exists (j - 1).
+  split; [lia |].
+  destruct (nth_error tr (j - 1)) as [x |] eqn:Hnth.
+  - apply nth_error_nth with (d := d) in Hnth.
+    rewrite Hnth.
+    exact HP.
+  - contradiction.
+Qed.
+
+Lemma nth_haveS (tr: STR) (P: Σ -> Prop) (d: Σ) i:
+  i < length tr ->
+  P (nth i tr d) ->
+  tr |=S haveS (S↑ P).
+Proof.
+  intros Hi HP.
+  unfold last_satisfyS, haveS, sLift.
+  exists (S i).
+  split; [lia |].
+  replace (S i - 1) with i by lia.
+  rewrite nth_error_nth' with (d := d) by lia.
+  exact HP.
+Qed.
+
+End StateTraceRule.
 
 Section TraceRule.
 Context {Σ: Type}
@@ -755,11 +1043,3 @@ Proof.
   intros.
   do 5 (destruct j; simpl; auto); lia.
 Qed.
-
-Example trace_nat_prop2:
-  forall (i: nat),
-  trace_nat |= alw ((t↑ i) t-> (will_alw (s↑ (fun j => j > i)))).  
-Proof.
-  unfold last_satisfy, alw, implies, will_alw; simpl.
-  unfold tAtom, sAtom, lift, trace_nat.
-Admitted.

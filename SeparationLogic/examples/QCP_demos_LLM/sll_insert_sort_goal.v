@@ -101,6 +101,38 @@ forall (node_pre: Z) (a: Z) (l: (@list Z)) (p2_v_2: Z) (p2: Z) (l1_2: (@list Z))
 ).
 
 Definition insertion_entail_wit_3_1 := 
+forall (node_pre: Z) (a: Z) (l: (@list Z)) (p2_v: Z) (p2: Z) (l1_3: (@list Z)) (l2: (@list Z)) (PreH1 : (p2_v = 0)) (PreH2 : (node_pre <> 0)) (PreH3 : (l = (app (l1_3) (l2)))) (PreH4 : (strict_upperbound a l1_3 )) ,
+  ((&((node_pre)  # "list" ->ₛ "data")) # Int  |-> a)
+  **  (sllbseg ( &( "res" ) ) p2 l1_3 )
+  **  ((p2) # Ptr  |-> p2_v)
+  **  (sll p2_v l2 )
+  **  ((&((node_pre)  # "list" ->ₛ "next")) # Ptr  |->_)
+|--
+  (EX (l1: (@list Z)) ,
+  “ (node_pre <> 0) ” 
+  &&  “ (l = (app (l1) ((@nil Z)))) ” 
+  &&  “ (strict_upperbound a l1 ) ”
+  &&  ((&((node_pre)  # "list" ->ₛ "data")) # Int  |-> a)
+  **  (sllbseg ( &( "res" ) ) p2 l1 )
+  **  ((p2) # Ptr  |-> 0)
+  **  ((&((node_pre)  # "list" ->ₛ "next")) # Ptr  |->_))
+  ||
+  (EX (unext: Z)  (l1_2: (@list Z))  (l0: (@list Z))  (x: Z)  (u: Z) ,
+  “ (node_pre <> 0) ” 
+  &&  “ (u <> 0) ” 
+  &&  “ (x >= a) ” 
+  &&  “ (l = (app (l1_2) ((cons (x) (l0))))) ” 
+  &&  “ (strict_upperbound a l1_2 ) ”
+  &&  ((&((node_pre)  # "list" ->ₛ "data")) # Int  |-> a)
+  **  (sllbseg ( &( "res" ) ) p2 l1_2 )
+  **  ((p2) # Ptr  |-> u)
+  **  ((&((u)  # "list" ->ₛ "data")) # Int  |-> x)
+  **  ((&((u)  # "list" ->ₛ "next")) # Ptr  |-> unext)
+  **  (sll unext l0 )
+  **  ((&((node_pre)  # "list" ->ₛ "next")) # Ptr  |->_))
+.
+
+Definition insertion_entail_wit_3_2 := 
 forall (node_pre: Z) (a: Z) (l: (@list Z)) (p2_v: Z) (p2: Z) (l1_3: (@list Z)) (l2: (@list Z)) (x_2: Z) (l0_2: (@list Z)) (y: Z) (PreH1 : (x_2 >= a)) (PreH2 : (l2 = (cons (x_2) (l0_2)))) (PreH3 : (p2_v <> 0)) (PreH4 : (node_pre <> 0)) (PreH5 : (l = (app (l1_3) (l2)))) (PreH6 : (strict_upperbound a l1_3 )) ,
   ((&((p2_v)  # "list" ->ₛ "data")) # Int  |-> x_2)
   **  (sll y l0_2 )
@@ -134,47 +166,12 @@ forall (node_pre: Z) (a: Z) (l: (@list Z)) (p2_v: Z) (p2: Z) (l1_3: (@list Z)) (
   **  ((&((node_pre)  # "list" ->ₛ "next")) # Ptr  |->_))
 .
 
-Definition insertion_entail_wit_3_2 := 
-forall (node_pre: Z) (a: Z) (l: (@list Z)) (p2_v: Z) (p2: Z) (l1_3: (@list Z)) (l2: (@list Z)) (PreH1 : (p2_v = 0)) (PreH2 : (node_pre <> 0)) (PreH3 : (l = (app (l1_3) (l2)))) (PreH4 : (strict_upperbound a l1_3 )) ,
-  ((&((node_pre)  # "list" ->ₛ "data")) # Int  |-> a)
-  **  (sllbseg ( &( "res" ) ) p2 l1_3 )
-  **  ((p2) # Ptr  |-> p2_v)
-  **  (sll p2_v l2 )
-  **  ((&((node_pre)  # "list" ->ₛ "next")) # Ptr  |->_)
-|--
-  (EX (l1: (@list Z)) ,
-  “ (node_pre <> 0) ” 
-  &&  “ (l = (app (l1) ((@nil Z)))) ” 
-  &&  “ (strict_upperbound a l1 ) ”
-  &&  ((&((node_pre)  # "list" ->ₛ "data")) # Int  |-> a)
-  **  (sllbseg ( &( "res" ) ) p2 l1 )
-  **  ((p2) # Ptr  |-> 0)
-  **  ((&((node_pre)  # "list" ->ₛ "next")) # Ptr  |->_))
-  ||
-  (EX (unext: Z)  (l1_2: (@list Z))  (l0: (@list Z))  (x: Z)  (u: Z) ,
-  “ (node_pre <> 0) ” 
-  &&  “ (u <> 0) ” 
-  &&  “ (x >= a) ” 
-  &&  “ (l = (app (l1_2) ((cons (x) (l0))))) ” 
-  &&  “ (strict_upperbound a l1_2 ) ”
-  &&  ((&((node_pre)  # "list" ->ₛ "data")) # Int  |-> a)
-  **  (sllbseg ( &( "res" ) ) p2 l1_2 )
-  **  ((p2) # Ptr  |-> u)
-  **  ((&((u)  # "list" ->ₛ "data")) # Int  |-> x)
-  **  ((&((u)  # "list" ->ₛ "next")) # Ptr  |-> unext)
-  **  (sll unext l0 )
-  **  ((&((node_pre)  # "list" ->ₛ "next")) # Ptr  |->_))
-.
-
 Definition insertion_entail_wit_4_1 := 
-forall (node_pre: Z) (a: Z) (l: (@list Z)) (l1_3: (@list Z)) (x_2: Z) (l0_2: (@list Z)) (u_2: Z) (unext_2: Z) (p2: Z) (PreH1 : (node_pre <> 0)) (PreH2 : (u_2 <> 0)) (PreH3 : (x_2 >= a)) (PreH4 : (l = (app (l1_3) ((cons (x_2) (l0_2)))))) (PreH5 : (strict_upperbound a l1_3 )) ,
+forall (node_pre: Z) (a: Z) (l: (@list Z)) (l1_3: (@list Z)) (p2: Z) (PreH1 : (node_pre <> 0)) (PreH2 : (l = (app (l1_3) ((@nil Z))))) (PreH3 : (strict_upperbound a l1_3 )) ,
   ((&((node_pre)  # "list" ->ₛ "data")) # Int  |-> a)
   **  (sllbseg ( &( "res" ) ) p2 l1_3 )
   **  ((p2) # Ptr  |-> node_pre)
-  **  ((&((u_2)  # "list" ->ₛ "data")) # Int  |-> x_2)
-  **  ((&((u_2)  # "list" ->ₛ "next")) # Ptr  |-> unext_2)
-  **  (sll unext_2 l0_2 )
-  **  ((&((node_pre)  # "list" ->ₛ "next")) # Ptr  |-> u_2)
+  **  ((&((node_pre)  # "list" ->ₛ "next")) # Ptr  |-> 0)
 |--
   (EX (resv: Z)  (l1: (@list Z)) ,
   “ (node_pre <> 0) ” 
@@ -201,11 +198,14 @@ forall (node_pre: Z) (a: Z) (l: (@list Z)) (l1_3: (@list Z)) (x_2: Z) (l0_2: (@l
 .
 
 Definition insertion_entail_wit_4_2 := 
-forall (node_pre: Z) (a: Z) (l: (@list Z)) (l1_3: (@list Z)) (p2: Z) (PreH1 : (node_pre <> 0)) (PreH2 : (l = (app (l1_3) ((@nil Z))))) (PreH3 : (strict_upperbound a l1_3 )) ,
+forall (node_pre: Z) (a: Z) (l: (@list Z)) (l1_3: (@list Z)) (x_2: Z) (l0_2: (@list Z)) (u_2: Z) (unext_2: Z) (p2: Z) (PreH1 : (node_pre <> 0)) (PreH2 : (u_2 <> 0)) (PreH3 : (x_2 >= a)) (PreH4 : (l = (app (l1_3) ((cons (x_2) (l0_2)))))) (PreH5 : (strict_upperbound a l1_3 )) ,
   ((&((node_pre)  # "list" ->ₛ "data")) # Int  |-> a)
   **  (sllbseg ( &( "res" ) ) p2 l1_3 )
   **  ((p2) # Ptr  |-> node_pre)
-  **  ((&((node_pre)  # "list" ->ₛ "next")) # Ptr  |-> 0)
+  **  ((&((u_2)  # "list" ->ₛ "data")) # Int  |-> x_2)
+  **  ((&((u_2)  # "list" ->ₛ "next")) # Ptr  |-> unext_2)
+  **  (sll unext_2 l0_2 )
+  **  ((&((node_pre)  # "list" ->ₛ "next")) # Ptr  |-> u_2)
 |--
   (EX (resv: Z)  (l1: (@list Z)) ,
   “ (node_pre <> 0) ” 

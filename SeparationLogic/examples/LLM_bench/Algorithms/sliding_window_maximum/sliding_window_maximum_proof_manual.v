@@ -117,7 +117,7 @@ Proof.
         exists pos0. repeat split; try lia.
 Qed.
 
-Lemma proof_of_maxSlidingWindow_entail_wit_4_1 : maxSlidingWindow_entail_wit_4_1.
+Lemma proof_of_maxSlidingWindow_entail_wit_4_2 : maxSlidingWindow_entail_wit_4_2.
 Proof.
   pre_process.
   Exists out_l_2. Exists q_l_2.
@@ -188,7 +188,7 @@ Proof.
     all: try lia.
 Qed.
 
-Lemma proof_of_maxSlidingWindow_entail_wit_4_2 : maxSlidingWindow_entail_wit_4_2.
+Lemma proof_of_maxSlidingWindow_entail_wit_4_1 : maxSlidingWindow_entail_wit_4_1.
 Proof.
   pre_process.
   Exists out_l_2. Exists q_l_2.
@@ -325,6 +325,33 @@ Proof.
     replace out_idx with (i - k_pre + 1) by lia.
     replace (i - k_pre + 1 + k_pre) with (i + 1) by lia.
     exact PreH20.
+Qed.
+
+Lemma proof_of_maxSlidingWindow_entail_wit_11_1 : maxSlidingWindow_entail_wit_11_1.
+Proof.
+  pre_process.
+  Exists out_l_2. Exists q_l_2.
+  split_pure_spatial.
+  - repeat cancel.
+  - split_pures; dump_pre_spatial; auto; try lia.
+Qed.
+
+Lemma proof_of_maxSlidingWindow_entail_wit_11_2 : maxSlidingWindow_entail_wit_11_2.
+Proof.
+  pre_process.
+  Exists out_l_2. Exists q_l_2.
+  split_pure_spatial.
+  - repeat cancel.
+  - split_pures; dump_pre_spatial; auto; try lia.
+Qed.
+
+Lemma proof_of_maxSlidingWindow_entail_wit_12 : maxSlidingWindow_entail_wit_12.
+Proof.
+  pre_process.
+  Exists out_l_2. Exists q_l_2.
+  split_pure_spatial.
+  - repeat cancel.
+  - split_pures; dump_pre_spatial; auto; try lia.
 Qed.
 
 Lemma proof_of_maxSlidingWindow_entail_wit_13 : maxSlidingWindow_entail_wit_13.

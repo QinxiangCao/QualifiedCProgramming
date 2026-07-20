@@ -20,6 +20,24 @@ Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.multiple_knapsack.multiple_knapsack_lib.
 Local Open Scope sac.
 
+Lemma proof_of_multipleKnapsack_entail_wit_18 : multipleKnapsack_entail_wit_18.
+Proof.
+  pre_process.
+  Exists qval_l_2. Exists qidx_l_2. Exists old_l_2. Exists dp_l_2.
+  split_pure_spatial.
+  - repeat cancel.
+  - split_pures; dump_pre_spatial; auto; try lia.
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_20 : multipleKnapsack_entail_wit_20.
+Proof.
+  pre_process.
+  Exists qval_l_2. Exists qidx_l_2. Exists old_l_2. Exists dp_l_2.
+  split_pure_spatial.
+  - repeat cancel.
+  - split_pures; dump_pre_spatial; auto; try lia.
+Qed.
+
 Lemma proof_of_multipleKnapsack_safety_wit_12 : multipleKnapsack_safety_wit_12.
 Proof.
   pre_process.
@@ -227,7 +245,7 @@ Proof.
     apply MKQueueDropLoopState_pop_expired_preserves_predrop; auto.
 Qed.
 
-Lemma proof_of_multipleKnapsack_entail_wit_12_2 : multipleKnapsack_entail_wit_12_2.
+Lemma proof_of_multipleKnapsack_entail_wit_12_1 : multipleKnapsack_entail_wit_12_1.
 Proof.
   pre_process.
   Exists qval_l_2. Exists qidx_l_2. Exists old_l_2. Exists dp_l_2.
@@ -237,7 +255,7 @@ Proof.
     apply MKQueueDropLoopState_empty_exit_to_MKQueueAfterDrop; auto.
 Qed.
 
-Lemma proof_of_multipleKnapsack_entail_wit_12_1 : multipleKnapsack_entail_wit_12_1.
+Lemma proof_of_multipleKnapsack_entail_wit_12_2 : multipleKnapsack_entail_wit_12_2.
 Proof.
   pre_process.
   Exists qval_l_2. Exists qidx_l_2. Exists old_l_2. Exists dp_l_2.
@@ -268,7 +286,7 @@ Proof.
     eapply MKQueuePendingState_pop_dominated_tail_preserves; eauto; lia.
 Qed.
 
-Lemma proof_of_multipleKnapsack_entail_wit_15_1 : multipleKnapsack_entail_wit_15_1.
+Lemma proof_of_multipleKnapsack_entail_wit_15_2 : multipleKnapsack_entail_wit_15_2.
 Proof.
   pre_process.
   Exists (replace_Znth tail current qval_l_2).
@@ -321,7 +339,7 @@ Proof.
       try lia.
 Qed. 
 
-Lemma proof_of_multipleKnapsack_entail_wit_15_2 : multipleKnapsack_entail_wit_15_2.
+Lemma proof_of_multipleKnapsack_entail_wit_15_1 : multipleKnapsack_entail_wit_15_1.
 Proof.
   pre_process.
   Exists (replace_Znth tail current qval_l_2).

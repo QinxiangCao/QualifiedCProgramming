@@ -378,8 +378,8 @@ forall (x_pre: fp32) (PreH1 : (fp32_eq (fp32_neg ((fp32_neg (x_pre)))) x_pre )) 
 
 Definition float_lt_branch_safety_wit_1 := 
 forall (y_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_lt x_pre y_pre )) (PreH2 : (fp32_isFinite x_pre )) (PreH3 : (fp32_isFinite y_pre )) ,
-  ((( &( "y" ) )) # Float  |-> y_pre)
-  **  ((( &( "x" ) )) # Float  |-> x_pre)
+  ((( &( "x" ) )) # Float  |-> x_pre)
+  **  ((( &( "y" ) )) # Float  |-> y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -387,8 +387,8 @@ forall (y_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_lt x_pre y_pre )) (PreH2 : (fp
 
 Definition float_lt_branch_safety_wit_2 := 
 forall (y_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_ge x_pre y_pre )) (PreH2 : (fp32_isFinite x_pre )) (PreH3 : (fp32_isFinite y_pre )) ,
-  ((( &( "y" ) )) # Float  |-> y_pre)
-  **  ((( &( "x" ) )) # Float  |-> x_pre)
+  ((( &( "x" ) )) # Float  |-> x_pre)
+  **  ((( &( "y" ) )) # Float  |-> y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -416,8 +416,8 @@ forall (y_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_lt x_pre y_pre )) (PreH2 : (fp
 
 Definition float_ne_branch_safety_wit_1 := 
 forall (y_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_ne x_pre y_pre )) (PreH2 : (fp32_isFinite x_pre )) (PreH3 : (fp32_isFinite y_pre )) ,
-  ((( &( "y" ) )) # Float  |-> y_pre)
-  **  ((( &( "x" ) )) # Float  |-> x_pre)
+  ((( &( "x" ) )) # Float  |-> x_pre)
+  **  ((( &( "y" ) )) # Float  |-> y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -425,8 +425,8 @@ forall (y_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_ne x_pre y_pre )) (PreH2 : (fp
 
 Definition float_ne_branch_safety_wit_2 := 
 forall (y_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_eq x_pre y_pre )) (PreH2 : (fp32_isFinite x_pre )) (PreH3 : (fp32_isFinite y_pre )) ,
-  ((( &( "y" ) )) # Float  |-> y_pre)
-  **  ((( &( "x" ) )) # Float  |-> x_pre)
+  ((( &( "x" ) )) # Float  |-> x_pre)
+  **  ((( &( "y" ) )) # Float  |-> y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -454,8 +454,8 @@ forall (y_pre: fp32) (x_pre: fp32) (PreH1 : (fp32_ne x_pre y_pre )) (PreH2 : (fp
 
 Definition double_eq_branch_safety_wit_1 := 
 forall (y_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_eq x_pre y_pre )) (PreH2 : (fp64_isFinite x_pre )) (PreH3 : (fp64_isFinite y_pre )) ,
-  ((( &( "y" ) )) # Double  |-> y_pre)
-  **  ((( &( "x" ) )) # Double  |-> x_pre)
+  ((( &( "x" ) )) # Double  |-> x_pre)
+  **  ((( &( "y" ) )) # Double  |-> y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -463,8 +463,8 @@ forall (y_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_eq x_pre y_pre )) (PreH2 : (fp
 
 Definition double_eq_branch_safety_wit_2 := 
 forall (y_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_ne x_pre y_pre )) (PreH2 : (fp64_isFinite x_pre )) (PreH3 : (fp64_isFinite y_pre )) ,
-  ((( &( "y" ) )) # Double  |-> y_pre)
-  **  ((( &( "x" ) )) # Double  |-> x_pre)
+  ((( &( "x" ) )) # Double  |-> x_pre)
+  **  ((( &( "y" ) )) # Double  |-> y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -492,8 +492,8 @@ forall (y_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_eq x_pre y_pre )) (PreH2 : (fp
 
 Definition double_ge_branch_safety_wit_1 := 
 forall (y_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_ge x_pre y_pre )) (PreH2 : (fp64_isFinite x_pre )) (PreH3 : (fp64_isFinite y_pre )) ,
-  ((( &( "y" ) )) # Double  |-> y_pre)
-  **  ((( &( "x" ) )) # Double  |-> x_pre)
+  ((( &( "x" ) )) # Double  |-> x_pre)
+  **  ((( &( "y" ) )) # Double  |-> y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -501,8 +501,8 @@ forall (y_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_ge x_pre y_pre )) (PreH2 : (fp
 
 Definition double_ge_branch_safety_wit_2 := 
 forall (y_pre: fp64) (x_pre: fp64) (PreH1 : (fp64_lt x_pre y_pre )) (PreH2 : (fp64_isFinite x_pre )) (PreH3 : (fp64_isFinite y_pre )) ,
-  ((( &( "y" ) )) # Double  |-> y_pre)
-  **  ((( &( "x" ) )) # Double  |-> x_pre)
+  ((( &( "x" ) )) # Double  |-> x_pre)
+  **  ((( &( "y" ) )) # Double  |-> y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”

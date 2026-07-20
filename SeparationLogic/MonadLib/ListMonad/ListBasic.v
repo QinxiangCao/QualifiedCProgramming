@@ -109,3 +109,48 @@ Section mapM.
   Qed.
 
 End mapM.
+
+(*************************************************************************************************************)
+(*****    Pseudocode notation for the list monad -- thin sugar over existing operations              ******)
+(*************************************************************************************************************)
+(*                                                                                                          *)
+(*  The list monad models *nondeterministic search*: a program is the list of all its possible results.     *)
+(*  Per the "notation over existing only" choice, both new forms desugar to operations that already exist:   *)
+(*                                                                                                          *)
+(*      CHOOSE { c1 | c2 | ... }                  == c1 ++ c2 ++ ...      -- either branch's results (app)    *)
+(*      MAP e FOR x IN l                          == fmap (fun x => e) l  -- transform every result          *)
+(*                                                                                                          *)
+(*  Multi-result search still uses the existing do-block: [x <- l1;; y <- l2;; return (x, y)] enumerates      *)
+(*  the cartesian product.                                                                                   *)
+(*                                                                                                          *)
+
+Declare Scope listprog_scope.
+Delimit Scope listprog_scope with listprog.
+
+(* Nondeterministic choice, one branch per [|] inside braces; expands directly to list append.
+   2..6 branches; nest [CHOOSE]s for more. *)
+Notation "'CHOOSE' '{' c1 '|' c2 '}'" :=
+  (c1 ++ c2)
+  (at level 0, c1 at level 200, c2 at level 200,
+   format "'[v' 'CHOOSE'  '{' '//' c1 '//' '|'  c2 '//' '}' ']'") : listprog_scope.
+Notation "'CHOOSE' '{' c1 '|' c2 '|' c3 '}'" :=
+  (c1 ++ c2 ++ c3)
+  (at level 0, c1 at level 200, c2 at level 200, c3 at level 200,
+   format "'[v' 'CHOOSE'  '{' '//' c1 '//' '|'  c2 '//' '|'  c3 '//' '}' ']'") : listprog_scope.
+Notation "'CHOOSE' '{' c1 '|' c2 '|' c3 '|' c4 '}'" :=
+  (c1 ++ c2 ++ c3 ++ c4)
+  (at level 0, c1 at level 200, c2 at level 200, c3 at level 200, c4 at level 200,
+   format "'[v' 'CHOOSE'  '{' '//' c1 '//' '|'  c2 '//' '|'  c3 '//' '|'  c4 '//' '}' ']'") : listprog_scope.
+Notation "'CHOOSE' '{' c1 '|' c2 '|' c3 '|' c4 '|' c5 '}'" :=
+  (c1 ++ c2 ++ c3 ++ c4 ++ c5)
+  (at level 0, c1 at level 200, c2 at level 200, c3 at level 200, c4 at level 200, c5 at level 200,
+   format "'[v' 'CHOOSE'  '{' '//' c1 '//' '|'  c2 '//' '|'  c3 '//' '|'  c4 '//' '|'  c5 '//' '}' ']'") : listprog_scope.
+Notation "'CHOOSE' '{' c1 '|' c2 '|' c3 '|' c4 '|' c5 '|' c6 '}'" :=
+  (c1 ++ c2 ++ c3 ++ c4 ++ c5 ++ c6)
+  (at level 0, c1 at level 200, c2 at level 200, c3 at level 200, c4 at level 200, c5 at level 200, c6 at level 200,
+   format "'[v' 'CHOOSE'  '{' '//' c1 '//' '|'  c2 '//' '|'  c3 '//' '|'  c4 '//' '|'  c5 '//' '|'  c6 '//' '}' ']'") : listprog_scope.
+
+Notation "'MAP' e 'FOR' x 'IN' l" :=
+  (fmap (fun x => e) l)
+  (at level 0, e at level 99, x ident, l at level 99,
+   format "'[v' 'MAP'  e  'FOR'  x  'IN'  l ']'") : listprog_scope.

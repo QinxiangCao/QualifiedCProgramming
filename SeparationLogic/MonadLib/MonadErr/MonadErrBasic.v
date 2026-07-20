@@ -69,6 +69,14 @@ Arguments MonadErr.err {Σ}%_type_scope [A]%_type_scope m.
 Notation program := MonadErr.M.
 Notation MONAD := (program unit).
 
+(** A backend-independent name for recursive constructions.  The error
+    monad keeps [BW_fix] as its implementation. *)
+Definition Rec {X: Type} {oLubX: OmegaLub X} {BotX: Bot X}
+  (F: X -> X): X :=
+  BW_fix F.
+
+Arguments Rec: simpl never.
+
 Hint Unfold MonadErr.bind MonadErr.ret : monad_unfold.
 
 

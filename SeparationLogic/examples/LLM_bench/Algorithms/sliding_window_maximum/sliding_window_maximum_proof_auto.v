@@ -62,15 +62,6 @@ Proof. Admitted.
 Lemma proof_of_maxSlidingWindow_safety_wit_14 : maxSlidingWindow_safety_wit_14.
 Proof. Admitted. 
 
-Lemma proof_of_maxSlidingWindow_entail_wit_11_1 : maxSlidingWindow_entail_wit_11_1.
-Proof. Admitted. 
-
-Lemma proof_of_maxSlidingWindow_entail_wit_11_2 : maxSlidingWindow_entail_wit_11_2.
-Proof. Admitted. 
-
-Lemma proof_of_maxSlidingWindow_entail_wit_12 : maxSlidingWindow_entail_wit_12.
-Proof. Admitted. 
-
 Lemma proof_of_maxSlidingWindow_return_wit_1 : maxSlidingWindow_return_wit_1.
 Proof. Admitted. 
 

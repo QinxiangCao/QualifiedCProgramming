@@ -1,0 +1,63 @@
+// GE-GMP mpz object array rules, translated from int_array.strategies.
+
+#include "fme_ge_gmp/ge/ge_def.h"
+
+id : 201
+priority : core(1)
+left : mpz_array(?p, ?n, ?l) at 0
+right : store_Z(?p + (?i * sizeof(struct __mpz_struct)), ?v) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(p != 0);
+action : right_erase(1);
+         left_erase(0);
+         left_add(mpz_missing_i(p, i, 0, n, l));
+         right_add(v == Znth{Z}(i, l, 0));
+
+id : 202
+priority : post(1)
+left : mpz_missing_i(?p, ?i, 0, ?n, ?l) at 0
+       store_Z(p + i * sizeof(struct __mpz_struct), Znth{Z}(i, l, 0)) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(p != 0);
+action : left_erase(1);
+         left_erase(0);
+         left_add(mpz_array(p, n, l));
+
+id : 203
+priority : post(3)
+left : mpz_missing_i(?p, ?i, 0, ?n, ?l) at 0
+       store_Z(p + i * sizeof(struct __mpz_struct), ?v) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(p != 0);
+action : left_erase(1);
+         left_erase(0);
+         left_add(mpz_array(p, n, replace_Znth{Z}(i, v, l)));
+
+id : 206
+priority : core(1)
+left : mpz_missing_i(?p, ?i, 0, ?n, ?l) at 0
+       store_Z(p + i * sizeof(struct __mpz_struct), Znth{Z}(i, l, 0)) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(p != 0);
+action : left_erase(1);
+         left_erase(0);
+         left_add(mpz_array(p, n, l));
+
+id : 204
+priority : core(1)
+left : mpz_array(?p, ?n, ?l1) at 0
+right : mpz_array(p, n, ?l2) at 1
+action : right_erase(1);
+         left_erase(0);
+         right_add(l1 == l2);
+
+id : 205
+priority : core(1)
+left : mpz_missing_i(?p, ?i, ?lo, ?hi, ?l) at 0
+right : mpz_missing_i(p, i, lo, hi, l) at 1
+action : left_erase(0);
+         right_erase(1);

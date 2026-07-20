@@ -165,7 +165,7 @@ Qed.
 Lemma Hoare_nrm_ret {A Σ: Type}:
   forall (P: Σ -> Prop) (a: A) (Q: A -> Σ -> Prop),
     (forall σ, P σ -> Q a σ) ->
-    Hoare_nrm P (ret a) Q.
+    Hoare_nrm P (return a) Q.
 Proof. firstorder subst; auto. Qed.
 
 Lemma Hoare_nrm_post_true {A Σ: Type}:

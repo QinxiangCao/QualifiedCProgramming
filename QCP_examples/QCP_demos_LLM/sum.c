@@ -100,11 +100,13 @@ int arr_sum_update(int n, int *a)
   int i;
   int ret = 0;
   /*@ Inv Assert
+      exists l1, 
       0 < n@pre && n@pre < 100 && a == a@pre && n == n@pre &&
-      0 <= i && i <= n@pre && n == Zlength(l) &&
+      0 <= i && i <= n@pre && n == Zlength(l) && n == Zlength(l1) && 
       (forall (i: Z), (0 <= i && i < n) => (0 <= l[i] && l[i] < 100)) &&
+      l1 == app(zeros(i), sublist(i, n@pre, l)) &&
       ret == sum(sublist(0, i, l)) &&
-      IntArray::full(a, n@pre, app(zeros(i), sublist(i, n@pre, l)))
+      IntArray::full(a, n@pre, l1)
   */
   for (i = 0; i < n; ++i) {
     ret += a[i];
@@ -141,4 +143,3 @@ int arr_sum_pointer(int n, int *a)
   }
   return ret;
 }
-

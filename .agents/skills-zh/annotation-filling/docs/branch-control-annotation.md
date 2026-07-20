@@ -236,9 +236,9 @@ while (...) {
 - 循环入口已命名，但 multi-inv case 名不匹配，也没有显式 `with pre ==> case`。
 - 用 `Branch clear` 删除其实可达的路径，导致后续 VC 变成 annotation-bug。
 
-## 报告要求
+## Notes 要求
 
-如果本轮 annotation 使用了 branch control，`agent_report.json.agent_result.annotation` 应说明：
+如果本轮 annotation 使用了 branch control，在 `agent_output.md` 简要说明：
 
 - 使用了哪些 branch 名，它们分别代表什么语义路径。
 - 哪些 annotation 使用了 `$ branch_list`，为什么只作用于这些 branch。

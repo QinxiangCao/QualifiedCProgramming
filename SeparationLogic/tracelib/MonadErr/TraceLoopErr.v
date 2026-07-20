@@ -4,6 +4,7 @@ Require Import Coq.Logic.Classical_Prop.
 Require Import Coq.micromega.Lia.
 Require Import Coq.Arith.Arith.
 Require Import TraceLib.MonadErr.TraceBasicErr.
+Require Import TraceLib.TraceLogic.
 From MonadLib.MonadErr Require Import MonadErrBasic MonadErrHoare MonadErrHoarePartial MonadErrLoop.
 From FP Require Import BourbakiWitt.
 
@@ -86,6 +87,12 @@ Definition TraceShape (cond P0: Σ -> Prop) (s: Σ) (tr: list Σ) : Prop :=
   last tr default = s /\
   ~ cond s /\
   forall i, i < length tr - 1 -> cond (nth i tr default).
+
+Definition TraceHave (P: Σ -> Prop) (tr: list Σ) : Prop :=
+  last_satisfyS (haveS (sLift P)) tr.
+
+Definition TraceImplies (P Q: list Σ -> nat -> Prop) (tr: list Σ) : Prop :=
+  last_satisfyS (impliesS P Q) tr.
 
 Definition AbsRel {L St: Type}
     (P: nat -> L -> St -> Prop)
@@ -234,6 +241,287 @@ Proof.
     lia.
 Qed.
 
+Lemma trace_shape_have_exit
+  (cond Q: Σ -> Prop) (s: Σ) (tr: list Σ):
+  (forall s, Q s -> ~ cond s) ->
+  TraceShape cond (fun _ => True) s tr ->
+  TraceHave Q tr ->
+  Q s.
+Proof.
+  intros HQ Hshape Hhave.
+  unfold TraceHave in Hhave.
+  destruct Hshape as [_ [Hlast [Hncond Hprefix]]].
+  destruct (haveS_exists_nth tr Q default Hhave) as [i [Hi HQi]].
+  assert (Htr_nonempty: tr <> nil).
+  {
+    intro Hnil.
+    subst tr.
+    simpl in Hi.
+    lia.
+  }
+  destruct (Nat.lt_ge_cases i (length tr - 1)) as [Hi_prefix | Hi_final].
+  - specialize (Hprefix i Hi_prefix).
+    specialize (HQ _ HQi).
+    tauto.
+  - assert (Hi_eq: i = length tr - 1) by lia.
+    subst i.
+    rewrite nth_lastS_nonempty with (d := default) in HQi by exact Htr_nonempty.
+    rewrite Hlast in HQi.
+    exact HQi.
+Qed.
+
+Lemma trace_shape_have_exit_trace
+  (cond Q: Σ -> Prop) (s: Σ) (tr: list Σ):
+  (forall s, Q s -> ~ cond s) ->
+  TraceShape cond (fun _ => True) s tr ->
+  TraceImplies (haveS (sLift Q)) (sLift Q) tr.
+Proof.
+  intros HQ Hshape.
+  unfold TraceImplies, impliesS, trace_implies, last_satisfyS.
+  intro Hhave.
+  pose proof (trace_shape_have_exit cond Q s tr HQ Hshape Hhave) as HQs.
+  destruct Hshape as [_ [Hlast _]].
+  assert (Htr_nonempty: tr <> nil).
+  {
+    intro Hnil.
+    subst tr.
+    eapply not_nil_haveS.
+    exact Hhave.
+  }
+  unfold sLift.
+  rewrite nth_error_last_nonempty with (d := default) by exact Htr_nonempty.
+  rewrite Hlast.
+  exact HQs.
+Qed.
+
+Theorem snapshot_loop_have_exit
+  (cond Q: Σ -> Prop) (body: program Σ unit)
+  `{SnapshotBodySafe body}:
+  (forall s, Q s -> ~ cond s) ->
+  Hoare
+    (fun '(_, tr) => tr = nil)
+    (snapshot_loop cond body)
+    (fun _ '(_, tr) => TraceImplies (haveS (sLift Q)) (sLift Q) tr).
+Proof.
+  intros HQ.
+  eapply Hoare_cons_post with
+    (Q := fun _ '(s, tr) => TraceShape cond (fun _ => True) s tr).
+  - intros _ (s, tr) Hshape.
+    eapply trace_shape_have_exit_trace; eauto.
+  - eapply Hoare_cons_pre with
+      (P := fun '(s, tr) => (fun _ => True) s /\ tr = nil).
+    + intros [s tr] Hnil.
+      split; [exact I | exact Hnil].
+    + eapply snapshot_loop_trace_shape.
+      exact H0.
+Qed.
+
+Theorem snapshot_loop_have_final
+  (cond Q: Σ -> Prop) (body: program Σ unit)
+  `{SnapshotBodySafe body}:
+  (forall s, Q s -> ~ cond s) ->
+  Hoare
+    (fun '(_, tr) => tr = nil)
+    (snapshot_loop cond body)
+    (fun _ '(s, tr) => TraceHave Q tr -> Q s).
+Proof.
+  intros HQ.
+  eapply Hoare_cons_post with
+    (Q := fun _ '(s, tr) => TraceShape cond (fun _ => True) s tr).
+  - intros _ (s, tr) Hshape Hhave.
+    eapply trace_shape_have_exit; eauto.
+  - eapply Hoare_cons_pre with
+      (P := fun '(s, tr) => (fun _ => True) s /\ tr = nil).
+    + intros [s tr] Hnil.
+      split; [exact I | exact Hnil].
+    + eapply snapshot_loop_trace_shape.
+      assumption.
+Qed.
+
+Theorem snapshot_loop_initial_have
+  (cond P Q: Σ -> Prop) (body: program Σ unit)
+  `{SnapshotBodySafe body}:
+  (forall s, P s -> Q s) ->
+  Hoare
+    (fun '(s, tr) => P s /\ tr = nil)
+    (snapshot_loop cond body)
+    (fun _ '(_, tr) => TraceHave Q tr).
+Proof.
+  intros HPQ.
+  unfold snapshot_loop.
+  eapply Hoare_bind with
+    (Q := fun _ '(_, tr) => TraceHave Q tr).
+  - eapply Hoare_cons_post.
+    2: apply (@Hoare_trackS Σ (fun '(s, tr) => P s /\ tr = nil)).
+    intros _ (s, tr) [tr' [Htr [HP Hnil]]].
+    subst tr'.
+    simpl in Htr.
+    subst tr.
+    unfold TraceHave.
+    apply singleton_haveS_atom.
+    apply HPQ.
+    exact HP.
+  - intros [].
+    eapply Hoare_cons_post.
+    2:{
+      eapply Hoare_whileP with
+        (P := fun '(_, tr) => TraceHave Q tr)
+        (cond := fun '(s, _) => cond s)
+        (body := liftG body;; trackS).
+      eapply Hoare_bind with
+        (Q := fun _ '(_, tr) => TraceHave Q tr).
+      + eapply Hoare_liftG'.
+        intros tr.
+        unfold Hoare; split.
+        * intros [] s1 s2 Hpre _.
+          destruct Hpre as [_ Hhave].
+          exact Hhave.
+        * intros s1 _ Herr.
+          destruct snapshot_body_safe as [_ Herr_safe].
+          eapply Herr_safe; eauto.
+          exact Logic.I.
+      + intros [].
+        eapply Hoare_cons_post.
+        2: apply (@Hoare_trackS Σ).
+        intros _ (s2, tr2) [tr0 [Htr2 Hhave]].
+        subst tr2.
+        unfold TraceHave in *.
+        eapply haveS_app_l.
+        exact Hhave.
+    }
+    intros _ (s, tr) [Hhave _].
+    exact Hhave.
+Qed.
+
+Theorem snapshot_loop_inner_have
+  (cond inner_cond inner_inv: Σ -> Prop) (body: program Σ unit)
+  `{SnapshotBodySafe body}:
+  (forall s, inner_cond s -> cond s) ->
+  Hoare
+    (fun s => inner_inv s /\ inner_cond s)
+    body
+    (fun _ s => inner_inv s) ->
+  Hoare
+    (fun '(_, tr) => tr = nil)
+    (snapshot_loop cond body)
+    (fun _ '(_, tr) =>
+      let I := inner_inv in
+      let INC := fun s => inner_inv s /\ ~ inner_cond s in
+      TraceImplies (haveS (sLift I)) (haveS (sLift INC)) tr).
+Proof.
+  intros Hinner_cond Hbody.
+  set (I := inner_inv).
+  set (INC := fun s => inner_inv s /\ ~ inner_cond s).
+  set (PhaseInv := fun '(s, tr) =>
+    tr <> nil /\
+    (TraceHave INC tr \/ ~ TraceHave I tr \/ (I s /\ inner_cond s))).
+  unfold snapshot_loop.
+  eapply Hoare_bind with (Q := fun _ st => PhaseInv st).
+  - eapply Hoare_cons_post.
+    2: apply (@Hoare_trackS Σ (fun '(_, tr) => tr = nil)).
+    intros _ (s, tr) [tr' [Htr Hnil]].
+    subst tr'.
+    simpl in Htr.
+    subst tr.
+    unfold PhaseInv.
+    split; [discriminate |].
+    destruct (classic (I s)) as [HI | HnotI].
+    + destruct (classic (inner_cond s)) as [HC | HnotC].
+      * right. right. split; assumption.
+      * left.
+        unfold TraceHave.
+        apply singleton_haveS_atom.
+        unfold INC. split; assumption.
+    + right. left.
+      intro Hhave.
+      unfold TraceHave in Hhave.
+      pose proof (proj1 (singleton_haveS_atom I s) Hhave) as HI.
+      apply HnotI.
+      exact HI.
+  - intros [].
+    eapply Hoare_cons_post.
+    2:{
+      eapply Hoare_whileP with
+        (P := PhaseInv)
+        (cond := fun '(s, _) => cond s)
+        (body := liftG body;; trackS).
+      eapply Hoare_bind with
+        (Q := fun _ '(s', tr0) =>
+          tr0 <> nil /\
+          (TraceHave INC tr0 \/ ~ TraceHave I tr0 \/ inner_inv s')).
+      + eapply Hoare_liftG'.
+        intros tr.
+        unfold Hoare; split.
+        * intros [] s1 s2 Hpre Hrun.
+          destruct Hpre as [Hcond [Hnn Hphase]].
+          split; [exact Hnn |].
+          destruct Hphase as [Hinc | [Hnoi | Hic]].
+          -- left. exact Hinc.
+          -- destruct (classic (I s2)) as [HI2 | HnotI2].
+             ++ right. right. exact HI2.
+             ++ right. left. exact Hnoi.
+          -- right. right.
+             destruct Hbody as [Hbody_nrm _].
+             eapply Hbody_nrm.
+             ++ exact Hic.
+             ++ exact Hrun.
+        * intros s1 _ Herr.
+          destruct snapshot_body_safe as [_ Herr_safe].
+          eapply Herr_safe; eauto.
+          unfold ATrue.
+          exact Logic.I.
+      + intros [].
+        eapply Hoare_cons_post.
+        2: apply (@Hoare_trackS Σ).
+        intros _ (s2, tr2) [tr0 [Htr2 [Hnn Hphase]]].
+        subst tr2.
+        unfold PhaseInv.
+        split.
+        * destruct tr0; simpl; discriminate.
+        * destruct Hphase as [Hinc | [Hnoi | Hinv]].
+          -- left.
+             unfold TraceHave in *.
+             eapply haveS_app_l.
+             exact Hinc.
+          -- destruct (classic (I s2)) as [HI2 | HnotI2].
+             ++ destruct (classic (inner_cond s2)) as [HC2 | HnotC2].
+                ** right. right. split; assumption.
+                ** left.
+                   unfold TraceHave.
+                   apply app_last_haveS_atom.
+                   unfold INC. split; assumption.
+             ++ right. left.
+                intro Hhave.
+                unfold TraceHave in *.
+                apply haveS_app_single_inv in Hhave.
+                destruct Hhave as [Hhave_old | Hlast].
+                ** apply Hnoi. exact Hhave_old.
+                ** contradiction.
+          -- destruct (classic (inner_cond s2)) as [HC2 | HnotC2].
+             ++ right. right.
+                split; assumption.
+             ++ left.
+                unfold TraceHave.
+                apply app_last_haveS_atom.
+                unfold INC.
+                split; assumption.
+    }
+    intros _ (s, tr) [Hphase Hnotcond].
+    unfold TraceImplies, impliesS, trace_implies, last_satisfyS.
+    intro HhaveI.
+    change (TraceHave I tr) in HhaveI.
+    unfold PhaseInv in Hphase.
+    destruct Hphase as [_ [Hinc | [Hnoi | Hic]]].
+    + unfold TraceHave in Hinc.
+      exact Hinc.
+    + contradiction.
+    + exfalso.
+      destruct Hic as [_ HC].
+      apply Hnotcond.
+      apply Hinner_cond.
+      exact HC.
+Qed.
+
 Lemma snapshot_loop_AbsRel {L: Type}
   (cond: Σ -> Prop)
   (P Q: nat -> L -> Σ -> Prop)
@@ -331,8 +619,8 @@ Proof.
 Qed.
 
 Theorem snapshot_loop_AbsRel_trace {L: Type}
-  (cond: Σ -> Prop)
-  (P Q: nat -> L -> Σ -> Prop)
+  (cond: Σ -> Prop) 
+  (P Q: nat -> L -> Σ -> Prop) 
   (body: program Σ unit)
   `{SnapshotBodySafe body}
   (h: forall l, Hoare (P 1 l) body (fun _ => Q 1 l))
@@ -444,6 +732,125 @@ Proof.
       eapply hassoc; [exact Hmid | exact Hstep].
 Qed.
 
+Theorem snapshot_loop_step_have
+  (cond P Q: Σ -> Prop) (body: program Σ unit)
+  `{SnapshotBodySafe body}:
+  Hoare
+    (fun s => P s /\ cond s)
+    body
+    (fun _ s => Q s) ->
+  Hoare
+    (fun '(_, tr) => tr = nil)
+    (snapshot_loop cond body)
+    (fun _ '(_, tr) =>
+      let PC := fun s => P s /\ cond s in
+      TraceImplies (haveS (sLift PC)) (haveS (sLift Q)) tr).
+Proof.
+  intros Hbody.
+  set (PC := fun s => P s /\ cond s).
+  set (StepInv := fun '(s, tr) =>
+    tr <> nil /\
+    last tr default = s /\
+    (TraceHave Q tr \/
+      forall i, i < length tr - 1 -> ~ PC (nth i tr default))).
+  unfold snapshot_loop.
+  eapply Hoare_bind with (Q := fun _ st => StepInv st).
+  - eapply Hoare_cons_post.
+    2: apply (@Hoare_trackS Σ (fun '(_, tr) => tr = nil)).
+    intros _ (s, tr) [tr' [Htr Hnil]].
+    subst tr'. simpl in Htr. subst tr.
+    unfold StepInv.
+    split; [discriminate |].
+    split; [reflexivity |].
+    right. intros i Hi. simpl in Hi. lia.
+  - intros [].
+    eapply Hoare_cons_post.
+    2:{
+      eapply Hoare_whileP with
+        (P := StepInv)
+        (cond := fun '(s, _) => cond s)
+        (body := liftG body;; trackS).
+      + eapply Hoare_bind with
+          (Q := fun _ '(s', tr0) =>
+            tr0 <> nil /\
+            (TraceHave Q tr0 \/
+              (forall i, i < length tr0 - 1 -> ~ PC (nth i tr0 default)) /\
+              (PC (last tr0 default) -> Q s'))).
+        * eapply Hoare_liftG'.
+          intros tr. unfold Hoare; split.
+          -- intros [] s1 s2 Hpre Heval.
+             destruct Hpre as [Hcond [Hnn [Hlast Hphase]]].
+             split; [exact Hnn |].
+             destruct Hphase as [HhaveQ | HnoPC].
+             ++ left. exact HhaveQ.
+             ++ right.
+                split.
+                ** exact HnoPC.
+                ** intros HPC.
+                   destruct Hbody as [Hbody_nrm _].
+                   eapply Hbody_nrm.
+                   --- rewrite <- Hlast. exact HPC.
+                   --- rewrite Hlast. exact Heval.
+          -- intros s1 _ Herr.
+             destruct snapshot_body_safe as [_ Herr_safe].
+             eapply Herr_safe; eauto.
+             exact I.
+        * intros [].
+          eapply Hoare_cons_post.
+          2: apply (@Hoare_trackS Σ).
+          intros _ (s2, tr2) [tr0 [Htr2 [Hnn Hstep]]].
+          subst tr2.
+          unfold StepInv.
+          split.
+          -- destruct tr0; simpl; discriminate.
+          -- split.
+             ++ rewrite last_app_single.
+                reflexivity.
+             ++ destruct Hstep as [HhaveQ | [HnoPC Hcommit]].
+                ** left.
+                   unfold TraceHave in *.
+                   eapply haveS_app_l.
+                   exact HhaveQ.
+                ** destruct (classic (PC (last tr0 default))) as [HPC | HnotPC].
+                   --- left.
+                       unfold TraceHave.
+                       apply app_last_haveS_atom.
+                       apply Hcommit.
+                       exact HPC.
+                   --- right.
+                       intros i Hi.
+                       rewrite length_app in Hi.
+                       simpl in Hi.
+                       destruct (Nat.lt_ge_cases i (length tr0 - 1)) as [Hlt | Hge].
+                       +++ rewrite app_nth1 by lia.
+                           apply HnoPC. exact Hlt.
+                       +++ assert (Hi_eq: i = length tr0 - 1).
+                           { clear - Hi Hge Hnn. destruct tr0; [contradiction | simpl in *; lia]. }
+                           subst i.
+                           rewrite app_nth1 by lia.
+                           rewrite nth_lastS_nonempty with (d := default) by exact Hnn.
+                           exact HnotPC.
+    }
+    intros _ (s, tr) [Hstep Hnotcond].
+    unfold TraceImplies, impliesS, trace_implies, last_satisfyS.
+    intro HhavePC.
+    change (TraceHave PC tr) in HhavePC.
+    unfold StepInv in Hstep.
+    destruct Hstep as [Hnn [Hlast [HhaveQ | HnoPC]]].
+    + unfold TraceHave in HhaveQ.
+      exact HhaveQ.
+    + exfalso.
+      destruct (haveS_exists_nth tr PC default HhavePC) as [i [Hi HPC]].
+      destruct (Nat.lt_ge_cases i (length tr - 1)) as [Hlt | Hge].
+      * exact (HnoPC i Hlt HPC).
+      * assert (Hi_eq: i = length tr - 1) by lia.
+        subst i.
+        rewrite nth_lastS_nonempty with (d := default) in HPC by exact Hnn.
+        rewrite Hlast in HPC.
+        destruct HPC as [_ Hcond].
+        exact (Hnotcond Hcond).
+Qed.
+
 Theorem snapshot_loop_trace_shape_nrm
   (cond P0: Σ -> Prop) (body: program Σ unit):
     Hoare_nrm
@@ -530,6 +937,329 @@ Proof.
     intros i Hi.
     specialize (Hall i ltac:(lia)).
     destruct Hall as [Hc | Hi_last]; [exact Hc | lia].
+Qed.
+
+Theorem snapshot_loop_have_exit_nrm
+  (cond Q: Σ -> Prop) (body: program Σ unit):
+  (forall s, Q s -> ~ cond s) ->
+  Hoare_nrm
+    (fun '(_, tr) => tr = nil)
+    (snapshot_loop cond body)
+    (fun _ '(_, tr) => TraceImplies (haveS (sLift Q)) (sLift Q) tr).
+Proof.
+  intros HQ.
+  eapply Hoare_nrm_cons_post with
+    (Q := fun _ '(s, tr) => TraceShape cond (fun _ => True) s tr).
+  - intros _ (s, tr) Hshape.
+    eapply trace_shape_have_exit_trace; eauto.
+  - eapply Hoare_nrm_cons_pre with
+      (P := fun '(s, tr) => (fun _ => True) s /\ tr = nil).
+    + intros [s tr] Hnil.
+      split; [exact I | exact Hnil].
+    + eapply snapshot_loop_trace_shape_nrm.
+Qed.
+
+Theorem snapshot_loop_have_final_nrm
+  (cond Q: Σ -> Prop) (body: program Σ unit):
+  (forall s, Q s -> ~ cond s) ->
+  Hoare_nrm
+    (fun '(_, tr) => tr = nil)
+    (snapshot_loop cond body)
+    (fun _ '(s, tr) => TraceHave Q tr -> Q s).
+Proof.
+  intros HQ.
+  eapply Hoare_nrm_cons_post with
+    (Q := fun _ '(s, tr) => TraceShape cond (fun _ => True) s tr).
+  - intros _ (s, tr) Hshape Hhave.
+    eapply trace_shape_have_exit; eauto.
+  - eapply Hoare_nrm_cons_pre with
+      (P := fun '(s, tr) => (fun _ => True) s /\ tr = nil).
+    + intros [s tr] Hnil.
+      split; [exact I | exact Hnil].
+    + eapply snapshot_loop_trace_shape_nrm.
+Qed.
+
+Theorem snapshot_loop_initial_have_nrm
+  (cond P Q: Σ -> Prop) (body: program Σ unit):
+  (forall s, P s -> Q s) ->
+  Hoare_nrm
+    (fun '(s, tr) => P s /\ tr = nil)
+    (snapshot_loop cond body)
+    (fun _ '(_, tr) => TraceHave Q tr).
+Proof.
+  intros HPQ.
+  unfold snapshot_loop.
+  eapply Hoare_nrm_bind with
+    (Q := fun _ '(_, tr) => TraceHave Q tr).
+  - eapply Hoare_nrm_cons_post.
+    2:{ apply Hoare_implies_nrm, Hoare_trackS. }
+    intros _ (s, tr) [tr' [Htr [HP Hnil]]].
+    subst tr'.
+    simpl in Htr.
+    subst tr.
+    unfold TraceHave.
+    apply singleton_haveS_atom.
+    apply HPQ.
+    exact HP.
+  - intros [].
+    eapply Hoare_nrm_cons_post.
+    2:{
+      eapply Hoare_nrm_whileP with
+        (P := fun '(_, tr) => TraceHave Q tr)
+        (cond := fun '(s, _) => cond s)
+        (body := liftG body;; trackS).
+      eapply Hoare_nrm_bind with
+        (Q := fun _ '(_, tr) => TraceHave Q tr).
+      + eapply Hoare_nrm_liftG'.
+        intros tr.
+        unfold Hoare_nrm.
+        intros [] s1 s2 [Hhave _] _.
+        exact Hhave.
+      + intros [].
+        eapply Hoare_nrm_cons_post.
+        2:{ apply Hoare_implies_nrm, Hoare_trackS. }
+        intros _ (s2, tr2) [tr0 [Htr2 Hhave]].
+        subst tr2.
+        unfold TraceHave in *.
+        eapply haveS_app_l.
+        exact Hhave.
+    }
+    intros _ (s, tr) [Hhave _].
+    exact Hhave.
+Qed.
+
+Theorem snapshot_loop_inner_have_nrm
+  (cond inner_cond inner_inv: Σ -> Prop) (body: program Σ unit):
+  (forall s, inner_cond s -> cond s) ->
+  Hoare_nrm
+    (fun s => inner_inv s /\ inner_cond s)
+    body
+    (fun _ s => inner_inv s) ->
+  Hoare_nrm
+    (fun '(_, tr) => tr = nil)
+    (snapshot_loop cond body)
+    (fun _ '(_, tr) =>
+      let I := inner_inv in
+      let INC := fun s => inner_inv s /\ ~ inner_cond s in
+      TraceImplies (haveS (sLift I)) (haveS (sLift INC)) tr).
+Proof.
+  intros Hinner_cond Hbody.
+  set (I := inner_inv).
+  set (INC := fun s => inner_inv s /\ ~ inner_cond s).
+  set (PhaseInv := fun '(s, tr) =>
+    tr <> nil /\
+    (TraceHave INC tr \/ ~ TraceHave I tr \/ (I s /\ inner_cond s))).
+  unfold snapshot_loop.
+  eapply Hoare_nrm_bind with (Q := fun _ st => PhaseInv st).
+  - eapply Hoare_nrm_cons_post.
+    2:{ apply Hoare_implies_nrm, Hoare_trackS. }
+    intros _ (s, tr) [tr' [Htr Hnil]].
+    subst tr'.
+    simpl in Htr.
+    subst tr.
+    unfold PhaseInv.
+    split; [discriminate |].
+    destruct (classic (I s)) as [HI | HnotI].
+    + destruct (classic (inner_cond s)) as [HC | HnotC].
+      * right. right. split; assumption.
+      * left.
+        unfold TraceHave.
+        apply singleton_haveS_atom.
+        unfold INC. split; assumption.
+    + right. left.
+      intro Hhave.
+      unfold TraceHave in Hhave.
+      pose proof (proj1 (singleton_haveS_atom I s) Hhave) as HI.
+      apply HnotI.
+      exact HI.
+  - intros [].
+    eapply Hoare_nrm_cons_post.
+    2:{
+      eapply Hoare_nrm_whileP with
+        (P := PhaseInv)
+        (cond := fun '(s, _) => cond s)
+        (body := liftG body;; trackS).
+      eapply Hoare_nrm_bind with
+        (Q := fun _ '(s', tr0) =>
+          tr0 <> nil /\
+          (TraceHave INC tr0 \/ ~ TraceHave I tr0 \/ inner_inv s')).
+      + eapply Hoare_nrm_liftG'.
+        intros tr.
+        unfold Hoare_nrm.
+        intros [] s1 s2 [[Hnn Hphase] Hcond] Hrun.
+        split; [exact Hnn |].
+        destruct Hphase as [Hinc | [Hnoi | Hic]].
+        * left. exact Hinc.
+        * destruct (classic (I s2)) as [HI2 | HnotI2].
+          -- right. right. exact HI2.
+          -- right. left. exact Hnoi.
+        * right. right.
+          eapply Hbody.
+          -- exact Hic.
+          -- exact Hrun.
+      + intros [].
+        eapply Hoare_nrm_cons_post.
+        2:{ apply Hoare_implies_nrm, Hoare_trackS. }
+        intros _ (s2, tr2) [tr0 [Htr2 [Hnn Hphase]]].
+        subst tr2.
+        unfold PhaseInv.
+        split.
+        * destruct tr0; simpl; discriminate.
+        * destruct Hphase as [Hinc | [Hnoi | Hinv]].
+          -- left.
+             unfold TraceHave in *.
+             eapply haveS_app_l.
+             exact Hinc.
+          -- destruct (classic (I s2)) as [HI2 | HnotI2].
+             ++ destruct (classic (inner_cond s2)) as [HC2 | HnotC2].
+                ** right. right. split; assumption.
+                ** left.
+                   unfold TraceHave.
+                   apply app_last_haveS_atom.
+                   unfold INC. split; assumption.
+             ++ right. left.
+                intro Hhave.
+                unfold TraceHave in *.
+                apply haveS_app_single_inv in Hhave.
+                destruct Hhave as [Hhave_old | Hlast].
+                ** apply Hnoi. exact Hhave_old.
+                ** contradiction.
+          -- destruct (classic (inner_cond s2)) as [HC2 | HnotC2].
+             ++ right. right.
+                split; assumption.
+             ++ left.
+                unfold TraceHave.
+                apply app_last_haveS_atom.
+                unfold INC.
+                split; assumption.
+    }
+    intros _ (s, tr) [Hphase Hnotcond].
+    unfold TraceImplies, impliesS, trace_implies, last_satisfyS.
+    intro HhaveI.
+    change (TraceHave I tr) in HhaveI.
+    unfold PhaseInv in Hphase.
+    destruct Hphase as [_ [Hinc | [Hnoi | Hic]]].
+    + unfold TraceHave in Hinc.
+      exact Hinc.
+    + contradiction.
+    + exfalso.
+      destruct Hic as [_ HC].
+      apply Hnotcond.
+      apply Hinner_cond.
+      exact HC.
+Qed.
+
+Theorem snapshot_loop_step_have_nrm
+  (cond P Q: Σ -> Prop) (body: program Σ unit):
+  Hoare_nrm
+    (fun s => P s /\ cond s)
+    body
+    (fun _ s => Q s) ->
+  Hoare_nrm
+    (fun '(_, tr) => tr = nil)
+    (snapshot_loop cond body)
+    (fun _ '(_, tr) =>
+      let PC := fun s => P s /\ cond s in
+      TraceImplies (haveS (sLift PC)) (haveS (sLift Q)) tr).
+Proof.
+  intros Hbody.
+  set (PC := fun s => P s /\ cond s).
+  set (StepInv := fun '(s, tr) =>
+    tr <> nil /\
+    last tr default = s /\
+    (TraceHave Q tr \/
+      forall i, i < length tr - 1 -> ~ PC (nth i tr default))).
+  unfold snapshot_loop.
+  eapply Hoare_nrm_bind with (Q := fun _ st => StepInv st).
+  - eapply Hoare_nrm_cons_post.
+    2:{ apply Hoare_implies_nrm, Hoare_trackS. }
+    intros _ (s, tr) [tr' [Htr Hnil]].
+    subst tr'. simpl in Htr. subst tr.
+    unfold StepInv.
+    split; [discriminate |].
+    split; [reflexivity |].
+    right. intros i Hi. simpl in Hi. lia.
+  - intros [].
+    eapply Hoare_nrm_cons_post.
+    2:{
+      eapply Hoare_nrm_whileP with
+        (P := StepInv)
+        (cond := fun '(s, _) => cond s)
+        (body := liftG body;; trackS).
+      eapply Hoare_nrm_bind with
+        (Q := fun _ '(s', tr0) =>
+          tr0 <> nil /\
+          (TraceHave Q tr0 \/
+            (forall i, i < length tr0 - 1 -> ~ PC (nth i tr0 default)) /\
+            (PC (last tr0 default) -> Q s'))).
+      + eapply Hoare_nrm_liftG'.
+        intros tr.
+        unfold Hoare_nrm.
+        intros [] s1 s2 [[Hnn [Hlast Hphase]] Hcond] Hrun.
+        split; [exact Hnn |].
+        destruct Hphase as [HhaveQ | HnoPC].
+        * left. exact HhaveQ.
+        * right.
+          split.
+          -- exact HnoPC.
+          -- intros HPC.
+             eapply Hbody.
+             ++ rewrite <- Hlast. exact HPC.
+             ++ rewrite Hlast. exact Hrun.
+      + intros [].
+        eapply Hoare_nrm_cons_post.
+        2:{ apply Hoare_implies_nrm, Hoare_trackS. }
+        intros _ (s2, tr2) [tr0 [Htr2 [Hnn Hstep]]].
+        subst tr2.
+        unfold StepInv.
+        split.
+        * destruct tr0; simpl; discriminate.
+        * split.
+          -- rewrite last_app_single.
+             reflexivity.
+          -- destruct Hstep as [HhaveQ | [HnoPC Hcommit]].
+             ++ left.
+                unfold TraceHave in *.
+                eapply haveS_app_l.
+                exact HhaveQ.
+             ++ destruct (classic (PC (last tr0 default))) as [HPC | HnotPC].
+                ** left.
+                   unfold TraceHave.
+                   apply app_last_haveS_atom.
+                   apply Hcommit.
+                   exact HPC.
+                ** right.
+                   intros i Hi.
+                   rewrite length_app in Hi.
+                   simpl in Hi.
+                   destruct (Nat.lt_ge_cases i (length tr0 - 1)) as [Hlt | Hge].
+                   --- rewrite app_nth1 by lia.
+                       apply HnoPC. exact Hlt.
+                   --- assert (Hi_eq: i = length tr0 - 1).
+                       { clear - Hi Hge Hnn. destruct tr0; [contradiction | simpl in *; lia]. }
+                       subst i.
+                       rewrite app_nth1 by lia.
+                       rewrite nth_lastS_nonempty with (d := default) by exact Hnn.
+                       exact HnotPC.
+    }
+    intros _ (s, tr) [Hstep Hnotcond].
+    unfold TraceImplies, impliesS, trace_implies, last_satisfyS.
+    intro HhavePC.
+    change (TraceHave PC tr) in HhavePC.
+    unfold StepInv in Hstep.
+    destruct Hstep as [Hnn [Hlast [HhaveQ | HnoPC]]].
+    + unfold TraceHave in HhaveQ.
+      exact HhaveQ.
+    + exfalso.
+      destruct (haveS_exists_nth tr PC default HhavePC) as [i [Hi HPC]].
+      destruct (Nat.lt_ge_cases i (length tr - 1)) as [Hlt | Hge].
+      * exact (HnoPC i Hlt HPC).
+      * assert (Hi_eq: i = length tr - 1) by lia.
+        subst i.
+        rewrite nth_lastS_nonempty with (d := default) in HPC by exact Hnn.
+        rewrite Hlast in HPC.
+        destruct HPC as [_ Hcond].
+        exact (Hnotcond Hcond).
 Qed.
 
 Theorem snapshot_loop_AbsRel_trace_nrm {L: Type}

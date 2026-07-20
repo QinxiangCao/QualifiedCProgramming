@@ -47,9 +47,6 @@ Proof. Admitted.
 Lemma proof_of_copyCounts_safety_wit_2 : copyCounts_safety_wit_2.
 Proof. Admitted. 
 
-Lemma proof_of_copyCounts_entail_wit_3 : copyCounts_entail_wit_3.
-Proof. Admitted. 
-
 Lemma proof_of_copyCounts_partial_solve_wit_1 : copyCounts_partial_solve_wit_1.
 Proof. Admitted. 
 
@@ -84,6 +81,9 @@ Lemma proof_of_countChoosingInns_safety_wit_9 : countChoosingInns_safety_wit_9.
 Proof. Admitted. 
 
 Lemma proof_of_countChoosingInns_safety_wit_10 : countChoosingInns_safety_wit_10.
+Proof. Admitted. 
+
+Lemma proof_of_countChoosingInns_entail_wit_3 : countChoosingInns_entail_wit_3.
 Proof. Admitted. 
 
 Lemma proof_of_countChoosingInns_entail_wit_7_1 : countChoosingInns_entail_wit_7_1.

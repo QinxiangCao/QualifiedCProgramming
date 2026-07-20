@@ -349,8 +349,8 @@ Definition append_safety_wit_1 :=
 forall (y_pre: Z) (x_pre: Z) ,
   ((( &( "u" ) )) # Ptr  |->_)
   **  ((( &( "t" ) )) # Ptr  |->_)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  (dlistrep_shape x_pre 0 )
   **  (dlistrep_shape y_pre 0 )
 |--
@@ -547,8 +547,8 @@ forall (l_pre: Z) (p_prev: Z) (p: Z) (PreH1 : (p <> 0)) ,
 Definition iter_back_safety_wit_1 := 
 forall (head_pre: Z) (l_pre: Z) (l_prev: Z) (PreH1 : (head_pre <> 0)) ,
   ((( &( "p" ) )) # Ptr  |->_)
-  **  ((( &( "head" ) )) # Ptr  |-> head_pre)
   **  ((( &( "l" ) )) # Ptr  |-> l_pre)
+  **  ((( &( "head" ) )) # Ptr  |-> head_pre)
   **  (dllseg_shape head_pre 0 l_prev l_pre )
   **  (dlistrep_shape l_pre l_prev )
 |--
@@ -680,9 +680,9 @@ Definition multi_merge_safety_wit_1 :=
 forall (z_pre: Z) (y_pre: Z) (x_pre: Z) ,
   ((( &( "u" ) )) # Ptr  |->_)
   **  ((( &( "t" ) )) # Ptr  |->_)
-  **  ((( &( "z" ) )) # Ptr  |-> z_pre)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
+  **  ((( &( "z" ) )) # Ptr  |-> z_pre)
   **  (dlistrep_shape x_pre 0 )
   **  (dlistrep_shape y_pre 0 )
   **  (dlistrep_shape z_pre 0 )
@@ -1458,8 +1458,8 @@ forall (q_pre: Z) (p_pre: Z) ,
   **  ((( &( "v" ) )) # Ptr  |->_)
   **  ((( &( "t" ) )) # Ptr  |->_)
   **  ((( &( "w" ) )) # Ptr  |->_)
-  **  ((( &( "q" ) )) # Ptr  |-> q_pre)
   **  ((( &( "p" ) )) # Ptr  |-> p_pre)
+  **  ((( &( "q" ) )) # Ptr  |-> q_pre)
   **  (dlistrep_shape p_pre 0 )
   **  (dlistrep_shape q_pre 0 )
 |--
@@ -1474,8 +1474,8 @@ forall (q_pre: Z) (p_pre: Z) ,
   **  ((( &( "v" ) )) # Ptr  |->_)
   **  ((( &( "t" ) )) # Ptr  |->_)
   **  ((( &( "w" ) )) # Ptr  |-> 0)
-  **  ((( &( "q" ) )) # Ptr  |-> q_pre)
   **  ((( &( "p" ) )) # Ptr  |-> p_pre)
+  **  ((( &( "q" ) )) # Ptr  |-> q_pre)
   **  (dlistrep_shape p_pre 0 )
   **  (dlistrep_shape q_pre 0 )
 |--

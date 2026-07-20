@@ -7,7 +7,16 @@ Require Import Coq.micromega.Psatz.
 Require Import Coq.Sorting.Permutation.
 Require Import SetsClass.SetsClass.
 Require Export Coq.Classes.EquivDec.
-From GraphLib Require Import graph_basic reachable_basic reachable_restricted subgraph path path_basic vpath epath Zweight tree.
+Require Import GraphLib.graph_basic.
+Require Import GraphLib.reachable.reachable_basic.
+Require Import GraphLib.reachable.reachable_restricted.
+Require Import GraphLib.subgraph.subgraph.
+Require Import GraphLib.reachable.path.
+Require Import GraphLib.reachable.path_basic.
+Require Import GraphLib.reachable.vpath.
+Require Import GraphLib.reachable.epath.
+Require Import GraphLib.reachable.Zweight.
+Require Import GraphLib.undirected.tree.
 From MaxMinLib Require Import MaxMin Interface. 
 From ListLib Require Import General.NoDup General.Forall.
 
@@ -26,6 +35,7 @@ Context {G V E: Type}
         {step_aux_unique_undirected: StepUniqueUndirected G V E}
         {undirectedgraph: UndirectedGraph G V E}
         {finitegraph: FiniteGraph G V E}
+        {elistbijective: EListBijective G V E}
         {simplegraph: SimpleGraph G V E}
         {addLeafExist: addLeafExist G V E}
         {addEdgeExist: addEdgeExist G V E}. (*要求原图的加边存在性*)
@@ -312,10 +322,27 @@ Proof.
       pose proof Hadd2 as Hadd2'. 
       pose proof Hi as Hi'. 
 
-      apply addEdge2_elist_permutation in Hadd2; auto. 
-      2:{ apply Hmst. } 
+      assert (Hadd2_perm: Permutation (bijective_listE h) (e :: bijective_listE y1)).
+      {
+        eapply addEdge_elist_permutation with
+          (g1 := y1) (g2 := h) (u := u) (v := v) (e := e); eauto.
+        - apply bijective_listE_NoDup. apply Hmst.
+        - apply bijective_edges. apply Hmst.
+        - apply bijective_listE_NoDup. exact Hvalid.
+        - apply bijective_edges. exact Hvalid.
+      }
+      clear Hadd2; rename Hadd2_perm into Hadd2.
 
-      apply addEdge2_elist_permutation in Hi; auto.
+      assert (Hi_perm: Permutation (bijective_listE h) (a :: bijective_listE i)).
+      {
+        eapply addEdge_elist_permutation with
+          (g1 := i) (g2 := h) (u := x) (v := y) (e := a); eauto.
+        - apply bijective_listE_NoDup. exact Hvalidi.
+        - apply bijective_edges. exact Hvalidi.
+        - apply bijective_listE_NoDup. exact Hvalid.
+        - apply bijective_edges. exact Hvalid.
+      }
+      clear Hi; rename Hi_perm into Hi.
 
       set (sumE := fun l => fold_right Z_op_plus (Some 0%Z) (map (weight r) l)).
       assert (Hperm_sum : forall l1 l2, Permutation l1 l2 -> sumE l1 = sumE l2).

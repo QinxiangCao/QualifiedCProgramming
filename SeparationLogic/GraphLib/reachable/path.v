@@ -167,7 +167,6 @@ Class Destructn1Path
     destruct_n1_spec: forall g p (Hvalid: path_valid g p),
         path_snoc_spec g p (destruct_n1_path g p Hvalid);
 }.
-
 (* Type -> Prop ? *)
 Class PathInd1n 
     (G V E: Type) 

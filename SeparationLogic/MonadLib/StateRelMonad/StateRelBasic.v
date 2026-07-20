@@ -35,6 +35,13 @@ End StateRelMonad.
 Notation program := StateRelMonad.M.
 Notation MONAD := (program unit).
 
+(** A backend-independent name for recursive constructions.  The state
+    relation monad keeps [Lfix] as its implementation. *)
+Definition Rec {X: Type} {_SETS_X: Sets.SETS X} (F: X -> X): X :=
+  Lfix F.
+
+Arguments Rec: simpl never.
+
 Hint Unfold StateRelMonad.bind StateRelMonad.ret : monad_unfold.
 
 Section state_rel.
@@ -93,7 +100,7 @@ Definition while_f (cond: (program Σ bool))  (body : (program Σ unit))
   | false => ret tt
   end)).
 
-  Definition while (cond: (program Σ bool)) (body : program Σ unit)  := Lfix (while_f cond body).
+  Definition while (cond: (program Σ bool)) (body : program Σ unit)  := Rec (while_f cond body).
 
   Definition whileret_f {A: Type}  (cond: A -> (program Σ bool)) (body : A -> (program Σ A)) 
                      (W :  A -> program Σ A) 
@@ -103,7 +110,7 @@ Definition while_f (cond: (program Σ bool))  (body : (program Σ unit))
   | false => (ret a)
   end).
 
-  Definition whileret {A: Type}  (cond: (A -> (program Σ bool))) (body : A -> (program Σ A))  := Lfix (whileret_f cond body).
+  Definition whileret {A: Type}  (cond: (A -> (program Σ bool))) (body : A -> (program Σ A))  := Rec (whileret_f cond body).
   
   Definition whileP_f (cond: Σ -> Prop)  (body : (program Σ unit)) 
                      (W : program Σ unit) 
@@ -111,7 +118,7 @@ Definition while_f (cond: (program Σ bool))  (body : (program Σ unit))
   choice (assume cond;; body;; W) 
          (assume (fun s => ~ cond s);; ret tt).
   
-  Definition whileP (cond: Σ -> Prop) (body : program Σ unit)  := Lfix (whileP_f cond body).
+  Definition whileP (cond: Σ -> Prop) (body : program Σ unit)  := Rec (whileP_f cond body).
 
   Definition whileretP_f {A: Type}  (cond: A -> Σ -> Prop) (body : A -> (program Σ A)) 
                      (W :  A -> program Σ A) 
@@ -120,14 +127,14 @@ Definition while_f (cond: (program Σ bool))  (body : (program Σ unit))
     choice (assume (fun s => cond a s);; a' <- body a;; W a') 
            (assume (fun s => ~ cond a s);; ret a).
 
-  Definition whileretP {A: Type}  (cond: A -> Σ -> Prop) (body : A -> (program Σ A))  := Lfix (whileretP_f cond body).
+  Definition whileretP {A: Type}  (cond: A -> Σ -> Prop) (body : A -> (program Σ A))  := Rec (whileretP_f cond body).
 
   Definition Repeat_f  (body : (program Σ unit)) 
                       (W : program Σ unit) 
                           :program Σ unit :=
     body;; W.
 
-  Definition Repeat (body : (program Σ unit))  := Lfix (Repeat_f body).
+  Definition Repeat (body : (program Σ unit))  := Rec (Repeat_f body).
 
   Definition repeat_break_f
               {Σ A B: Type}
@@ -144,7 +151,7 @@ Definition while_f (cond: (program Σ bool))  (body : (program Σ unit))
               {Σ A B: Type}
               (body: A -> program Σ (CntOrBrk A B)):
     A -> program Σ B :=
-    Lfix (repeat_break_f body).
+    Rec (repeat_break_f body).
 
   Definition repeat_break_f_noinput
               {Σ B: Type}
@@ -159,7 +166,7 @@ Definition while_f (cond: (program Σ bool))  (body : (program Σ unit))
   Definition repeat_break_noin
               {Σ B: Type}
               (body: program Σ (CntOrBrk unit B)): program Σ B :=
-    Lfix (repeat_break_f_noinput body).
+    Rec (repeat_break_f_noinput body).
 
   Definition continue {Σ A B: Type} (a: A):
     program Σ (CntOrBrk A B) :=
@@ -184,7 +191,7 @@ Definition while_f (cond: (program Σ bool))  (body : (program Σ unit))
   Definition range_iter {Σ A: Type}
               (lo hi: Z)
               (body: Z -> A -> program Σ A): A -> program Σ A :=
-    fun a => Lfix (range_iter_f hi body) (lo, a).
+    fun a => Rec (range_iter_f hi body) (lo, a).
 
   Definition range_iter_break_f {Σ A B: Type}
               (hi: Z)
@@ -206,7 +213,7 @@ Definition while_f (cond: (program Σ bool))  (body : (program Σ unit))
               (lo hi: Z)
               (body: Z -> A -> program Σ (CntOrBrk A B)):
     A -> program Σ (CntOrBrk A B) :=
-    fun a => Lfix (range_iter_break_f hi body) (lo, a).
+    fun a => Rec (range_iter_break_f hi body) (lo, a).
 
   Definition forset_f {Σ A: Type}
     (body: A -> program Σ unit)
@@ -220,7 +227,7 @@ Definition while_f (cond: (program Σ bool))  (body : (program Σ unit))
   Definition forset {Σ A: Type}
     (universe: A -> Prop)
     (body: A -> program Σ unit): program Σ unit :=
-    Lfix (forset_f body) universe.
+    Rec (forset_f body) universe.
 
   Fixpoint list_iter {Σ A B: Type}
     (body: A -> B -> program Σ B)
@@ -236,6 +243,97 @@ Definition while_f (cond: (program Σ bool))  (body : (program Σ unit))
 End  loop_monad.
 
 Arguments program Σ%_type_scope A%_type_scope: clear implicits.
+
+(*************************************************************************************************************)
+(*****    Pseudocode notation: write a whole abstract program inline, no auxiliary definitions      ******)
+(*************************************************************************************************************)
+(*                                                                                                          *)
+(*  Open this scope ([Local Open Scope prog_scope]) to write state-relation programs the way you would      *)
+(*  sketch them on a whiteboard.  Every block is a self-delimiting keyword form, so blocks nest and chain    *)
+(*  with [;;] without extra parentheses or intermediate [Definition]s:                                       *)
+(*                                                                                                          *)
+(*      UPDATE s := f s ;;                     -- state update  (update' (fun s => f s))                     *)
+(*      WHILE s , P s DO ... END ;;            -- pre-tested loop   (whileP)                                 *)
+(*      IF s , P s THEN c1 ELSE c2 FI          -- two-armed choice  (if_else)                                *)
+(*      WHEN s , P s THEN c END                -- one-armed guard   (If)                                     *)
+(*      FOR i FROM lo TO hi DO c END           -- counted loop over [lo, hi)   (range_iter)                  *)
+(*      LOOP ... BREAK v ... CONTINUE ... END  -- break/continue loop   (repeat_break_noin)                  *)
+(*      CHOOSE { c1 | c2 | c3 }                -- nondeterministic choice, one branch per | (choice)         *)
+(*                                                                                                          *)
+(*  Every construct that inspects the state binds it under the fixed name [s]: a guard is written [s , P]    *)
+(*  and expands to the predicate [fun s => P : Σ -> Prop].  (Coq cannot supply a truly invisible binder, so  *)
+(*  the state is named once, right after the keyword.)  The loop index [i] of FOR is a [Z] bound in the body.*)
+(*                                                                                                          *)
+
+Declare Scope prog_scope.
+Delimit Scope prog_scope with prog.
+
+Notation "'UPDATE' s ':=' e" :=
+  (update' (fun s => e))
+  (at level 50, s ident,
+   format "'UPDATE'  s  ':='  e") : prog_scope.
+
+(* Multi-branch nondeterministic choice, one branch per [|] inside braces -- readable even when
+   the branches are long.  Each arity expands directly to nested [choice] (no auxiliary function,
+   no trailing empty program): [CHOOSE { a | b | c }] *is* [choice a (choice b c)].
+   Supported for 2..6 branches; nest [CHOOSE]s for more. *)
+Notation "'CHOOSE' '{' c1 '|' c2 '}'" :=
+  (choice c1 c2)
+  (at level 0, c1 at level 200, c2 at level 200,
+   format "'[v' 'CHOOSE'  '{' '//' c1 '//' '|'  c2 '//' '}' ']'") : prog_scope.
+Notation "'CHOOSE' '{' c1 '|' c2 '|' c3 '}'" :=
+  (choice c1 (choice c2 c3))
+  (at level 0, c1 at level 200, c2 at level 200, c3 at level 200,
+   format "'[v' 'CHOOSE'  '{' '//' c1 '//' '|'  c2 '//' '|'  c3 '//' '}' ']'") : prog_scope.
+Notation "'CHOOSE' '{' c1 '|' c2 '|' c3 '|' c4 '}'" :=
+  (choice c1 (choice c2 (choice c3 c4)))
+  (at level 0, c1 at level 200, c2 at level 200, c3 at level 200, c4 at level 200,
+   format "'[v' 'CHOOSE'  '{' '//' c1 '//' '|'  c2 '//' '|'  c3 '//' '|'  c4 '//' '}' ']'") : prog_scope.
+Notation "'CHOOSE' '{' c1 '|' c2 '|' c3 '|' c4 '|' c5 '}'" :=
+  (choice c1 (choice c2 (choice c3 (choice c4 c5))))
+  (at level 0, c1 at level 200, c2 at level 200, c3 at level 200, c4 at level 200, c5 at level 200,
+   format "'[v' 'CHOOSE'  '{' '//' c1 '//' '|'  c2 '//' '|'  c3 '//' '|'  c4 '//' '|'  c5 '//' '}' ']'") : prog_scope.
+Notation "'CHOOSE' '{' c1 '|' c2 '|' c3 '|' c4 '|' c5 '|' c6 '}'" :=
+  (choice c1 (choice c2 (choice c3 (choice c4 (choice c5 c6)))))
+  (at level 0, c1 at level 200, c2 at level 200, c3 at level 200, c4 at level 200, c5 at level 200, c6 at level 200,
+   format "'[v' 'CHOOSE'  '{' '//' c1 '//' '|'  c2 '//' '|'  c3 '//' '|'  c4 '//' '|'  c5 '//' '|'  c6 '//' '}' ']'") : prog_scope.
+
+Notation "'IF' s ',' b 'THEN' c1 'ELSE' c2 'FI'" :=
+  (if_else (fun s => b) c1 c2)
+  (at level 0, s ident, b at level 99, c1 at level 200, c2 at level 200,
+   format "'[v' 'IF'  s ','  b  'THEN' '//' c1 '//' 'ELSE' '//' c2 '//' 'FI' ']'") : prog_scope.
+
+Notation "'WHEN' s ',' b 'THEN' c 'END'" :=
+  (If (fun s => b) c)
+  (at level 0, s ident, b at level 99, c at level 200,
+   format "'[v' 'WHEN'  s ','  b  'THEN' '//' c '//' 'END' ']'") : prog_scope.
+
+Notation "'WHILE' s ',' b 'DO' c 'END'" :=
+  (whileP (fun s => b) c)
+  (at level 0, s ident, b at level 99, c at level 200,
+   format "'[v' 'WHILE'  s ','  b  'DO' '//' c '//' 'END' ']'") : prog_scope.
+
+Notation "'FOR' i 'FROM' lo 'TO' hi 'DO' c 'END'" :=
+  (range_iter lo hi (fun i _ => c) tt)
+  (at level 0, i ident, lo at level 99, hi at level 99, c at level 200,
+   format "'[v' 'FOR'  i  'FROM'  lo  'TO'  hi  'DO' '//' c '//' 'END' ']'") : prog_scope.
+
+Notation "'LOOP' c 'END'" :=
+  (repeat_break_noin c)
+  (at level 0, c at level 200,
+   format "'[v' 'LOOP' '//' c '//' 'END' ']'") : prog_scope.
+
+(* Accumulator-carrying loop: [p] is the loop variable, [a0] its initial value; the body
+   ends each round with [NEXT a'] to loop with [a'] or [BREAK b] to exit with result [b].
+   This is the way to loop when there is no state to carry the iteration in (e.g. [MONAD R]). *)
+Notation "'REPEAT' ' p 'FROM' a0 'DO' c 'END'" :=
+  (repeat_break (fun p => c) a0)
+  (at level 0, p strict pattern, a0 at level 99, c at level 200,
+   format "'[v' 'REPEAT'  ' p  'FROM'  a0  'DO' '//' c '//' 'END' ']'") : prog_scope.
+
+Notation "'BREAK' e" := (break e) (at level 50) : prog_scope.
+Notation "'NEXT' a" := (continue a) (at level 50) : prog_scope.
+Notation "'CONTINUE'" := (continue tt) (at level 0) : prog_scope.
 
 Section monad_equiv_lemmas.
   Context {Σ: Type}.

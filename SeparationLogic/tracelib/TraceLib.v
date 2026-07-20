@@ -1,1 +1,1 @@
-Require Import TraceBasic TraceLogic CommonTactics TraceRecur TraceLoop MapLib.
+Require Import TraceBasic TraceLogic TraceStatement CommonTactics TraceRecur TraceLoop MapLib.

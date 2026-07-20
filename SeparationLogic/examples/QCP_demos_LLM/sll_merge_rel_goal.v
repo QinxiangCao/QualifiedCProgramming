@@ -188,10 +188,10 @@ forall (X: ((@list Z) -> (unit -> Prop))) (l1_2: (@list Z)) (l2_2: (@list Z)) (l
 
 Definition merge_entail_wit_4_1 := 
 (
-forall (X: ((@list Z) -> (unit -> Prop))) (t: Z) (y: Z) (x: Z) (l1: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (PreH1 : (y = 0)) (PreH2 : (x <> 0)) (PreH3 : (safeExec ATrue (merge_from_mid_rel (l1) (l2) (l3)) X )) ,
+forall (X: ((@list Z) -> (unit -> Prop))) (t: Z) (y: Z) (x: Z) (l1: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (PreH1 : (x = 0)) (PreH2 : (safeExec ATrue (merge_from_mid_rel (l1) (l2) (l3)) X )) ,
   (sll x l1 )
   **  (sll y l2 )
-  **  ((t) # Ptr  |-> x)
+  **  ((t) # Ptr  |-> y)
   **  (sllbseg ( &( "ret" ) ) t l3 )
 |--
   EX (ret: Z)  (s3: (@list Z)) ,
@@ -200,10 +200,10 @@ forall (X: ((@list Z) -> (unit -> Prop))) (t: Z) (y: Z) (x: Z) (l1: (@list Z)) (
   **  (sll ret s3 )
 ) \/
 (
-forall (X: ((@list Z) -> (unit -> Prop))) (t: Z) (y: Z) (x: Z) (l1: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (PreH1 : (y = 0)) (PreH2 : (x <> 0)) (PreH3 : (safeExec ATrue (merge_from_mid_rel (l1) (l2) (l3)) X )) ,
+forall (X: ((@list Z) -> (unit -> Prop))) (t: Z) (y: Z) (x: Z) (l1: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (PreH1 : (x = 0)) (PreH2 : (safeExec ATrue (merge_from_mid_rel (l1) (l2) (l3)) X )) ,
   (sll x l1 )
   **  (sll y l2 )
-  **  ((t) # Ptr  |-> x)
+  **  ((t) # Ptr  |-> y)
   **  (sllbseg ( &( "ret" ) ) t l3 )
 |--
   EX (ret: Z)  (s3: (@list Z)) ,
@@ -214,10 +214,10 @@ forall (X: ((@list Z) -> (unit -> Prop))) (t: Z) (y: Z) (x: Z) (l1: (@list Z)) (
 
 Definition merge_entail_wit_4_2 := 
 (
-forall (X: ((@list Z) -> (unit -> Prop))) (t: Z) (y: Z) (x: Z) (l1: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (PreH1 : (x = 0)) (PreH2 : (safeExec ATrue (merge_from_mid_rel (l1) (l2) (l3)) X )) ,
+forall (X: ((@list Z) -> (unit -> Prop))) (t: Z) (y: Z) (x: Z) (l1: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (PreH1 : (y = 0)) (PreH2 : (x <> 0)) (PreH3 : (safeExec ATrue (merge_from_mid_rel (l1) (l2) (l3)) X )) ,
   (sll x l1 )
   **  (sll y l2 )
-  **  ((t) # Ptr  |-> y)
+  **  ((t) # Ptr  |-> x)
   **  (sllbseg ( &( "ret" ) ) t l3 )
 |--
   EX (ret: Z)  (s3: (@list Z)) ,
@@ -226,10 +226,10 @@ forall (X: ((@list Z) -> (unit -> Prop))) (t: Z) (y: Z) (x: Z) (l1: (@list Z)) (
   **  (sll ret s3 )
 ) \/
 (
-forall (X: ((@list Z) -> (unit -> Prop))) (t: Z) (y: Z) (x: Z) (l1: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (PreH1 : (x = 0)) (PreH2 : (safeExec ATrue (merge_from_mid_rel (l1) (l2) (l3)) X )) ,
+forall (X: ((@list Z) -> (unit -> Prop))) (t: Z) (y: Z) (x: Z) (l1: (@list Z)) (l2: (@list Z)) (l3: (@list Z)) (PreH1 : (y = 0)) (PreH2 : (x <> 0)) (PreH3 : (safeExec ATrue (merge_from_mid_rel (l1) (l2) (l3)) X )) ,
   (sll x l1 )
   **  (sll y l2 )
-  **  ((t) # Ptr  |-> y)
+  **  ((t) # Ptr  |-> x)
   **  (sllbseg ( &( "ret" ) ) t l3 )
 |--
   EX (ret: Z)  (s3: (@list Z)) ,
@@ -251,9 +251,9 @@ forall (X: ((@list Z) -> (unit -> Prop))) (s3_2: (@list Z)) (ret: Z) (PreH1 : (s
 
 Definition split_rec_safety_wit_1 := 
 forall (q_pre: Z) (p_pre: Z) (x_pre: Z) (qv_low_level_spec: Z) (pv_low_level_spec: Z) (X_low_level_spec: (((@list Z) * (@list Z)) -> (unit -> Prop))) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (l_low_level_spec: (@list Z)) (PreH1 : (safeExec ATrue (split_rec_rel (l_low_level_spec) (l1_low_level_spec) (l2_low_level_spec)) X_low_level_spec )) ,
-  ((( &( "q" ) )) # Ptr  |-> q_pre)
+  ((( &( "x" ) )) # Ptr  |-> x_pre)
   **  ((( &( "p" ) )) # Ptr  |-> p_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "q" ) )) # Ptr  |-> q_pre)
   **  ((p_pre) # Ptr  |-> pv_low_level_spec)
   **  ((q_pre) # Ptr  |-> qv_low_level_spec)
   **  (sll x_pre l_low_level_spec )

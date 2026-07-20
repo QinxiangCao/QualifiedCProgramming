@@ -21,45 +21,27 @@ symbolic execution 必须同时包含：
 
 `-I` 用于 C header search；`-slp` 用于 strategy / generated Rocq logical path。二者不能互相替代。不得为了工具调用把 bare include 改成长相对路径。
 
-## Evidence 记录
+## Check 记录
 
-annotation handoff 必须提供能传 canonical 参数的 QCP driver。formal evidence 记录：
+annotation handoff提供完整 `controller.py symexec` command；controller code固定 driver、cwd、target和 canonical `-I`/`-slp`。成功时 report只写 `checks.symexec = passed`；失败 command/diagnostic摘要写 `agent_output.md`，不复制完整 argv/path/evidence object。
 
-- driver / command 名称。
-- working directory。
-- target `.c` 的 round worktree 路径。
-- `-I` 参数。
-- `-slp` 参数。
-- return code 和 diagnostic。
-
-不能传 canonical `-I` / `-slp` 的 wrapper 不能作为 `canonical_symexec_evidence`；只能在 `qcp_mcp_interactive_evidence` 中记为 `skipped`、`failed` 或 `forbidden` 并说明原因。
-
-generated files 只允许由 symbolic execution 刷新：`*_goal.v`、`*_proof_auto.v`、`*_proof_manual.v`、`*_goal_check.v`。`case_lib` 不由 symbolic execution 重写。
+generated files 只允许由 symbolic execution 刷新：`*_goal.v`、`*_proof_auto.v`、`*_proof_manual.v`、`*_goal_check.v`。`formal_case_lib` 不由 symbolic execution 重写。
 
 ## Reference policy
 
-优先参考 handoff `problem_context.reference_case_hints` 指定的 case；没有 hints 时可在以下 curated 范围内主动检索相似模式：
+优先参考 handoff `Problem context` 中列出的 reference case hints；没有 hints 时可在以下 curated 范围内主动检索相似模式：
 
 - `QCP_demos_LLM`
 - `QCP_examples/LLM_bench`
 - `SeparationLogic/examples/LLM_bench`
 
-不要参考 `QCP_demos_human`。这是 reference hygiene rule，不是 annotation candidate 的 acceptance gate。
+所有 reference 文件的只读访问都属于 allowed，包括 `QCP_demos_human`；读取、检索、比较或记录 human example 本身均不是 annotation blocker。controller 的 file-access policy 不编码“推荐 / 不推荐”等级，也不按读取路径产生 denied。文档层仍明确建议：优先参考 LLM case，允许但不推荐参考 human case。
 
-handoff 若设置 `reference_policy.mode = deny-existing-examples`，仍以 `allowed_globs` / `denied_globs` 为准；默认允许读取 LLM bench 的 C、lib 和 generated/proof context 作为风格参考，但不得复制证明内容、不得把其他 case generated files 手工搬入当前 case。`QCP_demos_human` 和 handoff 明确 denied 的路径仍不应读取；若误读，必须如实记录并改用 allowed context 复核。
+human example 只能作为非权威思路提示。当前 candidate 仍应从当前 C、`problem_context` 和 `formal_case_lib` 推导，并通过当前 case 的 canonical QCP、`formal_case_lib` check、annotation-checking 以及后续 proof/final-check。human case 的旧 report 或通过状态不能替代这些检查。
 
-`file_access_summary` 必须是 object，记录显式 `rg`、`find`、`sed`、`cat` 等读取动作：
+无需把普通只读搜索逐条复制进 JSON。若某个 reference实际影响 spec设计，在 `agent_output.md` 一句话注明即可。
 
-```json
-{
-  "must_log_file_reads": "yes",
-  "read_categories": [],
-  "searches": [],
-  "denied_globs_touched": []
-}
-```
-
-`file_access_summary` schema 小错误应在本次 spawn 内补正，不应停止工作。`denied_globs_touched` 是 warning / audit evidence，不是 controller hard blocker；只要 annotation-subagent 没有修改本 round allowed formal files 之外的文件，且 candidate 通过 QCP、`case_lib` check 和 annotation-checking，应继续交给 controller review。若误读 denied path，report 中记录 path、原因、后续是否用 allowed source 复核，并不得把 denied file 内容作为 acceptance evidence。
+read-access denied 不由“读过什么文件”触发，只指当前 formal candidate 实际引入 phase contract 不允许的库、import、generated artifact 或其他 formal dependency。这类边界由 `formal_case_lib` contract、manual proof structure、group merge / parent verify 和 final-check 检查；当前 case 的 required checks 失败属于普通 verification failure，不归类为 read-access denied。
 
 可复用模式包括只读 array scan、未初始化 buffer 逐步写入、多游标 array algorithm、C string、optimization / binary search 的可行性或最优性 spec。不要复制长相对 include、generated file 手工改动、manual helper declarations、`Admitted.`、新增 `Axiom` 或旧 report 命名。
 
@@ -95,4 +77,4 @@ QCP 在 `return`、函数尾或 local scope 结束处报 `remove permission fail
 
 例如 `int a[2003];` 在 `return` 前通常应能看到 `IntArray::undef_full(a, 2003)` 或 `IntArray::full(a, 2003, l)`，而不是只留下无法回收的 prefix/suffix fragments。
 
-修复时补齐缺失的 local store、完整 `full` / `undef_full`，或补纯边界事实使数组段可合并。report 中记录原始失败行、check 行、缺失资源和最终补入的资源形态。
+修复时补齐缺失的 local store、完整 `full` / `undef_full`，或补纯边界事实使数组段可合并。需要复用时在 `agent_output.md` 记录失败点、缺失资源和最终资源形态。

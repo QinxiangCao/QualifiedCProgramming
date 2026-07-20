@@ -6,7 +6,15 @@ Require Import Coq.Sorting.Permutation.
 Require Import Lia.
 From MaxMinLib Require Import MaxMin Interface. 
 From ListLib Require Import Base.Inductive General.NoDup General.Length.
-From GraphLib Require Import graph_basic reachable_basic reachable_restricted path path_basic epath subgraph Syntax Zweight.
+Require Import GraphLib.graph_basic.
+Require Import GraphLib.reachable.reachable_basic.
+Require Import GraphLib.reachable.reachable_restricted.
+Require Import GraphLib.reachable.path.
+Require Import GraphLib.reachable.path_basic.
+Require Import GraphLib.reachable.epath.
+Require Import GraphLib.subgraph.subgraph.
+Require Import GraphLib.Syntax.
+Require Import GraphLib.reachable.Zweight.
 Local Open Scope list.
 
 Import ListNotations.
@@ -706,6 +714,61 @@ End TREE.
 
 
 
+Section MST.
+
+Context {G V E: Type} 
+        {pg: Graph G V E} 
+        {gv: GValid G}
+        {stepvalid: StepValid G V E}
+        {noemptyedge: NoEmptyEdge G V E}
+        {step_aux_unique_undirected: StepUniqueUndirected G V E}
+        {undirectedgraph: UndirectedGraph G V E}
+        {elistbijective: EListBijective G V E}.
+Context {P: Type}
+        {path: Path G V E P}
+        {tr: Tree G V E P}.
+Context (r: G)
+        {r_valid: gvalid r}
+        {ew: EdgeWeight G E}.
+
+Definition total_weight : G -> option Z :=
+  fun g => fold_right Z_op_plus (Some 0%Z)
+    (map (@weight G E ew r) (@bijective_listE G V E pg gv _ g)).
+
+Definition is_mst : G -> Prop := 
+  fun g => min_object_of_subset Z_op_le 
+          (fun g => gvalid g /\ tree g /\ subgraph_vertex_eq g r)          
+          (total_weight) g. 
+
+Lemma is_mst_legal:
+  forall y, is_mst y -> gvalid y /\ tree y /\ subgraph_vertex_eq y r.
+Proof.
+  intros y Hmst.
+  unfold is_mst, min_object_of_subset in Hmst.
+  tauto.
+Qed.
+
+Lemma mst_edge_step:
+  forall y u v e,
+    is_mst y ->
+    evalid y e ->
+    step_aux r e u v ->
+    step_aux y e u v.
+Proof.
+  intros y u v e Hmst Hevalid Hstep_r.
+  pose proof (is_mst_legal y Hmst) as [Hyvalid [_ Hsub]].
+  destruct (no_empty_edge y e Hyvalid Hevalid) as [x [z Hstep_y]].
+  destruct Hsub as [_ Hsub_step].
+  pose proof (Hsub_step x z e Hstep_y) as Hstep_r'.
+  eapply step_aux_unique_undirected in Hstep_r as [[] | []]; eauto; subst.
+  - subst; exact Hstep_y.
+  - subst; apply step_sym; exact Hstep_y.
+Qed.
+
+End MST.
+
+
+
 Section TREE_OPERATION.
 
 Context {G V E: Type} 
@@ -872,44 +935,6 @@ Proof.
 Qed.
 
 
-Context (r: G)
-        {r_valid: gvalid r}
-        {ew: EdgeWeight G E}.
-
-Definition total_weight : G -> option Z :=
-  fun g => fold_right Z_op_plus (Some 0%Z) (map (weight r) (bijective_listE g)).
-
-Definition is_mst : G -> Prop := 
-  fun g => min_object_of_subset Z_op_le 
-          (fun g => gvalid g /\ tree g /\ subgraph_vertex_eq g r)          
-          (total_weight) g. 
-
-
-Lemma is_mst_legal:
-  forall y, is_mst y -> gvalid y /\ tree y /\ subgraph_vertex_eq y r.
-Proof.
-  intros y Hmst.
-  unfold is_mst, min_object_of_subset in Hmst.
-  tauto.
-Qed.
-
-Lemma mst_edge_step:
-  forall y u v e,
-    is_mst y ->
-    evalid y e ->
-    step_aux r e u v ->
-    step_aux y e u v.
-Proof.
-  intros y u v e Hmst Hevalid Hstep_r.
-  pose proof (is_mst_legal y Hmst) as [Hyvalid [_ Hsub]].
-  destruct (no_empty_edge y e Hyvalid Hevalid) as [x [z Hstep_y]].
-  destruct Hsub as [_ Hsub_step].
-  pose proof (Hsub_step x z e Hstep_y) as Hstep_r'.
-  eapply step_aux_unique_undirected in Hstep_r as [[] | []]; eauto; subst.
-  - subst; exact Hstep_y.
-  - subst; apply step_sym; exact Hstep_y.
-Qed.
-
 End TREE_OPERATION.
 
 Section SPANNING_TREE.
@@ -922,7 +947,7 @@ Context {G V E: Type}
         {step_aux_unique_undirected: StepUniqueUndirected G V E}
         {undirectedgraph: UndirectedGraph G V E}
         {finitegraph: FiniteGraph G V E}
-        {simplegraph: SimpleGraph G V E}.
+        {elistbijective: EListBijective G V E}.
 Context {P: Type}
         {path: Path G V E P}
         {emptypath: EmptyPath G V E P path}
@@ -1014,7 +1039,7 @@ Proof.
   apply valid_epath_cons_inv in Hpath as [v [Hstep Hrest]]. 
   pose proof Hvalid as Hh.
   eapply addEdge_valid_inv in Hvalid as [i [Hvalidi [Hadd [Hvx [Hvy Hnotinea]]]]]; 
-  [|eapply step_vvalid1; eauto|eapply step_vvalid2; eauto|eapply step_evalid; eauto]. 
+  [|eapply step_vvalid1; eauto|eapply step_vvalid2; eauto|eapply step_evalid; eauto|exact Hstep]. 
   assert (connected_subgraph_eq i). {
     split; [|split]; auto. 
     + intros x y Hx Hy. 
@@ -1071,11 +1096,19 @@ Proof.
         apply Hsub. 
         apply Hadd; left; auto. 
   }
-  apply addEdge2_elist_permutation in Hadd; auto. 
-  apply Permutation_length in Hadd. 
+  assert (Hadd_perm: Permutation (bijective_listE h) (e :: bijective_listE i)).
+  {
+    eapply addEdge_elist_permutation with
+      (g1 := i) (g2 := h) (u := u) (v := v) (e := e); eauto.
+    - apply bijective_listE_NoDup. exact Hvalidi.
+    - apply bijective_edges. exact Hvalidi.
+    - apply bijective_listE_NoDup. exact Hh.
+    - apply bijective_edges. exact Hh.
+  }
+  apply Permutation_length in Hadd_perm. 
   apply Hmin in H; unfold edge_num in H. 
   rewrite ! Zlength_correct in H. 
-  simpl in Hadd. 
+  simpl in Hadd_perm. 
   lia. 
 Qed. 
 

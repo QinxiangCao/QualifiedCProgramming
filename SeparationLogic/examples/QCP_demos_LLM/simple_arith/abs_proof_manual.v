@@ -20,10 +20,10 @@ Local Open Scope sac.
 
 Lemma proof_of_abs_return_wit_1 : abs_return_wit_1.
 Proof.
-	pre_process.
+  pre_process.
 Qed.
 
 Lemma proof_of_abs_return_wit_2 : abs_return_wit_2.
 Proof.
-	pre_process.
+  pre_process.
 Qed.

@@ -5,7 +5,7 @@
 ## Skeleton 模板
 
 ```coq
-pre_process. (* or aggressive_pre_process. *)
+LLM_pre_process ltac:(lia || int_auto). (* or aggressive_pre_process for the strategy-processed branch *)
 (* 1. 选择后条件 witnesses *)
 Exists ... .
 (* 2. 必要的空间化简 *)
@@ -26,7 +26,7 @@ split_pure_spatial.
 
 ## 强制规则
 
-1. 总是先 `pre_process.` 或 `aggressive_pre_process.`；如果当前 VC 被打印成 `原始 VC \/ 策略应用后的 VC`，二者分别选择原始分支或 strategy-processed 分支。
+1. LLM proof 先用 `LLM_pre_process ltac:(...)`，不要直接用 `pre_process.`；如果当前 VC 被打印成 `原始 VC \/ 策略应用后的 VC`，`LLM_pre_process` 选择原始分支，`aggressive_pre_process` 选择 strategy-processed 分支。solver 由 VC 分析决定：一般用 `ltac:(lia || int_auto)`，只在线性算术时用 `ltac:(lia)`，只在整数/位自动化时用 `ltac:(int_auto)`，确有非线性算术时才加入 `nia`。
 2. 先选择 witnesses，再 `split_pure_spatial`。
 3. 不在 `split_pure_spatial` 前展开 `safeExec` 相关 wrapper。
 4. 先解决 spatial side，再解决 execution side。
@@ -135,4 +135,4 @@ assert (Hs : safeExec P prog X).
 4. loop-state tuple 是否和 annotation invariant 中的 `safeExec` residual 一致。
 5. 当前 VC premise 是否缺少 annotation 应提供的 pure facts。
 
-如果只是 wrapper 名称、list expression 或 arithmetic guard 不匹配，优先在 group-local `case_lib` 新增当前 suffix helper 或调整 proof；不要把 proof route 不确定写成 `blocked`。
+如果只是 wrapper 名称、list expression 或 arithmetic guard 不匹配，优先在 `group_worker_lib` 新增当前 suffix helper 或调整 proof；不要把 proof route 不确定写成 `blocked`。

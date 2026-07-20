@@ -98,12 +98,6 @@ Proof. Admitted.
 Lemma proof_of_build_safety_wit_29 : build_safety_wit_29.
 Proof. Admitted. 
 
-Lemma proof_of_build_entail_wit_7 : build_entail_wit_7.
-Proof. Admitted. 
-
-Lemma proof_of_build_entail_wit_12 : build_entail_wit_12.
-Proof. Admitted. 
-
 Lemma proof_of_build_partial_solve_wit_1 : build_partial_solve_wit_1.
 Proof. Admitted. 
 

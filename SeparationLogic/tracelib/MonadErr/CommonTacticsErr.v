@@ -34,7 +34,9 @@ Tactic Notation "hoare_cons" uconstr(H) :=
   eapply Hoare_cons_pre; [|eapply Hoare_cons_post; [| apply H] ]; simpl; try tauto.
 
 Ltac hoare_fix_lv_auto_conj' A C c :=
-  match goal with
+  lazymatch goal with
+  | |- @Hoare ?Sigma ?R ?P (Rec ?F ?a) ?Q =>
+    unfold Rec; hoare_fix_lv_auto_conj' A C c
   | |- @Hoare ?Σ ?R ?P (BW_fix ?F ?a) ?Q =>
     let P1 := fresh "P" in evar (P1: A -> C -> Σ -> Prop);
     let Q1 := fresh "Q" in evar (Q1: A -> C -> R -> Σ -> Prop);

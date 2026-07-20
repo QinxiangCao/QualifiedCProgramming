@@ -305,10 +305,10 @@ Proof.
     eapply H; eauto.
 Qed.
 
-Lemma Gequiv_range_iter {A: Type} 
-  (body: Z -> A -> program Σ A) (body': Z -> A -> programG A) (a0: A): 
-  (forall i a, Gequiv (body i a) (body' i a)) -> 
-  forall lo hi, 
+Lemma Gequiv_range_iter {A: Type}
+  (body: Z -> A -> program Σ A) (body': Z -> A -> programG A) (a0: A):
+  (forall i a, Gequiv (body i a) (body' i a)) ->
+  forall lo hi,
     Gequiv (range_iter lo hi body a0) (range_iter lo hi body' a0).
 Proof.
   intros Hbody lo hi.
@@ -374,6 +374,8 @@ Local Ltac Gequiv_auto :=
   | |- Gequiv _ (_;; Gupdate _) => apply Gequiv_Gupdate_r; [try Gequiv_auto|]
   | |- Gequiv (bind _ _) (bind _ _) => apply Gequiv_bind; [| intros]; try Gequiv_auto
   | |- Gequiv (choice _ _) (choice _ _) => apply Gequiv_choice; try Gequiv_auto
+  | |- Gequiv (Rec _ _) (Rec _ _) => unfold Rec; apply Gequiv_fix; intros; try Gequiv_auto
+  | |- Gequiv (Rec _) (Rec _) => unfold Rec; apply Gequiv_fix'; intros; try Gequiv_auto
   | |- Gequiv (Lfix _ _) (Lfix _ _) => apply Gequiv_fix; intros; try Gequiv_auto
   | |- Gequiv (Lfix _) (Lfix _) => apply Gequiv_fix'; intros; try Gequiv_auto
   | |- Gequiv ?c (liftG ?c) => apply Gequiv_liftG
@@ -384,23 +386,22 @@ Local Ltac Gequiv_auto :=
   | |- Gequiv _ _ => auto
   end.
 
-Lemma Gequiv_whileP (c: program Σ unit) (c': programG unit)
+Lemma Gequiv_while (c: program Σ unit) (c': programG unit)
   (P: Σ -> Prop):
   Gequiv c c' ->
   Gequiv (whileP P c) (whileP (fun '(s, _) => P s) c').
 Proof.
-  intros Hc.
+  intros.
   unfold whileP, whileP_f.
-  apply Gequiv_fix'.
-  intros W W' HW.
-  apply Gequiv_choice.
-  - apply Gequiv_bind.
-    + rewrite <- liftG_assume_equiv. apply Gequiv_liftG.
-    + intros []. apply Gequiv_bind; auto.
-  - apply Gequiv_bind.
-    + rewrite assume_not_let.
-      rewrite <- liftG_assume_equiv. apply Gequiv_liftG.
-    + intros []. apply Gequiv_ret.
+  Gequiv_auto.
+  eapply Gequiv_proequiv.
+  reflexivity.
+  2:apply Gequiv_liftG.
+  unfold liftG, test; sets_unfold.
+  intros (s, g) a (s', g').
+  split; intros Hrun.
+  - destruct Hrun as [Hnot Heq]; inversion Heq; subst; auto.
+  - destruct Hrun as [[Hnot Heq] Hghost]; subst; auto.
 Qed.
 
 Lemma Gequiv_repeat_break {A B: Type} 
@@ -554,9 +555,11 @@ Ltac Gequiv_auto :=
   | |- Gequiv _ (_;; Gupdate _) => apply Gequiv_Gupdate_r; [try Gequiv_auto|]
   | |- Gequiv (bind _ _) (bind _ _) => apply Gequiv_bind; [| intros]; try Gequiv_auto
   | |- Gequiv (choice _ _) (choice _ _) => apply Gequiv_choice; try Gequiv_auto
+  | |- Gequiv (Rec _ _) (Rec _ _) => unfold Rec; apply Gequiv_fix; intros; try Gequiv_auto
+  | |- Gequiv (Rec _) (Rec _) => unfold Rec; apply Gequiv_fix'; intros; try Gequiv_auto
   | |- Gequiv (Lfix _ _) (Lfix _ _) => apply Gequiv_fix; intros; try Gequiv_auto
   | |- Gequiv (Lfix _) (Lfix _) => apply Gequiv_fix'; intros; try Gequiv_auto
-  | |- Gequiv (whileP _ _) (whileP _ _) => apply Gequiv_whileP; intros; try Gequiv_auto
+  | |- Gequiv (whileP _ _) (whileP _ _) => apply Gequiv_while; intros; try Gequiv_auto
   | |- Gequiv (repeat_break _ _) (repeat_break _ _) => apply Gequiv_repeat_break; intros; 
       try Gequiv_auto
   | |- Gequiv (forset _ _) (forset _ _) => apply Gequiv_forset; intros; try Gequiv_auto

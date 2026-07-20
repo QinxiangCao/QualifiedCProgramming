@@ -36,8 +36,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_string den_pre den_str )
 |--
@@ -50,8 +50,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_string den_pre den_str )
 |--
@@ -64,8 +64,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_string den_pre den_str )
 |--
@@ -78,8 +78,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_string den_pre den_str )
 |--
@@ -93,8 +93,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_string den_pre den_str )
 |--
@@ -105,8 +105,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_string den_pre den_str )
 |--
@@ -118,8 +118,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_string den_pre den_str )
 |--
@@ -409,8 +409,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_string den_pre den_str )
 |--
@@ -470,8 +470,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Var")) # Ptr  |-> y)
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string den_pre den_str )
 |--
   “ (y <> 0) ”
@@ -483,8 +483,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Var")) # Ptr  |-> y)
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string den_pre den_str )
 |--
   “ (y <> 0) ”
@@ -497,8 +497,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Var")) # Ptr  |-> y)
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string den_pre den_str )
 |--
   “ (y <> 0) ”
@@ -558,8 +558,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_string den_pre den_str )
 |--
@@ -595,8 +595,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_string den_pre den_str )
 |--
@@ -637,8 +637,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z)
   **  (store_term y lt )
   **  (store_term z rt )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_string den_pre den_str )
 |--
@@ -654,8 +654,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z)
   **  (store_term y lt )
   **  (store_term z rt )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_string den_pre den_str )
 |--
@@ -670,8 +670,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z)
   **  (store_term y lt )
   **  (store_term z rt )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_string den_pre den_str )
 |--
@@ -722,8 +722,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> retval)
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z)
   **  (store_term z rt )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
 |--
   “ (den_pre <> 0) ” 
   &&  “ (src_pre <> 0) ” 
@@ -739,8 +739,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> retval)
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z)
   **  (store_term z rt )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
 |--
   “ (z <> 0) ”
 ).
@@ -755,8 +755,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> retval)
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z)
   **  (store_term z rt )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
 |--
   “ (z <> 0) ”
 .
@@ -800,8 +800,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_string den_pre den_str )
 |--
@@ -876,8 +876,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y)
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z)
   **  (store_term z qterm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string den_pre den_str )
 |--
   “ (den_pre <> 0) ” 
@@ -894,8 +894,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y)
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z)
   **  (store_term z qterm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string den_pre den_str )
 |--
   “ (z <> 0) ”
@@ -911,8 +911,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_str: (@list Z)) (src_str: (@lis
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y)
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z)
   **  (store_term z qterm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string den_pre den_str )
 |--
   “ (z <> 0) ”
@@ -1102,8 +1102,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_term den_pre den_term )
 |--
@@ -1116,8 +1116,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_term den_pre den_term )
 |--
@@ -1130,8 +1130,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_term den_pre den_term )
 |--
@@ -1144,8 +1144,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_term den_pre den_term )
 |--
@@ -1159,8 +1159,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_term den_pre den_term )
 |--
@@ -1171,8 +1171,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_term den_pre den_term )
 |--
@@ -1184,8 +1184,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_term den_pre den_term )
 |--
@@ -1463,8 +1463,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_term den_pre den_term )
 |--
@@ -1523,8 +1523,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Var")) # Ptr  |-> y)
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_term den_pre den_term )
 |--
   “ (t_pre <> 0) ” 
@@ -1602,8 +1602,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_term den_pre den_term )
 |--
@@ -1639,8 +1639,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_term den_pre den_term )
 |--
@@ -1681,8 +1681,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z)
   **  (store_term y lt )
   **  (store_term z rt )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_term den_pre den_term )
 |--
@@ -1698,8 +1698,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z)
   **  (store_term y lt )
   **  (store_term z rt )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_term den_pre den_term )
 |--
@@ -1714,8 +1714,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z)
   **  (store_term y lt )
   **  (store_term z rt )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_term den_pre den_term )
 |--
@@ -1766,8 +1766,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> retval)
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z)
   **  (store_term z rt )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
 |--
   “ (den_pre <> 0) ” 
   &&  “ (src_pre <> 0) ” 
@@ -1783,8 +1783,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> retval)
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z)
   **  (store_term z rt )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
 |--
   “ (z <> 0) ”
 ).
@@ -1799,8 +1799,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "left")) # Ptr  |-> retval)
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Apply" .ₛ "right")) # Ptr  |-> z)
   **  (store_term z rt )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
 |--
   “ (z <> 0) ”
 .
@@ -1843,8 +1843,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   ((( &( "t" ) )) # Ptr  |-> t_pre)
   **  ((&((t_pre)  # "term" ->ₛ "type")) # Int  |-> (termtypeID (trm)))
   **  (store_term' t_pre trm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string src_pre src_str )
   **  (store_term den_pre den_term )
 |--
@@ -1919,8 +1919,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y)
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z)
   **  (store_term z qterm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_term den_pre den_term )
 |--
   “ (den_pre <> 0) ” 
@@ -1937,8 +1937,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y)
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z)
   **  (store_term z qterm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_term den_pre den_term )
 |--
   “ (z <> 0) ”
@@ -1954,8 +1954,8 @@ forall (t_pre: Z) (src_pre: Z) (den_pre: Z) (den_term: term) (src_str: (@list Z)
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "var")) # Ptr  |-> y)
   **  ((&((t_pre)  # "term" ->ₛ "content" .ₛ "Quant" .ₛ "body")) # Ptr  |-> z)
   **  (store_term z qterm )
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "den" ) )) # Ptr  |-> den_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_term den_pre den_term )
 |--
   “ (z <> 0) ”

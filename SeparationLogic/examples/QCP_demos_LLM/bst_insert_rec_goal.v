@@ -26,9 +26,9 @@ From SimpleC.EE.QCP_demos_LLM Require Import bst_strategy_proof.
 
 Definition insert_safety_wit_1 := 
 forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (PreH1 : (INT_MIN <= x_pre)) (PreH2 : (x_pre <= INT_MAX)) ,
-  ((( &( "value" ) )) # Int  |-> value_pre)
+  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  ((( &( "x" ) )) # Int  |-> x_pre)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "value" ) )) # Int  |-> value_pre)
   **  (store_tree b_pre tr_low_level_spec )
 |--
   “ (0 <= INT_MAX) ” 
@@ -41,9 +41,9 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (retval: Z
   **  ((&((retval)  # "tree" ->ₛ "value")) # Int  |-> value_pre)
   **  ((&((retval)  # "tree" ->ₛ "left")) # Ptr  |->_)
   **  ((&((retval)  # "tree" ->ₛ "right")) # Ptr  |->_)
-  **  ((( &( "value" ) )) # Int  |-> value_pre)
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((( &( "b" ) )) # Ptr  |-> retval)
+  **  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "value" ) )) # Int  |-> value_pre)
   **  (store_tree b_pre tr_low_level_spec )
 |--
   “ (0 <= INT_MAX) ” 
@@ -56,9 +56,9 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (retval: Z
   **  ((&((retval)  # "tree" ->ₛ "value")) # Int  |-> value_pre)
   **  ((&((retval)  # "tree" ->ₛ "left")) # Ptr  |-> 0)
   **  ((&((retval)  # "tree" ->ₛ "right")) # Ptr  |->_)
-  **  ((( &( "value" ) )) # Int  |-> value_pre)
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((( &( "b" ) )) # Ptr  |-> retval)
+  **  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "value" ) )) # Int  |-> value_pre)
   **  (store_tree b_pre tr_low_level_spec )
 |--
   “ (0 <= INT_MAX) ” 

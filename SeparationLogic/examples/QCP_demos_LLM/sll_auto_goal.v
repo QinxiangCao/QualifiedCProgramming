@@ -317,8 +317,8 @@ Definition append_safety_wit_1 :=
 forall (y_pre: Z) (x_pre: Z) ,
   ((( &( "u" ) )) # Ptr  |->_)
   **  ((( &( "t" ) )) # Ptr  |->_)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  (listrep x_pre )
   **  (listrep y_pre )
 |--
@@ -419,8 +419,8 @@ Definition merge_safety_wit_1 :=
 forall (y_pre: Z) (x_pre: Z) ,
   ((( &( "t" ) )) # Ptr  |->_)
   **  ((( &( "z" ) )) # Ptr  |->_)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  (listrep x_pre )
   **  (listrep y_pre )
 |--
@@ -549,9 +549,9 @@ Definition multi_append_safety_wit_1 :=
 forall (z_pre: Z) (y_pre: Z) (x_pre: Z) ,
   ((( &( "u" ) )) # Ptr  |->_)
   **  ((( &( "t" ) )) # Ptr  |->_)
-  **  ((( &( "z" ) )) # Ptr  |-> z_pre)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
+  **  ((( &( "z" ) )) # Ptr  |-> z_pre)
   **  (listrep x_pre )
   **  (listrep y_pre )
   **  (listrep z_pre )

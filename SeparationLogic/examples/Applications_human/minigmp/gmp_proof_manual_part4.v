@@ -39,10 +39,11 @@ Proof.
   pre_process.
   unfold store_Z at 1.
   Intros rptr rsize rcap.
-  Exists rptr; Exists ptr_2; Exists ptr; Exists rcap; Exists rsize.
-  Exists cap_2; Exists cap; Exists size_2; Exists size; Exists n; Exists m.
+  Exists rptr; Exists ptr; Exists ptr_2; Exists rcap; Exists rsize.
+  Exists cap; Exists cap_2; Exists size; Exists size_2; Exists m; Exists n.
   subst retval retval_2.
   entailer!.
+  apply perm_swap.
 Qed.
 
 Lemma proof_of_mpz_abs_add_entail_wit_1_2 : mpz_abs_add_entail_wit_1_2.
@@ -50,11 +51,10 @@ Proof.
   pre_process.
   unfold store_Z at 1.
   Intros rptr rsize rcap.
-  Exists rptr; Exists ptr; Exists ptr_2; Exists rcap; Exists rsize.
-  Exists cap; Exists cap_2; Exists size; Exists size_2; Exists m; Exists n.
+  Exists rptr; Exists ptr_2; Exists ptr; Exists rcap; Exists rsize.
+  Exists cap_2; Exists cap; Exists size_2; Exists size; Exists n; Exists m.
   subst retval retval_2.
   entailer!.
-  apply perm_swap.
 Qed.
 
 Lemma proof_of_mpz_abs_add_entail_wit_2 : mpz_abs_add_entail_wit_2.

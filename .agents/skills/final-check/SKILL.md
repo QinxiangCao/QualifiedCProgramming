@@ -1,6 +1,6 @@
 ---
 name: final-check
-description: 由 main agent 在 final-candidate-apply 后执行最终检查，确认 generated files、manual proofs、case_lib 和 main worktree 状态一致。
+description: 由 main agent 在 final-apply 后确认 root generated/manual/formal_case_lib 与 accepted proving_merged_lib、versions 和 reports 一致。
 ---
 
 # Final Check
@@ -9,15 +9,15 @@ description: 由 main agent 在 final-candidate-apply 后执行最终检查，�
 
 ## 文档
 
-- `docs/final-check-guide.md`：final-candidate-apply、symbolic execution freshness、fixed `coqc_check`、manual proof / `case_lib` review 和 cleanup。
+- `docs/final-check-guide.md`：final-apply、freshness、fixed Coq、manual/三级 lib/forbidden/cleanup。
+- `../verification-orchestrator/docs/path-configuration.md`：freshness与 final Coq paths。
 
 ## 完成要求
 
-- main worktree 只从 controller accepted final candidate 采用正式文件；该 candidate 来自已通过 `vc-proving-verify` 的 `group_merged_result.json`。
-- symbolic execution 到文件尾，且 generated files 与当前 main worktree 目标 `.c` 一致。
-- main-path fixed `coqc_check` 通过。
-- `*_proof_manual.v` 和 `case_lib` 不含 `Admitted.`、extra `Axiom` 或 forbidden lemma。
-- `*_proof_manual.v` 只含当前 case 的 manual witness theorem proofs，没有 helper declarations 或 forbidden top-level declarations。
-- `case_lib` contract 通过，新增 helper declarations 可追踪到 parent verify merge record。
-- cleanup 只清理本 run 临时产物，不删除正式交付文件。
-- `run_logs.json` 记录 final-check 结果。
+- formal manual/`formal_case_lib` 只从 controller accepted proving_merged directory采用；`formal_case_lib` digest 等于 `proving_merged_lib`。
+- scripted freshness symexec 输出到 report temp，不覆盖 proved manual；raw refresh manual 由 controller diagnostics split 后只比较 cleaned witness names/statements。
+- main-root scripted full goal check passed，build files只在 run `_coq_builds`。
+- manual/`formal_case_lib` 无 `Admitted.`、extra `Axiom`、forbidden lemma；manual只含 target witness proofs。
+- helpers可追踪到 `group_worker_lib` reports与 `proving_merged_result.json`。
+- controller 删除检查前旧 Coq 副产物并在检查后重扫；正式路径无新产生或无法删除的副产物，cleanup evidence 保持 compact。
+- final-check 失败且 rollback 成功后回到 `final-candidate-apply`，必须重新 final-apply；rollback 失败时停止自动恢复。controller state/log记录 final result。

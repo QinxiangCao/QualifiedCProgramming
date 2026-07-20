@@ -1,6 +1,6 @@
 # Correct Example: Binary Answer Annotation
 
-本文件是 annotation 正例解析。遇到“二分答案 + check 判定函数”时，先学习这里的 spec 拆分和 invariant 形状，再写当前 case 的 `case_lib` 和 C annotation。
+本文件是 annotation 正例解析。遇到“二分答案 + check 判定函数”时，先学习这里的 spec 拆分和 invariant 形状，再写当前 case 的 `formal_case_lib` 和 C annotation。
 
 ## Example Files
 
@@ -27,7 +27,7 @@
 
 ## Recommended Spec Shape
 
-在 `case_lib` 中定义业务语义 wrapper，而不是在 C annotation 中展开 `MaxMinLib`：
+在 `formal_case_lib` 中定义业务语义 wrapper，而不是在 C annotation 中展开 `MaxMinLib`：
 
 ```coq
 Definition CanSplit (l : list Z) (m cap : Z) : Prop := ...
@@ -109,7 +109,7 @@ Inv Assert
 
 核心判断标准：
 
-- spec 先用 `case_lib` wrapper 描述数学语义。
+- spec 先用 `formal_case_lib` wrapper 描述数学语义。
 - `check` 函数只对外暴露可行 / 不可行判定。
 - 主循环 invariant 维护真实答案落在当前 `[left, right]` 内。
 - proof-side bridge lemma 不塞进 C annotation；由 group-worker 证明当前 group suffix helper，或在 annotation round 中把必要数学定义提升为 seed declaration。

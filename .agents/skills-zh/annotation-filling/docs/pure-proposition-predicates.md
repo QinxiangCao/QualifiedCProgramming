@@ -2,7 +2,7 @@
 
 This guide is only for the annotation phase: how to choose and write existing pure proposition predicates in C annotations and case-level specs. Rocq proof-side unfolding, bridging, rewriting, and helper lemmas belong in `group-worker-proving`.
 
-Core rule: write the mathematical fact that the program must maintain. Prefer existing semantic predicates, do not expose proof-facing structures just to make a proof convenient, and do not duplicate an existing predicate in `case_lib`.
+Core rule: write the mathematical fact that the program must maintain. Prefer existing semantic predicates, do not expose proof-facing structures just to make a proof convenient, and do not duplicate an existing predicate in `formal_case_lib`.
 
 ## Importing Names in C Annotation
 
@@ -21,7 +21,7 @@ Use these rules:
 
 - Put names that appear in annotation text in `Extern Coq`.
 - Import the case lib or shared lib that makes those names available to generated Rocq files.
-- If the predicate comes from the current `case_lib`, call the predicate by name in annotation; do not copy the definition body into C annotation.
+- If the predicate comes from the current `formal_case_lib`, call the predicate by name in annotation; do not copy the definition body into C annotation.
 - If an existing lib already has the same meaning, use that name. Do not add duplicate names such as `increasing_aux`, `NondecreasingZList`, or `StrictlyIncreasingZList`.
 
 ## Function Specs
@@ -47,7 +47,7 @@ Selection rules:
 
 - Sorted result: write `Permutation(l, l1) && increasing(l1)`, or `decreasing(l1)` when the result is descending.
 - Sum result: write `__return == sum(l)`; in loops, maintain facts such as `ret == sum(sublist(0, i, l))`.
-- Maximum, minimum, or optimum value: define a clear mathematical predicate such as `MinimizedMaxSegmentSum(l, m, ans)` in `case_lib`, then call that predicate from `Require` / `Ensure`.
+- Maximum, minimum, or optimum value: define a clear mathematical predicate such as `MinimizedMaxSegmentSum(l, m, ans)` in `formal_case_lib`, then call that predicate from `Require` / `Ensure`.
 - Still state length, element range, and memory facts explicitly, such as `Zlength(l) == n`, `IntArray::full(a, n, l)`, and needed quantified range facts.
 
 Do not write a spec as “the C program ran this recursive simulation.” Specs should describe input/output relations, not mirror the implementation.
@@ -114,11 +114,11 @@ Default annotation choices:
 
 ### MaxMinLib
 
-Use `MaxMinLib` in `case_lib` to define problem semantics, then let C annotation call the wrapper predicate.
+Use `MaxMinLib` in `formal_case_lib` to define problem semantics, then let C annotation call the wrapper predicate.
 
-Recommended pattern: define a mathematical predicate such as `MinimizedMaxSegmentSum : list Z -> Z -> Z -> Prop` in `case_lib`, then declare and call only that name in C annotation:
+Recommended pattern: define a mathematical predicate such as `MinimizedMaxSegmentSum : list Z -> Z -> Z -> Prop` in `formal_case_lib`, then declare and call only that name in C annotation:
 
-`case_lib` side:
+`formal_case_lib` side:
 
 ```coq
 Require Import SimpleC.EE.QCP_demos_LLM.MaxMinLib.
@@ -161,7 +161,7 @@ For binary-answer programs, split the spec into:
 
 The C loop keeps `left <= ans <= right`; proof-side helper lemmas connect `CanX` / `CannotX` to the optimum bounds. See `docs/correct-examples/binary-search-annotation.md`.
 
-Do not write raw `min_value_of_subset` or `max_value_of_subset` formulas in every C invariant. Put them behind a business predicate in `case_lib`, and expose only the business predicate in C.
+Do not write raw `min_value_of_subset` or `max_value_of_subset` formulas in every C invariant. Put them behind a business predicate in `formal_case_lib`, and expose only the business predicate in C.
 
 ### SumLib
 
@@ -171,9 +171,9 @@ For ordinary array/list segment sums, keep the annotation simple:
 ret == sum(sublist(0, i, l))
 ```
 
-If the spec needs indexed ranges, finite sets, or two-dimensional region sums, first wrap the `SumLib` meaning in a business predicate in `case_lib`, then call that predicate from annotation. Do not put complex finite-set formulas into every invariant unless the formula is short and improves readability.
+If the spec needs indexed ranges, finite sets, or two-dimensional region sums, first wrap the `SumLib` meaning in a business predicate in `formal_case_lib`, then call that predicate from annotation. Do not put complex finite-set formulas into every invariant unless the formula is short and improves readability.
 
-`case_lib` side:
+`formal_case_lib` side:
 
 ```coq
 Require Import SimpleC.EE.QCP_demos_LLM.SumLib.
@@ -271,7 +271,7 @@ That form adds extra equalities and list-shape obligations without explaining th
 
 ## Before Adding a Predicate
 
-Before adding a new `case_lib` definition, ask:
+Before adding a new `formal_case_lib` definition, ask:
 
 - Can `increasing` / `decreasing` express the ordering property directly?
 - Can `upperbound` / `lowerbound` express the boundary property directly?

@@ -77,6 +77,9 @@ Proof. Admitted.
 Lemma proof_of_bubble_sort_safety_wit_19 : bubble_sort_safety_wit_19.
 Proof. Admitted. 
 
+Lemma proof_of_bubble_sort_entail_wit_3_2 : bubble_sort_entail_wit_3_2.
+Proof. Admitted. 
+
 Lemma proof_of_bubble_sort_partial_solve_wit_1 : bubble_sort_partial_solve_wit_1.
 Proof. Admitted. 
 
@@ -161,6 +164,9 @@ Proof. Admitted.
 Lemma proof_of_bubble_sort_alter_entail_wit_1_zero : bubble_sort_alter_entail_wit_1_zero.
 Proof. Admitted. 
 
+Lemma proof_of_bubble_sort_alter_entail_wit_4_2_normal : bubble_sort_alter_entail_wit_4_2_normal.
+Proof. Admitted. 
+
 Lemma proof_of_bubble_sort_alter_partial_solve_wit_1_normal : bubble_sort_alter_partial_solve_wit_1_normal.
 Proof. Admitted. 
 
@@ -243,6 +249,9 @@ Lemma proof_of_bubble_sort_alter1_safety_wit_21_normal : bubble_sort_alter1_safe
 Proof. Admitted. 
 
 Lemma proof_of_bubble_sort_alter1_entail_wit_1_zero : bubble_sort_alter1_entail_wit_1_zero.
+Proof. Admitted. 
+
+Lemma proof_of_bubble_sort_alter1_entail_wit_4_2_normal : bubble_sort_alter1_entail_wit_4_2_normal.
 Proof. Admitted. 
 
 Lemma proof_of_bubble_sort_alter1_partial_solve_wit_1_normal : bubble_sort_alter1_partial_solve_wit_1_normal.

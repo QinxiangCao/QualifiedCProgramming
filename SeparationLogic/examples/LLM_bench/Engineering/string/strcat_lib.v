@@ -90,7 +90,7 @@ Proof.
   replace (p + 0 * sizeof ( CHAR )) with p by lia.
   rewrite CharArray.seg_empty.
   cancel (p # Char |-> a).
-  apply coq_prop_andp_right; [cancel emp | auto].
+  entailer!.
 Qed.
 
 Lemma helper_chararray_full_snoc : forall p n l a,

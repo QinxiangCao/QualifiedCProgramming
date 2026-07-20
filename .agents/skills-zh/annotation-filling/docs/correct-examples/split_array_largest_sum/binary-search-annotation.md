@@ -106,7 +106,7 @@ MinimizedMaxSegmentSum(l, m, res)
 - `CanSplit(l, m, mid)` 与 `MinimizedMaxSegmentSum(l, m, res)` 推出 `res <= mid`。因此 `ok == 1` 时可令 `right = mid`。
 - `CannotSplit(l, m, mid)` 与 `MinimizedMaxSegmentSum(l, m, res)` 推出 `mid < res`。因此 `ok == 0` 时可令 `left = mid + 1`。
 
-在当前 `case_lib` 或后续 group-local `case_lib` helper 中，这个连接由类似下面的 lemma 承担：
+在当前 `formal_case_lib` 或后续 `group_worker_lib` helper 中，这个连接由类似下面的 lemma 承担：
 
 - `minmax_can_lower_bound`
 - `minmax_cannot_upper_bound`
@@ -138,7 +138,7 @@ annotation 中不需要把这些证明塞进 C 断言；它只要保留足够的
 - 先用严格数学定义描述目标性质。
 - 在 `check` 中用前缀状态证明判定性质。
 - 在主循环中用边界 invariant 证明二分保持数学答案。
-- 只把必要的连接证明写成 helper lemma；若它属于 proof-side bridge，则由 group-worker 在 group-local `case_lib` 中新增当前 group suffix helper，最后通过 vc-proving parent verify 合并。
+- 只把必要的连接证明写成 helper lemma；若它属于 proof-side bridge，则由 group-worker 在 `group_worker_lib` 中新增当前 group suffix helper，最后通过 vc-proving parent verify 合并。
 
 ## 写类似 case 前的 checklist
 

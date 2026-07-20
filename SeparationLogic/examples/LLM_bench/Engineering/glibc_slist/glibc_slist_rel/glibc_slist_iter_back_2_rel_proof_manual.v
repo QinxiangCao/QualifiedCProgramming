@@ -475,13 +475,9 @@ Proof.
     + simpl.
       destruct ldone as [| b ldone].
       * simpl.
-        eapply derivable1_trans with (y := “ False ”).
-        2: { apply coq_prop_imply. intros Hfalse; contradiction. }
         Intros z.
         entailer!.
       * simpl.
-        eapply derivable1_trans with (y := “ False ”).
-        2: { apply coq_prop_imply. intros Hfalse; contradiction. }
         Intros z y.
         sep_apply (dup_store_int (&( st # "list" ->ₛ "data")) a b).
         entailer!.

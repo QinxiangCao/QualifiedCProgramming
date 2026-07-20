@@ -28,9 +28,9 @@ From SimpleC.StdLib Require Import string_strategy_proof.
 Definition memcpy_safety_wit_1 := 
 forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (PreH1 : (all_ascii bytes )) (PreH2 : ((Zlength (bytes)) = n_pre)) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "dest" ) )) # Ptr  |-> dest_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (CharArray.undef_full dest_pre n_pre )
   **  (CharArray.full src_pre n_pre bytes )
 |--
@@ -188,9 +188,9 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : 
 Definition memmove_safety_wit_1 := 
 forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (PreH1 : (dest_pre < src_pre)) (PreH2 : (all_ascii bytes )) (PreH3 : ((Zlength (bytes)) = n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "dest" ) )) # Ptr  |-> dest_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (CharArray.undef_full dest_pre n_pre )
   **  (CharArray.full src_pre n_pre bytes )
 |--
@@ -514,9 +514,9 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (bytes: (@list Z)) (i: Z) (PreH1 : 
 Definition memset_safety_wit_1 := 
 forall (n_pre: Z) (c_pre: Z) (s_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (0 <= c_pre)) (PreH4 : (c_pre <= 127)) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "c" ) )) # Int  |-> c_pre)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
+  **  ((( &( "c" ) )) # Int  |-> c_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (CharArray.undef_full s_pre n_pre )
 |--
   “ (0 <= INT_MAX) ” 

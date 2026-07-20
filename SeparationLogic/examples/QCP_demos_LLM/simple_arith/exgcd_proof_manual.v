@@ -1,4 +1,4 @@
-﻿Require Import Coq.ZArith.ZArith.
+Require Import Coq.ZArith.ZArith.
 Require Import Coq.Bool.Bool.
 Require Import Coq.Strings.String.
 Require Import Coq.Lists.List.

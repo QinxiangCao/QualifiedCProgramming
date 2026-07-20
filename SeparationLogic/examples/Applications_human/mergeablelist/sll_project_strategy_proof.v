@@ -344,7 +344,9 @@ Proof.
   Intros h_val pt_val.
   Exists h_val pt_val.
   entailer!.
-  apply elim_wand_emp_emp.
+  apply derivable1s_wand_sepcon_adjoint.
+  elim_emp.
+  reflexivity.
 Qed.
 
 (* sllb_sll unfold left - strategy 35 *)
@@ -355,7 +357,9 @@ Proof.
   Intros h.
   Exists h.
   entailer!.
-  apply elim_wand_emp_emp.
+  apply derivable1s_wand_sepcon_adjoint.
+  elim_emp.
+  reflexivity.
 Qed.
 
 (* sllb_sll unfold right - strategy 36 *)

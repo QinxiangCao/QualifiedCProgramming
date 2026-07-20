@@ -29,7 +29,7 @@ Proof. Admitted.
 Lemma proof_of_memchr_safety_wit_3 : memchr_safety_wit_3.
 Proof. Admitted. 
 
-Lemma proof_of_memchr_entail_wit_1 : memchr_entail_wit_1.
+Lemma proof_of_memchr_entail_wit_2 : memchr_entail_wit_2.
 Proof. Admitted. 
 
 Lemma proof_of_memchr_partial_solve_wit_1 : memchr_partial_solve_wit_1.

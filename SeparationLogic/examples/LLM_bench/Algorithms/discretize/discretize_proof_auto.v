@@ -20,6 +20,9 @@ Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.discretize.discretize_lib.
 Local Open Scope sac.
 
+Lemma proof_of_swap_return_wit_1 : swap_return_wit_1.
+Proof. Admitted. 
+
 Lemma proof_of_swap_partial_solve_wit_1 : swap_partial_solve_wit_1.
 Proof. Admitted. 
 

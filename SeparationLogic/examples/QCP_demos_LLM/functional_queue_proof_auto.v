@@ -45,7 +45,7 @@ Proof. Admitted.
 Lemma proof_of_dequeue_safety_wit_2 : dequeue_safety_wit_2.
 Proof. Admitted. 
 
-Lemma proof_of_dequeue_entail_wit_4_1 : dequeue_entail_wit_4_1.
+Lemma proof_of_dequeue_entail_wit_4_2 : dequeue_entail_wit_4_2.
 Proof. Admitted. 
 
 Lemma proof_of_dequeue_partial_solve_wit_1 : dequeue_partial_solve_wit_1.

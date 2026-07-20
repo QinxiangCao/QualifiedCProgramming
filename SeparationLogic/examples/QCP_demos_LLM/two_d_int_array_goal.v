@@ -27,10 +27,10 @@ From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_proof.
 Definition max_fill_array2_safety_wit_1 := 
 forall (capacity_pre: Z) (grid_cols_pre: Z) (grid_rows_pre: Z) (grid_pre: Z) (rows: (@list (@list Z)))  __default__List_Z (PreH1 : (0 <= grid_rows_pre)) (PreH2 : (grid_rows_pre <= 100)) (PreH3 : (0 <= grid_cols_pre)) (PreH4 : (grid_cols_pre <= 100)) (PreH5 : (1 <= capacity_pre)) (PreH6 : (capacity_pre <= 10)) (PreH7 : ((Zlength (rows)) = grid_rows_pre)) (PreH8 : forall (i: Z) , (((0 <= i) /\ (i < grid_rows_pre)) -> ((Zlength ((Znth i rows __default__List_Z))) = grid_cols_pre))) (PreH9 : forall (i_2: Z) , forall (j: Z) , (((((0 <= i_2) /\ (i_2 < grid_rows_pre)) /\ (0 <= j)) /\ (j < grid_cols_pre)) -> ((0 <= (Znth j (Znth i_2 rows __default__List_Z) 0)) /\ ((Znth j (Znth i_2 rows __default__List_Z) 0) <= 1)))) ,
   ((( &( "out" ) )) # Int  |->_)
-  **  ((( &( "capacity" ) )) # Int  |-> capacity_pre)
-  **  ((( &( "grid_cols" ) )) # Int  |-> grid_cols_pre)
-  **  ((( &( "grid_rows" ) )) # Int  |-> grid_rows_pre)
   **  ((( &( "grid" ) )) # Ptr  |-> grid_pre)
+  **  ((( &( "grid_rows" ) )) # Int  |-> grid_rows_pre)
+  **  ((( &( "grid_cols" ) )) # Int  |-> grid_cols_pre)
+  **  ((( &( "capacity" ) )) # Int  |-> capacity_pre)
   **  (IntArray2.full grid_pre grid_rows_pre grid_cols_pre rows )
 |--
   “ (0 <= INT_MAX) ” 
@@ -41,10 +41,10 @@ Definition max_fill_array2_safety_wit_2 :=
 forall (capacity_pre: Z) (grid_cols_pre: Z) (grid_rows_pre: Z) (grid_pre: Z) (rows: (@list (@list Z)))  __default__List_Z (PreH1 : (0 <= grid_rows_pre)) (PreH2 : (grid_rows_pre <= 100)) (PreH3 : (0 <= grid_cols_pre)) (PreH4 : (grid_cols_pre <= 100)) (PreH5 : (1 <= capacity_pre)) (PreH6 : (capacity_pre <= 10)) (PreH7 : ((Zlength (rows)) = grid_rows_pre)) (PreH8 : forall (i: Z) , (((0 <= i) /\ (i < grid_rows_pre)) -> ((Zlength ((Znth i rows __default__List_Z))) = grid_cols_pre))) (PreH9 : forall (i_2: Z) , forall (j: Z) , (((((0 <= i_2) /\ (i_2 < grid_rows_pre)) /\ (0 <= j)) /\ (j < grid_cols_pre)) -> ((0 <= (Znth j (Znth i_2 rows __default__List_Z) 0)) /\ ((Znth j (Znth i_2 rows __default__List_Z) 0) <= 1)))) ,
   ((( &( "i" ) )) # Int  |->_)
   **  ((( &( "out" ) )) # Int  |-> 0)
-  **  ((( &( "capacity" ) )) # Int  |-> capacity_pre)
-  **  ((( &( "grid_cols" ) )) # Int  |-> grid_cols_pre)
-  **  ((( &( "grid_rows" ) )) # Int  |-> grid_rows_pre)
   **  ((( &( "grid" ) )) # Ptr  |-> grid_pre)
+  **  ((( &( "grid_rows" ) )) # Int  |-> grid_rows_pre)
+  **  ((( &( "grid_cols" ) )) # Int  |-> grid_cols_pre)
+  **  ((( &( "capacity" ) )) # Int  |-> capacity_pre)
   **  (IntArray2.full grid_pre grid_rows_pre grid_cols_pre rows )
 |--
   “ (0 <= INT_MAX) ” 
@@ -429,13 +429,19 @@ forall (capacity_pre: Z) (grid_cols_pre: Z) (grid_rows_pre: Z) (grid_pre: Z) (ro
 forall (capacity_pre: Z) (grid_cols_pre: Z) (grid_rows_pre: Z) (rows: (@list (@list Z)))  __default__List_Z (PreH1 : (0 <= grid_rows_pre)) (PreH2 : (grid_rows_pre <= 100)) (PreH3 : (0 <= grid_cols_pre)) (PreH4 : (grid_cols_pre <= 100)) (PreH5 : (1 <= capacity_pre)) (PreH6 : (capacity_pre <= 10)) (PreH7 : ((Zlength (rows)) = grid_rows_pre)) (PreH8 : forall (i: Z) , (((0 <= i) /\ (i < grid_rows_pre)) -> ((Zlength ((Znth i rows __default__List_Z))) = grid_cols_pre))) (PreH9 : forall (i_2: Z) , forall (j: Z) , (((((0 <= i_2) /\ (i_2 < grid_rows_pre)) /\ (0 <= j)) /\ (j < grid_cols_pre)) -> ((0 <= (Znth j (Znth i_2 rows __default__List_Z) 0)) /\ ((Znth j (Znth i_2 rows __default__List_Z) 0) <= 1)))) ,
   TT && emp 
 |--
-  “ forall (r_2: Z) , forall (c: Z) , (((((0 <= r_2) /\ (r_2 < grid_rows_pre)) /\ (0 <= c)) /\ (c < grid_cols_pre)) -> ((0 <= (Znth c (Znth r_2 rows __default__List_Z) 0)) /\ ((Znth c (Znth r_2 rows __default__List_Z) 0) <= 1))) ”
+  “ forall (r_2: Z) , forall (c: Z) , (((((0 <= r_2) /\ (r_2 < grid_rows_pre)) /\ (0 <= c)) /\ (c < grid_cols_pre)) -> ((0 <= (Znth c (Znth r_2 rows __default__List_Z) 0)) /\ ((Znth c (Znth r_2 rows __default__List_Z) 0) <= 1))) ” 
+  &&  “ forall (r: Z) , (((0 <= r) /\ (r < grid_rows_pre)) -> ((Zlength ((Znth r rows __default__List_Z))) = grid_cols_pre)) ”
   &&  emp
 ).
 
 Definition max_fill_array2_entail_wit_1_split_goal_1 := 
 forall (capacity_pre: Z) (grid_cols_pre: Z) (grid_rows_pre: Z) (rows: (@list (@list Z)))  __default__List_Z (PreH1 : (0 <= grid_rows_pre)) (PreH2 : (grid_rows_pre <= 100)) (PreH3 : (0 <= grid_cols_pre)) (PreH4 : (grid_cols_pre <= 100)) (PreH5 : (1 <= capacity_pre)) (PreH6 : (capacity_pre <= 10)) (PreH7 : ((Zlength (rows)) = grid_rows_pre)) (PreH8 : forall (i: Z) , (((0 <= i) /\ (i < grid_rows_pre)) -> ((Zlength ((Znth i rows __default__List_Z))) = grid_cols_pre))) (PreH9 : forall (i_2: Z) , forall (j: Z) , (((((0 <= i_2) /\ (i_2 < grid_rows_pre)) /\ (0 <= j)) /\ (j < grid_cols_pre)) -> ((0 <= (Znth j (Znth i_2 rows __default__List_Z) 0)) /\ ((Znth j (Znth i_2 rows __default__List_Z) 0) <= 1)))) ,
   forall (r_2: Z) , forall (c: Z) , (((((0 <= r_2) /\ (r_2 < grid_rows_pre)) /\ (0 <= c)) /\ (c < grid_cols_pre)) -> ((0 <= (Znth c (Znth r_2 rows __default__List_Z) 0)) /\ ((Znth c (Znth r_2 rows __default__List_Z) 0) <= 1)))
+.
+
+Definition max_fill_array2_entail_wit_1_split_goal_2 := 
+forall (capacity_pre: Z) (grid_cols_pre: Z) (grid_rows_pre: Z) (rows: (@list (@list Z)))  __default__List_Z (PreH1 : (0 <= grid_rows_pre)) (PreH2 : (grid_rows_pre <= 100)) (PreH3 : (0 <= grid_cols_pre)) (PreH4 : (grid_cols_pre <= 100)) (PreH5 : (1 <= capacity_pre)) (PreH6 : (capacity_pre <= 10)) (PreH7 : ((Zlength (rows)) = grid_rows_pre)) (PreH8 : forall (i: Z) , (((0 <= i) /\ (i < grid_rows_pre)) -> ((Zlength ((Znth i rows __default__List_Z))) = grid_cols_pre))) (PreH9 : forall (i_2: Z) , forall (j: Z) , (((((0 <= i_2) /\ (i_2 < grid_rows_pre)) /\ (0 <= j)) /\ (j < grid_cols_pre)) -> ((0 <= (Znth j (Znth i_2 rows __default__List_Z) 0)) /\ ((Znth j (Znth i_2 rows __default__List_Z) 0) <= 1)))) ,
+  forall (r: Z) , (((0 <= r) /\ (r < grid_rows_pre)) -> ((Zlength ((Znth r rows __default__List_Z))) = grid_cols_pre))
 .
 
 Definition max_fill_array2_entail_wit_2 := 
@@ -468,7 +474,8 @@ forall (capacity_pre: Z) (grid_cols_pre: Z) (grid_rows_pre: Z) (rows: (@list (@l
   TT && emp 
 |--
   “ ((Zlength ((Znth (i) (rows) ((@nil Z))))) = grid_cols_pre) ” 
-  &&  “ forall (r_2: Z) , forall (c: Z) , (((((0 <= r_2) /\ (r_2 < grid_rows_pre)) /\ (0 <= c)) /\ (c < grid_cols_pre)) -> ((0 <= (Znth c (Znth r_2 rows __default__List_Z) 0)) /\ ((Znth c (Znth r_2 rows __default__List_Z) 0) <= 1))) ”
+  &&  “ forall (r_2: Z) , forall (c: Z) , (((((0 <= r_2) /\ (r_2 < grid_rows_pre)) /\ (0 <= c)) /\ (c < grid_cols_pre)) -> ((0 <= (Znth c (Znth r_2 rows __default__List_Z) 0)) /\ ((Znth c (Znth r_2 rows __default__List_Z) 0) <= 1))) ” 
+  &&  “ forall (r: Z) , (((0 <= r) /\ (r < grid_rows_pre)) -> ((Zlength ((Znth r rows __default__List_Z))) = grid_cols_pre)) ”
   &&  emp
 ).
 
@@ -480,6 +487,11 @@ forall (capacity_pre: Z) (grid_cols_pre: Z) (grid_rows_pre: Z) (rows: (@list (@l
 Definition max_fill_array2_entail_wit_2_split_goal_2 := 
 forall (capacity_pre: Z) (grid_cols_pre: Z) (grid_rows_pre: Z) (rows: (@list (@list Z))) (out: Z) (i: Z)  __default__List_Z (PreH1 : (i < grid_rows_pre)) (PreH2 : (0 <= i)) (PreH3 : (i <= grid_rows_pre)) (PreH4 : (0 <= grid_rows_pre)) (PreH5 : (grid_rows_pre <= 100)) (PreH6 : (0 <= grid_cols_pre)) (PreH7 : (grid_cols_pre <= 100)) (PreH8 : (1 <= capacity_pre)) (PreH9 : (capacity_pre <= 10)) (PreH10 : ((Zlength (rows)) = grid_rows_pre)) (PreH11 : forall (r_3: Z) , (((0 <= r_3) /\ (r_3 < grid_rows_pre)) -> ((Zlength ((Znth r_3 rows __default__List_Z))) = grid_cols_pre))) (PreH12 : forall (r_4: Z) , forall (c_2: Z) , (((((0 <= r_4) /\ (r_4 < grid_rows_pre)) /\ (0 <= c_2)) /\ (c_2 < grid_cols_pre)) -> ((0 <= (Znth c_2 (Znth r_4 rows __default__List_Z) 0)) /\ ((Znth c_2 (Znth r_4 rows __default__List_Z) 0) <= 1)))) (PreH13 : (0 <= out)) (PreH14 : (out <= (i * grid_cols_pre ))) ,
   forall (r_2: Z) , forall (c: Z) , (((((0 <= r_2) /\ (r_2 < grid_rows_pre)) /\ (0 <= c)) /\ (c < grid_cols_pre)) -> ((0 <= (Znth c (Znth r_2 rows __default__List_Z) 0)) /\ ((Znth c (Znth r_2 rows __default__List_Z) 0) <= 1)))
+.
+
+Definition max_fill_array2_entail_wit_2_split_goal_3 := 
+forall (capacity_pre: Z) (grid_cols_pre: Z) (grid_rows_pre: Z) (rows: (@list (@list Z))) (out: Z) (i: Z)  __default__List_Z (PreH1 : (i < grid_rows_pre)) (PreH2 : (0 <= i)) (PreH3 : (i <= grid_rows_pre)) (PreH4 : (0 <= grid_rows_pre)) (PreH5 : (grid_rows_pre <= 100)) (PreH6 : (0 <= grid_cols_pre)) (PreH7 : (grid_cols_pre <= 100)) (PreH8 : (1 <= capacity_pre)) (PreH9 : (capacity_pre <= 10)) (PreH10 : ((Zlength (rows)) = grid_rows_pre)) (PreH11 : forall (r_3: Z) , (((0 <= r_3) /\ (r_3 < grid_rows_pre)) -> ((Zlength ((Znth r_3 rows __default__List_Z))) = grid_cols_pre))) (PreH12 : forall (r_4: Z) , forall (c_2: Z) , (((((0 <= r_4) /\ (r_4 < grid_rows_pre)) /\ (0 <= c_2)) /\ (c_2 < grid_cols_pre)) -> ((0 <= (Znth c_2 (Znth r_4 rows __default__List_Z) 0)) /\ ((Znth c_2 (Znth r_4 rows __default__List_Z) 0) <= 1)))) (PreH13 : (0 <= out)) (PreH14 : (out <= (i * grid_cols_pre ))) ,
+  forall (r: Z) , (((0 <= r) /\ (r < grid_rows_pre)) -> ((Zlength ((Znth r rows __default__List_Z))) = grid_cols_pre))
 .
 
 Definition max_fill_array2_entail_wit_3 := 
@@ -573,7 +585,8 @@ forall (capacity_pre: Z) (grid_cols_pre: Z) (grid_rows_pre: Z) (rows: (@list (@l
 |--
   “ ((out + (((sum - 1 ) ÷ capacity_pre ) + 1 ) ) <= ((i + 1 ) * grid_cols_pre )) ” 
   &&  “ (0 <= (out + (((sum - 1 ) ÷ capacity_pre ) + 1 ) )) ” 
-  &&  “ forall (r_2: Z) , forall (c: Z) , (((((0 <= r_2) /\ (r_2 < grid_rows_pre)) /\ (0 <= c)) /\ (c < grid_cols_pre)) -> ((0 <= (Znth c (Znth r_2 rows __default__List_Z) 0)) /\ ((Znth c (Znth r_2 rows __default__List_Z) 0) <= 1))) ”
+  &&  “ forall (r_2: Z) , forall (c: Z) , (((((0 <= r_2) /\ (r_2 < grid_rows_pre)) /\ (0 <= c)) /\ (c < grid_cols_pre)) -> ((0 <= (Znth c (Znth r_2 rows __default__List_Z) 0)) /\ ((Znth c (Znth r_2 rows __default__List_Z) 0) <= 1))) ” 
+  &&  “ forall (r: Z) , (((0 <= r) /\ (r < grid_rows_pre)) -> ((Zlength ((Znth r rows __default__List_Z))) = grid_cols_pre)) ”
   &&  emp
 ).
 
@@ -590,6 +603,11 @@ forall (capacity_pre: Z) (grid_cols_pre: Z) (grid_rows_pre: Z) (rows: (@list (@l
 Definition max_fill_array2_entail_wit_4_1_split_goal_3 := 
 forall (capacity_pre: Z) (grid_cols_pre: Z) (grid_rows_pre: Z) (rows: (@list (@list Z))) (out: Z) (sum: Z) (i: Z) (j: Z)  __default__List_Z (PreH1 : (sum > 0)) (PreH2 : (j >= grid_cols_pre)) (PreH3 : (0 <= j)) (PreH4 : (j <= grid_cols_pre)) (PreH5 : (0 <= grid_rows_pre)) (PreH6 : (grid_rows_pre <= 100)) (PreH7 : (0 <= grid_cols_pre)) (PreH8 : (grid_cols_pre <= 100)) (PreH9 : (1 <= capacity_pre)) (PreH10 : (capacity_pre <= 10)) (PreH11 : ((Zlength (rows)) = grid_rows_pre)) (PreH12 : forall (r_3: Z) , (((0 <= r_3) /\ (r_3 < grid_rows_pre)) -> ((Zlength ((Znth r_3 rows __default__List_Z))) = grid_cols_pre))) (PreH13 : forall (r_4: Z) , forall (c_2: Z) , (((((0 <= r_4) /\ (r_4 < grid_rows_pre)) /\ (0 <= c_2)) /\ (c_2 < grid_cols_pre)) -> ((0 <= (Znth c_2 (Znth r_4 rows __default__List_Z) 0)) /\ ((Znth c_2 (Znth r_4 rows __default__List_Z) 0) <= 1)))) (PreH14 : ((Zlength ((Znth (i) (rows) ((@nil Z))))) = grid_cols_pre)) (PreH15 : (0 <= i)) (PreH16 : (i < grid_rows_pre)) (PreH17 : (0 <= sum)) (PreH18 : (sum <= j)) (PreH19 : (0 <= out)) (PreH20 : (out <= (i * grid_cols_pre ))) ,
   forall (r_2: Z) , forall (c: Z) , (((((0 <= r_2) /\ (r_2 < grid_rows_pre)) /\ (0 <= c)) /\ (c < grid_cols_pre)) -> ((0 <= (Znth c (Znth r_2 rows __default__List_Z) 0)) /\ ((Znth c (Znth r_2 rows __default__List_Z) 0) <= 1)))
+.
+
+Definition max_fill_array2_entail_wit_4_1_split_goal_4 := 
+forall (capacity_pre: Z) (grid_cols_pre: Z) (grid_rows_pre: Z) (rows: (@list (@list Z))) (out: Z) (sum: Z) (i: Z) (j: Z)  __default__List_Z (PreH1 : (sum > 0)) (PreH2 : (j >= grid_cols_pre)) (PreH3 : (0 <= j)) (PreH4 : (j <= grid_cols_pre)) (PreH5 : (0 <= grid_rows_pre)) (PreH6 : (grid_rows_pre <= 100)) (PreH7 : (0 <= grid_cols_pre)) (PreH8 : (grid_cols_pre <= 100)) (PreH9 : (1 <= capacity_pre)) (PreH10 : (capacity_pre <= 10)) (PreH11 : ((Zlength (rows)) = grid_rows_pre)) (PreH12 : forall (r_3: Z) , (((0 <= r_3) /\ (r_3 < grid_rows_pre)) -> ((Zlength ((Znth r_3 rows __default__List_Z))) = grid_cols_pre))) (PreH13 : forall (r_4: Z) , forall (c_2: Z) , (((((0 <= r_4) /\ (r_4 < grid_rows_pre)) /\ (0 <= c_2)) /\ (c_2 < grid_cols_pre)) -> ((0 <= (Znth c_2 (Znth r_4 rows __default__List_Z) 0)) /\ ((Znth c_2 (Znth r_4 rows __default__List_Z) 0) <= 1)))) (PreH14 : ((Zlength ((Znth (i) (rows) ((@nil Z))))) = grid_cols_pre)) (PreH15 : (0 <= i)) (PreH16 : (i < grid_rows_pre)) (PreH17 : (0 <= sum)) (PreH18 : (sum <= j)) (PreH19 : (0 <= out)) (PreH20 : (out <= (i * grid_cols_pre ))) ,
+  forall (r: Z) , (((0 <= r) /\ (r < grid_rows_pre)) -> ((Zlength ((Znth r rows __default__List_Z))) = grid_cols_pre))
 .
 
 Definition max_fill_array2_entail_wit_4_2 := 
@@ -617,7 +635,8 @@ forall (capacity_pre: Z) (grid_cols_pre: Z) (grid_rows_pre: Z) (rows: (@list (@l
   TT && emp 
 |--
   “ (out <= ((i + 1 ) * grid_cols_pre )) ” 
-  &&  “ forall (r_2: Z) , forall (c: Z) , (((((0 <= r_2) /\ (r_2 < grid_rows_pre)) /\ (0 <= c)) /\ (c < grid_cols_pre)) -> ((0 <= (Znth c (Znth r_2 rows __default__List_Z) 0)) /\ ((Znth c (Znth r_2 rows __default__List_Z) 0) <= 1))) ”
+  &&  “ forall (r_2: Z) , forall (c: Z) , (((((0 <= r_2) /\ (r_2 < grid_rows_pre)) /\ (0 <= c)) /\ (c < grid_cols_pre)) -> ((0 <= (Znth c (Znth r_2 rows __default__List_Z) 0)) /\ ((Znth c (Znth r_2 rows __default__List_Z) 0) <= 1))) ” 
+  &&  “ forall (r: Z) , (((0 <= r) /\ (r < grid_rows_pre)) -> ((Zlength ((Znth r rows __default__List_Z))) = grid_cols_pre)) ”
   &&  emp
 ).
 
@@ -629,6 +648,11 @@ forall (capacity_pre: Z) (grid_cols_pre: Z) (grid_rows_pre: Z) (rows: (@list (@l
 Definition max_fill_array2_entail_wit_4_2_split_goal_2 := 
 forall (capacity_pre: Z) (grid_cols_pre: Z) (grid_rows_pre: Z) (rows: (@list (@list Z))) (out: Z) (sum: Z) (i: Z) (j: Z)  __default__List_Z (PreH1 : (sum <= 0)) (PreH2 : (j >= grid_cols_pre)) (PreH3 : (0 <= j)) (PreH4 : (j <= grid_cols_pre)) (PreH5 : (0 <= grid_rows_pre)) (PreH6 : (grid_rows_pre <= 100)) (PreH7 : (0 <= grid_cols_pre)) (PreH8 : (grid_cols_pre <= 100)) (PreH9 : (1 <= capacity_pre)) (PreH10 : (capacity_pre <= 10)) (PreH11 : ((Zlength (rows)) = grid_rows_pre)) (PreH12 : forall (r_3: Z) , (((0 <= r_3) /\ (r_3 < grid_rows_pre)) -> ((Zlength ((Znth r_3 rows __default__List_Z))) = grid_cols_pre))) (PreH13 : forall (r_4: Z) , forall (c_2: Z) , (((((0 <= r_4) /\ (r_4 < grid_rows_pre)) /\ (0 <= c_2)) /\ (c_2 < grid_cols_pre)) -> ((0 <= (Znth c_2 (Znth r_4 rows __default__List_Z) 0)) /\ ((Znth c_2 (Znth r_4 rows __default__List_Z) 0) <= 1)))) (PreH14 : ((Zlength ((Znth (i) (rows) ((@nil Z))))) = grid_cols_pre)) (PreH15 : (0 <= i)) (PreH16 : (i < grid_rows_pre)) (PreH17 : (0 <= sum)) (PreH18 : (sum <= j)) (PreH19 : (0 <= out)) (PreH20 : (out <= (i * grid_cols_pre ))) ,
   forall (r_2: Z) , forall (c: Z) , (((((0 <= r_2) /\ (r_2 < grid_rows_pre)) /\ (0 <= c)) /\ (c < grid_cols_pre)) -> ((0 <= (Znth c (Znth r_2 rows __default__List_Z) 0)) /\ ((Znth c (Znth r_2 rows __default__List_Z) 0) <= 1)))
+.
+
+Definition max_fill_array2_entail_wit_4_2_split_goal_3 := 
+forall (capacity_pre: Z) (grid_cols_pre: Z) (grid_rows_pre: Z) (rows: (@list (@list Z))) (out: Z) (sum: Z) (i: Z) (j: Z)  __default__List_Z (PreH1 : (sum <= 0)) (PreH2 : (j >= grid_cols_pre)) (PreH3 : (0 <= j)) (PreH4 : (j <= grid_cols_pre)) (PreH5 : (0 <= grid_rows_pre)) (PreH6 : (grid_rows_pre <= 100)) (PreH7 : (0 <= grid_cols_pre)) (PreH8 : (grid_cols_pre <= 100)) (PreH9 : (1 <= capacity_pre)) (PreH10 : (capacity_pre <= 10)) (PreH11 : ((Zlength (rows)) = grid_rows_pre)) (PreH12 : forall (r_3: Z) , (((0 <= r_3) /\ (r_3 < grid_rows_pre)) -> ((Zlength ((Znth r_3 rows __default__List_Z))) = grid_cols_pre))) (PreH13 : forall (r_4: Z) , forall (c_2: Z) , (((((0 <= r_4) /\ (r_4 < grid_rows_pre)) /\ (0 <= c_2)) /\ (c_2 < grid_cols_pre)) -> ((0 <= (Znth c_2 (Znth r_4 rows __default__List_Z) 0)) /\ ((Znth c_2 (Znth r_4 rows __default__List_Z) 0) <= 1)))) (PreH14 : ((Zlength ((Znth (i) (rows) ((@nil Z))))) = grid_cols_pre)) (PreH15 : (0 <= i)) (PreH16 : (i < grid_rows_pre)) (PreH17 : (0 <= sum)) (PreH18 : (sum <= j)) (PreH19 : (0 <= out)) (PreH20 : (out <= (i * grid_cols_pre ))) ,
+  forall (r: Z) , (((0 <= r) /\ (r < grid_rows_pre)) -> ((Zlength ((Znth r rows __default__List_Z))) = grid_cols_pre))
 .
 
 Definition max_fill_array2_return_wit_1 := 

@@ -503,43 +503,11 @@ Qed.
 
 Lemma proof_of_array_vector_sum_entail_wit_2 : array_vector_sum_entail_wit_2.
 Proof.
+	right.
 	pre_process.
-	Exists (l3_2 ++ unsigned_last_nbits (Znth i l1 0 + Znth i l2 0) 32 :: nil).
-	split_pure_spatial.
-	- cancel (UIntArray.seg ret_pre 0 (i + 1) (l3_2 ++ unsigned_last_nbits (Znth i l1 0 + Znth i l2 0) 32 :: nil)).
-	  cancel (UIntArray.undef_seg ret_pre (i + 1) n_pre).
-	  cancel (UIntArray.full a_pre n_pre l1).
-	  cancel (UIntArray.full b_pre n_pre l2).
-	- split_pures.
-	  + dump_pre_spatial; lia.
-	  + dump_pre_spatial; lia.
-	  + dump_pre_spatial; exact PreH4.
-	  + dump_pre_spatial; exact PreH5.
-	  + dump_pre_spatial.
-	  	rewrite Zlength_app, Zlength_cons, Zlength_nil.
-	    lia.
-	  + dump_pre_spatial; exact PreH7.
-	  + dump_pre_spatial; exact PreH8.
-	  + dump_pre_spatial. intros k Hk.
-	    destruct (Z_lt_ge_dec k i).
-	    * rewrite app_Znth1 by lia.
-	      apply PreH9.
-	      lia.
-	    * assert (k = i) by lia.
-	      subst k.
-	      rewrite app_Znth2 by lia.
-	      rewrite PreH6.
-	      rewrite Z.sub_diag.
-	      simpl.
-	      assert (Hsum : 0 <= Znth i l1 0 + Znth i l2 0 < two_power_nat 32).
-	      {
-			destruct (PreH7 i) as [Ha1 Ha2]; try lia.
-			destruct (PreH8 i) as [Hb1 Hb2]; try lia.
-			change (two_power_nat 32) with 4294967296.
-			lia.
-	      }
-	      rewrite unsigned_last_nbits_eq by exact Hsum.
-	      reflexivity.
+	entailer!.
+	rewrite Zlength_app, Zlength_cons, Zlength_nil.
+	lia.
 Qed.
 
 Lemma proof_of_array_vector_sum_return_wit_1 : array_vector_sum_return_wit_1.
@@ -586,43 +554,11 @@ Qed.
 
 Lemma proof_of_pointwise_mul_entail_wit_2 : pointwise_mul_entail_wit_2.
 Proof.
+	right.
 	pre_process.
-	Exists (l3_2 ++ unsigned_last_nbits (Znth i l1 0 * Znth i l2 0) 32 :: nil).
-	split_pure_spatial.
-	- cancel (UIntArray.seg c_pre 0 (i + 1) (l3_2 ++ unsigned_last_nbits (Znth i l1 0 * Znth i l2 0) 32 :: nil)).
-	  cancel (UIntArray.undef_seg c_pre (i + 1) n_pre).
-	  cancel (UIntArray.full a_pre n_pre l1).
-	  cancel (UIntArray.full b_pre n_pre l2).
-	- split_pures.
-	  + dump_pre_spatial; lia.
-	  + dump_pre_spatial; lia.
-	  + dump_pre_spatial; exact PreH4.
-	  + dump_pre_spatial; exact PreH5.
-	  + dump_pre_spatial.
-	  	rewrite Zlength_app, Zlength_cons, Zlength_nil.
-	    lia.
-	  + dump_pre_spatial; exact PreH7.
-	  + dump_pre_spatial; exact PreH8.
-	  + dump_pre_spatial. intros k Hk.
-	    destruct (Z_lt_ge_dec k i).
-	    * rewrite app_Znth1 by lia.
-	      apply PreH9.
-	      lia.
-	    * assert (k = i) by lia.
-	      subst k.
-	      rewrite app_Znth2 by lia.
-	      rewrite PreH6.
-	      rewrite Z.sub_diag.
-	      simpl.
-	      assert (Hmul : 0 <= Znth i l1 0 * Znth i l2 0 < two_power_nat 32).
-	      {
-			destruct (PreH7 i) as [Ha1 Ha2]; try lia.
-			destruct (PreH8 i) as [Hb1 Hb2]; try lia.
-			change (two_power_nat 32) with 4294967296.
-			nia.
-	      }
-	      rewrite unsigned_last_nbits_eq by exact Hmul.
-	      reflexivity.
+	entailer!.
+	rewrite Zlength_app, Zlength_cons, Zlength_nil.
+	lia.
 Qed.
 
 Lemma proof_of_pointwise_mul_return_wit_1 : pointwise_mul_return_wit_1.
@@ -642,6 +578,16 @@ Proof.
 	- split_pures; dump_pre_spatial.
 	  + exact PreH6.
 	  + exact PreH9.
+Qed.
+
+Lemma proof_of_array_max_entail_wit_1_split_goal_1 : array_max_entail_wit_1_split_goal_1.
+Proof.
+  pre_process.
+Qed.
+
+Lemma proof_of_array_max_entail_wit_1 : array_max_entail_wit_1.
+Proof.
+  pre_process.
 Qed.
 
 Lemma proof_of_array_max_entail_wit_2_1 : array_max_entail_wit_2_1.

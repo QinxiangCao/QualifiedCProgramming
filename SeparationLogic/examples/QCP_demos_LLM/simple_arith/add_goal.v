@@ -23,8 +23,8 @@ Local Open Scope sac.
 Definition add_safety_wit_1 := 
 forall (y_pre: Z) (x_pre: Z) (PreH1 : (0 <= x_pre)) (PreH2 : (x_pre <= 100)) (PreH3 : (0 <= y_pre)) (PreH4 : (y_pre <= 100)) ,
   ((( &( "z" ) )) # Int  |->_)
-  **  ((( &( "y" ) )) # Int  |-> y_pre)
   **  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "y" ) )) # Int  |-> y_pre)
 |--
   “ ((x_pre + y_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (x_pre + y_pre )) ”

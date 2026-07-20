@@ -19,15 +19,10 @@ Import naive_C_Rules.
 Require Import SimpleC.StdLib.string_lib.
 Local Open Scope sac.
 
-Lemma proof_of_memchr_entail_wit_2 : memchr_entail_wit_2.
+Lemma proof_of_memchr_entail_wit_1 : memchr_entail_wit_1.
 Proof.
   pre_process.
-  entailer!.
-  intros k Hk.
-  destruct (Z.eq_dec k i) as [-> | Hki].
-  - exact PreH1.
-  - apply PreH11; lia.
-Qed. 
+Qed.
 
 Lemma proof_of_memchr_return_wit_1 : memchr_return_wit_1.
 Proof.

@@ -98,7 +98,7 @@ Proof.
   + dump_pre_spatial. exact PreH3.
 Qed.
 
-Lemma proof_of_merge_entail_wit_4_2 : merge_entail_wit_4_2.
+Lemma proof_of_merge_entail_wit_4_1 : merge_entail_wit_4_1.
 Proof.
   pre_process.
   subst x.
@@ -123,7 +123,7 @@ Proof.
       exact PreH2.
 Qed.
 
-Lemma proof_of_merge_entail_wit_4_1 : merge_entail_wit_4_1.
+Lemma proof_of_merge_entail_wit_4_2 : merge_entail_wit_4_2.
 Proof.
   pre_process.
   subst y.

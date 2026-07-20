@@ -625,9 +625,9 @@ forall (n_low_level_spec: Z) (l0: (@list Z)) (i: Z) (vnext: Z) (PreH1 : (i < n_l
 Definition match_safety_wit_1 := 
 forall (vnext_pre: Z) (text_pre: Z) (patn_pre: Z) (X_low_level_spec: ((@option Z) -> (unit -> Prop))) (m_low_level_spec: Z) (n_low_level_spec: Z) (vnext0_low_level_spec: (@list Z)) (text0_low_level_spec: (@list Z)) (patn0_low_level_spec: (@list Z)) (PreH1 : (safeExec ATrue (match_loop (0) (patn0_low_level_spec) (text0_low_level_spec) (vnext0_low_level_spec)) X_low_level_spec )) (PreH2 : (n_low_level_spec > 0)) (PreH3 : (n_low_level_spec < INT_MAX)) (PreH4 : (m_low_level_spec < INT_MAX)) ,
   ((( &( "j" ) )) # Int  |->_)
-  **  ((( &( "vnext" ) )) # Ptr  |-> vnext_pre)
-  **  ((( &( "text" ) )) # Ptr  |-> text_pre)
   **  ((( &( "patn" ) )) # Ptr  |-> patn_pre)
+  **  ((( &( "text" ) )) # Ptr  |-> text_pre)
+  **  ((( &( "vnext" ) )) # Ptr  |-> vnext_pre)
   **  (CharArray.full patn_pre (n_low_level_spec + 1 ) (app (patn0_low_level_spec) ((cons (0) ((@nil Z))))) )
   **  (CharArray.full text_pre (m_low_level_spec + 1 ) (app (text0_low_level_spec) ((cons (0) ((@nil Z))))) )
   **  (IntArray.full vnext_pre n_low_level_spec vnext0_low_level_spec )
@@ -644,9 +644,9 @@ forall (vnext_pre: Z) (text_pre: Z) (patn_pre: Z) (X_low_level_spec: ((@option Z
   **  (CharArray.full text_pre (m_low_level_spec + 1 ) (app (text0_low_level_spec) ((cons (0) ((@nil Z))))) )
   **  ((( &( "text_len" ) )) # Int  |-> retval)
   **  ((( &( "j" ) )) # Int  |-> 0)
-  **  ((( &( "vnext" ) )) # Ptr  |-> vnext_pre)
-  **  ((( &( "text" ) )) # Ptr  |-> text_pre)
   **  ((( &( "patn" ) )) # Ptr  |-> patn_pre)
+  **  ((( &( "text" ) )) # Ptr  |-> text_pre)
+  **  ((( &( "vnext" ) )) # Ptr  |-> vnext_pre)
   **  (IntArray.full vnext_pre n_low_level_spec vnext0_low_level_spec )
 |--
   “ (0 <= INT_MAX) ” 
@@ -1044,8 +1044,8 @@ forall (text_pre: Z) (patn_pre: Z) (m: Z) (n: Z) (text0: (@list Z)) (patn0: (@li
 Definition main_partial_solve_wit_1_pure := 
 forall (text_pre: Z) (patn_pre: Z) (m: Z) (n: Z) (text0: (@list Z)) (patn0: (@list Z)) (PreH1 : (n > 0)) (PreH2 : (n < INT_MAX)) (PreH3 : (m < INT_MAX)) ,
   ((( &( "vnext" ) )) # Ptr  |->_)
-  **  ((( &( "text" ) )) # Ptr  |-> text_pre)
   **  ((( &( "patn" ) )) # Ptr  |-> patn_pre)
+  **  ((( &( "text" ) )) # Ptr  |-> text_pre)
   **  (CharArray.full patn_pre (n + 1 ) (app (patn0) ((cons (0) ((@nil Z))))) )
   **  (CharArray.full text_pre (m + 1 ) (app (text0) ((cons (0) ((@nil Z))))) )
 |--

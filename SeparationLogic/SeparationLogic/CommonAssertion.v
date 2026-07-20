@@ -1182,17 +1182,31 @@ Ltac lexists v :=
   end.
   
 
-Ltac simpl_auto := 
-  solve [auto | lia | nia | int_auto].
+Ltac simpl_auto_with tac :=
+  solve [auto | tac].
 
-Ltac simpl_entail := match goal with
-  | |- ?Q /\ ?R => split;[simpl_entail| simpl_entail]
-  | |-  _ =>  simpl_auto || idtac  end.
+Ltac simpl_auto :=
+  simpl_auto_with ltac:(lia || nia || int_auto).
+
+Ltac simpl_entail_with tac := match goal with
+  | |- ?Q /\ ?R => split; [simpl_entail_with tac | simpl_entail_with tac]
+  | |- _ => simpl_auto_with tac || idtac
+  end.
+
+Ltac simpl_entail :=
+  simpl_entail_with ltac:(lia || nia || int_auto).
 
 Ltac entailer_pure := asrt_simpl_pure; sepcon_assoc_change; andp_cancel.
 
+Ltac entailer_with tac :=
+  set_String_name;
+  try poly_store_unfold;
+  Rename entailer_pure;
+  simpl_entail_with tac;
+  subst_all_strings.
+
 Tactic Notation "cancel" := set_String_name ; Rename sepcon_cancel ; subst_all_strings.
-Tactic Notation "entailer!"  := set_String_name ; try poly_store_unfold ; Rename entailer_pure; simpl_entail ; subst_all_strings.
+Tactic Notation "entailer!" := entailer_with ltac:(lia || nia || int_auto).
 Tactic Notation "Intros" := set_String_name ; pureIntros ; subst_all_strings.
 Tactic Notation "Intros" simple_intropattern(x0) := set_String_name ; pureIntros ; left_intro x0; pureIntros ; subst_all_strings.
 Tactic Notation "Intros" simple_intropattern(x0) simple_intropattern(x1) := set_String_name ; pureIntros ; left_intro x0; left_intro x1; pureIntros ; subst_all_strings.
@@ -1462,7 +1476,7 @@ Ltac pre_process_pure :=
   wand_elim;
   asrt_simpl_pure.
 
-Ltac pre_process :=
+Ltac LLM_pre_process_tac tac :=
   try Unfold;
   match goal with 
     | |-  _ \/ _ => left 
@@ -1470,7 +1484,12 @@ Ltac pre_process :=
   end;
   intros; poly_store_unfold;
   Rename pre_process_pure ;
-  try (solve [entailer!]).
+  try (solve [entailer_with tac]).
+
+Tactic Notation "LLM_pre_process" tactic(tac) := LLM_pre_process_tac tac.
+
+Ltac pre_process :=
+  LLM_pre_process_tac ltac:(lia || nia || int_auto).
 
 Tactic Notation "pre_process_default" := pre_process.
 
@@ -1898,28 +1917,32 @@ Ltac aggressive_pre_process :=
   intros; poly_store_unfold;
   Rename pre_process_pure ;
   repeat (split_pure_spatial || split_pures);
-  try solve [entailer!];
+  try solve [cancel];
   try match goal with
       | |- emp |-- “ _ ” => dump_pre_spatial
+      | |- emp |-- emp => cancel
       end.
+
+Ltac Goal_apply_finish H :=
+  let H_inst := fresh "H_goal_inst" in
+  pose proof H as H_inst;
+  repeat rewrite truep_andp_left_equiv in H_inst;
+  repeat rewrite truep_andp_right_equiv in H_inst;
+  first [ exact H_inst | sep_apply H_inst; entailer! ].
 
 Ltac Goal_apply_used H used :=
   lazymatch type of H with
   | forall x : ?A, _ =>
-      match reverse goal with
-      | h : A |- _ =>
-          first
-            [ lazymatch used with
-              | context[h] => fail 1
+      first
+        [ match reverse goal with
+          | h : A |- _ =>
+              lazymatch used with
+              | context[h] => fail
+              | _ => Goal_apply_used (H h) (h, used)
               end
-            | Goal_apply_used (H h) (h, used) ]
-      end
-  | _ =>
-      let H_inst := fresh "H_goal_inst" in
-      pose proof H as H_inst;
-      repeat rewrite truep_andp_left_equiv in H_inst;
-      repeat rewrite truep_andp_right_equiv in H_inst;
-      first [ exact H_inst | sep_apply H_inst; entailer! ]
+          end
+        | Goal_apply_finish H ]
+  | _ => Goal_apply_finish H
   end.
 
 Ltac Goal_apply H := 
@@ -1927,7 +1950,10 @@ Ltac Goal_apply H :=
   match type of H_goal with
   | ?P => try unfold P in H_goal
   end;
-  Goal_apply_used H_goal tt.
+  once (Goal_apply_used H_goal tt);
+  match goal with
+  | |- _ => fail 1 "Goal_apply: greedy instantiation did not completely solve the goal; use explicit sep_apply/exact with manually supplied parameters"
+  end.
   
 (* ----- Experimental / disabled ideas kept for reference ----- *)
 

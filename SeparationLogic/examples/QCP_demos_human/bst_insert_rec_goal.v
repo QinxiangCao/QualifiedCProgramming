@@ -26,9 +26,9 @@ From SimpleC.EE.QCP_demos_human Require Import bst_strategy_proof.
 
 Definition insert_safety_wit_1 := 
 forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (PreH1 : (INT_MIN <= x_pre)) (PreH2 : (x_pre <= INT_MAX)) ,
-  ((( &( "value" ) )) # Int  |-> value_pre)
+  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  ((( &( "x" ) )) # Int  |-> x_pre)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "value" ) )) # Int  |-> value_pre)
   **  (store_tree b_pre tr_low_level_spec )
 |--
   “ (0 <= INT_MAX) ” 
@@ -41,9 +41,9 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (retval: Z
   **  ((&((retval)  # "tree" ->ₛ "value")) # Int  |-> value_pre)
   **  ((&((retval)  # "tree" ->ₛ "left")) # Ptr  |->_)
   **  ((&((retval)  # "tree" ->ₛ "right")) # Ptr  |->_)
-  **  ((( &( "value" ) )) # Int  |-> value_pre)
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((( &( "b" ) )) # Ptr  |-> retval)
+  **  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "value" ) )) # Int  |-> value_pre)
   **  (store_tree b_pre tr_low_level_spec )
 |--
   “ (0 <= INT_MAX) ” 
@@ -56,9 +56,9 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (retval: Z
   **  ((&((retval)  # "tree" ->ₛ "value")) # Int  |-> value_pre)
   **  ((&((retval)  # "tree" ->ₛ "left")) # Ptr  |-> 0)
   **  ((&((retval)  # "tree" ->ₛ "right")) # Ptr  |->_)
-  **  ((( &( "value" ) )) # Int  |-> value_pre)
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((( &( "b" ) )) # Ptr  |-> retval)
+  **  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "value" ) )) # Int  |-> value_pre)
   **  (store_tree b_pre tr_low_level_spec )
 |--
   “ (0 <= INT_MAX) ” 
@@ -218,9 +218,9 @@ forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (PreH1 : (b_pre = 0)) (Pr
 
 Definition insert_partial_solve_wit_2_pure := 
 forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (PreH1 : (b_pre <> 0)) (PreH2 : (INT_MIN <= x_pre)) (PreH3 : (x_pre <= INT_MAX)) ,
-  ((( &( "value" ) )) # Int  |-> value_pre)
+  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  ((( &( "x" ) )) # Int  |-> x_pre)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "value" ) )) # Int  |-> value_pre)
   **  (store_tree b_pre tr_low_level_spec )
 |--
   “ (b_pre <> 0) ”
@@ -248,8 +248,8 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_right: 
   **  (store_tree b_left l0 )
   **  ((&((b_pre)  # "tree" ->ₛ "right")) # Ptr  |-> b_right)
   **  (store_tree b_right r0 )
-  **  ((( &( "value" ) )) # Int  |-> value_pre)
   **  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "value" ) )) # Int  |-> value_pre)
 |--
   “ (INT_MIN <= x_pre) ” 
   &&  “ (x_pre <= INT_MAX) ”
@@ -292,8 +292,8 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_right: 
   **  (store_tree b_left l0 )
   **  ((&((b_pre)  # "tree" ->ₛ "right")) # Ptr  |-> b_right)
   **  (store_tree b_right r0 )
-  **  ((( &( "value" ) )) # Int  |-> value_pre)
   **  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "value" ) )) # Int  |-> value_pre)
 |--
   “ (INT_MIN <= x_pre) ” 
   &&  “ (x_pre <= INT_MAX) ”

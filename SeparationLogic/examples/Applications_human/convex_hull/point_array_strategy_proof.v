@@ -263,17 +263,10 @@ Proof.
       lia.
     + unfold StorePointAsElement.undefstoreA, undef_point.
       simpl.
-      eapply derivable1_trans.
-      * apply derivable1_sepcon_assoc1.
-      * eapply derivable1_trans.
-        -- apply derivable1_sepcon_comm.
-        -- apply derivable1_sepcon_mono.
-           ++ apply derivable1_refl.
-           ++ apply derivable1_sepcon_mono.
-              ** apply derivable1_refl.
-              ** apply_sepcon_adjoint.
-                 elim_emp.
-                 cancel.
+      cancel.
+      apply_sepcon_adjoint.
+      elim_emp.
+      cancel.
 Qed.
 
 Lemma point_array_strategy16_correctness : point_array_strategy16.
@@ -286,17 +279,10 @@ Proof.
     + dump_pre_spatial.
       lia.
     + unfold StorePointAsElement.undefstoreA, undef_point.
-      eapply derivable1_trans.
-      * apply derivable1_sepcon_assoc1.
-      * eapply derivable1_trans.
-        -- apply derivable1_sepcon_comm.
-        -- apply derivable1_sepcon_mono.
-           ++ apply derivable1_refl.
-           ++ apply derivable1_sepcon_mono.
-              ** apply derivable1_refl.
-              ** apply_sepcon_adjoint.
-                 elim_emp.
-                 cancel.
+      cancel.
+      apply_sepcon_adjoint.
+      elim_emp.
+      cancel.
 Qed.
 
 Lemma point_array_strategy21_correctness : point_array_strategy21.

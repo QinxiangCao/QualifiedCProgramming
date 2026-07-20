@@ -39,7 +39,7 @@ Dijkstra_FILES = Dijkstra/Dijkstra.v Dijkstra/Dijkstra_trace.v
 Prim_FILES = Prim/Prim.v 
 Kruskal_FILES = Kruskal/Kruskal.v
 DFS_FILES = DFS/DFS.v DFS/DFS_traditional.v DFS/C10909_MonadProg_DFS.v
-BFS_FILES = BFS/BFS.v BFS/BFS_path.v BFS/Go.v
+BFS_FILES = BFS/BFS.v BFS/BFS_assert.v BFS/BFS_path.v BFS/Go.v
 Tarjan_FILES = Tarjan/Tarjan.v Tarjan/Tarjan_tactics.v Tarjan/Tarjan_set_tree.v Tarjan/Tarjan_basics.v Tarjan/Tarjan_basics_ex.v Tarjan/Tarjan_is_dfn.v Tarjan/Tarjan_is_low.v Tarjan/Tarjan_no_cross_edge.v Tarjan/Tarjan_bridge_iff.v Tarjan/Tarjan_tarjan.v Tarjan/Tarjan_bridge_iff_ex.v
 
 FILES = \

@@ -119,7 +119,7 @@ Proof.
   Exists y.
   Exists h.
   normalize.
-  rewrite <- elim_wand_emp_emp.
+  wand_elim.
   elim_emp.
   cancel.
   cancel.
@@ -174,7 +174,7 @@ Proof.
   normalize.
   Exists h.
   Exists y.
-  rewrite <- elim_wand_emp_emp.
+  wand_elim.
   elim_emp.
   rewrite <- logic_equiv_coq_prop_or.
   split_pure_spatial.

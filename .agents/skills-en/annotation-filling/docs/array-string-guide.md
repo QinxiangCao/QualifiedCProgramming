@@ -1,31 +1,31 @@
-# Array 和 String 谓词
+# Array and String Predicates
 
-遇到连续数组、字符缓冲区、C 字符串或字符串字面量时，先使用 builtin 谓词，再判断是否需要在 `case_lib` 中新增数学定义。
+For a contiguous array, character buffer, C string, or string literal, start with the built-in predicates, then decide whether the problem needs an additional mathematical definition in `formal_case_lib`.
 
-## 常用 array 谓词
+## Common array predicates
 
-常用模块：`IntArray`、`UIntArray`、`CharArray`、`UCharArray`、`ShortArray`、`UShortArray`、`Int64Array`、`UInt64Array`、`PtrArray`。
+Common modules include `IntArray`, `UIntArray`, `CharArray`, `UCharArray`, `ShortArray`, `UShortArray`, `Int64Array`, `UInt64Array`, and `PtrArray`.
 
-核心谓词：
+Core predicates:
 
-- `TArray::full(p, n, l)`：地址 `p` 开始、长度 `n`、精确内容为 `l` 的数组。
-- `TArray::seg(p, lo, hi, l)`：同一基址上 `[lo, hi)` 区间，精确内容为 `l`。
-- `TArray::full_shape(p, n)` / `seg_shape(p, lo, hi)`：只描述可访问 shape。
-- `TArray::undef_full(p, n)` / `undef_seg(p, lo, hi)`：未初始化数组或区间。
-- `missing_i` family：策略打开单个元素时的中间形态，默认不手写。
+- `TArray::full(p, n, l)`: an array starting at address `p`, of length `n`, whose exact contents are `l`.
+- `TArray::seg(p, lo, hi, l)`: the `[lo, hi)` interval relative to the same base address, whose exact contents are `l`.
+- `TArray::full_shape(p, n)` / `seg_shape(p, lo, hi)`: accessibility/shape only.
+- `TArray::undef_full(p, n)` / `undef_seg(p, lo, hi)`: an uninitialized array or interval.
+- The `missing_i` family: intermediate forms produced when a strategy opens one element; do not write these by hand by default.
 
-数组读写通常需要显式 bounds，例如 `0 <= i && i < n`。
+Array reads and writes usually require explicit bounds such as `0 <= i && i < n`.
 
-## 选型
+## Choosing a predicate
 
-选 `TArray::full(p, n, l)`：
+Use `TArray::full(p, n, l)` when:
 
-- spec 或 invariant 要谈 `Znth`、`sublist`、`replace_Znth`、`Permutation`、`sum`、`sorted`。
-- 函数返回值依赖元素语义。
-- 原地修改后 postcondition 要精确说明修改后的列表。
-- refinement / pure spec 明确以列表值作为抽象状态。
+- The specification or invariant discusses `Znth`, `sublist`, `replace_Znth`, `Permutation`, `sum`, or sortedness.
+- The function's result depends on element values.
+- A postcondition must precisely describe the list after an in-place update.
+- A refinement or pure specification explicitly uses a list value as its abstract state.
 
-典型 annotation 线索：
+Typical annotation clues:
 
 ```c
 ret == sum(sublist(0, i, l))
@@ -34,21 +34,21 @@ v == Znth(i, l, 0)
 new_l == replace_Znth(i, v, l)
 ```
 
-选 `TArray::full_shape(p, n)` 或 `seg_shape(p, lo, hi)`：
+Use `TArray::full_shape(p, n)` or `seg_shape(p, lo, hi)` when:
 
-- 只关心内存存在、长度和可访问性。
-- 程序读写元素，但目标不依赖具体值。
-- postcondition 只要求目标 buffer 合法。
+- Only memory existence, length, and accessibility matter.
+- The program reads or writes elements, but the goal does not depend on their values.
+- The postcondition requires only a valid destination buffer.
 
-shape 谓词适合 memory-layout 或 buffer-exists goals。若后续需要 `sum(l)`、`Permutation`、`sublist` 或元素范围，shape 已经不够，必须用精确内容谓词。
+Shape predicates fit memory-layout or buffer-existence goals. If later reasoning needs `sum(l)`, `Permutation`, `sublist`, or element bounds, shape is insufficient; use an exact-content predicate.
 
-选 `TArray::seg(p, lo, hi, l)`：
+Use `TArray::seg(p, lo, hi, l)` for:
 
-- 多游标 / 双指针算法。
-- 同一数组被划分为前缀、当前区间、后缀。
-- merge、partition、copy、window 等算法需要维护相邻区间。
+- Multi-cursor or two-pointer algorithms.
+- An array partitioned into a prefix, current interval, and suffix.
+- Merge, partition, copy, window, and similar algorithms that maintain adjacent intervals.
 
-典型形状：
+Typical shape:
 
 ```c
 IntArray::seg(a, 0, i, left_part) *
@@ -56,57 +56,57 @@ IntArray::seg(a, i, j, middle_part) *
 IntArray::seg(a, j, n, right_part)
 ```
 
-当循环有多个游标 `i / j / k`，并且每个游标对应不同逻辑区间时，`seg` 通常比一个巨大 `full` 加纯 `sublist` 等式更稳。
+When a loop has several cursors such as `i / j / k` and each corresponds to a distinct logical interval, `seg` is usually more robust than one enormous `full` assertion plus pure `sublist` equalities.
 
-未初始化后逐步写满：初始用 `TArray::undef_full(p, n)`，循环中维护已写前缀 `seg` / `seg_shape` 和未写后缀 `undef_seg`。离开函数或 local scope 前，应能看到完整 `full` 或 `undef_full`。
+For an initially uninitialized buffer that is filled incrementally, begin with `TArray::undef_full(p, n)`. During the loop, maintain a written prefix using `seg` / `seg_shape` and an unwritten suffix using `undef_seg`. Before leaving the function or local scope, the state should expose a complete `full` or `undef_full`.
 
-偏移指针作为新基址：若后续主要通过 `p + i * sizeof(T)` 访问 suffix，可直接用偏移指针作基址；若还要和原数组其他区间组合，`seg(p, i, n, suffix)` 通常更合适。
+If an offset pointer becomes the main base for later accesses to a suffix, it may be used directly as the base address. If the suffix must still be composed with other intervals of the original array, `seg(p, i, n, suffix)` is usually better.
 
-## C string 谓词
+## C-string predicate
 
 ```coq
 store_string : Z -> list Z -> Assertion
 ```
 
-`store_string(p, s)` 表示可读写 C 字符串缓冲区。逻辑内容 `s : list Z` 不包含结尾 `0`，底层内存包含 `s ++ [0]`。当程序语义就是 C 字符串时优先使用它；若 proof 需要底层字符区间，可使用 `CharArray::full` / `CharArray::seg`。
+`store_string(p, s)` denotes a readable and writable C-string buffer. Its logical content `s : list Z` excludes the terminating zero, while the underlying memory contains `s ++ [0]`. Prefer it when the program semantics are those of a C string. If the proof needs the underlying character intervals, use `CharArray::full` / `CharArray::seg`.
 
-## String literal 谓词
+## String-literal predicates
 
 ```coq
 store_stringLit : Z -> string -> Assertion
 GlobalStrings : (string -> Z) -> Assertion
 ```
 
-`store_stringLit(addr, s)` 表示 string literal，不适合表示可写局部数组，如 `char a[] = "abc"`。`GlobalStrings(LitMap)` 表示字面量地址池，可拆出 `store_stringLit(LitMap("..."), "...")`。默认不假设不同字面量地址不同，除非当前 case spec 额外声明。
+`store_stringLit(addr, s)` denotes a string literal. It is not suitable for a writable local array such as `char a[] = "abc"`. `GlobalStrings(LitMap)` denotes the pool of literal addresses and can be split to obtain `store_stringLit(LitMap("..."), "...")`. Do not assume by default that distinct literals have distinct addresses unless the current case specification says so.
 
-## 建议
+## Recommendations
 
-- 普通 int / uint / ptr 数组按上面的 `full`、`seg`、`shape` 或 `undef_*` 选型。
-- `char *` 表示 C 字符串且 proof 使用“不含终止符的逻辑内容”时，用 `store_string(p, s)`。
-- 字符数组只是普通字节数组时，用 `CharArray::full` / `seg` / `undef_*`。
-- 字符串字面量读取前需要 `GlobalStrings(LitMap)` 或已拆出的 `store_stringLit`。
-- 不要把 Rocq `string` 直接当成 `list Z`；需要内存列表时使用对应转换函数。
-- 数组谓词描述资源拥有关系，`Znth` 描述对逻辑列表某个位置的观察；不要用 `Znth` 替代数组谓词本身。
-- 单元素读写后，同时保留 bounds、数组资源和当前值绑定，例如 `0 <= i < n`、`IntArray::full(a, n, l)` 和 `v == Znth(i, l, 0)`。
-- 分段写入或双指针算法仍优先维护 `full` / `seg` / `undef_*` 等资源形态，再用 `sublist`、`replace_Znth`、`Znth` 描述内容变化。
-- 不要预设存在统一的 `Zhth` 基础库；如果某个 case 自己提供类似观察 predicate，只把它当作局部接口，不要让 invariant 核心语义退化成操作该接口。
+- For ordinary `int`, `uint`, and pointer arrays, choose among `full`, `seg`, `shape`, and `undef_*` as described above.
+- When `char *` is a C string and the proof uses logical contents without the terminator, use `store_string(p, s)`.
+- When a character array is merely a byte array, use `CharArray::full` / `seg` / `undef_*`.
+- Before reading a string literal, provide `GlobalStrings(LitMap)` or an already-split `store_stringLit`.
+- Do not treat a Rocq `string` directly as a `list Z`; use the appropriate conversion when a memory list is required.
+- Array predicates express resource ownership, while `Znth` observes a position in the logical list. Do not use `Znth` in place of the array predicate itself.
+- After a single-element read or write, retain the bounds, array resource, and current value binding together—for example, `0 <= i < n`, `IntArray::full(a, n, l)`, and `v == Znth(i, l, 0)`.
+- For segmented writes or two-pointer algorithms, continue to maintain `full` / `seg` / `undef_*` resource shapes first, then describe content changes with `sublist`, `replace_Znth`, and `Znth`.
+- Do not assume a universal `Zhth` foundation library exists. If a case provides a similar observation predicate, treat it only as a local interface; do not reduce the core invariant semantics to manipulating that interface.
 
-## `missing_i` 使用边界
+## Limits on direct `missing_i` use
 
-`missing_i` / `missing_i_shape` / `undef_missing_i` 通常是策略打开单个元素时产生的中间形态，不是手写 annotation 的默认选择。
+`missing_i`, `missing_i_shape`, and `undef_missing_i` are normally intermediate forms produced when a strategy opens one element, not the default form for handwritten annotations.
 
-不要因为代码出现 `a[i]` 或 `a[i] = v` 就手写 `missing_i`。先写高层 `full`、`seg`、`shape` 或 `undef_*`，让 array strategies 自动拆开并写回。只有当 spec 真正需要表达“除第 `i` 个元素外的其余数组”时，才考虑直接暴露 `missing_i`。
+Do not write `missing_i` just because the code contains `a[i]` or `a[i] = v`. Start with the higher-level `full`, `seg`, `shape`, or `undef_*` form and let array strategies split and restore it. Expose `missing_i` directly only when the specification truly needs to express “the remainder of the array except element `i`.”
 
-## `Znth` 和高层性质
+## `Znth` and high-level properties
 
-`Znth` 用来观察某个位置，数组谓词用来说明资源拥有关系。二者不要互相替代。
+Use `Znth` to observe a position; use an array predicate to express resource ownership. They are not substitutes for one another.
 
-适合写 `Znth` 的位置：
+Appropriate places for `Znth` include:
 
-- 数组 read 后绑定局部值。
-- 当前候选元素、pivot、边界元素。
-- `replace_Znth` 写回前后的连接事实。
+- Binding a local value after an array read.
+- The current candidate, pivot, or boundary element.
+- Connecting the states before and after a `replace_Znth` write.
 
-不适合把 invariant 写成一长串孤立 `Znth` 等式。如果真正想表达的是“当前 `best` 是已处理前缀的最大值”或“当前区间满足 partition”，应定义业务 predicate，例如 `PrefixMaxState(sublist(0, i, l), best)` 或 `PartitionedAround(l, lo, mid, hi, pivot)`。
+Do not turn an invariant into a long sequence of isolated `Znth` equalities. If the intended property is “`best` is the maximum of the processed prefix” or “the current interval satisfies the partition condition,” define a business predicate such as `PrefixMaxState(sublist(0, i, l), best)` or `PartitionedAround(l, lo, mid, hi, pivot)`.
 
-若 proof 中发现必须新增基础 array/string memory semantics，先确认 builtin 是否已有；若 annotation 选错谓词，应回到 annotation 修正。
+If a proof appears to require new foundational array/string memory semantics, first confirm that no built-in predicate already provides them. If the annotation chose the wrong predicate, repair the annotation instead.

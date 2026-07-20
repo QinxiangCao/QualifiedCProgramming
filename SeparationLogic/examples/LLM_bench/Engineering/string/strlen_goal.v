@@ -71,11 +71,17 @@ forall (s_pre: Z) (str: (@list Z)) (PreH1 : (valid_string str )) (PreH2 : ((stri
 forall (str: (@list Z)) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (valid_string str )) (PreH3 : ((string_length (str)) < INT_MAX)) ,
   TT && emp 
 |--
-  “ (0 <= (string_length (str))) ”
+  “ forall (k: Z) , (((0 <= k) /\ (k < 0)) -> ((Znth (k) (str) (0)) <> 0)) ” 
+  &&  “ (0 <= (string_length (str))) ”
   &&  emp
 ).
 
 Definition strlen_entail_wit_1_split_goal_1 := 
+forall (str: (@list Z)) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (valid_string str )) (PreH3 : ((string_length (str)) < INT_MAX)) ,
+  forall (k: Z) , (((0 <= k) /\ (k < 0)) -> ((Znth (k) (str) (0)) <> 0))
+.
+
+Definition strlen_entail_wit_1_split_goal_2 := 
 forall (str: (@list Z)) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (valid_string str )) (PreH3 : ((string_length (str)) < INT_MAX)) ,
   (0 <= (string_length (str)))
 .
@@ -96,17 +102,11 @@ forall (s_pre: Z) (str: (@list Z)) (i: Z) (PreH1 : ((Znth i (c_string (str)) 0) 
 forall (str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : ((Znth i (c_string (str)) 0) <> 0)) (PreH3 : (valid_string str )) (PreH4 : ((string_length (str)) < INT_MAX)) (PreH5 : (0 <= i)) (PreH6 : (i <= (string_length (str)))) (PreH7 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (str) (0)) <> 0))) ,
   TT && emp 
 |--
-  “ (((Znth (0) (str) (0)) <> 0) /\ ((Znth (((i + 1 ) - 1 )) (str) (0)) <> 0)) ” 
-  &&  “ ((i + 1 ) <= (string_length (str))) ”
+  “ ((i + 1 ) <= (string_length (str))) ”
   &&  emp
 ).
 
 Definition strlen_entail_wit_2_split_goal_1 := 
-forall (str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : ((Znth i (c_string (str)) 0) <> 0)) (PreH3 : (valid_string str )) (PreH4 : ((string_length (str)) < INT_MAX)) (PreH5 : (0 <= i)) (PreH6 : (i <= (string_length (str)))) (PreH7 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (str) (0)) <> 0))) ,
-  (((Znth (0) (str) (0)) <> 0) /\ ((Znth (((i + 1 ) - 1 )) (str) (0)) <> 0))
-.
-
-Definition strlen_entail_wit_2_split_goal_2 := 
 forall (str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : ((Znth i (c_string (str)) 0) <> 0)) (PreH3 : (valid_string str )) (PreH4 : ((string_length (str)) < INT_MAX)) (PreH5 : (0 <= i)) (PreH6 : (i <= (string_length (str)))) (PreH7 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (str) (0)) <> 0))) ,
   ((i + 1 ) <= (string_length (str)))
 .

@@ -193,8 +193,8 @@ forall (y_pre: Z) (x_pre: Z) (x_pre_v: Z) (PreH1 : (x_pre = y_pre)) (PreH2 : (x_
 
 Definition swap_test2_partial_solve_wit_1_pure := 
 forall (y_pre: Z) (x_pre: Z) (x_pre_v: Z) (PreH1 : (x_pre = y_pre)) (PreH2 : (x_pre_v = 1)) ,
-  ((( &( "y" ) )) # Ptr  |-> y_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  ((x_pre) # Int  |-> x_pre_v)
 |--
   “ (x_pre = y_pre) ”

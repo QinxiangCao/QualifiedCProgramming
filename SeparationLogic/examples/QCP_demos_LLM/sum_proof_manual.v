@@ -447,12 +447,9 @@ Proof.
   pre_process.
   prop_apply IntArray.full_Zlength.
   Intros_p Hlen.
-  rewrite Zlength_correct in Hlen.
-  unfold zeros.
-  simpl repeat.
-  rewrite app_nil_l.
-  assert (HlenZ : Zlength l = n_pre) by (rewrite Zlength_correct; exact Hlen).
+  assert (HlenZ : Zlength l = n_pre) by exact Hlen.
   rewrite (sublist_self l n_pre) by exact (eq_sym HlenZ).
+  Exists l.
   split_pure_spatial.
   - cancel (IntArray.full a_pre n_pre l).
   - split_pures.
@@ -461,7 +458,9 @@ Proof.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. exact (eq_sym HlenZ).
+    + dump_pre_spatial. exact (eq_sym HlenZ).
     + dump_pre_spatial. exact PreH3.
+    + dump_pre_spatial. intros; reflexivity.
     + dump_pre_spatial. reflexivity.
 Qed.
 
@@ -490,7 +489,9 @@ Proof.
     rewrite <- app_assoc. simpl.
     reflexivity.
   }
+  rewrite PreH9.
   rewrite Hrewrite.
+  Exists (zeros (i_2 + 1) ++ sublist (i_2 + 1) n_pre l).
   split_pures.
   split_pure_spatial.
   - cancel (IntArray.full a_pre n_pre (zeros (i_2 + 1) ++ sublist (i_2 + 1) n_pre l)).
@@ -500,7 +501,13 @@ Proof.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. lia.
     + dump_pre_spatial. exact PreH6.
-    + dump_pre_spatial. exact PreH7.
+    + dump_pre_spatial.
+      rewrite Zlength_app.
+      rewrite Zlength_correct. unfold zeros. rewrite repeat_length.
+      rewrite Zlength_sublist by lia.
+      lia.
+    + dump_pre_spatial. exact PreH8.
+    + dump_pre_spatial. reflexivity.
     + dump_pre_spatial.
       assert (Hzi :
         Znth i_2 (zeros i_2 ++ sublist i_2 n_pre l) 0 = Znth i_2 l 0).
@@ -512,13 +519,13 @@ Proof.
         replace (0 + i_2) with i_2 by lia.
         apply Znth_indep. lia.
       }
-      rewrite Hzi.
-      rewrite PreH8.
+      try rewrite Hzi.
+      try rewrite PreH10.
       rewrite (sublist_split 0 (i_2 + 1) i_2 l) by lia.
       rewrite sum_app.
       rewrite (sublist_single 0 i_2 l) by lia.
       simpl.
-      assert (Hrange : forall j : Z, 0 <= j < n_pre -> 0 <= Znth j l 0 < 100) by exact PreH7.
+      assert (Hrange : forall j : Z, 0 <= j < n_pre -> 0 <= Znth j l 0 < 100) by exact PreH8.
       destruct (Z.eq_dec i_2 0) as [Hi0 | Hi0].
       * subst i_2. simpl in *. subst ret.
         assert (Hcur : 0 <= Znth 0 l 0 < 100) by (apply Hrange; lia).
@@ -554,14 +561,13 @@ Proof.
     rewrite app_nil_r.
     reflexivity.
   }
+  rewrite PreH9.
   rewrite Hzero_tail.
   split_pure_spatial.
   - cancel (IntArray.full a_pre n_pre (zeros n_pre)).
   - dump_pre_spatial.
-    rewrite PreH8.
-    unfold sublist.
-    simpl.
-    rewrite firstn_all2 by (rewrite Zlength_correct in PreH6; lia).
+    rewrite PreH10.
+    rewrite (sublist_self l n_pre) by exact PreH6.
     reflexivity.
 Qed.
 
@@ -578,13 +584,13 @@ Proof.
     replace (0 + i) with i by lia.
     apply Znth_indep. lia.
   }
-  assert (Hrange : forall j : Z, 0 <= j < n_pre -> 0 <= Znth j l 0 < 100) by exact PreH7.
+  assert (Hrange : forall j : Z, 0 <= j < n_pre -> 0 <= Znth j l 0 < 100) by exact PreH8.
   destruct (Z.eq_dec i 0) as [Hi0 | Hi0].
   - subst i. simpl in *. subst ret.
     assert (Hcur : 0 <= Znth 0 l 0 < 100) by (apply Hrange; lia).
     split_pures.
-    + dump_pre_spatial. rewrite Hzi. lia.
-    + dump_pre_spatial. rewrite Hzi. lia.
+    + dump_pre_spatial. rewrite PreH9. try rewrite Hzi. lia.
+    + dump_pre_spatial. rewrite PreH9. try rewrite Hzi. lia.
   - assert (0 <= ret < i * 100).
     {
       subst ret.
@@ -602,8 +608,8 @@ Proof.
     }
     assert (Hcur : 0 <= Znth i l 0 < 100) by (apply Hrange; lia).
     split_pures.
-    + dump_pre_spatial. rewrite Hzi. lia.
-    + dump_pre_spatial. rewrite Hzi. lia.
+    + dump_pre_spatial. rewrite PreH9. rewrite Hzi. lia.
+    + dump_pre_spatial. rewrite PreH9. rewrite Hzi. lia.
 Qed.
 
 Lemma proof_of_arr_sum_pointer_entail_wit_1: arr_sum_pointer_entail_wit_1.

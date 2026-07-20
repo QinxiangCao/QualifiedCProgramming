@@ -1,80 +1,74 @@
-# Spec 质量检查清单
+# Specification Quality Checklist
 
-检查目标不是证明所有 VC，而是在 `annotation-check-round` 前拦住明显错误的 C annotation 和 `case_lib`。
+The purpose of this check is not to prove every VC. It is to catch clearly incorrect C annotations and `formal_case_lib` content before `annotation-check-round`.
 
-## `case_lib`
+## `formal_case_lib`
 
-对每个出现在 C annotation 中的 external Rocq predicate / function / relation，确认：
+For every external Rocq predicate, function, or relation used in the C annotations, confirm that:
 
-- declaration 存在，名称、参数数量和顺序与 C annotation 一致。
-- `coq_tooling.py check --target-kind case_lib` 通过，target file 指向 Rocq formal `case_lib`，不是 C source directory。
-- 内容是 mathematical spec，不是当前 C 程序的控制流复刻。
-- 强度足以推出函数 `Ensure` 的结果语义，又不把某个具体实现策略写成唯一允许行为。
-- 不含 `Admitted.`、extra `Axiom` 或当前 case generated artifact 的 `SimpleC.EE.*` import。
+- Its declaration exists and its name, arity, and parameter order match the C annotations.
+- The handoff command `controller.py coq-check --target-kind formal-case-lib` passes. The agent must not invoke the internal helper directly or assemble the target/build path itself.
+- Its contents are a mathematical specification, not a reproduction of the current C program's control flow.
+- It is strong enough to derive the result semantics in the function's `Ensure`, without making one implementation strategy the only permitted behavior.
+- It contains no `Admitted.`, extra `Axiom`, or `SimpleC.EE.*` import of a generated artifact for the current case.
 
-定义不存在、方向错误或 evidence 指向错误路径时，返回 `failed`，要求回到 `annotation-filling` 修正。
+If a definition is missing, points in the wrong direction, or its evidence refers to the wrong path, return `failed` and require a repair in `annotation-filling`.
 
-## Function spec 检查
+## Function-specification checks
 
-函数 spec 至少分清三类事实：
+A function specification must distinguish at least three categories of facts:
 
-- 执行事实：整数范围、下标范围、循环界限、溢出边界。
-- 内存事实：数组、链表、结构体、指针和 ownership 资源。
-- 逻辑性质：函数数学上完成了什么。
+- Execution facts: integer ranges, index ranges, loop bounds, and overflow limits.
+- Memory facts: arrays, lists, structures, pointers, and owned resources.
+- Logical properties: what the function computes mathematically.
 
-第三类必须回答“结果代表什么”。例如排序需要 sorted / permutation，搜索需要找到/未找到语义，优化问题需要可行性、最优性或极值定义。只有 shape、bounds 和 return range 的 spec 通常不够。
+The third category must answer “what does the result mean?” For example, sorting requires sortedness and permutation, searching requires found/not-found semantics, and optimization requires feasibility, optimality, or an extremum definition. A specification containing only shape, bounds, and a return-value range is usually insufficient.
 
-## Loop invariant 检查
+## Loop-invariant checks
 
-loop invariant 至少包含：
+A loop invariant must include at least:
 
-- 变量范围、下标关系、整数溢出边界。
-- 当前持有的数组 / 链表 / buffer 资源。
-- 已处理部分与整体目标之间的数学关系。
+- Variable ranges, index relationships, and integer-overflow limits.
+- The currently owned array, list, buffer, or other memory resources.
+- The mathematical relationship between the processed portion and the overall goal.
 
-常见失败：只有 bounds 和数组资源、直接引用 Rocq 版 loop function、退出时推不出 `Ensure`、初始化或保持性不可证、full assertion 缺 `@pre` 桥、局部变量绑定或 live local resources。
+Common failures include having only bounds and array resources, referring directly to a Rocq version of the loop function, being unable to derive the `Ensure` at exit, failing initialization or preservation, or omitting `@pre` bridges, local-variable bindings, or live local resources from a full assertion.
 
-## QCP evidence 检查
+## QCP-evidence checks
 
-`canonical_symexec_evidence` 必须来自当前 annotation round worktree，并匹配当前 `source_version`。evidence 记录实际 QCP driver、cwd、target `.c`、`-IQCP_examples/QCP_demos_LLM/` 和 `-slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM`。
+The exact `controller.py symexec` command must pass against the current main root and current round. The controller code fixes the driver, working directory, and canonical include/SLP options; the agent does not copy these fields into the report.
 
-若 evidence 指向 stale file、stale line 或 stale worktree，返回 `failed`。若 qcp-mcp 交互检查来自共享 stateful session，返回 `failed` 或 `skipped` 并说明原因。
+Return `failed` if evidence points to a stale file, stale line, or stale directory. If a qcp-mcp interactive check came from a shared stateful session, return `failed` or `skipped` and state why.
 
-## Generated VC 语义预检
+## Semantic preflight of generated VCs
 
-canonical QCP 生成当前 case 的 generated/proof artifacts 后，可以读取当前 round 中允许的 generated context，检查 witness 形状是否暴露 annotation/spec 方向错误。不得读取其他 case 的 generated/proof artifact 作为依据。
+After canonical QCP generates the current case's proof artifacts, you may read the generated context allowed for the current round and check whether witness shapes expose a direction error in the annotations or specification. Do not use generated/proof artifacts from another case as evidence.
 
-危险信号：
+Warning signs include:
 
-- destructive array write 后，post 仍要求整个 mutable logical list 与旧输入保持 `Permutation` / `sorted_permutation`。
-- invariant 没有区分 immutable source、mutable destination、已处理 prefix 和未约束 suffix。
-- loop body 覆盖或移动元素后，assertion 继续使用旧 full-list 等式或旧 full-list multiset。
-- postcondition 要求 suffix/multiplicity 不变，但 C 代码允许覆盖 suffix。
+- After a destructive array write, the postcondition still requires the entire mutable logical list to remain a `Permutation` / `sorted_permutation` of the old input.
+- The invariant does not distinguish the immutable source, mutable destination, processed prefix, and unconstrained suffix.
+- After the loop body overwrites or moves elements, an assertion continues to use an old full-list equality or old full-list multiset.
+- The postcondition requires an unchanged suffix or multiplicity even though the C code may overwrite the suffix.
 
-这一步不要求证明所有 manual VC，只判断是否语义上明显不可证。
+This step does not prove every manual VC. It only decides whether the obligations are already semantically and obviously unprovable.
 
-## 返回
+## Decision
 
-- spec 缺失或方向错误：`failed`，回到 `annotation-filling`。
-- spec 合理但 C annotation 没使用：`failed`，修正 function spec / loop invariant。
-- annotation 和 `case_lib` 合理，但可能需要 helper：`passed`，并记录风险摘要。
-- 输入 stale：建议 annotation result 写 `stale`。
-- 工具 evidence 不可信、文件边界不清或 spec/annotation 方向错误：返回 `failed` + `rework_plan[]`，让 annotation-filling 在同一 spawn 内修复。
-- annotation-checking 所需必要工具完全不可运行并有 command evidence：建议 annotation result 写 `blocked`。
-- context compaction：只记录 `compact-error` 事实；是否重试或最终 block 由 controller / main agent 判定。
+- Missing or misdirected specification: `failed`; return to `annotation-filling`.
+- Reasonable specification not used by the C annotations: `failed`; repair the function specification or loop invariant.
+- Reasonable annotations and `formal_case_lib`, possibly needing a helper: `passed`, with a short risk summary.
+- Stale input: recommend `stale` for the annotation result.
+- Untrustworthy tool evidence, unclear file boundaries, or a bad specification/annotation direction: return `failed` and put a concise rework plan in the current `agent_output.md`, so annotation-filling can repair it in the same agent turn.
+- A required annotation-checking tool is completely unusable and command evidence exists: recommend `blocked` for the annotation result.
+- Context compaction: record only the `compact-error` fact; the controller/main agent decides whether to retry or ultimately block.
 
-`passed` 只表示 candidate 可交给 main agent 执行 `annotation-check-round`；main agent 仍要检查 diff、evidence、`case_lib` contract，并在 round worktree 内运行 canonical symbolic execution。
+`passed` only means the candidate can be handed to the main agent for `annotation-check-round`. The main agent must still inspect the diff, evidence, and `formal_case_lib` contract and run canonical symbolic execution in the main root.
 
-## Rework plan 输出
+## Rework-plan notes
 
-`failed` result 必须给出 `rework_plan[]`，默认要求 annotation-subagent 同 round 继续修复。每项包含：
+On `failed`, write an immediately actionable rework plan in this attempt's `agent_output.md`. By default, the same annotation subagent continues repairing the candidate in the current turn. Each item should identify the failure class, repair target, message, and expected next check; add `self_reworkable` only when it genuinely helps scheduling. On a later iteration appended by the main agent, first reread both annotation skills in full, the main-agent blocker summary, and every original Markdown/JSON blocker file listed by the handoff.
 
-- `failure_class`
-- `repair_target`
-- `self_reworkable`
-- `message`
-- `expected_next_check`
+`spec-quality`, `formal_case_lib-coqc`, `qcp-symbolic-execution`, `where-instantiation`, `invariant-too-weak`, `invariant-too-strong`, and `resource-loss` are repairable in the current spawn by default. Do not recommend terminal `blocked` for these failures. Notes may briefly record the number of repair attempts, but must not promote a repairable problem to a hard blocker.
 
-`spec-quality`、`case_lib-coqc`、`qcp-symbolic-execution`、`where-instantiation`、`invariant-too-weak`、`invariant-too-strong` 和 `resource-loss` 默认 `self_reworkable = true`。这些失败不得建议 terminal `blocked`；`self_repair_budget` 只记录本次 spawn 已经做过多少修复尝试，不把可修问题升级成 hard blocker。
-
-QCP evidence 字段必须拆分为 `canonical_symexec_evidence`、`qcp_mcp_interactive_evidence` 和 `case_lib_coqc_evidence`；不要用 legacy flag 混淆 direct symexec 与 qcp-mcp interactive evidence。
+The terminal report contains only the three check statuses. Failure evidence, qcp-mcp interaction hints, and the rework plan belong in `agent_output.md`.

@@ -120,7 +120,7 @@ Proof.
   - split_pures; dump_pre_spatial; auto; try lia.
 Qed. 
 
-Lemma proof_of_lengthOfLNDS_entail_wit_8_1 : lengthOfLNDS_entail_wit_8_1.
+Lemma proof_of_lengthOfLNDS_entail_wit_8_2 : lengthOfLNDS_entail_wit_8_2.
 Proof.
   pre_process.
   Exists (sublist 0 left tails_old ++ x :: sublist (left + 1) numsSize_pre tails_old).
@@ -133,7 +133,7 @@ Proof.
       eapply LNDTailsState_replace; eauto; lia.
 Qed. 
 
-Lemma proof_of_lengthOfLNDS_entail_wit_8_2 : lengthOfLNDS_entail_wit_8_2.
+Lemma proof_of_lengthOfLNDS_entail_wit_8_1 : lengthOfLNDS_entail_wit_8_1.
 Proof.
   pre_process.
   Exists (sublist 0 left tails_old ++ x :: sublist (left + 1) numsSize_pre tails_old).

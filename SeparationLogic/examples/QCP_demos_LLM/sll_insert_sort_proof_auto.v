@@ -24,7 +24,7 @@ Local Open Scope sac.
 Lemma proof_of_insertion_safety_wit_1 : insertion_safety_wit_1.
 Proof. Admitted. 
 
-Lemma proof_of_insertion_entail_wit_3_1 : insertion_entail_wit_3_1.
+Lemma proof_of_insertion_entail_wit_3_2 : insertion_entail_wit_3_2.
 Proof. Admitted. 
 
 Lemma proof_of_insertion_partial_solve_wit_1 : insertion_partial_solve_wit_1.

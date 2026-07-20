@@ -25,16 +25,6 @@ From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap relations.
 From FP Require Import PartialOrder_Setoid BourbakiWitt.
 Local Open Scope sac.
 
-(* This proof predates the global [pre_process] change that automatically
-   selects the left branch of a disjunctive generated witness.  Preserve the
-   legacy behavior locally so the explicit [left]/[right] choices below keep
-   their original meaning. *)
-Ltac pre_process ::= 
-  try Unfold;
-  intros; poly_store_unfold;
-  Rename pre_process_pure;
-  try (solve [entailer!]).
-
 Lemma proof_of_cmp_xy_return_wit_1_split_goal_1 : cmp_xy_return_wit_1_split_goal_1.
 Proof.
   pre_process.
@@ -49,15 +39,8 @@ Qed.
 
 Lemma proof_of_cmp_xy_return_wit_1 : cmp_xy_return_wit_1.
 Proof.
-  left.
-  pre_process.
-  unfold point_cmp_leftdown.
-  simpl.
-  destruct (Z_lt_dec a_x_pre b_x_pre) as [Hxlt | Hxlt]; [lia |].
-  destruct (Z_gt_dec a_x_pre b_x_pre) as [Hxgt | Hxgt]; [lia |].
-  destruct (Z_lt_dec a_y_pre b_y_pre) as [Hylt | Hylt]; [lia |].
-  destruct (Z_gt_dec a_y_pre b_y_pre) as [Hygt | Hygt]; [lia |].
-  entailer!.
+  aggressive_pre_process.
+  Goal_apply proof_of_cmp_xy_return_wit_1_split_goal_1.
 Qed.
 
 Lemma proof_of_cmp_xy_return_wit_2_split_goal_1 : cmp_xy_return_wit_2_split_goal_1.
@@ -73,14 +56,8 @@ Qed.
 
 Lemma proof_of_cmp_xy_return_wit_2 : cmp_xy_return_wit_2.
 Proof.
-  left.
-  pre_process.
-  unfold point_cmp_leftdown.
-  simpl.
-  destruct (Z_lt_dec a_x_pre b_x_pre) as [Hxlt | Hxlt]; [lia |].
-  destruct (Z_gt_dec a_x_pre b_x_pre) as [Hxgt | Hxgt]; [lia |].
-  destruct (Z_lt_dec a_y_pre b_y_pre) as [Hylt | Hylt]; [lia |].
-  destruct (Z_gt_dec a_y_pre b_y_pre) as [Hygt | Hygt]; [entailer! | lia].
+  aggressive_pre_process.
+  Goal_apply proof_of_cmp_xy_return_wit_2_split_goal_1.
 Qed.
 
 Lemma proof_of_cmp_xy_return_wit_3_split_goal_1 : cmp_xy_return_wit_3_split_goal_1.
@@ -95,13 +72,8 @@ Qed.
 
 Lemma proof_of_cmp_xy_return_wit_3 : cmp_xy_return_wit_3.
 Proof.
-  left.
-  pre_process.
-  unfold point_cmp_leftdown.
-  simpl.
-  destruct (Z_lt_dec a_x_pre b_x_pre) as [Hxlt | Hxlt]; [lia |].
-  destruct (Z_gt_dec a_x_pre b_x_pre) as [Hxgt | Hxgt]; [lia |].
-  destruct (Z_lt_dec a_y_pre b_y_pre) as [Hylt | Hylt]; [entailer! | lia].
+  aggressive_pre_process.
+  Goal_apply proof_of_cmp_xy_return_wit_3_split_goal_1.
 Qed.
 
 Lemma proof_of_cmp_xy_return_wit_4_split_goal_1 : cmp_xy_return_wit_4_split_goal_1.
@@ -115,12 +87,8 @@ Qed.
 
 Lemma proof_of_cmp_xy_return_wit_4 : cmp_xy_return_wit_4.
 Proof.
-  left.
-  pre_process.
-  unfold point_cmp_leftdown.
-  simpl.
-  destruct (Z_lt_dec a_x_pre b_x_pre) as [Hxlt | Hxlt]; [lia |].
-  destruct (Z_gt_dec a_x_pre b_x_pre) as [Hxgt | Hxgt]; [entailer! | lia].
+  aggressive_pre_process.
+  Goal_apply proof_of_cmp_xy_return_wit_4_split_goal_1.
 Qed.
 
 Lemma proof_of_cmp_xy_return_wit_5_split_goal_1 : cmp_xy_return_wit_5_split_goal_1.
@@ -133,11 +101,8 @@ Qed.
 
 Lemma proof_of_cmp_xy_return_wit_5 : cmp_xy_return_wit_5.
 Proof.
-  left.
-  pre_process.
-  unfold point_cmp_leftdown.
-  simpl.
-  destruct (Z_lt_dec a_x_pre b_x_pre) as [Hxlt | Hxlt]; [entailer! | lia].
+  aggressive_pre_process.
+  Goal_apply proof_of_cmp_xy_return_wit_5_split_goal_1.
 Qed.
 
 Lemma proof_of_cross_prod_safety_wit_1_split_goal_1 : cross_prod_safety_wit_1_split_goal_1.
@@ -158,11 +123,9 @@ Qed.
 
 Lemma proof_of_cross_prod_safety_wit_1 : cross_prod_safety_wit_1.
 Proof.
-  pre_process.
-  left.
-  intros.
-  split_pures; dump_pre_spatial;
-    unfold point_bound, Point_Order.point_bound in *; nia.
+  aggressive_pre_process.
+  + Goal_apply proof_of_cross_prod_safety_wit_1_split_goal_1.
+  + Goal_apply proof_of_cross_prod_safety_wit_1_split_goal_2.
 Qed.
 
 Lemma proof_of_cross_prod_safety_wit_2_split_goal_1 : cross_prod_safety_wit_2_split_goal_1.
@@ -183,11 +146,9 @@ Qed.
 
 Lemma proof_of_cross_prod_safety_wit_2 : cross_prod_safety_wit_2.
 Proof.
-  pre_process.
-  left.
-  intros.
-  split_pures; dump_pre_spatial;
-    unfold point_bound, Point_Order.point_bound in *; nia.
+  aggressive_pre_process.
+  + Goal_apply proof_of_cross_prod_safety_wit_2_split_goal_1.
+  + Goal_apply proof_of_cross_prod_safety_wit_2_split_goal_2.
 Qed.
 
 Lemma proof_of_cross_prod_safety_wit_3_split_goal_1 : cross_prod_safety_wit_3_split_goal_1.
@@ -208,11 +169,9 @@ Qed.
 
 Lemma proof_of_cross_prod_safety_wit_3 : cross_prod_safety_wit_3.
 Proof.
-  pre_process.
-  left.
-  intros.
-  split_pures; dump_pre_spatial;
-    unfold point_bound, Point_Order.point_bound in *; nia.
+  aggressive_pre_process.
+  + Goal_apply proof_of_cross_prod_safety_wit_3_split_goal_1.
+  + Goal_apply proof_of_cross_prod_safety_wit_3_split_goal_2.
 Qed. 
 
 Lemma proof_of_cross_prod_safety_wit_4_split_goal_1 : cross_prod_safety_wit_4_split_goal_1.
@@ -233,11 +192,9 @@ Qed.
 
 Lemma proof_of_cross_prod_safety_wit_4 : cross_prod_safety_wit_4.
 Proof.
-  pre_process.
-  left.
-  intros.
-  split_pures; dump_pre_spatial;
-    unfold point_bound, Point_Order.point_bound in *; nia.
+  aggressive_pre_process.
+  + Goal_apply proof_of_cross_prod_safety_wit_4_split_goal_1.
+  + Goal_apply proof_of_cross_prod_safety_wit_4_split_goal_2.
 Qed. 
 
 Lemma proof_of_cross_prod_safety_wit_5_split_goal_1 : cross_prod_safety_wit_5_split_goal_1.
@@ -258,11 +215,9 @@ Qed.
 
 Lemma proof_of_cross_prod_safety_wit_5 : cross_prod_safety_wit_5.
 Proof.
-  pre_process.
-  left.
-  intros.
-  split_pures; dump_pre_spatial;
-    unfold point_bound, Point_Order.point_bound in *; nia.
+  aggressive_pre_process.
+  + Goal_apply proof_of_cross_prod_safety_wit_5_split_goal_1.
+  + Goal_apply proof_of_cross_prod_safety_wit_5_split_goal_2.
 Qed. 
 
 Lemma proof_of_cross_prod_safety_wit_6_split_goal_1 : cross_prod_safety_wit_6_split_goal_1.
@@ -283,11 +238,9 @@ Qed.
 
 Lemma proof_of_cross_prod_safety_wit_6 : cross_prod_safety_wit_6.
 Proof.
-  pre_process.
-  left.
-  intros.
-  split_pures; dump_pre_spatial;
-    unfold point_bound, Point_Order.point_bound in *; nia.
+  aggressive_pre_process.
+  + Goal_apply proof_of_cross_prod_safety_wit_6_split_goal_1.
+  + Goal_apply proof_of_cross_prod_safety_wit_6_split_goal_2.
 Qed. 
 
 Lemma proof_of_cross_prod_safety_wit_7_split_goal_1 : cross_prod_safety_wit_7_split_goal_1.
@@ -308,11 +261,9 @@ Qed.
 
 Lemma proof_of_cross_prod_safety_wit_7 : cross_prod_safety_wit_7.
 Proof.
-  pre_process.
-  left.
-  intros.
-  split_pures; dump_pre_spatial;
-    unfold point_bound, Point_Order.point_bound in *; nia.
+  aggressive_pre_process.
+  + Goal_apply proof_of_cross_prod_safety_wit_7_split_goal_1.
+  + Goal_apply proof_of_cross_prod_safety_wit_7_split_goal_2.
 Qed. 
 
 Lemma proof_of_cross_prod_return_wit_1_split_goal_1 : cross_prod_return_wit_1_split_goal_1.
@@ -322,10 +273,8 @@ Qed.
 
 Lemma proof_of_cross_prod_return_wit_1 : cross_prod_return_wit_1.
 Proof.
-  pre_process.
-  left.
-  intros.
-  pre_process.
+  aggressive_pre_process.
+  Goal_apply proof_of_cross_prod_return_wit_1_split_goal_1.
 Qed. 
 
 Lemma proof_of_swap_points_return_wit_1_split_goal_1 : swap_points_return_wit_1_split_goal_1.
@@ -351,32 +300,8 @@ Qed.
 
 Lemma proof_of_swap_points_return_wit_1 : swap_points_return_wit_1.
 Proof.
-  left.
-  pre_process.
-  match goal with
-  | |- PointArray.full _ _ ?l |-- _ =>
-      replace l with (point_swap pts_l i_pre j_pre)
-  end.
-  - split_pure_spatial.
-    + cancel (PointArray.full pts_pre n_pre (point_swap pts_l i_pre j_pre)).
-    + dump_pre_spatial. exact PreH6.
-  - symmetry.
-    unfold point_swap.
-    repeat rewrite Znth_replace_Znth_Same by (repeat rewrite Zlength_replace_Znth; lia).
-    repeat rewrite Znth_replace_Znth_Diff by (repeat rewrite Zlength_replace_Znth; lia).
-    repeat rewrite replace_Znth_twice by (repeat rewrite Zlength_replace_Znth; lia).
-    repeat rewrite (Znth_indep pts_l i_pre __default_Point default_point) by lia.
-    repeat rewrite (Znth_indep pts_l j_pre __default_Point default_point) by lia.
-    simpl.
-    replace (point_mk (Znth i_pre pts_l default_point).(x)
-                      (Znth i_pre pts_l default_point).(y))
-      with (Znth i_pre pts_l default_point)
-      by (apply point_eq_by_xy; reflexivity).
-    replace (point_mk (Znth j_pre pts_l default_point).(x)
-                      (Znth j_pre pts_l default_point).(y))
-      with (Znth j_pre pts_l default_point)
-      by (apply point_eq_by_xy; reflexivity).
-    reflexivity.
+  aggressive_pre_process.
+  Goal_apply proof_of_swap_points_return_wit_1_split_goal_1.
 Qed.
 
 Lemma proof_of_partition_xy_points_entail_wit_1_split_goal_1 : partition_xy_points_entail_wit_1_split_goal_1.
@@ -399,15 +324,11 @@ Proof. pre_process. Qed.
 
 Lemma proof_of_partition_xy_points_entail_wit_1 : partition_xy_points_entail_wit_1.
 Proof.
-  pre_process. right. intros. split_pure_spatial.
-  - cancel.
-  - split_pures.
-    + dump_pre_spatial.
-      eapply point_xy_partition_scan_inv_init; eauto; lia.
-    + dump_pre_spatial.
-      apply points_in_bound_Znth_point_mk; auto; lia.
-    + dump_pre_spatial; auto.
-    + dump_pre_spatial; auto.
+  aggressive_pre_process.
+  + Goal_apply proof_of_partition_xy_points_entail_wit_1_split_goal_1.
+  + Goal_apply proof_of_partition_xy_points_entail_wit_1_split_goal_2.
+  + Goal_apply proof_of_partition_xy_points_entail_wit_1_split_goal_3.
+  + Goal_apply proof_of_partition_xy_points_entail_wit_1_split_goal_4.
 Qed.
 
 Lemma proof_of_partition_xy_points_entail_wit_2_1_split_goal_1 : partition_xy_points_entail_wit_2_1_split_goal_1.
@@ -452,31 +373,12 @@ Qed.
 
 Lemma proof_of_partition_xy_points_entail_wit_2_1 : partition_xy_points_entail_wit_2_1.
 Proof.
-  right. intros. pre_process. split_pure_spatial.
-  - cancel.
-  - split_pures.
-    + dump_pre_spatial.
-      eapply point_xy_partition_scan_inv_accept_swap; eauto; lia.
-    + dump_pre_spatial.
-      apply points_in_bound_point_swap; auto; lia.
-    + dump_pre_spatial.
-      rewrite (Znth_indep (point_swap pts_cur_2 (i + 1) j) high_pre
-                 __default_Point default_point)
-        by (rewrite Zlength_point_swap; lia).
-      rewrite point_swap_Znth_other_index by lia.
-      rewrite (Znth_indep pts_cur_2 high_pre default_point __default_Point)
-        by lia.
-      auto.
-    + dump_pre_spatial.
-      rewrite (Znth_indep (point_swap pts_cur_2 (i + 1) j) high_pre
-                 __default_Point default_point)
-        by (rewrite Zlength_point_swap; lia).
-      rewrite point_swap_Znth_other_index by lia.
-      rewrite (Znth_indep pts_cur_2 high_pre default_point __default_Point)
-        by lia.
-      auto.
-    + dump_pre_spatial.
-      rewrite Zlength_point_swap; auto.
+  aggressive_pre_process.
+  + Goal_apply proof_of_partition_xy_points_entail_wit_2_1_split_goal_1.
+  + Goal_apply proof_of_partition_xy_points_entail_wit_2_1_split_goal_2.
+  + Goal_apply proof_of_partition_xy_points_entail_wit_2_1_split_goal_3.
+  + Goal_apply proof_of_partition_xy_points_entail_wit_2_1_split_goal_4.
+  + Goal_apply proof_of_partition_xy_points_entail_wit_2_1_split_goal_5.
 Qed.
 
 Lemma proof_of_partition_xy_points_entail_wit_2_2_split_goal_1 : partition_xy_points_entail_wit_2_2_split_goal_1.
@@ -487,11 +389,8 @@ Qed.
 
 Lemma proof_of_partition_xy_points_entail_wit_2_2 : partition_xy_points_entail_wit_2_2.
 Proof.
-  right. intros. pre_process. split_pure_spatial.
-  - cancel.
-  - split_pures.
-    + dump_pre_spatial.
-      eapply point_xy_partition_scan_inv_accept_noswap; eauto; lia.
+  aggressive_pre_process.
+  Goal_apply proof_of_partition_xy_points_entail_wit_2_2_split_goal_1.
 Qed.
 
 Lemma proof_of_partition_xy_points_entail_wit_2_3_split_goal_1 : partition_xy_points_entail_wit_2_3_split_goal_1.
@@ -502,11 +401,8 @@ Qed.
 
 Lemma proof_of_partition_xy_points_entail_wit_2_3 : partition_xy_points_entail_wit_2_3.
 Proof.
-  right. intros. pre_process. split_pure_spatial.
-  - cancel.
-  - split_pures.
-    + dump_pre_spatial.
-      eapply point_xy_partition_scan_inv_reject_step; eauto; lia.
+  aggressive_pre_process.
+  Goal_apply proof_of_partition_xy_points_entail_wit_2_3_split_goal_1.
 Qed.
 
 Lemma proof_of_partition_xy_points_return_wit_1_split_goal_1 : partition_xy_points_return_wit_1_split_goal_1.
@@ -550,46 +446,12 @@ Qed.
 
 Lemma proof_of_partition_xy_points_return_wit_1 : partition_xy_points_return_wit_1.
 Proof.
-  left.
-  pre_process.
-  Exists (point_swap pts_cur (i + 1) high_pre).
-  split_pure_spatial.
-  - cancel (PointArray.full pts_pre n_pre (point_swap pts_cur (i + 1) high_pre)).
-  - repeat apply _derivable1_andp_intros;
-    dump_pre_spatial;
-    solve
-      [ lia
-      | rewrite Zlength_point_swap; lia
-      | apply points_in_bound_point_swap; auto; rewrite PreH1; lia
-      | destruct PreH17 as [Hperm _]; unfold point_permutation in *;
-        eapply Permutation_trans with (l' := pts_cur);
-        [ exact Hperm | apply point_swap_permutation; rewrite PreH1; lia ]
-      | assert (Hsame : point_same_outside_range pts_l
-                   (point_swap pts_cur (i + 1) high_pre) low_pre high_pre)
-          by (eapply point_same_outside_range_point_swap_inside;
-              [ destruct PreH17 as [_ [Hsame _]]; exact Hsame
-              | rewrite PreH1; lia
-              | rewrite PreH1; lia
-              | lia
-              | lia ]);
-        exact Hsame
-      | assert (Hsame : point_same_outside_range pts_l
-                   (point_swap pts_cur (i + 1) high_pre) low_pre high_pre)
-          by (eapply point_same_outside_range_point_swap_inside;
-              [ destruct PreH17 as [_ [Hsame _]]; exact Hsame
-              | rewrite PreH1; lia
-              | rewrite PreH1; lia
-              | lia
-              | lia ]);
-        unfold point_same_outside_range in Hsame; tauto
-      | assert (Hpart : point_xy_partitioned_at
-                   (point_swap pts_cur (i + 1) high_pre) low_pre high_pre (i + 1))
-          by (eapply worker_partition_finish_swap_partitioned; eauto; lia);
-        exact Hpart
-      | assert (Hpart : point_xy_partitioned_at
-                   (point_swap pts_cur (i + 1) high_pre) low_pre high_pre (i + 1))
-          by (eapply worker_partition_finish_swap_partitioned; eauto; lia);
-        unfold point_xy_partitioned_at in Hpart; tauto ].
+  aggressive_pre_process.
+  + Goal_apply proof_of_partition_xy_points_return_wit_1_split_goal_1.
+  + Goal_apply proof_of_partition_xy_points_return_wit_1_split_goal_2.
+  + Goal_apply proof_of_partition_xy_points_return_wit_1_split_goal_3.
+  + Goal_apply proof_of_partition_xy_points_return_wit_1_split_goal_4.
+  + Goal_apply proof_of_partition_xy_points_return_wit_1_split_goal_5.
 Qed.
 
 Lemma proof_of_partition_xy_points_return_wit_2_split_goal_1 : partition_xy_points_return_wit_2_split_goal_1.
@@ -612,26 +474,10 @@ Qed.
 
 Lemma proof_of_partition_xy_points_return_wit_2 : partition_xy_points_return_wit_2.
 Proof.
-  left.
-  pre_process.
-  Exists pts_cur.
-  split_pure_spatial.
-  - cancel (PointArray.full pts_pre n_pre pts_cur).
-  - repeat apply _derivable1_andp_intros;
-    dump_pre_spatial;
-    solve
-      [ lia
-      | exact PreH3
-      | exact PreH14
-      | destruct PreH16 as [Hperm _]; exact Hperm
-      | destruct PreH16 as [_ [Hsame _]]; exact Hsame
-      | destruct PreH16 as [_ [Hsame _]]; unfold point_same_outside_range in Hsame; tauto
-      | assert (Hpart : point_xy_partitioned_at pts_cur low_pre high_pre (i + 1))
-          by (eapply worker_partition_finish_noswap_partitioned; eauto; lia);
-        exact Hpart
-      | assert (Hpart : point_xy_partitioned_at pts_cur low_pre high_pre (i + 1))
-          by (eapply worker_partition_finish_noswap_partitioned; eauto; lia);
-        unfold point_xy_partitioned_at in Hpart; tauto ].
+  aggressive_pre_process.
+  + Goal_apply proof_of_partition_xy_points_return_wit_2_split_goal_1.
+  + Goal_apply proof_of_partition_xy_points_return_wit_2_split_goal_2.
+  + Goal_apply proof_of_partition_xy_points_return_wit_2_split_goal_3.
 Qed.
 
 Lemma proof_of_quicksort_xy_points_return_wit_1_split_goal_1 : quicksort_xy_points_return_wit_1_split_goal_1.
@@ -669,32 +515,10 @@ Qed.
 
 Lemma proof_of_quicksort_xy_points_return_wit_1 : quicksort_xy_points_return_wit_1.
 Proof.
-  right.
-  pre_process.
-  split_pure_spatial.
-  - cancel emp.
-  - split_pures.
-    + dump_pre_spatial.
-      eapply point_xy_sorted_range_partition_merge_after_subsorts
-        with (base := pts_out_2) (mid := pts_out_3) (p := retval);
-        try eassumption; try lia.
-    + dump_pre_spatial.
-      eapply point_same_outside_range_trans.
-      * exact PreH18.
-      * eapply point_same_outside_range_trans.
-        -- eapply (point_same_outside_range_weaken
-                     pts_out_2 pts_out_3 left_pre (retval - 1) left_pre right_pre);
-           [lia | lia | exact PreH10].
-        -- eapply (point_same_outside_range_weaken
-                     pts_out_3 pts_out_4 (retval + 1) right_pre left_pre right_pre);
-           [lia | lia | exact PreH4].
-    + dump_pre_spatial.
-      unfold point_permutation in *.
-      eapply Permutation_trans.
-      * exact PreH17.
-      * eapply Permutation_trans.
-        -- exact PreH9.
-        -- exact PreH3.
+  aggressive_pre_process.
+  + Goal_apply proof_of_quicksort_xy_points_return_wit_1_split_goal_1.
+  + Goal_apply proof_of_quicksort_xy_points_return_wit_1_split_goal_2.
+  + Goal_apply proof_of_quicksort_xy_points_return_wit_1_split_goal_3.
 Qed.
 
 Lemma proof_of_quicksort_xy_points_return_wit_2_split_goal_1 : quicksort_xy_points_return_wit_2_split_goal_1.
@@ -729,29 +553,10 @@ Qed.
 
 Lemma proof_of_quicksort_xy_points_return_wit_2 : quicksort_xy_points_return_wit_2.
 Proof.
-  right.
-  pre_process.
-  split_pure_spatial.
-  - cancel emp.
-  - split_pures.
-    + dump_pre_spatial.
-      eapply point_xy_sorted_range_partition_merge_after_subsorts
-        with (base := pts_out_2) (mid := pts_out_2) (p := retval);
-        try eassumption; try lia.
-      * apply Permutation_refl.
-      * apply point_same_outside_range_refl.
-      * apply point_xy_sorted_range_degenerate; lia.
-    + dump_pre_spatial.
-      eapply point_same_outside_range_trans.
-      * exact PreH13.
-      * eapply (point_same_outside_range_weaken
-                  pts_out_2 pts_out_3 (retval + 1) right_pre left_pre right_pre);
-        [lia | lia | exact PreH4].
-    + dump_pre_spatial.
-      unfold point_permutation in *.
-      eapply Permutation_trans.
-      * exact PreH12.
-      * exact PreH3.
+  aggressive_pre_process.
+  + Goal_apply proof_of_quicksort_xy_points_return_wit_2_split_goal_1.
+  + Goal_apply proof_of_quicksort_xy_points_return_wit_2_split_goal_2.
+  + Goal_apply proof_of_quicksort_xy_points_return_wit_2_split_goal_3.
 Qed.
 
 Lemma proof_of_quicksort_xy_points_return_wit_3_split_goal_1 : quicksort_xy_points_return_wit_3_split_goal_1.
@@ -786,29 +591,10 @@ Qed.
 
 Lemma proof_of_quicksort_xy_points_return_wit_3 : quicksort_xy_points_return_wit_3.
 Proof.
-  right.
-  pre_process.
-  split_pure_spatial.
-  - cancel emp.
-  - split_pures.
-    + dump_pre_spatial.
-      eapply point_xy_sorted_range_partition_merge_after_subsorts
-        with (base := pts_out_2) (mid := pts_out_3) (out := pts_out_3) (p := retval);
-        try eassumption; try lia.
-      * apply Permutation_refl.
-      * apply point_same_outside_range_refl.
-      * apply point_xy_sorted_range_degenerate; lia.
-    + dump_pre_spatial.
-      eapply point_same_outside_range_trans.
-      * exact PreH13.
-      * eapply (point_same_outside_range_weaken
-                  pts_out_2 pts_out_3 left_pre (retval - 1) left_pre right_pre);
-        [lia | lia | exact PreH5].
-    + dump_pre_spatial.
-      unfold point_permutation in *.
-      eapply Permutation_trans.
-      * exact PreH12.
-      * exact PreH4.
+  aggressive_pre_process.
+  + Goal_apply proof_of_quicksort_xy_points_return_wit_3_split_goal_1.
+  + Goal_apply proof_of_quicksort_xy_points_return_wit_3_split_goal_2.
+  + Goal_apply proof_of_quicksort_xy_points_return_wit_3_split_goal_3.
 Qed.
 
 Lemma proof_of_quicksort_xy_points_return_wit_4_split_goal_1 : quicksort_xy_points_return_wit_4_split_goal_1.
@@ -830,20 +616,12 @@ Qed.
 
 Lemma proof_of_quicksort_xy_points_return_wit_4 : quicksort_xy_points_return_wit_4.
 Proof.
-  right.
-  pre_process.
-  split_pure_spatial.
-  - cancel emp.
-  - split_pures.
-    + dump_pre_spatial.
-      apply point_xy_sorted_range_degenerate; lia.
-    + dump_pre_spatial.
-      apply point_same_outside_range_refl.
-    + dump_pre_spatial.
-      unfold point_permutation.
-      apply Permutation_refl.
+  aggressive_pre_process.
+  + Goal_apply proof_of_quicksort_xy_points_return_wit_4_split_goal_1.
+  + Goal_apply proof_of_quicksort_xy_points_return_wit_4_split_goal_2.
+  + Goal_apply proof_of_quicksort_xy_points_return_wit_4_split_goal_3.
 Qed.
-
+  
 Lemma proof_of_andrew_build_from_sorted_entail_wit_1_split_goal_1 : andrew_build_from_sorted_entail_wit_1_split_goal_1.
 Proof.
   pre_process; dump_pre_spatial.
@@ -910,14 +688,11 @@ Qed.
 
 Lemma proof_of_andrew_build_from_sorted_entail_wit_1 : andrew_build_from_sorted_entail_wit_1.
 Proof.
-  right.
-  pre_process.
-  split_pure_spatial.
-  - apply PointArray.undef_full_to_undef_seg.
-  - split_pures.
-    + eapply proof_of_andrew_build_from_sorted_entail_wit_1_split_goal_1; eauto.
-    + eapply proof_of_andrew_build_from_sorted_entail_wit_1_split_goal_2; eauto.
-    + eapply proof_of_andrew_build_from_sorted_entail_wit_1_split_goal_3; eauto.
+  aggressive_pre_process.
+  + Goal_apply proof_of_andrew_build_from_sorted_entail_wit_1_split_goal_spatial.
+  + Goal_apply proof_of_andrew_build_from_sorted_entail_wit_1_split_goal_1.
+  + Goal_apply proof_of_andrew_build_from_sorted_entail_wit_1_split_goal_2.
+  + Goal_apply proof_of_andrew_build_from_sorted_entail_wit_1_split_goal_3.
 Qed.
 
 Lemma proof_of_andrew_build_from_sorted_entail_wit_2_split_goal_1 : andrew_build_from_sorted_entail_wit_2_split_goal_1.
@@ -933,19 +708,13 @@ Qed.
 
 Lemma proof_of_andrew_build_from_sorted_entail_wit_2 : andrew_build_from_sorted_entail_wit_2.
 Proof.
-  right.
-  pre_process.
-  split_pure_spatial.
-  - cancel.
-  - split_pures.
-    dump_pre_spatial.
-    apply points_in_bound_Znth; auto; lia.
+  aggressive_pre_process.
+  Goal_apply proof_of_andrew_build_from_sorted_entail_wit_2_split_goal_1.
 Qed.
 
 Lemma proof_of_andrew_build_from_sorted_entail_wit_3 : andrew_build_from_sorted_entail_wit_3.
 Proof.
-  right.
-  pre_process.
+  aggressive_pre_process.
   Exists (point_drop_last lower_2).
   assert (Htop_for_cross : k = Zlength lower_2).
   {
@@ -1049,8 +818,7 @@ Qed.
 
 Lemma proof_of_andrew_build_from_sorted_entail_wit_4_1 : andrew_build_from_sorted_entail_wit_4_1.
 Proof.
-  right.
-  pre_process.
+  aggressive_pre_process.
   assert (HZnth_default :
     Znth i pts_sorted_2 __default_Point =
     Znth i pts_sorted_2 default_point).
@@ -1167,8 +935,7 @@ Qed.
 
 Lemma proof_of_andrew_build_from_sorted_entail_wit_4_2 : andrew_build_from_sorted_entail_wit_4_2.
 Proof.
-  right.
-  pre_process.
+  aggressive_pre_process.
   assert (HZnth_default :
     Znth i pts_sorted_2 __default_Point =
     Znth i pts_sorted_2 default_point).
@@ -1352,8 +1119,8 @@ Qed.
 
 Lemma proof_of_andrew_build_from_sorted_entail_wit_5_split_goal_3 : andrew_build_from_sorted_entail_wit_5_split_goal_3.
 Proof.
-	  pre_process.
-	  dump_pre_spatial.
+	pre_process.
+	dump_pre_spatial.
   match goal with
   | Hinv : andrew_lower_scan_inv _ _ _ _ |- _ =>
       unfold andrew_lower_scan_inv in Hinv;
@@ -1371,17 +1138,10 @@ Qed.
 
 Lemma proof_of_andrew_build_from_sorted_entail_wit_5 : andrew_build_from_sorted_entail_wit_5.
 Proof.
-  right.
-  pre_process.
-  split_pure_spatial.
-  - pre_process.
-  - split_pures.
-    + eapply proof_of_andrew_build_from_sorted_entail_wit_5_split_goal_1; eauto.
-      unfold point_permutation; reflexivity.
-    + eapply proof_of_andrew_build_from_sorted_entail_wit_5_split_goal_2; eauto.
-      unfold point_permutation; reflexivity.
-    + eapply proof_of_andrew_build_from_sorted_entail_wit_5_split_goal_3; eauto.
-      unfold point_permutation; reflexivity.
+  aggressive_pre_process.
+  + Goal_apply proof_of_andrew_build_from_sorted_entail_wit_5_split_goal_1.
+  + Goal_apply proof_of_andrew_build_from_sorted_entail_wit_5_split_goal_2.
+  + Goal_apply proof_of_andrew_build_from_sorted_entail_wit_5_split_goal_3.
 Qed.
 
 Lemma proof_of_andrew_build_from_sorted_entail_wit_6_split_goal_1 : andrew_build_from_sorted_entail_wit_6_split_goal_1.
@@ -1407,23 +1167,14 @@ Qed.
 
 Lemma proof_of_andrew_build_from_sorted_entail_wit_6 : andrew_build_from_sorted_entail_wit_6.
 Proof.
-  right.
-  pre_process.
-  split_pure_spatial.
-  - pre_process.
-  - split_pures.
-    + dump_pre_spatial.
-      apply points_in_bound_Znth; auto.
-      rewrite PreH10; lia.
-    + dump_pre_spatial.
-      unfold andrew_upper_scan_inv, andrew_upper_capacity in PreH14.
-      intuition subst; rewrite PreH10 in *; lia.
+  aggressive_pre_process.
+  + Goal_apply proof_of_andrew_build_from_sorted_entail_wit_6_split_goal_1.
+  + Goal_apply proof_of_andrew_build_from_sorted_entail_wit_6_split_goal_2.
 Qed.
 
 Lemma proof_of_andrew_build_from_sorted_entail_wit_7 : andrew_build_from_sorted_entail_wit_7.
 Proof.
-  right.
-  pre_process.
+  aggressive_pre_process.
   Exists (point_drop_last hull_cur_2).
   assert (Htop_for_cross : k = Zlength hull_cur_2).
   {
@@ -1656,8 +1407,7 @@ Qed.
 
 Lemma proof_of_andrew_build_from_sorted_entail_wit_8_1 : andrew_build_from_sorted_entail_wit_8_1.
 Proof.
-  right.
-  pre_process.
+  aggressive_pre_process.
   assert (Hk_lower : k = lower_n) by lia.
   assert (HZnth_default :
     Znth i pts_sorted_2 __default_Point =
@@ -1840,8 +1590,7 @@ Qed.
 
 Lemma proof_of_andrew_build_from_sorted_entail_wit_8_2 : andrew_build_from_sorted_entail_wit_8_2.
 Proof.
-  right.
-  pre_process.
+  aggressive_pre_process.
   assert (HZnth_default :
     Znth i pts_sorted_2 __default_Point =
     Znth i pts_sorted_2 default_point).
@@ -2045,8 +1794,7 @@ Qed.
 
 Lemma proof_of_andrew_build_from_sorted_entail_wit_9 : andrew_build_from_sorted_entail_wit_9.
 Proof.
-  right.
-  pre_process.
+  aggressive_pre_process.
   Exists (point_drop_last hull_cur).
   assert (Hread0 : i + 1 = 0) by lia.
   pose proof PreH14 as Hupper_inv.
@@ -2321,37 +2069,19 @@ Qed.
 
 Lemma proof_of_andrew_build_from_sorted_partial_solve_wit_7_pure : andrew_build_from_sorted_partial_solve_wit_7_pure.
 Proof.
-  right.
-  intros.
-  pre_process.
-  repeat apply _derivable1_andp_intros.
-  all:
-    try (dump_pre_spatial;
-         match goal with
-         | |- context [Znth ?idx ?xs ?d] =>
-             match goal with
-             | Hinv : andrew_lower_scan_inv _ _ _ _ |- _ =>
-                 unfold andrew_lower_scan_inv in Hinv;
-                 destruct Hinv as [_ [Hlen [_ [Hbound _]]]]
-             end;
-             pose proof (points_in_bound_Znth xs idx d Hbound) as Hpt;
-             assert (0 <= idx < Zlength xs) by lia;
-             specialize (Hpt H);
-             unfold point_in_bound, Point_Order.point_in_bound in Hpt;
-             unfold point_bound, Point_Order.point_bound;
-             destruct Hpt as [[Hxlo Hxhi] [Hylo Hyhi]];
-             try exact Hxlo; try exact Hxhi; try exact Hylo; try exact Hyhi
-         end).
-  all:
-    dump_pre_spatial;
-    match goal with
-    | Hpt : point_in_bound _ |- _ =>
-        unfold point_in_bound, Point_Order.point_in_bound in Hpt;
-        unfold point_bound, Point_Order.point_bound in Hpt;
-        destruct Hpt as [[Hxlo Hxhi] [Hylo Hyhi]]
-    end;
-    unfold point_bound, Point_Order.point_bound;
-    try exact Hxlo; try exact Hxhi; try exact Hylo; try exact Hyhi.
+  aggressive_pre_process.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_7_pure_split_goal_1.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_7_pure_split_goal_2.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_7_pure_split_goal_3.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_7_pure_split_goal_4.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_7_pure_split_goal_5.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_7_pure_split_goal_6.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_7_pure_split_goal_7.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_7_pure_split_goal_8.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_7_pure_split_goal_9.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_7_pure_split_goal_10.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_7_pure_split_goal_11.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_7_pure_split_goal_12.
 Qed.
 
 Lemma proof_of_andrew_build_from_sorted_partial_solve_wit_20_pure_split_goal_1 : andrew_build_from_sorted_partial_solve_wit_20_pure_split_goal_1.
@@ -2540,30 +2270,19 @@ Qed.
 
 Lemma proof_of_andrew_build_from_sorted_partial_solve_wit_20_pure : andrew_build_from_sorted_partial_solve_wit_20_pure.
 Proof.
-  right.
-  intros.
-  pre_process.
-  repeat apply _derivable1_andp_intros.
-  all:
-    try (dump_pre_spatial;
-         match goal with
-         | |- context [Znth ?idx ?xs ?d] =>
-             unfold andrew_upper_scan_inv in PreH23;
-             destruct PreH23 as [_ [_ [Hlen [_ [Hbound _]]]]];
-             pose proof (points_in_bound_Znth xs idx d Hbound) as Hpt;
-             assert (0 <= idx < Zlength hull_cur) by lia;
-             specialize (Hpt H);
-             unfold point_in_bound, Point_Order.point_in_bound in Hpt;
-             unfold point_bound, Point_Order.point_bound;
-             destruct Hpt as [[Hxlo Hxhi] [Hylo Hyhi]];
-             try exact Hxlo; try exact Hxhi; try exact Hylo; try exact Hyhi
-         end).
-  all:
-    dump_pre_spatial;
-    unfold point_in_bound, Point_Order.point_in_bound in PreH22;
-    unfold point_bound, Point_Order.point_bound;
-    destruct PreH22 as [[Hxlo Hxhi] [Hylo Hyhi]];
-    try exact Hxlo; try exact Hxhi; try exact Hylo; try exact Hyhi.
+  aggressive_pre_process.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_20_pure_split_goal_1.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_20_pure_split_goal_2.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_20_pure_split_goal_3.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_20_pure_split_goal_4.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_20_pure_split_goal_5.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_20_pure_split_goal_6.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_20_pure_split_goal_7.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_20_pure_split_goal_8.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_20_pure_split_goal_9.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_20_pure_split_goal_10.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_20_pure_split_goal_11.
+  + Goal_apply proof_of_andrew_build_from_sorted_partial_solve_wit_20_pure_split_goal_12.
 Qed.
 
 Lemma proof_of_andrew_monotone_chain_entail_wit_1_split_goal_1 : andrew_monotone_chain_entail_wit_1_split_goal_1.
@@ -2579,13 +2298,9 @@ Qed.
 
 Lemma proof_of_andrew_monotone_chain_entail_wit_1 : andrew_monotone_chain_entail_wit_1.
 Proof.
-  right.
-  pre_process.
-  split_pure_spatial.
-  - pre_process.
-  - split_pures.
-    + dump_pre_spatial. unfold point_xy_sorted. rewrite PreH1. exact PreH5.
-    + dump_pre_spatial. eapply points_not_all_same_permutation_worker; eauto.
+  aggressive_pre_process.
+  + Goal_apply proof_of_andrew_monotone_chain_entail_wit_1_split_goal_1.
+  + Goal_apply proof_of_andrew_monotone_chain_entail_wit_1_split_goal_2.
 Qed.
 
 Lemma proof_of_andrew_monotone_chain_return_wit_1_split_goal_1 : andrew_monotone_chain_return_wit_1_split_goal_1.
@@ -2605,13 +2320,9 @@ Proof. pre_process. Qed.
 
 Lemma proof_of_andrew_monotone_chain_return_wit_1 : andrew_monotone_chain_return_wit_1.
 Proof.
-  right.
-  pre_process.
-  split_pure_spatial.
-  - pre_process.
-  - split_pures.
-    + dump_pre_spatial. eapply is_convex_hull_base_permutation; eauto.
-    + dump_pre_spatial. eapply Permutation_trans; eauto.
+  aggressive_pre_process.
+  + Goal_apply proof_of_andrew_monotone_chain_return_wit_1_split_goal_1.
+  + Goal_apply proof_of_andrew_monotone_chain_return_wit_1_split_goal_2.
 Qed.
 
 Lemma proof_of_andrew_build_from_sorted_derive_high_level_spec_by_low_level_spec : andrew_build_from_sorted_derive_high_level_spec_by_low_level_spec.

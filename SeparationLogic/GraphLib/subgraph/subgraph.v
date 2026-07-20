@@ -58,6 +58,7 @@ Class addEdgeExist (G V E: Type) {pg: Graph G V E} {gv: GValid G} := {
   addEdge_valid_inv: forall g u v e, 
     gvalid g -> 
     vvalid g u -> vvalid g v -> evalid g e ->
+    step_aux g e u v ->
     exists h, gvalid h /\ addEdge h g u v e /\ (vvalid h u /\ vvalid h v /\ ~ evalid h e);
 }.
 

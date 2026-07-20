@@ -80,8 +80,8 @@ forall (tickPrecision_pre: Z) (startTime_pre: Z) (l2: (@list (@DL_Node (@sortedL
 Definition OsGetNextExpireTime_partial_solve_wit_1_pure := 
 forall (tickPrecision_pre: Z) (startTime_pre: Z) (l2: (@list (@DL_Node (@sortedLinkNode Z)))) (l1: (@list (@DL_Node (@sortedLinkNode Z)))) (sg: StableGlobVars) ,
   ((( &( "taskExpireTime" ) )) # UInt64  |->_)
-  **  ((( &( "tickPrecision" ) )) # UInt64  |-> tickPrecision_pre)
   **  ((( &( "startTime" ) )) # UInt64  |-> startTime_pre)
+  **  ((( &( "tickPrecision" ) )) # UInt64  |-> tickPrecision_pre)
   **  (store_task_sorted_dll sg l1 )
   **  (store_swtmr_sorted_dll sg l2 )
   **  ((( &( "OS_SORT_LINK_UINT64_MAX" ) )) # UInt64  |-> ((Z.lxor 2 64) - 1 ))
@@ -109,8 +109,8 @@ forall (tickPrecision_pre: Z) (startTime_pre: Z) (l2: (@list (@DL_Node (@sortedL
   **  (store_task_sorted_dll sg l1 )
   **  ((( &( "OS_SORT_LINK_UINT64_MAX" ) )) # UInt64  |-> ((Z.lxor 2 64) - 1 ))
   **  ((( &( "taskExpireTime" ) )) # UInt64  |-> retval)
-  **  ((( &( "tickPrecision" ) )) # UInt64  |-> tickPrecision_pre)
   **  ((( &( "startTime" ) )) # UInt64  |-> startTime_pre)
+  **  ((( &( "tickPrecision" ) )) # UInt64  |-> tickPrecision_pre)
   **  (store_swtmr_sorted_dll sg l2 )
 |--
   “ (( &( "g_swtmrSortLink" ) ) = ( &( "g_swtmrSortLink" ) )) ”

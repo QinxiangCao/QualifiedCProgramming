@@ -1,0 +1,5 @@
+From SimpleC.EE.Applications_human.fme_ge_gmp.gmp Require Import gmp_optional_strategy_goal gmp_optional_strategy_proof.
+
+Module gmp_optional_Strategy_Correctness : gmp_optional_Strategy_Correct.
+  Include gmp_optional_strategy_proof.
+End gmp_optional_Strategy_Correctness.

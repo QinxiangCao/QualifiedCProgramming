@@ -80,7 +80,7 @@ Section  hs_eval_rules.
   Qed. 
 
   Lemma ret_eq : forall {A : Type} (s: Σ) s0 (a a0: A),
-    (ret a).(nrm) s a0 s0 <-> s0 = s /\ a0 = a.
+    (return a).(nrm) s a0 s0 <-> s0 = s /\ a0 = a.
   Proof.
     unfold_monad. intros; tauto.
   Qed.
@@ -88,7 +88,7 @@ Section  hs_eval_rules.
 
   Lemma highstependret_derive : forall  {A : Type} (c1: program Σ A)  (P  : Σ -> Prop) a P',
   P -@ c1 -⥅ (P' a) ♯ a ->
-  (forall X, safeExec P (c1) X ->  safeExec (P' a) (ret a) X).
+  (forall X, safeExec P (c1) X ->  safeExec (P' a) (return a) X).
   Proof.
     intros.
     unfold hs_eval, safeExec, safe in *.
@@ -104,7 +104,7 @@ Section  hs_eval_rules.
 
   Lemma highstepend_derive : forall  (c1: program Σ unit)  (P  : Σ -> Prop) P',
   P -@ c1 -→ P' ->
-  (forall X, safeExec P (c1) X ->  safeExec P' (ret tt) X).
+  (forall X, safeExec P (c1) X ->  safeExec P' (return tt) X).
   Proof.
     intros.
     destruct H.
@@ -143,14 +143,14 @@ Section  hs_eval_rules.
 
 
   Lemma highret_eval1 : forall {A: Type}  (P  : Σ -> Prop) (a: A), 
-    P -@ (ret a) -→ P.
+    P -@ (return a) -→ P.
   Proof.
     intros. cbv. intros.
     eexists. splits;eauto.
   Qed.
 
   Lemma highret_eval2 : forall {A: Type}  (P  : Σ -> Prop) (a: A), 
-    P -@ (ret a) -⥅ P ♯ a.
+    P -@ (return a) -⥅ P ♯ a.
   Proof.
     intros. cbv. intros.
     eexists. splits;eauto.
@@ -342,7 +342,7 @@ Section exec_rules.
 
   Lemma safeExec_test: forall (Q: Prop) P (X: unit -> Σ -> Prop),
     Q ->
-    safeExec P (assume!! Q) X -> safeExec P (ret tt) X.
+    safeExec P (assume!! Q) X -> safeExec P (return tt) X.
   Proof.
     unfold safeExec, safe. intros.
     destructs H0.
@@ -355,7 +355,7 @@ Section exec_rules.
 
   Lemma safeExec_testst: forall (Q: Σ -> Prop) (P: Σ -> Prop) (X: unit -> Σ -> Prop),
     (forall st, P st -> Q st) ->
-    safeExec P (assume Q) X -> safeExec P (ret tt) X.
+    safeExec P (assume Q) X -> safeExec P (return tt) X.
   Proof.
     unfold safeExec, safe. intros.
     destructs H0.
@@ -368,7 +368,7 @@ Section exec_rules.
   Qed.
 
   Lemma safeExec_any: forall (Q: Type) P (X: Q -> Σ -> Prop) q,
-    safeExec P (any Q) X -> safeExec P (ret q) X.
+    safeExec P (any Q) X -> safeExec P (return q) X.
   Proof.
     unfold safeExec, safe. intros.
     destructs H.
@@ -382,7 +382,7 @@ Section exec_rules.
 
   Lemma safeExec_get: forall {A: Type} (Pa: Σ -> A -> Prop) (P: Σ -> Prop) (X: A -> Σ -> Prop) a, 
   (forall s, P s -> Pa s a) ->
-    safeExec P (get Pa) X -> safeExec P (ret a) X.
+    safeExec P (get Pa) X -> safeExec P (return a) X.
   Proof. 
     unfold safeExec, safe. intros.
     destructs H0.
@@ -396,7 +396,7 @@ Section exec_rules.
 
   Lemma safeExec_get': forall {A: Type} (f: Σ -> A) (P: Σ -> Prop) (X: A -> Σ -> Prop) a, 
     (forall s, P s -> a = f s) ->
-    safeExec P (get' f) X -> safeExec P (ret a) X.
+    safeExec P (get' f) X -> safeExec P (return a) X.
   Proof. 
     unfold safeExec, safe. intros.
     destructs H0.
@@ -409,7 +409,7 @@ Section exec_rules.
   Qed.
 
   Lemma safeExec_update' : forall (f: Σ -> Σ) (P: Σ -> Prop) (X: unit -> Σ -> Prop),
-    safeExec P (update' f) X -> safeExec (fun s => exists s0, s = f s0 /\ P s0) (ret tt) X.
+    safeExec P (update' f) X -> safeExec (fun s => exists s0, s = f s0 /\ P s0) (return tt) X.
   Proof.
     unfold safeExec, safe. intros.
     destructs H.
@@ -423,7 +423,7 @@ Section exec_rules.
 
   Lemma safeExec_update : forall (R: Σ -> Σ -> Prop) (P: Σ -> Prop) (X: unit -> Σ -> Prop),
     (forall s, P s -> exists s', R s s') ->
-    safeExec P (update R) X -> safeExec (fun s => exists s0, R s0 s /\ P s0) (ret tt) X.
+    safeExec P (update R) X -> safeExec (fun s => exists s0, R s0 s /\ P s0) (return tt) X.
   Proof.
     unfold safeExec, safe. intros R P X Hex H.
     destructs H.
@@ -437,7 +437,7 @@ Section exec_rules.
   Qed.
 
   Lemma safeExec_assert_aux: forall (Q: Prop) P (X: unit -> Σ -> Prop),
-    safeExec P (assert Q) X -> safeExec (fun s => Q /\ P s) (ret tt) X.
+    safeExec P (assert Q) X -> safeExec (fun s => Q /\ P s) (return tt) X.
   Proof.
     unfold safeExec, safe. intros.
     destructs H.
@@ -451,7 +451,7 @@ Section exec_rules.
   Qed.
 
   Lemma safeExec_assert: forall (Q: Prop) P (X: unit -> Σ -> Prop),
-    safeExec P (assert Q) X -> Q /\ safeExec P (ret tt) X.
+    safeExec P (assert Q) X -> Q /\ safeExec P (return tt) X.
   Proof.
     intros.
     apply safeExec_coqprop.
@@ -459,7 +459,7 @@ Section exec_rules.
   Qed.
 
   Lemma safeExec_assertS: forall (Q: Σ -> Prop) P (X: unit -> Σ -> Prop),
-    safeExec P (assertS Q) X -> safeExec (fun s => Q s /\ P s) (ret tt) X.
+    safeExec P (assertS Q) X -> safeExec (fun s => Q s /\ P s) (return tt) X.
   Proof.
     unfold safeExec, safe. intros.
     destructs H.
@@ -474,7 +474,7 @@ Section exec_rules.
 
   (* primitive rule *)
   Lemma safeExec_bind_reta  : forall {A B: Type} (c1: program Σ A) (c2: A -> program Σ B) (P : Σ -> Prop) P' a,
-    (forall X, safeExec P c1 X ->  safeExec (P') (ret a) X) ->
+    (forall X, safeExec P c1 X ->  safeExec (P') (return a) X) ->
     (forall X, safeExec P (x <- c1 ;; c2 x) X -> safeExec (P') (c2 a) X).
   Proof.
     intros.
@@ -526,7 +526,7 @@ Section exec_rules.
   Qed.
 
   Lemma safeExec_bind'  : forall {A B: Type} (c1: program Σ A) (c2: A -> program Σ B) (P : Σ -> Prop) P',
-    (forall X, safeExec P c1 X -> exists a, safeExec (P')  (ret a) X) ->
+    (forall X, safeExec P c1 X -> exists a, safeExec (P')  (return a) X) ->
     (forall X, safeExec P (x <- c1 ;; c2 x) X -> exists a, safeExec (P') (c2 a) X).
   Proof.
     intros.
@@ -544,7 +544,7 @@ Section exec_rules.
   Lemma safeExec_bind : forall {A B: Type} (c1: program Σ A) (c2: A -> program Σ B) (P : Σ -> Prop) ,
     forall X, safeExec P (x <- c1 ;; c2 x) X ->
     exists X', safeExec P c1 X' /\
-    (forall P' a, safeExec P'  (ret a) X' -> 
+    (forall P' a, safeExec P'  (return a) X' -> 
               safeExec P' (c2 a) X).
   Proof.
     intros.
@@ -697,7 +697,7 @@ Section exec_rules.
   Qed.
 
   Lemma safeExec_ret_Atrue_finnal: forall  {A: Type}  (m: program Σ A) (l : A) (σ: Σ) ,
-    safeExec ATrue (ret l) (fun r x => m.(nrm) σ r x) ->
+    safeExec ATrue (return l) (fun r x => m.(nrm) σ r x) ->
     exists σ', m.(nrm) σ l σ'.
   Proof.
     unfold safeExec,safe; unfold_monad.
@@ -846,6 +846,52 @@ Section  safeexec_Hoare_composition_rules.
 
   Ltac destructs H := my_destruct Σ H.
 
+  Lemma vertical_composition_rule {A: Type} (P1 P2: Σ -> Prop) (c: program Σ A) (Q: A -> Σ -> Prop) (a: A):
+    (forall X, safeExec P1 c X -> safeExec P2 (return a) X) ->
+    Hoare P1 c Q ->
+    (exists σ, P1 σ) ->
+    exists σ', Q a σ' /\ P2 σ'.
+  Proof.
+  (* alternative proof, instantiating X := Q:
+     the Hoare triple says every c-transition from P1 ends in Q, i.e.
+     P1 ⊆ wp c Q, so the initial configuration is already safe w.r.t. Q;
+     the derivation carries this safety down to (P2, ret a), where being
+     safe w.r.t. Q means exactly that the final state satisfies Q a. 
+
+    intros Hderive Hhoare [σ HP1].
+    assert (Hinit: safeExec P1 c Q).
+    { exists σ; split; auto.
+      unfold safe; sets_unfold.
+      destruct Hhoare. 
+      unfold weakestpre. split;eauto. }
+    specialize (Hderive Q Hinit).
+    destruct Hderive as [σ' [HP2 Hsafe]].
+    unfold safe in Hsafe.
+    rewrite wp_ret in Hsafe.
+    sets_unfold in Hsafe.
+    exists σ'; auto.
+  *)
+  (* instantiate X := c σ, the exact denotation from the initial state:
+     every program is trivially safe w.r.t. its own transitions, so the
+     initial configuration needs no justification; the derivation carries
+     this down to (P2, ret a), where it exhibits a concrete transition
+     c σ a σ' with P2 σ', and applying the Hoare triple to that single
+     transition gives Q a σ'. *)
+    intros Hderive Hhoare [σ HP1].
+    assert (Hinit: safeExec P1 c (c.(nrm) σ)).
+    { exists σ; split; auto.
+      unfold safe; sets_unfold.
+      destruct Hhoare. 
+      unfold weakestpre. split;eauto. }
+    specialize (Hderive (c.(nrm) σ) Hinit).
+    destruct Hderive as [σ' [HP2 Hsafe]].
+    unfold safe in Hsafe.
+    rewrite wp_ret in Hsafe.
+    sets_unfold in Hsafe.
+    exists σ'; split; auto.
+    eapply Hhoare; eauto.
+  Qed.
+
   Lemma safeExec_result_state {A: Type} (P: Σ -> Prop) (c: program Σ A):
     (exists s, P s /\ ~ err c s) ->
     safeExec P c (result_state P c).
@@ -881,6 +927,32 @@ Section  safeexec_Hoare_composition_rules.
     specialize (H a σ _ H1 H2).
     eexists. eauto.
     unfold_monad;auto.
+  Qed.
+
+  Lemma Hoare_safeexec_imply_compose {A: Type} (P1 P2: Σ -> Prop) (c: program Σ A) (Q: A -> Σ -> Prop) (a: A) :
+    Hoare P1 c Q ->
+    (safeExec P1 c Q  -> safeExec P2 (return a) Q) ->
+    (exists σ, σ  ∈ P1) ->
+    (exists σ', Q a σ' /\ P2 σ').
+  Proof.
+    intros.
+    assert ((exists s, P1 s /\ ~ err c s)).
+    { destruct H1 as [σ H1]. exists σ. split; auto.
+      unfold Hoare in H.
+      destruct H as [? Hhoare].
+      unfold not.
+      eapply Hhoare; eauto. }
+    eapply safeExec_result_state with (c:= c) in H2.
+    clear H1. rename H2 into H1.
+    eapply safeExec_X_subset in H1.
+    2: apply Hoare_result_state;eauto.
+    apply H0 in H1.
+    clear - H1.
+    unfold safeExec,safe in H1.
+    destructs H1.
+    rewrite wp_ret in H.
+    sets_unfold in H.
+    eexists. eauto.
   Qed.
   
 End  safeexec_Hoare_composition_rules.

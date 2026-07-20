@@ -22,8 +22,8 @@ Local Open Scope sac.
 
 Definition example_safety_wit_1 := 
 forall (y_pre: Z) (x_pre: Z) (PreH1 : (x_pre < 50)) ,
-  ((( &( "y" ) )) # Int  |-> y_pre)
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
+  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "y" ) )) # Int  |-> y_pre)
 |--
   “ (50 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 50) ”

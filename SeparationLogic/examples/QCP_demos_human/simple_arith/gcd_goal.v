@@ -40,8 +40,8 @@ forall (y_pre: Z) (x_pre: Z) (PreH1 : (y_pre <> 0)) (PreH2 : (x_pre <= INT_MAX))
 
 Definition gcd_entail_wit_1 := 
 forall (y_pre: Z) (x_pre: Z) (PreH1 : (INT_MIN < x_pre)) (PreH2 : (INT_MIN < y_pre)) ,
-  ((( &( "y" ) )) # Int  |-> y_pre)
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
+  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "y" ) )) # Int  |-> y_pre)
 |--
   “ (x_pre <= INT_MAX) ” 
   &&  “ (y_pre <= INT_MAX) ” 

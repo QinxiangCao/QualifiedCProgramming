@@ -9,8 +9,10 @@ From TraceLib.MonadErr Require Import TraceLoopErr.
 From MonadLib.StateRelMonad Require Import StateRelBasic StateRelHoare FixpointLib.
 From GraphLib Require Import graph_basic reachable_basic bfs_dist.
 From Algorithms Require Import MapLib BFS.
+Require Import Algorithms.BFS.BFS_assert.
 
 Module BFSP := BFS.
+Module BFSA := BFS_assert.
 
 Import SetsNotation.
 Import MonadNotation.
@@ -45,10 +47,12 @@ Context (src: V)
         (src_valid: vvalid g src).
 
 Local Notation bfs_dist := (bfs_dist g src).
-Local Notation err_ret := (@MonadErrBasic.MonadErr.ret BFSP.St).
+Local Notation err_ret :=
+  (@ret (MonadErrBasic.program BFSP.St)
+    (MonadErrBasic.state_rel_monad BFSP.St)).
 
 Definition bfs_loop : MonadErrBasic.program BFSP.St unit :=
-  MonadErrLoop.whileP BFSP.bfs_cond (BFSP.bfs_body_assert g src).
+  MonadErrLoop.whileP BFSP.bfs_cond (BFSA.bfs_body_assert g src).
 
 Record GoSt: Type := mkGoSt {
   go_seen: V -> bool;
@@ -166,11 +170,11 @@ Proof.
 Qed.
 
 Lemma safeExec_BFS_assert_after_init X:
-  safeExec (fun _ => True) (BFSP.BFS_assert g src) X ->
+  safeExec (fun _ => True) (BFSA.BFS_assert g src) X ->
   safeExec (GoBFSRel go_init_state) bfs_loop X.
 Proof.
   intro Hsafe.
-  unfold BFSP.BFS_assert, BFSP.bfs_init in Hsafe.
+  unfold BFSA.BFS_assert, BFSP.bfs_init in Hsafe.
   change (BFSP.bfs_init_state src) with
     ((fun _ : BFSP.St => BFSP.bfs_init_state src) (BFSP.bfs_init_state src)).
   apply safeExec_update'_bind in Hsafe.
@@ -191,7 +195,7 @@ Lemma safeExec_bfs_loop_exit go_s X:
       (err_ret tt) X.
 Proof.
   intros Hqnil Hsafe v.
-  unfold bfs_loop, BFSP.bfs_body_assert in Hsafe.
+  unfold bfs_loop, BFSA.bfs_body_assert in Hsafe.
   rewrite MonadErrLoop.whileP_unfold in Hsafe.
   safe_choice_r Hsafe.
   eapply safeExec_conseq; eauto.
@@ -211,7 +215,7 @@ Lemma safeExec_bfs_loop_head_reachable go_s u tail X:
   reachable src u.
 Proof.
   intros Hq Hsafe.
-  unfold bfs_loop, BFSP.bfs_body_assert in Hsafe.
+  unfold bfs_loop, BFSA.bfs_body_assert in Hsafe.
   rewrite MonadErrLoop.whileP_unfold in Hsafe.
   safe_choice_l Hsafe.
   2:{
@@ -225,7 +229,7 @@ Proof.
   }
   apply safeExec_assertS_seq in Hsafe.
   destruct Hsafe as [bfs_s [[Hreach Hrel] _]].
-  unfold BFSP.bfs_queue_reachable in Hreach.
+  unfold BFSA.bfs_queue_reachable in Hreach.
   apply Hreach.
   destruct Hrel as [Hqrel _].
   rewrite <- Hqrel.
@@ -241,10 +245,10 @@ Lemma safeExec_err_forset_pick {Σ A B: Type}
   (P: Σ -> Prop) X a:
   a ∈ universe ->
   safeExec P
-    (MonadErrBasic.MonadErr.bind (MonadErrLoop.forset universe body) (fun _ => c)) X ->
+    (bind (MonadErrLoop.forset universe body) (fun _ => c)) X ->
   safeExec P
-    (MonadErrBasic.MonadErr.bind (body a) (fun _ =>
-       MonadErrBasic.MonadErr.bind
+    (bind (body a) (fun _ =>
+       bind
          (MonadErrLoop.forset (fun x => universe x /\ x <> a) body)
          (fun _ => c)))
     X.
@@ -255,14 +259,14 @@ Proof.
     eapply (@MonadErrBasic.bind_equiv Σ unit B
       (MonadErrLoop.forset universe body)
       (MonadErrBasic.choice
-        (MonadErrBasic.MonadErr.bind
+        (bind
           (MonadErrBasic.get (fun _ a0 => a0 ∈ universe))
           (fun a0 =>
-            MonadErrBasic.MonadErr.bind (body a0) (fun _ =>
+            bind (body a0) (fun _ =>
               MonadErrLoop.forset (fun x => x ∈ universe /\ x <> a0) body)))
-        (MonadErrBasic.MonadErr.bind
+        (bind
           (MonadErrBasic.testPure (universe == ∅)%sets)
-          (fun _ => MonadErrBasic.MonadErr.ret tt)))
+          (fun _ => ret tt)))
       (fun _ => c)
       (fun _ => c)).
     - apply MonadErrLoop.forset_unfold.
@@ -270,8 +274,6 @@ Proof.
   }
   prog_nf in Hsafe.
   safe_choice_l Hsafe.
-  eapply safeExec_proequiv in Hsafe.
-  2:{ apply MonadErrBasic.bind_assoc. }
   eapply (highstepbind_derive _ _ _ a P) in Hsafe.
   - eapply safeExec_proequiv.
     + apply MonadErrBasic.bind_assoc.
@@ -293,7 +295,7 @@ Lemma safeExec_err_forset_empty {Σ A B: Type}
   (P: Σ -> Prop) X:
   (universe == ∅)%sets ->
   safeExec P
-    (MonadErrBasic.MonadErr.bind (MonadErrLoop.forset universe body) (fun _ => c)) X ->
+    (bind (MonadErrLoop.forset universe body) (fun _ => c)) X ->
   safeExec P c X.
 Proof.
   intros Hempty Hsafe.
@@ -302,14 +304,14 @@ Proof.
     eapply (@MonadErrBasic.bind_equiv Σ unit B
       (MonadErrLoop.forset universe body)
       (MonadErrBasic.choice
-        (MonadErrBasic.MonadErr.bind
+        (bind
           (MonadErrBasic.get (fun _ a0 => a0 ∈ universe))
           (fun a0 =>
-            MonadErrBasic.MonadErr.bind (body a0) (fun _ =>
+            bind (body a0) (fun _ =>
               MonadErrLoop.forset (fun x => x ∈ universe /\ x <> a0) body)))
-        (MonadErrBasic.MonadErr.bind
+        (bind
           (MonadErrBasic.testPure (universe == ∅)%sets)
-          (fun _ => MonadErrBasic.MonadErr.ret tt)))
+          (fun _ => ret tt)))
       (fun _ => c)
       (fun _ => c)).
     - apply MonadErrLoop.forset_unfold.
@@ -317,24 +319,7 @@ Proof.
   }
   prog_nf in Hsafe.
   safe_choice_r Hsafe.
-  eapply safeExec_proequiv in Hsafe.
-  2:{ apply MonadErrBasic.bind_assoc. }
-  eapply (highstepbind_derive _ _ _ tt P) in Hsafe.
-  - eapply (@safeExec_proequiv Σ B
-      (MonadErrBasic.MonadErr.bind
-        (MonadErrBasic.MonadErr.ret tt)
-        (fun _ : unit => c))
-      c P X).
-    + apply MonadErrBasic.bind_ret_l.
-    + exact Hsafe.
-  - unfold hs_eval.
-    intros σ HP.
-    exists σ.
-    split.
-    + unfold MonadErrBasic.testPure.
-      simpl.
-      split; auto.
-    + exact HP.
+  exact Hsafe.
 Qed.
 
 Lemma safeExec_err_forset_pick_no_bind {Σ A: Type}
@@ -344,7 +329,7 @@ Lemma safeExec_err_forset_pick_no_bind {Σ A: Type}
   a ∈ universe ->
   safeExec P (MonadErrLoop.forset universe body) X ->
   safeExec P
-    (MonadErrBasic.MonadErr.bind (body a) (fun _ =>
+    (bind (body a) (fun _ =>
        MonadErrLoop.forset (fun x => universe x /\ x <> a) body))
     X.
 Proof.
@@ -371,7 +356,7 @@ Lemma safeExec_err_forset_empty_no_bind {Σ A: Type}
   (P: Σ -> Prop) X:
   (universe == ∅)%sets ->
   safeExec P (MonadErrLoop.forset universe body) X ->
-  safeExec P (MonadErrBasic.MonadErr.ret tt) X.
+  safeExec P (ret tt) X.
 Proof.
   intros Hempty Hsafe.
   eapply safeExec_proequiv in Hsafe.
@@ -382,7 +367,7 @@ Proof.
 Qed.
 
 Lemma safeExec_err_ret {Σ A: Type} (a: A) (P: Σ -> Prop) X:
-  safeExec P (MonadErrBasic.MonadErr.ret a) X ->
+  safeExec P (ret a) X ->
   exists s, P s /\ X a s.
 Proof.
   unfold safeExec, safe.
@@ -509,7 +494,7 @@ Lemma safeExec_bfs_loop_stone_unroll go_s u tail X:
   go_s.(go_q) = u :: tail ->
   safeExec (GoBFSRel go_s) bfs_loop X ->
   exists bfs_s0 d_u Xtail,
-    BFSP.bfs_assert_inv g src bfs_s0 /\
+    BFSA.bfs_assert_inv g src bfs_s0 /\
     GoBFSRel go_s bfs_s0 /\
     safeExec
       (GoBFSRel {| go_seen := go_s.(go_seen); go_q := tail |})
@@ -529,7 +514,7 @@ Lemma safeExec_bfs_loop_stone_unroll go_s u tail X:
       (step u v /\ BFSP.dist bfs_s0 v = None)).
 Proof.
   intros Hq Hsafe.
-  unfold bfs_loop, BFSP.bfs_body_assert in Hsafe.
+  unfold bfs_loop, BFSA.bfs_body_assert in Hsafe.
   rewrite MonadErrLoop.whileP_unfold in Hsafe.
   safe_choice_l Hsafe.
   2:{
@@ -543,10 +528,10 @@ Proof.
   destruct Hsafe as [bfs_s0 [[Hassert Hrel0] Hsafe]].
   assert (Hsafebody:
     safeExec
-      (fun s => s = bfs_s0 /\ BFSP.bfs_assert_inv g src s /\ GoBFSRel go_s s)
+      (fun s => s = bfs_s0 /\ BFSA.bfs_assert_inv g src s /\ GoBFSRel go_s s)
       (BFSP.bfs_body g;;
        MonadErrLoop.whileP BFSP.bfs_cond
-         (MonadErrBasic.assertS (BFSP.bfs_assert_inv g src);; BFSP.bfs_body g))
+         (MonadErrBasic.assertS (BFSA.bfs_assert_inv g src);; BFSP.bfs_body g))
       X).
   {
     exists bfs_s0.
@@ -595,7 +580,7 @@ Proof.
     (fun s : BFSP.St =>
       exists s0 : BFSP.St,
         s = {| BFSP.dist := BFSP.dist s0; BFSP.q := tail |} /\
-        (s0 = bfs_s0 /\ BFSP.bfs_assert_inv g src s0 /\ GoBFSRel go_s s0) /\
+        (s0 = bfs_s0 /\ BFSA.bfs_assert_inv g src s0 /\ GoBFSRel go_s s0) /\
         BFSP.dist s0 u = Some d_u)
     (MonadErrLoop.forset abs_universe abs_body) Xtail) in Hbody.
   exists bfs_s0, d_u, Xtail.
@@ -610,7 +595,7 @@ Proof.
   - split.
     + intros P' Hret.
       pose proof (Hcont_tail P' tt Hret) as Hloop.
-      unfold bfs_loop, BFSP.bfs_body_assert.
+      unfold bfs_loop, BFSA.bfs_body_assert.
       exact Hloop.
     + intro v.
       unfold abs_universe.
@@ -809,7 +794,7 @@ Proof.
 Qed.
 
 (** Main refinement bridge.  The Go program is still written in
-    [StateRelMonad], while [BFSP.BFS_assert] is a [MonadErr] program.  The
+    [StateRelMonad], while [BFSA.BFS_assert] is a [MonadErr] program.  The
     invariant of the Go loop stores a [safeExec] proof for the remaining
     abstract BFS loop, so every concrete branch can consume the corresponding
     abstract behavior:
@@ -817,7 +802,7 @@ Qed.
     - Stone head: use [safeExec_bfs_loop_stone_step];
     - Liberty head: use the asserted BFS queue facts to obtain reachability. *)
 Theorem go_liberty_BFS_rel X:
-  safeExec (fun _ => True) (BFSP.BFS_assert g src) X ->
+  safeExec (fun _ => True) (BFSA.BFS_assert g src) X ->
   StateRelHoare.Hoare (fun _ => True) 
         (go_liberty) 
         (fun b s =>
@@ -936,11 +921,11 @@ Proof.
       (fun _ bfs_s => forall v d, bfs_dist v d <-> BFSP.dist bfs_s v = Some d)).
     eapply safeExec_X_subset.
     + apply Hoare_result_state.
-      apply BFSP.BFS_assert_correct; assumption.
+      apply BFSA.BFS_assert_correct; assumption.
     + apply safeExec_result_state.
       exists (BFSP.bfs_init_state src).
       split; [exact I|].
-      pose proof (BFSP.BFS_assert_correct
+      pose proof (BFSA.BFS_assert_correct
         (equiv0:=equiv0) (eq_dec:=eq_dec) g g_valid src src_valid) as HBFS.
       destruct HBFS as [_ Hnoerr].
       intro Herr.

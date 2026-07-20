@@ -26,9 +26,9 @@ From SimpleC.EE.QCP_demos_LLM Require Import bst_fp_strategy_proof.
 Definition insert_safety_wit_1 := 
 forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_pre_v: Z) (PreH1 : (INT_MIN <= x_pre)) (PreH2 : (x_pre <= INT_MAX)) ,
   ((( &( "fa" ) )) # Ptr  |->_)
-  **  ((( &( "value" ) )) # Int  |-> value_pre)
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "value" ) )) # Int  |-> value_pre)
   **  ((b_pre) # Ptr  |-> b_pre_v)
   **  (store_tree b_pre_v 0 tr_low_level_spec )
 |--

@@ -20,7 +20,7 @@ FLAG = \
 -R ../coq-record-update/src RecordUpdate
 
 
-BASE_FILES = CommonTactics.v TraceBasic.v TraceRecur.v TraceLogic.v GhostCode.v TraceLoop.v MapLib.v \
+BASE_FILES = CommonTactics.v TraceBasic.v TraceRecur.v TraceLogic.v TraceStatement.v GhostCode.v TraceLoop.v MapLib.v \
 TraceLib.v
 
 STATEREL_FILES = \

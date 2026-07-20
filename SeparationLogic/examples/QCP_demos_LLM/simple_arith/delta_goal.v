@@ -22,8 +22,8 @@ Local Open Scope sac.
 
 Definition delta_safety_wit_1 := 
 forall (y_pre: Z) (x_pre: Z) (PreH1 : (x_pre < y_pre)) (PreH2 : (0 <= x_pre)) (PreH3 : (x_pre <= 100)) (PreH4 : (0 <= y_pre)) (PreH5 : (y_pre <= 100)) ,
-  ((( &( "y" ) )) # Int  |-> y_pre)
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
+  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "y" ) )) # Int  |-> y_pre)
 |--
   “ ((y_pre - x_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (y_pre - x_pre )) ”
@@ -31,8 +31,8 @@ forall (y_pre: Z) (x_pre: Z) (PreH1 : (x_pre < y_pre)) (PreH2 : (0 <= x_pre)) (P
 
 Definition delta_safety_wit_2 := 
 forall (y_pre: Z) (x_pre: Z) (PreH1 : (x_pre >= y_pre)) (PreH2 : (0 <= x_pre)) (PreH3 : (x_pre <= 100)) (PreH4 : (0 <= y_pre)) (PreH5 : (y_pre <= 100)) ,
-  ((( &( "y" ) )) # Int  |-> y_pre)
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
+  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "y" ) )) # Int  |-> y_pre)
 |--
   “ ((x_pre - y_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (x_pre - y_pre )) ”

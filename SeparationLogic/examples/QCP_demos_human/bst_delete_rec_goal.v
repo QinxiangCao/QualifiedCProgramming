@@ -216,8 +216,8 @@ forall (tr: tree) (t: Z) (PreH1 : (t <> 0)) ,
 Definition delete_safety_wit_1 := 
 forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_pre_v: Z) (PreH1 : (INT_MIN <= x_pre)) (PreH2 : (x_pre <= INT_MAX)) ,
   ((( &( "p" ) )) # Ptr  |-> b_pre_v)
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((b_pre) # Ptr  |-> b_pre_v)
   **  (store_tree b_pre_v tr_low_level_spec )
 |--
@@ -235,8 +235,8 @@ forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_pre_v: Z) (p_right: Z)
   **  (store_tree p_left l0 )
   **  ((&((b_pre_v)  # "tree" ->ₛ "right")) # Ptr  |-> p_right)
   **  (store_tree p_right r0 )
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((b_pre) # Ptr  |-> b_pre_v)
 |--
   “ (0 <= INT_MAX) ” 
@@ -259,8 +259,8 @@ forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_pre_v: Z) (p_right: Z)
   **  ((&((b_pre_v)  # "tree" ->ₛ "left")) # Ptr  |-> p_left)
   **  ((&((b_pre_v)  # "tree" ->ₛ "right")) # Ptr  |-> p_right)
   **  (store_tree p_right r0 )
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((b_pre) # Ptr  |-> b_pre_v)
 |--
   “ (0 <= INT_MAX) ” 
@@ -446,8 +446,8 @@ forall (x_pre: Z) (tr_low_level_spec: tree) (b_pre_v_2: Z) (p_right: Z) (p_left:
 Definition delete_partial_solve_wit_1_pure := 
 forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_pre_v: Z) (PreH1 : (b_pre_v <> 0)) (PreH2 : (INT_MIN <= x_pre)) (PreH3 : (x_pre <= INT_MAX)) ,
   ((( &( "p" ) )) # Ptr  |-> b_pre_v)
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((b_pre) # Ptr  |-> b_pre_v)
   **  (store_tree b_pre_v tr_low_level_spec )
 |--
@@ -479,8 +479,8 @@ forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_pre_v: Z) (p_right: Z)
   **  (store_tree p_left l0 )
   **  ((&((b_pre_v)  # "tree" ->ₛ "right")) # Ptr  |-> p_right)
   **  (store_tree p_right r0 )
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((b_pre) # Ptr  |-> b_pre_v)
 |--
   “ (INT_MIN <= x_pre) ” 
@@ -527,8 +527,8 @@ forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_pre_v: Z) (p_right: Z)
   **  (store_tree p_left l0 )
   **  ((&((b_pre_v)  # "tree" ->ₛ "right")) # Ptr  |-> p_right)
   **  (store_tree p_right r0 )
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((b_pre) # Ptr  |-> b_pre_v)
 |--
   “ (INT_MIN <= x_pre) ” 
@@ -605,8 +605,8 @@ forall (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_pre_v: Z) (p_right: Z)
   **  (store_tree p_left l0 )
   **  ((&((b_pre_v)  # "tree" ->ₛ "right")) # Ptr  |-> p_right)
   **  (store_tree p_right r0 )
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((( &( "b" ) )) # Ptr  |-> b_pre)
+  **  ((( &( "x" ) )) # Int  |-> x_pre)
   **  ((b_pre) # Ptr  |-> b_pre_v)
 |--
   “ (p_left <> 0) ”

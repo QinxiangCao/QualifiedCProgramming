@@ -196,7 +196,7 @@ Proof.
     + apply (proj2 (Hsuffix k ltac:(lia))).
 Qed. 
 
-Lemma proof_of_coinChange_entail_wit_9_1 : coinChange_entail_wit_9_1.
+Lemma proof_of_coinChange_entail_wit_9_2 : coinChange_entail_wit_9_2.
 Proof.
   pre_process.
   Exists dp_l_2.
@@ -218,7 +218,7 @@ Proof.
         apply (proj2 (Htable idx ltac:(lia))); assumption.
 Qed. 
 
-Lemma proof_of_coinChange_entail_wit_9_2 : coinChange_entail_wit_9_2.
+Lemma proof_of_coinChange_entail_wit_9_1 : coinChange_entail_wit_9_1.
 Proof.
   pre_process.
   Exists dp_l_2.
@@ -239,6 +239,23 @@ Proof.
       intros idx Hidx.
       apply Hprefix; lia.
 Qed. 
+
+Lemma proof_of_coinChange_entail_wit_10_split_goal_1 : coinChange_entail_wit_10_split_goal_1.
+Proof.
+  pre_process.
+  apply PreH12.
+  exact H.
+Qed.
+
+Lemma proof_of_coinChange_entail_wit_10 : coinChange_entail_wit_10.
+Proof.
+  pre_process.
+  Exists dp_l_2.
+  split_pure_spatial.
+  - cancel (IntArray.full coins_pre coinsSize_pre coins_l).
+    cancel (IntArray.full dp_pre (amount_pre + 1) dp_l_2).
+  - split_pures; dump_pre_spatial; try lia; auto.
+Qed.
 
 Lemma proof_of_coinChange_entail_wit_11 : coinChange_entail_wit_11.
 Proof.
@@ -278,7 +295,7 @@ Proof.
     + apply (Hno k); lia || exact HR.
 Qed.
 
-Lemma proof_of_coinChange_entail_wit_13_2 : coinChange_entail_wit_13_2.
+Lemma proof_of_coinChange_entail_wit_13_1 : coinChange_entail_wit_13_1.
 Proof.
   pre_process.
   Exists dp_l_2.
@@ -294,7 +311,7 @@ Proof.
     + exact PreH10.
 Qed.
 
-Lemma proof_of_coinChange_entail_wit_13_1 : coinChange_entail_wit_13_1.
+Lemma proof_of_coinChange_entail_wit_13_2 : coinChange_entail_wit_13_2.
 Proof.
   pre_process.
   Exists dp_l_2.

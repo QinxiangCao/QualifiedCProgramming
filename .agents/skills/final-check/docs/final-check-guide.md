@@ -1,106 +1,55 @@
 # Final Check 指南
 
-本文件给 main agent 使用。final-check 不开启 subagent。
+本文件给 main agent 使用；final-check 不启动 subagent。
 
-## final-candidate-apply
+## final-apply
 
-main agent 必须先执行 `final-candidate-apply`：
+controller 只接受 `proving_merged_result.json.status == passed` 且 parent full scripted check passed 的 candidate。
 
-- 从 controller accepted final candidate 复制最终 `.c`、generated files、`*_proof_manual.v` 和 `case_lib` 到 main worktree。
-- apply 来源必须与 `run_logs.json` 最新 state snapshot 中当前 accepted `vc-proving-preparing` / `group_merged_result.json` final candidate 一致。
-- apply 前在 `<report-root>/final-check/backup/` 记录 touched formal files 的 backup metadata。
-- apply 后记录当前 `source_version`、`source_goal_version` 和 copied file digests。
-- QCP / `coqc_check` / structure audit 失败时，按 backup rollback，并在 `run_logs.json` state snapshot / blockers 中记录失败命令和 rollback result。
+final-apply：
 
-不得从 group worktree、stale round worktree 或未被 controller 记录为 final candidate 的目录直接复制 formal files。
+- source必须位于 accepted `verification_runs/<run>/<round>/proving_merged/`。
+- 只复制 merged manual与`proving_merged_lib`到 main root formal manual/`formal_case_lib`。
+- target C/generated files已由 accepted annotation保留在 main root，不从group/merged directory复制。
+- apply前在 `reports/<run>/final-check/backup/` 保存 touched files；失败或 final-check failed时 rollback。
 
-## Symbolic execution freshness 检查
+不得直接从 group directory或 stale history/report采用文件。
 
-final-check 必须确认 generated files 来自当前 main worktree 目标 `.c`，并与已采用的 `case_lib` / manual proofs 一致。
+## Symbolic execution freshness
 
-`QCP_examples/LLM_bench` case 使用 `QCP_demos_LLM` 公共头文件时，symbolic execution 必须带：
-
-```bash
--IQCP_examples/QCP_demos_LLM/
--slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM
-```
-
-不得在 final-check 中把源码 include 改成相对路径来规避 include path 配置。
-
-freshness refresh 必须输出到 report root 下的 temp directory，例如：
+controller 内部使用 `symexec_tooling.py`，output root固定为：
 
 ```text
-<report-root>/final-check/symexec-refresh/
+reports/<run>/final-check/symexec-refresh/
 ```
 
-然后比对 temp generated files 与 main worktree 已采用 files：
+helper自动拼 driver、cwd、canonical include/SLP、logic/generated paths。fresh goal/auto/check与main root逐文件比较；raw fresh manual先在 refresh directory 内执行与 annotation acceptance 相同的 diagnostics split，fresh cleaned manual只比较 witness names/statements，不覆盖proved bodies。refresh diagnostics与snapshot只属于本次 freshness evidence，不写回main root。
 
-- `*_goal.v`
-- `*_proof_auto.v`
-- `*_proof_manual.v`
-- `*_goal_check.v`
+current target C digest还必须等于 accepted annotation `source_version` 中记录的 target C；final applied `formal_case_lib`预期不同于 annotation seed，因此不对它做错误的整份 source-version等值比较。
 
-`case_lib` 不由 symbolic execution 重写。temp `*_proof_manual.v` skeleton 只用于比对 witness names、witness statements 和 skeleton freshness；不得复制回 main worktree 覆盖已完成 proof bodies。
+## Fixed Coq check
 
-若 temp witness statements 与 main worktree manual proofs 不一致，或 generated goal/check/auto 文件不一致，记录 blocker 并回到 `vc-proving-preparing` / group-worker 或 `annotation`。
+controller 内部使用 `coq_tooling.py` 的 fixed check：workspace是main root，build在`verification_runs/<run>/_coq_builds/final-check/src`，target是root-relative goal check，target kind是`check`，version是current `source_goal_version`。`coqc`路径来自`SeparationLogic/CONFIGURE`和Makefile的`COQBIN`/`SUF`约定；与其他run和阶段一致，check从main root全量make产物复用Makefile全部load path的基础`.vo`，不按源码digest、Coq版本或flags建cache且不重编译基础库。current target case的lib/goal/auto/manual/check五个module排除旧产物并从applied source重新编译。main agent 不直接调用 internal helper。
 
-## Fixed `coqc_check`
+不得手写Coq flags/raw commands。controller state只保留 status、version、return code与首个失败 diagnostic等必要摘要；需要完整反馈时原样重跑同一 controller check。
 
-final-check 的 canonical batch check 使用 main worktree 的固定 Coq helper：
+## Manual 与三级 lib review
 
-```bash
-python3 <main-worktree-root>/.agents/skills/vc-proving/scripts/coq_tooling.py check \
-  --workspace-root <main-worktree-root> \
-  --build-workspace <run-root>/_coq_builds/final-check/src \
-  --target-file SeparationLogic/examples/LLM_bench/Algorithms/<case>/<case>_goal_check.v \
-  --target-kind check \
-  --source-goal-version <source_goal_version>
-```
+- manual无`Admitted.`/`Abort.`/extra `Axiom`/helper/forbidden top-level declaration。
+- manual witness list与`source_goal_version.target_witnesses`完全一致。
+- `formal_case_lib`无`Admitted.`/extra `Axiom`/current generated artifact import。
+- `formal_case_lib` digest等于accepted `proving_merged_lib`。
+- merged helpers可追踪到`group_worker_lib` reports与`proving_merged_result.json`。
+- manual/`formal_case_lib`不使用 forbidden lemma list。
 
-不得手写 Coq flags、使用 `coqc -o`、调用 Dune、调用 Rocq MCP 或 `_CoqProject` derived command。失败的 fixed command 就是 evidence，不能作为切换工具或参数的授权。
+## Cleanup
 
-helper 会把 formal source `.v` 文件 mirror 到 `--build-workspace` 后运行 `coqc`。`.vo`、`.vos`、`.vok`、`.glob` 和 `.aux` 只能出现在 build workspace 下，不得写入 main formal path。
+final-check开始时，controller只删除current target case五个formal modules及current run非`_coq_builds`区域中的旧`.vo/.vos/.vok/.glob/.aux`并记录删除数量；前置全量make产生的基础`.vo`必须保留。freshness、fixed Coq及结构检查完成后controller再次扫描同一target/run边界；新产生或无法删除的target副产物使cleanup失败。state/output只保存删除数、错误数、残留数以及首个错误或残留路径，不保存完整路径列表。
 
-`verification_result.final_check.coqc_check` 必须记录 argv、cwd、Coq version、fixed flags hash、target file、target kind、`source_goal_version`、source digests、return code、stdout/stderr tails 和 first diagnostic。无法运行时写 `skipped` 或 `failed`，不得写成 `passed`。
+current target case的新Coq副产物只允许位于current run `_coq_builds`；main root基础库`.vo`是允许且必需的条件信任输入。agent不手工执行cleanup。controller不得删除正式交付文件、基础`.vo`、controller state、run log、任何`annotation-attempts/annotation-attemptN` handoff/report、formal annotation history、round/group reports或merge record。
 
-## Manual proof 和 `case_lib` review
+## Failure recovery
 
-必须检查：
+任一final-check项失败都rollback final-apply。rollback成功后phase回到`final-candidate-apply`，main agent调用`step`并执行返回的`final-apply`，之后才能再次final-check；不得对rolled-back root直接重跑final-check。rollback失败时controller保留blocker且不返回新的apply/check action。
 
-- `*_proof_manual.v` 不含 `Admitted.`、extra `Axiom`、顶层 `Definition`、`Fixpoint`、`Inductive`、`Notation` 或 helper lemma。
-- `*_proof_manual.v` 只包含当前 case 的 manual witness theorem proofs。
-- `case_lib` 不含 `Admitted.`、extra `Axiom` 或当前 case generated artifact 的 `SimpleC.EE.*` import。
-- `case_lib` 中新增 helper declarations 能追踪到 vc-proving parent verify 的 merge record。
-- `*_proof_manual.v` 和 `case_lib` 不使用 `.agents/skills/verification-orchestrator/docs/forbidden-lemma.md` 列出的 forbidden lemmas。
-- main worktree diff 只包含本 case accepted files。
-
-建议先文本扫描：
-
-```bash
-rg -n '\bAdmitted\.|\bAxiom\b' path/to/case_proof_manual.v path/to/case_lib.v
-```
-
-再扫描 forbidden lemma 列表中的 lemma 名称。命中时 final-check 失败，并回到 `vc-proving`。
-
-## Cleanup 范围
-
-可清理：
-
-- 本 run 创建的 annotation / vc-checking round worktree。
-- 本 run 创建的 `vc-proving-preparing` 普通 container 目录。
-- 本 run 创建的 group worktree。
-- report temp directories。
-- 当前 case 对应的 Coq `.aux` / `.glob` / `.vo` / `.vos` / `.vok` 等编译副产物，前提是它们不是正式交付。
-- Python/test 临时目录。
-
-不得删除：
-
-- 目标 `.c`
-- `*_goal.v`
-- `*_proof_auto.v`
-- `*_proof_manual.v`
-- `*_goal_check.v`
-- `case_lib`
-- run level / round level / group-worker level 的正式 JSON/text handoff files，除非用户明确要求清理整个 run 记录。
-
-只有 freshness、fixed `coqc_check`、manual proof structure、`case_lib` contract、merge record 和 cleanup 全部通过后，main agent 才能进入 `done`。
+所有 freshness/fixed check/structure/lib/forbidden/cleanup项通过后才能写done；否则记录blocker并rollback final apply。

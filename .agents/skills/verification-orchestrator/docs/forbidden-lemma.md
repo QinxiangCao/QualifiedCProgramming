@@ -1,12 +1,13 @@
 # Forbidden Lemma 列表
 
-manual proof 和 `case_lib` 中不得使用本文件列出的 lemma。它们会绕过 separation logic 证明的核心结构；命中时应回到 `vc-proving` 重写对应 proof。
+manual、`group_worker_lib`、`proving_merged_lib` 和最终 `formal_case_lib` 均不得使用下列 lemma。它们绕过 separation logic proof 的核心结构。
 
 ## 规则
 
-- 扫描范围：最终 `*_proof_manual.v` 和 `case_lib`，以及 group-worker 产出的候选 proof。
-- 命中任意 forbidden lemma 时，`vc-proving` 不得合并；若在 `final-check` 命中，final-check 失败并回到 `vc-proving`。
-- 记录所有命中位置：文件、行号、lemma 名称和所属 witness / helper。
+- group-worker scripted check 前扫描 copied manual/`group_worker_lib`。
+- parent verify 合并前后扫描 group candidates 与 proving_merged files。
+- final-check 扫描正式 manual/`formal_case_lib`。
+- 命中时记录 path、line、lemma 和所属 witness/helper；不能通过改名或注释规避，必须重写 proof。
 
 ## 列表
 
@@ -35,9 +36,3 @@ manual proof 和 `case_lib` 中不得使用本文件列出的 lemma。它们会�
 | 21 | `derivable1_sepcon_comm` | derivable sepcon 交换 |
 | 22 | `coq_prop_andp_right` | Coq prop andp 右侧引理 |
 | 23 | `derivable1_sepcon_mono` | derivable sepcon 单调 |
-
-## 检查
-
-`vc-proving` 应在 parent verify 合并前扫描 group-worker candidate。`final-check` 应在 `Admitted.` / extra `Axiom` review 后扫描正式文件。
-
-推荐用 `rg -n` 搜索 lemma 名称。扫描只是结构检查；若命中，不能通过改名或注释规避，必须改写 proof。

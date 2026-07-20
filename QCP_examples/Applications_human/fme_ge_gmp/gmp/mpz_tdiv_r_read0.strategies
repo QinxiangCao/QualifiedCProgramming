@@ -1,0 +1,48 @@
+// Local strategies for store_Z_read0 used by mpz_tdiv_r_read0.
+
+#include "fme_ge_gmp/gmp/gmp_def.h"
+
+id : 1
+priority : core(2)
+left : store_Z_read0(?x, ?n) at 0
+right : (store(field_addr(x, __mpz_struct, _mp_size), I32, ?y) ||
+         store(field_addr(x, __mpz_struct, _mp_alloc), I32, ?y) ||
+         store(field_addr(x, __mpz_struct, _mp_d), PTR, ?y)) at 1
+action : left_erase(0);
+         left_exist_add(ptr);
+         left_exist_add(size);
+         left_exist_add(cap);
+         left_add(store(field_addr(x, __mpz_struct, _mp_size), I32, size));
+         left_add(store(field_addr(x, __mpz_struct, _mp_alloc), I32, cap));
+         left_add(store(field_addr(x, __mpz_struct, _mp_d), PTR, ptr));
+         left_add(Zabs(size) <= cap);
+         left_add(same_sign(n, size));
+         left_add(mpd_store_Z_compact_read0(ptr, Zabs(n), Zabs(size)));
+         left_add(UIntArray::undef_seg(ptr, Zmax(Zabs(size), 1), cap));
+
+id : 2
+priority : core(2)
+right : store_Z_read0(?x, ?n) at 0
+left : (store(field_addr(x, __mpz_struct, _mp_size), I32, ?y) ||
+        store(field_addr(x, __mpz_struct, _mp_alloc), I32, ?y) ||
+        store(field_addr(x, __mpz_struct, _mp_d), PTR, ?y)) at 1
+action : right_erase(0);
+         right_exist_add(ptr);
+         right_exist_add(size);
+         right_exist_add(cap);
+         right_add(store(field_addr(x, __mpz_struct, _mp_size), I32, size));
+         right_add(store(field_addr(x, __mpz_struct, _mp_alloc), I32, cap));
+         right_add(store(field_addr(x, __mpz_struct, _mp_d), PTR, ptr));
+         right_add(Zabs(size) <= cap);
+         right_add(same_sign(n, size));
+         right_add(mpd_store_Z_compact_read0(ptr, Zabs(n), Zabs(size)));
+         right_add(UIntArray::undef_seg(ptr, Zmax(Zabs(size), 1), cap));
+
+id : 3
+priority : core(1)
+left : mpd_store_Z_compact_read0(?p, ?v1, ?s1) at 0
+right : mpd_store_Z_compact_read0(p, ?v2, ?s2) at 1
+action : left_erase(0);
+         right_erase(1);
+         right_add(v1 == v2);
+         right_add(s1 == s2);

@@ -355,9 +355,9 @@ forall (u: Z) (l3: (@list Z)) (t: Z) ,
 
 Definition split_rec_safety_wit_1 := 
 forall (q_pre: Z) (p_pre: Z) (x_pre: Z) (X_low_level_spec: (((@list Z) * (@list Z)) -> (unit -> Prop))) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (l_low_level_spec: (@list Z)) (p_pre_v: Z) (q_pre_v: Z) (PreH1 : (safeExec ATrue (split_rec_rel (l_low_level_spec) (l1_low_level_spec) (l2_low_level_spec)) X_low_level_spec )) ,
-  ((( &( "q" ) )) # Ptr  |-> q_pre)
+  ((( &( "x" ) )) # Ptr  |-> x_pre)
   **  ((( &( "p" ) )) # Ptr  |-> p_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "q" ) )) # Ptr  |-> q_pre)
   **  (sll x_pre l_low_level_spec )
   **  ((p_pre) # Ptr  |-> p_pre_v)
   **  (sll p_pre_v l1_low_level_spec )
@@ -436,9 +436,9 @@ forall (x_pre: Z) (X_low_level_spec: (((@list Z) * (@list Z)) -> (unit -> Prop))
 
 Definition split_rec_partial_solve_wit_1_pure := 
 forall (q_pre: Z) (p_pre: Z) (x_pre: Z) (X_low_level_spec: (((@list Z) * (@list Z)) -> (unit -> Prop))) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (l_low_level_spec: (@list Z)) (p_pre_v: Z) (q_pre_v: Z) (PreH1 : (x_pre <> 0)) (PreH2 : (safeExec ATrue (split_rec_rel (l_low_level_spec) (l1_low_level_spec) (l2_low_level_spec)) X_low_level_spec )) ,
-  ((( &( "q" ) )) # Ptr  |-> q_pre)
+  ((( &( "x" ) )) # Ptr  |-> x_pre)
   **  ((( &( "p" ) )) # Ptr  |-> p_pre)
-  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "q" ) )) # Ptr  |-> q_pre)
   **  (sll x_pre l_low_level_spec )
   **  ((p_pre) # Ptr  |-> p_pre_v)
   **  (sll p_pre_v l1_low_level_spec )
@@ -475,8 +475,8 @@ forall (q_pre: Z) (p_pre: Z) (x_pre: Z) (X_low_level_spec: (((@list Z) * (@list 
   **  ((&((x_pre)  # "list" ->ₛ "data")) # Int  |-> x_data)
   **  ((&((x_pre)  # "list" ->ₛ "next")) # Ptr  |-> p_pre_v)
   **  (sll x_next l_new )
-  **  ((( &( "q" ) )) # Ptr  |-> q_pre)
   **  ((( &( "p" ) )) # Ptr  |-> p_pre)
+  **  ((( &( "q" ) )) # Ptr  |-> q_pre)
   **  ((p_pre) # Ptr  |-> x_pre)
   **  (sll p_pre_v l1_low_level_spec )
   **  ((q_pre) # Ptr  |-> q_pre_v)

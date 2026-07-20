@@ -879,8 +879,82 @@ Proof.
     apply IHn.
 Qed.
 
+(** Backend-independent recursion rules. *)
+Theorem Hoare_Rec {Σ A B: Type}:
+  forall (P: A -> Σ -> Prop)
+         (Q: A -> B -> Σ -> Prop)
+         (F: (A -> program Σ B) -> A -> program Σ B)
+         (a: A),
+    (forall W: A -> program Σ B,
+      (forall a, Hoare (P a) (W a) (Q a)) ->
+      forall a, Hoare (P a) (F W a) (Q a)) ->
+    Hoare (P a) (Rec F a) (Q a).
+Proof.
+  intros. unfold Rec. apply Hoare_fix. assumption.
+Qed.
+
+Theorem Hoare_Rec_prog {Σ B: Type}:
+  forall (P: Σ -> Prop) (Q: B -> Σ -> Prop)
+         (F: program Σ B -> program Σ B),
+    (forall W, Hoare P W Q -> Hoare P (F W) Q) ->
+    Hoare P (Rec F) Q.
+Proof.
+  intros. unfold Rec. apply Hoare_fix'. assumption.
+Qed.
+
+Theorem Hoare_Rec_logicv {Σ A B C: Type}:
+  forall (F: (A -> program Σ B) -> A -> program Σ B)
+         (P: A -> C -> Σ -> Prop)
+         (Q: A -> C -> B -> Σ -> Prop) a c,
+    (forall W: A -> program Σ B,
+      (forall a c, Hoare (P a c) (W a) (Q a c)) ->
+      forall a c, Hoare (P a c) (F W a) (Q a c)) ->
+    Hoare (P a c) (Rec F a) (Q a c).
+Proof.
+  intros. unfold Rec. apply Hoare_fix_logicv. assumption.
+Qed.
+
+Theorem Hoare_Rec_logicv_conj' {Σ A B C: Type}:
+  forall (F: (A -> program Σ B) -> A -> program Σ B)
+         (P1: A -> C -> Σ -> Prop)
+         (Q1: A -> C -> B -> Σ -> Prop) a c,
+  forall {D: Type}
+         (P2: A -> D -> Σ -> Prop)
+         (Q2: A -> D -> B -> Σ -> Prop),
+    (forall a d, Hoare (P2 a d) (Rec F a) (Q2 a d)) ->
+    (forall W: A -> program Σ B,
+      (forall a d, Hoare (P2 a d) (W a) (Q2 a d)) ->
+      (forall a c, Hoare (P1 a c) (W a) (Q1 a c)) ->
+      (forall a c, Hoare (P2 a c) (F W a) (Q2 a c)) ->
+      forall a c, Hoare (P1 a c) (F W a) (Q1 a c)) ->
+    Hoare (P1 a c) (Rec F a) (Q1 a c).
+Proof.
+  intros. unfold Rec in *. eapply Hoare_fix_logicv_conj'; eauto.
+Qed.
+
+Theorem Hoare_Rec_fspecs {Σ A R: Type}:
+  forall (F: (A -> program Σ R) -> A -> program Σ R) fs Fspecs,
+    Forall (fun fs => monad_sat_funcspec (fun a => Rec F a) fs) Fspecs ->
+    (forall W: A -> program Σ R,
+      Forall (fun fs => monad_sat_funcspec W fs) Fspecs ->
+      (forall a lv, Hoare ((mFS_pre fs) a lv) (W a) ((mFS_Post fs) a lv)) ->
+      forall a lv, Hoare ((mFS_pre fs) a lv) (F W a) ((mFS_Post fs) a lv)) ->
+    forall (a: A) (lv: mFS_lv fs),
+      Hoare ((mFS_pre fs) a lv) (Rec F a) ((mFS_Post fs) a lv).
+Proof.
+  intros. unfold Rec in *. eapply Hoare_fix_logicv_fspecs; eauto.
+Qed.
+
+Tactic Notation "hoare_rec" uconstr(P) uconstr(Q) :=
+  lazymatch goal with
+  | |- Hoare _ (Rec ?F ?a) _ => eapply (@Hoare_Rec _ _ _ P Q F a)
+  | |- ?G => fail 1 "hoare_rec: expected a Hoare goal headed by Rec" G
+  end.
+
 Ltac hoare_fix_nolv_auto A :=
-   match goal with 
+   lazymatch goal with
+  | |- @Hoare ?Sigma ?R ?P1 (Rec ?F ?a) ?P2 =>
+    unfold Rec; hoare_fix_nolv_auto A
   | |- @Hoare ?Σ ?R ?P1 (Lfix ?F ?a) ?P2 =>
     let P := fresh "P" in evar (P: A -> Σ  -> Prop);
     let Q := fresh "Q" in evar (Q: A -> R -> Σ  -> Prop);
@@ -899,7 +973,9 @@ Ltac hoare_fix_nolv_auto A :=
   end.
 
 Ltac hoare_fix_lv_auto A C c:=
-   match goal with 
+   lazymatch goal with
+  | |- @Hoare ?Sigma ?R ?P1 (Rec ?F ?a) ?Q1 =>
+    unfold Rec; hoare_fix_lv_auto A C c
   | |- @Hoare ?Σ ?R ?P1 (Lfix ?F ?a) ?Q1 =>
      let P := fresh "P" in evar (P: A -> C -> Σ  -> Prop);
      let Q := fresh "Q" in evar (Q: A -> C -> R -> Σ -> Prop);
@@ -923,7 +999,9 @@ Ltac hoare_fix_lv_auto A C c:=
   end.
 
 Ltac hoare_fix_lv_auto_conj A C c:=
-  match goal with 
+  lazymatch goal with
+| |- @Hoare ?Sigma ?R ?P (Rec ?F ?a) ?Q =>
+    unfold Rec; hoare_fix_lv_auto_conj A C c
 | |- @Hoare ?Σ ?R ?P (Lfix ?F ?a) ?Q =>
     let P1 := fresh "P" in evar (P1: A -> C -> Σ  -> Prop);
     let Q1 := fresh "Q" in evar (Q1: A -> C -> R -> Σ -> Prop);
@@ -948,7 +1026,9 @@ Ltac hoare_fix_lv_auto_conj A C c:=
 end.
 
 Ltac hoare_fix_lv_auto_conj' A C c:=
-  match goal with 
+  lazymatch goal with
+| |- @Hoare ?Sigma ?R ?P (Rec ?F ?a) ?Q =>
+    unfold Rec; hoare_fix_lv_auto_conj' A C c
 | |- @Hoare ?Σ ?R ?P (Lfix ?F ?a) ?Q =>
     let P1 := fresh "P" in evar (P1: A -> C -> Σ  -> Prop);
     let Q1 := fresh "Q" in evar (Q1: A -> C -> R -> Σ -> Prop);
@@ -971,6 +1051,15 @@ Ltac hoare_fix_lv_auto_conj' A C c:=
   eapply (Hoare_fix_logicv_conj' _ P1 Q1 a c);
   subst P1 Q1
 end.
+
+Ltac hoare_rec_nolv_auto A :=
+  hoare_fix_nolv_auto A.
+
+Ltac hoare_rec_lv_auto A C c :=
+  hoare_fix_lv_auto A C c.
+
+Ltac hoare_rec_lv_auto_conj' A C c :=
+  hoare_fix_lv_auto_conj' A C c.
 
 (** Hoare rules for loops *)
 

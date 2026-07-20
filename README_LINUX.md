@@ -44,11 +44,18 @@ COQBIN = /absolute/path/to/coq/bin/
 
 ### Build Rocq Files
 
+In `SeparationLogic`, the default `make` target is `core`, so it does not build the generated files under `SeparationLogic/examples`. `make depend` refreshes dependencies for all core and example files. If you need the full build, including all examples, run `make all` after `make depend`.
+
 ```bash
 cd SeparationLogic/unifysl
 make depend && make
 cd ..
+
+# Core libraries only, because the default target is core
 make depend && make
+
+# Full build, including all generated examples
+make depend && make all
 ```
 
 ## QIDE Extension

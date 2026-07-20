@@ -273,7 +273,27 @@ Proof.
   intros; revert H0.
   apply Hoare_fix with (Q:=fun _ => Q); auto.
 Qed.
-  
+
+(** Backend-independent recursion rule. *)
+Theorem Hoare_Rec {A B: Type}:
+  forall (P: A -> Prop)
+         (Q: A -> B -> Prop)
+         (F: (A -> program B) -> A -> program B)
+         (a: A),
+    (forall W: A -> program B,
+      (forall a, P a -> Hoare (W a) (Q a)) ->
+      forall a, P a -> Hoare (F W a) (Q a)) ->
+    P a -> Hoare (Rec F a) (Q a).
+Proof.
+  intros. unfold Rec. eapply Hoare_fix; eauto.
+Qed.
+
+Tactic Notation "hoare_rec" uconstr(P) uconstr(Q) :=
+  lazymatch goal with
+  | |- Hoare (Rec ?F ?a) _ => eapply (@Hoare_Rec _ _ P Q F a)
+  | |- ?G => fail 1 "hoare_rec: expected a Hoare goal headed by Rec" G
+  end.
+
 Theorem Hoare_repeat_break' {A B: Type}:
   forall (body: A -> program (CntOrBrk A B))
          (P: A -> Prop)
@@ -351,9 +371,9 @@ Proof.
   intros.
   unfold range_iter_break.
   match goal with
-  | |- Hoare (Lfix _ _) ?X => set (K := X)
+  | |- Hoare (Rec _ _) ?X => set (K := X)
   end.
-  eapply Hoare_fix with (P:= fun '(i, a) => P i a /\ lo <= i <= hi)(Q :=fun _ => K); auto.
+  eapply Hoare_Rec with (P:= fun '(i, a) => P i a /\ lo <= i <= hi)(Q :=fun _ => K); auto.
   unfold K; clear K.
   intros; unfold range_iter_break_f.
   hoare_auto.

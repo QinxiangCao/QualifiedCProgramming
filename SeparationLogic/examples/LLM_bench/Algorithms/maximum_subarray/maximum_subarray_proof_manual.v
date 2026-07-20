@@ -60,6 +60,18 @@ Proof.
       end.
 Qed. 
 
+Lemma proof_of_max_sub_array_entail_wit_2_split_goal_1 : max_sub_array_entail_wit_2_split_goal_1.
+Proof.
+  pre_process.
+  apply PreH12.
+  exact H.
+Qed.
+
+Lemma proof_of_max_sub_array_entail_wit_2 : max_sub_array_entail_wit_2.
+Proof.
+  pre_process.
+Qed.
+
 Lemma proof_of_max_sub_array_entail_wit_3 : max_sub_array_entail_wit_3.
 Proof.
   pre_process.
@@ -134,6 +146,18 @@ Proof.
            unfold max_Z;
            apply Z.max_lub; lia).
 Qed. 
+
+Lemma proof_of_max_sub_array_entail_wit_6_split_goal_1 : max_sub_array_entail_wit_6_split_goal_1.
+Proof.
+  pre_process.
+  apply PreH12.
+  exact H.
+Qed.
+
+Lemma proof_of_max_sub_array_entail_wit_6 : max_sub_array_entail_wit_6.
+Proof.
+  pre_process.
+Qed.
 
 Lemma proof_of_max_sub_array_entail_wit_7 : max_sub_array_entail_wit_7.
 Proof.

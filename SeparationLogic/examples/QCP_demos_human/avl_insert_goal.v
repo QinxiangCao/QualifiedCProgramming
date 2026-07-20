@@ -5042,9 +5042,9 @@ Definition balance_partial_solve_wit_25 := balance_partial_solve_wit_25_pure -> 
 Definition insert_safety_wit_1 := 
 forall (value_pre: Z) (key_pre: Z) (p_pre: Z) (p_pre_v: Z) ,
   ((( &( "root" ) )) # Ptr  |-> p_pre_v)
-  **  ((( &( "value" ) )) # Int  |-> value_pre)
-  **  ((( &( "key" ) )) # Int  |-> key_pre)
   **  ((( &( "p" ) )) # Ptr  |-> p_pre)
+  **  ((( &( "key" ) )) # Int  |-> key_pre)
+  **  ((( &( "value" ) )) # Int  |-> value_pre)
   **  ((p_pre) # Ptr  |-> p_pre_v)
   **  (store_tree_shape p_pre_v )
 |--
@@ -5060,9 +5060,9 @@ forall (value_pre: Z) (key_pre: Z) (p_pre: Z) (p_pre_v: Z) (tr: tree) (retval: Z
   **  ((&((retval)  # "tree" ->ₛ "lchild")) # Ptr  |->_)
   **  ((&((retval)  # "tree" ->ₛ "rchild")) # Ptr  |->_)
   **  ((( &( "root" ) )) # Ptr  |-> retval)
-  **  ((( &( "value" ) )) # Int  |-> value_pre)
-  **  ((( &( "key" ) )) # Int  |-> key_pre)
   **  ((( &( "p" ) )) # Ptr  |-> p_pre)
+  **  ((( &( "key" ) )) # Int  |-> key_pre)
+  **  ((( &( "value" ) )) # Int  |-> value_pre)
   **  ((p_pre) # Ptr  |-> p_pre_v)
 |--
   “ (0 <= INT_MAX) ” 
@@ -5077,9 +5077,9 @@ forall (value_pre: Z) (key_pre: Z) (p_pre: Z) (p_pre_v: Z) (tr: tree) (retval: Z
   **  ((&((retval)  # "tree" ->ₛ "lchild")) # Ptr  |-> 0)
   **  ((&((retval)  # "tree" ->ₛ "rchild")) # Ptr  |->_)
   **  ((( &( "root" ) )) # Ptr  |-> retval)
-  **  ((( &( "value" ) )) # Int  |-> value_pre)
-  **  ((( &( "key" ) )) # Int  |-> key_pre)
   **  ((( &( "p" ) )) # Ptr  |-> p_pre)
+  **  ((( &( "key" ) )) # Int  |-> key_pre)
+  **  ((( &( "value" ) )) # Int  |-> value_pre)
   **  ((p_pre) # Ptr  |-> p_pre_v)
 |--
   “ (0 <= INT_MAX) ” 
@@ -5094,9 +5094,9 @@ forall (value_pre: Z) (key_pre: Z) (p_pre: Z) (p_pre_v: Z) (tr: tree) (retval: Z
   **  ((&((retval)  # "tree" ->ₛ "lchild")) # Ptr  |-> 0)
   **  ((&((retval)  # "tree" ->ₛ "rchild")) # Ptr  |-> 0)
   **  ((( &( "root" ) )) # Ptr  |-> retval)
-  **  ((( &( "value" ) )) # Int  |-> value_pre)
-  **  ((( &( "key" ) )) # Int  |-> key_pre)
   **  ((( &( "p" ) )) # Ptr  |-> p_pre)
+  **  ((( &( "key" ) )) # Int  |-> key_pre)
+  **  ((( &( "value" ) )) # Int  |-> value_pre)
   **  ((p_pre) # Ptr  |-> p_pre_v)
 |--
   “ (1 <= INT_MAX) ” 

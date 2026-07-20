@@ -52,7 +52,9 @@ Ltac equiv_dec_simpl u v :=
 
    
 Ltac hoare_fix_nolv_fs_auto A :=
-  match goal with 
+  lazymatch goal with
+    | |- @Hoare ?Sigma ?R ?P (Rec ?F ?a) ?Q =>
+      unfold Rec; hoare_fix_nolv_fs_auto A
     | |- @Hoare ?Σ ?R ?P (Lfix ?F ?a) ?Q => 
       let fs_pre := fresh "fs_pre" in evar (fs_pre: A -> Σ -> Prop);
       let fs_post := fresh "fs_post" in evar (fs_post: A -> R -> Σ -> Prop);

@@ -149,8 +149,8 @@ forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (dst: Z) (src: Z) (l1: 
 Definition glibc_slist_clean_multi_rev_safety_wit_1 := 
 forall (y_pre: Z) (x_pre: Z) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (PreH1 : (safeExec ATrue (glibc_slist_clean_multi_rev_M (l1_low_level_spec) (l2_low_level_spec)) X_low_level_spec )) ,
   ((( &( "out" ) )) # Ptr  |->_)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  (sll x_pre l1_low_level_spec )
   **  (sll y_pre l2_low_level_spec )
 |--

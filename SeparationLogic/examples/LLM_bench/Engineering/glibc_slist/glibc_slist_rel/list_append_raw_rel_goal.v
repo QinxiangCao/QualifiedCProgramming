@@ -36,8 +36,8 @@ From SimpleC.EE.QCP_demos_LLM Require Import sll_strategy_proof.
 Definition list_append_raw_safety_wit_1 := 
 forall (y_pre: Z) (x_pre: Z) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (PreH1 : (safeExec ATrue (list_append_raw_M (l1_low_level_spec) (l2_low_level_spec)) X_low_level_spec )) ,
   ((( &( "tail" ) )) # Ptr  |->_)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  (sll x_pre l1_low_level_spec )
   **  (sll y_pre l2_low_level_spec )
 |--

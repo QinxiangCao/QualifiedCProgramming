@@ -278,9 +278,6 @@ Proof. Admitted.
 Lemma proof_of_superPiano_entail_wit_12_2 : superPiano_entail_wit_12_2.
 Proof. Admitted. 
 
-Lemma proof_of_superPiano_partial_solve_wit_1_pure : superPiano_partial_solve_wit_1_pure.
-Proof. Admitted. 
-
 Lemma proof_of_superPiano_partial_solve_wit_1 : superPiano_partial_solve_wit_1.
 Proof. Admitted. 
 

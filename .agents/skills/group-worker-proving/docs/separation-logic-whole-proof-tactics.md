@@ -4,7 +4,7 @@
 
 ## 基本流程
 
-通常从 `pre_process.` 或 `aggressive_pre_process.` 开始，用于展开 VC、引入变量并提取部分 pure facts。
+LLM 写 manual proof 时通常从 `LLM_pre_process ltac:(lia || int_auto).` 开始，用于展开 VC、引入变量并提取部分 pure facts。不要在 LLM proof 中直接使用 `pre_process.` 或 `entailer!.`。
 
 当前 symexec printer 可能把最终 VC 打印为：
 
@@ -12,9 +12,63 @@
 original_vc \/ vc_after_strategies
 ```
 
-`pre_process` 已在内部选择 original branch，`aggressive_pre_process` 已在内部选择 strategy-processed branch；不要在这些 tactic 前手写 `left;` 或 `right;`。
+`LLM_pre_process` 用于 original branch，`aggressive_pre_process` 用于 strategy-processed branch；不要在这些 tactic 前手写 `left;` 或 `right;`。
+
+`LLM_pre_process ltac:(...)` 中的 solver 由当前 VC 分析决定：
+
+- 一般先用 `LLM_pre_process ltac:(lia || int_auto).`。
+- 只需要线性算术时用 `LLM_pre_process ltac:(lia).`。
+- 只需要整数/位自动化时用 `LLM_pre_process ltac:(int_auto).`。
+- 只有确实有非线性算术（例如乘法关系、平方、乘积比较）且 `lia` 不适用时，才加入 `nia`，例如 `LLM_pre_process ltac:(lia || int_auto || nia).`。
+- `pre_process` / `pre_process_default` 只是兼容别名；LLM 生成或修复 proof 时不要调用它们。
 
 生成的 `<vc_name>_split_goal_*` lemma 若以 `Proof. Abort.` 结束，只是 diagnostics，不是最终 `VC_Correct` obligation。
+
+## 生成 split-goal 证明路线
+
+对于已经生成 `<vc_name>_split_goal_*` definitions 的 strategy-processed obligations，可以采用下面的证明路线，先证明每个 generated split goal：
+
+```coq
+Lemma proof_of_<vc>_split_goal_1 : <vc>_split_goal_1.
+Proof.
+  pre_process.
+  ...
+Qed.
+```
+
+然后主 witness proof 只保留为 glue：
+
+```coq
+Lemma proof_of_<vc> : <vc>.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_<vc>_split_goal_1.
+  - Goal_apply proof_of_<vc>_split_goal_2.
+Qed.
+```
+
+`Goal_apply` 是有意保持轻量的 tactic：它只会按相同类型从上下文 hypothesis 中 greedy 实例化
+`forall` 参数，然后应用 split-goal lemma，并要求当前 goal 被完全解决。
+
+如果 `Goal_apply` 报错：
+
+```text
+Goal_apply: greedy instantiation did not completely solve the goal
+```
+
+通常原因是上下文中有多个同类型参数，例如多个 `Z` 变量或多个 `tree` 变量，greedy 实例化选错后留下了
+residual separation-logic goal。不要增强 `Goal_apply` 的搜索；能成功的 split-goal branch 继续保留
+`Goal_apply`，只把失败的 branch 改成显式参数：
+
+```coq
+sep_apply (proof_of_some_split_goal
+  arg1 arg2 arg3 premise1 premise2);
+entailer!.
+```
+
+对于 pure non-separation goal，若 goal shape definitionally match，使用
+`exact (proof_of_some_split_goal args...).`。若只差 separation conjunction associativity 或 `TT && emp`
+simplification，使用 `sep_apply`。
 
 ## `Intros` / `Intros_p`
 
@@ -90,12 +144,12 @@ lia.
 常见流程：
 
 ```coq
-pre_process.
+LLM_pre_process ltac:(lia || int_auto).
 Intros ...
 Intros_p ...
 Exists ...
-entailer!.
-lia.
+split_pures.
+- dump_pre_spatial. lia.
 ```
 
 `lia` 不是 proof plan。先确认 context 中已有 index bounds、list length facts、loop guard、branch condition、`@pre` bridge 和 array read binding。缺失这些 facts 时，应回到 annotation 或 vc-checking。
@@ -109,7 +163,7 @@ split_pures.
 - dump_pre_spatial. eapply some_case_helper__gid; eauto.
 ```
 
-对 list equality，先尝试已有 `sublist` / `replace_Znth` / `Zlength` lemma；缺少稳定连接事实时，把 helper 放入 group-local `case_lib`，名称必须以当前 group suffix 结尾。
+对 list equality，先尝试已有 `sublist` / `replace_Znth` / `Zlength` lemma；缺少稳定连接事实时，把 helper 放入 `group_worker_lib`，名称必须以当前 group suffix 结尾。
 
 ## Array / string goals 处理
 
@@ -117,7 +171,7 @@ array proof 常见步骤：从 `full` / `seg` 得到 `Zlength`，split 当前 in
 
 string proof 常见步骤：展开 `store_string` / `c_string` / `string_length`，处理结尾 `0`，区分 Rocq `string` 和 `list Z`。
 
-需要 helper lemma 时，新增到 group-local `case_lib` 并证明；不要写入 `*_proof_manual.v`。
+需要 helper lemma 时，新增到 `group_worker_lib` 并证明；不要写入 `*_proof_manual.v`。
 
 ## Whole-proof Skeleton
 
@@ -125,7 +179,7 @@ string proof 常见步骤：展开 `store_string` / `c_string` / `string_length`
 
 ```coq
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(lia || int_auto).
   Intros x y.
   Intros_p Hbounds.
   Exists witness1 witness2.

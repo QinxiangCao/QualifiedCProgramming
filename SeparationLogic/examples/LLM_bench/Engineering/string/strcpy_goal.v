@@ -28,8 +28,8 @@ From SimpleC.StdLib Require Import string_strategy_proof.
 Definition strcpy_safety_wit_1 := 
 forall (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (PreH1 : (valid_string src_str )) (PreH2 : ((string_length (src_str)) < INT_MAX)) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "dest" ) )) # Ptr  |-> dest_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (CharArray.undef_full dest_pre ((string_length (src_str)) + 1 ) )
   **  (store_string src_pre src_str )
 |--
@@ -222,9 +222,9 @@ forall (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (i: Z) (PreH1 : ((Znth i 
 Definition strncpy_safety_wit_1 := 
 forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (PreH1 : (valid_string src_str )) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "dest" ) )) # Ptr  |-> dest_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (CharArray.undef_full dest_pre n_pre )
   **  (store_string src_pre src_str )
 |--

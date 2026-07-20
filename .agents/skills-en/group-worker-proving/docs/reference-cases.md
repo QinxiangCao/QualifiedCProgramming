@@ -1,30 +1,30 @@
-# Reference Cases 参考范围
+# Reference-Case Scope
 
-reference case 只用于借鉴 proof style、tactic sequence 和 helper lemma shape。
+Reference cases are only for learning proof style, tactic sequences, and helper-lemma shapes.
 
-## 范围
+## Scope
 
-优先参考：
+Prefer:
 
 - `SeparationLogic/examples/LLM_bench`
 - `QCP_demos_LLM`
 
-不要参考 `QCP_demos_human`。
+Reading `QCP_demos_human` is allowed but not recommended. Read-only inspection of a human case does not itself create a blocker. Acceptability of the current group depends only on assigned witnesses, helper/import boundaries, the fixed group-check bound to the current `source_goal_version`, and later parent verification and final-check. Reject under the contract only when formal files introduce a library, import, generated artifact, or other formal dependency forbidden by the phase contract.
 
-## 可参考内容
+## Useful material
 
-- 同类 array split / merge proof。
-- 同类 `replace_Znth` / `sublist` / `Zlength` helper。
-- 同类 `safeExec` normalization。
-- 同类 string memory proof。
-- 同类 data-structure predicate unfold / fold proof。
+- Similar array split/merge proofs.
+- Similar `replace_Znth` / `sublist` / `Zlength` helpers.
+- Similar `safeExec` normalization.
+- Similar string-memory proofs.
+- Similar data-structure predicate unfold/fold proofs.
 
-## 不可复制
+## Do not copy
 
-- 不属于当前 JSON handoff contract 的文件交接命名。
-- helper lemmas 放在 `*_proof_manual.v` 的做法。
-- `Admitted.`。
-- 新 `Axiom`。
-- generated file 的手工 patch。
+- File-handoff names outside the current Markdown handoff / compact JSON result contract.
+- The old practice of placing helper lemmas in `*_proof_manual.v`.
+- `Admitted.`.
+- A new `Axiom`.
+- A manual patch to a generated file.
 
-若参考 proof 中 helper 放置位置不符合当前合同，改为 group-local `case_lib` helper，并由 parent verify 合并。
+If a reference puts a helper in a location forbidden by the current contract, put the helper in `group_worker_lib` and let parent verification merge it.

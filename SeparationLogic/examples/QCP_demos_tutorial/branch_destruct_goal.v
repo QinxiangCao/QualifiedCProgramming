@@ -22,48 +22,48 @@ Local Open Scope sac.
 
 Definition example_safety_wit_1 := 
 forall (y_pre: Z) (x_pre: Z) (PreH1 : (x_pre < 50)) ,
-  ((( &( "y" ) )) # Int  |-> y_pre)
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
+  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "y" ) )) # Int  |-> y_pre)
 |--
   “ (((False \/ (True /\ (x_pre < y_pre))) \/ (True /\ (x_pre = y_pre))) \/ (True /\ (x_pre > y_pre))) ”
 .
 
 Definition example_safety_wit_2_Less := 
 forall (y_pre: Z) (x_pre: Z) (PreH1 : (x_pre < 50)) (PreH2 : (x_pre < y_pre)) ,
-  ((( &( "y" ) )) # Int  |-> y_pre)
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
+  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "y" ) )) # Int  |-> y_pre)
 |--
   “ ((False \/ (True /\ (x_pre < 25))) \/ (True /\ (x_pre < 50))) ”
 .
 
 Definition example_safety_wit_3_Less25 := 
 forall (y_pre: Z) (x_pre: Z) (PreH1 : (x_pre = y_pre)) (PreH2 : (x_pre < 50)) (PreH3 : (x_pre < y_pre)) (PreH4 : (x_pre < 25)) ,
-  ((( &( "y" ) )) # Int  |-> y_pre)
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
+  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "y" ) )) # Int  |-> y_pre)
 |--
   “ False ”
 .
 
 Definition example_safety_wit_4_Less50 := 
 forall (y_pre: Z) (x_pre: Z) (PreH1 : (x_pre = y_pre)) (PreH2 : (x_pre < 50)) (PreH3 : (x_pre < y_pre)) (PreH4 : (x_pre < 50)) ,
-  ((( &( "y" ) )) # Int  |-> y_pre)
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
+  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "y" ) )) # Int  |-> y_pre)
 |--
   “ False ”
 .
 
 Definition example_safety_wit_5_Eq := 
 forall (y_pre: Z) (x_pre: Z) (PreH1 : (x_pre <> y_pre)) (PreH2 : (x_pre < 50)) (PreH3 : (x_pre = y_pre)) ,
-  ((( &( "y" ) )) # Int  |-> y_pre)
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
+  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "y" ) )) # Int  |-> y_pre)
 |--
   “ False ”
 .
 
 Definition example_safety_wit_6_Greater := 
 forall (y_pre: Z) (x_pre: Z) (PreH1 : (x_pre = y_pre)) (PreH2 : (x_pre < 50)) (PreH3 : (x_pre > y_pre)) ,
-  ((( &( "y" ) )) # Int  |-> y_pre)
-  **  ((( &( "x" ) )) # Int  |-> x_pre)
+  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "y" ) )) # Int  |-> y_pre)
 |--
   “ False ”
 .

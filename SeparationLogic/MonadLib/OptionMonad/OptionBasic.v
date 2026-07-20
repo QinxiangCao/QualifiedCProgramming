@@ -87,3 +87,27 @@ Proof. simpl_option_monad. split; reflexivity. Qed.
 Lemma test_simpl_option_monad_in_hyp (A B: Type) (f: A -> option B) (x: A) :
   (Some x ≫= f) = f x -> (None ≫= f) = None -> True.
 Proof. intros. simpl_option_monad. tauto. Qed.
+
+(*************************************************************************************************************)
+(*****    Pseudocode notation for the option monad -- thin sugar over the existing combinators       ******)
+(*************************************************************************************************************)
+(*                                                                                                          *)
+(*  The option monad is a *deterministic, partial* computation: it has [bind]/[ret]/[fmap] and nothing      *)
+(*  else -- no choice, no loops, no state.  So there is no imperative pseudocode to add; the do-block        *)
+(*  already reads like one and short-circuits on [None]:                                                    *)
+(*                                                                                                          *)
+(*      x <- mx ;; y <- my ;; return (x + y)     -- fails (yields None) as soon as any step is None          *)
+(*                                                                                                          *)
+(*  The only new form is a map-comprehension over the existing [fmap], for the common case of                *)
+(*  transforming the result when there is one:                                                               *)
+(*                                                                                                          *)
+(*      MAP e FOR x IN mx                         == fmap (fun x => e) mx                                     *)
+(*                                                                                                          *)
+
+Declare Scope optprog_scope.
+Delimit Scope optprog_scope with optprog.
+
+Notation "'MAP' e 'FOR' x 'IN' m" :=
+  (fmap (fun x => e) m)
+  (at level 0, e at level 99, x ident, m at level 99,
+   format "'[v' 'MAP'  e  'FOR'  x  'IN'  m ']'") : optprog_scope.

@@ -1,0 +1,5 @@
+From SimpleC.EE.Applications_human.fme_ge_gmp.ge Require Import ge_gmp_array_strategy_goal ge_gmp_array_strategy_proof.
+
+Module ge_gmp_array_Strategy_Correctness : ge_gmp_array_Strategy_Correct.
+  Include ge_gmp_array_strategy_proof.
+End ge_gmp_array_Strategy_Correctness.

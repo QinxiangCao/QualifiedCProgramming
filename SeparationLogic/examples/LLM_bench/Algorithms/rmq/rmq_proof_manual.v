@@ -20,6 +20,17 @@ Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.rmq.rmq_lib.
 Local Open Scope sac.
 
+Lemma proof_of_build_entail_wit_7 : build_entail_wit_7.
+Proof.
+  pre_process.
+  Exists st_l_2.
+  split_pure_spatial.
+  - cancel (IntArray.full arr_pre n_pre l).
+    cancel (IntArray.full st_pre (n_pre * K_pre) st_l_2).
+  - split_pures.
+    all: dump_pre_spatial; auto; try lia.
+Qed.
+
 Lemma proof_of_build_safety_wit_12 : build_safety_wit_12.
 Proof.
   pre_process.
@@ -187,7 +198,18 @@ Proof.
     all: dump_pre_spatial; try solve [auto | lia | nia].
 Qed. 
 
-Lemma proof_of_build_entail_wit_13_1 : build_entail_wit_13_1.
+Lemma proof_of_build_entail_wit_12 : build_entail_wit_12.
+Proof.
+  pre_process.
+  Exists st_l.
+  split_pure_spatial.
+  - cancel (IntArray.full arr_pre n_pre l).
+    cancel (IntArray.full st_pre (n_pre * K_pre) st_l).
+  - split_pures.
+    all: dump_pre_spatial; auto; try lia.
+Qed.
+
+Lemma proof_of_build_entail_wit_13_2 : build_entail_wit_13_2.
 Proof.
   pre_process.
   Exists (replace_Znth (i * K_pre + j) b st_l_2).
@@ -223,7 +245,7 @@ Proof.
     + eapply STLevelPrefix_extend_by_right_max; eauto; lia.
 Qed. 
 
-Lemma proof_of_build_entail_wit_13_2 : build_entail_wit_13_2.
+Lemma proof_of_build_entail_wit_13_1 : build_entail_wit_13_1.
 Proof.
   pre_process.
   Exists (replace_Znth (i * K_pre + j) a st_l_2).

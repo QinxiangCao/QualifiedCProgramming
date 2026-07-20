@@ -29,9 +29,9 @@ From SimpleC.StdLib Require Import string_strategy_proof.
 Definition longestPalindrom_safety_wit_1 := 
 forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (valid_string str )) (PreH2 : (AlnumString str )) (PreH3 : ((string_length (str)) = n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 1000)) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
   **  (store_string s_pre str )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
@@ -43,9 +43,9 @@ Definition longestPalindrom_safety_wit_2 :=
 forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (valid_string str )) (PreH2 : (AlnumString str )) (PreH3 : ((string_length (str)) = n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 1000)) ,
   ((( &( "j" ) )) # Int  |->_)
   **  ((( &( "i" ) )) # Int  |-> 0)
-  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
   **  (store_string s_pre str )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
@@ -58,9 +58,9 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (valid_st
   ((( &( "len" ) )) # Int  |->_)
   **  ((( &( "j" ) )) # Int  |-> 0)
   **  ((( &( "i" ) )) # Int  |-> 0)
-  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
   **  (store_string s_pre str )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
@@ -74,9 +74,9 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (valid_st
   **  ((( &( "len" ) )) # Int  |-> 0)
   **  ((( &( "j" ) )) # Int  |-> 0)
   **  ((( &( "i" ) )) # Int  |-> 0)
-  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
   **  (store_string s_pre str )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
@@ -91,9 +91,9 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (valid_st
   **  ((( &( "len" ) )) # Int  |-> 0)
   **  ((( &( "j" ) )) # Int  |-> 0)
   **  ((( &( "i" ) )) # Int  |-> 0)
-  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
   **  (store_string s_pre str )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
@@ -109,9 +109,9 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (valid_st
   **  ((( &( "len" ) )) # Int  |-> 0)
   **  ((( &( "j" ) )) # Int  |-> 0)
   **  ((( &( "i" ) )) # Int  |-> 0)
-  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
   **  (store_string s_pre str )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
@@ -128,9 +128,9 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (valid_st
   **  ((( &( "len" ) )) # Int  |-> 0)
   **  ((( &( "j" ) )) # Int  |-> 0)
   **  ((( &( "i" ) )) # Int  |-> 0)
-  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
   **  (store_string s_pre str )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
@@ -148,9 +148,9 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (valid_st
   **  ((( &( "len" ) )) # Int  |-> 0)
   **  ((( &( "j" ) )) # Int  |-> 0)
   **  ((( &( "i" ) )) # Int  |-> 0)
-  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
   **  (store_string s_pre str )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
@@ -169,9 +169,9 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (valid_st
   **  ((( &( "len" ) )) # Int  |-> 0)
   **  ((( &( "j" ) )) # Int  |-> 0)
   **  ((( &( "i" ) )) # Int  |-> 0)
-  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
   **  (store_string s_pre str )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
@@ -191,9 +191,9 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (valid_st
   **  ((( &( "len" ) )) # Int  |-> 0)
   **  ((( &( "j" ) )) # Int  |-> 0)
   **  ((( &( "i" ) )) # Int  |-> 0)
-  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
   **  (store_string s_pre str )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
@@ -215,9 +215,9 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (valid_st
   **  ((( &( "len" ) )) # Int  |-> 0)
   **  ((( &( "j" ) )) # Int  |-> 0)
   **  ((( &( "i" ) )) # Int  |-> 0)
-  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
   **  (store_string s_pre str )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
@@ -239,9 +239,9 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (valid_st
   **  ((( &( "len" ) )) # Int  |-> 0)
   **  ((( &( "j" ) )) # Int  |-> 0)
   **  ((( &( "i" ) )) # Int  |-> 0)
-  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
   **  (store_string s_pre str )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
@@ -265,9 +265,9 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (0 <= ((s
   **  ((( &( "len" ) )) # Int  |-> 0)
   **  ((( &( "j" ) )) # Int  |-> 0)
   **  ((( &( "i" ) )) # Int  |-> 0)
-  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
   “ (0 <= INT_MAX) ” 
@@ -290,9 +290,9 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (PreH1 : (0 <= ((s
   **  ((( &( "len" ) )) # Int  |-> 0)
   **  ((( &( "j" ) )) # Int  |-> 0)
   **  ((( &( "i" ) )) # Int  |-> 0)
-  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "s" ) )) # Ptr  |-> s_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "output" ) )) # Ptr  |-> output_pre)
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
   “ (36 <= INT_MAX) ” 
@@ -2197,8 +2197,8 @@ forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_cur_2: (@list Z)) (s2_full
 
 Definition longestPalindrom_entail_wit_6_1 := 
 (
-forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_cur: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (limit: Z) (id: Z) (ret: Z) (mirror: Z) (r: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (i >= limit)) (PreH3 : (i < len)) (PreH4 : (valid_string str )) (PreH5 : (AlnumString str )) (PreH6 : ((string_length (str)) = n_pre)) (PreH7 : (1 <= n_pre)) (PreH8 : (n_pre <= 1000)) (PreH9 : (len = ((2 * n_pre ) + 2 ))) (PreH10 : (len <= 2002)) (PreH11 : (1 <= i)) (PreH12 : (i <= len)) (PreH13 : (j = 0)) (PreH14 : (r = 0)) (PreH15 : (mirror = 0)) (PreH16 : (ret = 0)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= maxLen)) (PreH22 : (maxLen <= n_pre)) (PreH23 : (0 <= maxId)) (PreH24 : (maxId < len)) (PreH25 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH26 : ((Zlength (p_cur)) = i)) (PreH27 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
-  (IntArray.seg ( &( "p" ) ) 0 (i + 1 ) (app (p_cur) ((cons (1) ((@nil Z))))) )
+forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
+  (IntArray.seg ( &( "p" ) ) 0 (i + 1 ) (app (p_cur) ((cons ((Znth (mirror - 0 ) p_cur 0)) ((@nil Z))))) )
   **  (IntArray.undef_seg ( &( "p" ) ) (i + 1 ) 2003 )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
@@ -2217,7 +2217,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_cur: (@list Z))
   &&  “ (i < len) ” 
   &&  “ (j = 0) ” 
   &&  “ (ret = 0) ” 
-  &&  “ (1 <= 1) ” 
+  &&  “ (1 <= (Znth (mirror - 0 ) p_cur 0)) ” 
   &&  “ (0 <= id) ” 
   &&  “ (id < len) ” 
   &&  “ (0 <= limit) ” 
@@ -2228,12 +2228,12 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_cur: (@list Z))
   &&  “ (maxLen <= n_pre) ” 
   &&  “ (0 <= maxId) ” 
   &&  “ (maxId < len) ” 
-  &&  “ (0 <= (i - 1 )) ” 
-  &&  “ ((i + 1 ) <= len) ” 
+  &&  “ (0 <= (i - (Znth (mirror - 0 ) p_cur 0) )) ” 
+  &&  “ ((i + (Znth (mirror - 0 ) p_cur 0) ) <= len) ” 
   &&  “ ((Zlength (s2_full)) = (len + 1 )) ” 
   &&  “ ((Zlength (p_written)) = (i + 1 )) ” 
-  &&  “ (ExpansionLoopState str s2_full len p_written i 1 id limit maxId maxLen ) ” 
-  &&  “ (ExpansionCandidate s2_full len i 1 ) ”
+  &&  “ (ExpansionLoopState str s2_full len p_written i (Znth (mirror - 0 ) p_cur 0) id limit maxId maxLen ) ” 
+  &&  “ (ExpansionCandidate s2_full len i (Znth (mirror - 0 ) p_cur 0) ) ”
   &&  (store_string s_pre str )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
   **  (CharArray.seg ( &( "s2" ) ) 0 (len + 1 ) s2_full )
@@ -2242,38 +2242,86 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_cur: (@list Z))
   **  (IntArray.undef_seg ( &( "p" ) ) (i + 1 ) 2003 )
 ) \/
 (
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_cur: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (limit: Z) (id: Z) (ret: Z) (mirror: Z) (r: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (i >= limit)) (PreH3 : (i < len)) (PreH4 : (valid_string str )) (PreH5 : (AlnumString str )) (PreH6 : ((string_length (str)) = n_pre)) (PreH7 : (1 <= n_pre)) (PreH8 : (n_pre <= 1000)) (PreH9 : (len = ((2 * n_pre ) + 2 ))) (PreH10 : (len <= 2002)) (PreH11 : (1 <= i)) (PreH12 : (i <= len)) (PreH13 : (j = 0)) (PreH14 : (r = 0)) (PreH15 : (mirror = 0)) (PreH16 : (ret = 0)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= maxLen)) (PreH22 : (maxLen <= n_pre)) (PreH23 : (0 <= maxId)) (PreH24 : (maxId < len)) (PreH25 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH26 : ((Zlength (p_cur)) = i)) (PreH27 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
   (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
-  “ (ExpansionCandidate s2_full_2 len i 1 ) ” 
-  &&  “ (ExpansionLoopState str s2_full_2 len (app (p_cur) ((cons (1) ((@nil Z))))) i 1 id limit maxId maxLen ) ” 
-  &&  “ ((Zlength ((app (p_cur) ((cons (1) ((@nil Z))))))) = (i + 1 )) ”
+  “ (ExpansionCandidate s2_full_2 len i (Znth (mirror - 0 ) p_cur 0) ) ” 
+  &&  “ (ExpansionLoopState str s2_full_2 len (app (p_cur) ((cons ((Znth (mirror - 0 ) p_cur 0)) ((@nil Z))))) i (Znth (mirror - 0 ) p_cur 0) id limit maxId maxLen ) ” 
+  &&  “ ((Zlength ((app (p_cur) ((cons ((Znth (mirror - 0 ) p_cur 0)) ((@nil Z))))))) = (i + 1 )) ” 
+  &&  “ (0 <= (i - (Znth (mirror - 0 ) p_cur 0) )) ” 
+  &&  “ (maxId < len) ” 
+  &&  “ (0 <= maxId) ” 
+  &&  “ (maxLen <= n_pre) ” 
+  &&  “ (0 <= maxLen) ” 
+  &&  “ (1 <= (Znth (mirror - 0 ) p_cur 0)) ”
   &&  (CharArray.undef_full output_pre (n_pre + 1 ) )
 ).
 
 Definition longestPalindrom_entail_wit_6_1_split_goal_1 := 
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_cur: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (limit: Z) (id: Z) (ret: Z) (mirror: Z) (r: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (i >= limit)) (PreH3 : (i < len)) (PreH4 : (valid_string str )) (PreH5 : (AlnumString str )) (PreH6 : ((string_length (str)) = n_pre)) (PreH7 : (1 <= n_pre)) (PreH8 : (n_pre <= 1000)) (PreH9 : (len = ((2 * n_pre ) + 2 ))) (PreH10 : (len <= 2002)) (PreH11 : (1 <= i)) (PreH12 : (i <= len)) (PreH13 : (j = 0)) (PreH14 : (r = 0)) (PreH15 : (mirror = 0)) (PreH16 : (ret = 0)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= maxLen)) (PreH22 : (maxLen <= n_pre)) (PreH23 : (0 <= maxId)) (PreH24 : (maxId < len)) (PreH25 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH26 : ((Zlength (p_cur)) = i)) (PreH27 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
   (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
-  “ (ExpansionCandidate s2_full_2 len i 1 ) ”
+  “ (ExpansionCandidate s2_full_2 len i (Znth (mirror - 0 ) p_cur 0) ) ”
 .
 
 Definition longestPalindrom_entail_wit_6_1_split_goal_2 := 
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_cur: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (limit: Z) (id: Z) (ret: Z) (mirror: Z) (r: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (i >= limit)) (PreH3 : (i < len)) (PreH4 : (valid_string str )) (PreH5 : (AlnumString str )) (PreH6 : ((string_length (str)) = n_pre)) (PreH7 : (1 <= n_pre)) (PreH8 : (n_pre <= 1000)) (PreH9 : (len = ((2 * n_pre ) + 2 ))) (PreH10 : (len <= 2002)) (PreH11 : (1 <= i)) (PreH12 : (i <= len)) (PreH13 : (j = 0)) (PreH14 : (r = 0)) (PreH15 : (mirror = 0)) (PreH16 : (ret = 0)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= maxLen)) (PreH22 : (maxLen <= n_pre)) (PreH23 : (0 <= maxId)) (PreH24 : (maxId < len)) (PreH25 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH26 : ((Zlength (p_cur)) = i)) (PreH27 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
   (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
-  “ (ExpansionLoopState str s2_full_2 len (app (p_cur) ((cons (1) ((@nil Z))))) i 1 id limit maxId maxLen ) ”
+  “ (ExpansionLoopState str s2_full_2 len (app (p_cur) ((cons ((Znth (mirror - 0 ) p_cur 0)) ((@nil Z))))) i (Znth (mirror - 0 ) p_cur 0) id limit maxId maxLen ) ”
 .
 
 Definition longestPalindrom_entail_wit_6_1_split_goal_3 := 
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_cur: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (limit: Z) (id: Z) (ret: Z) (mirror: Z) (r: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (i >= limit)) (PreH3 : (i < len)) (PreH4 : (valid_string str )) (PreH5 : (AlnumString str )) (PreH6 : ((string_length (str)) = n_pre)) (PreH7 : (1 <= n_pre)) (PreH8 : (n_pre <= 1000)) (PreH9 : (len = ((2 * n_pre ) + 2 ))) (PreH10 : (len <= 2002)) (PreH11 : (1 <= i)) (PreH12 : (i <= len)) (PreH13 : (j = 0)) (PreH14 : (r = 0)) (PreH15 : (mirror = 0)) (PreH16 : (ret = 0)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= maxLen)) (PreH22 : (maxLen <= n_pre)) (PreH23 : (0 <= maxId)) (PreH24 : (maxId < len)) (PreH25 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH26 : ((Zlength (p_cur)) = i)) (PreH27 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
   (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
-  “ ((Zlength ((app (p_cur) ((cons (1) ((@nil Z))))))) = (i + 1 )) ”
+  “ ((Zlength ((app (p_cur) ((cons ((Znth (mirror - 0 ) p_cur 0)) ((@nil Z))))))) = (i + 1 )) ”
+.
+
+Definition longestPalindrom_entail_wit_6_1_split_goal_4 := 
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
+  (CharArray.undef_full output_pre (n_pre + 1 ) )
+|--
+  “ (0 <= (i - (Znth (mirror - 0 ) p_cur 0) )) ”
+.
+
+Definition longestPalindrom_entail_wit_6_1_split_goal_5 := 
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
+  (CharArray.undef_full output_pre (n_pre + 1 ) )
+|--
+  “ (maxId < len) ”
+.
+
+Definition longestPalindrom_entail_wit_6_1_split_goal_6 := 
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
+  (CharArray.undef_full output_pre (n_pre + 1 ) )
+|--
+  “ (0 <= maxId) ”
+.
+
+Definition longestPalindrom_entail_wit_6_1_split_goal_7 := 
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
+  (CharArray.undef_full output_pre (n_pre + 1 ) )
+|--
+  “ (maxLen <= n_pre) ”
+.
+
+Definition longestPalindrom_entail_wit_6_1_split_goal_8 := 
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
+  (CharArray.undef_full output_pre (n_pre + 1 ) )
+|--
+  “ (0 <= maxLen) ”
+.
+
+Definition longestPalindrom_entail_wit_6_1_split_goal_9 := 
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
+  (CharArray.undef_full output_pre (n_pre + 1 ) )
+|--
+  “ (1 <= (Znth (mirror - 0 ) p_cur 0)) ”
 .
 
 Definition longestPalindrom_entail_wit_6_1_split_goal_spatial := 
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_cur: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (limit: Z) (id: Z) (ret: Z) (mirror: Z) (r: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (i >= limit)) (PreH3 : (i < len)) (PreH4 : (valid_string str )) (PreH5 : (AlnumString str )) (PreH6 : ((string_length (str)) = n_pre)) (PreH7 : (1 <= n_pre)) (PreH8 : (n_pre <= 1000)) (PreH9 : (len = ((2 * n_pre ) + 2 ))) (PreH10 : (len <= 2002)) (PreH11 : (1 <= i)) (PreH12 : (i <= len)) (PreH13 : (j = 0)) (PreH14 : (r = 0)) (PreH15 : (mirror = 0)) (PreH16 : (ret = 0)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= maxLen)) (PreH22 : (maxLen <= n_pre)) (PreH23 : (0 <= maxId)) (PreH24 : (maxId < len)) (PreH25 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH26 : ((Zlength (p_cur)) = i)) (PreH27 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
   (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
   (CharArray.undef_full output_pre (n_pre + 1 ) )
@@ -2405,8 +2453,8 @@ forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur
 
 Definition longestPalindrom_entail_wit_6_3 := 
 (
-forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
-  (IntArray.seg ( &( "p" ) ) 0 (i + 1 ) (app (p_cur) ((cons ((Znth (mirror - 0 ) p_cur 0)) ((@nil Z))))) )
+forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_cur: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (limit: Z) (id: Z) (ret: Z) (mirror: Z) (r: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (i >= limit)) (PreH3 : (i < len)) (PreH4 : (valid_string str )) (PreH5 : (AlnumString str )) (PreH6 : ((string_length (str)) = n_pre)) (PreH7 : (1 <= n_pre)) (PreH8 : (n_pre <= 1000)) (PreH9 : (len = ((2 * n_pre ) + 2 ))) (PreH10 : (len <= 2002)) (PreH11 : (1 <= i)) (PreH12 : (i <= len)) (PreH13 : (j = 0)) (PreH14 : (r = 0)) (PreH15 : (mirror = 0)) (PreH16 : (ret = 0)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= maxLen)) (PreH22 : (maxLen <= n_pre)) (PreH23 : (0 <= maxId)) (PreH24 : (maxId < len)) (PreH25 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH26 : ((Zlength (p_cur)) = i)) (PreH27 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
+  (IntArray.seg ( &( "p" ) ) 0 (i + 1 ) (app (p_cur) ((cons (1) ((@nil Z))))) )
   **  (IntArray.undef_seg ( &( "p" ) ) (i + 1 ) 2003 )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
@@ -2425,7 +2473,7 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (s2_full_2: (@list
   &&  “ (i < len) ” 
   &&  “ (j = 0) ” 
   &&  “ (ret = 0) ” 
-  &&  “ (1 <= (Znth (mirror - 0 ) p_cur 0)) ” 
+  &&  “ (1 <= 1) ” 
   &&  “ (0 <= id) ” 
   &&  “ (id < len) ” 
   &&  “ (0 <= limit) ” 
@@ -2436,12 +2484,12 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (s2_full_2: (@list
   &&  “ (maxLen <= n_pre) ” 
   &&  “ (0 <= maxId) ” 
   &&  “ (maxId < len) ” 
-  &&  “ (0 <= (i - (Znth (mirror - 0 ) p_cur 0) )) ” 
-  &&  “ ((i + (Znth (mirror - 0 ) p_cur 0) ) <= len) ” 
+  &&  “ (0 <= (i - 1 )) ” 
+  &&  “ ((i + 1 ) <= len) ” 
   &&  “ ((Zlength (s2_full)) = (len + 1 )) ” 
   &&  “ ((Zlength (p_written)) = (i + 1 )) ” 
-  &&  “ (ExpansionLoopState str s2_full len p_written i (Znth (mirror - 0 ) p_cur 0) id limit maxId maxLen ) ” 
-  &&  “ (ExpansionCandidate s2_full len i (Znth (mirror - 0 ) p_cur 0) ) ”
+  &&  “ (ExpansionLoopState str s2_full len p_written i 1 id limit maxId maxLen ) ” 
+  &&  “ (ExpansionCandidate s2_full len i 1 ) ”
   &&  (store_string s_pre str )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
   **  (CharArray.seg ( &( "s2" ) ) 0 (len + 1 ) s2_full )
@@ -2450,86 +2498,38 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (s2_full_2: (@list
   **  (IntArray.undef_seg ( &( "p" ) ) (i + 1 ) 2003 )
 ) \/
 (
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_cur: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (limit: Z) (id: Z) (ret: Z) (mirror: Z) (r: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (i >= limit)) (PreH3 : (i < len)) (PreH4 : (valid_string str )) (PreH5 : (AlnumString str )) (PreH6 : ((string_length (str)) = n_pre)) (PreH7 : (1 <= n_pre)) (PreH8 : (n_pre <= 1000)) (PreH9 : (len = ((2 * n_pre ) + 2 ))) (PreH10 : (len <= 2002)) (PreH11 : (1 <= i)) (PreH12 : (i <= len)) (PreH13 : (j = 0)) (PreH14 : (r = 0)) (PreH15 : (mirror = 0)) (PreH16 : (ret = 0)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= maxLen)) (PreH22 : (maxLen <= n_pre)) (PreH23 : (0 <= maxId)) (PreH24 : (maxId < len)) (PreH25 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH26 : ((Zlength (p_cur)) = i)) (PreH27 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
   (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
-  “ (ExpansionCandidate s2_full_2 len i (Znth (mirror - 0 ) p_cur 0) ) ” 
-  &&  “ (ExpansionLoopState str s2_full_2 len (app (p_cur) ((cons ((Znth (mirror - 0 ) p_cur 0)) ((@nil Z))))) i (Znth (mirror - 0 ) p_cur 0) id limit maxId maxLen ) ” 
-  &&  “ ((Zlength ((app (p_cur) ((cons ((Znth (mirror - 0 ) p_cur 0)) ((@nil Z))))))) = (i + 1 )) ” 
-  &&  “ (0 <= (i - (Znth (mirror - 0 ) p_cur 0) )) ” 
-  &&  “ (maxId < len) ” 
-  &&  “ (0 <= maxId) ” 
-  &&  “ (maxLen <= n_pre) ” 
-  &&  “ (0 <= maxLen) ” 
-  &&  “ (1 <= (Znth (mirror - 0 ) p_cur 0)) ”
+  “ (ExpansionCandidate s2_full_2 len i 1 ) ” 
+  &&  “ (ExpansionLoopState str s2_full_2 len (app (p_cur) ((cons (1) ((@nil Z))))) i 1 id limit maxId maxLen ) ” 
+  &&  “ ((Zlength ((app (p_cur) ((cons (1) ((@nil Z))))))) = (i + 1 )) ”
   &&  (CharArray.undef_full output_pre (n_pre + 1 ) )
 ).
 
 Definition longestPalindrom_entail_wit_6_3_split_goal_1 := 
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_cur: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (limit: Z) (id: Z) (ret: Z) (mirror: Z) (r: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (i >= limit)) (PreH3 : (i < len)) (PreH4 : (valid_string str )) (PreH5 : (AlnumString str )) (PreH6 : ((string_length (str)) = n_pre)) (PreH7 : (1 <= n_pre)) (PreH8 : (n_pre <= 1000)) (PreH9 : (len = ((2 * n_pre ) + 2 ))) (PreH10 : (len <= 2002)) (PreH11 : (1 <= i)) (PreH12 : (i <= len)) (PreH13 : (j = 0)) (PreH14 : (r = 0)) (PreH15 : (mirror = 0)) (PreH16 : (ret = 0)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= maxLen)) (PreH22 : (maxLen <= n_pre)) (PreH23 : (0 <= maxId)) (PreH24 : (maxId < len)) (PreH25 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH26 : ((Zlength (p_cur)) = i)) (PreH27 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
   (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
-  “ (ExpansionCandidate s2_full_2 len i (Znth (mirror - 0 ) p_cur 0) ) ”
+  “ (ExpansionCandidate s2_full_2 len i 1 ) ”
 .
 
 Definition longestPalindrom_entail_wit_6_3_split_goal_2 := 
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_cur: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (limit: Z) (id: Z) (ret: Z) (mirror: Z) (r: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (i >= limit)) (PreH3 : (i < len)) (PreH4 : (valid_string str )) (PreH5 : (AlnumString str )) (PreH6 : ((string_length (str)) = n_pre)) (PreH7 : (1 <= n_pre)) (PreH8 : (n_pre <= 1000)) (PreH9 : (len = ((2 * n_pre ) + 2 ))) (PreH10 : (len <= 2002)) (PreH11 : (1 <= i)) (PreH12 : (i <= len)) (PreH13 : (j = 0)) (PreH14 : (r = 0)) (PreH15 : (mirror = 0)) (PreH16 : (ret = 0)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= maxLen)) (PreH22 : (maxLen <= n_pre)) (PreH23 : (0 <= maxId)) (PreH24 : (maxId < len)) (PreH25 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH26 : ((Zlength (p_cur)) = i)) (PreH27 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
   (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
-  “ (ExpansionLoopState str s2_full_2 len (app (p_cur) ((cons ((Znth (mirror - 0 ) p_cur 0)) ((@nil Z))))) i (Znth (mirror - 0 ) p_cur 0) id limit maxId maxLen ) ”
+  “ (ExpansionLoopState str s2_full_2 len (app (p_cur) ((cons (1) ((@nil Z))))) i 1 id limit maxId maxLen ) ”
 .
 
 Definition longestPalindrom_entail_wit_6_3_split_goal_3 := 
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_cur: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (limit: Z) (id: Z) (ret: Z) (mirror: Z) (r: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (i >= limit)) (PreH3 : (i < len)) (PreH4 : (valid_string str )) (PreH5 : (AlnumString str )) (PreH6 : ((string_length (str)) = n_pre)) (PreH7 : (1 <= n_pre)) (PreH8 : (n_pre <= 1000)) (PreH9 : (len = ((2 * n_pre ) + 2 ))) (PreH10 : (len <= 2002)) (PreH11 : (1 <= i)) (PreH12 : (i <= len)) (PreH13 : (j = 0)) (PreH14 : (r = 0)) (PreH15 : (mirror = 0)) (PreH16 : (ret = 0)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= maxLen)) (PreH22 : (maxLen <= n_pre)) (PreH23 : (0 <= maxId)) (PreH24 : (maxId < len)) (PreH25 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH26 : ((Zlength (p_cur)) = i)) (PreH27 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
   (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
-  “ ((Zlength ((app (p_cur) ((cons ((Znth (mirror - 0 ) p_cur 0)) ((@nil Z))))))) = (i + 1 )) ”
-.
-
-Definition longestPalindrom_entail_wit_6_3_split_goal_4 := 
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
-  (CharArray.undef_full output_pre (n_pre + 1 ) )
-|--
-  “ (0 <= (i - (Znth (mirror - 0 ) p_cur 0) )) ”
-.
-
-Definition longestPalindrom_entail_wit_6_3_split_goal_5 := 
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
-  (CharArray.undef_full output_pre (n_pre + 1 ) )
-|--
-  “ (maxId < len) ”
-.
-
-Definition longestPalindrom_entail_wit_6_3_split_goal_6 := 
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
-  (CharArray.undef_full output_pre (n_pre + 1 ) )
-|--
-  “ (0 <= maxId) ”
-.
-
-Definition longestPalindrom_entail_wit_6_3_split_goal_7 := 
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
-  (CharArray.undef_full output_pre (n_pre + 1 ) )
-|--
-  “ (maxLen <= n_pre) ”
-.
-
-Definition longestPalindrom_entail_wit_6_3_split_goal_8 := 
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
-  (CharArray.undef_full output_pre (n_pre + 1 ) )
-|--
-  “ (0 <= maxLen) ”
-.
-
-Definition longestPalindrom_entail_wit_6_3_split_goal_9 := 
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
-  (CharArray.undef_full output_pre (n_pre + 1 ) )
-|--
-  “ (1 <= (Znth (mirror - 0 ) p_cur 0)) ”
+  “ ((Zlength ((app (p_cur) ((cons (1) ((@nil Z))))))) = (i + 1 )) ”
 .
 
 Definition longestPalindrom_entail_wit_6_3_split_goal_spatial := 
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_cur: (@list Z)) (len: Z) (i: Z) (mirror: Z) (id: Z) (j: Z) (r: Z) (ret: Z) (limit: Z) (maxLen: Z) (maxId: Z) (PreH1 : ((Znth (mirror - 0 ) p_cur 0) < (limit - i ))) (PreH2 : (0 <= ((string_length (str)) + 1 ))) (PreH3 : (valid_string str )) (PreH4 : (AlnumString str )) (PreH5 : ((string_length (str)) = n_pre)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 1000)) (PreH8 : (len = ((2 * n_pre ) + 2 ))) (PreH9 : (len <= 2002)) (PreH10 : (1 <= i)) (PreH11 : (i < len)) (PreH12 : (0 <= mirror)) (PreH13 : (mirror < i)) (PreH14 : (mirror = ((2 * id ) - i ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (ret = 0)) (PreH18 : (i < limit)) (PreH19 : (limit <= len)) (PreH20 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH21 : ((Zlength (p_cur)) = i)) (PreH22 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_cur: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (limit: Z) (id: Z) (ret: Z) (mirror: Z) (r: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (i >= limit)) (PreH3 : (i < len)) (PreH4 : (valid_string str )) (PreH5 : (AlnumString str )) (PreH6 : ((string_length (str)) = n_pre)) (PreH7 : (1 <= n_pre)) (PreH8 : (n_pre <= 1000)) (PreH9 : (len = ((2 * n_pre ) + 2 ))) (PreH10 : (len <= 2002)) (PreH11 : (1 <= i)) (PreH12 : (i <= len)) (PreH13 : (j = 0)) (PreH14 : (r = 0)) (PreH15 : (mirror = 0)) (PreH16 : (ret = 0)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= maxLen)) (PreH22 : (maxLen <= n_pre)) (PreH23 : (0 <= maxId)) (PreH24 : (maxId < len)) (PreH25 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH26 : ((Zlength (p_cur)) = i)) (PreH27 : (ManacherLoopState str s2_full_2 len p_cur i id limit maxId maxLen )) ,
   (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
   (CharArray.undef_full output_pre (n_pre + 1 ) )
@@ -2751,7 +2751,7 @@ forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_wri
 
 Definition longestPalindrom_entail_wit_10_1 := 
 (
-forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen >= (r - 1 ))) (PreH2 : ((i + r ) <= limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
+forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen < (r - 1 ))) (PreH2 : ((i + r ) > limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
   (CharArray.seg ( &( "s2" ) ) 0 (len + 1 ) s2_full_2 )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
@@ -2773,13 +2773,13 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_written: (@list
   &&  “ (0 = 0) ” 
   &&  “ (0 = 0) ” 
   &&  “ (ret = 0) ” 
-  &&  “ (0 <= maxLen) ” 
-  &&  “ (maxLen <= n_pre) ” 
-  &&  “ (0 <= maxId) ” 
-  &&  “ (maxId < len) ” 
+  &&  “ (0 <= (r - 1 )) ” 
+  &&  “ ((r - 1 ) <= n_pre) ” 
+  &&  “ (0 <= i) ” 
+  &&  “ (i < len) ” 
   &&  “ ((Zlength (s2_full)) = (len + 1 )) ” 
   &&  “ ((Zlength (p_next)) = (i + 1 )) ” 
-  &&  “ (ManacherLoopState str s2_full len p_next (i + 1 ) id limit maxId maxLen ) ”
+  &&  “ (ManacherLoopState str s2_full len p_next (i + 1 ) i (i + r ) i (r - 1 ) ) ”
   &&  (store_string s_pre str )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
   **  (CharArray.seg ( &( "s2" ) ) 0 (len + 1 ) s2_full )
@@ -2788,88 +2788,28 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_written: (@list
   **  (IntArray.undef_seg ( &( "p" ) ) (i + 1 ) 2003 )
 ) \/
 (
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen >= (r - 1 ))) (PreH2 : ((i + r ) <= limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen < (r - 1 ))) (PreH2 : ((i + r ) > limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
   (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
-  “ (ManacherLoopState str s2_full_2 len p_written (i + 1 ) id limit maxId maxLen ) ”
+  “ (ManacherLoopState str s2_full_2 len p_written (i + 1 ) i (i + r ) i (r - 1 ) ) ”
   &&  (CharArray.undef_full output_pre (n_pre + 1 ) )
 ).
 
 Definition longestPalindrom_entail_wit_10_1_split_goal_1 := 
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen >= (r - 1 ))) (PreH2 : ((i + r ) <= limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen < (r - 1 ))) (PreH2 : ((i + r ) > limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
   (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
-  “ (ManacherLoopState str s2_full_2 len p_written (i + 1 ) id limit maxId maxLen ) ”
+  “ (ManacherLoopState str s2_full_2 len p_written (i + 1 ) i (i + r ) i (r - 1 ) ) ”
 .
 
 Definition longestPalindrom_entail_wit_10_1_split_goal_spatial := 
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen >= (r - 1 ))) (PreH2 : ((i + r ) <= limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen < (r - 1 ))) (PreH2 : ((i + r ) > limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
   (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
   (CharArray.undef_full output_pre (n_pre + 1 ) )
 .
 
 Definition longestPalindrom_entail_wit_10_2 := 
-(
-forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen >= (r - 1 ))) (PreH2 : ((i + r ) > limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
-  (CharArray.seg ( &( "s2" ) ) 0 (len + 1 ) s2_full_2 )
-  **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
-  **  (CharArray.undef_full output_pre (n_pre + 1 ) )
-  **  (CharArray.undef_seg ( &( "s2" ) ) (len + 1 ) 2003 )
-  **  (IntArray.seg ( &( "p" ) ) 0 (i + 1 ) p_written )
-  **  (IntArray.undef_seg ( &( "p" ) ) (i + 1 ) 2003 )
-|--
-  EX (p_next: (@list Z))  (s2_full: (@list Z)) ,
-  “ (valid_string str ) ” 
-  &&  “ (AlnumString str ) ” 
-  &&  “ ((string_length (str)) = n_pre) ” 
-  &&  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 1000) ” 
-  &&  “ (len = ((2 * n_pre ) + 2 )) ” 
-  &&  “ (len <= 2002) ” 
-  &&  “ (1 <= (i + 1 )) ” 
-  &&  “ ((i + 1 ) <= len) ” 
-  &&  “ (j = 0) ” 
-  &&  “ (0 = 0) ” 
-  &&  “ (0 = 0) ” 
-  &&  “ (ret = 0) ” 
-  &&  “ (0 <= maxLen) ” 
-  &&  “ (maxLen <= n_pre) ” 
-  &&  “ (0 <= maxId) ” 
-  &&  “ (maxId < len) ” 
-  &&  “ ((Zlength (s2_full)) = (len + 1 )) ” 
-  &&  “ ((Zlength (p_next)) = (i + 1 )) ” 
-  &&  “ (ManacherLoopState str s2_full len p_next (i + 1 ) i (i + r ) maxId maxLen ) ”
-  &&  (store_string s_pre str )
-  **  (CharArray.undef_full output_pre (n_pre + 1 ) )
-  **  (CharArray.seg ( &( "s2" ) ) 0 (len + 1 ) s2_full )
-  **  (CharArray.undef_seg ( &( "s2" ) ) (len + 1 ) 2003 )
-  **  (IntArray.seg ( &( "p" ) ) 0 (i + 1 ) p_next )
-  **  (IntArray.undef_seg ( &( "p" ) ) (i + 1 ) 2003 )
-) \/
-(
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen >= (r - 1 ))) (PreH2 : ((i + r ) > limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
-  (CharArray.undef_full output_pre (n_pre + 1 ) )
-|--
-  “ (ManacherLoopState str s2_full_2 len p_written (i + 1 ) i (i + r ) maxId maxLen ) ”
-  &&  (CharArray.undef_full output_pre (n_pre + 1 ) )
-).
-
-Definition longestPalindrom_entail_wit_10_2_split_goal_1 := 
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen >= (r - 1 ))) (PreH2 : ((i + r ) > limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
-  (CharArray.undef_full output_pre (n_pre + 1 ) )
-|--
-  “ (ManacherLoopState str s2_full_2 len p_written (i + 1 ) i (i + r ) maxId maxLen ) ”
-.
-
-Definition longestPalindrom_entail_wit_10_2_split_goal_spatial := 
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen >= (r - 1 ))) (PreH2 : ((i + r ) > limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
-  (CharArray.undef_full output_pre (n_pre + 1 ) )
-|--
-  (CharArray.undef_full output_pre (n_pre + 1 ) )
-.
-
-Definition longestPalindrom_entail_wit_10_3 := 
 (
 forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen < (r - 1 ))) (PreH2 : ((i + r ) <= limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
   (CharArray.seg ( &( "s2" ) ) 0 (len + 1 ) s2_full_2 )
@@ -2915,23 +2855,23 @@ forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_fu
   &&  (CharArray.undef_full output_pre (n_pre + 1 ) )
 ).
 
-Definition longestPalindrom_entail_wit_10_3_split_goal_1 := 
+Definition longestPalindrom_entail_wit_10_2_split_goal_1 := 
 forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen < (r - 1 ))) (PreH2 : ((i + r ) <= limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
   (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
   “ (ManacherLoopState str s2_full_2 len p_written (i + 1 ) id limit i (r - 1 ) ) ”
 .
 
-Definition longestPalindrom_entail_wit_10_3_split_goal_spatial := 
+Definition longestPalindrom_entail_wit_10_2_split_goal_spatial := 
 forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen < (r - 1 ))) (PreH2 : ((i + r ) <= limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
   (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
   (CharArray.undef_full output_pre (n_pre + 1 ) )
 .
 
-Definition longestPalindrom_entail_wit_10_4 := 
+Definition longestPalindrom_entail_wit_10_3 := 
 (
-forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen < (r - 1 ))) (PreH2 : ((i + r ) > limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
+forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen >= (r - 1 ))) (PreH2 : ((i + r ) > limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
   (CharArray.seg ( &( "s2" ) ) 0 (len + 1 ) s2_full_2 )
   **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
@@ -2953,13 +2893,13 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_written: (@list
   &&  “ (0 = 0) ” 
   &&  “ (0 = 0) ” 
   &&  “ (ret = 0) ” 
-  &&  “ (0 <= (r - 1 )) ” 
-  &&  “ ((r - 1 ) <= n_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < len) ” 
+  &&  “ (0 <= maxLen) ” 
+  &&  “ (maxLen <= n_pre) ” 
+  &&  “ (0 <= maxId) ” 
+  &&  “ (maxId < len) ” 
   &&  “ ((Zlength (s2_full)) = (len + 1 )) ” 
   &&  “ ((Zlength (p_next)) = (i + 1 )) ” 
-  &&  “ (ManacherLoopState str s2_full len p_next (i + 1 ) i (i + r ) i (r - 1 ) ) ”
+  &&  “ (ManacherLoopState str s2_full len p_next (i + 1 ) i (i + r ) maxId maxLen ) ”
   &&  (store_string s_pre str )
   **  (CharArray.undef_full output_pre (n_pre + 1 ) )
   **  (CharArray.seg ( &( "s2" ) ) 0 (len + 1 ) s2_full )
@@ -2968,22 +2908,82 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_written: (@list
   **  (IntArray.undef_seg ( &( "p" ) ) (i + 1 ) 2003 )
 ) \/
 (
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen < (r - 1 ))) (PreH2 : ((i + r ) > limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen >= (r - 1 ))) (PreH2 : ((i + r ) > limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
   (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
-  “ (ManacherLoopState str s2_full_2 len p_written (i + 1 ) i (i + r ) i (r - 1 ) ) ”
+  “ (ManacherLoopState str s2_full_2 len p_written (i + 1 ) i (i + r ) maxId maxLen ) ”
+  &&  (CharArray.undef_full output_pre (n_pre + 1 ) )
+).
+
+Definition longestPalindrom_entail_wit_10_3_split_goal_1 := 
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen >= (r - 1 ))) (PreH2 : ((i + r ) > limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
+  (CharArray.undef_full output_pre (n_pre + 1 ) )
+|--
+  “ (ManacherLoopState str s2_full_2 len p_written (i + 1 ) i (i + r ) maxId maxLen ) ”
+.
+
+Definition longestPalindrom_entail_wit_10_3_split_goal_spatial := 
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen >= (r - 1 ))) (PreH2 : ((i + r ) > limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
+  (CharArray.undef_full output_pre (n_pre + 1 ) )
+|--
+  (CharArray.undef_full output_pre (n_pre + 1 ) )
+.
+
+Definition longestPalindrom_entail_wit_10_4 := 
+(
+forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen >= (r - 1 ))) (PreH2 : ((i + r ) <= limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
+  (CharArray.seg ( &( "s2" ) ) 0 (len + 1 ) s2_full_2 )
+  **  (CharArray.full s_pre ((string_length (str)) + 1 ) (c_string (str)) )
+  **  (CharArray.undef_full output_pre (n_pre + 1 ) )
+  **  (CharArray.undef_seg ( &( "s2" ) ) (len + 1 ) 2003 )
+  **  (IntArray.seg ( &( "p" ) ) 0 (i + 1 ) p_written )
+  **  (IntArray.undef_seg ( &( "p" ) ) (i + 1 ) 2003 )
+|--
+  EX (p_next: (@list Z))  (s2_full: (@list Z)) ,
+  “ (valid_string str ) ” 
+  &&  “ (AlnumString str ) ” 
+  &&  “ ((string_length (str)) = n_pre) ” 
+  &&  “ (1 <= n_pre) ” 
+  &&  “ (n_pre <= 1000) ” 
+  &&  “ (len = ((2 * n_pre ) + 2 )) ” 
+  &&  “ (len <= 2002) ” 
+  &&  “ (1 <= (i + 1 )) ” 
+  &&  “ ((i + 1 ) <= len) ” 
+  &&  “ (j = 0) ” 
+  &&  “ (0 = 0) ” 
+  &&  “ (0 = 0) ” 
+  &&  “ (ret = 0) ” 
+  &&  “ (0 <= maxLen) ” 
+  &&  “ (maxLen <= n_pre) ” 
+  &&  “ (0 <= maxId) ” 
+  &&  “ (maxId < len) ” 
+  &&  “ ((Zlength (s2_full)) = (len + 1 )) ” 
+  &&  “ ((Zlength (p_next)) = (i + 1 )) ” 
+  &&  “ (ManacherLoopState str s2_full len p_next (i + 1 ) id limit maxId maxLen ) ”
+  &&  (store_string s_pre str )
+  **  (CharArray.undef_full output_pre (n_pre + 1 ) )
+  **  (CharArray.seg ( &( "s2" ) ) 0 (len + 1 ) s2_full )
+  **  (CharArray.undef_seg ( &( "s2" ) ) (len + 1 ) 2003 )
+  **  (IntArray.seg ( &( "p" ) ) 0 (i + 1 ) p_next )
+  **  (IntArray.undef_seg ( &( "p" ) ) (i + 1 ) 2003 )
+) \/
+(
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen >= (r - 1 ))) (PreH2 : ((i + r ) <= limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
+  (CharArray.undef_full output_pre (n_pre + 1 ) )
+|--
+  “ (ManacherLoopState str s2_full_2 len p_written (i + 1 ) id limit maxId maxLen ) ”
   &&  (CharArray.undef_full output_pre (n_pre + 1 ) )
 ).
 
 Definition longestPalindrom_entail_wit_10_4_split_goal_1 := 
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen < (r - 1 ))) (PreH2 : ((i + r ) > limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen >= (r - 1 ))) (PreH2 : ((i + r ) <= limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
   (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
-  “ (ManacherLoopState str s2_full_2 len p_written (i + 1 ) i (i + r ) i (r - 1 ) ) ”
+  “ (ManacherLoopState str s2_full_2 len p_written (i + 1 ) id limit maxId maxLen ) ”
 .
 
 Definition longestPalindrom_entail_wit_10_4_split_goal_spatial := 
-forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen < (r - 1 ))) (PreH2 : ((i + r ) > limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (p_written: (@list Z)) (s2_full_2: (@list Z)) (maxId: Z) (maxLen: Z) (mirror: Z) (limit: Z) (id: Z) (r: Z) (ret: Z) (j: Z) (i: Z) (len: Z) (PreH1 : (maxLen >= (r - 1 ))) (PreH2 : ((i + r ) <= limit)) (PreH3 : ((Znth ((i + r ) - 0 ) s2_full_2 0) <> (Znth ((i - r ) - 0 ) s2_full_2 0))) (PreH4 : (0 <= ((string_length (str)) + 1 ))) (PreH5 : (valid_string str )) (PreH6 : (AlnumString str )) (PreH7 : ((string_length (str)) = n_pre)) (PreH8 : (1 <= n_pre)) (PreH9 : (n_pre <= 1000)) (PreH10 : (len = ((2 * n_pre ) + 2 ))) (PreH11 : (len <= 2002)) (PreH12 : (1 <= i)) (PreH13 : (i < len)) (PreH14 : (j = 0)) (PreH15 : (ret = 0)) (PreH16 : (1 <= r)) (PreH17 : (0 <= id)) (PreH18 : (id < len)) (PreH19 : (0 <= limit)) (PreH20 : (limit <= len)) (PreH21 : (0 <= mirror)) (PreH22 : (mirror < len)) (PreH23 : (0 <= maxLen)) (PreH24 : (maxLen <= n_pre)) (PreH25 : (0 <= maxId)) (PreH26 : (maxId < len)) (PreH27 : (0 <= (i - r ))) (PreH28 : ((i + r ) <= len)) (PreH29 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH30 : ((Zlength (p_written)) = (i + 1 ))) (PreH31 : (ExpansionLoopState str s2_full_2 len p_written i r id limit maxId maxLen )) (PreH32 : (ExpansionCandidate s2_full_2 len i r )) ,
   (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
   (CharArray.undef_full output_pre (n_pre + 1 ) )
@@ -3195,8 +3195,16 @@ forall (output_pre: Z) (n_pre: Z) (s_pre: Z) (str: (@list Z)) (s2_full_2: (@list
 forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_done_2: (@list Z)) (out_pre: (@list Z)) (len: Z) (maxLen: Z) (maxId: Z) (i: Z) (j: Z) (r: Z) (mirror: Z) (ret: Z) (limit: Z) (id: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (valid_string str )) (PreH3 : (AlnumString str )) (PreH4 : ((string_length (str)) = n_pre)) (PreH5 : (1 <= n_pre)) (PreH6 : (n_pre <= 1000)) (PreH7 : (len = ((2 * n_pre ) + 2 ))) (PreH8 : (len <= 2002)) (PreH9 : (1 <= maxLen)) (PreH10 : (0 <= maxLen)) (PreH11 : (maxLen <= n_pre)) (PreH12 : (0 <= (maxId - maxLen ))) (PreH13 : ((maxId + maxLen ) < len)) (PreH14 : (i = (maxId - maxLen ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (mirror = 0)) (PreH18 : (ret = 0)) (PreH19 : (out_pre = (@nil Z))) (PreH20 : (OutputCopyPrefix s2_full_2 out_pre (maxId - maxLen ) i j )) (PreH21 : forall (cur_2: Z) , ((((maxId - maxLen ) <= cur_2) /\ (cur_2 <= ((maxId + maxLen ) + 1 ))) -> (OutputCopyBound s2_full_2 (maxId - maxLen ) cur_2 maxLen ))) (PreH22 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH23 : ((Zlength (p_done_2)) = len)) (PreH24 : (ManacherLoopState str s2_full_2 len p_done_2 len id limit maxId maxLen )) ,
   (CharArray.undef_full output_pre (n_pre + 1 ) )
 |--
-  (CharArray.undef_full output_pre (n_pre + 1 ) )
+  “ forall (cur: Z) , ((((maxId - maxLen ) <= cur) /\ (cur <= ((maxId + maxLen ) + 1 ))) -> (OutputCopyBound s2_full_2 (maxId - maxLen ) cur maxLen )) ”
+  &&  (CharArray.undef_full output_pre (n_pre + 1 ) )
 ).
+
+Definition longestPalindrom_entail_wit_13_split_goal_1 := 
+forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_done_2: (@list Z)) (out_pre: (@list Z)) (len: Z) (maxLen: Z) (maxId: Z) (i: Z) (j: Z) (r: Z) (mirror: Z) (ret: Z) (limit: Z) (id: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (valid_string str )) (PreH3 : (AlnumString str )) (PreH4 : ((string_length (str)) = n_pre)) (PreH5 : (1 <= n_pre)) (PreH6 : (n_pre <= 1000)) (PreH7 : (len = ((2 * n_pre ) + 2 ))) (PreH8 : (len <= 2002)) (PreH9 : (1 <= maxLen)) (PreH10 : (0 <= maxLen)) (PreH11 : (maxLen <= n_pre)) (PreH12 : (0 <= (maxId - maxLen ))) (PreH13 : ((maxId + maxLen ) < len)) (PreH14 : (i = (maxId - maxLen ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (mirror = 0)) (PreH18 : (ret = 0)) (PreH19 : (out_pre = (@nil Z))) (PreH20 : (OutputCopyPrefix s2_full_2 out_pre (maxId - maxLen ) i j )) (PreH21 : forall (cur_2: Z) , ((((maxId - maxLen ) <= cur_2) /\ (cur_2 <= ((maxId + maxLen ) + 1 ))) -> (OutputCopyBound s2_full_2 (maxId - maxLen ) cur_2 maxLen ))) (PreH22 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH23 : ((Zlength (p_done_2)) = len)) (PreH24 : (ManacherLoopState str s2_full_2 len p_done_2 len id limit maxId maxLen )) ,
+  (CharArray.undef_full output_pre (n_pre + 1 ) )
+|--
+  “ forall (cur: Z) , ((((maxId - maxLen ) <= cur) /\ (cur <= ((maxId + maxLen ) + 1 ))) -> (OutputCopyBound s2_full_2 (maxId - maxLen ) cur maxLen )) ”
+.
 
 Definition longestPalindrom_entail_wit_13_split_goal_spatial := 
 forall (output_pre: Z) (n_pre: Z) (str: (@list Z)) (s2_full_2: (@list Z)) (p_done_2: (@list Z)) (out_pre: (@list Z)) (len: Z) (maxLen: Z) (maxId: Z) (i: Z) (j: Z) (r: Z) (mirror: Z) (ret: Z) (limit: Z) (id: Z) (PreH1 : (0 <= ((string_length (str)) + 1 ))) (PreH2 : (valid_string str )) (PreH3 : (AlnumString str )) (PreH4 : ((string_length (str)) = n_pre)) (PreH5 : (1 <= n_pre)) (PreH6 : (n_pre <= 1000)) (PreH7 : (len = ((2 * n_pre ) + 2 ))) (PreH8 : (len <= 2002)) (PreH9 : (1 <= maxLen)) (PreH10 : (0 <= maxLen)) (PreH11 : (maxLen <= n_pre)) (PreH12 : (0 <= (maxId - maxLen ))) (PreH13 : ((maxId + maxLen ) < len)) (PreH14 : (i = (maxId - maxLen ))) (PreH15 : (j = 0)) (PreH16 : (r = 0)) (PreH17 : (mirror = 0)) (PreH18 : (ret = 0)) (PreH19 : (out_pre = (@nil Z))) (PreH20 : (OutputCopyPrefix s2_full_2 out_pre (maxId - maxLen ) i j )) (PreH21 : forall (cur_2: Z) , ((((maxId - maxLen ) <= cur_2) /\ (cur_2 <= ((maxId + maxLen ) + 1 ))) -> (OutputCopyBound s2_full_2 (maxId - maxLen ) cur_2 maxLen ))) (PreH22 : ((Zlength (s2_full_2)) = (len + 1 ))) (PreH23 : ((Zlength (p_done_2)) = len)) (PreH24 : (ManacherLoopState str s2_full_2 len p_done_2 len id limit maxId maxLen )) ,

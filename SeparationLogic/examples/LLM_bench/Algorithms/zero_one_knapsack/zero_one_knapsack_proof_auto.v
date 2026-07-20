@@ -101,21 +101,6 @@ Proof. Admitted.
 Lemma proof_of_zeroOneKnapsack_entail_wit_1 : zeroOneKnapsack_entail_wit_1.
 Proof. Admitted. 
 
-Lemma proof_of_zeroOneKnapsack_entail_wit_14_1 : zeroOneKnapsack_entail_wit_14_1.
-Proof. Admitted. 
-
-Lemma proof_of_zeroOneKnapsack_entail_wit_14_2 : zeroOneKnapsack_entail_wit_14_2.
-Proof. Admitted. 
-
-Lemma proof_of_zeroOneKnapsack_entail_wit_14_3 : zeroOneKnapsack_entail_wit_14_3.
-Proof. Admitted. 
-
-Lemma proof_of_zeroOneKnapsack_entail_wit_14_4 : zeroOneKnapsack_entail_wit_14_4.
-Proof. Admitted. 
-
-Lemma proof_of_zeroOneKnapsack_entail_wit_14_5 : zeroOneKnapsack_entail_wit_14_5.
-Proof. Admitted. 
-
 Lemma proof_of_zeroOneKnapsack_return_wit_1 : zeroOneKnapsack_return_wit_1.
 Proof. Admitted. 
 

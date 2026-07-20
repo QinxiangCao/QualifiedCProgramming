@@ -148,7 +148,7 @@ Proof.
       lia.
 Qed.
 
-Lemma proof_of_longestPalindrom_entail_wit_6_1 : longestPalindrom_entail_wit_6_1.
+Lemma proof_of_longestPalindrom_entail_wit_6_3 : longestPalindrom_entail_wit_6_3.
 Proof.
   pre_process.
   pose proof PreH27 as Hloop_state.
@@ -304,7 +304,7 @@ Proof.
     + unfold ExpansionCandidate in Hcandidate; tauto.
 Qed. 
 
-Lemma proof_of_longestPalindrom_entail_wit_6_3 : longestPalindrom_entail_wit_6_3.
+Lemma proof_of_longestPalindrom_entail_wit_6_1 : longestPalindrom_entail_wit_6_1.
 Proof.
   pre_process.
   pose proof PreH22 as Hloop_state.
@@ -559,7 +559,7 @@ Proof.
         split; assumption.
 Qed.
 
-Lemma proof_of_longestPalindrom_entail_wit_10_1 : longestPalindrom_entail_wit_10_1.
+Lemma proof_of_longestPalindrom_entail_wit_10_4 : longestPalindrom_entail_wit_10_4.
 Proof.
   pre_process.
   Exists p_written.
@@ -578,7 +578,7 @@ Proof.
     eapply manacher_best_radius_keep_after_mismatch; eauto.
 Qed. 
 
-Lemma proof_of_longestPalindrom_entail_wit_10_2 : longestPalindrom_entail_wit_10_2.
+Lemma proof_of_longestPalindrom_entail_wit_10_3 : longestPalindrom_entail_wit_10_3.
 Proof.
   pre_process.
   Exists p_written.
@@ -597,7 +597,7 @@ Proof.
     eapply manacher_best_radius_keep_after_mismatch_new_window; eauto.
 Qed. 
 
-Lemma proof_of_longestPalindrom_entail_wit_10_3 : longestPalindrom_entail_wit_10_3.
+Lemma proof_of_longestPalindrom_entail_wit_10_2 : longestPalindrom_entail_wit_10_2.
 Proof.
   pre_process.
   Exists p_written. Exists s2_full_2.
@@ -615,7 +615,7 @@ Proof.
       try exact PreH31; eauto; lia.
 Qed. 
 
-Lemma proof_of_longestPalindrom_entail_wit_10_4 : longestPalindrom_entail_wit_10_4.
+Lemma proof_of_longestPalindrom_entail_wit_10_1 : longestPalindrom_entail_wit_10_1.
 Proof.
   pre_process.
   Exists p_written. Exists s2_full_2.

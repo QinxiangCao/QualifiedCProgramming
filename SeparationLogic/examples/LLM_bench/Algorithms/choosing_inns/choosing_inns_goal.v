@@ -32,9 +32,9 @@ From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_proof.
 Definition initCounts_safety_wit_1 := 
 forall (k_pre: Z) (good_pre: Z) (seen_pre: Z) (PreH1 : (1 <= k_pre)) (PreH2 : (k_pre <= 50)) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "k" ) )) # Int  |-> k_pre)
-  **  ((( &( "good" ) )) # Ptr  |-> good_pre)
   **  ((( &( "seen" ) )) # Ptr  |-> seen_pre)
+  **  ((( &( "good" ) )) # Ptr  |-> good_pre)
+  **  ((( &( "k" ) )) # Int  |-> k_pre)
   **  (IntArray.undef_full seen_pre k_pre )
   **  (IntArray.undef_full good_pre k_pre )
 |--
@@ -116,16 +116,12 @@ forall (k_pre: Z) (PreH1 : (1 <= k_pre)) (PreH2 : (k_pre <= 50)) ,
 
 Definition initCounts_entail_wit_1_split_goal_1 := 
 forall (k_pre: Z) (PreH1 : (1 <= k_pre)) (PreH2 : (k_pre <= 50)) ,
-  TT && emp 
-|--
-  “ (CountsZeroPrefix (@nil Z) 0 ) ”
+  (CountsZeroPrefix (@nil Z) 0 )
 .
 
 Definition initCounts_entail_wit_1_split_goal_2 := 
 forall (k_pre: Z) (PreH1 : (1 <= k_pre)) (PreH2 : (k_pre <= 50)) ,
-  TT && emp 
-|--
-  “ (CountsZeroPrefix (@nil Z) 0 ) ”
+  (CountsZeroPrefix (@nil Z) 0 )
 .
 
 Definition initCounts_entail_wit_2 := 
@@ -159,16 +155,12 @@ forall (k_pre: Z) (good_l_2: (@list Z)) (seen_l_2: (@list Z)) (i: Z) (PreH1 : (i
 
 Definition initCounts_entail_wit_2_split_goal_1 := 
 forall (k_pre: Z) (good_l_2: (@list Z)) (seen_l_2: (@list Z)) (i: Z) (PreH1 : (i < k_pre)) (PreH2 : (1 <= k_pre)) (PreH3 : (k_pre <= 50)) (PreH4 : (0 <= i)) (PreH5 : (i <= k_pre)) (PreH6 : (CountsZeroPrefix seen_l_2 i )) (PreH7 : (CountsZeroPrefix good_l_2 i )) ,
-  TT && emp 
-|--
-  “ (CountsZeroPrefix (app (good_l_2) ((cons (0) ((@nil Z))))) (i + 1 ) ) ”
+  (CountsZeroPrefix (app (good_l_2) ((cons (0) ((@nil Z))))) (i + 1 ) )
 .
 
 Definition initCounts_entail_wit_2_split_goal_2 := 
 forall (k_pre: Z) (good_l_2: (@list Z)) (seen_l_2: (@list Z)) (i: Z) (PreH1 : (i < k_pre)) (PreH2 : (1 <= k_pre)) (PreH3 : (k_pre <= 50)) (PreH4 : (0 <= i)) (PreH5 : (i <= k_pre)) (PreH6 : (CountsZeroPrefix seen_l_2 i )) (PreH7 : (CountsZeroPrefix good_l_2 i )) ,
-  TT && emp 
-|--
-  “ (CountsZeroPrefix (app (seen_l_2) ((cons (0) ((@nil Z))))) (i + 1 ) ) ”
+  (CountsZeroPrefix (app (seen_l_2) ((cons (0) ((@nil Z))))) (i + 1 ) )
 .
 
 Definition initCounts_entail_wit_3 := 
@@ -206,16 +198,23 @@ forall (k_pre: Z) (good_pre: Z) (seen_pre: Z) (good_l_2: (@list Z)) (seen_l_2: (
   **  (IntArray.full good_pre k_pre good_l )
 ) \/
 (
-forall (k_pre: Z) (good_pre: Z) (seen_pre: Z) (good_l_2: (@list Z)) (seen_l_2: (@list Z)) (i: Z) (PreH1 : (i >= k_pre)) (PreH2 : (1 <= k_pre)) (PreH3 : (k_pre <= 50)) (PreH4 : (0 <= i)) (PreH5 : (i <= k_pre)) (PreH6 : (CountsZeroPrefix seen_l_2 i )) (PreH7 : (CountsZeroPrefix good_l_2 i )) ,
-  (IntArray.seg seen_pre 0 i seen_l_2 )
-  **  (IntArray.seg good_pre 0 i good_l_2 )
+forall (k_pre: Z) (good_l_2: (@list Z)) (seen_l_2: (@list Z)) (i: Z) (PreH1 : (i >= k_pre)) (PreH2 : (1 <= k_pre)) (PreH3 : (k_pre <= 50)) (PreH4 : (0 <= i)) (PreH5 : (i <= k_pre)) (PreH6 : (CountsZeroPrefix seen_l_2 i )) (PreH7 : (CountsZeroPrefix good_l_2 i )) ,
+  TT && emp 
 |--
-  EX (good_l: (@list Z))  (seen_l: (@list Z)) ,
-  “ (CountsZeroFull k_pre seen_l ) ” 
-  &&  “ (CountsZeroFull k_pre good_l ) ”
-  &&  (IntArray.full seen_pre k_pre seen_l )
-  **  (IntArray.full good_pre k_pre good_l )
+  “ (CountsZeroFull k_pre good_l_2 ) ” 
+  &&  “ (CountsZeroFull k_pre seen_l_2 ) ”
+  &&  emp
 ).
+
+Definition initCounts_return_wit_1_split_goal_1 := 
+forall (k_pre: Z) (good_l_2: (@list Z)) (seen_l_2: (@list Z)) (i: Z) (PreH1 : (i >= k_pre)) (PreH2 : (1 <= k_pre)) (PreH3 : (k_pre <= 50)) (PreH4 : (0 <= i)) (PreH5 : (i <= k_pre)) (PreH6 : (CountsZeroPrefix seen_l_2 i )) (PreH7 : (CountsZeroPrefix good_l_2 i )) ,
+  (CountsZeroFull k_pre good_l_2 )
+.
+
+Definition initCounts_return_wit_1_split_goal_2 := 
+forall (k_pre: Z) (good_l_2: (@list Z)) (seen_l_2: (@list Z)) (i: Z) (PreH1 : (i >= k_pre)) (PreH2 : (1 <= k_pre)) (PreH3 : (k_pre <= 50)) (PreH4 : (0 <= i)) (PreH5 : (i <= k_pre)) (PreH6 : (CountsZeroPrefix seen_l_2 i )) (PreH7 : (CountsZeroPrefix good_l_2 i )) ,
+  (CountsZeroFull k_pre seen_l_2 )
+.
 
 Definition initCounts_partial_solve_wit_1 := 
 forall (k_pre: Z) (good_pre: Z) (seen_pre: Z) (good_l: (@list Z)) (seen_l: (@list Z)) (i: Z) (PreH1 : (i < k_pre)) (PreH2 : (1 <= k_pre)) (PreH3 : (k_pre <= 50)) (PreH4 : (0 <= i)) (PreH5 : (i <= k_pre)) (PreH6 : (CountsZeroPrefix seen_l i )) (PreH7 : (CountsZeroPrefix good_l i )) ,
@@ -231,7 +230,7 @@ forall (k_pre: Z) (good_pre: Z) (seen_pre: Z) (good_l: (@list Z)) (seen_l: (@lis
   &&  “ (i <= k_pre) ” 
   &&  “ (CountsZeroPrefix seen_l i ) ” 
   &&  “ (CountsZeroPrefix good_l i ) ”
-  &&  (((seen_pre + (i * sizeof(INT) ) )) # Int  |->_)
+  &&  (((seen_pre + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg seen_pre (i + 1 ) k_pre )
   **  (IntArray.seg seen_pre 0 i seen_l )
   **  (IntArray.seg good_pre 0 i good_l )
@@ -252,7 +251,7 @@ forall (k_pre: Z) (good_pre: Z) (seen_pre: Z) (good_l: (@list Z)) (seen_l: (@lis
   &&  “ (i <= k_pre) ” 
   &&  “ (CountsZeroPrefix seen_l i ) ” 
   &&  “ (CountsZeroPrefix good_l i ) ”
-  &&  (((good_pre + (i * sizeof(INT) ) )) # Int  |->_)
+  &&  (((good_pre + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.undef_seg good_pre (i + 1 ) k_pre )
   **  (IntArray.seg seen_pre 0 (i + 1 ) (app (seen_l) ((cons (0) ((@nil Z))))) )
   **  (IntArray.undef_seg seen_pre (i + 1 ) k_pre )
@@ -264,9 +263,9 @@ forall (k_pre: Z) (good_pre: Z) (seen_pre: Z) (good_l: (@list Z)) (seen_l: (@lis
 Definition copyCounts_safety_wit_1 := 
 forall (k_pre: Z) (good_pre: Z) (seen_pre: Z) (good_old: (@list Z)) (seen_l: (@list Z)) (PreH1 : (1 <= k_pre)) (PreH2 : (k_pre <= 50)) (PreH3 : ((Zlength (seen_l)) = k_pre)) (PreH4 : ((Zlength (good_old)) = k_pre)) (PreH5 : forall (idx: Z) , (((0 <= idx) /\ (idx < k_pre)) -> ((0 <= (Znth idx seen_l 0)) /\ ((Znth idx seen_l 0) <= 200000)))) (PreH6 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < k_pre)) -> ((0 <= (Znth idx_2 good_old 0)) /\ ((Znth idx_2 good_old 0) <= 200000)))) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "k" ) )) # Int  |-> k_pre)
-  **  ((( &( "good" ) )) # Ptr  |-> good_pre)
   **  ((( &( "seen" ) )) # Ptr  |-> seen_pre)
+  **  ((( &( "good" ) )) # Ptr  |-> good_pre)
+  **  ((( &( "k" ) )) # Int  |-> k_pre)
   **  (IntArray.full seen_pre k_pre seen_l )
   **  (IntArray.full good_pre k_pre good_old )
 |--
@@ -310,15 +309,25 @@ forall (k_pre: Z) (good_pre: Z) (seen_pre: Z) (good_old: (@list Z)) (seen_l: (@l
 forall (k_pre: Z) (good_old: (@list Z)) (seen_l: (@list Z)) (PreH1 : (1 <= k_pre)) (PreH2 : (k_pre <= 50)) (PreH3 : ((Zlength (seen_l)) = k_pre)) (PreH4 : ((Zlength (good_old)) = k_pre)) (PreH5 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l 0)) /\ ((Znth idx_3 seen_l 0) <= 200000)))) (PreH6 : forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_old 0)) /\ ((Znth idx_4 good_old 0) <= 200000)))) ,
   TT && emp 
 |--
-  “ (CopyCountsPrefix seen_l good_old good_old 0 k_pre ) ”
+  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < k_pre)) -> ((0 <= (Znth idx_2 good_old 0)) /\ ((Znth idx_2 good_old 0) <= 200000))) ” 
+  &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < k_pre)) -> ((0 <= (Znth idx seen_l 0)) /\ ((Znth idx seen_l 0) <= 200000))) ” 
+  &&  “ (CopyCountsPrefix seen_l good_old good_old 0 k_pre ) ”
   &&  emp
 ).
 
 Definition copyCounts_entail_wit_1_split_goal_1 := 
 forall (k_pre: Z) (good_old: (@list Z)) (seen_l: (@list Z)) (PreH1 : (1 <= k_pre)) (PreH2 : (k_pre <= 50)) (PreH3 : ((Zlength (seen_l)) = k_pre)) (PreH4 : ((Zlength (good_old)) = k_pre)) (PreH5 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l 0)) /\ ((Znth idx_3 seen_l 0) <= 200000)))) (PreH6 : forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_old 0)) /\ ((Znth idx_4 good_old 0) <= 200000)))) ,
-  TT && emp 
-|--
-  “ (CopyCountsPrefix seen_l good_old good_old 0 k_pre ) ”
+  forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < k_pre)) -> ((0 <= (Znth idx_2 good_old 0)) /\ ((Znth idx_2 good_old 0) <= 200000)))
+.
+
+Definition copyCounts_entail_wit_1_split_goal_2 := 
+forall (k_pre: Z) (good_old: (@list Z)) (seen_l: (@list Z)) (PreH1 : (1 <= k_pre)) (PreH2 : (k_pre <= 50)) (PreH3 : ((Zlength (seen_l)) = k_pre)) (PreH4 : ((Zlength (good_old)) = k_pre)) (PreH5 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l 0)) /\ ((Znth idx_3 seen_l 0) <= 200000)))) (PreH6 : forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_old 0)) /\ ((Znth idx_4 good_old 0) <= 200000)))) ,
+  forall (idx: Z) , (((0 <= idx) /\ (idx < k_pre)) -> ((0 <= (Znth idx seen_l 0)) /\ ((Znth idx seen_l 0) <= 200000)))
+.
+
+Definition copyCounts_entail_wit_1_split_goal_3 := 
+forall (k_pre: Z) (good_old: (@list Z)) (seen_l: (@list Z)) (PreH1 : (1 <= k_pre)) (PreH2 : (k_pre <= 50)) (PreH3 : ((Zlength (seen_l)) = k_pre)) (PreH4 : ((Zlength (good_old)) = k_pre)) (PreH5 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l 0)) /\ ((Znth idx_3 seen_l 0) <= 200000)))) (PreH6 : forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_old 0)) /\ ((Znth idx_4 good_old 0) <= 200000)))) ,
+  (CopyCountsPrefix seen_l good_old good_old 0 k_pre )
 .
 
 Definition copyCounts_entail_wit_2 := 
@@ -344,26 +353,29 @@ forall (k_pre: Z) (good_pre: Z) (seen_pre: Z) (good_old: (@list Z)) (seen_l: (@l
 forall (k_pre: Z) (good_old: (@list Z)) (seen_l: (@list Z)) (good_cur_2: (@list Z)) (i: Z) (PreH1 : (i < k_pre)) (PreH2 : (1 <= k_pre)) (PreH3 : (k_pre <= 50)) (PreH4 : ((Zlength (seen_l)) = k_pre)) (PreH5 : ((Zlength (good_old)) = k_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= k_pre)) (PreH8 : (CopyCountsPrefix seen_l good_old good_cur_2 i k_pre )) (PreH9 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l 0)) /\ ((Znth idx_3 seen_l 0) <= 200000)))) (PreH10 : forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_cur_2 0)) /\ ((Znth idx_4 good_cur_2 0) <= 200000)))) ,
   TT && emp 
 |--
-  “ (((0 <= (Znth 0 (replace_Znth (i) ((Znth i seen_l 0)) (good_cur_2)) 0)) /\ ((Znth 0 (replace_Znth (i) ((Znth i seen_l 0)) (good_cur_2)) 0) <= 200000)) /\ ((0 <= (Znth (k_pre - 1 ) (replace_Znth (i) ((Znth i seen_l 0)) (good_cur_2)) 0)) /\ ((Znth (k_pre - 1 ) (replace_Znth (i) ((Znth i seen_l 0)) (good_cur_2)) 0) <= 200000))) ” 
+  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < k_pre)) -> ((0 <= (Znth idx_2 (replace_Znth (i) ((Znth i seen_l 0)) (good_cur_2)) 0)) /\ ((Znth idx_2 (replace_Znth (i) ((Znth i seen_l 0)) (good_cur_2)) 0) <= 200000))) ” 
+  &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < k_pre)) -> ((0 <= (Znth idx seen_l 0)) /\ ((Znth idx seen_l 0) <= 200000))) ” 
   &&  “ (CopyCountsPrefix seen_l good_old (replace_Znth (i) ((Znth i seen_l 0)) (good_cur_2)) (i + 1 ) k_pre ) ”
   &&  emp
 ).
 
 Definition copyCounts_entail_wit_2_split_goal_1 := 
 forall (k_pre: Z) (good_old: (@list Z)) (seen_l: (@list Z)) (good_cur_2: (@list Z)) (i: Z) (PreH1 : (i < k_pre)) (PreH2 : (1 <= k_pre)) (PreH3 : (k_pre <= 50)) (PreH4 : ((Zlength (seen_l)) = k_pre)) (PreH5 : ((Zlength (good_old)) = k_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= k_pre)) (PreH8 : (CopyCountsPrefix seen_l good_old good_cur_2 i k_pre )) (PreH9 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l 0)) /\ ((Znth idx_3 seen_l 0) <= 200000)))) (PreH10 : forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_cur_2 0)) /\ ((Znth idx_4 good_cur_2 0) <= 200000)))) ,
-  TT && emp 
-|--
-  “ (((0 <= (Znth 0 (replace_Znth (i) ((Znth i seen_l 0)) (good_cur_2)) 0)) /\ ((Znth 0 (replace_Znth (i) ((Znth i seen_l 0)) (good_cur_2)) 0) <= 200000)) /\ ((0 <= (Znth (k_pre - 1 ) (replace_Znth (i) ((Znth i seen_l 0)) (good_cur_2)) 0)) /\ ((Znth (k_pre - 1 ) (replace_Znth (i) ((Znth i seen_l 0)) (good_cur_2)) 0) <= 200000))) ”
+  forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < k_pre)) -> ((0 <= (Znth idx_2 (replace_Znth (i) ((Znth i seen_l 0)) (good_cur_2)) 0)) /\ ((Znth idx_2 (replace_Znth (i) ((Znth i seen_l 0)) (good_cur_2)) 0) <= 200000)))
 .
 
 Definition copyCounts_entail_wit_2_split_goal_2 := 
 forall (k_pre: Z) (good_old: (@list Z)) (seen_l: (@list Z)) (good_cur_2: (@list Z)) (i: Z) (PreH1 : (i < k_pre)) (PreH2 : (1 <= k_pre)) (PreH3 : (k_pre <= 50)) (PreH4 : ((Zlength (seen_l)) = k_pre)) (PreH5 : ((Zlength (good_old)) = k_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= k_pre)) (PreH8 : (CopyCountsPrefix seen_l good_old good_cur_2 i k_pre )) (PreH9 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l 0)) /\ ((Znth idx_3 seen_l 0) <= 200000)))) (PreH10 : forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_cur_2 0)) /\ ((Znth idx_4 good_cur_2 0) <= 200000)))) ,
-  TT && emp 
-|--
-  “ (CopyCountsPrefix seen_l good_old (replace_Znth (i) ((Znth i seen_l 0)) (good_cur_2)) (i + 1 ) k_pre ) ”
+  forall (idx: Z) , (((0 <= idx) /\ (idx < k_pre)) -> ((0 <= (Znth idx seen_l 0)) /\ ((Znth idx seen_l 0) <= 200000)))
+.
+
+Definition copyCounts_entail_wit_2_split_goal_3 := 
+forall (k_pre: Z) (good_old: (@list Z)) (seen_l: (@list Z)) (good_cur_2: (@list Z)) (i: Z) (PreH1 : (i < k_pre)) (PreH2 : (1 <= k_pre)) (PreH3 : (k_pre <= 50)) (PreH4 : ((Zlength (seen_l)) = k_pre)) (PreH5 : ((Zlength (good_old)) = k_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= k_pre)) (PreH8 : (CopyCountsPrefix seen_l good_old good_cur_2 i k_pre )) (PreH9 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l 0)) /\ ((Znth idx_3 seen_l 0) <= 200000)))) (PreH10 : forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_cur_2 0)) /\ ((Znth idx_4 good_cur_2 0) <= 200000)))) ,
+  (CopyCountsPrefix seen_l good_old (replace_Znth (i) ((Znth i seen_l 0)) (good_cur_2)) (i + 1 ) k_pre )
 .
 
 Definition copyCounts_entail_wit_3 := 
+(
 forall (k_pre: Z) (good_pre: Z) (seen_pre: Z) (good_old: (@list Z)) (seen_l: (@list Z)) (good_cur_2: (@list Z)) (i: Z) (PreH1 : (1 <= k_pre)) (PreH2 : (k_pre <= 50)) (PreH3 : ((Zlength (seen_l)) = k_pre)) (PreH4 : ((Zlength (good_old)) = k_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < k_pre)) (PreH7 : (CopyCountsPrefix seen_l good_old good_cur_2 (i + 1 ) k_pre )) (PreH8 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l 0)) /\ ((Znth idx_3 seen_l 0) <= 200000)))) (PreH9 : forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_cur_2 0)) /\ ((Znth idx_4 good_cur_2 0) <= 200000)))) ,
   (IntArray.full seen_pre k_pre seen_l )
   **  (IntArray.full good_pre k_pre good_cur_2 )
@@ -380,6 +392,24 @@ forall (k_pre: Z) (good_pre: Z) (seen_pre: Z) (good_old: (@list Z)) (seen_l: (@l
   &&  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < k_pre)) -> ((0 <= (Znth idx_2 good_cur 0)) /\ ((Znth idx_2 good_cur 0) <= 200000))) ”
   &&  (IntArray.full seen_pre k_pre seen_l )
   **  (IntArray.full good_pre k_pre good_cur )
+) \/
+(
+forall (k_pre: Z) (good_old: (@list Z)) (seen_l: (@list Z)) (good_cur_2: (@list Z)) (i: Z) (PreH1 : (1 <= k_pre)) (PreH2 : (k_pre <= 50)) (PreH3 : ((Zlength (seen_l)) = k_pre)) (PreH4 : ((Zlength (good_old)) = k_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < k_pre)) (PreH7 : (CopyCountsPrefix seen_l good_old good_cur_2 (i + 1 ) k_pre )) (PreH8 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l 0)) /\ ((Znth idx_3 seen_l 0) <= 200000)))) (PreH9 : forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_cur_2 0)) /\ ((Znth idx_4 good_cur_2 0) <= 200000)))) ,
+  TT && emp 
+|--
+  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < k_pre)) -> ((0 <= (Znth idx_2 good_cur_2 0)) /\ ((Znth idx_2 good_cur_2 0) <= 200000))) ” 
+  &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < k_pre)) -> ((0 <= (Znth idx seen_l 0)) /\ ((Znth idx seen_l 0) <= 200000))) ”
+  &&  emp
+).
+
+Definition copyCounts_entail_wit_3_split_goal_1 := 
+forall (k_pre: Z) (good_old: (@list Z)) (seen_l: (@list Z)) (good_cur_2: (@list Z)) (i: Z) (PreH1 : (1 <= k_pre)) (PreH2 : (k_pre <= 50)) (PreH3 : ((Zlength (seen_l)) = k_pre)) (PreH4 : ((Zlength (good_old)) = k_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < k_pre)) (PreH7 : (CopyCountsPrefix seen_l good_old good_cur_2 (i + 1 ) k_pre )) (PreH8 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l 0)) /\ ((Znth idx_3 seen_l 0) <= 200000)))) (PreH9 : forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_cur_2 0)) /\ ((Znth idx_4 good_cur_2 0) <= 200000)))) ,
+  forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < k_pre)) -> ((0 <= (Znth idx_2 good_cur_2 0)) /\ ((Znth idx_2 good_cur_2 0) <= 200000)))
+.
+
+Definition copyCounts_entail_wit_3_split_goal_2 := 
+forall (k_pre: Z) (good_old: (@list Z)) (seen_l: (@list Z)) (good_cur_2: (@list Z)) (i: Z) (PreH1 : (1 <= k_pre)) (PreH2 : (k_pre <= 50)) (PreH3 : ((Zlength (seen_l)) = k_pre)) (PreH4 : ((Zlength (good_old)) = k_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < k_pre)) (PreH7 : (CopyCountsPrefix seen_l good_old good_cur_2 (i + 1 ) k_pre )) (PreH8 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l 0)) /\ ((Znth idx_3 seen_l 0) <= 200000)))) (PreH9 : forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_cur_2 0)) /\ ((Znth idx_4 good_cur_2 0) <= 200000)))) ,
+  forall (idx: Z) , (((0 <= idx) /\ (idx < k_pre)) -> ((0 <= (Znth idx seen_l 0)) /\ ((Znth idx seen_l 0) <= 200000)))
 .
 
 Definition copyCounts_return_wit_1 := 
@@ -396,15 +426,19 @@ forall (k_pre: Z) (good_pre: Z) (seen_pre: Z) (good_old: (@list Z)) (seen_l: (@l
 forall (k_pre: Z) (good_old: (@list Z)) (seen_l: (@list Z)) (good_cur: (@list Z)) (i: Z) (PreH1 : (i >= k_pre)) (PreH2 : (1 <= k_pre)) (PreH3 : (k_pre <= 50)) (PreH4 : ((Zlength (seen_l)) = k_pre)) (PreH5 : ((Zlength (good_old)) = k_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= k_pre)) (PreH8 : (CopyCountsPrefix seen_l good_old good_cur i k_pre )) (PreH9 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < k_pre)) -> ((0 <= (Znth idx_2 seen_l 0)) /\ ((Znth idx_2 seen_l 0) <= 200000)))) (PreH10 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 good_cur 0)) /\ ((Znth idx_3 good_cur 0) <= 200000)))) ,
   TT && emp 
 |--
-  “ (good_cur = seen_l) ”
+  “ forall (idx: Z) , (((0 <= idx) /\ (idx < k_pre)) -> ((0 <= (Znth idx seen_l 0)) /\ ((Znth idx seen_l 0) <= 200000))) ” 
+  &&  “ (good_cur = seen_l) ”
   &&  emp
 ).
 
 Definition copyCounts_return_wit_1_split_goal_1 := 
 forall (k_pre: Z) (good_old: (@list Z)) (seen_l: (@list Z)) (good_cur: (@list Z)) (i: Z) (PreH1 : (i >= k_pre)) (PreH2 : (1 <= k_pre)) (PreH3 : (k_pre <= 50)) (PreH4 : ((Zlength (seen_l)) = k_pre)) (PreH5 : ((Zlength (good_old)) = k_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= k_pre)) (PreH8 : (CopyCountsPrefix seen_l good_old good_cur i k_pre )) (PreH9 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < k_pre)) -> ((0 <= (Znth idx_2 seen_l 0)) /\ ((Znth idx_2 seen_l 0) <= 200000)))) (PreH10 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 good_cur 0)) /\ ((Znth idx_3 good_cur 0) <= 200000)))) ,
-  TT && emp 
-|--
-  “ (good_cur = seen_l) ”
+  forall (idx: Z) , (((0 <= idx) /\ (idx < k_pre)) -> ((0 <= (Znth idx seen_l 0)) /\ ((Znth idx seen_l 0) <= 200000)))
+.
+
+Definition copyCounts_return_wit_1_split_goal_2 := 
+forall (k_pre: Z) (good_old: (@list Z)) (seen_l: (@list Z)) (good_cur: (@list Z)) (i: Z) (PreH1 : (i >= k_pre)) (PreH2 : (1 <= k_pre)) (PreH3 : (k_pre <= 50)) (PreH4 : ((Zlength (seen_l)) = k_pre)) (PreH5 : ((Zlength (good_old)) = k_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= k_pre)) (PreH8 : (CopyCountsPrefix seen_l good_old good_cur i k_pre )) (PreH9 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < k_pre)) -> ((0 <= (Znth idx_2 seen_l 0)) /\ ((Znth idx_2 seen_l 0) <= 200000)))) (PreH10 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 good_cur 0)) /\ ((Znth idx_3 good_cur 0) <= 200000)))) ,
+  (good_cur = seen_l)
 .
 
 Definition copyCounts_partial_solve_wit_1 := 
@@ -422,7 +456,7 @@ forall (k_pre: Z) (good_pre: Z) (seen_pre: Z) (good_old: (@list Z)) (seen_l: (@l
   &&  “ (CopyCountsPrefix seen_l good_old good_cur i k_pre ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < k_pre)) -> ((0 <= (Znth idx seen_l 0)) /\ ((Znth idx seen_l 0) <= 200000))) ” 
   &&  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < k_pre)) -> ((0 <= (Znth idx_2 good_cur 0)) /\ ((Znth idx_2 good_cur 0) <= 200000))) ”
-  &&  (((seen_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i seen_l 0))
+  &&  (((seen_pre + (i * sizeof(INT)))) # Int  |-> (Znth i seen_l 0))
   **  (IntArray.missing_i seen_pre i 0 k_pre seen_l )
   **  (IntArray.full good_pre k_pre good_cur )
 .
@@ -442,7 +476,7 @@ forall (k_pre: Z) (good_pre: Z) (seen_pre: Z) (good_old: (@list Z)) (seen_l: (@l
   &&  “ (CopyCountsPrefix seen_l good_old good_cur i k_pre ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < k_pre)) -> ((0 <= (Znth idx seen_l 0)) /\ ((Znth idx seen_l 0) <= 200000))) ” 
   &&  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < k_pre)) -> ((0 <= (Znth idx_2 good_cur 0)) /\ ((Znth idx_2 good_cur 0) <= 200000))) ”
-  &&  (((good_pre + (i * sizeof(INT) ) )) # Int  |->_)
+  &&  (((good_pre + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i good_pre i 0 k_pre good_cur )
   **  (IntArray.full seen_pre k_pre seen_l )
 .
@@ -452,13 +486,13 @@ forall (k_pre: Z) (good_pre: Z) (seen_pre: Z) (good_old: (@list Z)) (seen_l: (@l
 Definition countChoosingInns_safety_wit_1 := 
 forall (good_pre: Z) (seen_pre: Z) (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_pre: Z) (colors_pre: Z) (costs_l: (@list Z)) (colors_l: (@list Z)) (ans: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= 200000)) (PreH3 : (1 <= k_pre)) (PreH4 : (k_pre <= 50)) (PreH5 : (0 <= p_pre)) (PreH6 : (p_pre <= 100)) (PreH7 : ((Zlength (colors_l)) = n_pre)) (PreH8 : ((Zlength (costs_l)) = n_pre)) (PreH9 : (ChoosingInnsAnswer colors_l costs_l n_pre k_pre p_pre ans )) (PreH10 : (0 <= ans)) (PreH11 : (ans <= 19999900000)) (PreH12 : forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((0 <= (Znth idx colors_l 0)) /\ ((Znth idx colors_l 0) < k_pre)))) (PreH13 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((0 <= (Znth idx_2 costs_l 0)) /\ ((Znth idx_2 costs_l 0) <= 100)))) ,
   ((( &( "answer" ) )) # Int64  |->_)
-  **  ((( &( "good" ) )) # Ptr  |-> good_pre)
-  **  ((( &( "seen" ) )) # Ptr  |-> seen_pre)
-  **  ((( &( "p" ) )) # Int  |-> p_pre)
-  **  ((( &( "k" ) )) # Int  |-> k_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "costs" ) )) # Ptr  |-> costs_pre)
   **  ((( &( "colors" ) )) # Ptr  |-> colors_pre)
+  **  ((( &( "costs" ) )) # Ptr  |-> costs_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "k" ) )) # Int  |-> k_pre)
+  **  ((( &( "p" ) )) # Int  |-> p_pre)
+  **  ((( &( "seen" ) )) # Ptr  |-> seen_pre)
+  **  ((( &( "good" ) )) # Ptr  |-> good_pre)
   **  (IntArray.full colors_pre n_pre colors_l )
   **  (IntArray.full costs_pre n_pre costs_l )
   **  (IntArray.undef_full seen_pre k_pre )
@@ -770,7 +804,6 @@ forall (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_l: (@list Z)) (colors_l: (@list Z
 ).
 
 Definition countChoosingInns_entail_wit_3 := 
-(
 forall (good_pre: Z) (seen_pre: Z) (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_pre: Z) (colors_pre: Z) (costs_l: (@list Z)) (colors_l: (@list Z)) (seen_l_2: (@list Z)) (good_l_2: (@list Z)) (ans_2: Z) (answer: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 200000)) (PreH4 : (1 <= k_pre)) (PreH5 : (k_pre <= 50)) (PreH6 : (0 <= p_pre)) (PreH7 : (p_pre <= 100)) (PreH8 : ((Zlength (colors_l)) = n_pre)) (PreH9 : ((Zlength (costs_l)) = n_pre)) (PreH10 : (0 <= i)) (PreH11 : (i <= n_pre)) (PreH12 : (0 <= answer)) (PreH13 : (answer <= 19999900000)) (PreH14 : (ChoosingInnsAnswer colors_l costs_l n_pre k_pre p_pre ans_2 )) (PreH15 : (ChoosingPrefixState colors_l costs_l i k_pre p_pre answer seen_l_2 good_l_2 )) (PreH16 : forall (idx_5: Z) , (((0 <= idx_5) /\ (idx_5 < n_pre)) -> ((0 <= (Znth idx_5 colors_l 0)) /\ ((Znth idx_5 colors_l 0) < k_pre)))) (PreH17 : forall (idx_6: Z) , (((0 <= idx_6) /\ (idx_6 < n_pre)) -> ((0 <= (Znth idx_6 costs_l 0)) /\ ((Znth idx_6 costs_l 0) <= 100)))) (PreH18 : forall (idx_7: Z) , (((0 <= idx_7) /\ (idx_7 < k_pre)) -> ((0 <= (Znth idx_7 seen_l_2 0)) /\ ((Znth idx_7 seen_l_2 0) <= i)))) (PreH19 : forall (idx_8: Z) , (((0 <= idx_8) /\ (idx_8 < k_pre)) -> ((0 <= (Znth idx_8 good_l_2 0)) /\ ((Znth idx_8 good_l_2 0) <= i)))) ,
   (IntArray.full costs_pre n_pre costs_l )
   **  (IntArray.full colors_pre n_pre colors_l )
@@ -813,43 +846,7 @@ forall (good_pre: Z) (seen_pre: Z) (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_pre: 
   **  (IntArray.full costs_pre n_pre costs_l )
   **  (IntArray.full seen_pre k_pre seen_l )
   **  (IntArray.full good_pre k_pre good_l )
-) \/
-(
-forall (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_l: (@list Z)) (colors_l: (@list Z)) (seen_l_2: (@list Z)) (good_l_2: (@list Z)) (ans_2: Z) (answer: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 200000)) (PreH4 : (1 <= k_pre)) (PreH5 : (k_pre <= 50)) (PreH6 : (0 <= p_pre)) (PreH7 : (p_pre <= 100)) (PreH8 : ((Zlength (colors_l)) = n_pre)) (PreH9 : ((Zlength (costs_l)) = n_pre)) (PreH10 : (0 <= i)) (PreH11 : (i <= n_pre)) (PreH12 : (0 <= answer)) (PreH13 : (answer <= 19999900000)) (PreH14 : (ChoosingInnsAnswer colors_l costs_l n_pre k_pre p_pre ans_2 )) (PreH15 : (ChoosingPrefixState colors_l costs_l i k_pre p_pre answer seen_l_2 good_l_2 )) (PreH16 : forall (idx_5: Z) , (((0 <= idx_5) /\ (idx_5 < n_pre)) -> ((0 <= (Znth idx_5 colors_l 0)) /\ ((Znth idx_5 colors_l 0) < k_pre)))) (PreH17 : forall (idx_6: Z) , (((0 <= idx_6) /\ (idx_6 < n_pre)) -> ((0 <= (Znth idx_6 costs_l 0)) /\ ((Znth idx_6 costs_l 0) <= 100)))) (PreH18 : forall (idx_7: Z) , (((0 <= idx_7) /\ (idx_7 < k_pre)) -> ((0 <= (Znth idx_7 seen_l_2 0)) /\ ((Znth idx_7 seen_l_2 0) <= i)))) (PreH19 : forall (idx_8: Z) , (((0 <= idx_8) /\ (idx_8 < k_pre)) -> ((0 <= (Znth idx_8 good_l_2 0)) /\ ((Znth idx_8 good_l_2 0) <= i)))) ,
-  TT && emp 
-|--
-  EX (ans: Z) ,
-  “ (0 <= n_pre) ” 
-  &&  “ (n_pre <= 200000) ” 
-  &&  “ (1 <= k_pre) ” 
-  &&  “ (k_pre <= 50) ” 
-  &&  “ (0 <= p_pre) ” 
-  &&  “ (p_pre <= 100) ” 
-  &&  “ ((Zlength (colors_l)) = n_pre) ” 
-  &&  “ ((Zlength (costs_l)) = n_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < n_pre) ” 
-  &&  “ (0 <= (Znth i colors_l 0)) ” 
-  &&  “ ((Znth i colors_l 0) < k_pre) ” 
-  &&  “ (0 <= (Znth i costs_l 0)) ” 
-  &&  “ ((Znth i costs_l 0) <= 100) ” 
-  &&  “ (0 <= answer) ” 
-  &&  “ (answer <= 19999900000) ” 
-  &&  “ (0 <= (Znth (Znth i colors_l 0) seen_l_2 0)) ” 
-  &&  “ ((Znth (Znth i colors_l 0) seen_l_2 0) <= i) ” 
-  &&  “ (0 <= (Znth (Znth i colors_l 0) good_l_2 0)) ” 
-  &&  “ ((Znth (Znth i colors_l 0) good_l_2 0) <= i) ” 
-  &&  “ ((answer + (Znth (Znth i colors_l 0) seen_l_2 0) ) <= 9223372036854775807) ” 
-  &&  “ ((answer + (Znth (Znth i colors_l 0) good_l_2 0) ) <= 9223372036854775807) ” 
-  &&  “ (((Znth (Znth i colors_l 0) seen_l_2 0) + 1 ) <= INT_MAX) ” 
-  &&  “ (ChoosingInnsAnswer colors_l costs_l n_pre k_pre p_pre ans ) ” 
-  &&  “ (ChoosingPrefixState colors_l costs_l i k_pre p_pre answer seen_l_2 good_l_2 ) ” 
-  &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((0 <= (Znth idx colors_l 0)) /\ ((Znth idx colors_l 0) < k_pre))) ” 
-  &&  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((0 <= (Znth idx_2 costs_l 0)) /\ ((Znth idx_2 costs_l 0) <= 100))) ” 
-  &&  “ forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l_2 0)) /\ ((Znth idx_3 seen_l_2 0) <= i))) ” 
-  &&  “ forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_l_2 0)) /\ ((Znth idx_4 good_l_2 0) <= i))) ”
-  &&  emp
-).
+.
 
 Definition countChoosingInns_entail_wit_4 := 
 (
@@ -1168,9 +1165,7 @@ forall (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_l: (@list Z)) (colors_l: (@list Z
 
 Definition countChoosingInns_entail_wit_8_split_goal_1 := 
 forall (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_l: (@list Z)) (colors_l: (@list Z)) (seen_l_2: (@list Z)) (good_l_2: (@list Z)) (ans: Z) (answer: Z) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 200000)) (PreH4 : (1 <= k_pre)) (PreH5 : (k_pre <= 50)) (PreH6 : (0 <= p_pre)) (PreH7 : (p_pre <= 100)) (PreH8 : ((Zlength (colors_l)) = n_pre)) (PreH9 : ((Zlength (costs_l)) = n_pre)) (PreH10 : (0 <= i)) (PreH11 : (i <= n_pre)) (PreH12 : (0 <= answer)) (PreH13 : (answer <= 19999900000)) (PreH14 : (ChoosingInnsAnswer colors_l costs_l n_pre k_pre p_pre ans )) (PreH15 : (ChoosingPrefixState colors_l costs_l i k_pre p_pre answer seen_l_2 good_l_2 )) (PreH16 : forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((0 <= (Znth idx colors_l 0)) /\ ((Znth idx colors_l 0) < k_pre)))) (PreH17 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((0 <= (Znth idx_2 costs_l 0)) /\ ((Znth idx_2 costs_l 0) <= 100)))) (PreH18 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l_2 0)) /\ ((Znth idx_3 seen_l_2 0) <= i)))) (PreH19 : forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_l_2 0)) /\ ((Znth idx_4 good_l_2 0) <= i)))) ,
-  TT && emp 
-|--
-  “ (ChoosingInnsAnswer colors_l costs_l n_pre k_pre p_pre answer ) ”
+  (ChoosingInnsAnswer colors_l costs_l n_pre k_pre p_pre answer )
 .
 
 Definition countChoosingInns_return_wit_1 := 
@@ -1193,13 +1188,13 @@ forall (good_pre: Z) (seen_pre: Z) (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_pre: 
 Definition countChoosingInns_partial_solve_wit_1_pure := 
 forall (good_pre: Z) (seen_pre: Z) (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_pre: Z) (colors_pre: Z) (costs_l: (@list Z)) (colors_l: (@list Z)) (ans: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= 200000)) (PreH3 : (1 <= k_pre)) (PreH4 : (k_pre <= 50)) (PreH5 : (0 <= p_pre)) (PreH6 : (p_pre <= 100)) (PreH7 : ((Zlength (colors_l)) = n_pre)) (PreH8 : ((Zlength (costs_l)) = n_pre)) (PreH9 : (ChoosingInnsAnswer colors_l costs_l n_pre k_pre p_pre ans )) (PreH10 : (0 <= ans)) (PreH11 : (ans <= 19999900000)) (PreH12 : forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> ((0 <= (Znth idx colors_l 0)) /\ ((Znth idx colors_l 0) < k_pre)))) (PreH13 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((0 <= (Znth idx_2 costs_l 0)) /\ ((Znth idx_2 costs_l 0) <= 100)))) ,
   ((( &( "answer" ) )) # Int64  |-> 0)
-  **  ((( &( "good" ) )) # Ptr  |-> good_pre)
-  **  ((( &( "seen" ) )) # Ptr  |-> seen_pre)
-  **  ((( &( "p" ) )) # Int  |-> p_pre)
-  **  ((( &( "k" ) )) # Int  |-> k_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "costs" ) )) # Ptr  |-> costs_pre)
   **  ((( &( "colors" ) )) # Ptr  |-> colors_pre)
+  **  ((( &( "costs" ) )) # Ptr  |-> costs_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "k" ) )) # Int  |-> k_pre)
+  **  ((( &( "p" ) )) # Int  |-> p_pre)
+  **  ((( &( "seen" ) )) # Ptr  |-> seen_pre)
+  **  ((( &( "good" ) )) # Ptr  |-> good_pre)
   **  (IntArray.full colors_pre n_pre colors_l )
   **  (IntArray.full costs_pre n_pre costs_l )
   **  (IntArray.undef_full seen_pre k_pre )
@@ -1265,7 +1260,7 @@ forall (good_pre: Z) (seen_pre: Z) (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_pre: 
   &&  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((0 <= (Znth idx_2 costs_l 0)) /\ ((Znth idx_2 costs_l 0) <= 100))) ” 
   &&  “ forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l 0)) /\ ((Znth idx_3 seen_l 0) <= i))) ” 
   &&  “ forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_l 0)) /\ ((Znth idx_4 good_l 0) <= i))) ”
-  &&  (((colors_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i colors_l 0))
+  &&  (((colors_pre + (i * sizeof(INT)))) # Int  |-> (Znth i colors_l 0))
   **  (IntArray.missing_i colors_pre i 0 n_pre colors_l )
   **  (IntArray.full costs_pre n_pre costs_l )
   **  (IntArray.full seen_pre k_pre seen_l )
@@ -1298,7 +1293,7 @@ forall (good_pre: Z) (seen_pre: Z) (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_pre: 
   &&  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((0 <= (Znth idx_2 costs_l 0)) /\ ((Znth idx_2 costs_l 0) <= 100))) ” 
   &&  “ forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l 0)) /\ ((Znth idx_3 seen_l 0) <= i))) ” 
   &&  “ forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_l 0)) /\ ((Znth idx_4 good_l 0) <= i))) ”
-  &&  (((costs_pre + (i * sizeof(INT) ) )) # Int  |-> (Znth i costs_l 0))
+  &&  (((costs_pre + (i * sizeof(INT)))) # Int  |-> (Znth i costs_l 0))
   **  (IntArray.missing_i costs_pre i 0 n_pre costs_l )
   **  (IntArray.full colors_pre n_pre colors_l )
   **  (IntArray.full seen_pre k_pre seen_l )
@@ -1344,7 +1339,7 @@ forall (good_pre: Z) (seen_pre: Z) (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_pre: 
   &&  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((0 <= (Znth idx_2 costs_l 0)) /\ ((Znth idx_2 costs_l 0) <= 100))) ” 
   &&  “ forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l 0)) /\ ((Znth idx_3 seen_l 0) <= i))) ” 
   &&  “ forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_l 0)) /\ ((Znth idx_4 good_l 0) <= i))) ”
-  &&  (((seen_pre + (c * sizeof(INT) ) )) # Int  |-> (Znth c seen_l 0))
+  &&  (((seen_pre + (c * sizeof(INT)))) # Int  |-> (Znth c seen_l 0))
   **  (IntArray.missing_i seen_pre c 0 k_pre seen_l )
   **  (IntArray.full colors_pre n_pre colors_l )
   **  (IntArray.full costs_pre n_pre costs_l )
@@ -1390,7 +1385,7 @@ forall (good_pre: Z) (seen_pre: Z) (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_pre: 
   &&  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((0 <= (Znth idx_2 costs_l 0)) /\ ((Znth idx_2 costs_l 0) <= 100))) ” 
   &&  “ forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l 0)) /\ ((Znth idx_3 seen_l 0) <= i))) ” 
   &&  “ forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_l 0)) /\ ((Znth idx_4 good_l 0) <= i))) ”
-  &&  (((seen_pre + (c * sizeof(INT) ) )) # Int  |-> (Znth c seen_l 0))
+  &&  (((seen_pre + (c * sizeof(INT)))) # Int  |-> (Znth c seen_l 0))
   **  (IntArray.missing_i seen_pre c 0 k_pre seen_l )
   **  (IntArray.full colors_pre n_pre colors_l )
   **  (IntArray.full costs_pre n_pre costs_l )
@@ -1436,7 +1431,7 @@ forall (good_pre: Z) (seen_pre: Z) (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_pre: 
   &&  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((0 <= (Znth idx_2 costs_l 0)) /\ ((Znth idx_2 costs_l 0) <= 100))) ” 
   &&  “ forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l 0)) /\ ((Znth idx_3 seen_l 0) <= i))) ” 
   &&  “ forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_l 0)) /\ ((Znth idx_4 good_l 0) <= i))) ”
-  &&  (((seen_pre + (c * sizeof(INT) ) )) # Int  |->_)
+  &&  (((seen_pre + (c * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i seen_pre c 0 k_pre seen_l )
   **  (IntArray.full colors_pre n_pre colors_l )
   **  (IntArray.full costs_pre n_pre costs_l )
@@ -1465,8 +1460,8 @@ forall (good_pre: Z) (seen_pre: Z) (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_pre: 
   “ (1 <= k_pre) ” 
   &&  “ (k_pre <= 50) ” 
   &&  “ ((Zlength (seen_next)) = k_pre) ” 
-  &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < k_pre)) -> ((0 <= (Znth idx seen_next 0)) /\ ((Znth idx seen_next 0) <= 200000))) ” 
   &&  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < k_pre)) -> ((0 <= (Znth idx_2 good_l 0)) /\ ((Znth idx_2 good_l 0) <= 200000))) ” 
+  &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < k_pre)) -> ((0 <= (Znth idx seen_next 0)) /\ ((Znth idx seen_next 0) <= 200000))) ” 
   &&  “ ((Zlength (good_l)) = k_pre) ”
 ) \/
 (
@@ -1487,7 +1482,9 @@ forall (good_pre: Z) (seen_pre: Z) (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_pre: 
   **  (IntArray.full seen_pre k_pre seen_next )
   **  (IntArray.full good_pre k_pre good_l )
 |--
-  “ ((Zlength (good_l)) = k_pre) ”
+  “ ((Zlength (good_l)) = k_pre) ” 
+  &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < k_pre)) -> ((0 <= (Znth idx seen_next 0)) /\ ((Znth idx seen_next 0) <= 200000))) ” 
+  &&  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < k_pre)) -> ((0 <= (Znth idx_2 good_l 0)) /\ ((Znth idx_2 good_l 0) <= 200000))) ”
 ).
 
 Definition countChoosingInns_partial_solve_wit_7_pure_split_goal_1 := 
@@ -1511,6 +1508,48 @@ forall (good_pre: Z) (seen_pre: Z) (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_pre: 
   “ ((Zlength (good_l)) = k_pre) ”
 .
 
+Definition countChoosingInns_partial_solve_wit_7_pure_split_goal_2 := 
+forall (good_pre: Z) (seen_pre: Z) (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_pre: Z) (colors_pre: Z) (costs_l: (@list Z)) (colors_l: (@list Z)) (seen_next: (@list Z)) (seen_l: (@list Z)) (good_l: (@list Z)) (ans: Z) (c: Z) (i: Z) (cost: Z) (answer: Z) (PreH1 : (cost <= INT_MAX)) (PreH2 : (i <= INT_MAX)) (PreH3 : (c <= INT_MAX)) (PreH4 : (p_pre <= INT_MAX)) (PreH5 : (k_pre <= INT_MAX)) (PreH6 : (n_pre <= INT_MAX)) (PreH7 : (cost >= INT_MIN)) (PreH8 : (i >= INT_MIN)) (PreH9 : (c >= INT_MIN)) (PreH10 : (p_pre >= INT_MIN)) (PreH11 : (k_pre >= INT_MIN)) (PreH12 : (n_pre >= INT_MIN)) (PreH13 : (c = (Znth i colors_l 0))) (PreH14 : (cost = (Znth i costs_l 0))) (PreH15 : (0 <= n_pre)) (PreH16 : (n_pre <= 200000)) (PreH17 : (1 <= k_pre)) (PreH18 : (k_pre <= 50)) (PreH19 : (0 <= p_pre)) (PreH20 : (p_pre <= 100)) (PreH21 : (0 <= cost)) (PreH22 : (cost <= p_pre)) (PreH23 : ((Zlength (colors_l)) = n_pre)) (PreH24 : ((Zlength (costs_l)) = n_pre)) (PreH25 : ((Zlength (seen_next)) = k_pre)) (PreH26 : (0 <= i)) (PreH27 : (i < n_pre)) (PreH28 : (0 <= c)) (PreH29 : (c < k_pre)) (PreH30 : (0 <= answer)) (PreH31 : (answer <= 19999900000)) (PreH32 : (seen_next = (replace_Znth (c) (((Znth c seen_l 0) + 1 )) (seen_l)))) (PreH33 : (ChoosingInnsAnswer colors_l costs_l n_pre k_pre p_pre ans )) (PreH34 : (ChoosingPrefixState colors_l costs_l i k_pre p_pre (answer - (Znth c seen_l 0) ) seen_l good_l )) (PreH35 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < n_pre)) -> ((0 <= (Znth idx_3 colors_l 0)) /\ ((Znth idx_3 colors_l 0) < k_pre)))) (PreH36 : forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < n_pre)) -> ((0 <= (Znth idx_4 costs_l 0)) /\ ((Znth idx_4 costs_l 0) <= 100)))) (PreH37 : forall (idx_5: Z) , (((0 <= idx_5) /\ (idx_5 < k_pre)) -> ((0 <= (Znth idx_5 seen_next 0)) /\ ((Znth idx_5 seen_next 0) <= (i + 1 ))))) (PreH38 : forall (idx_6: Z) , (((0 <= idx_6) /\ (idx_6 < k_pre)) -> ((0 <= (Znth idx_6 good_l 0)) /\ ((Znth idx_6 good_l 0) <= i)))) ,
+  ((( &( "colors" ) )) # Ptr  |-> colors_pre)
+  **  ((( &( "costs" ) )) # Ptr  |-> costs_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "k" ) )) # Int  |-> k_pre)
+  **  ((( &( "p" ) )) # Int  |-> p_pre)
+  **  ((( &( "seen" ) )) # Ptr  |-> seen_pre)
+  **  ((( &( "good" ) )) # Ptr  |-> good_pre)
+  **  ((( &( "c" ) )) # Int  |-> c)
+  **  ((( &( "i" ) )) # Int  |-> i)
+  **  ((( &( "cost" ) )) # Int  |-> cost)
+  **  ((( &( "answer" ) )) # Int64  |-> answer)
+  **  (IntArray.full colors_pre n_pre colors_l )
+  **  (IntArray.full costs_pre n_pre costs_l )
+  **  (IntArray.full seen_pre k_pre seen_next )
+  **  (IntArray.full good_pre k_pre good_l )
+|--
+  “ forall (idx: Z) , (((0 <= idx) /\ (idx < k_pre)) -> ((0 <= (Znth idx seen_next 0)) /\ ((Znth idx seen_next 0) <= 200000))) ”
+.
+
+Definition countChoosingInns_partial_solve_wit_7_pure_split_goal_3 := 
+forall (good_pre: Z) (seen_pre: Z) (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_pre: Z) (colors_pre: Z) (costs_l: (@list Z)) (colors_l: (@list Z)) (seen_next: (@list Z)) (seen_l: (@list Z)) (good_l: (@list Z)) (ans: Z) (c: Z) (i: Z) (cost: Z) (answer: Z) (PreH1 : (cost <= INT_MAX)) (PreH2 : (i <= INT_MAX)) (PreH3 : (c <= INT_MAX)) (PreH4 : (p_pre <= INT_MAX)) (PreH5 : (k_pre <= INT_MAX)) (PreH6 : (n_pre <= INT_MAX)) (PreH7 : (cost >= INT_MIN)) (PreH8 : (i >= INT_MIN)) (PreH9 : (c >= INT_MIN)) (PreH10 : (p_pre >= INT_MIN)) (PreH11 : (k_pre >= INT_MIN)) (PreH12 : (n_pre >= INT_MIN)) (PreH13 : (c = (Znth i colors_l 0))) (PreH14 : (cost = (Znth i costs_l 0))) (PreH15 : (0 <= n_pre)) (PreH16 : (n_pre <= 200000)) (PreH17 : (1 <= k_pre)) (PreH18 : (k_pre <= 50)) (PreH19 : (0 <= p_pre)) (PreH20 : (p_pre <= 100)) (PreH21 : (0 <= cost)) (PreH22 : (cost <= p_pre)) (PreH23 : ((Zlength (colors_l)) = n_pre)) (PreH24 : ((Zlength (costs_l)) = n_pre)) (PreH25 : ((Zlength (seen_next)) = k_pre)) (PreH26 : (0 <= i)) (PreH27 : (i < n_pre)) (PreH28 : (0 <= c)) (PreH29 : (c < k_pre)) (PreH30 : (0 <= answer)) (PreH31 : (answer <= 19999900000)) (PreH32 : (seen_next = (replace_Znth (c) (((Znth c seen_l 0) + 1 )) (seen_l)))) (PreH33 : (ChoosingInnsAnswer colors_l costs_l n_pre k_pre p_pre ans )) (PreH34 : (ChoosingPrefixState colors_l costs_l i k_pre p_pre (answer - (Znth c seen_l 0) ) seen_l good_l )) (PreH35 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < n_pre)) -> ((0 <= (Znth idx_3 colors_l 0)) /\ ((Znth idx_3 colors_l 0) < k_pre)))) (PreH36 : forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < n_pre)) -> ((0 <= (Znth idx_4 costs_l 0)) /\ ((Znth idx_4 costs_l 0) <= 100)))) (PreH37 : forall (idx_5: Z) , (((0 <= idx_5) /\ (idx_5 < k_pre)) -> ((0 <= (Znth idx_5 seen_next 0)) /\ ((Znth idx_5 seen_next 0) <= (i + 1 ))))) (PreH38 : forall (idx_6: Z) , (((0 <= idx_6) /\ (idx_6 < k_pre)) -> ((0 <= (Znth idx_6 good_l 0)) /\ ((Znth idx_6 good_l 0) <= i)))) ,
+  ((( &( "colors" ) )) # Ptr  |-> colors_pre)
+  **  ((( &( "costs" ) )) # Ptr  |-> costs_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "k" ) )) # Int  |-> k_pre)
+  **  ((( &( "p" ) )) # Int  |-> p_pre)
+  **  ((( &( "seen" ) )) # Ptr  |-> seen_pre)
+  **  ((( &( "good" ) )) # Ptr  |-> good_pre)
+  **  ((( &( "c" ) )) # Int  |-> c)
+  **  ((( &( "i" ) )) # Int  |-> i)
+  **  ((( &( "cost" ) )) # Int  |-> cost)
+  **  ((( &( "answer" ) )) # Int64  |-> answer)
+  **  (IntArray.full colors_pre n_pre colors_l )
+  **  (IntArray.full costs_pre n_pre costs_l )
+  **  (IntArray.full seen_pre k_pre seen_next )
+  **  (IntArray.full good_pre k_pre good_l )
+|--
+  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < k_pre)) -> ((0 <= (Znth idx_2 good_l 0)) /\ ((Znth idx_2 good_l 0) <= 200000))) ”
+.
+
 Definition countChoosingInns_partial_solve_wit_7_aux := 
 forall (good_pre: Z) (seen_pre: Z) (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_pre: Z) (colors_pre: Z) (costs_l: (@list Z)) (colors_l: (@list Z)) (seen_next: (@list Z)) (seen_l: (@list Z)) (good_l: (@list Z)) (ans: Z) (c: Z) (i: Z) (cost: Z) (answer: Z) (PreH1 : (c = (Znth i colors_l 0))) (PreH2 : (cost = (Znth i costs_l 0))) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= 200000)) (PreH5 : (1 <= k_pre)) (PreH6 : (k_pre <= 50)) (PreH7 : (0 <= p_pre)) (PreH8 : (p_pre <= 100)) (PreH9 : (0 <= cost)) (PreH10 : (cost <= p_pre)) (PreH11 : ((Zlength (colors_l)) = n_pre)) (PreH12 : ((Zlength (costs_l)) = n_pre)) (PreH13 : ((Zlength (seen_next)) = k_pre)) (PreH14 : (0 <= i)) (PreH15 : (i < n_pre)) (PreH16 : (0 <= c)) (PreH17 : (c < k_pre)) (PreH18 : (0 <= answer)) (PreH19 : (answer <= 19999900000)) (PreH20 : (seen_next = (replace_Znth (c) (((Znth c seen_l 0) + 1 )) (seen_l)))) (PreH21 : (ChoosingInnsAnswer colors_l costs_l n_pre k_pre p_pre ans )) (PreH22 : (ChoosingPrefixState colors_l costs_l i k_pre p_pre (answer - (Znth c seen_l 0) ) seen_l good_l )) (PreH23 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < n_pre)) -> ((0 <= (Znth idx_3 colors_l 0)) /\ ((Znth idx_3 colors_l 0) < k_pre)))) (PreH24 : forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < n_pre)) -> ((0 <= (Znth idx_4 costs_l 0)) /\ ((Znth idx_4 costs_l 0) <= 100)))) (PreH25 : forall (idx_5: Z) , (((0 <= idx_5) /\ (idx_5 < k_pre)) -> ((0 <= (Znth idx_5 seen_next 0)) /\ ((Znth idx_5 seen_next 0) <= (i + 1 ))))) (PreH26 : forall (idx_6: Z) , (((0 <= idx_6) /\ (idx_6 < k_pre)) -> ((0 <= (Znth idx_6 good_l 0)) /\ ((Znth idx_6 good_l 0) <= i)))) ,
   (IntArray.full colors_pre n_pre colors_l )
@@ -1521,8 +1560,8 @@ forall (good_pre: Z) (seen_pre: Z) (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_pre: 
   “ (1 <= k_pre) ” 
   &&  “ (k_pre <= 50) ” 
   &&  “ ((Zlength (seen_next)) = k_pre) ” 
-  &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < k_pre)) -> ((0 <= (Znth idx seen_next 0)) /\ ((Znth idx seen_next 0) <= 200000))) ” 
   &&  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < k_pre)) -> ((0 <= (Znth idx_2 good_l 0)) /\ ((Znth idx_2 good_l 0) <= 200000))) ” 
+  &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < k_pre)) -> ((0 <= (Znth idx seen_next 0)) /\ ((Znth idx seen_next 0) <= 200000))) ” 
   &&  “ ((Zlength (good_l)) = k_pre) ” 
   &&  “ (c = (Znth i colors_l 0)) ” 
   &&  “ (cost = (Znth i costs_l 0)) ” 
@@ -1597,7 +1636,7 @@ forall (good_pre: Z) (seen_pre: Z) (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_pre: 
   &&  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((0 <= (Znth idx_2 costs_l 0)) /\ ((Znth idx_2 costs_l 0) <= 100))) ” 
   &&  “ forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l 0)) /\ ((Znth idx_3 seen_l 0) <= i))) ” 
   &&  “ forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_l 0)) /\ ((Znth idx_4 good_l 0) <= i))) ”
-  &&  (((good_pre + (c * sizeof(INT) ) )) # Int  |-> (Znth c good_l 0))
+  &&  (((good_pre + (c * sizeof(INT)))) # Int  |-> (Znth c good_l 0))
   **  (IntArray.missing_i good_pre c 0 k_pre good_l )
   **  (IntArray.full colors_pre n_pre colors_l )
   **  (IntArray.full costs_pre n_pre costs_l )
@@ -1643,7 +1682,7 @@ forall (good_pre: Z) (seen_pre: Z) (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_pre: 
   &&  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((0 <= (Znth idx_2 costs_l 0)) /\ ((Znth idx_2 costs_l 0) <= 100))) ” 
   &&  “ forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l 0)) /\ ((Znth idx_3 seen_l 0) <= i))) ” 
   &&  “ forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_l 0)) /\ ((Znth idx_4 good_l 0) <= i))) ”
-  &&  (((seen_pre + (c * sizeof(INT) ) )) # Int  |-> (Znth c seen_l 0))
+  &&  (((seen_pre + (c * sizeof(INT)))) # Int  |-> (Znth c seen_l 0))
   **  (IntArray.missing_i seen_pre c 0 k_pre seen_l )
   **  (IntArray.full good_pre k_pre good_l )
   **  (IntArray.full colors_pre n_pre colors_l )
@@ -1689,7 +1728,7 @@ forall (good_pre: Z) (seen_pre: Z) (p_pre: Z) (k_pre: Z) (n_pre: Z) (costs_pre: 
   &&  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> ((0 <= (Znth idx_2 costs_l 0)) /\ ((Znth idx_2 costs_l 0) <= 100))) ” 
   &&  “ forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < k_pre)) -> ((0 <= (Znth idx_3 seen_l 0)) /\ ((Znth idx_3 seen_l 0) <= i))) ” 
   &&  “ forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < k_pre)) -> ((0 <= (Znth idx_4 good_l 0)) /\ ((Znth idx_4 good_l 0) <= i))) ”
-  &&  (((seen_pre + (c * sizeof(INT) ) )) # Int  |->_)
+  &&  (((seen_pre + (c * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i seen_pre c 0 k_pre seen_l )
   **  (IntArray.full good_pre k_pre good_l )
   **  (IntArray.full colors_pre n_pre colors_l )

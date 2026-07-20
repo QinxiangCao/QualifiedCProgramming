@@ -134,9 +134,6 @@ Proof. Admitted.
 Lemma proof_of_array_max_safety_wit_5 : array_max_safety_wit_5.
 Proof. Admitted. 
 
-Lemma proof_of_array_max_entail_wit_1 : array_max_entail_wit_1.
-Proof. Admitted. 
-
 Lemma proof_of_array_max_partial_solve_wit_1 : array_max_partial_solve_wit_1.
 Proof. Admitted. 
 

@@ -133,7 +133,7 @@ Proof.
     reflexivity.
 Qed.
 
-Lemma proof_of_dequeue_entail_wit_4_2 : dequeue_entail_wit_4_2.
+Lemma proof_of_dequeue_entail_wit_4_1 : dequeue_entail_wit_4_1.
 Proof.
   pre_process.
   Exists 0 ql1_2.

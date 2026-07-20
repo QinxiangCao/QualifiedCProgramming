@@ -23,8 +23,8 @@ Local Open Scope sac.
 Definition arr_sum_safety_wit_1 := 
 forall (a_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (0 < n_pre)) (PreH2 : (n_pre < 100)) (PreH3 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100)))) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  (IntArray.full a_pre n_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -35,8 +35,8 @@ Definition arr_sum_safety_wit_2 :=
 forall (a_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (0 < n_pre)) (PreH2 : (n_pre < 100)) (PreH3 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100)))) ,
   ((( &( "ret" ) )) # Int  |->_)
   **  ((( &( "i" ) )) # Int  |-> 0)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  (IntArray.full a_pre n_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -194,8 +194,8 @@ forall (a_pre: Z) (n_pre: Z) (l: (@list Z)) (ret: Z) (i_2: Z) (PreH1 : (i_2 < n_
 Definition arr_sum_do_while_safety_wit_1 := 
 forall (a_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (0 < n_pre)) (PreH2 : (n_pre < 100)) (PreH3 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100)))) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  (IntArray.full a_pre n_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -206,8 +206,8 @@ Definition arr_sum_do_while_safety_wit_2 :=
 forall (a_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (0 < n_pre)) (PreH2 : (n_pre < 100)) (PreH3 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100)))) ,
   ((( &( "ret" ) )) # Int  |->_)
   **  ((( &( "i" ) )) # Int  |-> 0)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  (IntArray.full a_pre n_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -219,8 +219,8 @@ forall (a_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (0 < n_pre)) (PreH2 : (n_pr
   (IntArray.full a_pre n_pre l )
   **  ((( &( "ret" ) )) # Int  |-> 0)
   **  ((( &( "i" ) )) # Int  |-> 0)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
 |--
   “ ((0 + (Znth 0 l 0) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (0 + (Znth 0 l 0) )) ”
@@ -231,8 +231,8 @@ forall (a_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (0 < n_pre)) (PreH2 : (n_pr
   (IntArray.full a_pre n_pre l )
   **  ((( &( "ret" ) )) # Int  |-> (0 + (Znth 0 l 0) ))
   **  ((( &( "i" ) )) # Int  |-> 0)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
 |--
   “ ((0 + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (0 + 1 )) ”
@@ -401,8 +401,8 @@ Definition arr_sum_for_safety_wit_1 :=
 forall (a_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (0 < n_pre)) (PreH2 : (n_pre < 100)) (PreH3 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100)))) ,
   ((( &( "ret" ) )) # Int  |->_)
   **  ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  (IntArray.full a_pre n_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -413,8 +413,8 @@ Definition arr_sum_for_safety_wit_2 :=
 forall (a_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (0 < n_pre)) (PreH2 : (n_pre < 100)) (PreH3 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100)))) ,
   ((( &( "ret" ) )) # Int  |-> 0)
   **  ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  (IntArray.full a_pre n_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -573,8 +573,8 @@ Definition arr_sum_which_implies_safety_wit_1 :=
 forall (a_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (0 < n_pre)) (PreH2 : (n_pre < 100)) (PreH3 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100)))) ,
   ((( &( "ret" ) )) # Int  |->_)
   **  ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  (IntArray.full a_pre n_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -585,8 +585,8 @@ Definition arr_sum_which_implies_safety_wit_2 :=
 forall (a_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (0 < n_pre)) (PreH2 : (n_pre < 100)) (PreH3 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100)))) ,
   ((( &( "ret" ) )) # Int  |-> 0)
   **  ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  (IntArray.full a_pre n_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -728,8 +728,8 @@ Definition arr_sum_which_implies_partial_solve_wit_1_pure :=
 forall (a_pre: Z) (n_pre: Z) (l: (@list Z)) (ret: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (0 <= i)) (PreH3 : (i <= n_pre)) (PreH4 : (ret = (sum ((sublist (0) (i) (l)))))) (PreH5 : (0 < n_pre)) (PreH6 : (n_pre < 100)) (PreH7 : forall (i_2: Z) , (((0 <= i_2) /\ (i_2 < n_pre)) -> ((0 <= (Znth i_2 l 0)) /\ ((Znth i_2 l 0) < 100)))) ,
   ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "ret" ) )) # Int  |-> ret)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  (IntArray.full a_pre n_pre l )
 |--
   “ (0 <= i) ” 
@@ -840,8 +840,8 @@ Definition arr_sum_update_safety_wit_1 :=
 forall (a_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (0 < n_pre)) (PreH2 : (n_pre < 100)) (PreH3 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100)))) ,
   ((( &( "ret" ) )) # Int  |->_)
   **  ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  (IntArray.full a_pre n_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -852,8 +852,8 @@ Definition arr_sum_update_safety_wit_2 :=
 forall (a_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (0 < n_pre)) (PreH2 : (n_pre < 100)) (PreH3 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100)))) ,
   ((( &( "ret" ) )) # Int  |-> 0)
   **  ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  (IntArray.full a_pre n_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -1120,8 +1120,8 @@ forall (n_pre: Z) (l: (@list Z)) (i: Z) (PreH1 : (0 <= i)) (PreH2 : (i < n_pre))
 Definition arr_sum_pointer_safety_wit_1 := 
 forall (a_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (0 < n_pre)) (PreH2 : (n_pre < 100)) (PreH3 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100)))) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  (IntArray.full a_pre n_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -1132,8 +1132,8 @@ Definition arr_sum_pointer_safety_wit_2 :=
 forall (a_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (0 < n_pre)) (PreH2 : (n_pre < 100)) (PreH3 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100)))) ,
   ((( &( "ret" ) )) # Int  |->_)
   **  ((( &( "i" ) )) # Int  |-> 0)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  (IntArray.full a_pre n_pre l )
 |--
   “ (0 <= INT_MAX) ” 

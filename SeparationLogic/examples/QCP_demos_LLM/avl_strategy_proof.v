@@ -68,7 +68,7 @@ Proof.
     Exists tr1.
     Exists tr2.
     normalize.
-    rewrite <- elim_wand_emp_emp.
+    wand_elim.
     elim_emp.
     split_pures.
     split_pure_spatial.
@@ -164,7 +164,7 @@ Proof.
   Intros tr.
   Exists tr.
   normalize.
-  rewrite <- elim_wand_emp_emp.
+  wand_elim.
   elim_emp.
   cancel.
 Qed.

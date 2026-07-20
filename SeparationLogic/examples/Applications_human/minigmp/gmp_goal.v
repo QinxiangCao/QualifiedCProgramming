@@ -19,8 +19,8 @@ Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.minigmp.GmpAux SimpleC.EE.Applications_human.minigmp.GmpNumber.
 Import Aux.
 Local Open Scope sac.
-Require Import gmp_strategy_goal.
-Require Import gmp_strategy_proof.
+From SimpleC.EE.Applications_human.minigmp Require Import gmp_strategy_goal.
+From SimpleC.EE.Applications_human.minigmp Require Import gmp_strategy_proof.
 
 (*----- Function gmp_abs -----*)
 
@@ -129,8 +129,8 @@ forall (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre <= b_pre)) ,
 
 Definition gmp_cmp_safety_wit_1 := 
 forall (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre >= b_pre)) (PreH2 : (a_pre > b_pre)) ,
-  ((( &( "b" ) )) # Int  |-> b_pre)
-  **  ((( &( "a" ) )) # Int  |-> a_pre)
+  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "b" ) )) # Int  |-> b_pre)
 |--
   “ ((1 - 0 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (1 - 0 )) ”
@@ -138,8 +138,8 @@ forall (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre >= b_pre)) (PreH2 : (a_pre > b_pre)
 
 Definition gmp_cmp_safety_wit_2 := 
 forall (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre < b_pre)) (PreH2 : (a_pre <= b_pre)) ,
-  ((( &( "b" ) )) # Int  |-> b_pre)
-  **  ((( &( "a" ) )) # Int  |-> a_pre)
+  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "b" ) )) # Int  |-> b_pre)
 |--
   “ ((0 - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (0 - 1 )) ”
@@ -147,8 +147,8 @@ forall (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre < b_pre)) (PreH2 : (a_pre <= b_pre)
 
 Definition gmp_cmp_safety_wit_3 := 
 forall (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre >= b_pre)) (PreH2 : (a_pre <= b_pre)) ,
-  ((( &( "b" ) )) # Int  |-> b_pre)
-  **  ((( &( "a" ) )) # Int  |-> a_pre)
+  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "b" ) )) # Int  |-> b_pre)
 |--
   “ ((0 - 0 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (0 - 0 )) ”
@@ -156,8 +156,8 @@ forall (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre >= b_pre)) (PreH2 : (a_pre <= b_pre
 
 Definition gmp_cmp_safety_wit_4 := 
 forall (b_pre: Z) (a_pre: Z) (PreH1 : (a_pre < b_pre)) (PreH2 : (a_pre > b_pre)) ,
-  ((( &( "b" ) )) # Int  |-> b_pre)
-  **  ((( &( "a" ) )) # Int  |-> a_pre)
+  ((( &( "a" ) )) # Int  |-> a_pre)
+  **  ((( &( "b" ) )) # Int  |-> b_pre)
 |--
   “ False ”
 .
@@ -787,10 +787,10 @@ forall (val2: Z) (val1: Z) (n: Z) (ap: Z) (bp: Z) ,
 
 Definition mpn_cmp4_safety_wit_1 := 
 forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (PreH1 : (an_pre < bn_pre)) (PreH2 : (an_pre <> bn_pre)) (PreH3 : (an_pre >= 0)) (PreH4 : (bn_pre >= 0)) ,
-  ((( &( "bn" ) )) # Int  |-> bn_pre)
-  **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
+  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
   **  ((( &( "an" ) )) # Int  |-> an_pre)
-  **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
+  **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
+  **  ((( &( "bn" ) )) # Int  |-> bn_pre)
   **  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
   **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
 |--
@@ -799,10 +799,10 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (PreH
 
 Definition mpn_cmp4_safety_wit_2 := 
 forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (PreH1 : (an_pre < bn_pre)) (PreH2 : (an_pre <> bn_pre)) (PreH3 : (an_pre >= 0)) (PreH4 : (bn_pre >= 0)) ,
-  ((( &( "bn" ) )) # Int  |-> bn_pre)
-  **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
+  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
   **  ((( &( "an" ) )) # Int  |-> an_pre)
-  **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
+  **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
+  **  ((( &( "bn" ) )) # Int  |-> bn_pre)
   **  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
   **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
 |--
@@ -812,10 +812,10 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (PreH
 
 Definition mpn_cmp4_safety_wit_3 := 
 forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (PreH1 : (an_pre >= bn_pre)) (PreH2 : (an_pre <> bn_pre)) (PreH3 : (an_pre >= 0)) (PreH4 : (bn_pre >= 0)) ,
-  ((( &( "bn" ) )) # Int  |-> bn_pre)
-  **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
+  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
   **  ((( &( "an" ) )) # Int  |-> an_pre)
-  **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
+  **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
+  **  ((( &( "bn" ) )) # Int  |-> bn_pre)
   **  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
   **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
 |--
@@ -988,10 +988,10 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (PreH
 
 Definition mpn_cmp4_partial_solve_wit_1_pure := 
 forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (val2: Z) (val1: Z) (PreH1 : (an_pre = bn_pre)) (PreH2 : (an_pre >= 0)) (PreH3 : (bn_pre >= 0)) ,
-  ((( &( "bn" ) )) # Int  |-> bn_pre)
-  **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
+  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
   **  ((( &( "an" ) )) # Int  |-> an_pre)
-  **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
+  **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
+  **  ((( &( "bn" ) )) # Int  |-> bn_pre)
   **  (mpd_store_Z_compact UINT_MOD ap_pre val1 an_pre )
   **  (mpd_store_Z_compact UINT_MOD bp_pre val2 bn_pre )
 |--
@@ -1272,8 +1272,8 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (Pr
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
   **  (UIntArray.full ap_pre n_pre l )
-  **  ((( &( "b" ) )) # UInt  |-> b_pre)
   **  ((( &( "rp" ) )) # Ptr  |-> rp_pre)
+  **  ((( &( "b" ) )) # UInt  |-> b_pre)
   **  (UIntArray.undef_full rp_pre n_pre )
 |--
   “ (0 <= INT_MAX) ” 
@@ -1289,8 +1289,8 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (Pr
   **  ((( &( "i" ) )) # Int  |-> 0)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
-  **  ((( &( "b" ) )) # UInt  |-> 0)
   **  ((( &( "rp" ) )) # Ptr  |-> rp_pre)
+  **  ((( &( "b" ) )) # UInt  |-> 0)
 |--
   “ ((0 + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (0 + 1 )) ”
@@ -1305,8 +1305,8 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (Pr
   **  ((( &( "i" ) )) # Int  |-> 0)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
-  **  ((( &( "b" ) )) # UInt  |-> 1)
   **  ((( &( "rp" ) )) # Ptr  |-> rp_pre)
+  **  ((( &( "b" ) )) # UInt  |-> 1)
 |--
   “ ((0 + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (0 + 1 )) ”
@@ -2504,11 +2504,11 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
 Definition mpn_add_partial_solve_wit_1_pure := 
 forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (PreH1 : (an_pre >= bn_pre)) (PreH2 : (an_pre >= 0)) (PreH3 : (bn_pre >= 0)) ,
   ((( &( "cy" ) )) # UInt  |->_)
-  **  ((( &( "bn" ) )) # Int  |-> bn_pre)
-  **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
-  **  ((( &( "an" ) )) # Int  |-> an_pre)
-  **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
   **  ((( &( "rp" ) )) # Ptr  |-> rp_pre)
+  **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
+  **  ((( &( "an" ) )) # Int  |-> an_pre)
+  **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
+  **  ((( &( "bn" ) )) # Int  |-> bn_pre)
   **  (mpd_store_Z UINT_MOD ap_pre val_a an_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
   **  (UIntArray.undef_full rp_pre an_pre )
@@ -2543,8 +2543,8 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   **  ((( &( "an" ) )) # Int  |-> an_pre)
   **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_high (an_pre - bn_pre ) )
   **  ((( &( "cy" ) )) # UInt  |->_)
-  **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
   **  ((( &( "rp" ) )) # Ptr  |-> rp_pre)
+  **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
   **  (UIntArray.undef_full rp_pre an_pre )
 |--
@@ -2768,8 +2768,8 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) (PreH1 : (0 <= v_pre)) (Pre
   **  ((( &( "__x2" ) )) # UInt  |->_)
   **  ((( &( "__x1" ) )) # UInt  |->_)
   **  ((( &( "__x0" ) )) # UInt  |->_)
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |->_)
 |--
@@ -2791,8 +2791,8 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) (PreH1 : (0 <= v_pre)) (Pre
   **  ((( &( "__x2" ) )) # UInt  |->_)
   **  ((( &( "__x1" ) )) # UInt  |->_)
   **  ((( &( "__x0" ) )) # UInt  |->_)
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |->_)
 |--
@@ -2814,8 +2814,8 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) (PreH1 : (0 <= v_pre)) (Pre
   **  ((( &( "__x2" ) )) # UInt  |->_)
   **  ((( &( "__x1" ) )) # UInt  |->_)
   **  ((( &( "__x0" ) )) # UInt  |->_)
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |->_)
 |--
@@ -2837,8 +2837,8 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) (PreH1 : (0 <= v_pre)) (Pre
   **  ((( &( "__x2" ) )) # UInt  |->_)
   **  ((( &( "__x1" ) )) # UInt  |->_)
   **  ((( &( "__x0" ) )) # UInt  |->_)
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |->_)
 |--
@@ -2860,8 +2860,8 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) (PreH1 : (0 <= v_pre)) (Pre
   **  ((( &( "__x2" ) )) # UInt  |->_)
   **  ((( &( "__x1" ) )) # UInt  |->_)
   **  ((( &( "__x0" ) )) # UInt  |->_)
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |->_)
 |--
@@ -2883,8 +2883,8 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) (PreH1 : (0 <= v_pre)) (Pre
   **  ((( &( "__x2" ) )) # UInt  |->_)
   **  ((( &( "__x1" ) )) # UInt  |->_)
   **  ((( &( "__x0" ) )) # UInt  |->_)
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |->_)
 |--
@@ -2906,8 +2906,8 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) (PreH1 : (0 <= v_pre)) (Pre
   **  ((( &( "__x2" ) )) # UInt  |-> (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)))
   **  ((( &( "__x1" ) )) # UInt  |-> (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)))
   **  ((( &( "__x0" ) )) # UInt  |-> (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)))
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |->_)
 |--
@@ -2929,8 +2929,8 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) (PreH1 : (0 <= v_pre)) (Pre
   **  ((( &( "__x2" ) )) # UInt  |-> (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)))
   **  ((( &( "__x1" ) )) # UInt  |-> (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)))
   **  ((( &( "__x0" ) )) # UInt  |-> (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)))
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |->_)
 |--
@@ -2952,8 +2952,8 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) (PreH1 : ((unsigned_last_nb
   **  ((( &( "__x2" ) )) # UInt  |-> (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)))
   **  ((( &( "__x1" ) )) # UInt  |-> (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)))
   **  ((( &( "__x0" ) )) # UInt  |-> (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)))
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |->_)
 |--
@@ -2975,8 +2975,8 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) (PreH1 : ((unsigned_last_nb
   **  ((( &( "__x2" ) )) # UInt  |-> (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)))
   **  ((( &( "__x1" ) )) # UInt  |-> (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)))
   **  ((( &( "__x0" ) )) # UInt  |-> (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)))
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |->_)
 |--
@@ -2998,8 +2998,8 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) (PreH1 : ((unsigned_last_nb
   **  ((( &( "__x2" ) )) # UInt  |-> (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)))
   **  ((( &( "__x1" ) )) # UInt  |-> (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)))
   **  ((( &( "__x0" ) )) # UInt  |-> (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)))
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |->_)
 |--
@@ -3021,8 +3021,8 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) (PreH1 : ((unsigned_last_nb
   **  ((( &( "__x2" ) )) # UInt  |-> (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)))
   **  ((( &( "__x1" ) )) # UInt  |-> (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)))
   **  ((( &( "__x0" ) )) # UInt  |-> (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)))
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |->_)
 |--
@@ -3044,8 +3044,8 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) (PreH1 : ((unsigned_last_nb
   **  ((( &( "__x2" ) )) # UInt  |-> (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)))
   **  ((( &( "__x1" ) )) # UInt  |-> (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)))
   **  ((( &( "__x0" ) )) # UInt  |-> (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)))
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |->_)
 |--
@@ -3067,8 +3067,8 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) (PreH1 : ((unsigned_last_nb
   **  ((( &( "__x2" ) )) # UInt  |-> (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)))
   **  ((( &( "__x1" ) )) # UInt  |-> (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)))
   **  ((( &( "__x0" ) )) # UInt  |-> (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)))
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |-> (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.shiftr v_pre 16) )) (32)) + 65536 )) (32)) + (Z.shiftr (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)) 16) )) (32)))
 |--
@@ -3090,8 +3090,8 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) (PreH1 : ((unsigned_last_nb
   **  ((( &( "__x2" ) )) # UInt  |-> (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)))
   **  ((( &( "__x1" ) )) # UInt  |-> (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)))
   **  ((( &( "__x0" ) )) # UInt  |-> (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)))
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |-> (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.shiftr v_pre 16) )) (32)) + 65536 )) (32)) + (Z.shiftr (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)) 16) )) (32)))
 |--
@@ -3113,8 +3113,8 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) (PreH1 : ((unsigned_last_nb
   **  ((( &( "__x2" ) )) # UInt  |-> (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)))
   **  ((( &( "__x1" ) )) # UInt  |-> (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)))
   **  ((( &( "__x0" ) )) # UInt  |-> (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)))
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |-> (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.shiftr v_pre 16) )) (32)) + 65536 )) (32)) + (Z.shiftr (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)) 16) )) (32)))
 |--
@@ -3136,8 +3136,8 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) (PreH1 : ((unsigned_last_nb
   **  ((( &( "__x2" ) )) # UInt  |-> (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)))
   **  ((( &( "__x1" ) )) # UInt  |-> (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)))
   **  ((( &( "__x0" ) )) # UInt  |-> (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)))
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |-> (unsigned_last_nbits (((unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)) 16) )) (32)))
 |--
@@ -3159,8 +3159,8 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) (PreH1 : ((unsigned_last_nb
   **  ((( &( "__x2" ) )) # UInt  |-> (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)))
   **  ((( &( "__x1" ) )) # UInt  |-> (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)))
   **  ((( &( "__x0" ) )) # UInt  |-> (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)))
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |-> (unsigned_last_nbits (((unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)) 16) )) (32)))
 |--
@@ -3182,8 +3182,8 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) (PreH1 : ((unsigned_last_nb
   **  ((( &( "__x2" ) )) # UInt  |-> (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)))
   **  ((( &( "__x1" ) )) # UInt  |-> (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)))
   **  ((( &( "__x0" ) )) # UInt  |-> (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)))
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |-> (unsigned_last_nbits (((unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((unsigned_last_nbits (((unsigned_last_nbits (((Z.land u_pre 65535) * (Z.shiftr v_pre 16) )) (32)) + (Z.shiftr (unsigned_last_nbits (((Z.land u_pre 65535) * (Z.land v_pre 65535) )) (32)) 16) )) (32)) + (unsigned_last_nbits (((Z.shiftr u_pre 16) * (Z.land v_pre 65535) )) (32)) )) (32)) 16) )) (32)))
 |--
@@ -3203,10 +3203,10 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) ,
   **  ((( &( "__x2" ) )) # UInt  |->_)
   **  ((( &( "__x1" ) )) # UInt  |->_)
   **  ((( &( "__x0" ) )) # UInt  |->_)
-  **  ((( &( "v" ) )) # UInt  |-> v_pre)
-  **  ((( &( "u" ) )) # UInt  |-> u_pre)
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
+  **  ((( &( "u" ) )) # UInt  |-> u_pre)
+  **  ((( &( "v" ) )) # UInt  |-> v_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |->_)
 |--
@@ -3227,9 +3227,9 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) ,
   **  ((( &( "__x2" ) )) # UInt  |->_)
   **  ((( &( "__x1" ) )) # UInt  |->_)
   **  ((( &( "__x0" ) )) # UInt  |->_)
-  **  ((( &( "v" ) )) # UInt  |-> v_pre)
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
+  **  ((( &( "v" ) )) # UInt  |-> v_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |->_)
 .
@@ -3247,9 +3247,9 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) (PreH1 : (0 <= u_pre)) (Pre
   **  ((( &( "__x2" ) )) # UInt  |->_)
   **  ((( &( "__x1" ) )) # UInt  |->_)
   **  ((( &( "__x0" ) )) # UInt  |->_)
-  **  ((( &( "v" ) )) # UInt  |-> v_pre)
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
+  **  ((( &( "v" ) )) # UInt  |-> v_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |->_)
 |--
@@ -3273,8 +3273,8 @@ forall (v_pre: Z) (u_pre: Z) (w1_pre: Z) (w0_pre: Z) (PreH1 : (0 <= u_pre)) (Pre
   **  ((( &( "__x2" ) )) # UInt  |->_)
   **  ((( &( "__x1" ) )) # UInt  |->_)
   **  ((( &( "__x0" ) )) # UInt  |->_)
-  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((( &( "w0" ) )) # Ptr  |-> w0_pre)
+  **  ((( &( "w1" ) )) # Ptr  |-> w1_pre)
   **  ((w0_pre) # UInt  |->_)
   **  ((w1_pre) # UInt  |->_)
 .
@@ -3336,10 +3336,10 @@ forall (vl_pre: Z) (n_pre: Z) (up_pre: Z) (rp_pre: Z) (l: (@list Z)) (PreH1 : (n
   **  ((( &( "hpl" ) )) # UInt  |->_)
   **  ((( &( "cl" ) )) # UInt  |->_)
   **  ((( &( "ul" ) )) # UInt  |->_)
-  **  ((( &( "vl" ) )) # UInt  |-> vl_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "up" ) )) # Ptr  |-> up_pre)
   **  ((( &( "rp" ) )) # Ptr  |-> rp_pre)
+  **  ((( &( "up" ) )) # Ptr  |-> up_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "vl" ) )) # UInt  |-> vl_pre)
   **  (UIntArray.full up_pre n_pre l )
   **  (UIntArray.undef_full rp_pre n_pre )
 |--
@@ -3354,10 +3354,10 @@ forall (vl_pre: Z) (n_pre: Z) (up_pre: Z) (rp_pre: Z) (l: (@list Z)) (PreH1 : (n
   **  ((( &( "hpl" ) )) # UInt  |->_)
   **  ((( &( "cl" ) )) # UInt  |->_)
   **  ((( &( "ul" ) )) # UInt  |->_)
-  **  ((( &( "vl" ) )) # UInt  |-> vl_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "up" ) )) # Ptr  |-> up_pre)
   **  ((( &( "rp" ) )) # Ptr  |-> rp_pre)
+  **  ((( &( "up" ) )) # Ptr  |-> up_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "vl" ) )) # UInt  |-> vl_pre)
   **  (UIntArray.full up_pre n_pre l )
   **  (UIntArray.undef_full rp_pre n_pre )
 |--
@@ -3500,10 +3500,10 @@ forall (vl_pre: Z) (n_pre: Z) (up_pre: Z) (rp_pre: Z) (l: (@list Z)) (l_rp: (@li
   **  (UIntArray.seg rp_pre 0 i l_rp )
   **  (UIntArray.undef_seg rp_pre i n_pre )
   **  ((( &( "ul" ) )) # UInt  |-> (Znth i l 0))
-  **  ((( &( "vl" ) )) # UInt  |-> vl_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "up" ) )) # Ptr  |-> up_pre)
   **  ((( &( "rp" ) )) # Ptr  |-> rp_pre)
+  **  ((( &( "up" ) )) # Ptr  |-> up_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "vl" ) )) # UInt  |-> vl_pre)
 |--
   “ (0 <= w0_value) ” 
   &&  “ (w0_value <= UINT_MAX) ” 
@@ -3539,10 +3539,10 @@ forall (vl_pre: Z) (n_pre: Z) (up_pre: Z) (rp_pre: Z) (l: (@list Z)) (l_rp: (@li
   **  (UIntArray.seg rp_pre 0 i l_rp )
   **  (UIntArray.undef_seg rp_pre i n_pre )
   **  ((( &( "ul" ) )) # UInt  |-> (Znth i l 0))
-  **  ((( &( "vl" ) )) # UInt  |-> vl_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "up" ) )) # Ptr  |-> up_pre)
   **  ((( &( "rp" ) )) # Ptr  |-> rp_pre)
+  **  ((( &( "up" ) )) # Ptr  |-> up_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "vl" ) )) # UInt  |-> vl_pre)
 .
 
 Definition mpn_mul_1_entail_wit_3 := 
@@ -3555,10 +3555,10 @@ forall (vl_pre: Z) (n_pre: Z) (up_pre: Z) (rp_pre: Z) (l: (@list Z)) (l_rp: (@li
   **  (UIntArray.seg rp_pre 0 i l_rp )
   **  (UIntArray.undef_seg rp_pre i n_pre )
   **  ((( &( "ul" ) )) # UInt  |-> (Znth i l 0))
-  **  ((( &( "vl" ) )) # UInt  |-> vl_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "up" ) )) # Ptr  |-> up_pre)
   **  ((( &( "rp" ) )) # Ptr  |-> rp_pre)
+  **  ((( &( "up" ) )) # Ptr  |-> up_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "vl" ) )) # UInt  |-> vl_pre)
 |--
   “ (0 <= w1_value) ” 
   &&  “ (w1_value <= UINT_MAX) ” 
@@ -3597,10 +3597,10 @@ forall (vl_pre: Z) (n_pre: Z) (up_pre: Z) (rp_pre: Z) (l: (@list Z)) (l_rp: (@li
   **  (UIntArray.seg rp_pre 0 i l_rp )
   **  (UIntArray.undef_seg rp_pre i n_pre )
   **  ((( &( "ul" ) )) # UInt  |-> (Znth i l 0))
-  **  ((( &( "vl" ) )) # UInt  |-> vl_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "up" ) )) # Ptr  |-> up_pre)
   **  ((( &( "rp" ) )) # Ptr  |-> rp_pre)
+  **  ((( &( "up" ) )) # Ptr  |-> up_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "vl" ) )) # UInt  |-> vl_pre)
 .
 
 Definition mpn_mul_1_entail_wit_4 := 
@@ -3608,6 +3608,7 @@ forall (vl_pre: Z) (n_pre: Z) (up_pre: Z) (rp_pre: Z) (l: (@list Z)) (l_rp_2: (@
   (UIntArray.full up_pre n_pre l )
   **  (UIntArray.seg rp_pre 0 i l_rp_2 )
   **  (UIntArray.undef_seg rp_pre i n_pre )
+  **  ((( &( "ul" ) )) # UInt  |-> (Znth i l 0))
 |--
   EX (l_rp: (@list Z)) ,
   “ (0 <= i) ” 
@@ -3628,7 +3629,8 @@ forall (vl_pre: Z) (n_pre: Z) (up_pre: Z) (rp_pre: Z) (l: (@list Z)) (l_rp_2: (@
   &&  “ (vl_pre <= UINT_MAX) ” 
   &&  “ ((Zlength (l)) = n_pre) ” 
   &&  “ (list_within_bound UINT_MOD l ) ”
-  &&  (UIntArray.full up_pre n_pre l )
+  &&  ((( &( "ul" ) )) # UInt  |-> (Znth i l 0))
+  **  (UIntArray.full up_pre n_pre l )
   **  (UIntArray.seg rp_pre 0 i l_rp )
   **  (UIntArray.undef_seg rp_pre i n_pre )
 .
@@ -3882,8 +3884,8 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (Pr
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
   **  (UIntArray.full ap_pre n_pre l )
-  **  ((( &( "b" ) )) # UInt  |-> b_pre)
   **  ((( &( "rp" ) )) # Ptr  |-> rp_pre)
+  **  ((( &( "b" ) )) # UInt  |-> b_pre)
   **  (UIntArray.undef_full rp_pre n_pre )
 |--
   “ (0 <= INT_MAX) ” 
@@ -3900,8 +3902,8 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (Pr
   **  ((( &( "i" ) )) # Int  |-> 0)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
-  **  ((( &( "b" ) )) # UInt  |-> 0)
   **  ((( &( "rp" ) )) # Ptr  |-> rp_pre)
+  **  ((( &( "b" ) )) # UInt  |-> 0)
 |--
   “ ((0 + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (0 + 1 )) ”
@@ -3917,8 +3919,8 @@ forall (b_pre: Z) (n_pre: Z) (ap_pre: Z) (rp_pre: Z) (val: Z) (l: (@list Z)) (Pr
   **  ((( &( "i" ) )) # Int  |-> 0)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
-  **  ((( &( "b" ) )) # UInt  |-> 1)
   **  ((( &( "rp" ) )) # Ptr  |-> rp_pre)
+  **  ((( &( "b" ) )) # UInt  |-> 1)
 |--
   “ ((0 + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (0 + 1 )) ”
@@ -5074,11 +5076,11 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
 Definition mpn_sub_partial_solve_wit_1_pure := 
 forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (val_a: Z) (PreH1 : (an_pre >= bn_pre)) (PreH2 : (an_pre > 0)) (PreH3 : (bn_pre >= 0)) ,
   ((( &( "cy" ) )) # UInt  |->_)
-  **  ((( &( "bn" ) )) # Int  |-> bn_pre)
-  **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
-  **  ((( &( "an" ) )) # Int  |-> an_pre)
-  **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
   **  ((( &( "rp" ) )) # Ptr  |-> rp_pre)
+  **  ((( &( "ap" ) )) # Ptr  |-> ap_pre)
+  **  ((( &( "an" ) )) # Int  |-> an_pre)
+  **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
+  **  ((( &( "bn" ) )) # Int  |-> bn_pre)
   **  (mpd_store_Z UINT_MOD ap_pre val_a an_pre )
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
   **  (UIntArray.undef_full rp_pre an_pre )
@@ -5115,8 +5117,8 @@ forall (bn_pre: Z) (bp_pre: Z) (an_pre: Z) (ap_pre: Z) (rp_pre: Z) (val_b: Z) (v
   **  ((( &( "an" ) )) # Int  |-> an_pre)
   **  (mpd_store_Z UINT_MOD (ap_pre + (bn_pre * sizeof(UINT))) val_a_hi (an_pre - bn_pre ) )
   **  ((( &( "cy" ) )) # UInt  |->_)
-  **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
   **  ((( &( "rp" ) )) # Ptr  |-> rp_pre)
+  **  ((( &( "bp" ) )) # Ptr  |-> bp_pre)
   **  (mpd_store_Z UINT_MOD bp_pre val_b bn_pre )
   **  (UIntArray.undef_full rp_pre an_pre )
 |--
@@ -5406,8 +5408,8 @@ forall (r_pre: Z) (n: Z) (ptr: Z) (size: Z) (cap: Z) (PreH1 : (same_sign n size 
 
 Definition mpz_realloc_safety_wit_1 := 
 forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (ptr: Z) (PreH1 : (size_pre >= cap)) (PreH2 : (size_pre <= INT_MAX)) (PreH3 : (cap >= 0)) (PreH4 : (cap <= INT_MAX)) (PreH5 : ((Zabs (old)) <= cap)) (PreH6 : (same_sign n old )) ,
-  ((( &( "size" ) )) # Int  |-> size_pre)
-  **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "size" ) )) # Int  |-> size_pre)
   **  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (old)) )
   **  (UIntArray.undef_seg ptr (Zabs (old)) cap )
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> old)
@@ -5422,8 +5424,8 @@ Definition mpz_realloc_safety_wit_2 :=
 forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (retval: Z) (retval_2: Z) (retval_3: Z) (PreH1 : (retval_3 > retval)) (PreH2 : (retval_3 = (Zabs (old)))) (PreH3 : (retval = (Z.max (size_pre) (1)))) (PreH4 : (size_pre >= cap)) (PreH5 : (size_pre <= INT_MAX)) (PreH6 : (cap >= 0)) (PreH7 : (cap <= INT_MAX)) (PreH8 : ((Zabs (old)) <= cap)) (PreH9 : (same_sign n old )) (PreH10 : (cap <> 0)) ,
   (mpd_store_Z_compact UINT_MOD retval_2 (Zabs (n)) (Zabs (old)) )
   **  (UIntArray.undef_seg retval_2 (Zabs (old)) retval )
-  **  ((( &( "size" ) )) # Int  |-> retval)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "size" ) )) # Int  |-> retval)
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> old)
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> retval)
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> retval_2)
@@ -5435,8 +5437,8 @@ forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (retval: Z) (retval_2: 
 Definition mpz_realloc_safety_wit_3 := 
 forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (ptr: Z) (retval: Z) (retval_2: Z) (retval_3: Z) (PreH1 : (retval_3 > retval)) (PreH2 : (retval_3 = (Zabs (old)))) (PreH3 : (retval = (Z.max (size_pre) (1)))) (PreH4 : (size_pre >= cap)) (PreH5 : (size_pre <= INT_MAX)) (PreH6 : (cap >= 0)) (PreH7 : (cap <= INT_MAX)) (PreH8 : ((Zabs (old)) <= cap)) (PreH9 : (same_sign n old )) (PreH10 : (cap = 0)) ,
   (UIntArray.undef_full retval_2 retval )
-  **  ((( &( "size" ) )) # Int  |-> retval)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "size" ) )) # Int  |-> retval)
   **  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (old)) )
   **  (UIntArray.undef_seg ptr (Zabs (old)) cap )
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> old)
@@ -5617,8 +5619,8 @@ forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (ptr: Z) (PreH1 : (size
 Definition mpz_realloc_partial_solve_wit_2_pure := 
 (
 forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (ptr: Z) (retval: Z) (PreH1 : (retval = (Z.max (size_pre) (1)))) (PreH2 : (size_pre >= cap)) (PreH3 : (size_pre <= INT_MAX)) (PreH4 : (cap >= 0)) (PreH5 : (cap <= INT_MAX)) (PreH6 : ((Zabs (old)) <= cap)) (PreH7 : (same_sign n old )) (PreH8 : (cap <> 0)) ,
-  ((( &( "size" ) )) # Int  |-> retval)
-  **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "size" ) )) # Int  |-> retval)
   **  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (old)) )
   **  (UIntArray.undef_seg ptr (Zabs (old)) cap )
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> old)
@@ -5631,8 +5633,8 @@ forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (ptr: Z) (retval: Z) (P
 ) \/
 (
 forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (ptr: Z) (retval: Z) (PreH1 : (old <= INT_MAX)) (PreH2 : (retval <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : (old >= INT_MIN)) (PreH5 : (retval >= INT_MIN)) (PreH6 : (retval = (Z.max (size_pre) (1)))) (PreH7 : (size_pre >= cap)) (PreH8 : (size_pre <= INT_MAX)) (PreH9 : (cap >= 0)) (PreH10 : (cap <= INT_MAX)) (PreH11 : ((Zabs (old)) <= cap)) (PreH12 : (same_sign n old )) (PreH13 : (cap <> 0)) ,
-  ((( &( "size" ) )) # Int  |-> retval)
-  **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "size" ) )) # Int  |-> retval)
   **  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (old)) )
   **  (UIntArray.undef_seg ptr (Zabs (old)) cap )
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> old)
@@ -5645,8 +5647,8 @@ forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (ptr: Z) (retval: Z) (P
 
 Definition mpz_realloc_partial_solve_wit_2_pure_split_goal_1 := 
 forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (ptr: Z) (retval: Z) (PreH1 : (old <= INT_MAX)) (PreH2 : (retval <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : (old >= INT_MIN)) (PreH5 : (retval >= INT_MIN)) (PreH6 : (retval = (Z.max (size_pre) (1)))) (PreH7 : (size_pre >= cap)) (PreH8 : (size_pre <= INT_MAX)) (PreH9 : (cap >= 0)) (PreH10 : (cap <= INT_MAX)) (PreH11 : ((Zabs (old)) <= cap)) (PreH12 : (same_sign n old )) (PreH13 : (cap <> 0)) ,
-  ((( &( "size" ) )) # Int  |-> retval)
-  **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "size" ) )) # Int  |-> retval)
   **  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (old)) )
   **  (UIntArray.undef_seg ptr (Zabs (old)) cap )
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> old)
@@ -5658,8 +5660,8 @@ forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (ptr: Z) (retval: Z) (P
 
 Definition mpz_realloc_partial_solve_wit_2_pure_split_goal_2 := 
 forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (ptr: Z) (retval: Z) (PreH1 : (old <= INT_MAX)) (PreH2 : (retval <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : (old >= INT_MIN)) (PreH5 : (retval >= INT_MIN)) (PreH6 : (retval = (Z.max (size_pre) (1)))) (PreH7 : (size_pre >= cap)) (PreH8 : (size_pre <= INT_MAX)) (PreH9 : (cap >= 0)) (PreH10 : (cap <= INT_MAX)) (PreH11 : ((Zabs (old)) <= cap)) (PreH12 : (same_sign n old )) (PreH13 : (cap <> 0)) ,
-  ((( &( "size" ) )) # Int  |-> retval)
-  **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "size" ) )) # Int  |-> retval)
   **  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (old)) )
   **  (UIntArray.undef_seg ptr (Zabs (old)) cap )
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> old)
@@ -5700,8 +5702,8 @@ Definition mpz_realloc_partial_solve_wit_2 := mpz_realloc_partial_solve_wit_2_pu
 Definition mpz_realloc_partial_solve_wit_3_pure := 
 (
 forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (ptr: Z) (retval: Z) (PreH1 : (retval = (Z.max (size_pre) (1)))) (PreH2 : (size_pre >= cap)) (PreH3 : (size_pre <= INT_MAX)) (PreH4 : (cap >= 0)) (PreH5 : (cap <= INT_MAX)) (PreH6 : ((Zabs (old)) <= cap)) (PreH7 : (same_sign n old )) (PreH8 : (cap = 0)) ,
-  ((( &( "size" ) )) # Int  |-> retval)
-  **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "size" ) )) # Int  |-> retval)
   **  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (old)) )
   **  (UIntArray.undef_seg ptr (Zabs (old)) cap )
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> old)
@@ -5712,8 +5714,8 @@ forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (ptr: Z) (retval: Z) (P
 ) \/
 (
 forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (ptr: Z) (retval: Z) (PreH1 : (old <= INT_MAX)) (PreH2 : (retval <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : (old >= INT_MIN)) (PreH5 : (retval >= INT_MIN)) (PreH6 : (retval = (Z.max (size_pre) (1)))) (PreH7 : (size_pre >= cap)) (PreH8 : (size_pre <= INT_MAX)) (PreH9 : (cap >= 0)) (PreH10 : (cap <= INT_MAX)) (PreH11 : ((Zabs (old)) <= cap)) (PreH12 : (same_sign n old )) (PreH13 : (cap = 0)) ,
-  ((( &( "size" ) )) # Int  |-> retval)
-  **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "size" ) )) # Int  |-> retval)
   **  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (old)) )
   **  (UIntArray.undef_seg ptr (Zabs (old)) cap )
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> old)
@@ -5725,8 +5727,8 @@ forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (ptr: Z) (retval: Z) (P
 
 Definition mpz_realloc_partial_solve_wit_3_pure_split_goal_1 := 
 forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (ptr: Z) (retval: Z) (PreH1 : (old <= INT_MAX)) (PreH2 : (retval <= INT_MAX)) (PreH3 : (cap >= INT_MIN)) (PreH4 : (old >= INT_MIN)) (PreH5 : (retval >= INT_MIN)) (PreH6 : (retval = (Z.max (size_pre) (1)))) (PreH7 : (size_pre >= cap)) (PreH8 : (size_pre <= INT_MAX)) (PreH9 : (cap >= 0)) (PreH10 : (cap <= INT_MAX)) (PreH11 : ((Zabs (old)) <= cap)) (PreH12 : (same_sign n old )) (PreH13 : (cap = 0)) ,
-  ((( &( "size" ) )) # Int  |-> retval)
-  **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "size" ) )) # Int  |-> retval)
   **  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (old)) )
   **  (UIntArray.undef_seg ptr (Zabs (old)) cap )
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> old)
@@ -5767,8 +5769,8 @@ Definition mpz_realloc_partial_solve_wit_4_pure :=
 forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (retval: Z) (retval_2: Z) (PreH1 : (retval = (Z.max (size_pre) (1)))) (PreH2 : (size_pre >= cap)) (PreH3 : (size_pre <= INT_MAX)) (PreH4 : (cap >= 0)) (PreH5 : (cap <= INT_MAX)) (PreH6 : ((Zabs (old)) <= cap)) (PreH7 : (same_sign n old )) (PreH8 : (cap <> 0)) ,
   (mpd_store_Z_compact UINT_MOD retval_2 (Zabs (n)) (Zabs (old)) )
   **  (UIntArray.undef_seg retval_2 (Zabs (old)) retval )
-  **  ((( &( "size" ) )) # Int  |-> retval)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "size" ) )) # Int  |-> retval)
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> old)
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> retval)
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> retval_2)
@@ -5780,8 +5782,8 @@ forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (retval: Z) (retval_2: 
 forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (retval: Z) (retval_2: Z) (PreH1 : (old <= INT_MAX)) (PreH2 : (retval <= INT_MAX)) (PreH3 : (old >= INT_MIN)) (PreH4 : (retval >= INT_MIN)) (PreH5 : (retval = (Z.max (size_pre) (1)))) (PreH6 : (size_pre >= cap)) (PreH7 : (size_pre <= INT_MAX)) (PreH8 : (cap >= 0)) (PreH9 : (cap <= INT_MAX)) (PreH10 : ((Zabs (old)) <= cap)) (PreH11 : (same_sign n old )) (PreH12 : (cap <> 0)) ,
   (mpd_store_Z_compact UINT_MOD retval_2 (Zabs (n)) (Zabs (old)) )
   **  (UIntArray.undef_seg retval_2 (Zabs (old)) retval )
-  **  ((( &( "size" ) )) # Int  |-> retval)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "size" ) )) # Int  |-> retval)
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> old)
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> retval)
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> retval_2)
@@ -5793,8 +5795,8 @@ Definition mpz_realloc_partial_solve_wit_4_pure_split_goal_1 :=
 forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (retval: Z) (retval_2: Z) (PreH1 : (old <= INT_MAX)) (PreH2 : (retval <= INT_MAX)) (PreH3 : (old >= INT_MIN)) (PreH4 : (retval >= INT_MIN)) (PreH5 : (retval = (Z.max (size_pre) (1)))) (PreH6 : (size_pre >= cap)) (PreH7 : (size_pre <= INT_MAX)) (PreH8 : (cap >= 0)) (PreH9 : (cap <= INT_MAX)) (PreH10 : ((Zabs (old)) <= cap)) (PreH11 : (same_sign n old )) (PreH12 : (cap <> 0)) ,
   (mpd_store_Z_compact UINT_MOD retval_2 (Zabs (n)) (Zabs (old)) )
   **  (UIntArray.undef_seg retval_2 (Zabs (old)) retval )
-  **  ((( &( "size" ) )) # Int  |-> retval)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "size" ) )) # Int  |-> retval)
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> old)
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> retval)
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> retval_2)
@@ -5833,8 +5835,8 @@ Definition mpz_realloc_partial_solve_wit_5_pure :=
 (
 forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (ptr: Z) (retval: Z) (retval_2: Z) (PreH1 : (retval = (Z.max (size_pre) (1)))) (PreH2 : (size_pre >= cap)) (PreH3 : (size_pre <= INT_MAX)) (PreH4 : (cap >= 0)) (PreH5 : (cap <= INT_MAX)) (PreH6 : ((Zabs (old)) <= cap)) (PreH7 : (same_sign n old )) (PreH8 : (cap = 0)) ,
   (UIntArray.undef_full retval_2 retval )
-  **  ((( &( "size" ) )) # Int  |-> retval)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "size" ) )) # Int  |-> retval)
   **  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (old)) )
   **  (UIntArray.undef_seg ptr (Zabs (old)) cap )
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> old)
@@ -5847,8 +5849,8 @@ forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (ptr: Z) (retval: Z) (r
 (
 forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (ptr: Z) (retval: Z) (retval_2: Z) (PreH1 : (old <= INT_MAX)) (PreH2 : (retval <= INT_MAX)) (PreH3 : (old >= INT_MIN)) (PreH4 : (retval >= INT_MIN)) (PreH5 : (retval = (Z.max (size_pre) (1)))) (PreH6 : (size_pre >= cap)) (PreH7 : (size_pre <= INT_MAX)) (PreH8 : (cap >= 0)) (PreH9 : (cap <= INT_MAX)) (PreH10 : ((Zabs (old)) <= cap)) (PreH11 : (same_sign n old )) (PreH12 : (cap = 0)) ,
   (UIntArray.undef_full retval_2 retval )
-  **  ((( &( "size" ) )) # Int  |-> retval)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "size" ) )) # Int  |-> retval)
   **  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (old)) )
   **  (UIntArray.undef_seg ptr (Zabs (old)) cap )
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> old)
@@ -5861,8 +5863,8 @@ forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (ptr: Z) (retval: Z) (r
 Definition mpz_realloc_partial_solve_wit_5_pure_split_goal_1 := 
 forall (size_pre: Z) (r_pre: Z) (n: Z) (cap: Z) (old: Z) (ptr: Z) (retval: Z) (retval_2: Z) (PreH1 : (old <= INT_MAX)) (PreH2 : (retval <= INT_MAX)) (PreH3 : (old >= INT_MIN)) (PreH4 : (retval >= INT_MIN)) (PreH5 : (retval = (Z.max (size_pre) (1)))) (PreH6 : (size_pre >= cap)) (PreH7 : (size_pre <= INT_MAX)) (PreH8 : (cap >= 0)) (PreH9 : (cap <= INT_MAX)) (PreH10 : ((Zabs (old)) <= cap)) (PreH11 : (same_sign n old )) (PreH12 : (cap = 0)) ,
   (UIntArray.undef_full retval_2 retval )
-  **  ((( &( "size" ) )) # Int  |-> retval)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "size" ) )) # Int  |-> retval)
   **  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (old)) )
   **  (UIntArray.undef_seg ptr (Zabs (old)) cap )
   **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> old)
@@ -6013,8 +6015,8 @@ forall (n_pre: Z) (m: Z) (cap: Z) (old: Z) (r_callee__mp_alloc: Z) (retval: Z) (
 
 Definition mrz_realloc_if_partial_solve_wit_1_pure := 
 forall (n_pre: Z) (z_pre: Z) (m: Z) (cap: Z) (old: Z) (ptr: Z) (PreH1 : (n_pre > cap)) (PreH2 : (cap >= 0)) (PreH3 : (cap <= INT_MAX)) (PreH4 : (n_pre >= 1)) (PreH5 : (n_pre <= INT_MAX)) (PreH6 : ((Zabs (old)) <= cap)) (PreH7 : (same_sign m old )) ,
-  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "z" ) )) # Ptr  |-> z_pre)
+  ((( &( "z" ) )) # Ptr  |-> z_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (mpd_store_Z_compact UINT_MOD ptr (Zabs (m)) (Zabs (old)) )
   **  (UIntArray.undef_seg ptr (Zabs (old)) cap )
   **  ((&((z_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> old)
@@ -6456,72 +6458,6 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (n_new: Z) (m_new: 
 
 Definition mpz_abs_add_entail_wit_1_1 := 
 (
-forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) (cap: Z) (retval: Z) (ptr_2: Z) (size_2: Z) (cap_2: Z) (retval_2: Z) (PreH1 : (retval >= retval_2)) (PreH2 : (retval_2 = (Zabs (size_2)))) (PreH3 : (same_sign m size_2 )) (PreH4 : ((Zabs (size_2)) <= cap_2)) (PreH5 : (retval = (Zabs (size)))) (PreH6 : (same_sign n size )) (PreH7 : ((Zabs (size)) <= cap)) ,
-  ((&((b_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> size_2)
-  **  (UIntArray.undef_seg ptr_2 (Zabs (size_2)) cap_2 )
-  **  (mpd_store_Z_compact UINT_MOD ptr_2 (Zabs (m)) (Zabs (size_2)) )
-  **  ((&((b_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr_2)
-  **  ((&((b_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap_2)
-  **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> size)
-  **  (UIntArray.undef_seg ptr (Zabs (size)) cap )
-  **  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (size)) )
-  **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
-  **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
-  **  (store_Z r_pre l )
-|--
-  EX (rptr: Z)  (bptr: Z)  (aptr: Z)  (rcap: Z)  (rsize: Z)  (bcap: Z)  (acap: Z)  (bsize: Z)  (asize: Z)  (n_new: Z)  (m_new: Z) ,
-  “ (Permutation (cons ((Prod2 (a_pre) (n_new))) ((cons ((Prod2 (b_pre) (m_new))) ((@nil (Z * Z)))))) (cons ((Prod2 (a_pre) (n))) ((cons ((Prod2 (b_pre) (m))) ((@nil (Z * Z)))))) ) ” 
-  &&  “ (retval >= retval_2) ” 
-  &&  “ (retval = (Zabs (asize))) ” 
-  &&  “ (retval_2 = (Zabs (bsize))) ” 
-  &&  “ (retval <= acap) ” 
-  &&  “ (retval_2 <= bcap) ” 
-  &&  “ (same_sign n_new asize ) ” 
-  &&  “ (same_sign m_new bsize ) ” 
-  &&  “ ((Zabs (rsize)) <= rcap) ” 
-  &&  “ (same_sign l rsize ) ” 
-  &&  “ (rcap >= 0) ”
-  &&  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> aptr)
-  **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> asize)
-  **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> acap)
-  **  ((&((b_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> bptr)
-  **  ((&((b_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> bsize)
-  **  ((&((b_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> bcap)
-  **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> rptr)
-  **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> rsize)
-  **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> rcap)
-  **  (UIntArray.undef_seg aptr retval acap )
-  **  (UIntArray.undef_seg bptr retval_2 bcap )
-  **  (UIntArray.undef_seg rptr (Zabs (rsize)) rcap )
-  **  (mpd_store_Z_compact UINT_MOD aptr (Zabs (n_new)) retval )
-  **  (mpd_store_Z_compact UINT_MOD bptr (Zabs (m_new)) retval_2 )
-  **  (mpd_store_Z_compact UINT_MOD rptr (Zabs (l)) (Zabs (rsize)) )
-) \/
-(
-forall (b_pre: Z) (a_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) (cap: Z) (retval: Z) (ptr_2: Z) (size_2: Z) (cap_2: Z) (retval_2: Z) (ptr_3: Z) (size_3: Z) (cap_3: Z) (PreH1 : (same_sign l size_3 )) (PreH2 : ((Zabs (size_3)) <= cap_3)) (PreH3 : (retval >= retval_2)) (PreH4 : (retval_2 = (Zabs (size_2)))) (PreH5 : (same_sign m size_2 )) (PreH6 : ((Zabs (size_2)) <= cap_2)) (PreH7 : (retval = (Zabs (size)))) (PreH8 : (same_sign n size )) (PreH9 : ((Zabs (size)) <= cap)) ,
-  (mpd_store_Z_compact UINT_MOD ptr_3 (Zabs (l)) (Zabs (size_3)) )
-  **  (mpd_store_Z_compact UINT_MOD ptr_2 (Zabs (m)) (Zabs (size_2)) )
-  **  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (size)) )
-|--
-  EX (n_new: Z)  (m_new: Z) ,
-  “ (Permutation (cons ((Prod2 (a_pre) (n_new))) ((cons ((Prod2 (b_pre) (m_new))) ((@nil (Z * Z)))))) (cons ((Prod2 (a_pre) (n))) ((cons ((Prod2 (b_pre) (m))) ((@nil (Z * Z)))))) ) ” 
-  &&  “ (retval >= retval_2) ” 
-  &&  “ (retval = (Zabs (size))) ” 
-  &&  “ (retval_2 = (Zabs (size_2))) ” 
-  &&  “ (retval <= cap) ” 
-  &&  “ (retval_2 <= cap_2) ” 
-  &&  “ (same_sign n_new size ) ” 
-  &&  “ (same_sign m_new size_2 ) ” 
-  &&  “ ((Zabs (size_3)) <= cap_3) ” 
-  &&  “ (same_sign l size_3 ) ” 
-  &&  “ (cap_3 >= 0) ”
-  &&  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n_new)) retval )
-  **  (mpd_store_Z_compact UINT_MOD ptr_2 (Zabs (m_new)) retval_2 )
-  **  (mpd_store_Z_compact UINT_MOD ptr_3 (Zabs (l)) (Zabs (size_3)) )
-).
-
-Definition mpz_abs_add_entail_wit_1_2 := 
-(
 forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) (cap: Z) (retval: Z) (ptr_2: Z) (size_2: Z) (cap_2: Z) (retval_2: Z) (PreH1 : (retval < retval_2)) (PreH2 : (retval_2 = (Zabs (size_2)))) (PreH3 : (same_sign m size_2 )) (PreH4 : ((Zabs (size_2)) <= cap_2)) (PreH5 : (retval = (Zabs (size)))) (PreH6 : (same_sign n size )) (PreH7 : ((Zabs (size)) <= cap)) ,
   ((&((b_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> size_2)
   **  (UIntArray.undef_seg ptr_2 (Zabs (size_2)) cap_2 )
@@ -6583,6 +6519,72 @@ forall (b_pre: Z) (a_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) (cap: Z) (r
   &&  “ (cap_3 >= 0) ”
   &&  (mpd_store_Z_compact UINT_MOD ptr_2 (Zabs (n_new)) retval_2 )
   **  (mpd_store_Z_compact UINT_MOD ptr (Zabs (m_new)) retval )
+  **  (mpd_store_Z_compact UINT_MOD ptr_3 (Zabs (l)) (Zabs (size_3)) )
+).
+
+Definition mpz_abs_add_entail_wit_1_2 := 
+(
+forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) (cap: Z) (retval: Z) (ptr_2: Z) (size_2: Z) (cap_2: Z) (retval_2: Z) (PreH1 : (retval >= retval_2)) (PreH2 : (retval_2 = (Zabs (size_2)))) (PreH3 : (same_sign m size_2 )) (PreH4 : ((Zabs (size_2)) <= cap_2)) (PreH5 : (retval = (Zabs (size)))) (PreH6 : (same_sign n size )) (PreH7 : ((Zabs (size)) <= cap)) ,
+  ((&((b_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> size_2)
+  **  (UIntArray.undef_seg ptr_2 (Zabs (size_2)) cap_2 )
+  **  (mpd_store_Z_compact UINT_MOD ptr_2 (Zabs (m)) (Zabs (size_2)) )
+  **  ((&((b_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr_2)
+  **  ((&((b_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap_2)
+  **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> size)
+  **  (UIntArray.undef_seg ptr (Zabs (size)) cap )
+  **  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (size)) )
+  **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
+  **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
+  **  (store_Z r_pre l )
+|--
+  EX (rptr: Z)  (bptr: Z)  (aptr: Z)  (rcap: Z)  (rsize: Z)  (bcap: Z)  (acap: Z)  (bsize: Z)  (asize: Z)  (n_new: Z)  (m_new: Z) ,
+  “ (Permutation (cons ((Prod2 (a_pre) (n_new))) ((cons ((Prod2 (b_pre) (m_new))) ((@nil (Z * Z)))))) (cons ((Prod2 (a_pre) (n))) ((cons ((Prod2 (b_pre) (m))) ((@nil (Z * Z)))))) ) ” 
+  &&  “ (retval >= retval_2) ” 
+  &&  “ (retval = (Zabs (asize))) ” 
+  &&  “ (retval_2 = (Zabs (bsize))) ” 
+  &&  “ (retval <= acap) ” 
+  &&  “ (retval_2 <= bcap) ” 
+  &&  “ (same_sign n_new asize ) ” 
+  &&  “ (same_sign m_new bsize ) ” 
+  &&  “ ((Zabs (rsize)) <= rcap) ” 
+  &&  “ (same_sign l rsize ) ” 
+  &&  “ (rcap >= 0) ”
+  &&  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> aptr)
+  **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> asize)
+  **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> acap)
+  **  ((&((b_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> bptr)
+  **  ((&((b_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> bsize)
+  **  ((&((b_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> bcap)
+  **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> rptr)
+  **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_size")) # Int  |-> rsize)
+  **  ((&((r_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> rcap)
+  **  (UIntArray.undef_seg aptr retval acap )
+  **  (UIntArray.undef_seg bptr retval_2 bcap )
+  **  (UIntArray.undef_seg rptr (Zabs (rsize)) rcap )
+  **  (mpd_store_Z_compact UINT_MOD aptr (Zabs (n_new)) retval )
+  **  (mpd_store_Z_compact UINT_MOD bptr (Zabs (m_new)) retval_2 )
+  **  (mpd_store_Z_compact UINT_MOD rptr (Zabs (l)) (Zabs (rsize)) )
+) \/
+(
+forall (b_pre: Z) (a_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) (cap: Z) (retval: Z) (ptr_2: Z) (size_2: Z) (cap_2: Z) (retval_2: Z) (ptr_3: Z) (size_3: Z) (cap_3: Z) (PreH1 : (same_sign l size_3 )) (PreH2 : ((Zabs (size_3)) <= cap_3)) (PreH3 : (retval >= retval_2)) (PreH4 : (retval_2 = (Zabs (size_2)))) (PreH5 : (same_sign m size_2 )) (PreH6 : ((Zabs (size_2)) <= cap_2)) (PreH7 : (retval = (Zabs (size)))) (PreH8 : (same_sign n size )) (PreH9 : ((Zabs (size)) <= cap)) ,
+  (mpd_store_Z_compact UINT_MOD ptr_3 (Zabs (l)) (Zabs (size_3)) )
+  **  (mpd_store_Z_compact UINT_MOD ptr_2 (Zabs (m)) (Zabs (size_2)) )
+  **  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n)) (Zabs (size)) )
+|--
+  EX (n_new: Z)  (m_new: Z) ,
+  “ (Permutation (cons ((Prod2 (a_pre) (n_new))) ((cons ((Prod2 (b_pre) (m_new))) ((@nil (Z * Z)))))) (cons ((Prod2 (a_pre) (n))) ((cons ((Prod2 (b_pre) (m))) ((@nil (Z * Z)))))) ) ” 
+  &&  “ (retval >= retval_2) ” 
+  &&  “ (retval = (Zabs (size))) ” 
+  &&  “ (retval_2 = (Zabs (size_2))) ” 
+  &&  “ (retval <= cap) ” 
+  &&  “ (retval_2 <= cap_2) ” 
+  &&  “ (same_sign n_new size ) ” 
+  &&  “ (same_sign m_new size_2 ) ” 
+  &&  “ ((Zabs (size_3)) <= cap_3) ” 
+  &&  “ (same_sign l size_3 ) ” 
+  &&  “ (cap_3 >= 0) ”
+  &&  (mpd_store_Z_compact UINT_MOD ptr (Zabs (n_new)) retval )
+  **  (mpd_store_Z_compact UINT_MOD ptr_2 (Zabs (m_new)) retval_2 )
   **  (mpd_store_Z_compact UINT_MOD ptr_3 (Zabs (l)) (Zabs (size_3)) )
 ).
 
@@ -6765,9 +6767,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |->_)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z b_pre m )
   **  (store_Z r_pre l )
 |--
@@ -6782,9 +6784,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |->_)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z b_pre m )
   **  (store_Z r_pre l )
 |--
@@ -6799,9 +6801,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |->_)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z b_pre m )
   **  (store_Z r_pre l )
 |--
@@ -6877,9 +6879,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size_2: Z
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ (size <= INT_MAX) ” 
@@ -6899,9 +6901,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size_2: Z
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ (INT_MIN < size) ”
@@ -6921,9 +6923,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size_2: Z
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ (INT_MIN < size) ”
@@ -7573,9 +7575,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -7598,9 +7600,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -7623,9 +7625,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -7648,9 +7650,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ False ”
@@ -7672,9 +7674,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ False ”
@@ -7696,9 +7698,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ False ”
@@ -7720,9 +7722,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -7745,9 +7747,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -7770,9 +7772,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ False ”
@@ -7794,9 +7796,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ False ”
@@ -7847,9 +7849,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -8355,9 +8357,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |->_)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z b_pre m )
   **  (store_Z r_pre l )
 |--
@@ -8372,9 +8374,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |->_)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z b_pre m )
   **  (store_Z r_pre l )
 |--
@@ -8389,9 +8391,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |->_)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z b_pre m )
   **  (store_Z r_pre l )
 |--
@@ -8467,9 +8469,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size_2: Z
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ (size <= INT_MAX) ” 
@@ -8489,9 +8491,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size_2: Z
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ (INT_MIN < size) ”
@@ -8511,9 +8513,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size_2: Z
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ (INT_MIN < size) ”
@@ -8572,9 +8574,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ (retval >= 0) ” 
@@ -8598,9 +8600,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ ((Zabs (size)) >= 0) ” 
@@ -8625,9 +8627,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ ((Zabs (size)) >= 0) ”
@@ -8649,9 +8651,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ ((Zabs (size_2)) >= 0) ”
@@ -8673,9 +8675,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ (retval_2 >= 0) ”
@@ -8697,9 +8699,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "an" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ (retval >= 0) ”
@@ -10050,9 +10052,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "rn" ) )) # Int  |->_)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -10069,9 +10071,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (m: Z) (n: Z) (size: Z) (cap: Z) (size_2
   **  (store_Z b_pre m )
   **  (store_Z_remain_size r_pre ((Zabs (n)) + (Zabs (m)) ) retval )
   **  ((( &( "rn" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -10088,9 +10090,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (m: Z) (n: Z) (size: Z) (cap: Z) (size_2
   **  (store_Z b_pre m )
   **  (store_Z_remain_size r_pre ((Zabs (n)) + (Zabs (m)) ) retval )
   **  ((( &( "rn" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
 |--
   “ (retval <> (INT_MIN)) ”
 ) \/
@@ -10104,9 +10106,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (m: Z) (n: Z) (size: Z) (cap: Z) (size_2
   **  (store_Z b_pre m )
   **  (store_Z_remain_size r_pre ((Zabs (n)) + (Zabs (m)) ) retval )
   **  ((( &( "rn" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
 |--
   “ (retval <> (INT_MIN)) ”
 ).
@@ -10121,9 +10123,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (m: Z) (n: Z) (size: Z) (cap: Z) (size_2
   **  (store_Z b_pre m )
   **  (store_Z_remain_size r_pre ((Zabs (n)) + (Zabs (m)) ) retval )
   **  ((( &( "rn" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
 |--
   “ (retval <> (INT_MIN)) ”
 .
@@ -10138,9 +10140,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (m: Z) (n: Z) (size: Z) (cap: Z) (size_2
   **  (store_Z b_pre m )
   **  (store_Z_remain_size r_pre ((Zabs (n)) - (Zabs (m)) ) retval )
   **  ((( &( "rn" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -10157,9 +10159,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (m: Z) (n: Z) (size: Z) (cap: Z) (size_2
   **  (store_Z b_pre m )
   **  (store_Z_remain_size r_pre ((Zabs (n)) - (Zabs (m)) ) retval )
   **  ((( &( "rn" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
 |--
   “ (retval <> (INT_MIN)) ”
 ) \/
@@ -10173,9 +10175,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (m: Z) (n: Z) (size: Z) (cap: Z) (size_2
   **  (store_Z b_pre m )
   **  (store_Z_remain_size r_pre ((Zabs (n)) - (Zabs (m)) ) retval )
   **  ((( &( "rn" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
 |--
   “ (retval <> (INT_MIN)) ”
 ).
@@ -10190,9 +10192,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (m: Z) (n: Z) (size: Z) (cap: Z) (size_2
   **  (store_Z b_pre m )
   **  (store_Z_remain_size r_pre ((Zabs (n)) - (Zabs (m)) ) retval )
   **  ((( &( "rn" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
 |--
   “ (retval <> (INT_MIN)) ”
 .
@@ -10724,9 +10726,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (l: Z) (m: Z) (n: Z) (ptr: Z) (size: Z) 
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_d")) # Ptr  |-> ptr)
   **  ((&((a_pre)  # "__mpz_struct" ->ₛ "_mp_alloc")) # Int  |-> cap)
   **  ((( &( "rn" ) )) # Int  |->_)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
   **  (store_Z r_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -10743,9 +10745,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (m: Z) (n: Z) (size: Z) (cap: Z) (size_2
   **  (store_Z b_pre m )
   **  (store_Z_remain_size r_pre ((Zabs (n)) - (Zabs (m)) ) retval )
   **  ((( &( "rn" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -10762,9 +10764,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (m: Z) (n: Z) (size: Z) (cap: Z) (size_2
   **  (store_Z b_pre m )
   **  (store_Z_remain_size r_pre ((Zabs (n)) - (Zabs (m)) ) retval )
   **  ((( &( "rn" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
 |--
   “ (retval <> (INT_MIN)) ”
 ) \/
@@ -10778,9 +10780,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (m: Z) (n: Z) (size: Z) (cap: Z) (size_2
   **  (store_Z b_pre m )
   **  (store_Z_remain_size r_pre ((Zabs (n)) - (Zabs (m)) ) retval )
   **  ((( &( "rn" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
 |--
   “ (retval <> (INT_MIN)) ”
 ).
@@ -10795,9 +10797,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (m: Z) (n: Z) (size: Z) (cap: Z) (size_2
   **  (store_Z b_pre m )
   **  (store_Z_remain_size r_pre ((Zabs (n)) - (Zabs (m)) ) retval )
   **  ((( &( "rn" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
 |--
   “ (retval <> (INT_MIN)) ”
 .
@@ -10812,9 +10814,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (m: Z) (n: Z) (size: Z) (cap: Z) (size_2
   **  (store_Z b_pre m )
   **  (store_Z_remain_size r_pre ((Zabs (n)) + (Zabs (m)) ) retval )
   **  ((( &( "rn" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -10831,9 +10833,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (m: Z) (n: Z) (size: Z) (cap: Z) (size_2
   **  (store_Z b_pre m )
   **  (store_Z_remain_size r_pre ((Zabs (n)) + (Zabs (m)) ) retval )
   **  ((( &( "rn" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
 |--
   “ (retval <> (INT_MIN)) ”
 ) \/
@@ -10847,9 +10849,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (m: Z) (n: Z) (size: Z) (cap: Z) (size_2
   **  (store_Z b_pre m )
   **  (store_Z_remain_size r_pre ((Zabs (n)) + (Zabs (m)) ) retval )
   **  ((( &( "rn" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
 |--
   “ (retval <> (INT_MIN)) ”
 ).
@@ -10864,9 +10866,9 @@ forall (b_pre: Z) (a_pre: Z) (r_pre: Z) (m: Z) (n: Z) (size: Z) (cap: Z) (size_2
   **  (store_Z b_pre m )
   **  (store_Z_remain_size r_pre ((Zabs (n)) + (Zabs (m)) ) retval )
   **  ((( &( "rn" ) )) # Int  |-> retval)
-  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
-  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
   **  ((( &( "r" ) )) # Ptr  |-> r_pre)
+  **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "b" ) )) # Ptr  |-> b_pre)
 |--
   “ (retval <> (INT_MIN)) ”
 .

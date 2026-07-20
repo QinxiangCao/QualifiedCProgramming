@@ -45,13 +45,18 @@ Choose the guide for your platform:
 
 #### Rocq Files Build
 
-Then you can compile Rocq files:
+Then you can compile Rocq files. In `SeparationLogic`, the default `make` target is `core`, so it does not build the generated files under `SeparationLogic/examples`. `make depend` refreshes dependencies for all core and example files. If you need the full build, including all examples, run `make all` after `make depend`.
 
 ```bash
 cd SeparationLogic/unifysl
 make depend && make
 cd ..
+
+# Core libraries only, because the default target is core
 make depend && make
+
+# Full build, including all generated examples
+make depend && make all
 ```
 
 If you only want part of the generated files under `SeparationLogic/examples`, the build targets are split by the current example groups:
@@ -62,8 +67,8 @@ cd SeparationLogic
 # Core libraries only
 make depend-core && make core
 
-# All generated examples
-make depend-examples && make examples
+# Full build, including core libraries and all generated examples
+make depend && make all
 
 # Only one examples subtree
 make depend-examples-applications && make examples-applications

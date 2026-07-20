@@ -1,16 +1,16 @@
-# Refinement Proof 规则
+# Refinement-Proof Rules
 
-本文件记录 refinement VC 中 `safeExec` 目标的稳定 proof pattern。
+This document records stable proof patterns for `safeExec` goals in refinement VCs.
 
-## Skeleton 模板
+## Skeleton
 
 ```coq
-pre_process. (* or aggressive_pre_process. *)
-(* 1. 选择后条件 witnesses *)
+LLM_pre_process ltac:(lia || int_auto). (* or aggressive_pre_process for the strategy-processed branch *)
+(* 1. Choose postcondition witnesses. *)
 Exists ... .
-(* 2. 必要的空间化简 *)
+(* 2. Perform necessary spatial simplification. *)
 simpl ... .
-(* 3. 先拆空间目标和 execution 目标 *)
+(* 3. Split spatial and execution goals first. *)
 split_pure_spatial.
 - (* spatial side *)
   ...
@@ -19,47 +19,47 @@ split_pure_spatial.
   prog_nf in H.
   unfold_loop in H.
   prog_nf in H.
-  safe_choice_l H.  (* 或 safe_choice_r H *)
+  safe_choice_l H.  (* or safe_choice_r H *)
   ...
   exact H.
 ```
 
-## 强制规则
+## Mandatory rules
 
-1. 总是先 `pre_process.` 或 `aggressive_pre_process.`；如果当前 VC 被打印成 `原始 VC \/ 策略应用后的 VC`，二者分别选择原始分支或 strategy-processed 分支。
-2. 先选择 witnesses，再 `split_pure_spatial`。
-3. 不在 `split_pure_spatial` 前展开 `safeExec` 相关 wrapper。
-4. 先解决 spatial side，再解决 execution side。
-5. execution side 中，每次 `unfold ... in H at 1` 或 `unfold_loop in H` 后，都执行 `prog_nf in H`。
-6. normalized hypothesis 与 goal 匹配时，用 `exact H`。
-7. 若 hypothesis 中是 `choice`，用 `safe_choice_l H` 或 `safe_choice_r H` 选择匹配分支。
+1. LLM proofs should begin with `LLM_pre_process ltac:(...)`, not `pre_process.`. If the current VC is printed as `original VC \/ strategy-processed VC`, `LLM_pre_process` selects the original branch and `aggressive_pre_process` selects the strategy-processed branch. Choose the solver from VC analysis: usually `ltac:(lia || int_auto)`, only `ltac:(lia)` for linear arithmetic, only `ltac:(int_auto)` for bit/integer automation, and include `nia` only for genuinely nonlinear arithmetic.
+2. Choose witnesses before `split_pure_spatial`.
+3. Do not unfold a `safeExec` wrapper before `split_pure_spatial`.
+4. Solve the spatial side before the execution side.
+5. On the execution side, follow every `unfold ... in H at 1` or `unfold_loop in H` with `prog_nf in H`.
+6. When the normalized hypothesis matches the goal, use `exact H`.
+7. When the hypothesis contains a `choice`, select the matching branch with `safe_choice_l H` or `safe_choice_r H`.
 
-## 允许 unfold
+## Permitted unfolding
 
-当 goal 是 `safeExec ?P prog X`：
+For a goal `safeExec ?P prog X`:
 
-- goal 中的 `prog` 是直接 wrapper application 时，可在 goal 中 unfold。
-- 若 `prog` 已是 bind、choice、loop 等 compound expression，优先在 hypothesis 中 unfold。
-- wrapper 名称只是 definitional equal 但不匹配时，可用 `change` 对齐名称，再 `exact H`。
+- If goal-side `prog` is a direct wrapper application, it may be unfolded in the goal.
+- If `prog` is already a compound expression such as bind, choice, or loop, prefer unfolding in the hypothesis.
+- If wrapper names are definitionally equal but do not syntactically match, use `change` to align the names, then `exact H`.
 
-非 `safeExec` 目标可正常使用 `unfold`、`simpl`、`lia`、`congruence` 等 tactic。
+For goals other than `safeExec`, use ordinary tactics such as `unfold`, `simpl`, `lia`, and `congruence` normally.
 
-## `safeExec` 操作细节
+## Working with `safeExec`
 
-进入 isolated `safeExec` goal 后，先找到当前 context 中承载 execution fact 的 hypothesis，通常形如：
+After isolating a `safeExec` goal, find the hypothesis carrying the current execution fact, usually of this shape:
 
 ```coq
 H : safeExec ATrue (some_wrapper args) X
 ```
 
-只在这个 hypothesis 上归一化：
+Normalize only that hypothesis:
 
 ```coq
 unfold some_wrapper in H at 1.
 prog_nf in H.
 ```
 
-若出现 loop combinator：
+For a loop combinator:
 
 ```coq
 unfold_loop in H.
@@ -68,13 +68,13 @@ unfold loop_body in H at 1.
 prog_nf in H.
 ```
 
-若归一化后 hypothesis 与 goal 匹配：
+When the normalized hypothesis matches the goal:
 
 ```coq
 exact H.
 ```
 
-若 hypothesis 中出现 `choice`，用当前 branch fact 选择方向：
+When the hypothesis contains a `choice`, use the current branch fact to choose a direction:
 
 ```coq
 safe_choice_l H.  (* or safe_choice_r H *)
@@ -82,11 +82,11 @@ safe_choice_l H.  (* or safe_choice_r H *)
 - lia.            (* assume!! side condition, ordinary Rocq proposition *)
 ```
 
-`safe_choice_l/r` 产生的 guard goal 不是 `safeExec` goal；可用 `unfold`、`simpl`、`lia`、`congruence`、case-specific helper 等普通 tactics。
+Guard goals created by `safe_choice_l/r` are ordinary Rocq propositions, not `safeExec` goals. Solve them with `unfold`, `simpl`, `lia`, `congruence`, or case-specific helpers.
 
-## Goal-side unfold
+## Goal-side unfolding
 
-只有当 goal 的 program 是直接 wrapper application 时，才在 goal 中 unfold：
+Unfold in the goal only when the goal program is a direct wrapper application:
 
 ```coq
 change (safeExec P (wrapper2 args) X).
@@ -94,45 +94,43 @@ unfold wrapper2.
 prog_nf.
 ```
 
-如果 goal 已经是 `bind`、`choice`、`repeat_break` 或其他 compound program，优先处理 hypothesis。不要在 goal 和 hypothesis 上同时 `unfold ... in *`，这会破坏可匹配的程序形态。
+If the goal is already a `bind`, `choice`, `repeat_break`, or other compound program, operate on the hypothesis instead. Do not use `unfold ... in *` simultaneously on the goal and hypothesis; it destroys program shapes that otherwise match.
 
-名称不一致但 definitionally equal 时，先 `change` 对齐：
+When names differ but are definitionally equal, align them with `change`:
 
 ```coq
 change (safeExec P (old_name args ;; rest) X).
 exact H.
 ```
 
-## 禁止模式
+## Forbidden patterns
 
-不要使用以下低层 reconstruction：
+Do not use these low-level reconstruction patterns:
 
 - `safeExec_bind_reta`
 - `safeExec_bind`
-- 手工构造新的 `assert (Hs : safeExec ...)`
-- `unfold ... in *` 处理 `safeExec` 相关定义
-- 在 `prog_nf` 可解决处手动重关联 bind
+- Manually constructing a new `assert (Hs : safeExec ...)`.
+- `unfold ... in *` on `safeExec`-related definitions.
+- Manually reassociating binds when `prog_nf` can do it.
 
-这些模式容易和 generated VC 的程序形态错位。
-
-更具体地说，不要为了证明 execution side 新造：
+In particular, do not invent this to prove the execution side:
 
 ```coq
 assert (Hs : safeExec P prog X).
 ```
 
-也不要用低层 lemmas 手动重建 bind / ret / choice。generated VC 通常已经给出正确 execution hypothesis；正确做法是 unfold 当前 wrapper、`prog_nf in H`、选择 branch、`exact H`。
+Do not rebuild bind, return, or choice manually with low-level lemmas. The generated VC normally already contains the correct execution hypothesis. Unfold its current wrapper, run `prog_nf in H`, choose the branch, and use `exact H`.
 
-## 失败判断
+## Diagnosing failure
 
-若 `prog_nf in H`、`unfold_loop in H` 和正确的 `safe_choice_l/r` 后 abstract program state 仍无法和 goal 对齐，优先怀疑 annotation/spec 中的 abstract state 维护错误，而不是继续堆 tactic。
+If the abstract program state still cannot align with the goal after `prog_nf in H`, `unfold_loop in H`, and the correct `safe_choice_l/r`, suspect an annotation/specification error before stacking more tactics.
 
-检查顺序：
+Check in this order:
 
-1. witness 是否选错，导致后条件里的 abstract state tuple 不对。
-2. spatial side 是否尚未把 resources 改成目标需要的 shape。
-3. branch fact 是否指向另一条 `choice`。
-4. loop-state tuple 是否和 annotation invariant 中的 `safeExec` residual 一致。
-5. 当前 VC premise 是否缺少 annotation 应提供的 pure facts。
+1. Was the wrong witness selected, producing the wrong abstract-state tuple in the postcondition?
+2. Has the spatial side not yet reshaped resources as the goal needs?
+3. Does the branch fact point to the other side of the `choice`?
+4. Does the loop-state tuple agree with the `safeExec` residual in the annotation invariant?
+5. Is the current VC premise missing a pure fact that annotations should provide?
 
-如果只是 wrapper 名称、list expression 或 arithmetic guard 不匹配，优先在 group-local `case_lib` 新增当前 suffix helper 或调整 proof；不要把 proof route 不确定写成 `blocked`。
+If only a wrapper name, list expression, or arithmetic guard differs, add a proved current-suffix helper to `group_worker_lib` or adjust the proof. Do not return `blocked` merely because the proof route is uncertain.

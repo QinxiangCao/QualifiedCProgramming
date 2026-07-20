@@ -3875,39 +3875,6 @@ Lemma proof_of_dedup_points_and_find_leftmost_entail_wit_4_1 : dedup_points_and_
 Proof.
   unfold dedup_points_and_find_leftmost_entail_wit_4_1.
   intros.
-  assert (Hnodup_next :
-    point_no_dup_prefix pts_cur_2 (unique_n + 1)).
-  {
-    eapply point_no_dup_prefix_extend_from_inner; eauto; lia.
-  }
-  assert (Hrepr_next :
-    point_prefix_represents_range pts_cur_2
-      (unique_n + 1) (unique_n + 1) (read + 1)).
-  {
-    subst read.
-    unfold point_dedup_scan_inv in PreH16.
-    destruct PreH16 as [Hlen [Huniq_read [Hread_len
-      [Hperm [Hnodup [Hrepr Hpiv]]]]]].
-    unfold point_prefix_represents_range in *.
-    destruct Hrepr as [Huniq_lo [Hlo_hi Hrepr]].
-    repeat split; lia.
-  }
-  unfold point_dedup_scan_inv in PreH16.
-  destruct PreH16 as [Hlen [Huniq_read [Hread_len
-    [Hperm [Hnodup [Hrepr Hpiv]]]]]].
-  destruct Hpiv as [Hempty | Hleft].
-  - Left.
-    Exists pivot_cur_2 pts_cur_2.
-    entailer!.
-  - Right.
-    Exists pivot_cur_2 pts_cur_2.
-    entailer!.
-Qed.
-
-Lemma proof_of_dedup_points_and_find_leftmost_entail_wit_4_2 : dedup_points_and_find_leftmost_entail_wit_4_2.
-Proof.
-  unfold dedup_points_and_find_leftmost_entail_wit_4_2.
-  intros.
   assert (Hswap_len :
     Zlength (point_swap pts_cur_2 unique_n read) = n_pre).
   {
@@ -3955,6 +3922,39 @@ Proof.
       eapply point_leftmost_prefix_point_swap_preserve_before; eauto; lia.
     }
     Exists pivot_cur_2 (point_swap pts_cur_2 unique_n read).
+    entailer!.
+Qed.
+
+Lemma proof_of_dedup_points_and_find_leftmost_entail_wit_4_2 : dedup_points_and_find_leftmost_entail_wit_4_2.
+Proof.
+  unfold dedup_points_and_find_leftmost_entail_wit_4_2.
+  intros.
+  assert (Hnodup_next :
+    point_no_dup_prefix pts_cur_2 (unique_n + 1)).
+  {
+    eapply point_no_dup_prefix_extend_from_inner; eauto; lia.
+  }
+  assert (Hrepr_next :
+    point_prefix_represents_range pts_cur_2
+      (unique_n + 1) (unique_n + 1) (read + 1)).
+  {
+    subst read.
+    unfold point_dedup_scan_inv in PreH16.
+    destruct PreH16 as [Hlen [Huniq_read [Hread_len
+      [Hperm [Hnodup [Hrepr Hpiv]]]]]].
+    unfold point_prefix_represents_range in *.
+    destruct Hrepr as [Huniq_lo [Hlo_hi Hrepr]].
+    repeat split; lia.
+  }
+  unfold point_dedup_scan_inv in PreH16.
+  destruct PreH16 as [Hlen [Huniq_read [Hread_len
+    [Hperm [Hnodup [Hrepr Hpiv]]]]]].
+  destruct Hpiv as [Hempty | Hleft].
+  - Left.
+    Exists pivot_cur_2 pts_cur_2.
+    entailer!.
+  - Right.
+    Exists pivot_cur_2 pts_cur_2.
     entailer!.
 Qed.
 
@@ -4193,9 +4193,9 @@ Proof.
     try (eapply dedup_not_all_same_unique_n_ge_2; eauto).
 Qed.
 
-Lemma proof_of_graham_scan_dedup_entail_wit_2_1 : graham_scan_dedup_entail_wit_2_1.
+Lemma proof_of_graham_scan_dedup_entail_wit_2_2 : graham_scan_dedup_entail_wit_2_2.
 Proof.
-  unfold graham_scan_dedup_entail_wit_2_1.
+  unfold graham_scan_dedup_entail_wit_2_2.
   right.
   intros.
   subst pivot_out.
@@ -4344,9 +4344,9 @@ Proof.
     apply point_cmp_xy_eq; reflexivity.
 Qed.
 
-Lemma proof_of_graham_scan_dedup_entail_wit_2_2 : graham_scan_dedup_entail_wit_2_2.
+Lemma proof_of_graham_scan_dedup_entail_wit_2_1 : graham_scan_dedup_entail_wit_2_1.
 Proof.
-  unfold graham_scan_dedup_entail_wit_2_2.
+  unfold graham_scan_dedup_entail_wit_2_1.
   right.
   intros.
   pose proof PreH10 as Hresult.

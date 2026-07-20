@@ -1,0 +1,5 @@
+From SimpleC.EE.Applications_human.fme_ge_gmp.gmp Require Import mpz_tdiv_r_read0_strategy_goal mpz_tdiv_r_read0_strategy_proof.
+
+Module mpz_tdiv_r_read0_Strategy_Correctness : mpz_tdiv_r_read0_Strategy_Correct.
+  Include mpz_tdiv_r_read0_strategy_proof.
+End mpz_tdiv_r_read0_Strategy_Correctness.

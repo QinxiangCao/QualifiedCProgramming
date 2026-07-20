@@ -1975,16 +1975,16 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gp_y_pre: Z) (gp_x_p
 
 Definition build_hull_from_sorted_tail_safety_wit_1 := 
 forall (hull_pre: Z) (tail_n_pre: Z) (sorted_tail_pre: Z) (pivot_pre: Z) (X_low_level_spec: (unit -> ((@list Point) -> Prop))) (l_low_level_spec: (@list Point)) (pivot0_low_level_spec: Point) (PreH1 : (1 <= tail_n_pre)) (PreH2 : (tail_n_pre < INT_MAX)) (PreH3 : (tail_n_pre = (Zlength (l_low_level_spec)))) (PreH4 : (point_polar_sorted pivot0_low_level_spec l_low_level_spec )) (PreH5 : (leftmost pivot0_low_level_spec (rev (l_low_level_spec)) )) (PreH6 : (point_in_bound pivot0_low_level_spec )) (PreH7 : (points_in_bound l_low_level_spec )) (PreH8 : (safeExec (equiv (empty_point_stack)) (build_hull (pivot0_low_level_spec) (l_low_level_spec)) X_low_level_spec )) ,
-  ((( &( "hull" ) )) # Ptr  |-> hull_pre)
-  **  ((( &( "tail_n" ) )) # Int  |-> tail_n_pre)
+  ((( &( "pivot" ) )) # Ptr  |-> pivot_pre)
   **  ((( &( "sorted_tail" ) )) # Ptr  |-> sorted_tail_pre)
-  **  ((( &( "pivot" ) )) # Ptr  |-> pivot_pre)
+  **  ((( &( "tail_n" ) )) # Int  |-> tail_n_pre)
+  **  ((( &( "hull" ) )) # Ptr  |-> hull_pre)
   **  (store_point pivot_pre pivot0_low_level_spec )
   **  (PointArray.full sorted_tail_pre tail_n_pre l_low_level_spec )
   **  (PointArray.undef_full hull_pre (tail_n_pre + 1 ) )
 |--
-  “ (0 <= 9223372036854775807) ” 
-  &&  “ ((-9223372036854775808) <= 0) ”
+  “ (0 <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= 0) ”
 .
 
 Definition build_hull_from_sorted_tail_safety_wit_2 := 
@@ -1994,14 +1994,14 @@ forall (hull_pre: Z) (tail_n_pre: Z) (sorted_tail_pre: Z) (pivot_pre: Z) (X_low_
   **  ((&(((hull_pre + (0 * sizeof( "Point" ))))  # "Point" ->ₛ "y")) # Int  |->_)
   **  ((&((pivot_pre)  # "Point" ->ₛ "x")) # Int  |-> (point_x (pivot0_low_level_spec)))
   **  ((&((pivot_pre)  # "Point" ->ₛ "y")) # Int  |-> (point_y (pivot0_low_level_spec)))
-  **  ((( &( "hull" ) )) # Ptr  |-> hull_pre)
-  **  ((( &( "tail_n" ) )) # Int  |-> tail_n_pre)
-  **  ((( &( "sorted_tail" ) )) # Ptr  |-> sorted_tail_pre)
   **  ((( &( "pivot" ) )) # Ptr  |-> pivot_pre)
+  **  ((( &( "sorted_tail" ) )) # Ptr  |-> sorted_tail_pre)
+  **  ((( &( "tail_n" ) )) # Int  |-> tail_n_pre)
+  **  ((( &( "hull" ) )) # Ptr  |-> hull_pre)
   **  (PointArray.full sorted_tail_pre tail_n_pre l_low_level_spec )
 |--
-  “ (0 <= 9223372036854775807) ” 
-  &&  “ ((-9223372036854775808) <= 0) ”
+  “ (0 <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= 0) ”
 .
 
 Definition build_hull_from_sorted_tail_safety_wit_3 := 
@@ -2012,10 +2012,10 @@ forall (hull_pre: Z) (tail_n_pre: Z) (sorted_tail_pre: Z) (pivot_pre: Z) (X_low_
   **  ((&(((hull_pre + (0 * sizeof( "Point" ))))  # "Point" ->ₛ "y")) # Int  |-> (point_y (pivot0_low_level_spec)))
   **  ((&((pivot_pre)  # "Point" ->ₛ "x")) # Int  |-> (point_x (pivot0_low_level_spec)))
   **  ((&((pivot_pre)  # "Point" ->ₛ "y")) # Int  |-> (point_y (pivot0_low_level_spec)))
-  **  ((( &( "hull" ) )) # Ptr  |-> hull_pre)
-  **  ((( &( "tail_n" ) )) # Int  |-> tail_n_pre)
-  **  ((( &( "sorted_tail" ) )) # Ptr  |-> sorted_tail_pre)
   **  ((( &( "pivot" ) )) # Ptr  |-> pivot_pre)
+  **  ((( &( "sorted_tail" ) )) # Ptr  |-> sorted_tail_pre)
+  **  ((( &( "tail_n" ) )) # Int  |-> tail_n_pre)
+  **  ((( &( "hull" ) )) # Ptr  |-> hull_pre)
   **  (PointArray.full sorted_tail_pre tail_n_pre l_low_level_spec )
 |--
   “ (0 <= INT_MAX) ” 
@@ -2031,10 +2031,10 @@ forall (hull_pre: Z) (tail_n_pre: Z) (sorted_tail_pre: Z) (pivot_pre: Z) (X_low_
   **  ((&(((hull_pre + (0 * sizeof( "Point" ))))  # "Point" ->ₛ "y")) # Int  |-> (point_y (pivot0_low_level_spec)))
   **  ((&((pivot_pre)  # "Point" ->ₛ "x")) # Int  |-> (point_x (pivot0_low_level_spec)))
   **  ((&((pivot_pre)  # "Point" ->ₛ "y")) # Int  |-> (point_y (pivot0_low_level_spec)))
-  **  ((( &( "hull" ) )) # Ptr  |-> hull_pre)
-  **  ((( &( "tail_n" ) )) # Int  |-> tail_n_pre)
-  **  ((( &( "sorted_tail" ) )) # Ptr  |-> sorted_tail_pre)
   **  ((( &( "pivot" ) )) # Ptr  |-> pivot_pre)
+  **  ((( &( "sorted_tail" ) )) # Ptr  |-> sorted_tail_pre)
+  **  ((( &( "tail_n" ) )) # Int  |-> tail_n_pre)
+  **  ((( &( "hull" ) )) # Ptr  |-> hull_pre)
   **  (PointArray.full sorted_tail_pre tail_n_pre l_low_level_spec )
 |--
   “ (0 <= INT_MAX) ” 
@@ -3437,12 +3437,12 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (pts_pre: Z
   **  (PointArray.full pts_pre n_pre pts_l )
   **  ((( &( "pivot_y" ) )) # Int  |-> (point_y ((Znth high_pre pts_l __default_Point))))
   **  ((( &( "pivot_x" ) )) # Int  |-> (point_x ((Znth high_pre pts_l __default_Point))))
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "high" ) )) # Int  |-> high_pre)
-  **  ((( &( "low" ) )) # Int  |-> low_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "low" ) )) # Int  |-> low_pre)
+  **  ((( &( "high" ) )) # Int  |-> high_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ ((low_pre - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (low_pre - 1 )) ”
@@ -3454,12 +3454,12 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (pts_pre: Z
   **  (PointArray.full pts_pre n_pre pts_l )
   **  ((( &( "pivot_y" ) )) # Int  |-> (point_y ((Znth high_pre pts_l __default_Point))))
   **  ((( &( "pivot_x" ) )) # Int  |-> (point_x ((Znth high_pre pts_l __default_Point))))
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "high" ) )) # Int  |-> high_pre)
-  **  ((( &( "low" ) )) # Int  |-> low_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "low" ) )) # Int  |-> low_pre)
+  **  ((( &( "high" ) )) # Int  |-> high_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -4301,12 +4301,12 @@ Definition quicksort_polar_points_safety_wit_1 :=
 forall (gy_pre: Z) (gx_pre: Z) (right_pre: Z) (left_pre: Z) (n_pre: Z) (pts_pre: Z) (pts_l: (@list Point)) (pts_out: (@list Point)) (retval: Z) (PreH1 : (retval > left_pre)) (PreH2 : (left_pre <= retval)) (PreH3 : (retval <= right_pre)) (PreH4 : ((Zlength (pts_out)) = n_pre)) (PreH5 : (points_in_bound pts_out )) (PreH6 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_out )) (PreH7 : (point_permutation pts_l pts_out )) (PreH8 : (point_same_outside_range pts_l pts_out left_pre right_pre )) (PreH9 : (point_polar_partitioned_at (point_mk (gx_pre) (gy_pre)) pts_out left_pre right_pre retval )) (PreH10 : (left_pre < right_pre)) (PreH11 : (0 <= n_pre)) (PreH12 : (n_pre <= 50000)) (PreH13 : (0 <= left_pre)) (PreH14 : ((-1) <= right_pre)) (PreH15 : (right_pre < n_pre)) (PreH16 : ((Zlength (pts_l)) = n_pre)) (PreH17 : (points_in_bound pts_l )) (PreH18 : (point_in_bound (point_mk (gx_pre) (gy_pre)) )) (PreH19 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_l )) ,
   (PointArray.full pts_pre n_pre pts_out )
   **  ((( &( "p" ) )) # Int  |-> retval)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "left" ) )) # Int  |-> left_pre)
+  **  ((( &( "right" ) )) # Int  |-> right_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ ((retval - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (retval - 1 )) ”
@@ -4316,12 +4316,12 @@ Definition quicksort_polar_points_safety_wit_2 :=
 forall (gy_pre: Z) (gx_pre: Z) (right_pre: Z) (left_pre: Z) (n_pre: Z) (pts_pre: Z) (pts_l: (@list Point)) (pts_out: (@list Point)) (retval: Z) (PreH1 : (retval > left_pre)) (PreH2 : (left_pre <= retval)) (PreH3 : (retval <= right_pre)) (PreH4 : ((Zlength (pts_out)) = n_pre)) (PreH5 : (points_in_bound pts_out )) (PreH6 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_out )) (PreH7 : (point_permutation pts_l pts_out )) (PreH8 : (point_same_outside_range pts_l pts_out left_pre right_pre )) (PreH9 : (point_polar_partitioned_at (point_mk (gx_pre) (gy_pre)) pts_out left_pre right_pre retval )) (PreH10 : (left_pre < right_pre)) (PreH11 : (0 <= n_pre)) (PreH12 : (n_pre <= 50000)) (PreH13 : (0 <= left_pre)) (PreH14 : ((-1) <= right_pre)) (PreH15 : (right_pre < n_pre)) (PreH16 : ((Zlength (pts_l)) = n_pre)) (PreH17 : (points_in_bound pts_l )) (PreH18 : (point_in_bound (point_mk (gx_pre) (gy_pre)) )) (PreH19 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_l )) ,
   (PointArray.full pts_pre n_pre pts_out )
   **  ((( &( "p" ) )) # Int  |-> retval)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "left" ) )) # Int  |-> left_pre)
+  **  ((( &( "right" ) )) # Int  |-> right_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -4331,12 +4331,12 @@ Definition quicksort_polar_points_safety_wit_3 :=
 forall (gy_pre: Z) (gx_pre: Z) (right_pre: Z) (left_pre: Z) (n_pre: Z) (pts_pre: Z) (pts_l: (@list Point)) (pts_out: (@list Point)) (retval: Z) (PreH1 : (retval >= right_pre)) (PreH2 : (retval <= left_pre)) (PreH3 : (left_pre <= retval)) (PreH4 : (retval <= right_pre)) (PreH5 : ((Zlength (pts_out)) = n_pre)) (PreH6 : (points_in_bound pts_out )) (PreH7 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_out )) (PreH8 : (point_permutation pts_l pts_out )) (PreH9 : (point_same_outside_range pts_l pts_out left_pre right_pre )) (PreH10 : (point_polar_partitioned_at (point_mk (gx_pre) (gy_pre)) pts_out left_pre right_pre retval )) (PreH11 : (left_pre < right_pre)) (PreH12 : (0 <= n_pre)) (PreH13 : (n_pre <= 50000)) (PreH14 : (0 <= left_pre)) (PreH15 : ((-1) <= right_pre)) (PreH16 : (right_pre < n_pre)) (PreH17 : ((Zlength (pts_l)) = n_pre)) (PreH18 : (points_in_bound pts_l )) (PreH19 : (point_in_bound (point_mk (gx_pre) (gy_pre)) )) (PreH20 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_l )) ,
   (PointArray.full pts_pre n_pre pts_out )
   **  ((( &( "p" ) )) # Int  |-> retval)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "left" ) )) # Int  |-> left_pre)
+  **  ((( &( "right" ) )) # Int  |-> right_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ False ”
 .
@@ -4345,12 +4345,12 @@ Definition quicksort_polar_points_safety_wit_4 :=
 forall (gy_pre: Z) (gx_pre: Z) (right_pre: Z) (left_pre: Z) (n_pre: Z) (pts_pre: Z) (pts_l: (@list Point)) (pts_out: (@list Point)) (retval: Z) (pts_out_2: (@list Point)) (PreH1 : (retval < right_pre)) (PreH2 : ((Zlength (pts_out_2)) = n_pre)) (PreH3 : (points_in_bound pts_out_2 )) (PreH4 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_out_2 )) (PreH5 : (point_permutation pts_out pts_out_2 )) (PreH6 : (point_same_outside_range pts_out pts_out_2 left_pre (retval - 1 ) )) (PreH7 : (point_sorted_range (point_mk (gx_pre) (gy_pre)) pts_out_2 left_pre (retval - 1 ) )) (PreH8 : (retval > left_pre)) (PreH9 : (left_pre <= retval)) (PreH10 : (retval <= right_pre)) (PreH11 : ((Zlength (pts_out)) = n_pre)) (PreH12 : (points_in_bound pts_out )) (PreH13 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_out )) (PreH14 : (point_permutation pts_l pts_out )) (PreH15 : (point_same_outside_range pts_l pts_out left_pre right_pre )) (PreH16 : (point_polar_partitioned_at (point_mk (gx_pre) (gy_pre)) pts_out left_pre right_pre retval )) (PreH17 : (left_pre < right_pre)) (PreH18 : (0 <= n_pre)) (PreH19 : (n_pre <= 50000)) (PreH20 : (0 <= left_pre)) (PreH21 : ((-1) <= right_pre)) (PreH22 : (right_pre < n_pre)) (PreH23 : ((Zlength (pts_l)) = n_pre)) (PreH24 : (points_in_bound pts_l )) (PreH25 : (point_in_bound (point_mk (gx_pre) (gy_pre)) )) (PreH26 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_l )) ,
   (PointArray.full pts_pre n_pre pts_out_2 )
   **  ((( &( "p" ) )) # Int  |-> retval)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "left" ) )) # Int  |-> left_pre)
+  **  ((( &( "right" ) )) # Int  |-> right_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ ((retval + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (retval + 1 )) ”
@@ -4360,12 +4360,12 @@ Definition quicksort_polar_points_safety_wit_5 :=
 forall (gy_pre: Z) (gx_pre: Z) (right_pre: Z) (left_pre: Z) (n_pre: Z) (pts_pre: Z) (pts_l: (@list Point)) (pts_out: (@list Point)) (retval: Z) (pts_out_2: (@list Point)) (PreH1 : (retval < right_pre)) (PreH2 : ((Zlength (pts_out_2)) = n_pre)) (PreH3 : (points_in_bound pts_out_2 )) (PreH4 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_out_2 )) (PreH5 : (point_permutation pts_out pts_out_2 )) (PreH6 : (point_same_outside_range pts_out pts_out_2 left_pre (retval - 1 ) )) (PreH7 : (point_sorted_range (point_mk (gx_pre) (gy_pre)) pts_out_2 left_pre (retval - 1 ) )) (PreH8 : (retval > left_pre)) (PreH9 : (left_pre <= retval)) (PreH10 : (retval <= right_pre)) (PreH11 : ((Zlength (pts_out)) = n_pre)) (PreH12 : (points_in_bound pts_out )) (PreH13 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_out )) (PreH14 : (point_permutation pts_l pts_out )) (PreH15 : (point_same_outside_range pts_l pts_out left_pre right_pre )) (PreH16 : (point_polar_partitioned_at (point_mk (gx_pre) (gy_pre)) pts_out left_pre right_pre retval )) (PreH17 : (left_pre < right_pre)) (PreH18 : (0 <= n_pre)) (PreH19 : (n_pre <= 50000)) (PreH20 : (0 <= left_pre)) (PreH21 : ((-1) <= right_pre)) (PreH22 : (right_pre < n_pre)) (PreH23 : ((Zlength (pts_l)) = n_pre)) (PreH24 : (points_in_bound pts_l )) (PreH25 : (point_in_bound (point_mk (gx_pre) (gy_pre)) )) (PreH26 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_l )) ,
   (PointArray.full pts_pre n_pre pts_out_2 )
   **  ((( &( "p" ) )) # Int  |-> retval)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "left" ) )) # Int  |-> left_pre)
+  **  ((( &( "right" ) )) # Int  |-> right_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -4375,12 +4375,12 @@ Definition quicksort_polar_points_safety_wit_6 :=
 forall (gy_pre: Z) (gx_pre: Z) (right_pre: Z) (left_pre: Z) (n_pre: Z) (pts_pre: Z) (pts_l: (@list Point)) (pts_out: (@list Point)) (retval: Z) (PreH1 : (retval < right_pre)) (PreH2 : (retval <= left_pre)) (PreH3 : (left_pre <= retval)) (PreH4 : (retval <= right_pre)) (PreH5 : ((Zlength (pts_out)) = n_pre)) (PreH6 : (points_in_bound pts_out )) (PreH7 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_out )) (PreH8 : (point_permutation pts_l pts_out )) (PreH9 : (point_same_outside_range pts_l pts_out left_pre right_pre )) (PreH10 : (point_polar_partitioned_at (point_mk (gx_pre) (gy_pre)) pts_out left_pre right_pre retval )) (PreH11 : (left_pre < right_pre)) (PreH12 : (0 <= n_pre)) (PreH13 : (n_pre <= 50000)) (PreH14 : (0 <= left_pre)) (PreH15 : ((-1) <= right_pre)) (PreH16 : (right_pre < n_pre)) (PreH17 : ((Zlength (pts_l)) = n_pre)) (PreH18 : (points_in_bound pts_l )) (PreH19 : (point_in_bound (point_mk (gx_pre) (gy_pre)) )) (PreH20 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_l )) ,
   (PointArray.full pts_pre n_pre pts_out )
   **  ((( &( "p" ) )) # Int  |-> retval)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "left" ) )) # Int  |-> left_pre)
+  **  ((( &( "right" ) )) # Int  |-> right_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ ((retval + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (retval + 1 )) ”
@@ -4390,12 +4390,12 @@ Definition quicksort_polar_points_safety_wit_7 :=
 forall (gy_pre: Z) (gx_pre: Z) (right_pre: Z) (left_pre: Z) (n_pre: Z) (pts_pre: Z) (pts_l: (@list Point)) (pts_out: (@list Point)) (retval: Z) (PreH1 : (retval < right_pre)) (PreH2 : (retval <= left_pre)) (PreH3 : (left_pre <= retval)) (PreH4 : (retval <= right_pre)) (PreH5 : ((Zlength (pts_out)) = n_pre)) (PreH6 : (points_in_bound pts_out )) (PreH7 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_out )) (PreH8 : (point_permutation pts_l pts_out )) (PreH9 : (point_same_outside_range pts_l pts_out left_pre right_pre )) (PreH10 : (point_polar_partitioned_at (point_mk (gx_pre) (gy_pre)) pts_out left_pre right_pre retval )) (PreH11 : (left_pre < right_pre)) (PreH12 : (0 <= n_pre)) (PreH13 : (n_pre <= 50000)) (PreH14 : (0 <= left_pre)) (PreH15 : ((-1) <= right_pre)) (PreH16 : (right_pre < n_pre)) (PreH17 : ((Zlength (pts_l)) = n_pre)) (PreH18 : (points_in_bound pts_l )) (PreH19 : (point_in_bound (point_mk (gx_pre) (gy_pre)) )) (PreH20 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_l )) ,
   (PointArray.full pts_pre n_pre pts_out )
   **  ((( &( "p" ) )) # Int  |-> retval)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "left" ) )) # Int  |-> left_pre)
+  **  ((( &( "right" ) )) # Int  |-> right_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -4560,12 +4560,12 @@ forall (gy_pre: Z) (gx_pre: Z) (right_pre: Z) (left_pre: Z) (n_pre: Z) (pts_l: (
 Definition quicksort_polar_points_partial_solve_wit_1_pure := 
 forall (gy_pre: Z) (gx_pre: Z) (right_pre: Z) (left_pre: Z) (n_pre: Z) (pts_pre: Z) (pts_l: (@list Point)) (PreH1 : (left_pre < right_pre)) (PreH2 : (0 <= n_pre)) (PreH3 : (n_pre <= 50000)) (PreH4 : (0 <= left_pre)) (PreH5 : ((-1) <= right_pre)) (PreH6 : (right_pre < n_pre)) (PreH7 : ((Zlength (pts_l)) = n_pre)) (PreH8 : (points_in_bound pts_l )) (PreH9 : (point_in_bound (point_mk (gx_pre) (gy_pre)) )) (PreH10 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_l )) ,
   ((( &( "p" ) )) # Int  |->_)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "left" ) )) # Int  |-> left_pre)
+  **  ((( &( "right" ) )) # Int  |-> right_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  (PointArray.full pts_pre n_pre pts_l )
 |--
   “ (0 <= left_pre) ” 
@@ -4611,12 +4611,12 @@ Definition quicksort_polar_points_partial_solve_wit_2_pure :=
 forall (gy_pre: Z) (gx_pre: Z) (right_pre: Z) (left_pre: Z) (n_pre: Z) (pts_pre: Z) (pts_l: (@list Point)) (pts_out: (@list Point)) (retval: Z) (PreH1 : (retval > left_pre)) (PreH2 : (left_pre <= retval)) (PreH3 : (retval <= right_pre)) (PreH4 : ((Zlength (pts_out)) = n_pre)) (PreH5 : (points_in_bound pts_out )) (PreH6 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_out )) (PreH7 : (point_permutation pts_l pts_out )) (PreH8 : (point_same_outside_range pts_l pts_out left_pre right_pre )) (PreH9 : (point_polar_partitioned_at (point_mk (gx_pre) (gy_pre)) pts_out left_pre right_pre retval )) (PreH10 : (left_pre < right_pre)) (PreH11 : (0 <= n_pre)) (PreH12 : (n_pre <= 50000)) (PreH13 : (0 <= left_pre)) (PreH14 : ((-1) <= right_pre)) (PreH15 : (right_pre < n_pre)) (PreH16 : ((Zlength (pts_l)) = n_pre)) (PreH17 : (points_in_bound pts_l )) (PreH18 : (point_in_bound (point_mk (gx_pre) (gy_pre)) )) (PreH19 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_l )) ,
   (PointArray.full pts_pre n_pre pts_out )
   **  ((( &( "p" ) )) # Int  |-> retval)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "left" ) )) # Int  |-> left_pre)
+  **  ((( &( "right" ) )) # Int  |-> right_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ (0 <= n_pre) ” 
   &&  “ (n_pre <= 50000) ” 
@@ -4670,12 +4670,12 @@ Definition quicksort_polar_points_partial_solve_wit_3_pure :=
 forall (gy_pre: Z) (gx_pre: Z) (right_pre: Z) (left_pre: Z) (n_pre: Z) (pts_pre: Z) (pts_l: (@list Point)) (pts_out_2: (@list Point)) (retval: Z) (pts_out: (@list Point)) (PreH1 : (retval < right_pre)) (PreH2 : ((Zlength (pts_out)) = n_pre)) (PreH3 : (points_in_bound pts_out )) (PreH4 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_out )) (PreH5 : (point_permutation pts_out_2 pts_out )) (PreH6 : (point_same_outside_range pts_out_2 pts_out left_pre (retval - 1 ) )) (PreH7 : (point_sorted_range (point_mk (gx_pre) (gy_pre)) pts_out left_pre (retval - 1 ) )) (PreH8 : (retval > left_pre)) (PreH9 : (left_pre <= retval)) (PreH10 : (retval <= right_pre)) (PreH11 : ((Zlength (pts_out_2)) = n_pre)) (PreH12 : (points_in_bound pts_out_2 )) (PreH13 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_out_2 )) (PreH14 : (point_permutation pts_l pts_out_2 )) (PreH15 : (point_same_outside_range pts_l pts_out_2 left_pre right_pre )) (PreH16 : (point_polar_partitioned_at (point_mk (gx_pre) (gy_pre)) pts_out_2 left_pre right_pre retval )) (PreH17 : (left_pre < right_pre)) (PreH18 : (0 <= n_pre)) (PreH19 : (n_pre <= 50000)) (PreH20 : (0 <= left_pre)) (PreH21 : ((-1) <= right_pre)) (PreH22 : (right_pre < n_pre)) (PreH23 : ((Zlength (pts_l)) = n_pre)) (PreH24 : (points_in_bound pts_l )) (PreH25 : (point_in_bound (point_mk (gx_pre) (gy_pre)) )) (PreH26 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_l )) ,
   (PointArray.full pts_pre n_pre pts_out )
   **  ((( &( "p" ) )) # Int  |-> retval)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "left" ) )) # Int  |-> left_pre)
+  **  ((( &( "right" ) )) # Int  |-> right_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ (0 <= n_pre) ” 
   &&  “ (n_pre <= 50000) ” 
@@ -4736,12 +4736,12 @@ Definition quicksort_polar_points_partial_solve_wit_4_pure :=
 forall (gy_pre: Z) (gx_pre: Z) (right_pre: Z) (left_pre: Z) (n_pre: Z) (pts_pre: Z) (pts_l: (@list Point)) (pts_out: (@list Point)) (retval: Z) (PreH1 : (retval < right_pre)) (PreH2 : (retval <= left_pre)) (PreH3 : (left_pre <= retval)) (PreH4 : (retval <= right_pre)) (PreH5 : ((Zlength (pts_out)) = n_pre)) (PreH6 : (points_in_bound pts_out )) (PreH7 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_out )) (PreH8 : (point_permutation pts_l pts_out )) (PreH9 : (point_same_outside_range pts_l pts_out left_pre right_pre )) (PreH10 : (point_polar_partitioned_at (point_mk (gx_pre) (gy_pre)) pts_out left_pre right_pre retval )) (PreH11 : (left_pre < right_pre)) (PreH12 : (0 <= n_pre)) (PreH13 : (n_pre <= 50000)) (PreH14 : (0 <= left_pre)) (PreH15 : ((-1) <= right_pre)) (PreH16 : (right_pre < n_pre)) (PreH17 : ((Zlength (pts_l)) = n_pre)) (PreH18 : (points_in_bound pts_l )) (PreH19 : (point_in_bound (point_mk (gx_pre) (gy_pre)) )) (PreH20 : (leftmost (point_mk (gx_pre) (gy_pre)) pts_l )) ,
   (PointArray.full pts_pre n_pre pts_out )
   **  ((( &( "p" ) )) # Int  |-> retval)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "right" ) )) # Int  |-> right_pre)
-  **  ((( &( "left" ) )) # Int  |-> left_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "left" ) )) # Int  |-> left_pre)
+  **  ((( &( "right" ) )) # Int  |-> right_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ (0 <= n_pre) ” 
   &&  “ (n_pre <= 50000) ” 
@@ -4797,9 +4797,9 @@ Definition quicksort_polar_points_partial_solve_wit_4 := quicksort_polar_points_
 Definition graham_scan_safety_wit_1 := 
 forall (hull_pre: Z) (n_pre: Z) (pts_pre: Z) (pts_l: (@list Point)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 50000)) (PreH3 : ((Zlength (pts_l)) = n_pre)) (PreH4 : (points_in_bound pts_l )) ,
   ((( &( "pivot_idx" ) )) # Int  |->_)
-  **  ((( &( "hull" ) )) # Ptr  |-> hull_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "hull" ) )) # Ptr  |-> hull_pre)
   **  (PointArray.full pts_pre n_pre pts_l )
   **  (PointArray.undef_full hull_pre n_pre )
 |--
@@ -4811,9 +4811,9 @@ Definition graham_scan_safety_wit_2 :=
 forall (hull_pre: Z) (n_pre: Z) (pts_pre: Z) (pts_l: (@list Point)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 50000)) (PreH3 : ((Zlength (pts_l)) = n_pre)) (PreH4 : (points_in_bound pts_l )) ,
   ((( &( "i" ) )) # Int  |->_)
   **  ((( &( "pivot_idx" ) )) # Int  |-> 0)
-  **  ((( &( "hull" ) )) # Ptr  |-> hull_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "hull" ) )) # Ptr  |-> hull_pre)
   **  (PointArray.full pts_pre n_pre pts_l )
   **  (PointArray.undef_full hull_pre n_pre )
 |--
@@ -5207,60 +5207,6 @@ forall (n_pre: Z) (pts_l: (@list Point)) (pivot_idx: Z) (i: Z) (retval: Z)  __de
 
 Definition graham_scan_entail_wit_3_1 := 
 (
-forall (hull_pre: Z) (n_pre: Z) (pts_pre: Z) (pts_l: (@list Point)) (pivot_idx: Z) (i: Z) (pts_out: (@list Point))  __default_Point (PreH1 : ((Zlength (pts_out)) = n_pre)) (PreH2 : (points_in_bound pts_out )) (PreH3 : (leftmost (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) pts_out )) (PreH4 : (point_permutation pts_l pts_out )) (PreH5 : (point_same_outside_range pts_l pts_out 1 (n_pre - 1 ) )) (PreH6 : (point_sorted_range (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) pts_out 1 (n_pre - 1 ) )) (PreH7 : (pivot_idx = 0)) (PreH8 : (i >= n_pre)) (PreH9 : (2 <= n_pre)) (PreH10 : (0 <= n_pre)) (PreH11 : (n_pre <= 50000)) (PreH12 : (1 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (0 <= pivot_idx)) (PreH15 : (pivot_idx < i)) (PreH16 : (point_leftmost_prefix pts_l pivot_idx i )) (PreH17 : ((Zlength (pts_l)) = n_pre)) (PreH18 : (points_in_bound pts_l )) ,
-  (PointArray.full pts_pre n_pre pts_out )
-  **  (PointArray.undef_full hull_pre n_pre )
-|--
-  EX (tail_sorted: (@list Point))  (pts_sorted: (@list Point))  (pts_pivot: (@list Point))  (pivot0: Point) ,
-  “ ((pts_pre + (1 * sizeof( "Point" ))) = (pts_pre + (1 * sizeof( "Point" )))) ” 
-  &&  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 50000) ” 
-  &&  “ (pivot0 = (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point)))))) ” 
-  &&  “ (pts_pivot = (point_swap (pts_l) (0) (pivot_idx))) ” 
-  &&  “ ((Zlength (pts_sorted)) = n_pre) ” 
-  &&  “ ((Zlength (tail_sorted)) = (n_pre - 1 )) ” 
-  &&  “ (tail_sorted = (sublist (1) (n_pre) (pts_sorted))) ” 
-  &&  “ (points_in_bound pts_sorted ) ” 
-  &&  “ (points_in_bound tail_sorted ) ” 
-  &&  “ (point_in_bound pivot0 ) ” 
-  &&  “ (point_leftmost_prefix pts_l pivot_idx n_pre ) ” 
-  &&  “ (leftmost pivot0 pts_sorted ) ” 
-  &&  “ (point_permutation pts_pivot pts_sorted ) ” 
-  &&  “ (point_sorted_range (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) pts_sorted 1 (n_pre - 1 ) ) ” 
-  &&  “ (point_polar_sorted pivot0 tail_sorted ) ” 
-  &&  “ (leftmost pivot0 (rev (tail_sorted)) ) ” 
-  &&  “ (((Znth 0 pts_sorted __default_Point).(x) ) = (point_x ((Znth 0 pts_l __default_Point)))) ” 
-  &&  “ (((Znth 0 pts_sorted __default_Point).(y) ) = (point_y ((Znth 0 pts_l __default_Point)))) ”
-  &&  (store_point pts_pre pivot0 )
-  **  (PointArray.full (pts_pre + (1 * sizeof( "Point" ))) (n_pre - 1 ) tail_sorted )
-  **  (PointArray.undef_full hull_pre ((n_pre - 1 ) + 1 ) )
-) \/
-(
-forall (n_pre: Z) (pts_pre: Z) (pts_l: (@list Point)) (pivot_idx: Z) (i: Z) (pts_out: (@list Point))  __default_Point (PreH1 : ((Zlength (pts_out)) = n_pre)) (PreH2 : (points_in_bound pts_out )) (PreH3 : (leftmost (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) pts_out )) (PreH4 : (point_permutation pts_l pts_out )) (PreH5 : (point_same_outside_range pts_l pts_out 1 (n_pre - 1 ) )) (PreH6 : (point_sorted_range (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) pts_out 1 (n_pre - 1 ) )) (PreH7 : (pivot_idx = 0)) (PreH8 : (i >= n_pre)) (PreH9 : (2 <= n_pre)) (PreH10 : (0 <= n_pre)) (PreH11 : (n_pre <= 50000)) (PreH12 : (1 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (0 <= pivot_idx)) (PreH15 : (pivot_idx < i)) (PreH16 : (point_leftmost_prefix pts_l pivot_idx i )) (PreH17 : ((Zlength (pts_l)) = n_pre)) (PreH18 : (points_in_bound pts_l )) ,
-  (PointArray.full pts_pre n_pre pts_out )
-|--
-  EX (pts_sorted: (@list Point)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 50000) ” 
-  &&  “ ((Zlength (pts_sorted)) = n_pre) ” 
-  &&  “ ((Zlength ((sublist (1) (n_pre) (pts_sorted)))) = (n_pre - 1 )) ” 
-  &&  “ (points_in_bound pts_sorted ) ” 
-  &&  “ (points_in_bound (sublist (1) (n_pre) (pts_sorted)) ) ” 
-  &&  “ (point_in_bound (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) ) ” 
-  &&  “ (point_leftmost_prefix pts_l pivot_idx n_pre ) ” 
-  &&  “ (leftmost (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) pts_sorted ) ” 
-  &&  “ (point_permutation (point_swap (pts_l) (0) (pivot_idx)) pts_sorted ) ” 
-  &&  “ (point_sorted_range (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) pts_sorted 1 (n_pre - 1 ) ) ” 
-  &&  “ (point_polar_sorted (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) (sublist (1) (n_pre) (pts_sorted)) ) ” 
-  &&  “ (leftmost (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) (rev ((sublist (1) (n_pre) (pts_sorted)))) ) ” 
-  &&  “ (((Znth 0 pts_sorted __default_Point).(x) ) = (point_x ((Znth 0 pts_l __default_Point)))) ” 
-  &&  “ (((Znth 0 pts_sorted __default_Point).(y) ) = (point_y ((Znth 0 pts_l __default_Point)))) ”
-  &&  (store_point pts_pre (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) )
-  **  (PointArray.full (pts_pre + (1 * sizeof( "Point" ))) (n_pre - 1 ) (sublist (1) (n_pre) (pts_sorted)) )
-).
-
-Definition graham_scan_entail_wit_3_2 := 
-(
 forall (hull_pre: Z) (n_pre: Z) (pts_pre: Z) (pts_l: (@list Point)) (pivot_idx: Z) (i: Z) (pts_out: (@list Point))  __default_Point (PreH1 : ((Zlength (pts_out)) = n_pre)) (PreH2 : (points_in_bound pts_out )) (PreH3 : (leftmost (point_mk ((point_x ((Znth 0 (point_swap (pts_l) (0) (pivot_idx)) __default_Point)))) ((point_y ((Znth 0 (point_swap (pts_l) (0) (pivot_idx)) __default_Point))))) pts_out )) (PreH4 : (point_permutation (point_swap (pts_l) (0) (pivot_idx)) pts_out )) (PreH5 : (point_same_outside_range (point_swap (pts_l) (0) (pivot_idx)) pts_out 1 (n_pre - 1 ) )) (PreH6 : (point_sorted_range (point_mk ((point_x ((Znth 0 (point_swap (pts_l) (0) (pivot_idx)) __default_Point)))) ((point_y ((Znth 0 (point_swap (pts_l) (0) (pivot_idx)) __default_Point))))) pts_out 1 (n_pre - 1 ) )) (PreH7 : ((Zlength (pts_l)) = n_pre)) (PreH8 : (pivot_idx <> 0)) (PreH9 : (i >= n_pre)) (PreH10 : (2 <= n_pre)) (PreH11 : (0 <= n_pre)) (PreH12 : (n_pre <= 50000)) (PreH13 : (1 <= i)) (PreH14 : (i <= n_pre)) (PreH15 : (0 <= pivot_idx)) (PreH16 : (pivot_idx < i)) (PreH17 : (point_leftmost_prefix pts_l pivot_idx i )) (PreH18 : ((Zlength (pts_l)) = n_pre)) (PreH19 : (points_in_bound pts_l )) ,
   (PointArray.full pts_pre n_pre pts_out )
   **  (PointArray.undef_full hull_pre n_pre )
@@ -5310,6 +5256,60 @@ forall (n_pre: Z) (pts_pre: Z) (pts_l: (@list Point)) (pivot_idx: Z) (i: Z) (pts
   &&  “ (((Znth 0 pts_sorted __default_Point).(x) ) = (point_x ((Znth 0 (point_swap (pts_l) (0) (pivot_idx)) __default_Point)))) ” 
   &&  “ (((Znth 0 pts_sorted __default_Point).(y) ) = (point_y ((Znth 0 (point_swap (pts_l) (0) (pivot_idx)) __default_Point)))) ”
   &&  (store_point pts_pre (point_mk ((point_x ((Znth 0 (point_swap (pts_l) (0) (pivot_idx)) __default_Point)))) ((point_y ((Znth 0 (point_swap (pts_l) (0) (pivot_idx)) __default_Point))))) )
+  **  (PointArray.full (pts_pre + (1 * sizeof( "Point" ))) (n_pre - 1 ) (sublist (1) (n_pre) (pts_sorted)) )
+).
+
+Definition graham_scan_entail_wit_3_2 := 
+(
+forall (hull_pre: Z) (n_pre: Z) (pts_pre: Z) (pts_l: (@list Point)) (pivot_idx: Z) (i: Z) (pts_out: (@list Point))  __default_Point (PreH1 : ((Zlength (pts_out)) = n_pre)) (PreH2 : (points_in_bound pts_out )) (PreH3 : (leftmost (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) pts_out )) (PreH4 : (point_permutation pts_l pts_out )) (PreH5 : (point_same_outside_range pts_l pts_out 1 (n_pre - 1 ) )) (PreH6 : (point_sorted_range (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) pts_out 1 (n_pre - 1 ) )) (PreH7 : (pivot_idx = 0)) (PreH8 : (i >= n_pre)) (PreH9 : (2 <= n_pre)) (PreH10 : (0 <= n_pre)) (PreH11 : (n_pre <= 50000)) (PreH12 : (1 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (0 <= pivot_idx)) (PreH15 : (pivot_idx < i)) (PreH16 : (point_leftmost_prefix pts_l pivot_idx i )) (PreH17 : ((Zlength (pts_l)) = n_pre)) (PreH18 : (points_in_bound pts_l )) ,
+  (PointArray.full pts_pre n_pre pts_out )
+  **  (PointArray.undef_full hull_pre n_pre )
+|--
+  EX (tail_sorted: (@list Point))  (pts_sorted: (@list Point))  (pts_pivot: (@list Point))  (pivot0: Point) ,
+  “ ((pts_pre + (1 * sizeof( "Point" ))) = (pts_pre + (1 * sizeof( "Point" )))) ” 
+  &&  “ (2 <= n_pre) ” 
+  &&  “ (n_pre <= 50000) ” 
+  &&  “ (pivot0 = (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point)))))) ” 
+  &&  “ (pts_pivot = (point_swap (pts_l) (0) (pivot_idx))) ” 
+  &&  “ ((Zlength (pts_sorted)) = n_pre) ” 
+  &&  “ ((Zlength (tail_sorted)) = (n_pre - 1 )) ” 
+  &&  “ (tail_sorted = (sublist (1) (n_pre) (pts_sorted))) ” 
+  &&  “ (points_in_bound pts_sorted ) ” 
+  &&  “ (points_in_bound tail_sorted ) ” 
+  &&  “ (point_in_bound pivot0 ) ” 
+  &&  “ (point_leftmost_prefix pts_l pivot_idx n_pre ) ” 
+  &&  “ (leftmost pivot0 pts_sorted ) ” 
+  &&  “ (point_permutation pts_pivot pts_sorted ) ” 
+  &&  “ (point_sorted_range (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) pts_sorted 1 (n_pre - 1 ) ) ” 
+  &&  “ (point_polar_sorted pivot0 tail_sorted ) ” 
+  &&  “ (leftmost pivot0 (rev (tail_sorted)) ) ” 
+  &&  “ (((Znth 0 pts_sorted __default_Point).(x) ) = (point_x ((Znth 0 pts_l __default_Point)))) ” 
+  &&  “ (((Znth 0 pts_sorted __default_Point).(y) ) = (point_y ((Znth 0 pts_l __default_Point)))) ”
+  &&  (store_point pts_pre pivot0 )
+  **  (PointArray.full (pts_pre + (1 * sizeof( "Point" ))) (n_pre - 1 ) tail_sorted )
+  **  (PointArray.undef_full hull_pre ((n_pre - 1 ) + 1 ) )
+) \/
+(
+forall (n_pre: Z) (pts_pre: Z) (pts_l: (@list Point)) (pivot_idx: Z) (i: Z) (pts_out: (@list Point))  __default_Point (PreH1 : ((Zlength (pts_out)) = n_pre)) (PreH2 : (points_in_bound pts_out )) (PreH3 : (leftmost (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) pts_out )) (PreH4 : (point_permutation pts_l pts_out )) (PreH5 : (point_same_outside_range pts_l pts_out 1 (n_pre - 1 ) )) (PreH6 : (point_sorted_range (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) pts_out 1 (n_pre - 1 ) )) (PreH7 : (pivot_idx = 0)) (PreH8 : (i >= n_pre)) (PreH9 : (2 <= n_pre)) (PreH10 : (0 <= n_pre)) (PreH11 : (n_pre <= 50000)) (PreH12 : (1 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (0 <= pivot_idx)) (PreH15 : (pivot_idx < i)) (PreH16 : (point_leftmost_prefix pts_l pivot_idx i )) (PreH17 : ((Zlength (pts_l)) = n_pre)) (PreH18 : (points_in_bound pts_l )) ,
+  (PointArray.full pts_pre n_pre pts_out )
+|--
+  EX (pts_sorted: (@list Point)) ,
+  “ (2 <= n_pre) ” 
+  &&  “ (n_pre <= 50000) ” 
+  &&  “ ((Zlength (pts_sorted)) = n_pre) ” 
+  &&  “ ((Zlength ((sublist (1) (n_pre) (pts_sorted)))) = (n_pre - 1 )) ” 
+  &&  “ (points_in_bound pts_sorted ) ” 
+  &&  “ (points_in_bound (sublist (1) (n_pre) (pts_sorted)) ) ” 
+  &&  “ (point_in_bound (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) ) ” 
+  &&  “ (point_leftmost_prefix pts_l pivot_idx n_pre ) ” 
+  &&  “ (leftmost (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) pts_sorted ) ” 
+  &&  “ (point_permutation (point_swap (pts_l) (0) (pivot_idx)) pts_sorted ) ” 
+  &&  “ (point_sorted_range (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) pts_sorted 1 (n_pre - 1 ) ) ” 
+  &&  “ (point_polar_sorted (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) (sublist (1) (n_pre) (pts_sorted)) ) ” 
+  &&  “ (leftmost (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) (rev ((sublist (1) (n_pre) (pts_sorted)))) ) ” 
+  &&  “ (((Znth 0 pts_sorted __default_Point).(x) ) = (point_x ((Znth 0 pts_l __default_Point)))) ” 
+  &&  “ (((Znth 0 pts_sorted __default_Point).(y) ) = (point_y ((Znth 0 pts_l __default_Point)))) ”
+  &&  (store_point pts_pre (point_mk ((point_x ((Znth 0 pts_l __default_Point)))) ((point_y ((Znth 0 pts_l __default_Point))))) )
   **  (PointArray.full (pts_pre + (1 * sizeof( "Point" ))) (n_pre - 1 ) (sublist (1) (n_pre) (pts_sorted)) )
 ).
 

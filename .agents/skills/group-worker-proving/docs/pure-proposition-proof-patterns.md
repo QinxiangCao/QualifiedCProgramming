@@ -2,7 +2,7 @@
 
 This guide is for group-worker proof work. When annotation uses `increasing`, `decreasing`, bounds, `sum`, or case predicates wrapping `MaxMinLib` / `SumLib`, keep annotation semantic and bridge to proof-friendly forms inside the group proof.
 
-Do not push proof-facing forms back into C annotation. If a missing bridge lemma is needed, add and prove a current-group-suffixed helper in the group-local `case_lib`.
+Do not push proof-facing forms back into C annotation. If a missing bridge lemma is needed, add and prove a current-group-suffixed helper in the `group_worker_lib`.
 
 ## Ordering predicates
 

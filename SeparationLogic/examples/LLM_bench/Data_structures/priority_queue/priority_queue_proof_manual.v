@@ -34,6 +34,25 @@ Proof.
     + apply push_loop_init_at_tail; assumption.
 Qed. 
 
+Lemma proof_of_push_entail_wit_2_split_goal_1 : push_entail_wit_2_split_goal_1.
+Proof.
+  pre_process.
+  apply PreH6.
+  exact H.
+Qed.
+
+Lemma proof_of_push_entail_wit_2 : push_entail_wit_2.
+Proof.
+  pre_process.
+  Exists l_cur_2.
+  split_pure_spatial.
+  - cancel (IntArray.seg heap_pre 0 (n_pre + 1) l_cur_2).
+  - split_pures;
+      dump_pre_spatial;
+      try lia;
+      try assumption.
+Qed.
+
 Lemma proof_of_push_entail_wit_3 : push_entail_wit_3.
 Proof.
   pre_process.
@@ -248,7 +267,7 @@ Proof.
     all: dump_pre_spatial; unfold PushLoopState in *; intuition auto; try lia.
 Qed. 
 
-Lemma proof_of_push_entail_wit_7_2 : push_entail_wit_7_2.
+Lemma proof_of_push_entail_wit_7_1 : push_entail_wit_7_1.
 Proof.
   pre_process.
   assert (child = 0) by lia.
@@ -265,6 +284,44 @@ Proof.
       exact HPQ
     ).
 Qed. 
+
+Lemma proof_of_push_entail_wit_7_2_split_goal_1 : push_entail_wit_7_2_split_goal_1.
+Proof.
+  pre_process.
+  apply PreH12.
+  exact H.
+Qed.
+
+Lemma proof_of_push_entail_wit_7_2 : push_entail_wit_7_2.
+Proof.
+  pre_process.
+  Exists l_cur.
+  split_pure_spatial.
+  - cancel (IntArray.seg heap_pre 0 (n_pre + 1) l_cur).
+  - split_pures;
+      dump_pre_spatial;
+      try lia;
+      try assumption.
+Qed.
+
+Lemma proof_of_push_return_wit_1_split_goal_1 : push_return_wit_1_split_goal_1.
+Proof.
+  pre_process.
+  apply PreH7.
+  exact H.
+Qed.
+
+Lemma proof_of_push_return_wit_1 : push_return_wit_1.
+Proof.
+  pre_process.
+  Exists l_out_2.
+  split_pure_spatial.
+  - cancel (IntArray.seg heap_pre 0 (n_pre + 1) l_out_2).
+  - split_pures;
+      dump_pre_spatial;
+      try lia;
+      try assumption.
+Qed.
 
 Lemma proof_of_build_entail_wit_1 : build_entail_wit_1.
 Proof.
@@ -363,6 +420,25 @@ Proof.
     + dump_pre_spatial; exact Hrange_new.
 Qed. 
 
+Lemma proof_of_build_entail_wit_4_split_goal_1 : build_entail_wit_4_split_goal_1.
+Proof.
+  pre_process.
+  apply PreH10.
+  exact H.
+Qed.
+
+Lemma proof_of_build_entail_wit_4 : build_entail_wit_4.
+Proof.
+  pre_process.
+  Exists heap_l_2.
+  split_pure_spatial.
+  - cancel (IntArray.full heap_pre n_pre heap_l_2).
+  - split_pures;
+      dump_pre_spatial;
+      try lia;
+      try assumption.
+Qed.
+
 Lemma proof_of_build_return_wit_1 : build_return_wit_1.
 Proof.
   pre_process.
@@ -396,24 +472,9 @@ Proof.
     + rewrite Hheap_len, PreH3.
       lia.
     + exact PreH9.
-  - rewrite Znth_sublist0 by lia.
-    pose proof (PreH10 0 ltac:(lia)) as Hrange_0.
-    lia.
-  - rewrite Znth_sublist0 by lia.
-    pose proof (PreH10 0 ltac:(lia)) as Hrange_0.
-    lia.
-  - rewrite Znth_sublist0 by lia.
-    replace (i + 1 - 1) with i by lia.
-    pose proof (PreH10 i ltac:(lia)) as Hrange_i.
-    destruct Hrange_i as [Hrange_i _].
-    exact Hrange_i.
-  - rewrite Znth_sublist0 by lia.
-    replace (i + 1 - 1) with i by lia.
-    pose proof (PreH10 i ltac:(lia)) as Hrange_i.
-    destruct Hrange_i as [_ Hrange_i].
-    exact Hrange_i.
   - intros idx Hidx.
-    eapply sublist_prefix_range; try exact PreH10; lia.
+    rewrite Znth_sublist0 by lia.
+    apply PreH10; lia.
 Qed. 
 
 Lemma proof_of_pop_entail_wit_1 : pop_entail_wit_1.
@@ -460,7 +521,45 @@ Proof.
            end.
 Qed. 
 
-Lemma proof_of_pop_entail_wit_6_1 : pop_entail_wit_6_1.
+Lemma proof_of_pop_entail_wit_4_split_goal_1 : pop_entail_wit_4_split_goal_1.
+Proof.
+  pre_process.
+  apply PreH9.
+  exact H.
+Qed.
+
+Lemma proof_of_pop_entail_wit_4 : pop_entail_wit_4.
+Proof.
+  pre_process.
+  Exists heap_l_2.
+  split_pure_spatial.
+  - cancel (IntArray.full heap_pre n_pre heap_l_2).
+  - split_pures;
+      dump_pre_spatial;
+      try lia;
+      try assumption.
+Qed.
+
+Lemma proof_of_pop_entail_wit_5_split_goal_1 : pop_entail_wit_5_split_goal_1.
+Proof.
+  pre_process.
+  apply PreH14.
+  exact H.
+Qed.
+
+Lemma proof_of_pop_entail_wit_5 : pop_entail_wit_5.
+Proof.
+  pre_process.
+  Exists heap_l_2.
+  split_pure_spatial.
+  - cancel (IntArray.full heap_pre n_pre heap_l_2).
+  - split_pures;
+      dump_pre_spatial;
+      try lia;
+      try assumption.
+Qed.
+
+Lemma proof_of_pop_entail_wit_6_3 : pop_entail_wit_6_3.
 Proof.
   pre_process.
   assert (Hleft_eq : left = 2 * idx + 1) by lia.
@@ -492,7 +591,7 @@ Proof.
     + subst largest; exact Hsel.
 Qed. 
 
-Lemma proof_of_pop_entail_wit_6_3 : pop_entail_wit_6_3.
+Lemma proof_of_pop_entail_wit_6_1 : pop_entail_wit_6_1.
 Proof.
   pre_process.
   assert (Hleft_eq : left = 2 * idx + 1) by lia.
@@ -619,7 +718,7 @@ Proof.
     all: dump_pre_spatial; unfold PopLoopState in *; intuition auto; try lia.
 Qed. 
 
-Lemma proof_of_pop_entail_wit_10_2 : pop_entail_wit_10_2.
+Lemma proof_of_pop_entail_wit_10_1 : pop_entail_wit_10_1.
 Proof.
   pre_process.
   pose proof
@@ -633,6 +732,25 @@ Proof.
     all: dump_pre_spatial; try assumption; try lia.
 Qed. 
 
+Lemma proof_of_pop_entail_wit_10_2_split_goal_1 : pop_entail_wit_10_2_split_goal_1.
+Proof.
+  pre_process.
+  apply PreH20.
+  exact H.
+Qed.
+
+Lemma proof_of_pop_entail_wit_10_2 : pop_entail_wit_10_2.
+Proof.
+  pre_process.
+  Exists heap_l_2.
+  split_pure_spatial.
+  - cancel (IntArray.full heap_pre n_pre heap_l_2).
+  - split_pures;
+      dump_pre_spatial;
+      try lia;
+      try assumption.
+Qed.
+
 Lemma proof_of_pop_entail_wit_11 : pop_entail_wit_11.
 Proof.
   pre_process.
@@ -644,3 +762,41 @@ Proof.
   - cancel (IntArray.full heap_pre n_pre (replace_Znth (n_pre - 1) ret heap_l)).
   - split_pures; dump_pre_spatial; try lia; try assumption.
 Qed. 
+
+Lemma proof_of_pop_return_wit_1_split_goal_1 : pop_return_wit_1_split_goal_1.
+Proof.
+  pre_process.
+  apply PreH10.
+  exact H.
+Qed.
+
+Lemma proof_of_pop_return_wit_1 : pop_return_wit_1.
+Proof.
+  pre_process.
+  Exists l_out_2.
+  split_pure_spatial.
+  - cancel (IntArray.full heap_pre n_pre l_out_2).
+  - split_pures;
+      dump_pre_spatial;
+      try lia;
+      try assumption.
+Qed.
+
+Lemma proof_of_pop_return_wit_2_split_goal_1 : pop_return_wit_2_split_goal_1.
+Proof.
+  pre_process.
+  apply PreH6.
+  exact H.
+Qed.
+
+Lemma proof_of_pop_return_wit_2 : pop_return_wit_2.
+Proof.
+  pre_process.
+  Exists l.
+  split_pure_spatial.
+  - cancel (IntArray.full heap_pre n_pre l).
+  - split_pures;
+      dump_pre_spatial;
+      try lia;
+      try assumption.
+Qed.

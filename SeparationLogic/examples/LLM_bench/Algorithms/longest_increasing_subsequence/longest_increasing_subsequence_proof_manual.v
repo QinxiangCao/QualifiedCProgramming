@@ -99,7 +99,7 @@ Proof.
       lia.
 Qed.
 
-Lemma proof_of_lengthOfLIS_entail_wit_5_1 : lengthOfLIS_entail_wit_5_1.
+Lemma proof_of_lengthOfLIS_entail_wit_5_3 : lengthOfLIS_entail_wit_5_3.
 Proof.
   pre_process.
   Exists best_2.
@@ -127,7 +127,7 @@ Proof.
     lia.
 Qed.
 
-Lemma proof_of_lengthOfLIS_entail_wit_5_3 : lengthOfLIS_entail_wit_5_3.
+Lemma proof_of_lengthOfLIS_entail_wit_5_1 : lengthOfLIS_entail_wit_5_1.
 Proof.
   pre_process.
   Exists candidate. Exists d_2. split_pure_spatial.
@@ -202,7 +202,7 @@ Proof.
     replace j with i in * by lia. assumption.
 Qed.
 
-Lemma proof_of_lengthOfLIS_entail_wit_8_1 : lengthOfLIS_entail_wit_8_1.
+Lemma proof_of_lengthOfLIS_entail_wit_8_2 : lengthOfLIS_entail_wit_8_2.
 Proof.
   pre_process.
   Exists best_2. Exists d_2.
@@ -217,7 +217,7 @@ Proof.
     apply LISOuterState_snoc_keep; auto; lia.
 Qed.
 
-Lemma proof_of_lengthOfLIS_entail_wit_8_2 : lengthOfLIS_entail_wit_8_2.
+Lemma proof_of_lengthOfLIS_entail_wit_8_1 : lengthOfLIS_entail_wit_8_1.
 Proof.
   pre_process.
   Exists best. Exists d.

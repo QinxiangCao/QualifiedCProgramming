@@ -362,7 +362,7 @@ Proof.
   replace (p + 0 * sizeof ( CHAR )) with p by lia.
   rewrite CharArray.seg_empty.
   cancel (p # Char |-> a).
-  apply coq_prop_andp_right; [cancel emp | auto].
+  entailer!.
 Qed.
 
 Lemma helper_chararray_full_snoc : forall p n l a,
@@ -371,12 +371,10 @@ Lemma helper_chararray_full_snoc : forall p n l a,
   |-- CharArray.full p (n + 1) (l ++ a :: nil).
 Proof.
   intros.
-  apply derivable1_trans with
-    (y := CharArray.full p n l **
-          CharArray.full (p + n * sizeof ( CHAR )) (n + 1 - n) (a :: nil)).
-  - replace (n + 1 - n) with 1 by lia.
-    apply derivable1_sepcon_mono;
-      [apply derivable1_refl | apply helper_chararray_point_to_full_single].
+  sep_apply helper_chararray_point_to_full_single.
+  transitivity (CharArray.full p n l **
+                CharArray.full (p + n * sizeof ( CHAR )) (n + 1 - n) (a :: nil)).
+  - replace (n + 1 - n) with 1 by lia; cancel.
   - exact (CharArray.full_merge_to_full p n (n + 1) l (a :: nil) ltac:(lia)).
 Qed.
 

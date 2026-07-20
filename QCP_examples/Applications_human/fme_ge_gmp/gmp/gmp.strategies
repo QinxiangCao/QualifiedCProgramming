@@ -1,0 +1,85 @@
+// GMP strategy file for store_Z and store_Z_with_size predicates.
+
+#include "fme_ge_gmp/gmp/gmp_def.h"
+
+// Convert mpd_store_Z_compact to mpd_store_Z when needed.
+id : 1
+priority : core(2)
+left : mpd_store_Z_compact(?base, ?ptr, ?val, ?size) at 0
+right : mpd_store_Z(base, ptr, ?v, ?s) at 1
+check : infer(size == s);
+action : right_erase(1);
+         left_erase(0);
+         right_add(val == v);
+         left_add(is_compact_Z(base, val, size));
+
+id : 2
+priority : core(2)
+left : store_Z(?x, ?n) at 0
+right : (store(field_addr(x, __mpz_struct, _mp_size), I32, ?y) ||
+         store(field_addr(x, __mpz_struct, _mp_alloc), I32, ?y) ||
+         store(field_addr(x, __mpz_struct, _mp_d), PTR, ?y)) at 1
+action : left_erase(0);
+         left_exist_add(ptr);
+         left_exist_add(size);
+         left_exist_add(cap);
+         left_add(store(field_addr(x, __mpz_struct, _mp_size), I32, size));
+         left_add(store(field_addr(x, __mpz_struct, _mp_alloc), I32, cap));
+         left_add(store(field_addr(x, __mpz_struct, _mp_d), PTR, ptr));
+         left_add(Zabs(size) <= cap);
+         left_add(same_sign(n, size));
+         left_add(mpd_store_Z_compact(UINT_MOD(), ptr, Zabs(n), Zabs(size)));
+         left_add(UIntArray::undef_seg(ptr, Zabs(size), cap));
+
+id : 3
+priority : core(2)
+right : store_Z(?x, ?n) at 0
+left : (store(field_addr(x, __mpz_struct, _mp_size), I32, ?y) ||
+        store(field_addr(x, __mpz_struct, _mp_alloc), I32, ?y) ||
+        store(field_addr(x, __mpz_struct, _mp_d), PTR, ?y)) at 1
+action : right_erase(0);
+         right_exist_add(ptr);
+         right_exist_add(size);
+         right_exist_add(cap);
+         right_add(store(field_addr(x, __mpz_struct, _mp_size), I32, size));
+         right_add(store(field_addr(x, __mpz_struct, _mp_alloc), I32, cap));
+         right_add(store(field_addr(x, __mpz_struct, _mp_d), PTR, ptr));
+         right_add(Zabs(size) <= cap);
+         right_add(same_sign(n, size));
+         right_add(mpd_store_Z_compact(UINT_MOD(), ptr, Zabs(n), Zabs(size)));
+         right_add(UIntArray::undef_seg(ptr, Zabs(size), cap));
+
+id : 4
+priority : core(2)
+left : store_Z_remain_size(?x, ?n, ?size) at 0
+right : (store(field_addr(x, __mpz_struct, _mp_size), I32, ?y) ||
+         store(field_addr(x, __mpz_struct, _mp_alloc), I32, ?y) ||
+         store(field_addr(x, __mpz_struct, _mp_d), PTR, ?y)) at 1
+action : left_erase(0);
+         left_exist_add(ptr);
+         left_exist_add(old_size);
+         left_exist_add(cap);
+         left_add(store(field_addr(x, __mpz_struct, _mp_size), I32, old_size));
+         left_add(store(field_addr(x, __mpz_struct, _mp_alloc), I32, cap));
+         left_add(store(field_addr(x, __mpz_struct, _mp_d), PTR, ptr));
+         left_add(Zabs(size) <= cap);
+         left_add(same_sign(n, size));
+         left_add(mpd_store_Z_compact(UINT_MOD(), ptr, Zabs(n), Zabs(size)));
+         left_add(UIntArray::undef_seg(ptr, Zabs(size), cap));
+
+id : 20
+priority : core(1)
+left : UIntArray::seg(?p, ?x, ?y, ?l1) at 0
+       (?p == ?q || ?q == ?p) at 1
+right : UIntArray::seg(q, x, y, ?l2) at 2
+action : left_erase(0);
+         right_erase(2);
+         right_add(l1 == l2);
+
+id : 21
+priority : core(2)
+left : UIntArray::seg(?p, 0, ?n, ?l) at 0
+right : mpd_store_Z(UINT_MOD(), p, ?v, n) at 1
+action : left_erase(0);
+         right_erase(1);
+         right_add(v == list_to_Z(UINT_MOD(), l));

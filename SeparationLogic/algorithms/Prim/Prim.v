@@ -40,8 +40,9 @@ Context {G V E: Type}
         {noempty: NoEmptyEdge G V E}
         {undirected: UndirectedGraph G V E}
         {stepunique: StepUniqueUndirected G V E}
-        {simplegraph: SimpleGraph G V E}
+        (* {simplegraph: SimpleGraph G V E} *)
         {finitegraph: FiniteGraph G V E}
+        {elistbijective: EListBijective G V E}
         (g: G).
 
 Context {P: Type}

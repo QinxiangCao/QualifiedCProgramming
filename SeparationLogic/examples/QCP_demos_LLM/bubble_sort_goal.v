@@ -25,8 +25,8 @@ Definition bubble_sort_safety_wit_1 :=
 forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 : (n_pre >= 0)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) ,
   ((( &( "j" ) )) # Int  |->_)
   **  ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (IntArray.full arr_pre n_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -293,11 +293,17 @@ forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (i: Z) (a_2: (@list Z)) (PreH1 : (
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (a_2: (@list Z)) (PreH1 : (i < (n_pre - 1 ))) (PreH2 : (1 <= n_pre)) (PreH3 : ((Zlength (a_2)) = n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= (n_pre - 1 ))) (PreH6 : (Permutation l a_2 )) (PreH7 : (increasing (sublist ((n_pre - i )) (n_pre) (a_2)) )) (PreH8 : forall (p_3: Z) , forall (q_2: Z) , (((((0 <= p_3) /\ (p_3 < (n_pre - i ))) /\ ((n_pre - i ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_3) (a_2) (0)) <= (Znth (q_2) (a_2) (0))))) ,
   TT && emp 
 |--
-  “ forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a_2) (0)) <= (Znth (q) (a_2) (0)))) ”
+  “ forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < 0)) -> ((Znth (p_2) (a_2) (0)) <= (Znth (0) (a_2) (0)))) ” 
+  &&  “ forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a_2) (0)) <= (Znth (q) (a_2) (0)))) ”
   &&  emp
 ).
 
 Definition bubble_sort_entail_wit_2_split_goal_1 := 
+forall (n_pre: Z) (l: (@list Z)) (i: Z) (a_2: (@list Z)) (PreH1 : (i < (n_pre - 1 ))) (PreH2 : (1 <= n_pre)) (PreH3 : ((Zlength (a_2)) = n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= (n_pre - 1 ))) (PreH6 : (Permutation l a_2 )) (PreH7 : (increasing (sublist ((n_pre - i )) (n_pre) (a_2)) )) (PreH8 : forall (p_3: Z) , forall (q_2: Z) , (((((0 <= p_3) /\ (p_3 < (n_pre - i ))) /\ ((n_pre - i ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_3) (a_2) (0)) <= (Znth (q_2) (a_2) (0))))) ,
+  forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < 0)) -> ((Znth (p_2) (a_2) (0)) <= (Znth (0) (a_2) (0))))
+.
+
+Definition bubble_sort_entail_wit_2_split_goal_2 := 
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (a_2: (@list Z)) (PreH1 : (i < (n_pre - 1 ))) (PreH2 : (1 <= n_pre)) (PreH3 : ((Zlength (a_2)) = n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= (n_pre - 1 ))) (PreH6 : (Permutation l a_2 )) (PreH7 : (increasing (sublist ((n_pre - i )) (n_pre) (a_2)) )) (PreH8 : forall (p_3: Z) , forall (q_2: Z) , (((((0 <= p_3) /\ (p_3 < (n_pre - i ))) /\ ((n_pre - i ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_3) (a_2) (0)) <= (Znth (q_2) (a_2) (0))))) ,
   forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a_2) (0)) <= (Znth (q) (a_2) (0))))
 .
@@ -323,8 +329,7 @@ forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (j: Z) (i: Z) (a_2: (@list Z)) (Pr
 forall (n_pre: Z) (l: (@list Z)) (j: Z) (i: Z) (a_2: (@list Z)) (PreH1 : ((Znth j a_2 0) > (Znth (j + 1 ) a_2 0))) (PreH2 : (j < ((n_pre - 1 ) - i ))) (PreH3 : ((Zlength (a_2)) = n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i ))) (PreH8 : (Permutation l a_2 )) (PreH9 : (increasing (sublist ((n_pre - i )) (n_pre) (a_2)) )) (PreH10 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a_2) (0)) <= (Znth (q) (a_2) (0))))) (PreH11 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < j)) -> ((Znth (p_2) (a_2) (0)) <= (Znth (j) (a_2) (0))))) ,
   TT && emp 
 |--
-  “ (((Znth (0) ((replace_Znth ((j + 1 )) ((Znth j a_2 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_2 0)) (a_2))))) (0)) <= (Znth ((j + 1 )) ((replace_Znth ((j + 1 )) ((Znth j a_2 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_2 0)) (a_2))))) (0))) /\ ((Znth (((j + 1 ) - 1 )) ((replace_Znth ((j + 1 )) ((Znth j a_2 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_2 0)) (a_2))))) (0)) <= (Znth ((j + 1 )) ((replace_Znth ((j + 1 )) ((Znth j a_2 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_2 0)) (a_2))))) (0)))) ” 
-  &&  “ (increasing (sublist ((n_pre - i )) (n_pre) ((replace_Znth ((j + 1 )) ((Znth j a_2 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_2 0)) (a_2)))))) ) ” 
+  “ (increasing (sublist ((n_pre - i )) (n_pre) ((replace_Znth ((j + 1 )) ((Znth j a_2 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_2 0)) (a_2)))))) ) ” 
   &&  “ (Permutation l (replace_Znth ((j + 1 )) ((Znth j a_2 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_2 0)) (a_2)))) ) ” 
   &&  “ ((Zlength ((replace_Znth ((j + 1 )) ((Znth j a_2 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_2 0)) (a_2)))))) = n_pre) ”
   &&  emp
@@ -332,26 +337,20 @@ forall (n_pre: Z) (l: (@list Z)) (j: Z) (i: Z) (a_2: (@list Z)) (PreH1 : ((Znth 
 
 Definition bubble_sort_entail_wit_3_1_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (j: Z) (i: Z) (a_2: (@list Z)) (PreH1 : ((Znth j a_2 0) > (Znth (j + 1 ) a_2 0))) (PreH2 : (j < ((n_pre - 1 ) - i ))) (PreH3 : ((Zlength (a_2)) = n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i ))) (PreH8 : (Permutation l a_2 )) (PreH9 : (increasing (sublist ((n_pre - i )) (n_pre) (a_2)) )) (PreH10 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a_2) (0)) <= (Znth (q) (a_2) (0))))) (PreH11 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < j)) -> ((Znth (p_2) (a_2) (0)) <= (Znth (j) (a_2) (0))))) ,
-  (((Znth (0) ((replace_Znth ((j + 1 )) ((Znth j a_2 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_2 0)) (a_2))))) (0)) <= (Znth ((j + 1 )) ((replace_Znth ((j + 1 )) ((Znth j a_2 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_2 0)) (a_2))))) (0))) /\ ((Znth (((j + 1 ) - 1 )) ((replace_Znth ((j + 1 )) ((Znth j a_2 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_2 0)) (a_2))))) (0)) <= (Znth ((j + 1 )) ((replace_Znth ((j + 1 )) ((Znth j a_2 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_2 0)) (a_2))))) (0))))
+  (increasing (sublist ((n_pre - i )) (n_pre) ((replace_Znth ((j + 1 )) ((Znth j a_2 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_2 0)) (a_2)))))) )
 .
 
 Definition bubble_sort_entail_wit_3_1_split_goal_2 := 
 forall (n_pre: Z) (l: (@list Z)) (j: Z) (i: Z) (a_2: (@list Z)) (PreH1 : ((Znth j a_2 0) > (Znth (j + 1 ) a_2 0))) (PreH2 : (j < ((n_pre - 1 ) - i ))) (PreH3 : ((Zlength (a_2)) = n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i ))) (PreH8 : (Permutation l a_2 )) (PreH9 : (increasing (sublist ((n_pre - i )) (n_pre) (a_2)) )) (PreH10 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a_2) (0)) <= (Znth (q) (a_2) (0))))) (PreH11 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < j)) -> ((Znth (p_2) (a_2) (0)) <= (Znth (j) (a_2) (0))))) ,
-  (increasing (sublist ((n_pre - i )) (n_pre) ((replace_Znth ((j + 1 )) ((Znth j a_2 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_2 0)) (a_2)))))) )
-.
-
-Definition bubble_sort_entail_wit_3_1_split_goal_3 := 
-forall (n_pre: Z) (l: (@list Z)) (j: Z) (i: Z) (a_2: (@list Z)) (PreH1 : ((Znth j a_2 0) > (Znth (j + 1 ) a_2 0))) (PreH2 : (j < ((n_pre - 1 ) - i ))) (PreH3 : ((Zlength (a_2)) = n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i ))) (PreH8 : (Permutation l a_2 )) (PreH9 : (increasing (sublist ((n_pre - i )) (n_pre) (a_2)) )) (PreH10 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a_2) (0)) <= (Znth (q) (a_2) (0))))) (PreH11 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < j)) -> ((Znth (p_2) (a_2) (0)) <= (Znth (j) (a_2) (0))))) ,
   (Permutation l (replace_Znth ((j + 1 )) ((Znth j a_2 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_2 0)) (a_2)))) )
 .
 
-Definition bubble_sort_entail_wit_3_1_split_goal_4 := 
+Definition bubble_sort_entail_wit_3_1_split_goal_3 := 
 forall (n_pre: Z) (l: (@list Z)) (j: Z) (i: Z) (a_2: (@list Z)) (PreH1 : ((Znth j a_2 0) > (Znth (j + 1 ) a_2 0))) (PreH2 : (j < ((n_pre - 1 ) - i ))) (PreH3 : ((Zlength (a_2)) = n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i ))) (PreH8 : (Permutation l a_2 )) (PreH9 : (increasing (sublist ((n_pre - i )) (n_pre) (a_2)) )) (PreH10 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a_2) (0)) <= (Znth (q) (a_2) (0))))) (PreH11 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < j)) -> ((Znth (p_2) (a_2) (0)) <= (Znth (j) (a_2) (0))))) ,
   ((Zlength ((replace_Znth ((j + 1 )) ((Znth j a_2 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_2 0)) (a_2)))))) = n_pre)
 .
 
 Definition bubble_sort_entail_wit_3_2 := 
-(
 forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (j: Z) (i: Z) (a_2: (@list Z)) (PreH1 : ((Znth j a_2 0) <= (Znth (j + 1 ) a_2 0))) (PreH2 : (j < ((n_pre - 1 ) - i ))) (PreH3 : ((Zlength (a_2)) = n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i ))) (PreH8 : (Permutation l a_2 )) (PreH9 : (increasing (sublist ((n_pre - i )) (n_pre) (a_2)) )) (PreH10 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a_2) (0)) <= (Znth (q) (a_2) (0))))) (PreH11 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < j)) -> ((Znth (p_2) (a_2) (0)) <= (Znth (j) (a_2) (0))))) ,
   (IntArray.full arr_pre n_pre a_2 )
 |--
@@ -366,18 +365,6 @@ forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (j: Z) (i: Z) (a_2: (@list Z)) (Pr
   &&  “ forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0)))) ” 
   &&  “ forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < (j + 1 ))) -> ((Znth (p_2) (a) (0)) <= (Znth ((j + 1 )) (a) (0)))) ”
   &&  (IntArray.full arr_pre n_pre a )
-) \/
-(
-forall (n_pre: Z) (l: (@list Z)) (j: Z) (i: Z) (a_2: (@list Z)) (PreH1 : ((Znth j a_2 0) <= (Znth (j + 1 ) a_2 0))) (PreH2 : (j < ((n_pre - 1 ) - i ))) (PreH3 : ((Zlength (a_2)) = n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i ))) (PreH8 : (Permutation l a_2 )) (PreH9 : (increasing (sublist ((n_pre - i )) (n_pre) (a_2)) )) (PreH10 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a_2) (0)) <= (Znth (q) (a_2) (0))))) (PreH11 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < j)) -> ((Znth (p_2) (a_2) (0)) <= (Znth (j) (a_2) (0))))) ,
-  TT && emp 
-|--
-  “ (((Znth (0) (a_2) (0)) <= (Znth ((j + 1 )) (a_2) (0))) /\ ((Znth (((j + 1 ) - 1 )) (a_2) (0)) <= (Znth ((j + 1 )) (a_2) (0)))) ”
-  &&  emp
-).
-
-Definition bubble_sort_entail_wit_3_2_split_goal_1 := 
-forall (n_pre: Z) (l: (@list Z)) (j: Z) (i: Z) (a_2: (@list Z)) (PreH1 : ((Znth j a_2 0) <= (Znth (j + 1 ) a_2 0))) (PreH2 : (j < ((n_pre - 1 ) - i ))) (PreH3 : ((Zlength (a_2)) = n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i ))) (PreH8 : (Permutation l a_2 )) (PreH9 : (increasing (sublist ((n_pre - i )) (n_pre) (a_2)) )) (PreH10 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a_2) (0)) <= (Znth (q) (a_2) (0))))) (PreH11 : forall (p_2: Z) , (((0 <= p_2) /\ (p_2 < j)) -> ((Znth (p_2) (a_2) (0)) <= (Znth (j) (a_2) (0))))) ,
-  (((Znth (0) (a_2) (0)) <= (Znth ((j + 1 )) (a_2) (0))) /\ ((Znth (((j + 1 ) - 1 )) (a_2) (0)) <= (Znth ((j + 1 )) (a_2) (0))))
 .
 
 Definition bubble_sort_entail_wit_4 := 
@@ -588,8 +575,8 @@ Definition bubble_sort_alter_safety_wit_1 :=
 forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 : (n_pre >= 0)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) ,
   ((( &( "j" ) )) # Int  |->_)
   **  ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (IntArray.full arr_pre n_pre l )
 |--
   “ ((False \/ (True /\ (n_pre = 0))) \/ (True /\ (n_pre > 0))) ”
@@ -599,8 +586,8 @@ Definition bubble_sort_alter_safety_wit_2_zero :=
 forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 : (n_pre >= 0)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (n_pre = 0)) ,
   ((( &( "j" ) )) # Int  |->_)
   **  ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (IntArray.full arr_pre n_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -611,8 +598,8 @@ Definition bubble_sort_alter_safety_wit_3_normal :=
 forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 : (n_pre >= 0)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (n_pre > 0)) ,
   ((( &( "j" ) )) # Int  |->_)
   **  ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (IntArray.full arr_pre n_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -929,11 +916,17 @@ forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (PreH1 : (i 
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (PreH1 : (i < (n_pre - 1 ))) (PreH2 : (1 <= n_pre)) (PreH3 : ((Zlength (a)) = n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= (n_pre - 1 ))) (PreH6 : (Permutation l a )) (PreH7 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH8 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH9 : (n_pre >= 0)) (PreH10 : (n_pre <= 100000)) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : (n_pre > 0)) ,
   TT && emp 
 |--
-  “ forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i ))) /\ ((n_pre - i ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a) (0)) <= (Znth (q_2) (a) (0)))) ”
+  “ forall (p_3: Z) , (((0 <= p_3) /\ (p_3 < 0)) -> ((Znth (p_3) (a) (0)) <= (Znth (0) (a) (0)))) ” 
+  &&  “ forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i ))) /\ ((n_pre - i ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a) (0)) <= (Znth (q_2) (a) (0)))) ”
   &&  emp
 ).
 
 Definition bubble_sort_alter_entail_wit_3_normal_split_goal_1 := 
+forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (PreH1 : (i < (n_pre - 1 ))) (PreH2 : (1 <= n_pre)) (PreH3 : ((Zlength (a)) = n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= (n_pre - 1 ))) (PreH6 : (Permutation l a )) (PreH7 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH8 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH9 : (n_pre >= 0)) (PreH10 : (n_pre <= 100000)) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : (n_pre > 0)) ,
+  forall (p_3: Z) , (((0 <= p_3) /\ (p_3 < 0)) -> ((Znth (p_3) (a) (0)) <= (Znth (0) (a) (0))))
+.
+
+Definition bubble_sort_alter_entail_wit_3_normal_split_goal_2 := 
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (PreH1 : (i < (n_pre - 1 ))) (PreH2 : (1 <= n_pre)) (PreH3 : ((Zlength (a)) = n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= (n_pre - 1 ))) (PreH6 : (Permutation l a )) (PreH7 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH8 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH9 : (n_pre >= 0)) (PreH10 : (n_pre <= 100000)) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : (n_pre > 0)) ,
   forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i ))) /\ ((n_pre - i ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a) (0)) <= (Znth (q_2) (a) (0))))
 .
@@ -971,8 +964,7 @@ forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2:
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2: Z) (a_3: (@list Z)) (PreH1 : ((Znth j a_3 0) > (Znth (j + 1 ) a_3 0))) (PreH2 : (j < ((n_pre - 1 ) - i_2 ))) (PreH3 : ((Zlength (a_3)) = n_pre)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i_2 ))) (PreH8 : (Permutation l a_3 )) (PreH9 : (increasing (sublist ((n_pre - i_2 )) (n_pre) (a_3)) )) (PreH10 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i_2 ))) /\ ((n_pre - i_2 ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a_3) (0)) <= (Znth (q_2) (a_3) (0))))) (PreH11 : forall (p_3: Z) , (((0 <= p_3) /\ (p_3 < j)) -> ((Znth (p_3) (a_3) (0)) <= (Znth (j) (a_3) (0))))) (PreH12 : (i < (n_pre - 1 ))) (PreH13 : (1 <= n_pre)) (PreH14 : ((Zlength (a)) = n_pre)) (PreH15 : (0 <= i)) (PreH16 : (i <= (n_pre - 1 ))) (PreH17 : (Permutation l a )) (PreH18 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH19 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH20 : (n_pre >= 0)) (PreH21 : (n_pre <= 100000)) (PreH22 : ((Zlength (l)) = n_pre)) (PreH23 : (n_pre > 0)) ,
   TT && emp 
 |--
-  “ (((Znth (0) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3))))) (0)) <= (Znth ((j + 1 )) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3))))) (0))) /\ ((Znth (((j + 1 ) - 1 )) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3))))) (0)) <= (Znth ((j + 1 )) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3))))) (0)))) ” 
-  &&  “ (increasing (sublist ((n_pre - i_2 )) (n_pre) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3)))))) ) ” 
+  “ (increasing (sublist ((n_pre - i_2 )) (n_pre) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3)))))) ) ” 
   &&  “ (Permutation l (replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3)))) ) ” 
   &&  “ ((Zlength ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3)))))) = n_pre) ”
   &&  emp
@@ -980,26 +972,20 @@ forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2: Z) (a_3: (@l
 
 Definition bubble_sort_alter_entail_wit_4_1_normal_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2: Z) (a_3: (@list Z)) (PreH1 : ((Znth j a_3 0) > (Znth (j + 1 ) a_3 0))) (PreH2 : (j < ((n_pre - 1 ) - i_2 ))) (PreH3 : ((Zlength (a_3)) = n_pre)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i_2 ))) (PreH8 : (Permutation l a_3 )) (PreH9 : (increasing (sublist ((n_pre - i_2 )) (n_pre) (a_3)) )) (PreH10 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i_2 ))) /\ ((n_pre - i_2 ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a_3) (0)) <= (Znth (q_2) (a_3) (0))))) (PreH11 : forall (p_3: Z) , (((0 <= p_3) /\ (p_3 < j)) -> ((Znth (p_3) (a_3) (0)) <= (Znth (j) (a_3) (0))))) (PreH12 : (i < (n_pre - 1 ))) (PreH13 : (1 <= n_pre)) (PreH14 : ((Zlength (a)) = n_pre)) (PreH15 : (0 <= i)) (PreH16 : (i <= (n_pre - 1 ))) (PreH17 : (Permutation l a )) (PreH18 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH19 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH20 : (n_pre >= 0)) (PreH21 : (n_pre <= 100000)) (PreH22 : ((Zlength (l)) = n_pre)) (PreH23 : (n_pre > 0)) ,
-  (((Znth (0) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3))))) (0)) <= (Znth ((j + 1 )) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3))))) (0))) /\ ((Znth (((j + 1 ) - 1 )) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3))))) (0)) <= (Znth ((j + 1 )) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3))))) (0))))
+  (increasing (sublist ((n_pre - i_2 )) (n_pre) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3)))))) )
 .
 
 Definition bubble_sort_alter_entail_wit_4_1_normal_split_goal_2 := 
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2: Z) (a_3: (@list Z)) (PreH1 : ((Znth j a_3 0) > (Znth (j + 1 ) a_3 0))) (PreH2 : (j < ((n_pre - 1 ) - i_2 ))) (PreH3 : ((Zlength (a_3)) = n_pre)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i_2 ))) (PreH8 : (Permutation l a_3 )) (PreH9 : (increasing (sublist ((n_pre - i_2 )) (n_pre) (a_3)) )) (PreH10 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i_2 ))) /\ ((n_pre - i_2 ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a_3) (0)) <= (Znth (q_2) (a_3) (0))))) (PreH11 : forall (p_3: Z) , (((0 <= p_3) /\ (p_3 < j)) -> ((Znth (p_3) (a_3) (0)) <= (Znth (j) (a_3) (0))))) (PreH12 : (i < (n_pre - 1 ))) (PreH13 : (1 <= n_pre)) (PreH14 : ((Zlength (a)) = n_pre)) (PreH15 : (0 <= i)) (PreH16 : (i <= (n_pre - 1 ))) (PreH17 : (Permutation l a )) (PreH18 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH19 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH20 : (n_pre >= 0)) (PreH21 : (n_pre <= 100000)) (PreH22 : ((Zlength (l)) = n_pre)) (PreH23 : (n_pre > 0)) ,
-  (increasing (sublist ((n_pre - i_2 )) (n_pre) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3)))))) )
-.
-
-Definition bubble_sort_alter_entail_wit_4_1_normal_split_goal_3 := 
-forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2: Z) (a_3: (@list Z)) (PreH1 : ((Znth j a_3 0) > (Znth (j + 1 ) a_3 0))) (PreH2 : (j < ((n_pre - 1 ) - i_2 ))) (PreH3 : ((Zlength (a_3)) = n_pre)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i_2 ))) (PreH8 : (Permutation l a_3 )) (PreH9 : (increasing (sublist ((n_pre - i_2 )) (n_pre) (a_3)) )) (PreH10 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i_2 ))) /\ ((n_pre - i_2 ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a_3) (0)) <= (Znth (q_2) (a_3) (0))))) (PreH11 : forall (p_3: Z) , (((0 <= p_3) /\ (p_3 < j)) -> ((Znth (p_3) (a_3) (0)) <= (Znth (j) (a_3) (0))))) (PreH12 : (i < (n_pre - 1 ))) (PreH13 : (1 <= n_pre)) (PreH14 : ((Zlength (a)) = n_pre)) (PreH15 : (0 <= i)) (PreH16 : (i <= (n_pre - 1 ))) (PreH17 : (Permutation l a )) (PreH18 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH19 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH20 : (n_pre >= 0)) (PreH21 : (n_pre <= 100000)) (PreH22 : ((Zlength (l)) = n_pre)) (PreH23 : (n_pre > 0)) ,
   (Permutation l (replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3)))) )
 .
 
-Definition bubble_sort_alter_entail_wit_4_1_normal_split_goal_4 := 
+Definition bubble_sort_alter_entail_wit_4_1_normal_split_goal_3 := 
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2: Z) (a_3: (@list Z)) (PreH1 : ((Znth j a_3 0) > (Znth (j + 1 ) a_3 0))) (PreH2 : (j < ((n_pre - 1 ) - i_2 ))) (PreH3 : ((Zlength (a_3)) = n_pre)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i_2 ))) (PreH8 : (Permutation l a_3 )) (PreH9 : (increasing (sublist ((n_pre - i_2 )) (n_pre) (a_3)) )) (PreH10 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i_2 ))) /\ ((n_pre - i_2 ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a_3) (0)) <= (Znth (q_2) (a_3) (0))))) (PreH11 : forall (p_3: Z) , (((0 <= p_3) /\ (p_3 < j)) -> ((Znth (p_3) (a_3) (0)) <= (Znth (j) (a_3) (0))))) (PreH12 : (i < (n_pre - 1 ))) (PreH13 : (1 <= n_pre)) (PreH14 : ((Zlength (a)) = n_pre)) (PreH15 : (0 <= i)) (PreH16 : (i <= (n_pre - 1 ))) (PreH17 : (Permutation l a )) (PreH18 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH19 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH20 : (n_pre >= 0)) (PreH21 : (n_pre <= 100000)) (PreH22 : ((Zlength (l)) = n_pre)) (PreH23 : (n_pre > 0)) ,
   ((Zlength ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3)))))) = n_pre)
 .
 
 Definition bubble_sort_alter_entail_wit_4_2_normal := 
-(
 forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2: Z) (a_3: (@list Z)) (PreH1 : ((Znth j a_3 0) <= (Znth (j + 1 ) a_3 0))) (PreH2 : (j < ((n_pre - 1 ) - i_2 ))) (PreH3 : ((Zlength (a_3)) = n_pre)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i_2 ))) (PreH8 : (Permutation l a_3 )) (PreH9 : (increasing (sublist ((n_pre - i_2 )) (n_pre) (a_3)) )) (PreH10 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i_2 ))) /\ ((n_pre - i_2 ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a_3) (0)) <= (Znth (q_2) (a_3) (0))))) (PreH11 : forall (p_3: Z) , (((0 <= p_3) /\ (p_3 < j)) -> ((Znth (p_3) (a_3) (0)) <= (Znth (j) (a_3) (0))))) (PreH12 : (i < (n_pre - 1 ))) (PreH13 : (1 <= n_pre)) (PreH14 : ((Zlength (a)) = n_pre)) (PreH15 : (0 <= i)) (PreH16 : (i <= (n_pre - 1 ))) (PreH17 : (Permutation l a )) (PreH18 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH19 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH20 : (n_pre >= 0)) (PreH21 : (n_pre <= 100000)) (PreH22 : ((Zlength (l)) = n_pre)) (PreH23 : (n_pre > 0)) ,
   (IntArray.full arr_pre n_pre a_3 )
 |--
@@ -1026,18 +1012,6 @@ forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2:
   &&  “ ((Zlength (l)) = n_pre) ” 
   &&  “ (n_pre > 0) ”
   &&  (IntArray.full arr_pre n_pre a_2 )
-) \/
-(
-forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2: Z) (a_3: (@list Z)) (PreH1 : ((Znth j a_3 0) <= (Znth (j + 1 ) a_3 0))) (PreH2 : (j < ((n_pre - 1 ) - i_2 ))) (PreH3 : ((Zlength (a_3)) = n_pre)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i_2 ))) (PreH8 : (Permutation l a_3 )) (PreH9 : (increasing (sublist ((n_pre - i_2 )) (n_pre) (a_3)) )) (PreH10 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i_2 ))) /\ ((n_pre - i_2 ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a_3) (0)) <= (Znth (q_2) (a_3) (0))))) (PreH11 : forall (p_3: Z) , (((0 <= p_3) /\ (p_3 < j)) -> ((Znth (p_3) (a_3) (0)) <= (Znth (j) (a_3) (0))))) (PreH12 : (i < (n_pre - 1 ))) (PreH13 : (1 <= n_pre)) (PreH14 : ((Zlength (a)) = n_pre)) (PreH15 : (0 <= i)) (PreH16 : (i <= (n_pre - 1 ))) (PreH17 : (Permutation l a )) (PreH18 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH19 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH20 : (n_pre >= 0)) (PreH21 : (n_pre <= 100000)) (PreH22 : ((Zlength (l)) = n_pre)) (PreH23 : (n_pre > 0)) ,
-  TT && emp 
-|--
-  “ (((Znth (0) (a_3) (0)) <= (Znth ((j + 1 )) (a_3) (0))) /\ ((Znth (((j + 1 ) - 1 )) (a_3) (0)) <= (Znth ((j + 1 )) (a_3) (0)))) ”
-  &&  emp
-).
-
-Definition bubble_sort_alter_entail_wit_4_2_normal_split_goal_1 := 
-forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2: Z) (a_3: (@list Z)) (PreH1 : ((Znth j a_3 0) <= (Znth (j + 1 ) a_3 0))) (PreH2 : (j < ((n_pre - 1 ) - i_2 ))) (PreH3 : ((Zlength (a_3)) = n_pre)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i_2 ))) (PreH8 : (Permutation l a_3 )) (PreH9 : (increasing (sublist ((n_pre - i_2 )) (n_pre) (a_3)) )) (PreH10 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i_2 ))) /\ ((n_pre - i_2 ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a_3) (0)) <= (Znth (q_2) (a_3) (0))))) (PreH11 : forall (p_3: Z) , (((0 <= p_3) /\ (p_3 < j)) -> ((Znth (p_3) (a_3) (0)) <= (Znth (j) (a_3) (0))))) (PreH12 : (i < (n_pre - 1 ))) (PreH13 : (1 <= n_pre)) (PreH14 : ((Zlength (a)) = n_pre)) (PreH15 : (0 <= i)) (PreH16 : (i <= (n_pre - 1 ))) (PreH17 : (Permutation l a )) (PreH18 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH19 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH20 : (n_pre >= 0)) (PreH21 : (n_pre <= 100000)) (PreH22 : ((Zlength (l)) = n_pre)) (PreH23 : (n_pre > 0)) ,
-  (((Znth (0) (a_3) (0)) <= (Znth ((j + 1 )) (a_3) (0))) /\ ((Znth (((j + 1 ) - 1 )) (a_3) (0)) <= (Znth ((j + 1 )) (a_3) (0))))
 .
 
 Definition bubble_sort_alter_entail_wit_5_normal := 
@@ -1318,8 +1292,8 @@ Definition bubble_sort_alter1_safety_wit_1 :=
 forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 : (n_pre >= 0)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) ,
   ((( &( "j" ) )) # Int  |->_)
   **  ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (IntArray.full arr_pre n_pre l )
 |--
   “ ((False \/ (True /\ (n_pre = 0))) \/ (True /\ (n_pre > 0))) ”
@@ -1329,8 +1303,8 @@ Definition bubble_sort_alter1_safety_wit_2_zero :=
 forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 : (n_pre >= 0)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (n_pre = 0)) ,
   ((( &( "j" ) )) # Int  |->_)
   **  ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (IntArray.full arr_pre n_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -1341,8 +1315,8 @@ Definition bubble_sort_alter1_safety_wit_3_normal :=
 forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 : (n_pre >= 0)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (n_pre > 0)) ,
   ((( &( "j" ) )) # Int  |->_)
   **  ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (IntArray.full arr_pre n_pre l )
 |--
   “ (0 <= INT_MAX) ” 
@@ -1659,11 +1633,17 @@ forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (PreH1 : (i 
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (PreH1 : (i < (n_pre - 1 ))) (PreH2 : (1 <= n_pre)) (PreH3 : ((Zlength (a)) = n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= (n_pre - 1 ))) (PreH6 : (Permutation l a )) (PreH7 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH8 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH9 : (n_pre >= 0)) (PreH10 : (n_pre <= 100000)) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : (n_pre > 0)) ,
   TT && emp 
 |--
-  “ forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i ))) /\ ((n_pre - i ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a) (0)) <= (Znth (q_2) (a) (0)))) ”
+  “ forall (p_3: Z) , (((0 <= p_3) /\ (p_3 < 0)) -> ((Znth (p_3) (a) (0)) <= (Znth (0) (a) (0)))) ” 
+  &&  “ forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i ))) /\ ((n_pre - i ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a) (0)) <= (Znth (q_2) (a) (0)))) ”
   &&  emp
 ).
 
 Definition bubble_sort_alter1_entail_wit_3_normal_split_goal_1 := 
+forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (PreH1 : (i < (n_pre - 1 ))) (PreH2 : (1 <= n_pre)) (PreH3 : ((Zlength (a)) = n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= (n_pre - 1 ))) (PreH6 : (Permutation l a )) (PreH7 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH8 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH9 : (n_pre >= 0)) (PreH10 : (n_pre <= 100000)) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : (n_pre > 0)) ,
+  forall (p_3: Z) , (((0 <= p_3) /\ (p_3 < 0)) -> ((Znth (p_3) (a) (0)) <= (Znth (0) (a) (0))))
+.
+
+Definition bubble_sort_alter1_entail_wit_3_normal_split_goal_2 := 
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (PreH1 : (i < (n_pre - 1 ))) (PreH2 : (1 <= n_pre)) (PreH3 : ((Zlength (a)) = n_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= (n_pre - 1 ))) (PreH6 : (Permutation l a )) (PreH7 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH8 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH9 : (n_pre >= 0)) (PreH10 : (n_pre <= 100000)) (PreH11 : ((Zlength (l)) = n_pre)) (PreH12 : (n_pre > 0)) ,
   forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i ))) /\ ((n_pre - i ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a) (0)) <= (Znth (q_2) (a) (0))))
 .
@@ -1701,8 +1681,7 @@ forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2:
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2: Z) (a_3: (@list Z)) (PreH1 : ((Znth j a_3 0) > (Znth (j + 1 ) a_3 0))) (PreH2 : (j < ((n_pre - 1 ) - i_2 ))) (PreH3 : ((Zlength (a_3)) = n_pre)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i_2 ))) (PreH8 : (Permutation l a_3 )) (PreH9 : (increasing (sublist ((n_pre - i_2 )) (n_pre) (a_3)) )) (PreH10 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i_2 ))) /\ ((n_pre - i_2 ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a_3) (0)) <= (Znth (q_2) (a_3) (0))))) (PreH11 : forall (p_3: Z) , (((0 <= p_3) /\ (p_3 < j)) -> ((Znth (p_3) (a_3) (0)) <= (Znth (j) (a_3) (0))))) (PreH12 : (i < (n_pre - 1 ))) (PreH13 : (1 <= n_pre)) (PreH14 : ((Zlength (a)) = n_pre)) (PreH15 : (0 <= i)) (PreH16 : (i <= (n_pre - 1 ))) (PreH17 : (Permutation l a )) (PreH18 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH19 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH20 : (n_pre >= 0)) (PreH21 : (n_pre <= 100000)) (PreH22 : ((Zlength (l)) = n_pre)) (PreH23 : (n_pre > 0)) ,
   TT && emp 
 |--
-  “ (((Znth (0) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3))))) (0)) <= (Znth ((j + 1 )) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3))))) (0))) /\ ((Znth (((j + 1 ) - 1 )) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3))))) (0)) <= (Znth ((j + 1 )) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3))))) (0)))) ” 
-  &&  “ (increasing (sublist ((n_pre - i_2 )) (n_pre) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3)))))) ) ” 
+  “ (increasing (sublist ((n_pre - i_2 )) (n_pre) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3)))))) ) ” 
   &&  “ (Permutation l (replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3)))) ) ” 
   &&  “ ((Zlength ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3)))))) = n_pre) ”
   &&  emp
@@ -1710,26 +1689,20 @@ forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2: Z) (a_3: (@l
 
 Definition bubble_sort_alter1_entail_wit_4_1_normal_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2: Z) (a_3: (@list Z)) (PreH1 : ((Znth j a_3 0) > (Znth (j + 1 ) a_3 0))) (PreH2 : (j < ((n_pre - 1 ) - i_2 ))) (PreH3 : ((Zlength (a_3)) = n_pre)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i_2 ))) (PreH8 : (Permutation l a_3 )) (PreH9 : (increasing (sublist ((n_pre - i_2 )) (n_pre) (a_3)) )) (PreH10 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i_2 ))) /\ ((n_pre - i_2 ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a_3) (0)) <= (Znth (q_2) (a_3) (0))))) (PreH11 : forall (p_3: Z) , (((0 <= p_3) /\ (p_3 < j)) -> ((Znth (p_3) (a_3) (0)) <= (Znth (j) (a_3) (0))))) (PreH12 : (i < (n_pre - 1 ))) (PreH13 : (1 <= n_pre)) (PreH14 : ((Zlength (a)) = n_pre)) (PreH15 : (0 <= i)) (PreH16 : (i <= (n_pre - 1 ))) (PreH17 : (Permutation l a )) (PreH18 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH19 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH20 : (n_pre >= 0)) (PreH21 : (n_pre <= 100000)) (PreH22 : ((Zlength (l)) = n_pre)) (PreH23 : (n_pre > 0)) ,
-  (((Znth (0) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3))))) (0)) <= (Znth ((j + 1 )) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3))))) (0))) /\ ((Znth (((j + 1 ) - 1 )) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3))))) (0)) <= (Znth ((j + 1 )) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3))))) (0))))
+  (increasing (sublist ((n_pre - i_2 )) (n_pre) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3)))))) )
 .
 
 Definition bubble_sort_alter1_entail_wit_4_1_normal_split_goal_2 := 
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2: Z) (a_3: (@list Z)) (PreH1 : ((Znth j a_3 0) > (Znth (j + 1 ) a_3 0))) (PreH2 : (j < ((n_pre - 1 ) - i_2 ))) (PreH3 : ((Zlength (a_3)) = n_pre)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i_2 ))) (PreH8 : (Permutation l a_3 )) (PreH9 : (increasing (sublist ((n_pre - i_2 )) (n_pre) (a_3)) )) (PreH10 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i_2 ))) /\ ((n_pre - i_2 ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a_3) (0)) <= (Znth (q_2) (a_3) (0))))) (PreH11 : forall (p_3: Z) , (((0 <= p_3) /\ (p_3 < j)) -> ((Znth (p_3) (a_3) (0)) <= (Znth (j) (a_3) (0))))) (PreH12 : (i < (n_pre - 1 ))) (PreH13 : (1 <= n_pre)) (PreH14 : ((Zlength (a)) = n_pre)) (PreH15 : (0 <= i)) (PreH16 : (i <= (n_pre - 1 ))) (PreH17 : (Permutation l a )) (PreH18 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH19 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH20 : (n_pre >= 0)) (PreH21 : (n_pre <= 100000)) (PreH22 : ((Zlength (l)) = n_pre)) (PreH23 : (n_pre > 0)) ,
-  (increasing (sublist ((n_pre - i_2 )) (n_pre) ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3)))))) )
-.
-
-Definition bubble_sort_alter1_entail_wit_4_1_normal_split_goal_3 := 
-forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2: Z) (a_3: (@list Z)) (PreH1 : ((Znth j a_3 0) > (Znth (j + 1 ) a_3 0))) (PreH2 : (j < ((n_pre - 1 ) - i_2 ))) (PreH3 : ((Zlength (a_3)) = n_pre)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i_2 ))) (PreH8 : (Permutation l a_3 )) (PreH9 : (increasing (sublist ((n_pre - i_2 )) (n_pre) (a_3)) )) (PreH10 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i_2 ))) /\ ((n_pre - i_2 ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a_3) (0)) <= (Znth (q_2) (a_3) (0))))) (PreH11 : forall (p_3: Z) , (((0 <= p_3) /\ (p_3 < j)) -> ((Znth (p_3) (a_3) (0)) <= (Znth (j) (a_3) (0))))) (PreH12 : (i < (n_pre - 1 ))) (PreH13 : (1 <= n_pre)) (PreH14 : ((Zlength (a)) = n_pre)) (PreH15 : (0 <= i)) (PreH16 : (i <= (n_pre - 1 ))) (PreH17 : (Permutation l a )) (PreH18 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH19 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH20 : (n_pre >= 0)) (PreH21 : (n_pre <= 100000)) (PreH22 : ((Zlength (l)) = n_pre)) (PreH23 : (n_pre > 0)) ,
   (Permutation l (replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3)))) )
 .
 
-Definition bubble_sort_alter1_entail_wit_4_1_normal_split_goal_4 := 
+Definition bubble_sort_alter1_entail_wit_4_1_normal_split_goal_3 := 
 forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2: Z) (a_3: (@list Z)) (PreH1 : ((Znth j a_3 0) > (Znth (j + 1 ) a_3 0))) (PreH2 : (j < ((n_pre - 1 ) - i_2 ))) (PreH3 : ((Zlength (a_3)) = n_pre)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i_2 ))) (PreH8 : (Permutation l a_3 )) (PreH9 : (increasing (sublist ((n_pre - i_2 )) (n_pre) (a_3)) )) (PreH10 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i_2 ))) /\ ((n_pre - i_2 ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a_3) (0)) <= (Znth (q_2) (a_3) (0))))) (PreH11 : forall (p_3: Z) , (((0 <= p_3) /\ (p_3 < j)) -> ((Znth (p_3) (a_3) (0)) <= (Znth (j) (a_3) (0))))) (PreH12 : (i < (n_pre - 1 ))) (PreH13 : (1 <= n_pre)) (PreH14 : ((Zlength (a)) = n_pre)) (PreH15 : (0 <= i)) (PreH16 : (i <= (n_pre - 1 ))) (PreH17 : (Permutation l a )) (PreH18 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH19 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH20 : (n_pre >= 0)) (PreH21 : (n_pre <= 100000)) (PreH22 : ((Zlength (l)) = n_pre)) (PreH23 : (n_pre > 0)) ,
   ((Zlength ((replace_Znth ((j + 1 )) ((Znth j a_3 0)) ((replace_Znth (j) ((Znth (j + 1 ) a_3 0)) (a_3)))))) = n_pre)
 .
 
 Definition bubble_sort_alter1_entail_wit_4_2_normal := 
-(
 forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2: Z) (a_3: (@list Z)) (PreH1 : ((Znth j a_3 0) <= (Znth (j + 1 ) a_3 0))) (PreH2 : (j < ((n_pre - 1 ) - i_2 ))) (PreH3 : ((Zlength (a_3)) = n_pre)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i_2 ))) (PreH8 : (Permutation l a_3 )) (PreH9 : (increasing (sublist ((n_pre - i_2 )) (n_pre) (a_3)) )) (PreH10 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i_2 ))) /\ ((n_pre - i_2 ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a_3) (0)) <= (Znth (q_2) (a_3) (0))))) (PreH11 : forall (p_3: Z) , (((0 <= p_3) /\ (p_3 < j)) -> ((Znth (p_3) (a_3) (0)) <= (Znth (j) (a_3) (0))))) (PreH12 : (i < (n_pre - 1 ))) (PreH13 : (1 <= n_pre)) (PreH14 : ((Zlength (a)) = n_pre)) (PreH15 : (0 <= i)) (PreH16 : (i <= (n_pre - 1 ))) (PreH17 : (Permutation l a )) (PreH18 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH19 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH20 : (n_pre >= 0)) (PreH21 : (n_pre <= 100000)) (PreH22 : ((Zlength (l)) = n_pre)) (PreH23 : (n_pre > 0)) ,
   (IntArray.full arr_pre n_pre a_3 )
 |--
@@ -1756,18 +1729,6 @@ forall (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2:
   &&  “ ((Zlength (l)) = n_pre) ” 
   &&  “ (n_pre > 0) ”
   &&  (IntArray.full arr_pre n_pre a_2 )
-) \/
-(
-forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2: Z) (a_3: (@list Z)) (PreH1 : ((Znth j a_3 0) <= (Znth (j + 1 ) a_3 0))) (PreH2 : (j < ((n_pre - 1 ) - i_2 ))) (PreH3 : ((Zlength (a_3)) = n_pre)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i_2 ))) (PreH8 : (Permutation l a_3 )) (PreH9 : (increasing (sublist ((n_pre - i_2 )) (n_pre) (a_3)) )) (PreH10 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i_2 ))) /\ ((n_pre - i_2 ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a_3) (0)) <= (Znth (q_2) (a_3) (0))))) (PreH11 : forall (p_3: Z) , (((0 <= p_3) /\ (p_3 < j)) -> ((Znth (p_3) (a_3) (0)) <= (Znth (j) (a_3) (0))))) (PreH12 : (i < (n_pre - 1 ))) (PreH13 : (1 <= n_pre)) (PreH14 : ((Zlength (a)) = n_pre)) (PreH15 : (0 <= i)) (PreH16 : (i <= (n_pre - 1 ))) (PreH17 : (Permutation l a )) (PreH18 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH19 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH20 : (n_pre >= 0)) (PreH21 : (n_pre <= 100000)) (PreH22 : ((Zlength (l)) = n_pre)) (PreH23 : (n_pre > 0)) ,
-  TT && emp 
-|--
-  “ (((Znth (0) (a_3) (0)) <= (Znth ((j + 1 )) (a_3) (0))) /\ ((Znth (((j + 1 ) - 1 )) (a_3) (0)) <= (Znth ((j + 1 )) (a_3) (0)))) ”
-  &&  emp
-).
-
-Definition bubble_sort_alter1_entail_wit_4_2_normal_split_goal_1 := 
-forall (n_pre: Z) (l: (@list Z)) (i: Z) (a: (@list Z)) (j: Z) (i_2: Z) (a_3: (@list Z)) (PreH1 : ((Znth j a_3 0) <= (Znth (j + 1 ) a_3 0))) (PreH2 : (j < ((n_pre - 1 ) - i_2 ))) (PreH3 : ((Zlength (a_3)) = n_pre)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 < (n_pre - 1 ))) (PreH6 : (0 <= j)) (PreH7 : (j <= ((n_pre - 1 ) - i_2 ))) (PreH8 : (Permutation l a_3 )) (PreH9 : (increasing (sublist ((n_pre - i_2 )) (n_pre) (a_3)) )) (PreH10 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < (n_pre - i_2 ))) /\ ((n_pre - i_2 ) <= q_2)) /\ (q_2 < n_pre)) -> ((Znth (p_2) (a_3) (0)) <= (Znth (q_2) (a_3) (0))))) (PreH11 : forall (p_3: Z) , (((0 <= p_3) /\ (p_3 < j)) -> ((Znth (p_3) (a_3) (0)) <= (Znth (j) (a_3) (0))))) (PreH12 : (i < (n_pre - 1 ))) (PreH13 : (1 <= n_pre)) (PreH14 : ((Zlength (a)) = n_pre)) (PreH15 : (0 <= i)) (PreH16 : (i <= (n_pre - 1 ))) (PreH17 : (Permutation l a )) (PreH18 : (increasing (sublist ((n_pre - i )) (n_pre) (a)) )) (PreH19 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (n_pre - i ))) /\ ((n_pre - i ) <= q)) /\ (q < n_pre)) -> ((Znth (p) (a) (0)) <= (Znth (q) (a) (0))))) (PreH20 : (n_pre >= 0)) (PreH21 : (n_pre <= 100000)) (PreH22 : ((Zlength (l)) = n_pre)) (PreH23 : (n_pre > 0)) ,
-  (((Znth (0) (a_3) (0)) <= (Znth ((j + 1 )) (a_3) (0))) /\ ((Znth (((j + 1 ) - 1 )) (a_3) (0)) <= (Znth ((j + 1 )) (a_3) (0))))
 .
 
 Definition bubble_sort_alter1_entail_wit_5_normal := 

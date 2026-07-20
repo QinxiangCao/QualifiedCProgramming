@@ -1,0 +1,333 @@
+// Point array strategies -- Point-specialized analogue of QCP_demos_LLM/int_array.strategies.
+// max rule id: 35
+#include "convex_hull_float_def.h"
+
+// Decompose a full array or segment at the requested Point cell.
+// missing_i retains the array frame and relates the requested store to l[i].
+id : 1
+priority : core(1)
+left : PointFArray::full(?p, ?n, ?l) at 0
+right : store_pointf(?p + (?i * sizeof(struct PointF)), ?v) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : right_erase(1);
+         left_erase(0);
+         left_add(PointFArray::missing_i(p, i, 0, n, l));
+         right_add(v == l[i]);
+
+id : 2
+priority : post(1)
+left : store_pointf(?p + ?i * sizeof(struct PointF), ?l[?i]) at 1
+       PointFArray::missing_i(p, i, 0, ?n, l) at 0
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(1);
+         left_erase(0);
+         left_add(PointFArray::full(p, n, l));
+
+id : 3
+priority : post(3)
+left : store_pointf(?p + ?i * sizeof(struct PointF), ?v) at 1
+       PointFArray::missing_i(p, i, 0, ?n, ?l) at 0
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(1);
+         left_erase(0);
+         left_add(PointFArray::full(p, n, replace_Znth{PointF}(i, v, l)));
+
+id : 25
+priority : post(0)
+left : store_pointf(?p + ?i * sizeof(struct PointF), pointf_mk(pointf_get_x(?l[?i]), pointf_get_y(l[i]))) at 1
+       PointFArray::missing_i(p, i, 0, ?n, l) at 0
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(1);
+         left_erase(0);
+         left_add(PointFArray::full(p, n, l));
+
+id : 4
+priority : core(1)
+left : PointFArray::full(?p, ?n, ?l1) at 0
+right : PointFArray::full(p, n, ?l2) at 1
+action : right_erase(1);
+         left_erase(0);
+         right_add(l1 == l2);
+
+id : 5
+priority : core(1)
+left : PointFArray::missing_i(?p, ?i, ?v, ?n, ?l) at 0
+right : PointFArray::missing_i(p, i, v, n, l) at 1
+action : left_erase(0);
+         right_erase(1);
+
+id : 6
+priority : core(1)
+left : PointFArray::seg(?p, ?x, ?y, ?l1) at 0
+right : PointFArray::seg(p, x, y, ?l2) at 1
+action : right_erase(1);
+         left_erase(0);
+         right_add(l1 == l2);
+
+id : 7
+priority : core(1)
+left : PointFArray::seg(?p, ?x, ?y, ?l) at 0
+right : store_pointf(?p + (?i * sizeof(struct PointF)), ?v) at 1
+check : infer(x <= i);
+        infer(i < y);
+action : right_erase(1);
+         left_erase(0);
+         left_add(PointFArray::missing_i(p, i, x, y, l));
+         right_add(v == l[i - x]);
+
+// Structural rules for equality, concatenation, splitting, and empty segments.
+id : 8
+priority : core(1)
+left : PointFArray::seg(?p, ?x, ?y, ?l1) at 0
+       PointFArray::seg(?p, ?y, ?z, ?l2) at 1
+right : PointFArray::seg(?p, ?x, ?z, ?l3) at 2
+check : infer(y <= z);
+        infer(x <= y);
+action : right_erase(2);
+         left_erase(0);
+         left_erase(1);
+         right_add(l3 == app{PointF}(l1, l2));
+
+id : 9
+priority : core(1)
+left : PointFArray::seg(?p, ?x, ?z, ?l3) at 2
+right : PointFArray::seg(?p, ?x, ?y, ?l1) at 0
+        PointFArray::seg(?p, ?y, ?z, ?l2) at 1
+check : infer(y <= z);
+        infer(x <= y);
+action : left_erase(2);
+         right_erase(0);
+         right_erase(1);
+         right_add(l3 == app{PointF}(l1, l2));
+         right_add(Zlength{PointF}(l1) == y - x);
+
+id : 10
+priority : core(1)
+right : PointFArray::seg(?p, ?x, ?x, ?l) at 0
+action : right_erase(0);
+         right_add(l == nil{PointF});
+
+// Recompose a missing Point.  Rules 25 and 26 also accept the eta-expanded
+// point_mk form produced after symbolic execution exposes x and y fields.
+id : 11
+priority : post(1)
+left : store_pointf(?p + ?i * sizeof(struct PointF), ?l[?i - ?x]) at 1
+       PointFArray::missing_i(p, i, x, ?y, l) at 0
+check : infer(x <= i);
+        infer(i < y);
+action : left_erase(1);
+         left_erase(0);
+         left_add(PointFArray::seg(p, x, y, l));
+
+id : 12
+priority : post(4)
+left : store_pointf(?p + ?i * sizeof(struct PointF), ?v) at 1
+       PointFArray::missing_i(p, i, ?x, ?y, ?l) at 0
+check : infer(x <= i);
+        infer(i < y);
+action : left_erase(1);
+         left_erase(0);
+         left_add(PointFArray::seg(p, x, y, replace_Znth{PointF}(i - x, v, l)));
+
+id : 26
+priority : post(0)
+left : store_pointf(?p + ?i * sizeof(struct PointF), pointf_mk(pointf_get_x(?l[?i - ?x]), pointf_get_y(l[i - x]))) at 1
+       PointFArray::missing_i(p, i, x, ?y, l) at 0
+check : infer(x <= i);
+        infer(i < y);
+action : left_erase(1);
+         left_erase(0);
+         left_add(PointFArray::seg(p, x, y, l));
+
+// Split undefined Point storage into x/y fields, retaining a residual segment
+// when symbolic execution accesses only one field.
+id : 13
+priority : core(1)
+left : PointFArray::undef_full(?p, ?n) at 0
+right : undef_data_at(field_addr(?p + (0 * sizeof(struct PointF)), PointF, x), float) at 1
+        undef_data_at(field_addr(p + (0 * sizeof(struct PointF)), PointF, y), float) at 2
+check : infer(0 < n);
+action : right_erase(1);
+         right_erase(2);
+         left_erase(0);
+         left_add(PointFArray::undef_seg(p, 1, n));
+
+id : 14
+priority : core(2)
+left : PointFArray::undef_full(?p, ?n) at 0
+right : undef_data_at(field_addr(?p + (0 * sizeof(struct PointF)), PointF, x), float) at 1
+check : infer(0 < n);
+action : right_erase(1);
+         left_erase(0);
+         left_add(undef_data_at(field_addr(p + (0 * sizeof(struct PointF)), PointF, y), float));
+         left_add(PointFArray::undef_seg(p, 1, n));
+
+id : 15
+priority : core(1)
+left : PointFArray::undef_seg(?p, ?x, ?y) at 0
+right : undef_data_at(field_addr(?p + (?x * sizeof(struct PointF)), PointF, x), float) at 1
+        undef_data_at(field_addr(p + (x * sizeof(struct PointF)), PointF, y), float) at 2
+check : infer(x < y);
+action : right_erase(1);
+         right_erase(2);
+         left_erase(0);
+         left_add(PointFArray::undef_seg(p, x + 1, y));
+
+id : 16
+priority : core(2)
+left : PointFArray::undef_seg(?p, ?x, ?y) at 0
+right : undef_data_at(field_addr(?p + (?x * sizeof(struct PointF)), PointF, x), float) at 1
+check : infer(x < y);
+action : right_erase(1);
+         left_erase(0);
+         left_add(undef_data_at(field_addr(p + (x * sizeof(struct PointF)), PointF, y), float));
+         left_add(PointFArray::undef_seg(p, x + 1, y));
+
+// Extend undefined storage with a concrete Point, or append a Point to a
+// concrete segment.
+id : 17
+priority : post(1)
+left : store_pointf(?p + (?x * sizeof(struct PointF)), ?a) at 0
+       PointFArray::undef_seg(?p, ?y, ?z) at 1
+check : infer(y == x + 1);
+        infer(x < z);
+action : left_erase(1);
+         left_erase(0);
+         left_add(PointFArray::undef_seg(p, x, z));
+
+id : 18
+priority : post(1)
+left : PointFArray::seg(?p, ?x, ?y, ?l) at 0
+       store_pointf(?p + (?y * sizeof(struct PointF)), ?a) at 1
+check : infer(x <= y);
+action : left_erase(1);
+         left_erase(0);
+         left_add(PointFArray::seg(p, x, y + 1, app{PointF}(l, cons{PointF}(a, nil{PointF}))));
+
+// Cancel matching whole-point cells before projecting a left cell to fields.
+// Projecting both sides would cycle with the field-to-point rule below.
+id : 29
+priority : core(1)
+left : store_pointf(?p, ?a) at 0
+right : store_pointf(p, ?b) at 1
+action : right_erase(1);
+         left_erase(0);
+         right_add(a == b);
+
+// Project a whole PointF only in response to a concrete field read.  Float
+// stores carry fp32 values directly in the current QCP float model.
+id : 30
+priority : core(2)
+left : store_pointf(?p, ?a) at 0
+right : store(field_addr(p, PointF, x), float, ?vx) at 1
+action : right_erase(1);
+         left_erase(0);
+         left_add(store(field_addr(p, PointF, y), float, pointf_get_y(a)));
+         right_add(vx == pointf_get_x(a));
+
+id : 31
+priority : core(2)
+left : store_pointf(?p, ?a) at 0
+right : store(field_addr(p, PointF, y), float, ?vy) at 1
+action : right_erase(1);
+         left_erase(0);
+         left_add(store(field_addr(p, PointF, x), float, pointf_get_x(a)));
+         right_add(vy == pointf_get_y(a));
+
+// Rebuild a whole PointF after a one-field read.
+id : 34
+priority : post(0)
+left : store(field_addr(?p, PointF, x), float, ?vx) at 0
+       store(field_addr(p, PointF, y), float, ?vy) at 1
+action : left_erase(1);
+         left_erase(0);
+         left_add(store_pointf(p, pointf_mk(vx, vy)));
+
+id : 35
+priority : post(0)
+left : store(field_addr(?p, PointF, y), float, ?vy) at 0
+       store(field_addr(p, PointF, x), float, ?vx) at 1
+action : left_erase(1);
+         left_erase(0);
+         left_add(store_pointf(p, pointf_mk(vx, vy)));
+
+id : 28
+priority : core(1)
+left : PointFArray::undef_full(?p, ?n) at 0
+right : PointFArray::undef_full(p, ?m) at 1
+check : infer(n == m);
+action : left_erase(0);
+         right_erase(1);
+
+// Fold or unfold a Point between its whole-cell store and its x/y field stores.
+// The directions and priorities avoid reintroducing the projection loop.
+id : 19
+priority : post(0)
+left : store(field_addr(?p + (?i * sizeof(struct PointF)), PointF, x), float, ?vx) at 0
+       store(field_addr(p + (i * sizeof(struct PointF)), PointF, y), float, ?vy) at 1
+action : left_erase(1);
+         left_erase(0);
+         left_add(store_pointf(p + (i * sizeof(struct PointF)), pointf_mk(vx, vy)));
+
+id : 20
+priority : core(0)
+left : store_pointf(?p + (?i * sizeof(struct PointF)), ?a) at 0
+right : store(field_addr(p + (i * sizeof(struct PointF)), PointF, x), float, ?vx) at 1
+        store(field_addr(p + (i * sizeof(struct PointF)), PointF, y), float, ?vy) at 2
+action : right_erase(2);
+         right_erase(1);
+         right_add(store_pointf(p + (i * sizeof(struct PointF)), pointf_mk(vx, vy)));
+
+// Project one requested field while preserving the companion field and array
+// frame in a missing_i assertion.
+id : 21
+priority : core(2)
+left : PointFArray::full(?p, ?n, ?l) at 0
+right : store(field_addr(?p + (?i * sizeof(struct PointF)), PointF, x), float, ?vx) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : right_erase(1);
+         left_erase(0);
+         left_add(store(field_addr(p + (i * sizeof(struct PointF)), PointF, y), float, pointf_get_y(l[i])));
+         left_add(PointFArray::missing_i(p, i, 0, n, l));
+         right_add(vx == pointf_get_x(l[i]));
+
+id : 22
+priority : core(2)
+left : PointFArray::full(?p, ?n, ?l) at 0
+right : store(field_addr(?p + (?i * sizeof(struct PointF)), PointF, y), float, ?vy) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : right_erase(1);
+         left_erase(0);
+         left_add(store(field_addr(p + (i * sizeof(struct PointF)), PointF, x), float, pointf_get_x(l[i])));
+         left_add(PointFArray::missing_i(p, i, 0, n, l));
+         right_add(vy == pointf_get_y(l[i]));
+
+id : 23
+priority : core(2)
+left : PointFArray::seg(?p, ?x, ?y, ?l) at 0
+right : store(field_addr(?p + (?i * sizeof(struct PointF)), PointF, x), float, ?vx) at 1
+check : infer(x <= i);
+        infer(i < y);
+action : right_erase(1);
+         left_erase(0);
+         left_add(store(field_addr(p + (i * sizeof(struct PointF)), PointF, y), float, pointf_get_y(l[i - x])));
+         left_add(PointFArray::missing_i(p, i, x, y, l));
+         right_add(vx == pointf_get_x(l[i - x]));
+
+id : 24
+priority : core(2)
+left : PointFArray::seg(?p, ?x, ?y, ?l) at 0
+right : store(field_addr(?p + (?i * sizeof(struct PointF)), PointF, y), float, ?vy) at 1
+check : infer(x <= i);
+        infer(i < y);
+action : right_erase(1);
+         left_erase(0);
+         left_add(store(field_addr(p + (i * sizeof(struct PointF)), PointF, x), float, pointf_get_x(l[i - x])));
+         left_add(PointFArray::missing_i(p, i, x, y, l));
+         right_add(vy == pointf_get_y(l[i - x]));

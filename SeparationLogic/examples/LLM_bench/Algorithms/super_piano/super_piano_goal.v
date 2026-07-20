@@ -31,9 +31,9 @@ From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_proof.
 
 Definition build_prefix_safety_wit_1 := 
 forall (pre_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (PrefixSums l ps )) (PreH5 : forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx ps 0)) /\ ((Znth idx ps 0) <= INT_MAX)))) (PreH6 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
-  ((( &( "pre" ) )) # Ptr  |-> pre_pre)
+  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
+  **  ((( &( "pre" ) )) # Ptr  |-> pre_pre)
   **  (IntArray.full arr_pre n_pre l )
   **  (IntArray.undef_full pre_pre (n_pre + 1 ) )
 |--
@@ -43,9 +43,9 @@ forall (pre_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps: (@list Z)) (PreH
 
 Definition build_prefix_safety_wit_2 := 
 forall (pre_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (PrefixSums l ps )) (PreH5 : forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx ps 0)) /\ ((Znth idx ps 0) <= INT_MAX)))) (PreH6 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
-  ((( &( "pre" ) )) # Ptr  |-> pre_pre)
+  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
+  **  ((( &( "pre" ) )) # Ptr  |-> pre_pre)
   **  (IntArray.full arr_pre n_pre l )
   **  (IntArray.undef_full pre_pre (n_pre + 1 ) )
 |--
@@ -280,14 +280,14 @@ forall (pre_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (pref: (@list Z)) (i:
 forall (n_pre: Z) (l: (@list Z)) (pref: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (PrefixArrayPrefix l pref i )) (PreH8 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
   TT && emp 
 |--
-  “ (((INT_MIN <= (Znth 0 pref 0)) /\ ((Znth 0 pref 0) <= INT_MAX)) /\ ((INT_MIN <= (Znth ((n_pre + 1 ) - 1 ) pref 0)) /\ ((Znth ((n_pre + 1 ) - 1 ) pref 0) <= INT_MAX))) ” 
+  “ forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx pref 0)) /\ ((Znth idx pref 0) <= INT_MAX))) ” 
   &&  “ (PrefixSums l pref ) ”
   &&  emp
 ).
 
 Definition build_prefix_return_wit_1_split_goal_1 := 
 forall (n_pre: Z) (l: (@list Z)) (pref: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (PrefixArrayPrefix l pref i )) (PreH8 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
-  (((INT_MIN <= (Znth 0 pref 0)) /\ ((Znth 0 pref 0) <= INT_MAX)) /\ ((INT_MIN <= (Znth ((n_pre + 1 ) - 1 ) pref 0)) /\ ((Znth ((n_pre + 1 ) - 1 ) pref 0) <= INT_MAX)))
+  forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx pref 0)) /\ ((Znth idx pref 0) <= INT_MAX)))
 .
 
 Definition build_prefix_return_wit_1_split_goal_2 := 
@@ -376,18 +376,18 @@ forall (pre_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (pref: (@list Z)) (i:
 Definition superPiano_safety_wit_1 := 
 forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) (heap_value_pre: Z) (st_pre: Z) (prefix_pre: Z) (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps: (@list Z)) (ans: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= L_pre)) (PreH4 : (L_pre <= R_pre)) (PreH5 : (R_pre <= n_pre)) (PreH6 : (1 <= k_pre)) (PreH7 : (((n_pre + k_pre ) + 1 ) <= 200000)) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : (PrefixSums l ps )) (PreH10 : forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx ps 0)) /\ ((Znth idx ps 0) <= INT_MAX)))) (PreH11 : (SuperPianoAnswerByPrefix ps n_pre L_pre R_pre k_pre ans )) (PreH12 : ((-9223372036854775808) <= ans)) (PreH13 : (ans <= 9223372036854775807)) (PreH14 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
   ((( &( "heap_cap" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
-  **  ((( &( "heap_best" ) )) # Ptr  |-> heap_best_pre)
-  **  ((( &( "heap_hi" ) )) # Ptr  |-> heap_hi_pre)
-  **  ((( &( "heap_lo" ) )) # Ptr  |-> heap_lo_pre)
-  **  ((( &( "heap_start" ) )) # Ptr  |-> heap_start_pre)
-  **  ((( &( "heap_value" ) )) # Ptr  |-> heap_value_pre)
-  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
-  **  ((( &( "prefix" ) )) # Ptr  |-> prefix_pre)
-  **  ((( &( "R" ) )) # Int  |-> R_pre)
-  **  ((( &( "L" ) )) # Int  |-> L_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "k" ) )) # Int  |-> k_pre)
+  **  ((( &( "L" ) )) # Int  |-> L_pre)
+  **  ((( &( "R" ) )) # Int  |-> R_pre)
+  **  ((( &( "prefix" ) )) # Ptr  |-> prefix_pre)
+  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
+  **  ((( &( "heap_value" ) )) # Ptr  |-> heap_value_pre)
+  **  ((( &( "heap_start" ) )) # Ptr  |-> heap_start_pre)
+  **  ((( &( "heap_lo" ) )) # Ptr  |-> heap_lo_pre)
+  **  ((( &( "heap_hi" ) )) # Ptr  |-> heap_hi_pre)
+  **  ((( &( "heap_best" ) )) # Ptr  |-> heap_best_pre)
   **  (IntArray.full arr_pre n_pre l )
   **  (IntArray.undef_full prefix_pre (n_pre + 1 ) )
   **  (IntArray.undef_full st_pre ((n_pre + 1 ) * ST_LEVELS ) )
@@ -404,18 +404,18 @@ forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) 
 Definition superPiano_safety_wit_2 := 
 forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) (heap_value_pre: Z) (st_pre: Z) (prefix_pre: Z) (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps: (@list Z)) (ans: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= L_pre)) (PreH4 : (L_pre <= R_pre)) (PreH5 : (R_pre <= n_pre)) (PreH6 : (1 <= k_pre)) (PreH7 : (((n_pre + k_pre ) + 1 ) <= 200000)) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : (PrefixSums l ps )) (PreH10 : forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx ps 0)) /\ ((Znth idx ps 0) <= INT_MAX)))) (PreH11 : (SuperPianoAnswerByPrefix ps n_pre L_pre R_pre k_pre ans )) (PreH12 : ((-9223372036854775808) <= ans)) (PreH13 : (ans <= 9223372036854775807)) (PreH14 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
   ((( &( "heap_cap" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
-  **  ((( &( "heap_best" ) )) # Ptr  |-> heap_best_pre)
-  **  ((( &( "heap_hi" ) )) # Ptr  |-> heap_hi_pre)
-  **  ((( &( "heap_lo" ) )) # Ptr  |-> heap_lo_pre)
-  **  ((( &( "heap_start" ) )) # Ptr  |-> heap_start_pre)
-  **  ((( &( "heap_value" ) )) # Ptr  |-> heap_value_pre)
-  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
-  **  ((( &( "prefix" ) )) # Ptr  |-> prefix_pre)
-  **  ((( &( "R" ) )) # Int  |-> R_pre)
-  **  ((( &( "L" ) )) # Int  |-> L_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "k" ) )) # Int  |-> k_pre)
+  **  ((( &( "L" ) )) # Int  |-> L_pre)
+  **  ((( &( "R" ) )) # Int  |-> R_pre)
+  **  ((( &( "prefix" ) )) # Ptr  |-> prefix_pre)
+  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
+  **  ((( &( "heap_value" ) )) # Ptr  |-> heap_value_pre)
+  **  ((( &( "heap_start" ) )) # Ptr  |-> heap_start_pre)
+  **  ((( &( "heap_lo" ) )) # Ptr  |-> heap_lo_pre)
+  **  ((( &( "heap_hi" ) )) # Ptr  |-> heap_hi_pre)
+  **  ((( &( "heap_best" ) )) # Ptr  |-> heap_best_pre)
   **  (IntArray.full arr_pre n_pre l )
   **  (IntArray.undef_full prefix_pre (n_pre + 1 ) )
   **  (IntArray.undef_full st_pre ((n_pre + 1 ) * ST_LEVELS ) )
@@ -432,18 +432,18 @@ forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) 
 Definition superPiano_safety_wit_3 := 
 forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) (heap_value_pre: Z) (st_pre: Z) (prefix_pre: Z) (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps: (@list Z)) (ans: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= L_pre)) (PreH4 : (L_pre <= R_pre)) (PreH5 : (R_pre <= n_pre)) (PreH6 : (1 <= k_pre)) (PreH7 : (((n_pre + k_pre ) + 1 ) <= 200000)) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : (PrefixSums l ps )) (PreH10 : forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx ps 0)) /\ ((Znth idx ps 0) <= INT_MAX)))) (PreH11 : (SuperPianoAnswerByPrefix ps n_pre L_pre R_pre k_pre ans )) (PreH12 : ((-9223372036854775808) <= ans)) (PreH13 : (ans <= 9223372036854775807)) (PreH14 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
   ((( &( "heap_cap" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
-  **  ((( &( "heap_best" ) )) # Ptr  |-> heap_best_pre)
-  **  ((( &( "heap_hi" ) )) # Ptr  |-> heap_hi_pre)
-  **  ((( &( "heap_lo" ) )) # Ptr  |-> heap_lo_pre)
-  **  ((( &( "heap_start" ) )) # Ptr  |-> heap_start_pre)
-  **  ((( &( "heap_value" ) )) # Ptr  |-> heap_value_pre)
-  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
-  **  ((( &( "prefix" ) )) # Ptr  |-> prefix_pre)
-  **  ((( &( "R" ) )) # Int  |-> R_pre)
-  **  ((( &( "L" ) )) # Int  |-> L_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "k" ) )) # Int  |-> k_pre)
+  **  ((( &( "L" ) )) # Int  |-> L_pre)
+  **  ((( &( "R" ) )) # Int  |-> R_pre)
+  **  ((( &( "prefix" ) )) # Ptr  |-> prefix_pre)
+  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
+  **  ((( &( "heap_value" ) )) # Ptr  |-> heap_value_pre)
+  **  ((( &( "heap_start" ) )) # Ptr  |-> heap_start_pre)
+  **  ((( &( "heap_lo" ) )) # Ptr  |-> heap_lo_pre)
+  **  ((( &( "heap_hi" ) )) # Ptr  |-> heap_hi_pre)
+  **  ((( &( "heap_best" ) )) # Ptr  |-> heap_best_pre)
   **  (IntArray.full arr_pre n_pre l )
   **  (IntArray.undef_full prefix_pre (n_pre + 1 ) )
   **  (IntArray.undef_full st_pre ((n_pre + 1 ) * ST_LEVELS ) )
@@ -5439,7 +5439,7 @@ forall (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (l: (@list Z)) (ps: (@list Z)
 
 Definition superPiano_entail_wit_15_1 := 
 (
-forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) (heap_value_pre: Z) (st_pre: Z) (prefix_pre: Z) (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps_2: (@list Z)) (ans_2: Z) (st_slots_2: (@list Z)) (slots_2: (@list ((((Z * Z) * Z) * Z) * Z))) (vals_2: (@list Z)) (starts_2: (@list Z)) (los_2: (@list Z)) (his_2: (@list Z)) (bests_2: (@list Z)) (chosen_2: (@list Z)) (heap_cap: Z) (has_left: Z) (has_right: Z) (t: Z) (hsize: Z) (left_best: Z) (best: Z) (lo: Z) (start: Z) (left_value: Z) (total: Z) (hi: Z) (right_best: Z) (right_value: Z) (value: Z) (vals_out: (@list Z)) (starts_out: (@list Z)) (los_out: (@list Z)) (his_out: (@list Z)) (bests_out: (@list Z)) (slots_out: (@list ((((Z * Z) * Z) * Z) * Z))) (PreH1 : (has_left <> 0)) (PreH2 : ((Zlength (slots_out)) = heap_cap)) (PreH3 : (NodeArrays slots_out vals_out starts_out los_out his_out bests_out )) (PreH4 : (NodeHeapState slots_out (hsize + 1 ) )) (PreH5 : (FrontierPushFields slots_2 hsize left_value start lo (best - 1 ) left_best slots_out )) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= L_pre)) (PreH9 : (L_pre <= R_pre)) (PreH10 : (R_pre <= n_pre)) (PreH11 : (1 <= k_pre)) (PreH12 : (((n_pre + k_pre ) + 1 ) <= 200000)) (PreH13 : (heap_cap = ((n_pre + k_pre ) + 1 ))) (PreH14 : ((Zlength (l)) = n_pre)) (PreH15 : (PrefixSums l ps_2 )) (PreH16 : (SparseArgmaxBuilt ps_2 st_slots_2 (n_pre + 1 ) )) (PreH17 : (SuperPianoAnswerByPrefix ps_2 n_pre L_pre R_pre k_pre ans_2 )) (PreH18 : ((Zlength (slots_2)) = heap_cap)) (PreH19 : (NodeArrays slots_2 vals_2 starts_2 los_2 his_2 bests_2 )) (PreH20 : (has_left = 1)) (PreH21 : (has_right = 0)) (PreH22 : (0 <= t)) (PreH23 : (t < k_pre)) (PreH24 : (0 <= hsize)) (PreH25 : (hsize < heap_cap)) (PreH26 : (((hsize + 1 ) + (k_pre - t ) ) < heap_cap)) (PreH27 : (FrontierSplitState ps_2 n_pre L_pre R_pre (cons ((ChordCode (n_pre) (start) (best))) (chosen_2)) (t + 1 ) total (cons ((mkNode (left_value) (start) (lo) ((best - 1 )) (left_best))) ((@nil ((((Z * Z) * Z) * Z) * Z)))) (sublist (0) (hsize) (slots_2)) )) (PreH28 : (NodeHeapState slots_2 hsize )) (PreH29 : (1 <= start)) (PreH30 : (start <= n_pre)) (PreH31 : (0 <= (start - 1 ))) (PreH32 : ((start - 1 ) < (n_pre + 1 ))) (PreH33 : (0 <= lo)) (PreH34 : (lo <= (best - 1 ))) (PreH35 : (best <= hi)) (PreH36 : (hi <= n_pre)) (PreH37 : ((best - 1 ) <= n_pre)) (PreH38 : (RangeArgmax ps_2 lo (best - 1 ) left_best )) (PreH39 : (0 <= left_best)) (PreH40 : (left_best < (n_pre + 1 ))) (PreH41 : (lo <= left_best)) (PreH42 : (left_best <= (best - 1 ))) (PreH43 : (ValidNodeFields ps_2 n_pre L_pre R_pre left_value start lo (best - 1 ) left_best )) (PreH44 : (hi <= best)) (PreH45 : (right_best = 0)) (PreH46 : (right_value = 0)) (PreH47 : (ValidNodeFields ps_2 n_pre L_pre R_pre value start lo hi best )) (PreH48 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) (PreH49 : (has_right = 0)) ,
+forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) (heap_value_pre: Z) (st_pre: Z) (prefix_pre: Z) (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps_2: (@list Z)) (ans_2: Z) (st_slots_2: (@list Z)) (slots_2: (@list ((((Z * Z) * Z) * Z) * Z))) (vals_2: (@list Z)) (starts_2: (@list Z)) (los_2: (@list Z)) (his_2: (@list Z)) (bests_2: (@list Z)) (chosen_2: (@list Z)) (heap_cap: Z) (has_left: Z) (has_right: Z) (t: Z) (hsize: Z) (right_best: Z) (hi: Z) (best: Z) (start: Z) (right_value: Z) (total: Z) (lo: Z) (left_best: Z) (left_value: Z) (value: Z) (vals_out: (@list Z)) (starts_out: (@list Z)) (los_out: (@list Z)) (his_out: (@list Z)) (bests_out: (@list Z)) (slots_out: (@list ((((Z * Z) * Z) * Z) * Z))) (PreH1 : ((Zlength (slots_out)) = heap_cap)) (PreH2 : (NodeArrays slots_out vals_out starts_out los_out his_out bests_out )) (PreH3 : (NodeHeapState slots_out (hsize + 1 ) )) (PreH4 : (FrontierPushFields slots_2 hsize right_value start (best + 1 ) hi right_best slots_out )) (PreH5 : (1 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : (1 <= L_pre)) (PreH8 : (L_pre <= R_pre)) (PreH9 : (R_pre <= n_pre)) (PreH10 : (1 <= k_pre)) (PreH11 : (((n_pre + k_pre ) + 1 ) <= 200000)) (PreH12 : (heap_cap = ((n_pre + k_pre ) + 1 ))) (PreH13 : ((Zlength (l)) = n_pre)) (PreH14 : (PrefixSums l ps_2 )) (PreH15 : (SparseArgmaxBuilt ps_2 st_slots_2 (n_pre + 1 ) )) (PreH16 : (SuperPianoAnswerByPrefix ps_2 n_pre L_pre R_pre k_pre ans_2 )) (PreH17 : ((Zlength (slots_2)) = heap_cap)) (PreH18 : (NodeArrays slots_2 vals_2 starts_2 los_2 his_2 bests_2 )) (PreH19 : (has_left = 1)) (PreH20 : (has_right = 1)) (PreH21 : (0 <= t)) (PreH22 : (t < k_pre)) (PreH23 : (0 <= hsize)) (PreH24 : (hsize < heap_cap)) (PreH25 : ((hsize + (k_pre - t ) ) < heap_cap)) (PreH26 : (FrontierSplitState ps_2 n_pre L_pre R_pre (cons ((ChordCode (n_pre) (start) (best))) (chosen_2)) (t + 1 ) total (cons ((mkNode (right_value) (start) ((best + 1 )) (hi) (right_best))) ((@nil ((((Z * Z) * Z) * Z) * Z)))) (sublist (0) (hsize) (slots_2)) )) (PreH27 : (NodeHeapState slots_2 hsize )) (PreH28 : (1 <= start)) (PreH29 : (start <= n_pre)) (PreH30 : (0 <= (start - 1 ))) (PreH31 : ((start - 1 ) < (n_pre + 1 ))) (PreH32 : (0 <= lo)) (PreH33 : (lo <= best)) (PreH34 : ((best + 1 ) <= hi)) (PreH35 : (0 <= (best + 1 ))) (PreH36 : (hi <= n_pre)) (PreH37 : (RangeArgmax ps_2 (best + 1 ) hi right_best )) (PreH38 : (0 <= right_best)) (PreH39 : (right_best < (n_pre + 1 ))) (PreH40 : ((best + 1 ) <= right_best)) (PreH41 : (right_best <= hi)) (PreH42 : (ValidNodeFields ps_2 n_pre L_pre R_pre right_value start (best + 1 ) hi right_best )) (PreH43 : (0 <= lo)) (PreH44 : (lo <= (best - 1 ))) (PreH45 : ((best - 1 ) <= n_pre)) (PreH46 : (RangeArgmax ps_2 lo (best - 1 ) left_best )) (PreH47 : (0 <= left_best)) (PreH48 : (left_best < (n_pre + 1 ))) (PreH49 : (lo <= left_best)) (PreH50 : (left_best <= (best - 1 ))) (PreH51 : (ValidNodeFields ps_2 n_pre L_pre R_pre left_value start lo (best - 1 ) left_best )) (PreH52 : (ValidNodeFields ps_2 n_pre L_pre R_pre value start lo hi best )) (PreH53 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
   (IntArray.full heap_value_pre heap_cap vals_out )
   **  (IntArray.full heap_start_pre heap_cap starts_out )
   **  (IntArray.full heap_lo_pre heap_cap los_out )
@@ -5504,7 +5504,7 @@ forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) 
   **  (IntArray.full heap_best_pre heap_cap bests )
 ) \/
 (
-forall (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (l: (@list Z)) (ps_2: (@list Z)) (ans_2: Z) (st_slots_2: (@list Z)) (slots_2: (@list ((((Z * Z) * Z) * Z) * Z))) (vals_2: (@list Z)) (starts_2: (@list Z)) (los_2: (@list Z)) (his_2: (@list Z)) (bests_2: (@list Z)) (chosen_2: (@list Z)) (heap_cap: Z) (has_left: Z) (has_right: Z) (t: Z) (hsize: Z) (left_best: Z) (best: Z) (lo: Z) (start: Z) (left_value: Z) (total: Z) (hi: Z) (right_best: Z) (right_value: Z) (value: Z) (vals_out: (@list Z)) (starts_out: (@list Z)) (los_out: (@list Z)) (his_out: (@list Z)) (bests_out: (@list Z)) (slots_out: (@list ((((Z * Z) * Z) * Z) * Z))) (PreH1 : (has_left <> 0)) (PreH2 : ((Zlength (slots_out)) = heap_cap)) (PreH3 : (NodeArrays slots_out vals_out starts_out los_out his_out bests_out )) (PreH4 : (NodeHeapState slots_out (hsize + 1 ) )) (PreH5 : (FrontierPushFields slots_2 hsize left_value start lo (best - 1 ) left_best slots_out )) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= L_pre)) (PreH9 : (L_pre <= R_pre)) (PreH10 : (R_pre <= n_pre)) (PreH11 : (1 <= k_pre)) (PreH12 : (((n_pre + k_pre ) + 1 ) <= 200000)) (PreH13 : (heap_cap = ((n_pre + k_pre ) + 1 ))) (PreH14 : ((Zlength (l)) = n_pre)) (PreH15 : (PrefixSums l ps_2 )) (PreH16 : (SparseArgmaxBuilt ps_2 st_slots_2 (n_pre + 1 ) )) (PreH17 : (SuperPianoAnswerByPrefix ps_2 n_pre L_pre R_pre k_pre ans_2 )) (PreH18 : ((Zlength (slots_2)) = heap_cap)) (PreH19 : (NodeArrays slots_2 vals_2 starts_2 los_2 his_2 bests_2 )) (PreH20 : (has_left = 1)) (PreH21 : (has_right = 0)) (PreH22 : (0 <= t)) (PreH23 : (t < k_pre)) (PreH24 : (0 <= hsize)) (PreH25 : (hsize < heap_cap)) (PreH26 : (((hsize + 1 ) + (k_pre - t ) ) < heap_cap)) (PreH27 : (FrontierSplitState ps_2 n_pre L_pre R_pre (cons ((ChordCode (n_pre) (start) (best))) (chosen_2)) (t + 1 ) total (cons ((mkNode (left_value) (start) (lo) ((best - 1 )) (left_best))) ((@nil ((((Z * Z) * Z) * Z) * Z)))) (sublist (0) (hsize) (slots_2)) )) (PreH28 : (NodeHeapState slots_2 hsize )) (PreH29 : (1 <= start)) (PreH30 : (start <= n_pre)) (PreH31 : (0 <= (start - 1 ))) (PreH32 : ((start - 1 ) < (n_pre + 1 ))) (PreH33 : (0 <= lo)) (PreH34 : (lo <= (best - 1 ))) (PreH35 : (best <= hi)) (PreH36 : (hi <= n_pre)) (PreH37 : ((best - 1 ) <= n_pre)) (PreH38 : (RangeArgmax ps_2 lo (best - 1 ) left_best )) (PreH39 : (0 <= left_best)) (PreH40 : (left_best < (n_pre + 1 ))) (PreH41 : (lo <= left_best)) (PreH42 : (left_best <= (best - 1 ))) (PreH43 : (ValidNodeFields ps_2 n_pre L_pre R_pre left_value start lo (best - 1 ) left_best )) (PreH44 : (hi <= best)) (PreH45 : (right_best = 0)) (PreH46 : (right_value = 0)) (PreH47 : (ValidNodeFields ps_2 n_pre L_pre R_pre value start lo hi best )) (PreH48 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) (PreH49 : (has_right = 0)) ,
+forall (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (l: (@list Z)) (ps_2: (@list Z)) (ans_2: Z) (st_slots_2: (@list Z)) (slots_2: (@list ((((Z * Z) * Z) * Z) * Z))) (vals_2: (@list Z)) (starts_2: (@list Z)) (los_2: (@list Z)) (his_2: (@list Z)) (bests_2: (@list Z)) (chosen_2: (@list Z)) (heap_cap: Z) (has_left: Z) (has_right: Z) (t: Z) (hsize: Z) (right_best: Z) (hi: Z) (best: Z) (start: Z) (right_value: Z) (total: Z) (lo: Z) (left_best: Z) (left_value: Z) (value: Z) (vals_out: (@list Z)) (starts_out: (@list Z)) (los_out: (@list Z)) (his_out: (@list Z)) (bests_out: (@list Z)) (slots_out: (@list ((((Z * Z) * Z) * Z) * Z))) (PreH1 : ((Zlength (slots_out)) = heap_cap)) (PreH2 : (NodeArrays slots_out vals_out starts_out los_out his_out bests_out )) (PreH3 : (NodeHeapState slots_out (hsize + 1 ) )) (PreH4 : (FrontierPushFields slots_2 hsize right_value start (best + 1 ) hi right_best slots_out )) (PreH5 : (1 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : (1 <= L_pre)) (PreH8 : (L_pre <= R_pre)) (PreH9 : (R_pre <= n_pre)) (PreH10 : (1 <= k_pre)) (PreH11 : (((n_pre + k_pre ) + 1 ) <= 200000)) (PreH12 : (heap_cap = ((n_pre + k_pre ) + 1 ))) (PreH13 : ((Zlength (l)) = n_pre)) (PreH14 : (PrefixSums l ps_2 )) (PreH15 : (SparseArgmaxBuilt ps_2 st_slots_2 (n_pre + 1 ) )) (PreH16 : (SuperPianoAnswerByPrefix ps_2 n_pre L_pre R_pre k_pre ans_2 )) (PreH17 : ((Zlength (slots_2)) = heap_cap)) (PreH18 : (NodeArrays slots_2 vals_2 starts_2 los_2 his_2 bests_2 )) (PreH19 : (has_left = 1)) (PreH20 : (has_right = 1)) (PreH21 : (0 <= t)) (PreH22 : (t < k_pre)) (PreH23 : (0 <= hsize)) (PreH24 : (hsize < heap_cap)) (PreH25 : ((hsize + (k_pre - t ) ) < heap_cap)) (PreH26 : (FrontierSplitState ps_2 n_pre L_pre R_pre (cons ((ChordCode (n_pre) (start) (best))) (chosen_2)) (t + 1 ) total (cons ((mkNode (right_value) (start) ((best + 1 )) (hi) (right_best))) ((@nil ((((Z * Z) * Z) * Z) * Z)))) (sublist (0) (hsize) (slots_2)) )) (PreH27 : (NodeHeapState slots_2 hsize )) (PreH28 : (1 <= start)) (PreH29 : (start <= n_pre)) (PreH30 : (0 <= (start - 1 ))) (PreH31 : ((start - 1 ) < (n_pre + 1 ))) (PreH32 : (0 <= lo)) (PreH33 : (lo <= best)) (PreH34 : ((best + 1 ) <= hi)) (PreH35 : (0 <= (best + 1 ))) (PreH36 : (hi <= n_pre)) (PreH37 : (RangeArgmax ps_2 (best + 1 ) hi right_best )) (PreH38 : (0 <= right_best)) (PreH39 : (right_best < (n_pre + 1 ))) (PreH40 : ((best + 1 ) <= right_best)) (PreH41 : (right_best <= hi)) (PreH42 : (ValidNodeFields ps_2 n_pre L_pre R_pre right_value start (best + 1 ) hi right_best )) (PreH43 : (0 <= lo)) (PreH44 : (lo <= (best - 1 ))) (PreH45 : ((best - 1 ) <= n_pre)) (PreH46 : (RangeArgmax ps_2 lo (best - 1 ) left_best )) (PreH47 : (0 <= left_best)) (PreH48 : (left_best < (n_pre + 1 ))) (PreH49 : (lo <= left_best)) (PreH50 : (left_best <= (best - 1 ))) (PreH51 : (ValidNodeFields ps_2 n_pre L_pre R_pre left_value start lo (best - 1 ) left_best )) (PreH52 : (ValidNodeFields ps_2 n_pre L_pre R_pre value start lo hi best )) (PreH53 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
   TT && emp 
 |--
   EX (chosen: (@list Z))  (slots: (@list ((((Z * Z) * Z) * Z) * Z)))  (ans: Z) ,
@@ -5556,124 +5556,6 @@ forall (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (l: (@list Z)) (ps_2: (@list 
 ).
 
 Definition superPiano_entail_wit_15_2 := 
-(
-forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) (heap_value_pre: Z) (st_pre: Z) (prefix_pre: Z) (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps_2: (@list Z)) (ans_2: Z) (st_slots_2: (@list Z)) (slots_2: (@list ((((Z * Z) * Z) * Z) * Z))) (vals_2: (@list Z)) (starts_2: (@list Z)) (los_2: (@list Z)) (his_2: (@list Z)) (bests_2: (@list Z)) (chosen_2: (@list Z)) (heap_cap: Z) (has_left: Z) (has_right: Z) (left_best: Z) (left_value: Z) (right_best: Z) (right_value: Z) (t: Z) (hsize: Z) (total: Z) (best: Z) (start: Z) (lo: Z) (hi: Z) (value: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= L_pre)) (PreH4 : (L_pre <= R_pre)) (PreH5 : (R_pre <= n_pre)) (PreH6 : (1 <= k_pre)) (PreH7 : (((n_pre + k_pre ) + 1 ) <= 200000)) (PreH8 : (heap_cap = ((n_pre + k_pre ) + 1 ))) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : (PrefixSums l ps_2 )) (PreH11 : (SparseArgmaxBuilt ps_2 st_slots_2 (n_pre + 1 ) )) (PreH12 : (SuperPianoAnswerByPrefix ps_2 n_pre L_pre R_pre k_pre ans_2 )) (PreH13 : ((Zlength (slots_2)) = heap_cap)) (PreH14 : (NodeArrays slots_2 vals_2 starts_2 los_2 his_2 bests_2 )) (PreH15 : (has_left = 0)) (PreH16 : (has_right = 0)) (PreH17 : (left_best = 0)) (PreH18 : (left_value = 0)) (PreH19 : (right_best = 0)) (PreH20 : (right_value = 0)) (PreH21 : (0 <= t)) (PreH22 : (t < k_pre)) (PreH23 : (0 <= hsize)) (PreH24 : (hsize < heap_cap)) (PreH25 : ((hsize + (k_pre - (t + 1 ) ) ) < heap_cap)) (PreH26 : (FrontierSplitState ps_2 n_pre L_pre R_pre (cons ((ChordCode (n_pre) (start) (best))) (chosen_2)) (t + 1 ) total (@nil ((((Z * Z) * Z) * Z) * Z)) (sublist (0) (hsize) (slots_2)) )) (PreH27 : (NodeHeapState slots_2 hsize )) (PreH28 : (1 <= start)) (PreH29 : (start <= n_pre)) (PreH30 : (0 <= (start - 1 ))) (PreH31 : ((start - 1 ) < (n_pre + 1 ))) (PreH32 : (lo = best)) (PreH33 : (best = hi)) (PreH34 : (ValidNodeFields ps_2 n_pre L_pre R_pre value start lo hi best )) (PreH35 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) (PreH36 : (has_right = 0)) ,
-  (IntArray.full arr_pre n_pre l )
-  **  (IntArray.full prefix_pre (n_pre + 1 ) ps_2 )
-  **  (IntArray.full st_pre ((n_pre + 1 ) * ST_LEVELS ) st_slots_2 )
-  **  (IntArray.full heap_value_pre heap_cap vals_2 )
-  **  (IntArray.full heap_start_pre heap_cap starts_2 )
-  **  (IntArray.full heap_lo_pre heap_cap los_2 )
-  **  (IntArray.full heap_hi_pre heap_cap his_2 )
-  **  (IntArray.full heap_best_pre heap_cap bests_2 )
-|--
-  EX (chosen: (@list Z))  (vals: (@list Z))  (starts: (@list Z))  (los: (@list Z))  (his: (@list Z))  (bests: (@list Z))  (slots: (@list ((((Z * Z) * Z) * Z) * Z)))  (ans: Z)  (st_slots: (@list Z))  (ps: (@list Z)) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 100000) ” 
-  &&  “ (1 <= L_pre) ” 
-  &&  “ (L_pre <= R_pre) ” 
-  &&  “ (R_pre <= n_pre) ” 
-  &&  “ (1 <= k_pre) ” 
-  &&  “ (((n_pre + k_pre ) + 1 ) <= 200000) ” 
-  &&  “ (heap_cap = ((n_pre + k_pre ) + 1 )) ” 
-  &&  “ ((Zlength (l)) = n_pre) ” 
-  &&  “ (PrefixSums l ps ) ” 
-  &&  “ (SparseArgmaxBuilt ps st_slots (n_pre + 1 ) ) ” 
-  &&  “ (SuperPianoAnswerByPrefix ps n_pre L_pre R_pre k_pre ans ) ” 
-  &&  “ ((Zlength (slots)) = heap_cap) ” 
-  &&  “ (NodeArrays slots vals starts los his bests ) ” 
-  &&  “ (0 <= has_left) ” 
-  &&  “ (has_left <= 1) ” 
-  &&  “ (0 <= has_right) ” 
-  &&  “ (has_right <= 1) ” 
-  &&  “ (0 <= left_best) ” 
-  &&  “ (left_best < (n_pre + 1 )) ” 
-  &&  “ (0 <= right_best) ” 
-  &&  “ (right_best < (n_pre + 1 )) ” 
-  &&  “ (INT_MIN <= left_value) ” 
-  &&  “ (left_value <= INT_MAX) ” 
-  &&  “ (INT_MIN <= right_value) ” 
-  &&  “ (right_value <= INT_MAX) ” 
-  &&  “ (0 <= t) ” 
-  &&  “ (t < k_pre) ” 
-  &&  “ (0 <= hsize) ” 
-  &&  “ (hsize < heap_cap) ” 
-  &&  “ ((hsize + (k_pre - (t + 1 ) ) ) < heap_cap) ” 
-  &&  “ (FrontierState ps n_pre L_pre R_pre (cons ((ChordCode (n_pre) (start) (best))) (chosen)) (t + 1 ) total (sublist (0) (hsize) (slots)) ) ” 
-  &&  “ (NodeHeapState slots hsize ) ” 
-  &&  “ (ValidNodeFields ps n_pre L_pre R_pre value start lo hi best ) ” 
-  &&  “ (1 <= start) ” 
-  &&  “ (start <= n_pre) ” 
-  &&  “ (0 <= (start - 1 )) ” 
-  &&  “ ((start - 1 ) < (n_pre + 1 )) ” 
-  &&  “ (((start + L_pre ) - 1 ) <= lo) ” 
-  &&  “ (0 <= lo) ” 
-  &&  “ (lo <= best) ” 
-  &&  “ (best <= hi) ” 
-  &&  “ (hi <= n_pre) ” 
-  &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> (((-1000) <= (Znth idx l 0)) /\ ((Znth idx l 0) <= 1000))) ”
-  &&  (IntArray.full arr_pre n_pre l )
-  **  (IntArray.full prefix_pre (n_pre + 1 ) ps )
-  **  (IntArray.full st_pre ((n_pre + 1 ) * ST_LEVELS ) st_slots )
-  **  (IntArray.full heap_value_pre heap_cap vals )
-  **  (IntArray.full heap_start_pre heap_cap starts )
-  **  (IntArray.full heap_lo_pre heap_cap los )
-  **  (IntArray.full heap_hi_pre heap_cap his )
-  **  (IntArray.full heap_best_pre heap_cap bests )
-) \/
-(
-forall (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (l: (@list Z)) (ps_2: (@list Z)) (ans_2: Z) (st_slots_2: (@list Z)) (slots_2: (@list ((((Z * Z) * Z) * Z) * Z))) (vals_2: (@list Z)) (starts_2: (@list Z)) (los_2: (@list Z)) (his_2: (@list Z)) (bests_2: (@list Z)) (chosen_2: (@list Z)) (heap_cap: Z) (has_left: Z) (has_right: Z) (left_best: Z) (left_value: Z) (right_best: Z) (right_value: Z) (t: Z) (hsize: Z) (total: Z) (best: Z) (start: Z) (lo: Z) (hi: Z) (value: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= L_pre)) (PreH4 : (L_pre <= R_pre)) (PreH5 : (R_pre <= n_pre)) (PreH6 : (1 <= k_pre)) (PreH7 : (((n_pre + k_pre ) + 1 ) <= 200000)) (PreH8 : (heap_cap = ((n_pre + k_pre ) + 1 ))) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : (PrefixSums l ps_2 )) (PreH11 : (SparseArgmaxBuilt ps_2 st_slots_2 (n_pre + 1 ) )) (PreH12 : (SuperPianoAnswerByPrefix ps_2 n_pre L_pre R_pre k_pre ans_2 )) (PreH13 : ((Zlength (slots_2)) = heap_cap)) (PreH14 : (NodeArrays slots_2 vals_2 starts_2 los_2 his_2 bests_2 )) (PreH15 : (has_left = 0)) (PreH16 : (has_right = 0)) (PreH17 : (left_best = 0)) (PreH18 : (left_value = 0)) (PreH19 : (right_best = 0)) (PreH20 : (right_value = 0)) (PreH21 : (0 <= t)) (PreH22 : (t < k_pre)) (PreH23 : (0 <= hsize)) (PreH24 : (hsize < heap_cap)) (PreH25 : ((hsize + (k_pre - (t + 1 ) ) ) < heap_cap)) (PreH26 : (FrontierSplitState ps_2 n_pre L_pre R_pre (cons ((ChordCode (n_pre) (start) (best))) (chosen_2)) (t + 1 ) total (@nil ((((Z * Z) * Z) * Z) * Z)) (sublist (0) (hsize) (slots_2)) )) (PreH27 : (NodeHeapState slots_2 hsize )) (PreH28 : (1 <= start)) (PreH29 : (start <= n_pre)) (PreH30 : (0 <= (start - 1 ))) (PreH31 : ((start - 1 ) < (n_pre + 1 ))) (PreH32 : (lo = best)) (PreH33 : (best = hi)) (PreH34 : (ValidNodeFields ps_2 n_pre L_pre R_pre value start lo hi best )) (PreH35 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) (PreH36 : (has_right = 0)) ,
-  TT && emp 
-|--
-  EX (chosen: (@list Z))  (slots: (@list ((((Z * Z) * Z) * Z) * Z)))  (ans: Z) ,
-  “ (1 <= n_pre) ” 
-  &&  “ (n_pre <= 100000) ” 
-  &&  “ (1 <= L_pre) ” 
-  &&  “ (L_pre <= R_pre) ” 
-  &&  “ (R_pre <= n_pre) ” 
-  &&  “ (1 <= k_pre) ” 
-  &&  “ (((n_pre + k_pre ) + 1 ) <= 200000) ” 
-  &&  “ (heap_cap = ((n_pre + k_pre ) + 1 )) ” 
-  &&  “ ((Zlength (l)) = n_pre) ” 
-  &&  “ (PrefixSums l ps_2 ) ” 
-  &&  “ (SparseArgmaxBuilt ps_2 st_slots_2 (n_pre + 1 ) ) ” 
-  &&  “ (SuperPianoAnswerByPrefix ps_2 n_pre L_pre R_pre k_pre ans ) ” 
-  &&  “ ((Zlength (slots)) = heap_cap) ” 
-  &&  “ (NodeArrays slots vals_2 starts_2 los_2 his_2 bests_2 ) ” 
-  &&  “ (0 <= has_left) ” 
-  &&  “ (has_left <= 1) ” 
-  &&  “ (0 <= has_right) ” 
-  &&  “ (has_right <= 1) ” 
-  &&  “ (0 <= left_best) ” 
-  &&  “ (left_best < (n_pre + 1 )) ” 
-  &&  “ (0 <= right_best) ” 
-  &&  “ (right_best < (n_pre + 1 )) ” 
-  &&  “ (INT_MIN <= left_value) ” 
-  &&  “ (left_value <= INT_MAX) ” 
-  &&  “ (INT_MIN <= right_value) ” 
-  &&  “ (right_value <= INT_MAX) ” 
-  &&  “ (0 <= t) ” 
-  &&  “ (t < k_pre) ” 
-  &&  “ (0 <= hsize) ” 
-  &&  “ (hsize < heap_cap) ” 
-  &&  “ ((hsize + (k_pre - (t + 1 ) ) ) < heap_cap) ” 
-  &&  “ (FrontierState ps_2 n_pre L_pre R_pre (cons ((ChordCode (n_pre) (start) (best))) (chosen)) (t + 1 ) total (sublist (0) (hsize) (slots)) ) ” 
-  &&  “ (NodeHeapState slots hsize ) ” 
-  &&  “ (ValidNodeFields ps_2 n_pre L_pre R_pre value start lo hi best ) ” 
-  &&  “ (1 <= start) ” 
-  &&  “ (start <= n_pre) ” 
-  &&  “ (0 <= (start - 1 )) ” 
-  &&  “ ((start - 1 ) < (n_pre + 1 )) ” 
-  &&  “ (((start + L_pre ) - 1 ) <= lo) ” 
-  &&  “ (0 <= lo) ” 
-  &&  “ (lo <= best) ” 
-  &&  “ (best <= hi) ” 
-  &&  “ (hi <= n_pre) ” 
-  &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> (((-1000) <= (Znth idx l 0)) /\ ((Znth idx l 0) <= 1000))) ”
-  &&  emp
-).
-
-Definition superPiano_entail_wit_15_3 := 
 (
 forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) (heap_value_pre: Z) (st_pre: Z) (prefix_pre: Z) (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps_2: (@list Z)) (ans_2: Z) (st_slots_2: (@list Z)) (slots_2: (@list ((((Z * Z) * Z) * Z) * Z))) (vals_2: (@list Z)) (starts_2: (@list Z)) (los_2: (@list Z)) (his_2: (@list Z)) (bests_2: (@list Z)) (chosen_2: (@list Z)) (heap_cap: Z) (has_left: Z) (left_best: Z) (left_value: Z) (has_right: Z) (t: Z) (hsize: Z) (right_best: Z) (hi: Z) (best: Z) (start: Z) (right_value: Z) (total: Z) (lo: Z) (value: Z) (vals_out: (@list Z)) (starts_out: (@list Z)) (los_out: (@list Z)) (his_out: (@list Z)) (bests_out: (@list Z)) (slots_out: (@list ((((Z * Z) * Z) * Z) * Z))) (PreH1 : ((Zlength (slots_out)) = heap_cap)) (PreH2 : (NodeArrays slots_out vals_out starts_out los_out his_out bests_out )) (PreH3 : (NodeHeapState slots_out (hsize + 1 ) )) (PreH4 : (FrontierPushFields slots_2 hsize right_value start (best + 1 ) hi right_best slots_out )) (PreH5 : (1 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : (1 <= L_pre)) (PreH8 : (L_pre <= R_pre)) (PreH9 : (R_pre <= n_pre)) (PreH10 : (1 <= k_pre)) (PreH11 : (((n_pre + k_pre ) + 1 ) <= 200000)) (PreH12 : (heap_cap = ((n_pre + k_pre ) + 1 ))) (PreH13 : ((Zlength (l)) = n_pre)) (PreH14 : (PrefixSums l ps_2 )) (PreH15 : (SparseArgmaxBuilt ps_2 st_slots_2 (n_pre + 1 ) )) (PreH16 : (SuperPianoAnswerByPrefix ps_2 n_pre L_pre R_pre k_pre ans_2 )) (PreH17 : ((Zlength (slots_2)) = heap_cap)) (PreH18 : (NodeArrays slots_2 vals_2 starts_2 los_2 his_2 bests_2 )) (PreH19 : (has_left = 0)) (PreH20 : (left_best = 0)) (PreH21 : (left_value = 0)) (PreH22 : (has_right = 1)) (PreH23 : (0 <= t)) (PreH24 : (t < k_pre)) (PreH25 : (0 <= hsize)) (PreH26 : (hsize < heap_cap)) (PreH27 : (((hsize + 1 ) + (k_pre - t ) ) < heap_cap)) (PreH28 : (FrontierSplitState ps_2 n_pre L_pre R_pre (cons ((ChordCode (n_pre) (start) (best))) (chosen_2)) (t + 1 ) total (cons ((mkNode (right_value) (start) ((best + 1 )) (hi) (right_best))) ((@nil ((((Z * Z) * Z) * Z) * Z)))) (sublist (0) (hsize) (slots_2)) )) (PreH29 : (NodeHeapState slots_2 hsize )) (PreH30 : (1 <= start)) (PreH31 : (start <= n_pre)) (PreH32 : (0 <= (start - 1 ))) (PreH33 : ((start - 1 ) < (n_pre + 1 ))) (PreH34 : (0 <= lo)) (PreH35 : (lo <= best)) (PreH36 : ((best + 1 ) <= hi)) (PreH37 : (0 <= (best + 1 ))) (PreH38 : (hi <= n_pre)) (PreH39 : (RangeArgmax ps_2 (best + 1 ) hi right_best )) (PreH40 : (0 <= right_best)) (PreH41 : (right_best < (n_pre + 1 ))) (PreH42 : ((best + 1 ) <= right_best)) (PreH43 : (right_best <= hi)) (PreH44 : (ValidNodeFields ps_2 n_pre L_pre R_pre right_value start (best + 1 ) hi right_best )) (PreH45 : (ValidNodeFields ps_2 n_pre L_pre R_pre value start lo hi best )) (PreH46 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
   (IntArray.full heap_value_pre heap_cap vals_out )
@@ -5791,9 +5673,127 @@ forall (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (l: (@list Z)) (ps_2: (@list 
   &&  emp
 ).
 
+Definition superPiano_entail_wit_15_3 := 
+(
+forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) (heap_value_pre: Z) (st_pre: Z) (prefix_pre: Z) (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps_2: (@list Z)) (ans_2: Z) (st_slots_2: (@list Z)) (slots_2: (@list ((((Z * Z) * Z) * Z) * Z))) (vals_2: (@list Z)) (starts_2: (@list Z)) (los_2: (@list Z)) (his_2: (@list Z)) (bests_2: (@list Z)) (chosen_2: (@list Z)) (heap_cap: Z) (has_left: Z) (has_right: Z) (left_best: Z) (left_value: Z) (right_best: Z) (right_value: Z) (t: Z) (hsize: Z) (total: Z) (best: Z) (start: Z) (lo: Z) (hi: Z) (value: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= L_pre)) (PreH4 : (L_pre <= R_pre)) (PreH5 : (R_pre <= n_pre)) (PreH6 : (1 <= k_pre)) (PreH7 : (((n_pre + k_pre ) + 1 ) <= 200000)) (PreH8 : (heap_cap = ((n_pre + k_pre ) + 1 ))) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : (PrefixSums l ps_2 )) (PreH11 : (SparseArgmaxBuilt ps_2 st_slots_2 (n_pre + 1 ) )) (PreH12 : (SuperPianoAnswerByPrefix ps_2 n_pre L_pre R_pre k_pre ans_2 )) (PreH13 : ((Zlength (slots_2)) = heap_cap)) (PreH14 : (NodeArrays slots_2 vals_2 starts_2 los_2 his_2 bests_2 )) (PreH15 : (has_left = 0)) (PreH16 : (has_right = 0)) (PreH17 : (left_best = 0)) (PreH18 : (left_value = 0)) (PreH19 : (right_best = 0)) (PreH20 : (right_value = 0)) (PreH21 : (0 <= t)) (PreH22 : (t < k_pre)) (PreH23 : (0 <= hsize)) (PreH24 : (hsize < heap_cap)) (PreH25 : ((hsize + (k_pre - (t + 1 ) ) ) < heap_cap)) (PreH26 : (FrontierSplitState ps_2 n_pre L_pre R_pre (cons ((ChordCode (n_pre) (start) (best))) (chosen_2)) (t + 1 ) total (@nil ((((Z * Z) * Z) * Z) * Z)) (sublist (0) (hsize) (slots_2)) )) (PreH27 : (NodeHeapState slots_2 hsize )) (PreH28 : (1 <= start)) (PreH29 : (start <= n_pre)) (PreH30 : (0 <= (start - 1 ))) (PreH31 : ((start - 1 ) < (n_pre + 1 ))) (PreH32 : (lo = best)) (PreH33 : (best = hi)) (PreH34 : (ValidNodeFields ps_2 n_pre L_pre R_pre value start lo hi best )) (PreH35 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) (PreH36 : (has_right = 0)) ,
+  (IntArray.full arr_pre n_pre l )
+  **  (IntArray.full prefix_pre (n_pre + 1 ) ps_2 )
+  **  (IntArray.full st_pre ((n_pre + 1 ) * ST_LEVELS ) st_slots_2 )
+  **  (IntArray.full heap_value_pre heap_cap vals_2 )
+  **  (IntArray.full heap_start_pre heap_cap starts_2 )
+  **  (IntArray.full heap_lo_pre heap_cap los_2 )
+  **  (IntArray.full heap_hi_pre heap_cap his_2 )
+  **  (IntArray.full heap_best_pre heap_cap bests_2 )
+|--
+  EX (chosen: (@list Z))  (vals: (@list Z))  (starts: (@list Z))  (los: (@list Z))  (his: (@list Z))  (bests: (@list Z))  (slots: (@list ((((Z * Z) * Z) * Z) * Z)))  (ans: Z)  (st_slots: (@list Z))  (ps: (@list Z)) ,
+  “ (1 <= n_pre) ” 
+  &&  “ (n_pre <= 100000) ” 
+  &&  “ (1 <= L_pre) ” 
+  &&  “ (L_pre <= R_pre) ” 
+  &&  “ (R_pre <= n_pre) ” 
+  &&  “ (1 <= k_pre) ” 
+  &&  “ (((n_pre + k_pre ) + 1 ) <= 200000) ” 
+  &&  “ (heap_cap = ((n_pre + k_pre ) + 1 )) ” 
+  &&  “ ((Zlength (l)) = n_pre) ” 
+  &&  “ (PrefixSums l ps ) ” 
+  &&  “ (SparseArgmaxBuilt ps st_slots (n_pre + 1 ) ) ” 
+  &&  “ (SuperPianoAnswerByPrefix ps n_pre L_pre R_pre k_pre ans ) ” 
+  &&  “ ((Zlength (slots)) = heap_cap) ” 
+  &&  “ (NodeArrays slots vals starts los his bests ) ” 
+  &&  “ (0 <= has_left) ” 
+  &&  “ (has_left <= 1) ” 
+  &&  “ (0 <= has_right) ” 
+  &&  “ (has_right <= 1) ” 
+  &&  “ (0 <= left_best) ” 
+  &&  “ (left_best < (n_pre + 1 )) ” 
+  &&  “ (0 <= right_best) ” 
+  &&  “ (right_best < (n_pre + 1 )) ” 
+  &&  “ (INT_MIN <= left_value) ” 
+  &&  “ (left_value <= INT_MAX) ” 
+  &&  “ (INT_MIN <= right_value) ” 
+  &&  “ (right_value <= INT_MAX) ” 
+  &&  “ (0 <= t) ” 
+  &&  “ (t < k_pre) ” 
+  &&  “ (0 <= hsize) ” 
+  &&  “ (hsize < heap_cap) ” 
+  &&  “ ((hsize + (k_pre - (t + 1 ) ) ) < heap_cap) ” 
+  &&  “ (FrontierState ps n_pre L_pre R_pre (cons ((ChordCode (n_pre) (start) (best))) (chosen)) (t + 1 ) total (sublist (0) (hsize) (slots)) ) ” 
+  &&  “ (NodeHeapState slots hsize ) ” 
+  &&  “ (ValidNodeFields ps n_pre L_pre R_pre value start lo hi best ) ” 
+  &&  “ (1 <= start) ” 
+  &&  “ (start <= n_pre) ” 
+  &&  “ (0 <= (start - 1 )) ” 
+  &&  “ ((start - 1 ) < (n_pre + 1 )) ” 
+  &&  “ (((start + L_pre ) - 1 ) <= lo) ” 
+  &&  “ (0 <= lo) ” 
+  &&  “ (lo <= best) ” 
+  &&  “ (best <= hi) ” 
+  &&  “ (hi <= n_pre) ” 
+  &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> (((-1000) <= (Znth idx l 0)) /\ ((Znth idx l 0) <= 1000))) ”
+  &&  (IntArray.full arr_pre n_pre l )
+  **  (IntArray.full prefix_pre (n_pre + 1 ) ps )
+  **  (IntArray.full st_pre ((n_pre + 1 ) * ST_LEVELS ) st_slots )
+  **  (IntArray.full heap_value_pre heap_cap vals )
+  **  (IntArray.full heap_start_pre heap_cap starts )
+  **  (IntArray.full heap_lo_pre heap_cap los )
+  **  (IntArray.full heap_hi_pre heap_cap his )
+  **  (IntArray.full heap_best_pre heap_cap bests )
+) \/
+(
+forall (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (l: (@list Z)) (ps_2: (@list Z)) (ans_2: Z) (st_slots_2: (@list Z)) (slots_2: (@list ((((Z * Z) * Z) * Z) * Z))) (vals_2: (@list Z)) (starts_2: (@list Z)) (los_2: (@list Z)) (his_2: (@list Z)) (bests_2: (@list Z)) (chosen_2: (@list Z)) (heap_cap: Z) (has_left: Z) (has_right: Z) (left_best: Z) (left_value: Z) (right_best: Z) (right_value: Z) (t: Z) (hsize: Z) (total: Z) (best: Z) (start: Z) (lo: Z) (hi: Z) (value: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= L_pre)) (PreH4 : (L_pre <= R_pre)) (PreH5 : (R_pre <= n_pre)) (PreH6 : (1 <= k_pre)) (PreH7 : (((n_pre + k_pre ) + 1 ) <= 200000)) (PreH8 : (heap_cap = ((n_pre + k_pre ) + 1 ))) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : (PrefixSums l ps_2 )) (PreH11 : (SparseArgmaxBuilt ps_2 st_slots_2 (n_pre + 1 ) )) (PreH12 : (SuperPianoAnswerByPrefix ps_2 n_pre L_pre R_pre k_pre ans_2 )) (PreH13 : ((Zlength (slots_2)) = heap_cap)) (PreH14 : (NodeArrays slots_2 vals_2 starts_2 los_2 his_2 bests_2 )) (PreH15 : (has_left = 0)) (PreH16 : (has_right = 0)) (PreH17 : (left_best = 0)) (PreH18 : (left_value = 0)) (PreH19 : (right_best = 0)) (PreH20 : (right_value = 0)) (PreH21 : (0 <= t)) (PreH22 : (t < k_pre)) (PreH23 : (0 <= hsize)) (PreH24 : (hsize < heap_cap)) (PreH25 : ((hsize + (k_pre - (t + 1 ) ) ) < heap_cap)) (PreH26 : (FrontierSplitState ps_2 n_pre L_pre R_pre (cons ((ChordCode (n_pre) (start) (best))) (chosen_2)) (t + 1 ) total (@nil ((((Z * Z) * Z) * Z) * Z)) (sublist (0) (hsize) (slots_2)) )) (PreH27 : (NodeHeapState slots_2 hsize )) (PreH28 : (1 <= start)) (PreH29 : (start <= n_pre)) (PreH30 : (0 <= (start - 1 ))) (PreH31 : ((start - 1 ) < (n_pre + 1 ))) (PreH32 : (lo = best)) (PreH33 : (best = hi)) (PreH34 : (ValidNodeFields ps_2 n_pre L_pre R_pre value start lo hi best )) (PreH35 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) (PreH36 : (has_right = 0)) ,
+  TT && emp 
+|--
+  EX (chosen: (@list Z))  (slots: (@list ((((Z * Z) * Z) * Z) * Z)))  (ans: Z) ,
+  “ (1 <= n_pre) ” 
+  &&  “ (n_pre <= 100000) ” 
+  &&  “ (1 <= L_pre) ” 
+  &&  “ (L_pre <= R_pre) ” 
+  &&  “ (R_pre <= n_pre) ” 
+  &&  “ (1 <= k_pre) ” 
+  &&  “ (((n_pre + k_pre ) + 1 ) <= 200000) ” 
+  &&  “ (heap_cap = ((n_pre + k_pre ) + 1 )) ” 
+  &&  “ ((Zlength (l)) = n_pre) ” 
+  &&  “ (PrefixSums l ps_2 ) ” 
+  &&  “ (SparseArgmaxBuilt ps_2 st_slots_2 (n_pre + 1 ) ) ” 
+  &&  “ (SuperPianoAnswerByPrefix ps_2 n_pre L_pre R_pre k_pre ans ) ” 
+  &&  “ ((Zlength (slots)) = heap_cap) ” 
+  &&  “ (NodeArrays slots vals_2 starts_2 los_2 his_2 bests_2 ) ” 
+  &&  “ (0 <= has_left) ” 
+  &&  “ (has_left <= 1) ” 
+  &&  “ (0 <= has_right) ” 
+  &&  “ (has_right <= 1) ” 
+  &&  “ (0 <= left_best) ” 
+  &&  “ (left_best < (n_pre + 1 )) ” 
+  &&  “ (0 <= right_best) ” 
+  &&  “ (right_best < (n_pre + 1 )) ” 
+  &&  “ (INT_MIN <= left_value) ” 
+  &&  “ (left_value <= INT_MAX) ” 
+  &&  “ (INT_MIN <= right_value) ” 
+  &&  “ (right_value <= INT_MAX) ” 
+  &&  “ (0 <= t) ” 
+  &&  “ (t < k_pre) ” 
+  &&  “ (0 <= hsize) ” 
+  &&  “ (hsize < heap_cap) ” 
+  &&  “ ((hsize + (k_pre - (t + 1 ) ) ) < heap_cap) ” 
+  &&  “ (FrontierState ps_2 n_pre L_pre R_pre (cons ((ChordCode (n_pre) (start) (best))) (chosen)) (t + 1 ) total (sublist (0) (hsize) (slots)) ) ” 
+  &&  “ (NodeHeapState slots hsize ) ” 
+  &&  “ (ValidNodeFields ps_2 n_pre L_pre R_pre value start lo hi best ) ” 
+  &&  “ (1 <= start) ” 
+  &&  “ (start <= n_pre) ” 
+  &&  “ (0 <= (start - 1 )) ” 
+  &&  “ ((start - 1 ) < (n_pre + 1 )) ” 
+  &&  “ (((start + L_pre ) - 1 ) <= lo) ” 
+  &&  “ (0 <= lo) ” 
+  &&  “ (lo <= best) ” 
+  &&  “ (best <= hi) ” 
+  &&  “ (hi <= n_pre) ” 
+  &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < n_pre)) -> (((-1000) <= (Znth idx l 0)) /\ ((Znth idx l 0) <= 1000))) ”
+  &&  emp
+).
+
 Definition superPiano_entail_wit_15_4 := 
 (
-forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) (heap_value_pre: Z) (st_pre: Z) (prefix_pre: Z) (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps_2: (@list Z)) (ans_2: Z) (st_slots_2: (@list Z)) (slots_2: (@list ((((Z * Z) * Z) * Z) * Z))) (vals_2: (@list Z)) (starts_2: (@list Z)) (los_2: (@list Z)) (his_2: (@list Z)) (bests_2: (@list Z)) (chosen_2: (@list Z)) (heap_cap: Z) (has_left: Z) (has_right: Z) (t: Z) (hsize: Z) (right_best: Z) (hi: Z) (best: Z) (start: Z) (right_value: Z) (total: Z) (lo: Z) (left_best: Z) (left_value: Z) (value: Z) (vals_out: (@list Z)) (starts_out: (@list Z)) (los_out: (@list Z)) (his_out: (@list Z)) (bests_out: (@list Z)) (slots_out: (@list ((((Z * Z) * Z) * Z) * Z))) (PreH1 : ((Zlength (slots_out)) = heap_cap)) (PreH2 : (NodeArrays slots_out vals_out starts_out los_out his_out bests_out )) (PreH3 : (NodeHeapState slots_out (hsize + 1 ) )) (PreH4 : (FrontierPushFields slots_2 hsize right_value start (best + 1 ) hi right_best slots_out )) (PreH5 : (1 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : (1 <= L_pre)) (PreH8 : (L_pre <= R_pre)) (PreH9 : (R_pre <= n_pre)) (PreH10 : (1 <= k_pre)) (PreH11 : (((n_pre + k_pre ) + 1 ) <= 200000)) (PreH12 : (heap_cap = ((n_pre + k_pre ) + 1 ))) (PreH13 : ((Zlength (l)) = n_pre)) (PreH14 : (PrefixSums l ps_2 )) (PreH15 : (SparseArgmaxBuilt ps_2 st_slots_2 (n_pre + 1 ) )) (PreH16 : (SuperPianoAnswerByPrefix ps_2 n_pre L_pre R_pre k_pre ans_2 )) (PreH17 : ((Zlength (slots_2)) = heap_cap)) (PreH18 : (NodeArrays slots_2 vals_2 starts_2 los_2 his_2 bests_2 )) (PreH19 : (has_left = 1)) (PreH20 : (has_right = 1)) (PreH21 : (0 <= t)) (PreH22 : (t < k_pre)) (PreH23 : (0 <= hsize)) (PreH24 : (hsize < heap_cap)) (PreH25 : ((hsize + (k_pre - t ) ) < heap_cap)) (PreH26 : (FrontierSplitState ps_2 n_pre L_pre R_pre (cons ((ChordCode (n_pre) (start) (best))) (chosen_2)) (t + 1 ) total (cons ((mkNode (right_value) (start) ((best + 1 )) (hi) (right_best))) ((@nil ((((Z * Z) * Z) * Z) * Z)))) (sublist (0) (hsize) (slots_2)) )) (PreH27 : (NodeHeapState slots_2 hsize )) (PreH28 : (1 <= start)) (PreH29 : (start <= n_pre)) (PreH30 : (0 <= (start - 1 ))) (PreH31 : ((start - 1 ) < (n_pre + 1 ))) (PreH32 : (0 <= lo)) (PreH33 : (lo <= best)) (PreH34 : ((best + 1 ) <= hi)) (PreH35 : (0 <= (best + 1 ))) (PreH36 : (hi <= n_pre)) (PreH37 : (RangeArgmax ps_2 (best + 1 ) hi right_best )) (PreH38 : (0 <= right_best)) (PreH39 : (right_best < (n_pre + 1 ))) (PreH40 : ((best + 1 ) <= right_best)) (PreH41 : (right_best <= hi)) (PreH42 : (ValidNodeFields ps_2 n_pre L_pre R_pre right_value start (best + 1 ) hi right_best )) (PreH43 : (0 <= lo)) (PreH44 : (lo <= (best - 1 ))) (PreH45 : ((best - 1 ) <= n_pre)) (PreH46 : (RangeArgmax ps_2 lo (best - 1 ) left_best )) (PreH47 : (0 <= left_best)) (PreH48 : (left_best < (n_pre + 1 ))) (PreH49 : (lo <= left_best)) (PreH50 : (left_best <= (best - 1 ))) (PreH51 : (ValidNodeFields ps_2 n_pre L_pre R_pre left_value start lo (best - 1 ) left_best )) (PreH52 : (ValidNodeFields ps_2 n_pre L_pre R_pre value start lo hi best )) (PreH53 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
+forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) (heap_value_pre: Z) (st_pre: Z) (prefix_pre: Z) (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps_2: (@list Z)) (ans_2: Z) (st_slots_2: (@list Z)) (slots_2: (@list ((((Z * Z) * Z) * Z) * Z))) (vals_2: (@list Z)) (starts_2: (@list Z)) (los_2: (@list Z)) (his_2: (@list Z)) (bests_2: (@list Z)) (chosen_2: (@list Z)) (heap_cap: Z) (has_left: Z) (has_right: Z) (t: Z) (hsize: Z) (left_best: Z) (best: Z) (lo: Z) (start: Z) (left_value: Z) (total: Z) (hi: Z) (right_best: Z) (right_value: Z) (value: Z) (vals_out: (@list Z)) (starts_out: (@list Z)) (los_out: (@list Z)) (his_out: (@list Z)) (bests_out: (@list Z)) (slots_out: (@list ((((Z * Z) * Z) * Z) * Z))) (PreH1 : (has_left <> 0)) (PreH2 : ((Zlength (slots_out)) = heap_cap)) (PreH3 : (NodeArrays slots_out vals_out starts_out los_out his_out bests_out )) (PreH4 : (NodeHeapState slots_out (hsize + 1 ) )) (PreH5 : (FrontierPushFields slots_2 hsize left_value start lo (best - 1 ) left_best slots_out )) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= L_pre)) (PreH9 : (L_pre <= R_pre)) (PreH10 : (R_pre <= n_pre)) (PreH11 : (1 <= k_pre)) (PreH12 : (((n_pre + k_pre ) + 1 ) <= 200000)) (PreH13 : (heap_cap = ((n_pre + k_pre ) + 1 ))) (PreH14 : ((Zlength (l)) = n_pre)) (PreH15 : (PrefixSums l ps_2 )) (PreH16 : (SparseArgmaxBuilt ps_2 st_slots_2 (n_pre + 1 ) )) (PreH17 : (SuperPianoAnswerByPrefix ps_2 n_pre L_pre R_pre k_pre ans_2 )) (PreH18 : ((Zlength (slots_2)) = heap_cap)) (PreH19 : (NodeArrays slots_2 vals_2 starts_2 los_2 his_2 bests_2 )) (PreH20 : (has_left = 1)) (PreH21 : (has_right = 0)) (PreH22 : (0 <= t)) (PreH23 : (t < k_pre)) (PreH24 : (0 <= hsize)) (PreH25 : (hsize < heap_cap)) (PreH26 : (((hsize + 1 ) + (k_pre - t ) ) < heap_cap)) (PreH27 : (FrontierSplitState ps_2 n_pre L_pre R_pre (cons ((ChordCode (n_pre) (start) (best))) (chosen_2)) (t + 1 ) total (cons ((mkNode (left_value) (start) (lo) ((best - 1 )) (left_best))) ((@nil ((((Z * Z) * Z) * Z) * Z)))) (sublist (0) (hsize) (slots_2)) )) (PreH28 : (NodeHeapState slots_2 hsize )) (PreH29 : (1 <= start)) (PreH30 : (start <= n_pre)) (PreH31 : (0 <= (start - 1 ))) (PreH32 : ((start - 1 ) < (n_pre + 1 ))) (PreH33 : (0 <= lo)) (PreH34 : (lo <= (best - 1 ))) (PreH35 : (best <= hi)) (PreH36 : (hi <= n_pre)) (PreH37 : ((best - 1 ) <= n_pre)) (PreH38 : (RangeArgmax ps_2 lo (best - 1 ) left_best )) (PreH39 : (0 <= left_best)) (PreH40 : (left_best < (n_pre + 1 ))) (PreH41 : (lo <= left_best)) (PreH42 : (left_best <= (best - 1 ))) (PreH43 : (ValidNodeFields ps_2 n_pre L_pre R_pre left_value start lo (best - 1 ) left_best )) (PreH44 : (hi <= best)) (PreH45 : (right_best = 0)) (PreH46 : (right_value = 0)) (PreH47 : (ValidNodeFields ps_2 n_pre L_pre R_pre value start lo hi best )) (PreH48 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) (PreH49 : (has_right = 0)) ,
   (IntArray.full heap_value_pre heap_cap vals_out )
   **  (IntArray.full heap_start_pre heap_cap starts_out )
   **  (IntArray.full heap_lo_pre heap_cap los_out )
@@ -5858,7 +5858,7 @@ forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) 
   **  (IntArray.full heap_best_pre heap_cap bests )
 ) \/
 (
-forall (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (l: (@list Z)) (ps_2: (@list Z)) (ans_2: Z) (st_slots_2: (@list Z)) (slots_2: (@list ((((Z * Z) * Z) * Z) * Z))) (vals_2: (@list Z)) (starts_2: (@list Z)) (los_2: (@list Z)) (his_2: (@list Z)) (bests_2: (@list Z)) (chosen_2: (@list Z)) (heap_cap: Z) (has_left: Z) (has_right: Z) (t: Z) (hsize: Z) (right_best: Z) (hi: Z) (best: Z) (start: Z) (right_value: Z) (total: Z) (lo: Z) (left_best: Z) (left_value: Z) (value: Z) (vals_out: (@list Z)) (starts_out: (@list Z)) (los_out: (@list Z)) (his_out: (@list Z)) (bests_out: (@list Z)) (slots_out: (@list ((((Z * Z) * Z) * Z) * Z))) (PreH1 : ((Zlength (slots_out)) = heap_cap)) (PreH2 : (NodeArrays slots_out vals_out starts_out los_out his_out bests_out )) (PreH3 : (NodeHeapState slots_out (hsize + 1 ) )) (PreH4 : (FrontierPushFields slots_2 hsize right_value start (best + 1 ) hi right_best slots_out )) (PreH5 : (1 <= n_pre)) (PreH6 : (n_pre <= 100000)) (PreH7 : (1 <= L_pre)) (PreH8 : (L_pre <= R_pre)) (PreH9 : (R_pre <= n_pre)) (PreH10 : (1 <= k_pre)) (PreH11 : (((n_pre + k_pre ) + 1 ) <= 200000)) (PreH12 : (heap_cap = ((n_pre + k_pre ) + 1 ))) (PreH13 : ((Zlength (l)) = n_pre)) (PreH14 : (PrefixSums l ps_2 )) (PreH15 : (SparseArgmaxBuilt ps_2 st_slots_2 (n_pre + 1 ) )) (PreH16 : (SuperPianoAnswerByPrefix ps_2 n_pre L_pre R_pre k_pre ans_2 )) (PreH17 : ((Zlength (slots_2)) = heap_cap)) (PreH18 : (NodeArrays slots_2 vals_2 starts_2 los_2 his_2 bests_2 )) (PreH19 : (has_left = 1)) (PreH20 : (has_right = 1)) (PreH21 : (0 <= t)) (PreH22 : (t < k_pre)) (PreH23 : (0 <= hsize)) (PreH24 : (hsize < heap_cap)) (PreH25 : ((hsize + (k_pre - t ) ) < heap_cap)) (PreH26 : (FrontierSplitState ps_2 n_pre L_pre R_pre (cons ((ChordCode (n_pre) (start) (best))) (chosen_2)) (t + 1 ) total (cons ((mkNode (right_value) (start) ((best + 1 )) (hi) (right_best))) ((@nil ((((Z * Z) * Z) * Z) * Z)))) (sublist (0) (hsize) (slots_2)) )) (PreH27 : (NodeHeapState slots_2 hsize )) (PreH28 : (1 <= start)) (PreH29 : (start <= n_pre)) (PreH30 : (0 <= (start - 1 ))) (PreH31 : ((start - 1 ) < (n_pre + 1 ))) (PreH32 : (0 <= lo)) (PreH33 : (lo <= best)) (PreH34 : ((best + 1 ) <= hi)) (PreH35 : (0 <= (best + 1 ))) (PreH36 : (hi <= n_pre)) (PreH37 : (RangeArgmax ps_2 (best + 1 ) hi right_best )) (PreH38 : (0 <= right_best)) (PreH39 : (right_best < (n_pre + 1 ))) (PreH40 : ((best + 1 ) <= right_best)) (PreH41 : (right_best <= hi)) (PreH42 : (ValidNodeFields ps_2 n_pre L_pre R_pre right_value start (best + 1 ) hi right_best )) (PreH43 : (0 <= lo)) (PreH44 : (lo <= (best - 1 ))) (PreH45 : ((best - 1 ) <= n_pre)) (PreH46 : (RangeArgmax ps_2 lo (best - 1 ) left_best )) (PreH47 : (0 <= left_best)) (PreH48 : (left_best < (n_pre + 1 ))) (PreH49 : (lo <= left_best)) (PreH50 : (left_best <= (best - 1 ))) (PreH51 : (ValidNodeFields ps_2 n_pre L_pre R_pre left_value start lo (best - 1 ) left_best )) (PreH52 : (ValidNodeFields ps_2 n_pre L_pre R_pre value start lo hi best )) (PreH53 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
+forall (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (l: (@list Z)) (ps_2: (@list Z)) (ans_2: Z) (st_slots_2: (@list Z)) (slots_2: (@list ((((Z * Z) * Z) * Z) * Z))) (vals_2: (@list Z)) (starts_2: (@list Z)) (los_2: (@list Z)) (his_2: (@list Z)) (bests_2: (@list Z)) (chosen_2: (@list Z)) (heap_cap: Z) (has_left: Z) (has_right: Z) (t: Z) (hsize: Z) (left_best: Z) (best: Z) (lo: Z) (start: Z) (left_value: Z) (total: Z) (hi: Z) (right_best: Z) (right_value: Z) (value: Z) (vals_out: (@list Z)) (starts_out: (@list Z)) (los_out: (@list Z)) (his_out: (@list Z)) (bests_out: (@list Z)) (slots_out: (@list ((((Z * Z) * Z) * Z) * Z))) (PreH1 : (has_left <> 0)) (PreH2 : ((Zlength (slots_out)) = heap_cap)) (PreH3 : (NodeArrays slots_out vals_out starts_out los_out his_out bests_out )) (PreH4 : (NodeHeapState slots_out (hsize + 1 ) )) (PreH5 : (FrontierPushFields slots_2 hsize left_value start lo (best - 1 ) left_best slots_out )) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= L_pre)) (PreH9 : (L_pre <= R_pre)) (PreH10 : (R_pre <= n_pre)) (PreH11 : (1 <= k_pre)) (PreH12 : (((n_pre + k_pre ) + 1 ) <= 200000)) (PreH13 : (heap_cap = ((n_pre + k_pre ) + 1 ))) (PreH14 : ((Zlength (l)) = n_pre)) (PreH15 : (PrefixSums l ps_2 )) (PreH16 : (SparseArgmaxBuilt ps_2 st_slots_2 (n_pre + 1 ) )) (PreH17 : (SuperPianoAnswerByPrefix ps_2 n_pre L_pre R_pre k_pre ans_2 )) (PreH18 : ((Zlength (slots_2)) = heap_cap)) (PreH19 : (NodeArrays slots_2 vals_2 starts_2 los_2 his_2 bests_2 )) (PreH20 : (has_left = 1)) (PreH21 : (has_right = 0)) (PreH22 : (0 <= t)) (PreH23 : (t < k_pre)) (PreH24 : (0 <= hsize)) (PreH25 : (hsize < heap_cap)) (PreH26 : (((hsize + 1 ) + (k_pre - t ) ) < heap_cap)) (PreH27 : (FrontierSplitState ps_2 n_pre L_pre R_pre (cons ((ChordCode (n_pre) (start) (best))) (chosen_2)) (t + 1 ) total (cons ((mkNode (left_value) (start) (lo) ((best - 1 )) (left_best))) ((@nil ((((Z * Z) * Z) * Z) * Z)))) (sublist (0) (hsize) (slots_2)) )) (PreH28 : (NodeHeapState slots_2 hsize )) (PreH29 : (1 <= start)) (PreH30 : (start <= n_pre)) (PreH31 : (0 <= (start - 1 ))) (PreH32 : ((start - 1 ) < (n_pre + 1 ))) (PreH33 : (0 <= lo)) (PreH34 : (lo <= (best - 1 ))) (PreH35 : (best <= hi)) (PreH36 : (hi <= n_pre)) (PreH37 : ((best - 1 ) <= n_pre)) (PreH38 : (RangeArgmax ps_2 lo (best - 1 ) left_best )) (PreH39 : (0 <= left_best)) (PreH40 : (left_best < (n_pre + 1 ))) (PreH41 : (lo <= left_best)) (PreH42 : (left_best <= (best - 1 ))) (PreH43 : (ValidNodeFields ps_2 n_pre L_pre R_pre left_value start lo (best - 1 ) left_best )) (PreH44 : (hi <= best)) (PreH45 : (right_best = 0)) (PreH46 : (right_value = 0)) (PreH47 : (ValidNodeFields ps_2 n_pre L_pre R_pre value start lo hi best )) (PreH48 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) (PreH49 : (has_right = 0)) ,
   TT && emp 
 |--
   EX (chosen: (@list Z))  (slots: (@list ((((Z * Z) * Z) * Z) * Z)))  (ans: Z) ,
@@ -6032,20 +6032,21 @@ forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) 
 ).
 
 Definition superPiano_partial_solve_wit_1_pure := 
+(
 forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) (heap_value_pre: Z) (st_pre: Z) (prefix_pre: Z) (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps: (@list Z)) (ans: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= L_pre)) (PreH4 : (L_pre <= R_pre)) (PreH5 : (R_pre <= n_pre)) (PreH6 : (1 <= k_pre)) (PreH7 : (((n_pre + k_pre ) + 1 ) <= 200000)) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : (PrefixSums l ps )) (PreH10 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx_3 ps 0)) /\ ((Znth idx_3 ps 0) <= INT_MAX)))) (PreH11 : (SuperPianoAnswerByPrefix ps n_pre L_pre R_pre k_pre ans )) (PreH12 : ((-9223372036854775808) <= ans)) (PreH13 : (ans <= 9223372036854775807)) (PreH14 : forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < n_pre)) -> (((-1000) <= (Znth idx_4 l 0)) /\ ((Znth idx_4 l 0) <= 1000)))) ,
   ((( &( "heap_cap" ) )) # Int  |-> ((n_pre + k_pre ) + 1 ))
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
-  **  ((( &( "heap_best" ) )) # Ptr  |-> heap_best_pre)
-  **  ((( &( "heap_hi" ) )) # Ptr  |-> heap_hi_pre)
-  **  ((( &( "heap_lo" ) )) # Ptr  |-> heap_lo_pre)
-  **  ((( &( "heap_start" ) )) # Ptr  |-> heap_start_pre)
-  **  ((( &( "heap_value" ) )) # Ptr  |-> heap_value_pre)
-  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
-  **  ((( &( "prefix" ) )) # Ptr  |-> prefix_pre)
-  **  ((( &( "R" ) )) # Int  |-> R_pre)
-  **  ((( &( "L" ) )) # Int  |-> L_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "k" ) )) # Int  |-> k_pre)
+  **  ((( &( "L" ) )) # Int  |-> L_pre)
+  **  ((( &( "R" ) )) # Int  |-> R_pre)
+  **  ((( &( "prefix" ) )) # Ptr  |-> prefix_pre)
+  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
+  **  ((( &( "heap_value" ) )) # Ptr  |-> heap_value_pre)
+  **  ((( &( "heap_start" ) )) # Ptr  |-> heap_start_pre)
+  **  ((( &( "heap_lo" ) )) # Ptr  |-> heap_lo_pre)
+  **  ((( &( "heap_hi" ) )) # Ptr  |-> heap_hi_pre)
+  **  ((( &( "heap_best" ) )) # Ptr  |-> heap_best_pre)
   **  (IntArray.full arr_pre n_pre l )
   **  (IntArray.undef_full prefix_pre (n_pre + 1 ) )
   **  (IntArray.undef_full st_pre ((n_pre + 1 ) * ST_LEVELS ) )
@@ -6061,6 +6062,87 @@ forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) 
   &&  “ (PrefixSums l ps ) ” 
   &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx ps 0)) /\ ((Znth idx ps 0) <= INT_MAX))) ” 
   &&  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000))) ”
+) \/
+(
+forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) (heap_value_pre: Z) (st_pre: Z) (prefix_pre: Z) (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps: (@list Z)) (ans: Z) (PreH1 : (R_pre <= INT_MAX)) (PreH2 : (L_pre <= INT_MAX)) (PreH3 : (k_pre <= INT_MAX)) (PreH4 : (n_pre <= INT_MAX)) (PreH5 : (((n_pre + k_pre ) + 1 ) <= INT_MAX)) (PreH6 : (R_pre >= INT_MIN)) (PreH7 : (L_pre >= INT_MIN)) (PreH8 : (k_pre >= INT_MIN)) (PreH9 : (n_pre >= INT_MIN)) (PreH10 : (((n_pre + k_pre ) + 1 ) >= INT_MIN)) (PreH11 : (1 <= n_pre)) (PreH12 : (n_pre <= 100000)) (PreH13 : (1 <= L_pre)) (PreH14 : (L_pre <= R_pre)) (PreH15 : (R_pre <= n_pre)) (PreH16 : (1 <= k_pre)) (PreH17 : (((n_pre + k_pre ) + 1 ) <= 200000)) (PreH18 : ((Zlength (l)) = n_pre)) (PreH19 : (PrefixSums l ps )) (PreH20 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx_3 ps 0)) /\ ((Znth idx_3 ps 0) <= INT_MAX)))) (PreH21 : (SuperPianoAnswerByPrefix ps n_pre L_pre R_pre k_pre ans )) (PreH22 : ((-9223372036854775808) <= ans)) (PreH23 : (ans <= 9223372036854775807)) (PreH24 : forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < n_pre)) -> (((-1000) <= (Znth idx_4 l 0)) /\ ((Znth idx_4 l 0) <= 1000)))) ,
+  ((( &( "heap_cap" ) )) # Int  |-> ((n_pre + k_pre ) + 1 ))
+  **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "k" ) )) # Int  |-> k_pre)
+  **  ((( &( "L" ) )) # Int  |-> L_pre)
+  **  ((( &( "R" ) )) # Int  |-> R_pre)
+  **  ((( &( "prefix" ) )) # Ptr  |-> prefix_pre)
+  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
+  **  ((( &( "heap_value" ) )) # Ptr  |-> heap_value_pre)
+  **  ((( &( "heap_start" ) )) # Ptr  |-> heap_start_pre)
+  **  ((( &( "heap_lo" ) )) # Ptr  |-> heap_lo_pre)
+  **  ((( &( "heap_hi" ) )) # Ptr  |-> heap_hi_pre)
+  **  ((( &( "heap_best" ) )) # Ptr  |-> heap_best_pre)
+  **  (IntArray.full arr_pre n_pre l )
+  **  (IntArray.undef_full prefix_pre (n_pre + 1 ) )
+  **  (IntArray.undef_full st_pre ((n_pre + 1 ) * ST_LEVELS ) )
+  **  (IntArray.undef_full heap_value_pre ((n_pre + k_pre ) + 1 ) )
+  **  (IntArray.undef_full heap_start_pre ((n_pre + k_pre ) + 1 ) )
+  **  (IntArray.undef_full heap_lo_pre ((n_pre + k_pre ) + 1 ) )
+  **  (IntArray.undef_full heap_hi_pre ((n_pre + k_pre ) + 1 ) )
+  **  (IntArray.undef_full heap_best_pre ((n_pre + k_pre ) + 1 ) )
+|--
+  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000))) ” 
+  &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx ps 0)) /\ ((Znth idx ps 0) <= INT_MAX))) ”
+).
+
+Definition superPiano_partial_solve_wit_1_pure_split_goal_1 := 
+forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) (heap_value_pre: Z) (st_pre: Z) (prefix_pre: Z) (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps: (@list Z)) (ans: Z) (PreH1 : (R_pre <= INT_MAX)) (PreH2 : (L_pre <= INT_MAX)) (PreH3 : (k_pre <= INT_MAX)) (PreH4 : (n_pre <= INT_MAX)) (PreH5 : (((n_pre + k_pre ) + 1 ) <= INT_MAX)) (PreH6 : (R_pre >= INT_MIN)) (PreH7 : (L_pre >= INT_MIN)) (PreH8 : (k_pre >= INT_MIN)) (PreH9 : (n_pre >= INT_MIN)) (PreH10 : (((n_pre + k_pre ) + 1 ) >= INT_MIN)) (PreH11 : (1 <= n_pre)) (PreH12 : (n_pre <= 100000)) (PreH13 : (1 <= L_pre)) (PreH14 : (L_pre <= R_pre)) (PreH15 : (R_pre <= n_pre)) (PreH16 : (1 <= k_pre)) (PreH17 : (((n_pre + k_pre ) + 1 ) <= 200000)) (PreH18 : ((Zlength (l)) = n_pre)) (PreH19 : (PrefixSums l ps )) (PreH20 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx_3 ps 0)) /\ ((Znth idx_3 ps 0) <= INT_MAX)))) (PreH21 : (SuperPianoAnswerByPrefix ps n_pre L_pre R_pre k_pre ans )) (PreH22 : ((-9223372036854775808) <= ans)) (PreH23 : (ans <= 9223372036854775807)) (PreH24 : forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < n_pre)) -> (((-1000) <= (Znth idx_4 l 0)) /\ ((Znth idx_4 l 0) <= 1000)))) ,
+  ((( &( "heap_cap" ) )) # Int  |-> ((n_pre + k_pre ) + 1 ))
+  **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "k" ) )) # Int  |-> k_pre)
+  **  ((( &( "L" ) )) # Int  |-> L_pre)
+  **  ((( &( "R" ) )) # Int  |-> R_pre)
+  **  ((( &( "prefix" ) )) # Ptr  |-> prefix_pre)
+  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
+  **  ((( &( "heap_value" ) )) # Ptr  |-> heap_value_pre)
+  **  ((( &( "heap_start" ) )) # Ptr  |-> heap_start_pre)
+  **  ((( &( "heap_lo" ) )) # Ptr  |-> heap_lo_pre)
+  **  ((( &( "heap_hi" ) )) # Ptr  |-> heap_hi_pre)
+  **  ((( &( "heap_best" ) )) # Ptr  |-> heap_best_pre)
+  **  (IntArray.full arr_pre n_pre l )
+  **  (IntArray.undef_full prefix_pre (n_pre + 1 ) )
+  **  (IntArray.undef_full st_pre ((n_pre + 1 ) * ST_LEVELS ) )
+  **  (IntArray.undef_full heap_value_pre ((n_pre + k_pre ) + 1 ) )
+  **  (IntArray.undef_full heap_start_pre ((n_pre + k_pre ) + 1 ) )
+  **  (IntArray.undef_full heap_lo_pre ((n_pre + k_pre ) + 1 ) )
+  **  (IntArray.undef_full heap_hi_pre ((n_pre + k_pre ) + 1 ) )
+  **  (IntArray.undef_full heap_best_pre ((n_pre + k_pre ) + 1 ) )
+|--
+  “ forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000))) ”
+.
+
+Definition superPiano_partial_solve_wit_1_pure_split_goal_2 := 
+forall (heap_best_pre: Z) (heap_hi_pre: Z) (heap_lo_pre: Z) (heap_start_pre: Z) (heap_value_pre: Z) (st_pre: Z) (prefix_pre: Z) (R_pre: Z) (L_pre: Z) (k_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps: (@list Z)) (ans: Z) (PreH1 : (R_pre <= INT_MAX)) (PreH2 : (L_pre <= INT_MAX)) (PreH3 : (k_pre <= INT_MAX)) (PreH4 : (n_pre <= INT_MAX)) (PreH5 : (((n_pre + k_pre ) + 1 ) <= INT_MAX)) (PreH6 : (R_pre >= INT_MIN)) (PreH7 : (L_pre >= INT_MIN)) (PreH8 : (k_pre >= INT_MIN)) (PreH9 : (n_pre >= INT_MIN)) (PreH10 : (((n_pre + k_pre ) + 1 ) >= INT_MIN)) (PreH11 : (1 <= n_pre)) (PreH12 : (n_pre <= 100000)) (PreH13 : (1 <= L_pre)) (PreH14 : (L_pre <= R_pre)) (PreH15 : (R_pre <= n_pre)) (PreH16 : (1 <= k_pre)) (PreH17 : (((n_pre + k_pre ) + 1 ) <= 200000)) (PreH18 : ((Zlength (l)) = n_pre)) (PreH19 : (PrefixSums l ps )) (PreH20 : forall (idx_3: Z) , (((0 <= idx_3) /\ (idx_3 < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx_3 ps 0)) /\ ((Znth idx_3 ps 0) <= INT_MAX)))) (PreH21 : (SuperPianoAnswerByPrefix ps n_pre L_pre R_pre k_pre ans )) (PreH22 : ((-9223372036854775808) <= ans)) (PreH23 : (ans <= 9223372036854775807)) (PreH24 : forall (idx_4: Z) , (((0 <= idx_4) /\ (idx_4 < n_pre)) -> (((-1000) <= (Znth idx_4 l 0)) /\ ((Znth idx_4 l 0) <= 1000)))) ,
+  ((( &( "heap_cap" ) )) # Int  |-> ((n_pre + k_pre ) + 1 ))
+  **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "k" ) )) # Int  |-> k_pre)
+  **  ((( &( "L" ) )) # Int  |-> L_pre)
+  **  ((( &( "R" ) )) # Int  |-> R_pre)
+  **  ((( &( "prefix" ) )) # Ptr  |-> prefix_pre)
+  **  ((( &( "st" ) )) # Ptr  |-> st_pre)
+  **  ((( &( "heap_value" ) )) # Ptr  |-> heap_value_pre)
+  **  ((( &( "heap_start" ) )) # Ptr  |-> heap_start_pre)
+  **  ((( &( "heap_lo" ) )) # Ptr  |-> heap_lo_pre)
+  **  ((( &( "heap_hi" ) )) # Ptr  |-> heap_hi_pre)
+  **  ((( &( "heap_best" ) )) # Ptr  |-> heap_best_pre)
+  **  (IntArray.full arr_pre n_pre l )
+  **  (IntArray.undef_full prefix_pre (n_pre + 1 ) )
+  **  (IntArray.undef_full st_pre ((n_pre + 1 ) * ST_LEVELS ) )
+  **  (IntArray.undef_full heap_value_pre ((n_pre + k_pre ) + 1 ) )
+  **  (IntArray.undef_full heap_start_pre ((n_pre + k_pre ) + 1 ) )
+  **  (IntArray.undef_full heap_lo_pre ((n_pre + k_pre ) + 1 ) )
+  **  (IntArray.undef_full heap_hi_pre ((n_pre + k_pre ) + 1 ) )
+  **  (IntArray.undef_full heap_best_pre ((n_pre + k_pre ) + 1 ) )
+|--
+  “ forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx ps 0)) /\ ((Znth idx ps 0) <= INT_MAX))) ”
 .
 
 Definition superPiano_partial_solve_wit_1_aux := 

@@ -466,7 +466,6 @@ Section exec_rules.
     auto.
   Qed.
 
-
   Lemma safeExec_bind'  : forall {A B: Type} (c1: program Σ A) (c2: A -> program Σ B) (P : Σ -> Prop) P',
     (forall X, safeExec P c1 X -> exists a, safeExec (P')  (ret a) X) ->
     (forall X, safeExec P (x <- c1 ;; c2 x) X -> exists a, safeExec (P') (c2 a) X).
@@ -818,10 +817,60 @@ Ltac safe_equiv :=
 
 
 Section  safeexec_Hoare_composition_rules.
-  
+
   Context {Σ: Type}.
 
   Ltac destructs H := my_destruct Σ H.
+
+  (* vertical composition rule:
+     a safeExec derivation uniform in X (from (P1, c) down to (P2, ret a))
+     composes with a Hoare triple for c to yield a final high-level state
+     satisfying both Q a and P2. *)
+  Lemma vertical_composition_rule {A: Type} (P1 P2: Σ -> Prop) (c: program Σ A) (Q: A -> Σ -> Prop) (a: A):
+    (forall X, safeExec P1 c X -> safeExec P2 (ret a) X) ->
+    Hoare P1 c Q ->
+    (exists σ, P1 σ) ->
+    exists σ', Q a σ' /\ P2 σ'.
+  Proof.
+  (* alternative proof, instantiating X := Q:
+     the Hoare triple says every c-transition from P1 ends in Q, i.e.
+     P1 ⊆ wp c Q, so the initial configuration is already safe w.r.t. Q;
+     the derivation carries this safety down to (P2, ret a), where being
+     safe w.r.t. Q means exactly that the final state satisfies Q a.
+
+    intros Hderive Hhoare [σ HP1].
+    assert (Hinit: safeExec P1 c Q).
+    { exists σ; split; auto.
+      unfold safe; sets_unfold.
+      intros r σ' Hstep.
+      eapply Hhoare; eauto. }
+    specialize (Hderive Q Hinit).
+    destruct Hderive as [σ' [HP2 Hsafe]].
+    unfold safe in Hsafe.
+    rewrite wp_ret in Hsafe.
+    sets_unfold in Hsafe.
+    exists σ'; auto.
+  *)
+  (* instantiate X := c σ, the exact denotation from the initial state:
+     every program is trivially safe w.r.t. its own transitions, so the
+     initial configuration needs no justification; the derivation carries
+     this down to (P2, ret a), where it exhibits a concrete transition
+     c σ a σ' with P2 σ', and applying the Hoare triple to that single
+     transition gives Q a σ'. *)
+    intros Hderive Hhoare [σ HP1].
+    assert (Hinit: safeExec P1 c (c σ)).
+    { exists σ; split; auto.
+      unfold safe; sets_unfold.
+      intros r σ' Hstep; exact Hstep. }
+    specialize (Hderive (c σ) Hinit).
+    destruct Hderive as [σ' [HP2 Hsafe]].
+    unfold safe in Hsafe.
+    rewrite wp_ret in Hsafe.
+    sets_unfold in Hsafe.
+    exists σ'; split; auto.
+    eapply Hhoare; eauto.
+  Qed.
+
   Lemma safeExec_result_state {A: Type} (P: Σ -> Prop) (c: program Σ A):
     (exists s, P s) ->
     safeExec P c (result_state P c).
@@ -842,19 +891,45 @@ Section  safeexec_Hoare_composition_rules.
     eapply H; eauto.
   Qed.
 
+  (* corollary of vertical_composition_rule at the singleton precondition
+     P1 := eq σ, noting that c σ = result_state (eq σ) c. *)
   Lemma Hoare_safeexec_compose {A: Type} (P1 : Σ -> Prop) (c: program Σ A) (Q: A -> Σ -> Prop):
     Hoare P1 c Q ->
     forall (P2: Σ -> Prop) (a: A) (σ : Σ),
-    safeExec P2 (return a) (c σ) -> 
+    safeExec P2 (return a) (c σ) ->
     σ ∈ P1 ->
     (exists σ', Q a σ' /\ P2 σ').
   Proof.
-    unfold Hoare, safeExec, safe.
-    intros. 
-    destructs H0.
-    sets_unfold.
-    specialize (H2 a σₕ (ltac:(unfold_monad;auto))).
-    specialize (H σ _ _ H1 H2).
+    intros HH P2 a σ Hend Hin.
+    apply (vertical_composition_rule (fun s => s = σ) P2 c Q a).
+    - intros X Hsafe.
+      unfold safeExec, safe in *.
+      destruct Hend as [σₕ [HP2 Hret]].
+      destruct Hsafe as [σ0 [Heq Hwp]]; subst σ0.
+      exists σₕ; split; auto.
+      rewrite wp_ret; sets_unfold.
+      exact (Hwp a σₕ (Hret a σₕ (ltac:(unfold_monad; auto)))).
+    - unfold Hoare; intros s1 r s2 Heq Hstep; subst s1.
+      exact (HH σ r s2 Hin Hstep).
+    - exists σ; reflexivity.
+  Qed.
+
+  Lemma Hoare_safeexec_imply_compose {A: Type} (P1 P2: Σ -> Prop) (c: program Σ A) (Q: A -> Σ -> Prop) (a: A) :
+    Hoare P1 c Q ->
+    (safeExec P1 c Q  -> safeExec P2 (return a) Q) ->
+    (exists σ, σ  ∈ P1) ->
+    (exists σ', Q a σ' /\ P2 σ').
+  Proof.
+    intros.
+    eapply safeExec_result_state with (c:= c) in H1.
+    eapply safeExec_X_subset in H1.
+    2: apply Hoare_result_state;eauto.
+    apply H0 in H1.
+    clear - H1.
+    unfold safeExec,safe in H1.
+    destructs H1.
+    rewrite wp_ret in H.
+    sets_unfold in H.
     eexists. eauto.
   Qed.
 

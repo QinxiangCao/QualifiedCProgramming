@@ -1355,9 +1355,9 @@ Proof.
   end.
 Qed.
 
-Lemma proof_of_graham_scan_entail_wit_3_1 : graham_scan_entail_wit_3_1.
+Lemma proof_of_graham_scan_entail_wit_3_2 : graham_scan_entail_wit_3_2.
 Proof.
-  open_generated_wit graham_scan_entail_wit_3_1.
+  open_generated_wit graham_scan_entail_wit_3_2.
   pre_process.
   set (pts_pivot := point_swap pts_l 0 pivot_idx).
   set (pivot0 :=
@@ -1458,9 +1458,9 @@ Proof.
   - subst tail_sorted. rewrite Zlength_sublist; lia.
 Qed.
 
-Lemma proof_of_graham_scan_entail_wit_3_2 : graham_scan_entail_wit_3_2.
+Lemma proof_of_graham_scan_entail_wit_3_1 : graham_scan_entail_wit_3_1.
 Proof.
-  open_generated_wit graham_scan_entail_wit_3_2.
+  open_generated_wit graham_scan_entail_wit_3_1.
   pre_process.
   set (pts_pivot := point_swap pts_l 0 pivot_idx).
   set (pivot0 :=

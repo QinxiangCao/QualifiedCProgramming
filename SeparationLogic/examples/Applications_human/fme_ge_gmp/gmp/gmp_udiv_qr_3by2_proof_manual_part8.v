@@ -1,0 +1,143 @@
+Require Import Coq.ZArith.ZArith.
+Require Import Coq.Bool.Bool.
+Require Import Coq.Strings.String.
+Require Import Coq.Strings.Ascii.
+Require Import Coq.Lists.List.
+Require Import Coq.Classes.RelationClasses.
+Require Import Coq.Classes.Morphisms.
+Require Import Coq.micromega.Psatz.
+Require Import Coq.Sorting.Permutation.
+From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
+Require Import SetsClass.SetsClass. Import SetsNotation.
+From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.EE.Applications_human.fme_ge_gmp.gmp Require Import gmp_udiv_qr_3by2_goal.
+From SimpleC.EE.Applications_human.fme_ge_gmp.gmp Require Import gmp_udiv_qr_3by2_proof_auto.
+Require Import Logic.LogicGenerator.demo932.Interface.
+Local Open Scope Z_scope.
+Local Open Scope sets.
+Local Open Scope string_scope.
+Local Open Scope list.
+Import naive_C_Rules.
+Require Import SimpleC.EE.Applications_human.fme_ge_gmp.gmp.gmp_lib.
+Local Open Scope sac.
+Lemma proof_of_gmp_udiv_qr_3by2_entail_wit_8_7 : gmp_udiv_qr_3by2_entail_wit_8_7.
+Proof.
+  unfold gmp_udiv_qr_3by2_entail_wit_8_7.
+  right.
+  intros.
+  subst m qext.
+  change UINT_MOD with 4294967296 in *.
+  change UINT_MAX with 4294967295 in *.
+  change (4294967296 ÷ 2) with 2147483648 in *.
+  assert (Hland0: Z.land 0 d0_pre = 0) by reflexivity.
+  assert (Hland1: Z.land 0 d1_pre = 0) by reflexivity.
+  assert (Hlow: unsigned_last_nbits (rpre0 + Z.land 0 d0_pre) 32 = rpre0).
+  { rewrite Hland0, Z.add_0_r.
+    apply unsigned_last_nbits_eq.
+    change (2 ^ 32) with 4294967296.
+    lia. }
+  assert (Hhi_inner: unsigned_last_nbits (rpre1 + Z.land 0 d1_pre) 32 = rpre1).
+  { rewrite Hland1, Z.add_0_r.
+    apply unsigned_last_nbits_eq.
+    change (2 ^ 32) with 4294967296.
+    lia. }
+  assert (Hhi: unsigned_last_nbits
+                 (unsigned_last_nbits (rpre1 + Z.land 0 d1_pre) 32 + 0) 32 = rpre1).
+  { rewrite Hhi_inner, Z.add_0_r.
+    apply unsigned_last_nbits_eq.
+    change (2 ^ 32) with 4294967296.
+    lia. }
+  split_pure_spatial.
+  1: entailer!.
+  split_pures.
+  - dump_pre_spatial.
+    rewrite Hlow, Hhi, Z.add_0_r.
+    exact PreH28.
+  - dump_pre_spatial.
+    rewrite Hlow, Hhi.
+    nia.
+  - dump_pre_spatial. rewrite Hlow. nia.
+  - dump_pre_spatial. rewrite Hhi. nia.
+  - dump_pre_spatial. rewrite Hhi. nia.
+Qed.
+
+Lemma proof_of_gmp_udiv_qr_3by2_entail_wit_8_8 : gmp_udiv_qr_3by2_entail_wit_8_8.
+Proof.
+  unfold gmp_udiv_qr_3by2_entail_wit_8_8.
+  left.
+  intros.
+  subst m.
+  replace (Z.land 0 d0_pre) with 0 in PreH1 by reflexivity.
+  rewrite Z.add_0_r in PreH1.
+  rewrite unsigned_last_nbits_eq in PreH1 by
+    (change (2 ^ 32) with 4294967296; lia).
+  lia.
+Qed.
+
+Lemma proof_of_gmp_udiv_qr_3by2_entail_wit_8_9 : gmp_udiv_qr_3by2_entail_wit_8_9.
+Proof.
+  unfold gmp_udiv_qr_3by2_entail_wit_8_9.
+  right.
+  intros.
+  subst m qext.
+  change UINT_MOD with 4294967296 in *.
+  change UINT_MAX with 4294967295 in *.
+  change (4294967296 ÷ 2) with 2147483648 in *.
+  assert (Hland0: Z.land 4294967295 d0_pre = d0_pre).
+  { rewrite Z.land_comm.
+    change 4294967295 with (Z.ones 32).
+    rewrite Z.land_ones by abstract lia.
+    rewrite Z.mod_small by abstract lia.
+    reflexivity. }
+  assert (Hland1: Z.land 4294967295 d1_pre = d1_pre).
+  { rewrite Z.land_comm.
+    change 4294967295 with (Z.ones 32).
+    rewrite Z.land_ones by abstract lia.
+    rewrite Z.mod_small by abstract lia.
+    reflexivity. }
+  assert (Hlow_lt: rpre0 + d0_pre < 4294967296).
+  { destruct (Z_lt_ge_dec (rpre0 + d0_pre) 4294967296) as [Hlt | Hge]; [exact Hlt |].
+    rewrite Hland0 in PreH1.
+    assert (Hbig: unsigned_last_nbits (rpre0 + d0_pre) 32 =
+                  rpre0 + d0_pre - 4294967296).
+    { apply unsigned_last_nbits_overflow_32. lia. }
+    rewrite Hbig in PreH1.
+    lia. }
+  assert (Hlow: unsigned_last_nbits (rpre0 + Z.land 4294967295 d0_pre) 32 =
+                rpre0 + d0_pre).
+  { rewrite Hland0. apply unsigned_last_nbits_eq.
+    change (2 ^ 32) with 4294967296. lia. }
+  assert (Hhi_ge: 4294967296 <= rpre1 + d1_pre) by nia.
+  assert (Hhi: unsigned_last_nbits
+                 (unsigned_last_nbits (rpre1 + Z.land 4294967295 d1_pre) 32 + 0) 32 =
+               rpre1 + d1_pre - 4294967296).
+  { rewrite Hland1, Z.add_0_r.
+    assert (Hinner_range: 4294967296 <= rpre1 + d1_pre < 2 * 4294967296) by abstract lia.
+    rewrite (unsigned_last_nbits_overflow_32 (rpre1 + d1_pre) Hinner_range).
+    assert (Houter_range: 0 <= rpre1 + d1_pre - 4294967296 < 4294967296) by abstract lia.
+    rewrite (unsigned_last_nbits_eq (rpre1 + d1_pre - 4294967296) 32)
+      by (change (2 ^ 32) with 4294967296; exact Houter_range).
+    reflexivity. }
+  assert (Hq_eq: unsigned_last_nbits (qpre + 4294967295) 32 = qpre - 1).
+  { rewrite unsigned_last_nbits_overflow_32 by nia. ring. }
+  split_pure_spatial.
+  1: entailer!.
+  split_pures.
+  - dump_pre_spatial.
+    rewrite Hq_eq, Hhi, Hlow.
+    replace ((qpre - 1) * (d1_pre * 4294967296 + d0_pre) +
+             (rpre1 + d1_pre - 4294967296) * 4294967296 +
+             (rpre0 + d0_pre))
+      with (qpre * (d1_pre * 4294967296 + d0_pre) +
+            rpre1 * 4294967296 + rpre0 - 4294967296 ^ 2) by abstract ring.
+    rewrite <- PreH29.
+    ring.
+  - dump_pre_spatial.
+    rewrite Hhi, Hlow.
+    nia.
+  - dump_pre_spatial. rewrite Hlow. nia.
+  - dump_pre_spatial. rewrite Hhi. nia.
+  - dump_pre_spatial. rewrite Hhi. nia.
+  - dump_pre_spatial. rewrite Hq_eq. nia.
+  - dump_pre_spatial. rewrite Hq_eq. nia.
+Qed.

@@ -41,12 +41,6 @@ Proof. Admitted.
 Lemma proof_of_max_sub_array_safety_wit_7 : max_sub_array_safety_wit_7.
 Proof. Admitted. 
 
-Lemma proof_of_max_sub_array_entail_wit_2 : max_sub_array_entail_wit_2.
-Proof. Admitted. 
-
-Lemma proof_of_max_sub_array_entail_wit_6 : max_sub_array_entail_wit_6.
-Proof. Admitted. 
-
 Lemma proof_of_max_sub_array_return_wit_1 : max_sub_array_return_wit_1.
 Proof. Admitted. 
 

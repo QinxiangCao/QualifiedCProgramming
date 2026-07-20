@@ -75,7 +75,7 @@ Proof.
     reflexivity.
 Qed.
 
-Lemma proof_of_insertion_entail_wit_3_2 : insertion_entail_wit_3_2.
+Lemma proof_of_insertion_entail_wit_3_1 : insertion_entail_wit_3_1.
 Proof.
   pre_process.
   subst p2_v.
@@ -98,7 +98,7 @@ Proof.
       exact PreH4.
 Qed.
 
-Lemma proof_of_insertion_entail_wit_4_2 : insertion_entail_wit_4_2.
+Lemma proof_of_insertion_entail_wit_4_1 : insertion_entail_wit_4_1.
 Proof.
   pre_process.
   Left.
@@ -120,7 +120,7 @@ Proof.
       exact PreH3.
 Qed.
 
-Lemma proof_of_insertion_entail_wit_4_1 : insertion_entail_wit_4_1.
+Lemma proof_of_insertion_entail_wit_4_2 : insertion_entail_wit_4_2.
 Proof.
   pre_process.
   Right.

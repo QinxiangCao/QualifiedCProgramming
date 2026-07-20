@@ -32,6 +32,13 @@ End SetMonad.
 
 Notation program := SetMonad.M.
 
+(** A backend-independent name for recursive constructions.  The set
+    monad keeps [Lfix] as its implementation. *)
+Definition Rec {X: Type} {_SETS_X: Sets.SETS X} (F: X -> X): X :=
+  Lfix F.
+
+Arguments Rec: simpl never.
+
 Hint Unfold SetMonad.bind SetMonad.ret : monad_unfold.
 
 Import SetMonad.
@@ -227,7 +234,7 @@ Definition repeat_break
              {A B: Type}
              (body: A -> program (CntOrBrk A B)):
   A -> program B :=
-  Lfix (repeat_break_f body).
+  Rec (repeat_break_f body).
 
 (** We also define the 'continue' and 'break' statements within the loop body. *)
 
@@ -252,7 +259,7 @@ Definition range_iter_f {A: Type} (hi: nat)
 
 Definition range_iter {A: Type} (lo hi: nat)
   (body: nat -> A -> program A) :=
-  fun a => Lfix (range_iter_f hi body) (lo, a).
+  fun a => Rec (range_iter_f hi body) (lo, a).
 
 (** range-iterator loops with break *)
 Definition range_iter_break_f
@@ -273,7 +280,7 @@ Definition range_iter_break_f
 Definition range_iter_break
   {A B: Type} (lo hi: nat)
   (body: nat -> A -> program (CntOrBrk A B)) :=
-  fun a => Lfix (range_iter_break_f hi body) (lo, a).
+  fun a => Rec (range_iter_break_f hi body) (lo, a).
 
 Fixpoint list_iter {A B: Type} (body: A -> B -> SetMonad.M B) (l: list A) (default: B): SetMonad.M B :=
   match l with
@@ -319,3 +326,65 @@ Definition binary_search (P: Z -> Prop) (lo hi: Z):
   repeat_break (body_binary_search P) (lo, hi).
 
 End SetMonadExamples'.
+
+(*************************************************************************************************************)
+(*****    Pseudocode notation for the (nondeterministic) set monad -- the applicable subset          ******)
+(*************************************************************************************************************)
+(*                                                                                                          *)
+(*  This mirrors StateRelMonad's [prog_scope], restricted to the combinators the set monad actually has.    *)
+(*  The set monad has no state, so there are no [UPDATE]/[WHILE]/[IF]/[WHEN]/[get!] forms; what remains are    *)
+(*  the *nondeterministic* control forms, which is exactly where this monad is used (cf. [run_3x1],          *)
+(*  [binary_search] above):                                                                                  *)
+(*                                                                                                          *)
+(*      CHOOSE { c1 | c2 | ... }                 -- nondeterministic choice, one branch per | (choice = ∪)   *)
+(*      REPEAT ' p FROM a0 DO ... END            -- accumulator loop; body ends with NEXT/BREAK (repeat_break)*)
+(*      FOR i FROM lo TO hi WITH ' p := a0 DO .. -- counted loop over [lo,hi) threading accumulator (range_iter)*)
+(*      NEXT a' / BREAK b / CONTINUE             -- loop-body control (continue / break)                     *)
+(*                                                                                                          *)
+(*  Guards use the pre-existing [assume P] notation ([test P]).  All indices are [nat] here (Set monad's     *)
+(*  [range_iter] ranges over [nat], unlike StateRel's [Z]).                                                  *)
+(*                                                                                                          *)
+
+Declare Scope setprog_scope.
+Delimit Scope setprog_scope with setprog.
+
+(* Multi-branch nondeterministic choice, one branch per [|] inside braces; each arity expands directly to
+   nested [choice] (= set union), no auxiliary function and no trailing empty program.  2..6 branches;
+   nest [CHOOSE]s for more. *)
+Notation "'CHOOSE' '{' c1 '|' c2 '}'" :=
+  (choice c1 c2)
+  (at level 0, c1 at level 200, c2 at level 200,
+   format "'[v' 'CHOOSE'  '{' '//' c1 '//' '|'  c2 '//' '}' ']'") : setprog_scope.
+Notation "'CHOOSE' '{' c1 '|' c2 '|' c3 '}'" :=
+  (choice c1 (choice c2 c3))
+  (at level 0, c1 at level 200, c2 at level 200, c3 at level 200,
+   format "'[v' 'CHOOSE'  '{' '//' c1 '//' '|'  c2 '//' '|'  c3 '//' '}' ']'") : setprog_scope.
+Notation "'CHOOSE' '{' c1 '|' c2 '|' c3 '|' c4 '}'" :=
+  (choice c1 (choice c2 (choice c3 c4)))
+  (at level 0, c1 at level 200, c2 at level 200, c3 at level 200, c4 at level 200,
+   format "'[v' 'CHOOSE'  '{' '//' c1 '//' '|'  c2 '//' '|'  c3 '//' '|'  c4 '//' '}' ']'") : setprog_scope.
+Notation "'CHOOSE' '{' c1 '|' c2 '|' c3 '|' c4 '|' c5 '}'" :=
+  (choice c1 (choice c2 (choice c3 (choice c4 c5))))
+  (at level 0, c1 at level 200, c2 at level 200, c3 at level 200, c4 at level 200, c5 at level 200,
+   format "'[v' 'CHOOSE'  '{' '//' c1 '//' '|'  c2 '//' '|'  c3 '//' '|'  c4 '//' '|'  c5 '//' '}' ']'") : setprog_scope.
+Notation "'CHOOSE' '{' c1 '|' c2 '|' c3 '|' c4 '|' c5 '|' c6 '}'" :=
+  (choice c1 (choice c2 (choice c3 (choice c4 (choice c5 c6)))))
+  (at level 0, c1 at level 200, c2 at level 200, c3 at level 200, c4 at level 200, c5 at level 200, c6 at level 200,
+   format "'[v' 'CHOOSE'  '{' '//' c1 '//' '|'  c2 '//' '|'  c3 '//' '|'  c4 '//' '|'  c5 '//' '|'  c6 '//' '}' ']'") : setprog_scope.
+
+(* Accumulator-carrying loop: [p] is the loop variable, [a0] its initial value; the body ends each round
+   with [NEXT a'] to loop on with [a'] or [BREAK b] to exit with result [b].  This is *the* set-monad loop. *)
+Notation "'REPEAT' ' p 'FROM' a0 'DO' c 'END'" :=
+  (repeat_break (fun p => c) a0)
+  (at level 0, p strict pattern, a0 at level 99, c at level 200,
+   format "'[v' 'REPEAT'  ' p  'FROM'  a0  'DO' '//' c '//' 'END' ']'") : setprog_scope.
+
+(* Counted loop over [lo, hi) that threads an accumulator [p] (the set monad has no state to carry it). *)
+Notation "'FOR' i 'FROM' lo 'TO' hi 'WITH' ' p ':=' a0 'DO' c 'END'" :=
+  (range_iter lo hi (fun i p => c) a0)
+  (at level 0, i ident, p strict pattern, lo at level 99, hi at level 99, a0 at level 99, c at level 200,
+   format "'[v' 'FOR'  i  'FROM'  lo  'TO'  hi  'WITH'  ' p  ':='  a0  'DO' '//' c '//' 'END' ']'") : setprog_scope.
+
+Notation "'BREAK' e" := (break e) (at level 50) : setprog_scope.
+Notation "'NEXT' a" := (continue a) (at level 50) : setprog_scope.
+Notation "'CONTINUE'" := (continue tt) (at level 0) : setprog_scope.

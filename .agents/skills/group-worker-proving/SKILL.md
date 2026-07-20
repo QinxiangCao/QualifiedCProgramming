@@ -1,63 +1,46 @@
 ---
 name: group-worker-proving
-description: 由 group-worker 使用，读取 group_worker_input.json，在 group worktree 中证明 assigned witness blocks，并只在 group-local case_lib 中新增带当前 group_id suffix 的 helper declarations 和必要 Rocq 官方库 import。
+description: 由 group-worker 读取 group_worker_input.md，只编辑 fixed group directory 的 copied manual 和 group_worker_lib，证明 assigned witnesses 并写 compact terminal result。
 ---
 
 # Group Worker Proving
 
-只读取 startup message 指定的 `group_worker_input.json`。其结构化字段是唯一 source of truth；不得依赖 parent chat context。
-`problem_context`、`annotation_design_summary` 和 `vc_checking_plan` 若存在，必须优先作为 proof strategy 起点；缺失时在本次 spawn 内直接分析 assigned witnesses，不返回确认请求。
+完整读取 startup message 指定的 `group_worker_input.md` 和 linked rules；不得依赖 parent transcript。manifest是 controller machine file，不需要整份载入上下文。
 
 ## 文档
 
-- `docs/coq-tooling-policy.md`：固定 Coq tooling 和 group-check evidence。
-- `docs/separation-logic-whole-proof-tactics.md`：separation logic proof tactic 操作规则、side goal 形态和常见证明骨架。
-- `docs/refinement-proof-tactics.md`：refinement / `safeExec` proof 规则、`prog_nf` 工作流和禁止的低层 reconstruction。
-- `docs/pure-proposition-proof-patterns.md`：annotation-facing pure predicate 的 proof-side bridge、rewrite 和 helper 规则。
-- `docs/reference-cases.md`：允许参考的 case 范围。
+- `docs/coq-tooling-policy.md`：scripted Coq、overlay 与 group-check evidence。
+- `../verification-orchestrator/docs/path-configuration.md`：group path teaching。
+- 其他 linked tactic/reference guides。
 
 ## 允许工作
 
-- 只编辑 group worktree 中 assigned witness proof bodies。
-- 只在 group-local `case_lib` 新增已证明的顶层 `Lemma`、`Theorem`、`Fact` 或 `Remark`。
-- 允许在 group-local `case_lib` 新增证明所需的 Rocq 官方库 import，例如 `Require Import Coq...` 或 `From Coq... Require Import ...`。
-- 不修改 generated files、witness statements、unassigned witness blocks 或 seed `case_lib` declarations。
-- formal output 只写 group worktree；machine output 只写声明的 `group_worker_report.json`。
-- 必须在单次 spawn 内尽量完成本 group 的所有 assigned witnesses。失败 tactic、proof route 不确定、缺少 optional hint、或需要当前 group suffixed helper，都应在本次 spawn 内调试、改 proof、补 helper、重跑 fixed group-check。
+- 只编辑 handoff `Copied manual` 中 assigned witness proof bodies。
+- 只在 handoff `group_worker_lib` 新增 proved `Lemma`/`Theorem`/`Fact`/`Remark` 与必要 Rocq official imports。
+- debug script只写 handoff `Debug script` 给出的 exact `_coq_builds` path。
+- machine output只写 declared compact group report；可选 proof notes写 `group_worker_output.md`。
 
-## Blocking 原则
-
-group-worker 的 `blocked` 只用于两类情况：
-
-- 某个 assigned witness lemma 在当前 `source_goal_version` 下完全不可证：经过 proof state 分析、必要 helper 尝试和 fixed group-check/debug 后，确认缺少的 premise 不能从当前 VC、当前 `case_lib` 或允许新增的当前 suffix helper 中推出，必须回到 annotation/spec。
-- 必要工具发生重大错误：fixed `coq_tooling.py debug` / `check` 或 group-check workspace 完全不可运行，且已记录具体 command evidence。
-
-以下情况不得 `blocked`，必须在本次 spawn 内自行解决：单个 tactic 失败、proof route 不确定、需要新增当前 group suffix helper、vc-checking plan 缺字段、optional reference 缺失、同构 helper 可能被其他 group 也需要、或某个 witness 需要多轮 debug。输入版本失效写 `stale`。context compaction 只写 `compact-error` 事实；是否重试或最终 block 由 controller / main agent 判定。
+`formal_case_lib` read-only；generated files和unassigned witness blocks不可修改。group directory 最终只能有 copied manual 与 `group_worker_lib`。
 
 ## Helper namespace
 
-每个新 `case_lib` helper 名称必须以 `group_worker_input.json.helper_namespace.suffix` 结尾。
+每个新 helper 名必须以 `helper_namespace.suffix` 结尾。禁止 unsuffixed、foreign-suffix、seed declaration修改、project/generated imports。多个 groups需要同构事实时各自写 suffix helper；必须共享时回 annotation 提升为 `formal_case_lib` spec。
 
-- policy 必须是 `group-id-suffixed`。
-- suffix 形如 `__<sanitized_group_id>`。
-- 不新增 unsuffixed helper。
-- 不使用其他 group 的 suffix。
-- 如果 helper 必须跨 group 共享，停止并报告 blocker，让该事实回到 annotation 成为 seed `case_lib` declaration。
-- 不要把“多个 group 可能需要同构 helper”作为 blocker；当前 group 可以新增带自己 suffix 的 helper 并证明。
-
-每个新增 helper 和新增 Rocq 官方库 import 都要写入 `agent_result.vc_proving.group.case_lib_added_declarations`，包含 `name`、`kind` 和 `statement_hash`。import 的 `kind` 写 `Import`，不得记录或新增非 Rocq 官方库 import。
+无需在 worker report重复新增 declaration metadata；parent merge直接解析 `group_worker_lib` 并记录 name/kind/statement hash。
 
 ## Coq feedback
 
-- 只使用 handoff 声明的 `coq_tooling.py debug` 和 `coq_tooling.py check`。
-- 不手写 Coq flags，不调用 Dune，不调用 Rocq MCP，不使用 `_CoqProject` derived command，不使用 `coqc -o`。
-- final group evidence 必须满足 `target_kind == "group-check"`，并记录当前 `source_goal_version`。
-- JSON 检查使用 `python3` 或 shell builtins，不使用 `jq`。
+- 原样执行 handoff `Commands` 代码块中的 debug/check commands；两者必须进入 controller，禁止直接调用 internal `coq_tooling.py`。
+- 不拼 `--workspace-root`、build path、overlay、flags 或 cwd。
+- `completed` 前 exact group-check 必须通过并绑定 current `source_goal_version`；controller review会从 state/manifest派生相同 overlay并重跑，不把完整 evidence复制进 worker report。
+- 禁止 raw Coq、Dune、Rocq MCP、`coqc -o`。
 
-## Report 输出
+## Blocking 与 report
 
-`group_worker_report.json` 必须设置 `agent_result.vc_proving.group.status` 为 `completed`、`blocked`、`stale` 或 `compact-error`。`completed` report 包含 solved/unsolved witness lists、blockers/errors、candidate file paths、helper namespace、added helper declarations 和 Coq evidence。`compact-error` report 只记录 compaction 事实和可复用 evidence pointer，不声明 witness 不可证。
+single spawn 内尽量完成全部 assigned witnesses；failed tactic、missing optional hint、需要 suffix helper、多轮 debug 都应 local repair/retry。
 
-不得遗留 `Admitted.`、`Abort.`、extra `Axiom`、debug commands，或在 `*_proof_manual.v` 中新增 helper declarations。
+blocked 只用于经过 concrete proof-state/helper/scripted checks 后确认 premise 不可从当前 VC/`group_worker_lib` 推出，或 exact tooling 完全不可运行。版本失效 stale；compaction 只写 compact-error fact。
 
-同时写 `group_worker_output.txt` 作为 `non-authoritative reuse note`。第一行必须是 `# Reuse Note`，正文包含 `Note kind: non-authoritative reuse note` 和 `This file is not acceptance evidence.`。如果 output note 与 structured/current sources 冲突，以 `group_worker_report.json`、`group_worker_input.json`、`group_workers_manifest.json`、source versions 和当前 worktree files 为准。
+返回 `blocked` 时，在 `group_worker_output.md` 写清 assigned witness、无法推出的 premise/resource、已尝试的 suffixed helper 与为何指向 annotation/spec 缺口；compact JSON report只保留 blocker。main agent会读取 Markdown与JSON原文件，按固定模板总结原因、反思和修复范围，再把 summary及原文件路径 append到 run 内唯一 annotation agent，不会为修正另开 annotation agent。
+
+`group_worker_report.json` 使用 `qcp-group-worker-report/v2`，只含 terminal status、current `source_goal_version` 与 blockers。assignment、candidate paths与namespace已在 handoff/manifest，不重复记录。不得 claim controller/parent acceptance。

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import re
 
 
 def _term(*codes: int) -> str:
@@ -57,12 +58,21 @@ MIGRATION_BANNED_TERMS = (
 
 
 def _active_paths(repo: Path) -> list[Path]:
-    paths = [repo / "AGENTS.md"]
-    paths.extend((repo / ".agents" / "skills").glob("*/SKILL.md"))
-    paths.extend((repo / ".agents" / "skills").glob("*/docs/*.md"))
+    paths = [repo / "AGENTS.md", repo / "AGENTS_WIN.md"]
+    paths.extend((repo / ".agents" / "skills").rglob("SKILL.md"))
+    paths.extend((repo / ".agents" / "skills").rglob("*.md"))
     paths.extend((repo / ".agents" / "skills" / "vc-proving" / "scripts").glob("*.py"))
     paths.extend((repo / ".agents" / "skills" / "verification-orchestrator" / "scripts").glob("*.py"))
-    return [path for path in paths if path.name != "scheduler-mechanism.md"]
+    return sorted(
+        {
+            path
+            for path in paths
+            if path.name != "scheduler-mechanism.md"
+            and "skills-en" not in path.parts
+            and "skills-zh" not in path.parts
+            and "test" not in path.parts
+        }
+    )
 
 
 def test_active_docs_and_scripts_use_current_terms() -> None:
@@ -74,8 +84,29 @@ def test_active_docs_and_scripts_use_current_terms() -> None:
         for term in BANNED_TERMS + REMOVED_ARTIFACT_TERMS:
             if term in text:
                 offenders.append(f"{path.relative_to(repo)}: {term}")
+        if "worktree" in text.lower():
+            offenders.append(f"{path.relative_to(repo)}: removed Git isolation term")
+        if "group_merged_result" in text:
+            offenders.append(f"{path.relative_to(repo)}: replaced merge result term")
+        if re.search(r"(?<!formal_)(?<!worker_)(?<!merged_)case_lib", text):
+            offenders.append(f"{path.relative_to(repo)}: unqualified lib role")
 
     assert offenders == []
+
+
+def test_core_contract_defines_all_three_lib_roles_and_fixed_roots() -> None:
+    repo = Path(__file__).resolve().parents[5]
+    core = (repo / "AGENTS.md").read_text(encoding="utf-8")
+    for term in ("formal_case_lib", "group_worker_lib", "proving_merged_lib"):
+        assert term in core
+    assert "verification_runs/<run>/" in core
+    assert "reports/<run>/" in core
+    assert "reports/<run>/annotation-attempts/annotation-attemptN/" in core
+    assert "每个 run 只能 spawn 一次 `annotation-subagent`" in core
+    assert "append-annotation-agent" in core
+    assert "annotation-summary-ready" in core
+    assert "controller_state.json" in core
+    assert "path-configuration.md" in core
 
 
 def test_active_docs_and_scripts_do_not_use_replaced_coq_tooling_terms() -> None:

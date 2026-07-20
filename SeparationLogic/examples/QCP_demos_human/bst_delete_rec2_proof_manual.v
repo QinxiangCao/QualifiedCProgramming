@@ -70,7 +70,9 @@ Qed.
 Lemma proof_of_get_pre_return_wit_2 : get_pre_return_wit_2.
 Proof.
   aggressive_pre_process.
-  - Goal_apply proof_of_get_pre_return_wit_2_split_goal_spatial.
+  - sep_apply (proof_of_get_pre_return_wit_2_split_goal_spatial
+      t_right t_key t_pre_v t_pre_v_right PreH1 PreH2 PreH3 PreH4);
+      entailer!.
   - Goal_apply proof_of_get_pre_return_wit_2_split_goal_1.
   - Goal_apply proof_of_get_pre_return_wit_2_split_goal_2.
   - Goal_apply proof_of_get_pre_return_wit_2_split_goal_3.

@@ -290,7 +290,7 @@ Lemma zrange_length_nonneg :
 Proof.
   intros n Hn.
   unfold zrange.
-  rewrite Zlength_correct, map_length, seq_length.
+  rewrite Zlength_correct, length_map, length_seq.
   rewrite Z2Nat.id by lia.
   reflexivity.
 Qed.
@@ -451,7 +451,7 @@ Proof.
     replace
       (Zlength (map (fun left : Z => (left, Z.of_nat m)) (zrange (Z.of_nat m))))
       with (Zlength (zrange (Z.of_nat m))).
-    2:{ rewrite !Zlength_correct, map_length. reflexivity. }
+    2:{ rewrite !Zlength_correct, length_map. reflexivity. }
     rewrite zrange_length_nonneg by lia.
     nia.
 Qed.
@@ -498,7 +498,7 @@ Proof.
   intros colors i color Hi.
   unfold color_count.
   rewrite zrange_snoc by lia.
-  rewrite filter_app, app_length.
+  rewrite filter_app, length_app.
   rewrite Nat2Z.inj_add.
   simpl.
   destruct (Z.eqb (Znth i colors 0) color); simpl; lia.
@@ -542,7 +542,7 @@ Proof.
   intros colors costs i p color Hi Hcost.
   unfold good_color_count.
   rewrite zrange_snoc by lia.
-  rewrite filter_app, app_length.
+  rewrite filter_app, length_app.
   assert (Hf :
     filter
       (fun idx : Z =>
@@ -580,7 +580,7 @@ Proof.
   intros colors costs p i c Hi Hc Hcost.
   unfold choosing_pair_count.
   rewrite choosing_pairs_up_to_snoc by lia.
-  rewrite filter_app, app_length, Nat2Z.inj_add.
+  rewrite filter_app, length_app, Nat2Z.inj_add.
   f_equal.
   unfold color_count.
   assert (Hmap :
@@ -598,7 +598,7 @@ Proof.
     rewrite andb_true_r.
     reflexivity.
   }
-  rewrite Hmap, map_length.
+  rewrite Hmap, length_map.
   reflexivity.
 Qed.
 Lemma choosing_pair_count_snoc_expensive :
@@ -613,7 +613,7 @@ Proof.
   intros colors costs p i c Hi Hc Hcost.
   unfold choosing_pair_count.
   rewrite choosing_pairs_up_to_snoc by lia.
-  rewrite filter_app, app_length, Nat2Z.inj_add.
+  rewrite filter_app, length_app, Nat2Z.inj_add.
   f_equal.
   unfold good_color_count.
   assert (Hmap :
@@ -633,7 +633,7 @@ Proof.
     rewrite affordable_betweenb_extend_expensive by lia.
     reflexivity.
   }
-  rewrite Hmap, map_length.
+  rewrite Hmap, length_map.
   reflexivity.
 Qed.
 Lemma ChoosingPrefixState_answer_bound :

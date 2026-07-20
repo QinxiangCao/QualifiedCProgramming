@@ -30,8 +30,8 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (
   **  (store_ptb b b_pre pt0 )
   **  ((b) # Ptr  |-> b_v)
   **  (store_tree b_v tr0 )
-  **  ((( &( "value" ) )) # Int  |-> value_pre)
   **  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "value" ) )) # Int  |-> value_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -44,8 +44,8 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (
   **  (store_ptb b b_pre pt0 )
   **  ((b) # Ptr  |-> b_v)
   **  (store_tree b_v tr0 )
-  **  ((( &( "value" ) )) # Int  |-> value_pre)
   **  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "value" ) )) # Int  |-> value_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -62,8 +62,8 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (
   **  (store_ptb b b_pre pt0 )
   **  ((b) # Ptr  |-> b_v)
   **  (store_tree b_v tr0 )
-  **  ((( &( "value" ) )) # Int  |-> value_pre)
   **  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "value" ) )) # Int  |-> value_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -80,8 +80,8 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (
   **  (store_ptb b b_pre pt0 )
   **  ((b) # Ptr  |-> b_v)
   **  (store_tree b_v tr0 )
-  **  ((( &( "value" ) )) # Int  |-> value_pre)
   **  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "value" ) )) # Int  |-> value_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -270,8 +270,8 @@ forall (value_pre: Z) (x_pre: Z) (b_pre: Z) (tr_low_level_spec: tree) (b_v: Z) (
   **  (store_ptb b b_pre pt0 )
   **  ((b) # Ptr  |-> b_v)
   **  (store_tree b_v tr0 )
-  **  ((( &( "value" ) )) # Int  |-> value_pre)
   **  ((( &( "x" ) )) # Int  |-> x_pre)
+  **  ((( &( "value" ) )) # Int  |-> value_pre)
 |--
   “ (b_v <> 0) ”
 .

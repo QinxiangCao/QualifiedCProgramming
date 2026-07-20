@@ -102,14 +102,14 @@ Proof.
   subst_eqs.
   Exists l1_low_level_spec.
   Exists 0.
-  eapply derivable1_trans.
-  { apply (sll_zero 0 l1_low_level_spec); auto. }
-  Intros.
-  subst.
-  split_pure_spatial.
-  - simpl.
-    entailer!.
-  - split_pure_and_solve.
+  transitivity (“ l1_low_level_spec = nil ” && emp).
+  - apply (sll_zero 0 l1_low_level_spec); auto.
+  - Intros.
+    subst.
+    split_pure_spatial.
+    + simpl.
+      entailer!.
+    + split_pure_and_solve.
 Qed.
 Lemma proof_of_glibc_slist_clean_iter_back_derive_high_level_spec_by_low_level_spec : glibc_slist_clean_iter_back_derive_high_level_spec_by_low_level_spec.
 Proof.

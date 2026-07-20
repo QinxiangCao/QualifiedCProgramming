@@ -33,12 +33,12 @@ Definition cmp_polar_values_safety_wit_1 :=
 (
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (CoordInBounds gx_pre )) (PreH2 : (CoordInBounds gy_pre )) (PreH3 : (CoordInBounds a_x_pre )) (PreH4 : (CoordInBounds a_y_pre )) (PreH5 : (CoordInBounds b_x_pre )) (PreH6 : (CoordInBounds b_y_pre )) ,
   ((( &( "adx" ) )) # Int  |->_)
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((a_x_pre - gx_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (a_x_pre - gx_pre )) ”
@@ -46,12 +46,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 (
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (CoordInBounds gx_pre )) (PreH2 : (CoordInBounds gy_pre )) (PreH3 : (CoordInBounds a_x_pre )) (PreH4 : (CoordInBounds a_y_pre )) (PreH5 : (CoordInBounds b_x_pre )) (PreH6 : (CoordInBounds b_y_pre )) ,
   ((( &( "adx" ) )) # Int  |->_)
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((a_x_pre - gx_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (a_x_pre - gx_pre )) ”
@@ -60,12 +60,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 Definition cmp_polar_values_safety_wit_1_split_goal_1 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (CoordInBounds gx_pre )) (PreH2 : (CoordInBounds gy_pre )) (PreH3 : (CoordInBounds a_x_pre )) (PreH4 : (CoordInBounds a_y_pre )) (PreH5 : (CoordInBounds b_x_pre )) (PreH6 : (CoordInBounds b_y_pre )) ,
   ((( &( "adx" ) )) # Int  |->_)
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((a_x_pre - gx_pre ) <= INT_MAX) ”
 .
@@ -73,12 +73,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 Definition cmp_polar_values_safety_wit_1_split_goal_2 := 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (CoordInBounds gx_pre )) (PreH2 : (CoordInBounds gy_pre )) (PreH3 : (CoordInBounds a_x_pre )) (PreH4 : (CoordInBounds a_y_pre )) (PreH5 : (CoordInBounds b_x_pre )) (PreH6 : (CoordInBounds b_y_pre )) ,
   ((( &( "adx" ) )) # Int  |->_)
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= (a_x_pre - gx_pre )) ”
 .
@@ -88,12 +88,12 @@ Definition cmp_polar_values_safety_wit_2 :=
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (CoordInBounds gx_pre )) (PreH2 : (CoordInBounds gy_pre )) (PreH3 : (CoordInBounds a_x_pre )) (PreH4 : (CoordInBounds a_y_pre )) (PreH5 : (CoordInBounds b_x_pre )) (PreH6 : (CoordInBounds b_y_pre )) ,
   ((( &( "ady" ) )) # Int  |->_)
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((a_y_pre - gy_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (a_y_pre - gy_pre )) ”
@@ -102,12 +102,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (CoordInBounds gx_pre )) (PreH2 : (CoordInBounds gy_pre )) (PreH3 : (CoordInBounds a_x_pre )) (PreH4 : (CoordInBounds a_y_pre )) (PreH5 : (CoordInBounds b_x_pre )) (PreH6 : (CoordInBounds b_y_pre )) ,
   ((( &( "ady" ) )) # Int  |->_)
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((a_y_pre - gy_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (a_y_pre - gy_pre )) ”
@@ -117,12 +117,12 @@ Definition cmp_polar_values_safety_wit_2_split_goal_1 :=
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (CoordInBounds gx_pre )) (PreH2 : (CoordInBounds gy_pre )) (PreH3 : (CoordInBounds a_x_pre )) (PreH4 : (CoordInBounds a_y_pre )) (PreH5 : (CoordInBounds b_x_pre )) (PreH6 : (CoordInBounds b_y_pre )) ,
   ((( &( "ady" ) )) # Int  |->_)
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((a_y_pre - gy_pre ) <= INT_MAX) ”
 .
@@ -131,12 +131,12 @@ Definition cmp_polar_values_safety_wit_2_split_goal_2 :=
 forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: Z) (PreH1 : (CoordInBounds gx_pre )) (PreH2 : (CoordInBounds gy_pre )) (PreH3 : (CoordInBounds a_x_pre )) (PreH4 : (CoordInBounds a_y_pre )) (PreH5 : (CoordInBounds b_x_pre )) (PreH6 : (CoordInBounds b_y_pre )) ,
   ((( &( "ady" ) )) # Int  |->_)
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= (a_y_pre - gy_pre )) ”
 .
@@ -147,12 +147,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   ((( &( "bdx" ) )) # Int  |->_)
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((b_x_pre - gx_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (b_x_pre - gx_pre )) ”
@@ -162,12 +162,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   ((( &( "bdx" ) )) # Int  |->_)
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((b_x_pre - gx_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (b_x_pre - gx_pre )) ”
@@ -178,12 +178,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   ((( &( "bdx" ) )) # Int  |->_)
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((b_x_pre - gx_pre ) <= INT_MAX) ”
 .
@@ -193,12 +193,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   ((( &( "bdx" ) )) # Int  |->_)
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= (b_x_pre - gx_pre )) ”
 .
@@ -210,12 +210,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((b_y_pre - gy_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (b_y_pre - gy_pre )) ”
@@ -226,12 +226,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((b_y_pre - gy_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (b_y_pre - gy_pre )) ”
@@ -243,12 +243,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((b_y_pre - gy_pre ) <= INT_MAX) ”
 .
@@ -259,12 +259,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= (b_y_pre - gy_pre )) ”
 .
@@ -277,12 +277,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) )) ”
@@ -294,12 +294,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) )) ”
@@ -312,12 +312,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) ) <= INT_MAX) ”
 .
@@ -329,12 +329,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) - ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) )) ”
 .
@@ -347,12 +347,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) )) ”
@@ -364,12 +364,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) )) ”
@@ -382,12 +382,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) ) <= INT_MAX) ”
 .
@@ -399,12 +399,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= ((a_y_pre - gy_pre ) * (b_x_pre - gx_pre ) )) ”
 .
@@ -417,12 +417,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) )) ”
@@ -434,12 +434,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) )) ”
@@ -452,12 +452,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) ) <= INT_MAX) ”
 .
@@ -469,12 +469,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= ((a_x_pre - gx_pre ) * (b_y_pre - gy_pre ) )) ”
 .
@@ -488,12 +488,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) )) ”
@@ -506,12 +506,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) )) ”
@@ -525,12 +525,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) ) <= INT_MAX) ”
 .
@@ -543,12 +543,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) + ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) )) ”
 .
@@ -562,12 +562,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) )) ”
@@ -580,12 +580,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) )) ”
@@ -599,12 +599,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) ) <= INT_MAX) ”
 .
@@ -617,12 +617,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= ((a_y_pre - gy_pre ) * (a_y_pre - gy_pre ) )) ”
 .
@@ -636,12 +636,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) )) ”
@@ -654,12 +654,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) )) ”
@@ -673,12 +673,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) ) <= INT_MAX) ”
 .
@@ -691,12 +691,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= ((a_x_pre - gx_pre ) * (a_x_pre - gx_pre ) )) ”
 .
@@ -711,12 +711,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) )) ”
@@ -730,12 +730,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) )) ”
@@ -750,12 +750,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) ) <= INT_MAX) ”
 .
@@ -769,12 +769,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) + ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) )) ”
 .
@@ -789,12 +789,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) )) ”
@@ -808,12 +808,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) )) ”
@@ -828,12 +828,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) ) <= INT_MAX) ”
 .
@@ -847,12 +847,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= ((b_y_pre - gy_pre ) * (b_y_pre - gy_pre ) )) ”
 .
@@ -867,12 +867,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) )) ”
@@ -886,12 +886,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) )) ”
@@ -906,12 +906,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) ) <= INT_MAX) ”
 .
@@ -925,12 +925,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ ((INT_MIN) <= ((b_x_pre - gx_pre ) * (b_x_pre - gx_pre ) )) ”
 .
@@ -945,12 +945,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -966,12 +966,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -987,12 +987,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1008,12 +1008,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1029,12 +1029,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1050,12 +1050,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1072,12 +1072,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1094,12 +1094,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1116,12 +1116,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1138,12 +1138,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1160,12 +1160,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1182,12 +1182,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1204,12 +1204,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1226,12 +1226,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1248,12 +1248,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1270,12 +1270,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1292,12 +1292,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1314,12 +1314,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1336,12 +1336,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1358,12 +1358,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1380,12 +1380,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1402,12 +1402,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1424,12 +1424,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1446,12 +1446,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1468,12 +1468,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1490,12 +1490,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1512,12 +1512,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1534,12 +1534,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1556,12 +1556,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1578,12 +1578,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1600,12 +1600,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -1621,12 +1621,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -1642,12 +1642,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -1663,12 +1663,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -1684,12 +1684,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1706,12 +1706,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1728,12 +1728,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1750,12 +1750,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1772,12 +1772,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1794,12 +1794,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1816,12 +1816,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1838,12 +1838,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -1860,12 +1860,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1882,12 +1882,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1904,12 +1904,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1926,12 +1926,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1948,12 +1948,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1970,12 +1970,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -1992,12 +1992,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -2014,12 +2014,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -2036,12 +2036,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
@@ -2057,12 +2057,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
@@ -2078,12 +2078,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
@@ -2099,12 +2099,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
@@ -2120,12 +2120,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
@@ -2141,12 +2141,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -2162,12 +2162,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -2183,12 +2183,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -2204,12 +2204,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -2225,12 +2225,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -2247,12 +2247,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -2269,12 +2269,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -2291,12 +2291,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -2313,12 +2313,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -2335,12 +2335,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -2357,12 +2357,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -2379,12 +2379,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -2401,12 +2401,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -2423,12 +2423,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -2445,12 +2445,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -2467,12 +2467,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
@@ -2488,12 +2488,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
@@ -2509,12 +2509,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
@@ -2530,12 +2530,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
@@ -2551,12 +2551,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -2573,12 +2573,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -2595,12 +2595,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -2617,12 +2617,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -2639,12 +2639,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -2660,12 +2660,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -2681,12 +2681,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -2702,12 +2702,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -2723,12 +2723,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -2744,12 +2744,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -2765,12 +2765,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -2787,12 +2787,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -2809,12 +2809,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -2831,12 +2831,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -2853,12 +2853,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -2875,12 +2875,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -2897,12 +2897,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -2919,12 +2919,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -2941,12 +2941,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -2963,12 +2963,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -2985,12 +2985,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -3007,12 +3007,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -3029,12 +3029,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -3050,12 +3050,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -3071,12 +3071,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -3092,12 +3092,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -3113,12 +3113,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -3134,12 +3134,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -3155,12 +3155,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -3177,12 +3177,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -3199,12 +3199,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -3221,12 +3221,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -3243,12 +3243,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -3265,12 +3265,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -3287,12 +3287,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -3309,12 +3309,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -3331,12 +3331,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -3353,12 +3353,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -3375,12 +3375,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -3397,12 +3397,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -3419,12 +3419,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
@@ -3440,12 +3440,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
@@ -3461,12 +3461,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
@@ -3482,12 +3482,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
@@ -3503,12 +3503,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -3524,12 +3524,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -3545,12 +3545,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <> (INT_MIN)) ”
 .
@@ -3566,12 +3566,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -3588,12 +3588,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -3610,12 +3610,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -3632,12 +3632,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
@@ -3653,12 +3653,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
@@ -3674,12 +3674,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ False ”
 .
@@ -3695,12 +3695,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -3717,12 +3717,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -3739,12 +3739,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -3761,12 +3761,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -3783,12 +3783,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -3805,12 +3805,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -3827,12 +3827,12 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
   **  ((( &( "bdx" ) )) # Int  |-> (b_x_pre - gx_pre ))
   **  ((( &( "ady" ) )) # Int  |-> (a_y_pre - gy_pre ))
   **  ((( &( "adx" ) )) # Int  |-> (a_x_pre - gx_pre ))
-  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
-  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
-  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
-  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
+  **  ((( &( "a_x" ) )) # Int  |-> a_x_pre)
+  **  ((( &( "a_y" ) )) # Int  |-> a_y_pre)
+  **  ((( &( "b_x" ) )) # Int  |-> b_x_pre)
+  **  ((( &( "b_y" ) )) # Int  |-> b_y_pre)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -4993,10 +4993,10 @@ forall (b_y_pre: Z) (b_x_pre: Z) (a_y_pre: Z) (a_x_pre: Z) (gy_pre: Z) (gx_pre: 
 Definition swap_points_safety_wit_1 := 
 forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat: (@list Z)) (PreH1 : (0 <= i_pre)) (PreH2 : (i_pre < n_pre)) (PreH3 : (0 <= j_pre)) (PreH4 : (j_pre < n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre <= 50000)) (PreH7 : ((Zlength (pts_l)) = n_pre)) (PreH8 : (FlatPoints flat pts_l )) (PreH9 : (PointCoordsBound pts_l )) ,
   ((( &( "tmp_x" ) )) # Int  |->_)
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
 |--
   “ ((2 * i_pre ) <= INT_MAX) ” 
@@ -5006,10 +5006,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
 Definition swap_points_safety_wit_2 := 
 forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat: (@list Z)) (PreH1 : (0 <= i_pre)) (PreH2 : (i_pre < n_pre)) (PreH3 : (0 <= j_pre)) (PreH4 : (j_pre < n_pre)) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre <= 50000)) (PreH7 : ((Zlength (pts_l)) = n_pre)) (PreH8 : (FlatPoints flat pts_l )) (PreH9 : (PointCoordsBound pts_l )) ,
   ((( &( "tmp_x" ) )) # Int  |->_)
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
 |--
   “ (2 <= INT_MAX) ” 
@@ -5021,10 +5021,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   ((( &( "tmp_y" ) )) # Int  |->_)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (((2 * i_pre ) + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((2 * i_pre ) + 1 )) ”
@@ -5035,10 +5035,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   ((( &( "tmp_y" ) )) # Int  |->_)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ ((2 * i_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (2 * i_pre )) ”
@@ -5049,10 +5049,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   ((( &( "tmp_y" ) )) # Int  |->_)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (2 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 2) ”
@@ -5063,10 +5063,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   ((( &( "tmp_y" ) )) # Int  |->_)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -5077,10 +5077,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ ((2 * i_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (2 * i_pre )) ”
@@ -5091,10 +5091,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (2 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 2) ”
@@ -5105,10 +5105,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ ((2 * j_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (2 * j_pre )) ”
@@ -5119,10 +5119,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (2 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 2) ”
@@ -5133,10 +5133,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (((2 * i_pre ) + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((2 * i_pre ) + 1 )) ”
@@ -5147,10 +5147,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ ((2 * i_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (2 * i_pre )) ”
@@ -5161,10 +5161,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (2 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 2) ”
@@ -5175,10 +5175,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -5189,10 +5189,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (((2 * j_pre ) + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((2 * j_pre ) + 1 )) ”
@@ -5203,10 +5203,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ ((2 * j_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (2 * j_pre )) ”
@@ -5217,10 +5217,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (2 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 2) ”
@@ -5231,10 +5231,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -5245,10 +5245,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth (((2 * i_pre ) + 1 )) ((Znth ((2 * j_pre ) + 1 ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) 0)) ((replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)))) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ ((2 * j_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (2 * j_pre )) ”
@@ -5259,10 +5259,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth (((2 * i_pre ) + 1 )) ((Znth ((2 * j_pre ) + 1 ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) 0)) ((replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)))) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (2 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 2) ”
@@ -5273,10 +5273,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * j_pre )) ((Znth (2 * i_pre ) flat 0)) ((replace_Znth (((2 * i_pre ) + 1 )) ((Znth ((2 * j_pre ) + 1 ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) 0)) ((replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)))))) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (((2 * j_pre ) + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((2 * j_pre ) + 1 )) ”
@@ -5287,10 +5287,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * j_pre )) ((Znth (2 * i_pre ) flat 0)) ((replace_Znth (((2 * i_pre ) + 1 )) ((Znth ((2 * j_pre ) + 1 ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) 0)) ((replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)))))) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ ((2 * j_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (2 * j_pre )) ”
@@ -5301,10 +5301,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * j_pre )) ((Znth (2 * i_pre ) flat 0)) ((replace_Znth (((2 * i_pre ) + 1 )) ((Znth ((2 * j_pre ) + 1 ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) 0)) ((replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)))))) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (2 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 2) ”
@@ -5315,10 +5315,10 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
   (IntArray.full coords_pre (2 * n_pre ) (replace_Znth ((2 * j_pre )) ((Znth (2 * i_pre ) flat 0)) ((replace_Znth (((2 * i_pre ) + 1 )) ((Znth ((2 * j_pre ) + 1 ) (replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)) 0)) ((replace_Znth ((2 * i_pre )) ((Znth (2 * j_pre ) flat 0)) (flat)))))) )
   **  ((( &( "tmp_y" ) )) # Int  |-> (Znth ((2 * i_pre ) + 1 ) flat 0))
   **  ((( &( "tmp_x" ) )) # Int  |-> (Znth (2 * i_pre ) flat 0))
-  **  ((( &( "j" ) )) # Int  |-> j_pre)
-  **  ((( &( "i" ) )) # Int  |-> i_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i_pre)
+  **  ((( &( "j" ) )) # Int  |-> j_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -5506,12 +5506,12 @@ forall (j_pre: Z) (i_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (
 Definition partition_points_safety_wit_1 := 
 forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat: (@list Z)) (PreH1 : (0 <= low_pre)) (PreH2 : (low_pre <= high_pre)) (PreH3 : (high_pre < n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre <= 50000)) (PreH6 : ((Zlength (pts_l)) = n_pre)) (PreH7 : (FlatPoints flat pts_l )) (PreH8 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_l)) )) ,
   ((( &( "pivot_x" ) )) # Int  |->_)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "high" ) )) # Int  |-> high_pre)
-  **  ((( &( "low" ) )) # Int  |-> low_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "low" ) )) # Int  |-> low_pre)
+  **  ((( &( "high" ) )) # Int  |-> high_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
 |--
   “ ((2 * high_pre ) <= INT_MAX) ” 
@@ -5521,12 +5521,12 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
 Definition partition_points_safety_wit_2 := 
 forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre: Z) (pts_l: (@list point)) (flat: (@list Z)) (PreH1 : (0 <= low_pre)) (PreH2 : (low_pre <= high_pre)) (PreH3 : (high_pre < n_pre)) (PreH4 : (0 <= n_pre)) (PreH5 : (n_pre <= 50000)) (PreH6 : ((Zlength (pts_l)) = n_pre)) (PreH7 : (FlatPoints flat pts_l )) (PreH8 : (PointCoordsBound (cons ((mk_point (gx_pre) (gy_pre))) (pts_l)) )) ,
   ((( &( "pivot_x" ) )) # Int  |->_)
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "high" ) )) # Int  |-> high_pre)
-  **  ((( &( "low" ) )) # Int  |-> low_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "low" ) )) # Int  |-> low_pre)
+  **  ((( &( "high" ) )) # Int  |-> high_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
 |--
   “ (2 <= INT_MAX) ” 
@@ -5538,12 +5538,12 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
   ((( &( "pivot_y" ) )) # Int  |->_)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "pivot_x" ) )) # Int  |-> (Znth (2 * high_pre ) flat 0))
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "high" ) )) # Int  |-> high_pre)
-  **  ((( &( "low" ) )) # Int  |-> low_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "low" ) )) # Int  |-> low_pre)
+  **  ((( &( "high" ) )) # Int  |-> high_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ (((2 * high_pre ) + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((2 * high_pre ) + 1 )) ”
@@ -5554,12 +5554,12 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
   ((( &( "pivot_y" ) )) # Int  |->_)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "pivot_x" ) )) # Int  |-> (Znth (2 * high_pre ) flat 0))
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "high" ) )) # Int  |-> high_pre)
-  **  ((( &( "low" ) )) # Int  |-> low_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "low" ) )) # Int  |-> low_pre)
+  **  ((( &( "high" ) )) # Int  |-> high_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ ((2 * high_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (2 * high_pre )) ”
@@ -5570,12 +5570,12 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
   ((( &( "pivot_y" ) )) # Int  |->_)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "pivot_x" ) )) # Int  |-> (Znth (2 * high_pre ) flat 0))
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "high" ) )) # Int  |-> high_pre)
-  **  ((( &( "low" ) )) # Int  |-> low_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "low" ) )) # Int  |-> low_pre)
+  **  ((( &( "high" ) )) # Int  |-> high_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ (2 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 2) ”
@@ -5586,12 +5586,12 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
   ((( &( "pivot_y" ) )) # Int  |->_)
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "pivot_x" ) )) # Int  |-> (Znth (2 * high_pre ) flat 0))
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "high" ) )) # Int  |-> high_pre)
-  **  ((( &( "low" ) )) # Int  |-> low_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "low" ) )) # Int  |-> low_pre)
+  **  ((( &( "high" ) )) # Int  |-> high_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -5603,12 +5603,12 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "pivot_y" ) )) # Int  |-> (Znth ((2 * high_pre ) + 1 ) flat 0))
   **  ((( &( "pivot_x" ) )) # Int  |-> (Znth (2 * high_pre ) flat 0))
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "high" ) )) # Int  |-> high_pre)
-  **  ((( &( "low" ) )) # Int  |-> low_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "low" ) )) # Int  |-> low_pre)
+  **  ((( &( "high" ) )) # Int  |-> high_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ ((low_pre - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (low_pre - 1 )) ”
@@ -5620,12 +5620,12 @@ forall (gy_pre: Z) (gx_pre: Z) (high_pre: Z) (low_pre: Z) (n_pre: Z) (coords_pre
   **  (IntArray.full coords_pre (2 * n_pre ) flat )
   **  ((( &( "pivot_y" ) )) # Int  |-> (Znth ((2 * high_pre ) + 1 ) flat 0))
   **  ((( &( "pivot_x" ) )) # Int  |-> (Znth (2 * high_pre ) flat 0))
-  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
-  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
-  **  ((( &( "high" ) )) # Int  |-> high_pre)
-  **  ((( &( "low" ) )) # Int  |-> low_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "coords" ) )) # Ptr  |-> coords_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "low" ) )) # Int  |-> low_pre)
+  **  ((( &( "high" ) )) # Int  |-> high_pre)
+  **  ((( &( "gx" ) )) # Int  |-> gx_pre)
+  **  ((( &( "gy" ) )) # Int  |-> gy_pre)
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
@@ -6992,8 +6992,8 @@ forall (n_pre: Z) (pts_pre: Z) (gy: Z) (gx: Z) (pts_l: (@list point)) (flat: (@l
   ((( &( "gy" ) )) # Int  |-> gy)
   **  ((( &( "gx" ) )) # Int  |-> gx)
   **  ((( &( "coords" ) )) # Ptr  |-> pts_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((&(( &( "gp" ) )->ₛ "x")) # Int  |-> gx)
   **  ((&(( &( "gp" ) )->ₛ "y")) # Int  |-> gy)
   **  (IntArray.full pts_pre (2 * n_pre ) flat )
@@ -7007,8 +7007,8 @@ forall (n_pre: Z) (pts_pre: Z) (gy: Z) (gx: Z) (pts_l: (@list point)) (flat: (@l
   ((( &( "gy" ) )) # Int  |-> gy)
   **  ((( &( "gx" ) )) # Int  |-> gx)
   **  ((( &( "coords" ) )) # Ptr  |-> pts_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((&(( &( "gp" ) )->ₛ "x")) # Int  |-> gx)
   **  ((&(( &( "gp" ) )->ₛ "y")) # Int  |-> gy)
   **  (IntArray.full pts_pre (2 * n_pre ) flat )
@@ -7022,8 +7022,8 @@ forall (n_pre: Z) (pts_pre: Z) (gy: Z) (gx: Z) (pts_l: (@list point)) (flat: (@l
   ((( &( "gy" ) )) # Int  |-> gy)
   **  ((( &( "gx" ) )) # Int  |-> gx)
   **  ((( &( "coords" ) )) # Ptr  |-> pts_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((&(( &( "gp" ) )->ₛ "x")) # Int  |-> gx)
   **  ((&(( &( "gp" ) )->ₛ "y")) # Int  |-> gy)
   **  (IntArray.full pts_pre (2 * n_pre ) flat )
@@ -7066,8 +7066,8 @@ forall (n_pre: Z) (pts_pre: Z) (gy: Z) (gx: Z) (pts_l: (@list point)) (flat: (@l
   ((( &( "gy" ) )) # Int  |-> gy)
   **  ((( &( "gx" ) )) # Int  |-> gx)
   **  ((( &( "coords" ) )) # Ptr  |-> pts_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((&(( &( "gp" ) )->ₛ "x")) # Int  |-> gx)
   **  ((&(( &( "gp" ) )->ₛ "y")) # Int  |-> gy)
   **  (IntArray.full pts_pre (2 * n_pre ) flat )
@@ -7084,8 +7084,8 @@ forall (n_pre: Z) (pts_pre: Z) (gy: Z) (gx: Z) (pts_l: (@list point)) (flat: (@l
   ((( &( "gy" ) )) # Int  |-> gy)
   **  ((( &( "gx" ) )) # Int  |-> gx)
   **  ((( &( "coords" ) )) # Ptr  |-> pts_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((&(( &( "gp" ) )->ₛ "x")) # Int  |-> gx)
   **  ((&(( &( "gp" ) )->ₛ "y")) # Int  |-> gy)
   **  (IntArray.full pts_pre (2 * n_pre ) flat )
@@ -7098,8 +7098,8 @@ forall (n_pre: Z) (pts_pre: Z) (gy: Z) (gx: Z) (pts_l: (@list point)) (flat: (@l
   ((( &( "gy" ) )) # Int  |-> gy)
   **  ((( &( "gx" ) )) # Int  |-> gx)
   **  ((( &( "coords" ) )) # Ptr  |-> pts_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "pts" ) )) # Ptr  |-> pts_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((&(( &( "gp" ) )->ₛ "x")) # Int  |-> gx)
   **  ((&(( &( "gp" ) )->ₛ "y")) # Int  |-> gy)
   **  (IntArray.full pts_pre (2 * n_pre ) flat )

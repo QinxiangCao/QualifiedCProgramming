@@ -38,8 +38,8 @@ forall (y_pre: Z) (x_pre: Z) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: 
   ((( &( "node" ) )) # Ptr  |->_)
   **  ((( &( "cursor" ) )) # Ptr  |->_)
   **  ((( &( "head" ) )) # Ptr  |->_)
-  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  (sll x_pre l1_low_level_spec )
   **  (sll y_pre l2_low_level_spec )
 |--

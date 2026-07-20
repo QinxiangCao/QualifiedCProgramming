@@ -1,0 +1,54 @@
+// Local strategies for mpz_div_qr.
+//
+// The quotient buffer returned by mpn_div_qr is a full UIntArray, while
+// store_Z for the temporary quotient expects compact mpd digits plus an
+// undef tail.  This rule performs only that spatial reshaping.  The
+// numerical value and compactness facts remain proof obligations.
+
+#include "fme_ge_gmp/gmp/gmp_def.h"
+
+id : 1
+priority : core(1)
+left : UIntArray::full(?p, ?full_cap, ?l) at 0
+right : mpd_store_Z_compact(UINT_MOD(), p, ?v, ?used) at 1
+        UIntArray::undef_seg(p, used, ?store_cap) at 2
+action : left_erase(0);
+         right_erase(1);
+         right_erase(2);
+         right_add(0 <= used);
+         right_add(used <= full_cap);
+         right_add(full_cap == store_cap);
+         right_add(v == list_to_Z(UINT_MOD(), sublist{Z}(0, used, l)));
+         right_add(is_compact_Z(UINT_MOD(), v, used));
+
+id : 2
+priority : core(1)
+left : mpd_store_Z_compact(UINT_MOD(), ?p, ?v1, ?s1) at 0
+right : mpd_store_Z_compact(UINT_MOD(), p, ?v2, ?s2) at 1
+action : left_erase(0);
+         right_erase(1);
+         right_add(v1 == v2);
+         right_add(s1 == s2);
+
+id : 3
+priority : core(1)
+left : UIntArray::seg(?p, ?lo, ?hi, ?l) at 0
+right : UIntArray::undef_seg(p, lo, hi) at 1
+action : left_erase(0);
+         right_erase(1);
+
+id : 4
+priority : core(1)
+left : UIntArray::undef_seg(?p, ?x, ?lo) at 0
+       UIntArray::seg(p, lo, ?hi, ?l) at 1
+       UIntArray::undef_seg(p, hi, ?z) at 2
+right : UIntArray::undef_seg(p, ?x_goal, ?z_goal) at 3
+action : left_erase(0);
+         left_erase(1);
+         left_erase(2);
+         right_erase(3);
+         right_add(x == x_goal);
+         right_add(z == z_goal);
+         right_add(x <= lo);
+         right_add(lo <= hi);
+         right_add(hi <= z);

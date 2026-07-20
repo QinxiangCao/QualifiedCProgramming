@@ -28,8 +28,8 @@ From SimpleC.StdLib Require Import string_strategy_proof.
 Definition strcat_safety_wit_1 := 
 forall (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (PreH1 : (valid_string dst_str )) (PreH2 : (valid_string src_str )) (PreH3 : ((((string_length (dst_str)) + (string_length (src_str)) ) + 1 ) < INT_MAX)) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "dest" ) )) # Ptr  |-> dest_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  (store_string dest_pre dst_str )
   **  (CharArray.undef_seg dest_pre ((string_length (dst_str)) + 1 ) (((string_length (dst_str)) + (string_length (src_str)) ) + 1 ) )
   **  (store_string src_pre src_str )
@@ -248,11 +248,17 @@ forall (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (Pre
 forall (src_str: (@list Z)) (dst_str: (@list Z)) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (0 <= ((string_length (dst_str)) + 1 ))) (PreH3 : (valid_string dst_str )) (PreH4 : (valid_string src_str )) (PreH5 : ((((string_length (dst_str)) + (string_length (src_str)) ) + 1 ) < INT_MAX)) ,
   TT && emp 
 |--
-  “ (0 <= (string_length (dst_str))) ”
+  “ forall (k: Z) , (((0 <= k) /\ (k < 0)) -> ((Znth (k) (dst_str) (0)) <> 0)) ” 
+  &&  “ (0 <= (string_length (dst_str))) ”
   &&  emp
 ).
 
 Definition strcat_entail_wit_1_split_goal_1 := 
+forall (src_str: (@list Z)) (dst_str: (@list Z)) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (0 <= ((string_length (dst_str)) + 1 ))) (PreH3 : (valid_string dst_str )) (PreH4 : (valid_string src_str )) (PreH5 : ((((string_length (dst_str)) + (string_length (src_str)) ) + 1 ) < INT_MAX)) ,
+  forall (k: Z) , (((0 <= k) /\ (k < 0)) -> ((Znth (k) (dst_str) (0)) <> 0))
+.
+
+Definition strcat_entail_wit_1_split_goal_2 := 
 forall (src_str: (@list Z)) (dst_str: (@list Z)) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (0 <= ((string_length (dst_str)) + 1 ))) (PreH3 : (valid_string dst_str )) (PreH4 : (valid_string src_str )) (PreH5 : ((((string_length (dst_str)) + (string_length (src_str)) ) + 1 ) < INT_MAX)) ,
   (0 <= (string_length (dst_str)))
 .
@@ -278,17 +284,11 @@ forall (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (i: 
 forall (src_str: (@list Z)) (dst_str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (0 <= ((string_length (dst_str)) + 1 ))) (PreH3 : ((Znth i (c_string (dst_str)) 0) <> 0)) (PreH4 : (valid_string dst_str )) (PreH5 : (valid_string src_str )) (PreH6 : ((((string_length (dst_str)) + (string_length (src_str)) ) + 1 ) < INT_MAX)) (PreH7 : (0 <= i)) (PreH8 : (i <= (string_length (dst_str)))) (PreH9 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (dst_str) (0)) <> 0))) ,
   TT && emp 
 |--
-  “ (((Znth (0) (dst_str) (0)) <> 0) /\ ((Znth (((i + 1 ) - 1 )) (dst_str) (0)) <> 0)) ” 
-  &&  “ ((i + 1 ) <= (string_length (dst_str))) ”
+  “ ((i + 1 ) <= (string_length (dst_str))) ”
   &&  emp
 ).
 
 Definition strcat_entail_wit_2_split_goal_1 := 
-forall (src_str: (@list Z)) (dst_str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (0 <= ((string_length (dst_str)) + 1 ))) (PreH3 : ((Znth i (c_string (dst_str)) 0) <> 0)) (PreH4 : (valid_string dst_str )) (PreH5 : (valid_string src_str )) (PreH6 : ((((string_length (dst_str)) + (string_length (src_str)) ) + 1 ) < INT_MAX)) (PreH7 : (0 <= i)) (PreH8 : (i <= (string_length (dst_str)))) (PreH9 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (dst_str) (0)) <> 0))) ,
-  (((Znth (0) (dst_str) (0)) <> 0) /\ ((Znth (((i + 1 ) - 1 )) (dst_str) (0)) <> 0))
-.
-
-Definition strcat_entail_wit_2_split_goal_2 := 
 forall (src_str: (@list Z)) (dst_str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (0 <= ((string_length (dst_str)) + 1 ))) (PreH3 : ((Znth i (c_string (dst_str)) 0) <> 0)) (PreH4 : (valid_string dst_str )) (PreH5 : (valid_string src_str )) (PreH6 : ((((string_length (dst_str)) + (string_length (src_str)) ) + 1 ) < INT_MAX)) (PreH7 : (0 <= i)) (PreH8 : (i <= (string_length (dst_str)))) (PreH9 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (dst_str) (0)) <> 0))) ,
   ((i + 1 ) <= (string_length (dst_str)))
 .
@@ -498,9 +498,9 @@ forall (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (i: 
 Definition strncat_safety_wit_1 := 
 forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (PreH1 : (valid_string dst_str )) (PreH2 : (valid_string src_str )) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
   **  ((( &( "dest" ) )) # Ptr  |-> dest_pre)
+  **  ((( &( "src" ) )) # Ptr  |-> src_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  (store_string dest_pre dst_str )
   **  (CharArray.undef_seg dest_pre ((string_length (dst_str)) + 1 ) (((string_length (dst_str)) + n_pre ) + 1 ) )
   **  (store_string src_pre src_str )
@@ -652,11 +652,17 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@li
 forall (n_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (0 <= ((string_length (dst_str)) + 1 ))) (PreH3 : (valid_string dst_str )) (PreH4 : (valid_string src_str )) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) ,
   TT && emp 
 |--
-  “ (0 <= (string_length (dst_str))) ”
+  “ forall (k: Z) , (((0 <= k) /\ (k < 0)) -> ((Znth (k) (dst_str) (0)) <> 0)) ” 
+  &&  “ (0 <= (string_length (dst_str))) ”
   &&  emp
 ).
 
 Definition strncat_entail_wit_1_split_goal_1 := 
+forall (n_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (0 <= ((string_length (dst_str)) + 1 ))) (PreH3 : (valid_string dst_str )) (PreH4 : (valid_string src_str )) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) ,
+  forall (k: Z) , (((0 <= k) /\ (k < 0)) -> ((Znth (k) (dst_str) (0)) <> 0))
+.
+
+Definition strncat_entail_wit_1_split_goal_2 := 
 forall (n_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (0 <= ((string_length (dst_str)) + 1 ))) (PreH3 : (valid_string dst_str )) (PreH4 : (valid_string src_str )) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) ,
   (0 <= (string_length (dst_str)))
 .
@@ -684,17 +690,11 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@li
 forall (n_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (0 <= ((string_length (dst_str)) + 1 ))) (PreH3 : ((Znth i (c_string (dst_str)) 0) <> 0)) (PreH4 : (valid_string dst_str )) (PreH5 : (valid_string src_str )) (PreH6 : (0 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH9 : (0 <= i)) (PreH10 : (i <= (string_length (dst_str)))) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (dst_str) (0)) <> 0))) ,
   TT && emp 
 |--
-  “ (((Znth (0) (dst_str) (0)) <> 0) /\ ((Znth (((i + 1 ) - 1 )) (dst_str) (0)) <> 0)) ” 
-  &&  “ ((i + 1 ) <= (string_length (dst_str))) ”
+  “ ((i + 1 ) <= (string_length (dst_str))) ”
   &&  emp
 ).
 
 Definition strncat_entail_wit_2_split_goal_1 := 
-forall (n_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (0 <= ((string_length (dst_str)) + 1 ))) (PreH3 : ((Znth i (c_string (dst_str)) 0) <> 0)) (PreH4 : (valid_string dst_str )) (PreH5 : (valid_string src_str )) (PreH6 : (0 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH9 : (0 <= i)) (PreH10 : (i <= (string_length (dst_str)))) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (dst_str) (0)) <> 0))) ,
-  (((Znth (0) (dst_str) (0)) <> 0) /\ ((Znth (((i + 1 ) - 1 )) (dst_str) (0)) <> 0))
-.
-
-Definition strncat_entail_wit_2_split_goal_2 := 
 forall (n_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (i: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (0 <= ((string_length (dst_str)) + 1 ))) (PreH3 : ((Znth i (c_string (dst_str)) 0) <> 0)) (PreH4 : (valid_string dst_str )) (PreH5 : (valid_string src_str )) (PreH6 : (0 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH9 : (0 <= i)) (PreH10 : (i <= (string_length (dst_str)))) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < i)) -> ((Znth (k) (dst_str) (0)) <> 0))) ,
   ((i + 1 ) <= (string_length (dst_str)))
 .

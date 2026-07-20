@@ -1,53 +1,108 @@
-# Separation Logic Proof 规则
+# Separation-Logic Proof Rules
 
-本文件记录 generated manual VC 中常见 `P |-- Q` 的 proof pattern。
+This document records common proof patterns for generated manual VCs of the form `P |-- Q`.
 
-## 基本流程
+## Basic workflow
 
-通常从 `pre_process.` 或 `aggressive_pre_process.` 开始，用于展开 VC、引入变量并提取部分 pure facts。
+When writing manual proofs, LLM agents should usually start with `LLM_pre_process ltac:(lia || int_auto).` to unfold the VC, introduce variables, and extract some pure facts. Do not call `pre_process.` or `entailer!.` directly in LLM-written proofs.
 
-当前 symexec printer 可能把最终 VC 打印为：
+The current symbolic-execution printer may produce the final VC as:
 
 ```coq
 original_vc \/ vc_after_strategies
 ```
 
-`pre_process` 已在内部选择 original branch，`aggressive_pre_process` 已在内部选择 strategy-processed branch；不要在这些 tactic 前手写 `left;` 或 `right;`。
+Use `LLM_pre_process` for the original branch and `aggressive_pre_process` for the strategy-processed branch. Do not write `left;` or `right;` before those tactics.
 
-生成的 `<vc_name>_split_goal_*` lemma 若以 `Proof. Abort.` 结束，只是 diagnostics，不是最终 `VC_Correct` obligation。
+Choose the solver inside `LLM_pre_process ltac:(...)` from the current VC:
+
+- Usually start with `LLM_pre_process ltac:(lia || int_auto).`.
+- If only linear arithmetic is needed, use `LLM_pre_process ltac:(lia).`.
+- If only integer/bit automation is needed, use `LLM_pre_process ltac:(int_auto).`.
+- Add `nia` only for genuinely nonlinear arithmetic, such as multiplication facts, squares, or product comparisons, and only when `lia` is not applicable; for example, `LLM_pre_process ltac:(lia || int_auto || nia).`.
+- `pre_process` / `pre_process_default` are compatibility aliases only. Do not use them when generating or repairing LLM proof scripts.
+
+A generated `<vc_name>_split_goal_*` lemma ending in `Proof. Abort.` is only a diagnostic and is not a final `VC_Correct` obligation.
+
+## Generated Split-Goal Route
+
+For strategy-processed obligations with generated `<vc_name>_split_goal_*` definitions, first prove the
+generated split goals:
+
+```coq
+Lemma proof_of_<vc>_split_goal_1 : <vc>_split_goal_1.
+Proof.
+  pre_process.
+  ...
+Qed.
+```
+
+Then keep the main witness proof as glue:
+
+```coq
+Lemma proof_of_<vc> : <vc>.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_<vc>_split_goal_1.
+  - Goal_apply proof_of_<vc>_split_goal_2.
+Qed.
+```
+
+`Goal_apply` is intentionally lightweight: it greedily instantiates `forall` parameters from same-typed
+hypotheses, applies the split-goal lemma, and requires the current goal to be completely solved.
+
+If `Goal_apply` fails with:
+
+```text
+Goal_apply: greedy instantiation did not completely solve the goal
+```
+
+the usual cause is ambiguous same-typed parameters, such as several `Z` or `tree` variables in the context.
+Do not make `Goal_apply` search harder. Keep successful split-goal branches as `Goal_apply`, and replace
+only the failing branch with explicit parameters:
+
+```coq
+sep_apply (proof_of_some_split_goal
+  arg1 arg2 arg3 premise1 premise2);
+entailer!.
+```
+
+For pure non-separation goals, use `exact (proof_of_some_split_goal args...).` when the goal shape matches
+definitionally. Use `sep_apply` when the goal differs only by separation-conjunction associativity or by
+`TT && emp` simplification.
 
 ## `Intros` / `Intros_p`
 
-- `Intros x.`：引入前条件中的 `EX x`。
-- `Intros x y.`：连续引入多个 existential witnesses。
-- `Intros_p H.`：引入前条件中的 pure fact `[| P |]`。
+- `Intros x.` introduces an `EX x` from the precondition.
+- `Intros x y.` introduces several existential witnesses in sequence.
+- `Intros_p H.` introduces a pure fact `[| P |]` from the precondition.
 
-若 proof state 中还有未命名 existential 或 pure facts，先显式引入，再做 `cancel` / `sep_apply` / arithmetic。
+If unnamed existentials or pure facts remain in the proof state, introduce them explicitly before using `cancel`, `sep_apply`, or arithmetic.
 
 ## `Exists`
 
-`Exists x.` 或 `Exists x y.` 用来实例化后条件中的 existential witnesses。先根据 vc-checking 的 `witness_instantiation` 选择值，例如旧逻辑列表、`replace_Znth(i, v, l)`、`sublist(lo, hi, l)`、`l ++ [v]` 或当前 abstract state。
+Use `Exists x.` or `Exists x y.` to instantiate postcondition existentials. Choose values according to vc-checking's `witness_instantiation`, such as the old logical list, `replace_Znth(i, v, l)`, `sublist(lo, hi, l)`, `l ++ [v]`, or the current abstract state.
 
-不要等空间目标复杂化后再猜 existential。
+Do not postpone existential choices until the spatial goal is already complicated.
 
 ## `cancel`
 
-`cancel P.` 消去前后条件中形式完全相同的空间资源。若资源只是在算术上等价，先用 pure facts rewrite 或 normalize。当前后只剩 `P |-- P` 时，`cancel P` 通常可完成目标。
+`cancel P.` removes spatial resources that are syntactically identical in the pre- and postconditions. If resources are only arithmetically equivalent, first rewrite or normalize them using pure facts. When the goal is reduced to `P |-- P`, `cancel P` usually closes it.
 
 ## `sep_apply_l_atomic` / `sep_apply_r_atomic`
 
-- `sep_apply_l_atomic (Lemma args).`：把前条件中的资源变成 lemma 结论形态。
-- `sep_apply_r_atomic (Lemma args).`：把后条件中的资源展开成 lemma 前提形态。
+- `sep_apply_l_atomic (Lemma args).` transforms a precondition resource into the lemma's conclusion shape.
+- `sep_apply_r_atomic (Lemma args).` expands a postcondition resource into the lemma's premise shape.
 
-必须显式实例化 lemma 参数。若 lemma 有 pure premise，side goals 应由当前 annotation 暴露的 pure facts 解决。
+Instantiate lemma parameters explicitly. If a lemma has pure premises, current annotation-exposed pure facts must solve the side goals.
 
-典型 side goal 形态：
+A typical side goal is:
 
 ```coq
 M |-- [| p <> NULL |]
 ```
 
-先引入已有 pure facts，再用 `dump_pre_spatial.` 进入普通 Rocq proposition：
+First introduce available pure facts, then use `dump_pre_spatial.` to enter an ordinary Rocq proposition:
 
 ```coq
 Intros_p Hneq.
@@ -56,51 +111,51 @@ unfold NULL in *.
 lia.
 ```
 
-不要把需要的 pure premise 临时写成 `admit` 或改 witness statement。若 premise 不在当前 VC 中，优先检查 annotation 是否缺 branch fact、bounds、array read binding 或 `@pre` bridge。
+Do not temporarily `admit` a necessary pure premise or change the witness statement. If the premise is absent from the current VC, first check for a missing annotation branch fact, bound, array-read binding, or `@pre` bridge.
 
 ## `prop_apply_p`
 
-`prop_apply_p (Lemma args premises).` 用 separation-logic lemma 从前条件资源推出新的 pure fact，并把 `[| R |]` 加回前条件。
+`prop_apply_p (Lemma args premises).` uses a separation-logic lemma to derive a new pure fact from precondition resources and adds `[| R |]` back to the precondition.
 
-适用场景：
+Use it to:
 
-- 从 list / struct predicate 推出 non-null、length、shape 或 segment relation。
-- 在 `sep_apply_*` 前先导出一个 side condition。
-- 将当前 spatial resource 暴露成后续 arithmetic / list proof 可用的 pure hypothesis。
+- Derive a non-null, length, shape, or segment relationship from a list/structure predicate.
+- Export a side condition before `sep_apply_*`.
+- Turn the current spatial resource into a pure hypothesis usable by arithmetic or list reasoning.
 
-要求显式实例化所有参数和 lemma premise。若 premise 无法由当前 context 证明，不要伪造；回到 annotation 或新增当前 group suffix helper。
+Instantiate every parameter and premise explicitly. If a premise cannot be proved from the current context, do not fabricate it; return to the annotation or add a current-group-suffixed helper.
 
-## Disjunction 和 Universal
+## Disjunction and universal quantification
 
-- `Left.`：证明 `P |-- Q || R` 的左侧。
-- `Right.`：证明 `P |-- Q || R` 的右侧。
-- `Split.`：把 `P || Q |-- R` 拆成两个 goals。
-- `Intros_r x.`：引入后条件中的 `ALL x`。
+- `Left.` proves the left side of `P |-- Q || R`.
+- `Right.` proves the right side of `P |-- Q || R`.
+- `Split.` turns `P || Q |-- R` into two goals.
+- `Intros_r x.` introduces an `ALL x` from the postcondition.
 
-选择 `Left` / `Right` 前先看 branch fact、loop guard 或 constructor shape。不要为了让 proof 走通任意选分支；选错分支通常会留下无法证明的 pure goal。
+Before choosing `Left` or `Right`, inspect the branch fact, loop guard, or constructor shape. Do not select an arbitrary branch merely to advance the script; the wrong branch usually leaves an impossible pure goal.
 
-## Pure goal 工具
+## Pure-goal tools
 
-`split_pures.` 把后条件中的多个 pure conjunct 拆成独立 goals。
+`split_pures.` splits several pure postcondition conjuncts into separate goals.
 
-`dump_pre_spatial.` 丢弃前条件中的 spatial 部分，把 `P |-- [| Q |]` 变成普通 Rocq goal `Q`，只在已经把需要的 pure facts 都引入后使用。
+`dump_pre_spatial.` discards the spatial part of the precondition and changes `P |-- [| Q |]` into an ordinary Rocq goal `Q`. Use it only after introducing all required pure facts.
 
-## Pure goals 处理
+## Handling pure goals
 
-常见流程：
+A common flow is:
 
 ```coq
-pre_process.
+LLM_pre_process ltac:(lia || int_auto).
 Intros ...
 Intros_p ...
 Exists ...
-entailer!.
-lia.
+split_pures.
+- dump_pre_spatial. lia.
 ```
 
-`lia` 不是 proof plan。先确认 context 中已有 index bounds、list length facts、loop guard、branch condition、`@pre` bridge 和 array read binding。缺失这些 facts 时，应回到 annotation 或 vc-checking。
+`lia` is not a proof plan. First ensure that the context contains index bounds, list-length facts, loop guards, branch conditions, `@pre` bridges, and array-read bindings. Missing facts require annotation or vc-checking repair.
 
-纯目标常见处理顺序：
+A common order for pure goals is:
 
 ```coq
 split_pures.
@@ -109,23 +164,23 @@ split_pures.
 - dump_pre_spatial. eapply some_case_helper__gid; eauto.
 ```
 
-对 list equality，先尝试已有 `sublist` / `replace_Znth` / `Zlength` lemma；缺少稳定连接事实时，把 helper 放入 group-local `case_lib`，名称必须以当前 group suffix 结尾。
+For list equalities, first try existing `sublist`, `replace_Znth`, and `Zlength` lemmas. When a stable bridge is missing, add it to `group_worker_lib` with a name ending in the current group suffix.
 
-## Array / string goals 处理
+## Array and string goals
 
-array proof 常见步骤：从 `full` / `seg` 得到 `Zlength`，split 当前 index，写回后 merge 到 `full` / `seg`，用 `replace_Znth`、`sublist`、`Znth` pure lemma 证明列表关系。
+A typical array proof derives `Zlength` from `full` / `seg`, splits at the current index, merges back to `full` / `seg` after the write, and proves list relationships with pure lemmas for `replace_Znth`, `sublist`, and `Znth`.
 
-string proof 常见步骤：展开 `store_string` / `c_string` / `string_length`，处理结尾 `0`，区分 Rocq `string` 和 `list Z`。
+A typical string proof unfolds `store_string`, `c_string`, or `string_length`, handles the terminating zero, and distinguishes a Rocq `string` from `list Z`.
 
-需要 helper lemma 时，新增到 group-local `case_lib` 并证明；不要写入 `*_proof_manual.v`。
+When a helper lemma is needed, add and prove it in `group_worker_lib`; never add it to `*_proof_manual.v`.
 
-## Whole-proof Skeleton
+## Whole-proof skeleton
 
-常见 entailment proof：
+A common entailment proof is:
 
 ```coq
 Proof.
-  pre_process.
+  LLM_pre_process ltac:(lia || int_auto).
   Intros x y.
   Intros_p Hbounds.
   Exists witness1 witness2.
@@ -143,18 +198,18 @@ Proof.
 Qed.
 ```
 
-如果 `cancel P` 不匹配，先检查两边是否形式上相同。`cancel` 不会帮你把语义相等但语法不同的 resources 化简；需要先 rewrite pure equalities、normalize list expressions，或用 `sep_apply_*_atomic` 改 resource shape。
+If `cancel P` does not match, first check whether both sides are syntactically identical. `cancel` does not normalize resources that are semantically equal but syntactically different. First rewrite pure equalities, normalize list expressions, or use `sep_apply_*_atomic` to change resource shape.
 
-## Failure Signals
+## Failure signals
 
-优先改 proof / helper：
+Prefer a proof/helper change when:
 
-- goal 是 list arithmetic、`sublist`、`replace_Znth`、`Permutation` 或 bound bridge。
-- spatial resource 需要一个已知 split / merge lemma。
-- annotation 已经暴露所有必要 bounds 和 branch facts。
+- The goal is list arithmetic or a bridge involving `sublist`, `replace_Znth`, `Permutation`, or bounds.
+- A spatial resource needs a known split/merge lemma.
+- The annotation already exposes every necessary bound and branch fact.
 
-优先退回 annotation：
+Prefer returning to annotation when:
 
-- premise 中没有当前 index bounds、branch condition、array read binding 或 `@pre` bridge。
-- postcondition 需要的 heap resource 在前条件中已经丢失。
-- witness statement 要求的 functional fact 完全不在 invariant / `Ensure` 中出现。
+- The premise lacks the current index bound, branch condition, array-read binding, or `@pre` bridge.
+- A heap resource needed by the postcondition has already disappeared from the precondition.
+- A functional fact required by the witness statement never appears in the invariant or `Ensure`.

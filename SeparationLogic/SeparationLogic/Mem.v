@@ -68,7 +68,7 @@ Definition mem_byte_update (m : addr -> mem_var) (p : addr) (n : byte) : mem :=
   fun p' => if addr_eqb p' p then value n else m p'.
 
 Definition mem_noninit_update (m : addr -> mem_var) (p : addr) : mem :=
-  fun p' => if addr_eqb p' p then Noninit else Noperm.
+  fun p' => if addr_eqb p' p then Noninit else m p'.
 
 Definition mem_remove (m : addr -> mem_var) (p : addr) : mem :=
   fun p' => if addr_eqb p' p then Noperm else m p'.
@@ -836,7 +836,7 @@ Proof.
   destruct (m1 x), (m2 x); try tauto.
 Qed.
 
-Arguments mem_join_sub_l [m1] [m2] [m].
+Arguments sub_merge_sub [m1] [m2] [m].
 
 Lemma mem_join_disjoint_l_ex : forall m1 m2 m3 m4 m,
   disjoint m1 m3 -> mem_join m1 m2 m -> mem_join m3 m4 m -> exists m5 m6, mem_join m1 m3 m5 /\ mem_join m5 m6 m.

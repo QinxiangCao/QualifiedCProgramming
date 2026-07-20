@@ -1,59 +1,41 @@
 ---
 name: vc-checking
-description: 由 vc-checking-subagent 在 vc-checking round worktree 中检查 generated manual VC 是否语义可证，并输出与当前 source_goal_version 绑定的 proof group plan。
+description: 由 vc-checking-subagent 直接只读 main root cleaned manual/generated/formal_case_lib，判断 manual VC 语义可证性并输出绑定 source_goal_version 的 group_plan.json。
 ---
 
 # VC Checking
 
-本 skill 固定由 `vc-checking-subagent` 使用。它只读 `agent_input.json` 和 vc-checking round worktree，判断当前 generated manual VC 是否语义可证，并输出 proof group plan。
-
-`spawn.fork_context == false`、`fork_turns == "none"`、`parent_context_allowed == false`；不得依赖 main agent 聊天历史。
+完整读取 startup message 指定的 `agent_input.md`；main root current files和 handoff version 是唯一 context。parent transcript 不允许。
 
 ## 文档
 
-- `docs/vc-checking-guide.md`：`P |-- Q` 分析流程、judgment、group plan 模板和 annotation/spec blocker 信号。
-- `docs/natural-language-analysis.md`：自然语言证明分析 group 的规范化输出、blocked 规则和与 proof group plan 的连接。
+- `docs/vc-checking-guide.md`：proofability、per-witness plan、group plan。
+- `docs/natural-language-analysis.md`：自然语言 `P |-- Q` 分析。
+- `../verification-orchestrator/docs/path-configuration.md`：root/group path roles。
 
-## 输入
+## 允许工作
 
-- accepted annotation round worktree
-- 当前 `*_goal.v`、`*_proof_auto.v`、`*_proof_manual.v`、`*_goal_check.v`
-- 当前 `case_lib`
-- `source_version`
-- `source_goal_version`
-- diagnostics 文件和 snapshot，仅作为 planning hint
-- `problem_context` 和 `annotation_design_summary`，用于理解题目语义和 annotation 设计，不需要读取 parent chat。
+- 只读 main root manual、goal、auto、diagnostics、snapshot 与 `formal_case_lib`。
+- 只写 declared `agent_report.json`、`group_plan.json`、`agent_output.md`。
+- 不改 formal files、witness statements 或 generated files。
+
+## 判断与分组
+
+每个 target witness 分析 pre/post spatial resources、pure facts、existentials、refinement state、witness instantiation 和 helper premises。
+
+- `proofable`：现有事实/lemmas 足够。
+- `needs-helper`：语义成立，group-worker 可在 `group_worker_lib` 证明 current-suffix helper。
+- `annotation-bug`：当前 C annotation 或 `formal_case_lib` spec 缺失/错误，必须回 annotation。
+- `blocked`：VC 语义确实不可证或必要读取/解析工具重大错误。
+
+返回 `annotation-bug`/`blocked` 时，`agent_output.md` 必须写足以让 main agent分析并让 annotation owner修正的具体 witness、缺失 premise/resource、对应 C function/loop/assertion 与建议重新审视的 spec 边界；`agent_report.json` 的 blocker保持 machine-minimal。main agent会读取这两个原文件，按 blocker-summary模板总结原因与反思，再把 summary和原文件路径一起 append 到 run 内唯一的 annotation agent，不会重新 spawn annotation。
+
+优先减少 group 数量：同一函数/pattern/helper family可由一个 worker 连续处理时放同组；仅在真实 dependency、strategy 差异或上下文过大时拆分。每个 target witness 恰好一次，dependency graph 无环，遵守 grouping bound。
+
+shared helper 若必须跨 group 使用，应建议回 annotation 把数学事实提升为 `formal_case_lib` spec declaration；不要让 group 修改正式 lib。
 
 ## 输出
 
-写入 `agent_report.json.agent_result.vc_checking.group_plan`。计划必须绑定当前 `source_goal_version`，并列出：
+详细 per-witness judgment与自然语言 proof analysis写 `agent_output.md`。`group_plan.json` 只保留 current version和 `groups[{id,witnesses,depends_on,strategy?,helpers?}]`；`agent_report.json` 只保留 terminal status、version与 blockers。controller 才给 plan 添加 `verified: true` 并在 state记录 acceptance。
 
-- target witnesses
-- `proof_groups`
-- 每组 `group_id`
-- `witness_names`
-- `representative_witness`
-- dependencies
-- likely helper declarations
-- natural-language proof strategy
-- `natural_language_analysis`，建议包含每个 witness 的自然语言可证性分析和用于分组的 analysis groups；该字段是 vc-checking 的结构化辅助，不是 controller acceptance gate
-- blockers
-
-vc-checking 应先用自然语言分析每个 target VC 的证明思路，再用这些分析辅助分组。若某个 VC 在语义上无法证明，返回 `blocked` 并说明应回到 annotation/spec 的原因，不交给 vc-proving-preparing / group-worker 硬证。若 VC 语义可证但需要 helper、证明较难或 proof route 不确定，应输出 proof plan 并交给 group-worker，不得 blocked。controller 不因缺失 `natural_language_analysis` 字段拒绝本轮；基本流程仍以 `group_plan.proof_groups`、版本和 witness 覆盖为准。
-
-group plan 必须遵守 `agent_input.json.grouping_policy`。默认策略是 bounded witness groups：每组最多放入 `max_witnesses_per_group` 个 witness；当 target witness 数超过该上限时必须拆成多个 group。分组参考自然语言 analysis group、proof pattern、helper family、loop/refinement phase 和依赖关系，manual witness order 只作为确定性 tie-breaker。不得为了减少 spawn 数把大量 witness 无约束塞进一个组。
-
-同时写 `agent_output.txt` 作为 `non-authoritative reuse note`。第一行必须是 `# Reuse Note`，正文包含 `Note kind: non-authoritative reuse note` 和 `This file is not acceptance evidence.`。
-
-## Blocking 原则
-
-vc-checking-subagent 的 `blocked` 只用于两类情况：
-
-- 发现某个 target VC 语义上不可证，即当前 `P` 确实无法推出 `Q`，并且缺口必须回到 C annotation 或 `case_lib` spec 修正。
-- 必要检查工具发生重大错误：无法读取当前 generated/manual VC、无法解析 witness、或固定检查脚本完全不可运行，并已记录具体 evidence。
-
-以下情况不得 `blocked`，必须自行处理并输出 group plan：helper 尚未证明、proof route 不确定、diagnostics hint 缺失、annotation design summary 缺字段、某些 witness 较难、需要把多个相关 witness 在 group size 上限内放进同一 group 由 worker 顺序证明。输入版本失效写 `stale`。context compaction 只写 `compact-error` 事实；是否重试或最终 block 由 controller / main agent 判定。
-
-## Main-owned 检查
-
-main agent 调用 `vc-checking-check-round`，确认 source versions 匹配、target witness 集合与 cleaned `*_proof_manual.v` 完全一致、没有重复分配、dependency graph 无环，满足 controller grouping policy，且 group plan 不要求修改 generated files 或 witness statements。
+proof route 不确定、helper 未证明、diagnostics hint 缺失或 witness 较难不是 blocked。版本失效写 stale；compaction 只写 compact-error fact。不要直接修改 annotation，也不要请求新的 annotation agent。

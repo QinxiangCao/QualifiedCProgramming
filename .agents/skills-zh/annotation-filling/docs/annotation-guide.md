@@ -1,6 +1,6 @@
-# Annotation 规则和同 round 自修
+# Annotation 规则、持续会话和同轮自修
 
-本文件给 annotation-subagent 使用。目标是在 annotation round worktree 内把 C annotation 和 `case_lib` spec declarations 修到可交给 `annotation-checking` 和 main-owned `annotation-check-round`。
+本文件给 annotation-subagent 使用。目标是在 main root 内把 C annotation 和 `formal_case_lib` spec declarations 修到可交给 `annotation-checking` 和 main-owned `annotation-check-round`。
 
 ## 允许修改
 
@@ -10,17 +10,17 @@
 - 证明推进所需的 `Assert`。
 - 循环中的 `Inv Assert`。
 - 函数调用相关的 `where` 子句。
-- 同一正式相对路径下 `case_lib` 中的 mathematical spec declarations。
+- 同一正式相对路径下 `formal_case_lib` 中的 mathematical spec declarations。
 
 不得手工修改 `*_goal.v`、`*_proof_auto.v`、`*_proof_manual.v`、`*_goal_check.v`，不得创建第二个 active Rocq lib。
 
 ## Spec 先行
 
-先用 `case_lib` 定义数学问题本身，再让 C annotation 说明程序维护并实现这些性质。
+先用 `formal_case_lib` 定义数学问题本身，再让 C annotation 说明程序维护并实现这些性质。
 
-如果 handoff 的 `case_lib_seed_evidence.status = created`，说明 controller 已为缺失 `case_lib` 建好最小 seed。本次 spawn 必须直接在这个 `case_lib` 中设计 spec；不得因“没有现成 lib”或“需要用户确认 spec 方向”返回 blocked。`problem_context` 字段为空时，按 C 函数名、参数、返回值、循环结构和题目目录推断一版 conservative candidate spec。
+若 current `formal_case_lib` 只有 controller 创建的最小 imports seed，当前 turn 必须直接在其中设计 spec；不得因“没有现成 lib”或“需要用户确认 spec 方向”返回 blocked。handoff problem context为空时，按 C 函数名、参数、返回值、循环结构和题目目录推断一版 conservative candidate spec。
 
-适合进入 `case_lib` 的 declaration 包括：`subarray_sum`、`prefix_sum`、`suffix_sum`、sorted / permutation、reachability、queue coverage、DP table meaning、string matching relation、最优性或可行性关系。
+适合进入 `formal_case_lib` 的 declaration 包括：`subarray_sum`、`prefix_sum`、`suffix_sum`、sorted / permutation、reachability、queue coverage、DP table meaning、string matching relation、最优性或可行性关系。
 
 不推荐直接写一份 Rocq 版 C loop body 或完整 C 状态机。快速判断：这个 definition 能否用于说明另一个实现的正确性？如果不能，通常不是合适的 spec。
 
@@ -32,7 +32,7 @@
 
 1. `Ensure` 要证明哪个输入输出数学关系？
 2. 每个循环在当前 program point 维护哪个局部隐藏性质？
-3. 这些性质应由现有 predicate、case-level wrapper，还是一个新 `case_lib` declaration 表达？
+3. 这些性质应由现有 predicate、case-level wrapper，还是一个新 `formal_case_lib` declaration 表达？
 
 隐藏性质不是“把代码换成 Rocq 语法重写”，而是程序状态里真正保留下来的数学事实。典型形态包括：
 
@@ -45,7 +45,7 @@
 
 若发现新定义开始一比一复现 loop locals 和 step transition，先停止并改成 predicate-first。先读 `docs/incorrect-examples/algorithm-mirror.md`，再查看 `max_sub_array` 反例文件。
 
-### `case_lib` declaration 选型
+### `formal_case_lib` declaration 选型
 
 优先使用短小、稳定、可复用的数学接口：
 
@@ -132,9 +132,9 @@ Inv Assert
 - 读数组后把局部值当成自由整数，没有写 `v == Znth(i, l, 0)` 或 case 使用的等价 observation。
 - 用 proof-facing predicate 替换业务语义，例如为了证明方便把 `increasing(l)` 换成大量 `mono_*` fact。
 - 在 C annotation 中展开 `MaxMinLib` / `SumLib` 细节，导致每个 invariant 都重复复杂 finite-set formula。
-- 在 `case_lib` 中新增 unsound shortcut、`Axiom` 或与 seed declaration 同名但内容不同的 definition。
+- 在 `formal_case_lib` 中新增 unsound shortcut、`Axiom` 或与 seed declaration 同名但内容不同的 definition。
 
-这些错误应在 annotation round worktree 中修复，不交给 manual VC 硬证。
+这些错误应在 main root 中修复，不交给 manual VC 硬证。
 
 ### 返工判断
 
@@ -158,36 +158,37 @@ Inv Assert
 - `spec-quality`
 - `qcp-symbolic-execution`
 - `where-instantiation`
-- `case_lib-coqc`
+- `formal_case_lib-coqc`
 - `annotation-checking-failed`
 - `invariant-too-weak`
 - `invariant-too-strong`
 - `resource-loss`
 
-每个 annotation spawn 至少按以下循环推进，直到 ready、stale、compact-error 或必要工具重大错误：
+唯一 annotation agent 的每个 turn 至少按以下循环推进，直到 ready、stale、compact-error 或必要工具重大错误：
 
 1. `design`：列出每个函数 `Ensure` 要表达的数学结果语义。
 2. `local-static-review`：检查 live resources、`@pre` 桥、局部变量到数组值绑定、循环退出所需逻辑性质。
-3. `case_lib-check`：用 main worktree 的 `coq_tooling.py check --target-kind case_lib` 检查当前 round worktree 的 `case_lib`。
+3. `formal_case_lib-check`：原样执行 handoff 的 `controller.py coq-check --target-kind formal-case-lib` 检查 main root `formal_case_lib`；不直接调用 internal helper，不手写 target/build path。
 4. `qcp-check`：使用 handoff 中可传 canonical `-I` / `-slp` 的 driver 检查目标 `.c`。
-5. `annotation-checking`：把 failed result 转换成下一轮 `repair_actions[]`。
+5. `annotation-checking`：把 failed result 转换成本 turn 下一次检查的简短 repair plan，写入 current `agent_output.md`。
 6. `repair`：一次性修复一组同类问题，再进入下一轮检查。
 
-默认 budget：至少 3 次完整 `design/check/repair` cycle，或至少 30 分钟实际 annotation 工作。输入版本失效写 `stale`。context compaction 只写 `compact-error` 事实和可复用 evidence pointer；是否重试或最终 block 由 controller / main agent 判定。只有 canonical QCP driver、`coq_tooling.py` case_lib check 或 annotation-checking 所需脚本完全不可运行并有 command evidence 时，才返回 `blocked`。缺 spec、`case_lib` 暂时不能 coqc、QCP 失败、where instantiation 失败、annotation-checking failed、题目语义需要推断、reference hint 缺失，都应在本次 spawn 内继续修复或给出 candidate。
+默认 budget：至少 3 次完整 `design/check/repair` cycle，或至少 30 分钟实际 annotation 工作。输入版本失效写 `stale`。context compaction 只写 `compact-error` 事实；可复用提示放本次 attempt 的 `agent_output.md`，是否再次 append 或最终 block 由 controller / main agent 判定，不能因此创建第二个 annotation agent。只有 controller 的 canonical symexec、formal_case_lib `coq-check` 或 annotation-checking 所需脚本完全不可运行并有 command evidence 时，才返回 `blocked`。缺 spec、`formal_case_lib` 暂时不能 coqc、QCP 失败、where instantiation 失败、annotation-checking failed、题目语义需要推断、reference hint 缺失，都应在本 turn 内继续修复或给出 candidate。
+
+若 controller handoff 标明这是第三次或更晚的 annotation 迭代，先重新审视 spec 的抽象层次与方向，再同时检查 function postcondition、loop invariant、局部 assertion 与 call `where` 的连接。此时应考虑删除并重写错误的 annotation 结构，不能默认沿用前两轮的局部修补方向。
 
 ## QCP 失败诊断
 
-每次 canonical QCP 失败必须记录：
+每次 canonical QCP 失败应在 `agent_output.md` 简要记录：
 
-- command、cwd、target `.c`、canonical `-I` 和 `-slp`。
-- failing file/line/function。
+- first diagnostic 与 failing file/line/function；command、cwd、target 和 canonical flags 已在 handoff/controller 中时不重复。
 - 最近的 `Require` / `Ensure` / `Assert` / `Inv Assert` / `where`。
 - symbolic state 摘要，特别是 array/list/shape resource。
-- 失败分类：pure fact、resource shape、spec mismatch、loop invariant、call instantiation、case_lib mismatch。
+- 失败分类：pure fact、resource shape、spec mismatch、loop invariant、call instantiation、formal_case_lib mismatch。
 - 下一轮修复方式。
 
 不要只改一行就立刻重跑 QCP。先分类，再修一组相关问题。
 
-## Report fields 字段
+## 输出
 
-`agent_result.annotation` 必须记录每轮检查、失败分类、修复动作、剩余风险、self-repair budget 和 blockers。若 `ready_for_annotation_check_round = true`，`self_reworkable_failures` 必须为空，canonical QCP、`case_lib` check 和 `annotation-checking` 必须通过。
+current `agent_report.json` 只保留 terminal status、exact changed files、三个 check status与 blockers。迭代、失败分类、修复动作、branch decisions和剩余风险写 current `agent_output.md`，不为每轮复制 JSON evidence。controller 在 returned 后归档这三个 current files；agent 不写 history。`completed` 前 canonical QCP、`formal_case_lib` check与 annotation-checking必须全部通过。

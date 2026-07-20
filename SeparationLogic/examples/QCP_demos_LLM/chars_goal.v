@@ -23,9 +23,9 @@ Local Open Scope sac.
 Definition chars_initialize_safety_wit_1 := 
 forall (m_pre: Z) (n_pre: Z) (a_pre: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) ,
   ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "m" ) )) # Char  |-> m_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "a" ) )) # Ptr  |-> a_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "m" ) )) # Char  |-> m_pre)
   **  (CharArray.undef_full a_pre n_pre )
 |--
   “ (0 <= INT_MAX) ” 

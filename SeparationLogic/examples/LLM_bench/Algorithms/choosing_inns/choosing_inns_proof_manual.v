@@ -139,6 +139,14 @@ Proof.
            | exact Hidx ]).
 Qed.
 
+Lemma proof_of_copyCounts_entail_wit_3 : copyCounts_entail_wit_3.
+Proof.
+  unfold copyCounts_entail_wit_3.
+  right.
+  intros.
+  pre_process.
+Qed.
+
 Lemma proof_of_copyCounts_return_wit_1_split_goal_1 : copyCounts_return_wit_1_split_goal_1.
 Proof. Abort.
 
@@ -182,29 +190,6 @@ Proof.
   - split_pures.
     all: dump_pre_spatial; try lia; try assumption.
     all: try (intros idx Hidx; eapply CountsZeroFull_bounds_zero; eauto; lia).
-Qed. 
-
-Lemma proof_of_countChoosingInns_entail_wit_3 : countChoosingInns_entail_wit_3.
-Proof.
-  pre_process.
-  Exists ans_2; Exists good_l_2; Exists seen_l_2.
-  split_pure_spatial.
-  - cancel (IntArray.full colors_pre n_pre colors_l).
-    cancel (IntArray.full costs_pre n_pre costs_l).
-    cancel (IntArray.full seen_pre k_pre seen_l_2).
-    cancel (IntArray.full good_pre k_pre good_l_2).
-  - split_pures.
-    all: dump_pre_spatial; try lia; try reflexivity; try assumption.
-    all: try (pose proof (PreH16 i ltac:(lia)) as Hcolor_i; lia).
-    all: try (pose proof (PreH17 i ltac:(lia)) as Hcost_i; lia).
-    all: try (pose proof (PreH16 i ltac:(lia)) as Hcolor_i;
-              pose proof (PreH18 (Znth i colors_l 0) ltac:(lia)) as Hseen_i; lia).
-    all: try (pose proof (PreH16 i ltac:(lia)) as Hcolor_i;
-              pose proof (PreH19 (Znth i colors_l 0) ltac:(lia)) as Hgood_i; lia).
-    all: try (intros idx Hidx; apply PreH16; lia).
-    all: try (intros idx Hidx; apply PreH17; lia).
-    all: try (intros idx Hidx; apply PreH18; lia).
-    all: try (intros idx Hidx; apply PreH19; lia).
 Qed. 
 
 Lemma proof_of_countChoosingInns_entail_wit_4 : countChoosingInns_entail_wit_4.
@@ -360,11 +345,11 @@ Proof.
     tauto.
   }
   split_pures.
-  all: dump_pre_spatial; try lia; try assumption.
+  all: dump_pre_spatial; try lia; try assumption; try exact Hgood_len.
   - intros idx Hidx.
-    pose proof (PreH25 idx Hidx) as Hseen_bound.
-    lia.
+    destruct (PreH26 idx Hidx) as [Hgood_lo Hgood_hi].
+    split; lia.
   - intros idx Hidx.
-    pose proof (PreH26 idx Hidx) as Hgood_bound.
-    lia.
+    destruct (PreH25 idx Hidx) as [Hseen_lo Hseen_hi].
+    split; lia.
 Qed. 

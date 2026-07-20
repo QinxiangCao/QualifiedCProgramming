@@ -23,8 +23,7 @@ Local Open Scope sac.
 
 Lemma proof_of_energyNecklace_safety_wit_25 : energyNecklace_safety_wit_25.
 Proof.
-  unfold energyNecklace_safety_wit_25.
-  left; intros.
+  LLM_pre_process (lia || int_auto).
   pose proof
     (EnergySplitArithmeticBounded_from_progress__arithmetic_safety_bounds
        beads_l vals_l dp_l n_pre total width len left right split best 2100000000
@@ -37,8 +36,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_safety_wit_27 : energyNecklace_safety_wit_27.
 Proof.
-  unfold energyNecklace_safety_wit_27.
-  left; intros.
+  LLM_pre_process (lia || int_auto).
   pose proof
     (EnergyValsDuplicated_label_bound__arithmetic_safety_bounds
        beads_l vals_l n_pre left PreH29 PreH31) as Hleft_bound.
@@ -52,8 +50,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_safety_wit_31 : energyNecklace_safety_wit_31.
 Proof.
-  unfold energyNecklace_safety_wit_31.
-  left; intros.
+  LLM_pre_process (lia || int_auto).
   pose proof
     (EnergySplitArithmeticBounded_from_progress__arithmetic_safety_bounds
        beads_l vals_l dp_l n_pre total width len left right split best 2100000000
@@ -66,8 +63,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_safety_wit_32 : energyNecklace_safety_wit_32.
 Proof.
-  unfold energyNecklace_safety_wit_32.
-  left; intros.
+  LLM_pre_process (lia || int_auto).
   pose proof
     (EnergySplitArithmeticBounded_from_progress__arithmetic_safety_bounds
        beads_l vals_l dp_l n_pre total width len left right split best 2100000000
@@ -80,7 +76,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_2 : energyNecklace_entail_wit_2.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   Exists (@nil Z).
   sep_apply_l_atomic (IntArray.undef_full_to_undef_seg vals_pre total).
   rewrite (IntArray.seg_empty vals_pre 0 0).
@@ -93,7 +89,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_3 : energyNecklace_entail_wit_3.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   Exists (vals_l_2 ++ Znth i beads_l 0 :: nil).
   split_pure_spatial.
   - cancel (IntArray.full beads_pre n_pre beads_l).
@@ -116,7 +112,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_4 : energyNecklace_entail_wit_4.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   assert (Hi : i = n_pre) by lia.
   subst i.
   Exists vals_l_2.
@@ -133,7 +129,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_5 : energyNecklace_entail_wit_5.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   Exists vals_l_2.
   replace (n_pre + 0) with n_pre by lia.
   split_pure_spatial.
@@ -146,7 +142,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_6 : energyNecklace_entail_wit_6.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   Exists (vals_l_2 ++ Znth i beads_l 0 :: nil).
   replace (n_pre + (i + 1)) with ((n_pre + i) + 1) by lia.
   split_pure_spatial.
@@ -177,7 +173,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_7 : energyNecklace_entail_wit_7.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   assert (Hi : i = n_pre) by lia.
   subst i.
   Exists vals_l_2.
@@ -201,7 +197,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_8 : energyNecklace_entail_wit_8.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   Exists vals_l_2 (@nil Z).
   sep_apply_l_atomic (IntArray.undef_full_to_undef_seg dp_pre (total * width)).
   rewrite (IntArray.seg_empty dp_pre 0 0).
@@ -214,7 +210,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_9 : energyNecklace_entail_wit_9.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   Exists vals_l_2 (dp_l_2 ++ 0 :: nil).
   split_pure_spatial.
   - cancel (IntArray.full beads_pre n_pre beads_l).
@@ -237,7 +233,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_10 : energyNecklace_entail_wit_10.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   assert (Hi : i = total * width) by lia.
   subst i.
   Exists vals_l_2 dp_l_2.
@@ -267,7 +263,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_12 : energyNecklace_entail_wit_12.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   Exists vals_l_2 dp_l_2.
   entailer!.
   unfold EnergyLeftProgress, EnergyLenDone in *.
@@ -276,7 +272,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_13 : energyNecklace_entail_wit_13.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   Exists vals_l_2 dp_l_2.
   entailer!.
   unfold EnergySplitProgress, EnergyLeftProgress, EnergyLenDone in *.
@@ -285,7 +281,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_14 : energyNecklace_entail_wit_14.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   Exists vals_l_2 dp_l_2.
   entailer!.
   all: unfold EnergySplitProgress in PreH19; lia.
@@ -293,7 +289,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_15 : energyNecklace_entail_wit_15.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   Exists vals_l_2 dp_l_2.
   entailer!.
   all: nia.
@@ -301,7 +297,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_16 : energyNecklace_entail_wit_16.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   assert (Hdone : EnergyLenDone vals_l dp_l total width len)
     by (unfold EnergySplitProgress, EnergyLeftProgress in PreH30; tauto).
   pose proof PreH32 as Hcomp_bound.
@@ -319,9 +315,9 @@ Proof.
   - split_pures; dump_pre_spatial; try reflexivity; try assumption; try lia.
 Qed. 
 
-Lemma proof_of_energyNecklace_entail_wit_17_1 : energyNecklace_entail_wit_17_1.
+Lemma proof_of_energyNecklace_entail_wit_17_2 : energyNecklace_entail_wit_17_2.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   assert (Hzvals : Zlength vals_l_2 = total)
     by (unfold EnergySplitProgress, EnergyLeftProgress, EnergyLenDone in PreH27; tauto).
   assert (Hcand : EnergySplitCandidate vals_l_2 dp_l_2 width left right split candidate).
@@ -337,9 +333,9 @@ Proof.
   all: unfold EnergySplitProgress in PreH27; lia.
 Qed. 
 
-Lemma proof_of_energyNecklace_entail_wit_17_2 : energyNecklace_entail_wit_17_2.
+Lemma proof_of_energyNecklace_entail_wit_17_1 : energyNecklace_entail_wit_17_1.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   assert (Hzvals : Zlength vals_l_2 = total)
     by (unfold EnergySplitProgress, EnergyLeftProgress, EnergyLenDone in PreH27; tauto).
   assert (Hcand : EnergySplitCandidate vals_l_2 dp_l_2 width left right split candidate).
@@ -356,7 +352,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_19 : energyNecklace_entail_wit_19.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   assert (Hvals_len : Zlength vals_l_2 = total)
     by (unfold EnergySplitProgress, EnergyLeftProgress, EnergyLenDone in PreH24; tauto).
   assert (Hinterval : EnergyIntervalBest vals_l_2 left right best).
@@ -379,7 +375,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_20 : energyNecklace_entail_wit_20.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   assert (Hupdated :
             EnergyUpdatedCell vals_l_2 dp_l
               (replace_Znth ((left * width) + right) best dp_l)
@@ -416,7 +412,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_22 : energyNecklace_entail_wit_22.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   assert (Hdone_next :
             EnergyLenDone vals_l_2 dp_l_2 total width (len + 1)).
   {
@@ -429,7 +425,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_24 : energyNecklace_entail_wit_24.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   Exists vals_l_2 dp_l_2.
   entailer!.
   - unfold EnergyAnswerProgress.
@@ -445,7 +441,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_25 : energyNecklace_entail_wit_25.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   Exists vals_l_2 dp_l_2.
   pose proof (EnergyAnswerProgress_answer_bounds__answer_loop
     beads_l vals_l_2 dp_l_2 n_pre total width 0 answer PreH11) as Hanswer_bounds.
@@ -454,7 +450,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_26 : energyNecklace_entail_wit_26.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   Exists vals_l_2 dp_l_2.
   pose proof (EnergyLenDone_rotation_cell_best__answer_loop
     vals_l_2 dp_l_2 total width n_pre start
@@ -467,7 +463,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_27 : energyNecklace_entail_wit_27.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   Exists vals_l_2 dp_l.
   pose proof (EnergyAnswerCellBounded__answer_loop
     beads_l vals_l_2 dp_l n_pre total width start
@@ -478,9 +474,9 @@ Proof.
   entailer!.
 Qed. 
 
-Lemma proof_of_energyNecklace_entail_wit_28_1 : energyNecklace_entail_wit_28_1.
+Lemma proof_of_energyNecklace_entail_wit_28_2 : energyNecklace_entail_wit_28_2.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   Exists vals_l_2 dp_l_2.
   pose proof (EnergyAnswerProgress_answer_bounds__answer_loop
     beads_l vals_l_2 dp_l_2 n_pre total width start answer PreH17) as Hanswer_bounds.
@@ -490,9 +486,9 @@ Proof.
   entailer!.
 Qed. 
 
-Lemma proof_of_energyNecklace_entail_wit_28_2 : energyNecklace_entail_wit_28_2.
+Lemma proof_of_energyNecklace_entail_wit_28_1 : energyNecklace_entail_wit_28_1.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   Exists vals_l_2 dp_l_2.
   pose proof (EnergyAnswerProgress_step_update__answer_loop
     beads_l vals_l_2 dp_l_2 n_pre total width start answer value
@@ -502,7 +498,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_entail_wit_30 : energyNecklace_entail_wit_30.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   Exists vals_l_2 dp_l_2.
   pose proof (EnergyAnswerProgress_finish__answer_loop
     beads_l vals_l_2 dp_l_2 n_pre total width start answer
@@ -512,7 +508,7 @@ Qed.
 
 Lemma proof_of_energyNecklace_return_wit_1 : energyNecklace_return_wit_1.
 Proof.
-  pre_process.
+  LLM_pre_process (lia || int_auto).
   subst total.
   subst width.
   Exists dp_l_2 vals_l_2.

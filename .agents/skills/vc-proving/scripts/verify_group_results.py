@@ -1,35 +1,77 @@
 #!/usr/bin/env python3
-"""Parent verify for vc-proving group worktrees."""
+"""Verify compact group results and build a deterministic proving_merged candidate."""
+
+# ruff: noqa: E402 -- internal sibling modules are resolved from this script directory.
 
 from __future__ import annotations
 
-import argparse
+import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
 
+
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from coq_tooling import fixed_flags_hash, make_coqc_argv, run_coqc_check, target_file_for_kind
-from prepare_group_worktrees import load_group_workers_manifest
+from coq_tooling import infer_case_config, run_coqc_check
+from path_utils import coq_identifier_slug, run_builds_root, slug, write_json
+from prepare_group_workers import load_group_workers_manifest
 from proof_manual_utils import (
     block_has_admitted,
-    case_lib_contract_errors,
     ensure_unique_lemma_names,
     helper_namespace_for_group_id,
+    forbidden_top_level_declarations,
     lemma_by_name,
     lemma_statement_hash,
-    merge_case_lib,
+    merge_group_worker_libs,
     normalize_coq_text,
     parse_manual_file,
+    rollback_control_commands,
+    top_level_commands,
+    unsafe_assumption_declarations,
+    unsafe_typing_commands,
 )
-from worktree_utils import ensure_run_root, run_builds_root, slug, write_json
+
+
+FORBIDDEN_LEMMAS = (
+    "logic_equiv_refl",
+    "elim_wand_emp_emp",
+    "logic_equiv_symm",
+    "sepcon_emp_logic_equiv'",
+    "logic_equiv_andp_comm",
+    "logic_equiv_sepcon_comm",
+    "logic_equiv_sepcon_emp",
+    "logic_equiv_andp_truep",
+    "logic_equiv_truep_andp",
+    "truep_andp_right_equiv",
+    "logic_equiv_orp_comm",
+    "logic_equiv_trans",
+    "logic_equiv_orp_assoc",
+    "logic_equiv_sepcon_assoc",
+    "logic_equiv_andp_assoc",
+    "logic_equiv_sepcon_orp",
+    "logic_equiv_sepcon_orp_distr",
+    "logic_equiv_orp_sepcon",
+    "derivable1_trans",
+    "derivable1_refl",
+    "derivable1_sepcon_comm",
+    "coq_prop_andp_right",
+    "derivable1_sepcon_mono",
+)
 
 
 def _load_json(path: Path) -> dict[str, Any]:
-    return json.loads(path.read_text(encoding="utf-8"))
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise SystemExit(f"JSON file must contain an object: {path}")
+    return payload
+
+
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def _is_relative_to(path: Path, root: Path) -> bool:
@@ -40,529 +82,465 @@ def _is_relative_to(path: Path, root: Path) -> bool:
         return False
 
 
-def _same_resolved_path(left: object, right: object) -> bool:
-    return Path(str(left)).expanduser().resolve() == Path(str(right)).expanduser().resolve()
-
-
-def _verification_result_dict(value: Any) -> dict[str, Any]:
-    if isinstance(value, dict):
-        return value
-    if isinstance(value, list):
-        result: dict[str, Any] = {}
-        for item in value:
-            if isinstance(item, dict) and item.get("kind") in {"coqc_check", "coqc"}:
-                result.setdefault("coqc_check", item)
-            if isinstance(item, dict) and item.get("kind") in {"coqtop_debug", "coqtop"}:
-                result.setdefault("coqtop_debug", item)
-        return result
-    return {}
-
-
-def _group_payload(group_manifest: dict[str, Any]) -> tuple[dict[str, Any], list[str]]:
-    errors: list[str] = []
-    handoff_files = group_manifest.get("handoff_files") if isinstance(group_manifest.get("handoff_files"), dict) else {}
-    report_value = handoff_files.get("report")
-    if not report_value:
-        return {}, [f"{group_manifest.get('group_id', '<unknown>')}: handoff_files.report is required"]
-    report_path = Path(str(report_value)).expanduser().resolve()
-    if not report_path.is_file():
-        return {}, [f"group_worker_report.json missing at {report_path}"]
-    try:
-        report = _load_json(report_path)
-    except json.JSONDecodeError as exc:
-        return {}, [f"group_worker_report.json is not valid JSON: {exc}"]
-    if report.get("schema_version") != "qcp-group-worker-report/v1":
-        errors.append("group_worker_report.json schema_version must be qcp-group-worker-report/v1")
-    agent_result = report.get("agent_result") if isinstance(report.get("agent_result"), dict) else {}
-    vc = agent_result.get("vc_proving") if isinstance(agent_result.get("vc_proving"), dict) else {}
-    group = vc.get("group") if isinstance(vc.get("group"), dict) else {}
-    if not isinstance(group, dict):
-        errors.append("group_worker_report.json missing agent_result.vc_proving.group object")
-        return {}, errors
-    return group, errors
-
-
-def _group_handoff_errors(
-    *,
-    manifest: dict[str, Any],
-    group_manifest: dict[str, Any],
-    group_worktree: Path,
-    group_id: str,
-) -> list[str]:
-    errors: list[str] = []
-    run_root_value = manifest.get("run_root")
-    if run_root_value and not _is_relative_to(group_worktree, Path(str(run_root_value))):
-        errors.append(f"{group_id}: group worktree is not under run root {run_root_value}")
-    tooling = group_manifest.get("tooling") if isinstance(group_manifest.get("tooling"), dict) else {}
-    if tooling.get("coq_tooling_only") != "yes":
-        errors.append(f"{group_id}: tooling.coq_tooling_only must be yes")
-    coq_workspace_root = tooling.get("coq_workspace_root")
-    if not coq_workspace_root:
-        errors.append(f"{group_id}: tooling.coq_workspace_root is required")
-    elif not _same_resolved_path(coq_workspace_root, group_worktree):
-        errors.append(f"{group_id}: tooling.coq_workspace_root does not match group worktree")
-    helper = tooling.get("coq_tooling_helper")
-    main_workspace_root = manifest.get("main_workspace_root")
-    if main_workspace_root:
-        expected_helper = Path(str(main_workspace_root)).resolve() / ".agents" / "skills" / "vc-proving" / "scripts" / "coq_tooling.py"
-        if not helper:
-            errors.append(f"{group_id}: tooling.coq_tooling_helper is required")
-        elif not _same_resolved_path(helper, expected_helper):
-            errors.append(f"{group_id}: Coq helper must come from main worktree: {expected_helper}")
-    builds_root = manifest.get("coq_builds_root")
-    build_workspace = tooling.get("coq_build_workspace")
-    if not build_workspace:
-        errors.append(f"{group_id}: tooling.coq_build_workspace is required")
-    elif builds_root and not _is_relative_to(Path(str(build_workspace)), Path(str(builds_root))):
-        errors.append(f"{group_id}: Coq build workspace is not under run _coq_builds root")
-    if tooling.get("source_goal_version_required") != "yes":
-        errors.append(f"{group_id}: tooling.source_goal_version_required must be yes")
-    if tooling.get("fixed_flags_hash") != fixed_flags_hash():
-        errors.append(f"{group_id}: tooling.fixed_flags_hash does not match current fixed flags")
-    manual_rel = Path(str(manifest["proof_manual_file"]))
-    if tooling.get("target_kind") == "group-check":
-        target_value = tooling.get("coqc_check_target_file")
-        if not target_value or not str(target_value).startswith(".coq_group_checks/"):
-            errors.append(f"{group_id}: group-check target must be build-workspace-only .coq_group_checks file")
-            expected_check = Path(".coq_group_checks/missing_group_check.v")
-        else:
-            expected_check = Path(str(target_value))
-    else:
-        expected_check = target_file_for_kind(manual_rel, "check")
-        if tooling.get("coqc_check_target_file") != expected_check.as_posix():
-            errors.append(f"{group_id}: tooling.coqc_check_target_file must be {expected_check.as_posix()}")
-    if tooling.get("coqc_check_argv") != make_coqc_argv(expected_check):
-        errors.append(f"{group_id}: tooling.coqc_check_argv does not match fixed argv")
-    return errors
-
-
-def _group_coqc_evidence_errors(
-    group: dict[str, Any],
-    *,
-    manifest: dict[str, Any],
-    group_manifest: dict[str, Any],
-    group_id: str,
-) -> list[str]:
-    errors: list[str] = []
-    verification = _verification_result_dict(group.get("verification_result"))
-    evidence = verification.get("coqc_check")
-    if not isinstance(evidence, dict):
-        errors.append(f"{group_id}: missing coqc_check evidence in group report")
-        return errors
-    if evidence.get("status") != "passed" or evidence.get("returncode") != 0:
-        errors.append(f"{group_id}: coqc_check evidence is not passed")
-    tooling = group_manifest.get("tooling") if isinstance(group_manifest.get("tooling"), dict) else {}
-    if evidence.get("argv") != tooling.get("coqc_check_argv"):
-        errors.append(f"{group_id}: coqc_check argv does not exactly match handoff argv")
-    expected_cwd = tooling.get("coq_build_workspace")
-    if expected_cwd and not evidence.get("cwd"):
-        errors.append(f"{group_id}: coqc_check cwd is required")
-    elif expected_cwd and not _same_resolved_path(evidence.get("cwd"), expected_cwd):
-        errors.append(f"{group_id}: coqc_check cwd {evidence.get('cwd')} does not match build workspace {expected_cwd}")
-    expected_source_goal = manifest.get("source_goal_version")
-    if expected_source_goal is not None and evidence.get("source_goal_version") != expected_source_goal:
-        errors.append(
-            f"{group_id}: coqc_check source_goal_version mismatch: expected {expected_source_goal}, got {evidence.get('source_goal_version')}"
-        )
-    if evidence.get("fixed_flags_hash") != fixed_flags_hash():
-        errors.append(f"{group_id}: coqc_check fixed_flags_hash does not match current fixed flags")
-    if evidence.get("target_file") != tooling.get("coqc_check_target_file"):
-        errors.append(f"{group_id}: coqc_check target_file does not match handoff")
-    if evidence.get("target_kind") != tooling.get("target_kind", "check"):
-        errors.append(f"{group_id}: coqc_check target_kind does not match handoff")
-    return errors
-
-
 def _replace_blocks(seed_text: str, replacements: dict[str, str]) -> str:
     prelude, lemmas = parse_manual_file(seed_text)
     parts = [prelude]
     for lemma in lemmas:
-        name = str(lemma["name"])
-        block = replacements.get(name, str(lemma["block"]))
+        block = replacements.get(str(lemma["name"]), str(lemma["block"]))
         parts.append(block if block.endswith("\n") else block + "\n")
     return "".join(parts)
 
 
-def _formal_file_candidates(manual_rel: Path) -> list[Path]:
-    candidates = [manual_rel]
-    if manual_rel.name.endswith("_proof_manual.v"):
-        base = manual_rel.name[: -len("_proof_manual.v")]
-        candidates.extend(
-            manual_rel.with_name(base + suffix)
-            for suffix in ["_goal.v", "_proof_auto.v", "_goal_check.v", "_proof_diagnostics.v"]
-        )
-        candidates.append(manual_rel.with_name("diagnostics_snapshot.json"))
-    return candidates
+def _forbidden_findings(path: Path) -> list[dict[str, Any]]:
+    findings: list[dict[str, Any]] = []
+    for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        for lemma in FORBIDDEN_LEMMAS:
+            if re.search(rf"(?<![A-Za-z0-9_']){re.escape(lemma)}(?![A-Za-z0-9_'])", line):
+                findings.append({"path": str(path), "line": line_number, "lemma": lemma})
+    return findings
 
 
-def _apply_candidate_to_round(
+def _group_layout_errors(group: dict[str, Any], groups_directory: Path, report_directory: Path) -> list[str]:
+    group_id = str(group.get("id") or "")
+    directory = Path(str(group.get("directory", ""))).resolve()
+    manual = Path(str(group.get("proof_manual", ""))).resolve()
+    worker_lib = Path(str(group.get("group_worker_lib", ""))).resolve()
+    errors: list[str] = []
+    expected_name = f"group_{int(group.get('index', -1)):02d}__{slug(group_id)}"
+    if directory.parent != groups_directory or directory.name != expected_name:
+        errors.append(f"{group_id}: invalid fixed group directory")
+    if manual.parent != directory or worker_lib.parent != directory:
+        errors.append(f"{group_id}: copied manual and group_worker_lib must be direct children of the group directory")
+    expected_files = {manual.name, worker_lib.name}
+    actual_files = {path.name for path in directory.iterdir()} if directory.is_dir() else set()
+    if actual_files != expected_files:
+        errors.append(f"{group_id}: group directory must contain only manual and group_worker_lib")
+    expected_report = report_directory / "groups" / directory.name
+    if Path(str(group.get("report_directory", ""))).resolve() != expected_report:
+        errors.append(f"{group_id}: invalid group report directory")
+    for name in ("group_worker_input.md", "group_worker_report.json", "group_worker_output.md"):
+        if not (expected_report / name).is_file():
+            errors.append(f"{group_id}: missing {name}")
+    return errors
+
+
+def _group_check(
     *,
-    workspace_root: Path,
-    build_workspace: Path,
-    seed_manual_path: Path,
-    seed_case_lib_path: Path,
-    candidate_manual: Path,
-    candidate_case_lib: Path,
-    source_goal_version: str | None,
-    coq_timeout_seconds: int | None,
-) -> tuple[bool, dict[str, Any]]:
-    original_manual_text = seed_manual_path.read_text(encoding="utf-8")
-    original_case_lib_text = seed_case_lib_path.read_text(encoding="utf-8")
-    seed_manual_path.write_text(candidate_manual.read_text(encoding="utf-8"), encoding="utf-8")
-    seed_case_lib_path.write_text(candidate_case_lib.read_text(encoding="utf-8"), encoding="utf-8")
-    manual_rel = seed_manual_path.relative_to(workspace_root)
-    coq_evidence = run_coqc_check(
-        workspace_root=workspace_root,
-        build_workspace=build_workspace,
-        target_file=target_file_for_kind(manual_rel, "check"),
-        target_kind="check",
-        source_goal_version=source_goal_version,
-        timeout_seconds=coq_timeout_seconds,
+    main_root: Path,
+    run_root: Path,
+    round_id: str,
+    group: dict[str, Any],
+    proof_manual_rel: Path,
+    formal_case_lib_rel: Path,
+    source_goal_version: str,
+) -> dict[str, Any]:
+    directory = Path(str(group["directory"]))
+    config = infer_case_config(main_root, (main_root / proof_manual_rel).parent)
+    proof_manual_module = proof_manual_rel.stem
+    goal_module = proof_manual_module.replace("_proof_manual", "_goal")
+    proof_auto_module = proof_manual_module.replace("_proof_manual", "_proof_auto")
+    target = (
+        Path(".coq_group_checks")
+        / f"{proof_manual_module}_{coq_identifier_slug(directory.name)}_check.v"
     )
-    final_ok = coq_evidence.get("status") == "passed"
-    if not final_ok:
-        seed_manual_path.write_text(original_manual_text, encoding="utf-8")
-        seed_case_lib_path.write_text(original_case_lib_text, encoding="utf-8")
-    return final_ok, coq_evidence
+    return run_coqc_check(
+        workspace_root=main_root,
+        build_workspace=run_builds_root(run_root) / round_id / directory.name / "src",
+        target_file=target,
+        target_kind="group-check",
+        source_goal_version=source_goal_version,
+        group_check={
+            "case_theory": config["active_theory"],
+            "require_modules": [
+                goal_module,
+                proof_auto_module,
+                proof_manual_module,
+            ],
+            "assigned_witnesses": [str(name) for name in group["witnesses"]],
+        },
+        overlays={
+            proof_manual_rel: Path(str(group["proof_manual"])),
+            formal_case_lib_rel: Path(str(group["group_worker_lib"])),
+        },
+    )
+
+
+def _compact_check(evidence: dict[str, Any]) -> dict[str, Any]:
+    return {
+        key: evidence.get(key)
+        for key in ("status", "returncode", "target_kind", "source_goal_version", "first_diagnostic")
+        if evidence.get(key) is not None
+    }
+
+
+def _compact_declarations(items: list[dict[str, str]]) -> list[dict[str, str]]:
+    keys = ("name", "kind", "group_id", "statement_hash", "helper_namespace_suffix")
+    return [{key: str(item[key]) for key in keys if key in item} for item in items]
+
+
+def _manifest_context(manifest_path: Path, main_root: Path) -> dict[str, Any]:
+    manifest_path = manifest_path.expanduser().resolve()
+    main_root = main_root.expanduser().resolve()
+    try:
+        report_relative = manifest_path.relative_to(main_root / "reports")
+    except ValueError as exc:
+        raise SystemExit("group_workers_manifest is outside the fixed report root") from exc
+    if (
+        len(report_relative.parts) != 4
+        or report_relative.parts[1] != "rounds"
+        or report_relative.parts[3] != "group_workers_manifest.json"
+    ):
+        raise SystemExit("group_workers_manifest does not use the fixed report layout")
+    run_id, _rounds, report_round, _name = report_relative.parts
+    manifest = _load_json(manifest_path)
+    if manifest.get("schema_version") != "qcp-vc-proving-group-workers-manifest/v3":
+        raise SystemExit("group_workers_manifest schema_version must be qcp-vc-proving-group-workers-manifest/v3")
+    if not isinstance(manifest.get("groups"), list) or not manifest["groups"] or not all(
+        isinstance(item, dict) for item in manifest["groups"]
+    ):
+        raise SystemExit("group_workers_manifest groups must be a non-empty object list")
+    round_id = str(manifest.get("round") or "")
+    if not round_id or round_id != report_round:
+        raise SystemExit("group_workers_manifest round does not match its fixed report directory")
+    run_root = (main_root / "verification_runs" / run_id).resolve()
+    if run_root.parent != main_root / "verification_runs" or not run_root.is_dir():
+        raise SystemExit("group_workers_manifest run root is missing or invalid")
+    vc_directory = run_root / round_id
+    expected_base = (vc_directory / "base_manifest.json").resolve()
+    base_path = Path(str(manifest.get("base_manifest") or "")).expanduser().resolve()
+    if base_path != expected_base:
+        raise SystemExit("group_workers_manifest base_manifest does not use the fixed vc-proving path")
+    base = _load_json(base_path)
+    if base.get("schema_version") != "qcp-vc-proving-base-manifest/v2":
+        raise SystemExit("invalid base manifest schema_version")
+    if base.get("round") != round_id or vc_directory.name != round_id:
+        raise SystemExit("base manifest round mismatch")
+    if manifest.get("source_goal_version") != base.get("source_goal_version"):
+        raise SystemExit("group_workers_manifest source_goal_version is stale")
+    proof_manual_rel = Path(str(base.get("proof_manual") or ""))
+    formal_case_lib_rel = Path(str(base.get("formal_case_lib") or ""))
+    for label, relative in (("proof_manual", proof_manual_rel), ("formal_case_lib", formal_case_lib_rel)):
+        if relative.is_absolute() or ".." in relative.parts or not relative.parts or relative.parts[0] != "SeparationLogic":
+            raise SystemExit(f"base manifest {label} must be a formal repository-relative path")
+    return {
+        "manifest": manifest,
+        "base": base,
+        "run_root": run_root,
+        "vc_directory": vc_directory,
+        "report_directory": manifest_path.parent,
+        "round_id": round_id,
+        "proof_manual_rel": proof_manual_rel,
+        "formal_case_lib_rel": formal_case_lib_rel,
+    }
+
+
+def _validate_group_candidate_content(
+    group: dict[str, Any],
+    *,
+    seed_prelude: str,
+    seed_map: dict[str, dict[str, Any]],
+    seed_lib_text: str,
+    groups_directory: Path,
+    report_directory: Path,
+) -> dict[str, Any]:
+    group_id = str(group.get("id") or "")
+    assigned = [str(item) for item in group.get("witnesses", [])]
+    errors = _group_layout_errors(group, groups_directory, report_directory)
+    if not assigned or len(assigned) != len(set(assigned)):
+        errors.append(f"{group_id}: assigned witnesses must be non-empty and unique")
+    try:
+        expected_namespace = helper_namespace_for_group_id(group_id)
+    except ValueError as exc:
+        errors.append(str(exc))
+        expected_namespace = {}
+    if group.get("helper_namespace") != expected_namespace:
+        errors.append(f"{group_id}: helper namespace mismatch")
+    group_manual = Path(str(group.get("proof_manual") or ""))
+    group_worker_lib = Path(str(group.get("group_worker_lib") or ""))
+    group_map: dict[str, dict[str, Any]] = {}
+    group_worker_lib_text = ""
+    try:
+        group_prelude, group_lemmas = parse_manual_file(group_manual.read_text(encoding="utf-8"))
+        ensure_unique_lemma_names(group_lemmas)
+        group_map = lemma_by_name(group_lemmas)
+        if normalize_coq_text(group_prelude) != normalize_coq_text(seed_prelude):
+            errors.append(f"{group_id}: copied manual prelude changed")
+    except (OSError, ValueError) as exc:
+        errors.append(f"{group_id}: copied manual cannot be parsed: {exc}")
+    if set(group_map) != set(seed_map):
+        errors.append(f"{group_id}: copied manual declaration set changed")
+    else:
+        changed_unassigned = [
+            name
+            for name, seed_lemma in seed_map.items()
+            if name not in assigned
+            and normalize_coq_text(str(seed_lemma["block"])) != normalize_coq_text(str(group_map[name]["block"]))
+        ]
+        if changed_unassigned:
+            errors.append(f"{group_id}: unassigned witnesses changed: {', '.join(changed_unassigned)}")
+        for name in assigned:
+            seed_lemma = seed_map.get(name)
+            candidate = group_map.get(name)
+            if seed_lemma is None or candidate is None:
+                errors.append(f"{group_id}: assigned witness `{name}` is missing")
+            elif lemma_statement_hash(seed_lemma) != lemma_statement_hash(candidate):
+                errors.append(f"{group_id}: witness statement changed for `{name}`")
+            elif block_has_admitted(str(candidate["block"])):
+                errors.append(f"{group_id}: witness `{name}` contains Admitted/Abort")
+            else:
+                commands = top_level_commands(str(candidate["block"]))
+                if len(commands) != 1 or commands[0].get("kind") not in {
+                    "Lemma",
+                    "Theorem",
+                    "Proposition",
+                    "Corollary",
+                    "Example",
+                    "Fact",
+                    "Remark",
+                } or commands[0].get("name") != name:
+                    errors.append(f"{group_id}: witness `{name}` contains an extra top-level command")
+    manual_forbidden = unsafe_typing_commands(
+        group_manual.read_text(encoding="utf-8") if group_manual.is_file() else ""
+    ) + rollback_control_commands(
+        group_manual.read_text(encoding="utf-8") if group_manual.is_file() else ""
+    ) + unsafe_assumption_declarations(
+        group_manual.read_text(encoding="utf-8") if group_manual.is_file() else ""
+    ) + forbidden_top_level_declarations(
+        group_manual.read_text(encoding="utf-8") if group_manual.is_file() else "",
+        {"Definition", "Fixpoint", "CoFixpoint", "Inductive", "CoInductive", "Notation"},
+    )
+    if manual_forbidden:
+        errors.append(f"{group_id}: copied manual contains forbidden top-level declarations")
+    try:
+        group_worker_lib_text = group_worker_lib.read_text(encoding="utf-8")
+    except OSError as exc:
+        errors.append(f"{group_id}: group_worker_lib cannot be read: {exc}")
+    else:
+        _merged, _added, lib_errors = merge_group_worker_libs(
+            seed_lib_text,
+            [(group_id, group_worker_lib_text, expected_namespace)],
+        )
+        errors.extend(f"{group_id}: group_worker_lib contract: {error}" for error in lib_errors)
+    forbidden: list[dict[str, Any]] = []
+    for path in (group_manual, group_worker_lib):
+        if path.is_file():
+            forbidden.extend(_forbidden_findings(path))
+    if forbidden:
+        errors.append(f"{group_id}: group candidate uses forbidden lemmas")
+    return {
+        "errors": errors,
+        "group_map": group_map,
+        "group_worker_lib_text": group_worker_lib_text,
+        "expected_namespace": expected_namespace,
+    }
+
+
+def validate_group_for_acceptance(
+    manifest_path: Path,
+    *,
+    group_id: str,
+    main_root: Path,
+    expected_proof_manual: str,
+    expected_formal_case_lib: str,
+) -> list[str]:
+    """Validate one group copy before controller marks the group accepted."""
+
+    main_root = main_root.expanduser().resolve()
+    context = _manifest_context(manifest_path, main_root)
+    base = context["base"]
+    errors: list[str] = []
+    if base.get("proof_manual") != expected_proof_manual or base.get("formal_case_lib") != expected_formal_case_lib:
+        errors.append("vc-proving base manifest does not match current target formal paths")
+    formal_manual = main_root / context["proof_manual_rel"]
+    formal_case_lib = main_root / context["formal_case_lib_rel"]
+    seed = base.get("seed_sha256") if isinstance(base.get("seed_sha256"), dict) else {}
+    if not formal_manual.is_file() or seed.get("proof_manual") != _sha256(formal_manual):
+        errors.append("formal proof manual changed after vc-proving preparation")
+    if not formal_case_lib.is_file() or seed.get("formal_case_lib") != _sha256(formal_case_lib):
+        errors.append("formal_case_lib changed after vc-proving preparation")
+    if errors:
+        return errors
+    seed_prelude, seed_lemmas = parse_manual_file(formal_manual.read_text(encoding="utf-8"))
+    ensure_unique_lemma_names(seed_lemmas)
+    seed_map = lemma_by_name(seed_lemmas)
+    group = next(
+        (item for item in context["manifest"].get("groups", []) if str(item.get("id")) == group_id),
+        None,
+    )
+    if not isinstance(group, dict):
+        return [f"{group_id}: group missing from current manifest"]
+    result = _validate_group_candidate_content(
+        group,
+        seed_prelude=seed_prelude,
+        seed_map=seed_map,
+        seed_lib_text=formal_case_lib.read_text(encoding="utf-8"),
+        groups_directory=context["vc_directory"] / "groups",
+        report_directory=context["report_directory"],
+    )
+    return [str(item) for item in result["errors"]]
 
 
 def verify_and_merge(
     manifest_path: Path,
     *,
-    main_workspace_root: Path | None = None,
-    round_check_file: str | None = None,
+    main_root: Path | None = None,
     coq_timeout_seconds: int | None = None,
 ) -> dict[str, Any]:
-    manifest = _load_json(manifest_path)
-    round_worktree = Path(str(manifest["round_worktree"])).resolve()
-    if main_workspace_root is None:
-        if not manifest.get("main_workspace_root"):
-            raise SystemExit("manifest.main_workspace_root is required so parent Coq verification can locate helper contracts")
-        main_workspace_root = Path(str(manifest["main_workspace_root"])).resolve()
-    else:
-        manifest["main_workspace_root"] = str(main_workspace_root.resolve())
-    work_dir = Path(str(manifest["work_dir"])).resolve()
-    manual_rel = Path(str(manifest["proof_manual_file"]))
-    case_lib_rel = Path(str(manifest["case_lib"]))
-    seed_manual_path = round_worktree / manual_rel
-    seed_case_lib_path = round_worktree / case_lib_rel
-    seed_manual_text = seed_manual_path.read_text(encoding="utf-8")
-    seed_case_lib_text = seed_case_lib_path.read_text(encoding="utf-8")
-    _prelude, seed_lemmas = parse_manual_file(seed_manual_text)
+    manifest_path = manifest_path.expanduser().resolve()
+    if main_root is None:
+        try:
+            report_relative = manifest_path.parents[3]
+        except IndexError as exc:
+            raise SystemExit("cannot infer main root from group_workers_manifest") from exc
+        if report_relative.name != "reports":
+            raise SystemExit("--main-root is required for a manifest outside the fixed report root")
+        main_root = report_relative.parent
+    main_root = main_root.expanduser().resolve()
+    context = _manifest_context(manifest_path, main_root)
+    manifest = context["manifest"]
+    base = context["base"]
+    vc_directory = context["vc_directory"]
+    run_root = context["run_root"]
+    round_id = context["round_id"]
+    report_directory = context["report_directory"]
+    proof_manual_rel = context["proof_manual_rel"]
+    formal_case_lib_rel = context["formal_case_lib_rel"]
+    formal_manual = main_root / proof_manual_rel
+    formal_case_lib = main_root / formal_case_lib_rel
+    seed = base.get("seed_sha256") if isinstance(base.get("seed_sha256"), dict) else {}
+    if seed.get("proof_manual") != _sha256(formal_manual) or seed.get("formal_case_lib") != _sha256(formal_case_lib):
+        raise SystemExit("formal seed changed after vc-proving preparation")
+    seed_manual_text = formal_manual.read_text(encoding="utf-8")
+    seed_lib_text = formal_case_lib.read_text(encoding="utf-8")
+    seed_prelude, seed_lemmas = parse_manual_file(seed_manual_text)
     ensure_unique_lemma_names(seed_lemmas)
     seed_map = lemma_by_name(seed_lemmas)
-    seed_names = set(seed_map)
-    target_witnesses = [str(item) for item in manifest.get("target_witnesses", [])]
-    groups = load_group_workers_manifest(manifest_path)
-    run_root = (
-        Path(str(manifest["run_root"])).resolve()
-        if manifest.get("run_root")
-        else ensure_run_root(main_workspace_root, str(manifest.get("case_name") or manual_rel.parent.name), path_hint=round_worktree)
-    )
-    coq_builds_root = Path(str(manifest.get("coq_builds_root") or run_builds_root(run_root))).resolve()
-    manifest["coq_builds_root"] = str(coq_builds_root)
-    parent_build_workspace = coq_builds_root / slug(round_worktree.name) / "parent" / "src"
-    if round_check_file is not None:
-        expected_round_check_file = Path(round_check_file)
-    else:
-        expected_round_check_file = Path(str(manifest.get("round_check_file") or target_file_for_kind(manual_rel, "check")))
-    if expected_round_check_file != target_file_for_kind(manual_rel, "check"):
-        raise SystemExit(f"round check file must match current proof manual: {target_file_for_kind(manual_rel, 'check')}")
+    target_witnesses = [str(item["name"]) for item in base.get("witnesses", [])]
 
     replacements: dict[str, str] = {}
     solved: list[str] = []
-    unsolved: list[str] = []
-    blockers: list[dict[str, Any]] = []
     errors: list[str] = []
+    blockers: list[Any] = []
+    group_summaries: list[dict[str, Any]] = []
     group_lib_texts: list[tuple[str, str, dict[str, Any]]] = []
-    worker_groups: list[dict[str, Any]] = []
+    groups_directory = vc_directory / "groups"
 
-    for group_manifest in groups:
-        group_id = str(group_manifest["group_id"])
+    for group in load_group_workers_manifest(manifest_path):
+        group_id = str(group["id"])
+        assigned = [str(item) for item in group.get("witnesses", [])]
+        content = _validate_group_candidate_content(
+            group,
+            seed_prelude=seed_prelude,
+            seed_map=seed_map,
+            seed_lib_text=seed_lib_text,
+            groups_directory=groups_directory,
+            report_directory=report_directory,
+        )
+        group_errors = [str(item) for item in content["errors"]]
+        report_path = Path(str(group["report_directory"])) / "group_worker_report.json"
         try:
-            expected_helper_namespace = helper_namespace_for_group_id(group_id)
-        except ValueError as exc:
-            errors.append(str(exc))
-            expected_helper_namespace = {}
-        group_worktree = Path(str(group_manifest["worktree_path"]))
-        assigned = [str(item) for item in group_manifest.get("witness_names", [])]
-        assigned_set = set(assigned)
-        helper_namespace = (
-            group_manifest.get("helper_namespace")
-            if isinstance(group_manifest.get("helper_namespace"), dict)
-            else {}
-        )
-        group_report, report_errors = _group_payload(group_manifest)
-        report_helper_namespace = (
-            group_report.get("helper_namespace")
-            if isinstance(group_report.get("helper_namespace"), dict)
-            else {}
-        )
-        reported_assigned = (
-            {str(item) for item in group_report.get("assigned_witnesses", [])}
-            if isinstance(group_report.get("assigned_witnesses"), list)
-            else set()
-        )
-        reported_solved = (
-            {str(item) for item in group_report.get("solved_witnesses", [])}
-            if isinstance(group_report.get("solved_witnesses"), list)
-            else set()
-        )
-        reported_unsolved = (
-            {str(item) for item in group_report.get("unsolved_witnesses", [])}
-            if isinstance(group_report.get("unsolved_witnesses"), list)
-            else set()
-        )
-        group_blockers = group_report.get("blockers") if isinstance(group_report.get("blockers"), list) else []
-        group_errors = group_report.get("errors") if isinstance(group_report.get("errors"), list) else []
-        worker_groups.append(
-            {
-                "group_id": group_id,
-                "assigned_witnesses": assigned,
-                "reported_solved_witnesses": sorted(reported_solved),
-                "blockers": group_blockers,
-                "errors": group_errors,
-                "worktree_path": str(group_worktree),
-                "helper_namespace": helper_namespace,
-            }
-        )
-        handoff_errors = _group_handoff_errors(
-            manifest=manifest,
-            group_manifest=group_manifest,
-            group_worktree=group_worktree,
-            group_id=group_id,
-        )
-        report_contract_errors = list(report_errors)
-        if group_report.get("status") != "completed":
-            report_contract_errors.append(f"{group_id}: group report status must be completed")
-        if helper_namespace != expected_helper_namespace:
-            report_contract_errors.append(f"{group_id}: group manifest helper_namespace does not match group_id suffix policy")
-        if report_helper_namespace != helper_namespace:
-            report_contract_errors.append(f"{group_id}: group report helper_namespace does not match group handoff")
-        if not isinstance(group_report.get("case_lib_added_declarations"), list):
-            report_contract_errors.append(f"{group_id}: group report case_lib_added_declarations must be a list")
-        if reported_assigned != assigned_set:
-            report_contract_errors.append(f"{group_id}: group report assigned_witnesses do not match group handoff")
-        if not reported_solved <= assigned_set:
-            report_contract_errors.append(f"{group_id}: solved_witnesses contains unassigned witnesses")
-        if not reported_unsolved <= assigned_set:
-            report_contract_errors.append(f"{group_id}: unsolved_witnesses contains unassigned witnesses")
-        if reported_solved & reported_unsolved:
-            report_contract_errors.append(f"{group_id}: solved_witnesses and unsolved_witnesses overlap")
-        candidate = group_report.get("candidate") if isinstance(group_report.get("candidate"), dict) else {}
-        for key, value in candidate.items():
-            if not value:
-                continue
-            candidate_path = Path(str(value))
-            if candidate_path.is_absolute() and not _is_relative_to(candidate_path, group_worktree):
-                report_contract_errors.append(f"{group_id}: candidate.{key} is outside group worktree")
-        expected_source_goal = manifest.get("source_goal_version")
-        if expected_source_goal is not None and group_report.get("source_goal_version") != expected_source_goal:
-            report_contract_errors.append(
-                f"{group_id}: group report source_goal_version mismatch: expected {expected_source_goal}, got {group_report.get('source_goal_version')}"
+            report = _load_json(report_path)
+        except (OSError, json.JSONDecodeError, SystemExit) as exc:
+            report = {}
+            group_errors.append(f"{group_id}: invalid group report: {exc}")
+        if report.get("schema_version") != "qcp-group-worker-report/v2":
+            group_errors.append(f"{group_id}: invalid group report schema_version")
+        extra_report_fields = set(report) - {"schema_version", "status", "source_goal_version", "blockers"}
+        if extra_report_fields:
+            group_errors.append(f"{group_id}: unsupported group report fields: {sorted(extra_report_fields)}")
+        if report.get("status") != "completed":
+            group_errors.append(f"{group_id}: group report status must be completed")
+        if report.get("source_goal_version") != base.get("source_goal_version"):
+            group_errors.append(f"{group_id}: stale group report")
+        if report.get("blockers"):
+            blockers.extend(report["blockers"] if isinstance(report["blockers"], list) else [report["blockers"]])
+            group_errors.append(f"{group_id}: group report contains blockers")
+        check: dict[str, Any] = {"status": "skipped"}
+        if not group_errors:
+            check = _group_check(
+                main_root=main_root,
+                run_root=run_root,
+                round_id=round_id,
+                group=group,
+                proof_manual_rel=proof_manual_rel,
+                formal_case_lib_rel=formal_case_lib_rel,
+                source_goal_version=str(base["source_goal_version"]),
             )
-        if handoff_errors or report_contract_errors:
-            errors.extend(handoff_errors)
-            errors.extend(report_contract_errors)
-            unsolved.extend(name for name in assigned if name not in unsolved)
-            continue
-        if group_errors or group_blockers:
-            blockers.extend({**item, "group_id": group_id} for item in group_blockers if isinstance(item, dict))
-            for name in assigned:
-                if name not in unsolved:
-                    unsolved.append(name)
-            continue
-        coq_evidence_errors = _group_coqc_evidence_errors(
-            group_report,
-            manifest=manifest,
-            group_manifest=group_manifest,
-            group_id=group_id,
-        )
-        if coq_evidence_errors:
-            errors.extend(coq_evidence_errors)
-            unsolved.extend(name for name in assigned if name not in unsolved)
+            if check.get("status") != "passed":
+                group_errors.append(f"{group_id}: fixed group check failed")
+        summary = {"id": group_id, "status": "passed" if not group_errors else "failed", "check": _compact_check(check)}
+        group_summaries.append(summary)
+        if group_errors:
+            errors.extend(group_errors)
             continue
 
-        group_manual_path = group_worktree / manual_rel
-        group_case_lib_path = group_worktree / case_lib_rel
-        if not group_manual_path.is_file():
-            errors.append(f"{group_id}: proof manual missing in group worktree")
-            unsolved.extend(name for name in assigned if name not in unsolved)
-            continue
-        if not group_case_lib_path.is_file():
-            errors.append(f"{group_id}: case_lib missing in group worktree")
-            unsolved.extend(name for name in assigned if name not in unsolved)
-            continue
-        generated_file_errors: list[str] = []
-        for rel in _formal_file_candidates(manual_rel):
-            if rel == manual_rel:
-                continue
-            round_file = round_worktree / rel
-            group_file = group_worktree / rel
-            if round_file.is_file() and not group_file.is_file():
-                generated_file_errors.append(f"{group_id}: generated file missing in group worktree: {rel}")
-            elif round_file.is_file() and group_file.read_text(encoding="utf-8") != round_file.read_text(encoding="utf-8"):
-                generated_file_errors.append(f"{group_id}: generated file modified in group worktree: {rel}")
-            elif not round_file.exists() and group_file.exists():
-                generated_file_errors.append(f"{group_id}: group worktree added generated file: {rel}")
-        if generated_file_errors:
-            errors.extend(generated_file_errors)
-            unsolved.extend(name for name in assigned if name not in unsolved)
-            continue
-
-        group_manual_text = group_manual_path.read_text(encoding="utf-8")
-        _group_prelude, group_lemmas = parse_manual_file(group_manual_text)
-        ensure_unique_lemma_names(group_lemmas)
-        group_map = lemma_by_name(group_lemmas)
-        extra_manual = set(group_map) - seed_names
-        if extra_manual:
-            errors.append(f"{group_id}: proof manual added helper/top-level lemmas: {', '.join(sorted(extra_manual))}")
-            unsolved.extend(name for name in assigned if name not in unsolved)
-            continue
-        unassigned_errors: list[str] = []
-        for name, seed in seed_map.items():
-            if name in assigned_set:
-                continue
-            group_lemma = group_map.get(name)
-            if group_lemma is None:
-                unassigned_errors.append(f"{group_id}: unassigned witness block `{name}` missing")
-            elif normalize_coq_text(str(seed["block"])) != normalize_coq_text(str(group_lemma["block"])):
-                unassigned_errors.append(f"{group_id}: unassigned witness block `{name}` changed")
-        if unassigned_errors:
-            errors.extend(unassigned_errors)
-            unsolved.extend(name for name in assigned if name not in unsolved)
-            continue
-
+        group_map = content["group_map"]
         for name in assigned:
-            seed = seed_map.get(name)
-            group_lemma = group_map.get(name)
-            if seed is None or group_lemma is None:
-                errors.append(f"{group_id}: assigned witness `{name}` missing")
-                unsolved.append(name)
-                continue
-            if name not in reported_solved:
-                unsolved.append(name)
-                continue
-            if lemma_statement_hash(seed) != lemma_statement_hash(group_lemma):
-                errors.append(f"{group_id}: witness statement changed for `{name}`")
-                unsolved.append(name)
-                continue
-            block = str(group_lemma["block"])
-            if block_has_admitted(block):
-                errors.append(f"{group_id}: solved witness `{name}` still contains Admitted.")
-                unsolved.append(name)
-                continue
-            replacements[name] = block
-            if name not in solved:
-                solved.append(name)
-        group_lib_texts.append((group_id, group_case_lib_path.read_text(encoding="utf-8"), helper_namespace))
-
-    auto_manual_text = _replace_blocks(seed_manual_text, replacements)
-    merged_case_lib, added_decls, lib_errors = merge_case_lib(seed_case_lib_text, group_lib_texts)
-    for name in target_witnesses:
-        if name not in solved and name not in unsolved:
-            unsolved.append(name)
-
-    candidate_manual_text = auto_manual_text
-    candidate_case_lib_text = merged_case_lib
-    errors.extend(f"case-lib-merge-validation: {error}" for error in lib_errors)
-    case_lib_merge = {
-        "policy": "deterministic-group-id-suffixed",
-        "helper_namespace_required": "yes",
-        "added_declarations": added_decls,
-        "errors": lib_errors,
-    }
-
-    merge_ready = not errors and not blockers and set(solved) == set(target_witnesses)
-    candidate_dir = work_dir / "candidate"
-    candidate_manual = candidate_dir / manual_rel
-    candidate_case_lib = candidate_dir / case_lib_rel
-    candidate_manual.parent.mkdir(parents=True, exist_ok=True)
-    candidate_case_lib.parent.mkdir(parents=True, exist_ok=True)
-    candidate_manual.write_text(candidate_manual_text, encoding="utf-8")
-    candidate_case_lib.write_text(candidate_case_lib_text, encoding="utf-8")
-
-    parent_coq_evidence: dict[str, Any] | None = None
-    if merge_ready:
-        final_ok, parent_coq_evidence = _apply_candidate_to_round(
-            workspace_root=round_worktree,
-            build_workspace=parent_build_workspace,
-            seed_manual_path=seed_manual_path,
-            seed_case_lib_path=seed_case_lib_path,
-            candidate_manual=candidate_manual,
-            candidate_case_lib=candidate_case_lib,
-            source_goal_version=manifest.get("source_goal_version"),
-            coq_timeout_seconds=coq_timeout_seconds,
+            replacements[name] = str(group_map[name]["block"])
+            solved.append(name)
+        group_lib_texts.append(
+            (
+                group_id,
+                str(content["group_worker_lib_text"]),
+                content["expected_namespace"],
+            )
         )
-        if not final_ok:
-            merge_ready = False
-            errors.append("merged round candidate failed coqc_check")
 
-    group_merged_result = {
-        "schema_version": "qcp-vc-proving-group-merged-result/v1",
-        "kind": "qcp-vc-proving-group-merged-result",
-        "status": "completed" if merge_ready else "blocked",
-        "solved_witnesses": solved,
-        "unsolved_witnesses": unsolved,
+    merged_manual_text = _replace_blocks(seed_manual_text, replacements)
+    merged_lib_text, added_declarations, lib_errors = merge_group_worker_libs(seed_lib_text, group_lib_texts)
+    errors.extend(f"group_worker_lib merge: {error}" for error in lib_errors)
+    proving_merged_directory = vc_directory / "proving_merged"
+    proving_merged_directory.mkdir(parents=True, exist_ok=True)
+    merged_manual = proving_merged_directory / formal_manual.name
+    proving_merged_lib = proving_merged_directory / formal_case_lib.name
+    merged_manual.write_text(merged_manual_text, encoding="utf-8")
+    proving_merged_lib.write_text(merged_lib_text, encoding="utf-8")
+    forbidden = _forbidden_findings(merged_manual) + _forbidden_findings(proving_merged_lib)
+    if forbidden:
+        errors.append("proving_merged candidate uses forbidden lemmas")
+
+    ready = not errors and not blockers and set(solved) == set(target_witnesses)
+    parent_check: dict[str, Any] = {"status": "skipped"}
+    if ready:
+        proof_manual_stem = proof_manual_rel.stem
+        if proof_manual_stem.endswith("_proof_manual"):
+            goal_check_rel = proof_manual_rel.with_name(
+                proof_manual_stem[: -len("_proof_manual")] + "_goal_check.v"
+            )
+        else:
+            config = infer_case_config(main_root, formal_manual.parent)
+            goal_check_rel = Path(config["check_file"])
+        parent_check = run_coqc_check(
+            workspace_root=main_root,
+            build_workspace=run_builds_root(run_root) / round_id / "parent" / "src",
+            target_file=goal_check_rel,
+            target_kind="check",
+            source_goal_version=str(base["source_goal_version"]),
+            timeout_seconds=coq_timeout_seconds,
+            overlays={proof_manual_rel: merged_manual, formal_case_lib_rel: proving_merged_lib},
+        )
+        if parent_check.get("status") != "passed":
+            ready = False
+            errors.append("proving_merged candidate failed parent full check")
+
+    result = {
+        "schema_version": "qcp-vc-proving-proving-merged-result/v2",
+        "status": "passed" if ready else "failed",
+        "source_goal_version": base.get("source_goal_version"),
         "candidate": {
-            "proof_manual_file": str(candidate_manual),
-            "case_lib": str(candidate_case_lib),
-            "round_worktree_proof_manual_file": str(seed_manual_path),
-            "round_worktree_case_lib": str(seed_case_lib_path),
+            "proof_manual": str(merged_manual),
+            "proving_merged_lib": str(proving_merged_lib),
+            "proof_manual_sha256": _sha256(merged_manual),
+            "proving_merged_lib_sha256": _sha256(proving_merged_lib),
+            "formal_proof_manual_relative": proof_manual_rel.as_posix(),
+            "formal_case_lib_relative": formal_case_lib_rel.as_posix(),
         },
-        "worker_groups": worker_groups,
-        "case_lib_added_declarations": added_decls,
-        "case_lib_merge": case_lib_merge,
-        "verification_result": {
-            "coqc_check": parent_coq_evidence
-            if parent_coq_evidence is not None
-            else {"status": "skipped", "reason": "merged candidate was not ready for parent coqc_check"}
-        },
+        "groups": group_summaries,
+        "added_declarations": _compact_declarations(added_declarations),
+        "parent_check": _compact_check(parent_check),
+        "forbidden_lemma_findings": forbidden,
         "blockers": blockers,
         "errors": errors,
-        "merge_vc_ready": "yes" if merge_ready else "no",
     }
-    agent_result = {
-        "schema_version": "qcp-vc-proving-agent-result/v1",
-        "kind": "qcp-vc-proving",
-        "status": "completed" if merge_ready else "blocked",
-        "source_version": {
-            "source_goal_version": manifest.get("source_goal_version"),
-            "target_witnesses": target_witnesses,
-        },
-        "group_merged_result": group_merged_result,
-        "blockers": blockers,
-        "errors": errors,
-        "merge_vc_ready": "yes" if merge_ready else "no",
-    }
-    report = {
-        "schema_version": "qcp-vc-proving-parent-verify-result/v1",
-        "kind": "qcp-vc-proving-parent-verify-result",
-        "agent_result": {"vc_proving": agent_result},
-        "group_merged_result": group_merged_result,
-    }
-    report_path = Path(str(manifest.get("group_merged_result_file") or (Path(str(manifest["round_report_directory"])).resolve() / "group_merged_result.json")))
-    write_json(report_path, report)
-    print(json.dumps(report, indent=2, ensure_ascii=True))
-    return report
-
-
-def main() -> int:
-    parser = argparse.ArgumentParser(description="Verify group worktrees and merge vc-proving candidates.")
-    parser.add_argument("manifest", help="Path to group_workers_manifest.json")
-    parser.add_argument("--main-workspace-root", default=None, help="Main worktree root for contract validation")
-    parser.add_argument("--round-check-file", default=None, help="Full current-round Coq check file")
-    parser.add_argument("--coq-timeout-seconds", type=int, default=None)
-    args = parser.parse_args()
-    report = verify_and_merge(
-        Path(args.manifest).expanduser().resolve(),
-        main_workspace_root=Path(args.main_workspace_root).expanduser().resolve() if args.main_workspace_root else None,
-        round_check_file=args.round_check_file,
-        coq_timeout_seconds=args.coq_timeout_seconds,
-    )
-    vc = report["agent_result"]["vc_proving"]
-    return 0 if vc.get("merge_vc_ready") == "yes" else 1
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
+    write_json(report_directory / "proving_merged_result.json", result)
+    return result

@@ -170,6 +170,9 @@ Proof.
   apply (exgcd_reduction' _ _ _ _ H H0 H1).
 Qed.
 
+Lemma proof_of_exgcd_return_wit_6_split_goal_1 : exgcd_return_wit_6_split_goal_1.
+Proof. pre_process. Qed.
+
 Lemma proof_of_exgcd_return_wit_6_split_goal_2 : exgcd_return_wit_6_split_goal_2.
 Proof. pre_process. subst. rewrite Z.gcd_0_r. lia. Qed.
 
@@ -179,9 +182,13 @@ Proof. pre_process. subst. rewrite Z.gcd_0_r. lia. Qed.
 Lemma proof_of_exgcd_return_wit_6 : exgcd_return_wit_6.
 Proof.
   aggressive_pre_process.
+  + Goal_apply proof_of_exgcd_return_wit_6_split_goal_1.
   + Goal_apply proof_of_exgcd_return_wit_6_split_goal_2.
   + Goal_apply proof_of_exgcd_return_wit_6_split_goal_3.
 Qed.
+
+Lemma proof_of_exgcd_return_wit_5_split_goal_1 : exgcd_return_wit_5_split_goal_1.
+Proof. pre_process. Qed.
 
 Lemma proof_of_exgcd_return_wit_5_split_goal_2 : exgcd_return_wit_5_split_goal_2.
 Proof. pre_process. subst. rewrite Z.gcd_0_r. lia. Qed.
@@ -192,9 +199,13 @@ Proof. pre_process. subst. rewrite Z.gcd_0_r. lia. Qed.
 Lemma proof_of_exgcd_return_wit_5 : exgcd_return_wit_5.
 Proof.
   aggressive_pre_process.
+  + Goal_apply proof_of_exgcd_return_wit_5_split_goal_1.
   + Goal_apply proof_of_exgcd_return_wit_5_split_goal_2.
   + Goal_apply proof_of_exgcd_return_wit_5_split_goal_3.
 Qed.
+
+Lemma proof_of_exgcd_return_wit_4_split_goal_1 : exgcd_return_wit_4_split_goal_1.
+Proof. pre_process. Qed.
 
 Lemma proof_of_exgcd_return_wit_4_split_goal_2 : exgcd_return_wit_4_split_goal_2.
 Proof. pre_process. subst. rewrite Z.gcd_0_r. lia. Qed.
@@ -205,9 +216,13 @@ Proof. pre_process. subst. rewrite Z.gcd_0_r. lia. Qed.
 Lemma proof_of_exgcd_return_wit_4 : exgcd_return_wit_4.
 Proof.
   aggressive_pre_process.
+  + Goal_apply proof_of_exgcd_return_wit_4_split_goal_1.
   + Goal_apply proof_of_exgcd_return_wit_4_split_goal_2.
   + Goal_apply proof_of_exgcd_return_wit_4_split_goal_3.
 Qed.
+
+Lemma proof_of_exgcd_return_wit_1_split_goal_1 : exgcd_return_wit_1_split_goal_1.
+Proof. pre_process. Qed.
 
 Lemma proof_of_exgcd_return_wit_1_split_goal_2 : exgcd_return_wit_1_split_goal_2.
 Proof. 
@@ -231,6 +246,7 @@ Qed.
 Lemma proof_of_exgcd_return_wit_1 : exgcd_return_wit_1.
 Proof.
   aggressive_pre_process.
+  + Goal_apply proof_of_exgcd_return_wit_1_split_goal_1.
   + Goal_apply proof_of_exgcd_return_wit_1_split_goal_2.
   + Goal_apply proof_of_exgcd_return_wit_1_split_goal_3.
 Qed.

@@ -1,66 +1,51 @@
 ---
 name: annotation-filling
-description: 由 annotation-subagent 在 annotation round worktree 中填写或修正 C annotation，并在同一正式相对路径的 case_lib 中维护数学 spec declarations；完成后交给 annotation-checking。
+description: Used by the run's one persistent annotation subagent to add or repair C annotations in the main root and maintain the formal_case_lib specification declarations under SeparationLogic; it invokes annotation-checking before returning.
 ---
 
 # Annotation Filling
 
-本 skill 固定由 `annotation-subagent` 使用。annotation-subagent 只在 annotation round worktree 中工作，不写 main worktree；脚本只能提供 deterministic checks 或 file helpers，不能启动 subagent。
+A run may have only one annotation subagent. At initial startup, read `annotation-attempts/annotation-attempt1/agent_input.md`, this skill, the annotation-checking skill, all linked rules, and the correct/incorrect examples relevant to the current algorithm in full. After returning, keep the same agent target available for appended work; never ask the main agent to open another annotation agent.
 
-## 文档
+Whenever a task is appended, first reread this skill and the annotation-checking skill in full. Then read the main agent's blocker conclusion, causal analysis, reflection on the previous attempt, required repair, and scope decision in the current `annotation-attempts/annotation-attemptN/agent_input.md`, together with every original blocker Markdown and JSON file listed there. Use the handoff summary to locate and prioritize the problem, and use the original evidence plus the current main-root files to verify facts. Do not rely only on either side or on memory from an earlier turn.
 
-- `docs/annotation-guide.md`：允许修改范围、spec 设计、annotation 风格、常见错误和同 round 自修。
-- `docs/array-string-guide.md`：builtin array / string 谓词和选型。
-- `docs/branch-control-annotation.md`：复杂 if/else、多路径 assertion、branch naming、`Destruct`、`Branch join`、`Branch clear` 和 multi-inv case 映射。
-- `docs/pure-proposition-predicates.md`：annotation-facing pure proposition predicate 的选择和书写规则。
-- `docs/qcp-reference-guide.md`：canonical symbolic execution、QCP evidence、reference policy 和 resource reclaim 错误。
-- `docs/correct-examples/binary-search-annotation.md`：二分答案正例解析，并指向 `split_array_largest_sum` 配套 C annotation。
-- `docs/incorrect-examples/algorithm-mirror.md`：`max_sub_array` 反例解析，说明 algorithm-mirror spec 为什么应回退。
+## Documentation
 
-## 输入
+- `docs/annotation-guide.md`: specifications, invariants, external declarations, and the repair loop.
+- `docs/qcp-reference-guide.md`: QCP syntax, reference policy, and scripted symbolic-execution evidence.
+- `../verification-orchestrator/docs/path-configuration.md`: symbolic-execution and Coq path configuration.
+- Other linked guides cover arrays/strings, branch control, pure predicates, and correct/incorrect examples.
 
-- target `.c`
-- 当前 `case_lib`
-- `problem_context`，作为题目语义的结构化 source of truth；字段为空时按 C 程序、函数名和 headers 推断 candidate spec。
-- `case_lib_seed_evidence`，若 status 为 `created`，本次 spawn 必须尝试 bootstrap 数学 spec declarations。
-- handoff 中的 `source_version`
-- canonical QCP driver / qcp-mcp config
-- 从 vc-checking 或 vc-proving 回流的 blocker context
+## Allowed writes
 
-## 流程
+- Annotations in the target `.c` file in the main root.
+- Annotation-approved mathematical specification declarations in the main-root `formal_case_lib`.
+- Generated files refreshed by `controller.py symexec` in the handoff's `Commands` section.
+- The declared `agent_report.json` and `agent_output.md`.
 
-1. 读取 handoff、目标 `.c`、headers、允许的当前 round generated context、正反例提示和 `case_lib`。
-2. 先设计 strictly mathematical spec declarations，需要新增时写入同一正式相对路径的 `case_lib`；若发现自己在 Rocq 中复写 C loop，先回到 predicate-first 设计。
-3. 填写或修正 C annotation：关键点写完整 assertion，普通单步依赖 symbolic execution；数组、二分答案、DP、字符串和 refinement case 先读取对应 example analysis docs。
-4. 使用能传 canonical `-I` / `-slp` 的 QCP driver 检查目标 `.c`；qcp-mcp 只作独立交互检查，不作为不能传参 wrapper 的 formal evidence。
-5. 每轮 candidate 后运行 `annotation-checking`。
-6. 若 QCP、`case_lib` check 或 `annotation-checking` 未通过，按 `docs/annotation-guide.md` 在同一 spawn 和同一 annotation round worktree 中继续修复，直到 ready、stale、compact-error 或必要工具重大错误；self-repair budget 只作为工作量 evidence，不是自动 blocked 条件。
-7. 写 `agent_report.json.agent_result.annotation`，再写 `agent_output.txt` 作为 `non-authoritative reuse note`。
+Do not edit any other formal file, manual proof body, or group/proving file. Never edit generated files by hand.
 
-## Blocking 原则
+## Production order
 
-annotation-subagent 的 `blocked` 只用于必要工具发生重大错误：canonical QCP driver、`coq_tooling.py` case_lib check 或 annotation-checking 所需脚本完全不可运行，且已记录具体 command evidence。输入版本失效写 `stale`。若 context compaction 使本 attempt 无法严格继续，只写 `compact-error` 状态和已完成 evidence；是否重试或最终 block 由 controller / main agent 判定。
+1. Read `problem_context` and the target C file.
+2. Infer the mathematical business semantics and design or complete the `formal_case_lib` specifications.
+3. Write C function specifications, loop invariants, assertions, and call instantiations.
+4. Run the symbolic-execution command from the handoff's `Commands` section exactly as rendered. It must go through the controller; do not invoke an internal helper directly or assemble the driver, cwd, include, `-slp`, or output paths.
+5. Run the `formal_case_lib` Coq command from the same block exactly as rendered. It must go through the controller; do not invoke an internal helper directly or assemble Coq flags or the build path.
+6. Immediately before annotation-checking, run the handoff's `timing-stage ... start` command exactly as rendered. Invoke annotation-checking and complete its feedback-driven repair/recheck loop in the same agent turn. After the entire check is complete, run the matching `timing-stage ... finish` command exactly as rendered. Never substitute estimated timings for these boundaries.
 
-以下情况不得返回 `blocked`，必须在本次 spawn 内自行解决：无现成 `case_lib`、`problem_context` 字段为空、spec 方向不确定、`case_lib` 暂时不能 coqc、QCP 报 annotation 错、where instantiation 失败、annotation-checking failed、reference hint 缺失或未来 proof 难度不确定。除非必要工具本身不可用，否则最终应产出 ready candidate 或带具体未解证据的非 ready report。
+A missing existing `formal_case_lib`, empty problem context, one tool failure, incomplete `where`, or an imperfect initial specification is not a terminal blocker. The controller provides a seed/path, and the owner must bootstrap or repair it in the current turn. On the third or a later annotation iteration, reevaluate the overall relationship among the mathematical specification, function contracts, loop invariants, assertions, and call instantiations instead of stacking another local patch.
 
-## 输出
+## Forbidden compromises
 
-`agent_result.annotation` 至少包含：
+- Do not weaken a postcondition or invariant merely to reduce the number of VCs.
+- Do not disguise a mirror of the C algorithm as a mathematical definition and call it a functional specification.
+- Do not add `Admitted.`, an extra `Axiom`, an unsound shortcut, or an import of a generated artifact.
+- Do not invoke raw symexec, raw Coq, Dune, or Rocq MCP.
+- qcp-mcp is only for C annotation/symbolic-execution interaction, not Rocq proof work.
 
-- `status`: `completed` | `blocked` | `stale` | `compact-error`
-- `source_version`
-- changed files、candidate `.c` path、candidate `case_lib` path
-- `canonical_symexec_evidence`
-- `qcp_mcp_interactive_evidence`
-- `case_lib_coqc_evidence`
-- `annotation_checking_evidence`
-- `iteration_log[]`、`failure_diagnosis[]`、`repair_actions[]`
-- `self_reworkable_failures[]`
-- `self_repair_budget` 和 `self_repair_budget_exhausted`
-- `reference_policy_compliance`
-- `file_access_summary` object，包含 `must_log_file_reads`、`read_categories`、`searches`、`denied_globs_touched`
-- blockers
+## Result
 
-`agent_output.txt` 第一行必须是 `# Reuse Note`，正文包含 `Note kind: non-authoritative reuse note` 和 `This file is not acceptance evidence.`。它只记录复用说明和 evidence pointer，不声明 controller accepted。
+The current `annotation-attempts/annotation-attemptN/agent_report.json` uses the flat `qcp-agent-report/v3` format. It records only this iteration's terminal status, exact changed files, the three `symexec` / `formal_case_lib` / `annotation_checking` check statuses, and concrete blockers. Put failure history, branch-control explanations, and a repair summary in the sibling `agent_output.md`; do not copy complete command evidence, rules, or iteration logs into JSON. After return, the controller seals the report/output digests. Later attempts do not overwrite these three files, and the controller stores formal before/after history separately.
 
-若 `annotation_checking.status = failed` 或 canonical QCP failed 且必要工具仍可运行，必须继续本次 spawn 内自修，不得返回 terminal `blocked`。缺少现成 `case_lib`、缺少父聊天确认、spec 不确定但可从 C 代码推断，都不是 terminal blocker。
+Use `blocked` only when a required scripted tool is completely unusable, or when sufficient local attempts establish that the task cannot be completed from the current input. Use `stale` for an invalidated version. For compaction, record only the `compact-error` fact. The owner never writes `accepted`.
