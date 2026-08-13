@@ -1,0 +1,8 @@
+; Converted from:
+; - _CoqProject: -R Rocq/sets SetsClass
+; - Rocq/_CoqProject: -R sets SetsClass
+(coq.theory
+ (name SetsClass)
+ (modules (:standard \ Test)))
+
+(include_subdirs qualified)

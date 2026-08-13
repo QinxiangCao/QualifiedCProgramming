@@ -4,15 +4,7 @@
 
 ## Include 和 symbolic execution
 
-`QCP_examples/LLM_bench` 下复用 `QCP_demos_LLM` 公共头文件的 C case，统一使用 bare include：
-
-```c
-#include "verification_stdlib.h"
-#include "verification_list.h"
-#include "int_array_def.h"
-```
-
-symbolic execution 必须同时包含：
+`QCP_examples/LLM_bench` 下复用 `QCP_demos_LLM` 公共头文件的 C case，symbolic execution 必须同时包含：
 
 ```bash
 -IQCP_examples/QCP_demos_LLM/
@@ -23,17 +15,19 @@ symbolic execution 必须同时包含：
 
 ## Check 记录
 
-annotation handoff提供完整 `controller.py symexec` command；controller code固定 driver、cwd、target和 canonical `-I`/`-slp`。成功时 report只写 `checks.symexec = passed`；失败 command/diagnostic摘要写 `agent_output.md`，不复制完整 argv/path/evidence object。
+annotation handoff提供完整 `controller.py symexec` command；controller code固定 driver、cwd、target和 canonical `-I`/`-slp`。成功时terminal report只写completed status；失败时把`first_failure`的明确category、message、location与repair摘要写入`agent_output.md`，不复制完整 argv/path/evidence object。
+
+owner symexec只在main root事务化刷新四个generated files；任一步失败都整组rollback，成功才commit。它不做第二次clean replay，也不产生acceptance evidence。后续main-owned `clean-output-freshness/` gate会在独立目录重放canonical symexec并比较四个raw generated files及manual declarations，失败必须按controller first failure处理；不得以重复main-root digest稳定改写为passed。
 
 generated files 只允许由 symbolic execution 刷新：`*_goal.v`、`*_proof_auto.v`、`*_proof_manual.v`、`*_goal_check.v`。`formal_case_lib` 不由 symbolic execution 重写。
 
-## Reference policy
+## 参考策略
 
 优先参考 handoff `Problem context` 中列出的 reference case hints；没有 hints 时可在以下 curated 范围内主动检索相似模式：
 
 - `QCP_demos_LLM`
 - `QCP_examples/LLM_bench`
-- `SeparationLogic/examples/LLM_bench`
+- `Rocq/examples/LLM_bench`
 
 所有 reference 文件的只读访问都属于 allowed，包括 `QCP_demos_human`；读取、检索、比较或记录 human example 本身均不是 annotation blocker。controller 的 file-access policy 不编码“推荐 / 不推荐”等级，也不按读取路径产生 denied。文档层仍明确建议：优先参考 LLM case，允许但不推荐参考 human case。
 
@@ -45,12 +39,12 @@ read-access denied 不由“读过什么文件”触发，只指当前 formal ca
 
 可复用模式包括只读 array scan、未初始化 buffer 逐步写入、多游标 array algorithm、C string、optimization / binary search 的可行性或最优性 spec。不要复制长相对 include、generated file 手工改动、manual helper declarations、`Admitted.`、新增 `Axiom` 或旧 report 命名。
 
-## Reference examples
+## 参考示例
 
 优先按数据结构和证明目标选择相似 case：
 
 - 普通 annotation：`QCP_examples/QCP_demos_LLM/sum.c`、`sll.c`、`functional_queue.c`、`majorityElement.c`。
-- refinement / safeExec annotation：`QCP_examples/QCP_demos_LLM/sll_merge_rel.c`、`kmp_rel.c`、`int_array_merge_rel.c`。
+- 精化 / `safeExec` annotation：`QCP_examples/QCP_demos_LLM/sll_merge_rel.c`、`kmp_rel.c`、`int_array_merge_rel.c`。
 - branch-control：`QCP_examples/QCP_demos_LLM/bubble_sort.c`、`QCP_examples/QCP_demos_tutorial/branch_destruct.c`、`branch_join_private_condition.c`、`multiinv_examples.c`。
 - 二分答案 / 可行性 predicate：`.agents/skills/annotation-filling/docs/correct-examples/split_array_largest_sum/split_array_largest_sum.c` 和同目录的 `binary-search-annotation.md`。
 

@@ -1,0 +1,24 @@
+(coq.theory
+ (name SimpleC.EE.Applications_human)
+ (theories
+  AUXLib
+  Algorithms
+  FP
+  GraphLib
+  ListLib
+  Logic
+  MaxMinLib
+  MonadLib
+  SetsClass
+  SimpleC.Common
+  SimpleC.EE.QCP_demos_LLM
+  SimpleC.EE.QCP_demos_human
+  SimpleC.SL
+  SimpleC.StrategyLib
+  SimpleC.StdLib
+  SumLib
+  compcert.lib))
+
+(dirs :standard \ Project typeinfer_rc)
+
+(include_subdirs qualified)

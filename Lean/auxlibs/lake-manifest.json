@@ -1,0 +1,12 @@
+{"version": "1.1.0",
+ "packagesDir": ".lake/packages",
+ "packages":
+ [{"type": "path",
+   "scope": "",
+   "name": "compcert",
+   "manifestFile": "lake-manifest.json",
+   "inherited": false,
+   "dir": "../compcert_lib",
+   "configFile": "lakefile.lean"}],
+ "name": "auxlibs",
+ "lakeDir": ".lake"}

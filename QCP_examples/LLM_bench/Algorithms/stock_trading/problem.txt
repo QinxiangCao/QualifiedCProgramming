@@ -1,0 +1,56 @@
+P2569 [SCOI2010] Stock Trading
+
+Description
+
+Recently, lxhgww has gotten into stock investing again. After a period of
+observation and learning, he summarized some patterns in stock prices. Over
+time, lxhgww predicted the movement of a certain stock for the next T days. On
+day i, the buy price per share is AP_i, and the sell price per share is BP_i
+(the data guarantees that for every i, AP_i >= BP_i).
+
+However, trading cannot be unrestricted each day, so the exchange stipulates
+that in a single buy on day i, you can purchase at most AS_i shares, and in a
+single sell on day i, you can sell at most BS_i shares. In addition, the
+exchange has two more rules. To avoid excessive trading, the exchange requires
+that between any two transactions (a buy or a sell on any day counts as one
+transaction), there must be at least W days in between.
+
+That is, if a transaction occurs on day i, then from day i + 1 to day i + W
+(inclusive), no transactions are allowed. Also, to prevent monopolies, the
+exchange mandates that at any time, the number of shares a person holds cannot
+exceed MaxP. Before day 1, lxhgww has a large amount of cash (consider it as
+unlimited cash), but no stock. Of course, after T days, lxhgww wants to earn as
+much money as possible. Smart programmers, can you help him?
+
+Input Format
+
+The first line of input contains 3 integers: T, MaxP, and W. The next T lines
+describe the stock data. The i-th line corresponds to day i and contains 4
+integers, namely AP_i, BP_i, AS_i, BS_i.
+
+Output Format
+
+Output a single number: the maximum amount of money lxhgww can earn.
+
+Sample Input
+
+5 2 0
+2 1 1 1
+2 1 1 1
+3 2 1 1
+4 3 1 1
+5 4 1 1
+
+Sample Output
+
+3
+
+Constraints
+
+- For 30% of the testdata, 0 <= W < T <= 50, 1 <= MaxP <= 50.
+- For 50% of the testdata, 0 <= W < T <= 2000, 1 <= MaxP <= 50.
+- For 100% of the testdata, 0 <= W < T <= 2000, 1 <= MaxP <= 2000.
+- For all testdata, 1 <= BP_i <= AP_i <= 1000,
+  1 <= AS_i, BS_i <= MaxP.
+
+Source: https://www.luogu.com.cn/problem/P2569?lang=en

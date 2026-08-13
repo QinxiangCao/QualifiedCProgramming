@@ -1,0 +1,5 @@
+choir_singing — Choir Formation
+
+URL: https://www.luogu.com.cn/problem/P1091
+
+This verification case checks the algorithm for finding the minimum number of students to remove from a row so that the remaining students form a choir formation. A choir formation is defined as a sequence where heights first strictly increase up to a peak position, then strictly decrease afterward (t1 < t2 < ... < ti > ti+1 > ... > tk). Given n students with heights, the function returns the minimum number of students that need to leave so the remaining students form such a formation.

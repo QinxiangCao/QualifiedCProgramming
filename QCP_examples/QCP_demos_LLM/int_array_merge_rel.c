@@ -5,6 +5,7 @@
 
 
 /*@ Import Coq Require Import SimpleC.EE.QCP_demos_LLM.int_array_merge_rel_lib */
+/*@ Import Lean import SimpleC.EE.QCP_demos_LLM.int_array_merge_rel_lib */
 /*@ Extern Coq 
                (maketuple: list Z -> list Z ->  ((list Z) * (list Z)))
                (merge_rel: list Z -> list Z -> program unit (list Z))

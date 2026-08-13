@@ -4,7 +4,7 @@
 
 - `split_array_largest_sum.c`
 - 正式来源：`QCP_examples/LLM_bench/Algorithms/split_array_largest_sum/split_array_largest_sum.c`
-- formal 定义来源：`SeparationLogic/examples/LLM_bench/Algorithms/split_array_largest_sum/split_array_largest_sum_lib.v`
+- formal 定义来源：`Rocq/examples/LLM_bench/Algorithms/split_array_largest_sum/split_array_largest_sum_lib.v`
 
 遇到相似 case 时，优先学习这里的规格拆分和 invariant 形状，不要把它当作可机械复制的 proof 脚本。
 
@@ -25,7 +25,7 @@
 
 ## 为什么选择这些谓词
 
-### `PrefixSplitState`
+### `PrefixSplitState` 定义
 
 `check` 顺序扫描数组，维护：
 
@@ -45,7 +45,7 @@ PrefixSplitState(l, cap@pre, i, cnt, cur)
 
 这样每个 loop step 只需要证明“读入下一个元素后，前缀性质保持”，而不是证明 C 和某个 Rocq 递归解释器同步运行。
 
-### `CanSplit` / `CannotSplit`
+### `CanSplit` / `CannotSplit` 定义
 
 `check` 函数的对外规格不应该暴露内部扫描细节。它只需要告诉调用方：
 
@@ -61,7 +61,7 @@ PrefixSplitState(l, cap@pre, i, cnt, cur)
 
 这让主循环可以把 `check(mid)` 的结果转化成二分边界更新依据。`check` 的内部 invariant 证明 `PrefixSplitState`，函数 `Ensure` 再把它封装成 `CanSplit` / `CannotSplit`。
 
-### `PartitionMaxSegmentSum` / `MinimizedMaxSegmentSum`
+### `PartitionMaxSegmentSum` / `MinimizedMaxSegmentSum` 定义
 
 主函数真正要证明的是“返回值是所有合法分段中最大段和的最小值”。这应当先用严格数学定义表达，而不是在 Rocq 中定义一个 `splitArrayLargestSum` 函数再证明 C 与它一致。
 

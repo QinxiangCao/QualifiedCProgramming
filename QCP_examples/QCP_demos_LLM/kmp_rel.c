@@ -21,6 +21,7 @@
 /*@ Extern Coq (constr_loop_from: {A} -> A -> list A -> Z -> list Z -> Z -> program unit (list Z))*/
 
 /*@ Import Coq Require Import SimpleC.EE.QCP_demos_LLM.kmp_rel_lib */
+/*@ Import Lean import SimpleC.EE.QCP_demos_LLM.kmp_rel_lib */
 
 int * malloc_int_array(int n)
   /*@ Require n > 0 && emp

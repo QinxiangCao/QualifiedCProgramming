@@ -1,0 +1,9 @@
+import SimpleC.EE.QCP_demos_LLM.generated.dll_queue_strategy_proof
+
+namespace SimpleC.EE.QCP_demos_LLM.generated.dll_queue_strategy_goal_check
+
+def dll_queue_Strategy_Correctness : SimpleC.EE.QCP_demos_LLM.generated.dll_queue_strategy_goal.dll_queue_Strategy_Correct where
+  dll_queue_strategy0_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_queue_strategy_proof.dll_queue_strategy0_correctness
+  dll_queue_strategy1_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_queue_strategy_proof.dll_queue_strategy1_correctness
+
+end SimpleC.EE.QCP_demos_LLM.generated.dll_queue_strategy_goal_check

@@ -1,6 +1,6 @@
-#include "verification_stdlib.h"
-#include "verification_list.h"
-#include "int_array_def.h"
+
+
+
 
 /*@ Extern Coq
       (max_Z : Z -> Z -> Z)

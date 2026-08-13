@@ -1,0 +1,17 @@
+import SimpleC.EE.QCP_demos_LLM.generated.chars_proof_auto
+import SimpleC.EE.QCP_demos_LLM.generated.chars_proof_manual
+
+namespace SimpleC.EE.QCP_demos_LLM.generated.chars_goal_check
+
+open SimpleC.EE.QCP_demos_LLM.generated.chars_proof_auto
+open SimpleC.EE.QCP_demos_LLM.generated.chars_proof_manual
+
+def VC_Correctness : SimpleC.EE.QCP_demos_LLM.generated.chars_goal.VC_Correct where
+  proof_of_chars_initialize_safety_wit_1 := proof_of_chars_initialize_safety_wit_1
+  proof_of_chars_initialize_safety_wit_2 := proof_of_chars_initialize_safety_wit_2
+  proof_of_chars_initialize_partial_solve_wit_1 := proof_of_chars_initialize_partial_solve_wit_1
+  proof_of_chars_initialize_entail_wit_1 := proof_of_chars_initialize_entail_wit_1
+  proof_of_chars_initialize_entail_wit_2 := proof_of_chars_initialize_entail_wit_2
+  proof_of_chars_initialize_return_wit_1 := proof_of_chars_initialize_return_wit_1
+
+end SimpleC.EE.QCP_demos_LLM.generated.chars_goal_check

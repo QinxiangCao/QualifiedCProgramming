@@ -1,23 +1,24 @@
 ---
 name: final-check
-description: 由 main agent 在 final-apply 后确认 root generated/manual/formal_case_lib 与 accepted proving_merged_lib、versions 和 reports 一致。
+description: main agent 在 final-apply 写回 accepted proving_merged 后使用；确认 main root 的生成文件、manual、formal_case_lib、版本、合并结果与清理结果一致。
 ---
 
-# Final Check
+# 最终检查
 
-本 skill 只由 main agent 使用，不启动 subagent。
+## 何时调用
 
-## 文档
+只由 main agent 在 controller 已完成 `final-apply` 后调用，不创建 subagent。终检失败并成功回滚后，必须先按 controller action 重新执行 `final-apply`，不能直接重跑终检。
 
-- `docs/final-check-guide.md`：final-apply、freshness、fixed Coq、manual/三级 lib/forbidden/cleanup。
-- `../verification-orchestrator/docs/path-configuration.md`：freshness与 final Coq paths。
+首次公共入口由人类用根级 uv/Python 3.12 环境启动；这里的 `final-check` 只执行 controller action 中以已验证绝对 `sys.executable` 开头的完整 argv，不重新包 uv。
 
-## 完成要求
+## 大概作用
 
-- formal manual/`formal_case_lib` 只从 controller accepted proving_merged directory采用；`formal_case_lib` digest 等于 `proving_merged_lib`。
-- scripted freshness symexec 输出到 report temp，不覆盖 proved manual；raw refresh manual 由 controller diagnostics split 后只比较 cleaned witness names/statements。
-- main-root scripted full goal check passed，build files只在 run `_coq_builds`。
-- manual/`formal_case_lib` 无 `Admitted.`、extra `Axiom`、forbidden lemma；manual只含 target witness proofs。
-- helpers可追踪到 `group_worker_lib` reports与 `proving_merged_result.json`。
-- controller 删除检查前旧 Coq 副产物并在检查后重扫；正式路径无新产生或无法删除的副产物，cleanup evidence 保持 compact。
-- final-check 失败且 rollback 成功后回到 `final-candidate-apply`，必须重新 final-apply；rollback 失败时停止自动恢复。controller state/log记录 final result。
+通过 controller 复查来源封存、symbolic execution 新鲜度、Rocq 全量检查、manual 路线、三级 lib、禁用 lemma 与副产物清理；全部通过后才结束 run。
+
+## 需要阅读
+
+- [执行流程](workflows/final-check.md)
+- [路径与命令](../verification-orchestrator/workflows/paths-and-commands.md)
+- [Controller 公共接口](../verification-orchestrator/docs/controller-cli.md)
+
+main 不需要读取 group-worker 或其他 subagent skill。禁用 lemma、证明结构和来源封存由 controller 机械检查；main 只执行 action 自带的完整 invocation。

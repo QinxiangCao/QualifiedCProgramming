@@ -1,10 +1,10 @@
-(lang dune 3.20)
+(lang dune 3.16)
 
-(using coq 0.10)
+(using coq 0.9)
 
 (package
  (name qcp-binary-democases)
  (allow_empty)
  (depends
-  (dune (>= 3.20))
+  (dune (>= 3.16.1))
   (coq (= 8.20.1))))

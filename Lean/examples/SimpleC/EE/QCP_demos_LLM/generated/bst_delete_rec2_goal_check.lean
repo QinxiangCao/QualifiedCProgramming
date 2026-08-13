@@ -1,0 +1,35 @@
+import SimpleC.EE.QCP_demos_LLM.generated.bst_delete_rec2_proof_auto
+import SimpleC.EE.QCP_demos_LLM.generated.bst_delete_rec2_proof_manual
+
+namespace SimpleC.EE.QCP_demos_LLM.generated.bst_delete_rec2_goal_check
+
+open SimpleC.EE.QCP_demos_LLM.generated.bst_delete_rec2_proof_auto
+open SimpleC.EE.QCP_demos_LLM.generated.bst_delete_rec2_proof_manual
+
+def VC_Correctness : SimpleC.EE.QCP_demos_LLM.generated.bst_delete_rec2_goal.VC_Correct where
+  proof_of_get_pre_safety_wit_1 := proof_of_get_pre_safety_wit_1
+  proof_of_get_pre_partial_solve_wit_1_pure := proof_of_get_pre_partial_solve_wit_1_pure
+  proof_of_get_pre_partial_solve_wit_1 := proof_of_get_pre_partial_solve_wit_1
+  proof_of_delete_safety_wit_1 := proof_of_delete_safety_wit_1
+  proof_of_delete_safety_wit_2 := proof_of_delete_safety_wit_2
+  proof_of_delete_partial_solve_wit_1_pure := proof_of_delete_partial_solve_wit_1_pure
+  proof_of_delete_partial_solve_wit_1 := proof_of_delete_partial_solve_wit_1
+  proof_of_delete_partial_solve_wit_2_pure := proof_of_delete_partial_solve_wit_2_pure
+  proof_of_delete_partial_solve_wit_2 := proof_of_delete_partial_solve_wit_2
+  proof_of_delete_partial_solve_wit_3 := proof_of_delete_partial_solve_wit_3
+  proof_of_delete_partial_solve_wit_4_pure := proof_of_delete_partial_solve_wit_4_pure
+  proof_of_delete_partial_solve_wit_4 := proof_of_delete_partial_solve_wit_4
+  proof_of_delete_partial_solve_wit_5 := proof_of_delete_partial_solve_wit_5
+  proof_of_get_pre_entail_wit_1 := proof_of_get_pre_entail_wit_1
+  proof_of_get_pre_return_wit_1 := proof_of_get_pre_return_wit_1
+  proof_of_get_pre_return_wit_2 := proof_of_get_pre_return_wit_2
+  proof_of_delete_entail_wit_1 := proof_of_delete_entail_wit_1
+  proof_of_delete_entail_wit_2 := proof_of_delete_entail_wit_2
+  proof_of_delete_return_wit_1 := proof_of_delete_return_wit_1
+  proof_of_delete_return_wit_2 := proof_of_delete_return_wit_2
+  proof_of_delete_return_wit_3 := proof_of_delete_return_wit_3
+  proof_of_delete_return_wit_4 := proof_of_delete_return_wit_4
+  proof_of_delete_return_wit_5 := proof_of_delete_return_wit_5
+  proof_of_delete_derive_high_level_spec_by_low_level_spec := proof_of_delete_derive_high_level_spec_by_low_level_spec
+
+end SimpleC.EE.QCP_demos_LLM.generated.bst_delete_rec2_goal_check

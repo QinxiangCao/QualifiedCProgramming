@@ -25,5 +25,6 @@ struct tree {
                (delete_min: tree -> tree) */
 
 /*@ Import Coq Require Import SimpleC.EE.QCP_demos_LLM.bst_fp_lib */
+/*@ Import Lean import SimpleC.EE.QCP_demos_LLM.bst_fp_lib */
 
 /*@ include strategies "bst_fp.strategies"*/

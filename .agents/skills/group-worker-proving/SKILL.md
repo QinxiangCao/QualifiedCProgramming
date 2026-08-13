@@ -1,46 +1,22 @@
 ---
 name: group-worker-proving
-description: 由 group-worker 读取 group_worker_input.md，只编辑 fixed group directory 的 copied manual 和 group_worker_lib，证明 assigned witnesses 并写 compact terminal result。
+description: group-worker 领取 controller 已 claim 的 group_worker_input.md 或收到同 owner 的 append-group-worker 后使用；只在固定 group directory 中证明 assigned witnesses，修改交接给出的 copied manual 与可选 group_worker_lib，并交付 completed 或带完整 blocker 的终态报告。
 ---
 
-# Group Worker Proving
+# Group Worker 证明
 
-完整读取 startup message 指定的 `group_worker_input.md` 和 linked rules；不得依赖 parent transcript。manifest是 controller machine file，不需要整份载入上下文。
+## 角色边界
 
-## 文档
+只以当前 claim/handoff、本 skill 及其链接文档为依据。不读根 `AGENTS.md`、orchestrator 或其他角色 skill，不依赖 parent transcript，不读取或等待 sibling group，不调度其他 group，不执行 merge、parent verify 或 annotation retry。
 
-- `docs/coq-tooling-policy.md`：scripted Coq、overlay 与 group-check evidence。
-- `../verification-orchestrator/docs/path-configuration.md`：group path teaching。
-- 其他 linked tactic/reference guides。
+按 controller 已验证的 `proof_mode` 完成本组 top-level VC 和适用的 split goals，在交接指定的固定副本中维护 proof/helper，使用交接给出的命令做可选预检，最后停止写入并交付报告，等待 main agent 调用 `finalize-delivery` 封存和验证。
 
-## 允许工作
+诊断出 annotation/spec 缺口时，该缺口是本 group 的终态结果：停止在本组副本中追加越界修正，写入可追踪的完整 blocker 并正常交付。本 worker 不据此判断、停止或推进任何其他 group 或 parent 阶段。
 
-- 只编辑 handoff `Copied manual` 中 assigned witness proof bodies。
-- 只在 handoff `group_worker_lib` 新增 proved `Lemma`/`Theorem`/`Fact`/`Remark` 与必要 Rocq official imports。
-- debug script只写 handoff `Debug script` 给出的 exact `_coq_builds` path。
-- machine output只写 declared compact group report；可选 proof notes写 `group_worker_output.md`。
+## 需要阅读
 
-`formal_case_lib` read-only；generated files和unassigned witness blocks不可修改。group directory 最终只能有 copied manual 与 `group_worker_lib`。
-
-## Helper namespace
-
-每个新 helper 名必须以 `helper_namespace.suffix` 结尾。禁止 unsuffixed、foreign-suffix、seed declaration修改、project/generated imports。多个 groups需要同构事实时各自写 suffix helper；必须共享时回 annotation 提升为 `formal_case_lib` spec。
-
-无需在 worker report重复新增 declaration metadata；parent merge直接解析 `group_worker_lib` 并记录 name/kind/statement hash。
-
-## Coq feedback
-
-- 原样执行 handoff `Commands` 代码块中的 debug/check commands；两者必须进入 controller，禁止直接调用 internal `coq_tooling.py`。
-- 不拼 `--workspace-root`、build path、overlay、flags 或 cwd。
-- `completed` 前 exact group-check 必须通过并绑定 current `source_goal_version`；controller review会从 state/manifest派生相同 overlay并重跑，不把完整 evidence复制进 worker report。
-- 禁止 raw Coq、Dune、Rocq MCP、`coqc -o`。
-
-## Blocking 与 report
-
-single spawn 内尽量完成全部 assigned witnesses；failed tactic、missing optional hint、需要 suffix helper、多轮 debug 都应 local repair/retry。
-
-blocked 只用于经过 concrete proof-state/helper/scripted checks 后确认 premise 不可从当前 VC/`group_worker_lib` 推出，或 exact tooling 完全不可运行。版本失效 stale；compaction 只写 compact-error fact。
-
-返回 `blocked` 时，在 `group_worker_output.md` 写清 assigned witness、无法推出的 premise/resource、已尝试的 suffixed helper 与为何指向 annotation/spec 缺口；compact JSON report只保留 blocker。main agent会读取 Markdown与JSON原文件，按固定模板总结原因、反思和修复范围，再把 summary及原文件路径 append到 run 内唯一 annotation agent，不会为修正另开 annotation agent。
-
-`group_worker_report.json` 使用 `qcp-group-worker-report/v2`，只含 terminal status、current `source_goal_version` 与 blockers。assignment、candidate paths与namespace已在 handoff/manifest，不重复记录。不得 claim controller/parent acceptance。
+- 始终完整阅读 [执行流程](workflows/group-worker-proving.md)、[命令与检查](workflows/commands-and-checks.md) 和 [必须遵循的禁用 lemma 原则](docs/forbidden-lemma.md)。
+- 开始 manual VC 证明前阅读 [完整分离逻辑证明方法](docs/separation-logic-whole-proof-tactics.md)。
+- 本组包含精化目标时阅读 [精化证明方法](docs/refinement-proof-tactics.md)。
+- 本组使用顺序性、边界、sum 或其他纯命题 predicate 时阅读 [纯命题证明方法](docs/pure-proposition-proof-patterns.md)。
+- 确实需要查找类似证明时才阅读 [参考案例](docs/reference-cases.md)。

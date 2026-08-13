@@ -5,7 +5,8 @@
 ## Skeleton 模板
 
 ```coq
-LLM_pre_process ltac:(lia || int_auto). (* or aggressive_pre_process for the strategy-processed branch *)
+(* For a top-level VC, use exactly the controller-verified mode from the handoff. *)
+LLM_pre_process ltac:(lia || int_auto). (* shown only for an LLM_pre_process route *)
 (* 1. 选择后条件 witnesses *)
 Exists ... .
 (* 2. 必要的空间化简 *)
@@ -26,7 +27,7 @@ split_pure_spatial.
 
 ## 强制规则
 
-1. LLM proof 先用 `LLM_pre_process ltac:(...)`，不要直接用 `pre_process.`；如果当前 VC 被打印成 `原始 VC \/ 策略应用后的 VC`，`LLM_pre_process` 选择原始分支，`aggressive_pre_process` 选择 strategy-processed 分支。solver 由 VC 分析决定：一般用 `ltac:(lia || int_auto)`，只在线性算术时用 `ltac:(lia)`，只在整数/位自动化时用 `ltac:(int_auto)`，确有非线性算术时才加入 `nia`。
+1. top-level VC不得自行在两种mode间选择：handoff为`LLM_pre_process`时用`LLM_pre_process ltac:(...)`并保持其split-goal `Abort.` blocks不动；handoff为`aggressive_pre_process`时先按各自strategy完成全部assigned split goals，再在top-level VC中用`aggressive_pre_process.`，并对产生的各分支只执行`Goal_apply <对应split-goal lemma>.`。不得用`apply`、`eapply`、`exact`、`refine`或局部别名替代`Goal_apply`。这一点是worker原则，不由controller检查tactic文本。两种mode分别选择`原始 VC \/ 策略应用后的 VC`的原始分支和strategy-processed分支。
 2. 先选择 witnesses，再 `split_pure_spatial`。
 3. 不在 `split_pure_spatial` 前展开 `safeExec` 相关 wrapper。
 4. 先解决 spatial side，再解决 execution side。
@@ -84,7 +85,7 @@ safe_choice_l H.  (* or safe_choice_r H *)
 
 `safe_choice_l/r` 产生的 guard goal 不是 `safeExec` goal；可用 `unfold`、`simpl`、`lia`、`congruence`、case-specific helper 等普通 tactics。
 
-## Goal-side unfold
+## Goal 侧展开
 
 只有当 goal 的 program 是直接 wrapper application 时，才在 goal 中 unfold：
 

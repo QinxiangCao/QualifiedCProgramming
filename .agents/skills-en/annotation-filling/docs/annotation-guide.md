@@ -175,13 +175,17 @@ On each turn, the one annotation agent follows at least this loop until the cand
 
 Default budget: at least three complete `design/check/repair` cycles, or at least 30 minutes of actual annotation work. Use `stale` if the input version changes. For context compaction, record only the `compact-error` fact; place reusable hints in this attempt's `agent_output.md`. The controller/main agent decides whether to append another task or ultimately block, and compaction never permits a second annotation agent. Return `blocked` only when the controller's canonical symbolic execution, the formal-case-lib `coq-check`, or a script required by annotation-checking is completely unusable and command evidence exists. A missing specification, temporary `formal_case_lib` compilation failure, QCP failure, failed `where` instantiation, failed annotation-checking, inferred problem semantics, or missing reference hint must instead be repaired in this turn or result in a concrete candidate.
 
-If the controller handoff identifies the third or a later annotation iteration, first reevaluate the specification's abstraction level and direction. Then inspect the connections among function postconditions, loop invariants, local assertions, and call `where` clauses together. Consider deleting and rewriting an incorrect annotation structure instead of assuming the first two iterations' local-patch direction remains valid.
+If the controller handoff explicitly sets `consider_broader_refactor: true`, first reevaluate the specification's
+abstraction level and direction. Then inspect the connections among function postconditions, loop invariants, local
+assertions, and call `where` clauses together. Consider deleting and rewriting an incorrect annotation structure
+instead of assuming the first two annotation-causal repairs' local-patch direction remains valid. This requirement
+comes from the controller's causal count, not the annotation-directory ordinal.
 
-## Diagnosing QCP failures
+## Analyzing QCP failures
 
 For every canonical QCP failure, record briefly in `agent_output.md`:
 
-- The first diagnostic and failing file/line/function. Do not repeat command, cwd, target, or canonical flags already present in the handoff/controller.
+- The `first_failure` category and message, plus the failing file/line/function. Do not repeat command, cwd, target, or canonical flags already present in the handoff/controller.
 - The nearest `Require`, `Ensure`, `Assert`, `Inv Assert`, or `where`.
 - A summary of symbolic state, especially array/list/shape resources.
 - The failure class: pure fact, resource shape, specification mismatch, loop invariant, call instantiation, or `formal_case_lib` mismatch.
@@ -191,4 +195,4 @@ Do not change one line and immediately rerun QCP. Classify the failure first, th
 
 ## Output
 
-The current `agent_report.json` contains only the terminal status, exact changed files, three check statuses, and blockers. Put iterations, failure classifications, repair actions, branch decisions, and residual risks in the current `agent_output.md`; do not duplicate JSON evidence for every cycle. After return, the controller archives these three current files. The agent does not write history. Before `completed`, canonical QCP, the `formal_case_lib` check, and annotation-checking must all pass.
+The current `agent_report.json` contains only the terminal status, exact changed files relative to this attempt's before history, three check statuses, and blockers. Put iterations, failure classifications, repair actions, branch decisions, and residual risks in the current `agent_output.md`; do not duplicate JSON evidence for every cycle. `finalize-delivery` mechanically preflights this report before returned status/after history. If it returns `report-repair-required`, the same owner repairs it in the same running delivery and reruns the original command without creating a new attempt. Only after preflight does the controller archive the current files; the agent does not write history. Before `completed`, canonical QCP, the `formal_case_lib` check, and annotation-checking must all pass. Main-owned clean-output replay and final-check then validate generation freshness independently.

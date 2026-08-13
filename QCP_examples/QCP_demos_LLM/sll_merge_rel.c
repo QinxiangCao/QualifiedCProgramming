@@ -22,6 +22,7 @@
                 */
 
 /*@ Import Coq Require Import SimpleC.EE.QCP_demos_LLM.sll_merge_rel_lib */
+/*@ Import Lean import SimpleC.EE.QCP_demos_LLM.sll_merge_rel_lib */
 
 struct list *merge(struct list *x, struct list *y)
 /*@ With s1 s2 X

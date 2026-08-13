@@ -8,7 +8,7 @@ QCP_examples/Applications_human/fme_ge_gmp/
   fme/                         FME C case, header, and strategies
   ge/                          GE C cases, header, and strategies
 
-SeparationLogic/examples/Applications_human/fme_ge_gmp/
+Rocq/examples/Applications_human/fme_ge_gmp/
   Makefile                     scoped generation and compilation entry point
   gmp/                         GMP libraries and generated case files
   fme/                         FME library and generated case files
@@ -31,7 +31,7 @@ Only proof bodies in `<case>_proof_manual.v` are filled after generation.
 Run commands from the formal directory:
 
 ```sh
-cd SeparationLogic/examples/Applications_human/fme_ge_gmp
+cd Rocq/examples/Applications_human/fme_ge_gmp
 
 # Generate one case.
 make qcp-case-gmp-mpz_add

@@ -41,7 +41,7 @@
 - 当前候选最大值、最小值、最优值或可行性边界。
 - 已写前缀 + 未初始化后缀。
 - 当前抽象 queue / graph reachability / DP table meaning。
-- permutation、sortedness、bounds、shape-preserved、segment ownership。
+- 排列关系、有序性、边界、形状保持和分段所有权。
 
 若发现新定义开始一比一复现 loop locals 和 step transition，先停止并改成 predicate-first。先读 `docs/incorrect-examples/algorithm-mirror.md`，再查看 `max_sub_array` 反例文件。
 
@@ -91,7 +91,7 @@ unsigned int __u = u;
 - 当前拥有的 heap / array / string / shape resource。
 - 抽象列表、segment、前缀、后缀和程序变量之间的桥接等式。
 - `@pre` 参数桥，例如 `n == n@pre`、`arr == arr@pre`。
-- bounds、branch condition、loop guard、array read binding。
+- 边界、分支条件、循环守卫与数组读取绑定。
 - 当前隐藏性质或业务 predicate。
 
 不要在每条赋值后机械铺满全量 assertion。普通单步变换让 symbolic execution 推进；只在资源形态变化、抽象状态变化、分支汇合、函数调用、循环头尾和 QCP 无法自动发现关键纯事实时写完整 assertion。
@@ -175,13 +175,16 @@ Inv Assert
 
 默认 budget：至少 3 次完整 `design/check/repair` cycle，或至少 30 分钟实际 annotation 工作。输入版本失效写 `stale`。context compaction 只写 `compact-error` 事实；可复用提示放本次 attempt 的 `agent_output.md`，是否再次 append 或最终 block 由 controller / main agent 判定，不能因此创建第二个 annotation agent。只有 controller 的 canonical symexec、formal_case_lib `coq-check` 或 annotation-checking 所需脚本完全不可运行并有 command evidence 时，才返回 `blocked`。缺 spec、`formal_case_lib` 暂时不能 coqc、QCP 失败、where instantiation 失败、annotation-checking failed、题目语义需要推断、reference hint 缺失，都应在本 turn 内继续修复或给出 candidate。
 
-若 controller handoff 标明这是第三次或更晚的 annotation 迭代，先重新审视 spec 的抽象层次与方向，再同时检查 function postcondition、loop invariant、局部 assertion 与 call `where` 的连接。此时应考虑删除并重写错误的 annotation 结构，不能默认沿用前两轮的局部修补方向。
+若 controller handoff 明确标出 `consider_broader_refactor: true`，先重新审视 spec 的抽象层次与方向，
+再同时检查 function postcondition、loop invariant、局部 assertion 与 call `where` 的连接。此时应考虑
+删除并重写错误的 annotation 结构，不能默认沿用前两次 annotation 根因修正的局部方向。该要求由
+controller 的因果计数产生，不按 annotation 目录序号推断。
 
-## QCP 失败诊断
+## QCP 失败分析
 
 每次 canonical QCP 失败应在 `agent_output.md` 简要记录：
 
-- first diagnostic 与 failing file/line/function；command、cwd、target 和 canonical flags 已在 handoff/controller 中时不重复。
+- `first_failure` 的category、message与 failing file/line/function；command、cwd、target 和 canonical flags 已在 handoff/controller 中时不重复。
 - 最近的 `Require` / `Ensure` / `Assert` / `Inv Assert` / `where`。
 - symbolic state 摘要，特别是 array/list/shape resource。
 - 失败分类：pure fact、resource shape、spec mismatch、loop invariant、call instantiation、formal_case_lib mismatch。
@@ -191,4 +194,4 @@ Inv Assert
 
 ## 输出
 
-current `agent_report.json` 只保留 terminal status、exact changed files、三个 check status与 blockers。迭代、失败分类、修复动作、branch decisions和剩余风险写 current `agent_output.md`，不为每轮复制 JSON evidence。controller 在 returned 后归档这三个 current files；agent 不写 history。`completed` 前 canonical QCP、`formal_case_lib` check与 annotation-checking必须全部通过。
+current `agent_report.json` 只保留 terminal status、相对本attempt before history的exact changed files、三个 check status与 blockers。迭代、失败分类、修复动作、branch decisions和剩余风险写 current `agent_output.md`，不为每轮复制 JSON evidence。`finalize-delivery`会在returned/after history前机械预检该report；若返回`report-repair-required`，同一owner在同一running delivery修正后重跑原命令，不创建新attempt。预检通过后controller才归档current files；agent不写history。`completed` 前 canonical QCP、`formal_case_lib` check与annotation-checking必须全部通过；随后main-owned clean-output replay和final-check仍分别验收generation freshness。

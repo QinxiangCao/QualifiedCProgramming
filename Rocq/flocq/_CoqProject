@@ -1,0 +1,2 @@
+-R src Flocq
+-R ../../_build/default/Rocq/flocq/src Flocq

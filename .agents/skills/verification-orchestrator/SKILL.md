@@ -1,43 +1,42 @@
 ---
 name: verification-orchestrator
-description: 为单个验证 case 控制 controller 状态机、唯一持续 annotation agent、逐 attempt annotation reports、根目录 annotation/vc-checking、三级 lib、copied group directories、deterministic proving_merged 与 final-check。
+description: main agent 控制本仓库单个 C 验证 case 的完整 run 时使用；从 init-run 起依照 controller action 管理唯一 annotation agent、需要时的 vc-checking 与全部 group-worker、统一 annotation 缺口反馈、机械合并、final-apply 和 final-check，直到 done 或明确 blocker。
 ---
 
-# Verification Orchestrator
+# 验证编排
 
-只由 main agent 使用。以 `AGENTS.md` 为完整合同；按需读取：
+只由 main agent 使用。以 `controller_state.json` 和 controller 返回的 action 为准，不直接调用内部
+模块，不自行实现状态转移，也不代替 owner 修改其文件。
 
-- `docs/phase-handoff-report.md`：phase、轻量 Markdown/JSON 文件和 acceptance。
-- `docs/path-configuration.md`：controller-owned symexec/Coq path。
-- `docs/forbidden-lemma.md`：manual 与三级 lib 禁用 lemma。
+main 负责原样执行 action 自带的 invocation，维护 controller owner 到 agent target 的映射，并把
+claim response 的固定 `handoff.prompt` 原样发送给对应 agent。每个 run 只 spawn 一次 annotation
+agent，后续修正 append 到同一 target；vc-checking 和每组首次 group-worker 使用独立会话。
 
-## 边界
+main 的主动阅读边界只有：
 
-- 只通过 `scripts/controller.py`；internal modules不提供 agent CLI。
-- controller 写 state、event、acceptance、retry/stale，并创建 handoff；不启动 agent、不写 proof。main agent每个 run只 spawn一次 annotation agent，之后只向保存的 target append。
-- annotation 直接修改 main root target C/`formal_case_lib`；vc-checking 对 main root formal files只读。
-- group-worker 只改 fixed group copied manual/`group_worker_lib`；`proving_merged_lib` 只由机械 merge 生成。
-- agent-facing handoff 是 Markdown；terminal JSON 保持扁平，不复制规则、manifest、tooling evidence 或 controller state。
-- preparing/parent verify 不是 agent round，不创建 phase-agent files。
+- 本 skill 及下列全部 workflow/docs；
+- controller action 明确给出的当前 blocker、state 摘要和交接文件；
+- controller 进入 `final-check` 时，[`final-check/SKILL.md`](../final-check/SKILL.md) 及其 workflow；
+- Windows 上另读仓库根 [`AGENTS_WIN.md`](../../../AGENTS_WIN.md) 和它指向的
+  [Windows 适配说明](docs/windows.md)。
 
-## Controller 顺序
+main 不读取、摘要或重新解释 `annotation-filling`、`annotation-checking`、`vc-checking`、
+`group-worker-proving` 等 owner skill。每个 owner 只根据原样 claim message 读取自己的 skill 和本次
+交接文件；main 只编排，不代替 owner 学习角色知识。`vc-proving` 不是 phase subagent，group 的准备、
+汇总、merge 与 parent verify 都由 controller 驱动。
 
-1. `init-run` / `step`：创建 run；首轮使用 `reports/<run>/annotation-attempts/annotation-attempt1/`，并建立唯一 annotation session state。
-2. `spawn-instructions` 首次返回 spawn message。后续 annotation retry创建新的 `annotation-attempts/annotation-attemptN/agent_input.md` 主总结模板并停在 `awaiting-main-summary`；main agent阅读原始 blocker、完成模板并调用 `annotation-summary-ready` 后，controller才返回 append message。main agent必须保留首次 annotation target并复用；attempt lifecycle、`review-attempt`照常由 controller记录。
-3. `annotation-check-round`：重跑 symexec、diagnostics split、`formal_case_lib` check，接受 current version。
-4. `vc-checking-check-round`：验证 v3 group plan exact coverage/dependency/version。
-5. `vc-proving-preparing`：写 compact base/worker manifests，copy group files，创建 group Markdown handoff。
-6. group lifecycle/review：controller 重跑 fixed group-check后才接受 group。
-7. `vc-proving-verify`：机械 merge、parent full check，写 compact `proving_merged_result.json`。
-8. `final-apply` / `final-check`：backup、写回；controller只清除current target case与run非build区域的旧Coq side products，保留前置全量make的基础`.vo`；fresh symexec 后在 refresh directory diagnostics split raw manual，再做 full check、结构/lib 与检查后 cleanup 扫描，完成后写 done。失败且 rollback 成功则回到 `final-candidate-apply`，必须重新 apply 后再 check。
+没有 manual VC 时跳过 vc-checking 和 group-worker，但仍执行 controller 选择的 dependency
+preparation（公共 action 名保留为 `dune-build`）、parent check、写回和终检。有 group 时，即使已有
+group 报告 annotation 缺口，也继续派发本轮所有 group；全部 group
+到终态后才统一进入一次 annotation retry，本轮不 merge、不 verify。
 
-每次agent delivery/return都必须用`mark-attempt-started`/`mark-attempt-returned`建立真实墙钟边界。annotation handoff另含配对`timing-stage`命令，owner在annotation-checking完整review/repair loop前后执行。controller据此生成按annotation attempt及vc-checking/vc-proving round组织的`qcp-timing-summary/v4`；summary优先整体生命周期，只下钻重要stage，不记录单witness时间或全局command累计。
+## 需要阅读
 
-## 操作规则
+- [总流程](workflows/verification-workflow.md)
+- [状态与交接](workflows/state-handoffs-and-reports.md)
+- [路径与命令](workflows/paths-and-commands.md)
+- [Controller 公共接口](docs/controller-cli.md)
 
-- main agent 只执行 controller 返回的 action/command，不自行拼 path、flags、overlay 或 build directory。
-- 首轮 annotation action只 spawn一个 agent；以后 `append-annotation-agent` action必须发给同一 target。每次 retry的 `agent_input.md` 由 main agent按五段模板总结 blocker cause、evidence、previous-attempt reflection、required repair与scope decision，并保留原始 Markdown/JSON路径；模板未完成时controller拒绝append。每次 append都要求重新完整读取两个 annotation skills、主总结和原始证据；第三次及以后还要求从更大范围重构 spec/contract/invariant。
-- vc-checking/group-worker 使用不含 parent transcript 的独立会话；handoff Markdown/current files 是 source of truth。
-- 长时运行不是 retry evidence。annotation compact repair继续 append同一 target；其他 agent compact error按 state 中 bounded policy重启；version变化使 downstream stale。
-- final-check 失败后只按 controller state 恢复：rollback 成功时 `step` 返回 `final-apply`；rollback 失败时没有后续 action。cleanup evidence 保持 compact，不保存全部副产物路径。
-- acceptance只读 `controller_state.json`、event log、current files和 controller-generated merge result；owner report不由 controller改写。
+`SKILL.md` 只做入口和阅读路由；状态转移与写入边界放在 `workflows/`，公共接口和稳定知识放在
+`docs/`。本仓库不跟踪 skill 回归测试，不得在 `.agents/skills/**/scripts/test/` 或语言镜像中加入
+测试脚本。

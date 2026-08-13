@@ -4,6 +4,7 @@
 /*@ Extern Coq (lowerbound : Z -> list Z -> Prop) */
 /*@ Extern Coq (prefix_suffix_sorted : list Z -> list Z -> Prop) */
 /*@ Import Coq Require Import SimpleC.EE.QCP_demos_LLM.bubble_sort_lib */
+/*@ Import Lean import SimpleC.EE.QCP_demos_LLM.bubble_sort_lib */
 
 void bubble_sort(int *arr, int n)
 /*@ With (l: list Z)

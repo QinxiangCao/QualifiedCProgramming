@@ -1,41 +1,23 @@
 ---
 name: vc-checking
-description: Used by a vc-checking subagent to read the cleaned manual/generated/formal_case_lib files directly from the main root, judge semantic provability of manual VCs, and emit a group_plan.json bound to source_goal_version.
+description: Use by an independent vc-checking owner after the controller has claimed a vc-checking attempt, the accepted selected-backend dependency snapshot is prepared, and the raw manual contains at least one top-level VC; read only the formal source bound by the handoff, complete the exhaustive split-first provability analysis before selecting proof_mode, form a strict group plan and conditional reuse hints, and deliver or repair the current attempt's report in place.
 ---
 
 # VC Checking
 
-Read the `agent_input.md` named by the startup message in full. Current main-root files and the handoff version are the only context. A parent transcript is forbidden.
+You are the `vc-checking` owner for the current attempt and complete only VC analysis, grouping, and this delivery. Every attempt is a new independent session; rely only on the controller claim/handoff, the current `agent_input.md`, and files bound by the handoff. Do not depend on the parent transcript or speculate about or advance later annotation, group proving, merge, final apply, or other phases.
 
-## Documentation
+## Reading order
 
-- `docs/vc-checking-guide.md`: provability, per-witness plans, and the group plan.
-- `docs/natural-language-analysis.md`: natural-language analysis of `P |-- Q`.
-- `../verification-orchestrator/docs/path-configuration.md`: root/group path roles.
+1. Read the [VC analysis and grouping workflow](workflows/vc-analysis-and-grouping.md) in full. It is the process, write, command, and output contract for the current role.
+2. As required by the workflow, read the [VC analysis guide](docs/vc-checking-guide.md) and [natural-language analysis](docs/natural-language-analysis.md). They provide proof-analysis knowledge only; if an obsolete process description in either document conflicts with the workflow, the workflow prevails.
+3. Read the `agent_input.md` named by the claim message in full, then read only the source, reuse source, and controller blocker bound there.
 
-## Allowed work
+Do not read the root `AGENTS.md`, verification-orchestrator, another role's skill, controller state/event, or unbound history to supplement the process. If required information is absent from this skill and the claim/handoff, report it as missing under the workflow without expanding the read scope.
 
-- Read only the main-root manual, goal, auto, diagnostics, snapshot, and `formal_case_lib`.
-- Write only the declared `agent_report.json`, `group_plan.json`, and `agent_output.md`.
-- Do not modify formal files, witness statements, or generated files.
+## Delivery objectives
 
-## Judgments and grouping
-
-For each target witness, analyze pre/post spatial resources, pure facts, existentials, refinement state, witness instantiation, and helper premises.
-
-- `proofable`: existing facts and lemmas suffice.
-- `needs-helper`: the semantics hold, and a group worker can prove a current-suffix helper in `group_worker_lib`.
-- `annotation-bug`: the current C annotations or `formal_case_lib` specification are missing or wrong and must return to annotation.
-- `blocked`: the VC is genuinely semantically unprovable, or a required read/parse tool has a major failure.
-
-On `annotation-bug` or `blocked`, `agent_output.md` must identify the concrete witness, missing premise/resource, corresponding C function/loop/assertion, and specification boundary to reconsider—enough for the main agent to analyze the failure and the annotation owner to repair it. Keep the blocker in `agent_report.json` machine-minimal. The main agent reads both original files, uses the blocker-summary template for its cause and reflection, and appends the summary plus original paths to the run's one annotation agent. It never respawns annotation.
-
-Minimize the number of groups. Put witnesses from the same function, pattern, or helper family in one group when one worker can process them in sequence. Split only for a real dependency, substantially different strategy, or excessive context. Assign every target witness exactly once, keep the dependency graph acyclic, and obey the grouping bound.
-
-If a helper truly must be shared across groups, recommend returning to annotation and promoting the mathematical fact into a `formal_case_lib` specification declaration. Never let a group edit the formal library.
-
-## Output
-
-Write detailed per-witness judgments and natural-language proof analysis in `agent_output.md`. `group_plan.json` keeps only the current version and `groups[{id,witnesses,depends_on,strategy?,helpers?}]`. `agent_report.json` keeps only terminal status, version, and blockers. Only the controller adds `verified: true` to the plan and records acceptance in state.
-
-An uncertain proof route, unproved helper, missing diagnostics hint, or difficult witness is not blocked. Use `stale` for an invalidated version. For compaction, record only the `compact-error` fact. Do not modify annotations directly and do not request a new annotation agent.
+- Apply the exhaustive split-first analysis and unique `proof_mode` decision strictly to every top-level VC.
+- Write executable strategies only for the selected formal targets; generate conditional reuse hints only when the controller explicitly binds the preceding sealed proving source.
+- Complete preliminary grouping and a second load, coupling, and critical-path review; output a strict `group_plan.json` and concise `agent_output.md`.
+- Write `agent_report.json` last, stop all writes, and return the delivery to main/controller; if the controller requires an in-place report repair, repair it only within the same owner, attempt, and permitted boundary.

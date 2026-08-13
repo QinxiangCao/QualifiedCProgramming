@@ -1,6 +1,6 @@
-#include "verification_stdlib.h"
-#include "verification_list.h"
-#include "int_array_def.h"
+
+
+
 
 struct Point {
   int x;
@@ -169,13 +169,15 @@ int partition_points(int *coords, int n, int low, int high, int gx, int gy)
     int ax = coords[2 * j];
     int ay = coords[2 * j + 1];
     int c = cmp_polar_values(gx, gy, ax, ay, pivot_x, pivot_y);
+    /*@ Given flat_cur pts_cur */
     if (c <= 0) {
       i++;
-      swap_points(coords, n, i, j);
+      swap_points(coords, n, i, j) /*@ where flat = flat_cur, pts_l = pts_cur */;
     }
   }
 
-  swap_points(coords, n, i + 1, high);
+  /*@ Given flat_cur pts_cur */
+  swap_points(coords, n, i + 1, high) /*@ where flat = flat_cur, pts_l = pts_cur */;
   return i + 1;
 }
 
@@ -207,8 +209,9 @@ void quicksort_points_range(int *coords, int n, int left, int right, int gx, int
           FlatPoints(flat, pts_l) &&
           PointCoordsBound(cons(mk_point(gx, gy), pts_l)) &&
           IntArray::full(coords, 2 * n, flat)
-     */
-    int p = partition_points(coords, n, left, right, gx, gy);
+      */
+    /*@ Given pts_l */
+    int p = partition_points(coords, n, left, right, gx, gy) /*@ where flat = flat, pts_l = pts_l */;
     if (p > left) {
       quicksort_points_range(coords, n, left, p - 1, gx, gy);
     }

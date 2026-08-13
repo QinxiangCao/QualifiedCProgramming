@@ -1,0 +1,8 @@
+; Converted from:
+; - _CoqProject: -R Rocq/SeparationLogic SimpleC.SL
+; - Rocq/_CoqProject: -R SeparationLogic SimpleC.SL
+(coq.theory
+ (name SimpleC.SL)
+ (theories AUXLib Flocq Logic MonadLib SetsClass compcert.lib))
+
+(include_subdirs qualified)

@@ -5,7 +5,8 @@ This document records stable proof patterns for `safeExec` goals in refinement V
 ## Skeleton
 
 ```coq
-LLM_pre_process ltac:(lia || int_auto). (* or aggressive_pre_process for the strategy-processed branch *)
+(* For a top-level VC, use exactly the controller-verified mode from the handoff. *)
+LLM_pre_process ltac:(lia || int_auto). (* shown only for an LLM_pre_process route *)
 (* 1. Choose postcondition witnesses. *)
 Exists ... .
 (* 2. Perform necessary spatial simplification. *)
@@ -26,7 +27,7 @@ split_pure_spatial.
 
 ## Mandatory rules
 
-1. LLM proofs should begin with `LLM_pre_process ltac:(...)`, not `pre_process.`. If the current VC is printed as `original VC \/ strategy-processed VC`, `LLM_pre_process` selects the original branch and `aggressive_pre_process` selects the strategy-processed branch. Choose the solver from VC analysis: usually `ltac:(lia || int_auto)`, only `ltac:(lia)` for linear arithmetic, only `ltac:(int_auto)` for bit/integer automation, and include `nia` only for genuinely nonlinear arithmetic.
+1. A top-level VC never chooses between modes locally. If the handoff says `LLM_pre_process`, use `LLM_pre_process ltac:(...)` and leave its split-goal `Abort.` blocks unchanged. If it says `aggressive_pre_process`, first complete every assigned split goal according to its strategy, then use `aggressive_pre_process.` in the top-level VC and run only `Goal_apply <corresponding split-goal lemma>.` on each resulting branch. Do not replace `Goal_apply` with `apply`, `eapply`, `exact`, `refine`, or a local alias. This is a worker rule, not a controller tactic-text check. These modes select respectively the original and strategy-processed branches of `original VC \/ strategy-processed VC`.
 2. Choose witnesses before `split_pure_spatial`.
 3. Do not unfold a `safeExec` wrapper before `split_pure_spatial`.
 4. Solve the spatial side before the execution side.

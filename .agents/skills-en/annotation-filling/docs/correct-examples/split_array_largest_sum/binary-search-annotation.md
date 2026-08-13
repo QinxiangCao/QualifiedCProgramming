@@ -4,7 +4,7 @@ This directory contains a positive annotation example for `split_array_largest_s
 
 - `split_array_largest_sum.c`
 - Formal C source: `QCP_examples/LLM_bench/Algorithms/split_array_largest_sum/split_array_largest_sum.c`
-- Formal definitions: `SeparationLogic/examples/LLM_bench/Algorithms/split_array_largest_sum/split_array_largest_sum_lib.v`
+- Formal definitions: `Rocq/examples/LLM_bench/Algorithms/split_array_largest_sum/split_array_largest_sum_lib.v`
 
 For a similar case, learn the specification decomposition and invariant shapes here. Do not treat this as a proof script to copy mechanically.
 

@@ -3,6 +3,7 @@
 #include "sll_def.h"
 
 /*@ Import Coq Require Import SimpleC.EE.QCP_demos_LLM.sll_insert_sort_lib */
+/*@ Import Lean import SimpleC.EE.QCP_demos_LLM.sll_insert_sort_lib */
 
 /*@ Extern Coq (Permutation: list Z -> list Z -> Prop)
                (increasing: list Z -> Prop)

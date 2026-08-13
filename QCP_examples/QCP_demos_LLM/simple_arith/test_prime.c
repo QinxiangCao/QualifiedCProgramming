@@ -1,4 +1,5 @@
 /*@ Import Coq Require Import SimpleC.EE.QCP_demos_LLM.simple_arith.test_prime_lib */
+/*@ Import Lean import SimpleC.EE.QCP_demos_LLM.simple_arith.test_prime_lib */
 
 /*@ Extern Coq (prime : Z -> Prop)
                (HasFactorBetween : Z -> Z -> Z -> Prop)

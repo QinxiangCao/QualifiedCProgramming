@@ -241,6 +241,7 @@ solve_res* thm_apply(term* thm, var_sub_list* lis, term* goal)
         store_partial_quant(thm, thm_ins, pq) *
         store_term(thm_ins, st)
     */
+    /*@ Given pq st*/
     if (alpha_equiv(thm_ins, goal)) {
       res->type = bool_res;
       res->d.ans = 1;
@@ -251,15 +252,14 @@ solve_res* thm_apply(term* thm, var_sub_list* lis, term* goal)
           res->d.list == 0
       */
      term* thm_ins_c = copy_term(thm_ins);
-      /*@ exists pq st,
-          term_alpha_eqn(st, g) == 0 &&
+      /*@ term_alpha_eqn(st, g) == 0 &&
           thm_subst_allres_rel(t, l, pq, st) &&
           safeExec(ATrue, thm_app_rel(t, l, g), X)
           which implies 
           safeExec(ATrue, bind(check_rel(st, g), get_list), X)
       */
       res->d.list = check_list_gen(thm_ins_c, goal)
-        /*@ where(low_level_spec_aux) c = get_list, X = X; B = solve_res */
+        /*@ where(low_level_spec_aux) theo = st, targ = g, c = get_list, X = X; B = solve_res */
       ; 
     }
   }

@@ -1,0 +1,8 @@
+-Q . GraphLib
+-Q ../../_build/default/Rocq/GraphLib GraphLib
+-R ../sets SetsClass
+-R ../../_build/default/Rocq/sets SetsClass
+-R ../MaxMinLib MaxMinLib
+-R ../../_build/default/Rocq/MaxMinLib MaxMinLib
+-R ../listlib ListLib
+-R ../../_build/default/Rocq/listlib ListLib

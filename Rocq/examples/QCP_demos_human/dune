@@ -1,0 +1,17 @@
+(coq.theory
+ (name SimpleC.EE.QCP_demos_human)
+ (theories
+  AUXLib
+  FP
+  ListLib
+  Logic
+  MaxMinLib
+  MonadLib
+  SetsClass
+  SimpleC.Common
+  SimpleC.SL
+  SimpleC.StdLib
+  SumLib
+  compcert.lib))
+
+(include_subdirs qualified)

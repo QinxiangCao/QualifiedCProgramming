@@ -4,13 +4,7 @@ This document collects annotation-round rules for symbolic execution, reference 
 
 ## Includes and symbolic execution
 
-C cases under `QCP_examples/LLM_bench` that reuse public `QCP_demos_LLM` headers must use bare includes consistently:
-
-```c
-#include "verification_stdlib.h"
-#include "verification_list.h"
-#include "int_array_def.h"
-```
+C cases under `QCP_examples/LLM_bench` that reuse public `QCP_demos_LLM` headers must use bare includes consistently.
 
 Symbolic execution must include both:
 
@@ -23,7 +17,9 @@ Symbolic execution must include both:
 
 ## Recording checks
 
-The annotation handoff supplies the complete `controller.py symexec` command. Controller code fixes the driver, working directory, target, and canonical `-I` / `-slp` options. On success, write only `checks.symexec = passed` in the report. On failure, put a command/diagnostic summary in `agent_output.md`; do not copy the complete argv, paths, or evidence object.
+The annotation handoff supplies the complete `controller.py symexec` command. Controller code fixes the driver, working directory, target, and canonical `-I` / `-slp` options. On success, terminal JSON contains only the completed status. On failure, put the explicit `first_failure` category, message, location, and repair summary in `agent_output.md`; do not copy the complete argv, paths, or evidence object.
+
+Owner symbolic execution refreshes all four generated files in the main root as one transaction: any failed step rolls back the whole set, and only success commits it. It does not run a second clean replay or create acceptance evidence. The later main-owned `clean-output-freshness/` gate replays canonical symbolic execution in an independent directory, compares the four raw generated files and manual declarations, and treats any mismatch as the controller's first failure. Stable repeated main-root digests do not replace that gate.
 
 Only symbolic execution may refresh generated files: `*_goal.v`, `*_proof_auto.v`, `*_proof_manual.v`, and `*_goal_check.v`. Symbolic execution does not rewrite `formal_case_lib`.
 
@@ -33,7 +29,7 @@ Prefer the reference-case hints listed in the handoff's `Problem context`. Witho
 
 - `QCP_demos_LLM`
 - `QCP_examples/LLM_bench`
-- `SeparationLogic/examples/LLM_bench`
+- `Rocq/examples/LLM_bench`
 
 Read-only access to every reference file is allowed, including `QCP_demos_human`. Reading, searching, comparing, or noting a human example is not itself an annotation blocker. The controller's file-access policy does not encode recommendation levels and does not deny a read based on its path. At the documentation level, LLM cases remain preferred; human cases are allowed but not recommended.
 

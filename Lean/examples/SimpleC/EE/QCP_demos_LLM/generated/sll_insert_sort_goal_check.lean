@@ -1,0 +1,29 @@
+import SimpleC.EE.QCP_demos_LLM.generated.sll_insert_sort_proof_auto
+import SimpleC.EE.QCP_demos_LLM.generated.sll_insert_sort_proof_manual
+
+namespace SimpleC.EE.QCP_demos_LLM.generated.sll_insert_sort_goal_check
+
+open SimpleC.EE.QCP_demos_LLM.generated.sll_insert_sort_proof_auto
+open SimpleC.EE.QCP_demos_LLM.generated.sll_insert_sort_proof_manual
+
+def VC_Correctness : SimpleC.EE.QCP_demos_LLM.generated.sll_insert_sort_goal.VC_Correct where
+  proof_of_insertion_safety_wit_1 := proof_of_insertion_safety_wit_1
+  proof_of_insertion_entail_wit_3_2 := proof_of_insertion_entail_wit_3_2
+  proof_of_insertion_partial_solve_wit_1 := proof_of_insertion_partial_solve_wit_1
+  proof_of_insertion_sort_safety_wit_1 := proof_of_insertion_sort_safety_wit_1
+  proof_of_insertion_sort_safety_wit_2 := proof_of_insertion_sort_safety_wit_2
+  proof_of_insertion_sort_partial_solve_wit_1 := proof_of_insertion_sort_partial_solve_wit_1
+  proof_of_insertion_sort_partial_solve_wit_2_pure := proof_of_insertion_sort_partial_solve_wit_2_pure
+  proof_of_insertion_sort_partial_solve_wit_2 := proof_of_insertion_sort_partial_solve_wit_2
+  proof_of_insertion_entail_wit_1 := proof_of_insertion_entail_wit_1
+  proof_of_insertion_entail_wit_2 := proof_of_insertion_entail_wit_2
+  proof_of_insertion_entail_wit_3_1 := proof_of_insertion_entail_wit_3_1
+  proof_of_insertion_entail_wit_4_1 := proof_of_insertion_entail_wit_4_1
+  proof_of_insertion_entail_wit_4_2 := proof_of_insertion_entail_wit_4_2
+  proof_of_insertion_return_wit_1 := proof_of_insertion_return_wit_1
+  proof_of_insertion_return_wit_2 := proof_of_insertion_return_wit_2
+  proof_of_insertion_sort_entail_wit_1 := proof_of_insertion_sort_entail_wit_1
+  proof_of_insertion_sort_entail_wit_2 := proof_of_insertion_sort_entail_wit_2
+  proof_of_insertion_sort_return_wit_1 := proof_of_insertion_sort_return_wit_1
+
+end SimpleC.EE.QCP_demos_LLM.generated.sll_insert_sort_goal_check

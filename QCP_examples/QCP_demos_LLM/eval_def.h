@@ -1,5 +1,6 @@
 
 /*@ Import Coq Require Import SimpleC.EE.QCP_demos_LLM.eval_lib */
+/*@ Import Lean import SimpleC.EE.QCP_demos_LLM.eval_lib */
 
 /*@ Extern Coq (expr :: *) */
 /*@ Extern Coq (binop :: *) */

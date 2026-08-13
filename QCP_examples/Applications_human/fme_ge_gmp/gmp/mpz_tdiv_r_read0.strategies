@@ -7,14 +7,14 @@ priority : core(2)
 left : store_Z_read0(?x, ?n) at 0
 right : (store(field_addr(x, __mpz_struct, _mp_size), I32, ?y) ||
          store(field_addr(x, __mpz_struct, _mp_alloc), I32, ?y) ||
-         store(field_addr(x, __mpz_struct, _mp_d), PTR, ?y)) at 1
+         store(field_addr(x, __mpz_struct, _mp_d), PTR(U32), ?y)) at 1
 action : left_erase(0);
          left_exist_add(ptr);
          left_exist_add(size);
          left_exist_add(cap);
          left_add(store(field_addr(x, __mpz_struct, _mp_size), I32, size));
          left_add(store(field_addr(x, __mpz_struct, _mp_alloc), I32, cap));
-         left_add(store(field_addr(x, __mpz_struct, _mp_d), PTR, ptr));
+         left_add(store(field_addr(x, __mpz_struct, _mp_d), PTR(U32), ptr));
          left_add(Zabs(size) <= cap);
          left_add(same_sign(n, size));
          left_add(mpd_store_Z_compact_read0(ptr, Zabs(n), Zabs(size)));
@@ -25,14 +25,14 @@ priority : core(2)
 right : store_Z_read0(?x, ?n) at 0
 left : (store(field_addr(x, __mpz_struct, _mp_size), I32, ?y) ||
         store(field_addr(x, __mpz_struct, _mp_alloc), I32, ?y) ||
-        store(field_addr(x, __mpz_struct, _mp_d), PTR, ?y)) at 1
+        store(field_addr(x, __mpz_struct, _mp_d), PTR(U32), ?y)) at 1
 action : right_erase(0);
          right_exist_add(ptr);
          right_exist_add(size);
          right_exist_add(cap);
          right_add(store(field_addr(x, __mpz_struct, _mp_size), I32, size));
          right_add(store(field_addr(x, __mpz_struct, _mp_alloc), I32, cap));
-         right_add(store(field_addr(x, __mpz_struct, _mp_d), PTR, ptr));
+         right_add(store(field_addr(x, __mpz_struct, _mp_d), PTR(U32), ptr));
          right_add(Zabs(size) <= cap);
          right_add(same_sign(n, size));
          right_add(mpd_store_Z_compact_read0(ptr, Zabs(n), Zabs(size)));

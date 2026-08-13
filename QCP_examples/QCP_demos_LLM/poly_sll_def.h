@@ -9,5 +9,6 @@ struct list {
  */
 
 /*@ Import Coq Require Import SimpleC.EE.QCP_demos_LLM.poly_sll_lib */
+/*@ Import Lean import SimpleC.EE.QCP_demos_LLM.poly_sll_lib */
 
 /*@ include strategies "poly_sll.strategies" */

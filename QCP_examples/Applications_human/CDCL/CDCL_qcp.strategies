@@ -1,0 +1,1662 @@
+#include "CDCL_qcp_def.h"
+
+id : 3
+priority : core(1)
+left : installed_rows_capacity_rep(?p, ?live, ?cap, ?rows) at 0
+right : data_at(p + (?i * sizeof(PTR)), PTR, ?v) at 1
+check : infer(0 <= i);
+        infer(i < live);
+action : right_erase(1);
+         left_erase(0);
+         left_exist_add(row_ptr);
+         left_add(IntPtrArray2::missing_i(p, live, i, row_ptr, rows));
+         left_add(IntArray::full(row_ptr, Zlength{Z}(rows[i]), rows[i]));
+         left_add(PtrArray::undef_seg(p, live, cap));
+         right_add(v == row_ptr);
+
+id : 4
+priority : post(1)
+left : IntPtrArray2::missing_i(?p, ?live, ?i, ?row_ptr, ?rows) at 0
+       IntArray::full(row_ptr, Zlength{Z}(rows[i]), rows[i]) at 1
+       data_at(p + (i * sizeof(PTR)), PTR, row_ptr) at 2
+       PtrArray::undef_seg(p, live, ?cap) at 3
+check : infer(0 <= i);
+        infer(i < live);
+action : left_erase(3);
+         left_erase(2);
+         left_erase(1);
+         left_erase(0);
+         left_add(installed_rows_capacity_rep(p, live, cap, rows));
+
+id : 5
+priority : core(1)
+left : installed_rows_capacity_rep(?p, ?live, ?cap, ?rows) at 0
+right : undef_data_at(p + (live * sizeof(PTR)), PTR) at 1
+check : infer(live < cap);
+action : right_erase(1);
+         left_erase(0);
+         left_add(IntPtrArray2::full(p, live, rows));
+         left_add(PtrArray::undef_seg(p, live + 1, cap));
+
+id : 6
+priority : post(1)
+left : IntPtrArray2::full(?p, ?live, ?rows) at 0
+       data_at(p + (live * sizeof(PTR)), PTR, ?newp) at 1
+       IntArray::full(newp, Zlength{Z}(?row), row) at 2
+       PtrArray::undef_seg(p, live + 1, ?cap) at 3
+check : infer(0 <= live);
+        infer(live < cap);
+action : left_erase(3);
+         left_erase(2);
+         left_erase(1);
+         left_erase(0);
+         left_add(installed_rows_capacity_rep(
+           p, live + 1, cap,
+           app{list{Z}}(
+             rows,
+             cons{list{Z}}(row, nil{list{Z}}))));
+
+
+id : 7
+priority : core(0)
+left : backtrack_inner(?old, ?current, ?after_clear, ?n, ?target, ?variable,
+                          ?j, ?live, ?cap,
+                          installed_clauses(cdcl_view_of_snapshot(?n2, ?snap, ?ranks, ?dl)),
+                          ?st, ?tc, ?un) at 0
+       coherent_snapshot(?F, n, live, ?original_count, snap) at 1
+       IntArray::full(?un_ptr, live, un) at 2
+check : infer(0 <= j);
+        infer(j < live);
+        absense(0 <= Znth{Z}(j, un, 0));
+action : left_add(0 <= Znth{Z}(j, un, 0));
+         left_add(Znth{Z}(j, un, 0) <= n);
+         left_add(0 <= Znth{Z}(j, tc, 0));
+         left_add(Znth{Z}(j, tc, 0) <= n);
+         left_add(0 - n <= Znth{Z}(j, st, 0));
+         left_add(Znth{Z}(j, st, 0) <= 2);
+
+id : 8
+priority : core(0)
+left : decision_update(?old, ?new, ?x, ?j, ?live, ?cap,
+                          installed_clauses(cdcl_view_of_snapshot(?n2, ?snap, ?ranks, ?dl)),
+                          ?st, ?tc, ?un) at 0
+       coherent_snapshot(?F, ?n, live, ?original_count, snap) at 1
+       IntArray::full(?un_ptr, live, un) at 2
+check : infer(0 <= j);
+        infer(j < live);
+        absense(0 <= Znth{Z}(j, un, 0));
+action : left_add(0 <= Znth{Z}(j, un, 0));
+         left_add(Znth{Z}(j, un, 0) <= n);
+         left_add(0 <= Znth{Z}(j, tc, 0));
+         left_add(Znth{Z}(j, tc, 0) <= n);
+         left_add(0 - n <= Znth{Z}(j, st, 0));
+         left_add(Znth{Z}(j, st, 0) <= 2);
+
+id : 9
+priority : core(0)
+left : bcp_clause_scan(?old, ?new, ?x, ?b, ?d, ?reason, ?j, ?exempt, ?live, ?cap,
+                          installed_clauses(cdcl_view_of_snapshot(?n2, ?snap, ?ranks, ?dl)),
+                          ?st, ?tc, ?un) at 0
+       coherent_snapshot(?F, ?n, live, ?original_count, snap) at 1
+       IntArray::full(?un_ptr, live, un) at 2
+check : infer(0 <= j);
+        infer(j < live);
+        absense(0 <= Znth{Z}(j, un, 0));
+action : left_add(0 <= Znth{Z}(j, un, 0));
+         left_add(Znth{Z}(j, un, 0) <= n);
+         left_add(0 <= Znth{Z}(j, tc, 0));
+         left_add(Znth{Z}(j, tc, 0) <= n);
+         left_add(0 - n <= Znth{Z}(j, st, 0));
+         left_add(Znth{Z}(j, st, 0) <= 2);
+
+id : 10
+priority : core(0)
+left : bcp_clause_scan(?old, ?new, ?x, ?b, ?d, ?reason, ?j, ?exempt, ?live, ?cap,
+                          ?rows, ?st, ?tc, ?un) at 0
+       IntArray::full(?p, ?live2, replace_Znth{Z}(?i, ?v, ?l)) at 1
+check : infer(0 <= i);
+        infer(i < live2);
+        absense(Znth{Z}(i, replace_Znth{Z}(i, v, l), 0) == v);
+action : left_add(Znth{Z}(i, replace_Znth{Z}(i, v, l), 0) == v);
+
+/* --- variable_arrays_rep / solver_arrays_rep: unfold on BOTH sides ----------
+   The two bundles exist to keep the ANNOTATIONS readable; they are notation,
+   not a reasoning step.  So each is erased on entry to the solver, on the left
+   AND on the right, and every entailment is decided on the underlying atoms
+   exactly as it was before the bundles existed.
+
+   Unfolding only the left does not work.  A callee whose Require is folded has
+   its `snap` existential occurring *nowhere but inside the bundle*, and QCP
+   instantiates callee existentials by matching spatial atoms -- so once the
+   caller's bundle has been shredded there is nothing left to unify `snap`
+   against, and even a caller holding a syntactically identical bundle fails
+   with "Cannot derive the precondition of function bcp".  Unfolding the right
+   as well puts `snap` back inside `snap_states(?snap)` where the matcher can
+   reach it.  This is the avl.strategies rule-6 idiom.
+
+   A post-priority refold rule is deliberately absent: with both sides unfolded
+   at core priority no bundle survives to post, so such a rule could never
+   fire. */
+
+id : 11
+priority : core(1)
+right : variable_arrays_rep(?vp, ?rp, ?lp, ?n, ?snap) at 0
+action : right_erase(0);
+         right_add(IntArray::full(vp, n, snap_values(snap)));
+         right_add(IntArray::full(rp, n, snap_reasons(snap)));
+         right_add(IntArray::full(lp, n, snap_levels(snap)));
+
+id : 12
+priority : core(1)
+left : variable_arrays_rep(?vp, ?rp, ?lp, ?n, ?snap) at 0
+action : left_erase(0);
+         left_add(IntArray::full(vp, n, snap_values(snap)));
+         left_add(IntArray::full(rp, n, snap_reasons(snap)));
+         left_add(IntArray::full(lp, n, snap_levels(snap)));
+
+id : 13
+priority : core(1)
+right : solver_arrays_rep(?st, ?tc, ?un, ?rt, ?live, ?cap, ?snap) at 0
+action : right_erase(0);
+         right_add(IntArray::seg(st, 0, live, snap_states(snap)));
+         right_add(IntArray::seg_shape(st, live, cap));
+         right_add(IntArray::seg(tc, 0, live, snap_true_counts(snap)));
+         right_add(IntArray::seg_shape(tc, live, cap));
+         right_add(IntArray::seg(un, 0, live, snap_unassigned(snap)));
+         right_add(IntArray::seg_shape(un, live, cap));
+         right_add(installed_rows_capacity_rep(rt, live, cap, snap_rows(snap)));
+
+id : 14
+priority : core(1)
+left : solver_arrays_rep(?st, ?tc, ?un, ?rt, ?live, ?cap, ?snap) at 0
+action : left_erase(0);
+         left_add(IntArray::seg(st, 0, live, snap_states(snap)));
+         left_add(IntArray::seg_shape(st, live, cap));
+         left_add(IntArray::seg(tc, 0, live, snap_true_counts(snap)));
+         left_add(IntArray::seg_shape(tc, live, cap));
+         left_add(IntArray::seg(un, 0, live, snap_unassigned(snap)));
+         left_add(IntArray::seg_shape(un, live, cap));
+         left_add(installed_rows_capacity_rep(rt, live, cap, snap_rows(snap)));
+
+id : 15
+priority : core(1)
+right : var_header_rep(?v_data, ?values, ?reasons, ?levels) at 0
+action : right_erase(0);
+         right_add(data_at(field_addr(v_data, var_data, value), PTR, values));
+         right_add(data_at(field_addr(v_data, var_data, ancient), PTR, reasons));
+         right_add(data_at(field_addr(v_data, var_data, dl), PTR, levels));
+
+id : 16
+priority : core(1)
+left : var_header_rep(?v_data, ?values, ?reasons, ?levels) at 0
+action : left_erase(0);
+         left_add(data_at(field_addr(v_data, var_data, value), PTR, values));
+         left_add(data_at(field_addr(v_data, var_data, ancient), PTR, reasons));
+         left_add(data_at(field_addr(v_data, var_data, dl), PTR, levels));
+
+id : 17
+priority : core(1)
+right : clause_header_rep(?cl_data, ?states, ?true_counts, ?unassigned, ?rows) at 0
+action : right_erase(0);
+         right_add(data_at(field_addr(cl_data, clause_data, state), PTR, states));
+         right_add(data_at(field_addr(cl_data, clause_data, lit_state), PTR, true_counts));
+         right_add(data_at(field_addr(cl_data, clause_data, unassign_num), PTR, unassigned));
+         right_add(data_at(field_addr(cl_data, clause_data, value), PTR, rows));
+
+id : 18
+priority : core(1)
+left : clause_header_rep(?cl_data, ?states, ?true_counts, ?unassigned, ?rows) at 0
+action : left_erase(0);
+         left_add(data_at(field_addr(cl_data, clause_data, state), PTR, states));
+         left_add(data_at(field_addr(cl_data, clause_data, lit_state), PTR, true_counts));
+         left_add(data_at(field_addr(cl_data, clause_data, unassign_num), PTR, unassigned));
+         left_add(data_at(field_addr(cl_data, clause_data, value), PTR, rows));
+
+id : 19
+priority : core(1)
+right : sat_header_rep(?s, ?n, ?live, ?cap, ?logical_dl, ?v_data, ?cl_data) at 0
+action : right_erase(0);
+         right_add(data_at(field_addr(s, sat_data, v_size), I32, n));
+         right_add(data_at(field_addr(s, sat_data, cl_size), I32, live));
+         right_add(data_at(field_addr(s, sat_data, cl_maxsize), I32, cap));
+         right_add(data_at(field_addr(s, sat_data, cur_dl), I32, logical_dl));
+         right_add(data_at(field_addr(s, sat_data, v_data), PTR, v_data));
+         right_add(data_at(field_addr(s, sat_data, cl_data), PTR, cl_data));
+
+id : 20
+priority : core(1)
+left : sat_header_rep(?s, ?n, ?live, ?cap, ?logical_dl, ?v_data, ?cl_data) at 0
+action : left_erase(0);
+         left_add(data_at(field_addr(s, sat_data, v_size), I32, n));
+         left_add(data_at(field_addr(s, sat_data, cl_size), I32, live));
+         left_add(data_at(field_addr(s, sat_data, cl_maxsize), I32, cap));
+         left_add(data_at(field_addr(s, sat_data, cur_dl), I32, logical_dl));
+         left_add(data_at(field_addr(s, sat_data, v_data), PTR, v_data));
+         left_add(data_at(field_addr(s, sat_data, cl_data), PTR, cl_data));
+
+id : 21
+priority : core(1)
+right : sat_entry_header_rep(?s, ?n, ?live, ?cap, ?v_data, ?cl_data) at 0
+action : right_erase(0);
+         right_add(data_at(field_addr(s, sat_data, v_size), I32, n));
+         right_add(data_at(field_addr(s, sat_data, cl_size), I32, live));
+         right_add(data_at(field_addr(s, sat_data, cl_maxsize), I32, cap));
+         right_add(undef_data_at(field_addr(s, sat_data, cur_dl), I32));
+         right_add(data_at(field_addr(s, sat_data, v_data), PTR, v_data));
+         right_add(data_at(field_addr(s, sat_data, cl_data), PTR, cl_data));
+
+id : 22
+priority : core(1)
+left : sat_entry_header_rep(?s, ?n, ?live, ?cap, ?v_data, ?cl_data) at 0
+action : left_erase(0);
+         left_add(data_at(field_addr(s, sat_data, v_size), I32, n));
+         left_add(data_at(field_addr(s, sat_data, cl_size), I32, live));
+         left_add(data_at(field_addr(s, sat_data, cl_maxsize), I32, cap));
+         left_add(undef_data_at(field_addr(s, sat_data, cur_dl), I32));
+         left_add(data_at(field_addr(s, sat_data, v_data), PTR, v_data));
+         left_add(data_at(field_addr(s, sat_data, cl_data), PTR, cl_data));
+
+/* --- clause_arrays_explicit_rep: unfold ONE layer at a time -----------------
+   The bundle is now two layers (CDCL_qcp_lib.v): the summaries predicate and
+   the row table.  Rules 23/24 peel exactly the outer layer, so they add TWO
+   atoms; rules 29/30 below peel the summaries predicate into its six atoms.
+   Composed, the pair reaches the same seven atoms the flat rules used to add.
+
+   Keeping the layers separate is the point: an annotation that focuses one row
+   holds `clause_summaries_explicit_rep ** installed_row_focus_rep ...`, which
+   the flat bundle could not express -- it always claimed the whole row table
+   as `IntPtrArray2::full`. */
+
+id : 23
+priority : core(1)
+right : clause_arrays_explicit_rep(
+          ?states, ?true_counts, ?unassigned, ?row_table, ?live, ?cap,
+          ?rows, ?cur_states, ?cur_true, ?cur_unassigned) at 0
+action : right_erase(0);
+         right_add(clause_summaries_explicit_rep(
+           states, true_counts, unassigned, live, cap,
+           cur_states, cur_true, cur_unassigned));
+         right_add(installed_rows_capacity_rep(row_table, live, cap, rows));
+
+id : 24
+priority : core(1)
+left : clause_arrays_explicit_rep(
+         ?states, ?true_counts, ?unassigned, ?row_table, ?live, ?cap,
+         ?rows, ?cur_states, ?cur_true, ?cur_unassigned) at 0
+action : left_erase(0);
+         left_add(clause_summaries_explicit_rep(
+           states, true_counts, unassigned, live, cap,
+           cur_states, cur_true, cur_unassigned));
+         left_add(installed_rows_capacity_rep(row_table, live, cap, rows));
+
+id : 25
+priority : core(1)
+right : resolution_rows_rep(
+          ?wi, ?wj, ?result_row, ?n, ?left_row, ?right_row) at 0
+action : right_erase(0);
+         right_add(IntArray::full(wi, n, left_row));
+         right_add(IntArray::full(wj, n, right_row));
+         right_add(IntArray::full(
+           result_row, n, dense_cancel_union(left_row, right_row)));
+
+id : 26
+priority : core(1)
+left : resolution_rows_rep(
+         ?wi, ?wj, ?result_row, ?n, ?left_row, ?right_row) at 0
+action : left_erase(0);
+         left_add(IntArray::full(wi, n, left_row));
+         left_add(IntArray::full(wj, n, right_row));
+         left_add(IntArray::full(
+           result_row, n, dense_cancel_union(left_row, right_row)));
+
+id : 27
+priority : core(1)
+right : conflict_levels_rep(
+          ?s, ?clause, ?n, ?v_data, ?levels, ?row, ?snap) at 0
+action : right_erase(0);
+         right_add(data_at(field_addr(s, sat_data, v_size), I32, n));
+         right_add(data_at(field_addr(s, sat_data, v_data), PTR, v_data));
+         right_add(data_at(field_addr(v_data, var_data, dl), PTR, levels));
+         right_add(IntArray::full(clause, n, row));
+         right_add(IntArray::full(levels, n, snap_levels(snap)));
+
+id : 28
+priority : core(1)
+left : conflict_levels_rep(
+         ?s, ?clause, ?n, ?v_data, ?levels, ?row, ?snap) at 0
+action : left_erase(0);
+         left_add(data_at(field_addr(s, sat_data, v_size), I32, n));
+         left_add(data_at(field_addr(s, sat_data, v_data), PTR, v_data));
+         left_add(data_at(field_addr(v_data, var_data, dl), PTR, levels));
+         left_add(IntArray::full(clause, n, row));
+         left_add(IntArray::full(levels, n, snap_levels(snap)));
+
+/* --- clause_summaries_explicit_rep: the inner layer of rules 23/24 ---------
+   Six atoms, in definition order: each of the three clause-indexed summary
+   arrays as a live `full` plus its capacity `seg_shape`.  Unfolded on BOTH
+   sides at core priority for the same reason as rules 11-14: the bundle is
+   notation for the annotations, not a reasoning step, and a callee whose
+   Require is folded has nothing left to unify its `live`/`cap` against once
+   the caller's bundle has been shredded. */
+
+id : 29
+priority : core(1)
+right : clause_summaries_explicit_rep(
+          ?states, ?true_counts, ?unassigned, ?live, ?cap,
+          ?cur_states, ?cur_true, ?cur_unassigned) at 0
+action : right_erase(0);
+         right_add(IntArray::full(states, live, cur_states));
+         right_add(IntArray::seg_shape(states, live, cap));
+         right_add(IntArray::full(true_counts, live, cur_true));
+         right_add(IntArray::seg_shape(true_counts, live, cap));
+         right_add(IntArray::full(unassigned, live, cur_unassigned));
+         right_add(IntArray::seg_shape(unassigned, live, cap));
+
+id : 30
+priority : core(1)
+left : clause_summaries_explicit_rep(
+         ?states, ?true_counts, ?unassigned, ?live, ?cap,
+         ?cur_states, ?cur_true, ?cur_unassigned) at 0
+action : left_erase(0);
+         left_add(IntArray::full(states, live, cur_states));
+         left_add(IntArray::seg_shape(states, live, cap));
+         left_add(IntArray::full(true_counts, live, cur_true));
+         left_add(IntArray::seg_shape(true_counts, live, cap));
+         left_add(IntArray::full(unassigned, live, cur_unassigned));
+         left_add(IntArray::seg_shape(unassigned, live, cap));
+
+/* --- installed_row_focus_rep: the focused row, named ------------------------
+   Three atoms, in definition order: the row-table cell holding the focused
+   pointer, that row's contents, and the rest of the table.  This is the exact
+   post-state of rule 3 and the exact pre-state of rule 4, so an annotation may
+   now name it instead of writing the three atoms out.
+
+   The default of the row lookup is spelled `nil{Z}` explicitly, matching
+   CDCL_qcp_lib.v, rather than using the `rows[i]` shorthand: the shorthand
+   introduces a universally quantified default and would make these rules need
+   `0 <= i < live` to relate it back to `nil`.  These are pure definitional
+   unfolds and carry no side condition. */
+
+id : 31
+priority : core(1)
+right : installed_row_focus_rep(?p, ?live, ?i, ?row_ptr, ?rows) at 0
+action : right_erase(0);
+         right_add(data_at(p + (i * sizeof(PTR)), PTR, row_ptr));
+         right_add(IntArray::full(
+           row_ptr,
+           Zlength{Z}(Znth{list{Z}}(i, rows, nil{Z})),
+           Znth{list{Z}}(i, rows, nil{Z})));
+         right_add(IntPtrArray2::missing_i(p, live, i, row_ptr, rows));
+
+id : 32
+priority : core(1)
+left : installed_row_focus_rep(?p, ?live, ?i, ?row_ptr, ?rows) at 0
+action : left_erase(0);
+         left_add(data_at(p + (i * sizeof(PTR)), PTR, row_ptr));
+         left_add(IntArray::full(
+           row_ptr,
+           Zlength{Z}(Znth{list{Z}}(i, rows, nil{Z})),
+           Znth{list{Z}}(i, rows, nil{Z})));
+         left_add(IntPtrArray2::missing_i(p, live, i, row_ptr, rows));
+
+/* --- Public solver-contract vocabulary: the four components ----------------
+   Rules 33-40 shred the four component predicates of cdcl_solver's contract.
+   Each is an unconditional fixed-head core(1) pair, unfolded on BOTH sides for
+   the same reason as rules 11-14: the predicates are notation for the
+   contract, not a reasoning step, and a folded occurrence leaves a callee's
+   `snap` existential with nothing to unify against once the caller's copy has
+   been shredded.
+
+   Components sit at lower ids than the arm cores (41-48) that emit them,
+   mirroring 3-6 before 13/14: rules that consume a head come before rules that
+   add it.  Composed, 41/42 -> 33-40 -> 11-22 reach exactly the atom multiset
+   the unchanged body annotations already match.
+
+   Note the argument order in the two store_cnf rules: coherent_snapshot takes
+   (F, n, live, original_count, snap) while store_cnf takes original_count
+   before live.  The swap is deliberate and matches CDCL_qcp_lib.v. */
+
+id : 33
+priority : core(1)
+right : store_cnf(?F, ?n, ?original_count, ?states, ?true_counts,
+          ?unassigned, ?row_table, ?live, ?cap, ?snap) at 0
+action : right_erase(0);
+         right_add(coherent_snapshot(F, n, live, original_count, snap));
+         right_add(solver_arrays_rep(
+           states, true_counts, unassigned, row_table, live, cap, snap));
+
+id : 34
+priority : core(1)
+left : store_cnf(?F, ?n, ?original_count, ?states, ?true_counts,
+         ?unassigned, ?row_table, ?live, ?cap, ?snap) at 0
+action : left_erase(0);
+         left_add(coherent_snapshot(F, n, live, original_count, snap));
+         left_add(solver_arrays_rep(
+           states, true_counts, unassigned, row_table, live, cap, snap));
+
+id : 35
+priority : core(1)
+right : uninitialized_Assignment(?values, ?reasons, ?levels, ?n, ?snap) at 0
+action : right_erase(0);
+         right_add(all_unassigned_cells(n, snap));
+         right_add(variable_arrays_rep(values, reasons, levels, n, snap));
+
+id : 36
+priority : core(1)
+left : uninitialized_Assignment(?values, ?reasons, ?levels, ?n, ?snap) at 0
+action : left_erase(0);
+         left_add(all_unassigned_cells(n, snap));
+         left_add(variable_arrays_rep(values, reasons, levels, n, snap));
+
+id : 37
+priority : core(1)
+right : store_Assignment(?values, ?reasons, ?levels, ?n, ?snap, ?J) at 0
+action : right_erase(0);
+         right_add(J == rho_of_values(n, snap_values(snap)));
+         right_add(variable_arrays_rep(values, reasons, levels, n, snap));
+
+id : 38
+priority : core(1)
+left : store_Assignment(?values, ?reasons, ?levels, ?n, ?snap, ?J) at 0
+action : left_erase(0);
+         left_add(J == rho_of_values(n, snap_values(snap)));
+         left_add(variable_arrays_rep(values, reasons, levels, n, snap));
+
+id : 39
+priority : core(1)
+right : unconstrained_Assignment(?values, ?reasons, ?levels, ?n, ?snap) at 0
+action : right_erase(0);
+         right_add(variable_arrays_rep(values, reasons, levels, n, snap));
+
+id : 40
+priority : core(1)
+left : unconstrained_Assignment(?values, ?reasons, ?levels, ?n, ?snap) at 0
+action : left_erase(0);
+         left_add(variable_arrays_rep(values, reasons, levels, n, snap));
+
+/* --- Public solver-contract vocabulary: the four arm cores -----------------
+   Rules 41-48 shred the entry state and the three result arms.  All fourteen
+   entry ghosts stay pattern variables; only the post-state values the arm does
+   not determine are existential, plus v_data/cl_data, which the C surface
+   generates implicitly as fresh per-assertion variables and which a folded
+   predicate has to bind explicitly.
+
+   42 is the one regeneration hard-depends on: it turns the folded entry state
+   into the atoms the first loop invariant is stated over.  The right rules
+   matter less operationally -- cdcl_solver has no annotated caller, so the
+   cores occur on the right only in its own return obligations, which are
+   maintained-manual -- but the hygiene rule requires a matching pair for every
+   C-visible predicate, so each has one. */
+
+id : 41
+priority : core(1)
+right : solver_input_core(?s, ?F, ?original_count, ?snap, ?ranks, ?values,
+          ?reasons, ?levels, ?states, ?true_counts, ?unassigned, ?row_table,
+          ?n, ?live, ?cap) at 0
+action : right_erase(0);
+         right_exist_add(v_data);
+         right_exist_add(cl_data);
+         right_add(0 <= n);
+         right_add(n < INT_MAX());
+         right_add(0 <= original_count);
+         right_add(original_count == live);
+         right_add(0 <= live);
+         right_add(live <= cap);
+         right_add(stable_search_facts(n, snap, ranks, 0));
+         right_add(fresh_formula(F, n, original_count,
+           cdcl_view_of_snapshot(n, snap, ranks, 0)));
+         right_add(sat_entry_header_rep(s, n, live, cap, v_data, cl_data));
+         right_add(var_header_rep(v_data, values, reasons, levels));
+         right_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         right_add(store_cnf(F, n, original_count, states, true_counts,
+           unassigned, row_table, live, cap, snap));
+         right_add(uninitialized_Assignment(values, reasons, levels, n, snap));
+
+id : 42
+priority : core(1)
+left : solver_input_core(?s, ?F, ?original_count, ?snap, ?ranks, ?values,
+         ?reasons, ?levels, ?states, ?true_counts, ?unassigned, ?row_table,
+         ?n, ?live, ?cap) at 0
+action : left_erase(0);
+         left_exist_add(v_data);
+         left_exist_add(cl_data);
+         left_add(0 <= n);
+         left_add(n < INT_MAX());
+         left_add(0 <= original_count);
+         left_add(original_count == live);
+         left_add(0 <= live);
+         left_add(live <= cap);
+         left_add(stable_search_facts(n, snap, ranks, 0));
+         left_add(fresh_formula(F, n, original_count,
+           cdcl_view_of_snapshot(n, snap, ranks, 0)));
+         left_add(sat_entry_header_rep(s, n, live, cap, v_data, cl_data));
+         left_add(var_header_rep(v_data, values, reasons, levels));
+         left_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         left_add(store_cnf(F, n, original_count, states, true_counts,
+           unassigned, row_table, live, cap, snap));
+         left_add(uninitialized_Assignment(values, reasons, levels, n, snap));
+
+id : 43
+priority : core(1)
+right : solver_sat_arm_core(?s, ?F, ?original_count, ?snap, ?ranks, ?values,
+          ?reasons, ?levels, ?states, ?true_counts, ?unassigned, ?row_table,
+          ?n, ?live, ?cap, ?J) at 0
+action : right_erase(0);
+         right_exist_add(final_snap);
+         right_exist_add(final_dl);
+         right_exist_add(final_live);
+         right_exist_add(v_data);
+         right_exist_add(cl_data);
+         right_add(original_count <= final_live);
+         right_add(final_live <= cap);
+         right_add(sat_header_rep(
+           s, n, final_live, cap, final_dl, v_data, cl_data));
+         right_add(var_header_rep(v_data, values, reasons, levels));
+         right_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         right_add(store_cnf(F, n, original_count, states, true_counts,
+           unassigned, row_table, final_live, cap, final_snap));
+         right_add(store_Assignment(values, reasons, levels, n, final_snap, J));
+
+id : 44
+priority : core(1)
+left : solver_sat_arm_core(?s, ?F, ?original_count, ?snap, ?ranks, ?values,
+         ?reasons, ?levels, ?states, ?true_counts, ?unassigned, ?row_table,
+         ?n, ?live, ?cap, ?J) at 0
+action : left_erase(0);
+         left_exist_add(final_snap);
+         left_exist_add(final_dl);
+         left_exist_add(final_live);
+         left_exist_add(v_data);
+         left_exist_add(cl_data);
+         left_add(original_count <= final_live);
+         left_add(final_live <= cap);
+         left_add(sat_header_rep(
+           s, n, final_live, cap, final_dl, v_data, cl_data));
+         left_add(var_header_rep(v_data, values, reasons, levels));
+         left_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         left_add(store_cnf(F, n, original_count, states, true_counts,
+           unassigned, row_table, final_live, cap, final_snap));
+         left_add(store_Assignment(values, reasons, levels, n, final_snap, J));
+
+/* The UNSAT arm carries no certificate of its own: `unsat_terminal` and the
+   level-zero stable facts it would need are gone, and `cnf_unsat(n, F)` is a
+   visible conjunct of the contract's UNSAT disjunct where the reader sees it.
+   What remains is the frame, the bounds, and the coherence facts inside
+   store_cnf -- so this rule is rule 43/44 with the assignment component
+   unconstrained instead of pinned to J.
+
+   `ranks` stays a head pattern variable although nothing in the action uses
+   it: the four arm cores keep the complete fourteen-ghost vector so they stay
+   uniform in shape.  Unused entry ghosts are already the norm here -- 43/44
+   never mention `snap` or `live` either. */
+
+id : 45
+priority : core(1)
+right : solver_unsat_arm_core(?s, ?F, ?original_count, ?snap, ?ranks, ?values,
+          ?reasons, ?levels, ?states, ?true_counts, ?unassigned, ?row_table,
+          ?n, ?live, ?cap) at 0
+action : right_erase(0);
+         right_exist_add(final_snap);
+         right_exist_add(final_dl);
+         right_exist_add(final_live);
+         right_exist_add(v_data);
+         right_exist_add(cl_data);
+         right_add(original_count <= final_live);
+         right_add(final_live <= cap);
+         right_add(sat_header_rep(
+           s, n, final_live, cap, final_dl, v_data, cl_data));
+         right_add(var_header_rep(v_data, values, reasons, levels));
+         right_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         right_add(store_cnf(F, n, original_count, states, true_counts,
+           unassigned, row_table, final_live, cap, final_snap));
+         right_add(unconstrained_Assignment(
+           values, reasons, levels, n, final_snap));
+
+id : 46
+priority : core(1)
+left : solver_unsat_arm_core(?s, ?F, ?original_count, ?snap, ?ranks, ?values,
+         ?reasons, ?levels, ?states, ?true_counts, ?unassigned, ?row_table,
+         ?n, ?live, ?cap) at 0
+action : left_erase(0);
+         left_exist_add(final_snap);
+         left_exist_add(final_dl);
+         left_exist_add(final_live);
+         left_exist_add(v_data);
+         left_exist_add(cl_data);
+         left_add(original_count <= final_live);
+         left_add(final_live <= cap);
+         left_add(sat_header_rep(
+           s, n, final_live, cap, final_dl, v_data, cl_data));
+         left_add(var_header_rep(v_data, values, reasons, levels));
+         left_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         left_add(store_cnf(F, n, original_count, states, true_counts,
+           unassigned, row_table, final_live, cap, final_snap));
+         left_add(unconstrained_Assignment(
+           values, reasons, levels, n, final_snap));
+
+/* The capacity arm says nothing about F at all: no verdict, and no search
+   certificate either -- only that the clause table is full (cl_size =
+   cl_maxsize = cap, and store_cnf instantiated at live := cap), that the
+   conflict level is positive and in range, and that the orphan row is
+   well-formed.  The orphan row is a plain IntArray::full at its own pointer:
+   a separate allocation, so it composes with the full row table.
+
+   Six existentials, not seven: `conflict_ranks` is gone with the facts that
+   mentioned it. */
+
+id : 47
+priority : core(1)
+right : solver_capacity_exhausted_arm_core(?s, ?F, ?original_count, ?snap,
+          ?ranks, ?values, ?reasons, ?levels, ?states, ?true_counts,
+          ?unassigned, ?row_table, ?n, ?live, ?cap) at 0
+action : right_erase(0);
+         right_exist_add(conflict_snap);
+         right_exist_add(conflict_dl);
+         right_exist_add(row_ptr);
+         right_exist_add(row);
+         right_exist_add(v_data);
+         right_exist_add(cl_data);
+         right_add(0 < conflict_dl);
+         right_add(conflict_dl <= n);
+         right_add(row_wf(n, row));
+         right_add(sat_header_rep(
+           s, n, cap, cap, conflict_dl, v_data, cl_data));
+         right_add(var_header_rep(v_data, values, reasons, levels));
+         right_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         right_add(store_cnf(F, n, original_count, states, true_counts,
+           unassigned, row_table, cap, cap, conflict_snap));
+         right_add(unconstrained_Assignment(
+           values, reasons, levels, n, conflict_snap));
+         right_add(IntArray::full(row_ptr, n, row));
+
+id : 48
+priority : core(1)
+left : solver_capacity_exhausted_arm_core(?s, ?F, ?original_count, ?snap,
+         ?ranks, ?values, ?reasons, ?levels, ?states, ?true_counts,
+         ?unassigned, ?row_table, ?n, ?live, ?cap) at 0
+action : left_erase(0);
+         left_exist_add(conflict_snap);
+         left_exist_add(conflict_dl);
+         left_exist_add(row_ptr);
+         left_exist_add(row);
+         left_exist_add(v_data);
+         left_exist_add(cl_data);
+         left_add(0 < conflict_dl);
+         left_add(conflict_dl <= n);
+         left_add(row_wf(n, row));
+         left_add(sat_header_rep(
+           s, n, cap, cap, conflict_dl, v_data, cl_data));
+         left_add(var_header_rep(v_data, values, reasons, levels));
+         left_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         left_add(store_cnf(F, n, original_count, states, true_counts,
+           unassigned, row_table, cap, cap, conflict_snap));
+         left_add(unconstrained_Assignment(
+           values, reasons, levels, n, conflict_snap));
+         left_add(IntArray::full(row_ptr, n, row));
+
+/* --- Helper-contract vocabulary (Tasks 8A-8D) -----------------------------
+   Rules 49-56 shred the four helper-contract wrappers.  One unconditional
+   fixed-head core(1) pair per C-visible predicate, both sides, per the file's
+   stated discipline: the bundles are notation, not a reasoning step.
+
+   Emitter-after-consumer id discipline holds: 49/50 emit sat_header_rep /
+   var_header_rep / clause_header_rep (consumed by 15-22),
+   unconstrained_Assignment (39/40) and solver_arrays_rep (13/14); 51/52 emit
+   IntArray::full and installed_rows_capacity_rep (3-6); 53/54 emit
+   variable_arrays_rep (11/12) and pending_backjump_rep (a leaf);
+   55/56 emit solver_state, consumed by 49/50.  Every emitted head has a
+   strictly lower consuming id.
+
+   `?original_count` in 53/54 is a head-only pattern variable, unused in the
+   action -- precedented by `?snap`/`?ranks` in 43/44. */
+
+id : 49
+priority : core(1)
+right : solver_state(?s, ?values, ?reasons, ?levels, ?states, ?true_counts,
+          ?unassigned, ?row_table, ?n, ?live, ?cap, ?dl, ?snap) at 0
+action : right_erase(0);
+         right_exist_add(v_data);
+         right_exist_add(cl_data);
+         right_add(sat_header_rep(s, n, live, cap, dl, v_data, cl_data));
+         right_add(var_header_rep(v_data, values, reasons, levels));
+         right_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         right_add(unconstrained_Assignment(values, reasons, levels, n, snap));
+         right_add(solver_arrays_rep(states, true_counts, unassigned,
+           row_table, live, cap, snap));
+
+id : 50
+priority : core(1)
+left : solver_state(?s, ?values, ?reasons, ?levels, ?states, ?true_counts,
+         ?unassigned, ?row_table, ?n, ?live, ?cap, ?dl, ?snap) at 0
+action : left_erase(0);
+         left_exist_add(v_data);
+         left_exist_add(cl_data);
+         left_add(sat_header_rep(s, n, live, cap, dl, v_data, cl_data));
+         left_add(var_header_rep(v_data, values, reasons, levels));
+         left_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         left_add(unconstrained_Assignment(values, reasons, levels, n, snap));
+         left_add(solver_arrays_rep(states, true_counts, unassigned,
+           row_table, live, cap, snap));
+
+/* learning_state is the one helper footprint that is NOT
+   variable_arrays_rep ** solver_arrays_rep: it owns only the `reasons` and
+   `levels` fulls plus the row table.  `values` and the three clause-summary
+   pointers appear only as the stored values of the header cells. */
+
+id : 51
+priority : core(1)
+right : learning_state(?s, ?values, ?reasons, ?levels, ?states, ?true_counts,
+          ?unassigned, ?row_table, ?n, ?live, ?cap, ?logical_dl, ?snap) at 0
+action : right_erase(0);
+         right_exist_add(v_data);
+         right_exist_add(cl_data);
+         right_add(sat_header_rep(
+           s, n, live, cap, logical_dl, v_data, cl_data));
+         right_add(var_header_rep(v_data, values, reasons, levels));
+         right_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         right_add(IntArray::full(reasons, n, snap_reasons(snap)));
+         right_add(IntArray::full(levels, n, snap_levels(snap)));
+         right_add(installed_rows_capacity_rep(row_table, live, cap,
+           snap_rows(snap)));
+
+id : 52
+priority : core(1)
+left : learning_state(?s, ?values, ?reasons, ?levels, ?states, ?true_counts,
+         ?unassigned, ?row_table, ?n, ?live, ?cap, ?logical_dl, ?snap) at 0
+action : left_erase(0);
+         left_exist_add(v_data);
+         left_exist_add(cl_data);
+         left_add(sat_header_rep(
+           s, n, live, cap, logical_dl, v_data, cl_data));
+         left_add(var_header_rep(v_data, values, reasons, levels));
+         left_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         left_add(IntArray::full(reasons, n, snap_reasons(snap)));
+         left_add(IntArray::full(levels, n, snap_levels(snap)));
+         left_add(installed_rows_capacity_rep(row_table, live, cap,
+           snap_rows(snap)));
+
+/* backjump_state is solver_state's footprint plus the pending-backjump
+   promise and the three conflict-side views.  `sat_header_rep`'s cur_dl cell
+   carries back_dl, exactly as C:957 does today.  The variable side is written
+   `variable_arrays_rep` here, as 8C designed it; `unconstrained_Assignment` is
+   definitionally the same predicate, so the choice is a spelling. */
+
+id : 53
+priority : core(1)
+right : backjump_state(?s, ?F, ?original_count, ?start_snap, ?conflict_snap,
+          ?snap, ?start_ranks, ?conflict_ranks, ?ranks, ?conflict_dl,
+          ?back_dl, ?last, ?learned, ?values, ?reasons, ?levels, ?states,
+          ?true_counts, ?unassigned, ?row_table, ?n, ?live, ?cap) at 0
+action : right_erase(0);
+         right_exist_add(v_data);
+         right_exist_add(cl_data);
+         right_add(sat_header_rep(
+           s, n, live, cap, back_dl, v_data, cl_data));
+         right_add(var_header_rep(v_data, values, reasons, levels));
+         right_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         right_add(variable_arrays_rep(values, reasons, levels, n, snap));
+         right_add(solver_arrays_rep(states, true_counts, unassigned,
+           row_table, live, cap, snap));
+         right_add(pending_backjump_rep(F,
+           cdcl_view_of_snapshot(n, start_snap, start_ranks, conflict_dl),
+           cdcl_view_of_snapshot(n, conflict_snap, conflict_ranks,
+             conflict_dl),
+           cdcl_view_of_snapshot(n, snap, ranks, conflict_dl),
+           back_dl, back_dl, last, learned));
+
+id : 54
+priority : core(1)
+left : backjump_state(?s, ?F, ?original_count, ?start_snap, ?conflict_snap,
+         ?snap, ?start_ranks, ?conflict_ranks, ?ranks, ?conflict_dl,
+         ?back_dl, ?last, ?learned, ?values, ?reasons, ?levels, ?states,
+         ?true_counts, ?unassigned, ?row_table, ?n, ?live, ?cap) at 0
+action : left_erase(0);
+         left_exist_add(v_data);
+         left_exist_add(cl_data);
+         left_add(sat_header_rep(
+           s, n, live, cap, back_dl, v_data, cl_data));
+         left_add(var_header_rep(v_data, values, reasons, levels));
+         left_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         left_add(variable_arrays_rep(values, reasons, levels, n, snap));
+         left_add(solver_arrays_rep(states, true_counts, unassigned,
+           row_table, live, cap, snap));
+         left_add(pending_backjump_rep(F,
+           cdcl_view_of_snapshot(n, start_snap, start_ranks, conflict_dl),
+           cdcl_view_of_snapshot(n, conflict_snap, conflict_ranks,
+             conflict_dl),
+           cdcl_view_of_snapshot(n, snap, ranks, conflict_dl),
+           back_dl, back_dl, last, learned));
+
+/* propagation_result adds the batch witness and its three post existentials
+   over solver_state.  `pre_ranks` is the corpus's FIRST exist_add at a
+   function type (Z -> option nat) -- Task 7 left that question open, and this
+   pair is where it gets answered. */
+
+id : 55
+priority : core(1)
+right : propagation_result(?s, ?values, ?reasons, ?levels, ?states,
+          ?true_counts, ?unassigned, ?row_table, ?n, ?live, ?cap,
+          ?logical_dl, ?snap1, ?ranks1) at 0
+action : right_erase(0);
+         right_exist_add(pre_snap);
+         right_exist_add(pre_ranks);
+         right_exist_add(last);
+         right_add(dense_conflict_batch(
+           cdcl_view_of_snapshot(n, pre_snap, pre_ranks, logical_dl),
+           cdcl_view_of_snapshot(n, snap1, ranks1, logical_dl), last));
+         right_add(solver_state(s, values, reasons, levels, states,
+           true_counts, unassigned, row_table, n, live, cap, logical_dl,
+           snap1));
+
+id : 56
+priority : core(1)
+left : propagation_result(?s, ?values, ?reasons, ?levels, ?states,
+         ?true_counts, ?unassigned, ?row_table, ?n, ?live, ?cap,
+         ?logical_dl, ?snap1, ?ranks1) at 0
+action : left_erase(0);
+         left_exist_add(pre_snap);
+         left_exist_add(pre_ranks);
+         left_exist_add(last);
+         left_add(dense_conflict_batch(
+           cdcl_view_of_snapshot(n, pre_snap, pre_ranks, logical_dl),
+           cdcl_view_of_snapshot(n, snap1, ranks1, logical_dl), last));
+         left_add(solver_state(s, values, reasons, levels, states,
+           true_counts, unassigned, row_table, n, live, cap, logical_dl,
+           snap1));
+
+id : 57
+priority : core(1)
+right : solver_loop_state(?s, ?F, ?original_count, ?values, ?reasons,
+          ?levels, ?states, ?true_counts, ?unassigned, ?row_table, ?n,
+          ?live, ?cap, ?snap, ?ranks, ?dl) at 0
+action : right_erase(0);
+         right_add(0 <= dl);
+         right_add(dl <= n);
+         right_add(0 <= original_count);
+         right_add(original_count <= live);
+         right_add(0 <= live);
+         right_add(live <= cap);
+         right_add(coherent_snapshot(F, n, live, original_count, snap));
+         right_add(stable_search_facts(n, snap, ranks, dl));
+         right_add(bcp_ready(cdcl_view_of_snapshot(n, snap, ranks, dl)));
+         right_add(solver_state(s, values, reasons, levels, states,
+           true_counts, unassigned, row_table, n, live, cap, dl, snap));
+
+id : 58
+priority : core(1)
+left : solver_loop_state(?s, ?F, ?original_count, ?values, ?reasons,
+         ?levels, ?states, ?true_counts, ?unassigned, ?row_table, ?n,
+         ?live, ?cap, ?snap, ?ranks, ?dl) at 0
+action : left_erase(0);
+         left_add(0 <= dl);
+         left_add(dl <= n);
+         left_add(0 <= original_count);
+         left_add(original_count <= live);
+         left_add(0 <= live);
+         left_add(live <= cap);
+         left_add(coherent_snapshot(F, n, live, original_count, snap));
+         left_add(stable_search_facts(n, snap, ranks, dl));
+         left_add(bcp_ready(cdcl_view_of_snapshot(n, snap, ranks, dl)));
+         left_add(solver_state(s, values, reasons, levels, states,
+           true_counts, unassigned, row_table, n, live, cap, dl, snap));
+
+id : 59
+priority : core(1)
+right : solver_after_bcp_state(?s, ?F, ?original_count, ?values, ?reasons,
+          ?levels, ?states, ?true_counts, ?unassigned, ?row_table, ?n,
+          ?live, ?cap, ?conflict_cl, ?snap, ?ranks, ?dl) at 0
+action : right_erase(0);
+         right_exist_add(pre_snap);
+         right_exist_add(pre_ranks);
+         right_exist_add(last);
+         right_add(0 <= dl);
+         right_add(dl <= n);
+         right_add(0 <= original_count);
+         right_add(original_count <= live);
+         right_add(0 <= live);
+         right_add(live <= cap);
+         right_add(coherent_snapshot(F, n, live, original_count, snap));
+         right_add(stable_search_facts(n, snap, ranks, dl));
+         right_add(bcp_outcome(
+           cdcl_view_of_snapshot(n, snap, ranks, dl),
+           cdcl_view_of_snapshot(n, pre_snap, pre_ranks, dl),
+           live, conflict_cl, last));
+         right_add(solver_state(s, values, reasons, levels, states,
+           true_counts, unassigned, row_table, n, live, cap, dl, snap));
+
+id : 60
+priority : core(1)
+left : solver_after_bcp_state(?s, ?F, ?original_count, ?values, ?reasons,
+         ?levels, ?states, ?true_counts, ?unassigned, ?row_table, ?n,
+         ?live, ?cap, ?conflict_cl, ?snap, ?ranks, ?dl) at 0
+action : left_erase(0);
+         left_exist_add(pre_snap);
+         left_exist_add(pre_ranks);
+         left_exist_add(last);
+         left_add(0 <= dl);
+         left_add(dl <= n);
+         left_add(0 <= original_count);
+         left_add(original_count <= live);
+         left_add(0 <= live);
+         left_add(live <= cap);
+         left_add(coherent_snapshot(F, n, live, original_count, snap));
+         left_add(stable_search_facts(n, snap, ranks, dl));
+         left_add(bcp_outcome(
+           cdcl_view_of_snapshot(n, snap, ranks, dl),
+           cdcl_view_of_snapshot(n, pre_snap, pre_ranks, dl),
+           live, conflict_cl, last));
+         left_add(solver_state(s, values, reasons, levels, states,
+           true_counts, unassigned, row_table, n, live, cap, dl, snap));
+
+id : 61
+priority : core(1)
+right : solver_learning_state(?s, ?F, ?original_count, ?values, ?reasons,
+          ?levels, ?states, ?true_counts, ?unassigned, ?row_table, ?n,
+          ?live, ?cap, ?conflict_cl, ?new_cl, ?row, ?snap, ?ranks, ?dl) at 0
+action : right_erase(0);
+         right_exist_add(pre_snap);
+         right_exist_add(pre_ranks);
+         right_exist_add(last);
+         right_add(0 <= conflict_cl);
+         right_add(conflict_cl < live);
+         right_add(0 < dl);
+         right_add(dl <= n);
+         right_add(0 <= original_count);
+         right_add(original_count <= live);
+         right_add(0 <= live);
+         right_add(live <= cap);
+         right_add(coherent_snapshot(F, n, live, original_count, snap));
+         right_add(stable_search_facts(n, snap, ranks, dl));
+         right_add(dense_conflict_batch(
+           cdcl_view_of_snapshot(n, pre_snap, pre_ranks, dl),
+           cdcl_view_of_snapshot(n, snap, ranks, dl), last));
+         right_add(current_learning_exit_cert(F,
+           cdcl_view_of_snapshot(n, snap, ranks, dl), dense_decode(row)));
+         right_add(row_wf(n, row));
+         right_add(learning_ready_conflict(
+           cdcl_view_of_snapshot(n, snap, ranks, dl), conflict_cl));
+         right_add(solver_state(s, values, reasons, levels, states,
+           true_counts, unassigned, row_table, n, live, cap, dl, snap));
+         right_add(IntArray::full(new_cl, n, row));
+
+id : 62
+priority : core(1)
+left : solver_learning_state(?s, ?F, ?original_count, ?values, ?reasons,
+         ?levels, ?states, ?true_counts, ?unassigned, ?row_table, ?n,
+         ?live, ?cap, ?conflict_cl, ?new_cl, ?row, ?snap, ?ranks, ?dl) at 0
+action : left_erase(0);
+         left_exist_add(pre_snap);
+         left_exist_add(pre_ranks);
+         left_exist_add(last);
+         left_add(0 <= conflict_cl);
+         left_add(conflict_cl < live);
+         left_add(0 < dl);
+         left_add(dl <= n);
+         left_add(0 <= original_count);
+         left_add(original_count <= live);
+         left_add(0 <= live);
+         left_add(live <= cap);
+         left_add(coherent_snapshot(F, n, live, original_count, snap));
+         left_add(stable_search_facts(n, snap, ranks, dl));
+         left_add(dense_conflict_batch(
+           cdcl_view_of_snapshot(n, pre_snap, pre_ranks, dl),
+           cdcl_view_of_snapshot(n, snap, ranks, dl), last));
+         left_add(current_learning_exit_cert(F,
+           cdcl_view_of_snapshot(n, snap, ranks, dl), dense_decode(row)));
+         left_add(row_wf(n, row));
+         left_add(learning_ready_conflict(
+           cdcl_view_of_snapshot(n, snap, ranks, dl), conflict_cl));
+         left_add(solver_state(s, values, reasons, levels, states,
+           true_counts, unassigned, row_table, n, live, cap, dl, snap));
+         left_add(IntArray::full(new_cl, n, row));
+
+id : 63
+priority : core(1)
+right : solver_install_slot_state(?s, ?F, ?original_count, ?values, ?reasons,
+          ?levels, ?states, ?true_counts, ?unassigned, ?row_table, ?n,
+          ?live, ?cap, ?slot, ?conflict_cl, ?new_cl, ?row, ?snap, ?ranks, ?dl) at 0
+action : right_erase(0);
+         right_exist_add(pre_snap);
+         right_exist_add(pre_ranks);
+         right_exist_add(last);
+         right_exist_add(old_state);
+         right_exist_add(old_true_count);
+         right_exist_add(old_unassigned);
+         right_exist_add(v_data);
+         right_exist_add(cl_data);
+         right_add(slot_at(slot, live));
+         right_add(0 <= conflict_cl);
+         right_add(conflict_cl < live);
+         right_add(0 < dl);
+         right_add(dl <= n);
+         right_add(0 <= original_count);
+         right_add(original_count <= live);
+         right_add(0 <= live);
+         right_add(live < cap);
+         right_add(coherent_snapshot(F, n, live, original_count, snap));
+         right_add(stable_search_facts(n, snap, ranks, dl));
+         right_add(dense_conflict_batch(
+           cdcl_view_of_snapshot(n, pre_snap, pre_ranks, dl),
+           cdcl_view_of_snapshot(n, snap, ranks, dl), last));
+         right_add(current_learning_exit_cert(F,
+           cdcl_view_of_snapshot(n, snap, ranks, dl), dense_decode(row)));
+         right_add(installing_clause(F,
+           cdcl_view_of_snapshot(n, snap, ranks, dl),
+           n, cap, row, dense_decode(row), live, live + 1));
+         right_add(sat_header_rep(s, n, slot, cap, dl, v_data, cl_data));
+         right_add(var_header_rep(v_data, values, reasons, levels));
+         right_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         right_add(variable_arrays_rep(values, reasons, levels, n, snap));
+         right_add(IntArray::seg(states, 0, live, snap_states(snap)));
+         right_add(data_at(states + ((slot - 1) * sizeof(I32)), I32, old_state));
+         right_add(IntArray::seg_shape(states, live + 1, cap));
+         right_add(IntArray::seg(true_counts, 0, live,
+           snap_true_counts(snap)));
+         right_add(data_at(true_counts + ((slot - 1) * sizeof(I32)), I32,
+           old_true_count));
+         right_add(IntArray::seg_shape(true_counts, live + 1, cap));
+         right_add(IntArray::seg(unassigned, 0, live,
+           snap_unassigned(snap)));
+         right_add(data_at(unassigned + ((slot - 1) * sizeof(I32)), I32,
+           old_unassigned));
+         right_add(IntArray::seg_shape(unassigned, live + 1, cap));
+         right_add(IntPtrArray2::full(row_table, live, snap_rows(snap)));
+         right_add(undef_data_at(row_table + ((slot - 1) * sizeof(PTR)), PTR));
+         right_add(PtrArray::undef_seg(row_table, live + 1, cap));
+         right_add(IntArray::full(new_cl, n, row));
+
+id : 64
+priority : core(1)
+left : solver_install_slot_state(?s, ?F, ?original_count, ?values, ?reasons,
+         ?levels, ?states, ?true_counts, ?unassigned, ?row_table, ?n,
+         ?live, ?cap, ?slot, ?conflict_cl, ?new_cl, ?row, ?snap, ?ranks, ?dl) at 0
+action : left_erase(0);
+         left_exist_add(pre_snap);
+         left_exist_add(pre_ranks);
+         left_exist_add(last);
+         left_exist_add(old_state);
+         left_exist_add(old_true_count);
+         left_exist_add(old_unassigned);
+         left_exist_add(v_data);
+         left_exist_add(cl_data);
+         left_add(slot_at(slot, live));
+         left_add(0 <= conflict_cl);
+         left_add(conflict_cl < live);
+         left_add(0 < dl);
+         left_add(dl <= n);
+         left_add(0 <= original_count);
+         left_add(original_count <= live);
+         left_add(0 <= live);
+         left_add(live < cap);
+         left_add(coherent_snapshot(F, n, live, original_count, snap));
+         left_add(stable_search_facts(n, snap, ranks, dl));
+         left_add(dense_conflict_batch(
+           cdcl_view_of_snapshot(n, pre_snap, pre_ranks, dl),
+           cdcl_view_of_snapshot(n, snap, ranks, dl), last));
+         left_add(current_learning_exit_cert(F,
+           cdcl_view_of_snapshot(n, snap, ranks, dl), dense_decode(row)));
+         left_add(installing_clause(F,
+           cdcl_view_of_snapshot(n, snap, ranks, dl),
+           n, cap, row, dense_decode(row), live, live + 1));
+         left_add(sat_header_rep(s, n, slot, cap, dl, v_data, cl_data));
+         left_add(var_header_rep(v_data, values, reasons, levels));
+         left_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         left_add(variable_arrays_rep(values, reasons, levels, n, snap));
+         left_add(IntArray::seg(states, 0, live, snap_states(snap)));
+         left_add(data_at(states + ((slot - 1) * sizeof(I32)), I32, old_state));
+         left_add(IntArray::seg_shape(states, live + 1, cap));
+         left_add(IntArray::seg(true_counts, 0, live,
+           snap_true_counts(snap)));
+         left_add(data_at(true_counts + ((slot - 1) * sizeof(I32)), I32,
+           old_true_count));
+         left_add(IntArray::seg_shape(true_counts, live + 1, cap));
+         left_add(IntArray::seg(unassigned, 0, live,
+           snap_unassigned(snap)));
+         left_add(data_at(unassigned + ((slot - 1) * sizeof(I32)), I32,
+           old_unassigned));
+         left_add(IntArray::seg_shape(unassigned, live + 1, cap));
+         left_add(IntPtrArray2::full(row_table, live, snap_rows(snap)));
+         left_add(undef_data_at(row_table + ((slot - 1) * sizeof(PTR)), PTR));
+         left_add(PtrArray::undef_seg(row_table, live + 1, cap));
+         left_add(IntArray::full(new_cl, n, row));
+
+id : 65
+priority : core(1)
+right : solver_installed_row_state(?s, ?F, ?original_count, ?values, ?reasons,
+          ?levels, ?states, ?true_counts, ?unassigned, ?row_table, ?n,
+          ?live, ?cap, ?conflict_cl, ?new_cl, ?row, ?snap, ?ranks, ?dl) at 0
+action : right_erase(0);
+         right_exist_add(pre_snap);
+         right_exist_add(installed_snap);
+         right_exist_add(pre_ranks);
+         right_exist_add(last);
+         right_exist_add(v_data);
+         right_exist_add(cl_data);
+         right_add(snapshot_installs(row, snap, installed_snap));
+         right_add(0 <= conflict_cl);
+         right_add(conflict_cl < live);
+         right_add(0 < dl);
+         right_add(dl <= n);
+         right_add(0 <= original_count);
+         right_add(original_count <= live);
+         right_add(0 <= live);
+         right_add(live < cap);
+         right_add(coherent_snapshot(F, n, live, original_count, snap));
+         right_add(stable_search_facts(n, snap, ranks, dl));
+         right_add(dense_conflict_batch(
+           cdcl_view_of_snapshot(n, pre_snap, pre_ranks, dl),
+           cdcl_view_of_snapshot(n, snap, ranks, dl), last));
+         right_add(current_learning_exit_cert(F,
+           cdcl_view_of_snapshot(n, snap, ranks, dl), dense_decode(row)));
+         right_add(clause_vars_assigned(
+           cdcl_view_of_snapshot(n, snap, ranks, dl), dense_decode(row)));
+         right_add(installing_clause(F,
+           cdcl_view_of_snapshot(n, snap, ranks, dl),
+           n, cap, row, dense_decode(row), live, live + 1));
+         right_add(sat_header_rep(s, n, live + 1, cap, dl, v_data, cl_data));
+         right_add(var_header_rep(v_data, values, reasons, levels));
+         right_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         right_add(variable_arrays_rep(values, reasons, levels, n, snap));
+         right_add(clause_summaries_explicit_rep(states, true_counts,
+           unassigned, live + 1, cap,
+           snap_states(installed_snap),
+           snap_true_counts(installed_snap),
+           snap_unassigned(installed_snap)));
+         right_add(IntPtrArray2::missing_i(row_table, live + 1, live, new_cl,
+           snap_rows(installed_snap)));
+         right_add(data_at(row_table + (live * sizeof(PTR)), PTR, new_cl));
+         right_add(IntArray::full(new_cl, n, row));
+         right_add(PtrArray::undef_seg(row_table, live + 1, cap));
+
+id : 66
+priority : core(1)
+left : solver_installed_row_state(?s, ?F, ?original_count, ?values, ?reasons,
+         ?levels, ?states, ?true_counts, ?unassigned, ?row_table, ?n,
+         ?live, ?cap, ?conflict_cl, ?new_cl, ?row, ?snap, ?ranks, ?dl) at 0
+action : left_erase(0);
+         left_exist_add(pre_snap);
+         left_exist_add(installed_snap);
+         left_exist_add(pre_ranks);
+         left_exist_add(last);
+         left_exist_add(v_data);
+         left_exist_add(cl_data);
+         left_add(snapshot_installs(row, snap, installed_snap));
+         left_add(0 <= conflict_cl);
+         left_add(conflict_cl < live);
+         left_add(0 < dl);
+         left_add(dl <= n);
+         left_add(0 <= original_count);
+         left_add(original_count <= live);
+         left_add(0 <= live);
+         left_add(live < cap);
+         left_add(coherent_snapshot(F, n, live, original_count, snap));
+         left_add(stable_search_facts(n, snap, ranks, dl));
+         left_add(dense_conflict_batch(
+           cdcl_view_of_snapshot(n, pre_snap, pre_ranks, dl),
+           cdcl_view_of_snapshot(n, snap, ranks, dl), last));
+         left_add(current_learning_exit_cert(F,
+           cdcl_view_of_snapshot(n, snap, ranks, dl), dense_decode(row)));
+         left_add(clause_vars_assigned(
+           cdcl_view_of_snapshot(n, snap, ranks, dl), dense_decode(row)));
+         left_add(installing_clause(F,
+           cdcl_view_of_snapshot(n, snap, ranks, dl),
+           n, cap, row, dense_decode(row), live, live + 1));
+         left_add(sat_header_rep(s, n, live + 1, cap, dl, v_data, cl_data));
+         left_add(var_header_rep(v_data, values, reasons, levels));
+         left_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         left_add(variable_arrays_rep(values, reasons, levels, n, snap));
+         left_add(clause_summaries_explicit_rep(states, true_counts,
+           unassigned, live + 1, cap,
+           snap_states(installed_snap),
+           snap_true_counts(installed_snap),
+           snap_unassigned(installed_snap)));
+         left_add(IntPtrArray2::missing_i(row_table, live + 1, live, new_cl,
+           snap_rows(installed_snap)));
+         left_add(data_at(row_table + (live * sizeof(PTR)), PTR, new_cl));
+         left_add(IntArray::full(new_cl, n, row));
+         left_add(PtrArray::undef_seg(row_table, live + 1, cap));
+
+/* learning_focus_state is learning_state with the row table focused at one
+   clause, and the one head that carries its own pure gate.  The gate is not a
+   convenience: rules 3 and 4 discharge `0 <= i` and `i < live` with infer, so
+   the focus/refocus chain 69 -> 31 -> 3 needs those two facts re-emitted at
+   every folded occurrence.  Emitter-after-consumer holds -- 69/70 emit
+   sat_header_rep / var_header_rep / clause_header_rep (consumed by 15-22),
+   installed_row_focus_rep (consumed by 31/32) and PtrArray::undef_seg
+   (consumed by 3/4) -- so this pair sits above all of them. */
+
+id : 69
+priority : core(1)
+right : learning_focus_state(?s, ?F, ?original_count, ?values, ?reasons,
+          ?levels, ?states, ?true_counts, ?unassigned, ?row_table, ?n,
+          ?live, ?cap, ?focus, ?row_ptr, ?snap, ?ranks, ?logical_dl) at 0
+action : right_erase(0);
+         right_exist_add(v_data);
+         right_exist_add(cl_data);
+         right_add(0 < n);
+         right_add(n < INT_MAX());
+         right_add(0 <= original_count);
+         right_add(original_count <= live);
+         right_add(0 <= live);
+         right_add(live <= cap);
+         right_add(0 < logical_dl);
+         right_add(0 <= focus);
+         right_add(focus < live);
+         right_add(coherent_snapshot(F, n, live, original_count, snap));
+         right_add(stable_search_facts(n, snap, ranks, logical_dl));
+         right_add(sat_header_rep(
+           s, n, live, cap, logical_dl, v_data, cl_data));
+         right_add(var_header_rep(v_data, values, reasons, levels));
+         right_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         right_add(IntArray::full(reasons, n, snap_reasons(snap)));
+         right_add(IntArray::full(levels, n, snap_levels(snap)));
+         right_add(installed_row_focus_rep(row_table, live, focus, row_ptr,
+           snap_rows(snap)));
+         right_add(PtrArray::undef_seg(row_table, live, cap));
+
+id : 70
+priority : core(1)
+left : learning_focus_state(?s, ?F, ?original_count, ?values, ?reasons,
+         ?levels, ?states, ?true_counts, ?unassigned, ?row_table, ?n,
+         ?live, ?cap, ?focus, ?row_ptr, ?snap, ?ranks, ?logical_dl) at 0
+action : left_erase(0);
+         left_exist_add(v_data);
+         left_exist_add(cl_data);
+         left_add(0 < n);
+         left_add(n < INT_MAX());
+         left_add(0 <= original_count);
+         left_add(original_count <= live);
+         left_add(0 <= live);
+         left_add(live <= cap);
+         left_add(0 < logical_dl);
+         left_add(0 <= focus);
+         left_add(focus < live);
+         left_add(coherent_snapshot(F, n, live, original_count, snap));
+         left_add(stable_search_facts(n, snap, ranks, logical_dl));
+         left_add(sat_header_rep(
+           s, n, live, cap, logical_dl, v_data, cl_data));
+         left_add(var_header_rep(v_data, values, reasons, levels));
+         left_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         left_add(IntArray::full(reasons, n, snap_reasons(snap)));
+         left_add(IntArray::full(levels, n, snap_levels(snap)));
+         left_add(installed_row_focus_rep(row_table, live, focus, row_ptr,
+           snap_rows(snap)));
+         left_add(PtrArray::undef_seg(row_table, live, cap));
+
+/* --- Wave-2 shared head H2: solver_explicit_state --------------------------
+   The whole solver state with the variable side and the row table EXPLICIT:
+   three variable lists plus a rows list instead of one snapshot key; clause
+   side = clause_arrays_explicit_rep.  Purely spatial (Wave-2 ruling A1):
+   pure facts stay visible C conjuncts or live in a per-function wrapper
+   (75/76 below).  Unfolded on BOTH sides at core priority for the same
+   reason as rules 11-14 and 49/50: the head is notation, not a reasoning
+   step, and a folded occurrence leaves a callee's existentials nothing to
+   unify against once the caller's copy has been shredded.
+   Emitter-after-consumer: 71/72 emit the three header bundles (consumed by
+   15-22) and clause_arrays_explicit_rep (23/24); IntArray::full is a leaf. */
+
+id : 71
+priority : core(1)
+right : solver_explicit_state(?s, ?values, ?reasons, ?levels, ?states,
+          ?true_counts, ?unassigned, ?row_table, ?n, ?live, ?cap, ?dl,
+          ?vvals, ?vreas, ?vlevs, ?rows, ?cur_states, ?cur_true,
+          ?cur_unassigned) at 0
+action : right_erase(0);
+         right_exist_add(v_data);
+         right_exist_add(cl_data);
+         right_add(sat_header_rep(s, n, live, cap, dl, v_data, cl_data));
+         right_add(var_header_rep(v_data, values, reasons, levels));
+         right_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         right_add(IntArray::full(values, n, vvals));
+         right_add(IntArray::full(reasons, n, vreas));
+         right_add(IntArray::full(levels, n, vlevs));
+         right_add(clause_arrays_explicit_rep(states, true_counts,
+           unassigned, row_table, live, cap, rows, cur_states, cur_true,
+           cur_unassigned));
+
+id : 72
+priority : core(1)
+left : solver_explicit_state(?s, ?values, ?reasons, ?levels, ?states,
+         ?true_counts, ?unassigned, ?row_table, ?n, ?live, ?cap, ?dl,
+         ?vvals, ?vreas, ?vlevs, ?rows, ?cur_states, ?cur_true,
+         ?cur_unassigned) at 0
+action : left_erase(0);
+         left_exist_add(v_data);
+         left_exist_add(cl_data);
+         left_add(sat_header_rep(s, n, live, cap, dl, v_data, cl_data));
+         left_add(var_header_rep(v_data, values, reasons, levels));
+         left_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         left_add(IntArray::full(values, n, vvals));
+         left_add(IntArray::full(reasons, n, vreas));
+         left_add(IntArray::full(levels, n, vlevs));
+         left_add(clause_arrays_explicit_rep(states, true_counts,
+           unassigned, row_table, live, cap, rows, cur_states, cur_true,
+           cur_unassigned));
+
+/* --- backtrack's thin wrapper over H2 --------------------------------------
+   backtrack_inner_state = the absorbed pure block of backtrack's two
+   whole-table annotations && one solver_explicit_state instance keyed on
+   current_snap, the cur_dl cell carrying back_dl.  The two
+   variable-being-cleared facts are NOT here (ruling A4): they stay visible C
+   lines in both blocks.  Per ruling A1 the wrapper re-emits every absorbed
+   conjunct individually at core(1), plus the H2 head, which rules 71/72
+   (lower ids) then shred. */
+
+id : 75
+priority : core(1)
+right : backtrack_inner_state(?s, ?F, ?original_count, ?snap,
+          ?conflict_snap, ?current_snap, ?after_snap, ?conflict_ranks,
+          ?conflict_dl, ?back_dl, ?i, ?values, ?reasons, ?levels, ?states,
+          ?true_counts, ?unassigned, ?row_table, ?n, ?live, ?cap,
+          ?cur_states, ?cur_true, ?cur_unassigned) at 0
+action : right_erase(0);
+         right_add(0 <= i);
+         right_add(i < n);
+         right_add(0 <= back_dl);
+         right_add(back_dl < conflict_dl);
+         right_add(0 <= n);
+         right_add(n < INT_MAX());
+         right_add(0 <= original_count);
+         right_add(original_count <= live);
+         right_add(0 <= live);
+         right_add(live <= cap);
+         right_add(coherent_snapshot(F, n, live, original_count, snap));
+         right_add(stable_search_facts(n, conflict_snap, conflict_ranks,
+           conflict_dl));
+         right_add(snapshot_lengths(n, live, current_snap));
+         right_add(snapshot_cells_wf(n, live, current_snap));
+         right_add(snapshot_lengths(n, live, after_snap));
+         right_add(snapshot_cells_wf(n, live, after_snap));
+         right_add(snap_values(after_snap) ==
+           replace_Znth{Z}(i, 0 - 1, snap_values(current_snap)));
+         right_add(snap_reasons(after_snap) ==
+           replace_Znth{Z}(i, 0 - 1, snap_reasons(current_snap)));
+         right_add(snap_levels(after_snap) ==
+           replace_Znth{Z}(i, 0 - 1, snap_levels(current_snap)));
+         right_add(snap_rows(after_snap) == snap_rows(current_snap));
+         right_add(snap_rows(current_snap) == snap_rows(snap));
+         right_add(solver_explicit_state(s, values, reasons, levels, states,
+           true_counts, unassigned, row_table, n, live, cap, back_dl,
+           snap_values(current_snap), snap_reasons(current_snap),
+           snap_levels(current_snap), snap_rows(current_snap),
+           cur_states, cur_true, cur_unassigned));
+
+id : 76
+priority : core(1)
+left : backtrack_inner_state(?s, ?F, ?original_count, ?snap,
+         ?conflict_snap, ?current_snap, ?after_snap, ?conflict_ranks,
+         ?conflict_dl, ?back_dl, ?i, ?values, ?reasons, ?levels, ?states,
+         ?true_counts, ?unassigned, ?row_table, ?n, ?live, ?cap,
+         ?cur_states, ?cur_true, ?cur_unassigned) at 0
+action : left_erase(0);
+         left_add(0 <= i);
+         left_add(i < n);
+         left_add(0 <= back_dl);
+         left_add(back_dl < conflict_dl);
+         left_add(0 <= n);
+         left_add(n < INT_MAX());
+         left_add(0 <= original_count);
+         left_add(original_count <= live);
+         left_add(0 <= live);
+         left_add(live <= cap);
+         left_add(coherent_snapshot(F, n, live, original_count, snap));
+         left_add(stable_search_facts(n, conflict_snap, conflict_ranks,
+           conflict_dl));
+         left_add(snapshot_lengths(n, live, current_snap));
+         left_add(snapshot_cells_wf(n, live, current_snap));
+         left_add(snapshot_lengths(n, live, after_snap));
+         left_add(snapshot_cells_wf(n, live, after_snap));
+         left_add(snap_values(after_snap) ==
+           replace_Znth{Z}(i, 0 - 1, snap_values(current_snap)));
+         left_add(snap_reasons(after_snap) ==
+           replace_Znth{Z}(i, 0 - 1, snap_reasons(current_snap)));
+         left_add(snap_levels(after_snap) ==
+           replace_Znth{Z}(i, 0 - 1, snap_levels(current_snap)));
+         left_add(snap_rows(after_snap) == snap_rows(current_snap));
+         left_add(snap_rows(current_snap) == snap_rows(snap));
+         left_add(solver_explicit_state(s, values, reasons, levels, states,
+           true_counts, unassigned, row_table, n, live, cap, back_dl,
+           snap_values(current_snap), snap_reasons(current_snap),
+           snap_levels(current_snap), snap_rows(current_snap),
+           cur_states, cur_true, cur_unassigned));
+
+/* --- Wave-2 focused-row head H1 (design section 2) -------------------------
+   solver_row_focus_state is solver_state's footprint with the row table
+   split around ONE focused row and every array's contents explicit: three
+   variable-side lists, the row table, the three clause-summary lists.
+   Purely spatial by ruling A1 -- the pure facts of every site (including
+   0 <= focus < live and any row-length bridge) stay visible C conjuncts or
+   live in a per-function wrapper such as rules 77/78 below.
+
+   Emitter-after-consumer holds: 73/74 emit the header trio (consumed by
+   15-20), three IntArray::full leaves, clause_summaries_explicit_rep
+   (29/30), installed_row_focus_rep (31/32) and a PtrArray::undef_seg
+   leaf. */
+
+id : 73
+priority : core(1)
+right : solver_row_focus_state(?s, ?values, ?reasons, ?levels, ?states,
+          ?true_counts, ?unassigned, ?row_table, ?n, ?live, ?cap, ?dl,
+          ?focus, ?row_ptr, ?vvals, ?vreas, ?vlevs, ?rows,
+          ?cur_states, ?cur_true, ?cur_unassigned) at 0
+action : right_erase(0);
+         right_exist_add(v_data);
+         right_exist_add(cl_data);
+         right_add(sat_header_rep(s, n, live, cap, dl, v_data, cl_data));
+         right_add(var_header_rep(v_data, values, reasons, levels));
+         right_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         right_add(IntArray::full(values, n, vvals));
+         right_add(IntArray::full(reasons, n, vreas));
+         right_add(IntArray::full(levels, n, vlevs));
+         right_add(clause_summaries_explicit_rep(states, true_counts,
+           unassigned, live, cap, cur_states, cur_true, cur_unassigned));
+         right_add(installed_row_focus_rep(row_table, live, focus,
+           row_ptr, rows));
+         right_add(PtrArray::undef_seg(row_table, live, cap));
+
+id : 74
+priority : core(1)
+left : solver_row_focus_state(?s, ?values, ?reasons, ?levels, ?states,
+         ?true_counts, ?unassigned, ?row_table, ?n, ?live, ?cap, ?dl,
+         ?focus, ?row_ptr, ?vvals, ?vreas, ?vlevs, ?rows,
+         ?cur_states, ?cur_true, ?cur_unassigned) at 0
+action : left_erase(0);
+         left_exist_add(v_data);
+         left_exist_add(cl_data);
+         left_add(sat_header_rep(s, n, live, cap, dl, v_data, cl_data));
+         left_add(var_header_rep(v_data, values, reasons, levels));
+         left_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         left_add(IntArray::full(values, n, vvals));
+         left_add(IntArray::full(reasons, n, vreas));
+         left_add(IntArray::full(levels, n, vlevs));
+         left_add(clause_summaries_explicit_rep(states, true_counts,
+           unassigned, live, cap, cur_states, cur_true, cur_unassigned));
+         left_add(installed_row_focus_rep(row_table, live, focus,
+           row_ptr, rows));
+         left_add(PtrArray::undef_seg(row_table, live, cap));
+
+/* --- backtrack's focused-row wrapper (rules 77/78) -------------------------
+   The same pure block as backtrack_inner_state (rules 75/76) -- the inner
+   clause loop's stable facts, i.e. everything that mentions neither j nor
+   the cleared cell -- plus one H1 instance keyed on current_snap at back_dl
+   with row j focused.  The two variable-being-cleared facts, the focus
+   bounds 0 <= j < live and the row-length bridge stay visible C conjuncts
+   (ruling A4; section-2 H1 invariant): the wrapper must NOT contain them.
+
+   Wrapper-above-head: 77/78 emit solver_row_focus_state, consumed by 73/74;
+   every other emitted fact is a pure leaf. */
+
+id : 77
+priority : core(1)
+right : backtrack_row_focus_state(?s, ?F, ?original_count, ?snap,
+          ?conflict_snap, ?current_snap, ?after_snap, ?conflict_ranks,
+          ?conflict_dl, ?back_dl, ?i, ?j, ?values, ?reasons, ?levels,
+          ?states, ?true_counts, ?unassigned, ?row_table, ?n, ?live, ?cap,
+          ?row_ptr, ?cur_states, ?cur_true, ?cur_unassigned) at 0
+action : right_erase(0);
+         right_add(0 <= i);
+         right_add(i < n);
+         right_add(0 <= back_dl);
+         right_add(back_dl < conflict_dl);
+         right_add(0 <= n);
+         right_add(n < INT_MAX());
+         right_add(0 <= original_count);
+         right_add(original_count <= live);
+         right_add(0 <= live);
+         right_add(live <= cap);
+         right_add(coherent_snapshot(F, n, live, original_count, snap));
+         right_add(stable_search_facts(n, conflict_snap, conflict_ranks,
+           conflict_dl));
+         right_add(snapshot_lengths(n, live, current_snap));
+         right_add(snapshot_cells_wf(n, live, current_snap));
+         right_add(snapshot_lengths(n, live, after_snap));
+         right_add(snapshot_cells_wf(n, live, after_snap));
+         right_add(snap_values(after_snap) ==
+           replace_Znth{Z}(i, -1, snap_values(current_snap)));
+         right_add(snap_reasons(after_snap) ==
+           replace_Znth{Z}(i, -1, snap_reasons(current_snap)));
+         right_add(snap_levels(after_snap) ==
+           replace_Znth{Z}(i, -1, snap_levels(current_snap)));
+         right_add(snap_rows(after_snap) == snap_rows(current_snap));
+         right_add(snap_rows(current_snap) == snap_rows(snap));
+         right_add(solver_row_focus_state(s, values, reasons, levels,
+           states, true_counts, unassigned, row_table, n, live, cap,
+           back_dl, j, row_ptr, snap_values(current_snap),
+           snap_reasons(current_snap), snap_levels(current_snap),
+           snap_rows(current_snap), cur_states, cur_true, cur_unassigned));
+
+id : 78
+priority : core(1)
+left : backtrack_row_focus_state(?s, ?F, ?original_count, ?snap,
+         ?conflict_snap, ?current_snap, ?after_snap, ?conflict_ranks,
+         ?conflict_dl, ?back_dl, ?i, ?j, ?values, ?reasons, ?levels,
+         ?states, ?true_counts, ?unassigned, ?row_table, ?n, ?live, ?cap,
+         ?row_ptr, ?cur_states, ?cur_true, ?cur_unassigned) at 0
+action : left_erase(0);
+         left_add(0 <= i);
+         left_add(i < n);
+         left_add(0 <= back_dl);
+         left_add(back_dl < conflict_dl);
+         left_add(0 <= n);
+         left_add(n < INT_MAX());
+         left_add(0 <= original_count);
+         left_add(original_count <= live);
+         left_add(0 <= live);
+         left_add(live <= cap);
+         left_add(coherent_snapshot(F, n, live, original_count, snap));
+         left_add(stable_search_facts(n, conflict_snap, conflict_ranks,
+           conflict_dl));
+         left_add(snapshot_lengths(n, live, current_snap));
+         left_add(snapshot_cells_wf(n, live, current_snap));
+         left_add(snapshot_lengths(n, live, after_snap));
+         left_add(snapshot_cells_wf(n, live, after_snap));
+         left_add(snap_values(after_snap) ==
+           replace_Znth{Z}(i, -1, snap_values(current_snap)));
+         left_add(snap_reasons(after_snap) ==
+           replace_Znth{Z}(i, -1, snap_reasons(current_snap)));
+         left_add(snap_levels(after_snap) ==
+           replace_Znth{Z}(i, -1, snap_levels(current_snap)));
+         left_add(snap_rows(after_snap) == snap_rows(current_snap));
+         left_add(snap_rows(current_snap) == snap_rows(snap));
+         left_add(solver_row_focus_state(s, values, reasons, levels,
+           states, true_counts, unassigned, row_table, n, live, cap,
+           back_dl, j, row_ptr, snap_values(current_snap),
+           snap_reasons(current_snap), snap_levels(current_snap),
+           snap_rows(current_snap), cur_states, cur_true, cur_unassigned));
+
+/* --- bcp's clause-update head (rules 79/80, design ruling A9) --------------
+   bcp_clause_update_state is the whole solver footprint at bcp's inner
+   Assert: variable side already keyed on new_snap, row table still keyed
+   on snap with row `focus` open, states split around the focused cell,
+   clause summaries explicit.  Purely spatial (ruling A1): the use site
+   keeps every pure fact visible.  Unfolded on BOTH sides at core(1) like
+   the other heads: the head is notation, not a reasoning
+   step, and a folded occurrence leaves a callee's existentials nothing to
+   unify against once the caller's copy has been shredded.  Note that rule 9
+   (core(0)) matches bcp_clause_scan at 0, coherent_snapshot at 1 AND
+   IntArray::full(?un_ptr, live, un) at 2: the first two stay visible C
+   conjuncts at the use site, but the third is inside this head and only
+   reappears after 79/80 fire -- design open risk 1.
+   Emitter-after-consumer: 79/80 emit the three header bundles (consumed by
+   15-20), variable_arrays_rep (11/12) and installed_row_focus_rep (31/32);
+   the focused int cell, IntArray::missing_i, the full/seg_shape atoms and
+   PtrArray::undef_seg are leaves.  Single use; ids 81-84 stay reserved for
+   the Plan-B decide wrappers. */
+
+id : 79
+priority : core(1)
+right : bcp_clause_update_state(?s, ?values, ?reasons, ?levels, ?states,
+          ?true_counts, ?unassigned, ?row_table, ?n, ?live, ?cap, ?dl,
+          ?focus, ?row_ptr, ?current_state, ?snap, ?new_snap,
+          ?cur_states, ?cur_true, ?cur_unassigned) at 0
+action : right_erase(0);
+         right_exist_add(v_data);
+         right_exist_add(cl_data);
+         right_add(sat_header_rep(s, n, live, cap, dl, v_data, cl_data));
+         right_add(var_header_rep(v_data, values, reasons, levels));
+         right_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         right_add(variable_arrays_rep(values, reasons, levels, n,
+           new_snap));
+         right_add(data_at(states + (focus * sizeof(I32)), I32,
+           current_state));
+         right_add(IntArray::missing_i(states, focus, 0, live, cur_states));
+         right_add(IntArray::seg_shape(states, live, cap));
+         right_add(IntArray::full(true_counts, live, cur_true));
+         right_add(IntArray::seg_shape(true_counts, live, cap));
+         right_add(IntArray::full(unassigned, live, cur_unassigned));
+         right_add(IntArray::seg_shape(unassigned, live, cap));
+         right_add(installed_row_focus_rep(row_table, live, focus, row_ptr,
+           snap_rows(snap)));
+         right_add(PtrArray::undef_seg(row_table, live, cap));
+
+id : 80
+priority : core(1)
+left : bcp_clause_update_state(?s, ?values, ?reasons, ?levels, ?states,
+         ?true_counts, ?unassigned, ?row_table, ?n, ?live, ?cap, ?dl,
+         ?focus, ?row_ptr, ?current_state, ?snap, ?new_snap,
+         ?cur_states, ?cur_true, ?cur_unassigned) at 0
+action : left_erase(0);
+         left_exist_add(v_data);
+         left_exist_add(cl_data);
+         left_add(sat_header_rep(s, n, live, cap, dl, v_data, cl_data));
+         left_add(var_header_rep(v_data, values, reasons, levels));
+         left_add(clause_header_rep(cl_data, states, true_counts,
+           unassigned, row_table));
+         left_add(variable_arrays_rep(values, reasons, levels, n,
+           new_snap));
+         left_add(data_at(states + (focus * sizeof(I32)), I32,
+           current_state));
+         left_add(IntArray::missing_i(states, focus, 0, live, cur_states));
+         left_add(IntArray::seg_shape(states, live, cap));
+         left_add(IntArray::full(true_counts, live, cur_true));
+         left_add(IntArray::seg_shape(true_counts, live, cap));
+         left_add(IntArray::full(unassigned, live, cur_unassigned));
+         left_add(IntArray::seg_shape(unassigned, live, cap));
+         left_add(installed_row_focus_rep(row_table, live, focus, row_ptr,
+           snap_rows(snap)));
+         left_add(PtrArray::undef_seg(row_table, live, cap));

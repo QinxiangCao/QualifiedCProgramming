@@ -1,0 +1,57 @@
+P4999 Annoying Math Homework
+
+Background
+
+The NOIP2018 preliminary round is over, but H still has to go to school. Going
+to school means finishing the homework assigned by teachers, and H is really
+worried. Among the pile of homework, the math homework assigned by Mr. G is the
+most annoying, and H can never finish it.
+
+Description
+
+Recently, Mr. G has been reading some books about number problems. Every day,
+he worries that the students are too “smart”, and they can do all homework
+“perfectly” (by getting the answers). Mr. G is “kept in the dark” (but actually
+knows it well). To help students improve, Mr. G always creates some “easy” (but
+actually nasty) problems as homework.
+
+Below is the statement of the last problem in the math homework: Given an
+interval L ~ R, find the sum of digits of every number in the range from L to
+R. For example, the sum of digits of 123 is 1 + 2 + 3 = 6.
+(1 <= L <= R <= 10^2.) The students all solved it. Mr. G thought this last
+problem was basically useless, so he quickly modified it: he made the range
+extremely large, and there are T test cases. Output the final answer mod
+10^9 + 7.
+
+(1 <= L <= R <= 10^18.) (1 <= T <= 20.) The students were all stuck. But H is
+preparing for NOIP2018 and has no time to finish Mr. G’s math homework
+(actually, Ta just does not want to do it), so Ta came to you, hoping you can
+help Ta and the classmates finish this annoying math homework.
+
+Input Format
+
+There are T + 1 lines in total. Line 1 contains T, meaning there are T test
+cases. Lines 2 to T + 1 contain L_i and R_i.
+
+Output Format
+
+Output T lines. For each line, output the sum of digits over the interval from
+L_i to R_i, taken mod 10^9 + 7.
+
+Sample Input
+
+2
+24 69
+70 120
+
+Sample Output
+
+411
+498
+
+Constraints
+
+- For 50% of the testdata, 1 <= L <= R <= 10^8.
+- For 100% of the testdata, 1 <= L <= R <= 10^18, and 1 <= T <= 20.
+
+Source: https://www.luogu.com.cn/problem/P4999?lang=en

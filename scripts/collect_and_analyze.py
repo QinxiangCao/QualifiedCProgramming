@@ -10,6 +10,7 @@
 """
 import os
 import json
+import platform
 import re
 import runpy
 import sys
@@ -34,6 +35,48 @@ CASE_ROOT_PREFIXES = (
     'QCP_demos_tutorial',
     'QCP_demos_LLM',
 )
+
+
+def qcp_binary(is_strategy=False):
+    """Return the platform-native QCP driver, allowing an explicit override."""
+    env_name = 'QCP_STRATEGYCHECK_EXE' if is_strategy else 'QCP_SYMEXEC_EXE'
+    configured = os.environ.get(env_name)
+    if configured:
+        return configured
+
+    name = 'StrategyCheck' if is_strategy else 'symexec'
+    if sys.platform == 'win32':
+        return os.path.join('win-binary', name + '.exe')
+    if sys.platform == 'darwin':
+        machine = platform.machine().lower()
+        if machine in ('arm64', 'aarch64'):
+            binary_dir = 'mac-arm64-binary'
+        elif machine in ('x86_64', 'amd64'):
+            binary_dir = 'mac-x86-64-binary'
+        else:
+            raise RuntimeError(f'Unsupported macOS architecture for QCP binaries: {machine or "<unknown>"}')
+        return os.path.join(binary_dir, name)
+    if sys.platform.startswith('linux'):
+        return os.path.join('linux-binary', name)
+    raise RuntimeError(f'Unsupported platform for QCP binaries: {sys.platform}')
+
+
+def platform_qcp_command(command, is_strategy=None):
+    """Replace a run-example Linux driver with the native platform driver."""
+    cmd = list(command)
+    if not cmd:
+        return cmd
+    executable = cmd[0].replace('\\', '/')
+    basename = executable.rsplit('/', 1)[-1].lower()
+    if is_strategy is None:
+        if basename in ('strategycheck', 'strategycheck.exe'):
+            is_strategy = True
+        elif basename in ('symexec', 'symexec.exe'):
+            is_strategy = False
+        else:
+            return cmd
+    cmd[0] = qcp_binary(is_strategy=is_strategy)
+    return cmd
 
 
 def normalize_case_relative_path(path):
@@ -262,8 +305,8 @@ def count_proof_goals_for_example(rel_c_path):
     """Return tuple (auto_count, manual_count, auto_path, manual_path, auto_exists, manual_exists)
     rel_c_path is like 'fme/fme.c' or 'chars.c'."""
     base_no_ext = rel_c_path[:-2] if rel_c_path.lower().endswith('.c') else rel_c_path
-    auto_rel = os.path.join('SeparationLogic', 'examples', base_no_ext + '_proof_auto.v')
-    manual_rel = os.path.join('SeparationLogic', 'examples', base_no_ext + '_proof_manual.v')
+    auto_rel = os.path.join('Rocq', 'examples', base_no_ext + '_proof_auto.v')
+    manual_rel = os.path.join('Rocq', 'examples', base_no_ext + '_proof_manual.v')
     auto_full = auto_rel
     manual_full = manual_rel
     auto_count = 0
@@ -399,10 +442,10 @@ def parse_run_example_script(script_path='run-example-linux.sh'):
     return mapping
 
 
-def run_separationlogic_make_timing(sep_dir='SeparationLogic', logs_dir='logs'):
+def run_separationlogic_make_timing(sep_dir='Rocq', logs_dir='logs'):
     """Run `make depend` then `TIMING=1 make` in `sep_dir`.
     Save outputs to logs_dir/sepmake.out and sepmake.err and return a mapping
-    from manual proof relative path (like 'SeparationLogic/examples/..._proof_manual.v')
+    from manual proof relative path (like 'Rocq/examples/..._proof_manual.v')
     to timing in seconds (float). If no timing found for a file, it will be absent.
     """
     res = {}
@@ -467,10 +510,10 @@ def run_separationlogic_make_timing(sep_dir='SeparationLogic', logs_dir='logs'):
                     if mm3:
                         t = float(mm3.group('msecs')) / 1000.0
 
-        # normalize path to repository-root relative (prefix SeparationLogic if needed)
+        # normalize path to repository-root relative (prefix Rocq if needed)
         norm = p.replace('\\', '/')
-        if not norm.startswith('SeparationLogic/'):
-            norm = os.path.join('SeparationLogic', norm).replace('\\', '/')
+        if not norm.startswith('Rocq/'):
+            norm = os.path.join('Rocq', norm).replace('\\', '/')
         if t is not None:
             res[norm] = t
 
@@ -479,7 +522,7 @@ def run_separationlogic_make_timing(sep_dir='SeparationLogic', logs_dir='logs'):
 
 def parse_sepmake_content(content):
     """Parse sepmake combined stdout+stderr content and return mapping of manual path -> seconds.
-    Supports ms, s, and m:ss formats. Keys are normalized to 'SeparationLogic/...' paths.
+    Supports ms, s, and m:ss formats. Keys are normalized to 'Rocq/...' paths.
     """
     res = {}
     path_re = re.compile(r'(?P<path>\S*_proof_manual\.v)')
@@ -520,8 +563,8 @@ def parse_sepmake_content(content):
                         t = float(mm3.group('msecs')) / 1000.0
 
         norm = p.replace('\\', '/')
-        if not norm.startswith('SeparationLogic/'):
-            norm = os.path.join('SeparationLogic', norm).replace('\\', '/')
+        if not norm.startswith('Rocq/'):
+            norm = os.path.join('Rocq', norm).replace('\\', '/')
         if t is not None:
             res[norm] = t * 1000
 
@@ -547,7 +590,7 @@ def parse_time_from_log_file(logpath, manual_rel):
     return None
 
 
-def run_make_and_get_time_for_manual(manual_rel, sep_dir='SeparationLogic', logs_dir='logs', label=''):
+def run_make_and_get_time_for_manual(manual_rel, sep_dir='Rocq', logs_dir='logs', label=''):
     """Run `TIMING=1 make` in sep_dir, save logs to logs_dir/<label>.sepmake.out/.err,
     and parse timing for given manual_rel path. Returns time in seconds or None.
     """
@@ -617,7 +660,7 @@ def run_gen_backup_for_example(full_cmd, logs_dir='logs', label='gen'):
     """
     if not full_cmd:
         return False
-    cmd = list(full_cmd) + ['--gen-and-backup']
+    cmd = platform_qcp_command(full_cmd) + ['--gen-and-backup']
     outp = os.path.join(logs_dir, f'{label}.gen.out')
     errp = os.path.join(logs_dir, f'{label}.gen.err')
     p = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -646,7 +689,7 @@ def analyze_lists(base, examples, strategies, categories_map=None):
     for p in examples:
         stats = analyze_c_file(base, p)
         stats['category'] = get_category_for(p, base, categories_map)
-        # count proof goals in SeparationLogic examples
+        # count proof goals in Rocq examples
         auto_cnt, manual_cnt, auto_rel, manual_rel, auto_exists, manual_exists = count_proof_goals_for_example(p)
         stats['proof_goals_auto'] = auto_cnt
         stats['proof_goals_manual'] = manual_cnt
@@ -697,7 +740,7 @@ def analyze_lists(base, examples, strategies, categories_map=None):
                 run_gen_backup_for_example(full_cmd, logs_dir=run_logs, label=name_label + '_gen')
 
             # first make to get t1
-            t1 = run_make_and_get_time_for_manual(manual_rel, sep_dir=os.path.join('.', 'SeparationLogic'), logs_dir=run_logs, label=name_label + '_make1')
+            t1 = run_make_and_get_time_for_manual(manual_rel, sep_dir=os.path.join('.', 'Rocq'), logs_dir=run_logs, label=name_label + '_make1')
 
             # locate backup file
             backup_rel = manual_rel.replace('_proof_manual.v', '_proof_manual_backup1.v')
@@ -718,7 +761,7 @@ def analyze_lists(base, examples, strategies, categories_map=None):
             shutil.copyfile(backup_rel, manual_rel)
 
             # second make to get t2
-            t2 = run_make_and_get_time_for_manual(manual_rel, sep_dir=os.path.join('.', 'SeparationLogic'), logs_dir=run_logs, label=name_label + '_make2')
+            t2 = run_make_and_get_time_for_manual(manual_rel, sep_dir=os.path.join('.', 'Rocq'), logs_dir=run_logs, label=name_label + '_make2')
       
             # remove backup file
             if os.path.isfile(backup_rel):
@@ -823,9 +866,9 @@ def run_and_time_input(input_rel, is_strategy=False, timeout=None, full_cmd=None
 
     # If full_cmd is provided by the caller use it, otherwise build a default command
     if full_cmd:
-        cmd = list(full_cmd)
+        cmd = platform_qcp_command(full_cmd, is_strategy=is_strategy)
     else:
-        binary = 'linux-binary/StrategyCheck' if is_strategy else 'linux-binary/symexec'
+        binary = qcp_binary(is_strategy=is_strategy)
         cmd = [binary, f'--input-file={input_rel}', '--no-exec-info']
 
     if logs_dir is None:

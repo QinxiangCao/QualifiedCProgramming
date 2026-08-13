@@ -133,6 +133,7 @@ mpn_scan1 (unsigned int *ptr, unsigned long long bit)
     UIntArray::full(ptr, n, l)
   Ensure
     mpn_scan1_result(l, bit, __return) &&
+    __return / 32 < n &&
     UIntArray::full(ptr, n, l)
 */
 {
@@ -206,6 +207,7 @@ mpz_make_odd (mpz_ptr r)
           z > 0 &&
           r == r@pre &&
           shift >= 0 &&
+          shift / 32 < size &&
           size > 0 &&
           size <= cap &&
           cap >= 0 &&
@@ -226,6 +228,7 @@ mpz_make_odd (mpz_ptr r)
           odd == Z::quot(z, Z::pow(2, shift)) &&
           r == r@pre &&
           0 <= shift &&
+          shift / 32 <= INT_MAX &&
           odd > 0 &&
           odd % 2 == 1 &&
           z == odd * Z::pow(2, shift) &&

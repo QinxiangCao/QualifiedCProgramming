@@ -1,14 +1,13 @@
-#include "verification_stdlib.h"
-#include "verification_list.h"
-#include "int_array_def.h"
 
-/*@ Extern Coq (permutation : list Z -> list Z -> Prop) */
+
+
+
+/*@ Extern Coq (Permutation : list Z -> list Z -> Prop) */
 /*@ Extern Coq (increasing : list Z -> Prop) */
-/*@ Extern Coq (sorted_range : list Z -> Z -> Z -> Prop) */
+/*@ Extern Coq (range_nondecreasing : list Z -> Z -> Z -> Prop) */
 /*@ Extern Coq (same_outside_range : list Z -> list Z -> Z -> Z -> Prop) */
 /*@ Extern Coq (partitioned_at : list Z -> Z -> Z -> Z -> Prop) */
-/*@ Extern Coq (partition_scan_inv : list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Prop) */
-/*@ Import Coq Require Import SimpleC.EE.LLM_bench.Algorithms.quicksort_lomuto_index.quicksort_lib */
+/*@ Import Coq Require Import SimpleC.EE.LLM_bench.Algorithms.quicksort_hoare_swap_index.quicksort_lib */
 
 void swap(int *arr, int i, int j)
 /*@ With n l
@@ -29,7 +28,7 @@ int partition(int *arr, int n, int low, int high)
             IntArray::full(arr, n, l)
     Ensure low <= __return && __return <= high &&
             exists l1,
-              permutation(l, l1) &&
+              Permutation(l, l1) &&
               same_outside_range(l, l1, low, high) &&
               partitioned_at(l1, low, high, __return) &&
               IntArray::full(arr, n, l1)
@@ -41,11 +40,16 @@ int partition(int *arr, int n, int low, int high)
       exists l1,
         arr == arr@pre && n == n@pre &&
         low == low@pre && high == high@pre &&
-        pivot == Znth(high, l, 0) &&
+        pivot == l[high] &&
         0 <= low && low <= high && high < n &&
         low - 1 <= i && i < j && j <= high &&
-        partition_scan_inv(l, l1, low, high, pivot, i, j) &&
+        Permutation(l, l1) &&
+        same_outside_range(l, l1, low, high) &&
+        l1[high] == pivot &&
+        (forall (k: Z), (low <= k && k <= i) => (l1[k] <= pivot)) &&
+        (forall (k: Z), (i < k && k < j) => (pivot < l1[k])) &&
         IntArray::full(arr, n, l1)
+      by array_length
   */
   for (int j = low; j < high; j++) {
     if (arr[j] <= pivot) {
@@ -55,7 +59,7 @@ int partition(int *arr, int n, int low, int high)
   }
 
   swap(arr, i + 1, high);
-  return i + 1;
+  return i + 1 /*@ by array_length */;
 }
 
 void quicksort_range(int *arr, int n, int left, int right)
@@ -63,9 +67,9 @@ void quicksort_range(int *arr, int n, int left, int right)
     Require 0 <= n && 0 <= left && -1 <= right && right < n &&
             IntArray::full(arr, n, l)
     Ensure exists l1,
-            permutation(l, l1) &&
+            Permutation(l, l1) &&
             same_outside_range(l, l1, left, right) &&
-            sorted_range(l1, left, right) &&
+            range_nondecreasing(l1, left, right) &&
             IntArray::full(arr, n, l1)
 */
 {
@@ -78,6 +82,7 @@ void quicksort_range(int *arr, int n, int left, int right)
       quicksort_range(arr, n, p + 1, right);
     }
   }
+  return /*@ by array_length */;
 }
 
 void quicksort(int *arr, int n)
@@ -85,10 +90,11 @@ void quicksort(int *arr, int n)
     Require 1 <= n && n <= 50000 &&
             IntArray::full(arr, n, l)
     Ensure exists l1,
-            permutation(l, l1) &&
+            Permutation(l, l1) &&
             increasing(l1) &&
             IntArray::full(arr, n, l1)
 */
 {
   quicksort_range(arr, n, 0, n - 1);
+  return /*@ by array_length */;
 }

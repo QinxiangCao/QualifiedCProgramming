@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Algorithms.optimized_selection_sort Require Import optimized_selection_sort_goal optimized_selection_sort_proof_auto optimized_selection_sort_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include optimized_selection_sort_proof_auto.
+  Include optimized_selection_sort_proof_manual.
+End VC_Correctness.

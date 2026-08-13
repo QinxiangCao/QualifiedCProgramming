@@ -1,8 +1,8 @@
-# Correct Example: Binary Answer Annotation
+# 正确示例：二分答案 Annotation
 
 本文件是 annotation 正例解析。遇到“二分答案 + check 判定函数”时，先学习这里的 spec 拆分和 invariant 形状，再写当前 case 的 `formal_case_lib` 和 C annotation。
 
-## Example Files
+## 示例文件
 
 本目录中的相关文件：
 
@@ -25,7 +25,7 @@
 - 候选值是否可行的全局性质。
 - 真实数学答案与当前二分边界的夹逼关系。
 
-## Recommended Spec Shape
+## 推荐的 Spec 形式
 
 在 `formal_case_lib` 中定义业务语义 wrapper，而不是在 C annotation 中展开 `MaxMinLib`：
 
@@ -45,7 +45,7 @@ Definition MinimizedMaxSegmentSum (l : list Z) (m ans : Z) : Prop := ...
  */
 ```
 
-## `check` Function
+## `check` 函数
 
 `check` 的 `Ensure` 只暴露判定性质：
 
@@ -69,7 +69,7 @@ Inv Assert
 
 `PrefixSplitState` 描述“扫描到前缀 `i` 时已经形成的段满足 cap 约束”，不是一份 Rocq 版 `check` 程序。
 
-## Main Loop
+## 主循环
 
 主循环 invariant 维护真实答案被当前边界夹住：
 
@@ -91,7 +91,7 @@ Inv Assert
 
 这些连接事实应在 proof side 作为 helper lemma 证明；annotation 只保留调用 helper 所需的前提。
 
-## Checklist
+## 检查清单
 
 - `check` 的返回值是否封装成 `CanX` / `CannotX` 判定性质？
 - 主问题是否用 `Minimized...`、`Maximized...` 或等价数学 wrapper 表达？
@@ -99,7 +99,7 @@ Inv Assert
 - `ok` 分支是否保留了可行 / 不可行事实、`mid` 范围和边界事实？
 - C annotation 是否描述数学状态，而不是追踪一份 Rocq 版二分程序？
 
-## How To Use The Example
+## 如何使用本示例
 
 遇到二分答案、可行性判定、最大最小值优化或 `check` helper 函数时：
 

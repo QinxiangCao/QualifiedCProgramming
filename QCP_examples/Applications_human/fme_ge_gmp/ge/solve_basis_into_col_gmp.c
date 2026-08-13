@@ -104,7 +104,9 @@ int solve_basis_into_col_gmp(int n, mpz_srcptr p, mpz_ptr a, int col,
         /*@ where (low_level_spec) A = A, la = la, laug = laug */
         ;
 
-    if (gauss_solve_mod_gmp(n, p, aug, x) == 0) {
+    if (gauss_solve_mod_gmp(n, p, aug, x)
+        /*@ where (low_level_spec) M0 = matrix_aug_basis(n, A, col), lx = lx, zp = zp */
+        == 0) {
         return 0;
     }
 

@@ -1,6 +1,7 @@
 
 
 /*@ Import Coq Require Import SimpleC.EE.QCP_demos_LLM.simple_arith.PDiv_lib */
+/*@ Import Lean import SimpleC.EE.QCP_demos_LLM.simple_arith.PDiv_lib */
 
 /*@ Extern Coq (Pos_Div : Z -> Z -> Z -> Z) */
 

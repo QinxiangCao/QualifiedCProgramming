@@ -1,0 +1,8 @@
+; Converted from:
+; - _CoqProject: -R Rocq/MaxMinLib MaxMinLib
+; - Rocq/_CoqProject: -R MaxMinLib MaxMinLib
+(coq.theory
+ (name MaxMinLib)
+ (theories SetsClass))
+
+(include_subdirs qualified)

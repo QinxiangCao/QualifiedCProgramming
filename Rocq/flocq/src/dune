@@ -1,0 +1,43 @@
+; Converted from:
+; - _CoqProject: -R Rocq/flocq/src Flocq
+; - Rocq/_CoqProject: -R flocq/src Flocq
+(coq.theory
+ (name Flocq)
+ (modules
+  Version
+  Core.Raux
+  Core.Zaux
+  Core.Defs
+  Core.Digits
+  Core.Float_prop
+  Core.FIX
+  Core.FLT
+  Core.FLX
+  Core.FTZ
+  Core.Generic_fmt
+  Core.Round_pred
+  Core.Round_NE
+  Core.Ulp
+  Core.Core
+  Calc.Bracket
+  Calc.Div
+  Calc.Operations
+  Calc.Plus
+  Calc.Round
+  Calc.Sqrt
+  Prop.Div_sqrt_error
+  Prop.Mult_error
+  Prop.Plus_error
+  Prop.Relative
+  Prop.Sterbenz
+  Prop.Round_odd
+  Prop.Double_rounding
+  IEEE754.BinarySingleNaN
+  IEEE754.Binary
+  IEEE754.Bits
+  IEEE754.PrimFloat
+  Pff.Pff
+  Pff.Pff2FlocqAux
+  Pff.Pff2Flocq))
+
+(include_subdirs qualified)

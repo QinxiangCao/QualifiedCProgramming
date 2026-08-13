@@ -422,7 +422,8 @@ int rank_mod_gmp(int n, mpz_srcptr p, mpz_ptr aug)
                   mpz_array(aug, n * (n + 1), l1)
             */
 
-            row_scale_mod_gmp(n, p, aug, k, inv);
+            row_scale_mod_gmp(n, p, aug, k, inv)
+              /*@ where (low_level_spec) M = M1, l = l1 */;
 
             /*@ Assert exists zinv M2 l2,
                   aug != 0 && p != 0 &&

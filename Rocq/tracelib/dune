@@ -1,0 +1,8 @@
+; Converted from:
+; - _CoqProject: -R Rocq/tracelib TraceLib
+; - Rocq/_CoqProject: -R tracelib TraceLib
+(coq.theory
+ (name TraceLib)
+ (theories FP MonadLib SetsClass))
+
+(include_subdirs qualified)

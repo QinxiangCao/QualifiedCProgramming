@@ -1,6 +1,6 @@
-#include "verification_stdlib.h"
-#include "verification_list.h"
-#include "int_array_def.h"
+
+
+
 
 /*@ Extern Coq (minister :: *) */
 /*@ Extern Coq
@@ -151,8 +151,9 @@ void kings_game(int *ministers, int n, int king_left, int king_right, int *ans)
       int right1 = ans[2 * j + 1];
       int left2 = ans[2 * (j + 1)];
       int right2 = ans[2 * (j + 1) + 1];
+      /*@ Given flat_cur cur */
       if (left1 * right1 > left2 * right2) {
-        swap_ministers(ans, n, j, j + 1);
+        swap_ministers(ans, n, j, j + 1) /*@ where flat = flat_cur, ps = cur */;
       }
     }
   }

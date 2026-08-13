@@ -1,5 +1,11 @@
-# Skills EN Mirror
+# English skill mirror
 
-This directory mirrors the active `.agents/skills` contract. It is the synchronized English documentation surface for skill discovery and must not diverge into an independent workflow.
+This directory is the English mirror of `.agents/skills`; it is not an independent workflow.
 
-The semantic source of truth remains `.agents/skills`. Documentation is translated into English; scripts and non-document assets are copied byte-for-byte. Keep the main-root annotation workflow, the one persistent annotation agent, `formal_case_lib` / `group_worker_lib` / `proving_merged_lib`, directory-based groups, compact reports, controller tooling, and final-check aligned with the active tree.
+The mirror follows the same three document layers:
+
+1. `SKILL.md` states when to invoke a skill and its broad purpose.
+2. `workflows/` explains state transitions, handoffs, write boundaries, commands, and checks.
+3. `docs/` preserves the detailed annotation, VC analysis, and Rocq proof knowledge.
+
+Markdown is translated into English. Executable scripts are shared under `.agents/scripts`; non-document example files that are read locally may remain mirrored in the language directories. Test scripts are kept outside the Git worktree and must not be added here.

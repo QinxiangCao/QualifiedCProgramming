@@ -379,7 +379,9 @@ mpz_div_qr(mpz_ptr q, mpz_ptr r,
       mpz_ptr tr;
 
       tr = malloc_mpz_struct();
-      mpz_init_set(tr, n);
+      mpz_init_set(tr, n)
+        /*@ where z = zn_nonalias $ nonalias
+            where z = zn_r_eq_n $ r_eq_n */;
       np = tr->_mp_d;
 
       qn = nn - dn + 1;

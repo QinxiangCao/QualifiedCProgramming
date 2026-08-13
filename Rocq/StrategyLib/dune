@@ -1,0 +1,7 @@
+; Converted from:
+; - _CoqProject: -R Rocq/StrategyLib SimpleC.StrategyLib
+; - Rocq/_CoqProject: -R StrategyLib SimpleC.StrategyLib
+(coq.theory
+ (name SimpleC.StrategyLib))
+
+(include_subdirs qualified)

@@ -11,6 +11,7 @@
                 */
 
 /*@ Import Coq Require Import SimpleC.EE.QCP_demos_LLM.sll_merge_rel_lib */
+/*@ Import Lean import SimpleC.EE.QCP_demos_LLM.sll_merge_rel_lib */
 
 void split_while(struct list * x, struct list * * p, struct list * * q)
   /*@ low_level_spec
@@ -95,7 +96,6 @@ void split_while(struct list * x, struct list * * p, struct list * * q)
     }
   }
 }
-
 
 
 

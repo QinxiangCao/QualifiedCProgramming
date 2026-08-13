@@ -1,0 +1,69 @@
+#include "swap_simple5.h"
+
+id : 0
+priority : core(1)
+left : store_int_pair(?p, ?x, ?y) at 0
+right : store(field_addr(?p, int_pair, a), I32, ?v) at 1
+action : left_erase(0);
+         right_erase(1);
+         left_add(store_int_pair_y_only(p, y));
+         right_add(v == x);
+
+id : 1
+priority : core(1)
+left : store_int_pair(?p, ?x, ?y) at 0
+right : store(field_addr(?p, int_pair, b), I32, ?v) at 1
+action : left_erase(0);
+         right_erase(1);
+         left_add(store_int_pair_x_only(p, x));
+         right_add(v == y);
+
+id : 2
+priority : core(1)
+left : store_int_pair(?p, ?x, ?y) at 0
+right : undef_data_at(field_addr(?p, int_pair, a), I32) at 1
+action : left_erase(0);
+         right_erase(1);
+         left_add(store_int_pair_y_only(p, y));
+
+id : 3
+priority : core(1)
+left : store_int_pair(?p, ?x, ?y) at 0
+right : undef_data_at(field_addr(?p, int_pair, b), I32) at 1
+action : left_erase(0);
+         right_erase(1);
+         left_add(store_int_pair_x_only(p, x));
+
+id : 4
+priority : post(1)
+left : store(field_addr(?p, int_pair, a), I32, ?x) at 0
+       store_int_pair_y_only(p, ?y) at 1
+action : left_erase(0);
+         left_erase(1);
+         left_add(store_int_pair(p, x, y));
+
+id : 5
+priority : post(1)
+left : store(field_addr(?p, int_pair, b), I32, ?y) at 0
+       store_int_pair_x_only(p, ?x) at 1
+action : left_erase(0);
+         left_erase(1);
+         left_add(store_int_pair(p, x, y));
+
+
+id : 6
+priority : unfold(1)
+left : store_int_pair(?p, ?x, ?y) at 0
+action : left_erase(0);
+         left_add(store(field_addr(p, int_pair, a), I32, x));
+         left_add(store(field_addr(p, int_pair, b), I32, y));
+
+id : 7
+priority : fold(1)
+left : store(field_addr(?p, int_pair, a), I32, ?x) at 0
+       store(field_addr(p, int_pair, b), I32, ?y) at 1
+action : left_erase(0);
+         left_erase(1);
+         left_add(store_int_pair(p, x, y));
+
+

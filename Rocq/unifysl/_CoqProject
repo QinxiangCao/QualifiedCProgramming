@@ -1,0 +1,2 @@
+-R . Logic
+-R ../../_build/default/Rocq/unifysl Logic

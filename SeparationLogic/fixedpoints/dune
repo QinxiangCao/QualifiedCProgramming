@@ -1,8 +1,0 @@
-; Converted from:
-; - _CoqProject: -R SeparationLogic/fixedpoints FP
-; - SeparationLogic/_CoqProject: -R fixedpoints FP
-(coq.theory
- (name FP)
- (theories SetsClass))
-
-(include_subdirs qualified)

@@ -1,6 +1,6 @@
-#include "verification_stdlib.h"
-#include "verification_list.h"
-#include "int_array_def.h"
+
+
+
 
 /*@ Extern Coq
       (ST_LEVELS : Z)
@@ -419,7 +419,8 @@ long long superPiano(
       (forall (idx : Z), (0 <= idx && idx < n@pre) => (-1000 <= l[idx] && l[idx] <= 1000))
    */
 
-  build_sparse_argmax(prefix, n + 1, st);
+  /*@ Given ps ans st_slots */
+  build_sparse_argmax(prefix, n + 1, st) /*@ where ps = ps, st_slots = st_slots */;
   /*@ Assert
       exists ps ans st_slots,
       arr == arr@pre && n == n@pre && k == k@pre && L == L@pre && R == R@pre &&
@@ -546,13 +547,14 @@ long long superPiano(
       IntArray::full(heap_hi@pre, heap_cap, his) *
       IntArray::full(heap_best@pre, heap_cap, bests) &&
       (forall (idx : Z), (0 <= idx && idx < n@pre) => (-1000 <= l[idx] && l[idx] <= 1000))
-   */
-  for (int t = 0; t < k; ++t) {
-    int value = frontier_top_value(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize);
-    int start = frontier_top_start(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize);
-    int lo = frontier_top_lo(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize);
-    int hi = frontier_top_hi(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize);
-    int best = frontier_top_best(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize);
+    */
+   for (int t = 0; t < k; ++t) {
+    /*@ Given slots vals starts los his bests chosen */
+    int value = frontier_top_value(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize) /*@ where slots = slots */;
+    int start = frontier_top_start(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize) /*@ where slots = slots */;
+    int lo = frontier_top_lo(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize) /*@ where slots = slots */;
+    int hi = frontier_top_hi(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize) /*@ where slots = slots */;
+    int best = frontier_top_best(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize) /*@ where slots = slots */;
     /*@ Assert
         exists ps ans st_slots slots vals starts los his bests chosen,
         arr == arr@pre && n == n@pre && k == k@pre && L == L@pre && R == R@pre &&
@@ -595,7 +597,8 @@ long long superPiano(
         (forall (idx : Z), (0 <= idx && idx < n@pre) => (-1000 <= l[idx] && l[idx] <= 1000))
      */
 
-    frontier_pop_only(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize);
+    /*@ Given pop_slots from slots */
+    frontier_pop_only(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize) /*@ where slots = pop_slots */;
     hsize = hsize - 1;
 
     total = total + (long long)value;
@@ -608,14 +611,16 @@ long long superPiano(
       int right_best = 0;
       int right_value = 0;
 
+      /*@ Given query_ps from ps
+                  query_st_slots from st_slots */
       if (lo <= best - 1) {
-        left_best = query_argmax(prefix, n + 1, st, lo, best - 1);
+        left_best = query_argmax(prefix, n + 1, st, lo, best - 1) /*@ where ps = query_ps, st_slots = query_st_slots */;
         left_value = prefix[left_best] - prefix[start - 1];
         has_left = 1;
       }
 
       if (best + 1 <= hi) {
-        right_best = query_argmax(prefix, n + 1, st, best + 1, hi);
+        right_best = query_argmax(prefix, n + 1, st, best + 1, hi) /*@ where ps = query_ps, st_slots = query_st_slots */;
         right_value = prefix[right_best] - prefix[start - 1];
         has_right = 1;
       }
@@ -725,9 +730,19 @@ long long superPiano(
             (forall (idx : Z), (0 <= idx && idx < n@pre) => (-1000 <= l[idx] && l[idx] <= 1000))
          */
         }
+        /*@ Given push_ps from ps
+                    push_slots from slots
+                    push_vals from vals
+                    push_starts from starts
+                    push_los from los
+                    push_his from his
+                    push_bests from bests */
         frontier_push(
             heap_value, heap_start, heap_lo, heap_hi, heap_best,
-            heap_cap, hsize, left_value, start, lo, best - 1, left_best);
+            heap_cap, hsize, left_value, start, lo, best - 1, left_best)
+            /*@ where slots = push_slots, vals = push_vals, starts = push_starts,
+                       los = push_los, his = push_his, bests = push_bests,
+                       ps = push_ps, n0 = n@pre, L0 = L@pre, R0 = R@pre */;
         hsize = hsize + 1;
       }
 
@@ -884,9 +899,19 @@ long long superPiano(
             (forall (idx : Z), (0 <= idx && idx < n@pre) => (-1000 <= l[idx] && l[idx] <= 1000))
          */
         }
+        /*@ Given right_ps from ps
+                    right_slots from slots
+                    right_vals from vals
+                    right_starts from starts
+                    right_los from los
+                    right_his from his
+                    right_bests from bests */
         frontier_push(
             heap_value, heap_start, heap_lo, heap_hi, heap_best,
-            heap_cap, hsize, right_value, start, best + 1, hi, right_best);
+            heap_cap, hsize, right_value, start, best + 1, hi, right_best)
+            /*@ where slots = right_slots, vals = right_vals, starts = right_starts,
+                       los = right_los, his = right_his, bests = right_bests,
+                       ps = right_ps, n0 = n@pre, L0 = L@pre, R0 = R@pre */;
         hsize = hsize + 1;
       }
 

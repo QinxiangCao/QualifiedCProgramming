@@ -11,12 +11,12 @@ RUN chown -R coq:coq /home/coq/qcp && chmod -R u+w /home/coq/qcp && chmod +x /ho
 USER coq
 
 # Set up CONFIGURE files
-RUN echo -e "COQBIN=\nSUF=" > /home/coq/qcp/SeparationLogic/CONFIGURE && \
-    echo -e "COQBIN=\nSUF=" > /home/coq/qcp/SeparationLogic/unifysl/CONFIGURE
+RUN echo -e "COQBIN=\nSUF=" > /home/coq/qcp/Rocq/CONFIGURE && \
+    echo -e "COQBIN=\nSUF=" > /home/coq/qcp/Rocq/unifysl/CONFIGURE
 
-# Build SeparationLogic Library
+# Build Rocq Library
 ARG MAKE_JOBS=5
-RUN cd /home/coq/qcp/SeparationLogic/unifysl && make depend && make -j${MAKE_JOBS} && \
+RUN cd /home/coq/qcp/Rocq/unifysl && make depend && make -j${MAKE_JOBS} && \
     cd .. && make depend && make -j${MAKE_JOBS} && make _CoqProject
 
 # Default command (open shell)

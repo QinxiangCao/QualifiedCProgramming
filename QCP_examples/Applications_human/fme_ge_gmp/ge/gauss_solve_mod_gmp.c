@@ -322,7 +322,8 @@ int gauss_solve_mod_gmp(int n, mpz_srcptr p, mpz_ptr aug, mpz_ptr x)
               mpz_array(x, n, lx) *
               data_at(&ps, ps)
         */
-        row_scale_mod_gmp(n, p, aug, k, inv);
+        row_scale_mod_gmp(n, p, aug, k, inv)
+          /*@ where (low_level_spec) M = M1, l = l1 */;
 
         /*@ Assert exists zinv M2 l2,
               aug != 0 && x != 0 && p != 0 && aug != x &&

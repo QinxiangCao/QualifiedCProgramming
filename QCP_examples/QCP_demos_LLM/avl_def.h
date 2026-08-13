@@ -16,3 +16,4 @@ struct tree{
 */
 /*@ include strategies "avl.strategies" */
 /*@ Import Coq Require Import SimpleC.EE.QCP_demos_LLM.avl_shape */
+/*@ Import Lean import SimpleC.EE.QCP_demos_LLM.avl_shape */

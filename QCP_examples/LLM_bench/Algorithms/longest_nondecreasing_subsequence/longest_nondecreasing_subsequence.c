@@ -1,11 +1,14 @@
-#include "verification_stdlib.h"
-#include "verification_list.h"
-#include "int_array_def.h"
+
+
+
 
 /*@ Extern Coq
       (LNDSLength : list Z -> Z -> Prop)
-      (LNDTailsState : list Z -> Z -> list Z -> Z -> Prop)
-      (UpperBoundSearch : list Z -> Z -> Z -> Z -> Z -> Prop)
+      (LNDTailsRepresentation : list Z -> Z -> Prop)
+      (LNDTailsRealizability : list Z -> Z -> list Z -> Z -> Prop)
+      (LNDSOptimalLength : list Z -> Z -> Z -> Prop)
+      (LNDTailsMinimality : list Z -> Z -> list Z -> Z -> Prop)
+      (UpperBoundPartition : list Z -> Z -> Z -> Z -> Z -> Prop)
  */
 /*@ Import Coq Require Import SimpleC.EE.LLM_bench.Algorithms.longest_nondecreasing_subsequence.longest_nondecreasing_subsequence_lib */
 
@@ -35,7 +38,10 @@ int lengthOfLNDS(int *nums, int numsSize, int *tails)
       Zlength(tails_cur) == numsSize@pre &&
       0 <= i && i <= numsSize@pre &&
       0 <= len && len <= i &&
-      LNDTailsState(l, i, sublist(0, len, tails_cur), len) &&
+      LNDTailsRepresentation(sublist(0, len, tails_cur), len) &&
+      LNDTailsRealizability(l, i, sublist(0, len, tails_cur), len) &&
+      LNDSOptimalLength(l, i, len) &&
+      LNDTailsMinimality(l, i, sublist(0, len, tails_cur), len) &&
       IntArray::full(nums, numsSize@pre, l) *
       IntArray::full(tails, numsSize@pre, tails_cur)
    */
@@ -50,7 +56,10 @@ int lengthOfLNDS(int *nums, int numsSize, int *tails)
       0 <= i && i < numsSize@pre &&
       0 <= len && len <= i &&
       x == l[i] &&
-      LNDTailsState(l, i, sublist(0, len, tails_cur), len) &&
+      LNDTailsRepresentation(sublist(0, len, tails_cur), len) &&
+      LNDTailsRealizability(l, i, sublist(0, len, tails_cur), len) &&
+      LNDSOptimalLength(l, i, len) &&
+      LNDTailsMinimality(l, i, sublist(0, len, tails_cur), len) &&
       IntArray::full(nums, numsSize@pre, l) *
       IntArray::full(tails, numsSize@pre, tails_cur)
      */
@@ -66,8 +75,11 @@ int lengthOfLNDS(int *nums, int numsSize, int *tails)
       0 <= len && len <= i &&
       x == l[i] &&
       0 <= left && left <= right && right <= len &&
-      LNDTailsState(l, i, sublist(0, len, tails_cur), len) &&
-      UpperBoundSearch(sublist(0, len, tails_cur), len, x, left, right) &&
+      LNDTailsRepresentation(sublist(0, len, tails_cur), len) &&
+      LNDTailsRealizability(l, i, sublist(0, len, tails_cur), len) &&
+      LNDSOptimalLength(l, i, len) &&
+      LNDTailsMinimality(l, i, sublist(0, len, tails_cur), len) &&
+      UpperBoundPartition(sublist(0, len, tails_cur), len, x, left, right) &&
       IntArray::full(nums, numsSize@pre, l) *
       IntArray::full(tails, numsSize@pre, tails_cur)
      */
@@ -84,8 +96,11 @@ int lengthOfLNDS(int *nums, int numsSize, int *tails)
         x == l[i] &&
         0 <= left && left < right && right <= len &&
         left <= mid && mid < right &&
-        LNDTailsState(l, i, sublist(0, len, tails_cur), len) &&
-        UpperBoundSearch(sublist(0, len, tails_cur), len, x, left, right) &&
+        LNDTailsRepresentation(sublist(0, len, tails_cur), len) &&
+        LNDTailsRealizability(l, i, sublist(0, len, tails_cur), len) &&
+        LNDSOptimalLength(l, i, len) &&
+        LNDTailsMinimality(l, i, sublist(0, len, tails_cur), len) &&
+        UpperBoundPartition(sublist(0, len, tails_cur), len, x, left, right) &&
         IntArray::full(nums, numsSize@pre, l) *
         IntArray::full(tails, numsSize@pre, tails_cur)
        */
@@ -106,8 +121,11 @@ int lengthOfLNDS(int *nums, int numsSize, int *tails)
       x == l[i] &&
       0 <= left && left <= len &&
       right == left &&
-      LNDTailsState(l, i, sublist(0, len, tails_cur), len) &&
-      UpperBoundSearch(sublist(0, len, tails_cur), len, x, left, left) &&
+      LNDTailsRepresentation(sublist(0, len, tails_cur), len) &&
+      LNDTailsRealizability(l, i, sublist(0, len, tails_cur), len) &&
+      LNDSOptimalLength(l, i, len) &&
+      LNDTailsMinimality(l, i, sublist(0, len, tails_cur), len) &&
+      UpperBoundPartition(sublist(0, len, tails_cur), len, x, left, left) &&
       IntArray::full(nums, numsSize@pre, l) *
       IntArray::full(tails, numsSize@pre, tails_cur)
      */
@@ -123,8 +141,11 @@ int lengthOfLNDS(int *nums, int numsSize, int *tails)
       x == l[i] &&
       0 <= left && left <= len &&
       right == left &&
-      LNDTailsState(l, i, sublist(0, len, tails_old), len) &&
-      UpperBoundSearch(sublist(0, len, tails_old), len, x, left, left) &&
+      LNDTailsRepresentation(sublist(0, len, tails_old), len) &&
+      LNDTailsRealizability(l, i, sublist(0, len, tails_old), len) &&
+      LNDSOptimalLength(l, i, len) &&
+      LNDTailsMinimality(l, i, sublist(0, len, tails_old), len) &&
+      UpperBoundPartition(sublist(0, len, tails_old), len, x, left, left) &&
       IntArray::full(nums, numsSize@pre, l) *
       IntArray::full(tails, numsSize@pre,
         app(sublist(0, left, tails_old),
@@ -144,7 +165,10 @@ int lengthOfLNDS(int *nums, int numsSize, int *tails)
       x == l[i] &&
       0 <= left && left <= len &&
       right == left &&
-      LNDTailsState(l, i + 1, sublist(0, len, tails_cur), len) &&
+      LNDTailsRepresentation(sublist(0, len, tails_cur), len) &&
+      LNDTailsRealizability(l, i + 1, sublist(0, len, tails_cur), len) &&
+      LNDSOptimalLength(l, i + 1, len) &&
+      LNDTailsMinimality(l, i + 1, sublist(0, len, tails_cur), len) &&
       IntArray::full(nums, numsSize@pre, l) *
       IntArray::full(tails, numsSize@pre, tails_cur)
      */

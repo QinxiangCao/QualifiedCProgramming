@@ -1,0 +1,33 @@
+; Public cache theory used by LLM_bench round-local verifier theories.
+;
+; This subtree contains shared headers/strategies/proofs imported by generated
+; LLM_bench goals, for example:
+;   From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_proof.
+
+(coq.theory
+ (name SimpleC.EE.QCP_demos_LLM)
+ (modules
+  (:standard \
+   sll_data_strategy_goal
+   sll_data_strategy_goal_check
+   sll_data_strategy_proof
+   dll_data_strategy_goal
+   dll_data_strategy_goal_check
+   dll_data_strategy_proof))
+ (theories
+  AUXLib
+  FP
+  ListLib
+  Logic
+  MaxMinLib
+  MonadLib
+  SetsClass
+  SimpleC.Common
+  SimpleC.SL
+  SimpleC.StdLib
+  SumLib
+  compcert.lib))
+
+(dirs :standard \ uint256)
+
+(include_subdirs qualified)

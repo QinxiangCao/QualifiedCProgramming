@@ -1,0 +1,92 @@
+import SimpleC.EE.QCP_demos_LLM.generated.array_auto_proof_auto
+import SimpleC.EE.QCP_demos_LLM.generated.array_auto_proof_manual
+
+namespace SimpleC.EE.QCP_demos_LLM.generated.array_auto_goal_check
+
+open SimpleC.EE.QCP_demos_LLM.generated.array_auto_proof_auto
+open SimpleC.EE.QCP_demos_LLM.generated.array_auto_proof_manual
+
+def VC_Correctness : SimpleC.EE.QCP_demos_LLM.generated.array_auto_goal.VC_Correct where
+  proof_of_arr_sum_safety_wit_1 := proof_of_arr_sum_safety_wit_1
+  proof_of_arr_sum_safety_wit_2 := proof_of_arr_sum_safety_wit_2
+  proof_of_arr_sum_safety_wit_3 := proof_of_arr_sum_safety_wit_3
+  proof_of_arr_sum_entail_wit_1 := proof_of_arr_sum_entail_wit_1
+  proof_of_arr_sum_entail_wit_2 := proof_of_arr_sum_entail_wit_2
+  proof_of_arr_sum_return_wit_1 := proof_of_arr_sum_return_wit_1
+  proof_of_arr_sum_partial_solve_wit_1 := proof_of_arr_sum_partial_solve_wit_1
+  proof_of_array_copy1_safety_wit_1 := proof_of_array_copy1_safety_wit_1
+  proof_of_array_copy1_safety_wit_2 := proof_of_array_copy1_safety_wit_2
+  proof_of_array_copy1_entail_wit_1 := proof_of_array_copy1_entail_wit_1
+  proof_of_array_copy1_entail_wit_2 := proof_of_array_copy1_entail_wit_2
+  proof_of_array_copy1_return_wit_1 := proof_of_array_copy1_return_wit_1
+  proof_of_array_copy1_partial_solve_wit_1 := proof_of_array_copy1_partial_solve_wit_1
+  proof_of_array_copy1_partial_solve_wit_2 := proof_of_array_copy1_partial_solve_wit_2
+  proof_of_array_concat_safety_wit_1 := proof_of_array_concat_safety_wit_1
+  proof_of_array_concat_safety_wit_2 := proof_of_array_concat_safety_wit_2
+  proof_of_array_concat_safety_wit_3 := proof_of_array_concat_safety_wit_3
+  proof_of_array_concat_safety_wit_4 := proof_of_array_concat_safety_wit_4
+  proof_of_array_concat_safety_wit_5 := proof_of_array_concat_safety_wit_5
+  proof_of_array_concat_entail_wit_1 := proof_of_array_concat_entail_wit_1
+  proof_of_array_concat_entail_wit_2 := proof_of_array_concat_entail_wit_2
+  proof_of_array_concat_entail_wit_3 := proof_of_array_concat_entail_wit_3
+  proof_of_array_concat_entail_wit_4 := proof_of_array_concat_entail_wit_4
+  proof_of_array_concat_return_wit_1 := proof_of_array_concat_return_wit_1
+  proof_of_array_concat_partial_solve_wit_1 := proof_of_array_concat_partial_solve_wit_1
+  proof_of_array_concat_partial_solve_wit_2 := proof_of_array_concat_partial_solve_wit_2
+  proof_of_array_concat_partial_solve_wit_3 := proof_of_array_concat_partial_solve_wit_3
+  proof_of_array_concat_partial_solve_wit_4 := proof_of_array_concat_partial_solve_wit_4
+  proof_of_array_swap_safety_wit_1 := proof_of_array_swap_safety_wit_1
+  proof_of_array_swap_safety_wit_2 := proof_of_array_swap_safety_wit_2
+  proof_of_array_swap_entail_wit_1 := proof_of_array_swap_entail_wit_1
+  proof_of_array_swap_entail_wit_2 := proof_of_array_swap_entail_wit_2
+  proof_of_array_swap_return_wit_1 := proof_of_array_swap_return_wit_1
+  proof_of_array_swap_partial_solve_wit_1 := proof_of_array_swap_partial_solve_wit_1
+  proof_of_array_swap_partial_solve_wit_2 := proof_of_array_swap_partial_solve_wit_2
+  proof_of_array_swap_partial_solve_wit_3 := proof_of_array_swap_partial_solve_wit_3
+  proof_of_array_swap_partial_solve_wit_4 := proof_of_array_swap_partial_solve_wit_4
+  proof_of_array_vector_sum_safety_wit_1 := proof_of_array_vector_sum_safety_wit_1
+  proof_of_array_vector_sum_safety_wit_2 := proof_of_array_vector_sum_safety_wit_2
+  proof_of_array_vector_sum_entail_wit_1 := proof_of_array_vector_sum_entail_wit_1
+  proof_of_array_vector_sum_entail_wit_2 := proof_of_array_vector_sum_entail_wit_2
+  proof_of_array_vector_sum_return_wit_1 := proof_of_array_vector_sum_return_wit_1
+  proof_of_array_vector_sum_partial_solve_wit_1 := proof_of_array_vector_sum_partial_solve_wit_1
+  proof_of_array_vector_sum_partial_solve_wit_2 := proof_of_array_vector_sum_partial_solve_wit_2
+  proof_of_array_vector_sum_partial_solve_wit_3 := proof_of_array_vector_sum_partial_solve_wit_3
+  proof_of_pointwise_mul_safety_wit_1 := proof_of_pointwise_mul_safety_wit_1
+  proof_of_pointwise_mul_safety_wit_2 := proof_of_pointwise_mul_safety_wit_2
+  proof_of_pointwise_mul_entail_wit_1 := proof_of_pointwise_mul_entail_wit_1
+  proof_of_pointwise_mul_entail_wit_2 := proof_of_pointwise_mul_entail_wit_2
+  proof_of_pointwise_mul_return_wit_1 := proof_of_pointwise_mul_return_wit_1
+  proof_of_pointwise_mul_partial_solve_wit_1 := proof_of_pointwise_mul_partial_solve_wit_1
+  proof_of_pointwise_mul_partial_solve_wit_2 := proof_of_pointwise_mul_partial_solve_wit_2
+  proof_of_pointwise_mul_partial_solve_wit_3 := proof_of_pointwise_mul_partial_solve_wit_3
+  proof_of_array_max_safety_wit_1 := proof_of_array_max_safety_wit_1
+  proof_of_array_max_safety_wit_2 := proof_of_array_max_safety_wit_2
+  proof_of_array_max_safety_wit_3 := proof_of_array_max_safety_wit_3
+  proof_of_array_max_safety_wit_4 := proof_of_array_max_safety_wit_4
+  proof_of_array_max_safety_wit_5 := proof_of_array_max_safety_wit_5
+  proof_of_array_max_entail_wit_1 := proof_of_array_max_entail_wit_1
+  proof_of_array_max_entail_wit_2_1 := proof_of_array_max_entail_wit_2_1
+  proof_of_array_max_entail_wit_2_2 := proof_of_array_max_entail_wit_2_2
+  proof_of_array_max_return_wit_1 := proof_of_array_max_return_wit_1
+  proof_of_array_max_partial_solve_wit_1 := proof_of_array_max_partial_solve_wit_1
+  proof_of_array_max_partial_solve_wit_2 := proof_of_array_max_partial_solve_wit_2
+  proof_of_memset_safety_wit_1 := proof_of_memset_safety_wit_1
+  proof_of_memset_safety_wit_2 := proof_of_memset_safety_wit_2
+  proof_of_memset_entail_wit_1 := proof_of_memset_entail_wit_1
+  proof_of_memset_entail_wit_2 := proof_of_memset_entail_wit_2
+  proof_of_memset_return_wit_1 := proof_of_memset_return_wit_1
+  proof_of_memset_partial_solve_wit_1 := proof_of_memset_partial_solve_wit_1
+  proof_of_array_to_list_safety_wit_1 := proof_of_array_to_list_safety_wit_1
+  proof_of_array_to_list_safety_wit_2 := proof_of_array_to_list_safety_wit_2
+  proof_of_array_to_list_safety_wit_3 := proof_of_array_to_list_safety_wit_3
+  proof_of_array_to_list_entail_wit_1 := proof_of_array_to_list_entail_wit_1
+  proof_of_array_to_list_entail_wit_2 := proof_of_array_to_list_entail_wit_2
+  proof_of_array_to_list_return_wit_1 := proof_of_array_to_list_return_wit_1
+  proof_of_array_to_list_partial_solve_wit_1_pure := proof_of_array_to_list_partial_solve_wit_1_pure
+  proof_of_array_to_list_partial_solve_wit_1 := proof_of_array_to_list_partial_solve_wit_1
+  proof_of_array_to_list_partial_solve_wit_2 := proof_of_array_to_list_partial_solve_wit_2
+  proof_of_array_to_list_partial_solve_wit_3_pure := proof_of_array_to_list_partial_solve_wit_3_pure
+  proof_of_array_to_list_partial_solve_wit_3 := proof_of_array_to_list_partial_solve_wit_3
+
+end SimpleC.EE.QCP_demos_LLM.generated.array_auto_goal_check

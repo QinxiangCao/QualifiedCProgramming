@@ -1,0 +1,85 @@
+#include "array3_def.h"
+
+id : 1
+priority : core(1)
+left : IntArray3::full(?p, ?n, ?m, ?k, ?cubes) at 0
+right : IntArray2::full(pointer_offset(?p, ?i, I32[?ak][?am]), m, k, ?plane) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(am == m);
+        infer(ak == k);
+action : right_erase(1);
+         left_erase(0);
+         left_add(IntArray3::missing_i(p, i, 0, n, m, k, cubes));
+         right_add(plane == cubes[i]);
+
+id : 2
+priority : core(1)
+left : IntArray3::full(?p, ?n, ?m, ?k, ?cubes) at 0
+right : data_at(pointer_offset(pointer_offset(pointer_offset(?p, ?i, I32[?ak][?am]), ?j, I32[?ak2]), ?l, I32), I32, ?v) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(0 <= j);
+        infer(j < m);
+        infer(0 <= l);
+        infer(l < k);
+        infer(am == m);
+        infer(ak == k);
+        infer(ak2 == k);
+action : left_erase(0);
+         left_add(IntArray3::missing_i(p, i, 0, n, m, k, cubes));
+         left_add(IntArray2::full(pointer_offset(p, i, I32[ak][am]), m, k, cubes[i]));
+
+id : 6
+priority : core(1)
+left : IntArray3::full(?p, ?n, ?m, ?k, ?cubes) at 0
+right : IntArray2::full(pointer_offset(pointer_offset(?p, ?i, I32[?ak][?am]), 0, I32[?ak2]), m, k, ?plane) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(am == m);
+        infer(ak == k);
+        infer(ak2 == k);
+action : right_erase(1);
+         left_erase(0);
+         left_add(IntArray3::missing_i(p, i, 0, n, m, k, cubes));
+         right_add(plane == cubes[i]);
+
+id : 3
+priority : post(1)
+left : IntArray3::missing_i(?p, ?i, 0, ?n, ?m, ?k, ?cubes) at 0
+       IntArray2::full(pointer_offset(p, i, I32[?ak][?am]), m, k, cubes[i]) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(am == m);
+        infer(ak == k);
+action : left_erase(1);
+         left_erase(0);
+         left_add(IntArray3::full(p, n, m, k, cubes));
+
+id : 7
+priority : post(1)
+left : IntArray3::missing_i(?p, ?i, 0, ?n, ?m, ?k, ?cubes) at 0
+       IntArray2::full(pointer_offset(pointer_offset(p, i, I32[?ak][?am]), 0, I32[?ak2]), m, k, cubes[i]) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(am == m);
+        infer(ak == k);
+        infer(ak2 == k);
+action : left_erase(1);
+         left_erase(0);
+         left_add(IntArray3::full(p, n, m, k, cubes));
+
+id : 4
+priority : core(1)
+left : IntArray3::full(?p, ?n, ?m, ?k, ?cubes1) at 0
+right : IntArray3::full(p, n, m, k, ?cubes2) at 1
+action : right_erase(1);
+         left_erase(0);
+         right_add(cubes1 == cubes2);
+
+id : 5
+priority : core(1)
+left : IntArray3::missing_i(?p, ?i, ?lo, ?hi, ?m, ?k, ?cubes) at 0
+right : IntArray3::missing_i(p, i, lo, hi, m, k, cubes) at 1
+action : left_erase(0);
+         right_erase(1);

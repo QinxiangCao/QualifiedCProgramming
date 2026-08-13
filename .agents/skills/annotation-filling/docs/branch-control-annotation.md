@@ -14,7 +14,7 @@
 
 核心原则是：先给语义不同的路径命名，再只对目标 branch 做局部 assertion / invariant 转换；只有路径语义真正汇合时才 join。
 
-## Branch name
+## Branch 名称
 
 `Branch name` 用条件给当前 branch 命名：
 
@@ -39,7 +39,7 @@
 - 已命名 branch 后续自然分裂时，新 branch 继承原名字。
 - 如果某个名字的条件匹配不到任何 branch，工具会报错；不要用不确定条件试探命名。
 
-## `$ branch_list`
+## `$ branch_list` 指令
 
 很多 annotation 可用 `$ branch_list` 选择作用范围：
 
@@ -72,7 +72,7 @@
 
 写 annotation 时可以利用这个行为保留 case 信息；如果你真正想把多个名字的 branch 合成一个状态，应显式使用 `Branch join`。
 
-## Destruct
+## Destruct 析构
 
 `Destruct` 用来对选中的 branch 做分类讨论：
 
@@ -101,7 +101,7 @@
 
 `bubble_sort.c` 先用 `Destruct $ all` 把 `n == 0` 与 `n > 0` 分成 `zero` / `normal`，再分别给外层循环写 case invariant。这样零长度数组 case 不需要承担 `1 <= n`、`0 <= i <= n - 1` 等只对 normal case 成立的事实。
 
-## Branch clear
+## Branch 清理
 
 `Branch clear` 删除指定的不可能 branch：
 
@@ -123,7 +123,7 @@
 
 - `QCP_examples/QCP_demos_tutorial/multiinv_examples.c`
 
-## Branch join
+## Branch 合并
 
 `Branch join` 合并指定 branch：
 

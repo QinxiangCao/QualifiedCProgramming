@@ -1,0 +1,8 @@
+; Converted from:
+; - _CoqProject: -R Rocq/SumLib SumLib
+; - Rocq/_CoqProject: -R SumLib SumLib
+(coq.theory
+ (name SumLib)
+ (theories AUXLib))
+
+(include_subdirs qualified)

@@ -1,0 +1,16 @@
+; Converted from:
+; - _CoqProject: -Q Rocq/algorithms Algorithms
+; - Rocq/_CoqProject: -Q algorithms Algorithms
+(coq.theory
+ (name Algorithms)
+ (theories
+  FP
+  GraphLib
+  ListLib
+  MaxMinLib
+  MonadLib
+  RecordUpdate
+  SetsClass
+  TraceLib))
+
+(include_subdirs qualified)

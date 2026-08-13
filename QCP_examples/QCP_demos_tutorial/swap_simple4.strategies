@@ -1,0 +1,16 @@
+#include "swap_simple4.h"
+
+id : 0
+priority : unfold(1)
+left : store_int_pair(?p, ?x, ?y) at 0
+action : left_erase(0);
+         left_add(store(field_addr(p, int_pair, a), I32, x));
+         left_add(store(field_addr(p, int_pair, b), I32, y));
+
+id : 1
+priority : fold(1)
+left : store(field_addr(?p, int_pair, a), I32, ?x) at 0
+       store(field_addr(p, int_pair, b), I32, ?y) at 1
+action : left_erase(0);
+         left_erase(1);
+         left_add(store_int_pair(p, x, y));

@@ -1,0 +1,19 @@
+(coq.theory
+ (name SimpleC.EE.LLM_bench)
+ (theories
+  AUXLib
+  FP
+  GraphLib
+  ListLib
+  Logic
+  MaxMinLib
+  MonadLib
+  SetsClass
+  SimpleC.Common
+  SimpleC.EE.QCP_demos_LLM
+  SimpleC.SL
+  SimpleC.StdLib
+  SumLib
+  compcert.lib))
+
+(include_subdirs qualified)

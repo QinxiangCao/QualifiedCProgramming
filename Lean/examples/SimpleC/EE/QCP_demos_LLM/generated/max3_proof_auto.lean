@@ -1,0 +1,20 @@
+import SimpleC.EE.QCP_demos_LLM.generated.max3_goal
+
+set_option linter.unusedVariables false
+
+namespace SimpleC.EE.QCP_demos_LLM.generated.max3_proof_auto
+
+theorem proof_of_max3_return_wit_1 : SimpleC.EE.QCP_demos_LLM.generated.max3_goal.max3_return_wit_1 := by
+  sorry
+
+theorem proof_of_max3_return_wit_2 : SimpleC.EE.QCP_demos_LLM.generated.max3_goal.max3_return_wit_2 := by
+  sorry
+
+theorem proof_of_max3_return_wit_3 : SimpleC.EE.QCP_demos_LLM.generated.max3_goal.max3_return_wit_3 := by
+  sorry
+
+theorem proof_of_max3_return_wit_4 : SimpleC.EE.QCP_demos_LLM.generated.max3_goal.max3_return_wit_4 := by
+  sorry
+
+
+end SimpleC.EE.QCP_demos_LLM.generated.max3_proof_auto

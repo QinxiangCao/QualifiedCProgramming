@@ -1,0 +1,48 @@
+import SimpleC.EE.QCP_demos_LLM.generated.bst_fp_delete_proof_auto
+import SimpleC.EE.QCP_demos_LLM.generated.bst_fp_delete_proof_manual
+
+namespace SimpleC.EE.QCP_demos_LLM.generated.bst_fp_delete_goal_check
+
+open SimpleC.EE.QCP_demos_LLM.generated.bst_fp_delete_proof_auto
+open SimpleC.EE.QCP_demos_LLM.generated.bst_fp_delete_proof_manual
+
+def VC_Correctness : SimpleC.EE.QCP_demos_LLM.generated.bst_fp_delete_goal.VC_Correct where
+  proof_of_replace_min_safety_wit_1 := proof_of_replace_min_safety_wit_1
+  proof_of_replace_min_safety_wit_2 := proof_of_replace_min_safety_wit_2
+  proof_of_replace_min_safety_wit_3 := proof_of_replace_min_safety_wit_3
+  proof_of_replace_min_partial_solve_wit_1 := proof_of_replace_min_partial_solve_wit_1
+  proof_of_replace_min_partial_solve_wit_2 := proof_of_replace_min_partial_solve_wit_2
+  proof_of_Delete_safety_wit_1 := proof_of_Delete_safety_wit_1
+  proof_of_Delete_safety_wit_2 := proof_of_Delete_safety_wit_2
+  proof_of_Delete_safety_wit_3 := proof_of_Delete_safety_wit_3
+  proof_of_Delete_safety_wit_4 := proof_of_Delete_safety_wit_4
+  proof_of_Delete_safety_wit_5 := proof_of_Delete_safety_wit_5
+  proof_of_Delete_safety_wit_6 := proof_of_Delete_safety_wit_6
+  proof_of_Delete_safety_wit_7 := proof_of_Delete_safety_wit_7
+  proof_of_Delete_safety_wit_8 := proof_of_Delete_safety_wit_8
+  proof_of_Delete_partial_solve_wit_1 := proof_of_Delete_partial_solve_wit_1
+  proof_of_Delete_partial_solve_wit_2 := proof_of_Delete_partial_solve_wit_2
+  proof_of_Delete_partial_solve_wit_3 := proof_of_Delete_partial_solve_wit_3
+  proof_of_Delete_partial_solve_wit_4_pure := proof_of_Delete_partial_solve_wit_4_pure
+  proof_of_Delete_partial_solve_wit_4 := proof_of_Delete_partial_solve_wit_4
+  proof_of_replace_min_entail_wit_1 := proof_of_replace_min_entail_wit_1
+  proof_of_replace_min_entail_wit_2 := proof_of_replace_min_entail_wit_2
+  proof_of_replace_min_entail_wit_3 := proof_of_replace_min_entail_wit_3
+  proof_of_replace_min_entail_wit_4 := proof_of_replace_min_entail_wit_4
+  proof_of_replace_min_return_wit_1 := proof_of_replace_min_return_wit_1
+  proof_of_replace_min_return_wit_2 := proof_of_replace_min_return_wit_2
+  proof_of_Delete_entail_wit_1 := proof_of_Delete_entail_wit_1
+  proof_of_Delete_entail_wit_2 := proof_of_Delete_entail_wit_2
+  proof_of_Delete_entail_wit_3 := proof_of_Delete_entail_wit_3
+  proof_of_Delete_entail_wit_4 := proof_of_Delete_entail_wit_4
+  proof_of_Delete_entail_wit_5 := proof_of_Delete_entail_wit_5
+  proof_of_Delete_entail_wit_6_1 := proof_of_Delete_entail_wit_6_1
+  proof_of_Delete_entail_wit_6_2 := proof_of_Delete_entail_wit_6_2
+  proof_of_Delete_return_wit_1 := proof_of_Delete_return_wit_1
+  proof_of_Delete_return_wit_2 := proof_of_Delete_return_wit_2
+  proof_of_Delete_return_wit_3 := proof_of_Delete_return_wit_3
+  proof_of_Delete_return_wit_4 := proof_of_Delete_return_wit_4
+  proof_of_Delete_return_wit_5 := proof_of_Delete_return_wit_5
+  proof_of_Delete_derive_high_level_spec_by_low_level_spec := proof_of_Delete_derive_high_level_spec_by_low_level_spec
+
+end SimpleC.EE.QCP_demos_LLM.generated.bst_fp_delete_goal_check

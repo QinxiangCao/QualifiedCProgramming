@@ -33,5 +33,7 @@ struct tree {
 
 /*@ Import Coq Require Import SimpleC.EE.QCP_demos_LLM.bst_lib */
 /*@ Import Coq Import get_right_most*/
+/*@ Import Lean import SimpleC.EE.QCP_demos_LLM.bst_lib */
+/*@ Import Lean open SimpleC.EE.QCP_demos_LLM.Bst */
 
 /*@ include strategies "bst.strategies"*/

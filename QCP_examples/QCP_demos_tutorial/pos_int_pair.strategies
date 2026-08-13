@@ -1,0 +1,112 @@
+#include "pos_int_pair.h"
+
+id : 0
+priority : core(1)
+left : store_pos_int_pair(?p, ?x, ?y) at 0
+right : store(field_addr(?p, int_pair, a), I32, ?v) at 1
+action : left_erase(0);
+         right_erase(1);
+         left_add(store_pos_int_pair_y_only(p, x, y));
+         right_add(v == x);
+
+id : 1
+priority : core(1)
+left : store_pos_int_pair(?p, ?x, ?y) at 0
+right : store(field_addr(?p, int_pair, b), I32, ?v) at 1
+action : left_erase(0);
+         right_erase(1);
+         left_add(store_pos_int_pair_x_only(p, x, y));
+         right_add(v == y);
+
+id : 2
+priority : core(1)
+left : store_pos_int_pair(?p, ?x, ?y) at 0
+right : undef_data_at(field_addr(?p, int_pair, a), I32) at 1
+action : left_erase(0);
+         right_erase(1);
+         left_add(store_pos_int_pair_y_only(p, x, y));
+
+id : 3
+priority : core(1)
+left : store_pos_int_pair(?p, ?x, ?y) at 0
+right : undef_data_at(field_addr(?p, int_pair, b), I32) at 1
+action : left_erase(0);
+         right_erase(1);
+         left_add(store_pos_int_pair_x_only(p, x, y));
+
+id : 4
+priority : post(1)
+left : store(field_addr(?p, int_pair, a), I32, ?x) at 0
+       store_pos_int_pair_y_only(p, x, ?y) at 1
+action : left_erase(0);
+         left_erase(1);
+         left_add(store_pos_int_pair(p, x, y));
+
+id : 5
+priority : post(2)
+left : store(field_addr(?p, int_pair, a), I32, ?x) at 0
+       store_pos_int_pair_y_only(p, ?x0, ?y) at 1
+check : infer(x >= 0);
+action : left_erase(0);
+         left_erase(1);
+         left_add(store_pos_int_pair(p, x, y));
+
+id : 6
+priority : post(1)
+left : store(field_addr(?p, int_pair, b), I32, ?y) at 0
+       store_pos_int_pair_x_only(p, ?x, y) at 1
+action : left_erase(0);
+         left_erase(1);
+         left_add(store_pos_int_pair(p, x, y));
+
+id : 7
+priority : post(2)
+left : store(field_addr(?p, int_pair, b), I32, ?y) at 0
+       store_pos_int_pair_x_only(p, ?x, ?y0) at 1
+check : infer(y >= 0);
+action : left_erase(0);
+         left_erase(1);
+         left_add(store_pos_int_pair(p, x, y));
+
+id : 8
+priority : unfold(1)
+left : store_pos_int_pair(?p, ?x, ?y) at 0
+action : left_erase(0);
+         left_add(x >= 0);
+         left_add(y >= 0);
+         left_add(store(field_addr(p, int_pair, a), I32, x));
+         left_add(store(field_addr(p, int_pair, b), I32, y));
+
+id : 9
+priority : fold(1)
+left : store(field_addr(?p, int_pair, a), I32, ?x) at 0
+       store(field_addr(p, int_pair, b), I32, ?y) at 1
+check : infer(x >= 0);
+        infer(y >= 0);
+action : left_erase(0);
+         left_erase(1);
+         left_add(store_pos_int_pair(p, x, y));
+
+id : 10
+priority : pair_range(1)
+left : store_pos_int_pair(?p, ?x, ?y) at 0
+check : absense(x >= 0);
+action : left_add(x >= 0);
+
+id : 11
+priority : pair_range(1)
+left : store_pos_int_pair(?p, ?x, ?y) at 0
+check : absense(y >= 0);
+action : left_add(y >= 0);
+
+id : 12
+priority : pair_range(1)
+left : store_pos_int_pair(?p, ?x, ?y) at 0
+check : absense(x <= INT_MAX());
+action : left_add(x <= INT_MAX());
+
+id : 13
+priority : pair_range(1)
+left : store_pos_int_pair(?p, ?x, ?y) at 0
+check : absense(y <= INT_MAX());
+action : left_add(y <= INT_MAX());

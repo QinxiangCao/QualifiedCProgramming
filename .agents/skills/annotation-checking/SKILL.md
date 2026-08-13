@@ -1,32 +1,16 @@
 ---
 name: annotation-checking
-description: 由 annotation-subagent 检查 main root 当前 C annotation 与 formal_case_lib specs，判断是否值得交给 main agent 执行 annotation-check-round。
+description: Run 内唯一 annotation owner 已形成首次候选或按 retry 反馈修正候选后使用；由同一 annotation agent 检查 main root 当前 C annotation、已存在的 formal_case_lib、generated 结果和汇总 blocker 覆盖情况，在允许边界内循环返修，并决定候选是否可以交回 main agent finalize。
 ---
 
-# Annotation Checking
+# Annotation 检查
 
-annotation owner必须在进入本skill前执行当前handoff的`timing-stage ... start`，把本轮完整review、feedback repair与recheck纳入同一interval；只有本skill结论稳定后才执行配对的`timing-stage ... finish`。本skill不自行估算耗时，也不把耗时写入agent report。
+本 skill 只在当前 annotation owner 的同一工作中使用，不创建 checking agent。它检查并反馈当前候选，不决定 controller 是否接纳，也不读取根 `AGENTS.md`、orchestrator、其他角色 skill 或推断后续证明动作。
 
-本 skill 在 run 内唯一 annotation agent 的当前 turn 中使用，不启动额外 agent。每次 main agent append 新 blocker summary handoff 后，annotation owner 必须先重新完整读取本 skill 与 annotation-filling skill，再读取主总结及其列出的原始 Markdown/JSON evidence，然后开始修正和检查。
+## 必须阅读
 
-## 文档
+1. 完整读取 [候选检查流程](workflows/annotation-checking.md) 与 [规范质量检查表](docs/spec-quality-checklist.md)。
+2. 重新读取 [annotation-filling](../annotation-filling/SKILL.md) 与其 [workflow](../annotation-filling/workflows/annotation-filling.md)；所有修正、命令和交付仍受 annotation owner 的共同写入边界约束。
+3. 按候选实际结构查阅 `annotation-filling` 直接导航的谓词、普通 `Assert`、数组/字符串、分支控制或纯命题知识文档。
 
-- `docs/spec-quality-checklist.md`：`formal_case_lib`、function spec、invariant、scripted QCP/Coq evidence 与 generated VC 预检。
-- `../verification-orchestrator/docs/path-configuration.md`：path assembly 规则。
-
-## 必查
-
-- `formal_case_lib` 定义业务数学语义，C annotation 引用的 external predicates 均有声明。
-- `formal_case_lib` 不含 `Admitted.`、extra `Axiom`、current generated artifact import。
-- exact handoff `controller.py coq-check --target-kind formal-case-lib` passed。
-- function spec 描述计算结果，不仅 bounds/shape。
-- loop invariant 覆盖 initialization/preservation/exit，连接 processed state 与 postcondition。
-- exact handoff `controller.py symexec` passed；canonical include/SLP由 controller code固定。
-- generated files只由 scripted symexec 刷新。
-- changed files 不超出 handoff allowed paths。
-
-## 输出
-
-把最终判断写入 annotation report 的 `checks.annotation_checking`。需要返工时在 `agent_output.md` 简述 findings、repair target与 residual risk；不要在 JSON 嵌套 evidence或 rework template。
-
-`passed` 只表示 candidate 可交 controller main-owned check，不表示 accepted。可修 spec/QCP/`formal_case_lib` 问题返回 `failed + rework_plan`，让 filling 在同一 agent turn 修复；必要工具完全不可用才建议 blocked。版本失效建议 stale；compaction 只记 compact-error fact，不请求创建第二个 annotation agent。
+流程细节以 workflow 为准。通过只表示当前 owner 可以写完成报告并停止写入；它不替代 controller 的 finalize 或接纳检查。

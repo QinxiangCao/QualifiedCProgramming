@@ -1,22 +1,32 @@
-#include "verification_stdlib.h"
-#include "verification_list.h"
-#include "int_array_def.h"
+
+
+
 
 /*@ Extern Coq
       (MultipleKnapsackAnswer : list Z -> list Z -> list Z -> Z -> Z -> Prop)
       (MKDPValueBound : list Z -> Z -> Prop)
-      (MKDPTable : list Z -> list Z -> list Z -> Z -> Z -> list Z -> Prop)
-      (MKZeroPrefix : list Z -> Z -> Prop)
-      (MKCopyPrefix : list Z -> list Z -> Z -> Z -> Prop)
-      (MKTransitionValue : list Z -> Z -> Z -> Z -> Z -> Z -> Z -> Prop)
+      (MKScratchArraysSafety : list Z -> list Z -> list Z -> Z -> Prop)
+      (MKDPTableSafety : list Z -> Z -> Z -> list Z -> Prop)
+      (MKDPTableSemantics : list Z -> list Z -> list Z -> Z -> Z -> list Z -> Prop)
+      (MKZeroPrefixSafety : list Z -> Z -> Prop)
+      (MKZeroPrefixSemantics : list Z -> Z -> Prop)
+      (MKCopyPrefixSafety : list Z -> list Z -> Z -> Z -> Prop)
+      (MKCopyPrefixSemantics : list Z -> list Z -> Z -> Prop)
+      (MKTransitionSafety : list Z -> Z -> Z -> Z -> Z -> Prop)
+      (MKTransitionSemantics : list Z -> Z -> Z -> Z -> Z -> Z -> Z -> Prop)
       (MKTransitionValueBound : list Z -> Z -> Z -> Z -> Z -> Prop)
-      (MKItemResidueProgress : list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Prop)
-      (MKItemResiduePrefixProgress : list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Z -> Prop)
-      (MKResidueLoopState : list Z -> list Z -> list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Prop)
-      (MKQueueDropLoopState : list Z -> list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Prop)
-      (MKQueueAfterDrop : list Z -> list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Prop)
-      (MKQueuePendingState : list Z -> list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Prop)
-      (MKQueueState : list Z -> list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Prop)
+      (MKItemResidueProgressSafety : list Z -> list Z -> Z -> Z -> Z -> Z -> Prop)
+      (MKItemResidueProgressSemantics : list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Prop)
+      (MKItemResiduePrefixSafety : list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Prop)
+      (MKItemResiduePrefixSemantics : list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Z -> Prop)
+      (MKResidueLoopSafety : list Z -> list Z -> list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Z -> Prop)
+      (MKResidueLoopSemantics : list Z -> list Z -> list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Prop)
+      (MKQueueDropSafety : list Z -> list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Z -> Prop)
+      (MKQueueDropSemantics : list Z -> list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Prop)
+      (MKQueueAfterDropSemantics : list Z -> list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Prop)
+      (MKQueuePendingSemantics : list Z -> list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Prop)
+      (MKQueueResultSafety : list Z -> list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Z -> Prop)
+      (MKQueueResultSemantics : list Z -> list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Z -> Prop)
  */
 /*@ Import Coq Require Import SimpleC.EE.LLM_bench.Algorithms.multiple_knapsack.multiple_knapsack_lib */
 
@@ -31,9 +41,7 @@ int multipleKnapsack(int *weights, int *values, int *counts,
       Zlength(weights_l) == n &&
       Zlength(values_l) == n &&
       Zlength(counts_l) == n &&
-      Zlength(old0) == capacity + 1 &&
-      Zlength(qidx0) == capacity + 1 &&
-      Zlength(qval0) == capacity + 1 &&
+      MKScratchArraysSafety(old0, qidx0, qval0, capacity) &&
       IntArray::full(weights, n, weights_l) *
       IntArray::full(values, n, values_l) *
       IntArray::full(counts, n, counts_l) *
@@ -48,7 +56,8 @@ int multipleKnapsack(int *weights, int *values, int *counts,
     Ensure
       exists dp_l old_l qidx_l qval_l,
       MultipleKnapsackAnswer(weights_l, values_l, counts_l, capacity, __return) &&
-      MKDPTable(weights_l, values_l, counts_l, n, capacity, dp_l) &&
+      MKDPTableSafety(weights_l, n, capacity, dp_l) &&
+      MKDPTableSemantics(weights_l, values_l, counts_l, n, capacity, dp_l) &&
       IntArray::full(weights, n, weights_l) *
       IntArray::full(values, n, values_l) *
       IntArray::full(counts, n, counts_l) *
@@ -70,7 +79,9 @@ int multipleKnapsack(int *weights, int *values, int *counts,
       Zlength(counts_l) == n@pre &&
       Zlength(dp_l) == j &&
       0 <= j && j <= capacity@pre + 1 &&
-      MKZeroPrefix(dp_l, j) &&
+      MKScratchArraysSafety(old0, qidx0, qval0, capacity@pre) &&
+      MKZeroPrefixSafety(dp_l, j) &&
+      MKZeroPrefixSemantics(dp_l, j) &&
       IntArray::full(weights@pre, n@pre, weights_l) *
       IntArray::full(values@pre, n@pre, values_l) *
       IntArray::full(counts@pre, n@pre, counts_l) *
@@ -99,8 +110,11 @@ int multipleKnapsack(int *weights, int *values, int *counts,
       Zlength(values_l) == n@pre &&
       Zlength(counts_l) == n@pre &&
       Zlength(dp_l) == capacity@pre + 1 &&
-      MKZeroPrefix(dp_l, capacity@pre + 1) &&
-      MKDPTable(weights_l, values_l, counts_l, 0, capacity@pre, dp_l) &&
+      MKScratchArraysSafety(old0, qidx0, qval0, capacity@pre) &&
+      MKZeroPrefixSafety(dp_l, capacity@pre + 1) &&
+      MKZeroPrefixSemantics(dp_l, capacity@pre + 1) &&
+      MKDPTableSafety(weights_l, 0, capacity@pre, dp_l) &&
+      MKDPTableSemantics(weights_l, values_l, counts_l, 0, capacity@pre, dp_l) &&
       IntArray::full(weights@pre, n@pre, weights_l) *
       IntArray::full(values@pre, n@pre, values_l) *
       IntArray::full(counts@pre, n@pre, counts_l) *
@@ -129,7 +143,8 @@ int multipleKnapsack(int *weights, int *values, int *counts,
       Zlength(qidx_l) == capacity@pre + 1 &&
       Zlength(qval_l) == capacity@pre + 1 &&
       0 <= i && i <= n@pre &&
-      MKDPTable(weights_l, values_l, counts_l, i, capacity@pre, dp_l) &&
+      MKDPTableSafety(weights_l, i, capacity@pre, dp_l) &&
+      MKDPTableSemantics(weights_l, values_l, counts_l, i, capacity@pre, dp_l) &&
       IntArray::full(weights@pre, n@pre, weights_l) *
       IntArray::full(values@pre, n@pre, values_l) *
       IntArray::full(counts@pre, n@pre, counts_l) *
@@ -159,8 +174,10 @@ int multipleKnapsack(int *weights, int *values, int *counts,
         Zlength(qval_l) == capacity@pre + 1 &&
         0 <= i && i < n@pre &&
         0 <= j && j <= capacity@pre + 1 &&
-        MKDPTable(weights_l, values_l, counts_l, i, capacity@pre, dp_l) &&
-        MKCopyPrefix(dp_l, old_l, j, capacity@pre) &&
+      MKDPTableSafety(weights_l, i, capacity@pre, dp_l) &&
+      MKDPTableSemantics(weights_l, values_l, counts_l, i, capacity@pre, dp_l) &&
+        MKCopyPrefixSafety(dp_l, old_l, j, capacity@pre) &&
+        MKCopyPrefixSemantics(dp_l, old_l, j) &&
         IntArray::full(weights@pre, n@pre, weights_l) *
         IntArray::full(values@pre, n@pre, values_l) *
         IntArray::full(counts@pre, n@pre, counts_l) *
@@ -202,11 +219,14 @@ int multipleKnapsack(int *weights, int *values, int *counts,
       1 <= w && w <= capacity@pre + 1 &&
       0 <= v && v <= 1000 &&
       0 <= cnt && cnt <= capacity@pre &&
-      MKDPTable(weights_l, values_l, counts_l, i, capacity@pre, dp_l) &&
+      MKDPTableSafety(weights_l, i, capacity@pre, dp_l) &&
+      MKDPTableSemantics(weights_l, values_l, counts_l, i, capacity@pre, dp_l) &&
       MKDPValueBound(old_l, capacity@pre) &&
       MKTransitionValueBound(old_l, w, v, cnt, capacity@pre) &&
-      MKCopyPrefix(dp_l, old_l, capacity@pre + 1, capacity@pre) &&
-      MKItemResidueProgress(old_l, dp_l, 0, w, v, cnt, capacity@pre) &&
+      MKCopyPrefixSafety(dp_l, old_l, capacity@pre + 1, capacity@pre) &&
+      MKCopyPrefixSemantics(dp_l, old_l, capacity@pre + 1) &&
+      MKItemResidueProgressSafety(old_l, dp_l, 0, w, cnt, capacity@pre) &&
+      MKItemResidueProgressSemantics(old_l, dp_l, 0, w, v, cnt, capacity@pre) &&
       IntArray::full(weights@pre, n@pre, weights_l) *
       IntArray::full(values@pre, n@pre, values_l) *
       IntArray::full(counts@pre, n@pre, counts_l) *
@@ -242,10 +262,12 @@ int multipleKnapsack(int *weights, int *values, int *counts,
       0 <= v && v <= 1000 &&
       0 <= cnt && cnt <= capacity@pre &&
       0 <= r && r <= w && r <= capacity@pre + 1 &&
-      MKDPTable(weights_l, values_l, counts_l, i, capacity@pre, old_l) &&
+      MKDPTableSafety(weights_l, i, capacity@pre, old_l) &&
+      MKDPTableSemantics(weights_l, values_l, counts_l, i, capacity@pre, old_l) &&
       MKDPValueBound(old_l, capacity@pre) &&
       MKTransitionValueBound(old_l, w, v, cnt, capacity@pre) &&
-      MKItemResidueProgress(old_l, dp_l, r, w, v, cnt, capacity@pre) &&
+      MKItemResidueProgressSafety(old_l, dp_l, r, w, cnt, capacity@pre) &&
+      MKItemResidueProgressSemantics(old_l, dp_l, r, w, v, cnt, capacity@pre) &&
       IntArray::full(weights@pre, n@pre, weights_l) *
       IntArray::full(values@pre, n@pre, values_l) *
       IntArray::full(counts@pre, n@pre, counts_l) *
@@ -288,11 +310,14 @@ int multipleKnapsack(int *weights, int *values, int *counts,
         pos == r + k * w &&
         0 <= k && k <= capacity@pre + 1 && 0 <= pos && pos <= capacity@pre + w &&
         0 <= head && head <= tail && tail <= k && tail <= capacity@pre + 1 &&
-        MKDPTable(weights_l, values_l, counts_l, i, capacity@pre, old_l) &&
+        MKDPTableSafety(weights_l, i, capacity@pre, old_l) &&
+        MKDPTableSemantics(weights_l, values_l, counts_l, i, capacity@pre, old_l) &&
         MKDPValueBound(old_l, capacity@pre) &&
         MKTransitionValueBound(old_l, w, v, cnt, capacity@pre) &&
-        MKItemResiduePrefixProgress(old_l, dp_l, r, w, v, cnt, k, capacity@pre) &&
-        MKResidueLoopState(old_l, dp_l, qidx_l, qval_l, r, w, v, cnt, k, head, tail, capacity@pre) &&
+        MKItemResiduePrefixSafety(old_l, dp_l, r, w, cnt, k, capacity@pre) &&
+        MKItemResiduePrefixSemantics(old_l, dp_l, r, w, v, cnt, k, capacity@pre) &&
+        MKResidueLoopSafety(old_l, dp_l, qidx_l, qval_l, r, w, k, head, tail, capacity@pre) &&
+        MKResidueLoopSemantics(old_l, dp_l, qidx_l, qval_l, r, w, v, cnt, k, head, tail, capacity@pre) &&
         IntArray::full(weights@pre, n@pre, weights_l) *
         IntArray::full(values@pre, n@pre, values_l) *
         IntArray::full(counts@pre, n@pre, counts_l) *
@@ -336,11 +361,14 @@ int multipleKnapsack(int *weights, int *values, int *counts,
           -1000000 <= current && current <= 1000000 &&
           0 <= current + k * v && current + k * v <= 1000000 &&
           0 <= head && head <= tail && tail <= k && tail <= capacity@pre + 1 &&
-          MKDPTable(weights_l, values_l, counts_l, i, capacity@pre, old_l) &&
+          MKDPTableSafety(weights_l, i, capacity@pre, old_l) &&
+          MKDPTableSemantics(weights_l, values_l, counts_l, i, capacity@pre, old_l) &&
           MKDPValueBound(old_l, capacity@pre) &&
           MKTransitionValueBound(old_l, w, v, cnt, capacity@pre) &&
-          MKItemResiduePrefixProgress(old_l, dp_l, r, w, v, cnt, k, capacity@pre) &&
-          MKQueueDropLoopState(old_l, qidx_l, qval_l, head, tail, r, w, v, cnt, k, capacity@pre) &&
+          MKItemResiduePrefixSafety(old_l, dp_l, r, w, cnt, k, capacity@pre) &&
+          MKItemResiduePrefixSemantics(old_l, dp_l, r, w, v, cnt, k, capacity@pre) &&
+          MKQueueDropSafety(old_l, qidx_l, qval_l, head, tail, r, w, k, capacity@pre) &&
+          MKQueueDropSemantics(old_l, qidx_l, qval_l, head, tail, r, w, v, cnt, k) &&
           IntArray::full(weights@pre, n@pre, weights_l) *
           IntArray::full(values@pre, n@pre, values_l) *
           IntArray::full(counts@pre, n@pre, counts_l) *
@@ -386,11 +414,14 @@ int multipleKnapsack(int *weights, int *values, int *counts,
           0 <= current + k * v && current + k * v <= 1000000 &&
           0 <= head && head <= tail && tail <= k && tail <= capacity@pre + 1 &&
           (head < tail => 0 <= tail - 1 && tail - 1 < capacity@pre + 1) &&
-          MKDPTable(weights_l, values_l, counts_l, i, capacity@pre, old_l) &&
+          MKDPTableSafety(weights_l, i, capacity@pre, old_l) &&
+          MKDPTableSemantics(weights_l, values_l, counts_l, i, capacity@pre, old_l) &&
           MKDPValueBound(old_l, capacity@pre) &&
           MKTransitionValueBound(old_l, w, v, cnt, capacity@pre) &&
-          MKItemResiduePrefixProgress(old_l, dp_l, r, w, v, cnt, k, capacity@pre) &&
-          MKQueueAfterDrop(old_l, qidx_l, qval_l, head, tail, r, w, v, cnt, k, capacity@pre) &&
+          MKItemResiduePrefixSafety(old_l, dp_l, r, w, cnt, k, capacity@pre) &&
+          MKItemResiduePrefixSemantics(old_l, dp_l, r, w, v, cnt, k, capacity@pre) &&
+          MKQueueDropSafety(old_l, qidx_l, qval_l, head, tail, r, w, k, capacity@pre) &&
+          MKQueueAfterDropSemantics(old_l, qidx_l, qval_l, head, tail, r, w, v, cnt, k) &&
           IntArray::full(weights@pre, n@pre, weights_l) *
           IntArray::full(values@pre, n@pre, values_l) *
           IntArray::full(counts@pre, n@pre, counts_l) *
@@ -433,11 +464,14 @@ int multipleKnapsack(int *weights, int *values, int *counts,
           0 <= current + k * v && current + k * v <= 1000000 &&
           0 <= head && head <= tail && tail <= k && tail <= capacity@pre + 1 &&
           (head < tail => 0 <= tail - 1 && tail - 1 < capacity@pre + 1) &&
-          MKDPTable(weights_l, values_l, counts_l, i, capacity@pre, old_l) &&
+          MKDPTableSafety(weights_l, i, capacity@pre, old_l) &&
+          MKDPTableSemantics(weights_l, values_l, counts_l, i, capacity@pre, old_l) &&
           MKDPValueBound(old_l, capacity@pre) &&
           MKTransitionValueBound(old_l, w, v, cnt, capacity@pre) &&
-          MKItemResiduePrefixProgress(old_l, dp_l, r, w, v, cnt, k, capacity@pre) &&
-          MKQueuePendingState(old_l, qidx_l, qval_l, head, tail, r, w, v, cnt, k, capacity@pre, current) &&
+          MKItemResiduePrefixSafety(old_l, dp_l, r, w, cnt, k, capacity@pre) &&
+          MKItemResiduePrefixSemantics(old_l, dp_l, r, w, v, cnt, k, capacity@pre) &&
+          MKQueueDropSafety(old_l, qidx_l, qval_l, head, tail, r, w, k, capacity@pre) &&
+          MKQueuePendingSemantics(old_l, qidx_l, qval_l, head, tail, r, w, v, cnt, k, current) &&
           IntArray::full(weights@pre, n@pre, weights_l) *
           IntArray::full(values@pre, n@pre, values_l) *
           IntArray::full(counts@pre, n@pre, counts_l) *
@@ -486,12 +520,16 @@ int multipleKnapsack(int *weights, int *values, int *counts,
           -1000000 <= current && current <= 1000000 &&
           0 <= current + k * v && current + k * v <= 1000000 &&
           0 <= head && head < tail && tail <= k + 1 && tail <= capacity@pre + 1 &&
-          MKDPTable(weights_l, values_l, counts_l, i, capacity@pre, old_l) &&
+          MKDPTableSafety(weights_l, i, capacity@pre, old_l) &&
+          MKDPTableSemantics(weights_l, values_l, counts_l, i, capacity@pre, old_l) &&
           MKDPValueBound(old_l, capacity@pre) &&
           MKTransitionValueBound(old_l, w, v, cnt, capacity@pre) &&
-          MKItemResiduePrefixProgress(old_l, dp_l, r, w, v, cnt, k, capacity@pre) &&
-          MKQueueState(old_l, qidx_l, qval_l, head, tail, r, w, v, cnt, k + 1, capacity@pre) &&
-          MKTransitionValue(old_l, w, v, cnt, capacity@pre, pos, qval_l[head] + k * v) &&
+          MKItemResiduePrefixSafety(old_l, dp_l, r, w, cnt, k, capacity@pre) &&
+          MKItemResiduePrefixSemantics(old_l, dp_l, r, w, v, cnt, k, capacity@pre) &&
+          MKQueueResultSafety(old_l, qidx_l, qval_l, head, tail, r, w, k + 1, capacity@pre) &&
+          MKQueueResultSemantics(old_l, qidx_l, qval_l, head, tail, r, w, v, cnt, k + 1, capacity@pre) &&
+          MKTransitionSafety(old_l, w, cnt, capacity@pre, pos) &&
+          MKTransitionSemantics(old_l, w, v, cnt, capacity@pre, pos, qval_l[head] + k * v) &&
           0 <= qval_l[head] + k * v && qval_l[head] + k * v <= 1000000 &&
           IntArray::full(weights@pre, n@pre, weights_l) *
           IntArray::full(values@pre, n@pre, values_l) *
@@ -534,10 +572,12 @@ int multipleKnapsack(int *weights, int *values, int *counts,
         0 <= cnt && cnt <= capacity@pre &&
         0 <= k && k <= capacity@pre + 1 &&
         0 <= head && head <= tail && tail <= k && tail <= capacity@pre + 1 &&
-        MKDPTable(weights_l, values_l, counts_l, i, capacity@pre, old_l) &&
+        MKDPTableSafety(weights_l, i, capacity@pre, old_l) &&
+        MKDPTableSemantics(weights_l, values_l, counts_l, i, capacity@pre, old_l) &&
         MKDPValueBound(old_l, capacity@pre) &&
         MKTransitionValueBound(old_l, w, v, cnt, capacity@pre) &&
-        MKItemResidueProgress(old_l, dp_l, r + 1, w, v, cnt, capacity@pre) &&
+        MKItemResidueProgressSafety(old_l, dp_l, r + 1, w, cnt, capacity@pre) &&
+        MKItemResidueProgressSemantics(old_l, dp_l, r + 1, w, v, cnt, capacity@pre) &&
         IntArray::full(weights@pre, n@pre, weights_l) *
         IntArray::full(values@pre, n@pre, values_l) *
         IntArray::full(counts@pre, n@pre, counts_l) *
@@ -572,7 +612,8 @@ int multipleKnapsack(int *weights, int *values, int *counts,
       1 <= w && w <= capacity@pre + 1 &&
       0 <= v && v <= 1000 &&
       0 <= cnt && cnt <= capacity@pre &&
-      MKDPTable(weights_l, values_l, counts_l, i + 1, capacity@pre, dp_l) &&
+      MKDPTableSafety(weights_l, i + 1, capacity@pre, dp_l) &&
+      MKDPTableSemantics(weights_l, values_l, counts_l, i + 1, capacity@pre, dp_l) &&
       IntArray::full(weights@pre, n@pre, weights_l) *
       IntArray::full(values@pre, n@pre, values_l) *
       IntArray::full(counts@pre, n@pre, counts_l) *
@@ -601,7 +642,8 @@ int multipleKnapsack(int *weights, int *values, int *counts,
       Zlength(old_l) == capacity@pre + 1 &&
       Zlength(qidx_l) == capacity@pre + 1 &&
       Zlength(qval_l) == capacity@pre + 1 &&
-      MKDPTable(weights_l, values_l, counts_l, n@pre, capacity@pre, dp_l) &&
+      MKDPTableSafety(weights_l, n@pre, capacity@pre, dp_l) &&
+      MKDPTableSemantics(weights_l, values_l, counts_l, n@pre, capacity@pre, dp_l) &&
       MultipleKnapsackAnswer(weights_l, values_l, counts_l, capacity@pre, dp_l[capacity@pre]) &&
       IntArray::full(weights@pre, n@pre, weights_l) *
       IntArray::full(values@pre, n@pre, values_l) *

@@ -1,0 +1,5 @@
+From SimpleC.EE.QCP_demos_tutorial Require Import pos_int_pair_strategy_goal pos_int_pair_strategy_proof.
+
+Module pos_int_pair_Strategy_Correctness : pos_int_pair_Strategy_Correct.
+  Include pos_int_pair_strategy_proof.
+End pos_int_pair_Strategy_Correctness.

@@ -1,0 +1,38 @@
+Paint House II
+
+There are n houses in a row and k available colors. The cost of painting
+house i with color c is stored in a two-dimensional matrix costs as
+costs[i][c]. Adjacent houses must not have the same color.
+
+Implement paint_house_ii(costs, n, k), returning the minimum possible total
+painting cost.
+
+Input constraints for the verification case:
+
+- 1 <= n <= 10000
+- 2 <= k <= 1000
+- n * k <= 1000000
+- costs has n rows
+- every costs row has length k
+- 0 <= costs[i][c] <= 10000 for every valid i and c
+
+The target dynamic programming recurrence is:
+
+  dp[i][c] =
+    costs[i][c] + min(dp[i - 1][p]) over all p != c.
+
+The implementation should use the standard O(nk) optimization. For each
+processed row, maintain:
+
+- min1: the smallest DP value in the previous row
+- min2: the second smallest DP value in the previous row, among colors
+  different from min1_color
+- min1_color: a color attaining min1
+
+When computing the next row, color c uses min2 if c == min1_color, otherwise
+it uses min1.
+
+Expected complexity:
+
+- Time: O(nk)
+- Extra space: O(1)

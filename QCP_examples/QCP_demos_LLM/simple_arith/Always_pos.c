@@ -1,6 +1,7 @@
 
 
 /*@ Import Coq Require Import SimpleC.EE.QCP_demos_LLM.simple_arith.Apos_lib */
+/*@ Import Lean import SimpleC.EE.QCP_demos_LLM.simple_arith.Apos_lib */
 
 /*@ Extern Coq (Always_pos: Z -> Z -> Z -> Z) */
 

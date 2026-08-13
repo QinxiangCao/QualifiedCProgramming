@@ -68,7 +68,8 @@ void map_list(struct sll *head, unsigned int x)
           head == head@pre && x == x@pre
   */
   for (p = head; p != (struct sll *)0; p = p->next) {
-    /*@ exists l1 l2, l == app(l1, l2) &&
+    /*@ Given l1 l2 */
+    /*@ l == app(l1, l2) &&
             sllseg(head, p, map_mult(x, l1)) * sll(p, l2) &&
             p != 0
         which implies

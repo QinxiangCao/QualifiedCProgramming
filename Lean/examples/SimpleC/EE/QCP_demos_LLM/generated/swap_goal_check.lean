@@ -1,0 +1,21 @@
+import SimpleC.EE.QCP_demos_LLM.generated.swap_proof_auto
+import SimpleC.EE.QCP_demos_LLM.generated.swap_proof_manual
+
+namespace SimpleC.EE.QCP_demos_LLM.generated.swap_goal_check
+
+open SimpleC.EE.QCP_demos_LLM.generated.swap_proof_auto
+open SimpleC.EE.QCP_demos_LLM.generated.swap_proof_manual
+
+def VC_Correctness : SimpleC.EE.QCP_demos_LLM.generated.swap_goal.VC_Correct where
+  proof_of_swap_return_wit_1_eq := proof_of_swap_return_wit_1_eq
+  proof_of_swap_return_wit_2_neq := proof_of_swap_return_wit_2_neq
+  proof_of_swap_partial_solve_wit_1_eq := proof_of_swap_partial_solve_wit_1_eq
+  proof_of_swap_partial_solve_wit_2_eq := proof_of_swap_partial_solve_wit_2_eq
+  proof_of_swap_partial_solve_wit_3_eq := proof_of_swap_partial_solve_wit_3_eq
+  proof_of_swap_test1_return_wit_1 := proof_of_swap_test1_return_wit_1
+  proof_of_swap_test1_partial_solve_wit_1 := proof_of_swap_test1_partial_solve_wit_1
+  proof_of_swap_test2_return_wit_1 := proof_of_swap_test2_return_wit_1
+  proof_of_swap_test2_partial_solve_wit_1_pure := proof_of_swap_test2_partial_solve_wit_1_pure
+  proof_of_swap_test2_partial_solve_wit_1 := proof_of_swap_test2_partial_solve_wit_1
+
+end SimpleC.EE.QCP_demos_LLM.generated.swap_goal_check

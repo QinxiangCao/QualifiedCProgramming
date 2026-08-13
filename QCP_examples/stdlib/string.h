@@ -1,4 +1,4 @@
-#include "verification_list.h"
+
 #include "char_array_def.h"
 
 /*@ Import Coq Require Import SimpleC.StdLib.string_lib */

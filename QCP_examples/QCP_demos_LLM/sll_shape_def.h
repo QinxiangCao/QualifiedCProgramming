@@ -10,5 +10,6 @@ struct list {
  */
 
 /*@ Import Coq Require Import SimpleC.EE.QCP_demos_LLM.sll_shape_lib */
+/*@ Import Lean import SimpleC.EE.QCP_demos_LLM.sll_shape_lib */
 
 /*@ include strategies "sll_shape.strategies" */
