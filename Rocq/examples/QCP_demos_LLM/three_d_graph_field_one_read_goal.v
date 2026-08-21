@@ -57,28 +57,8 @@ forall (box_pre: Z) (cubes: (@list (@list (@list Z)))) (PreH1 : ((Zlength (cubes
 .
 
 Definition touch_graph_one_read_return_wit_1 := 
-(
-forall (box_pre: Z) (cubes: (@list (@list (@list Z))))  __default__List_Z  __default__List__List_Z (PreH1 : ((Zlength (cubes)) = 2)) ,
-  (IntArray.full ((&((box_pre)  # "GraphBox" ->ₛ "graph") + (0 * ((sizeof(INT) * 4) * 3))) + (0 * (sizeof(INT) * 4))) 4 (replace_Znth (0) ((Znth (0) ((Znth 0 (Znth 0 cubes __default__List__List_Z) __default__List_Z)) (0))) ((Znth 0 (Znth 0 cubes __default__List__List_Z) __default__List_Z))) )
-  **  (IntArray2.missing_i (&((box_pre)  # "GraphBox" ->ₛ "graph") + (0 * ((sizeof(INT) * 4) * 3))) 0 0 3 4 (Znth 0 cubes __default__List__List_Z) )
-  **  (IntArray3.missing_i &((box_pre)  # "GraphBox" ->ₛ "graph") 0 0 2 3 4 cubes )
-|--
+forall (box_pre: Z) (cubes: (@list (@list (@list Z)))) (PreH1 : ((Zlength (cubes)) = 2)) ,
   (IntArray3.full &((box_pre)  # "GraphBox" ->ₛ "graph") 2 3 4 cubes )
-) \/
-(
-forall (box_pre: Z) (cubes: (@list (@list (@list Z))))  __default__List_Z  __default__List__List_Z (PreH1 : ((Zlength (cubes)) = 2)) ,
-  (IntArray.full ((&((box_pre)  # "GraphBox" ->ₛ "graph") + (0 * ((sizeof(INT) * 4) * 3))) + (0 * (sizeof(INT) * 4))) 4 (replace_Znth (0) ((Znth (0) ((Znth 0 (Znth 0 cubes __default__List__List_Z) __default__List_Z)) (0))) ((Znth 0 (Znth 0 cubes __default__List__List_Z) __default__List_Z))) )
-  **  (IntArray2.missing_i (&((box_pre)  # "GraphBox" ->ₛ "graph") + (0 * ((sizeof(INT) * 4) * 3))) 0 0 3 4 (Znth 0 cubes __default__List__List_Z) )
-  **  (IntArray3.missing_i &((box_pre)  # "GraphBox" ->ₛ "graph") 0 0 2 3 4 cubes )
-|--
-  (IntArray3.full &((box_pre)  # "GraphBox" ->ₛ "graph") 2 3 4 cubes )
-).
-
-Definition touch_graph_one_read_return_wit_1_split_goal_spatial := 
-forall (box_pre: Z) (cubes: (@list (@list (@list Z))))  __default__List_Z  __default__List__List_Z (PreH1 : ((Zlength (cubes)) = 2)) ,
-  (IntArray.full ((&((box_pre)  # "GraphBox" ->ₛ "graph") + (0 * ((sizeof(INT) * 4) * 3))) + (0 * (sizeof(INT) * 4))) 4 (replace_Znth (0) ((Znth (0) ((Znth 0 (Znth 0 cubes __default__List__List_Z) __default__List_Z)) (0))) ((Znth 0 (Znth 0 cubes __default__List__List_Z) __default__List_Z))) )
-  **  (IntArray2.missing_i (&((box_pre)  # "GraphBox" ->ₛ "graph") + (0 * ((sizeof(INT) * 4) * 3))) 0 0 3 4 (Znth 0 cubes __default__List__List_Z) )
-  **  (IntArray3.missing_i &((box_pre)  # "GraphBox" ->ₛ "graph") 0 0 2 3 4 cubes )
 |--
   (IntArray3.full &((box_pre)  # "GraphBox" ->ₛ "graph") 2 3 4 cubes )
 .

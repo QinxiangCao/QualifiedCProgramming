@@ -38,6 +38,7 @@ from controller_state import (
     _state_transaction,
     _save_state,
     _validated_annotation_attempt_paths,
+    _verified_reuse_source_build,
 )
 from coq_tooling import (
     compact_dune_preparation,
@@ -47,6 +48,7 @@ from coq_tooling import (
     run_coqtop_debug,
 )
 from path_utils import (
+    reuse_source_build_workspace,
     run_builds_root,
     vc_checking_build_workspace,
     vc_checking_debug_script,
@@ -758,34 +760,21 @@ def _sealed_reuse_debug_context(
             "reusable vc-proving round"
         )
     attempt = state["attempts"][round_id]
-    build_workspace = run_builds_root(run_root) / round_id / "reuse-source" / "src"
+    build_workspace = reuse_source_build_workspace(run_root, round_id)
     source_goal_version = str(attempt.get("source_goal_version") or "")
     sealed_snapshot = attempt.get("reuse_source_snapshot")
     if not isinstance(sealed_snapshot, dict):
         raise SystemExit("previous vc-proving round lacks a sealed reuse-source build")
     try:
-        current_base = dune_snapshot_for_preserved_build(
-            workspace_root=main_root,
-            build_workspace=build_workspace,
+        validated_snapshot, _build = _verified_reuse_source_build(
+            main_root=main_root,
+            run_root=run_root,
+            round_id=round_id,
+            sealed=sealed_snapshot,
+            source_goal_version=source_goal_version,
         )
-        current = _debug_build_snapshot(
-            build_workspace,
-            dune_dependency_snapshot=current_base,
-        )
-        validated_snapshot = current_base.get("_snapshot")
-        if not isinstance(validated_snapshot, dict):
-            raise ValueError(
-                "validated selected dependency snapshot is unavailable"
-            )
     except (OSError, ValueError) as exc:
         raise SystemExit(str(exc)) from exc
-    if (
-        sealed_snapshot.get("status") != "passed"
-        or sealed_snapshot.get("source_goal_version") != source_goal_version
-        or sealed_snapshot.get("digest") != current["digest"]
-        or sealed_snapshot.get("file_count") != current["file_count"]
-    ):
-        raise SystemExit("previous reuse-source build changed after vc-proving preparation")
     return (
         _active_reuse_vc_attempt(state, round_id),
         build_workspace,
@@ -812,26 +801,24 @@ def _record_reuse_debug_receipt(
 ) -> None:
     debug_path = build_workspace / debug_script
     try:
-        base_snapshot = dune_snapshot_for_preserved_build(
-            workspace_root=main_root,
-            build_workspace=build_workspace,
-        )
-        snapshot = _debug_build_snapshot(
-            build_workspace,
-            dune_dependency_snapshot=base_snapshot,
-        )
-        sealed_full_snapshot = (
-            snapshot if sealed_reference_snapshot is not None else None
-        )
+        if sealed_reference_snapshot is not None:
+            _dependency_snapshot, snapshot = _verified_reuse_source_build(
+                main_root=main_root,
+                run_root=run_root,
+                round_id=source_round,
+                sealed=sealed_reference_snapshot,
+                source_goal_version=source_goal_version,
+            )
+        else:
+            snapshot = _debug_build_snapshot(
+                build_workspace,
+                dune_dependency_snapshot=dune_snapshot_for_preserved_build(
+                    workspace_root=main_root,
+                    receipt=state.get("dune_preparation"),
+                ),
+            )
     except (OSError, ValueError) as exc:
         raise SystemExit(str(exc)) from exc
-    if sealed_reference_snapshot is not None and (
-        not isinstance(sealed_full_snapshot, dict)
-        or sealed_reference_snapshot.get("digest") != sealed_full_snapshot["digest"]
-        or sealed_reference_snapshot.get("file_count")
-        != sealed_full_snapshot["file_count"]
-    ):
-        raise SystemExit("previous reuse-source build seal changed during coq-debug")
     attempt.setdefault("proof_reuse_debug", {})[receipt_kind] = {
         "status": "passed",
         "round": source_round,

@@ -182,6 +182,9 @@ Proof.
   split; [exact Hxy | exact Hinc].
 Qed.
 
+Definition prefix_suffix_sorted (prefix suffix: list Z): Prop :=
+  forall x, In x prefix -> lowerbound x suffix.
+
 Lemma prefix_suffix_sorted_perm_local :
   forall l1 l2 l3,
     prefix_suffix_sorted l1 l2 ->

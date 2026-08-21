@@ -1147,11 +1147,10 @@ def _receipt_from_run(
 def dune_snapshot_for_preserved_build(
     *,
     workspace_root: Path,
-    build_workspace: Path,
+    receipt: Mapping[str, Any] | None,
 ) -> dict[str, Any]:
-    receipt = _receipt_from_run(
-        workspace_root=workspace_root, build_workspace=build_workspace
-    )
+    """Validate the caller's preparation and return the base closure it selects."""
+
     snapshot = _require_validated_dune_snapshot(
         workspace_root=workspace_root,
         receipt=receipt,

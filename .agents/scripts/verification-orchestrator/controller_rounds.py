@@ -22,7 +22,6 @@ from controller_state import (
     _append_event,
     _archive_annotation_stage,
     _current_version_errors,
-    _debug_build_snapshot,
     _file_digest,
     _formal_case_lib_is_active,
     _generated_artifact_module_spellings_for_state,
@@ -34,19 +33,17 @@ from controller_state import (
     _utc,
     _validated_annotation_attempt_paths,
     _validated_proving_attempt_paths,
+    _verified_reuse_source_build,
 )
 from controller_dune import _preparation_action
-from coq_tooling import (
-    dune_preparation_receipt_errors,
-    dune_snapshot_for_preserved_build,
-)
+from coq_tooling import dune_preparation_receipt_errors
 from path_utils import (
     annotation_attempt_directory_name,
     annotation_attempt_report_root,
     annotation_history_root,
     fixed_path_under,
+    reuse_source_build_workspace,
     round_report_root,
-    run_builds_root,
     vc_checking_debug_script,
     write_json,
     write_text,
@@ -63,6 +60,11 @@ from verify_group_results import validate_group_for_acceptance_result
 DEFAULT_MAX_PARALLEL_GROUP_WORKERS = 5
 VC_PROVING_PHASE = "vc-proving-preparing"
 ANNOTATION_GAP_FAILURE_CLASS = "annotation-gap"
+# A delivery carries formal sources and owner narrative. Feedback cites the
+# narrative; report-only repair preserves the formal bytes.
+FORMAL_ARTIFACT_ROLES = ("proof_manual", "group_worker_lib")
+NOTES_ARTIFACT_ROLE = "output"
+GROUP_NOTES_FILENAME = "group_worker_output.md"
 ANNOTATION_CAUSAL_FAILURE_CLASSES = frozenset(
     {ANNOTATION_GAP_FAILURE_CLASS, "specification-gap", "dependency-gap"}
 )
@@ -142,8 +144,7 @@ def _annotation_append_message(action: dict[str, Any]) -> str:
     feedback = ", ".join(
         str(path)
         for item in action.get("feedback_sources", [])
-        for path in (item.get("markdown"), item.get("json"))
-        if path
+        for path in item.get("evidence", [])
     )
     broader = (
         " This is a repeated repair: explicitly consider redesigning the mathematical spec, function contracts, "
@@ -400,36 +401,21 @@ def _latest_reusable_vc_proving_round(state: dict[str, Any]) -> str | None:
     ):
         return None
     snapshot = attempt.get("reuse_source_snapshot")
-    if (
-        not isinstance(snapshot, dict)
-        or snapshot.get("status") != "passed"
-        or snapshot.get("source_goal_version") != attempt.get("source_goal_version")
-    ):
+    if not isinstance(snapshot, dict):
         return None
     if not isinstance(state.get("main_root"), str) or not isinstance(
         state.get("target_files", {}).get("proof_auto_file"), str
     ):
         return None
-    reuse_build_workspace = (
-        run_builds_root(Path(str(state["run_root"])))
-        / str(attempt["round"])
-        / "reuse-source"
-        / "src"
-    )
     try:
-        current_base = dune_snapshot_for_preserved_build(
-            workspace_root=Path(str(state["main_root"])),
-            build_workspace=reuse_build_workspace,
-        )
-        current_reuse_build = _debug_build_snapshot(
-            reuse_build_workspace,
-            dune_dependency_snapshot=current_base,
+        _verified_reuse_source_build(
+            main_root=Path(str(state["main_root"])),
+            run_root=Path(str(state["run_root"])),
+            round_id=str(attempt["round"]),
+            sealed=snapshot,
+            source_goal_version=str(attempt.get("source_goal_version") or ""),
         )
     except (OSError, ValueError):
-        return None
-    if snapshot.get("digest") != current_reuse_build.get("digest") or snapshot.get(
-        "file_count"
-    ) != current_reuse_build.get("file_count"):
         return None
     try:
         _sealed_reuse_raw_artifacts(state, attempt)
@@ -747,11 +733,7 @@ There is no immediately preceding sealed vc-proving source eligible for comparis
         expected_round=str(previous["round"]),
     )
     reference_script = (
-        Path(str(state["run_root"]))
-        / "_coq_builds"
-        / previous_round
-        / "reuse-source"
-        / "src"
+        reuse_source_build_workspace(Path(str(state["run_root"])), previous_round)
         / ".coq_debug"
         / "reuse-source.v"
     )
@@ -1008,6 +990,23 @@ def _formal_case_lib_command_explanation(present: bool) -> str:
     )
 
 
+def _narrative_paths(paths: dict[str, Path]) -> dict[str, Path]:
+    """Drop the formal sources of a delivery, keeping the owner narrative."""
+
+    return {
+        role: path
+        for role, path in paths.items()
+        if role not in FORMAL_ARTIFACT_ROLES
+    }
+
+
+def _feedback_source_line(item: dict[str, Any]) -> str:
+    """Render one feedback source as its sealed evidence paths."""
+
+    paths = "; ".join(f"`{path}`" for path in item["evidence"])
+    return f"- `{item['phase']}` / `{item['attempt_id']}`: {paths}"
+
+
 def _render_annotation_block_summary_template(
     state: dict[str, Any],
     *,
@@ -1031,7 +1030,7 @@ def _render_annotation_block_summary_template(
     )
     source_lines = (
         "\n".join(
-            f"- `{item['phase']}` / `{item['attempt_id']}`: Markdown `{item['markdown']}`; JSON `{item['json']}`"
+            _feedback_source_line(item)
             for item in feedback_sources
         )
         or "- No external phase files; inspect the controller-recorded failure below."
@@ -1126,7 +1125,7 @@ The annotation agent must completely reload both annotation skills on every appe
 {_format_list(allowed_write_paths)}
 
 Generated files may change only through the exact symbolic-execution command below.
-
+{_spec_freeze_section(state)}
 {_controller_command_execution_contract()}
 
 ## Commands
@@ -1227,12 +1226,7 @@ def _annotation_summary_errors(
     )
     for item in attempt.get("feedback_sources", []):
         required_fragments.extend(
-            [
-                str(item["phase"]),
-                str(item["attempt_id"]),
-                str(item["markdown"]),
-                str(item["json"]),
-            ]
+            [str(item["phase"]), str(item["attempt_id"]), *item["evidence"]]
         )
     for fragment in required_fragments:
         if fragment not in text:
@@ -1244,6 +1238,35 @@ def _annotation_summary_errors(
             "repeated annotation retry must preserve the broader-redesign instruction"
         )
     return errors
+
+
+def _spec_freeze_section(state: dict[str, Any]) -> str:
+    """Render the frozen-specification boundary, or nothing when unfrozen."""
+
+    record = state.get("spec_freeze")
+    if not isinstance(record, dict) or not record.get("functions"):
+        return ""
+    functions = ", ".join(f"`{name}`" for name in record["functions"])
+    return f"""
+## Frozen specification
+
+The specification of {functions} is a fixed input for this run, not something to
+redesign. Their `With` / `Require` / `Ensure` blocks -- including named specs and any
+`<= other_spec` clause -- must survive this attempt token-identical. Comments, whitespace
+and line endings are free.
+
+Because a frozen specification's meaning depends on the definitions behind it, every
+`Extern Coq` entry, `Import Coq` module, and case-lib declaration that already exists is
+frozen as well.
+
+You may still add: new `Extern Coq` entries, new imports, new case-lib definitions and
+lemmas, and specifications for functions not listed above. Every `Inv Assert` and `Assert`
+stays fully editable -- those are the intended working surface.
+
+Controller acceptance re-extracts this surface and compares it entry by entry. A changed or
+removed entry fails the attempt and returns here naming the exact entry, so weakening a
+frozen specification to make a proof close is not a route forward.
+"""
 
 
 def _render_agent_input(
@@ -1338,7 +1361,7 @@ Required lessons:
         feedback = feedback_sources or []
         feedback_text = (
             "\n".join(
-                f"- `{item['phase']}` `{item['attempt_id']}`: Markdown `{item['markdown']}`; JSON `{item['json']}`"
+                _feedback_source_line(item)
                 for item in feedback
             )
             if feedback
@@ -1381,7 +1404,7 @@ Feedback appended for this iteration:
 {_format_list(allowed_write_paths)}
 
 Generated files may change only through the exact symbolic-execution command below.
-
+{_spec_freeze_section(state)}
 ## Commands
 
 ```text
@@ -1806,8 +1829,8 @@ def _group_artifact_paths(
     }
     if isinstance(expected, dict) and "output" in expected:
         try:
-            paths["output"] = fixed_path_under(
-                report / "group_worker_output.md",
+            paths[NOTES_ARTIFACT_ROLE] = fixed_path_under(
+                report / GROUP_NOTES_FILENAME,
                 report,
                 label="group worker output artifact",
             )
@@ -2089,7 +2112,9 @@ def _annotation_gap_feedback_records(
             raise SystemExit(
                 f"annotation-gap group is missing from the sealed manifest: {group_id}"
             )
-        report_directory = Path(str(group.get("report_directory") or ""))
+        sealed_paths = _narrative_paths(
+            _group_artifact_paths(group, expected=group_state.get("artifact_sha256"))
+        )
         records.append(
             {
                 "failure_class": str(blocker["failure_class"]),
@@ -2104,8 +2129,7 @@ def _annotation_gap_feedback_records(
                 "location": str(blocker["location"]),
                 "message": str(blocker["message"]),
                 "repair_boundary": str(blocker["repair_boundary"]),
-                "markdown": str(report_directory / "group_worker_output.md"),
-                "json": str(report_directory / "group_worker_report.json"),
+                "evidence": [str(path) for path in sealed_paths.values()],
             }
         )
     return records

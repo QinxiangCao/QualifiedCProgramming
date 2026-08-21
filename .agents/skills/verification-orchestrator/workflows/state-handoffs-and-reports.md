@@ -94,7 +94,7 @@ report root 的 `group_plan.json` 只在零 manual VC 时由 controller 写为 `
 | `group_workers_manifest.json` | controller preparing | base/plan/snapshot seals、compact groups、可选 reuse seals 与 `dispatch_order` |
 | `group_worker_input.md` | controller | 本组 assignment、写入边界、命令和追加修正 |
 | `group_worker_report.json` | group-worker | 最终状态 |
-| `group_worker_output.md` | group-worker | 通常为可选证明说明；annotation-gap 时必须是固定路径上的非空 UTF-8 普通文件，逐项记录受影响 witness 与证据，其 digest 进入 finalized `artifact_sha256` |
+| `group_worker_output.md` | group-worker | 可选证明说明；owner 交付了它，finalize 就把 digest 写进 `artifact_sha256`。annotation-gap 时必须交付，且是固定路径上的非空 UTF-8 普通文件，逐项记录受影响 witness 与证据 |
 | `proof_reuse.md` | controller 复制 | accepted per-group reuse hint；worker 只读 |
 | `public_helper_lemma_lib.v` | controller | 跨轮 helper 候选目录；不 import |
 | `public_helper_snapshot.txt` | controller preparing | 当前 round 开始时 pool 的不可变 bytes |
@@ -161,7 +161,7 @@ affected witness。`markdown` 与 `json` 指向本组原始报告，不能复制
 retry 以 proving round 为唯一 `previous_attempt`，按 plan/source 顺序把全部记录展开到同一 annotation
 attempt 的 `feedback_sources`。
 
-annotation-gap finalize 把 `group_worker_output.md` 与 JSON/manual/可选 lib 一起视为来源 artifact：文件
+finalize 把已交付的 `group_worker_output.md` 与 JSON/manual/可选 lib 一起视为来源 artifact：文件
 必须位于固定 report path、不是 symlink 或其他特殊 leaf、非空且可按 UTF-8 解码，其 digest 写入
 finalized `artifact_sha256`。后续 group validation、`reuse_group_artifacts`、feedback 汇总、
 `annotation-summary-ready`、首次或重复 annotation claim、重复 handoff 和 `already-retried` 返回都重验

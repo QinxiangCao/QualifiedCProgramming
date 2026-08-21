@@ -31,7 +31,7 @@ From SimpleC.EE.QCP_demos_LLM Require Import array2_strategy_proof.
 
 (*----- Function maximum_profit -----*)
 
-Definition maximum_profit_safety_wit_1 :=
+Definition maximum_profit_safety_wit_1 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (dp_init: (@list (@list Z))) (queue0: (@list Z)) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (PreH1 : (1 <= days_pre)) (PreH2 : (days_pre <= 990)) (PreH3 : (1 <= max_stock_pre)) (PreH4 : (max_stock_pre <= 990)) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH8 : (StockTableShape dp_init days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |->_)
   **  ((( &( "days" ) )) # Int  |-> days_pre)
@@ -53,7 +53,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ (1000000000 <> (INT_MIN)) ”
 .
 
-Definition maximum_profit_safety_wit_2 :=
+Definition maximum_profit_safety_wit_2 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (dp_init: (@list (@list Z))) (queue0: (@list Z)) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (PreH1 : (1 <= days_pre)) (PreH2 : (days_pre <= 990)) (PreH3 : (1 <= max_stock_pre)) (PreH4 : (max_stock_pre <= 990)) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH8 : (StockTableShape dp_init days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |->_)
   **  ((( &( "days" ) )) # Int  |-> days_pre)
@@ -72,11 +72,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre (max_stock_pre + 1 ) queue0 )
   **  (IntArray2.full dp_pre (days_pre + 1 ) (max_stock_pre + 1 ) dp_init )
 |--
-  “ (1000000000 <= INT_MAX) ”
+  “ (1000000000 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1000000000) ”
 .
 
-Definition maximum_profit_safety_wit_3 :=
+Definition maximum_profit_safety_wit_3 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (dp_init: (@list (@list Z))) (queue0: (@list Z)) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (PreH1 : (1 <= days_pre)) (PreH2 : (days_pre <= 990)) (PreH3 : (1 <= max_stock_pre)) (PreH4 : (max_stock_pre <= 990)) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH8 : (StockTableShape dp_init days_pre max_stock_pre )) ,
   ((( &( "width" ) )) # Int  |->_)
   **  ((( &( "neg_inf" ) )) # Int  |-> (-1000000000))
@@ -96,11 +96,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre (max_stock_pre + 1 ) queue0 )
   **  (IntArray2.full dp_pre (days_pre + 1 ) (max_stock_pre + 1 ) dp_init )
 |--
-  “ ((max_stock_pre + 1 ) <= INT_MAX) ”
+  “ ((max_stock_pre + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (max_stock_pre + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_4 :=
+Definition maximum_profit_safety_wit_4 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (dp_init: (@list (@list Z))) (queue0: (@list Z)) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (PreH1 : (1 <= days_pre)) (PreH2 : (days_pre <= 990)) (PreH3 : (1 <= max_stock_pre)) (PreH4 : (max_stock_pre <= 990)) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH8 : (StockTableShape dp_init days_pre max_stock_pre )) ,
   ((( &( "width" ) )) # Int  |->_)
   **  ((( &( "neg_inf" ) )) # Int  |-> (-1000000000))
@@ -120,11 +120,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre (max_stock_pre + 1 ) queue0 )
   **  (IntArray2.full dp_pre (days_pre + 1 ) (max_stock_pre + 1 ) dp_init )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_5 :=
+Definition maximum_profit_safety_wit_5 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (dp_init: (@list (@list Z))) (queue0: (@list Z)) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (PreH1 : (1 <= days_pre)) (PreH2 : (days_pre <= 990)) (PreH3 : (1 <= max_stock_pre)) (PreH4 : (max_stock_pre <= 990)) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH8 : (StockTableShape dp_init days_pre max_stock_pre )) ,
   ((( &( "q_init" ) )) # Int  |->_)
   **  ((( &( "width" ) )) # Int  |-> (max_stock_pre + 1 ))
@@ -145,11 +145,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre (max_stock_pre + 1 ) queue0 )
   **  (IntArray2.full dp_pre (days_pre + 1 ) (max_stock_pre + 1 ) dp_init )
 |--
-  “ (0 <= INT_MAX) ”
+  “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition maximum_profit_safety_wit_6 :=
+Definition maximum_profit_safety_wit_6 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (dp_init: (@list (@list Z))) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (width: Z) (q_init: Z) (neg_inf: Z) (PreH1 : (q_init < width)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (0 <= q_init)) (PreH4 : (q_init <= width)) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockTableShape dp_init days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "q_init" ) )) # Int  |-> q_init)
@@ -170,11 +170,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_init )
 |--
-  “ (0 <= INT_MAX) ”
+  “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition maximum_profit_safety_wit_7 :=
+Definition maximum_profit_safety_wit_7 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (dp_init: (@list (@list Z))) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (width: Z) (q_init: Z) (neg_inf: Z) (PreH1 : (q_init < width)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (0 <= q_init)) (PreH4 : (q_init <= width)) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockTableShape dp_init days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width (replace_Znth (q_init) (0) (queue_l)) )
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -195,11 +195,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_init )
 |--
-  “ ((q_init + 1 ) <= INT_MAX) ”
+  “ ((q_init + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (q_init + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_8 :=
+Definition maximum_profit_safety_wit_8 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (dp_init: (@list (@list Z))) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (width: Z) (q_init: Z) (neg_inf: Z) (PreH1 : (q_init >= width)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (0 <= q_init)) (PreH4 : (q_init <= width)) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockTableShape dp_init days_pre max_stock_pre )) ,
   ((( &( "i" ) )) # Int  |->_)
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -220,11 +220,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_init )
 |--
-  “ (0 <= INT_MAX) ”
+  “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition maximum_profit_safety_wit_9 :=
+Definition maximum_profit_safety_wit_9 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (0 <= i)) (PreH10 : (i <= (days_pre + 1 ))) (PreH11 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH12 : (StockFillRows dp_l days_pre max_stock_pre i )) (PreH13 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "days" ) )) # Int  |-> days_pre)
@@ -245,11 +245,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((days_pre + 1 ) <= INT_MAX) ”
+  “ ((days_pre + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (days_pre + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_10 :=
+Definition maximum_profit_safety_wit_10 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (0 <= i)) (PreH10 : (i <= (days_pre + 1 ))) (PreH11 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH12 : (StockFillRows dp_l days_pre max_stock_pre i )) (PreH13 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "days" ) )) # Int  |-> days_pre)
@@ -270,11 +270,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_11 :=
+Definition maximum_profit_safety_wit_11 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (i < (days_pre + 1 ))) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (0 <= i)) (PreH11 : (i <= (days_pre + 1 ))) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockFillRows dp_l days_pre max_stock_pre i )) (PreH14 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "j" ) )) # Int  |->_)
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -296,11 +296,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (0 <= INT_MAX) ”
+  “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition maximum_profit_safety_wit_12 :=
+Definition maximum_profit_safety_wit_12 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (j < width)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (0 <= i)) (PreH11 : (i < (days_pre + 1 ))) (PreH12 : (0 <= j)) (PreH13 : (j <= width)) (PreH14 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH15 : (StockFillRows dp_l days_pre max_stock_pre i )) (PreH16 : (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "days" ) )) # Int  |-> days_pre)
@@ -322,11 +322,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (0 <= INT_MAX) ”
+  “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition maximum_profit_safety_wit_13 :=
+Definition maximum_profit_safety_wit_13 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (i = 0)) (PreH2 : (j < width)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (0 <= i)) (PreH12 : (i < (days_pre + 1 ))) (PreH13 : (0 <= j)) (PreH14 : (j <= width)) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockFillRows dp_l days_pre max_stock_pre i )) (PreH17 : (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i j )) (PreH18 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "days" ) )) # Int  |-> days_pre)
@@ -348,11 +348,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (0 <= INT_MAX) ”
+  “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition maximum_profit_safety_wit_14 :=
+Definition maximum_profit_safety_wit_14 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (j = 0)) (PreH2 : (i = 0)) (PreH3 : (j < width)) (PreH4 : (neg_inf = (-1000000000))) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (0 <= i)) (PreH13 : (i < (days_pre + 1 ))) (PreH14 : (0 <= j)) (PreH15 : (j <= width)) (PreH16 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH17 : (StockFillRows dp_l days_pre max_stock_pre i )) (PreH18 : (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i j )) (PreH19 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "days" ) )) # Int  |-> days_pre)
@@ -374,11 +374,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i * width ) <= INT_MAX) ”
+  “ ((i * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i * width )) ”
 .
 
-Definition maximum_profit_safety_wit_15 :=
+Definition maximum_profit_safety_wit_15 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (j = 0)) (PreH2 : (i = 0)) (PreH3 : (j < width)) (PreH4 : (neg_inf = (-1000000000))) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (0 <= i)) (PreH13 : (i < (days_pre + 1 ))) (PreH14 : (0 <= j)) (PreH15 : (j <= width)) (PreH16 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH17 : (StockFillRows dp_l days_pre max_stock_pre i )) (PreH18 : (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i j )) (PreH19 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "days" ) )) # Int  |-> days_pre)
@@ -400,11 +400,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (0 <= INT_MAX) ”
+  “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition maximum_profit_safety_wit_16 :=
+Definition maximum_profit_safety_wit_16 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (j <> 0)) (PreH2 : (i = 0)) (PreH3 : (j < width)) (PreH4 : (neg_inf = (-1000000000))) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (0 <= i)) (PreH13 : (i < (days_pre + 1 ))) (PreH14 : (0 <= j)) (PreH15 : (j <= width)) (PreH16 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH17 : (StockFillRows dp_l days_pre max_stock_pre i )) (PreH18 : (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i j )) (PreH19 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "days" ) )) # Int  |-> days_pre)
@@ -426,11 +426,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i * width ) <= INT_MAX) ”
+  “ ((i * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i * width )) ”
 .
 
-Definition maximum_profit_safety_wit_17 :=
+Definition maximum_profit_safety_wit_17 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (i <> 0)) (PreH2 : (j < width)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (0 <= i)) (PreH12 : (i < (days_pre + 1 ))) (PreH13 : (0 <= j)) (PreH14 : (j <= width)) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockFillRows dp_l days_pre max_stock_pre i )) (PreH17 : (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i j )) (PreH18 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "days" ) )) # Int  |-> days_pre)
@@ -452,11 +452,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i * width ) <= INT_MAX) ”
+  “ ((i * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i * width )) ”
 .
 
-Definition maximum_profit_safety_wit_18 :=
+Definition maximum_profit_safety_wit_18 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (j = 0)) (PreH2 : (i = 0)) (PreH3 : (j < width)) (PreH4 : (neg_inf = (-1000000000))) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (0 <= i)) (PreH13 : (i < (days_pre + 1 ))) (PreH14 : (0 <= j)) (PreH15 : (j <= width)) (PreH16 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH17 : (StockFillRows dp_l days_pre max_stock_pre i )) (PreH18 : (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i j )) (PreH19 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> 0)
   **  (IntArray.missing_i (dp_pre + ((i * width ) * sizeof(INT))) j 0 width (Znth i dp_l __default__List_Z) )
@@ -480,11 +480,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((j + 1 ) <= INT_MAX) ”
+  “ ((j + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_19 :=
+Definition maximum_profit_safety_wit_19 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (i <> 0)) (PreH2 : (j < width)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (0 <= i)) (PreH12 : (i < (days_pre + 1 ))) (PreH13 : (0 <= j)) (PreH14 : (j <= width)) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockFillRows dp_l days_pre max_stock_pre i )) (PreH17 : (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i j )) (PreH18 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> neg_inf)
   **  (IntArray.missing_i (dp_pre + ((i * width ) * sizeof(INT))) j 0 width (Znth i dp_l __default__List_Z) )
@@ -508,11 +508,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((j + 1 ) <= INT_MAX) ”
+  “ ((j + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_20 :=
+Definition maximum_profit_safety_wit_20 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (j <> 0)) (PreH2 : (i = 0)) (PreH3 : (j < width)) (PreH4 : (neg_inf = (-1000000000))) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (0 <= i)) (PreH13 : (i < (days_pre + 1 ))) (PreH14 : (0 <= j)) (PreH15 : (j <= width)) (PreH16 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH17 : (StockFillRows dp_l days_pre max_stock_pre i )) (PreH18 : (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i j )) (PreH19 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> neg_inf)
   **  (IntArray.missing_i (dp_pre + ((i * width ) * sizeof(INT))) j 0 width (Znth i dp_l __default__List_Z) )
@@ -536,11 +536,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((j + 1 ) <= INT_MAX) ”
+  “ ((j + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_21 :=
+Definition maximum_profit_safety_wit_21 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (j >= width)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (0 <= i)) (PreH11 : (i < (days_pre + 1 ))) (PreH12 : (0 <= j)) (PreH13 : (j <= width)) (PreH14 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH15 : (StockFillRows dp_l days_pre max_stock_pre i )) (PreH16 : (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "days" ) )) # Int  |-> days_pre)
@@ -561,11 +561,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i + 1 ) <= INT_MAX) ”
+  “ ((i + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_22 :=
+Definition maximum_profit_safety_wit_22 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH10 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre 1 )) (PreH11 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "i" ) )) # Int  |->_)
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -586,11 +586,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_23 :=
+Definition maximum_profit_safety_wit_23 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (i <= days_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= (days_pre + 1 ))) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i )) (PreH14 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "j" ) )) # Int  |->_)
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -612,11 +612,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (0 <= INT_MAX) ”
+  “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition maximum_profit_safety_wit_24 :=
+Definition maximum_profit_safety_wit_24 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j <= max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j <= (max_stock_pre + 1 ))) (PreH14 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH15 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH16 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "previous_value" ) )) # Int  |->_)
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -639,11 +639,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (((i - 1 ) * width ) <= INT_MAX) ”
+  “ (((i - 1 ) * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((i - 1 ) * width )) ”
 .
 
-Definition maximum_profit_safety_wit_25 :=
+Definition maximum_profit_safety_wit_25 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j <= max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j <= (max_stock_pre + 1 ))) (PreH14 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH15 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH16 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "previous_value" ) )) # Int  |->_)
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -666,11 +666,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i - 1 ) <= INT_MAX) ”
+  “ ((i - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_26 :=
+Definition maximum_profit_safety_wit_26 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j <= max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j <= (max_stock_pre + 1 ))) (PreH14 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH15 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH16 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "previous_value" ) )) # Int  |->_)
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -693,11 +693,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_27 :=
+Definition maximum_profit_safety_wit_27 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (j: Z) (previous_value: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j <= max_stock_pre)) (PreH14 : (previous_value = (Znth j (Znth (i - 1 ) dp_l __default__List_Z) 0))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "width" ) )) # Int  |-> width)
@@ -720,11 +720,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i * width ) <= INT_MAX) ”
+  “ ((i * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i * width )) ”
 .
 
-Definition maximum_profit_safety_wit_28 :=
+Definition maximum_profit_safety_wit_28 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (j: Z) (previous_value: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j <= max_stock_pre)) (PreH14 : (previous_value = (Znth j (Znth (i - 1 ) dp_l __default__List_Z) 0))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> previous_value)
   **  (IntArray.missing_i (dp_pre + ((i * width ) * sizeof(INT))) j 0 width (Znth i dp_l __default__List_Z) )
@@ -748,11 +748,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((j + 1 ) <= INT_MAX) ”
+  “ ((j + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_29 :=
+Definition maximum_profit_safety_wit_29 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j > max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j <= (max_stock_pre + 1 ))) (PreH14 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH15 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH16 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "width" ) )) # Int  |-> width)
@@ -773,11 +773,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i - 1 ) <= INT_MAX) ”
+  “ ((i - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_30 :=
+Definition maximum_profit_safety_wit_30 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j > max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j <= (max_stock_pre + 1 ))) (PreH14 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH15 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH16 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "width" ) )) # Int  |-> width)
@@ -798,11 +798,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_31 :=
+Definition maximum_profit_safety_wit_31 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) <= wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "buy_cap" ) )) # Int  |->_)
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -824,11 +824,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i - 1 ) <= INT_MAX) ”
+  “ ((i - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_32 :=
+Definition maximum_profit_safety_wit_32 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) <= wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "buy_cap" ) )) # Int  |->_)
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -850,11 +850,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_33 :=
+Definition maximum_profit_safety_wit_33 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) <= wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "ask_price" ) )) # Int  |->_)
   **  (IntArray.full buy_limit_pre days_pre buy_l )
@@ -877,11 +877,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i - 1 ) <= INT_MAX) ”
+  “ ((i - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_34 :=
+Definition maximum_profit_safety_wit_34 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) <= wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "ask_price" ) )) # Int  |->_)
   **  (IntArray.full buy_limit_pre days_pre buy_l )
@@ -904,11 +904,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_35 :=
+Definition maximum_profit_safety_wit_35 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) <= wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "j" ) )) # Int  |->_)
   **  (IntArray.full ap_pre days_pre ap_l )
@@ -932,11 +932,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_36 :=
+Definition maximum_profit_safety_wit_36 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (ask_price: Z) (buy_cap: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j <= buy_cap)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : ((i - 1 ) <= wait_days_pre)) (PreH13 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (1 <= buy_cap)) (PreH16 : (buy_cap <= max_stock_pre)) (PreH17 : (1 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= (buy_cap + 1 ))) (PreH21 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH22 : (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH23 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "candidate" ) )) # Int  |->_)
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -961,11 +961,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (((-j) * ask_price ) <= INT_MAX) ”
+  “ (((-j) * ask_price ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((-j) * ask_price )) ”
 .
 
-Definition maximum_profit_safety_wit_37 :=
+Definition maximum_profit_safety_wit_37 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (ask_price: Z) (buy_cap: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j <= buy_cap)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : ((i - 1 ) <= wait_days_pre)) (PreH13 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (1 <= buy_cap)) (PreH16 : (buy_cap <= max_stock_pre)) (PreH17 : (1 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= (buy_cap + 1 ))) (PreH21 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH22 : (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH23 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "candidate" ) )) # Int  |->_)
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -993,7 +993,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ (j <> (INT_MIN)) ”
 .
 
-Definition maximum_profit_safety_wit_38 :=
+Definition maximum_profit_safety_wit_38 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (ask_price: Z) (buy_cap: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j <= buy_cap)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : ((i - 1 ) <= wait_days_pre)) (PreH13 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (1 <= buy_cap)) (PreH16 : (buy_cap <= max_stock_pre)) (PreH17 : (1 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= (buy_cap + 1 ))) (PreH21 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH22 : (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH23 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "candidate" ) )) # Int  |-> ((-j) * ask_price ))
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -1018,11 +1018,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i * width ) <= INT_MAX) ”
+  “ ((i * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i * width )) ”
 .
 
-Definition maximum_profit_safety_wit_39 :=
+Definition maximum_profit_safety_wit_39 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (ask_price: Z) (buy_cap: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (((-j) * ask_price ) > (Znth (j) ((Znth i dp_l __default__List_Z)) (0)))) (PreH2 : (j <= buy_cap)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : ((i - 1 ) <= wait_days_pre)) (PreH14 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH15 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH16 : (1 <= buy_cap)) (PreH17 : (buy_cap <= max_stock_pre)) (PreH18 : (1 <= ask_price)) (PreH19 : (ask_price <= 1000)) (PreH20 : (1 <= j)) (PreH21 : (j <= (buy_cap + 1 ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH24 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> (Znth (j) ((Znth i dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((i * width ) * sizeof(INT))) j 0 width (Znth i dp_l __default__List_Z) )
@@ -1049,11 +1049,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((i * width ) <= INT_MAX) ”
+  “ ((i * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i * width )) ”
 .
 
-Definition maximum_profit_safety_wit_40 :=
+Definition maximum_profit_safety_wit_40 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (ask_price: Z) (buy_cap: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (((-j) * ask_price ) > (Znth (j) ((Znth i dp_l __default__List_Z)) (0)))) (PreH2 : (j <= buy_cap)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : ((i - 1 ) <= wait_days_pre)) (PreH14 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH15 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH16 : (1 <= buy_cap)) (PreH17 : (buy_cap <= max_stock_pre)) (PreH18 : (1 <= ask_price)) (PreH19 : (ask_price <= 1000)) (PreH20 : (1 <= j)) (PreH21 : (j <= (buy_cap + 1 ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH24 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> ((-j) * ask_price ))
   **  (IntArray.missing_i (dp_pre + ((i * width ) * sizeof(INT))) j 0 width (Znth i dp_l __default__List_Z) )
@@ -1079,11 +1079,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((j + 1 ) <= INT_MAX) ”
+  “ ((j + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_41 :=
+Definition maximum_profit_safety_wit_41 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (ask_price: Z) (buy_cap: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (((-j) * ask_price ) <= (Znth (j) ((Znth i dp_l __default__List_Z)) (0)))) (PreH2 : (j <= buy_cap)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : ((i - 1 ) <= wait_days_pre)) (PreH14 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH15 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH16 : (1 <= buy_cap)) (PreH17 : (buy_cap <= max_stock_pre)) (PreH18 : (1 <= ask_price)) (PreH19 : (ask_price <= 1000)) (PreH20 : (1 <= j)) (PreH21 : (j <= (buy_cap + 1 ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH24 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> (Znth (j) ((Znth i dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((i * width ) * sizeof(INT))) j 0 width (Znth i dp_l __default__List_Z) )
@@ -1109,11 +1109,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((j + 1 ) <= INT_MAX) ”
+  “ ((j + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_42 :=
+Definition maximum_profit_safety_wit_42 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) > wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "source_day" ) )) # Int  |->_)
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -1135,11 +1135,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (((i - wait_days_pre ) - 1 ) <= INT_MAX) ”
+  “ (((i - wait_days_pre ) - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((i - wait_days_pre ) - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_43 :=
+Definition maximum_profit_safety_wit_43 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) > wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "source_day" ) )) # Int  |->_)
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -1161,11 +1161,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i - wait_days_pre ) <= INT_MAX) ”
+  “ ((i - wait_days_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i - wait_days_pre )) ”
 .
 
-Definition maximum_profit_safety_wit_44 :=
+Definition maximum_profit_safety_wit_44 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) > wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "source_day" ) )) # Int  |->_)
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -1187,11 +1187,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_45 :=
+Definition maximum_profit_safety_wit_45 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) > wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "bid_price" ) )) # Int  |->_)
   **  ((( &( "source_day" ) )) # Int  |-> ((i - wait_days_pre ) - 1 ))
@@ -1214,11 +1214,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i - 1 ) <= INT_MAX) ”
+  “ ((i - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_46 :=
+Definition maximum_profit_safety_wit_46 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) > wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "bid_price" ) )) # Int  |->_)
   **  ((( &( "source_day" ) )) # Int  |-> ((i - wait_days_pre ) - 1 ))
@@ -1241,11 +1241,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_47 :=
+Definition maximum_profit_safety_wit_47 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) > wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "sell_cap" ) )) # Int  |->_)
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -1269,11 +1269,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i - 1 ) <= INT_MAX) ”
+  “ ((i - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_48 :=
+Definition maximum_profit_safety_wit_48 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) > wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "sell_cap" ) )) # Int  |->_)
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -1297,11 +1297,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_49 :=
+Definition maximum_profit_safety_wit_49 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) > wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "head" ) )) # Int  |->_)
   **  (IntArray.full sell_limit_pre days_pre sell_l )
@@ -1326,11 +1326,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (0 <= INT_MAX) ”
+  “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition maximum_profit_safety_wit_50 :=
+Definition maximum_profit_safety_wit_50 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) > wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "tail" ) )) # Int  |->_)
   **  ((( &( "head" ) )) # Int  |-> 0)
@@ -1356,11 +1356,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (0 <= INT_MAX) ”
+  “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition maximum_profit_safety_wit_51 :=
+Definition maximum_profit_safety_wit_51 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) > wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "j" ) )) # Int  |->_)
   **  ((( &( "tail" ) )) # Int  |-> 0)
@@ -1387,11 +1387,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((max_stock_pre - 1 ) <= INT_MAX) ”
+  “ ((max_stock_pre - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (max_stock_pre - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_52 :=
+Definition maximum_profit_safety_wit_52 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) > wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "j" ) )) # Int  |->_)
   **  ((( &( "tail" ) )) # Int  |-> 0)
@@ -1418,11 +1418,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_53 :=
+Definition maximum_profit_safety_wit_53 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (0 <= wait_days_pre)) (PreH4 : (wait_days_pre < days_pre)) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (wait_days_pre < (i - 1 ))) (PreH12 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH13 : (0 < source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (1 <= bid_price)) (PreH18 : (bid_price <= 1000)) (PreH19 : (1 <= sell_cap)) (PreH20 : (sell_cap <= max_stock_pre)) (PreH21 : ((-1) <= j)) (PreH22 : (j <= (max_stock_pre - 1 ))) (PreH23 : (0 <= head)) (PreH24 : (head <= tail)) (PreH25 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "width" ) )) # Int  |-> width)
@@ -1449,11 +1449,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (0 <= INT_MAX) ”
+  “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition maximum_profit_safety_wit_54 :=
+Definition maximum_profit_safety_wit_54 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (bid_price: Z) (tail: Z) (head: Z) (sell_cap: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (0 <= j)) (PreH17 : (j < max_stock_pre)) (PreH18 : (1 <= sell_cap)) (PreH19 : (sell_cap <= max_stock_pre)) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH23 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH24 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH25 : (1 <= bid_price)) (PreH26 : (bid_price <= 1000)) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueueExpiring dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width queue_l )
@@ -1481,7 +1481,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (((Znth head queue_l 0) - sell_cap ) <= INT_MAX) ”
+  “ (((Znth head queue_l 0) - sell_cap ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((Znth head queue_l 0) - sell_cap )) ”
 ) \/
 (
@@ -1511,11 +1511,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (((Znth head queue_l 0) - sell_cap ) <= INT_MAX) ”
+  “ (((Znth head queue_l 0) - sell_cap ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((Znth head queue_l 0) - sell_cap )) ”
 ).
 
-Definition maximum_profit_safety_wit_54_split_goal_1 :=
+Definition maximum_profit_safety_wit_54_split_goal_1 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (bid_price: Z) (tail: Z) (head: Z) (sell_cap: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (0 <= j)) (PreH17 : (j < max_stock_pre)) (PreH18 : (1 <= sell_cap)) (PreH19 : (sell_cap <= max_stock_pre)) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH23 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH24 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH25 : (1 <= bid_price)) (PreH26 : (bid_price <= 1000)) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueueExpiring dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width queue_l )
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -1545,7 +1545,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ (((Znth head queue_l 0) - sell_cap ) <= INT_MAX) ”
 .
 
-Definition maximum_profit_safety_wit_54_split_goal_2 :=
+Definition maximum_profit_safety_wit_54_split_goal_2 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (bid_price: Z) (tail: Z) (head: Z) (sell_cap: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (0 <= j)) (PreH17 : (j < max_stock_pre)) (PreH18 : (1 <= sell_cap)) (PreH19 : (sell_cap <= max_stock_pre)) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH23 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH24 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH25 : (1 <= bid_price)) (PreH26 : (bid_price <= 1000)) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueueExpiring dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width queue_l )
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -1575,7 +1575,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ ((INT_MIN) <= ((Znth head queue_l 0) - sell_cap )) ”
 .
 
-Definition maximum_profit_safety_wit_55 :=
+Definition maximum_profit_safety_wit_55 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (bid_price: Z) (tail: Z) (head: Z) (sell_cap: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (((Znth head queue_l 0) - sell_cap ) > j)) (PreH2 : (head < tail)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (1 <= days_pre)) (PreH8 : (days_pre <= 990)) (PreH9 : (1 <= max_stock_pre)) (PreH10 : (max_stock_pre <= 990)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH15 : (0 < source_day)) (PreH16 : (source_day < i)) (PreH17 : (0 <= j)) (PreH18 : (j < max_stock_pre)) (PreH19 : (1 <= sell_cap)) (PreH20 : (sell_cap <= max_stock_pre)) (PreH21 : (0 <= head)) (PreH22 : (head <= tail)) (PreH23 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH24 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH25 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH26 : (1 <= bid_price)) (PreH27 : (bid_price <= 1000)) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueueExpiring dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width queue_l )
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -1602,11 +1602,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((head + 1 ) <= INT_MAX) ”
+  “ ((head + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (head + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_56 :=
+Definition maximum_profit_safety_wit_56 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (wait_days_pre < (i - 1 ))) (PreH12 : (0 < source_day)) (PreH13 : (source_day < i)) (PreH14 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH15 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH16 : (1 <= bid_price)) (PreH17 : (bid_price <= 1000)) (PreH18 : (0 <= j)) (PreH19 : (j < max_stock_pre)) (PreH20 : (source_day < (days_pre + 1 ))) (PreH21 : ((j + 1 ) < width)) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH25 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "queue_index" ) )) # Ptr  |-> queue_index_pre)
   **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
@@ -1633,11 +1633,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((j + 1 ) <= INT_MAX) ”
+  “ ((j + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_57 :=
+Definition maximum_profit_safety_wit_57 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (wait_days_pre < (i - 1 ))) (PreH12 : (0 < source_day)) (PreH13 : (source_day < i)) (PreH14 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH15 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH16 : (1 <= bid_price)) (PreH17 : (bid_price <= 1000)) (PreH18 : (0 <= j)) (PreH19 : (j < max_stock_pre)) (PreH20 : (source_day < (days_pre + 1 ))) (PreH21 : ((j + 1 ) < width)) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH25 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "queue_index" ) )) # Ptr  |-> queue_index_pre)
   **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
@@ -1664,11 +1664,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((source_day * width ) <= INT_MAX) ”
+  “ ((source_day * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (source_day * width )) ”
 .
 
-Definition maximum_profit_safety_wit_58 :=
+Definition maximum_profit_safety_wit_58 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (wait_days_pre < (i - 1 ))) (PreH12 : (0 < source_day)) (PreH13 : (source_day < i)) (PreH14 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH15 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH16 : (1 <= bid_price)) (PreH17 : (bid_price <= 1000)) (PreH18 : (0 <= j)) (PreH19 : (j < max_stock_pre)) (PreH20 : (source_day < (days_pre + 1 ))) (PreH21 : ((j + 1 ) < width)) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH25 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "queue_index" ) )) # Ptr  |-> queue_index_pre)
   **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
@@ -1695,11 +1695,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_59 :=
+Definition maximum_profit_safety_wit_59 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (0 < source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (1 <= bid_price)) (PreH18 : (bid_price <= 1000)) (PreH19 : (0 <= j)) (PreH20 : (j < max_stock_pre)) (PreH21 : (source_day < (days_pre + 1 ))) (PreH22 : ((j + 1 ) < width)) (PreH23 : (0 <= head)) (PreH24 : (head <= tail)) (PreH25 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH26 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "last_index" ) )) # Int  |->_)
   **  (((dp_pre + (((source_day * width ) + (j + 1 ) ) * sizeof(INT)))) # Int  |-> (Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)))
@@ -1729,11 +1729,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((j + 1 ) <= INT_MAX) ”
+  “ ((j + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_60 :=
+Definition maximum_profit_safety_wit_60 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (0 < source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (1 <= bid_price)) (PreH18 : (bid_price <= 1000)) (PreH19 : (0 <= j)) (PreH20 : (j < max_stock_pre)) (PreH21 : (source_day < (days_pre + 1 ))) (PreH22 : ((j + 1 ) < width)) (PreH23 : (0 <= head)) (PreH24 : (head <= tail)) (PreH25 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH26 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "last_index" ) )) # Int  |->_)
   **  (((dp_pre + (((source_day * width ) + (j + 1 ) ) * sizeof(INT)))) # Int  |-> (Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)))
@@ -1763,11 +1763,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_61 :=
+Definition maximum_profit_safety_wit_61 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "last_index" ) )) # Int  |-> (j + 1 ))
   **  (((dp_pre + (((source_day * width ) + (j + 1 ) ) * sizeof(INT)))) # Int  |-> (Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)))
@@ -1797,11 +1797,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((tail - 1 ) <= INT_MAX) ”
+  “ ((tail - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (tail - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_62 :=
+Definition maximum_profit_safety_wit_62 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "last_index" ) )) # Int  |-> (j + 1 ))
   **  (((dp_pre + (((source_day * width ) + (j + 1 ) ) * sizeof(INT)))) # Int  |-> (Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)))
@@ -1831,11 +1831,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_63 :=
+Definition maximum_profit_safety_wit_63 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
@@ -1867,7 +1867,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full buy_limit_pre days_pre buy_l )
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 |--
-  “ (((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) ) <= INT_MAX) ”
+  “ (((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) )) ”
 ) \/
 (
@@ -1901,11 +1901,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full buy_limit_pre days_pre buy_l )
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 |--
-  “ (((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) ) <= INT_MAX) ”
+  “ (((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) )) ”
 ).
 
-Definition maximum_profit_safety_wit_63_split_goal_1 :=
+Definition maximum_profit_safety_wit_63_split_goal_1 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  (IntArray.full queue_index_pre width queue_l )
@@ -1939,7 +1939,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ (((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) ) <= INT_MAX) ”
 .
 
-Definition maximum_profit_safety_wit_63_split_goal_2 :=
+Definition maximum_profit_safety_wit_63_split_goal_2 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  (IntArray.full queue_index_pre width queue_l )
@@ -1973,7 +1973,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ ((INT_MIN) <= ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) )) ”
 .
 
-Definition maximum_profit_safety_wit_64 :=
+Definition maximum_profit_safety_wit_64 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  (IntArray.full queue_index_pre width queue_l )
@@ -2004,11 +2004,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full buy_limit_pre days_pre buy_l )
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 |--
-  “ (((j + 1 ) * bid_price ) <= INT_MAX) ”
+  “ (((j + 1 ) * bid_price ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((j + 1 ) * bid_price )) ”
 .
 
-Definition maximum_profit_safety_wit_65 :=
+Definition maximum_profit_safety_wit_65 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  (IntArray.full queue_index_pre width queue_l )
@@ -2039,11 +2039,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full buy_limit_pre days_pre buy_l )
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 |--
-  “ ((j + 1 ) <= INT_MAX) ”
+  “ ((j + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_66 :=
+Definition maximum_profit_safety_wit_66 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  (IntArray.full queue_index_pre width queue_l )
@@ -2074,11 +2074,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full buy_limit_pre days_pre buy_l )
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 |--
-  “ ((j + 1 ) <= INT_MAX) ”
+  “ ((j + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_67 :=
+Definition maximum_profit_safety_wit_67 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  (IntArray.full queue_index_pre width queue_l )
@@ -2109,11 +2109,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full buy_limit_pre days_pre buy_l )
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 |--
-  “ ((source_day * width ) <= INT_MAX) ”
+  “ ((source_day * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (source_day * width )) ”
 .
 
-Definition maximum_profit_safety_wit_68 :=
+Definition maximum_profit_safety_wit_68 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  (IntArray.full queue_index_pre width queue_l )
@@ -2144,11 +2144,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full buy_limit_pre days_pre buy_l )
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_69 :=
+Definition maximum_profit_safety_wit_69 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  (IntArray.full queue_index_pre width queue_l )
@@ -2179,11 +2179,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full buy_limit_pre days_pre buy_l )
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_70 :=
+Definition maximum_profit_safety_wit_70 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
@@ -2215,7 +2215,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) ) <= INT_MAX) ”
+  “ (((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) )) ”
 ) \/
 (
@@ -2249,11 +2249,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) ) <= INT_MAX) ”
+  “ (((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) )) ”
 ).
 
-Definition maximum_profit_safety_wit_70_split_goal_1 :=
+Definition maximum_profit_safety_wit_70_split_goal_1 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  ((( &( "last_index" ) )) # Int  |-> (j + 1 ))
@@ -2287,7 +2287,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ (((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) ) <= INT_MAX) ”
 .
 
-Definition maximum_profit_safety_wit_70_split_goal_2 :=
+Definition maximum_profit_safety_wit_70_split_goal_2 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  ((( &( "last_index" ) )) # Int  |-> (j + 1 ))
@@ -2321,7 +2321,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ ((INT_MIN) <= ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) )) ”
 .
 
-Definition maximum_profit_safety_wit_71 :=
+Definition maximum_profit_safety_wit_71 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  ((( &( "last_index" ) )) # Int  |-> (j + 1 ))
@@ -2352,11 +2352,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (((j + 1 ) * bid_price ) <= INT_MAX) ”
+  “ (((j + 1 ) * bid_price ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((j + 1 ) * bid_price )) ”
 .
 
-Definition maximum_profit_safety_wit_72 :=
+Definition maximum_profit_safety_wit_72 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  ((( &( "last_index" ) )) # Int  |-> (j + 1 ))
@@ -2387,11 +2387,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((j + 1 ) <= INT_MAX) ”
+  “ ((j + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_73 :=
+Definition maximum_profit_safety_wit_73 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  ((( &( "last_index" ) )) # Int  |-> (j + 1 ))
@@ -2422,11 +2422,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((j + 1 ) <= INT_MAX) ”
+  “ ((j + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_74 :=
+Definition maximum_profit_safety_wit_74 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  ((( &( "last_index" ) )) # Int  |-> (j + 1 ))
@@ -2457,11 +2457,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((source_day * width ) <= INT_MAX) ”
+  “ ((source_day * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (source_day * width )) ”
 .
 
-Definition maximum_profit_safety_wit_75 :=
+Definition maximum_profit_safety_wit_75 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  ((( &( "last_index" ) )) # Int  |-> (j + 1 ))
@@ -2492,11 +2492,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_76 :=
+Definition maximum_profit_safety_wit_76 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  ((( &( "last_index" ) )) # Int  |-> (j + 1 ))
@@ -2527,11 +2527,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_77 :=
+Definition maximum_profit_safety_wit_77 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j < max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (0 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH23 : (0 <= last_index)) (PreH24 : (last_index <= max_stock_pre)) (PreH25 : (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) ))) (PreH26 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0)))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueuePopping dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH30 : forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre)))) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)))
@@ -2563,7 +2563,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * bid_price ) ) <= INT_MAX) ”
+  “ (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * bid_price ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * bid_price ) )) ”
 ) \/
 (
@@ -2597,11 +2597,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * bid_price ) ) <= INT_MAX) ”
+  “ (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * bid_price ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * bid_price ) )) ”
 ).
 
-Definition maximum_profit_safety_wit_77_split_goal_1 :=
+Definition maximum_profit_safety_wit_77_split_goal_1 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j < max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (0 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH23 : (0 <= last_index)) (PreH24 : (last_index <= max_stock_pre)) (PreH25 : (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) ))) (PreH26 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0)))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueuePopping dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH30 : forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre)))) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) last_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -2635,7 +2635,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * bid_price ) ) <= INT_MAX) ”
 .
 
-Definition maximum_profit_safety_wit_77_split_goal_2 :=
+Definition maximum_profit_safety_wit_77_split_goal_2 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j < max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (0 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH23 : (0 <= last_index)) (PreH24 : (last_index <= max_stock_pre)) (PreH25 : (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) ))) (PreH26 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0)))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueuePopping dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH30 : forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre)))) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) last_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -2669,7 +2669,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ ((INT_MIN) <= ((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * bid_price ) )) ”
 .
 
-Definition maximum_profit_safety_wit_78 :=
+Definition maximum_profit_safety_wit_78 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j < max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (0 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH23 : (0 <= last_index)) (PreH24 : (last_index <= max_stock_pre)) (PreH25 : (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) ))) (PreH26 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0)))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueuePopping dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH30 : forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre)))) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) last_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -2700,11 +2700,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((last_index * bid_price ) <= INT_MAX) ”
+  “ ((last_index * bid_price ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (last_index * bid_price )) ”
 .
 
-Definition maximum_profit_safety_wit_79 :=
+Definition maximum_profit_safety_wit_79 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j < max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (0 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH23 : (0 <= last_index)) (PreH24 : (last_index <= max_stock_pre)) (PreH25 : (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) ))) (PreH26 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0)))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueuePopping dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH30 : forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre)))) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "queue_index" ) )) # Ptr  |-> queue_index_pre)
   **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
@@ -2733,11 +2733,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((source_day * width ) <= INT_MAX) ”
+  “ ((source_day * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (source_day * width )) ”
 .
 
-Definition maximum_profit_safety_wit_80 :=
+Definition maximum_profit_safety_wit_80 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * bid_price ) ) <= incoming_score)) (PreH2 : (head < tail)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j < max_stock_pre)) (PreH15 : (0 <= source_day)) (PreH16 : (source_day < i)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (0 <= bid_price)) (PreH20 : (bid_price <= 1000)) (PreH21 : (0 <= head)) (PreH22 : (head <= tail)) (PreH23 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH24 : (0 <= last_index)) (PreH25 : (last_index <= max_stock_pre)) (PreH26 : (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) ))) (PreH27 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueuePopping dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH31 : forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre)))) (PreH32 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) last_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -2768,11 +2768,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((tail - 1 ) <= INT_MAX) ”
+  “ ((tail - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (tail - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_81 :=
+Definition maximum_profit_safety_wit_81 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head < (tail - 1 ))) (PreH2 : (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * bid_price ) ) <= incoming_score)) (PreH3 : (head < tail)) (PreH4 : (neg_inf = (-1000000000))) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (1 <= i)) (PreH13 : (i <= days_pre)) (PreH14 : (0 <= j)) (PreH15 : (j < max_stock_pre)) (PreH16 : (0 <= source_day)) (PreH17 : (source_day < i)) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (0 <= bid_price)) (PreH21 : (bid_price <= 1000)) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH25 : (0 <= last_index)) (PreH26 : (last_index <= max_stock_pre)) (PreH27 : (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) ))) (PreH28 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0)))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockSellQueuePopping dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH32 : forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre)))) (PreH33 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) last_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -2803,11 +2803,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (((tail - 1 ) - 1 ) <= INT_MAX) ”
+  “ (((tail - 1 ) - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((tail - 1 ) - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_82 :=
+Definition maximum_profit_safety_wit_82 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head < (tail - 1 ))) (PreH2 : (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * bid_price ) ) <= incoming_score)) (PreH3 : (head < tail)) (PreH4 : (neg_inf = (-1000000000))) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (1 <= i)) (PreH13 : (i <= days_pre)) (PreH14 : (0 <= j)) (PreH15 : (j < max_stock_pre)) (PreH16 : (0 <= source_day)) (PreH17 : (source_day < i)) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (0 <= bid_price)) (PreH21 : (bid_price <= 1000)) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH25 : (0 <= last_index)) (PreH26 : (last_index <= max_stock_pre)) (PreH27 : (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) ))) (PreH28 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0)))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockSellQueuePopping dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH32 : forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre)))) (PreH33 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) last_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -2838,11 +2838,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_83 :=
+Definition maximum_profit_safety_wit_83 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z) (last_index_addr_v: Z) (incoming_score_addr_v: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (0 <= bid_price)) (PreH16 : (bid_price <= 1000)) (PreH17 : (0 <= j)) (PreH18 : (j < max_stock_pre)) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH22 : ((Zlength (queue_l)) = width)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockSellQueuePending dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH26 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "queue_index" ) )) # Ptr  |-> queue_index_pre)
   **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
@@ -2871,11 +2871,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((j + 1 ) <= INT_MAX) ”
+  “ ((j + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_84 :=
+Definition maximum_profit_safety_wit_84 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z) (last_index_addr_v: Z) (incoming_score_addr_v: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (0 <= bid_price)) (PreH16 : (bid_price <= 1000)) (PreH17 : (0 <= j)) (PreH18 : (j < max_stock_pre)) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH22 : ((Zlength (queue_l)) = width)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockSellQueuePending dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH26 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "queue_index" ) )) # Ptr  |-> queue_index_pre)
   **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
@@ -2904,11 +2904,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_85 :=
+Definition maximum_profit_safety_wit_85 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z) (last_index_addr_v: Z) (incoming_score_addr_v: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (0 <= bid_price)) (PreH16 : (bid_price <= 1000)) (PreH17 : (0 <= j)) (PreH18 : (j < max_stock_pre)) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH22 : ((Zlength (queue_l)) = width)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockSellQueuePending dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH26 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width (replace_Znth (tail) ((j + 1 )) (queue_l)) )
   **  ((( &( "queue_index" ) )) # Ptr  |-> queue_index_pre)
@@ -2937,11 +2937,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((tail + 1 ) <= INT_MAX) ”
+  “ ((tail + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (tail + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_86 :=
+Definition maximum_profit_safety_wit_86 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (wait_days_pre < (i - 1 ))) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (0 <= bid_price)) (PreH15 : (bid_price <= 1000)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (0 <= j)) (PreH19 : (j < max_stock_pre)) (PreH20 : (0 <= best_index)) (PreH21 : (best_index <= max_stock_pre)) (PreH22 : (best_index = (Znth head queue_l 0))) (PreH23 : (0 <= head)) (PreH24 : (head < tail)) (PreH25 : (tail <= (max_stock_pre - j ))) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + best_index ) * sizeof(INT)))) # Int  |-> (Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)))
@@ -2973,7 +2973,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * bid_price ) ) - (j * bid_price ) ) <= INT_MAX) ”
+  “ ((((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * bid_price ) ) - (j * bid_price ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * bid_price ) ) - (j * bid_price ) )) ”
 ) \/
 (
@@ -3007,11 +3007,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * bid_price ) ) - (j * bid_price ) ) <= INT_MAX) ”
+  “ ((((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * bid_price ) ) - (j * bid_price ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * bid_price ) ) - (j * bid_price ) )) ”
 ).
 
-Definition maximum_profit_safety_wit_86_split_goal_1 :=
+Definition maximum_profit_safety_wit_86_split_goal_1 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (wait_days_pre < (i - 1 ))) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (0 <= bid_price)) (PreH15 : (bid_price <= 1000)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (0 <= j)) (PreH19 : (j < max_stock_pre)) (PreH20 : (0 <= best_index)) (PreH21 : (best_index <= max_stock_pre)) (PreH22 : (best_index = (Znth head queue_l 0))) (PreH23 : (0 <= head)) (PreH24 : (head < tail)) (PreH25 : (tail <= (max_stock_pre - j ))) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + best_index ) * sizeof(INT)))) # Int  |-> (Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) best_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -3045,7 +3045,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ ((((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * bid_price ) ) - (j * bid_price ) ) <= INT_MAX) ”
 .
 
-Definition maximum_profit_safety_wit_86_split_goal_2 :=
+Definition maximum_profit_safety_wit_86_split_goal_2 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (wait_days_pre < (i - 1 ))) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (0 <= bid_price)) (PreH15 : (bid_price <= 1000)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (0 <= j)) (PreH19 : (j < max_stock_pre)) (PreH20 : (0 <= best_index)) (PreH21 : (best_index <= max_stock_pre)) (PreH22 : (best_index = (Znth head queue_l 0))) (PreH23 : (0 <= head)) (PreH24 : (head < tail)) (PreH25 : (tail <= (max_stock_pre - j ))) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + best_index ) * sizeof(INT)))) # Int  |-> (Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) best_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -3079,7 +3079,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ ((INT_MIN) <= (((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * bid_price ) ) - (j * bid_price ) )) ”
 .
 
-Definition maximum_profit_safety_wit_87 :=
+Definition maximum_profit_safety_wit_87 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (wait_days_pre < (i - 1 ))) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (0 <= bid_price)) (PreH15 : (bid_price <= 1000)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (0 <= j)) (PreH19 : (j < max_stock_pre)) (PreH20 : (0 <= best_index)) (PreH21 : (best_index <= max_stock_pre)) (PreH22 : (best_index = (Znth head queue_l 0))) (PreH23 : (0 <= head)) (PreH24 : (head < tail)) (PreH25 : (tail <= (max_stock_pre - j ))) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + best_index ) * sizeof(INT)))) # Int  |-> (Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) best_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -3110,11 +3110,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((j * bid_price ) <= INT_MAX) ”
+  “ ((j * bid_price ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j * bid_price )) ”
 .
 
-Definition maximum_profit_safety_wit_88 :=
+Definition maximum_profit_safety_wit_88 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (wait_days_pre < (i - 1 ))) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (0 <= bid_price)) (PreH15 : (bid_price <= 1000)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (0 <= j)) (PreH19 : (j < max_stock_pre)) (PreH20 : (0 <= best_index)) (PreH21 : (best_index <= max_stock_pre)) (PreH22 : (best_index = (Znth head queue_l 0))) (PreH23 : (0 <= head)) (PreH24 : (head < tail)) (PreH25 : (tail <= (max_stock_pre - j ))) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + best_index ) * sizeof(INT)))) # Int  |-> (Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)))
@@ -3146,7 +3146,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * bid_price ) ) <= INT_MAX) ”
+  “ (((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * bid_price ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * bid_price ) )) ”
 ) \/
 (
@@ -3180,11 +3180,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * bid_price ) ) <= INT_MAX) ”
+  “ (((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * bid_price ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * bid_price ) )) ”
 ).
 
-Definition maximum_profit_safety_wit_88_split_goal_1 :=
+Definition maximum_profit_safety_wit_88_split_goal_1 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (wait_days_pre < (i - 1 ))) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (0 <= bid_price)) (PreH15 : (bid_price <= 1000)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (0 <= j)) (PreH19 : (j < max_stock_pre)) (PreH20 : (0 <= best_index)) (PreH21 : (best_index <= max_stock_pre)) (PreH22 : (best_index = (Znth head queue_l 0))) (PreH23 : (0 <= head)) (PreH24 : (head < tail)) (PreH25 : (tail <= (max_stock_pre - j ))) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + best_index ) * sizeof(INT)))) # Int  |-> (Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) best_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -3218,7 +3218,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ (((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * bid_price ) ) <= INT_MAX) ”
 .
 
-Definition maximum_profit_safety_wit_88_split_goal_2 :=
+Definition maximum_profit_safety_wit_88_split_goal_2 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (wait_days_pre < (i - 1 ))) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (0 <= bid_price)) (PreH15 : (bid_price <= 1000)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (0 <= j)) (PreH19 : (j < max_stock_pre)) (PreH20 : (0 <= best_index)) (PreH21 : (best_index <= max_stock_pre)) (PreH22 : (best_index = (Znth head queue_l 0))) (PreH23 : (0 <= head)) (PreH24 : (head < tail)) (PreH25 : (tail <= (max_stock_pre - j ))) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + best_index ) * sizeof(INT)))) # Int  |-> (Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) best_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -3252,7 +3252,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ ((INT_MIN) <= ((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * bid_price ) )) ”
 .
 
-Definition maximum_profit_safety_wit_89 :=
+Definition maximum_profit_safety_wit_89 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (wait_days_pre < (i - 1 ))) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (0 <= bid_price)) (PreH15 : (bid_price <= 1000)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (0 <= j)) (PreH19 : (j < max_stock_pre)) (PreH20 : (0 <= best_index)) (PreH21 : (best_index <= max_stock_pre)) (PreH22 : (best_index = (Znth head queue_l 0))) (PreH23 : (0 <= head)) (PreH24 : (head < tail)) (PreH25 : (tail <= (max_stock_pre - j ))) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + best_index ) * sizeof(INT)))) # Int  |-> (Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) best_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -3283,11 +3283,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((best_index * bid_price ) <= INT_MAX) ”
+  “ ((best_index * bid_price ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (best_index * bid_price )) ”
 .
 
-Definition maximum_profit_safety_wit_90 :=
+Definition maximum_profit_safety_wit_90 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (wait_days_pre < (i - 1 ))) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (0 <= bid_price)) (PreH15 : (bid_price <= 1000)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (0 <= j)) (PreH19 : (j < max_stock_pre)) (PreH20 : (0 <= best_index)) (PreH21 : (best_index <= max_stock_pre)) (PreH22 : (best_index = (Znth head queue_l 0))) (PreH23 : (0 <= head)) (PreH24 : (head < tail)) (PreH25 : (tail <= (max_stock_pre - j ))) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "sell_candidate" ) )) # Int  |->_)
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -3316,11 +3316,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((source_day * width ) <= INT_MAX) ”
+  “ ((source_day * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (source_day * width )) ”
 .
 
-Definition maximum_profit_safety_wit_91 :=
+Definition maximum_profit_safety_wit_91 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (j: Z) (source_day: Z) (best_index: Z) (head: Z) (tail: Z) (bid_price: Z) (sell_cap: Z) (sell_candidate: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (wait_days_pre < (i - 1 ))) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j < max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (0 <= best_index)) (PreH17 : (best_index <= max_stock_pre)) (PreH18 : (best_index = (Znth head queue_l 0))) (PreH19 : (0 <= head)) (PreH20 : (head < tail)) (PreH21 : (tail <= (max_stock_pre - j ))) (PreH22 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH23 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH24 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH25 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH26 : (sell_candidate = (((Znth best_index (Znth source_day dp_l __default__List_Z) 0) + (best_index * bid_price ) ) - (j * bid_price ) ))) (PreH27 : (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH28 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "days" ) )) # Int  |-> days_pre)
@@ -3349,11 +3349,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i * width ) <= INT_MAX) ”
+  “ ((i * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i * width )) ”
 .
 
-Definition maximum_profit_safety_wit_92 :=
+Definition maximum_profit_safety_wit_92 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (j: Z) (source_day: Z) (best_index: Z) (head: Z) (tail: Z) (bid_price: Z) (sell_cap: Z) (sell_candidate: Z)  __default__List_Z (PreH1 : (sell_candidate > (Znth (j) ((Znth i dp_l __default__List_Z)) (0)))) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j < max_stock_pre)) (PreH15 : (0 <= source_day)) (PreH16 : (source_day < i)) (PreH17 : (0 <= best_index)) (PreH18 : (best_index <= max_stock_pre)) (PreH19 : (best_index = (Znth head queue_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head < tail)) (PreH22 : (tail <= (max_stock_pre - j ))) (PreH23 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH24 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH25 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH26 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH27 : (sell_candidate = (((Znth best_index (Znth source_day dp_l __default__List_Z) 0) + (best_index * bid_price ) ) - (j * bid_price ) ))) (PreH28 : (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> (Znth (j) ((Znth i dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((i * width ) * sizeof(INT))) j 0 width (Znth i dp_l __default__List_Z) )
@@ -3384,11 +3384,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((i * width ) <= INT_MAX) ”
+  “ ((i * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i * width )) ”
 .
 
-Definition maximum_profit_safety_wit_93 :=
+Definition maximum_profit_safety_wit_93 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (j: Z) (source_day: Z) (best_index: Z) (head: Z) (tail: Z) (bid_price: Z) (sell_cap: Z) (sell_candidate: Z)  __default__List_Z (PreH1 : (sell_candidate > (Znth (j) ((Znth i dp_l __default__List_Z)) (0)))) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j < max_stock_pre)) (PreH15 : (0 <= source_day)) (PreH16 : (source_day < i)) (PreH17 : (0 <= best_index)) (PreH18 : (best_index <= max_stock_pre)) (PreH19 : (best_index = (Znth head queue_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head < tail)) (PreH22 : (tail <= (max_stock_pre - j ))) (PreH23 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH24 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH25 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH26 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH27 : (sell_candidate = (((Znth best_index (Znth source_day dp_l __default__List_Z) 0) + (best_index * bid_price ) ) - (j * bid_price ) ))) (PreH28 : (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> sell_candidate)
   **  (IntArray.missing_i (dp_pre + ((i * width ) * sizeof(INT))) j 0 width (Znth i dp_l __default__List_Z) )
@@ -3417,11 +3417,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((j - 1 ) <= INT_MAX) ”
+  “ ((j - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_94 :=
+Definition maximum_profit_safety_wit_94 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (j: Z) (source_day: Z) (best_index: Z) (head: Z) (tail: Z) (bid_price: Z) (sell_cap: Z) (sell_candidate: Z)  __default__List_Z (PreH1 : (sell_candidate <= (Znth (j) ((Znth i dp_l __default__List_Z)) (0)))) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j < max_stock_pre)) (PreH15 : (0 <= source_day)) (PreH16 : (source_day < i)) (PreH17 : (0 <= best_index)) (PreH18 : (best_index <= max_stock_pre)) (PreH19 : (best_index = (Znth head queue_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head < tail)) (PreH22 : (tail <= (max_stock_pre - j ))) (PreH23 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH24 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH25 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH26 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH27 : (sell_candidate = (((Znth best_index (Znth source_day dp_l __default__List_Z) 0) + (best_index * bid_price ) ) - (j * bid_price ) ))) (PreH28 : (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> (Znth (j) ((Znth i dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((i * width ) * sizeof(INT))) j 0 width (Znth i dp_l __default__List_Z) )
@@ -3450,11 +3450,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((j - 1 ) <= INT_MAX) ”
+  “ ((j - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_95 :=
+Definition maximum_profit_safety_wit_95 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (0 <= j)) (PreH16 : (j < max_stock_pre)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= (max_stock_pre - j ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH24 : (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH25 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "width" ) )) # Int  |-> width)
@@ -3481,11 +3481,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((j - 1 ) <= INT_MAX) ”
+  “ ((j - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_96 :=
+Definition maximum_profit_safety_wit_96 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j < 0)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (1 <= sell_cap)) (PreH21 : (sell_cap <= max_stock_pre)) (PreH22 : ((-1) <= j)) (PreH23 : (j <= (max_stock_pre - 1 ))) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "ask_price" ) )) # Int  |->_)
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -3512,11 +3512,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i - 1 ) <= INT_MAX) ”
+  “ ((i - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_97 :=
+Definition maximum_profit_safety_wit_97 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j < 0)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (1 <= sell_cap)) (PreH21 : (sell_cap <= max_stock_pre)) (PreH22 : ((-1) <= j)) (PreH23 : (j <= (max_stock_pre - 1 ))) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "ask_price" ) )) # Int  |->_)
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -3543,11 +3543,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_98 :=
+Definition maximum_profit_safety_wit_98 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j < 0)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (1 <= sell_cap)) (PreH21 : (sell_cap <= max_stock_pre)) (PreH22 : ((-1) <= j)) (PreH23 : (j <= (max_stock_pre - 1 ))) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "buy_cap" ) )) # Int  |->_)
   **  (IntArray.full ap_pre days_pre ap_l )
@@ -3575,11 +3575,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i - 1 ) <= INT_MAX) ”
+  “ ((i - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_99 :=
+Definition maximum_profit_safety_wit_99 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j < 0)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (1 <= sell_cap)) (PreH21 : (sell_cap <= max_stock_pre)) (PreH22 : ((-1) <= j)) (PreH23 : (j <= (max_stock_pre - 1 ))) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "buy_cap" ) )) # Int  |->_)
   **  (IntArray.full ap_pre days_pre ap_l )
@@ -3607,11 +3607,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_100 :=
+Definition maximum_profit_safety_wit_100 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j < 0)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (1 <= sell_cap)) (PreH21 : (sell_cap <= max_stock_pre)) (PreH22 : ((-1) <= j)) (PreH23 : (j <= (max_stock_pre - 1 ))) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full buy_limit_pre days_pre buy_l )
   **  ((( &( "buy_cap" ) )) # Int  |-> (Znth (i - 1 ) buy_l 0))
@@ -3639,11 +3639,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (0 <= INT_MAX) ”
+  “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition maximum_profit_safety_wit_101 :=
+Definition maximum_profit_safety_wit_101 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j < 0)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (1 <= sell_cap)) (PreH21 : (sell_cap <= max_stock_pre)) (PreH22 : ((-1) <= j)) (PreH23 : (j <= (max_stock_pre - 1 ))) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full buy_limit_pre days_pre buy_l )
   **  ((( &( "buy_cap" ) )) # Int  |-> (Znth (i - 1 ) buy_l 0))
@@ -3671,11 +3671,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (0 <= INT_MAX) ”
+  “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition maximum_profit_safety_wit_102 :=
+Definition maximum_profit_safety_wit_102 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j < 0)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (1 <= sell_cap)) (PreH21 : (sell_cap <= max_stock_pre)) (PreH22 : ((-1) <= j)) (PreH23 : (j <= (max_stock_pre - 1 ))) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "j" ) )) # Int  |->_)
   **  (IntArray.full buy_limit_pre days_pre buy_l )
@@ -3704,11 +3704,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_103 :=
+Definition maximum_profit_safety_wit_103 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (1 <= j)) (PreH17 : (j <= max_stock_pre)) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH21 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH22 : (1 <= buy_cap)) (PreH23 : (buy_cap <= max_stock_pre)) (PreH24 : (1 <= ask_price)) (PreH25 : (ask_price <= 1000)) (PreH26 : (0 <= head)) (PreH27 : (head <= tail)) (PreH28 : (tail <= (j - 1 ))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockBuyQueueExpiring dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH32 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width queue_l )
@@ -3738,7 +3738,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (((Znth head queue_l 0) + buy_cap ) <= INT_MAX) ”
+  “ (((Znth head queue_l 0) + buy_cap ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((Znth head queue_l 0) + buy_cap )) ”
 ) \/
 (
@@ -3770,11 +3770,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (((Znth head queue_l 0) + buy_cap ) <= INT_MAX) ”
+  “ (((Znth head queue_l 0) + buy_cap ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((Znth head queue_l 0) + buy_cap )) ”
 ).
 
-Definition maximum_profit_safety_wit_103_split_goal_1 :=
+Definition maximum_profit_safety_wit_103_split_goal_1 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (1 <= j)) (PreH17 : (j <= max_stock_pre)) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH21 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH22 : (1 <= buy_cap)) (PreH23 : (buy_cap <= max_stock_pre)) (PreH24 : (1 <= ask_price)) (PreH25 : (ask_price <= 1000)) (PreH26 : (0 <= head)) (PreH27 : (head <= tail)) (PreH28 : (tail <= (j - 1 ))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockBuyQueueExpiring dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH32 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width queue_l )
   **  ((( &( "queue_index" ) )) # Ptr  |-> queue_index_pre)
@@ -3806,7 +3806,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ (((Znth head queue_l 0) + buy_cap ) <= INT_MAX) ”
 .
 
-Definition maximum_profit_safety_wit_103_split_goal_2 :=
+Definition maximum_profit_safety_wit_103_split_goal_2 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (1 <= j)) (PreH17 : (j <= max_stock_pre)) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH21 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH22 : (1 <= buy_cap)) (PreH23 : (buy_cap <= max_stock_pre)) (PreH24 : (1 <= ask_price)) (PreH25 : (ask_price <= 1000)) (PreH26 : (0 <= head)) (PreH27 : (head <= tail)) (PreH28 : (tail <= (j - 1 ))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockBuyQueueExpiring dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH32 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width queue_l )
   **  ((( &( "queue_index" ) )) # Ptr  |-> queue_index_pre)
@@ -3838,7 +3838,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ ((INT_MIN) <= ((Znth head queue_l 0) + buy_cap )) ”
 .
 
-Definition maximum_profit_safety_wit_104 :=
+Definition maximum_profit_safety_wit_104 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (((Znth head queue_l 0) + buy_cap ) < j)) (PreH2 : (head < tail)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH15 : (0 < source_day)) (PreH16 : (source_day < i)) (PreH17 : (1 <= j)) (PreH18 : (j <= max_stock_pre)) (PreH19 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH20 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH21 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH22 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH23 : (1 <= buy_cap)) (PreH24 : (buy_cap <= max_stock_pre)) (PreH25 : (1 <= ask_price)) (PreH26 : (ask_price <= 1000)) (PreH27 : (0 <= head)) (PreH28 : (head <= tail)) (PreH29 : (tail <= (j - 1 ))) (PreH30 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH31 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH32 : (StockBuyQueueExpiring dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH33 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width queue_l )
   **  ((( &( "queue_index" ) )) # Ptr  |-> queue_index_pre)
@@ -3867,11 +3867,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((head + 1 ) <= INT_MAX) ”
+  “ ((head + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (head + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_105 :=
+Definition maximum_profit_safety_wit_105 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH16 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH17 : (0 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= max_stock_pre)) (PreH21 : (source_day < (days_pre + 1 ))) (PreH22 : ((j - 1 ) < width)) (PreH23 : (0 <= head)) (PreH24 : (head <= tail)) (PreH25 : (tail <= (j - 1 ))) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "days" ) )) # Int  |-> days_pre)
@@ -3900,11 +3900,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((j - 1 ) <= INT_MAX) ”
+  “ ((j - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_106 :=
+Definition maximum_profit_safety_wit_106 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH16 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH17 : (0 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= max_stock_pre)) (PreH21 : (source_day < (days_pre + 1 ))) (PreH22 : ((j - 1 ) < width)) (PreH23 : (0 <= head)) (PreH24 : (head <= tail)) (PreH25 : (tail <= (j - 1 ))) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "days" ) )) # Int  |-> days_pre)
@@ -3933,11 +3933,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((source_day * width ) <= INT_MAX) ”
+  “ ((source_day * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (source_day * width )) ”
 .
 
-Definition maximum_profit_safety_wit_107 :=
+Definition maximum_profit_safety_wit_107 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH16 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH17 : (0 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= max_stock_pre)) (PreH21 : (source_day < (days_pre + 1 ))) (PreH22 : ((j - 1 ) < width)) (PreH23 : (0 <= head)) (PreH24 : (head <= tail)) (PreH25 : (tail <= (j - 1 ))) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "days" ) )) # Int  |-> days_pre)
@@ -3966,11 +3966,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_108 :=
+Definition maximum_profit_safety_wit_108 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH15 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH16 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH17 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH18 : (0 <= ask_price)) (PreH19 : (ask_price <= 1000)) (PreH20 : (1 <= j)) (PreH21 : (j <= max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j - 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= (j - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "last_index" ) )) # Int  |->_)
   **  (((dp_pre + (((source_day * width ) + (j - 1 ) ) * sizeof(INT)))) # Int  |-> (Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)))
@@ -4002,11 +4002,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((j - 1 ) <= INT_MAX) ”
+  “ ((j - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_109 :=
+Definition maximum_profit_safety_wit_109 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH15 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH16 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH17 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH18 : (0 <= ask_price)) (PreH19 : (ask_price <= 1000)) (PreH20 : (1 <= j)) (PreH21 : (j <= max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j - 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= (j - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "last_index" ) )) # Int  |->_)
   **  (((dp_pre + (((source_day * width ) + (j - 1 ) ) * sizeof(INT)))) # Int  |-> (Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)))
@@ -4038,11 +4038,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_110 :=
+Definition maximum_profit_safety_wit_110 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "last_index" ) )) # Int  |-> (j - 1 ))
   **  (((dp_pre + (((source_day * width ) + (j - 1 ) ) * sizeof(INT)))) # Int  |-> (Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)))
@@ -4074,11 +4074,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((tail - 1 ) <= INT_MAX) ”
+  “ ((tail - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (tail - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_111 :=
+Definition maximum_profit_safety_wit_111 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "last_index" ) )) # Int  |-> (j - 1 ))
   **  (((dp_pre + (((source_day * width ) + (j - 1 ) ) * sizeof(INT)))) # Int  |-> (Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)))
@@ -4110,11 +4110,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_112 :=
+Definition maximum_profit_safety_wit_112 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
@@ -4148,7 +4148,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full buy_limit_pre days_pre buy_l )
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 |--
-  “ (((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) ) <= INT_MAX) ”
+  “ (((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) )) ”
 ) \/
 (
@@ -4184,11 +4184,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full buy_limit_pre days_pre buy_l )
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 |--
-  “ (((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) ) <= INT_MAX) ”
+  “ (((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) )) ”
 ).
 
-Definition maximum_profit_safety_wit_112_split_goal_1 :=
+Definition maximum_profit_safety_wit_112_split_goal_1 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  (IntArray.full queue_index_pre width queue_l )
@@ -4224,7 +4224,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ (((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) ) <= INT_MAX) ”
 .
 
-Definition maximum_profit_safety_wit_112_split_goal_2 :=
+Definition maximum_profit_safety_wit_112_split_goal_2 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  (IntArray.full queue_index_pre width queue_l )
@@ -4260,7 +4260,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ ((INT_MIN) <= ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) )) ”
 .
 
-Definition maximum_profit_safety_wit_113 :=
+Definition maximum_profit_safety_wit_113 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  (IntArray.full queue_index_pre width queue_l )
@@ -4293,11 +4293,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full buy_limit_pre days_pre buy_l )
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 |--
-  “ (((j - 1 ) * ask_price ) <= INT_MAX) ”
+  “ (((j - 1 ) * ask_price ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((j - 1 ) * ask_price )) ”
 .
 
-Definition maximum_profit_safety_wit_114 :=
+Definition maximum_profit_safety_wit_114 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  (IntArray.full queue_index_pre width queue_l )
@@ -4330,11 +4330,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full buy_limit_pre days_pre buy_l )
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 |--
-  “ ((j - 1 ) <= INT_MAX) ”
+  “ ((j - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_115 :=
+Definition maximum_profit_safety_wit_115 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  (IntArray.full queue_index_pre width queue_l )
@@ -4367,11 +4367,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full buy_limit_pre days_pre buy_l )
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 |--
-  “ ((j - 1 ) <= INT_MAX) ”
+  “ ((j - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_116 :=
+Definition maximum_profit_safety_wit_116 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  (IntArray.full queue_index_pre width queue_l )
@@ -4404,11 +4404,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full buy_limit_pre days_pre buy_l )
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 |--
-  “ ((source_day * width ) <= INT_MAX) ”
+  “ ((source_day * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (source_day * width )) ”
 .
 
-Definition maximum_profit_safety_wit_117 :=
+Definition maximum_profit_safety_wit_117 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  (IntArray.full queue_index_pre width queue_l )
@@ -4441,11 +4441,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full buy_limit_pre days_pre buy_l )
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_118 :=
+Definition maximum_profit_safety_wit_118 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  (IntArray.full queue_index_pre width queue_l )
@@ -4478,11 +4478,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full buy_limit_pre days_pre buy_l )
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_119 :=
+Definition maximum_profit_safety_wit_119 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
@@ -4516,7 +4516,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) ) <= INT_MAX) ”
+  “ (((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) )) ”
 ) \/
 (
@@ -4552,11 +4552,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) ) <= INT_MAX) ”
+  “ (((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) )) ”
 ).
 
-Definition maximum_profit_safety_wit_119_split_goal_1 :=
+Definition maximum_profit_safety_wit_119_split_goal_1 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  ((( &( "last_index" ) )) # Int  |-> (j - 1 ))
@@ -4592,7 +4592,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ (((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) ) <= INT_MAX) ”
 .
 
-Definition maximum_profit_safety_wit_119_split_goal_2 :=
+Definition maximum_profit_safety_wit_119_split_goal_2 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  ((( &( "last_index" ) )) # Int  |-> (j - 1 ))
@@ -4628,7 +4628,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ ((INT_MIN) <= ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) )) ”
 .
 
-Definition maximum_profit_safety_wit_120 :=
+Definition maximum_profit_safety_wit_120 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  ((( &( "last_index" ) )) # Int  |-> (j - 1 ))
@@ -4661,11 +4661,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (((j - 1 ) * ask_price ) <= INT_MAX) ”
+  “ (((j - 1 ) * ask_price ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((j - 1 ) * ask_price )) ”
 .
 
-Definition maximum_profit_safety_wit_121 :=
+Definition maximum_profit_safety_wit_121 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  ((( &( "last_index" ) )) # Int  |-> (j - 1 ))
@@ -4698,11 +4698,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((j - 1 ) <= INT_MAX) ”
+  “ ((j - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_122 :=
+Definition maximum_profit_safety_wit_122 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  ((( &( "last_index" ) )) # Int  |-> (j - 1 ))
@@ -4735,11 +4735,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((j - 1 ) <= INT_MAX) ”
+  “ ((j - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_123 :=
+Definition maximum_profit_safety_wit_123 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  ((( &( "last_index" ) )) # Int  |-> (j - 1 ))
@@ -4772,11 +4772,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((source_day * width ) <= INT_MAX) ”
+  “ ((source_day * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (source_day * width )) ”
 .
 
-Definition maximum_profit_safety_wit_124 :=
+Definition maximum_profit_safety_wit_124 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  ((( &( "last_index" ) )) # Int  |-> (j - 1 ))
@@ -4809,11 +4809,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_125 :=
+Definition maximum_profit_safety_wit_125 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "incoming_score" ) )) # Int  |->_)
   **  ((( &( "last_index" ) )) # Int  |-> (j - 1 ))
@@ -4846,11 +4846,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_126 :=
+Definition maximum_profit_safety_wit_126 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (1 <= j)) (PreH13 : (j <= max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= ask_price)) (PreH21 : (ask_price <= 1000)) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (0 <= last_index)) (PreH26 : (last_index <= max_stock_pre)) (PreH27 : (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) ))) (PreH28 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0)))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockBuyQueuePopping dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH32 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)))
@@ -4884,7 +4884,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * ask_price ) ) <= INT_MAX) ”
+  “ (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * ask_price ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * ask_price ) )) ”
 ) \/
 (
@@ -4920,11 +4920,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * ask_price ) ) <= INT_MAX) ”
+  “ (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * ask_price ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * ask_price ) )) ”
 ).
 
-Definition maximum_profit_safety_wit_126_split_goal_1 :=
+Definition maximum_profit_safety_wit_126_split_goal_1 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (1 <= j)) (PreH13 : (j <= max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= ask_price)) (PreH21 : (ask_price <= 1000)) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (0 <= last_index)) (PreH26 : (last_index <= max_stock_pre)) (PreH27 : (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) ))) (PreH28 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0)))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockBuyQueuePopping dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH32 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) last_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -4960,7 +4960,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * ask_price ) ) <= INT_MAX) ”
 .
 
-Definition maximum_profit_safety_wit_126_split_goal_2 :=
+Definition maximum_profit_safety_wit_126_split_goal_2 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (1 <= j)) (PreH13 : (j <= max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= ask_price)) (PreH21 : (ask_price <= 1000)) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (0 <= last_index)) (PreH26 : (last_index <= max_stock_pre)) (PreH27 : (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) ))) (PreH28 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0)))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockBuyQueuePopping dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH32 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) last_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -4996,7 +4996,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ ((INT_MIN) <= ((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * ask_price ) )) ”
 .
 
-Definition maximum_profit_safety_wit_127 :=
+Definition maximum_profit_safety_wit_127 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (1 <= j)) (PreH13 : (j <= max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= ask_price)) (PreH21 : (ask_price <= 1000)) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (0 <= last_index)) (PreH26 : (last_index <= max_stock_pre)) (PreH27 : (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) ))) (PreH28 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0)))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockBuyQueuePopping dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH32 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) last_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -5029,11 +5029,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((last_index * ask_price ) <= INT_MAX) ”
+  “ ((last_index * ask_price ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (last_index * ask_price )) ”
 .
 
-Definition maximum_profit_safety_wit_128 :=
+Definition maximum_profit_safety_wit_128 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (1 <= j)) (PreH13 : (j <= max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= ask_price)) (PreH21 : (ask_price <= 1000)) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (0 <= last_index)) (PreH26 : (last_index <= max_stock_pre)) (PreH27 : (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) ))) (PreH28 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0)))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockBuyQueuePopping dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH32 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "queue_index" ) )) # Ptr  |-> queue_index_pre)
   **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
@@ -5064,11 +5064,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((source_day * width ) <= INT_MAX) ”
+  “ ((source_day * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (source_day * width )) ”
 .
 
-Definition maximum_profit_safety_wit_129 :=
+Definition maximum_profit_safety_wit_129 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * ask_price ) ) <= incoming_score)) (PreH2 : (head < tail)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (1 <= j)) (PreH14 : (j <= max_stock_pre)) (PreH15 : (0 <= source_day)) (PreH16 : (source_day < i)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH20 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH21 : (0 <= ask_price)) (PreH22 : (ask_price <= 1000)) (PreH23 : (0 <= head)) (PreH24 : (head <= tail)) (PreH25 : (tail <= (j - 1 ))) (PreH26 : (0 <= last_index)) (PreH27 : (last_index <= max_stock_pre)) (PreH28 : (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) ))) (PreH29 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0)))) (PreH30 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH31 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH32 : (StockBuyQueuePopping dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH33 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) last_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -5101,11 +5101,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((tail - 1 ) <= INT_MAX) ”
+  “ ((tail - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (tail - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_130 :=
+Definition maximum_profit_safety_wit_130 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head < (tail - 1 ))) (PreH2 : (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * ask_price ) ) <= incoming_score)) (PreH3 : (head < tail)) (PreH4 : (neg_inf = (-1000000000))) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (1 <= i)) (PreH13 : (i <= days_pre)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (0 <= source_day)) (PreH17 : (source_day < i)) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH21 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH22 : (0 <= ask_price)) (PreH23 : (ask_price <= 1000)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= (j - 1 ))) (PreH27 : (0 <= last_index)) (PreH28 : (last_index <= max_stock_pre)) (PreH29 : (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) ))) (PreH30 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0)))) (PreH31 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH32 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH33 : (StockBuyQueuePopping dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH34 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) last_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -5138,11 +5138,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (((tail - 1 ) - 1 ) <= INT_MAX) ”
+  “ (((tail - 1 ) - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((tail - 1 ) - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_131 :=
+Definition maximum_profit_safety_wit_131 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head < (tail - 1 ))) (PreH2 : (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * ask_price ) ) <= incoming_score)) (PreH3 : (head < tail)) (PreH4 : (neg_inf = (-1000000000))) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (1 <= i)) (PreH13 : (i <= days_pre)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (0 <= source_day)) (PreH17 : (source_day < i)) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH21 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH22 : (0 <= ask_price)) (PreH23 : (ask_price <= 1000)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= (j - 1 ))) (PreH27 : (0 <= last_index)) (PreH28 : (last_index <= max_stock_pre)) (PreH29 : (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) ))) (PreH30 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0)))) (PreH31 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH32 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH33 : (StockBuyQueuePopping dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH34 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) last_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -5175,11 +5175,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_132 :=
+Definition maximum_profit_safety_wit_132 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (j: Z) (bid_price: Z) (i: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (source_day: Z) (last_index_addr_v: Z) (incoming_score_addr_v: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= max_stock_pre)) (PreH11 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH12 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH13 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH14 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH15 : (0 <= head)) (PreH16 : (head <= tail)) (PreH17 : (tail <= (j - 1 ))) (PreH18 : ((Zlength (queue_l)) = width)) (PreH19 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH20 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH21 : (StockBuyQueuePending dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH22 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "queue_index" ) )) # Ptr  |-> queue_index_pre)
   **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
@@ -5210,11 +5210,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((j - 1 ) <= INT_MAX) ”
+  “ ((j - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j - 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_133 :=
+Definition maximum_profit_safety_wit_133 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (j: Z) (bid_price: Z) (i: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (source_day: Z) (last_index_addr_v: Z) (incoming_score_addr_v: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= max_stock_pre)) (PreH11 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH12 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH13 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH14 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH15 : (0 <= head)) (PreH16 : (head <= tail)) (PreH17 : (tail <= (j - 1 ))) (PreH18 : ((Zlength (queue_l)) = width)) (PreH19 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH20 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH21 : (StockBuyQueuePending dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH22 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "queue_index" ) )) # Ptr  |-> queue_index_pre)
   **  ((( &( "dp" ) )) # Ptr  |-> dp_pre)
@@ -5245,11 +5245,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (1 <= INT_MAX) ”
+  “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition maximum_profit_safety_wit_134 :=
+Definition maximum_profit_safety_wit_134 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (j: Z) (bid_price: Z) (i: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (source_day: Z) (last_index_addr_v: Z) (incoming_score_addr_v: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= max_stock_pre)) (PreH11 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH12 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH13 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH14 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH15 : (0 <= head)) (PreH16 : (head <= tail)) (PreH17 : (tail <= (j - 1 ))) (PreH18 : ((Zlength (queue_l)) = width)) (PreH19 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH20 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH21 : (StockBuyQueuePending dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH22 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width (replace_Znth (tail) ((j - 1 )) (queue_l)) )
   **  ((( &( "queue_index" ) )) # Ptr  |-> queue_index_pre)
@@ -5280,11 +5280,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((tail + 1 ) <= INT_MAX) ”
+  “ ((tail + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (tail + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_135 :=
+Definition maximum_profit_safety_wit_135 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH16 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH17 : (0 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= max_stock_pre)) (PreH21 : (0 <= best_index)) (PreH22 : (best_index <= max_stock_pre)) (PreH23 : (best_index = (Znth head queue_l 0))) (PreH24 : (0 <= head)) (PreH25 : (head < tail)) (PreH26 : (tail <= j)) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + best_index ) * sizeof(INT)))) # Int  |-> (Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)))
@@ -5318,7 +5318,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * ask_price ) ) - (j * ask_price ) ) <= INT_MAX) ”
+  “ ((((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * ask_price ) ) - (j * ask_price ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * ask_price ) ) - (j * ask_price ) )) ”
 ) \/
 (
@@ -5354,11 +5354,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * ask_price ) ) - (j * ask_price ) ) <= INT_MAX) ”
+  “ ((((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * ask_price ) ) - (j * ask_price ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * ask_price ) ) - (j * ask_price ) )) ”
 ).
 
-Definition maximum_profit_safety_wit_135_split_goal_1 :=
+Definition maximum_profit_safety_wit_135_split_goal_1 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH16 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH17 : (0 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= max_stock_pre)) (PreH21 : (0 <= best_index)) (PreH22 : (best_index <= max_stock_pre)) (PreH23 : (best_index = (Znth head queue_l 0))) (PreH24 : (0 <= head)) (PreH25 : (head < tail)) (PreH26 : (tail <= j)) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + best_index ) * sizeof(INT)))) # Int  |-> (Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) best_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -5394,7 +5394,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ ((((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * ask_price ) ) - (j * ask_price ) ) <= INT_MAX) ”
 .
 
-Definition maximum_profit_safety_wit_135_split_goal_2 :=
+Definition maximum_profit_safety_wit_135_split_goal_2 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH16 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH17 : (0 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= max_stock_pre)) (PreH21 : (0 <= best_index)) (PreH22 : (best_index <= max_stock_pre)) (PreH23 : (best_index = (Znth head queue_l 0))) (PreH24 : (0 <= head)) (PreH25 : (head < tail)) (PreH26 : (tail <= j)) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + best_index ) * sizeof(INT)))) # Int  |-> (Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) best_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -5430,7 +5430,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ ((INT_MIN) <= (((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * ask_price ) ) - (j * ask_price ) )) ”
 .
 
-Definition maximum_profit_safety_wit_136 :=
+Definition maximum_profit_safety_wit_136 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH16 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH17 : (0 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= max_stock_pre)) (PreH21 : (0 <= best_index)) (PreH22 : (best_index <= max_stock_pre)) (PreH23 : (best_index = (Znth head queue_l 0))) (PreH24 : (0 <= head)) (PreH25 : (head < tail)) (PreH26 : (tail <= j)) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + best_index ) * sizeof(INT)))) # Int  |-> (Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) best_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -5463,11 +5463,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((j * ask_price ) <= INT_MAX) ”
+  “ ((j * ask_price ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j * ask_price )) ”
 .
 
-Definition maximum_profit_safety_wit_137 :=
+Definition maximum_profit_safety_wit_137 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH16 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH17 : (0 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= max_stock_pre)) (PreH21 : (0 <= best_index)) (PreH22 : (best_index <= max_stock_pre)) (PreH23 : (best_index = (Znth head queue_l 0))) (PreH24 : (0 <= head)) (PreH25 : (head < tail)) (PreH26 : (tail <= j)) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + best_index ) * sizeof(INT)))) # Int  |-> (Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)))
@@ -5501,7 +5501,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * ask_price ) ) <= INT_MAX) ”
+  “ (((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * ask_price ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * ask_price ) )) ”
 ) \/
 (
@@ -5537,11 +5537,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * ask_price ) ) <= INT_MAX) ”
+  “ (((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * ask_price ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * ask_price ) )) ”
 ).
 
-Definition maximum_profit_safety_wit_137_split_goal_1 :=
+Definition maximum_profit_safety_wit_137_split_goal_1 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH16 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH17 : (0 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= max_stock_pre)) (PreH21 : (0 <= best_index)) (PreH22 : (best_index <= max_stock_pre)) (PreH23 : (best_index = (Znth head queue_l 0))) (PreH24 : (0 <= head)) (PreH25 : (head < tail)) (PreH26 : (tail <= j)) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + best_index ) * sizeof(INT)))) # Int  |-> (Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) best_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -5577,7 +5577,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ (((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * ask_price ) ) <= INT_MAX) ”
 .
 
-Definition maximum_profit_safety_wit_137_split_goal_2 :=
+Definition maximum_profit_safety_wit_137_split_goal_2 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH16 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH17 : (0 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= max_stock_pre)) (PreH21 : (0 <= best_index)) (PreH22 : (best_index <= max_stock_pre)) (PreH23 : (best_index = (Znth head queue_l 0))) (PreH24 : (0 <= head)) (PreH25 : (head < tail)) (PreH26 : (tail <= j)) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + best_index ) * sizeof(INT)))) # Int  |-> (Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) best_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -5613,7 +5613,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ ((INT_MIN) <= ((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * ask_price ) )) ”
 .
 
-Definition maximum_profit_safety_wit_138 :=
+Definition maximum_profit_safety_wit_138 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH16 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH17 : (0 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= max_stock_pre)) (PreH21 : (0 <= best_index)) (PreH22 : (best_index <= max_stock_pre)) (PreH23 : (best_index = (Znth head queue_l 0))) (PreH24 : (0 <= head)) (PreH25 : (head < tail)) (PreH26 : (tail <= j)) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + best_index ) * sizeof(INT)))) # Int  |-> (Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) best_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -5646,11 +5646,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((best_index * ask_price ) <= INT_MAX) ”
+  “ ((best_index * ask_price ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (best_index * ask_price )) ”
 .
 
-Definition maximum_profit_safety_wit_139 :=
+Definition maximum_profit_safety_wit_139 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH16 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH17 : (0 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= max_stock_pre)) (PreH21 : (0 <= best_index)) (PreH22 : (best_index <= max_stock_pre)) (PreH23 : (best_index = (Znth head queue_l 0))) (PreH24 : (0 <= head)) (PreH25 : (head < tail)) (PreH26 : (tail <= j)) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "buy_candidate" ) )) # Int  |->_)
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -5681,11 +5681,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((source_day * width ) <= INT_MAX) ”
+  “ ((source_day * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (source_day * width )) ”
 .
 
-Definition maximum_profit_safety_wit_140 :=
+Definition maximum_profit_safety_wit_140 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (j: Z) (source_day: Z) (best_index: Z) (head: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (tail: Z) (buy_candidate: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (1 <= j)) (PreH12 : (j <= max_stock_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (0 <= best_index)) (PreH16 : (best_index <= max_stock_pre)) (PreH17 : (best_index = (Znth head queue_l 0))) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH21 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH22 : (0 <= head)) (PreH23 : (head < tail)) (PreH24 : (tail <= j)) (PreH25 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH26 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH27 : (buy_candidate = (((Znth best_index (Znth source_day dp_l __default__List_Z) 0) + (best_index * ask_price ) ) - (j * ask_price ) ))) (PreH28 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "days" ) )) # Int  |-> days_pre)
@@ -5716,11 +5716,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i * width ) <= INT_MAX) ”
+  “ ((i * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i * width )) ”
 .
 
-Definition maximum_profit_safety_wit_141 :=
+Definition maximum_profit_safety_wit_141 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (j: Z) (source_day: Z) (best_index: Z) (head: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (tail: Z) (buy_candidate: Z)  __default__List_Z (PreH1 : (buy_candidate > (Znth (j) ((Znth i dp_l __default__List_Z)) (0)))) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (1 <= j)) (PreH13 : (j <= max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (0 <= best_index)) (PreH17 : (best_index <= max_stock_pre)) (PreH18 : (best_index = (Znth head queue_l 0))) (PreH19 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH20 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH21 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH22 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH23 : (0 <= head)) (PreH24 : (head < tail)) (PreH25 : (tail <= j)) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (buy_candidate = (((Znth best_index (Znth source_day dp_l __default__List_Z) 0) + (best_index * ask_price ) ) - (j * ask_price ) ))) (PreH29 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> (Znth (j) ((Znth i dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((i * width ) * sizeof(INT))) j 0 width (Znth i dp_l __default__List_Z) )
@@ -5753,11 +5753,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((i * width ) <= INT_MAX) ”
+  “ ((i * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i * width )) ”
 .
 
-Definition maximum_profit_safety_wit_142 :=
+Definition maximum_profit_safety_wit_142 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (j: Z) (source_day: Z) (best_index: Z) (head: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (tail: Z) (buy_candidate: Z)  __default__List_Z (PreH1 : (buy_candidate > (Znth (j) ((Znth i dp_l __default__List_Z)) (0)))) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (1 <= j)) (PreH13 : (j <= max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (0 <= best_index)) (PreH17 : (best_index <= max_stock_pre)) (PreH18 : (best_index = (Znth head queue_l 0))) (PreH19 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH20 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH21 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH22 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH23 : (0 <= head)) (PreH24 : (head < tail)) (PreH25 : (tail <= j)) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (buy_candidate = (((Znth best_index (Znth source_day dp_l __default__List_Z) 0) + (best_index * ask_price ) ) - (j * ask_price ) ))) (PreH29 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> buy_candidate)
   **  (IntArray.missing_i (dp_pre + ((i * width ) * sizeof(INT))) j 0 width (Znth i dp_l __default__List_Z) )
@@ -5788,11 +5788,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((j + 1 ) <= INT_MAX) ”
+  “ ((j + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_143 :=
+Definition maximum_profit_safety_wit_143 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (j: Z) (source_day: Z) (best_index: Z) (head: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (tail: Z) (buy_candidate: Z)  __default__List_Z (PreH1 : (buy_candidate <= (Znth (j) ((Znth i dp_l __default__List_Z)) (0)))) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (1 <= j)) (PreH13 : (j <= max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (0 <= best_index)) (PreH17 : (best_index <= max_stock_pre)) (PreH18 : (best_index = (Znth head queue_l 0))) (PreH19 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH20 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH21 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH22 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH23 : (0 <= head)) (PreH24 : (head < tail)) (PreH25 : (tail <= j)) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (buy_candidate = (((Znth best_index (Znth source_day dp_l __default__List_Z) 0) + (best_index * ask_price ) ) - (j * ask_price ) ))) (PreH29 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> (Znth (j) ((Znth i dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((i * width ) * sizeof(INT))) j 0 width (Znth i dp_l __default__List_Z) )
@@ -5823,11 +5823,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((j + 1 ) <= INT_MAX) ”
+  “ ((j + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_144 :=
+Definition maximum_profit_safety_wit_144 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= j)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH26 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "width" ) )) # Int  |-> width)
@@ -5856,11 +5856,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((j + 1 ) <= INT_MAX) ”
+  “ ((j + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_145 :=
+Definition maximum_profit_safety_wit_145 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= i)) (PreH4 : (i <= days_pre)) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH8 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH9 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH10 : (0 <= bid_price)) (PreH11 : (bid_price <= 1000)) (PreH12 : (0 <= sell_cap)) (PreH13 : (sell_cap <= max_stock_pre)) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH16 : (0 <= head)) (PreH17 : (head <= tail)) (PreH18 : (tail <= max_stock_pre)) (PreH19 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH20 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre (i + 1 ) )) (PreH21 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -5882,7 +5882,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i + 1 ) <= INT_MAX) ”
+  “ ((i + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i + 1 )) ”
 ) \/
 (
@@ -5906,11 +5906,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i + 1 ) <= INT_MAX) ”
+  “ ((i + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i + 1 )) ”
 ).
 
-Definition maximum_profit_safety_wit_145_split_goal_1 :=
+Definition maximum_profit_safety_wit_145_split_goal_1 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= i)) (PreH4 : (i <= days_pre)) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH8 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH9 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH10 : (0 <= bid_price)) (PreH11 : (bid_price <= 1000)) (PreH12 : (0 <= sell_cap)) (PreH13 : (sell_cap <= max_stock_pre)) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH16 : (0 <= head)) (PreH17 : (head <= tail)) (PreH18 : (tail <= max_stock_pre)) (PreH19 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH20 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre (i + 1 ) )) (PreH21 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "width" ) )) # Int  |-> width)
@@ -5934,7 +5934,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ ((i + 1 ) <= INT_MAX) ”
 .
 
-Definition maximum_profit_safety_wit_145_split_goal_2 :=
+Definition maximum_profit_safety_wit_145_split_goal_2 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= i)) (PreH4 : (i <= days_pre)) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH8 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH9 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH10 : (0 <= bid_price)) (PreH11 : (bid_price <= 1000)) (PreH12 : (0 <= sell_cap)) (PreH13 : (sell_cap <= max_stock_pre)) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH16 : (0 <= head)) (PreH17 : (head <= tail)) (PreH18 : (tail <= max_stock_pre)) (PreH19 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH20 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre (i + 1 ) )) (PreH21 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "width" ) )) # Int  |-> width)
@@ -5958,7 +5958,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ ((INT_MIN) <= (i + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_146 :=
+Definition maximum_profit_safety_wit_146 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (buy_cap: Z) (i: Z) (ask_price: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (0 <= wait_days_pre)) (PreH4 : (wait_days_pre < days_pre)) (PreH5 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH6 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH7 : (1 <= i)) (PreH8 : (i <= days_pre)) (PreH9 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH10 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre (i + 1 ) )) (PreH11 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -5980,7 +5980,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i + 1 ) <= INT_MAX) ”
+  “ ((i + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i + 1 )) ”
 ) \/
 (
@@ -6004,11 +6004,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i + 1 ) <= INT_MAX) ”
+  “ ((i + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i + 1 )) ”
 ).
 
-Definition maximum_profit_safety_wit_146_split_goal_1 :=
+Definition maximum_profit_safety_wit_146_split_goal_1 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (buy_cap: Z) (i: Z) (ask_price: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (0 <= wait_days_pre)) (PreH4 : (wait_days_pre < days_pre)) (PreH5 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH6 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH7 : (1 <= i)) (PreH8 : (i <= days_pre)) (PreH9 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH10 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre (i + 1 ) )) (PreH11 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "width" ) )) # Int  |-> width)
@@ -6032,7 +6032,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ ((i + 1 ) <= INT_MAX) ”
 .
 
-Definition maximum_profit_safety_wit_146_split_goal_2 :=
+Definition maximum_profit_safety_wit_146_split_goal_2 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (buy_cap: Z) (i: Z) (ask_price: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (0 <= wait_days_pre)) (PreH4 : (wait_days_pre < days_pre)) (PreH5 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH6 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH7 : (1 <= i)) (PreH8 : (i <= days_pre)) (PreH9 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH10 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre (i + 1 ) )) (PreH11 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "width" ) )) # Int  |-> width)
@@ -6056,7 +6056,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   “ ((INT_MIN) <= (i + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_147 :=
+Definition maximum_profit_safety_wit_147 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (i > days_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= (days_pre + 1 ))) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i )) (PreH14 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "answer" ) )) # Int  |->_)
   **  ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
@@ -6077,11 +6077,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (0 <= INT_MAX) ”
+  “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition maximum_profit_safety_wit_148 :=
+Definition maximum_profit_safety_wit_148 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (i > days_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= (days_pre + 1 ))) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i )) (PreH14 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "j" ) )) # Int  |->_)
   **  ((( &( "answer" ) )) # Int  |-> 0)
@@ -6103,11 +6103,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (0 <= INT_MAX) ”
+  “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition maximum_profit_safety_wit_149 :=
+Definition maximum_profit_safety_wit_149 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (answer: Z) (j: Z) (width: Z) (neg_inf: Z) (PreH1 : (j <= max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (0 <= j)) (PreH11 : (j <= (max_stock_pre + 1 ))) (PreH12 : (0 <= answer)) (PreH13 : (answer <= 1000000000)) (PreH14 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH15 : (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l days_pre max_stock_pre wait_days_pre j answer )) (PreH16 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   ((( &( "neg_inf" ) )) # Int  |-> neg_inf)
   **  ((( &( "width" ) )) # Int  |-> width)
@@ -6129,11 +6129,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((days_pre * width ) <= INT_MAX) ”
+  “ ((days_pre * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (days_pre * width )) ”
 .
 
-Definition maximum_profit_safety_wit_150 :=
+Definition maximum_profit_safety_wit_150 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (answer: Z) (j: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : ((Znth (j) ((Znth days_pre dp_l __default__List_Z)) (0)) > answer)) (PreH2 : (j <= max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (0 <= j)) (PreH12 : (j <= (max_stock_pre + 1 ))) (PreH13 : (0 <= answer)) (PreH14 : (answer <= 1000000000)) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l days_pre max_stock_pre wait_days_pre j answer )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((days_pre * width ) + j ) * sizeof(INT)))) # Int  |-> (Znth (j) ((Znth days_pre dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((days_pre * width ) * sizeof(INT))) j 0 width (Znth days_pre dp_l __default__List_Z) )
@@ -6157,11 +6157,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((days_pre * width ) <= INT_MAX) ”
+  “ ((days_pre * width ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (days_pre * width )) ”
 .
 
-Definition maximum_profit_safety_wit_151 :=
+Definition maximum_profit_safety_wit_151 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (answer: Z) (j: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : ((Znth (j) ((Znth days_pre dp_l __default__List_Z)) (0)) > answer)) (PreH2 : (j <= max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (0 <= j)) (PreH12 : (j <= (max_stock_pre + 1 ))) (PreH13 : (0 <= answer)) (PreH14 : (answer <= 1000000000)) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l days_pre max_stock_pre wait_days_pre j answer )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((days_pre * width ) + j ) * sizeof(INT)))) # Int  |-> (Znth (j) ((Znth days_pre dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((days_pre * width ) * sizeof(INT))) j 0 width (Znth days_pre dp_l __default__List_Z) )
@@ -6185,11 +6185,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((j + 1 ) <= INT_MAX) ”
+  “ ((j + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j + 1 )) ”
 .
 
-Definition maximum_profit_safety_wit_152 :=
+Definition maximum_profit_safety_wit_152 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (answer: Z) (j: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : ((Znth (j) ((Znth days_pre dp_l __default__List_Z)) (0)) <= answer)) (PreH2 : (j <= max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (0 <= j)) (PreH12 : (j <= (max_stock_pre + 1 ))) (PreH13 : (0 <= answer)) (PreH14 : (answer <= 1000000000)) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l days_pre max_stock_pre wait_days_pre j answer )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((days_pre * width ) + j ) * sizeof(INT)))) # Int  |-> (Znth (j) ((Znth days_pre dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((days_pre * width ) * sizeof(INT))) j 0 width (Znth days_pre dp_l __default__List_Z) )
@@ -6213,11 +6213,11 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ ((j + 1 ) <= INT_MAX) ”
+  “ ((j + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (j + 1 )) ”
 .
 
-Definition maximum_profit_entail_wit_1 :=
+Definition maximum_profit_entail_wit_1 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (dp_init: (@list (@list Z))) (queue0: (@list Z)) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (PreH1 : (1 <= days_pre)) (PreH2 : (days_pre <= 990)) (PreH3 : (1 <= max_stock_pre)) (PreH4 : (max_stock_pre <= 990)) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH8 : (StockTableShape dp_init days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -6227,17 +6227,17 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) (max_stock_pre + 1 ) dp_init )
 |--
   EX (queue_l: (@list Z)) ,
-  “ ((-1000000000) = (-1000000000)) ”
-  &&  “ (0 <= 0) ”
-  &&  “ (0 <= (max_stock_pre + 1 )) ”
-  &&  “ ((max_stock_pre + 1 ) = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
+  “ ((-1000000000) = (-1000000000)) ” 
+  &&  “ (0 <= 0) ” 
+  &&  “ (0 <= (max_stock_pre + 1 )) ” 
+  &&  “ ((max_stock_pre + 1 ) = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
   &&  “ (StockTableShape dp_init days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -6247,7 +6247,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) (max_stock_pre + 1 ) dp_init )
 .
 
-Definition maximum_profit_entail_wit_2 :=
+Definition maximum_profit_entail_wit_2 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (dp_init: (@list (@list Z))) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (width: Z) (q_init: Z) (neg_inf: Z) (PreH1 : (q_init < width)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (0 <= q_init)) (PreH4 : (q_init <= width)) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockTableShape dp_init days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width (replace_Znth (q_init) (0) (queue_l_2)) )
   **  (IntArray.full ap_pre days_pre ap_l )
@@ -6257,17 +6257,17 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_init )
 |--
   EX (queue_l: (@list Z)) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (0 <= (q_init + 1 )) ”
-  &&  “ ((q_init + 1 ) <= width) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (0 <= (q_init + 1 )) ” 
+  &&  “ ((q_init + 1 ) <= width) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
   &&  “ (StockTableShape dp_init days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -6277,7 +6277,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_init )
 .
 
-Definition maximum_profit_entail_wit_3 :=
+Definition maximum_profit_entail_wit_3 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (dp_init: (@list (@list Z))) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (width: Z) (q_init: Z) (neg_inf: Z) (PreH1 : (q_init >= width)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (0 <= q_init)) (PreH4 : (q_init <= width)) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockTableShape dp_init days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -6288,18 +6288,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_init )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (0 <= 0) ”
-  &&  “ (0 <= (days_pre + 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockFillRows dp_l days_pre max_stock_pre 0 ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (0 <= 0) ” 
+  &&  “ (0 <= (days_pre + 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockFillRows dp_l days_pre max_stock_pre 0 ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -6310,18 +6310,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (dp_init: (@list (@list Z))) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (width: Z) (q_init: Z) (neg_inf: Z) (PreH1 : (q_init >= width)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (0 <= q_init)) (PreH4 : (q_init <= width)) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockTableShape dp_init days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
   “ (StockFillRows dp_init days_pre max_stock_pre 0 ) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_3_split_goal_1 :=
+Definition maximum_profit_entail_wit_3_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (dp_init: (@list (@list Z))) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (width: Z) (q_init: Z) (neg_inf: Z) (PreH1 : (q_init >= width)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (0 <= q_init)) (PreH4 : (q_init <= width)) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockTableShape dp_init days_pre max_stock_pre )) ,
   (StockFillRows dp_init days_pre max_stock_pre 0 )
 .
 
-Definition maximum_profit_entail_wit_4 :=
+Definition maximum_profit_entail_wit_4 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (i < (days_pre + 1 ))) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (0 <= i)) (PreH11 : (i <= (days_pre + 1 ))) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockFillRows dp_l_2 days_pre max_stock_pre i )) (PreH14 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -6332,21 +6332,21 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (0 <= i) ”
-  &&  “ (i < (days_pre + 1 )) ”
-  &&  “ (0 <= 0) ”
-  &&  “ (0 <= width) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockFillRows dp_l days_pre max_stock_pre i ) ”
-  &&  “ (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i 0 ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (0 <= i) ” 
+  &&  “ (i < (days_pre + 1 )) ” 
+  &&  “ (0 <= 0) ” 
+  &&  “ (0 <= width) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockFillRows dp_l days_pre max_stock_pre i ) ” 
+  &&  “ (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i 0 ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -6357,18 +6357,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (i < (days_pre + 1 ))) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (0 <= i)) (PreH11 : (i <= (days_pre + 1 ))) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockFillRows dp_l_2 days_pre max_stock_pre i )) (PreH14 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
   “ (StockFillCells (Znth i dp_l_2 __default__List_Z) max_stock_pre i 0 ) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_4_split_goal_1 :=
+Definition maximum_profit_entail_wit_4_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (i < (days_pre + 1 ))) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (0 <= i)) (PreH11 : (i <= (days_pre + 1 ))) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockFillRows dp_l_2 days_pre max_stock_pre i )) (PreH14 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (StockFillCells (Znth i dp_l_2 __default__List_Z) max_stock_pre i 0 )
 .
 
-Definition maximum_profit_entail_wit_5_1 :=
+Definition maximum_profit_entail_wit_5_1 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (j = 0)) (PreH2 : (i = 0)) (PreH3 : (j < width)) (PreH4 : (neg_inf = (-1000000000))) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (0 <= i)) (PreH13 : (i < (days_pre + 1 ))) (PreH14 : (0 <= j)) (PreH15 : (j <= width)) (PreH16 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH17 : (StockFillRows dp_l_2 days_pre max_stock_pre i )) (PreH18 : (StockFillCells (Znth i dp_l_2 __default__List_Z) max_stock_pre i j )) (PreH19 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> 0)
@@ -6381,21 +6381,21 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (0 <= i) ”
-  &&  “ (i < (days_pre + 1 )) ”
-  &&  “ (0 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= width) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockFillRows dp_l days_pre max_stock_pre i ) ”
-  &&  “ (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i (j + 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (0 <= i) ” 
+  &&  “ (i < (days_pre + 1 )) ” 
+  &&  “ (0 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= width) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockFillRows dp_l days_pre max_stock_pre i ) ” 
+  &&  “ (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i (j + 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -6411,26 +6411,26 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre i 0 (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (0 <= i) ”
-  &&  “ (i < (days_pre + 1 )) ”
-  &&  “ (0 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= width) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockFillRows dp_l days_pre max_stock_pre i ) ”
-  &&  “ (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i (j + 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (0 <= i) ” 
+  &&  “ (i < (days_pre + 1 )) ” 
+  &&  “ (0 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= width) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockFillRows dp_l days_pre max_stock_pre i ) ” 
+  &&  “ (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i (j + 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 ).
 
-Definition maximum_profit_entail_wit_5_2 :=
+Definition maximum_profit_entail_wit_5_2 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (i <> 0)) (PreH2 : (j < width)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (0 <= i)) (PreH12 : (i < (days_pre + 1 ))) (PreH13 : (0 <= j)) (PreH14 : (j <= width)) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockFillRows dp_l_2 days_pre max_stock_pre i )) (PreH17 : (StockFillCells (Znth i dp_l_2 __default__List_Z) max_stock_pre i j )) (PreH18 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> neg_inf)
@@ -6443,21 +6443,21 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (0 <= i) ”
-  &&  “ (i < (days_pre + 1 )) ”
-  &&  “ (0 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= width) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockFillRows dp_l days_pre max_stock_pre i ) ”
-  &&  “ (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i (j + 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (0 <= i) ” 
+  &&  “ (i < (days_pre + 1 )) ” 
+  &&  “ (0 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= width) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockFillRows dp_l days_pre max_stock_pre i ) ” 
+  &&  “ (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i (j + 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -6473,26 +6473,26 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre i 0 (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (0 <= i) ”
-  &&  “ (i < (days_pre + 1 )) ”
-  &&  “ (0 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= width) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockFillRows dp_l days_pre max_stock_pre i ) ”
-  &&  “ (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i (j + 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (0 <= i) ” 
+  &&  “ (i < (days_pre + 1 )) ” 
+  &&  “ (0 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= width) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockFillRows dp_l days_pre max_stock_pre i ) ” 
+  &&  “ (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i (j + 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 ).
 
-Definition maximum_profit_entail_wit_5_3 :=
+Definition maximum_profit_entail_wit_5_3 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (j <> 0)) (PreH2 : (i = 0)) (PreH3 : (j < width)) (PreH4 : (neg_inf = (-1000000000))) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (0 <= i)) (PreH13 : (i < (days_pre + 1 ))) (PreH14 : (0 <= j)) (PreH15 : (j <= width)) (PreH16 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH17 : (StockFillRows dp_l_2 days_pre max_stock_pre i )) (PreH18 : (StockFillCells (Znth i dp_l_2 __default__List_Z) max_stock_pre i j )) (PreH19 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> neg_inf)
@@ -6505,21 +6505,21 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (0 <= i) ”
-  &&  “ (i < (days_pre + 1 )) ”
-  &&  “ (0 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= width) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockFillRows dp_l days_pre max_stock_pre i ) ”
-  &&  “ (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i (j + 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (0 <= i) ” 
+  &&  “ (i < (days_pre + 1 )) ” 
+  &&  “ (0 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= width) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockFillRows dp_l days_pre max_stock_pre i ) ” 
+  &&  “ (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i (j + 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -6535,26 +6535,26 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre i 0 (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (0 <= i) ”
-  &&  “ (i < (days_pre + 1 )) ”
-  &&  “ (0 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= width) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockFillRows dp_l days_pre max_stock_pre i ) ”
-  &&  “ (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i (j + 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (0 <= i) ” 
+  &&  “ (i < (days_pre + 1 )) ” 
+  &&  “ (0 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= width) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockFillRows dp_l days_pre max_stock_pre i ) ” 
+  &&  “ (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i (j + 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 ).
 
-Definition maximum_profit_entail_wit_6 :=
+Definition maximum_profit_entail_wit_6 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (j >= width)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (0 <= i)) (PreH11 : (i < (days_pre + 1 ))) (PreH12 : (0 <= j)) (PreH13 : (j <= width)) (PreH14 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH15 : (StockFillRows dp_l_2 days_pre max_stock_pre i )) (PreH16 : (StockFillCells (Znth i dp_l_2 __default__List_Z) max_stock_pre i j )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -6565,18 +6565,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (0 <= (i + 1 )) ”
-  &&  “ ((i + 1 ) <= (days_pre + 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockFillRows dp_l days_pre max_stock_pre (i + 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (0 <= (i + 1 )) ” 
+  &&  “ ((i + 1 ) <= (days_pre + 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockFillRows dp_l days_pre max_stock_pre (i + 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -6587,18 +6587,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (j >= width)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (0 <= i)) (PreH11 : (i < (days_pre + 1 ))) (PreH12 : (0 <= j)) (PreH13 : (j <= width)) (PreH14 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH15 : (StockFillRows dp_l_2 days_pre max_stock_pre i )) (PreH16 : (StockFillCells (Znth i dp_l_2 __default__List_Z) max_stock_pre i j )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
   “ (StockFillRows dp_l_2 days_pre max_stock_pre (i + 1 ) ) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_6_split_goal_1 :=
+Definition maximum_profit_entail_wit_6_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (j >= width)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (0 <= i)) (PreH11 : (i < (days_pre + 1 ))) (PreH12 : (0 <= j)) (PreH13 : (j <= width)) (PreH14 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH15 : (StockFillRows dp_l_2 days_pre max_stock_pre i )) (PreH16 : (StockFillCells (Znth i dp_l_2 __default__List_Z) max_stock_pre i j )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (StockFillRows dp_l_2 days_pre max_stock_pre (i + 1 ) )
 .
 
-Definition maximum_profit_entail_wit_7 :=
+Definition maximum_profit_entail_wit_7 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (i >= (days_pre + 1 ))) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (0 <= i)) (PreH11 : (i <= (days_pre + 1 ))) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockFillRows dp_l_2 days_pre max_stock_pre i )) (PreH14 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -6609,16 +6609,16 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre 1 ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre 1 ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -6629,18 +6629,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (i >= (days_pre + 1 ))) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (0 <= i)) (PreH11 : (i <= (days_pre + 1 ))) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockFillRows dp_l_2 days_pre max_stock_pre i )) (PreH14 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
   “ (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre 1 ) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_7_split_goal_1 :=
+Definition maximum_profit_entail_wit_7_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (i >= (days_pre + 1 ))) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (0 <= i)) (PreH11 : (i <= (days_pre + 1 ))) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockFillRows dp_l_2 days_pre max_stock_pre i )) (PreH14 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre 1 )
 .
 
-Definition maximum_profit_entail_wit_8 :=
+Definition maximum_profit_entail_wit_8 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH10 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre 1 )) (PreH11 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -6650,18 +6650,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= 1) ”
-  &&  “ (1 <= (days_pre + 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre 1 ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= 1) ” 
+  &&  “ (1 <= (days_pre + 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre 1 ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -6671,7 +6671,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 .
 
-Definition maximum_profit_entail_wit_9 :=
+Definition maximum_profit_entail_wit_9 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (i <= days_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= (days_pre + 1 ))) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i )) (PreH14 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -6682,20 +6682,20 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= 0) ”
-  &&  “ (0 <= (max_stock_pre + 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i 0 ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= 0) ” 
+  &&  “ (0 <= (max_stock_pre + 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i 0 ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -6706,18 +6706,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (i <= days_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= (days_pre + 1 ))) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i )) (PreH14 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
   “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i 0 ) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_9_split_goal_1 :=
+Definition maximum_profit_entail_wit_9_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (i <= days_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= (days_pre + 1 ))) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i )) (PreH14 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i 0 )
 .
 
-Definition maximum_profit_entail_wit_10 :=
+Definition maximum_profit_entail_wit_10 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (j <= max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j <= (max_stock_pre + 1 ))) (PreH14 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH15 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH16 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + ((((i - 1 ) * width ) + j ) * sizeof(INT)))) # Int  |-> (Znth (j) ((Znth (i - 1 ) dp_l __default__List_Z)) (0)))
@@ -6730,22 +6730,22 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l_2: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ ((Znth (j) ((Znth (i - 1 ) dp_l __default__List_Z)) (0)) = (Znth j (Znth (i - 1 ) dp_l_2 __default__List_Z) 0)) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ ((Znth (j) ((Znth (i - 1 ) dp_l __default__List_Z)) (0)) = (Znth j (Znth (i - 1 ) dp_l_2 __default__List_Z) 0)) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j ) ” 
   &&  “ (StockTableShape dp_l_2 days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -6761,27 +6761,27 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre (i - 1 ) 0 (days_pre + 1 ) width dp_l )
 |--
   EX (dp_l_2: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ ((Znth (j) ((Znth (i - 1 ) dp_l __default__List_Z)) (0)) = (Znth j (Znth (i - 1 ) dp_l_2 __default__List_Z) 0)) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ ((Znth (j) ((Znth (i - 1 ) dp_l __default__List_Z)) (0)) = (Znth j (Znth (i - 1 ) dp_l_2 __default__List_Z) 0)) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j ) ” 
   &&  “ (StockTableShape dp_l_2 days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 ).
 
-Definition maximum_profit_entail_wit_11 :=
+Definition maximum_profit_entail_wit_11 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (j: Z) (previous_value: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j <= max_stock_pre)) (PreH14 : (previous_value = (Znth j (Znth (i - 1 ) dp_l_2 __default__List_Z) 0))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> previous_value)
@@ -6794,20 +6794,20 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i (j + 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i (j + 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -6823,25 +6823,25 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre i 0 (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i (j + 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i (j + 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 ).
 
-Definition maximum_profit_entail_wit_12 :=
+Definition maximum_profit_entail_wit_12 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) <= wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -6852,27 +6852,27 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ ((i - 1 ) <= wait_days_pre) ”
-  &&  “ ((Znth (i - 1 ) buy_l 0) = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ ((Znth (i - 1 ) ap_l 0) = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (1 <= (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ ((Znth (i - 1 ) buy_l 0) <= max_stock_pre) ”
-  &&  “ (1 <= (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ ((Znth (i - 1 ) ap_l 0) <= 1000) ”
-  &&  “ (1 <= 1) ”
-  &&  “ (1 <= ((Znth (i - 1 ) buy_l 0) + 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i 1 ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ ((i - 1 ) <= wait_days_pre) ” 
+  &&  “ ((Znth (i - 1 ) buy_l 0) = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ ((Znth (i - 1 ) ap_l 0) = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (1 <= (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ ((Znth (i - 1 ) buy_l 0) <= max_stock_pre) ” 
+  &&  “ (1 <= (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ ((Znth (i - 1 ) ap_l 0) <= 1000) ” 
+  &&  “ (1 <= 1) ” 
+  &&  “ (1 <= ((Znth (i - 1 ) buy_l 0) + 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i 1 ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -6883,48 +6883,48 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) <= wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
-  “ (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i 1 ) ”
-  &&  “ (1 <= ((Znth (i - 1 ) buy_l 0) + 1 )) ”
-  &&  “ ((Znth (i - 1 ) ap_l 0) <= 1000) ”
-  &&  “ (1 <= (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ ((Znth (i - 1 ) buy_l 0) <= max_stock_pre) ”
+  “ (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i 1 ) ” 
+  &&  “ (1 <= ((Znth (i - 1 ) buy_l 0) + 1 )) ” 
+  &&  “ ((Znth (i - 1 ) ap_l 0) <= 1000) ” 
+  &&  “ (1 <= (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ ((Znth (i - 1 ) buy_l 0) <= max_stock_pre) ” 
   &&  “ (1 <= (Znth (i - 1 ) buy_l 0)) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_12_split_goal_1 :=
+Definition maximum_profit_entail_wit_12_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) <= wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i 1 )
 .
 
-Definition maximum_profit_entail_wit_12_split_goal_2 :=
+Definition maximum_profit_entail_wit_12_split_goal_2 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) <= wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (1 <= ((Znth (i - 1 ) buy_l 0) + 1 ))
 .
 
-Definition maximum_profit_entail_wit_12_split_goal_3 :=
+Definition maximum_profit_entail_wit_12_split_goal_3 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) <= wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   ((Znth (i - 1 ) ap_l 0) <= 1000)
 .
 
-Definition maximum_profit_entail_wit_12_split_goal_4 :=
+Definition maximum_profit_entail_wit_12_split_goal_4 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) <= wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (1 <= (Znth (i - 1 ) ap_l 0))
 .
 
-Definition maximum_profit_entail_wit_12_split_goal_5 :=
+Definition maximum_profit_entail_wit_12_split_goal_5 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) <= wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   ((Znth (i - 1 ) buy_l 0) <= max_stock_pre)
 .
 
-Definition maximum_profit_entail_wit_12_split_goal_6 :=
+Definition maximum_profit_entail_wit_12_split_goal_6 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) <= wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (1 <= (Znth (i - 1 ) buy_l 0))
 .
 
-Definition maximum_profit_entail_wit_13_1 :=
+Definition maximum_profit_entail_wit_13_1 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (ask_price: Z) (buy_cap: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (((-j) * ask_price ) > (Znth (j) ((Znth i dp_l_2 __default__List_Z)) (0)))) (PreH2 : (j <= buy_cap)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : ((i - 1 ) <= wait_days_pre)) (PreH14 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH15 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH16 : (1 <= buy_cap)) (PreH17 : (buy_cap <= max_stock_pre)) (PreH18 : (1 <= ask_price)) (PreH19 : (ask_price <= 1000)) (PreH20 : (1 <= j)) (PreH21 : (j <= (buy_cap + 1 ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH24 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> ((-j) * ask_price ))
@@ -6937,27 +6937,27 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ ((i - 1 ) <= wait_days_pre) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (1 <= buy_cap) ”
-  &&  “ (buy_cap <= max_stock_pre) ”
-  &&  “ (1 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (1 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= (buy_cap + 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i (j + 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ ((i - 1 ) <= wait_days_pre) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (1 <= buy_cap) ” 
+  &&  “ (buy_cap <= max_stock_pre) ” 
+  &&  “ (1 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (1 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= (buy_cap + 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i (j + 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -6973,32 +6973,32 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre i 0 (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ ((i - 1 ) <= wait_days_pre) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (1 <= buy_cap) ”
-  &&  “ (buy_cap <= max_stock_pre) ”
-  &&  “ (1 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (1 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= (buy_cap + 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i (j + 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ ((i - 1 ) <= wait_days_pre) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (1 <= buy_cap) ” 
+  &&  “ (buy_cap <= max_stock_pre) ” 
+  &&  “ (1 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (1 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= (buy_cap + 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i (j + 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 ).
 
-Definition maximum_profit_entail_wit_13_2 :=
+Definition maximum_profit_entail_wit_13_2 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (ask_price: Z) (buy_cap: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (((-j) * ask_price ) <= (Znth (j) ((Znth i dp_l_2 __default__List_Z)) (0)))) (PreH2 : (j <= buy_cap)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : ((i - 1 ) <= wait_days_pre)) (PreH14 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH15 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH16 : (1 <= buy_cap)) (PreH17 : (buy_cap <= max_stock_pre)) (PreH18 : (1 <= ask_price)) (PreH19 : (ask_price <= 1000)) (PreH20 : (1 <= j)) (PreH21 : (j <= (buy_cap + 1 ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH24 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> (Znth (j) ((Znth i dp_l_2 __default__List_Z)) (0)))
@@ -7011,27 +7011,27 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ ((i - 1 ) <= wait_days_pre) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (1 <= buy_cap) ”
-  &&  “ (buy_cap <= max_stock_pre) ”
-  &&  “ (1 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (1 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= (buy_cap + 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i (j + 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ ((i - 1 ) <= wait_days_pre) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (1 <= buy_cap) ” 
+  &&  “ (buy_cap <= max_stock_pre) ” 
+  &&  “ (1 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (1 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= (buy_cap + 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i (j + 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -7047,32 +7047,32 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre i 0 (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ ((i - 1 ) <= wait_days_pre) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (1 <= buy_cap) ”
-  &&  “ (buy_cap <= max_stock_pre) ”
-  &&  “ (1 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (1 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= (buy_cap + 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i (j + 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ ((i - 1 ) <= wait_days_pre) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (1 <= buy_cap) ” 
+  &&  “ (buy_cap <= max_stock_pre) ” 
+  &&  “ (1 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (1 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= (buy_cap + 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i (j + 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 ).
 
-Definition maximum_profit_entail_wit_14 :=
+Definition maximum_profit_entail_wit_14 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (ask_price: Z) (buy_cap: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j > buy_cap)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : ((i - 1 ) <= wait_days_pre)) (PreH13 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (1 <= buy_cap)) (PreH16 : (buy_cap <= max_stock_pre)) (PreH17 : (1 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= (buy_cap + 1 ))) (PreH21 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH22 : (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH23 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -7083,16 +7083,16 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre (i + 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre (i + 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -7103,18 +7103,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (ask_price: Z) (buy_cap: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j > buy_cap)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : ((i - 1 ) <= wait_days_pre)) (PreH13 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (1 <= buy_cap)) (PreH16 : (buy_cap <= max_stock_pre)) (PreH17 : (1 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= (buy_cap + 1 ))) (PreH21 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH22 : (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH23 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
   “ (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre (i + 1 ) ) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_14_split_goal_1 :=
+Definition maximum_profit_entail_wit_14_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (ask_price: Z) (buy_cap: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j > buy_cap)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : ((i - 1 ) <= wait_days_pre)) (PreH13 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (1 <= buy_cap)) (PreH16 : (buy_cap <= max_stock_pre)) (PreH17 : (1 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= (buy_cap + 1 ))) (PreH21 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH22 : (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH23 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre (i + 1 ) )
 .
 
-Definition maximum_profit_entail_wit_15 :=
+Definition maximum_profit_entail_wit_15 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) > wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full sell_limit_pre days_pre sell_l )
@@ -7125,34 +7125,34 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (((i - wait_days_pre ) - 1 ) = ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (0 < ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (((i - wait_days_pre ) - 1 ) < i) ”
-  &&  “ ((Znth (i - 1 ) bp_l 0) = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ ((Znth (i - 1 ) sell_l 0) = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (1 <= (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ ((Znth (i - 1 ) bp_l 0) <= 1000) ”
-  &&  “ (1 <= (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ ((Znth (i - 1 ) sell_l 0) <= max_stock_pre) ”
-  &&  “ ((-1) <= (max_stock_pre - 1 )) ”
-  &&  “ ((max_stock_pre - 1 ) <= (max_stock_pre - 1 )) ”
-  &&  “ (0 <= 0) ”
-  &&  “ (0 <= 0) ”
-  &&  “ (0 <= ((max_stock_pre - (max_stock_pre - 1 ) ) - 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i ((i - wait_days_pre ) - 1 ) (max_stock_pre - 1 ) ) ”
-  &&  “ (StockSellQueue dp_l queue_l ((i - wait_days_pre ) - 1 ) (Znth (i - 1 ) bp_l 0) ((max_stock_pre - 1 ) + 2 ) (((max_stock_pre - 1 ) + (Znth (i - 1 ) sell_l 0) ) + 1 ) 0 0 ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (((i - wait_days_pre ) - 1 ) = ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (0 < ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (((i - wait_days_pre ) - 1 ) < i) ” 
+  &&  “ ((Znth (i - 1 ) bp_l 0) = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ ((Znth (i - 1 ) sell_l 0) = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (1 <= (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ ((Znth (i - 1 ) bp_l 0) <= 1000) ” 
+  &&  “ (1 <= (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ ((Znth (i - 1 ) sell_l 0) <= max_stock_pre) ” 
+  &&  “ ((-1) <= (max_stock_pre - 1 )) ” 
+  &&  “ ((max_stock_pre - 1 ) <= (max_stock_pre - 1 )) ” 
+  &&  “ (0 <= 0) ” 
+  &&  “ (0 <= 0) ” 
+  &&  “ (0 <= ((max_stock_pre - (max_stock_pre - 1 ) ) - 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i ((i - wait_days_pre ) - 1 ) (max_stock_pre - 1 ) ) ” 
+  &&  “ (StockSellQueue dp_l queue_l ((i - wait_days_pre ) - 1 ) (Znth (i - 1 ) bp_l 0) ((max_stock_pre - 1 ) + 2 ) (((max_stock_pre - 1 ) + (Znth (i - 1 ) sell_l 0) ) + 1 ) 0 0 ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -7163,48 +7163,48 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) > wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
-  “ (StockSellQueue dp_l_2 queue_l_2 ((i - wait_days_pre ) - 1 ) (Znth (i - 1 ) bp_l 0) ((max_stock_pre - 1 ) + 2 ) (((max_stock_pre - 1 ) + (Znth (i - 1 ) sell_l 0) ) + 1 ) 0 0 ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i ((i - wait_days_pre ) - 1 ) (max_stock_pre - 1 ) ) ”
-  &&  “ ((Znth (i - 1 ) sell_l 0) <= max_stock_pre) ”
-  &&  “ (1 <= (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ ((Znth (i - 1 ) bp_l 0) <= 1000) ”
+  “ (StockSellQueue dp_l_2 queue_l_2 ((i - wait_days_pre ) - 1 ) (Znth (i - 1 ) bp_l 0) ((max_stock_pre - 1 ) + 2 ) (((max_stock_pre - 1 ) + (Znth (i - 1 ) sell_l 0) ) + 1 ) 0 0 ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i ((i - wait_days_pre ) - 1 ) (max_stock_pre - 1 ) ) ” 
+  &&  “ ((Znth (i - 1 ) sell_l 0) <= max_stock_pre) ” 
+  &&  “ (1 <= (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ ((Znth (i - 1 ) bp_l 0) <= 1000) ” 
   &&  “ (1 <= (Znth (i - 1 ) bp_l 0)) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_15_split_goal_1 :=
+Definition maximum_profit_entail_wit_15_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) > wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (StockSellQueue dp_l_2 queue_l_2 ((i - wait_days_pre ) - 1 ) (Znth (i - 1 ) bp_l 0) ((max_stock_pre - 1 ) + 2 ) (((max_stock_pre - 1 ) + (Znth (i - 1 ) sell_l 0) ) + 1 ) 0 0 )
 .
 
-Definition maximum_profit_entail_wit_15_split_goal_2 :=
+Definition maximum_profit_entail_wit_15_split_goal_2 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) > wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i ((i - wait_days_pre ) - 1 ) (max_stock_pre - 1 ) )
 .
 
-Definition maximum_profit_entail_wit_15_split_goal_3 :=
+Definition maximum_profit_entail_wit_15_split_goal_3 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) > wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   ((Znth (i - 1 ) sell_l 0) <= max_stock_pre)
 .
 
-Definition maximum_profit_entail_wit_15_split_goal_4 :=
+Definition maximum_profit_entail_wit_15_split_goal_4 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) > wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (1 <= (Znth (i - 1 ) sell_l 0))
 .
 
-Definition maximum_profit_entail_wit_15_split_goal_5 :=
+Definition maximum_profit_entail_wit_15_split_goal_5 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) > wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   ((Znth (i - 1 ) bp_l 0) <= 1000)
 .
 
-Definition maximum_profit_entail_wit_15_split_goal_6 :=
+Definition maximum_profit_entail_wit_15_split_goal_6 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) > wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (1 <= (Znth (i - 1 ) bp_l 0))
 .
 
-Definition maximum_profit_entail_wit_16 :=
+Definition maximum_profit_entail_wit_16 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j >= 0)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (1 <= sell_cap)) (PreH21 : (sell_cap <= max_stock_pre)) (PreH22 : ((-1) <= j)) (PreH23 : (j <= (max_stock_pre - 1 ))) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail )) (PreH30 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -7215,34 +7215,34 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (1 <= sell_cap) ”
-  &&  “ (sell_cap <= max_stock_pre) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (1 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueueExpiring dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (1 <= sell_cap) ” 
+  &&  “ (sell_cap <= max_stock_pre) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (1 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueueExpiring dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -7253,18 +7253,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j >= 0)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (1 <= sell_cap)) (PreH21 : (sell_cap <= max_stock_pre)) (PreH22 : ((-1) <= j)) (PreH23 : (j <= (max_stock_pre - 1 ))) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail )) (PreH30 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
-  “ (StockSellQueueExpiring dp_l_2 queue_l_2 source_day bid_price (j + 2 ) (j + sell_cap ) head tail ) ”
+  “ (StockSellQueueExpiring dp_l_2 queue_l_2 ((i - wait_days_pre ) - 1 ) bid_price (j + 2 ) (j + sell_cap ) head tail ) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_16_split_goal_1 :=
+Definition maximum_profit_entail_wit_16_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j >= 0)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (1 <= sell_cap)) (PreH21 : (sell_cap <= max_stock_pre)) (PreH22 : ((-1) <= j)) (PreH23 : (j <= (max_stock_pre - 1 ))) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail )) (PreH30 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  (StockSellQueueExpiring dp_l_2 queue_l_2 source_day bid_price (j + 2 ) (j + sell_cap ) head tail )
+  (StockSellQueueExpiring dp_l_2 queue_l_2 ((i - wait_days_pre ) - 1 ) bid_price (j + 2 ) (j + sell_cap ) head tail )
 .
 
-Definition maximum_profit_entail_wit_17 :=
+Definition maximum_profit_entail_wit_17 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (bid_price: Z) (tail: Z) (head: Z) (sell_cap: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (((Znth head queue_l_2 0) - sell_cap ) > j)) (PreH2 : (head < tail)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (1 <= days_pre)) (PreH8 : (days_pre <= 990)) (PreH9 : (1 <= max_stock_pre)) (PreH10 : (max_stock_pre <= 990)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH15 : (0 < source_day)) (PreH16 : (source_day < i)) (PreH17 : (0 <= j)) (PreH18 : (j < max_stock_pre)) (PreH19 : (1 <= sell_cap)) (PreH20 : (sell_cap <= max_stock_pre)) (PreH21 : (0 <= head)) (PreH22 : (head <= tail)) (PreH23 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH24 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH25 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH26 : (1 <= bid_price)) (PreH27 : (bid_price <= 1000)) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueueExpiring dp_l_2 queue_l_2 source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width queue_l_2 )
@@ -7275,34 +7275,34 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (1 <= sell_cap) ”
-  &&  “ (sell_cap <= max_stock_pre) ”
-  &&  “ (0 <= (head + 1 )) ”
-  &&  “ ((head + 1 ) <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (1 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueueExpiring dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) (head + 1 ) tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (1 <= sell_cap) ” 
+  &&  “ (sell_cap <= max_stock_pre) ” 
+  &&  “ (0 <= (head + 1 )) ” 
+  &&  “ ((head + 1 ) <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (1 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueueExpiring dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) (head + 1 ) tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -7313,18 +7313,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (bid_price: Z) (tail: Z) (head: Z) (sell_cap: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (((Znth head queue_l_2 0) - sell_cap ) > j)) (PreH2 : (head < tail)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (1 <= days_pre)) (PreH8 : (days_pre <= 990)) (PreH9 : (1 <= max_stock_pre)) (PreH10 : (max_stock_pre <= 990)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH15 : (0 < source_day)) (PreH16 : (source_day < i)) (PreH17 : (0 <= j)) (PreH18 : (j < max_stock_pre)) (PreH19 : (1 <= sell_cap)) (PreH20 : (sell_cap <= max_stock_pre)) (PreH21 : (0 <= head)) (PreH22 : (head <= tail)) (PreH23 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH24 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH25 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH26 : (1 <= bid_price)) (PreH27 : (bid_price <= 1000)) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueueExpiring dp_l_2 queue_l_2 source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
-  “ (StockSellQueueExpiring dp_l_2 queue_l_2 source_day bid_price (j + 2 ) (j + sell_cap ) (head + 1 ) tail ) ”
+  “ (StockSellQueueExpiring dp_l_2 queue_l_2 ((i - wait_days_pre ) - 1 ) bid_price (j + 2 ) (j + sell_cap ) (head + 1 ) tail ) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_17_split_goal_1 :=
+Definition maximum_profit_entail_wit_17_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (bid_price: Z) (tail: Z) (head: Z) (sell_cap: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (((Znth head queue_l_2 0) - sell_cap ) > j)) (PreH2 : (head < tail)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (1 <= days_pre)) (PreH8 : (days_pre <= 990)) (PreH9 : (1 <= max_stock_pre)) (PreH10 : (max_stock_pre <= 990)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH15 : (0 < source_day)) (PreH16 : (source_day < i)) (PreH17 : (0 <= j)) (PreH18 : (j < max_stock_pre)) (PreH19 : (1 <= sell_cap)) (PreH20 : (sell_cap <= max_stock_pre)) (PreH21 : (0 <= head)) (PreH22 : (head <= tail)) (PreH23 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH24 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH25 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH26 : (1 <= bid_price)) (PreH27 : (bid_price <= 1000)) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueueExpiring dp_l_2 queue_l_2 source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  (StockSellQueueExpiring dp_l_2 queue_l_2 source_day bid_price (j + 2 ) (j + sell_cap ) (head + 1 ) tail )
+  (StockSellQueueExpiring dp_l_2 queue_l_2 ((i - wait_days_pre ) - 1 ) bid_price (j + 2 ) (j + sell_cap ) (head + 1 ) tail )
 .
 
-Definition maximum_profit_entail_wit_18_1 :=
+Definition maximum_profit_entail_wit_18_1 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (bid_price: Z) (tail: Z) (head: Z) (sell_cap: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (0 <= j)) (PreH17 : (j < max_stock_pre)) (PreH18 : (1 <= sell_cap)) (PreH19 : (sell_cap <= max_stock_pre)) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH23 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH24 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH25 : (1 <= bid_price)) (PreH26 : (bid_price <= 1000)) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueueExpiring dp_l_2 queue_l_2 source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH30 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -7335,34 +7335,34 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z)))  (queue_l: (@list Z)) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (1 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (source_day < (days_pre + 1 )) ”
-  &&  “ ((j + 1 ) < width) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ ((head < tail) -> (j <= (Znth head queue_l 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (1 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (source_day < (days_pre + 1 )) ” 
+  &&  “ ((j + 1 ) < width) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ ((head < tail) -> (j <= (Znth head queue_l 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -7373,18 +7373,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (bid_price: Z) (tail: Z) (head: Z) (sell_cap: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (0 <= j)) (PreH17 : (j < max_stock_pre)) (PreH18 : (1 <= sell_cap)) (PreH19 : (sell_cap <= max_stock_pre)) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH23 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH24 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH25 : (1 <= bid_price)) (PreH26 : (bid_price <= 1000)) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueueExpiring dp_l_2 queue_l_2 source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH30 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
-  “ (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 2 ) (j + sell_cap ) head tail ) ”
+  “ (StockSellQueue dp_l_2 queue_l_2 ((i - wait_days_pre ) - 1 ) bid_price (j + 2 ) (j + sell_cap ) head tail ) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_18_1_split_goal_1 :=
+Definition maximum_profit_entail_wit_18_1_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (bid_price: Z) (tail: Z) (head: Z) (sell_cap: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (0 <= j)) (PreH17 : (j < max_stock_pre)) (PreH18 : (1 <= sell_cap)) (PreH19 : (sell_cap <= max_stock_pre)) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH23 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH24 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH25 : (1 <= bid_price)) (PreH26 : (bid_price <= 1000)) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueueExpiring dp_l_2 queue_l_2 source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH30 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 2 ) (j + sell_cap ) head tail )
+  (StockSellQueue dp_l_2 queue_l_2 ((i - wait_days_pre ) - 1 ) bid_price (j + 2 ) (j + sell_cap ) head tail )
 .
 
-Definition maximum_profit_entail_wit_18_2 :=
+Definition maximum_profit_entail_wit_18_2 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (bid_price: Z) (tail: Z) (head: Z) (sell_cap: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (((Znth head queue_l_2 0) - sell_cap ) <= j)) (PreH2 : (head < tail)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (1 <= days_pre)) (PreH8 : (days_pre <= 990)) (PreH9 : (1 <= max_stock_pre)) (PreH10 : (max_stock_pre <= 990)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH15 : (0 < source_day)) (PreH16 : (source_day < i)) (PreH17 : (0 <= j)) (PreH18 : (j < max_stock_pre)) (PreH19 : (1 <= sell_cap)) (PreH20 : (sell_cap <= max_stock_pre)) (PreH21 : (0 <= head)) (PreH22 : (head <= tail)) (PreH23 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH24 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH25 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH26 : (1 <= bid_price)) (PreH27 : (bid_price <= 1000)) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueueExpiring dp_l_2 queue_l_2 source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width queue_l_2 )
@@ -7395,34 +7395,34 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z)))  (queue_l: (@list Z)) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (1 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (source_day < (days_pre + 1 )) ”
-  &&  “ ((j + 1 ) < width) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ ((head < tail) -> (j <= (Znth head queue_l 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (1 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (source_day < (days_pre + 1 )) ” 
+  &&  “ ((j + 1 ) < width) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ ((head < tail) -> (j <= (Znth head queue_l 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -7433,24 +7433,24 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (bid_price: Z) (tail: Z) (head: Z) (sell_cap: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (((Znth head queue_l_2 0) - sell_cap ) <= j)) (PreH2 : (head < tail)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (1 <= days_pre)) (PreH8 : (days_pre <= 990)) (PreH9 : (1 <= max_stock_pre)) (PreH10 : (max_stock_pre <= 990)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH15 : (0 < source_day)) (PreH16 : (source_day < i)) (PreH17 : (0 <= j)) (PreH18 : (j < max_stock_pre)) (PreH19 : (1 <= sell_cap)) (PreH20 : (sell_cap <= max_stock_pre)) (PreH21 : (0 <= head)) (PreH22 : (head <= tail)) (PreH23 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH24 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH25 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH26 : (1 <= bid_price)) (PreH27 : (bid_price <= 1000)) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueueExpiring dp_l_2 queue_l_2 source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
-  “ (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 2 ) (j + sell_cap ) head tail ) ”
+  “ (StockSellQueue dp_l_2 queue_l_2 ((i - wait_days_pre ) - 1 ) bid_price (j + 2 ) (j + sell_cap ) head tail ) ” 
   &&  “ ((head < tail) -> (j <= (Znth head queue_l_2 0))) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_18_2_split_goal_1 :=
+Definition maximum_profit_entail_wit_18_2_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (bid_price: Z) (tail: Z) (head: Z) (sell_cap: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (((Znth head queue_l_2 0) - sell_cap ) <= j)) (PreH2 : (head < tail)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (1 <= days_pre)) (PreH8 : (days_pre <= 990)) (PreH9 : (1 <= max_stock_pre)) (PreH10 : (max_stock_pre <= 990)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH15 : (0 < source_day)) (PreH16 : (source_day < i)) (PreH17 : (0 <= j)) (PreH18 : (j < max_stock_pre)) (PreH19 : (1 <= sell_cap)) (PreH20 : (sell_cap <= max_stock_pre)) (PreH21 : (0 <= head)) (PreH22 : (head <= tail)) (PreH23 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH24 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH25 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH26 : (1 <= bid_price)) (PreH27 : (bid_price <= 1000)) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueueExpiring dp_l_2 queue_l_2 source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 2 ) (j + sell_cap ) head tail )
+  (StockSellQueue dp_l_2 queue_l_2 ((i - wait_days_pre ) - 1 ) bid_price (j + 2 ) (j + sell_cap ) head tail )
 .
 
-Definition maximum_profit_entail_wit_18_2_split_goal_2 :=
+Definition maximum_profit_entail_wit_18_2_split_goal_2 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (bid_price: Z) (tail: Z) (head: Z) (sell_cap: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (((Znth head queue_l_2 0) - sell_cap ) <= j)) (PreH2 : (head < tail)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (1 <= days_pre)) (PreH8 : (days_pre <= 990)) (PreH9 : (1 <= max_stock_pre)) (PreH10 : (max_stock_pre <= 990)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH15 : (0 < source_day)) (PreH16 : (source_day < i)) (PreH17 : (0 <= j)) (PreH18 : (j < max_stock_pre)) (PreH19 : (1 <= sell_cap)) (PreH20 : (sell_cap <= max_stock_pre)) (PreH21 : (0 <= head)) (PreH22 : (head <= tail)) (PreH23 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH24 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH25 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH26 : (1 <= bid_price)) (PreH27 : (bid_price <= 1000)) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueueExpiring dp_l_2 queue_l_2 source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   ((head < tail) -> (j <= (Znth head queue_l_2 0)))
 .
 
-Definition maximum_profit_entail_wit_19_1 :=
+Definition maximum_profit_entail_wit_19_1 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width queue_l )
@@ -7463,35 +7463,35 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 |--
   EX (queue_l_2: (@list Z))  (dp_l_2: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (0 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ (0 <= (Znth (tail - 1 ) queue_l 0)) ”
-  &&  “ ((Znth (tail - 1 ) queue_l 0) <= max_stock_pre) ”
-  &&  “ (((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) ) = ((Znth (j + 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j + 1 ) * bid_price ) )) ”
-  &&  “ ((head < tail) -> ((Znth (tail - 1 ) queue_l 0) = (Znth (tail - 1 ) queue_l_2 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueuePopping dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ”
-  &&  “ forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l_2 0)) /\ ((Znth pos queue_l_2 0) <= max_stock_pre))) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (0 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ (0 <= (Znth (tail - 1 ) queue_l 0)) ” 
+  &&  “ ((Znth (tail - 1 ) queue_l 0) <= max_stock_pre) ” 
+  &&  “ (((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) ) = ((Znth (j + 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j + 1 ) * bid_price ) )) ” 
+  &&  “ ((head < tail) -> ((Znth (tail - 1 ) queue_l 0) = (Znth (tail - 1 ) queue_l_2 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueuePopping dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ” 
+  &&  “ forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l_2 0)) /\ ((Znth pos queue_l_2 0) <= max_stock_pre))) ” 
   &&  “ (StockTableShape dp_l_2 days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -7507,40 +7507,40 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre source_day 0 (days_pre + 1 ) width dp_l )
 |--
   EX (dp_l_2: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (0 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ (0 <= (Znth (tail - 1 ) queue_l 0)) ”
-  &&  “ ((Znth (tail - 1 ) queue_l 0) <= max_stock_pre) ”
-  &&  “ (((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) ) = ((Znth (j + 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j + 1 ) * bid_price ) )) ”
-  &&  “ ((head < tail) -> ((Znth (tail - 1 ) queue_l 0) = (Znth (tail - 1 ) queue_l 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueuePopping dp_l_2 queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ”
-  &&  “ forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre))) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (0 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ (0 <= (Znth (tail - 1 ) queue_l 0)) ” 
+  &&  “ ((Znth (tail - 1 ) queue_l 0) <= max_stock_pre) ” 
+  &&  “ (((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) ) = ((Znth (j + 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j + 1 ) * bid_price ) )) ” 
+  &&  “ ((head < tail) -> ((Znth (tail - 1 ) queue_l 0) = (Znth (tail - 1 ) queue_l 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueuePopping dp_l_2 queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ” 
+  &&  “ forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre))) ” 
   &&  “ (StockTableShape dp_l_2 days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 ).
 
-Definition maximum_profit_entail_wit_19_2 :=
+Definition maximum_profit_entail_wit_19_2 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l_2 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l_2 source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + (j + 1 ) ) * sizeof(INT)))) # Int  |-> (Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)))
@@ -7553,35 +7553,35 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l_2: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (0 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ (0 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= max_stock_pre) ”
-  &&  “ (((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) ) = ((Znth (j + 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j + 1 ) * bid_price ) )) ”
-  &&  “ ((head < tail) -> ((j + 1 ) = (Znth (tail - 1 ) queue_l 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueuePopping dp_l_2 queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ”
-  &&  “ forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre))) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (0 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ (0 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= max_stock_pre) ” 
+  &&  “ (((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) ) = ((Znth (j + 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j + 1 ) * bid_price ) )) ” 
+  &&  “ ((head < tail) -> ((j + 1 ) = (Znth (tail - 1 ) queue_l 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueuePopping dp_l_2 queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ” 
+  &&  “ forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre))) ” 
   &&  “ (StockTableShape dp_l_2 days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -7597,40 +7597,40 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre source_day 0 (days_pre + 1 ) width dp_l )
 |--
   EX (dp_l_2: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (0 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ (0 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= max_stock_pre) ”
-  &&  “ (((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) ) = ((Znth (j + 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j + 1 ) * bid_price ) )) ”
-  &&  “ ((head < tail) -> ((j + 1 ) = (Znth (tail - 1 ) queue_l_2 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueuePopping dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ”
-  &&  “ forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l_2 0)) /\ ((Znth pos queue_l_2 0) <= max_stock_pre))) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (0 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ (0 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= max_stock_pre) ” 
+  &&  “ (((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j + 1 ) * bid_price ) ) = ((Znth (j + 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j + 1 ) * bid_price ) )) ” 
+  &&  “ ((head < tail) -> ((j + 1 ) = (Znth (tail - 1 ) queue_l_2 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueuePopping dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ” 
+  &&  “ forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l_2 0)) /\ ((Znth pos queue_l_2 0) <= max_stock_pre))) ” 
   &&  “ (StockTableShape dp_l_2 days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 ).
 
-Definition maximum_profit_entail_wit_20_1 :=
+Definition maximum_profit_entail_wit_20_1 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head < (tail - 1 ))) (PreH2 : (((Znth (last_index) ((Znth source_day dp_l_2 __default__List_Z)) (0)) + (last_index * bid_price ) ) <= incoming_score)) (PreH3 : (head < tail)) (PreH4 : (neg_inf = (-1000000000))) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (1 <= i)) (PreH13 : (i <= days_pre)) (PreH14 : (0 <= j)) (PreH15 : (j < max_stock_pre)) (PreH16 : (0 <= source_day)) (PreH17 : (source_day < i)) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (0 <= bid_price)) (PreH21 : (bid_price <= 1000)) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH25 : (0 <= last_index)) (PreH26 : (last_index <= max_stock_pre)) (PreH27 : (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j + 1 ) * bid_price ) ))) (PreH28 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l_2 0)))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockSellQueuePopping dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH32 : forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l_2 0)) /\ ((Znth pos queue_l_2 0) <= max_stock_pre)))) (PreH33 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width queue_l_2 )
@@ -7643,35 +7643,35 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (0 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= (tail - 1 )) ”
-  &&  “ ((tail - 1 ) <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ (0 <= (Znth ((tail - 1 ) - 1 ) queue_l_2 0)) ”
-  &&  “ ((Znth ((tail - 1 ) - 1 ) queue_l_2 0) <= max_stock_pre) ”
-  &&  “ (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) )) ”
-  &&  “ ((head < (tail - 1 )) -> ((Znth ((tail - 1 ) - 1 ) queue_l_2 0) = (Znth ((tail - 1 ) - 1 ) queue_l 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueuePopping dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head (tail - 1 ) ) ”
-  &&  “ forall (pos: Z) , (((head <= pos) /\ (pos < (tail - 1 ))) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre))) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (0 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= (tail - 1 )) ” 
+  &&  “ ((tail - 1 ) <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ (0 <= (Znth ((tail - 1 ) - 1 ) queue_l_2 0)) ” 
+  &&  “ ((Znth ((tail - 1 ) - 1 ) queue_l_2 0) <= max_stock_pre) ” 
+  &&  “ (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) )) ” 
+  &&  “ ((head < (tail - 1 )) -> ((Znth ((tail - 1 ) - 1 ) queue_l_2 0) = (Znth ((tail - 1 ) - 1 ) queue_l 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueuePopping dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head (tail - 1 ) ) ” 
+  &&  “ forall (pos: Z) , (((head <= pos) /\ (pos < (tail - 1 ))) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre))) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -7687,40 +7687,40 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre source_day 0 (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (0 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= (tail - 1 )) ”
-  &&  “ ((tail - 1 ) <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ (0 <= (Znth ((tail - 1 ) - 1 ) queue_l_2 0)) ”
-  &&  “ ((Znth ((tail - 1 ) - 1 ) queue_l_2 0) <= max_stock_pre) ”
-  &&  “ (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) )) ”
-  &&  “ ((head < (tail - 1 )) -> ((Znth ((tail - 1 ) - 1 ) queue_l_2 0) = (Znth ((tail - 1 ) - 1 ) queue_l_2 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueuePopping dp_l queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head (tail - 1 ) ) ”
-  &&  “ forall (pos: Z) , (((head <= pos) /\ (pos < (tail - 1 ))) -> ((0 <= (Znth pos queue_l_2 0)) /\ ((Znth pos queue_l_2 0) <= max_stock_pre))) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (0 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= (tail - 1 )) ” 
+  &&  “ ((tail - 1 ) <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ (0 <= (Znth ((tail - 1 ) - 1 ) queue_l_2 0)) ” 
+  &&  “ ((Znth ((tail - 1 ) - 1 ) queue_l_2 0) <= max_stock_pre) ” 
+  &&  “ (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) )) ” 
+  &&  “ ((head < (tail - 1 )) -> ((Znth ((tail - 1 ) - 1 ) queue_l_2 0) = (Znth ((tail - 1 ) - 1 ) queue_l_2 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueuePopping dp_l queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head (tail - 1 ) ) ” 
+  &&  “ forall (pos: Z) , (((head <= pos) /\ (pos < (tail - 1 ))) -> ((0 <= (Znth pos queue_l_2 0)) /\ ((Znth pos queue_l_2 0) <= max_stock_pre))) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 ).
 
-Definition maximum_profit_entail_wit_20_2 :=
+Definition maximum_profit_entail_wit_20_2 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head >= (tail - 1 ))) (PreH2 : (((Znth (last_index) ((Znth source_day dp_l_2 __default__List_Z)) (0)) + (last_index * bid_price ) ) <= incoming_score)) (PreH3 : (head < tail)) (PreH4 : (neg_inf = (-1000000000))) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (1 <= i)) (PreH13 : (i <= days_pre)) (PreH14 : (0 <= j)) (PreH15 : (j < max_stock_pre)) (PreH16 : (0 <= source_day)) (PreH17 : (source_day < i)) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (0 <= bid_price)) (PreH21 : (bid_price <= 1000)) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH25 : (0 <= last_index)) (PreH26 : (last_index <= max_stock_pre)) (PreH27 : (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j + 1 ) * bid_price ) ))) (PreH28 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l_2 0)))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockSellQueuePopping dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH32 : forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l_2 0)) /\ ((Znth pos queue_l_2 0) <= max_stock_pre)))) (PreH33 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l_2 __default__List_Z)) (0)))
@@ -7733,35 +7733,35 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (0 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= (tail - 1 )) ”
-  &&  “ ((tail - 1 ) <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ (0 <= last_index) ”
-  &&  “ (last_index <= max_stock_pre) ”
-  &&  “ (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) )) ”
-  &&  “ ((head < (tail - 1 )) -> (last_index = (Znth ((tail - 1 ) - 1 ) queue_l 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueuePopping dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head (tail - 1 ) ) ”
-  &&  “ forall (pos: Z) , (((head <= pos) /\ (pos < (tail - 1 ))) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre))) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (0 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= (tail - 1 )) ” 
+  &&  “ ((tail - 1 ) <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ (0 <= last_index) ” 
+  &&  “ (last_index <= max_stock_pre) ” 
+  &&  “ (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) )) ” 
+  &&  “ ((head < (tail - 1 )) -> (last_index = (Znth ((tail - 1 ) - 1 ) queue_l 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueuePopping dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head (tail - 1 ) ) ” 
+  &&  “ forall (pos: Z) , (((head <= pos) /\ (pos < (tail - 1 ))) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre))) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -7777,40 +7777,40 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre source_day 0 (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (0 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= (tail - 1 )) ”
-  &&  “ ((tail - 1 ) <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ (0 <= last_index) ”
-  &&  “ (last_index <= max_stock_pre) ”
-  &&  “ (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) )) ”
-  &&  “ ((head < (tail - 1 )) -> (last_index = (Znth ((tail - 1 ) - 1 ) queue_l_2 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueuePopping dp_l queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head (tail - 1 ) ) ”
-  &&  “ forall (pos: Z) , (((head <= pos) /\ (pos < (tail - 1 ))) -> ((0 <= (Znth pos queue_l_2 0)) /\ ((Znth pos queue_l_2 0) <= max_stock_pre))) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (0 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= (tail - 1 )) ” 
+  &&  “ ((tail - 1 ) <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ (0 <= last_index) ” 
+  &&  “ (last_index <= max_stock_pre) ” 
+  &&  “ (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) )) ” 
+  &&  “ ((head < (tail - 1 )) -> (last_index = (Znth ((tail - 1 ) - 1 ) queue_l_2 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueuePopping dp_l queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head (tail - 1 ) ) ” 
+  &&  “ forall (pos: Z) , (((head <= pos) /\ (pos < (tail - 1 ))) -> ((0 <= (Znth pos queue_l_2 0)) /\ ((Znth pos queue_l_2 0) <= max_stock_pre))) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 ).
 
-Definition maximum_profit_entail_wit_21_1 :=
+Definition maximum_profit_entail_wit_21_1 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j < max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (0 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH23 : (0 <= last_index)) (PreH24 : (last_index <= max_stock_pre)) (PreH25 : (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j + 1 ) * bid_price ) ))) (PreH26 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l_2 0)))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueuePopping dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH30 : forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l_2 0)) /\ ((Znth pos queue_l_2 0) <= max_stock_pre)))) (PreH31 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -7821,31 +7821,31 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z)))  (queue_l: (@list Z)) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (0 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ ((Zlength (queue_l)) = width) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueuePending dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (0 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ ((Zlength (queue_l)) = width) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueuePending dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -7856,24 +7856,24 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j < max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (0 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH23 : (0 <= last_index)) (PreH24 : (last_index <= max_stock_pre)) (PreH25 : (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j + 1 ) * bid_price ) ))) (PreH26 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l_2 0)))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueuePopping dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH30 : forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l_2 0)) /\ ((Znth pos queue_l_2 0) <= max_stock_pre)))) (PreH31 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
-  “ (StockSellQueuePending dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ”
-  &&  “ ((Zlength (queue_l_2)) = width) ”
+  “ (StockSellQueuePending dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ” 
+  &&  “ ((Zlength (queue_l_2)) = (max_stock_pre + 1 )) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_21_1_split_goal_1 :=
+Definition maximum_profit_entail_wit_21_1_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j < max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (0 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH23 : (0 <= last_index)) (PreH24 : (last_index <= max_stock_pre)) (PreH25 : (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j + 1 ) * bid_price ) ))) (PreH26 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l_2 0)))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueuePopping dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH30 : forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l_2 0)) /\ ((Znth pos queue_l_2 0) <= max_stock_pre)))) (PreH31 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (StockSellQueuePending dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )
 .
 
-Definition maximum_profit_entail_wit_21_1_split_goal_2 :=
+Definition maximum_profit_entail_wit_21_1_split_goal_2 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j < max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (0 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH23 : (0 <= last_index)) (PreH24 : (last_index <= max_stock_pre)) (PreH25 : (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j + 1 ) * bid_price ) ))) (PreH26 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l_2 0)))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueuePopping dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH30 : forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l_2 0)) /\ ((Znth pos queue_l_2 0) <= max_stock_pre)))) (PreH31 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  ((Zlength (queue_l_2)) = width)
+  ((Zlength (queue_l_2)) = (max_stock_pre + 1 ))
 .
 
-Definition maximum_profit_entail_wit_21_2 :=
+Definition maximum_profit_entail_wit_21_2 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (((Znth (last_index) ((Znth source_day dp_l_2 __default__List_Z)) (0)) + (last_index * bid_price ) ) > incoming_score)) (PreH2 : (head < tail)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j < max_stock_pre)) (PreH15 : (0 <= source_day)) (PreH16 : (source_day < i)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (0 <= bid_price)) (PreH20 : (bid_price <= 1000)) (PreH21 : (0 <= head)) (PreH22 : (head <= tail)) (PreH23 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH24 : (0 <= last_index)) (PreH25 : (last_index <= max_stock_pre)) (PreH26 : (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j + 1 ) * bid_price ) ))) (PreH27 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l_2 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueuePopping dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH31 : forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l_2 0)) /\ ((Znth pos queue_l_2 0) <= max_stock_pre)))) (PreH32 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l_2 __default__List_Z)) (0)))
@@ -7886,31 +7886,31 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (dp_l: (@list (@list Z)))  (queue_l: (@list Z)) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (0 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ ((Zlength (queue_l)) = width) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueuePending dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (0 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ ((Zlength (queue_l)) = width) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueuePending dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -7926,36 +7926,36 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre source_day 0 (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (0 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ ((Zlength (queue_l_2)) = width) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueuePending dp_l queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (0 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ ((Zlength (queue_l_2)) = width) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueuePending dp_l queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 ).
 
-Definition maximum_profit_entail_wit_22 :=
+Definition maximum_profit_entail_wit_22 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (0 <= bid_price)) (PreH16 : (bid_price <= 1000)) (PreH17 : (0 <= j)) (PreH18 : (j < max_stock_pre)) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH22 : ((Zlength (queue_l_2)) = width)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockSellQueuePending dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH26 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width (replace_Znth (tail) ((j + 1 )) (queue_l_2)) )
@@ -7966,28 +7966,28 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= (tail + 1 )) ”
-  &&  “ ((tail + 1 ) <= (max_stock_pre - j )) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head (tail + 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= (tail + 1 )) ” 
+  &&  “ ((tail + 1 ) <= (max_stock_pre - j )) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head (tail + 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -7998,18 +7998,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (0 <= bid_price)) (PreH16 : (bid_price <= 1000)) (PreH17 : (0 <= j)) (PreH18 : (j < max_stock_pre)) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH22 : ((Zlength (queue_l_2)) = width)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockSellQueuePending dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH26 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
   “ (StockSellQueue dp_l_2 (replace_Znth (tail) ((j + 1 )) (queue_l_2)) source_day bid_price (j + 1 ) (j + sell_cap ) head (tail + 1 ) ) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_22_split_goal_1 :=
+Definition maximum_profit_entail_wit_22_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (0 <= bid_price)) (PreH16 : (bid_price <= 1000)) (PreH17 : (0 <= j)) (PreH18 : (j < max_stock_pre)) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH22 : ((Zlength (queue_l_2)) = width)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockSellQueuePending dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH26 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (StockSellQueue dp_l_2 (replace_Znth (tail) ((j + 1 )) (queue_l_2)) source_day bid_price (j + 1 ) (j + sell_cap ) head (tail + 1 ) )
 .
 
-Definition maximum_profit_entail_wit_23_1 :=
+Definition maximum_profit_entail_wit_23_1 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (head: Z) (tail: Z) (bid_price: Z) (sell_cap: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (0 <= j)) (PreH14 : (j < max_stock_pre)) (PreH15 : (0 <= head)) (PreH16 : (head <= tail)) (PreH17 : (tail <= (max_stock_pre - j ))) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH21 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH22 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH23 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -8020,29 +8020,29 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= (max_stock_pre - j )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= (max_stock_pre - j )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -8053,18 +8053,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (head: Z) (tail: Z) (bid_price: Z) (sell_cap: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (0 <= j)) (PreH14 : (j < max_stock_pre)) (PreH15 : (0 <= head)) (PreH16 : (head <= tail)) (PreH17 : (tail <= (max_stock_pre - j ))) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH21 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH22 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH23 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
   “ (wait_days_pre < (i - 1 )) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_23_1_split_goal_1 :=
+Definition maximum_profit_entail_wit_23_1_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (head: Z) (tail: Z) (bid_price: Z) (sell_cap: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (0 <= j)) (PreH14 : (j < max_stock_pre)) (PreH15 : (0 <= head)) (PreH16 : (head <= tail)) (PreH17 : (tail <= (max_stock_pre - j ))) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH21 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH22 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH23 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (wait_days_pre < (i - 1 ))
 .
 
-Definition maximum_profit_entail_wit_23_2 :=
+Definition maximum_profit_entail_wit_23_2 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : ((Znth ((j + 1 )) ((Znth source_day dp_l_2 __default__List_Z)) (0)) = neg_inf)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (0 < source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (1 <= bid_price)) (PreH18 : (bid_price <= 1000)) (PreH19 : (0 <= j)) (PreH20 : (j < max_stock_pre)) (PreH21 : (source_day < (days_pre + 1 ))) (PreH22 : ((j + 1 ) < width)) (PreH23 : (0 <= head)) (PreH24 : (head <= tail)) (PreH25 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH26 : ((head < tail) -> (j <= (Znth head queue_l_2 0)))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH30 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + (j + 1 ) ) * sizeof(INT)))) # Int  |-> (Znth ((j + 1 )) ((Znth source_day dp_l_2 __default__List_Z)) (0)))
@@ -8077,29 +8077,29 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= (max_stock_pre - j )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= (max_stock_pre - j )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -8115,34 +8115,34 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre source_day 0 (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= (max_stock_pre - j )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueue dp_l queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= (max_stock_pre - j )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueue dp_l queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 ).
 
-Definition maximum_profit_entail_wit_24 :=
+Definition maximum_profit_entail_wit_24 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (head: Z) (tail: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (0 <= j)) (PreH16 : (j < max_stock_pre)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= (max_stock_pre - j ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH24 : (StockSellQueue dp_l_2 queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH25 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width queue_l )
@@ -8153,34 +8153,34 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z)))  (queue_l_2: (@list Z)) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (0 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (0 <= (Znth head queue_l 0)) ”
-  &&  “ ((Znth head queue_l 0) <= max_stock_pre) ”
-  &&  “ ((Znth head queue_l 0) = (Znth head queue_l_2 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head < tail) ”
-  &&  “ (tail <= (max_stock_pre - j )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueue dp_l queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (0 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (0 <= (Znth head queue_l 0)) ” 
+  &&  “ ((Znth head queue_l 0) <= max_stock_pre) ” 
+  &&  “ ((Znth head queue_l 0) = (Znth head queue_l_2 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head < tail) ” 
+  &&  “ (tail <= (max_stock_pre - j )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueue dp_l queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -8191,36 +8191,36 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (head: Z) (tail: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (0 <= j)) (PreH16 : (j < max_stock_pre)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= (max_stock_pre - j ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH24 : (StockSellQueue dp_l_2 queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH25 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
-  “ ((Znth head queue_l 0) <= max_stock_pre) ”
-  &&  “ (0 <= (Znth head queue_l 0)) ”
-  &&  “ (bid_price <= 1000) ”
+  “ ((Znth head queue_l 0) <= max_stock_pre) ” 
+  &&  “ (0 <= (Znth head queue_l 0)) ” 
+  &&  “ (bid_price <= 1000) ” 
   &&  “ (0 <= bid_price) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_24_split_goal_1 :=
+Definition maximum_profit_entail_wit_24_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (head: Z) (tail: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (0 <= j)) (PreH16 : (j < max_stock_pre)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= (max_stock_pre - j ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH24 : (StockSellQueue dp_l_2 queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH25 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   ((Znth head queue_l 0) <= max_stock_pre)
 .
 
-Definition maximum_profit_entail_wit_24_split_goal_2 :=
+Definition maximum_profit_entail_wit_24_split_goal_2 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (head: Z) (tail: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (0 <= j)) (PreH16 : (j < max_stock_pre)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= (max_stock_pre - j ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH24 : (StockSellQueue dp_l_2 queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH25 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (0 <= (Znth head queue_l 0))
 .
 
-Definition maximum_profit_entail_wit_24_split_goal_3 :=
+Definition maximum_profit_entail_wit_24_split_goal_3 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (head: Z) (tail: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (0 <= j)) (PreH16 : (j < max_stock_pre)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= (max_stock_pre - j ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH24 : (StockSellQueue dp_l_2 queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH25 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (bid_price <= 1000)
 .
 
-Definition maximum_profit_entail_wit_24_split_goal_4 :=
+Definition maximum_profit_entail_wit_24_split_goal_4 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (head: Z) (tail: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (0 <= j)) (PreH16 : (j < max_stock_pre)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= (max_stock_pre - j ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH24 : (StockSellQueue dp_l_2 queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH25 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (0 <= bid_price)
 .
 
-Definition maximum_profit_entail_wit_25 :=
+Definition maximum_profit_entail_wit_25 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (wait_days_pre < (i - 1 ))) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (0 <= bid_price)) (PreH15 : (bid_price <= 1000)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (0 <= j)) (PreH19 : (j < max_stock_pre)) (PreH20 : (0 <= best_index)) (PreH21 : (best_index <= max_stock_pre)) (PreH22 : (best_index = (Znth head queue_l_2 0))) (PreH23 : (0 <= head)) (PreH24 : (head < tail)) (PreH25 : (tail <= (max_stock_pre - j ))) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (StockSellQueue dp_l queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + best_index ) * sizeof(INT)))) # Int  |-> (Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)))
@@ -8233,33 +8233,33 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (dp_l_2: (@list (@list Z)))  (queue_l: (@list Z)) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (0 <= best_index) ”
-  &&  “ (best_index <= max_stock_pre) ”
-  &&  “ (best_index = (Znth head queue_l 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head < tail) ”
-  &&  “ (tail <= (max_stock_pre - j )) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ ((((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * bid_price ) ) - (j * bid_price ) ) = (((Znth best_index (Znth source_day dp_l_2 __default__List_Z) 0) + (best_index * bid_price ) ) - (j * bid_price ) )) ”
-  &&  “ (StockSellQueue dp_l_2 queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (0 <= best_index) ” 
+  &&  “ (best_index <= max_stock_pre) ” 
+  &&  “ (best_index = (Znth head queue_l 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head < tail) ” 
+  &&  “ (tail <= (max_stock_pre - j )) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ ((((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * bid_price ) ) - (j * bid_price ) ) = (((Znth best_index (Znth source_day dp_l_2 __default__List_Z) 0) + (best_index * bid_price ) ) - (j * bid_price ) )) ” 
+  &&  “ (StockSellQueue dp_l_2 queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ” 
   &&  “ (StockTableShape dp_l_2 days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -8275,38 +8275,38 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre source_day 0 (days_pre + 1 ) width dp_l )
 |--
   EX (dp_l_2: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (0 <= best_index) ”
-  &&  “ (best_index <= max_stock_pre) ”
-  &&  “ (best_index = (Znth head queue_l_2 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head < tail) ”
-  &&  “ (tail <= (max_stock_pre - j )) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ ((((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * bid_price ) ) - (j * bid_price ) ) = (((Znth best_index (Znth source_day dp_l_2 __default__List_Z) 0) + (best_index * bid_price ) ) - (j * bid_price ) )) ”
-  &&  “ (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (0 <= best_index) ” 
+  &&  “ (best_index <= max_stock_pre) ” 
+  &&  “ (best_index = (Znth head queue_l_2 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head < tail) ” 
+  &&  “ (tail <= (max_stock_pre - j )) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ ((((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * bid_price ) ) - (j * bid_price ) ) = (((Znth best_index (Znth source_day dp_l_2 __default__List_Z) 0) + (best_index * bid_price ) ) - (j * bid_price ) )) ” 
+  &&  “ (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ” 
   &&  “ (StockTableShape dp_l_2 days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 ).
 
-Definition maximum_profit_entail_wit_26_1 :=
+Definition maximum_profit_entail_wit_26_1 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (j: Z) (source_day: Z) (best_index: Z) (head: Z) (tail: Z) (bid_price: Z) (sell_cap: Z) (sell_candidate: Z)  __default__List_Z (PreH1 : (sell_candidate > (Znth (j) ((Znth i dp_l_2 __default__List_Z)) (0)))) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j < max_stock_pre)) (PreH15 : (0 <= source_day)) (PreH16 : (source_day < i)) (PreH17 : (0 <= best_index)) (PreH18 : (best_index <= max_stock_pre)) (PreH19 : (best_index = (Znth head queue_l_2 0))) (PreH20 : (0 <= head)) (PreH21 : (head < tail)) (PreH22 : (tail <= (max_stock_pre - j ))) (PreH23 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH24 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH25 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH26 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH27 : (sell_candidate = (((Znth best_index (Znth source_day dp_l_2 __default__List_Z) 0) + (best_index * bid_price ) ) - (j * bid_price ) ))) (PreH28 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH29 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> sell_candidate)
@@ -8319,34 +8319,34 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (1 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (1 <= sell_cap) ”
-  &&  “ (sell_cap <= max_stock_pre) ”
-  &&  “ ((-1) <= (j - 1 )) ”
-  &&  “ ((j - 1 ) <= (max_stock_pre - 1 )) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - (j - 1 ) ) - 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day (j - 1 ) ) ”
-  &&  “ (StockSellQueue dp_l queue_l source_day bid_price ((j - 1 ) + 2 ) (((j - 1 ) + sell_cap ) + 1 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (1 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (1 <= sell_cap) ” 
+  &&  “ (sell_cap <= max_stock_pre) ” 
+  &&  “ ((-1) <= (j - 1 )) ” 
+  &&  “ ((j - 1 ) <= (max_stock_pre - 1 )) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - (j - 1 ) ) - 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day (j - 1 ) ) ” 
+  &&  “ (StockSellQueue dp_l queue_l source_day bid_price ((j - 1 ) + 2 ) (((j - 1 ) + sell_cap ) + 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -8362,39 +8362,39 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre i 0 (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (1 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (1 <= sell_cap) ”
-  &&  “ (sell_cap <= max_stock_pre) ”
-  &&  “ ((-1) <= (j - 1 )) ”
-  &&  “ ((j - 1 ) <= (max_stock_pre - 1 )) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - (j - 1 ) ) - 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day (j - 1 ) ) ”
-  &&  “ (StockSellQueue dp_l queue_l_2 source_day bid_price ((j - 1 ) + 2 ) (((j - 1 ) + sell_cap ) + 1 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (1 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (1 <= sell_cap) ” 
+  &&  “ (sell_cap <= max_stock_pre) ” 
+  &&  “ ((-1) <= (j - 1 )) ” 
+  &&  “ ((j - 1 ) <= (max_stock_pre - 1 )) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - (j - 1 ) ) - 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day (j - 1 ) ) ” 
+  &&  “ (StockSellQueue dp_l queue_l_2 source_day bid_price ((j - 1 ) + 2 ) (((j - 1 ) + sell_cap ) + 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 ).
 
-Definition maximum_profit_entail_wit_26_2 :=
+Definition maximum_profit_entail_wit_26_2 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (j: Z) (source_day: Z) (best_index: Z) (head: Z) (tail: Z) (bid_price: Z) (sell_cap: Z) (sell_candidate: Z)  __default__List_Z (PreH1 : (sell_candidate <= (Znth (j) ((Znth i dp_l_2 __default__List_Z)) (0)))) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j < max_stock_pre)) (PreH15 : (0 <= source_day)) (PreH16 : (source_day < i)) (PreH17 : (0 <= best_index)) (PreH18 : (best_index <= max_stock_pre)) (PreH19 : (best_index = (Znth head queue_l_2 0))) (PreH20 : (0 <= head)) (PreH21 : (head < tail)) (PreH22 : (tail <= (max_stock_pre - j ))) (PreH23 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH24 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH25 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH26 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH27 : (sell_candidate = (((Znth best_index (Znth source_day dp_l_2 __default__List_Z) 0) + (best_index * bid_price ) ) - (j * bid_price ) ))) (PreH28 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH29 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> (Znth (j) ((Znth i dp_l_2 __default__List_Z)) (0)))
@@ -8407,34 +8407,34 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (1 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (1 <= sell_cap) ”
-  &&  “ (sell_cap <= max_stock_pre) ”
-  &&  “ ((-1) <= (j - 1 )) ”
-  &&  “ ((j - 1 ) <= (max_stock_pre - 1 )) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - (j - 1 ) ) - 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day (j - 1 ) ) ”
-  &&  “ (StockSellQueue dp_l queue_l source_day bid_price ((j - 1 ) + 2 ) (((j - 1 ) + sell_cap ) + 1 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (1 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (1 <= sell_cap) ” 
+  &&  “ (sell_cap <= max_stock_pre) ” 
+  &&  “ ((-1) <= (j - 1 )) ” 
+  &&  “ ((j - 1 ) <= (max_stock_pre - 1 )) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - (j - 1 ) ) - 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day (j - 1 ) ) ” 
+  &&  “ (StockSellQueue dp_l queue_l source_day bid_price ((j - 1 ) + 2 ) (((j - 1 ) + sell_cap ) + 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -8450,39 +8450,39 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre i 0 (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (1 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (1 <= sell_cap) ”
-  &&  “ (sell_cap <= max_stock_pre) ”
-  &&  “ ((-1) <= (j - 1 )) ”
-  &&  “ ((j - 1 ) <= (max_stock_pre - 1 )) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - (j - 1 ) ) - 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day (j - 1 ) ) ”
-  &&  “ (StockSellQueue dp_l queue_l_2 source_day bid_price ((j - 1 ) + 2 ) (((j - 1 ) + sell_cap ) + 1 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (1 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (1 <= sell_cap) ” 
+  &&  “ (sell_cap <= max_stock_pre) ” 
+  &&  “ ((-1) <= (j - 1 )) ” 
+  &&  “ ((j - 1 ) <= (max_stock_pre - 1 )) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - (j - 1 ) ) - 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day (j - 1 ) ) ” 
+  &&  “ (StockSellQueue dp_l queue_l_2 source_day bid_price ((j - 1 ) + 2 ) (((j - 1 ) + sell_cap ) + 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 ).
 
-Definition maximum_profit_entail_wit_26_3 :=
+Definition maximum_profit_entail_wit_26_3 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (0 <= j)) (PreH16 : (j < max_stock_pre)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= (max_stock_pre - j ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH24 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH25 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -8493,34 +8493,34 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (1 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (1 <= sell_cap) ”
-  &&  “ (sell_cap <= max_stock_pre) ”
-  &&  “ ((-1) <= (j - 1 )) ”
-  &&  “ ((j - 1 ) <= (max_stock_pre - 1 )) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - (j - 1 ) ) - 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day (j - 1 ) ) ”
-  &&  “ (StockSellQueue dp_l queue_l source_day bid_price ((j - 1 ) + 2 ) (((j - 1 ) + sell_cap ) + 1 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (1 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (1 <= sell_cap) ” 
+  &&  “ (sell_cap <= max_stock_pre) ” 
+  &&  “ ((-1) <= (j - 1 )) ” 
+  &&  “ ((j - 1 ) <= (max_stock_pre - 1 )) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - (j - 1 ) ) - 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day (j - 1 ) ) ” 
+  &&  “ (StockSellQueue dp_l queue_l source_day bid_price ((j - 1 ) + 2 ) (((j - 1 ) + sell_cap ) + 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -8531,60 +8531,60 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (0 <= j)) (PreH16 : (j < max_stock_pre)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= (max_stock_pre - j ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH24 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH25 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
-  “ (StockSellQueue dp_l_2 queue_l_2 source_day bid_price ((j - 1 ) + 2 ) (((j - 1 ) + sell_cap ) + 1 ) head tail ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day (j - 1 ) ) ”
-  &&  “ (sell_cap <= max_stock_pre) ”
-  &&  “ (1 <= sell_cap) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (1 <= bid_price) ”
-  &&  “ (0 < source_day) ”
+  “ (StockSellQueue dp_l_2 queue_l_2 source_day bid_price ((j - 1 ) + 2 ) (((j - 1 ) + sell_cap ) + 1 ) head tail ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day (j - 1 ) ) ” 
+  &&  “ (sell_cap <= max_stock_pre) ” 
+  &&  “ (1 <= sell_cap) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (1 <= bid_price) ” 
+  &&  “ (0 < source_day) ” 
   &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_26_3_split_goal_1 :=
+Definition maximum_profit_entail_wit_26_3_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (0 <= j)) (PreH16 : (j < max_stock_pre)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= (max_stock_pre - j ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH24 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH25 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (StockSellQueue dp_l_2 queue_l_2 source_day bid_price ((j - 1 ) + 2 ) (((j - 1 ) + sell_cap ) + 1 ) head tail )
 .
 
-Definition maximum_profit_entail_wit_26_3_split_goal_2 :=
+Definition maximum_profit_entail_wit_26_3_split_goal_2 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (0 <= j)) (PreH16 : (j < max_stock_pre)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= (max_stock_pre - j ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH24 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH25 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day (j - 1 ) )
 .
 
-Definition maximum_profit_entail_wit_26_3_split_goal_3 :=
+Definition maximum_profit_entail_wit_26_3_split_goal_3 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (0 <= j)) (PreH16 : (j < max_stock_pre)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= (max_stock_pre - j ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH24 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH25 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (sell_cap <= max_stock_pre)
 .
 
-Definition maximum_profit_entail_wit_26_3_split_goal_4 :=
+Definition maximum_profit_entail_wit_26_3_split_goal_4 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (0 <= j)) (PreH16 : (j < max_stock_pre)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= (max_stock_pre - j ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH24 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH25 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (1 <= sell_cap)
 .
 
-Definition maximum_profit_entail_wit_26_3_split_goal_5 :=
+Definition maximum_profit_entail_wit_26_3_split_goal_5 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (0 <= j)) (PreH16 : (j < max_stock_pre)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= (max_stock_pre - j ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH24 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH25 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (bid_price <= 1000)
 .
 
-Definition maximum_profit_entail_wit_26_3_split_goal_6 :=
+Definition maximum_profit_entail_wit_26_3_split_goal_6 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (0 <= j)) (PreH16 : (j < max_stock_pre)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= (max_stock_pre - j ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH24 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH25 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (1 <= bid_price)
 .
 
-Definition maximum_profit_entail_wit_26_3_split_goal_7 :=
+Definition maximum_profit_entail_wit_26_3_split_goal_7 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (0 <= j)) (PreH16 : (j < max_stock_pre)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= (max_stock_pre - j ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH24 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH25 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (0 < source_day)
 .
 
-Definition maximum_profit_entail_wit_26_3_split_goal_8 :=
+Definition maximum_profit_entail_wit_26_3_split_goal_8 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (0 <= j)) (PreH16 : (j < max_stock_pre)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= (max_stock_pre - j ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH24 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH25 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (source_day = ((i - wait_days_pre ) - 1 ))
 .
 
-Definition maximum_profit_entail_wit_27 :=
+Definition maximum_profit_entail_wit_27 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j < 0)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (1 <= sell_cap)) (PreH21 : (sell_cap <= max_stock_pre)) (PreH22 : ((-1) <= j)) (PreH23 : (j <= (max_stock_pre - 1 ))) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail )) (PreH30 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full buy_limit_pre days_pre buy_l )
@@ -8595,32 +8595,32 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ ((Znth (i - 1 ) ap_l 0) = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ ((Znth (i - 1 ) buy_l 0) = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (1 <= (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ ((Znth (i - 1 ) ap_l 0) <= 1000) ”
-  &&  “ (1 <= (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ ((Znth (i - 1 ) buy_l 0) <= max_stock_pre) ”
-  &&  “ (1 <= 1) ”
-  &&  “ (1 <= (max_stock_pre + 1 )) ”
-  &&  “ (0 <= 0) ”
-  &&  “ (0 <= 0) ”
-  &&  “ (0 <= (1 - 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day 1 ) ”
-  &&  “ (StockBuyQueue dp_l queue_l source_day (Znth (i - 1 ) ap_l 0) ((1 - (Znth (i - 1 ) buy_l 0) ) - 1 ) (1 - 2 ) 0 0 ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ ((Znth (i - 1 ) ap_l 0) = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ ((Znth (i - 1 ) buy_l 0) = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (1 <= (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ ((Znth (i - 1 ) ap_l 0) <= 1000) ” 
+  &&  “ (1 <= (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ ((Znth (i - 1 ) buy_l 0) <= max_stock_pre) ” 
+  &&  “ (1 <= 1) ” 
+  &&  “ (1 <= (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= 0) ” 
+  &&  “ (0 <= 0) ” 
+  &&  “ (0 <= (1 - 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day 1 ) ” 
+  &&  “ (StockBuyQueue dp_l queue_l source_day (Znth (i - 1 ) ap_l 0) ((1 - (Znth (i - 1 ) buy_l 0) ) - 1 ) (1 - 2 ) 0 0 ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -8631,48 +8631,48 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j < 0)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (1 <= sell_cap)) (PreH21 : (sell_cap <= max_stock_pre)) (PreH22 : ((-1) <= j)) (PreH23 : (j <= (max_stock_pre - 1 ))) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail )) (PreH30 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
-  “ (StockBuyQueue dp_l_2 queue_l_2 source_day (Znth (i - 1 ) ap_l 0) ((1 - (Znth (i - 1 ) buy_l 0) ) - 1 ) (1 - 2 ) 0 0 ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day 1 ) ”
-  &&  “ ((Znth (i - 1 ) buy_l 0) <= max_stock_pre) ”
-  &&  “ (1 <= (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ ((Znth (i - 1 ) ap_l 0) <= 1000) ”
+  “ (StockBuyQueue dp_l_2 queue_l_2 ((i - wait_days_pre ) - 1 ) (Znth (i - 1 ) ap_l 0) ((1 - (Znth (i - 1 ) buy_l 0) ) - 1 ) (1 - 2 ) 0 0 ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i ((i - wait_days_pre ) - 1 ) 1 ) ” 
+  &&  “ ((Znth (i - 1 ) buy_l 0) <= max_stock_pre) ” 
+  &&  “ (1 <= (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ ((Znth (i - 1 ) ap_l 0) <= 1000) ” 
   &&  “ (1 <= (Znth (i - 1 ) ap_l 0)) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_27_split_goal_1 :=
+Definition maximum_profit_entail_wit_27_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j < 0)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (1 <= sell_cap)) (PreH21 : (sell_cap <= max_stock_pre)) (PreH22 : ((-1) <= j)) (PreH23 : (j <= (max_stock_pre - 1 ))) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail )) (PreH30 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  (StockBuyQueue dp_l_2 queue_l_2 source_day (Znth (i - 1 ) ap_l 0) ((1 - (Znth (i - 1 ) buy_l 0) ) - 1 ) (1 - 2 ) 0 0 )
+  (StockBuyQueue dp_l_2 queue_l_2 ((i - wait_days_pre ) - 1 ) (Znth (i - 1 ) ap_l 0) ((1 - (Znth (i - 1 ) buy_l 0) ) - 1 ) (1 - 2 ) 0 0 )
 .
 
-Definition maximum_profit_entail_wit_27_split_goal_2 :=
+Definition maximum_profit_entail_wit_27_split_goal_2 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j < 0)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (1 <= sell_cap)) (PreH21 : (sell_cap <= max_stock_pre)) (PreH22 : ((-1) <= j)) (PreH23 : (j <= (max_stock_pre - 1 ))) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail )) (PreH30 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day 1 )
+  (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i ((i - wait_days_pre ) - 1 ) 1 )
 .
 
-Definition maximum_profit_entail_wit_27_split_goal_3 :=
+Definition maximum_profit_entail_wit_27_split_goal_3 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j < 0)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (1 <= sell_cap)) (PreH21 : (sell_cap <= max_stock_pre)) (PreH22 : ((-1) <= j)) (PreH23 : (j <= (max_stock_pre - 1 ))) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail )) (PreH30 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   ((Znth (i - 1 ) buy_l 0) <= max_stock_pre)
 .
 
-Definition maximum_profit_entail_wit_27_split_goal_4 :=
+Definition maximum_profit_entail_wit_27_split_goal_4 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j < 0)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (1 <= sell_cap)) (PreH21 : (sell_cap <= max_stock_pre)) (PreH22 : ((-1) <= j)) (PreH23 : (j <= (max_stock_pre - 1 ))) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail )) (PreH30 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (1 <= (Znth (i - 1 ) buy_l 0))
 .
 
-Definition maximum_profit_entail_wit_27_split_goal_5 :=
+Definition maximum_profit_entail_wit_27_split_goal_5 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j < 0)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (1 <= sell_cap)) (PreH21 : (sell_cap <= max_stock_pre)) (PreH22 : ((-1) <= j)) (PreH23 : (j <= (max_stock_pre - 1 ))) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail )) (PreH30 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   ((Znth (i - 1 ) ap_l 0) <= 1000)
 .
 
-Definition maximum_profit_entail_wit_27_split_goal_6 :=
+Definition maximum_profit_entail_wit_27_split_goal_6 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j < 0)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (1 <= sell_cap)) (PreH21 : (sell_cap <= max_stock_pre)) (PreH22 : ((-1) <= j)) (PreH23 : (j <= (max_stock_pre - 1 ))) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l_2 queue_l_2 source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail )) (PreH30 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (1 <= (Znth (i - 1 ) ap_l 0))
 .
 
-Definition maximum_profit_entail_wit_28 :=
+Definition maximum_profit_entail_wit_28 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j <= max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= i)) (PreH7 : (i <= days_pre)) (PreH8 : (wait_days_pre < (i - 1 ))) (PreH9 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH10 : (0 < source_day)) (PreH11 : (source_day < i)) (PreH12 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH13 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH16 : (1 <= ask_price)) (PreH17 : (ask_price <= 1000)) (PreH18 : (1 <= buy_cap)) (PreH19 : (buy_cap <= max_stock_pre)) (PreH20 : (1 <= j)) (PreH21 : (j <= (max_stock_pre + 1 ))) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH26 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH27 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price ((j - buy_cap ) - 1 ) (j - 2 ) head tail )) (PreH28 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -8683,36 +8683,36 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (1 <= buy_cap) ”
-  &&  “ (buy_cap <= max_stock_pre) ”
-  &&  “ (1 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= (j - 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueueExpiring dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (1 <= buy_cap) ” 
+  &&  “ (buy_cap <= max_stock_pre) ” 
+  &&  “ (1 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= (j - 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueueExpiring dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -8723,30 +8723,30 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j <= max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= i)) (PreH7 : (i <= days_pre)) (PreH8 : (wait_days_pre < (i - 1 ))) (PreH9 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH10 : (0 < source_day)) (PreH11 : (source_day < i)) (PreH12 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH13 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH16 : (1 <= ask_price)) (PreH17 : (ask_price <= 1000)) (PreH18 : (1 <= buy_cap)) (PreH19 : (buy_cap <= max_stock_pre)) (PreH20 : (1 <= j)) (PreH21 : (j <= (max_stock_pre + 1 ))) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH26 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH27 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price ((j - buy_cap ) - 1 ) (j - 2 ) head tail )) (PreH28 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
-  “ (StockBuyQueueExpiring dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 2 ) head tail ) ”
-  &&  “ (max_stock_pre <= 990) ”
+  “ (StockBuyQueueExpiring dp_l_2 queue_l_2 ((i - wait_days_pre ) - 1 ) ask_price (j - buy_cap ) (j - 2 ) head tail ) ” 
+  &&  “ (max_stock_pre <= 990) ” 
   &&  “ (days_pre <= 990) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_28_split_goal_1 :=
+Definition maximum_profit_entail_wit_28_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j <= max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= i)) (PreH7 : (i <= days_pre)) (PreH8 : (wait_days_pre < (i - 1 ))) (PreH9 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH10 : (0 < source_day)) (PreH11 : (source_day < i)) (PreH12 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH13 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH16 : (1 <= ask_price)) (PreH17 : (ask_price <= 1000)) (PreH18 : (1 <= buy_cap)) (PreH19 : (buy_cap <= max_stock_pre)) (PreH20 : (1 <= j)) (PreH21 : (j <= (max_stock_pre + 1 ))) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH26 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH27 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price ((j - buy_cap ) - 1 ) (j - 2 ) head tail )) (PreH28 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  (StockBuyQueueExpiring dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 2 ) head tail )
+  (StockBuyQueueExpiring dp_l_2 queue_l_2 ((i - wait_days_pre ) - 1 ) ask_price (j - buy_cap ) (j - 2 ) head tail )
 .
 
-Definition maximum_profit_entail_wit_28_split_goal_2 :=
+Definition maximum_profit_entail_wit_28_split_goal_2 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j <= max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= i)) (PreH7 : (i <= days_pre)) (PreH8 : (wait_days_pre < (i - 1 ))) (PreH9 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH10 : (0 < source_day)) (PreH11 : (source_day < i)) (PreH12 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH13 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH16 : (1 <= ask_price)) (PreH17 : (ask_price <= 1000)) (PreH18 : (1 <= buy_cap)) (PreH19 : (buy_cap <= max_stock_pre)) (PreH20 : (1 <= j)) (PreH21 : (j <= (max_stock_pre + 1 ))) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH26 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH27 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price ((j - buy_cap ) - 1 ) (j - 2 ) head tail )) (PreH28 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (max_stock_pre <= 990)
 .
 
-Definition maximum_profit_entail_wit_28_split_goal_3 :=
+Definition maximum_profit_entail_wit_28_split_goal_3 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j <= max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= i)) (PreH7 : (i <= days_pre)) (PreH8 : (wait_days_pre < (i - 1 ))) (PreH9 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH10 : (0 < source_day)) (PreH11 : (source_day < i)) (PreH12 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH13 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH16 : (1 <= ask_price)) (PreH17 : (ask_price <= 1000)) (PreH18 : (1 <= buy_cap)) (PreH19 : (buy_cap <= max_stock_pre)) (PreH20 : (1 <= j)) (PreH21 : (j <= (max_stock_pre + 1 ))) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH26 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH27 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price ((j - buy_cap ) - 1 ) (j - 2 ) head tail )) (PreH28 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (days_pre <= 990)
 .
 
-Definition maximum_profit_entail_wit_29 :=
+Definition maximum_profit_entail_wit_29 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (((Znth head queue_l_2 0) + buy_cap ) < j)) (PreH2 : (head < tail)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH15 : (0 < source_day)) (PreH16 : (source_day < i)) (PreH17 : (1 <= j)) (PreH18 : (j <= max_stock_pre)) (PreH19 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH20 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH21 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH22 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH23 : (1 <= buy_cap)) (PreH24 : (buy_cap <= max_stock_pre)) (PreH25 : (1 <= ask_price)) (PreH26 : (ask_price <= 1000)) (PreH27 : (0 <= head)) (PreH28 : (head <= tail)) (PreH29 : (tail <= (j - 1 ))) (PreH30 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH31 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH32 : (StockBuyQueueExpiring dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH33 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width queue_l_2 )
@@ -8757,36 +8757,36 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (1 <= buy_cap) ”
-  &&  “ (buy_cap <= max_stock_pre) ”
-  &&  “ (1 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (0 <= (head + 1 )) ”
-  &&  “ ((head + 1 ) <= tail) ”
-  &&  “ (tail <= (j - 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueueExpiring dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) (head + 1 ) tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (1 <= buy_cap) ” 
+  &&  “ (buy_cap <= max_stock_pre) ” 
+  &&  “ (1 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (0 <= (head + 1 )) ” 
+  &&  “ ((head + 1 ) <= tail) ” 
+  &&  “ (tail <= (j - 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueueExpiring dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) (head + 1 ) tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -8797,18 +8797,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (((Znth head queue_l_2 0) + buy_cap ) < j)) (PreH2 : (head < tail)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH15 : (0 < source_day)) (PreH16 : (source_day < i)) (PreH17 : (1 <= j)) (PreH18 : (j <= max_stock_pre)) (PreH19 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH20 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH21 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH22 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH23 : (1 <= buy_cap)) (PreH24 : (buy_cap <= max_stock_pre)) (PreH25 : (1 <= ask_price)) (PreH26 : (ask_price <= 1000)) (PreH27 : (0 <= head)) (PreH28 : (head <= tail)) (PreH29 : (tail <= (j - 1 ))) (PreH30 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH31 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH32 : (StockBuyQueueExpiring dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH33 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
-  “ (StockBuyQueueExpiring dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 2 ) (head + 1 ) tail ) ”
+  “ (StockBuyQueueExpiring dp_l_2 queue_l_2 ((i - wait_days_pre ) - 1 ) ask_price (j - buy_cap ) (j - 2 ) (head + 1 ) tail ) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_29_split_goal_1 :=
+Definition maximum_profit_entail_wit_29_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (((Znth head queue_l_2 0) + buy_cap ) < j)) (PreH2 : (head < tail)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH15 : (0 < source_day)) (PreH16 : (source_day < i)) (PreH17 : (1 <= j)) (PreH18 : (j <= max_stock_pre)) (PreH19 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH20 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH21 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH22 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH23 : (1 <= buy_cap)) (PreH24 : (buy_cap <= max_stock_pre)) (PreH25 : (1 <= ask_price)) (PreH26 : (ask_price <= 1000)) (PreH27 : (0 <= head)) (PreH28 : (head <= tail)) (PreH29 : (tail <= (j - 1 ))) (PreH30 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH31 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH32 : (StockBuyQueueExpiring dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH33 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  (StockBuyQueueExpiring dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 2 ) (head + 1 ) tail )
+  (StockBuyQueueExpiring dp_l_2 queue_l_2 ((i - wait_days_pre ) - 1 ) ask_price (j - buy_cap ) (j - 2 ) (head + 1 ) tail )
 .
 
-Definition maximum_profit_entail_wit_30_1 :=
+Definition maximum_profit_entail_wit_30_1 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (1 <= j)) (PreH17 : (j <= max_stock_pre)) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH21 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH22 : (1 <= buy_cap)) (PreH23 : (buy_cap <= max_stock_pre)) (PreH24 : (1 <= ask_price)) (PreH25 : (ask_price <= 1000)) (PreH26 : (0 <= head)) (PreH27 : (head <= tail)) (PreH28 : (tail <= (j - 1 ))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockBuyQueueExpiring dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH32 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -8819,34 +8819,34 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (source_day < (days_pre + 1 )) ”
-  &&  “ ((j - 1 ) < width) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= (j - 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (source_day < (days_pre + 1 )) ” 
+  &&  “ ((j - 1 ) < width) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= (j - 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -8857,18 +8857,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (1 <= j)) (PreH17 : (j <= max_stock_pre)) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH21 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH22 : (1 <= buy_cap)) (PreH23 : (buy_cap <= max_stock_pre)) (PreH24 : (1 <= ask_price)) (PreH25 : (ask_price <= 1000)) (PreH26 : (0 <= head)) (PreH27 : (head <= tail)) (PreH28 : (tail <= (j - 1 ))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockBuyQueueExpiring dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH32 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
-  “ (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 2 ) head tail ) ”
+  “ (StockBuyQueue dp_l_2 queue_l_2 ((i - wait_days_pre ) - 1 ) ask_price (j - buy_cap ) (j - 2 ) head tail ) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_30_1_split_goal_1 :=
+Definition maximum_profit_entail_wit_30_1_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (1 <= j)) (PreH17 : (j <= max_stock_pre)) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH21 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH22 : (1 <= buy_cap)) (PreH23 : (buy_cap <= max_stock_pre)) (PreH24 : (1 <= ask_price)) (PreH25 : (ask_price <= 1000)) (PreH26 : (0 <= head)) (PreH27 : (head <= tail)) (PreH28 : (tail <= (j - 1 ))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockBuyQueueExpiring dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH32 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 2 ) head tail )
+  (StockBuyQueue dp_l_2 queue_l_2 ((i - wait_days_pre ) - 1 ) ask_price (j - buy_cap ) (j - 2 ) head tail )
 .
 
-Definition maximum_profit_entail_wit_30_2 :=
+Definition maximum_profit_entail_wit_30_2 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (((Znth head queue_l_2 0) + buy_cap ) >= j)) (PreH2 : (head < tail)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH15 : (0 < source_day)) (PreH16 : (source_day < i)) (PreH17 : (1 <= j)) (PreH18 : (j <= max_stock_pre)) (PreH19 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH20 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH21 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH22 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH23 : (1 <= buy_cap)) (PreH24 : (buy_cap <= max_stock_pre)) (PreH25 : (1 <= ask_price)) (PreH26 : (ask_price <= 1000)) (PreH27 : (0 <= head)) (PreH28 : (head <= tail)) (PreH29 : (tail <= (j - 1 ))) (PreH30 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH31 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH32 : (StockBuyQueueExpiring dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH33 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width queue_l_2 )
@@ -8879,34 +8879,34 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (source_day < (days_pre + 1 )) ”
-  &&  “ ((j - 1 ) < width) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= (j - 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (source_day < (days_pre + 1 )) ” 
+  &&  “ ((j - 1 ) < width) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= (j - 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -8917,18 +8917,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (((Znth head queue_l_2 0) + buy_cap ) >= j)) (PreH2 : (head < tail)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH15 : (0 < source_day)) (PreH16 : (source_day < i)) (PreH17 : (1 <= j)) (PreH18 : (j <= max_stock_pre)) (PreH19 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH20 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH21 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH22 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH23 : (1 <= buy_cap)) (PreH24 : (buy_cap <= max_stock_pre)) (PreH25 : (1 <= ask_price)) (PreH26 : (ask_price <= 1000)) (PreH27 : (0 <= head)) (PreH28 : (head <= tail)) (PreH29 : (tail <= (j - 1 ))) (PreH30 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH31 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH32 : (StockBuyQueueExpiring dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH33 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
-  “ (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 2 ) head tail ) ”
+  “ (StockBuyQueue dp_l_2 queue_l_2 ((i - wait_days_pre ) - 1 ) ask_price (j - buy_cap ) (j - 2 ) head tail ) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_30_2_split_goal_1 :=
+Definition maximum_profit_entail_wit_30_2_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (((Znth head queue_l_2 0) + buy_cap ) >= j)) (PreH2 : (head < tail)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH15 : (0 < source_day)) (PreH16 : (source_day < i)) (PreH17 : (1 <= j)) (PreH18 : (j <= max_stock_pre)) (PreH19 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH20 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH21 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH22 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH23 : (1 <= buy_cap)) (PreH24 : (buy_cap <= max_stock_pre)) (PreH25 : (1 <= ask_price)) (PreH26 : (ask_price <= 1000)) (PreH27 : (0 <= head)) (PreH28 : (head <= tail)) (PreH29 : (tail <= (j - 1 ))) (PreH30 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH31 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH32 : (StockBuyQueueExpiring dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH33 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 2 ) head tail )
+  (StockBuyQueue dp_l_2 queue_l_2 ((i - wait_days_pre ) - 1 ) ask_price (j - buy_cap ) (j - 2 ) head tail )
 .
 
-Definition maximum_profit_entail_wit_31_1 :=
+Definition maximum_profit_entail_wit_31_1 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width queue_l )
@@ -8941,36 +8941,36 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 |--
   EX (queue_l_2: (@list Z))  (dp_l_2: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= (j - 1 )) ”
-  &&  “ (0 <= (Znth (tail - 1 ) queue_l 0)) ”
-  &&  “ ((Znth (tail - 1 ) queue_l 0) <= max_stock_pre) ”
-  &&  “ (((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) ) = ((Znth (j - 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j - 1 ) * ask_price ) )) ”
-  &&  “ ((head < tail) -> ((Znth (tail - 1 ) queue_l 0) = (Znth (tail - 1 ) queue_l_2 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueuePopping dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= (j - 1 )) ” 
+  &&  “ (0 <= (Znth (tail - 1 ) queue_l 0)) ” 
+  &&  “ ((Znth (tail - 1 ) queue_l 0) <= max_stock_pre) ” 
+  &&  “ (((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) ) = ((Znth (j - 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j - 1 ) * ask_price ) )) ” 
+  &&  “ ((head < tail) -> ((Znth (tail - 1 ) queue_l 0) = (Znth (tail - 1 ) queue_l_2 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueuePopping dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l_2 days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -8986,41 +8986,41 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre source_day 0 (days_pre + 1 ) width dp_l )
 |--
   EX (dp_l_2: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= (j - 1 )) ”
-  &&  “ (0 <= (Znth (tail - 1 ) queue_l 0)) ”
-  &&  “ ((Znth (tail - 1 ) queue_l 0) <= max_stock_pre) ”
-  &&  “ (((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) ) = ((Znth (j - 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j - 1 ) * ask_price ) )) ”
-  &&  “ ((head < tail) -> ((Znth (tail - 1 ) queue_l 0) = (Znth (tail - 1 ) queue_l 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueuePopping dp_l_2 queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= (j - 1 )) ” 
+  &&  “ (0 <= (Znth (tail - 1 ) queue_l 0)) ” 
+  &&  “ ((Znth (tail - 1 ) queue_l 0) <= max_stock_pre) ” 
+  &&  “ (((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) ) = ((Znth (j - 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j - 1 ) * ask_price ) )) ” 
+  &&  “ ((head < tail) -> ((Znth (tail - 1 ) queue_l 0) = (Znth (tail - 1 ) queue_l 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueuePopping dp_l_2 queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l_2 days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 ).
 
-Definition maximum_profit_entail_wit_31_2 :=
+Definition maximum_profit_entail_wit_31_2 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l_2 source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + (j - 1 ) ) * sizeof(INT)))) # Int  |-> (Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)))
@@ -9033,36 +9033,36 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l_2: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= (j - 1 )) ”
-  &&  “ (0 <= (j - 1 )) ”
-  &&  “ ((j - 1 ) <= max_stock_pre) ”
-  &&  “ (((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) ) = ((Znth (j - 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j - 1 ) * ask_price ) )) ”
-  &&  “ ((head < tail) -> ((j - 1 ) = (Znth (tail - 1 ) queue_l 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueuePopping dp_l_2 queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= (j - 1 )) ” 
+  &&  “ (0 <= (j - 1 )) ” 
+  &&  “ ((j - 1 ) <= max_stock_pre) ” 
+  &&  “ (((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) ) = ((Znth (j - 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j - 1 ) * ask_price ) )) ” 
+  &&  “ ((head < tail) -> ((j - 1 ) = (Znth (tail - 1 ) queue_l 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueuePopping dp_l_2 queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l_2 days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -9078,41 +9078,41 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre source_day 0 (days_pre + 1 ) width dp_l )
 |--
   EX (dp_l_2: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= (j - 1 )) ”
-  &&  “ (0 <= (j - 1 )) ”
-  &&  “ ((j - 1 ) <= max_stock_pre) ”
-  &&  “ (((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) ) = ((Znth (j - 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j - 1 ) * ask_price ) )) ”
-  &&  “ ((head < tail) -> ((j - 1 ) = (Znth (tail - 1 ) queue_l_2 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueuePopping dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= (j - 1 )) ” 
+  &&  “ (0 <= (j - 1 )) ” 
+  &&  “ ((j - 1 ) <= max_stock_pre) ” 
+  &&  “ (((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) + ((j - 1 ) * ask_price ) ) = ((Znth (j - 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j - 1 ) * ask_price ) )) ” 
+  &&  “ ((head < tail) -> ((j - 1 ) = (Znth (tail - 1 ) queue_l_2 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueuePopping dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l_2 days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 ).
 
-Definition maximum_profit_entail_wit_32_1 :=
+Definition maximum_profit_entail_wit_32_1 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head < (tail - 1 ))) (PreH2 : (((Znth (last_index) ((Znth source_day dp_l_2 __default__List_Z)) (0)) + (last_index * ask_price ) ) <= incoming_score)) (PreH3 : (head < tail)) (PreH4 : (neg_inf = (-1000000000))) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (1 <= i)) (PreH13 : (i <= days_pre)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (0 <= source_day)) (PreH17 : (source_day < i)) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH21 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH22 : (0 <= ask_price)) (PreH23 : (ask_price <= 1000)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= (j - 1 ))) (PreH27 : (0 <= last_index)) (PreH28 : (last_index <= max_stock_pre)) (PreH29 : (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j - 1 ) * ask_price ) ))) (PreH30 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l_2 0)))) (PreH31 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH32 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH33 : (StockBuyQueuePopping dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH34 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width queue_l_2 )
@@ -9125,36 +9125,36 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= (tail - 1 )) ”
-  &&  “ ((tail - 1 ) <= (j - 1 )) ”
-  &&  “ (0 <= (Znth ((tail - 1 ) - 1 ) queue_l_2 0)) ”
-  &&  “ ((Znth ((tail - 1 ) - 1 ) queue_l_2 0) <= max_stock_pre) ”
-  &&  “ (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) )) ”
-  &&  “ ((head < (tail - 1 )) -> ((Znth ((tail - 1 ) - 1 ) queue_l_2 0) = (Znth ((tail - 1 ) - 1 ) queue_l 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueuePopping dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head (tail - 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= (tail - 1 )) ” 
+  &&  “ ((tail - 1 ) <= (j - 1 )) ” 
+  &&  “ (0 <= (Znth ((tail - 1 ) - 1 ) queue_l_2 0)) ” 
+  &&  “ ((Znth ((tail - 1 ) - 1 ) queue_l_2 0) <= max_stock_pre) ” 
+  &&  “ (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) )) ” 
+  &&  “ ((head < (tail - 1 )) -> ((Znth ((tail - 1 ) - 1 ) queue_l_2 0) = (Znth ((tail - 1 ) - 1 ) queue_l 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueuePopping dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head (tail - 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -9170,41 +9170,41 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre source_day 0 (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= (tail - 1 )) ”
-  &&  “ ((tail - 1 ) <= (j - 1 )) ”
-  &&  “ (0 <= (Znth ((tail - 1 ) - 1 ) queue_l_2 0)) ”
-  &&  “ ((Znth ((tail - 1 ) - 1 ) queue_l_2 0) <= max_stock_pre) ”
-  &&  “ (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) )) ”
-  &&  “ ((head < (tail - 1 )) -> ((Znth ((tail - 1 ) - 1 ) queue_l_2 0) = (Znth ((tail - 1 ) - 1 ) queue_l_2 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueuePopping dp_l queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head (tail - 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= (tail - 1 )) ” 
+  &&  “ ((tail - 1 ) <= (j - 1 )) ” 
+  &&  “ (0 <= (Znth ((tail - 1 ) - 1 ) queue_l_2 0)) ” 
+  &&  “ ((Znth ((tail - 1 ) - 1 ) queue_l_2 0) <= max_stock_pre) ” 
+  &&  “ (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) )) ” 
+  &&  “ ((head < (tail - 1 )) -> ((Znth ((tail - 1 ) - 1 ) queue_l_2 0) = (Znth ((tail - 1 ) - 1 ) queue_l_2 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueuePopping dp_l queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head (tail - 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 ).
 
-Definition maximum_profit_entail_wit_32_2 :=
+Definition maximum_profit_entail_wit_32_2 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head >= (tail - 1 ))) (PreH2 : (((Znth (last_index) ((Znth source_day dp_l_2 __default__List_Z)) (0)) + (last_index * ask_price ) ) <= incoming_score)) (PreH3 : (head < tail)) (PreH4 : (neg_inf = (-1000000000))) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (1 <= i)) (PreH13 : (i <= days_pre)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (0 <= source_day)) (PreH17 : (source_day < i)) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH21 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH22 : (0 <= ask_price)) (PreH23 : (ask_price <= 1000)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= (j - 1 ))) (PreH27 : (0 <= last_index)) (PreH28 : (last_index <= max_stock_pre)) (PreH29 : (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j - 1 ) * ask_price ) ))) (PreH30 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l_2 0)))) (PreH31 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH32 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH33 : (StockBuyQueuePopping dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH34 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l_2 __default__List_Z)) (0)))
@@ -9217,36 +9217,36 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= (tail - 1 )) ”
-  &&  “ ((tail - 1 ) <= (j - 1 )) ”
-  &&  “ (0 <= last_index) ”
-  &&  “ (last_index <= max_stock_pre) ”
-  &&  “ (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) )) ”
-  &&  “ ((head < (tail - 1 )) -> (last_index = (Znth ((tail - 1 ) - 1 ) queue_l 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueuePopping dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head (tail - 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= (tail - 1 )) ” 
+  &&  “ ((tail - 1 ) <= (j - 1 )) ” 
+  &&  “ (0 <= last_index) ” 
+  &&  “ (last_index <= max_stock_pre) ” 
+  &&  “ (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) )) ” 
+  &&  “ ((head < (tail - 1 )) -> (last_index = (Znth ((tail - 1 ) - 1 ) queue_l 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueuePopping dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head (tail - 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -9262,41 +9262,41 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre source_day 0 (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= (tail - 1 )) ”
-  &&  “ ((tail - 1 ) <= (j - 1 )) ”
-  &&  “ (0 <= last_index) ”
-  &&  “ (last_index <= max_stock_pre) ”
-  &&  “ (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) )) ”
-  &&  “ ((head < (tail - 1 )) -> (last_index = (Znth ((tail - 1 ) - 1 ) queue_l_2 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueuePopping dp_l queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head (tail - 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= (tail - 1 )) ” 
+  &&  “ ((tail - 1 ) <= (j - 1 )) ” 
+  &&  “ (0 <= last_index) ” 
+  &&  “ (last_index <= max_stock_pre) ” 
+  &&  “ (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) )) ” 
+  &&  “ ((head < (tail - 1 )) -> (last_index = (Znth ((tail - 1 ) - 1 ) queue_l_2 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueuePopping dp_l queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head (tail - 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 ).
 
-Definition maximum_profit_entail_wit_33_1 :=
+Definition maximum_profit_entail_wit_33_1 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (1 <= j)) (PreH13 : (j <= max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= ask_price)) (PreH21 : (ask_price <= 1000)) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (0 <= last_index)) (PreH26 : (last_index <= max_stock_pre)) (PreH27 : (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j - 1 ) * ask_price ) ))) (PreH28 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l_2 0)))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockBuyQueuePopping dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH32 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -9307,27 +9307,27 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z)))  (queue_l: (@list Z)) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= (j - 1 )) ”
-  &&  “ ((Zlength (queue_l)) = width) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueuePending dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= (j - 1 )) ” 
+  &&  “ ((Zlength (queue_l)) = width) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueuePending dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -9338,24 +9338,24 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (1 <= j)) (PreH13 : (j <= max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= ask_price)) (PreH21 : (ask_price <= 1000)) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (0 <= last_index)) (PreH26 : (last_index <= max_stock_pre)) (PreH27 : (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j - 1 ) * ask_price ) ))) (PreH28 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l_2 0)))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockBuyQueuePopping dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH32 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
-  “ (StockBuyQueuePending dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ”
-  &&  “ ((Zlength (queue_l_2)) = width) ”
+  “ (StockBuyQueuePending dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ” 
+  &&  “ ((Zlength (queue_l_2)) = (max_stock_pre + 1 )) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_33_1_split_goal_1 :=
+Definition maximum_profit_entail_wit_33_1_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (1 <= j)) (PreH13 : (j <= max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= ask_price)) (PreH21 : (ask_price <= 1000)) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (0 <= last_index)) (PreH26 : (last_index <= max_stock_pre)) (PreH27 : (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j - 1 ) * ask_price ) ))) (PreH28 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l_2 0)))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockBuyQueuePopping dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH32 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (StockBuyQueuePending dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )
 .
 
-Definition maximum_profit_entail_wit_33_1_split_goal_2 :=
+Definition maximum_profit_entail_wit_33_1_split_goal_2 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (1 <= j)) (PreH13 : (j <= max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= ask_price)) (PreH21 : (ask_price <= 1000)) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (0 <= last_index)) (PreH26 : (last_index <= max_stock_pre)) (PreH27 : (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j - 1 ) * ask_price ) ))) (PreH28 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l_2 0)))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockBuyQueuePopping dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH32 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  ((Zlength (queue_l_2)) = width)
+  ((Zlength (queue_l_2)) = (max_stock_pre + 1 ))
 .
 
-Definition maximum_profit_entail_wit_33_2 :=
+Definition maximum_profit_entail_wit_33_2 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (((Znth (last_index) ((Znth source_day dp_l_2 __default__List_Z)) (0)) + (last_index * ask_price ) ) > incoming_score)) (PreH2 : (head < tail)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (1 <= j)) (PreH14 : (j <= max_stock_pre)) (PreH15 : (0 <= source_day)) (PreH16 : (source_day < i)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH20 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH21 : (0 <= ask_price)) (PreH22 : (ask_price <= 1000)) (PreH23 : (0 <= head)) (PreH24 : (head <= tail)) (PreH25 : (tail <= (j - 1 ))) (PreH26 : (0 <= last_index)) (PreH27 : (last_index <= max_stock_pre)) (PreH28 : (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l_2 __default__List_Z) 0) + ((j - 1 ) * ask_price ) ))) (PreH29 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l_2 0)))) (PreH30 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH31 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH32 : (StockBuyQueuePopping dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH33 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l_2 __default__List_Z)) (0)))
@@ -9368,27 +9368,27 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (dp_l: (@list (@list Z)))  (queue_l: (@list Z)) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= (j - 1 )) ”
-  &&  “ ((Zlength (queue_l)) = width) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueuePending dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= (j - 1 )) ” 
+  &&  “ ((Zlength (queue_l)) = width) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueuePending dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -9404,32 +9404,32 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre source_day 0 (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= (j - 1 )) ”
-  &&  “ ((Zlength (queue_l_2)) = width) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueuePending dp_l queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= (j - 1 )) ” 
+  &&  “ ((Zlength (queue_l_2)) = width) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueuePending dp_l queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 ).
 
-Definition maximum_profit_entail_wit_34 :=
+Definition maximum_profit_entail_wit_34 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (j: Z) (bid_price: Z) (i: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (source_day: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= max_stock_pre)) (PreH11 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH12 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH13 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH14 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH15 : (0 <= head)) (PreH16 : (head <= tail)) (PreH17 : (tail <= (j - 1 ))) (PreH18 : ((Zlength (queue_l_2)) = width)) (PreH19 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH20 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH21 : (StockBuyQueuePending dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH22 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width (replace_Znth (tail) ((j - 1 )) (queue_l_2)) )
@@ -9440,30 +9440,30 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= (tail + 1 )) ”
-  &&  “ ((tail + 1 ) <= j) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head (tail + 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= (tail + 1 )) ” 
+  &&  “ ((tail + 1 ) <= j) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head (tail + 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -9474,42 +9474,42 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (j: Z) (bid_price: Z) (i: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (source_day: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= max_stock_pre)) (PreH11 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH12 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH13 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH14 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH15 : (0 <= head)) (PreH16 : (head <= tail)) (PreH17 : (tail <= (j - 1 ))) (PreH18 : ((Zlength (queue_l_2)) = width)) (PreH19 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH20 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH21 : (StockBuyQueuePending dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH22 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
-  “ (StockBuyQueue dp_l_2 (replace_Znth (tail) ((j - 1 )) (queue_l_2)) source_day ask_price (j - buy_cap ) (j - 1 ) head (tail + 1 ) ) ”
-  &&  “ (source_day < i) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (i <= days_pre) ”
+  “ (StockBuyQueue dp_l_2 (replace_Znth (tail) ((j - 1 )) (queue_l_2)) source_day ask_price (j - buy_cap ) (j - 1 ) head (tail + 1 ) ) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (i <= days_pre) ” 
   &&  “ (1 <= i) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_34_split_goal_1 :=
+Definition maximum_profit_entail_wit_34_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (j: Z) (bid_price: Z) (i: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (source_day: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= max_stock_pre)) (PreH11 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH12 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH13 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH14 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH15 : (0 <= head)) (PreH16 : (head <= tail)) (PreH17 : (tail <= (j - 1 ))) (PreH18 : ((Zlength (queue_l_2)) = width)) (PreH19 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH20 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH21 : (StockBuyQueuePending dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH22 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (StockBuyQueue dp_l_2 (replace_Znth (tail) ((j - 1 )) (queue_l_2)) source_day ask_price (j - buy_cap ) (j - 1 ) head (tail + 1 ) )
 .
 
-Definition maximum_profit_entail_wit_34_split_goal_2 :=
+Definition maximum_profit_entail_wit_34_split_goal_2 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (j: Z) (bid_price: Z) (i: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (source_day: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= max_stock_pre)) (PreH11 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH12 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH13 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH14 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH15 : (0 <= head)) (PreH16 : (head <= tail)) (PreH17 : (tail <= (j - 1 ))) (PreH18 : ((Zlength (queue_l_2)) = width)) (PreH19 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH20 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH21 : (StockBuyQueuePending dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH22 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (source_day < i)
 .
 
-Definition maximum_profit_entail_wit_34_split_goal_3 :=
+Definition maximum_profit_entail_wit_34_split_goal_3 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (j: Z) (bid_price: Z) (i: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (source_day: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= max_stock_pre)) (PreH11 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH12 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH13 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH14 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH15 : (0 <= head)) (PreH16 : (head <= tail)) (PreH17 : (tail <= (j - 1 ))) (PreH18 : ((Zlength (queue_l_2)) = width)) (PreH19 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH20 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH21 : (StockBuyQueuePending dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH22 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (0 <= source_day)
 .
 
-Definition maximum_profit_entail_wit_34_split_goal_4 :=
+Definition maximum_profit_entail_wit_34_split_goal_4 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (j: Z) (bid_price: Z) (i: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (source_day: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= max_stock_pre)) (PreH11 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH12 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH13 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH14 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH15 : (0 <= head)) (PreH16 : (head <= tail)) (PreH17 : (tail <= (j - 1 ))) (PreH18 : ((Zlength (queue_l_2)) = width)) (PreH19 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH20 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH21 : (StockBuyQueuePending dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH22 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (i <= days_pre)
 .
 
-Definition maximum_profit_entail_wit_34_split_goal_5 :=
+Definition maximum_profit_entail_wit_34_split_goal_5 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (j: Z) (bid_price: Z) (i: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (source_day: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= max_stock_pre)) (PreH11 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH12 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH13 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH14 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH15 : (0 <= head)) (PreH16 : (head <= tail)) (PreH17 : (tail <= (j - 1 ))) (PreH18 : ((Zlength (queue_l_2)) = width)) (PreH19 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH20 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH21 : (StockBuyQueuePending dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH22 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (1 <= i)
 .
 
-Definition maximum_profit_entail_wit_35_1 :=
+Definition maximum_profit_entail_wit_35_1 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (head: Z) (tail: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (1 <= j)) (PreH14 : (j <= max_stock_pre)) (PreH15 : (0 <= head)) (PreH16 : (head <= tail)) (PreH17 : (tail <= j)) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH21 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH24 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH25 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -9519,30 +9519,30 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= j) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= j) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -9552,7 +9552,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 .
 
-Definition maximum_profit_entail_wit_35_2 :=
+Definition maximum_profit_entail_wit_35_2 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : ((Znth ((j - 1 )) ((Znth source_day dp_l_2 __default__List_Z)) (0)) = neg_inf)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH15 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH16 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH17 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH18 : (0 <= ask_price)) (PreH19 : (ask_price <= 1000)) (PreH20 : (1 <= j)) (PreH21 : (j <= max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j - 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= (j - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH30 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + (j - 1 ) ) * sizeof(INT)))) # Int  |-> (Znth ((j - 1 )) ((Znth source_day dp_l_2 __default__List_Z)) (0)))
@@ -9565,30 +9565,30 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= j) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= j) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -9604,35 +9604,35 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre source_day 0 (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= j) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueue dp_l queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= j) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueue dp_l queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 ).
 
-Definition maximum_profit_entail_wit_36 :=
+Definition maximum_profit_entail_wit_36 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= j)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockBuyQueue dp_l_2 queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH26 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width queue_l )
@@ -9643,35 +9643,35 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z)))  (queue_l_2: (@list Z)) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (0 <= (Znth head queue_l 0)) ”
-  &&  “ ((Znth head queue_l 0) <= max_stock_pre) ”
-  &&  “ ((Znth head queue_l 0) = (Znth head queue_l_2 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head < tail) ”
-  &&  “ (tail <= j) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueue dp_l queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (0 <= (Znth head queue_l 0)) ” 
+  &&  “ ((Znth head queue_l 0) <= max_stock_pre) ” 
+  &&  “ ((Znth head queue_l 0) = (Znth head queue_l_2 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head < tail) ” 
+  &&  “ (tail <= j) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueue dp_l queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -9682,36 +9682,36 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= j)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockBuyQueue dp_l_2 queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH26 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
-  “ ((Znth head queue_l 0) <= max_stock_pre) ”
-  &&  “ (0 <= (Znth head queue_l 0)) ”
-  &&  “ (ask_price <= 1000) ”
+  “ ((Znth head queue_l 0) <= max_stock_pre) ” 
+  &&  “ (0 <= (Znth head queue_l 0)) ” 
+  &&  “ (ask_price <= 1000) ” 
   &&  “ (0 <= ask_price) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_36_split_goal_1 :=
+Definition maximum_profit_entail_wit_36_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= j)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockBuyQueue dp_l_2 queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH26 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   ((Znth head queue_l 0) <= max_stock_pre)
 .
 
-Definition maximum_profit_entail_wit_36_split_goal_2 :=
+Definition maximum_profit_entail_wit_36_split_goal_2 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= j)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockBuyQueue dp_l_2 queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH26 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (0 <= (Znth head queue_l 0))
 .
 
-Definition maximum_profit_entail_wit_36_split_goal_3 :=
+Definition maximum_profit_entail_wit_36_split_goal_3 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= j)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockBuyQueue dp_l_2 queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH26 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (ask_price <= 1000)
 .
 
-Definition maximum_profit_entail_wit_36_split_goal_4 :=
+Definition maximum_profit_entail_wit_36_split_goal_4 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= j)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockBuyQueue dp_l_2 queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH26 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (0 <= ask_price)
 .
 
-Definition maximum_profit_entail_wit_37 :=
+Definition maximum_profit_entail_wit_37 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH16 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH17 : (0 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= max_stock_pre)) (PreH21 : (0 <= best_index)) (PreH22 : (best_index <= max_stock_pre)) (PreH23 : (best_index = (Znth head queue_l_2 0))) (PreH24 : (0 <= head)) (PreH25 : (head < tail)) (PreH26 : (tail <= j)) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockBuyQueue dp_l queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + best_index ) * sizeof(INT)))) # Int  |-> (Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)))
@@ -9724,34 +9724,34 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (dp_l_2: (@list (@list Z)))  (queue_l: (@list Z)) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (0 <= best_index) ”
-  &&  “ (best_index <= max_stock_pre) ”
-  &&  “ (best_index = (Znth head queue_l 0)) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head < tail) ”
-  &&  “ (tail <= j) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ ((((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * ask_price ) ) - (j * ask_price ) ) = (((Znth best_index (Znth source_day dp_l_2 __default__List_Z) 0) + (best_index * ask_price ) ) - (j * ask_price ) )) ”
-  &&  “ (StockBuyQueue dp_l_2 queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (0 <= best_index) ” 
+  &&  “ (best_index <= max_stock_pre) ” 
+  &&  “ (best_index = (Znth head queue_l 0)) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head < tail) ” 
+  &&  “ (tail <= j) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ ((((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * ask_price ) ) - (j * ask_price ) ) = (((Znth best_index (Znth source_day dp_l_2 __default__List_Z) 0) + (best_index * ask_price ) ) - (j * ask_price ) )) ” 
+  &&  “ (StockBuyQueue dp_l_2 queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l_2 days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -9767,39 +9767,39 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre source_day 0 (days_pre + 1 ) width dp_l )
 |--
   EX (dp_l_2: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (0 <= best_index) ”
-  &&  “ (best_index <= max_stock_pre) ”
-  &&  “ (best_index = (Znth head queue_l_2 0)) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head < tail) ”
-  &&  “ (tail <= j) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ ((((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * ask_price ) ) - (j * ask_price ) ) = (((Znth best_index (Znth source_day dp_l_2 __default__List_Z) 0) + (best_index * ask_price ) ) - (j * ask_price ) )) ”
-  &&  “ (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (0 <= best_index) ” 
+  &&  “ (best_index <= max_stock_pre) ” 
+  &&  “ (best_index = (Znth head queue_l_2 0)) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head < tail) ” 
+  &&  “ (tail <= j) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ ((((Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (best_index * ask_price ) ) - (j * ask_price ) ) = (((Znth best_index (Znth source_day dp_l_2 __default__List_Z) 0) + (best_index * ask_price ) ) - (j * ask_price ) )) ” 
+  &&  “ (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l_2 days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 ).
 
-Definition maximum_profit_entail_wit_38_1 :=
+Definition maximum_profit_entail_wit_38_1 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (j: Z) (source_day: Z) (best_index: Z) (head: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (tail: Z) (buy_candidate: Z)  __default__List_Z (PreH1 : (buy_candidate > (Znth (j) ((Znth i dp_l_2 __default__List_Z)) (0)))) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (1 <= j)) (PreH13 : (j <= max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (0 <= best_index)) (PreH17 : (best_index <= max_stock_pre)) (PreH18 : (best_index = (Znth head queue_l_2 0))) (PreH19 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH20 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH21 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH22 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH23 : (0 <= head)) (PreH24 : (head < tail)) (PreH25 : (tail <= j)) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH28 : (buy_candidate = (((Znth best_index (Znth source_day dp_l_2 __default__List_Z) 0) + (best_index * ask_price ) ) - (j * ask_price ) ))) (PreH29 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH30 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> buy_candidate)
@@ -9812,32 +9812,32 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (1 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (1 <= buy_cap) ”
-  &&  “ (buy_cap <= max_stock_pre) ”
-  &&  “ (1 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((j + 1 ) - 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day (j + 1 ) ) ”
-  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (((j + 1 ) - buy_cap ) - 1 ) ((j + 1 ) - 2 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (1 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (1 <= buy_cap) ” 
+  &&  “ (buy_cap <= max_stock_pre) ” 
+  &&  “ (1 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((j + 1 ) - 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day (j + 1 ) ) ” 
+  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (((j + 1 ) - buy_cap ) - 1 ) ((j + 1 ) - 2 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -9853,37 +9853,37 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre i 0 (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (1 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (1 <= buy_cap) ”
-  &&  “ (buy_cap <= max_stock_pre) ”
-  &&  “ (1 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((j + 1 ) - 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day (j + 1 ) ) ”
-  &&  “ (StockBuyQueue dp_l queue_l_2 source_day ask_price (((j + 1 ) - buy_cap ) - 1 ) ((j + 1 ) - 2 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (1 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (1 <= buy_cap) ” 
+  &&  “ (buy_cap <= max_stock_pre) ” 
+  &&  “ (1 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((j + 1 ) - 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day (j + 1 ) ) ” 
+  &&  “ (StockBuyQueue dp_l queue_l_2 source_day ask_price (((j + 1 ) - buy_cap ) - 1 ) ((j + 1 ) - 2 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 ).
 
-Definition maximum_profit_entail_wit_38_2 :=
+Definition maximum_profit_entail_wit_38_2 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (j: Z) (source_day: Z) (best_index: Z) (head: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (tail: Z) (buy_candidate: Z)  __default__List_Z (PreH1 : (buy_candidate <= (Znth (j) ((Znth i dp_l_2 __default__List_Z)) (0)))) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (1 <= j)) (PreH13 : (j <= max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (0 <= best_index)) (PreH17 : (best_index <= max_stock_pre)) (PreH18 : (best_index = (Znth head queue_l_2 0))) (PreH19 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH20 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH21 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH22 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH23 : (0 <= head)) (PreH24 : (head < tail)) (PreH25 : (tail <= j)) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH28 : (buy_candidate = (((Znth best_index (Znth source_day dp_l_2 __default__List_Z) 0) + (best_index * ask_price ) ) - (j * ask_price ) ))) (PreH29 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH30 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> (Znth (j) ((Znth i dp_l_2 __default__List_Z)) (0)))
@@ -9896,32 +9896,32 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (1 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (1 <= buy_cap) ”
-  &&  “ (buy_cap <= max_stock_pre) ”
-  &&  “ (1 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((j + 1 ) - 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day (j + 1 ) ) ”
-  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (((j + 1 ) - buy_cap ) - 1 ) ((j + 1 ) - 2 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (1 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (1 <= buy_cap) ” 
+  &&  “ (buy_cap <= max_stock_pre) ” 
+  &&  “ (1 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((j + 1 ) - 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day (j + 1 ) ) ” 
+  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (((j + 1 ) - buy_cap ) - 1 ) ((j + 1 ) - 2 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -9937,37 +9937,37 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre i 0 (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (1 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (1 <= buy_cap) ”
-  &&  “ (buy_cap <= max_stock_pre) ”
-  &&  “ (1 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((j + 1 ) - 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day (j + 1 ) ) ”
-  &&  “ (StockBuyQueue dp_l queue_l_2 source_day ask_price (((j + 1 ) - buy_cap ) - 1 ) ((j + 1 ) - 2 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (1 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (1 <= buy_cap) ” 
+  &&  “ (buy_cap <= max_stock_pre) ” 
+  &&  “ (1 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((j + 1 ) - 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day (j + 1 ) ) ” 
+  &&  “ (StockBuyQueue dp_l queue_l_2 source_day ask_price (((j + 1 ) - buy_cap ) - 1 ) ((j + 1 ) - 2 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 ).
 
-Definition maximum_profit_entail_wit_38_3 :=
+Definition maximum_profit_entail_wit_38_3 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= j)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH26 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -9978,32 +9978,32 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (1 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (1 <= buy_cap) ”
-  &&  “ (buy_cap <= max_stock_pre) ”
-  &&  “ (1 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((j + 1 ) - 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day (j + 1 ) ) ”
-  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (((j + 1 ) - buy_cap ) - 1 ) ((j + 1 ) - 2 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (1 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (1 <= buy_cap) ” 
+  &&  “ (buy_cap <= max_stock_pre) ” 
+  &&  “ (1 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((j + 1 ) - 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day (j + 1 ) ) ” 
+  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (((j + 1 ) - buy_cap ) - 1 ) ((j + 1 ) - 2 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -10014,66 +10014,66 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= j)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH26 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
-  “ (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (((j + 1 ) - buy_cap ) - 1 ) ((j + 1 ) - 2 ) head tail ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day (j + 1 ) ) ”
-  &&  “ (buy_cap <= max_stock_pre) ”
-  &&  “ (1 <= buy_cap) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (1 <= ask_price) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
+  “ (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (((j + 1 ) - buy_cap ) - 1 ) ((j + 1 ) - 2 ) head tail ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day (j + 1 ) ) ” 
+  &&  “ (buy_cap <= max_stock_pre) ” 
+  &&  “ (1 <= buy_cap) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (1 <= ask_price) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ” 
   &&  “ (wait_days_pre < (i - 1 )) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_38_3_split_goal_1 :=
+Definition maximum_profit_entail_wit_38_3_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= j)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH26 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (((j + 1 ) - buy_cap ) - 1 ) ((j + 1 ) - 2 ) head tail )
 .
 
-Definition maximum_profit_entail_wit_38_3_split_goal_2 :=
+Definition maximum_profit_entail_wit_38_3_split_goal_2 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= j)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH26 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day (j + 1 ) )
 .
 
-Definition maximum_profit_entail_wit_38_3_split_goal_3 :=
+Definition maximum_profit_entail_wit_38_3_split_goal_3 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= j)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH26 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (buy_cap <= max_stock_pre)
 .
 
-Definition maximum_profit_entail_wit_38_3_split_goal_4 :=
+Definition maximum_profit_entail_wit_38_3_split_goal_4 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= j)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH26 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (1 <= buy_cap)
 .
 
-Definition maximum_profit_entail_wit_38_3_split_goal_5 :=
+Definition maximum_profit_entail_wit_38_3_split_goal_5 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= j)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH26 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (ask_price <= 1000)
 .
 
-Definition maximum_profit_entail_wit_38_3_split_goal_6 :=
+Definition maximum_profit_entail_wit_38_3_split_goal_6 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= j)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH26 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (1 <= ask_price)
 .
 
-Definition maximum_profit_entail_wit_38_3_split_goal_7 :=
+Definition maximum_profit_entail_wit_38_3_split_goal_7 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= j)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH26 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (0 < source_day)
 .
 
-Definition maximum_profit_entail_wit_38_3_split_goal_8 :=
+Definition maximum_profit_entail_wit_38_3_split_goal_8 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= j)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH26 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (source_day = ((i - wait_days_pre ) - 1 ))
 .
 
-Definition maximum_profit_entail_wit_38_3_split_goal_9 :=
+Definition maximum_profit_entail_wit_38_3_split_goal_9 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (head >= tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= j)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH26 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (wait_days_pre < (i - 1 ))
 .
 
-Definition maximum_profit_entail_wit_39 :=
+Definition maximum_profit_entail_wit_39 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j > max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= i)) (PreH7 : (i <= days_pre)) (PreH8 : (wait_days_pre < (i - 1 ))) (PreH9 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH10 : (0 < source_day)) (PreH11 : (source_day < i)) (PreH12 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH13 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH16 : (1 <= ask_price)) (PreH17 : (ask_price <= 1000)) (PreH18 : (1 <= buy_cap)) (PreH19 : (buy_cap <= max_stock_pre)) (PreH20 : (1 <= j)) (PreH21 : (j <= (max_stock_pre + 1 ))) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH26 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH27 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price ((j - buy_cap ) - 1 ) (j - 2 ) head tail )) (PreH28 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -10084,26 +10084,26 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (0 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (0 <= sell_cap) ”
-  &&  “ (sell_cap <= max_stock_pre) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= max_stock_pre) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre (i + 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (0 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (0 <= sell_cap) ” 
+  &&  “ (sell_cap <= max_stock_pre) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= max_stock_pre) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre (i + 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -10114,42 +10114,42 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j > max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= i)) (PreH7 : (i <= days_pre)) (PreH8 : (wait_days_pre < (i - 1 ))) (PreH9 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH10 : (0 < source_day)) (PreH11 : (source_day < i)) (PreH12 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH13 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH16 : (1 <= ask_price)) (PreH17 : (ask_price <= 1000)) (PreH18 : (1 <= buy_cap)) (PreH19 : (buy_cap <= max_stock_pre)) (PreH20 : (1 <= j)) (PreH21 : (j <= (max_stock_pre + 1 ))) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH26 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH27 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price ((j - buy_cap ) - 1 ) (j - 2 ) head tail )) (PreH28 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
-  “ (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre (i + 1 ) ) ”
-  &&  “ (sell_cap <= max_stock_pre) ”
-  &&  “ (0 <= sell_cap) ”
-  &&  “ (bid_price <= 1000) ”
+  “ (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre (i + 1 ) ) ” 
+  &&  “ (sell_cap <= max_stock_pre) ” 
+  &&  “ (0 <= sell_cap) ” 
+  &&  “ (bid_price <= 1000) ” 
   &&  “ (0 <= bid_price) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_39_split_goal_1 :=
+Definition maximum_profit_entail_wit_39_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j > max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= i)) (PreH7 : (i <= days_pre)) (PreH8 : (wait_days_pre < (i - 1 ))) (PreH9 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH10 : (0 < source_day)) (PreH11 : (source_day < i)) (PreH12 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH13 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH16 : (1 <= ask_price)) (PreH17 : (ask_price <= 1000)) (PreH18 : (1 <= buy_cap)) (PreH19 : (buy_cap <= max_stock_pre)) (PreH20 : (1 <= j)) (PreH21 : (j <= (max_stock_pre + 1 ))) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH26 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH27 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price ((j - buy_cap ) - 1 ) (j - 2 ) head tail )) (PreH28 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre (i + 1 ) )
 .
 
-Definition maximum_profit_entail_wit_39_split_goal_2 :=
+Definition maximum_profit_entail_wit_39_split_goal_2 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j > max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= i)) (PreH7 : (i <= days_pre)) (PreH8 : (wait_days_pre < (i - 1 ))) (PreH9 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH10 : (0 < source_day)) (PreH11 : (source_day < i)) (PreH12 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH13 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH16 : (1 <= ask_price)) (PreH17 : (ask_price <= 1000)) (PreH18 : (1 <= buy_cap)) (PreH19 : (buy_cap <= max_stock_pre)) (PreH20 : (1 <= j)) (PreH21 : (j <= (max_stock_pre + 1 ))) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH26 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH27 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price ((j - buy_cap ) - 1 ) (j - 2 ) head tail )) (PreH28 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (sell_cap <= max_stock_pre)
 .
 
-Definition maximum_profit_entail_wit_39_split_goal_3 :=
+Definition maximum_profit_entail_wit_39_split_goal_3 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j > max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= i)) (PreH7 : (i <= days_pre)) (PreH8 : (wait_days_pre < (i - 1 ))) (PreH9 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH10 : (0 < source_day)) (PreH11 : (source_day < i)) (PreH12 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH13 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH16 : (1 <= ask_price)) (PreH17 : (ask_price <= 1000)) (PreH18 : (1 <= buy_cap)) (PreH19 : (buy_cap <= max_stock_pre)) (PreH20 : (1 <= j)) (PreH21 : (j <= (max_stock_pre + 1 ))) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH26 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH27 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price ((j - buy_cap ) - 1 ) (j - 2 ) head tail )) (PreH28 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (0 <= sell_cap)
 .
 
-Definition maximum_profit_entail_wit_39_split_goal_4 :=
+Definition maximum_profit_entail_wit_39_split_goal_4 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j > max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= i)) (PreH7 : (i <= days_pre)) (PreH8 : (wait_days_pre < (i - 1 ))) (PreH9 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH10 : (0 < source_day)) (PreH11 : (source_day < i)) (PreH12 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH13 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH16 : (1 <= ask_price)) (PreH17 : (ask_price <= 1000)) (PreH18 : (1 <= buy_cap)) (PreH19 : (buy_cap <= max_stock_pre)) (PreH20 : (1 <= j)) (PreH21 : (j <= (max_stock_pre + 1 ))) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH26 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH27 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price ((j - buy_cap ) - 1 ) (j - 2 ) head tail )) (PreH28 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (bid_price <= 1000)
 .
 
-Definition maximum_profit_entail_wit_39_split_goal_5 :=
+Definition maximum_profit_entail_wit_39_split_goal_5 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j > max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= i)) (PreH7 : (i <= days_pre)) (PreH8 : (wait_days_pre < (i - 1 ))) (PreH9 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH10 : (0 < source_day)) (PreH11 : (source_day < i)) (PreH12 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH13 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH16 : (1 <= ask_price)) (PreH17 : (ask_price <= 1000)) (PreH18 : (1 <= buy_cap)) (PreH19 : (buy_cap <= max_stock_pre)) (PreH20 : (1 <= j)) (PreH21 : (j <= (max_stock_pre + 1 ))) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH26 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i source_day j )) (PreH27 : (StockBuyQueue dp_l_2 queue_l_2 source_day ask_price ((j - buy_cap ) - 1 ) (j - 2 ) head tail )) (PreH28 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (0 <= bid_price)
 .
 
-Definition maximum_profit_entail_wit_40_1 :=
+Definition maximum_profit_entail_wit_40_1 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= i)) (PreH4 : (i <= days_pre)) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH8 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH9 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH10 : (0 <= bid_price)) (PreH11 : (bid_price <= 1000)) (PreH12 : (0 <= sell_cap)) (PreH13 : (sell_cap <= max_stock_pre)) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH16 : (0 <= head)) (PreH17 : (head <= tail)) (PreH18 : (tail <= max_stock_pre)) (PreH19 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH20 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre (i + 1 ) )) (PreH21 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -10160,18 +10160,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= (i + 1 )) ”
-  &&  “ ((i + 1 ) <= (days_pre + 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre (i + 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= (i + 1 )) ” 
+  &&  “ ((i + 1 ) <= (days_pre + 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre (i + 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -10182,30 +10182,30 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= i)) (PreH4 : (i <= days_pre)) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH8 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH9 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH10 : (0 <= bid_price)) (PreH11 : (bid_price <= 1000)) (PreH12 : (0 <= sell_cap)) (PreH13 : (sell_cap <= max_stock_pre)) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH16 : (0 <= head)) (PreH17 : (head <= tail)) (PreH18 : (tail <= max_stock_pre)) (PreH19 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH20 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre (i + 1 ) )) (PreH21 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
-  “ (max_stock_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
+  “ (max_stock_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
   &&  “ (days_pre <= 990) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_40_1_split_goal_1 :=
+Definition maximum_profit_entail_wit_40_1_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= i)) (PreH4 : (i <= days_pre)) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH8 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH9 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH10 : (0 <= bid_price)) (PreH11 : (bid_price <= 1000)) (PreH12 : (0 <= sell_cap)) (PreH13 : (sell_cap <= max_stock_pre)) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH16 : (0 <= head)) (PreH17 : (head <= tail)) (PreH18 : (tail <= max_stock_pre)) (PreH19 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH20 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre (i + 1 ) )) (PreH21 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (max_stock_pre <= 990)
 .
 
-Definition maximum_profit_entail_wit_40_1_split_goal_2 :=
+Definition maximum_profit_entail_wit_40_1_split_goal_2 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= i)) (PreH4 : (i <= days_pre)) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH8 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH9 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH10 : (0 <= bid_price)) (PreH11 : (bid_price <= 1000)) (PreH12 : (0 <= sell_cap)) (PreH13 : (sell_cap <= max_stock_pre)) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH16 : (0 <= head)) (PreH17 : (head <= tail)) (PreH18 : (tail <= max_stock_pre)) (PreH19 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH20 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre (i + 1 ) )) (PreH21 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (1 <= max_stock_pre)
 .
 
-Definition maximum_profit_entail_wit_40_1_split_goal_3 :=
+Definition maximum_profit_entail_wit_40_1_split_goal_3 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= i)) (PreH4 : (i <= days_pre)) (PreH5 : (0 <= wait_days_pre)) (PreH6 : (wait_days_pre < days_pre)) (PreH7 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH8 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH9 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH10 : (0 <= bid_price)) (PreH11 : (bid_price <= 1000)) (PreH12 : (0 <= sell_cap)) (PreH13 : (sell_cap <= max_stock_pre)) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH16 : (0 <= head)) (PreH17 : (head <= tail)) (PreH18 : (tail <= max_stock_pre)) (PreH19 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH20 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre (i + 1 ) )) (PreH21 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (days_pre <= 990)
 .
 
-Definition maximum_profit_entail_wit_40_2 :=
+Definition maximum_profit_entail_wit_40_2 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (buy_cap: Z) (i: Z) (ask_price: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (0 <= wait_days_pre)) (PreH4 : (wait_days_pre < days_pre)) (PreH5 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH6 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH7 : (1 <= i)) (PreH8 : (i <= days_pre)) (PreH9 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH10 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre (i + 1 ) )) (PreH11 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -10216,18 +10216,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= (i + 1 )) ”
-  &&  “ ((i + 1 ) <= (days_pre + 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre (i + 1 ) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= (i + 1 )) ” 
+  &&  “ ((i + 1 ) <= (days_pre + 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockDaysDone ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre (i + 1 ) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -10238,30 +10238,30 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (buy_cap: Z) (i: Z) (ask_price: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (0 <= wait_days_pre)) (PreH4 : (wait_days_pre < days_pre)) (PreH5 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH6 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH7 : (1 <= i)) (PreH8 : (i <= days_pre)) (PreH9 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH10 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre (i + 1 ) )) (PreH11 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
-  “ (max_stock_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
+  “ (max_stock_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
   &&  “ (days_pre <= 990) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_40_2_split_goal_1 :=
+Definition maximum_profit_entail_wit_40_2_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (buy_cap: Z) (i: Z) (ask_price: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (0 <= wait_days_pre)) (PreH4 : (wait_days_pre < days_pre)) (PreH5 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH6 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH7 : (1 <= i)) (PreH8 : (i <= days_pre)) (PreH9 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH10 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre (i + 1 ) )) (PreH11 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (max_stock_pre <= 990)
 .
 
-Definition maximum_profit_entail_wit_40_2_split_goal_2 :=
+Definition maximum_profit_entail_wit_40_2_split_goal_2 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (buy_cap: Z) (i: Z) (ask_price: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (0 <= wait_days_pre)) (PreH4 : (wait_days_pre < days_pre)) (PreH5 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH6 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH7 : (1 <= i)) (PreH8 : (i <= days_pre)) (PreH9 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH10 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre (i + 1 ) )) (PreH11 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (1 <= max_stock_pre)
 .
 
-Definition maximum_profit_entail_wit_40_2_split_goal_3 :=
+Definition maximum_profit_entail_wit_40_2_split_goal_3 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (neg_inf: Z) (width: Z) (buy_cap: Z) (i: Z) (ask_price: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (0 <= wait_days_pre)) (PreH4 : (wait_days_pre < days_pre)) (PreH5 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH6 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH7 : (1 <= i)) (PreH8 : (i <= days_pre)) (PreH9 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH10 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre (i + 1 ) )) (PreH11 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (days_pre <= 990)
 .
 
-Definition maximum_profit_entail_wit_41 :=
+Definition maximum_profit_entail_wit_41 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (i > days_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= (days_pre + 1 ))) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i )) (PreH14 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -10272,20 +10272,20 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (0 <= 0) ”
-  &&  “ (0 <= (max_stock_pre + 1 )) ”
-  &&  “ (0 <= 0) ”
-  &&  “ (0 <= 1000000000) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l days_pre max_stock_pre wait_days_pre 0 0 ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (0 <= 0) ” 
+  &&  “ (0 <= (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= 0) ” 
+  &&  “ (0 <= 1000000000) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l days_pre max_stock_pre wait_days_pre 0 0 ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -10296,18 +10296,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (i > days_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= (days_pre + 1 ))) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i )) (PreH14 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
   “ (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l_2 days_pre max_stock_pre wait_days_pre 0 0 ) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_41_split_goal_1 :=
+Definition maximum_profit_entail_wit_41_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (i > days_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= (days_pre + 1 ))) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockDaysDone ap_l bp_l buy_l sell_l dp_l_2 max_stock_pre wait_days_pre i )) (PreH14 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l_2 days_pre max_stock_pre wait_days_pre 0 0 )
 .
 
-Definition maximum_profit_entail_wit_42_1 :=
+Definition maximum_profit_entail_wit_42_1 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (answer: Z) (j: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : ((Znth (j) ((Znth days_pre dp_l_2 __default__List_Z)) (0)) > answer)) (PreH2 : (j <= max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (0 <= j)) (PreH12 : (j <= (max_stock_pre + 1 ))) (PreH13 : (0 <= answer)) (PreH14 : (answer <= 1000000000)) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l_2 days_pre max_stock_pre wait_days_pre j answer )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (((dp_pre + (((days_pre * width ) + j ) * sizeof(INT)))) # Int  |-> (Znth (j) ((Znth days_pre dp_l_2 __default__List_Z)) (0)))
@@ -10320,20 +10320,20 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (0 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ”
-  &&  “ (0 <= (Znth (j) ((Znth days_pre dp_l_2 __default__List_Z)) (0))) ”
-  &&  “ ((Znth (j) ((Znth days_pre dp_l_2 __default__List_Z)) (0)) <= 1000000000) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l days_pre max_stock_pre wait_days_pre (j + 1 ) (Znth (j) ((Znth days_pre dp_l_2 __default__List_Z)) (0)) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (0 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= (Znth (j) ((Znth days_pre dp_l_2 __default__List_Z)) (0))) ” 
+  &&  “ ((Znth (j) ((Znth days_pre dp_l_2 __default__List_Z)) (0)) <= 1000000000) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l days_pre max_stock_pre wait_days_pre (j + 1 ) (Znth (j) ((Znth days_pre dp_l_2 __default__List_Z)) (0)) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -10349,25 +10349,25 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre days_pre 0 (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (0 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ”
-  &&  “ (0 <= (Znth (j) ((Znth days_pre dp_l_2 __default__List_Z)) (0))) ”
-  &&  “ ((Znth (j) ((Znth days_pre dp_l_2 __default__List_Z)) (0)) <= 1000000000) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l days_pre max_stock_pre wait_days_pre (j + 1 ) (Znth (j) ((Znth days_pre dp_l_2 __default__List_Z)) (0)) ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (0 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= (Znth (j) ((Znth days_pre dp_l_2 __default__List_Z)) (0))) ” 
+  &&  “ ((Znth (j) ((Znth days_pre dp_l_2 __default__List_Z)) (0)) <= 1000000000) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l days_pre max_stock_pre wait_days_pre (j + 1 ) (Znth (j) ((Znth days_pre dp_l_2 __default__List_Z)) (0)) ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 ).
 
-Definition maximum_profit_entail_wit_42_2 :=
+Definition maximum_profit_entail_wit_42_2 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (answer: Z) (j: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : ((Znth (j) ((Znth days_pre dp_l_2 __default__List_Z)) (0)) <= answer)) (PreH2 : (j <= max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (0 <= j)) (PreH12 : (j <= (max_stock_pre + 1 ))) (PreH13 : (0 <= answer)) (PreH14 : (answer <= 1000000000)) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l_2 days_pre max_stock_pre wait_days_pre j answer )) (PreH17 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (((dp_pre + (((days_pre * width ) + j ) * sizeof(INT)))) # Int  |-> (Znth (j) ((Znth days_pre dp_l_2 __default__List_Z)) (0)))
@@ -10380,20 +10380,20 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l_2 )
 |--
   EX (queue_l: (@list Z))  (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (0 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ”
-  &&  “ (0 <= answer) ”
-  &&  “ (answer <= 1000000000) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l days_pre max_stock_pre wait_days_pre (j + 1 ) answer ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (0 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= answer) ” 
+  &&  “ (answer <= 1000000000) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l days_pre max_stock_pre wait_days_pre (j + 1 ) answer ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -10409,25 +10409,25 @@ forall (dp_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: 
   **  (IntArray2.missing_i dp_pre days_pre 0 (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z))) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (0 <= (j + 1 )) ”
-  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ”
-  &&  “ (0 <= answer) ”
-  &&  “ (answer <= 1000000000) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l days_pre max_stock_pre wait_days_pre (j + 1 ) answer ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (0 <= (j + 1 )) ” 
+  &&  “ ((j + 1 ) <= (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= answer) ” 
+  &&  “ (answer <= 1000000000) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l days_pre max_stock_pre wait_days_pre (j + 1 ) answer ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 ).
 
-Definition maximum_profit_entail_wit_43 :=
+Definition maximum_profit_entail_wit_43 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l_2: (@list Z)) (dp_l_2: (@list (@list Z))) (answer: Z) (j: Z) (width: Z) (neg_inf: Z) (PreH1 : (j > max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (0 <= j)) (PreH11 : (j <= (max_stock_pre + 1 ))) (PreH12 : (0 <= answer)) (PreH13 : (answer <= 1000000000)) (PreH14 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH15 : (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l_2 days_pre max_stock_pre wait_days_pre j answer )) (PreH16 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -10438,13 +10438,13 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l_2 )
 |--
   EX (dp_l: (@list (@list Z)))  (queue_l: (@list Z)) ,
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (StockMaximumProfit ap_l bp_l buy_l sell_l days_pre max_stock_pre wait_days_pre answer ) ”
-  &&  “ (0 <= answer) ”
-  &&  “ (answer <= 1000000000) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (StockMaximumProfit ap_l bp_l buy_l sell_l days_pre max_stock_pre wait_days_pre answer ) ” 
+  &&  “ (0 <= answer) ” 
+  &&  “ (answer <= 1000000000) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -10455,18 +10455,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
 ) \/
 (
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (answer: Z) (j: Z) (width: Z) (neg_inf: Z) (PreH1 : (j > max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (0 <= j)) (PreH11 : (j <= (max_stock_pre + 1 ))) (PreH12 : (0 <= answer)) (PreH13 : (answer <= 1000000000)) (PreH14 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH15 : (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l_2 days_pre max_stock_pre wait_days_pre j answer )) (PreH16 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
-  TT && emp
+  TT && emp 
 |--
   “ (StockMaximumProfit ap_l bp_l buy_l sell_l days_pre max_stock_pre wait_days_pre answer ) ”
   &&  emp
 ).
 
-Definition maximum_profit_entail_wit_43_split_goal_1 :=
+Definition maximum_profit_entail_wit_43_split_goal_1 := 
 forall (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (dp_l_2: (@list (@list Z))) (answer: Z) (j: Z) (width: Z) (neg_inf: Z) (PreH1 : (j > max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (0 <= j)) (PreH11 : (j <= (max_stock_pre + 1 ))) (PreH12 : (0 <= answer)) (PreH13 : (answer <= 1000000000)) (PreH14 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH15 : (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l_2 days_pre max_stock_pre wait_days_pre j answer )) (PreH16 : (StockTableShape dp_l_2 days_pre max_stock_pre )) ,
   (StockMaximumProfit ap_l bp_l buy_l sell_l days_pre max_stock_pre wait_days_pre answer )
 .
 
-Definition maximum_profit_return_wit_1 :=
+Definition maximum_profit_return_wit_1 := 
 (
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (answer: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (0 <= wait_days_pre)) (PreH3 : (wait_days_pre < days_pre)) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (StockMaximumProfit ap_l bp_l buy_l sell_l days_pre max_stock_pre wait_days_pre answer )) (PreH6 : (0 <= answer)) (PreH7 : (answer <= 1000000000)) (PreH8 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
@@ -10476,8 +10476,8 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (StockMaximumProfit ap_l bp_l buy_l sell_l days_pre max_stock_pre wait_days_pre answer ) ”
-  &&  “ (0 <= answer) ”
+  “ (StockMaximumProfit ap_l bp_l buy_l sell_l days_pre max_stock_pre wait_days_pre answer ) ” 
+  &&  “ (0 <= answer) ” 
   &&  “ (answer <= 1000000000) ”
   &&  (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -10495,7 +10495,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (d
   **  (IntArray2.undef_full dp_pre (days_pre + 1 ) (max_stock_pre + 1 ) )
 ).
 
-Definition maximum_profit_return_wit_1_split_goal_spatial :=
+Definition maximum_profit_return_wit_1_split_goal_spatial := 
 forall (dp_pre: Z) (queue_index_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (answer: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (0 <= wait_days_pre)) (PreH3 : (wait_days_pre < days_pre)) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (StockMaximumProfit ap_l bp_l buy_l sell_l days_pre max_stock_pre wait_days_pre answer )) (PreH6 : (0 <= answer)) (PreH7 : (answer <= 1000000000)) (PreH8 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
@@ -10504,7 +10504,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (d
   **  (IntArray2.undef_full dp_pre (days_pre + 1 ) (max_stock_pre + 1 ) )
 .
 
-Definition maximum_profit_partial_solve_wit_1 :=
+Definition maximum_profit_partial_solve_wit_1 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (dp_init: (@list (@list Z))) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (width: Z) (q_init: Z) (neg_inf: Z) (PreH1 : (q_init < width)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (0 <= q_init)) (PreH4 : (q_init <= width)) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH13 : (StockTableShape dp_init days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -10513,18 +10513,18 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_init )
 |--
-  “ (q_init < width) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (0 <= q_init) ”
-  &&  “ (q_init <= width) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
+  “ (q_init < width) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (0 <= q_init) ” 
+  &&  “ (q_init <= width) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
   &&  “ (StockTableShape dp_init days_pre max_stock_pre ) ”
   &&  (((queue_index_pre + (q_init * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i queue_index_pre q_init 0 width queue_l )
@@ -10535,7 +10535,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_init )
 .
 
-Definition maximum_profit_partial_solve_wit_2 :=
+Definition maximum_profit_partial_solve_wit_2 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (j = 0)) (PreH2 : (i = 0)) (PreH3 : (j < width)) (PreH4 : (neg_inf = (-1000000000))) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (0 <= i)) (PreH13 : (i < (days_pre + 1 ))) (PreH14 : (0 <= j)) (PreH15 : (j <= width)) (PreH16 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH17 : (StockFillRows dp_l days_pre max_stock_pre i )) (PreH18 : (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i j )) (PreH19 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -10544,24 +10544,24 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (j = 0) ”
-  &&  “ (i = 0) ”
-  &&  “ (j < width) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (0 <= i) ”
-  &&  “ (i < (days_pre + 1 )) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j <= width) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockFillRows dp_l days_pre max_stock_pre i ) ”
-  &&  “ (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i j ) ”
+  “ (j = 0) ” 
+  &&  “ (i = 0) ” 
+  &&  “ (j < width) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (0 <= i) ” 
+  &&  “ (i < (days_pre + 1 )) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j <= width) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockFillRows dp_l days_pre max_stock_pre i ) ” 
+  &&  “ (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i j ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i (dp_pre + ((i * width ) * sizeof(INT))) j 0 width (Znth i dp_l __default__List_Z) )
@@ -10573,7 +10573,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
 .
 
-Definition maximum_profit_partial_solve_wit_3 :=
+Definition maximum_profit_partial_solve_wit_3 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (i <> 0)) (PreH2 : (j < width)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (0 <= i)) (PreH12 : (i < (days_pre + 1 ))) (PreH13 : (0 <= j)) (PreH14 : (j <= width)) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockFillRows dp_l days_pre max_stock_pre i )) (PreH17 : (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i j )) (PreH18 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -10582,23 +10582,23 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (i <> 0) ”
-  &&  “ (j < width) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (0 <= i) ”
-  &&  “ (i < (days_pre + 1 )) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j <= width) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockFillRows dp_l days_pre max_stock_pre i ) ”
-  &&  “ (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i j ) ”
+  “ (i <> 0) ” 
+  &&  “ (j < width) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (0 <= i) ” 
+  &&  “ (i < (days_pre + 1 )) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j <= width) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockFillRows dp_l days_pre max_stock_pre i ) ” 
+  &&  “ (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i j ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i (dp_pre + ((i * width ) * sizeof(INT))) j 0 width (Znth i dp_l __default__List_Z) )
@@ -10610,7 +10610,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
 .
 
-Definition maximum_profit_partial_solve_wit_4 :=
+Definition maximum_profit_partial_solve_wit_4 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (j <> 0)) (PreH2 : (i = 0)) (PreH3 : (j < width)) (PreH4 : (neg_inf = (-1000000000))) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (0 <= i)) (PreH13 : (i < (days_pre + 1 ))) (PreH14 : (0 <= j)) (PreH15 : (j <= width)) (PreH16 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH17 : (StockFillRows dp_l days_pre max_stock_pre i )) (PreH18 : (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i j )) (PreH19 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -10619,24 +10619,24 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (j <> 0) ”
-  &&  “ (i = 0) ”
-  &&  “ (j < width) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (0 <= i) ”
-  &&  “ (i < (days_pre + 1 )) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j <= width) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockFillRows dp_l days_pre max_stock_pre i ) ”
-  &&  “ (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i j ) ”
+  “ (j <> 0) ” 
+  &&  “ (i = 0) ” 
+  &&  “ (j < width) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (0 <= i) ” 
+  &&  “ (i < (days_pre + 1 )) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j <= width) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockFillRows dp_l days_pre max_stock_pre i ) ” 
+  &&  “ (StockFillCells (Znth i dp_l __default__List_Z) max_stock_pre i j ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i (dp_pre + ((i * width ) * sizeof(INT))) j 0 width (Znth i dp_l __default__List_Z) )
@@ -10648,7 +10648,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
 .
 
-Definition maximum_profit_partial_solve_wit_5 :=
+Definition maximum_profit_partial_solve_wit_5 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (j <= max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j <= (max_stock_pre + 1 ))) (PreH14 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH15 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH16 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -10657,21 +10657,21 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (j <= max_stock_pre) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j <= (max_stock_pre + 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j ) ”
+  “ (j <= max_stock_pre) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j <= (max_stock_pre + 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((dp_pre + ((((i - 1 ) * width ) + j ) * sizeof(INT)))) # Int  |-> (Znth (j) ((Znth (i - 1 ) dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + (((i - 1 ) * width ) * sizeof(INT))) j 0 width (Znth (i - 1 ) dp_l __default__List_Z) )
@@ -10683,7 +10683,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
 .
 
-Definition maximum_profit_partial_solve_wit_6 :=
+Definition maximum_profit_partial_solve_wit_6 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (j: Z) (previous_value: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j <= max_stock_pre)) (PreH14 : (previous_value = (Znth j (Znth (i - 1 ) dp_l __default__List_Z) 0))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -10692,22 +10692,22 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (previous_value = (Znth j (Znth (i - 1 ) dp_l __default__List_Z) 0)) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (previous_value = (Znth j (Znth (i - 1 ) dp_l __default__List_Z) 0)) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i (dp_pre + ((i * width ) * sizeof(INT))) j 0 width (Znth i dp_l __default__List_Z) )
@@ -10719,7 +10719,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
 .
 
-Definition maximum_profit_partial_solve_wit_7 :=
+Definition maximum_profit_partial_solve_wit_7 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) <= wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -10728,22 +10728,22 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i - 1 ) <= wait_days_pre) ”
-  &&  “ (j > max_stock_pre) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j <= (max_stock_pre + 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j ) ”
+  “ ((i - 1 ) <= wait_days_pre) ” 
+  &&  “ (j > max_stock_pre) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j <= (max_stock_pre + 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((buy_limit_pre + ((i - 1 ) * sizeof(INT)))) # Int  |-> (Znth (i - 1 ) buy_l 0))
   **  (IntArray.missing_i buy_limit_pre (i - 1 ) 0 days_pre buy_l )
@@ -10754,7 +10754,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 .
 
-Definition maximum_profit_partial_solve_wit_8 :=
+Definition maximum_profit_partial_solve_wit_8 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) <= wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full buy_limit_pre days_pre buy_l )
   **  (IntArray.full ap_pre days_pre ap_l )
@@ -10763,22 +10763,22 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i - 1 ) <= wait_days_pre) ”
-  &&  “ (j > max_stock_pre) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j <= (max_stock_pre + 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j ) ”
+  “ ((i - 1 ) <= wait_days_pre) ” 
+  &&  “ (j > max_stock_pre) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j <= (max_stock_pre + 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((ap_pre + ((i - 1 ) * sizeof(INT)))) # Int  |-> (Znth (i - 1 ) ap_l 0))
   **  (IntArray.missing_i ap_pre (i - 1 ) 0 days_pre ap_l )
@@ -10789,7 +10789,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 .
 
-Definition maximum_profit_partial_solve_wit_9 :=
+Definition maximum_profit_partial_solve_wit_9 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (ask_price: Z) (buy_cap: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (j <= buy_cap)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : ((i - 1 ) <= wait_days_pre)) (PreH13 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH14 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH15 : (1 <= buy_cap)) (PreH16 : (buy_cap <= max_stock_pre)) (PreH17 : (1 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= (buy_cap + 1 ))) (PreH21 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH22 : (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH23 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -10798,28 +10798,28 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (j <= buy_cap) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ ((i - 1 ) <= wait_days_pre) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (1 <= buy_cap) ”
-  &&  “ (buy_cap <= max_stock_pre) ”
-  &&  “ (1 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= (buy_cap + 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j ) ”
+  “ (j <= buy_cap) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ ((i - 1 ) <= wait_days_pre) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (1 <= buy_cap) ” 
+  &&  “ (buy_cap <= max_stock_pre) ” 
+  &&  “ (1 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= (buy_cap + 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockEarlyBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> (Znth (j) ((Znth i dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((i * width ) * sizeof(INT))) j 0 width (Znth i dp_l __default__List_Z) )
@@ -10831,7 +10831,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
 .
 
-Definition maximum_profit_partial_solve_wit_10 :=
+Definition maximum_profit_partial_solve_wit_10 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) > wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -10840,22 +10840,22 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i - 1 ) > wait_days_pre) ”
-  &&  “ (j > max_stock_pre) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j <= (max_stock_pre + 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j ) ”
+  “ ((i - 1 ) > wait_days_pre) ” 
+  &&  “ (j > max_stock_pre) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j <= (max_stock_pre + 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((bp_pre + ((i - 1 ) * sizeof(INT)))) # Int  |-> (Znth (i - 1 ) bp_l 0))
   **  (IntArray.missing_i bp_pre (i - 1 ) 0 days_pre bp_l )
@@ -10866,7 +10866,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 .
 
-Definition maximum_profit_partial_solve_wit_11 :=
+Definition maximum_profit_partial_solve_wit_11 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (j: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : ((i - 1 ) > wait_days_pre)) (PreH2 : (j > max_stock_pre)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= (max_stock_pre + 1 ))) (PreH15 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH16 : (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j )) (PreH17 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full bp_pre days_pre bp_l )
   **  (IntArray.full ap_pre days_pre ap_l )
@@ -10875,22 +10875,22 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ ((i - 1 ) > wait_days_pre) ”
-  &&  “ (j > max_stock_pre) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j <= (max_stock_pre + 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j ) ”
+  “ ((i - 1 ) > wait_days_pre) ” 
+  &&  “ (j > max_stock_pre) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j <= (max_stock_pre + 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockCopyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i j ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((sell_limit_pre + ((i - 1 ) * sizeof(INT)))) # Int  |-> (Znth (i - 1 ) sell_l 0))
   **  (IntArray.missing_i sell_limit_pre (i - 1 ) 0 days_pre sell_l )
@@ -10901,7 +10901,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 .
 
-Definition maximum_profit_partial_solve_wit_12 :=
+Definition maximum_profit_partial_solve_wit_12 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (bid_price: Z) (tail: Z) (head: Z) (sell_cap: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (0 <= j)) (PreH17 : (j < max_stock_pre)) (PreH18 : (1 <= sell_cap)) (PreH19 : (sell_cap <= max_stock_pre)) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH23 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH24 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH25 : (1 <= bid_price)) (PreH26 : (bid_price <= 1000)) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueueExpiring dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -10910,35 +10910,35 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (head < tail) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (1 <= sell_cap) ”
-  &&  “ (sell_cap <= max_stock_pre) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (1 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueueExpiring dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail ) ”
+  “ (head < tail) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (1 <= sell_cap) ” 
+  &&  “ (sell_cap <= max_stock_pre) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (1 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueueExpiring dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((queue_index_pre + (head * sizeof(INT)))) # Int  |-> (Znth head queue_l 0))
   **  (IntArray.missing_i queue_index_pre head 0 width queue_l )
@@ -10949,7 +10949,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 .
 
-Definition maximum_profit_partial_solve_wit_13 :=
+Definition maximum_profit_partial_solve_wit_13 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (wait_days_pre < (i - 1 ))) (PreH12 : (0 < source_day)) (PreH13 : (source_day < i)) (PreH14 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH15 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH16 : (1 <= bid_price)) (PreH17 : (bid_price <= 1000)) (PreH18 : (0 <= j)) (PreH19 : (j < max_stock_pre)) (PreH20 : (source_day < (days_pre + 1 ))) (PreH21 : ((j + 1 ) < width)) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH25 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -10958,34 +10958,34 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (1 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (source_day < (days_pre + 1 )) ”
-  &&  “ ((j + 1 ) < width) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ ((head < tail) -> (j <= (Znth head queue_l 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (1 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (source_day < (days_pre + 1 )) ” 
+  &&  “ ((j + 1 ) < width) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ ((head < tail) -> (j <= (Znth head queue_l 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((dp_pre + (((source_day * width ) + (j + 1 ) ) * sizeof(INT)))) # Int  |-> (Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) (j + 1 ) 0 width (Znth source_day dp_l __default__List_Z) )
@@ -10997,7 +10997,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
 .
 
-Definition maximum_profit_partial_solve_wit_14 :=
+Definition maximum_profit_partial_solve_wit_14 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (wait_days_pre < (i - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= j)) (PreH21 : (j < max_stock_pre)) (PreH22 : (source_day < (days_pre + 1 ))) (PreH23 : ((j + 1 ) < width)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : ((head < tail) -> (j <= (Znth head queue_l 0)))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + (j + 1 ) ) * sizeof(INT)))) # Int  |-> (Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) (j + 1 ) 0 width (Znth source_day dp_l __default__List_Z) )
@@ -11008,36 +11008,36 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (head < tail) ”
-  &&  “ ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (1 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (source_day < (days_pre + 1 )) ”
-  &&  “ ((j + 1 ) < width) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ ((head < tail) -> (j <= (Znth head queue_l 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail ) ”
+  “ (head < tail) ” 
+  &&  “ ((Znth ((j + 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (1 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (source_day < (days_pre + 1 )) ” 
+  &&  “ ((j + 1 ) < width) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ ((head < tail) -> (j <= (Znth head queue_l 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) (j + sell_cap ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((queue_index_pre + ((tail - 1 ) * sizeof(INT)))) # Int  |-> (Znth (tail - 1 ) queue_l 0))
   **  (IntArray.missing_i queue_index_pre (tail - 1 ) 0 width queue_l )
@@ -11050,7 +11050,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 .
 
-Definition maximum_profit_partial_solve_wit_15 :=
+Definition maximum_profit_partial_solve_wit_15 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j < max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (0 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH23 : (0 <= last_index)) (PreH24 : (last_index <= max_stock_pre)) (PreH25 : (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) ))) (PreH26 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0)))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueuePopping dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH30 : forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre)))) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -11059,36 +11059,36 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (head < tail) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (0 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ (0 <= last_index) ”
-  &&  “ (last_index <= max_stock_pre) ”
-  &&  “ (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) )) ”
-  &&  “ ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueuePopping dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ”
-  &&  “ forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre))) ”
+  “ (head < tail) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (0 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ (0 <= last_index) ” 
+  &&  “ (last_index <= max_stock_pre) ” 
+  &&  “ (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) )) ” 
+  &&  “ ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueuePopping dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ” 
+  &&  “ forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre))) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) last_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -11100,7 +11100,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
 .
 
-Definition maximum_profit_partial_solve_wit_16 :=
+Definition maximum_profit_partial_solve_wit_16 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head < (tail - 1 ))) (PreH2 : (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * bid_price ) ) <= incoming_score)) (PreH3 : (head < tail)) (PreH4 : (neg_inf = (-1000000000))) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (1 <= i)) (PreH13 : (i <= days_pre)) (PreH14 : (0 <= j)) (PreH15 : (j < max_stock_pre)) (PreH16 : (0 <= source_day)) (PreH17 : (source_day < i)) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (0 <= bid_price)) (PreH21 : (bid_price <= 1000)) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH25 : (0 <= last_index)) (PreH26 : (last_index <= max_stock_pre)) (PreH27 : (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) ))) (PreH28 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0)))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockSellQueuePopping dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH32 : forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre)))) (PreH33 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) last_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -11111,38 +11111,38 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (head < (tail - 1 )) ”
-  &&  “ (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * bid_price ) ) <= incoming_score) ”
-  &&  “ (head < tail) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (0 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ (0 <= last_index) ”
-  &&  “ (last_index <= max_stock_pre) ”
-  &&  “ (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) )) ”
-  &&  “ ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueuePopping dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ”
-  &&  “ forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre))) ”
+  “ (head < (tail - 1 )) ” 
+  &&  “ (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * bid_price ) ) <= incoming_score) ” 
+  &&  “ (head < tail) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (0 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ (0 <= last_index) ” 
+  &&  “ (last_index <= max_stock_pre) ” 
+  &&  “ (incoming_score = ((Znth (j + 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j + 1 ) * bid_price ) )) ” 
+  &&  “ ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueuePopping dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ” 
+  &&  “ forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos queue_l 0)) /\ ((Znth pos queue_l 0) <= max_stock_pre))) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((queue_index_pre + (((tail - 1 ) - 1 ) * sizeof(INT)))) # Int  |-> (Znth ((tail - 1 ) - 1 ) queue_l 0))
   **  (IntArray.missing_i queue_index_pre ((tail - 1 ) - 1 ) 0 width queue_l )
@@ -11155,7 +11155,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 .
 
-Definition maximum_profit_partial_solve_wit_17 :=
+Definition maximum_profit_partial_solve_wit_17 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (head: Z) (tail: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (0 <= bid_price)) (PreH16 : (bid_price <= 1000)) (PreH17 : (0 <= j)) (PreH18 : (j < max_stock_pre)) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH22 : ((Zlength (queue_l)) = width)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockSellQueuePending dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH26 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -11164,31 +11164,31 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (0 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ ((Zlength (queue_l)) = width) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueuePending dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (0 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ ((Zlength (queue_l)) = width) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueuePending dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((queue_index_pre + (tail * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i queue_index_pre tail 0 width queue_l )
@@ -11199,7 +11199,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 .
 
-Definition maximum_profit_partial_solve_wit_18 :=
+Definition maximum_profit_partial_solve_wit_18 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (head: Z) (tail: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (wait_days_pre < (i - 1 ))) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (0 <= j)) (PreH16 : (j < max_stock_pre)) (PreH17 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH18 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH19 : (0 <= head)) (PreH20 : (head <= tail)) (PreH21 : (tail <= (max_stock_pre - j ))) (PreH22 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH23 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH24 : (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH25 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -11208,30 +11208,30 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (head < tail) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= (max_stock_pre - j )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ”
+  “ (head < tail) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= (max_stock_pre - j )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((queue_index_pre + (head * sizeof(INT)))) # Int  |-> (Znth head queue_l 0))
   **  (IntArray.missing_i queue_index_pre head 0 width queue_l )
@@ -11242,7 +11242,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 .
 
-Definition maximum_profit_partial_solve_wit_19 :=
+Definition maximum_profit_partial_solve_wit_19 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (wait_days_pre < (i - 1 ))) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (0 <= bid_price)) (PreH15 : (bid_price <= 1000)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (0 <= j)) (PreH19 : (j < max_stock_pre)) (PreH20 : (0 <= best_index)) (PreH21 : (best_index <= max_stock_pre)) (PreH22 : (best_index = (Znth head queue_l 0))) (PreH23 : (0 <= head)) (PreH24 : (head < tail)) (PreH25 : (tail <= (max_stock_pre - j ))) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -11251,34 +11251,34 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (0 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (0 <= best_index) ”
-  &&  “ (best_index <= max_stock_pre) ”
-  &&  “ (best_index = (Znth head queue_l 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head < tail) ”
-  &&  “ (tail <= (max_stock_pre - j )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (0 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (0 <= best_index) ” 
+  &&  “ (best_index <= max_stock_pre) ” 
+  &&  “ (best_index = (Znth head queue_l 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head < tail) ” 
+  &&  “ (tail <= (max_stock_pre - j )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((dp_pre + (((source_day * width ) + best_index ) * sizeof(INT)))) # Int  |-> (Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) best_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -11290,7 +11290,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
 .
 
-Definition maximum_profit_partial_solve_wit_20 :=
+Definition maximum_profit_partial_solve_wit_20 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (j: Z) (source_day: Z) (best_index: Z) (head: Z) (tail: Z) (bid_price: Z) (sell_cap: Z) (sell_candidate: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (wait_days_pre < (i - 1 ))) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= j)) (PreH13 : (j < max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (0 <= best_index)) (PreH17 : (best_index <= max_stock_pre)) (PreH18 : (best_index = (Znth head queue_l 0))) (PreH19 : (0 <= head)) (PreH20 : (head < tail)) (PreH21 : (tail <= (max_stock_pre - j ))) (PreH22 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH23 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH24 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH25 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH26 : (sell_candidate = (((Znth best_index (Znth source_day dp_l __default__List_Z) 0) + (best_index * bid_price ) ) - (j * bid_price ) ))) (PreH27 : (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail )) (PreH28 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -11299,33 +11299,33 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j < max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (0 <= best_index) ”
-  &&  “ (best_index <= max_stock_pre) ”
-  &&  “ (best_index = (Znth head queue_l 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head < tail) ”
-  &&  “ (tail <= (max_stock_pre - j )) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (sell_candidate = (((Znth best_index (Znth source_day dp_l __default__List_Z) 0) + (best_index * bid_price ) ) - (j * bid_price ) )) ”
-  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j < max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (0 <= best_index) ” 
+  &&  “ (best_index <= max_stock_pre) ” 
+  &&  “ (best_index = (Znth head queue_l 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head < tail) ” 
+  &&  “ (tail <= (max_stock_pre - j )) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (sell_candidate = (((Znth best_index (Znth source_day dp_l __default__List_Z) 0) + (best_index * bid_price ) ) - (j * bid_price ) )) ” 
+  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 1 ) (j + sell_cap ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> (Znth (j) ((Znth i dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((i * width ) * sizeof(INT))) j 0 width (Znth i dp_l __default__List_Z) )
@@ -11337,7 +11337,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
 .
 
-Definition maximum_profit_partial_solve_wit_21 :=
+Definition maximum_profit_partial_solve_wit_21 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j < 0)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (1 <= sell_cap)) (PreH21 : (sell_cap <= max_stock_pre)) (PreH22 : ((-1) <= j)) (PreH23 : (j <= (max_stock_pre - 1 ))) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -11346,35 +11346,35 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (j < 0) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (1 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (1 <= sell_cap) ”
-  &&  “ (sell_cap <= max_stock_pre) ”
-  &&  “ ((-1) <= j) ”
-  &&  “ (j <= (max_stock_pre - 1 )) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail ) ”
+  “ (j < 0) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (1 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (1 <= sell_cap) ” 
+  &&  “ (sell_cap <= max_stock_pre) ” 
+  &&  “ ((-1) <= j) ” 
+  &&  “ (j <= (max_stock_pre - 1 )) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((ap_pre + ((i - 1 ) * sizeof(INT)))) # Int  |-> (Znth (i - 1 ) ap_l 0))
   **  (IntArray.missing_i ap_pre (i - 1 ) 0 days_pre ap_l )
@@ -11385,7 +11385,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 .
 
-Definition maximum_profit_partial_solve_wit_22 :=
+Definition maximum_profit_partial_solve_wit_22 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (tail: Z) (head: Z) (j: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (j < 0)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (0 <= wait_days_pre)) (PreH5 : (wait_days_pre < days_pre)) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (1 <= bid_price)) (PreH19 : (bid_price <= 1000)) (PreH20 : (1 <= sell_cap)) (PreH21 : (sell_cap <= max_stock_pre)) (PreH22 : ((-1) <= j)) (PreH23 : (j <= (max_stock_pre - 1 ))) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= ((max_stock_pre - j ) - 1 ))) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -11394,35 +11394,35 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (j < 0) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (1 <= bid_price) ”
-  &&  “ (bid_price <= 1000) ”
-  &&  “ (1 <= sell_cap) ”
-  &&  “ (sell_cap <= max_stock_pre) ”
-  &&  “ ((-1) <= j) ”
-  &&  “ (j <= (max_stock_pre - 1 )) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail ) ”
+  “ (j < 0) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (1 <= bid_price) ” 
+  &&  “ (bid_price <= 1000) ” 
+  &&  “ (1 <= sell_cap) ” 
+  &&  “ (sell_cap <= max_stock_pre) ” 
+  &&  “ ((-1) <= j) ” 
+  &&  “ (j <= (max_stock_pre - 1 )) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= ((max_stock_pre - j ) - 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockSellProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockSellQueue dp_l queue_l source_day bid_price (j + 2 ) ((j + sell_cap ) + 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((buy_limit_pre + ((i - 1 ) * sizeof(INT)))) # Int  |-> (Znth (i - 1 ) buy_l 0))
   **  (IntArray.missing_i buy_limit_pre (i - 1 ) 0 days_pre buy_l )
@@ -11433,7 +11433,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 .
 
-Definition maximum_profit_partial_solve_wit_23 :=
+Definition maximum_profit_partial_solve_wit_23 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (j: Z) (source_day: Z) (i: Z) (width: Z) (neg_inf: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (wait_days_pre < (i - 1 ))) (PreH13 : (source_day = ((i - wait_days_pre ) - 1 ))) (PreH14 : (0 < source_day)) (PreH15 : (source_day < i)) (PreH16 : (1 <= j)) (PreH17 : (j <= max_stock_pre)) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH21 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH22 : (1 <= buy_cap)) (PreH23 : (buy_cap <= max_stock_pre)) (PreH24 : (1 <= ask_price)) (PreH25 : (ask_price <= 1000)) (PreH26 : (0 <= head)) (PreH27 : (head <= tail)) (PreH28 : (tail <= (j - 1 ))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockBuyQueueExpiring dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH32 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -11442,37 +11442,37 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (head < tail) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (wait_days_pre < (i - 1 )) ”
-  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ”
-  &&  “ (0 < source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (1 <= buy_cap) ”
-  &&  “ (buy_cap <= max_stock_pre) ”
-  &&  “ (1 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= (j - 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueueExpiring dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail ) ”
+  “ (head < tail) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (wait_days_pre < (i - 1 )) ” 
+  &&  “ (source_day = ((i - wait_days_pre ) - 1 )) ” 
+  &&  “ (0 < source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (1 <= buy_cap) ” 
+  &&  “ (buy_cap <= max_stock_pre) ” 
+  &&  “ (1 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= (j - 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueueExpiring dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((queue_index_pre + (head * sizeof(INT)))) # Int  |-> (Znth head queue_l 0))
   **  (IntArray.missing_i queue_index_pre head 0 width queue_l )
@@ -11483,7 +11483,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 .
 
-Definition maximum_profit_partial_solve_wit_24 :=
+Definition maximum_profit_partial_solve_wit_24 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH16 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH17 : (0 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= max_stock_pre)) (PreH21 : (source_day < (days_pre + 1 ))) (PreH22 : ((j - 1 ) < width)) (PreH23 : (0 <= head)) (PreH24 : (head <= tail)) (PreH25 : (tail <= (j - 1 ))) (PreH26 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH27 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH28 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -11492,34 +11492,34 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (source_day < (days_pre + 1 )) ”
-  &&  “ ((j - 1 ) < width) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= (j - 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (source_day < (days_pre + 1 )) ” 
+  &&  “ ((j - 1 ) < width) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= (j - 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((dp_pre + (((source_day * width ) + (j - 1 ) ) * sizeof(INT)))) # Int  |-> (Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) (j - 1 ) 0 width (Znth source_day dp_l __default__List_Z) )
@@ -11531,7 +11531,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
 .
 
-Definition maximum_profit_partial_solve_wit_25 :=
+Definition maximum_profit_partial_solve_wit_25 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf)) (PreH3 : (neg_inf = (-1000000000))) (PreH4 : (width = (max_stock_pre + 1 ))) (PreH5 : (1 <= days_pre)) (PreH6 : (days_pre <= 990)) (PreH7 : (1 <= max_stock_pre)) (PreH8 : (max_stock_pre <= 990)) (PreH9 : (0 <= wait_days_pre)) (PreH10 : (wait_days_pre < days_pre)) (PreH11 : (1 <= i)) (PreH12 : (i <= days_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH16 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH17 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH18 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH19 : (0 <= ask_price)) (PreH20 : (ask_price <= 1000)) (PreH21 : (1 <= j)) (PreH22 : (j <= max_stock_pre)) (PreH23 : (source_day < (days_pre + 1 ))) (PreH24 : ((j - 1 ) < width)) (PreH25 : (0 <= head)) (PreH26 : (head <= tail)) (PreH27 : (tail <= (j - 1 ))) (PreH28 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH29 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH30 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail )) (PreH31 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + (j - 1 ) ) * sizeof(INT)))) # Int  |-> (Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) (j - 1 ) 0 width (Znth source_day dp_l __default__List_Z) )
@@ -11542,36 +11542,36 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (head < tail) ”
-  &&  “ ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (source_day < (days_pre + 1 )) ”
-  &&  “ ((j - 1 ) < width) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= (j - 1 )) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail ) ”
+  “ (head < tail) ” 
+  &&  “ ((Znth ((j - 1 )) ((Znth source_day dp_l __default__List_Z)) (0)) <> neg_inf) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (source_day < (days_pre + 1 )) ” 
+  &&  “ ((j - 1 ) < width) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= (j - 1 )) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 2 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((queue_index_pre + ((tail - 1 ) * sizeof(INT)))) # Int  |-> (Znth (tail - 1 ) queue_l 0))
   **  (IntArray.missing_i queue_index_pre (tail - 1 ) 0 width queue_l )
@@ -11584,7 +11584,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 .
 
-Definition maximum_profit_partial_solve_wit_26 :=
+Definition maximum_profit_partial_solve_wit_26 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (1 <= j)) (PreH13 : (j <= max_stock_pre)) (PreH14 : (0 <= source_day)) (PreH15 : (source_day < i)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= ask_price)) (PreH21 : (ask_price <= 1000)) (PreH22 : (0 <= head)) (PreH23 : (head <= tail)) (PreH24 : (tail <= (j - 1 ))) (PreH25 : (0 <= last_index)) (PreH26 : (last_index <= max_stock_pre)) (PreH27 : (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) ))) (PreH28 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0)))) (PreH29 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH30 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH31 : (StockBuyQueuePopping dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH32 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -11593,37 +11593,37 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (head < tail) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= (j - 1 )) ”
-  &&  “ (0 <= last_index) ”
-  &&  “ (last_index <= max_stock_pre) ”
-  &&  “ (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) )) ”
-  &&  “ ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueuePopping dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ”
+  “ (head < tail) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= (j - 1 )) ” 
+  &&  “ (0 <= last_index) ” 
+  &&  “ (last_index <= max_stock_pre) ” 
+  &&  “ (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) )) ” 
+  &&  “ ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueuePopping dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) last_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -11635,7 +11635,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
 .
 
-Definition maximum_profit_partial_solve_wit_27 :=
+Definition maximum_profit_partial_solve_wit_27 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (incoming_score: Z) (last_index: Z) (tail: Z) (head: Z) (buy_cap: Z) (ask_price: Z) (sell_cap: Z) (bid_price: Z) (source_day: Z) (j: Z) (i: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (head < (tail - 1 ))) (PreH2 : (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * ask_price ) ) <= incoming_score)) (PreH3 : (head < tail)) (PreH4 : (neg_inf = (-1000000000))) (PreH5 : (width = (max_stock_pre + 1 ))) (PreH6 : (1 <= days_pre)) (PreH7 : (days_pre <= 990)) (PreH8 : (1 <= max_stock_pre)) (PreH9 : (max_stock_pre <= 990)) (PreH10 : (0 <= wait_days_pre)) (PreH11 : (wait_days_pre < days_pre)) (PreH12 : (1 <= i)) (PreH13 : (i <= days_pre)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (0 <= source_day)) (PreH17 : (source_day < i)) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH21 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH22 : (0 <= ask_price)) (PreH23 : (ask_price <= 1000)) (PreH24 : (0 <= head)) (PreH25 : (head <= tail)) (PreH26 : (tail <= (j - 1 ))) (PreH27 : (0 <= last_index)) (PreH28 : (last_index <= max_stock_pre)) (PreH29 : (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) ))) (PreH30 : ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0)))) (PreH31 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH32 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH33 : (StockBuyQueuePopping dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH34 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (((dp_pre + (((source_day * width ) + last_index ) * sizeof(INT)))) # Int  |-> (Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) last_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -11646,39 +11646,39 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
   **  (IntArray.full queue_index_pre width queue_l )
 |--
-  “ (head < (tail - 1 )) ”
-  &&  “ (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * ask_price ) ) <= incoming_score) ”
-  &&  “ (head < tail) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= (j - 1 )) ”
-  &&  “ (0 <= last_index) ”
-  &&  “ (last_index <= max_stock_pre) ”
-  &&  “ (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) )) ”
-  &&  “ ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0))) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueuePopping dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ”
+  “ (head < (tail - 1 )) ” 
+  &&  “ (((Znth (last_index) ((Znth source_day dp_l __default__List_Z)) (0)) + (last_index * ask_price ) ) <= incoming_score) ” 
+  &&  “ (head < tail) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= (j - 1 )) ” 
+  &&  “ (0 <= last_index) ” 
+  &&  “ (last_index <= max_stock_pre) ” 
+  &&  “ (incoming_score = ((Znth (j - 1 ) (Znth source_day dp_l __default__List_Z) 0) + ((j - 1 ) * ask_price ) )) ” 
+  &&  “ ((head < tail) -> (last_index = (Znth (tail - 1 ) queue_l 0))) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueuePopping dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((queue_index_pre + (((tail - 1 ) - 1 ) * sizeof(INT)))) # Int  |-> (Znth ((tail - 1 ) - 1 ) queue_l 0))
   **  (IntArray.missing_i queue_index_pre ((tail - 1 ) - 1 ) 0 width queue_l )
@@ -11691,7 +11691,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full sell_limit_pre days_pre sell_l )
 .
 
-Definition maximum_profit_partial_solve_wit_28 :=
+Definition maximum_profit_partial_solve_wit_28 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (j: Z) (bid_price: Z) (i: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (source_day: Z) (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= j)) (PreH10 : (j <= max_stock_pre)) (PreH11 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH12 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH13 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH14 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH15 : (0 <= head)) (PreH16 : (head <= tail)) (PreH17 : (tail <= (j - 1 ))) (PreH18 : ((Zlength (queue_l)) = width)) (PreH19 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH20 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH21 : (StockBuyQueuePending dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH22 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -11700,27 +11700,27 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= (j - 1 )) ”
-  &&  “ ((Zlength (queue_l)) = width) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueuePending dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= (j - 1 )) ” 
+  &&  “ ((Zlength (queue_l)) = width) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueuePending dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((queue_index_pre + (tail * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i queue_index_pre tail 0 width queue_l )
@@ -11731,7 +11731,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 .
 
-Definition maximum_profit_partial_solve_wit_29 :=
+Definition maximum_profit_partial_solve_wit_29 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (j: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (head: Z) (tail: Z) (PreH1 : (head < tail)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (1 <= i)) (PreH11 : (i <= days_pre)) (PreH12 : (0 <= source_day)) (PreH13 : (source_day < i)) (PreH14 : (1 <= j)) (PreH15 : (j <= max_stock_pre)) (PreH16 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH17 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH18 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH19 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH20 : (0 <= head)) (PreH21 : (head <= tail)) (PreH22 : (tail <= j)) (PreH23 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH24 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH25 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH26 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -11740,31 +11740,31 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (head < tail) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head <= tail) ”
-  &&  “ (tail <= j) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ”
+  “ (head < tail) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= j) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((queue_index_pre + (head * sizeof(INT)))) # Int  |-> (Znth head queue_l 0))
   **  (IntArray.missing_i queue_index_pre head 0 width queue_l )
@@ -11775,7 +11775,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 .
 
-Definition maximum_profit_partial_solve_wit_30 :=
+Definition maximum_profit_partial_solve_wit_30 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (source_day: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (j: Z) (best_index: Z) (head: Z) (tail: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (0 <= source_day)) (PreH12 : (source_day < i)) (PreH13 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH14 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH15 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH16 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH17 : (0 <= ask_price)) (PreH18 : (ask_price <= 1000)) (PreH19 : (1 <= j)) (PreH20 : (j <= max_stock_pre)) (PreH21 : (0 <= best_index)) (PreH22 : (best_index <= max_stock_pre)) (PreH23 : (best_index = (Znth head queue_l 0))) (PreH24 : (0 <= head)) (PreH25 : (head < tail)) (PreH26 : (tail <= j)) (PreH27 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH28 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH29 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH30 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -11784,35 +11784,35 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= ask_price) ”
-  &&  “ (ask_price <= 1000) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (0 <= best_index) ”
-  &&  “ (best_index <= max_stock_pre) ”
-  &&  “ (best_index = (Znth head queue_l 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head < tail) ”
-  &&  “ (tail <= j) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= ask_price) ” 
+  &&  “ (ask_price <= 1000) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (0 <= best_index) ” 
+  &&  “ (best_index <= max_stock_pre) ” 
+  &&  “ (best_index = (Znth head queue_l 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head < tail) ” 
+  &&  “ (tail <= j) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((dp_pre + (((source_day * width ) + best_index ) * sizeof(INT)))) # Int  |-> (Znth (best_index) ((Znth source_day dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((source_day * width ) * sizeof(INT))) best_index 0 width (Znth source_day dp_l __default__List_Z) )
@@ -11824,7 +11824,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
 .
 
-Definition maximum_profit_partial_solve_wit_31 :=
+Definition maximum_profit_partial_solve_wit_31 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (neg_inf: Z) (width: Z) (i: Z) (j: Z) (source_day: Z) (best_index: Z) (head: Z) (bid_price: Z) (sell_cap: Z) (ask_price: Z) (buy_cap: Z) (tail: Z) (buy_candidate: Z)  __default__List_Z (PreH1 : (neg_inf = (-1000000000))) (PreH2 : (width = (max_stock_pre + 1 ))) (PreH3 : (1 <= days_pre)) (PreH4 : (days_pre <= 990)) (PreH5 : (1 <= max_stock_pre)) (PreH6 : (max_stock_pre <= 990)) (PreH7 : (0 <= wait_days_pre)) (PreH8 : (wait_days_pre < days_pre)) (PreH9 : (1 <= i)) (PreH10 : (i <= days_pre)) (PreH11 : (1 <= j)) (PreH12 : (j <= max_stock_pre)) (PreH13 : (0 <= source_day)) (PreH14 : (source_day < i)) (PreH15 : (0 <= best_index)) (PreH16 : (best_index <= max_stock_pre)) (PreH17 : (best_index = (Znth head queue_l 0))) (PreH18 : (bid_price = (Znth (i - 1 ) bp_l 0))) (PreH19 : (sell_cap = (Znth (i - 1 ) sell_l 0))) (PreH20 : (ask_price = (Znth (i - 1 ) ap_l 0))) (PreH21 : (buy_cap = (Znth (i - 1 ) buy_l 0))) (PreH22 : (0 <= head)) (PreH23 : (head < tail)) (PreH24 : (tail <= j)) (PreH25 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH26 : (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j )) (PreH27 : (buy_candidate = (((Znth best_index (Znth source_day dp_l __default__List_Z) 0) + (best_index * ask_price ) ) - (j * ask_price ) ))) (PreH28 : (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail )) (PreH29 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -11833,34 +11833,34 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (1 <= i) ”
-  &&  “ (i <= days_pre) ”
-  &&  “ (1 <= j) ”
-  &&  “ (j <= max_stock_pre) ”
-  &&  “ (0 <= source_day) ”
-  &&  “ (source_day < i) ”
-  &&  “ (0 <= best_index) ”
-  &&  “ (best_index <= max_stock_pre) ”
-  &&  “ (best_index = (Znth head queue_l 0)) ”
-  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ”
-  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ”
-  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ”
-  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ”
-  &&  “ (0 <= head) ”
-  &&  “ (head < tail) ”
-  &&  “ (tail <= j) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ”
-  &&  “ (buy_candidate = (((Znth best_index (Znth source_day dp_l __default__List_Z) 0) + (best_index * ask_price ) ) - (j * ask_price ) )) ”
-  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ”
+  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (1 <= i) ” 
+  &&  “ (i <= days_pre) ” 
+  &&  “ (1 <= j) ” 
+  &&  “ (j <= max_stock_pre) ” 
+  &&  “ (0 <= source_day) ” 
+  &&  “ (source_day < i) ” 
+  &&  “ (0 <= best_index) ” 
+  &&  “ (best_index <= max_stock_pre) ” 
+  &&  “ (best_index = (Znth head queue_l 0)) ” 
+  &&  “ (bid_price = (Znth (i - 1 ) bp_l 0)) ” 
+  &&  “ (sell_cap = (Znth (i - 1 ) sell_l 0)) ” 
+  &&  “ (ask_price = (Znth (i - 1 ) ap_l 0)) ” 
+  &&  “ (buy_cap = (Znth (i - 1 ) buy_l 0)) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head < tail) ” 
+  &&  “ (tail <= j) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockBuyProgress ap_l bp_l buy_l sell_l dp_l max_stock_pre wait_days_pre i source_day j ) ” 
+  &&  “ (buy_candidate = (((Znth best_index (Znth source_day dp_l __default__List_Z) 0) + (best_index * ask_price ) ) - (j * ask_price ) )) ” 
+  &&  “ (StockBuyQueue dp_l queue_l source_day ask_price (j - buy_cap ) (j - 1 ) head tail ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((dp_pre + (((i * width ) + j ) * sizeof(INT)))) # Int  |-> (Znth (j) ((Znth i dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((i * width ) * sizeof(INT))) j 0 width (Znth i dp_l __default__List_Z) )
@@ -11872,7 +11872,7 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
 .
 
-Definition maximum_profit_partial_solve_wit_32 :=
+Definition maximum_profit_partial_solve_wit_32 := 
 forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (bp_pre: Z) (ap_pre: Z) (wait_days_pre: Z) (max_stock_pre: Z) (days_pre: Z) (sell_l: (@list Z)) (buy_l: (@list Z)) (bp_l: (@list Z)) (ap_l: (@list Z)) (queue_l: (@list Z)) (dp_l: (@list (@list Z))) (answer: Z) (j: Z) (width: Z) (neg_inf: Z)  __default__List_Z (PreH1 : (j <= max_stock_pre)) (PreH2 : (neg_inf = (-1000000000))) (PreH3 : (width = (max_stock_pre + 1 ))) (PreH4 : (1 <= days_pre)) (PreH5 : (days_pre <= 990)) (PreH6 : (1 <= max_stock_pre)) (PreH7 : (max_stock_pre <= 990)) (PreH8 : (0 <= wait_days_pre)) (PreH9 : (wait_days_pre < days_pre)) (PreH10 : (0 <= j)) (PreH11 : (j <= (max_stock_pre + 1 ))) (PreH12 : (0 <= answer)) (PreH13 : (answer <= 1000000000)) (PreH14 : (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre )) (PreH15 : (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l days_pre max_stock_pre wait_days_pre j answer )) (PreH16 : (StockTableShape dp_l days_pre max_stock_pre )) ,
   (IntArray.full ap_pre days_pre ap_l )
   **  (IntArray.full bp_pre days_pre bp_l )
@@ -11881,21 +11881,21 @@ forall (dp_pre: Z) (queue_index_pre: Z) (sell_limit_pre: Z) (buy_limit_pre: Z) (
   **  (IntArray.full queue_index_pre width queue_l )
   **  (IntArray2.full dp_pre (days_pre + 1 ) width dp_l )
 |--
-  “ (j <= max_stock_pre) ”
-  &&  “ (neg_inf = (-1000000000)) ”
-  &&  “ (width = (max_stock_pre + 1 )) ”
-  &&  “ (1 <= days_pre) ”
-  &&  “ (days_pre <= 990) ”
-  &&  “ (1 <= max_stock_pre) ”
-  &&  “ (max_stock_pre <= 990) ”
-  &&  “ (0 <= wait_days_pre) ”
-  &&  “ (wait_days_pre < days_pre) ”
-  &&  “ (0 <= j) ”
-  &&  “ (j <= (max_stock_pre + 1 )) ”
-  &&  “ (0 <= answer) ”
-  &&  “ (answer <= 1000000000) ”
-  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ”
-  &&  “ (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l days_pre max_stock_pre wait_days_pre j answer ) ”
+  “ (j <= max_stock_pre) ” 
+  &&  “ (neg_inf = (-1000000000)) ” 
+  &&  “ (width = (max_stock_pre + 1 )) ” 
+  &&  “ (1 <= days_pre) ” 
+  &&  “ (days_pre <= 990) ” 
+  &&  “ (1 <= max_stock_pre) ” 
+  &&  “ (max_stock_pre <= 990) ” 
+  &&  “ (0 <= wait_days_pre) ” 
+  &&  “ (wait_days_pre < days_pre) ” 
+  &&  “ (0 <= j) ” 
+  &&  “ (j <= (max_stock_pre + 1 )) ” 
+  &&  “ (0 <= answer) ” 
+  &&  “ (answer <= 1000000000) ” 
+  &&  “ (StockInputsBounded ap_l bp_l buy_l sell_l days_pre max_stock_pre ) ” 
+  &&  “ (StockAnswerProgress ap_l bp_l buy_l sell_l dp_l days_pre max_stock_pre wait_days_pre j answer ) ” 
   &&  “ (StockTableShape dp_l days_pre max_stock_pre ) ”
   &&  (((dp_pre + (((days_pre * width ) + j ) * sizeof(INT)))) # Int  |-> (Znth (j) ((Znth days_pre dp_l __default__List_Z)) (0)))
   **  (IntArray.missing_i (dp_pre + ((days_pre * width ) * sizeof(INT))) j 0 width (Znth days_pre dp_l __default__List_Z) )

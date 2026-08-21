@@ -74,6 +74,38 @@ action : left_erase(1);
          left_erase(0);
          left_add(IntArray2::full(p, n, m, rows));
 
+// post(2): any other reconstructed row is a real matrix update.
+id : 10
+priority : post(2)
+left : IntArray2::missing_i(?p, ?i, 0, ?n, ?m, ?rows) at 0
+       IntArray::full(p + (i * m * sizeof(I32)), m, ?row) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(1);
+         left_erase(0);
+         left_add(IntArray2::full(p, n, m, replace_Znth{list{Z}}(i, row, rows)));
+
+id : 11
+priority : post(2)
+left : IntArray2::missing_i(?p, ?i, 0, ?n, ?m, ?rows) at 0
+       IntArray::full(pointer_offset(p, i, I32[?w]), m, ?row) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(w == m);
+action : left_erase(1);
+         left_erase(0);
+         left_add(IntArray2::full(p, n, m, replace_Znth{list{Z}}(i, row, rows)));
+
+id : 12
+priority : post(2)
+left : IntArray2::missing_i(?p, ?i, 0, ?n, ?m, ?rows) at 0
+       IntArray::full(pointer_offset(p, (i * m), I32), m, ?row) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(1);
+         left_erase(0);
+         left_add(IntArray2::full(p, n, m, replace_Znth{list{Z}}(i, row, rows)));
+
 id : 4
 priority : core(1)
 left : IntArray2::full(?p, ?n, ?m, ?rows1) at 0

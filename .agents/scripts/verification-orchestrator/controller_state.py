@@ -38,12 +38,16 @@ from path_utils import (
     is_run_root_name,
     main_root_from_run_root,
     reports_root,
+    reuse_source_build_workspace,
+    reuse_source_preparation,
     run_logs_path,
     slug,
     target_files_for_c,
     write_json,
 )
+from coq_tooling import dune_snapshot_for_preserved_build
 from proof_manual_utils import generated_artifact_module_spellings
+from spec_freeze import extract_spec_surface
 from public_helper_utils import (
     ensure_public_helper_lemma_lib,
     public_helper_pool_snapshot,
@@ -71,6 +75,7 @@ CONTROLLER_STATE_REQUIRED_FIELDS = frozenset(
         "target_files",
         "public_helper_lemma_lib",
         "problem_context",
+        "spec_freeze",
         "max_compact_attempts",
         "max_witnesses_per_group",
         "max_parallel_group_workers",
@@ -345,6 +350,53 @@ def _debug_build_snapshot(
     return {"digest": digest, "file_count": len(records)}
 
 
+def _verified_reuse_source_build(
+    *,
+    main_root: Path,
+    run_root: Path,
+    round_id: str,
+    sealed: dict[str, Any],
+    source_goal_version: str,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Re-verify one sealed reuse-source build against the preparation it carries.
+
+    Raises ``ValueError`` when the preserved sources, that preparation, or the
+    seal binding the two no longer agree.
+    """
+
+    if sealed.get("status") != "passed":
+        raise ValueError(f"reuse-source build is not sealed: {round_id}")
+    if sealed.get("source_goal_version") != source_goal_version:
+        raise ValueError(
+            f"sealed reuse-source build is bound to another goal version: {round_id}"
+        )
+    preparation_path = reuse_source_preparation(run_root, round_id)
+    receipt = _json_load(preparation_path)
+    if not isinstance(receipt, dict):
+        raise ValueError(
+            f"sealed reuse-source preparation is missing: {preparation_path}"
+        )
+    if sealed.get("preparation_sha256") != _file_digest(preparation_path):
+        raise ValueError(
+            f"sealed reuse-source preparation changed: {preparation_path}"
+        )
+    dependency_snapshot = dune_snapshot_for_preserved_build(
+        workspace_root=main_root, receipt=receipt
+    )
+    build = _debug_build_snapshot(
+        reuse_source_build_workspace(run_root, round_id),
+        dune_dependency_snapshot=dependency_snapshot,
+    )
+    if (
+        sealed.get("digest") != build["digest"]
+        or sealed.get("file_count") != build["file_count"]
+    ):
+        raise ValueError(
+            f"sealed reuse-source build changed after vc-proving preparation: {round_id}"
+        )
+    return dependency_snapshot["_snapshot"], build
+
+
 def _is_relative_to(path: Path, root: Path) -> bool:
     try:
         path.expanduser().resolve().relative_to(root.expanduser().resolve())
@@ -357,6 +409,39 @@ def _relative_path(path: Path, root: Path) -> str:
     return (
         path.expanduser().resolve().relative_to(root.expanduser().resolve()).as_posix()
     )
+
+
+def _freeze_spec_functions(args: argparse.Namespace) -> list[str]:
+    """Flatten repeated and comma-separated --freeze-spec values."""
+
+    return [
+        name.strip()
+        for value in getattr(args, "freeze_spec", []) or []
+        for name in str(value).split(",")
+        if name.strip()
+    ]
+
+
+def _spec_freeze_baseline(
+    *,
+    main_root: Path,
+    target_files: dict[str, str],
+    functions: list[str],
+) -> dict[str, Any] | None:
+    """Capture the specification surface that this run may not change.
+
+    Returns ``None`` when no function was frozen, which is the default: the
+    annotation agent then authors specifications freely and no comparison runs.
+    """
+
+    if not functions:
+        return None
+    c_file = main_root / target_files["c_file"]
+    lib_file = main_root / target_files["formal_case_lib"]
+    return {
+        "functions": sorted(set(functions)),
+        "baseline": extract_spec_surface(c_file, lib_file),
+    }
 
 
 def _problem_context_from_args(args: argparse.Namespace) -> dict[str, Any]:
@@ -2152,6 +2237,11 @@ def init_run(args: argparse.Namespace) -> int:
             for key in ("path", "sha256", "declaration_count", "helper_count")
         },
         "problem_context": _problem_context_from_args(args),
+        "spec_freeze": _spec_freeze_baseline(
+            main_root=main_root,
+            target_files=target_files,
+            functions=_freeze_spec_functions(args),
+        ),
         "max_compact_attempts": args.max_compact_attempts,
         "max_witnesses_per_group": args.max_witnesses_per_group,
         "max_parallel_group_workers": args.max_parallel_group_workers,

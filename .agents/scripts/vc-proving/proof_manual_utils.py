@@ -103,6 +103,26 @@ TOP_LEVEL_DECLARATION_KINDS = {
     "Scheme",
     "Goal",
 }
+# Case-lib declaration kinds whose introduced names can be determined exactly, so the
+# declaration can be bound per goal instead of globally.  Everything else in the lib
+# (Notation, Instance, Class, Hint, Ltac, Module/Section, Require/Import/Set, Record, ...)
+# can change how unrelated goals elaborate and therefore stays in the global environment.
+LIB_SINGLE_NAME_KINDS = {
+    "Lemma",
+    "Theorem",
+    "Proposition",
+    "Corollary",
+    "Example",
+    "Fact",
+    "Remark",
+    "Definition",
+    "Let",
+}
+LIB_FIXPOINT_KINDS = {"Fixpoint", "CoFixpoint"}
+LIB_INDUCTIVE_KINDS = {"Inductive", "CoInductive"}
+MUTUAL_WITH_RE = re.compile(r"\bwith\s+([A-Za-z_][A-Za-z0-9_']*)")
+CONSTRUCTOR_RE = re.compile(r"\|\s*([A-Za-z_][A-Za-z0-9_']*)\s*:(?!=)")
+
 UNCONDITIONAL_ASSUMPTION_KINDS = {
     "Axiom",
     "Axioms",
@@ -422,6 +442,90 @@ def top_level_declarations(text: str) -> list[dict[str, Any]]:
     ]
 
 
+def _strip_match_blocks(text: str) -> str | None:
+    """Remove balanced ``match ... end`` spans so pattern `with` is not mistaken for a
+    mutual-definition `with`.  Returns None when the block structure is unbalanced."""
+
+    tokens = list(re.finditer(r"\b(match|end)\b", text))
+    if not tokens:
+        return text
+    out: list[str] = []
+    depth = 0
+    cursor = 0
+    for token in tokens:
+        if token.group(1) == "match":
+            if depth == 0:
+                out.append(text[cursor : token.start()])
+            depth += 1
+        else:
+            if depth == 0:
+                return None
+            depth -= 1
+            if depth == 0:
+                cursor = token.end()
+    if depth != 0:
+        return None
+    out.append(text[cursor:])
+    return " ".join(out)
+
+
+def lib_declaration_names(kind: str, name: str, command: str) -> set[str] | None:
+    """Every name a case-lib command introduces, or None when that cannot be determined.
+
+    Returning None makes the caller treat the command as ambient, which is conservative:
+    an ambient command is bound into the global environment hash instead.
+    """
+
+    if not name:
+        return None
+    if kind in LIB_SINGLE_NAME_KINDS:
+        return {name}
+    if kind in LIB_FIXPOINT_KINDS or kind in LIB_INDUCTIVE_KINDS:
+        outside = _strip_match_blocks(command)
+        if outside is None:
+            return None
+        names = {name} | set(MUTUAL_WITH_RE.findall(outside))
+        if kind in LIB_INDUCTIVE_KINDS:
+            if ":=" not in command:
+                return None
+            names |= set(CONSTRUCTOR_RE.findall(command))
+        return names
+    return None
+
+
+def split_formal_case_lib(text: str) -> tuple[dict[str, str], list[str], bool]:
+    """Split a case lib into name-addressable declarations and ambient commands.
+
+    Returns ``(declarations, ambient_commands, isolated)``.  ``isolated`` is False only when
+    the lib cannot be parsed at all, in which case callers bind the whole lib text.  A name
+    introduced more than once maps to all of its commands, so shadowing still changes the
+    hash.
+    """
+
+    if not text.strip():
+        return {}, [], True
+    try:
+        commands = top_level_commands(text)
+    except Exception:
+        return {}, [], False
+    grouped: dict[str, list[str]] = {}
+    ambient: list[str] = []
+    for command in commands:
+        kind = str(command["kind"])
+        semantic_command = str(command["semantic_command"])
+        names = lib_declaration_names(kind, str(command["name"]), semantic_command)
+        if names is None:
+            ambient.append(semantic_command)
+            continue
+        for introduced in names:
+            grouped.setdefault(introduced, []).append(semantic_command)
+    declarations = {
+        introduced: "\n".join(sorted(commands_for))
+        for introduced, commands_for in grouped.items()
+    }
+    return declarations, ambient, True
+
+
 def goal_definition_hashes(
     text: str, *, formal_case_lib_text: str = ""
 ) -> dict[str, str]:
@@ -447,11 +551,20 @@ def goal_definition_hashes(
             raise ValueError(f"duplicate generated goal definition: {name}")
         definitions[name] = semantic_command
 
+    lib_definitions, lib_ambient, lib_isolated = split_formal_case_lib(
+        formal_case_lib_text
+    )
+    if lib_isolated:
+        lib_environment_text = "".join(lib_ambient)
+    else:
+        lib_definitions = {}
+        lib_environment_text = normalize_coq_text(formal_case_lib_text)
+
     environment_hash = sha256_text(
         (
             "".join(environment_commands)
             + "\n--FORMAL-CASE-LIB--\n"
-            + normalize_coq_text(formal_case_lib_text)
+            + lib_environment_text
         )
     )
     whole_hash = sha256_text(
@@ -462,6 +575,52 @@ def goal_definition_hashes(
         )
     )
     identifier_re = re.compile(r"\b[A-Za-z_][A-Za-z0-9_']*\b")
+
+    lib_dependencies_of = {
+        name: sorted(
+            {
+                token
+                for token in identifier_re.findall(command)
+                if token in lib_definitions and token != name
+            }
+        )
+        for name, command in lib_definitions.items()
+    }
+    lib_resolved: dict[str, str] = {}
+    lib_visiting: set[str] = set()
+
+    def resolve_lib(name: str) -> str:
+        if name in lib_resolved:
+            return lib_resolved[name]
+        if name in lib_visiting:
+            return sha256_text("__formal_case_lib_cycle__:" + name)
+        lib_visiting.add(name)
+        payload = {
+            "command": lib_definitions[name],
+            "dependencies": [
+                {"name": dependency, "hash": resolve_lib(dependency)}
+                for dependency in lib_dependencies_of[name]
+            ],
+        }
+        lib_visiting.discard(name)
+        lib_resolved[name] = sha256_text(
+            json.dumps(payload, sort_keys=True, separators=(",", ":"))
+        )
+        return lib_resolved[name]
+
+    for lib_name in lib_definitions:
+        resolve_lib(lib_name)
+
+    lib_uses = {
+        name: sorted(
+            {
+                token
+                for token in identifier_re.findall(command)
+                if token in lib_definitions
+            }
+        )
+        for name, command in definitions.items()
+    }
     dependencies = {
         name: sorted(
             {
@@ -487,6 +646,10 @@ def goal_definition_hashes(
             "dependencies": [
                 {"name": dependency, "hash": resolve(dependency)}
                 for dependency in dependencies[name]
+            ],
+            "lib_dependencies": [
+                {"name": lib_name, "hash": lib_resolved[lib_name]}
+                for lib_name in lib_uses[name]
             ],
         }
         visiting.remove(name)

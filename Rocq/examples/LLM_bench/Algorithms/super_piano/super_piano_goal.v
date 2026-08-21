@@ -18,14 +18,6 @@ Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.super_piano.super_piano_lib.
 Local Open Scope sac.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_proof.
 
 (*----- Function build_prefix -----*)
 
@@ -277,23 +269,14 @@ forall (pre_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (pref: (@list Z)) (i:
   **  (IntArray.full pre_pre (n_pre + 1 ) ps )
 ) \/
 (
-forall (n_pre: Z) (l: (@list Z)) (pref: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (PrefixArrayPrefix l pref i )) (PreH8 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
-  TT && emp 
+forall (pre_pre: Z) (n_pre: Z) (l: (@list Z)) (pref: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (PrefixArrayPrefix l pref i )) (PreH8 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
+  (IntArray.seg pre_pre 0 (i + 1 ) pref )
 |--
-  “ forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx pref 0)) /\ ((Znth idx pref 0) <= INT_MAX))) ” 
-  &&  “ (PrefixSums l pref ) ”
-  &&  emp
+  EX (ps: (@list Z)) ,
+  “ (PrefixSums l ps ) ” 
+  &&  “ forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx ps 0)) /\ ((Znth idx ps 0) <= INT_MAX))) ”
+  &&  (IntArray.full pre_pre (n_pre + 1 ) ps )
 ).
-
-Definition build_prefix_return_wit_1_split_goal_1 := 
-forall (n_pre: Z) (l: (@list Z)) (pref: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (PrefixArrayPrefix l pref i )) (PreH8 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
-  forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx pref 0)) /\ ((Znth idx pref 0) <= INT_MAX)))
-.
-
-Definition build_prefix_return_wit_1_split_goal_2 := 
-forall (n_pre: Z) (l: (@list Z)) (pref: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : (0 <= i)) (PreH6 : (i <= n_pre)) (PreH7 : (PrefixArrayPrefix l pref i )) (PreH8 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
-  (PrefixSums l pref )
-.
 
 Definition build_prefix_partial_solve_wit_1 := 
 forall (pre_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ps: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : ((Zlength (l)) = n_pre)) (PreH4 : (PrefixSums l ps )) (PreH5 : forall (idx: Z) , (((0 <= idx) /\ (idx < (n_pre + 1 ))) -> ((INT_MIN <= (Znth idx ps 0)) /\ ((Znth idx ps 0) <= INT_MAX)))) (PreH6 : forall (idx_2: Z) , (((0 <= idx_2) /\ (idx_2 < n_pre)) -> (((-1000) <= (Znth idx_2 l 0)) /\ ((Znth idx_2 l 0) <= 1000)))) ,
@@ -7939,10 +7922,6 @@ Definition superPiano_partial_solve_wit_22 := superPiano_partial_solve_wit_22_pu
 
 Module Type VC_Correct.
 
-Include int_array_Strategy_Correct.
-Include uint_array_Strategy_Correct.
-Include undef_uint_array_Strategy_Correct.
-Include array_shape_Strategy_Correct.
 
 Axiom proof_of_build_prefix_safety_wit_1 : build_prefix_safety_wit_1.
 Axiom proof_of_build_prefix_safety_wit_2 : build_prefix_safety_wit_2.

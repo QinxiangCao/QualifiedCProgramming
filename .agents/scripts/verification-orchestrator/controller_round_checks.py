@@ -23,6 +23,7 @@ from controller_attempts import (
     _transition_current_version_drift,
 )
 from controller_invocations import hydrate_actions
+from spec_freeze import spec_freeze_findings
 from controller_rounds import (
     _latest_reusable_vc_proving_round,
     _reusable_group_ids,
@@ -47,6 +48,7 @@ from controller_state import (
     _source_goal_version,
     _source_version_for_state,
     _utc,
+    _verified_reuse_source_build,
 )
 from coq_tooling import (
     dune_snapshot_for_preserved_build,
@@ -60,6 +62,7 @@ from group_plan_utils import (
 )
 from path_utils import (
     fixed_path_under,
+    reuse_source_build_workspace,
     run_builds_root,
     vc_checking_build_workspace,
     vc_checking_debug_script,
@@ -311,6 +314,45 @@ def annotation_check_round(args: argparse.Namespace) -> int:
                     "status": "failed",
                     "formal_case_lib_contract": formal_case_lib_errors,
                 },
+                indent=2,
+            )
+        )
+        return 1
+    # A run may fix part of the specification surface as input.  The agent owns
+    # the whole C file and case lib, so this is the only place the boundary is
+    # enforced: compare the frozen entries against the run's baseline.
+    spec_freeze_mismatches = spec_freeze_findings(
+        state.get("spec_freeze"),
+        c_file=main_root / target["c_file"],
+        lib_file=main_root / target["formal_case_lib"],
+    )
+    if spec_freeze_mismatches:
+        attempt["status"] = "main-check-failed"
+        attempt["finished_at"] = _utc()
+        attempt["main_check"] = {
+            "symexec": _compact_symexec_evidence(symexec),
+            "spec_freeze": {
+                "status": "failed",
+                "mismatch_count": len(spec_freeze_mismatches),
+                "first_mismatch": spec_freeze_mismatches[0],
+            },
+        }
+        _set_annotation_session_idle(state)
+        _queue_annotation_feedback(
+            state,
+            attempt["attempt_id"],
+            "annotation-main-check-spec-freeze",
+        )
+        _append_event(
+            run_root,
+            state,
+            "annotation-check-failed",
+            reason="spec-freeze",
+        )
+        _save_state(run_root, state)
+        print(
+            json.dumps(
+                {"status": "failed", "spec_freeze": spec_freeze_mismatches},
                 indent=2,
             )
         )
@@ -1591,7 +1633,7 @@ def _verify_reuse_debug_evidence(
                 "reference",
                 source_round,
                 reference_goal_version,
-                run_builds_root(run_root) / source_round / "reuse-source" / "src",
+                reuse_source_build_workspace(run_root, source_round),
                 Path(".coq_debug/reuse-source.v"),
                 reference_goals,
             )
@@ -1610,16 +1652,23 @@ def _verify_reuse_debug_evidence(
             errors.append(f"{label} coq-debug has no passed controller receipt")
             continue
         try:
-            base_snapshot = dune_snapshot_for_preserved_build(
-                workspace_root=Path(str(state["main_root"])),
-                build_workspace=build_workspace,
-            )
-            snapshot = _debug_build_snapshot(
-                build_workspace,
-                dune_dependency_snapshot=base_snapshot,
-            )
-            sealed_snapshot = snapshot if label == "reference" else None
-        except ValueError as exc:
+            if label == "reference":
+                _dependency_snapshot, snapshot = _verified_reuse_source_build(
+                    main_root=Path(str(state["main_root"])),
+                    run_root=run_root,
+                    round_id=round_id,
+                    sealed=sealed_reference,
+                    source_goal_version=goal_version,
+                )
+            else:
+                snapshot = _debug_build_snapshot(
+                    build_workspace,
+                    dune_dependency_snapshot=dune_snapshot_for_preserved_build(
+                        workspace_root=Path(str(state["main_root"])),
+                        receipt=state.get("dune_preparation"),
+                    ),
+                )
+        except (OSError, ValueError) as exc:
             errors.append(str(exc))
             continue
         if receipt.get("round") != round_id:
@@ -1631,16 +1680,6 @@ def _verify_reuse_debug_evidence(
             or receipt.get("build_file_count") != snapshot["file_count"]
         ):
             errors.append(f"{label} debug build changed after coq-debug")
-        if label == "reference" and (
-            sealed_reference.get("status") != "passed"
-            or sealed_reference.get("source_goal_version") != goal_version
-            or not isinstance(sealed_snapshot, dict)
-            or sealed_reference.get("digest") != sealed_snapshot["digest"]
-            or sealed_reference.get("file_count") != sealed_snapshot["file_count"]
-        ):
-            errors.append(
-                "reference debug build does not match the sealed reuse-source build"
-            )
         errors.extend(
             _debug_script_acceptance_errors(
                 label=label,

@@ -96,8 +96,15 @@ Run: demo-20260729000536
 | `--preferred-hidden-property` | 否，可重复 | 希望保留的隐藏性质 |
 | `--forbidden-pattern` | 否，可重复 | 禁止实现模式 |
 | `--reference-case-hint` | 否，可重复 | 参考 case |
+| `--freeze-spec` | 否，可重复或逗号分隔 | 冻结指定 C 函数的 specification；省略时 annotation agent 可自由编写 spec |
 
 **返回与成功：** exit 0，JSON 给出 `run_id`、`run_root`、`report_root` 和 `controller_state`。controller 把 target parent 镜像到 `Rocq/examples/<collection>/**`，以 `--case` 命名 generated/formal modules，并持久化只含 C/formal paths、case 与 active theory 的九字段 exact `target_files`；同目录可有多个互不混淆的程序。run/report roots 成对分配，任一同名遗留目录都不能被新 run 接管。init 还以 O_EXCL 一次写入 `reports/<run>/controller_target_topology.json`，严格只含 `run_id`、`case` 和 `target_files`，后续不重写；每次加载 state 都从 current run identity、fixed C path 与 authoritative case 重算，并要求 state、anchor、重算结果逐项一致。include/SLP/profile 在每次 canonical symexec 时从 sealed C path 重算，不成为额外 state mapping。随后调用 `step`。
+
+**`--freeze-spec`：** 把 specification 当作本 run 的固定输入而非可重新设计的对象。给出函数名后，该函数的 `With` / `Require` / `Ensure` 块（含具名 spec 与 `<= other_spec` refinement 子句）必须在 annotation 阶段保持 token 一致；注释、空白与行尾属于格式，不算修改。
+
+只要使用该 flag，已存在的 `Extern Coq` 条目、`Import Coq` module 和 case lib 顶层声明也一并冻结——冻结的 spec 其含义依赖这些定义，否则文本不变而语义漂移。**新增**不受限制：可以新增 `Extern Coq` 条目、新增 import、在 case lib 中新增 definition/lemma，也可以为未列出的函数编写 spec。`Inv Assert` 与 `Assert` 始终完全可编辑。
+
+init 时抽取 baseline 并存入 `controller_state.json` 的 `spec_freeze`；`annotation-check-round` 重新抽取并逐条比对，任何被修改或删除的条目都会使该 attempt 失败，并以 `annotation-main-check-spec-freeze` 退回 annotation agent，附带具体条目名。省略该 flag 时不做任何比对，行为与之前完全一致。
 
 **重复与失败：** 不把它当成恢复入口。路径越界、目标缺失、非法 Rocq case identifier、配置值非法或 run 目录冲突时停止；修正输入后创建明确的新 run。禁止手工创建 state、从 C stem 重算 formal 名或复用另一个 case 的 run root。后续所有 action 只消费 persisted `target_files`。
 
@@ -147,7 +154,7 @@ Run: demo-20260729000536
 
 **参数：** `--run`、`--attempt`、`--owner` 都必需。
 
-**作用与返回：** 校验 owner，封存交付，并直接运行 annotation/vc-checking phase validation 或 group validation。返回值可能是 `ready-for-main-check`、`returned`、`report-repair-required`、`invalid-report`、group validation 结果或幂等结果；按 JSON 和下一次 `step` 处理。group 的合法 `failure_class: annotation-gap` blocker 还要求固定路径 `group_worker_output.md` 是非空 UTF-8 普通文件，其 digest 进入 finalized `artifact_sha256` 并随 copied formal bytes 一起封存。controller 以 `require_complete=False` 检查 structure/ownership/route/helper/import/safety，不跑 exact/full group Rocq，结构合法才成为本轮 blocked 终态和 reuse source。它不要求 owner 越界修改 annotation，也不阻止 sibling 调度。
+**作用与返回：** 校验 owner，封存交付，并直接运行 annotation/vc-checking phase validation 或 group validation。返回值可能是 `ready-for-main-check`、`returned`、`report-repair-required`、`invalid-report`、group validation 结果或幂等结果；按 JSON 和下一次 `step` 处理。finalize 封存 owner 实际交付的每个文件；group 的合法 `failure_class: annotation-gap` blocker 还要求交付固定路径上非空 UTF-8 的 `group_worker_output.md`。controller 以 `require_complete=False` 检查 structure/ownership/route/helper/import/safety，不跑 exact/full group Rocq，结构合法才成为本轮 blocked 终态和 reuse source。它不要求 owner 越界修改 annotation，也不阻止 sibling 调度。
 
 **成功与重复：** 同 owner、同 seal 的重复 finalize 幂等。一次 controller 命令完成 group validation；不发布 in-flight execution，也不并发调用同一 action。
 
@@ -219,6 +226,8 @@ Run: demo-20260729000536
 **参数：** `--run`、`--round` 必需。
 
 **作用与返回：** 在 main root 按 persisted `target_files` 重跑 canonical symexec，解析 present raw manual；`formal_case_lib` present 时先用 selected backend 准备其 exact `.vo` target，再执行本地 `coqc`；随后做独立 clean replay 与 generated role presence/digest 稳定性比较。manual/lib 候选路径允许 missing，不 seed lib、不创建 placeholder。通过时接纳 annotation、写 source versions，并发布 `dune-build`。
+
+run 若使用了 `--freeze-spec`，本命令还在 `formal_case_lib` contract 检查之后、接纳之前重新抽取 specification surface，与 `spec_freeze.baseline` 逐条比对。被修改或删除的条目使 attempt 以 `main-check-failed` 结束，`main_check.spec_freeze` 记录 `mismatch_count` 与 `first_mismatch`（含 `section`、`entry`、`kind`），并以 `annotation-main-check-spec-freeze` 退回同一 annotation agent。未使用该 flag 时跳过此比对。
 
 **成功与重复：** 以 exit 0 和 JSON 接纳状态为准。相同已接纳输入可返回稳定结果；输入漂移会路由 retry，不得把 owner 自检当成替代。
 

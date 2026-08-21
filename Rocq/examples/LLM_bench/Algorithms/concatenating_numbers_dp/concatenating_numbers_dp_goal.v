@@ -18,14 +18,6 @@ Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.concatenating_numbers_dp.concatenating_numbers_dp_lib.
 Local Open Scope sac.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_proof.
 
 (*----- Function compare_concatenated_order -----*)
 
@@ -3026,29 +3018,29 @@ forall (result_pre: Z) (best_first_pre: Z) (lengths_pre: Z) (number_width_pre: Z
   **  (IntArray.undef_seg result_pre 0 (sum (lens)) )
 ) \/
 (
-forall (number_width_pre: Z) (count_pre: Z) (flat: (@list Z)) (lens: (@list Z)) (rows: (@list (@list Z))) (choices_2: (@list Z)) (mask: Z) (state_count: Z) (PreH1 : (mask >= state_count)) (PreH2 : (state_count = (Z.shiftl (1) (count_pre)))) (PreH3 : (1 <= count_pre)) (PreH4 : (count_pre <= 20)) (PreH5 : (1 <= number_width_pre)) (PreH6 : (number_width_pre <= 10)) (PreH7 : (1 <= (sum (lens)))) (PreH8 : ((sum (lens)) <= 200)) (PreH9 : (1 <= mask)) (PreH10 : (mask <= state_count)) (PreH11 : (RowsWellFormed rows lens count_pre number_width_pre )) (PreH12 : (FlatRows flat rows count_pre number_width_pre )) (PreH13 : ((Zlength (choices_2)) = mask)) (PreH14 : (DPTablePrefix rows lens count_pre mask choices_2 )) ,
-  TT && emp 
+forall (best_first_pre: Z) (number_width_pre: Z) (count_pre: Z) (flat: (@list Z)) (lens: (@list Z)) (rows: (@list (@list Z))) (choices_2: (@list Z)) (mask: Z) (state_count: Z) (PreH1 : (mask >= state_count)) (PreH2 : (state_count = (Z.shiftl (1) (count_pre)))) (PreH3 : (1 <= count_pre)) (PreH4 : (count_pre <= 20)) (PreH5 : (1 <= number_width_pre)) (PreH6 : (number_width_pre <= 10)) (PreH7 : (1 <= (sum (lens)))) (PreH8 : ((sum (lens)) <= 200)) (PreH9 : (1 <= mask)) (PreH10 : (mask <= state_count)) (PreH11 : (RowsWellFormed rows lens count_pre number_width_pre )) (PreH12 : (FlatRows flat rows count_pre number_width_pre )) (PreH13 : ((Zlength (choices_2)) = mask)) (PreH14 : (DPTablePrefix rows lens count_pre mask choices_2 )) ,
+  (IntArray.seg best_first_pre 0 mask choices_2 )
 |--
-  “ (GreedyOutputPrefix rows lens count_pre (state_count - 1 ) (@nil Z) ) ” 
-  &&  “ (DPTablePrefix rows lens count_pre state_count choices_2 ) ” 
-  &&  “ (0 = (Zlength ((@nil Z)))) ”
-  &&  emp
+  EX (choices: (@list Z)) ,
+  “ (state_count = (Z.shiftl (1) (count_pre))) ” 
+  &&  “ (1 <= count_pre) ” 
+  &&  “ (count_pre <= 20) ” 
+  &&  “ (1 <= number_width_pre) ” 
+  &&  “ (number_width_pre <= 10) ” 
+  &&  “ (1 <= (sum (lens))) ” 
+  &&  “ ((sum (lens)) <= 200) ” 
+  &&  “ (0 <= (state_count - 1 )) ” 
+  &&  “ ((state_count - 1 ) < state_count) ” 
+  &&  “ (0 = (Zlength ((@nil Z)))) ” 
+  &&  “ (0 <= 0) ” 
+  &&  “ (0 <= (sum (lens))) ” 
+  &&  “ (RowsWellFormed rows lens count_pre number_width_pre ) ” 
+  &&  “ (FlatRows flat rows count_pre number_width_pre ) ” 
+  &&  “ ((Zlength (choices)) = state_count) ” 
+  &&  “ (DPTablePrefix rows lens count_pre state_count choices ) ” 
+  &&  “ (GreedyOutputPrefix rows lens count_pre (state_count - 1 ) (@nil Z) ) ”
+  &&  (IntArray.full best_first_pre state_count choices )
 ).
-
-Definition concatenating_numbers_dp_entail_wit_8_split_goal_1 := 
-forall (number_width_pre: Z) (count_pre: Z) (flat: (@list Z)) (lens: (@list Z)) (rows: (@list (@list Z))) (choices_2: (@list Z)) (mask: Z) (state_count: Z) (PreH1 : (mask >= state_count)) (PreH2 : (state_count = (Z.shiftl (1) (count_pre)))) (PreH3 : (1 <= count_pre)) (PreH4 : (count_pre <= 20)) (PreH5 : (1 <= number_width_pre)) (PreH6 : (number_width_pre <= 10)) (PreH7 : (1 <= (sum (lens)))) (PreH8 : ((sum (lens)) <= 200)) (PreH9 : (1 <= mask)) (PreH10 : (mask <= state_count)) (PreH11 : (RowsWellFormed rows lens count_pre number_width_pre )) (PreH12 : (FlatRows flat rows count_pre number_width_pre )) (PreH13 : ((Zlength (choices_2)) = mask)) (PreH14 : (DPTablePrefix rows lens count_pre mask choices_2 )) ,
-  (GreedyOutputPrefix rows lens count_pre (state_count - 1 ) (@nil Z) )
-.
-
-Definition concatenating_numbers_dp_entail_wit_8_split_goal_2 := 
-forall (number_width_pre: Z) (count_pre: Z) (flat: (@list Z)) (lens: (@list Z)) (rows: (@list (@list Z))) (choices_2: (@list Z)) (mask: Z) (state_count: Z) (PreH1 : (mask >= state_count)) (PreH2 : (state_count = (Z.shiftl (1) (count_pre)))) (PreH3 : (1 <= count_pre)) (PreH4 : (count_pre <= 20)) (PreH5 : (1 <= number_width_pre)) (PreH6 : (number_width_pre <= 10)) (PreH7 : (1 <= (sum (lens)))) (PreH8 : ((sum (lens)) <= 200)) (PreH9 : (1 <= mask)) (PreH10 : (mask <= state_count)) (PreH11 : (RowsWellFormed rows lens count_pre number_width_pre )) (PreH12 : (FlatRows flat rows count_pre number_width_pre )) (PreH13 : ((Zlength (choices_2)) = mask)) (PreH14 : (DPTablePrefix rows lens count_pre mask choices_2 )) ,
-  (DPTablePrefix rows lens count_pre state_count choices_2 )
-.
-
-Definition concatenating_numbers_dp_entail_wit_8_split_goal_3 := 
-forall (number_width_pre: Z) (count_pre: Z) (flat: (@list Z)) (lens: (@list Z)) (rows: (@list (@list Z))) (choices_2: (@list Z)) (mask: Z) (state_count: Z) (PreH1 : (mask >= state_count)) (PreH2 : (state_count = (Z.shiftl (1) (count_pre)))) (PreH3 : (1 <= count_pre)) (PreH4 : (count_pre <= 20)) (PreH5 : (1 <= number_width_pre)) (PreH6 : (number_width_pre <= 10)) (PreH7 : (1 <= (sum (lens)))) (PreH8 : ((sum (lens)) <= 200)) (PreH9 : (1 <= mask)) (PreH10 : (mask <= state_count)) (PreH11 : (RowsWellFormed rows lens count_pre number_width_pre )) (PreH12 : (FlatRows flat rows count_pre number_width_pre )) (PreH13 : ((Zlength (choices_2)) = mask)) (PreH14 : (DPTablePrefix rows lens count_pre mask choices_2 )) ,
-  (0 = (Zlength ((@nil Z))))
-.
 
 Definition concatenating_numbers_dp_entail_wit_9 := 
 (
@@ -3967,10 +3959,6 @@ forall (result_pre: Z) (best_first_pre: Z) (lengths_pre: Z) (number_width_pre: Z
 
 Module Type VC_Correct.
 
-Include int_array_Strategy_Correct.
-Include uint_array_Strategy_Correct.
-Include undef_uint_array_Strategy_Correct.
-Include array_shape_Strategy_Correct.
 
 Axiom proof_of_compare_concatenated_order_safety_wit_1 : compare_concatenated_order_safety_wit_1.
 Axiom proof_of_compare_concatenated_order_safety_wit_2 : compare_concatenated_order_safety_wit_2.

@@ -3,6 +3,7 @@
 
 
 /*@ Extern Coq
+      (sum : list Z -> Z)
       (Z::shiftl : Z -> Z -> Z)
       (RowsWellFormed : list (list Z) -> list Z -> Z -> Z -> Prop)
       (FlatRows : list Z -> list (list Z) -> Z -> Z -> Prop)

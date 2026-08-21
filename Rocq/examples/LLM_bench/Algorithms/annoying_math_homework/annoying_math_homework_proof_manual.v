@@ -1309,20 +1309,12 @@ Proof.
   lia.
 Qed.
 
-Lemma proof_of_prefix_digits_sum_entail_wit_5_split_goal_4 : prefix_digits_sum_entail_wit_5_split_goal_4.
-Proof.
-  aggressive_pre_process.
-  subst tmpx.
-  exact PreH11.
-Qed.
-
 Lemma proof_of_prefix_digits_sum_entail_wit_5 : prefix_digits_sum_entail_wit_5.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_prefix_digits_sum_entail_wit_5_split_goal_1.
   - Goal_apply proof_of_prefix_digits_sum_entail_wit_5_split_goal_2.
   - Goal_apply proof_of_prefix_digits_sum_entail_wit_5_split_goal_3.
-  - Goal_apply proof_of_prefix_digits_sum_entail_wit_5_split_goal_4.
 Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_6_split_goal_1 : prefix_digits_sum_entail_wit_6_split_goal_1.

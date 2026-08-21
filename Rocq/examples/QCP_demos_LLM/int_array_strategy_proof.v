@@ -188,6 +188,11 @@ Proof.
     cancel.
 Qed.
 
+Lemma int_array_strategy31_correctness : int_array_strategy31.
+Proof.
+  exact int_array_strategy2_correctness.
+Qed.
+
 Lemma int_array_strategy11_correctness : int_array_strategy11.
 Proof.
   pre_process_default.

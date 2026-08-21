@@ -294,29 +294,18 @@ Proof.
   - Goal_apply proof_of_maxSumIncreasingSequence_entail_wit_5_2_split_goal_2.
 Qed.
 
-Lemma proof_of_maxSumIncreasingSequence_return_wit_1_split_goal_1 : maxSumIncreasingSequence_return_wit_1_split_goal_1.
-Proof.
-  intros numsSize_pre l d_2 ans i
-    PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11.
-  assert (i = numsSize_pre) by lia.
-  subst i.
-  exact PreH9.
-Qed.
-
-Lemma proof_of_maxSumIncreasingSequence_return_wit_1_split_goal_2 : maxSumIncreasingSequence_return_wit_1_split_goal_2.
-Proof.
-  intros numsSize_pre l d_2 ans i
-    PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10 PreH11.
-  assert (i = numsSize_pre) by lia.
-  subst i.
-  unfold MSISMaximum.
-  rewrite PreH4.
-  exact (proj2 PreH10).
-Qed.
-
 Lemma proof_of_maxSumIncreasingSequence_return_wit_1 : maxSumIncreasingSequence_return_wit_1.
 Proof.
   aggressive_pre_process.
-  - Goal_apply proof_of_maxSumIncreasingSequence_return_wit_1_split_goal_1.
-  - Goal_apply proof_of_maxSumIncreasingSequence_return_wit_1_split_goal_2.
+  - replace i with numsSize_pre in * by lia.
+    Exists d_2.
+    split_pure_spatial.
+    + sep_apply (IntArray.seg_to_full dp_pre 0 numsSize_pre d_2).
+      replace (dp_pre + 0 * sizeof(INT)) with dp_pre by lia.
+      replace (numsSize_pre - 0) with numsSize_pre by lia.
+      cancel.
+    + split_pures; dump_pre_spatial; try lia; try assumption.
+      unfold MSISMaximum.
+      rewrite PreH4.
+      exact (proj2 PreH10).
 Qed.

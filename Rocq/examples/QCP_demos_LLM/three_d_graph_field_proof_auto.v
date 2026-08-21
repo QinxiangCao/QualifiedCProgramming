@@ -43,6 +43,9 @@ Proof. Admitted.
 Lemma proof_of_touch_plane_entail_wit_2 : touch_plane_entail_wit_2.
 Proof. Admitted. 
 
+Lemma proof_of_touch_plane_entail_wit_3 : touch_plane_entail_wit_3.
+Proof. Admitted. 
+
 Lemma proof_of_touch_plane_entail_wit_4 : touch_plane_entail_wit_4.
 Proof. Admitted. 
 
@@ -86,6 +89,9 @@ Lemma proof_of_touch_graph_direct_entail_wit_2 : touch_graph_direct_entail_wit_2
 Proof. Admitted. 
 
 Lemma proof_of_touch_graph_direct_entail_wit_3 : touch_graph_direct_entail_wit_3.
+Proof. Admitted. 
+
+Lemma proof_of_touch_graph_direct_entail_wit_4 : touch_graph_direct_entail_wit_4.
 Proof. Admitted. 
 
 Lemma proof_of_touch_graph_direct_entail_wit_5 : touch_graph_direct_entail_wit_5.

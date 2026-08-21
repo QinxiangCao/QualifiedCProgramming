@@ -22,9 +22,14 @@ from controller_invocations import (
 from controller_rounds import (
     ANNOTATION_CAUSAL_FAILURE_CLASSES,
     ANNOTATION_GAP_FAILURE_CLASS,
+    FORMAL_ARTIFACT_ROLES,
+    GROUP_NOTES_FILENAME,
+    NOTES_ARTIFACT_ROLE,
     VC_PROVING_PHASE,
     VC_CHECKING_BLOCKER_RETRY_PHASES,
     _annotation_gap_feedback_records,
+    _group_artifact_paths,
+    _narrative_paths,
     _consider_broader_refactor,
     _delivery_message,
     _init_round_attempt,
@@ -339,6 +344,46 @@ def _group_formal_artifact_paths(group: dict[str, Any]) -> dict[str, Path]:
     if isinstance(group_worker_lib, str) and group_worker_lib:
         paths["group_worker_lib"] = Path(group_worker_lib)
     return paths
+
+
+def _delivered_artifact_paths(paths: dict[str, Path]) -> dict[str, Path]:
+    """Drop the optional notes role when the owner delivered no notes.
+
+    Sealing follows delivery, not failure class. Whether a class *requires*
+    notes is a separate question, asked where that class is decided.
+    """
+
+    notes = paths.get(NOTES_ARTIFACT_ROLE)
+    if notes is None or notes.is_file():
+        return paths
+    return {role: path for role, path in paths.items() if role != NOTES_ARTIFACT_ROLE}
+
+
+def _sealed_attempt_paths(
+    state: dict[str, Any], attempt: dict[str, Any]
+) -> dict[str, Path]:
+    """Fixed paths of the phase-attempt artifacts one delivery seal records.
+
+    The seal defines the delivery: only sealed artifacts are ever cited, so an
+    unsealed file beside them is not part of it and has nothing to verify.
+    """
+
+    sealed = attempt.get("artifact_sha256")
+    roles = sealed if isinstance(sealed, dict) else {}
+    return {
+        role: _attempt_artifact(state, attempt, role)
+        for role in ("report", NOTES_ARTIFACT_ROLE)
+        if role in roles
+    }
+
+
+def _is_non_empty_text(path: Path | None) -> bool:
+    if path is None:
+        return False
+    try:
+        return bool(path.read_text(encoding="utf-8").strip())
+    except (OSError, UnicodeDecodeError):
+        return False
 
 
 def _artifact_integrity_errors(
@@ -1611,13 +1656,12 @@ def _finalize_delivery_locked(
                 raise SystemExit(str(exc)) from exc
         else:
             annotation_paths = None
-        paths = {
-            "report": (
-                annotation_paths["report"]
-                if annotation_paths is not None
-                else Path(str(attempt["report"]))
-            ),
+        attempt_paths = annotation_paths or {
+            role: Path(str(attempt[role])) for role in ("report", NOTES_ARTIFACT_ROLE)
         }
+        paths = _delivered_artifact_paths(
+            {role: attempt_paths[role] for role in ("report", NOTES_ARTIFACT_ROLE)}
+        )
         delivery = attempt.get("delivery")
         if not isinstance(delivery, dict) or delivery.get("owner") != owner:
             raise SystemExit("attempt was not claimed by this owner")
@@ -1625,8 +1669,16 @@ def _finalize_delivery_locked(
             paths, main_root=Path(str(state["main_root"]))
         )
         if attempt.get("returned_at") and attempt.get("status") != "running":
-            if attempt.get("artifact_sha256") != current_digests:
-                raise SystemExit("finalized attempt artifacts changed after return")
+            sealed_errors = _artifact_integrity_errors(
+                _sealed_attempt_paths(state, attempt),
+                attempt.get("artifact_sha256"),
+                main_root=Path(str(state["main_root"])),
+            )
+            if sealed_errors:
+                raise SystemExit(
+                    "finalized attempt artifacts changed after return: "
+                    + "; ".join(sealed_errors)
+                )
             if attempt.get("status") == "returned":
                 return _validate_phase_attempt(args)
             print(
@@ -1825,14 +1877,13 @@ def _finalize_delivery_locked(
             raise SystemExit(
                 f"returned group is missing from the current manifest: {group_id}"
             )
-        report_directory = Path(str(group["report_directory"]))
-        paths = {
-            "report": report_directory / "group_worker_report.json",
-            **_group_formal_artifact_paths(group),
-        }
-        existing_seal = group_state.get("artifact_sha256")
-        if isinstance(existing_seal, dict) and "output" in existing_seal:
-            paths["output"] = report_directory / "group_worker_output.md"
+        paths = _delivered_artifact_paths(
+            {
+                **_group_artifact_paths(group),
+                NOTES_ARTIFACT_ROLE: Path(str(group["report_directory"]))
+                / GROUP_NOTES_FILENAME,
+            }
+        )
         repair_errors = _repair_formal_integrity_errors(
             group_state,
             group,
@@ -1870,8 +1921,18 @@ def _finalize_delivery_locked(
             paths, main_root=Path(str(state["main_root"]))
         )
         if group_state.get("returned_at") and group_state.get("status") != "running":
-            if group_state.get("artifact_sha256") != current_digests:
-                raise SystemExit("finalized group artifacts changed after return")
+            sealed_errors = _artifact_integrity_errors(
+                _group_artifact_paths(
+                    group, expected=group_state.get("artifact_sha256")
+                ),
+                group_state.get("artifact_sha256"),
+                main_root=Path(str(state["main_root"])),
+            )
+            if sealed_errors:
+                raise SystemExit(
+                    "finalized group artifacts changed after return: "
+                    + "; ".join(sealed_errors)
+                )
             print(
                 json.dumps(
                     {
@@ -1899,7 +1960,7 @@ def _finalize_delivery_locked(
                 group_state=group_state,
                 formal_digests={
                     key: current_digests[key]
-                    for key in ("proof_manual", "group_worker_lib")
+                    for key in FORMAL_ARTIFACT_ROLES
                     if key in current_digests
                 },
                 # Version drift is a controller stale outcome handled by the
@@ -1913,33 +1974,15 @@ def _finalize_delivery_locked(
             and raw_report["blocker"].get("failure_class")
             == ANNOTATION_GAP_FAILURE_CLASS
         )
-        if annotation_gap:
-            output_path = report_directory / "group_worker_output.md"
-            try:
-                output_digest = _artifact_digests(
-                    {"output": output_path},
-                    main_root=Path(str(state["main_root"])),
-                )["output"]
-                output_text = output_path.read_text(encoding="utf-8")
-            except (OSError, UnicodeDecodeError, SystemExit) as exc:
-                preflight_errors.append(
-                    "annotation-gap group requires a readable non-link "
-                    f"group_worker_output.md: {exc}"
-                )
-            else:
-                if not output_text.strip():
-                    preflight_errors.append(
-                        "annotation-gap group requires non-empty "
-                        "group_worker_output.md"
-                    )
-                else:
-                    paths["output"] = output_path
-                    current_digests["output"] = output_digest
+        if annotation_gap and not _is_non_empty_text(paths.get(NOTES_ARTIFACT_ROLE)):
+            preflight_errors.append(
+                "annotation-gap group requires a non-empty group_worker_output.md"
+            )
         if preflight_errors:
             checked_at = _utc()
             group_state["repair_formal_sha256"] = {
                 key: str(current_digests[key])
-                for key in ("proof_manual", "group_worker_lib")
+                for key in FORMAL_ARTIFACT_ROLES
                 if current_digests.get(key)
             }
             group_state["report_preflight"] = {
@@ -2188,21 +2231,14 @@ def _validate_group(
     )
     if not isinstance(group, dict):
         return "invalid", ["group missing from current manifest"], None, False
-    report_directory = Path(str(group["report_directory"]))
     group_state = proving.get("groups", {}).get(group_id, {})
     sealed_artifacts = (
         group_state.get("artifact_sha256")
         if isinstance(group_state, dict)
         else {}
     )
-    returned_paths = {
-        "report": report_directory / "group_worker_report.json",
-        **_group_formal_artifact_paths(group),
-    }
-    if isinstance(sealed_artifacts, dict) and "output" in sealed_artifacts:
-        returned_paths["output"] = report_directory / "group_worker_output.md"
     group_artifact_errors = _artifact_integrity_errors(
-        returned_paths,
+        _group_artifact_paths(group, expected=sealed_artifacts),
         sealed_artifacts,
         main_root=Path(str(state["main_root"])),
     )
@@ -2230,7 +2266,7 @@ def _validate_group(
             False,
         )
     try:
-        report = _json_load(report_directory / "group_worker_report.json", {})
+        report = _json_load(_group_artifact_paths(group)["report"], {})
     except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
         message = f"group report cannot be parsed: {exc}"
         return "invalid", [message], None, True
@@ -2348,10 +2384,7 @@ def _validate_group(
                 errors.append(message)
                 repairable_group_failure = category in {"rocq", "tool"}
             validation_drift = _artifact_integrity_errors(
-                {
-                    "report": report_directory / "group_worker_report.json",
-                    **_group_formal_artifact_paths(group),
-                },
+                _group_artifact_paths(group),
                 proving.get("groups", {}).get(group_id, {}).get("artifact_sha256"),
                 main_root=Path(str(state["main_root"])),
             )
@@ -2575,7 +2608,7 @@ def _prepare_group_repair(
     if preserve_formal and isinstance(sealed_artifacts, dict):
         group_state["repair_formal_sha256"] = {
             key: str(sealed_artifacts[key])
-            for key in ("proof_manual", "group_worker_lib")
+            for key in FORMAL_ARTIFACT_ROLES
             if sealed_artifacts.get(key)
         }
     else:
@@ -3195,34 +3228,19 @@ def _invalidate_downstream(state: dict[str, Any], phase: str, reason: str) -> No
 
 def _feedback_source(
     state: dict[str, Any], identifier: str
-) -> tuple[dict[str, str], dict[str, Any]]:
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Cite one sealed delivery's narrative artifacts and read its report.
+
+    The citation is the seal's narrative subset, so a handoff never names a
+    document the owner did not deliver.
+    """
+
     attempt = _find_round_attempt(state, identifier)
     if attempt is not None:
-        markdown = _attempt_artifact(state, attempt, "output")
-        report = _attempt_artifact(state, attempt, "report")
-        source = {
-            "phase": str(attempt["phase"]),
-            "attempt_id": str(attempt["attempt_id"]),
-            "markdown": str(markdown),
-            "json": str(report),
-        }
-        integrity_errors = _artifact_integrity_errors(
-            {"report": report},
-            attempt.get("artifact_sha256"),
-            main_root=Path(str(state["main_root"])),
-        )
-        if integrity_errors:
-            raise SystemExit(
-                "annotation feedback artifacts are not immutable: "
-                + "; ".join(integrity_errors)
-            )
-        try:
-            payload = _json_load(report, {})
-        except (OSError, UnicodeDecodeError, json.JSONDecodeError):
-            # Feedback files are immutable references, not acceptance
-            # evidence. A malformed sealed report can still be cited by path;
-            # controller-owned blockers carry the actionable cause.
-            payload = {}
+        phase = str(attempt["phase"])
+        attempt_id = str(attempt["attempt_id"])
+        sealed = attempt.get("artifact_sha256")
+        evidence = _narrative_paths(_sealed_attempt_paths(state, attempt))
     else:
         found = _find_group_attempt(state, identifier)
         if found is None:
@@ -3241,31 +3259,10 @@ def _feedback_source(
             raise SystemExit(
                 f"feedback group is missing from the current manifest: {identifier}"
             )
-        report_directory = fixed_path_under(
-            Path(str(group["report_directory"])),
-            Path(str(state["report_root"])),
-            label="feedback group report directory",
-        )
-        markdown = fixed_path_under(
-            report_directory / "group_worker_output.md",
-            report_directory,
-            label="feedback group Markdown",
-        )
-        report = fixed_path_under(
-            report_directory / "group_worker_report.json",
-            report_directory,
-            label="feedback group JSON",
-        )
-        source = {
-            "phase": "group-worker",
-            "attempt_id": identifier,
-            "markdown": str(markdown),
-            "json": str(report),
-        }
-        expected_artifacts = (
-            proving.get("groups", {}).get(group_id, {}).get("artifact_sha256")
-        )
+        phase = "group-worker"
+        attempt_id = identifier
         group_state = proving.get("groups", {}).get(group_id, {})
+        sealed = group_state.get("artifact_sha256")
         blockers = (
             group_state.get("blockers") if isinstance(group_state, dict) else None
         )
@@ -3279,35 +3276,46 @@ def _feedback_source(
             == ANNOTATION_GAP_FAILURE_CLASS
         )
         if annotation_gap_source and (
-            not isinstance(expected_artifacts, dict)
-            or "output" not in expected_artifacts
+            not isinstance(sealed, dict) or NOTES_ARTIFACT_ROLE not in sealed
         ):
             raise SystemExit(
                 "annotation-gap feedback lacks a sealed group_worker_output.md"
             )
-        feedback_artifacts = {"report": report}
-        if isinstance(expected_artifacts, dict) and "output" in expected_artifacts:
-            feedback_artifacts["output"] = markdown
-        integrity_errors = _artifact_integrity_errors(
-            feedback_artifacts,
-            expected_artifacts,
-            main_root=Path(str(state["main_root"])),
-        )
-        if integrity_errors:
-            raise SystemExit(
-                "annotation feedback artifacts are not immutable: "
-                + "; ".join(integrity_errors)
+        evidence = {
+            role: fixed_path_under(
+                path,
+                Path(str(state["report_root"])),
+                label=f"feedback group {role} artifact",
             )
-        try:
-            payload = _json_load(report, {})
-        except (OSError, UnicodeDecodeError, json.JSONDecodeError):
-            payload = {}
-    missing = [source["json"]] if not Path(source["json"]).is_file() else []
-    if missing:
+            for role, path in _narrative_paths(
+                _group_artifact_paths(group, expected=sealed)
+            ).items()
+        }
+    integrity_errors = _artifact_integrity_errors(
+        evidence, sealed, main_root=Path(str(state["main_root"]))
+    )
+    if integrity_errors:
         raise SystemExit(
-            "annotation feedback requires its terminal JSON source: "
-            + ", ".join(missing)
+            "annotation feedback artifacts are not immutable: "
+            + "; ".join(integrity_errors)
         )
+    report = evidence.get("report")
+    if report is None:
+        raise SystemExit(
+            f"annotation feedback requires its terminal JSON source: {identifier}"
+        )
+    try:
+        # Feedback files are immutable references, not acceptance evidence. A
+        # malformed sealed report can still be cited by path; controller-owned
+        # blockers carry the actionable cause.
+        payload = _json_load(report, {})
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+        payload = {}
+    source = {
+        "phase": phase,
+        "attempt_id": attempt_id,
+        "evidence": [str(path) for path in evidence.values()],
+    }
     return source, payload if isinstance(payload, dict) else {}
 
 
@@ -3410,10 +3418,7 @@ def _feedback_sources_for_retry(
                 "aggregated annotation-gap blocker differs from its sealed "
                 f"group JSON source: {group_id}"
             )
-        if (
-            source.get("markdown") != record.get("markdown")
-            or source.get("json") != record.get("json")
-        ):
+        if source.get("evidence") != record.get("evidence"):
             raise SystemExit(
                 "aggregated annotation-gap source paths changed: " + group_id
             )

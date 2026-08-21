@@ -18,16 +18,10 @@ Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.concatenating_numbers.concatenating_numbers_lib.
 Local Open Scope sac.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_proof.
 From SimpleC.EE.QCP_demos_LLM Require Import array2_strategy_goal.
 From SimpleC.EE.QCP_demos_LLM Require Import array2_strategy_proof.
+From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_goal.
+From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_proof.
 
 (*----- Function quicksort_numbers -----*)
 
@@ -5411,11 +5405,8 @@ forall (result_pre: Z) (lengths_pre: Z) (number_width_pre: Z) (count_pre: Z) (nu
 
 Module Type VC_Correct.
 
-Include int_array_Strategy_Correct.
-Include uint_array_Strategy_Correct.
-Include undef_uint_array_Strategy_Correct.
-Include array_shape_Strategy_Correct.
 Include array2_Strategy_Correct.
+Include int_array_Strategy_Correct.
 
 Axiom proof_of_quicksort_numbers_safety_wit_1 : quicksort_numbers_safety_wit_1.
 Axiom proof_of_quicksort_numbers_safety_wit_2 : quicksort_numbers_safety_wit_2.

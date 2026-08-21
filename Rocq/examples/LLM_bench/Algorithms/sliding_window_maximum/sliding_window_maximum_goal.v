@@ -18,14 +18,6 @@ Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.sliding_window_maximum.sliding_window_maximum_lib.
 Local Open Scope sac.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_proof.
 
 (*----- Function maxSlidingWindow -----*)
 
@@ -1138,17 +1130,23 @@ forall (q_pre: Z) (out_pre: Z) (k_pre: Z) (n_pre: Z) (nums_pre: Z) (l: (@list Z)
   **  (IntArray.full q_pre n_pre q_l )
 ) \/
 (
-forall (k_pre: Z) (n_pre: Z) (l: (@list Z)) (out_l_2: (@list Z)) (out_idx: Z) (tail: Z) (head: Z) (i: Z) (q_l_2: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= k_pre)) (PreH3 : (k_pre <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : ((Zlength (l)) = n_pre)) (PreH6 : ((Zlength (q_l_2)) = n_pre)) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (0 <= head)) (PreH10 : (head <= tail)) (PreH11 : (tail <= i)) (PreH12 : (0 <= out_idx)) (PreH13 : (out_idx <= ((n_pre - k_pre ) + 1 ))) (PreH14 : ((i < k_pre) -> (out_idx = 0))) (PreH15 : ((k_pre <= i) -> (out_idx = ((i - k_pre ) + 1 )))) (PreH16 : ((k_pre <= i) -> (head < tail))) (PreH17 : (SWMInputSafe l n_pre k_pre )) (PreH18 : (SWMOutputPrefixShape l k_pre out_idx out_l_2 )) (PreH19 : (SWMOutputPrefix l k_pre out_idx out_l_2 )) (PreH20 : (SWMQueueStorageSafe l q_l_2 head tail i )) (PreH21 : (SWMQueueState l q_l_2 head tail i k_pre )) (PreH22 : forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos q_l_2 0)) /\ ((Znth pos q_l_2 0) < n_pre)))) ,
-  TT && emp 
+forall (out_pre: Z) (k_pre: Z) (n_pre: Z) (l: (@list Z)) (out_l_2: (@list Z)) (out_idx: Z) (tail: Z) (head: Z) (i: Z) (q_l_2: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= k_pre)) (PreH3 : (k_pre <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : ((Zlength (l)) = n_pre)) (PreH6 : ((Zlength (q_l_2)) = n_pre)) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (0 <= head)) (PreH10 : (head <= tail)) (PreH11 : (tail <= i)) (PreH12 : (0 <= out_idx)) (PreH13 : (out_idx <= ((n_pre - k_pre ) + 1 ))) (PreH14 : ((i < k_pre) -> (out_idx = 0))) (PreH15 : ((k_pre <= i) -> (out_idx = ((i - k_pre ) + 1 )))) (PreH16 : ((k_pre <= i) -> (head < tail))) (PreH17 : (SWMInputSafe l n_pre k_pre )) (PreH18 : (SWMOutputPrefixShape l k_pre out_idx out_l_2 )) (PreH19 : (SWMOutputPrefix l k_pre out_idx out_l_2 )) (PreH20 : (SWMQueueStorageSafe l q_l_2 head tail i )) (PreH21 : (SWMQueueState l q_l_2 head tail i k_pre )) (PreH22 : forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos q_l_2 0)) /\ ((Znth pos q_l_2 0) < n_pre)))) ,
+  (IntArray.seg out_pre 0 out_idx out_l_2 )
 |--
-  “ (SlidingWindowMaximum l k_pre out_l_2 ) ”
-  &&  emp
+  EX (out_l: (@list Z)) ,
+  “ (1 <= k_pre) ” 
+  &&  “ (k_pre <= n_pre) ” 
+  &&  “ (n_pre <= 100000) ” 
+  &&  “ ((Zlength (l)) = n_pre) ” 
+  &&  “ ((Zlength (q_l_2)) = n_pre) ” 
+  &&  “ (0 <= head) ” 
+  &&  “ (head <= tail) ” 
+  &&  “ (tail <= n_pre) ” 
+  &&  “ (out_idx = ((n_pre - k_pre ) + 1 )) ” 
+  &&  “ (SWMInputSafe l n_pre k_pre ) ” 
+  &&  “ (SlidingWindowMaximum l k_pre out_l ) ”
+  &&  (IntArray.full out_pre ((n_pre - k_pre ) + 1 ) out_l )
 ).
-
-Definition maxSlidingWindow_entail_wit_13_split_goal_1 := 
-forall (k_pre: Z) (n_pre: Z) (l: (@list Z)) (out_l_2: (@list Z)) (out_idx: Z) (tail: Z) (head: Z) (i: Z) (q_l_2: (@list Z)) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= k_pre)) (PreH3 : (k_pre <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : ((Zlength (l)) = n_pre)) (PreH6 : ((Zlength (q_l_2)) = n_pre)) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : (0 <= head)) (PreH10 : (head <= tail)) (PreH11 : (tail <= i)) (PreH12 : (0 <= out_idx)) (PreH13 : (out_idx <= ((n_pre - k_pre ) + 1 ))) (PreH14 : ((i < k_pre) -> (out_idx = 0))) (PreH15 : ((k_pre <= i) -> (out_idx = ((i - k_pre ) + 1 )))) (PreH16 : ((k_pre <= i) -> (head < tail))) (PreH17 : (SWMInputSafe l n_pre k_pre )) (PreH18 : (SWMOutputPrefixShape l k_pre out_idx out_l_2 )) (PreH19 : (SWMOutputPrefix l k_pre out_idx out_l_2 )) (PreH20 : (SWMQueueStorageSafe l q_l_2 head tail i )) (PreH21 : (SWMQueueState l q_l_2 head tail i k_pre )) (PreH22 : forall (pos: Z) , (((head <= pos) /\ (pos < tail)) -> ((0 <= (Znth pos q_l_2 0)) /\ ((Znth pos q_l_2 0) < n_pre)))) ,
-  (SlidingWindowMaximum l k_pre out_l_2 )
-.
 
 Definition maxSlidingWindow_return_wit_1 := 
 forall (q_pre: Z) (out_pre: Z) (k_pre: Z) (n_pre: Z) (nums_pre: Z) (l: (@list Z)) (out_l_2: (@list Z)) (q_l_2: (@list Z)) (head: Z) (tail: Z) (out_idx: Z) (PreH1 : (1 <= k_pre)) (PreH2 : (k_pre <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : ((Zlength (l)) = n_pre)) (PreH5 : ((Zlength (q_l_2)) = n_pre)) (PreH6 : (0 <= head)) (PreH7 : (head <= tail)) (PreH8 : (tail <= n_pre)) (PreH9 : (out_idx = ((n_pre - k_pre ) + 1 ))) (PreH10 : (SWMInputSafe l n_pre k_pre )) (PreH11 : (SlidingWindowMaximum l k_pre out_l_2 )) ,
@@ -1455,10 +1453,6 @@ forall (q_pre: Z) (out_pre: Z) (k_pre: Z) (n_pre: Z) (nums_pre: Z) (l: (@list Z)
 
 Module Type VC_Correct.
 
-Include int_array_Strategy_Correct.
-Include uint_array_Strategy_Correct.
-Include undef_uint_array_Strategy_Correct.
-Include array_shape_Strategy_Correct.
 
 Axiom proof_of_maxSlidingWindow_safety_wit_1 : maxSlidingWindow_safety_wit_1.
 Axiom proof_of_maxSlidingWindow_safety_wit_2 : maxSlidingWindow_safety_wit_2.

@@ -4,6 +4,7 @@
 #include "array2_def.h"
 
 /*@ Extern Coq
+      (sum : list Z -> Z)
       (RowsWellFormed : list (list Z) -> list Z -> Z -> Z -> Prop)
       (FlatRows : list Z -> list (list Z) -> Z -> Z -> Prop)
       (PairedPermutation : list (list Z) -> list (list Z) -> list Z -> list Z -> Prop)

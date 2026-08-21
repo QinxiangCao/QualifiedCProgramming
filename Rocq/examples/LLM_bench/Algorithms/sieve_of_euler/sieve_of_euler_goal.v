@@ -18,14 +18,6 @@ Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.sieve_of_euler.sieve_of_euler_lib.
 Local Open Scope sac.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_proof.
 
 (*----- Function get_prime -----*)
 
@@ -997,10 +989,6 @@ forall (n_pre: Z) (prime_l_2: (@list Z)) (flag_l_2: (@list Z)) (tot: Z) (PreH1 :
 
 Module Type VC_Correct.
 
-Include int_array_Strategy_Correct.
-Include uint_array_Strategy_Correct.
-Include undef_uint_array_Strategy_Correct.
-Include array_shape_Strategy_Correct.
 
 Axiom proof_of_get_prime_safety_wit_1 : get_prime_safety_wit_1.
 Axiom proof_of_get_prime_safety_wit_2 : get_prime_safety_wit_2.

@@ -8,11 +8,11 @@ COQDEP=$(COQBIN)coqdep$(EXESUF)
 COQ_FLAG = -Q $(CURRENT_DIR) GraphLib \
            -R ../sets SetsClass \
 		   -R ../MaxMinLib MaxMinLib \
-		   -R ../listlib ListLib
+		   -R ../ListLib ListLib
 DEP_FLAG = -Q $(CURRENT_DIR) GraphLib \
            -R ../sets SetsClass \
 		   -R ../MaxMinLib MaxMinLib \
-		   -R ../listlib ListLib
+		   -R ../ListLib ListLib
 
 BASE_FILES = graph_basic.v Syntax.v GraphLib.v
 REACHABLE_FILES = \

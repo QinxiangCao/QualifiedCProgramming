@@ -1,5 +1,4 @@
-#include "verification_stdlib.h"
-#include "verification_list.h"
+
 #include "int_ptr_array2_def.h"
 
 /*@ Extern Coq

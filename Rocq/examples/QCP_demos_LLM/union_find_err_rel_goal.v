@@ -25,14 +25,6 @@ From FP Require Import PartialOrder_Setoid BourbakiWitt.
 Require Import SimpleC.EE.QCP_demos_LLM.union_find_err_rel_lib.
 Local Open Scope monad.
 Local Open Scope sac.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_proof.
 From SimpleC.EE.QCP_demos_LLM Require Import safeexecE_strategy_goal.
 From SimpleC.EE.QCP_demos_LLM Require Import safeexecE_strategy_proof.
 
@@ -955,10 +947,6 @@ EX (ps_low_level_spec: (@list Z)) (rs_low_level_spec: (@list Z)) (X_low_level_sp
 
 Module Type VC_Correct.
 
-Include int_array_Strategy_Correct.
-Include uint_array_Strategy_Correct.
-Include undef_uint_array_Strategy_Correct.
-Include array_shape_Strategy_Correct.
 Include safeexecE_Strategy_Correct.
 
 Axiom proof_of_uf_find_c_entail_wit_1 : uf_find_c_entail_wit_1.

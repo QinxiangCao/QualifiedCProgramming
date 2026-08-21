@@ -1,5 +1,5 @@
 //test curent rules
-//max rule id:30
+//max rule id:31
 
 
 
@@ -21,6 +21,17 @@ id : 2
 priority : post(1)
 left : IntArray::missing_i(?p, ?i, 0, ?n, ?l) at 0
        store(p + i * sizeof(I32), I32, l[i]) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(1);
+         left_erase(0);
+         left_add(IntArray::full(p, n, l));
+
+// A pure read may be normalized to an explicit Znth instead of l[i].
+id : 31
+priority : post(2)
+left : IntArray::missing_i(?p, ?i, 0, ?n, ?l) at 0
+       data_at(pointer_offset(p, i, I32), I32, Znth{Z}(i, l, 0)) at 1
 check : infer(0 <= i);
         infer(i < n);
 action : left_erase(1);

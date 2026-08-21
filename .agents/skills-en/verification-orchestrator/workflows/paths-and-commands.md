@@ -189,9 +189,10 @@ The debug-build seal mechanically binds:
 
 - local build-tree digest;
 - local build file count;
-- the accepted selected-dependency artifact digest.
+- the selected-dependency artifact digest that explains this build;
+- for a reuse-source build, the digest of its `reuse-source/preparation.json`.
 
-The receipt gains no extra field; `file_count` still counts only local build files. The controller revalidates the local tree and accepted dependency snapshot before and after reference debug. Every imported current module must have a local `.vo` in that build.
+Current debug uses the run-level preparation. A reuse-source build uses the `preparation.json` persisted beside it when vc-proving sealed it, so a later annotation change to `source_goal_version` does not invalidate it. That preparation is revalidated on every use: its base artifacts are re-hashed against the repository, so a trusted-base rebuild names the artifact that changed. The receipt gains no extra field; `file_count` still counts only local build files. The controller revalidates the local tree and that preparation's snapshot before and after reference debug. Every imported current module must have a local `.vo` in that build.
 
 The final current script covers only aggressive split goals and `LLM_pre_process` top-level VCs. The reference script covers only previous goals cited by direct or partial decisions. If all decisions are `from scratch`, both reference script and receipt are omitted.
 

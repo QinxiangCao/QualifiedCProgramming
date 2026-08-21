@@ -77,9 +77,8 @@ forall (cols_count_pre: Z) (rows_count_pre: Z) (plane_pre: Z) (plane_rows: (@lis
 .
 
 Definition touch_plane_safety_wit_5 := 
-forall (cols_count_pre: Z) (rows_count_pre: Z) (plane_pre: Z) (plane_rows: (@list (@list Z))) (i: Z) (j: Z)  __default__List_Z (PreH1 : (j < 4)) (PreH2 : (0 <= j)) (PreH3 : (j <= 4)) (PreH4 : (rows_count_pre = 3)) (PreH5 : (cols_count_pre = 4)) (PreH6 : ((Zlength (plane_rows)) = 3)) (PreH7 : (0 <= i)) (PreH8 : (i < 3)) ,
-  (IntArray.full (plane_pre + (i * (sizeof(INT) * 4))) 4 (replace_Znth (j) ((Znth (j) ((Znth i plane_rows __default__List_Z)) (0))) ((Znth i plane_rows __default__List_Z))) )
-  **  (IntArray2.missing_i plane_pre i 0 3 4 plane_rows )
+forall (cols_count_pre: Z) (rows_count_pre: Z) (plane_pre: Z) (plane_rows: (@list (@list Z))) (i: Z) (j: Z) (PreH1 : (j < 4)) (PreH2 : (0 <= j)) (PreH3 : (j <= 4)) (PreH4 : (rows_count_pre = 3)) (PreH5 : (cols_count_pre = 4)) (PreH6 : ((Zlength (plane_rows)) = 3)) (PreH7 : (0 <= i)) (PreH8 : (i < 3)) ,
+  (IntArray2.full plane_pre 3 4 plane_rows )
   **  ((( &( "j" ) )) # Int  |-> j)
   **  ((( &( "plane" ) )) # Ptr  |-> plane_pre)
   **  ((( &( "rows_count" ) )) # Int  |-> rows_count_pre)
@@ -129,10 +128,8 @@ forall (cols_count_pre: Z) (rows_count_pre: Z) (plane_pre: Z) (plane_rows: (@lis
 .
 
 Definition touch_plane_entail_wit_3 := 
-(
-forall (cols_count_pre: Z) (rows_count_pre: Z) (plane_pre: Z) (plane_rows: (@list (@list Z))) (i: Z) (j: Z)  __default__List_Z (PreH1 : (j < 4)) (PreH2 : (0 <= j)) (PreH3 : (j <= 4)) (PreH4 : (rows_count_pre = 3)) (PreH5 : (cols_count_pre = 4)) (PreH6 : ((Zlength (plane_rows)) = 3)) (PreH7 : (0 <= i)) (PreH8 : (i < 3)) ,
-  (IntArray.full (plane_pre + (i * (sizeof(INT) * 4))) 4 (replace_Znth (j) ((Znth (j) ((Znth i plane_rows __default__List_Z)) (0))) ((Znth i plane_rows __default__List_Z))) )
-  **  (IntArray2.missing_i plane_pre i 0 3 4 plane_rows )
+forall (cols_count_pre: Z) (rows_count_pre: Z) (plane_pre: Z) (plane_rows: (@list (@list Z))) (i: Z) (j: Z) (PreH1 : (j < 4)) (PreH2 : (0 <= j)) (PreH3 : (j <= 4)) (PreH4 : (rows_count_pre = 3)) (PreH5 : (cols_count_pre = 4)) (PreH6 : ((Zlength (plane_rows)) = 3)) (PreH7 : (0 <= i)) (PreH8 : (i < 3)) ,
+  (IntArray2.full plane_pre 3 4 plane_rows )
 |--
   “ (0 <= (j + 1 )) ” 
   &&  “ ((j + 1 ) <= 4) ” 
@@ -142,21 +139,6 @@ forall (cols_count_pre: Z) (rows_count_pre: Z) (plane_pre: Z) (plane_rows: (@lis
   &&  “ (0 <= i) ” 
   &&  “ (i < 3) ”
   &&  (IntArray2.full plane_pre 3 4 plane_rows )
-) \/
-(
-forall (cols_count_pre: Z) (rows_count_pre: Z) (plane_pre: Z) (plane_rows: (@list (@list Z))) (i: Z) (j: Z)  __default__List_Z (PreH1 : (j < 4)) (PreH2 : (0 <= j)) (PreH3 : (j <= 4)) (PreH4 : (rows_count_pre = 3)) (PreH5 : (cols_count_pre = 4)) (PreH6 : ((Zlength (plane_rows)) = 3)) (PreH7 : (0 <= i)) (PreH8 : (i < 3)) ,
-  (IntArray.full (plane_pre + (i * (sizeof(INT) * 4))) 4 (replace_Znth (j) ((Znth (j) ((Znth i plane_rows __default__List_Z)) (0))) ((Znth i plane_rows __default__List_Z))) )
-  **  (IntArray2.missing_i plane_pre i 0 3 4 plane_rows )
-|--
-  (IntArray2.full plane_pre 3 4 plane_rows )
-).
-
-Definition touch_plane_entail_wit_3_split_goal_spatial := 
-forall (cols_count_pre: Z) (rows_count_pre: Z) (plane_pre: Z) (plane_rows: (@list (@list Z))) (i: Z) (j: Z)  __default__List_Z (PreH1 : (j < 4)) (PreH2 : (0 <= j)) (PreH3 : (j <= 4)) (PreH4 : (rows_count_pre = 3)) (PreH5 : (cols_count_pre = 4)) (PreH6 : ((Zlength (plane_rows)) = 3)) (PreH7 : (0 <= i)) (PreH8 : (i < 3)) ,
-  (IntArray.full (plane_pre + (i * (sizeof(INT) * 4))) 4 (replace_Znth (j) ((Znth (j) ((Znth i plane_rows __default__List_Z)) (0))) ((Znth i plane_rows __default__List_Z))) )
-  **  (IntArray2.missing_i plane_pre i 0 3 4 plane_rows )
-|--
-  (IntArray2.full plane_pre 3 4 plane_rows )
 .
 
 Definition touch_plane_entail_wit_4 := 
@@ -264,10 +246,8 @@ forall (box_pre: Z) (cubes: (@list (@list (@list Z)))) (j: Z) (i: Z) (k: Z) (Pre
 .
 
 Definition touch_graph_direct_safety_wit_7 := 
-forall (box_pre: Z) (cubes: (@list (@list (@list Z)))) (j: Z) (i: Z) (k: Z)  __default__List_Z  __default__List__List_Z (PreH1 : (k < 4)) (PreH2 : (0 <= k)) (PreH3 : (k <= 4)) (PreH4 : (0 <= i)) (PreH5 : (i < 2)) (PreH6 : (0 <= j)) (PreH7 : (j < 3)) (PreH8 : ((Zlength (cubes)) = 2)) ,
-  (IntArray.full ((&((box_pre)  # "GraphBox" ->ₛ "graph") + (i * ((sizeof(INT) * 4) * 3))) + (j * (sizeof(INT) * 4))) 4 (replace_Znth (k) ((Znth (k) ((Znth j (Znth i cubes __default__List__List_Z) __default__List_Z)) (0))) ((Znth j (Znth i cubes __default__List__List_Z) __default__List_Z))) )
-  **  (IntArray2.missing_i (&((box_pre)  # "GraphBox" ->ₛ "graph") + (i * ((sizeof(INT) * 4) * 3))) j 0 3 4 (Znth i cubes __default__List__List_Z) )
-  **  (IntArray3.missing_i &((box_pre)  # "GraphBox" ->ₛ "graph") i 0 2 3 4 cubes )
+forall (box_pre: Z) (cubes: (@list (@list (@list Z)))) (j: Z) (i: Z) (k: Z) (PreH1 : (k < 4)) (PreH2 : (0 <= k)) (PreH3 : (k <= 4)) (PreH4 : (0 <= i)) (PreH5 : (i < 2)) (PreH6 : (0 <= j)) (PreH7 : (j < 3)) (PreH8 : ((Zlength (cubes)) = 2)) ,
+  (IntArray3.full &((box_pre)  # "GraphBox" ->ₛ "graph") 2 3 4 cubes )
   **  ((( &( "k" ) )) # Int  |-> k)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "j" ) )) # Int  |-> j)
@@ -335,11 +315,8 @@ forall (box_pre: Z) (cubes: (@list (@list (@list Z)))) (i: Z) (j: Z) (PreH1 : (j
 .
 
 Definition touch_graph_direct_entail_wit_4 := 
-(
-forall (box_pre: Z) (cubes: (@list (@list (@list Z)))) (j: Z) (i: Z) (k: Z)  __default__List_Z  __default__List__List_Z (PreH1 : (k < 4)) (PreH2 : (0 <= k)) (PreH3 : (k <= 4)) (PreH4 : (0 <= i)) (PreH5 : (i < 2)) (PreH6 : (0 <= j)) (PreH7 : (j < 3)) (PreH8 : ((Zlength (cubes)) = 2)) ,
-  (IntArray.full ((&((box_pre)  # "GraphBox" ->ₛ "graph") + (i * ((sizeof(INT) * 4) * 3))) + (j * (sizeof(INT) * 4))) 4 (replace_Znth (k) ((Znth (k) ((Znth j (Znth i cubes __default__List__List_Z) __default__List_Z)) (0))) ((Znth j (Znth i cubes __default__List__List_Z) __default__List_Z))) )
-  **  (IntArray2.missing_i (&((box_pre)  # "GraphBox" ->ₛ "graph") + (i * ((sizeof(INT) * 4) * 3))) j 0 3 4 (Znth i cubes __default__List__List_Z) )
-  **  (IntArray3.missing_i &((box_pre)  # "GraphBox" ->ₛ "graph") i 0 2 3 4 cubes )
+forall (box_pre: Z) (cubes: (@list (@list (@list Z)))) (j: Z) (i: Z) (k: Z) (PreH1 : (k < 4)) (PreH2 : (0 <= k)) (PreH3 : (k <= 4)) (PreH4 : (0 <= i)) (PreH5 : (i < 2)) (PreH6 : (0 <= j)) (PreH7 : (j < 3)) (PreH8 : ((Zlength (cubes)) = 2)) ,
+  (IntArray3.full &((box_pre)  # "GraphBox" ->ₛ "graph") 2 3 4 cubes )
 |--
   “ (0 <= (k + 1 )) ” 
   &&  “ ((k + 1 ) <= 4) ” 
@@ -349,23 +326,6 @@ forall (box_pre: Z) (cubes: (@list (@list (@list Z)))) (j: Z) (i: Z) (k: Z)  __d
   &&  “ (j < 3) ” 
   &&  “ ((Zlength (cubes)) = 2) ”
   &&  (IntArray3.full &((box_pre)  # "GraphBox" ->ₛ "graph") 2 3 4 cubes )
-) \/
-(
-forall (box_pre: Z) (cubes: (@list (@list (@list Z)))) (j: Z) (i: Z) (k: Z)  __default__List_Z  __default__List__List_Z (PreH1 : (k < 4)) (PreH2 : (0 <= k)) (PreH3 : (k <= 4)) (PreH4 : (0 <= i)) (PreH5 : (i < 2)) (PreH6 : (0 <= j)) (PreH7 : (j < 3)) (PreH8 : ((Zlength (cubes)) = 2)) ,
-  (IntArray.full ((&((box_pre)  # "GraphBox" ->ₛ "graph") + (i * ((sizeof(INT) * 4) * 3))) + (j * (sizeof(INT) * 4))) 4 (replace_Znth (k) ((Znth (k) ((Znth j (Znth i cubes __default__List__List_Z) __default__List_Z)) (0))) ((Znth j (Znth i cubes __default__List__List_Z) __default__List_Z))) )
-  **  (IntArray2.missing_i (&((box_pre)  # "GraphBox" ->ₛ "graph") + (i * ((sizeof(INT) * 4) * 3))) j 0 3 4 (Znth i cubes __default__List__List_Z) )
-  **  (IntArray3.missing_i &((box_pre)  # "GraphBox" ->ₛ "graph") i 0 2 3 4 cubes )
-|--
-  (IntArray3.full &((box_pre)  # "GraphBox" ->ₛ "graph") 2 3 4 cubes )
-).
-
-Definition touch_graph_direct_entail_wit_4_split_goal_spatial := 
-forall (box_pre: Z) (cubes: (@list (@list (@list Z)))) (j: Z) (i: Z) (k: Z)  __default__List_Z  __default__List__List_Z (PreH1 : (k < 4)) (PreH2 : (0 <= k)) (PreH3 : (k <= 4)) (PreH4 : (0 <= i)) (PreH5 : (i < 2)) (PreH6 : (0 <= j)) (PreH7 : (j < 3)) (PreH8 : ((Zlength (cubes)) = 2)) ,
-  (IntArray.full ((&((box_pre)  # "GraphBox" ->ₛ "graph") + (i * ((sizeof(INT) * 4) * 3))) + (j * (sizeof(INT) * 4))) 4 (replace_Znth (k) ((Znth (k) ((Znth j (Znth i cubes __default__List__List_Z) __default__List_Z)) (0))) ((Znth j (Znth i cubes __default__List__List_Z) __default__List_Z))) )
-  **  (IntArray2.missing_i (&((box_pre)  # "GraphBox" ->ₛ "graph") + (i * ((sizeof(INT) * 4) * 3))) j 0 3 4 (Znth i cubes __default__List__List_Z) )
-  **  (IntArray3.missing_i &((box_pre)  # "GraphBox" ->ₛ "graph") i 0 2 3 4 cubes )
-|--
-  (IntArray3.full &((box_pre)  # "GraphBox" ->ₛ "graph") 2 3 4 cubes )
 .
 
 Definition touch_graph_direct_entail_wit_5 := 

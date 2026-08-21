@@ -11,7 +11,7 @@
 - `annotation-filling` 已形成一版候选，或已按当前 retry 的五段总结完成一版整体修正。
 - 当前 attempt 的 exact `symexec`，以及 present `formal_case_lib` 对应的检查 invocation，均来自交接的 Commands；missing 可选角色不需要也不得补造命令。
 
-首次 attempt 与 retry 都以当前 main root 为准。retry 不得依赖旧会话记忆；若反馈汇总多个 group 的 annotation 缺口，先确认已经完整读取每项所引原始 `group_worker_report.json`、`group_worker_output.md`，并保留 group、witness、location、message 与 repair boundary 的逐项覆盖清单。
+首次 attempt 与 retry 都以当前 main root 为准。retry 不得依赖旧会话记忆；若反馈汇总多个 group 的 annotation 缺口，先确认已经完整读取每项交接列出的全部 evidence 路径，并保留 group、witness、location、message 与 repair boundary 的逐项覆盖清单。交接只列出 owner 实际交付并被封存的文件；未列出的文件不存在，不得去找。
 
 若 controller 交接所需字段、当前输入或被明确引用的原始 blocker 缺失，停止检查并准确报告缺失项；不要扫描 controller state、其他 reports、group 目录或 orchestrator 文档来重建上下文。
 
@@ -56,6 +56,8 @@ checking 期间仍只允许写：目标 C 的 annotation、开始时已存在的
 
 不得以弱化 postcondition、contract 或 invariant 的方式隐藏 VC，也不得把本应属于 annotation 的局部事实转移到 proof body。
 
+交接含 `## Frozen specification` 时，其中列出的函数 spec 与已存在的 `Extern Coq`、`Import Coq`、case lib 声明都不得改动；复核只确认它们逐字未变，任何修改都会在接纳前被 controller 比对拦截。
+
 ### 3. 普通 `Assert`
 
 对每个非 invariant、非 postcondition 的普通 `Assert` 逐一给出 `keep`、`remove` 或 `revise`：
@@ -70,7 +72,7 @@ checking 期间仍只允许写：目标 C 的 annotation、开始时已存在的
 若当前 retry 含一个或多个 annotation blocker，逐项核对覆盖清单：
 
 1. 每个原始 group/witness/location 都能指向本次复核过的 contract、invariant、assertion、调用实例或数学规范。
-2. 共享根因可以合并修正，但每个原始 `group_worker_report.json` / `group_worker_output.md` 引用仍有单独结论。
+2. 共享根因可以合并修正，但每条原始 evidence 引用仍有单独结论。
 3. 当前 generated 结果没有只消除第一个 blocker、却遗漏同轮其他 group 的缺口。
 4. `agent_output.md` 能简洁说明每项来源、共同根因、对应修正与复核结果。
 

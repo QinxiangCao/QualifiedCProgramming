@@ -42,7 +42,14 @@ from controller_state import (
 )
 from coq_tooling import dune_snapshot_for_preserved_build, run_coqc_check
 from init_vc_proving_round import create_base_manifest
-from path_utils import fixed_path_under, run_builds_root
+from path_utils import (
+    RUN_MAKEFILE_NAME,
+    fixed_path_under,
+    reuse_source_build_workspace,
+    reuse_source_makefile,
+    reuse_source_preparation,
+    write_json,
+)
 from prepare_group_workers import (
     prepare_group_workers,
     resolve_group_workers_manifest,
@@ -149,9 +156,7 @@ def vc_proving_preparing(args: argparse.Namespace) -> int:
         raise SystemExit("accepted group_plan.json changed before vc-proving-preparing")
     target = state["target_files"]
     report_directory = attempt_paths["report_directory"]
-    reuse_build_workspace = (
-        run_builds_root(run_root) / args.round / "reuse-source" / "src"
-    )
+    reuse_build_workspace = reuse_source_build_workspace(run_root, args.round)
     reuse_source_check = run_coqc_check(
         workspace_root=main_root,
         build_workspace=reuse_build_workspace,
@@ -184,14 +189,31 @@ def vc_proving_preparing(args: argparse.Namespace) -> int:
             )
         )
         return 1
+    run_preparation = state.get("dune_preparation")
     try:
         reuse_base_snapshot = dune_snapshot_for_preserved_build(
             workspace_root=main_root,
-            build_workspace=reuse_build_workspace,
+            receipt=run_preparation,
         )
         reuse_source_snapshot = _debug_build_snapshot(
             reuse_build_workspace,
             dune_dependency_snapshot=reuse_base_snapshot,
+        )
+        preserved_makefile = reuse_source_makefile(run_root, args.round)
+        preserved_makefile.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(run_root / RUN_MAKEFILE_NAME, preserved_makefile)
+        preserved_recipe = preserved_makefile.relative_to(main_root).as_posix()
+        preparation_path = reuse_source_preparation(run_root, args.round)
+        write_json(
+            preparation_path,
+            {
+                **run_preparation,
+                "run_makefile": preserved_recipe,
+                "_snapshot": {
+                    **reuse_base_snapshot["_snapshot"],
+                    "run_makefile": preserved_recipe,
+                },
+            },
         )
     except (OSError, ValueError) as exc:
         raise SystemExit(
@@ -201,6 +223,7 @@ def vc_proving_preparing(args: argparse.Namespace) -> int:
         "status": "passed",
         "source_goal_version": str(source_goal["digest"]),
         **reuse_source_snapshot,
+        "preparation_sha256": _file_digest(preparation_path),
     }
     if _stop_for_current_version_drift(
         run_root=run_root,

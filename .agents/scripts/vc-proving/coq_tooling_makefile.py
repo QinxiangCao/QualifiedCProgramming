@@ -29,6 +29,7 @@ from atomic_file import atomic_copy_file, atomic_write_text
 from file_integrity import sha256_bytes, sha256_text
 from file_integrity import sha256_file as file_sha256
 from path_utils import (
+    RUN_MAKEFILE_NAME,
     fixed_path_under,
     path_is_link_like,
     run_root_from_path,
@@ -45,7 +46,6 @@ MAKEFILE_SNAPSHOT_SCHEMA_VERSION = 1
 MAKEFILE_SNAPSHOT_FILE_NAME = "makefile_dependency_snapshot.json"
 DEPENDENCY_SNAPSHOT_FILE_NAME = MAKEFILE_SNAPSHOT_FILE_NAME
 TARGETED_MAKE_GOAL = "trusted-base"
-RUN_MAKEFILE_NAME = "Makefile"
 
 FIXED_LOAD_PATH_MAPPINGS: tuple[tuple[str, str, str], ...] = (
     ("-R", "Rocq/flocq/src", "Flocq"),
@@ -1947,10 +1947,8 @@ def _validated_dune_snapshot(
         run_makefile = fixed_path_under(
             root / run_makefile_rel, root, label="run-local exact Makefile"
         )
-        run_root = run_root_from_path(run_makefile, root)
         if (
-            run_root is None
-            or run_makefile.parent != run_root
+            run_root_from_path(run_makefile, root) is None
             or run_makefile.name != RUN_MAKEFILE_NAME
         ):
             raise ValueError("run-local exact Makefile path is invalid")
@@ -2036,11 +2034,10 @@ def _receipt_from_run(
 def dune_snapshot_for_preserved_build(
     *,
     workspace_root: Path,
-    build_workspace: Path,
+    receipt: Mapping[str, Any] | None,
 ) -> dict[str, Any]:
-    receipt = _receipt_from_run(
-        workspace_root=workspace_root, build_workspace=build_workspace
-    )
+    """Validate the caller's preparation and return the base closure it selects."""
+
     snapshot = _require_validated_dune_snapshot(
         workspace_root=workspace_root,
         receipt=receipt,

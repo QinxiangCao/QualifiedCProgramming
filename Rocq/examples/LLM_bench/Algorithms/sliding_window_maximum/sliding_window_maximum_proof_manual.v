@@ -366,20 +366,23 @@ Proof.
   Goal_apply proof_of_maxSlidingWindow_entail_wit_12_split_goal_1.
 Qed. 
 
-Lemma proof_of_maxSlidingWindow_entail_wit_13_split_goal_1 : maxSlidingWindow_entail_wit_13_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold SlidingWindowMaximum.
-  destruct PreH18 as (_ & _ & _ & Houtlen).
-  split.
-  - lia.
-  - intros idx Hidx.
-    apply PreH19.
-    lia.
-Qed.
-
 Lemma proof_of_maxSlidingWindow_entail_wit_13 : maxSlidingWindow_entail_wit_13.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_maxSlidingWindow_entail_wit_13_split_goal_1.
+  replace i with n_pre in * by lia.
+  replace out_idx with (n_pre - k_pre + 1) in * by lia.
+  Exists out_l_2.
+  split_pure_spatial.
+  - sep_apply (IntArray.seg_to_full out_pre 0 (n_pre - k_pre + 1) out_l_2).
+    replace (out_pre + 0 * sizeof(INT)) with out_pre by lia.
+    replace (n_pre - k_pre + 1 - 0) with (n_pre - k_pre + 1) by lia.
+    cancel.
+  - split_pures; dump_pre_spatial; try lia; try assumption.
+    unfold SlidingWindowMaximum.
+    destruct PreH18 as (_ & _ & _ & Houtlen).
+    split.
+    + lia.
+    + intros idx Hidx.
+      apply (PreH19 idx).
+      lia.
 Qed. 

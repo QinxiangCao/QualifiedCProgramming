@@ -1072,9 +1072,6 @@ Fixpoint strict_lowerbound (x: Z) (l: list Z): Prop :=
   | y :: l' => x < y /\ strict_lowerbound x l'
   end.
 
-Definition prefix_suffix_sorted (prefix suffix: list Z): Prop :=
-  forall x, In x prefix -> lowerbound x suffix.
-
 Lemma upperbound_Znth :
   forall x l i,
     upperbound x l ->

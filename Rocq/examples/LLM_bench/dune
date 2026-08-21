@@ -1,6 +1,7 @@
 (coq.theory
  (name SimpleC.EE.LLM_bench)
  (theories
+  Algorithms
   AUXLib
   FP
   GraphLib
@@ -8,6 +9,7 @@
   Logic
   MaxMinLib
   MonadLib
+  RecordUpdate
   SetsClass
   SimpleC.Common
   SimpleC.EE.QCP_demos_LLM

@@ -72,6 +72,8 @@ intake
 
 `init-run` 创建固定 run root、report root、`controller_state.json`、event log 和 timing summary。run root 与 report root 作为一对分配；任一侧已有同名目录时都不能复用另一侧或接管遗留内容，只能选择新的 run id 或明确失败。`--case` 同时是 run id stem 与唯一 authoritative Rocq/generated formal stem，必须是合法 Rocq identifier；C stem、目录名和 case 可以不同，同一目录可以有多个程序。目标 C 可位于 `QCP_examples/<collection>/**`，其 parent path 镜像到 `Rocq/examples/<collection>/**`。controller 只把 C path、formal directory、五个 exact artifact 候选路径、case 与 active theory 持久化为九字段 `target_files`，并以 O_EXCL 一次写入 `reports/<run>/controller_target_topology.json`；该 anchor 顶层严格只含 `run_id`、`case` 和 `target_files`，后续不重写。每次加载 state 都从 fixed C path 与 authoritative case 重算九字段，并要求 state、anchor 与重算结果逐项完全一致；后续 action 不得从 C stem 或目录重新命名 formal modules，也不能信任被替换的 persisted target path。每次 symexec 都从 sealed C path 重新计算显式 profile 与递归 include/strategy search 参数，不把它们复制为 state 字段。`--max-parallel-group-workers N` 把正整数并发上限写入 run state；未指定时为 5，后续 proving attempt 原样继承，不叠加隐藏上限。
 
+`init-run` 的可选参数由 main 依据本次任务描述填写。任务若要求某个已有 specification、function contract 或 case lib 内容不得改动（例如“不要修改 `solver` 的 `Require`/`Ensure`”“只允许在 lib 末尾追加”），必须以 `--freeze-spec <function>` 传入相应函数名；这是该约束唯一的机械保障，仅写在任务文字里不产生任何强制力。省略时 annotation agent 可自由改写 spec。
+
 `step` 只根据当前 state 产生下一 action，或在仍有执行中的工作时写入 `waiting_for`。不能留下既无 action、也无等待原因的状态。所有 main-owned action 都带完整 `invocation.argv` 和绝对 `invocation.cwd`；main 直接执行，不根据 action 名猜参数。
 
 首个 annotation attempt：

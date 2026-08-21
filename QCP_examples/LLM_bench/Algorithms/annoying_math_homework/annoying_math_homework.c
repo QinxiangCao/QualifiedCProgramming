@@ -2,8 +2,7 @@
 #define M 10
 #define P 1000000007
 
-#include "verification_stdlib.h"
-#include "verification_list.h"
+
 #include "int_array_def.h"
 
 /*@ Extern Coq

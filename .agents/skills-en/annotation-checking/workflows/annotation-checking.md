@@ -11,7 +11,7 @@ All of the following must be true before starting:
 - `annotation-filling` has formed a candidate, or has completed one integrated repair according to the current retry's five-part summary.
 - The exact `symexec` command for the current attempt, and the checking invocation for a present `formal_case_lib`, come from the handoff's Commands; an invocation is neither needed nor permitted to be invented for a missing optional role.
 
-Use the current main root for both a first attempt and a retry. A retry must not rely on old conversation memory; if its feedback aggregates annotation gaps from multiple groups, first confirm that every cited original `group_worker_report.json` and `group_worker_output.md` has been read in full, and retain an itemized coverage checklist containing each group, witness, location, message, and repair boundary.
+Use the current main root for both a first attempt and a retry. A retry must not rely on old conversation memory; if its feedback aggregates annotation gaps from multiple groups, first confirm that every evidence path the handoff lists has been read in full, and retain an itemized coverage checklist containing each group, witness, location, message, and repair boundary. The handoff lists only the files an owner delivered and the controller sealed; a file it does not list does not exist, so do not go looking for one.
 
 If required controller-handoff fields, current inputs, or an explicitly cited original blocker are missing, stop checking and report the exact missing item. Do not scan controller state, other reports, group directories, or orchestrator documents to reconstruct the context.
 
@@ -56,6 +56,8 @@ Check each of the following:
 
 Do not hide a VC by weakening a postcondition, contract, or invariant, and do not move a local fact that belongs in the annotation into a proof body.
 
+When the handoff carries `## Frozen specification`, the listed functions' specs and every existing `Extern Coq`, `Import Coq`, and case-lib declaration must not change; review only confirms they are verbatim unchanged, and any modification is caught by the controller's comparison before acceptance.
+
 ### 3. Ordinary `Assert`
 
 Give each ordinary `Assert` that is neither an invariant nor a postcondition an individual `keep`, `remove`, or `revise` decision:
@@ -70,7 +72,7 @@ Give each ordinary `Assert` that is neither an invariant nor a postcondition an 
 If the current retry contains one or more annotation blockers, verify the coverage checklist item by item:
 
 1. Every original group/witness/location points to a contract, invariant, assertion, call instance, or mathematical specification reviewed in this repair.
-2. A shared root cause may be repaired once, but every original `group_worker_report.json` / `group_worker_output.md` citation still has its own conclusion.
+2. A shared root cause may be repaired once, but every original evidence citation still has its own conclusion.
 3. The current generated results do not merely eliminate the first blocker while omitting gaps from other groups in the same round.
 4. `agent_output.md` concisely explains each source, the shared root cause, the corresponding repair, and the review result.
 

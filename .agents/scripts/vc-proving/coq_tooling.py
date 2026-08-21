@@ -97,11 +97,11 @@ def dune_preparation_receipt_errors(
 def dune_snapshot_for_preserved_build(
     *,
     workspace_root: Path,
-    build_workspace: Path,
+    receipt: Mapping[str, Any] | None,
 ) -> dict[str, Any]:
     return _backend(workspace_root).dune_snapshot_for_preserved_build(
         workspace_root=workspace_root,
-        build_workspace=build_workspace,
+        receipt=receipt,
     )
 
 

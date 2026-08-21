@@ -332,6 +332,14 @@ LLM_BENCH_Lib_FILES = \
 	Algorithms/concatenating_numbers/concatenating_numbers_lib.v \
 	Algorithms/concatenating_numbers_dp/concatenating_numbers_dp_lib.v \
 	Algorithms/convex_hull_float/convex_hull_float_lib.v \
+	Algorithms/DFS/concrete_graphs.v \
+	Algorithms/DFS/DFS_adjacency_list_lib.v \
+	Algorithms/DFS/DFS_adjacency_matrix_lib.v \
+	Algorithms/DFS/DFS_adjacency_matrix_2Darray_lib.v \
+	Algorithms/Floyd/concrete_graphs.v \
+	Algorithms/Floyd/Floyd_adjacency_matrix_lib.v \
+	Algorithms/Dijkstra/concrete_graphs.v \
+	Algorithms/Dijkstra/Dijkstra_linked_forward_star_lib.v \
 	Algorithms/discretize/discretize_lib.v \
 	Algorithms/edit_strings/edit_strings_lib.v \
 	Algorithms/energy_necklace/energy_necklace_lib.v \
@@ -429,6 +437,11 @@ LLM_BENCH_EXAMPLE_FILE_NAME = \
 	Algorithms/concatenating_numbers/concatenating_numbers \
 	Algorithms/concatenating_numbers_dp/concatenating_numbers_dp \
 	Algorithms/convex_hull_float/convex_hull_float \
+	Algorithms/DFS/DFS_adjacency_list \
+	Algorithms/DFS/DFS_adjacency_matrix \
+	Algorithms/DFS/DFS_adjacency_matrix_2Darray \
+	Algorithms/Floyd/Floyd_adjacency_matrix_2Darray \
+	Algorithms/Dijkstra/Dijkstra_linked_forward_star \
 	Algorithms/discretize/discretize \
 	Algorithms/edit_strings/edit_strings \
 	Algorithms/energy_necklace/energy_necklace \

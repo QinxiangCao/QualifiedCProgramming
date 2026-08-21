@@ -126,55 +126,31 @@ Proof.
   - Goal_apply proof_of_multipleKnapsack_entail_wit_2_split_goal_3.
 Qed. 
 
-Lemma proof_of_multipleKnapsack_entail_wit_3_split_goal_1 : multipleKnapsack_entail_wit_3_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  apply PreH15.
-  exact H.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_3_split_goal_2 : multipleKnapsack_entail_wit_3_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKDPTableSemantics.
-  intros cap Hcap.
-  rewrite PreH14 by lia.
-  apply MultipleKnapsackPrefixAnswer_zero_items.
-  lia.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_3_split_goal_3 : multipleKnapsack_entail_wit_3_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  assert (Hj : j = capacity_pre + 1) by lia.
-  subst j.
-  unfold MKDPTableSafety, MKZeroPrefixSafety in *.
-  destruct PreH13 as [Hhi Hlen].
-  repeat split; try lia.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_3_split_goal_4 : multipleKnapsack_entail_wit_3_split_goal_4.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  replace (capacity_pre + 1) with j by lia.
-  exact PreH14.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_3_split_goal_5 : multipleKnapsack_entail_wit_3_split_goal_5.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  replace (capacity_pre + 1) with j by lia.
-  exact PreH13.
-Qed.
-
 Lemma proof_of_multipleKnapsack_entail_wit_3 : multipleKnapsack_entail_wit_3.
 Proof.
   aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_3_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_3_split_goal_2.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_3_split_goal_3.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_3_split_goal_4.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_3_split_goal_5.
+  assert (Hj : j = capacity_pre + 1) by lia.
+  subst j.
+  Exists dp_l_2.
+  split_pure_spatial.
+  - replace (Zlength dp_l_2) with (capacity_pre + 1) by lia.
+    sep_apply (IntArray.seg_to_full dp_pre 0 (capacity_pre + 1) dp_l_2).
+    replace (dp_pre + 0 * sizeof(INT)) with dp_pre by lia.
+    replace (capacity_pre + 1 - 0) with (capacity_pre + 1) by lia.
+    cancel.
+  - split_pures; dump_pre_spatial; try lia; try assumption;
+      [ replace (capacity_pre + 1) with (Zlength dp_l_2) by lia;
+        exact PreH13
+      | replace (capacity_pre + 1) with (Zlength dp_l_2) by lia;
+        exact PreH14
+      | unfold MKDPTableSafety, MKZeroPrefixSafety in *;
+        destruct PreH13 as [Hhi Hlen];
+        repeat split; try lia
+      | unfold MKDPTableSemantics;
+        intros cap Hcap;
+        rewrite PreH14 by lia;
+        apply MultipleKnapsackPrefixAnswer_zero_items;
+        lia ].
 Qed. 
 
 Lemma proof_of_multipleKnapsack_entail_wit_4_split_goal_1 : multipleKnapsack_entail_wit_4_split_goal_1.

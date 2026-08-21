@@ -18,14 +18,6 @@ Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.coin_change.coin_change_lib.
 Local Open Scope sac.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_proof.
 
 (*----- Function coinChange -----*)
 
@@ -383,29 +375,20 @@ forall (dp_pre: Z) (amount_pre: Z) (coinsSize_pre: Z) (coins_pre: Z) (coins_l: (
   **  (IntArray.full dp_pre (amount_pre + 1 ) dp_l )
 ) \/
 (
-forall (amount_pre: Z) (coinsSize_pre: Z) (coins_l: (@list Z)) (dp_l_2: (@list Z)) (j: Z) (PreH1 : (j > amount_pre)) (PreH2 : (0 <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (0 <= amount_pre)) (PreH5 : (amount_pre <= 100000)) (PreH6 : ((Zlength (coins_l)) = coinsSize_pre)) (PreH7 : (1 <= j)) (PreH8 : (j <= (amount_pre + 1 ))) (PreH9 : (DpPrefixZeroed dp_l_2 j )) (PreH10 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < coinsSize_pre)) -> ((1 <= (Znth k_2 coins_l 0)) /\ ((Znth k_2 coins_l 0) <= INT_MAX)))) ,
-  TT && emp 
+forall (dp_pre: Z) (amount_pre: Z) (coinsSize_pre: Z) (coins_l: (@list Z)) (dp_l_2: (@list Z)) (j: Z) (PreH1 : (j > amount_pre)) (PreH2 : (0 <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (0 <= amount_pre)) (PreH5 : (amount_pre <= 100000)) (PreH6 : ((Zlength (coins_l)) = coinsSize_pre)) (PreH7 : (1 <= j)) (PreH8 : (j <= (amount_pre + 1 ))) (PreH9 : (DpPrefixZeroed dp_l_2 j )) (PreH10 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < coinsSize_pre)) -> ((1 <= (Znth k_2 coins_l 0)) /\ ((Znth k_2 coins_l 0) <= INT_MAX)))) ,
+  (IntArray.seg dp_pre 0 j dp_l_2 )
 |--
-  “ forall (k: Z) , (((0 <= k) /\ (k < coinsSize_pre)) -> ((1 <= (Znth k coins_l 0)) /\ ((Znth k coins_l 0) <= INT_MAX))) ” 
-  &&  “ (DpReachableTable (@nil Z) dp_l_2 (amount_pre + 1 ) ) ” 
-  &&  “ (DpPrefixZeroed dp_l_2 (amount_pre + 1 ) ) ”
-  &&  emp
+  EX (dp_l: (@list Z)) ,
+  “ (0 <= coinsSize_pre) ” 
+  &&  “ (coinsSize_pre <= 100000) ” 
+  &&  “ (0 <= amount_pre) ” 
+  &&  “ (amount_pre <= 100000) ” 
+  &&  “ ((Zlength (coins_l)) = coinsSize_pre) ” 
+  &&  “ (DpPrefixZeroed dp_l (amount_pre + 1 ) ) ” 
+  &&  “ (DpReachableTable (@nil Z) dp_l (amount_pre + 1 ) ) ” 
+  &&  “ forall (k: Z) , (((0 <= k) /\ (k < coinsSize_pre)) -> ((1 <= (Znth k coins_l 0)) /\ ((Znth k coins_l 0) <= INT_MAX))) ”
+  &&  (IntArray.full dp_pre (amount_pre + 1 ) dp_l )
 ).
-
-Definition coinChange_entail_wit_4_split_goal_1 := 
-forall (amount_pre: Z) (coinsSize_pre: Z) (coins_l: (@list Z)) (dp_l_2: (@list Z)) (j: Z) (PreH1 : (j > amount_pre)) (PreH2 : (0 <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (0 <= amount_pre)) (PreH5 : (amount_pre <= 100000)) (PreH6 : ((Zlength (coins_l)) = coinsSize_pre)) (PreH7 : (1 <= j)) (PreH8 : (j <= (amount_pre + 1 ))) (PreH9 : (DpPrefixZeroed dp_l_2 j )) (PreH10 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < coinsSize_pre)) -> ((1 <= (Znth k_2 coins_l 0)) /\ ((Znth k_2 coins_l 0) <= INT_MAX)))) ,
-  forall (k: Z) , (((0 <= k) /\ (k < coinsSize_pre)) -> ((1 <= (Znth k coins_l 0)) /\ ((Znth k coins_l 0) <= INT_MAX)))
-.
-
-Definition coinChange_entail_wit_4_split_goal_2 := 
-forall (amount_pre: Z) (coinsSize_pre: Z) (coins_l: (@list Z)) (dp_l_2: (@list Z)) (j: Z) (PreH1 : (j > amount_pre)) (PreH2 : (0 <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (0 <= amount_pre)) (PreH5 : (amount_pre <= 100000)) (PreH6 : ((Zlength (coins_l)) = coinsSize_pre)) (PreH7 : (1 <= j)) (PreH8 : (j <= (amount_pre + 1 ))) (PreH9 : (DpPrefixZeroed dp_l_2 j )) (PreH10 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < coinsSize_pre)) -> ((1 <= (Znth k_2 coins_l 0)) /\ ((Znth k_2 coins_l 0) <= INT_MAX)))) ,
-  (DpReachableTable (@nil Z) dp_l_2 (amount_pre + 1 ) )
-.
-
-Definition coinChange_entail_wit_4_split_goal_3 := 
-forall (amount_pre: Z) (coinsSize_pre: Z) (coins_l: (@list Z)) (dp_l_2: (@list Z)) (j: Z) (PreH1 : (j > amount_pre)) (PreH2 : (0 <= coinsSize_pre)) (PreH3 : (coinsSize_pre <= 100000)) (PreH4 : (0 <= amount_pre)) (PreH5 : (amount_pre <= 100000)) (PreH6 : ((Zlength (coins_l)) = coinsSize_pre)) (PreH7 : (1 <= j)) (PreH8 : (j <= (amount_pre + 1 ))) (PreH9 : (DpPrefixZeroed dp_l_2 j )) (PreH10 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < coinsSize_pre)) -> ((1 <= (Znth k_2 coins_l 0)) /\ ((Znth k_2 coins_l 0) <= INT_MAX)))) ,
-  (DpPrefixZeroed dp_l_2 (amount_pre + 1 ) )
-.
 
 Definition coinChange_entail_wit_5 := 
 (
@@ -999,10 +982,6 @@ forall (dp_pre: Z) (amount_pre: Z) (coinsSize_pre: Z) (coins_pre: Z) (coins_l: (
 
 Module Type VC_Correct.
 
-Include int_array_Strategy_Correct.
-Include uint_array_Strategy_Correct.
-Include undef_uint_array_Strategy_Correct.
-Include array_shape_Strategy_Correct.
 
 Axiom proof_of_coinChange_safety_wit_1 : coinChange_safety_wit_1.
 Axiom proof_of_coinChange_safety_wit_2 : coinChange_safety_wit_2.

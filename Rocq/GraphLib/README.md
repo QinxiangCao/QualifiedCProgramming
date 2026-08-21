@@ -389,7 +389,6 @@ graph_lib/
 │   ├── vpath.v                # 顶点路径实现
 │   ├── epath.v                # 边路径实现
 │   ├── Zweight.v              # 整数权重支持
-│   └── eweight.v              # 扩展权重支持
 │
 ├── directed/                  # 有向图专用
 │   ├── rootedtree.v           # 有根树

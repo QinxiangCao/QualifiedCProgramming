@@ -156,3 +156,37 @@ Lemma array2_strategy9_correctness : array2_strategy9.
 Proof.
   exact array2_strategy2_correctness.
 Qed.
+
+Lemma array2_strategy10_correctness : array2_strategy10.
+Proof.
+  pre_process_default.
+  prop_apply (IntArray2.missing_i_Zlength p i 0 n m rows).
+  Intros.
+  pose proof (IntArray2.missing_i_merge_to_full p i n m rows row) as Hmerge.
+  change (IntArray2.ElemArray.full (IntArray2.row_addr p m i) m row) with
+    (IntArray.full (p + i * m * sizeof (INT)) m row) in Hmerge.
+  replace (p + i * m * 4) with (p + i * m * sizeof (INT))
+    by (rewrite sizeof_int; lia).
+  sep_apply Hmerge; try lia.
+  cancel.
+Qed.
+
+Lemma array2_strategy11_correctness : array2_strategy11.
+Proof.
+  pre_process_default.
+  subst w.
+  prop_apply (IntArray2.missing_i_Zlength p i 0 n m rows).
+  Intros.
+  pose proof (IntArray2.missing_i_merge_to_full p i n m rows row) as Hmerge.
+  change (IntArray2.ElemArray.full (IntArray2.row_addr p m i) m row) with
+    (IntArray.full (p + i * m * sizeof (INT)) m row) in Hmerge.
+  replace (p + i * (sizeof (INT) * m)) with (p + i * m * sizeof (INT))
+    by (rewrite sizeof_int; lia).
+  sep_apply Hmerge; try lia.
+  cancel.
+Qed.
+
+Lemma array2_strategy12_correctness : array2_strategy12.
+Proof.
+  exact array2_strategy10_correctness.
+Qed.

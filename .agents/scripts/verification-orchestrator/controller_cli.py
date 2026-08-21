@@ -112,6 +112,21 @@ def build_parser(
     init.add_argument("--preferred-hidden-property", action="append", default=[])
     init.add_argument("--forbidden-pattern", action="append", default=[])
     init.add_argument("--reference-case-hint", action="append", default=[])
+    init.add_argument(
+        "--freeze-spec",
+        action="append",
+        default=[],
+        metavar="FUNCTION",
+        help=(
+            "Freeze the specification of this C function: its With/Require/Ensure "
+            "blocks, including named specs and refinement clauses, must survive the "
+            "annotation phase token-identical. Repeatable, or comma-separated. "
+            "Using the flag at all also freezes every existing Extern Coq entry, "
+            "Import Coq module, and case-lib declaration, because a frozen spec's "
+            "meaning depends on them; additions stay unrestricted. Omit to let the "
+            "annotation agent author specifications freely."
+        ),
+    )
     init.set_defaults(func=init_run)
 
     step_cmd = _command_parser(sub, "step")

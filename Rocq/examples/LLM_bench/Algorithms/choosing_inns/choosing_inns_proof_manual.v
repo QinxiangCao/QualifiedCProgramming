@@ -21,6 +21,30 @@ Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.choosing_inns.choosing_inns_lib.
 Local Open Scope sac.
 
+Ltac choosing_input_safe_lia H :=
+  let Hsafe := fresh "Hsafe" in
+  let Hn := fresh "Hn" in
+  let Hk := fresh "Hk" in
+  let Hp := fresh "Hp" in
+  let Hcolors_len := fresh "Hcolors_len" in
+  let Hcosts_len := fresh "Hcosts_len" in
+  let Hcolors_bound := fresh "Hcolors_bound" in
+  let Hcosts_bound := fresh "Hcosts_bound" in
+  let Hn_lo := fresh "Hn_lo" in
+  let Hn_hi := fresh "Hn_hi" in
+  let Hk_lo := fresh "Hk_lo" in
+  let Hk_hi := fresh "Hk_hi" in
+  let Hp_lo := fresh "Hp_lo" in
+  let Hp_hi := fresh "Hp_hi" in
+  pose proof H as Hsafe;
+  unfold ChoosingInputSafe in Hsafe;
+  destruct Hsafe as
+    [Hn [Hk [Hp [Hcolors_len [Hcosts_len [Hcolors_bound Hcosts_bound]]]]]];
+  destruct Hn as [Hn_lo Hn_hi];
+  destruct Hk as [Hk_lo Hk_hi];
+  destruct Hp as [Hp_lo Hp_hi];
+  lia.
+
 Lemma proof_of_initCounts_entail_wit_1_split_goal_1 : initCounts_entail_wit_1_split_goal_1.
 Proof.
   aggressive_pre_process.
@@ -313,7 +337,7 @@ Proof.
       good_l_2).
   {
     eapply ChoosingPrefixDataSafe_step_expensive; eauto.
-    all: unfold ChoosingInputSafe in PreH4; intuition; lia.
+    all: choosing_input_safe_lia PreH4.
   }
   assert (Hnext_full_data :
     ChoosingPrefixDataSafe colors_l costs_l (i + 1) k_pre
@@ -321,7 +345,7 @@ Proof.
       (replace_Znth c (Znth c seen_l 0 + 1) seen_l)).
   {
     eapply ChoosingPrefixDataSafe_step_affordable_after_copy; eauto.
-    all: unfold ChoosingInputSafe in PreH4; intuition; lia.
+    all: choosing_input_safe_lia PreH4.
   }
   assert (Hnext_state :
     ChoosingPrefixState colors_l costs_l (i + 1) k_pre p_pre
@@ -333,7 +357,7 @@ Proof.
       with (old_answer := answer) (good := good_l_2) (c := c);
       try exact PreH20; try exact PreH21; try exact PreH2;
       try reflexivity; try lia.
-    unfold ChoosingInputSafe in PreH4; intuition; lia.
+    choosing_input_safe_lia PreH4.
   }
   assert (Hnext_bound :
     0 <= answer + Znth c seen_l 0 <= 19999900000).
@@ -342,7 +366,7 @@ Proof.
       with (seen := replace_Znth c (Znth c seen_l 0 + 1) seen_l)
            (good := replace_Znth c (Znth c seen_l 0 + 1) seen_l)
            (n := n_pre); eauto.
-    all: unfold ChoosingInputSafe in PreH4; intuition; lia.
+    all: choosing_input_safe_lia PreH4.
   }
   pose proof Hnext_data as Hnext_data_parts.
   unfold ChoosingPrefixDataSafe in Hnext_data_parts.
@@ -353,12 +377,12 @@ Proof.
       k_pre 200000).
   {
     eapply CountArraySafe_weaken_limit; [exact Hnext_seen_safe |].
-    unfold ChoosingInputSafe in PreH4; intuition; lia.
+    choosing_input_safe_lia PreH4.
   }
   assert (Hnext_good_200 : CountArraySafe good_l_2 k_pre 200000).
   {
     eapply CountArraySafe_weaken_limit; [exact Hnext_good_safe |].
-    unfold ChoosingInputSafe in PreH4; intuition; lia.
+    choosing_input_safe_lia PreH4.
   }
   subst c.
   Exists seen_l.
@@ -382,7 +406,7 @@ Proof.
            (seen := seen_l) (good := good_l) (c := c);
     try exact PreH14; try exact PreH16; try exact PreH2;
     try exact PreH13; try lia.
-  unfold ChoosingInputSafe in PreH4; intuition; lia.
+  choosing_input_safe_lia PreH4.
 Qed.
 
 Lemma proof_of_countChoosingInns_entail_wit_5_split_goal_2 : countChoosingInns_entail_wit_5_split_goal_2.
@@ -390,7 +414,7 @@ Proof.
   aggressive_pre_process.
   subst seen_next_2.
   eapply ChoosingPrefixDataSafe_step_affordable_after_copy; eauto.
-  unfold ChoosingInputSafe in PreH4; intuition; lia.
+  choosing_input_safe_lia PreH4.
 Qed.
 
 Lemma proof_of_countChoosingInns_entail_wit_5 : countChoosingInns_entail_wit_5.
@@ -408,7 +432,7 @@ Proof.
       (replace_Znth c (Znth c seen_l_2 0 + 1) seen_l_2) good_l).
   {
     eapply ChoosingPrefixDataSafe_step_expensive; eauto.
-    unfold ChoosingInputSafe in PreH4; intuition; lia.
+    choosing_input_safe_lia PreH4.
   }
   assert (Hnext_state :
     ChoosingPrefixState colors_l costs_l (i + 1) k_pre p_pre
@@ -419,7 +443,7 @@ Proof.
       with (old_answer := answer) (c := c);
       try exact PreH20; try exact PreH21; try exact PreH2;
       try reflexivity; try lia.
-    unfold ChoosingInputSafe in PreH4; intuition; lia.
+    choosing_input_safe_lia PreH4.
   }
   assert (Hnext_bound :
     0 <= answer + Znth c good_l 0 <= 19999900000).
@@ -427,7 +451,7 @@ Proof.
     eapply ChoosingPrefixState_answer_bound
       with (seen := replace_Znth c (Znth c seen_l_2 0 + 1) seen_l_2)
            (good := good_l) (n := n_pre); eauto.
-    all: unfold ChoosingInputSafe in PreH4; intuition; lia.
+    all: choosing_input_safe_lia PreH4.
   }
   subst c.
   Exists seen_l_2.

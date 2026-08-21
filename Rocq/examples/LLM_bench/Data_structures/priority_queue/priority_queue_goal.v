@@ -18,14 +18,6 @@ Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Data_structures.priority_queue.priority_queue_lib.
 Local Open Scope sac.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_proof.
 
 (*----- Function push -----*)
 
@@ -673,6 +665,7 @@ forall (n_pre: Z) (heap_pre: Z) (input: (@list Z)) (S_prefix: (@multiset Z)) (i:
 (
 forall (n_pre: Z) (heap_pre: Z) (input: (@list Z)) (S_prefix: (@multiset Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix input i )) ,
   (store_heap heap_pre S_prefix i )
+  **  (IntArray.seg heap_pre i n_pre (sublist (i) (n_pre) (input)) )
 |--
   (store_heap heap_pre (list_to_multiset (input)) n_pre )
 ).
@@ -680,6 +673,7 @@ forall (n_pre: Z) (heap_pre: Z) (input: (@list Z)) (S_prefix: (@multiset Z)) (i:
 Definition build_entail_wit_6_2_split_goal_spatial := 
 forall (n_pre: Z) (heap_pre: Z) (input: (@list Z)) (S_prefix: (@multiset Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= heap_capacity)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((Zlength (input)) = n_pre)) (PreH7 : (BuildPrefixState S_prefix input i )) ,
   (store_heap heap_pre S_prefix i )
+  **  (IntArray.seg heap_pre i n_pre (sublist (i) (n_pre) (input)) )
 |--
   (store_heap heap_pre (list_to_multiset (input)) n_pre )
 .
@@ -1955,8 +1949,9 @@ forall (n_pre: Z) (heap_pre: Z) (input: (@list Z)) (active_2: (@multiset Z)) (su
 Definition heap_sort_entail_wit_5 := 
 (
 forall (n_pre: Z) (heap_pre: Z) (input: (@list Z)) (active_2: (@multiset Z)) (suffix_2: (@list Z)) (i: Z) (extracted: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (extracted = (multiset_max (active_2)))) (PreH7 : (multiset_maximum active_2 extracted )) (PreH8 : ((multiset_size (active_2)) = i)) (PreH9 : ((Zlength (suffix_2)) = (n_pre - i ))) (PreH10 : (HeapSortState input active_2 suffix_2 )) ,
-  (IntArray.seg heap_pre (i - 1 ) n_pre (cons (extracted) (suffix_2)) )
+  (((heap_pre + ((i - 1 ) * sizeof(INT)))) # Int  |-> extracted)
   **  (store_heap heap_pre (multiset_remove (active_2) ((multiset_max (active_2)))) (i - 1 ) )
+  **  (IntArray.seg heap_pre i n_pre suffix_2 )
 |--
   EX (suffix: (@list Z))  (active: (@multiset Z)) ,
   “ (0 <= n_pre) ” 
@@ -1974,11 +1969,11 @@ forall (n_pre: Z) (heap_pre: Z) (input: (@list Z)) (active_2: (@multiset Z)) (su
   **  (IntArray.seg heap_pre i n_pre suffix )
 ) \/
 (
-forall (n_pre: Z) (heap_pre: Z) (input: (@list Z)) (active_2: (@multiset Z)) (suffix_2: (@list Z)) (i: Z) (extracted: Z) (PreH1 : (0 <= n_pre)) (PreH2 : (n_pre <= heap_capacity)) (PreH3 : ((Zlength (input)) = n_pre)) (PreH4 : (1 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : (extracted = (multiset_max (active_2)))) (PreH7 : (multiset_maximum active_2 extracted )) (PreH8 : ((multiset_size (active_2)) = i)) (PreH9 : ((Zlength (suffix_2)) = (n_pre - i ))) (PreH10 : (HeapSortState input active_2 suffix_2 )) ,
-  (IntArray.seg heap_pre (i - 1 ) n_pre (cons (extracted) (suffix_2)) )
+forall (n_pre: Z) (heap_pre: Z) (input: (@list Z)) (active_2: (@multiset Z)) (suffix_2: (@list Z)) (i: Z) (extracted: Z) (PreH1 : (extracted <= INT_MAX)) (PreH2 : (extracted >= INT_MIN)) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= heap_capacity)) (PreH5 : ((Zlength (input)) = n_pre)) (PreH6 : (1 <= i)) (PreH7 : (i <= n_pre)) (PreH8 : (extracted = (multiset_max (active_2)))) (PreH9 : (multiset_maximum active_2 extracted )) (PreH10 : ((multiset_size (active_2)) = i)) (PreH11 : ((Zlength (suffix_2)) = (n_pre - i ))) (PreH12 : (HeapSortState input active_2 suffix_2 )) ,
+  (((heap_pre + ((i - 1 ) * sizeof(INT)))) # Int  |-> extracted)
   **  (store_heap heap_pre (multiset_remove (active_2) ((multiset_max (active_2)))) (i - 1 ) )
 |--
-  EX (suffix: (@list Z))  (active: (@multiset Z)) ,
+  EX (active: (@multiset Z)) ,
   “ (0 <= n_pre) ” 
   &&  “ (n_pre <= heap_capacity) ” 
   &&  “ ((Zlength (input)) = n_pre) ” 
@@ -1987,11 +1982,10 @@ forall (n_pre: Z) (heap_pre: Z) (input: (@list Z)) (active_2: (@multiset Z)) (su
   &&  “ (extracted = (multiset_max (active))) ” 
   &&  “ (multiset_maximum active extracted ) ” 
   &&  “ ((multiset_size (active)) = i) ” 
-  &&  “ ((Zlength (suffix)) = (n_pre - i )) ” 
-  &&  “ (HeapSortState input active suffix ) ”
+  &&  “ ((Zlength (suffix_2)) = (n_pre - i )) ” 
+  &&  “ (HeapSortState input active suffix_2 ) ”
   &&  (store_heap heap_pre (multiset_remove (active) ((multiset_max (active)))) (i - 1 ) )
   **  (heap_retired_cell heap_pre (i - 1 ) extracted )
-  **  (IntArray.seg heap_pre i n_pre suffix )
 ).
 
 Definition heap_sort_entail_wit_6 := 
@@ -2174,10 +2168,6 @@ forall (n_pre: Z) (heap_pre: Z) (input: (@list Z)) (active: (@multiset Z)) (suff
 
 Module Type VC_Correct.
 
-Include int_array_Strategy_Correct.
-Include uint_array_Strategy_Correct.
-Include undef_uint_array_Strategy_Correct.
-Include array_shape_Strategy_Correct.
 
 Axiom proof_of_push_safety_wit_1 : push_safety_wit_1.
 Axiom proof_of_push_safety_wit_2 : push_safety_wit_2.

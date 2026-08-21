@@ -18,16 +18,10 @@ Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.CDCL.CDCL_qcp_lib.
 Local Open Scope sac.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_proof.
 From SimpleC.EE.QCP_demos_LLM Require Import int_ptr_array2_strategy_goal.
 From SimpleC.EE.QCP_demos_LLM Require Import int_ptr_array2_strategy_proof.
+From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_goal.
+From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_proof.
 From SimpleC.EE.Applications_human.CDCL Require Import CDCL_qcp_strategy_goal.
 From SimpleC.EE.Applications_human.CDCL Require Import CDCL_qcp_strategy_proof.
 
@@ -47549,11 +47543,8 @@ Definition cdcl_solver_partial_solve_wit_12 := cdcl_solver_partial_solve_wit_12_
 
 Module Type VC_Correct.
 
-Include int_array_Strategy_Correct.
-Include uint_array_Strategy_Correct.
-Include undef_uint_array_Strategy_Correct.
-Include array_shape_Strategy_Correct.
 Include int_ptr_array2_Strategy_Correct.
+Include int_array_Strategy_Correct.
 Include CDCL_qcp_Strategy_Correct.
 
 Axiom proof_of_qcpsat_fill_ints_safety_wit_1 : qcpsat_fill_ints_safety_wit_1.

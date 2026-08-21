@@ -29,6 +29,7 @@ GROUP_WORKER_FILE_SET = (
 )
 VERIFICATION_RUNS_DIR_NAME = "verification_runs"
 RUN_BUILDS_DIR_NAME = "_coq_builds"
+RUN_MAKEFILE_NAME = "Makefile"
 ANNOTATION_HISTORY_DIR_NAME = "annotation_history"
 ANNOTATION_ATTEMPTS_DIR_NAME = "annotation-attempts"
 ANNOTATION_ATTEMPT_DIR_PREFIX = "annotation-attempt"
@@ -446,6 +447,24 @@ def vc_checking_debug_script(run_root: Path, round_id: str) -> Path:
         / ".coq_debug"
         / "vc-checking.v"
     )
+
+
+def reuse_source_build_workspace(run_root: Path, round_id: str) -> Path:
+    """Return the preserved proof-comparison closure of one proving round."""
+
+    return run_builds_root(run_root) / round_id / "reuse-source" / "src"
+
+
+def reuse_source_preparation(run_root: Path, round_id: str) -> Path:
+    """Return the preparation sealed beside one preserved reuse-source build."""
+
+    return run_builds_root(run_root) / round_id / "reuse-source" / "preparation.json"
+
+
+def reuse_source_makefile(run_root: Path, round_id: str) -> Path:
+    """Return the exact Makefile sealed beside one preserved reuse-source build."""
+
+    return run_builds_root(run_root) / round_id / "reuse-source" / RUN_MAKEFILE_NAME
 
 
 def annotation_history_root(run_root: Path) -> Path:

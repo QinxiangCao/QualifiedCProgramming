@@ -303,6 +303,26 @@ Definition int_array_strategy17 :=
     emp
     ).
 
+Definition int_array_strategy31 :=
+  forall (i : Z) (n : Z) (l : (@list Z)) (p : Z),
+    TT &&
+    (“ (Z.le 0 i) ”) &&
+    (“ (Z.lt i n) ”) &&
+    emp **
+    ((IntArray.missing_i p i 0 n l)) **
+    ((poly_store FET_int (Z.add p (Z.mul i (@sizeof_front_end_type FET_int))) (@Znth Z i l 0)))
+    |--
+    (
+    TT &&
+    emp **
+    ((IntArray.full p n l))
+    ) ** (
+    TT &&
+    emp -*
+    TT &&
+    emp
+    ).
+
 Definition int_array_strategy3 :=
   forall (i : Z) (n : Z) (l : (@list Z)) (v : Z) (p : Z),
     TT &&
@@ -360,6 +380,7 @@ Module Type int_array_Strategy_Correct.
   Axiom int_array_strategy11_correctness : int_array_strategy11.
   Axiom int_array_strategy16_correctness : int_array_strategy16.
   Axiom int_array_strategy17_correctness : int_array_strategy17.
+  Axiom int_array_strategy31_correctness : int_array_strategy31.
   Axiom int_array_strategy3_correctness : int_array_strategy3.
   Axiom int_array_strategy12_correctness : int_array_strategy12.
 

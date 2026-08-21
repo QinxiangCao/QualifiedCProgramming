@@ -192,9 +192,14 @@ source proving round 已 stale 时，manifest parser 仍以该 round sealed `reu
 
 - 本地构建树摘要；
 - 本地构建文件数；
-- 已接纳的 selected dependency artifact 摘要。
+- 解释该 build 的 selected dependency artifact 摘要；
+- reuse-source build 另绑定 `reuse-source/preparation.json` 摘要。
 
-receipt 不增加字段，`file_count` 仍只表示 local build 文件数。reference debug 前后重验 local tree 和 accepted dependency snapshot；任一 imported current module 必须有本 build local `.vo`。
+current debug 用当前 run-level preparation；reuse-source build 用 vc-proving 封存时随该 build 一起持久化的
+`preparation.json`，因此后续 annotation 改变 `source_goal_version` 不会使它失效。该 preparation 每次使用都要
+重验：base artifacts 按仓库现状重新取摘要，trusted base 重建会指名改变的 artifact。receipt 不增加字段，
+`file_count` 仍只表示 local build 文件数。reference debug 前后重验 local tree 和其 preparation snapshot；任一
+imported current module 必须有本 build local `.vo`。
 
 current final script 只覆盖 aggressive split goals 和 `LLM_pre_process` top-level VC。reference script 只覆盖 direct/partial 实际引用的 previous goals；全 `from scratch` 时省略 reference script 和 receipt。
 

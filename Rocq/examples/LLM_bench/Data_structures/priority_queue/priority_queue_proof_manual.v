@@ -245,7 +245,11 @@ Proof.
         as Hrep_target
   end.
   Exists concrete.
+  rewrite (Zsublist_nil input n_pre n_pre) by lia.
+  rewrite (IntArray.seg_empty heap_pre n_pre n_pre).
   finish_entail.
+  Intros.
+  cancel.
 Qed.
 
 Lemma proof_of_build_entail_wit_6_2 : build_entail_wit_6_2.
@@ -575,10 +579,14 @@ Lemma proof_of_heap_sort_entail_wit_5 : heap_sort_entail_wit_5.
 Proof.
   LLM_pre_process ltac:(int_auto).
   Exists suffix_2 active_2.
-  sep_apply_l_atomic
-    (heap_sort_written_slot_split__heap_sort_write
-      heap_pre i n_pre extracted suffix_2 PreH4 PreH5).
-  finish_entail.
+  split_pure_spatial.
+  - unfold heap_retired_cell.
+    replace (i - 1 + 1) with i by lia.
+    sep_apply_l_atomic
+      (IntArray.seg_single heap_pre (i - 1) extracted).
+    replace (i - 1 + 1) with i by lia.
+    cancel.
+  - split_pures; dump_pre_spatial; try lia; try assumption.
 Qed.
 
 Lemma proof_of_heap_sort_entail_wit_6 : heap_sort_entail_wit_6.

@@ -789,40 +789,25 @@ Proof.
   - Goal_apply proof_of_concatenating_numbers_dp_entail_wit_6_3_split_goal_2.
 Qed. 
 
-Lemma proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_1 : concatenating_numbers_dp_entail_wit_8_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(auto).
-  rewrite PreH2.
-  apply greedy_output_full_mask__output_initialization.
-  - unfold RowsWellFormed in PreH11. tauto.
-  - lia.
-Qed.
-
-Lemma proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_2 : concatenating_numbers_dp_entail_wit_8_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(auto).
-  assert (Hmask : mask = state_count) by lia.
-  rewrite <- Hmask. exact PreH14.
-Qed.
-
-Lemma proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_3 : concatenating_numbers_dp_entail_wit_8_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(auto).
-Qed.
-
-(* This split goal is no longer generated after the solver refresh.
-Lemma proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_4 : concatenating_numbers_dp_entail_wit_8_split_goal_4.
-Proof.
-  LLM_pre_process ltac:(auto).
-Qed.
-*)
-
 Lemma proof_of_concatenating_numbers_dp_entail_wit_8 : concatenating_numbers_dp_entail_wit_8.
 Proof.
   aggressive_pre_process.
-  - Goal_apply proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_1.
-  - Goal_apply proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_2.
-  - Goal_apply proof_of_concatenating_numbers_dp_entail_wit_8_split_goal_3.
+  assert (Hmask : mask = state_count) by lia.
+  subst mask.
+  Exists choices_2.
+  split_pure_spatial.
+  - replace (Zlength choices_2) with state_count by lia.
+    sep_apply (IntArray.seg_to_full best_first_pre 0 state_count choices_2).
+    replace (best_first_pre + 0 * sizeof(INT)) with best_first_pre by lia.
+    replace (state_count - 0) with state_count by lia.
+    cancel.
+  - split_pures; dump_pre_spatial; try rewrite Zlength_nil; try lia; try assumption.
+    + replace state_count with (Zlength choices_2) by lia.
+      exact PreH14.
+    + rewrite PreH2.
+      apply greedy_output_full_mask__output_initialization.
+      * unfold RowsWellFormed in PreH11. tauto.
+      * lia.
 Qed. 
 
 Lemma proof_of_concatenating_numbers_dp_entail_wit_9_split_goal_1 : concatenating_numbers_dp_entail_wit_9_split_goal_1.

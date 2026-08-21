@@ -35,7 +35,7 @@ main agent 已经使用 controller 返回的 `claim_invocation` 认领 delivery�
 1. 两个 annotation skill 及其 workflow；
 2. 新 attempt 的完整 `agent_input.md`；
 3. 其中五段反馈总结：阻塞结论、因果分析、前次反思、必需修正、范围决定；
-4. 总结逐项引用的原始 `group_worker_report.json`、`group_worker_output.md` 或其他当前 attempt Markdown/JSON blocker；
+4. 总结逐项引用的交接 evidence 路径或其他当前 attempt blocker；
 5. main root 当前目标文件。
 
 原始 blocker 与当前文件优先于旧会话记忆。不要只根据摘要或上次 diff 继续修改。只有 controller
@@ -47,7 +47,7 @@ annotation iteration 的目录序号自行推断该要求。
 
 一次 retry 可能汇总同一 proving round 中多个 group 报告的 annotation 缺口。它们属于同一次完整反馈，必须在本 attempt 中逐项闭环：
 
-1. 从五段总结建立覆盖清单；每项保留原始 group、witness、location、message、repair boundary，以及对应 `group_worker_report.json` / `group_worker_output.md` 路径。
+1. 从五段总结建立覆盖清单；每项保留原始 group、witness、location、message、repair boundary，以及对应的 evidence 路径。
 2. 完整读取清单中每个被引用的原始 blocker。不得只读第一项，也不得把措辞相近的不同 witness 当作已经覆盖。
 3. 把每项缺口映射到需要复核的数学规范、function contract、loop invariant、assertion 或调用实例。多个缺口可以共享一个根因和一次修正，但来源引用必须分别保留。
 4. 先形成覆盖全部条目的整体修正，再编辑候选；不得修完第一个 group 就结束 attempt。
@@ -71,6 +71,8 @@ annotation iteration 的目录序号自行推断该要求。
 - `agent_input.md`、annotation history、`before/`、`after/`、controller state/event 与原始 blocker；
 - manual proof body、group 文件、public helper、`proving_merged` 和其他 formal/shared lib；
 - controller 与任一 skill 的脚本、workflow 或知识文档。
+
+交接若含 `## Frozen specification`，其中列出的函数 spec 为本 run 固定输入：`With` / `Require` / `Ensure`（含具名 spec 与 `<=` 子句）必须保持 token 一致，已存在的 `Extern Coq` 条目、`Import Coq` module 与 case lib 声明同样冻结。新增不受限，`Inv Assert` / `Assert` 仍完全可编辑。controller 在接纳前逐条比对，改动会退回本 agent 并指名条目；不得靠弱化冻结 spec 让检查通过。
 
 不得增加 `Admitted.`、额外 `Axiom`、禁用 lemma、不安全捷径或对本 run current generated artifact 的 import。changed files、digest、版本、命令结果和接纳结论由 controller 计算，不要复制到 owner JSON。
 

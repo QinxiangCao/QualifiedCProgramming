@@ -182,6 +182,67 @@ Definition array2_strategy9 :=
     emp
     ).
 
+Definition array2_strategy10 :=
+  forall (i : Z) (n : Z) (rows : (@list (@list Z))) (m : Z) (p : Z) (row : (@list Z)),
+    TT &&
+    (“ (Z.le 0 i) ”) &&
+    (“ (Z.lt i n) ”) &&
+    emp **
+    ((IntArray2.missing_i p i 0 n m rows)) **
+    ((IntArray.full (Z.add p (Z.mul (Z.mul i m) (@sizeof_front_end_type FET_int))) m row))
+    |--
+    (
+    TT &&
+    emp **
+    ((IntArray2.full p n m (@replace_Znth (@list Z) i row rows)))
+    ) ** (
+    TT &&
+    emp -*
+    TT &&
+    emp
+    ).
+
+Definition array2_strategy11 :=
+  forall (w : Z) (m : Z) (n : Z) (i : Z) (rows : (@list (@list Z))) (p : Z) (row : (@list Z)),
+    TT &&
+    (“ (Z.le 0 i) ”) &&
+    (“ (Z.lt i n) ”) &&
+    (“ (w = m) ”) &&
+    emp **
+    ((IntArray2.missing_i p i 0 n m rows)) **
+    ((IntArray.full (Z.add p (Z.mul i (Z.mul (@sizeof_front_end_type FET_int) w))) m row))
+    |--
+    (
+    TT &&
+    emp **
+    ((IntArray2.full p n m (@replace_Znth (@list Z) i row rows)))
+    ) ** (
+    TT &&
+    emp -*
+    TT &&
+    emp
+    ).
+
+Definition array2_strategy12 :=
+  forall (i : Z) (n : Z) (rows : (@list (@list Z))) (m : Z) (p : Z) (row : (@list Z)),
+    TT &&
+    (“ (Z.le 0 i) ”) &&
+    (“ (Z.lt i n) ”) &&
+    emp **
+    ((IntArray2.missing_i p i 0 n m rows)) **
+    ((IntArray.full (Z.add p (Z.mul (Z.mul i m) (@sizeof_front_end_type FET_int))) m row))
+    |--
+    (
+    TT &&
+    emp **
+    ((IntArray2.full p n m (@replace_Znth (@list Z) i row rows)))
+    ) ** (
+    TT &&
+    emp -*
+    TT &&
+    emp
+    ).
+
 Module Type array2_Strategy_Correct.
 
   Axiom array2_strategy1_correctness : array2_strategy1.
@@ -192,5 +253,8 @@ Module Type array2_Strategy_Correct.
   Axiom array2_strategy2_correctness : array2_strategy2.
   Axiom array2_strategy8_correctness : array2_strategy8.
   Axiom array2_strategy9_correctness : array2_strategy9.
+  Axiom array2_strategy10_correctness : array2_strategy10.
+  Axiom array2_strategy11_correctness : array2_strategy11.
+  Axiom array2_strategy12_correctness : array2_strategy12.
 
 End array2_Strategy_Correct.

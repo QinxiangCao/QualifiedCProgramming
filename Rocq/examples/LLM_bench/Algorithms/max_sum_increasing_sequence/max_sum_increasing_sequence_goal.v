@@ -18,14 +18,6 @@ Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.max_sum_increasing_sequence.max_sum_increasing_sequence_lib.
 Local Open Scope sac.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import int_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import undef_uint_array_strategy_proof.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_goal.
-From SimpleC.EE.QCP_demos_LLM Require Import array_shape_strategy_proof.
 
 (*----- Function maxSumIncreasingSequence -----*)
 
@@ -588,23 +580,16 @@ forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d_2: (@list Z
   **  (IntArray.full dp_pre numsSize_pre d )
 ) \/
 (
-forall (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (ans: Z) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= ans)) (PreH8 : (ans <= (i * 10000 ))) (PreH9 : (MSISDPTablePrefix l d_2 i )) (PreH10 : (MSISBestSoFar l i ans )) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < numsSize_pre)) -> ((1 <= (Znth k l 0)) /\ ((Znth k l 0) <= 10000)))) ,
-  TT && emp 
+forall (dp_pre: Z) (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (ans: Z) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= ans)) (PreH8 : (ans <= (i * 10000 ))) (PreH9 : (MSISDPTablePrefix l d_2 i )) (PreH10 : (MSISBestSoFar l i ans )) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < numsSize_pre)) -> ((1 <= (Znth k l 0)) /\ ((Znth k l 0) <= 10000)))) ,
+  (IntArray.seg dp_pre 0 i d_2 )
 |--
-  “ (MSISDPTablePrefix l d_2 numsSize_pre ) ” 
-  &&  “ (MSISMaximum l ans ) ”
-  &&  emp
+  EX (d: (@list Z)) ,
+  “ (MSISMaximum l ans ) ” 
+  &&  “ (1 <= ans) ” 
+  &&  “ (ans <= INT_MAX) ” 
+  &&  “ (MSISDPTablePrefix l d numsSize_pre ) ”
+  &&  (IntArray.full dp_pre numsSize_pre d )
 ).
-
-Definition maxSumIncreasingSequence_return_wit_1_split_goal_1 := 
-forall (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (ans: Z) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= ans)) (PreH8 : (ans <= (i * 10000 ))) (PreH9 : (MSISDPTablePrefix l d_2 i )) (PreH10 : (MSISBestSoFar l i ans )) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < numsSize_pre)) -> ((1 <= (Znth k l 0)) /\ ((Znth k l 0) <= 10000)))) ,
-  (MSISDPTablePrefix l d_2 numsSize_pre )
-.
-
-Definition maxSumIncreasingSequence_return_wit_1_split_goal_2 := 
-forall (numsSize_pre: Z) (l: (@list Z)) (d_2: (@list Z)) (ans: Z) (i: Z) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (1 <= i)) (PreH6 : (i <= numsSize_pre)) (PreH7 : (1 <= ans)) (PreH8 : (ans <= (i * 10000 ))) (PreH9 : (MSISDPTablePrefix l d_2 i )) (PreH10 : (MSISBestSoFar l i ans )) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < numsSize_pre)) -> ((1 <= (Znth k l 0)) /\ ((Znth k l 0) <= 10000)))) ,
-  (MSISMaximum l ans )
-.
 
 Definition maxSumIncreasingSequence_partial_solve_wit_1 := 
 forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (PreH1 : (1 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : forall (k: Z) , (((0 <= k) /\ (k < numsSize_pre)) -> ((1 <= (Znth k l 0)) /\ ((Znth k l 0) <= 10000)))) ,
@@ -898,10 +883,6 @@ forall (dp_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (d: (@list Z))
 
 Module Type VC_Correct.
 
-Include int_array_Strategy_Correct.
-Include uint_array_Strategy_Correct.
-Include undef_uint_array_Strategy_Correct.
-Include array_shape_Strategy_Correct.
 
 Axiom proof_of_maxSumIncreasingSequence_safety_wit_1 : maxSumIncreasingSequence_safety_wit_1.
 Axiom proof_of_maxSumIncreasingSequence_safety_wit_2 : maxSumIncreasingSequence_safety_wit_2.

@@ -35,7 +35,7 @@ Every append is still handled by the same agent target. Reread all of the follow
 1. both annotation skills and their workflows;
 2. the new attempt's complete `agent_input.md`;
 3. its five-part feedback summary: blocker conclusion, causal analysis, previous-attempt reflection, required repair, and scope decision;
-4. every original `group_worker_report.json`, `group_worker_output.md`, or other current-attempt Markdown/JSON blocker cited item by item by that summary;
+4. every evidence path the handoff lists, or other current-attempt blocker, cited item by item by that summary;
 5. the current main-root target files.
 
 Original blockers and current files take precedence over old-session memory. Do not continue modifying from only the
@@ -47,7 +47,7 @@ contracts, loop invariants, assertions, and call instances only when the control
 
 One retry may aggregate annotation gaps reported by multiple groups in the same proving round. They constitute one complete feedback delivery and must each be closed within this attempt:
 
-1. Build a coverage checklist from the five-part summary; for every item retain the original group, witness, location, message, repair boundary, and corresponding `group_worker_report.json` / `group_worker_output.md` path.
+1. Build a coverage checklist from the five-part summary; for every item retain the original group, witness, location, message, repair boundary, and corresponding evidence paths.
 2. Read every original blocker cited by the checklist in full. Do not read only the first item or treat different witnesses with similar wording as already covered.
 3. Map each gap to the mathematical specification, function contract, loop invariant, assertion, or call instance that needs review. Multiple gaps may share one root cause and one repair, but retain each source citation independently.
 4. Form an integrated repair that covers every item before editing the candidate; do not finish the attempt after repairing the first group.
@@ -71,6 +71,8 @@ Everything below is read-only and cannot be modified under the pretext of "repai
 - `agent_input.md`, annotation history, `before/`, `after/`, controller state/event, and original blockers;
 - manual proof bodies, group files, public helpers, `proving_merged`, and other formal/shared libs;
 - controller scripts and every skill's scripts, workflows, or knowledge documents.
+
+When the handoff carries `## Frozen specification`, the listed functions' specs are a fixed input for this run: their `With` / `Require` / `Ensure` -- including named specs and `<=` clauses -- must stay token-identical, and every existing `Extern Coq` entry, `Import Coq` module, and case-lib declaration is frozen with them. Additions are unrestricted and `Inv Assert` / `Assert` stay fully editable. The controller compares entry by entry before acceptance and returns any change here by name; weakening a frozen spec to make a check pass is not a route forward.
 
 Do not add `Admitted.`, an additional `Axiom`, a forbidden lemma, an unsafe shortcut, or an import of a current generated artifact for this run. The controller computes changed files, digests, versions, command results, and acceptance decisions; do not copy them into owner JSON.
 

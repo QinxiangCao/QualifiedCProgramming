@@ -1,0 +1,33 @@
+# Coq编译产物
+*.vo
+*.vok
+*.vos
+*.glob
+*.aux
+.*.aux
+*.cache
+*.timing
+*.depend
+.depend
+
+# Makefile编译产物
+Makefile.coq
+Makefile.coq.conf
+.Makefile.d
+.coqdeps.d
+
+# 备份文件
+*~
+*.bak
+*.orig
+
+# IDE相关
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS相关
+.DS_Store
+Thumbs.db
+
