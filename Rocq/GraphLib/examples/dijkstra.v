@@ -40,7 +40,7 @@ Notation reachable := (reachable g).
 Context {src: V}.
 
 (* Dijkstra成立的充分条件：没有负边 *)
-Context {weight_nonneg: forall e, Z_op_le (Some 0) (weight g e)}. 
+Context {weight_nonneg: nonnegative_edges g}. 
 
 (* 基于没有负边的一些简单事实 *)
 Lemma non_neg_epath: 
@@ -598,4 +598,3 @@ Proof.
 Qed. 
 
 End dijkstra.
-

@@ -15,7 +15,6 @@ from typing import Any
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from file_integrity import sha256_bytes
 from file_integrity import sha256_file as _sha256
 from group_plan_utils import group_entries_from_plan, load_group_plan
 from path_utils import (
@@ -27,15 +26,11 @@ from path_utils import (
     prepare_group_directory,
     reports_root,
     slug,
-    write_bytes,
     write_json,
 )
 from proof_manual_utils import (
-    ensure_unique_lemma_names,
     helper_namespace_for_group_id,
-    markdown_table_cells,
-    normalize_reuse_decision,
-    parse_manual_file,
+    manual_vc_index,
 )
 from public_helper_utils import (
     freeze_round_public_helper_snapshot,
@@ -133,31 +128,11 @@ def _base_formal_artifact_paths(
     return manual_parent / manual_relative.name, lib_parent / lib_relative.name
 
 
-def _reuse_available(path: Path) -> bool:
-    """Return whether a canonical hint contains any reusable proof/helper unit."""
-
-    for line in path.read_text(encoding="utf-8").splitlines():
-        stripped = line.strip()
-        if not (stripped.startswith("|") and stripped.endswith("|")):
-            continue
-        cells = markdown_table_cells(stripped)
-        if len(cells) >= 2 and normalize_reuse_decision(cells[1]) in {
-            "direct copy",
-            "partial proof-idea reuse",
-        }:
-            return True
-    return False
-
-
 def dispatch_order_for_entries(entries: list[dict[str, Any]]) -> list[str]:
-    """Deterministically prioritize no-reuse, difficult, structurally heavy groups."""
+    """Prioritize difficult, structurally heavy groups deterministically."""
 
-    priorities: list[tuple[bool, int, int, int, str]] = []
-    for fallback_index, entry in enumerate(entries):
-        hint = Path(str(entry.get("proof_reuse") or ""))
-        has_reuse = (
-            bool(entry.get("proof_reuse")) and hint.is_file() and _reuse_available(hint)
-        )
+    priorities: list[tuple[int, int, int, str]] = []
+    for plan_index, entry in enumerate(entries):
         aggressive_split_count = sum(
             len(witness.get("split_goals", []))
             for witness in entry.get("witnesses", [])
@@ -171,10 +146,9 @@ def dispatch_order_for_entries(entries: list[dict[str, Any]]) -> list[str]:
         )
         priorities.append(
             (
-                has_reuse,
                 -int(entry.get("estimated_difficulty", 1)),
                 -structural_load,
-                int(entry.get("index", fallback_index)),
+                int(entry.get("index", plan_index)),
                 str(entry["id"]),
             )
         )
@@ -186,7 +160,6 @@ def resolve_group_workers_manifest(
     *,
     main_root: Path | None = None,
     validate_current_seed: bool = True,
-    seed_root: Path | None = None,
     expected_run_root: Path | None = None,
     expected_round: str | None = None,
 ) -> dict[str, Any]:
@@ -248,33 +221,16 @@ def resolve_group_workers_manifest(
             raise SystemExit(
                 "group workers manifest is not bound to the expected current run"
             )
-    seed_owner = main_root
-    if seed_root is not None:
-        expected_seed_root = fixed_path_under(
-            run_root / round_id / "reuse_source_raw",
-            run_root,
-            label="sealed manifest seed root",
-        )
-        candidate_seed_root = seed_root.expanduser().absolute()
-        if candidate_seed_root != expected_seed_root:
-            raise SystemExit(
-                "group workers manifest seed root differs from its fixed round topology"
-            )
-        seed_owner = fixed_path_under(
-            candidate_seed_root,
-            run_root,
-            label="sealed manifest seed root",
-        )
-        if not seed_owner.is_dir():
-            raise SystemExit("group workers manifest seed root is not a directory")
     raw = _load_object(manifest_path)
     if set(raw) != {
         "base_manifest_sha256",
         "group_plan",
         "group_plan_sha256",
         "public_helper_snapshot_sha256",
+        "dependency_snapshot_sha256",
         "groups",
         "dispatch_order",
+        "previous_proving_round",
     }:
         raise SystemExit("group workers manifest contains unsupported fields")
     compact_groups = raw.get("groups")
@@ -285,17 +241,8 @@ def resolve_group_workers_manifest(
         raise SystemExit("group workers manifest groups must be an object list")
     compact_ids: list[str] = []
     for item in compact_groups:
-        allowed = {
-            "id",
-            "proof_reuse_sha256",
-            "proof_reuse_sources",
-        }
-        if set(item) - allowed or not isinstance(item.get("id"), str) or not item["id"]:
+        if set(item) != {"id"} or not isinstance(item.get("id"), str) or not item["id"]:
             raise SystemExit("group workers manifest group has invalid fields")
-        if ("proof_reuse_sha256" in item) != ("proof_reuse_sources" in item):
-            raise SystemExit(
-                "group workers manifest proof reuse seal is incomplete"
-            )
         compact_ids.append(str(item["id"]))
     if len(compact_ids) != len(set(compact_ids)):
         raise SystemExit("group workers manifest group ids must be unique")
@@ -322,7 +269,6 @@ def resolve_group_workers_manifest(
         raise SystemExit("group workers manifest base seal changed")
     base = _load_object(base_path)
     if set(base) != {
-        "source_goal_version",
         "proof_manual",
         "formal_case_lib",
         "seed_sha256",
@@ -347,7 +293,7 @@ def resolve_group_workers_manifest(
 
     formal_manual, formal_case_lib = _base_formal_artifact_paths(
         base,
-        main_root=seed_owner,
+        main_root=main_root,
     )
     seed = _seed_digests(base)
     has_manual = seed["proof_manual"] is not None
@@ -361,18 +307,26 @@ def resolve_group_workers_manifest(
         )
     plan = load_group_plan(plan_path)
     if has_manual:
-        if not formal_manual.is_file():
-            raise SystemExit("group workers manifest formal proof manual is missing")
-        _prelude, lemmas = parse_manual_file(
-            formal_manual.read_text(encoding="utf-8")
-        )
-        ensure_unique_lemma_names(lemmas)
+        if not validate_current_seed and not compact_ids:
+            vc_index = {"by_name": {}, "top_level": [], "split_goals": {}}
+        else:
+            manual_source = formal_manual
+            if not validate_current_seed:
+                manual_source = (
+                    vc_directory
+                    / "groups"
+                    / f"group_00__{slug(compact_ids[0])}"
+                    / formal_manual.name
+                )
+            if not manual_source.is_file():
+                raise SystemExit("group workers manifest proof manual is missing")
+            vc_index = manual_vc_index(manual_source.read_text(encoding="utf-8"))
     else:
         if plan.get("groups"):
             raise SystemExit("accepted group plan requires a proof manual")
-        lemmas = []
+        vc_index = {"by_name": {}, "top_level": [], "split_goals": {}}
     planned = group_entries_from_plan(
-        lemmas,
+        vc_index,
         plan,
         require_accepted=True,
     )
@@ -397,11 +351,24 @@ def resolve_group_workers_manifest(
         or _sha256(public_helper_path) != public_sha256
     ):
         raise SystemExit("group workers manifest public helper snapshot changed")
+    dependency_sha256 = str(raw.get("dependency_snapshot_sha256") or "")
+    if SHA256_RE.fullmatch(dependency_sha256) is None:
+        raise SystemExit("group workers manifest dependency snapshot digest is invalid")
+
+    previous_id = raw.get("previous_proving_round")
+    previous_directory: Path | None = None
+    if previous_id is not None:
+        if (
+            not isinstance(previous_id, str)
+            or not previous_id
+            or Path(previous_id).name != previous_id
+            or previous_id == round_id
+        ):
+            raise SystemExit("previous proving round id is invalid")
+        previous_directory = run_root / previous_id
 
     entries: list[dict[str, Any]] = []
-    for index, (group, compact) in enumerate(
-        zip(planned, compact_groups, strict=True)
-    ):
+    for index, group in enumerate(planned):
         group_id = str(group["group_id"])
         directory_name = f"group_{index:02d}__{slug(group_id)}"
         directory = fixed_path_under(
@@ -453,64 +420,9 @@ def resolve_group_workers_manifest(
         }
         if has_formal_case_lib:
             entry["group_worker_lib"] = str(directory / formal_case_lib.name)
-        if "proof_reuse_sha256" in compact:
-            hint_path = fixed_path_under(
-                report_directory / "proof_reuse.md",
-                report_directory,
-                label="proof reuse handoff",
-            )
-            hint_sha256 = str(compact["proof_reuse_sha256"])
-            if (
-                not hint_path.is_file()
-                or not hint_sha256
-                or _sha256(hint_path) != hint_sha256
-            ):
-                raise SystemExit(
-                    f"group workers manifest proof reuse hint changed: {group_id}"
-                )
-            sources = compact.get("proof_reuse_sources")
-            if not isinstance(sources, list):
-                raise SystemExit(
-                    f"group workers manifest proof reuse sources are invalid: {group_id}"
-                )
-            source_records: list[dict[str, str]] = []
-            for source in sources:
-                if (
-                    not isinstance(source, dict)
-                    or set(source) != {"relative_path", "sha256"}
-                ):
-                    raise SystemExit(
-                        f"group workers manifest proof reuse source is invalid: {group_id}"
-                    )
-                relative = Path(str(source.get("relative_path") or ""))
-                if relative.is_absolute() or ".." in relative.parts:
-                    raise SystemExit(
-                        f"group workers manifest proof reuse source path is invalid: {group_id}"
-                    )
-                source_path = fixed_path_under(
-                    main_root / relative,
-                    main_root,
-                    label="proof reuse source",
-                )
-                source_sha256 = str(source.get("sha256") or "")
-                if (
-                    not source_path.is_file()
-                    or not source_sha256
-                    or _sha256(source_path) != source_sha256
-                ):
-                    raise SystemExit(
-                        f"group workers manifest proof reuse source changed: {group_id}"
-                    )
-                source_records.append(
-                    {"path": str(source_path), "sha256": source_sha256}
-                )
-            entry.update(
-                {
-                    "proof_reuse": str(hint_path),
-                    "proof_reuse_sha256": hint_sha256,
-                    "proof_reuse_sources": source_records,
-                }
-            )
+        if previous_directory is not None:
+            entry["previous_proving_round"] = str(previous_directory)
+            entry["proof_reuse"] = str(report_directory / "proof_reuse.md")
         entries.append(entry)
     dispatch_order = raw.get("dispatch_order")
     if (
@@ -521,12 +433,12 @@ def resolve_group_workers_manifest(
         raise SystemExit("group workers manifest dispatch order is invalid")
     return {
         "round": round_id,
-        "source_goal_version": base["source_goal_version"],
         "base_manifest": str(base_path),
         "proof_manual": base["proof_manual"],
         "formal_case_lib": base["formal_case_lib"],
         "public_helper_lemma_lib": str(public_helper_path),
         "public_helper_lemma_lib_sha256": public_sha256,
+        "dependency_snapshot_sha256": dependency_sha256,
         "groups": entries,
         "order": compact_ids,
         "dispatch_order": dispatch_order,
@@ -538,16 +450,13 @@ def prepare_group_workers(
     *,
     group_plan_path: Path,
     force_groups: bool = False,
-    max_compact_attempts: int = 3,
-    reuse_hints: dict[str, dict[str, Any]] | None = None,
+    previous_proving_round: str | None = None,
+    dependency_snapshot_sha256: str,
     expected_proof_manual: str | None = None,
     expected_formal_case_lib: str | None = None,
     expected_run_root: Path | None = None,
     expected_round: str | None = None,
 ) -> list[dict[str, Any]]:
-    del (
-        max_compact_attempts
-    )  # retry policy belongs to controller state, not the manifest.
     # Derive ownership from the lexical canonical layout before loading any
     # controller artifact.  Resolving first would hide a replaced manifest or
     # round-directory symlink.
@@ -576,7 +485,6 @@ def prepare_group_workers(
             )
     base = _load_object(base_manifest_path)
     if set(base) != {
-        "source_goal_version",
         "proof_manual",
         "formal_case_lib",
         "seed_sha256",
@@ -626,16 +534,13 @@ def prepare_group_workers(
     )
     plan = load_group_plan(group_plan_path)
     if has_manual:
-        _prelude, lemmas = parse_manual_file(
-            formal_manual.read_text(encoding="utf-8")
-        )
-        ensure_unique_lemma_names(lemmas)
+        vc_index = manual_vc_index(formal_manual.read_text(encoding="utf-8"))
     else:
         if plan.get("groups"):
             raise SystemExit("accepted group plan requires a proof manual")
-        lemmas = []
+        vc_index = {"by_name": {}, "top_level": [], "split_goals": {}}
     groups = group_entries_from_plan(
-        lemmas,
+        vc_index,
         plan,
         require_accepted=True,
     )
@@ -651,6 +556,13 @@ def prepare_group_workers(
     public_helper_snapshot = freeze_round_public_helper_snapshot(run_root, round_id)
     public_helper_path = Path(str(public_helper_snapshot["path"]))
     public_helper_sha256 = str(public_helper_snapshot["sha256"])
+    if SHA256_RE.fullmatch(dependency_snapshot_sha256) is None:
+        raise SystemExit("dependency snapshot digest must be sha256")
+    previous_directory = (
+        run_root / previous_proving_round
+        if previous_proving_round is not None
+        else None
+    )
 
     for index, group in enumerate(groups):
         group_id = str(group["group_id"])
@@ -713,62 +625,9 @@ def prepare_group_workers(
         }
         if group_worker_lib is not None:
             entry["group_worker_lib"] = str(group_worker_lib)
-        if reuse_hints:
-            hint = reuse_hints.get(group_id)
-            if not isinstance(hint, dict):
-                raise SystemExit(
-                    f"accepted reuse hint is missing for group: {group_id}"
-                )
-            source_hint = fixed_path_under(
-                Path(str(hint.get("path") or "")),
-                main_root,
-                label="accepted proof reuse hint",
-            )
-            expected_hint_sha256 = str(hint.get("sha256") or "")
-            try:
-                source_hint_bytes = source_hint.read_bytes()
-            except OSError as exc:
-                raise SystemExit(
-                    f"accepted reuse hint cannot be read before preparing group: {group_id}: {exc}"
-                ) from exc
-            if sha256_bytes(source_hint_bytes) != expected_hint_sha256:
-                raise SystemExit(
-                    f"accepted reuse hint changed before preparing group: {group_id}"
-                )
-            proof_reuse = report_dir / "proof_reuse.md"
-            write_bytes(
-                proof_reuse,
-                source_hint_bytes,
-                label="group proof reuse handoff",
-            )
-            entry["proof_reuse"] = str(proof_reuse)
-            entry["proof_reuse_sha256"] = expected_hint_sha256
-            raw_sources = hint.get("sources")
-            if not isinstance(raw_sources, list) or not all(
-                isinstance(item, dict) for item in raw_sources
-            ):
-                raise SystemExit(
-                    f"accepted reuse hint source records are invalid: {group_id}"
-                )
-            source_records: list[dict[str, str]] = []
-            for item in raw_sources:
-                source = fixed_path_under(
-                    Path(str(item.get("path") or "")),
-                    main_root,
-                    label="accepted proof reuse source",
-                )
-                source_sha256 = str(item.get("sha256") or "")
-                if (
-                    not source.is_file()
-                    or not source_sha256
-                    or _sha256(source) != source_sha256
-                ):
-                    raise SystemExit(
-                        f"accepted proof reuse source changed before preparing group: {group_id}"
-                    )
-                source_records.append({"path": str(source), "sha256": source_sha256})
-            if source_records:
-                entry["proof_reuse_sources"] = source_records
+        if previous_directory is not None:
+            entry["previous_proving_round"] = str(previous_directory)
+            entry["proof_reuse"] = str(report_dir / "proof_reuse.md")
         init_group_worker_files(
             report_dir=report_dir,
             group=entry,
@@ -777,41 +636,16 @@ def prepare_group_workers(
         )
         entries.append(entry)
 
-    compact_groups: list[dict[str, Any]] = []
-    for entry in entries:
-        compact: dict[str, Any] = {"id": str(entry["id"])}
-        if entry.get("proof_reuse"):
-            compact["proof_reuse_sha256"] = str(entry["proof_reuse_sha256"])
-            compact["proof_reuse_sources"] = [
-                {
-                    "relative_path": Path(str(source["path"]))
-                    .relative_to(main_root)
-                    .as_posix(),
-                    "sha256": str(source["sha256"]),
-                }
-                for source in entry.get("proof_reuse_sources", [])
-            ]
-        compact_groups.append(compact)
+    compact_groups = [{"id": str(entry["id"])} for entry in entries]
     manifest = {
         "base_manifest_sha256": _sha256(base_manifest_path),
         "group_plan": group_plan_path.relative_to(report_owner).as_posix(),
         "group_plan_sha256": _sha256(group_plan_path),
         "public_helper_snapshot_sha256": public_helper_sha256,
+        "dependency_snapshot_sha256": dependency_snapshot_sha256,
         "groups": compact_groups,
         "dispatch_order": dispatch_order_for_entries(entries),
+        "previous_proving_round": previous_proving_round,
     }
     write_json(manifest_path, manifest)
     return entries
-
-
-def load_group_workers_manifest(
-    manifest_or_report_directory: Path,
-) -> list[dict[str, Any]]:
-    path = manifest_or_report_directory
-    if path.is_dir():
-        path = path / GROUP_WORKERS_MANIFEST_NAME
-    payload = resolve_group_workers_manifest(path)
-    groups = payload.get("groups")
-    if not isinstance(groups, list):
-        raise SystemExit(f"invalid group workers manifest: {path}")
-    return groups

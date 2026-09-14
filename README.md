@@ -54,7 +54,8 @@ programs. See [docs/qcp-cli.md](docs/qcp-cli.md).
 - `scripts/`: setup and build helpers.
 - `tutorial/`: step-by-step QCP usage notes.
 - `mcp/`: QCP and Rocq MCP integrations.
-- `.agents/`, `AGENTS.md`, `AGENTS_WIN.md`: agent workflow contracts.
+- `.agents/`, `AGENTS.md`: agent workflow contracts; Windows agent adaptation is
+  documented in the [Windows workflow guide](.agents/skills/verification-orchestrator/docs/windows.md).
 
 ## Common Workflows
 

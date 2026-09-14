@@ -1,0 +1,21 @@
+From SimpleC.EE.Applications_human.hashtable Require Import hashtbl_proof_manual_create_bucks.
+From SimpleC.EE.Applications_human.hashtable Require Import hashtbl_proof_manual_init_hashtbl.
+From SimpleC.EE.Applications_human.hashtable Require Import hashtbl_proof_manual_create_hashtbl.
+From SimpleC.EE.Applications_human.hashtable Require Import hashtbl_proof_manual_hashtbl_add.
+From SimpleC.EE.Applications_human.hashtable Require Import hashtbl_proof_manual_hashtbl_find.
+From SimpleC.EE.Applications_human.hashtable Require Import hashtbl_proof_manual_hashtbl_findref.
+From SimpleC.EE.Applications_human.hashtable Require Import hashtbl_proof_manual_hashtbl_remove.
+From SimpleC.EE.Applications_human.hashtable Require Import hashtbl_proof_manual_hashtbl_free_blist.
+From SimpleC.EE.Applications_human.hashtable Require Import hashtbl_proof_manual_hashtbl_clear.
+From SimpleC.EE.Applications_human.hashtable Require Import hashtbl_proof_manual_free_hashtbl.
+
+Include hashtbl_proof_manual_create_bucks.
+Include hashtbl_proof_manual_init_hashtbl.
+Include hashtbl_proof_manual_create_hashtbl.
+Include hashtbl_proof_manual_hashtbl_add.
+Include hashtbl_proof_manual_hashtbl_find.
+Include hashtbl_proof_manual_hashtbl_findref.
+Include hashtbl_proof_manual_hashtbl_remove.
+Include hashtbl_proof_manual_hashtbl_free_blist.
+Include hashtbl_proof_manual_hashtbl_clear.
+Include hashtbl_proof_manual_free_hashtbl.

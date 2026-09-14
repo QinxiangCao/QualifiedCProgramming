@@ -20,6 +20,7 @@ import stat
 import sys
 import time
 from collections.abc import Callable, Mapping
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -28,15 +29,13 @@ VC_PROVING_SCRIPTS = SCRIPT_DIR.parent / "vc-proving"
 sys.path.insert(0, str(VC_PROVING_SCRIPTS))
 
 from file_integrity import sha256_bytes, sha256_text
-from path_utils import fixed_path_under
+from path_utils import fixed_path_under, write_json
 from process_adapter import run_bounded_process
 from proof_manual_utils import (
+    coq_token_text,
     ensure_unique_lemma_names,
     generated_artifact_module_spellings,
-    goal_definition_hashes,
-    goal_semantic_hash_for_lemma,
-    lemma_statement_hash,
-    lemma_target_symbol,
+    lemma_statement_text,
     parse_manual_file,
     partition_manual_lemmas,
     required_rocq_modules,
@@ -60,7 +59,27 @@ STRATEGY_INCLUDE_RE = re.compile(
     r'\binclude\s+strategies\s+"(?P<path>[^"\r\n]+)"'
 )
 ROCQ_IDENTIFIER_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_']*\Z")
-SYMEXEC_TIMEOUT_SECONDS = 600
+# Recursive verification cases can spend substantially longer in the canonical
+# driver after all local annotation failures have been discharged.  Keep one
+# bounded command budget, shared with the zero-byte-manual recovery run, but do
+# not terminate a progressing recursive call chain at the former ten-minute
+# ceiling.
+SYMEXEC_TIMEOUT_SECONDS = 3600
+DEFAULT_SYMEXEC_PROFILE = "standard"
+SYMEXEC_PROFILES: dict[str, dict[str, int | str]] = {
+    "standard": {
+        "name": "standard",
+        "timeout_seconds": SYMEXEC_TIMEOUT_SECONDS,
+        "heartbeat_seconds": 30,
+        "poll_interval_seconds": 5,
+    },
+    "recursive-large": {
+        "name": "recursive-large",
+        "timeout_seconds": 7200,
+        "heartbeat_seconds": 30,
+        "poll_interval_seconds": 5,
+    },
+}
 STRATEGY_PROFILE_BY_COLLECTION = {
     "Applications_human": "QCP_demos_human",
     "LLM_bench": "QCP_demos_LLM",
@@ -77,8 +96,227 @@ SYMEXEC_FLAGS_BY_TARGET_PREFIX: dict[tuple[str, ...], tuple[str, ...]] = {
 }
 
 
+def symexec_profile_record(name: str | None = None) -> dict[str, int | str]:
+    """Return one controller-owned, auditable performance profile."""
+
+    selected = name or DEFAULT_SYMEXEC_PROFILE
+    profile = SYMEXEC_PROFILES.get(selected)
+    if profile is None:
+        raise ValueError(
+            "unknown symexec profile; expected one of: "
+            + ", ".join(sorted(SYMEXEC_PROFILES))
+        )
+    return dict(profile)
+
+
+def symexec_profile_for_state(state: Mapping[str, Any]) -> dict[str, int | str]:
+    """Read a persisted profile, with a compatible default for older runs."""
+
+    value = state.get("symexec_profile")
+    if value is None:
+        return symexec_profile_record()
+    if not isinstance(value, Mapping):
+        raise ValueError("controller symexec_profile must be an object")
+    name = value.get("name")
+    if not isinstance(name, str):
+        raise ValueError("controller symexec_profile.name must be a string")
+    expected = symexec_profile_record(name)
+    if dict(value) != expected:
+        raise ValueError(
+            "controller symexec_profile differs from the named immutable profile"
+        )
+    return expected
+
+
 def _tail(text: str, limit: int = 8000) -> str:
     return text if len(text) <= limit else text[-limit:]
+
+
+def _utc() -> str:
+    return (
+        datetime.now(UTC)
+        .isoformat(timespec="microseconds")
+        .replace("+00:00", "Z")
+    )
+
+
+def _last_output_line(stdout: str, stderr: str) -> str:
+    lines = [
+        line.strip()
+        for line in (stderr + "\n" + stdout).splitlines()
+        if line.strip()
+    ]
+    return _tail(lines[-1], 500) if lines else ""
+
+
+def _progress_hints(last_line: str) -> dict[str, str]:
+    function = re.search(
+        r"\b(?:processing|checking|entering|function)\s+(?:function\s+)?"
+        r"[`']?([A-Za-z_][A-Za-z0-9_]*)",
+        last_line,
+        flags=re.IGNORECASE,
+    )
+    boundary = re.search(
+        r"\b(?:completed|finished)\s+(?:call\s+)?(?:boundary\s+)?"
+        r"[`']?([A-Za-z_][A-Za-z0-9_]*)",
+        last_line,
+        flags=re.IGNORECASE,
+    )
+    return {
+        **({"current_function": function.group(1)} if function else {}),
+        **({"last_completed_boundary": boundary.group(1)} if boundary else {}),
+    }
+
+
+def _generated_progress_snapshot(
+    output_root: Path,
+    target_files: Mapping[str, str],
+) -> dict[str, Any]:
+    """Collect bounded size-only progress without trusting generated contents."""
+
+    records: list[dict[str, Any]] = []
+    for role in GENERATED_FILE_KEYS:
+        relative = str(target_files[role])
+        try:
+            path = _fixed_artifact_leaf(
+                root=output_root,
+                relative=relative,
+                label=f"symexec progress {role}",
+            )
+            metadata = os.lstat(path)
+        except FileNotFoundError:
+            records.append({"role": role, "state": "missing", "size": 0})
+        except (OSError, ValueError) as exc:
+            records.append(
+                {
+                    "role": role,
+                    "state": "invalid",
+                    "size": 0,
+                    "message": str(exc),
+                }
+            )
+        else:
+            records.append(
+                {
+                    "role": role,
+                    "state": (
+                        "present"
+                        if stat.S_ISREG(metadata.st_mode)
+                        and not _metadata_is_link_like(metadata)
+                        else "invalid"
+                    ),
+                    "size": (
+                        int(metadata.st_size)
+                        if stat.S_ISREG(metadata.st_mode)
+                        else 0
+                    ),
+                }
+            )
+    formal_relative = str(target_files["formal_directory"])
+    try:
+        formal_directory = fixed_path_under(
+            output_root / formal_relative,
+            output_root,
+            label="symexec progress formal directory",
+        )
+        temp_files = [
+            path
+            for path in formal_directory.glob("*.sacgen.tmp")
+            if path.is_file() and not path.is_symlink()
+        ]
+    except (OSError, SystemExit):
+        temp_files = []
+    temporary_bytes = 0
+    stable_temp_files: list[Path] = []
+    for path in temp_files:
+        try:
+            temporary_bytes += int(path.stat().st_size)
+            stable_temp_files.append(path)
+        except OSError:
+            continue
+    return {
+        "generated_files": records,
+        "generated_bytes": sum(int(item["size"]) for item in records),
+        "temporary_file_count": len(stable_temp_files),
+        "temporary_bytes": temporary_bytes,
+    }
+
+
+def _progress_reporter(
+    *,
+    main_root: Path,
+    output_root: Path,
+    target_files: Mapping[str, str],
+    progress_path: Path | None,
+    heartbeat_seconds: float,
+    timeout_seconds: float,
+    profile_name: str,
+) -> tuple[
+    Callable[[float, str, str], None],
+    Callable[[str, float, str, str], None],
+]:
+    """Build rate-limited running and forced terminal telemetry writers."""
+
+    if heartbeat_seconds <= 0 or not math.isfinite(heartbeat_seconds):
+        raise ValueError("symexec heartbeat interval must be finite and positive")
+    if progress_path is not None:
+        owner = main_root.expanduser().resolve()
+        path = fixed_path_under(
+            progress_path.expanduser(),
+            owner,
+            label="symexec progress report",
+        )
+    else:
+        path = None
+    last_written = -math.inf
+
+    def write(
+        status: str,
+        elapsed_seconds: float,
+        stdout: str,
+        stderr: str,
+        *,
+        force: bool,
+    ) -> None:
+        nonlocal last_written
+        if path is None:
+            return
+        elapsed = max(0.0, float(elapsed_seconds))
+        if not force and elapsed - last_written < heartbeat_seconds:
+            return
+        last_written = elapsed
+        try:
+            last_line = _last_output_line(stdout, stderr)
+            write_json(
+                path,
+                {
+                    "status": status,
+                    "updated_at": _utc(),
+                    "elapsed_seconds": round(elapsed, 3),
+                    "timeout_seconds": timeout_seconds,
+                    "profile": profile_name,
+                    "last_output_line": last_line,
+                    **_progress_hints(last_line),
+                    **_generated_progress_snapshot(output_root, target_files),
+                },
+            )
+        except (OSError, SystemExit, ValueError):
+            # Telemetry is deliberately non-acceptance evidence. A transient
+            # progress write failure must never terminate a sound tool run.
+            return
+
+    def progress(elapsed_seconds: float, stdout: str, stderr: str) -> None:
+        write("running", elapsed_seconds, stdout, stderr, force=False)
+
+    def finish(
+        status: str,
+        elapsed_seconds: float,
+        stdout: str,
+        stderr: str,
+    ) -> None:
+        write(status, elapsed_seconds, stdout, stderr, force=True)
+
+    return progress, finish
 
 
 def _normalize_generated_freshness_text(text: str, root: Path) -> str:
@@ -248,132 +486,6 @@ def _normalized_generated_digest(path: Path, root: Path) -> str:
     return sha256_text(normalized)
 
 
-def source_goal_version_at_root(
-    *,
-    root: Path,
-    target_files: dict[str, str],
-    formal_case_lib_root: Path | None = None,
-) -> dict[str, Any]:
-    """Derive the canonical source-goal version from any controller-owned root."""
-
-    owner = Path(os.path.abspath(os.fspath(root.expanduser())))
-    generated: list[dict[str, Any]] = []
-    generated_snapshots: dict[str, dict[str, Any]] = {}
-    for key in GENERATED_FILE_KEYS:
-        relative = str(target_files[key])
-        snapshot = _lexical_regular_file_snapshot(
-            root=owner,
-            relative=relative,
-            label=f"source-goal {key}",
-        )
-        artifact_state = str(snapshot.get("state") or "invalid")
-        if artifact_state not in {"present", "missing"}:
-            raise ValueError(
-                str(snapshot.get("message") or f"source-goal {key} is invalid")
-            )
-        generated_snapshots[key] = snapshot
-        generated.append(
-            {
-                "relative_path": relative,
-                "role": key,
-                "state": artifact_state,
-                "sha256": snapshot.get("sha256"),
-            }
-        )
-    manual_snapshot = generated_snapshots["proof_manual_file"]
-    goal_snapshot = generated_snapshots["goal_file"]
-    formal_owner = (
-        Path(os.path.abspath(os.fspath(formal_case_lib_root.expanduser())))
-        if formal_case_lib_root is not None
-        else owner
-    )
-    formal_case_lib_snapshot = _lexical_regular_file_snapshot(
-        root=formal_owner,
-        relative=str(target_files["formal_case_lib"]),
-        label="source-goal formal_case_lib",
-    )
-    formal_case_lib_state = str(
-        formal_case_lib_snapshot.get("state") or "invalid"
-    )
-    if formal_case_lib_state not in {"present", "missing"}:
-        raise ValueError(
-            str(
-                formal_case_lib_snapshot.get("message")
-                or "source-goal formal_case_lib is invalid"
-            )
-        )
-    normalized_goal_text = _normalize_generated_freshness_text(
-        _snapshot_text(goal_snapshot, label="source-goal goal_file"), owner
-    )
-    formal_case_lib_text = (
-        _snapshot_text(
-            formal_case_lib_snapshot,
-            label="source-goal formal_case_lib",
-        )
-        if formal_case_lib_state == "present"
-        else ""
-    )
-    goal_hashes = goal_definition_hashes(
-        normalized_goal_text,
-        formal_case_lib_text=formal_case_lib_text,
-    )
-    if manual_snapshot["state"] == "present":
-        _prelude, lemmas = parse_manual_file(
-            _snapshot_text(manual_snapshot, label="source-goal proof_manual_file")
-        )
-    else:
-        lemmas = []
-    ensure_unique_lemma_names(lemmas)
-    witness_lemmas, split_goal_lemmas = partition_manual_lemmas(lemmas)
-    witnesses: list[dict[str, str]] = []
-    for lemma in witness_lemmas:
-        name = str(lemma["name"])
-        target_symbol = lemma_target_symbol(lemma)
-        semantic_hash = goal_semantic_hash_for_lemma(lemma, goal_hashes)
-        witnesses.append(
-            {
-                "name": name,
-                "statement_hash": lemma_statement_hash(lemma),
-                "goal_symbol": target_symbol or "",
-                "goal_definition_hash": semantic_hash,
-            }
-        )
-    split_goals: dict[str, list[dict[str, str]]] = {
-        str(witness["name"]): [] for witness in witnesses
-    }
-    for witness in witnesses:
-        witness_name = str(witness["name"])
-        for lemma in split_goal_lemmas[witness_name]:
-            name = str(lemma["name"])
-            target_symbol = lemma_target_symbol(lemma)
-            semantic_hash = goal_semantic_hash_for_lemma(lemma, goal_hashes)
-            split_goals[witness_name].append(
-                {
-                    "name": name,
-                    "statement_hash": lemma_statement_hash(lemma),
-                    "goal_symbol": target_symbol or "",
-                    "goal_definition_hash": semantic_hash,
-                }
-            )
-    payload = {
-        "generated_files": generated,
-        "target_witnesses": [item["name"] for item in witnesses],
-        "witness_statement_hashes": {
-            item["name"]: item["statement_hash"] for item in witnesses
-        },
-        "witness_goal_definition_hashes": {
-            item["name"]: item["goal_definition_hash"] for item in witnesses
-        },
-        "split_goals": split_goals,
-    }
-    return {
-        "digest": sha256_text(
-            json.dumps(payload, sort_keys=True, separators=(",", ":"))
-        ),
-        **payload,
-    }
-
-
 def clean_output_freshness(
     *,
     main_root: Path,
@@ -383,6 +495,11 @@ def clean_output_freshness(
     refresh_root: Path,
     manual_mode: str,
     symexec_runner: Callable[..., dict[str, Any]] | None = None,
+    timeout_seconds: int | float | None = None,
+    profile_name: str = DEFAULT_SYMEXEC_PROFILE,
+    heartbeat_seconds: int | float = 30,
+    cancel_requested: Callable[[], bool] | None = None,
+    progress_path: Path | None = None,
 ) -> dict[str, Any]:
     """Replay canonical symexec and compare exact raw or proved-manual obligations."""
 
@@ -393,7 +510,33 @@ def clean_output_freshness(
         main_root,
         label="clean symbolic-execution replay directory",
     )
-    if refresh.exists():
+    recovery: dict[str, Any] = {
+        "status": "not-needed",
+        "removed_entry_count": 0,
+        "removed_zero_byte_temp_count": 0,
+    }
+    if os.path.lexists(refresh):
+        if refresh.is_symlink() or not refresh.is_dir():
+            raise ValueError(
+                "clean symbolic-execution replay path is not a fixed directory"
+            )
+        entries = list(refresh.rglob("*"))
+        zero_byte_temps = 0
+        for path in entries:
+            try:
+                if (
+                    path.is_file()
+                    and path.name.endswith(".sacgen.tmp")
+                    and path.stat().st_size == 0
+                ):
+                    zero_byte_temps += 1
+            except OSError:
+                continue
+        recovery = {
+            "status": "cleaned",
+            "removed_entry_count": len(entries),
+            "removed_zero_byte_temp_count": zero_byte_temps,
+        }
         shutil.rmtree(refresh)
     refresh.mkdir(parents=True)
     runner = symexec_runner or run_symexec
@@ -402,85 +545,88 @@ def clean_output_freshness(
         target_c_file=target_c_file,
         output_root=refresh,
         target_files=target_files,
+        timeout_seconds=timeout_seconds,
+        profile_name=profile_name,
+        heartbeat_seconds=heartbeat_seconds,
+        cancel_requested=cancel_requested,
+        progress_path=progress_path,
     )
     mismatches: list[dict[str, Any]] = []
-    reference_version: dict[str, Any] | None = None
-    fresh_version: dict[str, Any] | None = None
     if symexec.get("status") == "passed":
-        try:
-            reference_version = source_goal_version_at_root(
-                root=reference_root,
-                target_files=target_files,
-                formal_case_lib_root=main_root,
+        exact_roles = (
+            GENERATED_FILE_KEYS
+            if manual_mode == "raw"
+            else tuple(
+                key for key in GENERATED_FILE_KEYS if key != "proof_manual_file"
             )
-            fresh_version = source_goal_version_at_root(
-                root=refresh,
-                target_files=target_files,
-                formal_case_lib_root=main_root,
+        )
+        for role in exact_roles:
+            reference_path = reference_root.expanduser().resolve() / target_files[role]
+            fresh_path = refresh / target_files[role]
+            reference_exists = reference_path.is_file()
+            fresh_exists = fresh_path.is_file()
+            same_content = not reference_exists and not fresh_exists
+            if reference_exists and fresh_exists:
+                try:
+                    same_content = _normalized_generated_digest(
+                        reference_path, reference_root
+                    ) == _normalized_generated_digest(fresh_path, refresh)
+                except (OSError, UnicodeDecodeError, ValueError):
+                    same_content = False
+            if not same_content:
+                mismatches.append(
+                    {"kind": role, "relative_path": target_files[role]}
+                )
+        if manual_mode == "proved":
+            reference_manual_path = (
+                reference_root.expanduser().resolve()
+                / target_files["proof_manual_file"]
             )
-        except (OSError, UnicodeDecodeError, ValueError) as exc:
-            mismatches.append({"kind": "source-goal-version", "message": str(exc)})
-        else:
-            reference_generated = {
-                str(item["role"]): item for item in reference_version["generated_files"]
-            }
-            fresh_generated = {
-                str(item["role"]): item for item in fresh_version["generated_files"]
-            }
-            exact_roles = (
-                GENERATED_FILE_KEYS
-                if manual_mode == "raw"
-                else tuple(
-                    key for key in GENERATED_FILE_KEYS if key != "proof_manual_file"
+            fresh_manual_path = refresh / target_files["proof_manual_file"]
+            reference_manual_present = reference_manual_path.is_file()
+            fresh_manual_present = fresh_manual_path.is_file()
+            if not reference_manual_present and not fresh_manual_present:
+                pass
+            elif reference_manual_present != fresh_manual_present:
+                mismatches.append(
+                    {
+                        "kind": "proof_manual_file",
+                        "relative_path": target_files["proof_manual_file"],
+                    }
                 )
-            )
-            for role in exact_roles:
-                reference_record = reference_generated.get(role)
-                fresh_record = fresh_generated.get(role)
-                reference_path = (
-                    reference_root.expanduser().resolve() / target_files[role]
-                )
-                fresh_path = refresh / target_files[role]
-                reference_state = (
-                    reference_record.get("state")
-                    if isinstance(reference_record, dict)
-                    else None
-                )
-                fresh_state = (
-                    fresh_record.get("state")
-                    if isinstance(fresh_record, dict)
-                    else None
-                )
-                same_content = reference_state == fresh_state == "missing"
-                if (
-                    isinstance(reference_record, dict)
-                    and isinstance(fresh_record, dict)
-                    and reference_state == "present"
-                    and fresh_state == "present"
-                ):
-                    try:
-                        same_content = _normalized_generated_digest(
-                            reference_path, reference_root
-                        ) == _normalized_generated_digest(fresh_path, refresh)
-                    except (OSError, UnicodeDecodeError):
-                        same_content = False
-                if not same_content:
+            else:
+                try:
+                    reference_manual = reference_manual_path.read_text(
+                        encoding="utf-8"
+                    )
+                    fresh_manual = fresh_manual_path.read_text(encoding="utf-8")
+                    _reference_prelude, reference_lemmas = parse_manual_file(
+                        reference_manual
+                    )
+                    _fresh_prelude, fresh_lemmas = parse_manual_file(fresh_manual)
+                    reference_declarations = [
+                        (
+                            str(lemma["name"]),
+                            coq_token_text(lemma_statement_text(lemma)),
+                        )
+                        for lemma in reference_lemmas
+                    ]
+                    fresh_declarations = [
+                        (
+                            str(lemma["name"]),
+                            coq_token_text(lemma_statement_text(lemma)),
+                        )
+                        for lemma in fresh_lemmas
+                    ]
+                    if reference_declarations != fresh_declarations:
+                        mismatches.append({"kind": "manual-witness-statements"})
+                except (OSError, UnicodeDecodeError, ValueError) as exc:
                     mismatches.append(
                         {
-                            "kind": role,
-                            "relative_path": target_files[role],
+                            "kind": "manual-witness-statements",
+                            "message": str(exc),
                         }
                     )
-            declaration_keys = (
-                "target_witnesses",
-                "witness_statement_hashes",
-                "witness_goal_definition_hashes",
-                "split_goals",
-            )
-            if any(
-                reference_version[key] != fresh_version[key] for key in declaration_keys
-            ):
-                mismatches.append({"kind": "manual-witness-statements"})
     return {
         "status": (
             "passed"
@@ -489,26 +635,30 @@ def clean_output_freshness(
         ),
         "symexec": {
             key: symexec.get(key)
-            for key in ("status", "returncode", "first_failure", "elapsed_seconds")
+            for key in (
+                "status",
+                "returncode",
+                "timeout_seconds",
+                "performance_profile",
+                "progress_path",
+                "first_failure",
+                "elapsed_seconds",
+            )
             if symexec.get(key) is not None
         },
         "mismatches": mismatches,
-        "source_goal_version": {
-            "reference": (
-                reference_version.get("digest")
-                if isinstance(reference_version, dict)
-                else None
-            ),
-            "fresh": (
-                fresh_version.get("digest") if isinstance(fresh_version, dict) else None
-            ),
-        },
         "refresh_root": str(refresh),
+        "interrupted_output_recovery": recovery,
     }
 
 
 def _invoke_symexec(
-    plan: dict[str, Any], timeout_seconds: int | float | None
+    plan: dict[str, Any],
+    timeout_seconds: int | float | None,
+    *,
+    cancel_requested: Callable[[], bool] | None = None,
+    progress_callback: Callable[[float, str, str], None] | None = None,
+    poll_interval_seconds: int | float = 5,
 ) -> tuple[int, str, str]:
     requested_timeout = (
         float(SYMEXEC_TIMEOUT_SECONDS)
@@ -533,6 +683,11 @@ def _invoke_symexec(
             "stopped draining them after 1 second"
         ),
         launch_error_prefix="symexec could not be launched: ",
+        cancel_requested=cancel_requested,
+        cancel_message="\nsymexec cancelled by controller pause/cancel request",
+        progress_callback=progress_callback,
+        poll_interval_seconds=float(poll_interval_seconds),
+        return_cancelled_result=True,
     )
     return result.returncode, result.stdout, result.stderr
 
@@ -1403,16 +1558,37 @@ def _run_symexec_with_budget(
     target_c_file: Path,
     output_root: Path,
     target_files: Mapping[str, str],
-    timeout_seconds: int | None = SYMEXEC_TIMEOUT_SECONDS,
+    timeout_seconds: int | float | None = None,
+    profile_name: str = DEFAULT_SYMEXEC_PROFILE,
+    heartbeat_seconds: int | float | None = None,
+    poll_interval_seconds: int | float | None = None,
+    cancel_requested: Callable[[], bool] | None = None,
+    progress_path: Path | None = None,
 ) -> dict[str, Any]:
     started = time.time()
+    monotonic_started = time.monotonic()
     # A zero-byte-manual recovery may invoke the driver twice. Both launches
     # share this one command budget so recovery cannot double the stall bound.
+    profile = symexec_profile_record(profile_name)
     budget = float(
-        timeout_seconds if timeout_seconds is not None else SYMEXEC_TIMEOUT_SECONDS
+        timeout_seconds
+        if timeout_seconds is not None
+        else profile["timeout_seconds"]
+    )
+    heartbeat = float(
+        heartbeat_seconds
+        if heartbeat_seconds is not None
+        else profile["heartbeat_seconds"]
+    )
+    poll_interval = float(
+        poll_interval_seconds
+        if poll_interval_seconds is not None
+        else profile["poll_interval_seconds"]
     )
     if not math.isfinite(budget) or budget < 0:
         raise ValueError("symexec timeout must be a finite non-negative number")
+    if not math.isfinite(poll_interval) or poll_interval <= 0:
+        raise ValueError("symexec poll interval must be finite and positive")
     deadline = time.monotonic() + budget
     plan = build_symexec_plan(
         main_root=main_root,
@@ -1423,9 +1599,34 @@ def _run_symexec_with_budget(
     driver = Path(plan["driver"])
     evidence: dict[str, Any] = {
         "target_c_file": plan["target_c_file"],
+        "timeout_seconds": budget,
+        "performance_profile": profile_name,
+        "heartbeat_seconds": heartbeat,
     }
+    progress, finish_progress = _progress_reporter(
+        main_root=main_root,
+        output_root=Path(plan["output_root"]),
+        target_files=plan["target_files"],
+        progress_path=progress_path,
+        heartbeat_seconds=heartbeat,
+        timeout_seconds=budget,
+        profile_name=profile_name,
+    )
+    progress(0.0, "", "")
+
+    def finish_early(result: dict[str, Any]) -> dict[str, Any]:
+        finish_progress(
+            str(result.get("status") or "failed"),
+            time.monotonic() - monotonic_started,
+            "",
+            str((result.get("first_failure") or {}).get("message") or ""),
+        )
+        if progress_path is not None:
+            result["progress_path"] = str(progress_path)
+        return result
+
     if not driver.is_file():
-        return {
+        return finish_early({
             **evidence,
             "status": "skipped",
             "reason": "canonical symexec driver not found",
@@ -1438,9 +1639,9 @@ def _run_symexec_with_budget(
             "returncode": None,
             "generated_files": [],
             "elapsed_seconds": round(time.time() - started, 3),
-        }
+        })
     if os.name != "nt" and not os.access(driver, os.X_OK):
-        return {
+        return finish_early({
             **evidence,
             "status": "skipped",
             "reason": "canonical symexec driver is not executable",
@@ -1453,12 +1654,12 @@ def _run_symexec_with_budget(
             "returncode": None,
             "generated_files": [],
             "elapsed_seconds": round(time.time() - started, 3),
-        }
+        })
     output = Path(plan["output_root"])
     preflight_snapshots = _generated_artifact_snapshots(plan, output)
     preflight_failure = _generated_preflight_failure(plan, preflight_snapshots)
     if preflight_failure is not None:
-        return {
+        return finish_early({
             **evidence,
             "status": "failed",
             "returncode": None,
@@ -1468,7 +1669,7 @@ def _run_symexec_with_budget(
             ),
             "first_failure": preflight_failure,
             "elapsed_seconds": round(time.time() - started, 3),
-        }
+        })
     try:
         formal_directory = fixed_path_under(
             output / str(plan["target_files"]["formal_directory"]),
@@ -1477,7 +1678,7 @@ def _run_symexec_with_budget(
         )
         formal_directory.mkdir(parents=True, exist_ok=True)
     except (OSError, SystemExit) as exc:
-        return {
+        return finish_early({
             **evidence,
             "status": "failed",
             "returncode": None,
@@ -1492,8 +1693,23 @@ def _run_symexec_with_budget(
                 "repair": "Restore the fixed non-link generated formal directory before rerunning symbolic execution.",
             },
             "elapsed_seconds": round(time.time() - started, 3),
-        }
-    returncode, stdout, stderr = _invoke_symexec(plan, deadline - time.monotonic())
+        })
+    try:
+        returncode, stdout, stderr = _invoke_symexec(
+            plan,
+            deadline - time.monotonic(),
+            cancel_requested=cancel_requested,
+            progress_callback=progress,
+            poll_interval_seconds=poll_interval,
+        )
+    except BaseException:
+        finish_progress(
+            "interrupted",
+            time.monotonic() - monotonic_started,
+            "",
+            "",
+        )
+        raise
     snapshots = _generated_artifact_snapshots(plan, output)
     manual_snapshot = snapshots["proof_manual_file"]
     recovery: dict[str, Any] | None = None
@@ -1524,9 +1740,22 @@ def _run_symexec_with_budget(
                 "repair": "Fix the generated-output filesystem problem, then rerun the unchanged controller symexec command.",
             }
         else:
-            returncode, stdout, stderr = _invoke_symexec(
-                plan, deadline - time.monotonic()
-            )
+            try:
+                returncode, stdout, stderr = _invoke_symexec(
+                    plan,
+                    deadline - time.monotonic(),
+                    cancel_requested=cancel_requested,
+                    progress_callback=progress,
+                    poll_interval_seconds=poll_interval,
+                )
+            except BaseException:
+                finish_progress(
+                    "interrupted",
+                    time.monotonic() - monotonic_started,
+                    stdout,
+                    stderr,
+                )
+                raise
             recovery["rerun_returncode"] = returncode
             snapshots = _generated_artifact_snapshots(plan, output)
 
@@ -1540,14 +1769,28 @@ def _run_symexec_with_budget(
             snapshots=snapshots,
         )
     else:
-        category = "tool" if returncode == 124 else "symbolic-execution"
+        category = (
+            "control"
+            if returncode == 130
+            else "tool"
+            if returncode == 124
+            else "symbolic-execution"
+        )
         output_failure = {
             "category": category,
-            "kind": "timeout" if returncode == 124 else "symexec-error",
+            "kind": (
+                "cancelled"
+                if returncode == 130
+                else "timeout"
+                if returncode == 124
+                else "symexec-error"
+            ),
             "message": _tail(stderr or stdout, 1600).strip()
             or f"symbolic execution exited with return code {returncode}",
             "repair": (
-                "Rerun the unchanged controller command once; if the timeout repeats, report a tooling blocker with the failing phase."
+                "Resume the paused run explicitly, then rerun the same action."
+                if category == "control"
+                else "Rerun the unchanged controller command once in this same annotation attempt; if the timeout repeats, stop at the tooling blocker without creating another annotation attempt."
                 if category == "tool"
                 else "Inspect the named C function and nearest Require/Ensure/Assert/Inv/where boundary, repair the annotation or spec, and rerun canonical symbolic execution."
             ),
@@ -1569,6 +1812,14 @@ def _run_symexec_with_budget(
     if not passed:
         result["stdout_tail"] = _tail(stdout)
         result["stderr_tail"] = _tail(stderr)
+    finish_progress(
+        "passed" if passed else "cancelled" if returncode == 130 else "failed",
+        time.monotonic() - monotonic_started,
+        stdout,
+        stderr,
+    )
+    if progress_path is not None:
+        result["progress_path"] = str(progress_path)
     return result
 
 
@@ -1578,7 +1829,12 @@ def run_symexec(
     target_c_file: Path,
     output_root: Path,
     target_files: Mapping[str, str],
-    timeout_seconds: int | None = SYMEXEC_TIMEOUT_SECONDS,
+    timeout_seconds: int | float | None = None,
+    profile_name: str = DEFAULT_SYMEXEC_PROFILE,
+    heartbeat_seconds: int | float | None = None,
+    poll_interval_seconds: int | float | None = None,
+    cancel_requested: Callable[[], bool] | None = None,
+    progress_path: Path | None = None,
 ) -> dict[str, Any]:
     """Run symbolic execution for canonical or replay output."""
 
@@ -1590,4 +1846,9 @@ def run_symexec(
         output_root=output,
         target_files=target_files,
         timeout_seconds=timeout_seconds,
+        profile_name=profile_name,
+        heartbeat_seconds=heartbeat_seconds,
+        poll_interval_seconds=poll_interval_seconds,
+        cancel_requested=cancel_requested,
+        progress_path=progress_path,
     )

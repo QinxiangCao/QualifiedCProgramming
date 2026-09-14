@@ -80,10 +80,6 @@ def invocation_for_main_action(
         arguments.extend(["--round", _required_action_value(action, "round")])
         if command == "vc-checking-check-round" and action.get("group_plan"):
             arguments.extend(["--group-plan", str(action["group_plan"])])
-    elif command == "annotation-summary-ready":
-        arguments.extend(
-            ["--attempt", _required_action_value(action, "attempt_id")]
-        )
     elif command == "retry-round":
         arguments.extend(
             [

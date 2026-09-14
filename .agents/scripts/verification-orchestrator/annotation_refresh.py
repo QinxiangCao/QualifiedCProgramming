@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
-"""Transactional generated-output refresh for one annotation attempt.
+"""Transactional main-root generated-output refresh.
 
-The public controller creates and seals the attempt's immutable ``before``
-history before the annotation owner starts.  Immediately before canonical
-main-root symbolic execution, this module backs up all four generated files,
-classifies the existing manual, removes only a raw seed or an exact copy of the
-sealed attempt-before manual, and leaves a durable transaction receipt.  A
-failed command restores the whole generated bundle; an interrupted command is
-rolled back on the next invocation before a new transaction starts.
+For annotation-owner commands, the controller has already sealed the attempt's
+immutable ``before`` history. Annotation acceptance and VC-checking acceptance
+reuse the same refresh transaction. Immediately before canonical main-root
+symbolic execution, this module backs up all four generated files, removes the
+manual, and leaves a durable receipt. A failed command restores the bundle; an
+interrupted command is rolled back before a new transaction starts.
 """
 
 # ruff: noqa: E402 -- standalone controller modules resolve shared helpers at runtime.
@@ -16,7 +15,6 @@ from __future__ import annotations
 
 import json
 import os
-import re
 import shutil
 import sys
 import tempfile
@@ -31,18 +29,10 @@ if str(VC_PROVING_SCRIPTS) not in sys.path:
 from atomic_file import atomic_copy_file
 from file_integrity import sha256_file as _sha256
 from path_utils import fixed_path_under, path_is_link_like, write_json
-from proof_manual_utils import (
-    ensure_unique_lemma_names,
-    lemma_proof_parts,
-    parse_manual_file,
-    partition_manual_lemmas,
-    split_goal_parent,
-    strip_coq_comments,
-)
 
-TRANSACTION_DIRECTORY_NAME = ".annotation-owner-main-refresh-transaction"
+TRANSACTION_DIRECTORY_NAME = ".generated-refresh-transaction"
 TRANSACTION_MANIFEST_NAME = "transaction.json"
-PREPARING_DIRECTORY_PREFIX = ".annotation-owner-main-refresh-preparing-"
+PREPARING_DIRECTORY_PREFIX = ".generated-refresh-preparing-"
 GENERATED_FILE_KEYS = (
     "goal_file",
     "proof_auto_file",
@@ -177,9 +167,7 @@ def _clear_exact_generated_leaf(path: Path) -> None:
         path.unlink()
 
 
-def _manual_refresh_state(
-    manual: Path, *, sealed_before_manual: Path | None
-) -> str:
+def _manual_refresh_state(manual: Path) -> str:
     if not os.path.lexists(manual):
         return "missing"
     if path_is_link_like(manual) or not manual.is_file():
@@ -192,56 +180,7 @@ def _manual_refresh_state(
                 "unchanged controller symexec command."
             ),
         )
-    try:
-        if manual.stat().st_size == 0:
-            return "zero-byte"
-        _prelude, lemmas = parse_manual_file(manual.read_text(encoding="utf-8"))
-        ensure_unique_lemma_names(lemmas)
-        partition_manual_lemmas(lemmas)
-        for lemma in lemmas:
-            _statement, proof_span, _trailing = lemma_proof_parts(lemma)
-            proof = strip_coq_comments(proof_span).strip()
-            expected = (
-                "Abort" if split_goal_parent(str(lemma["name"])) else "Admitted"
-            )
-            if (
-                re.fullmatch(
-                    rf"Proof(?:\s+using\s+[^.]+)?\.\s*{expected}\s*\.",
-                    proof,
-                    flags=re.DOTALL,
-                )
-                is None
-            ):
-                raise ValueError(
-                    f"lemma `{lemma['name']}` is not an untouched generated "
-                    f"{expected} seed"
-                )
-    except (OSError, UnicodeDecodeError, ValueError) as exc:
-        if (
-            sealed_before_manual is not None
-            and not sealed_before_manual.is_symlink()
-            and sealed_before_manual.is_file()
-            and sealed_before_manual.resolve() == sealed_before_manual.absolute()
-        ):
-            try:
-                if _sha256(manual) == _sha256(sealed_before_manual):
-                    return "sealed-before-manual"
-            except OSError:
-                pass
-        raise AnnotationRefreshError(
-            kind="protected-proof-manual",
-            message=(
-                "refusing to replace a proof manual that is neither an untouched "
-                "raw generation seed nor the exact sealed attempt-before manual: "
-                f"{exc}"
-            ),
-            repair=(
-                "Restore the exact controller-sealed attempt-before manual or a raw "
-                "Admitted/Abort seed. A history copy preserves old proof bytes but "
-                "does not itself authorize proof reuse."
-            ),
-        ) from exc
-    return "raw-seed"
+    return "present"
 
 
 def _load_manifest(
@@ -487,7 +426,6 @@ def begin_generated_refresh(
     main_root: Path,
     target_files: dict[str, str],
     report_directory: Path,
-    before_snapshot_directory: Path | None = None,
 ) -> dict[str, Any]:
     transaction_root = transaction_root_for_attempt(report_directory)
     recovered = recover_interrupted_refresh(
@@ -500,15 +438,7 @@ def begin_generated_refresh(
     )
     paths = _generated_paths(main_root, target_files)
     manual = paths["proof_manual_file"]
-    sealed_before_manual = (
-        before_snapshot_directory.expanduser().absolute()
-        / str(target_files["proof_manual_file"])
-        if before_snapshot_directory is not None
-        else None
-    )
-    manual_state = _manual_refresh_state(
-        manual, sealed_before_manual=sealed_before_manual
-    )
+    manual_state = _manual_refresh_state(manual)
 
     temporary = Path(
         tempfile.mkdtemp(

@@ -25,7 +25,7 @@ Local Open Scope sac.
 Lemma proof_of_maximum_profit_entail_wit_27_split_goal_1 :
   maximum_profit_entail_wit_27_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StockBuyQueue.
   split; [lia |].
   split.
@@ -41,7 +41,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_27_split_goal_2 :
   maximum_profit_entail_wit_27_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StockSellProgress in PreH28.
   destruct PreH28 as [Hdone [Hday [Hsource [Hsrange
     [Hjrange [Hcopy [Hsell Hmaxeq]]]]]]].
@@ -85,7 +85,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_27_split_goal_3 :
   maximum_profit_entail_wit_27_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StockInputsBounded in PreH27.
   destruct PreH27 as [_ [_ [_ [_ [_ [_ Hinputs]]]]]].
   specialize (Hinputs i ltac:(lia)).
@@ -95,7 +95,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_27_split_goal_4 :
   maximum_profit_entail_wit_27_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StockInputsBounded in PreH27.
   destruct PreH27 as [_ [_ [_ [_ [_ [_ Hinputs]]]]]].
   specialize (Hinputs i ltac:(lia)).
@@ -105,7 +105,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_27_split_goal_5 :
   maximum_profit_entail_wit_27_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StockInputsBounded in PreH27.
   destruct PreH27 as [_ [_ [_ [_ [_ [_ Hinputs]]]]]].
   specialize (Hinputs i ltac:(lia)).
@@ -115,7 +115,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_27_split_goal_6 :
   maximum_profit_entail_wit_27_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StockInputsBounded in PreH27.
   destruct PreH27 as [_ [_ [_ [_ [_ [_ Hinputs]]]]]].
   specialize (Hinputs i ltac:(lia)).
@@ -136,7 +136,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_28_split_goal_1 :
   maximum_profit_entail_wit_28_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StockBuyQueueExpiring. left.
   rewrite <- PreH9. exact PreH27.
 Qed.
@@ -144,14 +144,14 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_28_split_goal_2 :
   maximum_profit_entail_wit_28_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StockInputsBounded in PreH25. tauto.
 Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_28_split_goal_3 :
   maximum_profit_entail_wit_28_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StockInputsBounded in PreH25. tauto.
 Qed.
 
@@ -166,7 +166,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_29_split_goal_1 :
   maximum_profit_entail_wit_29_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite <- PreH14.
   unfold StockBuyQueueExpiring, StockBuyQueue in *.
   destruct PreH32 as [Hqueue | Hqueue].
@@ -223,7 +223,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_30_1_split_goal_1 :
   maximum_profit_entail_wit_30_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite <- PreH13.
   unfold StockBuyQueueExpiring in PreH31.
   unfold StockBuyQueue in *.
@@ -255,7 +255,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_30_2_split_goal_1 :
   maximum_profit_entail_wit_30_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   rewrite <- PreH14.
   unfold StockBuyQueueExpiring in PreH32.
   destruct PreH32 as [Hqueue | Hqueue]; [| exact Hqueue].
@@ -290,7 +290,7 @@ Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_31_1 : maximum_profit_entail_wit_31_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists queue_l dp_l.
   split_pure_spatial.
   - pose proof (IntArray2.missing_i_merge_to_full
@@ -347,7 +347,7 @@ Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_31_2 : maximum_profit_entail_wit_31_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists queue_l_2 dp_l.
   split_pure_spatial.
   - pose proof (IntArray2.missing_i_merge_to_full
@@ -393,7 +393,7 @@ Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_32_1 : maximum_profit_entail_wit_32_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists queue_l_2 dp_l_2.
   split_pure_spatial.
   - pose proof (IntArray2.missing_i_merge_to_full
@@ -448,7 +448,7 @@ Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_32_2 : maximum_profit_entail_wit_32_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists queue_l_2 dp_l_2.
   split_pure_spatial.
   - pose proof (IntArray2.missing_i_merge_to_full
@@ -491,7 +491,7 @@ Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_33_1 : maximum_profit_entail_wit_33_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   prop_apply (IntArray.full_Zlength queue_index_pre width queue_l_2).
   Intros_p Hqueue_len.
   Exists dp_l_2 queue_l_2.
@@ -509,7 +509,7 @@ Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_33_2 : maximum_profit_entail_wit_33_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   prop_apply (IntArray.full_Zlength queue_index_pre width queue_l_2).
   Intros_p Hqueue_len.
   Exists dp_l_2 queue_l_2.
@@ -556,7 +556,7 @@ Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_34 : maximum_profit_entail_wit_34.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (replace_Znth tail (j - 1) queue_l_2) dp_l_2.
   split_pure_spatial.
   - cancel (IntArray.full queue_index_pre width
@@ -591,7 +591,7 @@ Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_35_2 : maximum_profit_entail_wit_35_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists queue_l_2 dp_l_2.
   split_pure_spatial.
   - pose proof

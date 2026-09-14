@@ -32,22 +32,23 @@ Local Open Scope sac.
 
 Lemma proof_of_dfs_adjacency_matrix_safety_wit_3 : dfs_adjacency_matrix_safety_wit_3.
 Proof.
-  unfold dfs_adjacency_matrix_safety_wit_3.
-  left; intros.
-  entailer!; nia.
+  LLM_pre_process ltac:(lia || int_auto).
+  split_pures;
+  dump_pre_spatial ;
+  nia.
 Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_safety_wit_4 : dfs_adjacency_matrix_safety_wit_4.
 Proof.
-  unfold dfs_adjacency_matrix_safety_wit_4.
-  left; intros.
-  entailer!; nia.
+  LLM_pre_process ltac:(lia || int_auto).
+  split_pures;
+  dump_pre_spatial ;
+  nia.
 Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_entail_wit_1 : dfs_adjacency_matrix_entail_wit_1.
 Proof.
-  unfold dfs_adjacency_matrix_entail_wit_1.
-  left; intros.
+  LLM_pre_process ltac:(lia || int_auto).
   unfold DFSAdjacencyMatrix.visited.
   Intros values.
   subst vertex_count_pre.
@@ -58,8 +59,7 @@ Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_entail_wit_2 : dfs_adjacency_matrix_entail_wit_2.
 Proof.
-  unfold dfs_adjacency_matrix_entail_wit_2.
-  left; intros.
+  LLM_pre_process ltac:(lia || int_auto).
   set (entered_set := fun v => visited_set_low_level_spec v \/ v = vertex_pre).
   assert (Hentered_values:
     ZSimpleGraph.visited_values g_low_level_spec
@@ -113,8 +113,7 @@ Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_entail_wit_3 : dfs_adjacency_matrix_entail_wit_3.
 Proof.
-  unfold dfs_adjacency_matrix_entail_wit_3.
-  left; intros.
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hneighbor_valid:
     ZSimpleGraph.vertex_valid g_low_level_spec neighbor).
   { unfold ZSimpleGraph.vertex_valid. rewrite <- PreH5. lia. }
@@ -146,11 +145,10 @@ Proof.
   }
   Exists visited_set1.
   subst vertex_count_pre.
-  sep_apply (matrix_split_merge__dfs_core
+  sep_apply (@matrix_split_merge__dfs_core
     matrix_pre (ZSimpleGraph.vertex_count g_low_level_spec)
-    rows_low_level_spec vertex_pre neighbor __default__List_Z);
-    try lia.
-  sep_apply (@GraphMatrixFlat.graph_rep_intro
+    rows_low_level_spec vertex_pre neighbor __default__List_Z); try lia.
+  sep_apply (@GraphMatrixFlat.store_graph_intro
     (ZSimpleGraph.vertex_count g_low_level_spec)
     (DFSAdjacencyMatrix.adjacency_matrix_model g_low_level_spec)
     matrix_pre rows_low_level_spec PreH3).
@@ -163,8 +161,7 @@ Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_entail_wit_4_1 : dfs_adjacency_matrix_entail_wit_4_1.
 Proof.
-  unfold dfs_adjacency_matrix_entail_wit_4_1.
-  left; intros.
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hprocessed_next:
     DFSAdjacencyMatrix.processed_neighbors g_low_level_spec vertex_pre
       (neighbor + 1) bind_visited_set).
@@ -191,8 +188,7 @@ Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_entail_wit_4_2 : dfs_adjacency_matrix_entail_wit_4_2.
 Proof.
-  unfold dfs_adjacency_matrix_entail_wit_4_2.
-  left; intros.
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hneighbor_valid:
     ZSimpleGraph.vertex_valid g_low_level_spec neighbor).
   { unfold ZSimpleGraph.vertex_valid. rewrite <- PreH4. lia. }
@@ -211,11 +207,10 @@ Proof.
     - apply Hprocessed; [lia | exact Hedge]. }
   Exists values1 visited_set1.
   subst vertex_count_pre.
-  sep_apply (matrix_split_merge__dfs_core
+  sep_apply (@matrix_split_merge__dfs_core
     matrix_pre (ZSimpleGraph.vertex_count g_low_level_spec)
-    rows_low_level_spec vertex_pre neighbor __default__List_Z);
-    try lia.
-  sep_apply (@GraphMatrixFlat.graph_rep_intro
+    rows_low_level_spec vertex_pre neighbor __default__List_Z); try lia.
+  sep_apply (@GraphMatrixFlat.store_graph_intro
     (ZSimpleGraph.vertex_count g_low_level_spec)
     (DFSAdjacencyMatrix.adjacency_matrix_model g_low_level_spec)
     matrix_pre rows_low_level_spec PreH2).
@@ -226,8 +221,7 @@ Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_entail_wit_4_3 : dfs_adjacency_matrix_entail_wit_4_3.
 Proof.
-  unfold dfs_adjacency_matrix_entail_wit_4_3.
-  left; intros.
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hneighbor_valid:
     ZSimpleGraph.vertex_valid g_low_level_spec neighbor).
   { unfold ZSimpleGraph.vertex_valid. rewrite <- PreH5. lia. }
@@ -248,11 +242,10 @@ Proof.
     - apply Hprocessed; [lia | exact Hedge]. }
   Exists values1 visited_set1.
   subst vertex_count_pre.
-  sep_apply (matrix_split_merge__dfs_core
+  sep_apply (@matrix_split_merge__dfs_core
     matrix_pre (ZSimpleGraph.vertex_count g_low_level_spec)
-    rows_low_level_spec vertex_pre neighbor __default__List_Z);
-    try lia.
-  sep_apply (@GraphMatrixFlat.graph_rep_intro
+    rows_low_level_spec vertex_pre neighbor __default__List_Z); try lia.
+  sep_apply (@GraphMatrixFlat.store_graph_intro
     (ZSimpleGraph.vertex_count g_low_level_spec)
     (DFSAdjacencyMatrix.adjacency_matrix_model g_low_level_spec)
     matrix_pre rows_low_level_spec PreH3).
@@ -263,16 +256,14 @@ Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_entail_wit_5 : dfs_adjacency_matrix_entail_wit_5.
 Proof.
-  unfold dfs_adjacency_matrix_entail_wit_5.
-  left; intros.
+  LLM_pre_process ltac:(lia || int_auto).
   Exists values2 visited_set2.
   entailer!.
 Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_entail_wit_6 : dfs_adjacency_matrix_entail_wit_6.
 Proof.
-  unfold dfs_adjacency_matrix_entail_wit_6.
-  left; intros.
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hneighbor_eq: neighbor = vertex_count_pre) by lia.
   destruct PreH10 as [Hsource Hprocessed].
   assert (Hsafe_return:
@@ -303,15 +294,14 @@ Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_return_wit_1 : dfs_adjacency_matrix_return_wit_1.
 Proof.
-  unfold dfs_adjacency_matrix_return_wit_1.
-  left; intros.
+  LLM_pre_process ltac:(lia || int_auto).
   Exists visited_set_out.
   entailer!.
 Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_derive_bind_spec_by_low_level_spec : dfs_adjacency_matrix_derive_bind_spec_by_low_level_spec.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   match goal with
   | Hsafe: safeExec _ (bind _ _) _ |- _ =>
       apply safeExec_bind in Hsafe as
@@ -319,7 +309,7 @@ Proof.
   end.
   Exists g_bind_spec rows_bind_spec visited_set_bind_spec X_low_level_spec.
   split_pure_spatial.
-  - cancel (GraphMatrixFlat.graph_rep vertex_count_pre
+  - cancel (GraphMatrixFlat.store_graph vertex_count_pre
       (DFSAdjacencyMatrix.adjacency_matrix_model g_bind_spec)
       matrix_pre rows_bind_spec).
     cancel (DFSAdjacencyMatrix.visited visited_pre
@@ -328,7 +318,7 @@ Proof.
     Intros low_visited_set.
     Exists low_visited_set.
     repeat (split_pure_spatial || split_pures).
-    + cancel (GraphMatrixFlat.graph_rep vertex_count_pre
+    + cancel (GraphMatrixFlat.store_graph vertex_count_pre
         (DFSAdjacencyMatrix.adjacency_matrix_model g_bind_spec)
         matrix_pre rows_bind_spec).
       cancel (DFSAdjacencyMatrix.visited visited_pre
@@ -345,7 +335,7 @@ Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_derive_high_level_spec_by_low_level_spec : dfs_adjacency_matrix_derive_high_level_spec_by_low_level_spec.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Intros rows_low_level_spec.
   assert (Hinitial_empty:
     initial_visited_set_high_level_spec == Sets.empty).
@@ -366,7 +356,7 @@ Proof.
   Exists g_high_level_spec rows_low_level_spec
     initial_visited_set_high_level_spec X_low_level_spec.
   split_pure_spatial.
-  - cancel (GraphMatrixFlat.graph_rep vertex_count_pre
+  - cancel (GraphMatrixFlat.store_graph vertex_count_pre
       (DFSAdjacencyMatrix.adjacency_matrix_model g_high_level_spec)
       matrix_pre rows_low_level_spec).
     cancel (DFSAdjacencyMatrix.visited visited_pre
@@ -375,7 +365,7 @@ Proof.
     Intros low_visited_set.
     Exists rows_low_level_spec low_visited_set.
     repeat (split_pure_spatial || split_pures).
-    + cancel (GraphMatrixFlat.graph_rep vertex_count_pre
+    + cancel (GraphMatrixFlat.store_graph vertex_count_pre
         (DFSAdjacencyMatrix.adjacency_matrix_model g_high_level_spec)
         matrix_pre rows_low_level_spec).
       cancel (DFSAdjacencyMatrix.visited visited_pre

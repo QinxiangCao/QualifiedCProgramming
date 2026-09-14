@@ -1,9 +1,0 @@
-Given arrays `weights`, `values`, and `counts`, an item count `n`, and a
-knapsack capacity, compute the maximum total value obtainable by selecting at
-most `counts[i]` copies of each item while keeping the total selected weight no
-greater than the capacity.
-
-The verified C implementation uses the classic bounded-knapsack dynamic
-programming recurrence, optimized by processing each residue class modulo the
-current item weight with a monotone queue. The caller provides `dp`, `old`,
-`q_idx`, and `q_val` scratch arrays of length `capacity + 1`.

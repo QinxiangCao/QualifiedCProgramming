@@ -158,8 +158,6 @@
       (backjump_target_profile : cdcl_view -> Z -> list literal -> Prop)
       (top_two_levels_exact :
         cdcl_view -> list Z -> Z -> Z -> Z -> Prop)
-      (assigns_one :
-        cdcl_view -> cdcl_view -> Z -> bool -> Z -> Z -> Prop)
       (dense_conflict_batch : cdcl_view -> cdcl_view -> Z -> Prop)
       (backjump_clears : cdcl_view -> cdcl_view -> Z -> Prop)
       (dense_summaries_restored :

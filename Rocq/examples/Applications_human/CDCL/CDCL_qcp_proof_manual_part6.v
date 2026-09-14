@@ -50,9 +50,8 @@ Proof.
   | Hs : bcp_clause_scan _ _ _ _ _ _ _ _ _ _ _ _ _ _ |- _ =>
       unfold bcp_clause_scan in Hs
   end.
-  entailer!.
+  cdcl_entailer.
   rewrite (Znth_indep (snap_rows snap) i __default__List_Z (@nil Z))
     by exact Hrow_bound.
-  try rewrite (IntArray.seg_shape_empty values n).
-  entailer!.
+  cdcl_entailer.
 Qed.

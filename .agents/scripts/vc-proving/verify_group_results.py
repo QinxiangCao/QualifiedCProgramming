@@ -35,23 +35,17 @@ from prepare_group_workers import (
     resolve_group_workers_manifest,
 )
 from proof_manual_utils import (
-    HELPER_DECL_KINDS,
     block_has_incomplete_proof,
     coq_token_digest,
-    declaration_block_digest,
     ensure_unique_lemma_names,
     forbidden_top_level_declarations,
     helper_namespace_for_group_id,
     incomplete_proof_markers,
-    is_exact_declaration_line_range,
     lemma_by_name,
     lemma_proof_parts,
     lemma_statement_hash,
-    markdown_table_cells,
     mask_coq_strings,
     merge_group_worker_libs,
-    normalize_reuse_decision,
-    parse_lib_declarations,
     parse_manual_file,
     partition_manual_lemmas,
     proof_mode_errors,
@@ -157,14 +151,6 @@ def _read_utf8_exact(path: Path) -> str:
     """Read UTF-8 without universal-newline translation."""
 
     return path.read_bytes().decode("utf-8")
-
-
-def _is_relative_to(path: Path, root: Path) -> bool:
-    try:
-        path.expanduser().resolve().relative_to(root.expanduser().resolve())
-        return True
-    except ValueError:
-        return False
 
 
 def _replace_blocks(seed_text: str, replacements: dict[str, str]) -> str:
@@ -347,52 +333,6 @@ def _group_layout_errors(
     ):
         if not (expected_report / name).is_file():
             errors.append(f"{group_id}: missing {name}")
-    proof_reuse = expected_report / "proof_reuse.md"
-    if group.get("proof_reuse") or group.get("proof_reuse_sha256"):
-        if Path(str(group.get("proof_reuse") or "")).resolve() != proof_reuse:
-            errors.append(f"{group_id}: invalid proof reuse hint path")
-        elif not proof_reuse.is_file() or _sha256(proof_reuse) != group.get(
-            "proof_reuse_sha256"
-        ):
-            errors.append(f"{group_id}: proof reuse hint changed after preparation")
-        sources = group.get("proof_reuse_sources", [])
-        if not isinstance(sources, list) or not all(
-            isinstance(item, dict) for item in sources
-        ):
-            errors.append(f"{group_id}: invalid proof reuse source records")
-        else:
-            run_root = groups_directory.parent.parent
-            source_paths: set[Path] = set()
-            for item in sources:
-                source = Path(str(item.get("path") or "")).expanduser().resolve()
-                source_paths.add(source)
-                if not _is_relative_to(source, run_root):
-                    errors.append(
-                        f"{group_id}: proof reuse source is outside the current run"
-                    )
-                elif not source.is_file() or _sha256(source) != item.get("sha256"):
-                    errors.append(
-                        f"{group_id}: proof reuse source changed after preparation"
-                    )
-            try:
-                referenced_paths = {
-                    Path(row["previous file"]).expanduser().resolve()
-                    for row in _reuse_table_rows(proof_reuse)
-                    if normalize_reuse_decision(row["decision"]) != "from scratch"
-                }
-            except (OSError, UnicodeDecodeError, ValueError) as exc:
-                errors.append(f"{group_id}: invalid proof reuse hint: {exc}")
-            else:
-                if referenced_paths != source_paths:
-                    errors.append(
-                        f"{group_id}: proof reuse hint paths do not exactly match sealed source records"
-                    )
-    elif proof_reuse.exists():
-        errors.append(
-            f"{group_id}: unexpected proof reuse hint without a failed previous round"
-        )
-    elif group.get("proof_reuse_sources"):
-        errors.append(f"{group_id}: proof reuse sources exist without a hint")
     run_root = groups_directory.parent.parent
     expected_public = round_public_helper_snapshot_path(
         run_root, groups_directory.parent.name
@@ -411,61 +351,15 @@ def _group_layout_errors(
     return errors
 
 
-def _direct_helper_hint_blocks(group: dict[str, Any]) -> dict[str, set[str]]:
-    """Load exact helper blocks approved by this group's accepted reuse hint."""
-
-    hint = Path(str(group.get("proof_reuse") or ""))
-    if not group.get("proof_reuse") or not hint.is_file():
-        return {}
-    allowed: dict[str, set[str]] = {}
-    for row in _reuse_table_rows(hint):
-        label = row["current goal"]
-        if (
-            not label.startswith("helper:")
-            or normalize_reuse_decision(row["decision"]) != "direct copy"
-        ):
-            continue
-        helper_name = label.split(":", 1)[1]
-        line_match = re.fullmatch(r"(\d+)(?:\s*-\s*(\d+))?", row["lines"])
-        source = Path(row["previous file"]).expanduser().resolve()
-        if line_match is None or not source.is_file():
-            continue
-        start = int(line_match.group(1))
-        end = int(line_match.group(2) or start)
-        declaration = next(
-            (
-                item
-                for item in parse_lib_declarations(_read_utf8_exact(source))
-                if str(item.get("name")) == helper_name
-                and is_exact_declaration_line_range(
-                    start,
-                    end,
-                    declaration_start=int(item.get("start_line", 0)),
-                    declaration_end=int(item.get("end_line", 0)),
-                )
-            ),
-            None,
-        )
-        if declaration is not None:
-            allowed.setdefault(helper_name, set()).add(
-                declaration_block_digest(str(declaration["block"]))
-            )
-    return allowed
-
-
 def _allowed_helper_blocks_for_group(
-    group: dict[str, Any], run_root: Path
+    group: dict[str, Any],
 ) -> dict[str, set[str]]:
-    del run_root
     snapshot = Path(str(group.get("public_helper_lemma_lib") or ""))
     if not snapshot.is_file() or _sha256(snapshot) != str(
         group.get("public_helper_lemma_lib_sha256") or ""
     ):
         raise ValueError("public helper candidate snapshot changed")
-    allowed = allowed_public_helper_blocks(snapshot)
-    for name, digests in _direct_helper_hint_blocks(group).items():
-        allowed.setdefault(name, set()).update(digests)
-    return allowed
+    return allowed_public_helper_blocks(snapshot)
 
 
 def _compact_declarations(items: list[dict[str, str]]) -> list[dict[str, str]]:
@@ -486,8 +380,7 @@ def _candidate_errors_are_worker_recoverable(errors: list[str]) -> bool:
         "invalid group report directory",
         "missing group_worker_input.md",
         "missing group_worker_report.json",
-        "proof reuse",
-        "public/reuse helper candidates",
+        "public helper candidates",
         "assigned witnesses must be non-empty and unique",
         "helper namespace mismatch",
     )
@@ -500,7 +393,6 @@ def _manifest_context(
     manifest_path: Path,
     main_root: Path,
     *,
-    seed_root: Path | None = None,
     expected_run_root: Path | None = None,
     expected_round: str | None = None,
 ) -> dict[str, Any]:
@@ -526,7 +418,6 @@ def _manifest_context(
     manifest = resolve_group_workers_manifest(
         manifest_path,
         main_root=main_root,
-        seed_root=seed_root,
         expected_run_root=expected_run_root,
         expected_round=expected_round,
     )
@@ -557,7 +448,7 @@ def _manifest_context(
         manifest["groups"]
     ):
         raise SystemExit(
-            "group_workers_manifest dispatch_order does not match the deterministic no-reuse/difficulty priority"
+            "group_workers_manifest dispatch_order does not match the deterministic difficulty priority"
         )
     round_id = str(manifest.get("round") or "")
     if not round_id or report_round != slug(round_id):
@@ -627,7 +518,6 @@ def _manifest_context(
     )
     base = _load_json(base_path)
     if set(base) != {
-        "source_goal_version",
         "proof_manual",
         "formal_case_lib",
         "seed_sha256",
@@ -635,8 +525,6 @@ def _manifest_context(
         raise SystemExit("base manifest contains unsupported or missing fields")
     if vc_directory.name != round_id:
         raise SystemExit("base manifest round mismatch")
-    if manifest.get("source_goal_version") != base.get("source_goal_version"):
-        raise SystemExit("group_workers_manifest source_goal_version is stale")
     proof_manual_rel = Path(str(base.get("proof_manual") or ""))
     formal_case_lib_rel = Path(str(base.get("formal_case_lib") or ""))
     for label, relative in (
@@ -844,12 +732,10 @@ def _validate_group_candidate_content(
             errors.append(f"{group_id}: group_worker_lib cannot be read: {exc}")
         else:
             try:
-                allowed_helper_blocks = _allowed_helper_blocks_for_group(
-                    group, groups_directory.parent.parent
-                )
+                allowed_helper_blocks = _allowed_helper_blocks_for_group(group)
             except (OSError, ValueError) as exc:
                 errors.append(
-                    f"{group_id}: public/reuse helper candidates cannot be validated: {exc}"
+                    f"{group_id}: public helper candidates cannot be validated: {exc}"
                 )
                 allowed_helper_blocks = {}
             _merged, _added, _renames, lib_errors = merge_group_worker_libs(
@@ -887,7 +773,6 @@ def validate_group_for_acceptance_result(
     expected_proof_manual: str,
     expected_formal_case_lib: str,
     require_complete: bool = True,
-    seed_root: Path | None = None,
     forbidden_modules: Collection[str] = (),
     expected_run_root: Path | None = None,
     expected_round: str | None = None,
@@ -898,7 +783,6 @@ def validate_group_for_acceptance_result(
     context = _manifest_context(
         manifest_path,
         main_root,
-        seed_root=seed_root,
         expected_run_root=expected_run_root,
         expected_round=expected_round,
     )
@@ -911,11 +795,8 @@ def validate_group_for_acceptance_result(
         errors.append(
             "vc-proving base manifest does not match current target formal paths"
         )
-    seed_owner = (
-        seed_root.expanduser().resolve() if seed_root is not None else main_root
-    )
-    formal_manual = seed_owner / context["proof_manual_rel"]
-    formal_case_lib = seed_owner / context["formal_case_lib_rel"]
+    formal_manual = main_root / context["proof_manual_rel"]
+    formal_case_lib = main_root / context["formal_case_lib_rel"]
     seed = _seed_digests(base)
     manual_seed_error = _seed_artifact_error(
         formal_manual, seed["proof_manual"], label="formal proof manual"
@@ -966,237 +847,6 @@ def validate_group_for_acceptance_result(
     return {
         "errors": candidate_errors,
         "recoverable": _candidate_errors_are_worker_recoverable(candidate_errors),
-    }
-
-
-def _reuse_table_rows(path: Path) -> list[dict[str, str]]:
-    rows: list[list[str]] = []
-    for line in path.read_text(encoding="utf-8").splitlines():
-        stripped = line.strip()
-        if not (stripped.startswith("|") and stripped.endswith("|")):
-            continue
-        rows.append(markdown_table_cells(stripped))
-    header = ["current goal", "decision", "previous file", "lines", "reason"]
-    header_index = next(
-        (
-            index
-            for index, row in enumerate(rows)
-            if [cell.lower() for cell in row] == header
-        ),
-        None,
-    )
-    if header_index is None:
-        raise ValueError(f"proof reuse hint has no canonical table: {path}")
-    result: list[dict[str, str]] = []
-    for row in rows[header_index + 2 :]:
-        if len(row) != len(header):
-            raise ValueError(f"proof reuse hint row has the wrong width: {path}")
-        result.append(dict(zip(header, row, strict=True)))
-    return result
-
-
-def _group_reuse_measurement(
-    group: dict[str, Any],
-    group_map: dict[str, dict[str, Any]],
-    group_worker_lib_text: str = "",
-) -> dict[str, Any]:
-    hint_path = Path(str(group.get("proof_reuse") or ""))
-    if not group.get("proof_reuse"):
-        return {"enabled": False}
-    unit_kinds: dict[str, str] = {}
-    for witness in group.get("witnesses", []):
-        if not isinstance(witness, dict):
-            continue
-        unit_kinds[str(witness.get("name") or "")] = "top-level"
-        for split_goal in witness.get("split_goals", []):
-            if isinstance(split_goal, dict):
-                unit_kinds[str(split_goal.get("name") or "")] = "split-goal"
-    for helper in group.get("helpers", []):
-        if isinstance(helper, dict):
-            unit_kinds[f"helper:{helper.get('name')}"] = "helper"
-    rows = _reuse_table_rows(hint_path)
-    decisions = {
-        "direct_copy": 0,
-        "partial_proof_idea_reuse": 0,
-        "from_scratch": 0,
-    }
-    direct_exact = 0
-    direct_reworked = 0
-    exact_by_kind = {"top-level": 0, "split-goal": 0, "helper": 0}
-    by_kind = {
-        kind: {
-            "hint_decisions": {
-                "direct_copy": 0,
-                "partial_proof_idea_reuse": 0,
-                "from_scratch": 0,
-            },
-            "direct_copy_exact": 0,
-            "direct_copy_reworked": 0,
-        }
-        for kind in ("top-level", "split-goal", "helper")
-    }
-    parsed_previous: dict[Path, list[dict[str, Any]]] = {}
-    current_helpers = {
-        str(item["name"]): item
-        for item in parse_lib_declarations(group_worker_lib_text)
-        if str(item["kind"]) in HELPER_DECL_KINDS
-    }
-    for row in rows:
-        decision = normalize_reuse_decision(row["decision"])
-        decision_key = decision.replace("-", "_").replace(" ", "_")
-        name = row["current goal"]
-        kind = unit_kinds.get(name, "top-level")
-        if decision_key in decisions:
-            decisions[decision_key] += 1
-            by_kind[kind]["hint_decisions"][decision_key] += 1
-        if decision != "direct copy":
-            continue
-        is_helper = name.startswith("helper:")
-        helper_name = name.split(":", 1)[1] if is_helper else ""
-        current = current_helpers.get(helper_name) if is_helper else group_map.get(name)
-        line_match = re.fullmatch(r"(\d+)(?:\s*-\s*(\d+))?", row["lines"])
-        previous_path = Path(row["previous file"]).expanduser().resolve()
-        if current is None or line_match is None or not previous_path.is_file():
-            direct_reworked += 1
-            by_kind[kind]["direct_copy_reworked"] += 1
-            continue
-        start = int(line_match.group(1))
-        end = int(line_match.group(2) or start)
-        if previous_path not in parsed_previous:
-            if is_helper:
-                parsed_previous[previous_path] = parse_lib_declarations(
-                    _read_utf8_exact(previous_path)
-                )
-            else:
-                _prelude, previous_lemmas = parse_manual_file(
-                    _read_utf8_exact(previous_path)
-                )
-                parsed_previous[previous_path] = previous_lemmas
-        previous = next(
-            (
-                lemma
-                for lemma in parsed_previous[previous_path]
-                if is_exact_declaration_line_range(
-                    start,
-                    end,
-                    declaration_start=int(lemma["start_line"]),
-                    declaration_end=int(lemma["end_line"]),
-                )
-            ),
-            None,
-        )
-        if previous is None:
-            direct_reworked += 1
-            by_kind[kind]["direct_copy_reworked"] += 1
-            continue
-        if is_helper:
-            exact = declaration_block_digest(
-                str(current["block"])
-            ) == declaration_block_digest(str(previous["block"]))
-        else:
-            _current_statement, current_proof, _current_tail = lemma_proof_parts(
-                current
-            )
-            _previous_statement, previous_proof, _previous_tail = lemma_proof_parts(
-                previous
-            )
-            exact = coq_token_digest(current_proof) == coq_token_digest(previous_proof)
-        if exact:
-            direct_exact += 1
-            exact_by_kind[kind] = exact_by_kind.get(kind, 0) + 1
-            by_kind[kind]["direct_copy_exact"] += 1
-        else:
-            direct_reworked += 1
-            by_kind[kind]["direct_copy_reworked"] += 1
-    return {
-        "enabled": True,
-        "measurement": "proof-token-identity",
-        "comparison_units": len(rows),
-        "hint_decisions": decisions,
-        "direct_copy_exact": direct_exact,
-        "direct_copy_reworked": direct_reworked,
-        "exact_by_kind": exact_by_kind,
-        "by_kind": by_kind,
-    }
-
-
-def _merge_reuse_measurements(groups: list[dict[str, Any]]) -> dict[str, Any]:
-    measurement_errors = [
-        str(group["measurement_error"])
-        for group in groups
-        if group.get("measurement_error")
-    ]
-    enabled = [
-        group
-        for group in groups
-        if group.get("enabled") and not group.get("measurement_error")
-    ]
-    if not enabled:
-        return (
-            {
-                "error_count": len(measurement_errors),
-                "first_error": measurement_errors[0],
-            }
-            if measurement_errors
-            else {}
-        )
-    return {
-        "by_kind": {
-            kind: {
-                "direct_copy": sum(
-                    int(
-                        group.get("by_kind", {})
-                        .get(kind, {})
-                        .get("hint_decisions", {})
-                        .get("direct_copy", 0)
-                    )
-                    for group in enabled
-                ),
-                "partial_reuse": sum(
-                    int(
-                        group.get("by_kind", {})
-                        .get(kind, {})
-                        .get("hint_decisions", {})
-                        .get("partial_proof_idea_reuse", 0)
-                    )
-                    for group in enabled
-                ),
-                "from_scratch": sum(
-                    int(
-                        group.get("by_kind", {})
-                        .get(kind, {})
-                        .get("hint_decisions", {})
-                        .get("from_scratch", 0)
-                    )
-                    for group in enabled
-                ),
-                "exact": sum(
-                    int(
-                        group.get("by_kind", {})
-                        .get(kind, {})
-                        .get("direct_copy_exact", 0)
-                    )
-                    for group in enabled
-                ),
-                "reworked": sum(
-                    int(
-                        group.get("by_kind", {})
-                        .get(kind, {})
-                        .get("direct_copy_reworked", 0)
-                    )
-                    for group in enabled
-                ),
-            }
-            for kind in ("top-level", "split-goal", "helper")
-        },
-        **(
-            {
-                "error_count": len(measurement_errors),
-                "first_error": measurement_errors[0],
-            }
-            if measurement_errors
-            else {}
-        ),
     }
 
 
@@ -1276,7 +926,6 @@ def verify_and_merge(
     group_lib_texts: list[tuple[str, str, dict[str, Any]]] = []
     valid_group_contents: dict[str, dict[str, Any]] = {}
     allowed_helper_blocks_by_group: dict[str, dict[str, set[str]]] = {}
-    reuse_measurements: list[dict[str, Any]] = []
     groups_directory = vc_directory / "groups"
 
     for group in context["manifest"]["groups"]:
@@ -1307,17 +956,6 @@ def verify_and_merge(
             )
         if report.get("status") != "completed":
             group_errors.append(f"{group_id}: group report status must be completed")
-        try:
-            group_reuse = _group_reuse_measurement(
-                group,
-                content["group_map"],
-                str(content.get("group_worker_lib_text") or ""),
-            )
-        except (OSError, ValueError) as exc:
-            group_reuse = {"enabled": False, "measurement_error": str(exc)}
-            group_errors.append(f"{group_id}: proof reuse measurement failed: {exc}")
-        reuse_index = len(reuse_measurements)
-        reuse_measurements.append(group_reuse)
         if group_errors:
             errors.extend(group_errors)
             continue
@@ -1335,12 +973,11 @@ def verify_and_merge(
                 )
             )
             allowed_helper_blocks_by_group[group_id] = (
-                _allowed_helper_blocks_for_group(group, run_root)
+                _allowed_helper_blocks_for_group(group)
             )
         valid_group_contents[group_id] = {
             "group": group,
             "content": content,
-            "reuse_index": reuse_index,
         }
 
     if seed_lib_text is not None:
@@ -1378,43 +1015,6 @@ def verify_and_merge(
                 str(group_map[name]["block"]),
                 renames,
             )
-
-        # Recompute reuse statistics from the transformed candidate bytes.
-        # A direct-copy proof/helper that needed an identifier rewrite is a
-        # reworked unit in the final merge, even though the sealed group input
-        # was exact before collision resolution.
-        transformed_group_map = {
-            name: {
-                **lemma,
-                "block": rewrite_coq_identifiers(str(lemma["block"]), renames),
-            }
-            for name, lemma in group_map.items()
-        }
-        group_lib_text = str(content["group_worker_lib_text"])
-        transformed_group_lib_text = (
-            seed_lib_text
-            + rewrite_coq_identifiers(
-                group_lib_text[len(seed_lib_text) :],
-                renames,
-            )
-            if group_lib_text.startswith(seed_lib_text)
-            else group_lib_text
-        )
-        try:
-            transformed_reuse = _group_reuse_measurement(
-                group,
-                transformed_group_map,
-                transformed_group_lib_text,
-            )
-        except (OSError, ValueError) as exc:
-            transformed_reuse = {
-                "enabled": False,
-                "measurement_error": str(exc),
-            }
-            errors.append(
-                f"{group_id}: transformed proof reuse measurement failed: {exc}"
-            )
-        reuse_measurements[int(group_record["reuse_index"])] = transformed_reuse
 
     merged_manual_text = (
         _replace_blocks(seed_manual_text, replacements)
@@ -1537,7 +1137,6 @@ def verify_and_merge(
             build_workspace=run_builds_root(run_root) / round_id / "parent" / "src",
             target_file=goal_check_rel,
             target_kind="check",
-            source_goal_version=str(base["source_goal_version"]),
             timeout_seconds=coq_timeout_seconds,
             overlays=overlays,
             current_case_anchor=(
@@ -1565,10 +1164,8 @@ def verify_and_merge(
             else None
         )
     )
-    reuse_summary = _merge_reuse_measurements(reuse_measurements)
     result: dict[str, Any] = {
         "status": "passed" if ready else "failed",
-        "source_goal_version": base.get("source_goal_version"),
         "candidate": {
             "proof_manual_sha256": (
                 _sha256(merged_manual)
@@ -1584,8 +1181,6 @@ def verify_and_merge(
         "group_count": len(context["manifest"]["groups"]),
         "added_declarations": _compact_declarations(added_declarations),
     }
-    if reuse_summary:
-        result["proof_reuse"] = reuse_summary
     if not ready:
         result.update(
             {

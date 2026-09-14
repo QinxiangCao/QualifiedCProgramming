@@ -186,17 +186,18 @@ Proof.
   set (next_states := replace_Znth i_2 0 cur_states_2).
   Exists next_true next_unassigned value_cell_2 false new_snap_2 ranks1_2
     next_states (i_2 + 1).
-  unfold solver_explicit_state.
-  Exists v_data cl_data.
-  unfold sat_header_rep, var_header_rep, clause_header_rep,
-    clause_arrays_explicit_rep, clause_summaries_explicit_rep,
-    installed_rows_capacity_rep.
   unfold bcp_clause_scan, bcp_ready.
   try poly_store_unfold.
   asrt_simpl_pure.
   sepcon_assoc_change.
   andp_cancel; try simpl_entail.
-  - pose proof (installed_row_focus_merge
+  - unfold solver_explicit_state.
+    Exists v_data cl_data.
+    unfold sat_header_rep, var_header_rep, clause_header_rep,
+      clause_arrays_explicit_rep, clause_summaries_explicit_rep,
+      installed_rows_capacity_rep.
+    try poly_store_unfold.
+    pose proof (installed_row_focus_merge
       row_table live i_2 row_ptr (snap_rows snap) ltac:(lia)) as Hmerge.
     unfold installed_row_focus_rep in Hmerge.
     unfold StorePtrAsElement.storeA in Hmerge.

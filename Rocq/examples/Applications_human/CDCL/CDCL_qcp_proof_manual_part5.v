@@ -75,12 +75,12 @@ Proof.
   Exists v_data cl_data.
   unfold sat_header_rep, var_header_rep, clause_header_rep,
     clause_arrays_explicit_rep, clause_summaries_explicit_rep.
-  entailer!.
+  cdcl_entailer.
   unfold decision_update.
-  entailer!.
-  unfold IntArray.full, IntArray.seg, store_array; simpl; entailer!.
-  all: try (intros m Hemp; change True; exact I).
-  all: entailer!.
+  cdcl_entailer.
+  unfold IntArray.full, IntArray.seg, store_array; simpl; cdcl_entailer.
+  all: (try (intros m Hemp; change True; exact I));
+    (cdcl_entailer).
 Qed.
 
 Lemma proof_of_decide_entail_wit_3 : decide_entail_wit_3.
@@ -108,7 +108,7 @@ Proof.
       (IntArray.full row_ptr
         (Zlength (Znth j (snap_rows snap) nil))
         (Znth j (snap_rows snap) nil)).
-    entailer!.
+    cdcl_entailer.
     unfold coherent_snapshot, snapshot_cells_wf in Hcoh.
     destruct Hcoh as [_ [_ [_ [Hcells _]]]].
     destruct Hcells as [_ Hrows].
@@ -148,9 +148,9 @@ Proof.
   unfold sat_header_rep, var_header_rep, clause_header_rep,
     clause_arrays_explicit_rep, clause_summaries_explicit_rep,
     installed_rows_capacity_rep.
-  entailer!.
+  cdcl_entailer.
   unfold decision_update in *.
-  entailer!.
+  cdcl_entailer.
   destruct Hdec_update as [Hassign Hmix].
   pose proof (coherent_snapshot_row_wf__decide_commit
     F n live original_count snap j Hcoh ltac:(lia)) as Hrow_wf.
@@ -189,9 +189,9 @@ Proof.
   unfold sat_header_rep, var_header_rep, clause_header_rep,
     clause_arrays_explicit_rep, clause_summaries_explicit_rep,
     installed_rows_capacity_rep.
-  entailer!.
+  cdcl_entailer.
   unfold decision_update in *.
-  entailer!.
+  cdcl_entailer.
   destruct Hdec_update as [Hassign Hmix].
   pose proof (coherent_snapshot_row_wf__decide_commit
     F n live original_count snap j Hcoh ltac:(lia)) as Hrow_wf.
@@ -235,9 +235,9 @@ Proof.
   unfold sat_header_rep, var_header_rep, clause_header_rep,
     clause_arrays_explicit_rep, clause_summaries_explicit_rep,
     installed_rows_capacity_rep.
-  entailer!.
+  cdcl_entailer.
   unfold decision_update in *.
-  entailer!.
+  cdcl_entailer.
   destruct Hdec_update as [Hassign Hmix].
   pose proof (coherent_snapshot_row_wf__decide_commit
     F n live original_count snap j Hcoh ltac:(lia)) as Hrow_wf.
@@ -285,9 +285,9 @@ Proof.
   unfold sat_header_rep, var_header_rep, clause_header_rep,
     clause_arrays_explicit_rep, clause_summaries_explicit_rep,
     installed_rows_capacity_rep.
-  entailer!.
+  cdcl_entailer.
   unfold decision_update in *.
-  entailer!.
+  cdcl_entailer.
   destruct Hdec_update as [Hassign Hmix].
   pose proof (coherent_snapshot_row_wf__decide_commit
     F n live original_count snap j Hcoh ltac:(lia)) as Hrow_wf.
@@ -326,7 +326,7 @@ Proof.
   bind_fact ((Znth j cur_states_2 0) = 1) as Hstate_one.
   unfold decision_update, decision_ready,
     propagation_quiescent in *.
-  entailer!.
+  cdcl_entailer.
   destruct Hdec_update as [Hassign Hmix].
   destruct Hdec_ready as [Hno_conflict Hno_unit].
   pose proof (mixed_clause_summaries_old_at__decide_commit
@@ -365,7 +365,7 @@ Proof.
   bind_fact ((Znth j cur_states_2 0) = 2) as Hstate_two.
   unfold decision_update, decision_ready,
     propagation_quiescent in *.
-  entailer!.
+  cdcl_entailer.
   destruct Hdec_update as [Hassign Hmix].
   destruct Hdec_ready as [Hno_conflict Hno_unit].
   pose proof (mixed_clause_summaries_old_at__decide_commit
@@ -415,9 +415,9 @@ Proof.
   unfold sat_header_rep, var_header_rep, clause_header_rep,
     clause_arrays_explicit_rep, clause_summaries_explicit_rep,
     installed_rows_capacity_rep.
-  entailer!.
+  cdcl_entailer.
   unfold decision_update in *.
-  entailer!.
+  cdcl_entailer.
   destruct Hdec_update as [Hassign Hmix].
   pose proof (coherent_snapshot_row_wf__decide_commit
     F n live original_count snap j Hcoh ltac:(lia)) as Hrow_wf.
@@ -448,9 +448,9 @@ Proof.
   unfold sat_header_rep, var_header_rep, clause_header_rep,
     clause_arrays_explicit_rep, clause_summaries_explicit_rep,
     installed_rows_capacity_rep.
-  entailer!.
+  cdcl_entailer.
   unfold decision_update in *.
-  entailer!.
+  cdcl_entailer.
   destruct Hdec_update as [Hassign Hmix].
   eapply decision_mixed_dense_absent_step__decide_commit;
     try eassumption; try lia.
@@ -478,7 +478,7 @@ Proof.
     unconstrained_Assignment, solver_arrays_rep, variable_arrays_rep.
   Exists v_data cl_data.
   unfold model_ready, decision_ready.
-  entailer!.
+  cdcl_entailer.
   unfold total_assignment_on, cdcl_view_of_snapshot.
   cbn.
   intros x Hx.
@@ -566,11 +566,11 @@ Proof.
       rewrite Hvalues, Hvalues_eq, Hlevels, Hreasons, Hrows,
         Hstates, Htrue, Hunassigned.
       unfold bcp_ready.
-      entailer!.
+      cdcl_entailer.
       (* The folded invariant spells the clause summaries `full p live`; the
          exit's [solver_state] spells the same assertion `seg p 0 live`. *)
       unfold IntArray.full, IntArray.seg, store_array.
-      entailer!.
+      cdcl_entailer.
 Qed.
 
 Lemma proof_of_cdcl_solver_entail_wit_1 : cdcl_solver_entail_wit_1.
@@ -590,7 +590,7 @@ Proof.
   unfold solver_state, sat_header_rep, var_header_rep, clause_header_rep,
     unconstrained_Assignment, solver_arrays_rep, variable_arrays_rep.
   Exists v_data cl_data.
-  entailer!.
+  cdcl_entailer.
   unfold bcp_ready.
   destruct Hfresh as [Hwf [Hinstalled [_ [_ [Hnone Hnonempty]]]]].
   unfold no_conflict.
@@ -621,7 +621,7 @@ Proof.
   rewrite (IntArray.seg_shape_unfold unassigned current_live_2 cap) by lia.
   Intros old_unassigned.
   sep_apply (installed_rows_capacity_expose row_table current_live_2 cap
-    (snap_rows current_snap_2)); try lia.
+    (snap_rows current_snap_2)); [ idtac | lia ].
   Exists current_live_2 (current_live_2 + 1) learned_row_2
     current_snap_2 bcp_ranks_2 logical_dl_2.
   unfold solver_install_slot_state.
@@ -631,9 +631,9 @@ Proof.
     variable_arrays_rep, slot_at,
     StoreIntAsElement.storeA, StorePtrAsElement.undefstoreA.
   unfold learning_ready_conflict, installing_clause.
-  entailer!.
+  cdcl_entailer.
   replace (current_live_2 + 1 - 1) with current_live_2 by lia.
-  entailer!.
+  cdcl_entailer.
 Qed.
 
 Lemma proof_of_cdcl_solver_entail_wit_5 : cdcl_solver_entail_wit_5.
@@ -684,35 +684,35 @@ Proof.
       [ assumption | ].
     exact (proj2 (proj1 Hexit_cert)).
   }
-  entailer!.
+  cdcl_entailer.
   replace (current_live_2 + 1 - 1) with current_live_2 by lia.
   sep_apply (IntArray.seg_single states current_live_2 1).
   sep_apply
     (IntArray.seg_merge_to_full states 0 current_live_2
-      (current_live_2 + 1)); try lia.
+      (current_live_2 + 1)); [ idtac | lia ].
   replace (states + 0 * sizeof(INT)) with states by lia.
   replace (current_live_2 + 1 - 0) with (current_live_2 + 1) by lia.
   sep_apply (IntArray.seg_single true_counts current_live_2 0).
   sep_apply
     (IntArray.seg_merge_to_full true_counts 0 current_live_2
-      (current_live_2 + 1)); try lia.
+      (current_live_2 + 1)); [ idtac | lia ].
   replace (true_counts + 0 * sizeof(INT)) with true_counts by lia.
   replace (current_live_2 + 1 - 0) with (current_live_2 + 1) by lia.
   sep_apply (IntArray.seg_single unassigned current_live_2 0).
   sep_apply
     (IntArray.seg_merge_to_full unassigned 0 current_live_2
-      (current_live_2 + 1)); try lia.
+      (current_live_2 + 1)); [ idtac | lia ].
   replace (unassigned + 0 * sizeof(INT)) with unassigned by lia.
   replace (current_live_2 + 1 - 0) with (current_live_2 + 1) by lia.
   sep_apply
     (int_ptr_array_full_to_tail_missing__decide_exit_solver_setup
       row_table current_live_2 (snap_rows current_snap_2)
-      new_cl learned_row_2); try lia.
+      new_cl learned_row_2); [ idtac | lia ].
   cancel.
   change ptr_size_Z with 4.
   change (sizeof(PTR)) with 4.
   unfold variable_arrays_rep.
-  entailer!.
+  cdcl_entailer.
 Qed.
 Lemma proof_of_cdcl_solver_entail_wit_6_1 : cdcl_solver_entail_wit_6_1.
 Proof.
@@ -749,7 +749,7 @@ Proof.
   assert (Hcnf_wf : cnf_wf n F).
   { eapply coherent_snapshot_cnf_wf__decide_exit_solver_setup. exact Hcoh. }
   assert (Hunsat : cnf_unsat n F).
-  { eapply entails_empty_cnf_unsat__decide_exit_solver_setup; eauto. }
+  { eapply entails_empty_cnf_unsat; eauto. }
   pose proof Hcoh as Hcoherent_old.
   unfold coherent_snapshot in Hcoherent_old.
   destruct Hcoherent_old as [_ [_ [Hlengths_old _]]].
@@ -782,7 +782,7 @@ Proof.
     row_table current_live_2 (current_live_2 + 1) new_cl
     (snap_rows current_snap_2 ++ learned_row_2 :: nil)
     learned_row_2 n); try lia.
-  entailer!.
+  cdcl_entailer.
   - sep_apply (IntArray.full_to_seg states (current_live_2 + 1)
       (snap_states current_snap_2 +:: 1)).
     sep_apply (IntArray.full_to_seg true_counts (current_live_2 + 1)
@@ -828,6 +828,9 @@ Proof.
     current_live_2 (current_live_2 + 1)) as Hinstall.
   assert (Hrow_len : Zlength learned_row_2 = n)
     by exact (proj1 (proj1 (proj2 (proj2 Hinstall)))).
+  pose proof Hcoh as Hcoh_parts.
+  unfold coherent_snapshot in Hcoh_parts.
+  destruct Hcoh_parts as [_ [_ [Hlens_c [Hcells_c _]]]].
   pose proof
     (installing_clause_rep_row_wf__decide_exit_solver_setup
       F
@@ -888,7 +891,7 @@ Proof.
     row_table current_live_2 (current_live_2 + 1) new_cl
     (snap_rows current_snap_2 ++ learned_row_2 :: nil)
     learned_row_2 n); try lia.
-  entailer!.
+  cdcl_entailer.
   2: { eapply publish_false_learned_clause_record__decide_exit_solver_setup;
        eauto. }
   2: { exact Hrow_lookup. }
@@ -898,14 +901,16 @@ Proof.
     (snap_true_counts current_snap_2 +:: 0)).
   sep_apply (IntArray.full_to_seg unassigned (current_live_2 + 1)
     (snap_unassigned current_snap_2 +:: 0)).
-  entailer!.
+  cdcl_entailer.
   apply derivable1s_truep_intros; [ cancel | ].
   apply derivable1s_coq_prop_r.
   split; [ reflexivity | ].
   split; [ reflexivity | ].
   split; [ reflexivity | ].
   split; [ reflexivity | ].
-  split; [ reflexivity | ].
+  split;
+    [ eapply snapshot_reason_rows_append__decide_exit_solver_setup;
+      [ exact Hlens_c | exact Hcells_c ] | ].
   split; [ reflexivity | ].
   split; [ apply map_app | ].
   split; [ exact Hbatch | ].
@@ -926,6 +931,9 @@ Proof.
   bind_fact (0 < logical_dl_2) as Hdl_pos.
   bind_fact (coherent_snapshot F n current_live_2 original_count
     current_snap_2) as Hcoh.
+  pose proof Hcoh as Hcoh_parts3.
+  unfold coherent_snapshot in Hcoh_parts3.
+  destruct Hcoh_parts3 as [_ [_ [Hlens_c3 [Hcells_c3 _]]]].
   bind_fact (stable_search_facts n current_snap_2 bcp_ranks_3
     logical_dl_2) as Hstable.
   bind_fact (current_learning_exit_cert F
@@ -1007,21 +1015,23 @@ Proof.
     row_table current_live_2 (current_live_2 + 1) new_cl
     (snap_rows current_snap_2 ++ learned_row_2 :: nil)
     learned_row_2 n); try lia.
-  entailer!.
+  cdcl_entailer.
   - sep_apply (IntArray.full_to_seg states (current_live_2 + 1)
       (snap_states current_snap_2 +:: 1)).
     sep_apply (IntArray.full_to_seg true_counts (current_live_2 + 1)
       (snap_true_counts current_snap_2 +:: 0)).
     sep_apply (IntArray.full_to_seg unassigned (current_live_2 + 1)
       (snap_unassigned current_snap_2 +:: 0)).
-    entailer!.
+    cdcl_entailer.
     apply _derivable1_andp_intros; [ cancel | ].
     apply derivable1s_coq_prop_r.
     split; [reflexivity|].
     split; [reflexivity|].
     split; [reflexivity|].
     split; [reflexivity|].
-    split; [reflexivity|].
+    split;
+      [ eapply snapshot_reason_rows_append__decide_exit_solver_setup;
+        [ exact Hlens_c3 | exact Hcells_c3 ] | ].
     split; [reflexivity|].
     split; [apply map_app|].
     split; [exact Hbatch|].
@@ -1042,7 +1052,7 @@ Proof.
   unfold solver_after_bcp_state.
   Intros pre_snap pre_ranks last.
   Exists bcp_ranks current_snap_2 current_live_2 logical_dl_2.
-  entailer!.
+  cdcl_entailer.
   (* [decision_ready] is [propagation_quiescent], which is exactly what
      [bcp_outcome]'s quiescent arm carries; [conflict_cl = -1] kills the
      conflict arm. *)
@@ -1065,7 +1075,7 @@ Proof.
      [decide]'s post, [logical_dl + 1 <= n]. *)
   Exists current_live_2 final_snap final_ranks (logical_dl_2 + 1).
   unfold solver_loop_state.
-  entailer!.
+  cdcl_entailer.
   eapply stable_search_level_bound__solver_analysis_and_returns
     with (F := F) (live := current_live_2)
       (original_count := original_count) (snap := final_snap)
@@ -1096,7 +1106,7 @@ Proof.
   LLM_pre_process ltac:(int_auto).
   unfold slot_at in *.
   sep_apply (store_int_range (&((s_pre) # "sat_data" ->ₛ "cl_size")) slot).
-  Intros. entailer!.
+  Intros. cdcl_entailer.
   (* [INT_MAX] is a literal notation from SimpleC.SL.IntLib; the store's range
      fact is stated with CompCert's [Int.max_signed].  [change] checks the two
      are convertible rather than assuming it, so a target whose int is not 32
@@ -1109,7 +1119,7 @@ Proof.
   LLM_pre_process ltac:(int_auto).
   unfold slot_at in *.
   sep_apply (store_int_range (&((s_pre) # "sat_data" ->ₛ "cl_size")) slot).
-  Intros. entailer!.
+  Intros. cdcl_entailer.
   change Int.max_signed with INT_MAX in H. lia.
 Qed.
 
@@ -1118,7 +1128,7 @@ Proof.
   LLM_pre_process ltac:(int_auto).
   unfold slot_at in *.
   sep_apply (store_int_range (&((s_pre) # "sat_data" ->ₛ "cl_size")) slot).
-  Intros. entailer!.
+  Intros. cdcl_entailer.
   change Int.max_signed with INT_MAX in H. lia.
 Qed.
 
@@ -1127,7 +1137,7 @@ Proof.
   LLM_pre_process ltac:(int_auto).
   unfold slot_at in *.
   sep_apply (store_int_range (&((s_pre) # "sat_data" ->ₛ "cl_size")) slot).
-  Intros. entailer!.
+  Intros. cdcl_entailer.
   change Int.max_signed with INT_MAX in H. lia.
 Qed.
 
@@ -1158,13 +1168,13 @@ Proof.
     unconstrained_Assignment,
     sat_header_rep, var_header_rep, clause_header_rep.
   Exists current_snap logical_dl current_live s_callee_v_data s_callee_cl_data.
-  entailer!.
+  cdcl_entailer.
 Qed.
 
 
-(* ===== cdcl_solver partial_solve pure wits (3 proofs) =====
+(* ===== cdcl_solver partial_solve pure wits (2 proofs) =====
 
-   These three bodies are UNCHANGED.  What moved is the numbering: the whole
+   These two bodies are UNCHANGED.  What moved is the numbering: the whole
    cdcl_solver partial_solve chain shifted up by one because folding the
    contract introduced a new call site, so the statement each body was written
    against is now one index higher.  Verified by byte-comparing the regenerated
@@ -1179,10 +1189,6 @@ Qed.
    already does, at its line 2738) and leave wit_6_pure with no proof at all.
    This is the rename-only class that a name-indexed oracle cannot see. *)
 
-Lemma proof_of_cdcl_solver_partial_solve_wit_12_pure_manual_unused : cdcl_solver_partial_solve_wit_12_pure.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-Qed.
 
 Lemma proof_of_cdcl_solver_partial_solve_wit_4_pure : cdcl_solver_partial_solve_wit_4_pure.
 Proof.
@@ -1197,7 +1203,7 @@ Proof.
   unfold bcp_outcome in Hbcp.
   destruct Hbcp as [[Hquiescent _] | [_ [Hlt [_ Hready]]]].
   { congruence. }
-  entailer!.
+  cdcl_entailer.
 Qed.
 
 
@@ -1210,7 +1216,7 @@ Proof.
   LLM_pre_process ltac:(int_auto).
   unfold solver_installed_row_state.
   Intros pre_snap_2 installed_snap_2 pre_ranks_2 last_2 v_data_2 cl_data_2.
-  entailer!.
+  cdcl_entailer.
   unfold installing_clause in H.
   tauto.
 Qed.
@@ -1230,7 +1236,7 @@ Proof.
   Exists current_live_2 snap1 ranks1 logical_dl_2.
   unfold solver_after_bcp_state.
   Exists pre_snap pre_ranks last.
-  entailer!.
+  cdcl_entailer.
   unfold bcp_outcome.
   right.
   repeat split; assumption.
@@ -1246,7 +1252,7 @@ Proof.
   Exists current_live_2 snap1 ranks1 logical_dl_2.
   unfold solver_after_bcp_state.
   Exists snap1 ranks1 0.
-  entailer!.
+  cdcl_entailer.
   unfold bcp_outcome.
   left.
   split; assumption.
@@ -1279,7 +1285,7 @@ Proof.
     variable_arrays_rep, solver_arrays_rep.
   Intros v_data cl_data.
   Exists v_data cl_data.
-  entailer!.
+  cdcl_entailer.
 Qed.
 
 Lemma proof_of_cdcl_solver_entail_wit_7_1 : cdcl_solver_entail_wit_7_1.
@@ -1298,7 +1304,7 @@ Proof.
   Exists (current_live_2 + 1) snap1 ranks1 back_dl.
   unfold solver_after_bcp_state.
   Exists bpre_snap bpre_ranks blast.
-  entailer!.
+  cdcl_entailer.
   unfold bcp_outcome.
   right.
   repeat split; assumption.
@@ -1317,7 +1323,7 @@ Proof.
   Exists (current_live_2 + 1) snap1 ranks1 back_dl.
   unfold solver_after_bcp_state.
   Exists snap1 ranks1 0.
-  entailer!.
+  cdcl_entailer.
   unfold bcp_outcome.
   left.
   split; assumption.
@@ -1334,7 +1340,7 @@ Proof.
     unconstrained_Assignment, solver_arrays_rep, variable_arrays_rep,
     sat_header_rep, var_header_rep, clause_header_rep.
   Exists current_snap logical_dl new_cl learned_row v_data cl_data.
-  all: entailer!.
+  all: cdcl_entailer.
 Qed.
 
 (* cdcl_solver_return_wit_4: the block-6 fold shifted the return witnesses down one;
@@ -1358,7 +1364,7 @@ Proof.
     solver_arrays_rep, variable_arrays_rep,
     sat_header_rep, var_header_rep, clause_header_rep.
   Exists current_snap 0 current_live v_data cl_data.
-  entailer!.
+  cdcl_entailer.
   eapply root_conflict_implies_cnf_unsat__solver_analysis_and_returns
     with (F := F) (n := n) (live := current_live)
       (original_count := original_count) (snap := current_snap)
@@ -1383,7 +1389,7 @@ Proof.
     | Hterm : unsat_terminal _ _ |- _ => destruct Hterm as [[Hlevel _] | Hentails]
     end.
     - cbn in Hlevel. lia.
-    - eapply entails_empty_cnf_unsat__decide_exit_solver_setup; [ | exact Hentails ].
+    - eapply entails_empty_cnf_unsat; [ | exact Hentails ].
       match goal with
       | Hc : coherent_snapshot _ _ _ _ _ |- _ =>
           eapply coherent_snapshot_cnf_wf__decide_exit_solver_setup; exact Hc
@@ -1392,6 +1398,6 @@ Proof.
          variable_arrays_rep, solver_arrays_rep, sat_header_rep,
          var_header_rep, clause_header_rep, installed_rows_capacity_rep.
   Exists installed_snap back_dl (current_live + 1) v_data cl_data.
-  entailer!.
+  cdcl_entailer.
 Qed.
 

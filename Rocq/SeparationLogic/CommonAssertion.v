@@ -1269,6 +1269,17 @@ Ltac sepcon_assoc_change :=
     | |- context [ ?P ** ?Q ** ?R ] => rewrite <- (logic_equiv_sepcon_assoc P Q R)
   end.
 
+(* Hypothesis-directed counterpart of sepcon_assoc_change.  QCP emits a
+   split-goal lemma's conclusion flat, so it elaborates left-nested, while the
+   parent verification-condition goal is right-nested.  The two are equal only
+   up to associativity, so `exact` fails and Goal_apply_finish falls through to
+   a full sep_apply re-association on every call.  Normalising the hypothesis
+   first lets `exact` succeed. *)
+Ltac sepcon_assoc_change_in H :=
+  repeat progress match type of H with
+    | context [ ?P ** ?Q ** ?R ] => rewrite <- (logic_equiv_sepcon_assoc P Q R) in H
+  end.
+
 Ltac coq_prop_lift :=
   repeat progress match goal with 
   | |- context [ (“ ?P ” && ?Q) ** ?R ] => rewrite (logic_equiv_coq_prop_andp_sepcon P Q R)
@@ -2160,7 +2171,9 @@ Ltac Goal_apply_finish H :=
   pose proof H as H_inst;
   repeat rewrite truep_andp_left_equiv in H_inst;
   repeat rewrite truep_andp_right_equiv in H_inst;
-  first [ exact H_inst | sep_apply H_inst; entailer! ].
+  first [ exact H_inst
+        | (sepcon_assoc_change_in H_inst; exact H_inst)
+        | sep_apply H_inst; entailer! ].
 
 Ltac Goal_apply_used H used :=
   lazymatch type of H with

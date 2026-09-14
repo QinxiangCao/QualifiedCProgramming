@@ -1,6 +1,6 @@
 ---
 name: final-check
-description: main agent 在 final-apply 写回 accepted proving_merged 后使用；确认 main root 的生成文件、manual、formal_case_lib、版本、合并结果与清理结果一致。
+description: main agent 在 final-apply 写回 accepted proving_merged 后使用；确认 main root 的生成文件、manual、formal_case_lib、annotation backup、合并结果与清理结果一致。
 ---
 
 # 最终检查

@@ -62,6 +62,53 @@ Class addEdgeExist (G V E: Type) {pg: Graph G V E} {gv: GValid G} := {
     exists h, gvalid h /\ addEdge h g u v e /\ (vvalid h u /\ vvalid h v /\ ~ evalid h e);
 }.
 
+Class addEdgeInSubgraph (G V E: Type) {pg: Graph G V E} {gv: GValid G} := {
+  add_original_edge_in_subgraph:
+    forall (g s: G) (u v: V) (e: E),
+      gvalid g ->
+      gvalid s ->
+      subgraph2 s g ->
+      step_aux g e u v ->
+      vvalid s u ->
+      vvalid s v ->
+      ~ evalid s e ->
+      exists s',
+        gvalid s' /\
+        addEdge s s' u v e /\
+        subgraph2 s' g;
+
+  add_cut_edge_in_subgraph:
+    forall (g s: G) (u v: V) (e: E),
+      gvalid g ->
+      gvalid s ->
+      subgraph2 s g ->
+      step_aux g e u v ->
+      vvalid s u ->
+      ~ vvalid s v ->
+      ~ evalid s e ->
+      exists s',
+        gvalid s' /\
+        addEdge s s' u v e /\
+        subgraph2 s' g;
+
+  remove_edge_in_subgraph:
+    forall (g h: G) (u v: V) (e: E),
+      gvalid g ->
+      gvalid h ->
+      subgraph2 h g ->
+      vvalid h u ->
+      vvalid h v ->
+      evalid h e ->
+      step_aux h e u v ->
+      exists s,
+        gvalid s /\
+        addEdge s h u v e /\
+        subgraph2 s g /\
+        vvalid s u /\
+        vvalid s v /\
+        ~ evalid s e;
+}.
+
 Class addEdgeGValid (G V E: Type) {pg: Graph G V E} {gv: GValid G} := {
   addEdge_gvalid: forall g h u v e,
     gvalid g ->

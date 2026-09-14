@@ -26,7 +26,7 @@
       (ZSimpleGraph::vertex_valid : G -> Z -> Prop)
       (ZSimpleGraph::visited_values :
         G -> list Z -> (Z -> Prop) -> Prop)
-      (DFSAdjacencyList::graph_rep :
+      (DFSAdjacencyList::store_graph :
         Z -> G -> list Z -> list (list Z) -> list (list Z) -> Assertion)
       (DFSAdjacencyList::graph_except :
         Z -> G -> list Z -> list (list Z) -> list (list Z) -> Z -> Assertion)
@@ -81,7 +81,7 @@ void dfs_adjacency_list(struct list **adjacency, int vertex_count,
       ZSimpleGraph::vertex_valid(g, vertex) &&
       safeExec(eq(visited_set),
         bind(DFSAdjacencyList::dfs_program(g, vertex), c), X) &&
-      DFSAdjacencyList::graph_rep(
+      DFSAdjacencyList::store_graph(
         adjacency, g, row_ptrs, node_addrs, rows) *
       DFSAdjacencyList::visited(visited, g, visited_set)
     Ensure
@@ -90,7 +90,7 @@ void dfs_adjacency_list(struct list **adjacency, int vertex_count,
           visited_set, bind_visited_set) &&
         bind_visited_set(vertex) &&
         safeExec(eq(bind_visited_set), applyf(c, tt), X) &&
-        DFSAdjacencyList::graph_rep(
+        DFSAdjacencyList::store_graph(
           adjacency, g, row_ptrs, node_addrs, rows) *
         DFSAdjacencyList::visited(visited, g, bind_visited_set)
  */
@@ -108,7 +108,7 @@ void dfs_adjacency_list(struct list **adjacency, int vertex_count,
       ZSimpleGraph::vertex_valid(g, vertex) &&
       safeExec(eq(visited_set),
         DFSAdjacencyList::dfs_program(g, vertex), X) &&
-      DFSAdjacencyList::graph_rep(
+      DFSAdjacencyList::store_graph(
         adjacency, g, row_ptrs, node_addrs, rows) *
       DFSAdjacencyList::visited(visited, g, visited_set)
     Ensure
@@ -117,7 +117,7 @@ void dfs_adjacency_list(struct list **adjacency, int vertex_count,
           visited_set, low_visited_set) &&
         low_visited_set(vertex) &&
         safeExec(eq(low_visited_set), return(tt), X) &&
-        DFSAdjacencyList::graph_rep(
+        DFSAdjacencyList::store_graph(
           adjacency, g, row_ptrs, node_addrs, rows) *
         DFSAdjacencyList::visited(visited, g, low_visited_set)
  */
@@ -134,7 +134,7 @@ void dfs_adjacency_list(struct list **adjacency, int vertex_count,
             safeExec(eq(visited_set),
               DFSAdjacencyList::dfs_program(g, vertex), X) &&
             ZSimpleGraph::visited_values(g, values, visited_set) &&
-            DFSAdjacencyList::graph_rep(
+            DFSAdjacencyList::store_graph(
               adjacency, g, row_ptrs, node_addrs, rows) *
             IntArray::full(visited, vertex_count, values)
      */
@@ -155,7 +155,7 @@ void dfs_adjacency_list(struct list **adjacency, int vertex_count,
             safeExec(eq(entered_set),
               DFSAdjacencyList::dfs_loop(g, vertex), X) &&
             ZSimpleGraph::visited_values(g, entered_values, entered_set) &&
-            DFSAdjacencyList::graph_rep(
+            DFSAdjacencyList::store_graph(
               adjacency, g, row_ptrs, node_addrs, rows) *
             IntArray::full(visited, vertex_count, entered_values)
      */
@@ -347,7 +347,7 @@ void dfs_adjacency_list(struct list **adjacency, int vertex_count,
                       bind(DFSAdjacencyList::dfs_program(g, neighbor),
                         DFSAdjacencyList::dfs_continue(g, vertex)), X) &&
                     edge == edge_value &&
-                    DFSAdjacencyList::graph_rep(
+                    DFSAdjacencyList::store_graph(
                       adjacency, g, row_ptrs, node_addrs, rows) *
                     DFSAdjacencyList::visited(
                       visited, g, call_set)
@@ -466,7 +466,7 @@ void dfs_adjacency_list(struct list **adjacency, int vertex_count,
             visited_set_out(vertex@pre) &&
             safeExec(eq(visited_set_out), return(tt), X) &&
             edge == 0 &&
-            DFSAdjacencyList::graph_rep(
+            DFSAdjacencyList::store_graph(
               adjacency, g, row_ptrs, node_addrs, rows) *
             DFSAdjacencyList::visited(visited, g, visited_set_out)
      */

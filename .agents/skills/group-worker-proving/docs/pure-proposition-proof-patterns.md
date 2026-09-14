@@ -2,7 +2,7 @@
 
 本指南用于 group-worker 证明工作。annotation 使用 `increasing`、`decreasing`、边界、`sum`，或封装 `MaxMinLib` / `SumLib` 的 case 谓词时，应让 annotation 保持语义化，并在 group 证明中桥接到便于证明的形式。
 
-不要把面向证明的形式反推回 C annotation。缺少桥接 lemma 时，先查看 handoff 中的 public-helper 目录；若其中存在适用的 exact sealed candidate 就复制它，否则在 `group_worker_lib` 中添加并证明带当前 group 后缀的 helper。
+不要把面向证明的形式反推回 C annotation。缺少桥接 lemma 时，先按 lemma/predicate 名搜索 handoff 中的 public-helper 目录，只读取匹配 candidate；存在适用的 exact sealed candidate 就复制它，否则在 `group_worker_lib` 中添加并证明带当前 group 后缀的 helper。
 
 ## 顺序谓词
 
@@ -90,7 +90,7 @@ CannotSplit l m cap
 - 可行性给出最优值的上界，例如 `CanSplit l m mid -> MinimizedMaxSegmentSum l m ans -> ans <= mid`；
 - 不可行性给出最优值的下界，例如 `CannotSplit l m mid -> MinimizedMaxSegmentSum l m ans -> mid < ans`。
 
-新增或改写的形式应作为带当前 helper 后缀的 group-local helper 来证明。exact sealed public/reuse helper 可以保留其来源后缀。不要把 helper 留在正式 `*_proof_manual.v` 中，也绝不能直接 import 非 active public 目录。
+新增或改写的形式应作为带当前 helper 后缀的 group-local helper 来证明。frozen public helper 在 declaration/proof token 完全一致时可以保留来源后缀。不要把 helper 留在正式 `*_proof_manual.v` 中，也绝不能直接 import 非 active public 目录。
 
 ## 交接规则
 

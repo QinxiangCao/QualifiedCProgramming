@@ -13,6 +13,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from controller_dune import _preparation_action
 from controller_invocations import (
     hydrate_actions,
     hydrate_waiting_deliveries,
@@ -21,41 +22,31 @@ from controller_state import (
     GENERATED_KEYS,
     _append_event,
     _archive_annotation_stage,
-    _current_version_errors,
+    _current_files_errors,
     _file_digest,
     _formal_case_lib_is_active,
-    _generated_artifact_module_spellings_for_state,
     _json_load,
     _load_state,
+    _manual_obligations,
+    _proof_manual_sha256,
     _run_root_from_id,
     _save_state,
-    _source_version_for_state,
     _utc,
     _validated_annotation_attempt_paths,
     _validated_proving_attempt_paths,
-    _verified_reuse_source_build,
 )
-from controller_dune import _preparation_action
 from coq_tooling import dune_preparation_receipt_errors
 from path_utils import (
     annotation_attempt_directory_name,
     annotation_attempt_report_root,
     annotation_history_root,
     fixed_path_under,
-    reuse_source_build_workspace,
     round_report_root,
-    vc_checking_debug_script,
     write_json,
     write_text,
 )
 from prepare_group_workers import resolve_group_workers_manifest
-from proof_manual_utils import (
-    lemma_by_name,
-    lemma_target_symbol,
-    parse_manual_file,
-)
-from symexec_tooling import _lexical_regular_file_snapshot, _snapshot_text
-from verify_group_results import validate_group_for_acceptance_result
+from symexec_tooling import _lexical_regular_file_snapshot
 
 DEFAULT_MAX_PARALLEL_GROUP_WORKERS = 5
 VC_PROVING_PHASE = "vc-proving-preparing"
@@ -65,33 +56,28 @@ ANNOTATION_GAP_FAILURE_CLASS = "annotation-gap"
 FORMAL_ARTIFACT_ROLES = ("proof_manual", "group_worker_lib")
 NOTES_ARTIFACT_ROLE = "output"
 GROUP_NOTES_FILENAME = "group_worker_output.md"
-ANNOTATION_CAUSAL_FAILURE_CLASSES = frozenset(
-    {ANNOTATION_GAP_FAILURE_CLASS, "specification-gap", "dependency-gap"}
+GROUP_VC_CHECKING_FAILURE_CLASSES = frozenset(
+    {"plan-defect"}
 )
 VC_CHECKING_BLOCKER_RETRY_PHASES = {
     ANNOTATION_GAP_FAILURE_CLASS: "annotation",
     "specification-gap": "annotation",
     "dependency-gap": "annotation",
-    "source-version": "annotation",
     "plan-defect": "vc-checking",
     "report-defect": "vc-checking",
     "infrastructure": "vc-checking",
 }
-MAIN_SUMMARY_MARKER = "<!-- MAIN_AGENT:"
-ANNOTATION_SUMMARY_HEADINGS = (
-    "Main-agent blocker conclusion",
-    "Evidence and causal analysis",
-    "Reflection on the previous annotation attempt",
-    "Required annotation repair",
-    "Scope decision",
-)
 
 
-def _consider_broader_refactor(attempt: dict[str, Any]) -> bool:
-    """Require redesign review only after two consecutive annotation causes."""
-
-    count = attempt.get("annotation_causal_retry_count", 0)
-    return isinstance(count, int) and not isinstance(count, bool) and count >= 2
+def _annotation_plan_template() -> dict[str, Any]:
+    return {
+        "version": 2,
+        "status": "planning",
+        "function_specs": [],
+        "loop_invariants": [],
+        "new_predicates": [],
+        "vc_comparisons": [],
+    }
 
 
 def _round_paths(report_root: Path, round_id: str) -> dict[str, Path]:
@@ -107,7 +93,6 @@ def _round_paths(report_root: Path, round_id: str) -> dict[str, Path]:
         "report": directory / "agent_report.json",
         "output": directory / "agent_output.md",
         "group_plan": directory / "group_plan.json",
-        "reuse_hints": directory / "reuse_hints",
     }
 
 
@@ -118,8 +103,8 @@ def _annotation_paths(run_root: Path, annotation_iteration: int) -> dict[str, Pa
         "input": directory / "agent_input.md",
         "report": directory / "agent_report.json",
         "output": directory / "agent_output.md",
+        "plan": directory / "annotation_plan.json",
         "group_plan": directory / "group_plan.json",
-        "reuse_hints": directory / "reuse_hints",
     }
 
 
@@ -134,7 +119,7 @@ def _spawn_message(input_path: Path, report_path: Path) -> str:
 def _annotation_spawn_message(action: dict[str, Any]) -> str:
     return (
         f"Spawn the run's only annotation agent and retain its target as session {action['session_id']}. "
-        f"Tell it to read {action['input']} completely, including both annotation skills and the relevant "
+        f"Tell it to read {action['input']} completely, including annotation-designing and the relevant "
         f"examples selected there, then write the terminal result to {action['report']}. "
         "Do not close or replace this agent after it returns; controller acceptance is separate."
     )
@@ -146,22 +131,14 @@ def _annotation_append_message(action: dict[str, Any]) -> str:
         for item in action.get("feedback_sources", [])
         for path in item.get("evidence", [])
     )
-    broader = (
-        " This is a repeated repair: explicitly consider redesigning the mathematical spec, function contracts, "
-        "and invariants together instead of applying another local patch."
-        if action.get("consider_broader_refactor")
-        else ""
-    )
     return (
         f"Append this task to the existing annotation agent session {action['session_id']}; do not spawn a new agent. "
-        f"Before editing, reload .agents/skills/annotation-filling/SKILL.md and "
-        f".agents/skills/annotation-checking/SKILL.md completely, then read the main-agent blocker summary and "
+        f"Before editing, reload .agents/skills/annotation-designing/SKILL.md completely, then read the controller handoff and "
         f"repair handoff {action['input']} plus its original blocker evidence ({feedback}). "
         "Revise the current main-root formal C annotation and edit the case lib "
         "only when the handoff marks that existing path writable, "
-        f"use the controller checks as needed for feedback, complete the semantic review, "
+        f"use the controller checks as needed for feedback, compare every failed VC after symexec, "
         f"and write the terminal result to {action['report']}."
-        + broader
     )
 
 
@@ -174,10 +151,8 @@ def _rules_source(phase: str) -> list[str]:
     if phase == "annotation":
         result.extend(
             [
-                ".agents/skills/annotation-filling/SKILL.md",
-                ".agents/skills/annotation-filling/workflows/annotation-filling.md",
-                ".agents/skills/annotation-checking/SKILL.md",
-                ".agents/skills/annotation-checking/workflows/annotation-checking.md",
+                ".agents/skills/annotation-designing/SKILL.md",
+                ".agents/skills/annotation-designing/workflows/annotation-designing.md",
             ]
         )
     else:
@@ -258,6 +233,18 @@ def _vc_decision_summary_skeleton() -> str:
 - Groups: 0
 - Expected critical path: pending
 
+## Structural Blocker Scan
+
+- Status: pending
+- Top-level VCs scanned: 0
+- No-split VCs checked first: 0
+- Definite blockers: 0
+
+## Annotation Comparison Review
+
+| Source VC | Current / Related VCs | Premise sources | Independent assessment | Risk |
+|---|---|---|---|---|
+
 ## Proof-Mode Decisions
 
 | VC | Mode | Reason |
@@ -291,235 +278,18 @@ def _format_list(items: list[str], *, empty: str = "none") -> str:
     return "\n".join(f"- `{item}`" for item in items) if items else f"- {empty}"
 
 
-def _fully_qualified_debug_targets(
-    state: dict[str, Any],
-    manual_path: Path,
-    names: list[str],
-    *,
-    manual_text: str | None = None,
-) -> dict[str, str]:
-    try:
-        _prelude, manual_lemmas = parse_manual_file(
-            manual_text
-            if manual_text is not None
-            else manual_path.read_text(encoding="utf-8")
-        )
-    except (OSError, ValueError) as exc:
-        raise SystemExit(
-            f"cannot render fully-qualified VC debug targets from {manual_path}: {exc}"
-        ) from exc
-    manual_by_name = lemma_by_name(manual_lemmas)
-    target = state["target_files"]
-    result: dict[str, str] = {}
-    for name in names:
-        lemma = manual_by_name.get(name)
-        symbol = lemma_target_symbol(lemma) if lemma is not None else None
-        if symbol is None:
-            raise SystemExit(
-                f"generated manual goal has no simple fully-qualified debug target: {name}"
-            )
-        result[name] = (
-            f"{target['active_case_theory']}.{target['case_name']}_goal.{symbol}"
-        )
-    return result
+def _previous_vc_proving_round(state: dict[str, Any]) -> str | None:
+    """Return the immediately preceding proving round recorded by the controller."""
 
-
-def _sealed_group_digest(
-    attempt: dict[str, Any], group: dict[str, Any], artifact: str
-) -> str:
-    """Return the controller-recorded digest for one reusable group artifact."""
-
-    group_id = str(group.get("id") or "")
-    reuse_record = attempt.get("reuse_group_artifacts")
-    reuse_groups = (
-        reuse_record.get("groups") if isinstance(reuse_record, dict) else None
-    )
-    if isinstance(reuse_groups, dict):
-        group_record = reuse_groups.get(group_id)
-        if isinstance(group_record, dict) and group_record.get(artifact):
-            return str(group_record[artifact])
-    accepted = (
-        attempt.get("groups", {}).get(group_id, {}).get("accepted_artifact_sha256")
-    )
-    if isinstance(accepted, dict) and accepted.get(artifact):
-        return str(accepted[artifact])
-    raise ValueError(
-        f"proof reuse source `{group_id}` has no sealed {artifact} digest"
-    )
-
-
-def _latest_reusable_vc_proving_round(state: dict[str, Any]) -> str | None:
-    """Return the immediately preceding sealed proving source eligible for hints."""
-
-    proving_attempts = [
-        item
-        for item in state.get("attempts", {}).values()
-        if item.get("phase") == VC_PROVING_PHASE
-    ]
-    if not proving_attempts:
-        return None
-    attempt = proving_attempts[-1]
-    try:
-        attempt_paths = _validated_proving_attempt_paths(state, attempt)
-    except (OSError, ValueError):
-        return None
-    manifest_path = attempt_paths["group_workers_manifest"]
-    base_path = attempt_paths["base_manifest"]
-    if (
-        not manifest_path.is_file()
-        or not base_path.is_file()
-        or _file_digest(manifest_path)
-        != str(attempt.get("group_workers_manifest_sha256") or "")
-        or _file_digest(base_path) != str(attempt.get("base_manifest_sha256") or "")
-    ):
-        return None
-    try:
-        reuse_seed_root = _validated_reuse_raw_root(state, attempt)
-        manifest = resolve_group_workers_manifest(
-            manifest_path,
-            main_root=Path(str(state["main_root"])),
-            seed_root=reuse_seed_root,
-            expected_run_root=Path(str(state["run_root"])),
-            expected_round=str(attempt["round"]),
-        )
-    except (OSError, TypeError, ValueError, SystemExit):
-        return None
-    groups = (
-        manifest.get("groups")
-        if isinstance(manifest, dict) and isinstance(manifest.get("groups"), list)
-        else []
-    )
-    if not groups or any(
-        isinstance(group_state, dict)
-        and group_state.get("status") in {"running", "returned", "repair-prepared"}
-        for group_state in attempt.get("groups", {}).values()
-    ):
-        return None
-    if not (
-        _reuse_group_artifacts_are_sealed(attempt, groups)
-        or _accepted_group_artifacts_are_sealed(attempt, groups)
-    ):
-        return None
-    snapshot = attempt.get("reuse_source_snapshot")
-    if not isinstance(snapshot, dict):
-        return None
-    if not isinstance(state.get("main_root"), str) or not isinstance(
-        state.get("target_files", {}).get("proof_auto_file"), str
-    ):
-        return None
-    try:
-        _verified_reuse_source_build(
-            main_root=Path(str(state["main_root"])),
-            run_root=Path(str(state["run_root"])),
-            round_id=str(attempt["round"]),
-            sealed=snapshot,
-            source_goal_version=str(attempt.get("source_goal_version") or ""),
-        )
-    except (OSError, ValueError):
-        return None
-    try:
-        _sealed_reuse_raw_artifacts(state, attempt)
-    except (OSError, TypeError, ValueError):
-        return None
-    try:
-        _sealed_public_helper_snapshot(state, attempt, manifest)
-    except (OSError, TypeError, UnicodeError, ValueError):
-        return None
-    if attempt.get("failure_status") == "parent-verify-failed":
-        result_path = Path(str(attempt.get("proving_merged_result") or ""))
-        expected_result = str(attempt.get("failed_result_sha256") or "")
+    for attempt_id in reversed(state["attempts"]):
+        attempt = state["attempts"][attempt_id]
         if (
-            attempt.get("failure_source_goal_version")
-            == attempt.get("source_goal_version")
-            and result_path.is_file()
-            and expected_result
-            and _file_digest(result_path) == expected_result
-        ):
-            return str(attempt["round"])
-        return None
-    # A structurally invalid report is not a trustworthy provenance source;
-    # binding the next vc-checking round to it would create a retry dead end.
-    failure_statuses = {"blocked", "compact-error-retry-exhausted"}
-    if any(
-        isinstance(group, dict) and group.get("status") in failure_statuses
-        for group in attempt.get("groups", {}).values()
-    ):
-        record = attempt.get("reuse_group_artifacts")
-        valid_groups = (
-            record.get("structurally_valid_groups")
-            if isinstance(record, dict)
-            else None
-        )
-        if not isinstance(valid_groups, list) or not valid_groups:
-            return None
-        return str(attempt["round"])
-    if (
-        attempt.get("status") == "stale"
-        and attempt.get("proof_reuse_eligible") is True
-        and attempt.get("stale_from_status") == "verified"
-    ):
-        result_path = Path(str(attempt.get("proving_merged_result") or ""))
-        expected_result = str(attempt.get("verified_result_sha256") or "")
-        result = _json_load(result_path, {})
-        if (
-            result_path.is_file()
-            and expected_result
-            and _file_digest(result_path) == expected_result
-            and isinstance(result, dict)
-            and result.get("status") == "passed"
-            and result.get("source_goal_version") == attempt.get("source_goal_version")
+            isinstance(attempt, dict)
+            and attempt.get("phase") == VC_PROVING_PHASE
+            and isinstance(attempt.get("round"), str)
         ):
             return str(attempt["round"])
     return None
-
-
-def _validated_reuse_raw_root(
-    state: dict[str, Any],
-    attempt: dict[str, Any],
-) -> Path:
-    """Return the controller-owned lexical root for a sealed reuse snapshot."""
-
-    raw_source = attempt.get("reuse_source_raw")
-    if not isinstance(raw_source, dict):
-        raise TypeError("proof reuse source lacks a sealed raw formal snapshot")
-    raw_root_value = raw_source.get("root")
-    if not isinstance(raw_root_value, str) or not raw_root_value:
-        raise ValueError("proof reuse raw formal snapshot root is invalid")
-    round_id = attempt.get("round")
-    if not isinstance(round_id, str) or not round_id:
-        raise ValueError("proof reuse source round identity is invalid")
-
-    run_root = Path(str(state["run_root"]))
-    try:
-        expected_root = fixed_path_under(
-            run_root / round_id / "reuse_source_raw",
-            run_root,
-            label="proof reuse raw formal snapshot root",
-        )
-    except SystemExit as exc:
-        raise ValueError(str(exc)) from exc
-
-    recorded_root = Path(raw_root_value).expanduser()
-    normalized_root = Path(os.path.abspath(os.fspath(recorded_root)))
-    if (
-        not recorded_root.is_absolute()
-        or recorded_root != normalized_root
-        or normalized_root != expected_root
-    ):
-        raise ValueError(
-            "proof reuse raw formal snapshot root differs from its fixed round topology"
-        )
-    try:
-        fixed_root = fixed_path_under(
-            normalized_root,
-            run_root,
-            label="proof reuse raw formal snapshot root",
-        )
-    except SystemExit as exc:
-        raise ValueError(str(exc)) from exc
-    if not fixed_root.is_dir():
-        raise ValueError("proof reuse raw formal snapshot root is not a directory")
-    return fixed_root
 
 
 def _stable_fixed_file_snapshot(
@@ -552,334 +322,6 @@ def _stable_fixed_file_snapshot(
     return snapshot
 
 
-def _sealed_public_helper_snapshot(
-    state: dict[str, Any],
-    attempt: dict[str, Any],
-    manifest: dict[str, Any],
-) -> dict[str, Any]:
-    """Read the exact round-local public-helper snapshot and verify its seal."""
-
-    round_id = str(attempt.get("round") or "")
-    if not round_id:
-        raise ValueError("proof reuse source round identity is missing")
-    owner = Path(str(state["run_root"])) / round_id
-    expected_path = owner / "public_helper_snapshot.txt"
-    raw_path = manifest.get("public_helper_lemma_lib")
-    if not isinstance(raw_path, str) or Path(raw_path) != expected_path:
-        raise ValueError(
-            "proof reuse public helper snapshot differs from its fixed round path"
-        )
-    snapshot = _stable_fixed_file_snapshot(
-        expected_path,
-        owner=owner,
-        label="proof reuse public helper snapshot",
-    )
-    expected_sha256 = manifest.get("public_helper_lemma_lib_sha256")
-    if snapshot.get("sha256") != expected_sha256:
-        raise ValueError("sealed public helper snapshot changed")
-    return snapshot
-
-
-def _sealed_reuse_raw_artifacts(
-    state: dict[str, Any],
-    attempt: dict[str, Any],
-) -> dict[str, dict[str, Any]]:
-    """Validate nullable raw reuse artifacts against the sealed base topology."""
-
-    raw_source = attempt.get("reuse_source_raw")
-    if not isinstance(raw_source, dict):
-        raise TypeError("proof reuse source lacks a sealed raw formal snapshot")
-    raw_root = _validated_reuse_raw_root(state, attempt)
-    raw_files = raw_source.get("files")
-    expected_keys = {"goal_file", "proof_manual_file", "formal_case_lib"}
-    if not isinstance(raw_files, dict) or set(raw_files) != expected_keys:
-        raise ValueError("proof reuse raw formal snapshot record is invalid")
-
-    base_path = Path(str(attempt.get("base_manifest") or ""))
-    base = _json_load(base_path, {})
-    seed = base.get("seed_sha256") if isinstance(base, dict) else None
-    if (
-        not isinstance(seed, dict)
-        or set(seed) != {"proof_manual", "formal_case_lib"}
-        or base.get("proof_manual") != state["target_files"]["proof_manual_file"]
-        or base.get("formal_case_lib") != state["target_files"]["formal_case_lib"]
-    ):
-        raise ValueError("proof reuse base manifest topology is invalid")
-    expected_optional = {
-        "proof_manual_file": seed.get("proof_manual"),
-        "formal_case_lib": seed.get("formal_case_lib"),
-    }
-    records: dict[str, dict[str, Any]] = {}
-    for key in ("goal_file", "proof_manual_file", "formal_case_lib"):
-        digest = raw_files.get(key)
-        if key in expected_optional and digest != expected_optional[key]:
-            raise ValueError(
-                f"proof reuse raw formal snapshot topology differs from base: {key}"
-            )
-        if digest is not None and (
-            not isinstance(digest, str) or re.fullmatch(r"[0-9a-f]{64}", digest) is None
-        ):
-            raise ValueError(f"proof reuse raw formal snapshot digest is invalid: {key}")
-        if key == "goal_file" and digest is None:
-            raise ValueError("proof reuse raw generated goal record is null")
-        relative_value = state["target_files"].get(key)
-        if not isinstance(relative_value, str) or not relative_value:
-            raise ValueError(
-                f"proof reuse raw formal artifact identity is invalid: {key}"
-            )
-        relative = Path(relative_value)
-        if (
-            relative.is_absolute()
-            or ".." in relative.parts
-            or os.fspath(relative) != relative_value
-        ):
-            raise ValueError(
-                f"proof reuse raw formal artifact identity is not canonical: {key}"
-            )
-        try:
-            path = fixed_path_under(
-                raw_root / relative,
-                raw_root,
-                label=f"proof reuse raw formal artifact {key}",
-            )
-        except SystemExit as exc:
-            raise ValueError(str(exc)) from exc
-        if digest is None:
-            if os.path.lexists(path):
-                raise ValueError(
-                    f"absent proof reuse raw formal artifact appeared: {key}"
-                )
-        else:
-            snapshot = _stable_fixed_file_snapshot(
-                path,
-                owner=raw_root,
-                label=f"proof reuse raw formal artifact {key}",
-            )
-            if snapshot.get("sha256") != digest:
-                raise ValueError(f"proof reuse raw formal snapshot changed: {key}")
-        records[key] = {
-            "path": path,
-            "sha256": digest,
-            **(
-                {"data": snapshot["data"]}
-                if digest is not None
-                else {}
-            ),
-        }
-    return records
-
-
-def _proof_reuse_handoff(
-    state: dict[str, Any],
-    *,
-    round_id: str,
-    paths: dict[str, Path],
-    previous_round: str | None,
-) -> str:
-    current_debug = _controller_command(state, "coq-debug", "--round", round_id)
-    current_script = vc_checking_debug_script(
-        Path(str(state["run_root"])),
-        round_id,
-    )
-    current = f"""## Proof-state inspection
-
-- Current debug script: `{current_script}`
-- Current debug command: `{current_debug}`
-
-The `.coq_debug` directory may contain only that declared script. Before a goal block, the script may contain only
-imports, scope openings, and `Set Printing All.`. Inspect every listed target with this exact command shape:
-
-```coq
-Goal <fully-qualified-target>.
-Show.
-(* optional proof tactics and additional Show. commands *)
-Abort.
-```
-
-The fully-qualified target must be copied from the current targets in `VC checking inputs` or, for the preserved
-previous build, from the `Previous comparison target` list below. The first executable command after `Goal` must be
-`Show.` so it binds the original generated goal. Definitions, declarations, `Load`, command wrappers, and attributes
-are forbidden. Run the exact controller command after writing the final script. Current and preserved debug use the
-same controller-owned load-path plan: only current-case closure files live in the sealed build, while fixed dependency
-`.vo` files are read from the selected sealed base (Dune `_build/default` or Makefile main-root artifacts) and are not
-copied into the local build tree. Their accepted snapshot digest is bound into the combined build seal; those files do
-not increase the local build file count.
-"""
-    if previous_round is None:
-        return (
-            current
-            + """
-
-## Proof reuse
-
-There is no immediately preceding sealed vc-proving source eligible for comparison. Skip proof-reuse comparison and do not create reuse-hint files.
-"""
-        )
-    previous = state.get("attempts", {}).get(previous_round, {})
-    try:
-        previous_paths = _validated_proving_attempt_paths(state, previous)
-    except (OSError, ValueError) as exc:
-        raise SystemExit(f"proof reuse source path topology is invalid: {exc}") from exc
-    manifest_path = previous_paths["group_workers_manifest"]
-    try:
-        reuse_seed_root = _validated_reuse_raw_root(state, previous)
-    except (OSError, TypeError, ValueError) as exc:
-        raise SystemExit(f"proof reuse source seed is invalid: {exc}") from exc
-    manifest = resolve_group_workers_manifest(
-        manifest_path,
-        main_root=Path(str(state["main_root"])),
-        seed_root=reuse_seed_root,
-        expected_run_root=Path(str(state["run_root"])),
-        expected_round=str(previous["round"]),
-    )
-    reference_script = (
-        reuse_source_build_workspace(Path(str(state["run_root"])), previous_round)
-        / ".coq_debug"
-        / "reuse-source.v"
-    )
-    reference_debug = _controller_command(state, "coq-debug", "--round", previous_round)
-    groups: list[str] = []
-    try:
-        _sealed_public_helper_snapshot(state, previous, manifest)
-    except (OSError, UnicodeDecodeError, ValueError) as exc:
-        raise SystemExit(
-            f"proof reuse public helper candidate pool is invalid: {exc}"
-        ) from exc
-    reusable_group_ids = _reusable_group_ids(previous, manifest)
-    for group in manifest.get("groups", []) if isinstance(manifest, dict) else []:
-        if not isinstance(group, dict):
-            continue
-        if str(group.get("id") or "") not in reusable_group_ids:
-            continue
-        witnesses = [
-            item for item in group.get("witnesses", []) if isinstance(item, dict)
-        ]
-        routes = ", ".join(
-            f"{item.get('name')}={item.get('proof_mode')}" for item in witnesses
-        )
-        report_directory = Path(str(group.get("report_directory") or ""))
-        group_directory = Path(str(group.get("directory") or ""))
-        manual_path = Path(str(group.get("proof_manual") or ""))
-        comparison_names: list[str] = []
-        for witness in witnesses:
-            mode = str(witness.get("proof_mode") or "")
-            if mode == "aggressive_pre_process":
-                comparison_names.extend(
-                    str(split.get("name") or "")
-                    for split in witness.get("split_goals", [])
-                    if isinstance(split, dict)
-                )
-            elif mode == "LLM_pre_process":
-                comparison_names.append(str(witness.get("name") or ""))
-            else:
-                raise SystemExit(
-                    f"previous proof reuse manifest has an invalid proof mode: {mode}"
-                )
-        if not comparison_names or any(not name for name in comparison_names):
-            raise SystemExit(
-                f"previous proof reuse group has no valid comparison targets: {group.get('id')}"
-            )
-        try:
-            manual_snapshot = _stable_fixed_file_snapshot(
-                manual_path,
-                owner=group_directory,
-                label="proof reuse group manual",
-            )
-            if manual_snapshot.get("sha256") != _sealed_group_digest(
-                previous, group, "proof_manual"
-            ):
-                raise ValueError("sealed proof reuse group manual changed")
-            manual_text = _snapshot_text(
-                manual_snapshot,
-                label="proof reuse group manual",
-            )
-        except (OSError, UnicodeError, ValueError) as exc:
-            raise SystemExit(str(exc)) from exc
-        previous_targets = _fully_qualified_debug_targets(
-            state,
-            manual_path,
-            comparison_names,
-            manual_text=manual_text,
-        )
-        target_lines = "\n".join(
-            f"  - Previous comparison target `{name}` -> `{previous_targets[name]}`"
-            for name in comparison_names
-        )
-        raw_worker_lib = group.get("group_worker_lib")
-        worker_lib = (
-            Path(raw_worker_lib)
-            if isinstance(raw_worker_lib, str) and raw_worker_lib
-            else None
-        )
-        lib_summary = (
-            f"group_worker_lib `{worker_lib}`"
-            if worker_lib is not None
-            else "no group_worker_lib in this group topology"
-        )
-        group_line = (
-            f"- Group `{group.get('id')}` ({routes or 'no routes'}): copied manual `{manual_path}`; "
-            f"{lib_summary}; notes `{report_directory / 'group_worker_output.md'}`; "
-            f"report `{report_directory / 'group_worker_report.json'}`"
-        )
-        detail_text = target_lines
-        groups.append(group_line + (f"\n{detail_text}" if detail_text else ""))
-    group_text = "\n".join(groups) or "- no readable previous group entries"
-    return (
-        current
-        + f"""
-
-## Proof reuse
-
-The immediately preceding vc-proving round `{previous_round}` is the controller-selected sealed comparison source
-(either a failed proving round or a previously verified round made stale by an annotation/freshness retry). Compare
-only against this round while writing the natural-language proof strategies after every current `proof_mode` is fixed.
-
-- Previous manifest: `{manifest_path}`
-- Previous goal debug script: `{reference_script}`
-- Previous goal debug command: `{reference_debug}`
-- Per-group reuse-hint directory to create: `{paths["reuse_hints"]}`
-
-Previous group files and exact reference comparison targets:
-
-{group_text}
-
-Within every mixed-mode current group, order `group_plan.json` witnesses with all
-`aggressive_pre_process` witnesses before all `LLM_pre_process` witnesses, preserving relative order within each
-segment. This makes plan traversal identical to the required reuse category sequence. Then list all planned helpers
-first, all aggressive split goals next, and only the `LLM_pre_process` top-level VCs last. Do not compare an
-aggressive top-level VC. Every helper must be `from scratch`;
-historical helper declarations are not comparison sources. For a split entailment `P |-- Q`,
-proof `direct copy` additionally requires an exact current/previous semantic generated-goal fingerprint, including
-the transitive local goal-definition closure and current formal-case spec while ignoring only the generated declaration
-name. A changed fingerprint must be `partial proof-idea reuse` or `from scratch`. Partial reuse is an advisory design
-hint: its Reason must explain the observed adapter/frame idea, but controller does not prove that natural-language claim. It is appropriate
-not only for textually similar goals but also when the old proof can be
-adapted through `P |-- P'` and `Q' |-- Q`, or by adding/cancelling a common spatial frame such as
-`P ** R |-- Q ** R`. State the adapter/frame transformation in the Reason cell. Compare aggressive split goals
-only against a previous aggressive route, and `LLM_pre_process` top-level goals only against a previous
-`LLM_pre_process` route. A structurally valid but unaccepted failed group may supply partial
-proof ideas only; it cannot supply direct proof/helper rows because its completed-looking blocks never passed controller group validation.
-
-Create exactly one `{paths["reuse_hints"]}/<group-id>.md` for every proposed group. Use exactly these columns:
-`Current goal | Decision | Previous file | Lines | Reason`, with `helper:<name>` rows for every planned local or public helper,
-then one row per aggressive split goal, then one row per `LLM_pre_process` top-level VC. Decisions are exactly `direct copy`,
-`partial proof-idea reuse`, or `from scratch`. Helper rows must use `from scratch` with `—` for both source fields;
-proof rows cite an absolute copied manual. Every direct/partial range is a
-positive `N` for a one-line declaration or `N-M` that exactly spans the compatible declaration from its first through last source line; an internal
-subrange is invalid even when it contains every tactic. Direct copy additionally requires a complete source.
-From-scratch rows use `—` for both file and lines. Debug scripts cover VC/split proof rows, not helper rows. The current
-debug script must execute one `Show.` for every current proof row. When at least one proof row is direct/partial, the
-reference script must execute `Show.` for every cited previous proof goal; when every proof row is from scratch, skip
-the reference script and reference debug command entirely. After the final scripts and table agree, rerun the current
-debug command and, when reference goals exist, the reference debug command so controller
-records current receipts bound to the scripts, preserved builds, rounds, and versions. Missing receipts or later
-script/build drift makes acceptance fail. You may inspect the listed lib/notes/report files for context, but table proof ranges point only to
-the copied manual. These files are controller-transferred read-only hints,
-not acceptance evidence.
-"""
-    )
-
-
 def _problem_context_text(context: dict[str, Any]) -> str:
     lines: list[str] = []
     for key, value in context.items():
@@ -897,10 +339,6 @@ def _problem_context_text(context: dict[str, Any]) -> str:
     )
 
 
-def _main_summary_prompt(instruction: str) -> str:
-    return f"{MAIN_SUMMARY_MARKER} {instruction} -->"
-
-
 def _target_file_is_present(state: dict[str, Any], key: str) -> bool:
     return (
         Path(str(state["main_root"])) / str(state["target_files"][key])
@@ -912,16 +350,17 @@ def _optional_annotation_artifact_lines(
 ) -> str:
     target = state["target_files"]
     formal_case_lib_active = _formal_case_lib_is_active(state)
+    policy = str(state["formal_case_lib_policy"])
     formal_case_lib_status = (
         (
-            "present; edit it only when the case-specific spec needs a change"
+            f"present under `{policy}` policy; edit it only during an allowed design/proof-helper step"
             if annotation_owner
-            else "present; read-only in this phase"
+            else f"present under `{policy}` policy; read-only in this phase"
         )
         if formal_case_lib_active
         else (
-            "missing in the run topology; there is no active/editable case lib, "
-            "and this candidate path is read-only and must not be created"
+            "missing under explicit `absent` policy; there is no active/editable "
+            "case lib, and this candidate path is read-only and must not be created"
         )
     )
     manual_status = (
@@ -941,7 +380,18 @@ def _optional_annotation_artifact_lines(
 
 def _annotation_commands(state: dict[str, Any], round_id: str) -> tuple[str, bool]:
     formal_case_lib_present = _formal_case_lib_is_active(state)
-    commands = [_controller_command(state, "symexec", "--round", round_id)]
+    design_check = _controller_command(
+        state,
+        "coq-check",
+        "--round",
+        round_id,
+        "--target-kind",
+        "formal-case-lib-design",
+    )
+    commands = [
+        design_check,
+        _controller_command(state, "symexec", "--round", round_id),
+    ]
     if formal_case_lib_present:
         commands.append(
             _controller_command(
@@ -953,28 +403,15 @@ def _annotation_commands(state: dict[str, Any], round_id: str) -> tuple[str, boo
                 "formal-case-lib",
             )
         )
-    commands.extend(
-        [
-            _controller_command(
-                state,
-                "timing-stage",
-                "--round",
-                round_id,
-                "--stage",
-                "annotation-checking",
-                "--event",
-                event,
-            )
-            for event in ("start", "finish")
-        ]
-    )
     return "\n".join(commands), formal_case_lib_present
 
 
 def _formal_case_lib_command_explanation(present: bool) -> str:
     if present:
         return (
-            "The formal-case-lib Coq command uses the controller's single "
+            "The standalone design check may be rerun after each specification or "
+            "case-lib change and does "
+            "not require generated goals. The later formal-case-lib Coq command uses the controller's single "
             "skinny-build plan: it stages only the exact current-case dependency "
             "closure, loads or builds its current prerequisites from the "
             "content-addressed cache, and reads fixed dependency `.vo` files from "
@@ -983,10 +420,9 @@ def _formal_case_lib_command_explanation(present: bool) -> str:
             "that is merely unbuilt is therefore not an annotation defect."
         )
     return (
-        "No formal-case-lib Coq command is listed because the optional candidate "
-        "lib is absent from this run's fixed topology. The controller does not "
-        "create a placeholder, and the annotation owner must not create a new lib "
-        "at the read-only candidate path."
+        "This run explicitly selected the absent policy. The standalone design "
+        "check records a skipped pass; no post-symexec "
+        "formal-case-lib command is listed, and the owner must keep the candidate path absent."
     )
 
 
@@ -1007,7 +443,14 @@ def _feedback_source_line(item: dict[str, Any]) -> str:
     return f"- `{item['phase']}` / `{item['attempt_id']}`: {paths}"
 
 
-def _render_annotation_block_summary_template(
+def _current_annotation_comparisons(state: dict[str, Any]) -> list[dict[str, Any]]:
+    accepted = state["accepted_rounds"]["annotation"]
+    attempt = state["attempts"][accepted["attempt_id"]]
+    plan = _json_load(_validated_annotation_attempt_paths(state, attempt)["plan"], {})
+    return [dict(item) for item in plan["vc_comparisons"]]
+
+
+def _render_annotation_retry_handoff(
     state: dict[str, Any],
     *,
     round_id: str,
@@ -1017,9 +460,10 @@ def _render_annotation_block_summary_template(
     previous_attempts: list[dict[str, Any]],
     required_lessons: list[dict[str, Any]],
     annotation_iteration: int,
-    consider_broader_refactor: bool,
     feedback_sources: list[dict[str, str]],
     retry_reason: str,
+    failed_vcs: list[dict[str, Any]],
+    previous_vc_changes: list[dict[str, Any]],
 ) -> str:
     target = state["target_files"]
     session = state.get("annotation_session")
@@ -1042,25 +486,38 @@ def _render_annotation_block_summary_template(
         )
         or "- none"
     )
-    controller_evidence = (
+    blocker_details = (
         "\n".join(f"- {item.get('must_address', item)}" for item in required_lessons)
         or "- No additional controller evidence."
     )
-    broader_rule = (
-        "This repair follows at least two consecutive annotation-causal blockers. The scope decision must reassess "
-        "the mathematical spec, function contracts, loop invariants, assertions, and call instantiations together "
-        "and propose a broader redesign when the prior local design is the cause."
-        if consider_broader_refactor
-        else "Choose local repair or broader redesign from the evidence, and justify the boundary."
-    )
+    failed_vc_text = "\n".join(
+        (
+            f"{index}. `{item['source_attempt']}:{item['name']}`\n"
+            f"   - Parent: `{item['parent'] or 'none'}`\n"
+            f"   - Annotation location: {item['annotation_location']}\n"
+            f"   - Sealed manual: `{item['manual']}`\n"
+            f"   - Old gap: {item['message']}"
+        )
+        for index, item in enumerate(failed_vcs, start=1)
+    ) or "- none"
+    history_text = "\n".join(
+        (
+            f"{index}. `{item['source']['attempt']}:{item['source']['name']}`\n"
+            f"   - Old gap: {item['old_gap']}\n"
+            f"   - Change: {item['change']}\n"
+            f"   - Current VC: {', '.join(item['current'])}\n"
+            f"   - Result: `{item['result']}`"
+        )
+        for index, item in enumerate(previous_vc_changes, start=1)
+    ) or "- none"
     rules = _format_list(_rules_source("annotation"))
     commands, formal_case_lib_present = _annotation_commands(state, round_id)
     formal_case_lib_command_explanation = _formal_case_lib_command_explanation(
         formal_case_lib_present
     )
-    return f"""# Annotation blocker summary and repair handoff
+    return f"""# Annotation retry handoff
 
-This is annotation iteration {annotation_iteration} in the run's single persistent annotation-agent session. The controller generated the factual sections and template; the main agent must read the original evidence and replace every `MAIN_AGENT` comment with a concrete summary before running `annotation-summary-ready`. Do not change controller-owned paths, evidence references, or commands.
+This is annotation iteration {annotation_iteration} in the run's single persistent annotation-agent session. Read the sealed failed VCs, edit the current annotation, run symbolic execution, and compare every old VC with the current manual.
 
 ## Assignment
 
@@ -1071,6 +528,7 @@ This is annotation iteration {annotation_iteration} in the run's single persiste
 - Main root: `{state["main_root"]}`
 - Terminal report: `{paths["report"]}`
 - Human notes: `{paths["output"]}`
+- Annotation plan: `{paths["plan"]}`
 
 ## Target files
 
@@ -1088,35 +546,19 @@ Previous annotation attempt artifacts:
 
 Controller-recorded blocker details:
 
-{controller_evidence}
+{blocker_details}
 
-## Main-agent blocker conclusion
+## Failed VCs
 
-{_main_summary_prompt("State the primary failure, the blocked witness/check, and why this requires another annotation iteration. Distinguish annotation/spec defects from proof-only or tooling failures.")}
+{failed_vc_text}
 
-## Evidence and causal analysis
+## Previous VC changes
 
-{_main_summary_prompt("Cite the decisive facts from the original Markdown/JSON or controller main-check evidence. Trace the failure to concrete specs, contracts, invariants, assertions, or call instantiations; separate symptoms from the root cause.")}
-
-## Reflection on the previous annotation attempt
-
-{_main_summary_prompt("Explain which earlier assumption or repair strategy was inadequate, what useful part should be preserved, and what the annotation agent must not repeat.")}
-
-## Required annotation repair
-
-{_main_summary_prompt("Give an actionable repair objective, affected formal locations, constraints that must remain true, and exact success criteria for symexec and annotation-checking; include formal_case_lib criteria only when the run topology contains that editable lib.")}
-
-## Controller scope requirement
-
-{broader_rule}
-
-## Scope decision
-
-{_main_summary_prompt("Choose the repair scope and justify it against the causal evidence and the controller scope requirement above.")}
+{history_text}
 
 ## Rules to reload
 
-The annotation agent must completely reload both annotation skills on every appended iteration, then follow all linked rules and inspect the original blocker evidence above. The main-agent summary prioritizes the repair but does not replace the original evidence or current main-root files.
+The annotation agent must completely reload annotation-designing on every appended iteration, then follow all linked rules and inspect the original blocker evidence, sealed manuals, and current main-root files above.
 
 {rules}
 
@@ -1139,116 +581,29 @@ Generated files may change only through the exact symbolic-execution command bel
 The dependency graph comes only from the selected backend's exact target; the agent never observes, supplies, or
 expands build targets. Do not copy selected-base output, dependency sources/artifacts, or another `_coq_builds` scope.
 
-The timing-stage commands are optional telemetry. If used, bracket the real annotation-checking work honestly; they
-never replace a check or affect acceptance.
-
 ## Completion
 
-Revise the mathematical spec first, editing the case lib only when it is listed as present and writable, then revise C annotations. Never create a missing candidate lib. Use the listed commands when useful for feedback and complete
-the semantic annotation review. At the end, success contains only `status: completed`; a blocked result adds one
-`blocker` with `failure_class`, `kind`, `location`, `message`, and
-`repair_boundary`. Do not copy diff, version, or check results into the report. Notes are optional.
+Function specs, necessary predicates, body `Assert` / `Inv Assert` annotations, case-lib definitions and lemmas, and `{paths["plan"]}` may change together when the spec is agent-written or after `unfreeze`. Reuse core predicates directly and do not add synonymous wrapper layers. Do not add any other kind of body annotation. After symexec, compare each failed proposition with the current manual and record only the old gap, the annotation change, and whether it is resolved. Keep editing while a result is `unresolved`. Submit only when every failed VC is `resolved`. Do not edit the proof manual or write proofs. Success contains only `status: completed`. Notes are optional.
 """
 
 
-def _annotation_summary_errors(
-    state: dict[str, Any],
-    attempt: dict[str, Any],
-    *,
-    input_text: str | None = None,
-    attempt_paths: dict[str, Path] | None = None,
-) -> list[str]:
-    try:
-        paths = attempt_paths or _validated_annotation_attempt_paths(state, attempt)
-    except (OSError, ValueError) as exc:
-        return [str(exc)]
-    path = paths["input"]
-    if input_text is None:
-        try:
-            snapshot = _stable_fixed_file_snapshot(
-                path,
-                owner=paths["directory"],
-                label="annotation blocker summary",
-            )
-            text = _snapshot_text(snapshot, label="annotation blocker summary")
-        except (OSError, UnicodeError, ValueError) as exc:
-            return [str(exc)]
-    else:
-        text = input_text
-    errors: list[str] = []
-    if MAIN_SUMMARY_MARKER in text:
-        errors.append("main agent must replace every MAIN_AGENT template comment")
-    for heading in ANNOTATION_SUMMARY_HEADINGS:
-        match = re.search(
-            rf"^## {re.escape(heading)}\s*$\n(.*?)(?=^## |\Z)",
-            text,
-            flags=re.MULTILINE | re.DOTALL,
-        )
-        if match is None:
-            errors.append(f"required main-agent summary section is missing: {heading}")
-            continue
-        body = re.sub(r"<!--.*?-->", "", match.group(1), flags=re.DOTALL).strip()
-        if len(body) < 20:
-            errors.append(
-                f"main-agent summary section is empty or too vague: {heading}"
-            )
-    required_fragments = [
-        str(attempt["attempt_id"]),
-        str(paths["report"]),
-        str(paths["output"]),
-        str(state["main_root"]),
-        str(attempt.get("retry_reason") or ""),
-        ".agents/skills/annotation-filling/SKILL.md",
-        ".agents/skills/annotation-checking/SKILL.md",
-        _controller_command(state, "symexec", "--round", str(attempt["round"])),
-    ]
-    if _formal_case_lib_is_active(state):
-        required_fragments.append(
-            _controller_command(
-                state,
-                "coq-check",
-                "--round",
-                str(attempt["round"]),
-                "--target-kind",
-                "formal-case-lib",
-            )
-        )
-    required_fragments.extend(
-        str(state["target_files"][key])
-        for key in (
-            "c_file",
-            "formal_case_lib",
-            "proof_manual_file",
-            "goal_file",
-            "proof_auto_file",
-            "goal_check_file",
-        )
-    )
-    for item in attempt.get("feedback_sources", []):
-        required_fragments.extend(
-            [str(item["phase"]), str(item["attempt_id"]), *item["evidence"]]
-        )
-    for fragment in required_fragments:
-        if fragment not in text:
-            errors.append(f"controller-owned summary content was removed: {fragment}")
-    if _consider_broader_refactor(attempt) and (
-        "consecutive annotation-causal blockers" not in text
-    ):
-        errors.append(
-            "repeated annotation retry must preserve the broader-redesign instruction"
-        )
-    return errors
-
-
 def _spec_freeze_section(state: dict[str, Any]) -> str:
-    """Render the frozen-specification boundary, or nothing when unfrozen."""
+    """Render the user-provided or agent-written specification workflow."""
 
     record = state.get("spec_freeze")
-    if not isinstance(record, dict) or not record.get("functions"):
-        return ""
-    functions = ", ".join(f"`{name}`" for name in record["functions"])
-    return f"""
-## Frozen specification
+    if isinstance(record, dict) and record.get("functions"):
+        functions = ", ".join(f"`{name}`" for name in record["functions"])
+        if record.get("baseline") is None:
+            return f"""
+## User-provided specification after unfreeze
+
+The user approved changes to {functions}. Apply the approved changes in this
+attempt, then continue specification, internal annotation, case-lib, plan, and
+symexec work together. Acceptance records the checked specification as the new
+user-provided baseline.
+"""
+        return f"""
+## User-provided specification
 
 The specification of {functions} is a fixed input for this run, not something to
 redesign. Their `With` / `Require` / `Ensure` blocks -- including named specs and any
@@ -1263,9 +618,18 @@ You may still add: new `Extern Coq` entries, new imports, new case-lib definitio
 lemmas, and specifications for functions not listed above. Every `Inv Assert` and `Assert`
 stays fully editable -- those are the intended working surface.
 
-Controller acceptance re-extracts this surface and compares it entry by entry. A changed or
-removed entry fails the attempt and returns here naming the exact entry, so weakening a
-frozen specification to make a proof close is not a route forward.
+If this specification itself must change, stop without modifying it or running
+`finalize-delivery`. Write the exact function, reason, planned `With` / `Require` /
+`Ensure` changes, meaning before and after, and effect on the requested result in
+`agent_output.md`, then return that proposal to the main agent. Continue only after
+the user agrees and the main agent runs `unfreeze` for this same round.
+"""
+    return """
+## Agent-written specification
+
+The function spec, internal annotations, and case-lib definitions or lemmas may be
+written and revised together in this attempt. Rerun `formal-case-lib-design` and
+symexec after changes. A specification change does not end this attempt.
 """
 
 
@@ -1281,13 +645,13 @@ def _render_agent_input(
     required_lessons: list[dict[str, Any]],
     attempt_index: int,
     annotation_iteration: int = 0,
-    consider_broader_refactor: bool = False,
     feedback_sources: list[dict[str, str]] | None = None,
     retry_reason: str | None = None,
-    previous_proving_round: str | None = None,
+    failed_vcs: list[dict[str, Any]] | None = None,
+    previous_vc_changes: list[dict[str, Any]] | None = None,
 ) -> str:
     if phase == "annotation" and annotation_iteration > 1:
-        return _render_annotation_block_summary_template(
+        return _render_annotation_retry_handoff(
             state,
             round_id=round_id,
             attempt_id=attempt_id,
@@ -1296,9 +660,10 @@ def _render_agent_input(
             previous_attempts=previous_attempts,
             required_lessons=required_lessons,
             annotation_iteration=annotation_iteration,
-            consider_broader_refactor=consider_broader_refactor,
             feedback_sources=feedback_sources or [],
             retry_reason=str(retry_reason or "annotation-feedback"),
+            failed_vcs=failed_vcs or [],
+            previous_vc_changes=previous_vc_changes or [],
         )
     target = state["target_files"]
     rules = _format_list(_rules_source(phase))
@@ -1368,11 +733,11 @@ Required lessons:
             else "- none (initial annotation iteration)"
         )
         iteration_rules = (
-            "This is the initial iteration. Read both annotation skill files completely, follow their linked guides, "
+            "This is the initial iteration. Read annotation-designing completely, follow its linked guides, "
             "and inspect the correct/incorrect examples relevant to this case before editing."
             if annotation_iteration == 1
-            else "This is a continuation of the same annotation-agent session. Before editing, reload both annotation "
-            "skill files completely and read every listed Markdown and JSON blocker source; do not rely on a summary."
+            else "This is a continuation of the same annotation-agent session. Before editing, reload annotation-designing "
+            "completely and read every listed Markdown and JSON blocker source; do not rely on a summary."
         )
         current_session = state.get("annotation_session")
         annotation_session_id = (
@@ -1395,6 +760,8 @@ Feedback appended for this iteration:
 
 {feedback_text}
 
+Annotation plan: `{paths["plan"]}`
+
 ## Problem context
 
 {_problem_context_text(state.get("problem_context", {}))}
@@ -1416,57 +783,44 @@ Generated files may change only through the exact symbolic-execution command bel
 The dependency graph comes only from the selected backend's exact target; the agent never observes, supplies, or
 expands build targets. Do not copy selected-base output, dependency sources/artifacts, or another `_coq_builds` scope.
 
-The timing-stage commands are optional telemetry. If used, bracket the real annotation-checking work honestly; they
-never replace a check or affect acceptance.
-
 ## Completion
 
-Design the mathematical spec first, editing `formal_case_lib` only when it is listed as present and writable, then revise C annotations and complete annotation-checking. Never create a missing candidate lib.
-Use the listed commands when useful for feedback; controller acceptance reruns every mandatory machine check. Write
-a success report containing only `status: completed`; a blocked result adds one
+Start with natural-language `Signature`, `Preconditions`, and `Output`, then write the equivalent Rocq and C specifications. Search the current dependencies and reuse core predicates directly; do not add synonymous wrapper layers. Write and revise the function spec, necessary predicates, body `Assert` / `Inv Assert` annotations, case-lib definitions and lemmas, and the concise annotation plan together as allowed above. Do not add any other kind of body annotation. The first attempt keeps `vc_comparisons` empty.
+Use the listed commands when useful for feedback; controller acceptance reruns every mandatory machine check. If annotation work exposes another annotation gap, continue fixing it in this attempt instead of returning a blocked report. Write a success report containing only `status: completed`. On the first `symexec`
+`tool` failure, keep this claimed attempt and every formal byte unchanged and
+rerun the exact same controller command once; do not write a terminal report yet.
+Only a second identical tool failure may produce a blocked result. Such a result adds one
 complete `blocker`. Do not copy changed paths, version, or check status into the report.
 """
         )
 
-    goal = state.get("source_goal_version") or {}
-    target = state["target_files"]
-    manual_path = Path(str(state["main_root"])) / str(target["proof_manual_file"])
-    witnesses = [str(item) for item in goal.get("target_witnesses", [])]
-    debug_names = [
-        name
-        for witness in witnesses
-        for name in [
-            witness,
-            *[
-                str(item["name"])
-                for item in goal.get("split_goals", {}).get(witness, [])
-            ],
-        ]
-    ]
-    debug_targets = _fully_qualified_debug_targets(state, manual_path, debug_names)
+    obligations = _manual_obligations(state)
+    witnesses = [str(item) for item in obligations["top_level"]]
+    comparisons = _current_annotation_comparisons(state)
+    comparison_lines: list[str] = []
+    for item in comparisons:
+        current_names = ", ".join(
+            "`" + str(name) + "`" for name in item["current"]
+        )
+        comparison_lines.append(
+            f"- `{item['source']['name']}` -> {current_names}; "
+            f"result `{item['result']}`; change: {item['change']}"
+        )
+    comparison_text = "\n".join(comparison_lines) or "- none (first proving round)"
     witness_lines: list[str] = []
     for name in witnesses:
-        split_names = [
-            str(item["name"]) for item in goal.get("split_goals", {}).get(name, [])
-        ]
+        split_names = [str(item) for item in obligations["split_goals"].get(name, [])]
         split_text = (
-            ", ".join(
-                f"`{split_name}` -> `{debug_targets[split_name]}`"
-                for split_name in split_names
-            )
+            ", ".join(f"`{split_name}`" for split_name in split_names)
             if split_names
             else "none"
         )
         witness_lines.append(
-            f"- `{name}` -> debug target `{debug_targets[name]}`; "
-            f"generated split goals: {split_text}"
+            f"- `{name}`; generated split goals: {split_text}"
         )
     witness_text = "\n".join(witness_lines) if witness_lines else "- none"
-    reuse_handoff = _proof_reuse_handoff(
-        state,
-        round_id=round_id,
-        paths=paths,
-        previous_round=previous_proving_round,
+    manual_debug_command = _controller_command(
+        state, "coq-debug", "--round", round_id
     )
     helper_topology_rule = (
         "The fixed run topology contains `formal_case_lib`, so groups may plan "
@@ -1490,22 +844,43 @@ Target witnesses:
 
 {witness_text}
 
-First judge every generated split goal across all target VCs, without analyzing any top-level VC. In this pass, record
-only whether each split goal is provable; do not yet plan helpers, proof strategies, or reuse. For a top-level VC with
+## Annotation VC comparisons
+
+{comparison_text}
+
+Independently check every claimed fact source against the current manual. A comparison marked `provable` is a priority check, not a proof result. Put its current and related VCs in the first, high-risk group when they require a new substantial mathematical lemma. Return an annotation blocker immediately when a current premise has no establishing VC or matching case-lib lemma.
+
+Before exhaustive split analysis, perform one cheap structural scan over every top-level VC, checking no-split goals
+first and looking specifically for missing resource addresses, scalar equalities, and current-to-@pre bridges. Record
+the exact counts and outcome in the `Structural Blocker Scan` section of `{paths["output"]}`. A definite whole-goal
+countermodel may be returned immediately as an annotation/specification/dependency blocker; do not spend time on all
+split goals first. If this scan has no definite blocker, then judge every generated split goal across all target VCs,
+without analyzing any top-level VC. In this pass, record only whether each split goal is provable; do not yet plan
+helpers, proof strategies, or reuse. For a top-level VC with
 at least one generated split goal, select `aggressive_pre_process` exactly when all of its split goals are provable; do
 not analyze that top-level VC's provability. If any split goal is not provable, or no split goal exists, then judge only
 the whole top-level VC's provability and select `LLM_pre_process` when it is provable. If that whole VC is not provable,
 report the annotation/specification boundary instead of creating a proving assignment.
 
-After every `proof_mode` is fixed, write the natural-language proof strategy and perform the sealed-source reuse analysis
-as one step. For `aggressive_pre_process`, analyze and compare only the split goals; do not write or compare a top-level
-proof strategy. For `LLM_pre_process`, analyze and compare only the whole top-level VC. Only after these strategies are
-complete, group the top-level VCs by their proof ideas. Never assign a split goal independently: every split goal follows
-its parent top-level VC into the same group.
+After every `proof_mode` is fixed, write the natural-language proof strategy. For
+`aggressive_pre_process`, analyze only the split goals; do not write a top-level proof strategy. For
+`LLM_pre_process`, analyze only the whole top-level VC. VC checking does not analyze proof reuse. On a retry, the
+previous VC-checking reports listed above may be read for context, but the current main-root manual is authoritative.
+Only after the strategies are complete, group the top-level VCs by their proof ideas. Never assign a split goal
+independently: every split goal follows its parent top-level VC into the same group.
 
-{reuse_handoff}
+The C, goal, auto, check, and case library are read-only. You may temporarily edit the main-root manual
+`{state['target_files']['proof_manual_file']}` to insert `Show.` while inspecting a goal; do not create a debug script.
+Run this command unchanged after each useful edit:
 
-All formal files are read-only. Form initial groups by invariant, proof pattern, array/frame transformation, refinement
+```text
+{manual_debug_command}
+```
+
+After this delivery is accepted, the controller deletes that manual and reruns symbolic execution so group workers
+receive a clean generated manual.
+
+Form initial groups by invariant, proof pattern, array/frame transformation, refinement
 transition, and helper family. Then perform a second load-and-coupling review using top-level witness count, aggressive
 split-goal count, expected helper families, proof-mode differences, program phase, and persistent proof context. Prefer
 coherent groups of roughly 2--6 witnesses; justify every group above 6 witnesses and every single-witness group in
@@ -1516,9 +891,7 @@ ownership permits, and otherwise explain the indivisible helper/context coupling
 mask-clear, and similar cross-group facts as annotation-approved or public helpers rather than rediscovering them in a
 tail group. Assign each group an integer `estimated_difficulty` from 1 (light) to 5 (heaviest). Groups remain independent and
 cannot read sibling outputs. Put every helper expected to be newly proved or modified in this round in the owner group's
-plan with an exact Rocq declaration `name`, a short `strategy`, and `visibility` set to `local` or `public`. Historical helpers
-from the frozen snapshot or a sealed reuse hint are opportunistic token-identical copies, not new planned-helper declarations. An
-owner's local helper still participates in helper-first reuse comparison when it is a current planned helper. Mark a
+plan with an exact Rocq declaration `name`, a short `strategy`, and `visibility` set to `local` or `public`. Mark a
 stable mathematical helper useful to other groups as public. The controller promotes only successfully proved
 matching public declarations into the run-level append-only candidate pool; workers copy candidates into their own
 group_worker_lib and still pass the ordinary controller group validation. This pool is not an imported or active fourth library.
@@ -1530,12 +903,12 @@ group_worker_lib and still pass the ordinary controller group validation. This p
 `name` and `proof_mode`. An aggressive witness has `split_strategies`, mapping each generated split-goal name to its
 short strategy in declaration order, and omits `strategy`. An `LLM_pre_process` witness has one whole-goal `strategy`
 and omits `split_strategies`. Optional planned
-helpers use `{{name, strategy, visibility}}`. Do not copy a version or controller acceptance marker into the plan.
+helpers use `{{name, strategy, visibility}}`. Do not copy controller metadata or an acceptance marker into the plan.
 Write the final report: success contains only `status: completed`; a
-blocked result adds one `blocker` with `failure_class`, `kind`, `location`, `message`, and `repair_boundary`. Do not
-copy the current version or controller checks into the report. Its `failure_class` must be exactly one of
-`annotation-gap`, `specification-gap`, `dependency-gap`, `source-version`, `plan-defect`, `report-defect`, or
-`infrastructure`. The controller routes the first four to annotation and the last three to a same-phase vc-checking
+    blocked result adds one `blocker` with `failure_class`, `kind`, `vcs`, `message`, and `repair_boundary`. Each VC entry has exact `name`, `parent`, and `annotation_location`. Do not
+copy controller checks into the report. Its `failure_class` must be exactly one of
+`annotation-gap`, `specification-gap`, `dependency-gap`, `plan-defect`, `report-defect`, or
+`infrastructure`. The controller routes the first three to annotation and the last three to a same-phase vc-checking
 retry; it never infers the repair phase from `kind` or prose.
 """
     )
@@ -1560,19 +933,14 @@ def _init_round_attempt(
     attempt_index: int = 1,
     feedback_sources: list[dict[str, str]] | None = None,
     retry_reason: str | None = None,
-    annotation_causal_retry_count: int = 0,
+    failed_vcs: list[dict[str, Any]] | None = None,
+    previous_vc_changes: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     state["waiting_for"] = []
     report_root = Path(str(state["report_root"]))
     round_id = _next_round_id(state, phase)
     attempt_id = f"{round_id}-attempt-{attempt_index}"
     if phase == "annotation":
-        if (
-            isinstance(annotation_causal_retry_count, bool)
-            or not isinstance(annotation_causal_retry_count, int)
-            or annotation_causal_retry_count < 0
-        ):
-            raise ValueError("annotation causal retry count must be non-negative")
         session = state.get("annotation_session")
         annotation_iteration = (
             int(session.get("iteration_count", 0)) + 1
@@ -1583,19 +951,17 @@ def _init_round_attempt(
     else:
         paths = _round_paths(report_root, round_id)
         annotation_iteration = 0
-        annotation_causal_retry_count = 0
-    consider_broader_refactor = annotation_causal_retry_count >= 2
-    source = _source_version_for_state(state, annotated=phase != "annotation")
+    retry_failed_vcs = failed_vcs or []
+    vc_change_history = previous_vc_changes or []
     target = state["target_files"]
-    previous_proving_round = (
-        _latest_reusable_vc_proving_round(state) if phase == "vc-checking" else None
-    )
     allowed = []
     if phase == "annotation":
         allowed = [target["c_file"]]
         if _formal_case_lib_is_active(state):
             allowed.append(target["formal_case_lib"])
         allowed.extend(target[key] for key in GENERATED_KEYS)
+    else:
+        allowed = [target["proof_manual_file"]]
     write_text(
         paths["input"],
         _render_agent_input(
@@ -1609,15 +975,34 @@ def _init_round_attempt(
             required_lessons=required_lessons or [],
             attempt_index=attempt_index,
             annotation_iteration=annotation_iteration,
-            consider_broader_refactor=consider_broader_refactor,
             feedback_sources=feedback_sources or [],
             retry_reason=retry_reason,
-            previous_proving_round=previous_proving_round,
+            failed_vcs=retry_failed_vcs,
+            previous_vc_changes=vc_change_history,
         ),
     )
-    goal_digest = (
-        str((state.get("source_goal_version") or {}).get("digest") or "") or None
-    )
+    if phase == "annotation":
+        previous_plan: dict[str, Any] | None = None
+        for previous in reversed(previous_attempts or []):
+            raw_path = previous.get("plan") if isinstance(previous, dict) else None
+            if not isinstance(raw_path, str) or not raw_path:
+                continue
+            candidate = _json_load(Path(raw_path), {})
+            if isinstance(candidate, dict):
+                previous_plan = candidate
+                break
+        if previous_plan is None:
+            plan = _annotation_plan_template()
+        else:
+            plan = {
+                "version": 2,
+                "status": "planning",
+                "function_specs": previous_plan["function_specs"],
+                "loop_invariants": previous_plan["loop_invariants"],
+                "new_predicates": previous_plan["new_predicates"],
+                "vc_comparisons": [],
+            }
+        write_json(paths["plan"], plan)
     write_json(paths["report"], _agent_report_payload())
     if phase == "vc-checking":
         write_text(
@@ -1628,28 +1013,23 @@ def _init_round_attempt(
         "attempt_id": attempt_id,
         "round": round_id,
         "phase": phase,
-        "status": "awaiting-main-summary"
-        if phase == "annotation" and annotation_iteration > 1
-        else "prepared",
+        "status": "prepared",
         "report_directory": str(paths["directory"]),
         "input": str(paths["input"]),
         "report": str(paths["report"]),
         "output": str(paths["output"]),
-        "source_version": str(source["digest"]),
-        "source_goal_version": goal_digest,
         "allowed_write_paths": allowed,
         "compact_attempt_index": attempt_index,
         "created_at": _utc(),
     }
-    if phase == "vc-checking" and previous_proving_round is not None:
-        attempt["proof_reuse_round"] = previous_proving_round
     if phase == "annotation":
+        attempt["plan"] = str(paths["plan"])
         history = annotation_history_root(
             Path(str(state["run_root"]))
         ) / annotation_attempt_directory_name(annotation_iteration)
         attempt["annotation_history_directory"] = str(history)
         attempt["annotation_iteration"] = annotation_iteration
-        attempt["annotation_causal_retry_count"] = annotation_causal_retry_count
+        attempt["failed_vcs"] = retry_failed_vcs
         attempt["feedback_sources"] = feedback_sources or []
         attempt["retry_reason"] = retry_reason
         attempt["before_snapshot"] = _archive_annotation_stage(
@@ -1674,8 +1054,8 @@ def _init_round_attempt(
     state["rounds"][round_id] = {"phase": phase, "current_attempt": attempt_id}
     state["attempts"][attempt_id] = attempt
     if phase == "annotation":
+        attempt["input_sha256"] = _file_digest(paths["input"])
         if annotation_iteration == 1:
-            attempt["input_sha256"] = _file_digest(paths["input"])
             state["next_actions"] = [
                 {
                     "id": f"spawn-{attempt_id}",
@@ -1686,20 +1066,19 @@ def _init_round_attempt(
                     "input": str(paths["input"]),
                     "report": str(paths["report"]),
                     "feedback_sources": [],
-                    "consider_broader_refactor": consider_broader_refactor,
                 }
             ]
         else:
             state["next_actions"] = [
                 {
-                    "id": f"summarize-{attempt_id}",
-                    "kind": "main-owned-action",
-                    "action": "annotation-summary-ready",
+                    "id": f"append-{attempt_id}",
+                    "kind": "append-annotation-agent",
                     "phase": phase,
+                    "session_id": state["annotation_session"]["session_id"],
                     "attempt_id": attempt_id,
                     "input": str(paths["input"]),
+                    "report": str(paths["report"]),
                     "feedback_sources": feedback_sources or [],
-                    "consider_broader_refactor": consider_broader_refactor,
                 }
             ]
     else:
@@ -1738,7 +1117,8 @@ def _init_vc_proving_attempt(state: dict[str, Any]) -> dict[str, Any]:
         "group_workers_manifest": str(report_directory / "group_workers_manifest.json"),
         "proving_merged_result": str(report_directory / "proving_merged_result.json"),
         "groups": {},
-        "source_goal_version": str(state["source_goal_version"]["digest"]),
+        "priority_group_ids": [],
+        "previous_proving_round": _previous_vc_proving_round(state),
         # The run-level value is already validated by init-run.  Copy it into
         # the proving attempt so scheduling remains sealed for the lifetime of
         # this round even if a later controller invocation uses other options.
@@ -1888,164 +1268,6 @@ def _group_artifact_seal_matches(group: dict[str, Any], expected: Any) -> bool:
     return not any(value is None for value in current.values()) and current == expected
 
 
-def _reusable_group_ids(attempt: dict[str, Any], manifest: dict[str, Any]) -> set[str]:
-    all_ids = {
-        str(group.get("id") or "")
-        for group in manifest.get("groups", [])
-        if isinstance(group, dict) and group.get("id")
-    }
-    record = attempt.get("reuse_group_artifacts")
-    valid = (
-        record.get("structurally_valid_groups") if isinstance(record, dict) else None
-    )
-    return (
-        {str(group_id) for group_id in valid} & all_ids
-        if isinstance(valid, list)
-        else all_ids
-    )
-
-
-def _seal_failed_proving_reuse_artifacts(
-    state: dict[str, Any],
-    attempt: dict[str, Any],
-    groups: list[dict[str, Any]],
-    *,
-    require_finalized: bool = False,
-) -> None:
-    """Seal every group file before a failed proving round can feed reuse."""
-
-    if isinstance(attempt.get("reuse_group_artifacts"), dict):
-        if require_finalized:
-            reuse_groups = attempt["reuse_group_artifacts"].get("groups")
-            for group in groups:
-                group_id = str(group["id"])
-                group_state = attempt.get("groups", {}).get(group_id, {})
-                finalized_seal = (
-                    group_state.get("accepted_artifact_sha256")
-                    if isinstance(group_state, dict)
-                    and group_state.get("status") == "accepted"
-                    else group_state.get("artifact_sha256")
-                    if isinstance(group_state, dict)
-                    else None
-                )
-                if (
-                    not isinstance(reuse_groups, dict)
-                    or reuse_groups.get(group_id) != finalized_seal
-                    or (
-                        isinstance(group_state, dict)
-                        and group_state.get("status") == "blocked"
-                        and (
-                            not isinstance(finalized_seal, dict)
-                            or "output" not in finalized_seal
-                        )
-                    )
-                ):
-                    raise SystemExit(
-                        "finalized vc-proving reuse seal differs from its group delivery"
-                    )
-            if not _reuse_group_artifacts_are_sealed(attempt, groups):
-                raise SystemExit(
-                    "finalized vc-proving reuse artifacts changed after sealing"
-                )
-        return
-    sealed: dict[str, dict[str, str]] = {}
-    for group in groups:
-        group_id = str(group["id"])
-        try:
-            group_state = attempt.get("groups", {}).get(group_id, {})
-            finalized_seal = (
-                group_state.get("accepted_artifact_sha256")
-                if isinstance(group_state, dict)
-                and group_state.get("status") == "accepted"
-                else group_state.get("artifact_sha256")
-                if isinstance(group_state, dict)
-                else None
-            )
-            if require_finalized:
-                if (
-                    not isinstance(group_state, dict)
-                    or group_state.get("status") not in {"accepted", "blocked"}
-                    or (
-                        group_state.get("status") == "blocked"
-                        and (
-                            not isinstance(finalized_seal, dict)
-                            or "output" not in finalized_seal
-                        )
-                    )
-                    or not _group_artifact_seal_matches(group, finalized_seal)
-                ):
-                    raise ValueError(
-                        "group did not reach a sealed accepted/blocked terminal state"
-                    )
-                sealed[group_id] = {
-                    name: str(digest)
-                    for name, digest in finalized_seal.items()
-                }
-            else:
-                sealed[group_id] = {
-                    name: str(digest)
-                    for name, digest in _group_artifact_digests(group).items()
-                }
-        except (OSError, TypeError, ValueError) as exc:
-            raise SystemExit(
-                "cannot seal failed vc-proving reuse source; invalid group artifacts: "
-                f"{group_id}: {exc}"
-            ) from exc
-    try:
-        seed_root = _validated_reuse_raw_root(state, attempt)
-    except (OSError, TypeError, ValueError) as exc:
-        raise SystemExit(str(exc)) from exc
-    structurally_valid_groups: list[str] = []
-    invalid_groups: dict[str, str] = {}
-    for group in groups:
-        group_id = str(group["id"])
-        try:
-            validation = validate_group_for_acceptance_result(
-                Path(str(attempt["group_workers_manifest"])),
-                group_id=group_id,
-                main_root=Path(str(state["main_root"])),
-                expected_proof_manual=str(state["target_files"]["proof_manual_file"]),
-                expected_formal_case_lib=str(state["target_files"]["formal_case_lib"]),
-                require_complete=False,
-                seed_root=seed_root,
-                expected_run_root=Path(str(state["run_root"])),
-                expected_round=str(attempt["round"]),
-                forbidden_modules=_generated_artifact_module_spellings_for_state(
-                    state,
-                    source_goal_version=state["source_goal_version"],
-                ),
-            )
-            validation_errors = [str(item) for item in validation.get("errors", [])]
-        except (OSError, UnicodeDecodeError, ValueError, SystemExit) as exc:
-            validation_errors = [str(exc)]
-        if validation_errors:
-            invalid_groups[group_id] = validation_errors[0]
-        else:
-            structurally_valid_groups.append(group_id)
-    attempt["reuse_group_artifacts"] = {
-        "sealed_at": _utc(),
-        "groups": sealed,
-        "structurally_valid_groups": structurally_valid_groups,
-        "invalid_groups": invalid_groups,
-    }
-
-
-def _reuse_group_artifacts_are_sealed(
-    attempt: dict[str, Any], groups: list[dict[str, Any]]
-) -> bool:
-    record = attempt.get("reuse_group_artifacts")
-    expected_groups = record.get("groups") if isinstance(record, dict) else None
-    if not isinstance(expected_groups, dict):
-        return False
-    if set(expected_groups) != {str(group["id"]) for group in groups}:
-        return False
-    for group in groups:
-        expected = expected_groups.get(str(group["id"]))
-        if not _group_artifact_seal_matches(group, expected):
-            return False
-    return True
-
-
 def _accepted_group_artifacts_are_sealed(
     attempt: dict[str, Any], groups: list[dict[str, Any]]
 ) -> bool:
@@ -2068,6 +1290,26 @@ def _accepted_group_ids(attempt: dict[str, Any]) -> set[str]:
         for group_id, group_state in attempt.get("groups", {}).items()
         if isinstance(group_state, dict) and group_state.get("status") == "accepted"
     }
+
+
+def _group_blocker_retry_phase(blockers: Any) -> str | None:
+    """Route group blockers only by their machine class."""
+
+    first = (
+        blockers[0]
+        if isinstance(blockers, list)
+        and blockers
+        and isinstance(blockers[0], dict)
+        else None
+    )
+    if not isinstance(first, dict):
+        return None
+    failure_class = str(first.get("failure_class") or "")
+    if failure_class in GROUP_VC_CHECKING_FAILURE_CLASSES:
+        return "vc-checking"
+    if failure_class == ANNOTATION_GAP_FAILURE_CLASS:
+        return "annotation"
+    return None
 
 
 def _annotation_gap_feedback_records(
@@ -2126,7 +1368,7 @@ def _annotation_gap_feedback_records(
                     for witness in group.get("witnesses", [])
                     if isinstance(witness, dict) and witness.get("name")
                 ],
-                "location": str(blocker["location"]),
+                "vcs": [dict(item) for item in blocker["vcs"]],
                 "message": str(blocker["message"]),
                 "repair_boundary": str(blocker["repair_boundary"]),
                 "evidence": [str(path) for path in sealed_paths.values()],
@@ -2381,7 +1623,7 @@ def _sync_group_actions(state: dict[str, Any], attempt: dict[str, Any]) -> None:
         pending_promotion.get("round") or ""
     ) == str(attempt["round"]):
         owner_attempt = (
-            f"{attempt['round']}:{str(pending_promotion.get('group_id') or '')}"
+            f"{attempt['round']}:{pending_promotion.get('group_id') or ''!s}"
         )
         recovery_actions = [
             action
@@ -2414,6 +1656,35 @@ def _sync_group_actions(state: dict[str, Any], attempt: dict[str, Any]) -> None:
     annotation_gap_group_ids = {
         str(record["group_id"]) for record in annotation_gap_records
     }
+    priority_group_ids = {
+        str(group_id) for group_id in attempt["priority_group_ids"]
+    }
+    priority_gap_records = [
+        record
+        for record in annotation_gap_records
+        if str(record["group_id"]) in priority_group_ids
+    ]
+    if priority_gap_records:
+        state["waiting_for"] = _running_deliveries(state)
+        if validation_actions:
+            state["next_actions"] = validation_actions
+            return
+        if running:
+            state["next_actions"] = []
+            return
+        state["current_blockers"] = priority_gap_records
+        state["next_actions"] = [
+            {
+                "id": f"annotation-feedback-{attempt['round']}-priority",
+                "kind": "main-owned-action",
+                "action": "retry-round",
+                "phase": "annotation",
+                "reason": "priority-group-annotation-gaps",
+                "previous_attempt": str(attempt["round"]),
+            }
+        ]
+        state["waiting_for"] = []
+        return
     blocking_group_ids = [
         group_id
         for group_id in failed_group_ids
@@ -2436,21 +1707,21 @@ def _sync_group_actions(state: dict[str, Any], attempt: dict[str, Any]) -> None:
             None,
         )
         if stale_group is not None:
-            # Version drift invalidates the accepted annotation that all groups
+            # Current-file drift invalidates the accepted annotation all groups
             # share.  Do not start the remaining prepared workers and do not
             # misroute this as a plan/report retry: return the machine-detected
             # drift through the existing persistent annotation feedback path.
-            drift_receipt = attempt["groups"][stale_group].get("version_drift")
+            drift_receipt = attempt["groups"][stale_group].get("file_drift")
             state["current_blockers"] = [
                 drift_receipt
                 if isinstance(drift_receipt, dict)
                 else {
-                    "failure_class": "current-version-drift",
+                    "failure_class": "current-file-drift",
                     "round": str(attempt["round"]),
                     "group_id": stale_group,
                     "message": str(
                         attempt["groups"][stale_group].get("stale_reason")
-                        or "group became stale after current-source drift"
+                        or "group became stale after current-file drift"
                     ),
                 }
             ]
@@ -2488,13 +1759,6 @@ def _sync_group_actions(state: dict[str, Any], attempt: dict[str, Any]) -> None:
                     "group_id": compact_exhausted_group,
                 },
             )
-            # Compact exhaustion stops this run, but a later explicitly
-            # requested vc-checking round may still compare structurally valid
-            # proof ideas from the immediately preceding failed round.  Seal
-            # the fixed group files before returning, just as for an ordinary
-            # blocked group; otherwise the selector's existing
-            # compact-error-retry-exhausted route can never be reached.
-            _seal_failed_proving_reuse_artifacts(state, attempt, groups)
             state["next_actions"] = []
             state["current_blockers"] = [blocker]
             return
@@ -2529,12 +1793,7 @@ def _sync_group_actions(state: dict[str, Any], attempt: dict[str, Any]) -> None:
                     "sealed_artifact_drift": drifted,
                 }
             ]
-            # Never turn changed or missing sealed bytes into a new reuse
-            # source. Owner-editable report mistakes have already gone through
-            # repair-prepared; reaching this branch requires controller/manual
-            # intervention.
             return
-        _seal_failed_proving_reuse_artifacts(state, attempt, groups)
         blocked_group = next(
             (
                 group_id
@@ -2545,18 +1804,19 @@ def _sync_group_actions(state: dict[str, Any], attempt: dict[str, Any]) -> None:
         )
         if blocked_group is not None:
             group_blockers = attempt["groups"][blocked_group].get("blockers", [])
-            blocker_text = json.dumps(group_blockers, sort_keys=True).lower()
-            plan_failure = any(
-                marker in blocker_text
-                for marker in (
-                    "vc-plan",
-                    "proof-mode",
-                    "proof mode",
-                    "group-boundary",
-                    "route unusable",
-                )
-            )
-            retry_phase = "vc-checking" if plan_failure else "annotation"
+            retry_phase = _group_blocker_retry_phase(group_blockers)
+            if retry_phase is None:
+                state["next_actions"] = []
+                state["current_blockers"] = [
+                    {
+                        "failure_class": "group-blocked",
+                        "round": str(attempt["round"]),
+                        "group_id": blocked_group,
+                        "blockers": group_blockers,
+                    }
+                ]
+                return
+            plan_failure = retry_phase == "vc-checking"
             if plan_failure:
                 first_blocker = (
                     group_blockers[0]
@@ -2574,7 +1834,8 @@ def _sync_group_actions(state: dict[str, Any], attempt: dict[str, Any]) -> None:
                             if isinstance(group_blockers, list)
                             else 0
                         ),
-                    }
+                    },
+                    *annotation_gap_records,
                 ]
             state["next_actions"] = [
                 {
@@ -2604,15 +1865,8 @@ def _sync_group_actions(state: dict[str, Any], attempt: dict[str, Any]) -> None:
         accepted | annotation_gap_group_ids
     ) == manifest_group_ids:
         # Annotation gaps are outside every group owner's write boundary, but
-        # they do not cancel sibling work.  Only after the accepted plan has
-        # reached accepted/annotation-blocked terminal states do we freeze the
-        # full round for conditional reuse and publish one annotation retry.
-        _seal_failed_proving_reuse_artifacts(
-            state,
-            attempt,
-            groups,
-            require_finalized=True,
-        )
+        # they do not cancel sibling work. Only after every group reaches a
+        # terminal state does the controller publish one annotation retry.
         annotation_gap_records = _annotation_gap_feedback_records(attempt, manifest)
         if {
             str(record["group_id"]) for record in annotation_gap_records
@@ -2652,7 +1906,13 @@ def _sync_group_actions(state: dict[str, Any], attempt: dict[str, Any]) -> None:
     # left available agent slots idle and contradicted the persisted field.
     available = max(0, configured_limit - running)
     by_id = {str(group["id"]): group for group in groups}
-    for group_id in manifest.get("dispatch_order", manifest.get("order", [])):
+    priority_pending = priority_group_ids - accepted
+    dispatch_ids = [
+        str(group_id)
+        for group_id in manifest.get("dispatch_order", manifest.get("order", []))
+        if not priority_pending or str(group_id) in priority_group_ids
+    ]
+    for group_id in dispatch_ids:
         if available <= 0:
             break
         group = by_id.get(str(group_id))
@@ -2700,102 +1960,7 @@ def _sync_group_actions(state: dict[str, Any], attempt: dict[str, Any]) -> None:
     state["waiting_for"] = _running_deliveries(state)
 
 
-def annotation_summary_ready(args: argparse.Namespace) -> int:
-    """Validate and seal the main-written blocker summary before agent append."""
-
-    main_root = (
-        Path(args.main_root).expanduser().resolve()
-        if args.main_root
-        else Path.cwd().resolve()
-    )
-    run_root = _run_root_from_id(main_root, args.run)
-    state = _load_state(run_root)
-    attempt = state.get("attempts", {}).get(args.attempt)
-    if not isinstance(attempt, dict) or attempt.get("phase") != "annotation":
-        raise SystemExit(f"annotation attempt not found: {args.attempt}")
-    session = state.get("annotation_session")
-    if not isinstance(session, dict) or session.get("current_attempt") != args.attempt:
-        raise SystemExit(
-            "annotation summary does not belong to the current persistent session attempt"
-        )
-    if attempt.get("status") != "awaiting-main-summary":
-        raise SystemExit(
-            f"annotation attempt is not awaiting a main-agent summary: {attempt.get('status')}"
-        )
-    try:
-        attempt_paths = _validated_annotation_attempt_paths(state, attempt)
-        input_snapshot = _stable_fixed_file_snapshot(
-            attempt_paths["input"],
-            owner=attempt_paths["directory"],
-            label="annotation blocker summary",
-        )
-        input_text = _snapshot_text(
-            input_snapshot,
-            label="annotation blocker summary",
-        )
-    except (OSError, UnicodeError, ValueError) as exc:
-        print(json.dumps({"status": "invalid", "errors": [str(exc)]}, indent=2))
-        return 1
-    # Import locally to avoid changing the controller modules' existing load
-    # order while reusing the same sealed-source check used at annotation claim.
-    from controller_attempts import _feedback_source_reference_errors
-
-    errors = [
-        *_feedback_source_reference_errors(state, attempt),
-        *_annotation_summary_errors(
-            state,
-            attempt,
-            input_text=input_text,
-            attempt_paths=attempt_paths,
-        ),
-    ]
-    if errors:
-        print(json.dumps({"status": "invalid", "errors": errors}, indent=2))
-        return 1
-    attempt["input_sha256"] = str(input_snapshot["sha256"])
-    attempt["status"] = "prepared"
-    session["status"] = "prepared"
-    state["next_actions"] = [
-        {
-            "id": f"append-{attempt['attempt_id']}",
-            "kind": "append-annotation-agent",
-            "phase": "annotation",
-            "session_id": session["session_id"],
-            "attempt_id": attempt["attempt_id"],
-            "input": str(attempt_paths["input"]),
-            "report": str(attempt_paths["report"]),
-            "feedback_sources": attempt.get("feedback_sources", []),
-            "consider_broader_refactor": _consider_broader_refactor(attempt),
-        }
-    ]
-    _append_event(
-        run_root,
-        state,
-        "annotation-summary-ready",
-        attempt=attempt["attempt_id"],
-        input_sha256=attempt["input_sha256"],
-    )
-    _save_state(run_root, state)
-    print(
-        json.dumps(
-            {
-                "status": "prepared",
-                "attempt": attempt["attempt_id"],
-                "next_action": state["next_actions"][0]["id"],
-            },
-            indent=2,
-        )
-    )
-    return 0
-
-
 def _dune_gate_errors(state: dict[str, Any]) -> list[str]:
-    source_goal = state.get("source_goal_version")
-    digest = str(
-        source_goal.get("digest") if isinstance(source_goal, dict) else ""
-    )
-    if not digest:
-        return ["accepted annotation has no source_goal_version"]
     return dune_preparation_receipt_errors(
         workspace_root=Path(str(state["main_root"])),
         receipt=(
@@ -2803,7 +1968,6 @@ def _dune_gate_errors(state: dict[str, Any]) -> list[str]:
             if isinstance(state.get("dune_preparation"), dict)
             else None
         ),
-        expected_source_goal_version=digest,
     )
 
 
@@ -2814,11 +1978,11 @@ def _queue_dune_gate(state: dict[str, Any]) -> None:
 
 
 def _target_witnesses(state: dict[str, Any]) -> list[str]:
-    source_goal = state.get("source_goal_version")
-    if not isinstance(source_goal, dict):
-        return []
-    witnesses = source_goal.get("target_witnesses")
-    return [str(item) for item in witnesses] if isinstance(witnesses, list) else []
+    try:
+        obligations = _manual_obligations(state)
+    except (OSError, UnicodeError, ValueError) as exc:
+        raise SystemExit(f"current proof manual cannot be parsed: {exc}") from exc
+    return [str(item) for item in obligations["top_level"]]
 
 
 def _proving_feedback_attempt_id(state: dict[str, Any]) -> str:
@@ -2863,6 +2027,7 @@ def _advance_after_dune_build(state: dict[str, Any]) -> None:
     state["accepted_rounds"]["vc-checking"] = {
         "group_plan": str(plan_path),
         "group_plan_sha256": _file_digest(plan_path),
+        "proof_manual_sha256": _proof_manual_sha256(state),
     }
     state["phase"] = VC_PROVING_PHASE
     _init_vc_proving_attempt(state)
@@ -2885,10 +2050,10 @@ def _queue_pre_vc_annotation_drift(
     )
     if not attempt_id:
         raise SystemExit(
-            "pre-VC current-version drift has no accepted annotation attempt"
+            "pre-VC current-file drift has no accepted annotation attempt"
         )
     blocker = {
-        "failure_class": "current-version-drift",
+        "failure_class": "current-file-drift",
         "action": "dune-build",
         "message": errors[0],
         "error_count": len(errors),
@@ -2901,7 +2066,7 @@ def _queue_pre_vc_annotation_drift(
             "kind": "main-owned-action",
             "action": "retry-round",
             "phase": "annotation",
-            "reason": "dune-preparation-source-drift",
+            "reason": "dune-preparation-file-drift",
             "previous_attempt": attempt_id,
         }
     ]
@@ -2915,6 +2080,29 @@ def step(args: argparse.Namespace) -> int:
     )
     run_root = _run_root_from_id(main_root, args.run)
     state = _load_state(run_root)
+    from controller_control import run_control_record, run_is_paused
+
+    if run_is_paused(state):
+        control = run_control_record(state)
+        print(
+            json.dumps(
+                {
+                    "phase": state["phase"],
+                    "status": "paused",
+                    "next_actions": [],
+                    "waiting_for": [
+                        {
+                            "phase": str(state["phase"]),
+                            "status": "paused",
+                            "reason": str(control.get("reason") or ""),
+                        }
+                    ],
+                    "run_control": control,
+                },
+                indent=2,
+            )
+        )
+        return 0
     state["waiting_for"] = []
     phase = state["phase"]
     pending_retry = any(
@@ -2934,7 +2122,7 @@ def step(args: argparse.Namespace) -> int:
     )
     # A main-owned retry action is an explicit state transition awaiting the
     # caller. Re-stepping must not infer and publish a fresh phase attempt over
-    # it, especially after a version gate has just routed back to annotation.
+    # it, especially after a file gate has just routed back to annotation.
     if isinstance(parent_result_drift, dict):
         # A completed parent result whose digest no longer matches cannot be
         # rerun from a terminal proving state and cannot authorize final apply.
@@ -2948,10 +2136,10 @@ def step(args: argparse.Namespace) -> int:
         _init_round_attempt(state, phase="annotation")
     elif phase == "annotation":
         if "annotation" in state["accepted_rounds"]:
-            version_errors = _current_version_errors(state)
-            if version_errors:
+            file_errors = _current_files_errors(state)
+            if file_errors:
                 state["phase"] = "dune-build"
-                _queue_pre_vc_annotation_drift(state, version_errors)
+                _queue_pre_vc_annotation_drift(state, file_errors)
             elif _dune_gate_errors(state):
                 _queue_dune_gate(state)
             else:
@@ -2959,9 +2147,9 @@ def step(args: argparse.Namespace) -> int:
         elif _current_attempt(state, "annotation") is None:
             _init_round_attempt(state, phase="annotation")
     elif phase == "dune-build":
-        version_errors = _current_version_errors(state)
-        if version_errors:
-            _queue_pre_vc_annotation_drift(state, version_errors)
+        file_errors = _current_files_errors(state)
+        if file_errors:
+            _queue_pre_vc_annotation_drift(state, file_errors)
         else:
             gate_errors = _dune_gate_errors(state)
             if gate_errors:

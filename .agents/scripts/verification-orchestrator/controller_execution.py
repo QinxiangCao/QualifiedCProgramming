@@ -3,11 +3,14 @@
 from __future__ import annotations
 
 import argparse
+import os
 import time
 from datetime import UTC, datetime
 from pathlib import Path
 
+from controller_control import require_active_run
 from controller_state import _record_timing, _run_root_from_id
+from process_adapter import CONTROL_SIGNAL_ENV
 
 
 def _args_main_root(args: argparse.Namespace) -> Path:
@@ -24,7 +27,15 @@ def _record_command_timing(
     started_at: str,
     elapsed_seconds: float,
 ) -> None:
-    if args.command in {"init-run", "symexec", "coq-check", "timing-stage"}:
+    if args.command in {
+        "init-run",
+        "pause-run",
+        "cancel-action",
+        "resume-run",
+        "symexec",
+        "coq-check",
+        "unfreeze",
+    }:
         return
     if not getattr(args, "run", None):
         return
@@ -57,9 +68,26 @@ def execute_command(args: argparse.Namespace) -> int:
         .isoformat(timespec="microseconds")
         .replace("+00:00", "Z")
     )
+    control_path: Path | None = None
+    previous_control_environment = os.environ.get(CONTROL_SIGNAL_ENV)
     try:
+        if args.command not in {
+            "init-run",
+            "step",
+            "pause-run",
+            "cancel-action",
+            "resume-run",
+            "validate-artifact",
+        }:
+            control_path = require_active_run(args)
+        if control_path is not None:
+            os.environ[CONTROL_SIGNAL_ENV] = str(control_path)
         return int(args.func(args))
     finally:
+        if previous_control_environment is None:
+            os.environ.pop(CONTROL_SIGNAL_ENV, None)
+        else:
+            os.environ[CONTROL_SIGNAL_ENV] = previous_control_environment
         _record_command_timing(
             args,
             started_at=started_at,

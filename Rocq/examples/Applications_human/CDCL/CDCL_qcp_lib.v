@@ -5,11 +5,9 @@ Require Import Coq.Strings.String.
 Require Import Coq.micromega.Psatz.
 Require Import Coq.Arith.PeanoNat.
 Require Import Coq.Logic.FunctionalExtensionality.
-Require Import Coq.Sorting.Permutation.
-Require Import Coq.Logic.FinFun.
-From AUXLib Require Import ListLib.
+From AUXLib Require Import int_auto ListLib.
 From SimpleC.SL Require Import SeparationLogic.
-From SimpleC.StrategyLib Require Import Mapping.
+From CDCLLib Require Export cdcl_shared_lib.
 
 Import ListNotations.
 Import naive_C_Rules.
@@ -19,68 +17,47 @@ Local Open Scope list.
 Local Open Scope sac.
 Local Set Warnings "-simpl-unfolding-modifiers".
 
-(** The direct, proof-readable SAT layer. *)
+(* [cdcl_entailer] names the framework entailer's default side-solver
+   (Rocq/SeparationLogic/CommonAssertion.v:1452) as used throughout this
+   file family: separation-logic entailment discharged by [lia], [nia],
+   or [int_auto], in that order. Every proof in this family goes through
+   this one name rather than the bare tactic. *)
+Ltac cdcl_entailer := entailer_with ltac:(lia || nia || int_auto).
 
-Inductive literal : Type :=
-| Pos (x : Z)
-| Neg (x : Z).
+(* ------------------------------------------------------------------ *)
+(* Bridge to the shared CDCL library.                                   *)
+(* The C solver stores a propagation reason as an INDEX into the clause *)
+(* array (with -1 meaning "no reason"), while the shared [cdcl_view]    *)
+(* stores the clause VALUE.  [reason_clause_of_index] resolves the      *)
+(* index once, at the producer, so every consumer can use the shared    *)
+(* definitions unchanged.                                              *)
+(* ------------------------------------------------------------------ *)
+Definition reason_clause_of_index (a : cdcl_view) (reason : Z) : option clause :=
+  if reason =? -1 then None
+  else nth_error (installed_clauses a) (Z.to_nat reason).
 
-Definition clause := list literal.
-Definition cnf := list clause.
-Definition valuation := total_mapping bool.
-Definition Assignment := valuation.
-Definition partial_valuation := partial_mapping bool.
+(* Above 0 the index resolves unconditionally; this is the rewrite every
+   consumer needs, in place of an [unfold] plus a [Z.eqb] side condition. *)
+Lemma reason_clause_of_index_pos : forall a r,
+  0 <= r ->
+  reason_clause_of_index a r = nth_error (installed_clauses a) (Z.to_nat r).
+Proof.
+  intros a r Hr. unfold reason_clause_of_index.
+  assert (Hne : (r =? -1) = false) by (apply Z.eqb_neq; lia).
+  rewrite Hne. reflexivity.
+Qed.
 
-Definition var_in_range (n x : Z) : Prop := 0 <= x < n.
-
-Definition literal_var (l : literal) : Z :=
-  match l with Pos x | Neg x => x end.
-
-Definition literal_wf (n : Z) (l : literal) : Prop :=
-  var_in_range n (literal_var l).
-
-Definition cnf_wf (n : Z) (f : cnf) : Prop :=
-  0 <= n /\ Forall (fun c => Forall (literal_wf n) c) f.
-
-Definition bounded_valuation (n : Z) (rho : valuation) : Prop :=
-  forall x, ~ var_in_range n x -> rho x = false.
+(* Index-flavoured spelling of the shared [assigns_one]; it is DEFINED
+   in terms of the shared predicate, so all reasoning reduces to it. *)
+Definition assigns_one_idx
+    (old new : cdcl_view) (x : Z) (b : bool) (d reason : Z) : Prop :=
+  assigns_one old new x b d (reason_clause_of_index new reason).
 
 Definition rho_of_values (n : Z) (values : list Z) : valuation :=
   fun x =>
     if andb (0 <=? x) (x <? n)
     then Z.eqb (Znth x values (-1)) 1
     else false.
-
-Definition eval_literal (rho : valuation) (l : literal) : bool :=
-  match l with
-  | Pos x => rho x
-  | Neg x => negb (rho x)
-  end.
-
-Definition eval_partial_literal
-    (sigma : partial_valuation) (l : literal) : option bool :=
-  match sigma (literal_var l) with
-  | None => None
-  | Some b =>
-      Some (match l with Pos _ => b | Neg _ => negb b end)
-  end.
-
-Definition clause_satisfied (rho : valuation) (c : clause) : Prop :=
-  exists l, In l c /\ eval_literal rho l = true.
-
-Definition models (rho : valuation) (f : cnf) : Prop :=
-  Forall (clause_satisfied rho) f.
-
-Definition cnf_sat (n : Z) (F : cnf) : Prop :=
-  cnf_wf n F /\
-  exists J : Assignment, bounded_valuation n J /\ models J F.
-
-Definition entails_clause (f : cnf) (c : clause) : Prop :=
-  forall rho, models rho f -> clause_satisfied rho c.
-
-Definition cnf_unsat (n : Z) (f : cnf) : Prop :=
-  cnf_wf n f /\
-  forall rho, bounded_valuation n rho -> ~ models rho f.
 
 Definition row_wf (n : Z) (row : list Z) : Prop :=
   Zlength row = n /\
@@ -107,28 +84,6 @@ Definition original_prefix_exact
 
 (** Exact summaries used as semantic state by the implementation. *)
 
-Fixpoint clause_true_count
-    (sigma : partial_valuation) (c : clause) : Z :=
-  match c with
-  | [] => 0
-  | l :: c' =>
-      match eval_partial_literal sigma l with
-      | Some true => 1 + clause_true_count sigma c'
-      | _ => clause_true_count sigma c'
-      end
-  end.
-
-Fixpoint clause_unassigned_count
-    (sigma : partial_valuation) (c : clause) : Z :=
-  match c with
-  | [] => 0
-  | l :: c' =>
-      match eval_partial_literal sigma l with
-      | None => 1 + clause_unassigned_count sigma c'
-      | _ => clause_unassigned_count sigma c'
-      end
-  end.
-
 Definition expected_clause_state
     (sigma : partial_valuation) (c : clause) : Z :=
   let t := clause_true_count sigma c in
@@ -145,98 +100,12 @@ Definition clause_summary_ok
   unassign_num = clause_unassigned_count sigma c /\
   state = expected_clause_state sigma c.
 
-Definition clause_false
-    (sigma : partial_valuation) (c : clause) : Prop :=
-  forall l, In l c -> eval_partial_literal sigma l = Some false.
-
-Definition clause_unit
-    (sigma : partial_valuation) (c : clause) : Prop :=
-  clause_true_count sigma c = 0 /\
-  clause_unassigned_count sigma c = 1.
-
-Fixpoint literal_var_count (x : Z) (c : clause) : Z :=
-  match c with
-  | [] => 0
-  | l :: c' =>
-      if literal_var l =? x
-      then 1 + literal_var_count x c'
-      else literal_var_count x c'
-  end.
-
-Fixpoint literal_true_at_count (x : Z) (b : bool) (c : clause) : Z :=
-  match c with
-  | [] => 0
-  | l :: c' =>
-      if literal_var l =? x
-      then if eval_literal (fun _ => b) l
-           then 1 + literal_true_at_count x b c'
-           else literal_true_at_count x b c'
-      else literal_true_at_count x b c'
-  end.
-
-Definition clear_partial
-    (sigma : partial_valuation) (x : Z) : partial_valuation :=
-  total_mapping_update sigma x None.
-
-(** Semantic view of the current CDCL state. *)
-
-Record cdcl_view := {
-  assignment : partial_valuation;
-  level_of : Z -> option Z;
-  reason_of : Z -> option Z;
-  assignment_rank : Z -> option nat;
-  installed_clauses : list clause;
-  current_level : Z
-}.
-
 Definition installed_clauses_sound
     (F : cnf) (original_count : Z)
     (installed : list clause) : Prop :=
   original_prefix_exact F original_count installed /\
   Forall (fun c => entails_clause F c)
     (skipn (Z.to_nat original_count) installed).
-
-Definition satisfying_literal (x : Z) (b : bool) : literal :=
-  if b then Pos x else Neg x.
-
-Definition falsified_literal (x : Z) (b : bool) : literal :=
-  if b then Neg x else Pos x.
-
-(* Clause [i] of [installed_clauses] is what forced variable [x] to the value
-   it has in [a].  Every *other* literal of that clause sits at a decision
-   level <= x's, those at exactly x's level were assigned before x, and all of
-   them are false under the earlier assignments -- so x's value is forced.
-   Equivalently: after some transition at x's own decision level, clause [i]
-   became a unit clause available for unit propagation.
-
-   Original: installed_clauses中的第i个子句确定了变量x的取值为它在a中的取值，因为
-   这一个子句中所有其他的literal的dl都低于或等于x的dl，而dl与x相等的literal在x之前
-   先被确定取值，并且所有其他的literal全部因为前面的赋值而为false，因此x的取值被确定
-   /在x的dl这一层级的某一次变换后，第i个子句成为可unit propagation的unit子句 *)
-Definition reason_valid (a : cdcl_view) (x i : Z) : Prop :=
-  exists b d rx c,
-    assignment a x = Some b /\
-    level_of a x = Some d /\
-    assignment_rank a x = Some rx /\
-    nth_error (installed_clauses a) (Z.to_nat i) = Some c /\
-    In (satisfying_literal x b) c /\
-    (forall l,
-       In l c -> literal_var l <> x ->
-       eval_partial_literal (assignment a) l = Some false /\
-       exists dy ry,
-         level_of a (literal_var l) = Some dy /\
-         assignment_rank a (literal_var l) = Some ry /\
-         dy <= d /\ (ry < rx)%nat).
-
-(* The value currently forced for [x] depends on [y], whose value was
-   determined or decided before x's.
-   Original: 当前x确定的值依赖于y的赋值在x之前被确定或分配的值 *)
-Definition reason_dependency (a : cdcl_view) (x y : Z) : Prop :=
-  exists i c ly,
-    reason_of a x = Some i /\
-    nth_error (installed_clauses a) (Z.to_nat i) = Some c /\
-    In ly c /\ literal_var ly = y /\ y <> x /\
-    eval_partial_literal (assignment a) ly = Some false.
 
 Definition same_level_predecessor
     (a : cdcl_view) (x y d : Z) : Prop :=
@@ -247,48 +116,195 @@ Definition same_level_predecessor
     assignment_rank a x = Some rx /\
     assignment_rank a y = Some ry /\ (ry < rx)%nat.
 
-(* Every assigned value in [a] is either the decision made at some decision
-   level, or was forced because earlier assignments turned another clause into
-   a unit clause -- or was forced by an originally-unit clause.
-   Original: a中所有已赋值的值，要么是某一个dl的decision值，要么是因为前面的赋值而
-   导致其他子句成为unit被确定，或者原始unit子句确定 *)
-Definition grounded_at (a : cdcl_view) : Prop :=
+(* ------------------------------------------------------------------ *)
+(* CDCL maintains STRONGER invariants than the shared library needs.   *)
+(* Rather than spell groundedness a SECOND time -- two near-identical  *)
+(* predicates that could silently drift apart -- each strong invariant *)
+(* is the SHARED predicate conjoined with the extra local conditions   *)
+(* CDCL establishes, one named definition per condition.  Weakening    *)
+(* into the shared predicate is then literally [proj1], and there is   *)
+(* exactly one definition of groundedness in the development.          *)
+(* ------------------------------------------------------------------ *)
+
+(* A literal with no reason is a decision, and CDCL never decides at
+   level 0. *)
+Definition decisions_above_level_zero (a : cdcl_view) : Prop :=
+  forall x b d,
+    assignment a x = Some b ->
+    level_of a x = Some d ->
+    reason_of a x = None ->
+    0 < d.
+
+(* The reason recorded for an assigned literal is a clause the solver
+   actually has installed. *)
+Definition reasons_installed (a : cdcl_view) : Prop :=
+  forall x b c,
+    assignment a x = Some b ->
+    reason_of a x = Some c ->
+    In c (installed_clauses a).
+
+(* Propagation is eager: a literal forced at a positive level has a
+   predecessor assigned at that same level. *)
+Definition reasons_eagerly_propagated (a : cdcl_view) : Prop :=
+  forall x b c d,
+    assignment a x = Some b ->
+    reason_of a x = Some c ->
+    level_of a x = Some d ->
+    d = 0 \/ exists y, same_level_predecessor a x y d.
+
+(* Nothing is decided at level 0. *)
+Definition no_decision_at_level_zero (a : cdcl_view) : Prop :=
+  forall x, ~ decision_at a x 0.
+
+(* The decision at each level is unique. *)
+Definition decisions_unique (a : cdcl_view) : Prop :=
+  forall d x y,
+    0 < d <= current_level a ->
+    decision_at a x d -> decision_at a y d -> x = y.
+
+Definition grounded_at_cdcl (a : cdcl_view) : Prop :=
+  grounded_at a /\
+  decisions_above_level_zero a /\
+  reasons_installed a /\
+  reasons_eagerly_propagated a.
+
+Definition closed_levels_cdcl (a : cdcl_view) : Prop :=
+  closed_levels a /\
+  no_decision_at_level_zero a /\
+  decisions_unique a.
+
+(* Intro/elim bridges.  The strong invariants used to be written as one
+   big quantified formula; these two pairs recover exactly that shape,
+   so proofs that reasoned about the old spelling need only swap an
+   [unfold] for an [apply]. *)
+Lemma grounded_at_cdcl_elim :
+  forall a, grounded_at_cdcl a ->
   forall x b,
     assignment a x = Some b ->
     exists d rx,
       level_of a x = Some d /\
       assignment_rank a x = Some rx /\
       ((reason_of a x = None /\ 0 < d) \/
-       (exists i,
-          reason_of a x = Some i /\
-          reason_valid a x i /\
+       (exists c,
+          reason_of a x = Some c /\
+          In c (installed_clauses a) /\
+          reason_valid a x c /\
           (d = 0 \/ exists y, same_level_predecessor a x y d))).
+Proof.
+  intros a [Hg [Hdec [Hinst Heager]]] x b Hx.
+  destruct (Hg x b Hx) as [d [rx [Hlevel [Hrank Hcase]]]].
+  exists d, rx. split; [exact Hlevel|]. split; [exact Hrank|].
+  destruct Hcase as [Hnone | [c [Hsome Hvalid]]].
+  - left. split; [exact Hnone|]. exact (Hdec x b d Hx Hlevel Hnone).
+  - right. exists c. split; [exact Hsome|].
+    split; [exact (Hinst x b c Hx Hsome)|].
+    split; [exact Hvalid|].
+    exact (Heager x b c d Hx Hsome Hlevel).
+Qed.
 
-Definition decision_at (a : cdcl_view) (x d : Z) : Prop :=
-  (exists b, assignment a x = Some b) /\
-  level_of a x = Some d /\ reason_of a x = None.
+Lemma grounded_at_cdcl_intro :
+  forall a,
+  (forall x b,
+    assignment a x = Some b ->
+    exists d rx,
+      level_of a x = Some d /\
+      assignment_rank a x = Some rx /\
+      ((reason_of a x = None /\ 0 < d) \/
+       (exists c,
+          reason_of a x = Some c /\
+          In c (installed_clauses a) /\
+          reason_valid a x c /\
+          (d = 0 \/ exists y, same_level_predecessor a x y d)))) ->
+  grounded_at_cdcl a.
+Proof.
+  intros a H. split; [| split; [| split]].
+  - intros x b Hx.
+    destruct (H x b Hx) as [d [rx [Hlevel [Hrank Hcase]]]].
+    exists d, rx. split; [exact Hlevel|]. split; [exact Hrank|].
+    destruct Hcase as [[Hnone _] | [c [Hsome [_ [Hvalid _]]]]].
+    + left. exact Hnone.
+    + right. exists c. split; [exact Hsome|exact Hvalid].
+  - intros x b d Hx Hlevel Hnone.
+    destruct (H x b Hx) as [d' [rx [Hlevel' [_ Hcase]]]].
+    rewrite Hlevel in Hlevel'. injection Hlevel' as Hdd. subst d'.
+    destruct Hcase as [[_ Hpos] | [c [Hsome _]]].
+    + exact Hpos.
+    + rewrite Hnone in Hsome. discriminate.
+  - intros x b c Hx Hsome.
+    destruct (H x b Hx) as [d [rx [_ [_ Hcase]]]].
+    destruct Hcase as [[Hnone _] | [c' [Hsome' [Hin _]]]].
+    + rewrite Hnone in Hsome. discriminate.
+    + rewrite Hsome in Hsome'. injection Hsome' as Hcc. subst c'. exact Hin.
+  - intros x b c d Hx Hsome Hlevel.
+    destruct (H x b Hx) as [d' [rx [Hlevel' [_ Hcase]]]].
+    rewrite Hlevel in Hlevel'. injection Hlevel' as Hdd. subst d'.
+    destruct Hcase as [[Hnone _] | [c' [Hsome' [_ [_ Heager]]]]].
+    + rewrite Hnone in Hsome. discriminate.
+    + exact Heager.
+Qed.
 
-  (* No variable is assigned at a decision level above the view's own level,
-     and for every level from 1 up to the view's current level there is
-     exactly one variable that holds its value because of the decision made
-     at that level.
-     Original: 所有变量赋值的dl不会超过整个view的dl，并且从1到当前view的dl每一个dl
-     恰好有一个变量是因为在这一层dl的decision被赋值为当前的值 *)
-Definition closed_levels (a : cdcl_view) : Prop :=
+Lemma closed_levels_cdcl_elim :
+  forall a, closed_levels_cdcl a ->
   0 <= current_level a /\
   (forall x b d,
      assignment a x = Some b -> level_of a x = Some d ->
      0 <= d <= current_level a) /\
   (forall x, ~ decision_at a x 0) /\
   (forall d, 0 < d <= current_level a -> exists! x, decision_at a x d).
+Proof.
+  intros a [[Hnonneg [Hbound Hex]] [Hno0 Huniq]].
+  split; [exact Hnonneg|]. split; [exact Hbound|]. split; [exact Hno0|].
+  intros d Hd. destruct (Hex d Hd) as [x Hx].
+  exists x. split; [exact Hx|].
+  intros y Hy. exact (Huniq d x y Hd Hx Hy).
+Qed.
 
-Definition restrict_to_level
-    (a : cdcl_view) (k : Z) : partial_valuation :=
-  fun x =>
-    match assignment a x, level_of a x with
-    | Some b, Some d => if d <=? k then Some b else None
-    | _, _ => None
-    end.
+(* The strong invariants are conjunctions; this restores the single
+   quantified shape the solver proofs were written against, for every
+   such hypothesis in the context at once.  [apply .. in H] retypes H, so
+   H no longer matches and the [repeat] terminates. *)
+Ltac cdcl_shape :=
+  repeat match goal with
+  | H : grounded_at_cdcl _ |- _ =>
+      let H' := fresh "H" in
+      pose proof (grounded_at_cdcl_elim _ H) as H'; clear H; rename H' into H
+  | H : closed_levels_cdcl _ |- _ =>
+      let H' := fresh "H" in
+      pose proof (closed_levels_cdcl_elim _ H) as H'; clear H; rename H' into H
+  end.
+
+Lemma closed_levels_cdcl_intro :
+  forall a,
+  (0 <= current_level a /\
+   (forall x b d,
+      assignment a x = Some b -> level_of a x = Some d ->
+      0 <= d <= current_level a) /\
+   (forall x, ~ decision_at a x 0) /\
+   (forall d, 0 < d <= current_level a -> exists! x, decision_at a x d)) ->
+  closed_levels_cdcl a.
+Proof.
+  intros a [Hnonneg [Hbound [Hno0 Huniq]]].
+  split; [| split].
+  - split; [exact Hnonneg|]. split; [exact Hbound|].
+    intros d Hd. destruct (Huniq d Hd) as [x [Hx _]]. exists x. exact Hx.
+  - exact Hno0.
+  - intros d x y Hd Hx Hy.
+    destruct (Huniq d Hd) as [z [_ Hz]].
+    rewrite <- (Hz x Hx). rewrite <- (Hz y Hy). reflexivity.
+Qed.
+
+(* Inverse direction of [grounded_at_cdcl_elim] / [closed_levels_cdcl_elim]:
+   a GOAL stated as [grounded_at_cdcl a] is discharged from its four
+   conjuncts by [apply grounded_at_cdcl_intro].  Hypotheses are never
+   re-packed, and there are two spellings of the projection.  A proof that
+   still needs the packed form afterwards -- to discharge a callee taking it
+   by [assumption]/[eauto] -- projects the single quantified shape with
+   [pose proof (..._elim _ H)], which leaves the packed hypothesis in
+   context.  A proof that does not need it again uses [cdcl_shape], which
+   retypes every packed hypothesis in place and so clears the packed form.
+   There is deliberately no hint database: importing this file must not
+   change what a plain [auto]/[eauto] proves. *)
+
 
 Definition active_frontier_clause
     (sigma : partial_valuation) (c : clause) : Prop :=
@@ -349,13 +365,14 @@ Definition snapshot_level
     end.
 
 Definition snapshot_reason
-    (n : Z) (snap : dense_snapshot) : Z -> option Z :=
+    (n : Z) (snap : dense_snapshot) : Z -> option clause :=
   fun x =>
     match snapshot_assignment n snap x with
     | None => None
     | Some _ =>
         let r := Znth x (snap_reasons snap) (-1) in
-        if r =? -1 then None else Some r
+        if r =? -1 then None
+        else nth_error (map dense_decode (snap_rows snap)) (Z.to_nat r)
     end.
 
 Definition cdcl_view_of_snapshot
@@ -430,21 +447,12 @@ Definition no_current_level_propagated_literal
   forall l, In l L -> current_level_literal a l ->
     reason_of a (literal_var l) = None.
 
-Definition learned_clause_sound
-    (F : cnf) (a : cdcl_view) (L : clause) : Prop :=
-  entails_clause F L /\ clause_false (assignment a) L.
-
 Definition current_learning_exit_cert
     (F : cnf) (a : cdcl_view) (L : clause) : Prop :=
   learned_clause_sound F a L /\
   (L = [] \/
    current_level_support a L /\
    no_current_level_propagated_literal a L).
-
-Definition clause_asserting_after
-    (a : cdcl_view) (target : Z) (L : clause) : Prop :=
-  clause_true_count (restrict_to_level a target) L = 0 /\
-  clause_unassigned_count (restrict_to_level a target) L = 1.
 
 Definition learned_frontier_safe_after
     (a : cdcl_view) (target : Z) (L : clause) : Prop :=
@@ -489,32 +497,10 @@ Definition backjump_target_profile
 
 (** Pure transition relations used by the operation contracts. *)
 
-(* [new] is [old] with exactly one variable assignment added -- x |-> b at
-   decision level d, with antecedent [reason] -- and everything else unchanged.
-   Original: new是old增加 x->b, dl=d, antecedent = reason一个变量赋值,其他不变的view *)
-Definition assigns_one
-    (old new : cdcl_view) (x : Z) (b : bool)
-    (d reason : Z) : Prop :=
-  assignment old x = None /\
-  assignment new x = Some b /\
-  level_of new x = Some d /\
-  reason_of new x = (if reason =? -1 then None else Some reason) /\
-  (exists rx,
-     assignment_rank new x = Some rx /\
-     forall y,
-       reason_dependency new x y ->
-       exists ry,
-         assignment_rank new y = Some ry /\ (ry < rx)%nat) /\
-  (forall y, y <> x ->
-     assignment new y = assignment old y /\
-     level_of new y = level_of old y /\
-     reason_of new y = reason_of old y /\
-     assignment_rank new y = assignment_rank old y) /\
-  installed_clauses new = installed_clauses old.
-
-(* Assigning last := b at the current level, without changing the clause database, is the common immediate cause of
-  every conflict present after this propagation step -- no immediate conflict in old
-  every conflict in new is immediately caused by this assignment *)
+(* Assigning last := b at the current level, without changing the clause
+   database, is the common immediate cause of every conflict present after this
+   propagation step -- no immediate conflict in old, and every conflict in new
+   is immediately caused by this assignment. *)
 Definition dense_conflict_batch
     (old new : cdcl_view) (last : Z) : Prop :=
   exists b,
@@ -527,30 +513,6 @@ Definition dense_conflict_batch
       clause_false (assignment new) c ->
       In (falsified_literal last b) c).
 
-(* new is old restricted to dl target*)
-Definition restrict_above_level
-    (old new : cdcl_view) (target : Z) : Prop :=
-  current_level new = target /\
-  installed_clauses new = installed_clauses old /\
-  (forall x,
-     match level_of old x with
-     | Some d =>
-         if d <=? target
-         then assignment new x = assignment old x /\
-              level_of new x = level_of old x /\
-              reason_of new x = reason_of old x /\
-              assignment_rank new x = assignment_rank old x
-         else assignment new x = None /\
-              level_of new x = None /\ reason_of new x = None /\
-              assignment_rank new x = None
-     | None => assignment new x = None /\
-               level_of new x = None /\
-               reason_of new x = None /\
-               assignment_rank new x = None
-     end).
-
-
-(* The backjump from old to new by going back to dl target clears all conflicts*)
 Definition backjump_clears
     (old new : cdcl_view) (target : Z) : Prop :=
   restrict_above_level old new target /\
@@ -708,13 +670,7 @@ Definition stable_search_facts
     (n : Z) (snap : dense_snapshot)
     (ranks : Z -> option nat) (logical_dl : Z) : Prop :=
   let a := cdcl_view_of_snapshot n snap ranks logical_dl in
-  grounded_at a /\ closed_levels a /\ frontier_closed a.
-
-Definition no_conflict (a : cdcl_view) : Prop :=
-  forall c, In c (installed_clauses a) -> ~ clause_false (assignment a) c.
-
-Definition no_unit (a : cdcl_view) : Prop :=
-  forall c, In c (installed_clauses a) -> ~ clause_unit (assignment a) c.
+  grounded_at_cdcl a /\ closed_levels_cdcl a /\ frontier_closed a.
 
 Definition total_assignment_on (n : Z) (a : cdcl_view) : Prop :=
   forall x, var_in_range n x -> exists b, assignment a x = Some b.
@@ -812,8 +768,8 @@ Definition unsat_terminal
 
     The eight definitions below are the entire surface of [cdcl_solver]'s
     contract: one input state, three result arms, and the four components they
-    are composed from.  Nothing else in this file depends on them.  They exist
-    so that the public contract reads as "SAT, or UNSAT, or learned-clause
+    are composed from.  Bridge lemmas below connect these wrappers to the body
+    annotations.  The public contract reads as "SAT, or UNSAT, or learned-clause
     capacity exhausted" instead of as three twenty-line conjunctions.
 
     Three things here are load-bearing rather than cosmetic.
@@ -955,25 +911,16 @@ Definition solver_unsat_arm_core
      final_live cap final_snap **
    unconstrained_Assignment values reasons levels n final_snap).
 
-(** The resource-limit arm: the solver gave up.  [cl_size] and [cl_maxsize] are
-    both [cap] -- the clause table is full -- and the arm makes NO claim about
-    [F] whatsoever.
+(** The resource-limit arm: [cl_size] and [cl_maxsize] both equal [cap],
+    so the clause table is full.  This arm gives no SAT or UNSAT verdict.
 
-    It states only that memory is in a good state: level bounds, a well-formed
-    orphan row, the pointer/size identities, and ownership of every array plus
-    the separately allocated uninstalled row.  It deliberately does not carry
-    [stable_search_facts] (that the search state is a legitimate CDCL state) or
-    [current_learning_exit_cert] (that the learned clause is entailed by [F]).
-    Both were inherited from the loop invariant this arm exits from, not chosen:
-    a return path should promise what a caller gets, and a caller of a [-2]
-    result gets nothing about [F].
-
-    Two consequences worth recording.  Dropping them is a weakening, hence
-    sound -- a weaker Ensure is strictly easier to establish, so no proof can
-    break.  And it makes "this arm exposes no verdict" true *by construction*
-    rather than by argument: with no formula-relative pure fact present there is
-    nothing to leak, so no consistency lemma is needed.  [conflict_ranks]
-    disappeared with them; [ranks] stays a parameter only for uniformity. *)
+    It retains level bounds, a well-formed separately allocated uninstalled
+    row, pointer/size identities, and ownership of every array and that row.
+    [store_cnf F ...] still relates the stored clauses to [F] through
+    [coherent_snapshot]; [unconstrained_Assignment] retains the variable-array
+    footprint without a model guarantee.  The arm exports neither
+    [stable_search_facts] nor [current_learning_exit_cert].  [ranks] remains
+    a parameter for uniformity with the other arm cores. *)
 Definition solver_capacity_exhausted_arm_core
     (s : Z) (F : cnf) (original_count : Z)
     (snap : dense_snapshot) (ranks : Z -> option nat)
@@ -1269,7 +1216,7 @@ Definition conflict_levels_rep
   IntArray.full clause n row **
   IntArray.full levels n (snap_levels snap).
 
-(* different from assigns_one, assigns_one completes other updates
+(* different from assigns_one_idx, assigns_one_idx completes other updates
     such as decision level
      + reason
      + well-founded rank
@@ -1375,7 +1322,7 @@ Definition bcp_clause_scan
     (old new : cdcl_view)
     (x : Z) (b : bool) (d reason processed_until exempt live cap : Z)
     (rows : list clause) (states true_counts unassigned : list Z) : Prop :=
-  assigns_one old new x b d reason /\
+  assigns_one_idx old new x b d reason /\
     0 <= exempt < live /\
     mixed_clause_summaries
       (assignment old) (assignment new)
@@ -1717,140 +1664,12 @@ Proof.
     + apply Hp in Hin; lia.
     + apply Hn in Hin; lia.
   - intros [Hnp Hnn].
-    destruct Hd as [Hm|[Hz|Hp1]]; auto.
+    destruct Hd as [Hm|[Hz|Hp1]].
     + exfalso; apply Hnn, Hn; exact Hm.
+    + exact Hz.
     + exfalso; apply Hnp, Hp; exact Hp1.
 Qed.
 
-
-Lemma literal_var_count_nonneg : forall x c, 0 <= literal_var_count x c.
-Proof.
-  intros x c; induction c as [|l c IH].
-  - reflexivity.
-  - cbn [literal_var_count].
-    destruct (literal_var l =? x).
-    + change (0 <= 1 + literal_var_count x c).
-      lia.
-    + exact IH.
-Qed.
-
-Lemma literal_true_at_count_nonneg : forall x b c,
-  0 <= literal_true_at_count x b c.
-Proof.
-  intros x b c; induction c as [|l c IH].
-  - reflexivity.
-  - cbn [literal_true_at_count].
-    destruct (literal_var l =? x).
-    + destruct (eval_literal (fun _ => b) l).
-      * change (0 <= 1 + literal_true_at_count x b c).
-        lia.
-      * exact IH.
-    + exact IH.
-Qed.
-
-Lemma clause_counts_assign : forall sigma x b c,
-  sigma x = None ->
-  clause_unassigned_count (partial_mapping_update sigma x b) c =
-    clause_unassigned_count sigma c - literal_var_count x c /\
-  clause_true_count (partial_mapping_update sigma x b) c =
-    clause_true_count sigma c + literal_true_at_count x b c.
-Proof.
-  intros sigma x b c; induction c as [|l c IH]; intro Hx.
-  - split; reflexivity.
-  - cbn -[eval_partial_literal partial_mapping_update Z.add Z.sub] in *.
-  specialize (IH Hx).
-  destruct l as [y|y];
-    destruct (Z.eq_dec x y) as [->|Hxy].
-  + replace (eval_partial_literal (partial_mapping_update sigma y b) (Pos y))
-      with (Some b) by
-        (unfold eval_partial_literal; rewrite partial_mapping_update_eq; reflexivity).
-    replace (eval_partial_literal sigma (Pos y)) with (None : option bool) by
-      (unfold eval_partial_literal, literal_var; destruct (sigma y) eqn:Hy;
-       [rewrite Hx in Hy; discriminate|reflexivity]).
-    rewrite Z.eqb_refl. destruct IH as [IHu IHt].
-    destruct b; cbn -[Z.add Z.sub]; split; lia.
-  + replace (eval_partial_literal (partial_mapping_update sigma x b) (Pos y))
-      with (eval_partial_literal sigma (Pos y)) by
-        (unfold eval_partial_literal;
-         rewrite partial_mapping_update_neq by exact Hxy; reflexivity).
-    assert (Hyx : (y =? x) = false) by (apply Z.eqb_neq; lia).
-    replace (y =? x) with false by (symmetry; apply Z.eqb_neq; lia).
-    destruct IH as [IHu IHt].
-    destruct (eval_partial_literal sigma (Pos y)) as [[|]|];
-      cbn -[Z.add Z.sub]; rewrite Hyx; rewrite IHu, IHt.
-    all: split; lia.
-  + replace (eval_partial_literal (partial_mapping_update sigma y b) (Neg y))
-      with (Some (negb b)) by
-        (unfold eval_partial_literal; rewrite partial_mapping_update_eq; reflexivity).
-    replace (eval_partial_literal sigma (Neg y)) with (None : option bool) by
-      (unfold eval_partial_literal, literal_var; destruct (sigma y) eqn:Hy;
-       [rewrite Hx in Hy; discriminate|reflexivity]).
-    rewrite Z.eqb_refl. destruct IH as [IHu IHt].
-    destruct b; cbn -[Z.add Z.sub]; split; lia.
-  + replace (eval_partial_literal (partial_mapping_update sigma x b) (Neg y))
-      with (eval_partial_literal sigma (Neg y)) by
-        (unfold eval_partial_literal;
-         rewrite partial_mapping_update_neq by exact Hxy; reflexivity).
-    assert (Hyx : (y =? x) = false) by (apply Z.eqb_neq; lia).
-    replace (y =? x) with false by (symmetry; apply Z.eqb_neq; lia).
-    destruct IH as [IHu IHt].
-    destruct (eval_partial_literal sigma (Neg y)) as [[|]|];
-      cbn -[Z.add Z.sub]; rewrite Hyx;
-      rewrite IHu, IHt; split; lia.
-Qed.
-
-Lemma clause_counts_clear : forall sigma x b c,
-  sigma x = Some b ->
-  clause_unassigned_count (clear_partial sigma x) c =
-    clause_unassigned_count sigma c + literal_var_count x c /\
-  clause_true_count (clear_partial sigma x) c =
-    clause_true_count sigma c - literal_true_at_count x b c.
-Proof.
-  intros sigma x b c; induction c as [|l c IH]; intro Hx.
-  - split; reflexivity.
-  - cbn -[eval_partial_literal clear_partial total_mapping_update Z.add Z.sub] in *.
-  specialize (IH Hx).
-  destruct l as [y|y];
-    destruct (Z.eq_dec x y) as [->|Hxy].
-  + replace (eval_partial_literal (clear_partial sigma y) (Pos y))
-      with (None : option bool) by
-      (unfold eval_partial_literal, clear_partial;
-       rewrite total_mapping_update_eq; reflexivity).
-    replace (eval_partial_literal sigma (Pos y)) with (Some b) by
-      (unfold eval_partial_literal, literal_var; destruct (sigma y) eqn:Hy;
-       [inversion Hx; subst; reflexivity|discriminate]).
-    rewrite Z.eqb_refl. destruct IH as [IHu IHt].
-    destruct b; cbn -[Z.add Z.sub]; split; lia.
-  + replace (eval_partial_literal (clear_partial sigma x) (Pos y))
-      with (eval_partial_literal sigma (Pos y)) by
-        (unfold eval_partial_literal, clear_partial;
-         rewrite total_mapping_update_neq by exact Hxy; reflexivity).
-    assert (Hyx : (y =? x) = false) by (apply Z.eqb_neq; lia).
-    replace (y =? x) with false by (symmetry; apply Z.eqb_neq; lia).
-    destruct IH as [IHu IHt].
-    destruct (eval_partial_literal sigma (Pos y)) as [[|]|];
-      cbn -[Z.add Z.sub]; rewrite Hyx;
-      rewrite IHu, IHt; split; lia.
-  + replace (eval_partial_literal (clear_partial sigma y) (Neg y))
-      with (None : option bool) by
-      (unfold eval_partial_literal, clear_partial;
-       rewrite total_mapping_update_eq; reflexivity).
-    replace (eval_partial_literal sigma (Neg y)) with (Some (negb b)) by
-      (unfold eval_partial_literal, literal_var; destruct (sigma y) eqn:Hy;
-       [inversion Hx; subst; reflexivity|discriminate]).
-    rewrite Z.eqb_refl. destruct IH as [IHu IHt].
-    destruct b; cbn -[Z.add Z.sub]; split; lia.
-  + replace (eval_partial_literal (clear_partial sigma x) (Neg y))
-      with (eval_partial_literal sigma (Neg y)) by
-        (unfold eval_partial_literal, clear_partial;
-         rewrite total_mapping_update_neq by exact Hxy; reflexivity).
-    assert (Hyx : (y =? x) = false) by (apply Z.eqb_neq; lia).
-    replace (y =? x) with false by (symmetry; apply Z.eqb_neq; lia).
-    destruct IH as [IHu IHt].
-    destruct (eval_partial_literal sigma (Neg y)) as [[|]|];
-      cbn -[Z.add Z.sub]; rewrite Hyx;
-      rewrite IHu, IHt; split; lia.
-Qed.
 
 Definition snapshot_set_value
     (snap : dense_snapshot) (x z : Z) : dense_snapshot :=
@@ -1873,7 +1692,8 @@ Proof.
   intros p live cap rows Hcap.
   unfold installed_rows_capacity_rep.
   rewrite (PtrArray.undef_seg_unfold p live cap) by lia.
-  entailer!.
+  unfold StorePtrAsElement.undefstoreA.
+  sepcon_assoc_change. cancel.
 Qed.
 
 Lemma installed_rows_capacity_publish : forall p live cap rows newp row,
@@ -1896,7 +1716,7 @@ Proof.
   assert (Hrows_app : Zlength (rows ++ [row]) = live + 1).
   { rewrite Zlength_app, Zlength_cons, Zlength_nil; lia. }
   Exists (row_ptrs ++ [newp]).
-  entailer!.
+  cdcl_entailer.
   - sep_apply (PtrArray.full_to_seg p live row_ptrs).
     sep_apply (PtrArray.seg_single p live newp).
     sep_apply (PtrArray.seg_merge_to_full p 0 live (live + 1)); try lia.
@@ -1919,7 +1739,7 @@ Proof.
       (IntPtrArray2.ElemArray.full newp (Zlength row) row)).
     simpl map.
     simpl combine.
-    entailer!.
+    cdcl_entailer.
 Qed.
 
 Lemma installed_row_focus_split : forall p live i rows,
@@ -1964,13 +1784,13 @@ Qed.
     [all_unassigned_cells_from_fresh] immediately below.  So folding the entry
     state does not strengthen the precondition.
 
-    Two facts about these proofs worth keeping.  First, [entailer!] closing a
+    Two facts about these proofs worth keeping.  First, [cdcl_entailer] closing a
     goal does not by itself establish that the pure conjuncts were needed: it is
     powerful enough to close a goal without using hypotheses one believes are
     load-bearing.  So each of these bridges was checked against a negative
     control -- the pure hypothesis deleted and the whole thing wrapped in
     [Fail solve [...]] -- before being written here, and it is those controls,
-    not the green, that show the pure conjuncts carry weight.  Second, [entailer!] alpha-renames a
+    not the green, that show the pure conjuncts carry weight.  Second, [cdcl_entailer] alpha-renames a
     surface binder, so [sat_arm_bridge_elim] needs a bare [subst] -- [subst J]
     fails with [No such hypothesis: J]. *)
 
@@ -2021,7 +1841,7 @@ Lemma store_cnf_elim :
       live cap snap
     |-- “ coherent_snapshot F n live original_count snap ” &&
         solver_arrays_rep states true_counts unassigned row_table live cap snap.
-Proof. intros. unfold store_cnf. entailer!. Qed.
+Proof. intros. unfold store_cnf. cancel. Qed.
 
 Lemma store_cnf_intro :
   forall F n original_count states true_counts unassigned row_table live cap snap,
@@ -2029,46 +1849,64 @@ Lemma store_cnf_intro :
     solver_arrays_rep states true_counts unassigned row_table live cap snap
     |-- store_cnf F n original_count states true_counts unassigned row_table
           live cap snap.
-Proof. intros. unfold store_cnf. entailer!. Qed.
+Proof.
+  intros. unfold store_cnf.
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial. assumption.
+Qed.
 
 Lemma unconstrained_Assignment_elim :
   forall values reasons levels n snap,
     unconstrained_Assignment values reasons levels n snap
     |-- variable_arrays_rep values reasons levels n snap.
-Proof. intros. unfold unconstrained_Assignment. entailer!. Qed.
+Proof. intros. unfold unconstrained_Assignment. cancel. Qed.
 
 Lemma unconstrained_Assignment_intro :
   forall values reasons levels n snap,
     variable_arrays_rep values reasons levels n snap
     |-- unconstrained_Assignment values reasons levels n snap.
-Proof. intros. unfold unconstrained_Assignment. entailer!. Qed.
+Proof. intros. unfold unconstrained_Assignment. cancel. Qed.
 
 Lemma store_Assignment_elim :
   forall values reasons levels n snap J,
     store_Assignment values reasons levels n snap J
     |-- “ J = rho_of_values n (snap_values snap) ” &&
         variable_arrays_rep values reasons levels n snap.
-Proof. intros. unfold store_Assignment. entailer!. Qed.
+Proof. intros. unfold store_Assignment. cancel. Qed.
 
 Lemma store_Assignment_intro :
   forall values reasons levels n snap J,
     J = rho_of_values n (snap_values snap) ->
     variable_arrays_rep values reasons levels n snap
     |-- store_Assignment values reasons levels n snap J.
-Proof. intros. unfold store_Assignment. entailer!. Qed.
+Proof.
+  intros. unfold store_Assignment.
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial. assumption.
+Qed.
 
 Lemma uninitialized_Assignment_elim :
   forall values reasons levels n snap,
     uninitialized_Assignment values reasons levels n snap
     |-- variable_arrays_rep values reasons levels n snap.
-Proof. intros. unfold uninitialized_Assignment. entailer!. Qed.
+Proof.
+  intros. unfold uninitialized_Assignment.
+  apply coq_prop_andp_left; intros _; cancel.
+Qed.
 
 Lemma uninitialized_Assignment_intro :
   forall values reasons levels n snap,
     all_unassigned_cells n snap ->
     variable_arrays_rep values reasons levels n snap
     |-- uninitialized_Assignment values reasons levels n snap.
-Proof. intros. unfold uninitialized_Assignment. entailer!. Qed.
+Proof.
+  intros. unfold uninitialized_Assignment.
+  split_pure_spatial.
+  - cancel.
+  - dump_pre_spatial. assumption.
+Qed.
 
 (** The entry state.  [_intro] is the direction that carries the derivation:
     its conclusion asserts the [-1] cells, and nothing in its hypotheses does. *)
@@ -2096,7 +1934,7 @@ Proof.
     by (eapply all_unassigned_cells_from_fresh; eauto).
   unfold solver_input_core, store_cnf, uninitialized_Assignment.
   Exists v_data cl_data.
-  entailer!.
+  cdcl_entailer.
 Qed.
 
 (** [_elim] re-exposes [coherent_snapshot] as a ninth pure conjunct -- it comes
@@ -2124,7 +1962,7 @@ Proof.
   unfold solver_input_core, store_cnf, uninitialized_Assignment.
   Intros v_data cl_data.
   Exists v_data cl_data.
-  entailer!.
+  cdcl_entailer.
 Qed.
 
 (** The SAT arm.  [_intro] is also the phase-F repair recipe: "construct the
@@ -2152,7 +1990,7 @@ Proof.
   Exists (rho_of_values n (snap_values final_snap)).
   unfold solver_sat_arm_core, store_cnf, store_Assignment.
   Exists final_snap final_dl final_live v_data cl_data.
-  entailer!.
+  cdcl_entailer.
 Qed.
 
 Lemma sat_arm_bridge_elim :
@@ -2176,8 +2014,8 @@ Proof.
   unfold solver_sat_arm_core, store_cnf, store_Assignment.
   Intros final_snap final_dl final_live v_data cl_data.
   Exists final_snap final_dl final_live v_data cl_data.
-  entailer!.
-  (* bare [subst]: [entailer!] renamed the surface binder [J] to [J0]. *)
+  cdcl_entailer.
+  (* bare [subst]: [cdcl_entailer] renamed the surface binder [J] to [J0]. *)
   subst. auto.
 Qed.
 
@@ -2210,7 +2048,7 @@ Proof.
   intros.
   unfold solver_unsat_arm_core, store_cnf, unconstrained_Assignment.
   Exists final_snap final_dl final_live v_data cl_data.
-  entailer!.
+  cdcl_entailer.
 Qed.
 
 Lemma unsat_arm_bridge_elim :
@@ -2232,7 +2070,7 @@ Proof.
   unfold solver_unsat_arm_core, store_cnf, unconstrained_Assignment.
   Intros final_snap final_dl final_live v_data cl_data.
   Exists final_snap final_dl final_live v_data cl_data.
-  entailer!.
+  cdcl_entailer.
 Qed.
 
 (** The capacity arm.  Purely definitional in both directions; the six witnesses
@@ -2266,7 +2104,7 @@ Proof.
   unfold solver_capacity_exhausted_arm_core, store_cnf,
          unconstrained_Assignment.
   Exists conflict_snap conflict_dl row_ptr row v_data cl_data.
-  entailer!.
+  cdcl_entailer.
 Qed.
 
 Lemma capacity_arm_bridge_elim :
@@ -2293,17 +2131,7 @@ Proof.
          unconstrained_Assignment.
   Intros conflict_snap conflict_dl row_ptr row v_data cl_data.
   Exists conflict_snap conflict_dl row_ptr row v_data cl_data.
-  entailer!.
-Qed.
-
-(** Support for the capacity arm's "asserts nothing about F" claim: the two
-    verdicts are mutually exclusive, so exhibiting one instance of each that
-    satisfies the arm's pure skeleton shows the skeleton entails neither. *)
-Lemma cnf_sat_not_cnf_unsat :
-  forall n F, cnf_sat n F -> ~ cnf_unsat n F.
-Proof.
-  intros n F (_ & J & Hb & Hm) (_ & Hall).
-  exact (Hall J Hb Hm).
+  cdcl_entailer.
 Qed.
 
 Lemma dense_cancel_cell_complementary : forall a b,
@@ -2350,152 +2178,20 @@ Qed.
 
     Every case split in this development that once used [classic] was over a
     property of a *finite list of literals*, and each such property is
-    decidable.  Discharging them constructively is what keeps the endgame
-    axiom-free: [root_conflict_implies_cnf_unsat], [entails_empty_cnf_unsat],
-    [root_assignment_agrees] and [model_ready_models_original] are all closed
-    under the global context, so both UNSAT routes and the SAT verdict rest on
-    no logical axiom.
+    decidable.  The decision procedures themselves are shared:
+    [literal_eq_dec], [clause_mem_dec] and [clause_var_occurs_dec] live in
+    CDCLLib.sat_shared_lib.  Discharging the splits constructively is what
+    keeps the endgame axiom-free: [root_conflict_implies_cnf_unsat],
+    [entails_empty_cnf_unsat], [root_assignment_agrees] and
+    [model_ready_models_original] are all closed under the global context, so
+    both UNSAT routes and the SAT verdict rest on no logical axiom.
 
     [Coq.Logic.Classical_Prop] is deliberately NOT imported.  Please keep it
-    that way: if a new proof wants a case split, add a decision procedure here
-    rather than reaching for [classic]. *)
+    that way: if a new proof wants a case split, add a decision procedure to
+    the shared library rather than reaching for [classic]. *)
 
-Definition literal_eq_dec (l1 l2 : literal) : {l1 = l2} + {l1 <> l2}.
-Proof. decide equality; apply Z.eq_dec. Defined.
-
-(* Proved by induction rather than via List.In_dec on purpose: AUXLib.ListLib
-   (ListLib.v:55) shadows In_dec with a typeclass-based version whose first
-   explicit argument is the element, so the stdlib spelling does not typecheck
-   here.  Five self-contained lines beat depending on which In_dec is in scope. *)
-Lemma clause_mem_dec :
-  forall (l : literal) (c : clause), {In l c} + {~ In l c}.
-Proof.
-  intros l c. induction c as [|a c IH].
-  - right. intros Hin. contradiction.
-  - destruct (literal_eq_dec a l) as [Heq|Hne].
-    + left. left. exact Heq.
-    + destruct IH as [Hin|Hnin].
-      * left. right. exact Hin.
-      * right. intros [Ha|Hin]; [exact (Hne Ha)|exact (Hnin Hin)].
-Qed.
-
-Lemma clause_var_occurs_dec :
-  forall (c : clause) (x : Z),
-    {exists l, In l c /\ literal_var l = x} +
-    {~ exists l, In l c /\ literal_var l = x}.
-Proof.
-  induction c as [|l c IH]; intros x.
-  - right. intros [l' [Hin _]]. contradiction.
-  - destruct (Z.eq_dec (literal_var l) x) as [Heq|Hne].
-    + left. exists l. split; [left; reflexivity|exact Heq].
-    + destruct (IH x) as [Hyes|Hno].
-      * left. destruct Hyes as [l' [Hin Hvar]].
-        exists l'. split; [right; exact Hin|exact Hvar].
-      * right. intros [l' [Hin Hvar]].
-        destruct Hin as [Heql|Hin'].
-        -- rewrite <- Heql in Hvar. exact (Hne Hvar).
-        -- exact (Hno (ex_intro _ l' (conj Hin' Hvar))).
-Qed.
-
-(** ===== SEED CANDIDATES — generic list lemmas, future ListLib promotion targets ===== *)
-(* promotion target: ListLib/Forall.v *)
-Lemma Forall_Znth_elim :
-  forall (A : Type) (P : A -> Prop) (l : list A) (d : A) i,
-    Forall P l -> 0 <= i < Zlength l -> P (Znth i l d).
-Proof.
-  intros A P l; induction l as [|a l IH]; intros d i Hall Hi.
-  - rewrite Zlength_nil in Hi; lia.
-  - inversion Hall as [|? ? Ha Htail]; subst.
-    rewrite Zlength_cons in Hi.
-    destruct (Z.eq_dec i 0) as [->|Hi0].
-    + rewrite Znth0_cons; exact Ha.
-    + rewrite Znth_cons by lia.
-      apply IH; [exact Htail|lia].
-Qed.
-(* promotion target: ListLib/Length.v *)
-Lemma Znth_In :
-  forall (A : Type) (l : list A) (d : A) i,
-    0 <= i < Zlength l -> In (Znth i l d) l.
-Proof.
-  intros A l; induction l as [|a l IH]; intros d i Hi.
-  - rewrite Zlength_nil in Hi; lia.
-  - rewrite Zlength_cons in Hi.
-    destruct (Z.eq_dec i 0) as [->|Hi0].
-    + rewrite Znth0_cons; left; reflexivity.
-    + rewrite Znth_cons by lia; right; apply IH; lia.
-Qed.
-(* promotion target: ListLib/Base/Positional.v *)
-Lemma Znth_map :
-  forall (A B : Type) (f : A -> B) (l : list A) (i : Z) (da : A) (db : B),
-    0 <= i < Zlength l ->
-    Znth i (List.map f l) db = f (Znth i l da).
-Proof.
-  intros A B f l; induction l as [|x xs IH]; intros i da db Hi.
-  - rewrite Zlength_nil in Hi; lia.
-  - rewrite Zlength_cons in Hi.
-    cbn [List.map].
-    destruct (Z.eq_dec i 0) as [->|Hi0].
-    + repeat rewrite Znth0_cons. reflexivity.
-    + repeat rewrite Znth_cons by lia.
-      apply IH. lia.
-Qed.
-Lemma replace_Znth_replace_Znth_Same :
-  forall (A : Type) (l : list A) i a b,
-  0 <= i ->
-  replace_Znth i b (replace_Znth i a l) = replace_Znth i b l.
-Proof.
-  intros A l. induction l as [|z l IH]; intros i a b Hi.
-  - reflexivity.
-  - destruct (Z.eq_dec i 0) as [->|Hi0].
-    + reflexivity.
-    + rewrite !replace_Znth_cons by lia.
-      f_equal. apply IH. lia.
-Qed.
-(* promotion target: ListLib/NoDup.v *)
-Lemma NoDup_Z_bounded_length : forall xs n,
-  0 <= n ->
-  NoDup xs ->
-  (forall x, In x xs -> 0 <= x < n) ->
-  Z.of_nat (List.length xs) <= n.
-Proof.
-  intros xs n Hn Hnodup Hbounded.
-  assert (Hmap_nodup : NoDup (map Z.to_nat xs)).
-  {
-    induction xs as [|x xs IH]; simpl.
-    - constructor.
-    - inversion Hnodup as [|? ? Hnotin Htail]; subst.
-      constructor.
-      + intro Hin.
-        apply in_map_iff in Hin.
-        destruct Hin as [y [Heq Hyin]].
-        apply Hnotin.
-        assert (Hx0 : 0 <= x) by
-          (pose proof (Hbounded x (or_introl eq_refl)); lia).
-        assert (Hy0 : 0 <= y) by
-          (pose proof (Hbounded y (or_intror Hyin)); lia).
-        apply Z2Nat.inj in Heq; try assumption.
-        subst y. exact Hyin.
-      + apply IH.
-        * exact Htail.
-        * intros y Hy. apply Hbounded. right. exact Hy.
-  }
-  assert (Hincl : incl (map Z.to_nat xs) (seq 0 (Z.to_nat n))).
-  {
-    intros k Hkin.
-    apply in_map_iff in Hkin.
-    destruct Hkin as [x [<- Hxin]].
-    apply in_seq.
-    pose proof (Hbounded x Hxin) as [Hx0 Hxn].
-    split; [lia|].
-    apply Z2Nat.inj_lt; lia.
-  }
-  pose proof (NoDup_incl_length Hmap_nodup Hincl) as Hlen.
-  rewrite length_map, length_seq in Hlen.
-  apply Nat2Z.inj_le in Hlen.
-  rewrite Z2Nat.id in Hlen by lia.
-  exact Hlen.
-Qed.
 (** ===== group: dense_array_prefix_kernels ===== *)
+
 Lemma Zlength_repeat_Z__dense_array_prefix_kernels : forall (v k : Z),
   0 <= k ->
   Zlength (repeat_Z v k) = k.
@@ -2553,8 +2249,8 @@ Proof.
     simpl in Heqx.
     subst x.
     apply dense_cancel_cell_domain.
-    + eapply Forall_forall in Hdoml; [exact Hdoml | eapply in_combine_l; eauto].
-    + eapply Forall_forall in Hdomr; [exact Hdomr | eapply in_combine_r; eauto].
+    + eapply Forall_forall in Hdoml; [exact Hdoml | eapply in_combine_l; exact Hin].
+    + eapply Forall_forall in Hdomr; [exact Hdomr | eapply in_combine_r; exact Hin].
 Qed.
 Lemma resolution_prefix_advance__dense_array_prefix_kernels :
   forall left right out i v,
@@ -2583,20 +2279,11 @@ Lemma coherent_snapshot_row_wf__learning_row_and_scan :
     row_wf n (Znth i (snap_rows snap) nil).
 Proof.
   intros F n live original_count snap i Hcoh Hi.
-  unfold coherent_snapshot in Hcoh.
-  destruct Hcoh as [_ [_ [Hlens [Hcells [_ _]]]]].
-  unfold snapshot_lengths in Hlens.
+  destruct Hcoh as [_ [_ [Hlens [Hcells _]]]].
   destruct Hlens as [_ [_ [_ [Hrowslen _]]]].
-  unfold snapshot_cells_wf in Hcells.
   destruct Hcells as [_ Hrows].
-  rewrite Forall_forall in Hrows.
-  apply Hrows.
-  unfold Znth.
-  apply nth_In.
-  apply Nat2Z.inj_lt.
-  rewrite Z2Nat.id by lia.
-  rewrite <- Zlength_correct, Hrowslen.
-  lia.
+  apply (Forall_Znth_elim _ (row_wf n) (snap_rows snap) nil i Hrows).
+  rewrite Hrowslen; exact Hi.
 Qed.
 Lemma snapshot_reason_bounds__learning_row_and_scan :
   forall F n live original_count snap x,
@@ -2705,29 +2392,15 @@ Proof.
     apply (proj2 (dense_decode_pos n row x Hwf Hx)) in H2.
     lia.
 Qed.
-Lemma clause_false_counts__learning_row_and_scan :
-  forall sigma c,
-    clause_false sigma c ->
-    clause_true_count sigma c = 0 /\
-    clause_unassigned_count sigma c = 0.
-Proof.
-  intros sigma c; induction c as [|l c IH]; intro Hfalse.
-  - split; reflexivity.
-  - assert (Hhead : eval_partial_literal sigma l = Some false).
-    { apply Hfalse. left. reflexivity. }
-    assert (Htail : clause_false sigma c).
-    { intros l' Hin. apply Hfalse. right. exact Hin. }
-    specialize (IH Htail).
-    simpl. rewrite Hhead. simpl. exact IH.
-Qed.
 Lemma restrict_current_assigned__learning_row_and_scan :
   forall a x b,
-    grounded_at a ->
-    closed_levels a ->
+    grounded_at_cdcl a ->
+    closed_levels_cdcl a ->
     assignment a x = Some b ->
     restrict_to_level a (current_level a) x = Some b.
 Proof.
   intros a x b Hground Hclosed Hassign.
+  cdcl_shape.
   specialize (Hground x b Hassign).
   destruct Hground as [d [rx [Hlevel [Hrank Hwhy]]]].
   destruct Hclosed as [Hcur [Hbounds Hrest]].
@@ -2740,8 +2413,8 @@ Proof.
 Qed.
 Lemma clause_false_restrict_current__learning_row_and_scan :
   forall a c,
-    grounded_at a ->
-    closed_levels a ->
+    grounded_at_cdcl a ->
+    closed_levels_cdcl a ->
     clause_false (assignment a) c ->
     clause_false (restrict_to_level a (current_level a)) c.
 Proof.
@@ -2755,8 +2428,8 @@ Proof.
 Qed.
 Lemma conflict_current_support__learning_row_and_scan :
   forall a c,
-    grounded_at a ->
-    closed_levels a ->
+    grounded_at_cdcl a ->
+    closed_levels_cdcl a ->
     frontier_closed a ->
     0 < current_level a ->
     In c (installed_clauses a) ->
@@ -2770,7 +2443,7 @@ Proof.
     clause_false (restrict_to_level a (current_level a)) c).
   { apply clause_false_restrict_current__learning_row_and_scan; assumption. }
   pose proof
-    (clause_false_counts__learning_row_and_scan
+    (clause_false_counts
       (restrict_to_level a (current_level a)) c Hfalse_restrict)
     as [Htrue Hunassigned].
   assert (Hactive :
@@ -2801,7 +2474,7 @@ Proof.
     - exact Hlearned. }
   rewrite Forall_forall in HallInstalled.
   apply HallInstalled.
-  eapply nth_error_In; eauto.
+  eapply nth_error_In; exact Hnth.
 Qed.
 Lemma snapshot_installed_row_at__learning_row_and_scan :
   forall n snap ranks logical_dl live i,
@@ -3351,12 +3024,14 @@ Lemma snapshot_reason_some__learning_row_and_scan :
     assignment (cdcl_view_of_snapshot n snap ranks logical_dl) x = Some b ->
     j = Znth x (snap_reasons snap) 0 ->
     0 <= j ->
-    reason_of (cdcl_view_of_snapshot n snap ranks logical_dl) x = Some j.
+    reason_of (cdcl_view_of_snapshot n snap ranks logical_dl) x =
+      nth_error (map dense_decode (snap_rows snap)) (Z.to_nat j).
 Proof.
   intros F n live original_count snap ranks logical_dl x b j
     Hcoh Hx Hassign Hj Hjnonneg.
   change (snapshot_assignment n snap x = Some b) in Hassign.
-  change (snapshot_reason n snap x = Some j).
+  change (snapshot_reason n snap x =
+    nth_error (map dense_decode (snap_rows snap)) (Z.to_nat j)).
   unfold snapshot_reason. rewrite Hassign.
   unfold coherent_snapshot in Hcoh.
   destruct Hcoh as [_ [_ [Hlens _]]].
@@ -3413,40 +3088,40 @@ Proof.
   destruct (false_dense_pivot_assignment__learning_row_and_scan
     a n left i Hleftwf Hi Hleftcell Hleftfalse) as
     [b [Hassign Hleftpivot]].
-  assert (Hreason : reason_of a i = Some wj).
-  { subst a. eapply snapshot_reason_some__learning_row_and_scan; eauto. lia. }
+  pose proof Hcoh as Hcoh_parts.
+  unfold coherent_snapshot in Hcoh_parts.
+  destruct Hcoh_parts as
+    [_ [_ [Hlens [Hcells [Hsummaries Hinstalled_sound]]]]].
+  assert (Hrowat :
+    nth_error (installed_clauses a) (Z.to_nat wj) =
+    Some (dense_decode right)).
+  { subst a right.
+    eapply snapshot_installed_row_at__learning_row_and_scan; eauto. }
+  assert (Hreason : reason_of a i = Some (dense_decode right)).
+  { rewrite <- Hrowat. subst a.
+    eapply snapshot_reason_some__learning_row_and_scan; eauto. lia. }
   pose proof Hstable as Hstable_copy.
   unfold stable_search_facts in Hstable_copy; simpl in Hstable_copy.
   destruct Hstable_copy as [Hground [Hclosed Hfrontier]].
+  cdcl_shape.
   specialize (Hground i b Hassign).
   destruct Hground as [d [rx [Hlevel [Hrank Hgrounded]]]].
   change (level_of a i = Some d) in Hlevel.
   destruct Hgrounded as [[Hnone Hpositive] |
-    [reason_index [Hreason_index [Hvalid Hgrounded_tail]]]].
+    [reason_clause [Hreason_c [_ [Hvalid Hgrounded_tail]]]]].
   - change (reason_of a i = None) in Hnone.
     rewrite Hreason in Hnone. discriminate.
-  - change (reason_of a i = Some reason_index) in Hreason_index.
-    change (reason_valid a i reason_index) in Hvalid.
-    rewrite Hreason in Hreason_index. inversion Hreason_index.
-    subst reason_index.
+  - change (reason_of a i = Some reason_clause) in Hreason_c.
+    change (reason_valid a i reason_clause) in Hvalid.
+    rewrite Hreason in Hreason_c. inversion Hreason_c.
+    subst reason_clause.
     unfold reason_valid in Hvalid.
     destruct Hvalid as
-      [reason_b [reason_d [reason_rank [reason_clause
+      [reason_b [reason_d [reason_rank
         [Hreason_assign [Hreason_level [Hreason_rank
-          [Hreason_nth [Hrightpivot Hrightother]]]]]]]]].
+          [Hrightpivot Hrightother]]]]]]].
     rewrite Hassign in Hreason_assign. inversion Hreason_assign.
     subst reason_b.
-    pose proof Hcoh as Hcoh_parts.
-    unfold coherent_snapshot in Hcoh_parts.
-    destruct Hcoh_parts as
-      [_ [_ [Hlens [Hcells [Hsummaries Hinstalled_sound]]]]].
-    assert (Hrowat :
-      nth_error (installed_clauses a) (Z.to_nat wj) =
-      Some (dense_decode right)).
-    { subst a right.
-      eapply snapshot_installed_row_at__learning_row_and_scan; eauto. }
-    rewrite Hrowat in Hreason_nth. inversion Hreason_nth.
-    subst reason_clause.
     assert (Hrightentails : entails_clause F (dense_decode right)).
     { eapply installed_clause_entails__learning_row_and_scan;
         [exact Hinstalled_sound | exact Hrowat]. }
@@ -3468,18 +3143,14 @@ Proof.
           [Hdependency [Hsame_x [Hsame_y [rank_x [rank_y Hrank_order]]]]].
         unfold reason_dependency in Hdependency.
         destruct Hdependency as
-          [dep_index [dep_clause [dep_lit
-            [Hdep_reason [Hdep_nth [Hdep_in [Hdep_var
-              [Hdep_neq Hdep_false]]]]]]]].
-        change (reason_of a i = Some dep_index) in Hdep_reason.
-        change (nth_error (installed_clauses a) (Z.to_nat dep_index) =
-          Some dep_clause) in Hdep_nth.
+          [dep_clause [dep_lit
+            [Hdep_reason [Hdep_in [Hdep_var
+              [Hdep_neq Hdep_false]]]]]].
+        change (reason_of a i = Some dep_clause) in Hdep_reason.
         change (eval_partial_literal (assignment a) dep_lit =
           Some false) in Hdep_false.
         change (level_of a y = Some d) in Hsame_y.
         rewrite Hreason in Hdep_reason. inversion Hdep_reason.
-        subst dep_index.
-        rewrite Hrowat in Hdep_nth. inversion Hdep_nth.
         subst dep_clause.
         exists dep_lit. split; [exact Hdep_in|].
         split; [rewrite Hdep_var; exact Hdep_neq|].
@@ -3844,36 +3515,6 @@ Proof.
   exact Hexact.
 Qed.
 (** ===== group: bcp_safety_bounds_a ===== *)
-Lemma clause_true_count_bounds__bcp_safety_bounds_a :
-  forall (sigma : partial_valuation) (c : clause),
-    0 <= clause_true_count sigma c <= Zlength c.
-Proof.
-  intros sigma c.
-  induction c as [| l c IH].
-  - cbn [clause_true_count].
-    rewrite Zlength_nil. lia.
-  - cbn [clause_true_count].
-    rewrite Zlength_cons.
-    destruct (eval_partial_literal sigma l) as [b|] eqn:Heval.
-    + destruct b; lia.
-    + exact (conj (proj1 IH)
-        (Z.le_trans _ _ _ (proj2 IH) (Z.le_succ_diag_r _))).
-Qed.
-Lemma clause_unassigned_count_bounds__bcp_safety_bounds_a :
-  forall (sigma : partial_valuation) (c : clause),
-    0 <= clause_unassigned_count sigma c <= Zlength c.
-Proof.
-  intros sigma c.
-  induction c as [| l c IH].
-  - cbn [clause_unassigned_count].
-    rewrite Zlength_nil. lia.
-  - cbn [clause_unassigned_count].
-    rewrite Zlength_cons.
-    destruct (eval_partial_literal sigma l) eqn:Heval.
-    + exact (conj (proj1 IH)
-        (Z.le_trans _ _ _ (proj2 IH) (Z.le_succ_diag_r _))).
-    + lia.
-Qed.
 Lemma dense_decode_from_Zlength_le__bcp_safety_bounds_a :
   forall (x : Z) (row : list Z),
     Zlength (dense_decode_from x row) <= Zlength row.
@@ -3917,66 +3558,11 @@ Lemma expected_clause_state_bounds__bcp_safety_bounds_a :
     - Zlength c <= expected_clause_state sigma c <= 2.
 Proof.
   intros sigma c.
-  pose proof (clause_true_count_bounds__bcp_safety_bounds_a sigma c)
-    as Htrue.
-  pose proof (clause_unassigned_count_bounds__bcp_safety_bounds_a sigma c)
-    as Hunassigned.
+  pose proof (clause_unassigned_count_bounds sigma c) as Hunassigned.
   unfold expected_clause_state.
-  destruct (0 <? clause_true_count sigma c)%Z eqn:Ht.
-  - apply Z.ltb_lt in Ht. lia.
-  - apply Z.ltb_ge in Ht.
-    destruct (clause_unassigned_count sigma c =? 0)%Z eqn:Hu0.
-    + apply Z.eqb_eq in Hu0. lia.
-    + apply Z.eqb_neq in Hu0.
-      destruct (clause_unassigned_count sigma c =? 1)%Z eqn:Hu1.
-      * apply Z.eqb_eq in Hu1. lia.
-      * apply Z.eqb_neq in Hu1. lia.
-Qed.
-Lemma summary_machine_bounds__bcp_safety_bounds_a :
-  forall
-    (old_sigma new_sigma : partial_valuation)
-    (dense_rows : list (list Z))
-    (states true_counts unassigned : list Z)
-    (live cap processed exempt i n : Z),
-    mixed_clause_summaries
-      old_sigma new_sigma (List.map dense_decode dense_rows)
-      states true_counts unassigned live cap processed (Some exempt) ->
-    0 <= i < live ->
-    processed <= i ->
-    i <> exempt ->
-    Zlength (Znth i dense_rows (nil : list Z)) = n ->
-    (0 <= Znth i true_counts 0 <= n) /\
-    (0 <= Znth i unassigned 0 <= n) /\
-    (- n <= Znth i states 0 <= 2).
-Proof.
-  intros old_sigma new_sigma dense_rows states true_counts unassigned
-    live cap processed exempt i n Hmixed Hi Hprocessed Hneq Hrowlen.
-  unfold mixed_clause_summaries in Hmixed.
-  destruct Hmixed as
-    (_ & _ & _ & _ & _ & _ & Hsummaries).
-  specialize (Hsummaries i Hi).
-  destruct Hsummaries as [_ Hold].
-  assert (Hsome : Some exempt <> Some i) by congruence.
-  specialize (Hold (conj Hprocessed Hsome)).
-  unfold summary_at, clause_summary_ok in Hold.
-  destruct Hold as (Htrue & Hunassigned & Hstate).
-  rewrite Htrue, Hunassigned, Hstate.
-  repeat rewrite Znth_map_dense_decode__bcp_safety_bounds_a.
-  pose proof
-    (clause_true_count_bounds__bcp_safety_bounds_a old_sigma
-      (dense_decode (Znth i dense_rows (nil : list Z)))) as Htrue_bound.
-  pose proof
-    (clause_unassigned_count_bounds__bcp_safety_bounds_a old_sigma
-      (dense_decode (Znth i dense_rows (nil : list Z))))
-    as Hunassigned_bound.
-  pose proof
-    (expected_clause_state_bounds__bcp_safety_bounds_a old_sigma
-      (dense_decode (Znth i dense_rows (nil : list Z)))) as Hstate_bound.
-  pose proof
-    (dense_decode_Zlength_le__bcp_safety_bounds_a
-      (Znth i dense_rows (nil : list Z))) as Hdecode.
-  rewrite Hrowlen in Hdecode.
-  repeat split; lia.
+  destruct (0 <? clause_true_count sigma c)%Z; [lia|].
+  destruct (clause_unassigned_count sigma c =? 0)%Z; [lia|].
+  destruct (clause_unassigned_count sigma c =? 1)%Z; lia.
 Qed.
 (** ===== group: bcp_safety_to_scan_init ===== *)
 Lemma Zlength_map_dense_decode__bcp_safety_to_scan_init :
@@ -3988,14 +3574,6 @@ Proof.
   - rewrite !Zlength_cons.
     f_equal.
     exact IH.
-Qed.
-Lemma Znth_map_dense_decode__bcp_safety_to_scan_init :
-  forall rows i,
-    0 <= i < Zlength rows ->
-    Znth i (map dense_decode rows) nil =
-      dense_decode (Znth i rows nil).
-Proof.
-  intros rows i Hi. apply Znth_map. exact Hi.
 Qed.
 (** ===== group: bcp_unit_to_assignment ===== *)
 Lemma rank_in_clause_below_bound__bcp_unit_to_assignment :
@@ -4023,240 +3601,107 @@ Proof.
                            ranks (literal_var l)) c))).
       lia.
 Qed.
-Lemma clause_true_count_nonnegative_base__bcp_unit_to_assignment :
-  forall sigma c, 0 <= clause_true_count sigma c.
-Proof.
-  intros sigma c; induction c as [|l c IH];
-    cbn -[eval_partial_literal Z.add]; [lia|].
-  destruct (eval_partial_literal sigma l) as [[|]|];
-    cbn -[eval_partial_literal Z.add]; lia.
-Qed.
-Lemma clause_unassigned_count_nonnegative_base__bcp_unit_to_assignment :
-  forall sigma c, 0 <= clause_unassigned_count sigma c.
-Proof.
-  intros sigma c; induction c as [|l c IH];
-    cbn -[eval_partial_literal Z.add]; [lia|].
-  destruct (eval_partial_literal sigma l) as [[|]|];
-    cbn -[eval_partial_literal Z.add]; lia.
-Qed.
-Lemma clause_true_count_member_true__bcp_unit_to_assignment :
-  forall sigma c l,
-    In l c -> eval_partial_literal sigma l = Some true ->
-    1 <= clause_true_count sigma c.
-Proof.
-  intros sigma c; induction c as [|a c IH]; intros l Hin Heval.
-  - contradiction.
-  - simpl in Hin; cbn -[eval_partial_literal Z.add].
-    destruct Hin as [->|Hin].
-    + rewrite Heval.
-      pose proof
-        (clause_true_count_nonnegative_base__bcp_unit_to_assignment sigma c);
-      lia.
-    + specialize (IH l Hin Heval).
-      destruct (eval_partial_literal sigma a) as [[|]|];
-        cbn -[eval_partial_literal Z.add]; lia.
-Qed.
-Lemma clause_unassigned_count_member_none__bcp_unit_to_assignment :
-  forall sigma c l,
-    In l c -> eval_partial_literal sigma l = None ->
-    1 <= clause_unassigned_count sigma c.
-Proof.
-  intros sigma c; induction c as [|a c IH]; intros l Hin Heval.
-  - contradiction.
-  - simpl in Hin; cbn -[eval_partial_literal Z.add].
-    destruct Hin as [->|Hin].
-    + rewrite Heval.
-      pose proof
-        (clause_unassigned_count_nonnegative_base__bcp_unit_to_assignment
-          sigma c);
-      lia.
-    + specialize (IH l Hin Heval).
-      destruct (eval_partial_literal sigma a) as [[|]|];
-        cbn -[eval_partial_literal Z.add]; lia.
-Qed.
-Lemma clause_unassigned_count_two_none__bcp_unit_to_assignment :
-  forall sigma c l1 l2,
-    l1 <> l2 -> In l1 c -> In l2 c ->
-    eval_partial_literal sigma l1 = None ->
-    eval_partial_literal sigma l2 = None ->
-    2 <= clause_unassigned_count sigma c.
-Proof.
-  intros sigma c; induction c as [|a c IH];
-    intros l1 l2 Hneq H1 H2 He1 He2.
-  - contradiction.
-  - simpl in H1, H2; cbn -[eval_partial_literal Z.add].
-    destruct H1 as [H1|H1], H2 as [H2|H2].
-    + subst; contradiction.
-    + subst a; rewrite He1.
-      pose proof
-        (clause_unassigned_count_member_none__bcp_unit_to_assignment
-          sigma c l2 H2 He2); lia.
-    + subst a; rewrite He2.
-      pose proof
-        (clause_unassigned_count_member_none__bcp_unit_to_assignment
-          sigma c l1 H1 He1); lia.
-    + specialize (IH l1 l2 Hneq H1 H2 He1 He2).
-      destruct (eval_partial_literal sigma a) as [[|]|];
-        cbn -[eval_partial_literal Z.add]; lia.
-Qed.
-Lemma eval_satisfying_literal_none__bcp_unit_to_assignment :
-  forall sigma x b,
-    sigma x = None ->
-    eval_partial_literal sigma (satisfying_literal x b) = None.
-Proof.
-  intros sigma x []; unfold satisfying_literal, eval_partial_literal,
-    literal_var; simpl; intros H; rewrite H; reflexivity.
-Qed.
-Lemma eval_satisfying_literal_true__bcp_unit_to_assignment :
-  forall sigma x b,
-    sigma x = Some b ->
-    eval_partial_literal sigma (satisfying_literal x b) = Some true.
-Proof.
-  intros sigma x []; unfold satisfying_literal, eval_partial_literal,
-    literal_var; simpl; intros H; rewrite H; reflexivity.
-Qed.
-Lemma eval_falsified_literal_false__bcp_unit_to_assignment :
-  forall sigma x b,
-    sigma x = Some b ->
-    eval_partial_literal sigma (falsified_literal x b) = Some false.
-Proof.
-  intros sigma x []; unfold falsified_literal, eval_partial_literal,
-    literal_var; simpl; intros H; rewrite H; reflexivity.
-Qed.
-Lemma clause_unit_other_false__bcp_unit_to_assignment :
-  forall sigma c x b,
-    clause_unit sigma c -> sigma x = None ->
-    In (satisfying_literal x b) c ->
-    forall l, In l c -> literal_var l <> x ->
-      eval_partial_literal sigma l = Some false.
-Proof.
-  intros sigma c x b [Htrue Hunassigned] Hnone HinSat l Hin Hvar.
-  pose proof
-    (eval_satisfying_literal_none__bcp_unit_to_assignment
-      sigma x b Hnone) as Hsatnone.
-  assert (Hneq : l <> satisfying_literal x b).
-  { intro Heq; subst l; unfold satisfying_literal in Hvar;
-      destruct b; cbn in Hvar; contradiction. }
-  destruct (eval_partial_literal sigma l) as [[|]|] eqn:Heval.
-  - exfalso.
-    pose proof
-      (clause_true_count_member_true__bcp_unit_to_assignment
-        sigma c l Hin Heval); lia.
-  - reflexivity.
-  - exfalso.
-    pose proof
-      (clause_unassigned_count_two_none__bcp_unit_to_assignment
-        sigma c l (satisfying_literal x b) Hneq Hin HinSat
-        Heval Hsatnone); lia.
-Qed.
-Lemma literal_counts_no_var__bcp_unit_to_assignment :
-  forall x b c,
-    (forall l, In l c -> literal_var l <> x) ->
-    literal_var_count x c = 0 /\ literal_true_at_count x b c = 0.
-Proof.
-  intros x b c; induction c as [|l c IH]; intro Hnone.
-  - split; reflexivity.
-  - cbn [literal_var_count literal_true_at_count].
-    assert (Hlx : literal_var l <> x) by (apply Hnone; left; reflexivity).
-    assert (Heq : Z.eqb (literal_var l) x = false)
-      by (apply Z.eqb_neq; exact Hlx).
-    rewrite Heq.
-    apply IH; intros l' Hin; apply Hnone; right; exact Hin.
-Qed.
-Lemma eval_partial_literal_unassigned__bcp_unit_to_assignment :
-  forall sigma l,
-    sigma (literal_var l) = None -> eval_partial_literal sigma l = None.
-Proof.
-  intros sigma [y|y]; unfold literal_var, eval_partial_literal; simpl;
-    intro H; rewrite H; reflexivity.
-Qed.
+(* One-variable extension of a view: [x := b] at level [d], with antecedent
+   the clause stored at index [reason] and trail rank [rx].  This is the
+   record the unit-propagation lemmas below quantify over; naming it keeps
+   their statements readable and gives the proofs one constant to unfold. *)
+Definition unit_extend_view
+    (old : cdcl_view) (x : Z) (b : bool) (d reason : Z) (rx : nat)
+    : cdcl_view :=
+  {| assignment := sat_function_update (assignment old) x (Some b);
+     level_of := sat_function_update (level_of old) x (Some d);
+     reason_of := sat_function_update (reason_of old) x (reason_clause_of_index old reason);
+     assignment_rank := sat_function_update (assignment_rank old) x (Some rx);
+     installed_clauses := installed_clauses old;
+     current_level := current_level old |}.
+
 Lemma unit_extend_assignment_same__bcp_unit_to_assignment :
   forall old x b d reason rx,
     assignment
-      ((fun (old : cdcl_view) (x : Z) (b : bool) (d reason : Z) (rx : nat) => {| assignment := partial_mapping_update (assignment old) x b; level_of := total_mapping_update (level_of old) x (Some d); reason_of := total_mapping_update (reason_of old) x (Some reason); assignment_rank := total_mapping_update (assignment_rank old) x (Some rx); installed_clauses := installed_clauses old; current_level := current_level old |}) old x b d reason rx) x =
+      (unit_extend_view old x b d reason rx) x =
     Some b.
 Proof.
   intros; cbn.
-  apply partial_mapping_update_eq.
+  apply sat_function_update_eq.
 Qed.
 Lemma unit_extend_assignment_other__bcp_unit_to_assignment :
   forall old x b d reason rx y,
     y <> x ->
     assignment
-      ((fun (old : cdcl_view) (x : Z) (b : bool) (d reason : Z) (rx : nat) => {| assignment := partial_mapping_update (assignment old) x b; level_of := total_mapping_update (level_of old) x (Some d); reason_of := total_mapping_update (reason_of old) x (Some reason); assignment_rank := total_mapping_update (assignment_rank old) x (Some rx); installed_clauses := installed_clauses old; current_level := current_level old |}) old x b d reason rx) y =
+      (unit_extend_view old x b d reason rx) y =
     assignment old y.
 Proof.
   intros; cbn.
-  apply partial_mapping_update_neq; lia.
+  apply sat_function_update_neq; lia.
 Qed.
 Lemma unit_extend_level_same__bcp_unit_to_assignment :
   forall old x b d reason rx,
     level_of
-      ((fun (old : cdcl_view) (x : Z) (b : bool) (d reason : Z) (rx : nat) => {| assignment := partial_mapping_update (assignment old) x b; level_of := total_mapping_update (level_of old) x (Some d); reason_of := total_mapping_update (reason_of old) x (Some reason); assignment_rank := total_mapping_update (assignment_rank old) x (Some rx); installed_clauses := installed_clauses old; current_level := current_level old |}) old x b d reason rx) x =
+      (unit_extend_view old x b d reason rx) x =
     Some d.
 Proof.
   intros; cbn.
-  apply total_mapping_update_eq.
+  apply sat_function_update_eq.
 Qed.
 Lemma unit_extend_level_other__bcp_unit_to_assignment :
   forall old x b d reason rx y,
     y <> x ->
     level_of
-      ((fun (old : cdcl_view) (x : Z) (b : bool) (d reason : Z) (rx : nat) => {| assignment := partial_mapping_update (assignment old) x b; level_of := total_mapping_update (level_of old) x (Some d); reason_of := total_mapping_update (reason_of old) x (Some reason); assignment_rank := total_mapping_update (assignment_rank old) x (Some rx); installed_clauses := installed_clauses old; current_level := current_level old |}) old x b d reason rx) y =
+      (unit_extend_view old x b d reason rx) y =
     level_of old y.
 Proof.
   intros; cbn.
-  apply total_mapping_update_neq; lia.
+  apply sat_function_update_neq; lia.
 Qed.
 Lemma unit_extend_reason_same__bcp_unit_to_assignment :
   forall old x b d reason rx,
     reason_of
-      ((fun (old : cdcl_view) (x : Z) (b : bool) (d reason : Z) (rx : nat) => {| assignment := partial_mapping_update (assignment old) x b; level_of := total_mapping_update (level_of old) x (Some d); reason_of := total_mapping_update (reason_of old) x (Some reason); assignment_rank := total_mapping_update (assignment_rank old) x (Some rx); installed_clauses := installed_clauses old; current_level := current_level old |}) old x b d reason rx) x =
-    Some reason.
+      (unit_extend_view old x b d reason rx) x =
+    reason_clause_of_index old reason.
 Proof.
   intros; cbn.
-  apply total_mapping_update_eq.
+  apply sat_function_update_eq.
 Qed.
 Lemma unit_extend_reason_other__bcp_unit_to_assignment :
   forall old x b d reason rx y,
     y <> x ->
     reason_of
-      ((fun (old : cdcl_view) (x : Z) (b : bool) (d reason : Z) (rx : nat) => {| assignment := partial_mapping_update (assignment old) x b; level_of := total_mapping_update (level_of old) x (Some d); reason_of := total_mapping_update (reason_of old) x (Some reason); assignment_rank := total_mapping_update (assignment_rank old) x (Some rx); installed_clauses := installed_clauses old; current_level := current_level old |}) old x b d reason rx) y =
+      (unit_extend_view old x b d reason rx) y =
     reason_of old y.
 Proof.
   intros; cbn.
-  apply total_mapping_update_neq; lia.
+  apply sat_function_update_neq; lia.
 Qed.
 Lemma unit_extend_rank_same__bcp_unit_to_assignment :
   forall old x b d reason rx,
     assignment_rank
-      ((fun (old : cdcl_view) (x : Z) (b : bool) (d reason : Z) (rx : nat) => {| assignment := partial_mapping_update (assignment old) x b; level_of := total_mapping_update (level_of old) x (Some d); reason_of := total_mapping_update (reason_of old) x (Some reason); assignment_rank := total_mapping_update (assignment_rank old) x (Some rx); installed_clauses := installed_clauses old; current_level := current_level old |}) old x b d reason rx) x =
+      (unit_extend_view old x b d reason rx) x =
     Some rx.
 Proof.
   intros; cbn.
-  apply total_mapping_update_eq.
+  apply sat_function_update_eq.
 Qed.
 Lemma unit_extend_rank_other__bcp_unit_to_assignment :
   forall old x b d reason rx y,
     y <> x ->
     assignment_rank
-      ((fun (old : cdcl_view) (x : Z) (b : bool) (d reason : Z) (rx : nat) => {| assignment := partial_mapping_update (assignment old) x b; level_of := total_mapping_update (level_of old) x (Some d); reason_of := total_mapping_update (reason_of old) x (Some reason); assignment_rank := total_mapping_update (assignment_rank old) x (Some rx); installed_clauses := installed_clauses old; current_level := current_level old |}) old x b d reason rx) y =
+      (unit_extend_view old x b d reason rx) y =
     assignment_rank old y.
 Proof.
   intros; cbn.
-  apply total_mapping_update_neq; lia.
+  apply sat_function_update_neq; lia.
 Qed.
 Lemma unit_extend_eval_other__bcp_unit_to_assignment :
   forall old x b d reason rx l,
     literal_var l <> x ->
     eval_partial_literal
       (assignment
-        ((fun (old : cdcl_view) (x : Z) (b : bool) (d reason : Z) (rx : nat) => {| assignment := partial_mapping_update (assignment old) x b; level_of := total_mapping_update (level_of old) x (Some d); reason_of := total_mapping_update (reason_of old) x (Some reason); assignment_rank := total_mapping_update (assignment_rank old) x (Some rx); installed_clauses := installed_clauses old; current_level := current_level old |}) old x b d reason rx)) l =
+        (unit_extend_view old x b d reason rx)) l =
     eval_partial_literal (assignment old) l.
 Proof.
   intros old x b d reason rx [y|y] Hneq;
     unfold literal_var, eval_partial_literal in *; simpl in *;
-    rewrite partial_mapping_update_neq by lia;
+    rewrite sat_function_update_neq by lia;
     reflexivity.
 Qed.
 Lemma reason_dependency_unit_extend_other__bcp_unit_to_assignment :
@@ -4264,21 +3709,20 @@ Lemma reason_dependency_unit_extend_other__bcp_unit_to_assignment :
     assignment old x = None -> y <> x ->
     reason_dependency old y z ->
     reason_dependency
-      ((fun (old : cdcl_view) (x : Z) (b : bool) (d reason : Z) (rx : nat) => {| assignment := partial_mapping_update (assignment old) x b; level_of := total_mapping_update (level_of old) x (Some d); reason_of := total_mapping_update (reason_of old) x (Some reason); assignment_rank := total_mapping_update (assignment_rank old) x (Some rx); installed_clauses := installed_clauses old; current_level := current_level old |}) old x b d reason rx) y z.
+      (unit_extend_view old x b d reason rx) y z.
 Proof.
   intros old x b d reason rx y z Hxnone Hyx
-    [i [c [l [Hreason [Hnth [Hin [Hvar [Hzy Heval]]]]]]]].
+    [c [l [Hreason [Hin [Hvar [Hzy Heval]]]]]].
   assert (Hzx : z <> x).
   { intro Heq.
     assert (Hnonevar : assignment old (literal_var l) = None).
     { rewrite Hvar, Heq; exact Hxnone. }
     pose proof
-      (eval_partial_literal_unassigned__bcp_unit_to_assignment
+      (eval_partial_literal_unassigned
         (assignment old) l Hnonevar); congruence. }
-  exists i, c, l; repeat split.
+  exists c, l; repeat split.
   - rewrite unit_extend_reason_other__bcp_unit_to_assignment by exact Hyx.
     exact Hreason.
-  - exact Hnth.
   - exact Hin.
   - exact Hvar.
   - exact Hzy.
@@ -4290,11 +3734,11 @@ Lemma reason_valid_unit_extend_other__bcp_unit_to_assignment :
   forall old x b d reason rx y i,
     assignment old x = None -> y <> x -> reason_valid old y i ->
     reason_valid
-      ((fun (old : cdcl_view) (x : Z) (b : bool) (d reason : Z) (rx : nat) => {| assignment := partial_mapping_update (assignment old) x b; level_of := total_mapping_update (level_of old) x (Some d); reason_of := total_mapping_update (reason_of old) x (Some reason); assignment_rank := total_mapping_update (assignment_rank old) x (Some rx); installed_clauses := installed_clauses old; current_level := current_level old |}) old x b d reason rx) y i.
+      (unit_extend_view old x b d reason rx) y i.
 Proof.
   intros old x b d reason rx y i Hxnone Hyx
-    [bv [dy [ry [c [Hassign [Hlevel [Hrank [Hnth [Hin Hrest]]]]]]]]].
-  exists bv, dy, ry, c.
+    [bv [dy [ry [Hassign [Hlevel [Hrank [Hin Hrest]]]]]]].
+  exists bv, dy, ry.
   split.
   { rewrite unit_extend_assignment_other__bcp_unit_to_assignment by exact Hyx.
     exact Hassign. }
@@ -4304,7 +3748,6 @@ Proof.
   split.
   { rewrite unit_extend_rank_other__bcp_unit_to_assignment by exact Hyx.
     exact Hrank. }
-  split; [exact Hnth|].
   split; [exact Hin|].
   intros lit Hlit Hly.
     destruct (Hrest lit Hlit Hly) as
@@ -4312,7 +3755,7 @@ Proof.
     assert (Hlx : literal_var lit <> x).
     { intro Heq.
       pose proof
-        (eval_partial_literal_unassigned__bcp_unit_to_assignment
+        (eval_partial_literal_unassigned
           (assignment old) lit) as Hnone.
       rewrite Heq, Hxnone in Hnone; specialize (Hnone eq_refl); congruence. }
   split.
@@ -4331,18 +3774,18 @@ Lemma same_level_predecessor_unit_extend_other__bcp_unit_to_assignment :
     assignment old x = None -> y <> x ->
     same_level_predecessor old y z level ->
     same_level_predecessor
-      ((fun (old : cdcl_view) (x : Z) (b : bool) (d reason : Z) (rx : nat) => {| assignment := partial_mapping_update (assignment old) x b; level_of := total_mapping_update (level_of old) x (Some d); reason_of := total_mapping_update (reason_of old) x (Some reason); assignment_rank := total_mapping_update (assignment_rank old) x (Some rx); installed_clauses := installed_clauses old; current_level := current_level old |}) old x b d reason rx)
+      (unit_extend_view old x b d reason rx)
       y z level.
 Proof.
   intros old x b d reason rx y z level Hxnone Hyx
     [Hdep [Hly [Hlz [ry [rz [Hry [Hrz Hlt]]]]]]].
   assert (Hzx : z <> x).
   { intro Heq.
-    destruct Hdep as [i [c [l [_ [_ [_ [Hvar [_ Heval]]]]]]]].
+    destruct Hdep as [c [l [_ [_ [Hvar [_ Heval]]]]]].
     assert (Hnonevar : assignment old (literal_var l) = None).
     { rewrite Hvar, Heq; exact Hxnone. }
     pose proof
-      (eval_partial_literal_unassigned__bcp_unit_to_assignment
+      (eval_partial_literal_unassigned
         (assignment old) l Hnonevar); congruence. }
   repeat split.
   - eapply reason_dependency_unit_extend_other__bcp_unit_to_assignment;
@@ -4358,21 +3801,14 @@ Proof.
         exact Hrz.
     + exact Hlt.
 Qed.
-Lemma eval_partial_literal_assigned__bcp_unit_to_assignment :
-  forall sigma l v,
-    eval_partial_literal sigma l = Some v ->
-    exists b, sigma (literal_var l) = Some b.
-Proof.
-  intros sigma [y|y] v; unfold literal_var, eval_partial_literal; simpl;
-    destruct (sigma y) as [b|] eqn:Hcell; intro H; try discriminate;
-    eauto.
-Qed.
 Lemma restrict_current_eq_assignment__bcp_unit_to_assignment :
   forall a,
-    grounded_at a -> closed_levels a ->
+    grounded_at_cdcl a -> closed_levels_cdcl a ->
     restrict_to_level a (current_level a) = assignment a.
 Proof.
-  intros a Hground [Hdl [Hlevels _]].
+  intros a Hground Hclosed.
+  cdcl_shape.
+  destruct Hclosed as [Hdl [Hlevels _]].
   apply functional_extensionality; intro y.
   unfold restrict_to_level.
   destruct (assignment a y) as [bv|] eqn:Hassign; [|reflexivity].
@@ -4387,7 +3823,7 @@ Lemma restrict_before_unit_extend__bcp_unit_to_assignment :
   forall old x b d reason rx k,
     assignment old x = None -> k < d ->
     restrict_to_level
-      ((fun (old : cdcl_view) (x : Z) (b : bool) (d reason : Z) (rx : nat) => {| assignment := partial_mapping_update (assignment old) x b; level_of := total_mapping_update (level_of old) x (Some d); reason_of := total_mapping_update (reason_of old) x (Some reason); assignment_rank := total_mapping_update (assignment_rank old) x (Some rx); installed_clauses := installed_clauses old; current_level := current_level old |}) old x b d reason rx) k =
+      (unit_extend_view old x b d reason rx) k =
     restrict_to_level old k.
 Proof.
   intros old x b d reason rx k Hnone Hkd.
@@ -4404,33 +3840,33 @@ Proof.
 Qed.
 Lemma reason_valid_new_unit__bcp_unit_to_assignment :
   forall old x b d reason c,
-    grounded_at old -> closed_levels old ->
+    grounded_at_cdcl old -> closed_levels_cdcl old ->
     assignment old x = None -> current_level old = d ->
     nth_error (installed_clauses old) (Z.to_nat reason) = Some c ->
     clause_unit (assignment old) c ->
     In (satisfying_literal x b) c ->
     reason_valid
-      ((fun (old : cdcl_view) (x : Z) (b : bool) (d reason : Z) (rx : nat) => {| assignment := partial_mapping_update (assignment old) x b; level_of := total_mapping_update (level_of old) x (Some d); reason_of := total_mapping_update (reason_of old) x (Some reason); assignment_rank := total_mapping_update (assignment_rank old) x (Some rx); installed_clauses := installed_clauses old; current_level := current_level old |}) old x b d reason
+      (unit_extend_view old x b d reason
         (S ((fun (ranks : Z -> option nat) (c : clause) => fold_right Nat.max O (map (fun l => match ranks (literal_var l) with Some r => r | None => O end) c))
-          (assignment_rank old) c))) x reason.
+          (assignment_rank old) c))) x c.
 Proof.
   intros old x b d reason c Hground Hclosed Hnone Hcur Hnth Hunit Hin.
+  cdcl_shape.
   set (rx := S ((fun (ranks : Z -> option nat) (c : clause) => fold_right Nat.max O (map (fun l => match ranks (literal_var l) with Some r => r | None => O end) c))
     (assignment_rank old) c)).
-  exists b, d, rx, c.
+  exists b, d, rx.
   split; [apply unit_extend_assignment_same__bcp_unit_to_assignment|].
   split; [apply unit_extend_level_same__bcp_unit_to_assignment|].
   split; [apply unit_extend_rank_same__bcp_unit_to_assignment|].
-  split; [exact Hnth|].
   split; [exact Hin|].
   intros l Hl Hlx.
   assert (Holdfalse : eval_partial_literal (assignment old) l = Some false).
-  { eapply clause_unit_other_false__bcp_unit_to_assignment; eauto. }
+  { eapply clause_unit_other_false; eauto. }
   split.
   - rewrite unit_extend_eval_other__bcp_unit_to_assignment by exact Hlx.
     exact Holdfalse.
   - destruct
-      (eval_partial_literal_assigned__bcp_unit_to_assignment
+      (eval_partial_literal_assigned
         (assignment old) l false Holdfalse) as [bl Hassigned].
     destruct (Hground (literal_var l) bl Hassigned) as
       [dl [rl [Hlevel Hground_l]]].
@@ -4448,39 +3884,36 @@ Proof.
 Qed.
 Lemma assigns_one_new_unit__bcp_unit_to_assignment :
   forall old x b d reason c,
-    grounded_at old -> closed_levels old ->
+    grounded_at_cdcl old -> closed_levels_cdcl old ->
     assignment old x = None -> 0 <= reason ->
     nth_error (installed_clauses old) (Z.to_nat reason) = Some c ->
     clause_unit (assignment old) c ->
     In (satisfying_literal x b) c ->
-    assigns_one old
-      ((fun (old : cdcl_view) (x : Z) (b : bool) (d reason : Z) (rx : nat) => {| assignment := partial_mapping_update (assignment old) x b; level_of := total_mapping_update (level_of old) x (Some d); reason_of := total_mapping_update (reason_of old) x (Some reason); assignment_rank := total_mapping_update (assignment_rank old) x (Some rx); installed_clauses := installed_clauses old; current_level := current_level old |}) old x b d reason
+    assigns_one_idx old
+      (unit_extend_view old x b d reason
         (S ((fun (ranks : Z -> option nat) (c : clause) => fold_right Nat.max O (map (fun l => match ranks (literal_var l) with Some r => r | None => O end) c))
           (assignment_rank old) c))) x b d reason.
 Proof.
   intros old x b d reason c Hground Hclosed Hnone Hreason Hnth Hunit Hin.
+  cdcl_shape.
   set (rx := S ((fun (ranks : Z -> option nat) (c : clause) => fold_right Nat.max O (map (fun l => match ranks (literal_var l) with Some r => r | None => O end) c))
     (assignment_rank old) c)).
-  unfold assigns_one.
+  unfold assigns_one_idx.
   split; [exact Hnone|].
   split; [apply unit_extend_assignment_same__bcp_unit_to_assignment|].
   split; [apply unit_extend_level_same__bcp_unit_to_assignment|].
   split.
-  { rewrite unit_extend_reason_same__bcp_unit_to_assignment.
-    assert (Heq : Z.eqb reason (-1) = false) by (apply Z.eqb_neq; lia).
-    rewrite Heq; reflexivity. }
+  { rewrite unit_extend_reason_same__bcp_unit_to_assignment. reflexivity. }
   split.
   { exists rx; split; [apply unit_extend_rank_same__bcp_unit_to_assignment|].
-    intros y [i [c' [l [Hreason' [Hnth' [Hl [Hvar [Hyx Heval]]]]]]]].
+    intros y [c' [l [Hreason' [Hl [Hvar [Hyx Heval]]]]]].
     rewrite unit_extend_reason_same__bcp_unit_to_assignment in Hreason'.
-    injection Hreason' as Hi; subst i.
-    change (nth_error (installed_clauses old) (Z.to_nat reason) = Some c')
-      in Hnth'.
-    rewrite Hnth in Hnth'; inversion Hnth'; subst c'.
+    rewrite reason_clause_of_index_pos in Hreason' by lia.
+    rewrite Hnth in Hreason'; inversion Hreason'; subst c'.
     assert (Hlx : literal_var l <> x) by (rewrite Hvar; exact Hyx).
     rewrite unit_extend_eval_other__bcp_unit_to_assignment in Heval by exact Hlx.
     destruct
-      (eval_partial_literal_assigned__bcp_unit_to_assignment
+      (eval_partial_literal_assigned
         (assignment old) l false Heval) as [bl Hassigned].
     rewrite Hvar in Hassigned.
     destruct (Hground y bl Hassigned) as
@@ -4501,13 +3934,13 @@ Proof.
 Qed.
 Lemma grounded_unit_extend__bcp_unit_to_assignment :
   forall old x b d reason c,
-    grounded_at old -> closed_levels old -> frontier_closed old ->
+    grounded_at_cdcl old -> closed_levels_cdcl old -> frontier_closed old ->
     assignment old x = None -> current_level old = d -> 0 <= reason ->
     nth_error (installed_clauses old) (Z.to_nat reason) = Some c ->
     clause_unit (assignment old) c ->
     In (satisfying_literal x b) c ->
-    grounded_at
-      ((fun (old : cdcl_view) (x : Z) (b : bool) (d reason : Z) (rx : nat) => {| assignment := partial_mapping_update (assignment old) x b; level_of := total_mapping_update (level_of old) x (Some d); reason_of := total_mapping_update (reason_of old) x (Some reason); assignment_rank := total_mapping_update (assignment_rank old) x (Some rx); installed_clauses := installed_clauses old; current_level := current_level old |}) old x b d reason
+    grounded_at_cdcl
+      (unit_extend_view old x b d reason
         (S ((fun (ranks : Z -> option nat) (c : clause) => fold_right Nat.max O (map (fun l => match ranks (literal_var l) with Some r => r | None => O end) c))
           (assignment_rank old) c))).
 Proof.
@@ -4515,6 +3948,8 @@ Proof.
     Hreason Hnth Hunit Hin.
   set (rx := S ((fun (ranks : Z -> option nat) (c : clause) => fold_right Nat.max O (map (fun l => match ranks (literal_var l) with Some r => r | None => O end) c))
     (assignment_rank old) c)).
+  pose proof (grounded_at_cdcl_elim _ Hground) as Hground_flat.
+  apply grounded_at_cdcl_intro.
   intros y bv Hassign.
   destruct (Z.eq_dec y x) as [->|Hyx].
   - rewrite unit_extend_assignment_same__bcp_unit_to_assignment in Hassign.
@@ -4522,8 +3957,12 @@ Proof.
     exists d, rx.
     split; [apply unit_extend_level_same__bcp_unit_to_assignment|].
     split; [apply unit_extend_rank_same__bcp_unit_to_assignment|].
-    right; exists reason.
-    split; [apply unit_extend_reason_same__bcp_unit_to_assignment|].
+    right; exists c.
+    split.
+    { rewrite unit_extend_reason_same__bcp_unit_to_assignment.
+      rewrite reason_clause_of_index_pos by lia. exact Hnth. }
+    split.
+    { simpl. eapply nth_error_In; exact Hnth. }
     split.
     { unfold rx.
       eapply reason_valid_new_unit__bcp_unit_to_assignment; eauto. }
@@ -4548,22 +3987,23 @@ Proof.
     assert (Hlx : literal_var l <> x).
     { intro Heq.
       pose proof
-        (eval_partial_literal_unassigned__bcp_unit_to_assignment
+        (eval_partial_literal_unassigned
           (assignment old) l) as Hnone_l.
       rewrite Heq, Hnone in Hnone_l; specialize (Hnone_l eq_refl);
         congruence. }
     destruct
-      (eval_partial_literal_assigned__bcp_unit_to_assignment
+      (eval_partial_literal_assigned
         (assignment old) l false Heval) as [bl Hassigned].
-    destruct (Hground (literal_var l) bl Hassigned) as
+    destruct (Hground_flat (literal_var l) bl Hassigned) as
       [dl [rl [Hlevel' [Hrank Hground_l]]]].
     assert (Hdl : dl = d) by (rewrite Hcur in Hlevel; congruence).
     subst dl.
     exists (literal_var l).
     split.
-    { exists reason, c, l.
-      split; [apply unit_extend_reason_same__bcp_unit_to_assignment|].
-      split; [exact Hnth|].
+    { exists c, l.
+      split.
+      { rewrite unit_extend_reason_same__bcp_unit_to_assignment.
+        rewrite reason_clause_of_index_pos by lia. exact Hnth. }
       split; [exact Hl|].
       split; [reflexivity|].
       split; [exact Hlx|].
@@ -4583,7 +4023,7 @@ Proof.
       [exact Hl|exact Hrank].
   - rewrite unit_extend_assignment_other__bcp_unit_to_assignment in Hassign
       by exact Hyx.
-    destruct (Hground y bv Hassign) as
+    destruct (Hground_flat y bv Hassign) as
       [dy [ry [Hlevel [Hrank Hwhy]]]].
     exists dy, ry.
     split.
@@ -4592,7 +4032,8 @@ Proof.
     split.
     { rewrite unit_extend_rank_other__bcp_unit_to_assignment by exact Hyx;
         exact Hrank. }
-    destruct Hwhy as [[Hdecision Hdy]|[i [Hreason_old [Hvalid Hsource]]]].
+    destruct Hwhy as
+      [[Hdecision Hdy]|[i [Hreason_old [Hin_old [Hvalid Hsource]]]]].
     + left; split; [|exact Hdy].
       rewrite unit_extend_reason_other__bcp_unit_to_assignment by exact Hyx;
         exact Hdecision.
@@ -4600,6 +4041,8 @@ Proof.
       split.
       { rewrite unit_extend_reason_other__bcp_unit_to_assignment by exact Hyx;
           exact Hreason_old. }
+      split.
+      { simpl. exact Hin_old. }
       split.
       { eapply reason_valid_unit_extend_other__bcp_unit_to_assignment;
           eauto. }
@@ -4612,16 +4055,20 @@ Qed.
 Lemma closed_levels_unit_extend__bcp_unit_to_assignment :
   forall old x b d reason c,
     assignment old x = None -> current_level old = d ->
-    closed_levels old ->
-    closed_levels
-      ((fun (old : cdcl_view) (x : Z) (b : bool) (d reason : Z) (rx : nat) => {| assignment := partial_mapping_update (assignment old) x b; level_of := total_mapping_update (level_of old) x (Some d); reason_of := total_mapping_update (reason_of old) x (Some reason); assignment_rank := total_mapping_update (assignment_rank old) x (Some rx); installed_clauses := installed_clauses old; current_level := current_level old |}) old x b d reason
+    0 <= reason ->
+    nth_error (installed_clauses old) (Z.to_nat reason) = Some c ->
+    closed_levels_cdcl old ->
+    closed_levels_cdcl
+      (unit_extend_view old x b d reason
         (S ((fun (ranks : Z -> option nat) (c : clause) => fold_right Nat.max O (map (fun l => match ranks (literal_var l) with Some r => r | None => O end) c))
           (assignment_rank old) c))).
 Proof.
-  intros old x b d reason c Hnone Hcur
-    [Hdl [Hlevels [Hnozero Hunique]]].
+  intros old x b d reason c Hnone Hcur Hreason Hnth Hclosed.
   set (rx := S ((fun (ranks : Z -> option nat) (c : clause) => fold_right Nat.max O (map (fun l => match ranks (literal_var l) with Some r => r | None => O end) c))
     (assignment_rank old) c)).
+  cdcl_shape.
+  destruct Hclosed as [Hdl [Hlevels [Hnozero Hunique]]].
+  apply closed_levels_cdcl_intro.
   split.
   { cbn; exact Hdl. }
   split.
@@ -4643,8 +4090,9 @@ Proof.
   { intros y Hdecision.
     destruct (Z.eq_dec y x) as [->|Hyx].
     - destruct Hdecision as [[bv Hassign] [Hlevel Hreason_new]].
-      rewrite unit_extend_reason_same__bcp_unit_to_assignment in Hreason_new;
-        discriminate.
+      rewrite unit_extend_reason_same__bcp_unit_to_assignment in Hreason_new.
+      rewrite reason_clause_of_index_pos in Hreason_new by lia.
+      rewrite Hnth in Hreason_new. discriminate.
     - apply (Hnozero y).
       destruct Hdecision as [[bv Hassign] [Hlevel Hreason_new]].
       split.
@@ -4678,8 +4126,9 @@ Proof.
   assert (Hzx : z <> x).
   { intro Heq; subst z.
     destruct Hz as [[bv Hass] [Hlevel Hreason_new]].
-    rewrite unit_extend_reason_same__bcp_unit_to_assignment in Hreason_new;
-      discriminate. }
+    rewrite unit_extend_reason_same__bcp_unit_to_assignment in Hreason_new.
+    rewrite reason_clause_of_index_pos in Hreason_new by lia.
+    rewrite Hnth in Hreason_new. discriminate. }
   apply Huniq.
   destruct Hz as [[bv Hass] [Hlevel Hreason_new]].
   split.
@@ -4694,13 +4143,13 @@ Proof.
 Qed.
 Lemma frontier_closed_unit_extend__bcp_unit_to_assignment :
   forall old x b d reason c,
-    grounded_at old -> closed_levels old -> frontier_closed old ->
+    grounded_at_cdcl old -> closed_levels_cdcl old -> frontier_closed old ->
     assignment old x = None -> current_level old = d -> 0 <= reason ->
     nth_error (installed_clauses old) (Z.to_nat reason) = Some c ->
     clause_unit (assignment old) c ->
     In (satisfying_literal x b) c ->
     frontier_closed
-      ((fun (old : cdcl_view) (x : Z) (b : bool) (d reason : Z) (rx : nat) => {| assignment := partial_mapping_update (assignment old) x b; level_of := total_mapping_update (level_of old) x (Some d); reason_of := total_mapping_update (reason_of old) x (Some reason); assignment_rank := total_mapping_update (assignment_rank old) x (Some rx); installed_clauses := installed_clauses old; current_level := current_level old |}) old x b d reason
+      (unit_extend_view old x b d reason
         (S ((fun (ranks : Z -> option nat) (c : clause) => fold_right Nat.max O (map (fun l => match ranks (literal_var l) with Some r => r | None => O end) c))
           (assignment_rank old) c))).
 Proof.
@@ -4708,12 +4157,12 @@ Proof.
     Hreason Hnth Hunit Hin.
   set (rx := S ((fun (ranks : Z -> option nat) (c : clause) => fold_right Nat.max O (map (fun l => match ranks (literal_var l) with Some r => r | None => O end) c))
     (assignment_rank old) c)).
-  set (new := (fun (old : cdcl_view) (x : Z) (b : bool) (d reason : Z) (rx : nat) => {| assignment := partial_mapping_update (assignment old) x b; level_of := total_mapping_update (level_of old) x (Some d); reason_of := total_mapping_update (reason_of old) x (Some reason); assignment_rank := total_mapping_update (assignment_rank old) x (Some rx); installed_clauses := installed_clauses old; current_level := current_level old |})
+  set (new := unit_extend_view
     old x b d reason rx).
-  assert (Hground_new : grounded_at new).
+  assert (Hground_new : grounded_at_cdcl new).
   { unfold new, rx.
     eapply grounded_unit_extend__bcp_unit_to_assignment; eauto. }
-  assert (Hclosed_new : closed_levels new).
+  assert (Hclosed_new : closed_levels_cdcl new).
   { unfold new, rx.
     eapply closed_levels_unit_extend__bcp_unit_to_assignment; eauto. }
   destruct Hfront as [Hbefore Hsupported].
@@ -4749,7 +4198,7 @@ Proof.
         unfold literal_false_at_level.
         split.
         -- rewrite Hnewrestrict.
-           apply eval_falsified_literal_false__bcp_unit_to_assignment.
+           apply eval_falsified_literal_false.
            unfold new; apply unit_extend_assignment_same__bcp_unit_to_assignment.
         -- replace (literal_var (falsified_literal x b)) with x
              by (destruct b; reflexivity).
@@ -4763,10 +4212,10 @@ Proof.
           assert (Heval_sat :
             eval_partial_literal (assignment new) (satisfying_literal x b) =
               Some true).
-          { apply eval_satisfying_literal_true__bcp_unit_to_assignment.
+          { apply eval_satisfying_literal_true.
             unfold new; apply unit_extend_assignment_same__bcp_unit_to_assignment. }
           pose proof
-            (clause_true_count_member_true__bcp_unit_to_assignment
+            (clause_true_count_member_true
               (assignment new) c' (satisfying_literal x b) Hsat Heval_sat);
             lia. }
         assert (Hnovar : forall l, In l c' -> literal_var l <> x).
@@ -4774,7 +4223,7 @@ Proof.
           destruct l as [y|y]; cbn in Hlx; subst y;
             destruct b; cbn [satisfying_literal falsified_literal] in *;
             contradiction. }
-        destruct (literal_counts_no_var__bcp_unit_to_assignment
+        destruct (literal_counts_no_var
           x b c' Hnovar) as [Hvarcount Htruecount].
         destruct (clause_counts_assign (assignment old) x b c' Hnone) as
           [Hunassigned_eq Htrue_eq].
@@ -4783,11 +4232,11 @@ Proof.
           destruct Hactive_new as [Hnewtrue Hnewunassigned].
           change
             (clause_true_count
-              (partial_mapping_update (assignment old) x b) c' = 0)
+              (sat_function_update (assignment old) x (Some b)) c' = 0)
             in Hnewtrue.
           change
             (clause_unassigned_count
-              (partial_mapping_update (assignment old) x b) c' <= 1)
+              (sat_function_update (assignment old) x (Some b)) c' <= 1)
             in Hnewunassigned.
           rewrite Hvarcount in Hunassigned_eq.
           rewrite Htruecount in Htrue_eq.
@@ -4808,7 +4257,7 @@ Proof.
             restrict_to_level old (current_level old) (literal_var l) = None).
           { unfold restrict_to_level; rewrite Heq, Hnone; reflexivity. }
           pose proof
-            (eval_partial_literal_unassigned__bcp_unit_to_assignment
+            (eval_partial_literal_unassigned
               (restrict_to_level old (current_level old)) l Hnone_restrict);
             congruence. }
         unfold literal_false_at_level.
@@ -4871,24 +4320,24 @@ Lemma snapshot_unit_assignment_eq__bcp_unit_to_assignment :
     snapshot_lengths n live snap -> var_in_range n x ->
     snapshot_assignment n
       ((fun (snap : dense_snapshot) (x : Z) (b : bool) (d reason : Z) => {| snap_values := replace_Znth x (if b then 1 else 0) (snap_values snap); snap_reasons := replace_Znth x reason (snap_reasons snap); snap_levels := replace_Znth x d (snap_levels snap); snap_rows := snap_rows snap; snap_states := snap_states snap; snap_true_counts := snap_true_counts snap; snap_unassigned := snap_unassigned snap |}) snap x b d reason) =
-    partial_mapping_update (snapshot_assignment n snap) x b.
+    sat_function_update (snapshot_assignment n snap) x (Some b).
 Proof.
   intros n live snap x b d reason Hlength Hx.
   apply functional_extensionality; intro y.
   destruct (Z.eq_dec y x) as [->|Hyx].
   - rewrite (snapshot_unit_assignment_same__bcp_unit_to_assignment
       n live snap x b d reason Hlength Hx).
-    symmetry; apply partial_mapping_update_eq.
+    symmetry; apply sat_function_update_eq.
   - rewrite (snapshot_unit_assignment_other__bcp_unit_to_assignment
       n live snap x b d reason y Hlength Hx Hyx).
-    symmetry; apply partial_mapping_update_neq; lia.
+    symmetry; apply sat_function_update_neq; lia.
 Qed.
 Lemma snapshot_unit_level_eq__bcp_unit_to_assignment :
   forall n live snap x b d reason,
     snapshot_lengths n live snap -> var_in_range n x ->
     snapshot_level n
       ((fun (snap : dense_snapshot) (x : Z) (b : bool) (d reason : Z) => {| snap_values := replace_Znth x (if b then 1 else 0) (snap_values snap); snap_reasons := replace_Znth x reason (snap_reasons snap); snap_levels := replace_Znth x d (snap_levels snap); snap_rows := snap_rows snap; snap_states := snap_states snap; snap_true_counts := snap_true_counts snap; snap_unassigned := snap_unassigned snap |}) snap x b d reason) =
-    total_mapping_update (snapshot_level n snap) x (Some d).
+    sat_function_update (snapshot_level n snap) x (Some d).
 Proof.
   intros n live snap x b d reason Hlength Hx.
   apply functional_extensionality; intro y.
@@ -4896,7 +4345,7 @@ Proof.
   - unfold snapshot_level.
     rewrite (snapshot_unit_assignment_same__bcp_unit_to_assignment
       n live snap x b d reason Hlength Hx).
-    rewrite total_mapping_update_eq.
+    rewrite sat_function_update_eq.
     simpl.
     destruct Hlength as [_ [_ [Hl _]]].
     rewrite Znth_replace_Znth_Same by
@@ -4905,7 +4354,7 @@ Proof.
   - unfold snapshot_level.
     rewrite (snapshot_unit_assignment_other__bcp_unit_to_assignment
       n live snap x b d reason y Hlength Hx Hyx).
-    rewrite total_mapping_update_neq by lia.
+    rewrite sat_function_update_neq by lia.
     destruct (snapshot_assignment n snap y) as [bv|] eqn:Hassign;
       [|reflexivity].
     pose proof
@@ -4922,7 +4371,8 @@ Lemma snapshot_unit_reason_eq__bcp_unit_to_assignment :
     snapshot_lengths n live snap -> var_in_range n x -> 0 <= reason ->
     snapshot_reason n
       ((fun (snap : dense_snapshot) (x : Z) (b : bool) (d reason : Z) => {| snap_values := replace_Znth x (if b then 1 else 0) (snap_values snap); snap_reasons := replace_Znth x reason (snap_reasons snap); snap_levels := replace_Znth x d (snap_levels snap); snap_rows := snap_rows snap; snap_states := snap_states snap; snap_true_counts := snap_true_counts snap; snap_unassigned := snap_unassigned snap |}) snap x b d reason) =
-    total_mapping_update (snapshot_reason n snap) x (Some reason).
+    sat_function_update (snapshot_reason n snap) x
+      (nth_error (map dense_decode (snap_rows snap)) (Z.to_nat reason)).
 Proof.
   intros n live snap x b d reason Hlength Hx Hreason.
   apply functional_extensionality; intro y.
@@ -4930,7 +4380,7 @@ Proof.
   - unfold snapshot_reason.
     rewrite (snapshot_unit_assignment_same__bcp_unit_to_assignment
       n live snap x b d reason Hlength Hx).
-    rewrite total_mapping_update_eq.
+    rewrite sat_function_update_eq.
     simpl.
     destruct Hlength as [_ [Hr _]].
     rewrite Znth_replace_Znth_Same by
@@ -4940,7 +4390,7 @@ Proof.
   - unfold snapshot_reason.
     rewrite (snapshot_unit_assignment_other__bcp_unit_to_assignment
       n live snap x b d reason y Hlength Hx Hyx).
-    rewrite total_mapping_update_neq by lia.
+    rewrite sat_function_update_neq by lia.
     destruct (snapshot_assignment n snap y) as [bv|] eqn:Hassign;
       [|reflexivity].
     pose proof
@@ -4958,10 +4408,10 @@ Lemma snapshot_unit_view_eq__bcp_unit_to_assignment :
     cdcl_view_of_snapshot n
       ((fun (snap : dense_snapshot) (x : Z) (b : bool) (d reason : Z) => {| snap_values := replace_Znth x (if b then 1 else 0) (snap_values snap); snap_reasons := replace_Znth x reason (snap_reasons snap); snap_levels := replace_Znth x d (snap_levels snap); snap_rows := snap_rows snap; snap_states := snap_states snap; snap_true_counts := snap_true_counts snap; snap_unassigned := snap_unassigned snap |})
         snap x b logical_dl reason)
-      ((fun (ranks : Z -> option nat) (x : Z) (rx : nat) => total_mapping_update ranks x (Some rx)) ranks x
+      ((fun (ranks : Z -> option nat) (x : Z) (rx : nat) => sat_function_update ranks x (Some rx)) ranks x
         (S ((fun (ranks : Z -> option nat) (c : clause) => fold_right Nat.max O (map (fun l => match ranks (literal_var l) with Some r => r | None => O end) c)) ranks c)))
       logical_dl =
-    (fun (old : cdcl_view) (x : Z) (b : bool) (d reason : Z) (rx : nat) => {| assignment := partial_mapping_update (assignment old) x b; level_of := total_mapping_update (level_of old) x (Some d); reason_of := total_mapping_update (reason_of old) x (Some reason); assignment_rank := total_mapping_update (assignment_rank old) x (Some rx); installed_clauses := installed_clauses old; current_level := current_level old |})
+    unit_extend_view
       (cdcl_view_of_snapshot n snap ranks logical_dl)
       x b logical_dl reason
       (S ((fun (ranks : Z -> option nat) (c : clause) => fold_right Nat.max O (map (fun l => match ranks (literal_var l) with Some r => r | None => O end) c)) ranks c)).
@@ -4973,9 +4423,10 @@ Proof.
     n live snap x b logical_dl reason Hlength Hx) as Hlevel.
   pose proof (snapshot_unit_reason_eq__bcp_unit_to_assignment
     n live snap x b logical_dl reason Hlength Hx Hreason) as Hreason_eq.
-  unfold cdcl_view_of_snapshot.
+  unfold cdcl_view_of_snapshot, unit_extend_view.
   simpl in *.
   rewrite Hassignment, Hlevel, Hreason_eq.
+  rewrite reason_clause_of_index_pos by lia.
   reflexivity.
 Qed.
 Lemma snapshot_unit_stable_assigns__bcp_unit_to_assignment :
@@ -4992,14 +4443,14 @@ Lemma snapshot_unit_stable_assigns__bcp_unit_to_assignment :
     stable_search_facts n
       ((fun (snap : dense_snapshot) (x : Z) (b : bool) (d reason : Z) => {| snap_values := replace_Znth x (if b then 1 else 0) (snap_values snap); snap_reasons := replace_Znth x reason (snap_reasons snap); snap_levels := replace_Znth x d (snap_levels snap); snap_rows := snap_rows snap; snap_states := snap_states snap; snap_true_counts := snap_true_counts snap; snap_unassigned := snap_unassigned snap |})
         snap x b logical_dl reason)
-      ((fun (ranks : Z -> option nat) (x : Z) (rx : nat) => total_mapping_update ranks x (Some rx)) ranks x
+      ((fun (ranks : Z -> option nat) (x : Z) (rx : nat) => sat_function_update ranks x (Some rx)) ranks x
         (S ((fun (ranks : Z -> option nat) (c : clause) => fold_right Nat.max O (map (fun l => match ranks (literal_var l) with Some r => r | None => O end) c)) ranks c)))
       logical_dl /\
-    assigns_one (cdcl_view_of_snapshot n snap ranks logical_dl)
+    assigns_one_idx (cdcl_view_of_snapshot n snap ranks logical_dl)
       (cdcl_view_of_snapshot n
         ((fun (snap : dense_snapshot) (x : Z) (b : bool) (d reason : Z) => {| snap_values := replace_Znth x (if b then 1 else 0) (snap_values snap); snap_reasons := replace_Znth x reason (snap_reasons snap); snap_levels := replace_Znth x d (snap_levels snap); snap_rows := snap_rows snap; snap_states := snap_states snap; snap_true_counts := snap_true_counts snap; snap_unassigned := snap_unassigned snap |})
           snap x b logical_dl reason)
-        ((fun (ranks : Z -> option nat) (x : Z) (rx : nat) => total_mapping_update ranks x (Some rx)) ranks x
+        ((fun (ranks : Z -> option nat) (x : Z) (rx : nat) => sat_function_update ranks x (Some rx)) ranks x
           (S ((fun (ranks : Z -> option nat) (c : clause) => fold_right Nat.max O (map (fun l => match ranks (literal_var l) with Some r => r | None => O end) c)) ranks c)))
         logical_dl)
       x b logical_dl reason.
@@ -5014,86 +4465,19 @@ Proof.
   - unfold stable_search_facts; simpl.
     rewrite Hview.
     split.
-    + eapply grounded_unit_extend__bcp_unit_to_assignment; eauto;
+    + eapply grounded_unit_extend__bcp_unit_to_assignment;
+          eauto;
         reflexivity.
     + split.
-      * eapply closed_levels_unit_extend__bcp_unit_to_assignment; eauto;
+      * eapply closed_levels_unit_extend__bcp_unit_to_assignment;
+            eauto;
           reflexivity.
-      * eapply frontier_closed_unit_extend__bcp_unit_to_assignment; eauto;
+      * eapply frontier_closed_unit_extend__bcp_unit_to_assignment;
+            eauto;
           reflexivity.
   - rewrite Hview.
-    eapply assigns_one_new_unit__bcp_unit_to_assignment; eauto.
-Qed.
-Lemma literal_var_count_member__bcp_unit_to_assignment :
-  forall x c l,
-    In l c -> literal_var l = x -> 1 <= literal_var_count x c.
-Proof.
-  intros x c; induction c as [|a c IH]; intros l Hin Hvar.
-  - contradiction.
-  - cbn [literal_var_count]; simpl in Hin.
-    destruct Hin as [->|Hin].
-    + rewrite Hvar, Z.eqb_refl.
-      pose proof (literal_var_count_nonneg x c); lia.
-    + destruct (Z.eqb (literal_var a) x);
-        specialize (IH l Hin Hvar); lia.
-Qed.
-Lemma literal_true_count_member_satisfying__bcp_unit_to_assignment :
-  forall x b c,
-    In (satisfying_literal x b) c ->
-    1 <= literal_true_at_count x b c.
-Proof.
-  intros x b c; induction c as [|a c IH]; intro Hin.
-  - contradiction.
-  - cbn [literal_true_at_count]; simpl in Hin.
-    destruct Hin as [->|Hin].
-    + assert (Hvar :
-        Z.eqb (literal_var (satisfying_literal x b)) x = true).
-      { destruct b; cbn [satisfying_literal literal_var];
-          apply Z.eqb_refl. }
-      rewrite Hvar.
-      assert (Heval : eval_literal (fun _ : Z => b)
-        (satisfying_literal x b) = true).
-      { destruct b; reflexivity. }
-      rewrite Heval.
-      pose proof (literal_true_at_count_nonneg x b c); lia.
-    + destruct (Z.eqb (literal_var a) x);
-        [destruct (eval_literal (fun _ : Z => b) a)|];
-        specialize (IH Hin); lia.
-Qed.
-Lemma literal_true_count_le_var_count__bcp_unit_to_assignment :
-  forall x b c,
-    literal_true_at_count x b c <= literal_var_count x c.
-Proof.
-  intros x b c; induction c as [|a c IH].
-  - reflexivity.
-  - cbn [literal_true_at_count literal_var_count].
-    destruct (Z.eqb (literal_var a) x); [destruct (eval_literal (fun _ => b) a)|];
-      lia.
-Qed.
-Lemma unit_assignment_counts__bcp_unit_to_assignment :
-  forall sigma x b c,
-    sigma x = None -> clause_unit sigma c ->
-    In (satisfying_literal x b) c ->
-    clause_true_count (partial_mapping_update sigma x b) c = 1 /\
-    clause_unassigned_count (partial_mapping_update sigma x b) c = 0.
-Proof.
-  intros sigma x b c Hnone [Htrue Hunassigned] Hin.
-  destruct (clause_counts_assign sigma x b c Hnone) as
-    [Hunassigned_eq Htrue_eq].
-  assert (Hvar_ge : 1 <= literal_var_count x c).
-  { eapply literal_var_count_member__bcp_unit_to_assignment;
-      [exact Hin|destruct b; reflexivity]. }
-  pose proof
-    (clause_unassigned_count_nonnegative_base__bcp_unit_to_assignment
-      (partial_mapping_update sigma x b) c) as Hnew_unassigned_nonneg.
-  assert (Hvar : literal_var_count x c = 1) by lia.
-  assert (Htrue_ge : 1 <= literal_true_at_count x b c).
-  { apply literal_true_count_member_satisfying__bcp_unit_to_assignment;
-      exact Hin. }
-  pose proof (literal_true_count_le_var_count__bcp_unit_to_assignment
-    x b c) as Htrue_le.
-  assert (Htrue_at : literal_true_at_count x b c = 1) by lia.
-  split; lia.
+    eapply assigns_one_new_unit__bcp_unit_to_assignment;
+      eauto.
 Qed.
 Lemma mixed_summaries_unit_seed__bcp_unit_to_assignment :
   forall n live cap snap x b unitcl,
@@ -5118,8 +4502,7 @@ Lemma mixed_summaries_unit_seed__bcp_unit_to_assignment :
 Proof.
   intros n live cap snap x b unitcl Hlength Hx Hunitcl Hcap
     Hsummaries Hnone Hunit Hin.
-  destruct Hlength as
-    [Hv [Hr [Hl [Hrows [Hstates [Htrue Hunassigned]]]]]].
+  pose proof Hlength as [_ [_ [_ [Hrows [Hstates [Htrue Hunassigned]]]]]].
   unfold mixed_clause_summaries.
   assert (Hmapped : Zlength (map dense_decode (snap_rows snap)) = live).
   { rewrite Zlength_correct, length_map, <- Zlength_correct; exact Hrows. }
@@ -5138,13 +4521,9 @@ Proof.
       rewrite Znth_replace_Znth_Same; try (rewrite Hstates; lia); try lia.
       rewrite Znth_replace_Znth_Same; try (rewrite Htrue; lia); try lia.
       rewrite Znth_replace_Znth_Same; try (rewrite Hunassigned; lia); try lia.
-      pose proof (snapshot_unit_assignment_eq__bcp_unit_to_assignment
-        n live snap x b 0 unitcl) as Hassignment.
-      assert (Hlength : snapshot_lengths n live snap).
-      { repeat split; assumption. }
-      specialize (Hassignment Hlength Hx).
-      rewrite Hassignment.
-      destruct (unit_assignment_counts__bcp_unit_to_assignment
+      rewrite (snapshot_unit_assignment_eq__bcp_unit_to_assignment
+        n live snap x b 0 unitcl Hlength Hx).
+      destruct (unit_assignment_counts
         (snapshot_assignment n snap) x b
         (Znth unitcl (map dense_decode (snap_rows snap)) (@nil literal))
         Hnone
@@ -5171,9 +4550,9 @@ Proof.
   intros sigma c state lit_state unassigned [Hlit [Hun Hstate]].
   subst lit_state unassigned state.
   unfold expected_clause_state, clause_unit.
-  pose proof (clause_true_count_nonnegative_base__bcp_unit_to_assignment sigma c)
+  pose proof (clause_true_count_nonnegative_base sigma c)
     as Ht_nonneg.
-  pose proof (clause_unassigned_count_nonnegative_base__bcp_unit_to_assignment sigma c)
+  pose proof (clause_unassigned_count_nonnegative_base sigma c)
     as Hu_nonneg.
   split.
   - intro Heq.
@@ -5187,23 +4566,6 @@ Proof.
         -- lia.
   - intros [Ht Hu]. rewrite Ht, Hu; reflexivity.
 Qed.
-Lemma clause_counts_zero_false__bcp_unit_to_assignment :
-  forall sigma c,
-    clause_true_count sigma c = 0 ->
-    clause_unassigned_count sigma c = 0 ->
-    clause_false sigma c.
-Proof.
-  intros sigma c; induction c as [|l c IH]; intros Htrue Hun l' Hin.
-  - contradiction.
-  - simpl in Hin; cbn -[eval_partial_literal Z.add] in Htrue, Hun.
-    destruct (eval_partial_literal sigma l) as [[|]|] eqn:Heval.
-    + pose proof (clause_true_count_nonnegative_base__bcp_unit_to_assignment
-        sigma c); lia.
-    + destruct Hin as [<-|Hin]; [exact Heval|].
-      eapply IH; eauto.
-    + pose proof (clause_unassigned_count_nonnegative_base__bcp_unit_to_assignment
-        sigma c); lia.
-Qed.
 Lemma summary_state_one_implies_false__bcp_unit_to_assignment :
   forall sigma c state lit_state unassigned,
     clause_summary_ok sigma c state lit_state unassigned ->
@@ -5214,15 +4576,15 @@ Proof.
   unfold expected_clause_state in Hone.
   destruct ((0 <? clause_true_count sigma c)%Z) eqn:Htrue; [discriminate|].
   destruct ((clause_unassigned_count sigma c =? 0)%Z) eqn:Hunassigned.
-  - apply clause_counts_zero_false__bcp_unit_to_assignment.
+  - apply clause_counts_zero_false.
     + apply Z.ltb_ge in Htrue.
-      pose proof (clause_true_count_nonnegative_base__bcp_unit_to_assignment sigma c);
+      pose proof (clause_true_count_nonnegative_base sigma c);
         lia.
     + apply Z.eqb_eq in Hunassigned; exact Hunassigned.
   - destruct ((clause_unassigned_count sigma c =? 1)%Z) eqn:Huone
       in Hone; [discriminate|].
     apply Z.eqb_neq in Hunassigned.
-    pose proof (clause_unassigned_count_nonnegative_base__bcp_unit_to_assignment
+    pose proof (clause_unassigned_count_nonnegative_base
       sigma c); lia.
 Qed.
 Lemma coherent_snapshot_row_summary__bcp_unit_to_assignment :
@@ -5460,17 +4822,17 @@ Proof.
 Qed.
 Lemma assigns_one_assignment_update__bcp_assignment_summary_a :
   forall old new x b d reason,
-    assigns_one old new x b d reason ->
-    assignment new = partial_mapping_update (assignment old) x b.
+    assigns_one_idx old new x b d reason ->
+    assignment new = sat_function_update (assignment old) x (Some b).
 Proof.
   intros old new x b d reason Hassign.
-  unfold assigns_one in Hassign.
+  unfold assigns_one_idx in Hassign.
   destruct Hassign as
     (Hold & Hnew & _ & _ & _ & Hother & _).
   apply functional_extensionality; intro y.
   destruct (Z.eq_dec x y) as [->|Hxy].
-  - rewrite partial_mapping_update_eq; exact Hnew.
-  - rewrite partial_mapping_update_neq by exact Hxy.
+  - rewrite sat_function_update_eq; exact Hnew.
+  - rewrite sat_function_update_neq by exact Hxy.
     specialize (Hother y ltac:(lia)).
     tauto.
 Qed.
@@ -5490,6 +4852,45 @@ Proof.
       * simpl. rewrite Hneq. apply IH; lia.
       * apply IH; lia.
 Qed.
+(* The two cell values a decoded row can hold are handled by one induction:
+   [v = 1] contributes the positive literal, [v = -1] the negative one, and
+   the counts differ only in which value of [b] makes the literal true.  The
+   two named corollaries below are the forms the callers use. *)
+Lemma dense_decode_from_counts_cell__bcp_assignment_summary_a :
+  forall row base i b v,
+    v = 1 \/ v = -1 ->
+    0 <= i < Zlength row ->
+    Znth i row 0 = v ->
+    literal_var_count (base + i) (dense_decode_from base row) = 1 /\
+    literal_true_at_count (base + i) b (dense_decode_from base row) =
+      if Bool.eqb b (v =? 1) then 1 else 0.
+Proof.
+  induction row as [|z row IH]; intros base i b v Hv Hi Hcell.
+  - rewrite Zlength_nil in Hi; lia.
+  - rewrite Zlength_cons in Hi.
+    destruct (Z.eq_dec i 0) as [->|Hi0].
+    + rewrite Znth0_cons in Hcell; subst.
+      pose proof
+        (dense_decode_from_counts_before__bcp_assignment_summary_a
+          row (base + 1) base b ltac:(lia)) as [Hvars Htrue].
+      replace (base + 0) with base by lia.
+      destruct Hv as [-> | ->]; simpl; rewrite Z.eqb_refl, Hvars, Htrue;
+        destruct b; split; reflexivity.
+    + rewrite Znth_cons in Hcell by lia.
+      simpl.
+      assert (Hneq : (base =? base + i) = false).
+      { apply Z.eqb_neq; lia. }
+      destruct (z =? 1) eqn:Hz1.
+      * simpl; rewrite Hneq.
+        replace (base + i) with ((base + 1) + (i - 1)) by lia.
+        apply IH; [exact Hv|lia|exact Hcell].
+      * destruct (z =? -1) eqn:Hzm.
+        -- simpl; rewrite Hneq.
+           replace (base + i) with ((base + 1) + (i - 1)) by lia.
+           apply IH; [exact Hv|lia|exact Hcell].
+        -- replace (base + i) with ((base + 1) + (i - 1)) by lia.
+           apply IH; [exact Hv|lia|exact Hcell].
+Qed.
 Lemma dense_decode_from_counts_pos__bcp_assignment_summary_a :
   forall row base i b,
     0 <= i < Zlength row ->
@@ -5498,32 +4899,10 @@ Lemma dense_decode_from_counts_pos__bcp_assignment_summary_a :
     literal_true_at_count (base + i) b (dense_decode_from base row) =
       if b then 1 else 0.
 Proof.
-  induction row as [|z row IH]; intros base i b Hi Hcell.
-  - rewrite Zlength_nil in Hi; lia.
-  - rewrite Zlength_cons in Hi.
-    destruct (Z.eq_dec i 0) as [->|Hi0].
-    + rewrite Znth0_cons in Hcell; subst z.
-      simpl.
-      pose proof
-        (dense_decode_from_counts_before__bcp_assignment_summary_a
-          row (base + 1) base b ltac:(lia)) as [Hvars Htrue].
-      replace (base + 0) with base by lia.
-      rewrite Z.eqb_refl, Hvars, Htrue.
-      destruct b; split; reflexivity.
-    + rewrite Znth_cons in Hcell by lia.
-      simpl.
-      assert (Hneq : (base =? base + i) = false).
-      { apply Z.eqb_neq; lia. }
-      destruct (z =? 1) eqn:Hz1.
-      * simpl; rewrite Hneq.
-        replace (base + i) with ((base + 1) + (i - 1)) by lia.
-        apply IH; [lia|exact Hcell].
-      * destruct (z =? -1) eqn:Hzm.
-        -- simpl; rewrite Hneq.
-           replace (base + i) with ((base + 1) + (i - 1)) by lia.
-           apply IH; [lia|exact Hcell].
-        -- replace (base + i) with ((base + 1) + (i - 1)) by lia.
-           apply IH; [lia|exact Hcell].
+  intros row base i b Hi Hcell.
+  pose proof (dense_decode_from_counts_cell__bcp_assignment_summary_a
+    row base i b 1 (or_introl eq_refl) Hi Hcell) as [Hvar Htrue].
+  split; [exact Hvar|]. rewrite Htrue; destruct b; reflexivity.
 Qed.
 Lemma dense_decode_from_counts_neg__bcp_assignment_summary_a :
   forall row base i b,
@@ -5533,32 +4912,10 @@ Lemma dense_decode_from_counts_neg__bcp_assignment_summary_a :
     literal_true_at_count (base + i) b (dense_decode_from base row) =
       if b then 0 else 1.
 Proof.
-  induction row as [|z row IH]; intros base i b Hi Hcell.
-  - rewrite Zlength_nil in Hi; lia.
-  - rewrite Zlength_cons in Hi.
-    destruct (Z.eq_dec i 0) as [->|Hi0].
-    + rewrite Znth0_cons in Hcell; subst z.
-      simpl.
-      pose proof
-        (dense_decode_from_counts_before__bcp_assignment_summary_a
-          row (base + 1) base b ltac:(lia)) as [Hvars Htrue].
-      replace (base + 0) with base by lia.
-      rewrite Z.eqb_refl, Hvars, Htrue.
-      destruct b; split; reflexivity.
-    + rewrite Znth_cons in Hcell by lia.
-      simpl.
-      assert (Hneq : (base =? base + i) = false).
-      { apply Z.eqb_neq; lia. }
-      destruct (z =? 1) eqn:Hz1.
-      * simpl; rewrite Hneq.
-        replace (base + i) with ((base + 1) + (i - 1)) by lia.
-        apply IH; [lia|exact Hcell].
-      * destruct (z =? -1) eqn:Hzm.
-        -- simpl; rewrite Hneq.
-           replace (base + i) with ((base + 1) + (i - 1)) by lia.
-           apply IH; [lia|exact Hcell].
-        -- replace (base + i) with ((base + 1) + (i - 1)) by lia.
-           apply IH; [lia|exact Hcell].
+  intros row base i b Hi Hcell.
+  pose proof (dense_decode_from_counts_cell__bcp_assignment_summary_a
+    row base i b (-1) (or_intror eq_refl) Hi Hcell) as [Hvar Htrue].
+  split; [exact Hvar|]. rewrite Htrue; destruct b; reflexivity.
 Qed.
 Lemma dense_decode_counts_pos__bcp_assignment_summary_a :
   forall n row x b,
@@ -5596,7 +4953,7 @@ Proof.
   destruct (0 <? clause_true_count sigma c) eqn:Htrue.
   - apply Z.ltb_lt; exact Htrue.
   - apply Z.ltb_ge in Htrue.
-    pose proof (clause_unassigned_count_nonnegative_base__bcp_unit_to_assignment sigma c).
+    pose proof (clause_unassigned_count_nonnegative_base sigma c).
     destruct (clause_unassigned_count sigma c =? 0) eqn:Hunassigned.
     + discriminate Hstate.
     + apply Z.eqb_neq in Hunassigned.
@@ -5606,7 +4963,7 @@ Proof.
 Qed.
 Lemma clause_summary_assign__bcp_assignment_summary_a :
   forall old new x b d reason c state true_count unassigned_count delta,
-    assigns_one old new x b d reason ->
+    assigns_one_idx old new x b d reason ->
     clause_summary_ok (assignment old) c state true_count unassigned_count ->
     literal_var_count x c = 1 ->
     literal_true_at_count x b c = delta ->
@@ -5617,7 +4974,7 @@ Proof.
   intros old new x b d reason c state true_count unassigned_count delta
     Hassign Hsummary Hvar Htrue Hdelta.
   pose proof Hassign as Hassign_old.
-  unfold assigns_one in Hassign_old.
+  unfold assigns_one_idx in Hassign_old.
   destruct Hassign_old as (Hold & _).
   pose proof (assigns_one_assignment_update__bcp_assignment_summary_a
     old new x b d reason Hassign) as Hupdate.
@@ -5636,7 +4993,7 @@ Proof.
       {
         destruct Hdelta as [->|[-> Hstate]].
         - pose proof
-            (clause_true_count_nonnegative_base__bcp_unit_to_assignment
+            (clause_true_count_nonnegative_base
               (assignment old) c).
           lia.
         - rewrite Hstate in Hstate_old.
@@ -5738,17 +5095,17 @@ Proof.
     + destruct (Z.eqb (clause_unassigned_count sigma c) 1)
         eqn:Hunassigned1.
       * apply Z.eqb_eq in Hunassigned1.
-        pose proof (clause_true_count_nonnegative_base__bcp_unit_to_assignment sigma c).
+        pose proof (clause_true_count_nonnegative_base sigma c).
         lia.
       * apply Z.eqb_neq in Hunassigned0, Hunassigned1.
         pose proof
-          (clause_unassigned_count_nonnegative_base__bcp_unit_to_assignment sigma c).
+          (clause_unassigned_count_nonnegative_base sigma c).
         lia.
 Qed.
 Lemma bcp_unit_summary_satisfied__bcp_assignment_summary_b :
   forall old_sigma new_sigma c old_true old_unassigned x b,
     old_sigma x = None ->
-    new_sigma = partial_mapping_update old_sigma x b ->
+    new_sigma = sat_function_update old_sigma x (Some b) ->
     clause_summary_ok old_sigma c 2 old_true old_unassigned ->
     In (satisfying_literal x b) c ->
     clause_summary_ok new_sigma c 0 (old_true + 1) (old_unassigned - 1).
@@ -5764,18 +5121,18 @@ Proof.
   {
     assert (Hlower : 1 <= literal_var_count x c).
     {
-      eapply literal_var_count_member__bcp_unit_to_assignment; [exact Hin |].
+      eapply literal_var_count_member; [exact Hin |].
       unfold satisfying_literal; destruct b; reflexivity.
     }
     pose proof
-      (clause_unassigned_count_nonnegative_base__bcp_unit_to_assignment
-        (partial_mapping_update old_sigma x b) c).
+      (clause_unassigned_count_nonnegative_base
+        (sat_function_update old_sigma x (Some b)) c).
     lia.
   }
   assert (Hlittrue : literal_true_at_count x b c = 1).
   {
     pose proof
-      (literal_true_count_le_var_count__bcp_unit_to_assignment x b c).
+      (literal_true_count_le_var_count x b c).
     assert (Hlower : 1 <= literal_true_at_count x b c).
     {
       eapply literal_true_at_count_in__bcp_assignment_summary_b;
@@ -5798,7 +5155,7 @@ Qed.
 Lemma bcp_unit_summary_falsified__bcp_assignment_summary_b :
   forall old_sigma new_sigma c old_true old_unassigned x b,
     old_sigma x = None ->
-    new_sigma = partial_mapping_update old_sigma x b ->
+    new_sigma = sat_function_update old_sigma x (Some b) ->
     clause_summary_ok old_sigma c 2 old_true old_unassigned ->
     In (falsified_literal x b) c ->
     clause_summary_ok new_sigma c 1 old_true (old_unassigned - 1).
@@ -5814,12 +5171,12 @@ Proof.
   {
     assert (Hlower : 1 <= literal_var_count x c).
     {
-      eapply literal_var_count_member__bcp_unit_to_assignment; [exact Hin |].
+      eapply literal_var_count_member; [exact Hin |].
       unfold falsified_literal; destruct b; reflexivity.
     }
     pose proof
-      (clause_unassigned_count_nonnegative_base__bcp_unit_to_assignment
-        (partial_mapping_update old_sigma x b) c).
+      (clause_unassigned_count_nonnegative_base
+        (sat_function_update old_sigma x (Some b)) c).
     lia.
   }
   assert (Hlitfalse : literal_true_at_count x b c = 0).
@@ -5900,7 +5257,7 @@ Qed.
 Lemma bcp_summary_assign_satisfied_step__bcp_assignment_summary_b :
   forall old new x b d reason rows states true_counts unassigned
     live cap i exempt,
-    assigns_one old new x b d reason ->
+    assigns_one_idx old new x b d reason ->
     mixed_clause_summaries (assignment old) (assignment new) rows
       states true_counts unassigned live cap i (Some exempt) ->
     0 <= i < live ->
@@ -5935,7 +5292,7 @@ Proof.
   rewrite Hstate in Holdsummary.
   eapply bcp_unit_summary_satisfied__bcp_assignment_summary_b.
   - pose proof Hassign as Hassign_copy.
-    unfold assigns_one in Hassign_copy.
+    unfold assigns_one_idx in Hassign_copy.
     destruct Hassign_copy as [Hnone Hrest].
     exact Hnone.
   - eapply assigns_one_assignment_update__bcp_assignment_summary_a.
@@ -5946,7 +5303,7 @@ Qed.
 Lemma bcp_summary_assign_falsified_step__bcp_assignment_summary_b :
   forall old new x b d reason rows states true_counts unassigned
     live cap i exempt,
-    assigns_one old new x b d reason ->
+    assigns_one_idx old new x b d reason ->
     mixed_clause_summaries (assignment old) (assignment new) rows
       states true_counts unassigned live cap i (Some exempt) ->
     0 <= i < live ->
@@ -5985,7 +5342,7 @@ Proof.
     rewrite Hstate in Holdsummary.
     eapply bcp_unit_summary_falsified__bcp_assignment_summary_b.
     - pose proof Hassign as Hassign_copy.
-      unfold assigns_one in Hassign_copy.
+      unfold assigns_one_idx in Hassign_copy.
       destruct Hassign_copy as [Hnone Hrest].
       exact Hnone.
     - eapply assigns_one_assignment_update__bcp_assignment_summary_a.
@@ -6048,36 +5405,6 @@ Proof.
     [| exact Hrow_in].
   eapply row_wf_cell_domain; eauto.
 Qed.
-Lemma assigns_one_replaced_value_decodes__bcp_assignment_summary_b :
-  forall F n live original_count snap new_snap ranks new_ranks
-    logical_dl x z b reason,
-    coherent_snapshot F n live original_count snap ->
-    0 <= x < n ->
-    snap_values new_snap = replace_Znth x z (snap_values snap) ->
-    assigns_one (cdcl_view_of_snapshot n snap ranks logical_dl)
-      (cdcl_view_of_snapshot n new_snap new_ranks logical_dl)
-      x b logical_dl reason ->
-    decode_value_cell z = Some b.
-Proof.
-  intros F n live original_count snap new_snap ranks new_ranks
-    logical_dl x z b reason Hcoherent Hx Hreplace Hassign.
-  pose proof
-    (snapshot_replace_cell__bcp_assignment_summary_b
-      F n live original_count snap new_snap x z (-1)
-      Hcoherent Hx Hreplace) as Hcell.
-  unfold assigns_one in Hassign.
-  destruct Hassign as
-    [Hold [Hnew [Hlevel [Hreason [Hrank [Hframe Hclauses]]]]]].
-  change (snapshot_assignment n new_snap x = Some b) in Hnew.
-  unfold snapshot_assignment in Hnew.
-  replace (Z.leb 0 x) with true in Hnew by
-    (symmetry; apply Z.leb_le; lia).
-  replace (Z.ltb x n) with true in Hnew by
-    (symmetry; apply Z.ltb_lt; lia).
-  cbn in Hnew.
-  rewrite Hcell in Hnew.
-  exact Hnew.
-Qed.
 Lemma coherent_snapshot_dense_satisfying_at__bcp_assignment_summary_b :
   forall F n live original_count snap i x (b : bool),
     coherent_snapshot F n live original_count snap ->
@@ -6136,41 +5463,11 @@ Lemma coherent_snapshot_dense_falsified_at__bcp_assignment_summary_b :
       (Znth i (map dense_decode (snap_rows snap)) (@nil literal)).
 Proof.
   intros F n live original_count snap i x b Hcoherent Hi Hx Hcell.
-  pose proof Hcoherent as Hcoherent_copy.
-  unfold coherent_snapshot, snapshot_lengths in Hcoherent_copy.
-  destruct Hcoherent_copy as
-    [Hn [Horiginal [Hlengths [Hcells [Hsummaries Hsound]]]]].
-  destruct Hlengths as
-    [Hvalues [Hreasons [Hlevels [Hrows [Hstates [Htrue Hunassigned]]]]]].
-  unfold Znth at 1.
-  rewrite (map_nth_len (list Z) clause dense_decode (snap_rows snap)
-    (Z.to_nat i) (@nil literal) (@nil Z)) by
-    (rewrite Zlength_correct in Hrows; lia).
-  fold (Znth i (snap_rows snap) (@nil Z)).
-  destruct Hcells as [Hvalue_cells Hrows_wf].
-  assert (Hrow_wf : row_wf n (Znth i (snap_rows snap) (@nil Z))).
-  {
-    apply Forall_forall with
-      (x := Znth i (snap_rows snap) (@nil Z)) in Hrows_wf.
-    - exact Hrows_wf.
-    - unfold Znth.
-      apply nth_In.
-      replace (List.length (snap_rows snap)) with
-        (Z.to_nat (Zlength (snap_rows snap))).
-      + apply Z2Nat.inj_lt; lia.
-      + rewrite Zlength_correct. rewrite Nat2Z.id. reflexivity.
-  }
-  destruct b.
-  - change
-      (List.In (Neg x) (dense_decode (Znth i (snap_rows snap) (@nil Z)))).
-    apply (proj1 (dense_decode_neg n
-      (Znth i (snap_rows snap) (@nil Z)) x Hrow_wf Hx)).
-    exact Hcell.
-  - change
-      (List.In (Pos x) (dense_decode (Znth i (snap_rows snap) (@nil Z)))).
-    apply (proj1 (dense_decode_pos n
-      (Znth i (snap_rows snap) (@nil Z)) x Hrow_wf Hx)).
-    exact Hcell.
+  replace (falsified_literal x b) with (satisfying_literal x (negb b))
+    by (destruct b; reflexivity).
+  apply (coherent_snapshot_dense_satisfying_at__bcp_assignment_summary_b
+    F n live original_count snap i x (negb b) Hcoherent Hi Hx).
+  destruct b; exact Hcell.
 Qed.
 Lemma expected_clause_state_one_counts__bcp_assignment_summary_b :
   forall sigma c,
@@ -6187,13 +5484,13 @@ Proof.
       eqn:Hunassigned.
     + apply Z.eqb_eq in Hunassigned.
       pose proof
-        (clause_true_count_nonnegative_base__bcp_unit_to_assignment sigma c).
+        (clause_true_count_nonnegative_base sigma c).
       lia.
     + destruct (Z.eqb (clause_unassigned_count sigma c) 1)
         eqn:Hunassigned1.
       * discriminate.
       * pose proof
-          (clause_unassigned_count_nonnegative_base__bcp_unit_to_assignment sigma c).
+          (clause_unassigned_count_nonnegative_base sigma c).
         lia.
 Qed.
 Lemma clause_summary_state_one_false__bcp_assignment_summary_b :
@@ -6208,15 +5505,15 @@ Proof.
   pose proof
     (expected_clause_state_one_counts__bcp_assignment_summary_b
       sigma c (eq_sym Hexpected)) as [Htrue0 Hunassigned0].
-  eapply clause_counts_zero_false__bcp_unit_to_assignment; eauto.
+  exact (clause_counts_zero_false sigma c Htrue0 Hunassigned0).
 Qed.
 Lemma assigns_one_satisfying_eval__bcp_assignment_summary_b :
   forall old new x b d reason,
-    assigns_one old new x b d reason ->
+    assigns_one_idx old new x b d reason ->
     eval_partial_literal (assignment new) (satisfying_literal x b) = Some true.
 Proof.
   intros old new x b d reason Hassign.
-  unfold assigns_one in Hassign.
+  unfold assigns_one_idx in Hassign.
   destruct Hassign as [Hold [Hnew Hrest]].
   unfold satisfying_literal, eval_partial_literal.
   destruct b; cbn; rewrite Hnew; reflexivity.
@@ -6224,7 +5521,7 @@ Qed.
 Lemma bcp_next_state_not_conflict__bcp_assignment_summary_b :
   forall old new x b d reason states true_counts unassigned
     live cap i exempt,
-    assigns_one old new x b d reason ->
+    assigns_one_idx old new x b d reason ->
     mixed_clause_summaries (assignment old) (assignment new)
       (installed_clauses old) states true_counts unassigned
       live cap (i + 1) (Some exempt) ->
@@ -6290,41 +5587,6 @@ Proof.
       lia.
 Qed.
 (** ===== group: bcp_assignment_summary_c ===== *)
-Lemma row_wf_at__bcp_assignment_summary_c : forall n rows i,
-  Forall (row_wf n) rows ->
-  0 <= i < Zlength rows ->
-  row_wf n (Znth i rows (@nil Z)).
-Proof.
-  intros n rows; induction rows as [|row rows IH]; intros i Hforall Hi.
-  - rewrite Zlength_nil in Hi; lia.
-  - inversion Hforall as [|? ? Hrow Hrows]; subst.
-    rewrite Zlength_cons in Hi.
-    destruct (Z.eq_dec i 0) as [->|Hne].
-    + rewrite Znth0_cons; exact Hrow.
-    + rewrite Znth_cons by lia.
-      apply IH; [exact Hrows|].
-      lia.
-Qed.
-Lemma coherent_snapshot_row_cell_domain__bcp_assignment_summary_c :
-  forall F n live original_count snap i x,
-    coherent_snapshot F n live original_count snap ->
-    0 <= i < live -> var_in_range n x ->
-    Znth x (Znth i (snap_rows snap) (@nil Z)) 0 = -1 \/
-    Znth x (Znth i (snap_rows snap) (@nil Z)) 0 = 0 \/
-    Znth x (Znth i (snap_rows snap) (@nil Z)) 0 = 1.
-Proof.
-  intros F n live original_count snap i x Hcoh Hi Hx.
-  unfold coherent_snapshot in Hcoh.
-  destruct Hcoh as [_ [_ [Hlens [Hcells _]]]].
-  unfold snapshot_lengths in Hlens.
-  destruct Hlens as [_ [_ [_ [Hrows_len _]]]].
-  unfold snapshot_cells_wf in Hcells.
-  destruct Hcells as [_ Hrows].
-  apply (row_wf_cell_domain n
-    (Znth i (snap_rows snap) (@nil Z)) x); [|exact Hx].
-  apply row_wf_at__bcp_assignment_summary_c; [exact Hrows|].
-  rewrite Hrows_len; exact Hi.
-Qed.
 Lemma Znth_map_dense_decode__bcp_assignment_summary_c : forall rows i,
   0 <= i < Zlength rows ->
   Znth i (map dense_decode rows) (@nil literal) =
@@ -6374,7 +5636,7 @@ Lemma assigns_one_replaced_zero_false__bcp_assignment_summary_d :
     coherent_snapshot F n live original_count snap ->
     var_in_range n x ->
     snap_values new_snap = replace_Znth x 0 (snap_values snap) ->
-    assigns_one (cdcl_view_of_snapshot n snap ranks logical_dl)
+    assigns_one_idx (cdcl_view_of_snapshot n snap ranks logical_dl)
       (cdcl_view_of_snapshot n new_snap ranks1 logical_dl) x b d reason ->
     b = false.
 Proof.
@@ -6383,7 +5645,7 @@ Proof.
   pose proof (coherent_replaced_value_same__bcp_assignment_summary_d
     F n live original_count snap (snap_values new_snap) x 0 (-1)
     Hcoh Hx Hvalues) as Hcell.
-  unfold assigns_one in Hassign.
+  unfold assigns_one_idx in Hassign.
   destruct Hassign as [_ [Hnew _]].
   simpl [cdcl_view_of_snapshot] in Hnew.
   unfold snapshot_assignment in Hnew.
@@ -6401,7 +5663,7 @@ Lemma assigns_one_replaced_one_true__bcp_assignment_summary_d :
     coherent_snapshot F n live original_count snap ->
     var_in_range n x ->
     snap_values new_snap = replace_Znth x 1 (snap_values snap) ->
-    assigns_one (cdcl_view_of_snapshot n snap ranks logical_dl)
+    assigns_one_idx (cdcl_view_of_snapshot n snap ranks logical_dl)
       (cdcl_view_of_snapshot n new_snap ranks1 logical_dl) x b d reason ->
     b = true.
 Proof.
@@ -6410,7 +5672,7 @@ Proof.
   pose proof (coherent_replaced_value_same__bcp_assignment_summary_d
     F n live original_count snap (snap_values new_snap) x 1 (-1)
     Hcoh Hx Hvalues) as Hcell.
-  unfold assigns_one in Hassign.
+  unfold assigns_one_idx in Hassign.
   destruct Hassign as [_ [Hnew _]].
   simpl [cdcl_view_of_snapshot] in Hnew.
   unfold snapshot_assignment in Hnew.
@@ -6494,7 +5756,7 @@ Proof.
 Qed.
 Lemma clause_summary_assign_false__bcp_assignment_summary_d :
   forall old new x b d reason c state true_count unassigned_count new_state,
-    assigns_one old new x b d reason ->
+    assigns_one_idx old new x b d reason ->
     clause_summary_ok (assignment old) c state true_count unassigned_count ->
     literal_var_count x c = 1 ->
     literal_true_at_count x b c = 0 ->
@@ -6509,7 +5771,7 @@ Proof.
   pose proof Hassign as Hassign_eq.
   pose proof (assigns_one_assignment_update__bcp_assignment_summary_a
     old new x b d reason Hassign_eq) as Heq.
-  unfold assigns_one in Hassign.
+  unfold assigns_one_idx in Hassign.
   destruct Hassign as [Hold _].
   pose proof (clause_counts_assign (assignment old) x b c Hold)
     as [Hunassigned Htrue].
@@ -6565,7 +5827,7 @@ Proof.
 Qed.
 Lemma clause_summary_assign_absent__bcp_assignment_summary_d :
   forall old new x b d reason c state true_count unassigned_count,
-    assigns_one old new x b d reason ->
+    assigns_one_idx old new x b d reason ->
     clause_summary_ok (assignment old) c state true_count unassigned_count ->
     literal_var_count x c = 0 ->
     literal_true_at_count x b c = 0 ->
@@ -6576,7 +5838,7 @@ Proof.
   pose proof Hassign as Hassign_eq.
   pose proof (assigns_one_assignment_update__bcp_assignment_summary_a
     old new x b d reason Hassign_eq) as Heq.
-  unfold assigns_one in Hassign.
+  unfold assigns_one_idx in Hassign.
   destruct Hassign as [Hold _].
   pose proof (clause_counts_assign (assignment old) x b c Hold)
     as [Hunassigned Htrue].
@@ -6699,7 +5961,7 @@ Proof.
     destruct (Z.eqb (clause_unassigned_count sigma c) 0)
       eqn:Hunassigned0.
     + apply Z.eqb_eq in Hunassigned0.
-      apply clause_counts_zero_false__bcp_unit_to_assignment; lia.
+      apply clause_counts_zero_false; lia.
     + apply Z.eqb_neq in Hunassigned0.
       destruct (Z.eqb (clause_unassigned_count sigma c) 1)
         eqn:Hunassigned1.
@@ -6717,21 +5979,9 @@ Proof.
     sigma c true_count unassigned_count Hsummary) as Hfalse.
   specialize (Hfalse l Hin); congruence.
 Qed.
-Lemma znth_out_of_bounds__bcp_assignment_summary_d :
-  forall (A : Type) (l : list A) (d : A) i,
-    0 <= i -> Zlength l <= i -> Znth i l d = d.
-Proof.
-  intros A l; induction l as [|a l IH]; intros d i Hi Hout.
-  - unfold Znth; simpl; destruct (Z.to_nat i); reflexivity.
-  - rewrite Zlength_cons in Hout.
-    pose proof (Zlength_nonneg l).
-    assert (i <> 0) by lia.
-    rewrite Znth_cons by lia.
-    apply IH; lia.
-Qed.
 Lemma assigned_satisfying_dense_literal__bcp_assignment_summary_d :
   forall old new x b d reason n row,
-    assigns_one old new x b d reason ->
+    assigns_one_idx old new x b d reason ->
     row_wf n row -> var_in_range n x ->
     Znth x row 0 = (if b then 1 else -1) ->
     exists l,
@@ -6739,7 +5989,7 @@ Lemma assigned_satisfying_dense_literal__bcp_assignment_summary_d :
       eval_partial_literal (assignment new) l = Some true.
 Proof.
   intros old new x b d reason n row Hassign Hrow Hx Hcell.
-  unfold assigns_one in Hassign.
+  unfold assigns_one_idx in Hassign.
   destruct Hassign as [_ [Hnew _]].
   destruct b.
   - exists (Pos x); split.
@@ -6804,7 +6054,7 @@ Proof.
         (Znth (i + 1) true_counts 0)
         (Znth (i + 1) unassigned 0)).
       rewrite Hstate in Hsummary; exact Hsummary.
-  - rewrite (znth_out_of_bounds__bcp_assignment_summary_d
+  - rewrite (znth_out_of_bounds
       Z states 0 (i + 1)); [lia|lia|rewrite Hstates; lia].
 Qed.
 Lemma mixed_clause_summaries_step_same__bcp_assignment_summary_d :
@@ -6848,7 +6098,7 @@ Lemma bcp_advance_same_dense__bcp_assignment_summary_d :
   forall F n live original_count snap ranks logical_dl new
       x b d reason states true_counts unassigned capacity i unitcl,
     coherent_snapshot F n live original_count snap ->
-    assigns_one (cdcl_view_of_snapshot n snap ranks logical_dl)
+    assigns_one_idx (cdcl_view_of_snapshot n snap ranks logical_dl)
       new x b d reason ->
     no_conflict (cdcl_view_of_snapshot n snap ranks logical_dl) ->
     mixed_clause_summaries
@@ -6949,7 +6199,7 @@ Lemma bcp_advance_false_dense__bcp_assignment_summary_d :
       x b d reason states true_counts unassigned capacity i unitcl
       old_state new_state,
     coherent_snapshot F n live original_count snap ->
-    assigns_one (cdcl_view_of_snapshot n snap ranks logical_dl)
+    assigns_one_idx (cdcl_view_of_snapshot n snap ranks logical_dl)
       new x b d reason ->
     no_conflict (cdcl_view_of_snapshot n snap ranks logical_dl) ->
     mixed_clause_summaries
@@ -7099,7 +6349,7 @@ Proof.
   destruct (Z_lt_dec (i + 1) live) as [Hnext_in|Hnext_out].
   - rewrite Znth_replace_Znth_Diff by (try rewrite Hstates; lia).
     exact Hnext_original.
-  - pose proof (znth_out_of_bounds__bcp_assignment_summary_d
+  - pose proof (znth_out_of_bounds
       Z (replace_Znth i new_state states) 0 (i + 1)
       ltac:(lia)
       ltac:(rewrite Zlength_replace_Znth, Hstates; lia)) as Hout.
@@ -7110,7 +6360,7 @@ Lemma bcp_advance_satisfied_dense__bcp_scan_invariant :
   forall F n live original_count snap ranks logical_dl new
       x b d reason states true_counts unassigned capacity i unitcl delta,
     coherent_snapshot F n live original_count snap ->
-    assigns_one (cdcl_view_of_snapshot n snap ranks logical_dl) new x b d reason ->
+    assigns_one_idx (cdcl_view_of_snapshot n snap ranks logical_dl) new x b d reason ->
     no_conflict (cdcl_view_of_snapshot n snap ranks logical_dl) ->
     mixed_clause_summaries
       (assignment (cdcl_view_of_snapshot n snap ranks logical_dl))
@@ -7207,7 +6457,7 @@ Proof.
     destruct (Z_lt_dec (i + 1) live) as [Hin|Hout].
     + rewrite Znth_replace_Znth_Diff by (try rewrite Hstates_len; lia).
       exact Hnext_orig.
-    + pose proof (znth_out_of_bounds__bcp_assignment_summary_d
+    + pose proof (znth_out_of_bounds
         Z (replace_Znth i 0 states) 0 (i + 1)
         ltac:(lia)
         ltac:(rewrite Zlength_replace_Znth, Hstates_len; lia)) as Hout2.
@@ -7338,6 +6588,7 @@ Proof.
   pose proof Hstable as Hstable_copy.
   unfold stable_search_facts in Hstable.
   destruct Hstable as [_ [Hclosed _]].
+  cdcl_shape.
   destruct Hclosed as [Hdl_nonneg _].
   destruct Hcoherent as
     [Hn [Horiginal [Hlengths [Hcells [Hsummaries Hsound]]]]].
@@ -7451,7 +6702,7 @@ Proof.
     destruct ((clause_unassigned_count sigma c =? 0)%Z)
       eqn:Hunassigned_zero.
     + apply Z.eqb_eq in Hunassigned_zero.
-      apply clause_counts_zero_false__bcp_unit_to_assignment;
+      apply clause_counts_zero_false;
         assumption.
     + apply Z.eqb_neq in Hunassigned_zero.
       destruct ((clause_unassigned_count sigma c =? 1)%Z)
@@ -7459,7 +6710,7 @@ Proof.
       * discriminate.
       * lia.
   - intros Hfalse.
-    pose proof (clause_false_counts__learning_row_and_scan sigma c Hfalse)
+    pose proof (clause_false_counts sigma c Hfalse)
       as [Htrue_zero Hunassigned_zero].
     rewrite Hstate.
     unfold expected_clause_state.
@@ -7504,61 +6755,35 @@ Lemma coherent_states_no_conflict__bcp_exit_results :
     (forall i, 0 <= i < live -> Znth i (snap_states snap) 0 <> 1) ->
     no_conflict (cdcl_view_of_snapshot n snap ranks logical_dl).
 Proof.
-  intros F n live original_count snap ranks logical_dl
-    Hcoherent Hstates.
-  unfold no_conflict.
-  intros c Hin Hfalse.
+  intros F n live original_count snap ranks logical_dl Hcoherent Hstates c Hin Hfalse.
   destruct Hcoherent as [_ [_ [Hlengths [_ [Hsummaries _]]]]].
   destruct Hlengths as [_ [_ [_ [Hrows_len _]]]].
   apply In_nth_error in Hin.
   destruct Hin as [k Hnth].
+  change (nth_error (map dense_decode (snap_rows snap)) k = Some c) in Hnth.
+  assert (Hklen : (k < List.length (map dense_decode (snap_rows snap)))%nat).
+  { apply nth_error_Some. rewrite Hnth. discriminate. }
+  rewrite length_map in Hklen.
   assert (Hk : 0 <= Z.of_nat k < live).
-  {
-    split; [lia |].
-    assert (Hklen :
-      (k < List.length
-        (installed_clauses
-          (cdcl_view_of_snapshot n snap ranks logical_dl)))%nat).
-    {
-      apply nth_error_Some.
-      rewrite Hnth.
-      discriminate.
-    }
-    change (k < List.length (map dense_decode (snap_rows snap)))%nat in Hklen.
-    rewrite length_map in Hklen.
-    rewrite Zlength_correct in Hrows_len.
-    lia.
-  }
+  { rewrite Zlength_correct in Hrows_len. lia. }
   specialize (Hsummaries (Z.of_nat k) Hk).
   unfold summary_at in Hsummaries.
-  assert (Hclause :
-    Znth (Z.of_nat k) (map dense_decode (snap_rows snap))
-      (@nil literal) = c).
-  {
-    unfold Znth.
-    rewrite Nat2Z.id.
-    eapply nth_error_nth.
-    exact Hnth.
-  }
+  assert (Hclause : Znth (Z.of_nat k) (map dense_decode (snap_rows snap)) [] = c).
+  { unfold Znth. rewrite Nat2Z.id. eapply nth_error_nth; exact Hnth. }
   rewrite Hclause in Hsummaries.
-  assert (Hone : Znth (Z.of_nat k) (snap_states snap) 0 = 1).
-  {
-    apply (proj2
-      (clause_summary_state_one_iff_false__bcp_exit_results
-        _ _ _ _ _ Hsummaries)).
-    exact Hfalse.
-  }
-  exact (Hstates (Z.of_nat k) Hk Hone).
+  apply (Hstates (Z.of_nat k) Hk).
+  exact (proj2 (clause_summary_state_one_iff_false__bcp_exit_results
+    _ _ _ _ _ Hsummaries) Hfalse).
 Qed.
 Lemma assigns_one_dense_conflict__bcp_exit_results :
   forall old new x b d reason,
     no_conflict old ->
-    assigns_one old new x b d reason ->
+    assigns_one_idx old new x b d reason ->
     d = current_level new ->
     dense_conflict_batch old new x.
 Proof.
   intros old new x b d reason Hno_conflict Hassigns Hcurrent.
-  unfold assigns_one in Hassigns.
+  unfold assigns_one_idx in Hassigns.
   destruct Hassigns as
     [Hold_none [Hnew_some [Hnew_level [Hnew_reason
       [Hnew_rank [Hothers Hinstalled]]]]]].
@@ -7614,27 +6839,6 @@ Proof.
               exact Hfalse.
 Qed.
 (** ===== group: backtrack_safety_a ===== *)
-Lemma clause_true_count_bounds__backtrack_safety_a : forall sigma c,
-  0 <= clause_true_count sigma c <= Zlength c.
-Proof.
-  intros sigma c.
-  induction c as [|l c IH].
-  - simpl. rewrite Zlength_nil. lia.
-  - split.
-    + unfold clause_true_count at 1.
-      destruct (eval_partial_literal sigma l) as [[|]|] eqn:Heval.
-      * change (0 <= 1 + clause_true_count sigma c). lia.
-      * change (0 <= clause_true_count sigma c). lia.
-      * change (0 <= clause_true_count sigma c). lia.
-    + unfold clause_true_count at 1.
-      destruct (eval_partial_literal sigma l) as [[|]|] eqn:Heval.
-      * change (1 + clause_true_count sigma c <= Zlength (l :: c)).
-        rewrite Zlength_cons. unfold Z.succ. lia.
-      * change (clause_true_count sigma c <= Zlength (l :: c)).
-        rewrite Zlength_cons. unfold Z.succ. lia.
-      * change (clause_true_count sigma c <= Zlength (l :: c)).
-        rewrite Zlength_cons. unfold Z.succ. lia.
-Qed.
 Lemma dense_decode_from_length_le__backtrack_safety_a : forall start row,
   Zlength (dense_decode_from start row) <= Zlength row.
 Proof.
@@ -7645,7 +6849,7 @@ Lemma expected_clause_state_bounds__backtrack_safety_a : forall sigma c,
   - clause_unassigned_count sigma c <= expected_clause_state sigma c <= 2.
 Proof.
   intros sigma c.
-  pose proof (clause_unassigned_count_bounds__bcp_safety_bounds_a sigma c) as Hu.
+  pose proof (clause_unassigned_count_bounds sigma c) as Hu.
   unfold expected_clause_state.
   destruct (Z.ltb 0 (clause_true_count sigma c)) eqn:Ht; simpl.
   - split; lia.
@@ -7693,9 +6897,9 @@ Proof.
   unfold summary_at, clause_summary_ok in Hold.
   destruct Hold as [Htrue [Hunassigned Hstate]].
   rewrite Hrow in Htrue, Hunassigned, Hstate.
-  pose proof (clause_true_count_bounds__backtrack_safety_a
+  pose proof (clause_true_count_bounds
     old_sigma (dense_decode (Znth j dense_rows (@nil Z)))) as Ht.
-  pose proof (clause_unassigned_count_bounds__bcp_safety_bounds_a
+  pose proof (clause_unassigned_count_bounds
     old_sigma (dense_decode (Znth j dense_rows (@nil Z)))) as Hu.
   pose proof (dense_decode_from_length_le__backtrack_safety_a
     0 (Znth j dense_rows (@nil Z))) as Hdecode.
@@ -7708,51 +6912,149 @@ Proof.
   unfold dense_decode in Ht, Hu, Hstate_bounds.
   repeat split; lia.
 Qed.
-(** ===== group: backtrack_safety_b ===== *)
-Lemma dense_decode_from_length_le__backtrack_safety_b :
-  forall base row,
-    Zlength (dense_decode_from base row) <= Zlength row.
+
+(** Bounds consumed by strategy rules 7-10.  These pure consequences of the
+    scan invariants live beside the summary-bound lemmas they use; the
+    strategy proof file contains only the generated correctness obligations. *)
+
+Lemma strategy7_bounds :
+  forall (old current after_clear : cdcl_view)
+         (n target variable j live cap n2 dl : Z)
+         (snap : dense_snapshot) (ranks : Z -> option nat)
+         (F : cnf) (original_count : Z)
+         (st tc un : list Z),
+    backtrack_inner old current after_clear n target variable j live cap
+       (installed_clauses (cdcl_view_of_snapshot n2 snap ranks dl)) st tc un ->
+    coherent_snapshot F n live original_count snap ->
+    0 <= j ->
+    j < live ->
+    (0 <= Znth j tc 0 <= n) /\
+    (0 <= Znth j un 0 <= n) /\
+    (- n <= Znth j st 0 <= 2).
 Proof.
-  intros base row.
-  apply dense_decode_from_Zlength_le__bcp_safety_bounds_a.
+  intros old current after_clear n target variable j live cap n2 dl
+    snap ranks F original_count st tc un Hbir Hcoh Hj0 Hjlive.
+  unfold backtrack_inner in Hbir.
+  destruct Hbir as [_ [_ [_ [_ Hmixed]]]].
+  change (installed_clauses (cdcl_view_of_snapshot n2 snap ranks dl))
+    with (map dense_decode (snap_rows snap)) in Hmixed.
+  pose proof (coherent_snapshot_row_wf__learning_row_and_scan
+    F n live original_count snap j Hcoh ltac:(lia)) as Hrowwf.
+  unfold row_wf in Hrowwf.
+  destruct Hrowwf as [Hrowlen _].
+  exact (backtrack_current_summary_bounds__backtrack_safety_a
+    (assignment current) (assignment after_clear) (snap_rows snap)
+    st tc un live cap j n Hmixed ltac:(lia) Hrowlen).
 Qed.
-Lemma Znth_mapped_dense_decode_length_le__backtrack_safety_b :
-  forall rows j,
-    0 <= j < Zlength rows ->
-    Zlength (Znth j (map dense_decode rows) (@nil literal)) <=
-    Zlength (Znth j rows (@nil Z)).
+
+Lemma strategy8_bounds :
+  forall (old new : cdcl_view)
+         (x j live cap n n2 dl : Z)
+         (snap : dense_snapshot) (ranks : Z -> option nat)
+         (F : cnf) (original_count : Z)
+         (st tc un : list Z),
+    decision_update old new x j live cap
+       (installed_clauses (cdcl_view_of_snapshot n2 snap ranks dl)) st tc un ->
+    coherent_snapshot F n live original_count snap ->
+    0 <= j ->
+    j < live ->
+    (0 <= Znth j tc 0 <= n) /\
+    (0 <= Znth j un 0 <= n) /\
+    (- n <= Znth j st 0 <= 2).
 Proof.
-  intros rows j Hj.
-  unfold Znth.
-  rewrite Zlength_correct in Hj.
-  assert (Hjn : (Z.to_nat j < List.length rows)%nat) by lia.
-  remember (Z.to_nat j) as k eqn:Hk.
-  clear Hj.
-  clear Hk j.
-  revert k Hjn.
-  induction rows as [| row rows IH]; intros k Hk; simpl in Hk; [lia |].
-  destruct k as [| k]; simpl.
-  - unfold dense_decode.
-    apply dense_decode_from_length_le__backtrack_safety_b.
-  - apply IH.
-    lia.
+  intros old new x j live cap n n2 dl snap ranks F original_count st tc un
+    Hdur Hcoh Hj0 Hjlive.
+  unfold decision_update in Hdur.
+  destruct Hdur as [_ Hmixed].
+  change (installed_clauses (cdcl_view_of_snapshot n2 snap ranks dl))
+    with (map dense_decode (snap_rows snap)) in Hmixed.
+  pose proof (coherent_snapshot_row_wf__learning_row_and_scan
+    F n live original_count snap j Hcoh ltac:(lia)) as Hrowwf.
+  unfold row_wf in Hrowwf.
+  destruct Hrowwf as [Hrowlen _].
+  exact (backtrack_current_summary_bounds__backtrack_safety_a
+    (assignment old) (assignment new) (snap_rows snap)
+    st tc un live cap j n Hmixed ltac:(lia) Hrowlen).
 Qed.
+
+Lemma strategy9_mixed_bounds :
+  forall old_sigma new_sigma dense_rows states true_counts unassigned
+         live cap processed exempt j n,
+    mixed_clause_summaries old_sigma new_sigma
+      (map dense_decode dense_rows) states true_counts unassigned
+      live cap processed (Some exempt) ->
+    0 <= j < live ->
+    Zlength (Znth j dense_rows (@nil Z)) = n ->
+    0 <= Znth j true_counts 0 <= n /\
+    0 <= Znth j unassigned 0 <= n /\
+    - n <= Znth j states 0 <= 2.
+Proof.
+  intros old_sigma new_sigma dense_rows states true_counts unassigned
+    live cap processed exempt j n Hmixed Hj Hrowlen.
+  unfold mixed_clause_summaries in Hmixed.
+  destruct Hmixed as [_ [_ [_ [_ [_ [_ Hall]]]]]].
+  specialize (Hall j Hj).
+  destruct Hall as [Hnew Hold].
+  assert (Hsummary : exists sigma,
+    summary_at sigma (map dense_decode dense_rows)
+      states true_counts unassigned j).
+  {
+    destruct (Z_lt_ge_dec j processed) as [Hlt | Hge].
+    - exists new_sigma. apply Hnew. left. exact Hlt.
+    - destruct (Z.eq_dec exempt j) as [-> | Hne].
+      + exists new_sigma. apply Hnew. right. reflexivity.
+      + exists old_sigma. apply Hold. split; [lia | congruence].
+  }
+  destruct Hsummary as [sigma Hsummary].
+  unfold summary_at, clause_summary_ok in Hsummary.
+  destruct Hsummary as [Htrue [Hunassigned Hstate]].
+  rewrite (Znth_map_dense_decode__bcp_safety_bounds_a dense_rows j)
+    in Htrue, Hunassigned, Hstate.
+  pose proof (clause_true_count_bounds
+    sigma (dense_decode (Znth j dense_rows (@nil Z)))) as Ht.
+  pose proof (clause_unassigned_count_bounds
+    sigma (dense_decode (Znth j dense_rows (@nil Z)))) as Hu.
+  pose proof (expected_clause_state_bounds__bcp_safety_bounds_a
+    sigma (dense_decode (Znth j dense_rows (@nil Z)))) as Hs.
+  pose proof (dense_decode_Zlength_le__bcp_safety_bounds_a
+    (Znth j dense_rows (@nil Z))) as Hdecode.
+  rewrite Htrue, Hunassigned, Hstate.
+  rewrite Hrowlen in Hdecode.
+  repeat split; lia.
+Qed.
+
+Lemma strategy9_bounds :
+  forall (old new : cdcl_view) (b : bool)
+         (x d reason j exempt live cap n n2 dl : Z)
+         (snap : dense_snapshot) (ranks : Z -> option nat)
+         (F : cnf) (original_count : Z)
+         (st tc un : list Z),
+    bcp_clause_scan old new x b d reason j exempt live cap
+       (installed_clauses (cdcl_view_of_snapshot n2 snap ranks dl)) st tc un ->
+    coherent_snapshot F n live original_count snap ->
+    0 <= j ->
+    j < live ->
+    (0 <= Znth j tc 0 <= n) /\
+    (0 <= Znth j un 0 <= n) /\
+    (- n <= Znth j st 0 <= 2).
+Proof.
+  intros old new b x d reason j exempt live cap n n2 dl
+    snap ranks F original_count st tc un Hscan Hcoh Hj0 Hjlive.
+  unfold bcp_clause_scan in Hscan.
+  destruct Hscan as [_ [_ Hmixed]].
+  change (installed_clauses (cdcl_view_of_snapshot n2 snap ranks dl))
+    with (map dense_decode (snap_rows snap)) in Hmixed.
+  pose proof (coherent_snapshot_row_wf__learning_row_and_scan
+    F n live original_count snap j Hcoh ltac:(lia)) as Hrowwf.
+  unfold row_wf in Hrowwf.
+  destruct Hrowwf as [Hrowlen _].
+  exact (strategy9_mixed_bounds
+    (assignment old) (assignment new) (snap_rows snap)
+    st tc un live cap j exempt j n Hmixed ltac:(lia) Hrowlen).
+Qed.
+
+
 (** ===== group: backtrack_entry_clear_a ===== *)
-Lemma clause_unassigned_count_bounds__backtrack_entry_clear_a :
-  forall sigma c,
-    0 <= clause_unassigned_count sigma c <= Z.of_nat (List.length c).
-Proof.
-  intros sigma c; induction c as [|lit c IH].
-  - cbn; lia.
-  - cbn -[eval_partial_literal Z.add].
-    replace (Z.of_nat (S (List.length c)))
-      with (1 + Z.of_nat (List.length c)) by lia.
-    destruct IH as [IHlo IHhi].
-    destruct (eval_partial_literal sigma lit) as [[|]|]; cbn -[Z.add].
-    + split; [exact IHlo|lia].
-    + split; [exact IHlo|lia].
-    + split; lia.
-Qed.
 Lemma prefix_restriction_zero_same_snapshot__backtrack_entry_clear_a :
   forall n target old_level snap ranks,
     0 <= n ->
@@ -7787,12 +7089,12 @@ Proof.
   destruct Hlengths as [_ [_ [_ [Hrows [Hstates [Htrue Hunassigned]]]]]].
   unfold mixed_clause_summaries.
   split.
-  - assert (Hmap_length : forall rows : list (list Z),
+  - assert (Hlength_map : forall rows : list (list Z),
         Zlength (List.map dense_decode rows) = Zlength rows).
     { intro rows; induction rows as [|row rows IH].
       - reflexivity.
       - cbn [List.map]. repeat rewrite Zlength_cons. lia. }
-    rewrite Hmap_length. lia.
+    rewrite Hlength_map. lia.
   - split; [lia|].
     split; [lia|].
     split; [lia|].
@@ -7971,11 +7273,13 @@ Proof.
                  change ((if Znth y
                    (replace_Znth i (-1) (snap_reasons snap)) (-1) =? -1
                    then None
-                   else Some (Znth y
-                     (replace_Znth i (-1) (snap_reasons snap)) (-1))) =
+                   else nth_error (map dense_decode (snap_rows snap))
+                     (Z.to_nat (Znth y
+                       (replace_Znth i (-1) (snap_reasons snap)) (-1)))) =
                    (if Znth y (snap_reasons snap) (-1) =? -1
                     then None
-                    else Some (Znth y (snap_reasons snap) (-1)))).
+                    else nth_error (map dense_decode (snap_rows snap))
+                      (Z.to_nat (Znth y (snap_reasons snap) (-1))))).
                  assert (Hy_bounds : 0 <= y < n).
                  { unfold snapshot_assignment in Hy.
                    destruct (andb (0 <=? y) (y <? n)) eqn:Hyguard;
@@ -8017,19 +7321,10 @@ Lemma snapshot_row_length__backtrack_entry_clear_a :
     Zlength (Znth j (snap_rows snap) (@nil Z)) = n.
 Proof.
   intros n live snap j Hlengths Hcells Hj.
-  unfold snapshot_lengths in Hlengths.
   destruct Hlengths as [_ [_ [_ [Hrows_length _]]]].
-  unfold snapshot_cells_wf in Hcells.
   destruct Hcells as [_ Hrows_wf].
-  revert live j Hj Hrows_length.
-  induction Hrows_wf as [|row rows Hrow Hrows_wf IH];
-    intros live j Hj Hrows_length.
-  - rewrite Zlength_nil in Hrows_length. lia.
-  - rewrite Zlength_cons in Hrows_length.
-    destruct (Z.eq_dec j 0) as [->|Hj0].
-    + rewrite Znth0_cons. exact (proj1 Hrow).
-    + rewrite Znth_cons by lia.
-      apply (IH (live - 1) (j - 1)); lia.
+  apply (proj1 (Forall_Znth_elim _ (row_wf n) (snap_rows snap) nil j Hrows_wf
+    ltac:(rewrite Hrows_length; exact Hj))).
 Qed.
 Lemma clears_one_assignment_eq_clear_partial__backtrack_entry_clear_a :
   forall old new x,
@@ -8042,10 +7337,10 @@ Proof.
     [[b [d [Holdx _]]] [Hnewx [_ [_ [_ [Hother _]]]]]].
   apply functional_extensionality; intro y.
   destruct (Z.eq_dec y x) as [->|Hyx].
-  - unfold clear_partial. rewrite Mapping.total_mapping_update_eq.
+  - unfold clear_partial. rewrite sat_function_update_eq.
     exact Hnewx.
   - unfold clear_partial.
-    rewrite Mapping.total_mapping_update_neq by lia.
+    rewrite sat_function_update_neq by lia.
     apply Hother. exact Hyx.
 Qed.
 Lemma dense_decode_from_pos_counts__backtrack_entry_clear_a :
@@ -8213,7 +7508,7 @@ Lemma expected_clause_state_clear_last__backtrack_entry_clear_a :
 Proof.
   intros sigma x b c t u Hx Hvar Hsat Ht Hu Holdstate Hu0 Ht1.
   pose proof
-    (clause_unassigned_count_nonnegative_base__bcp_unit_to_assignment sigma c)
+    (clause_unassigned_count_nonnegative_base sigma c)
     as Hnonnegative.
   assert (Hu_eq : u = 0) by lia.
   assert (Ht0 : 0 < t).
@@ -8493,28 +7788,6 @@ Proof.
   rewrite !replace_Znth_Znth in H.
   exact H.
 Qed.
-Lemma mixed_clause_summaries_advance_state_unassigned__backtrack_clear_b :
-  forall old_sigma new_sigma rows states true_counts unassigned
-         live cap j new_state new_unassigned,
-    mixed_clause_summaries old_sigma new_sigma
-      rows states true_counts unassigned live cap j None ->
-    0 <= j < live ->
-    clause_summary_ok new_sigma (Znth j rows (nil : clause))
-      new_state (Znth j true_counts 0) new_unassigned ->
-    mixed_clause_summaries old_sigma new_sigma rows
-      (replace_Znth j new_state states) true_counts
-      (replace_Znth j new_unassigned unassigned)
-      live cap (j + 1) None.
-Proof.
-  intros old_sigma new_sigma rows states true_counts unassigned
-    live cap j new_state new_unassigned Hmixed Hj Hsummary.
-  pose proof (mixed_clause_summaries_advance__backtrack_clear_b
-    old_sigma new_sigma rows states true_counts unassigned live cap j
-    new_state (Znth j true_counts 0) new_unassigned
-    Hmixed Hj Hsummary) as H.
-  rewrite !replace_Znth_Znth in H.
-  exact H.
-Qed.
 Lemma backtrack_summary_clear_step__backtrack_clear_b :
   forall old new rows states true_counts unassigned live cap j i b delta
          new_state,
@@ -8585,9 +7858,8 @@ Proof.
     specialize (Hmixed j Hj).
     destruct Hmixed as [_ Hold].
     apply Hold; split; [lia|discriminate]. }
-  pose proof Hmixed as Hmixed_keep.
   apply mixed_clause_summaries_advance_unassigned_only__backtrack_clear_b;
-    [exact Hmixed_keep|exact Hj|].
+    [exact Hmixed|exact Hj|].
   unfold clause_summary_ok in *.
   destruct Hold_summary as [Hold_true [Hold_unassigned Hold_state]].
   pose proof (clause_counts_clear
@@ -8595,19 +7867,8 @@ Proof.
   pose proof (clears_one_assignment_eq_clear_partial__backtrack_entry_clear_a
     old new i Hclear) as Hclear_assignment.
   assert (Htpos : 0 < clause_true_count (assignment old) (Znth j rows (nil : clause))).
-  { assert (Hold_state' := Hold_state).
-    rewrite Hstate0 in Hold_state'.
-    unfold expected_clause_state in Hold_state'.
-    destruct (Z.ltb 0 (clause_true_count (assignment old) (Znth j rows (nil : clause))))
-      eqn:E.
-    - apply Z.ltb_lt in E; exact E.
-    - apply Z.ltb_ge in E.
-      destruct (Z.eqb (clause_unassigned_count (assignment old) (Znth j rows (nil : clause))) 0)
-        eqn:E0; [discriminate|].
-      destruct (Z.eqb (clause_unassigned_count (assignment old) (Znth j rows (nil : clause))) 1)
-        eqn:E1; [discriminate|].
-      apply Z.eqb_neq in E0.
-      lia. }
+  { apply expected_clause_state_zero__bcp_assignment_summary_a.
+    rewrite <- Hold_state; exact Hstate0. }
   rewrite Hclear_assignment.
   rewrite Hnew_u, Hvar.
   split.
@@ -8649,42 +7910,20 @@ Lemma clause_summary_state_one_counts__backtrack_clear_b :
     clause_summary_ok sigma c 1 true_count unassigned_count ->
     true_count = 0 /\ unassigned_count = 0.
 Proof.
-  intros sigma c true_count unassigned_count Hsummary.
-  destruct Hsummary as [Ht [Hu Hstate]].
-  pose proof (clause_counts_nonnegative__bcp_assignment_summary_d sigma c)
-    as [Htnonneg Hunonneg].
-  unfold expected_clause_state in Hstate.
-  destruct (Z.ltb 0 (clause_true_count sigma c)) eqn:Htpos;
-    [discriminate|].
-  apply Z.ltb_ge in Htpos.
-  destruct (Z.eqb (clause_unassigned_count sigma c) 0) eqn:Hu0.
-  - apply Z.eqb_eq in Hu0; lia.
-  - destruct (Z.eqb (clause_unassigned_count sigma c) 1) eqn:Hu1.
-    + discriminate.
-    + apply Z.eqb_neq in Hu0.
-      apply Z.eqb_neq in Hu1.
-      lia.
+  intros sigma c true_count unassigned_count [Ht [Hu Hstate]].
+  subst true_count unassigned_count.
+  apply expected_clause_state_one_counts__bcp_assignment_summary_b.
+  symmetry; exact Hstate.
 Qed.
 Lemma clause_summary_state_two_counts__backtrack_clear_b :
   forall sigma c true_count unassigned_count,
     clause_summary_ok sigma c 2 true_count unassigned_count ->
     true_count = 0 /\ unassigned_count = 1.
 Proof.
-  intros sigma c true_count unassigned_count Hsummary.
-  destruct Hsummary as [Ht [Hu Hstate]].
-  pose proof (clause_counts_nonnegative__bcp_assignment_summary_d sigma c)
-    as [Htnonneg Hunonneg].
-  unfold expected_clause_state in Hstate.
-  destruct (Z.ltb 0 (clause_true_count sigma c)) eqn:Htpos;
-    [discriminate|].
-  apply Z.ltb_ge in Htpos.
-  destruct (Z.eqb (clause_unassigned_count sigma c) 0) eqn:Hu0;
-    [discriminate|].
-  destruct (Z.eqb (clause_unassigned_count sigma c) 1) eqn:Hu1.
-  - apply Z.eqb_eq in Hu1; lia.
-  - apply Z.eqb_neq in Hu0.
-    apply Z.eqb_neq in Hu1.
-    lia.
+  intros sigma c true_count unassigned_count [Ht [Hu Hstate]].
+  subst true_count unassigned_count.
+  apply expected_clause_state_two_counts__bcp_assignment_summary_b.
+  symmetry; exact Hstate.
 Qed.
 (** ===== group: backtrack_finish_decide_bounds ===== *)
 Lemma Znth_map_dense_decode__backtrack_finish_decide_bounds : forall rows i,
@@ -8698,16 +7937,12 @@ Proof.
     dense_decode (nth (Z.to_nat i) rows [])).
   apply map_nth.
 Qed.
+(* Spelling bridge: the shared [clause_true_count_bounds] states the same
+   bound with [Zlength]; call sites here carry [Z.of_nat (List.length _)]. *)
 Lemma clause_true_count_bounds__backtrack_finish_decide_bounds : forall sigma c,
   0 <= clause_true_count sigma c <= Z.of_nat (List.length c).
 Proof.
-  intros sigma c; induction c as [|l c IH].
-  - cbn [clause_true_count]; lia.
-  - change (0 <= clause_true_count sigma (l :: c) <=
-      Z.of_nat (S (List.length c))).
-    rewrite Nat2Z.inj_succ.
-    cbn [clause_true_count].
-    destruct (eval_partial_literal sigma l) as [[|]|]; lia.
+  intros sigma c. rewrite <- Zlength_correct. apply clause_true_count_bounds.
 Qed.
 Lemma expected_clause_state_two_true_zero__backtrack_finish_decide_bounds :
   forall sigma c,
@@ -8730,19 +7965,8 @@ Lemma expected_clause_state_domain__backtrack_finish_decide_bounds :
   expected_clause_state sigma c < 0.
 Proof.
   intros sigma c.
-  unfold expected_clause_state.
-  destruct (Z.ltb 0 (clause_true_count sigma c)) eqn:Htrue.
-  - left; reflexivity.
-  - destruct (Z.eqb (clause_unassigned_count sigma c) 0) eqn:Hun0.
-    + right; left; reflexivity.
-    + destruct (Z.eqb (clause_unassigned_count sigma c) 1) eqn:Hun1.
-      * right; right; left; reflexivity.
-      * right; right; right.
-        apply Z.eqb_neq in Hun0.
-        pose proof
-          (clause_unassigned_count_bounds__backtrack_entry_clear_a
-            sigma c) as Hbounds.
-        lia.
+  pose proof (expected_clause_state_bounds__bcp_safety_bounds_a sigma c).
+  lia.
 Qed.
 Lemma snapshot_level_unassigned__backtrack_finish_decide_bounds :
   forall n snap i,
@@ -8843,27 +8067,6 @@ Proof.
       rewrite Ha, Hl, Hr, Hrank.
       apply Hafter; lia.
 Qed.
-Lemma clause_true_count_positive__backtrack_finish_decide_bounds :
-  forall sigma c l,
-  In l c -> eval_partial_literal sigma l = Some true ->
-  0 < clause_true_count sigma c.
-Proof.
-  intros sigma c; induction c as [|h c IH]; intros l Hin Heval.
-  - contradiction.
-  - destruct Hin as [-> | Hin].
-    + cbn [clause_true_count]. rewrite Heval.
-      change (0 < 1 + clause_true_count sigma c).
-      pose proof (clause_true_count_bounds__backtrack_finish_decide_bounds
-        sigma c); lia.
-    + specialize (IH l Hin Heval).
-      cbn [clause_true_count].
-      destruct (eval_partial_literal sigma h) as [[|]|].
-      * change (0 < 1 + clause_true_count sigma c).
-        pose proof (clause_true_count_bounds__backtrack_finish_decide_bounds
-          sigma c); lia.
-      * exact IH.
-      * exact IH.
-Qed.
 Lemma snapshot_nonzero_assignment_true__backtrack_finish_decide_bounds :
   forall n live snap i,
   snapshot_lengths n live snap ->
@@ -8921,51 +8124,6 @@ Proof.
   { apply andb_true_iff; split; [apply Z.leb_le | apply Z.ltb_lt]; lia. }
   rewrite Hguard, Hvalue; reflexivity.
 Qed.
-Lemma literal_var_count_zero_below__backtrack_finish_decide_bounds : forall x c,
-  (forall l, In l c -> x < literal_var l) ->
-  literal_var_count x c = 0.
-Proof.
-  intros x c; induction c as [|l c IH]; intros Hbelow.
-  - reflexivity.
-  - cbn [literal_var_count].
-    assert (Hlx : literal_var l <> x).
-    { specialize (Hbelow l ltac:(left; reflexivity)); lia. }
-    rewrite (proj2 (Z.eqb_neq _ _) Hlx).
-    apply IH. intros l' Hin. apply Hbelow. right; exact Hin.
-Qed.
-Lemma literal_var_count_positive_of_in__backtrack_finish_decide_bounds :
-  forall x c,
-  In (Pos x) c \/ In (Neg x) c -> 0 < literal_var_count x c.
-Proof.
-  intros x c; induction c as [|l c IH]; intros Hin.
-  - destruct Hin as [Hin|Hin]; contradiction.
-  - cbn [literal_var_count].
-    destruct (Z.eqb (literal_var l) x) eqn:Hlx.
-    + pose proof (literal_var_count_nonneg x c); lia.
-    + apply IH.
-      destruct Hin as [[Heq|Hin]|[Heq|Hin]].
-      * subst l; cbn in Hlx; rewrite Z.eqb_refl in Hlx; discriminate.
-      * left; exact Hin.
-      * subst l; cbn in Hlx; rewrite Z.eqb_refl in Hlx; discriminate.
-      * right; exact Hin.
-Qed.
-Lemma literal_var_count_zero_if_absent__backtrack_finish_decide_bounds :
-  forall x c,
-  ~ In (Pos x) c -> ~ In (Neg x) c -> literal_var_count x c = 0.
-Proof.
-  intros x c; induction c as [|l c IH]; intros Hpos Hneg.
-  - reflexivity.
-  - cbn [literal_var_count].
-    destruct l as [y|y]; cbn [literal_var].
-    + assert (Hy : y <> x).
-      { intro; subst y; apply Hpos; left; reflexivity. }
-      rewrite (proj2 (Z.eqb_neq _ _) Hy).
-      apply IH; intro Hin; [apply Hpos|apply Hneg]; right; exact Hin.
-    + assert (Hy : y <> x).
-      { intro; subst y; apply Hneg; left; reflexivity. }
-      rewrite (proj2 (Z.eqb_neq _ _) Hy).
-      apply IH; intro Hin; [apply Hpos|apply Hneg]; right; exact Hin.
-Qed.
 Lemma dense_decode_from_literal_var_count_le_one__backtrack_finish_decide_bounds :
   forall row base x,
   base <= x < base + Zlength row ->
@@ -8979,7 +8137,7 @@ Proof.
     + cbn [literal_var_count literal_var].
       destruct (Z.eq_dec base x) as [->|Hneq].
       * rewrite Z.eqb_refl.
-        rewrite literal_var_count_zero_below__backtrack_finish_decide_bounds.
+        rewrite literal_var_count_zero_below.
         -- lia.
         -- intros l Hin.
            pose proof (dense_decode_from_var_lower_bound row (x + 1) l Hin).
@@ -8990,7 +8148,7 @@ Proof.
       * cbn [literal_var_count literal_var].
         destruct (Z.eq_dec base x) as [->|Hneq].
         -- rewrite Z.eqb_refl.
-           rewrite literal_var_count_zero_below__backtrack_finish_decide_bounds.
+           rewrite literal_var_count_zero_below.
            ++ lia.
            ++ intros l Hin.
               pose proof (dense_decode_from_var_lower_bound row (x + 1) l Hin).
@@ -8998,7 +8156,7 @@ Proof.
         -- rewrite (proj2 (Z.eqb_neq _ _) Hneq).
            apply IH; lia.
       * destruct (Z.eq_dec base x) as [->|Hneq].
-        -- rewrite literal_var_count_zero_below__backtrack_finish_decide_bounds.
+        -- rewrite literal_var_count_zero_below.
            ++ lia.
            ++ intros l Hin.
               pose proof (dense_decode_from_var_lower_bound row (x + 1) l Hin).
@@ -9018,7 +8176,7 @@ Proof.
     - contradiction.
     - left. apply (proj1 (dense_decode_pos n row x Hwf Hrange)); exact Hpos. }
   pose proof
-    (literal_var_count_positive_of_in__backtrack_finish_decide_bounds
+    (literal_var_count_positive_of_in
       x (dense_decode row) Hin) as Hpositive.
   pose proof
     (dense_decode_from_literal_var_count_le_one__backtrack_finish_decide_bounds
@@ -9036,31 +8194,8 @@ Proof.
   intros n row x Hwf Hrange Hzero.
   pose proof (proj1 (dense_decode_zero n row x Hwf Hrange) Hzero)
     as [Hpos Hneg].
-  apply literal_var_count_zero_if_absent__backtrack_finish_decide_bounds;
+  apply literal_var_count_zero_if_absent;
     assumption.
-Qed.
-Lemma literal_true_at_count_le_true_count__backtrack_finish_decide_bounds :
-  forall sigma x b c,
-  sigma x = Some b ->
-  literal_true_at_count x b c <= clause_true_count sigma c.
-Proof.
-  intros sigma x b c; induction c as [|l c IH]; intros Hsigma.
-  - reflexivity.
-  - cbn -[eval_partial_literal Z.add Z.sub] in *.
-    specialize (IH Hsigma).
-    destruct l as [y|y]; destruct (Z.eq_dec x y) as [->|Hxy].
-    + replace (eval_partial_literal sigma (Pos y)) with (Some b) by
-        (unfold eval_partial_literal, literal_var; rewrite Hsigma; reflexivity).
-      rewrite Z.eqb_refl. destruct b; cbn -[Z.add Z.sub]; lia.
-    + assert (Hyx : Z.eqb y x = false) by (apply Z.eqb_neq; lia).
-      destruct (eval_partial_literal sigma (Pos y)) as [[|]|];
-        cbn -[Z.add Z.sub]; rewrite Hyx; lia.
-    + replace (eval_partial_literal sigma (Neg y)) with (Some (negb b)) by
-        (unfold eval_partial_literal, literal_var; rewrite Hsigma; reflexivity).
-      rewrite Z.eqb_refl. destruct b; cbn -[Z.add Z.sub]; lia.
-    + assert (Hyx : Z.eqb y x = false) by (apply Z.eqb_neq; lia).
-      destruct (eval_partial_literal sigma (Neg y)) as [[|]|];
-        cbn -[Z.add Z.sub]; rewrite Hyx; lia.
 Qed.
 Lemma expected_clause_state_negative__backtrack_finish_decide_bounds :
   forall sigma c state,
@@ -9074,7 +8209,7 @@ Proof.
   destruct (Z.ltb 0 (clause_true_count sigma c)) eqn:Htrue.
   - lia.
   - apply Z.ltb_ge in Htrue.
-    pose proof (clause_true_count_nonnegative_base__bcp_unit_to_assignment
+    pose proof (clause_true_count_nonnegative_base
       sigma c) as Htrue_nonneg.
     assert (Htzero : clause_true_count sigma c = 0) by lia.
     destruct (Z.eqb (clause_unassigned_count sigma c) 0) eqn:Hun0.
@@ -9084,7 +8219,7 @@ Proof.
       * lia.
       * apply Z.eqb_neq in Hun1.
         pose proof
-          (clause_unassigned_count_nonnegative_base__bcp_unit_to_assignment
+          (clause_unassigned_count_nonnegative_base
             sigma c) as Hun_nonneg.
         repeat split; lia.
 Qed.
@@ -9109,7 +8244,7 @@ Proof.
   pose proof (literal_var_count_dense_nonzero__backtrack_finish_decide_bounds
     n row x Hrow Hrange Hcell) as Hvar_count.
   pose proof
-    (literal_true_at_count_le_true_count__backtrack_finish_decide_bounds
+    (literal_true_at_count_le_true_count
       old_sigma x b (dense_decode row) Hassign) as Htrue_at_upper.
   pose proof (literal_true_at_count_nonneg x b (dense_decode row))
     as Htrue_at_lower.
@@ -9151,7 +8286,7 @@ Proof.
   destruct Hsummary as [Htrue [Hunassigned Hstate]].
   pose proof (literal_var_count_dense_zero__backtrack_finish_decide_bounds
     n row x Hrow Hrange Hcell) as Hvar_count.
-  pose proof (literal_true_count_le_var_count__bcp_unit_to_assignment
+  pose proof (literal_true_count_le_var_count
     x b (dense_decode row)) as Htrue_at_upper.
   pose proof (literal_true_at_count_nonneg x b (dense_decode row))
     as Htrue_at_lower.
@@ -9265,15 +8400,10 @@ Proof.
   unfold dense_summaries_restored.
   split; [exact Hlengths|].
   split.
-  - unfold snapshot_summaries_exact.
-    intros j Hj.
-    unfold mixed_clause_summaries in Hmixed.
+  - intros j Hj.
     destruct Hmixed as (_ & _ & _ & _ & _ & _ & Hall).
-    specialize (Hall j Hj).
-    destruct Hall as [Hsummary _].
-    specialize (Hsummary (or_introl (proj2 Hj))).
     rewrite Hrows.
-    exact Hsummary.
+    exact (proj1 (Hall j Hj) (or_introl (proj2 Hj))).
   - split; [reflexivity|exact Hrows].
 Qed.
 Lemma coherent_snapshot_from_complete__backtrack_finish_decide_bounds :
@@ -9551,7 +8681,7 @@ Proof.
           (destruct b; reflexivity).
         exact Hnew_last. }
       pose proof
-        (eval_partial_literal_unassigned__bcp_unit_to_assignment
+        (eval_partial_literal_unassigned
           (assignment new) (falsified_literal last b) Hliteral_none) as Hnone.
       rewrite Hnone in Hfalse_new; discriminate.
     - cbn in Hin_learned.
@@ -9599,8 +8729,7 @@ Lemma restrict_new_assigned_old__backtrack_finish_decide_bounds : forall old new
     assignment_rank new x = assignment_rank old x.
 Proof.
   intros old new target x b Hrestrict Hnew.
-  pose proof Hrestrict as Hcopy.
-  destruct Hcopy as [_ [_ Hcells]].
+  destruct Hrestrict as [_ [_ Hcells]].
   specialize (Hcells x).
   destruct (level_of old x) as [d|] eqn:Hlevel.
   - destruct (Z.leb d target) eqn:Hleb.
@@ -9612,25 +8741,6 @@ Proof.
       rewrite Hassignment in Hnew; discriminate.
   - destruct Hcells as [Hassignment _].
     rewrite Hassignment in Hnew; discriminate.
-Qed.
-Lemma eval_partial_literal_assignment_at__backtrack_finish_decide_bounds : forall sigma1 sigma2 l,
-  sigma1 (literal_var l) = sigma2 (literal_var l) ->
-  eval_partial_literal sigma1 l = eval_partial_literal sigma2 l.
-Proof.
-  intros sigma1 sigma2 [x|x] Heq;
-    unfold eval_partial_literal, literal_var in *;
-    rewrite Heq;
-    reflexivity.
-Qed.
-Lemma nth_error_append_singleton__backtrack_finish_decide_bounds :
-  forall (xs : list clause) learned k c,
-  nth_error xs k = Some c ->
-  nth_error (xs ++ (learned :: nil)) k = Some c.
-Proof.
-  intros xs learned k c Hnth.
-  rewrite nth_error_app1; [exact Hnth|].
-  apply nth_error_Some.
-  rewrite Hnth; discriminate.
 Qed.
 Lemma restrict_to_level_chain__backtrack_finish_decide_bounds : forall old new target k,
   restrict_above_level old new target ->
@@ -9675,7 +8785,7 @@ Proof.
     Hassignment Hlevel Hreason Hrank Hclauses Hrestrict
     Hxlevel Hxbound Hylevel Hybound Hdependency.
   destruct Hdependency as
-    [i [c [ly [Hxreason [Hnth [Hin [Hlyvar [Hneq Hfalse]]]]]]]].
+    [c [ly [Hxreason [Hin [Hlyvar [Hneq Hfalse]]]]]].
   assert (Hold_x_level : level_of old x = Some dx).
   { rewrite Hlevel; exact Hxlevel. }
   assert (Hold_y_level : level_of old y = Some dy).
@@ -9688,22 +8798,17 @@ Proof.
     as Hkeep_y.
   destruct Hkeep_x as [_ [_ [Hnew_reason _]]].
   destruct Hkeep_y as [Hnew_assignment _].
-  exists i, c, ly.
+  exists c, ly.
   split.
   - rewrite Hnew_reason, Hreason; exact Hxreason.
-  - split.
-    + pose proof Hrestrict as Hrestrict_copy.
-      destruct Hrestrict_copy as [_ [Hnew_clauses _]].
-      rewrite Hnew_clauses, Hclauses.
-      eapply nth_error_append_singleton__backtrack_finish_decide_bounds; exact Hnth.
-    + split; [exact Hin|].
-      split; [exact Hlyvar|].
-      split; [exact Hneq|].
+  - split; [exact Hin|].
+    split; [exact Hlyvar|].
+    split; [exact Hneq|].
       assert (Hassignment_at :
         assignment new (literal_var ly) =
         assignment conflict (literal_var ly)).
       { rewrite Hlyvar, Hnew_assignment, Hassignment; reflexivity. }
-      rewrite (eval_partial_literal_assignment_at__backtrack_finish_decide_bounds
+      rewrite (eval_partial_literal_assignment_at
         (assignment new) (assignment conflict) ly Hassignment_at).
       exact Hfalse.
 Qed.
@@ -9723,40 +8828,29 @@ Proof.
     Hassignment Hlevel Hreason Hrank Hclauses Hrestrict
     Hxlevel Hxbound Hvalid.
   destruct Hvalid as
-    [b [dx [rx [c [Hxassignment [Hxdlevel [Hxrank
-      [Hnth [Hin Hothers]]]]]]]]].
+    [b [dx [rx [Hxassignment [Hxdlevel [Hxrank
+      [Hin Hothers]]]]]]].
   assert (Hdx : dx = d).
   { rewrite Hxlevel in Hxdlevel; inversion Hxdlevel; reflexivity. }
   subst dx.
-  assert (Hold_x_level : level_of old x = Some d).
-  { rewrite Hlevel; exact Hxlevel. }
-  pose proof
-    (restrict_keeps_cell__backtrack_finish_decide_bounds _ _ _ _ _ Hrestrict Hold_x_level Hxbound)
-    as Hkeep_x.
+  pose proof (restrict_keeps_cell__backtrack_finish_decide_bounds _ _ _ _ _ Hrestrict
+    ltac:(rewrite Hlevel; exact Hxlevel) Hxbound) as Hkeep_x.
   destruct Hkeep_x as
     [Hnew_assignment [Hnew_level [Hnew_reason Hnew_rank]]].
-  exists b, d, rx, c.
+  exists b, d, rx.
   split.
   - rewrite Hnew_assignment, Hassignment; exact Hxassignment.
   - split.
     + rewrite Hnew_level, Hlevel; exact Hxlevel.
     + split.
       * rewrite Hnew_rank, Hrank; exact Hxrank.
-      * split.
-        -- pose proof Hrestrict as Hrestrict_copy.
-           destruct Hrestrict_copy as [_ [Hnew_clauses _]].
-           rewrite Hnew_clauses, Hclauses.
-           eapply nth_error_append_singleton__backtrack_finish_decide_bounds; exact Hnth.
-        -- split; [exact Hin|].
-           intros l Hlin Hvarneq.
+      * split; [exact Hin|].
+        intros l Hlin Hvarneq.
            specialize (Hothers l Hlin Hvarneq).
            destruct Hothers as
              [Hfalse [dy [ry [Hylevel [Hyrank [Hyd Hry]]]]]].
-           assert (Hold_y_level : level_of old (literal_var l) = Some dy).
-           { rewrite Hlevel; exact Hylevel. }
-           pose proof
-             (restrict_keeps_cell__backtrack_finish_decide_bounds _ _ _ _ _ Hrestrict
-               Hold_y_level ltac:(lia)) as Hkeep_y.
+           pose proof (restrict_keeps_cell__backtrack_finish_decide_bounds _ _ _ _ _ Hrestrict
+             ltac:(rewrite Hlevel; exact Hylevel) ltac:(lia)) as Hkeep_y.
            destruct Hkeep_y as
              [Hnew_y_assignment [Hnew_y_level [_ Hnew_y_rank]]].
            split.
@@ -9764,7 +8858,7 @@ Proof.
                 assignment new (literal_var l) =
                 assignment conflict (literal_var l)).
               { rewrite Hnew_y_assignment, Hassignment; reflexivity. }
-              rewrite (eval_partial_literal_assignment_at__backtrack_finish_decide_bounds
+              rewrite (eval_partial_literal_assignment_at
                 (assignment new) (assignment conflict) l Hassignment_at).
               exact Hfalse.
            ++ exists dy, ry.
@@ -9814,6 +8908,24 @@ Proof.
       * rewrite Hnew_x_rank, Hrank; exact Hxrank.
       * rewrite Hnew_y_rank, Hrank; exact Hyrank.
 Qed.
+(* At or below the backjump target, the new view's restricted assignment
+   agrees with the conflict view's.  Both uses in [stable_after_backjump__]
+   share this argument. *)
+Lemma backjump_restrict_agrees__backtrack_finish_decide_bounds :
+  forall (conflict old new : cdcl_view) (target k : Z),
+  assignment old = assignment conflict ->
+  level_of old = level_of conflict ->
+  restrict_above_level old new target ->
+  k <= target ->
+  restrict_to_level new k = restrict_to_level conflict k.
+Proof.
+  intros conflict old new target k Hassignment Hlevel Hrestrict Hk.
+  rewrite (restrict_to_level_chain__backtrack_finish_decide_bounds
+    old new target k Hrestrict Hk).
+  unfold restrict_to_level.
+  rewrite Hassignment, Hlevel.
+  reflexivity.
+Qed.
 Lemma stable_after_backjump__backtrack_finish_decide_bounds :
   forall (F : cnf) (conflict old new : cdcl_view)
     (target : Z) (learned : clause),
@@ -9822,22 +8934,23 @@ Lemma stable_after_backjump__backtrack_finish_decide_bounds :
   reason_of old = reason_of conflict ->
   assignment_rank old = assignment_rank conflict ->
   installed_clauses old = installed_clauses conflict ++ (learned :: nil) ->
-  grounded_at conflict /\ closed_levels conflict /\ frontier_closed conflict ->
+  grounded_at_cdcl conflict /\ closed_levels_cdcl conflict /\ frontier_closed conflict ->
   learned_backjump_cert F conflict target learned ->
   restrict_above_level old new target ->
-  grounded_at new /\ closed_levels new /\ frontier_closed new.
+  grounded_at_cdcl new /\ closed_levels_cdcl new /\ frontier_closed new.
 Proof.
   intros F conflict old new target learned
     Hassignment Hlevel Hreason Hrank Hclauses
     [Hgrounded [Hclosed Hfrontier]] Hcert Hrestrict.
   destruct Hcert as
     [Hlearned_sound [Hlearned_nonempty [Htarget [Hasserting Hlearned_frontier]]]].
+  cdcl_shape.
   destruct Hclosed as
     [Hconflict_level [Hassigned_bounds [Hno_zero_decision Hunique_decision]]].
   destruct Hfrontier as [Hno_active Hsupported].
   destruct Hlearned_frontier as [Hlearned_no_active Hlearned_target].
   split.
-  - unfold grounded_at in Hgrounded |- *.
+  - apply grounded_at_cdcl_intro.
     intros x b Hnew_assignment.
     pose proof
       (restrict_new_assigned_old__backtrack_finish_decide_bounds _ _ _ _ _ Hrestrict Hnew_assignment)
@@ -9862,24 +8975,29 @@ Proof.
       * rewrite Hnew_rank, Hrank; exact Hconflict_x_rank.
       * destruct Hgrounded_case as
           [[Hconflict_reason Hdpositive] |
-           [i [Hconflict_reason [Hvalid Hlevel_case]]]].
+           [i [Hconflict_reason [Hin_conflict [Hvalid Hlevel_case]]]]].
         -- left; split; [|exact Hdpositive].
            rewrite Hnew_reason, Hreason; exact Hconflict_reason.
         -- right; exists i.
            split.
            ++ rewrite Hnew_reason, Hreason; exact Hconflict_reason.
            ++ split.
-              ** eapply reason_valid_transfer__backtrack_finish_decide_bounds with
-                   (conflict := conflict) (old := old) (target := target)
-                   (learned := learned) (d := d); eauto.
-              ** destruct Hlevel_case as [-> | [y Hsame]].
-                 --- left; reflexivity.
-                 --- right; exists y.
-                     eapply same_level_predecessor_transfer__backtrack_finish_decide_bounds with
-                       (conflict := conflict) (old := old)
-                       (target := target) (learned := learned); eauto.
+              ** pose proof Hrestrict as Hrestrict_c.
+                 destruct Hrestrict_c as [_ [Hnew_clauses _]].
+                 rewrite Hnew_clauses, Hclauses.
+                 apply in_or_app; left; exact Hin_conflict.
+              ** split.
+                 --- eapply reason_valid_transfer__backtrack_finish_decide_bounds with
+                       (conflict := conflict) (old := old) (target := target)
+                       (learned := learned) (d := d); eauto.
+                 --- destruct Hlevel_case as [-> | [y Hsame]].
+                     +++ left; reflexivity.
+                     +++ right; exists y.
+                         eapply same_level_predecessor_transfer__backtrack_finish_decide_bounds with
+                           (conflict := conflict) (old := old)
+                           (target := target) (learned := learned); eauto.
   - split.
-    + unfold closed_levels.
+    + apply closed_levels_cdcl_intro.
       pose proof Hrestrict as Hrestrict_closed.
       destruct Hrestrict_closed as [Hcurrent_level _].
       split; [rewrite Hcurrent_level; lia|].
@@ -9976,14 +9094,8 @@ Proof.
         apply in_app_iff in Hin.
         assert (Hsigma :
           restrict_to_level new k = restrict_to_level conflict k).
-        { assert (Hktarget : k <= target) by lia.
-          pose proof
-            (restrict_to_level_chain__backtrack_finish_decide_bounds old new target k
-              Hrestrict Hktarget) as Hchain.
-          rewrite Hchain.
-          unfold restrict_to_level.
-          rewrite Hassignment, Hlevel.
-          reflexivity. }
+        { apply (backjump_restrict_agrees__backtrack_finish_decide_bounds
+            conflict old new target k Hassignment Hlevel Hrestrict ltac:(lia)). }
         rewrite Hsigma in Hactive.
         destruct Hin as [Hin_conflict | Hin_learned].
         -- specialize (Hno_active k ltac:(lia) c Hin_conflict).
@@ -10003,13 +9115,9 @@ Proof.
            apply in_app_iff in Hin.
            assert (Hsigma :
              restrict_to_level new target = restrict_to_level conflict target).
-           { pose proof
-               (restrict_to_level_chain__backtrack_finish_decide_bounds old new target target
-                 Hrestrict (Z.le_refl target)) as Hchain.
-             rewrite Hchain.
-             unfold restrict_to_level.
-             rewrite Hassignment, Hlevel.
-             reflexivity. }
+           { apply (backjump_restrict_agrees__backtrack_finish_decide_bounds
+               conflict old new target target Hassignment Hlevel Hrestrict
+               (Z.le_refl target)). }
            rewrite Hsigma in Hactive.
            destruct Hin as [Hin_conflict | Hin_learned].
            ++ specialize (Hno_active target ltac:(lia) c Hin_conflict).
@@ -10158,20 +9266,20 @@ Proof.
 Qed.
 Lemma assignment_update_only_eq__decide_commit : forall old new x b,
   assignment_update_only old new x b ->
-  assignment new = partial_mapping_update (assignment old) x b.
+  assignment new = sat_function_update (assignment old) x (Some b).
 Proof.
   intros old new x b [Hxold [Hxnew [Hother _]]].
   apply functional_extensionality; intro y.
   destruct (Z.eq_dec y x) as [->|Hneq].
-  - rewrite partial_mapping_update_eq; exact Hxnew.
-  - rewrite partial_mapping_update_neq by congruence.
+  - rewrite sat_function_update_eq; exact Hxnew.
+  - rewrite sat_function_update_neq by congruence.
     apply Hother; exact Hneq.
 Qed.
 Lemma summary_at_assignment_true_replace__decide_commit :
   forall old_sigma new_sigma rows states true_counts unassigned j x
     new_state new_true new_unassigned,
   old_sigma x = None ->
-  new_sigma = partial_mapping_update old_sigma x true ->
+  new_sigma = sat_function_update old_sigma x (Some true) ->
   summary_at old_sigma rows states true_counts unassigned j ->
   new_true = Znth j true_counts 0 +
     literal_true_at_count x true (Znth j rows nil) ->
@@ -10226,7 +9334,7 @@ Qed.
 Lemma expected_state_assign_absent__decide_commit :
   forall old_sigma new_sigma x c,
   old_sigma x = None ->
-  new_sigma = partial_mapping_update old_sigma x true ->
+  new_sigma = sat_function_update old_sigma x (Some true) ->
   literal_var_count x c = 0 ->
   literal_true_at_count x true c = 0 ->
   expected_clause_state new_sigma c = expected_clause_state old_sigma c.
@@ -10246,7 +9354,7 @@ Qed.
 Lemma expected_state_assign_positive__decide_commit :
   forall old_sigma new_sigma x c,
   old_sigma x = None ->
-  new_sigma = partial_mapping_update old_sigma x true ->
+  new_sigma = sat_function_update old_sigma x (Some true) ->
   literal_true_at_count x true c = 1 ->
   expected_clause_state new_sigma c = 0.
 Proof.
@@ -10254,7 +9362,7 @@ Proof.
   subst new_sigma.
   pose proof (clause_counts_assign old_sigma x true c Hnone)
     as [_ Htrue_count].
-  pose proof (clause_true_count_nonnegative_base__bcp_unit_to_assignment old_sigma c) as Hnonneg.
+  pose proof (clause_true_count_nonnegative_base old_sigma c) as Hnonneg.
   unfold expected_clause_state.
   rewrite Htrue_count, Hliteral_true.
   destruct ((0 <? clause_true_count old_sigma c + 1)%Z) eqn:Hpositive.
@@ -10264,7 +9372,7 @@ Qed.
 Lemma expected_state_assign_negative__decide_commit :
   forall old_sigma new_sigma x c old_state old_true old_unassigned,
   old_sigma x = None ->
-  new_sigma = partial_mapping_update old_sigma x true ->
+  new_sigma = sat_function_update old_sigma x (Some true) ->
   literal_var_count x c = 1 ->
   literal_true_at_count x true c = 0 ->
   clause_summary_ok old_sigma c old_state old_true old_unassigned ->
@@ -10279,8 +9387,8 @@ Proof.
   subst new_sigma.
   pose proof (clause_counts_assign old_sigma x true c Hnone)
     as [Hunassigned_count Htrue_count].
-  pose proof (clause_true_count_nonnegative_base__bcp_unit_to_assignment old_sigma c) as Htnonneg.
-  pose proof (clause_unassigned_count_nonnegative_base__bcp_unit_to_assignment old_sigma c) as Hunonneg.
+  pose proof (clause_true_count_nonnegative_base old_sigma c) as Htnonneg.
+  pose proof (clause_unassigned_count_nonnegative_base old_sigma c) as Hunonneg.
   unfold expected_clause_state in Hstate |- *.
   rewrite Hunassigned_count, Htrue_count, Hvar, Hliteral_true.
   destruct ((0 <? clause_true_count old_sigma c)%Z) eqn:Htpos.
@@ -10314,7 +9422,7 @@ Qed.
 Lemma expected_state_assign_negative_stays_zero__decide_commit :
   forall old_sigma new_sigma x c old_true old_unassigned,
   old_sigma x = None ->
-  new_sigma = partial_mapping_update old_sigma x true ->
+  new_sigma = sat_function_update old_sigma x (Some true) ->
   literal_var_count x c = 1 ->
   literal_true_at_count x true c = 0 ->
   clause_summary_ok old_sigma c 0 old_true old_unassigned ->
@@ -10327,8 +9435,8 @@ Proof.
   subst new_sigma.
   pose proof (clause_counts_assign old_sigma x true c Hnone)
     as [Hunassigned_count Htrue_count].
-  pose proof (clause_true_count_nonnegative_base__bcp_unit_to_assignment old_sigma c) as Htnonneg.
-  pose proof (clause_unassigned_count_nonnegative_base__bcp_unit_to_assignment old_sigma c) as Hunonneg.
+  pose proof (clause_true_count_nonnegative_base old_sigma c) as Htnonneg.
+  pose proof (clause_unassigned_count_nonnegative_base old_sigma c) as Hunonneg.
   unfold expected_clause_state in Hstate |- *.
   rewrite Hunassigned_count, Htrue_count, Hvar, Hliteral_true.
   destruct ((0 <? clause_true_count old_sigma c)%Z) eqn:Htpos.
@@ -10635,7 +9743,7 @@ Proof.
   intros sigma c state true_count unassigned_count Hsummary Hnegative.
   unfold clause_summary_ok in Hsummary.
   destruct Hsummary as [Htrue [_ Hstate]].
-  pose proof (clause_true_count_nonnegative_base__bcp_unit_to_assignment sigma c) as Hnonneg.
+  pose proof (clause_true_count_nonnegative_base sigma c) as Hnonneg.
   unfold expected_clause_state in Hstate.
   destruct ((0 <? clause_true_count sigma c)%Z) eqn:Hpositive.
   - lia.
@@ -10657,24 +9765,12 @@ Lemma clause_summary_state_two_unit__decide_commit :
   clause_unit sigma c.
 Proof.
   intros sigma c true_count unassigned_count Hsummary.
-  unfold clause_summary_ok in Hsummary.
-  destruct Hsummary as [Htrue [Hunassigned Hstate]].
-  pose proof (clause_true_count_nonnegative_base__bcp_unit_to_assignment sigma c) as Htnonneg.
-  pose proof (clause_unassigned_count_nonnegative_base__bcp_unit_to_assignment sigma c) as Hunonneg.
-  unfold expected_clause_state in Hstate.
-  destruct ((0 <? clause_true_count sigma c)%Z) eqn:Htpos.
-  - discriminate.
-  - apply Z.ltb_ge in Htpos.
-    assert (Htzero : clause_true_count sigma c = 0) by lia.
-    destruct ((clause_unassigned_count sigma c =? 0)%Z) eqn:Hu0.
-    + discriminate.
-    + apply Z.eqb_neq in Hu0.
-      destruct ((clause_unassigned_count sigma c =? 1)%Z) eqn:Hu1.
-      * apply Z.eqb_eq in Hu1. split; assumption.
-      * apply Z.eqb_neq in Hu1. lia.
+  apply (proj1 (summary_state_two_iff_unit__bcp_unit_to_assignment
+    sigma c 2 true_count unassigned_count Hsummary)).
+  reflexivity.
 Qed.
 Lemma closed_levels_decision_prefix__decide_commit : forall a m,
-  closed_levels a ->
+  closed_levels_cdcl a ->
   Z.of_nat m <= current_level a ->
   exists xs : list Z,
     List.length xs = m /\
@@ -10683,11 +9779,11 @@ Lemma closed_levels_decision_prefix__decide_commit : forall a m,
       exists d, 0 < d <= Z.of_nat m /\ decision_at a x d).
 Proof.
   intros a m Hclosed.
+  cdcl_shape.
   induction m as [|m IH]; intro Hbound.
   - exists nil. repeat split; try constructor.
     intros x Hin. inversion Hin.
   - pose proof Hclosed as Hclosed_parts.
-    unfold closed_levels in Hclosed_parts.
     destruct Hclosed_parts as [Hlevel_nonneg
       [Hassigned_levels [Hno_root Hdecision_levels]]].
     destruct (IH ltac:(rewrite Nat2Z.inj_succ in Hbound; lia))
@@ -10726,9 +9822,7 @@ Proof.
   intros n snap ranks logical_dl i Hstable Hirange Hi_none.
   unfold stable_search_facts in Hstable.
   destruct Hstable as [_ [Hclosed _]].
-  pose proof Hclosed as Hclosed_parts.
-  unfold closed_levels in Hclosed_parts.
-  destruct Hclosed_parts as [Hdl_nonneg _].
+  pose proof (closed_levels_cdcl_elim _ Hclosed) as [Hdl_nonneg _].
   destruct (closed_levels_decision_prefix__decide_commit
     (cdcl_view_of_snapshot n snap ranks logical_dl)
     (Z.to_nat logical_dl) Hclosed)
@@ -10827,16 +9921,6 @@ Proof.
   - intros [Hlt | Hnone]; [lia|discriminate].
   - intros _. apply Hsummaries. exact Hj.
 Qed.
-Lemma clause_unassigned_count_le_Zlength__decide_commit : forall sigma c,
-  clause_unassigned_count sigma c <= Zlength c.
-Proof.
-  intros sigma c.
-  induction c as [|l c IH].
-  - simpl. rewrite Zlength_nil. lia.
-  - cbn [clause_unassigned_count].
-    rewrite Zlength_cons.
-    destruct (eval_partial_literal sigma l) as [[|]|]; lia.
-Qed.
 (** ===== group: decide_exit_solver_setup ===== *)
 Lemma clause_false_summary__decide_exit_solver_setup :
   forall sigma c,
@@ -10845,7 +9929,7 @@ Lemma clause_false_summary__decide_exit_solver_setup :
 Proof.
   intros sigma c Hfalse.
   pose proof
-    (clause_false_counts__learning_row_and_scan sigma c Hfalse)
+    (clause_false_counts sigma c Hfalse)
     as [Ht Hu].
   unfold clause_summary_ok, expected_clause_state.
   rewrite Ht, Hu.
@@ -11037,6 +10121,7 @@ Proof.
   intros n snap ranks logical_dl L Hstable Hfalse.
   unfold stable_search_facts in Hstable.
   destruct Hstable as [Hgrounded [Hclosed _]].
+  cdcl_shape.
   unfold clause_vars_assigned.
   intros l Hin.
   specialize (Hfalse l Hin).
@@ -11067,7 +10152,7 @@ Proof.
     rewrite PtrArray.missing_i_unfold.
     Left.
     rewrite PtrArray.seg_empty.
-    entailer!.
+    cdcl_entailer.
   - simpl app.
     prop_apply
       (PtrArray.seg_length x lo (hi - 1) (b :: l)).
@@ -11076,7 +10161,7 @@ Proof.
     rewrite PtrArray.missing_i_unfold.
     Right.
     sep_apply (IHl (lo + 1) hi).
-    entailer!.
+    cdcl_entailer.
     simpl in H.
     lia.
 Qed.
@@ -11117,7 +10202,7 @@ Proof.
     replace (live + 1 - 1) with live in Htail by lia.
     sep_apply PtrArray.full_to_seg.
     sep_apply Htail.
-    entailer!.
+    cdcl_entailer.
   }
   assert (Hrowdirect :
     IntPtrArray2.row_blocks row_ptrs rows |--
@@ -11153,10 +10238,10 @@ Proof.
     rewrite Hremove.
     reflexivity.
   }
-  entailer!.
+  cdcl_entailer.
   - sep_apply Hptrdirect.
     sep_apply Hrowdirect.
-    entailer!.
+    cdcl_entailer.
   - rewrite !Zlength_app, !Zlength_cons, !Zlength_nil.
     lia.
   - rewrite !Zlength_app, !Zlength_cons, !Zlength_nil.
@@ -11175,7 +10260,7 @@ Proof.
   intros n row Hrow.
   apply Forall_forall.
   intros l Hin.
-  eapply dense_decode_literal_wf__decide_exit_solver_setup; eauto.
+  exact (dense_decode_literal_wf__decide_exit_solver_setup n row l Hrow Hin).
 Qed.
 Lemma coherent_snapshot_cnf_wf__decide_exit_solver_setup :
   forall F n live original snap,
@@ -11259,7 +10344,7 @@ Proof.
   destruct Hprocessed as [x [Hx [_ Hlevel]]].
   unfold stable_search_facts in Hstable.
   destruct Hstable as [_ [Hclosed _]].
-  unfold closed_levels in Hclosed.
+  cdcl_shape.
   destruct Hclosed as [_ [Hbounds _]].
   pose proof Hlevel as Hlevel_view.
   change (snapshot_level n snap x = Some d) in Hlevel.
@@ -11432,22 +10517,18 @@ Proof.
 Qed.
 Lemma clause_level_closed_bound__decide_exit_solver_setup :
   forall a L d,
-    closed_levels a ->
+    closed_levels_cdcl a ->
     clause_vars_assigned a L ->
     clause_level_occurs a L d ->
     0 <= d <= current_level a.
 Proof.
   intros a L d Hclosed Hassigned [l [Hin Hlevel]].
+  cdcl_shape.
   destruct (Hassigned l Hin) as [b [d' [Hassignment [Hlevel' Hd']]]].
   rewrite Hlevel in Hlevel'.
   inversion Hlevel'; subst d'.
   destruct Hclosed as [_ [Hbounds _]].
   apply (Hbounds (literal_var l) b d Hassignment Hlevel).
-Qed.
-Lemma literal_eq_dec__decide_exit_solver_setup :
-  forall l1 l2 : literal, {l1 = l2} + {l1 <> l2}.
-Proof.
-  decide equality; apply Z.eq_dec.
 Qed.
 Lemma restrict_false_or_none__decide_exit_solver_setup :
   forall a L l d k,
@@ -11480,153 +10561,10 @@ Proof.
   - assert (Hleb : (d <=? k)%Z = false) by (apply Z.leb_gt; lia).
     rewrite Hleb. reflexivity.
 Qed.
-Lemma clause_unassigned_count_nonneg__decide_exit_solver_setup :
-  forall sigma L, 0 <= clause_unassigned_count sigma L.
-Proof.
-  intros sigma L.
-  induction L as [|l L IH]; [reflexivity|].
-  simpl.
-  destruct (eval_partial_literal sigma l) as [b|] eqn:Heval.
-  - exact IH.
-  - change (0 <= 1 + clause_unassigned_count sigma L).
-    lia.
-Qed.
-Lemma clause_unassigned_count_ge_one__decide_exit_solver_setup :
-  forall sigma L u,
-    In u L ->
-    eval_partial_literal sigma u = None ->
-    1 <= clause_unassigned_count sigma L.
-Proof.
-  intros sigma L.
-  induction L as [|l L IH]; intros u Hin Hnone.
-  - contradiction.
-  - simpl in Hin.
-    destruct Hin as [<-|Hin].
-    + simpl. rewrite Hnone.
-      pose proof
-        (clause_unassigned_count_nonneg__decide_exit_solver_setup
-          sigma L) as Hcount_nonneg.
-      change (1 + 0 <= 1 + clause_unassigned_count sigma L).
-      apply Z.add_le_mono_l.
-      exact Hcount_nonneg.
-    + simpl.
-      specialize (IH u Hin Hnone).
-      destruct (eval_partial_literal sigma l) as [b|] eqn:Heval.
-      * exact IH.
-      * change (1 <= 1 + clause_unassigned_count sigma L).
-        lia.
-Qed.
-Lemma clause_counts_unique_none__decide_exit_solver_setup :
-  forall sigma L u,
-    NoDup L ->
-    In u L ->
-    eval_partial_literal sigma u = None ->
-    (forall l, In l L -> l <> u ->
-      eval_partial_literal sigma l = Some false) ->
-    clause_true_count sigma L = 0 /\
-    clause_unassigned_count sigma L = 1.
-Proof.
-  intros sigma L.
-  induction L as [|l L IH]; intros u Hnodup Hin Hnone Hother.
-  - contradiction.
-  - inversion Hnodup as [|? ? Hnotin Hnodup_tail]; subst.
-    destruct
-      (literal_eq_dec__decide_exit_solver_setup l u) as [Heq|Hneq].
-    + subst l.
-      assert (Htailfalse : clause_false sigma L).
-      {
-        intros l' Hin'.
-        apply Hother.
-        - right. exact Hin'.
-        - intro Heq'.
-          subst l'.
-          contradiction.
-      }
-      pose proof
-        (clause_false_counts__learning_row_and_scan
-          sigma L Htailfalse) as [Ht Hu].
-      simpl. rewrite Hnone, Ht, Hu.
-      split; lia.
-    + assert (Hin_tail : In u L).
-      { destruct Hin as [Heq|Hin]; [contradiction|exact Hin]. }
-      assert (Hother_tail :
-        forall l', In l' L -> l' <> u ->
-          eval_partial_literal sigma l' = Some false).
-      {
-        intros l' Hin' Hneq'.
-        apply Hother; [right; exact Hin'|exact Hneq'].
-      }
-      specialize (IH u Hnodup_tail Hin_tail Hnone Hother_tail)
-        as [Ht Hu].
-      assert (Hlfalse : eval_partial_literal sigma l = Some false).
-      { apply Hother; [left; reflexivity|exact Hneq]. }
-      simpl. rewrite Hlfalse, Ht, Hu.
-      split; reflexivity.
-Qed.
-Lemma clause_unassigned_count_ge_two__decide_exit_solver_setup :
-  forall sigma L u v,
-    NoDup L ->
-    In u L ->
-    In v L ->
-    u <> v ->
-    eval_partial_literal sigma u = None ->
-    eval_partial_literal sigma v = None ->
-    2 <= clause_unassigned_count sigma L.
-Proof.
-  intros sigma L.
-  induction L as [|l L IH];
-    intros u v Hnodup Hinu Hinv Huv Hnoneu Hnonev.
-  - contradiction.
-  - inversion Hnodup as [|? ? Hnotin Hnodup_tail]; subst.
-    destruct
-      (literal_eq_dec__decide_exit_solver_setup l u) as [Hlu|Hlu].
-    + subst l.
-      assert (Hinv_tail : In v L).
-      {
-        destruct Hinv as [Hvu|Hinv].
-        - exfalso. apply Huv. exact Hvu.
-        - exact Hinv.
-      }
-      simpl. rewrite Hnoneu.
-      pose proof
-        (clause_unassigned_count_ge_one__decide_exit_solver_setup
-          sigma L v Hinv_tail Hnonev) as Hcount.
-      change (1 + 1 <= 1 + clause_unassigned_count sigma L).
-      apply Z.add_le_mono_l.
-      exact Hcount.
-    + destruct
-        (literal_eq_dec__decide_exit_solver_setup l v) as [Hlv|Hlv].
-      * subst l.
-        assert (Hinu_tail : In u L).
-        {
-          destruct Hinu as [Hvu|Hinu].
-          - exfalso. apply Huv. symmetry. exact Hvu.
-          - exact Hinu.
-        }
-        simpl. rewrite Hnonev.
-        pose proof
-          (clause_unassigned_count_ge_one__decide_exit_solver_setup
-            sigma L u Hinu_tail Hnoneu) as Hcount.
-        change (1 + 1 <= 1 + clause_unassigned_count sigma L).
-        apply Z.add_le_mono_l.
-        exact Hcount.
-      * assert (Hinu_tail : In u L).
-        { destruct Hinu as [H|H]; [contradiction|exact H]. }
-        assert (Hinv_tail : In v L).
-        { destruct Hinv as [H|H]; [contradiction|exact H]. }
-        specialize
-          (IH u v Hnodup_tail Hinu_tail Hinv_tail
-            Huv Hnoneu Hnonev).
-        simpl.
-        destruct (eval_partial_literal sigma l) as [b|] eqn:Heval.
-        -- exact IH.
-        -- change (2 <= 1 + clause_unassigned_count sigma L).
-           lia.
-Qed.
 Lemma unique_current_literal__decide_exit_solver_setup :
   forall n row a,
     row_wf n row ->
-    closed_levels a ->
+    closed_levels_cdcl a ->
     0 < current_level a ->
     clause_vars_assigned a (dense_decode row) ->
     current_level_support a (dense_decode row) ->
@@ -11664,6 +10602,7 @@ Proof.
     split; [exact Hlevel|].
     apply Hnode; [exact Hin|exact Hlevel].
   }
+  cdcl_shape.
   destruct Hclosed as [_ [_ [_ Hunique]]].
   destruct (Hunique (current_level a) ltac:(lia))
     as [x [Hdecision_x Hunique_x]].
@@ -11677,7 +10616,7 @@ Lemma top_two_profile_zero__decide_exit_solver_setup :
   forall F n row a max1,
     row_wf n row ->
     Zlength row = n ->
-    closed_levels a ->
+    closed_levels_cdcl a ->
     0 < current_level a ->
     clause_vars_assigned a (dense_decode row) ->
     current_learning_exit_cert F a (dense_decode row) ->
@@ -11764,7 +10703,7 @@ Lemma top_two_profile_nonzero__decide_exit_solver_setup :
   forall F n row a max1 max2,
     row_wf n row ->
     Zlength row = n ->
-    closed_levels a ->
+    closed_levels_cdcl a ->
     0 < current_level a ->
     clause_vars_assigned a (dense_decode row) ->
     current_learning_exit_cert F a (dense_decode row) ->
@@ -11862,7 +10801,7 @@ Qed.
 Lemma backjump_profile_cert__decide_exit_solver_setup :
   forall F n row a target,
     row_wf n row ->
-    closed_levels a ->
+    closed_levels_cdcl a ->
     0 < current_level a ->
     learned_clause_sound F a (dense_decode row) ->
     no_current_level_propagated_literal a (dense_decode row) ->
@@ -11918,7 +10857,7 @@ Proof.
       reflexivity.
     }
     pose proof
-      (clause_counts_unique_none__decide_exit_solver_setup
+      (clause_counts_unique_none
         (restrict_to_level a 0) (dense_decode row) u
         Hnodup Hinu Hunone Hothers_false)
       as Hasserting.
@@ -11983,7 +10922,7 @@ Proof.
       exact Hd_target.
     }
     pose proof
-      (clause_counts_unique_none__decide_exit_solver_setup
+      (clause_counts_unique_none
         (restrict_to_level a target) (dense_decode row) u
         Hnodup Hinu Hunone Hothers_false)
       as Hasserting.
@@ -12028,7 +10967,7 @@ Proof.
             lia.
           }
           pose proof
-            (clause_unassigned_count_ge_two__decide_exit_solver_setup
+            (clause_unassigned_count_ge_two
               (restrict_to_level a k) (dense_decode row) u t
               Hnodup Hinu Hint
               (fun Heq => Ht_ne_u (eq_sym Heq)) Hunone_k Htnone_k).
@@ -12052,82 +10991,9 @@ Proof.
     split; [exact Htarget_bounds|].
     split; [exact Hasserting|exact Hfrontier].
 Qed.
-Lemma literal_var_count_unique_one__decide_exit_solver_setup :
-  forall c x,
-    NoDup c ->
-    (forall l1 l2,
-      In l1 c -> In l2 c ->
-      literal_var l1 = literal_var l2 -> l1 = l2) ->
-    (exists l, In l c /\ literal_var l = x) ->
-    literal_var_count x c = 1.
-Proof.
-  intros c.
-  induction c as [|h c IH]; intros x Hnodup Hinjective Hexists.
-  - destruct Hexists as [l [Hin _]]. contradiction.
-  - inversion Hnodup as [|? ? Hnotin Hnodup_tail]; subst.
-    destruct (Z.eq_dec (literal_var h) x) as [Hhead|Hhead].
-    + assert (Habsent : forall l, In l c -> literal_var l <> x).
-      {
-        intros l Hin Hlx.
-        assert (Hl_eq : l = h).
-        {
-          apply Hinjective; [right; exact Hin|left; reflexivity|].
-          lia.
-        }
-        subst l. contradiction.
-      }
-      pose proof
-        (literal_counts_no_var__bcp_unit_to_assignment x true c Habsent)
-        as [Htail _].
-      unfold literal_var_count; fold literal_var_count.
-      destruct (literal_var h =? x)%Z eqn:Heq.
-      * lia.
-      * apply Z.eqb_neq in Heq. contradiction.
-    + assert (Hexists_tail : exists l, In l c /\ literal_var l = x).
-      {
-        destruct Hexists as [l [[Hl|Hl] Hvar]].
-        - subst l. contradiction.
-        - exists l. split; assumption.
-      }
-      assert (Hinjective_tail : forall l1 l2,
-        In l1 c -> In l2 c ->
-        literal_var l1 = literal_var l2 -> l1 = l2).
-      {
-        intros l1 l2 Hin1 Hin2 Hvar.
-        apply Hinjective; [right|right|]; assumption.
-      }
-      specialize (IH x Hnodup_tail Hinjective_tail Hexists_tail).
-      unfold literal_var_count; fold literal_var_count.
-      destruct (literal_var h =? x)%Z eqn:Heq.
-      * apply Z.eqb_eq in Heq. contradiction.
-      * exact IH.
-Qed.
-Lemma eval_partial_literal_other__decide_exit_solver_setup :
-  forall sigma1 sigma2 x l,
-    (forall y, y <> x -> sigma2 y = sigma1 y) ->
-    literal_var l <> x ->
-    eval_partial_literal sigma2 l = eval_partial_literal sigma1 l.
-Proof.
-  intros sigma1 sigma2 x [y|y] Hsame Hneq;
-    unfold eval_partial_literal; simpl in *;
-    rewrite Hsame by exact Hneq; reflexivity.
-Qed.
-Lemma eval_false_var_not_none__decide_exit_solver_setup :
-  forall sigma x l,
-    sigma x = None ->
-    eval_partial_literal sigma l = Some false ->
-    literal_var l <> x.
-Proof.
-  intros sigma x l Hnone Hfalse Heq.
-  assert (Hnone_l : sigma (literal_var l) = None).
-  { rewrite Heq. exact Hnone. }
-  unfold eval_partial_literal in Hfalse.
-  rewrite Hnone_l in Hfalse.
-  discriminate.
-Qed.
 Lemma decision_extension_no_conflict__decide_exit_solver_setup :
   forall old new x d reason,
-    assigns_one old new x true d reason ->
+    assigns_one_idx old new x true d reason ->
     no_conflict old ->
     no_unit old ->
     (forall c, In c (installed_clauses old) ->
@@ -12139,7 +11005,7 @@ Lemma decision_extension_no_conflict__decide_exit_solver_setup :
 Proof.
   intros old new x d reason Hassigns Hno_conflict Hno_unit Hunique.
   pose proof Hassigns as Hassigns_fields.
-  unfold assigns_one in Hassigns_fields.
+  unfold assigns_one_idx in Hassigns_fields.
   destruct Hassigns_fields as
     [Hold_none [Hnew_x [_ [_ [_ [Hother Hinstalled]]]]]].
   pose proof
@@ -12152,16 +11018,16 @@ Proof.
     as [Hoccurs|Habsent].
   - destruct (Hunique c Hc_new) as [Hnodup Hinjective].
     pose proof
-      (literal_var_count_unique_one__decide_exit_solver_setup
+      (literal_var_count_unique_one
         c x Hnodup Hinjective Hoccurs) as Hvar_count.
     pose proof
       (clause_counts_assign (assignment old) x true c Hold_none)
       as [Hunassigned_update Htrue_update].
     rewrite <- Hassignment_update in Hunassigned_update, Htrue_update.
     pose proof
-      (clause_false_counts__learning_row_and_scan
+      (clause_false_counts
         (assignment new) c Hfalse_new) as [Htrue_new Hunassigned_new].
-    pose proof (clause_true_count_nonnegative_base__bcp_unit_to_assignment
+    pose proof (clause_true_count_nonnegative_base
       (assignment old) c) as Htrue_old_nonneg.
     pose proof (literal_true_at_count_nonneg x true c) as Hliteral_nonneg.
     exfalso.
@@ -12179,7 +11045,7 @@ Proof.
       exists l. split; assumption.
     }
     rewrite
-      (eval_partial_literal_other__decide_exit_solver_setup
+      (eval_partial_literal_other
         (assignment old) (assignment new) x l
         (fun y Hy => proj1 (Hother y Hy)) Hl_other)
       in Hfalse_new.
@@ -12187,22 +11053,22 @@ Proof.
 Qed.
 Lemma assigns_one_reason_valid_other__decide_exit_solver_setup :
   forall old new x b d reason y i,
-    assigns_one old new x b d reason ->
+    assigns_one_idx old new x b d reason ->
     y <> x ->
     reason_valid old y i ->
     reason_valid new y i.
 Proof.
   intros old new x b d reason y i Hassigns Hyx Hvalid.
-  unfold assigns_one in Hassigns.
+  unfold assigns_one_idx in Hassigns.
   destruct Hassigns as
     [Hold_none [_ [_ [_ [_ [Hother Hinstalled]]]]]].
   unfold reason_valid in *.
   destruct Hvalid as
-    [vy [dy [ry [c [Hassignment_y [Hlevel_y [Hrank_y
-      [Hclause [Hsatisfying Hothers]]]]]]]]].
+    [vy [dy [ry [Hassignment_y [Hlevel_y [Hrank_y
+      [Hsatisfying Hothers]]]]]]].
   destruct (Hother y Hyx) as
     [Hassignment_y' [Hlevel_y' [Hreason_y' Hrank_y']]].
-  exists vy, dy, ry, c.
+  exists vy, dy, ry.
   split.
   - rewrite Hassignment_y'. exact Hassignment_y.
   - split.
@@ -12210,23 +11076,21 @@ Proof.
     + split.
       * rewrite Hrank_y'. exact Hrank_y.
       * split.
-        -- rewrite Hinstalled. exact Hclause.
-        -- split.
-          ++ exact Hsatisfying.
-          ++ intros lit Hin Hly.
+        -- exact Hsatisfying.
+        -- intros lit Hin Hly.
              specialize (Hothers lit Hin Hly).
              destruct Hothers as
                [Heval [dl [rl [Hlevel_l [Hrank_l [Hdl Hrl]]]]]].
              assert (Hlx : literal_var lit <> x).
              {
-               eapply eval_false_var_not_none__decide_exit_solver_setup;
+               eapply eval_false_var_not_none;
                  eauto.
              }
              destruct (Hother (literal_var lit) Hlx) as
                [_ [Hlevel_l' [_ Hrank_l']]].
              split.
              { rewrite
-                 (eval_partial_literal_other__decide_exit_solver_setup
+                 (eval_partial_literal_other
                    (assignment old) (assignment new) x lit
                    (fun z Hz => proj1 (Hother z Hz)) Hlx).
                exact Heval. }
@@ -12239,47 +11103,46 @@ Proof.
 Qed.
 Lemma assigns_one_reason_dependency_other__decide_exit_solver_setup :
   forall old new x b d reason y z,
-    assigns_one old new x b d reason ->
+    assigns_one_idx old new x b d reason ->
     y <> x ->
     reason_dependency old y z ->
     reason_dependency new y z.
 Proof.
   intros old new x b d reason y z Hassigns Hyx Hdependency.
-  unfold assigns_one in Hassigns.
+  unfold assigns_one_idx in Hassigns.
   destruct Hassigns as
     [Hold_none [_ [_ [_ [_ [Hother Hinstalled]]]]]].
   unfold reason_dependency in *.
   destruct Hdependency as
-    [i [c [l [Hreason [Hclause [Hin [Hvar [Hzy Heval]]]]]]]].
+    [c [l [Hreason [Hin [Hvar [Hzy Heval]]]]]].
   assert (Hlx : literal_var l <> x).
   {
-    eapply eval_false_var_not_none__decide_exit_solver_setup;
+    eapply eval_false_var_not_none;
       eauto.
   }
-  exists i, c, l.
+  exists c, l.
   repeat split.
   - rewrite (proj1 (proj2 (proj2 (Hother y Hyx)))).
     exact Hreason.
-  - rewrite Hinstalled. exact Hclause.
   - exact Hin.
   - exact Hvar.
   - exact Hzy.
   - rewrite
-      (eval_partial_literal_other__decide_exit_solver_setup
+      (eval_partial_literal_other
         (assignment old) (assignment new) x l
         (fun q Hq => proj1 (Hother q Hq)) Hlx).
     exact Heval.
 Qed.
 Lemma assigns_one_same_level_predecessor_other__decide_exit_solver_setup :
   forall old new x b d reason y z dl,
-    assigns_one old new x b d reason ->
+    assigns_one_idx old new x b d reason ->
     y <> x ->
     same_level_predecessor old y z dl ->
     same_level_predecessor new y z dl.
 Proof.
   intros old new x b d reason y z dl Hassigns Hyx Hpredecessor.
   pose proof Hassigns as Hfields.
-  unfold assigns_one in Hfields.
+  unfold assigns_one_idx in Hfields.
   destruct Hfields as
     [Hold_none [_ [_ [_ [_ [Hother _]]]]]].
   unfold same_level_predecessor in *.
@@ -12288,16 +11151,16 @@ Proof.
       [ry [rz [Hrank_y [Hrank_z Hrank_lt]]]]]]].
   unfold reason_dependency in Hdependency.
   destruct Hdependency as
-    [i [c [l [Hreason [Hclause [Hin [Hvar [Hzy Heval]]]]]]]].
+    [c [l [Hreason [Hin [Hvar [Hzy Heval]]]]]].
   assert (Hlx : literal_var l <> x).
   {
-    eapply eval_false_var_not_none__decide_exit_solver_setup;
+    eapply eval_false_var_not_none;
       eauto.
   }
   assert (Hzx : z <> x) by (rewrite <- Hvar; exact Hlx).
   assert (Hdependency_old : reason_dependency old y z).
   {
-    exists i, c, l.
+    exists c, l.
     repeat split; assumption.
   }
   split.
@@ -12317,19 +11180,20 @@ Proof.
 Qed.
 Lemma assigns_one_grounded_decision__decide_exit_solver_setup :
   forall old new x b d,
-    assigns_one old new x b d (-1) ->
-    grounded_at old ->
+    assigns_one_idx old new x b d (-1) ->
+    grounded_at_cdcl old ->
     0 < d ->
-    grounded_at new.
+    grounded_at_cdcl new.
 Proof.
   intros old new x b d Hassigns Hgrounded Hd.
+  cdcl_shape.
   pose proof Hassigns as Hfields.
-  unfold assigns_one in Hfields.
+  unfold assigns_one_idx in Hfields.
   destruct Hfields as
     [Hold_none [Hnew_x [Hnew_level [Hnew_reason
       [[rx [Hnew_rank _]] [Hother Hinstalled]]]]]].
   simpl in Hnew_reason.
-  unfold grounded_at in *.
+  apply grounded_at_cdcl_intro.
   intros y vy Hassigned_new.
   destruct (Z.eq_dec y x) as [->|Hyx].
   - rewrite Hnew_x in Hassigned_new.
@@ -12355,10 +11219,12 @@ Proof.
       split; [rewrite Hreason_y; exact Hold_reason|exact Hdy]. }
     { right.
       destruct Hpropagated as
-        [i [Hold_reason [Hold_valid Hsupport]]].
+        [i [Hold_reason [Hold_in [Hold_valid Hsupport]]]].
       exists i.
       split.
       { rewrite Hreason_y. exact Hold_reason. }
+      split.
+      { rewrite Hinstalled. exact Hold_in. }
       split.
       { eapply assigns_one_reason_valid_other__decide_exit_solver_setup;
           eauto. }
@@ -12373,19 +11239,20 @@ Proof.
 Qed.
 Lemma assigns_one_closed_new_level__decide_exit_solver_setup :
   forall old new x b,
-    assigns_one old new x b (current_level old + 1) (-1) ->
+    assigns_one_idx old new x b (current_level old + 1) (-1) ->
     current_level new = current_level old + 1 ->
-    closed_levels old ->
-    closed_levels new.
+    closed_levels_cdcl old ->
+    closed_levels_cdcl new.
 Proof.
   intros old new x b Hassigns Hcurrent Hclosed.
+  cdcl_shape.
   pose proof Hassigns as Hfields.
-  unfold assigns_one in Hfields.
+  unfold assigns_one_idx in Hfields.
   destruct Hfields as
     [Hold_none [Hnew_x [Hnew_level [Hnew_reason
       [_ [Hother Hinstalled]]]]]].
   simpl in Hnew_reason.
-  unfold closed_levels in *.
+  apply closed_levels_cdcl_intro.
   destruct Hclosed as
     [Hold_current [Hold_bounds [Hold_no_zero Hold_unique]]].
   split.
@@ -12486,13 +11353,13 @@ Proof.
 Qed.
 Lemma assigns_one_restrict_below__decide_exit_solver_setup :
   forall old new x b,
-    assigns_one old new x b (current_level old + 1) (-1) ->
+    assigns_one_idx old new x b (current_level old + 1) (-1) ->
     forall k,
       k <= current_level old ->
       restrict_to_level new k = restrict_to_level old k.
 Proof.
   intros old new x b Hassigns k Hk.
-  unfold assigns_one in Hassigns.
+  unfold assigns_one_idx in Hassigns.
   destruct Hassigns as
     [Hold_none [Hnew_x [Hnew_level [_ [_ [Hother _]]]]]].
   apply functional_extensionality.
@@ -12519,27 +11386,27 @@ Proof.
   unfold active_frontier_clause in Hactive.
   destruct Hactive as [Htrue Hunassigned].
   pose proof
-    (clause_unassigned_count_nonnegative_base__bcp_unit_to_assignment
+    (clause_unassigned_count_nonnegative_base
       (assignment a) c) as Hnonneg.
   assert (Hzero_or_one :
     clause_unassigned_count (assignment a) c = 0 \/
     clause_unassigned_count (assignment a) c = 1) by lia.
   destruct Hzero_or_one as [Hzero|Hone].
   - apply (Hno_conflict c Hin).
-    eapply clause_counts_zero_false__bcp_unit_to_assignment; eauto.
+    eapply clause_counts_zero_false; eauto.
   - apply (Hno_unit c Hin).
     unfold clause_unit.
     split; assumption.
 Qed.
 Lemma assigns_one_frontier_new_level__decide_exit_solver_setup :
   forall old new x,
-    assigns_one old new x true (current_level old + 1) (-1) ->
+    assigns_one_idx old new x true (current_level old + 1) (-1) ->
     current_level new = current_level old + 1 ->
-    grounded_at old ->
-    closed_levels old ->
+    grounded_at_cdcl old ->
+    closed_levels_cdcl old ->
     frontier_closed old ->
-    grounded_at new ->
-    closed_levels new ->
+    grounded_at_cdcl new ->
+    closed_levels_cdcl new ->
     no_conflict old ->
     no_unit old ->
     no_conflict new ->
@@ -12550,7 +11417,7 @@ Proof.
     Hgrounded_new Hclosed_new
     Hno_conflict_old Hno_unit_old Hno_conflict_new.
   pose proof Hassigns as Hfields.
-  unfold assigns_one in Hfields.
+  unfold assigns_one_idx in Hfields.
   destruct Hfields as
     [Hold_none [Hnew_x [Hnew_level [_ [_ [Hother Hinstalled]]]]]].
   destruct Hfrontier_old as [Hbelow_old Hcurrent_old].
@@ -12604,7 +11471,7 @@ Proof.
            assert (Hin_pos : In (Pos x) c).
            { rewrite <- Hvar_l. exact Hin_l. }
            pose proof
-             (clause_true_count_member_true__bcp_unit_to_assignment
+             (clause_true_count_member_true
                (assignment new) c (Pos x) Hin_pos Heval_pos).
            unfold active_frontier_clause in Hactive_new.
            lia.
@@ -12614,7 +11481,7 @@ Proof.
       * rewrite Hvar_l, Hnew_level, Hcurrent.
         reflexivity.
     + pose proof
-        (literal_counts_no_var__bcp_unit_to_assignment x true c
+        (literal_counts_no_var x true c
           (fun l Hin Hvar => Habsent (ex_intro _ l (conj Hin Hvar))))
         as [Hvar_count Htrue_at_count].
       pose proof
@@ -12634,9 +11501,9 @@ Proof.
 Qed.
 Lemma decision_extension_stable__decide_exit_solver_setup :
   forall old new x,
-    assigns_one old new x true (current_level old + 1) (-1) ->
+    assigns_one_idx old new x true (current_level old + 1) (-1) ->
     current_level new = current_level old + 1 ->
-    grounded_at old /\ closed_levels old /\ frontier_closed old ->
+    grounded_at_cdcl old /\ closed_levels_cdcl old /\ frontier_closed old ->
     no_conflict old ->
     no_unit old ->
     (forall c, In c (installed_clauses old) ->
@@ -12644,7 +11511,7 @@ Lemma decision_extension_stable__decide_exit_solver_setup :
       (forall l1 l2,
         In l1 c -> In l2 c ->
         literal_var l1 = literal_var l2 -> l1 = l2)) ->
-    grounded_at new /\ closed_levels new /\ frontier_closed new /\
+    grounded_at_cdcl new /\ closed_levels_cdcl new /\ frontier_closed new /\
     no_conflict new.
 Proof.
   intros old new x Hassigns Hcurrent Hstable
@@ -12655,7 +11522,7 @@ Proof.
       old new x (current_level old + 1) (-1)
       Hassigns Hno_conflict Hno_unit Hunique) as Hno_conflict_new.
   assert (Hpositive_new : 0 < current_level old + 1).
-  { unfold closed_levels in Hclosed. lia. }
+  { pose proof (closed_levels_cdcl_elim _ Hclosed) as [Hcur_nonneg _]. lia. }
   pose proof
     (assigns_one_grounded_decision__decide_exit_solver_setup
       old new x true (current_level old + 1)
@@ -12674,7 +11541,7 @@ Proof.
 Qed.
 (** The decision commit -- write 1 at index [i] of the value array, level
     [logical_dl + 1], reason -1, rank 0, everything else untouched -- is exactly
-    one [assigns_one] step of the semantic view.  Extracted from
+    one [assigns_one_idx] step of the semantic view.  Extracted from
     [decision_commit_bcp_ready__decide_exit_solver_setup], whose sections 3 and
     4 this replaces. *)
 Lemma commit_view_assigns_one__decide_exit_solver_setup :
@@ -12687,7 +11554,7 @@ Lemma commit_view_assigns_one__decide_exit_solver_setup :
       (cdcl_view_of_snapshot n snap ranks logical_dl)
       (cdcl_view_of_snapshot n next_snap next_ranks (logical_dl + 1))
       i true ->
-    assigns_one
+    assigns_one_idx
       (cdcl_view_of_snapshot n snap ranks logical_dl)
       (cdcl_view_of_snapshot n
     {| snap_values := snap_values next_snap;
@@ -12762,7 +11629,8 @@ Proof.
        | None => None
        | Some _ =>
            let r := Znth i (snap_reasons final_snap) (-1) in
-           if Z.eqb r (-1) then None else Some r
+           if Z.eqb r (-1) then None
+           else nth_error (map dense_decode (snap_rows final_snap)) (Z.to_nat r)
        end = None).
     rewrite Htarget_i.
     subst final_snap.
@@ -12771,13 +11639,14 @@ Proof.
           (Znth i (replace_Znth i (-1) (snap_reasons snap)) (-1))
           (-1)
         then None
-        else Some (Znth i
-          (replace_Znth i (-1) (snap_reasons snap)) (-1))) = None).
+        else nth_error (map dense_decode (snap_rows snap))
+          (Z.to_nat (Znth i
+            (replace_Znth i (-1) (snap_reasons snap)) (-1)))) = None).
     rewrite Znth_replace_Znth_Same by lia.
     rewrite Z.eqb_refl.
     reflexivity.
   }
-    unfold assigns_one.
+    unfold assigns_one_idx.
     split; [exact Hold_none|].
     split; [exact Htarget_i|].
     split; [exact Htarget_level|].
@@ -12790,7 +11659,7 @@ Proof.
           -- intros y Hdependency.
              unfold reason_dependency in Hdependency.
              destruct Hdependency as
-               [reason_index [c [l [Hreason_i _]]]].
+               [c [l [Hreason_i _]]].
              rewrite Htarget_reason in Hreason_i.
              discriminate.
         * split.
@@ -12838,13 +11707,17 @@ Proof.
                       | None => None
                       | Some _ =>
                           let r := Znth y (snap_reasons final_snap) (-1) in
-                          if Z.eqb r (-1) then None else Some r
+                          if Z.eqb r (-1) then None
+                          else nth_error
+                            (map dense_decode (snap_rows final_snap)) (Z.to_nat r)
                       end =
                       match snapshot_assignment n snap y with
                       | None => None
                       | Some _ =>
                           let r := Znth y (snap_reasons snap) (-1) in
-                          if Z.eqb r (-1) then None else Some r
+                          if Z.eqb r (-1) then None
+                          else nth_error
+                            (map dense_decode (snap_rows snap)) (Z.to_nat r)
                       end).
                    rewrite Hassignment_y.
                    destruct (snapshot_assignment n snap y)
@@ -12868,11 +11741,13 @@ Proof.
                            (replace_Znth i (-1) (snap_reasons snap)) (-1))
                          (-1)
                        then None
-                       else Some (Znth y
-                         (replace_Znth i (-1) (snap_reasons snap)) (-1))) =
+                       else nth_error (map dense_decode (snap_rows snap))
+                         (Z.to_nat (Znth y
+                           (replace_Znth i (-1) (snap_reasons snap)) (-1)))) =
                       (if Z.eqb (Znth y (snap_reasons snap) (-1)) (-1)
                        then None
-                       else Some (Znth y (snap_reasons snap) (-1)))).
+                       else nth_error (map dense_decode (snap_rows snap))
+                         (Z.to_nat (Znth y (snap_reasons snap) (-1))))).
                    rewrite Znth_replace_Znth_Diff by
                      (rewrite ?Hreasons_length; lia).
                    reflexivity.
@@ -13081,7 +11956,7 @@ Proof.
        1. destructure  -- coherent_snapshot / snapshot_lengths /
                           assignment_update_only / mixed_clause_summaries
        2. [final_snap], [final_ranks]      the witnesses (set, just below)
-       3. [Hassigns]   -- assigns_one for the commit, by
+       3. [Hassigns]   -- assigns_one_idx for the commit, by
                           [commit_view_assigns_one__decide_exit_solver_setup]
        4. [Hunique], [Hstable_view], [Hstable_final], [Hupdate_final],
           [Hmixed_final]  -- one per remaining conjunct
@@ -13133,7 +12008,7 @@ Proof.
     if Z.eq_dec y i then Some O else ranks y).
   (* section 4: the commit assigns exactly variable i, at the new level *)
   assert (Hassigns :
-    assigns_one
+    assigns_one_idx
       (cdcl_view_of_snapshot n snap ranks logical_dl)
       (cdcl_view_of_snapshot n final_snap final_ranks (logical_dl + 1))
       i true (logical_dl + 1) (-1)).
@@ -13166,9 +12041,9 @@ Proof.
         eauto.
   }
   assert (Hstable_view :
-    grounded_at
+    grounded_at_cdcl
       (cdcl_view_of_snapshot n final_snap final_ranks (logical_dl + 1)) /\
-    closed_levels
+    closed_levels_cdcl
       (cdcl_view_of_snapshot n final_snap final_ranks (logical_dl + 1)) /\
     frontier_closed
       (cdcl_view_of_snapshot n final_snap final_ranks (logical_dl + 1)) /\
@@ -13417,7 +12292,7 @@ Qed.
           ghost assignment rank -- the only lt_wf_ind in the file).
 
       UNSAT verdict, route 2 (return 0 after deriving the empty clause)
-        entails_empty_cnf_unsat__decide_exit_solver_setup
+        entails_empty_cnf_unsat (CDCLLib.sat_shared_lib)
           -- F |= [] makes F unsatisfiable.
 
     ALL of these are axiom-free: Print Assumptions reports "Closed under the
@@ -13425,23 +12300,65 @@ Qed.
     depends on classical logic.  Please keep it that way -- see the
     "Decidability, in place of classical logic" banner near the top. *)
 
-(* provenance suffix retained; relocated under ENDGAME, which indexes it *)
-Lemma entails_empty_cnf_unsat__decide_exit_solver_setup :
-  forall n F,
-    cnf_wf n F ->
-    entails_clause F nil ->
-    cnf_unsat n F.
+(** Installing a learned clause APPENDS a row.  Under the shared [cdcl_view] a
+    reason is a clause VALUE, so [reason_of] reads [snap_rows]; the frame
+    condition "the reason function is unchanged by the append" is therefore no
+    longer definitional (it was, when a reason was a bare index) and needs a
+    proof.  It holds because every stored reason index is < live, and appending
+    only extends the row list beyond that. *)
+Lemma snapshot_reason_rows_append__decide_exit_solver_setup :
+  forall n live snap er es et eu,
+    snapshot_lengths n live snap ->
+    snapshot_cells_wf n live snap ->
+    snapshot_reason n
+      {| snap_values := snap_values snap;
+         snap_reasons := snap_reasons snap;
+         snap_levels := snap_levels snap;
+         snap_rows := snap_rows snap ++ (er :: nil);
+         snap_states := snap_states snap ++ (es :: nil);
+         snap_true_counts := snap_true_counts snap ++ (et :: nil);
+         snap_unassigned := snap_unassigned snap ++ (eu :: nil) |}
+    = snapshot_reason n snap.
 Proof.
-  intros n F Hwf Hentails.
-  unfold cnf_unsat.
-  split; [exact Hwf|].
-  intros rho Hbounded Hmodels.
-  specialize (Hentails rho Hmodels).
-  unfold clause_satisfied in Hentails.
-  destruct Hentails as [l [Hin _]].
-  contradiction.
+  intros n live snap er es et eu Hlen Hwf.
+  apply functional_extensionality; intro x.
+  assert (Hsa : snapshot_assignment n
+      {| snap_values := snap_values snap;
+         snap_reasons := snap_reasons snap;
+         snap_levels := snap_levels snap;
+         snap_rows := snap_rows snap ++ (er :: nil);
+         snap_states := snap_states snap ++ (es :: nil);
+         snap_true_counts := snap_true_counts snap ++ (et :: nil);
+         snap_unassigned := snap_unassigned snap ++ (eu :: nil) |} x
+    = snapshot_assignment n snap x) by reflexivity.
+  unfold snapshot_reason.
+  cbn [snap_reasons snap_rows].
+  rewrite Hsa.
+  destruct (snapshot_assignment n snap x) as [b|] eqn:Ha; [|reflexivity].
+  destruct (Z.eqb (Znth x (snap_reasons snap) (-1)) (-1)) eqn:Hr; [reflexivity|].
+  assert (Hx : var_in_range n x)
+    by (eapply snapshot_assignment_some_range__bcp_unit_to_assignment; exact Ha).
+  assert (Hv : Znth x (snap_values snap) (-1) <> -1).
+  { intro Hv1. unfold snapshot_assignment in Ha.
+    destruct (andb (0 <=? x) (x <? n)); [|discriminate].
+    rewrite Hv1 in Ha. cbn in Ha. discriminate. }
+  destruct Hwf as [Hcells _].
+  specialize (Hcells x Hx). cbn zeta in Hcells.
+  destruct Hcells as [_ [_ Hassigned]].
+  destruct (Hassigned Hv) as [_ [Hrm1 | Hrange]].
+  { rewrite Hrm1 in Hr. cbn in Hr. discriminate. }
+  assert (Hrows : Zlength (snap_rows snap) = live)
+    by (unfold snapshot_lengths in Hlen; tauto).
+  assert (Hlen2 : Z.of_nat (List.length (snap_rows snap)) = live)
+    by (rewrite <- Zlength_correct; exact Hrows).
+  rewrite map_app.
+  rewrite nth_error_app1; [reflexivity|].
+  rewrite List.length_map.
+  apply (proj2 (Nat2Z.inj_lt _ _)).
+  rewrite Z2Nat.id by lia.
+  rewrite Hlen2.
+  lia.
 Qed.
-
 (** ===== group: solver_analysis_and_returns ===== *)
 Lemma snapshot_assignment_rho_agree__solver_analysis_and_returns :
   forall n snap x b,
@@ -13451,66 +12368,16 @@ Proof.
   intros n snap x b Hassigned.
   unfold snapshot_assignment in Hassigned.
   unfold rho_of_values.
-  destruct (andb ((0 <=? x)%Z) ((x <? n)%Z)) eqn:Hguard;
-    try discriminate.
+  destruct (andb ((0 <=? x)%Z) ((x <? n)%Z)); [|discriminate].
   remember (Znth x (snap_values snap) (-1)) as z.
   unfold decode_value_cell in Hassigned.
-  destruct ((z =? -1)%Z) eqn:Hzm; try discriminate.
-  destruct ((z =? 0)%Z) eqn:Hz0.
-  - apply Z.eqb_eq in Hz0.
-    rewrite Hz0.
-    inversion Hassigned. reflexivity.
-  - destruct ((z =? 1)%Z) eqn:Hz1; try discriminate.
-    inversion Hassigned. reflexivity.
-Qed.
-(** The constructive core of the SAT verdict.  Under "every literal of [c] is
-    assigned", the clause is either false outright or contains a true literal.
-    This dichotomy is what [classic] used to supply; it needs no axiom, because
-    [c] is a finite list and each literal's value under [sigma] is a
-    computation.  Establishing it constructively is what makes
-    [model_ready_models_original] — and hence the whole mathematical core of
-    this development — axiom-free. *)
-Lemma partial_clause_false_or_true__solver_analysis_and_returns :
-  forall sigma c,
-    (forall l, In l c ->
-      exists b, sigma (literal_var l) = Some b) ->
-    clause_false sigma c \/
-    (exists l, In l c /\ eval_partial_literal sigma l = Some true).
-Proof.
-  intros sigma c.
-  induction c as [|l c IH]; intros Hassigned.
-  - left. intros l Hin. contradiction.
-  - destruct (Hassigned l (or_introl eq_refl)) as [b Hb].
-    assert (Heval : exists v, eval_partial_literal sigma l = Some v).
-    {
-      unfold eval_partial_literal.
-      rewrite Hb.
-      eexists. reflexivity.
-    }
-    destruct Heval as [v Heval].
-    destruct v.
-    + right. exists l. split; [left; reflexivity|exact Heval].
-    + assert (Htail_assigned : forall l', In l' c ->
-        exists b', sigma (literal_var l') = Some b').
-      { intros l' Hin. apply Hassigned. right. exact Hin. }
-      destruct (IH Htail_assigned) as [Htailfalse|[l' [Hin Htrue]]].
-      * left. intros l' [<- | Hin]; [exact Heval|exact (Htailfalse l' Hin)].
-      * right. exists l'. split; [right; exact Hin|exact Htrue].
+  destruct (z =? -1)%Z; [discriminate|].
+  destruct (z =? 0)%Z eqn:Hz0.
+  - apply Z.eqb_eq in Hz0. rewrite Hz0.
+    inversion Hassigned; reflexivity.
+  - destruct (z =? 1)%Z; inversion Hassigned; reflexivity.
 Qed.
 
-Lemma partial_clause_has_true__solver_analysis_and_returns :
-  forall sigma c,
-    (forall l, In l c ->
-      exists b, sigma (literal_var l) = Some b) ->
-    ~ clause_false sigma c ->
-    exists l, In l c /\ eval_partial_literal sigma l = Some true.
-Proof.
-  intros sigma c Hassigned Hnotfalse.
-  destruct (partial_clause_false_or_true__solver_analysis_and_returns
-              sigma c Hassigned) as [Hfalse|Htrue].
-  - contradiction.
-  - exact Htrue.
-Qed.
 Lemma snapshot_partial_true_rho_true__solver_analysis_and_returns :
   forall n snap l,
     eval_partial_literal (snapshot_assignment n snap) l = Some true ->
@@ -13599,7 +12466,7 @@ Proof.
     exact Hcinstalled.
   }
   destruct
-    (partial_clause_has_true__solver_analysis_and_returns
+    (partial_clause_has_true
       (snapshot_assignment n snap) c Hall_assigned Hnotfalse)
     as [l [Hin Htrue]].
   exists l. split; [exact Hin|].
@@ -13687,24 +12554,11 @@ Proof.
   - exact Hin2.
   - exact Hvar.
 Qed.
-Lemma eval_partial_literal_total_agree__solver_analysis_and_returns :
-  forall sigma rho l v b,
-    sigma (literal_var l) = Some b ->
-    rho (literal_var l) = b ->
-    eval_partial_literal sigma l = Some v ->
-    eval_literal rho l = v.
-Proof.
-  intros sigma rho [x|x] v b Hassigned Hagree Heval;
-    unfold eval_partial_literal in Heval; simpl in *;
-    rewrite Hassigned in Heval;
-    inversion Heval; subst v;
-    rewrite Hagree; reflexivity.
-Qed.
 Lemma root_assignment_agrees_at_rank__solver_analysis_and_returns :
   forall rx F n live original_count snap ranks rho x b,
     coherent_snapshot F n live original_count snap ->
-    grounded_at (cdcl_view_of_snapshot n snap ranks 0) ->
-    closed_levels (cdcl_view_of_snapshot n snap ranks 0) ->
+    grounded_at_cdcl (cdcl_view_of_snapshot n snap ranks 0) ->
+    closed_levels_cdcl (cdcl_view_of_snapshot n snap ranks 0) ->
     models rho F ->
     snapshot_assignment n snap x = Some b ->
     ranks x = Some rx ->
@@ -13714,13 +12568,13 @@ Proof.
   induction rx using lt_wf_ind.
   intros F n live original_count snap ranks rho x b
     Hcoherent Hgrounded Hclosed Hmodels Hassigned Hrank.
-  pose proof Hgrounded as Hgrounded_x.
+  pose proof (grounded_at_cdcl_elim _ Hgrounded) as Hgrounded_x.
   specialize (Hgrounded_x x b Hassigned).
   destruct Hgrounded_x as
     [d [rx' [Hlevel [Hrank' Horigin]]]].
   assert (Hd0 : d = 0).
   {
-    unfold closed_levels in Hclosed.
+    cdcl_shape.
     destruct Hclosed as [_ [Hlevel_bounds _]].
     specialize (Hlevel_bounds x b d Hassigned Hlevel).
     simpl in Hlevel_bounds. lia.
@@ -13729,19 +12583,18 @@ Proof.
   assert (Hrx : rx' = rx) by congruence.
   subst d. subst rx'.
   destruct Horigin as [[_ Hpositive] |
-    [i [_ [Hreason_valid _]]]].
+    [i [_ [Hin_inst [Hreason_valid _]]]]].
   - lia.
   - unfold reason_valid in Hreason_valid.
     destruct Hreason_valid as
-      [b' [d' [rx' [c
-        [Hassigned' [Hlevel' [Hrank'' [Hnth [Hsatisfying Hothers]]]]]]]]].
+      [b' [d' [rx'
+        [Hassigned' [Hlevel' [Hrank'' [Hsatisfying Hothers]]]]]]].
     change (snapshot_assignment n snap x = Some b') in Hassigned'.
     change (ranks x = Some rx') in Hrank''.
     assert (Hb' : b' = b) by congruence.
     assert (Hrx' : rx' = rx) by congruence.
     subst b'. subst rx'.
-    simpl in Hnth.
-    apply nth_error_In in Hnth.
+    simpl in Hin_inst.
     assert (Hsound : installed_clauses_sound F original_count
       (map dense_decode (snap_rows snap))).
     {
@@ -13751,8 +12604,8 @@ Proof.
     }
     pose proof
       (installed_clause_entails__solver_analysis_and_returns
-        F original_count (map dense_decode (snap_rows snap)) c
-        Hsound Hnth rho Hmodels) as Hclause_models.
+        F original_count (map dense_decode (snap_rows snap)) i
+        Hsound Hin_inst rho Hmodels) as Hclause_models.
     destruct Hclause_models as [l [Hin Heval_true]].
     destruct (Z.eq_dec (literal_var l) x) as [Hsame_var|Hother_var].
     + assert (Hl : l = satisfying_literal x b).
@@ -13770,7 +12623,7 @@ Proof.
       destruct Hothers as
         [Heval_false [dy [ry [Hlevel_y [Hrank_y [_ Hrank_lt]]]]]].
       destruct
-        (eval_partial_literal_assigned__bcp_unit_to_assignment
+        (eval_partial_literal_assigned
           (snapshot_assignment n snap) l false Heval_false)
         as [b_y Hassigned_y].
       assert (Hagree_y : rho (literal_var l) = b_y).
@@ -13778,7 +12631,7 @@ Proof.
         eapply H; try eassumption.
       }
       pose proof
-        (eval_partial_literal_total_agree__solver_analysis_and_returns
+        (eval_partial_literal_total_agree
           (snapshot_assignment n snap) rho l false b_y
           Hassigned_y Hagree_y Heval_false) as Heval_false_rho.
       congruence.
@@ -13786,15 +12639,15 @@ Qed.
 Lemma root_assignment_agrees__solver_analysis_and_returns :
   forall F n live original_count snap ranks rho x b,
     coherent_snapshot F n live original_count snap ->
-    grounded_at (cdcl_view_of_snapshot n snap ranks 0) ->
-    closed_levels (cdcl_view_of_snapshot n snap ranks 0) ->
+    grounded_at_cdcl (cdcl_view_of_snapshot n snap ranks 0) ->
+    closed_levels_cdcl (cdcl_view_of_snapshot n snap ranks 0) ->
     models rho F ->
     snapshot_assignment n snap x = Some b ->
     rho x = b.
 Proof.
   intros F n live original_count snap ranks rho x b
     Hcoherent Hgrounded Hclosed Hmodels Hassigned.
-  pose proof Hgrounded as Hgrounded_x.
+  pose proof (grounded_at_cdcl_elim _ Hgrounded) as Hgrounded_x.
   specialize (Hgrounded_x x b Hassigned).
   destruct Hgrounded_x as
     [d [rx [Hlevel [Hrank Horigin]]]].
@@ -13834,20 +12687,23 @@ Proof.
     destruct Hclause_models as [l [Hin Heval_true]].
     specialize (Hfalse l Hin).
     destruct
-      (eval_partial_literal_assigned__bcp_unit_to_assignment
+      (eval_partial_literal_assigned
         (snapshot_assignment n snap) l false Hfalse)
       as [b Hassigned].
     assert (Hagree : rho (literal_var l) = b).
     {
       eapply root_assignment_agrees__solver_analysis_and_returns;
-        eassumption.
+        eauto.
     }
     pose proof
-      (eval_partial_literal_total_agree__solver_analysis_and_returns
+      (eval_partial_literal_total_agree
         (snapshot_assignment n snap) rho l false b
         Hassigned Hagree Hfalse) as Heval_false.
     congruence.
 Qed.
+(* The snapshot-level instance of the shared [stable_search_level_bound]:
+   a [dense_snapshot] view assigns only variables below [n], so its decision
+   level cannot exceed [n]. *)
 Lemma stable_search_level_bound__solver_analysis_and_returns :
   forall F n live original_count snap ranks logical_dl,
     coherent_snapshot F n live original_count snap ->
@@ -13855,147 +12711,18 @@ Lemma stable_search_level_bound__solver_analysis_and_returns :
     logical_dl <= n.
 Proof.
   intros F n live original_count snap ranks logical_dl Hcoh Hstable.
-  pose proof Hcoh as Hcoh'.
-  unfold coherent_snapshot in Hcoh'.
-  destruct Hcoh' as [Hn0 _].
+  unfold coherent_snapshot in Hcoh.
+  destruct Hcoh as [Hn0 _].
   unfold stable_search_facts in Hstable.
   destruct Hstable as [_ [Hclosed _]].
-  unfold closed_levels in Hclosed.
-  destruct Hclosed as [Hdl0 [_ [_ Hdecisions]]].
-  change (forall d, 0 < d <= logical_dl ->
-    exists! x,
-      decision_at
-        (cdcl_view_of_snapshot n snap ranks logical_dl) x d)
-    in Hdecisions.
-  apply Z.nlt_ge.
-  intro Hnlt.
-  set (levels := map Z.of_nat (seq 1 (Z.to_nat logical_dl))).
-  set (variables := map Z.of_nat (seq 0 (Z.to_nat n))).
-  assert (Hlevels_nodup : NoDup levels).
-  {
-    unfold levels.
-    apply Injective_map_NoDup.
-    - intros a b Hab. now apply Nat2Z.inj.
-    - apply seq_NoDup.
-  }
-  assert (Hlevels_decide :
-    Forall
-      (fun d => Exists
-        (fun x => decision_at
-          (cdcl_view_of_snapshot n snap ranks logical_dl) x d)
-        variables)
-      levels).
-  {
-    unfold levels.
-    apply Forall_forall.
-    intros d Hd.
-    apply in_map_iff in Hd as [k [<- Hk]].
-    apply in_seq in Hk.
-    assert (Hd_range : 0 < Z.of_nat k <= logical_dl).
-    {
-      destruct Hk as [Hk1 Hk2].
-      rewrite <- (Z2Nat.id logical_dl) by lia.
-      split; lia.
-    }
-    destruct (Hdecisions (Z.of_nat k) Hd_range) as [x [Hdecision _]].
-    pose proof Hdecision as Hdecision'.
-    unfold decision_at in Hdecision'.
-    destruct Hdecision' as [[b Hb] _].
-    change (snapshot_assignment n snap x = Some b) in Hb.
-    pose proof
-      (snapshot_assignment_some_range__bcp_unit_to_assignment
-        n snap x b Hb) as Hxrange.
-    unfold var_in_range in Hxrange.
-    destruct Hxrange as [Hx0 Hxn].
-    apply Exists_exists.
-    exists x.
-    split.
-    - unfold variables.
-      apply in_map_iff.
-      exists (Z.to_nat x).
-      split.
-      + apply Z2Nat.id. exact Hx0.
-      + apply in_seq.
-        split; [lia|].
-        apply Z2Nat.inj_lt; lia.
-    - exact Hdecision.
-  }
-  assert (Hlength :
-    (List.length variables < List.length levels)%nat).
-  {
-    unfold variables, levels.
-    rewrite !length_map, !length_seq.
-    apply Z2Nat.inj_lt; lia.
-  }
-  destruct (Permutation_pigeonhole_rel
-    (fun d x => decision_at
-      (cdcl_view_of_snapshot n snap ranks logical_dl) x d)
-    Hlevels_decide Hlength)
-    as [d [d' [rest [Hperm [x [_ [Hdecision Hdecision']]]]]]].
-  pose proof (Permutation_NoDup Hperm Hlevels_nodup) as Hnodup.
-  assert (Hdd' : d <> d').
-  {
-    inversion Hnodup as [|d0 tail Hnotin Htail]; subst.
-    intro Heq. subst d'.
-    apply Hnotin. left. reflexivity.
-  }
-  unfold decision_at in Hdecision, Hdecision'.
-  destruct Hdecision as [_ [Hlevel _]].
-  destruct Hdecision' as [_ [Hlevel' _]].
-  congruence.
-Qed.
-Lemma top_two_negative_second_is_minus_one__solver_analysis_and_returns :
-  forall F n a row max1 max2,
-    closed_levels a ->
-    current_learning_exit_cert F a (dense_decode row) ->
-    row_wf n row ->
-    top_two_levels_exact a row n max1 max2 ->
-    max2 < 0 ->
-    max2 = -1.
-Proof.
-  intros F n a row max1 max2 Hclosed Hlearning Hrow Htop Hnegative.
-  unfold top_two_levels_exact in Htop.
-  destruct Htop as [[_ [_ Hminus]] |
-    [_ [_ [[Hminus _] | [Hprocessed [_ _]]]]]].
-  - exact Hminus.
-  - exact Hminus.
-  - exfalso.
-    destruct Hprocessed as [x [Hx [Hcell Hlevel]]].
-    pose proof (row_wf_cell_domain n row x Hrow Hx) as Hdomain.
-    unfold current_learning_exit_cert, learned_clause_sound in Hlearning.
-    destruct Hlearning as [[_ Hfalse] _].
-    assert (Hassigned : exists b, assignment a x = Some b).
-    {
-      destruct Hdomain as [Hneg | [Hzero | Hpos]].
-      - assert (Hin : In (Neg x) (dense_decode row)).
-        { apply (proj1 (dense_decode_neg n row x Hrow Hx)); exact Hneg. }
-        specialize (Hfalse (Neg x) Hin).
-        change
-          (match assignment a x with
-           | None => None
-           | Some b => Some (negb b)
-           end = Some false) in Hfalse.
-        destruct (assignment a x) as [b|] eqn:Hassignment.
-        + now exists b.
-        + discriminate Hfalse.
-      - congruence.
-      - assert (Hin : In (Pos x) (dense_decode row)).
-        { apply (proj1 (dense_decode_pos n row x Hrow Hx)); exact Hpos. }
-        specialize (Hfalse (Pos x) Hin).
-        change
-          (match assignment a x with
-           | None => None
-           | Some b => Some b
-           end = Some false) in Hfalse.
-        destruct (assignment a x) as [b|] eqn:Hassignment.
-        + now exists b.
-        + discriminate Hfalse.
-    }
-    destruct Hassigned as [b Hassigned].
-    unfold closed_levels in Hclosed.
-    destruct Hclosed as [_ [Hlevels _]].
-    specialize (Hlevels x b max2 Hassigned Hlevel).
-    lia.
+  unfold closed_levels_cdcl in Hclosed.
+  destruct Hclosed as [Hclosed _].
+  exact (stable_search_level_bound n
+           (cdcl_view_of_snapshot n snap ranks logical_dl) Hn0
+           (fun x b Hx =>
+              snapshot_assignment_some_range__bcp_unit_to_assignment
+                n snap x b Hx)
+           Hclosed).
 Qed.
 
 (** ===== NON-VACUITY WITNESS =====
@@ -14112,21 +12839,25 @@ Proof.
      projections can fire. *)
   cbv zeta.
   unfold cdcl_view_of_snapshot.
-  (* Unfold the three predicates FIRST: the record projections only appear
-     once they are expanded, so reducing before this is a no-op. *)
-  unfold grounded_at, closed_levels, frontier_closed,
-         current_frontier_supported, decision_at.
-  (* Now reduce ONLY the projections.  A bare [simpl] here also unfolds
-     witness_snap into its literal, after which witness_unassigned no longer
-     matches syntactically. *)
-  cbn [assignment level_of reason_of assignment_rank
-       installed_clauses current_level].
+  (* The strong invariants are conjunctions now, so enter each through its
+     intro bridge and only THEN reduce: the record projections appear once
+     the bridge has restored the quantified shape.  A bare [simpl] would
+     also unfold witness_snap into its literal, after which
+     witness_unassigned no longer matches syntactically -- hence the
+     projection-only [cbn]. *)
   split.
-  { (* grounded_at: vacuous, nothing is assigned *)
+  { (* grounded_at_cdcl: vacuous, nothing is assigned *)
+    apply grounded_at_cdcl_intro.
+    cbn [assignment level_of reason_of assignment_rank
+         installed_clauses current_level].
     intros x b Hassigned.
     rewrite witness_unassigned in Hassigned. discriminate. }
   split.
-  { split; [lia|].
+  { apply closed_levels_cdcl_intro.
+    unfold decision_at.
+    cbn [assignment level_of reason_of assignment_rank
+         installed_clauses current_level].
+    split; [lia|].
     split.
     { intros x b d Hassigned _.
       rewrite witness_unassigned in Hassigned. discriminate. }
@@ -14134,7 +12865,10 @@ Proof.
     { intros x [[b Hassigned] _].
       rewrite witness_unassigned in Hassigned. discriminate. }
     intros d Hd. lia. }
-  { split.
+  { unfold frontier_closed, current_frontier_supported.
+    cbn [assignment level_of reason_of assignment_rank
+         installed_clauses current_level].
+    split.
     - intros k Hk. lia.
     - left. reflexivity. }
 Qed.
@@ -14401,7 +13135,7 @@ Definition bcp_conflict_prefix
     [unitcl] at level [logical_dl] -- the polarity disjunction (which arm of
     the unit literal fired, fixing [value_cell]), the three [replace_Znth]
     cell equations, the unchanged row table, and the view-level
-    [assigns_one] bridge.  This Prop deliberately hides the polarity [\/]
+    [assigns_one_idx] bridge.  This Prop deliberately hides the polarity [\/]
     from symexec -- the wave's SINGLE exception to the rule that a
     disjunction must never be hidden (design risk 4), blessed only because
     the disjunction discriminates no spatial atom: both arms share one
@@ -14419,7 +13153,7 @@ Definition bcp_assignment_delta
   snap_values new_snap = replace_Znth bcpvar value_cell (snap_values snap) /\
   snap_reasons new_snap = replace_Znth bcpvar unitcl (snap_reasons snap) /\
   snap_levels new_snap = replace_Znth bcpvar logical_dl (snap_levels snap) /\
-  assigns_one
+  assigns_one_idx
     (cdcl_view_of_snapshot n snap ranks logical_dl)
     (cdcl_view_of_snapshot n new_snap ranks1 logical_dl)
     bcpvar b logical_dl unitcl.
@@ -14467,3 +13201,4 @@ Definition bcp_clause_update_state
    IntArray.seg_shape unassigned live cap **
    installed_row_focus_rep row_table live focus row_ptr (snap_rows snap) **
    PtrArray.undef_seg row_table live cap).
+

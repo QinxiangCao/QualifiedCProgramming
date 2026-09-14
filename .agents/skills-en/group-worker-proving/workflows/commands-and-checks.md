@@ -43,10 +43,10 @@ Before creating, cleaning, or writing a build, the controller rejects symlinks, 
 
 Development, exact, and mandatory post-finalize validation use the same structural checker. Every invocation rechecks:
 
-- current version;
+- current main-root C/library/goal/auto/check files against the accepted annotation backup;
 - accepted plan;
 - base manifest, group manifest, and seed seals;
-- the frozen public snapshot and reuse-source digest;
+- the frozen public snapshot;
 - manual declaration order and statement tokens;
 - assigned and unassigned proof tokens;
 - `LLM_pre_process` split blocks;
@@ -74,10 +74,10 @@ The group worker uses only `Goal_apply` to apply split lemmas in an aggressive t
 
 ### Mandatory validation after finalize
 
-After the worker has stopped writing, the main agent runs `finalize-delivery`. The controller first seals `group_worker_report.json`, the copied manual, and `group_worker_lib` when applicable, then performs mandatory validation matching the reported terminal result over those exact bytes and compares the seals again afterward:
+After the worker has stopped writing, the main agent runs `finalize-delivery`. When the handoff names a previous proving round, optional `proof_reuse.md` is only a human note: it may be missing or empty, the controller does not parse it or gate finalize on it, and it is not included in the proof seal or final provenance. The controller then seals `group_worker_report.json`, the copied manual, and `group_worker_lib` when applicable, performs mandatory validation matching the reported terminal result over those exact bytes, and compares the seals again afterward:
 
 - `status: completed` must pass the full structure, proof-completeness, route, and Rocq checks. Only success marks the group accepted.
-- `blocker.failure_class: annotation-gap` must pass the five-field blocker contract, witness/location traceability, fixed write boundary, statement/unassigned/mode protection, helper/import/safety rules, and seal checks. An assigned proof left incomplete because of the gap must not be disguised as `completed`, and this terminal result is not required to pass the complete group Rocq target that the gap makes unprovable. The controller seals it as a structurally legal, traceable blocked terminal result available for conditional reuse in a later round.
+- `blocker.failure_class: annotation-gap` must pass the five-field blocker contract, exact `vcs` name/parent/annotation-location validation against the sealed manual and assignment, fixed write boundary, statement/unassigned/mode protection, helper/import/safety rules, and seal checks. An assigned proof left incomplete because of the gap must not be disguised as `completed`, and this terminal result is not required to pass the complete group Rocq target that the gap makes unprovable. Its files remain available for annotation feedback.
 - Other blockers retain their existing structural checks, in-place repair, retry-exhaustion, or terminal semantics; the `annotation-gap` aggregation mechanism does not change them.
 
 This is the single mandatory group validation. Worker development or exact results are not written to the final report and do not replace controller acceptance or a blocked-seal conclusion. If validation returns only a report-contract repair, the formal seal remains unchanged; the same owner repairs only the report and reruns the original finalize, without modifying the proof/library.
@@ -90,9 +90,9 @@ After annotation acceptance, the controller has run one `dune-build` action for 
 2. stages the actually reachable sources among the persisted five current case identities, together with this group's overlay, into the fixed local build;
 3. compiles current modules according to the fixed current edges in the snapshot;
 4. reads snapshot-bound dependency `.vo` files through absolute `-R/-Q` mappings into the selected base (Dune `_build/default` or Makefile main-root `Rocq/`);
-5. binds the dependency artifact digest into the current cache and debug/reuse seal.
+5. binds the dependency artifact digest into the current cache and debug seal.
 
-The worker neither analyzes dependencies nor supplies a target, and does not invoke Dune, Make, or `coqdep`. Proof-time source may continue to use project imports already in the snapshot and imports from the installed Rocq standard library. A new project import outside the snapshot returns a mode-specific dependency-not-prepared failure; a later annotation retry creates a new accepted source and snapshot. This group cannot dynamically extend the dependency version.
+The worker neither analyzes dependencies nor supplies a target, and does not invoke Dune, Make, or `coqdep`. Proof-time source may continue to use project imports already in the snapshot and imports from the installed Rocq standard library. A new project import outside the snapshot returns a dependency-not-prepared failure; a later annotation retry creates new accepted files and a new snapshot. This group cannot dynamically extend the dependency closure.
 
 Current ownership comes only from the persisted case identity; it is not inferred from the C stem, a same-directory prefix, a helper name, or an import. Another program or differently named library in the same directory is readable only when it belongs to the snapshot closure. Each current dependency must have a local `.vo` in this build before its consumer compiles or debugs.
 
@@ -108,6 +108,6 @@ These failures must remain precise and may not fall back to a whole-workspace ta
 
 ## 5. Time limits and processes
 
-All child processes started by one `coq-check` or `coq-debug` share a 1800-second deadline. Snapshot validation and staging time is deducted from the time remaining before the next child starts.
+All child processes started by one `coq-check` or `coq-debug` share a 900-second deadline. Snapshot validation and staging time is deducted from the time remaining before the next child starts.
 
-The controller places tools in an independent process group and terminates the entire group at timeout, with bounded output draining. A worker must not bypass this limit through a raw process or an unbounded substitute command.
+The controller places tools in an independent process group. At timeout it explicitly terminates the entire group, force-kills anything that remains, and drains output for only a bounded time. A worker must not bypass this limit through a raw process or an unbounded substitute command.

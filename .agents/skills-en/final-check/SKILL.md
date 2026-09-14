@@ -1,6 +1,6 @@
 ---
 name: final-check
-description: Use from the main agent after final-apply has written the accepted proving_merged result back to main root; verify consistency among generated files, manual, formal_case_lib, versions, merge result, and cleanup.
+description: Use from the main agent after final-apply has written the accepted proving_merged result back to main root; verify consistency among generated files, manual, formal_case_lib, annotation backups, merge result, and cleanup.
 ---
 
 # Final Check

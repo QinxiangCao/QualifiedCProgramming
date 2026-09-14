@@ -32,7 +32,7 @@ Qed.
 硬性要求：
 
 - `aggressive_pre_process.` 之后只允许 `Goal_apply <对应split-goal lemma>.`，每个分支一条，不写其他 tactic。top-level proof 只是分派层。
-- 每个 split goal 的第一个 tactic 必须是 `LLM_pre_process ltac:(...)`，并显式写出 closer（通常 `ltac:(lia || nia || int_auto)`）。
+- 每个 split goal 的第一个 tactic 必须是 `LLM_pre_process ltac:(...)`，并显式写出 closer（通常 `ltac:(lia || int_auto)`）。
 - 不得使用别名 `pre_process`。它等价于 `LLM_pre_process ltac:(lia || nia || int_auto)`（`CommonAssertion.v`），但隐藏了 closer，禁止在 proof 文本中出现。
 - 不得用手写 `unfold <goal_name>.` + `intros ...` 代替 `LLM_pre_process`。
 
@@ -51,11 +51,11 @@ original_vc \/ vc_after_strategies
 
 不要自行改变route；若controller-verified route在current proof state中出现语义缺口，记录具体state并blocked/回annotation。
 
-## 证明复用提示
+## 证明复用
 
-若group handoff给出`proof_reuse.md`，严格按全部helper rows → 全部aggressive split-goal rows → 全部`LLM_pre_process` top-level rows读取引用的previous current-run file和exact line range；aggressive top-level VC没有复用行。非from-scratch range覆盖parser识别的整个declaration，而不是其中若干tactic行。sealed source可能是failed proving round，也可能是verified后因annotation/freshness retry而stale的round；结构非法failed group已被跳过。helper/proof `direct copy`只来自previous controller-validated accepted group；manual proof direct还要求generated-goal语义指纹一致，允许仅generated declaration改名。未accepted source proof最多提供`partial proof-idea reuse`，其helper须from scratch。worker仍须按current binders、hypotheses与proof mode重新检查；指纹变化时按hint重建adapter/frame，或from scratch。hint不允许修改previous files，也不替代当前debug、development/exact check；handoff为none时不要扫描旧round。
+handoff 给出上一 proving round 时，先按 current witness/helper/predicate 名跨上一 round 的 group manual/lib搜索，只读取匹配的 declaration/proof block；可按需为 assigned current witness 在 `proof_reuse.md` 写明直接复用、修改后复用或不复用。不要逐份通读完整 manual；多个 split goals 可放在同一 witness 项下，不要求旧/current group id、witness 名或 proof mode 一致。该 Markdown 缺失或为空不影响证明验收。
 
-split goal由`P |-- Q`变化为`P' |-- Q'`时，先尝试把旧proof包在两个adapter之间：证明`P |-- P'`进入旧前提，再证明`Q' |-- Q`回到新结论。若只增加、消去或重排共同spatial frame，则明确使用cancel/frame转换并检查side conditions。这些属于`partial proof-idea reuse`，不是逐字direct copy。Reason只是设计提示，实际adapter必须由本组proof检查。单witness group应利用hint中的helper/split components；multi-witness group不要假设一个group helper机械服务每个witness。
+可选说明不写行号、声明范围或机器判定；缺失或为空均可，controller 不解析或检查它。上一 round 文件始终只读，任何借来的 proof/helper 都必须适配当前 binders、hypotheses 和 proof mode，并通过本组 check。split goal由`P |-- Q`变化为`P' |-- Q'`时，可以尝试证明`P |-- P'`与`Q' |-- Q`，或处理新增/重排的共同 spatial frame；这些都只是当前证明的起点。
 
 aggressive route的典型结构是先完成split declarations，再完成top-level declaration：
 
@@ -126,7 +126,7 @@ lia.
 - 在 `sep_apply_*` 前先导出一个 side condition。
 - 将当前 spatial resource 暴露成后续 arithmetic / list proof 可用的 pure hypothesis。
 
-要求显式实例化所有参数和 lemma premise。若 premise 无法由当前 context 证明，不要伪造；回到 annotation 或新增当前 group suffix helper。handoff frozen snapshot中声明/proof token一致的sealed helper可以复制并保留其历史suffix，实质修改后的版本必须换为当前suffix。
+要求显式实例化所有参数和 lemma premise。若 premise 无法由当前 context 证明，不要伪造；回到 annotation 或新增当前 group suffix helper。handoff frozen public snapshot中声明/proof token一致的helper可以复制并保留其历史suffix，实质修改后的版本必须换为当前suffix。
 
 ## Disjunction 和 Universal
 
@@ -148,7 +148,7 @@ lia.
 常见流程：
 
 ```coq
-LLM_pre_process ltac:(lia || nia || int_auto).
+LLM_pre_process ltac:(lia || int_auto).
 Intros ...
 Intros_p ...
 Exists ...
@@ -171,7 +171,7 @@ split_pures.
 - dump_pre_spatial. eapply some_case_helper__gid; eauto.
 ```
 
-对 list equality，先尝试已有 `sublist` / `replace_Znth` / `Zlength` lemma；缺少稳定连接事实时，把新helper放入 `group_worker_lib`并使用当前group suffix。与public/reuse sealed helper声明/proof token一致时允许保留来源suffix。
+对 list equality，先尝试已有 `sublist` / `replace_Znth` / `Zlength` lemma；缺少稳定连接事实时，把新helper放入 `group_worker_lib`并使用当前group suffix。与 frozen public helper 声明/proof token一致时允许保留来源suffix。
 
 ## Array / string goals 处理
 
@@ -179,7 +179,7 @@ array proof 常见步骤：从 `full` / `seg` 得到 `Zlength`，split 当前 in
 
 string proof 常见步骤：展开 `store_string` / `c_string` / `string_length`，处理结尾 `0`，区分 Rocq `string` 和 `list Z`。
 
-需要 helper lemma 时，新增到 `group_worker_lib` 并证明；不要写入 `*_proof_manual.v`。turn开始只浏览handoff的round-start frozen public snapshot，把可能有用且声明/proof token一致的proved declarations及必要官方imports复制到local lib；不直接import或编辑snapshot/durable pool，复制后即使最终unused也合法，但仍须通过本组check。
+需要 helper lemma 时，先按 exact lemma/predicate 名搜索 handoff 的 round-start frozen public snapshot；命中后只复制实际要用、且声明/proof token一致的 proved declaration与必要官方 import。未命中时在 `group_worker_lib` 新增并证明当前 suffix helper；不要把 helper 写入 `*_proof_manual.v`，不要预先浏览或复制可能最终不用的 declaration，也不直接 import或编辑 snapshot/durable pool。
 
 ## 整体证明骨架
 
@@ -187,7 +187,7 @@ string proof 常见步骤：展开 `store_string` / `c_string` / `string_length`
 
 ```coq
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Intros x y.
   Intros_p Hbounds.
   Exists witness1 witness2.

@@ -11,7 +11,7 @@ from typing import Any
 from controller_invocations import hydrate_actions
 from controller_state import (
     _append_event,
-    _current_version_errors,
+    _current_files_errors,
     _load_state,
     _run_root_from_id,
     _save_state,
@@ -32,9 +32,6 @@ def _preparation_action(state: dict[str, Any]) -> dict[str, Any]:
         "id": "dune-build",
         "kind": "main-owned-action",
         "action": "dune-build",
-        "source_goal_version": str(
-            (state.get("source_goal_version") or {}).get("digest") or ""
-        ),
     }
 
 
@@ -51,24 +48,21 @@ def _queue_annotation_retry_for_drift(
     attempt_id = str(accepted.get("attempt_id") or "")
     if not attempt_id:
         raise SystemExit(
-            f"{build_label} source drift has no accepted annotation feedback source"
+            f"{build_label} file drift has no accepted annotation feedback source"
         )
     receipt = {
         "status": "stale",
-        "source_goal_version": str(
-            (state.get("source_goal_version") or {}).get("digest") or ""
-        ),
         "first_failure": {
             "category": "freshness",
             "kind": (
-                "dune-source-drift"
+                "dune-file-drift"
                 if build_mode == DUNE_BUILD_MODE
-                else "makefile-source-drift"
+                else "makefile-file-drift"
             ),
             "message": errors[0],
             "repair": (
                 "Return through the existing annotation retry and rebuild the exact "
-                f"accepted source with {repair_label}."
+                f"accepted files with {repair_label}."
             ),
         },
     }
@@ -80,7 +74,7 @@ def _queue_annotation_retry_for_drift(
             "kind": "main-owned-action",
             "action": "retry-round",
             "phase": "annotation",
-            "reason": "dune-preparation-source-drift",
+            "reason": "dune-preparation-file-drift",
             "previous_attempt": attempt_id,
         }
     ]
@@ -109,37 +103,26 @@ def dune_build(args: argparse.Namespace) -> int:
         )
 
     accepted = state.get("accepted_rounds", {}).get("annotation", {})
-    source_goal = state.get("source_goal_version")
-    source_goal_digest = str(
-        source_goal.get("digest") if isinstance(source_goal, dict) else ""
-    )
-    if (
-        not isinstance(accepted, dict)
-        or not source_goal_digest
-        or accepted.get("source_goal_version") != source_goal_digest
-    ):
-        raise SystemExit(
-            f"{build_label} requires the current accepted annotation "
-            "source_goal_version"
-        )
+    if not isinstance(accepted, dict) or not accepted.get("attempt_id"):
+        raise SystemExit(f"{build_label} requires an accepted annotation")
 
-    version_errors = _current_version_errors(state)
-    if version_errors:
+    file_errors = _current_files_errors(state)
+    if file_errors:
         _queue_annotation_retry_for_drift(
-            state, version_errors, build_mode=build_mode
+            state, file_errors, build_mode=build_mode
         )
         _append_event(
             run_root,
             state,
             "dune-preparation-stale",
-            first_error=version_errors[0],
+            first_error=file_errors[0],
         )
         _save_state(run_root, state)
         print(
             json.dumps(
                 {
                     "status": "stale",
-                    "errors": version_errors,
+                    "errors": file_errors,
                     "next_actions": hydrate_actions(
                         state, state.get("next_actions", [])
                     ),
@@ -154,7 +137,6 @@ def dune_build(args: argparse.Namespace) -> int:
         run_root,
         state,
         "dune-preparation-started",
-        source_goal_version=source_goal_digest,
     )
     _save_state(run_root, state)
 
@@ -164,30 +146,29 @@ def dune_build(args: argparse.Namespace) -> int:
         current_case_anchor=Path(
             str(state["target_files"]["proof_auto_file"])
         ),
-        source_goal_version=source_goal_digest,
         snapshot_path=run_root / dependency_snapshot_file_name(main_root),
     )
 
     # Preparation may take long enough for an accidental edit to invalidate
     # the accepted annotation. Recheck before publishing the receipt.
     state = _load_state(run_root)
-    version_errors = _current_version_errors(state)
-    if version_errors:
+    file_errors = _current_files_errors(state)
+    if file_errors:
         _queue_annotation_retry_for_drift(
-            state, version_errors, build_mode=build_mode
+            state, file_errors, build_mode=build_mode
         )
         _append_event(
             run_root,
             state,
             "dune-preparation-stale",
-            first_error=version_errors[0],
+            first_error=file_errors[0],
         )
         _save_state(run_root, state)
         print(
             json.dumps(
                 {
                     "status": "stale",
-                    "errors": version_errors,
+                    "errors": file_errors,
                     "next_actions": hydrate_actions(
                         state, state.get("next_actions", [])
                     ),

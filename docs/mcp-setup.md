@@ -67,8 +67,8 @@ $env:QCP_MCP_BIN = (Resolve-Path .\win-binary\mcp.exe).Path
 $env:QCP_MCP_PYTHON = (Resolve-Path .\mcp\qcp-mcp\.venv-win\Scripts\python.exe).Path
 ```
 
-For persistent Windows agent/tooling environment variables, see
-[`../AGENTS_WIN.md`](../AGENTS_WIN.md).
+For Windows agent/tooling environment setup, see the
+[Windows workflow guide](../.agents/skills/verification-orchestrator/docs/windows.md).
 
 ## Configure `rocq-mcp`
 

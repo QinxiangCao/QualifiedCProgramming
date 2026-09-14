@@ -18,6 +18,7 @@
 -R ../_build/default/Rocq/StrategyLib SimpleC.StrategyLib
 -R Common SimpleC.Common
 -R ../_build/default/Rocq/Common SimpleC.Common
+-R cdcllib CDCLLib
 -R fixedpoints FP
 -R ../_build/default/Rocq/fixedpoints FP
 -R MonadLib MonadLib

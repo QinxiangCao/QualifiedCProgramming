@@ -52,7 +52,6 @@ def prepare_dune_dependencies(
     workspace_root: Path,
     target_file: Path,
     current_case_anchor: Path,
-    source_goal_version: str | None,
     snapshot_path: Path | None = None,
     timeout_seconds: int | float | None = _dune.DUNE_BUILD_TIMEOUT_SECONDS,
 ) -> dict[str, Any]:
@@ -66,7 +65,6 @@ def prepare_dune_dependencies(
         workspace_root=workspace_root,
         target_file=target_file,
         current_case_anchor=current_case_anchor,
-        source_goal_version=source_goal_version,
         snapshot_path=snapshot_path,
         timeout_seconds=timeout_seconds,
     )
@@ -85,21 +83,8 @@ def dune_preparation_receipt_errors(
     *,
     workspace_root: Path,
     receipt: Mapping[str, Any] | None,
-    expected_source_goal_version: str | None = None,
 ) -> list[str]:
     return _backend(workspace_root).dune_preparation_receipt_errors(
-        workspace_root=workspace_root,
-        receipt=receipt,
-        expected_source_goal_version=expected_source_goal_version,
-    )
-
-
-def dune_snapshot_for_preserved_build(
-    *,
-    workspace_root: Path,
-    receipt: Mapping[str, Any] | None,
-) -> dict[str, Any]:
-    return _backend(workspace_root).dune_snapshot_for_preserved_build(
         workspace_root=workspace_root,
         receipt=receipt,
     )
@@ -111,28 +96,24 @@ def run_coqc_check(
     build_workspace: Path,
     target_file: Path,
     target_kind: str,
-    source_goal_version: str | None,
     timeout_seconds: int | float | None = _dune.COQ_COMMAND_TIMEOUT_SECONDS,
     group_check: dict[str, Any] | None = None,
     overlays: dict[Path, Path] | None = None,
     incremental: bool = False,
     current_case_anchor: Path | None = None,
     dune_preparation: Mapping[str, Any] | None = None,
-    _reuse_dune_snapshot: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     return _backend(workspace_root).run_coqc_check(
         workspace_root=workspace_root,
         build_workspace=build_workspace,
         target_file=target_file,
         target_kind=target_kind,
-        source_goal_version=source_goal_version,
         timeout_seconds=timeout_seconds,
         group_check=group_check,
         overlays=overlays,
         incremental=incremental,
         current_case_anchor=current_case_anchor,
         dune_preparation=dune_preparation,
-        _reuse_dune_snapshot=_reuse_dune_snapshot,
     )
 
 
@@ -141,23 +122,17 @@ def run_coqtop_debug(
     workspace_root: Path,
     build_workspace: Path,
     debug_script: Path,
-    source_goal_version: str | None,
     timeout_seconds: int | float | None = _dune.COQ_COMMAND_TIMEOUT_SECONDS,
     overlays: dict[Path, Path] | None = None,
-    reuse_existing_build: bool = False,
     current_case_anchor: Path | None = None,
-    _reuse_dune_snapshot: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     return _backend(workspace_root).run_coqtop_debug(
         workspace_root=workspace_root,
         build_workspace=build_workspace,
         debug_script=debug_script,
-        source_goal_version=source_goal_version,
         timeout_seconds=timeout_seconds,
         overlays=overlays,
-        reuse_existing_build=reuse_existing_build,
         current_case_anchor=current_case_anchor,
-        _reuse_dune_snapshot=_reuse_dune_snapshot,
     )
 
 

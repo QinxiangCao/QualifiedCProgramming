@@ -109,7 +109,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (matrix_pre: Z) (X
 Definition dfs_adjacency_matrix_2Darray_entail_wit_1 := 
 (
 forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (matrix_pre: Z) (X_low_level_spec: (unit -> ((Z -> Prop) -> Prop))) (visited_set_low_level_spec: (Z -> Prop)) (rows_low_level_spec: (@list (@list Z))) (g_low_level_spec: G) (PreH1 : (vertex_count_pre = (ZSimpleGraph.vertex_count (g_low_level_spec)))) (PreH2 : (0 < vertex_count_pre)) (PreH3 : (vertex_count_pre < INT_MAX)) (PreH4 : (ZSimpleGraph.vertex_valid g_low_level_spec vertex_pre )) (PreH5 : (safeExec (eq (visited_set_low_level_spec)) (DFSAdjacencyMatrix2Darray.dfs_program (g_low_level_spec) (vertex_pre)) X_low_level_spec )) ,
-  (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre g_low_level_spec rows_low_level_spec )
+  (DFSAdjacencyMatrix2Darray.store_graph matrix_pre g_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyMatrix2Darray.visited visited_pre g_low_level_spec visited_set_low_level_spec )
 |--
   EX (values: (@list Z)) ,
@@ -128,7 +128,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (matrix_pre: Z) (X
 ) \/
 (
 forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (matrix_pre: Z) (X_low_level_spec: (unit -> ((Z -> Prop) -> Prop))) (visited_set_low_level_spec: (Z -> Prop)) (rows_low_level_spec: (@list (@list Z))) (g_low_level_spec: G) (PreH1 : (vertex_count_pre = (ZSimpleGraph.vertex_count (g_low_level_spec)))) (PreH2 : (0 < vertex_count_pre)) (PreH3 : (vertex_count_pre < INT_MAX)) (PreH4 : (ZSimpleGraph.vertex_valid g_low_level_spec vertex_pre )) (PreH5 : (safeExec (eq (visited_set_low_level_spec)) (DFSAdjacencyMatrix2Darray.dfs_program (g_low_level_spec) (vertex_pre)) X_low_level_spec )) ,
-  (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre g_low_level_spec rows_low_level_spec )
+  (DFSAdjacencyMatrix2Darray.store_graph matrix_pre g_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyMatrix2Darray.visited visited_pre g_low_level_spec visited_set_low_level_spec )
 |--
   EX (values: (@list Z)) ,
@@ -308,7 +308,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (matrix_pre: Z) (X
   &&  “ (DFSAdjacencyMatrix2Darray.processed_neighbors g_low_level_spec vertex_pre neighbor call_visited_set ) ” 
   &&  “ (DFSAdjacencyMatrix2Darray.visited_extension visited_set_low_level_spec call_visited_set ) ” 
   &&  “ (safeExec (eq (call_visited_set)) (bind ((DFSAdjacencyMatrix2Darray.dfs_program (g_low_level_spec) (neighbor))) ((DFSAdjacencyMatrix2Darray.dfs_continue (g_low_level_spec) (vertex_pre)))) X_low_level_spec ) ”
-  &&  (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre g_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyMatrix2Darray.store_graph matrix_pre g_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyMatrix2Darray.visited visited_pre g_low_level_spec call_visited_set )
 ) \/
 (
@@ -334,14 +334,14 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (matrix_pre: Z) (X
   &&  “ (DFSAdjacencyMatrix2Darray.processed_neighbors g_low_level_spec vertex_pre neighbor call_visited_set ) ” 
   &&  “ (DFSAdjacencyMatrix2Darray.visited_extension visited_set_low_level_spec call_visited_set ) ” 
   &&  “ (safeExec (eq (call_visited_set)) (bind ((DFSAdjacencyMatrix2Darray.dfs_program (g_low_level_spec) (neighbor))) ((DFSAdjacencyMatrix2Darray.dfs_continue (g_low_level_spec) (vertex_pre)))) X_low_level_spec ) ”
-  &&  (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre g_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyMatrix2Darray.store_graph matrix_pre g_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyMatrix2Darray.visited visited_pre g_low_level_spec call_visited_set )
 ).
 
 Definition dfs_adjacency_matrix_2Darray_entail_wit_6_1 := 
 (
 forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (matrix_pre: Z) (X_low_level_spec: (unit -> ((Z -> Prop) -> Prop))) (visited_set_low_level_spec: (Z -> Prop)) (rows_low_level_spec: (@list (@list Z))) (g_low_level_spec: G) (neighbor: Z) (edge_exists: Z) (call_visited_set: (Z -> Prop)) (bind_visited_set: (Z -> Prop)) (PreH1 : (DFSAdjacencyMatrix2Darray.visited_extension call_visited_set bind_visited_set )) (PreH2 : (bind_visited_set neighbor )) (PreH3 : (safeExec (eq (bind_visited_set)) (applyf ((DFSAdjacencyMatrix2Darray.dfs_continue (g_low_level_spec) (vertex_pre))) (tt)) X_low_level_spec )) (PreH4 : (vertex_count_pre = (ZSimpleGraph.vertex_count (g_low_level_spec)))) (PreH5 : (0 < vertex_count_pre)) (PreH6 : (vertex_count_pre < INT_MAX)) (PreH7 : (0 <= vertex_pre)) (PreH8 : (vertex_pre < vertex_count_pre)) (PreH9 : (0 <= neighbor)) (PreH10 : (neighbor < vertex_count_pre)) (PreH11 : (edge_exists = (Znth (neighbor) ((Znth (vertex_pre) (rows_low_level_spec) ((@nil Z)))) (0)))) (PreH12 : (ZSimpleGraph.vertex_valid g_low_level_spec vertex_pre )) (PreH13 : (ZSimpleGraph.vertex_valid g_low_level_spec neighbor )) (PreH14 : (ZSimpleGraph.graph_step g_low_level_spec vertex_pre neighbor )) (PreH15 : ~((call_visited_set neighbor ))) (PreH16 : (DFSAdjacencyMatrix2Darray.adjacency_matrix_model g_low_level_spec rows_low_level_spec )) (PreH17 : ((Zlength ((Znth (vertex_pre) (rows_low_level_spec) ((@nil Z))))) = vertex_count_pre)) (PreH18 : (DFSAdjacencyMatrix2Darray.processed_neighbors g_low_level_spec vertex_pre neighbor call_visited_set )) (PreH19 : (DFSAdjacencyMatrix2Darray.visited_extension visited_set_low_level_spec call_visited_set )) ,
-  (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre g_low_level_spec rows_low_level_spec )
+  (DFSAdjacencyMatrix2Darray.store_graph matrix_pre g_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyMatrix2Darray.visited visited_pre g_low_level_spec bind_visited_set )
 |--
   EX (values2: (@list Z))  (visited_set2: (Z -> Prop)) ,
@@ -365,7 +365,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (matrix_pre: Z) (X
 ) \/
 (
 forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (matrix_pre: Z) (X_low_level_spec: (unit -> ((Z -> Prop) -> Prop))) (visited_set_low_level_spec: (Z -> Prop)) (rows_low_level_spec: (@list (@list Z))) (g_low_level_spec: G) (neighbor: Z) (edge_exists: Z) (call_visited_set: (Z -> Prop)) (bind_visited_set: (Z -> Prop)) (PreH1 : (DFSAdjacencyMatrix2Darray.visited_extension call_visited_set bind_visited_set )) (PreH2 : (bind_visited_set neighbor )) (PreH3 : (safeExec (eq (bind_visited_set)) (applyf ((DFSAdjacencyMatrix2Darray.dfs_continue (g_low_level_spec) (vertex_pre))) (tt)) X_low_level_spec )) (PreH4 : (vertex_count_pre = (ZSimpleGraph.vertex_count (g_low_level_spec)))) (PreH5 : (0 < vertex_count_pre)) (PreH6 : (vertex_count_pre < INT_MAX)) (PreH7 : (0 <= vertex_pre)) (PreH8 : (vertex_pre < vertex_count_pre)) (PreH9 : (0 <= neighbor)) (PreH10 : (neighbor < vertex_count_pre)) (PreH11 : (edge_exists = (Znth (neighbor) ((Znth (vertex_pre) (rows_low_level_spec) ((@nil Z)))) (0)))) (PreH12 : (ZSimpleGraph.vertex_valid g_low_level_spec vertex_pre )) (PreH13 : (ZSimpleGraph.vertex_valid g_low_level_spec neighbor )) (PreH14 : (ZSimpleGraph.graph_step g_low_level_spec vertex_pre neighbor )) (PreH15 : ~((call_visited_set neighbor ))) (PreH16 : (DFSAdjacencyMatrix2Darray.adjacency_matrix_model g_low_level_spec rows_low_level_spec )) (PreH17 : ((Zlength ((Znth (vertex_pre) (rows_low_level_spec) ((@nil Z))))) = vertex_count_pre)) (PreH18 : (DFSAdjacencyMatrix2Darray.processed_neighbors g_low_level_spec vertex_pre neighbor call_visited_set )) (PreH19 : (DFSAdjacencyMatrix2Darray.visited_extension visited_set_low_level_spec call_visited_set )) ,
-  (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre g_low_level_spec rows_low_level_spec )
+  (DFSAdjacencyMatrix2Darray.store_graph matrix_pre g_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyMatrix2Darray.visited visited_pre g_low_level_spec bind_visited_set )
 |--
   EX (values2: (@list Z))  (visited_set2: (Z -> Prop)) ,
@@ -510,7 +510,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (matrix_pre: Z) (X
   “ (DFSAdjacencyMatrix2Darray.visited_extension visited_set_low_level_spec visited_set_out ) ” 
   &&  “ (visited_set_out vertex_pre ) ” 
   &&  “ (safeExec (eq (visited_set_out)) (return (tt)) X_low_level_spec ) ”
-  &&  (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre g_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyMatrix2Darray.store_graph matrix_pre g_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyMatrix2Darray.visited visited_pre g_low_level_spec visited_set_out )
 ) \/
 (
@@ -522,21 +522,21 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (matrix_pre: Z) (X
   “ (DFSAdjacencyMatrix2Darray.visited_extension visited_set_low_level_spec visited_set_out ) ” 
   &&  “ (visited_set_out vertex_pre ) ” 
   &&  “ (safeExec (eq (visited_set_out)) (return (tt)) X_low_level_spec ) ”
-  &&  (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre g_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyMatrix2Darray.store_graph matrix_pre g_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyMatrix2Darray.visited visited_pre g_low_level_spec visited_set_out )
 ).
 
 Definition dfs_adjacency_matrix_2Darray_return_wit_1 := 
 (
 forall (vertex_pre: Z) (visited_pre: Z) (matrix_pre: Z) (X_low_level_spec: (unit -> ((Z -> Prop) -> Prop))) (visited_set_low_level_spec: (Z -> Prop)) (rows_low_level_spec: (@list (@list Z))) (g_low_level_spec: G) (visited_set_out: (Z -> Prop)) (PreH1 : (DFSAdjacencyMatrix2Darray.visited_extension visited_set_low_level_spec visited_set_out )) (PreH2 : (visited_set_out vertex_pre )) (PreH3 : (safeExec (eq (visited_set_out)) (return (tt)) X_low_level_spec )) ,
-  (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre g_low_level_spec rows_low_level_spec )
+  (DFSAdjacencyMatrix2Darray.store_graph matrix_pre g_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyMatrix2Darray.visited visited_pre g_low_level_spec visited_set_out )
 |--
   EX (low_visited_set: (Z -> Prop)) ,
   “ (DFSAdjacencyMatrix2Darray.visited_extension visited_set_low_level_spec low_visited_set ) ” 
   &&  “ (low_visited_set vertex_pre ) ” 
   &&  “ (safeExec (eq (low_visited_set)) (return (tt)) X_low_level_spec ) ”
-  &&  (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre g_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyMatrix2Darray.store_graph matrix_pre g_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyMatrix2Darray.visited visited_pre g_low_level_spec low_visited_set )
 ) \/
 (
@@ -630,7 +630,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (matrix_pre: Z) (X
   **  ((( &( "vertex" ) )) # Int  |-> vertex_pre)
   **  ((( &( "neighbor" ) )) # Int  |-> neighbor)
   **  ((( &( "edge_exists" ) )) # Int  |-> edge_exists)
-  **  (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre g_low_level_spec rows_low_level_spec )
+  **  (DFSAdjacencyMatrix2Darray.store_graph matrix_pre g_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyMatrix2Darray.visited visited_pre g_low_level_spec call_visited_set )
 |--
   “ (vertex_count_pre = (ZSimpleGraph.vertex_count (g_low_level_spec))) ” 
@@ -642,7 +642,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (matrix_pre: Z) (X
 
 Definition dfs_adjacency_matrix_2Darray_partial_solve_wit_4_aux := 
 forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (matrix_pre: Z) (X_low_level_spec: (unit -> ((Z -> Prop) -> Prop))) (visited_set_low_level_spec: (Z -> Prop)) (rows_low_level_spec: (@list (@list Z))) (g_low_level_spec: G) (neighbor: Z) (edge_exists: Z) (call_visited_set: (Z -> Prop)) (PreH1 : (vertex_count_pre = (ZSimpleGraph.vertex_count (g_low_level_spec)))) (PreH2 : (0 < vertex_count_pre)) (PreH3 : (vertex_count_pre < INT_MAX)) (PreH4 : (0 <= vertex_pre)) (PreH5 : (vertex_pre < vertex_count_pre)) (PreH6 : (0 <= neighbor)) (PreH7 : (neighbor < vertex_count_pre)) (PreH8 : (edge_exists = (Znth (neighbor) ((Znth (vertex_pre) (rows_low_level_spec) ((@nil Z)))) (0)))) (PreH9 : (ZSimpleGraph.vertex_valid g_low_level_spec vertex_pre )) (PreH10 : (ZSimpleGraph.vertex_valid g_low_level_spec neighbor )) (PreH11 : (ZSimpleGraph.graph_step g_low_level_spec vertex_pre neighbor )) (PreH12 : ~((call_visited_set neighbor ))) (PreH13 : (DFSAdjacencyMatrix2Darray.adjacency_matrix_model g_low_level_spec rows_low_level_spec )) (PreH14 : ((Zlength ((Znth (vertex_pre) (rows_low_level_spec) ((@nil Z))))) = vertex_count_pre)) (PreH15 : (DFSAdjacencyMatrix2Darray.processed_neighbors g_low_level_spec vertex_pre neighbor call_visited_set )) (PreH16 : (DFSAdjacencyMatrix2Darray.visited_extension visited_set_low_level_spec call_visited_set )) (PreH17 : (safeExec (eq (call_visited_set)) (bind ((DFSAdjacencyMatrix2Darray.dfs_program (g_low_level_spec) (neighbor))) ((DFSAdjacencyMatrix2Darray.dfs_continue (g_low_level_spec) (vertex_pre)))) X_low_level_spec )) ,
-  (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre g_low_level_spec rows_low_level_spec )
+  (DFSAdjacencyMatrix2Darray.store_graph matrix_pre g_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyMatrix2Darray.visited visited_pre g_low_level_spec call_visited_set )
 |--
   “ (vertex_count_pre = (ZSimpleGraph.vertex_count (g_low_level_spec))) ” 
@@ -667,7 +667,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (matrix_pre: Z) (X
   &&  “ (DFSAdjacencyMatrix2Darray.processed_neighbors g_low_level_spec vertex_pre neighbor call_visited_set ) ” 
   &&  “ (DFSAdjacencyMatrix2Darray.visited_extension visited_set_low_level_spec call_visited_set ) ” 
   &&  “ (safeExec (eq (call_visited_set)) (bind ((DFSAdjacencyMatrix2Darray.dfs_program (g_low_level_spec) (neighbor))) ((DFSAdjacencyMatrix2Darray.dfs_continue (g_low_level_spec) (vertex_pre)))) X_low_level_spec ) ”
-  &&  (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre g_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyMatrix2Darray.store_graph matrix_pre g_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyMatrix2Darray.visited visited_pre g_low_level_spec call_visited_set )
 .
 
@@ -681,7 +681,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (matrix_pre: Z) (X
   &&  “ (vertex_count_pre < INT_MAX) ” 
   &&  “ (ZSimpleGraph.vertex_valid g_bind_spec vertex_pre ) ” 
   &&  “ (safeExec (eq (visited_set_bind_spec)) (bind ((DFSAdjacencyMatrix2Darray.dfs_program (g_bind_spec) (vertex_pre))) (c_bind_spec)) X_bind_spec ) ”
-  &&  (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre g_bind_spec rows_bind_spec )
+  &&  (DFSAdjacencyMatrix2Darray.store_graph matrix_pre g_bind_spec rows_bind_spec )
   **  (DFSAdjacencyMatrix2Darray.visited visited_pre g_bind_spec visited_set_bind_spec )
 |--
 EX (g_low_level_spec: G) (rows_low_level_spec: (@list (@list Z))) (visited_set_low_level_spec: (Z -> Prop)) (X_low_level_spec: (unit -> ((Z -> Prop) -> Prop))) ,
@@ -690,21 +690,21 @@ EX (g_low_level_spec: G) (rows_low_level_spec: (@list (@list Z))) (visited_set_l
   &&  “ (vertex_count_pre < INT_MAX) ” 
   &&  “ (ZSimpleGraph.vertex_valid g_low_level_spec vertex_pre ) ” 
   &&  “ (safeExec (eq (visited_set_low_level_spec)) (DFSAdjacencyMatrix2Darray.dfs_program (g_low_level_spec) (vertex_pre)) X_low_level_spec ) ”
-  &&  (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre g_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyMatrix2Darray.store_graph matrix_pre g_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyMatrix2Darray.visited visited_pre g_low_level_spec visited_set_low_level_spec ))
   **
   ((EX low_visited_set,
   “ (DFSAdjacencyMatrix2Darray.visited_extension visited_set_low_level_spec low_visited_set ) ” 
   &&  “ (low_visited_set vertex_pre ) ” 
   &&  “ (safeExec (eq (low_visited_set)) (return (tt)) X_low_level_spec ) ”
-  &&  (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre g_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyMatrix2Darray.store_graph matrix_pre g_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyMatrix2Darray.visited visited_pre g_low_level_spec low_visited_set ))
   -*
   (EX bind_visited_set,
   “ (DFSAdjacencyMatrix2Darray.visited_extension visited_set_bind_spec bind_visited_set ) ” 
   &&  “ (bind_visited_set vertex_pre ) ” 
   &&  “ (safeExec (eq (bind_visited_set)) (applyf (c_bind_spec) (tt)) X_bind_spec ) ”
-  &&  (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre g_bind_spec rows_bind_spec )
+  &&  (DFSAdjacencyMatrix2Darray.store_graph matrix_pre g_bind_spec rows_bind_spec )
   **  (DFSAdjacencyMatrix2Darray.visited visited_pre g_bind_spec bind_visited_set )))
 .
 
@@ -724,14 +724,14 @@ EX (g_low_level_spec: G) (rows_low_level_spec: (@list (@list Z))) (visited_set_l
   &&  “ (vertex_count_pre < INT_MAX) ” 
   &&  “ (ZSimpleGraph.vertex_valid g_low_level_spec vertex_pre ) ” 
   &&  “ (safeExec (eq (visited_set_low_level_spec)) (DFSAdjacencyMatrix2Darray.dfs_program (g_low_level_spec) (vertex_pre)) X_low_level_spec ) ”
-  &&  (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre g_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyMatrix2Darray.store_graph matrix_pre g_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyMatrix2Darray.visited visited_pre g_low_level_spec visited_set_low_level_spec ))
   **
   ((EX low_visited_set,
   “ (DFSAdjacencyMatrix2Darray.visited_extension visited_set_low_level_spec low_visited_set ) ” 
   &&  “ (low_visited_set vertex_pre ) ” 
   &&  “ (safeExec (eq (low_visited_set)) (return (tt)) X_low_level_spec ) ”
-  &&  (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre g_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyMatrix2Darray.store_graph matrix_pre g_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyMatrix2Darray.visited visited_pre g_low_level_spec low_visited_set ))
   -*
   (EX high_visited_set,

@@ -174,7 +174,7 @@ def freeze_round_public_helper_snapshot(
 
 
 def allowed_public_helper_blocks(path: Path) -> dict[str, set[str]]:
-    """Return declaration/proof-token digests allowed for public reuse."""
+    """Return declaration/proof-token digests from the public helper snapshot."""
 
     snapshot = public_helper_pool_snapshot(path)
     allowed: dict[str, set[str]] = {}

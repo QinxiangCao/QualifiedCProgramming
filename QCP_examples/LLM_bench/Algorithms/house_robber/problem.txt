@@ -1,5 +1,0 @@
-LeetCode 198. House Robber
-
-Given a list of non-negative integers nums, return the maximum amount that can
-be robbed without robbing two adjacent houses.  The C implementation should use
-the standard two-variable dynamic-programming update.

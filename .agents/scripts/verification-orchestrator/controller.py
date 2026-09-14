@@ -73,7 +73,6 @@ def coq_check(args: Any) -> int:
 def coq_debug(args: Any) -> int:
     return _controller_tools.coq_debug(
         args,
-        coq_check_runner=run_coqc_check,
         coq_debug_runner=run_coqtop_debug,
     )
 

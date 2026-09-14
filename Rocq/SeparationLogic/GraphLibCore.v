@@ -108,54 +108,54 @@ Definition matrix_rep
     : Assertion :=
   CellArray2.full matrix size size rows.
 
-Definition graph_rep
+Definition store_graph
     (size : Z)
     (model : list (list A) -> Prop)
     (matrix : addr) (rows : list (list A))
     : Assertion :=
   “ model rows ” && matrix_rep size matrix rows.
 
-Lemma graph_rep_elim_matrix :
+Lemma store_graph_elim_matrix :
   forall size model matrix rows,
-    graph_rep size model matrix rows
+    store_graph size model matrix rows
     |-- “ model rows ” && matrix_rep size matrix rows.
 Proof.
   intros.
-  unfold graph_rep.
+  unfold store_graph.
   normalize.
   cancel.
 Qed.
 
-Lemma graph_rep_elim :
+Lemma store_graph_elim :
   forall size model matrix rows,
-    graph_rep size model matrix rows
+    store_graph size model matrix rows
     |-- “ model rows ” && CellArray2.full matrix size size rows.
 Proof.
   intros.
-  unfold graph_rep, matrix_rep.
+  unfold store_graph, matrix_rep.
   normalize.
   cancel.
 Qed.
 
-Lemma graph_rep_model :
+Lemma store_graph_model :
   forall size model matrix rows,
-    graph_rep size model matrix rows |-- “ model rows ”.
+    store_graph size model matrix rows |-- “ model rows ”.
 Proof.
   intros.
-  unfold graph_rep.
+  unfold store_graph.
   Intros_p Hmodel.
   dump_pre_spatial.
   exact Hmodel.
 Qed.
 
-Lemma graph_rep_intro_matrix :
+Lemma store_graph_intro_matrix :
   forall size model matrix rows,
     model rows ->
     matrix_rep size matrix rows
-    |-- graph_rep size model matrix rows.
+    |-- store_graph size model matrix rows.
 Proof.
   intros size model matrix rows Hmodel.
-  unfold graph_rep.
+  unfold store_graph.
   normalize.
   split_pure_spatial.
   - cancel.
@@ -163,14 +163,14 @@ Proof.
     exact Hmodel.
 Qed.
 
-Lemma graph_rep_intro :
+Lemma store_graph_intro :
   forall size model matrix rows,
     model rows ->
     CellArray2.full matrix size size rows
-    |-- graph_rep size model matrix rows.
+    |-- store_graph size model matrix rows.
 Proof.
   intros size model matrix rows Hmodel.
-  unfold graph_rep, matrix_rep.
+  unfold store_graph, matrix_rep.
   normalize.
   split_pure_spatial.
   - cancel.
@@ -190,54 +190,54 @@ Definition matrix_rep
     : Assertion :=
   CellPtrArray2.full matrix row_count rows.
 
-Definition graph_rep
+Definition store_graph
     (row_count : Z)
     (model : list (list A) -> Prop)
     (matrix : addr) (rows : list (list A))
     : Assertion :=
   “ model rows ” && matrix_rep row_count matrix rows.
 
-Lemma graph_rep_elim_matrix :
+Lemma store_graph_elim_matrix :
   forall row_count model matrix rows,
-    graph_rep row_count model matrix rows
+    store_graph row_count model matrix rows
     |-- “ model rows ” && matrix_rep row_count matrix rows.
 Proof.
   intros.
-  unfold graph_rep.
+  unfold store_graph.
   normalize.
   cancel.
 Qed.
 
-Lemma graph_rep_elim :
+Lemma store_graph_elim :
   forall row_count model matrix rows,
-    graph_rep row_count model matrix rows
+    store_graph row_count model matrix rows
     |-- “ model rows ” && CellPtrArray2.full matrix row_count rows.
 Proof.
   intros.
-  unfold graph_rep, matrix_rep.
+  unfold store_graph, matrix_rep.
   normalize.
   cancel.
 Qed.
 
-Lemma graph_rep_model :
+Lemma store_graph_model :
   forall row_count model matrix rows,
-    graph_rep row_count model matrix rows |-- “ model rows ”.
+    store_graph row_count model matrix rows |-- “ model rows ”.
 Proof.
   intros.
-  unfold graph_rep.
+  unfold store_graph.
   Intros_p Hmodel.
   dump_pre_spatial.
   exact Hmodel.
 Qed.
 
-Lemma graph_rep_intro_matrix :
+Lemma store_graph_intro_matrix :
   forall row_count model matrix rows,
     model rows ->
     matrix_rep row_count matrix rows
-    |-- graph_rep row_count model matrix rows.
+    |-- store_graph row_count model matrix rows.
 Proof.
   intros row_count model matrix rows Hmodel.
-  unfold graph_rep.
+  unfold store_graph.
   normalize.
   split_pure_spatial.
   - cancel.
@@ -245,14 +245,14 @@ Proof.
     exact Hmodel.
 Qed.
 
-Lemma graph_rep_intro :
+Lemma store_graph_intro :
   forall row_count model matrix rows,
     model rows ->
     CellPtrArray2.full matrix row_count rows
-    |-- graph_rep row_count model matrix rows.
+    |-- store_graph row_count model matrix rows.
 Proof.
   intros row_count model matrix rows Hmodel.
-  unfold graph_rep, matrix_rep.
+  unfold store_graph, matrix_rep.
   normalize.
   split_pure_spatial.
   - cancel.

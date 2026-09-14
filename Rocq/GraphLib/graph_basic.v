@@ -11,7 +11,7 @@ Class Graph (G V E: Type) := {
   evalid : G -> E -> Prop;
   step_aux : G -> E -> V -> V -> Prop;
 }.
-
+ 
 Class GValid (G: Type) :=
   gvalid : G -> Prop.
 

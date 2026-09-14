@@ -1,0 +1,9 @@
+; Shared representation-independent SAT/CDCL semantics, split out of
+; SimpleC.Common (2026-08-25).
+; - root _CoqProject: -R Rocq/cdcllib CDCLLib
+; - Rocq/_CoqProject: -R cdcllib CDCLLib
+(coq.theory
+ (name CDCLLib)
+ (theories ListLib))
+
+(include_subdirs qualified)

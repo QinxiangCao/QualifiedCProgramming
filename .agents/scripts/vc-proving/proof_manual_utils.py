@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import json
 import re
 from collections.abc import Collection, Iterable, Mapping
 from pathlib import Path
@@ -23,10 +22,6 @@ ADMITTED_RE = re.compile(r"\bAdmitted\s*\.")
 ABORT_RE = re.compile(r"\bAbort\s*\.")
 SPLIT_GOAL_NAME_RE = re.compile(
     r"^(?P<witness>[A-Za-z0-9_']+)_split_goal_(?P<label>[A-Za-z0-9_']+)$"
-)
-SIMPLE_TARGET_RE = re.compile(
-    rf"^\s*(?:{LEMMA_KEYWORDS})\s+([A-Za-z0-9_']+)\s*:\s*([A-Za-z0-9_']+)\s*\.\s*$",
-    re.DOTALL,
 )
 CASE_LIB_DECL_RE = re.compile(
     r"^\s*(?:(Require\s+Import\b|From\s+[A-Za-z0-9_.]+\s+Require\s+Import\b)|"
@@ -103,26 +98,6 @@ TOP_LEVEL_DECLARATION_KINDS = {
     "Scheme",
     "Goal",
 }
-# Case-lib declaration kinds whose introduced names can be determined exactly, so the
-# declaration can be bound per goal instead of globally.  Everything else in the lib
-# (Notation, Instance, Class, Hint, Ltac, Module/Section, Require/Import/Set, Record, ...)
-# can change how unrelated goals elaborate and therefore stays in the global environment.
-LIB_SINGLE_NAME_KINDS = {
-    "Lemma",
-    "Theorem",
-    "Proposition",
-    "Corollary",
-    "Example",
-    "Fact",
-    "Remark",
-    "Definition",
-    "Let",
-}
-LIB_FIXPOINT_KINDS = {"Fixpoint", "CoFixpoint"}
-LIB_INDUCTIVE_KINDS = {"Inductive", "CoInductive"}
-MUTUAL_WITH_RE = re.compile(r"\bwith\s+([A-Za-z_][A-Za-z0-9_']*)")
-CONSTRUCTOR_RE = re.compile(r"\|\s*([A-Za-z_][A-Za-z0-9_']*)\s*:(?!=)")
-
 UNCONDITIONAL_ASSUMPTION_KINDS = {
     "Axiom",
     "Axioms",
@@ -442,241 +417,6 @@ def top_level_declarations(text: str) -> list[dict[str, Any]]:
     ]
 
 
-def _strip_match_blocks(text: str) -> str | None:
-    """Remove balanced ``match ... end`` spans so pattern `with` is not mistaken for a
-    mutual-definition `with`.  Returns None when the block structure is unbalanced."""
-
-    tokens = list(re.finditer(r"\b(match|end)\b", text))
-    if not tokens:
-        return text
-    out: list[str] = []
-    depth = 0
-    cursor = 0
-    for token in tokens:
-        if token.group(1) == "match":
-            if depth == 0:
-                out.append(text[cursor : token.start()])
-            depth += 1
-        else:
-            if depth == 0:
-                return None
-            depth -= 1
-            if depth == 0:
-                cursor = token.end()
-    if depth != 0:
-        return None
-    out.append(text[cursor:])
-    return " ".join(out)
-
-
-def lib_declaration_names(kind: str, name: str, command: str) -> set[str] | None:
-    """Every name a case-lib command introduces, or None when that cannot be determined.
-
-    Returning None makes the caller treat the command as ambient, which is conservative:
-    an ambient command is bound into the global environment hash instead.
-    """
-
-    if not name:
-        return None
-    if kind in LIB_SINGLE_NAME_KINDS:
-        return {name}
-    if kind in LIB_FIXPOINT_KINDS or kind in LIB_INDUCTIVE_KINDS:
-        outside = _strip_match_blocks(command)
-        if outside is None:
-            return None
-        names = {name} | set(MUTUAL_WITH_RE.findall(outside))
-        if kind in LIB_INDUCTIVE_KINDS:
-            if ":=" not in command:
-                return None
-            names |= set(CONSTRUCTOR_RE.findall(command))
-        return names
-    return None
-
-
-def split_formal_case_lib(text: str) -> tuple[dict[str, str], list[str], bool]:
-    """Split a case lib into name-addressable declarations and ambient commands.
-
-    Returns ``(declarations, ambient_commands, isolated)``.  ``isolated`` is False only when
-    the lib cannot be parsed at all, in which case callers bind the whole lib text.  A name
-    introduced more than once maps to all of its commands, so shadowing still changes the
-    hash.
-    """
-
-    if not text.strip():
-        return {}, [], True
-    try:
-        commands = top_level_commands(text)
-    except Exception:
-        return {}, [], False
-    grouped: dict[str, list[str]] = {}
-    ambient: list[str] = []
-    for command in commands:
-        kind = str(command["kind"])
-        semantic_command = str(command["semantic_command"])
-        names = lib_declaration_names(kind, str(command["name"]), semantic_command)
-        if names is None:
-            ambient.append(semantic_command)
-            continue
-        for introduced in names:
-            grouped.setdefault(introduced, []).append(semantic_command)
-    declarations = {
-        introduced: "\n".join(sorted(commands_for))
-        for introduced, commands_for in grouped.items()
-    }
-    return declarations, ambient, True
-
-
-def goal_definition_hashes(
-    text: str, *, formal_case_lib_text: str = ""
-) -> dict[str, str]:
-    """Fingerprint generated goals with their local-definition dependency closure.
-
-    A target fingerprint intentionally ignores its own declared name, but binds
-    the non-definition module environment, the current formal-case lib, and all
-    locally referenced generated definitions.  If a target cannot be resolved,
-    callers can use ``__whole_goal_file__`` as a conservative fallback.
-    """
-
-    commands = top_level_commands(text)
-    definitions: dict[str, str] = {}
-    environment_commands: list[str] = []
-    for command in commands:
-        kind = str(command["kind"])
-        name = str(command["name"])
-        semantic_command = str(command["semantic_command"])
-        if kind != "Definition":
-            environment_commands.append(semantic_command)
-            continue
-        if name in definitions:
-            raise ValueError(f"duplicate generated goal definition: {name}")
-        definitions[name] = semantic_command
-
-    lib_definitions, lib_ambient, lib_isolated = split_formal_case_lib(
-        formal_case_lib_text
-    )
-    if lib_isolated:
-        lib_environment_text = "".join(lib_ambient)
-    else:
-        lib_definitions = {}
-        lib_environment_text = normalize_coq_text(formal_case_lib_text)
-
-    environment_hash = sha256_text(
-        (
-            "".join(environment_commands)
-            + "\n--FORMAL-CASE-LIB--\n"
-            + lib_environment_text
-        )
-    )
-    whole_hash = sha256_text(
-        (
-            normalize_coq_text(text)
-            + "\n--FORMAL-CASE-LIB--\n"
-            + normalize_coq_text(formal_case_lib_text)
-        )
-    )
-    identifier_re = re.compile(r"\b[A-Za-z_][A-Za-z0-9_']*\b")
-
-    lib_dependencies_of = {
-        name: sorted(
-            {
-                token
-                for token in identifier_re.findall(command)
-                if token in lib_definitions and token != name
-            }
-        )
-        for name, command in lib_definitions.items()
-    }
-    lib_resolved: dict[str, str] = {}
-    lib_visiting: set[str] = set()
-
-    def resolve_lib(name: str) -> str:
-        if name in lib_resolved:
-            return lib_resolved[name]
-        if name in lib_visiting:
-            return sha256_text("__formal_case_lib_cycle__:" + name)
-        lib_visiting.add(name)
-        payload = {
-            "command": lib_definitions[name],
-            "dependencies": [
-                {"name": dependency, "hash": resolve_lib(dependency)}
-                for dependency in lib_dependencies_of[name]
-            ],
-        }
-        lib_visiting.discard(name)
-        lib_resolved[name] = sha256_text(
-            json.dumps(payload, sort_keys=True, separators=(",", ":"))
-        )
-        return lib_resolved[name]
-
-    for lib_name in lib_definitions:
-        resolve_lib(lib_name)
-
-    lib_uses = {
-        name: sorted(
-            {
-                token
-                for token in identifier_re.findall(command)
-                if token in lib_definitions
-            }
-        )
-        for name, command in definitions.items()
-    }
-    dependencies = {
-        name: sorted(
-            {
-                token
-                for token in identifier_re.findall(command)
-                if token in definitions and token != name
-            }
-        )
-        for name, command in definitions.items()
-    }
-    resolved: dict[str, str] = {}
-    visiting: set[str] = set()
-
-    def resolve(name: str) -> str:
-        if name in resolved:
-            return resolved[name]
-        if name in visiting:
-            return whole_hash
-        visiting.add(name)
-        payload = {
-            "command": definitions[name],
-            "environment_hash": environment_hash,
-            "dependencies": [
-                {"name": dependency, "hash": resolve(dependency)}
-                for dependency in dependencies[name]
-            ],
-            "lib_dependencies": [
-                {"name": lib_name, "hash": lib_resolved[lib_name]}
-                for lib_name in lib_uses[name]
-            ],
-        }
-        visiting.remove(name)
-        resolved[name] = sha256_text(
-            json.dumps(payload, sort_keys=True, separators=(",", ":"))
-        )
-        return resolved[name]
-
-    for name in definitions:
-        resolve(name)
-    resolved["__whole_goal_file__"] = whole_hash
-    return resolved
-
-
-def goal_semantic_hash_for_lemma(
-    lemma: dict[str, Any], definitions: dict[str, str]
-) -> str:
-    """Bind a manual wrapper to its generated goal definition or safe fallback."""
-
-    target_symbol = lemma_target_symbol(lemma)
-    if target_symbol is not None and target_symbol in definitions:
-        return definitions[target_symbol]
-    return sha256_text(
-        definitions["__whole_goal_file__"] + ":" + lemma_statement_hash(lemma)
-    )
-
-
 def forbidden_top_level_declarations(
     text: str, kinds: set[str]
 ) -> list[dict[str, Any]]:
@@ -792,158 +532,6 @@ def coq_token_digest(text: str) -> str:
     return sha256_text(coq_token_text(text))
 
 
-def show_command_count(text: str) -> int:
-    """Count executable standalone `Show.` commands outside comments/strings."""
-
-    return sum(
-        re.fullmatch(r"\s*Show\s*\.", command) is not None
-        for command, _offset in _coq_commands(text)
-    )
-
-
-def markdown_table_cells(line: str) -> list[str]:
-    """Split one Markdown table row while respecting code/escaped pipes."""
-
-    stripped = line.strip()
-    if not (stripped.startswith("|") and stripped.endswith("|")):
-        return []
-    cells: list[str] = []
-    current: list[str] = []
-    in_code = False
-    escaped = False
-    for char in stripped[1:-1]:
-        if escaped:
-            current.append(char)
-            escaped = False
-            continue
-        if char == "\\":
-            escaped = True
-            continue
-        if char == "`":
-            in_code = not in_code
-            current.append(char)
-            continue
-        if char == "|" and not in_code:
-            cells.append(_markdown_table_cell("".join(current)))
-            current = []
-            continue
-        current.append(char)
-    if escaped:
-        current.append("\\")
-    cells.append(_markdown_table_cell("".join(current)))
-    return cells
-
-
-def _markdown_table_cell(value: str) -> str:
-    cell = value.strip()
-    if len(cell) >= 2 and cell.startswith("`") and cell.endswith("`"):
-        return cell[1:-1].strip()
-    return cell
-
-
-def normalize_reuse_decision(value: str) -> str:
-    return " ".join(value.lower().split())
-
-
-def shown_goal_targets(text: str) -> list[str]:
-    """Return fully qualified targets from strict debug inspection blocks."""
-
-    _errors, shown = debug_goal_show_contract(text)
-    return shown
-
-
-def debug_goal_show_contract(text: str) -> tuple[list[str], list[str]]:
-    """Validate imports and Goal/Show/.../Abort proof-reuse debug blocks."""
-
-    commands = [command.strip() for command, _offset in _coq_commands(text)]
-    harmless = re.compile(
-        r"(?:"
-        r"From\s+[A-Za-z0-9_.]+\s+Require\s+Import\s+[A-Za-z0-9_'.\s]+|"
-        r"Require\s+Import\s+[A-Za-z0-9_'.\s]+|"
-        r"Import\s+[A-Za-z0-9_'.\s]+|"
-        r"(?:Local\s+)?Open\s+Scope\s+[A-Za-z0-9_']+|"
-        r"Set\s+Printing\s+All"
-        r")\s*\.",
-        flags=re.DOTALL,
-    )
-    goal = re.compile(
-        r"Goal\s+((?:[A-Za-z_][A-Za-z0-9_']*\.)+"
-        r"[A-Za-z_][A-Za-z0-9_']*)\s*\.",
-        flags=re.DOTALL,
-    )
-    show = re.compile(r"Show\s*\.", flags=re.DOTALL)
-    abort = re.compile(r"Abort\s*\.", flags=re.DOTALL)
-    forbidden_inside = TOP_LEVEL_DECLARATION_KINDS | {
-        "Abort",
-        "Load",
-        "Cd",
-        "Add",
-        "Remove",
-        "Require",
-        "From",
-        "Import",
-        "Export",
-        "Include",
-        "Declare",
-        "Open",
-        "Set",
-        "Unset",
-        "End",
-        "Qed",
-        "Defined",
-        "Admitted",
-        "Ltac",
-        "Ltac2",
-        "Timeout",
-        "Control",
-    }
-    errors: list[str] = []
-    shown: list[str] = []
-    index = 0
-    while index < len(commands):
-        command = commands[index]
-        if harmless.fullmatch(command) is not None:
-            index += 1
-            continue
-        target = goal.fullmatch(command)
-        if target is None:
-            errors.append(f"forbidden debug command: {command[:80]}")
-            index += 1
-            continue
-        if index + 1 >= len(commands) or show.fullmatch(commands[index + 1]) is None:
-            errors.append(
-                f"Goal {target.group(1)} must be followed immediately by Show."
-            )
-            index += 1
-            continue
-        shown.append(target.group(1))
-        index += 2
-        closed = False
-        while index < len(commands):
-            proof_command = commands[index]
-            if abort.fullmatch(proof_command) is not None:
-                closed = True
-                index += 1
-                break
-            prefix = _command_prefix(proof_command)
-            if prefix is None:
-                errors.append(
-                    f"unparseable command in debug Goal {target.group(1)}: {proof_command[:80]}"
-                )
-            else:
-                inner_head, _start, _end, modifiers, attributes = prefix
-                if inner_head in forbidden_inside or modifiers or attributes:
-                    errors.append(
-                        f"forbidden command in debug Goal {target.group(1)}: {proof_command[:80]}"
-                    )
-            index += 1
-        if not closed:
-            errors.append(f"debug Goal {target.group(1)} must end with Abort.")
-    if not shown:
-        errors.append("debug script has no Goal/Show/.../Abort block")
-    return errors, shown
-
-
 def stable_text_digest(text: str) -> str:
     return sha256_text(normalize_coq_text(text))
 
@@ -953,7 +541,7 @@ def declaration_block_digest(text: str) -> str:
 
     The containing artifact still has an exact byte seal.  This digest answers
     the narrower merge/namespace question: whether statement and proof tokens
-    changed.  Kernel validation remains mandatory after reuse or merge.
+    changed. Kernel validation remains mandatory after merge.
     """
 
     return coq_token_digest(text)
@@ -997,22 +585,9 @@ def rewrite_coq_identifiers(text: str, renames: dict[str, str]) -> str:
     return "".join(parts)
 
 
-def is_exact_declaration_line_range(
-    start: int, end: int, *, declaration_start: int, declaration_end: int
-) -> bool:
-    """Return whether a hint names one complete declaration, not a subrange."""
-
-    return start == declaration_start and end == declaration_end
-
-
 def parse_manual_file(text: str) -> tuple[str, list[dict[str, Any]]]:
     lines = text.splitlines(keepends=True)
     masked_lines = mask_coq_strings(mask_coq_comments(text)).splitlines(keepends=True)
-    offsets: list[int] = []
-    offset = 0
-    for line in lines:
-        offsets.append(offset)
-        offset += len(line)
 
     starts: list[tuple[int, str]] = []
     for idx, line in enumerate(masked_lines):
@@ -1034,18 +609,10 @@ def parse_manual_file(text: str) -> tuple[str, list[dict[str, Any]]]:
     lemmas: list[dict[str, Any]] = []
     for pos, (start_idx, name) in enumerate(starts):
         end_idx = starts[pos + 1][0] if pos + 1 < len(starts) else len(lines)
-        start_offset = offsets[start_idx]
-        end_offset = offsets[end_idx] if end_idx < len(lines) else len(text)
-        block = text[start_offset:end_offset]
         lemmas.append(
             {
                 "name": name,
-                "block": block,
-                "header_line": lines[start_idx].rstrip("\n"),
-                "start_line": start_idx + 1,
-                "end_line": end_idx,
-                "start_offset": start_offset,
-                "end_offset": end_offset,
+                "block": "".join(lines[start_idx:end_idx]),
             }
         )
     return prelude, lemmas
@@ -1199,10 +766,32 @@ def lemma_statement_hash(block_or_lemma: str | dict[str, Any]) -> str:
     return coq_token_digest(canonical)
 
 
-def lemma_target_symbol(block_or_lemma: str | dict[str, Any]) -> str | None:
-    statement = normalize_coq_text(lemma_statement_text(block_or_lemma))
-    match = SIMPLE_TARGET_RE.match(statement)
-    return match.group(2) if match else None
+def manual_vc_index(text: str) -> dict[str, Any]:
+    """Index every top-level VC and generated split goal in one manual."""
+
+    _prelude, lemmas = parse_manual_file(text)
+    ensure_unique_lemma_names(lemmas)
+    witnesses, split_goal_lemmas = partition_manual_lemmas(lemmas)
+    by_name: dict[str, dict[str, Any]] = {}
+    for lemma in lemmas:
+        name = str(lemma["name"])
+        by_name[name] = {
+            "name": name,
+            "parent": split_goal_parent(name),
+            "statement": lemma_statement_text(lemma),
+            "statement_sha256": lemma_statement_hash(lemma),
+        }
+    return {
+        "by_name": by_name,
+        "top_level": [str(lemma["name"]) for lemma in witnesses],
+        "split_goals": {
+            str(witness["name"]): [
+                str(split_goal["name"])
+                for split_goal in split_goal_lemmas[str(witness["name"])]
+            ]
+            for witness in witnesses
+        },
+    }
 
 
 def generated_artifact_module_spellings(
@@ -1384,7 +973,7 @@ def _group_helper_conflict_renames(
 ) -> dict[str, dict[str, str]]:
     """Plan deterministic per-group names for valid same-name helper variants.
 
-    A token-identical public/reuse block is the canonical declaration when one
+    A token-identical public block is the canonical declaration when one
     is present; otherwise the first declaration in manifest merge order is
     canonical.  Every other token-distinct variant receives a fresh name
     ending in its own group namespace suffix.  Invalid foreign/unsuffixed
@@ -1432,9 +1021,7 @@ def _group_helper_conflict_renames(
         if len(digests) <= 1:
             continue
         # One group cannot give two token-distinct declarations with the same
-        # name a single unambiguous rename map.  Its exact group check should
-        # already reject that source, and the normal merge error remains the
-        # correct fallback if a malformed artifact reaches this boundary.
+        # name a single unambiguous rename map. Merge rejects that input.
         per_group_digests: dict[str, set[str]] = {}
         for item in records:
             per_group_digests.setdefault(str(item["group_id"]), set()).add(
@@ -1485,7 +1072,7 @@ def merge_group_worker_libs(
 
     The caller supplies groups in manifest merge order.  Token-identical helper
     blocks keep the first declaration.  For a same-name token-distinct variant,
-    a token-identical public/reuse block remains canonical when available;
+    a token-identical public block remains canonical when available;
     otherwise the first manifest-order block remains canonical.  Other valid
     variants and their local references are deterministically renamed with
     their own group namespace suffix.  Parent verification must apply the
@@ -1658,20 +1245,20 @@ def merge_group_worker_libs(
                 )
                 continue
             block_digest = declaration_block_digest(str(decl["block"]))
-            is_exact_public_reuse = block_digest in allowed_public_helpers.get(
+            is_exact_public_helper = block_digest in allowed_public_helpers.get(
                 str(decl["name"]), set()
             )
             is_owned_suffix = bool(suffix and decl["name"].endswith(suffix))
-            if not is_owned_suffix and not is_exact_public_reuse:
+            if not is_owned_suffix and not is_exact_public_helper:
                 errors.append(
-                    f"{group_id}: new helper declaration `{decl['name']}` must end with current suffix `{suffix}` or have the same declaration/proof tokens as a sealed public/reuse candidate"
+                    f"{group_id}: new helper declaration `{decl['name']}` must end with current suffix `{suffix}` or match a public helper"
                 )
                 continue
             foreign_suffix = HELPER_NAMESPACE_SUFFIX_RE.search(decl["name"])
             if (
                 foreign_suffix
                 and foreign_suffix.group(0) != suffix
-                and not is_exact_public_reuse
+                and not is_exact_public_helper
             ):
                 errors.append(
                     f"{group_id}: new helper declaration `{decl['name']}` uses foreign helper suffix `{foreign_suffix.group(0)}`"
@@ -1690,12 +1277,12 @@ def merge_group_worker_libs(
                 "statement_hash": _declaration_statement_hash(decl),
                 "helper_namespace_suffix": (
                     foreign_suffix.group(0)
-                    if not is_owned_suffix and is_exact_public_reuse and foreign_suffix
+                    if not is_owned_suffix and is_exact_public_helper and foreign_suffix
                     else suffix
                 ),
                 "helper_origin": (
-                    "public-reuse"
-                    if not is_owned_suffix and is_exact_public_reuse
+                    "public"
+                    if not is_owned_suffix and is_exact_public_helper
                     else "group-owned"
                 ),
             }

@@ -145,7 +145,7 @@ Definition adjacency_lists_model
 (** Representation exposed to the recursive C proof.  [row_ptrs] and [rows]
     are immutable witnesses and therefore remain identical in the pre- and
     postcondition of every recursive call. *)
-Definition graph_rep
+Definition store_graph
     (adjacency : addr) (g : ZSimpleGraph.G)
     (row_ptrs : list addr) (node_addrs : list (list addr))
     (rows : list (list Z)) : Assertion :=
@@ -175,7 +175,7 @@ Definition graph_with_rows
     (adjacency : addr) (g : ZSimpleGraph.G) (rows : list (list Z))
     : Assertion :=
   EX row_ptrs : list addr, EX node_addrs : list (list addr),
-    graph_rep adjacency g row_ptrs node_addrs rows.
+    store_graph adjacency g row_ptrs node_addrs rows.
 
 (** Public graph predicate: the storage order is irrelevant to clients. *)
 Definition graph (adjacency : addr) (g : ZSimpleGraph.G) : Assertion :=
@@ -277,10 +277,10 @@ Proof.
         rewrite (Znth0_cons d2 c l2).
         reflexivity.
 Qed.
-Lemma graph_rep_split__execution_representation :
+Lemma store_graph_split__execution_representation :
   forall adjacency g row_ptrs node_addrs rows u,
     ZSimpleGraph.vertex_valid g u ->
-    DFSAdjacencyList.graph_rep adjacency g row_ptrs node_addrs rows |--
+    DFSAdjacencyList.store_graph adjacency g row_ptrs node_addrs rows |--
       ((adjacency + u * sizeof (PTR)) # Ptr |-> Znth u row_ptrs 0) **
       DFSAdjacencyList.graph_except
         adjacency g row_ptrs node_addrs rows u **
@@ -288,7 +288,7 @@ Lemma graph_rep_split__execution_representation :
         (Znth u row_ptrs 0) (Znth u node_addrs nil) (Znth u rows nil).
 Proof.
   intros adjacency g row_ptrs node_addrs rows u Hu.
-  unfold DFSAdjacencyList.graph_rep,
+  unfold DFSAdjacencyList.store_graph,
     DFSAdjacencyList.linked_lists_rep,
     DFSAdjacencyList.graph_except,
     DFSAdjacencyList.list_blocks,
@@ -344,7 +344,7 @@ Proof.
   all: try lia.
   all: entailer!.
 Qed.
-Lemma graph_rep_merge__execution_representation :
+Lemma store_graph_merge__execution_representation :
   forall adjacency g row_ptrs node_addrs rows u,
     ZSimpleGraph.vertex_valid g u ->
     ((adjacency + u * sizeof (PTR)) # Ptr |-> Znth u row_ptrs 0) **
@@ -352,10 +352,10 @@ Lemma graph_rep_merge__execution_representation :
       adjacency g row_ptrs node_addrs rows u **
     DFSAdjacencyList.addressed_sll
       (Znth u row_ptrs 0) (Znth u node_addrs nil) (Znth u rows nil) |--
-      DFSAdjacencyList.graph_rep adjacency g row_ptrs node_addrs rows.
+      DFSAdjacencyList.store_graph adjacency g row_ptrs node_addrs rows.
 Proof.
   intros adjacency g row_ptrs node_addrs rows u Hu.
-  unfold DFSAdjacencyList.graph_rep,
+  unfold DFSAdjacencyList.store_graph,
     DFSAdjacencyList.linked_lists_rep,
     DFSAdjacencyList.graph_except,
     DFSAdjacencyList.list_blocks,

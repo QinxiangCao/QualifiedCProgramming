@@ -1,8 +1,0 @@
-Given arrays `weights` and `values`, an item count `n`, and a knapsack
-capacity, compute the maximum total value obtainable by selecting each item
-at most once while keeping the selected total weight no greater than the
-capacity.
-
-The implementation uses the classic dynamic programming table with
-`n + 1` rows and `capacity + 1` columns, stored in a flat caller-provided
-integer array `dp`.

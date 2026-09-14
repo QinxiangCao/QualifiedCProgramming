@@ -25,56 +25,56 @@ Definition matrix_rep
     : Assertion :=
   Core.matrix_rep size matrix rows.
 
-Definition graph_rep
+Definition store_graph
     (size : Z)
     (model : list (list Z) -> Prop)
     (matrix : addr) (rows : list (list Z))
     : Assertion :=
   “ model rows ” && matrix_rep size matrix rows.
-
-Lemma graph_rep_elim_matrix :
+  
+Lemma store_graph_elim_matrix :
   forall size model matrix rows,
-    graph_rep size model matrix rows
+    store_graph size model matrix rows
     |-- “ model rows ” && matrix_rep size matrix rows.
 Proof.
   intros.
-  unfold graph_rep.
+  unfold store_graph.
   normalize.
   cancel.
 Qed.
 
-Lemma graph_rep_elim :
+Lemma store_graph_elim :
   forall size model matrix rows,
-    graph_rep size model matrix rows
+    store_graph size model matrix rows
     |-- “ model rows ” && IntArray2.full matrix size size rows.
 Proof.
   intros.
-  unfold graph_rep, matrix_rep, Core.matrix_rep.
+  unfold store_graph, matrix_rep, Core.matrix_rep.
   change (Core.CellArray2.full matrix size size rows) with
     (IntArray2.full matrix size size rows).
   normalize.
   cancel.
 Qed.
 
-Lemma graph_rep_model :
+Lemma store_graph_model :
   forall size model matrix rows,
-    graph_rep size model matrix rows |-- “ model rows ”.
+    store_graph size model matrix rows |-- “ model rows ”.
 Proof.
   intros.
-  unfold graph_rep.
+  unfold store_graph.
   Intros_p Hmodel.
   dump_pre_spatial.
   exact Hmodel.
 Qed.
 
-Lemma graph_rep_intro_matrix :
+Lemma store_graph_intro_matrix :
   forall size model matrix rows,
     model rows ->
     matrix_rep size matrix rows
-    |-- graph_rep size model matrix rows.
+    |-- store_graph size model matrix rows.
 Proof.
   intros size model matrix rows Hmodel.
-  unfold graph_rep.
+  unfold store_graph.
   normalize.
   split_pure_spatial.
   - cancel.
@@ -82,14 +82,14 @@ Proof.
     exact Hmodel.
 Qed.
 
-Lemma graph_rep_intro :
+Lemma store_graph_intro :
   forall size model matrix rows,
     model rows ->
     IntArray2.full matrix size size rows
-    |-- graph_rep size model matrix rows.
+    |-- store_graph size model matrix rows.
 Proof.
   intros size model matrix rows Hmodel.
-  unfold graph_rep, matrix_rep, Core.matrix_rep.
+  unfold store_graph, matrix_rep, Core.matrix_rep.
   change (Core.CellArray2.full matrix size size rows) with
     (IntArray2.full matrix size size rows).
   normalize.
@@ -111,7 +111,7 @@ Definition matrix_rep
     : Assertion :=
   Core.matrix_rep row_count matrix rows.
 
-Definition graph_rep
+Definition store_graph
     (row_count : Z)
     (model : list (list Z) -> Prop)
     (matrix : addr) (rows : list (list Z))
@@ -131,49 +131,49 @@ Definition row_rep
     (Znth row_index rows nil) **
   IntPtrArray2.missing_i matrix row_count row_index row_ptr rows.
 
-Lemma graph_rep_elim_matrix :
+Lemma store_graph_elim_matrix :
   forall row_count model matrix rows,
-    graph_rep row_count model matrix rows
+    store_graph row_count model matrix rows
     |-- “ model rows ” && matrix_rep row_count matrix rows.
 Proof.
   intros.
-  unfold graph_rep.
+  unfold store_graph.
   normalize.
   cancel.
 Qed.
 
-Lemma graph_rep_elim :
+Lemma store_graph_elim :
   forall row_count model matrix rows,
-    graph_rep row_count model matrix rows
+    store_graph row_count model matrix rows
     |-- “ model rows ” && IntPtrArray2.full matrix row_count rows.
 Proof.
   intros.
-  unfold graph_rep, matrix_rep, Core.matrix_rep.
+  unfold store_graph, matrix_rep, Core.matrix_rep.
   change (Core.CellPtrArray2.full matrix row_count rows) with
     (IntPtrArray2.full matrix row_count rows).
   normalize.
   cancel.
 Qed.
 
-Lemma graph_rep_model :
+Lemma store_graph_model :
   forall row_count model matrix rows,
-    graph_rep row_count model matrix rows |-- “ model rows ”.
+    store_graph row_count model matrix rows |-- “ model rows ”.
 Proof.
   intros.
-  unfold graph_rep.
+  unfold store_graph.
   Intros_p Hmodel.
   dump_pre_spatial.
   exact Hmodel.
 Qed.
 
-Lemma graph_rep_intro_matrix :
+Lemma store_graph_intro_matrix :
   forall row_count model matrix rows,
     model rows ->
     matrix_rep row_count matrix rows
-    |-- graph_rep row_count model matrix rows.
+    |-- store_graph row_count model matrix rows.
 Proof.
   intros row_count model matrix rows Hmodel.
-  unfold graph_rep.
+  unfold store_graph.
   normalize.
   split_pure_spatial.
   - cancel.
@@ -181,14 +181,14 @@ Proof.
     exact Hmodel.
 Qed.
 
-Lemma graph_rep_intro :
+Lemma store_graph_intro :
   forall row_count model matrix rows,
     model rows ->
     IntPtrArray2.full matrix row_count rows
-    |-- graph_rep row_count model matrix rows.
+    |-- store_graph row_count model matrix rows.
 Proof.
   intros row_count model matrix rows Hmodel.
-  unfold graph_rep, matrix_rep, Core.matrix_rep.
+  unfold store_graph, matrix_rep, Core.matrix_rep.
   change (Core.CellPtrArray2.full matrix row_count rows) with
     (IntPtrArray2.full matrix row_count rows).
   normalize.
@@ -198,15 +198,15 @@ Proof.
     exact Hmodel.
 Qed.
 
-Lemma graph_rep_split_row :
+Lemma store_graph_split_row :
   forall row_count matrix_model matrix rows row_index,
     0 <= row_index < row_count ->
-    graph_rep row_count matrix_model matrix rows
+    store_graph row_count matrix_model matrix rows
     |-- EX row_ptr,
           row_rep row_count matrix_model matrix row_index row_ptr rows.
 Proof.
   intros row_count matrix_model matrix rows row_index Hrow.
-  sep_apply (@graph_rep_elim row_count matrix_model matrix rows).
+  sep_apply (@store_graph_elim row_count matrix_model matrix rows).
   Intros_p Hmodel.
   prop_apply (IntPtrArray2.full_Zlength matrix row_count rows).
   Intros.
@@ -255,7 +255,7 @@ Lemma row_rep_merge :
   forall row_count matrix_model matrix row_index row_ptr rows,
     0 <= row_index < row_count ->
     row_rep row_count matrix_model matrix row_index row_ptr rows
-    |-- graph_rep row_count matrix_model matrix rows.
+    |-- store_graph row_count matrix_model matrix rows.
 Proof.
   intros row_count matrix_model matrix row_index row_ptr rows Hrow.
   unfold row_rep.
@@ -278,7 +278,7 @@ Proof.
   fold_arch.
   sep_apply_l_atomic (Hmerge Hrow).
   rewrite replace_Znth_Znth by lia.
-  sep_apply (@graph_rep_intro row_count matrix_model matrix rows Hmodel).
+  sep_apply (@store_graph_intro row_count matrix_model matrix rows Hmodel).
   cancel.
 Qed.
 

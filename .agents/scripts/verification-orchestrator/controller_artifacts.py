@@ -11,6 +11,7 @@ from typing import Any
 from controller_state import (
     CONTROLLER_STATE_OPTIONAL_FIELDS,
     CONTROLLER_STATE_REQUIRED_FIELDS,
+    _failed_vcs_errors,
     _json_load,
 )
 from path_utils import TARGET_FILE_FIELDS
@@ -20,10 +21,11 @@ TERMINAL_REPORT_STATUSES = {"completed", "blocked", "compact-error"}
 BLOCKER_FIELDS = {
     "failure_class",
     "kind",
-    "location",
+    "vcs",
     "message",
     "repair_boundary",
 }
+BLOCKER_VC_FIELDS = {"name", "parent", "annotation_location"}
 
 
 def _nonempty_string(value: Any) -> bool:
@@ -57,22 +59,41 @@ def _report_errors(payload: dict[str, Any], *, context: str) -> list[str]:
         blocker = payload.get("blocker")
         if not isinstance(blocker, dict) or set(blocker) != BLOCKER_FIELDS:
             errors.append(f"{context} blocked report requires one complete blocker")
-        elif any(not _nonempty_string(blocker.get(field)) for field in BLOCKER_FIELDS):
-            errors.append(f"{context} blocker fields must be non-empty strings")
+        else:
+            for field in ("failure_class", "kind", "message", "repair_boundary"):
+                if not _nonempty_string(blocker.get(field)):
+                    errors.append(f"{context} blocker.{field} must be non-empty")
+            vcs = blocker.get("vcs")
+            if not isinstance(vcs, list):
+                errors.append(f"{context} blocker.vcs must be a list")
+            else:
+                for index, vc in enumerate(vcs):
+                    if not isinstance(vc, dict) or set(vc) != BLOCKER_VC_FIELDS:
+                        errors.append(
+                            f"{context} blocker.vcs[{index}] requires exact fields"
+                        )
+                    elif (
+                        not _nonempty_string(vc.get("name"))
+                        or not _nonempty_string(vc.get("annotation_location"))
+                        or (
+                            vc.get("parent") is not None
+                            and not _nonempty_string(vc.get("parent"))
+                        )
+                    ):
+                        errors.append(f"{context} blocker.vcs[{index}] is invalid")
     return errors
 
 
 def _base_manifest_errors(payload: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     expected = {
-        "source_goal_version",
         "proof_manual",
         "formal_case_lib",
         "seed_sha256",
     }
     if set(payload) != expected:
         errors.append("base manifest contains unsupported or missing fields")
-    for field in ("source_goal_version", "proof_manual", "formal_case_lib"):
+    for field in ("proof_manual", "formal_case_lib"):
         if not _nonempty_string(payload.get(field)):
             errors.append(f"base manifest requires non-empty {field}")
     seed = payload.get("seed_sha256")
@@ -85,15 +106,6 @@ def _base_manifest_errors(payload: dict[str, Any]) -> list[str]:
     return errors
 
 
-def _reuse_source_errors(source: Any) -> bool:
-    return not (
-        isinstance(source, dict)
-        and set(source) == {"relative_path", "sha256"}
-        and _nonempty_string(source.get("relative_path"))
-        and _sha256(source.get("sha256"))
-    )
-
-
 def _workers_manifest_errors(payload: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     expected = {
@@ -101,8 +113,10 @@ def _workers_manifest_errors(payload: dict[str, Any]) -> list[str]:
         "group_plan",
         "group_plan_sha256",
         "public_helper_snapshot_sha256",
+        "dependency_snapshot_sha256",
         "groups",
         "dispatch_order",
+        "previous_proving_round",
     }
     if set(payload) != expected:
         errors.append("group workers manifest has unsupported or missing fields")
@@ -110,11 +124,15 @@ def _workers_manifest_errors(payload: dict[str, Any]) -> list[str]:
         "base_manifest_sha256",
         "group_plan_sha256",
         "public_helper_snapshot_sha256",
+        "dependency_snapshot_sha256",
     ):
         if not _sha256(payload.get(field)):
             errors.append(f"group workers manifest requires {field} as sha256")
     if not _nonempty_string(payload.get("group_plan")):
         errors.append("group workers manifest requires group_plan")
+    previous = payload.get("previous_proving_round")
+    if previous is not None and not _nonempty_string(previous):
+        errors.append("group workers manifest previous_proving_round is invalid")
 
     raw_groups = payload.get("groups")
     groups = (
@@ -127,21 +145,10 @@ def _workers_manifest_errors(payload: dict[str, Any]) -> list[str]:
         errors.append("group workers manifest requires object groups")
     ids: list[str] = []
     for group in groups:
-        allowed = {"id", "proof_reuse_sha256", "proof_reuse_sources"}
-        if set(group) - allowed or not _nonempty_string(group.get("id")):
+        if set(group) != {"id"} or not _nonempty_string(group.get("id")):
             errors.append("group workers manifest group has invalid fields")
             continue
         ids.append(str(group["id"]))
-        has_digest = "proof_reuse_sha256" in group
-        if has_digest != ("proof_reuse_sources" in group):
-            errors.append("group workers manifest proof reuse seal is incomplete")
-        if has_digest and not _sha256(group.get("proof_reuse_sha256")):
-            errors.append("group workers manifest proof reuse digest must be sha256")
-        sources = group.get("proof_reuse_sources", [])
-        if not isinstance(sources, list) or any(
-            _reuse_source_errors(source) for source in sources
-        ):
-            errors.append("group workers manifest proof reuse sources are invalid")
     if len(ids) != len(set(ids)):
         errors.append("group workers manifest group ids must be unique")
     dispatch = payload.get("dispatch_order")
@@ -266,20 +273,17 @@ def _merge_result_errors(payload: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     required = {
         "status",
-        "source_goal_version",
         "candidate",
         "group_count",
         "added_declarations",
     }
-    allowed = {*required, "proof_reuse"}
+    allowed = set(required)
     if payload.get("status") == "failed":
         allowed.update({"error_count", "blocker_count", "failure"})
     if set(payload) - allowed or not required <= set(payload):
         errors.append("merge result contains unsupported or missing fields")
     if payload.get("status") not in {"passed", "failed"}:
         errors.append("merge result status must be passed or failed")
-    if not _nonempty_string(payload.get("source_goal_version")):
-        errors.append("merge result requires source_goal_version")
     candidate = payload.get("candidate")
     if (
         not isinstance(candidate, dict)
@@ -292,8 +296,6 @@ def _merge_result_errors(payload: dict[str, Any]) -> list[str]:
         errors.append("merge result group_count must be non-negative")
     if not isinstance(payload.get("added_declarations"), list):
         errors.append("merge result added_declarations must be a list")
-    if "proof_reuse" in payload and not isinstance(payload.get("proof_reuse"), dict):
-        errors.append("merge result proof_reuse must be an object")
     if payload.get("status") == "failed":
         for field in ("error_count", "blocker_count"):
             if not _nonnegative_integer(payload.get(field)):
@@ -328,6 +330,28 @@ def _controller_state_errors(payload: dict[str, Any]) -> list[str]:
     for field in ("rounds", "attempts", "accepted_rounds", "problem_context"):
         if not isinstance(payload.get(field), dict):
             errors.append(f"controller state requires {field} as dict")
+    attempts = payload.get("attempts")
+    if isinstance(attempts, dict):
+        for attempt_id, attempt in attempts.items():
+            if isinstance(attempt, dict) and attempt.get("phase") == "annotation":
+                errors.extend(
+                    f"controller state annotation attempt {attempt_id}: {error}"
+                    for error in _failed_vcs_errors(attempt.get("failed_vcs"))
+                )
+    if payload.get("formal_case_lib_policy") not in {"present", "create", "absent"}:
+        errors.append("controller state formal_case_lib_policy is invalid")
+    from controller_control import run_control_errors
+
+    errors.extend(
+        "controller state " + error
+        for error in run_control_errors(payload.get("run_control"))
+    )
+    from symexec_tooling import symexec_profile_for_state
+
+    try:
+        symexec_profile_for_state(payload)
+    except ValueError as exc:
+        errors.append(f"controller state symexec_profile is invalid: {exc}")
     for field in ("next_actions", "waiting_for", "current_blockers"):
         if not isinstance(payload.get(field), list):
             errors.append(f"controller state requires {field} as list")
@@ -394,6 +418,11 @@ def validate_artifact_payload(
         return _run_log_errors(path)
     if not isinstance(payload, dict):
         return ["artifact must be a JSON object"]
+    def annotation_plan_errors(value: dict[str, Any]) -> list[str]:
+        from annotation_design import annotation_plan_errors
+
+        return annotation_plan_errors(value, require_ready=False)
+
     validators = {
         "agent-report": lambda value: _report_errors(value, context="agent"),
         "group-worker-report": lambda value: _report_errors(
@@ -403,6 +432,7 @@ def validate_artifact_payload(
         "group-plan": _group_plan_errors,
         "merge-result": _merge_result_errors,
         "controller-state": _controller_state_errors,
+        "annotation-plan": annotation_plan_errors,
     }
     validator = validators.get(kind)
     return (

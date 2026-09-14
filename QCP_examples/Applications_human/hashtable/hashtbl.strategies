@@ -1,0 +1,240 @@
+#include "hashtbl_def.h"
+
+
+
+
+id : 0
+priority : core(0)
+left : sll(?p, nil{Z}) at 0
+action : left_erase(0);
+         left_add(p == NULL);
+        
+id : 1
+priority : core(0)
+right : sll(?p, nil{Z}) at 0
+action : right_erase(0);
+         right_add(p == NULL);
+
+id : 2
+priority : core(0)
+right : sll(NULL, ?l) at 0
+action : right_erase(0);
+         right_add(l == nil{Z});
+
+id : 3
+priority : core(0)
+left : sll(?p, cons{Z}(?x0, ?l0)) at 0
+right : sll(p, cons{Z}(?x1, ?l1)) at 1
+action : left_erase(0);
+         right_erase(1);
+         right_add(x0 == x1);
+         right_add(l0 == l1);
+
+id : 4
+priority : core(1)
+left : sll(?p, ?l0) at 0
+right : sll(p, ?l1) at 1
+action : left_erase(0);
+         right_erase(1);
+         right_add(l0 == l1);
+        
+id : 5
+priority : core(4)
+left : sll(?p, ?l) at 0
+       (p != NULL || NULL != p) at 1
+right : (store(field_addr(p, blist, val), I32, ?q) || store(field_addr(p, blist, next), PTR(struct blist), ?q)) at 2
+action : left_erase(0);
+         left_exist_add(x);
+         left_exist_add(l0);
+         left_add(p == x);
+         left_add(sll(p, cons{Z}(x, l0)));
+         left_add(l == cons{Z}(x, l0));
+
+id : 6
+priority : core(4)
+left : (?p != NULL || NULL != ?p) at 0
+right : sll(p, ?l) at 1
+action : right_exist_add(l0);
+         right_add(l == cons{Z}(p, l0));
+
+id : 7
+priority : core(3)
+left : sll(?p, cons{Z}(?x, ?l)) at 0
+action : left_erase(0);
+         left_exist_add(y);
+         left_add(p == x);
+         left_add(store(field_addr(p, blist, next), PTR(struct blist), y));
+         left_add(sll(y, l));
+
+id : 8
+priority : core(3)
+right : sll(?p, cons{Z}(?x, ?l)) at 0
+action : right_erase(0);
+         right_exist_add(y);
+         right_add(p != 0);
+         right_add(p == x);
+         right_add(field_addr(p, blist, next) != NULL);
+         right_add(store(field_addr(p, blist, next), PTR(struct blist), y));
+         right_add(sll(y, l));
+
+id : 9
+priority : core(0)
+right : sllseg(?p, p, ?l) at 0
+        sll(p, ?l0) at 1
+action : right_erase(0);
+         right_add(l == nil{Z});
+
+id : 10
+priority : core(0)
+right : sllseg(?p, p, ?l) at 0
+        store(field_addr(p, blist, val), I32, ?h) at 1
+action : right_erase(0);
+         right_add(l == nil{Z});
+
+id : 11
+priority : core(0)
+right : sllbseg(?p, p, ?l) at 0
+        store(p, PTR(struct blist), ?q) at 1
+action : right_erase(0);
+         right_add(p != 0);
+         right_add(l == nil{Z});
+
+id : 12
+priority : core(0)
+right : sllbseg(?p, p, ?l) at 0
+        undef_data_at(p, ?ty) at 1
+action : right_erase(0);
+         right_add(p != 0);
+         right_add(l == nil{Z});
+
+id : 13
+priority : core(0)
+left : sllbseg(?p, ?q, ?l1) at 0
+right : sllbseg(p, q, ?l2) at 2
+left : store(q, PTR(struct blist), ?v1) at 1
+right : store(q, PTR(struct blist), ?v2) at 3
+action : left_erase(0);
+         right_erase(2);
+         right_add(l1 == l2);
+
+id : 14
+priority : core(0)
+left : sllbseg(?p, ?q, ?l1) at 0
+       undef_data_at(q, ?ty) at 1
+right : sllbseg(p, ?r, ?l2) at 2
+        undef_data_at(r, ty) at 3
+action : left_erase(0);
+         right_erase(2);
+         right_add(q == r);
+         right_add(l1 == l2);
+
+id : 15
+priority : core(0)
+left : (?p : Z == NULL || NULL == ?p : Z) at 0
+right : sll(p, ?l) at 1
+action : right_erase(1); 
+         right_add(l == nil{Z});
+
+id : 16
+priority : unfold_sll(0)
+left : (?p : Z != NULL || NULL != ?p : Z) at 0
+       sll(p, ?l) at 1
+action : left_erase(1);
+         left_exist_add(d);
+         left_exist_add(q);
+         left_exist_add(l0);
+         left_add(p == d);
+         left_add(store(field_addr(p, blist, next), PTR(struct blist), q));
+         left_add(sll(q, l0));
+         left_add(l == cons{Z}(d, l0));
+
+id : 17
+priority : fold_sll(0)
+left : store(field_addr(?p, blist, next), PTR(struct blist), ?q) at 0
+       sll(q, ?l0) at 1
+       (p != NULL || NULL != p) at 2
+       field_addr(p, blist, next) != NULL at 3
+action : left_erase(0);
+         left_erase(1);
+         left_add(sll(p, cons{Z}(p, l0)));
+
+
+id : 18
+priority : core(2)
+left : dllseg(?p, 0, ?q, ?r, ?l0) at 0
+right : dllseg(p, 0, q, r, ?l1) at 1
+action : left_erase(0);
+         right_erase(1);
+         right_add(l0 == l1);
+
+id : 20
+priority : unfold_dll(0)
+left : dll(?p, ?up, ?l) at 0
+       (?p != NULL || NULL != ?p) at 1
+action : left_erase(0);
+         left_exist_add(down);
+         left_exist_add(l0);
+         left_add(store(field_addr(p, blist, down), PTR(struct blist), down));
+         left_add(store(field_addr(p, blist, up), PTR(struct blist), up));
+         left_add(dll(down, p, l0));
+         left_add(l == cons{Z}(p, l0));
+
+id : 21
+priority : fold_dll(0)
+left : store(field_addr(?p, blist, down), PTR(struct blist), ?down) at 0
+       store(field_addr(p, blist, up), PTR(struct blist), ?up) at 1
+       dll(down, p, ?l0) at 2
+       (p != NULL || NULL != p) at 3
+action : left_erase(0);
+         left_erase(1);
+         left_erase(2);
+         left_exist_add(l);
+         left_add(dll(p, up, l));
+         left_add(l == cons{Z}(p, l0));
+
+id : 22
+priority : core(0)
+right : dllseg(?x, x, ?x_up, ?y_up, ?l) at 0
+action : right_erase(0);
+         right_add(x_up == y_up);
+         right_add(l == nil{Z});
+
+id : 23
+priority : core(3)
+left : (?x : Z != ?y : Z) at 0
+       dllseg(x, y, ?x_up, ?y_up, ?l) at 1
+action : left_erase(1);
+         left_exist_add(z);
+         left_exist_add(l0);
+         left_add(store(field_addr(x, blist, down), PTR(struct blist), z));
+         left_add(store(field_addr(x, blist, up), PTR(struct blist), x_up));
+         left_add(dllseg(z, y, x, y_up, l0));
+         left_add(l == cons{Z}(x, l0));
+
+id : 24
+priority : core(1)
+left : dllseg(?p, ?q, ?u1, ?u2, ?l0) at 0
+right : dllseg(p, q, u1, u2, ?l1) at 1
+action : left_erase(0);
+         right_erase(1);
+         right_add(l0 == l1);
+
+id : 25
+priority : core(1)
+right : sllseg(?p, 0, ?l) at 0
+action : right_erase(0);
+         right_add(sll(p, l));
+
+id : 26
+priority : core(0)
+right : sllseg(?p, p, ?l) at 0
+action : right_erase(0);
+         right_add(l == nil{Z});
+
+id : 27
+priority : core(0)
+left : sll(?p, ?l) at 0
+       p == NULL at 1
+action : left_erase(0);
+       left_erase(1);
+       right_add(l == nil{Z});

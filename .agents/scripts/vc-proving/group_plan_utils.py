@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from proof_manual_utils import helper_namespace_for_group_id, partition_manual_lemmas
+from proof_manual_utils import helper_namespace_for_group_id
 
 
 PROOF_MODES = {"LLM_pre_process", "aggressive_pre_process"}
@@ -47,13 +47,12 @@ def load_group_plan(path: Path) -> dict[str, Any]:
 
 def _require_accepted_shape(
     *,
-    lemmas: list[dict[str, Any]],
+    vc_index: dict[str, Any],
     plan: dict[str, Any],
 ) -> None:
     if set(plan) != {"groups"}:
         raise SystemExit("group plan contains unsupported top-level fields")
-    witnesses, _split_goals = partition_manual_lemmas(lemmas)
-    expected = [str(lemma["name"]) for lemma in witnesses]
+    expected = [str(name) for name in vc_index["top_level"]]
     assigned = [
         str(witness.get("name"))
         for group in plan.get("groups", [])
@@ -65,20 +64,25 @@ def _require_accepted_shape(
 
 
 def group_entries_from_plan(
-    lemmas: list[dict[str, Any]],
+    vc_index: dict[str, Any],
     plan: dict[str, Any],
     *,
     require_accepted: bool = False,
 ) -> list[dict[str, Any]]:
     if require_accepted:
-        _require_accepted_shape(lemmas=lemmas, plan=plan)
+        _require_accepted_shape(vc_index=vc_index, plan=plan)
     if set(plan) != {"groups"}:
         raise SystemExit("group plan contains unsupported top-level fields")
-    witness_lemmas, split_goal_lemmas = partition_manual_lemmas(lemmas)
-    known = {str(lemma["name"]): lemma for lemma in witness_lemmas}
+    known = {
+        str(name): vc_index["by_name"][str(name)]
+        for name in vc_index["top_level"]
+    }
     known_split_goals = {
-        name: {str(lemma["name"]): lemma for lemma in items}
-        for name, items in split_goal_lemmas.items()
+        str(name): {
+            str(split_name): vc_index["by_name"][str(split_name)]
+            for split_name in split_names
+        }
+        for name, split_names in vc_index["split_goals"].items()
     }
     proof_groups = plan.get("groups")
     if not isinstance(proof_groups, list):

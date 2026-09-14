@@ -2,9 +2,9 @@
 #include "int_ptr_array2_def.h"
 
 /*@ Extern Coq
-      (GraphMatrixFlat::graph_rep :
+      (GraphMatrixFlat::store_graph :
         Z -> (list (list Z) -> Prop) -> Z -> list (list Z) -> Assertion)
-      (GraphMatrixPtr::graph_rep :
+      (GraphMatrixPtr::store_graph :
         Z -> (list (list Z) -> Prop) -> Z -> list (list Z) -> Assertion)
       (GraphMatrixPtr::row_rep :
         Z -> (list (list Z) -> Prop) -> Z -> Z -> Z ->

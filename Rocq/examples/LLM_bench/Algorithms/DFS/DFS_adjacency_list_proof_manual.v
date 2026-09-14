@@ -91,7 +91,7 @@ Proof.
     (Znth vertex_pre rows_low_level_spec nil)
     (Znth vertex_pre node_addrs_low_level_spec nil)
     (Znth vertex_pre row_ptrs_low_level_spec 0).
-  sep_apply (graph_rep_split__execution_representation
+  sep_apply (store_graph_split__execution_representation
     adjacency_pre g_low_level_spec row_ptrs_low_level_spec
     node_addrs_low_level_spec rows_low_level_spec vertex_pre PreH4).
   entailer!.
@@ -228,10 +228,10 @@ Proof.
     DFSAdjacencyList.addressed_sll row_head_2
       (done_addrs_2 ++ edge_value :: rest_addrs_2)
       (done_2 ++ neighbor :: rest_2) |--
-    DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec
+    DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec
       row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec).
   { rewrite PreH12, Haddrs, Hvalues.
-    apply (graph_rep_merge__execution_representation
+    apply (store_graph_merge__execution_representation
       adjacency_pre g_low_level_spec row_ptrs_low_level_spec
       node_addrs_low_level_spec rows_low_level_spec vertex_pre PreH5). }
   sep_apply Hmerge_current.
@@ -269,7 +269,7 @@ Proof.
   { intros v Hv. apply PreH1. apply PreH20. exact Hv. }
   assert (Hvertex_after : bind_visited_set vertex_pre).
   { apply PreH1. exact PreH21. }
-  sep_apply (graph_rep_split__execution_representation
+  sep_apply (store_graph_split__execution_representation
     adjacency_pre g_low_level_spec row_ptrs_low_level_spec
     node_addrs_low_level_spec rows_low_level_spec vertex_pre PreH7).
   assert (Hsplit :
@@ -416,10 +416,10 @@ Proof.
         row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec
         vertex_pre **
       DFSAdjacencyList.addressed_sll row_head done_addrs done |--
-      DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec
+      DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec
         row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec).
     { rewrite PreH8, Haddrs, Hvalues.
-      apply (graph_rep_merge__execution_representation
+      apply (store_graph_merge__execution_representation
         adjacency_pre g_low_level_spec row_ptrs_low_level_spec
         node_addrs_low_level_spec rows_low_level_spec vertex_pre PreH5). }
     sep_apply Hmerge_current.
@@ -452,7 +452,7 @@ Proof.
   Exists g_bind_spec row_ptrs_bind_spec node_addrs_bind_spec rows_bind_spec
     visited_set_bind_spec X_low_level_spec.
   split_pure_spatial.
-  - cancel (DFSAdjacencyList.graph_rep adjacency_pre g_bind_spec
+  - cancel (DFSAdjacencyList.store_graph adjacency_pre g_bind_spec
       row_ptrs_bind_spec node_addrs_bind_spec rows_bind_spec).
     cancel (DFSAdjacencyList.visited visited_pre g_bind_spec
       visited_set_bind_spec).
@@ -494,7 +494,7 @@ Proof.
     ((DFSAdjacencyList.dfs_program g_high_level_spec vertex_pre)
       initial_visited_set_high_level_spec).
   split_pure_spatial.
-  - cancel (DFSAdjacencyList.graph_rep adjacency_pre g_high_level_spec
+  - cancel (DFSAdjacencyList.store_graph adjacency_pre g_high_level_spec
       row_ptrs_high_level_spec node_addrs_high_level_spec
       rows_high_level_spec).
     cancel (DFSAdjacencyList.visited visited_pre g_high_level_spec
@@ -507,7 +507,7 @@ Proof.
       Exists rows_high_level_spec.
       unfold DFSAdjacencyList.graph_with_rows.
       Exists row_ptrs_high_level_spec node_addrs_high_level_spec.
-      cancel (DFSAdjacencyList.graph_rep adjacency_pre g_high_level_spec
+      cancel (DFSAdjacencyList.store_graph adjacency_pre g_high_level_spec
         row_ptrs_high_level_spec node_addrs_high_level_spec
         rows_high_level_spec).
       cancel (DFSAdjacencyList.visited visited_pre g_high_level_spec

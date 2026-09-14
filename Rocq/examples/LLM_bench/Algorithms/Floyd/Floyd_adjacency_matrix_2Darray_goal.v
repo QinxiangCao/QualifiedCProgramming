@@ -48,7 +48,7 @@ forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (d
   **  ((( &( "k" ) )) # Int  |->_)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "dist" ) )) # Ptr  |-> dist_pre)
-  **  (GraphMatrixFlat.graph_rep 10 (FloydAdjacencyMatrix2Darray.graph_matrix_model (g_low_level_spec)) dist_pre dist0_low_level_spec )
+  **  (GraphMatrixFlat.store_graph 10 (FloydAdjacencyMatrix2Darray.graph_matrix_model (g_low_level_spec)) dist_pre dist0_low_level_spec )
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -59,7 +59,7 @@ forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g
   ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "dist" ) )) # Ptr  |-> dist_pre)
   **  ((( &( "k" ) )) # Int  |-> k)
-  **  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_k )
+  **  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_k )
   **  ((( &( "i" ) )) # Int  |->_)
   **  ((( &( "j" ) )) # Int  |->_)
 |--
@@ -73,7 +73,7 @@ forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g
   **  ((( &( "dist" ) )) # Ptr  |-> dist_pre)
   **  ((( &( "k" ) )) # Int  |-> k)
   **  ((( &( "i" ) )) # Int  |-> i)
-  **  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_i )
+  **  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_i )
   **  ((( &( "j" ) )) # Int  |->_)
 |--
   “ (0 <= INT_MAX) ” 
@@ -265,7 +265,7 @@ forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g
   **  ((( &( "k" ) )) # Int  |-> k)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "j" ) )) # Int  |-> j)
-  **  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
+  **  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
 |--
   “ ((i + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i + 1 )) ”
@@ -277,7 +277,7 @@ forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g
   **  ((( &( "dist" ) )) # Ptr  |-> dist_pre)
   **  ((( &( "k" ) )) # Int  |-> k)
   **  ((( &( "i" ) )) # Int  |-> i)
-  **  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_i )
+  **  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_i )
   **  ((( &( "j" ) )) # Int  |->_)
 |--
   “ ((k + 1 ) <= INT_MAX) ” 
@@ -287,7 +287,7 @@ forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g
 Definition floyd_adjacency_matrix_2Darray_entail_wit_1 := 
 (
 forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (dist0_low_level_spec: (@list (@list Z))) (g_low_level_spec: G)  __default__List_Z (PreH1 : (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre )) (PreH2 : (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist0_low_level_spec)) (FloydAdjacencyMatrix2Darray.floyd_indexed_program (g_low_level_spec) (n_pre)) X_low_level_spec )) ,
-  (GraphMatrixFlat.graph_rep 10 (FloydAdjacencyMatrix2Darray.graph_matrix_model (g_low_level_spec)) dist_pre dist0_low_level_spec )
+  (GraphMatrixFlat.store_graph 10 (FloydAdjacencyMatrix2Darray.graph_matrix_model (g_low_level_spec)) dist_pre dist0_low_level_spec )
 |--
   EX (dist_k: (@list (@list Z))) ,
   “ (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre ) ” 
@@ -299,11 +299,11 @@ forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (d
   &&  “ (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_k)) (FloydAdjacencyMatrix2Darray.floyd_k_from (g_low_level_spec) (n_pre) (0)) X_low_level_spec ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_shape dist_k ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_k ) ”
-  &&  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_k )
+  &&  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_k )
 ) \/
 (
 forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (dist0_low_level_spec: (@list (@list Z))) (g_low_level_spec: G)  __default__List_Z (PreH1 : (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre )) (PreH2 : (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist0_low_level_spec)) (FloydAdjacencyMatrix2Darray.floyd_indexed_program (g_low_level_spec) (n_pre)) X_low_level_spec )) ,
-  (GraphMatrixFlat.graph_rep 10 (FloydAdjacencyMatrix2Darray.graph_matrix_model (g_low_level_spec)) dist_pre dist0_low_level_spec )
+  (GraphMatrixFlat.store_graph 10 (FloydAdjacencyMatrix2Darray.graph_matrix_model (g_low_level_spec)) dist_pre dist0_low_level_spec )
 |--
   EX (dist_k: (@list (@list Z))) ,
   “ (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre ) ” 
@@ -315,13 +315,13 @@ forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (d
   &&  “ (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_k)) (FloydAdjacencyMatrix2Darray.floyd_k_from (g_low_level_spec) (n_pre) (0)) X_low_level_spec ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_shape dist_k ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_k ) ”
-  &&  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_k )
+  &&  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_k )
 ).
 
 Definition floyd_adjacency_matrix_2Darray_entail_wit_2 := 
 (
 forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g_low_level_spec: G) (dist_k: (@list (@list Z))) (k: Z)  __default__List_Z (PreH1 : (k < n_pre)) (PreH2 : (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre )) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= 10)) (PreH5 : (0 <= k)) (PreH6 : (k <= n_pre)) (PreH7 : forall (r_2: Z) , forall (c_2: Z) , (((((0 <= r_2) /\ (r_2 < 10)) /\ (0 <= c_2)) /\ (c_2 < 10)) -> ((0 <= (Znth c_2 (Znth r_2 dist_k __default__List_Z) 0)) /\ ((Znth c_2 (Znth r_2 dist_k __default__List_Z) 0) <= 1000000000)))) (PreH8 : (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_k)) (FloydAdjacencyMatrix2Darray.floyd_k_from (g_low_level_spec) (n_pre) (k)) X_low_level_spec )) (PreH9 : (FloydAdjacencyMatrix2Darray.matrix_shape dist_k )) (PreH10 : (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_k )) ,
-  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_k )
+  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_k )
 |--
   EX (dist_i: (@list (@list Z))) ,
   “ (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre ) ” 
@@ -335,7 +335,7 @@ forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g
   &&  “ (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_i)) (FloydAdjacencyMatrix2Darray.floyd_i_k_from (g_low_level_spec) (n_pre) (k) (0)) X_low_level_spec ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_shape dist_i ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_i ) ”
-  &&  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_i )
+  &&  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_i )
 ) \/
 (
 forall (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g_low_level_spec: G) (dist_k: (@list (@list Z))) (k: Z)  __default__List_Z (PreH1 : (k < n_pre)) (PreH2 : (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre )) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= 10)) (PreH5 : (0 <= k)) (PreH6 : (k <= n_pre)) (PreH7 : forall (r_2: Z) , forall (c_2: Z) , (((((0 <= r_2) /\ (r_2 < 10)) /\ (0 <= c_2)) /\ (c_2 < 10)) -> ((0 <= (Znth c_2 (Znth r_2 dist_k __default__List_Z) 0)) /\ ((Znth c_2 (Znth r_2 dist_k __default__List_Z) 0) <= 1000000000)))) (PreH8 : (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_k)) (FloydAdjacencyMatrix2Darray.floyd_k_from (g_low_level_spec) (n_pre) (k)) X_low_level_spec )) (PreH9 : (FloydAdjacencyMatrix2Darray.matrix_shape dist_k )) (PreH10 : (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_k )) ,
@@ -353,7 +353,7 @@ forall (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g_low_level_spe
 Definition floyd_adjacency_matrix_2Darray_entail_wit_3 := 
 (
 forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g_low_level_spec: G) (dist_i: (@list (@list Z))) (i: Z) (k: Z)  __default__List_Z (PreH1 : (i < n_pre)) (PreH2 : (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre )) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= 10)) (PreH5 : (0 <= k)) (PreH6 : (k < n_pre)) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : forall (r_2: Z) , forall (c_2: Z) , (((((0 <= r_2) /\ (r_2 < 10)) /\ (0 <= c_2)) /\ (c_2 < 10)) -> ((0 <= (Znth c_2 (Znth r_2 dist_i __default__List_Z) 0)) /\ ((Znth c_2 (Znth r_2 dist_i __default__List_Z) 0) <= 1000000000)))) (PreH10 : (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_i)) (FloydAdjacencyMatrix2Darray.floyd_i_k_from (g_low_level_spec) (n_pre) (k) (i)) X_low_level_spec )) (PreH11 : (FloydAdjacencyMatrix2Darray.matrix_shape dist_i )) (PreH12 : (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_i )) ,
-  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_i )
+  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_i )
 |--
   EX (dist_j: (@list (@list Z))) ,
   “ (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre ) ” 
@@ -369,7 +369,7 @@ forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g
   &&  “ (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_j)) (FloydAdjacencyMatrix2Darray.floyd_j_i_k_from (g_low_level_spec) (n_pre) (k) (i) (0)) X_low_level_spec ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_shape dist_j ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_j ) ”
-  &&  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
+  &&  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
 ) \/
 (
 forall (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g_low_level_spec: G) (dist_i: (@list (@list Z))) (i: Z) (k: Z)  __default__List_Z (PreH1 : (i < n_pre)) (PreH2 : (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre )) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= 10)) (PreH5 : (0 <= k)) (PreH6 : (k < n_pre)) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : forall (r_2: Z) , forall (c_2: Z) , (((((0 <= r_2) /\ (r_2 < 10)) /\ (0 <= c_2)) /\ (c_2 < 10)) -> ((0 <= (Znth c_2 (Znth r_2 dist_i __default__List_Z) 0)) /\ ((Znth c_2 (Znth r_2 dist_i __default__List_Z) 0) <= 1000000000)))) (PreH10 : (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_i)) (FloydAdjacencyMatrix2Darray.floyd_i_k_from (g_low_level_spec) (n_pre) (k) (i)) X_low_level_spec )) (PreH11 : (FloydAdjacencyMatrix2Darray.matrix_shape dist_i )) (PreH12 : (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_i )) ,
@@ -403,7 +403,7 @@ forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g
   &&  “ (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_j)) (FloydAdjacencyMatrix2Darray.floyd_j_i_k_from (g_low_level_spec) (n_pre) (k) (i) ((j + 1 ))) X_low_level_spec ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_shape dist_j ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_j ) ”
-  &&  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
+  &&  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
 ) \/
 (
 forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g_low_level_spec: G) (dist_j_2: (@list (@list Z))) (j: Z) (i: Z) (k: Z)  __default__List_Z (PreH1 : (((Znth (k) ((Znth i dist_j_2 __default__List_Z)) (0)) + (Znth (j) ((Znth k dist_j_2 __default__List_Z)) (0)) ) < (Znth (j) ((Znth i dist_j_2 __default__List_Z)) (0)))) (PreH2 : ((Znth (j) ((Znth k dist_j_2 __default__List_Z)) (0)) < 1000000000)) (PreH3 : ((Znth (k) ((Znth i dist_j_2 __default__List_Z)) (0)) < 1000000000)) (PreH4 : (FloydAdjacencyMatrix2Darray.matrix_rows_model dist_j_2 )) (PreH5 : (j < n_pre)) (PreH6 : (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre )) (PreH7 : (0 <= n_pre)) (PreH8 : (n_pre <= 10)) (PreH9 : (0 <= k)) (PreH10 : (k < n_pre)) (PreH11 : (0 <= i)) (PreH12 : (i < n_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= n_pre)) (PreH15 : forall (r: Z) , forall (c: Z) , (((((0 <= r) /\ (r < 10)) /\ (0 <= c)) /\ (c < 10)) -> ((0 <= (Znth c (Znth r dist_j_2 __default__List_Z) 0)) /\ ((Znth c (Znth r dist_j_2 __default__List_Z) 0) <= 1000000000)))) (PreH16 : (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_j_2)) (FloydAdjacencyMatrix2Darray.floyd_j_i_k_from (g_low_level_spec) (n_pre) (k) (i) (j)) X_low_level_spec )) (PreH17 : (FloydAdjacencyMatrix2Darray.matrix_shape dist_j_2 )) (PreH18 : (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_j_2 )) ,
@@ -423,7 +423,7 @@ forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g
   &&  “ (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_j)) (FloydAdjacencyMatrix2Darray.floyd_j_i_k_from (g_low_level_spec) (n_pre) (k) (i) ((j + 1 ))) X_low_level_spec ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_shape dist_j ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_j ) ”
-  &&  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
+  &&  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
 ).
 
 Definition floyd_adjacency_matrix_2Darray_entail_wit_4_2 := 
@@ -445,7 +445,7 @@ forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g
   &&  “ (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_j)) (FloydAdjacencyMatrix2Darray.floyd_j_i_k_from (g_low_level_spec) (n_pre) (k) (i) ((j + 1 ))) X_low_level_spec ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_shape dist_j ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_j ) ”
-  &&  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
+  &&  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
 ) \/
 (
 forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g_low_level_spec: G) (dist_j_2: (@list (@list Z))) (j: Z) (i: Z) (k: Z)  __default__List_Z (PreH1 : ((Znth (j) ((Znth k dist_j_2 __default__List_Z)) (0)) >= 1000000000)) (PreH2 : ((Znth (k) ((Znth i dist_j_2 __default__List_Z)) (0)) < 1000000000)) (PreH3 : (FloydAdjacencyMatrix2Darray.matrix_rows_model dist_j_2 )) (PreH4 : (j < n_pre)) (PreH5 : (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre )) (PreH6 : (0 <= n_pre)) (PreH7 : (n_pre <= 10)) (PreH8 : (0 <= k)) (PreH9 : (k < n_pre)) (PreH10 : (0 <= i)) (PreH11 : (i < n_pre)) (PreH12 : (0 <= j)) (PreH13 : (j <= n_pre)) (PreH14 : forall (r: Z) , forall (c: Z) , (((((0 <= r) /\ (r < 10)) /\ (0 <= c)) /\ (c < 10)) -> ((0 <= (Znth c (Znth r dist_j_2 __default__List_Z) 0)) /\ ((Znth c (Znth r dist_j_2 __default__List_Z) 0) <= 1000000000)))) (PreH15 : (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_j_2)) (FloydAdjacencyMatrix2Darray.floyd_j_i_k_from (g_low_level_spec) (n_pre) (k) (i) (j)) X_low_level_spec )) (PreH16 : (FloydAdjacencyMatrix2Darray.matrix_shape dist_j_2 )) (PreH17 : (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_j_2 )) ,
@@ -465,7 +465,7 @@ forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g
   &&  “ (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_j)) (FloydAdjacencyMatrix2Darray.floyd_j_i_k_from (g_low_level_spec) (n_pre) (k) (i) ((j + 1 ))) X_low_level_spec ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_shape dist_j ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_j ) ”
-  &&  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
+  &&  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
 ).
 
 Definition floyd_adjacency_matrix_2Darray_entail_wit_4_3 := 
@@ -487,7 +487,7 @@ forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g
   &&  “ (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_j)) (FloydAdjacencyMatrix2Darray.floyd_j_i_k_from (g_low_level_spec) (n_pre) (k) (i) ((j + 1 ))) X_low_level_spec ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_shape dist_j ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_j ) ”
-  &&  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
+  &&  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
 ) \/
 (
 forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g_low_level_spec: G) (dist_j_2: (@list (@list Z))) (j: Z) (i: Z) (k: Z)  __default__List_Z (PreH1 : ((Znth (k) ((Znth i dist_j_2 __default__List_Z)) (0)) >= 1000000000)) (PreH2 : (FloydAdjacencyMatrix2Darray.matrix_rows_model dist_j_2 )) (PreH3 : (j < n_pre)) (PreH4 : (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre )) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre <= 10)) (PreH7 : (0 <= k)) (PreH8 : (k < n_pre)) (PreH9 : (0 <= i)) (PreH10 : (i < n_pre)) (PreH11 : (0 <= j)) (PreH12 : (j <= n_pre)) (PreH13 : forall (r: Z) , forall (c: Z) , (((((0 <= r) /\ (r < 10)) /\ (0 <= c)) /\ (c < 10)) -> ((0 <= (Znth c (Znth r dist_j_2 __default__List_Z) 0)) /\ ((Znth c (Znth r dist_j_2 __default__List_Z) 0) <= 1000000000)))) (PreH14 : (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_j_2)) (FloydAdjacencyMatrix2Darray.floyd_j_i_k_from (g_low_level_spec) (n_pre) (k) (i) (j)) X_low_level_spec )) (PreH15 : (FloydAdjacencyMatrix2Darray.matrix_shape dist_j_2 )) (PreH16 : (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_j_2 )) ,
@@ -507,7 +507,7 @@ forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g
   &&  “ (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_j)) (FloydAdjacencyMatrix2Darray.floyd_j_i_k_from (g_low_level_spec) (n_pre) (k) (i) ((j + 1 ))) X_low_level_spec ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_shape dist_j ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_j ) ”
-  &&  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
+  &&  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
 ).
 
 Definition floyd_adjacency_matrix_2Darray_entail_wit_4_4 := 
@@ -529,7 +529,7 @@ forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g
   &&  “ (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_j)) (FloydAdjacencyMatrix2Darray.floyd_j_i_k_from (g_low_level_spec) (n_pre) (k) (i) ((j + 1 ))) X_low_level_spec ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_shape dist_j ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_j ) ”
-  &&  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
+  &&  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
 ) \/
 (
 forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g_low_level_spec: G) (dist_j_2: (@list (@list Z))) (j: Z) (i: Z) (k: Z)  __default__List_Z (PreH1 : (((Znth (k) ((Znth i dist_j_2 __default__List_Z)) (0)) + (Znth (j) ((Znth k dist_j_2 __default__List_Z)) (0)) ) >= (Znth (j) ((Znth i dist_j_2 __default__List_Z)) (0)))) (PreH2 : ((Znth (j) ((Znth k dist_j_2 __default__List_Z)) (0)) < 1000000000)) (PreH3 : ((Znth (k) ((Znth i dist_j_2 __default__List_Z)) (0)) < 1000000000)) (PreH4 : (FloydAdjacencyMatrix2Darray.matrix_rows_model dist_j_2 )) (PreH5 : (j < n_pre)) (PreH6 : (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre )) (PreH7 : (0 <= n_pre)) (PreH8 : (n_pre <= 10)) (PreH9 : (0 <= k)) (PreH10 : (k < n_pre)) (PreH11 : (0 <= i)) (PreH12 : (i < n_pre)) (PreH13 : (0 <= j)) (PreH14 : (j <= n_pre)) (PreH15 : forall (r: Z) , forall (c: Z) , (((((0 <= r) /\ (r < 10)) /\ (0 <= c)) /\ (c < 10)) -> ((0 <= (Znth c (Znth r dist_j_2 __default__List_Z) 0)) /\ ((Znth c (Znth r dist_j_2 __default__List_Z) 0) <= 1000000000)))) (PreH16 : (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_j_2)) (FloydAdjacencyMatrix2Darray.floyd_j_i_k_from (g_low_level_spec) (n_pre) (k) (i) (j)) X_low_level_spec )) (PreH17 : (FloydAdjacencyMatrix2Darray.matrix_shape dist_j_2 )) (PreH18 : (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_j_2 )) ,
@@ -549,14 +549,14 @@ forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g
   &&  “ (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_j)) (FloydAdjacencyMatrix2Darray.floyd_j_i_k_from (g_low_level_spec) (n_pre) (k) (i) ((j + 1 ))) X_low_level_spec ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_shape dist_j ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_j ) ”
-  &&  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
+  &&  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
 ).
 
 Definition floyd_adjacency_matrix_2Darray_entail_wit_5 := 
 (
 forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g_low_level_spec: G) (dist_j: (@list (@list Z))) (j: Z) (i: Z) (k: Z)  __default__List_Z (PreH1 : (j >= n_pre)) (PreH2 : (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre )) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= 10)) (PreH5 : (0 <= k)) (PreH6 : (k < n_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < n_pre)) (PreH9 : (0 <= j)) (PreH10 : (j <= n_pre)) (PreH11 : forall (r_2: Z) , forall (c_2: Z) , (((((0 <= r_2) /\ (r_2 < 10)) /\ (0 <= c_2)) /\ (c_2 < 10)) -> ((0 <= (Znth c_2 (Znth r_2 dist_j __default__List_Z) 0)) /\ ((Znth c_2 (Znth r_2 dist_j __default__List_Z) 0) <= 1000000000)))) (PreH12 : (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_j)) (FloydAdjacencyMatrix2Darray.floyd_j_i_k_from (g_low_level_spec) (n_pre) (k) (i) (j)) X_low_level_spec )) (PreH13 : (FloydAdjacencyMatrix2Darray.matrix_shape dist_j )) (PreH14 : (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_j )) ,
   ((( &( "j" ) )) # Int  |-> j)
-  **  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
+  **  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
 |--
   EX (dist_i: (@list (@list Z))) ,
   “ (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre ) ” 
@@ -570,7 +570,7 @@ forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g
   &&  “ (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_i)) (FloydAdjacencyMatrix2Darray.floyd_i_k_from (g_low_level_spec) (n_pre) (k) ((i + 1 ))) X_low_level_spec ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_shape dist_i ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_i ) ”
-  &&  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_i )
+  &&  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_i )
   **  ((( &( "j" ) )) # Int  |->_)
 ) \/
 (
@@ -590,7 +590,7 @@ Definition floyd_adjacency_matrix_2Darray_entail_wit_6 :=
 (
 forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g_low_level_spec: G) (dist_i: (@list (@list Z))) (i: Z) (k: Z)  __default__List_Z (PreH1 : (i >= n_pre)) (PreH2 : (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre )) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= 10)) (PreH5 : (0 <= k)) (PreH6 : (k < n_pre)) (PreH7 : (0 <= i)) (PreH8 : (i <= n_pre)) (PreH9 : forall (r_2: Z) , forall (c_2: Z) , (((((0 <= r_2) /\ (r_2 < 10)) /\ (0 <= c_2)) /\ (c_2 < 10)) -> ((0 <= (Znth c_2 (Znth r_2 dist_i __default__List_Z) 0)) /\ ((Znth c_2 (Znth r_2 dist_i __default__List_Z) 0) <= 1000000000)))) (PreH10 : (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_i)) (FloydAdjacencyMatrix2Darray.floyd_i_k_from (g_low_level_spec) (n_pre) (k) (i)) X_low_level_spec )) (PreH11 : (FloydAdjacencyMatrix2Darray.matrix_shape dist_i )) (PreH12 : (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_i )) ,
   ((( &( "i" ) )) # Int  |-> i)
-  **  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_i )
+  **  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_i )
 |--
   EX (dist_k: (@list (@list Z))) ,
   “ (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre ) ” 
@@ -602,7 +602,7 @@ forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g
   &&  “ (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_k)) (FloydAdjacencyMatrix2Darray.floyd_k_from (g_low_level_spec) (n_pre) ((k + 1 ))) X_low_level_spec ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_shape dist_k ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_k ) ”
-  &&  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_k )
+  &&  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_k )
   **  ((( &( "i" ) )) # Int  |->_)
 ) \/
 (
@@ -621,11 +621,11 @@ forall (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g_low_level_spe
 Definition floyd_adjacency_matrix_2Darray_return_wit_1 := 
 (
 forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g_low_level_spec: G) (dist_k: (@list (@list Z))) (k: Z)  __default__List_Z (PreH1 : (k >= n_pre)) (PreH2 : (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre )) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= 10)) (PreH5 : (0 <= k)) (PreH6 : (k <= n_pre)) (PreH7 : forall (r: Z) , forall (c: Z) , (((((0 <= r) /\ (r < 10)) /\ (0 <= c)) /\ (c < 10)) -> ((0 <= (Znth c (Znth r dist_k __default__List_Z) 0)) /\ ((Znth c (Znth r dist_k __default__List_Z) 0) <= 1000000000)))) (PreH8 : (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_k)) (FloydAdjacencyMatrix2Darray.floyd_k_from (g_low_level_spec) (n_pre) (k)) X_low_level_spec )) (PreH9 : (FloydAdjacencyMatrix2Darray.matrix_shape dist_k )) (PreH10 : (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_k )) ,
-  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_k )
+  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_k )
 |--
   EX (dist1: (@list (@list Z))) ,
   “ (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist1)) (return (tt)) X_low_level_spec ) ”
-  &&  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist1 )
+  &&  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist1 )
 ) \/
 (
 forall (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g_low_level_spec: G) (dist_k: (@list (@list Z))) (k: Z)  __default__List_Z (PreH1 : (k >= n_pre)) (PreH2 : (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre )) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= 10)) (PreH5 : (0 <= k)) (PreH6 : (k <= n_pre)) (PreH7 : forall (r: Z) , forall (c: Z) , (((((0 <= r) /\ (r < 10)) /\ (0 <= c)) /\ (c < 10)) -> ((0 <= (Znth c (Znth r dist_k __default__List_Z) 0)) /\ ((Znth c (Znth r dist_k __default__List_Z) 0) <= 1000000000)))) (PreH8 : (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_k)) (FloydAdjacencyMatrix2Darray.floyd_k_from (g_low_level_spec) (n_pre) (k)) X_low_level_spec )) (PreH9 : (FloydAdjacencyMatrix2Darray.matrix_shape dist_k )) (PreH10 : (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_k )) ,
@@ -642,7 +642,7 @@ forall (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g_low_level_spe
 
 Definition floyd_adjacency_matrix_2Darray_partial_solve_wit_1 := 
 forall (dist_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (g_low_level_spec: G) (dist_j: (@list (@list Z))) (j: Z) (i: Z) (k: Z)  __default__List_Z (PreH1 : (j < n_pre)) (PreH2 : (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre )) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre <= 10)) (PreH5 : (0 <= k)) (PreH6 : (k < n_pre)) (PreH7 : (0 <= i)) (PreH8 : (i < n_pre)) (PreH9 : (0 <= j)) (PreH10 : (j <= n_pre)) (PreH11 : forall (r: Z) , forall (c: Z) , (((((0 <= r) /\ (r < 10)) /\ (0 <= c)) /\ (c < 10)) -> ((0 <= (Znth c (Znth r dist_j __default__List_Z) 0)) /\ ((Znth c (Znth r dist_j __default__List_Z) 0) <= 1000000000)))) (PreH12 : (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist_j)) (FloydAdjacencyMatrix2Darray.floyd_j_i_k_from (g_low_level_spec) (n_pre) (k) (i) (j)) X_low_level_spec )) (PreH13 : (FloydAdjacencyMatrix2Darray.matrix_shape dist_j )) (PreH14 : (FloydAdjacencyMatrix2Darray.matrix_values_safe dist_j )) ,
-  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
+  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist_j )
 |--
   “ (FloydAdjacencyMatrix2Darray.matrix_rows_model dist_j ) ” 
   &&  “ (j < n_pre) ” 
@@ -852,20 +852,20 @@ Definition floyd_adjacency_matrix_2Darray_derive_high_level_spec_by_low_level_sp
 forall (dist_pre: Z) (n_pre: Z) (dist0_high_level_spec: (@list (@list Z))) (g_high_level_spec: G) ,
   “ (FloydAdjacencyMatrix2Darray.graph_has_size g_high_level_spec n_pre ) ” 
   &&  “ (FloydAdjacencyMatrix2Darray.floyd_init_matrix g_high_level_spec dist0_high_level_spec ) ”
-  &&  (GraphMatrixFlat.graph_rep 10 (FloydAdjacencyMatrix2Darray.graph_matrix_model (g_high_level_spec)) dist_pre dist0_high_level_spec )
+  &&  (GraphMatrixFlat.store_graph 10 (FloydAdjacencyMatrix2Darray.graph_matrix_model (g_high_level_spec)) dist_pre dist0_high_level_spec )
 |--
 EX (g_low_level_spec: G) (dist0_low_level_spec: (@list (@list Z))) (X_low_level_spec: (unit -> (state -> Prop))) ,
   (“ (FloydAdjacencyMatrix2Darray.graph_has_size g_low_level_spec n_pre ) ” 
   &&  “ (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist0_low_level_spec)) (FloydAdjacencyMatrix2Darray.floyd_indexed_program (g_low_level_spec) (n_pre)) X_low_level_spec ) ”
-  &&  (GraphMatrixFlat.graph_rep 10 (FloydAdjacencyMatrix2Darray.graph_matrix_model (g_low_level_spec)) dist_pre dist0_low_level_spec ))
+  &&  (GraphMatrixFlat.store_graph 10 (FloydAdjacencyMatrix2Darray.graph_matrix_model (g_low_level_spec)) dist_pre dist0_low_level_spec ))
   **
   ((EX dist1_2,
   “ (safeExec (FloydAdjacencyMatrix2Darray.state_model (dist1_2)) (return (tt)) X_low_level_spec ) ”
-  &&  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist1_2 ))
+  &&  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist1_2 ))
   -*
   (EX dist1,
   “ (FloydAdjacencyMatrix2Darray.floyd_shortest_matrix g_high_level_spec dist1 ) ”
-  &&  (GraphMatrixFlat.graph_rep 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist1 )))
+  &&  (GraphMatrixFlat.store_graph 10 FloydAdjacencyMatrix2Darray.matrix_rows_model dist_pre dist1 )))
 .
 
 Module Type VC_Correct.

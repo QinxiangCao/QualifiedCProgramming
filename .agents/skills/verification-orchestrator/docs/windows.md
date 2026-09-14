@@ -136,7 +136,7 @@ parent 和 final 都不再次调用 Dune、Make、`coqdep` 或解析 dependency 
 调用绕过。同一无副作用区间直接复用一次完整校验返回的 snapshot/摘要；经过会改写已校验输入的 Rocq/build 步骤、
 state reload 或独立后置接纳边界时再重验，不增加 Windows-only cache、metadata database 或 handoff 字段。
 
-controller 不创建 state、formal、workspace 或 dependency 的同步文件，也不使用操作系统 locking API。
+除 report-root `controller_control.json` 的 active/paused cooperative signal 外，controller 不创建 state、formal、workspace 或 dependency lock，也不使用操作系统 locking API。
 单 run action 按顺序执行；多个 run 同时修改同一 main root 不在合同范围内。generation
 compare-and-swap、digest seal、fixed path 与原子替换仍必须保留。旧实现中 `msvcrt` 独占锁引起的并发
 `PermissionError` 已不存在；这不构成允许同一 run 并发 `step` 的新合同，stale generation 应作为结构化

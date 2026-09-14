@@ -30,7 +30,7 @@
       (ZSimpleGraph::graph_step : G -> Z -> Z -> Prop)
       (ZSimpleGraph::visited_values :
         G -> list Z -> (Z -> Prop) -> Prop)
-      (DFSAdjacencyMatrix2Darray::graph_rep :
+      (DFSAdjacencyMatrix2Darray::store_graph :
         Z -> G -> list (list Z) -> Assertion)
       (DFSAdjacencyMatrix2Darray::graph : Z -> G -> Assertion)
       (DFSAdjacencyMatrix2Darray::visited :
@@ -81,7 +81,7 @@ void dfs_adjacency_matrix_2Darray(int **matrix, int vertex_count,
       ZSimpleGraph::vertex_valid(g, vertex) &&
       safeExec(eq(visited_set),
         bind(DFSAdjacencyMatrix2Darray::dfs_program(g, vertex), c), X) &&
-      DFSAdjacencyMatrix2Darray::graph_rep(matrix, g, rows) *
+      DFSAdjacencyMatrix2Darray::store_graph(matrix, g, rows) *
       DFSAdjacencyMatrix2Darray::visited(visited, g, visited_set)
     Ensure
       exists (bind_visited_set: Z -> Prop),
@@ -89,7 +89,7 @@ void dfs_adjacency_matrix_2Darray(int **matrix, int vertex_count,
           visited_set, bind_visited_set) &&
         bind_visited_set(vertex) &&
         safeExec(eq(bind_visited_set), applyf(c, tt), X) &&
-        DFSAdjacencyMatrix2Darray::graph_rep(matrix, g, rows) *
+        DFSAdjacencyMatrix2Darray::store_graph(matrix, g, rows) *
         DFSAdjacencyMatrix2Darray::visited(visited, g, bind_visited_set)
  */
 ;
@@ -105,7 +105,7 @@ void dfs_adjacency_matrix_2Darray(int **matrix, int vertex_count,
       ZSimpleGraph::vertex_valid(g, vertex) &&
       safeExec(eq(visited_set),
         DFSAdjacencyMatrix2Darray::dfs_program(g, vertex), X) &&
-      DFSAdjacencyMatrix2Darray::graph_rep(matrix, g, rows) *
+      DFSAdjacencyMatrix2Darray::store_graph(matrix, g, rows) *
       DFSAdjacencyMatrix2Darray::visited(visited, g, visited_set)
     Ensure
       exists (low_visited_set: Z -> Prop),
@@ -113,7 +113,7 @@ void dfs_adjacency_matrix_2Darray(int **matrix, int vertex_count,
           visited_set, low_visited_set) &&
         low_visited_set(vertex) &&
         safeExec(eq(low_visited_set), return(tt), X) &&
-        DFSAdjacencyMatrix2Darray::graph_rep(matrix, g, rows) *
+        DFSAdjacencyMatrix2Darray::store_graph(matrix, g, rows) *
         DFSAdjacencyMatrix2Darray::visited(visited, g, low_visited_set)
  */
 {
@@ -232,7 +232,7 @@ void dfs_adjacency_matrix_2Darray(int **matrix, int vertex_count,
                     safeExec(eq(call_visited_set),
                       bind(DFSAdjacencyMatrix2Darray::dfs_program(g, neighbor),
                         DFSAdjacencyMatrix2Darray::dfs_continue(g, vertex)), X) &&
-                    DFSAdjacencyMatrix2Darray::graph_rep(matrix, g, rows) *
+                    DFSAdjacencyMatrix2Darray::store_graph(matrix, g, rows) *
                     DFSAdjacencyMatrix2Darray::visited(
                       visited, g, call_visited_set)
              */
@@ -279,7 +279,7 @@ void dfs_adjacency_matrix_2Darray(int **matrix, int vertex_count,
               visited_set, visited_set_out) &&
             visited_set_out(vertex) &&
             safeExec(eq(visited_set_out), return(tt), X) &&
-            DFSAdjacencyMatrix2Darray::graph_rep(matrix, g, rows) *
+            DFSAdjacencyMatrix2Darray::store_graph(matrix, g, rows) *
             DFSAdjacencyMatrix2Darray::visited(visited, g, visited_set_out)
      */
 }

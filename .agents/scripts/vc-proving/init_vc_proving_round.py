@@ -23,11 +23,7 @@ from path_utils import (
     slug,
     write_json,
 )
-from proof_manual_utils import (
-    ensure_unique_lemma_names,
-    parse_manual_file,
-    partition_manual_lemmas,
-)
+from proof_manual_utils import manual_vc_index
 
 BASE_MANIFEST_NAME = "base_manifest.json"
 VC_PROVING_ROUND_RE = re.compile(r"^.+-vc-proving-r\d+$")
@@ -96,7 +92,6 @@ def create_base_manifest(
     run_root: Path,
     round_report_directory: Path,
     vc_proving_round_id: str,
-    source_goal_version: str,
     goals: list[str] | None = None,
 ) -> Path:
     main_root = main_root.expanduser().resolve()
@@ -146,10 +141,7 @@ def create_base_manifest(
             text = manual_snapshot.decode("utf-8")
         except UnicodeDecodeError as exc:
             raise SystemExit(f"proof manual target is not UTF-8: {manual_file}") from exc
-        _prelude, lemmas = parse_manual_file(text)
-        ensure_unique_lemma_names(lemmas)
-        witness_lemmas, _split_goal_lemmas = partition_manual_lemmas(lemmas)
-        lemma_names = [str(lemma["name"]) for lemma in witness_lemmas]
+        lemma_names = [str(name) for name in manual_vc_index(text)["top_level"]]
         if goals:
             missing = [name for name in goals if name not in set(lemma_names)]
             if missing:
@@ -172,7 +164,6 @@ def create_base_manifest(
     round_report_directory.mkdir(parents=True, exist_ok=True)
     base_manifest_path = container / BASE_MANIFEST_NAME
     manifest = {
-        "source_goal_version": source_goal_version,
         "proof_manual": manual_rel.as_posix(),
         "formal_case_lib": formal_case_lib_rel.as_posix(),
         "seed_sha256": {

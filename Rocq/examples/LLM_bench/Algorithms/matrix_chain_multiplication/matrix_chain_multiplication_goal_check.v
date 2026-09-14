@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Algorithms.matrix_chain_multiplication Require Import matrix_chain_multiplication_goal matrix_chain_multiplication_proof_auto matrix_chain_multiplication_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include matrix_chain_multiplication_proof_auto.
+  Include matrix_chain_multiplication_proof_manual.
+End VC_Correctness.

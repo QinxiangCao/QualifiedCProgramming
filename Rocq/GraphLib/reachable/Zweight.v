@@ -16,6 +16,11 @@ Class EdgeWeight
   weight: G -> E -> option Z;
 }.
 
+Definition nonnegative_edges
+    {G E: Type} `{EdgeWeight G E}
+    (g: G): Prop :=
+  forall e, Z_op_le (Some 0) (weight g e).
+
 
 Section WEIGHTED. 
 

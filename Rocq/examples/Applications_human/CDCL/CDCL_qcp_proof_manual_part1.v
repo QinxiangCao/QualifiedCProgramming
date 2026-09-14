@@ -25,12 +25,12 @@ Local Open Scope sac.
 Lemma proof_of_qcpsat_fill_ints_entail_wit_1 : qcpsat_fill_ints_entail_wit_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  entailer!.
+  cdcl_entailer.
   unfold repeat_Z. simpl.
   sep_apply IntArray.undef_full_to_undef_seg.
-  entailer!.
+  cdcl_entailer.
   cbn.
-  entailer!.
+  cdcl_entailer.
 Qed.
 
 Lemma proof_of_qcpsat_fill_ints_entail_wit_2 : qcpsat_fill_ints_entail_wit_2.
@@ -47,7 +47,7 @@ Proof.
   aggressive_pre_process.
   assert (Hi : i = n_pre) by lia.
   subst i.
-  entailer!.
+  cdcl_entailer.
 Qed.
 
 (* ===== clause_resolution entail wits (7 proofs) ===== *)
@@ -166,16 +166,16 @@ Proof.
       apply Znth_dense_cancel_union__dense_array_prefix_kernels; [congruence | lia].
 Qed.
 
-(* ===== clause_learning entail wits (11 proofs) ===== *)
+(* ===== clause_learning entail wits (10 proofs) ===== *)
 Lemma proof_of_clause_learning_entail_wit_1 : clause_learning_entail_wit_1.
 Proof.
-  aggressive_pre_process; try entailer!.
+  aggressive_pre_process; try cdcl_entailer.
   all: bind_fact (coherent_snapshot F n live original_count snap ) as Hcoh.
   - assert (Hrows : Zlength (snap_rows snap) = live)
       by (unfold coherent_snapshot, snapshot_lengths in Hcoh; tauto).
     rewrite (Znth_indep (snap_rows snap) wi_pre
       __default__List_Z nil) by (rewrite Hrows; lia).
-    entailer!.
+    cdcl_entailer.
   - intros. unfold repeat_Z. apply Znth_repeat.
   - pose proof (coherent_snapshot_row_wf__learning_row_and_scan
       F n live original_count snap wi_pre Hcoh ltac:(lia)) as [Hlen _].
@@ -197,14 +197,14 @@ Proof.
   Exists conflict_row_ptr_2
     (replace_Znth i
       (Znth i (Znth wi_pre (snap_rows snap) nil) 0) copied_2).
-  entailer!.
+  cdcl_entailer.
   - unfold learning_focus_state.
     Exists v_data cl_data.
     unfold installed_row_focus_rep, StorePtrAsElement.storeA,
            sat_header_rep, var_header_rep, clause_header_rep.
     change (sizeof (PTR)) with ptr_size_Z.
     fold_arch.
-    entailer!.
+    cdcl_entailer.
   - intros k_2 Hk.
     rewrite Znth_replace_Znth_Diff by (try rewrite Hcopied_len; lia).
     apply Hsuffix. lia.
@@ -232,7 +232,7 @@ Proof.
       conflict_row_ptr (snap_rows snap) ltac:(lia)) as Hmerge.
     unfold installed_row_focus_rep, StorePtrAsElement.storeA in Hmerge.
     sep_apply_l_atomic Hmerge.
-    entailer!.
+    cdcl_entailer.
   - dump_pre_spatial.
     unfold learning_ready_conflict in Hready.
     destruct Hready as [c [Hnth Hfalse]].
@@ -257,43 +257,29 @@ Proof.
     intros x Hx. lia.
 Qed.
 
-Lemma proof_of_clause_learning_entail_wit_6_manual_unused : clause_learning_entail_wit_6.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  try subst scan.
-  Exists working_2.
-  split_pure_spatial.
-  - cancel (IntArray.full res n working_2).
-    cancel (learning_state s_pre values reasons levels states true_counts
-      unassigned row_table n live cap logical_dl snap).
-  - split_pures;
-      dump_pre_spatial;
-      try assumption;
-      try lia.
-Qed.
 
 Lemma proof_of_clause_learning_entail_wit_7 : clause_learning_entail_wit_7.
 Proof.
-  aggressive_pre_process; try entailer!.
-  all: bind_fact ((Znth scan (snap_reasons (snap)) 0) <> (-1)) as Hreason_some.
-  all: bind_fact (coherent_snapshot F n live original_count snap ) as Hcoh.
-  all: pose proof
+  aggressive_pre_process; try cdcl_entailer.
+  all: (bind_fact ((Znth scan (snap_reasons (snap)) 0) <> (-1)) as Hreason_some);
+    (bind_fact (coherent_snapshot F n live original_count snap ) as Hcoh);
+    (pose proof
     (snapshot_reason_bounds__learning_row_and_scan
       F n live original_count snap scan Hcoh
       ltac:(unfold var_in_range; lia) Hreason_some) as Hbounds;
-    lia.
+    lia).
 Qed.
 
 
 Lemma proof_of_clause_learning_entail_wit_8 : clause_learning_entail_wit_8.
 Proof.
-  aggressive_pre_process; try entailer!.
+  aggressive_pre_process; try cdcl_entailer.
   all: bind_fact (coherent_snapshot F n live original_count snap ) as Hcoh.
   - assert (Hrows : Zlength (snap_rows snap) = live)
       by (unfold coherent_snapshot, snapshot_lengths in Hcoh; tauto).
     rewrite (Znth_indep (snap_rows snap) wj
       __default__List_Z nil) by (rewrite Hrows; lia).
-    entailer!.
+    cdcl_entailer.
   - pose proof (coherent_snapshot_row_wf__learning_row_and_scan
       F n live original_count snap wj Hcoh ltac:(lia)) as [Hlen _].
     exact Hlen.
@@ -347,7 +333,7 @@ Proof.
   aggressive_pre_process.
   assert (scan_2 = n) by lia.
   subst scan_2.
-  entailer!.
+  cdcl_entailer.
 Qed.
 
 Lemma proof_of_clause_learning_entail_wit_10_2 : clause_learning_entail_wit_10_2.
@@ -369,7 +355,7 @@ Proof.
     unfold installed_row_focus_rep, StorePtrAsElement.storeA in Hmerge.
     rewrite Hrow_len in Hmerge.
     sep_apply_l_atomic Hmerge.
-    entailer!.
+    cdcl_entailer.
   - dump_pre_spatial.
     exact (snapshot_learning_loop_resolution__learning_row_and_scan
       F n live original_count snap ranks logical_dl working_2 i wj
@@ -423,9 +409,9 @@ Lemma proof_of_conflict_analysis_entail_wit_1 : conflict_analysis_entail_wit_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
   unfold top_two_levels_prefix.
-  entailer!.
+  cdcl_entailer.
   - unfold conflict_levels_rep.
-    entailer!.
+    cdcl_entailer.
   - unfold top_two_levels_exact.
     left.
     split.
@@ -457,8 +443,8 @@ Proof.
       eauto; lia.
   }
   unfold top_two_levels_prefix.
-  entailer!.
-  all: entailer!.
+  cdcl_entailer.
+  all: cdcl_entailer.
 Qed.
 Lemma proof_of_conflict_analysis_entail_wit_2_2 : conflict_analysis_entail_wit_2_2.
 Proof.
@@ -482,8 +468,8 @@ Proof.
       eauto; lia.
   }
   unfold top_two_levels_prefix.
-  entailer!.
-  all: entailer!.
+  cdcl_entailer.
+  all: cdcl_entailer.
 Qed.
 Lemma proof_of_conflict_analysis_entail_wit_2_3 : conflict_analysis_entail_wit_2_3.
 Proof.
@@ -507,8 +493,8 @@ Proof.
       eauto; lia.
   }
   unfold top_two_levels_prefix.
-  entailer!.
-  all: entailer!.
+  cdcl_entailer.
+  all: cdcl_entailer.
 Qed.
 Lemma proof_of_conflict_analysis_entail_wit_2_4 : conflict_analysis_entail_wit_2_4.
 Proof.
@@ -532,8 +518,8 @@ Proof.
       eauto; lia.
   }
   unfold top_two_levels_prefix.
-  entailer!.
-  all: entailer!.
+  cdcl_entailer.
+  all: cdcl_entailer.
 Qed.
 Lemma proof_of_conflict_analysis_entail_wit_2_5 : conflict_analysis_entail_wit_2_5.
 Proof.
@@ -550,8 +536,8 @@ Proof.
       eauto; lia.
   }
   unfold top_two_levels_prefix.
-  entailer!.
-  all: entailer!.
+  cdcl_entailer.
+  all: cdcl_entailer.
 Qed.
 (* ===== conflict_analysis return wits (3 proofs) ===== *)
 Lemma proof_of_conflict_analysis_return_wit_1 : conflict_analysis_return_wit_1.
@@ -564,9 +550,9 @@ Proof.
   subst i.
   Right.
   Exists max1_2 max2_2.
-  entailer!.
+  cdcl_entailer.
   unfold conflict_levels_rep.
-  entailer!.
+  cdcl_entailer.
 Qed.
 Lemma proof_of_conflict_analysis_return_wit_2 : conflict_analysis_return_wit_2.
 Proof.
@@ -578,9 +564,9 @@ Proof.
   subst i.
   Left.
   Exists max1_2 max2_2.
-  entailer!.
+  cdcl_entailer.
   unfold conflict_levels_rep.
-  entailer!.
+  cdcl_entailer.
 Qed.
 Lemma proof_of_conflict_analysis_return_wit_3 : conflict_analysis_return_wit_3.
 Proof.
@@ -591,9 +577,9 @@ Proof.
   assert (Hi : i = n) by lia.
   subst i.
   Exists max1_2 max2_2.
-  entailer!.
+  cdcl_entailer.
   unfold conflict_levels_rep.
-  entailer!.
+  cdcl_entailer.
 Qed.
 (* ===== bcp safety wits (3 proofs) ===== *)
 Lemma proof_of_bcp_entail_wit_1 : bcp_entail_wit_1.
@@ -601,7 +587,7 @@ Proof.
   left.
   LLM_pre_process ltac:(int_auto).
   unfold unit_scan.
-  entailer!.
+  cdcl_entailer.
 Qed.
 Lemma proof_of_bcp_entail_wit_2 : bcp_entail_wit_2.
 Proof.
@@ -612,7 +598,7 @@ Proof.
   unfold solver_arrays_rep, variable_arrays_rep.
   unfold unit_scan, bcp_ready.
   Intros.
-  entailer!.
+  cdcl_entailer.
   unfold unit_scan in Hclause_scan.
   destruct Hclause_scan as [[Hi0 Hilive] Hscan].
   intros j Hj.
@@ -637,9 +623,9 @@ Lemma proof_of_bcp_entail_wit_3 : bcp_entail_wit_3.
 Proof.
   aggressive_pre_process.
   unfold variable_arrays_rep.
-  all: unfold unit_scan, unit_variable_scan, bcp_ready.
-  all: Intros.
-  all: entailer!.
+  all: (unfold unit_scan, unit_variable_scan, bcp_ready);
+    (Intros);
+    (cdcl_entailer).
   - bind_fact (coherent_snapshot F n live original_count snap) as Hcoh.
     assert (Hrowslen : Zlength (snap_rows snap) = live).
     { unfold coherent_snapshot, snapshot_lengths in Hcoh; tauto. }
@@ -647,7 +633,7 @@ Proof.
       Znth i (snap_rows snap) __default__List_Z =
       Znth i (snap_rows snap) (@nil Z)).
     { apply Znth_indep. rewrite Hrowslen; lia. }
-    rewrite Hindep; entailer!.
+    rewrite Hindep; cdcl_entailer.
   - bind_fact (Znth (i - 0) (snap_states snap) 0 = 2) as Hstate_two.
     bind_fact (coherent_snapshot F n live original_count snap) as Hcoh.
     destruct (coherent_snapshot_unit_row__bcp_unit_to_assignment
@@ -705,7 +691,7 @@ Proof.
   assert (Hzrow : Znth unitcl (snap_rows snap) (@nil Z) = row).
   { unfold Znth; eapply nth_error_nth; exact Hrow. }
   Exists candidate.
-  entailer!.
+  cdcl_entailer.
   rewrite Hzrow; exact Hcell.
 Qed.
 Lemma proof_of_bcp_entail_wit_5_1 : bcp_entail_wit_5_1.
@@ -759,7 +745,7 @@ Proof.
   unfold variable_arrays_rep.
   unfold unit_variable_scan, bcp_ready.
   Intros.
-  entailer!.
+  cdcl_entailer.
   match goal with Hsrc : unit_variable_scan _ _ _ _ _ |- _ =>
     unfold unit_variable_scan in Hsrc;
     destruct Hsrc as [Hidx [Hnext [c [Hnth [Hunit Hprefix]]]]] end.
@@ -785,7 +771,7 @@ Proof.
     rewrite Hrow_len.
     unfold unit_variable_scan, bcp_ready.
     Intros.
-    entailer!.
+    cdcl_entailer.
     assert (Hicandidate : i < candidate_2).
     { destruct (Z.eq_dec i candidate_2) as [Heq|Hneq]; [|lia].
       subst candidate_2; exfalso; apply PreH8; exact PreH1. }
@@ -838,7 +824,7 @@ Proof.
   unfold variable_arrays_rep.
   unfold unit_variable_scan, bcp_ready.
   Intros.
-  entailer!.
+  cdcl_entailer.
   match goal with Hsrc : unit_variable_scan _ _ _ _ _ |- _ =>
     unfold unit_variable_scan in Hsrc;
     destruct Hsrc as [Hidx [Hnext [c [Hnth [Hunit Hprefix]]]]] end.
@@ -940,9 +926,8 @@ Proof.
     try rewrite sizeof_ptr.
     fold_arch.
     sepcon_assoc_change.
-    cancel;
-      try (split_pures; dump_pre_spatial; try reflexivity; try assumption; try lia).
-  - split_pures; dump_pre_spatial; try reflexivity; try assumption; try lia.
+    cancel.
+  - split_pures; dump_pre_spatial; assumption.
 Qed.
 
 Lemma proof_of_bcp_entail_wit_8_1 : bcp_entail_wit_8_1.
@@ -1030,7 +1015,7 @@ Proof.
     1 true
     ((fun (snap : dense_snapshot) (x : Z) (b : bool) (d reason : Z) => snapshot_set_at snap x b reason d)
       snap bcpvar true logical_dl unitcl)
-    ((fun (ranks : Z -> option nat) (x : Z) (rx : nat) => Mapping.total_mapping_update ranks x (Some rx)) ranks bcpvar
+    ((fun (ranks : Z -> option nat) (x : Z) (rx : nat) => sat_function_update ranks x (Some rx)) ranks bcpvar
       (S ((fun (ranks : Z -> option nat) (c : clause) => fold_right Nat.max O (map (fun l => match ranks (literal_var l) with Some r => r | None => O end) c)) ranks c)))
     (replace_Znth unitcl 0 (snap_states snap)) 0.
   unfold solver_explicit_state.
@@ -1179,7 +1164,7 @@ Proof.
     0 false
     ((fun (snap : dense_snapshot) (x : Z) (b : bool) (d reason : Z) => snapshot_set_at snap x b reason d)
       snap bcpvar false logical_dl unitcl)
-    ((fun (ranks : Z -> option nat) (x : Z) (rx : nat) => Mapping.total_mapping_update ranks x (Some rx)) ranks bcpvar
+    ((fun (ranks : Z -> option nat) (x : Z) (rx : nat) => sat_function_update ranks x (Some rx)) ranks bcpvar
       (S ((fun (ranks : Z -> option nat) (c : clause) => fold_right Nat.max O (map (fun l => match ranks (literal_var l) with Some r => r | None => O end) c)) ranks c)))
     (replace_Znth unitcl 0 (snap_states snap)) 0.
   unfold solver_explicit_state.

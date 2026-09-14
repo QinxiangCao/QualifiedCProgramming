@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Extract the frozen-specification surface of an annotated C file and its case lib.
+"""Extract and compare user-provided specification freezes.
 
 The annotation agent owns the whole C file and the case lib, but a run may fix
 part of that surface as an input rather than something to redesign.  This module
@@ -11,8 +11,8 @@ new entries are unconstrained.**  Adding an ``Extern Coq`` declaration, importin
 another module, or proving a new lemma in the case lib is always allowed; editing
 one that existed at baseline is not.
 
-Extracted (frozen when ``--freeze-spec`` names the owning function, or always for
-the shared surface):
+The user hard-input freeze extracts the following surface (frozen when
+``--freeze-spec`` names the owning function, or always for the shared surface):
 
 ``extern_coq``    one entry per ``(name : type)`` inside ``/*@ Extern Coq ... */``
 ``import_coq``    one entry per module in ``/*@ Import Coq Require Import ... */``
@@ -20,13 +20,12 @@ the shared surface):
                   covers named specs and the ``<= other_spec`` refinement clause
 ``lib``           one entry per top-level declaration in the case lib
 
-Not extracted, and therefore always editable: ``Inv Assert``, ``Assert``,
-``Given``, ``where`` and every other call-site or body annotation.
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import sys
@@ -44,17 +43,21 @@ for _path in (SCRIPT_DIR, VC_PROVING_SCRIPTS):
 
 from proof_manual_utils import coq_token_digest, parse_lib_declarations
 
-ANNOTATION_RE = re.compile(r"/\*@(.*?)\*/", re.S)
-EXTERN_ENTRY_RE = re.compile(r"\(\s*([A-Za-z_][A-Za-z0-9_:']*)\s*:(.*?)\)\s*(?=\(|$)", re.S)
-IMPORT_RE = re.compile(r"Import\s+Coq\s+Require\s+Import\s+(.+)", re.S)
+ANNOTATION_RE = re.compile(r"/\*@(.*?)\*/", re.DOTALL)
+EXTERN_ENTRY_RE = re.compile(
+    r"\(\s*([A-Za-z_][A-Za-z0-9_:']*)\s*:(.*?)\)\s*(?=\(|$)", re.DOTALL
+)
+IMPORT_RE = re.compile(r"Import\s+Coq\s+Require\s+Import\s+(.+)", re.DOTALL)
 SPEC_HEAD_RE = re.compile(
     r"^\s*(?:(?P<name>[A-Za-z_][A-Za-z0-9_']*)\s*(?P<refines><=\s*[A-Za-z_][A-Za-z0-9_']*)?\s*)?"
     r"(?=With\b|Require\b)",
-    re.S,
+    re.DOTALL,
 )
-# `int *foo(...)`, `static long long solver(...)`, `int * constr(char *patn)`
-DECLARATOR_RE = re.compile(r"([A-Za-z_][A-Za-z0-9_]*)\s*\([^;{]*$", re.S)
 BODY_ONLY_KEYWORDS = ("Inv", "Assert", "Given", "where", "Branch")
+# `int *foo(...)`, `static long long solver(...)`, `int * constr(char *patn)`
+DECLARATOR_RE = re.compile(
+    r"([A-Za-z_][A-Za-z0-9_]*)\s*\([^;{]*$", re.DOTALL
+)
 
 
 def normalize(text: str) -> str:
@@ -72,7 +75,7 @@ def _strip_comments(text: str) -> str:
     """
 
     text = ANNOTATION_RE.sub(" ", text)
-    text = re.sub(r"/\*.*?\*/", " ", text, flags=re.S)
+    text = re.sub(r"/\*.*?\*/", " ", text, flags=re.DOTALL)
     return re.sub(r"//[^\n]*", "", text)
 
 
@@ -140,6 +143,30 @@ def extract_lib(text: str) -> dict[str, dict[str, str]]:
     return {"declarations": declarations, "imports": imports}
 
 
+def _design_digest(payload: Any) -> str:
+    rendered = json.dumps(payload, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(rendered.encode("utf-8")).hexdigest()
+
+
+def annotation_spec_source_digest(c_file: Path, lib_file: Path | None) -> str:
+    """Digest the exact C/lib inputs used by a standalone design check."""
+
+    records: list[dict[str, Any]] = []
+    for role, path in (("c", c_file), ("formal_case_lib", lib_file)):
+        if path is None or not path.is_file():
+            records.append({"role": role, "state": "missing", "sha256": None})
+            continue
+        data = path.read_bytes()
+        records.append(
+            {
+                "role": role,
+                "state": "present",
+                "sha256": hashlib.sha256(data).hexdigest(),
+            }
+        )
+    return _design_digest(records)
+
+
 def extract_spec_surface(c_file: Path, lib_file: Path | None) -> dict[str, Any]:
     """Controller entry point: extract the surface a frozen run must preserve."""
 
@@ -158,7 +185,7 @@ def spec_freeze_findings(
     anything, so there is nothing to compare.
     """
 
-    if not record:
+    if not record or record.get("baseline") is None:
         return []
     return compare(
         record["baseline"],

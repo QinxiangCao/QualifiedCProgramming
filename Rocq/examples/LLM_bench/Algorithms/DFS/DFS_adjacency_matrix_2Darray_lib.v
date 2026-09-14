@@ -79,7 +79,7 @@ Definition adjacency_matrix_model
     (value = 0 \/ value = 1) /\
     (value = 1 <-> ZSimpleGraph.graph_step g u v).
 
-Definition graph_rep
+Definition store_graph
     (matrix : addr) (g : ZSimpleGraph.G) (rows : list (list Z))
     : Assertion :=
   “ adjacency_matrix_model g rows ” &&
@@ -90,7 +90,7 @@ Definition graph_rep
 
 Definition graph (matrix : addr) (g : ZSimpleGraph.G) : Assertion :=
   EX rows : list (list Z),
-    graph_rep matrix g rows.
+    store_graph matrix g rows.
 
 Definition visited
     (visited_ptr : addr) (g : ZSimpleGraph.G) (visited_set : Z -> Prop)

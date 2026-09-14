@@ -8,12 +8,12 @@ Before touching a main-root formal target for the first time, the controller rec
 
 1. the accepted annotation's target C file;
 2. the annotation `after_snapshot`;
-3. that the current target C plus every formal/generated role in persisted `target_files` still matches the accepted annotation delivery in present/missing state and present bytes;
+3. that the current target C, library, goal, auto, and goal-check still match the accepted annotation delivery in present/missing state and present bytes, while the current manual matches the accepted proving base seed;
 4. the complete digest of the parent merge result;
 5. the report, copied manual, and applicable `group_worker_lib` digest of every accepted group that exists;
 6. the per-role candidate manual and `proving_merged_lib` digests, using `null` for an absent optional role.
 
-Optional notes such as `group_worker_output.md` are outside the seal. A missing `after_snapshot`, invalid path, unparseable JSON, or digest drift produces a precise blocker before any formal target is modified.
+Delivered `group_worker_output.md` is sealed under the feedback contract. Optional `proof_reuse.md` does not gate group finalize and is not part of the accepted group seal or final provenance. A missing `after_snapshot`, invalid path, unparseable JSON, or protected-digest drift produces a precise blocker before any formal target is modified.
 
 This prevents an unaccepted optional manual or library from being treated as the rollback original, and prevents replacement of only the present formal files from hiding goal, auto, or check drift.
 
@@ -30,7 +30,7 @@ The controller writes back only candidates that are actually present:
 - merged manual to the main-root formal manual;
 - `proving_merged_lib` to the main-root `formal_case_lib`.
 
-An absent optional role does not create a target or placeholder. When both are absent, a zero-target transaction is valid but still completes source revalidation and the phase transition. The target C file and other generated files remain the accepted annotation's main-root versions; they are not copied from a group or merged directory. Fixed exact paths, backup digests, and atomic replacement constrain apply/rollback.
+An absent optional role does not create a target or placeholder. When both are absent, a zero-target transaction is valid but still completes source revalidation and the phase transition. The target C file and other generated files retain the bytes in the accepted annotation backup; they are not copied from a group or merged directory. Fixed exact paths, backup digests, and atomic replacement constrain apply/rollback.
 
 ### Persistent transaction
 
@@ -46,7 +46,7 @@ prepared → backed-up → completed
 
 After interruption, the controller may only verify and continue the same transaction or roll back through that same backup. It must not create a replacement backup that overwrites the original baseline.
 
-Before every recovery, re-entry, or rollback, the controller re-derives the exact zero-, one-, or two-candidate set for the accepted proving and binds it strictly to the transaction. The record set and order may contain neither extra, missing, nor duplicate entries; source, target, relative path, candidate digest, original presence/digest, transaction id, and backup path must exactly match the current run, accepted seals, and fixed backup topology. A zero-target transaction may contain only empty records. If any field has been injected, a path crosses runs, an original digest differs from the accepted annotation seal, or the backup topology is invalid, the controller does not roll back: it terminates as `rollback-failed`, so a corrupt record cannot authorize deletion or restoration of arbitrary main-root files.
+Before every recovery, re-entry, or rollback, the controller re-derives the exact zero-, one-, or two-candidate set for the accepted proving and binds it strictly to the transaction. The record set and order may contain neither extra, missing, nor duplicate entries; source, target, relative path, candidate digest, original presence/digest, transaction id, and backup path must exactly match the current run, accepted seals, and fixed backup topology. The manual original binds to the accepted proving base seed, while the library original binds to the accepted annotation after-state. A zero-target transaction may contain only empty records. If any field has been injected, a path crosses runs, an original digest differs from its corresponding pre-apply seal, or the backup topology is invalid, the controller does not roll back: it terminates as `rollback-failed`, so a corrupt record cannot authorize deletion or restoration of arbitrary main-root files.
 
 When re-entering a `backed-up` or `completed` transaction, each formal target must be either the sealed original or candidate. If an annotation, candidate, manifest, or group seal then fails, the controller first uses the same backup to undo any partial writeback and only then persists `blocked`.
 
@@ -71,7 +71,7 @@ It compares:
 - declaration order when both the raw fresh and proved manuals are present;
 - top-level VC names and statements when a manual is present;
 - split-goal names and statements when a manual is present;
-- the current target C digest against the accepted annotation `source_version`;
+- the current target C against the accepted annotation `after/` backup;
 - goal, auto, goal-check, and other files not replaced by final-apply against sealed annotation history.
 
 When the proved manual is present, its proof bodies intentionally differ from the raw manual, so their digest is not compared and no extra manual artifact is introduced. The acceptance-stage clean replay prevents unstable obligations from reaching proving; it does not replace this final candidate check.
@@ -87,8 +87,7 @@ The controller uses fixed `coq-check` settings:
 - workspace: main root;
 - build: `verification_runs/<run>/_coq_builds/final-check/src`;
 - target: the root-relative goal check;
-- target kind: `check`;
-- version: the current `source_goal_version`.
+- target kind: `check`.
 
 `coqc` and `coqtop` come from explicit environment variables or PATH; accepted dependencies come from selected build output. The main agent does not construct flags, call an internal module, invoke Dune, Make, or `coqdep`, or run raw Coq.
 
@@ -98,7 +97,7 @@ A human uses root-level `uv run --frozen --python 3.12 python` only to enter the
 
 ### Accepted selected dependency snapshot
 
-After annotation acceptance, the `dune-build` action has selected Dune or Makefile according to the `_build` directory, discovered dependencies, and rebuilt stale files for the exact goal-check target. It writes the fixed version to run-root `dune_dependency_snapshot.json` or `makefile_dependency_snapshot.json`. Final-check:
+After annotation acceptance, the `dune-build` action has selected Dune or Makefile according to the `_build` directory, discovered dependencies, and rebuilt stale files for the exact goal-check target. It writes a fixed snapshot to run-root `dune_dependency_snapshot.json` or `makefile_dependency_snapshot.json`. Final-check:
 
 - stages only the exact snapshot closure of applied current files;
 - copies no dependency `.v` or `.vo` into the local build;
@@ -118,7 +117,7 @@ A missing or drifting dependency, a project import outside the snapshot, a chang
 All of these must hold:
 
 - A present manual contains no `Admitted.`, additional `Axiom`, helper, or forbidden top-level declaration.
-- Present-manual declaration names, order, and statement hashes match `source_goal_version`.
+- Present-manual declaration names, order, and statements match the fresh raw manual generated by final-check.
 - When `target_witnesses` is empty, either an absent manual or a present manual containing only generated imports and scope commands, together with empty proof routes and `group_count: 0`, is valid. This does not remove the parent full check or any check in this stage.
 - Every top-level VC is complete.
 - Every split goal for `aggressive_pre_process` is complete, and its top-level proof uses that `proof_mode`.
@@ -131,7 +130,7 @@ All of these must hold:
 
 The accepted group manifest binds assignments through the plan digest. Accepted plan order controls mechanical merge; `dispatch_order` controls only scheduling.
 
-Helpers with the same name and the same declaration/proof tokens are deduplicated. If names match but tokens differ, a frozen public or reuse block wins; otherwise the first plan group wins. Other legal variants are renamed only in the merged candidate with a unique current-group suffix, and references are rewritten only in that group's new-helper closure and assigned proofs. Sealed group files remain unchanged, and the rewritten candidate must already have passed the parent full check.
+Helpers with the same name and the same declaration/proof tokens are deduplicated. If names match but tokens differ, a frozen public block wins; otherwise the first plan group wins. Other legal variants are renamed only in the merged candidate with a unique current-group suffix, and references are rewritten only in that group's new-helper closure and assigned proofs. Sealed group files remain unchanged, and the rewritten candidate must already have passed the parent full check.
 
 The run-root `public_helper_lemma_lib.v` path, digest, and count must match controller state. It is not imported, compiled as an active case library, or written to main root.
 

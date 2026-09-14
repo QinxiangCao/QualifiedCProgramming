@@ -266,7 +266,7 @@ def target_files_for_c(
     It is intentionally independent of the C filename: several C programs may
     share one directory, and a filename such as ``3DGraphField.c`` is not a
     legal Rocq module prefix.  Callers must provide this persisted identity;
-    the C stem is never a fallback identity.
+    the C stem is not the formal identity.
     """
 
     target_path = Path(str(target_c_relative))
@@ -431,40 +431,6 @@ def ensure_run_root(
 
 def run_builds_root(run_root: Path) -> Path:
     return _owned_directory(run_root, RUN_BUILDS_DIR_NAME)
-
-
-def vc_checking_build_workspace(run_root: Path, round_id: str) -> Path:
-    """Return the compact exact/debug workspace for one VC-checking round."""
-
-    return run_builds_root(run_root) / round_id / "vc-checking" / "src"
-
-
-def vc_checking_debug_script(run_root: Path, round_id: str) -> Path:
-    """Return the one authorized current-VC debug script for a round."""
-
-    return (
-        vc_checking_build_workspace(run_root, round_id)
-        / ".coq_debug"
-        / "vc-checking.v"
-    )
-
-
-def reuse_source_build_workspace(run_root: Path, round_id: str) -> Path:
-    """Return the preserved proof-comparison closure of one proving round."""
-
-    return run_builds_root(run_root) / round_id / "reuse-source" / "src"
-
-
-def reuse_source_preparation(run_root: Path, round_id: str) -> Path:
-    """Return the preparation sealed beside one preserved reuse-source build."""
-
-    return run_builds_root(run_root) / round_id / "reuse-source" / "preparation.json"
-
-
-def reuse_source_makefile(run_root: Path, round_id: str) -> Path:
-    """Return the exact Makefile sealed beside one preserved reuse-source build."""
-
-    return run_builds_root(run_root) / round_id / "reuse-source" / RUN_MAKEFILE_NAME
 
 
 def annotation_history_root(run_root: Path) -> Path:
@@ -642,9 +608,12 @@ def render_group_worker_input(
         else "- none planned"
     )
     proof_reuse = (
-        f"- Proof reuse hints: `{group['proof_reuse']}` — read-only; referenced current-run files may be read"
-        if group.get("proof_reuse")
-        else "- Proof reuse hints: none (there was no immediately preceding sealed vc-proving source eligible for comparison)"
+        f"""- Previous proving round: `{group['previous_proving_round']}` — read-only; search its group manuals and libraries for this assignment's witness/helper names, then read only useful candidate blocks.
+- Optional reuse note: `{group['proof_reuse']}`.
+
+When useful, write one short Markdown item for each assigned current witness: say whether a candidate proof/helper is reused directly, reused with changes, or not reused. Split-goal details may stay under the same witness item. Do not read every previous full manual when a targeted search finds the relevant declarations. This note is plain prose for people; the controller does not parse it or gate finalization on it. Missing or empty is accepted. The current assignment, manual, proof mode, and exact group check remain authoritative."""
+        if group.get("previous_proving_round")
+        else "- Previous proving round: none; no reuse note is expected."
     )
     editable_top_level = ", ".join(
         f"`{witness['name']}`" for witness in group["witnesses"]
@@ -696,7 +665,7 @@ Do not create a replacement worker, change proof mode, or enter a new vc-checkin
         formal_file_lines = f"""- Copied manual: `{group["proof_manual"]}`
 - `group_worker_lib`: `{group["group_worker_lib"]}`
 - Read-only `formal_case_lib`: `{formal_case_lib}`
-- Frozen helper candidates: `{group["public_helper_lemma_lib"]}` — inspect and copy useful declarations; never import this file"""
+- Frozen helper candidates: `{group["public_helper_lemma_lib"]}` — search by needed helper/predicate names and read only matching declarations; never import this file"""
         group_finish = "the copied manual and `group_worker_lib`"
         sealed_file_count = "two formal files"
         helper_outcome = (
@@ -774,7 +743,7 @@ Debug script: `{commands["debug_script"]}`. Debug, development, and exact are op
 
 Do not use raw Coq, Dune, Rocq MCP, `Admitted.`, new assumptions, forbidden lemmas, or the forbidden tactics `entailer!` and the bare alias `pre_process` (both are scanned exactly like a forbidden lemma; calls made inside `LLM_pre_process` and `Goal_apply` are unaffected). Repair a recoverable controller failure in this same worker. At the end, success is exactly `status: completed`; `blocked` adds one complete `blocker`. Do not copy version, diff, check status, or controller output.
 
-If the assigned VC exposes an annotation/specification gap outside this group's write boundary, stop proof-only edits and return `blocked` with `blocker.failure_class` exactly `annotation-gap`. Its `location` must name every affected assigned witness. The controller will seal this group, continue dispatching independent groups, and aggregate all such gaps only after the accepted plan reaches terminal group states.
+If an assigned VC exposes an annotation/specification gap outside this group's write boundary, stop proof-only edits and return `blocked` with `blocker.failure_class` exactly `annotation-gap`. Its `vcs` must list every affected exact sealed-manual `name`, `parent`, and `annotation_location`; `message` explains existing premises and the missing conclusion. The controller validates and schedules from those structured VCs.
 """
 
 

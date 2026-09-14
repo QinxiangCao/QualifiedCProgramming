@@ -2,23 +2,20 @@
 """Controller-owned vc-proving preparation and mechanical merge verification.
 
 Copy and merge mechanics live in focused vc-proving modules; this internal
-module binds them to the current round and source_goal_version.
+module binds them to the current round and current main-root files.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
-import os
-import re
-import shutil
 from pathlib import Path
 
 from controller_attempts import (
     _attempt_for_round,
     _proving_manifest_errors,
     _public_helper_pool_errors,
-    _transition_current_version_drift,
+    _transition_current_file_drift,
 )
 from controller_invocations import hydrate_actions
 from controller_rounds import (
@@ -30,7 +27,6 @@ from controller_rounds import (
 )
 from controller_state import (
     _append_event,
-    _debug_build_snapshot,
     _file_digest,
     _generated_artifact_module_spellings_for_state,
     _json_load,
@@ -39,36 +35,49 @@ from controller_state import (
     _save_state,
     _utc,
     _validated_proving_attempt_paths,
+    _validated_annotation_attempt_paths,
 )
-from coq_tooling import dune_snapshot_for_preserved_build, run_coqc_check
 from init_vc_proving_round import create_base_manifest
-from path_utils import (
-    RUN_MAKEFILE_NAME,
-    fixed_path_under,
-    reuse_source_build_workspace,
-    reuse_source_makefile,
-    reuse_source_preparation,
-    write_json,
-)
 from prepare_group_workers import (
     prepare_group_workers,
     resolve_group_workers_manifest,
 )
+from proof_manual_utils import manual_vc_index
 from verify_group_results import verify_and_merge
 
 
-def _seed_digest(seed: object, key: str) -> str | None:
-    if not isinstance(seed, dict):
-        raise SystemExit("vc-proving base manifest seed_sha256 is invalid")
-    value = seed.get(key)
-    if value is None:
-        return None
-    if isinstance(value, str) and re.fullmatch(r"[0-9a-f]{64}", value):
-        return value
-    raise SystemExit(f"vc-proving base manifest seed_sha256.{key} is invalid")
+def _priority_group_ids(state: dict, groups: list[dict]) -> list[str]:
+    accepted = state["accepted_rounds"]["annotation"]
+    annotation_attempt = state["attempts"][accepted["attempt_id"]]
+    plan = _json_load(
+        _validated_annotation_attempt_paths(state, annotation_attempt)["plan"],
+        {},
+    )
+    priority_vcs = {
+        name
+        for comparison in plan["vc_comparisons"]
+        for name in comparison["current"]
+    }
+    if not priority_vcs:
+        return []
+    manual = (
+        Path(str(state["main_root"]))
+        / str(state["target_files"]["proof_manual_file"])
+    ).read_text(encoding="utf-8")
+    vc_index = manual_vc_index(manual)
+    priority_witnesses = {
+        str(vc_index["by_name"][name]["parent"] or name)
+        for name in priority_vcs
+    }
+    return [
+        str(group["id"])
+        for group in groups
+        if priority_witnesses
+        & {str(witness["name"]) for witness in group["witnesses"]}
+    ]
 
 
-def _stop_for_current_version_drift(
+def _stop_for_current_file_drift(
     *,
     run_root: Path,
     state: dict,
@@ -76,10 +85,10 @@ def _stop_for_current_version_drift(
     action: str,
     retry_reason: str | None = None,
 ) -> bool:
-    """Persist the existing annotation-feedback transition on version drift."""
+    """Persist the annotation-feedback transition on current-file drift."""
 
     feedback_attempt = _proving_feedback_attempt_id(state)
-    errors = _transition_current_version_drift(
+    errors = _transition_current_file_drift(
         state,
         attempt,
         action=action,
@@ -91,7 +100,7 @@ def _stop_for_current_version_drift(
     _append_event(
         run_root,
         state,
-        "vc-proving-version-drift",
+        "vc-proving-file-drift",
         round=str(attempt["round"]),
         action=action,
         first_error=errors[0],
@@ -127,7 +136,7 @@ def vc_proving_preparing(args: argparse.Namespace) -> int:
         raise SystemExit(f"vc-proving attempt path topology is invalid: {exc}") from exc
     if attempt.get("status") != "prepared":
         raise SystemExit("vc-proving-preparing attempt is not in prepared state")
-    if _stop_for_current_version_drift(
+    if _stop_for_current_file_drift(
         run_root=run_root,
         state=state,
         attempt=attempt,
@@ -140,11 +149,7 @@ def vc_proving_preparing(args: argparse.Namespace) -> int:
             "vc-proving-preparing public helper pool integrity failed: "
             + "; ".join(public_helper_errors)
         )
-    source_goal = state.get("source_goal_version")
-    if not isinstance(source_goal, dict) or not source_goal.get("digest"):
-        raise SystemExit("vc-proving-preparing requires current source_goal_version")
-    if attempt.get("source_goal_version") != source_goal.get("digest"):
-        raise SystemExit("vc-proving-preparing attempt source_goal_version is stale")
+
     accepted_vc = state.get("accepted_rounds", {}).get("vc-checking", {})
     group_plan = Path(str(accepted_vc.get("group_plan") or ""))
     expected_plan_sha256 = str(accepted_vc.get("group_plan_sha256") or "")
@@ -154,86 +159,9 @@ def vc_proving_preparing(args: argparse.Namespace) -> int:
         or _file_digest(group_plan) != expected_plan_sha256
     ):
         raise SystemExit("accepted group_plan.json changed before vc-proving-preparing")
+
     target = state["target_files"]
     report_directory = attempt_paths["report_directory"]
-    reuse_build_workspace = reuse_source_build_workspace(run_root, args.round)
-    reuse_source_check = run_coqc_check(
-        workspace_root=main_root,
-        build_workspace=reuse_build_workspace,
-        target_file=Path(target["proof_auto_file"]),
-        target_kind="reuse-source",
-        source_goal_version=str(source_goal["digest"]),
-        current_case_anchor=Path(target["proof_auto_file"]),
-    )
-    if reuse_source_check.get("status") != "passed":
-        attempt["reuse_source_check"] = {
-            key: reuse_source_check.get(key)
-            for key in ("status", "returncode", "first_failure")
-            if reuse_source_check.get(key) is not None
-        }
-        state["current_blockers"] = [
-            {
-                "failure_class": "vc-proving-reuse-source",
-                "failure": reuse_source_check.get("first_failure"),
-            }
-        ]
-        _append_event(run_root, state, "vc-proving-preparing-failed", round=args.round)
-        _save_state(run_root, state)
-        print(
-            json.dumps(
-                {
-                    "status": "failed",
-                    "reuse_source_check": attempt["reuse_source_check"],
-                },
-                indent=2,
-            )
-        )
-        return 1
-    run_preparation = state.get("dune_preparation")
-    try:
-        reuse_base_snapshot = dune_snapshot_for_preserved_build(
-            workspace_root=main_root,
-            receipt=run_preparation,
-        )
-        reuse_source_snapshot = _debug_build_snapshot(
-            reuse_build_workspace,
-            dune_dependency_snapshot=reuse_base_snapshot,
-        )
-        preserved_makefile = reuse_source_makefile(run_root, args.round)
-        preserved_makefile.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(run_root / RUN_MAKEFILE_NAME, preserved_makefile)
-        preserved_recipe = preserved_makefile.relative_to(main_root).as_posix()
-        preparation_path = reuse_source_preparation(run_root, args.round)
-        write_json(
-            preparation_path,
-            {
-                **run_preparation,
-                "run_makefile": preserved_recipe,
-                "_snapshot": {
-                    **reuse_base_snapshot["_snapshot"],
-                    "run_makefile": preserved_recipe,
-                },
-            },
-        )
-    except (OSError, ValueError) as exc:
-        raise SystemExit(
-            f"vc-proving-preparing could not seal the reuse-source build: {exc}"
-        ) from exc
-    attempt["reuse_source_snapshot"] = {
-        "status": "passed",
-        "source_goal_version": str(source_goal["digest"]),
-        **reuse_source_snapshot,
-        "preparation_sha256": _file_digest(preparation_path),
-    }
-    if _stop_for_current_version_drift(
-        run_root=run_root,
-        state=state,
-        attempt=attempt,
-        action="vc-proving-preparing post-check",
-    ):
-        return 1
-    if _file_digest(group_plan) != expected_plan_sha256:
-        raise SystemExit("accepted group_plan.json changed during vc-proving-preparing")
     base_manifest = create_base_manifest(
         manual_file=main_root / target["proof_manual_file"],
         formal_case_lib=main_root / target["formal_case_lib"],
@@ -241,86 +169,34 @@ def vc_proving_preparing(args: argparse.Namespace) -> int:
         run_root=run_root,
         round_report_directory=report_directory,
         vc_proving_round_id=args.round,
-        source_goal_version=str(source_goal["digest"]),
         goals=_target_witnesses(state),
     )
-    raw_source_root = fixed_path_under(
-        run_root / args.round / "reuse_source_raw",
-        run_root,
-        label="raw proving reuse snapshot",
-    )
-    if raw_source_root.exists():
-        shutil.rmtree(raw_source_root)
-    base_payload = _json_load(base_manifest, {})
-    seed_sha256 = base_payload.get("seed_sha256")
-    manual_seed = _seed_digest(seed_sha256, "proof_manual")
-    lib_seed = _seed_digest(seed_sha256, "formal_case_lib")
-    raw_source_records: dict[str, str | None] = {
-        "goal_file": None,
-        "proof_manual_file": None,
-        "formal_case_lib": None,
-    }
-    optional_seeds = {
-        "proof_manual_file": manual_seed,
-        "formal_case_lib": lib_seed,
-    }
-    for key in ("goal_file", "proof_manual_file", "formal_case_lib"):
-        relative = Path(str(target[key]))
-        source = main_root / relative
-        expected_seed = optional_seeds.get(key)
-        if key in optional_seeds and expected_seed is None:
-            if os.path.lexists(source):
-                raise SystemExit(
-                    f"absent formal source appeared while freezing vc-proving input: {key}"
-                )
-            continue
-        destination = raw_source_root / relative
-        destination.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source, destination)
-        raw_source_records[key] = _file_digest(destination)
-        if expected_seed is not None and raw_source_records[key] != expected_seed:
-            raise SystemExit(
-                f"formal source changed while freezing vc-proving input: {key}"
-            )
-    if (
-        raw_source_records["proof_manual_file"] != manual_seed
-        or raw_source_records["formal_case_lib"] != lib_seed
-    ):
-        raise SystemExit(
-            "formal source changed while freezing the raw vc-proving reuse source"
-        )
-    attempt["reuse_source_raw"] = {
-        "root": str(raw_source_root),
-        "files": raw_source_records,
-    }
     groups = prepare_group_workers(
         base_manifest,
         group_plan_path=group_plan,
         force_groups=True,
-        max_compact_attempts=state["max_compact_attempts"],
-        reuse_hints=(
-            accepted_vc.get("reuse_hints")
-            if isinstance(accepted_vc.get("reuse_hints"), dict)
-            else None
+        previous_proving_round=attempt.get("previous_proving_round"),
+        dependency_snapshot_sha256=str(
+            state["dune_preparation"]["snapshot_sha256"]
         ),
         expected_proof_manual=str(target["proof_manual_file"]),
         expected_formal_case_lib=str(target["formal_case_lib"]),
         expected_run_root=run_root,
         expected_round=str(attempt["round"]),
     )
-    if _stop_for_current_version_drift(
+    if _stop_for_current_file_drift(
         run_root=run_root,
         state=state,
         attempt=attempt,
-        action="vc-proving-preparing final post-check",
+        action="vc-proving-preparing post-check",
     ):
         return 1
     if _file_digest(group_plan) != expected_plan_sha256:
         raise SystemExit(
             "accepted group_plan.json changed while preparing group copies"
         )
+
     attempt["status"] = "groups-ready"
-    attempt.pop("reuse_source_check", None)
     attempt["base_manifest"] = str(base_manifest)
     attempt["group_workers_manifest"] = str(
         report_directory / "group_workers_manifest.json"
@@ -330,8 +206,10 @@ def vc_proving_preparing(args: argparse.Namespace) -> int:
         Path(attempt["group_workers_manifest"])
     )
     attempt["groups"] = {
-        str(group["id"]): {"status": "prepared", "attempt_index": 1} for group in groups
+        str(group["id"]): {"status": "prepared", "attempt_index": 1}
+        for group in groups
     }
+    attempt["priority_group_ids"] = _priority_group_ids(state, groups)
     _sync_group_actions(state, attempt)
     _append_event(
         run_root,
@@ -339,6 +217,7 @@ def vc_proving_preparing(args: argparse.Namespace) -> int:
         "vc-proving-prepared",
         round=args.round,
         group_count=len(groups),
+        previous_proving_round=attempt.get("previous_proving_round"),
     )
     _save_state(run_root, state)
     print(
@@ -346,6 +225,7 @@ def vc_proving_preparing(args: argparse.Namespace) -> int:
             {
                 "status": "groups-ready",
                 "group_workers_manifest": attempt["group_workers_manifest"],
+                "previous_proving_round": attempt.get("previous_proving_round"),
                 "next_actions": hydrate_actions(
                     state, state.get("next_actions", [])
                 ),
@@ -371,7 +251,7 @@ def vc_proving_verify(args: argparse.Namespace) -> int:
         raise SystemExit(f"vc-proving attempt path topology is invalid: {exc}") from exc
     if attempt.get("status") != "groups-ready":
         raise SystemExit("vc-proving-verify attempt is not in groups-ready state")
-    if _stop_for_current_version_drift(
+    if _stop_for_current_file_drift(
         run_root=run_root,
         state=state,
         attempt=attempt,
@@ -421,10 +301,9 @@ def vc_proving_verify(args: argparse.Namespace) -> int:
         expected_round=str(attempt["round"]),
         forbidden_modules=_generated_artifact_module_spellings_for_state(
             state,
-            source_goal_version=state["source_goal_version"],
         ),
     )
-    if _stop_for_current_version_drift(
+    if _stop_for_current_file_drift(
         run_root=run_root,
         state=state,
         attempt=attempt,
@@ -451,9 +330,6 @@ def vc_proving_verify(args: argparse.Namespace) -> int:
             Path(str(attempt["report_directory"])) / "proving_merged_result.json"
         )
         attempt["failure_status"] = "parent-verify-failed"
-        attempt["failure_source_goal_version"] = str(
-            state["source_goal_version"]["digest"]
-        )
         attempt["failed_result_sha256"] = _file_digest(
             Path(attempt["proving_merged_result"])
         )

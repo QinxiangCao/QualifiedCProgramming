@@ -932,6 +932,16 @@ Definition min_object_weight_epath (g: G) (u: V) (v: V) (p: list E): Prop :=
 Definition min_value_weight_epath (g: G) (u: V) (v: V) (z: option Z): Prop :=
   min_value_of_subset_with_default Z_op_le (fun p => valid_epath g u p v) (epath_weight g) None z. 
 
+Definition shortest_path_relaxation_bounded
+    (g: G) (src: V) (bound: Z): Prop :=
+  forall u v e du w,
+    vvalid g u ->
+    vvalid g v ->
+    step_aux g e u v ->
+    min_value_weight_epath g src u (Some du) ->
+    weight g e = Some w ->
+    0 <= du + w < bound.
+
 Definition min_object_weight_epath_in_vset (g: G) (u: V) (v: V) (vset: V -> Prop) (p: list E): Prop :=
   min_object_of_subset Z_op_le (fun p => is_epath_through_vset g u p v vset) (epath_weight g) p. 
 

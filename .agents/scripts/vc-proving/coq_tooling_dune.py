@@ -36,8 +36,8 @@ from path_utils import (
 from process_adapter import run_bounded_process
 
 
-COQ_COMMAND_TIMEOUT_SECONDS = 1800
-DUNE_BUILD_TIMEOUT_SECONDS = 1800
+COQ_COMMAND_TIMEOUT_SECONDS = 30 * 60
+DUNE_BUILD_TIMEOUT_SECONDS = COQ_COMMAND_TIMEOUT_SECONDS
 DUNE_BUILD_DIRECTORY = Path("_build/default")
 DUNE_SNAPSHOT_SCHEMA_VERSION = 1
 DUNE_SNAPSHOT_FILE_NAME = "dune_dependency_snapshot.json"
@@ -53,6 +53,7 @@ FIXED_LOAD_PATH_MAPPINGS: tuple[tuple[str, str, str], ...] = (
     ("-R", "Rocq/stdlib", "SimpleC.StdLib"),
     ("-R", "Rocq/StrategyLib", "SimpleC.StrategyLib"),
     ("-R", "Rocq/Common", "SimpleC.Common"),
+    ("-R", "Rocq/cdcllib", "CDCLLib"),
     ("-R", "Rocq/fixedpoints", "FP"),
     ("-R", "Rocq/MonadLib", "MonadLib"),
     ("-R", "Rocq/listlib", "ListLib"),
@@ -679,7 +680,6 @@ def _snapshot_payload(
     target_rel: Path,
     case_identity: tuple[Path, str],
     current_family: Sequence[Path],
-    source_goal_version: str | None,
     dune_executable: str,
 ) -> dict[str, Any]:
     root = workspace_root.expanduser().resolve()
@@ -745,7 +745,6 @@ def _snapshot_payload(
     directory, case_name = case_identity
     payload = {
         "schema_version": DUNE_SNAPSHOT_SCHEMA_VERSION,
-        "source_goal_version": source_goal_version,
         "target": target_artifact.as_posix(),
         "build_root": DUNE_BUILD_DIRECTORY.as_posix(),
         "dune_executable": dune_executable,
@@ -799,15 +798,19 @@ def prepare_dune_dependencies(
     workspace_root: Path,
     target_file: Path,
     current_case_anchor: Path,
-    source_goal_version: str | None,
     snapshot_path: Path | None = None,
     timeout_seconds: int | float | None = DUNE_BUILD_TIMEOUT_SECONDS,
 ) -> dict[str, Any]:
     """Run one exact Dune build and seal its dependency/artifact snapshot."""
 
     started = time.monotonic()
-    timeout = float(
-        DUNE_BUILD_TIMEOUT_SECONDS if timeout_seconds is None else timeout_seconds
+    timeout = min(
+        float(
+            DUNE_BUILD_TIMEOUT_SECONDS
+            if timeout_seconds is None
+            else timeout_seconds
+        ),
+        float(DUNE_BUILD_TIMEOUT_SECONDS),
     )
     root = workspace_root.expanduser().resolve()
     try:
@@ -886,12 +889,10 @@ def prepare_dune_dependencies(
             target_rel=target_rel,
             case_identity=identity,
             current_family=family,
-            source_goal_version=source_goal_version,
             dune_executable=dune,
         )
         receipt: dict[str, Any] = {
             "status": "passed",
-            "source_goal_version": source_goal_version,
             "target": target_artifact.as_posix(),
             "build_root": DUNE_BUILD_DIRECTORY.as_posix(),
             "dune_executable": dune,
@@ -944,7 +945,6 @@ def prepare_dune_dependencies(
 def compact_dune_preparation(evidence: Mapping[str, Any]) -> dict[str, Any]:
     keys = (
         "status",
-        "source_goal_version",
         "target",
         "build_root",
         "dune_executable",
@@ -975,7 +975,6 @@ def _strict_snapshot(payload: Any) -> dict[str, Any]:
         )
     required = {
         "schema_version",
-        "source_goal_version",
         "target",
         "build_root",
         "dune_executable",
@@ -1036,7 +1035,6 @@ def _validated_dune_snapshot(
     *,
     workspace_root: Path,
     receipt: Mapping[str, Any] | None,
-    expected_source_goal_version: str | None = None,
 ) -> dict[str, Any]:
     """Validate one receipt and return the exact snapshot already inspected."""
 
@@ -1046,11 +1044,6 @@ def _validated_dune_snapshot(
     snapshot = _load_snapshot_from_receipt(
         workspace_root=root, receipt=receipt
     )
-    if (
-        expected_source_goal_version is not None
-        and snapshot.get("source_goal_version") != expected_source_goal_version
-    ):
-        raise ValueError("Dune preparation source_goal_version is stale")
     digest_fields = {
         "dependency_digest": snapshot["dependencies"],
         "source_digest": snapshot["base_sources"],
@@ -1087,14 +1080,12 @@ def _require_validated_dune_snapshot(
     *,
     workspace_root: Path,
     receipt: Mapping[str, Any] | None,
-    expected_source_goal_version: str | None = None,
     repair: str = "Rerun the controller-owned dune-build action.",
 ) -> dict[str, Any]:
     try:
         return _validated_dune_snapshot(
             workspace_root=workspace_root,
             receipt=receipt,
-            expected_source_goal_version=expected_source_goal_version,
         )
     except (
         CoqBuildPlanError,
@@ -1115,13 +1106,11 @@ def dune_preparation_receipt_errors(
     *,
     workspace_root: Path,
     receipt: Mapping[str, Any] | None,
-    expected_source_goal_version: str | None = None,
 ) -> list[str]:
     try:
         _validated_dune_snapshot(
             workspace_root=workspace_root,
             receipt=receipt,
-            expected_source_goal_version=expected_source_goal_version,
         )
     except (CoqBuildPlanError, OSError, UnicodeError, ValueError, json.JSONDecodeError) as exc:
         return [str(exc) or repr(exc)]
@@ -1142,24 +1131,6 @@ def _receipt_from_run(
         return None
     receipt = state.get("dune_preparation") if isinstance(state, dict) else None
     return receipt if isinstance(receipt, Mapping) else None
-
-
-def dune_snapshot_for_preserved_build(
-    *,
-    workspace_root: Path,
-    receipt: Mapping[str, Any] | None,
-) -> dict[str, Any]:
-    """Validate the caller's preparation and return the base closure it selects."""
-
-    snapshot = _require_validated_dune_snapshot(
-        workspace_root=workspace_root,
-        receipt=receipt,
-    )
-    return {
-        "digest": snapshot["artifact_digest"],
-        "file_count": len(snapshot["base_artifacts"]),
-        "_snapshot": snapshot,
-    }
 
 
 def _normalized_overlay_map(
@@ -1669,7 +1640,6 @@ def _coq_failure_result(
     *,
     target_file: Path,
     target_kind: str,
-    source_goal_version: str | None,
     build_workspace: Path,
     started: float,
     error: CoqBuildPlanError,
@@ -1679,7 +1649,6 @@ def _coq_failure_result(
         "returncode": 2,
         "target_file": target_file.as_posix(),
         "target_kind": target_kind,
-        "source_goal_version": source_goal_version,
         "build_workspace": str(build_workspace),
         "dependency_mode": "dune-snapshot",
         "first_failure": error.first_failure(),
@@ -1694,20 +1663,23 @@ def run_coqc_check(
     build_workspace: Path,
     target_file: Path,
     target_kind: str,
-    source_goal_version: str | None,
     timeout_seconds: int | float | None = COQ_COMMAND_TIMEOUT_SECONDS,
     group_check: dict[str, Any] | None = None,
     overlays: dict[Path, Path] | None = None,
     incremental: bool = False,
     current_case_anchor: Path | None = None,
     dune_preparation: Mapping[str, Any] | None = None,
-    _reuse_dune_snapshot: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Compile/check current files using one previously sealed Dune graph."""
 
     started = time.monotonic()
-    timeout = float(
-        COQ_COMMAND_TIMEOUT_SECONDS if timeout_seconds is None else timeout_seconds
+    timeout = min(
+        float(
+            COQ_COMMAND_TIMEOUT_SECONDS
+            if timeout_seconds is None
+            else timeout_seconds
+        ),
+        float(COQ_COMMAND_TIMEOUT_SECONDS),
     )
     deadline = started + timeout
     root = workspace_root.expanduser().resolve()
@@ -1718,7 +1690,6 @@ def run_coqc_check(
         return _coq_failure_result(
             target_file=target_rel,
             target_kind=target_kind,
-            source_goal_version=source_goal_version,
             build_workspace=build,
             started=started,
             error=CoqBuildPlanError(
@@ -1729,32 +1700,16 @@ def run_coqc_check(
             ),
         )
     try:
-        if _reuse_dune_snapshot is None:
-            receipt = dune_preparation or _receipt_from_run(
-                workspace_root=root, build_workspace=build
-            )
-            snapshot = _require_validated_dune_snapshot(
-                workspace_root=root,
-                receipt=receipt,
-                expected_source_goal_version=(source_goal_version or None),
-                repair=(
-                    "Rerun the controller-owned dune-build action before proving."
-                ),
-            )
-        else:
-            snapshot = _strict_snapshot(_reuse_dune_snapshot)
-            if (
-                source_goal_version is not None
-                and snapshot.get("source_goal_version") != source_goal_version
-            ):
-                raise CoqBuildPlanError(
-                    category="freshness",
-                    kind="dune-preparation-stale",
-                    message="Dune preparation source_goal_version is stale",
-                    repair=(
-                        "Rerun the controller-owned dune-build action before proving."
-                    ),
-                )
+        receipt = dune_preparation or _receipt_from_run(
+            workspace_root=root, build_workspace=build
+        )
+        snapshot = _require_validated_dune_snapshot(
+            workspace_root=root,
+            receipt=receipt,
+            repair=(
+                "Rerun the controller-owned dune-build action before proving."
+            ),
+        )
         anchor = current_case_anchor or target_rel
         identity = target_case_identity(
             target_rel,
@@ -1801,7 +1756,23 @@ def run_coqc_check(
             for relative in current_sources
         }
         _validate_fixed_dependencies(snapshot=snapshot, source_texts=source_texts)
-        order = _topological_current_order(snapshot)
+        # Development checks deliberately allow the assigned manual spans to
+        # end in ``Abort`` while a worker is still searching for a proof.  The
+        # accepted goal-check module is a *downstream consumer* of the manual,
+        # so compiling the whole current family here would reject that allowed
+        # intermediate state before the manual itself can provide feedback.
+        #
+        # Debug preparation has the same boundary: it only needs the selected
+        # anchor and its current dependencies before loading the controller-
+        # authorized coqtop script.  Exact/final checks continue to compile the
+        # complete current family and therefore retain the strict goal-check
+        # gate.
+        development_roots = (
+            [target_rel]
+            if incremental or target_kind == "debug-preparation"
+            else None
+        )
+        order = _topological_current_order(snapshot, roots=development_roots)
         compiled, reused, compile_seconds, compile_failure = _compile_current_sources(
             workspace_root=root,
             build_workspace=build,
@@ -1819,7 +1790,6 @@ def run_coqc_check(
                 "status": "failed",
                 "target_file": target_rel.as_posix(),
                 "target_kind": target_kind,
-                "source_goal_version": source_goal_version,
                 "configured_coqc": configured_coq_executable(root, "coqc"),
                 "build_workspace": str(build),
                 "dependency_mode": "dune-snapshot",
@@ -1865,7 +1835,6 @@ def run_coqc_check(
                     "status": "failed",
                     "target_file": target_rel.as_posix(),
                     "target_kind": target_kind,
-                    "source_goal_version": source_goal_version,
                     "configured_coqc": argv[0],
                     "build_workspace": str(build),
                     "dependency_mode": "dune-snapshot",
@@ -1892,7 +1861,6 @@ def run_coqc_check(
             "returncode": 0,
             "target_file": target_rel.as_posix(),
             "target_kind": target_kind,
-            "source_goal_version": source_goal_version,
             "configured_coqc": configured_coq_executable(root, "coqc"),
             "build_workspace": str(build),
             "dependency_mode": "dune-snapshot",
@@ -1910,7 +1878,6 @@ def run_coqc_check(
         return _coq_failure_result(
             target_file=target_rel,
             target_kind=target_kind,
-            source_goal_version=source_goal_version,
             build_workspace=build,
             started=started,
             error=exc,
@@ -1919,7 +1886,6 @@ def run_coqc_check(
         return _coq_failure_result(
             target_file=target_rel,
             target_kind=target_kind,
-            source_goal_version=source_goal_version,
             build_workspace=build,
             started=started,
             error=CoqBuildPlanError(
@@ -1936,16 +1902,18 @@ def run_coqtop_debug(
     workspace_root: Path,
     build_workspace: Path,
     debug_script: Path,
-    source_goal_version: str | None,
     timeout_seconds: int | float | None = COQ_COMMAND_TIMEOUT_SECONDS,
     overlays: dict[Path, Path] | None = None,
-    reuse_existing_build: bool = False,
     current_case_anchor: Path | None = None,
-    _reuse_dune_snapshot: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     started = time.monotonic()
-    timeout = float(
-        COQ_COMMAND_TIMEOUT_SECONDS if timeout_seconds is None else timeout_seconds
+    timeout = min(
+        float(
+            COQ_COMMAND_TIMEOUT_SECONDS
+            if timeout_seconds is None
+            else timeout_seconds
+        ),
+        float(COQ_COMMAND_TIMEOUT_SECONDS),
     )
     deadline = started + timeout
     root = workspace_root.expanduser().resolve()
@@ -1970,55 +1938,30 @@ def run_coqtop_debug(
                 ),
                 repair="Use the one controller-authorized debug script path.",
             )
-        receipt = None
-        if _reuse_dune_snapshot is None:
-            receipt = _receipt_from_run(
-                workspace_root=root, build_workspace=build
-            )
-            snapshot = _require_validated_dune_snapshot(
-                workspace_root=root,
-                receipt=receipt,
-                expected_source_goal_version=(source_goal_version or None),
-            )
-        else:
-            snapshot = _strict_snapshot(_reuse_dune_snapshot)
-            if (
-                source_goal_version is not None
-                and snapshot.get("source_goal_version") != source_goal_version
-            ):
-                raise CoqBuildPlanError(
-                    category="freshness",
-                    kind="dune-preparation-stale",
-                    message="Dune preparation source_goal_version is stale",
-                    repair="Rerun the controller-owned dune-build action.",
-                )
-        if not reuse_existing_build:
-            preparation = run_coqc_check(
-                workspace_root=root,
-                build_workspace=build,
-                target_file=(current_case_anchor or Path(snapshot["current_sources"][-1])),
-                target_kind="debug-preparation",
-                source_goal_version=source_goal_version,
-                timeout_seconds=max(0.0, deadline - time.monotonic()),
-                overlays=overlays,
-                current_case_anchor=current_case_anchor,
-                dune_preparation=receipt,
-                _reuse_dune_snapshot=snapshot,
-            )
-            if preparation.get("status") != "passed":
-                return {
-                    **preparation,
-                    "tool": "coqtop",
-                    "kind": "coqtop_debug",
-                    "debug_script": debug_rel.as_posix(),
-                }
-        else:
-            for relative_text in snapshot["current_sources"]:
-                relative = Path(relative_text)
-                _regular_file(
-                    build / relative.with_suffix(".vo"),
-                    label="preserved debug current artifact",
-                )
+        receipt = _receipt_from_run(
+            workspace_root=root, build_workspace=build
+        )
+        snapshot = _require_validated_dune_snapshot(
+            workspace_root=root,
+            receipt=receipt,
+        )
+        preparation = run_coqc_check(
+            workspace_root=root,
+            build_workspace=build,
+            target_file=(current_case_anchor or Path(snapshot["current_sources"][-1])),
+            target_kind="debug-preparation",
+            timeout_seconds=max(0.0, deadline - time.monotonic()),
+            overlays=overlays,
+            current_case_anchor=current_case_anchor,
+            dune_preparation=receipt,
+        )
+        if preparation.get("status") != "passed":
+            return {
+                **preparation,
+                "tool": "coqtop",
+                "kind": "coqtop_debug",
+                "debug_script": debug_rel.as_posix(),
+            }
         try:
             debug_path = fixed_path_under(
                 build / debug_rel,
@@ -2138,10 +2081,8 @@ def run_coqtop_debug(
             "load_argument": load_argument,
             "resolved_script_path": str(resolved_script),
             "resolved_matches_authorized": True,
-            "source_goal_version": source_goal_version,
             "dependency_mode": "dune-snapshot",
             "reused_base_vo_count": len(snapshot["base_artifacts"]),
-            "preserved_build": bool(reuse_existing_build),
             **result,
             "elapsed_seconds": round(time.monotonic() - started, 6),
         }
@@ -2170,7 +2111,6 @@ def run_coqtop_debug(
             "tool": "coqtop",
             "kind": "coqtop_debug",
             "debug_script": debug_rel.as_posix(),
-            "source_goal_version": source_goal_version,
             "returncode": 2,
             "first_failure": exc.first_failure(),
             "stderr_tail": str(exc),
@@ -2188,7 +2128,6 @@ def run_coqtop_debug(
             "tool": "coqtop",
             "kind": "coqtop_debug",
             "debug_script": debug_rel.as_posix(),
-            "source_goal_version": source_goal_version,
             "returncode": 2,
             "first_failure": failure.first_failure(),
             "stderr_tail": str(failure),

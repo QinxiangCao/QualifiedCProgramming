@@ -1,7 +1,0 @@
-239. Sliding Window Maximum
-
-Given an array nums and an integer k, return the maximum value in every
-contiguous subarray of length k.
-
-The verified C implementation uses a monotonic queue of indices supplied by
-the caller as a scratch array. The output array has length n - k + 1.

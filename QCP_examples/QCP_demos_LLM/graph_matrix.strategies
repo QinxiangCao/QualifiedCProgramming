@@ -2,14 +2,14 @@
 
 id : 1
 priority : unfold(1)
-left : GraphMatrixFlat::graph_rep(?n, ?model, ?p, ?rows) at 0
+left : GraphMatrixFlat::store_graph(?n, ?model, ?p, ?rows) at 0
 action : left_erase(0);
          left_add(model(rows));
          left_add(IntArray2::full(p, n, n, rows));
 
 id : 2
 priority : core(1)
-left : GraphMatrixFlat::graph_rep(?size, ?model, ?p, ?rows) at 0
+left : GraphMatrixFlat::store_graph(?size, ?model, ?p, ?rows) at 0
 right : data_at(pointer_offset(?p, ((?i * ?n) + ?j), I32), I32, ?v) at 1
 check : infer(n == size);
         infer(0 <= i);
@@ -27,7 +27,7 @@ id : 3
 priority : core(1)
 left : (?model : list{list{Z}} -> Prop)(?rows) at 0
        IntArray2::full(?p, ?n, ?n, rows) at 1
-right : GraphMatrixFlat::graph_rep(?size, model, p, rows) at 2
+right : GraphMatrixFlat::store_graph(?size, model, p, rows) at 2
 check : infer(n == size);
 action : right_erase(2);
          left_erase(1);
@@ -35,7 +35,7 @@ action : right_erase(2);
 
 id : 4
 priority : core(1)
-left : GraphMatrixFlat::graph_rep(?size, ?model, ?p, ?rows) at 0
+left : GraphMatrixFlat::store_graph(?size, ?model, ?p, ?rows) at 0
 right : data_at(pointer_offset(pointer_offset(?p, ?i, I32[?w]), ?j, I32), I32, ?v) at 1
 check : infer(w == size);
         infer(0 <= i);
@@ -53,7 +53,7 @@ id : 6
 priority : core(1)
 left : (?model : list{list{Z}} -> Prop)(?rows) at 0
        IntPtrArray2::full(?p, ?n, rows) at 1
-right : GraphMatrixPtr::graph_rep(?size, model, p, rows) at 2
+right : GraphMatrixPtr::store_graph(?size, model, p, rows) at 2
 check : infer(n == size);
 action : right_erase(2);
          left_erase(1);
@@ -61,7 +61,7 @@ action : right_erase(2);
 
 id : 7
 priority : core(1)
-left : GraphMatrixPtr::graph_rep(?size, ?model, ?p, ?rows) at 0
+left : GraphMatrixPtr::store_graph(?size, ?model, ?p, ?rows) at 0
 right : data_at(?p + (?i * sizeof(PTR)), PTR, ?v) at 1
 check : infer(0 <= i);
         infer(i < size);
@@ -121,7 +121,7 @@ action : right_erase(4);
 id : 11
 priority : core(1)
 left : GraphMatrixPtr::row_rep(?size, ?model, ?p, ?i, ?row_ptr, ?rows) at 0
-right : GraphMatrixPtr::graph_rep(size, model, p, rows) at 1
+right : GraphMatrixPtr::store_graph(size, model, p, rows) at 1
 check : infer(0 <= i);
         infer(i < size);
 action : right_erase(1);

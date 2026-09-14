@@ -20,20 +20,18 @@ from controller_invocations import (
     hydrate_actions,
 )
 from controller_rounds import (
-    ANNOTATION_CAUSAL_FAILURE_CLASSES,
     ANNOTATION_GAP_FAILURE_CLASS,
     FORMAL_ARTIFACT_ROLES,
+    GROUP_VC_CHECKING_FAILURE_CLASSES,
     GROUP_NOTES_FILENAME,
     NOTES_ARTIFACT_ROLE,
-    VC_PROVING_PHASE,
     VC_CHECKING_BLOCKER_RETRY_PHASES,
+    VC_PROVING_PHASE,
     _annotation_gap_feedback_records,
     _group_artifact_paths,
     _narrative_paths,
-    _consider_broader_refactor,
     _delivery_message,
     _init_round_attempt,
-    _reuse_group_artifacts_are_sealed,
     _running_deliveries,
     _sync_group_actions,
 )
@@ -43,17 +41,19 @@ from controller_state import (
     _annotation_current_changed_files,
     _append_event,
     _archive_annotation_stage,
-    _current_version_errors,
+    _current_files_errors,
     _elapsed_between,
     _file_digest,
+    _failed_vcs_errors,
     _generated_artifact_module_spellings_for_state,
     _json_load,
     _load_state,
+    _manual_obligations,
     _record_timing_interval,
     _run_root_from_id,
-    _state_transaction,
     _save_state,
     _snapshot_digests,
+    _state_transaction,
     _utc,
     _validated_annotation_attempt_paths,
     _validated_attempt_paths,
@@ -75,7 +75,11 @@ from path_utils import (
     write_text,
 )
 from prepare_group_workers import resolve_group_workers_manifest
-from proof_manual_utils import HELPER_DECL_KINDS, parse_lib_declarations
+from proof_manual_utils import (
+    HELPER_DECL_KINDS,
+    manual_vc_index,
+    parse_lib_declarations,
+)
 from public_helper_utils import (
     apply_public_helper_declaration_plan,
     plan_public_helper_declarations,
@@ -96,6 +100,8 @@ ANNOTATION_TERMINAL_STATUSES = {"completed", "blocked", "compact-error"}
 PHASE_TERMINAL_STATUSES = {"completed", "blocked", "compact-error"}
 GROUP_TERMINAL_STATUSES = {"completed", "blocked", "compact-error"}
 MAX_IDENTICAL_INFRASTRUCTURE_BLOCKERS = 3
+MAX_IDENTICAL_ANNOTATION_TOOL_BLOCKERS = 2
+MAX_IDENTICAL_TOOL_INVOCATIONS_PER_ANNOTATION_ATTEMPT = 2
 
 
 def _blocker_contract_errors(
@@ -110,7 +116,7 @@ def _blocker_contract_errors(
     required = {
         "failure_class",
         "kind",
-        "location",
+        "vcs",
         "message",
         "repair_boundary",
     }
@@ -125,11 +131,67 @@ def _blocker_contract_errors(
         errors.append(
             f"{context} blocker contains unsupported fields: {sorted(extra)}"
         )
-    for field in sorted(required):
+    for field in ("failure_class", "kind", "message", "repair_boundary"):
         if not isinstance(blocker.get(field), str) or not str(
             blocker.get(field) or ""
         ).strip():
             errors.append(f"{context} blocker.{field} must be a non-empty string")
+    vcs = blocker.get("vcs")
+    if not isinstance(vcs, list):
+        errors.append(f"{context} blocker.vcs must be a list")
+    else:
+        for index, vc in enumerate(vcs):
+            if not isinstance(vc, dict) or set(vc) != {
+                "name",
+                "parent",
+                "annotation_location",
+            }:
+                errors.append(f"{context} blocker.vcs[{index}] requires exact fields")
+                continue
+            if not isinstance(vc["name"], str) or not vc["name"]:
+                errors.append(f"{context} blocker.vcs[{index}].name is invalid")
+            if vc["parent"] is not None and (
+                not isinstance(vc["parent"], str) or not vc["parent"]
+            ):
+                errors.append(f"{context} blocker.vcs[{index}].parent is invalid")
+            if (
+                not isinstance(vc["annotation_location"], str)
+                or not vc["annotation_location"]
+            ):
+                errors.append(
+                    f"{context} blocker.vcs[{index}].annotation_location is invalid"
+                )
+    return errors
+
+
+def _blocker_vc_index_errors(
+    blocker: dict[str, Any],
+    *,
+    vc_index: dict[str, Any],
+    allowed_top_level: set[str] | None = None,
+) -> list[str]:
+    """Bind a blocker VC list to exact declarations in one manual."""
+
+    vcs = blocker["vcs"]
+    if not vcs:
+        return ["annotation/specification/dependency blocker.vcs must not be empty"]
+    errors: list[str] = []
+    seen: set[str] = set()
+    for item in vcs:
+        name = str(item["name"])
+        if name in seen:
+            errors.append(f"blocker.vcs repeats VC: {name}")
+            continue
+        seen.add(name)
+        indexed = vc_index["by_name"].get(name)
+        if indexed is None:
+            errors.append(f"blocker.vcs names a VC absent from the sealed manual: {name}")
+            continue
+        if item["parent"] != indexed["parent"]:
+            errors.append(f"blocker.vcs parent differs from the sealed manual: {name}")
+        owner = str(indexed["parent"] or name)
+        if allowed_top_level is not None and owner not in allowed_top_level:
+            errors.append(f"blocker.vcs names an unassigned VC: {name}")
     return errors
 
 
@@ -175,31 +237,6 @@ def _minimal_owner_report_errors(
     return errors
 
 
-def _next_annotation_causal_retry_count(
-    previous: dict[str, Any], feedback_payloads: list[dict[str, Any]]
-) -> int:
-    """Count only feedback whose machine class requires annotation repair."""
-
-    failure_classes = [
-        str(blocker["failure_class"])
-        for payload in feedback_payloads
-        if isinstance(payload, dict)
-        and isinstance((blocker := payload.get("blocker")), dict)
-        and isinstance(blocker.get("failure_class"), str)
-    ]
-    count = int(previous.get("annotation_causal_retry_count", 0))
-    if failure_classes and all(
-        item in ANNOTATION_CAUSAL_FAILURE_CLASSES for item in failure_classes
-    ):
-        return count + 1
-    if feedback_payloads and all(
-        isinstance(payload, dict) and payload.get("status") == "compact-error"
-        for payload in feedback_payloads
-    ):
-        return count
-    return 0
-
-
 def _refresh_group_worker_input(
     state: dict[str, Any],
     proving: dict[str, Any],
@@ -208,10 +245,8 @@ def _refresh_group_worker_input(
 ) -> Path:
     """Render the current worker contract before every future delivery.
 
-    Group directories can remain prepared across a controller upgrade.  The
-    handoff is controller-owned rather than acceptance evidence, so refreshing
-    it at claim time gives an older prepared group the current concise rules
-    without changing either sealed formal file.
+    The handoff is controller-owned rather than acceptance evidence, so it is
+    rendered at claim time without changing either sealed formal file.
     """
 
     group_state = proving.get("groups", {}).get(group_id)
@@ -347,16 +382,17 @@ def _group_formal_artifact_paths(group: dict[str, Any]) -> dict[str, Path]:
 
 
 def _delivered_artifact_paths(paths: dict[str, Path]) -> dict[str, Path]:
-    """Drop the optional notes role when the owner delivered no notes.
+    """Drop owner Markdown roles that have not been delivered yet.
 
     Sealing follows delivery, not failure class. Whether a class *requires*
     notes is a separate question, asked where that class is decided.
     """
 
-    notes = paths.get(NOTES_ARTIFACT_ROLE)
-    if notes is None or notes.is_file():
-        return paths
-    return {role: path for role, path in paths.items() if role != NOTES_ARTIFACT_ROLE}
+    return {
+        role: path
+        for role, path in paths.items()
+        if role != NOTES_ARTIFACT_ROLE or path.is_file()
+    }
 
 
 def _sealed_attempt_paths(
@@ -372,7 +408,7 @@ def _sealed_attempt_paths(
     roles = sealed if isinstance(sealed, dict) else {}
     return {
         role: _attempt_artifact(state, attempt, role)
-        for role in ("report", NOTES_ARTIFACT_ROLE)
+        for role in ("report", "plan", NOTES_ARTIFACT_ROLE)
         if role in roles
     }
 
@@ -477,10 +513,6 @@ def _terminate_report_only_repair_after_formal_drift(
         "timing_interval_index",
     ):
         group_state.pop(key, None)
-    # A formal edit during a report-only retry is not a failed-but-structured
-    # proof candidate.  Discard any provisional reuse seal and route through
-    # the invalid-report blocker without reopening this worker.
-    proving.pop("reuse_group_artifacts", None)
     _sync_group_actions(state, proving)
 
 
@@ -489,6 +521,7 @@ def _annotation_report_contract_errors(
     *,
     expected_changed_files: list[str],
     allowed_write_paths: list[str],
+    attempt: dict[str, Any] | None = None,
 ) -> list[str]:
     """One mechanical report contract shared by preflight and validation."""
 
@@ -497,39 +530,207 @@ def _annotation_report_contract_errors(
         context="annotation",
         terminal_statuses=ANNOTATION_TERMINAL_STATUSES,
     )
+    blocker = report.get("blocker")
     if not set(expected_changed_files) <= set(allowed_write_paths):
         errors.append("annotation changed paths outside allowed_write_paths")
+    if (
+        report.get("status") == "blocked"
+        and isinstance(blocker, dict)
+        and blocker.get("failure_class") == "tool"
+        and isinstance(attempt, dict)
+    ):
+        _identity, invocations = _same_attempt_annotation_tool_failure_chain(
+            attempt
+        )
+        if len(invocations) == 1:
+            errors.append(
+                "the first annotation symexec tooling failure must be retried "
+                "unchanged inside this same claimed attempt before a terminal "
+                "tool blocker is finalized"
+            )
+        all_invocations = attempt.get("owner_symexec_invocations")
+        if (
+            isinstance(all_invocations, list)
+            and all_invocations
+            and isinstance(all_invocations[-1], dict)
+            and all_invocations[-1].get("status") == "passed"
+        ):
+            errors.append(
+                "annotation cannot report a tool blocker after the latest owner "
+                "symexec invocation passed"
+            )
     return errors
 
 
 def _group_report_contract_errors(
     report: dict[str, Any],
     *,
-    state: dict[str, Any],
-    group_state: dict[str, Any],
-    formal_digests: dict[str, str],
-    version_errors: list[str],
+    file_errors: list[str],
 ) -> list[str]:
     """Validate an owner outcome; controller validates all machine facts."""
 
-    del state, group_state, formal_digests
     errors = _minimal_owner_report_errors(
         report,
         context="group",
         terminal_statuses=GROUP_TERMINAL_STATUSES,
     )
     status = str(report.get("status") or "")
-    if status == "completed" and version_errors:
+    if status == "completed" and file_errors:
         errors.append(
-            "completed group cannot be finalized after current source-version drift"
+            "completed group cannot be finalized after current-file drift"
         )
     return errors
 
 
+def _prepare_annotation_continuation(
+    state: dict[str, Any], attempt: dict[str, Any]
+) -> None:
+    """Continue the same persistent annotation attempt after its own gap."""
+
+    attempt["status"] = "prepared"
+    for field in (
+        "delivery",
+        "started_at",
+        "returned_at",
+        "finished_at",
+        "artifact_sha256",
+        "after_snapshot",
+        "changed_files",
+        "annotation_activity",
+        "validation_errors",
+        "report_preflight",
+        "main_check",
+    ):
+        attempt.pop(field, None)
+    session = state.get("annotation_session")
+    if not isinstance(session, dict):
+        raise SystemExit("annotation continuation has no persistent session")
+    session.update(
+        {
+            "status": "prepared",
+            "current_attempt": str(attempt["attempt_id"]),
+        }
+    )
+    state["current_blockers"] = []
+    state["waiting_for"] = []
+    state["next_actions"] = [
+        {
+            "id": f"append-{attempt['attempt_id']}",
+            "kind": "append-annotation-agent",
+            "phase": "annotation",
+            "session_id": str(session["session_id"]),
+            "attempt_id": str(attempt["attempt_id"]),
+            "input": str(attempt["input"]),
+            "report": str(attempt["report"]),
+            "feedback_sources": attempt.get("feedback_sources", []),
+        }
+    ]
+
+
 def _queue_annotation_feedback(
-    state: dict[str, Any], source_attempt: str, reason: str
+    state: dict[str, Any],
+    source_attempt: str,
+    reason: str,
+    *,
+    attempt: dict[str, Any] | None = None,
+    blocker: dict[str, Any] | None = None,
 ) -> None:
     """Expose the main-owned transition that appends this blocker to the one annotation agent."""
+
+    if reason == "annotation-blocked" and isinstance(attempt, dict) and isinstance(
+        blocker, dict
+    ):
+        if blocker.get("failure_class") in GROUP_VC_CHECKING_FAILURE_CLASSES:
+            state["next_actions"] = []
+            state["current_blockers"] = [
+                {
+                    **blocker,
+                    "attempt_id": str(attempt["attempt_id"]),
+                    "kind": "annotation-owner-reported-non-annotation-blocker",
+                    "reported_kind": str(blocker.get("kind") or ""),
+                    "message": (
+                        "The annotation owner confirmed that the failure belongs "
+                        "to VC planning/proof routing and made no annotation-side "
+                        "repair. Automatic annotation retry is stopped."
+                    ),
+                    "repair_boundary": (
+                        "Recover through a vc-checking retry that carries this "
+                        "sealed blocker; do not create another annotation attempt."
+                    ),
+                }
+            ]
+            return
+        invocation_identity, matching_invocations = (
+            _same_attempt_annotation_tool_failure_chain(attempt)
+        )
+        if (
+            blocker.get("failure_class") == "tool"
+            and invocation_identity is not None
+            and len(matching_invocations)
+            >= MAX_IDENTICAL_TOOL_INVOCATIONS_PER_ANNOTATION_ATTEMPT
+        ):
+            category, kind, formal_input_digest = invocation_identity
+            state["next_actions"] = []
+            state["current_blockers"] = [
+                {
+                    "failure_class": category,
+                    "kind": "repeated-annotation-tool-blocker",
+                    "repeated_kind": kind,
+                    "formal_input_digest": formal_input_digest,
+                    "repeat_count": len(matching_invocations),
+                    "attempts": [str(attempt["attempt_id"])],
+                    "invocation_sequences": [
+                        int(item["sequence"]) for item in matching_invocations
+                    ],
+                    "message": (
+                        "The same controller-owned annotation tool failed twice "
+                        "on unchanged formal input inside one claimed attempt."
+                    ),
+                    "repair_boundary": (
+                        "Repair the controller-selected tooling or performance "
+                        "profile; do not create another annotation attempt."
+                    ),
+                }
+            ]
+            return
+        identity, matching_attempts = _identical_annotation_tool_blocker_chain(
+            state,
+            attempt,
+            blocker,
+        )
+        if (
+            identity is not None
+            and len(matching_attempts) >= MAX_IDENTICAL_ANNOTATION_TOOL_BLOCKERS
+        ):
+            failure_class, kind, normalized_boundary = identity
+            state["next_actions"] = []
+            state["current_blockers"] = [
+                {
+                    "failure_class": failure_class,
+                    "kind": "repeated-annotation-tool-blocker",
+                    "repeated_kind": kind,
+                    "normalized_repair_boundary": normalized_boundary,
+                    "repeat_count": len(matching_attempts),
+                    "attempts": matching_attempts,
+                    "message": (
+                        "The same annotation tooling failure repeated without "
+                        "new machine evidence or a formal-file change."
+                    ),
+                    "repair_boundary": (
+                        "Repair the controller-selected tooling, then resume "
+                        "from the preserved annotation phase."
+                    ),
+                }
+            ]
+            return
+
+    if (
+        isinstance(attempt, dict)
+        and attempt.get("phase") == "annotation"
+        and reason.startswith("annotation-")
+    ):
+        _prepare_annotation_continuation(state, attempt)
+        return
 
     state["next_actions"] = [
         {
@@ -541,6 +742,148 @@ def _queue_annotation_feedback(
             "previous_attempt": source_attempt,
         }
     ]
+
+
+def _same_attempt_annotation_tool_failure_chain(
+    attempt: dict[str, Any],
+) -> tuple[tuple[str, str, str] | None, list[dict[str, Any]]]:
+    """Return trailing identical tool failures from one owner symexec delivery."""
+
+    raw = attempt.get("owner_symexec_invocations")
+    if not isinstance(raw, list) or not raw:
+        return None, []
+    last = raw[-1]
+    if (
+        not isinstance(last, dict)
+        or last.get("status") == "passed"
+        or last.get("failure_category") != "tool"
+    ):
+        return None, []
+    identity = (
+        "tool",
+        str(last.get("failure_kind") or ""),
+        str(last.get("formal_input_digest") or ""),
+    )
+    if not identity[1] or not identity[2]:
+        return None, []
+    matching: list[dict[str, Any]] = []
+    for item in reversed(raw):
+        if not isinstance(item, dict):
+            break
+        candidate = (
+            str(item.get("failure_category") or ""),
+            str(item.get("failure_kind") or ""),
+            str(item.get("formal_input_digest") or ""),
+        )
+        if item.get("status") == "passed" or candidate != identity:
+            break
+        matching.append(item)
+    matching.reverse()
+    return identity, matching
+
+
+def _annotation_activity_classification(
+    state: dict[str, Any], attempt: dict[str, Any]
+) -> str:
+    """Separate design, body, and validation activity for user-facing metrics."""
+
+    changed = set(str(item) for item in attempt.get("changed_files", []))
+    formal_inputs = {
+        str(state["target_files"]["c_file"]),
+        str(state["target_files"]["formal_case_lib"]),
+    }
+    if not changed.intersection(formal_inputs):
+        return "validation-only"
+    return (
+        "spec-and-annotation"
+        if int(attempt.get("annotation_iteration", 0)) == 1
+        else "annotation-repair"
+    )
+
+
+def _sealed_annotation_blocker(
+    state: dict[str, Any], attempt: dict[str, Any]
+) -> dict[str, Any] | None:
+    """Return a blocker only when its fixed annotation report matches its seal."""
+
+    if attempt.get("phase") != "annotation":
+        return None
+    try:
+        report_path = _attempt_artifact(state, attempt, "report")
+        integrity_errors = _artifact_integrity_errors(
+            {"report": report_path},
+            attempt.get("artifact_sha256"),
+            main_root=Path(str(state["main_root"])),
+        )
+        if integrity_errors:
+            return None
+        payload = _json_load(report_path, {})
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError, SystemExit):
+        return None
+    if payload.get("status") != "blocked":
+        return None
+    blocker = payload.get("blocker")
+    return blocker if isinstance(blocker, dict) else None
+
+
+def _normalized_annotation_tool_blocker_identity(
+    attempt: dict[str, Any], blocker: dict[str, Any]
+) -> tuple[str, str, str] | None:
+    """Normalize one annotation tool failure for retry-ancestry comparison."""
+
+    if blocker.get("failure_class") != "tool":
+        return None
+    kind = str(blocker.get("kind") or "").strip()
+    boundary = str(blocker.get("repair_boundary") or "").strip().replace("\\", "/")
+    round_id = str(attempt.get("round") or "").strip().replace("\\", "/")
+    if not kind or not boundary or not round_id:
+        return None
+    return (
+        "tool",
+        kind,
+        boundary.replace(round_id, "<annotation-round>"),
+    )
+
+
+def _identical_annotation_tool_blocker_chain(
+    state: dict[str, Any],
+    attempt: dict[str, Any],
+    blocker: dict[str, Any],
+) -> tuple[tuple[str, str, str] | None, list[str]]:
+    """Find consecutive annotation retries with the same sealed tool failure."""
+
+    identity = _normalized_annotation_tool_blocker_identity(attempt, blocker)
+    if identity is None:
+        return None, []
+    matching: list[str] = []
+    candidate = attempt
+    seen: set[str] = set()
+    while True:
+        attempt_id = str(candidate.get("attempt_id") or "")
+        if not attempt_id or attempt_id in seen:
+            break
+        seen.add(attempt_id)
+        candidate_blocker = (
+            blocker
+            if candidate is attempt
+            else _sealed_annotation_blocker(state, candidate)
+        )
+        if (
+            not isinstance(candidate_blocker, dict)
+            or _normalized_annotation_tool_blocker_identity(
+                candidate, candidate_blocker
+            )
+            != identity
+        ):
+            break
+        matching.append(attempt_id)
+        previous_id = str(candidate.get("retry_previous_attempt") or "")
+        previous = state.get("attempts", {}).get(previous_id)
+        if not isinstance(previous, dict) or previous.get("phase") != "annotation":
+            break
+        candidate = previous
+    matching.reverse()
+    return identity, matching
 
 
 def _sealed_vc_checking_blocker(
@@ -576,14 +919,14 @@ def _normalized_infrastructure_blocker_identity(
     if blocker.get("failure_class") != "infrastructure":
         return None
     kind = str(blocker.get("kind") or "").strip()
-    location = str(blocker.get("location") or "").strip().replace("\\", "/")
+    boundary = str(blocker.get("repair_boundary") or "").strip().replace("\\", "/")
     round_id = str(attempt.get("round") or "").strip().replace("\\", "/")
-    if not kind or not location or not round_id:
+    if not kind or not boundary or not round_id:
         return None
     return (
         "infrastructure",
         kind,
-        location.replace(round_id, "<vc-checking-round>"),
+        boundary.replace(round_id, "<vc-checking-round>"),
     )
 
 
@@ -592,37 +935,22 @@ def _identical_infrastructure_blocker_chain(
     attempt: dict[str, Any],
     blocker: dict[str, Any],
 ) -> tuple[tuple[str, str, str] | None, list[str]]:
-    """Find the consecutive same-version VC attempts with one topology failure."""
+    """Find consecutive VC attempts with the same topology failure."""
 
     identity = _normalized_infrastructure_blocker_identity(attempt, blocker)
     if identity is None:
         return None, []
-    current_attempt_id = str(attempt.get("attempt_id") or "")
-    current_source = str(attempt.get("source_version") or "")
-    current_goals = str(attempt.get("source_goal_version") or "")
-    vc_attempts = [
-        item
-        for item in state.get("attempts", {}).values()
-        if isinstance(item, dict) and item.get("phase") == "vc-checking"
-    ]
-    try:
-        current_index = next(
-            index
-            for index, item in enumerate(vc_attempts)
-            if item.get("attempt_id") == current_attempt_id
-        )
-    except StopIteration:
-        return identity, []
     matching: list[str] = []
-    for candidate in reversed(vc_attempts[: current_index + 1]):
-        if (
-            str(candidate.get("source_version") or "") != current_source
-            or str(candidate.get("source_goal_version") or "") != current_goals
-        ):
+    candidate = attempt
+    seen: set[str] = set()
+    while True:
+        attempt_id = str(candidate.get("attempt_id") or "")
+        if not attempt_id or attempt_id in seen:
             break
+        seen.add(attempt_id)
         candidate_blocker = (
             blocker
-            if candidate.get("attempt_id") == current_attempt_id
+            if candidate is attempt
             else _sealed_vc_checking_blocker(state, candidate)
         )
         if (
@@ -633,7 +961,12 @@ def _identical_infrastructure_blocker_chain(
             != identity
         ):
             break
-        matching.append(str(candidate["attempt_id"]))
+        matching.append(attempt_id)
+        previous_id = str(candidate.get("retry_previous_attempt") or "")
+        previous = state.get("attempts", {}).get(previous_id)
+        if not isinstance(previous, dict) or previous.get("phase") != "vc-checking":
+            break
+        candidate = previous
     matching.reverse()
     return identity, matching
 
@@ -658,14 +991,14 @@ def _queue_vc_checking_retry(
             identity is not None
             and len(matching_attempts) >= MAX_IDENTICAL_INFRASTRUCTURE_BLOCKERS
         ):
-            failure_class, kind, normalized_location = identity
+            failure_class, kind, normalized_boundary = identity
             state["next_actions"] = []
             state["current_blockers"] = [
                 {
                     "failure_class": failure_class,
                     "kind": "repeated-vc-checking-infrastructure-blocker",
                     "repeated_kind": kind,
-                    "normalized_location": normalized_location,
+                    "normalized_repair_boundary": normalized_boundary,
                     "repeat_count": len(matching_attempts),
                     "attempts": matching_attempts,
                     "message": (
@@ -696,7 +1029,7 @@ def _queue_vc_checking_retry(
     ]
 
 
-def _transition_current_version_drift(
+def _transition_current_file_drift(
     state: dict[str, Any],
     attempt: dict[str, Any],
     *,
@@ -704,7 +1037,7 @@ def _transition_current_version_drift(
     feedback_attempt_id: str,
     retry_reason: str | None = None,
 ) -> list[str]:
-    """Turn a main-owned version gate failure into annotation feedback.
+    """Turn a main-owned current-file gate failure into annotation feedback.
 
     A plain exception leaves the same impossible action queued forever. This
     transition preserves only the first mechanical mismatch, marks the
@@ -714,7 +1047,7 @@ def _transition_current_version_drift(
     attempt, which has no phase-agent report).
     """
 
-    errors = _current_version_errors(state)
+    errors = _current_files_errors(state)
     if not errors:
         return []
     previous_status = str(attempt.get("status") or "")
@@ -723,13 +1056,13 @@ def _transition_current_version_drift(
     attempt["stale_reason"] = errors[0]
     attempt.setdefault("finished_at", _utc())
     receipt = {
-        "failure_class": "current-version-drift",
+        "failure_class": "current-file-drift",
         "action": action,
         "message": errors[0],
         "error_count": len(errors),
         "detected_at": _utc(),
     }
-    attempt["version_drift"] = receipt
+    attempt["file_drift"] = receipt
     state["current_blockers"] = [receipt]
     _queue_annotation_feedback(
         state,
@@ -913,30 +1246,12 @@ def _accepted_plan_manifest_errors(
     ):
         return ["accepted group_plan.json changed after vc-proving preparation"]
     plan = _json_load(plan_path, {})
-    current_goal = str(state.get("source_goal_version", {}).get("digest") or "")
-    if proving.get("source_goal_version") != current_goal:
-        return ["accepted group plan or vc-proving source_goal_version is stale"]
-    targets = [
-        str(item)
-        for item in state.get("source_goal_version", {}).get(
-            "target_witnesses", []
-        )
-    ]
-    synthetic_lemmas = [
-        {"name": declaration}
-        for witness in targets
-        for declaration in [
-            *[
-                str(item["name"])
-                for item in state["source_goal_version"]
-                .get("split_goals", {})
-                .get(witness, [])
-            ],
-            witness,
-        ]
-    ]
     try:
-        plan_entries = group_entries_from_plan(synthetic_lemmas, plan)
+        obligations = _manual_obligations(state)
+    except (OSError, UnicodeError, ValueError) as exc:
+        return [f"current proof manual cannot be read: {exc}"]
+    try:
+        plan_entries = group_entries_from_plan(obligations, plan)
     except (KeyError, TypeError, ValueError, SystemExit) as exc:
         return [f"accepted group plan is invalid: {exc}"]
     plan_groups = [
@@ -1064,7 +1379,7 @@ def _group_failure_details(message: str, *, recoverable: bool) -> dict[str, Any]
         category = "safety"
         repair = (
             "Remove the forbidden construct; keep every new or adapted helper inside this group's suffix namespace. "
-            "Only a token-identical sealed public/reuse helper may retain its source suffix, and imports must remain "
+            "Only a token-identical public helper may retain its source suffix, and imports must remain "
             "permitted official imports."
         )
     elif any(
@@ -1072,8 +1387,6 @@ def _group_failure_details(message: str, *, recoverable: bool) -> dict[str, Any]
         for marker in (
             "manifest",
             "group_plan",
-            "source_goal_version",
-            "source_version",
             "stale",
             "fixed group directory",
             "report directory",
@@ -1112,7 +1425,7 @@ def _group_structure_validation(
 
     fatal_errors = [
         *_proving_manifest_errors(state, proving),
-        *_current_version_errors(state),
+        *_current_files_errors(state),
     ]
     # Current-round workers consume only the immutable
     # public_helper_snapshot.txt pinned in their manifest. The durable pool is
@@ -1164,7 +1477,6 @@ def _group_structure_validation(
             expected_round=str(proving["round"]),
             forbidden_modules=_generated_artifact_module_spellings_for_state(
                 state,
-                source_goal_version=state["source_goal_version"],
             ),
         )
     except (
@@ -1295,9 +1607,6 @@ def _claimed_delivery_action(
                 {
                     "session_id": str(session["session_id"]),
                     "feedback_sources": attempt.get("feedback_sources", []),
-                    "consider_broader_refactor": _consider_broader_refactor(
-                        attempt
-                    ),
                 }
             )
         return action
@@ -1656,12 +1965,18 @@ def _finalize_delivery_locked(
                 raise SystemExit(str(exc)) from exc
         else:
             annotation_paths = None
-        attempt_paths = annotation_paths or {
-            role: Path(str(attempt[role])) for role in ("report", NOTES_ARTIFACT_ROLE)
-        }
-        paths = _delivered_artifact_paths(
-            {role: attempt_paths[role] for role in ("report", NOTES_ARTIFACT_ROLE)}
+        attempt_paths = (
+            {
+                role: annotation_paths[role]
+                for role in ("report", "plan", NOTES_ARTIFACT_ROLE)
+            }
+            if annotation_paths is not None
+            else {
+                role: Path(str(attempt[role]))
+                for role in ("report", NOTES_ARTIFACT_ROLE)
+            }
         )
+        paths = _delivered_artifact_paths(attempt_paths)
         delivery = attempt.get("delivery")
         if not isinstance(delivery, dict) or delivery.get("owner") != owner:
             raise SystemExit("attempt was not claimed by this owner")
@@ -1708,9 +2023,62 @@ def _finalize_delivery_locked(
                     allowed_write_paths=[
                         str(item) for item in attempt.get("allowed_write_paths", [])
                     ],
+                    attempt=attempt,
                 )
+                if raw_report.get("status") == "completed":
+                    # Keep a malformed or root-drifting plan repair inside the
+                    # same claimed annotation delivery, before its bytes are
+                    # sealed and before main-owned symbolic-execution replay.
+                    from annotation_design import (
+                        annotation_plan_errors,
+                    )
+
+                    try:
+                        raw_plan = _json_load(paths["plan"], {})
+                        c_source = (
+                            main_root / str(state["target_files"]["c_file"])
+                        ).read_text(encoding="utf-8")
+                        plan_errors = annotation_plan_errors(
+                            raw_plan,
+                            c_source=c_source,
+                            failed_vcs=attempt["failed_vcs"],
+                            current_vcs=_manual_obligations(state),
+                        )
+                        preflight_errors.extend(
+                            f"annotation plan: {error}" for error in plan_errors
+                        )
+                    except (
+                        OSError,
+                        UnicodeDecodeError,
+                        json.JSONDecodeError,
+                        ValueError,
+                    ) as exc:
+                        preflight_errors.append(
+                            f"annotation plan cannot be checked: {exc}"
+                        )
             if preflight_errors:
                 checked_at = _utc()
+                same_attempt_tool_retry = any(
+                    "first annotation symexec tooling failure" in error
+                    for error in preflight_errors
+                )
+                if same_attempt_tool_retry:
+                    repair_message = (
+                        "Continue the same claimed annotation delivery, restore "
+                        "agent_report.json to pending, and rerun the exact controller "
+                        "symexec command once without changing C, the case lib, or "
+                        "the specification. If it passes, continue normal checks; if "
+                        "the same tool failure repeats, write the terminal tool report "
+                        "again. Do not create a new attempt."
+                    )
+                else:
+                    repair_message = (
+                        "Continue the same claimed annotation delivery and correct "
+                        "only the terminal report, annotation plan, or out-of-bound "
+                        "formal edit named by this preflight. Do not create a new "
+                        "annotation attempt or replace the owner. After the same agent "
+                        "returns, rerun the unchanged finalize-delivery command."
+                    )
                 attempt["report_preflight"] = {
                     "status": "repair-required",
                     "checked_at": checked_at,
@@ -1734,37 +2102,34 @@ def _finalize_delivery_locked(
                             "owner": owner,
                             "report": str(paths["report"]),
                             "errors": preflight_errors,
-                            "message": (
-                                "Continue the same claimed annotation delivery and correct only the terminal report or an out-of-bound formal edit named by this preflight. "
-                                "Do not create a new annotation attempt or replace the owner. After the same agent returns, rerun the unchanged finalize-delivery command."
-                            ),
+                            "message": repair_message,
                         },
                         indent=2,
                     )
                 )
                 return 2
             attempt.pop("report_preflight", None)
-        elif (
-            attempt["phase"] == "vc-checking"
-            and attempt.get("proof_reuse_round")
-        ):
-            # Keep this candidate-repair gate scoped to the sealed-reuse
-            # cross-artifact contract. The helper itself gives source drift
-            # precedence so the existing mechanical stale transition remains
-            # authoritative.
+        elif attempt["phase"] == "vc-checking":
             try:
                 raw_report = _json_load(paths["report"], {})
             except (OSError, UnicodeDecodeError, json.JSONDecodeError):
                 raw_report = {}
             preflight_errors: list[str] = []
+            report_contract_errors = _minimal_owner_report_errors(
+                raw_report if isinstance(raw_report, dict) else {},
+                context="vc-checking",
+                terminal_statuses=PHASE_TERMINAL_STATUSES,
+            )
+            preflight_errors.extend(report_contract_errors)
+            blocker = (
+                raw_report.get("blocker")
+                if isinstance(raw_report, dict)
+                else None
+            )
             if (
                 isinstance(raw_report, dict)
                 and raw_report.get("status") == "completed"
-                and not _minimal_owner_report_errors(
-                    raw_report,
-                    context="vc-checking",
-                    terminal_statuses=PHASE_TERMINAL_STATUSES,
-                )
+                and not report_contract_errors
             ):
                 # Imported lazily because controller_round_checks imports this
                 # lifecycle module. At finalize runtime both modules are
@@ -1776,6 +2141,29 @@ def _finalize_delivery_locked(
 
                 preflight_errors.extend(
                     _vc_checking_candidate_preflight_errors(state, attempt)
+                )
+            elif (
+                isinstance(raw_report, dict)
+                and raw_report.get("status") == "blocked"
+                and isinstance(blocker, dict)
+                and blocker.get("failure_class")
+                in {"annotation-gap", "specification-gap", "dependency-gap"}
+                and not report_contract_errors
+            ):
+                from controller_round_checks import _vc_structural_scan_errors
+
+                preflight_errors.extend(
+                    _blocker_vc_index_errors(
+                        blocker,
+                        vc_index=_manual_obligations(state),
+                    )
+                )
+                preflight_errors.extend(
+                    _vc_structural_scan_errors(
+                        state,
+                        attempt,
+                        expected_status="blocked",
+                    )
                 )
             if preflight_errors:
                 checked_at = _utc()
@@ -1806,17 +2194,17 @@ def _finalize_delivery_locked(
                                 "group_plan": str(
                                     report_directory / "group_plan.json"
                                 ),
-                                "reuse_hints": str(
-                                    report_directory / "reuse_hints"
-                                ),
                                 "agent_output": str(attempt["output"]),
                                 "agent_report": str(paths["report"]),
-                                "formal_source": "read-only",
+                                "proof_manual": str(
+                                    Path(str(state["main_root"]))
+                                    / str(state["target_files"]["proof_manual_file"])
+                                ),
                             },
                             "message": (
                                 "Continue the same claimed vc-checking delivery "
                                 "with the same owner. Repair only the reported "
-                                "candidate plan/hint contract, update agent_output.md "
+                                "candidate group plan, update agent_output.md "
                                 "only when its explanation changed, and write "
                                 "agent_report.json last. Do not create a new round "
                                 "or redo unaffected formal analysis. Then rerun this "
@@ -1838,6 +2226,9 @@ def _finalize_delivery_locked(
                 state, attempt, "after"
             )
             attempt["changed_files"] = _annotation_changed_files(state, attempt)
+            attempt["annotation_activity"] = _annotation_activity_classification(
+                state, attempt
+            )
             if isinstance(state.get("annotation_session"), dict):
                 state["annotation_session"]["status"] = "returned"
         # Report field/diff validation is part of finalization. The next public
@@ -1956,16 +2347,9 @@ def _finalize_delivery_locked(
         else:
             preflight_errors = _group_report_contract_errors(
                 raw_report if isinstance(raw_report, dict) else {},
-                state=state,
-                group_state=group_state,
-                formal_digests={
-                    key: current_digests[key]
-                    for key in FORMAL_ARTIFACT_ROLES
-                    if key in current_digests
-                },
-                # Version drift is a controller stale outcome handled by the
+                # Current-file drift is a controller stale outcome handled by the
                 # post-seal validation, never an owner report-repair request.
-                version_errors=[],
+                file_errors=[],
             )
         annotation_gap = (
             isinstance(raw_report, dict)
@@ -1974,6 +2358,21 @@ def _finalize_delivery_locked(
             and raw_report["blocker"].get("failure_class")
             == ANNOTATION_GAP_FAILURE_CLASS
         )
+        if annotation_gap and not preflight_errors:
+            preflight_errors.extend(
+                _blocker_vc_index_errors(
+                    raw_report["blocker"],
+                    vc_index=manual_vc_index(
+                        Path(str(group["proof_manual"])).read_text(
+                            encoding="utf-8"
+                        )
+                    ),
+                    allowed_top_level={
+                        str(witness["name"])
+                        for witness in group["witnesses"]
+                    },
+                )
+            )
         if annotation_gap and not _is_non_empty_text(paths.get(NOTES_ARTIFACT_ROLE)):
             preflight_errors.append(
                 "annotation-gap group requires a non-empty group_worker_output.md"
@@ -2153,7 +2552,6 @@ def _execute_group_check(
 ) -> dict[str, Any]:
     """Shared worker/controller check path; only terminal mode supports acceptance."""
 
-    source_goal_version = str(state.get("source_goal_version", {}).get("digest") or "")
     validation = _group_structure_validation(
         state,
         proving,
@@ -2167,7 +2565,6 @@ def _execute_group_check(
             "status": "failed",
             "returncode": 2,
             "target_kind": target_kind,
-            "source_goal_version": source_goal_version,
             "first_failure": validation["first_failure"],
             "stderr_tail": errors[0],
             "elapsed_seconds": 0.0,
@@ -2190,7 +2587,6 @@ def _execute_group_check(
             else tooling["target_file"]
         ),
         target_kind=target_kind,
-        source_goal_version=source_goal_version,
         group_check=None if development else tooling["group_check"],
         overlays=tooling["overlays"],
         incremental=development,
@@ -2210,7 +2606,7 @@ def _validate_group(
 ) -> tuple[str, list[str], dict[str, Any] | None, bool]:
     """Validate a returned group and, when requested, evaluate exact evidence.
 
-    ``run_exact=False`` performs the sealed report/manifest/version preflight
+    ``run_exact=False`` performs the sealed report/manifest/current-file preflight
     only. Group validation uses that mode at its state boundary, runs the
     expensive Rocq check, then calls this function
     again against freshly loaded state with ``exact_evidence``.  Consequently
@@ -2254,15 +2650,15 @@ def _validate_group(
                 False,
             )
         return "invalid", group_artifact_errors, None, False
-    version_errors = _current_version_errors(state)
-    if version_errors:
-        # The immutable group bytes are intact, so current-source drift is a
+    file_errors = _current_files_errors(state)
+    if file_errors:
+        # The immutable group bytes are intact, so current-file drift is a
         # controller fact and takes precedence over any owner report problem.
         # Do not require even parseable report JSON to route back to annotation.
         return (
             "stale",
             [],
-            {"version_drift_errors": version_errors},
+            {"file_drift_errors": file_errors},
             False,
         )
     try:
@@ -2273,19 +2669,12 @@ def _validate_group(
     status = str(report.get("status") or "pending")
     errors = _group_report_contract_errors(
         report if isinstance(report, dict) else {},
-        state=state,
-        group_state=group_state if isinstance(group_state, dict) else {},
-        formal_digests={
-            key: str(sealed_artifacts.get(key) or "")
-            for key in _group_formal_artifact_paths(group)
-            if isinstance(sealed_artifacts, dict)
-        },
-        version_errors=version_errors,
+        file_errors=file_errors,
     )
     effective_status = status
     evidence: dict[str, Any] | None = None
     # Report fields belong to the persistent group owner. If the sealed formal
-    # artifacts and current version are intact, malformed terminal metadata is
+    # artifacts and current files are intact, malformed terminal metadata is
     # repaired in the same fixed group instead of discarding the proving round.
     repairable_group_failure = bool(errors)
     annotation_gap_report = (
@@ -2304,27 +2693,27 @@ def _validate_group(
         annotation_gap_report
         and not errors
     ):
-        location = str(report["blocker"].get("location") or "")
         assigned_witnesses = [
             str(witness.get("name") or "")
             for witness in group.get("witnesses", [])
             if isinstance(witness, dict) and witness.get("name")
         ]
-        if not any(
-            re.search(
-                rf"(?<![A-Za-z0-9_']){re.escape(name)}(?![A-Za-z0-9_'])",
-                location,
+        vc_index = manual_vc_index(
+            Path(str(group["proof_manual"])).read_text(encoding="utf-8")
+        )
+        errors.extend(
+            _blocker_vc_index_errors(
+                report["blocker"],
+                vc_index=vc_index,
+                allowed_top_level=set(assigned_witnesses),
             )
-            for name in assigned_witnesses
-        ):
-            errors.append(
-                "annotation-gap blocker.location must name an assigned witness"
-            )
+        )
+        if errors:
             repairable_group_failure = True
         # An annotation gap may leave assigned proofs unfinished, so it does
         # not run the exact group Rocq target.  It must still preserve every
         # protected token, helper/import boundary, and safety rule before its
-        # sealed bytes can become a conditional reuse source.
+        # controller can preserve them as feedback evidence.
         if not errors:
             validation = _group_structure_validation(
                 state,
@@ -2677,7 +3066,6 @@ def _apply_group_validation_result(
                 for key in (
                     "status",
                     "returncode",
-                    "source_goal_version",
                     "first_failure",
                 )
             }
@@ -2705,7 +3093,7 @@ def _apply_group_validation_result(
         group_state.pop("repair_formal_sha256", None)
         group_state["group_check"] = {
             key: evidence.get(key)
-            for key in ("status", "returncode", "source_goal_version")
+            for key in ("status", "returncode")
         }
         group_state["public_helper_promotion"] = {
             "status": str(promotion.get("status") or "unchanged"),
@@ -2789,27 +3177,27 @@ def _apply_group_validation_result(
         group_state = proving["groups"][group_id]
         group_state["status"] = status
         if status == "stale":
-            version_errors = (
-                list(evidence.get("version_drift_errors", []))
+            file_errors = (
+                list(evidence.get("file_drift_errors", []))
                 if isinstance(evidence, dict)
-                and isinstance(evidence.get("version_drift_errors"), list)
-                else _current_version_errors(state)
+                and isinstance(evidence.get("file_drift_errors"), list)
+                else _current_files_errors(state)
             )
-            if not version_errors:
+            if not file_errors:
                 raise SystemExit(
-                    "stale group validation lost its mechanical version-drift evidence"
+                    "stale group validation lost its mechanical file-drift evidence"
                 )
             receipt = {
-                "failure_class": "current-version-drift",
+                "failure_class": "current-file-drift",
                 "action": "group-worker-validation",
                 "round": str(proving["round"]),
                 "group_id": group_id,
-                "message": str(version_errors[0]),
-                "error_count": len(version_errors),
+                "message": str(file_errors[0]),
+                "error_count": len(file_errors),
                 "detected_at": _utc(),
             }
-            group_state["stale_reason"] = str(version_errors[0])
-            group_state["version_drift"] = receipt
+            group_state["stale_reason"] = str(file_errors[0])
+            group_state["file_drift"] = receipt
             group_state["blockers"] = [receipt]
             state["current_blockers"] = [receipt]
         else:
@@ -2965,10 +3353,15 @@ def _validate_phase_attempt(args: argparse.Namespace) -> int:
         except (OSError, ValueError) as exc:
             raise SystemExit(str(exc)) from exc
         report_path = annotation_paths["report"]
+        integrity_paths = {
+            "report": report_path,
+            "plan": annotation_paths["plan"],
+        }
     else:
         report_path = _attempt_artifact(state, attempt, "report")
+        integrity_paths = {"report": report_path}
     artifact_errors = _artifact_integrity_errors(
-        {"report": report_path},
+        integrity_paths,
         attempt.get("artifact_sha256"),
         main_root=Path(str(state["main_root"])),
     )
@@ -2980,8 +3373,8 @@ def _validate_phase_attempt(args: argparse.Namespace) -> int:
         parse_errors.append(f"agent report cannot be parsed: {exc}")
     status = str(report.get("status") or "pending")
     errors: list[str] = [*artifact_errors, *parse_errors]
-    version_errors = (
-        _current_version_errors(state) if attempt["phase"] == "vc-checking" else []
+    file_errors = (
+        _current_files_errors(state) if attempt["phase"] == "vc-checking" else []
     )
     annotation_history_errors: list[str] = []
     if attempt["phase"] == "annotation":
@@ -2995,6 +3388,9 @@ def _validate_phase_attempt(args: argparse.Namespace) -> int:
         annotation_history_errors = _annotation_after_snapshot_errors(state, attempt)
         errors.extend(_annotation_after_drift_errors(state, attempt))
         attempt["changed_files"] = _annotation_changed_files(state, attempt)
+        attempt["annotation_activity"] = _annotation_activity_classification(
+            state, attempt
+        )
         errors.extend(
             _annotation_report_contract_errors(
                 report if isinstance(report, dict) else {},
@@ -3002,6 +3398,7 @@ def _validate_phase_attempt(args: argparse.Namespace) -> int:
                 allowed_write_paths=[
                     str(item) for item in attempt.get("allowed_write_paths", [])
                 ],
+                attempt=attempt,
             )
         )
     else:
@@ -3012,24 +3409,19 @@ def _validate_phase_attempt(args: argparse.Namespace) -> int:
                 terminal_statuses=PHASE_TERMINAL_STATUSES,
             )
         )
-        if status == "stale" and not version_errors:
+        if status == "stale" and not file_errors:
             errors.append(
-                "stale vc-checking status requires mechanically detected version drift"
+                "stale vc-checking status requires mechanically detected file drift"
             )
-    effective_status = "stale" if version_errors else status
-    if attempt["phase"] == "vc-checking" and status == "completed":
-        if str((state.get("source_version") or {}).get("digest") or "") != attempt.get(
-            "source_version"
-        ):
-            errors.append("vc-checking input source_version is stale")
-    if attempt["phase"] == "vc-checking" and version_errors and not artifact_errors:
+    effective_status = "stale" if file_errors else status
+    if attempt["phase"] == "vc-checking" and file_errors and not artifact_errors:
         # Once the sealed report bytes are known intact, mechanical
-        # source drift outranks owner metadata mistakes (including malformed
+        # file drift outranks owner metadata mistakes (including malformed
         # JSON). A same-phase retry would be created against the same stale
         # annotation and repeat forever.
         if errors:
             attempt["secondary_validation_errors"] = [str(item) for item in errors]
-        _transition_current_version_drift(
+        _transition_current_file_drift(
             state,
             attempt,
             action="vc-checking-validation",
@@ -3070,8 +3462,13 @@ def _validate_phase_attempt(args: argparse.Namespace) -> int:
             ]
         elif attempt["phase"] == "annotation":
             _queue_annotation_feedback(
-                state, attempt["attempt_id"], "annotation-invalid-report"
+                state,
+                attempt["attempt_id"],
+                "annotation-invalid-report",
+                attempt=attempt,
             )
+            if attempt.get("status") == "prepared":
+                result_status = "prepared"
         else:
             _queue_vc_checking_retry(
                 state,
@@ -3100,8 +3497,8 @@ def _validate_phase_attempt(args: argparse.Namespace) -> int:
         attempt["status"] = effective_status
         attempt["finished_at"] = _utc()
         result_status = effective_status
-        if effective_status == "stale" and version_errors:
-            attempt["stale_reason"] = version_errors[0]
+        if effective_status == "stale" and file_errors:
+            attempt["stale_reason"] = file_errors[0]
         if attempt.get("phase") == "annotation" and isinstance(
             state.get("annotation_session"), dict
         ):
@@ -3127,17 +3524,30 @@ def _validate_phase_attempt(args: argparse.Namespace) -> int:
                     blocker=blocker,
                 )
         elif effective_status in {"blocked", "stale"}:
+            blocker = report.get("blocker") if isinstance(report, dict) else None
             _queue_annotation_feedback(
                 state,
                 attempt["attempt_id"],
                 f"{attempt['phase']}-{effective_status}",
+                attempt=attempt,
+                blocker=blocker if isinstance(blocker, dict) else None,
             )
+            if (
+                attempt.get("phase") == "annotation"
+                and attempt.get("status") == "prepared"
+            ):
+                result_status = "prepared"
         elif (
             effective_status == "compact-error" and attempt.get("phase") == "annotation"
         ):
             _queue_annotation_feedback(
-                state, attempt["attempt_id"], "annotation-compact-error"
+                state,
+                attempt["attempt_id"],
+                "annotation-compact-error",
+                attempt=attempt,
             )
+            if attempt.get("status") == "prepared":
+                result_status = "prepared"
         elif effective_status == "compact-error":
             _queue_vc_checking_retry(
                 state,
@@ -3158,7 +3568,7 @@ def _validate_phase_attempt(args: argparse.Namespace) -> int:
     return (
         0
         if result_status
-        in {"ready-for-main-check", "blocked", "stale", "compact-error"}
+        in {"ready-for-main-check", "prepared", "blocked", "stale", "compact-error"}
         else 1
     )
 
@@ -3191,7 +3601,6 @@ def _invalidate_downstream(state: dict[str, Any], phase: str, reason: str) -> No
     stale_phases = {"vc-checking", VC_PROVING_PHASE}
     if phase == "annotation":
         stale_phases.add("annotation")
-        state["source_goal_version"] = None
     for attempt in state.get("attempts", {}).values():
         if attempt.get("phase") in stale_phases and attempt.get("status") not in {
             "superseded",
@@ -3200,11 +3609,6 @@ def _invalidate_downstream(state: dict[str, Any], phase: str, reason: str) -> No
             previous_status = str(attempt.get("status") or "")
             if attempt.get("phase") == VC_PROVING_PHASE:
                 attempt["stale_from_status"] = previous_status
-                attempt["proof_reuse_eligible"] = previous_status in {
-                    "groups-ready",
-                    "parent-verify-failed",
-                    "verified",
-                }
             attempt["status"] = "stale"
             attempt["stale_reason"] = reason
             attempt.setdefault("finished_at", _utc())
@@ -3304,19 +3708,13 @@ def _feedback_source(
         raise SystemExit(
             f"annotation feedback requires its terminal JSON source: {identifier}"
         )
-    try:
-        # Feedback files are immutable references, not acceptance evidence. A
-        # malformed sealed report can still be cited by path; controller-owned
-        # blockers carry the actionable cause.
-        payload = _json_load(report, {})
-    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
-        payload = {}
+    payload = _json_load(report, {})
     source = {
         "phase": phase,
         "attempt_id": attempt_id,
         "evidence": [str(path) for path in evidence.values()],
     }
-    return source, payload if isinstance(payload, dict) else {}
+    return source, payload
 
 
 def _feedback_source_reference_errors(
@@ -3342,9 +3740,87 @@ def _feedback_source_reference_errors(
     return errors
 
 
+def _failed_vcs_from_manual(
+    *,
+    source_attempt: str,
+    blocker: dict[str, Any],
+    manual: Path,
+) -> list[dict[str, Any]]:
+    vc_index = manual_vc_index(manual.read_text(encoding="utf-8"))
+    vc_errors = _blocker_vc_index_errors(blocker, vc_index=vc_index)
+    if vc_errors:
+        raise SystemExit(vc_errors[0])
+    return [
+        {
+            "source_attempt": source_attempt,
+            "name": item["name"],
+            "parent": item["parent"],
+            "annotation_location": item["annotation_location"],
+            "manual": str(manual),
+            "message": blocker["message"],
+        }
+        for item in blocker["vcs"]
+    ]
+
+
+def _accepted_annotation_manual(state: dict[str, Any]) -> Path:
+    accepted = state["accepted_rounds"]["annotation"]
+    attempt = state["attempts"][accepted["attempt_id"]]
+    after = _validated_annotation_attempt_paths(state, attempt)["after"]
+    manual = fixed_path_under(
+        after / str(state["target_files"]["proof_manual_file"]),
+        after,
+        label="accepted annotation proof manual",
+    )
+    return manual
+
+
+def _failed_vcs_for_feedback(
+    state: dict[str, Any],
+    identifier: str,
+    payload: dict[str, Any],
+) -> list[dict[str, Any]]:
+    blocker = payload.get("blocker")
+    if (
+        not isinstance(blocker, dict)
+        or blocker.get("failure_class")
+        not in {"annotation-gap", "specification-gap", "dependency-gap"}
+    ):
+        return []
+    found = _find_group_attempt(state, identifier)
+    if found is not None:
+        proving, group_id = found
+        manifest = _resolved_proving_manifest(state, proving)
+        group = next(
+            item for item in manifest["groups"] if str(item["id"]) == group_id
+        )
+        manual = Path(str(group["proof_manual"]))
+    else:
+        source_attempt = _find_round_attempt(state, identifier)
+        if isinstance(source_attempt, dict) and source_attempt.get("phase") == "annotation":
+            after = _validated_annotation_attempt_paths(state, source_attempt)["after"]
+            manual = fixed_path_under(
+                after / str(state["target_files"]["proof_manual_file"]),
+                after,
+                label="annotation feedback proof manual",
+            )
+        else:
+            manual = _accepted_annotation_manual(state)
+    return _failed_vcs_from_manual(
+        source_attempt=identifier,
+        blocker=blocker,
+        manual=manual,
+    )
+
+
 def _feedback_sources_for_retry(
     state: dict[str, Any], identifier: str
-) -> tuple[list[dict[str, str]], list[dict[str, Any]], list[dict[str, Any]]]:
+) -> tuple[
+    list[dict[str, str]],
+    list[dict[str, Any]],
+    list[dict[str, Any]],
+    list[dict[str, Any]],
+]:
     """Resolve one ordinary source or one proving-round gap aggregate.
 
     ``retry-round`` intentionally keeps one ``--previous-attempt`` argument.
@@ -3356,7 +3832,11 @@ def _feedback_sources_for_retry(
     proving = state.get("attempts", {}).get(identifier)
     if not isinstance(proving, dict) or proving.get("phase") != VC_PROVING_PHASE:
         source, payload = _feedback_source(state, identifier)
-        return [source], [payload], []
+        return [source], [payload], [], _failed_vcs_for_feedback(
+            state,
+            identifier,
+            payload,
+        )
 
     manifest_errors = _proving_manifest_errors(state, proving)
     if manifest_errors:
@@ -3370,28 +3850,12 @@ def _feedback_sources_for_retry(
         for group in manifest.get("groups", [])
         if isinstance(group, dict)
     ]
-    if not groups or not _reuse_group_artifacts_are_sealed(proving, groups):
-        raise SystemExit(
-            "vc-proving annotation-gap feedback lacks an intact full-round reuse seal"
-        )
+    if not groups:
+        raise SystemExit("vc-proving annotation-gap feedback has no groups")
     records = _annotation_gap_feedback_records(proving, manifest)
     if not records:
         raise SystemExit(
             "vc-proving feedback source has no sealed annotation-gap blockers"
-        )
-    manifest_group_ids = {str(group.get("id") or "") for group in groups}
-    accepted_group_ids = {
-        str(group_id)
-        for group_id, group_state in proving.get("groups", {}).items()
-        if isinstance(group_state, dict) and group_state.get("status") == "accepted"
-    }
-    annotation_gap_group_ids = {
-        str(record["group_id"]) for record in records
-    }
-    if accepted_group_ids | annotation_gap_group_ids != manifest_group_ids:
-        raise SystemExit(
-            "vc-proving annotation-gap feedback was requested before every "
-            "planned group reached a valid terminal state"
         )
     if state.get("current_blockers") != records:
         raise SystemExit(
@@ -3400,10 +3864,11 @@ def _feedback_sources_for_retry(
         )
     sources: list[dict[str, str]] = []
     payloads: list[dict[str, Any]] = []
+    failed_vcs: list[dict[str, Any]] = []
     blocker_fields = (
         "failure_class",
         "kind",
-        "location",
+        "vcs",
         "message",
         "repair_boundary",
     )
@@ -3424,7 +3889,75 @@ def _feedback_sources_for_retry(
             )
         sources.append(source)
         payloads.append(payload)
-    return sources, payloads, records
+        failed_vcs.extend(
+            _failed_vcs_for_feedback(
+                state,
+                f"{proving['round']}:{group_id}",
+                payload,
+            )
+        )
+    return sources, payloads, records, failed_vcs
+
+
+def _unresolved_failed_vcs(
+    state: dict[str, Any], attempt: dict[str, Any]
+) -> list[dict[str, Any]]:
+    failed_vcs = [dict(item) for item in attempt["failed_vcs"]]
+    if not failed_vcs:
+        return []
+    plan = _json_load(_validated_annotation_attempt_paths(state, attempt)["plan"], {})
+    resolved = {
+        (comparison["source"]["attempt"], comparison["source"]["name"])
+        for comparison in plan["vc_comparisons"]
+        if comparison["result"] == "resolved"
+    }
+    return [
+        item
+        for item in failed_vcs
+        if (item["source_attempt"], item["name"]) not in resolved
+    ]
+
+
+def _vc_comparison_history(
+    state: dict[str, Any], failed_vcs: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
+    names = {
+        name
+        for item in failed_vcs
+        for name in (item["name"], item["parent"])
+        if name is not None
+    }
+    history: list[dict[str, Any]] = []
+    seen: set[tuple[str, str]] = set()
+    for attempt in state["attempts"].values():
+        if attempt.get("phase") != "annotation":
+            continue
+        plan = _json_load(
+            _validated_annotation_attempt_paths(state, attempt)["plan"],
+            {},
+        )
+        attempt_failed = {
+            (item["source_attempt"], item["name"]): item
+            for item in attempt["failed_vcs"]
+        }
+        for comparison in plan["vc_comparisons"]:
+            source = comparison["source"]
+            source_parent = attempt_failed[
+                (source["attempt"], source["name"])
+            ]["parent"]
+            current_names = set(comparison["current"])
+            if not (
+                source["name"] in names
+                or source_parent in names
+                or current_names & names
+            ):
+                continue
+            identity = (source["attempt"], source["name"])
+            if identity in seen:
+                continue
+            seen.add(identity)
+            history.append(dict(comparison))
+    return history
 
 
 def _current_annotation_attempt(state: dict[str, Any]) -> dict[str, Any]:
@@ -3460,6 +3993,13 @@ def retry_round(args: argparse.Namespace) -> int:
         None,
     )
     if isinstance(existing_retry, dict):
+        if args.phase == "annotation":
+            feedback_errors = _feedback_source_reference_errors(
+                state,
+                existing_retry,
+            )
+            if feedback_errors:
+                raise SystemExit(feedback_errors[0])
         print(
             json.dumps(
                 {
@@ -3493,8 +4033,42 @@ def retry_round(args: argparse.Namespace) -> int:
     feedback_sources: list[dict[str, str]] = []
     feedback_payloads: list[dict[str, Any]] = []
     annotation_gap_records: list[dict[str, Any]] = []
-    annotation_causal_retry_count = 0
+    failed_vcs: list[dict[str, Any]] = []
+    previous_vc_changes: list[dict[str, Any]] = []
     if args.phase == "annotation":
+        retry_source = state.get("attempts", {}).get(args.previous_attempt)
+        if (
+            args.reason == "annotation-blocked"
+            and isinstance(retry_source, dict)
+            and retry_source.get("phase") == "annotation"
+        ):
+            _prepare_annotation_continuation(state, retry_source)
+            _append_event(
+                run_root,
+                state,
+                "annotation-attempt-continued",
+                attempt_id=retry_source["attempt_id"],
+            )
+            _save_state(run_root, state)
+            print(
+                json.dumps(
+                    {
+                        "status": "prepared",
+                        "attempt": retry_source["attempt_id"],
+                        "action": "append-annotation-agent",
+                    },
+                    indent=2,
+                )
+            )
+            return 0
+        if not isinstance(retry_source, dict) or retry_source.get("phase") not in {
+            "vc-checking",
+            VC_PROVING_PHASE,
+        }:
+            raise SystemExit(
+                "annotation retry requires an annotation gap from VC checking "
+                "or VC proving"
+            )
         previous = _current_annotation_attempt(state)
         after_snapshot_errors = _annotation_after_snapshot_errors(state, previous)
         if after_snapshot_errors:
@@ -3523,29 +4097,36 @@ def retry_round(args: argparse.Namespace) -> int:
             feedback_sources,
             feedback_payloads,
             annotation_gap_records,
+            feedback_failed_vcs,
         ) = _feedback_sources_for_retry(state, args.previous_attempt)
+        if not annotation_gap_records and not feedback_failed_vcs:
+            raise SystemExit(
+                "annotation retry requires an annotation gap from VC checking "
+                "or VC proving"
+            )
         if any(
             feedback["attempt_id"] == previous["attempt_id"]
             for feedback in feedback_sources
         ):
             previous["status"] = "superseded"
             previous.setdefault("finished_at", _utc())
-        annotation_causal_retry_count = _next_annotation_causal_retry_count(
-            previous,
-            feedback_payloads,
-        )
+        failed_vcs = [
+            *_unresolved_failed_vcs(state, previous),
+            *feedback_failed_vcs,
+        ]
+        failed_vc_errors = _failed_vcs_errors(failed_vcs)
+        if failed_vc_errors:
+            raise SystemExit(failed_vc_errors[0])
+        previous_vc_changes = _vc_comparison_history(state, failed_vcs)
     else:
         previous = _find_round_attempt(state, args.previous_attempt)
         if previous is None or previous.get("phase") != args.phase:
             raise SystemExit("previous attempt does not match retry phase")
         previous["status"] = "superseded"
         previous.setdefault("finished_at", _utc())
-        try:
-            feedback_payloads = [
-                _json_load(_attempt_artifact(state, previous, "report"), {})
-            ]
-        except (OSError, UnicodeDecodeError, json.JSONDecodeError):
-            feedback_payloads = [{}]
+        feedback_payloads = [
+            _json_load(_attempt_artifact(state, previous, "report"), {})
+        ]
     next_compact_index = int(previous.get("compact_attempt_index", 1))
     if "compact" in args.reason:
         next_compact_index += 1
@@ -3568,7 +4149,15 @@ def retry_round(args: argparse.Namespace) -> int:
         "attempt_id": previous["attempt_id"],
         "report": str(_attempt_artifact(state, previous, "report")),
         "output": str(_attempt_artifact(state, previous, "output")),
-        "reuse_policy": "read-only-reference",
+        **(
+            {
+                "plan": str(
+                    _validated_annotation_attempt_paths(state, previous)["plan"]
+                )
+            }
+            if args.phase == "annotation"
+            else {}
+        ),
     }
     lessons: list[dict[str, Any]] = []
     if annotation_gap_records:
@@ -3579,13 +4168,31 @@ def retry_round(args: argparse.Namespace) -> int:
             }
             for record in annotation_gap_records
         )
-    else:
-        for feedback_payload in feedback_payloads:
-            result_blocker = feedback_payload.get("blocker")
-            if isinstance(result_blocker, dict):
-                lessons.append(
-                    {"must_address": json.dumps(result_blocker, sort_keys=True)}
+    recorded_lesson_blockers = {
+        json.dumps(
+            {
+                field: record[field]
+                for field in (
+                    "failure_class",
+                    "kind",
+                    "vcs",
+                    "message",
+                    "repair_boundary",
                 )
+            },
+            sort_keys=True,
+        )
+        for record in annotation_gap_records
+    }
+    for feedback_payload in feedback_payloads:
+        result_blocker = feedback_payload.get("blocker")
+        if not isinstance(result_blocker, dict):
+            continue
+        rendered_blocker = json.dumps(result_blocker, sort_keys=True)
+        if rendered_blocker in recorded_lesson_blockers:
+            continue
+        lessons.append({"must_address": rendered_blocker})
+        recorded_lesson_blockers.add(rendered_blocker)
     if args.phase == "vc-checking":
         # A fresh vc-checking agent has no parent transcript. Transfer the
         # controller-owned parent/merge failure into its sealed handoff before
@@ -3603,7 +4210,7 @@ def retry_round(args: argparse.Namespace) -> int:
                 }
             )
     if "stale" in args.reason:
-        # Owner reports do not need to duplicate controller version evidence.
+        # Owner reports do not need to duplicate controller file evidence.
         # Preserve the receipt recorded at detection; recomputation is only
         # supplemental because files may have been restored before this queued
         # transition is invoked.
@@ -3611,28 +4218,28 @@ def retry_round(args: argparse.Namespace) -> int:
             item
             for item in state.get("current_blockers", [])
             if isinstance(item, dict)
-            and item.get("failure_class") == "current-version-drift"
+            and item.get("failure_class") == "current-file-drift"
         ]
         if not saved_receipts:
             found = _find_group_attempt(state, args.previous_attempt)
             if found is not None:
                 proving, group_id = found
                 receipt = (
-                    proving.get("groups", {}).get(group_id, {}).get("version_drift")
+                    proving.get("groups", {}).get(group_id, {}).get("file_drift")
                 )
                 if isinstance(receipt, dict):
                     saved_receipts.append(receipt)
         lessons.extend(
             {
-                "must_address": "Controller version drift receipt: "
+                "must_address": "Controller file drift receipt: "
                 + json.dumps(item, sort_keys=True)
             }
             for item in saved_receipts
         )
         saved_messages = {str(item.get("message") or "") for item in saved_receipts}
         lessons.extend(
-            {"must_address": f"Current version drift check: {message}"}
-            for message in _current_version_errors(state)
+            {"must_address": f"Current file drift check: {message}"}
+            for message in _current_files_errors(state)
             if message not in saved_messages
         )
     if args.phase == "annotation" and isinstance(previous.get("main_check"), dict):
@@ -3652,7 +4259,8 @@ def retry_round(args: argparse.Namespace) -> int:
         attempt_index=next_compact_index if "compact" in args.reason else 1,
         feedback_sources=feedback_sources,
         retry_reason=args.reason,
-        annotation_causal_retry_count=annotation_causal_retry_count,
+        failed_vcs=failed_vcs,
+        previous_vc_changes=previous_vc_changes,
     )
     attempt["retry_reason"] = args.reason
     attempt["retry_previous_attempt"] = args.previous_attempt

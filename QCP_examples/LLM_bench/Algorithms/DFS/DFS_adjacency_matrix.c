@@ -53,7 +53,7 @@ void dfs_adjacency_matrix(int *matrix, int vertex_count,
       ZSimpleGraph::vertex_valid(g, vertex) &&
       DFSAdjacencyMatrix::empty_visited(initial_visited_set) &&
       exists (rows: list (list Z)),
-        GraphMatrixFlat::graph_rep(
+        GraphMatrixFlat::store_graph(
           vertex_count,
           DFSAdjacencyMatrix::adjacency_matrix_model(g),
           matrix, rows) *
@@ -65,7 +65,7 @@ void dfs_adjacency_matrix(int *matrix, int vertex_count,
         (forall (v: Z),
           DFSAdjacencyMatrix::graph_reachable(g, vertex, v) => high_visited_set(v)) &&
         exists (rows: list (list Z)),
-          GraphMatrixFlat::graph_rep(
+          GraphMatrixFlat::store_graph(
             vertex_count,
             DFSAdjacencyMatrix::adjacency_matrix_model(g),
             matrix, rows) *
@@ -85,7 +85,7 @@ void dfs_adjacency_matrix(int *matrix, int vertex_count,
       ZSimpleGraph::vertex_valid(g, vertex) &&
       safeExec(eq(visited_set),
         bind(DFSAdjacencyMatrix::dfs_program(g, vertex), c), X) &&
-      GraphMatrixFlat::graph_rep(
+      GraphMatrixFlat::store_graph(
         vertex_count,
         DFSAdjacencyMatrix::adjacency_matrix_model(g),
         matrix, rows) *
@@ -96,7 +96,7 @@ void dfs_adjacency_matrix(int *matrix, int vertex_count,
           visited_set, bind_visited_set) &&
         bind_visited_set(vertex) &&
         safeExec(eq(bind_visited_set), applyf(c, tt), X) &&
-        GraphMatrixFlat::graph_rep(
+        GraphMatrixFlat::store_graph(
           vertex_count,
           DFSAdjacencyMatrix::adjacency_matrix_model(g),
           matrix, rows) *
@@ -115,7 +115,7 @@ void dfs_adjacency_matrix(int *matrix, int vertex_count,
       ZSimpleGraph::vertex_valid(g, vertex) &&
       safeExec(eq(visited_set),
         DFSAdjacencyMatrix::dfs_program(g, vertex), X) &&
-      GraphMatrixFlat::graph_rep(
+      GraphMatrixFlat::store_graph(
         vertex_count,
         DFSAdjacencyMatrix::adjacency_matrix_model(g),
         matrix, rows) *
@@ -126,7 +126,7 @@ void dfs_adjacency_matrix(int *matrix, int vertex_count,
           visited_set, low_visited_set) &&
         low_visited_set(vertex) &&
         safeExec(eq(low_visited_set), return(tt), X) &&
-        GraphMatrixFlat::graph_rep(
+        GraphMatrixFlat::store_graph(
           vertex_count,
           DFSAdjacencyMatrix::adjacency_matrix_model(g),
           matrix, rows) *
@@ -145,7 +145,7 @@ void dfs_adjacency_matrix(int *matrix, int vertex_count,
             safeExec(eq(visited_set),
               DFSAdjacencyMatrix::dfs_program(g, vertex), X) &&
             ZSimpleGraph::visited_values(g, values, visited_set) &&
-            GraphMatrixFlat::graph_rep(
+            GraphMatrixFlat::store_graph(
               vertex_count,
               DFSAdjacencyMatrix::adjacency_matrix_model(g),
               matrix, rows) *
@@ -170,7 +170,7 @@ void dfs_adjacency_matrix(int *matrix, int vertex_count,
             safeExec(eq(visited_set1),
               DFSAdjacencyMatrix::dfs_loop(g, vertex), X) &&
             ZSimpleGraph::visited_values(g, values1, visited_set1) &&
-            GraphMatrixFlat::graph_rep(
+            GraphMatrixFlat::store_graph(
               vertex_count,
               DFSAdjacencyMatrix::adjacency_matrix_model(g),
               matrix, rows) *
@@ -200,7 +200,7 @@ void dfs_adjacency_matrix(int *matrix, int vertex_count,
                     safeExec(eq(call_visited_set),
                       bind(DFSAdjacencyMatrix::dfs_program(g, neighbor),
                         DFSAdjacencyMatrix::dfs_continue(g, vertex)), X) &&
-                    GraphMatrixFlat::graph_rep(
+                    GraphMatrixFlat::store_graph(
                       vertex_count,
                       DFSAdjacencyMatrix::adjacency_matrix_model(g),
                       matrix, rows) *
@@ -232,7 +232,7 @@ void dfs_adjacency_matrix(int *matrix, int vertex_count,
                 safeExec(eq(visited_set2),
                   DFSAdjacencyMatrix::dfs_loop(g, vertex), X) &&
                 ZSimpleGraph::visited_values(g, values2, visited_set2) &&
-                GraphMatrixFlat::graph_rep(
+                GraphMatrixFlat::store_graph(
                   vertex_count,
                   DFSAdjacencyMatrix::adjacency_matrix_model(g),
                   matrix, rows) *
@@ -249,7 +249,7 @@ void dfs_adjacency_matrix(int *matrix, int vertex_count,
               visited_set, visited_set_out) &&
             visited_set_out(vertex) &&
             safeExec(eq(visited_set_out), return(tt), X) &&
-            GraphMatrixFlat::graph_rep(
+            GraphMatrixFlat::store_graph(
               vertex_count,
               DFSAdjacencyMatrix::adjacency_matrix_model(g),
               matrix, rows) *

@@ -6,19 +6,21 @@ import argparse
 from collections.abc import Callable, Mapping
 from typing import Any
 
+from annotation_design import unfreeze
 from controller_artifacts import validate_artifact
 from controller_attempts import claim_attempt, finalize_delivery, retry_round
+from controller_control import cancel_action, pause_run, resume_run
+from controller_dune import dune_build
 from controller_final import final_apply, final_check
 from controller_proving import vc_proving_preparing, vc_proving_verify
 from controller_round_checks import annotation_check_round, vc_checking_check_round
 from controller_rounds import (
     DEFAULT_MAX_PARALLEL_GROUP_WORKERS,
-    annotation_summary_ready,
     step,
 )
-from controller_state import init_run, timing_stage
+from controller_state import init_run
 from controller_tools import coq_check, coq_debug, symexec
-from controller_dune import dune_build
+from symexec_tooling import DEFAULT_SYMEXEC_PROFILE, SYMEXEC_PROFILES
 
 DEFAULT_MAX_WITNESSES_PER_GROUP = 12
 DEFAULT_MAX_COMPACT_ATTEMPTS = 3
@@ -26,19 +28,21 @@ DEFAULT_MAX_COMPACT_ATTEMPTS = 3
 PUBLIC_COMMAND_DESCRIPTIONS = {
     "init-run": "Create one fixed verification run and its initial controller state.",
     "step": "Return the current hydrated action list or an explicit waiting reason.",
+    "pause-run": "Cooperatively stop active tools and persist an explicit paused run state.",
+    "cancel-action": "Cancel one current action cooperatively and leave the run paused.",
+    "resume-run": "Reactivate a paused run without executing its suspended action.",
     "claim-attempt": "Atomically claim one agent delivery and return its exact handoff.",
     "finalize-delivery": "Seal a stopped owner's delivery and run controller validation.",
     "retry-round": "Create a controller-authorized annotation or VC-checking retry.",
-    "annotation-summary-ready": "Validate and seal the main-agent annotation retry summary.",
-    "timing-stage": "Record optional annotation-checking stage timing.",
+    "unfreeze": "Allow the current annotation attempt to revise a user-provided specification.",
     "annotation-check-round": "Run the main-owned annotation acceptance checks.",
-    "vc-checking-check-round": "Validate the sealed VC group plan and reuse evidence.",
+    "vc-checking-check-round": "Validate the sealed VC group plan and regenerate a clean proof manual.",
     "dune-build": "Prepare the exact accepted goal-check with the selected build backend and seal its dependency snapshot.",
     "vc-proving-preparing": "Create one proving round and its fixed group workspaces.",
     "vc-proving-verify": "Merge accepted groups and run parent full verification.",
     "symexec": "Transactionally refresh generated files for a claimed annotation round.",
     "coq-check": "Run a controller-owned Rocq check for an allowed target kind.",
-    "coq-debug": "Run controller-owned Rocq debug for current or preserved goals.",
+    "coq-debug": "Inspect an active VC manual or run one proof-group debug command.",
     "final-apply": "Transactionally apply the accepted merged candidate to main root.",
     "final-check": "Run final freshness, Rocq, structure, and cleanup checks.",
     "validate-artifact": "Validate one public controller JSON artifact.",
@@ -103,6 +107,15 @@ def build_parser(
         type=int,
         default=DEFAULT_MAX_PARALLEL_GROUP_WORKERS,
     )
+    init.add_argument(
+        "--symexec-profile",
+        choices=sorted(SYMEXEC_PROFILES),
+        default=DEFAULT_SYMEXEC_PROFILE,
+        help=(
+            "Controller-owned symbolic-execution timeout, heartbeat, and poll "
+            "profile; agents cannot override its raw command budget."
+        ),
+    )
     init.add_argument("--problem-statement", default="")
     init.add_argument("--problem-statement-file", default=None)
     init.add_argument("--target-function", default="")
@@ -121,10 +134,26 @@ def build_parser(
             "Freeze the specification of this C function: its With/Require/Ensure "
             "blocks, including named specs and refinement clauses, must survive the "
             "annotation phase token-identical. Repeatable, or comma-separated. "
+            "Each name must exactly match a function with an extracted specification; "
+            "init-run rejects names that do not match. "
             "Using the flag at all also freezes every existing Extern Coq entry, "
             "Import Coq module, and case-lib declaration, because a frozen spec's "
-            "meaning depends on them; additions stay unrestricted. Omit to let the "
-            "annotation agent author specifications freely."
+            "meaning depends on them; additions stay unrestricted. Using the flag "
+            "marks the run's formal specification as user-provided for revision "
+            "decisions. Omit it when the annotation agent owns the formal "
+            "specification."
+        ),
+    )
+    init.add_argument(
+        "--formal-case-lib-policy",
+        choices=["present", "create", "absent"],
+        default=None,
+        help=(
+            "Resolve the canonical formal_case_lib topology. present requires an "
+            "existing file; create requires an absent path and lets the controller "
+            "create the canonical seed; absent requires the path to stay absent. "
+            "When omitted, resolve to present for an existing file and create "
+            "otherwise."
         ),
     )
     init.set_defaults(func=init_run)
@@ -132,6 +161,21 @@ def build_parser(
     step_cmd = _command_parser(sub, "step")
     step_cmd.add_argument("--run", required=True)
     step_cmd.set_defaults(func=step)
+
+    pause = _command_parser(sub, "pause-run")
+    pause.add_argument("--run", required=True)
+    pause.add_argument("--reason", required=True)
+    pause.set_defaults(func=pause_run)
+
+    cancel = _command_parser(sub, "cancel-action")
+    cancel.add_argument("--run", required=True)
+    cancel.add_argument("--action", required=True)
+    cancel.add_argument("--reason", required=True)
+    cancel.set_defaults(func=cancel_action)
+
+    resume = _command_parser(sub, "resume-run")
+    resume.add_argument("--run", required=True)
+    resume.set_defaults(func=resume_run)
 
     claim = _command_parser(sub, "claim-attempt")
     claim.add_argument("--run", required=True)
@@ -152,17 +196,10 @@ def build_parser(
     retry.add_argument("--previous-attempt", required=True)
     retry.set_defaults(func=retry_round)
 
-    summary_ready = _command_parser(sub, "annotation-summary-ready")
-    summary_ready.add_argument("--run", required=True)
-    summary_ready.add_argument("--attempt", required=True)
-    summary_ready.set_defaults(func=annotation_summary_ready)
-
-    timing = _command_parser(sub, "timing-stage")
-    timing.add_argument("--run", required=True)
-    timing.add_argument("--round", required=True)
-    timing.add_argument("--stage", choices=["annotation-checking"], required=True)
-    timing.add_argument("--event", choices=["start", "finish"], required=True)
-    timing.set_defaults(func=timing_stage)
+    unfreeze_cmd = _command_parser(sub, "unfreeze")
+    unfreeze_cmd.add_argument("--run", required=True)
+    unfreeze_cmd.add_argument("--round", required=True)
+    unfreeze_cmd.set_defaults(func=unfreeze)
 
     annotation = _command_parser(sub, "annotation-check-round")
     annotation.add_argument("--run", required=True)
@@ -199,7 +236,12 @@ def build_parser(
     coq_check_cmd.add_argument("--round", required=True)
     coq_check_cmd.add_argument(
         "--target-kind",
-        choices=["formal-case-lib", "group-development", "group-check"],
+        choices=[
+            "formal-case-lib-design",
+            "formal-case-lib",
+            "group-development",
+            "group-check",
+        ],
         required=True,
     )
     coq_check_cmd.add_argument("--group", default=None)
@@ -230,6 +272,7 @@ def build_parser(
             "merge-result",
             "controller-state",
             "run-log",
+            "annotation-plan",
         ],
         required=True,
     )

@@ -2,7 +2,7 @@
 
 This guide is for group-worker proof work. When annotation uses `increasing`, `decreasing`, bounds, `sum`, or case predicates wrapping `MaxMinLib` / `SumLib`, keep annotation semantic and bridge to proof-friendly forms inside the group proof.
 
-Do not push proof-facing forms back into C annotation. If a missing bridge lemma is needed, first inspect the handoff's public-helper catalogue. Copy an exact sealed candidate when useful; otherwise add and prove a current-group-suffixed helper in `group_worker_lib`.
+Do not push proof-facing forms back into C annotation. If a bridge lemma is missing, search the handoff's public-helper catalogue by lemma/predicate name and read only matching candidates. Copy a useful exact sealed candidate; otherwise add and prove a current-group-suffixed helper in `group_worker_lib`.
 
 ## Ordering predicates
 
@@ -90,7 +90,7 @@ For binary-answer VCs, common helper shapes are:
 - feasibility gives an upper bound on the optimum, for example `CanSplit l m mid -> MinimizedMaxSegmentSum l m ans -> ans <= mid`;
 - infeasibility gives a lower bound on the optimum, for example `CannotSplit l m mid -> MinimizedMaxSegmentSum l m ans -> mid < ans`.
 
-Prove new or adapted forms as group-local helpers with the current helper suffix. An exact sealed public/reuse helper may retain its source suffix. Do not leave helpers in the official `*_proof_manual.v`, and never import the non-active public catalogue directly.
+Prove new or adapted forms as group-local helpers with the current helper suffix. A frozen public helper may retain its source suffix when declaration/proof tokens match exactly. Do not leave helpers in the official `*_proof_manual.v`, and never import the non-active public catalogue directly.
 
 ## Handoff rule
 

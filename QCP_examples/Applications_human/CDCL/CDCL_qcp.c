@@ -3,11 +3,11 @@
 /* ===========================================================================
    A verified CDCL SAT solver.
 
-   WHAT IS PROVED.  `cdcl_solver` returns 1 only with an assignment that models
-   the original formula F, 0 only when F is unsatisfiable (with an
-   `unsat_terminal` certificate), and -2 when it gives up on its conflict budget
-   -- a resource limit asserting nothing about F.  The checked statement is the
-   `Require`/`Ensure` on `cdcl_solver` below; termination is not proved.
+   WHAT IS PROVED.  Under its `Require` precondition, `cdcl_solver` returns 1
+   only with a model of F, and 0 only when F is unsatisfiable (`cnf_unsat(n, F)`).
+   The proof uses `unsat_terminal` internally.  A -2 return means the clause
+   table is full and gives no SAT or UNSAT verdict.  The checked statement is
+   the `Require`/`Ensure` below; termination is not proved.
 
    GHOST STATE.  A `dense_snapshot` is a pure copy of the seven mutated arrays:
    snap_values/reasons/levels (per variable, length n) and
@@ -26,8 +26,9 @@
    representation: coherent_snapshot(F, n, live, original_count, snap) --
    lengths and cells in range, per-clause summaries agree with the rows,
    installed clauses still contain F; stable_search_facts(n, snap, ranks, dl) --
-   grounded_at (assigned => level and reason), closed_levels (levels in [0,dl]),
-   frontier_closed (an implied variable's antecedent was assigned earlier).
+   grounded_at_cdcl (assigned => level and reason), closed_levels_cdcl (levels
+   in [0,dl]), frontier_closed (an implied variable's antecedent was assigned
+   earlier).
 
    CONVENTIONS.  Blocks name state predicates from CDCL_qcp_lib.v, unfolded
    by the strategy rules: `solver_state` (whole footprint, one snapshot),
@@ -829,8 +830,8 @@ int decide(sat_data* s)/*@ With (F : cnf) original_count (snap : dense_snapshot)
    conflict is derived at level zero.
 
    Returns 1 with `models(J, F)`, 0 with `cnf_unsat(n, F)`, or -2 when the clause
-   table is full -- a resource limit asserting nothing about F.  `unsat_terminal`
-   is the internal certificate for the 0 case, deliberately not published. */
+   table is full, retaining specified memory ownership with no SAT/UNSAT verdict.
+   `unsat_terminal` is the internal certificate for 0, deliberately not published. */
 int cdcl_solver(sat_data* s )/*@ With (F : cnf) original_count (snap : dense_snapshot)
       (ranks : Z -> option nat) values reasons levels states true_counts unassigned
       row_table n live cap

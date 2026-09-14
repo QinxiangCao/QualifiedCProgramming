@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Algorithms.non_overlapping_intervals Require Import non_overlapping_intervals_goal non_overlapping_intervals_proof_auto non_overlapping_intervals_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include non_overlapping_intervals_proof_auto.
+  Include non_overlapping_intervals_proof_manual.
+End VC_Correctness.

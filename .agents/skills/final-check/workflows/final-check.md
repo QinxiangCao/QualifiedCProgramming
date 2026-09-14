@@ -8,12 +8,12 @@
 
 1. accepted annotation 的 target C；
 2. annotation `after_snapshot`；
-3. current target C 与 persisted `target_files` 中各 formal/generated role 的 present/missing 状态和 present bytes 是否仍为 accepted annotation 的交付结果；
+3. current target C、lib、goal、auto、goal-check 的 present/missing 状态与 present bytes 是否仍为 accepted annotation 的交付结果；current manual 则与 accepted proving 的 base seed 保持同一 present/missing 状态和 bytes；
 4. parent merge result 的完整 digest；
 5. 每个已存在 accepted group 的 report、copied manual 和适用时的 `group_worker_lib` digest；
 6. candidate manual 与 `proving_merged_lib` 的 per-role digest；optional role absent 时为 `null`。
 
-`group_worker_output.md` 等可选说明不在封存范围内。缺少 `after_snapshot`、路径无效、JSON 无法解析或任一 digest 漂移时，controller 写入明确 blocker，并在修改 formal target 前停止。
+owner 实际交付的 `group_worker_output.md` 会按反馈合同封存；可选 `proof_reuse.md` 不参与 finalize gate，也不属于 accepted group seal 或 final provenance。缺少 `after_snapshot`、路径无效、JSON 无法解析或任一受保护 digest 漂移时，controller 写入明确 blocker，并在修改 formal target 前停止。
 
 这一步防止把未接纳的 optional manual/lib 当成 rollback original，也防止只替换 present formal 文件来掩盖 goal、auto 或 check 漂移。
 
@@ -30,7 +30,7 @@ controller 只写回实际 present 的 candidate：
 - 合并后的 manual → main root 正式 manual；
 - `proving_merged_lib` → main root `formal_case_lib`。
 
-任一 optional role absent 时不创建 target 或 placeholder；两者都 absent 时，零 target transaction 合法，但 controller 仍完成来源重验和 phase 转移。target C 和其他 generated files 保留 accepted annotation 的 main root 版本，不从 group 或 merged directory 复制。apply/rollback 由 fixed exact paths、backup digests 与原子替换约束。
+任一 optional role absent 时不创建 target 或 placeholder；两者都 absent 时，零 target transaction 合法，但 controller 仍完成来源重验和 phase 转移。target C 和其他 generated files 保留 accepted annotation 的 main root bytes，不从 group 或 merged directory 复制。apply/rollback 由 fixed exact paths、backup digests 与原子替换约束。
 
 ### 持久事务
 
@@ -46,7 +46,7 @@ prepared → backed-up → completed
 
 中断后只能核对并继续同一事务，或用同一 backup 回滚。不得建立新 backup 覆盖最初 original。
 
-每次 recovery、reentry 或 rollback 前，controller 都重新推导本次 accepted proving 的 exact 0/1/2 个 candidate，并严格绑定 transaction：record 集合与顺序不能多、少或重复；source、target、relative path、candidate digest、original presence/digest、transaction id 和 backup path 必须与 current run、accepted seals 及固定 backup topology 完全一致。零 target transaction 只能有空 records。任一字段被注入、路径跨 run、原始 digest 不等于 accepted annotation seal 或 backup topology 异常时，controller 不执行 rollback；该状态以 `rollback-failed` 终止，避免让损坏记录成为删除或恢复任意 main-root 文件的授权。
+每次 recovery、reentry 或 rollback 前，controller 都重新推导本次 accepted proving 的 exact 0/1/2 个 candidate，并严格绑定 transaction：record 集合与顺序不能多、少或重复；source、target、relative path、candidate digest、original presence/digest、transaction id 和 backup path 必须与 current run、accepted seals 及固定 backup topology 完全一致。manual original 绑定 accepted proving base seed，lib original 绑定 accepted annotation after；零 target transaction 只能有空 records。任一字段被注入、路径跨 run、原始 digest 不等于对应 pre-apply seal 或 backup topology 异常时，controller 不执行 rollback；该状态以 `rollback-failed` 终止，避免让损坏记录成为删除或恢复任意 main-root 文件的授权。
 
 已有 `backed-up` 或 `completed` 事务再次进入时，每个 formal target 只能是封存的 original 或 candidate。若此时 annotation、candidate、manifest 或 group seal 失败，controller 先用同一 backup 回滚可能的部分写回，再持久化 `blocked`。
 
@@ -71,12 +71,12 @@ reports/<run>/final-check/symexec-refresh/
 - raw fresh manual 与 proved manual 都 present 时 declaration 顺序一致；
 - manual present 时 top-level VC 名称和 statement 一致；
 - manual present 时 split-goal 名称和 statement 一致；
-- current target C digest 等于 accepted annotation `source_version`；
+- current target C 等于 accepted annotation `after/` backup；
 - goal、auto、goal-check 等 final-apply 不会替换的文件仍等于 sealed annotation history。
 
 proved manual present 时，其 proof body 本来就与 raw manual 不同，因此不比较 proof body digest，也不额外生成另一个 manual artifact。annotation 接纳时的 clean replay 只阻止不稳定 obligations 进入 proving，不能代替这里对最终 candidate 的检查。
 
-final applied manual 与 `formal_case_lib` 若 present，预期不同于 annotation bundle，分别与 accepted proving candidate 比较；absent role 的 candidate/applied digest 都必须为 `null`，不能创建 placeholder，也不能错误地要求 optional role 等于 annotation 版本。
+final applied manual 与 `formal_case_lib` 若 present，预期不同于 annotation backup，分别与 accepted proving candidate 比较；absent role 的 candidate/applied digest 都必须为 `null`，不能创建 placeholder，也不能错误地要求 optional role 等于 annotation backup。
 
 零 manual VC 时，manual 可以 absent；若 present，raw 与 proved manual 都只能有 generated import 与作用域命令，且 declaration 列表同为空。无论 manual 是否存在，freshness、goal、auto、goal-check、accepted annotation 来源和 parent/full Coq 检查都不减少；goal-check 若导入 missing manual，检查必须失败。
 
@@ -87,8 +87,7 @@ controller 通过固定 `coq-check` 检查 main root：
 - 工作区：main root；
 - build：`verification_runs/<run>/_coq_builds/final-check/src`；
 - 目标：相对 root 的 goal check；
-- target kind：`check`；
-- version：current `source_goal_version`。
+- target kind：`check`。
 
 `coqc`、`coqtop` 来自显式环境变量或 PATH；accepted dependencies 来自 selected build output。main agent 不手写 flags，不直接调用内部模块、Dune、Make、`coqdep` 或 raw Coq。
 
@@ -98,7 +97,7 @@ main 只执行 `step` 返回的 `final-check` action 中的完整 `invocation.ar
 
 ### 已接纳的 selected dependency snapshot
 
-accepted annotation 后的 `dune-build` action 已按 `_build` directory 判定选择 Dune 或 Makefile 后端，对 exact goal-check 完成依赖发现和过期重建，并把固定版本写入 run 根的 `dune_dependency_snapshot.json` 或 `makefile_dependency_snapshot.json`。final-check：
+accepted annotation 后的 `dune-build` action 已按 `_build` directory 判定选择 Dune 或 Makefile 后端，对 exact goal-check 完成依赖发现和过期重建，并把固定快照写入 run 根的 `dune_dependency_snapshot.json` 或 `makefile_dependency_snapshot.json`。final-check：
 
 - 只 stage applied current 的 exact snapshot closure；
 - dependency `.v/.vo` 不复制进 local build；
@@ -117,7 +116,7 @@ dependency 缺失/漂移、snapshot 外 project import、current edge 改变或 
 必须同时满足：
 
 - present manual 不含 `Admitted.`、额外 `Axiom`、helper 或禁用的顶层 declaration。
-- present manual declaration 名称、顺序和 statement hash 与 `source_goal_version` 一致。
+- present manual declaration 名称、顺序和 statement 与 final-check fresh raw manual 一致。
 - `target_witnesses` 为空时，manual absent，或只含 generated import 与作用域命令的 present manual、空 proof route 和 `group_count: 0` 都合法；这不减少 parent full check 或本阶段的任何检查。
 - 全部 top-level VC 已完成。
 - `aggressive_pre_process` 的全部 split goals 已完成，top-level proof 使用该 `proof_mode`。
@@ -130,7 +129,7 @@ dependency 缺失/漂移、snapshot 外 project import、current edge 改变或 
 
 accepted group manifest 用 plan digest 绑定 assignment。accepted plan 顺序决定机械 merge；`dispatch_order` 只决定调度，不参与 candidate。
 
-同名且 declaration/proof token 一致的 helper 只保留一份。同名 token 不一致时，frozen public/reuse block 优先；没有时取 plan 首项。其余合法 variant 只在 merged candidate 中换成唯一 current-group suffix 名称，并同步改写该 group 的新增 helper closure 和 assigned proof references。sealed group 文件保持不变，改写后的 candidate 必须已经通过 parent full check。
+同名且 declaration/proof token 一致的 helper 只保留一份。同名 token 不一致时，frozen public block 优先；没有时取 plan 首项。其余合法 variant 只在 merged candidate 中换成唯一 current-group suffix 名称，并同步改写该 group 的新增 helper closure 和 assigned proof references。sealed group 文件保持不变，改写后的 candidate 必须已经通过 parent full check。
 
 run root `public_helper_lemma_lib.v` 的 path、digest 和 count 必须与 controller state 一致。它不 import、不作为 active case lib 编译，也不写回 main root。
 

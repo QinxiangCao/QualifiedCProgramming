@@ -104,14 +104,17 @@ endef
 endif
 
 DIRS = \
-	Common auxlibs compcert_lib SeparationLogic sets unifysl StrategyLib fixedpoints MonadLib examples MaxMinLib GraphLib listlib tracelib algorithms coq-record-update
+	Common cdcllib auxlibs compcert_lib SeparationLogic sets unifysl StrategyLib fixedpoints MonadLib examples MaxMinLib GraphLib listlib tracelib algorithms coq-record-update
 
-COQ_FLAG = -R flocq/src Flocq -R SeparationLogic SimpleC.SL -R unifysl Logic -R sets SetsClass -R compcert_lib compcert.lib -R auxlibs AUXLib -R examples SimpleC.EE -R stdlib SimpleC.StdLib -R StrategyLib SimpleC.StrategyLib -R Common SimpleC.Common -R fixedpoints FP -R MonadLib MonadLib -R listlib ListLib -R MaxMinLib MaxMinLib -R GraphLib GraphLib -R SumLib SumLib -R tracelib TraceLib -R coq-record-update/src RecordUpdate -Q algorithms Algorithms
+COQ_FLAG = -R flocq/src Flocq -R SeparationLogic SimpleC.SL -R unifysl Logic -R sets SetsClass -R compcert_lib compcert.lib -R auxlibs AUXLib -R examples SimpleC.EE -R stdlib SimpleC.StdLib -R StrategyLib SimpleC.StrategyLib -R Common SimpleC.Common -R cdcllib CDCLLib -R fixedpoints FP -R MonadLib MonadLib -R listlib ListLib -R MaxMinLib MaxMinLib -R GraphLib GraphLib -R SumLib SumLib -R tracelib TraceLib -R coq-record-update/src RecordUpdate -Q algorithms Algorithms
 
-DEP_FLAG = -R flocq/src Flocq -R SeparationLogic SimpleC.SL -R unifysl Logic -R sets SetsClass -R compcert_lib compcert.lib -R auxlibs AUXLib -R examples SimpleC.EE -R stdlib SimpleC.StdLib -R StrategyLib SimpleC.StrategyLib -R Common SimpleC.Common -R fixedpoints FP -R MonadLib MonadLib -R listlib ListLib -R MaxMinLib MaxMinLib -R GraphLib GraphLib -R SumLib SumLib -R tracelib TraceLib -R coq-record-update/src RecordUpdate -Q algorithms Algorithms
+DEP_FLAG = -R flocq/src Flocq -R SeparationLogic SimpleC.SL -R unifysl Logic -R sets SetsClass -R compcert_lib compcert.lib -R auxlibs AUXLib -R examples SimpleC.EE -R stdlib SimpleC.StdLib -R StrategyLib SimpleC.StrategyLib -R Common SimpleC.Common -R cdcllib CDCLLib -R fixedpoints FP -R MonadLib MonadLib -R listlib ListLib -R MaxMinLib MaxMinLib -R GraphLib GraphLib -R SumLib SumLib -R tracelib TraceLib -R coq-record-update/src RecordUpdate -Q algorithms Algorithms
 
 Common_FILES = \
   CTypes.v COps.v Notations.v
+
+CDCLLib_FILES = \
+  sat_shared_lib.v cdcl_shared_lib.v
 
 Compcertlib_FILES = \
   Coqlib.v Integers.v Zbits.v
@@ -250,6 +253,85 @@ Sets_FILES = \
 Unify_FILES = \
    Interface.v
 
+# Dependency-only UnifySL foundation inputs required by the checked interface.
+# Keep requested all/core targets unchanged; coqdep supplies their import edges.
+Unify_DEP_FILES = \
+	unifysl/GeneralLogic/Base.v \
+	unifysl/GeneralLogic/KripkeModel.v \
+	unifysl/GeneralLogic/ProofTheory/BasicDeduction.v \
+	unifysl/GeneralLogic/ProofTheory/BasicLogicEquiv.v \
+	unifysl/GeneralLogic/ProofTheory/BasicSequentCalculus.v \
+	unifysl/GeneralLogic/ProofTheory/ProofTheoryPatternsD1.v \
+	unifysl/GeneralLogic/ProofTheory/TheoryOfSequentCalculus.v \
+	unifysl/GeneralLogic/Semantics/Kripke.v \
+	unifysl/GeneralLogic/ShallowEmbedded/ModelLanguage.v \
+	unifysl/GeneralLogic/ShallowEmbedded/PredicateAsLang.v \
+	unifysl/MetaLogicInj/ProofTheory/ProofRules.v \
+	unifysl/MetaLogicInj/ShallowEmbedded/ModelLanguageMetaLogic.v \
+	unifysl/MetaLogicInj/Syntax.v \
+	unifysl/MinimumLogic/ProofTheory/ExtensionTactic.v \
+	unifysl/MinimumLogic/ProofTheory/Minimum.v \
+	unifysl/MinimumLogic/ProofTheory/ProofTheoryPatterns.v \
+	unifysl/MinimumLogic/ProofTheory/ProofTheoryPatternsP.v \
+	unifysl/MinimumLogic/ProofTheory/RewriteClass.v \
+	unifysl/MinimumLogic/ProofTheory/TheoryOfJudgement.v \
+	unifysl/MinimumLogic/ProofTheory/TheoryOfSequentCalculus.v \
+	unifysl/MinimumLogic/Semantics/Kripke.v \
+	unifysl/MinimumLogic/Semantics/SemanticEquiv.v \
+	unifysl/MinimumLogic/Semantics/Trivial.v \
+	unifysl/MinimumLogic/ShallowEmbedded/ModelLanguageMinimumLogic.v \
+	unifysl/MinimumLogic/Sound/Sound_Classical_Trivial.v \
+	unifysl/MinimumLogic/Syntax.v \
+	unifysl/PropositionalLogic/ProofTheory/Classical.v \
+	unifysl/PropositionalLogic/ProofTheory/DeMorgan.v \
+	unifysl/PropositionalLogic/ProofTheory/GodelDummett.v \
+	unifysl/PropositionalLogic/ProofTheory/Intuitionistic.v \
+	unifysl/PropositionalLogic/ProofTheory/ProofTheoryPatterns.v \
+	unifysl/PropositionalLogic/ProofTheory/RewriteClass.v \
+	unifysl/PropositionalLogic/ProofTheory/TheoryOfClassicalAxioms.v \
+	unifysl/PropositionalLogic/ProofTheory/TheoryOfIteratedConnectives.v \
+	unifysl/PropositionalLogic/ProofTheory/TheoryOfPropositionalConnectives.v \
+	unifysl/PropositionalLogic/Semantics/Kripke.v \
+	unifysl/PropositionalLogic/Semantics/Trivial.v \
+	unifysl/PropositionalLogic/ShallowEmbedded/ModelLanguagePropositionalLogic.v \
+	unifysl/PropositionalLogic/ShallowEmbedded/PredicatePropositionalLogic.v \
+	unifysl/PropositionalLogic/Sound/Sound_Classical_Trivial.v \
+	unifysl/PropositionalLogic/Syntax.v \
+	unifysl/SeparationLogic/Model/OSAGenerators.v \
+	unifysl/SeparationLogic/Model/OrderedSA.v \
+	unifysl/SeparationLogic/Model/SeparationAlgebra.v \
+	unifysl/SeparationLogic/ProofTheory/Corable.v \
+	unifysl/SeparationLogic/ProofTheory/Deduction.v \
+	unifysl/SeparationLogic/ProofTheory/DerivedRules.v \
+	unifysl/SeparationLogic/ProofTheory/IterSepcon.v \
+	unifysl/SeparationLogic/ProofTheory/RewriteClass.v \
+	unifysl/SeparationLogic/ProofTheory/SeparationLogic.v \
+	unifysl/SeparationLogic/ProofTheory/TheoryOfCancel.v \
+	unifysl/SeparationLogic/ProofTheory/TheoryOfSeparationAxioms.v \
+	unifysl/SeparationLogic/Semantics/EmpSemantics.v \
+	unifysl/SeparationLogic/Semantics/FlatSemantics.v \
+	unifysl/SeparationLogic/Semantics/StrongSemantics.v \
+	unifysl/SeparationLogic/Semantics/WeakSemantics.v \
+	unifysl/SeparationLogic/ShallowEmbedded/ModelLanguageSeparationLogic.v \
+	unifysl/SeparationLogic/ShallowEmbedded/PredicateSeparationLogic.v \
+	unifysl/SeparationLogic/Sound/Sound_Flat.v \
+	unifysl/SeparationLogic/Syntax.v \
+	unifysl/ShallowQuantifierLogic/ModelConstrALL.v \
+	unifysl/ShallowQuantifierLogic/ModelConstrEX.v \
+	unifysl/ShallowQuantifierLogic/ProofTheory.v \
+	unifysl/ShallowQuantifierLogic/Syntax.v \
+	unifysl/lib/Bijection.v \
+	unifysl/lib/Bisimulation.v \
+	unifysl/lib/Coqlib.v \
+	unifysl/lib/Countable.v \
+	unifysl/lib/Ensembles_ext.v \
+	unifysl/lib/Equivalence_ext.v \
+	unifysl/lib/List_Func_ext.v \
+	unifysl/lib/PTree.v \
+	unifysl/lib/RelationPairs_ext.v \
+	unifysl/lib/Relation_ext.v \
+	unifysl/lib/register_typeclass.v
+
 FIXPOINT_FILES = \
   Coqlib.v LiftConstructors.v  PartialOrder_Setoid.v  KnasterTarski.v  BourbakiWitt.v AllFramework.v SetsFixedpoints.v
 
@@ -300,6 +382,7 @@ SL_FILES = \
   NestedCriticalSTS.v CriticalSTS.v FloatLib.v \
   IntLib.v StoreAux.v SeparationLogic.v CNotation.v MapLib.v StringLib.v Array3LibCore.v Array3Lib.v \
   ArrayLib.v ArrayLibCore.v Array2Lib.v Array2LibCore.v PtrArray2Lib.v PtrArray2LibCore.v \
+  GraphLibCore.v GraphLib.v \
 
 StrategyLib_FILES = \
   DepList.v Mapping.v
@@ -320,18 +403,27 @@ QCP_DEMO_TUTORIAL_Lib_FILES = \
 LLM_FRIENDLY_CASES_Lib_FILES = \
 	poly_sll_lib.v sll_lib.v sll_insert_sort_lib.v functional_queue_lib.v dll_queue_lib.v sll_queue_lib.v simple_arith/Apos_lib.v simple_arith/PDiv_lib.v bst_lib.v bst_fp_lib.v eval_lib.v avl_shape.v sll_shape_lib.v dll_shape_lib.v \
 	sll_merge_rel_lib.v kmp_lib.v kmp_rel_lib.v int_array_merge_rel_lib.v \
-	bubble_sort_lib.v zephyr_slist_lib.v union_find_err_rel_lib.v simple_arith/test_prime_lib.v \
+	bubble_sort_lib.v zephyr_slist_lib.v union_find_err_rel_lib.v simple_arith/test_prime_lib.v graph_matrix_lib.v \
+
+LLM_FRIENDLY_CASES_EXTRA_FILES = \
+	graph_matrix_strategy_goal.v graph_matrix_strategy_proof.v
 
 LLM_BENCH_Lib_FILES = \
 	Algorithms/annoying_math_homework/annoying_math_homework_lib.v \
 	Algorithms/bubble_sort/bubble_sort_lib.v \
+	Algorithms/bucket_sort/bucket_sort_lib.v \
 	Algorithms/catalan_numbers/catalan_numbers_lib.v \
+	Algorithms/chinese_remainder_theorem/chinese_remainder_theorem_lib.v \
+	Algorithms/container_with_most_water_linear/container_with_most_water_linear_lib.v \
+	Algorithms/container_with_most_water_nlogn/container_with_most_water_nlogn_lib.v \
 	Algorithms/choir_singing/choir_singing_lib.v \
 	Algorithms/choosing_inns/choosing_inns_lib.v \
+	Algorithms/climbing_stairs/climbing_stairs_lib.v \
 	Algorithms/coin_change/coin_change_lib.v \
 	Algorithms/concatenating_numbers/concatenating_numbers_lib.v \
 	Algorithms/concatenating_numbers_dp/concatenating_numbers_dp_lib.v \
 	Algorithms/convex_hull_float/convex_hull_float_lib.v \
+	Algorithms/counting_sort/counting_sort_lib.v \
 	Algorithms/DFS/concrete_graphs.v \
 	Algorithms/DFS/DFS_adjacency_list_lib.v \
 	Algorithms/DFS/DFS_adjacency_matrix_lib.v \
@@ -339,33 +431,67 @@ LLM_BENCH_Lib_FILES = \
 	Algorithms/Floyd/concrete_graphs.v \
 	Algorithms/Floyd/Floyd_adjacency_matrix_lib.v \
 	Algorithms/Dijkstra/concrete_graphs.v \
-	Algorithms/Dijkstra/Dijkstra_linked_forward_star_lib.v \
+	Algorithms/Prim/prim_adjacency_matrix_lib.v \
+	Algorithms/Prim/prim_forward_star_lib.v \
+	Algorithms/Prim/prim_forward_star_heap_lib.v \
+	Algorithms/Kruskal/kruskal_union_find_lib.v \
+	Algorithms/kosaraju/SCC.v \
+	Algorithms/kosaraju/Kosaraju.v \
+	Algorithms/kosaraju/KosarajuCRefinement.v \
+	Algorithms/kosaraju/dfs1_lib.v \
+	Algorithms/kosaraju/dfs2_lib.v \
+	Algorithms/kosaraju/kosaraju_rel_lib.v \
+	Data_structures/priority_queue_index/priority_queue_index_lib.v \
+	Data_structures/priority_queue_decrease_key/priority_queue_decrease_key_lib.v \
+	Algorithms/Dijkstra/Dijkstra_linked_forward_star_common_lib.v \
+	Algorithms/Dijkstra/Dijkstra_linked_forward_star_index_queue_lib.v \
+	Algorithms/Dijkstra/Dijkstra_linked_forward_star_decrease_key_lib.v \
+	Engineering/minisat/vec_lib.v \
 	Algorithms/discretize/discretize_lib.v \
 	Algorithms/edit_strings/edit_strings_lib.v \
 	Algorithms/energy_necklace/energy_necklace_lib.v \
+	Algorithms/euler_theorem_inverse/euler_theorem_inverse_lib.v \
+	Algorithms/extended_chinese_remainder_theorem/extended_chinese_remainder_theorem_lib.v \
 	Algorithms/house_robber/house_robber_lib.v \
+	Algorithms/huffman_encoding/huffman_encoding_lib.v \
 	Algorithms/insertion_sort/insertion_sort_lib.v \
+	Algorithms/integer_divide/integer_divide_lib.v \
 	Algorithms/kings_game/kings_game_lib.v \
+	Algorithms/lcs_n/lcs_n_lib.v \
+	Algorithms/linear_modular_inverse/linear_modular_inverse_lib.v \
 	Algorithms/longest_increasing_subsequence/longest_increasing_subsequence_lib.v \
 	Algorithms/longest_nondecreasing_subsequence/longest_nondecreasing_subsequence_lib.v \
+	Algorithms/lucas_theorem/lucas_theorem_lib.v \
 	Algorithms/majority_element/majority_element_lib.v \
+	Algorithms/matrix_chain_multiplication/matrix_chain_multiplication_lib.v \
 	Algorithms/maximum_subarray/maximum_subarray_lib.v \
 	Algorithms/merging_stones/merging_stones_lib.v \
+	Algorithms/minimal_representation/minimal_representation_lib.v \
+	Algorithms/modular_inverse/modular_inverse_lib.v \
+	Algorithms/modular_mul/modular_mul_lib.v \
+	Algorithms/modular_power/modular_power_lib.v \
 	Algorithms/multiple_knapsack/multiple_knapsack_lib.v \
+	Algorithms/non_overlapping_intervals/non_overlapping_intervals_lib.v \
+	Algorithms/optimized_selection_sort/optimized_selection_sort_lib.v \
 	Algorithms/paint_house_ii/paint_house_ii_lib.v \
 	Algorithms/quicksort_hoare_swap_index/quicksort_lib.v \
 	Algorithms/quicksort_lomuto_index/quicksort_lib.v \
 	Algorithms/rmq/rmq_lib.v \
+	Algorithms/rod_cutting/rod_cutting_lib.v \
 	Algorithms/max_sum_increasing_sequence/max_sum_increasing_sequence_lib.v \
 	Algorithms/sieve_of_eratosthenes/sieve_of_eratosthenes_lib.v \
 	Algorithms/sieve_of_euler/sieve_of_euler_lib.v \
+	Algorithms/sightseeing_bus/sightseeing_bus_lib.v \
 	Algorithms/sliding_window_maximum/sliding_window_maximum_lib.v \
 	Algorithms/sort_point/sort_point_lib.v \
 	Algorithms/split_array_largest_sum/split_array_largest_sum_lib.v \
 	Algorithms/stock_trading/stock_trading_lib.v \
+	Algorithms/streetlight/streetlight_lib.v \
 	Algorithms/super_piano/super_piano_lib.v \
 	Algorithms/zero_one_knapsack/zero_one_knapsack_lib.v \
+	Data_structures/binary_indexed_tree/binary_indexed_tree_lib.v \
 	Data_structures/priority_queue/priority_queue_lib.v \
+	Data_structures/stack/stack_lib.v \
 	Algorithms/manacher/manacher_lib.v \
 	Engineering/string/string_lib.v \
 	Engineering/string/memchr_lib.v \
@@ -397,7 +523,9 @@ LLM_BENCH_Lib_FILES = \
 APPLICATION_Lib_FILES = \
 	fme/algorithm.v fme/implement.v fme/implement_lemma.v fme/fme_lib.v typeinfer/repr_subst_prop.v typeinfer/sol_prop.v typeinfer/sound_pv.v typeinfer/type_infer_lib.v typeinfer/typeinfer_lib.v \
 	minigmp/GmpAux.v minigmp/GmpNumber.v minigmp/GmpMulAux.v minigmp_sumlib/GmpAux.v minigmp_sumlib/GmpNumber.v minigmp_sumlib/GmpMulAux.v cnf_trans/cnf_trans_lib.v cnf_trans/smt_lang_lib.v alpha_equiv/ast_lib.v \
-	malloc.v super_poly_sll2.v mergeablelist/sll_project_lib.v CDCL/CDCL_qcp_lib.v
+	malloc.v super_poly_sll2.v mergeablelist/sll_project_lib.v CDCL/CDCL_qcp_lib.v minisat/solver_qcp_tactics.v minisat/solver_qcp_model.v \
+	minisat/solver_qcp_model_tactics.v minisat/solver_qcp_lib.v \
+	hashtable/hashtbl_lib.v hashtable/hashtbl_def.v
 
 APPLICATION_Lib_FILES += \
 	convex_hull/Geo_Vec.v convex_hull/Geo_Point_Primitives.v convex_hull/Convexity.v convex_hull/Maximality.v convex_hull/Geo_Point.v convex_hull/Geo_Predicates.v convex_hull/Point_Order.v convex_hull/Point_Array_Specs.v \
@@ -430,30 +558,61 @@ LLM_FRIENDLY_CASES_EXAMPLE_FILE_NAME = \
 LLM_BENCH_EXAMPLE_FILE_NAME = \
 	Algorithms/annoying_math_homework/annoying_math_homework \
 	Algorithms/bubble_sort/bubble_sort \
+	Algorithms/bucket_sort/bucket_sort \
 	Algorithms/catalan_numbers/catalan_numbers \
+	Algorithms/chinese_remainder_theorem/chinese_remainder_theorem \
+	Algorithms/container_with_most_water_linear/container_with_most_water_linear \
+	Algorithms/container_with_most_water_nlogn/container_with_most_water_nlogn \
 	Algorithms/choir_singing/choir_singing \
 	Algorithms/choosing_inns/choosing_inns \
+	Algorithms/climbing_stairs/climbing_stairs \
 	Algorithms/coin_change/coin_change \
 	Algorithms/concatenating_numbers/concatenating_numbers \
 	Algorithms/concatenating_numbers_dp/concatenating_numbers_dp \
 	Algorithms/convex_hull_float/convex_hull_float \
+	Algorithms/counting_sort/counting_sort \
 	Algorithms/DFS/DFS_adjacency_list \
 	Algorithms/DFS/DFS_adjacency_matrix \
 	Algorithms/DFS/DFS_adjacency_matrix_2Darray \
+	Algorithms/Floyd/Floyd_adjacency_matrix \
 	Algorithms/Floyd/Floyd_adjacency_matrix_2Darray \
-	Algorithms/Dijkstra/Dijkstra_linked_forward_star \
+	Algorithms/Floyd/Floyd_adjacency_matrix_ptr \
+	Algorithms/Dijkstra/Dijkstra_linked_forward_star_index_queue \
+	Algorithms/Dijkstra/Dijkstra_linked_forward_star_decrease_key \
+	Algorithms/Prim/prim_adjacency_matrix \
+	Algorithms/Prim/prim_adjacency_matrix_return_matrix \
+	Algorithms/Prim/prim_forward_star \
+	Algorithms/Prim/prim_forward_star_heap \
+	Algorithms/Kruskal/kruskal_union_find \
+	Algorithms/kosaraju/dfs1 \
+	Algorithms/kosaraju/dfs2 \
+	Algorithms/kosaraju/kosaraju_rel \
 	Algorithms/discretize/discretize \
 	Algorithms/edit_strings/edit_strings \
 	Algorithms/energy_necklace/energy_necklace \
+	Algorithms/euler_theorem_inverse/euler_theorem_inverse \
+	Algorithms/extended_chinese_remainder_theorem/extended_chinese_remainder_theorem \
 	Algorithms/house_robber/house_robber \
+	Algorithms/huffman_encoding/huffman_encoding \
 	Algorithms/insertion_sort/insertion_sort \
+	Algorithms/integer_divide/integer_divide \
 	Algorithms/kings_game/kings_game \
+	Algorithms/lcs_n/lcs_n \
+	Algorithms/linear_modular_inverse/linear_modular_inverse \
 	Algorithms/longest_increasing_subsequence/longest_increasing_subsequence \
 	Algorithms/longest_nondecreasing_subsequence/longest_nondecreasing_subsequence \
+	Algorithms/lucas_theorem/lucas_theorem \
 	Algorithms/majority_element/majority_element \
+	Algorithms/matrix_chain_multiplication/matrix_chain_multiplication \
 	Algorithms/maximum_subarray/maximum_subarray \
 	Algorithms/merging_stones/merging_stones \
+	Algorithms/minimal_representation/minimal_representation \
+	Algorithms/modular_inverse/modular_inverse \
+	Algorithms/modular_mul/modular_mul \
+	Algorithms/modular_power/modular_power \
 	Algorithms/multiple_knapsack/multiple_knapsack \
+	Algorithms/non_overlapping_intervals/non_overlapping_intervals \
+	Algorithms/optimized_selection_sort/optimized_selection_sort \
 	Algorithms/paint_house_ii/paint_house_ii \
 	Algorithms/quicksort_hoare_fill_index/quicksort \
 	Algorithms/quicksort_hoare_fill_index2/quicksort \
@@ -461,18 +620,26 @@ LLM_BENCH_EXAMPLE_FILE_NAME = \
 	Algorithms/quicksort_hoare_swap_index2/quicksort \
 	Algorithms/quicksort_lomuto_index/quicksort \
 	Algorithms/rmq/rmq \
+	Algorithms/rod_cutting/rod_cutting \
 	Algorithms/max_sum_increasing_sequence/max_sum_increasing_sequence \
 	Algorithms/selection_sort/selection_sort \
 	Algorithms/sieve_of_eratosthenes/sieve_of_eratosthenes \
 	Algorithms/sieve_of_euler/sieve_of_euler \
+	Algorithms/sightseeing_bus/sightseeing_bus \
 	Algorithms/sliding_window_maximum/sliding_window_maximum \
 	Algorithms/sort_point/sort_point \
 	Algorithms/split_array_largest_sum/split_array_largest_sum \
 	Algorithms/stock_trading/stock_trading \
+	Algorithms/streetlight/streetlight \
 	Algorithms/super_piano/super_piano \
 	Algorithms/zero_one_knapsack/zero_one_knapsack \
+	Data_structures/binary_indexed_tree/binary_indexed_tree \
 	Data_structures/priority_queue/priority_queue \
+	Data_structures/priority_queue_index/priority_queue_index \
+	Data_structures/priority_queue_decrease_key/priority_queue_decrease_key \
+	Data_structures/stack/stack \
 	Algorithms/manacher/manacher \
+	Engineering/minisat/vec \
 	Engineering/string/memchr \
 	Engineering/string/memory \
 	Engineering/string/search \
@@ -499,16 +666,20 @@ LLM_BENCH_EXAMPLE_FILE_NAME = \
 
 LLM_BENCH_STRATEGY_FILE_NAME = \
 	Algorithms/convex_hull_float/pointf_array \
+	Algorithms/kosaraju/safeexecE \
 	Engineering/string/string
 
 APPLICATION_FILE_NAME = \
 	LiteOS/Get_Set_Value LiteOS/GetSortLinkNextExpireTime LiteOS/List_Add LiteOS/LOS_ListDelete LiteOS/LOS_ListDelInit LiteOS/LOS_ListEmpty LiteOS/LOS_ListInit LiteOS/OsAdd2SortLink LiteOS/OsDeleteNodeSortLink \
 	LiteOS/OsDeleteSortLink LiteOS/OsGetNextExpireTime LiteOS/OsGetSortLinkAttribute LiteOS/OsSortLinkGetNextExpireTime LiteOS/OsSortLinkGetRemainTime LiteOS/OsSortLinkGetTargetExpireTime \
 	LiteOS/OsSortLinkInit LiteOS/OsSortLinkResponseTimeConvertFreq \
-	typeinfer/typeinfer alpha_equiv/alpha_equiv alpha_equiv/subst alpha_equiv/thm_apply cnf_trans/cnf_trans fme/fme minigmp/gmp minigmp_sumlib/gmp mergeablelist/sll_project CDCL/CDCL_qcp
+	typeinfer/typeinfer alpha_equiv/alpha_equiv alpha_equiv/subst alpha_equiv/thm_apply cnf_trans/cnf_trans fme/fme minigmp/gmp minigmp_sumlib/gmp mergeablelist/sll_project CDCL/CDCL_qcp minisat/solver_qcp
 
 APPLICATION_FILE_NAME += \
 	convex_hull/graham_scan convex_hull/graham_scan_dedup convex_hull/andrew_monotone_chain
+
+APPLICATION_FILE_NAME += \
+	hashtable/hashtbl
 
 APPLICATION_FILE_NAME += \
 	fme_ge_gmp/fme/fme_gmp \
@@ -568,7 +739,34 @@ APPLICATION_PROOF_SPLIT_FILES = \
 	minigmp_sumlib/gmp_proof_manual_part6.v \
 	cnf_trans/cnf_trans_proof_manual1.v \
 	cnf_trans/cnf_trans_proof_manual2.v \
-	cnf_trans/cnf_trans_proof_manual3.v
+	cnf_trans/cnf_trans_proof_manual3.v \
+	minisat/solver_qcp_proof_manual_part1.v \
+	minisat/solver_qcp_proof_manual_part2.v \
+	minisat/solver_qcp_proof_manual_part3.v \
+	minisat/solver_qcp_proof_manual_part4.v \
+	minisat/solver_qcp_proof_manual_part5.v \
+	minisat/solver_qcp_proof_manual_part6.v \
+	minisat/solver_qcp_proof_manual_part7.v \
+	minisat/solver_qcp_proof_manual_part8.v \
+	minisat/solver_qcp_proof_manual_part9.v \
+	minisat/solver_qcp_proof_common.v \
+	hashtable/hashtbl_proof_manual_create_bucks.v \
+	hashtable/hashtbl_proof_manual_init_hashtbl.v \
+	hashtable/hashtbl_proof_manual_create_hashtbl.v \
+	hashtable/hashtbl_proof_manual_hashtbl_add.v \
+	hashtable/hashtbl_proof_manual_hashtbl_find.v \
+	hashtable/hashtbl_proof_manual_hashtbl_findref.v \
+	hashtable/hashtbl_proof_manual_hashtbl_remove.v \
+	hashtable/hashtbl_proof_manual_hashtbl_free_blist.v \
+	hashtable/hashtbl_proof_manual_hashtbl_clear.v \
+	hashtable/hashtbl_proof_manual_free_hashtbl.v
+
+LLM_BENCH_PROOF_SPLIT_FILES = \
+	Algorithms/stock_trading/stock_trading_proof_manual_part1.v \
+	Algorithms/stock_trading/stock_trading_proof_manual_part2.v \
+	Algorithms/stock_trading/stock_trading_proof_manual_part3.v \
+	Algorithms/stock_trading/stock_trading_proof_manual_part4.v \
+	Algorithms/stock_trading/stock_trading_proof_manual_part5.v
 
 QCP_DEMO_Examples_FILES = \
 	$(addsuffix _goal.v, $(QCP_DEMO_EXAMPLE_FILE_NAME:%=QCP_demos_human/%)) \
@@ -604,10 +802,12 @@ LLM_FRIENDLY_CASES_Examples_FILES = \
 	$(addsuffix _goal_check.v, $(LLM_FRIENDLY_CASES_EXAMPLE_FILE_NAME:%=QCP_demos_LLM/%)) \
 	$(addsuffix _proof_auto.v, $(LLM_FRIENDLY_CASES_EXAMPLE_FILE_NAME:%=QCP_demos_LLM/%)) \
 	$(addsuffix _proof_manual.v, $(LLM_FRIENDLY_CASES_EXAMPLE_FILE_NAME:%=QCP_demos_LLM/%)) \
-	$(LLM_FRIENDLY_CASES_Lib_FILES:%=QCP_demos_LLM/%)
+	$(LLM_FRIENDLY_CASES_Lib_FILES:%=QCP_demos_LLM/%) \
+	$(LLM_FRIENDLY_CASES_EXTRA_FILES:%=QCP_demos_LLM/%)
 
 LLM_BENCH_Examples_FILES = \
 	$(LLM_BENCH_Lib_FILES:%=LLM_bench/%) \
+	$(LLM_BENCH_PROOF_SPLIT_FILES:%=LLM_bench/%) \
 	$(addsuffix _strategy_goal.v, $(LLM_BENCH_STRATEGY_FILE_NAME:%=LLM_bench/%)) \
 	$(addsuffix _strategy_goal_check.v, $(LLM_BENCH_STRATEGY_FILE_NAME:%=LLM_bench/%)) \
 	$(addsuffix _strategy_proof.v, $(LLM_BENCH_STRATEGY_FILE_NAME:%=LLM_bench/%)) \
@@ -657,7 +857,7 @@ LLM_FRIENDLY_CASES_STRATEGY_FILE_NAME = \
 	array2 array3 int_ptr_array2 ptr_array2
 
 APPLICATION_STRATEGY_FILE_NAME = \
-	fme/fme typeinfer/typeinfer minigmp/gmp mergeablelist/sll_project convex_hull/point_array convex_hull/safeexec CDCL/CDCL_qcp
+	fme/fme typeinfer/typeinfer minigmp/gmp mergeablelist/sll_project convex_hull/point_array convex_hull/safeexec CDCL/CDCL_qcp minisat/solver_qcp hashtable/hashtbl
 
 APPLICATION_STRATEGY_FILE_NAME += \
 	fme_ge_gmp/fme/fme_gmp fme_ge_gmp/fme/safeexec_fme_gmp \
@@ -708,9 +908,11 @@ EXAMPLE = \
 	$(SL_FILES:%.v=SeparationLogic/%.v) \
 	$(FIXPOINT_FILES:%.v=fixedpoints/%.v) \
 	$(Common_FILES:%.v=Common/%.v) \
+	$(CDCLLib_FILES:%.v=cdcllib/%.v) \
 	$(MONAD_FILES:%.v=%.v) \
 	$(ListLib_FILES:%.v=listlib/%.v) \
 	$(MaxMinLib_FILES:%.v=MaxMinLib/%.v) \
+	$(StrategyLib_FILES:%.v=StrategyLib/%.v) \
 	$(GraphLib_FILES:%.v=GraphLib/%.v) \
 	$(RecordUpdate_FILES:%.v=coq-record-update/%.v) \
 	$(TraceLib_FILES:%.v=tracelib/%.v) \
@@ -732,9 +934,11 @@ CORE_PROJECT_EXAMPLE = \
 	$(SL_FILES:%.v=SeparationLogic/%.v) \
 	$(FIXPOINT_FILES:%.v=fixedpoints/%.v) \
 	$(Common_FILES:%.v=Common/%.v) \
+	$(CDCLLib_FILES:%.v=cdcllib/%.v) \
 	$(MONAD_FILES:%.v=%.v) \
 	$(ListLib_FILES:%.v=listlib/%.v) \
 	$(MaxMinLib_FILES:%.v=MaxMinLib/%.v) \
+	$(StrategyLib_FILES:%.v=StrategyLib/%.v) \
 	$(GraphLib_FILES:%.v=GraphLib/%.v) \
 	$(RecordUpdate_FILES:%.v=coq-record-update/%.v) \
 	$(TraceLib_FILES:%.v=tracelib/%.v) \
@@ -870,6 +1074,18 @@ examples/Applications_human/CDCL/CDCL_qcp_proof_manual.vo: \
 	examples/Applications_human/CDCL/CDCL_qcp_proof_manual_part5.vo \
 	examples/Applications_human/CDCL/CDCL_qcp_proof_manual_part6.vo
 
+examples/Applications_human/minisat/solver_qcp_proof_manual.vo: \
+	examples/Applications_human/minisat/solver_qcp_proof_common.vo \
+	examples/Applications_human/minisat/solver_qcp_proof_manual_part1.vo \
+	examples/Applications_human/minisat/solver_qcp_proof_manual_part2.vo \
+	examples/Applications_human/minisat/solver_qcp_proof_manual_part3.vo \
+	examples/Applications_human/minisat/solver_qcp_proof_manual_part4.vo \
+	examples/Applications_human/minisat/solver_qcp_proof_manual_part5.vo \
+	examples/Applications_human/minisat/solver_qcp_proof_manual_part6.vo \
+	examples/Applications_human/minisat/solver_qcp_proof_manual_part7.vo \
+	examples/Applications_human/minisat/solver_qcp_proof_manual_part8.vo \
+	examples/Applications_human/minisat/solver_qcp_proof_manual_part9.vo
+
 
 
 all: \
@@ -933,15 +1149,14 @@ _CoqProject:
 
 depend:
 	@$(call REMOVE_FILES,$(TMP_FILES) .depend.core.flocq .depend.core.project .depend.core .depend.examples.applications .depend.examples.qcp_democases .depend.examples.qcp_demo_feature_cases .depend.examples.qcp_demo_tutorial .depend.examples.llm_friendly_cases .depend.examples.llm_bench .depend.examples)
-	@$(call RUN_COQDEP,.coqdep.all.args.tmp,$(EXAMPLE),.depend.tmp)
-	@$(call MOVE_FILE,.depend.tmp,.depend)
+	@$(call RUN_COQDEP_ATOMIC,.coqdep.all.args.tmp,$(EXAMPLE) $(Unify_DEP_FILES),.depend.tmp,.depend)
 	@$(call REMOVE_FILES,$(TMP_FILES))
 
 depend-core:
 	@$(call REMOVE_FILES,$(TMP_FILES))
 	@$(call RUN_COQDEP,.coqdep.core.flocq.args.tmp,$(FLOCQ_EXAMPLE),.depend.core.flocq.tmp)
 	@$(call MOVE_FILE,.depend.core.flocq.tmp,.depend.core.flocq)
-	@$(call RUN_COQDEP,.coqdep.core.project.args.tmp,$(CORE_PROJECT_EXAMPLE),.depend.core.project.tmp)
+	@$(call RUN_COQDEP,.coqdep.core.project.args.tmp,$(CORE_PROJECT_EXAMPLE) $(Unify_DEP_FILES),.depend.core.project.tmp)
 	@$(call MOVE_FILE,.depend.core.project.tmp,.depend.core.project)
 	@$(call CONCAT_FILES,.depend.core.flocq .depend.core.project,.depend.core.tmp)
 	@$(call MOVE_FILE,.depend.core.tmp,.depend.core)
@@ -999,7 +1214,7 @@ depend-examples-llm-bench:
 	@$(call MOVE_FILE,.depend.examples.llm_bench.tmp,.depend.examples.llm_bench)
 	@$(call REMOVE_FILES,$(TMP_FILES))
 
-.depend:
+.depend: Makefile
 	@$(MAKE) depend
 
 clean:
@@ -1011,7 +1226,7 @@ clean:
 	@$(MAKE) --no-print-directory clean-deps
 
 clean-core:
-	@$(call REMOVE_TREE_OUTPUTS,flocq/src Common auxlibs compcert_lib SeparationLogic sets StrategyLib fixedpoints MonadLib MaxMinLib GraphLib SumLib listlib stdlib coq-record-update tracelib algorithms)
+	@$(call REMOVE_TREE_OUTPUTS,flocq/src Common cdcllib auxlibs compcert_lib SeparationLogic sets StrategyLib fixedpoints MonadLib MaxMinLib GraphLib SumLib listlib stdlib coq-record-update tracelib algorithms)
 	@$(call REMOVE_FILES,$(UNIFY_OUTPUTS))
 	@$(call REMOVE_FILES,coq-record-update/.depend coq-record-update/.Makefile.coq.d tracelib/.depend algorithms/.depend)
 	@$(call REMOVE_FILES,.depend.core.flocq .depend.core.flocq.tmp .depend.core.project .depend.core.project.tmp .depend.core .depend.core.tmp .depend.tmp .depend)

@@ -16,7 +16,7 @@ Definition graph_matrix_strategy1 :=
          (matrix_model : list (list Z) -> Prop),
     TT &&
     emp **
-    ((GraphMatrixFlat.graph_rep n matrix_model p rows))
+    ((GraphMatrixFlat.store_graph n matrix_model p rows))
     |--
     (
     TT &&
@@ -41,7 +41,7 @@ Definition graph_matrix_strategy2 :=
     (“ (0 <= j) ”) &&
     (“ (j < n) ”) &&
     emp **
-    ((GraphMatrixFlat.graph_rep size matrix_model p rows))
+    ((GraphMatrixFlat.store_graph size matrix_model p rows))
     |--
     (
     TT &&
@@ -80,7 +80,7 @@ Definition graph_matrix_strategy3 :=
     emp -*
     TT &&
     emp **
-    ((GraphMatrixFlat.graph_rep size matrix_model p rows))
+    ((GraphMatrixFlat.store_graph size matrix_model p rows))
     ).
 
 Definition graph_matrix_strategy4 :=
@@ -94,7 +94,7 @@ Definition graph_matrix_strategy4 :=
     (“ (0 <= j) ”) &&
     (“ (j < size) ”) &&
     emp **
-    ((GraphMatrixFlat.graph_rep size matrix_model p rows))
+    ((GraphMatrixFlat.store_graph size matrix_model p rows))
     |--
     (
     TT &&
@@ -124,7 +124,7 @@ Definition graph_matrix_strategy5 :=
          (matrix_model : list (list Z) -> Prop),
     TT &&
     emp **
-    ((GraphMatrixPtr.graph_rep n matrix_model p rows))
+    ((GraphMatrixPtr.store_graph n matrix_model p rows))
     |--
     (
     TT &&
@@ -155,7 +155,7 @@ Definition graph_matrix_strategy6 :=
     emp -*
     TT &&
     emp **
-    ((GraphMatrixPtr.graph_rep size matrix_model p rows))
+    ((GraphMatrixPtr.store_graph size matrix_model p rows))
     ).
 
 Definition graph_matrix_strategy7 :=
@@ -166,7 +166,7 @@ Definition graph_matrix_strategy7 :=
     (“ (0 <= i) ”) &&
     (“ (i < size) ”) &&
     emp **
-    ((GraphMatrixPtr.graph_rep size matrix_model p rows))
+    ((GraphMatrixPtr.store_graph size matrix_model p rows))
     |--
     EX (row_ptr : Z),
       (
@@ -294,7 +294,7 @@ Definition graph_matrix_strategy11 :=
     emp -*
     TT &&
     emp **
-    ((GraphMatrixPtr.graph_rep size matrix_model p rows))
+    ((GraphMatrixPtr.store_graph size matrix_model p rows))
     ).
 
 Module Type graph_matrix_Strategy_Correct.

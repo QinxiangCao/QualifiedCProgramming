@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-"""Run creation, durable controller state, versions, logs, and snapshots.
+"""Run creation, durable controller state, logs, backups, and snapshots.
 
 This module is internal to controller.py.  It owns the controller's durable
 state primitives; callers outside the controller use the controller CLI.
 """
-
-# ruff: noqa: E402 -- controller modules resolve the internal vc-proving directory at runtime.
 
 from __future__ import annotations
 
@@ -38,21 +36,26 @@ from path_utils import (
     is_run_root_name,
     main_root_from_run_root,
     reports_root,
-    reuse_source_build_workspace,
-    reuse_source_preparation,
     run_logs_path,
     slug,
     target_files_for_c,
     write_json,
 )
-from coq_tooling import dune_snapshot_for_preserved_build
-from proof_manual_utils import generated_artifact_module_spellings
-from spec_freeze import extract_spec_surface
+from proof_manual_utils import (
+    generated_artifact_module_spellings,
+    manual_vc_index,
+)
 from public_helper_utils import (
     ensure_public_helper_lemma_lib,
     public_helper_pool_snapshot,
 )
-from symexec_tooling import _lexical_regular_file_snapshot, source_goal_version_at_root
+from spec_freeze import extract_spec_surface
+from symexec_tooling import (
+    _lexical_regular_file_snapshot,
+    _snapshot_text,
+    symexec_profile_for_state,
+    symexec_profile_record,
+)
 
 GENERATED_KEYS = (
     "goal_file",
@@ -75,12 +78,11 @@ CONTROLLER_STATE_REQUIRED_FIELDS = frozenset(
         "target_files",
         "public_helper_lemma_lib",
         "problem_context",
+        "formal_case_lib_policy",
         "spec_freeze",
         "max_compact_attempts",
         "max_witnesses_per_group",
         "max_parallel_group_workers",
-        "source_version",
-        "source_goal_version",
         "dune_preparation",
         "rounds",
         "attempts",
@@ -101,6 +103,8 @@ CONTROLLER_STATE_OPTIONAL_FIELDS = frozenset(
         "finished_at",
         "final_apply_transaction",
         "public_helper_promotion_transaction",
+        "run_control",
+        "symexec_profile",
     }
 )
 
@@ -295,108 +299,6 @@ def _json_load(path: Path, default: Any | None = None) -> Any:
 _file_digest = sha256_file
 
 
-def _debug_build_snapshot(
-    build_workspace: Path,
-    *,
-    dune_dependency_snapshot: dict[str, Any] | None = None,
-) -> dict[str, Any]:
-    """Seal a preserved current build and its selected dependency snapshot.
-
-    The keyword and digest member names retain ``dune_dependency`` for state
-    compatibility; the value may describe either selected backend.
-    """
-
-    root = build_workspace.expanduser().resolve()
-    if not root.is_dir():
-        raise ValueError(f"debug build workspace is missing: {root}")
-    records: list[dict[str, str]] = []
-    for path in sorted(item for item in root.rglob("*") if item.is_file()):
-        relative = path.relative_to(root)
-        if ".coq_debug" in relative.parts:
-            continue
-        records.append(
-            {
-                "relative_path": relative.as_posix(),
-                "sha256": _file_digest(path),
-            }
-        )
-    if not records:
-        raise ValueError(f"debug build workspace has no preserved files: {root}")
-    local_digest = sha256_text(
-        json.dumps(records, sort_keys=True, separators=(",", ":"))
-    )
-    digest = local_digest
-    if dune_dependency_snapshot is not None:
-        base_digest = dune_dependency_snapshot.get("digest")
-        base_file_count = dune_dependency_snapshot.get("file_count")
-        if not isinstance(base_digest, str) or not base_digest:
-            raise ValueError("selected dependency snapshot lacks a digest")
-        if not isinstance(base_file_count, int) or base_file_count < 0:
-            raise ValueError(
-                "selected dependency snapshot has an invalid file count"
-            )
-        digest = sha256_text(
-            json.dumps(
-                {
-                    "build_digest": local_digest,
-                    "build_file_count": len(records),
-                    "dune_dependency_digest": base_digest,
-                    "dune_dependency_file_count": base_file_count,
-                },
-                sort_keys=True,
-                separators=(",", ":"),
-            )
-        )
-    return {"digest": digest, "file_count": len(records)}
-
-
-def _verified_reuse_source_build(
-    *,
-    main_root: Path,
-    run_root: Path,
-    round_id: str,
-    sealed: dict[str, Any],
-    source_goal_version: str,
-) -> tuple[dict[str, Any], dict[str, Any]]:
-    """Re-verify one sealed reuse-source build against the preparation it carries.
-
-    Raises ``ValueError`` when the preserved sources, that preparation, or the
-    seal binding the two no longer agree.
-    """
-
-    if sealed.get("status") != "passed":
-        raise ValueError(f"reuse-source build is not sealed: {round_id}")
-    if sealed.get("source_goal_version") != source_goal_version:
-        raise ValueError(
-            f"sealed reuse-source build is bound to another goal version: {round_id}"
-        )
-    preparation_path = reuse_source_preparation(run_root, round_id)
-    receipt = _json_load(preparation_path)
-    if not isinstance(receipt, dict):
-        raise ValueError(
-            f"sealed reuse-source preparation is missing: {preparation_path}"
-        )
-    if sealed.get("preparation_sha256") != _file_digest(preparation_path):
-        raise ValueError(
-            f"sealed reuse-source preparation changed: {preparation_path}"
-        )
-    dependency_snapshot = dune_snapshot_for_preserved_build(
-        workspace_root=main_root, receipt=receipt
-    )
-    build = _debug_build_snapshot(
-        reuse_source_build_workspace(run_root, round_id),
-        dune_dependency_snapshot=dependency_snapshot,
-    )
-    if (
-        sealed.get("digest") != build["digest"]
-        or sealed.get("file_count") != build["file_count"]
-    ):
-        raise ValueError(
-            f"sealed reuse-source build changed after vc-proving preparation: {round_id}"
-        )
-    return dependency_snapshot["_snapshot"], build
-
-
 def _is_relative_to(path: Path, root: Path) -> bool:
     try:
         path.expanduser().resolve().relative_to(root.expanduser().resolve())
@@ -438,9 +340,22 @@ def _spec_freeze_baseline(
         return None
     c_file = main_root / target_files["c_file"]
     lib_file = main_root / target_files["formal_case_lib"]
+    frozen_functions = sorted(set(functions))
+    baseline = extract_spec_surface(c_file, lib_file)
+    spec_functions = {
+        str(key).split("::", 1)[0]
+        for key in baseline.get("specs", {})
+        if "::" in str(key)
+    }
+    missing = [name for name in frozen_functions if name not in spec_functions]
+    if missing:
+        raise SystemExit(
+            "--freeze-spec did not match an extracted function specification: "
+            + ", ".join(missing)
+        )
     return {
-        "functions": sorted(set(functions)),
-        "baseline": extract_spec_surface(c_file, lib_file),
+        "functions": frozen_functions,
+        "baseline": baseline,
     }
 
 
@@ -470,127 +385,13 @@ def _problem_context_from_args(args: argparse.Namespace) -> dict[str, Any]:
     return {key: value for key, value in raw.items() if value not in ("", [], None)}
 
 
-def _source_version(
-    paths: list[Path],
-    *,
-    main_root: Path,
-    roles: dict[str, str] | None = None,
-) -> dict[str, Any]:
-    owner_input = Path(os.path.abspath(os.fspath(main_root.expanduser())))
-    try:
-        owner = fixed_path_under(
-            owner_input,
-            owner_input,
-            label="source-version main root",
-        )
-    except SystemExit as exc:
-        raise ValueError(str(exc)) from exc
-    files: list[dict[str, Any]] = []
-    digest_input: list[dict[str, Any]] = []
-    for path in paths:
-        try:
-            candidate = fixed_path_under(
-                path,
-                owner,
-                label="source-version artifact",
-            )
-        except SystemExit as exc:
-            raise ValueError(str(exc)) from exc
-        relative = candidate.relative_to(owner).as_posix()
-        snapshot = _lexical_regular_file_snapshot(
-            root=owner,
-            relative=relative,
-            label="source-version artifact",
-        )
-        if snapshot.get("state") == "missing":
-            artifact_state = "missing"
-            digest = None
-        elif snapshot.get("state") != "present":
-            detail = str(snapshot.get("message") or "invalid source topology")
-            raise ValueError(
-                "source-version artifact must be a non-link regular file or "
-                f"truly absent: {relative}: {detail}"
-            )
-        else:
-            artifact_state = "present"
-            digest = str(snapshot["sha256"])
-        entry: dict[str, Any] = {
-            "relative_path": relative,
-            "sha256": digest,
-            "state": artifact_state,
-        }
-        role = (roles or {}).get(relative)
-        if role:
-            entry["role"] = role
-        files.append(entry)
-        digest_entry = {key: entry[key] for key in ("relative_path", "sha256", "state")}
-        if role:
-            digest_entry["role"] = role
-        digest_input.append(digest_entry)
-    digest_input.sort(
-        key=lambda item: (str(item["relative_path"]), str(item.get("role", "")))
-    )
-    digest = sha256_text(
-        json.dumps(digest_input, sort_keys=True, separators=(",", ":"))
-    )
-    return {
-        "digest": digest,
-        "files": files,
-    }
-
-
-def _source_version_for_state(
-    state: dict[str, Any], *, annotated: bool
-) -> dict[str, Any]:
-    main_root = Path(str(state["main_root"]))
-    target = state["target_files"]
-    roles = {
-        target["c_file"]: "target-c-annotated" if annotated else "target-c",
-        target["formal_case_lib"]: "formal-case-lib",
-    }
-    return _source_version(
-        [main_root / target["c_file"], main_root / target["formal_case_lib"]],
-        main_root=main_root,
-        roles=roles,
-    )
-
-
 def _formal_case_lib_is_active(state: dict[str, Any]) -> bool:
-    """Return the run topology's persisted editable-lib presence."""
+    """Return whether this run has an editable canonical case library."""
 
-    relative = str(state["target_files"]["formal_case_lib"])
-    source_version = state.get("source_version")
-    records = source_version.get("files") if isinstance(source_version, dict) else None
-    matches = (
-        [
-            record
-            for record in records
-            if isinstance(record, dict)
-            and str(record.get("relative_path") or "") == relative
-        ]
-        if isinstance(records, list)
-        else []
-    )
-    if len(matches) != 1:
-        raise ValueError(
-            "source_version requires exactly one formal_case_lib topology record"
-        )
-    record = matches[0]
-    artifact_state = record.get("state")
-    digest = record.get("sha256")
-    if (
-        artifact_state not in {"present", "missing"}
-        or (artifact_state == "missing" and digest is not None)
-        or (
-            artifact_state == "present"
-            and (
-                not isinstance(digest, str)
-                or re.fullmatch(r"[0-9a-f]{64}", digest) is None
-            )
-        )
-    ):
-        raise ValueError("source_version formal_case_lib topology record is invalid")
-    return artifact_state == "present"
+    policy = state.get("formal_case_lib_policy")
+    if policy not in {"present", "create", "absent"}:
+        raise ValueError("formal_case_lib policy is invalid")
+    return policy != "absent"
 
 
 def _formal_case_lib_snapshot(state: dict[str, Any]) -> dict[str, Any]:
@@ -601,6 +402,76 @@ def _formal_case_lib_snapshot(state: dict[str, Any]) -> dict[str, Any]:
         relative=str(state["target_files"]["formal_case_lib"]),
         label="formal_case_lib candidate",
     )
+
+
+FAILED_VC_FIELDS = {
+    "source_attempt",
+    "name",
+    "parent",
+    "annotation_location",
+    "manual",
+    "message",
+}
+
+
+def _failed_vcs_errors(
+    value: Any,
+    *,
+    run_root: Path | None = None,
+) -> list[str]:
+    """Validate annotation retry VCs and their sealed source manuals."""
+
+    if not isinstance(value, list):
+        return ["annotation attempt failed_vcs must be a list"]
+    errors: list[str] = []
+    identities: set[tuple[str, str]] = set()
+    manual_indexes: dict[str, dict[str, Any]] = {}
+    for index, item in enumerate(value):
+        location = f"annotation attempt failed_vcs[{index}]"
+        if not isinstance(item, dict) or set(item) != FAILED_VC_FIELDS:
+            errors.append(f"{location} requires exact fields")
+            continue
+        for field in (
+            "source_attempt",
+            "name",
+            "annotation_location",
+            "manual",
+            "message",
+        ):
+            if not isinstance(item[field], str) or not item[field]:
+                errors.append(f"{location}.{field} must be a non-empty string")
+        parent = item["parent"]
+        if parent is not None and (not isinstance(parent, str) or not parent):
+            errors.append(f"{location}.parent must be null or a non-empty string")
+        identity = (str(item["source_attempt"]), str(item["name"]))
+        if identity in identities:
+            errors.append(f"{location} duplicates a source VC")
+        identities.add(identity)
+        if run_root is None or not isinstance(item["manual"], str) or not item["manual"]:
+            continue
+        try:
+            manual = _exact_recorded_path(
+                item["manual"],
+                Path(item["manual"]),
+                owner=run_root,
+                label=f"{location}.manual",
+            )
+        except (OSError, ValueError):
+            errors.append(f"{location}.manual is outside the fixed run root")
+            continue
+        if not manual.is_file():
+            errors.append(f"{location}.manual is missing")
+            continue
+        vc_index = manual_indexes.get(str(manual))
+        if vc_index is None:
+            vc_index = manual_vc_index(manual.read_text(encoding="utf-8"))
+            manual_indexes[str(manual)] = vc_index
+        vc = vc_index["by_name"].get(str(item["name"]))
+        if vc is None:
+            errors.append(f"{location}.name is absent from the sealed manual")
+        elif vc["parent"] != item["parent"]:
+            errors.append(f"{location}.parent differs from the sealed manual")
+    return errors
 
 
 def _lexical_absolute_recorded_path(value: Any, *, label: str) -> Path:
@@ -752,15 +623,13 @@ def _validated_annotation_attempt_paths(
         or annotation_iteration < 1
     ):
         raise ValueError("annotation iteration identity is invalid")
-    causal_retry_count = attempt.get("annotation_causal_retry_count", 0)
-    if (
-        isinstance(causal_retry_count, bool)
-        or not isinstance(causal_retry_count, int)
-        or causal_retry_count < 0
-    ):
-        raise ValueError("annotation causal retry count is invalid")
-
     _main_root, run_root, report_root = _validated_attempt_roots(state)
+    failed_vc_errors = _failed_vcs_errors(
+        attempt.get("failed_vcs"),
+        run_root=run_root,
+    )
+    if failed_vc_errors:
+        raise ValueError(failed_vc_errors[0])
     compact_name = annotation_attempt_directory_name(annotation_iteration)
     expected_report_directory = (
         report_root / ANNOTATION_ATTEMPTS_DIR_NAME / compact_name
@@ -777,16 +646,9 @@ def _validated_annotation_attempt_paths(
         )
 
     compact_history = run_root / ANNOTATION_HISTORY_DIR_NAME / compact_name
-    legacy_history = run_root / ANNOTATION_HISTORY_DIR_NAME / attempt_id
-    expected_history = (
-        legacy_history
-        if Path(str(attempt.get("annotation_history_directory") or ""))
-        == legacy_history
-        else compact_history
-    )
     history = _exact_recorded_path(
         attempt.get("annotation_history_directory"),
-        expected_history,
+        compact_history,
         owner=run_root,
         label="annotation attempt history directory",
     )
@@ -808,6 +670,7 @@ def _validated_annotation_attempt_paths(
         "input": "agent_input.md",
         "report": "agent_report.json",
         "output": "agent_output.md",
+        "plan": "annotation_plan.json",
     }
     for field, filename in filenames.items():
         expected = report_directory / filename
@@ -858,7 +721,6 @@ def _validated_phase_attempt_paths(
         )
     paths: dict[str, Path] = {
         "directory": directory,
-        "reuse_hints": directory / "reuse_hints",
         "group_plan": directory / "group_plan.json",
     }
     for field, filename in (
@@ -878,13 +740,6 @@ def _validated_phase_attempt_paths(
             paths["group_plan"],
             owner=directory,
             label=f"{phase} attempt group_plan",
-        )
-    if "reuse_hints" in attempt:
-        _exact_recorded_path(
-            attempt.get("reuse_hints"),
-            paths["reuse_hints"],
-            owner=directory,
-            label=f"{phase} attempt reuse_hints",
         )
     return paths
 
@@ -966,21 +821,68 @@ def _validate_accepted_round_path_topology(state: dict[str, Any]) -> None:
     accepted_rounds = state.get("accepted_rounds")
     if not isinstance(accepted_rounds, dict):
         raise ValueError("accepted_rounds is missing or invalid")
+    supported = {"annotation", "vc-checking", "vc-proving-preparing"}
+    if set(accepted_rounds) - supported:
+        raise ValueError("accepted_rounds contains an unsupported phase")
+    for phase, record in accepted_rounds.items():
+        if not isinstance(record, dict):
+            raise ValueError(f"accepted {phase} record is invalid")
+        expected_fields = (
+            {
+                "round",
+                "attempt_id",
+                "annotation_history_directory",
+            }
+            if phase == "annotation"
+            else {
+                "group_plan",
+                "group_plan_sha256",
+                "proof_manual_sha256",
+            }
+            if phase == "vc-checking" and record.get("attempt_id") is None
+            else {
+                "round",
+                "attempt_id",
+                "group_plan",
+                "group_plan_sha256",
+                "proof_manual_sha256",
+                "agent_output_metrics",
+            }
+            if phase == "vc-checking"
+            else {"round", "attempt_id", "result_sha256"}
+        )
+        if set(record) != expected_fields:
+            raise ValueError(f"accepted {phase} record has invalid fields")
     _main_root, _run_root, report_root = _validated_attempt_roots(state)
+
+    accepted_annotation = accepted_rounds.get("annotation")
+    if isinstance(accepted_annotation, dict):
+        attempt = state.get("attempts", {}).get(
+            str(accepted_annotation.get("attempt_id") or "")
+        )
+        if not isinstance(attempt, dict) or attempt.get("phase") != "annotation":
+            raise ValueError("accepted annotation attempt is missing")
+        paths = _validated_annotation_attempt_paths(state, attempt)
+        if (
+            accepted_annotation.get("round") != attempt.get("round")
+            or accepted_annotation.get("attempt_id") != attempt.get("attempt_id")
+            or accepted_annotation.get("annotation_history_directory")
+            != str(paths["history"])
+        ):
+            raise ValueError("accepted annotation pointer identity is invalid")
 
     accepted_vc = accepted_rounds.get("vc-checking")
     if isinstance(accepted_vc, dict):
         attempt_id = accepted_vc.get("attempt_id")
         if attempt_id is None:
-            plan = _exact_recorded_path(
+            _exact_recorded_path(
                 accepted_vc.get("group_plan"),
                 report_root / "group_plan.json",
                 owner=report_root,
                 label="empty accepted vc-checking group_plan",
             )
-            if accepted_vc.get("round") is not None or "reuse_hints" in accepted_vc:
+            if accepted_vc.get("round") is not None:
                 raise ValueError("empty accepted vc-checking pointer is invalid")
-            del plan
         else:
             attempt = state.get("attempts", {}).get(str(attempt_id))
             if not isinstance(attempt, dict) or attempt.get("phase") != "vc-checking":
@@ -997,26 +899,6 @@ def _validate_accepted_round_path_topology(state: dict[str, Any]) -> None:
                 owner=paths["directory"],
                 label="accepted vc-checking group_plan",
             )
-            reuse_hints = accepted_vc.get("reuse_hints")
-            if reuse_hints is not None:
-                if not isinstance(reuse_hints, dict):
-                    raise ValueError("accepted vc-checking reuse_hints is invalid")
-                for group_id, receipt in reuse_hints.items():
-                    if (
-                        not isinstance(group_id, str)
-                        or re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]*", group_id)
-                        is None
-                        or not isinstance(receipt, dict)
-                    ):
-                        raise ValueError(
-                            "accepted vc-checking reuse-hint receipt is invalid"
-                        )
-                    _exact_recorded_path(
-                        receipt.get("path"),
-                        paths["reuse_hints"] / f"{group_id}.md",
-                        owner=paths["reuse_hints"],
-                        label=f"accepted vc-checking reuse hint {group_id}",
-                    )
 
     accepted_proving = accepted_rounds.get("vc-proving-preparing")
     if isinstance(accepted_proving, dict):
@@ -1075,154 +957,121 @@ def _validate_controller_attempt_topologies(state: dict[str, Any]) -> None:
 
 def _generated_artifact_module_spellings_for_state(
     state: dict[str, Any],
-    *,
-    source_goal_version: dict[str, Any] | None = None,
 ) -> frozenset[str]:
-    """Bind the exact generated-module import boundary to current topology.
-
-    Before annotation acceptance, callers omit ``source_goal_version`` and the
-    current filesystem determines which optional generated artifacts exist.
-    Acceptance and later phases pass their just-computed or persisted version
-    record so the boundary is sealed to the same presence topology as final
-    checking.
-    """
+    """Return exact generated modules that currently exist in the main root."""
 
     target = state["target_files"]
-    if source_goal_version is None:
-        main_root = Path(str(state["main_root"]))
-        present_roles: set[str] = set()
-        for role in GENERATED_KEYS:
-            snapshot = _lexical_regular_file_snapshot(
-                root=main_root,
-                relative=str(target[role]),
-                label=f"generated module boundary {role}",
+    main_root = Path(str(state["main_root"]))
+    present_roles: set[str] = set()
+    for role in GENERATED_KEYS:
+        snapshot = _lexical_regular_file_snapshot(
+            root=main_root,
+            relative=str(target[role]),
+            label=f"generated module boundary {role}",
+        )
+        artifact_state = snapshot.get("state")
+        if artifact_state == "missing":
+            continue
+        if artifact_state != "present":
+            detail = str(
+                snapshot.get("message") or "invalid generated artifact topology"
             )
-            artifact_state = snapshot.get("state")
-            if artifact_state == "missing":
-                continue
-            if artifact_state != "present":
-                detail = str(
-                    snapshot.get("message") or "invalid generated artifact topology"
-                )
-                raise ValueError(
-                    f"generated module boundary cannot classify {role}: {detail}"
-                )
-            present_roles.add(role)
-    else:
-        records = source_goal_version.get("generated_files")
-        if not isinstance(records, list):
-            raise ValueError("source_goal_version generated_files is invalid")
-        present_roles: set[str] = set()
-        for role in GENERATED_KEYS:
-            matches = [
-                record
-                for record in records
-                if isinstance(record, dict) and record.get("role") == role
-            ]
-            if len(matches) != 1:
-                raise ValueError(
-                    f"source_goal_version requires exactly one generated record for {role}"
-                )
-            record = matches[0]
-            if (
-                record.get("relative_path") != target[role]
-                or record.get("state") not in {"present", "missing"}
-            ):
-                raise ValueError(
-                    f"source_goal_version generated record is invalid for {role}"
-                )
-            if record["state"] == "present":
-                present_roles.add(role)
+            raise ValueError(
+                f"generated module boundary cannot classify {role}: {detail}"
+            )
+        present_roles.add(role)
     return generated_artifact_module_spellings(target, roles=present_roles)
 
 
-def _source_goal_version(state: dict[str, Any]) -> dict[str, Any]:
-    main_root = Path(str(state["main_root"]))
-    return source_goal_version_at_root(
-        root=main_root,
-        target_files=state["target_files"],
+def _manual_obligations(state: dict[str, Any]) -> dict[str, Any]:
+    """Read the complete VC index from the current main-root manual."""
+
+    snapshot = _lexical_regular_file_snapshot(
+        root=Path(str(state["main_root"])),
+        relative=str(state["target_files"]["proof_manual_file"]),
+        label="current proof manual",
     )
+    if snapshot.get("state") == "missing":
+        return {
+            "by_name": {},
+            "top_level": [],
+            "split_goals": {},
+        }
+    text = _snapshot_text(snapshot, label="current proof manual")
+    return manual_vc_index(text)
 
 
-def _current_generated_records(state: dict[str, Any]) -> list[dict[str, Any]]:
-    """Hash current generated bytes without reparsing unchanged obligations."""
+def _proof_manual_sha256(state: dict[str, Any]) -> str | None:
+    snapshot = _lexical_regular_file_snapshot(
+        root=Path(str(state["main_root"])),
+        relative=str(state["target_files"]["proof_manual_file"]),
+        label="current proof manual",
+    )
+    if snapshot.get("state") == "missing":
+        return None
+    if snapshot.get("state") != "present":
+        raise ValueError(
+            str(snapshot.get("message") or "current proof manual is invalid")
+        )
+    return str(snapshot["sha256"])
 
-    main_root = Path(str(state["main_root"]))
-    owner_input = Path(os.path.abspath(os.fspath(main_root.expanduser())))
+
+def _current_files_errors(state: dict[str, Any]) -> list[str]:
+    """Compare current main-root files with their latest accepted phase output."""
+
+    accepted = state.get("accepted_rounds", {}).get("annotation")
+    if not isinstance(accepted, dict):
+        return ["there is no accepted annotation attempt"]
+    attempt = state.get("attempts", {}).get(str(accepted.get("attempt_id") or ""))
+    if not isinstance(attempt, dict):
+        return ["the accepted annotation attempt is missing"]
+    history_errors = _annotation_after_snapshot_errors(state, attempt)
+    if history_errors:
+        return history_errors
+    accepted_vc = state.get("accepted_rounds", {}).get("vc-checking")
+    vc_manual_is_editable = accepted_vc is None and any(
+        isinstance(candidate, dict)
+        and candidate.get("phase") == "vc-checking"
+        and candidate.get("status") not in {"stale", "superseded"}
+        for candidate in state.get("attempts", {}).values()
+    )
+    relatives = [
+        str(state["target_files"][key])
+        for key in (
+            "c_file",
+            "formal_case_lib",
+            "goal_file",
+            "proof_auto_file",
+            "goal_check_file",
+        )
+    ]
+    if accepted_vc is None and not vc_manual_is_editable:
+        relatives.append(str(state["target_files"]["proof_manual_file"]))
     try:
-        owner = fixed_path_under(
-            owner_input,
-            owner_input,
-            label="current generated main root",
-        )
-    except SystemExit as exc:
-        raise ValueError(str(exc)) from exc
-    target = state["target_files"]
-    records: list[dict[str, Any]] = []
-    for role in GENERATED_KEYS:
-        relative = str(target[role])
-        try:
-            fixed_path_under(
-                owner / relative,
-                owner,
-                label=f"current generated {role}",
-            )
-        except SystemExit as exc:
-            raise ValueError(str(exc)) from exc
-        snapshot = _lexical_regular_file_snapshot(
-            root=owner,
-            relative=relative,
-            label=f"current generated {role}",
-        )
-        if snapshot.get("state") == "missing":
-            artifact_state = "missing"
-            digest = None
-        elif snapshot.get("state") != "present":
-            detail = str(snapshot.get("message") or "invalid generated topology")
-            raise ValueError(
-                f"current generated {role} must be a non-link regular file or "
-                f"truly absent: {relative}: {detail}"
-            )
-        else:
-            artifact_state = "present"
-            digest = str(snapshot["sha256"])
-        records.append(
-            {
-                "relative_path": relative,
-                "role": role,
-                "state": artifact_state,
-                "sha256": digest,
-            }
-        )
-    return records
-
-
-def _current_version_errors(state: dict[str, Any]) -> list[str]:
-    """Compare current root inputs/goals with the accepted annotation versions."""
-
-    errors: list[str] = []
-    try:
-        current_source = _source_version_for_state(state, annotated=True)
-        current_generated = _current_generated_records(state)
+        after = _validated_annotation_attempt_paths(state, attempt)["after"]
+        expected = _snapshot_digests(after, relatives)
+        current = _snapshot_digests(Path(str(state["main_root"])), relatives)
     except (OSError, ValueError) as exc:
-        return [f"current formal state cannot be versioned: {exc}"]
-    saved_source_record = state.get("source_version") or {}
-    saved_goal_record = state.get("source_goal_version") or {}
-    saved_source = str(saved_source_record.get("digest") or "")
-    saved_goal = str(saved_goal_record.get("digest") or "")
-    if not saved_source or current_source["digest"] != saved_source:
-        errors.append("current target C or formal_case_lib differs from source_version")
-    if (
-        not saved_goal
-        or saved_goal_record.get("generated_files") != current_generated
-    ):
-        errors.append("current generated/manual files differ from source_goal_version")
-    accepted = state.get("accepted_rounds", {}).get("annotation", {})
-    if (
-        accepted.get("source_version") != saved_source
-        or accepted.get("source_goal_version") != saved_goal
-    ):
-        errors.append("accepted annotation versions do not match controller state")
+        return [f"current verification files cannot be read: {exc}"]
+    errors = [
+        "current main-root file differs from the accepted annotation backup: "
+        + relative
+        for relative in relatives
+        if expected[relative] != current[relative]
+    ]
+    if isinstance(accepted_vc, dict) and "proof_manual_sha256" not in accepted_vc:
+        errors.append("accepted vc-checking result has no clean proof manual seal")
+    elif isinstance(accepted_vc, dict):
+        try:
+            current_manual = _proof_manual_sha256(state)
+        except (OSError, ValueError) as exc:
+            errors.append(f"current proof manual cannot be read: {exc}")
+        else:
+            if current_manual != accepted_vc.get("proof_manual_sha256"):
+                errors.append(
+                    "current proof manual differs from the clean vc-checking output: "
+                    + str(state["target_files"]["proof_manual_file"])
+                )
     return errors
 
 
@@ -1300,6 +1149,7 @@ def _target_topology_payload(state: dict[str, Any]) -> dict[str, Any]:
     return {
         "run_id": state["run_id"],
         "case": state["case"],
+        "formal_case_lib_policy": state["formal_case_lib_policy"],
         "target_files": state["target_files"],
     }
 
@@ -1433,6 +1283,21 @@ def _load_state(run_root: Path) -> dict[str, Any]:
         )
     if not isinstance(state.get("generation"), int) or int(state["generation"]) < 1:
         raise SystemExit("controller state generation is missing or invalid")
+    if state.get("formal_case_lib_policy") not in {"present", "create", "absent"}:
+        raise SystemExit("controller state formal_case_lib_policy is invalid")
+    # Imported lazily to keep the durable state primitives independent from
+    # the public pause/resume services that themselves load and save state.
+    from controller_control import run_control_errors
+
+    control_errors = run_control_errors(state.get("run_control"))
+    if control_errors:
+        raise SystemExit(
+            "controller state run_control record is invalid: " + control_errors[0]
+        )
+    try:
+        symexec_profile_for_state(state)
+    except ValueError as exc:
+        raise SystemExit(f"controller state symexec_profile is invalid: {exc}") from exc
     _validate_target_files_topology(state, main_root=main_root)
     run_id = state.get("run_id")
     case_name = str(state["case"])
@@ -1661,12 +1526,70 @@ def _lifecycle_stage(
     return stage
 
 
+def _same_tool_retry_count(
+    records: list[Any],
+    *,
+    identity_fields: tuple[str, ...],
+    require_tool_category: bool,
+) -> int:
+    retries = 0
+    previous: tuple[str, ...] | None = None
+    for item in records:
+        if not isinstance(item, dict) or (
+            require_tool_category and item.get("failure_category") != "tool"
+        ):
+            previous = None
+            continue
+        identity = tuple(str(item.get(field) or "") for field in identity_fields)
+        if not all(identity):
+            previous = None
+            continue
+        if identity == previous:
+            retries += 1
+        previous = identity
+    return retries
+
+
 def _timing_entry(attempt: dict[str, Any]) -> dict[str, Any]:
     phase = str(attempt.get("phase") or "")
     if phase == "annotation":
         identifier = f"annotation-attempt{int(attempt.get('annotation_iteration', 0))}"
         entry: dict[str, Any] = {"attempt": identifier, "round": attempt["round"]}
         lifecycle_name = "annotation-work"
+        entry["activity"] = str(
+            attempt.get("annotation_activity") or "unclassified"
+        )
+        invocations = attempt.get("owner_symexec_invocations")
+        invocation_records = invocations if isinstance(invocations, list) else []
+        tool_failures = [
+            item
+            for item in invocation_records
+            if isinstance(item, dict) and item.get("failure_category") == "tool"
+        ]
+        entry["owner_generation_invocations"] = len(invocation_records)
+        entry["tool_failure_invocations"] = len(tool_failures)
+        entry["same_attempt_tool_retries"] = _same_tool_retry_count(
+            invocation_records,
+            identity_fields=("failure_kind", "formal_input_digest"),
+            require_tool_category=True,
+        )
+        entry["controller_acceptance_runs"] = len(
+            (attempt.get("timing") or {}).get("controller-acceptance-check", [])
+        )
+        controller_tool_invocations = attempt.get("controller_tool_invocations")
+        controller_tool_records = (
+            controller_tool_invocations
+            if isinstance(controller_tool_invocations, list)
+            else []
+        )
+        entry["controller_tool_failure_invocations"] = len(
+            controller_tool_records
+        )
+        entry["same_attempt_controller_tool_retries"] = _same_tool_retry_count(
+            controller_tool_records,
+            identity_fields=("stage", "kind", "formal_input_digest"),
+            require_tool_category=False,
+        )
     else:
         entry = {
             "round": attempt["round"],
@@ -1722,10 +1645,14 @@ def _timing_entry(attempt: dict[str, Any]) -> dict[str, Any]:
 
     stage_order = {
         "annotation": (
+            "formal-case-lib-design-coq-check",
+            "owner-generation",
+            "controller-main-refresh",
+            "clean-replay",
+            # Legacy runs recorded both owner and main generation as symexec.
             "symexec",
             "formal-case-lib-coq-check",
             "clean-output-freshness",
-            "annotation-checking",
             "controller-validation",
             "controller-acceptance-check",
             "dune-build",
@@ -1760,10 +1687,138 @@ def _write_timing_summary(state: dict[str, Any]) -> None:
         if item.get("phase") in {"vc-checking", "vc-proving-preparing"}
     ]
     rounds.sort(key=lambda item: str(item["created_at"]))
+    annotation_attempt_records = [
+        item
+        for item in attempts
+        if isinstance(item, dict) and item.get("phase") == "annotation"
+    ]
+
+    def stage_seconds(attempt: dict[str, Any], stage: str) -> float:
+        timing = attempt.get("timing")
+        intervals = timing.get(stage, []) if isinstance(timing, dict) else []
+        return sum(
+            float(item.get("elapsed_seconds", 0.0))
+            for item in intervals
+            if isinstance(item, dict)
+        )
+
+    invocation_records = [
+        invocation
+        for attempt in annotation_attempt_records
+        for invocation in (
+            attempt.get("owner_symexec_invocations")
+            if isinstance(attempt.get("owner_symexec_invocations"), list)
+            else []
+        )
+        if isinstance(invocation, dict)
+    ]
+    controller_tool_records = [
+        invocation
+        for attempt in annotation_attempt_records
+        for invocation in (
+            attempt.get("controller_tool_invocations")
+            if isinstance(attempt.get("controller_tool_invocations"), list)
+            else []
+        )
+        if isinstance(invocation, dict)
+    ]
+    annotation_metrics = {
+        "attempt_count": len(annotation_attempt_records),
+        "annotation_repair_count": sum(
+            item.get("annotation_activity") == "annotation-repair"
+            for item in annotation_attempt_records
+        ),
+        "validation_only_attempt_count": sum(
+            item.get("annotation_activity") == "validation-only"
+            for item in annotation_attempt_records
+        ),
+        "owner_generation_invocation_count": len(invocation_records),
+        "tool_failure_invocation_count": sum(
+            item.get("failure_category") == "tool" for item in invocation_records
+        ),
+        "controller_tool_failure_invocation_count": len(
+            controller_tool_records
+        ),
+        "same_attempt_tool_retry_count": sum(
+            _same_tool_retry_count(
+                (
+                    item.get("owner_symexec_invocations")
+                    if isinstance(item.get("owner_symexec_invocations"), list)
+                    else []
+                ),
+                identity_fields=("failure_kind", "formal_input_digest"),
+                require_tool_category=True,
+            )
+            for item in annotation_attempt_records
+        ),
+        "same_attempt_controller_tool_retry_count": sum(
+            _same_tool_retry_count(
+                (
+                    item.get("controller_tool_invocations")
+                    if isinstance(item.get("controller_tool_invocations"), list)
+                    else []
+                ),
+                identity_fields=("stage", "kind", "formal_input_digest"),
+                require_tool_category=False,
+            )
+            for item in annotation_attempt_records
+        ),
+        "controller_acceptance_run_count": sum(
+            len((item.get("timing") or {}).get("controller-acceptance-check", []))
+            for item in annotation_attempt_records
+        ),
+        "controller_acceptance_rerun_count": sum(
+            max(
+                0,
+                len(
+                    (item.get("timing") or {}).get(
+                        "controller-acceptance-check", []
+                    )
+                )
+                - 1,
+            )
+            for item in annotation_attempt_records
+        ),
+        "owner_generation_seconds": round(
+            sum(stage_seconds(item, "owner-generation") for item in annotation_attempt_records),
+            6,
+        ),
+        "controller_main_refresh_seconds": round(
+            sum(
+                stage_seconds(item, "controller-main-refresh")
+                for item in annotation_attempt_records
+            ),
+            6,
+        ),
+        "clean_replay_seconds": round(
+            sum(stage_seconds(item, "clean-replay") for item in annotation_attempt_records),
+            6,
+        ),
+        "wasted_timeout_seconds": round(
+            sum(
+                float(item.get("elapsed_seconds") or 0.0)
+                for item in invocation_records
+                if item.get("failure_category") == "tool"
+                and item.get("failure_kind") == "timeout"
+            ),
+            6,
+        ),
+        "legacy_unclassified_symexec_seconds": round(
+            sum(stage_seconds(item, "symexec") for item in annotation_attempt_records),
+            6,
+        ),
+    }
     created_at = str(state.get("created_at") or "")
     finished_at = str(state.get("finished_at") or "")
     run: dict[str, Any] = {
-        "status": "completed" if state.get("phase") == "done" else "running",
+        "status": (
+            "completed"
+            if state.get("phase") == "done"
+            else "paused"
+            if isinstance(state.get("run_control"), dict)
+            and state["run_control"].get("status") == "paused"
+            else "running"
+        ),
         "phase": str(state.get("phase") or ""),
     }
     if created_at:
@@ -1805,6 +1860,7 @@ def _write_timing_summary(state: dict[str, Any]) -> None:
         _timing_path(Path(str(state["report_root"]))),
         {
             "run": run,
+            "annotation_metrics": annotation_metrics,
             "annotation_attempts": annotation,
             "rounds": rounds,
             "finalization": finalization,
@@ -1881,39 +1937,6 @@ def _record_timing(
         }:
             attempt["finished_at"] = finished_at
         _save_state(run_root, state)
-
-
-def timing_stage(args: argparse.Namespace) -> int:
-    main_root = (
-        Path(args.main_root).expanduser().resolve()
-        if args.main_root
-        else Path.cwd().resolve()
-    )
-    run_root = _run_root_from_id(main_root, args.run)
-    state = _load_state(run_root)
-    round_state = state.get("rounds", {}).get(args.round, {})
-    attempt = state.get("attempts", {}).get(str(round_state.get("current_attempt")))
-    if not isinstance(attempt, dict) or attempt.get("phase") != "annotation":
-        raise SystemExit(f"annotation round not found for timing stage: {args.round}")
-    if attempt.get("status") != "running" or not attempt.get("started_at"):
-        raise SystemExit(
-            "annotation attempt must be running before timing annotation-checking"
-        )
-    intervals = attempt.setdefault("timing", {}).setdefault(args.stage, [])
-    if args.event == "start":
-        if intervals and not intervals[-1].get("finished_at"):
-            raise SystemExit(f"timing stage is already running: {args.stage}")
-        _record_timing_interval(attempt, args.stage, started_at=_utc())
-    else:
-        if not intervals or intervals[-1].get("finished_at"):
-            raise SystemExit(f"timing stage has no open interval: {args.stage}")
-        finished_at = _utc()
-        intervals[-1]["finished_at"] = finished_at
-        intervals[-1]["elapsed_seconds"] = _elapsed_between(
-            str(intervals[-1]["started_at"]), finished_at
-        )
-    _save_state(run_root, state)
-    return 0
 
 
 def _snapshot_files(state: dict[str, Any], destination: Path) -> None:
@@ -2027,16 +2050,23 @@ def _annotation_snapshot_record(
 
 
 def _snapshot_digests(root: Path, relatives: list[str]) -> dict[str, str | None]:
-    version = _source_version(
-        [root / relative for relative in relatives],
-        main_root=root,
-    )
-    return {
-        str(record["relative_path"]): (
-            str(record["sha256"]) if record["state"] == "present" else None
+    result: dict[str, str | None] = {}
+    for relative in relatives:
+        snapshot = _lexical_regular_file_snapshot(
+            root=root,
+            relative=relative,
+            label="snapshot file",
         )
-        for record in version["files"]
-    }
+        artifact_state = snapshot.get("state")
+        if artifact_state == "missing":
+            result[relative] = None
+        elif artifact_state == "present":
+            result[relative] = str(snapshot["sha256"])
+        else:
+            raise ValueError(
+                str(snapshot.get("message") or f"invalid snapshot file: {relative}")
+            )
+    return result
 
 
 def _archive_annotation_stage(
@@ -2148,6 +2178,59 @@ def _annotation_current_changed_files(
     return [relative for relative in relatives if before[relative] != current[relative]]
 
 
+FORMAL_CASE_LIB_SEED = """From Coq Require Import ZArith List.
+Import ListNotations.
+Local Open Scope Z_scope.
+"""
+
+
+def _resolve_formal_case_lib_policy(
+    args: argparse.Namespace, *, formal_case_lib: Path
+) -> str:
+    requested = getattr(args, "formal_case_lib_policy", None)
+    policy = str(requested) if requested is not None else (
+        "present" if formal_case_lib.is_file() else "create"
+    )
+    exists = os.path.lexists(formal_case_lib)
+    if policy == "present" and not formal_case_lib.is_file():
+        raise SystemExit(
+            "--formal-case-lib-policy present requires the canonical lib file: "
+            f"{formal_case_lib}"
+        )
+    if policy == "create" and exists:
+        raise SystemExit(
+            "--formal-case-lib-policy create requires an absent canonical path: "
+            f"{formal_case_lib}"
+        )
+    if policy == "absent" and exists:
+        raise SystemExit(
+            "--formal-case-lib-policy absent requires the canonical path to be absent: "
+            f"{formal_case_lib}"
+        )
+    return policy
+
+
+def _create_formal_case_lib_seed(path: Path) -> None:
+    """Create the canonical editable seed exactly once without following links."""
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = FORMAL_CASE_LIB_SEED.encode("utf-8")
+    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
+    for name in ("O_BINARY", "O_CLOEXEC", "O_NOFOLLOW"):
+        flags |= int(getattr(os, name, 0) or 0)
+    try:
+        descriptor = os.open(path, flags, 0o600)
+    except FileExistsError as exc:
+        raise SystemExit(f"formal_case_lib seed target already exists: {path}") from exc
+    try:
+        offset = 0
+        while offset < len(payload):
+            offset += os.write(descriptor, payload[offset:])
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
 def init_run(args: argparse.Namespace) -> int:
     main_root = (
         Path(args.main_root).expanduser().resolve()
@@ -2218,9 +2301,16 @@ def init_run(args: argparse.Namespace) -> int:
             )
         if lexical.exists() and not lexical.is_file():
             raise SystemExit(f"formal target path is not a regular file: {relative}")
+    formal_case_lib_path = main_root / str(target_files["formal_case_lib"])
+    formal_case_lib_policy = _resolve_formal_case_lib_policy(
+        args,
+        formal_case_lib=formal_case_lib_path,
+    )
     run_root = ensure_run_root(main_root, args.case, timestamp=run_timestamp)
     report_root = reports_root(run_root)
     run_id = run_root.name
+    if formal_case_lib_policy == "create":
+        _create_formal_case_lib_seed(formal_case_lib_path)
     public_helper_path = ensure_public_helper_lemma_lib(run_root)
     public_helper_snapshot = public_helper_pool_snapshot(public_helper_path)
     state: dict[str, Any] = {
@@ -2237,16 +2327,23 @@ def init_run(args: argparse.Namespace) -> int:
             for key in ("path", "sha256", "declaration_count", "helper_count")
         },
         "problem_context": _problem_context_from_args(args),
+        "formal_case_lib_policy": formal_case_lib_policy,
         "spec_freeze": _spec_freeze_baseline(
             main_root=main_root,
             target_files=target_files,
             functions=_freeze_spec_functions(args),
         ),
+        "run_control": {
+            "status": "active",
+            "pause_count": 0,
+            "updated_at": _utc(),
+        },
+        "symexec_profile": symexec_profile_record(
+            getattr(args, "symexec_profile", None)
+        ),
         "max_compact_attempts": args.max_compact_attempts,
         "max_witnesses_per_group": args.max_witnesses_per_group,
         "max_parallel_group_workers": args.max_parallel_group_workers,
-        "source_version": None,
-        "source_goal_version": None,
         "dune_preparation": None,
         "rounds": {},
         "attempts": {},
@@ -2260,12 +2357,14 @@ def init_run(args: argparse.Namespace) -> int:
         "final_check": None,
         "created_at": _utc(),
     }
-    state["source_version"] = _source_version_for_state(state, annotated=False)
     _write_target_topology_anchor(
         main_root=main_root,
         report_root=report_root,
         state=state,
     )
+    from controller_control import _write_control_signal
+
+    _write_control_signal(state)
     _append_event(
         run_root,
         state,

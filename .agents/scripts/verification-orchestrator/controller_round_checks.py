@@ -9,85 +9,78 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import re
-from collections import Counter
 from pathlib import Path
 from typing import Any
 
+from annotation_refresh import (
+    AnnotationRefreshError,
+    begin_generated_refresh,
+    commit_generated_refresh,
+    rollback_generated_refresh,
+)
+from annotation_contract_lint import contract_surface_lint
+from annotation_design import (
+    annotation_plan_errors,
+    annotation_plan_path,
+)
 from controller_attempts import (
+    _artifact_integrity_errors,
     _attempt_for_round,
-    _proving_manifest_errors,
     _queue_annotation_feedback,
     _queue_vc_checking_retry,
-    _transition_current_version_drift,
+    _transition_current_file_drift,
 )
+from controller_control import control_signal_path, control_signal_requests_stop
 from controller_invocations import hydrate_actions
-from spec_freeze import spec_freeze_findings
-from controller_rounds import (
-    _latest_reusable_vc_proving_round,
-    _reusable_group_ids,
-    _sealed_reuse_raw_artifacts,
-    _stable_fixed_file_snapshot,
-    _validated_reuse_raw_root,
-)
 from controller_state import (
     _annotation_after_snapshot_errors,
+    _annotation_snapshot_relatives,
     _append_event,
-    _current_version_errors,
-    _debug_build_snapshot,
+    _current_files_errors,
     _file_digest,
     _formal_case_lib_is_active,
     _formal_case_lib_snapshot,
     _generated_artifact_module_spellings_for_state,
     _json_load,
     _load_state,
+    _manual_obligations,
+    _proof_manual_sha256,
     _record_elapsed_stage,
     _run_root_from_id,
     _save_state,
-    _source_goal_version,
-    _source_version_for_state,
+    _snapshot_digests,
     _utc,
-    _verified_reuse_source_build,
+    _validated_annotation_attempt_paths,
 )
 from coq_tooling import (
-    dune_snapshot_for_preserved_build,
     prepare_dune_dependencies,
     run_coqc_check,
 )
-from file_integrity import sha256_bytes
-from group_plan_utils import (
-    PROOF_MODES,
-    group_entries_from_plan,
-)
+from group_plan_utils import group_entries_from_plan
 from path_utils import (
     fixed_path_under,
-    reuse_source_build_workspace,
     run_builds_root,
-    vc_checking_build_workspace,
-    vc_checking_debug_script,
-)
-from prepare_group_workers import (
-    resolve_group_workers_manifest,
 )
 from proof_manual_utils import (
-    block_has_incomplete_proof,
-    debug_goal_show_contract,
-    goal_definition_hashes,
-    goal_semantic_hash_for_lemma,
-    is_exact_declaration_line_range,
-    lemma_by_name,
-    lemma_statement_hash,
-    lemma_target_symbol,
+    coq_token_text,
+    ensure_unique_lemma_names,
+    lemma_proof_parts,
     lib_contract_errors,
-    markdown_table_cells,
-    normalize_reuse_decision,
     parse_manual_file,
-    proof_mode_errors,
-    show_command_count,
 )
-from symexec_tooling import _snapshot_text, clean_output_freshness, run_symexec
-from verify_group_results import validate_group_for_acceptance_result
+from spec_freeze import (
+    annotation_spec_source_digest,
+    extract_spec_surface,
+    spec_freeze_findings,
+)
+from symexec_tooling import (
+    _lexical_regular_file_snapshot,
+    _snapshot_text,
+    clean_output_freshness,
+    run_symexec,
+    symexec_profile_for_state,
+)
 
 
 def _set_annotation_session_idle(state: dict[str, Any]) -> None:
@@ -96,10 +89,36 @@ def _set_annotation_session_idle(state: dict[str, Any]) -> None:
         session["status"] = "idle"
 
 
+def _update_user_spec_baseline(
+    state: dict[str, Any], *, main_root: Path
+) -> None:
+    record = state.get("spec_freeze")
+    if (
+        not isinstance(record, dict)
+        or not record.get("functions")
+        or record.get("baseline") is not None
+    ):
+        return
+    target = state["target_files"]
+    record["baseline"] = extract_spec_surface(
+        main_root / target["c_file"],
+        main_root / target["formal_case_lib"],
+    )
+
+
 def _compact_symexec_evidence(symexec: dict[str, Any]) -> dict[str, Any]:
     return {
         key: symexec.get(key)
-        for key in ("status", "returncode", "first_failure")
+        for key in (
+            "status",
+            "returncode",
+            "timeout_seconds",
+            "elapsed_seconds",
+            "performance_profile",
+            "reused_owner_generation",
+            "owner_generation_receipt",
+            "first_failure",
+        )
         if symexec.get(key) is not None
     }
 
@@ -127,6 +146,399 @@ def _compact_annotation_dune_evidence(evidence: dict[str, Any]) -> dict[str, Any
     }
 
 
+def _manual_vc_signature(
+    text: str,
+) -> tuple[str, tuple[tuple[str, str, str, str], ...]]:
+    """Ignore only temporary ``Show.`` commands in a VC-checking manual."""
+
+    prelude, lemmas = parse_manual_file(text)
+    ensure_unique_lemma_names(lemmas)
+    declarations: list[tuple[str, str, str, str]] = []
+    for lemma in lemmas:
+        statement, proof, trailing = lemma_proof_parts(lemma)
+        proof_tokens = coq_token_text(proof).splitlines()
+        without_show: list[str] = []
+        index = 0
+        while index < len(proof_tokens):
+            if proof_tokens[index : index + 2] == ["Show", "."]:
+                index += 2
+                continue
+            without_show.append(proof_tokens[index])
+            index += 1
+        declarations.append(
+            (
+                str(lemma["name"]),
+                coq_token_text(statement),
+                "\n".join(without_show),
+                coq_token_text(trailing),
+            )
+        )
+    return coq_token_text(prelude), tuple(declarations)
+
+
+def _current_manual_vc_signature(
+    state: dict[str, Any],
+) -> tuple[str, tuple[tuple[str, str, str, str], ...]] | None:
+    relative = str(state["target_files"]["proof_manual_file"])
+    snapshot = _lexical_regular_file_snapshot(
+        root=Path(str(state["main_root"])),
+        relative=relative,
+        label="current proof manual",
+    )
+    if snapshot.get("state") == "missing":
+        return None
+    return _manual_vc_signature(
+        _snapshot_text(snapshot, label="current proof manual")
+    )
+
+
+def _transactional_main_root_symexec(
+    state: dict[str, Any],
+    *,
+    report_directory: Path,
+    progress_name: str = "symexec-progress-main-refresh.json",
+) -> dict[str, Any]:
+    main_root = Path(str(state["main_root"]))
+    target = state["target_files"]
+    try:
+        preparation = begin_generated_refresh(
+            main_root=main_root,
+            target_files=target,
+            report_directory=report_directory,
+        )
+    except AnnotationRefreshError as exc:
+        return {
+            "status": "failed",
+            "returncode": None,
+            "first_failure": exc.failure(),
+            "generated_refresh": {"status": "not-started"},
+        }
+    try:
+        profile = symexec_profile_for_state(state)
+        signal_path = (
+            control_signal_path(state)
+            if state.get("report_root") and state.get("run_id")
+            else None
+        )
+        evidence = run_symexec(
+            main_root=main_root,
+            target_c_file=Path(str(target["c_file"])),
+            target_files=target,
+            output_root=main_root,
+            timeout_seconds=float(profile["timeout_seconds"]),
+            profile_name=str(profile["name"]),
+            heartbeat_seconds=float(profile["heartbeat_seconds"]),
+            poll_interval_seconds=float(profile["poll_interval_seconds"]),
+            cancel_requested=(
+                (lambda: control_signal_requests_stop(signal_path))
+                if signal_path is not None
+                else None
+            ),
+            progress_path=report_directory / progress_name,
+        )
+    except (OSError, RuntimeError, ValueError) as exc:
+        evidence = {
+            "status": "failed",
+            "returncode": None,
+            "first_failure": {
+                "category": "tool",
+                "kind": "main-root-symexec-invocation",
+                "message": str(exc),
+                "repair": "Repair the symbolic-execution environment and retry.",
+            },
+        }
+    if evidence.get("status") == "passed":
+        try:
+            commit_generated_refresh(
+                target_files=target,
+                report_directory=report_directory,
+            )
+        except AnnotationRefreshError as exc:
+            evidence["status"] = "failed"
+            evidence["first_failure"] = exc.failure()
+            try:
+                rollback_generated_refresh(
+                    main_root=main_root,
+                    target_files=target,
+                    report_directory=report_directory,
+                )
+            except AnnotationRefreshError as rollback_exc:
+                evidence["first_failure"] = rollback_exc.failure()
+                refresh_status = "rollback-failed"
+            else:
+                refresh_status = "rolled-back"
+        else:
+            refresh_status = "committed"
+    else:
+        try:
+            rollback_generated_refresh(
+                main_root=main_root,
+                target_files=target,
+                report_directory=report_directory,
+            )
+        except AnnotationRefreshError as exc:
+            evidence["first_failure"] = exc.failure()
+            refresh_status = "rollback-failed"
+        else:
+            refresh_status = "rolled-back"
+    evidence["generated_refresh"] = {
+        **preparation,
+        "status": refresh_status,
+    }
+    return evidence
+
+
+def _current_matches_annotation_after(
+    state: dict[str, Any], attempt: dict[str, Any]
+) -> list[str]:
+    """Protect receipt reuse and controller generation from post-return drift."""
+
+    relatives = _annotation_snapshot_relatives(state)
+    try:
+        after = _validated_annotation_attempt_paths(state, attempt)["after"]
+        expected = _snapshot_digests(after, relatives)
+        current = _snapshot_digests(Path(str(state["main_root"])), relatives)
+    except (OSError, ValueError) as exc:
+        return [f"annotation post-delivery files cannot be compared: {exc}"]
+    return [
+        "current main-root file differs from the finalized annotation delivery: "
+        + relative
+        for relative in relatives
+        if expected[relative] != current[relative]
+    ]
+
+
+def _owner_generation_reuse_evidence(
+    state: dict[str, Any], attempt: dict[str, Any]
+) -> dict[str, Any] | None:
+    """Reuse only a controller-written receipt bound to exact sealed bytes."""
+
+    receipt = attempt.get("owner_generation_receipt")
+    if not isinstance(receipt, dict) or receipt.get("status") != "passed":
+        return None
+    if (
+        receipt.get("attempt_id") != attempt.get("attempt_id")
+        or receipt.get("round") != attempt.get("round")
+    ):
+        return None
+    relatives = _annotation_snapshot_relatives(state)
+    try:
+        after = _validated_annotation_attempt_paths(state, attempt)["after"]
+        after_digests = _snapshot_digests(after, relatives)
+    except (OSError, ValueError):
+        return None
+    if receipt.get("target_digests") != after_digests:
+        return None
+    main_root = Path(str(state["main_root"]))
+    formal_digest = annotation_spec_source_digest(
+        main_root / str(state["target_files"]["c_file"]),
+        main_root / str(state["target_files"]["formal_case_lib"]),
+    )
+    if receipt.get("formal_input_digest") != formal_digest:
+        return None
+    invocations = attempt.get("owner_symexec_invocations")
+    if (
+        not isinstance(invocations, list)
+        or not invocations
+        or not isinstance(invocations[-1], dict)
+        or invocations[-1].get("status") != "passed"
+        or invocations[-1].get("formal_input_digest") != formal_digest
+    ):
+        return None
+    return {
+        "status": "passed",
+        "returncode": 0,
+        "reused_owner_generation": True,
+        "owner_generation_receipt": {
+            key: receipt.get(key)
+            for key in (
+                "recorded_at",
+                "performance_profile",
+                "timeout_seconds",
+                "elapsed_seconds",
+            )
+            if receipt.get(key) is not None
+        },
+        "generated_refresh": {
+            "status": "reused-sealed-owner-generation",
+        },
+    }
+
+
+def _annotation_controller_tool_failure(
+    *,
+    run_root: Path,
+    state: dict[str, Any],
+    attempt: dict[str, Any],
+    stage: str,
+    evidence: dict[str, Any],
+) -> int | None:
+    """Retry one unchanged controller tool in-place, then stop without a new attempt."""
+
+    failure = evidence.get("first_failure")
+    if not isinstance(failure, dict) or failure.get("category") not in {
+        "tool",
+        "tooling",
+    }:
+        return None
+    main_root = Path(str(state["main_root"]))
+    formal_digest = annotation_spec_source_digest(
+        main_root / str(state["target_files"]["c_file"]),
+        main_root / str(state["target_files"]["formal_case_lib"]),
+    )
+    identity = {
+        "stage": stage,
+        "kind": str(failure.get("kind") or "unknown-tool-failure"),
+        "formal_input_digest": formal_digest,
+    }
+    records = attempt.setdefault("controller_tool_invocations", [])
+    records.append(
+        {
+            "sequence": len(records) + 1,
+            "recorded_at": _utc(),
+            **identity,
+            "elapsed_seconds": float(
+                evidence.get("elapsed_seconds")
+                or (evidence.get("symexec") or {}).get("elapsed_seconds")
+                or 0.0
+            ),
+        }
+    )
+    matching: list[dict[str, Any]] = []
+    for item in reversed(records):
+        if not isinstance(item, dict) or any(
+            item.get(key) != value for key, value in identity.items()
+        ):
+            break
+        matching.append(item)
+    matching.reverse()
+    attempt["main_check"] = {stage: evidence}
+    if len(matching) == 1:
+        attempt["status"] = "ready-for-main-check"
+        attempt.pop("finished_at", None)
+        session = state.get("annotation_session")
+        if isinstance(session, dict):
+            session["status"] = "awaiting-main-check"
+        state["current_blockers"] = []
+        state["next_actions"] = [
+            {
+                "id": f"annotation-check-{attempt['round']}",
+                "kind": "main-owned-action",
+                "action": "annotation-check-round",
+                "round": str(attempt["round"]),
+                "attempt_id": str(attempt["attempt_id"]),
+            }
+        ]
+        _append_event(
+            run_root,
+            state,
+            "annotation-controller-tool-retry-same-attempt",
+            attempt=attempt["attempt_id"],
+            stage=stage,
+            kind=identity["kind"],
+        )
+        _save_state(run_root, state)
+        print(
+            json.dumps(
+                {
+                    "status": "same-attempt-retry-required",
+                    "attempt": attempt["attempt_id"],
+                    "stage": stage,
+                    "failure": failure,
+                    "next_actions": hydrate_actions(
+                        state, state.get("next_actions", [])
+                    ),
+                },
+                indent=2,
+            )
+        )
+        return 1
+
+    attempt["status"] = "blocked"
+    attempt["finished_at"] = _utc()
+    _set_annotation_session_idle(state)
+    blocker = {
+        "failure_class": "tool",
+        "kind": "repeated-annotation-controller-tool-blocker",
+        "stage": stage,
+        "repeated_kind": identity["kind"],
+        "formal_input_digest": formal_digest,
+        "repeat_count": len(matching),
+        "attempts": [str(attempt["attempt_id"])],
+        "message": (
+            "The same controller-owned annotation acceptance tool failed "
+            "twice on unchanged formal input."
+        ),
+        "repair_boundary": (
+            "Repair controller tooling or its performance profile; do not "
+            "create another annotation attempt."
+        ),
+    }
+    state["next_actions"] = []
+    state["current_blockers"] = [blocker]
+    _append_event(
+        run_root,
+        state,
+        "annotation-controller-tool-blocked",
+        attempt=attempt["attempt_id"],
+        stage=stage,
+        kind=identity["kind"],
+        repeat_count=len(matching),
+    )
+    _save_state(run_root, state)
+    print(json.dumps({"status": "blocked", "blocker": blocker}, indent=2))
+    return 1
+
+
+def _reject_annotation_precheck(
+    *,
+    run_root: Path,
+    state: dict[str, Any],
+    attempt: dict[str, Any],
+    reason: str,
+    evidence_key: str,
+    evidence: Any,
+) -> int:
+    handled = _annotation_controller_tool_failure(
+        run_root=run_root,
+        state=state,
+        attempt=attempt,
+        stage=evidence_key,
+        evidence=evidence if isinstance(evidence, dict) else {},
+    )
+    if handled is not None:
+        return handled
+    attempt["status"] = "running"
+    attempt["main_check"] = {evidence_key: evidence}
+    for field in ("returned_at", "finished_at", "artifact_sha256", "after_snapshot"):
+        attempt.pop(field, None)
+    delivery = attempt.get("delivery")
+    if isinstance(delivery, dict):
+        delivery.pop("finalized_at", None)
+    session = state.get("annotation_session")
+    if isinstance(session, dict):
+        session["status"] = "running"
+    state["current_blockers"] = []
+    state["next_actions"] = []
+    _append_event(run_root, state, "annotation-check-failed", reason=reason)
+    _save_state(run_root, state)
+    print(
+        json.dumps(
+            {
+                "status": "report-repair-required",
+                "attempt": attempt["attempt_id"],
+                evidence_key: evidence,
+                "message": (
+                    "Continue the same annotation attempt with the same owner, "
+                    "then rerun finalize-delivery."
+                ),
+            },
+            indent=2,
+        )
+    )
+    return 1
+
+
 def annotation_check_round(args: argparse.Namespace) -> int:
     main_root = (
         Path(args.main_root).expanduser().resolve()
@@ -138,6 +550,40 @@ def annotation_check_round(args: argparse.Namespace) -> int:
     attempt = _attempt_for_round(state, args.round, "annotation")
     if attempt.get("status") != "ready-for-main-check":
         raise SystemExit("annotation attempt is not ready for main-owned checking")
+    try:
+        attempt_paths = _validated_annotation_attempt_paths(state, attempt)
+        returned_artifact_errors = _artifact_integrity_errors(
+            {
+                "report": attempt_paths["report"],
+                "plan": attempt_paths["plan"],
+            },
+            attempt.get("artifact_sha256"),
+            main_root=main_root,
+        )
+    except (OSError, ValueError) as exc:
+        returned_artifact_errors = [str(exc)]
+    if returned_artifact_errors:
+        blocker = {
+            "failure_class": "annotation-returned-artifact-drift",
+            "attempt_id": str(attempt["attempt_id"]),
+            "first_error": returned_artifact_errors[0],
+            "error_count": len(returned_artifact_errors),
+        }
+        attempt["status"] = "invalid-report"
+        attempt["finished_at"] = _utc()
+        attempt["main_check"] = {"returned_artifacts": blocker}
+        _set_annotation_session_idle(state)
+        state["current_blockers"] = [blocker]
+        state["next_actions"] = []
+        _append_event(
+            run_root,
+            state,
+            "annotation-returned-artifact-drift",
+            attempt_id=attempt["attempt_id"],
+        )
+        _save_state(run_root, state)
+        print(json.dumps({"status": "blocked", "blocker": blocker}, indent=2))
+        return 1
     after_snapshot_errors = _annotation_after_snapshot_errors(state, attempt)
     if after_snapshot_errors:
         # ``after/`` is controller-owned acceptance provenance.  It cannot be
@@ -164,35 +610,228 @@ def annotation_check_round(args: argparse.Namespace) -> int:
         _save_state(run_root, state)
         print(json.dumps({"status": "blocked", "blocker": blocker}, indent=2))
         return 1
+    current_delivery_errors = _current_matches_annotation_after(state, attempt)
+    if current_delivery_errors:
+        return _reject_annotation_precheck(
+            run_root=run_root,
+            state=state,
+            attempt=attempt,
+            reason="post-delivery-current-file-drift",
+            evidence_key="current_annotation_delivery",
+            evidence={
+                "status": "failed",
+                "error_count": len(current_delivery_errors),
+                "first_error": current_delivery_errors[0],
+            },
+        )
     target = state["target_files"]
-    symexec = run_symexec(
-        main_root=main_root,
-        target_c_file=Path(target["c_file"]),
-        target_files=target,
-        output_root=main_root,
+
+    # The returned plan is bound to the owner's current generated manual before
+    # the controller replays symbolic execution.
+    try:
+        plan = _json_load(annotation_plan_path(state, attempt), {})
+        current_vcs = _manual_obligations(state)
+        plan_errors = annotation_plan_errors(
+            plan,
+            c_source=(main_root / target["c_file"]).read_text(encoding="utf-8"),
+            failed_vcs=attempt["failed_vcs"],
+            current_vcs=current_vcs,
+        )
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError, ValueError) as exc:
+        plan = None
+        plan_errors = [str(exc)]
+    if plan_errors:
+        return _reject_annotation_precheck(
+            run_root=run_root,
+            state=state,
+            attempt=attempt,
+            reason="annotation-plan",
+            evidence_key="annotation_plan",
+            evidence={
+                "status": "failed",
+                "error_count": len(plan_errors),
+                "first_error": plan_errors[0],
+            },
+        )
+    hard_freeze_mismatches = spec_freeze_findings(
+        state.get("spec_freeze"),
+        c_file=main_root / target["c_file"],
+        lib_file=main_root / target["formal_case_lib"],
     )
+    if hard_freeze_mismatches:
+        return _reject_annotation_precheck(
+            run_root=run_root,
+            state=state,
+            attempt=attempt,
+            reason="hard-spec-freeze",
+            evidence_key="hard_spec_freeze",
+            evidence={
+                "status": "failed",
+                "mismatch_count": len(hard_freeze_mismatches),
+                "first_mismatch": hard_freeze_mismatches[0],
+            },
+        )
+    try:
+        contract_findings = contract_surface_lint(
+            (main_root / target["c_file"]).read_text(encoding="utf-8"),
+            (
+                (main_root / target["formal_case_lib"]).read_text(
+                    encoding="utf-8"
+                )
+                if (main_root / target["formal_case_lib"]).is_file()
+                else ""
+            ),
+        )
+    except (OSError, UnicodeDecodeError) as exc:
+        contract_findings = [
+            {
+                "kind": "contract-surface-lint-input",
+                "message": str(exc),
+            }
+        ]
+    if contract_findings:
+        return _reject_annotation_precheck(
+            run_root=run_root,
+            state=state,
+            attempt=attempt,
+            reason="contract-surface-lint",
+            evidence_key="contract_surface_lint",
+            evidence={
+                "status": "failed",
+                "finding_count": len(contract_findings),
+                "findings": contract_findings,
+            },
+        )
+
+    # Run the case-lib contract and local Coq check before canonical symexec.
+    # The later post-generation check remains an independent acceptance check.
+    formal_case_lib_active_pre = _formal_case_lib_is_active(state)
+    formal_case_lib_snapshot_pre = _formal_case_lib_snapshot(state)
+    formal_case_lib_state_pre = str(
+        formal_case_lib_snapshot_pre.get("state") or "invalid"
+    )
+    if not formal_case_lib_active_pre and formal_case_lib_state_pre != "missing":
+        return _reject_annotation_precheck(
+            run_root=run_root,
+            state=state,
+            attempt=attempt,
+            reason="pre-symexec-absent-formal-case-lib-topology",
+            evidence_key="pre_symexec_formal_case_lib_topology",
+            evidence={
+                "status": "failed",
+                "state": formal_case_lib_state_pre,
+                "message": str(
+                    formal_case_lib_snapshot_pre.get("message")
+                    or "absent policy candidate path is no longer missing"
+                ),
+            },
+        )
+    if formal_case_lib_active_pre:
+        try:
+            formal_case_lib_text_pre = _snapshot_text(
+                formal_case_lib_snapshot_pre,
+                label="formal_case_lib candidate",
+            )
+            formal_case_lib_errors_pre = lib_contract_errors(
+                formal_case_lib_text_pre,
+                forbidden_modules=_generated_artifact_module_spellings_for_state(
+                    state
+                ),
+            )
+        except (OSError, UnicodeError, ValueError) as exc:
+            formal_case_lib_errors_pre = [
+                f"formal_case_lib contract could not be evaluated: {exc}"
+            ]
+        if formal_case_lib_errors_pre:
+            return _reject_annotation_precheck(
+                run_root=run_root,
+                state=state,
+                attempt=attempt,
+                reason="pre-symexec-formal-case-lib-contract",
+                evidence_key="pre_symexec_formal_case_lib_contract",
+                evidence={
+                    "status": "failed",
+                    "errors": formal_case_lib_errors_pre,
+                },
+            )
+        pre_dune = prepare_dune_dependencies(
+            workspace_root=main_root,
+            target_file=Path(target["formal_case_lib"]),
+            current_case_anchor=Path(target["formal_case_lib"]),
+        )
+        if pre_dune.get("status") != "passed":
+            return _reject_annotation_precheck(
+                run_root=run_root,
+                state=state,
+                attempt=attempt,
+                reason="pre-symexec-formal-case-lib-dependencies",
+                evidence_key="pre_symexec_formal_case_lib_dependencies",
+                evidence=_compact_annotation_dune_evidence(pre_dune),
+            )
+        pre_coqc = run_coqc_check(
+            workspace_root=main_root,
+            build_workspace=run_builds_root(run_root)
+            / args.round
+            / "formal-case-lib-pre-symexec"
+            / "src",
+            target_file=Path(target["formal_case_lib"]),
+            target_kind="formal-case-lib-design",
+            current_case_anchor=Path(target["formal_case_lib"]),
+            dune_preparation=pre_dune,
+        )
+        if pre_coqc.get("status") != "passed":
+            return _reject_annotation_precheck(
+                run_root=run_root,
+                state=state,
+                attempt=attempt,
+                reason="pre-symexec-formal-case-lib-coqc",
+                evidence_key="pre_symexec_formal_case_lib_coqc",
+                evidence={
+                    key: pre_coqc.get(key)
+                    for key in ("status", "returncode", "first_failure")
+                    if pre_coqc.get(key) is not None
+                },
+            )
+    else:
+        pre_dune = None
+        pre_coqc = {
+            "status": "passed",
+            "skipped": True,
+            "reason": "formal_case_lib policy is absent",
+        }
+
+    symexec = _owner_generation_reuse_evidence(state, attempt)
+    if symexec is None:
+        symexec = _transactional_main_root_symexec(
+            state,
+            report_directory=attempt_paths["directory"],
+        )
     symexec["controller_entrypoint"] = "annotation-check-round"
-    if symexec.get("elapsed_seconds") is not None:
-        _record_elapsed_stage(attempt, "symexec", float(symexec["elapsed_seconds"]))
+    if (
+        not symexec.get("reused_owner_generation")
+        and symexec.get("elapsed_seconds") is not None
+    ):
+        _record_elapsed_stage(
+            attempt,
+            "controller-main-refresh",
+            float(symexec["elapsed_seconds"]),
+        )
         _save_state(run_root, state)
     if symexec.get("status") != "passed":
-        attempt["status"] = "main-check-failed"
-        attempt["finished_at"] = _utc()
-        attempt["main_check"] = {"symexec": _compact_symexec_evidence(symexec)}
-        _set_annotation_session_idle(state)
-        _queue_annotation_feedback(
-            state, attempt["attempt_id"], "annotation-main-check-symexec"
+        return _reject_annotation_precheck(
+            run_root=run_root,
+            state=state,
+            attempt=attempt,
+            reason="symexec",
+            evidence_key="symexec",
+            evidence=_compact_symexec_evidence(symexec),
         )
-        _append_event(run_root, state, "annotation-check-failed", reason="symexec")
-        _save_state(run_root, state)
-        print(json.dumps({"status": "failed", "symexec": symexec}, indent=2))
-        return 1
     try:
-        source_goal = _source_goal_version(state)
-    except (OSError, ValueError) as exc:
+        obligations = _manual_obligations(state)
+    except (OSError, UnicodeError, ValueError) as exc:
         failure = {
             "category": "contract",
-            "kind": "source-goal-version",
+            "kind": "generated-manual",
             "relative_path": target["proof_manual_file"],
             "message": str(exc),
             "repair": (
@@ -201,35 +840,36 @@ def annotation_check_round(args: argparse.Namespace) -> int:
                 "symexec before controller acceptance."
             ),
         }
-        attempt["status"] = "main-check-failed"
-        attempt["finished_at"] = _utc()
-        attempt["main_check"] = {
-            "symexec": _compact_symexec_evidence(symexec),
-            "generated_formal_state": {
+        return _reject_annotation_precheck(
+            run_root=run_root,
+            state=state,
+            attempt=attempt,
+            reason="generated-formal-state",
+            evidence_key="generated_formal_state",
+            evidence={
                 "status": "failed",
                 "first_failure": failure,
             },
-        }
-        _set_annotation_session_idle(state)
-        _queue_annotation_feedback(
-            state,
-            attempt["attempt_id"],
-            "annotation-main-check-generated-formal-state",
         )
-        _append_event(
-            run_root,
-            state,
-            "annotation-check-failed",
-            reason="generated-formal-state",
+    replayed_plan_errors = annotation_plan_errors(
+        plan,
+        c_source=(main_root / target["c_file"]).read_text(encoding="utf-8"),
+        failed_vcs=attempt["failed_vcs"],
+        current_vcs=obligations,
+    )
+    if replayed_plan_errors:
+        return _reject_annotation_precheck(
+            run_root=run_root,
+            state=state,
+            attempt=attempt,
+            reason="post-symexec-vc-comparison",
+            evidence_key="vc_comparisons",
+            evidence={
+                "status": "failed",
+                "error_count": len(replayed_plan_errors),
+                "first_error": replayed_plan_errors[0],
+            },
         )
-        _save_state(run_root, state)
-        print(
-            json.dumps(
-                {"status": "failed", "generated_formal_state": failure},
-                indent=2,
-            )
-        )
-        return 1
     formal_case_lib_active = _formal_case_lib_is_active(state)
     formal_case_lib_snapshot = _formal_case_lib_snapshot(state)
     formal_case_lib_state = str(formal_case_lib_snapshot.get("state") or "invalid")
@@ -276,10 +916,9 @@ def annotation_check_round(args: argparse.Namespace) -> int:
                 formal_case_lib_text,
                 forbidden_modules=_generated_artifact_module_spellings_for_state(
                     state,
-                    source_goal_version=source_goal,
                 ),
             )
-        except (UnicodeError, ValueError) as exc:
+        except (OSError, UnicodeError, ValueError) as exc:
             formal_case_lib_errors = [
                 f"formal_case_lib contract could not be evaluated: {exc}"
             ]
@@ -289,75 +928,14 @@ def annotation_check_round(args: argparse.Namespace) -> int:
             "errors": formal_case_lib_errors,
         }
     if formal_case_lib_errors:
-        attempt["status"] = "main-check-failed"
-        attempt["finished_at"] = _utc()
-        attempt["main_check"] = {
-            "symexec": _compact_symexec_evidence(symexec),
-            "formal_case_lib_contract": formal_case_lib_contract,
-        }
-        _set_annotation_session_idle(state)
-        _queue_annotation_feedback(
-            state,
-            attempt["attempt_id"],
-            "annotation-main-check-formal-case-lib-contract",
-        )
-        _append_event(
-            run_root,
-            state,
-            "annotation-check-failed",
+        return _reject_annotation_precheck(
+            run_root=run_root,
+            state=state,
+            attempt=attempt,
             reason="formal-case-lib-contract",
+            evidence_key="formal_case_lib_contract",
+            evidence=formal_case_lib_contract,
         )
-        _save_state(run_root, state)
-        print(
-            json.dumps(
-                {
-                    "status": "failed",
-                    "formal_case_lib_contract": formal_case_lib_errors,
-                },
-                indent=2,
-            )
-        )
-        return 1
-    # A run may fix part of the specification surface as input.  The agent owns
-    # the whole C file and case lib, so this is the only place the boundary is
-    # enforced: compare the frozen entries against the run's baseline.
-    spec_freeze_mismatches = spec_freeze_findings(
-        state.get("spec_freeze"),
-        c_file=main_root / target["c_file"],
-        lib_file=main_root / target["formal_case_lib"],
-    )
-    if spec_freeze_mismatches:
-        attempt["status"] = "main-check-failed"
-        attempt["finished_at"] = _utc()
-        attempt["main_check"] = {
-            "symexec": _compact_symexec_evidence(symexec),
-            "spec_freeze": {
-                "status": "failed",
-                "mismatch_count": len(spec_freeze_mismatches),
-                "first_mismatch": spec_freeze_mismatches[0],
-            },
-        }
-        _set_annotation_session_idle(state)
-        _queue_annotation_feedback(
-            state,
-            attempt["attempt_id"],
-            "annotation-main-check-spec-freeze",
-        )
-        _append_event(
-            run_root,
-            state,
-            "annotation-check-failed",
-            reason="spec-freeze",
-        )
-        _save_state(run_root, state)
-        print(
-            json.dumps(
-                {"status": "failed", "spec_freeze": spec_freeze_mismatches},
-                indent=2,
-            )
-        )
-        return 1
-    source_version = _source_version_for_state(state, annotated=True)
     dune_preparation: dict[str, Any] | None = None
     if formal_case_lib_active:
         # The selected backend resolves and prepares the exact library target
@@ -367,58 +945,16 @@ def annotation_check_round(args: argparse.Namespace) -> int:
             workspace_root=main_root,
             target_file=Path(target["formal_case_lib"]),
             current_case_anchor=Path(target["proof_auto_file"]),
-            source_goal_version=str(source_version["digest"]),
         )
         if dune_preparation.get("status") != "passed":
-            blocker = dune_preparation.get("first_failure")
-            if not isinstance(blocker, dict):
-                makefile_mode = dune_preparation.get("build_mode") == "makefile"
-                blocker = {
-                    "category": "tooling",
-                    "kind": (
-                        "makefile-build-failed"
-                        if makefile_mode
-                        else "dune-build-failed"
-                    ),
-                    "message": (
-                        "Makefile preparation failed before the formal-case-lib check."
-                        if makefile_mode
-                        else "Dune failed before the formal-case-lib check."
-                    ),
-                    "repair": (
-                        "Repair the first Make/coqdep/Rocq diagnostic and rerun the same check."
-                        if makefile_mode
-                        else "Repair the first Dune/Rocq diagnostic and rerun the same check."
-                    ),
-                }
-            attempt["status"] = "main-check-failed"
-            attempt["finished_at"] = _utc()
-            attempt["main_check"] = {
-                "symexec": _compact_symexec_evidence(symexec),
-                "formal_case_lib_dune": _compact_annotation_dune_evidence(
-                    dune_preparation
-                ),
-            }
-            _set_annotation_session_idle(state)
-            _queue_annotation_feedback(
-                state,
-                attempt["attempt_id"],
-                "annotation-main-check-formal-case-lib-dune",
-            )
-            _append_event(
-                run_root,
-                state,
-                "annotation-check-failed",
+            return _reject_annotation_precheck(
+                run_root=run_root,
+                state=state,
+                attempt=attempt,
                 reason="formal-case-lib-dune",
+                evidence_key="formal_case_lib_dune",
+                evidence=dune_preparation,
             )
-            _save_state(run_root, state)
-            print(
-                json.dumps(
-                    {"status": "failed", "formal_case_lib_dune": dune_preparation},
-                    indent=2,
-                )
-            )
-            return 1
     if not formal_case_lib_active:
         formal_case_lib_check = {
             "status": "passed",
@@ -436,7 +972,6 @@ def annotation_check_round(args: argparse.Namespace) -> int:
             / "src",
             target_file=Path(target["formal_case_lib"]),
             target_kind="formal-case-lib",
-            source_goal_version=source_version["digest"],
             current_case_anchor=Path(target["proof_auto_file"]),
             dune_preparation=dune_preparation,
         )
@@ -448,47 +983,16 @@ def annotation_check_round(args: argparse.Namespace) -> int:
             float(formal_case_lib_check["elapsed_seconds"]),
         )
     if formal_case_lib_check.get("status") != "passed":
-        attempt["status"] = "main-check-failed"
-        attempt["finished_at"] = _utc()
-        attempt["main_check"] = {
-            "symexec": _compact_symexec_evidence(symexec),
-            "formal_case_lib_contract": formal_case_lib_contract,
-            **(
-                {
-                    "formal_case_lib_dune": _compact_annotation_dune_evidence(
-                        dune_preparation
-                    )
-                }
-                if dune_preparation is not None
-                else {}
-            ),
-            "formal_case_lib_coqc": {
-                key: formal_case_lib_check.get(key)
-                for key in (
-                    "status",
-                    "skipped",
-                    "reason",
-                    "returncode",
-                    "first_failure",
-                )
-                if formal_case_lib_check.get(key) is not None
-            },
-        }
-        _set_annotation_session_idle(state)
-        _queue_annotation_feedback(
-            state, attempt["attempt_id"], "annotation-main-check-formal-case-lib-coqc"
+        return _reject_annotation_precheck(
+            run_root=run_root,
+            state=state,
+            attempt=attempt,
+            reason="formal-case-lib-coqc",
+            evidence_key="formal_case_lib_coqc",
+            evidence=formal_case_lib_check,
         )
-        _append_event(
-            run_root, state, "annotation-check-failed", reason="formal-case-lib-coqc"
-        )
-        _save_state(run_root, state)
-        print(
-            json.dumps(
-                {"status": "failed", "formal_case_lib_coqc": formal_case_lib_check},
-                indent=2,
-            )
-        )
-        return 1
+    profile = symexec_profile_for_state(state)
+    signal_path = control_signal_path(state)
     freshness = clean_output_freshness(
         main_root=main_root,
         target_c_file=Path(target["c_file"]),
@@ -497,69 +1001,97 @@ def annotation_check_round(args: argparse.Namespace) -> int:
         refresh_root=Path(str(attempt["report_directory"])) / "clean-output-freshness",
         manual_mode="raw",
         symexec_runner=run_symexec,
+        timeout_seconds=float(profile["timeout_seconds"]),
+        profile_name=str(profile["name"]),
+        heartbeat_seconds=float(profile["heartbeat_seconds"]),
+        cancel_requested=lambda: control_signal_requests_stop(signal_path),
+        progress_path=attempt_paths["directory"]
+        / "symexec-progress-clean-replay.json",
     )
     freshness["controller_entrypoint"] = "annotation-check-round"
     freshness_elapsed = freshness.get("symexec", {}).get("elapsed_seconds")
     if freshness_elapsed is not None:
         _record_elapsed_stage(
             attempt,
-            "clean-output-freshness",
+            "clean-replay",
             float(freshness_elapsed),
         )
-    if (
-        freshness.get("status") != "passed"
-        or freshness.get("source_goal_version", {}).get("reference")
-        != source_goal["digest"]
-    ):
-        attempt["status"] = "main-check-failed"
-        attempt["finished_at"] = _utc()
-        attempt["main_check"] = {
-            "symexec": _compact_symexec_evidence(symexec),
-            "formal_case_lib_contract": formal_case_lib_contract,
-            **(
-                {
-                    "formal_case_lib_dune": _compact_annotation_dune_evidence(
-                        dune_preparation
-                    )
-                }
-                if dune_preparation is not None
+    if freshness.get("status") != "passed":
+        freshness_tool_evidence = freshness.get("symexec")
+        handled = _annotation_controller_tool_failure(
+            run_root=run_root,
+            state=state,
+            attempt=attempt,
+            stage="clean-replay",
+            evidence=(
+                freshness_tool_evidence
+                if isinstance(freshness_tool_evidence, dict)
                 else {}
             ),
-            "formal_case_lib_coqc": {
-                key: formal_case_lib_check.get(key)
-                for key in ("status", "skipped", "reason", "returncode")
-                if formal_case_lib_check.get(key) is not None
-            },
-            "clean_output_freshness": {
-                key: freshness.get(key)
-                for key in ("status", "symexec", "mismatches", "source_goal_version")
-            },
-        }
-        _set_annotation_session_idle(state)
-        _queue_annotation_feedback(
-            state,
-            attempt["attempt_id"],
-            "annotation-main-check-clean-output-freshness",
         )
-        _append_event(
-            run_root,
-            state,
-            "annotation-check-failed",
+        if handled is not None:
+            return handled
+        return _reject_annotation_precheck(
+            run_root=run_root,
+            state=state,
+            attempt=attempt,
             reason="clean-output-freshness",
+            evidence_key="clean_output_freshness",
+            evidence={
+                key: freshness.get(key)
+                for key in (
+                    "status",
+                    "symexec",
+                    "mismatches",
+                    "interrupted_output_recovery",
+                )
+            },
         )
-        _save_state(run_root, state)
-        print(
-            json.dumps(
-                {"status": "failed", "clean_output_freshness": freshness},
-                indent=2,
-            )
+    final_vcs = _manual_obligations(state)
+    final_comparison_errors = annotation_plan_errors(
+        plan,
+        c_source=(main_root / target["c_file"]).read_text(encoding="utf-8"),
+        failed_vcs=attempt["failed_vcs"],
+        current_vcs=final_vcs,
+    )
+    if final_comparison_errors:
+        return _reject_annotation_precheck(
+            run_root=run_root,
+            state=state,
+            attempt=attempt,
+            reason="clean-replay-vc-comparison",
+            evidence_key="vc_comparisons",
+            evidence={
+                "status": "failed",
+                "error_count": len(final_comparison_errors),
+                "first_error": final_comparison_errors[0],
+            },
         )
-        return 1
-    state["source_version"] = source_version
-    state["source_goal_version"] = source_goal
+    _update_user_spec_baseline(state, main_root=main_root)
     attempt["status"] = "accepted"
     attempt["finished_at"] = _utc()
+    comparisons = plan["vc_comparisons"]
     attempt["main_check"] = {
+        "vc_comparisons": {
+            "status": "passed",
+            "comparison_count": len(comparisons),
+            "resolved_count": sum(
+                comparison["result"] == "resolved"
+                for comparison in comparisons
+            ),
+            "statements": [
+                {
+                    "source": dict(comparison["source"]),
+                    "current": list(comparison["current"]),
+                }
+                for comparison in comparisons
+            ],
+        },
+        "pre_symexec_formal_case_lib_coqc": {
+            key: pre_coqc.get(key)
+            for key in ("status", "skipped", "reason", "returncode")
+            if pre_coqc.get(key) is not None
+        },
         "symexec": _compact_symexec_evidence(symexec),
         "formal_case_lib_contract": formal_case_lib_contract,
         **(
@@ -577,15 +1109,14 @@ def annotation_check_round(args: argparse.Namespace) -> int:
             if formal_case_lib_check.get(key) is not None
         },
         "clean_output_freshness": {
-            key: freshness.get(key) for key in ("status", "source_goal_version")
+            key: freshness.get(key)
+            for key in ("status", "interrupted_output_recovery")
         },
     }
     state["accepted_rounds"]["annotation"] = {
         "round": args.round,
         "attempt_id": attempt["attempt_id"],
         "annotation_history_directory": attempt["annotation_history_directory"],
-        "source_version": source_version["digest"],
-        "source_goal_version": source_goal["digest"],
     }
     # The earlier case-lib build was an annotation check.  Only the exact
     # post-acceptance goal-check build may become the proving dependency seal.
@@ -598,16 +1129,14 @@ def annotation_check_round(args: argparse.Namespace) -> int:
         state,
         "annotation-round-accepted",
         round=args.round,
-        source_goal_version=source_goal["digest"],
     )
     _save_state(run_root, state)
     print(
         json.dumps(
             {
                 "status": "accepted",
-                "source_version": source_version["digest"],
-                "source_goal_version": source_goal["digest"],
-                "target_witness_count": len(source_goal["target_witnesses"]),
+                "target_witness_count": len(final_vcs["top_level"]),
+                "comparison_count": len(comparisons),
             },
             indent=2,
         )
@@ -619,24 +1148,11 @@ def _verify_group_plan(state: dict[str, Any], plan_path: Path) -> dict[str, Any]
     plan = _json_load(plan_path, {})
     if not isinstance(plan, dict):
         raise SystemExit("group plan must be a JSON object")
-    targets = [str(item) for item in state["source_goal_version"]["target_witnesses"]]
+    obligations = _manual_obligations(state)
     if set(plan) != {"groups"}:
         raise SystemExit("group plan must contain only groups")
 
-    synthetic_lemmas = [
-        {"name": declaration}
-        for witness in targets
-        for declaration in [
-            *[
-                str(item["name"])
-                for item in state["source_goal_version"]
-                .get("split_goals", {})
-                .get(witness, [])
-            ],
-            witness,
-        ]
-    ]
-    entries = group_entries_from_plan(synthetic_lemmas, plan)
+    entries = group_entries_from_plan(obligations, plan)
     if not _formal_case_lib_is_active(state) and any(
         entry["planned_helpers"] for entry in entries
     ):
@@ -691,1008 +1207,34 @@ def _verify_group_plan(state: dict[str, Any], plan_path: Path) -> dict[str, Any]
     return {"groups": canonical_groups}
 
 
-REUSE_HINT_COLUMNS = (
-    "current goal",
-    "decision",
-    "previous file",
-    "lines",
-    "reason",
-)
-REUSE_DECISIONS = {"direct copy", "partial proof-idea reuse", "from scratch"}
-EMPTY_REUSE_REFERENCE = {"—"}
-
-
-def _sealed_group_artifact_digest(
-    proving: dict[str, Any], group: dict[str, Any], artifact: str
-) -> str:
-    group_id = str(group["id"])
-    reuse_record = proving.get("reuse_group_artifacts")
-    reuse_groups = (
-        reuse_record.get("groups") if isinstance(reuse_record, dict) else None
-    )
-    if isinstance(reuse_groups, dict):
-        group_record = reuse_groups.get(group_id)
-        if isinstance(group_record, dict) and group_record.get(artifact):
-            return str(group_record[artifact])
-    accepted = (
-        proving.get("groups", {}).get(group_id, {}).get("accepted_artifact_sha256")
-    )
-    if isinstance(accepted, dict) and accepted.get(artifact):
-        return str(accepted[artifact])
-    raise SystemExit(f"proof reuse source `{group_id}` has no sealed {artifact} digest")
-
-
-def _read_sealed_utf8(
-    path: Path,
-    expected_sha256: str,
-    label: str,
-    *,
-    owner: Path,
-) -> str:
-    try:
-        snapshot = _stable_fixed_file_snapshot(path, owner=owner, label=label)
-    except (OSError, ValueError) as exc:
-        raise SystemExit(f"sealed {label} cannot be read: {path}: {exc}") from exc
-    if snapshot.get("sha256") != expected_sha256:
-        raise SystemExit(f"sealed {label} changed before proof reuse: {path}")
-    try:
-        return _snapshot_text(snapshot, label=label)
-    except ValueError as exc:
-        raise SystemExit(f"sealed {label} is not UTF-8: {path}: {exc}") from exc
-
-
-def _qualified_goal_target(state: dict[str, Any], target_symbol: str) -> str:
-    target = state["target_files"]
-    return f"{target['active_case_theory']}.{target['case_name']}_goal.{target_symbol}"
-
-
-def _reuse_hint_rows(path: Path, *, text: str | None = None) -> list[dict[str, str]]:
-    table_lines = [
-        line.strip()
-        for line in (
-            text if text is not None else path.read_text(encoding="utf-8")
-        ).splitlines()
-        if line.strip().startswith("|") and line.strip().endswith("|")
-    ]
-    rows = [markdown_table_cells(line) for line in table_lines]
-    header_index = next(
-        (
-            index
-            for index, row in enumerate(rows)
-            if tuple(cell.lower() for cell in row) == REUSE_HINT_COLUMNS
-        ),
-        None,
-    )
-    if header_index is None or header_index + 1 >= len(rows):
-        raise SystemExit(f"reuse hint must contain the five-column table in {path}")
-    separator = rows[header_index + 1]
-    if len(separator) != len(REUSE_HINT_COLUMNS) or not all(
-        re.fullmatch(r":?-{3,}:?", cell) for cell in separator
-    ):
-        raise SystemExit(f"reuse hint table separator is invalid in {path}")
-    result: list[dict[str, str]] = []
-    for row in rows[header_index + 2 :]:
-        if len(row) != len(REUSE_HINT_COLUMNS):
-            raise SystemExit(f"reuse hint table row must have five columns in {path}")
-        result.append(dict(zip(REUSE_HINT_COLUMNS, row, strict=True)))
-    if not result:
-        raise SystemExit(f"reuse hint table has no goal rows in {path}")
-    return result
-
-
-def _previous_reuse_ranges(
-    state: dict[str, Any], source_round: str
-) -> dict[str, list[dict[str, Any]]]:
-    if _latest_reusable_vc_proving_round(state) != source_round:
-        raise SystemExit(
-            "proof reuse source must still be the immediately preceding sealed reusable vc-proving round"
-        )
-    proving = state.get("attempts", {}).get(source_round)
-    if not isinstance(proving, dict):
-        raise SystemExit("proof reuse source attempt is missing")
-    integrity_errors = _proving_manifest_errors(state, proving)
-    if integrity_errors:
-        raise SystemExit(
-            "proof reuse source manifest failed integrity: "
-            + "; ".join(integrity_errors)
-        )
-    try:
-        reuse_source_root = _validated_reuse_raw_root(state, proving)
-    except (OSError, TypeError, ValueError) as exc:
-        raise SystemExit(str(exc)) from exc
-    manifest = resolve_group_workers_manifest(
-        Path(str(proving["group_workers_manifest"])),
-        main_root=Path(str(state["main_root"])),
-        seed_root=reuse_source_root,
-        expected_run_root=Path(str(state["run_root"])),
-        expected_round=str(proving["round"]),
-    )
-    if not isinstance(manifest, dict):
-        raise SystemExit("proof reuse source manifest is invalid")
-    ranges: dict[str, list[dict[str, Any]]] = {
-        **{mode: [] for mode in PROOF_MODES},
-        "helper": [],
-    }
-    try:
-        raw_artifacts = _sealed_reuse_raw_artifacts(state, proving)
-    except (OSError, TypeError, ValueError) as exc:
-        raise SystemExit(str(exc)) from exc
-    if raw_artifacts["proof_manual_file"]["sha256"] is None:
-        if manifest.get("groups"):
-            raise SystemExit(
-                "proof reuse source has groups despite a null raw proof manual"
-            )
-        return ranges
-    has_formal_case_lib = raw_artifacts["formal_case_lib"]["sha256"] is not None
-    try:
-        reference_goal_hashes = goal_definition_hashes(
-            bytes(raw_artifacts["goal_file"]["data"]).decode("utf-8"),
-            formal_case_lib_text=(
-                bytes(raw_artifacts["formal_case_lib"]["data"]).decode("utf-8")
-                if has_formal_case_lib
-                else ""
-            ),
-        )
-    except (OSError, UnicodeDecodeError, ValueError) as exc:
-        raise SystemExit(
-            f"sealed previous generated goal file cannot be hashed: {exc}"
-        ) from exc
-    reusable_group_ids = _reusable_group_ids(proving, manifest)
-    for group in manifest.get("groups", []):
-        if not isinstance(group, dict):
-            continue
-        group_id = str(group.get("id") or "")
-        if group_id not in reusable_group_ids:
-            continue
-        group_was_controller_checked = (
-            proving.get("groups", {}).get(group_id, {}).get("status") == "accepted"
-        )
-        try:
-            source_validation = validate_group_for_acceptance_result(
-                Path(str(proving["group_workers_manifest"])),
-                group_id=group_id,
-                main_root=Path(str(state["main_root"])),
-                expected_proof_manual=str(state["target_files"]["proof_manual_file"]),
-                expected_formal_case_lib=str(state["target_files"]["formal_case_lib"]),
-                require_complete=False,
-                seed_root=reuse_source_root,
-                expected_run_root=Path(str(state["run_root"])),
-                expected_round=str(proving["round"]),
-                forbidden_modules=_generated_artifact_module_spellings_for_state(
-                    state,
-                    source_goal_version=state["source_goal_version"],
-                ),
-            )
-        except (OSError, UnicodeDecodeError, ValueError, SystemExit) as exc:
-            raise SystemExit(
-                f"previous group source cannot be structurally validated: {group_id}: {exc}"
-            ) from exc
-        source_errors = [str(item) for item in source_validation.get("errors", [])]
-        if source_errors:
-            raise SystemExit(
-                "previous group source changed outside its assigned proof spans: "
-                + source_errors[0]
-            )
-        group_directory = Path(str(group.get("directory") or ""))
-        manual = Path(str(group.get("proof_manual") or ""))
-        manual_sha256 = _sealed_group_artifact_digest(proving, group, "proof_manual")
-        try:
-            _prelude, lemmas = parse_manual_file(
-                _read_sealed_utf8(
-                    manual,
-                    manual_sha256,
-                    "group proof manual",
-                    owner=group_directory,
-                )
-            )
-        except (OSError, ValueError) as exc:
-            raise SystemExit(
-                f"previous group manual cannot be parsed: {manual}: {exc}"
-            ) from exc
-        by_name = lemma_by_name(lemmas)
-        for witness in group.get("witnesses", []):
-            if not isinstance(witness, dict):
-                continue
-            mode = str(witness.get("proof_mode") or "")
-            if mode not in PROOF_MODES:
-                raise SystemExit(
-                    "previous group manifest contains an invalid proof mode"
-                )
-            split_names = [
-                str(split_goal.get("name") or "")
-                for split_goal in witness.get("split_goals", [])
-                if isinstance(split_goal, dict)
-            ]
-            if mode == "aggressive_pre_process":
-                names = split_names
-            else:
-                names = [str(witness.get("name") or "")]
-            for name in names:
-                lemma = by_name.get(name)
-                if not isinstance(lemma, dict):
-                    raise SystemExit(
-                        f"previous {mode} proof block is missing from {manual}: {name}"
-                    )
-                target_symbol = lemma_target_symbol(lemma)
-                if target_symbol is None:
-                    raise SystemExit(
-                        f"previous proof block has no simple generated goal target: {name}"
-                    )
-                route_complete = (
-                    not proof_mode_errors(str(lemma["block"]), mode)
-                    if mode == "LLM_pre_process"
-                    else True
-                )
-                ranges[mode].append(
-                    {
-                        "name": name,
-                        "target_symbol": _qualified_goal_target(state, target_symbol),
-                        "path": manual,
-                        "start": int(lemma["start_line"]),
-                        "end": int(lemma["end_line"]),
-                        "complete": not block_has_incomplete_proof(str(lemma["block"]))
-                        and route_complete
-                        and group_was_controller_checked,
-                        "controller_checked": group_was_controller_checked,
-                        "statement_hash": lemma_statement_hash(lemma),
-                        "goal_definition_hash": goal_semantic_hash_for_lemma(
-                            lemma, reference_goal_hashes
-                        ),
-                        "source_sha256": manual_sha256,
-                    }
-                )
-        if not has_formal_case_lib:
-            if group.get("group_worker_lib") or group.get("helpers"):
-                raise SystemExit(
-                    "no-lib proof reuse group contains helper/library topology"
-                )
-            continue
-        raw_worker_lib = group.get("group_worker_lib")
-        if not isinstance(raw_worker_lib, str) or not raw_worker_lib:
-            raise SystemExit(
-                "present-lib proof reuse group lacks group_worker_lib"
-            )
-    return ranges
-
-
-def _current_generated_artifact_state(
-    state: dict[str, Any], role: str
-) -> str:
-    source_goal = state.get("source_goal_version")
-    records = source_goal.get("generated_files") if isinstance(source_goal, dict) else None
-    matches = (
-        [
-            record
-            for record in records
-            if isinstance(record, dict) and record.get("role") == role
-        ]
-        if isinstance(records, list)
-        else []
-    )
-    if len(matches) != 1:
-        raise SystemExit(
-            f"current source_goal_version requires exactly one {role} record"
-        )
-    record = matches[0]
-    artifact_state = record.get("state")
-    digest = record.get("sha256")
-    if (
-        record.get("relative_path") != state["target_files"][role]
-        or artifact_state not in {"present", "missing"}
-        or (artifact_state == "missing" and digest is not None)
-        or (
-            artifact_state == "present"
-            and (
-                not isinstance(digest, str)
-                or re.fullmatch(r"[0-9a-f]{64}", digest) is None
-            )
-        )
-    ):
-        raise SystemExit(
-            f"current source_goal_version has an invalid {role} record"
-        )
-    return str(artifact_state)
-
-
-def _expected_reuse_rows(group: dict[str, Any]) -> dict[str, dict[str, str]]:
-    """Return one group's reuse units in the required category order.
-
-    The reuse contract is helpers, every aggressive split goal, then every
-    LLM whole goal.  Relative order within each category remains the order in
-    the candidate plan (and, for splits, the raw-manual declaration order).
-    """
-
-    expected_rows: dict[str, dict[str, str]] = {
-        f"helper:{helper['name']}": {
-            "mode": "helper",
-            "kind": "helper",
-            "helper_name": str(helper["name"]),
-        }
-        for helper in group.get("helpers", [])
-        if isinstance(helper, dict)
-    }
-    for witness in group["witnesses"]:
-        if witness["proof_mode"] != "aggressive_pre_process":
-            continue
-        expected_rows.update(
-            {
-                str(split_goal["name"]): {
-                    "mode": "aggressive_pre_process",
-                    "kind": "proof",
-                }
-                for split_goal in witness["split_goals"]
-            }
-        )
-    for witness in group["witnesses"]:
-        if witness["proof_mode"] != "LLM_pre_process":
-            continue
-        expected_rows[str(witness["name"])] = {
-            "mode": "LLM_pre_process",
-            "kind": "proof",
-        }
-    return expected_rows
-
-
-def _plan_reuse_rows(group: dict[str, Any]) -> dict[str, dict[str, str]]:
-    """Expand reuse units by traversing the candidate plan as written."""
-
-    plan_rows: dict[str, dict[str, str]] = {
-        f"helper:{helper['name']}": {
-            "mode": "helper",
-            "kind": "helper",
-            "helper_name": str(helper["name"]),
-        }
-        for helper in group.get("helpers", [])
-        if isinstance(helper, dict)
-    }
-    for witness in group["witnesses"]:
-        name = str(witness["name"])
-        mode = str(witness["proof_mode"])
-        if mode == "aggressive_pre_process":
-            plan_rows.update(
-                {
-                    str(split_goal["name"]): {
-                        "mode": mode,
-                        "kind": "proof",
-                    }
-                    for split_goal in witness["split_goals"]
-                }
-            )
-        elif mode == "LLM_pre_process":
-            plan_rows[name] = {"mode": mode, "kind": "proof"}
-    return plan_rows
-
-
-def _reuse_order_error(
-    *,
-    group_id: str,
-    plan_path: Path,
-    hint_path: Path,
-    plan_names: list[str],
-    required_names: list[str],
-    actual_names: list[str],
-) -> str:
-    """Render a three-sequence, machine-readable reuse-order mismatch."""
-
-    plan_mismatch = plan_names != required_names
-    hint_mismatch = actual_names != required_names
-    primary_names = plan_names if plan_mismatch else actual_names
-
-    mismatch_index = next(
-        (
-            index
-            for index, (expected, actual) in enumerate(
-                zip(required_names, primary_names, strict=False)
-            )
-            if expected != actual
-        ),
-        min(len(required_names), len(primary_names)),
-    )
-    plan_mismatch_index = (
-        next(
-            (
-                index
-                for index, (required, planned) in enumerate(
-                    zip(required_names, plan_names, strict=False)
-                )
-                if required != planned
-            ),
-            min(len(required_names), len(plan_names)),
-        )
-        if plan_mismatch
-        else None
-    )
-    hint_mismatch_index = (
-        next(
-            (
-                index
-                for index, (required, actual) in enumerate(
-                    zip(required_names, actual_names, strict=False)
-                )
-                if required != actual
-            ),
-            min(len(required_names), len(actual_names)),
-        )
-        if hint_mismatch
-        else None
-    )
-    mismatching_sequences = [
-        sequence
-        for sequence, mismatches in (
-            ("expected_from_plan", plan_mismatch),
-            ("actual_hint", hint_mismatch),
-        )
-        if mismatches
-    ]
-    detail = {
-        "code": (
-            "vc-reuse-plan-category-order"
-            if plan_mismatch
-            else "vc-reuse-hint-row-order"
-        ),
-        "artifact": "group_plan" if plan_mismatch else "reuse_hint",
-        "group_id": group_id,
-        "path": str(plan_path if plan_mismatch else hint_path),
-        "group_plan_path": str(plan_path),
-        "hint_path": str(hint_path),
-        "required_categories": [
-            "helpers",
-            "aggressive_pre_process split goals",
-            "LLM_pre_process top-level VCs",
-        ],
-        "mismatching_sequences": mismatching_sequences,
-        "first_mismatch_row": mismatch_index + 1,
-        "plan_first_mismatch_row": (
-            plan_mismatch_index + 1 if plan_mismatch_index is not None else None
-        ),
-        "hint_first_mismatch_row": (
-            hint_mismatch_index + 1 if hint_mismatch_index is not None else None
-        ),
-        "expected_at_mismatch": (
-            required_names[mismatch_index]
-            if mismatch_index < len(required_names)
-            else None
-        ),
-        "actual_at_mismatch": (
-            primary_names[mismatch_index]
-            if mismatch_index < len(primary_names)
-            else None
-        ),
-        "plan_count": len(plan_names),
-        "required_count": len(required_names),
-        "hint_count": len(actual_names),
-        "expected_from_plan": plan_names,
-        "required_category_order": required_names,
-        "actual_hint": actual_names,
-        "repair": (
-            (
-                "reorder both mixed-mode group_plan witnesses and reuse-hint "
-                "rows to the required category order; preserve relative "
-                "order within each category"
-            )
-            if plan_mismatch and hint_mismatch
-            else (
-                "reorder mixed-mode group_plan witnesses so all "
-                "aggressive_pre_process witnesses precede all "
-                "LLM_pre_process witnesses while preserving relative order "
-                "within each segment"
-                if plan_mismatch
-                else "reorder reuse-hint rows to the required category order"
-            )
-        ),
-    }
-    return "reuse comparison sequence mismatch: " + json.dumps(
-        detail,
-        ensure_ascii=False,
-        sort_keys=True,
-    )
-
-
-def _reuse_order_error_for(
-    *,
-    group_id: str,
-    plan_path: Path,
-    hint_path: Path,
-    group: dict[str, Any],
-    actual_names: list[str],
-) -> str | None:
-    """Require plan traversal, category order, and hint rows to be identical."""
-
-    plan_names = list(_plan_reuse_rows(group))
-    required_names = list(_expected_reuse_rows(group))
-    if plan_names == required_names == actual_names:
-        return None
-    return _reuse_order_error(
-        group_id=group_id,
-        plan_path=plan_path,
-        hint_path=hint_path,
-        plan_names=plan_names,
-        required_names=required_names,
-        actual_names=actual_names,
-    )
-
-
 def _vc_checking_candidate_preflight_errors(
     state: dict[str, Any], attempt: dict[str, Any]
 ) -> list[str]:
-    """Check owner-repairable VC plan/hint layout before delivery sealing.
+    """Check the owner-authored group plan before sealing the delivery."""
 
-    The main-owned round check remains the acceptance authority and performs
-    semantic reuse/source/debug validation.  This preflight intentionally
-    covers only candidate-local plan shape, hint file coverage, table shape,
-    and the exact row sequence so a mechanical output defect can be repaired
-    by the same owner in the same attempt.
-    """
-
-    if _current_version_errors(state):
-        # Post-seal validation gives source drift precedence over owner output
-        # defects and transitions the attempt through the existing stale path.
+    if _current_files_errors(state):
         return []
+    structural_errors = _vc_structural_scan_errors(
+        state,
+        attempt,
+        expected_status="passed",
+    )
+    if structural_errors:
+        return structural_errors
     try:
         report_directory = fixed_path_under(
             Path(str(attempt["report_directory"])),
             Path(str(state["report_root"])),
             label="vc-checking report directory",
         )
-        plan_path = fixed_path_under(
-            report_directory / "group_plan.json",
-            report_directory,
-            label="vc-checking group plan",
-        )
-        plan = _verify_group_plan(state, plan_path)
-        hint_root = fixed_path_under(
-            report_directory / "reuse_hints",
-            report_directory,
-            label="vc-checking reuse-hint directory",
-        )
-        actual_files: set[Path] = set()
-        if hint_root.is_dir():
-            for candidate in hint_root.rglob("*"):
-                fixed_candidate = fixed_path_under(
-                    candidate,
-                    hint_root,
-                    label="vc-checking reuse-hint artifact",
-                )
-                if fixed_candidate.is_file():
-                    actual_files.add(fixed_candidate)
-        if not str(attempt.get("proof_reuse_round") or ""):
-            if actual_files:
-                raise SystemExit(
-                    "reuse-hint files are forbidden without an immediately "
-                    "preceding sealed reusable vc-proving round"
-                )
-            return []
-        expected_paths = {
-            str(group["id"]): fixed_path_under(
-                hint_root / f"{group['id']}.md",
-                hint_root,
-                label="vc-checking reuse-hint file",
-            )
-            for group in plan["groups"]
-        }
-        if actual_files != set(expected_paths.values()):
-            missing = sorted(
-                str(path)
-                for path in set(expected_paths.values()) - actual_files
-            )
-            extra = sorted(
-                str(path)
-                for path in actual_files - set(expected_paths.values())
-            )
-            raise SystemExit(
-                "reuse-hint files must match proof groups exactly; "
-                f"missing={missing}; extra={extra}"
-            )
-        for group in plan["groups"]:
-            group_id = str(group["id"])
-            path = expected_paths[group_id]
-            try:
-                hint_text = path.read_text(encoding="utf-8")
-            except (OSError, UnicodeDecodeError) as exc:
-                raise SystemExit(
-                    f"reuse hint cannot be read: {path}: {exc}"
-                ) from exc
-            rows = _reuse_hint_rows(path, text=hint_text)
-            actual_names = [row["current goal"] for row in rows]
-            order_error = _reuse_order_error_for(
-                group_id=group_id,
-                plan_path=plan_path,
-                hint_path=path,
-                group=group,
-                actual_names=actual_names,
-            )
-            if order_error is not None:
-                raise SystemExit(order_error)
+        _verify_group_plan(state, report_directory / "group_plan.json")
     except (OSError, TypeError, UnicodeError, ValueError, SystemExit) as exc:
         return [str(exc)]
     return []
 
 
-def _verify_reuse_hints(
-    state: dict[str, Any], attempt: dict[str, Any], plan: dict[str, Any]
-) -> tuple[
-    dict[str, dict[str, Any]],
-    dict[str, str],
-    dict[str, str],
-]:
-    report_directory = fixed_path_under(
-        Path(str(attempt["report_directory"])),
-        Path(str(state["report_root"])),
-        label="vc-checking report directory",
-    )
-    hint_root = fixed_path_under(
-        report_directory / "reuse_hints",
-        report_directory,
-        label="vc-checking reuse-hint directory",
-    )
-    source_round = str(attempt.get("proof_reuse_round") or "")
-    actual_files: set[Path] = set()
-    if hint_root.is_dir():
-        for candidate in hint_root.rglob("*"):
-            fixed_candidate = fixed_path_under(
-                candidate,
-                hint_root,
-                label="vc-checking reuse-hint artifact",
-            )
-            if fixed_candidate.is_file():
-                actual_files.add(fixed_candidate)
-    current_manual = Path(str(state["main_root"])) / str(
-        state["target_files"]["proof_manual_file"]
-    )
-    current_manual_state = _current_generated_artifact_state(
-        state,
-        "proof_manual_file",
-    )
-    if current_manual_state == "missing":
-        if os.path.lexists(current_manual):
-            raise SystemExit(
-                "current proof manual is sealed missing but its path exists"
-            )
-        if source_round or plan.get("groups") or actual_files:
-            raise SystemExit(
-                "proof reuse is forbidden when the current proof manual is absent"
-            )
-        return {}, {}, {}
-    if not source_round:
-        if actual_files:
-            raise SystemExit(
-                "reuse-hint files are forbidden without an immediately preceding sealed reusable vc-proving round"
-            )
-        return {}, {}, {}
-    previous_ranges = _previous_reuse_ranges(state, source_round)
-    try:
-        _prelude, current_lemmas = parse_manual_file(
-            current_manual.read_text(encoding="utf-8")
-        )
-    except (OSError, ValueError) as exc:
-        raise SystemExit(
-            f"current raw manual cannot be inspected for reuse: {exc}"
-        ) from exc
-    current_by_name = lemma_by_name(current_lemmas)
-    current_goal = Path(str(state["main_root"])) / str(
-        state["target_files"]["goal_file"]
-    )
-    current_formal_case_lib = Path(str(state["main_root"])) / str(
-        state["target_files"]["formal_case_lib"]
-    )
-    try:
-        if _formal_case_lib_is_active(state):
-            current_formal_case_lib_text = current_formal_case_lib.read_text(
-                encoding="utf-8"
-            )
-        elif os.path.lexists(current_formal_case_lib):
-            raise ValueError(
-                "formal_case_lib is sealed missing but its path exists"
-            )
-        else:
-            current_formal_case_lib_text = ""
-        current_goal_hashes = goal_definition_hashes(
-            current_goal.read_text(encoding="utf-8"),
-            formal_case_lib_text=current_formal_case_lib_text,
-        )
-    except (OSError, UnicodeDecodeError, ValueError) as exc:
-        raise SystemExit(
-            f"current generated goal file cannot be hashed: {exc}"
-        ) from exc
-    expected_paths = {
-        str(group["id"]): fixed_path_under(
-            hint_root / f"{group['id']}.md",
-            hint_root,
-            label="vc-checking reuse-hint file",
-        )
-        for group in plan["groups"]
-    }
-    if actual_files != set(expected_paths.values()):
-        missing = sorted(
-            str(path) for path in set(expected_paths.values()) - actual_files
-        )
-        extra = sorted(
-            str(path) for path in actual_files - set(expected_paths.values())
-        )
-        raise SystemExit(
-            f"reuse-hint files must match proof groups exactly; missing={missing}; extra={extra}"
-        )
-    result: dict[str, dict[str, Any]] = {}
-    current_debug_goals: dict[str, str] = {}
-    reference_debug_goals: dict[str, str] = {}
-    for group in plan["groups"]:
-        group_id = str(group["id"])
-        path = expected_paths[group_id]
-        try:
-            hint_bytes = path.read_bytes()
-            hint_text = hint_bytes.decode("utf-8")
-        except (OSError, UnicodeDecodeError) as exc:
-            raise SystemExit(f"reuse hint cannot be read: {path}: {exc}") from exc
-        expected_rows = _expected_reuse_rows(group)
-        for name in expected_rows:
-            if expected_rows[name]["kind"] == "helper":
-                continue
-            lemma = current_by_name.get(name)
-            target_symbol = lemma_target_symbol(lemma) if lemma is not None else None
-            if target_symbol is None:
-                raise SystemExit(
-                    f"current proof block has no simple generated goal target: {name}"
-                )
-            current_debug_goals[name] = _qualified_goal_target(state, target_symbol)
-            expected_rows[name]["statement_hash"] = lemma_statement_hash(lemma)
-            expected_rows[name]["goal_definition_hash"] = goal_semantic_hash_for_lemma(
-                lemma, current_goal_hashes
-            )
-        rows = _reuse_hint_rows(path, text=hint_text)
-        referenced_sources: dict[Path, str] = {}
-        actual_names = [row["current goal"] for row in rows]
-        order_error = _reuse_order_error_for(
-            group_id=group_id,
-            plan_path=report_directory / "group_plan.json",
-            hint_path=path,
-            group=group,
-            actual_names=actual_names,
-        )
-        if order_error is not None:
-            raise SystemExit(order_error)
-        for row in rows:
-            name = row["current goal"]
-            expected = expected_rows[name]
-            decision = normalize_reuse_decision(row["decision"])
-            previous_file = row["previous file"]
-            lines = row["lines"]
-            reason = row["reason"].strip()
-            if decision not in REUSE_DECISIONS:
-                raise SystemExit(f"reuse hint has an invalid decision for {name}")
-            if not reason:
-                raise SystemExit(f"reuse hint requires a reason for {name}")
-            empty_file = previous_file.lower() in EMPTY_REUSE_REFERENCE
-            empty_lines = lines.lower() in EMPTY_REUSE_REFERENCE
-            if expected["kind"] == "helper" and decision != "from scratch":
-                raise SystemExit(
-                    f"helper reuse must be from scratch: {name}"
-                )
-            if decision == "from scratch":
-                if not empty_file or not empty_lines:
-                    raise SystemExit(
-                        f"from-scratch reuse hint must omit previous file and lines: {name}"
-                    )
-                continue
-            if empty_file or empty_lines:
-                raise SystemExit(
-                    f"reused goal requires a previous file and exact line range: {name}"
-                )
-            previous_path = Path(previous_file).expanduser()
-            normalized_previous_path = Path(
-                os.path.abspath(os.fspath(previous_path))
-            )
-            if (
-                not previous_path.is_absolute()
-                or previous_path != normalized_previous_path
-            ):
-                raise SystemExit(f"reuse hint previous file must be absolute: {name}")
-            previous_path = normalized_previous_path
-            line_match = re.fullmatch(r"(\d+)(?:\s*-\s*(\d+))?", lines)
-            if line_match is None:
-                raise SystemExit(f"reuse hint has an invalid line range for {name}")
-            start = int(line_match.group(1))
-            end = int(line_match.group(2) or start)
-            if start < 1 or end < start:
-                raise SystemExit(f"reuse hint has an invalid line range for {name}")
-            compatible = next(
-                (
-                    item
-                    for item in previous_ranges[expected["mode"]]
-                    if item["path"] == previous_path
-                    and is_exact_declaration_line_range(
-                        start,
-                        end,
-                        declaration_start=int(item["start"]),
-                        declaration_end=int(item["end"]),
-                    )
-                    and (
-                        expected["kind"] != "helper"
-                        or str(item["name"]) == str(expected["helper_name"])
-                    )
-                ),
-                None,
-            )
-            if compatible is None:
-                raise SystemExit(
-                    f"reuse hint does not reference a compatible previous {expected['mode']} proof block: {name}"
-                )
-            if decision == "direct copy" and not compatible["complete"]:
-                raise SystemExit(
-                    f"direct-copy reuse source is not a completed previous proof: {name}"
-                )
-            if (
-                expected["kind"] == "proof"
-                and decision == "direct copy"
-                and compatible.get("goal_definition_hash")
-                != expected.get("goal_definition_hash")
-            ):
-                raise SystemExit(
-                    "direct-copy reuse requires an exact current/previous generated-goal "
-                    f"definition hash: {name}"
-                )
-            source_sha256 = str(compatible.get("source_sha256") or "")
-            if not source_sha256:
-                raise SystemExit(f"reused goal has no sealed source digest: {name}")
-            previous_digest = referenced_sources.get(previous_path)
-            if previous_digest is not None and previous_digest != source_sha256:
-                raise SystemExit(
-                    f"reused source has conflicting sealed digests: {previous_path}"
-                )
-            referenced_sources[previous_path] = source_sha256
-            if expected["kind"] != "helper":
-                reference_debug_goals[str(compatible["name"])] = str(
-                    compatible["target_symbol"]
-                )
-        result[group_id] = {
-            "path": str(path),
-            "sha256": sha256_bytes(hint_bytes),
-            "sources": [
-                {"path": str(source), "sha256": referenced_sources[source]}
-                for source in sorted(referenced_sources)
-            ],
-        }
-    return result, current_debug_goals, reference_debug_goals
 
-
-def _debug_script_acceptance_errors(
-    *,
-    label: str,
-    path: Path,
-    receipt: dict[str, Any],
-    goals: dict[str, str],
-) -> list[str]:
-    if not path.is_file():
-        return [f"{label} debug script is missing"]
-    errors: list[str] = []
-    debug_files = {item.resolve() for item in path.parent.rglob("*") if item.is_file()}
-    if debug_files != {path.resolve()}:
-        errors.append(f"{label} debug directory must contain only its declared script")
-    if receipt.get("debug_script_sha256") != _file_digest(path):
-        errors.append(f"{label} debug script changed after coq-debug")
-    script_text = path.read_text(encoding="utf-8")
-    script_errors, shown_targets = debug_goal_show_contract(script_text)
-    errors.extend(f"{label} debug script: {error}" for error in script_errors)
-    if receipt.get("show_count") != show_command_count(script_text):
-        errors.append(f"{label} debug Show count changed after coq-debug")
-    required_goal_count = len(goals)
-    if len(shown_targets) < required_goal_count:
-        errors.append(
-            f"{label} debug script must use a separate `Goal ... Show.` block for every compared goal"
-        )
-    required_targets = list(goals.values())
-    for name, target_symbol in goals.items():
-        if shown_targets.count(target_symbol) < required_targets.count(target_symbol):
-            errors.append(
-                f"{label} debug script does not Show goal `{name}` ({target_symbol})"
-            )
-    if Counter(shown_targets) != Counter(required_targets):
-        errors.append(
-            f"{label} debug script Shows an unlisted or duplicate goal target"
-        )
-    return errors
-
-
-def _verify_reuse_debug_evidence(
-    state: dict[str, Any],
-    attempt: dict[str, Any],
-    current_goals: dict[str, str],
-    reference_goals: dict[str, str],
-) -> None:
-    source_round = str(attempt.get("proof_reuse_round") or "")
-    proving = state.get("attempts", {}).get(source_round)
-    if not source_round or not isinstance(proving, dict):
-        raise SystemExit("proof reuse debug source round is missing")
-    receipts = attempt.get("proof_reuse_debug")
-    if not isinstance(receipts, dict):
-        raise SystemExit(
-            "proof reuse requires successful current and previous coq-debug commands"
-        )
-    run_root = Path(str(state["run_root"]))
-    current_goal_version = str(state["source_goal_version"]["digest"])
-    reference_goal_version = str(proving.get("source_goal_version") or "")
-    sealed_reference = proving.get("reuse_source_snapshot")
-    if not isinstance(sealed_reference, dict):
-        raise SystemExit("previous vc-proving round lacks a sealed reuse-source build")
-    specifications = [
-        (
-            "current",
-            str(attempt["round"]),
-            current_goal_version,
-            vc_checking_build_workspace(run_root, str(attempt["round"])),
-            vc_checking_debug_script(
-                run_root, str(attempt["round"])
-            ).relative_to(
-                vc_checking_build_workspace(run_root, str(attempt["round"]))
-            ),
-            current_goals,
-        )
-    ]
-    if reference_goals:
-        specifications.append(
-            (
-                "reference",
-                source_round,
-                reference_goal_version,
-                reuse_source_build_workspace(run_root, source_round),
-                Path(".coq_debug/reuse-source.v"),
-                reference_goals,
-            )
-        )
-    errors: list[str] = []
-    for (
-        label,
-        round_id,
-        goal_version,
-        build_workspace,
-        script_rel,
-        goals,
-    ) in specifications:
-        receipt = receipts.get(label)
-        if not isinstance(receipt, dict) or receipt.get("status") != "passed":
-            errors.append(f"{label} coq-debug has no passed controller receipt")
-            continue
-        try:
-            if label == "reference":
-                _dependency_snapshot, snapshot = _verified_reuse_source_build(
-                    main_root=Path(str(state["main_root"])),
-                    run_root=run_root,
-                    round_id=round_id,
-                    sealed=sealed_reference,
-                    source_goal_version=goal_version,
-                )
-            else:
-                snapshot = _debug_build_snapshot(
-                    build_workspace,
-                    dune_dependency_snapshot=dune_snapshot_for_preserved_build(
-                        workspace_root=Path(str(state["main_root"])),
-                        receipt=state.get("dune_preparation"),
-                    ),
-                )
-        except (OSError, ValueError) as exc:
-            errors.append(str(exc))
-            continue
-        if receipt.get("round") != round_id:
-            errors.append(f"{label} coq-debug round is stale")
-        if receipt.get("source_goal_version") != goal_version:
-            errors.append(f"{label} coq-debug source_goal_version is stale")
-        if (
-            receipt.get("build_digest") != snapshot["digest"]
-            or receipt.get("build_file_count") != snapshot["file_count"]
-        ):
-            errors.append(f"{label} debug build changed after coq-debug")
-        errors.extend(
-            _debug_script_acceptance_errors(
-                label=label,
-                path=build_workspace / script_rel,
-                receipt=receipt,
-                goals=goals,
-            )
-        )
-    if errors:
-        raise SystemExit("proof reuse debug evidence failed: " + "; ".join(errors))
-
-
-def _vc_agent_output_metrics(path: Path) -> dict[str, int]:
+def _vc_agent_output_metrics(path: Path) -> dict[str, int | str]:
     try:
         raw = path.read_bytes()
         text = raw.decode("utf-8")
@@ -1702,7 +1244,31 @@ def _vc_agent_output_metrics(path: Path) -> dict[str, int]:
             "lines": 0,
             "common_pattern_count": 0,
             "vc_delta_count": 0,
+            "structural_scan_present": 0,
+            "structural_top_level_scanned": 0,
+            "structural_no_split_checked_first": 0,
+            "structural_definite_blockers": 0,
         }
+    structural_match = re.search(
+        r"^## Structural Blocker Scan\s*$\n(.*?)(?=^## |\Z)",
+        text,
+        flags=re.MULTILINE | re.DOTALL,
+    )
+    structural_body = structural_match.group(1) if structural_match else ""
+
+    def structural_integer(label: str) -> int:
+        match = re.search(
+            rf"^- {re.escape(label)}:\s*(\d+)\s*$",
+            structural_body,
+            flags=re.MULTILINE,
+        )
+        return int(match.group(1)) if match is not None else 0
+
+    structural_status = re.search(
+        r"^- Status:\s*(passed|blocked|pending)\s*$",
+        structural_body,
+        flags=re.MULTILINE,
+    )
     common_match = re.search(
         r"^## Common Proof Patterns\s*$\n(.*?)(?=^## |\Z)",
         text,
@@ -1740,7 +1306,76 @@ def _vc_agent_output_metrics(path: Path) -> dict[str, int]:
         "lines": len(text.splitlines()),
         "common_pattern_count": common_pattern_count,
         "vc_delta_count": vc_delta_count,
+        "structural_scan_present": int(structural_match is not None),
+        "structural_status": (
+            structural_status.group(1) if structural_status is not None else ""
+        ),
+        "structural_top_level_scanned": structural_integer(
+            "Top-level VCs scanned"
+        ),
+        "structural_no_split_checked_first": structural_integer(
+            "No-split VCs checked first"
+        ),
+        "structural_definite_blockers": structural_integer(
+            "Definite blockers"
+        ),
     }
+
+
+def _vc_structural_scan_errors(
+    state: dict[str, Any],
+    attempt: dict[str, Any],
+    *,
+    expected_status: str,
+) -> list[str]:
+    """Enforce the cheap top-level scan before expensive split analysis."""
+
+    metrics = _vc_agent_output_metrics(Path(str(attempt["output"])))
+    try:
+        obligations = _manual_obligations(state)
+    except (OSError, UnicodeError, ValueError) as exc:
+        return [f"current manual cannot be counted for structural scan: {exc}"]
+    witness_count = len(obligations["top_level"])
+    no_split_count = sum(
+        not obligations["split_goals"].get(str(witness))
+        for witness in obligations["top_level"]
+    )
+    errors: list[str] = []
+    if not metrics["structural_scan_present"]:
+        return ["agent_output.md is missing the Structural Blocker Scan section"]
+    if metrics.get("structural_status") != expected_status:
+        errors.append(
+            "Structural Blocker Scan status must be " + expected_status
+        )
+    scanned = int(metrics["structural_top_level_scanned"])
+    checked_first = int(metrics["structural_no_split_checked_first"])
+    blockers = int(metrics["structural_definite_blockers"])
+    if expected_status == "passed":
+        if scanned != witness_count:
+            errors.append(
+                "Structural Blocker Scan must cover every top-level VC: "
+                f"expected {witness_count}, recorded {scanned}"
+            )
+        if checked_first != no_split_count:
+            errors.append(
+                "Structural Blocker Scan must check every no-split VC first: "
+                f"expected {no_split_count}, recorded {checked_first}"
+            )
+        if blockers != 0:
+            errors.append(
+                "a completed VC plan cannot retain a definite structural blocker"
+            )
+    else:
+        if scanned < 1 or scanned > witness_count:
+            errors.append(
+                "a blocked structural scan must record a non-empty bounded "
+                "top-level scan count"
+            )
+        if checked_first < 0 or checked_first > no_split_count:
+            errors.append("blocked structural no-split count is out of range")
+        if blockers < 1:
+            errors.append("a blocked structural scan must record a definite blocker")
+    return errors
 
 
 def vc_checking_check_round(args: argparse.Namespace) -> int:
@@ -1754,9 +1389,9 @@ def vc_checking_check_round(args: argparse.Namespace) -> int:
     attempt = _attempt_for_round(state, args.round, "vc-checking")
     if attempt.get("status") != "ready-for-main-check":
         raise SystemExit("vc-checking attempt is not ready for main-owned checking")
-    version_errors = _current_version_errors(state)
-    if version_errors:
-        _transition_current_version_drift(
+    file_errors = _current_files_errors(state)
+    if file_errors:
+        _transition_current_file_drift(
             state,
             attempt,
             action="vc-checking-check-round",
@@ -1765,16 +1400,16 @@ def vc_checking_check_round(args: argparse.Namespace) -> int:
         _append_event(
             run_root,
             state,
-            "vc-checking-version-drift",
+            "vc-checking-file-drift",
             round=args.round,
-            first_error=version_errors[0],
+            first_error=file_errors[0],
         )
         _save_state(run_root, state)
         print(
             json.dumps(
                 {
                     "status": "stale",
-                    "errors": version_errors,
+                    "errors": file_errors,
                     "next_actions": hydrate_actions(
                         state, state.get("next_actions", [])
                     ),
@@ -1783,6 +1418,7 @@ def vc_checking_check_round(args: argparse.Namespace) -> int:
             )
         )
         return 1
+
     report_directory = fixed_path_under(
         Path(str(attempt["report_directory"])),
         Path(str(state["report_root"])),
@@ -1805,44 +1441,83 @@ def vc_checking_check_round(args: argparse.Namespace) -> int:
         raise SystemExit(
             f"group_plan.json must use the current round report path: {expected_plan_path}"
         )
-    agent_output_metrics = _vc_agent_output_metrics(
-        Path(str(attempt["output"]))
-    )
+
+    agent_output_metrics = _vc_agent_output_metrics(Path(str(attempt["output"])))
     attempt["agent_output_metrics"] = agent_output_metrics
+    refresh: dict[str, Any] | None = None
+    clean_manual_sha256: str | None = None
     try:
+        owner_manual_signature = _current_manual_vc_signature(state)
         plan = _verify_group_plan(state, plan_path)
-        reuse_hints, current_debug_goals, reference_debug_goals = _verify_reuse_hints(
-            state, attempt, plan
+        refresh = _transactional_main_root_symexec(
+            state,
+            report_directory=report_directory,
+            progress_name="symexec-progress-post-vc-checking.json",
         )
-        if reuse_hints:
-            _verify_reuse_debug_evidence(
-                state,
+        if refresh.get("elapsed_seconds") is not None:
+            _record_elapsed_stage(
                 attempt,
-                current_debug_goals,
-                reference_debug_goals,
+                "post-vc-checking-symexec",
+                float(refresh["elapsed_seconds"]),
             )
-    except (OSError, TypeError, UnicodeError, ValueError, SystemExit) as exc:
-        # The owner delivery is already sealed and main owns this check.  A
-        # bare exception would leave the same check action queued against bytes
-        # that only the finished vc-checking agent was authorized to create.
-        # Use the existing same-phase retry so a fresh no-parent-transcript
-        # agent receives this controller evidence in its handoff.
+        if refresh.get("status") != "passed":
+            failure = refresh.get("first_failure")
+            raise RuntimeError(
+                str(
+                    failure.get("message")
+                    if isinstance(failure, dict)
+                    else "symbolic execution failed while restoring the clean manual"
+                )
+            )
+        clean_manual_signature = _current_manual_vc_signature(state)
+        if clean_manual_signature != owner_manual_signature:
+            raise ValueError(
+                "vc-checking proof manual differs from clean output after "
+                "removing temporary Show commands"
+            )
+        clean_manual_sha256 = _proof_manual_sha256(state)
+        clean_plan = _verify_group_plan(state, plan_path)
+        if clean_plan != plan:
+            raise ValueError(
+                "group plan changed meaning after the clean manual was regenerated"
+            )
+        if _proof_manual_sha256(state) != clean_manual_sha256:
+            raise ValueError(
+                "clean proof manual changed while the group plan was revalidated"
+            )
+        file_errors = _current_files_errors(state)
+        if file_errors:
+            raise ValueError(file_errors[0])
+    except (OSError, TypeError, UnicodeError, ValueError, RuntimeError, SystemExit) as exc:
         first_error = str(exc)
+        refresh_failed = refresh is not None and refresh.get("status") != "passed"
         blocker = {
-            "failure_class": "vc-plan",
+            "failure_class": "vc-manual-refresh" if refresh_failed else "vc-plan",
             "first_error": first_error,
         }
         attempt["status"] = "main-check-failed"
         attempt["finished_at"] = _utc()
         attempt["main_check"] = {
-            "group_plan": {"status": "failed", "first_error": first_error}
+            "group_plan": {"status": "failed", "first_error": first_error},
+            **(
+                {"manual_refresh": _compact_symexec_evidence(refresh)}
+                if refresh is not None
+                else {}
+            ),
         }
         state["current_blockers"] = [blocker]
-        _queue_vc_checking_retry(
-            state,
-            attempt,
-            "vc-checking-invalid-report",
-        )
+        if refresh_failed:
+            _queue_annotation_feedback(
+                state,
+                str(attempt["attempt_id"]),
+                "vc-checking-manual-refresh-failed",
+            )
+        else:
+            _queue_vc_checking_retry(
+                state,
+                attempt,
+                "vc-checking-invalid-report",
+            )
         _append_event(
             run_root,
             state,
@@ -1864,25 +1539,23 @@ def vc_checking_check_round(args: argparse.Namespace) -> int:
             )
         )
         return 1
+
     plan_sha256 = _file_digest(plan_path)
     attempt["status"] = "accepted"
     attempt["finished_at"] = _utc()
     attempt["group_plan"] = str(plan_path)
     attempt["group_plan_sha256"] = plan_sha256
+    attempt["main_check"] = {
+        "manual_refresh": _compact_symexec_evidence(refresh or {})
+    }
     state["accepted_rounds"]["vc-checking"] = {
         "round": args.round,
         "attempt_id": attempt["attempt_id"],
         "group_plan": str(plan_path),
         "group_plan_sha256": plan_sha256,
+        "proof_manual_sha256": clean_manual_sha256,
         "agent_output_metrics": agent_output_metrics,
     }
-    if reuse_hints:
-        state["accepted_rounds"]["vc-checking"].update(
-            {
-                "proof_reuse_round": str(attempt["proof_reuse_round"]),
-                "reuse_hints": reuse_hints,
-            }
-        )
     state["phase"] = "vc-checking"
     state["next_actions"] = []
     _append_event(run_root, state, "vc-checking-round-accepted", round=args.round)
@@ -1893,6 +1566,7 @@ def vc_checking_check_round(args: argparse.Namespace) -> int:
                 "status": "accepted",
                 "group_plan": str(plan_path),
                 "groups": len(plan["groups"]),
+                "manual_refreshed": True,
                 "agent_output_metrics": agent_output_metrics,
             },
             indent=2,

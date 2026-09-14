@@ -31,9 +31,8 @@ Local Open Scope sac.
 
 Lemma proof_of_dfs_adjacency_matrix_2Darray_entail_wit_1 : dfs_adjacency_matrix_2Darray_entail_wit_1.
 Proof.
-  unfold dfs_adjacency_matrix_2Darray_entail_wit_1.
-  left; intros.
-  unfold DFSAdjacencyMatrix2Darray.graph_rep, DFSAdjacencyMatrix2Darray.visited.
+  LLM_pre_process ltac:(lia || int_auto).
+  unfold DFSAdjacencyMatrix2Darray.store_graph, DFSAdjacencyMatrix2Darray.visited.
   Intros values.
   subst vertex_count_pre.
   Exists values.
@@ -42,13 +41,14 @@ Proof.
     ZSimpleGraph.vertex_count g_low_level_spec).
   { apply adjacency_matrix_model_row_length__dfs_2darray_core; assumption. }
   unfold ZSimpleGraph.vertex_valid in PreH4.
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+  - split_pures; dump_pre_spatial; first [assumption | reflexivity | lia].
 Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_2Darray_entail_wit_2 : dfs_adjacency_matrix_2Darray_entail_wit_2.
 Proof.
-  unfold dfs_adjacency_matrix_2Darray_entail_wit_2.
-  left; intros.
+  LLM_pre_process ltac:(lia || int_auto).
   set (entered_set := fun v => visited_set_low_level_spec v \/ v = vertex_pre).
   assert (Hentered_values:
     ZSimpleGraph.visited_values g_low_level_spec
@@ -67,16 +67,17 @@ Proof.
       visited_set_low_level_spec entered_set).
   { unfold DFSAdjacencyMatrix2Darray.visited_extension, entered_set.
     intros v Hv. left. exact Hv. }
-  assert (Hsafe_loop:
-    safeExec (eq entered_set)
-      (DFSAdjacencyMatrix2Darray.dfs_loop g_low_level_spec vertex_pre)
-      X_low_level_spec).
-  {
+  Exists (replace_Znth vertex_pre 1 values) entered_set.
+  split_pure_spatial.
+  - cancel.
+  - split_pures; dump_pre_spatial; try assumption; try lia.
     pose proof PreH7 as Hsafe.
     unfold DFSAdjacencyMatrix2Darray.dfs_program in Hsafe.
+    prog_nf in Hsafe.
     eapply safeExec_proequiv in Hsafe.
     2: apply DFS_unfold.
     unfold DFS_f, visit in Hsafe.
+    prog_nf in Hsafe.
     apply safeExec_update'_bind in Hsafe.
     assert (Hstep_eq:
       reachable_basic.step g_low_level_spec =
@@ -95,15 +96,11 @@ Proof.
     apply propositional_extensionality.
     sets_unfold. split; intros [Hv | Heq]; auto;
       right; symmetry; exact Heq.
-  }
-  Exists (replace_Znth vertex_pre 1 values) entered_set.
-  entailer!.
 Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_2Darray_entail_wit_3 : dfs_adjacency_matrix_2Darray_entail_wit_3.
 Proof.
-  unfold dfs_adjacency_matrix_2Darray_entail_wit_3.
-  left; intros.
+  LLM_pre_process ltac:(lia || int_auto).
   sep_apply_l_atomic (IntPtrArray2.full_split_to_missing_i
     matrix_pre vertex_pre vertex_count_pre rows_low_level_spec).
   - dump_pre_spatial. lia.
@@ -111,19 +108,22 @@ Proof.
     Exists row_ptr values1 visited_set1.
     unfold StorePtrAsElement.storeA.
     rewrite sizeof_ptr.
+    fold_arch.
+    change Arch32.ptr_size_Z with ptr_size_Z.
     change (IntPtrArray2.ElemArray.full row_ptr
       (Zlength (Znth vertex_pre rows_low_level_spec nil))
       (Znth vertex_pre rows_low_level_spec nil))
       with (IntArray.full row_ptr
         (Zlength (Znth vertex_pre rows_low_level_spec nil))
         (Znth vertex_pre rows_low_level_spec nil)).
-  entailer!.
+    split_pure_spatial.
+    + sepcon_assoc_change. cancel.
+    + split_pures; dump_pre_spatial; first [assumption | reflexivity | lia].
 Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_2Darray_entail_wit_4 : dfs_adjacency_matrix_2Darray_entail_wit_4.
 Proof.
-  unfold dfs_adjacency_matrix_2Darray_entail_wit_4.
-  left; intros.
+  LLM_pre_process ltac:(lia || int_auto).
   Exists scan_values scan_visited_set.
   pose proof (IntPtrArray2.missing_i_merge_to_full
     matrix_pre vertex_pre vertex_count_pre row_ptr rows_low_level_spec
@@ -141,13 +141,14 @@ Proof.
   fold_arch.
   sep_apply Hmerge; try lia.
   rewrite replace_Znth_Znth by lia.
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+  - split_pures; dump_pre_spatial; first [assumption | reflexivity | lia].
 Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_2Darray_entail_wit_5 : dfs_adjacency_matrix_2Darray_entail_wit_5.
 Proof.
-  unfold dfs_adjacency_matrix_2Darray_entail_wit_5.
-  left; intros.
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hneighbor_valid:
     ZSimpleGraph.vertex_valid g_low_level_spec neighbor).
   { unfold ZSimpleGraph.vertex_valid. rewrite <- PreH3. lia. }
@@ -165,14 +166,16 @@ Proof.
     destruct PreH16 as [_ [_ Hvalue]].
     specialize (Hvalue neighbor Hneighbor_valid) as [_ Hiff].
     intros Hvisited. apply Hiff in Hvisited. lia. }
-  assert (Hsafe_call:
-    safeExec (eq scan_visited_set2)
-      (bind (DFSAdjacencyMatrix2Darray.dfs_program g_low_level_spec neighbor)
-        (DFSAdjacencyMatrix2Darray.dfs_continue g_low_level_spec vertex_pre))
-      X_low_level_spec).
-  {
+  Exists scan_visited_set2.
+  unfold DFSAdjacencyMatrix2Darray.store_graph, DFSAdjacencyMatrix2Darray.visited.
+  Exists scan_values2.
+  subst vertex_count_pre.
+  split_pure_spatial.
+  - cancel.
+  - split_pures; dump_pre_spatial; try assumption; try lia.
     pose proof PreH14 as Hsafe.
     unfold DFSAdjacencyMatrix2Darray.dfs_loop in Hsafe at 1.
+    prog_nf in Hsafe.
     unfold_loop in Hsafe.
     prog_nf in Hsafe.
     safe_choice_l Hsafe.
@@ -182,18 +185,11 @@ Proof.
     apply (safeExec_get_bind neighbor) in Hsafe.
     2:{ intros st Hst. subst st. split; assumption. }
     exact Hsafe.
-  }
-  Exists scan_visited_set2.
-  unfold DFSAdjacencyMatrix2Darray.graph_rep, DFSAdjacencyMatrix2Darray.visited.
-  Exists scan_values2.
-  subst vertex_count_pre.
-  entailer!.
 Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_2Darray_entail_wit_6_1 : dfs_adjacency_matrix_2Darray_entail_wit_6_1.
 Proof.
-  unfold dfs_adjacency_matrix_2Darray_entail_wit_6_1.
-  left; intros.
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hprocessed_next:
     DFSAdjacencyMatrix2Darray.processed_neighbors g_low_level_spec vertex_pre
       (neighbor + 1) bind_visited_set).
@@ -210,18 +206,18 @@ Proof.
       visited_set_low_level_spec bind_visited_set).
   { unfold DFSAdjacencyMatrix2Darray.visited_extension in *.
     intros v Hv. apply PreH1, PreH19, Hv. }
-  unfold DFSAdjacencyMatrix2Darray.graph_rep, DFSAdjacencyMatrix2Darray.visited.
+  unfold DFSAdjacencyMatrix2Darray.store_graph, DFSAdjacencyMatrix2Darray.visited.
   Intros values2.
   Exists values2 bind_visited_set.
   subst vertex_count_pre.
-  unfold DFSAdjacencyMatrix2Darray.dfs_continue, applyf in PreH3.
-  entailer!.
+  split_pure_spatial.
+  - cancel.
+  - split_pures; dump_pre_spatial; try assumption; try lia.
 Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_2Darray_entail_wit_6_2 : dfs_adjacency_matrix_2Darray_entail_wit_6_2.
 Proof.
-  unfold dfs_adjacency_matrix_2Darray_entail_wit_6_2.
-  left; intros.
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hneighbor_valid:
     ZSimpleGraph.vertex_valid g_low_level_spec neighbor).
   { unfold ZSimpleGraph.vertex_valid. rewrite <- PreH2. lia. }
@@ -244,13 +240,14 @@ Proof.
     - contradiction.
     - apply Hprocessed; [lia | exact Hedge]. }
   Exists scan_values2 scan_visited_set2.
-  entailer!.
-Qed.
+  split_pure_spatial.
+  - cancel.
+  - split_pures; dump_pre_spatial; try assumption; try lia.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_matrix_2Darray_entail_wit_6_3 : dfs_adjacency_matrix_2Darray_entail_wit_6_3.
 Proof.
-  unfold dfs_adjacency_matrix_2Darray_entail_wit_6_3.
-  left; intros.
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hneighbor_valid:
     ZSimpleGraph.vertex_valid g_low_level_spec neighbor).
   { unfold ZSimpleGraph.vertex_valid. rewrite <- PreH3. lia. }
@@ -270,60 +267,66 @@ Proof.
     - exact Hneighbor_visited.
     - apply Hprocessed; [lia | exact Hedge]. }
   Exists scan_values2 scan_visited_set2.
-  entailer!.
-Qed.
+  split_pure_spatial.
+  - cancel.
+  - split_pures; dump_pre_spatial; try assumption; try lia.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_matrix_2Darray_entail_wit_7 : dfs_adjacency_matrix_2Darray_entail_wit_7.
 Proof.
-  unfold dfs_adjacency_matrix_2Darray_entail_wit_7.
-  left; intros.
+  LLM_pre_process ltac:(lia || int_auto).
   Exists values2 visited_set2.
-  entailer!.
+  split_pure_spatial.
+  - cancel (IntPtrArray2.full matrix_pre vertex_count_pre rows_low_level_spec).
+    cancel (IntArray.full visited_pre vertex_count_pre values2).
+  - split_pures; dump_pre_spatial; auto; lia.
 Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_2Darray_entail_wit_8 : dfs_adjacency_matrix_2Darray_entail_wit_8.
 Proof.
-  unfold dfs_adjacency_matrix_2Darray_entail_wit_8.
-  left; intros.
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hneighbor_eq: neighbor = vertex_count_pre) by lia.
   destruct PreH10 as [Hsource Hprocessed].
-  assert (Hsafe_return:
-    safeExec (eq visited_set1) (return tt) X_low_level_spec).
-  {
+  Exists visited_set1.
+  split_pure_spatial.
+  - unfold DFSAdjacencyMatrix2Darray.store_graph, DFSAdjacencyMatrix2Darray.visited.
+    Exists values1.
+    subst vertex_count_pre.
+    split_pure_spatial.
+    + cancel (IntPtrArray2.full matrix_pre (vertex_count g_low_level_spec) rows_low_level_spec).
+      cancel (IntArray.full visited_pre (vertex_count g_low_level_spec) values1).
+    + split_pures; dump_pre_spatial; assumption.
+  - split_pures; dump_pre_spatial; try assumption.
     pose proof PreH12 as Hsafe.
     unfold DFSAdjacencyMatrix2Darray.dfs_loop in Hsafe at 1.
+    prog_nf in Hsafe.
     unfold_loop in Hsafe.
     prog_nf in Hsafe.
     safe_choice_r Hsafe.
-    - exact Hsafe.
-    - intros st Hst. subst st.
+    + exact Hsafe.
+    + intros st Hst. subst st.
       intros (v & Hedge & Hnot).
       apply Hnot.
       apply Hprocessed.
-      + subst neighbor.
-        unfold ZSimpleGraph.graph_step,
-          ZSimpleGraph.vertex_valid in Hedge.
+      * subst neighbor.
+        unfold ZSimpleGraph.graph_step, ZSimpleGraph.vertex_valid in Hedge.
         lia.
-      + exact Hedge.
-  }
-  Exists visited_set1.
-  unfold DFSAdjacencyMatrix2Darray.graph_rep, DFSAdjacencyMatrix2Darray.visited.
-  Exists values1.
-  subst vertex_count_pre.
-  entailer!.
+      * exact Hedge.
 Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_2Darray_return_wit_1 : dfs_adjacency_matrix_2Darray_return_wit_1.
 Proof.
-  unfold dfs_adjacency_matrix_2Darray_return_wit_1.
-  left; intros.
+  LLM_pre_process ltac:(lia || int_auto).
   Exists visited_set_out.
-  entailer!.
+  split_pure_spatial.
+  - cancel (DFSAdjacencyMatrix2Darray.store_graph matrix_pre g_low_level_spec rows_low_level_spec).
+    cancel (DFSAdjacencyMatrix2Darray.visited visited_pre g_low_level_spec visited_set_out).
+  - split_pures; dump_pre_spatial; assumption.
 Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_2Darray_derive_bind_spec_by_low_level_spec : dfs_adjacency_matrix_2Darray_derive_bind_spec_by_low_level_spec.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   match goal with
   | Hsafe: safeExec _ (bind _ _) _ |- _ =>
       apply safeExec_bind in Hsafe as
@@ -331,7 +334,7 @@ Proof.
   end.
   Exists g_bind_spec rows_bind_spec visited_set_bind_spec X_low_level_spec.
   split_pure_spatial.
-  - cancel (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre
+  - cancel (DFSAdjacencyMatrix2Darray.store_graph matrix_pre
       g_bind_spec rows_bind_spec).
     cancel (DFSAdjacencyMatrix2Darray.visited visited_pre
       g_bind_spec visited_set_bind_spec).
@@ -339,7 +342,7 @@ Proof.
     Intros low_visited_set.
     Exists low_visited_set.
     repeat (split_pure_spatial || split_pures).
-    + cancel (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre
+    + cancel (DFSAdjacencyMatrix2Darray.store_graph matrix_pre
         g_bind_spec rows_bind_spec).
       cancel (DFSAdjacencyMatrix2Darray.visited visited_pre
         g_bind_spec low_visited_set).
@@ -351,11 +354,11 @@ Proof.
       exact H5.
   - repeat (split_pure_spatial || split_pures);
       dump_pre_spatial; assumption.
-Qed.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_matrix_2Darray_derive_high_level_spec_by_low_level_spec : dfs_adjacency_matrix_2Darray_derive_high_level_spec_by_low_level_spec.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold DFSAdjacencyMatrix2Darray.graph at 1.
   Intros rows_low_level_spec.
   assert (Hinitial_empty:
@@ -377,7 +380,7 @@ Proof.
   Exists g_high_level_spec rows_low_level_spec
     initial_visited_set_high_level_spec X_low_level_spec.
   split_pure_spatial.
-  - cancel (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre
+  - cancel (DFSAdjacencyMatrix2Darray.store_graph matrix_pre
       g_high_level_spec rows_low_level_spec).
     cancel (DFSAdjacencyMatrix2Darray.visited visited_pre
       g_high_level_spec initial_visited_set_high_level_spec).
@@ -387,7 +390,7 @@ Proof.
     repeat (split_pure_spatial || split_pures).
     + unfold DFSAdjacencyMatrix2Darray.graph.
       Exists rows_low_level_spec.
-      cancel (DFSAdjacencyMatrix2Darray.graph_rep matrix_pre
+      cancel (DFSAdjacencyMatrix2Darray.store_graph matrix_pre
         g_high_level_spec rows_low_level_spec).
       cancel (DFSAdjacencyMatrix2Darray.visited visited_pre
         g_high_level_spec low_visited_set).
@@ -423,4 +426,5 @@ Proof.
       apply Hdfs. exact Hv.
   - repeat (split_pure_spatial || split_pures);
       dump_pre_spatial; assumption.
-Qed.
+Qed. 
+

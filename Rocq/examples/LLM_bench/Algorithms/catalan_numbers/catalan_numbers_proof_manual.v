@@ -34,7 +34,7 @@ Qed.
 
 Lemma proof_of_solve_safety_wit_10_split_goal_1 : solve_safety_wit_10_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst retval. subst retval_2.
   unfold StackRowProgress in PreH22.
   destruct PreH22 as [_ [_ Hprefix]].
@@ -73,7 +73,7 @@ Qed.
 
 Lemma proof_of_solve_safety_wit_10_split_goal_2 : solve_safety_wit_10_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst retval. subst retval_2.
   unfold StackRowProgress in PreH22.
   destruct PreH22 as [_ [_ Hprefix]].
@@ -115,7 +115,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_1 : solve_entail_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists (@nil Z).
   replace (0 * (n_pre + 1)) with 0 by ring.
   sep_apply_l_atomic
@@ -137,7 +137,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_2 : solve_entail_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists table_2.
   replace (i * (n_pre + 1) + 0) with (i * (n_pre + 1)) by lia.
   split_pure_spatial.
@@ -197,7 +197,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_5_1_split_goal_1 : solve_entail_wit_5_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst i.
   pose proof (StackRowProgress_zero_row_extend__cell_dp
     n_pre table_2 j ltac:(lia) ltac:(lia) PreH12) as [Hprogress _].
@@ -206,7 +206,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_5_1_split_goal_2 : solve_entail_wit_5_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst i.
   pose proof (StackRowProgress_zero_row_extend__cell_dp
     n_pre table_2 j ltac:(lia) ltac:(lia) PreH12)
@@ -217,7 +217,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_5_1_split_goal_3 : solve_entail_wit_5_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst i.
   pose proof (StackRowProgress_zero_row_extend__cell_dp
     n_pre table_2 j ltac:(lia) ltac:(lia) PreH12)
@@ -236,7 +236,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_5_2_split_goal_1 : solve_entail_wit_5_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst j.
   pose proof (StackRowProgress_copy_boundary_extend__cell_dp
     n_pre table_2 i ltac:(lia) ltac:(lia) PreH16) as [Hprogress _].
@@ -248,7 +248,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_5_2_split_goal_2 : solve_entail_wit_5_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst j.
   pose proof (StackRowProgress_copy_boundary_extend__cell_dp
     n_pre table_2 i ltac:(lia) ltac:(lia) PreH16)
@@ -261,7 +261,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_5_2_split_goal_3 : solve_entail_wit_5_2_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   subst j.
   pose proof (StackRowProgress_copy_boundary_extend__cell_dp
     n_pre table_2 i ltac:(lia) ltac:(lia) PreH16)
@@ -282,7 +282,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_5_3_split_goal_1 : solve_entail_wit_5_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (StackRowProgress_add_step_extend__cell_dp
     n_pre table_2 i j ltac:(lia) ltac:(lia) ltac:(lia) PreH22)
     as [Hprogress _].
@@ -295,7 +295,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_5_3_split_goal_2 : solve_entail_wit_5_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (StackRowProgress_add_step_extend__cell_dp
     n_pre table_2 i j ltac:(lia) ltac:(lia) ltac:(lia) PreH22)
     as [_ [Hcorrect _]].
@@ -308,7 +308,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_5_3_split_goal_3 : solve_entail_wit_5_3_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof (StackRowProgress_add_step_extend__cell_dp
     n_pre table_2 i j ltac:(lia) ltac:(lia) ltac:(lia) PreH22)
     as [_ [_ Hbound]].
@@ -329,7 +329,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_6 : solve_entail_wit_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists table_2.
   replace (i * (n_pre + 1) + j + 1)
     with (i * (n_pre + 1) + (j + 1)) by lia.
@@ -349,7 +349,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_7 : solve_entail_wit_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (j = n_pre + 1) by lia.
   subst j.
   Exists table_2.
@@ -376,7 +376,7 @@ Qed.
 
 Lemma proof_of_solve_entail_wit_9 : solve_entail_wit_9.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace i with (n_pre + 1) in * by lia.
   Exists table_2.
   split_pure_spatial.
@@ -413,7 +413,7 @@ Qed.
 
 Lemma proof_of_solve_return_wit_1_split_goal_1 : solve_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace ((n_pre * (n_pre + 1)) + 0)
     with (n_pre * (n_pre + 1)) by lia.
   exact PreH9.

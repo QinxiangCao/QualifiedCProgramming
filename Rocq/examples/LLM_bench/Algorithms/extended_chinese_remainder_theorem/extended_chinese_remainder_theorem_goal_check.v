@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Algorithms.extended_chinese_remainder_theorem Require Import extended_chinese_remainder_theorem_goal extended_chinese_remainder_theorem_proof_auto extended_chinese_remainder_theorem_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include extended_chinese_remainder_theorem_proof_auto.
+  Include extended_chinese_remainder_theorem_proof_manual.
+End VC_Correctness.

@@ -44,10 +44,10 @@ controller 在创建、清理和写入 build 前拒绝 symlink、junction、repa
 
 development、exact 和 finalize 后的强制 validation 共用同一结构检查。每次都重验：
 
-- current version；
+- 当前主仓库 C/lib/goal/auto/check 与 accepted annotation backup；
 - accepted plan；
 - base manifest、group manifest 与 seed 封存；
-- frozen public snapshot 与 reuse source digest；
+- frozen public snapshot；
 - manual declaration order 和 statement token；
 - assigned 与 unassigned proof token；
 - `LLM_pre_process` split block；
@@ -75,10 +75,10 @@ group-worker 对 aggressive top-level VC 只使用 `Goal_apply` 应用 split lem
 
 ### Finalize 后的强制 validation
 
-main agent 在 worker 停止写文件后执行 `finalize-delivery`。controller 先封存 `group_worker_report.json`、copied manual 和适用时的 `group_worker_lib`，再对同一 bytes 执行与报告终态匹配的强制 validation，并在检查前后重新比较封存：
+main agent 在 worker 停止写文件后执行`finalize-delivery`。handoff 给出上一 proving round 时，可选 `proof_reuse.md` 只供人工记录；缺失或为空均可，controller 不解析、不据此阻断 finalize，也不把它纳入 proof seal 或 final provenance。controller 随后封存`group_worker_report.json`、copied manual和适用时的`group_worker_lib`，再对同一bytes执行与报告终态匹配的强制validation，并在检查前后重新比较封存：
 
 - `status: completed` 必须通过完整结构、proof completeness、route 和 Rocq 检查，成功才把 group 置为 accepted。
-- `blocker.failure_class: annotation-gap` 必须通过五字段 blocker 合同、witness/location 可追踪性、固定写入边界、statement/unassigned/mode 保护、helper/import/safety 和 seal 检查。缺口导致的 assigned proof 未完成不伪装成 `completed`，也不要求该终态通过本不可证的完整 group Rocq 目标；controller 封存为结构合法、可追踪且可供后续轮次条件式复用的 blocked 终态。
+- `blocker.failure_class: annotation-gap` 必须通过五字段 blocker 合同、`vcs` exact name/parent/annotation-location 与 sealed manual/assignment 校验、固定写入边界、statement/unassigned/mode 保护、helper/import/safety 和 seal 检查。缺口导致的 assigned proof 未完成不伪装成 `completed`，也不要求该终态通过本不可证的完整 group Rocq 目标；controller 保留该 group 文件，供 annotation feedback。
 - 其他 blocker 继续按各自现有的结构检查、原地修复、重试耗尽或终止语义处理，不因 `annotation-gap` 汇总机制改变。
 
 这是唯一强制 group validation。worker 的 development/exact 结果不写入最终报告，也不替代 controller 接纳或 blocked 封存结论。若 validation 只返回报告合同修复，本组 formal seal 保持不变，同 owner 只修报告并重跑原 finalize；不得借此修改 proof/lib。
@@ -91,9 +91,9 @@ accepted annotation 后，controller 已用 exact goal-check target 完成一次
 2. 把 persisted 五个 current case identities 中实际可达的 source，以及本组 overlay，stage 到 fixed local build；
 3. 按 snapshot 中固定的 current edges 编译 current modules；
 4. 从 selected base（Dune `_build/default` 或 Makefile main-root `Rocq/`）的绝对 `-R/-Q` mapping 读取 snapshot-bound dependency `.vo`；
-5. 把 dependency artifact digest 绑定进 current cache 与 debug/reuse seal。
+5. 把 dependency artifact digest 绑定进 current cache 与 debug seal。
 
-worker 不分析依赖、不提供 target、不运行 Dune、Make 或 `coqdep`。proof-time source 可以继续使用 snapshot 内已有的 project import和 Rocq installed standard-library import；新增 snapshot 外 project import 返回 mode-specific dependency-not-prepared failure，由后续 annotation retry形成新 accepted source与新 snapshot。本 group 不能动态扩展 dependency version。
+worker 不分析依赖、不提供 target、不运行 Dune、Make 或`coqdep`。proof-time source可以继续使用snapshot内已有的project import和Rocq installed standard-library import；新增snapshot外project import返回mode-specific dependency-not-prepared failure，由后续annotation retry形成新accepted files和新snapshot。本group不能动态扩展dependency closure。
 
 current ownership 只来自 persisted case identity，不从 C stem、同目录前缀、helper 名或 import 推断。同目录其他程序/异名 lib 只有在 snapshot closure 中才可读取。每个 current dependency 在 consumer 编译或 debug 前必须已有本 build local `.vo`。
 
@@ -109,6 +109,6 @@ development 与强制检查共用 run-local current 前置产物缓存。缓存�
 
 ## 五、超时与进程
 
-一次 `coq-check` 或 `coq-debug` 中由 controller 启动的所有子进程共享 1800 秒截止时间。snapshot 校验和 staging 已用时间会从下一次启动的剩余时间扣除。
+一次 `coq-check` 或 `coq-debug` 中由 controller 启动的所有子进程共享 900 秒截止时间。snapshot 校验和 staging 已用时间会从下一次启动的剩余时间扣除。
 
-controller 把工具放进独立 process group；超时时终止整组，并保证输出读取有界。worker 不得绕过这一限制启动 raw 进程，也不得构造无上限替代命令。
+controller 把工具放进独立 process group；超时时显式终止整组，仍未退出就强制 kill，并保证输出读取有界。worker 不得绕过这一限制启动 raw 进程，也不得构造无上限替代命令。

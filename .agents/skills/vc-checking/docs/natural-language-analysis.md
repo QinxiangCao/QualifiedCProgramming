@@ -1,47 +1,49 @@
 # 自然语言证明分析
 
-自然语言分析用于记录proofability、proof-mode理由、具体proof strategy、第二次负载/耦合审查、public-helper ownership和group边界，写入`agent_output.md`；controller不解析其固定结构，机器acceptance来自current version、group plan、conditional reuse hints、group validation、parent verify与final-check。
+自然语言分析写入 `agent_output.md`，用于解释 proofability、proof-mode、策略、helper ownership 和 group 边界。controller 的接纳依据是 `group_plan.json` 与后续证明检查，不解析这些说明文字。
 
 ## 读取顺序
 
-1. `agent_input.md`：version、target witnesses、group bound和输出路径。
-2. raw `*_proof_manual.v`：top-level VC与其`<vc>_split_goal_*` obligation source、mapping与顺序。
-3. goal/auto/check：只读 theorem展开。
-4. current `formal_case_lib`。
+1. 当前 `agent_input.md`；
+2. 主仓库当前 `*_proof_manual.v`；
+3. goal/auto 和当前 `formal_case_lib`；
+4. 第二轮及以后 handoff 明确列出的前次 vc-checking 结果。
 
-不读取或生成额外manual preprocessing artifact。
+当前 manual 是权威。需要展开 goal 时，只在对应 proof body 中加入 `Show.`，运行 handoff 给出的 controller 命令；除 `Show.` 外不要修改任何 proof 或非 proof token，也不要生成额外 manual、debug script 或历史比较文件。
 
-优先参考 `Rocq/examples/LLM_bench` 与 `QCP_demos_LLM`；human cases只作非权威思路提示。
+## 分析顺序
 
-## 顺序
+先对全部 top-level VC 做 structural scan，并优先检查 no-split whole goals 的 resource address、scalar equality、existential 与 current/`@pre` bridge。把四个精确计数写入 `Structural Blocker Scan`；找到 P 可成立而 Q 失败的具体 countermodel 时立即报告 annotation/spec/dependency 缺口，不先消耗全部 split 分析。
 
-先遍历全部split goals，只记录“可证”或“不可证”，不分析任何top-level VC，也不规划helper、具体证明路线或复用。某个top-level VC至少有一个split goal且全部可证时，选择`aggressive_pre_process`；任一split goal不可证或没有split goal时，才只判断整个top-level VC的可证性，整体可证则选择`LLM_pre_process`，整体仍不可证才返回annotation/spec缺口。
+structural scan 通过后，完成全部 split goals 的可证/不可证判断，不分析 top-level VC，也不规划 helper。某个 VC 有 split 且全部可证时选择 `aggressive_pre_process`；否则才判断整个 top-level VC，整体可证时选择 `LLM_pre_process`，整体仍不可证才报告 annotation/spec/dependency 缺口。
 
-全部`proof_mode`确定后，再写证明思路，并在handoff绑定正好上一轮sealed vc-proving source时同时完成reuse comparison。`aggressive_pre_process`只分析和比较split goals，忽略top-level VC；`LLM_pre_process`只分析和比较整个top-level VC，忽略split goals。使用current/reference debug commands逐comparison unit执行`Show.`、取得controller script/combined-build-seal/version receipts；combined build digest机械绑定local tree与accepted dependency artifact digest。source可以failed，也可以verified后因annotation/freshness retry而stale。未绑定时直接写证明思路，不扫描历史或创建reuse hints。
+全部 mode 确定后再写策略：
 
-## 每个被分析目标回答
+- aggressive 只分析 split goals；
+- LLM 只分析 top-level goal；
+- 不做 witness reuse 判断。
 
-- `P |-- Q` 是否语义成立？
-- pre/post spatial、pure、existential分别是什么？
-- 右侧 witness取什么值？
-- 哪些资源直接 cancel，哪些 segment/list需要转换？
-- arithmetic依赖哪些 bounds、guards、length facts与等式？不要只写“lia”。
-- refinement hypothesis/目标 state是什么，需哪些 unfold/choice step？
-- helper若需要，其 statement、premises、premise来源和 destination是什么？
-- 若失败，缺口位于 C annotation、`formal_case_lib`、stale files还是 malformed VC？
+第二轮可以参考前次结论，但每个决定都要用当前 manual 复核，并简短说明本轮保留或改变了什么。
 
-可使用简洁 Markdown 小节，不要为了模拟旧 JSON template填空。内容要具体到能指导 group-worker或 annotation repair。
+## 每个目标回答
 
-## Helper 判定
+- `P |-- Q` 是否成立？
+- pre/post spatial、pure、existential 分别是什么？
+- 右侧 witness 取什么值？
+- 哪些资源直接 cancel，哪些 list/segment 需要转换？
+- arithmetic 依赖哪些 bounds、guards、length facts和等式？
+- refinement 的 source/target state 是什么？
+- helper 的 statement、premises、premise 来源和 destination 是什么？
+- 若失败，缺口位于 C annotation、case lib、当前 manual 还是工具环境？
 
-`needs-helper` 必须说明 helper的 statement shape、used witnesses、每个 premise如何从当前 VC discharge，以及 destination为owner的`group_worker_lib`。只有本轮新证或改写的helper进入当前plan并使用owner suffix；上一轮或public snapshot中声明/proof token一致的helper只是机会性复用。只供本组的helper写`visibility: local`；稳定且不依赖具体C局部变量、预计可在后续group/round复用的数学性质写`visibility: public`，具体潜在消费者写notes。controller在owner group通过validation后把public helper及必要本地helper依赖闭包append到durable pool，供未来round。不能discharge的premise意味着annotation/spec缺口；正式spec本身缺失时仍回annotation，不能把public pool当作spec替代品。
+内容应具体到 group worker 或 annotation owner 可以直接继续工作。
 
-## Group 分析
+## Helper 与 group
 
-证明思路完成后，按invariant、proof pattern、array/frame transformation、refinement transition和helper family对top-level VC形成初步groups，再逐组做第二次负载、耦合与预计关键路径审查。split goal不单独分组，始终随所属top-level VC进入同一group；aggressive top-level VC按其全部split-goal思路的整体负担分组。至少记录top-level witness数、aggressive split-goal负担、预计helper family数量/复杂度、数学库、proof mode差异、程序阶段、需持续保留的上下文、helper owner和最终拆分/合并理由。对likely tail group判断final-result与transition/safety能否独立；能则拆组，不能则说明不可分割helper/context，并规划可提前提供的formal/public helper。通常以2到6个witnesses为合理区间；manual seed只控制final witness order，plan控制group/helper merge order。这些prose是human review/worker输入，不是controller acceptance parser的输入。
+本轮新证或实质修改的 helper 才进入 plan，并使用 owner suffix。只供本组时用 `local`；稳定、纯数学且预计未来 round 可用时用 `public`。无法从当前 VC discharge 的 premise 是 annotation/spec 缺口，不能用 helper 掩盖。
 
-最终`group_plan.json`只保留group id、逐VC proof mode、aggressive `split_strategies`、`LLM_pre_process`整体`strategy`、1到5的`estimated_difficulty`和带owner suffix/visibility的planned helpers。aggressive witness不写top-level `strategy`，`LLM_pre_process` witness不写`split_strategies`。plan不保存version、verified或dependency字段。所有groups必须能从正式seed与preparing时冻结的同一个public candidate snapshot独立证明：不可分割的proof-specific helper family决定合组；本轮producer晋升不会改变任何sibling输入。不得规划读取/import sibling `group_worker_lib`、等待pool更新、直接helper注入或重复证明大型helper family。
+策略完成后先按 invariant、proof pattern、resource transformation、refinement transition 和 helper family 初分组，再做负载、耦合与关键路径复查。split goal 不独立分组。通常每组 2 到 6 个 top-level VC；独立 final-result、特殊 route 或独立 helper family 可以单独成组。
 
-若启用了sealed-source reuse，每个group的`reuse_hints/<group-id>.md`只放固定五列comparison table，按全部helper → 全部aggressive split goals → 全部`LLM_pre_process` top-level VC排序。每个非from-scratch `Lines` 必须从首行到末行精确覆盖source中的完整helper/proof declaration，声明内部子范围即使含全部tactic也无效。helper direct引用accepted source group的完整proved declaration，不做partial；split/whole direct或partial引用compatible previous copied-manual proof block。proof direct还要求accepted source、完整route与current/previous semantic goal fingerprint一致；rename-only可direct。fingerprint变化只能partial并分析adapter/common-frame思路，或者from scratch。结构非法failed groups不出现；未accepted group不能提供direct。agent_output可总结判断，但不要复制整张table或previous proof。
+最终 plan 只保存 group id、proof mode、aggressive `split_strategies`、LLM `strategy`、`estimated_difficulty` 和 planned helpers。不要加入 controller metadata、acceptance、dependency 或 reuse 字段。
 
-split goal单独不可证只触发所属top-level VC的整体分析，不直接阻塞。只有整体分析后仍为`annotation-bug`或真正blocked的top-level VC，才不得输出可进入proving的完整plan；terminal report写相应status/blocker。`agent_output.md`同时保留具体分析；之后main agent读取它与JSON report，完成下一次annotation `agent_input.md`的blocker总结与反思，并把summary及原文件路径append到唯一annotation会话。
+split goal 不可证只触发父 VC 的整体分析。只有整体仍不可证时才交付 `blocked`；`agent_output.md` 必须保留具体失败形状和修正位置。

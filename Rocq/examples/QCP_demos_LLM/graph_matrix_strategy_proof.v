@@ -15,7 +15,7 @@ Local Open Scope string.
 Lemma graph_matrix_strategy1_correctness : graph_matrix_strategy1.
 Proof.
   LLM_pre_process ltac:(lia || nia).
-  sep_apply (@GraphMatrixFlat.graph_rep_elim n matrix_model p rows).
+  sep_apply (@GraphMatrixFlat.store_graph_elim n matrix_model p rows).
   cancel.
 Qed.
 
@@ -23,7 +23,7 @@ Lemma graph_matrix_strategy2_correctness : graph_matrix_strategy2.
 Proof.
   LLM_pre_process ltac:(lia || nia).
   subst size.
-  sep_apply (@GraphMatrixFlat.graph_rep_elim n matrix_model p rows).
+  sep_apply (@GraphMatrixFlat.store_graph_elim n matrix_model p rows).
   Intros_p Hmodel.
   prop_apply (IntArray2.full_Zlength p n n rows).
   Intros.
@@ -68,7 +68,7 @@ Lemma graph_matrix_strategy3_correctness : graph_matrix_strategy3.
 Proof.
   LLM_pre_process ltac:(lia || nia).
   subst size.
-  eapply GraphMatrixFlat.graph_rep_intro.
+  eapply GraphMatrixFlat.store_graph_intro.
   eauto.
 Qed.
 
@@ -76,7 +76,7 @@ Lemma graph_matrix_strategy4_correctness : graph_matrix_strategy4.
 Proof.
   LLM_pre_process ltac:(lia || nia).
   subst w.
-  sep_apply (@GraphMatrixFlat.graph_rep_elim size matrix_model p rows).
+  sep_apply (@GraphMatrixFlat.store_graph_elim size matrix_model p rows).
   Intros_p Hmodel.
   prop_apply (IntArray2.full_Zlength p size size rows).
   Intros.
@@ -127,7 +127,7 @@ Qed.
 Lemma graph_matrix_strategy5_correctness : graph_matrix_strategy5.
 Proof.
   LLM_pre_process ltac:(lia || nia).
-  sep_apply (@GraphMatrixPtr.graph_rep_elim n matrix_model p rows).
+  sep_apply (@GraphMatrixPtr.store_graph_elim n matrix_model p rows).
   cancel.
 Qed.
 
@@ -135,14 +135,14 @@ Lemma graph_matrix_strategy6_correctness : graph_matrix_strategy6.
 Proof.
   LLM_pre_process ltac:(lia || nia).
   subst size.
-  eapply GraphMatrixPtr.graph_rep_intro.
+  eapply GraphMatrixPtr.store_graph_intro.
   eauto.
 Qed.
 
 Lemma graph_matrix_strategy7_correctness : graph_matrix_strategy7.
 Proof.
   LLM_pre_process ltac:(lia || nia).
-  sep_apply (@GraphMatrixPtr.graph_rep_elim size matrix_model p rows).
+  sep_apply (@GraphMatrixPtr.store_graph_elim size matrix_model p rows).
   Intros_p Hmodel.
   prop_apply (IntPtrArray2.full_Zlength p size rows).
   Intros.
@@ -261,7 +261,7 @@ Proof.
   LLM_pre_process ltac:(lia || nia).
   sep_apply (@GraphMatrixPtr.row_rep_merge
     size matrix_model p i row_ptr rows).
-  unfold GraphMatrixPtr.graph_rep, GraphMatrixPtr.matrix_rep,
+  unfold GraphMatrixPtr.store_graph, GraphMatrixPtr.matrix_rep,
     GraphMatrixPtr.Core.matrix_rep.
   normalize.
   cancel.

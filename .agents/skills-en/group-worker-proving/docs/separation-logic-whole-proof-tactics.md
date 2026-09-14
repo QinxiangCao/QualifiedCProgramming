@@ -32,8 +32,8 @@ Qed.
 Hard requirements:
 
 - After `aggressive_pre_process.`, only `Goal_apply <corresponding split-goal lemma>.` is allowed, one per branch, with no other tactic. The top-level proof is a dispatch layer and nothing else.
-- Every split goal must open with `LLM_pre_process ltac:(...)` and spell out its closer, normally `ltac:(lia || nia || int_auto)`.
-- The alias `pre_process` is forbidden. It is exactly `LLM_pre_process ltac:(lia || nia || int_auto)` (`CommonAssertion.v`), but it hides the closer, so it must not appear in proof text.
+- Every split goal must open with `LLM_pre_process ltac:(...)` and spell out its closer, normally `ltac:(lia || int_auto)`.
+- The alias `pre_process` is forbidden. It is exactly `LLM_pre_process ltac:(lia || int_auto)` (`CommonAssertion.v`), but it hides the closer, so it must not appear in proof text.
 - Do not substitute a hand-written `unfold <goal_name>.` + `intros ...` for `LLM_pre_process`.
 
 The current symbolic-execution printer may produce the final VC as:
@@ -51,11 +51,11 @@ Generated `<vc_name>_split_goal_*` declarations are not disposable diagnostics:
 
 Never change the route locally. If the controller-verified route reveals a semantic gap in the current proof state, record that concrete state and block/return to annotation.
 
-## Proof reuse hint
+## Proof reuse
 
-If the group handoff provides `proof_reuse.md`, read the referenced previous current-run files and exact line ranges in the strict order: all helper rows, all aggressive split-goal rows, then all `LLM_pre_process` top-level rows. An aggressive top-level VC has no reuse row. Every non-from-scratch range covers the entire parser-recognized declaration rather than a few tactic lines inside it. A sealed source may be a failed proving round or a verified round made stale by annotation/freshness retry; structurally invalid failed groups have already been omitted. Helper/proof `direct copy` comes only from a previously controller-validated accepted group. Direct manual proof also requires matching generated-goal semantic fingerprints, permitting only a generated-declaration rename. An unaccepted source proof provides at most `partial proof-idea reuse`, and its helper must be rebuilt from scratch. Recheck every candidate against current binders, hypotheses, and proof mode. When a fingerprint changed, rebuild the adapter/frame described by the hint or start from scratch. The hint never permits modifying previous files, never replaces current debug/development/exact checks, and must not trigger a historical scan when the handoff says none.
+When the handoff names a previous proving round, search its group manuals/libraries by current witness/helper/predicate names and read only matching declaration/proof blocks. Do not read every full manual. When useful, write a `proof_reuse.md` item for an assigned current witness saying direct reuse, reuse with changes, or no reuse. Split-goal details may remain under the witness item; old and current group ids, witness names, and proof modes need not match. Missing or empty Markdown does not affect proof acceptance.
 
-When a split goal changes from `P |-- Q` to `P' |-- Q'`, first try wrapping the old proof in two adapters: prove `P |-- P'` to enter the old precondition, then prove `Q' |-- Q` to return to the new conclusion. If the change only adds, removes, or reorders a common spatial frame, use an explicit cancellation/frame transformation and discharge its side conditions. These are `partial proof-idea reuse`, not verbatim direct copy. The Reason is a design hint only; this group must prove the actual adapter. A single-witness group should use its helper/split components from the hint. A multi-witness group must not assume one group helper mechanically serves every witness.
+The optional note has no line numbers, declaration ranges, or machine decision. It may be missing or empty, and the controller neither parses nor checks it. Previous files are read-only, and every borrowed proof/helper must be rechecked against current binders, hypotheses, and proof mode. For a change from `P |-- Q` to `P' |-- Q'`, try explicit `P |-- P'` and `Q' |-- Q` adapters or a common-frame transformation, then prove those obligations in the current group.
 
 A typical aggressive route completes split declarations before the top-level declaration:
 
@@ -126,7 +126,7 @@ Use it to:
 - Export a side condition before `sep_apply_*`.
 - Expose a current spatial resource as a pure hypothesis for arithmetic or list reasoning.
 
-Instantiate every parameter and premise explicitly. If a premise cannot be proved from the current context, do not fabricate it; return to annotation or add a helper bearing the current group suffix. A sealed helper from the handoff's frozen snapshot may retain its historical suffix when its declaration/proof tokens match; a substantively modified version must use the current suffix.
+Instantiate every parameter and premise explicitly. If a premise cannot be proved from the current context, do not fabricate it; return to annotation or add a helper bearing the current group suffix. A helper from the handoff's frozen public snapshot may retain its historical suffix when its declaration/proof tokens match; a substantively modified version must use the current suffix.
 
 ## Disjunction and universal quantification
 
@@ -148,7 +148,7 @@ Before choosing `Left` or `Right`, inspect the branch fact, loop guard, or const
 A common flow is:
 
 ```coq
-LLM_pre_process ltac:(lia || nia || int_auto).
+LLM_pre_process ltac:(lia || int_auto).
 Intros ...
 Intros_p ...
 Exists ...
@@ -171,7 +171,7 @@ split_pures.
 - dump_pre_spatial. eapply some_case_helper__gid; eauto.
 ```
 
-For list equalities, first try existing `sublist`, `replace_Znth`, and `Zlength` lemmas. When a stable bridge is missing, put a new helper in `group_worker_lib` with the current group suffix. A public/reuse helper may retain its source suffix when its sealed declaration/proof tokens match.
+For list equalities, first try existing `sublist`, `replace_Znth`, and `Zlength` lemmas. When a stable bridge is missing, put a new helper in `group_worker_lib` with the current group suffix. A frozen public helper may retain its source suffix when its declaration/proof tokens match.
 
 ## Array and string goals
 
@@ -179,7 +179,7 @@ A typical array proof derives `Zlength` from `full`/`seg`, splits at the current
 
 A typical string proof unfolds `store_string`, `c_string`, or `string_length`, handles the terminating zero, and distinguishes a Rocq `string` from `list Z`.
 
-When a helper lemma is needed, add and prove it in `group_worker_lib`; never put it in `*_proof_manual.v`. At turn start, browse only the handoff's round-start frozen public snapshot and copy useful proved declarations with identical declaration/proof tokens plus necessary official imports into the local library. Never import or edit the snapshot/durable pool directly. A copied candidate may remain unused, but it must still pass this group's check.
+When a helper lemma is needed, first search the handoff's round-start frozen public snapshot by exact lemma/predicate name. Copy only a declaration actually used by this proof whose declaration/proof tokens match, plus required official imports. If none matches, add and prove a current-suffix helper in `group_worker_lib`. Never put helpers in `*_proof_manual.v`, pre-browse or copy candidates that may remain unused, or import/edit the snapshot or durable pool directly.
 
 ## Whole-proof skeleton
 
@@ -187,7 +187,7 @@ A common entailment proof is:
 
 ```coq
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Intros x y.
   Intros_p Hbounds.
   Exists witness1 witness2.

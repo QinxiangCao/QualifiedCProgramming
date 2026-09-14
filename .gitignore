@@ -80,8 +80,3 @@ worktrees/
 instructions/
 system-report/
 sessiontrans-js2html/
-
-# Skill regression tests live outside this Git worktree.
-.agents/skills/**/scripts/test/
-.agents/skills-en/**/scripts/test/
-.agents/skills-zh/**/scripts/test/

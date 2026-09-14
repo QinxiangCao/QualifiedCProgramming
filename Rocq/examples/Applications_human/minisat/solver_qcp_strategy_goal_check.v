@@ -1,0 +1,5 @@
+From SimpleC.EE.Applications_human.minisat Require Import solver_qcp_strategy_goal solver_qcp_strategy_proof.
+
+Module solver_qcp_Strategy_Correctness : solver_qcp_Strategy_Correct.
+  Include solver_qcp_strategy_proof.
+End solver_qcp_Strategy_Correctness.

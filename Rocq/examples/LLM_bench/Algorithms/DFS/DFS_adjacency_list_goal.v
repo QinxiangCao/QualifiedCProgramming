@@ -48,7 +48,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z)
   **  ((( &( "vertex_count" ) )) # Int  |-> vertex_count_pre)
   **  ((( &( "visited" ) )) # Ptr  |-> visited_pre)
   **  ((( &( "vertex" ) )) # Int  |-> vertex_pre)
-  **  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  **  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (IntArray.full visited_pre vertex_count_pre values )
 |--
   “ (1 <= INT_MAX) ” 
@@ -96,7 +96,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z)
 Definition dfs_adjacency_list_entail_wit_1 := 
 (
 forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z) (X_low_level_spec: (unit -> ((Z -> Prop) -> Prop))) (visited_set_low_level_spec: (Z -> Prop)) (rows_low_level_spec: (@list (@list Z))) (node_addrs_low_level_spec: (@list (@list Z))) (row_ptrs_low_level_spec: (@list Z)) (g_low_level_spec: G) (PreH1 : (vertex_count_pre = (ZSimpleGraph.vertex_count (g_low_level_spec)))) (PreH2 : (0 < vertex_count_pre)) (PreH3 : (vertex_count_pre < INT_MAX)) (PreH4 : (ZSimpleGraph.vertex_valid g_low_level_spec vertex_pre )) (PreH5 : (safeExec (eq (visited_set_low_level_spec)) (DFSAdjacencyList.dfs_program (g_low_level_spec) (vertex_pre)) X_low_level_spec )) ,
-  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyList.visited visited_pre g_low_level_spec visited_set_low_level_spec )
 |--
   EX (values: (@list Z)) ,
@@ -108,12 +108,12 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z)
   &&  “ (vertex_pre < vertex_count_pre) ” 
   &&  “ (safeExec (eq (visited_set_low_level_spec)) (DFSAdjacencyList.dfs_program (g_low_level_spec) (vertex_pre)) X_low_level_spec ) ” 
   &&  “ (ZSimpleGraph.visited_values g_low_level_spec values visited_set_low_level_spec ) ”
-  &&  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (IntArray.full visited_pre vertex_count_pre values )
 ) \/
 (
 forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z) (X_low_level_spec: (unit -> ((Z -> Prop) -> Prop))) (visited_set_low_level_spec: (Z -> Prop)) (rows_low_level_spec: (@list (@list Z))) (node_addrs_low_level_spec: (@list (@list Z))) (row_ptrs_low_level_spec: (@list Z)) (g_low_level_spec: G) (PreH1 : (vertex_count_pre = (ZSimpleGraph.vertex_count (g_low_level_spec)))) (PreH2 : (0 < vertex_count_pre)) (PreH3 : (vertex_count_pre < INT_MAX)) (PreH4 : (ZSimpleGraph.vertex_valid g_low_level_spec vertex_pre )) (PreH5 : (safeExec (eq (visited_set_low_level_spec)) (DFSAdjacencyList.dfs_program (g_low_level_spec) (vertex_pre)) X_low_level_spec )) ,
-  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyList.visited visited_pre g_low_level_spec visited_set_low_level_spec )
 |--
   EX (values: (@list Z)) ,
@@ -125,7 +125,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z)
   &&  “ (vertex_pre < vertex_count_pre) ” 
   &&  “ (safeExec (eq (visited_set_low_level_spec)) (DFSAdjacencyList.dfs_program (g_low_level_spec) (vertex_pre)) X_low_level_spec ) ” 
   &&  “ (ZSimpleGraph.visited_values g_low_level_spec values visited_set_low_level_spec ) ”
-  &&  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (IntArray.full visited_pre vertex_count_pre values )
 ).
 
@@ -133,7 +133,7 @@ Definition dfs_adjacency_list_entail_wit_2 :=
 (
 forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z) (X_low_level_spec: (unit -> ((Z -> Prop) -> Prop))) (visited_set_low_level_spec: (Z -> Prop)) (rows_low_level_spec: (@list (@list Z))) (node_addrs_low_level_spec: (@list (@list Z))) (row_ptrs_low_level_spec: (@list Z)) (g_low_level_spec: G) (values: (@list Z)) (PreH1 : (vertex_count_pre = (ZSimpleGraph.vertex_count (g_low_level_spec)))) (PreH2 : (0 < vertex_count_pre)) (PreH3 : (vertex_count_pre < INT_MAX)) (PreH4 : (ZSimpleGraph.vertex_valid g_low_level_spec vertex_pre )) (PreH5 : (0 <= vertex_pre)) (PreH6 : (vertex_pre < vertex_count_pre)) (PreH7 : (safeExec (eq (visited_set_low_level_spec)) (DFSAdjacencyList.dfs_program (g_low_level_spec) (vertex_pre)) X_low_level_spec )) (PreH8 : (ZSimpleGraph.visited_values g_low_level_spec values visited_set_low_level_spec )) ,
   (IntArray.full visited_pre vertex_count_pre (replace_Znth (vertex_pre) (1) (values)) )
-  **  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  **  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
 |--
   EX (entered_values: (@list Z))  (entered_set: (Z -> Prop)) ,
   “ (vertex_count_pre = (ZSimpleGraph.vertex_count (g_low_level_spec))) ” 
@@ -146,7 +146,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z)
   &&  “ (entered_set vertex_pre ) ” 
   &&  “ (safeExec (eq (entered_set)) (DFSAdjacencyList.dfs_loop (g_low_level_spec) (vertex_pre)) X_low_level_spec ) ” 
   &&  “ (ZSimpleGraph.visited_values g_low_level_spec entered_values entered_set ) ”
-  &&  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (IntArray.full visited_pre vertex_count_pre entered_values )
 ) \/
 (
@@ -164,7 +164,7 @@ forall (vertex_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> ((Z -> 
 Definition dfs_adjacency_list_entail_wit_3 := 
 (
 forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z) (X_low_level_spec: (unit -> ((Z -> Prop) -> Prop))) (visited_set_low_level_spec: (Z -> Prop)) (rows_low_level_spec: (@list (@list Z))) (node_addrs_low_level_spec: (@list (@list Z))) (row_ptrs_low_level_spec: (@list Z)) (g_low_level_spec: G) (entered_set: (Z -> Prop)) (entered_values: (@list Z)) (PreH1 : (vertex_count_pre = (ZSimpleGraph.vertex_count (g_low_level_spec)))) (PreH2 : (0 < vertex_count_pre)) (PreH3 : (vertex_count_pre < INT_MAX)) (PreH4 : (ZSimpleGraph.vertex_valid g_low_level_spec vertex_pre )) (PreH5 : (0 <= vertex_pre)) (PreH6 : (vertex_pre < vertex_count_pre)) (PreH7 : (DFSAdjacencyList.visited_extension visited_set_low_level_spec entered_set )) (PreH8 : (entered_set vertex_pre )) (PreH9 : (safeExec (eq (entered_set)) (DFSAdjacencyList.dfs_loop (g_low_level_spec) (vertex_pre)) X_low_level_spec )) (PreH10 : (ZSimpleGraph.visited_values g_low_level_spec entered_values entered_set )) ,
-  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (IntArray.full visited_pre vertex_count_pre entered_values )
 |--
   EX (split_values: (@list Z))  (split_set: (Z -> Prop))  (row: (@list Z))  (row_node_addrs: (@list Z))  (row_head: Z) ,
@@ -188,7 +188,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z)
 ) \/
 (
 forall (vertex_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z) (X_low_level_spec: (unit -> ((Z -> Prop) -> Prop))) (visited_set_low_level_spec: (Z -> Prop)) (rows_low_level_spec: (@list (@list Z))) (node_addrs_low_level_spec: (@list (@list Z))) (row_ptrs_low_level_spec: (@list Z)) (g_low_level_spec: G) (entered_set: (Z -> Prop)) (entered_values: (@list Z)) (PreH1 : (vertex_count_pre = (ZSimpleGraph.vertex_count (g_low_level_spec)))) (PreH2 : (0 < vertex_count_pre)) (PreH3 : (vertex_count_pre < INT_MAX)) (PreH4 : (ZSimpleGraph.vertex_valid g_low_level_spec vertex_pre )) (PreH5 : (0 <= vertex_pre)) (PreH6 : (vertex_pre < vertex_count_pre)) (PreH7 : (DFSAdjacencyList.visited_extension visited_set_low_level_spec entered_set )) (PreH8 : (entered_set vertex_pre )) (PreH9 : (safeExec (eq (entered_set)) (DFSAdjacencyList.dfs_loop (g_low_level_spec) (vertex_pre)) X_low_level_spec )) (PreH10 : (ZSimpleGraph.visited_values g_low_level_spec entered_values entered_set )) ,
-  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
 |--
   EX (split_set: (Z -> Prop)) ,
   “ (vertex_count_pre = (ZSimpleGraph.vertex_count (g_low_level_spec))) ” 
@@ -448,7 +448,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z)
   &&  “ (call_set vertex_pre ) ” 
   &&  “ (DFSAdjacencyList.all_visited done call_set ) ” 
   &&  “ (safeExec (eq (call_set)) (bind ((DFSAdjacencyList.dfs_program (g_low_level_spec) (neighbor))) ((DFSAdjacencyList.dfs_continue (g_low_level_spec) (vertex_pre)))) X_low_level_spec ) ”
-  &&  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyList.visited visited_pre g_low_level_spec call_set )
 ) \/
 (
@@ -480,14 +480,14 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z)
   &&  “ (call_set vertex_pre ) ” 
   &&  “ (DFSAdjacencyList.all_visited done call_set ) ” 
   &&  “ (safeExec (eq (call_set)) (bind ((DFSAdjacencyList.dfs_program (g_low_level_spec) (neighbor))) ((DFSAdjacencyList.dfs_continue (g_low_level_spec) (vertex_pre)))) X_low_level_spec ) ”
-  &&  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyList.visited visited_pre g_low_level_spec call_set )
 ).
 
 Definition dfs_adjacency_list_entail_wit_8 := 
 (
 forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z) (X_low_level_spec: (unit -> ((Z -> Prop) -> Prop))) (visited_set_low_level_spec: (Z -> Prop)) (rows_low_level_spec: (@list (@list Z))) (node_addrs_low_level_spec: (@list (@list Z))) (row_ptrs_low_level_spec: (@list Z)) (g_low_level_spec: G) (edge_value: Z) (row_head_2: Z) (row_2: (@list Z)) (row_node_addrs_2: (@list Z)) (done_addrs_2: (@list Z)) (rest_addrs_2: (@list Z)) (done_2: (@list Z)) (rest_2: (@list Z)) (neighbor: Z) (call_set: (Z -> Prop)) (bind_visited_set: (Z -> Prop)) (PreH1 : (DFSAdjacencyList.visited_extension call_set bind_visited_set )) (PreH2 : (bind_visited_set neighbor )) (PreH3 : (safeExec (eq (bind_visited_set)) (applyf ((DFSAdjacencyList.dfs_continue (g_low_level_spec) (vertex_pre))) (tt)) X_low_level_spec )) (PreH4 : (vertex_count_pre = (ZSimpleGraph.vertex_count (g_low_level_spec)))) (PreH5 : (0 < vertex_count_pre)) (PreH6 : (vertex_count_pre < INT_MAX)) (PreH7 : (ZSimpleGraph.vertex_valid g_low_level_spec vertex_pre )) (PreH8 : (ZSimpleGraph.vertex_valid g_low_level_spec neighbor )) (PreH9 : (0 <= vertex_pre)) (PreH10 : (vertex_pre < vertex_count_pre)) (PreH11 : (0 <= neighbor)) (PreH12 : (neighbor < vertex_count_pre)) (PreH13 : (edge_value <> 0)) (PreH14 : (row_head_2 = (Znth (vertex_pre) (row_ptrs_low_level_spec) (0)))) (PreH15 : (row_node_addrs_2 = (Znth (vertex_pre) (node_addrs_low_level_spec) ((@nil Z))))) (PreH16 : (row_2 = (Znth (vertex_pre) (rows_low_level_spec) ((@nil Z))))) (PreH17 : (row_node_addrs_2 = (app (done_addrs_2) ((cons (edge_value) (rest_addrs_2)))))) (PreH18 : (row_2 = (app (done_2) ((cons (neighbor) (rest_2)))))) (PreH19 : ((Zlength (done_addrs_2)) = (Zlength (done_2)))) (PreH20 : (DFSAdjacencyList.visited_extension visited_set_low_level_spec call_set )) (PreH21 : (call_set vertex_pre )) (PreH22 : (DFSAdjacencyList.all_visited done_2 call_set )) ,
-  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyList.visited visited_pre g_low_level_spec bind_visited_set )
 |--
   EX (next: Z)  (after_values: (@list Z))  (after_set: (Z -> Prop))  (done: (@list Z))  (rest: (@list Z))  (done_addrs: (@list Z))  (rest_addrs: (@list Z))  (row: (@list Z))  (row_node_addrs: (@list Z))  (row_head: Z) ,
@@ -522,7 +522,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z)
 ) \/
 (
 forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z) (X_low_level_spec: (unit -> ((Z -> Prop) -> Prop))) (visited_set_low_level_spec: (Z -> Prop)) (rows_low_level_spec: (@list (@list Z))) (node_addrs_low_level_spec: (@list (@list Z))) (row_ptrs_low_level_spec: (@list Z)) (g_low_level_spec: G) (edge_value: Z) (row_head_2: Z) (row_2: (@list Z)) (row_node_addrs_2: (@list Z)) (done_addrs_2: (@list Z)) (rest_addrs_2: (@list Z)) (done_2: (@list Z)) (rest_2: (@list Z)) (neighbor: Z) (call_set: (Z -> Prop)) (bind_visited_set: (Z -> Prop)) (PreH1 : (DFSAdjacencyList.visited_extension call_set bind_visited_set )) (PreH2 : (bind_visited_set neighbor )) (PreH3 : (safeExec (eq (bind_visited_set)) (applyf ((DFSAdjacencyList.dfs_continue (g_low_level_spec) (vertex_pre))) (tt)) X_low_level_spec )) (PreH4 : (vertex_count_pre = (ZSimpleGraph.vertex_count (g_low_level_spec)))) (PreH5 : (0 < vertex_count_pre)) (PreH6 : (vertex_count_pre < INT_MAX)) (PreH7 : (ZSimpleGraph.vertex_valid g_low_level_spec vertex_pre )) (PreH8 : (ZSimpleGraph.vertex_valid g_low_level_spec neighbor )) (PreH9 : (0 <= vertex_pre)) (PreH10 : (vertex_pre < vertex_count_pre)) (PreH11 : (0 <= neighbor)) (PreH12 : (neighbor < vertex_count_pre)) (PreH13 : (edge_value <> 0)) (PreH14 : (row_head_2 = (Znth (vertex_pre) (row_ptrs_low_level_spec) (0)))) (PreH15 : (row_node_addrs_2 = (Znth (vertex_pre) (node_addrs_low_level_spec) ((@nil Z))))) (PreH16 : (row_2 = (Znth (vertex_pre) (rows_low_level_spec) ((@nil Z))))) (PreH17 : (row_node_addrs_2 = (app (done_addrs_2) ((cons (edge_value) (rest_addrs_2)))))) (PreH18 : (row_2 = (app (done_2) ((cons (neighbor) (rest_2)))))) (PreH19 : ((Zlength (done_addrs_2)) = (Zlength (done_2)))) (PreH20 : (DFSAdjacencyList.visited_extension visited_set_low_level_spec call_set )) (PreH21 : (call_set vertex_pre )) (PreH22 : (DFSAdjacencyList.all_visited done_2 call_set )) ,
-  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyList.visited visited_pre g_low_level_spec bind_visited_set )
 |--
   EX (next: Z)  (after_values: (@list Z))  (after_set: (Z -> Prop))  (done: (@list Z))  (rest: (@list Z))  (done_addrs: (@list Z))  (rest_addrs: (@list Z)) ,
@@ -782,7 +782,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z)
   &&  “ (visited_set_out vertex_pre ) ” 
   &&  “ (safeExec (eq (visited_set_out)) (return (tt)) X_low_level_spec ) ” 
   &&  “ (edge_value = 0) ”
-  &&  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyList.visited visited_pre g_low_level_spec visited_set_out )
 ) \/
 (
@@ -798,21 +798,21 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z)
   &&  “ (visited_set_out vertex_pre ) ” 
   &&  “ (safeExec (eq (visited_set_out)) (return (tt)) X_low_level_spec ) ” 
   &&  “ (edge_value = 0) ”
-  &&  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyList.visited visited_pre g_low_level_spec visited_set_out )
 ).
 
 Definition dfs_adjacency_list_return_wit_1 := 
 (
 forall (vertex_pre: Z) (visited_pre: Z) (adjacency_pre: Z) (X_low_level_spec: (unit -> ((Z -> Prop) -> Prop))) (visited_set_low_level_spec: (Z -> Prop)) (rows_low_level_spec: (@list (@list Z))) (node_addrs_low_level_spec: (@list (@list Z))) (row_ptrs_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_set_out: (Z -> Prop)) (edge: Z) (PreH1 : (DFSAdjacencyList.visited_extension visited_set_low_level_spec visited_set_out )) (PreH2 : (visited_set_out vertex_pre )) (PreH3 : (safeExec (eq (visited_set_out)) (return (tt)) X_low_level_spec )) (PreH4 : (edge = 0)) ,
-  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyList.visited visited_pre g_low_level_spec visited_set_out )
 |--
   EX (low_visited_set: (Z -> Prop)) ,
   “ (DFSAdjacencyList.visited_extension visited_set_low_level_spec low_visited_set ) ” 
   &&  “ (low_visited_set vertex_pre ) ” 
   &&  “ (safeExec (eq (low_visited_set)) (return (tt)) X_low_level_spec ) ”
-  &&  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyList.visited visited_pre g_low_level_spec low_visited_set )
 ) \/
 (
@@ -826,7 +826,7 @@ forall (vertex_pre: Z) (X_low_level_spec: (unit -> ((Z -> Prop) -> Prop))) (visi
 
 Definition dfs_adjacency_list_partial_solve_wit_1 := 
 forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z) (X_low_level_spec: (unit -> ((Z -> Prop) -> Prop))) (visited_set_low_level_spec: (Z -> Prop)) (rows_low_level_spec: (@list (@list Z))) (node_addrs_low_level_spec: (@list (@list Z))) (row_ptrs_low_level_spec: (@list Z)) (g_low_level_spec: G) (values: (@list Z)) (PreH1 : (vertex_count_pre = (ZSimpleGraph.vertex_count (g_low_level_spec)))) (PreH2 : (0 < vertex_count_pre)) (PreH3 : (vertex_count_pre < INT_MAX)) (PreH4 : (ZSimpleGraph.vertex_valid g_low_level_spec vertex_pre )) (PreH5 : (0 <= vertex_pre)) (PreH6 : (vertex_pre < vertex_count_pre)) (PreH7 : (safeExec (eq (visited_set_low_level_spec)) (DFSAdjacencyList.dfs_program (g_low_level_spec) (vertex_pre)) X_low_level_spec )) (PreH8 : (ZSimpleGraph.visited_values g_low_level_spec values visited_set_low_level_spec )) ,
-  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (IntArray.full visited_pre vertex_count_pre values )
 |--
   “ (vertex_count_pre = (ZSimpleGraph.vertex_count (g_low_level_spec))) ” 
@@ -839,7 +839,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z)
   &&  “ (ZSimpleGraph.visited_values g_low_level_spec values visited_set_low_level_spec ) ”
   &&  (((visited_pre + (vertex_pre * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i visited_pre vertex_pre 0 vertex_count_pre values )
-  **  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  **  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
 .
 
 Definition dfs_adjacency_list_partial_solve_wit_2_pure := 
@@ -850,7 +850,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z)
   **  ((( &( "vertex" ) )) # Int  |-> vertex_pre)
   **  ((( &( "neighbor" ) )) # Int  |-> neighbor)
   **  ((( &( "edge" ) )) # Ptr  |-> edge_value)
-  **  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  **  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyList.visited visited_pre g_low_level_spec call_set )
 |--
   “ (vertex_count_pre = (ZSimpleGraph.vertex_count (g_low_level_spec))) ” 
@@ -862,7 +862,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z)
 
 Definition dfs_adjacency_list_partial_solve_wit_2_aux := 
 forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z) (X_low_level_spec: (unit -> ((Z -> Prop) -> Prop))) (visited_set_low_level_spec: (Z -> Prop)) (rows_low_level_spec: (@list (@list Z))) (node_addrs_low_level_spec: (@list (@list Z))) (row_ptrs_low_level_spec: (@list Z)) (g_low_level_spec: G) (edge_value: Z) (row_head: Z) (row: (@list Z)) (row_node_addrs: (@list Z)) (done_addrs: (@list Z)) (rest_addrs: (@list Z)) (done: (@list Z)) (rest: (@list Z)) (neighbor: Z) (call_set: (Z -> Prop)) (PreH1 : (vertex_count_pre = (ZSimpleGraph.vertex_count (g_low_level_spec)))) (PreH2 : (0 < vertex_count_pre)) (PreH3 : (vertex_count_pre < INT_MAX)) (PreH4 : (ZSimpleGraph.vertex_valid g_low_level_spec vertex_pre )) (PreH5 : (ZSimpleGraph.vertex_valid g_low_level_spec neighbor )) (PreH6 : (0 <= vertex_pre)) (PreH7 : (vertex_pre < vertex_count_pre)) (PreH8 : (0 <= neighbor)) (PreH9 : (neighbor < vertex_count_pre)) (PreH10 : (edge_value <> 0)) (PreH11 : (row_head = (Znth (vertex_pre) (row_ptrs_low_level_spec) (0)))) (PreH12 : (row_node_addrs = (Znth (vertex_pre) (node_addrs_low_level_spec) ((@nil Z))))) (PreH13 : (row = (Znth (vertex_pre) (rows_low_level_spec) ((@nil Z))))) (PreH14 : (row_node_addrs = (app (done_addrs) ((cons (edge_value) (rest_addrs)))))) (PreH15 : (row = (app (done) ((cons (neighbor) (rest)))))) (PreH16 : ((Zlength (done_addrs)) = (Zlength (done)))) (PreH17 : (DFSAdjacencyList.visited_extension visited_set_low_level_spec call_set )) (PreH18 : (call_set vertex_pre )) (PreH19 : (DFSAdjacencyList.all_visited done call_set )) (PreH20 : (safeExec (eq (call_set)) (bind ((DFSAdjacencyList.dfs_program (g_low_level_spec) (neighbor))) ((DFSAdjacencyList.dfs_continue (g_low_level_spec) (vertex_pre)))) X_low_level_spec )) ,
-  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyList.visited visited_pre g_low_level_spec call_set )
 |--
   “ (vertex_count_pre = (ZSimpleGraph.vertex_count (g_low_level_spec))) ” 
@@ -890,7 +890,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z)
   &&  “ (call_set vertex_pre ) ” 
   &&  “ (DFSAdjacencyList.all_visited done call_set ) ” 
   &&  “ (safeExec (eq (call_set)) (bind ((DFSAdjacencyList.dfs_program (g_low_level_spec) (neighbor))) ((DFSAdjacencyList.dfs_continue (g_low_level_spec) (vertex_pre)))) X_low_level_spec ) ”
-  &&  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyList.visited visited_pre g_low_level_spec call_set )
 .
 
@@ -904,7 +904,7 @@ forall (vertex_pre: Z) (visited_pre: Z) (vertex_count_pre: Z) (adjacency_pre: Z)
   &&  “ (vertex_count_pre < INT_MAX) ” 
   &&  “ (ZSimpleGraph.vertex_valid g_bind_spec vertex_pre ) ” 
   &&  “ (safeExec (eq (visited_set_bind_spec)) (bind ((DFSAdjacencyList.dfs_program (g_bind_spec) (vertex_pre))) (c_bind_spec)) X_bind_spec ) ”
-  &&  (DFSAdjacencyList.graph_rep adjacency_pre g_bind_spec row_ptrs_bind_spec node_addrs_bind_spec rows_bind_spec )
+  &&  (DFSAdjacencyList.store_graph adjacency_pre g_bind_spec row_ptrs_bind_spec node_addrs_bind_spec rows_bind_spec )
   **  (DFSAdjacencyList.visited visited_pre g_bind_spec visited_set_bind_spec )
 |--
 EX (g_low_level_spec: G) (row_ptrs_low_level_spec: (@list Z)) (node_addrs_low_level_spec: (@list (@list Z))) (rows_low_level_spec: (@list (@list Z))) (visited_set_low_level_spec: (Z -> Prop)) (X_low_level_spec: (unit -> ((Z -> Prop) -> Prop))) ,
@@ -913,21 +913,21 @@ EX (g_low_level_spec: G) (row_ptrs_low_level_spec: (@list Z)) (node_addrs_low_le
   &&  “ (vertex_count_pre < INT_MAX) ” 
   &&  “ (ZSimpleGraph.vertex_valid g_low_level_spec vertex_pre ) ” 
   &&  “ (safeExec (eq (visited_set_low_level_spec)) (DFSAdjacencyList.dfs_program (g_low_level_spec) (vertex_pre)) X_low_level_spec ) ”
-  &&  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyList.visited visited_pre g_low_level_spec visited_set_low_level_spec ))
   **
   ((EX low_visited_set,
   “ (DFSAdjacencyList.visited_extension visited_set_low_level_spec low_visited_set ) ” 
   &&  “ (low_visited_set vertex_pre ) ” 
   &&  “ (safeExec (eq (low_visited_set)) (return (tt)) X_low_level_spec ) ”
-  &&  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyList.visited visited_pre g_low_level_spec low_visited_set ))
   -*
   (EX bind_visited_set,
   “ (DFSAdjacencyList.visited_extension visited_set_bind_spec bind_visited_set ) ” 
   &&  “ (bind_visited_set vertex_pre ) ” 
   &&  “ (safeExec (eq (bind_visited_set)) (applyf (c_bind_spec) (tt)) X_bind_spec ) ”
-  &&  (DFSAdjacencyList.graph_rep adjacency_pre g_bind_spec row_ptrs_bind_spec node_addrs_bind_spec rows_bind_spec )
+  &&  (DFSAdjacencyList.store_graph adjacency_pre g_bind_spec row_ptrs_bind_spec node_addrs_bind_spec rows_bind_spec )
   **  (DFSAdjacencyList.visited visited_pre g_bind_spec bind_visited_set )))
 .
 
@@ -947,14 +947,14 @@ EX (g_low_level_spec: G) (row_ptrs_low_level_spec: (@list Z)) (node_addrs_low_le
   &&  “ (vertex_count_pre < INT_MAX) ” 
   &&  “ (ZSimpleGraph.vertex_valid g_low_level_spec vertex_pre ) ” 
   &&  “ (safeExec (eq (visited_set_low_level_spec)) (DFSAdjacencyList.dfs_program (g_low_level_spec) (vertex_pre)) X_low_level_spec ) ”
-  &&  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyList.visited visited_pre g_low_level_spec visited_set_low_level_spec ))
   **
   ((EX low_visited_set,
   “ (DFSAdjacencyList.visited_extension visited_set_low_level_spec low_visited_set ) ” 
   &&  “ (low_visited_set vertex_pre ) ” 
   &&  “ (safeExec (eq (low_visited_set)) (return (tt)) X_low_level_spec ) ”
-  &&  (DFSAdjacencyList.graph_rep adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
+  &&  (DFSAdjacencyList.store_graph adjacency_pre g_low_level_spec row_ptrs_low_level_spec node_addrs_low_level_spec rows_low_level_spec )
   **  (DFSAdjacencyList.visited visited_pre g_low_level_spec low_visited_set ))
   -*
   (EX high_visited_set,

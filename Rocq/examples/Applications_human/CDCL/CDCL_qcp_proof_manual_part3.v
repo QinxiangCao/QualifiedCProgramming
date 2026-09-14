@@ -71,7 +71,7 @@ Proof.
     destruct Hold_summary as [Htrue0 [_ Hstate0]].
     rewrite <- Hcur_state in Hstate0.
     unfold expected_clause_state in Hstate0.
-    pose proof (clause_true_count_nonnegative_base__bcp_unit_to_assignment
+    pose proof (clause_true_count_nonnegative_base
       (assignment (cdcl_view_of_snapshot n snap ranks logical_dl))
       (Znth i_2
         (installed_clauses (cdcl_view_of_snapshot n snap ranks logical_dl))
@@ -190,7 +190,7 @@ Proof.
     destruct Hold_summary as [Htrue0 [_ Hstate0]].
     rewrite <- Hcur_state in Hstate0.
     unfold expected_clause_state in Hstate0.
-    pose proof (clause_true_count_nonnegative_base__bcp_unit_to_assignment
+    pose proof (clause_true_count_nonnegative_base
       (assignment (cdcl_view_of_snapshot n snap ranks logical_dl))
       (Znth i_2
         (installed_clauses (cdcl_view_of_snapshot n snap ranks logical_dl))
@@ -409,17 +409,18 @@ Proof.
     (replace_Znth i_2 (Znth i_2 cur_unassigned_2 0 - 1) cur_unassigned_2)
     value_cell_2 b_2 new_snap_2 ranks1_2
     (replace_Znth i_2 (current_state + 1) cur_states_2) (i_2 + 1).
-  unfold solver_explicit_state.
-  Exists v_data cl_data.
-  unfold sat_header_rep, var_header_rep, clause_header_rep,
-    clause_arrays_explicit_rep, clause_summaries_explicit_rep,
-    installed_rows_capacity_rep.
   unfold bcp_clause_scan, bcp_ready.
   try poly_store_unfold.
   asrt_simpl_pure.
   sepcon_assoc_change.
   andp_cancel; try simpl_entail.
-  - pose proof (installed_row_focus_merge
+  - unfold solver_explicit_state.
+    Exists v_data cl_data.
+    unfold sat_header_rep, var_header_rep, clause_header_rep,
+      clause_arrays_explicit_rep, clause_summaries_explicit_rep,
+      installed_rows_capacity_rep.
+    try poly_store_unfold.
+    pose proof (installed_row_focus_merge
       row_table live i_2 row_ptr (snap_rows snap) ltac:(lia)) as Hmerge.
     unfold installed_row_focus_rep in Hmerge.
     unfold StorePtrAsElement.storeA in Hmerge.
@@ -606,17 +607,18 @@ Proof.
   Right.
   Exists cur_true_2 cur_unassigned_2 value_cell_2 b_2 new_snap_2 ranks1_2
     cur_states_2 (i_2 + 1).
-  unfold solver_explicit_state.
-  Exists v_data cl_data.
-  unfold sat_header_rep, var_header_rep, clause_header_rep,
-    clause_arrays_explicit_rep, clause_summaries_explicit_rep,
-    installed_rows_capacity_rep.
   unfold bcp_clause_scan, bcp_ready.
   try poly_store_unfold.
   asrt_simpl_pure.
   sepcon_assoc_change.
   andp_cancel; try simpl_entail.
-  - pose proof (installed_row_focus_merge
+  - unfold solver_explicit_state.
+    Exists v_data cl_data.
+    unfold sat_header_rep, var_header_rep, clause_header_rep,
+      clause_arrays_explicit_rep, clause_summaries_explicit_rep,
+      installed_rows_capacity_rep.
+    try poly_store_unfold.
+    pose proof (installed_row_focus_merge
       row_table live i_2 row_ptr (snap_rows snap) ltac:(lia)) as Hmerge.
     unfold installed_row_focus_rep in Hmerge.
     unfold StorePtrAsElement.storeA in Hmerge.
@@ -736,7 +738,7 @@ Proof.
   sep_apply (IntArray.full_to_seg unassigned live cur_unassigned).
   unfold IntArray.seg.
   change (sizeof (INT)) with 4.
-  entailer!.
+  cdcl_entailer.
 Qed.
 
 Lemma proof_of_bcp_entail_wit_11_1 : bcp_entail_wit_11_1.
@@ -829,7 +831,7 @@ Proof.
   sep_apply (IntArray.full_to_seg unassigned live cur_unassigned).
   unfold IntArray.seg.
   change (sizeof (INT)) with 4.
-  entailer!.
+  cdcl_entailer.
 Qed.
 
 Lemma proof_of_bcp_entail_wit_12_2 : bcp_entail_wit_12_2.
@@ -887,7 +889,7 @@ Proof.
   sep_apply (IntArray.full_to_seg unassigned live cur_unassigned).
   unfold IntArray.seg.
   change (sizeof (INT)) with 4.
-  entailer!.
+  cdcl_entailer.
 Qed.
 
 Lemma proof_of_bcp_entail_wit_12_1 : bcp_entail_wit_12_1.
@@ -945,6 +947,6 @@ Proof.
   sep_apply (IntArray.full_to_seg unassigned live cur_unassigned).
   unfold IntArray.seg.
   change (sizeof (INT)) with 4.
-  entailer!.
+  cdcl_entailer.
 Qed.
 

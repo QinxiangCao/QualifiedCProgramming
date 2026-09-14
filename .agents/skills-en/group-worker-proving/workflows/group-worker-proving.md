@@ -11,10 +11,10 @@ Before starting formal work, read the following in full and in this order:
 1. `group-worker-proving/SKILL.md`, this flow, the command rules, and the forbidden-lemma rules.
 2. The current `group_worker_input.md` specified by `Claim message`.
 3. The proof-knowledge documents selected by the target-based navigation in `SKILL.md`.
-4. Read the round-start `public_helper_snapshot.txt`.
-5. If `proof_reuse.md` exists, read its helper, split-goal, and top-level VC rows in that order.
+4. Search the round-start `public_helper_snapshot.txt` by helper/predicate names needed by this group and read only matching declarations; do not read the entire catalogue.
+5. If the handoff names a previous proving round, search and read relevant old proof/helper blocks under section 5 and optionally write `proof_reuse.md` before proving.
 
-The current `group_worker_input.md` is this worker's sole scope source. It must provide the owner/group identity, fixed work and report paths, assigned witnesses, each witness's `proof_mode` and applicable split goals, the copied manual, optional `group_worker_lib`, helper suffix, public-snapshot/reuse hints, and executable commands. Use only its exact paths, names, assignments, and argv; do not infer them from a C stem, directory name, or another file.
+The current `group_worker_input.md` is this worker's sole scope source. It must provide the owner/group identity, fixed work and report paths, assigned witnesses, each witness's `proof_mode` and applicable split goals, the copied manual, optional `group_worker_lib`, helper suffix, public snapshot, optional previous proving round, and executable commands. Use only its exact paths, names, assignments, and argv.
 
 Do not read the orchestrator or another role's skill, rely on a parent transcript, or read `controller_state.json`, `group_workers_manifest.json`, or sibling output to fill gaps in the handoff. If a handoff field required to perform this group's work is missing or contradictory, report the precise handoff location under the existing blocker contract; do not search outside scope or alter the plan yourself.
 
@@ -29,6 +29,7 @@ The worker may modify:
 - the exact debug script named by the handoff;
 - `group_worker_report.json`;
 - optional `group_worker_output.md`.
+- an optional short `proof_reuse.md` note when the handoff provides its path.
 
 These remain read-only:
 
@@ -36,7 +37,7 @@ These remain read-only:
 - main-root `formal_case_lib`;
 - generated files;
 - `public_helper_snapshot.txt`;
-- previous sources referenced by `proof_reuse.md`;
+- every file under the previous proving round named by the handoff;
 - all sibling-group files.
 
 Do not modify the main-root formal manual/library, a shared or differently named library, generated files, the durable public pool, a plan/manifest/state file, or a sibling file. If `group_worker_lib` is missing or absent from the handoff, do not create it, add a helper/import, or modify any shared library instead.
@@ -83,45 +84,35 @@ Naming rules:
 
 - Every new, rewritten, or renamed helper ends with `helper_namespace.suffix`.
 - A planned helper uses the exact name in the handoff.
-- A historical or other-group suffix may remain only when declaration and proof tokens are identical to a frozen snapshot block or an accepted helper reuse row.
+- A historical or other-group suffix may remain only when declaration and proof tokens are identical to a frozen public-snapshot block.
 - A material change to an existing helper creates a new current-group helper and therefore uses the current suffix.
 
 Add only project imports genuinely required by the proof and already covered by the accepted dependency snapshot, or imports from the installed Rocq standard library. Do not modify seed declarations; add a generated/current/sibling import; edit the durable pool; or import the snapshot as a `.v` library. A project import outside the snapshot cannot be prepared dynamically for this group; record the exact requirement and return to annotation as directed by the controller. The worker does not inspect the dependency graph, invoke Dune, Make, or `coqdep`, or widen a build target.
 
-`public_helper_snapshot.txt` is the read-only round-start catalog. A token-identical proved helper may be copied from it into `group_worker_lib`. A helper promoted to `public_helper_lemma_lib.v` later by another group in this round is not visible to this group.
+`public_helper_snapshot.txt` is the read-only round-start catalog. Search it by helper/predicate names missing from the current proof and read only candidate declarations. A token-identical proved helper may be copied into `group_worker_lib`; do not read or bulk-copy the whole snapshot in case it becomes useful later. A helper promoted to `public_helper_lemma_lib.v` later by another group in this round is not visible to this group.
 
 For a planned helper with `visibility: local`, the candidate remains local to this group. For `visibility: public`, the controller still appends it and the required local-helper dependency closure to the durable pool only after this group passes validation. The worker neither publishes a file to siblings, treats a public helper as a same-round cross-group dependency, nor waits for a pool update.
 
 If a later merge sees legal helpers with the same name but different tokens, the controller selects a canonical block and renames other variants only in the merged candidate, rewriting this group's references as needed. A worker does not anticipate the merge result or read or edit another group's names.
 
-## 5. Use of reuse hints
+## 5. Simple reuse analysis before proving
 
-`proof_reuse.md` exists only when the controller binds the immediately preceding sealed proving source. Read rows in this fixed order:
+When the handoff names a previous proving round, search that round's group manuals/libraries by current witness, split-goal, planned-helper, or key-predicate names, then read matching declaration/proof blocks. Do not read every highly duplicated full manual. Do not scan an older round, Git history, or another run. Previous files are read-only. Accepted and blocked old groups may both be useful; current and previous group ids, witness names, and proof modes need not match.
 
-1. all helper rows;
-2. all aggressive split rows;
-3. all `LLM_pre_process` top-level rows.
+When recording reuse decisions, write a short Markdown item for a relevant assigned current witness at the handoff's `proof_reuse.md` path. State whether an old proof/helper is reused directly, reused with changes, or not reused. Split-goal details may remain under that witness item; there is no fixed category order. Use no line numbers, declaration ranges, machine classifications, digests, or old controller metadata.
 
-An aggressive top-level VC has no independent reuse row. Complete it from its current split goals under the `Goal_apply` rule above.
+Do not read old files unrelated to the current assignment merely to claim exhaustive review. The note may be missing or empty; the controller does not parse it or use it to block or accept a proof. The current assignment, manual, proof mode, commands, and validation remain authoritative. Every borrowed proof/helper must be adapted to current binders and hypotheses and pass current group checks. A copied helper outside the frozen public snapshot uses the current group suffix.
 
-Every non-`from scratch` line range must cover a complete declaration:
-
-- Helper `direct copy` and proof `direct copy` come only from a previously accepted group.
-- Direct proof reuse has also passed the generated-goal semantic-fingerprint comparison; a generated declaration rename alone may still be direct.
-- `partial proof-idea reuse` conveys only an idea. The worker must prove any `P |-- P'`, `Q' |-- Q` adapter or common-frame transformation.
-- A proof from an unaccepted failed or blocked group is at most partial, and its helpers are always from scratch.
-
-All previous files are read-only. A reuse hint cannot change this group's assignment, `proof_mode`, commands, or validation requirements.
 
 ## 6. Proof loop
 
-1. Read the current target and available helpers.
+1. Read the current target and available helpers; when a previous proving round is named, search under section 5 and optionally record `proof_reuse.md`.
 2. When useful, write the exact handoff-designated debug script and run the rendered `coq-debug`.
 3. Prefer `group-development` for fast feedback; temporary `Abort.` is allowed only in this group's editable proof spans.
 4. Repair assigned proofs, and repair `group_worker_lib` only when it exists and a change is needed.
 5. Run exact `group-check` when useful; it requires complete proofs and legal routes for this group.
 6. Before delivery, check the assignment/mode, helper suffix/import, write boundary, and forbidden rules. Do not leave `Admitted.`, an extra `Axiom`, or a forbidden lemma; a terminal copy blocked by an annotation gap must not fake progress through any of them either.
-7. Write the final report. An `annotation-gap` terminal result must also write `group_worker_output.md`; that note is optional for other terminal results. Then stop modifying the report, manual, and library.
+7. Write the final report. An `annotation-gap` terminal result must also write `group_worker_output.md`; that note is optional for other terminal results. Then stop modifying reports, Markdown, the manual, and the library.
 8. Return the result to the main agent. The main agent invokes the `finalize-delivery` bound by the claim/handoff verbatim; the controller seals the report, manual, and library when applicable, then performs the single mandatory group validation.
 
 Development and exact checks are optional early feedback, not credentials required in the owner report. Even an exact pass does not replace controller validation over the finalized sealed bytes. The worker does not run claim/finalize itself, invoke controller `step`, or attempt merge, parent verify, or annotation retry.
@@ -133,7 +124,7 @@ Development and exact checks are optional early feedback, not credentials requir
 Continue repairing locally rather than returning `blocked` for:
 
 - a tactic failure;
-- a missing optional reuse hint;
+- no useful matching goal in the previous round;
 - the need for another suffixed helper;
 - multiple debug iterations;
 - a controller-reported repairable structure, route, proof-completeness, or safety issue.
@@ -145,23 +136,23 @@ Repairable findings arrive through `append-group-worker` for the same owner. Wit
 Diagnose an annotation/spec gap only when the concrete proof state and every legal helper path jointly establish all of the following:
 
 - The hypotheses of a current assigned witness genuinely lack a semantic premise required to complete the goal.
-- That premise cannot be proved from the existing hypotheses through an existing helper, frozen/reuse helper, ordinary proof transformation, or a legal current-suffix helper.
+- That premise cannot be proved from the existing hypotheses through an existing helper, frozen public helper, ordinary proof transformation, or a legal current-suffix helper.
 - Repair requires changing a mathematical specification, function contract, loop invariant, assertion, or call instantiation outside the group-worker write boundary.
 
 Once that diagnosis is established:
 
 1. Treat it as the terminal result for this group's current delivery. Do not keep adding proof changes to the copied manual or `group_worker_lib` in an attempt to replace annotation work, and never modify a statement, main root, or unassigned proof.
 2. Preserve the existing legal copies. In `group_worker_output.md`, identify the group id from the handoff, every affected assigned witness, its top-level/split location, the exact missing premise, attempted helpers/routes, and the annotation/spec boundary that must change.
-3. Write a complete machine report with `status: blocked`. Its `blocker.failure_class` must be exactly `annotation-gap`; use `kind: missing-annotation-premise` for a specifically missing annotation premise. `location` must list the affected declaration/proof state by witness, `message` must state a diagnosable missing fact, and `repair_boundary` must identify the annotation/spec boundary that actually needs repair.
+3. Write a complete machine report with `status: blocked`. Its `blocker.failure_class` is exactly `annotation-gap`; use `kind: missing-annotation-premise` for a specifically missing annotation premise. `vcs` lists each affected exact sealed-manual `name`, split `parent` (or `null` for top-level), and `annotation_location`. `message` states existing premises and the missing conclusion; `repair_boundary` identifies the annotation/spec boundary that must change.
 4. Stop all formal/report writes and return the result to the main agent so the current delivery can be sealed through the normal `finalize-delivery` path.
 
 This terminal result describes this group only. The worker does not read or query sibling state, request cancellation of unclaimed groups, wait for other groups to finish, create annotation feedback/retry, or attempt merge or parent verify. The controller/main agent handles other groups and later rounds.
 
 ### Other blockers and in-place report repair
 
-For a proof blocker, blocking is justified only when the concrete proof state/helpers show that a necessary premise cannot be derived; ordinary tactic-search failure is not terminal. Tool/resource, handoff, version, and other blockers retain their existing `failure_class`/`kind` meanings and repair boundaries. When the exact tool represented by the handoff command cannot run at all, report the existing tool/resource blocker. Do not misclassify any of these as `annotation-gap` merely to include it in round aggregation. Use the existing `stale` classification for version invalidation and the existing `compact-error` classification for context compaction.
+For a proof blocker, blocking is justified only when the concrete proof state/helpers show that a necessary premise cannot be derived; ordinary tactic-search failure is not terminal. Tool/resource, handoff, current-file, and other blockers retain their existing `failure_class`/`kind` meanings and repair boundaries. When the exact handoff tool cannot run, report the existing tool/resource blocker. Do not misclassify these as `annotation-gap`. Use `stale` for current-file invalidation and `compact-error` for context compaction.
 
-If finalize returns only a final-report field-contract error, the delivery remains the same claimed attempt and the same owner repairs it in place. The repair boundary opens only `group_worker_report.json` and optional `group_worker_output.md`; the controller-sealed copied manual and applicable `group_worker_lib` must remain byte/token identical. After repairing the report, stop writing and return it to the main agent to rerun the original `finalize-delivery`. Formal drift produces non-reusable `invalid-report`; a report-repair window must not reopen a proof. An annotation-gap terminal result likewise permits only this report-only repair.
+If finalize returns only a report or Markdown contract error, the delivery remains the same claimed attempt and owner. The repair boundary opens only `group_worker_report.json` and optional `group_worker_output.md`; `proof_reuse.md` never creates a contract error. The controller-sealed copied manual and applicable `group_worker_lib` remain byte/token identical. Then stop writing and return it to main to rerun the original `finalize-delivery`. Formal drift produces `invalid-report`; a report-repair window must not reopen a proof.
 
 ## 8. Final report
 
@@ -181,11 +172,17 @@ A `blocked` report still has only `status` and one complete `blocker` at the top
   "blocker": {
     "failure_class": "<existing deterministic value selected under this flow and the handoff>",
     "kind": "<specific issue type>",
-    "location": "<exact witness/declaration/proof-state location>",
+    "vcs": [
+      {
+        "name": "<exact top-level or split VC>",
+        "parent": null,
+        "annotation_location": "<exact C annotation point>"
+      }
+    ],
     "message": "<complete diagnosable issue and evidence>",
     "repair_boundary": "<permitted and necessary repair boundary>"
   }
 }
 ```
 
-Do not add `group`, `witness`, version, digests, changed files, command output, receipt, assignment, candidate paths, namespace, or declaration metadata to the JSON. The controller binds the group and assignments through the current delivery/accepted plan/seal. Use `location`/`message` and `group_worker_output.md` to identify affected witnesses; `group_worker_output.md` is required for `annotation-gap` and optional for other terminal results. The owner does not copy controller-derived data or helper declaration metadata.
+Do not add `group`, `witness`, digests, changed files, command output, receipt, assignment, candidate paths, namespace, or declaration metadata to the JSON. The controller binds the group/assignments and mechanically validates `vcs`. `group_worker_output.md` is required for `annotation-gap` and optional for other terminal results.

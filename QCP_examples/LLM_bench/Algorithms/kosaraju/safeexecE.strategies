@@ -1,0 +1,13 @@
+//test SafeexecE rules
+//max rule id:30
+
+
+#include "safeexecE_def.h"
+
+id : 1
+priority : Pcancel(1)
+left : safeExec{?Sigma, ?A}(?P, ?c, ?X) at 0
+right : safeExec{Sigma, A}(P, c, X) at 1
+        safeExec{Sigma, ?B}(?P2, ?c2, ?X2) at 2
+action : left_erase(0);
+         right_erase(1);

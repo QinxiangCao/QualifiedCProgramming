@@ -52,14 +52,14 @@ void floyd_adjacency_matrix_2Darray(int n, int dist[MAXN][MAXN])
     Require 
       FloydAdjacencyMatrix2Darray::graph_has_size(g, n) && 
       FloydAdjacencyMatrix2Darray::floyd_init_matrix(g, dist0) &&
-      GraphMatrixFlat::graph_rep(
+      GraphMatrixFlat::store_graph(
         MAXN,
         FloydAdjacencyMatrix2Darray::graph_matrix_model(g),
         dist, dist0)
     Ensure
       exists (dist1: list (list Z)),
         FloydAdjacencyMatrix2Darray::floyd_shortest_matrix(g, dist1) &&
-        GraphMatrixFlat::graph_rep(
+        GraphMatrixFlat::store_graph(
           MAXN,
           FloydAdjacencyMatrix2Darray::matrix_rows_model,
           dist, dist1)
@@ -73,14 +73,14 @@ void floyd_adjacency_matrix_2Darray(int n, int dist[MAXN][MAXN])
     Require 
       FloydAdjacencyMatrix2Darray::graph_has_size(g, n) && 
       safeExec(FloydAdjacencyMatrix2Darray::state_model(dist0), FloydAdjacencyMatrix2Darray::floyd_indexed_program(g, n), X) && 
-      GraphMatrixFlat::graph_rep(
+      GraphMatrixFlat::store_graph(
         MAXN,
         FloydAdjacencyMatrix2Darray::graph_matrix_model(g),
         dist, dist0)
     Ensure 
       exists (dist1: list (list Z)), 
         safeExec(FloydAdjacencyMatrix2Darray::state_model(dist1), return (tt), X) && 
-      GraphMatrixFlat::graph_rep(
+      GraphMatrixFlat::store_graph(
         MAXN,
         FloydAdjacencyMatrix2Darray::matrix_rows_model,
         dist, dist1)
@@ -102,7 +102,7 @@ void floyd_adjacency_matrix_2Darray(int n, int dist[MAXN][MAXN])
             FloydAdjacencyMatrix2Darray::floyd_k_from(g, n, k), X) && 
             FloydAdjacencyMatrix2Darray::matrix_shape(dist_k) &&
             FloydAdjacencyMatrix2Darray::matrix_values_safe(dist_k) &&
-            GraphMatrixFlat::graph_rep(
+            GraphMatrixFlat::store_graph(
               MAXN,
               FloydAdjacencyMatrix2Darray::matrix_rows_model,
               dist, dist_k) *
@@ -125,7 +125,7 @@ void floyd_adjacency_matrix_2Darray(int n, int dist[MAXN][MAXN])
                 FloydAdjacencyMatrix2Darray::floyd_i_k_from(g, n, k, i), X) && 
                 FloydAdjacencyMatrix2Darray::matrix_shape(dist_i) &&
                 FloydAdjacencyMatrix2Darray::matrix_values_safe(dist_i) &&
-                GraphMatrixFlat::graph_rep(
+                GraphMatrixFlat::store_graph(
                   MAXN,
                   FloydAdjacencyMatrix2Darray::matrix_rows_model,
                   dist, dist_i) *
@@ -151,7 +151,7 @@ void floyd_adjacency_matrix_2Darray(int n, int dist[MAXN][MAXN])
                     FloydAdjacencyMatrix2Darray::floyd_j_i_k_from(g, n, k, i, j), X) &&
                     FloydAdjacencyMatrix2Darray::matrix_shape(dist_j) &&
                     FloydAdjacencyMatrix2Darray::matrix_values_safe(dist_j) &&
-                    GraphMatrixFlat::graph_rep(
+                    GraphMatrixFlat::store_graph(
                       MAXN,
                       FloydAdjacencyMatrix2Darray::matrix_rows_model,
                       dist, dist_j)

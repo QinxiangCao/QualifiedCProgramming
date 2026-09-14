@@ -21,21 +21,20 @@ Import naive_C_Rules.
 Require Import SimpleC.EE.Applications_human.CDCL.CDCL_qcp_lib.
 Local Open Scope sac.
 
-(* FILE INDEX: QCPSAT PROOF MANUAL
- * ================================
+(* FILE INDEX: CDCL PROOF MANUAL
+ * ==============================
  *
- * This file contains 166 manual proofs (plus one local helper) organized by
- * proof family.  Each family's proofs are marked with a section header comment.
+ * This file is the shared tactic layer for the manual proofs, which live in
+ * CDCL_qcp_proof_manual_part1.v .. part6.v and Require this file.  It defines
+ * 27 file-local Ltacs, one Tactic Notation ([bind_fact]), two notation
+ * abbreviations ([snapshot_after_scan], [snapshot_set_at]) and one local
+ * helper lemma ([bcp_replace_Znth_collapse]).
  *
- * The 1,083 generated obligations are partitioned 166 here / 917 in
- * CDCL_qcp_proof_auto.v, where they are discharged by the QCP tool rather
- * than proved in Coq.  There is no overlap and no gap; the
- * partition is what goal_check.v's Module Type ascription checks.  (Folding the
- * four helper contracts added one obligation, on the auto side: it split
- * clause_learning's partial_solve chain, which is also what renumbered this
- * file's one clause_learning partial_solve proof from wit_9_pure to
- * wit_10_pure.  The previous revision of this line said 1,081 / 915, one short
- * on the auto side of the then-current 1,082 / 916.)
+ * The 861 generated obligations are partitioned 145 across the six part files
+ * / 716 in CDCL_qcp_proof_auto.v, where they are discharged by the QCP tool
+ * rather than proved in Coq.  There is no overlap and no gap; the partition is
+ * what goal_check.v's Module Type ascription checks.  Each of the 145
+ * [proof_of_] declarations in the part files owns one current obligation.
  *
  * NOTE ON SCOPE: what is proved is PARTIAL correctness.  No termination
  * theorem exists here or anywhere in the development, and QCP has no syntax
@@ -43,29 +42,30 @@ Local Open Scope sac.
  * see lt_wf_ind in root_assignment_agrees_at_rank -- but that is induction on
  * a ghost rank, not a proof that any loop terminates.)
  *
- * Families (in file order):
-     fill_ints: 3 proofs - Initialization: clear array with integer values
-     clause_resolution: 8 proofs - Resolution prefix tracking: advancing resolution state
-     clause_learning: 13 proofs - Clause learning: deriving new clauses from conflicts
-     conflict_analysis: 9 proofs - Conflict analysis: analyzing unsatisfiable clauses
-     bcp_safety: 3 proofs - Boolean constraint propagation: propagation safety invariants
-     bcp_entail: 69 proofs - Boolean constraint propagation: entailment lemmas for BCP steps
-     bcp_return: 1 proofs - BCP return: postcondition for BCP function
-     backtrack_safety: 0 proofs - (all reclassified to the auto module)
-     backtrack_entail: 29 proofs - Backtracking: entailment during backtrack steps
-     backtrack_return: 1 proofs - Backtrack return: postcondition for backtrack function
-     decide_safety: 0 proofs - (all reclassified to the auto module)
-     decide_entail: 12 proofs - Decision: entailment lemmas for decision steps
-     decide_return: 2 proofs - Decision return: postcondition for decide function
-     cdcl_solver: 16 proofs - CDCL solver: solver analysis and returns
-                              (8 entail + 3 partial_solve + 5 return)
+ * Manual families (all counts are current partition members):
+     qcpsat_fill_ints:   3  (2 entail, 1 return)
+                            Initialization: clear an array with integer values
+     clause_resolution:  8  (7 entail, 1 return)
+                            Resolution prefix tracking: advancing resolution state
+     clause_learning:   12  (10 entail, 1 partial_solve, 1 return)
+                            Clause learning: deriving new clauses from conflicts
+     conflict_analysis:  9  (6 entail, 3 return)
+                            Conflict analysis: analysing unsatisfiable clauses
+     bcp:               46  (42 entail, 4 return)
+                            Boolean constraint propagation
+     backtrack:         30  (29 entail, 1 return)
+                            Backtracking to a target decision level
+     decide:            14  (12 entail, 2 return)
+                            Decision: picking and committing the next literal
+     cdcl_solver:       23  (13 entail, 2 partial_solve, 4 return, 4 safety)
+                            The solver loop and the SAT/UNSAT verdicts
  *
- * HISTORY: an earlier revision of this index claimed 253 proofs, with
- * bcp_safety 59 / backtrack_safety 28 / decide_safety 3.  Those 87 obligations
- * were reclassified into the auto module; all eleven other family counts were
- * and remain exact.  Every reclassified obligation is a *safety* wit (memory
- * and integer side conditions) -- no entailment, return, or partial_solve
- * obligation has ever moved out of this file.
+ * HISTORY: earlier revisions of this index claimed 253, then 166 manual proofs
+ * against 1,083 obligations, with separate bcp_safety / backtrack_safety /
+ * decide_safety families.  Those safety obligations (memory and integer side
+ * conditions) were reclassified into the auto module; no entailment, return or
+ * partial_solve obligation has ever moved out of the manual side.  The counts
+ * above were recounted from the files, not carried forward.
  *)
 
 
@@ -75,7 +75,7 @@ Local Open Scope sac.
  * The ~500 lines below are file-local tactics.  They exist because the
  * generated obligations come in families that differ by one or two
  * parameters, so collapsing each family to a one-line application is what
- * keeps this file at 166 proofs instead of several hundred near-copies.
+ * keeps the part files at 145 proofs instead of several hundred near-copies.
  * They are NOT a good entry point for a new reader -- start at the verdict
  * proofs (search for cdcl_solver_return_wit_) and work backwards.
  *
@@ -236,7 +236,7 @@ Ltac derive_bcp_advance_false bval new_state b_2 value_cell_2 new_snap_2 snap bc
   match goal with
   | Hmix_conj : _ /\ _ /\ mixed_clause_summaries _ _ _ _ _ _ _ _ _ _,
     Hcoh : coherent_snapshot _ _ _ _ snap,
-    Hassign : assigns_one _ _ bcpvar b_2 logical_dl unitcl,
+    Hassign : assigns_one_idx _ _ bcpvar b_2 logical_dl unitcl,
     Hready : bcp_ready _,
     Hneq : i_3 <> unitcl,
     Hunit : Znth bcpvar (Znth unitcl (snap_rows snap) (@nil Z)) 0 = _,
@@ -297,7 +297,7 @@ Ltac solve_bcp_scan_step_false bval new_state i_3 cur_unassigned_2 cur_true_2 s_
     sep_apply Hmerge;
     unfold installed_rows_capacity_rep;
     cancel (PtrArray.undef_seg row_table live cap);
-    entailer!
+    cdcl_entailer
   | derive_bcp_advance_false bval new_state b_2 value_cell_2 new_snap_2 snap bcpvar logical_dl unitcl i_3 current_state cur_states_2 F n live original_count ranks ranks1_2 cur_true_2 cur_unassigned_2 cap; cdcl_pack_bcp_advance
   | derive_bcp_advance_false bval new_state b_2 value_cell_2 new_snap_2 snap bcpvar logical_dl unitcl i_3 current_state cur_states_2 F n live original_count ranks ranks1_2 cur_true_2 cur_unassigned_2 cap; exact Hnext
   | match goal with Hmix_conj : _ /\ _ /\ mixed_clause_summaries _ _ _ _ _ _ _ _ _ _ |- _ =>
@@ -334,7 +334,7 @@ Ltac derive_bcp_advance_same bval b_2 value_cell_2 new_snap_2 snap bcpvar logica
   match goal with
   | Hmix_conj : _ /\ _ /\ mixed_clause_summaries _ _ _ _ _ _ _ _ _ _,
     Hcoh : coherent_snapshot _ _ _ _ snap,
-    Hassign : assigns_one _ _ bcpvar b_2 logical_dl unitcl,
+    Hassign : assigns_one_idx _ _ bcpvar b_2 logical_dl unitcl,
     Hready : bcp_ready _,
     Hunit : Znth bcpvar (Znth unitcl (snap_rows snap) (@nil Z)) 0 = _ |- _ =>
       pose proof (proj2 (proj2 Hmix_conj)) as Hmixed;
@@ -388,7 +388,7 @@ Ltac solve_bcp_scan_step_same bval cur_unassigned_2 cur_true_2 s_cl_data_5 s_v_d
     sep_apply Hmerge;
     unfold installed_rows_capacity_rep;
     cancel (PtrArray.undef_seg row_table live cap);
-    entailer!
+    cdcl_entailer
   | derive_bcp_advance_same bval b_2 value_cell_2 new_snap_2 snap bcpvar logical_dl unitcl i_3 cur_states_2 F n live original_count ranks ranks1_2 cur_true_2 cur_unassigned_2 cap; cdcl_pack_bcp_advance
   | derive_bcp_advance_same bval b_2 value_cell_2 new_snap_2 snap bcpvar logical_dl unitcl i_3 cur_states_2 F n live original_count ranks ranks1_2 cur_true_2 cur_unassigned_2 cap; exact Hnext
   | match goal with
@@ -553,10 +553,10 @@ Ltac solve_bcp_scan_row_bounds_publish i snap n b_2 new_snap_2 ranks1_2 cur_stat
   | Hs : bcp_clause_scan _ _ _ _ _ _ _ _ _ _ _ _ _ _ |- _ =>
       unfold bcp_clause_scan in Hs
   end;
-  entailer!;
+  cdcl_entailer;
   [ rewrite (Znth_indep (snap_rows snap) i __default__List_Z (@nil Z)) by exact Hrow_bound;
     try rewrite (IntArray.seg_shape_empty values n);
-    entailer!
+    cdcl_entailer
   | match goal with
     | Hfact : snap_values new_snap_2 = replace_Znth bcpvar ?vc (snap_values snap),
       Hrw : ?vc = _ |- _ => rewrite <- Hrw; exact Hfact
@@ -592,7 +592,7 @@ Ltac solve_bcp_unit_unassigned_zero unitcl F n live original_count snap i :=
       (snap_unassigned snap)) 0 = 0)
     by (rewrite Znth_replace_Znth_Same; [lia|]; rewrite Hunassigned_len; lia);
   Exists i;
-  entailer!.
+  cdcl_entailer.
 (* Copy backtrack_inner out of the context and split it into its five
    components (target, index range, cleared prefix, clear witness, mixed
    summaries).  Copies rather than destructs in place so the original
@@ -643,7 +643,7 @@ Ltac backtrack_advance_epilogue current_ranks_2 after_ranks_2 after_snap_2 curre
       row_table j live row_ptr (snap_rows current_snap_2)
       (Znth j (snap_rows current_snap_2) (@nil Z)) ltac:(lia));
     rewrite replace_Znth_Znth; cancel
-  | sep_apply Hfocus_merge; unfold backtrack_inner; entailer! ].
+  | sep_apply Hfocus_merge; unfold backtrack_inner; cdcl_entailer ].
 
 
 (* Merge a focused row pointer back into the full row table (backtrack side).
@@ -775,10 +775,10 @@ Ltac backtrack_finish_spatial row_table live j row_ptr current_snap_2 :=
       (snap_rows current_snap_2) **
     StorePtrAsElement.storeA row_table j row_ptr |--
     IntPtrArray2.full row_table live (snap_rows current_snap_2))
-    by (sep_apply Hmerge; entailer!);
+    by (sep_apply Hmerge; cdcl_entailer);
   unfold StorePtrAsElement.storeA in Hmerge_ordered;
   sep_apply Hmerge_ordered;
-  entailer!.
+  cdcl_entailer.
 
 
 (* Extract the pre-clear summary at clause j from the mixed-summaries fact

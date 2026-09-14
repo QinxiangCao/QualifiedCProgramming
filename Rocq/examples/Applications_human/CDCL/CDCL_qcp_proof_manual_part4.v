@@ -29,7 +29,7 @@ Proof.
   Exists ranks1_2 snap1_2.
   split_pure_spatial.
   - cancel.
-  - split_pures; dump_pre_spatial; try assumption; try lia.
+  - split_pures; dump_pre_spatial; assumption.
 Qed.
 
 Lemma proof_of_bcp_return_wit_2 : bcp_return_wit_2.
@@ -39,7 +39,7 @@ Proof.
   Exists ranks1_2 snap1_2.
   split_pure_spatial.
   - cancel.
-  - split_pures; dump_pre_spatial; try assumption; try lia.
+  - split_pures; dump_pre_spatial; assumption.
 Qed.
 
 Lemma proof_of_bcp_return_wit_3 : bcp_return_wit_3.
@@ -52,8 +52,8 @@ Proof.
     Exists snap ranks bcpvar.
     split_pure_spatial.
     + cancel.
-    + split_pures; dump_pre_spatial; try assumption; try lia.
-  - split_pures; dump_pre_spatial; try assumption; try lia.
+    + split_pures; dump_pre_spatial; assumption.
+  - split_pures; dump_pre_spatial; assumption.
 Qed.
 
 Lemma proof_of_bcp_return_wit_4 : bcp_return_wit_4.
@@ -84,7 +84,7 @@ Proof.
   - split_pures;
       dump_pre_spatial;
       try reflexivity;
-      try assumption.
+      assumption.
 Qed.
 
 
@@ -102,11 +102,11 @@ Proof.
      entailment is one head cancellation at [current_snap := snap]. *)
   Exists ranks snap.
   unfold backtrack_outer.
-  entailer!.
+  cdcl_entailer.
   - unfold backjump_state, solver_state, unconstrained_Assignment.
     Intros s_pre_v_data s_pre_cl_data.
     Exists s_pre_v_data s_pre_cl_data.
-    entailer!.
+    cdcl_entailer.
   - apply prefix_restriction_zero_same_snapshot__backtrack_entry_clear_a.
     lia.
   - cbn [cdcl_view_of_snapshot].
@@ -172,11 +172,11 @@ Proof.
   unfold sat_header_rep, var_header_rep, clause_header_rep,
     clause_arrays_explicit_rep, clause_summaries_explicit_rep.
   unfold backtrack_inner.
-  entailer!.
+  cdcl_entailer.
   (* The precondition spells the clause summaries `seg p 0 live`, the shared
      head spells the same assertion `full p live`; equal by definition, not by
      syntax. *)
-  - unfold IntArray.full, IntArray.seg, store_array. entailer!.
+  - unfold IntArray.full, IntArray.seg, store_array. cdcl_entailer.
   - subst after_snap.
     pose proof (cleared_snapshot_lengths_cells__backtrack_entry_clear_a
       n live current_snap_2 i Hlen_cur Hcells_cur ltac:(split; lia)) as Hafter.
@@ -209,7 +209,7 @@ Proof.
   Exists v_data cl_data.
   unfold installed_row_focus_rep, sat_header_rep, var_header_rep,
     clause_header_rep, clause_summaries_explicit_rep.
-  entailer!.
+  cdcl_entailer.
   apply snapshot_row_length__backtrack_entry_clear_a
     with (live := live); try assumption; lia.
 Qed.
@@ -383,7 +383,7 @@ Proof.
   Exists current_ranks_2 after_ranks_2 after_snap_2 current_snap_2.
   unfold backtrack_inner.
   backtrack_destruct_inner Hinner_copy.
-  entailer!.
+  cdcl_entailer.
   - backtrack_row_merge row_table j live row_ptr current_snap_2.
   - assert (Hassign :
         assignment (cdcl_view_of_snapshot n current_snap_2 current_ranks_2 back_dl_pre) i = Some false).
@@ -420,7 +420,7 @@ Proof.
   Exists current_ranks_2 after_ranks_2 after_snap_2 current_snap_2.
   unfold backtrack_inner.
   backtrack_destruct_inner Hinner_copy.
-  entailer!.
+  cdcl_entailer.
   - backtrack_row_merge row_table j live row_ptr current_snap_2.
   - pose proof Hlen_cur as Hlengths.
     destruct Hlengths as
@@ -490,7 +490,7 @@ Proof.
   Exists current_ranks_2 after_ranks_2 after_snap_2 current_snap_2.
   unfold backtrack_inner.
   backtrack_destruct_inner Hinner_copy.
-  entailer!.
+  cdcl_entailer.
   - backtrack_row_merge row_table j live row_ptr current_snap_2.
   - destruct Hlengths as
       [Hvalues [Hreasons [Hlevels [Hrows_current Hlengths_tail]]]].
@@ -549,7 +549,7 @@ Proof.
   Exists current_ranks_2 after_ranks_2 after_snap_2 current_snap_2.
   unfold backtrack_inner.
   backtrack_destruct_inner Hinner_copy.
-  entailer!.
+  cdcl_entailer.
   - backtrack_row_merge row_table j live row_ptr current_snap_2.
   - assert (Hassign :
         assignment (cdcl_view_of_snapshot n current_snap_2 current_ranks_2 back_dl_pre) i = Some false).
@@ -586,7 +586,7 @@ Proof.
   Exists current_ranks_2 after_ranks_2 after_snap_2 current_snap_2.
   unfold backtrack_inner.
   backtrack_destruct_inner Hinner_copy.
-  entailer!.
+  cdcl_entailer.
   - backtrack_row_merge row_table j live row_ptr current_snap_2.
   - assert (Hassign :
         assignment (cdcl_view_of_snapshot n current_snap_2 current_ranks_2 back_dl_pre) i = Some true).
@@ -648,7 +648,7 @@ Proof.
   Exists current_ranks_2 after_ranks_2 after_snap_2 current_snap_2.
   unfold backtrack_inner.
   backtrack_destruct_inner Hinner_copy.
-  entailer!.
+  cdcl_entailer.
   - backtrack_row_merge row_table j live row_ptr current_snap_2.
   - assert (Hassign :
         assignment (cdcl_view_of_snapshot n current_snap_2 current_ranks_2 back_dl_pre) i = Some false).
@@ -685,7 +685,7 @@ Proof.
   Exists current_ranks_2 after_ranks_2 after_snap_2 current_snap_2.
   unfold backtrack_inner.
   backtrack_destruct_inner Hinner_copy.
-  entailer!.
+  cdcl_entailer.
   - backtrack_row_merge row_table j live row_ptr current_snap_2.
   - assert (Hassign :
         assignment (cdcl_view_of_snapshot n current_snap_2 current_ranks_2 back_dl_pre) i = Some true).
@@ -793,7 +793,7 @@ Proof.
       (Pos i) = Some true).
   { unfold eval_partial_literal; cbn [literal_var]; rewrite Hassign; reflexivity. }
   rewrite <- Hrows_map in Hstate, Hzero.
-  pose proof (clause_true_count_positive__backtrack_finish_decide_bounds
+  pose proof (clause_true_count_positive
     _ _ _ Hin Heval) as Hpositive.
   lia.
 Qed.
@@ -811,7 +811,7 @@ Proof.
   bind_fact (snapshot_cells_wf n live current_snap_2) as Hcells_current.
   bind_fact (snap_rows current_snap_2 = snap_rows snap) as Hrows_map.
   unfold backtrack_inner in *.
-  entailer!.
+  cdcl_entailer.
   Exists current_ranks_2 after_ranks_2 after_snap_2 current_snap_2.
   backtrack_finish_spatial row_table live j row_ptr current_snap_2.
   destruct Hinner as [Htarget [Hirange [Hprefix [Hclear Hmixed]]]].
@@ -885,7 +885,7 @@ Proof.
   bind_fact (snapshot_cells_wf n live current_snap_2) as Hcells_current.
   bind_fact (snap_rows current_snap_2 = snap_rows snap) as Hrows_map.
   unfold backtrack_inner in *.
-  entailer!.
+  cdcl_entailer.
   Exists current_ranks_2 after_ranks_2 after_snap_2 current_snap_2.
   backtrack_finish_spatial row_table live j row_ptr current_snap_2.
   destruct Hinner as [Htarget [Hirange [Hprefix [Hclear Hmixed]]]].
@@ -985,7 +985,7 @@ Proof.
   unfold clearing_variable, backtrack_outer in *.
   change (sizeof (INT)) with 4.
   unfold solver_arrays_rep, variable_arrays_rep.
-  entailer!.
+  cdcl_entailer.
   Exists after_ranks
     ({| snap_values := snap_values after_snap;
         snap_reasons := snap_reasons after_snap;
@@ -1001,7 +1001,7 @@ Proof.
   rewrite Hrows_after.
   unfold IntArray.seg.
   change (sizeof (INT)) with 4.
-  entailer!.
+  cdcl_entailer.
   - rewrite <- Hrows_after.
     change (prefix_restriction
       (cdcl_view_of_snapshot n snap ranks conflict_dl)
@@ -1056,9 +1056,9 @@ Proof.
   bind_fact (snapshot_lengths n live current_snap_2) as Hlen_current.
   unfold backtrack_outer in *.
   unfold solver_arrays_rep, variable_arrays_rep.
-  entailer!.
+  cdcl_entailer.
   Exists current_ranks_2.
-  entailer!.
+  cdcl_entailer.
   destruct Houter as (_ & Hprefix & _).
   eapply prefix_restriction_advance_unchanged__backtrack_finish_decide_bounds.
   - exact Hprefix.
@@ -1098,9 +1098,9 @@ Proof.
   bind_fact (snapshot_cells_wf n live current_snap_2) as Hcells_current.
   unfold backtrack_outer in *.
   unfold solver_arrays_rep, variable_arrays_rep.
-  entailer!.
+  cdcl_entailer.
   Exists current_ranks_2.
-  entailer!.
+  cdcl_entailer.
   destruct Houter as (_ & Hprefix & _).
   eapply prefix_restriction_advance_unchanged__backtrack_finish_decide_bounds.
   - exact Hprefix.
@@ -1146,7 +1146,7 @@ Proof.
   assert (i = n) by lia; subst i.
   unfold backtrack_outer, pending_backjump_rep, bcp_ready in *.
   unfold solver_arrays_rep, variable_arrays_rep.
-  entailer!.
+  cdcl_entailer.
   destruct Houter as [Htarget [Hprefix Hmixed]].
   match goal with
   | |- context [ emp && (“ ?B ”) ] =>
@@ -1213,6 +1213,6 @@ Proof.
   unfold solver_state, sat_header_rep, var_header_rep, clause_header_rep,
     unconstrained_Assignment, variable_arrays_rep, solver_arrays_rep.
   Exists v_data cl_data.
-  entailer!.
+  cdcl_entailer.
 Qed.
 (* ===== decide entail wits (12 proofs) ===== *)

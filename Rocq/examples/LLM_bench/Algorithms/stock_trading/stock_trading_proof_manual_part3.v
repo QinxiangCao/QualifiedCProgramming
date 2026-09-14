@@ -24,7 +24,7 @@ Local Open Scope sac.
 (* Split from stock_trading_proof_manual.v, part 3 of 5. *)
 Lemma proof_of_maximum_profit_entail_wit_26_1 : maximum_profit_entail_wit_26_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof PreH25 as Hinput_bounds0.
   unfold StockInputsBounded in Hinput_bounds0.
   destruct Hinput_bounds0 as [_ [_ [_ [_ [_ [_ Hinput_at0]]]]]].
@@ -342,7 +342,7 @@ Qed.
 
 Lemma proof_of_maximum_profit_entail_wit_26_2 : maximum_profit_entail_wit_26_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   assert (Hprogress' : StockSellProgress ap_l bp_l buy_l sell_l dp_l_2
     max_stock_pre wait_days_pre i source_day (j - 1)).
   { unfold StockSellProgress in PreH26 |- *.
@@ -457,7 +457,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_26_3_split_goal_1 :
   maximum_profit_entail_wit_26_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   replace (j - 1 + 2) with (j + 1) by lia.
   replace (j - 1 + sell_cap + 1) with (j + sell_cap) by lia.
   exact PreH24.
@@ -466,7 +466,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_26_3_split_goal_2 :
   maximum_profit_entail_wit_26_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StockInputsBounded in PreH22.
   destruct PreH22 as [Hasklen [Hbidlen [Hbuylen [Hselllen
     [Hdays [Hmaxstock Hinputs]]]]]].
@@ -513,7 +513,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_26_3_split_goal_3 :
   maximum_profit_entail_wit_26_3_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StockInputsBounded in PreH22.
   destruct PreH22 as [_ [_ [_ [_ [_ [_ Hinputs]]]]]].
   specialize (Hinputs i ltac:(lia)).
@@ -526,7 +526,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_26_3_split_goal_4 :
   maximum_profit_entail_wit_26_3_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StockInputsBounded in PreH22.
   destruct PreH22 as [_ [_ [_ [_ [_ [_ Hinputs]]]]]].
   specialize (Hinputs i ltac:(lia)).
@@ -539,7 +539,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_26_3_split_goal_5 :
   maximum_profit_entail_wit_26_3_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StockInputsBounded in PreH22.
   destruct PreH22 as [_ [_ [_ [_ [_ [_ Hinputs]]]]]].
   specialize (Hinputs i ltac:(lia)).
@@ -552,7 +552,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_26_3_split_goal_6 :
   maximum_profit_entail_wit_26_3_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StockInputsBounded in PreH22.
   destruct PreH22 as [_ [_ [_ [_ [_ [_ Hinputs]]]]]].
   specialize (Hinputs i ltac:(lia)).
@@ -565,7 +565,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_26_3_split_goal_7 :
   maximum_profit_entail_wit_26_3_split_goal_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StockSellProgress in PreH23.
   destruct PreH23 as [_ [_ [Hsource [Hsrange _]]]].
   lia.
@@ -574,7 +574,7 @@ Qed.
 Lemma proof_of_maximum_profit_entail_wit_26_3_split_goal_8 :
   maximum_profit_entail_wit_26_3_split_goal_8.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold StockSellProgress in PreH23.
   destruct PreH23 as [_ [_ [Hsource _]]].
   lia.

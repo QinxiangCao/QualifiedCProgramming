@@ -3,7 +3,9 @@
  (theories
   AUXLib
   Algorithms
+  CDCLLib
   FP
+  Flocq
   GraphLib
   ListLib
   Logic
@@ -19,6 +21,6 @@
   SumLib
   compcert.lib))
 
-(dirs :standard \ Project typeinfer_rc)
+(dirs :standard \ typeinfer_rc)
 
 (include_subdirs qualified)

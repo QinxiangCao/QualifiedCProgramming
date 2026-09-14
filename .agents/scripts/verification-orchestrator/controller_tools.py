@@ -21,13 +21,12 @@ from controller_attempts import (
     _group_tooling,
     _proving_manifest_errors,
 )
-from controller_rounds import VC_PROVING_PHASE, _latest_reusable_vc_proving_round
+from controller_control import control_signal_path, control_signal_requests_stop
+from controller_rounds import VC_PROVING_PHASE
 from controller_state import (
+    _annotation_snapshot_relatives,
     _annotation_before_snapshot_errors,
-    _append_event,
-    _current_version_errors,
-    _debug_build_snapshot,
-    _file_digest,
+    _current_files_errors,
     _formal_case_lib_is_active,
     _formal_case_lib_snapshot,
     _generated_artifact_module_spellings_for_state,
@@ -35,34 +34,26 @@ from controller_state import (
     _record_attempt_elapsed,
     _record_elapsed_stage,
     _run_root_from_id,
-    _state_transaction,
     _save_state,
+    _snapshot_digests,
+    _state_transaction,
+    _utc,
     _validated_annotation_attempt_paths,
-    _verified_reuse_source_build,
 )
 from coq_tooling import (
     compact_dune_preparation,
-    dune_snapshot_for_preserved_build,
     prepare_dune_dependencies,
     run_coqc_check,
     run_coqtop_debug,
 )
-from path_utils import (
-    reuse_source_build_workspace,
-    run_builds_root,
-    vc_checking_build_workspace,
-    vc_checking_debug_script,
-)
+from path_utils import run_builds_root
 from prepare_group_workers import resolve_group_workers_manifest
-from proof_manual_utils import (
-    debug_goal_show_contract,
-    lib_contract_errors,
-    show_command_count,
-)
+from proof_manual_utils import lib_contract_errors
+from spec_freeze import annotation_spec_source_digest
 from symexec_tooling import (
     _snapshot_text,
     run_symexec,
-    source_goal_version_at_root,
+    symexec_profile_for_state,
 )
 
 
@@ -91,10 +82,6 @@ def _group_manifest_entry(
         raise SystemExit(
             "group tooling manifest integrity failed: " + "; ".join(manifest_errors)
         )
-    current_goal = str(state.get("source_goal_version", {}).get("digest") or "")
-    attempt_goal = str(attempt.get("source_goal_version") or "")
-    if not current_goal or attempt_goal != current_goal:
-        raise SystemExit("vc-proving round source_goal_version is stale")
     manifest = resolve_group_workers_manifest(
         Path(str(attempt["group_workers_manifest"])),
         main_root=Path(str(state["main_root"])),
@@ -111,8 +98,6 @@ def _group_manifest_entry(
         raise SystemExit(
             f"group is not part of the current vc-proving round: {group_id}"
         )
-    if str(manifest.get("source_goal_version") or "") != current_goal:
-        raise SystemExit("group source_goal_version is stale")
     return attempt, group
 
 
@@ -167,7 +152,6 @@ _ANNOTATION_SYMEXEC_ATTEMPT_FIELDS = (
     "status",
     "report_directory",
     "annotation_history_directory",
-    "source_version",
     "before_snapshot",
     "owner",
     "delivery",
@@ -180,6 +164,12 @@ def _annotation_symexec_token(
 ) -> dict[str, Any]:
     return {
         "target_files": copy.deepcopy(state.get("target_files")),
+        "formal_input_digest": annotation_spec_source_digest(
+            Path(str(state["main_root"]))
+            / str(state["target_files"]["c_file"]),
+            Path(str(state["main_root"]))
+            / str(state["target_files"]["formal_case_lib"]),
+        ),
         "attempt": {
             field: copy.deepcopy(attempt.get(field))
             for field in _ANNOTATION_SYMEXEC_ATTEMPT_FIELDS
@@ -204,6 +194,13 @@ def _fresh_annotation_symexec_attempt(
     for field in _ANNOTATION_SYMEXEC_ATTEMPT_FIELDS:
         if attempt.get(field) != expected.get(field):
             return None, f"annotation attempt {field} changed during symbolic execution"
+    current_formal_digest = annotation_spec_source_digest(
+        Path(str(state["main_root"])) / str(state["target_files"]["c_file"]),
+        Path(str(state["main_root"]))
+        / str(state["target_files"]["formal_case_lib"]),
+    )
+    if current_formal_digest != token.get("formal_input_digest"):
+        return None, "annotation C or formal_case_lib changed during symbolic execution"
     try:
         _validated_annotation_attempt_paths(state, attempt)
     except (OSError, ValueError) as exc:
@@ -297,19 +294,6 @@ def _complete_annotation_symexec(
                         **refresh_preparation,
                         "status": "committed",
                     }
-                    # The generated roles are now committed on disk, so the run's
-                    # source-goal version is well defined.  Persist it here rather
-                    # than only at acceptance: selected-backend preparation and
-                    # formal-case-lib checking both run before acceptance and
-                    # are keyed on this digest. Computed after the
-                    # commit so it hashes the files that are actually in place, and
-                    # saved explicitly -- the `elapsed_seconds` branch below is
-                    # conditional and cannot be relied on to flush this write.
-                    state["source_goal_version"] = source_goal_version_at_root(
-                        root=main_root,
-                        target_files=state["target_files"],
-                    )
-                    _save_state(run_root, state)
             else:
                 trigger = evidence.get("first_failure") or {}
                 try:
@@ -338,14 +322,65 @@ def _complete_annotation_symexec(
                         ),
                     }
 
+        assert attempt is not None
+        failure = evidence.get("first_failure")
+        invocation = {
+            "sequence": len(attempt.get("owner_symexec_invocations", [])) + 1,
+            "recorded_at": _utc(),
+            "status": str(evidence.get("status") or "failed"),
+            "returncode": evidence.get("returncode"),
+            "formal_input_digest": str(token.get("formal_input_digest") or ""),
+            "elapsed_seconds": float(evidence.get("elapsed_seconds") or 0.0),
+            "performance_profile": str(
+                evidence.get("performance_profile") or "unknown"
+            ),
+            "timeout_seconds": evidence.get("timeout_seconds"),
+            **(
+                {
+                    "failure_category": str(failure.get("category") or ""),
+                    "failure_kind": str(failure.get("kind") or ""),
+                }
+                if isinstance(failure, dict)
+                else {}
+            ),
+        }
+        attempt.setdefault("owner_symexec_invocations", []).append(invocation)
+        if (
+            evidence.get("status") == "passed"
+            and (evidence.get("generated_refresh") or {}).get("status")
+            == "committed"
+        ):
+            try:
+                target_digests = _snapshot_digests(
+                    main_root,
+                    _annotation_snapshot_relatives(state),
+                )
+            except (OSError, ValueError):
+                attempt.pop("owner_generation_receipt", None)
+            else:
+                attempt["owner_generation_receipt"] = {
+                    "status": "passed",
+                    "attempt_id": str(attempt["attempt_id"]),
+                    "round": str(attempt["round"]),
+                    "formal_input_digest": str(
+                        token.get("formal_input_digest") or ""
+                    ),
+                    "target_digests": target_digests,
+                    "performance_profile": str(
+                        evidence.get("performance_profile") or "unknown"
+                    ),
+                    "timeout_seconds": evidence.get("timeout_seconds"),
+                    "elapsed_seconds": evidence.get("elapsed_seconds"),
+                    "recorded_at": _utc(),
+                }
+
         if evidence.get("elapsed_seconds") is not None:
-            assert attempt is not None
             _record_elapsed_stage(
                 attempt,
-                "symexec",
+                "owner-generation",
                 float(evidence["elapsed_seconds"]),
             )
-            _save_state(run_root, state)
+        _save_state(run_root, state)
     return _finish_annotation_symexec(args=args, evidence=evidence)
 
 
@@ -378,6 +413,35 @@ def _symexec_for_annotation_attempt(
     token = _annotation_symexec_token(state, attempt)
     if attempt.get("status") in {"stale", "superseded"}:
         raise SystemExit("cannot run symbolic execution for a stale annotation round")
+    previous_invocations = attempt.get("owner_symexec_invocations")
+    previous_invocation = (
+        previous_invocations[-1]
+        if isinstance(previous_invocations, list) and previous_invocations
+        else None
+    )
+    if (
+        isinstance(previous_invocation, dict)
+        and previous_invocation.get("failure_category") == "tool"
+        and previous_invocation.get("formal_input_digest")
+        != token.get("formal_input_digest")
+    ):
+        evidence = _annotation_symexec_failure(
+            state,
+            {
+                "category": "contract",
+                "kind": "tool-retry-formal-input-drift",
+                "message": (
+                    "annotation C/formal_case_lib changed after the first tool "
+                    "failure; the one permitted tooling retry must use the exact "
+                    "same formal input"
+                ),
+                "repair": (
+                    "Restore the formal bytes used by the first failed invocation "
+                    "and rerun the unchanged controller symexec command."
+                ),
+            },
+        )
+        return _finish_annotation_symexec(args=args, evidence=evidence)
 
     if snapshot_errors:
         evidence = _annotation_symexec_failure(
@@ -407,7 +471,6 @@ def _symexec_for_annotation_attempt(
             main_root=main_root,
             target_files=state["target_files"],
             report_directory=attempt_paths["directory"],
-            before_snapshot_directory=attempt_paths["before"],
         )
     except AnnotationRefreshError as exc:
         evidence = _annotation_symexec_failure(state, exc.failure())
@@ -422,11 +485,19 @@ def _symexec_for_annotation_attempt(
         )
 
     try:
+        profile = symexec_profile_for_state(state)
+        signal_path = control_signal_path(state)
         evidence = symexec_runner(
             main_root=main_root,
             target_c_file=Path(str(state["target_files"]["c_file"])),
             target_files=state["target_files"],
             output_root=main_root,
+            timeout_seconds=float(profile["timeout_seconds"]),
+            profile_name=str(profile["name"]),
+            heartbeat_seconds=float(profile["heartbeat_seconds"]),
+            poll_interval_seconds=float(profile["poll_interval_seconds"]),
+            cancel_requested=lambda: control_signal_requests_stop(signal_path),
+            progress_path=attempt_paths["directory"] / "symexec-progress-owner.json",
         )
     except (OSError, RuntimeError, ValueError) as exc:
         evidence = _annotation_symexec_failure(
@@ -492,7 +563,12 @@ def coq_check(
     main_root, run_root, state = _command_context(args)
     evidence: dict[str, Any] | None = None
     dune_preparation: dict[str, Any] | None = None
-    if args.target_kind == "formal-case-lib":
+    formal_case_lib_target = args.target_kind in {
+        "formal-case-lib-design",
+        "formal-case-lib",
+    }
+    design_mode = args.target_kind == "formal-case-lib-design"
+    if formal_case_lib_target:
         attempt = _attempt_for_round(state, args.round, "annotation")
         if attempt.get("status") in {"stale", "superseded"}:
             raise SystemExit(
@@ -502,18 +578,15 @@ def coq_check(
             raise SystemExit("--group is only valid for group-check")
         target_file = Path(str(state["target_files"]["formal_case_lib"]))
         build_workspace = (
-            run_builds_root(run_root) / args.round / "formal-case-lib" / "src"
-        )
-        # The annotation owner's canonical symexec refreshes this version before
-        # the optional library check. It binds the ephemeral selected-backend
-        # receipt and local coqc result to the same generated goal state.
-        source_goal_version = str(
-            (state.get("source_goal_version") or {}).get("digest") or ""
-        )
-        if not source_goal_version:
-            raise SystemExit(
-                "formal-case-lib check requires the current generated source_goal_version"
+            run_builds_root(run_root)
+            / args.round
+            / (
+                "formal-case-lib-design"
+                if design_mode
+                else "formal-case-lib"
             )
+            / "src"
+        )
         group_check_config = None
         overlays = None
         formal_case_lib_active = _formal_case_lib_is_active(state)
@@ -596,7 +669,6 @@ def coq_check(
             args.group,
             operation=args.target_kind,
         )
-        source_goal_version = str(state["source_goal_version"]["digest"])
         evidence = _execute_group_check(
             state,
             attempt,
@@ -605,7 +677,7 @@ def coq_check(
         )
         evidence.pop("validation", None)
     if evidence is None:
-        if args.target_kind == "formal-case-lib":
+        if formal_case_lib_target:
             # The owner may have changed formal_case_lib imports. Ask the
             # selected backend to prepare that exact target immediately before
             # the local coqc check. This annotation-time receipt never changes
@@ -613,17 +685,17 @@ def coq_check(
             dune_preparation = prepare_dune_dependencies(
                 workspace_root=main_root,
                 target_file=target_file,
-                current_case_anchor=Path(
-                    str(state["target_files"]["proof_auto_file"])
+                current_case_anchor=(
+                    target_file
+                    if design_mode
+                    else Path(str(state["target_files"]["proof_auto_file"]))
                 ),
-                source_goal_version=source_goal_version,
             )
             if dune_preparation.get("status") != "passed":
                 evidence = {
                     "status": "failed",
                     "target_file": str(target_file),
                     "target_kind": args.target_kind,
-                    "source_goal_version": source_goal_version,
                     "build_workspace": str(build_workspace),
                     "returncode": 2,
                     "first_failure": dune_preparation.get("first_failure"),
@@ -635,13 +707,16 @@ def coq_check(
                 build_workspace=build_workspace,
                 target_file=target_file,
                 target_kind=args.target_kind,
-                source_goal_version=source_goal_version,
                 group_check=group_check_config,
                 overlays=overlays,
-                current_case_anchor=Path(str(state["target_files"]["proof_auto_file"])),
+                current_case_anchor=(
+                    target_file
+                    if design_mode
+                    else Path(str(state["target_files"]["proof_auto_file"]))
+                ),
                 dune_preparation=dune_preparation,
             )
-    if args.target_kind == "formal-case-lib" and dune_preparation is not None:
+    if formal_case_lib_target and dune_preparation is not None:
         evidence["dune_preparation"] = compact_dune_preparation(dune_preparation)
     evidence["controller_entrypoint"] = "coq-check"
     evidence["controller_round"] = args.round
@@ -650,7 +725,9 @@ def coq_check(
             run_root,
             attempt_id=str(attempt["attempt_id"]),
             stage=(
-                "formal-case-lib-coq-check"
+                "formal-case-lib-design-coq-check"
+                if design_mode
+                else "formal-case-lib-coq-check"
                 if args.target_kind == "formal-case-lib"
                 else "group-development-check"
                 if args.target_kind == "group-development"
@@ -658,201 +735,22 @@ def coq_check(
             ),
             elapsed_seconds=float(evidence["elapsed_seconds"]),
         )
+    evidence["controller_entrypoint"] = "coq-check"
+    evidence["controller_round"] = args.round
     if args.group:
         evidence["controller_group"] = args.group
     print(json.dumps(evidence, indent=2, ensure_ascii=True))
     return 0 if evidence.get("status") == "passed" else 1
 
 
-def _active_reuse_vc_attempt(
-    state: dict[str, Any],
-    reference_round: str,
-) -> dict[str, Any]:
-    matches = [
-        attempt
-        for attempt in reversed(list(state.get("attempts", {}).values()))
-        if attempt.get("phase") == "vc-checking"
-        and attempt.get("proof_reuse_round") == reference_round
-        and attempt.get("status") not in {"accepted", "stale", "superseded"}
-    ]
-    if len(matches) != 1:
-        raise SystemExit(
-            "previous-goal debug requires exactly one active vc-checking reuse attempt"
-        )
-    return matches[0]
-
-
-def _show_command_count(debug_script: Path) -> int:
-    if not debug_script.is_file():
-        raise SystemExit(f"debug script is missing: {debug_script}")
-    debug_files = {
-        item.resolve() for item in debug_script.parent.rglob("*") if item.is_file()
-    }
-    if debug_files != {debug_script.resolve()}:
-        raise SystemExit(
-            "current/previous VC debug directory must contain only the declared script"
-        )
-    script_text = debug_script.read_text(encoding="utf-8")
-    errors, _shown = debug_goal_show_contract(script_text)
-    if errors:
-        raise SystemExit(
-            "current/previous VC debug script violates the inspection contract: "
-            + "; ".join(errors)
-        )
-    return show_command_count(script_text)
-
-
-def _current_vc_debug_context(
-    *,
-    main_root: Path,
-    run_root: Path,
-    state: dict[str, Any],
-    round_id: str,
-    coq_check_runner: Callable[..., dict[str, Any]],
-) -> tuple[
-    dict[str, Any],
-    Path,
-    Path,
-    str,
-    dict[str, Any] | None,
-]:
-    attempt = _attempt_for_round(state, round_id, "vc-checking")
-    if attempt.get("status") in {"stale", "superseded", "accepted"}:
-        raise SystemExit("current VC debug requires an active vc-checking attempt")
-    version_errors = _current_version_errors(state)
-    if version_errors:
-        raise SystemExit(
-            "current VC debug requires current accepted annotation files: "
-            + "; ".join(version_errors)
-        )
-    build_workspace = vc_checking_build_workspace(run_root, round_id)
-    debug_script = vc_checking_debug_script(run_root, round_id).relative_to(
-        build_workspace
-    )
-    source_goal_version = str(state["source_goal_version"]["digest"])
-    prepare = coq_check_runner(
-        workspace_root=main_root,
-        build_workspace=build_workspace,
-        target_file=Path(str(state["target_files"]["proof_auto_file"])),
-        target_kind="vc-checking-debug",
-        source_goal_version=source_goal_version,
-        current_case_anchor=Path(str(state["target_files"]["proof_auto_file"])),
-    )
-    return (
-        attempt,
-        build_workspace,
-        debug_script,
-        source_goal_version,
-        prepare,
-    )
-
-
-def _sealed_reuse_debug_context(
-    *,
-    main_root: Path,
-    run_root: Path,
-    state: dict[str, Any],
-    round_id: str,
-) -> tuple[dict[str, Any], Path, Path, str, dict[str, Any], dict[str, Any]]:
-    if _latest_reusable_vc_proving_round(state) != round_id:
-        raise SystemExit(
-            "previous VC debug is limited to the immediately preceding sealed "
-            "reusable vc-proving round"
-        )
-    attempt = state["attempts"][round_id]
-    build_workspace = reuse_source_build_workspace(run_root, round_id)
-    source_goal_version = str(attempt.get("source_goal_version") or "")
-    sealed_snapshot = attempt.get("reuse_source_snapshot")
-    if not isinstance(sealed_snapshot, dict):
-        raise SystemExit("previous vc-proving round lacks a sealed reuse-source build")
-    try:
-        validated_snapshot, _build = _verified_reuse_source_build(
-            main_root=main_root,
-            run_root=run_root,
-            round_id=round_id,
-            sealed=sealed_snapshot,
-            source_goal_version=source_goal_version,
-        )
-    except (OSError, ValueError) as exc:
-        raise SystemExit(str(exc)) from exc
-    return (
-        _active_reuse_vc_attempt(state, round_id),
-        build_workspace,
-        Path(".coq_debug") / "reuse-source.v",
-        source_goal_version,
-        sealed_snapshot,
-        validated_snapshot,
-    )
-
-
-def _record_reuse_debug_receipt(
-    *,
-    main_root: Path,
-    run_root: Path,
-    state: dict[str, Any],
-    attempt: dict[str, Any],
-    receipt_kind: str,
-    source_round: str,
-    build_workspace: Path,
-    debug_script: Path,
-    source_goal_version: str,
-    show_count: int,
-    sealed_reference_snapshot: dict[str, Any] | None,
-) -> None:
-    debug_path = build_workspace / debug_script
-    try:
-        if sealed_reference_snapshot is not None:
-            _dependency_snapshot, snapshot = _verified_reuse_source_build(
-                main_root=main_root,
-                run_root=run_root,
-                round_id=source_round,
-                sealed=sealed_reference_snapshot,
-                source_goal_version=source_goal_version,
-            )
-        else:
-            snapshot = _debug_build_snapshot(
-                build_workspace,
-                dune_dependency_snapshot=dune_snapshot_for_preserved_build(
-                    workspace_root=main_root,
-                    receipt=state.get("dune_preparation"),
-                ),
-            )
-    except (OSError, ValueError) as exc:
-        raise SystemExit(str(exc)) from exc
-    attempt.setdefault("proof_reuse_debug", {})[receipt_kind] = {
-        "status": "passed",
-        "round": source_round,
-        "source_goal_version": source_goal_version,
-        "build_digest": snapshot["digest"],
-        "build_file_count": snapshot["file_count"],
-        "debug_script_sha256": _file_digest(debug_path),
-        "show_count": show_count,
-    }
-    _append_event(
-        run_root,
-        state,
-        "proof-reuse-debug-completed",
-        round=str(attempt["round"]),
-        debug_kind=receipt_kind,
-        source_round=source_round,
-    )
-    _save_state(run_root, state)
-
-
 def coq_debug(
     args: argparse.Namespace,
     *,
-    coq_check_runner: Callable[..., dict[str, Any]] = run_coqc_check,
     coq_debug_runner: Callable[..., dict[str, Any]] = run_coqtop_debug,
 ) -> int:
-    """Run a fixed group, current-VC, or sealed-reference Rocq debug command."""
+    """Inspect the active VC manual or run one group worker debug command."""
 
     main_root, run_root, state = _command_context(args)
-    receipt_attempt: dict[str, Any] | None = None
-    receipt_kind: str | None = None
-    sealed_reference_snapshot: dict[str, Any] | None = None
-    reuse_dune_snapshot: dict[str, Any] | None = None
-    overlays = None
     if args.group:
         attempt, group = _group_manifest_entry(state, args.round, args.group)
         _require_running_group_delivery(
@@ -864,73 +762,23 @@ def coq_debug(
         build_workspace = tooling["build_workspace"]
         debug_script = tooling["debug_script"]
         overlays = tooling["overlays"]
-        source_goal_version = str(state["source_goal_version"]["digest"])
-        reuse_existing_build = False
     else:
-        round_state = state.get("rounds", {}).get(args.round)
-        if not isinstance(round_state, dict):
-            raise SystemExit(f"debug round not found: {args.round}")
-        phase = str(round_state.get("phase") or "")
-        if phase == "vc-checking":
-            (
-                attempt,
-                build_workspace,
-                debug_script,
-                source_goal_version,
-                prepare,
-            ) = _current_vc_debug_context(
-                main_root=main_root,
-                run_root=run_root,
-                state=state,
-                round_id=args.round,
-                coq_check_runner=coq_check_runner,
-            )
-            if prepare is not None and prepare.get("status") != "passed":
-                print(
-                    json.dumps(
-                        {"status": "failed", "prepare": prepare},
-                        indent=2,
-                        ensure_ascii=True,
-                    )
-                )
-                return 1
-            if attempt.get("proof_reuse_round"):
-                receipt_attempt = attempt
-                receipt_kind = "current"
-            reuse_existing_build = True
-        elif phase == VC_PROVING_PHASE:
-            (
-                receipt_attempt,
-                build_workspace,
-                debug_script,
-                source_goal_version,
-                sealed_reference_snapshot,
-                reuse_dune_snapshot,
-            ) = _sealed_reuse_debug_context(
-                main_root=main_root,
-                run_root=run_root,
-                state=state,
-                round_id=args.round,
-            )
-            receipt_kind = "reference"
-            reuse_existing_build = True
-        else:
-            raise SystemExit(
-                "coq-debug without --group is only valid for vc-checking or its "
-                "sealed reusable proving source"
-            )
-
+        attempt = _attempt_for_round(state, args.round, "vc-checking")
+        if attempt.get("status") != "running":
+            raise SystemExit("manual goal inspection requires an active vc-checking delivery")
+        file_errors = _current_files_errors(state)
+        if file_errors:
+            raise SystemExit("current main-root files changed: " + file_errors[0])
+        build_workspace = run_builds_root(run_root) / args.round / "vc-checking" / "src"
+        debug_script = Path(str(state["target_files"]["proof_manual_file"]))
+        overlays = None
     debug_path = build_workspace / debug_script
-    show_count = _show_command_count(debug_path) if not args.group else 0
     evidence = coq_debug_runner(
         workspace_root=main_root,
         build_workspace=build_workspace,
         debug_script=debug_script,
-        source_goal_version=source_goal_version,
         overlays=overlays,
-        reuse_existing_build=reuse_existing_build,
         current_case_anchor=Path(str(state["target_files"]["proof_auto_file"])),
-        _reuse_dune_snapshot=reuse_dune_snapshot,
     )
     authorized_script = str(debug_path)
     if evidence.get("status") == "passed" and (
@@ -961,23 +809,5 @@ def coq_debug(
     evidence["controller_round"] = args.round
     if args.group:
         evidence["controller_group"] = args.group
-    elif (
-        evidence.get("status") == "passed"
-        and receipt_attempt is not None
-        and receipt_kind is not None
-    ):
-        _record_reuse_debug_receipt(
-            main_root=main_root,
-            run_root=run_root,
-            state=state,
-            attempt=receipt_attempt,
-            receipt_kind=receipt_kind,
-            source_round=args.round,
-            build_workspace=build_workspace,
-            debug_script=debug_script,
-            source_goal_version=source_goal_version,
-            show_count=show_count,
-            sealed_reference_snapshot=sealed_reference_snapshot,
-        )
     print(json.dumps(evidence, indent=2, ensure_ascii=True))
     return 0 if evidence.get("status") == "passed" else 1

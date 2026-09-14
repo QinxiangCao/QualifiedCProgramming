@@ -23,7 +23,7 @@ Local Open Scope sac.
 
 Lemma proof_of_veci_new_return_wit_1 : veci_new_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold vec_alloc_ok in PreH2.
   destruct PreH2 as [Hstride [Hcap [Halloc_lo Halloc_hi]]].
   Exists retval.
@@ -44,7 +44,7 @@ Qed.
 
 Lemma proof_of_veci_new_which_implies_wit_1 : veci_new_which_implies_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold veci_shell.
   Intros_p Hneq.
   split_pure_spatial.
@@ -56,7 +56,7 @@ Qed.
 
 Lemma proof_of_veci_delete_return_wit_1_split_goal_spatial : veci_delete_return_wit_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold veci_shell.
   split_pure_spatial.
   - sep_apply_l_atomic
@@ -83,7 +83,7 @@ Qed.
 
 Lemma proof_of_veci_delete_which_implies_wit_1 : veci_delete_which_implies_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold store_veci, veci_raw, veci_header, veci_buffer.
   Intros buf cap.
   Exists cap buf.
@@ -94,7 +94,7 @@ Qed.
 
 Lemma proof_of_veci_begin_return_wit_1 : veci_begin_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists cap_2.
   unfold veci_raw, veci_header, veci_buffer.
   split_pure_spatial.
@@ -112,7 +112,7 @@ Qed.
 
 Lemma proof_of_veci_begin_which_implies_wit_1 : veci_begin_which_implies_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold store_veci, veci_raw, veci_header, veci_buffer.
   Intros buf cap.
   Exists cap buf.
@@ -123,7 +123,7 @@ Qed.
 
 Lemma proof_of_veci_size_return_wit_1_split_goal_spatial : veci_size_return_wit_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold store_veci.
   Exists buf cap.
   unfold veci_raw, veci_header, veci_buffer.
@@ -150,7 +150,7 @@ Qed.
 
 Lemma proof_of_veci_size_which_implies_wit_1 : veci_size_which_implies_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold store_veci, veci_raw, veci_header, veci_buffer.
   Intros buf cap.
   Exists cap buf.
@@ -161,7 +161,7 @@ Qed.
 
 Lemma proof_of_veci_resize_return_wit_1_split_goal_spatial : veci_resize_return_wit_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold veci_raw, veci_header, veci_buffer.
   rewrite Zlength_sublist by lia.
   sep_apply_l_atomic
@@ -184,7 +184,7 @@ Qed.
 
 Lemma proof_of_veci_resize_which_implies_wit_1_split_goal_1 : veci_resize_which_implies_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold veci_raw.
   Intros_p Hraw.
   destruct Hraw as [Hv [Hbuf [Hlen0 [Hlencap [Hcap4 [Hcapmax Halloc]]]]]].
@@ -194,7 +194,7 @@ Qed.
 
 Lemma proof_of_veci_resize_which_implies_wit_1_split_goal_2 : veci_resize_which_implies_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold veci_raw.
   Intros_p Hraw.
   destruct Hraw as [Hv [Hbuf [Hlen0 [Hlencap [Hcap4 [Hcapmax Halloc]]]]]].
@@ -204,7 +204,7 @@ Qed.
 
 Lemma proof_of_veci_resize_which_implies_wit_1_split_goal_3 : veci_resize_which_implies_wit_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold veci_raw.
   Intros_p Hraw.
   destruct Hraw as [Hv [Hbuf [Hlen0 [Hlencap [Hcap4 [Hcapmax Halloc]]]]]].
@@ -214,7 +214,7 @@ Qed.
 
 Lemma proof_of_veci_resize_which_implies_wit_1_split_goal_4 : veci_resize_which_implies_wit_1_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold veci_raw.
   Intros_p Hraw.
   destruct Hraw as [Hv [Hbuf [Hlen0 [Hlencap [Hcap4 [Hcapmax Halloc]]]]]].
@@ -224,7 +224,7 @@ Qed.
 
 Lemma proof_of_veci_resize_which_implies_wit_1_split_goal_5 : veci_resize_which_implies_wit_1_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold veci_raw.
   Intros_p Hraw.
   destruct Hraw as [Hv [Hbuf [Hlen0 [Hlencap [Hcap4 [Hcapmax Halloc]]]]]].
@@ -234,7 +234,7 @@ Qed.
 
 Lemma proof_of_veci_resize_which_implies_wit_1_split_goal_6 : veci_resize_which_implies_wit_1_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold veci_raw.
   Intros_p Hraw.
   destruct Hraw as [Hv [Hbuf [Hlen0 [Hlencap [Hcap4 [Hcapmax Halloc]]]]]].
@@ -244,7 +244,7 @@ Qed.
 
 Lemma proof_of_veci_resize_which_implies_wit_1_split_goal_7 : veci_resize_which_implies_wit_1_split_goal_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold veci_raw.
   Intros_p Hraw.
   destruct Hraw as [Hv [Hbuf [Hlen0 [Hlencap [Hcap4 [Hcapmax Halloc]]]]]].
@@ -254,7 +254,7 @@ Qed.
 
 Lemma proof_of_veci_resize_which_implies_wit_1_split_goal_spatial : veci_resize_which_implies_wit_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold veci_raw.
   Intros_p Hraw.
   unfold veci_header, veci_buffer.
@@ -280,12 +280,12 @@ Qed.
 
 Lemma proof_of_veci_push_entail_wit_1_2_split_goal_1 : veci_push_entail_wit_1_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_veci_push_entail_wit_1_2_split_goal_2 : veci_push_entail_wit_1_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_veci_push_entail_wit_1_2 : veci_push_entail_wit_1_2.
@@ -297,7 +297,7 @@ Qed.
 
 Lemma proof_of_veci_push_partial_solve_wit_2_pure_split_goal_1 : veci_push_partial_solve_wit_2_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH18 PreH9).
   destruct PreH18 as [[Hgrowth Hcap_limit] Huint_limit].
   unfold vec_growth_ok in Hgrowth.
@@ -322,7 +322,7 @@ Qed.
 
 Lemma proof_of_veci_push_which_implies_wit_1_split_goal_1 : veci_push_which_implies_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof proof_of_veci_resize_which_implies_wit_1_split_goal_1 as Hresize.
   unfold veci_resize_which_implies_wit_1_split_goal_1 in Hresize.
   exact (Hresize cap buf xs v).
@@ -330,7 +330,7 @@ Qed.
 
 Lemma proof_of_veci_push_which_implies_wit_1_split_goal_2 : veci_push_which_implies_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof proof_of_veci_resize_which_implies_wit_1_split_goal_2 as Hresize.
   unfold veci_resize_which_implies_wit_1_split_goal_2 in Hresize.
   exact (Hresize cap buf xs v).
@@ -338,7 +338,7 @@ Qed.
 
 Lemma proof_of_veci_push_which_implies_wit_1_split_goal_3 : veci_push_which_implies_wit_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof proof_of_veci_resize_which_implies_wit_1_split_goal_3 as Hresize.
   unfold veci_resize_which_implies_wit_1_split_goal_3 in Hresize.
   exact (Hresize cap buf xs v).
@@ -346,7 +346,7 @@ Qed.
 
 Lemma proof_of_veci_push_which_implies_wit_1_split_goal_4 : veci_push_which_implies_wit_1_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof proof_of_veci_resize_which_implies_wit_1_split_goal_4 as Hresize.
   unfold veci_resize_which_implies_wit_1_split_goal_4 in Hresize.
   exact (Hresize cap buf xs v).
@@ -354,7 +354,7 @@ Qed.
 
 Lemma proof_of_veci_push_which_implies_wit_1_split_goal_5 : veci_push_which_implies_wit_1_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof proof_of_veci_resize_which_implies_wit_1_split_goal_5 as Hresize.
   unfold veci_resize_which_implies_wit_1_split_goal_5 in Hresize.
   exact (Hresize cap buf xs v).
@@ -362,7 +362,7 @@ Qed.
 
 Lemma proof_of_veci_push_which_implies_wit_1_split_goal_6 : veci_push_which_implies_wit_1_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof proof_of_veci_resize_which_implies_wit_1_split_goal_6 as Hresize.
   unfold veci_resize_which_implies_wit_1_split_goal_6 in Hresize.
   exact (Hresize cap buf xs v).
@@ -370,7 +370,7 @@ Qed.
 
 Lemma proof_of_veci_push_which_implies_wit_1_split_goal_7 : veci_push_which_implies_wit_1_split_goal_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof proof_of_veci_resize_which_implies_wit_1_split_goal_7 as Hresize.
   unfold veci_resize_which_implies_wit_1_split_goal_7 in Hresize.
   exact (Hresize cap buf xs v).
@@ -378,7 +378,7 @@ Qed.
 
 Lemma proof_of_veci_push_which_implies_wit_1_split_goal_spatial : veci_push_which_implies_wit_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof proof_of_veci_resize_which_implies_wit_1_split_goal_spatial as Hresize.
   unfold veci_resize_which_implies_wit_1_split_goal_spatial in Hresize.
   sep_apply (Hresize cap buf xs v).
@@ -404,7 +404,7 @@ Qed.
 
 Lemma proof_of_veci_push_which_implies_wit_2 : veci_push_which_implies_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists curbuf_2 curcap_2.
   unfold veci_raw, veci_header, veci_buffer.
   assert (Hlen : Zlength (xs +:: e) = Zlength xs + 1)
@@ -420,7 +420,7 @@ Qed.
 
 Lemma proof_of_vecp_new_return_wit_1 : vecp_new_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold vec_alloc_ok in PreH2.
   destruct PreH2 as [Hstride [Hcap [Halloc_lo Halloc_hi]]].
   Exists retval.
@@ -441,7 +441,7 @@ Qed.
 
 Lemma proof_of_vecp_new_which_implies_wit_1 : vecp_new_which_implies_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold vecp_shell.
   Intros_p Hneq.
   split_pure_spatial.
@@ -453,7 +453,7 @@ Qed.
 
 Lemma proof_of_vecp_delete_return_wit_1_split_goal_spatial : vecp_delete_return_wit_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold vecp_shell.
   split_pure_spatial.
   - sep_apply_l_atomic
@@ -480,7 +480,7 @@ Qed.
 
 Lemma proof_of_vecp_delete_which_implies_wit_1 : vecp_delete_which_implies_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold store_vecp, vecp_raw, vecp_header, vecp_buffer.
   Intros buf cap.
   Exists cap buf.
@@ -491,7 +491,7 @@ Qed.
 
 Lemma proof_of_vecp_begin_return_wit_1 : vecp_begin_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists cap_2.
   unfold vecp_raw, vecp_header, vecp_buffer.
   split_pure_spatial.
@@ -509,7 +509,7 @@ Qed.
 
 Lemma proof_of_vecp_begin_which_implies_wit_1 : vecp_begin_which_implies_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold store_vecp, vecp_raw, vecp_header, vecp_buffer.
   Intros buf cap.
   Exists cap buf.
@@ -520,7 +520,7 @@ Qed.
 
 Lemma proof_of_vecp_size_return_wit_1_split_goal_spatial : vecp_size_return_wit_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold store_vecp.
   Exists buf cap.
   unfold vecp_raw, vecp_header, vecp_buffer.
@@ -547,7 +547,7 @@ Qed.
 
 Lemma proof_of_vecp_size_which_implies_wit_1 : vecp_size_which_implies_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold store_vecp, vecp_raw, vecp_header, vecp_buffer.
   Intros buf cap.
   Exists cap buf.
@@ -558,7 +558,7 @@ Qed.
 
 Lemma proof_of_vecp_resize_return_wit_1_split_goal_spatial : vecp_resize_return_wit_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold vecp_raw, vecp_header, vecp_buffer.
   rewrite Zlength_sublist by lia.
   sep_apply_l_atomic
@@ -581,7 +581,7 @@ Qed.
 
 Lemma proof_of_vecp_resize_which_implies_wit_1_split_goal_1 : vecp_resize_which_implies_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold vecp_raw.
   Intros_p Hraw.
   destruct Hraw as [Hv [Hbuf [Hlen0 [Hlencap [Hcap4 [Hcapmax Halloc]]]]]].
@@ -591,7 +591,7 @@ Qed.
 
 Lemma proof_of_vecp_resize_which_implies_wit_1_split_goal_2 : vecp_resize_which_implies_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold vecp_raw.
   Intros_p Hraw.
   destruct Hraw as [Hv [Hbuf [Hlen0 [Hlencap [Hcap4 [Hcapmax Halloc]]]]]].
@@ -601,7 +601,7 @@ Qed.
 
 Lemma proof_of_vecp_resize_which_implies_wit_1_split_goal_3 : vecp_resize_which_implies_wit_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold vecp_raw.
   Intros_p Hraw.
   destruct Hraw as [Hv [Hbuf [Hlen0 [Hlencap [Hcap4 [Hcapmax Halloc]]]]]].
@@ -611,7 +611,7 @@ Qed.
 
 Lemma proof_of_vecp_resize_which_implies_wit_1_split_goal_4 : vecp_resize_which_implies_wit_1_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold vecp_raw.
   Intros_p Hraw.
   destruct Hraw as [Hv [Hbuf [Hlen0 [Hlencap [Hcap4 [Hcapmax Halloc]]]]]].
@@ -621,7 +621,7 @@ Qed.
 
 Lemma proof_of_vecp_resize_which_implies_wit_1_split_goal_5 : vecp_resize_which_implies_wit_1_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold vecp_raw.
   Intros_p Hraw.
   destruct Hraw as [Hv [Hbuf [Hlen0 [Hlencap [Hcap4 [Hcapmax Halloc]]]]]].
@@ -631,7 +631,7 @@ Qed.
 
 Lemma proof_of_vecp_resize_which_implies_wit_1_split_goal_6 : vecp_resize_which_implies_wit_1_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold vecp_raw.
   Intros_p Hraw.
   destruct Hraw as [Hv [Hbuf [Hlen0 [Hlencap [Hcap4 [Hcapmax Halloc]]]]]].
@@ -641,7 +641,7 @@ Qed.
 
 Lemma proof_of_vecp_resize_which_implies_wit_1_split_goal_7 : vecp_resize_which_implies_wit_1_split_goal_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold vecp_raw.
   Intros_p Hraw.
   destruct Hraw as [Hv [Hbuf [Hlen0 [Hlencap [Hcap4 [Hcapmax Halloc]]]]]].
@@ -651,7 +651,7 @@ Qed.
 
 Lemma proof_of_vecp_resize_which_implies_wit_1_split_goal_spatial : vecp_resize_which_implies_wit_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   unfold vecp_raw.
   Intros_p Hraw.
   unfold vecp_header, vecp_buffer.
@@ -677,12 +677,12 @@ Qed.
 
 Lemma proof_of_vecp_push_entail_wit_1_2_split_goal_1 : vecp_push_entail_wit_1_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_vecp_push_entail_wit_1_2_split_goal_2 : vecp_push_entail_wit_1_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_vecp_push_entail_wit_1_2 : vecp_push_entail_wit_1_2.
@@ -694,7 +694,7 @@ Qed.
 
 Lemma proof_of_vecp_push_partial_solve_wit_2_pure_split_goal_1 : vecp_push_partial_solve_wit_2_pure_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   specialize (PreH16 PreH7).
   destruct PreH16 as [[Hgrowth Hcap_limit] Huint_limit].
   unfold vec_growth_ok in Hgrowth.
@@ -719,7 +719,7 @@ Qed.
 
 Lemma proof_of_vecp_push_which_implies_wit_1_split_goal_1 : vecp_push_which_implies_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof proof_of_vecp_resize_which_implies_wit_1_split_goal_1 as Hresize.
   unfold vecp_resize_which_implies_wit_1_split_goal_1 in Hresize.
   exact (Hresize cap buf xs v).
@@ -727,7 +727,7 @@ Qed.
 
 Lemma proof_of_vecp_push_which_implies_wit_1_split_goal_2 : vecp_push_which_implies_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof proof_of_vecp_resize_which_implies_wit_1_split_goal_2 as Hresize.
   unfold vecp_resize_which_implies_wit_1_split_goal_2 in Hresize.
   exact (Hresize cap buf xs v).
@@ -735,7 +735,7 @@ Qed.
 
 Lemma proof_of_vecp_push_which_implies_wit_1_split_goal_3 : vecp_push_which_implies_wit_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof proof_of_vecp_resize_which_implies_wit_1_split_goal_3 as Hresize.
   unfold vecp_resize_which_implies_wit_1_split_goal_3 in Hresize.
   exact (Hresize cap buf xs v).
@@ -743,7 +743,7 @@ Qed.
 
 Lemma proof_of_vecp_push_which_implies_wit_1_split_goal_4 : vecp_push_which_implies_wit_1_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof proof_of_vecp_resize_which_implies_wit_1_split_goal_4 as Hresize.
   unfold vecp_resize_which_implies_wit_1_split_goal_4 in Hresize.
   exact (Hresize cap buf xs v).
@@ -751,7 +751,7 @@ Qed.
 
 Lemma proof_of_vecp_push_which_implies_wit_1_split_goal_5 : vecp_push_which_implies_wit_1_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof proof_of_vecp_resize_which_implies_wit_1_split_goal_5 as Hresize.
   unfold vecp_resize_which_implies_wit_1_split_goal_5 in Hresize.
   exact (Hresize cap buf xs v).
@@ -759,7 +759,7 @@ Qed.
 
 Lemma proof_of_vecp_push_which_implies_wit_1_split_goal_6 : vecp_push_which_implies_wit_1_split_goal_6.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof proof_of_vecp_resize_which_implies_wit_1_split_goal_6 as Hresize.
   unfold vecp_resize_which_implies_wit_1_split_goal_6 in Hresize.
   exact (Hresize cap buf xs v).
@@ -767,7 +767,7 @@ Qed.
 
 Lemma proof_of_vecp_push_which_implies_wit_1_split_goal_7 : vecp_push_which_implies_wit_1_split_goal_7.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof proof_of_vecp_resize_which_implies_wit_1_split_goal_7 as Hresize.
   unfold vecp_resize_which_implies_wit_1_split_goal_7 in Hresize.
   exact (Hresize cap buf xs v).
@@ -775,7 +775,7 @@ Qed.
 
 Lemma proof_of_vecp_push_which_implies_wit_1_split_goal_spatial : vecp_push_which_implies_wit_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   pose proof proof_of_vecp_resize_which_implies_wit_1_split_goal_spatial as Hresize.
   unfold vecp_resize_which_implies_wit_1_split_goal_spatial in Hresize.
   sep_apply (Hresize cap buf xs v).
@@ -801,7 +801,7 @@ Qed.
 
 Lemma proof_of_vecp_push_which_implies_wit_2 : vecp_push_which_implies_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
+  LLM_pre_process ltac:(lia || int_auto).
   Exists curbuf_2 curcap_2.
   unfold vecp_raw, vecp_header, vecp_buffer.
   assert (Hlen : Zlength (xs +:: e) = Zlength xs + 1)

@@ -13,7 +13,6 @@ import os
 import re
 import stat
 import uuid
-from contextlib import nullcontext
 from pathlib import Path
 from typing import Any
 
@@ -24,6 +23,7 @@ from controller_attempts import (
     _proving_manifest_errors,
     _public_helper_pool_errors,
 )
+from controller_control import control_signal_path, control_signal_requests_stop
 from controller_rounds import VC_PROVING_PHASE, _accepted_group_ids
 from controller_state import (
     _annotation_after_snapshot_errors,
@@ -50,9 +50,10 @@ from prepare_group_workers import (
 )
 from proof_manual_utils import (
     ASSUMPTION_DECLARATION_KINDS,
-    PROOF_DECLARATION_KINDS,
+    coq_token_text,
     forbidden_top_level_declarations,
     incomplete_proof_markers,
+    lemma_statement_text,
     mask_coq_strings,
     parse_manual_file,
     partition_manual_lemmas,
@@ -63,7 +64,11 @@ from proof_manual_utils import (
     unsafe_assumption_declarations,
     unsafe_typing_commands,
 )
-from symexec_tooling import clean_output_freshness, run_symexec
+from symexec_tooling import (
+    clean_output_freshness,
+    run_symexec,
+    symexec_profile_for_state,
+)
 from verify_group_results import FORBIDDEN_TOKENS
 
 
@@ -184,130 +189,37 @@ def _nullable_sha256(value: Any, *, label: str) -> str | None:
     raise ValueError(f"{label} must be sha256 or null")
 
 
-def _source_goal_generated_record(
-    source_goal: dict[str, Any],
-    *,
-    role: str,
-    relative_path: str,
-) -> dict[str, Any]:
-    raw_records = source_goal.get("generated_files")
-    if not isinstance(raw_records, list):
-        raise TypeError("source_goal_version generated_files is invalid")
-    matches = [
-        record
-        for record in raw_records
-        if isinstance(record, dict) and record.get("role") == role
-    ]
-    if len(matches) != 1:
-        raise ValueError(
-            f"source_goal_version requires exactly one generated record for {role}"
-        )
-    record = matches[0]
-    if (
-        set(record) != {"relative_path", "role", "state", "sha256"}
-        or record.get("relative_path") != relative_path
-        or record.get("state") not in {"present", "missing"}
-    ):
-        raise ValueError(f"source_goal_version generated record is invalid for {role}")
-    digest = record.get("sha256")
-    if record["state"] == "present":
-        _nullable_sha256(digest, label=f"source_goal_version {role} digest")
-        if digest is None:
-            raise ValueError(f"present source_goal_version {role} has null digest")
-    elif digest is not None:
-        raise ValueError(f"missing source_goal_version {role} has a digest")
-    return record
-
-
-def _source_version_file_record(
-    source_version: dict[str, Any],
-    *,
-    role: str,
-    relative_path: str,
-) -> dict[str, Any]:
-    raw_records = source_version.get("files")
-    if not isinstance(raw_records, list):
-        raise TypeError("source_version files are invalid")
-    matches = [
-        record
-        for record in raw_records
-        if isinstance(record, dict)
-        and record.get("relative_path") == relative_path
-    ]
-    if len(matches) != 1:
-        raise ValueError(
-            f"source_version requires exactly one file record for {relative_path}"
-        )
-    record = matches[0]
-    if (
-        set(record) != {"relative_path", "role", "state", "sha256"}
-        or record.get("role") != role
-        or record.get("state") not in {"present", "missing"}
-    ):
-        raise ValueError(f"source_version file record is invalid for {relative_path}")
-    digest = record.get("sha256")
-    if record["state"] == "present":
-        _nullable_sha256(digest, label=f"source_version {role} digest")
-        if digest is None:
-            raise ValueError(f"present source_version {role} has null digest")
-    elif digest is not None:
-        raise ValueError(f"missing source_version {role} has a digest")
-    return record
-
-
 def _validated_base_seed_digests(
     base: Any,
     *,
     target_files: dict[str, Any],
-    source_goal: dict[str, Any],
-    source_version: dict[str, Any],
 ) -> tuple[str | None, str | None]:
     if not isinstance(base, dict) or set(base) != {
-        "source_goal_version",
         "proof_manual",
         "formal_case_lib",
         "seed_sha256",
     }:
         raise ValueError("accepted base manifest fields are invalid")
-    source_goal_digest = _nullable_sha256(
-        source_goal.get("digest"), label="source_goal_version digest"
-    )
     if (
-        source_goal_digest is None
-        or base.get("source_goal_version") != source_goal_digest
-        or base.get("proof_manual") != target_files.get("proof_manual_file")
+        base.get("proof_manual") != target_files.get("proof_manual_file")
         or base.get("formal_case_lib") != target_files.get("formal_case_lib")
     ):
-        raise ValueError("accepted base manifest provenance or target paths differ")
+        raise ValueError("accepted base manifest target paths differ")
     seed = base.get("seed_sha256")
     if not isinstance(seed, dict) or set(seed) != {
         "proof_manual",
         "formal_case_lib",
     }:
         raise ValueError("accepted base manifest seed_sha256 is invalid")
-    seed_manual_digest = _nullable_sha256(
-        seed.get("proof_manual"), label="base manual seed digest"
+    return (
+        _nullable_sha256(
+            seed.get("proof_manual"), label="base manual seed digest"
+        ),
+        _nullable_sha256(
+            seed.get("formal_case_lib"), label="base lib seed digest"
+        ),
     )
-    seed_lib_digest = _nullable_sha256(
-        seed.get("formal_case_lib"), label="base lib seed digest"
-    )
-    manual_record = _source_goal_generated_record(
-        source_goal,
-        role="proof_manual_file",
-        relative_path=str(target_files["proof_manual_file"]),
-    )
-    lib_record = _source_version_file_record(
-        source_version,
-        role="formal-case-lib",
-        relative_path=str(target_files["formal_case_lib"]),
-    )
-    if seed_manual_digest != manual_record.get("sha256"):
-        raise ValueError(
-            "accepted base manual seed differs from source_goal_version"
-        )
-    if seed_lib_digest != lib_record.get("sha256"):
-        raise ValueError("accepted base lib seed differs from source_version")
-    return seed_manual_digest, seed_lib_digest
+
 
 
 def _optional_artifact_matches(path: Path, digest: str | None) -> bool:
@@ -319,12 +231,16 @@ def _optional_artifact_matches(path: Path, digest: str | None) -> bool:
         return False
 
 
-def _accepted_group_artifact_paths(group: dict[str, Any]) -> dict[str, Path]:
+def _accepted_group_artifact_paths(
+    group: dict[str, Any], *, expected: dict[str, Any] | None = None
+) -> dict[str, Path]:
     report_directory = Path(str(group.get("report_directory") or ""))
     paths = {
         "report": report_directory / "group_worker_report.json",
         "proof_manual": Path(str(group.get("proof_manual") or "")),
     }
+    if isinstance(expected, dict) and "output" in expected:
+        paths["output"] = report_directory / "group_worker_output.md"
     group_worker_lib = group.get("group_worker_lib")
     if isinstance(group_worker_lib, str) and group_worker_lib:
         paths["group_worker_lib"] = Path(group_worker_lib)
@@ -373,8 +289,6 @@ def _accepted_proving_integrity_errors_unchecked(state: dict[str, Any]) -> list[
             if (
                 not isinstance(merged_result, dict)
                 or merged_result.get("status") != "passed"
-                or merged_result.get("source_goal_version")
-                != state.get("source_goal_version", {}).get("digest")
                 or not isinstance(merged_candidate, dict)
             ):
                 raise ValueError("accepted proving_merged_result candidate is invalid")
@@ -393,8 +307,6 @@ def _accepted_proving_integrity_errors_unchecked(state: dict[str, Any]) -> list[
             seed_manual_digest, seed_lib_digest = _validated_base_seed_digests(
                 _json_load(base_path, {}),
                 target_files=state["target_files"],
-                source_goal=state["source_goal_version"],
-                source_version=state["source_version"],
             )
             if (candidate_digests["proof_manual_file"] is None) != (
                 seed_manual_digest is None
@@ -484,11 +396,7 @@ def _accepted_proving_integrity_errors_unchecked(state: dict[str, Any]) -> list[
         )
     except (OSError, TypeError, UnicodeError, ValueError, SystemExit):
         manifest = {}
-    if (
-        not isinstance(manifest, dict)
-        or manifest.get("source_goal_version")
-        != state.get("source_goal_version", {}).get("digest")
-    ):
+    if not isinstance(manifest, dict):
         errors.append("accepted group_workers_manifest is invalid or stale")
     else:
         manifest_groups = {
@@ -502,11 +410,14 @@ def _accepted_proving_integrity_errors_unchecked(state: dict[str, Any]) -> list[
         for group_id in sorted(accepted_groups & set(manifest_groups)):
             group = manifest_groups[group_id]
             group_state = proving.get("groups", {}).get(group_id, {})
-            artifact_paths = _accepted_group_artifact_paths(group)
             artifact_seals = (
                 group_state.get("accepted_artifact_sha256")
                 if isinstance(group_state, dict)
                 else None
+            )
+            artifact_paths = _accepted_group_artifact_paths(
+                group,
+                expected=(artifact_seals if isinstance(artifact_seals, dict) else None),
             )
             if not isinstance(artifact_seals, dict) or set(artifact_seals) != set(
                 artifact_paths
@@ -658,19 +569,10 @@ def _expected_transaction_records(
     target_files = state.get("target_files")
     if not isinstance(target_files, dict):
         raise ValueError("controller target_files cannot authorize final transaction")
-    source_goal = state.get("source_goal_version")
-    source_version = state.get("source_version")
-    if not isinstance(source_goal, dict) or not isinstance(source_version, dict):
-        raise ValueError("accepted annotation versions cannot authorize rollback")
-    manual_before = _source_goal_generated_record(
-        source_goal,
-        role="proof_manual_file",
-        relative_path=str(target_files.get("proof_manual_file") or ""),
-    )
-    lib_before = _source_version_file_record(
-        source_version,
-        role="formal-case-lib",
-        relative_path=str(target_files.get("formal_case_lib") or ""),
+    proving_paths = _validated_proving_attempt_paths(state, proving)
+    manual_before, lib_before = _validated_base_seed_digests(
+        _json_load(proving_paths["base_manifest"], {}),
+        target_files=target_files,
     )
     candidate_specs = (
         (
@@ -696,18 +598,14 @@ def _expected_transaction_records(
         backup_root,
         label="final transaction backup directory",
     )
-    for relative, digest, before_record in candidate_specs:
-        before_digest = _nullable_sha256(
-            before_record.get("sha256"),
-            label="accepted pre-apply formal digest",
-        )
+    for relative, digest, before_digest in candidate_specs:
         if digest is None:
-            if before_record.get("state") != "missing" or before_digest is not None:
+            if before_digest is not None:
                 raise ValueError(
                     "null final candidate differs from accepted annotation topology"
                 )
             continue
-        if before_record.get("state") != "present" or before_digest is None:
+        if before_digest is None:
             raise ValueError(
                 "present final candidate differs from accepted annotation topology"
             )
@@ -755,7 +653,6 @@ def _validated_final_apply_transaction(
     base_fields = {
         "transaction_id",
         "status",
-        "source_goal_version",
         "records",
         "prepared_at",
     }
@@ -789,14 +686,6 @@ def _validated_final_apply_transaction(
             raise ValueError(
                 f"final-apply transaction {timestamp_field} is invalid"
             )
-    source_goal_digest = str(
-        (state.get("source_goal_version") or {}).get("digest") or ""
-    )
-    if (
-        re.fullmatch(r"[0-9a-f]{64}", source_goal_digest) is None
-        or transaction.get("source_goal_version") != source_goal_digest
-    ):
-        raise ValueError("final-apply transaction source_goal_version is stale")
     records = transaction.get("records")
     if not isinstance(records, list):
         raise ValueError("final-apply transaction records are invalid")
@@ -908,49 +797,48 @@ def _rollback(
     main_root: Path,
     backup_root: Path,
 ) -> dict[str, Any]:
-    with nullcontext():
-        _transaction, records = _validated_final_apply_transaction(
-            state,
-            main_root=main_root,
-            backup_root=backup_root,
-        )
-        restored: list[str] = []
-        errors: list[str] = []
-        for record in records:
-            target = Path(str(record.get("target") or "<unknown-final-target>"))
-            try:
-                relative_path = str(record["relative_path"])
-                target = _rollback_main_target(main_root, relative_path)
-                if record["existed"]:
-                    backup = fixed_path_under(
-                        Path(str(record["backup"])),
-                        backup_root,
-                        label="final-apply rollback backup",
-                    )
-                    expected = str(record["before_sha256"])
-                    if (
-                        _regular_file_digest(backup, label="rollback backup")
-                        != expected
-                    ):
-                        raise ValueError(f"rollback backup digest changed: {backup}")
-                    _atomic_replace_formal_target(
-                        target,
-                        backup.read_bytes(),
-                        main_root=main_root,
-                        label="formal rollback target",
-                    )
-                    if (
-                        _regular_file_digest(target, label="restored formal target")
-                        != expected
-                    ):
-                        raise ValueError(f"rollback target digest mismatch: {target}")
-                elif _lexists(target):
-                    # The validated exact leaf is removed directly; a symlink
-                    # referent is never followed.
-                    target.unlink()
-                restored.append(str(target))
-            except (OSError, ValueError, SystemExit) as exc:
-                errors.append(f"{target}: {exc}")
+    _transaction, records = _validated_final_apply_transaction(
+        state,
+        main_root=main_root,
+        backup_root=backup_root,
+    )
+    restored: list[str] = []
+    errors: list[str] = []
+    for record in records:
+        target = Path(str(record.get("target") or "<unknown-final-target>"))
+        try:
+            relative_path = str(record["relative_path"])
+            target = _rollback_main_target(main_root, relative_path)
+            if record["existed"]:
+                backup = fixed_path_under(
+                    Path(str(record["backup"])),
+                    backup_root,
+                    label="final-apply rollback backup",
+                )
+                expected = str(record["before_sha256"])
+                if (
+                    _regular_file_digest(backup, label="rollback backup")
+                    != expected
+                ):
+                    raise ValueError(f"rollback backup digest changed: {backup}")
+                _atomic_replace_formal_target(
+                    target,
+                    backup.read_bytes(),
+                    main_root=main_root,
+                    label="formal rollback target",
+                )
+                if (
+                    _regular_file_digest(target, label="restored formal target")
+                    != expected
+                ):
+                    raise ValueError(f"rollback target digest mismatch: {target}")
+            elif _lexists(target):
+                # The validated exact leaf is removed directly; a symlink
+                # referent is never followed.
+                target.unlink()
+            restored.append(str(target))
+        except (OSError, ValueError, SystemExit) as exc:
+            errors.append(f"{target}: {exc}")
     return {
         "status": "passed" if not errors else "failed",
         "restored": restored,
@@ -986,11 +874,10 @@ def final_apply(args: argparse.Namespace) -> int:
     existing_transaction = state.get("final_apply_transaction")
     annotation_findings = _accepted_annotation_source_findings(
         state,
-        # Before the receipt exists, all six current files must still be the
-        # accepted annotation originals.  On crash re-entry one or both formal
-        # targets may already contain candidate bytes; the durable transaction
-        # below validates those targets against its sealed before/source
-        # digests, while this gate continues to protect C and goal/auto/check.
+        # Before the receipt exists, C/goal/auto/check and the case library must
+        # still match accepted annotation bytes. The proving base manifest and
+        # durable transaction validate the clean manual that vc-checking
+        # regenerated, as well as either formal target during crash re-entry.
         require_preapply_state=not isinstance(existing_transaction, dict),
     )
     if annotation_findings:
@@ -1069,9 +956,6 @@ def final_apply(args: argparse.Namespace) -> int:
             label="accepted proving_merged directory",
         )
         target = state["target_files"]
-        current_goal = str(state.get("source_goal_version", {}).get("digest") or "")
-        if not current_goal or proving.get("source_goal_version") != current_goal:
-            raise ValueError("final candidate source_goal_version is stale")
         if (
             candidate.get("proving_merged_result")
             != proving.get("proving_merged_result")
@@ -1093,18 +977,14 @@ def final_apply(args: argparse.Namespace) -> int:
         merged_candidate = merged.get("candidate") if isinstance(merged, dict) else None
         merged_fields = {
             "status",
-            "source_goal_version",
             "candidate",
             "group_count",
             "added_declarations",
         }
-        if isinstance(merged, dict) and "proof_reuse" in merged:
-            merged_fields.add("proof_reuse")
         if (
             not isinstance(merged, dict)
             or set(merged) != merged_fields
             or merged.get("status") != "passed"
-            or merged.get("source_goal_version") != current_goal
             or not isinstance(merged_candidate, dict)
         ):
             raise ValueError("final candidate lacks an accepted proving_merged_result")
@@ -1145,8 +1025,6 @@ def final_apply(args: argparse.Namespace) -> int:
         seed_manual_digest, seed_lib_digest = _validated_base_seed_digests(
             _json_load(base_path, {}),
             target_files=target,
-            source_goal=state["source_goal_version"],
-            source_version=state["source_version"],
         )
         if (seed_manual_digest is None) != (candidate_manual_digest is None):
             raise ValueError(
@@ -1239,7 +1117,6 @@ def final_apply(args: argparse.Namespace) -> int:
         transaction = {
             "transaction_id": transaction_id,
             "status": "prepared",
-            "source_goal_version": current_goal,
             "records": records,
             "prepared_at": _utc(),
         }
@@ -1422,74 +1299,70 @@ def final_apply(args: argparse.Namespace) -> int:
 
 def _manual_structure_findings(
     manual: Path,
-    source_goal: dict[str, Any],
+    raw_manual: Path,
     proof_routes: dict[str, dict[str, Any]],
-    *,
-    manual_relative: str,
 ) -> list[dict[str, Any]]:
     findings: list[dict[str, Any]] = []
-    raw_witnesses = source_goal.get("target_witnesses")
-    if not isinstance(raw_witnesses, list) or not all(
-        isinstance(item, str) and item for item in raw_witnesses
-    ):
-        return [{"kind": "invalid-source-goal-witnesses"}]
-    expected_witnesses = [str(item) for item in raw_witnesses]
-    try:
-        manual_record = _source_goal_generated_record(
-            source_goal,
-            role="proof_manual_file",
-            relative_path=manual_relative,
-        )
-    except (TypeError, ValueError) as exc:
-        return [{"kind": "invalid-manual-source-goal-record", "message": str(exc)}]
-    if manual_record["state"] == "missing":
-        if expected_witnesses:
-            findings.append(
-                {
-                    "kind": "missing-manual-has-witnesses",
-                    "witness_count": len(expected_witnesses),
-                }
-            )
+    if not raw_manual.is_file():
         if _lexists(manual):
             findings.append({"kind": "unexpected-manual", "path": str(manual)})
         return findings
     if not manual.is_file():
         return [{"kind": "missing-manual", "path": str(manual)}]
     try:
+        raw_text = raw_manual.read_text(encoding="utf-8")
         text = manual.read_text(encoding="utf-8")
-    except (OSError, UnicodeError) as exc:
-        return [
-            {
-                "kind": "manual-read-error",
-                "path": str(manual),
-                "message": str(exc),
-            }
-        ]
+        _raw_prelude, raw_lemmas = parse_manual_file(raw_text)
+        _prelude, lemmas = parse_manual_file(text)
+        raw_witnesses, raw_split_lemmas = partition_manual_lemmas(raw_lemmas)
+        witness_lemmas, split_goal_lemmas = partition_manual_lemmas(lemmas)
+    except (OSError, UnicodeError, ValueError) as exc:
+        return [{"kind": "manual-parse-error", "message": str(exc)}]
+
+    expected_witnesses = [str(item["name"]) for item in raw_witnesses]
     expected_split_goals = {
-        name: [
-            str(item["name"])
-            for item in source_goal.get("split_goals", {}).get(name, [])
-        ]
+        name: [str(item["name"]) for item in raw_split_lemmas.get(name, [])]
         for name in expected_witnesses
     }
-    expected_declarations = [
-        declaration
-        for name in expected_witnesses
-        for declaration in [*expected_split_goals[name], name]
-    ]
-    command_witnesses = [
-        str(command["name"])
-        for command in top_level_commands(text)
-        if str(command["kind"]) in PROOF_DECLARATION_KINDS
-    ]
-    if command_witnesses != expected_declarations:
+    expected_declarations = [str(lemma["name"]) for lemma in raw_lemmas]
+    actual_declarations = [str(lemma["name"]) for lemma in lemmas]
+    if actual_declarations != expected_declarations:
         findings.append(
             {
-                "kind": "top-level-witness-list-mismatch",
+                "kind": "witness-list-mismatch",
                 "expected": expected_declarations,
-                "actual": command_witnesses,
+                "actual": actual_declarations,
             }
         )
+    raw_by_name = {str(lemma["name"]): lemma for lemma in raw_lemmas}
+    by_name = {str(lemma["name"]): lemma for lemma in lemmas}
+    for name in expected_declarations:
+        raw_lemma = raw_by_name.get(name)
+        lemma = by_name.get(name)
+        if raw_lemma is None or lemma is None:
+            continue
+        if coq_token_text(lemma_statement_text(raw_lemma)) != coq_token_text(
+            lemma_statement_text(lemma)
+        ):
+            findings.append({"kind": "witness-statement-mismatch", "witness": name})
+
+    actual_witnesses = [str(item["name"]) for item in witness_lemmas]
+    actual_split_goals = {
+        name: [str(item["name"]) for item in split_goal_lemmas.get(name, [])]
+        for name in actual_witnesses
+    }
+    if (
+        actual_witnesses != expected_witnesses
+        or actual_split_goals != expected_split_goals
+    ):
+        findings.append(
+            {
+                "kind": "vc-split-goal-mapping-mismatch",
+                "expected": expected_split_goals,
+                "actual": actual_split_goals,
+            }
+        )
+
     for declaration in (
         unsafe_typing_commands(text)
         + rollback_control_commands(text)
@@ -1523,72 +1396,39 @@ def _manual_structure_findings(
                 "line": declaration["line"],
             }
         )
-    try:
-        _prelude, lemmas = parse_manual_file(text)
-        names = [str(lemma["name"]) for lemma in lemmas]
-        if names != expected_declarations:
-            findings.append(
-                {
-                    "kind": "witness-list-mismatch",
-                    "expected": expected_declarations,
-                    "actual": names,
-                }
-            )
-        witness_lemmas, split_goal_lemmas = partition_manual_lemmas(lemmas)
-        actual_witnesses = [str(item["name"]) for item in witness_lemmas]
-        actual_split_goals = {
-            name: [str(item["name"]) for item in split_goal_lemmas.get(name, [])]
-            for name in actual_witnesses
-        }
-        if (
-            actual_witnesses != expected_witnesses
-            or actual_split_goals != expected_split_goals
-        ):
-            findings.append(
-                {
-                    "kind": "vc-split-goal-mapping-mismatch",
-                    "expected": expected_split_goals,
-                    "actual": actual_split_goals,
-                }
-            )
-        by_name = {str(lemma["name"]): lemma for lemma in lemmas}
-        for lemma in lemmas:
-            name = str(lemma["name"])
-            commands = top_level_commands(str(lemma["block"]))
-            if len(commands) != 1 or commands[0].get("name") != name:
-                findings.append({"kind": "extra-top-level-command", "witness": name})
-        for name in expected_witnesses:
-            route = proof_routes.get(name)
-            if not isinstance(route, dict):
-                findings.append({"kind": "missing-proof-route", "witness": name})
+
+    for lemma in lemmas:
+        name = str(lemma["name"])
+        commands = top_level_commands(str(lemma["block"]))
+        if len(commands) != 1 or commands[0].get("name") != name:
+            findings.append({"kind": "extra-top-level-command", "witness": name})
+    for name in expected_witnesses:
+        route = proof_routes.get(name)
+        if not isinstance(route, dict):
+            findings.append({"kind": "missing-proof-route", "witness": name})
+            continue
+        proof_mode = str(route.get("proof_mode") or "")
+        witness = by_name.get(name)
+        if witness is not None:
+            for marker in incomplete_proof_markers(str(witness["block"])):
+                findings.append({**marker, "witness": name})
+            for route_error in proof_mode_errors(
+                str(witness["block"]),
+                proof_mode,
+            ):
+                findings.append(
+                    {"kind": "proof-mode", "witness": name, "message": route_error}
+                )
+        for split_name in expected_split_goals[name]:
+            split_goal = by_name.get(split_name)
+            if split_goal is None:
                 continue
-            proof_mode = str(route.get("proof_mode") or "")
-            split_names = expected_split_goals[name]
-            witness = by_name.get(name)
-            if witness is not None:
-                for marker in incomplete_proof_markers(str(witness["block"])):
-                    findings.append({**marker, "witness": name})
-                for route_error in proof_mode_errors(
-                    str(witness["block"]),
-                    proof_mode,
-                ):
-                    findings.append(
-                        {"kind": "proof-mode", "witness": name, "message": route_error}
-                    )
-            for split_name in split_names:
-                split_goal = by_name.get(split_name)
-                if split_goal is None:
+            for marker in incomplete_proof_markers(str(split_goal["block"])):
+                if marker["kind"] == "Abort" and proof_mode == "LLM_pre_process":
                     continue
-                for marker in incomplete_proof_markers(str(split_goal["block"])):
-                    if (
-                        marker["kind"] == "Abort"
-                        and proof_mode == "LLM_pre_process"
-                    ):
-                        continue
-                    findings.append({**marker, "witness": split_name})
-    except ValueError as exc:
-        findings.append({"kind": "manual-parse-error", "message": str(exc)})
+                findings.append({**marker, "witness": split_name})
     return findings
+
 
 
 def _formal_case_lib_safety_findings(
@@ -1639,7 +1479,6 @@ def _formal_case_lib_safety_findings(
 def _formal_case_lib_closure_findings(
     audit: dict[str, Any],
     target_files: dict[str, Any],
-    source_goal: dict[str, Any],
 ) -> list[dict[str, Any]]:
     if audit.get("status") == "passed":
         return []
@@ -1685,23 +1524,12 @@ def _formal_case_lib_closure_findings(
         return [finding]
     role = matching_roles[0]
     finding["role"] = role
-    try:
-        record = _source_goal_generated_record(
-            source_goal,
-            role=role,
-            relative_path=relative,
-        )
-        finding["source_state"] = record["state"]
-    except (TypeError, ValueError) as exc:
-        finding["source_state"] = "invalid"
-        finding["source_record_error"] = str(exc)
     return [finding]
 
 
 def _formal_case_lib_findings(
     path: Path,
     target_files: dict[str, Any],
-    source_goal: dict[str, Any],
     *,
     main_root: Path,
     build_workspace: Path,
@@ -1719,7 +1547,6 @@ def _formal_case_lib_findings(
         *_formal_case_lib_closure_findings(
             audit,
             target_files,
-            source_goal,
         ),
     ]
 
@@ -1758,133 +1585,60 @@ def _forbidden_findings(paths: list[Path]) -> list[dict[str, Any]]:
 def _accepted_annotation_source_findings_unchecked(
     state: dict[str, Any], *, require_preapply_state: bool = False
 ) -> list[dict[str, Any]]:
-    """Revalidate accepted annotation provenance against current main root.
+    """Compare current main-root files with the accepted annotation backup."""
 
-    Final-check has already replaced the manual and formal library, so it can
-    compare only the target C and the three generated files that final-apply
-    never writes.  Final-apply passes ``require_preapply_state`` and also
-    compares the raw manual and annotation library with the immutable
-    post-delivery history before those originals can enter a backup receipt.
-    """
-
-    target_c = str(state["target_files"]["c_file"])
-    main_root = Path(str(state["main_root"]))
-    source = (
-        state.get("source_version")
-        if isinstance(state.get("source_version"), dict)
-        else {}
-    )
-    expected = next(
-        (
-            item
-            for item in source.get("files", [])
-            if isinstance(item, dict) and item.get("relative_path") == target_c
-        ),
-        None,
-    )
-    findings: list[dict[str, Any]] = []
-    if (
-        not isinstance(expected, dict)
-        or expected.get("state") != "present"
-        or not expected.get("sha256")
-    ):
-        findings.append(
-            {"kind": "missing-accepted-target-c-digest", "relative_path": target_c}
-        )
-    else:
-        try:
-            current = fixed_path_under(
-                Path(target_c), main_root, label="accepted annotation target C"
-            )
-            current_matches = _regular_file_digest(
-                current, label="accepted annotation target C"
-            ) == expected.get("sha256")
-        except (OSError, ValueError, SystemExit):
-            current_matches = False
-        if not current_matches:
-            findings.append(
-                {
-                    "kind": "target-c-changed-after-annotation",
-                    "relative_path": target_c,
-                }
-            )
     accepted = state.get("accepted_rounds", {}).get("annotation", {})
-    if accepted.get("source_version") != source.get("digest"):
-        findings.append({"kind": "accepted-annotation-source-version-mismatch"})
     attempt_id = str(accepted.get("attempt_id") or "")
     attempt = state.get("attempts", {}).get(attempt_id)
     if not isinstance(attempt, dict):
-        findings.append(
+        return [
             {"kind": "missing-accepted-annotation-attempt", "attempt_id": attempt_id}
-        )
-    else:
-        try:
-            annotation_paths = _validated_annotation_attempt_paths(state, attempt)
-            history_errors = _annotation_after_snapshot_errors(state, attempt)
-        except (
-            KeyError,
-            OSError,
-            TypeError,
-            UnicodeError,
-            ValueError,
-            SystemExit,
-        ) as exc:
-            history_errors = [
-                f"accepted annotation after-history could not be revalidated: {exc}"
-            ]
-        for error in history_errors:
+        ]
+    history_errors = _annotation_after_snapshot_errors(state, attempt)
+    findings = [
+        {
+            "kind": "accepted-annotation-history-artifact-drift",
+            "attempt_id": attempt_id,
+            "message": error,
+        }
+        for error in history_errors
+    ]
+    if findings:
+        return findings
+
+    annotation_paths = _validated_annotation_attempt_paths(state, attempt)
+    main_root = Path(str(state["main_root"]))
+    keys = ["c_file", "goal_file", "proof_auto_file", "goal_check_file"]
+    if require_preapply_state:
+        keys.append("formal_case_lib")
+    after_root = annotation_paths["after"]
+    for key in keys:
+        relative = str(state["target_files"][key])
+        current_path = main_root / relative
+        archived_path = after_root / relative
+        current_exists = _lexists(current_path)
+        archived_exists = _lexists(archived_path)
+        if current_exists != archived_exists:
+            matches = False
+        elif not current_exists:
+            matches = True
+        else:
+            matches = _regular_file_digest(
+                current_path, label=f"current accepted annotation {key}"
+            ) == _regular_file_digest(
+                archived_path, label=f"archived accepted annotation {key}"
+            )
+        if not matches:
             findings.append(
                 {
-                    "kind": "accepted-annotation-history-artifact-drift",
-                    "attempt_id": attempt_id,
-                    "message": error,
+                    "kind": "current-file-drift",
+                    "relative_path": relative,
+                    "message": (
+                        "current main-root bytes differ from the accepted "
+                        "annotation backup"
+                    ),
                 }
             )
-        if not history_errors:
-            unchanged_keys = ["goal_file", "proof_auto_file", "goal_check_file"]
-            if require_preapply_state:
-                unchanged_keys.extend(["proof_manual_file", "formal_case_lib"])
-            after_root = annotation_paths["after"]
-            for key in unchanged_keys:
-                relative = str(state["target_files"][key])
-                try:
-                    current_path = fixed_path_under(
-                        Path(relative),
-                        main_root,
-                        label=f"current accepted annotation {key}",
-                    )
-                    archived_path = fixed_path_under(
-                        after_root / relative,
-                        after_root,
-                        label=f"archived accepted annotation {key}",
-                    )
-                    current_exists = _lexists(current_path)
-                    archived_exists = _lexists(archived_path)
-                    if key in {"proof_manual_file", "formal_case_lib"} and not (
-                        current_exists or archived_exists
-                    ):
-                        matches_history = True
-                    elif current_exists != archived_exists:
-                        matches_history = False
-                    else:
-                        matches_history = _regular_file_digest(
-                            current_path, label=f"current accepted annotation {key}"
-                        ) == _regular_file_digest(
-                            archived_path,
-                            label=f"archived accepted annotation {key}",
-                        )
-                    message = "current main-root bytes differ from accepted annotation after-history"
-                except (KeyError, OSError, ValueError, SystemExit) as exc:
-                    matches_history = False
-                    message = str(exc)
-                if not matches_history:
-                    findings.append(
-                        {
-                            "kind": "current-version-drift",
-                            "relative_path": relative,
-                            "message": message,
-                        }
-                    )
     return findings
 
 
@@ -1900,15 +1654,21 @@ def _accepted_annotation_source_findings(
     except (KeyError, OSError, TypeError, UnicodeError, ValueError, SystemExit) as exc:
         return [
             {
-                "kind": "current-version-drift",
-                "message": f"accepted annotation provenance could not be revalidated: {exc}",
+                "kind": "current-file-drift",
+                "message": (
+                    "accepted annotation backup could not be revalidated: "
+                    + str(exc)
+                ),
             }
         ]
+
 
 
 def _freshness_evidence(state: dict[str, Any]) -> dict[str, Any]:
     main_root = Path(str(state["main_root"]))
     refresh = Path(str(state["report_root"])) / "final-check" / "symexec-refresh"
+    profile = symexec_profile_for_state(state)
+    signal_path = control_signal_path(state)
     evidence = clean_output_freshness(
         main_root=main_root,
         target_c_file=Path(str(state["target_files"]["c_file"])),
@@ -1917,6 +1677,13 @@ def _freshness_evidence(state: dict[str, Any]) -> dict[str, Any]:
         refresh_root=refresh,
         manual_mode="proved",
         symexec_runner=run_symexec,
+        timeout_seconds=float(profile["timeout_seconds"]),
+        profile_name=str(profile["name"]),
+        heartbeat_seconds=float(profile["heartbeat_seconds"]),
+        cancel_requested=lambda: control_signal_requests_stop(signal_path),
+        progress_path=Path(str(state["report_root"]))
+        / "final-check"
+        / "symexec-progress.json",
     )
     evidence["controller_entrypoint"] = "final-check"
     return evidence
@@ -2136,17 +1903,6 @@ def _final_check_exception_finding(stage: str, exc: BaseException) -> dict[str, 
     }
 
 
-def _final_check_execution_stage(
-    args: argparse.Namespace,
-    run_root: Path,
-    stage: str,
-) -> dict[str, str] | None:
-    """Retain stage call sites as simple diagnostic boundaries."""
-
-    del args, run_root, stage
-    return None
-
-
 def final_check(args: argparse.Namespace) -> int:
     main_root = (
         Path(args.main_root).expanduser().resolve()
@@ -2154,11 +1910,6 @@ def final_check(args: argparse.Namespace) -> int:
         else Path.cwd().resolve()
     )
     run_root = _run_root_from_id(main_root, args.run)
-    operational_findings: list[dict[str, str]] = []
-    if finding := _final_check_execution_stage(
-        args, run_root, "validating-final-inputs"
-    ):
-        operational_findings.append(finding)
     state = _load_state(run_root)
     if state.get("phase") != "final-check":
         raise SystemExit("final-check requires the run to be in final-check phase")
@@ -2167,7 +1918,6 @@ def final_check(args: argparse.Namespace) -> int:
     target = state["target_files"]
     manual = main_root / target["proof_manual_file"]
     formal_case_lib = main_root / target["formal_case_lib"]
-    source_goal = state["source_goal_version"]
     proving_integrity = _accepted_proving_integrity_errors(state)
     candidate = state.get("final_candidate")
     try:
@@ -2186,11 +1936,8 @@ def final_check(args: argparse.Namespace) -> int:
         candidate_manual_digest = None
         candidate_lib_digest = None
     proof_routes = {} if proving_integrity else _accepted_proof_routes(state)
-    if finding := _final_check_execution_stage(args, run_root, "pre-check-cleanup"):
-        operational_findings.append(finding)
     try:
-        with nullcontext():
-            cleanup = _remove_old_coq_side_products(main_root, run_root, target)
+        cleanup = _remove_old_coq_side_products(main_root, run_root, target)
     except FINAL_CHECK_OPERATION_EXCEPTIONS as exc:
         cleanup = {
             "removed_count": 0,
@@ -2199,10 +1946,6 @@ def final_check(args: argparse.Namespace) -> int:
                 "pre-check-cleanup", exc
             ),
         }
-    if finding := _final_check_execution_stage(
-        args, run_root, "symbolic-execution-freshness"
-    ):
-        operational_findings.append(finding)
     try:
         freshness = _freshness_evidence(state)
     except FINAL_CHECK_OPERATION_EXCEPTIONS as exc:
@@ -2213,17 +1956,12 @@ def final_check(args: argparse.Namespace) -> int:
             ],
             "controller_entrypoint": "final-check",
         }
-    if finding := _final_check_execution_stage(
-        args, run_root, "fixed-main-path-coq-check"
-    ):
-        operational_findings.append(finding)
     try:
         coq = run_coqc_check(
             workspace_root=main_root,
             build_workspace=run_builds_root(run_root) / "final-check" / "src",
             target_file=Path(target["goal_check_file"]),
             target_kind="check",
-            source_goal_version=str(state["source_goal_version"]["digest"]),
             current_case_anchor=Path(target["proof_auto_file"]),
         )
         coq["controller_entrypoint"] = "final-check"
@@ -2235,23 +1973,23 @@ def final_check(args: argparse.Namespace) -> int:
             ),
             "controller_entrypoint": "final-check",
         }
-    if finding := _final_check_execution_stage(
-        args, run_root, "structure-lib-and-safety-checks"
-    ):
-        operational_findings.append(finding)
     applied_manual_matches = _optional_artifact_matches(
         manual, candidate_manual_digest
     )
     applied_lib_matches = _optional_artifact_matches(
         formal_case_lib, candidate_lib_digest
     )
+    raw_manual = (
+        Path(str(freshness["refresh_root"])) / str(target["proof_manual_file"])
+        if isinstance(freshness.get("refresh_root"), str)
+        else Path(str(state["report_root"])) / "final-check" / "missing-raw-manual"
+    )
     try:
         manual_findings = (
             _manual_structure_findings(
                 manual,
-                source_goal,
+                raw_manual,
                 proof_routes,
-                manual_relative=str(target["proof_manual_file"]),
             )
             if applied_manual_matches
             else []
@@ -2265,7 +2003,6 @@ def final_check(args: argparse.Namespace) -> int:
             lib_findings = _formal_case_lib_findings(
                 formal_case_lib,
                 target,
-                source_goal,
                 main_root=main_root,
                 build_workspace=(
                     run_builds_root(run_root) / "final-check" / "src"
@@ -2301,13 +2038,12 @@ def final_check(args: argparse.Namespace) -> int:
         ]
     accepted_source = _accepted_annotation_source_findings(state)
     try:
-        with nullcontext():
-            cleanup = _finish_cleanup_evidence(
-                main_root,
-                run_root,
-                target,
-                cleanup,
-            )
+        cleanup = _finish_cleanup_evidence(
+            main_root,
+            run_root,
+            target,
+            cleanup,
+        )
     except FINAL_CHECK_OPERATION_EXCEPTIONS as exc:
         cleanup = {
             **cleanup,
@@ -2407,33 +2143,8 @@ def final_check(args: argparse.Namespace) -> int:
                 },
             }
         )
-    for finding in operational_findings:
-        blockers.append(
-            {
-                "failure_class": "controller-stage-exception",
-                "finding": finding,
-            }
-        )
-    if finding := _final_check_execution_stage(
-        args, run_root, "committing-final-result"
-    ):
-        blockers.append(
-            {
-                "failure_class": "controller-stage-exception",
-                "finding": finding,
-            }
-        )
     status = "passed" if not blockers else "failed"
     if status == "failed":
-        if finding := _final_check_execution_stage(
-            args, run_root, "rolling-back-final-apply"
-        ):
-            blockers.append(
-                {
-                    "failure_class": "controller-stage-exception",
-                    "finding": finding,
-                }
-            )
         transaction = state.get("final_apply_transaction")
         try:
             backup_root = fixed_path_under(
@@ -2441,12 +2152,11 @@ def final_check(args: argparse.Namespace) -> int:
                 main_root,
                 label="final-check backup directory",
             )
-            with nullcontext():
-                rollback = _rollback(
-                    state=state,
-                    main_root=main_root,
-                    backup_root=backup_root,
-                )
+            rollback = _rollback(
+                state=state,
+                main_root=main_root,
+                backup_root=backup_root,
+            )
         except FINAL_CHECK_OPERATION_EXCEPTIONS as exc:
             rollback = {
                 "status": "failed",

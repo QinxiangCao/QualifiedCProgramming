@@ -4,7 +4,14 @@ Require Import Coq.Logic.Classical_Prop.
 Require Import Coq.micromega.Psatz.
 Require Import Coq.Sorting.Permutation.
 Require Import SetsClass.SetsClass.
-From GraphLib Require Import graph_basic reachable_basic reachable_restricted subgraph path path_basic epath Zweight.
+Require Import GraphLib.graph_basic.
+Require Import GraphLib.reachable.reachable_basic.
+Require Import GraphLib.reachable.reachable_restricted.
+Require Import GraphLib.subgraph.subgraph.
+Require Import GraphLib.reachable.path.
+Require Import GraphLib.reachable.path_basic.
+Require Import GraphLib.reachable.epath.
+Require Import GraphLib.reachable.Zweight.
 From GraphLib.examples Require Import prim.
 From GraphLib.undirected Require Import tree.
 From MaxMinLib Require Import MaxMin Interface.
@@ -24,8 +31,8 @@ Context {G V E: Type}
         {step_aux_unique_undirected: StepUniqueUndirected G V E}
         {undirectedgraph: UndirectedGraph G V E}
         {finitegraph: FiniteGraph G V E}
-        {simplegraph: SimpleGraph G V E}
-        {addEdgeExist: addEdgeExist G V E}.
+        {elistbijective: EListBijective G V E}
+        {add_edge_in_subgraph: addEdgeInSubgraph G V E}.
 
 Context {P: Type}
         {path: Path G V E P}
@@ -66,7 +73,10 @@ Theorem kruskal_step:
     gvalid g1 /\ (forall u, ~ exists p, is_simple_epath g1 u p u /\ p <> nil) /\ (exists y1, is_mst r y1 /\ subgraph2 g1 y1) -> 
     step_aux r e u v -> 
     addEdge g1 g2 u v e -> 
-    min_object_of_subset Z_op_le (fun e => forall u v, step_aux r e u v -> ~ reachable g1 u v) (weight r) e ->
+    min_object_of_subset Z_op_le
+      (fun e => evalid r e /\
+        forall u v, step_aux r e u v -> ~ reachable g1 u v)
+      (weight r) e ->
     (forall u, ~ exists p, is_simple_epath g2 u p u /\ p <> nil) /\ (exists y2, is_mst r y2 /\ subgraph2 g2 y2).
 Proof.
   intros g1 g2 u v e [Hvalid1 [Hno_circuit [y1 [Hmst1 Hsubgraph1]]]] Hstepr Hadd Hmin. 
@@ -146,9 +156,19 @@ Proof.
     (* 将这条边e增加到最小生成树y1中去，y1 + e = h *)
     assert (Huy1: vvalid y1 u) by (apply Hmst1; eapply step_vvalid1; eauto).
     assert (Hvy1: vvalid y1 v) by (apply Hmst1; eapply step_vvalid2; eauto). 
-    assert (exists h, gvalid h /\ addEdge y1 h u v e) as [h [Hvalid Hadd2]].
+    assert (Hsubgraph_y1_r : subgraph2 y1 r).
     {
-      apply addEdge_valid; auto. 
+      pose proof (is_mst_legal r y1 Hmst1) as [_ [_ Hsubeq]].
+      destruct Hsubeq as [Hsubv Hsubs].
+      split.
+      - intros z Hz. apply Hsubv; exact Hz.
+      - intros z w b Hstep. apply Hsubs; exact Hstep.
+    }
+    assert (exists h,
+      gvalid h /\ addEdge y1 h u v e /\ subgraph2 h r)
+      as [h [Hvalid [Hadd2 Hsubgraph_h_r]]].
+    {
+      eapply add_original_edge_in_subgraph; eauto.
       apply Hmst1.
     } 
     (* 则 h 中有一个简单回路 p ，包含边e *)
@@ -175,9 +195,11 @@ Proof.
       reflexivity.
     }   
     (* 将 a 从 h 中删除 *)
-    assert (exists i, gvalid i /\ addEdge i h x y a /\ (vvalid i x /\ vvalid i y /\ ~ evalid i a)) 
-    as [i [Hvalidi [Hi [Hvx [Hvy Hnotina]]]]]. {
-      apply addEdge_valid_inv; auto. 
+    assert (exists i,
+      gvalid i /\ addEdge i h x y a /\ subgraph2 i r /\
+      vvalid i x /\ vvalid i y /\ ~ evalid i a)
+      as [i [Hvalidi [Hi [Hsubgraph_i_r [Hvx [Hvy Hnotina]]]]]]. {
+      eapply remove_edge_in_subgraph; eauto.
       * eapply step_vvalid1; eauto.
       * eapply step_vvalid2; eauto.
       * eapply step_evalid; eauto.
@@ -215,10 +237,30 @@ Proof.
       pose proof Hadd2 as Hadd2'. 
       pose proof Hi as Hi'. 
 
-      apply addEdge2_elist_permutation in Hadd2; auto. 
-      2:{ apply Hmst1. } 
+      assert (Hvalid_y1 : gvalid y1) by apply Hmst1.
+      assert (Hadd2_perm :
+        Permutation (bijective_listE h) (e :: bijective_listE y1)).
+      {
+        eapply addEdge_elist_permutation with
+          (g1 := y1) (g2 := h) (u := u) (v := v) (e := e); eauto.
+        - apply bijective_listE_NoDup. exact Hvalid_y1.
+        - apply bijective_edges. exact Hvalid_y1.
+        - apply bijective_listE_NoDup. exact Hvalid.
+        - apply bijective_edges. exact Hvalid.
+      }
+      clear Hadd2; rename Hadd2_perm into Hadd2.
 
-      apply addEdge2_elist_permutation in Hi; auto.
+      assert (Hi_perm :
+        Permutation (bijective_listE h) (a :: bijective_listE i)).
+      {
+        eapply addEdge_elist_permutation with
+          (g1 := i) (g2 := h) (u := x) (v := y) (e := a); eauto.
+        - apply bijective_listE_NoDup. exact Hvalidi.
+        - apply bijective_edges. exact Hvalidi.
+        - apply bijective_listE_NoDup. exact Hvalid.
+        - apply bijective_edges. exact Hvalid.
+      }
+      clear Hi; rename Hi_perm into Hi.
 
       set (sumE := fun l => fold_right Z_op_plus (Some 0%Z) (map (weight r) l)).
       assert (Hperm_sum : forall l1 l2, Permutation l1 l2 -> sumE l1 = sumE l2).
@@ -256,14 +298,22 @@ Proof.
       {
         destruct Hmin as [_ Hmin_sound].
         apply Hmin_sound.
-        intros s t Hstep_ra Hreach_st.
         assert (Hstep_ra_xy : step_aux r a x y) by (apply Hy1_step; auto).
-        eapply step_aux_unique_undirected in Hstep_ra as [[Hs Ht] | [Hs Ht]]; eauto; subst.
-        - apply Hy. eapply reachable_trans; eauto.
-        - apply Hy. eapply reachable_trans; [apply Hx|].
-          destruct (reachable_valid_epath g1 y t Hreach_st) as [q Hq].
-          eapply valid_epath_reachable.
-          apply valid_epath_rev; eauto.
+        split.
+        - eapply step_evalid; eauto.
+        - intros s t Hstep_ra Hreach_st.
+          assert (Horient :
+            (s = x /\ t = y) \/ (s = y /\ x = t)).
+          {
+            exact (GraphLib.graph_basic.step_aux_unique_undirected
+              r a s t x y r_valid Hstep_ra Hstep_ra_xy).
+          }
+          destruct Horient as [[Hs Ht] | [Hs Ht]]; subst.
+          + apply Hy. eapply reachable_trans; eauto.
+          + apply Hy. eapply reachable_trans; [apply Hx|].
+            destruct (reachable_valid_epath g1 y t Hreach_st) as [q Hq].
+            eapply valid_epath_reachable.
+            apply valid_epath_rev; eauto.
       }
       assert (Hnone_in_sum :
         forall l, In a l -> weight r a = None -> sumE l = None).
