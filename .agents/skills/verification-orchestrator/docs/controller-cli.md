@@ -1,96 +1,70 @@
-# Controller 公共接口
-
-公共入口共有 20 个 subcommands。以 parser 导出的 `public_command_schema()` 为准；main 使用 action 自带 invocation，不手写命令。
+# Controller 公共 CLI
 
 ```text
-<python> .agents/scripts/verification-orchestrator/controller.py --main-root <root> <subcommand> ...
+<python> <scripts>/verification-orchestrator/controller.py --main-root <root> <command> ...
 ```
 
-## 命令表
+要求 Python 恰为 3.12。首次可用仓库的 `uv run --frozen --python 3.12 python`；运行中的结构化
+invocation 已提供绝对解释器与脚本路径。`--main-root` 默认 cwd，运行 action 时保留给定值。
+除 `init-run`、`validate-artifact` 外，所有命令要求 `--run <run-id>`。
 
-| 命令 | 必需参数 | 作用 |
+## 初始化
+
+```text
+init-run --case <formal-stem> --target-c-file <C-path>
+```
+
+`--case` 是合法 Rocq identifier，与 C 文件名无关。C 文件可为绝对路径或 main-root-relative 路径，
+必须位于 `QCP_examples/<collection>/...`。其余选项：
+
+| 选项 | 含义 |
+|---|---|
+| `--formal-case-lib-policy present\|create\|absent` | 已有库、创建 seed 或保持缺失；默认按当前文件选择 |
+| `--freeze-spec <function>` | 冻结用户提供的 spec；可重复或逗号分隔，省略表示由 annotation owner 编写 |
+| `--max-witnesses-per-group <n>` | 正整数，默认 12 |
+| `--max-parallel-group-workers <n>` | 正整数，默认 5 |
+| `--symexec-profile standard\|recursive-large` | 选择现有 symexec 预算，默认 standard |
+| `--problem-statement` / `--problem-statement-file` | 题意文本或 UTF-8 文件 |
+| `--target-function` / `--expected-behavior` / `--input-output-contract` | 当前问题约束 |
+| `--spec-hint` / `--preferred-hidden-property` / `--forbidden-pattern` / `--reference-case-hint` | 可重复的 owner 提示 |
+| `--timestamp <YYYYMMDDhhmmss>` | 可选的 14 位 run 时间标识 |
+
+## 当前 18 个命令
+
+| 命令 | 除 `--run` 外的参数 | 作用 |
 |---|---|---|
-| `init-run` | `--case --target-c-file` | 创建固定 run/topology/state；其余 problem、policy、profile、group limits 和 hard spec 参数可选 |
-| `step` | `--run` | 发布下一批 action 或 waiting/done/blocker |
-| `pause-run` | `--run --reason` | cooperative pause |
-| `cancel-action` | `--run --action --reason` | 取消精确 active action 并 pause |
-| `resume-run` | `--run` | 用户明确要求后恢复 |
-| `claim-attempt` | `--run --next-action --owner` | 原子认领 delivery，返回 handoff 与 finalize invocation |
-| `finalize-delivery` | `--run --attempt --owner` | seal owner 交付并进入 controller validation |
-| `retry-round` | `--run --phase --reason --previous-attempt` | 创建授权的 annotation/vc-checking retry |
-| `unfreeze` | `--run --round` | 允许当前 attempt 修改用户提供的 spec |
-| `annotation-check-round` | `--run --round` | annotation acceptance、clean replay 和 comparison 复验 |
-| `vc-checking-check-round` | `--run --round` | seal group plan 并恢复 clean manual；`--group-plan` 仅绑定当前固定 path |
-| `dune-build` | `--run` | 用 selected backend 准备 exact goal-check dependency snapshot |
-| `vc-proving-preparing` | `--run --round` | 创建 groups、交接上一 proving round、计算 priority batch |
-| `vc-proving-verify` | `--run --round` | merge accepted groups 并做 parent full check |
-| `symexec` | `--run --round` | claimed annotation attempt 的 transactional generated refresh |
-| `coq-check` | `--run --round --target-kind` | 检查 case lib、group development 或 exact group；group target 另带 `--group` |
-| `coq-debug` | `--run --round` | VC manual/debug；group 模式另带 `--group` |
-| `final-apply` | `--run` | 事务化写回 accepted merged candidate |
-| `final-check` | `--run` | 最终 freshness、Rocq、结构、seal 和 cleanup 检查 |
-| `validate-artifact` | `--kind --path` | 校验公开 JSON artifact，包括 annotation plan version 2 |
+| `init-run` | 见上 | 创建 schema 4 run |
+| `step` | 无 | 读取当前事实并返回 actions、waiting 和 blockers |
+| `claim-attempt` | `--next-action --owner` | 领取当前 owner action，返回 handoff 与 finalize invocation |
+| `finalize-delivery` | `--attempt --owner` | 记录 owner 已停止，直接完成该角色全部接纳检查 |
+| `retry-round` | `--phase annotation\|vc-checking --reason --previous-attempt` | 执行当前 action 指定的重试 |
+| `unfreeze` | `--round` | 用户批准后解除当前 annotation 的 spec baseline 约束 |
+| `dune-build` | 无 | 当前 native backend 准备依赖，再进入 VC checking 或空 proving |
+| `vc-proving-preparing` | `--round` | 创建当前 group copies 和 handoffs |
+| `vc-proving-verify` | `--round` | 读取当前 groups、机械合并并执行 parent check |
+| `symexec` | `--round` | Annotation owner 在当前任务生成并发布输出 |
+| `coq-check` | `--round --target-kind`，group 类型另需 `--group` | 开发/精确检查 |
+| `coq-debug` | `--round`，group owner 另需 `--group` | 检查已授权的 debug script/copy |
+| `final-apply` | 无 | 重查最新候选并可恢复地发布 |
+| `final-check` | 无 | 检查实际文件、独立 replay 与清理；通过后 done |
+| `pause-run` | `--reason` | 暂停 run，保留任务事实 |
+| `cancel-action` | `--action --reason` | 验证当前/已领取 action id 后暂停 run |
+| `resume-run` | 无 | 明确恢复后重新派生动作 |
+| `validate-artifact` | `--kind --path`，不需 `--run` | 用运行时 validator 校验指定文件 |
 
-## Init
+`coq-check --target-kind` 仅支持 `formal-case-lib-design`、`formal-case-lib`、`group-development`、
+`group-check`。`validate-artifact --kind` 仅支持 `agent-report`、`group-worker-report`、
+`annotation-plan`、`controller-state`、`run-log`。
 
-`--case` 是 authoritative Rocq/generated stem；`--target-c-file` 必须位于允许的 QCP tree。常用可选参数选择 case-lib policy、用户提供的 spec、symexec profile、group limits 和 problem/spec hints。现有 `--freeze-spec` 只要出现就表示 formal spec 由用户提供；每个名字必须精确匹配一个可抽取 spec 的 C 函数，否则 init 直接失败。省略则表示由 annotation owner 生成。Init 不接管已有同名 run/report directory。
+## 使用约定
 
-## Claim 与 finalize
+执行 controller 返回的 invocation，不从这张表自行推断当前允许的阶段。
+Owner action 先 claim；main 在 owner 停止写入后 finalize。`returned` 可重做 finalize 继续中断的
+接纳；可修错误回到同 owner 的 prepared action。
 
-`claim-attempt` 只接受 current delivery action，返回 stable owner、role/CWD、原始 claim message、完整 `handoff.prompt` 和 `finalize_invocation`。main 保留 owner 到 agent target 的映射。Annotation retry 使用同一 target；group repair 使用同一 group target；vc-checking retry 创建独立 target。
+结果类型随命令而异：工具检查要同时成功退出且 JSON `passed`；claim 返回 `claimed` 或
+`already-claimed`；接纳返回 `accepted`、repair 或 blocker；`step` 返回 run 状态及当前 actions。
+不要把 exit code 0、owner 的 `completed` 或单个 `valid` 报告当作整个 run 已完成。
 
-`finalize-delivery` seal report/plan/formal copies并立即执行 phase/group validation。若返回 `report-repair-required`，沿用同一 owner/attempt 修复并重跑原 invocation。
-
-Annotation owner 返回 annotation-gap 时不创建 retry attempt；controller 重新发布同一 attempt 的
-`append-annotation-agent`，由同一 owner 在本 attempt 内继续修复。已有 `annotation-blocked` retry action
-也兼容为这一同-attempt继续操作。
-
-## Retry
-
-`retry-round` 必须逐项匹配 current main-owned action。新的 annotation attempt 只接收 VC checking 或 VC proving 的 annotation gap：
-
-- revalidate 所有 feedback seals；
-- 从 blocker `vcs` 和 sealed manual 生成 exact `failed_vcs`；
-- 继承尚未 `resolved` 的 failed VCs；
-- 从旧 comparisons 渲染相关 history；
-- 复制 function specs、loop invariants 和 new predicates，并清空 comparisons；
-- 直接创建 `prepared` attempt 与 `append-annotation-agent` action。
-
-重复相同 invocation 返回 `already-retried`，不创建第二个 attempt。
-
-## Annotation 与 unfreeze
-
-没有 `--freeze-spec` 时，function spec、内部 annotation 和 case lib 都由 annotation owner 在当前 attempt 中修改。`formal-case-lib-design` 只检查当前 C 与 case lib。
-
-使用 `--freeze-spec` 时，annotation owner 不自行修改用户 spec；需要修改时先停止，在 `agent_output.md` 写明方案并由 main 询问用户。用户确认后，main 恢复 run 并执行 `unfreeze --run <run> --round <round>`。该命令保留 functions，把 baseline 设为 `null`，不改变 round、attempt 或 owner。
-
-`annotation-check-round` 校验 plan version 2、用户 spec baseline、case-lib、transactional symexec、comparison 和 clean replay。baseline 为 `null` 时，全部检查通过后用当前 spec surface 更新 baseline。`unresolved`、遗漏 source 或不存在的 current VC 都交回同一 annotation owner 继续当前 attempt。
-
-## VC checking 与 proving
-
-`vc-checking-check-round` 要求 clean-equivalent manual 和完整 group plan。
-
-`vc-proving-preparing` 的 compact manifest seal base manifest、group plan、public helper snapshot、dependency snapshot、group ids、dispatch order 和 previous round。它不判断或复制旧证明；所有 current groups 保持 `prepared`，再按 priority/remaining顺序派发。存在 previous round 时，实际 worker 按 current witness/helper搜索上一轮候选 proof block，无需逐份通读完整 manual；可选的 `proof_reuse.md` 缺失或为空不影响 finalize。
-
-`vc-proving-verify` 只在当前需要的 groups 全部 accepted 时运行。
-
-## Artifact validation
-
-`--kind`：
-
-```text
-agent-report
-group-worker-report
-annotation-plan
-manifest
-group-plan
-merge-result
-controller-state
-run-log
-```
-
-Blocker schema使用 `vcs`；annotation plan只接受 version 2 exact fields。
-
-## 错误与幂等性
-
-Command/action 不匹配、wrong owner、path topology/seal drift、current-file drift 或 artifact schema错误会明确拒绝或形成 controller blocker。按返回 action 在原边界修复，不修改 state/report seal，不重复 spawn 绕过错误。
+当前接口没有独立 annotation/VC acceptance 命令。旧 schema run 不迁移，也不应手改 schema
+后继续；使用原代码恢复或初始化新 run。用户暂停后只有明确恢复授权才能执行 `resume-run`。

@@ -193,24 +193,7 @@ int** prim_adjacency_matrix_return_matrix(int n, int** graph)
         vertex_parent[i] = -1;
     }
     
-	    /*@ Assert
-	        src == 0 &&
-	        i == n@pre &&
-	        
-	        n == n@pre &&
-	        graph == graph@pre &&
-        2 <= n@pre && n@pre < INT_MAX &&
-        n@pre * sizeof(void *) <= UINT_MAX &&
-        prim_input_weight_bound(n@pre, 1000000000) &&
-            PrimEnv(g, src) &&
 
-        safeExec(initStPred(g, src), Prim2(g), X) &&
-
-        GraphMatrixPtr::store_graph(n, prim_adjacency_matrix_graph_model(n, g, 1000000000), graph, matrix) *
-       IntArray::full(visited, n@pre, repeat_Z(0, n@pre)) *
-        IntArray::full(lowcost, n@pre, repeat_Z(1000000000, n@pre)) *
-        IntArray::full(vertex_parent, n@pre, repeat_Z(-1, n@pre))
-    */
    
     lowcost[0] = 0;
     i = 0;
@@ -496,73 +479,7 @@ int** prim_adjacency_matrix_return_matrix(int n, int** graph)
                 IntArray::full(vertex_parent, n@pre, l_vertex_parent)
             */
             for (; j < n; j++) {
-                /*@ Assert
-	                    exists l_visited l_lowcost0 l_lowcost l_vertex_parent l_edge_parent0 l_edge_parent s s_after u v row_ptr,
-                    0 <= j && j < n@pre &&
-                    0 <= j && j < n &&
-                    0 <= j && j < Zlength(Znth(minIndex, matrix, nil)) &&
-	                    0 <= i && i < n@pre &&
-	                    0 <= minIndex && minIndex < n@pre &&
-	                    Zlength(Znth(minIndex, matrix, nil)) == n@pre &&
-	                    prim_adjacency_matrix_graph_model(n@pre, g, 1000000000, matrix) &&
-	                    0 <= minIndex && minIndex < n &&
-                    graph == graph@pre &&
-                    n == n@pre &&
-                    src == 0 &&
-                    0 < n && n < INT_MAX &&
-                    2 <= n@pre && n@pre < INT_MAX &&
-        n@pre * sizeof(void *) <= UINT_MAX &&
-                    prim_input_weight_bound(n@pre, 1000000000) &&
-	            PrimEnv(g, src) &&
-                    INT_MIN <= min && min <= INT_MAX &&
-                    ((i == 0 &&
-                      minIndex == 0 &&
-                      min == 0 &&
-                      s_after == initSt(g, src) &&
 
-                      safeExec(prim_state_is(s_after), Prim2_loop(g, 0), X) &&
-                      growing_subgraph_state(g, s_after) &&
-	                      visited_matches_state(g, s_after, replace_Znth(minIndex, 1, l_visited)) &&
-	                      state_vertex_count(s_after) == 1 &&
-	                      lowcost_sum_matches_state(s_after, l_lowcost0) &&
-		                      lowcost_values_in_range(1000000000, l_lowcost0) &&
-		                      l_lowcost0 == replace_Znth(0, 0, repeat_Z(1000000000, n@pre)) &&
-		                      l_edge_parent0 == default_edge_list(n@pre) &&
-		                      l_visited == repeat_Z(0, n@pre))
-                     ||
-                     (1 <= i && i < n@pre &&
-                      min == Znth(minIndex, l_lowcost0, 0) &&
-
-                      safeExec(prim_state_is(s_after), Prim2_loop(g, i), X) &&
-                      growing_subgraph_state(g, s) &&
-		                          visited_matches_state(g, s, l_visited) &&
-		                          state_vertex_count(s) == i &&
-		                          selected_edges_match_state(g, src, s, l_edge_parent0) &&
-		                          lowcost_parent_match(g, s, l_lowcost0, l_edge_parent0, 1000000000) &&
-                      selected_parent_edge_is_min_cut_edge(g, s, l_edge_parent0, minIndex) &&
-                      selected_parent_pair(g, s, l_edge_parent0, minIndex, u, v) &&
-                      selected_parent_add_to_mst(g, s, s_after, l_edge_parent0, minIndex) &&
-                      growing_subgraph_state(g, s_after) &&
-	                          visited_matches_state(g, s_after, replace_Znth(minIndex, 1, l_visited)) &&
-		                          state_vertex_count(s_after) == i + 1 &&
-		                          selected_edges_match_state(g, src, s_after, l_edge_parent0) &&
-		                          lowcost_sum_matches_state(s_after, l_lowcost0) &&
-		                          lowcost_values_in_range(1000000000, l_lowcost0))) &&
-		                    scan_matrix_row_prefix_update(g, matrix, 1000000000, s_after, minIndex, j,
-		                      l_lowcost0, l_edge_parent0, l_lowcost, l_edge_parent) &&
-		                    vertex_parent_matches_edge_parent(g, src, l_vertex_parent, l_edge_parent) &&
-		                    lowcost_sum_matches_state(s_after, l_lowcost) &&
-	                    lowcost_values_in_range(1000000000, l_lowcost) &&
-                    selected_row == row_ptr &&
-
-                    IntPtrArray2::missing_i(graph, n, minIndex, row_ptr, matrix) *
-                    data_at(graph + (minIndex * sizeof(int *)), int *, row_ptr) *
-                    IntArray::missing_i(selected_row, j, 0, Zlength(Znth(minIndex, matrix, nil)), Znth(minIndex, matrix, nil)) *
-                    data_at(selected_row + (j * sizeof(int)), int, Znth(j, Znth(minIndex, matrix, nil), 0)) *
-	                    IntArray::full(visited, n@pre, replace_Znth(minIndex, 1, l_visited)) *
-	                    IntArray::full(lowcost, n@pre, l_lowcost) *
-	                    IntArray::full(vertex_parent, n@pre, l_vertex_parent)
-                */
                 int w = selected_row[j];
                 if (w != 1000000000) {
                     /*@ Assert
@@ -774,61 +691,10 @@ int** prim_adjacency_matrix_return_matrix(int n, int** graph)
         for (; j < n; j++) {
             mst[i][j] = 1000000000;
         }
-        /*@ Assert
-            exists result_matrix l_visited l_lowcost l_vertex_parent l_edge_parent s_after rg,
-            j == n@pre &&
-            0 <= i + 1 && i + 1 <= n@pre &&
-            graph == graph@pre &&
-            n == n@pre &&
-            src == 0 &&
-            2 <= n@pre && n@pre < INT_MAX &&
-            n@pre * sizeof(void *) <= UINT_MAX &&
-            prim_input_weight_bound(n@pre, 1000000000) &&
-            PrimEnv(g, src) &&
-            growing_subgraph_state(g, s_after) &&
-            state_vertex_count(s_after) == n@pre &&
-            prim_state_graph_matches(rg, s_after) &&
-            selected_edges_match_state(g, src, s_after, l_edge_parent) &&
-            vertex_parent_matches_edge_parent(g, src, l_vertex_parent, l_edge_parent) &&
-            result_matrix == inf_matrix(i + 1, n@pre, 1000000000) &&
 
-            safeExec(prim_state_graph_matches(rg), return(tt), X) &&
-
-            PtrArray::undef_seg(mst, i + 1, n@pre) *
-            IntPtrArray2::full(mst, i + 1, result_matrix) *
-            GraphMatrixPtr::store_graph(n@pre, prim_adjacency_matrix_graph_model(n@pre, g, 1000000000), graph, matrix) *
-            IntArray::full(visited, n@pre, l_visited) *
-            IntArray::full(lowcost, n@pre, l_lowcost) *
-            IntArray::full(vertex_parent, n@pre, l_vertex_parent)
-        */
     }
 
-    /*@ Assert
-        exists result_matrix l_visited l_lowcost l_vertex_parent l_edge_parent s_after rg,
-        i == n@pre &&
-        graph == graph@pre &&
-        n == n@pre &&
-        src == 0 &&
-        2 <= n@pre && n@pre < INT_MAX &&
-        n@pre * sizeof(void *) <= UINT_MAX &&
-        prim_input_weight_bound(n@pre, 1000000000) &&
-        PrimEnv(g, src) &&
-        growing_subgraph_state(g, s_after) &&
-        state_vertex_count(s_after) == n@pre &&
-        prim_state_graph_matches(rg, s_after) &&
-        selected_edges_match_state(g, src, s_after, l_edge_parent) &&
-        vertex_parent_matches_edge_parent(g, src, l_vertex_parent, l_edge_parent) &&
-        result_matrix == inf_matrix(n@pre, n@pre, 1000000000) &&
-        result_matrix_parent_prefix(g, src, matrix, result_matrix, l_vertex_parent, l_edge_parent, 1000000000, 0) &&
 
-        safeExec(prim_state_graph_matches(rg), return(tt), X) &&
-
-        GraphMatrixPtr::store_graph(n@pre, prim_adjacency_matrix_graph_model(n@pre, g, 1000000000), graph, matrix) *
-        IntPtrArray2::full(mst, n@pre, result_matrix) *
-        IntArray::full(visited, n@pre, l_visited) *
-        IntArray::full(lowcost, n@pre, l_lowcost) *
-        IntArray::full(vertex_parent, n@pre, l_vertex_parent)
-    */
     i = 0;
     /*@ Inv Assert
         exists result_matrix l_visited l_lowcost l_vertex_parent l_edge_parent s_after rg,
@@ -889,39 +755,7 @@ int** prim_adjacency_matrix_return_matrix(int n, int** graph)
                 IntArray::full(vertex_parent, n@pre, l_vertex_parent)
             */
             int w = graph[p][i];
-            /*@ Assert
-                exists result_matrix l_visited l_lowcost l_vertex_parent l_edge_parent s_after rg graph_row mst_row,
-                0 <= i && i < n@pre &&
-                0 <= p && p < n@pre &&
-                w == matrix[p][i] &&
-                p == l_vertex_parent[i] &&
-                graph == graph@pre &&
-                n == n@pre &&
-                src == 0 &&
-                2 <= n@pre && n@pre < INT_MAX &&
-        n@pre * sizeof(void *) <= UINT_MAX &&
-                prim_input_weight_bound(n@pre, 1000000000) &&
-                PrimEnv(g, src) &&
-                growing_subgraph_state(g, s_after) &&
-                state_vertex_count(s_after) == n@pre &&
-                prim_state_graph_matches(rg, s_after) &&
-                selected_edges_match_state(g, src, s_after, l_edge_parent) &&
-                vertex_parent_matches_edge_parent(g, src, l_vertex_parent, l_edge_parent) &&
-                result_matrix_parent_prefix(g, src, matrix, result_matrix, l_vertex_parent, l_edge_parent, 1000000000, i) &&
-                prim_adjacency_matrix_graph_model(n@pre, g, 1000000000, matrix) &&
 
-                safeExec(prim_state_graph_matches(rg), return(tt), X) &&
-
-                IntPtrArray2::missing_i(graph, n@pre, p, graph_row, matrix) *
-                data_at(graph + p * sizeof(int *), int *, graph_row) *
-                IntArray::full(graph_row, n@pre, matrix[p]) *
-                IntPtrArray2::missing_i(mst, n@pre, p, mst_row, result_matrix) *
-                data_at(mst + p * sizeof(int *), int *, mst_row) *
-                IntArray::full(mst_row, n@pre, result_matrix[p]) *
-                IntArray::full(visited, n@pre, l_visited) *
-	                IntArray::full(lowcost, n@pre, l_lowcost) *
-	                IntArray::full(vertex_parent, n@pre, l_vertex_parent)
-	            */
 	            /*@ Assert
 	                exists result_matrix l_visited l_lowcost l_vertex_parent l_edge_parent s_after rg mst_row,
 	                0 <= i && i < n@pre &&
@@ -953,34 +787,7 @@ int** prim_adjacency_matrix_return_matrix(int n, int** graph)
 	                IntArray::full(vertex_parent, n@pre, l_vertex_parent)
 	            */
 	            mst[p][i] = w;
-	            /*@ Assert
-	                exists result_matrix l_visited l_lowcost l_vertex_parent l_edge_parent s_after rg,
-                0 <= i && i < n@pre &&
-                0 <= p && p < n@pre &&
-                w == matrix[p][i] &&
-                p == l_vertex_parent[i] &&
-                graph == graph@pre &&
-                n == n@pre &&
-                src == 0 &&
-                2 <= n@pre && n@pre < INT_MAX &&
-        n@pre * sizeof(void *) <= UINT_MAX &&
-                prim_input_weight_bound(n@pre, 1000000000) &&
-                PrimEnv(g, src) &&
-                growing_subgraph_state(g, s_after) &&
-                state_vertex_count(s_after) == n@pre &&
-                prim_state_graph_matches(rg, s_after) &&
-                selected_edges_match_state(g, src, s_after, l_edge_parent) &&
-                vertex_parent_matches_edge_parent(g, src, l_vertex_parent, l_edge_parent) &&
-                result_matrix_parent_prefix(g, src, matrix, result_matrix, l_vertex_parent, l_edge_parent, 1000000000, i) &&
 
-                safeExec(prim_state_graph_matches(rg), return(tt), X) &&
-
-                GraphMatrixPtr::store_graph(n@pre, prim_adjacency_matrix_graph_model(n@pre, g, 1000000000), graph, matrix) *
-                IntPtrArray2::full(mst, n@pre, set_matrix_entry(result_matrix, p, i, w)) *
-                IntArray::full(visited, n@pre, l_visited) *
-                IntArray::full(lowcost, n@pre, l_lowcost) *
-                IntArray::full(vertex_parent, n@pre, l_vertex_parent)
-            */
             /*@ Assert
                 exists result_matrix l_visited l_lowcost l_vertex_parent l_edge_parent s_after rg mst_row,
                 0 <= i && i < n@pre &&
@@ -1044,32 +851,7 @@ int** prim_adjacency_matrix_return_matrix(int n, int** graph)
         }
     }
 
-    /*@ Assert
-        exists result_matrix l_visited l_lowcost l_vertex_parent l_edge_parent s_after rg,
-        i == n@pre &&
-        graph == graph@pre &&
-        n == n@pre &&
-        src == 0 &&
-        2 <= n@pre && n@pre < INT_MAX &&
-        n@pre * sizeof(void *) <= UINT_MAX &&
-        prim_input_weight_bound(n@pre, 1000000000) &&
-        PrimEnv(g, src) &&
-        growing_subgraph_state(g, s_after) &&
-        state_vertex_count(s_after) == n@pre &&
-        prim_state_graph_matches(rg, s_after) &&
-        selected_edges_match_state(g, src, s_after, l_edge_parent) &&
-        vertex_parent_matches_edge_parent(g, src, l_vertex_parent, l_edge_parent) &&
-        result_matrix_parent_prefix(g, src, matrix, result_matrix, l_vertex_parent, l_edge_parent, 1000000000, n@pre) &&
-        prim_result_matrix_matches(result_matrix, rg, 1000000000) &&
 
-        safeExec(prim_state_graph_matches(rg), return(tt), X) &&
-
-        GraphMatrixPtr::store_graph(n@pre, prim_adjacency_matrix_graph_model(n@pre, g, 1000000000), graph, matrix) *
-        IntPtrArray2::full(mst, n@pre, result_matrix) *
-        IntArray::full(visited, n@pre, l_visited) *
-        IntArray::full(lowcost, n@pre, l_lowcost) *
-        IntArray::full(vertex_parent, n@pre, l_vertex_parent)
-    */
     /*@ Given l_visited l_lowcost l_vertex_parent */
     free_int_array(visited) /*@ where n = n@pre, l = l_visited */;
     free_int_array(lowcost) /*@ where n = n@pre, l = l_lowcost */;

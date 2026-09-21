@@ -3,7 +3,8 @@
 
 /*@ Import Coq Require Import SimpleC.StdLib.string_lib */
 
-/*@ Extern Coq (store_string : Z -> list Z -> Assertion)
+/*@ Extern Coq (memmove_content : list Z -> Z -> Z -> Z -> list Z)
+ (store_string : Z -> list Z -> Assertion)
                (all_ascii : list Z -> Prop)
                (no_inner_nul : list Z -> Prop)
                (valid_string : list Z -> Prop)
@@ -37,12 +38,22 @@ char *memcpy(char *dest, char *src, int n)
 ;
 
 char *memmove(char *dest, char *src, int n)
-/*@ With bytes
-    Require all_ascii(bytes) && Zlength(bytes) == n &&
-            0 <= n && n < INT_MAX &&
-            CharArray::undef_full(dest, n) * CharArray::full(src, n, bytes)
-    Ensure __return == dest &&
-           CharArray::full(dest, n, bytes) * CharArray::full(src, n, bytes)
+/*@ With (bytes memory : list Z) (base source destination mode dest0 src0 n0 : Z)
+    Require
+      dest == dest0 && src == src0 && n == n0 &&
+      0 <= n && n < INT_MAX &&
+      ((mode == 0 && all_ascii(bytes) && Zlength(bytes) == n &&
+        CharArray::undef_full(dest, n) * CharArray::full(src, n, bytes)) ||
+       (mode == 1 && all_ascii(memory) &&
+        0 <= source && 0 <= destination &&
+        source + n <= Zlength(memory) && destination + n <= Zlength(memory) &&
+        src == base + source && dest == base + destination &&
+        CharArray::full(base, Zlength(memory), memory)))
+    Ensure
+      __return == dest0 &&
+      ((mode == 0 && CharArray::full(dest0, n0, bytes) * CharArray::full(src0, n0, bytes)) ||
+       (mode == 1 && CharArray::full(base, Zlength(memory),
+          memmove_content(memory, source, destination, n0))))
 */
 ;
 

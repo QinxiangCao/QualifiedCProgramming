@@ -45,6 +45,14 @@ Ltac qcp_light_sep :=
   | apply derivable1s_coq_prop_r; reflexivity
   ].
 
+Ltac intros_prim_adj_wit_10_1_boot :=
+  intros n_pre X_low_level_spec src_low_level_spec g_low_level_spec
+	    matrix_low_level_spec l_visited_2 l_lowcost l_edge_parent i minIndex
+	    min row_ptr_2 __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5
+		    PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
+		    PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22.
+
+
 Lemma proof_of_prim_adjacency_matrix_safety_wit_59_running_split_goal_1 : prim_adjacency_matrix_safety_wit_59_running_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
@@ -78,15 +86,17 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_prim_adjacency_matrix_safety_wit_59_running_split_goal_1.
   - Goal_apply proof_of_prim_adjacency_matrix_safety_wit_59_running_split_goal_2.
-Qed.
+Qed. 
 
 Lemma proof_of_prim_adjacency_matrix_entail_wit_1_split_goal_1 : prim_adjacency_matrix_entail_wit_1_split_goal_1.
 Proof. LLM_pre_process ltac:(int_auto). Qed.
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_1 : prim_adjacency_matrix_entail_wit_1.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_prim_adjacency_matrix_entail_wit_1_split_goal_1.
-Qed.
+Qed. 
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_2_split_goal_1 : prim_adjacency_matrix_entail_wit_2_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
@@ -94,56 +104,67 @@ Proof.
   reflexivity.
   symmetry; apply repeat_Z_tail; lia.
 Qed.
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_2 : prim_adjacency_matrix_entail_wit_2.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_prim_adjacency_matrix_entail_wit_2_split_goal_1.
-Qed.
+Qed. 
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_3_split_goal_1 : prim_adjacency_matrix_entail_wit_3_split_goal_1.
 Proof. LLM_pre_process ltac:(int_auto). Qed.
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_3_split_goal_2 : prim_adjacency_matrix_entail_wit_3_split_goal_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
   replace i with n_pre by lia.
   reflexivity.
 Qed.
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_3 : prim_adjacency_matrix_entail_wit_3.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_prim_adjacency_matrix_entail_wit_3_split_goal_1.
   - Goal_apply proof_of_prim_adjacency_matrix_entail_wit_3_split_goal_2.
-Qed.
+Qed. 
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_4_split_goal_1 : prim_adjacency_matrix_entail_wit_4_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
   symmetry; apply repeat_Z_tail; lia.
 Qed.
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_4 : prim_adjacency_matrix_entail_wit_4.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_prim_adjacency_matrix_entail_wit_4_split_goal_1.
-Qed.
+Qed. 
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_5_split_goal_1 : prim_adjacency_matrix_entail_wit_5_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
   replace i with n_pre by lia.
   reflexivity.
 Qed.
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_5 : prim_adjacency_matrix_entail_wit_5.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_prim_adjacency_matrix_entail_wit_5_split_goal_1.
-Qed.
+Qed. 
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_7_boot_split_goal_1 : prim_adjacency_matrix_entail_wit_7_boot_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
   apply init_lowcost_values_in_range; lia.
 Qed.
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_7_boot : prim_adjacency_matrix_entail_wit_7_boot.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_prim_adjacency_matrix_entail_wit_7_boot_split_goal_1.
-Qed.
+Qed. 
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_8_1_boot_split_goal_1 : prim_adjacency_matrix_entail_wit_8_1_boot_split_goal_1.
 Proof.
   intros n_pre X_low_level_spec src_low_level_spec g_low_level_spec
@@ -183,6 +204,7 @@ Proof.
     rewrite Zlength_correct, repeat_length.
     lia.
 Qed.
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_8_1_boot_split_goal_2 : prim_adjacency_matrix_entail_wit_8_1_boot_split_goal_2.
 Proof.
   intros n_pre X_low_level_spec src_low_level_spec g_low_level_spec
@@ -215,12 +237,14 @@ Proof.
       lia.
     + intros H; apply Hj; symmetry; exact H.
 Qed.
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_8_1_boot : prim_adjacency_matrix_entail_wit_8_1_boot.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_prim_adjacency_matrix_entail_wit_8_1_boot_split_goal_1.
   - Goal_apply proof_of_prim_adjacency_matrix_entail_wit_8_1_boot_split_goal_2.
-Qed.
+Qed. 
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_8_2_boot : prim_adjacency_matrix_entail_wit_8_2_boot.
 Proof.
   LLM_pre_process ltac:(int_auto).
@@ -258,7 +282,8 @@ Proof.
 	  lia.
   Unshelve.
   all: try solve [qcp_light_sep | cancel | lia | assumption | reflexivity].
-Qed.
+Qed. 
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_8_3_boot : prim_adjacency_matrix_entail_wit_8_3_boot.
 Proof.
   LLM_pre_process ltac:(int_auto).
@@ -287,7 +312,8 @@ Proof.
     try solve [qcp_light_sep | cancel].
   Unshelve.
   all: try solve [qcp_light_sep | cancel | lia | assumption | reflexivity].
-Qed.
+Qed. 
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_8_4_boot_split_goal_1 : prim_adjacency_matrix_entail_wit_8_4_boot_split_goal_1.
 Proof.
   intros n_pre X_low_level_spec src_low_level_spec g_low_level_spec
@@ -310,11 +336,13 @@ Proof.
   }
   exact (PreH17 Hj_pos).
 Qed.
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_8_4_boot : prim_adjacency_matrix_entail_wit_8_4_boot.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_prim_adjacency_matrix_entail_wit_8_4_boot_split_goal_1.
-Qed.
+Qed. 
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_8_5_boot_split_goal_1 : prim_adjacency_matrix_entail_wit_8_5_boot_split_goal_1.
 Proof.
   intros n_pre X_low_level_spec src_low_level_spec g_low_level_spec
@@ -339,11 +367,13 @@ Proof.
   }
   exact (PreH18 Hj_pos).
 Qed.
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_8_5_boot : prim_adjacency_matrix_entail_wit_8_5_boot.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_prim_adjacency_matrix_entail_wit_8_5_boot_split_goal_1.
-Qed.
+Qed. 
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_8_6_boot : prim_adjacency_matrix_entail_wit_8_6_boot.
 Proof.
   LLM_pre_process ltac:(int_auto).
@@ -366,7 +396,8 @@ Proof.
     try solve [qcp_light_sep | cancel].
   Unshelve.
   all: try solve [qcp_light_sep | cancel | lia | assumption | reflexivity].
-Qed.
+Qed. 
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_9_2_boot : prim_adjacency_matrix_entail_wit_9_2_boot.
 Proof.
   LLM_pre_process ltac:(int_auto).
@@ -407,16 +438,9 @@ Proof.
     try (dump_pre_spatial; assumption);
     try (dump_pre_spatial; lia);
     try solve [qcp_light_sep | cancel].
-Qed.
-Ltac intros_prim_adj_wit_10_1_boot :=
-  intros n_pre X_low_level_spec src_low_level_spec g_low_level_spec
-	    matrix_low_level_spec l_visited_2 l_lowcost l_edge_parent i minIndex
-	    min row_ptr_2 __default__List_Z PreH1 PreH2 PreH3 PreH4 PreH5
-		    PreH6 PreH7 PreH8 PreH9 PreH10 PreH11 PreH12 PreH13 PreH14
-		    PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21 PreH22.
+Qed. 
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_1 :
-  prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_1.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_1 : prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_1.
 Proof.
   intros_prim_adj_wit_10_1_boot.
   apply derivable1s_coq_prop_r.
@@ -425,16 +449,14 @@ Proof.
     [reflexivity | lia | exact PreH11].
 Qed.
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_2 :
-  prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_2.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_2 : prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_2.
 Proof.
   intros_prim_adj_wit_10_1_boot.
   apply derivable1s_coq_prop_r.
   exact (initSt_state_vertex_count g_low_level_spec 0).
 Qed.
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_3 :
-  prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_3.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_3 : prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_3.
 Proof.
   intros_prim_adj_wit_10_1_boot.
   apply derivable1s_coq_prop_r.
@@ -443,8 +465,7 @@ Proof.
     [exact PreH1 | reflexivity].
 Qed.
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_4 :
-  prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_4.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_4 : prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_4.
 Proof.
   intros_prim_adj_wit_10_1_boot.
   apply derivable1s_coq_prop_r.
@@ -453,8 +474,7 @@ Proof.
   exact PreH12.
 Qed.
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_5 :
-  prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_5.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_5 : prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_5.
 Proof.
   intros_prim_adj_wit_10_1_boot.
   apply derivable1s_coq_prop_r.
@@ -463,8 +483,7 @@ Proof.
   exact PreH16.
 Qed.
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_6 :
-  prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_6.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_6 : prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_6.
 Proof.
   intros_prim_adj_wit_10_1_boot.
   apply derivable1s_coq_prop_r.
@@ -474,8 +493,7 @@ Proof.
   rewrite (Hrow_len 0); lia.
 Qed.
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_spatial :
-  prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_spatial.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_spatial : prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_spatial.
 Proof.
   intros_prim_adj_wit_10_1_boot.
   pose proof PreH1 as Hmodel.
@@ -497,7 +515,8 @@ Proof.
   - Goal_apply proof_of_prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_4.
   - Goal_apply proof_of_prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_5.
   - Goal_apply proof_of_prim_adjacency_matrix_entail_wit_10_1_boot_split_goal_6.
-Qed.
+Qed. 
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_10_2_boot : prim_adjacency_matrix_entail_wit_10_2_boot.
 Proof.
   LLM_pre_process ltac:(int_auto).
@@ -597,7 +616,8 @@ Proof.
 	    all: try solve [apply derivable1s_coq_prop_r; rewrite <- PreH7; dump_pre_spatial; assumption].
 	    all: try solve [apply derivable1s_coq_prop_r; rewrite (Hrow_len minIndex); lia].
 	    all: try solve [change (sizeof(PTR)) with ptr_size_Z; sepcon_assoc_change; cancel].
-Qed.
+Qed. 
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_11_1_boot : prim_adjacency_matrix_entail_wit_11_1_boot.
 Proof.
   right.
@@ -624,7 +644,8 @@ Proof.
   all: try solve [apply derivable1s_coq_prop_r; rewrite PreH5; reflexivity].
   all: try solve [apply derivable1s_coq_prop_r; rewrite PreH5; assumption].
   all: try solve [apply derivable1s_coq_prop_r; rewrite PreH5; apply scan_matrix_row_prefix_update_zero].
-Qed.
+Qed. 
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_11_2_boot : prim_adjacency_matrix_entail_wit_11_2_boot.
 Proof.
   LLM_pre_process ltac:(int_auto).
@@ -637,114 +658,43 @@ Proof.
   all: try solve [apply derivable1s_coq_prop_r; apply scan_matrix_row_prefix_update_zero].
   all: try solve [apply derivable1s_coq_prop_r; lia].
   all: try solve [cancel].
-Qed.
+Qed. 
+
 Lemma proof_of_prim_adjacency_matrix_entail_wit_12_1_boot : prim_adjacency_matrix_entail_wit_12_1_boot.
 Proof.
-  left.
-  intros graph_pre n_pre X_low_level_spec src_low_level_spec g_low_level_spec
-    matrix_low_level_spec lowcost visited row_ptr l_lowcost_2
-    l_edge_parent_2 l_edge_parent0_2 l_lowcost0_2 l_visited_2
-    s_after_2 min minIndex i j
-    PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
-    PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-    PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
-    PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
-    PreH34.
-  sep_lift_L ((IntArray.full row_ptr
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  sep_apply (IntArray.full_split_to_missing_i row_ptr j
     (Zlength (Znth minIndex matrix_low_level_spec nil))
-    (Znth minIndex matrix_low_level_spec nil)) :: nil).
-  assert (Hrow_range :
-    0 <= j < Zlength (Znth minIndex matrix_low_level_spec nil))
-    by (rewrite PreH8; lia).
-  pose proof (IntArray.full_split_to_missing_i
-    row_ptr j (Zlength (Znth minIndex matrix_low_level_spec nil))
-    (Znth minIndex matrix_low_level_spec nil) 0 Hrow_range) as Hsplit_row.
-  sep_apply_L ((IntArray.full row_ptr
-    (Zlength (Znth minIndex matrix_low_level_spec nil))
-    (Znth minIndex matrix_low_level_spec nil)) :: nil) Hsplit_row.
-				  Exists l_lowcost_2 l_edge_parent_2 l_edge_parent0_2
-				    l_lowcost0_2 l_visited_2 s_after_2.
+    (Znth minIndex matrix_low_level_spec nil) 0); try lia.
+  sep_apply (IntArray.full_split_to_missing_i visited j n_pre
+    (replace_Znth minIndex 1 l_visited_2) 0); try lia.
+  sep_apply (IntArray.full_split_to_missing_i lowcost j n_pre l_lowcost_2 0); try lia.
+  Exists l_lowcost_2 l_edge_parent_2 l_edge_parent0_2 l_lowcost0_2 l_visited_2 s_after_2.
   repeat (split_pure_spatial || split_pures);
     try (dump_pre_spatial; assumption);
+    try (dump_pre_spatial; reflexivity);
     try (dump_pre_spatial; lia);
     try solve [qcp_light_sep | cancel; qcp_light_sep].
-Qed.
+Qed. 
 
 Lemma proof_of_prim_adjacency_matrix_entail_wit_12_2_boot : prim_adjacency_matrix_entail_wit_12_2_boot.
 Proof.
-  LLM_pre_process ltac:(int_auto).
-  sep_lift_L ((IntArray.full row_ptr
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  sep_apply (IntArray.full_split_to_missing_i row_ptr j
     (Zlength (Znth minIndex matrix_low_level_spec nil))
-    (Znth minIndex matrix_low_level_spec nil)) :: nil).
-	  assert (Hrow_range :
-	    0 <= j < Zlength (Znth minIndex matrix_low_level_spec nil))
-	    by (rewrite PreH8; lia).
-  pose proof (IntArray.full_split_to_missing_i
-    row_ptr j (Zlength (Znth minIndex matrix_low_level_spec nil))
-    (Znth minIndex matrix_low_level_spec nil) 0 Hrow_range) as Hsplit_row.
-	  sep_apply_L ((IntArray.full row_ptr
-	    (Zlength (Znth minIndex matrix_low_level_spec nil))
-	    (Znth minIndex matrix_low_level_spec nil)) :: nil) Hsplit_row.
-			  Exists l_lowcost_2 l_edge_parent_2 u_2 v_2 l_edge_parent0_2
-			    l_visited_2 s_2 s_after_2 l_lowcost0_2.
+    (Znth minIndex matrix_low_level_spec nil) 0); try lia.
+  sep_apply (IntArray.full_split_to_missing_i visited j n_pre
+    (replace_Znth minIndex 1 l_visited_2) 0); try lia.
+  sep_apply (IntArray.full_split_to_missing_i lowcost j n_pre l_lowcost_2 0); try lia.
+  Exists l_lowcost_2 l_edge_parent_2 u_2 v_2 l_edge_parent0_2 l_visited_2 s_2 s_after_2 l_lowcost0_2.
   repeat (split_pure_spatial || split_pures);
     try (dump_pre_spatial; assumption);
+    try (dump_pre_spatial; reflexivity);
     try (dump_pre_spatial; lia);
     try solve [qcp_light_sep | cancel; qcp_light_sep].
-Qed.
+Qed. 
 
 Lemma proof_of_prim_adjacency_matrix_entail_wit_13_1_boot : prim_adjacency_matrix_entail_wit_13_1_boot.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  assert (Hvisited_range : 0 <= j < n_pre) by lia.
-  sep_apply (IntArray.full_split_to_missing_i
-    visited j n_pre (replace_Znth minIndex 1 l_visited_2) 0
-    Hvisited_range).
-  assert (Hlowcost_range : 0 <= j < n_pre) by lia.
-	  sep_apply (IntArray.full_split_to_missing_i
-	    lowcost j n_pre l_lowcost_2 0 Hlowcost_range).
-		  Exists l_lowcost_2 l_edge_parent_2 l_edge_parent0_2
-		    l_lowcost0_2 l_visited_2 s_after_2.
-		  repeat (split_pure_spatial || split_pures);
-		    try (dump_pre_spatial; assumption);
-		    try (dump_pre_spatial; lia);
-		    try solve [qcp_light_sep | cancel; qcp_light_sep].
-		  all: try lia.
-Qed.
-
-Lemma proof_of_prim_adjacency_matrix_entail_wit_13_2_boot : prim_adjacency_matrix_entail_wit_13_2_boot.
-Proof.
-  right.
-  intros n_pre X_low_level_spec src_low_level_spec g_low_level_spec
-    matrix_low_level_spec l_visited_2 l_lowcost0_2 l_lowcost_2
-    l_edge_parent0_2 l_edge_parent_2 s_2 s_after_2 u_2 v_2
-    j minIndex i min
-    PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
-    PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-    PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
-    PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
-    PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
-    PreH42 PreH43 PreH44 PreH45.
-  Exists l_edge_parent_2 u_2 v_2 l_edge_parent0_2
-    s_2 s_after_2 l_lowcost0_2.
-  repeat (split_pure_spatial || split_pures);
-    try reflexivity;
-    try assumption;
-    try lia;
-    try solve [rewrite PreH12; lia];
-    try solve [rewrite PreH31; assumption];
-    try solve [rewrite <- PreH16; assumption].
-  all: try solve [apply derivable1s_coq_prop_r; reflexivity].
-  all: try solve [apply derivable1s_coq_prop_r; assumption].
-  all: try solve [apply derivable1s_coq_prop_r; lia].
-  all: try solve [apply derivable1s_coq_prop_r; rewrite PreH12; lia].
-  all: try solve [apply derivable1s_coq_prop_r; rewrite PreH31, PreH12; lia].
-  all: try solve [apply derivable1s_coq_prop_r; rewrite PreH31; assumption].
-  all: try solve [apply derivable1s_coq_prop_r; rewrite <- PreH16; assumption].
-  all: try solve [apply derivable1s_coq_prop_r; rewrite PreH39, PreH31; lia].
-Qed.
-
-Lemma proof_of_prim_adjacency_matrix_entail_wit_14_1_boot : prim_adjacency_matrix_entail_wit_14_1_boot.
 Proof.
   left.
 	  intros graph_pre n_pre X_low_level_spec src_low_level_spec g_low_level_spec
@@ -918,9 +868,9 @@ Proof.
 	      * rewrite Hlowcost2_len; lia.
 	      * rewrite Hlowcost2_len; lia.
 	      * lia.
-Qed.
+Qed. 
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_14_2_boot : prim_adjacency_matrix_entail_wit_14_2_boot.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_13_2_boot : prim_adjacency_matrix_entail_wit_13_2_boot.
 Proof.
   right.
 	  intros n_pre X_low_level_spec src_low_level_spec g_low_level_spec
@@ -1082,9 +1032,9 @@ Proof.
       * rewrite Hlowcost2_len; lia.
       * rewrite Hlowcost2_len; lia.
       * lia.
-Qed.
+Qed. 
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_14_3_boot : prim_adjacency_matrix_entail_wit_14_3_boot.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_13_3_boot : prim_adjacency_matrix_entail_wit_13_3_boot.
 Proof.
   left.
 	  intros graph_pre n_pre X_low_level_spec src_low_level_spec g_low_level_spec
@@ -1150,9 +1100,9 @@ Proof.
 	    right; right.
 	    unfold matrix_entry.
 	    lia.
-Qed.
+Qed. 
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_14_4_boot : prim_adjacency_matrix_entail_wit_14_4_boot.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_13_4_boot : prim_adjacency_matrix_entail_wit_13_4_boot.
 Proof.
   right.
 	  intros n_pre X_low_level_spec src_low_level_spec g_low_level_spec
@@ -1221,9 +1171,9 @@ Proof.
 		    try (dump_pre_spatial; assumption);
 		    try (dump_pre_spatial; lia);
 		    try solve [qcp_light_sep | cancel; qcp_light_sep].
-Qed.
+Qed. 
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_14_5_boot : prim_adjacency_matrix_entail_wit_14_5_boot.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_13_5_boot : prim_adjacency_matrix_entail_wit_13_5_boot.
 Proof.
   right.
 		  intros n_pre X_low_level_spec src_low_level_spec g_low_level_spec
@@ -1281,9 +1231,9 @@ Proof.
 	    { eapply adjacency_matrix_vertex_in_graph; eauto; lia. }
 			    apply (proj1 (PreH28 j Hj_graph)).
 	    exact PreH7.
-Qed.
+Qed. 
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_14_6_boot : prim_adjacency_matrix_entail_wit_14_6_boot.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_13_6_boot : prim_adjacency_matrix_entail_wit_13_6_boot.
 Proof.
   left.
 	  intros graph_pre n_pre X_low_level_spec src_low_level_spec g_low_level_spec
@@ -1352,78 +1302,43 @@ Proof.
 		    { eapply adjacency_matrix_vertex_in_graph; eauto; lia. }
 		    apply (proj1 (PreH29 j Hj_graph)).
 	    exact PreH1.
-Qed.
+Qed. 
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_14_7_boot : prim_adjacency_matrix_entail_wit_14_7_boot.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_13_7_boot : prim_adjacency_matrix_entail_wit_13_7_boot.
 Proof.
-  left.
-  intros graph_pre n_pre X_low_level_spec src_low_level_spec g_low_level_spec
-    matrix_low_level_spec l_visited_2 l_lowcost0_2 l_lowcost_2
-    l_edge_parent0_2 l_edge_parent_2 s_after_2 row_ptr j minIndex i
-    min visited lowcost
-    PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
-    PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-    PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
-    PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
-    PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40.
-  sep_apply (int_array_missing_store_merge_to_full
-    row_ptr j
-    (Zlength (Znth minIndex matrix_low_level_spec nil))
-    (Znth j (Znth minIndex matrix_low_level_spec nil) 0)
-    (Znth minIndex matrix_low_level_spec nil)); try lia.
-  rewrite replace_Znth_Znth by lia.
-  Exists l_lowcost_2 l_edge_parent_2 l_edge_parent0_2
-    l_lowcost0_2 l_visited_2 s_after_2.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  Exists l_lowcost_2 l_edge_parent_2 l_edge_parent0_2 l_lowcost0_2 l_visited_2 s_after_2.
   repeat (split_pure_spatial || split_pures);
     try (dump_pre_spatial; assumption);
+    try (dump_pre_spatial; reflexivity);
     try (dump_pre_spatial; lia);
     try solve [qcp_light_sep | cancel; qcp_light_sep].
   apply derivable1s_coq_prop_r.
-		  eapply scan_matrix_row_prefix_update_snoc.
-		  - lia.
-			  - exact PreH38.
+  eapply scan_matrix_row_prefix_update_snoc.
+  - lia.
+  - exact PreH31.
   - apply scan_one_matrix_neighbor_update_skip.
-    right; left.
-    unfold matrix_entry.
-    exact PreH1.
-Qed.
+    right; left. unfold matrix_entry. exact PreH1.
+Qed. 
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_14_8_boot : prim_adjacency_matrix_entail_wit_14_8_boot.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_13_8_boot : prim_adjacency_matrix_entail_wit_13_8_boot.
 Proof.
-  left.
-  intros graph_pre n_pre X_low_level_spec src_low_level_spec g_low_level_spec
-    matrix_low_level_spec l_visited_2 l_lowcost0_2 l_lowcost_2
-    l_edge_parent0_2 l_edge_parent_2 s_2 s_after_2 u_2 v_2 row_ptr
-    j minIndex i min visited lowcost
-	    PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
-		    PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-		    PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
-		    PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
-		    PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40 PreH41
-		    PreH42 PreH43 PreH44 PreH45.
-  sep_apply (int_array_missing_store_merge_to_full
-    row_ptr j
-    (Zlength (Znth minIndex matrix_low_level_spec nil))
-    (Znth j (Znth minIndex matrix_low_level_spec nil) 0)
-    (Znth minIndex matrix_low_level_spec nil)); try lia.
-  rewrite replace_Znth_Znth by lia.
-  Exists l_lowcost_2 l_edge_parent_2 u_2 v_2 l_edge_parent0_2
-    l_visited_2 s_2 s_after_2 l_lowcost0_2.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  Exists l_lowcost_2 l_edge_parent_2 u_2 v_2 l_edge_parent0_2 l_visited_2 s_2 s_after_2 l_lowcost0_2.
   repeat (split_pure_spatial || split_pures);
     try (dump_pre_spatial; assumption);
+    try (dump_pre_spatial; reflexivity);
     try (dump_pre_spatial; lia);
     try solve [qcp_light_sep | cancel; qcp_light_sep].
-		  apply derivable1s_coq_prop_r.
-			  eapply scan_matrix_row_prefix_update_snoc.
-			  - lia.
-				  - exact PreH43.
+  apply derivable1s_coq_prop_r.
+  eapply scan_matrix_row_prefix_update_snoc.
+  - lia.
+  - exact PreH36.
   - apply scan_one_matrix_neighbor_update_skip.
-    right; left.
-    unfold matrix_entry.
-    exact PreH1.
-Qed.
+    right; left. unfold matrix_entry. exact PreH1.
+Qed. 
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_15_1_boot : prim_adjacency_matrix_entail_wit_15_1_boot.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_14_1_boot : prim_adjacency_matrix_entail_wit_14_1_boot.
 Proof.
   right.
   intros graph_pre n_pre X_low_level_spec src_low_level_spec g_low_level_spec
@@ -1482,9 +1397,9 @@ Proof.
     * reflexivity.
     * exact PreH11.
     * exact Hscan_full.
-Qed.
+Qed. 
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_15_2_boot : prim_adjacency_matrix_entail_wit_15_2_boot.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_14_2_boot : prim_adjacency_matrix_entail_wit_14_2_boot.
 Proof.
   right.
   intros graph_pre n_pre X_low_level_spec src_low_level_spec g_low_level_spec
@@ -1543,9 +1458,9 @@ Proof.
     * exact PreH25.
     * exact PreH28.
     * exact Hscan_full.
-Qed.
+Qed. 
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_16_1_boot : prim_adjacency_matrix_entail_wit_16_1_boot.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_15_1_boot : prim_adjacency_matrix_entail_wit_15_1_boot.
 Proof.
   left.
   intros graph_pre n_pre X_low_level_spec src_low_level_spec g_low_level_spec
@@ -1560,9 +1475,9 @@ Proof.
     try (dump_pre_spatial; assumption);
     try (dump_pre_spatial; lia);
     try solve [qcp_light_sep | cancel; qcp_light_sep].
-Qed.
+Qed. 
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_16_2_boot : prim_adjacency_matrix_entail_wit_16_2_boot.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_15_2_boot : prim_adjacency_matrix_entail_wit_15_2_boot.
 Proof.
   left.
   intros graph_pre n_pre X_low_level_spec src_low_level_spec g_low_level_spec
@@ -1577,49 +1492,49 @@ Proof.
     try (dump_pre_spatial; assumption);
     try (dump_pre_spatial; lia);
     try solve [qcp_light_sep | cancel; qcp_light_sep].
-Qed.
+Qed. 
+
+Lemma proof_of_prim_adjacency_matrix_entail_wit_16_1_running : prim_adjacency_matrix_entail_wit_16_1_running.
+Proof.
+  left.
+  intros graph_pre n_pre X_low_level_spec src_low_level_spec g_low_level_spec
+    matrix_low_level_spec l_visited_2 l_lowcost_2 l_edge_parent_2
+    s_after i_2 minIndex min lowcost visited l_lowcost_3
+    l_edge_parent_3 l_visited_3 s_2 i
+    PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+    PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
+    PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
+    PreH34 PreH35 PreH36 PreH37.
+  Exists l_lowcost_3 l_edge_parent_3 l_visited_3 s_2.
+  repeat (split_pure_spatial || split_pures);
+    try (dump_pre_spatial; assumption);
+    try (dump_pre_spatial; lia);
+    try solve [apply derivable1s_coq_prop_r; apply min_vertex_in_range_empty];
+    try solve [qcp_light_sep | cancel; qcp_light_sep].
+Qed. 
+
+Lemma proof_of_prim_adjacency_matrix_entail_wit_16_2_running : prim_adjacency_matrix_entail_wit_16_2_running.
+Proof.
+  left.
+  intros graph_pre n_pre X_low_level_spec src_low_level_spec g_low_level_spec
+    matrix_low_level_spec l_visited_2 l_lowcost_2 l_edge_parent_2
+    s_after i_2 minIndex min lowcost visited l_lowcost_3
+    l_edge_parent_3 l_visited_3 s_2 i
+    PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
+    PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
+    PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
+    PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
+    PreH34 PreH35 PreH36 PreH37.
+  Exists l_lowcost_3 l_edge_parent_3 l_visited_3 s_2.
+  repeat (split_pure_spatial || split_pures);
+    try (dump_pre_spatial; assumption);
+    try (dump_pre_spatial; lia);
+    try solve [apply derivable1s_coq_prop_r; apply min_vertex_in_range_empty];
+    try solve [qcp_light_sep | cancel; qcp_light_sep].
+Qed. 
 
 Lemma proof_of_prim_adjacency_matrix_entail_wit_17_1_running : prim_adjacency_matrix_entail_wit_17_1_running.
-Proof.
-  left.
-  intros graph_pre n_pre X_low_level_spec src_low_level_spec g_low_level_spec
-    matrix_low_level_spec l_visited_2 l_lowcost_2 l_edge_parent_2
-    s_after i_2 minIndex min lowcost visited l_lowcost_3
-    l_edge_parent_3 l_visited_3 s_2 i
-    PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
-    PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-    PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
-    PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
-    PreH34 PreH35 PreH36 PreH37.
-  Exists l_lowcost_3 l_edge_parent_3 l_visited_3 s_2.
-  repeat (split_pure_spatial || split_pures);
-    try (dump_pre_spatial; assumption);
-    try (dump_pre_spatial; lia);
-    try solve [apply derivable1s_coq_prop_r; apply min_vertex_in_range_empty];
-    try solve [qcp_light_sep | cancel; qcp_light_sep].
-Qed.
-
-Lemma proof_of_prim_adjacency_matrix_entail_wit_17_2_running : prim_adjacency_matrix_entail_wit_17_2_running.
-Proof.
-  left.
-  intros graph_pre n_pre X_low_level_spec src_low_level_spec g_low_level_spec
-    matrix_low_level_spec l_visited_2 l_lowcost_2 l_edge_parent_2
-    s_after i_2 minIndex min lowcost visited l_lowcost_3
-    l_edge_parent_3 l_visited_3 s_2 i
-    PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
-    PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
-    PreH18 PreH19 PreH20 PreH21 PreH22 PreH23 PreH24 PreH25
-    PreH26 PreH27 PreH28 PreH29 PreH30 PreH31 PreH32 PreH33
-    PreH34 PreH35 PreH36 PreH37.
-  Exists l_lowcost_3 l_edge_parent_3 l_visited_3 s_2.
-  repeat (split_pure_spatial || split_pures);
-    try (dump_pre_spatial; assumption);
-    try (dump_pre_spatial; lia);
-    try solve [apply derivable1s_coq_prop_r; apply min_vertex_in_range_empty];
-    try solve [qcp_light_sep | cancel; qcp_light_sep].
-Qed.
-
-Lemma proof_of_prim_adjacency_matrix_entail_wit_18_1_running : prim_adjacency_matrix_entail_wit_18_1_running.
 Proof.
   left.
   intros graph_pre n_pre X_low_level_spec src_low_level_spec g_low_level_spec
@@ -1653,9 +1568,9 @@ Proof.
       exact PreH21
     ];
     try solve [qcp_light_sep | cancel; qcp_light_sep].
-Qed.
+Qed. 
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_18_2_running : prim_adjacency_matrix_entail_wit_18_2_running.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_17_2_running : prim_adjacency_matrix_entail_wit_17_2_running.
 Proof.
   left.
   intros graph_pre n_pre X_low_level_spec src_low_level_spec g_low_level_spec
@@ -1689,9 +1604,9 @@ Proof.
       exact PreH21
     ];
     try solve [qcp_light_sep | cancel; qcp_light_sep].
-Qed.
+Qed. 
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_19_1_running : prim_adjacency_matrix_entail_wit_19_1_running.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_18_1_running : prim_adjacency_matrix_entail_wit_18_1_running.
 Proof.
   left.
   intros graph_pre n_pre X_low_level_spec src_low_level_spec g_low_level_spec
@@ -1727,9 +1642,9 @@ Proof.
     try (dump_pre_spatial; unfold lowcost_prefix_sum; simpl; reflexivity);
     try (dump_pre_spatial; lia);
     try solve [qcp_light_sep | cancel; qcp_light_sep].
-Qed.
+Qed. 
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_19_2_running : prim_adjacency_matrix_entail_wit_19_2_running.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_18_2_running : prim_adjacency_matrix_entail_wit_18_2_running.
 Proof.
   left.
   intros graph_pre n_pre X_low_level_spec src_low_level_spec g_low_level_spec
@@ -1765,9 +1680,9 @@ Proof.
     try (dump_pre_spatial; unfold lowcost_prefix_sum; simpl; reflexivity);
     try (dump_pre_spatial; lia);
     try solve [qcp_light_sep | cancel; qcp_light_sep].
-Qed.
+Qed. 
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_20_running : prim_adjacency_matrix_entail_wit_20_running.
+Lemma proof_of_prim_adjacency_matrix_entail_wit_19_running : prim_adjacency_matrix_entail_wit_19_running.
 Proof.
   left.
   intros graph_pre n_pre X_low_level_spec src_low_level_spec g_low_level_spec
@@ -1781,28 +1696,21 @@ Proof.
     try (dump_pre_spatial; rewrite PreH4, lowcost_prefix_sum_snoc by lia; reflexivity);
     try (dump_pre_spatial; lia);
     try solve [qcp_light_sep | cancel; qcp_light_sep].
-Qed.
+Qed. 
 
-Lemma proof_of_prim_adjacency_matrix_entail_wit_21_running : prim_adjacency_matrix_entail_wit_21_running.
+Lemma proof_of_prim_adjacency_matrix_return_wit_1_running : prim_adjacency_matrix_return_wit_1_running.
 Proof.
-  left.
-  intros graph_pre n_pre X_low_level_spec src_low_level_spec g_low_level_spec
-    matrix_low_level_spec lowcost visited l_edge_parent_2 l_visited_2
-    s_2 l_lowcost_2 ret i
-    PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-    PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17.
+  LLM_pre_process ltac:(lia || nia || int_auto).
 	  assert (Hi_eq : i = n_pre) by lia.
 	  subst i.
-	  prop_apply (IntArray.full_Zlength lowcost n_pre l_lowcost_2).
-	  Intros_p Hlowcost_len.
   prop_apply (@graph_matrix_lib.GraphMatrixPtr.store_graph_model n_pre
     (prim_adjacency_matrix_graph_model n_pre g_low_level_spec 1000000000)
     graph_pre matrix_low_level_spec).
   Intros_p Hgraph_model.
   unfold prim_adjacency_matrix_graph_model in Hgraph_model.
 	  assert (Hprefix_full :
-	    lowcost_prefix_sum n_pre l_lowcost_2 =
-	    graph_total_weight s_2.(Prim.graph_in_state)).
+	    lowcost_prefix_sum n_pre l_lowcost =
+	    graph_total_weight s.(Prim.graph_in_state)).
   {
     eapply lowcost_prefix_sum_full_state.
     - exact Hgraph_model.
@@ -1812,7 +1720,7 @@ Proof.
   }
   assert (Hsafe_graph :
     safeExec
-      (prim_state_graph_matches s_2.(Prim.graph_in_state))
+      (prim_state_graph_matches s.(Prim.graph_in_state))
       (return tt) X_low_level_spec).
   {
     eapply safeExec_conseq; [exact PreH17|].
@@ -1823,30 +1731,33 @@ Proof.
     reflexivity.
   }
   assert (Hresult_weight :
-    prim_result_weight s_2.(Prim.graph_in_state) ret).
+    prim_result_weight s.(Prim.graph_in_state) ret).
   {
     unfold prim_result_weight.
     rewrite <- Hprefix_full.
     exact PreH4.
   }
   assert (Hresult_range :
-    prim_result_weight_in_int64_range s_2.(Prim.graph_in_state)).
+    prim_result_weight_in_int64_range s.(Prim.graph_in_state)).
   {
     unfold prim_result_weight_in_int64_range.
     rewrite <- Hprefix_full.
     assert (Hprefix_bound :
-      0 <= lowcost_prefix_sum n_pre l_lowcost_2 <=
+      0 <= lowcost_prefix_sum n_pre l_lowcost <=
         n_pre * 1000000000).
 	    {
 	      apply lowcost_prefix_sum_bound; try lia.
 	      intros v Hv.
 	      rewrite <- In_Zrange in Hv.
-	      apply PreH16. rewrite Hlowcost_len. lia.
+	      apply PreH16.
+      assert (Hv_graph : In v (graph_vertices g_low_level_spec)).
+      { eapply adjacency_matrix_vertex_in_graph; eauto; lia. }
+      exact (proj1 (proj1 PreH14 v Hv_graph)).
 	    }
     destruct PreH8 as [_ Htotal_bound].
     split; lia.
   }
-  Exists s_2.(Prim.graph_in_state) l_edge_parent_2 l_visited_2 s_2 l_lowcost_2.
+  Exists s.(Prim.graph_in_state).
   repeat (split_pure_spatial || split_pures);
     try (dump_pre_spatial; assumption);
     try (dump_pre_spatial; exact Hsafe_graph);
@@ -1855,20 +1766,7 @@ Proof.
     try (dump_pre_spatial; unfold prim_state_graph_matches; reflexivity);
     try (dump_pre_spatial; lia);
     try solve [qcp_light_sep | cancel; qcp_light_sep].
-Qed.
-
-Lemma proof_of_prim_adjacency_matrix_return_wit_1_running : prim_adjacency_matrix_return_wit_1_running.
-Proof.
-  left.
-  intros graph_pre n_pre X_low_level_spec src_low_level_spec g_low_level_spec
-    matrix_low_level_spec l_edge_parent s rg_2 ret l_visited l_lowcost
-    PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-    PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17.
-  Exists rg_2.
-  repeat (split_pure_spatial || split_pures);
-    try (dump_pre_spatial; assumption);
-    try solve [qcp_light_sep | cancel; qcp_light_sep].
-Qed.
+Qed. 
 
 Lemma proof_of_prim_adjacency_matrix_derive_high_level_spec_by_low_level_spec : prim_adjacency_matrix_derive_high_level_spec_by_low_level_spec.
 Proof.
@@ -1915,4 +1813,5 @@ Proof.
     try (dump_pre_spatial; assumption);
     try (dump_pre_spatial; exact Hresult_mst);
     try solve [qcp_light_sep | cancel; qcp_light_sep].
-Qed.
+Qed. 
+

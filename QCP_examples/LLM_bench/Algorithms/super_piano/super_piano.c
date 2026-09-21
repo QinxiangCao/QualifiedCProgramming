@@ -1,12 +1,29 @@
+/*@ Extern Coq
+  (PianoNodes : list Z -> list Z -> list Z -> list Z -> list Z -> list (Z * Z * Z * Z * Z))
+ */
+#define PIANO_LEVELS 17
+/*@ Extern Coq
+      (PianoSwap : list (Z * Z * Z * Z * Z) -> Z -> Z -> list (Z * Z * Z * Z * Z))
+      (PianoHeapPush : list (Z * Z * Z * Z * Z) -> list (Z * Z * Z * Z * Z) -> Z -> Z -> Z * Z * Z * Z * Z -> Prop)
+      (PianoHeapPop : list (Z * Z * Z * Z * Z) -> list (Z * Z * Z * Z * Z) -> Z -> Z -> Prop)
+      (PianoHeapSelected : list (Z * Z * Z * Z * Z) -> Z -> Z -> Z -> Prop)
+      (PianoInitialPrefix : list Z -> Z -> Z -> Z -> Z -> list (Z * Z * Z * Z * Z) -> Prop)
+ */
 
 
 
 
 /*@ Extern Coq
-      (ST_LEVELS : Z)
+      (Power2 : Z -> Z)
+      (PianoSparseTable : list Z -> list Z -> Z -> Prop)
+      (PianoSparseProgress : list Z -> list Z -> Z -> Z -> Z -> Prop)
+ */
+/*@ Extern Coq
+      (Forall : {A} -> (A -> Prop) -> list A -> Prop)
+      (Z::le : Z -> Z -> Prop)
+      (Z::ge : Z -> Z -> Prop)
       (PrefixArrayPrefix : list Z -> list Z -> Z -> Prop)
       (PrefixSums : list Z -> list Z -> Prop)
-      (SparseArgmaxBuilt : list Z -> list Z -> Z -> Prop)
       (RangeArgmax : list Z -> Z -> Z -> Z -> Prop)
       (default_node : Z * Z * Z * Z * Z)
       (mkNode : Z -> Z -> Z -> Z -> Z -> Z * Z * Z * Z * Z)
@@ -50,32 +67,19 @@ void build_prefix(int *arr, int n, int *pre)
       1 <= n && n <= 100000 &&
       Zlength(l) == n &&
       PrefixSums(l, ps) &&
-      (forall (idx : Z), (0 <= idx && idx < n + 1) => (INT_MIN <= ps[idx] && ps[idx] <= INT_MAX)) &&
+      Forall(Z::le(INT_MIN), ps) && Forall(Z::ge(INT_MAX), ps) &&
       IntArray::full(arr, n, l) *
       IntArray::undef_full(pre, n + 1) &&
-      (forall (idx : Z), (0 <= idx && idx < n) => (-1000 <= l[idx] && l[idx] <= 1000))
+      Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
     Ensure
       exists ps,
       PrefixSums(l, ps) &&
       IntArray::full(arr, n, l) *
-      IntArray::full(pre, n + 1, ps) &&
-      (forall (idx : Z), (0 <= idx && idx < n + 1) => (INT_MIN <= ps[idx] && ps[idx] <= INT_MAX))
+      IntArray::full(pre, n + 1, ps)
  */
 {
   pre[0] = 0;
-  /*@ Assert
-      exists pref,
-      arr == arr@pre && n == n@pre && pre == pre@pre &&
-      1 <= n@pre && n@pre <= 100000 &&
-      Zlength(l) == n@pre &&
-      Zlength(pref) == 1 &&
-      pref[0] == 0 &&
-      PrefixArrayPrefix(l, pref, 0) &&
-      IntArray::full(arr@pre, n@pre, l) *
-      IntArray::seg(pre@pre, 0, 1, pref) *
-      IntArray::undef_seg(pre@pre, 1, n@pre + 1) &&
-      (forall (idx : Z), (0 <= idx && idx < n@pre) => (-1000 <= l[idx] && l[idx] <= 1000))
-   */
+  
 
   /*@ Inv Assert
       exists pref,
@@ -87,7 +91,7 @@ void build_prefix(int *arr, int n, int *pre)
       IntArray::full(arr@pre, n@pre, l) *
       IntArray::seg(pre@pre, 0, i + 1, pref) *
       IntArray::undef_seg(pre@pre, i + 1, n@pre + 1) &&
-      (forall (idx : Z), (0 <= idx && idx < n@pre) => (-1000 <= l[idx] && l[idx] <= 1000))
+      Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
    */
   for (int i = 0; i < n; ++i) {
     pre[i + 1] = pre[i] + arr[i];
@@ -95,38 +99,436 @@ void build_prefix(int *arr, int n, int *pre)
 }
 
 void build_sparse_argmax(int *pre, int len, int *st)
-/*@ With (ps : list Z) (st_slots : list Z)
-    Require
-      1 <= len && len <= 100001 &&
-      Zlength(ps) == len &&
-      Zlength(st_slots) == len * ST_LEVELS &&
+/*@ With (ps : list Z)
+    Require 1 <= len && len <= 100001 &&
       IntArray::full(pre, len, ps) *
-      IntArray::undef_full(st, len * ST_LEVELS)
-    Ensure
-      exists st_out,
-      SparseArgmaxBuilt(ps, st_out, len) &&
+      IntArray::undef_full(st, len * 17)
+    Ensure exists table,
+      PianoSparseTable(ps, table, len) &&
       IntArray::full(pre, len, ps) *
-      IntArray::full(st, len * ST_LEVELS, st_out)
+      IntArray::full(st, len * 17, table)
  */
-;
+{
+  /*@ Inv Assert exists table,
+      pre == pre@pre && len == len@pre && st == st@pre &&
+      1 <= len && len <= 100001 && 0 <= i && i <= len * 17 &&
+      IntArray::full(pre, len, ps) *
+      IntArray::seg(st, 0, i, table) * IntArray::undef_seg(st, i, len * 17)
+   */
+  for (int i = 0; i < len * PIANO_LEVELS; ++i) { st[i] = 0; }
+
+  /*@ Inv Assert exists table,
+      pre == pre@pre && len == len@pre && st == st@pre &&
+      1 <= len && len <= 100001 && 0 <= i && i <= len &&
+      PianoSparseProgress(ps, table, len, 0, i) &&
+      IntArray::full(pre, len, ps) * IntArray::full(st, len * 17, table)
+   */
+  for (int i = 0; i < len; ++i) { st[i * PIANO_LEVELS] = i; }
+
+  int half = 1;
+  int width = 2;
+  /*@ Inv Assert exists table,
+      pre == pre@pre && len == len@pre && st == st@pre &&
+      1 <= len && len <= 100001 && 1 <= level && level <= 17 &&
+      half == Power2(level - 1) && width == Power2(level) &&
+      1 <= half && half <= 65536 && width == half + half &&
+      PianoSparseProgress(ps, table, len, level, 0) &&
+      IntArray::full(pre, len, ps) * IntArray::full(st, len * 17, table)
+   */
+  for (int level = 1; level < PIANO_LEVELS; ++level) {
+    /*@ Inv Assert exists table,
+        pre == pre@pre && len == len@pre && st == st@pre &&
+        1 <= len && len <= 100001 && 1 <= level && level < 17 &&
+        half == Power2(level - 1) && width == Power2(level) &&
+      1 <= half && half <= 65536 && width == half + half &&
+        0 <= i && i <= len &&
+        PianoSparseProgress(ps, table, len, level, i) &&
+        IntArray::full(pre, len, ps) * IntArray::full(st, len * 17, table)
+     */
+    for (int i = 0; i + width <= len; ++i) {
+      int a = st[i * PIANO_LEVELS + level - 1];
+      int c = st[(i + half) * PIANO_LEVELS + level - 1];
+      /*@ Assert exists table,
+          pre == pre@pre && len == len@pre && st == st@pre &&
+          1 <= len && len <= 100001 && 1 <= level && level < 17 &&
+          half == Power2(level - 1) && width == Power2(level) &&
+      1 <= half && half <= 65536 && width == half + half &&
+          0 <= i && i + width <= len &&
+          a == Znth(i * 17 + level - 1, table, 0) &&
+          c == Znth((i + half) * 17 + level - 1, table, 0) &&
+          0 <= a && a < len && 0 <= c && c < len &&
+          PianoSparseProgress(ps, table, len, level, i) &&
+          IntArray::full(pre, len, ps) * IntArray::full(st, len * 17, table)
+       */
+      if (pre[a] >= pre[c]) { st[i * PIANO_LEVELS + level] = a; }
+      else { st[i * PIANO_LEVELS + level] = c; }
+    }
+    half = width;
+    width = width * 2;
+  }
+}
 
 int query_argmax(int *pre, int len, int *st, int lo, int hi)
 /*@ With (ps : list Z) (st_slots : list Z)
-    Require
-      1 <= len && len <= 100001 &&
-      0 <= lo && lo <= hi && hi < len &&
-      SparseArgmaxBuilt(ps, st_slots, len) &&
-      IntArray::full(pre, len, ps) *
-      IntArray::full(st, len * ST_LEVELS, st_slots)
-    Ensure
-      RangeArgmax(ps, lo, hi, __return) &&
-      0 <= __return && __return < len &&
-      lo <= __return && __return <= hi &&
-      SparseArgmaxBuilt(ps, st_slots, len) &&
-      IntArray::full(pre, len, ps) *
-      IntArray::full(st, len * ST_LEVELS, st_slots)
+    Require 1 <= len && len <= 100001 && 0 <= lo && lo <= hi && hi < len &&
+      PianoSparseTable(ps, st_slots, len) &&
+      IntArray::full(pre, len, ps) * IntArray::full(st, len * 17, st_slots)
+    Ensure lo <= __return && __return <= hi && RangeArgmax(ps, lo, hi, __return) &&
+      IntArray::full(pre, len, ps) * IntArray::full(st, len * 17, st_slots)
  */
-;
+{
+  int level = 0;
+  int width = 1;
+  /*@ Inv Assert
+      pre == pre@pre && len == len@pre && st == st@pre && lo == lo@pre && hi == hi@pre &&
+      1 <= len && len <= 100001 && 0 <= lo && lo <= hi && hi < len &&
+      0 <= level && level < 17 && width == Power2(level) &&
+      1 <= width && width <= hi - lo + 1 &&
+      PianoSparseTable(ps, st_slots, len) &&
+      IntArray::full(pre, len, ps) * IntArray::full(st, len * 17, st_slots)
+   */
+  while (width * 2 <= hi - lo + 1) { width = width * 2; ++level; }
+  int a = st[lo * PIANO_LEVELS + level];
+  int c = st[(hi - width + 1) * PIANO_LEVELS + level];
+  /*@ Assert
+      pre == pre@pre && len == len@pre && st == st@pre && lo == lo@pre && hi == hi@pre &&
+      1 <= len && len <= 100001 && 0 <= lo && lo <= hi && hi < len &&
+      0 <= level && level < 17 && width == Power2(level) &&
+      1 <= width && width <= hi - lo + 1 && hi - lo + 1 < width * 2 &&
+      a == Znth(lo * 17 + level, st_slots, 0) &&
+      c == Znth((hi - width + 1) * 17 + level, st_slots, 0) &&
+      0 <= a && a < len && 0 <= c && c < len &&
+      PianoSparseTable(ps, st_slots, len) &&
+      IntArray::full(pre, len, ps) * IntArray::full(st, len * 17, st_slots)
+   */
+  if (pre[a] >= pre[c]) { return a; }
+  else { return c; }
+}
+
+void piano_set_node(int *heap_value, int *heap_start, int *heap_lo, int *heap_hi, int *heap_best, int cap, int index, int value, int start, int lo, int hi, int best)
+/*@ With (vals : list Z) (starts : list Z) (los : list Z) (his : list Z) (bests : list Z)
+    Require 0 <= index && index < cap && NodeArrays(PianoNodes(vals, starts, los, his, bests), vals, starts, los, his, bests) &&
+      IntArray::full(heap_value, cap, vals) *
+      IntArray::full(heap_start, cap, starts) *
+      IntArray::full(heap_lo, cap, los) *
+      IntArray::full(heap_hi, cap, his) *
+      IntArray::full(heap_best, cap, bests)
+    Ensure exists vals_out starts_out los_out his_out bests_out,
+      NodeArrays(replace_Znth(index, mkNode(value, start, lo, hi, best), PianoNodes(vals, starts, los, his, bests)), vals_out, starts_out, los_out, his_out, bests_out) &&
+      IntArray::full(heap_value, cap, vals_out) *
+      IntArray::full(heap_start, cap, starts_out) *
+      IntArray::full(heap_lo, cap, los_out) *
+      IntArray::full(heap_hi, cap, his_out) *
+      IntArray::full(heap_best, cap, bests_out)
+ */
+{
+  heap_value[index] = value;
+  heap_start[index] = start;
+  heap_lo[index] = lo;
+  heap_hi[index] = hi;
+  heap_best[index] = best;
+}
+
+void piano_swap_node(int *heap_value, int *heap_start, int *heap_lo, int *heap_hi, int *heap_best, int cap, int a, int b)
+/*@ With (vals : list Z) (starts : list Z) (los : list Z) (his : list Z) (bests : list Z)
+    Require 0 <= a && a < cap && 0 <= b && b < cap && NodeArrays(PianoNodes(vals, starts, los, his, bests), vals, starts, los, his, bests) &&
+      IntArray::full(heap_value, cap, vals) *
+      IntArray::full(heap_start, cap, starts) *
+      IntArray::full(heap_lo, cap, los) *
+      IntArray::full(heap_hi, cap, his) *
+      IntArray::full(heap_best, cap, bests)
+    Ensure exists vals_out starts_out los_out his_out bests_out,
+      NodeArrays(PianoSwap(PianoNodes(vals, starts, los, his, bests), a, b), vals_out, starts_out, los_out, his_out, bests_out) &&
+      IntArray::full(heap_value, cap, vals_out) *
+      IntArray::full(heap_start, cap, starts_out) *
+      IntArray::full(heap_lo, cap, los_out) *
+      IntArray::full(heap_hi, cap, his_out) *
+      IntArray::full(heap_best, cap, bests_out)
+ */
+{
+  int tmp_value = heap_value[a];
+  heap_value[a] = heap_value[b];
+  heap_value[b] = tmp_value;
+  int tmp_start = heap_start[a];
+  heap_start[a] = heap_start[b];
+  heap_start[b] = tmp_start;
+  int tmp_lo = heap_lo[a];
+  heap_lo[a] = heap_lo[b];
+  heap_lo[b] = tmp_lo;
+  int tmp_hi = heap_hi[a];
+  heap_hi[a] = heap_hi[b];
+  heap_hi[b] = tmp_hi;
+  int tmp_best = heap_best[a];
+  heap_best[a] = heap_best[b];
+  heap_best[b] = tmp_best;
+}
+
+int frontier_top_value(
+    int *heap_value, int *heap_start, int *heap_lo, int *heap_hi, int *heap_best,
+    int cap, int size)
+/*@ With (vals : list Z) (starts : list Z) (los : list Z) (his : list Z) (bests : list Z)
+    Require
+      0 < size && size <= cap &&
+      Zlength(PianoNodes(vals, starts, los, his, bests)) == cap &&
+      NodeArrays(PianoNodes(vals, starts, los, his, bests), vals, starts, los, his, bests) &&
+      NodeHeapState(PianoNodes(vals, starts, los, his, bests), size) &&
+      IntArray::full(heap_value, cap, vals) *
+      IntArray::full(heap_start, cap, starts) *
+      IntArray::full(heap_lo, cap, los) *
+      IntArray::full(heap_hi, cap, his) *
+      IntArray::full(heap_best, cap, bests)
+    Ensure
+      __return == heap_top_value(PianoNodes(vals, starts, los, his, bests)) &&
+      NodeArrays(PianoNodes(vals, starts, los, his, bests), vals, starts, los, his, bests) &&
+      NodeHeapState(PianoNodes(vals, starts, los, his, bests), size) &&
+      IntArray::full(heap_value, cap, vals) *
+      IntArray::full(heap_start, cap, starts) *
+      IntArray::full(heap_lo, cap, los) *
+      IntArray::full(heap_hi, cap, his) *
+      IntArray::full(heap_best, cap, bests)
+ */
+{ return heap_value[0]; }
+
+int frontier_top_start(
+    int *heap_value, int *heap_start, int *heap_lo, int *heap_hi, int *heap_best,
+    int cap, int size)
+/*@ With (vals : list Z) (starts : list Z) (los : list Z) (his : list Z) (bests : list Z)
+    Require
+      0 < size && size <= cap &&
+      Zlength(PianoNodes(vals, starts, los, his, bests)) == cap &&
+      NodeArrays(PianoNodes(vals, starts, los, his, bests), vals, starts, los, his, bests) &&
+      NodeHeapState(PianoNodes(vals, starts, los, his, bests), size) &&
+      IntArray::full(heap_value, cap, vals) *
+      IntArray::full(heap_start, cap, starts) *
+      IntArray::full(heap_lo, cap, los) *
+      IntArray::full(heap_hi, cap, his) *
+      IntArray::full(heap_best, cap, bests)
+    Ensure
+      __return == heap_top_start(PianoNodes(vals, starts, los, his, bests)) &&
+      NodeArrays(PianoNodes(vals, starts, los, his, bests), vals, starts, los, his, bests) &&
+      NodeHeapState(PianoNodes(vals, starts, los, his, bests), size) &&
+      IntArray::full(heap_value, cap, vals) *
+      IntArray::full(heap_start, cap, starts) *
+      IntArray::full(heap_lo, cap, los) *
+      IntArray::full(heap_hi, cap, his) *
+      IntArray::full(heap_best, cap, bests)
+ */
+{ return heap_start[0]; }
+
+int frontier_top_lo(
+    int *heap_value, int *heap_start, int *heap_lo, int *heap_hi, int *heap_best,
+    int cap, int size)
+/*@ With (vals : list Z) (starts : list Z) (los : list Z) (his : list Z) (bests : list Z)
+    Require
+      0 < size && size <= cap &&
+      Zlength(PianoNodes(vals, starts, los, his, bests)) == cap &&
+      NodeArrays(PianoNodes(vals, starts, los, his, bests), vals, starts, los, his, bests) &&
+      NodeHeapState(PianoNodes(vals, starts, los, his, bests), size) &&
+      IntArray::full(heap_value, cap, vals) *
+      IntArray::full(heap_start, cap, starts) *
+      IntArray::full(heap_lo, cap, los) *
+      IntArray::full(heap_hi, cap, his) *
+      IntArray::full(heap_best, cap, bests)
+    Ensure
+      __return == heap_top_lo(PianoNodes(vals, starts, los, his, bests)) &&
+      NodeArrays(PianoNodes(vals, starts, los, his, bests), vals, starts, los, his, bests) &&
+      NodeHeapState(PianoNodes(vals, starts, los, his, bests), size) &&
+      IntArray::full(heap_value, cap, vals) *
+      IntArray::full(heap_start, cap, starts) *
+      IntArray::full(heap_lo, cap, los) *
+      IntArray::full(heap_hi, cap, his) *
+      IntArray::full(heap_best, cap, bests)
+ */
+{ return heap_lo[0]; }
+
+int frontier_top_hi(
+    int *heap_value, int *heap_start, int *heap_lo, int *heap_hi, int *heap_best,
+    int cap, int size)
+/*@ With (vals : list Z) (starts : list Z) (los : list Z) (his : list Z) (bests : list Z)
+    Require
+      0 < size && size <= cap &&
+      Zlength(PianoNodes(vals, starts, los, his, bests)) == cap &&
+      NodeArrays(PianoNodes(vals, starts, los, his, bests), vals, starts, los, his, bests) &&
+      NodeHeapState(PianoNodes(vals, starts, los, his, bests), size) &&
+      IntArray::full(heap_value, cap, vals) *
+      IntArray::full(heap_start, cap, starts) *
+      IntArray::full(heap_lo, cap, los) *
+      IntArray::full(heap_hi, cap, his) *
+      IntArray::full(heap_best, cap, bests)
+    Ensure
+      __return == heap_top_hi(PianoNodes(vals, starts, los, his, bests)) &&
+      NodeArrays(PianoNodes(vals, starts, los, his, bests), vals, starts, los, his, bests) &&
+      NodeHeapState(PianoNodes(vals, starts, los, his, bests), size) &&
+      IntArray::full(heap_value, cap, vals) *
+      IntArray::full(heap_start, cap, starts) *
+      IntArray::full(heap_lo, cap, los) *
+      IntArray::full(heap_hi, cap, his) *
+      IntArray::full(heap_best, cap, bests)
+ */
+{ return heap_hi[0]; }
+
+int frontier_top_best(
+    int *heap_value, int *heap_start, int *heap_lo, int *heap_hi, int *heap_best,
+    int cap, int size)
+/*@ With (vals : list Z) (starts : list Z) (los : list Z) (his : list Z) (bests : list Z)
+    Require
+      0 < size && size <= cap &&
+      Zlength(PianoNodes(vals, starts, los, his, bests)) == cap &&
+      NodeArrays(PianoNodes(vals, starts, los, his, bests), vals, starts, los, his, bests) &&
+      NodeHeapState(PianoNodes(vals, starts, los, his, bests), size) &&
+      IntArray::full(heap_value, cap, vals) *
+      IntArray::full(heap_start, cap, starts) *
+      IntArray::full(heap_lo, cap, los) *
+      IntArray::full(heap_hi, cap, his) *
+      IntArray::full(heap_best, cap, bests)
+    Ensure
+      __return == heap_top_best(PianoNodes(vals, starts, los, his, bests)) &&
+      NodeArrays(PianoNodes(vals, starts, los, his, bests), vals, starts, los, his, bests) &&
+      NodeHeapState(PianoNodes(vals, starts, los, his, bests), size) &&
+      IntArray::full(heap_value, cap, vals) *
+      IntArray::full(heap_start, cap, starts) *
+      IntArray::full(heap_lo, cap, los) *
+      IntArray::full(heap_hi, cap, his) *
+      IntArray::full(heap_best, cap, bests)
+ */
+{ return heap_best[0]; }
+
+void frontier_pop_only(
+    int *heap_value, int *heap_start, int *heap_lo, int *heap_hi, int *heap_best,
+    int cap, int size)
+/*@ With (vals : list Z) (starts : list Z) (los : list Z) (his : list Z) (bests : list Z)
+    Require
+      0 < size && size <= cap && cap <= 200000 &&
+      Zlength(PianoNodes(vals, starts, los, his, bests)) == cap &&
+      NodeArrays(PianoNodes(vals, starts, los, his, bests), vals, starts, los, his, bests) &&
+      NodeHeapState(PianoNodes(vals, starts, los, his, bests), size) &&
+      IntArray::full(heap_value, cap, vals) *
+      IntArray::full(heap_start, cap, starts) *
+      IntArray::full(heap_lo, cap, los) *
+      IntArray::full(heap_hi, cap, his) *
+      IntArray::full(heap_best, cap, bests)
+    Ensure
+      exists slots_out vals_out starts_out los_out his_out bests_out,
+      Zlength(slots_out) == cap &&
+      NodeArrays(slots_out, vals_out, starts_out, los_out, his_out, bests_out) &&
+      NodeHeapState(slots_out, size - 1) &&
+      FrontierPopTop(PianoNodes(vals, starts, los, his, bests), size, slots_out) &&
+      IntArray::full(heap_value, cap, vals_out) *
+      IntArray::full(heap_start, cap, starts_out) *
+      IntArray::full(heap_lo, cap, los_out) *
+      IntArray::full(heap_hi, cap, his_out) *
+      IntArray::full(heap_best, cap, bests_out)
+ */
+{
+  if (size == 1) { return; }
+  piano_set_node(heap_value, heap_start, heap_lo, heap_hi, heap_best, cap, 0,
+    heap_value[size - 1], heap_start[size - 1], heap_lo[size - 1], heap_hi[size - 1], heap_best[size - 1]);
+  int index = 0;
+  /*@ Inv Assert exists current vals_cur starts_cur los_cur his_cur bests_cur,
+      heap_value == heap_value@pre && heap_start == heap_start@pre && heap_lo == heap_lo@pre && heap_hi == heap_hi@pre && heap_best == heap_best@pre && cap == cap@pre && size == size@pre &&
+      1 < size && size <= cap && cap <= 200000 &&
+      0 <= index && index < size - 1 &&
+      PianoHeapPop(PianoNodes(vals, starts, los, his, bests), current, size, index) &&
+      NodeArrays(current, vals_cur, starts_cur, los_cur, his_cur, bests_cur) &&
+      IntArray::full(heap_value, cap, vals_cur) *
+      IntArray::full(heap_start, cap, starts_cur) *
+      IntArray::full(heap_lo, cap, los_cur) *
+      IntArray::full(heap_hi, cap, his_cur) *
+      IntArray::full(heap_best, cap, bests_cur) */
+  while (index * 2 + 1 < size - 1) {
+    int left = index * 2 + 1;
+    int right = left + 1;
+    int selected = left;
+    if (right < size - 1 && heap_value[left] < heap_value[right]) { selected = right; }
+    /*@ Assert exists current vals_cur starts_cur los_cur his_cur bests_cur,
+      heap_value == heap_value@pre && heap_start == heap_start@pre && heap_lo == heap_lo@pre && heap_hi == heap_hi@pre && heap_best == heap_best@pre && cap == cap@pre && size == size@pre &&
+      1 < size && size <= cap && cap <= 200000 &&
+      0 <= index && index < size - 1 &&
+      PianoHeapPop(PianoNodes(vals, starts, los, his, bests), current, size, index) &&
+      NodeArrays(current, vals_cur, starts_cur, los_cur, his_cur, bests_cur) &&
+      IntArray::full(heap_value, cap, vals_cur) *
+      IntArray::full(heap_start, cap, starts_cur) *
+      IntArray::full(heap_lo, cap, los_cur) *
+      IntArray::full(heap_hi, cap, his_cur) *
+      IntArray::full(heap_best, cap, bests_cur) &&
+        left == index * 2 + 1 && right == left + 1 &&
+        0 <= selected && selected < size - 1 &&
+        PianoHeapSelected(current, size - 1, index, selected)
+     */
+    if (heap_value[index] >= heap_value[selected]) { break; }
+    piano_swap_node(heap_value, heap_start, heap_lo, heap_hi, heap_best, cap, index, selected);
+    index = selected;
+  }
+}
+
+
+void frontier_push(
+    int *heap_value, int *heap_start, int *heap_lo, int *heap_hi, int *heap_best,
+    int cap, int size, int value, int start, int lo, int hi, int best)
+/*@ With (vals : list Z) (starts : list Z) (los : list Z) (his : list Z) (bests : list Z)
+    Require
+      0 <= size && size < cap &&
+      Zlength(PianoNodes(vals, starts, los, his, bests)) == cap &&
+      NodeArrays(PianoNodes(vals, starts, los, his, bests), vals, starts, los, his, bests) &&
+      NodeHeapState(PianoNodes(vals, starts, los, his, bests), size) &&
+      IntArray::full(heap_value, cap, vals) *
+      IntArray::full(heap_start, cap, starts) *
+      IntArray::full(heap_lo, cap, los) *
+      IntArray::full(heap_hi, cap, his) *
+      IntArray::full(heap_best, cap, bests)
+    Ensure
+      exists slots_out vals_out starts_out los_out his_out bests_out,
+      Zlength(slots_out) == cap &&
+      NodeArrays(slots_out, vals_out, starts_out, los_out, his_out, bests_out) &&
+      NodeHeapState(slots_out, size + 1) &&
+      FrontierPushFields(PianoNodes(vals, starts, los, his, bests), size, value, start, lo, hi, best, slots_out) &&
+      IntArray::full(heap_value, cap, vals_out) *
+      IntArray::full(heap_start, cap, starts_out) *
+      IntArray::full(heap_lo, cap, los_out) *
+      IntArray::full(heap_hi, cap, his_out) *
+      IntArray::full(heap_best, cap, bests_out)
+ */
+{
+  piano_set_node(heap_value, heap_start, heap_lo, heap_hi, heap_best, cap, size, value, start, lo, hi, best);
+  int child = size;
+  /*@ Inv Assert
+      exists current vals_cur starts_cur los_cur his_cur bests_cur,
+      heap_value == heap_value@pre && heap_start == heap_start@pre && heap_lo == heap_lo@pre && heap_hi == heap_hi@pre && heap_best == heap_best@pre && cap == cap@pre && size == size@pre &&
+      0 <= size && size < cap &&
+      NodeArrays(current, vals_cur, starts_cur, los_cur, his_cur, bests_cur) &&
+      IntArray::full(heap_value, cap, vals_cur) *
+      IntArray::full(heap_start, cap, starts_cur) *
+      IntArray::full(heap_lo, cap, los_cur) *
+      IntArray::full(heap_hi, cap, his_cur) *
+      IntArray::full(heap_best, cap, bests_cur) &&
+      value == value@pre && start == start@pre && lo == lo@pre && hi == hi@pre && best == best@pre &&
+      0 <= child && child <= size &&
+      PianoHeapPush(PianoNodes(vals, starts, los, his, bests), current, size, child, mkNode(value, start, lo, hi, best))
+   */
+  while (child > 0) {
+    int parent = (child - 1) / 2;
+    /*@ Assert
+      exists current vals_cur starts_cur los_cur his_cur bests_cur,
+      heap_value == heap_value@pre && heap_start == heap_start@pre && heap_lo == heap_lo@pre && heap_hi == heap_hi@pre && heap_best == heap_best@pre && cap == cap@pre && size == size@pre &&
+      0 <= size && size < cap &&
+      NodeArrays(current, vals_cur, starts_cur, los_cur, his_cur, bests_cur) &&
+      IntArray::full(heap_value, cap, vals_cur) *
+      IntArray::full(heap_start, cap, starts_cur) *
+      IntArray::full(heap_lo, cap, los_cur) *
+      IntArray::full(heap_hi, cap, his_cur) *
+      IntArray::full(heap_best, cap, bests_cur) &&
+      value == value@pre && start == start@pre && lo == lo@pre && hi == hi@pre && best == best@pre &&
+      0 <= child && child <= size &&
+      PianoHeapPush(PianoNodes(vals, starts, los, his, bests), current, size, child, mkNode(value, start, lo, hi, best))
+    &&
+      parent == (child - 1) / 2 && 0 <= parent && parent < child && child > 0
+     */
+    if (heap_value[parent] >= heap_value[child]) { break; }
+    piano_swap_node(heap_value, heap_start, heap_lo, heap_hi, heap_best, cap, parent, child);
+    child = parent;
+  }
+}
+
 
 int build_initial_frontier(
     int *pre, int n, int L, int R, int *st,
@@ -136,11 +538,12 @@ int build_initial_frontier(
     Require
       1 <= n && n <= 100000 &&
       1 <= L && L <= R && R <= n &&
-      n - L + 1 <= cap &&
+      n - L + 1 <= cap && cap <= 200000 &&
+      Forall(Z::le(-100000000), ps) && Forall(Z::ge(100000000), ps) &&
       Zlength(ps) == n + 1 &&
-      SparseArgmaxBuilt(ps, st_slots, n + 1) &&
+      PianoSparseTable(ps, st_slots, n + 1) &&
       IntArray::full(pre, n + 1, ps) *
-      IntArray::full(st, (n + 1) * ST_LEVELS, st_slots) *
+      IntArray::full(st, (n + 1) * 17, st_slots) *
       IntArray::undef_full(heap_value, cap) *
       IntArray::undef_full(heap_start, cap) *
       IntArray::undef_full(heap_lo, cap) *
@@ -154,206 +557,70 @@ int build_initial_frontier(
       NodeHeapState(slots, __return) &&
       InitialFrontierState(ps, n, L, R, sublist(0, __return, slots)) &&
       IntArray::full(pre, n + 1, ps) *
-      IntArray::full(st, (n + 1) * ST_LEVELS, st_slots) *
+      IntArray::full(st, (n + 1) * 17, st_slots) *
       IntArray::full(heap_value, cap, vals) *
       IntArray::full(heap_start, cap, starts) *
       IntArray::full(heap_lo, cap, los) *
       IntArray::full(heap_hi, cap, his) *
       IntArray::full(heap_best, cap, bests)
  */
-;
+{
+  /*@ Inv Assert exists vals starts los his bests,
+      pre == pre@pre && n == n@pre && L == L@pre && R == R@pre && st == st@pre &&
+      heap_value == heap_value@pre && heap_start == heap_start@pre && heap_lo == heap_lo@pre && heap_hi == heap_hi@pre && heap_best == heap_best@pre && cap == cap@pre &&
+      1 <= n && n <= 100000 && 1 <= L && L <= R && R <= n &&
+      n - L + 1 <= cap && cap <= 200000 && 0 <= i && i <= cap &&
+      Forall(Z::le(-100000000), ps) && Forall(Z::ge(100000000), ps) &&
+      PianoSparseTable(ps, st_slots, n + 1) &&
+      IntArray::full(pre, n + 1, ps) * IntArray::full(st, (n + 1) * 17, st_slots) *
+      IntArray::seg(heap_value, 0, i, vals) * IntArray::undef_seg(heap_value, i, cap) * IntArray::seg(heap_start, 0, i, starts) * IntArray::undef_seg(heap_start, i, cap) * IntArray::seg(heap_lo, 0, i, los) * IntArray::undef_seg(heap_lo, i, cap) * IntArray::seg(heap_hi, 0, i, his) * IntArray::undef_seg(heap_hi, i, cap) * IntArray::seg(heap_best, 0, i, bests) * IntArray::undef_seg(heap_best, i, cap)
+   */
+  for (int i = 0; i < cap; ++i) {
+    heap_value[i] = 0; heap_start[i] = 0; heap_lo[i] = 0; heap_hi[i] = 0; heap_best[i] = 0;
+  }
+  int size = 0;
+  /*@ Inv Assert exists slots vals starts los his bests,
+      pre == pre@pre && n == n@pre && L == L@pre && R == R@pre && st == st@pre &&
+      heap_value == heap_value@pre && heap_start == heap_start@pre && heap_lo == heap_lo@pre && heap_hi == heap_hi@pre && heap_best == heap_best@pre && cap == cap@pre &&
+      1 <= n && n <= 100000 && 1 <= L && L <= R && R <= n &&
+      n - L + 1 <= cap && cap <= 200000 && 0 <= size && size <= n - L + 1 &&
+      1 <= start && start <= n - L + 2 && size == start - 1 &&
+      Forall(Z::le(-100000000), ps) && Forall(Z::ge(100000000), ps) &&
+      PianoSparseTable(ps, st_slots, n + 1) &&
+      PianoInitialPrefix(ps, n, L, R, start, sublist(0, size, slots)) &&
+      Zlength(slots) == cap && NodeHeapState(slots, size) && NodeArrays(slots, vals, starts, los, his, bests) &&
+      IntArray::full(pre, n + 1, ps) * IntArray::full(st, (n + 1) * 17, st_slots) *
+      IntArray::full(heap_value, cap, vals) *
+      IntArray::full(heap_start, cap, starts) *
+      IntArray::full(heap_lo, cap, los) *
+      IntArray::full(heap_hi, cap, his) *
+      IntArray::full(heap_best, cap, bests)
+   */
+  for (int start = 1; start <= n - L + 1; ++start) {
+    int lo = start + L - 1;
+    int hi = start + R - 1;
+    if (hi > n) { hi = n; }
+    int best = query_argmax(pre, n + 1, st, lo, hi);
+    int value = pre[best] - pre[start - 1];
 
-int frontier_top_value(
-    int *heap_value, int *heap_start, int *heap_lo, int *heap_hi, int *heap_best,
-    int cap, int size)
-/*@ With (slots : list (Z * Z * Z * Z * Z)) (vals : list Z) (starts : list Z) (los : list Z) (his : list Z) (bests : list Z)
-    Require
-      0 < size && size <= cap &&
-      Zlength(slots) == cap &&
-      NodeArrays(slots, vals, starts, los, his, bests) &&
-      NodeHeapState(slots, size) &&
-      IntArray::full(heap_value, cap, vals) *
-      IntArray::full(heap_start, cap, starts) *
-      IntArray::full(heap_lo, cap, los) *
-      IntArray::full(heap_hi, cap, his) *
-      IntArray::full(heap_best, cap, bests)
-    Ensure
-      __return == heap_top_value(slots) &&
-      NodeArrays(slots, vals, starts, los, his, bests) &&
-      NodeHeapState(slots, size) &&
-      IntArray::full(heap_value, cap, vals) *
-      IntArray::full(heap_start, cap, starts) *
-      IntArray::full(heap_lo, cap, los) *
-      IntArray::full(heap_hi, cap, his) *
-      IntArray::full(heap_best, cap, bests)
- */
-;
+    frontier_push(heap_value, heap_start, heap_lo, heap_hi, heap_best, cap, size, value, start, lo, hi, best);
+    ++size;
+  }
+  return size;
+}
 
-int frontier_top_start(
-    int *heap_value, int *heap_start, int *heap_lo, int *heap_hi, int *heap_best,
-    int cap, int size)
-/*@ With (slots : list (Z * Z * Z * Z * Z)) (vals : list Z) (starts : list Z) (los : list Z) (his : list Z) (bests : list Z)
-    Require
-      0 < size && size <= cap &&
-      Zlength(slots) == cap &&
-      NodeArrays(slots, vals, starts, los, his, bests) &&
-      NodeHeapState(slots, size) &&
-      IntArray::full(heap_value, cap, vals) *
-      IntArray::full(heap_start, cap, starts) *
-      IntArray::full(heap_lo, cap, los) *
-      IntArray::full(heap_hi, cap, his) *
-      IntArray::full(heap_best, cap, bests)
-    Ensure
-      __return == heap_top_start(slots) &&
-      NodeArrays(slots, vals, starts, los, his, bests) &&
-      NodeHeapState(slots, size) &&
-      IntArray::full(heap_value, cap, vals) *
-      IntArray::full(heap_start, cap, starts) *
-      IntArray::full(heap_lo, cap, los) *
-      IntArray::full(heap_hi, cap, his) *
-      IntArray::full(heap_best, cap, bests)
+/* Read a prefix cell while borrowing the local array through a pointer. */
+int piano_prefix_at(int *pre, int len, int index)
+/*@ With (ps : list Z)
+    Require 0 <= index && index < len && IntArray::full(pre, len, ps)
+    Ensure __return == ps[index] && IntArray::full(pre, len, ps)
  */
-;
-
-int frontier_top_lo(
-    int *heap_value, int *heap_start, int *heap_lo, int *heap_hi, int *heap_best,
-    int cap, int size)
-/*@ With (slots : list (Z * Z * Z * Z * Z)) (vals : list Z) (starts : list Z) (los : list Z) (his : list Z) (bests : list Z)
-    Require
-      0 < size && size <= cap &&
-      Zlength(slots) == cap &&
-      NodeArrays(slots, vals, starts, los, his, bests) &&
-      NodeHeapState(slots, size) &&
-      IntArray::full(heap_value, cap, vals) *
-      IntArray::full(heap_start, cap, starts) *
-      IntArray::full(heap_lo, cap, los) *
-      IntArray::full(heap_hi, cap, his) *
-      IntArray::full(heap_best, cap, bests)
-    Ensure
-      __return == heap_top_lo(slots) &&
-      NodeArrays(slots, vals, starts, los, his, bests) &&
-      NodeHeapState(slots, size) &&
-      IntArray::full(heap_value, cap, vals) *
-      IntArray::full(heap_start, cap, starts) *
-      IntArray::full(heap_lo, cap, los) *
-      IntArray::full(heap_hi, cap, his) *
-      IntArray::full(heap_best, cap, bests)
- */
-;
-
-int frontier_top_hi(
-    int *heap_value, int *heap_start, int *heap_lo, int *heap_hi, int *heap_best,
-    int cap, int size)
-/*@ With (slots : list (Z * Z * Z * Z * Z)) (vals : list Z) (starts : list Z) (los : list Z) (his : list Z) (bests : list Z)
-    Require
-      0 < size && size <= cap &&
-      Zlength(slots) == cap &&
-      NodeArrays(slots, vals, starts, los, his, bests) &&
-      NodeHeapState(slots, size) &&
-      IntArray::full(heap_value, cap, vals) *
-      IntArray::full(heap_start, cap, starts) *
-      IntArray::full(heap_lo, cap, los) *
-      IntArray::full(heap_hi, cap, his) *
-      IntArray::full(heap_best, cap, bests)
-    Ensure
-      __return == heap_top_hi(slots) &&
-      NodeArrays(slots, vals, starts, los, his, bests) &&
-      NodeHeapState(slots, size) &&
-      IntArray::full(heap_value, cap, vals) *
-      IntArray::full(heap_start, cap, starts) *
-      IntArray::full(heap_lo, cap, los) *
-      IntArray::full(heap_hi, cap, his) *
-      IntArray::full(heap_best, cap, bests)
- */
-;
-
-int frontier_top_best(
-    int *heap_value, int *heap_start, int *heap_lo, int *heap_hi, int *heap_best,
-    int cap, int size)
-/*@ With (slots : list (Z * Z * Z * Z * Z)) (vals : list Z) (starts : list Z) (los : list Z) (his : list Z) (bests : list Z)
-    Require
-      0 < size && size <= cap &&
-      Zlength(slots) == cap &&
-      NodeArrays(slots, vals, starts, los, his, bests) &&
-      NodeHeapState(slots, size) &&
-      IntArray::full(heap_value, cap, vals) *
-      IntArray::full(heap_start, cap, starts) *
-      IntArray::full(heap_lo, cap, los) *
-      IntArray::full(heap_hi, cap, his) *
-      IntArray::full(heap_best, cap, bests)
-    Ensure
-      __return == heap_top_best(slots) &&
-      NodeArrays(slots, vals, starts, los, his, bests) &&
-      NodeHeapState(slots, size) &&
-      IntArray::full(heap_value, cap, vals) *
-      IntArray::full(heap_start, cap, starts) *
-      IntArray::full(heap_lo, cap, los) *
-      IntArray::full(heap_hi, cap, his) *
-      IntArray::full(heap_best, cap, bests)
- */
-;
-
-void frontier_pop_only(
-    int *heap_value, int *heap_start, int *heap_lo, int *heap_hi, int *heap_best,
-    int cap, int size)
-/*@ With (slots : list (Z * Z * Z * Z * Z)) (vals : list Z) (starts : list Z) (los : list Z) (his : list Z) (bests : list Z)
-    Require
-      0 < size && size <= cap &&
-      Zlength(slots) == cap &&
-      NodeArrays(slots, vals, starts, los, his, bests) &&
-      NodeHeapState(slots, size) &&
-      IntArray::full(heap_value, cap, vals) *
-      IntArray::full(heap_start, cap, starts) *
-      IntArray::full(heap_lo, cap, los) *
-      IntArray::full(heap_hi, cap, his) *
-      IntArray::full(heap_best, cap, bests)
-    Ensure
-      exists slots_out vals_out starts_out los_out his_out bests_out,
-      Zlength(slots_out) == cap &&
-      NodeArrays(slots_out, vals_out, starts_out, los_out, his_out, bests_out) &&
-      NodeHeapState(slots_out, size - 1) &&
-      FrontierPopTop(slots, size, slots_out) &&
-      IntArray::full(heap_value, cap, vals_out) *
-      IntArray::full(heap_start, cap, starts_out) *
-      IntArray::full(heap_lo, cap, los_out) *
-      IntArray::full(heap_hi, cap, his_out) *
-      IntArray::full(heap_best, cap, bests_out)
- */
-;
-
-void frontier_push(
-    int *heap_value, int *heap_start, int *heap_lo, int *heap_hi, int *heap_best,
-    int cap, int size, int value, int start, int lo, int hi, int best)
-/*@ With (slots : list (Z * Z * Z * Z * Z)) (vals : list Z) (starts : list Z) (los : list Z) (his : list Z) (bests : list Z) (ps : list Z) (n0 : Z) (L0 : Z) (R0 : Z)
-    Require
-      0 <= size && size < cap &&
-      Zlength(slots) == cap &&
-      NodeArrays(slots, vals, starts, los, his, bests) &&
-      NodeHeapState(slots, size) &&
-      ValidNodeFields(ps, n0, L0, R0, value, start, lo, hi, best) &&
-      IntArray::full(heap_value, cap, vals) *
-      IntArray::full(heap_start, cap, starts) *
-      IntArray::full(heap_lo, cap, los) *
-      IntArray::full(heap_hi, cap, his) *
-      IntArray::full(heap_best, cap, bests)
-    Ensure
-      exists slots_out vals_out starts_out los_out his_out bests_out,
-      Zlength(slots_out) == cap &&
-      NodeArrays(slots_out, vals_out, starts_out, los_out, his_out, bests_out) &&
-      NodeHeapState(slots_out, size + 1) &&
-      FrontierPushFields(slots, size, value, start, lo, hi, best, slots_out) &&
-      IntArray::full(heap_value, cap, vals_out) *
-      IntArray::full(heap_start, cap, starts_out) *
-      IntArray::full(heap_lo, cap, los_out) *
-      IntArray::full(heap_hi, cap, his_out) *
-      IntArray::full(heap_best, cap, bests_out)
- */
-;
+{
+  return pre[index];
+}
 
 long long superPiano(
-    int *arr, int n, int k, int L, int R,
-    int *prefix, int *st,
-    int *heap_value, int *heap_start, int *heap_lo, int *heap_hi, int *heap_best)
+    int *arr, int n, int k, int L, int R)
 /*@ With (l : list Z)
     Require
       exists ps ans,
@@ -362,173 +629,111 @@ long long superPiano(
       1 <= k && n + k + 1 <= 200000 &&
       Zlength(l) == n &&
       PrefixSums(l, ps) &&
-      (forall (idx : Z), (0 <= idx && idx < n + 1) => (INT_MIN <= ps[idx] && ps[idx] <= INT_MAX)) &&
+      Forall(Z::le(INT_MIN), ps) && Forall(Z::ge(INT_MAX), ps) &&
+      SuperPianoAnswerByPrefix(ps, n, L, R, k, ans) &&
+      -9223372036854775808 <= ans && ans <= 9223372036854775807 &&
+      IntArray::full(arr, n, l) &&
+      Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
+    Ensure
+      exists ps,
+      arr == arr@pre && n == n@pre && k == k@pre && L == L@pre && R == R@pre &&
+      PrefixSums(l, ps) &&
+      SuperPianoAnswerByPrefix(ps, n, L, R, k, __return) &&
+      IntArray::full(arr, n, l)
+ */
+{
+  int prefix[100001];
+  int st[1700017];
+  int heap_value[200000];
+  int heap_start[200000];
+  int heap_lo[200000];
+  int heap_hi[200000];
+  int heap_best[200000];
+
+  int heap_cap = n + k + 1;
+  /*@ Assert 
+      exists ps ans,
+      arr == arr@pre && n == n@pre && k == k@pre && L == L@pre && R == R@pre &&
+      heap_cap == n@pre + k@pre + 1 &&
+      1 <= n && n <= 100000 &&
+      1 <= L && L <= R && R <= n &&
+      1 <= k && heap_cap <= 200000 &&
+      Zlength(l) == n &&
+      PrefixSums(l, ps) &&
+      Forall(Z::le(INT_MIN), ps) && Forall(Z::ge(INT_MAX), ps) &&
       SuperPianoAnswerByPrefix(ps, n, L, R, k, ans) &&
       -9223372036854775808 <= ans && ans <= 9223372036854775807 &&
       IntArray::full(arr, n, l) *
-      IntArray::undef_full(prefix, n + 1) *
-      IntArray::undef_full(st, (n + 1) * ST_LEVELS) *
-      IntArray::undef_full(heap_value, n + k + 1) *
-      IntArray::undef_full(heap_start, n + k + 1) *
-      IntArray::undef_full(heap_lo, n + k + 1) *
-      IntArray::undef_full(heap_hi, n + k + 1) *
-      IntArray::undef_full(heap_best, n + k + 1) &&
-      (forall (idx : Z), (0 <= idx && idx < n) => (-1000 <= l[idx] && l[idx] <= 1000))
-    Ensure
-      exists ps st_slots slots vals starts los his bests,
-      PrefixSums(l, ps) &&
-      SuperPianoAnswerByPrefix(ps, n, L, R, k, __return) &&
-      Zlength(slots) == n + k + 1 &&
-      NodeArrays(slots, vals, starts, los, his, bests) &&
-      IntArray::full(arr, n, l) *
-      IntArray::full(prefix, n + 1, ps) *
-      IntArray::full(st, (n + 1) * ST_LEVELS, st_slots) *
-      IntArray::full(heap_value, n + k + 1, vals) *
-      IntArray::full(heap_start, n + k + 1, starts) *
-      IntArray::full(heap_lo, n + k + 1, los) *
-      IntArray::full(heap_hi, n + k + 1, his) *
-      IntArray::full(heap_best, n + k + 1, bests)
+      IntArray::undef_full(pointer_offset(prefix, 0, sizeof(int), int), n + 1) *
+      IntArray::undef_seg(pointer_offset(prefix, 0, sizeof(int), int), n + 1, 100001) *
+      IntArray::undef_full(pointer_offset(st, 0, sizeof(int), int), (n + 1) * 17) *
+      IntArray::undef_seg(pointer_offset(st, 0, sizeof(int), int), (n + 1) * 17, 1700017) *
+      IntArray::undef_full(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap) *
+      IntArray::undef_seg(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_full(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap) *
+      IntArray::undef_seg(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_full(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap) *
+      IntArray::undef_seg(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_full(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap) *
+      IntArray::undef_seg(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_full(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap) *
+      IntArray::undef_seg(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, 200000) &&
+      Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
  */
-{
-  int heap_cap = n + k + 1;
 
   build_prefix(arr, n, prefix);
   /*@ Assert
       exists ps ans (st_slots : list Z),
       arr == arr@pre && n == n@pre && k == k@pre && L == L@pre && R == R@pre &&
-      prefix == prefix@pre && st == st@pre &&
-      heap_value == heap_value@pre && heap_start == heap_start@pre &&
-      heap_lo == heap_lo@pre && heap_hi == heap_hi@pre && heap_best == heap_best@pre &&
       1 <= n@pre && n@pre <= 100000 &&
       1 <= L@pre && L@pre <= R@pre && R@pre <= n@pre &&
       1 <= k@pre && n@pre + k@pre + 1 <= 200000 &&
       heap_cap == n@pre + k@pre + 1 &&
       Zlength(l) == n@pre &&
       PrefixSums(l, ps) &&
-      Zlength(st_slots) == (n@pre + 1) * ST_LEVELS &&
-      (forall (idx : Z), (0 <= idx && idx < n@pre + 1) => (INT_MIN <= ps[idx] && ps[idx] <= INT_MAX)) &&
+      Zlength(st_slots) == (n@pre + 1) * 17 &&
+      Forall(Z::le(INT_MIN), ps) && Forall(Z::ge(INT_MAX), ps) &&
       SuperPianoAnswerByPrefix(ps, n@pre, L@pre, R@pre, k@pre, ans) &&
+      IntArray::undef_seg(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, 100001) *
+      IntArray::undef_seg(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, 1700017) *
+      IntArray::undef_seg(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, 200000) *
       IntArray::full(arr@pre, n@pre, l) *
-      IntArray::full(prefix@pre, n@pre + 1, ps) *
-      IntArray::undef_full(st@pre, (n@pre + 1) * ST_LEVELS) *
-      IntArray::undef_full(heap_value@pre, heap_cap) *
-      IntArray::undef_full(heap_start@pre, heap_cap) *
-      IntArray::undef_full(heap_lo@pre, heap_cap) *
-      IntArray::undef_full(heap_hi@pre, heap_cap) *
-      IntArray::undef_full(heap_best@pre, heap_cap) &&
-      (forall (idx : Z), (0 <= idx && idx < n@pre) => (-1000 <= l[idx] && l[idx] <= 1000))
+      IntArray::full(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, ps) *
+      IntArray::undef_full(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17) *
+      IntArray::undef_full(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap) *
+      IntArray::undef_full(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap) *
+      IntArray::undef_full(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap) *
+      IntArray::undef_full(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap) *
+      IntArray::undef_full(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap) &&
+      Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
    */
 
   /*@ Given ps ans st_slots */
-  build_sparse_argmax(prefix, n + 1, st) /*@ where ps = ps, st_slots = st_slots */;
-  /*@ Assert
-      exists ps ans st_slots,
-      arr == arr@pre && n == n@pre && k == k@pre && L == L@pre && R == R@pre &&
-      prefix == prefix@pre && st == st@pre &&
-      heap_value == heap_value@pre && heap_start == heap_start@pre &&
-      heap_lo == heap_lo@pre && heap_hi == heap_hi@pre && heap_best == heap_best@pre &&
-      1 <= n@pre && n@pre <= 100000 &&
-      1 <= L@pre && L@pre <= R@pre && R@pre <= n@pre &&
-      1 <= k@pre && n@pre + k@pre + 1 <= 200000 &&
-      heap_cap == n@pre + k@pre + 1 &&
-      Zlength(l) == n@pre &&
-      PrefixSums(l, ps) &&
-      (forall (idx : Z), (0 <= idx && idx < n@pre + 1) => (INT_MIN <= ps[idx] && ps[idx] <= INT_MAX)) &&
-      SparseArgmaxBuilt(ps, st_slots, n@pre + 1) &&
-      SuperPianoAnswerByPrefix(ps, n@pre, L@pre, R@pre, k@pre, ans) &&
-      IntArray::full(arr@pre, n@pre, l) *
-      IntArray::full(prefix@pre, n@pre + 1, ps) *
-      IntArray::full(st@pre, (n@pre + 1) * ST_LEVELS, st_slots) *
-      IntArray::undef_full(heap_value@pre, heap_cap) *
-      IntArray::undef_full(heap_start@pre, heap_cap) *
-      IntArray::undef_full(heap_lo@pre, heap_cap) *
-      IntArray::undef_full(heap_hi@pre, heap_cap) *
-      IntArray::undef_full(heap_best@pre, heap_cap) &&
-      (forall (idx : Z), (0 <= idx && idx < n@pre) => (-1000 <= l[idx] && l[idx] <= 1000))
-   */
+  build_sparse_argmax(prefix, n + 1, st) ;
+
 
   int hsize = build_initial_frontier(
       prefix, n, L, R, st, heap_cap,
       heap_value, heap_start, heap_lo, heap_hi, heap_best);
-  /*@ Assert
-      exists ps ans st_slots slots vals starts los his bests,
-      arr == arr@pre && n == n@pre && k == k@pre && L == L@pre && R == R@pre &&
-      prefix == prefix@pre && st == st@pre &&
-      heap_value == heap_value@pre && heap_start == heap_start@pre &&
-      heap_lo == heap_lo@pre && heap_hi == heap_hi@pre && heap_best == heap_best@pre &&
-      1 <= n@pre && n@pre <= 100000 &&
-      1 <= L@pre && L@pre <= R@pre && R@pre <= n@pre &&
-      1 <= k@pre && n@pre + k@pre + 1 <= 200000 &&
-      heap_cap == n@pre + k@pre + 1 &&
-      hsize == n@pre - L@pre + 1 &&
-      hsize + k@pre < heap_cap &&
-      Zlength(l) == n@pre &&
-      PrefixSums(l, ps) &&
-      (forall (idx : Z), (0 <= idx && idx < n@pre + 1) => (INT_MIN <= ps[idx] && ps[idx] <= INT_MAX)) &&
-      SparseArgmaxBuilt(ps, st_slots, n@pre + 1) &&
-      SuperPianoAnswerByPrefix(ps, n@pre, L@pre, R@pre, k@pre, ans) &&
-      Zlength(slots) == heap_cap &&
-      NodeArrays(slots, vals, starts, los, his, bests) &&
-      NodeHeapState(slots, hsize) &&
-      InitialFrontierState(ps, n@pre, L@pre, R@pre, sublist(0, hsize, slots)) &&
-      IntArray::full(arr@pre, n@pre, l) *
-      IntArray::full(prefix@pre, n@pre + 1, ps) *
-      IntArray::full(st@pre, (n@pre + 1) * ST_LEVELS, st_slots) *
-      IntArray::full(heap_value@pre, heap_cap, vals) *
-      IntArray::full(heap_start@pre, heap_cap, starts) *
-      IntArray::full(heap_lo@pre, heap_cap, los) *
-      IntArray::full(heap_hi@pre, heap_cap, his) *
-      IntArray::full(heap_best@pre, heap_cap, bests) &&
-      (forall (idx : Z), (0 <= idx && idx < n@pre) => (-1000 <= l[idx] && l[idx] <= 1000))
-   */
+
 
   long long total = 0;
-  /*@ Assert
-      exists ps ans st_slots slots vals starts los his bests,
-      arr == arr@pre && n == n@pre && k == k@pre && L == L@pre && R == R@pre &&
-      prefix == prefix@pre && st == st@pre &&
-      heap_value == heap_value@pre && heap_start == heap_start@pre &&
-      heap_lo == heap_lo@pre && heap_hi == heap_hi@pre && heap_best == heap_best@pre &&
-      1 <= n@pre && n@pre <= 100000 &&
-      1 <= L@pre && L@pre <= R@pre && R@pre <= n@pre &&
-      1 <= k@pre && n@pre + k@pre + 1 <= 200000 &&
-      heap_cap == n@pre + k@pre + 1 &&
-      hsize == n@pre - L@pre + 1 &&
-      hsize + k@pre < heap_cap &&
-      total == 0 &&
-      Zlength(l) == n@pre &&
-      PrefixSums(l, ps) &&
-      (forall (idx : Z), (0 <= idx && idx < n@pre + 1) => (INT_MIN <= ps[idx] && ps[idx] <= INT_MAX)) &&
-      SparseArgmaxBuilt(ps, st_slots, n@pre + 1) &&
-      SuperPianoAnswerByPrefix(ps, n@pre, L@pre, R@pre, k@pre, ans) &&
-      Zlength(slots) == heap_cap &&
-      NodeArrays(slots, vals, starts, los, his, bests) &&
-      NodeHeapState(slots, hsize) &&
-      FrontierState(ps, n@pre, L@pre, R@pre, nil, 0, 0, sublist(0, hsize, slots)) &&
-      IntArray::full(arr@pre, n@pre, l) *
-      IntArray::full(prefix@pre, n@pre + 1, ps) *
-      IntArray::full(st@pre, (n@pre + 1) * ST_LEVELS, st_slots) *
-      IntArray::full(heap_value@pre, heap_cap, vals) *
-      IntArray::full(heap_start@pre, heap_cap, starts) *
-      IntArray::full(heap_lo@pre, heap_cap, los) *
-      IntArray::full(heap_hi@pre, heap_cap, his) *
-      IntArray::full(heap_best@pre, heap_cap, bests) &&
-      (forall (idx : Z), (0 <= idx && idx < n@pre) => (-1000 <= l[idx] && l[idx] <= 1000))
-   */
+  
 
   /*@ Inv Assert
       exists ps ans st_slots slots vals starts los his bests chosen,
       arr == arr@pre && n == n@pre && k == k@pre && L == L@pre && R == R@pre &&
-      prefix == prefix@pre && st == st@pre &&
-      heap_value == heap_value@pre && heap_start == heap_start@pre &&
-      heap_lo == heap_lo@pre && heap_hi == heap_hi@pre && heap_best == heap_best@pre &&
       1 <= n@pre && n@pre <= 100000 &&
       1 <= L@pre && L@pre <= R@pre && R@pre <= n@pre &&
       1 <= k@pre && n@pre + k@pre + 1 <= 200000 &&
       heap_cap == n@pre + k@pre + 1 &&
       Zlength(l) == n@pre &&
       PrefixSums(l, ps) &&
-      SparseArgmaxBuilt(ps, st_slots, n@pre + 1) &&
+      PianoSparseTable(ps, st_slots, n@pre + 1) &&
       SuperPianoAnswerByPrefix(ps, n@pre, L@pre, R@pre, k@pre, ans) &&
       Zlength(slots) == heap_cap &&
       NodeArrays(slots, vals, starts, los, his, bests) &&
@@ -538,29 +743,33 @@ long long superPiano(
       FrontierState(ps, n@pre, L@pre, R@pre, chosen, t, total, sublist(0, hsize, slots)) &&
       NodeHeapState(slots, hsize) &&
       (t < k@pre => 0 < hsize) &&
+      IntArray::undef_seg(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, 100001) *
+      IntArray::undef_seg(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, 1700017) *
+      IntArray::undef_seg(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, 200000) *
       IntArray::full(arr@pre, n@pre, l) *
-      IntArray::full(prefix@pre, n@pre + 1, ps) *
-      IntArray::full(st@pre, (n@pre + 1) * ST_LEVELS, st_slots) *
-      IntArray::full(heap_value@pre, heap_cap, vals) *
-      IntArray::full(heap_start@pre, heap_cap, starts) *
-      IntArray::full(heap_lo@pre, heap_cap, los) *
-      IntArray::full(heap_hi@pre, heap_cap, his) *
-      IntArray::full(heap_best@pre, heap_cap, bests) &&
-      (forall (idx : Z), (0 <= idx && idx < n@pre) => (-1000 <= l[idx] && l[idx] <= 1000))
+      IntArray::full(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, ps) *
+      IntArray::full(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, st_slots) *
+      IntArray::full(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, vals) *
+      IntArray::full(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, starts) *
+      IntArray::full(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, los) *
+      IntArray::full(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, his) *
+      IntArray::full(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, bests) &&
+      Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
     */
    for (int t = 0; t < k; ++t) {
     /*@ Given slots vals starts los his bests chosen */
-    int value = frontier_top_value(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize) /*@ where slots = slots */;
-    int start = frontier_top_start(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize) /*@ where slots = slots */;
-    int lo = frontier_top_lo(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize) /*@ where slots = slots */;
-    int hi = frontier_top_hi(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize) /*@ where slots = slots */;
-    int best = frontier_top_best(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize) /*@ where slots = slots */;
+    int value = frontier_top_value(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize) ;
+    int start = frontier_top_start(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize) ;
+    int lo = frontier_top_lo(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize) ;
+    int hi = frontier_top_hi(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize) ;
+    int best = frontier_top_best(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize) ;
     /*@ Assert
         exists ps ans st_slots slots vals starts los his bests chosen,
         arr == arr@pre && n == n@pre && k == k@pre && L == L@pre && R == R@pre &&
-        prefix == prefix@pre && st == st@pre &&
-        heap_value == heap_value@pre && heap_start == heap_start@pre &&
-        heap_lo == heap_lo@pre && heap_hi == heap_hi@pre && heap_best == heap_best@pre &&
         value == heap_top_value(slots) &&
         start == heap_top_start(slots) &&
         lo == heap_top_lo(slots) &&
@@ -572,7 +781,7 @@ long long superPiano(
         heap_cap == n@pre + k@pre + 1 &&
         Zlength(l) == n@pre &&
         PrefixSums(l, ps) &&
-        SparseArgmaxBuilt(ps, st_slots, n@pre + 1) &&
+        PianoSparseTable(ps, st_slots, n@pre + 1) &&
         SuperPianoAnswerByPrefix(ps, n@pre, L@pre, R@pre, k@pre, ans) &&
         Zlength(slots) == heap_cap &&
         NodeArrays(slots, vals, starts, los, his, bests) &&
@@ -586,19 +795,26 @@ long long superPiano(
         0 <= start - 1 && start - 1 < n@pre + 1 &&
         start + L@pre - 1 <= lo &&
         0 <= lo && lo <= best && best <= hi && hi <= n@pre &&
-        IntArray::full(arr@pre, n@pre, l) *
-        IntArray::full(prefix@pre, n@pre + 1, ps) *
-        IntArray::full(st@pre, (n@pre + 1) * ST_LEVELS, st_slots) *
-        IntArray::full(heap_value@pre, heap_cap, vals) *
-        IntArray::full(heap_start@pre, heap_cap, starts) *
-        IntArray::full(heap_lo@pre, heap_cap, los) *
-        IntArray::full(heap_hi@pre, heap_cap, his) *
-        IntArray::full(heap_best@pre, heap_cap, bests) &&
-        (forall (idx : Z), (0 <= idx && idx < n@pre) => (-1000 <= l[idx] && l[idx] <= 1000))
+        IntArray::undef_seg(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, 100001) *
+      IntArray::undef_seg(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, 1700017) *
+      IntArray::undef_seg(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::full(arr@pre, n@pre, l) *
+        IntArray::full(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, ps) *
+        IntArray::full(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, st_slots) *
+        IntArray::full(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, vals) *
+        IntArray::full(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, starts) *
+        IntArray::full(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, los) *
+        IntArray::full(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, his) *
+        IntArray::full(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, bests) &&
+        Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
      */
 
     /*@ Given pop_slots from slots */
-    frontier_pop_only(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize) /*@ where slots = pop_slots */;
+    frontier_pop_only(heap_value, heap_start, heap_lo, heap_hi, heap_best, heap_cap, hsize) ;
     hsize = hsize - 1;
 
     total = total + (long long)value;
@@ -614,14 +830,16 @@ long long superPiano(
       /*@ Given query_ps from ps
                   query_st_slots from st_slots */
       if (lo <= best - 1) {
-        left_best = query_argmax(prefix, n + 1, st, lo, best - 1) /*@ where ps = query_ps, st_slots = query_st_slots */;
-        left_value = prefix[left_best] - prefix[start - 1];
+        left_best = query_argmax(prefix, n + 1, st, lo, best - 1) ;
+        
+        left_value = piano_prefix_at(prefix, n + 1, left_best) - piano_prefix_at(prefix, n + 1, start - 1);
         has_left = 1;
       }
 
       if (best + 1 <= hi) {
-        right_best = query_argmax(prefix, n + 1, st, best + 1, hi) /*@ where ps = query_ps, st_slots = query_st_slots */;
-        right_value = prefix[right_best] - prefix[start - 1];
+        right_best = query_argmax(prefix, n + 1, st, best + 1, hi) ;
+        
+        right_value = piano_prefix_at(prefix, n + 1, right_best) - piano_prefix_at(prefix, n + 1, start - 1);
         has_right = 1;
       }
 
@@ -630,16 +848,13 @@ long long superPiano(
         /*@ Assert
             exists ps ans st_slots slots vals starts los his bests chosen,
             arr == arr@pre && n == n@pre && k == k@pre && L == L@pre && R == R@pre &&
-            prefix == prefix@pre && st == st@pre &&
-            heap_value == heap_value@pre && heap_start == heap_start@pre &&
-            heap_lo == heap_lo@pre && heap_hi == heap_hi@pre && heap_best == heap_best@pre &&
             1 <= n@pre && n@pre <= 100000 &&
             1 <= L@pre && L@pre <= R@pre && R@pre <= n@pre &&
             1 <= k@pre && n@pre + k@pre + 1 <= 200000 &&
             heap_cap == n@pre + k@pre + 1 &&
             Zlength(l) == n@pre &&
             PrefixSums(l, ps) &&
-            SparseArgmaxBuilt(ps, st_slots, n@pre + 1) &&
+            PianoSparseTable(ps, st_slots, n@pre + 1) &&
             SuperPianoAnswerByPrefix(ps, n@pre, L@pre, R@pre, k@pre, ans) &&
             Zlength(slots) == heap_cap &&
             NodeArrays(slots, vals, starts, los, his, bests) &&
@@ -669,30 +884,34 @@ long long superPiano(
             best + 1 <= right_best && right_best <= hi &&
             ValidNodeFields(ps, n@pre, L@pre, R@pre, right_value, start, best + 1, hi, right_best) &&
             ValidNodeFields(ps, n@pre, L@pre, R@pre, value, start, lo, hi, best) &&
-            IntArray::full(arr@pre, n@pre, l) *
-            IntArray::full(prefix@pre, n@pre + 1, ps) *
-            IntArray::full(st@pre, (n@pre + 1) * ST_LEVELS, st_slots) *
-            IntArray::full(heap_value@pre, heap_cap, vals) *
-            IntArray::full(heap_start@pre, heap_cap, starts) *
-            IntArray::full(heap_lo@pre, heap_cap, los) *
-            IntArray::full(heap_hi@pre, heap_cap, his) *
-            IntArray::full(heap_best@pre, heap_cap, bests) &&
-            (forall (idx : Z), (0 <= idx && idx < n@pre) => (-1000 <= l[idx] && l[idx] <= 1000))
+            IntArray::undef_seg(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, 100001) *
+      IntArray::undef_seg(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, 1700017) *
+      IntArray::undef_seg(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::full(arr@pre, n@pre, l) *
+            IntArray::full(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, ps) *
+            IntArray::full(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, st_slots) *
+            IntArray::full(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, vals) *
+            IntArray::full(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, starts) *
+            IntArray::full(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, los) *
+            IntArray::full(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, his) *
+            IntArray::full(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, bests) &&
+            Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
          */
         } else {
         /*@ Assert
             exists ps ans st_slots slots vals starts los his bests chosen,
             arr == arr@pre && n == n@pre && k == k@pre && L == L@pre && R == R@pre &&
-            prefix == prefix@pre && st == st@pre &&
-            heap_value == heap_value@pre && heap_start == heap_start@pre &&
-            heap_lo == heap_lo@pre && heap_hi == heap_hi@pre && heap_best == heap_best@pre &&
             1 <= n@pre && n@pre <= 100000 &&
             1 <= L@pre && L@pre <= R@pre && R@pre <= n@pre &&
             1 <= k@pre && n@pre + k@pre + 1 <= 200000 &&
             heap_cap == n@pre + k@pre + 1 &&
             Zlength(l) == n@pre &&
             PrefixSums(l, ps) &&
-            SparseArgmaxBuilt(ps, st_slots, n@pre + 1) &&
+            PianoSparseTable(ps, st_slots, n@pre + 1) &&
             SuperPianoAnswerByPrefix(ps, n@pre, L@pre, R@pre, k@pre, ans) &&
             Zlength(slots) == heap_cap &&
             NodeArrays(slots, vals, starts, los, his, bests) &&
@@ -719,15 +938,22 @@ long long superPiano(
             right_best == 0 &&
             right_value == 0 &&
             ValidNodeFields(ps, n@pre, L@pre, R@pre, value, start, lo, hi, best) &&
-            IntArray::full(arr@pre, n@pre, l) *
-            IntArray::full(prefix@pre, n@pre + 1, ps) *
-            IntArray::full(st@pre, (n@pre + 1) * ST_LEVELS, st_slots) *
-            IntArray::full(heap_value@pre, heap_cap, vals) *
-            IntArray::full(heap_start@pre, heap_cap, starts) *
-            IntArray::full(heap_lo@pre, heap_cap, los) *
-            IntArray::full(heap_hi@pre, heap_cap, his) *
-            IntArray::full(heap_best@pre, heap_cap, bests) &&
-            (forall (idx : Z), (0 <= idx && idx < n@pre) => (-1000 <= l[idx] && l[idx] <= 1000))
+            IntArray::undef_seg(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, 100001) *
+      IntArray::undef_seg(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, 1700017) *
+      IntArray::undef_seg(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::full(arr@pre, n@pre, l) *
+            IntArray::full(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, ps) *
+            IntArray::full(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, st_slots) *
+            IntArray::full(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, vals) *
+            IntArray::full(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, starts) *
+            IntArray::full(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, los) *
+            IntArray::full(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, his) *
+            IntArray::full(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, bests) &&
+            Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
          */
         }
         /*@ Given push_ps from ps
@@ -740,9 +966,7 @@ long long superPiano(
         frontier_push(
             heap_value, heap_start, heap_lo, heap_hi, heap_best,
             heap_cap, hsize, left_value, start, lo, best - 1, left_best)
-            /*@ where slots = push_slots, vals = push_vals, starts = push_starts,
-                       los = push_los, his = push_his, bests = push_bests,
-                       ps = push_ps, n0 = n@pre, L0 = L@pre, R0 = R@pre */;
+            ;
         hsize = hsize + 1;
       }
 
@@ -750,16 +974,13 @@ long long superPiano(
       /*@ Assert
           exists ps ans st_slots slots vals starts los his bests chosen,
           arr == arr@pre && n == n@pre && k == k@pre && L == L@pre && R == R@pre &&
-          prefix == prefix@pre && st == st@pre &&
-          heap_value == heap_value@pre && heap_start == heap_start@pre &&
-          heap_lo == heap_lo@pre && heap_hi == heap_hi@pre && heap_best == heap_best@pre &&
           1 <= n@pre && n@pre <= 100000 &&
           1 <= L@pre && L@pre <= R@pre && R@pre <= n@pre &&
           1 <= k@pre && n@pre + k@pre + 1 <= 200000 &&
           heap_cap == n@pre + k@pre + 1 &&
           Zlength(l) == n@pre &&
           PrefixSums(l, ps) &&
-          SparseArgmaxBuilt(ps, st_slots, n@pre + 1) &&
+          PianoSparseTable(ps, st_slots, n@pre + 1) &&
           SuperPianoAnswerByPrefix(ps, n@pre, L@pre, R@pre, k@pre, ans) &&
           Zlength(slots) == heap_cap &&
           NodeArrays(slots, vals, starts, los, his, bests) &&
@@ -781,15 +1002,22 @@ long long superPiano(
           0 <= start - 1 && start - 1 < n@pre + 1 &&
           lo == best && best == hi &&
           ValidNodeFields(ps, n@pre, L@pre, R@pre, value, start, lo, hi, best) &&
-          IntArray::full(arr@pre, n@pre, l) *
-          IntArray::full(prefix@pre, n@pre + 1, ps) *
-          IntArray::full(st@pre, (n@pre + 1) * ST_LEVELS, st_slots) *
-          IntArray::full(heap_value@pre, heap_cap, vals) *
-          IntArray::full(heap_start@pre, heap_cap, starts) *
-          IntArray::full(heap_lo@pre, heap_cap, los) *
-          IntArray::full(heap_hi@pre, heap_cap, his) *
-          IntArray::full(heap_best@pre, heap_cap, bests) &&
-          (forall (idx : Z), (0 <= idx && idx < n@pre) => (-1000 <= l[idx] && l[idx] <= 1000))
+          IntArray::undef_seg(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, 100001) *
+      IntArray::undef_seg(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, 1700017) *
+      IntArray::undef_seg(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::full(arr@pre, n@pre, l) *
+          IntArray::full(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, ps) *
+          IntArray::full(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, st_slots) *
+          IntArray::full(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, vals) *
+          IntArray::full(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, starts) *
+          IntArray::full(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, los) *
+          IntArray::full(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, his) *
+          IntArray::full(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, bests) &&
+          Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
        */
       }
 
@@ -798,16 +1026,13 @@ long long superPiano(
         /*@ Assert
             exists ps ans st_slots slots vals starts los his bests chosen,
             arr == arr@pre && n == n@pre && k == k@pre && L == L@pre && R == R@pre &&
-            prefix == prefix@pre && st == st@pre &&
-            heap_value == heap_value@pre && heap_start == heap_start@pre &&
-            heap_lo == heap_lo@pre && heap_hi == heap_hi@pre && heap_best == heap_best@pre &&
             1 <= n@pre && n@pre <= 100000 &&
             1 <= L@pre && L@pre <= R@pre && R@pre <= n@pre &&
             1 <= k@pre && n@pre + k@pre + 1 <= 200000 &&
             heap_cap == n@pre + k@pre + 1 &&
             Zlength(l) == n@pre &&
             PrefixSums(l, ps) &&
-            SparseArgmaxBuilt(ps, st_slots, n@pre + 1) &&
+            PianoSparseTable(ps, st_slots, n@pre + 1) &&
             SuperPianoAnswerByPrefix(ps, n@pre, L@pre, R@pre, k@pre, ans) &&
             Zlength(slots) == heap_cap &&
             NodeArrays(slots, vals, starts, los, his, bests) &&
@@ -838,30 +1063,34 @@ long long superPiano(
             lo <= left_best && left_best <= best - 1 &&
             ValidNodeFields(ps, n@pre, L@pre, R@pre, left_value, start, lo, best - 1, left_best) &&
             ValidNodeFields(ps, n@pre, L@pre, R@pre, value, start, lo, hi, best) &&
-            IntArray::full(arr@pre, n@pre, l) *
-            IntArray::full(prefix@pre, n@pre + 1, ps) *
-            IntArray::full(st@pre, (n@pre + 1) * ST_LEVELS, st_slots) *
-            IntArray::full(heap_value@pre, heap_cap, vals) *
-            IntArray::full(heap_start@pre, heap_cap, starts) *
-            IntArray::full(heap_lo@pre, heap_cap, los) *
-            IntArray::full(heap_hi@pre, heap_cap, his) *
-            IntArray::full(heap_best@pre, heap_cap, bests) &&
-            (forall (idx : Z), (0 <= idx && idx < n@pre) => (-1000 <= l[idx] && l[idx] <= 1000))
+            IntArray::undef_seg(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, 100001) *
+      IntArray::undef_seg(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, 1700017) *
+      IntArray::undef_seg(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::full(arr@pre, n@pre, l) *
+            IntArray::full(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, ps) *
+            IntArray::full(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, st_slots) *
+            IntArray::full(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, vals) *
+            IntArray::full(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, starts) *
+            IntArray::full(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, los) *
+            IntArray::full(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, his) *
+            IntArray::full(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, bests) &&
+            Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
          */
         } else {
         /*@ Assert
             exists ps ans st_slots slots vals starts los his bests chosen,
             arr == arr@pre && n == n@pre && k == k@pre && L == L@pre && R == R@pre &&
-            prefix == prefix@pre && st == st@pre &&
-            heap_value == heap_value@pre && heap_start == heap_start@pre &&
-            heap_lo == heap_lo@pre && heap_hi == heap_hi@pre && heap_best == heap_best@pre &&
             1 <= n@pre && n@pre <= 100000 &&
             1 <= L@pre && L@pre <= R@pre && R@pre <= n@pre &&
             1 <= k@pre && n@pre + k@pre + 1 <= 200000 &&
             heap_cap == n@pre + k@pre + 1 &&
             Zlength(l) == n@pre &&
             PrefixSums(l, ps) &&
-            SparseArgmaxBuilt(ps, st_slots, n@pre + 1) &&
+            PianoSparseTable(ps, st_slots, n@pre + 1) &&
             SuperPianoAnswerByPrefix(ps, n@pre, L@pre, R@pre, k@pre, ans) &&
             Zlength(slots) == heap_cap &&
             NodeArrays(slots, vals, starts, los, his, bests) &&
@@ -888,15 +1117,22 @@ long long superPiano(
             best + 1 <= right_best && right_best <= hi &&
             ValidNodeFields(ps, n@pre, L@pre, R@pre, right_value, start, best + 1, hi, right_best) &&
             ValidNodeFields(ps, n@pre, L@pre, R@pre, value, start, lo, hi, best) &&
-            IntArray::full(arr@pre, n@pre, l) *
-            IntArray::full(prefix@pre, n@pre + 1, ps) *
-            IntArray::full(st@pre, (n@pre + 1) * ST_LEVELS, st_slots) *
-            IntArray::full(heap_value@pre, heap_cap, vals) *
-            IntArray::full(heap_start@pre, heap_cap, starts) *
-            IntArray::full(heap_lo@pre, heap_cap, los) *
-            IntArray::full(heap_hi@pre, heap_cap, his) *
-            IntArray::full(heap_best@pre, heap_cap, bests) &&
-            (forall (idx : Z), (0 <= idx && idx < n@pre) => (-1000 <= l[idx] && l[idx] <= 1000))
+            IntArray::undef_seg(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, 100001) *
+      IntArray::undef_seg(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, 1700017) *
+      IntArray::undef_seg(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::full(arr@pre, n@pre, l) *
+            IntArray::full(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, ps) *
+            IntArray::full(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, st_slots) *
+            IntArray::full(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, vals) *
+            IntArray::full(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, starts) *
+            IntArray::full(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, los) *
+            IntArray::full(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, his) *
+            IntArray::full(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, bests) &&
+            Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
          */
         }
         /*@ Given right_ps from ps
@@ -909,25 +1145,20 @@ long long superPiano(
         frontier_push(
             heap_value, heap_start, heap_lo, heap_hi, heap_best,
             heap_cap, hsize, right_value, start, best + 1, hi, right_best)
-            /*@ where slots = right_slots, vals = right_vals, starts = right_starts,
-                       los = right_los, his = right_his, bests = right_bests,
-                       ps = right_ps, n0 = n@pre, L0 = L@pre, R0 = R@pre */;
+            ;
         hsize = hsize + 1;
       }
 
       /*@ Assert
           exists ps ans st_slots slots vals starts los his bests chosen,
           arr == arr@pre && n == n@pre && k == k@pre && L == L@pre && R == R@pre &&
-          prefix == prefix@pre && st == st@pre &&
-          heap_value == heap_value@pre && heap_start == heap_start@pre &&
-          heap_lo == heap_lo@pre && heap_hi == heap_hi@pre && heap_best == heap_best@pre &&
           1 <= n@pre && n@pre <= 100000 &&
           1 <= L@pre && L@pre <= R@pre && R@pre <= n@pre &&
           1 <= k@pre && n@pre + k@pre + 1 <= 200000 &&
           heap_cap == n@pre + k@pre + 1 &&
           Zlength(l) == n@pre &&
           PrefixSums(l, ps) &&
-          SparseArgmaxBuilt(ps, st_slots, n@pre + 1) &&
+          PianoSparseTable(ps, st_slots, n@pre + 1) &&
           SuperPianoAnswerByPrefix(ps, n@pre, L@pre, R@pre, k@pre, ans) &&
           Zlength(slots) == heap_cap &&
           NodeArrays(slots, vals, starts, los, his, bests) &&
@@ -950,18 +1181,40 @@ long long superPiano(
           0 <= start - 1 && start - 1 < n@pre + 1 &&
           start + L@pre - 1 <= lo &&
           0 <= lo && lo <= best && best <= hi && hi <= n@pre &&
-          IntArray::full(arr@pre, n@pre, l) *
-          IntArray::full(prefix@pre, n@pre + 1, ps) *
-          IntArray::full(st@pre, (n@pre + 1) * ST_LEVELS, st_slots) *
-          IntArray::full(heap_value@pre, heap_cap, vals) *
-          IntArray::full(heap_start@pre, heap_cap, starts) *
-          IntArray::full(heap_lo@pre, heap_cap, los) *
-          IntArray::full(heap_hi@pre, heap_cap, his) *
-          IntArray::full(heap_best@pre, heap_cap, bests) &&
-          (forall (idx : Z), (0 <= idx && idx < n@pre) => (-1000 <= l[idx] && l[idx] <= 1000))
+          IntArray::undef_seg(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, 100001) *
+      IntArray::undef_seg(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, 1700017) *
+      IntArray::undef_seg(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::undef_seg(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, 200000) *
+      IntArray::full(arr@pre, n@pre, l) *
+          IntArray::full(pointer_offset(prefix, 0, sizeof(int), int), n@pre + 1, ps) *
+          IntArray::full(pointer_offset(st, 0, sizeof(int), int), (n@pre + 1) * 17, st_slots) *
+          IntArray::full(pointer_offset(heap_value, 0, sizeof(int), int), heap_cap, vals) *
+          IntArray::full(pointer_offset(heap_start, 0, sizeof(int), int), heap_cap, starts) *
+          IntArray::full(pointer_offset(heap_lo, 0, sizeof(int), int), heap_cap, los) *
+          IntArray::full(pointer_offset(heap_hi, 0, sizeof(int), int), heap_cap, his) *
+          IntArray::full(pointer_offset(heap_best, 0, sizeof(int), int), heap_cap, bests) &&
+          Forall(Z::le(-1000), l) && Forall(Z::ge(1000), l)
        */
     }
   }
 
+  /*@ Assert
+      exists ps,
+      heap_cap == n + k + 1 && 0 <= hsize && hsize <= heap_cap &&
+      arr == arr@pre && n == n@pre && k == k@pre && L == L@pre && R == R@pre &&
+      PrefixSums(l, ps) &&
+      SuperPianoAnswerByPrefix(ps, n, L, R, k, total) &&
+      IntArray::full(arr, n, l) *
+      IntArray::undef_full(prefix, 100001) *
+      IntArray::undef_full(st, 1700017) *
+      IntArray::undef_full(heap_value, 200000) *
+      IntArray::undef_full(heap_start, 200000) *
+      IntArray::undef_full(heap_lo, 200000) *
+      IntArray::undef_full(heap_hi, 200000) *
+      IntArray::undef_full(heap_best, 200000)
+   */
   return total;
 }

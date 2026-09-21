@@ -341,6 +341,9 @@ Proof. Admitted.
 Lemma proof_of_interval_digits_sum_safety_wit_3 : interval_digits_sum_safety_wit_3.
 Proof. Admitted. 
 
+Lemma proof_of_interval_digits_sum_safety_wit_4 : interval_digits_sum_safety_wit_4.
+Proof. Admitted. 
+
 Lemma proof_of_interval_digits_sum_safety_wit_5 : interval_digits_sum_safety_wit_5.
 Proof. Admitted. 
 
@@ -354,6 +357,18 @@ Lemma proof_of_interval_digits_sum_safety_wit_8 : interval_digits_sum_safety_wit
 Proof. Admitted. 
 
 Lemma proof_of_interval_digits_sum_safety_wit_9 : interval_digits_sum_safety_wit_9.
+Proof. Admitted. 
+
+Lemma proof_of_interval_digits_sum_safety_wit_11 : interval_digits_sum_safety_wit_11.
+Proof. Admitted. 
+
+Lemma proof_of_interval_digits_sum_safety_wit_13 : interval_digits_sum_safety_wit_13.
+Proof. Admitted. 
+
+Lemma proof_of_interval_digits_sum_safety_wit_14 : interval_digits_sum_safety_wit_14.
+Proof. Admitted. 
+
+Lemma proof_of_interval_digits_sum_safety_wit_15 : interval_digits_sum_safety_wit_15.
 Proof. Admitted. 
 
 Lemma proof_of_interval_digits_sum_partial_solve_wit_1 : interval_digits_sum_partial_solve_wit_1.

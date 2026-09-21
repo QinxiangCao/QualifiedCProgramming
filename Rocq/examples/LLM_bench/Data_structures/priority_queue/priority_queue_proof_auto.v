@@ -35,12 +35,6 @@ Proof. Admitted.
 Lemma proof_of_push_safety_wit_5 : push_safety_wit_5.
 Proof. Admitted. 
 
-Lemma proof_of_push_entail_wit_8_2 : push_entail_wit_8_2.
-Proof. Admitted. 
-
-Lemma proof_of_push_return_wit_1 : push_return_wit_1.
-Proof. Admitted. 
-
 Lemma proof_of_push_partial_solve_wit_1 : push_partial_solve_wit_1.
 Proof. Admitted. 
 
@@ -69,15 +63,6 @@ Lemma proof_of_build_safety_wit_2 : build_safety_wit_2.
 Proof. Admitted. 
 
 Lemma proof_of_build_safety_wit_3 : build_safety_wit_3.
-Proof. Admitted. 
-
-Lemma proof_of_build_entail_wit_3 : build_entail_wit_3.
-Proof. Admitted. 
-
-Lemma proof_of_build_entail_wit_5 : build_entail_wit_5.
-Proof. Admitted. 
-
-Lemma proof_of_build_return_wit_1 : build_return_wit_1.
 Proof. Admitted. 
 
 Lemma proof_of_build_partial_solve_wit_1 : build_partial_solve_wit_1.
@@ -149,12 +134,6 @@ Proof. Admitted.
 Lemma proof_of_pop_safety_wit_20 : pop_safety_wit_20.
 Proof. Admitted. 
 
-Lemma proof_of_pop_entail_wit_2 : pop_entail_wit_2.
-Proof. Admitted. 
-
-Lemma proof_of_pop_return_wit_1 : pop_return_wit_1.
-Proof. Admitted. 
-
 Lemma proof_of_pop_partial_solve_wit_1 : pop_partial_solve_wit_1.
 Proof. Admitted. 
 
@@ -198,18 +177,6 @@ Lemma proof_of_heap_sort_safety_wit_3 : heap_sort_safety_wit_3.
 Proof. Admitted. 
 
 Lemma proof_of_heap_sort_safety_wit_4 : heap_sort_safety_wit_4.
-Proof. Admitted. 
-
-Lemma proof_of_heap_sort_entail_wit_3 : heap_sort_entail_wit_3.
-Proof. Admitted. 
-
-Lemma proof_of_heap_sort_entail_wit_4 : heap_sort_entail_wit_4.
-Proof. Admitted. 
-
-Lemma proof_of_heap_sort_entail_wit_7 : heap_sort_entail_wit_7.
-Proof. Admitted. 
-
-Lemma proof_of_heap_sort_return_wit_1 : heap_sort_return_wit_1.
 Proof. Admitted. 
 
 Lemma proof_of_heap_sort_partial_solve_wit_1_pure : heap_sort_partial_solve_wit_1_pure.

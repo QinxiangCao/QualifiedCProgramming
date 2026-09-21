@@ -1,6 +1,11 @@
 /*@ Extern Coq (Permutation : list Z -> list Z -> Prop) */
 /*@ Extern Coq (increasing : list Z -> Prop) */
 /*@ Extern Coq
+      (Forall : {A} -> (A -> Prop) -> list A -> Prop)
+      (Z::le : Z -> Z -> Prop)
+      (Z::ge : Z -> Z -> Prop)
+      (Z::gt : Z -> Z -> Prop)
+      (eq : {A} -> A -> A -> Prop)
       (IntArray::mixed_full : Z -> Z -> list (option Z) -> Assertion)
       (CountingZeroedPrefix : list (option Z) -> Z -> Prop)
       (CountingHistogramPrefix : list Z -> list Z -> Z -> Prop)
@@ -21,13 +26,10 @@ void sort(int *a, int n)
     Require
       0 <= n && n <= 100 &&
       Zlength(input) == n &&
-      (forall (i : Z),
-         (0 <= i && i < n) =>
-         (0 <= Znth(i, input, 0) && Znth(i, input, 0) < 100)) &&
+      Forall(Z::le(0), input) && Forall(Z::gt(100), input) &&
       IntArray::full(a, n, input)
     Ensure
       exists output,
-        Zlength(output) == n &&
         Permutation(input, output) &&
         increasing(output) &&
         IntArray::full(a, n, output)
@@ -44,11 +46,8 @@ void sort(int *a, int n)
           Zlength(output_mixed) == 100 &&
           Zlength(count_mixed) == 100 &&
           0 <= value && value <= 100 &&
-          (forall (k : Z),
-            (0 <= k && k < n@pre) =>
-            (0 <= input[k] && input[k] < 100)) &&
-          (forall (k : Z),
-            (0 <= k && k < 100) => output_mixed[k] == None) &&
+          Forall(Z::le(0), input) && Forall(Z::gt(100), input) &&
+          Forall(eq(None), output_mixed) &&
           CountingZeroedPrefix(count_mixed, value) &&
           IntArray::full(a, n@pre, input) *
           IntArray::mixed_full(output, 100, output_mixed) *
@@ -58,25 +57,6 @@ void sort(int *a, int n)
         count[value] = 0;
     }
 
-    /*@ Assert
-        exists output_mixed zeros,
-          a == a@pre && n == n@pre &&
-          0 <= n@pre && n@pre <= 100 &&
-          Zlength(input) == n@pre &&
-          Zlength(output_mixed) == 100 &&
-          Zlength(zeros) == 100 &&
-          (forall (k : Z),
-            (0 <= k && k < n@pre) =>
-            (0 <= input[k] && input[k] < 100)) &&
-          (forall (k : Z),
-            (0 <= k && k < 100) => output_mixed[k] == None) &&
-          (forall (value : Z),
-            (0 <= value && value < 100) => zeros[value] == 0) &&
-          CountingHistogramPrefix(input, zeros, 0) &&
-          IntArray::full(a, n@pre, input) *
-          IntArray::mixed_full(output, 100, output_mixed) *
-          IntArray::full(count, 100, zeros)
-    */
     /*@ Inv Assert
         exists output_mixed counts,
           a == a@pre && n == n@pre &&
@@ -85,14 +65,9 @@ void sort(int *a, int n)
           Zlength(output_mixed) == 100 &&
           Zlength(counts) == 100 &&
           0 <= i && i <= n@pre &&
-          (forall (k : Z),
-            (0 <= k && k < n@pre) =>
-            (0 <= input[k] && input[k] < 100)) &&
-          (forall (value : Z),
-            (0 <= value && value < 100) =>
-            (0 <= counts[value] && counts[value] <= i)) &&
-          (forall (k : Z),
-            (0 <= k && k < 100) => output_mixed[k] == None) &&
+          Forall(Z::le(0), input) && Forall(Z::gt(100), input) &&
+          Forall(Z::le(0), counts) && Forall(Z::ge(i), counts) &&
+          Forall(eq(None), output_mixed) &&
           CountingHistogramPrefix(input, counts, i) &&
           IntArray::full(a, n@pre, input) *
           IntArray::mixed_full(output, 100, output_mixed) *
@@ -113,16 +88,11 @@ void sort(int *a, int n)
           Zlength(output_mixed) == 100 &&
           Zlength(positions) == 100 &&
           1 <= value && value <= 100 &&
-          (forall (k : Z),
-            (0 <= k && k < n@pre) =>
-            (0 <= input[k] && input[k] < 100)) &&
-          (forall (bucket : Z),
-            (0 <= bucket && bucket < 100) =>
-            (0 <= positions[bucket] && positions[bucket] <= n@pre)) &&
+          Forall(Z::le(0), input) && Forall(Z::gt(100), input) &&
+          Forall(Z::le(0), positions) && Forall(Z::ge(n@pre), positions) &&
           (value < 100 =>
             positions[value] + positions[value - 1] <= n@pre) &&
-          (forall (k : Z),
-            (0 <= k && k < 100) => output_mixed[k] == None) &&
+          Forall(eq(None), output_mixed) &&
           CountingCumulativeState(input, positions, value) &&
           IntArray::full(a, n@pre, input) *
           IntArray::mixed_full(output, 100, output_mixed) *
@@ -142,18 +112,11 @@ void sort(int *a, int n)
           Zlength(bucket_ends) == 100 &&
           Zlength(output_mixed) == 100 &&
           -1 <= i && i < n@pre &&
-          (forall (k : Z),
-            (0 <= k && k < n@pre) =>
-            (0 <= input[k] && input[k] < 100)) &&
-          (forall (k : Z),
-            (0 <= k && k < n@pre) =>
-            (0 <= sorted[k] && sorted[k] < 100)) &&
-          (forall (bucket : Z),
-            (0 <= bucket && bucket < 100) =>
-            (0 <= positions[bucket] && positions[bucket] <= n@pre)) &&
+          Forall(Z::le(0), input) && Forall(Z::gt(100), input) &&
+          Forall(Z::le(0), sorted) && Forall(Z::gt(100), sorted) &&
+          Forall(Z::le(0), positions) && Forall(Z::ge(n@pre), positions) &&
           (i >= 0 => 1 <= positions[input[i]]) &&
-          (forall (k : Z),
-            (n@pre <= k && k < 100) => output_mixed[k] == None) &&
+          Forall(eq(None), sublist(n@pre, 100, output_mixed)) &&
           CountingPlacementProgress(
             input, positions, bucket_ends, output_mixed, sorted, i) &&
           IntArray::full(a, n@pre, input) *
@@ -181,22 +144,6 @@ void sort(int *a, int n)
         output[count[value]] = value;
     }
 
-    /*@ Assert
-        exists sorted bucket_starts,
-          a == a@pre && n == n@pre &&
-          0 <= n@pre && n@pre <= 100 &&
-          Zlength(input) == n@pre &&
-          Zlength(sorted) == n@pre &&
-          Zlength(bucket_starts) == 100 &&
-          (forall (k : Z),
-            (0 <= k && k < n@pre) =>
-            (0 <= sorted[k] && sorted[k] < 100)) &&
-          CountingSorted(input, sorted) &&
-          IntArray::full(a, n@pre, input) *
-          IntArray::seg(output, 0, n@pre, sorted) *
-          IntArray::undef_seg(output, n@pre, 100) *
-          IntArray::full(count, 100, bucket_starts)
-    */
     /*@ Inv Assert
         exists sorted live bucket_starts,
           a == a@pre && n == n@pre &&
@@ -206,9 +153,7 @@ void sort(int *a, int n)
           Zlength(live) == n@pre &&
           Zlength(bucket_starts) == 100 &&
           0 <= i && i <= n@pre &&
-          (forall (k : Z),
-            (0 <= k && k < n@pre) =>
-            (0 <= sorted[k] && sorted[k] < 100)) &&
+          Forall(Z::le(0), sorted) && Forall(Z::gt(100), sorted) &&
           CountingSorted(input, sorted) &&
           CountingCopyProgress(input, sorted, live, i) &&
           IntArray::full(a, n@pre, live) *

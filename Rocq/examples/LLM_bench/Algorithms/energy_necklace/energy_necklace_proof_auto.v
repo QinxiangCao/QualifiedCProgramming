@@ -143,22 +143,7 @@ Proof. Admitted.
 Lemma proof_of_energyNecklace_safety_wit_45 : energyNecklace_safety_wit_45.
 Proof. Admitted. 
 
-Lemma proof_of_energyNecklace_entail_wit_1 : energyNecklace_entail_wit_1.
-Proof. Admitted. 
-
-Lemma proof_of_energyNecklace_entail_wit_11 : energyNecklace_entail_wit_11.
-Proof. Admitted. 
-
-Lemma proof_of_energyNecklace_entail_wit_18 : energyNecklace_entail_wit_18.
-Proof. Admitted. 
-
-Lemma proof_of_energyNecklace_entail_wit_21 : energyNecklace_entail_wit_21.
-Proof. Admitted. 
-
-Lemma proof_of_energyNecklace_entail_wit_23 : energyNecklace_entail_wit_23.
-Proof. Admitted. 
-
-Lemma proof_of_energyNecklace_entail_wit_29 : energyNecklace_entail_wit_29.
+Lemma proof_of_energyNecklace_return_wit_1 : energyNecklace_return_wit_1.
 Proof. Admitted. 
 
 Lemma proof_of_energyNecklace_partial_solve_wit_1 : energyNecklace_partial_solve_wit_1.

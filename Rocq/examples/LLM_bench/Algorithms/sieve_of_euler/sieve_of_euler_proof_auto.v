@@ -62,16 +62,22 @@ Proof. Admitted.
 Lemma proof_of_get_prime_safety_wit_14 : get_prime_safety_wit_14.
 Proof. Admitted. 
 
-Lemma proof_of_get_prime_entail_wit_4 : get_prime_entail_wit_4.
+Lemma proof_of_get_prime_safety_wit_15 : get_prime_safety_wit_15.
 Proof. Admitted. 
 
-Lemma proof_of_get_prime_entail_wit_6 : get_prime_entail_wit_6.
+Lemma proof_of_get_prime_safety_wit_16 : get_prime_safety_wit_16.
 Proof. Admitted. 
 
-Lemma proof_of_get_prime_entail_wit_12 : get_prime_entail_wit_12.
+Lemma proof_of_get_prime_safety_wit_17 : get_prime_safety_wit_17.
 Proof. Admitted. 
 
-Lemma proof_of_get_prime_return_wit_1 : get_prime_return_wit_1.
+Lemma proof_of_get_prime_safety_wit_18 : get_prime_safety_wit_18.
+Proof. Admitted. 
+
+Lemma proof_of_get_prime_safety_wit_19 : get_prime_safety_wit_19.
+Proof. Admitted. 
+
+Lemma proof_of_get_prime_entail_wit_11_2 : get_prime_entail_wit_11_2.
 Proof. Admitted. 
 
 Lemma proof_of_get_prime_partial_solve_wit_1 : get_prime_partial_solve_wit_1.
@@ -96,9 +102,6 @@ Lemma proof_of_get_prime_partial_solve_wit_7 : get_prime_partial_solve_wit_7.
 Proof. Admitted. 
 
 Lemma proof_of_get_prime_partial_solve_wit_8 : get_prime_partial_solve_wit_8.
-Proof. Admitted. 
-
-Lemma proof_of_get_prime_partial_solve_wit_9_pure : get_prime_partial_solve_wit_9_pure.
 Proof. Admitted. 
 
 Lemma proof_of_get_prime_partial_solve_wit_9 : get_prime_partial_solve_wit_9.

@@ -161,10 +161,10 @@ Proof. Admitted.
 Lemma proof_of_discretize_safety_wit_7 : discretize_safety_wit_7.
 Proof. Admitted. 
 
-Lemma proof_of_discretize_safety_wit_9 : discretize_safety_wit_9.
+Lemma proof_of_discretize_safety_wit_8 : discretize_safety_wit_8.
 Proof. Admitted. 
 
-Lemma proof_of_discretize_return_wit_1 : discretize_return_wit_1.
+Lemma proof_of_discretize_safety_wit_9 : discretize_safety_wit_9.
 Proof. Admitted. 
 
 Lemma proof_of_discretize_partial_solve_wit_1 : discretize_partial_solve_wit_1.
@@ -192,9 +192,6 @@ Lemma proof_of_discretize_partial_solve_wit_7 : discretize_partial_solve_wit_7.
 Proof. Admitted. 
 
 Lemma proof_of_query_forward_safety_wit_1 : query_forward_safety_wit_1.
-Proof. Admitted. 
-
-Lemma proof_of_query_forward_safety_wit_2 : query_forward_safety_wit_2.
 Proof. Admitted. 
 
 Lemma proof_of_query_forward_safety_wit_3 : query_forward_safety_wit_3.
@@ -225,9 +222,6 @@ Lemma proof_of_query_forward_safety_wit_12 : query_forward_safety_wit_12.
 Proof. Admitted. 
 
 Lemma proof_of_query_forward_safety_wit_13 : query_forward_safety_wit_13.
-Proof. Admitted. 
-
-Lemma proof_of_query_forward_return_wit_1 : query_forward_return_wit_1.
 Proof. Admitted. 
 
 Lemma proof_of_query_forward_partial_solve_wit_1 : query_forward_partial_solve_wit_1.

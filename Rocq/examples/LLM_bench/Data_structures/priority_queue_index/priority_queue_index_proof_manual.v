@@ -48,53 +48,14 @@ Qed.
 Lemma proof_of_push_entail_wit_2 : push_entail_wit_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  Exists key_base_2 data_base_2 (key_base_2 ++ (key_x_pre :: nil)).
+  pose proof (push_appended_loop_state__push_initialization S_before key_base data_base n_pre data_x_pre key_x_pre PreH3) as Hloop.
+  pose proof (push_appended_source__push_initialization S_before key_base data_base n_pre data_x_pre key_x_pre PreH3) as Hsource.
+  Exists (key_base ++ key_x_pre :: nil) (data_base ++ data_x_pre :: nil)
+    (key_base ++ key_x_pre :: nil) (data_base ++ data_x_pre :: nil).
   finish_entail.
-  unfold KeyWriteState.
-  split; [exact PreH3 | reflexivity].
-Qed.
-
-Lemma proof_of_push_entail_wit_3_split_goal_1 :
-  push_entail_wit_3_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  unfold KeyWriteState in PreH3.
-  destruct PreH3 as [Hrep Hkey_written].
-  subst key_written_2.
-  eapply
-    (push_appended_loop_state__push_initialization
-      S_before key_base data_base n_pre data_x_pre key_x_pre).
-  exact Hrep.
-Qed.
-
-Lemma proof_of_push_entail_wit_3_split_goal_2 :
-  push_entail_wit_3_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  unfold KeyWriteState in PreH3.
-  destruct PreH3 as [Hrep Hkey_written].
-  subst key_written_2.
-  eapply
-    (push_appended_source__push_initialization
-      S_before key_base data_base n_pre data_x_pre key_x_pre).
-  exact Hrep.
 Qed.
 
 Lemma proof_of_push_entail_wit_3 : push_entail_wit_3.
-Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_push_entail_wit_3_split_goal_1.
-  - Goal_apply proof_of_push_entail_wit_3_split_goal_2.
-Qed.
-
-Lemma proof_of_push_entail_wit_4 : push_entail_wit_4.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists key_written_2 data_written_2 key_written_2 data_written_2.
-  finish_entail.
-Qed.
-
-Lemma proof_of_push_entail_wit_5 : push_entail_wit_5.
 Proof.
   LLM_pre_process ltac:(int_auto).
   pose proof
@@ -108,79 +69,64 @@ Proof.
   auto.
 Qed.
 
-Lemma proof_of_push_entail_wit_6_split_goal_1 :
-  push_entail_wit_6_split_goal_1.
+Lemma proof_of_push_entail_wit_4_split_goal_1 : push_entail_wit_4_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
   eapply push_break_establishes_result__push_sift_up; eauto.
 Qed.
 
-Lemma proof_of_push_entail_wit_6 : push_entail_wit_6.
+Lemma proof_of_push_entail_wit_4 : push_entail_wit_4.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_push_entail_wit_6_split_goal_1.
+  Goal_apply proof_of_push_entail_wit_4_split_goal_1.
 Qed.
 
-Lemma proof_of_push_entail_wit_7 : push_entail_wit_7.
+Lemma proof_of_push_entail_wit_5 : push_entail_wit_5.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  pose proof
-    (push_swap_advances_loop__push_sift_up
-      key_written_2 data_written_2 key_current data_current
-      n_pre child parent data_x_pre key_x_pre
-      PreH11 PreH4 PreH9 PreH1)
+  pose proof (push_swap_advances_loop__push_sift_up
+    key_written_2 data_written_2 key_current_2 data_current_2
+    n_pre child parent data_x_pre key_x_pre PreH11 PreH4 PreH9 PreH1)
     as (Hkey_child & Hdata_child & Hloop).
-  Exists key_written_2 data_written_2
-    (replace_Znth child (Znth parent data_current 0)
-      (replace_Znth parent (Znth child data_current 0) data_current))
-    (replace_Znth child (Znth parent key_current 0)
-      (replace_Znth parent (Znth child key_current 0) key_current)).
+  Exists
+    (replace_Znth child (Znth parent key_current_2 0) (replace_Znth parent (Znth child key_current_2 0) key_current_2))
+    (replace_Znth child (Znth parent data_current_2 0) (replace_Znth parent (Znth child data_current_2 0) data_current_2))
+    key_written_2 data_written_2.
   finish_entail.
 Qed.
 
-Lemma proof_of_push_entail_wit_8 : push_entail_wit_8.
+Lemma proof_of_push_return_wit_1_split_goal_spatial : push_return_wit_1_split_goal_spatial.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  Exists key_current_2 data_current_2 key_written_2 data_written_2.
-  finish_entail.
+  assert (Hchild : child = 0) by lia; subst child.
+  pose proof (push_zero_exit_result__push_finalization S_before key_written data_written key_current data_current n_pre data_x_pre key_x_pre PreH6 PreH7) as Hresult.
+  assert (Hrep : heap_representation (multiset_insert S_before (heap_item key_x_pre data_x_pre)) key_current data_current (n_pre+1)).
+  { apply push_result_representation__push_finalization; assumption. }
+  sep_apply (concrete_arrays_to_store_heap__build_finalization key_pre data_pre
+    (multiset_insert S_before (heap_item key_x_pre data_x_pre)) key_current data_current (n_pre+1) ltac:(lia) Hrep).
+  entailer!.
 Qed.
 
-Lemma proof_of_push_entail_wit_9_1_split_goal_1 :
-  push_entail_wit_9_1_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  assert (Hchild_zero : child = 0) by lia.
-  subst child.
-  eapply push_zero_exit_result__push_finalization; eauto.
-Qed.
-
-Lemma proof_of_push_entail_wit_9_1 : push_entail_wit_9_1.
+Lemma proof_of_push_return_wit_1 : push_return_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_push_entail_wit_9_1_split_goal_1.
+  Goal_apply proof_of_push_return_wit_1_split_goal_spatial.
 Qed.
 
-Lemma proof_of_push_entail_wit_10_split_goal_spatial :
-  push_entail_wit_10_split_goal_spatial.
+Lemma proof_of_push_return_wit_2_split_goal_spatial : push_return_wit_2_split_goal_spatial.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  pose proof
-    (push_result_representation__push_finalization
-      S_before key_result data_result n_pre data_x_pre key_x_pre
-      PreH2 PreH6) as Hrepresentation.
-  unfold store_heap.
-  Exists key_result data_result.
-  sep_apply_l_atomic
-    (undef_seg_to_heap_tail key_pre (n_pre + 1) ltac:(lia)).
-  sep_apply_l_atomic
-    (undef_seg_to_heap_tail data_pre (n_pre + 1) ltac:(lia)).
-  finish_entail.
+  assert (Hrep : heap_representation (multiset_insert S_before (heap_item key_x_pre data_x_pre)) key_current data_current (n_pre+1)).
+  { apply push_result_representation__push_finalization; assumption. }
+  sep_apply (concrete_arrays_to_store_heap__build_finalization key_pre data_pre
+    (multiset_insert S_before (heap_item key_x_pre data_x_pre)) key_current data_current (n_pre+1) ltac:(lia) Hrep).
+  entailer!.
 Qed.
 
-Lemma proof_of_push_entail_wit_10 : push_entail_wit_10.
+Lemma proof_of_push_return_wit_2 : push_return_wit_2.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_push_entail_wit_10_split_goal_spatial.
+  Goal_apply proof_of_push_return_wit_2_split_goal_spatial.
 Qed.
 
 Lemma proof_of_build_entail_wit_1 : build_entail_wit_1.
@@ -247,7 +193,8 @@ Proof.
   Exists
     (key_prefix ++ (Znth i key_input 0 :: nil))
     (data_prefix ++ (Znth i data_input 0 :: nil))
-    key_prefix data_prefix S_prefix_2.
+    (key_prefix ++ (Znth i key_input 0 :: nil))
+    (data_prefix ++ (Znth i data_input 0 :: nil)) S_prefix_2.
   sep_apply
     (build_append_next_cell__build_progress
       key_pre i n_pre key_prefix key_input);
@@ -264,14 +211,6 @@ Qed.
 Lemma proof_of_build_entail_wit_3 : build_entail_wit_3.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  Exists key_written_2 data_written_2
-    key_written_2 data_written_2 S_prefix_2.
-  finish_entail.
-Qed.
-
-Lemma proof_of_build_entail_wit_4 : build_entail_wit_4.
-Proof.
-  LLM_pre_process ltac:(int_auto).
   pose proof
     (heap_parent_positive_bounds__push_sift_up
       child i ltac:(lia) ltac:(lia))
@@ -284,7 +223,7 @@ Proof.
   auto.
 Qed.
 
-Lemma proof_of_build_entail_wit_5 : build_entail_wit_5.
+Lemma proof_of_build_entail_wit_4 : build_entail_wit_4.
 Proof.
   LLM_pre_process ltac:(int_auto).
   Exists data_current_2 key_written_2
@@ -293,73 +232,42 @@ Proof.
     try (eapply push_break_establishes_result__push_sift_up; eauto).
 Qed.
 
-Lemma proof_of_build_entail_wit_6 : build_entail_wit_6.
+Lemma proof_of_build_entail_wit_5 : build_entail_wit_5.
 Proof.
   LLM_pre_process ltac:(int_auto).
   pose proof
     (push_swap_advances_loop__push_sift_up
-      key_written_2 data_written_2 key_current data_current
+      key_written_2 data_written_2 key_current_2 data_current_2
       i child parent data_x key_x
       PreH18 PreH8 PreH13 PreH1)
     as (Hkey_child & Hdata_child & Hloop).
-  Exists key_written_2 data_written_2 S_prefix_2
-    (replace_Znth child (Znth parent data_current 0)
-      (replace_Znth parent (Znth child data_current 0) data_current))
-    (replace_Znth child (Znth parent key_current 0)
-      (replace_Znth parent (Znth child key_current 0) key_current)).
-  finish_entail.
-Qed.
-
-Lemma proof_of_build_entail_wit_7 : build_entail_wit_7.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists key_current_2 data_current_2
+  Exists
+    (replace_Znth child (Znth parent key_current_2 0) (replace_Znth parent (Znth child key_current_2 0) key_current_2))
+    (replace_Znth child (Znth parent data_current_2 0) (replace_Znth parent (Znth child data_current_2 0) data_current_2))
     key_written_2 data_written_2 S_prefix_2.
   finish_entail.
 Qed.
 
-Lemma proof_of_build_entail_wit_8_1 : build_entail_wit_8_1.
+Lemma proof_of_build_entail_wit_6_1 : build_entail_wit_6_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  assert (Hchild_zero : child = 0) by lia.
-  subst child.
-  pose proof
-    (push_zero_exit_result__push_finalization
-      S_prefix_2 key_written_2 data_written_2
-      key_current data_current i data_x key_x
-      PreH13 PreH14)
-    as Hresult.
-  Exists key_current data_current
-    key_written_2 data_written_2 S_prefix_2.
+  assert (Hchild : child = 0) by lia; subst child.
+  pose proof (push_zero_exit_result__push_finalization S_prefix_2 key_written data_written key_current data_current i data_x key_x PreH13 PreH14) as Hresult.
+  pose proof (push_result_representation__push_finalization S_prefix_2 key_current data_current i data_x key_x ltac:(lia) Hresult) as Hrep.
+  assert (Hprefix : BuildPrefixState (multiset_insert S_prefix_2 (heap_item key_x data_x)) key_input data_input (i+1)).
+  { eapply build_prefix_extend__build_progress; eauto; lia. }
+  Exists key_current data_current (multiset_insert S_prefix_2 (heap_item key_x data_x)).
   finish_entail.
 Qed.
 
-Lemma proof_of_build_entail_wit_8_2 : build_entail_wit_8_2.
+Lemma proof_of_build_entail_wit_6_2 : build_entail_wit_6_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  Exists key_current data_current
-    key_written_2 data_written_2 S_prefix_2.
-  finish_entail.
-Qed.
-
-Lemma proof_of_build_entail_wit_9 : build_entail_wit_9.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  pose proof
-    (push_result_representation__push_finalization
-      S_prefix_2 key_result_2 data_result_2
-      i data_x key_x ltac:(lia) PreH11)
-    as Hrepresentation.
-  Exists key_result_2 data_result_2 S_prefix_2.
-  finish_entail.
-  eapply build_prefix_extend__build_progress; eauto; lia.
-Qed.
-
-Lemma proof_of_build_entail_wit_10 : build_entail_wit_10.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists key_result data_result
-    (multiset_insert S_prefix_2 (heap_item key_x data_x)).
+  pose proof PreH18 as Hresult.
+  pose proof (push_result_representation__push_finalization S_prefix_2 key_current data_current i data_x key_x ltac:(lia) Hresult) as Hrep.
+  assert (Hprefix : BuildPrefixState (multiset_insert S_prefix_2 (heap_item key_x data_x)) key_input data_input (i+1)).
+  { eapply build_prefix_extend__build_progress; eauto; lia. }
+  Exists key_current data_current (multiset_insert S_prefix_2 (heap_item key_x data_x)).
   finish_entail.
 Qed.
 
@@ -375,8 +283,7 @@ Proof.
     unfold heap_capacity; lia.
 Qed.
 
-Lemma proof_of_build_entail_wit_11_1_split_goal_spatial :
-  build_entail_wit_11_1_split_goal_spatial.
+Lemma proof_of_build_return_wit_1_split_goal_spatial : build_return_wit_1_split_goal_spatial.
 Proof.
   LLM_pre_process ltac:(int_auto).
   subst n_pre.
@@ -402,14 +309,13 @@ Proof.
     apply Permutation_refl.
 Qed.
 
-Lemma proof_of_build_entail_wit_11_1 : build_entail_wit_11_1.
+Lemma proof_of_build_return_wit_1 : build_return_wit_1.
 Proof.
   left.
-  Goal_apply proof_of_build_entail_wit_11_1_split_goal_spatial.
+  Goal_apply proof_of_build_return_wit_1_split_goal_spatial.
 Qed.
 
-Lemma proof_of_build_entail_wit_11_2_split_goal_spatial :
-  build_entail_wit_11_2_split_goal_spatial.
+Lemma proof_of_build_return_wit_2_split_goal_spatial : build_return_wit_2_split_goal_spatial.
 Proof.
   LLM_pre_process ltac:(int_auto).
   assert (Hi : i = n_pre) by lia.
@@ -435,10 +341,10 @@ Proof.
   entailer!.
 Qed.
 
-Lemma proof_of_build_entail_wit_11_2 : build_entail_wit_11_2.
+Lemma proof_of_build_return_wit_2 : build_return_wit_2.
 Proof.
   right.
-  Goal_apply proof_of_build_entail_wit_11_2_split_goal_spatial.
+  Goal_apply proof_of_build_return_wit_2_split_goal_spatial.
 Qed.
 
 Lemma proof_of_pop_entail_wit_1 : pop_entail_wit_1.
@@ -537,15 +443,7 @@ Proof.
   finish_entail.
 Qed.
 
-Lemma proof_of_pop_entail_wit_7 : pop_entail_wit_7.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists current_key_2 current_data_2
-    before_key_2 before_data_2 popped_2.
-  finish_entail.
-Qed.
-
-Lemma proof_of_pop_entail_wit_8_1 : pop_entail_wit_8_1.
+Lemma proof_of_pop_entail_wit_7_1 : pop_entail_wit_7_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
   Exists current_data_2 before_key_2 before_data_2
@@ -562,7 +460,7 @@ Proof.
     exact PreH1.
 Qed.
 
-Lemma proof_of_pop_entail_wit_8_2 : pop_entail_wit_8_2.
+Lemma proof_of_pop_entail_wit_7_2 : pop_entail_wit_7_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
   Exists current_data_2 before_key_2 before_data_2
@@ -575,7 +473,7 @@ Proof.
   - left. unfold heap_right_child. lia.
 Qed.
 
-Lemma proof_of_pop_entail_wit_8_3 : pop_entail_wit_8_3.
+Lemma proof_of_pop_entail_wit_7_3 : pop_entail_wit_7_3.
 Proof.
   LLM_pre_process ltac:(int_auto).
   Exists current_data_2 before_key_2 before_data_2
@@ -591,7 +489,7 @@ Proof.
     lia.
 Qed.
 
-Lemma proof_of_pop_entail_wit_9 : pop_entail_wit_9.
+Lemma proof_of_pop_entail_wit_8 : pop_entail_wit_8.
 Proof.
   LLM_pre_process ltac:(int_auto).
   Exists current_data_2 before_key_2 before_data_2
@@ -620,7 +518,7 @@ Proof.
     finish_entail.
 Qed.
 
-Lemma proof_of_pop_entail_wit_10 : pop_entail_wit_10.
+Lemma proof_of_pop_entail_wit_9 : pop_entail_wit_9.
 Proof.
   LLM_pre_process ltac:(int_auto).
   pose proof PreH12 as Hselected.
@@ -631,7 +529,7 @@ Proof.
      Hselected_parent & Hselected_choice & Hselected_dominates).
   pose proof
     (pop_next_index_arithmetic__pop_swap_transition
-      current_key (n_pre - 1) idx smallest
+      current_key_2 (n_pre - 1) idx smallest
       PreH6 PreH11 Hselected_choice)
     as (Hleft_nonnegative & Hleft_bound &
         Hright_nonnegative & Hright_bound).
@@ -641,68 +539,40 @@ Proof.
     Hright_nonnegative, Hright_bound.
   pose proof
     (pop_swap_advances_loop__pop_swap_transition
-      before_key_2 before_data_2 current_key current_data
+      before_key_2 before_data_2 current_key_2 current_data_2
       n_pre idx smallest PreH16 PreH12 PreH1)
     as (Hkey_read & Hdata_read & Hloop).
-  Exists before_key_2 before_data_2
-    (replace_Znth smallest (Znth idx current_data 0)
-      (replace_Znth idx (Znth smallest current_data 0)
-        current_data))
-    (replace_Znth smallest (Znth idx current_key 0)
-      (replace_Znth idx (Znth smallest current_key 0)
-        current_key))
-    popped_2.
-  finish_entail.
-Qed.
-
-Lemma proof_of_pop_entail_wit_11 : pop_entail_wit_11.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists current_key_2 current_data_2
+  Exists
+    (replace_Znth smallest (Znth idx current_key_2 0) (replace_Znth idx (Znth smallest current_key_2 0) current_key_2))
+    (replace_Znth smallest (Znth idx current_data_2 0) (replace_Znth idx (Znth smallest current_data_2 0) current_data_2))
     before_key_2 before_data_2 popped_2.
-  finish_entail.
-  unfold heap_capacity in *.
-  lia.
+  finish_entail; unfold heap_capacity in *; lia.
 Qed.
 
-Lemma proof_of_pop_entail_wit_12_1 : pop_entail_wit_12_1.
+Lemma proof_of_pop_return_wit_1 : pop_return_wit_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  Exists current_key_2 current_data_2
-    before_key_2 before_data_2 popped_2.
-  finish_entail.
-  eapply pop_leaf_ready__pop_ready_exit; eauto.
-Qed.
-
-Lemma proof_of_pop_entail_wit_12_2 : pop_entail_wit_12_2.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists current_key_2 current_data_2
-    before_key_2 before_data_2 popped_2.
-  finish_entail.
-Qed.
-
-Lemma proof_of_pop_entail_wit_13 : pop_entail_wit_13.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists current_key current_data before_key_2 before_data_2 popped_2.
-  finish_entail.
-  eapply pop_ready_write_result__pop_finalization; eauto.
-Qed.
-
-Lemma proof_of_pop_entail_wit_14 : pop_entail_wit_14.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  sep_apply_l_atomic
-    (pop_result_store_retired_pair__pop_finalization
-      key_pre data_pre S_before before_key before_data
-      result_key_values result_data_values n_pre popped_2
-      PreH4 PreH10).
-  Exists popped_2.
+  assert (Hready : PopReadyState before_key before_data current_key current_data n_pre popped_2).
+  { eapply pop_leaf_ready__pop_ready_exit; [exact PreH11 | exact PreH13 | unfold heap_left_child; lia]. }
+  assert (Hresult : PopResult S_before before_key before_data current_key current_data n_pre popped_2).
+  { eapply pop_ready_write_result__pop_finalization; eauto. }
+  sep_apply_l_atomic (pop_result_store_retired_pair__pop_finalization key_pre data_pre S_before before_key before_data current_key current_data n_pre popped_2 ltac:(lia) Hresult).
+  Exists result_data popped_2 result_key.
   finish_entail.
 Qed.
 
 Lemma proof_of_pop_return_wit_2 : pop_return_wit_2.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  pose proof PreH20 as Hready.
+  assert (Hresult : PopResult S_before before_key before_data current_key current_data n_pre popped_2).
+  { eapply pop_ready_write_result__pop_finalization; eauto. }
+  sep_apply_l_atomic (pop_result_store_retired_pair__pop_finalization key_pre data_pre S_before before_key before_data current_key current_data n_pre popped_2 ltac:(lia) Hresult).
+  Exists result_data popped_2 result_key.
+  finish_entail.
+Qed.
+
+Lemma proof_of_pop_return_wit_3 : pop_return_wit_3.
 Proof.
   LLM_pre_process ltac:(int_auto).
   Exists result_data popped_2 result_key.

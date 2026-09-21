@@ -21,25 +21,21 @@ Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.sieve_of_eratosthenes.sieve_of_eratosthenes_lib.
 Local Open Scope sac.
 
-Lemma proof_of_solve_entail_wit_1_split_goal_1 :
-  solve_entail_wit_1_split_goal_1.
+Lemma proof_of_solve_entail_wit_1_split_goal_1 : solve_entail_wit_1_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
-
-  eapply SieveInitPrefix_start__sieve_invariants; eauto.
+  eapply SieveInitPrefix_start__sieve_invariants; eauto; lia.
 Qed.
 
 Lemma proof_of_solve_entail_wit_1 : solve_entail_wit_1.
 Proof.
   aggressive_pre_process.
   Goal_apply proof_of_solve_entail_wit_1_split_goal_1.
-Qed.
+Qed. 
 
-Lemma proof_of_solve_entail_wit_2_split_goal_1 :
-  solve_entail_wit_2_split_goal_1.
+Lemma proof_of_solve_entail_wit_2_split_goal_1 : solve_entail_wit_2_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
-
   eapply SieveInitPrefix_step__sieve_invariants; eauto; lia.
 Qed.
 
@@ -47,13 +43,11 @@ Lemma proof_of_solve_entail_wit_2 : solve_entail_wit_2.
 Proof.
   aggressive_pre_process.
   Goal_apply proof_of_solve_entail_wit_2_split_goal_1.
-Qed.
+Qed. 
 
-Lemma proof_of_solve_entail_wit_3_split_goal_1 :
-  solve_entail_wit_3_split_goal_1.
+Lemma proof_of_solve_entail_wit_3_split_goal_1 : solve_entail_wit_3_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
-
   eapply SieveInitPrefix_finish__sieve_invariants; eauto; lia.
 Qed.
 
@@ -61,76 +55,65 @@ Lemma proof_of_solve_entail_wit_3 : solve_entail_wit_3.
 Proof.
   aggressive_pre_process.
   Goal_apply proof_of_solve_entail_wit_3_split_goal_1.
-Qed.
+Qed. 
 
-Lemma proof_of_solve_entail_wit_5_split_goal_1 :
-  solve_entail_wit_5_split_goal_1.
+Lemma proof_of_solve_entail_wit_4_split_goal_1 : solve_entail_wit_4_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
-
   eapply SieveStage_mark_start__sieve_invariants; eauto; lia.
+Qed.
+
+Lemma proof_of_solve_entail_wit_4 : solve_entail_wit_4.
+Proof.
+  aggressive_pre_process.
+  Goal_apply proof_of_solve_entail_wit_4_split_goal_1.
+Qed. 
+
+Lemma proof_of_solve_entail_wit_5_split_goal_1 : solve_entail_wit_5_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  eapply SieveMarkState_step__sieve_invariants; eauto; lia.
 Qed.
 
 Lemma proof_of_solve_entail_wit_5 : solve_entail_wit_5.
 Proof.
   aggressive_pre_process.
   Goal_apply proof_of_solve_entail_wit_5_split_goal_1.
-Qed.
+Qed. 
 
-Lemma proof_of_solve_entail_wit_6_split_goal_1 :
-  solve_entail_wit_6_split_goal_1.
+Lemma proof_of_solve_entail_wit_6_1_split_goal_1 : solve_entail_wit_6_1_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
-
-  eapply SieveMarkState_step__sieve_invariants; eauto; lia.
-Qed.
-
-Lemma proof_of_solve_entail_wit_6 : solve_entail_wit_6.
-Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_solve_entail_wit_6_split_goal_1.
-Qed.
-
-Lemma proof_of_solve_entail_wit_7_split_goal_1 :
-  solve_entail_wit_7_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-
   eapply SieveMarkState_finish__sieve_invariants; eauto; lia.
 Qed.
 
-Lemma proof_of_solve_entail_wit_7 : solve_entail_wit_7.
+Lemma proof_of_solve_entail_wit_6_1 : solve_entail_wit_6_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_solve_entail_wit_7_split_goal_1.
-Qed.
+  Goal_apply proof_of_solve_entail_wit_6_1_split_goal_1.
+Qed. 
 
-Lemma proof_of_solve_entail_wit_8_2_split_goal_1 : solve_entail_wit_8_2_split_goal_1.
+Lemma proof_of_solve_entail_wit_6_2_split_goal_1 : solve_entail_wit_6_2_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
   eapply SieveStage_skip_composite__sieve_invariants; eauto; lia.
 Qed.
 
-Lemma proof_of_solve_entail_wit_8_2 : solve_entail_wit_8_2.
+Lemma proof_of_solve_entail_wit_6_2 : solve_entail_wit_6_2.
+Proof.
+  aggressive_pre_process.
+  Goal_apply proof_of_solve_entail_wit_6_2_split_goal_1.
+Qed. 
+
+Lemma proof_of_solve_return_wit_1_split_goal_1 : solve_return_wit_1_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  Exists current_2.
-  split_pure_spatial.
-  - cancel (IntArray.seg f_pre 1 (n_pre + 1) current_2).
-  - split_pures; dump_pre_spatial; try lia; try assumption.
-    eapply SieveStage_skip_composite__sieve_invariants; eauto; lia.
-Qed.
-
-Lemma proof_of_solve_entail_wit_10_split_goal_1 :
-  solve_entail_wit_10_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-
   eapply SieveStage_implies_PrimeIndicatorList; eauto; lia.
 Qed.
 
-Lemma proof_of_solve_entail_wit_10 : solve_entail_wit_10.
+Lemma proof_of_solve_return_wit_1 : solve_return_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_solve_entail_wit_10_split_goal_1.
-Qed.
+  Goal_apply proof_of_solve_return_wit_1_split_goal_1.
+Qed. 
+

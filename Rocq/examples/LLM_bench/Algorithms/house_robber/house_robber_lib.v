@@ -8,6 +8,8 @@ Import ListNotations.
 Local Open Scope Z_scope.
 Local Open Scope list_scope.
 
+(* These bounds define the mathematical candidate domain: indices in a
+   prefix of the input. Machine limits and input value bounds belong in C. *)
 Definition NonAdjacentIndexList (limit : Z) (picks : list Z) : Prop :=
   0 <= limit /\
   NoDup picks /\
@@ -41,7 +43,6 @@ Definition HouseRobberAnswer (l : list Z) (answer : Z) : Prop :=
 
 Definition HouseRobberDPState
     (l : list Z) (i prev2 prev1 : Z) : Prop :=
-  0 <= i <= Zlength l /\
   RobPrefixOpt l i prev1 /\
   ((i = 0 /\ prev2 = 0) \/
    (0 < i /\ RobPrefixOpt l (i - 1) prev2)).
@@ -381,7 +382,7 @@ Lemma rob_prefix_step_take :
 Proof.
   intros l i prev2 prev1 Hi_range Hstate Htake_gt.
   unfold HouseRobberDPState in Hstate.
-  destruct Hstate as [Hi_state [Hopt_i Hprev2_case]].
+  destruct Hstate as [Hopt_i Hprev2_case].
   apply rob_prefix_opt_intro.
   - destruct Hprev2_case as [[Hi_zero Hprev2_zero] | [Hi_pos Hopt_prev2]].
     + subst i prev2.
@@ -464,8 +465,7 @@ Proof.
   intros l n i prev2 prev1 Hlen Hi_nonneg Hi_lt Hstate Htake.
   pose proof Hstate as Hstate_orig.
   unfold HouseRobberDPState in *.
-  destruct Hstate as [Hi_state [Hopt_i Hprev2_case]].
-  split; [lia |].
+  destruct Hstate as [Hopt_i Hprev2_case].
   split.
   - apply (rob_prefix_step_take l i prev2 prev1); auto; lia.
   - right.
@@ -486,7 +486,7 @@ Lemma house_robber_take_value_bound :
 Proof.
   intros l n i prev2 prev1 Hlen Hn_bound Hrange Hi_nonneg Hi_lt Hstate.
   unfold HouseRobberDPState in Hstate.
-  destruct Hstate as [_ [_ Hprev2_case]].
+  destruct Hstate as [_ Hprev2_case].
   pose proof (Hrange i ltac:(lia)) as [_ Hcurrent_bound].
   destruct Hprev2_case as [[Hi_zero Hprev2_zero] | [Hi_pos Hopt_prev2]].
   - subst; lia.
@@ -691,8 +691,8 @@ Lemma HouseRobberDPState_skip_step :
 Proof.
   intros l i prev2 prev1 Hstate Hskip Hlen.
   unfold HouseRobberDPState in *.
-  destruct Hstate as [Hrange [Hcur Hprev]].
-  split; [lia | split].
+  destruct Hstate as [Hcur Hprev].
+  split.
   - eapply RobPrefixOpt_step_skip; eauto.
   - right.
     split; [lia |].

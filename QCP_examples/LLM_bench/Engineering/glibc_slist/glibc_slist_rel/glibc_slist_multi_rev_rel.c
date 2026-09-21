@@ -52,8 +52,6 @@ struct list *glibc_slist_clean_multi_rev(struct list *x, struct list *y)
     out = 0;
     /*@ safeExec(ATrue, bind(rev_append_local_M(l1, nil), rev_append_local_M(l2)), X) && sll(x, l1) * sll(out, nil) * sll(y, l2) */
     out = rev_append_local(x, out) /*@ where(low_level_spec_aux) X = X; B = (list Z) */;
-    /*@ exists l3, safeExec(ATrue, rev_append_local_M(l2, l3), X) && sll(out, l3) * sll(y, l2) */
     out = rev_append_local(y, out) /*@ where(low_level_spec) X = X */;
-    /*@ exists l4, safeExec(ATrue, return(l4), X) && sll(out, l4) */
     return out;
 }

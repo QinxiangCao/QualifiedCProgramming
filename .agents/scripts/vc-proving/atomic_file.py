@@ -84,9 +84,9 @@ def atomic_copy_file(
     )
     temporary = Path(temporary_name)
     try:
-        with source.open("rb") as source_handle, os.fdopen(
-            descriptor, "wb"
-        ) as destination_handle:
+        with os.fdopen(descriptor, "wb") as destination_handle, source.open(
+            "rb"
+        ) as source_handle:
             shutil.copyfileobj(source_handle, destination_handle)
             destination_handle.flush()
             os.fsync(destination_handle.fileno())

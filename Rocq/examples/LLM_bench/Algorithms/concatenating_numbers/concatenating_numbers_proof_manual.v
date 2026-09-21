@@ -21,12 +21,62 @@ Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.concatenating_numbers.concatenating_numbers_lib.
 Local Open Scope sac.
 
+
+Ltac annotation_wf :=
+  first [assumption |
+    apply (proj2 (RowsWellFormed_explicit__annotation _ _ _ _));
+      repeat split; assumption |
+    match goal with
+    | H : PairedPermutation ?r0 ?r1 ?l0 ?l1 |- RowsWellFormed ?r1 ?l1 ?c ?w =>
+      let Hw := fresh "Hwf_source" in
+      assert (Hw : RowsWellFormed r0 l0 c w) by annotation_wf;
+      exact (proj1 (RowsWellFormed_permutation__annotation r0 r1 l0 l1 c w Hw H))
+    end].
+
+Ltac annotation_domains :=
+  repeat match goal with
+  | H : PairedPermutation _ _ _ _ |- _ =>
+    let E := fresh "Hsum" in
+    pose proof (sum_permutation__scan_advance _ _
+      (proj1 (proj2 (PairedPermutation_projections__annotation _ _ _ _ H)))) as E;
+    revert H
+  end; intros;
+  repeat match goal with
+  | H : RowsWellFormed _ _ _ _ |- _ =>
+    let E := fresh "Hdomain" in
+    pose proof (proj1 (RowsWellFormed_explicit__annotation _ _ _ _) H) as E;
+    repeat match type of E with
+    | _ /\ _ => let E1 := fresh "Hdomain" in destruct E as [E1 E]
+    end;
+    revert H
+  end; intros.
+
+Ltac annotation_fact :=
+  first [assumption | annotation_wf |
+    solve [annotation_domains; auto; try lia; try nia] ].
+Lemma proof_of_concatenating_numbers_entail_wit_1 : concatenating_numbers_entail_wit_1.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  assert (Hwidth : Forall (fun row : list Z => Zlength row = number_width_pre) rows).
+  { apply decimal_rows_lengths_from_map. assumption. }
+  subst flat.
+  sep_apply (decimal_rows_flatten rows numbers_pre count_pre number_width_pre ltac:(lia) ltac:(lia)).
+  split_pure_spatial.
+  - repeat cancel; try apply derivable1_refl.
+  - split_pures; dump_pre_spatial; try assumption; try lia.
+    unfold FlatRows. split.
+    + rewrite decimal_rows_flat_length with (width := number_width_pre) by exact Hwidth. lia.
+    + split; [assumption |]. intros k Hk.
+      apply decimal_rows_flat_row; try assumption; lia.
+Qed.
+
 Lemma proof_of_quicksort_numbers_safety_wit_6_split_goal_1 : quicksort_numbers_safety_wit_6_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (old_PreH18 : (RowsWellFormed rows1 lens1 count_pre number_width_pre )) by annotation_fact.
   dump_pre_spatial.
-  unfold RowsWellFormed in PreH18.
-  destruct PreH18 as [_ [_ Hbounds]].
+  unfold RowsWellFormed in old_PreH18.
+  destruct old_PreH18 as [_ [_ Hbounds]].
   pose proof (Hbounds scan ltac:(lia)) as Hscan.
   destruct Hscan as [_ [Hscan_length _]].
   lia.
@@ -35,9 +85,10 @@ Qed.
 Lemma proof_of_quicksort_numbers_safety_wit_6_split_goal_2 : quicksort_numbers_safety_wit_6_split_goal_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (old_PreH18 : (RowsWellFormed rows1 lens1 count_pre number_width_pre )) by annotation_fact.
   dump_pre_spatial.
-  unfold RowsWellFormed in PreH18.
-  destruct PreH18 as [_ [_ Hbounds]].
+  unfold RowsWellFormed in old_PreH18.
+  destruct old_PreH18 as [_ [_ Hbounds]].
   pose proof (Hbounds scan ltac:(lia)) as Hscan.
   destruct Hscan as [_ [Hscan_length _]].
   lia.
@@ -48,39 +99,41 @@ Proof.
   aggressive_pre_process.
   Goal_apply proof_of_quicksort_numbers_safety_wit_6_split_goal_1.
   Goal_apply proof_of_quicksort_numbers_safety_wit_6_split_goal_2.
-Qed. 
+Qed.
 
 Lemma proof_of_quicksort_numbers_safety_wit_19_split_goal_1 : quicksort_numbers_safety_wit_19_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (old_PreH27 : (RowsWellFormed rows1 lens1 count_pre number_width_pre )) by annotation_fact.
   dump_pre_spatial.
   subst left_digit.
   subst right_digit.
   pose proof
     (concat_left_digit_bounds__safety_arithmetic
        rows1 lens1 count_pre number_width_pre scan high_pre position
-       PreH27 ltac:(lia) ltac:(lia) ltac:(lia)) as Hleft.
+       old_PreH27 ltac:(lia) ltac:(lia) ltac:(lia)) as Hleft.
   pose proof
     (concat_right_digit_bounds__safety_arithmetic
        rows1 lens1 count_pre number_width_pre scan high_pre position
-       PreH27 ltac:(lia) ltac:(lia) ltac:(lia)) as Hright.
+       old_PreH27 ltac:(lia) ltac:(lia) ltac:(lia)) as Hright.
   lia.
 Qed.
 
 Lemma proof_of_quicksort_numbers_safety_wit_19_split_goal_2 : quicksort_numbers_safety_wit_19_split_goal_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (old_PreH27 : (RowsWellFormed rows1 lens1 count_pre number_width_pre )) by annotation_fact.
   dump_pre_spatial.
   subst left_digit.
   subst right_digit.
   pose proof
     (concat_left_digit_bounds__safety_arithmetic
        rows1 lens1 count_pre number_width_pre scan high_pre position
-       PreH27 ltac:(lia) ltac:(lia) ltac:(lia)) as Hleft.
+       old_PreH27 ltac:(lia) ltac:(lia) ltac:(lia)) as Hleft.
   pose proof
     (concat_right_digit_bounds__safety_arithmetic
        rows1 lens1 count_pre number_width_pre scan high_pre position
-       PreH27 ltac:(lia) ltac:(lia) ltac:(lia)) as Hright.
+       old_PreH27 ltac:(lia) ltac:(lia) ltac:(lia)) as Hright.
   lia.
 Qed.
 
@@ -89,12 +142,13 @@ Proof.
   aggressive_pre_process.
   Goal_apply proof_of_quicksort_numbers_safety_wit_19_split_goal_1.
   Goal_apply proof_of_quicksort_numbers_safety_wit_19_split_goal_2.
-Qed. 
+Qed.
 
 Lemma proof_of_quicksort_numbers_entail_wit_1 : quicksort_numbers_entail_wit_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  pose proof PreH14 as Hwf.
+  assert (old_PreH14 : (RowsWellFormed rows lens count_pre number_width_pre )) by annotation_fact.
+  pose proof old_PreH14 as Hwf.
   unfold RowsWellFormed in Hwf.
   destruct Hwf as [Hrows [Hlens Hentries]].
   specialize (Hentries high_pre ltac:(lia)).
@@ -106,13 +160,14 @@ Proof.
   Exists flat rows lens.
   split_pure_spatial.
   - repeat cancel.
-  - split_pures; dump_pre_spatial; auto; try lia; try exact Hscan.
-Qed. 
+  - split_pures; dump_pre_spatial; auto; try annotation_fact; try exact Hscan.
+Qed.
 
 Lemma proof_of_quicksort_numbers_entail_wit_2 : quicksort_numbers_entail_wit_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  pose proof PreH18 as Hwf.
+  assert (old_PreH18 : (RowsWellFormed rows1_2 lens1 count_pre number_width_pre )) by annotation_fact.
+  pose proof old_PreH18 as Hwf.
   unfold RowsWellFormed in Hwf.
   destruct Hwf as [_ [_ Hentries]].
   specialize (Hentries scan ltac:(lia)).
@@ -124,246 +179,142 @@ Proof.
   split_pure_spatial.
   - cancel (IntArray.full numbers_pre (count_pre * number_width_pre) flat1_2).
     cancel (IntArray.full lengths_pre count_pre lens1).
-  - split_pures; dump_pre_spatial; auto; try lia.
-Qed. 
-
-Lemma proof_of_quicksort_numbers_entail_wit_4_split_goal_1 : quicksort_numbers_entail_wit_4_split_goal_1.
-Proof.
-  unfold quicksort_numbers_entail_wit_4_split_goal_1.
-  intros high_v low_v width_v count_v lens_v rows_v flat_v rows1_v
-    position_v comparison_v total_v current_v lens1_v pivot_v scan_v
-    boundary_v.
-  intros PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-    PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
-    PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
-    PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
-    PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
-    PreH51 PreH52 PreH53 PreH54.
-  assert (Hbound : scan_v * width_v + position_v < count_v * width_v).
-  { apply Z.lt_le_trans with ((scan_v + 1) * width_v).
-    - rewrite Z.mul_add_distr_r.
-      rewrite Z.mul_1_l.
-      apply Z.add_lt_mono_l.
-      exact PreH6.
-    - apply Z.mul_le_mono_nonneg_r.
-       + clear - PreH29. lia.
-       + clear - PreH33 PreH37. lia. }
-  exact Hbound.
+  - split_pures; dump_pre_spatial; auto; try annotation_fact.
 Qed.
 
-Lemma proof_of_quicksort_numbers_entail_wit_4 : quicksort_numbers_entail_wit_4.
+Lemma proof_of_quicksort_numbers_entail_wit_3_1 : quicksort_numbers_entail_wit_3_1.
 Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_quicksort_numbers_entail_wit_4_split_goal_1.
-Qed. 
-
-Lemma proof_of_quicksort_numbers_entail_wit_6_split_goal_1 : quicksort_numbers_entail_wit_6_split_goal_1.
-Proof.
-  unfold quicksort_numbers_entail_wit_6_split_goal_1.
-  intros high_v low_v width_v count_v lens_v rows_v flat_v rows1_v
-    position_v comparison_v total_v current_v lens1_v pivot_v scan_v
-    boundary_v.
-  intros PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-    PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
-    PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
-    PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
-    PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
-    PreH51 PreH52 PreH53 PreH54.
-  apply Z.lt_le_trans with ((high_v + 1) * width_v).
-  - rewrite Z.mul_add_distr_r.
-    rewrite Z.mul_1_l.
-    apply Z.add_lt_mono_l.
-    exact PreH8.
-  - apply Z.mul_le_mono_nonneg_r.
-    + clear - PreH29. lia.
-    + clear - PreH33. lia.
-Qed.
-
-Lemma proof_of_quicksort_numbers_entail_wit_6 : quicksort_numbers_entail_wit_6.
-Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_quicksort_numbers_entail_wit_6_split_goal_1.
-Qed. 
-
-Lemma proof_of_quicksort_numbers_entail_wit_7_1 : quicksort_numbers_entail_wit_7_1.
-Proof.
-  left.
-  intros high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre
-    lens rows flat1 rows1_2 position comparison total_length current_length
-    lens1_2 pivot_length scan boundary.
-  intros PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-    PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
-    PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
-    PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
-    PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
-    PreH51 PreH52.
+  LLM_pre_process ltac:(int_auto).
+  assert (old_PreH39 : (current_length = (Znth (scan) (lens1_2) (0)))) by annotation_fact.
+  assert (old_PreH48 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH52 : (FlatRows flat1 rows1_2 count_pre number_width_pre )) by annotation_fact.
   assert (Hdigit :
     Znth (scan * number_width_pre + position) flat1 0 =
     ConcatLeftDigit rows1_2 lens1_2 scan high_pre position).
   { rewrite (FlatRows_Znth__compare_left_digit
       flat1 rows1_2 count_pre number_width_pre scan position)
-      by (try exact PreH52; lia).
+      by (try exact old_PreH52; lia).
     symmetry.
     eapply ConcatLeftDigit_first__compare_left_digit.
-    - exact PreH48.
+    - exact old_PreH48.
     - lia.
-    - rewrite <- PreH39; lia. }
+    - rewrite <- old_PreH39; lia. }
   Exists flat1 rows1_2 lens1_2.
   split_pure_spatial.
   - repeat cancel.
-  - split_pures; dump_pre_spatial; auto; try lia; try exact Hdigit.
-Qed. 
+  - split_pures; dump_pre_spatial; auto; try annotation_fact; try exact Hdigit.
+Qed.
 
-Lemma proof_of_quicksort_numbers_entail_wit_7_2 : quicksort_numbers_entail_wit_7_2.
+Lemma proof_of_quicksort_numbers_entail_wit_3_2 : quicksort_numbers_entail_wit_3_2.
 Proof.
-  left.
-  intros high_pre low_pre number_width_pre count_pre lengths_pre numbers_pre
-    lens rows flat1 rows1_2 position comparison total_length current_length
-    lens1_2 pivot_length scan boundary.
-  intros PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-    PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
-    PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
-    PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
-    PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50.
+  LLM_pre_process ltac:(int_auto).
+  assert (old_PreH36 : (pivot_length = (Znth (high_pre) (lens1_2) (0)))) by annotation_fact.
+  assert (old_PreH37 : (current_length = (Znth (scan) (lens1_2) (0)))) by annotation_fact.
+  assert (old_PreH46 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH50 : (FlatRows flat1 rows1_2 count_pre number_width_pre )) by annotation_fact.
   assert (Hdigit :
     Znth (high_pre * number_width_pre + (position - current_length)) flat1 0 =
     ConcatLeftDigit rows1_2 lens1_2 scan high_pre position).
   {
     rewrite (FlatRows_Znth__compare_left_digit
       flat1 rows1_2 count_pre number_width_pre high_pre
-      (position - current_length)) by (try exact PreH50; lia).
+      (position - current_length)) by (try exact old_PreH50; lia).
     symmetry.
-    rewrite PreH37.
+    rewrite old_PreH37.
     eapply ConcatLeftDigit_second__compare_left_digit.
-    - exact PreH46.
+    - exact old_PreH46.
     - lia.
     - lia.
-    - rewrite <- PreH37, <- PreH36.
+    - rewrite <- old_PreH37, <- old_PreH36.
       lia.
   }
   Exists flat1 rows1_2 lens1_2.
   split_pure_spatial.
   - repeat cancel.
-  - split_pures; dump_pre_spatial; auto; try lia; try exact Hdigit.
-Qed. 
-
-Lemma proof_of_quicksort_numbers_entail_wit_9_split_goal_1 : quicksort_numbers_entail_wit_9_split_goal_1.
-Proof.
-  unfold quicksort_numbers_entail_wit_9_split_goal_1.
-  intros high_pre low_pre number_width_pre count_pre lens rows rows1 lens1
-    flat1 boundary scan pivot_length current_length total_length comparison
-    position left_digit.
-  intros PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-    PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
-    PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
-    PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
-    PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
-    PreH51 PreH52 PreH53 PreH54 PreH55 PreH56.
-  apply Z.lt_le_trans with ((high_pre + 1) * number_width_pre).
-  - rewrite Z.mul_add_distr_r.
-    rewrite Z.mul_1_l.
-    apply Z.add_lt_mono_l.
-    exact PreH6.
-  - apply Z.mul_le_mono_nonneg_r; lia.
+  - split_pures; dump_pre_spatial; auto; try annotation_fact; try exact Hdigit.
 Qed.
 
-Lemma proof_of_quicksort_numbers_entail_wit_9 : quicksort_numbers_entail_wit_9.
-Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_quicksort_numbers_entail_wit_9_split_goal_1.
-Qed. 
-
-Lemma proof_of_quicksort_numbers_entail_wit_11_split_goal_1 : quicksort_numbers_entail_wit_11_split_goal_1.
-Proof.
-  unfold quicksort_numbers_entail_wit_11_split_goal_1.
-  intros high_pre low_pre number_width_pre count_pre lens rows rows1 lens1
-    flat1 boundary scan pivot_length current_length total_length comparison
-    position left_digit.
-  intros PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-    PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
-    PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
-    PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
-    PreH41 PreH42 PreH43 PreH44 PreH45 PreH46 PreH47 PreH48 PreH49 PreH50
-    PreH51 PreH52 PreH53 PreH54 PreH55 PreH56.
-  apply Z.lt_le_trans with ((scan + 1) * number_width_pre).
-  - rewrite Z.mul_add_distr_r.
-    rewrite Z.mul_1_l.
-    apply Z.add_lt_mono_l.
-    exact PreH8.
-  - apply Z.mul_le_mono_nonneg_r; lia.
-Qed.
-
-Lemma proof_of_quicksort_numbers_entail_wit_11 : quicksort_numbers_entail_wit_11.
-Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_quicksort_numbers_entail_wit_11_split_goal_1.
-Qed. 
-
-Lemma proof_of_quicksort_numbers_entail_wit_12_1 : quicksort_numbers_entail_wit_12_1.
+Lemma proof_of_quicksort_numbers_entail_wit_4_1 : quicksort_numbers_entail_wit_4_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (old_PreH39 : (pivot_length = (Znth (high_pre) (lens1_2) (0)))) by annotation_fact.
+  assert (old_PreH50 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH54 : (FlatRows flat1 rows1_2 count_pre number_width_pre )) by annotation_fact.
   assert (Hright :
     Znth (high_pre * number_width_pre + position) flat1 0 =
       ConcatRightDigit rows1_2 lens1_2 scan high_pre position).
   {
     apply (ConcatRightDigit_first_flat__compare_right_digit
       flat1 rows1_2 lens1_2 count_pre number_width_pre scan high_pre position).
-    - exact PreH54.
-    - exact PreH50.
+    - exact old_PreH54.
+    - exact old_PreH50.
     - split; lia.
-    - rewrite <- PreH39; lia.
+    - rewrite <- old_PreH39; lia.
   }
   Exists flat1 rows1_2 lens1_2.
   split_pure_spatial.
   - cancel (IntArray.full numbers_pre (count_pre * number_width_pre) flat1).
     cancel (IntArray.full lengths_pre count_pre lens1_2).
-  - split_pures; dump_pre_spatial; auto; try lia; try exact Hright.
-Qed. 
+  - split_pures; dump_pre_spatial; auto; try annotation_fact; try exact Hright.
+Qed.
 
-Lemma proof_of_quicksort_numbers_entail_wit_12_2 : quicksort_numbers_entail_wit_12_2.
+Lemma proof_of_quicksort_numbers_entail_wit_4_2 : quicksort_numbers_entail_wit_4_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (old_PreH37 : (pivot_length = (Znth (high_pre) (lens1_2) (0)))) by annotation_fact.
+  assert (old_PreH38 : (current_length = (Znth (scan) (lens1_2) (0)))) by annotation_fact.
+  assert (old_PreH48 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH52 : (FlatRows flat1 rows1_2 count_pre number_width_pre )) by annotation_fact.
   assert (Hright :
     Znth (scan * number_width_pre + (position - pivot_length)) flat1 0 =
       ConcatRightDigit rows1_2 lens1_2 scan high_pre position).
   {
-    rewrite PreH37.
+    rewrite old_PreH37.
     apply (ConcatRightDigit_second_flat__compare_right_digit
       flat1 rows1_2 lens1_2 count_pre number_width_pre scan high_pre position).
-    - exact PreH52.
-    - exact PreH48.
+    - exact old_PreH52.
+    - exact old_PreH48.
     - split; lia.
     - split; lia.
-    - rewrite <- PreH37. lia.
-    - rewrite <- PreH37, <- PreH38; lia.
+    - rewrite <- old_PreH37. lia.
+    - rewrite <- old_PreH37, <- old_PreH38; lia.
   }
   Exists flat1 rows1_2 lens1_2.
   split_pure_spatial.
   - cancel (IntArray.full numbers_pre (count_pre * number_width_pre) flat1).
     cancel (IntArray.full lengths_pre count_pre lens1_2).
-  - split_pures; dump_pre_spatial; auto; try lia; try exact Hright.
-Qed. 
+  - split_pures; dump_pre_spatial; auto; try annotation_fact; try exact Hright.
+Qed.
 
-Lemma proof_of_quicksort_numbers_entail_wit_13 : quicksort_numbers_entail_wit_13.
+Lemma proof_of_quicksort_numbers_entail_wit_5 : quicksort_numbers_entail_wit_5.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (old_PreH1 : (left_digit = right_digit)) by annotation_fact.
+  assert (old_PreH25 : (left_digit = (ConcatLeftDigit (rows1_2) (lens1_2) (scan) (high_pre) (position)))) by annotation_fact.
+  assert (old_PreH26 : (right_digit = (ConcatRightDigit (rows1_2) (lens1_2) (scan) (high_pre) (position)))) by annotation_fact.
+  assert (old_PreH27 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre )) by annotation_fact.
   Exists flat1_2 rows1_2 lens1_2.
   split_pure_spatial.
   - cancel (IntArray.full numbers_pre (count_pre * number_width_pre) flat1_2).
     cancel (IntArray.full lengths_pre count_pre lens1_2).
   - split_pures.
-    all: dump_pre_spatial; try assumption; try lia.
+    all: dump_pre_spatial; try assumption; try annotation_fact.
     eapply ConcatComparePrefix_step__compare_outcome; eauto.
-    + rewrite <- PreH25, <- PreH26.
-      exact PreH1.
+    + rewrite <- old_PreH25, <- old_PreH26.
+      exact old_PreH1.
     + rewrite (concat_item_digits_Zlength__compare_outcome
                  rows1_2 lens1_2 count_pre number_width_pre scan high_pre);
         eauto; lia.
-Qed. 
+Qed.
 
-Lemma proof_of_quicksort_numbers_entail_wit_14_1 : quicksort_numbers_entail_wit_14_1.
+Lemma proof_of_quicksort_numbers_entail_wit_6_1 : quicksort_numbers_entail_wit_6_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (old_PreH15 : (pivot_length = (Znth (high_pre) (lens1_2) (0)))) by annotation_fact.
+  assert (old_PreH16 : (current_length = (Znth (scan) (lens1_2) (0)))) by annotation_fact.
+  assert (old_PreH22 : (comparison = 0)) by annotation_fact.
+  assert (old_PreH25 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH27 : (ConcatComparePrefix rows1_2 lens1_2 scan high_pre position )) by annotation_fact.
   Exists flat1_2 rows1_2 lens1_2.
   split_pure_spatial.
   - cancel (IntArray.full numbers_pre (count_pre * number_width_pre) flat1_2).
@@ -371,21 +322,28 @@ Proof.
     sep_apply (store_int_undef_store_int (&( "position" )) position).
     cancel ((( &( "position" ) )) # Int |->_).
   - split_pures.
-    all: dump_pre_spatial; try assumption; try lia.
-    rewrite PreH22.
+    all: dump_pre_spatial; try assumption; try annotation_fact.
+    rewrite old_PreH22.
     eapply ConcatCompareOutcome_zero__compare_outcome.
-    + exact PreH27.
+    + exact old_PreH27.
     + rewrite (concat_item_digits_Zlength__compare_outcome
                  rows1_2 lens1_2 count_pre number_width_pre scan high_pre).
-      * rewrite <- PreH16, <- PreH15; lia.
-      * exact PreH25.
+      * rewrite <- old_PreH16, <- old_PreH15; lia.
+      * exact old_PreH25.
       * lia.
       * lia.
-Qed. 
+Qed.
 
-Lemma proof_of_quicksort_numbers_entail_wit_14_2 : quicksort_numbers_entail_wit_14_2.
+Lemma proof_of_quicksort_numbers_entail_wit_6_2 : quicksort_numbers_entail_wit_6_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (old_PreH1 : (left_digit <> right_digit)) by annotation_fact.
+  assert (old_PreH15 : (pivot_length = (Znth (high_pre) (lens1_2) (0)))) by annotation_fact.
+  assert (old_PreH16 : (current_length = (Znth (scan) (lens1_2) (0)))) by annotation_fact.
+  assert (old_PreH25 : (left_digit = (ConcatLeftDigit (rows1_2) (lens1_2) (scan) (high_pre) (position)))) by annotation_fact.
+  assert (old_PreH26 : (right_digit = (ConcatRightDigit (rows1_2) (lens1_2) (scan) (high_pre) (position)))) by annotation_fact.
+  assert (old_PreH27 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH29 : (ConcatComparePrefix rows1_2 lens1_2 scan high_pre position )) by annotation_fact.
   Exists flat1_2 rows1_2 lens1_2.
   split_pure_spatial.
   - cancel (IntArray.full numbers_pre (count_pre * number_width_pre) flat1_2).
@@ -393,86 +351,45 @@ Proof.
     sep_apply (store_int_undef_store_int (&( "position" )) position).
     cancel ((( &( "position" ) )) # Int |->_).
   - split_pures.
-    all: dump_pre_spatial; try assumption; try lia.
+    all: dump_pre_spatial; try assumption; try annotation_fact.
     replace (left_digit - right_digit) with
       (ConcatLeftDigit rows1_2 lens1_2 scan high_pre position -
        ConcatRightDigit rows1_2 lens1_2 scan high_pre position) by congruence.
-    eapply ConcatCompareOutcome_difference__compare_outcome.
-    + exact PreH29.
+    eapply ConcatCompareOutcome_difference__compare_outcome; [lia | | |].
+    + exact old_PreH29.
     + rewrite (concat_item_digits_Zlength__compare_outcome
                  rows1_2 lens1_2 count_pre number_width_pre scan high_pre).
-      * rewrite <- PreH16, <- PreH15; lia.
-      * exact PreH27.
+      * rewrite <- old_PreH16, <- old_PreH15; lia.
+      * exact old_PreH27.
       * lia.
       * lia.
-    + rewrite <- PreH25, <- PreH26.
-      exact PreH1.
-Qed. 
+    + rewrite <- old_PreH25, <- old_PreH26.
+      exact old_PreH1.
+Qed.
 
-Lemma proof_of_quicksort_numbers_entail_wit_15 : quicksort_numbers_entail_wit_15.
+Lemma proof_of_quicksort_numbers_entail_wit_7 : quicksort_numbers_entail_wit_7.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (old_PreH22 : (RowsWellFormed rows1 lens1_2 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH23 : (PartitionScanState rows rows1 lens lens1_2 low_pre high_pre boundary scan )) by annotation_fact.
   Exists flat1 rows1 rows1 lens1_2.
   split_pure_spatial.
   - sep_apply store_int_undef_store_int.
     sep_apply store_int_undef_store_int.
     repeat cancel.
-  - split_pures; dump_pre_spatial; auto; try lia; try reflexivity;
+  - split_pures; dump_pre_spatial; auto; try annotation_fact; try reflexivity;
       first
-        [ replace (boundary + 1 - 1) with boundary by lia; exact PreH23
+        [ replace (boundary + 1 - 1) with boundary by lia; exact old_PreH23
         | eapply SwapRowsPrefix_zero__scan_row_swap with
-            (lens := lens1_2) (count := count_pre); eauto; try lia;
+            (lens := lens1_2) (count := count_pre); eauto; try annotation_fact;
           replace (boundary + 1 - 1) with boundary by lia; assumption ].
-Qed. 
-
-Lemma proof_of_quicksort_numbers_entail_wit_16_split_goal_1 : quicksort_numbers_entail_wit_16_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  assert (Hboundary_count : boundary < count_pre) by lia.
-  assert (Hwidth_pos : 0 < number_width_pre) by lia.
-  assert (Hboundary_mul :
-    boundary * number_width_pre <=
-    (count_pre - 1) * number_width_pre).
-  { apply Z.mul_le_mono_nonneg_r; lia. }
-  replace (count_pre * number_width_pre) with
-    ((count_pre - 1) * number_width_pre + number_width_pre) by ring.
-  lia.
 Qed.
 
-Lemma proof_of_quicksort_numbers_entail_wit_16 : quicksort_numbers_entail_wit_16.
-Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_quicksort_numbers_entail_wit_16_split_goal_1.
-Qed. 
-
-Lemma proof_of_quicksort_numbers_entail_wit_17_split_goal_1 : quicksort_numbers_entail_wit_17_split_goal_1.
-Proof.
-  unfold quicksort_numbers_entail_wit_17_split_goal_1.
-  intros high_pre low_pre number_width_pre count_pre lens rows flat_now
-    rows_now comparison rows_before lens1 pivot_length column scan boundary.
-  intros PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9 PreH10
-    PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20
-    PreH21 PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29 PreH30
-    PreH31 PreH32 PreH33 PreH34 PreH35 PreH36 PreH37 PreH38 PreH39 PreH40
-    PreH41 PreH42 PreH43 PreH44 PreH45.
-  apply Z.lt_le_trans with ((scan + 1) * number_width_pre).
-  - rewrite Z.mul_add_distr_r.
-    rewrite Z.mul_1_l.
-    apply Z.add_lt_mono_l.
-    exact PreH21.
-  - apply Z.mul_le_mono_nonneg_r; lia.
-Qed.
-
-Lemma proof_of_quicksort_numbers_entail_wit_17 : quicksort_numbers_entail_wit_17.
-Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_quicksort_numbers_entail_wit_17_split_goal_1.
-Qed. 
-
-Lemma proof_of_quicksort_numbers_entail_wit_18 : quicksort_numbers_entail_wit_18.
+Lemma proof_of_quicksort_numbers_entail_wit_8 : quicksort_numbers_entail_wit_8.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  pose proof PreH35 as Hwf_copy.
+  assert (old_PreH35 : (RowsWellFormed rows_before_2 lens1_2 count_pre number_width_pre )) by annotation_fact.
+  pose proof old_PreH35 as Hwf_copy.
   destruct Hwf_copy as [Hbefore_len [Hlens_len Hrow_wf]].
   pose proof (Hrow_wf boundary ltac:(lia)) as [Hboundary_len _].
   pose proof (Hrow_wf scan ltac:(lia)) as [Hscan_len _].
@@ -490,7 +407,7 @@ Proof.
       (flat := flat_now_2) (before := rows_before_2) (now := rows_now_2)
       (count := count_pre) (width := number_width_pre)
       (first := boundary) (second := scan) (progress := column).
-    all: try assumption; try lia.
+    all: try assumption; try annotation_fact.
   }
   destruct Hstep as [rows_next [Hflat_next Hswap_next]].
   Exists
@@ -501,13 +418,16 @@ Proof.
     rows_next rows_before_2 lens1_2.
   split_pure_spatial.
   - repeat cancel.
-  - split_pures; dump_pre_spatial; auto; try lia; try exact Hswap_next;
+  - split_pures; dump_pre_spatial; auto; try annotation_fact; try exact Hswap_next;
       try exact Hflat_next.
-Qed. 
+Qed.
 
-Lemma proof_of_quicksort_numbers_entail_wit_19_1 : quicksort_numbers_entail_wit_19_1.
+Lemma proof_of_quicksort_numbers_entail_wit_9_1 : quicksort_numbers_entail_wit_9_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (old_PreH16 : (pivot_length = (Znth (high_pre) (lens1_2) (0)))) by annotation_fact.
+  assert (old_PreH19 : (RowsWellFormed rows_before lens1_2 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH24 : ((sum (lens1_2)) = (sum (lens)))) by annotation_fact.
   assert (Hcolumn : column = number_width_pre) by lia.
   assert (Hrows_now : rows_now = swap_Znth nil boundary scan rows_before).
   {
@@ -520,11 +440,11 @@ Proof.
     sum lens).
   {
     unfold swap_Znth.
-    rewrite <- PreH24.
+    rewrite <- old_PreH24.
     apply sum_permutation__scan_advance.
     apply Permutation_sym.
     apply permutation_swap_Znth__scan_advance;
-      unfold RowsWellFormed in PreH19; lia.
+      unfold RowsWellFormed in old_PreH19; lia.
   }
   assert (Hpartition_after :
     PartitionScanState rows rows_now lens
@@ -552,11 +472,11 @@ Proof.
         (replace_Znth scan (Znth boundary lens1_2 0)
           (replace_Znth boundary (Znth scan lens1_2 0) lens1_2)) 0).
   {
-    unfold RowsWellFormed in PreH19.
-    destruct PreH19 as [Hrowslen [Hlenslen Hall]].
+    unfold RowsWellFormed in old_PreH19.
+    destruct old_PreH19 as [Hrowslen [Hlenslen Hall]].
     rewrite Znth_replace_Znth_Diff.
     - rewrite Znth_replace_Znth_Diff.
-      + exact PreH16.
+      + exact old_PreH16.
       + rewrite Hlenslen; lia.
       + rewrite Hlenslen; lia.
       + lia.
@@ -573,92 +493,58 @@ Proof.
       (replace_Znth scan (Znth boundary lens1_2 0)
         (replace_Znth boundary (Znth scan lens1_2 0) lens1_2))).
     apply store_int_undef_store_int.
-  - split_pures; dump_pre_spatial; auto; try lia; try exact Hpivot_after;
+  - split_pures; dump_pre_spatial; auto; try annotation_fact; try exact Hpivot_after;
       try exact Hwell_after; try exact Hpartition_after; try exact Hsum_after.
-Qed. 
+Qed.
 
-Lemma proof_of_quicksort_numbers_entail_wit_19_2 : quicksort_numbers_entail_wit_19_2.
+Lemma proof_of_quicksort_numbers_entail_wit_9_2 : quicksort_numbers_entail_wit_9_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (old_PreH22 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH23 : (PartitionScanState rows rows1_2 lens lens1_2 low_pre high_pre boundary scan )) by annotation_fact.
   Exists flat1_2 rows1_2 lens1_2.
   split_pure_spatial.
   - repeat sep_apply store_int_undef_store_int.
     cancel.
-  - split_pures; dump_pre_spatial; auto; try lia.
-    eapply PartitionScanState_advance_nonbefore__scan_advance; [exact PreH23 |].
+  - split_pures; dump_pre_spatial; auto; try annotation_fact.
+    eapply PartitionScanState_advance_nonbefore__scan_advance; [exact old_PreH23 |].
     eapply ConcatCompareOutcome_nonpositive_not_item_before__scan_advance; eauto.
-Qed. 
+Qed.
 
-Lemma proof_of_quicksort_numbers_entail_wit_20 : quicksort_numbers_entail_wit_20.
+Lemma proof_of_quicksort_numbers_entail_wit_10 : quicksort_numbers_entail_wit_10.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (old_PreH16 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre )) by annotation_fact.
   Exists flat1_2 rows1_2 lens1_2.
   split_pure_spatial.
   - repeat cancel.
-  - split_pures; dump_pre_spatial; auto; try lia.
+  - split_pures; dump_pre_spatial; auto; try annotation_fact.
 Qed.
 
-Lemma proof_of_quicksort_numbers_entail_wit_21 : quicksort_numbers_entail_wit_21.
+Lemma proof_of_quicksort_numbers_entail_wit_11 : quicksort_numbers_entail_wit_11.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (old_PreH18 : (RowsWellFormed rows1 lens1_2 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH19 : (PartitionScanState rows rows1 lens lens1_2 low_pre high_pre boundary scan )) by annotation_fact.
   assert (Hscan : scan = high_pre) by lia.
   subst scan.
   Exists flat1 rows1 rows1 lens1_2.
   split_pure_spatial.
   - repeat sep_apply store_int_undef_store_int.
     cancel.
-  - split_pures; dump_pre_spatial; auto; try lia; try reflexivity.
+  - split_pures; dump_pre_spatial; auto; try annotation_fact; try reflexivity.
       first
-        [ replace (boundary + 1 - 1) with boundary by lia; exact PreH19
+        [ replace (boundary + 1 - 1) with boundary by lia; exact old_PreH19
         | eapply SwapRowsPrefix_zero__scan_advance; eauto; lia ].
   eapply SwapRowsPrefix_zero__scan_advance; eauto; lia.
-Qed. 
-
-Lemma proof_of_quicksort_numbers_entail_wit_22_split_goal_1 : quicksort_numbers_entail_wit_22_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  assert (Hpivot_count : pivot < count_pre) by lia.
-  assert (Hwidth_pos : 0 < number_width_pre) by lia.
-  assert (Hpivot_mul :
-    pivot * number_width_pre <=
-    (count_pre - 1) * number_width_pre).
-  { apply Z.mul_le_mono_nonneg_r; lia. }
-  replace (count_pre * number_width_pre) with
-    ((count_pre - 1) * number_width_pre + number_width_pre) by ring.
-  lia.
 Qed.
 
-Lemma proof_of_quicksort_numbers_entail_wit_22 : quicksort_numbers_entail_wit_22.
-Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_quicksort_numbers_entail_wit_22_split_goal_1.
-Qed. 
-
-Lemma proof_of_quicksort_numbers_entail_wit_23_split_goal_1 : quicksort_numbers_entail_wit_23_split_goal_1.
+Lemma proof_of_quicksort_numbers_entail_wit_12 : quicksort_numbers_entail_wit_12.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  assert (Hhigh_count : high_pre < count_pre) by lia.
-  assert (Hwidth_pos : 0 < number_width_pre) by lia.
-  assert (Hhigh_mul :
-    high_pre * number_width_pre <=
-    (count_pre - 1) * number_width_pre).
-  { apply Z.mul_le_mono_nonneg_r; lia. }
-  replace (count_pre * number_width_pre) with
-    ((count_pre - 1) * number_width_pre + number_width_pre) by ring.
-  lia.
-Qed.
-
-Lemma proof_of_quicksort_numbers_entail_wit_23 : quicksort_numbers_entail_wit_23.
-Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_quicksort_numbers_entail_wit_23_split_goal_1.
-Qed. 
-
-Lemma proof_of_quicksort_numbers_entail_wit_24 : quicksort_numbers_entail_wit_24.
-Proof.
-  right.
-  intros.
-  pose proof PreH30 as Hwell_formed.
+  assert (old_PreH30 : (RowsWellFormed rows_before_2 lens1_2 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH34 : (FlatRows flat_now_2 rows_now_2 count_pre number_width_pre )) by annotation_fact.
+  pose proof old_PreH30 as Hwell_formed.
   unfold RowsWellFormed in Hwell_formed.
   destruct Hwell_formed as
     (Hbefore_len & Hlens_len & Hrow_well_formed).
@@ -666,16 +552,16 @@ Proof.
   pose proof (Hrow_well_formed high_pre ltac:(lia)) as Hhigh_well_formed.
   destruct Hpivot_well_formed as (Hpivot_row_len & _).
   destruct Hhigh_well_formed as (Hhigh_row_len & _).
-  pose proof PreH34 as Hflat_shape.
+  pose proof old_PreH34 as Hflat_shape.
   unfold FlatRows in Hflat_shape.
   destruct Hflat_shape as
     (Hflat_len & Hrows_now_len & Hflat_rows).
   pose proof (FlatRows_Znth_cell__pivot_finalization
     flat_now_2 rows_now_2 count_pre number_width_pre
-    pivot column PreH34 ltac:(lia) ltac:(lia)) as Hpivot_cell.
+    pivot column old_PreH34 ltac:(lia) ltac:(lia)) as Hpivot_cell.
   pose proof (FlatRows_Znth_cell__pivot_finalization
     flat_now_2 rows_now_2 count_pre number_width_pre
-    high_pre column PreH34 ltac:(lia) ltac:(lia)) as Hhigh_cell.
+    high_pre column old_PreH34 ltac:(lia) ltac:(lia)) as Hhigh_cell.
   destruct (Z.eq_dec pivot high_pre) as [Hpivot_high | Hpivot_high].
   - subst pivot.
     assert (Hrows_same : rows_now_2 = rows_before_2).
@@ -694,9 +580,9 @@ Proof.
     rewrite replace_Znth_twice__pivot_finalization.
     rewrite replace_Znth_Znth.
     LLM_pre_process ltac:(int_auto).
-    Exists rows_now_2 rows_before_2.
+    Exists flat_now_2 rows_now_2 rows_before_2 lens1_2.
     repeat (split_pure_spatial || split_pures); try cancel;
-      dump_pre_spatial; auto; try lia; try exact Hswap_next; try exact PreH34.
+      dump_pre_spatial; auto; try annotation_fact; try exact Hswap_next; try exact old_PreH34.
   - assert (Hpivot_high_lt : pivot < high_pre) by lia.
     set (flat_first :=
       replace_Znth (pivot * number_width_pre + column)
@@ -744,19 +630,23 @@ Proof.
         eauto; lia.
     }
     LLM_pre_process ltac:(int_auto).
-    Exists rows_after rows_before_2.
+    Exists flat_after rows_after rows_before_2 lens1_2.
     fold flat_first.
     fold flat_after.
     repeat (split_pure_spatial || split_pures); try cancel;
-      dump_pre_spatial; auto; try lia; try exact Hswap_after; try exact Hflat_after.
-Qed. 
+      dump_pre_spatial; auto; try annotation_fact; try exact Hswap_after; try exact Hflat_after.
+Qed.
 
-Lemma proof_of_quicksort_numbers_entail_wit_25 : quicksort_numbers_entail_wit_25.
+Lemma proof_of_quicksort_numbers_entail_wit_13 : quicksort_numbers_entail_wit_13.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (old_PreH15 : (pivot_length = (Znth (high_pre) (lens1_2) (0)))) by annotation_fact.
+  assert (old_PreH18 : (RowsWellFormed rows_before lens1_2 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH19 : (PartitionScanState rows rows_before lens lens1_2 low_pre high_pre (pivot - 1 ) high_pre )) by annotation_fact.
+  assert (old_PreH21 : ((sum (lens1_2)) = (sum (lens)))) by annotation_fact.
   assert (Hcolumn_done : column = number_width_pre) by lia.
   subst column.
-  pose proof PreH18 as Hwell_formed.
+  pose proof old_PreH18 as Hwell_formed.
   unfold RowsWellFormed in Hwell_formed.
   destruct Hwell_formed as
     (Hrows_before_len & Hlens_before_len & Hrow_well_formed).
@@ -777,7 +667,7 @@ Proof.
     lens_after = swap_Znth 0 pivot high_pre lens1_2).
   {
     unfold lens_after.
-    rewrite PreH15.
+    rewrite old_PreH15.
     apply swap_Znth_reverse__pivot_finalization; lia.
   }
   assert (Hwell_formed_after :
@@ -787,7 +677,7 @@ Proof.
     eapply RowsWellFormed_swap__pivot_finalization;
       eauto; lia.
   }
-  pose proof PreH19 as Hstate_parts.
+  pose proof old_PreH19 as Hstate_parts.
   unfold PartitionScanState in Hstate_parts.
   destruct Hstate_parts as
     (Hpaired_before & Houtside_before & Hhigh_same &
@@ -826,35 +716,47 @@ Proof.
   {
     rewrite Hlens_swap.
     rewrite sum_swap_Znth__pivot_finalization.
-    - exact PreH21.
+    - exact old_PreH21.
     - rewrite Hlens_before_len. lia.
     - rewrite Hlens_before_len. lia.
   }
-  Exists flat_now rows_now lens_after.
+  Exists flat_now lens_after rows_now.
   split_pure_spatial.
   - cancel (IntArray.full lengths_pre count_pre lens_after).
     cancel (IntArray.full numbers_pre (count_pre * number_width_pre) flat_now).
     apply store_int_undef_store_int.
-  - split_pures; dump_pre_spatial; auto; try lia; try exact Hpartitioned_after;
+  - split_pures; dump_pre_spatial; auto; try annotation_fact; try exact Hpartitioned_after;
       try exact Hsum_after.
-Qed. 
+Qed.
 
 Lemma proof_of_quicksort_numbers_return_wit_1 : quicksort_numbers_return_wit_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  Exists flat1_3 rows1_3 lens1_3.
+  assert (old_PreH1 : (RowsWellFormed rows1_3 lens1_3 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH3 : (PairedPermutation rows2 rows1_3 lens2 lens1_3 )) by annotation_fact.
+  assert (old_PreH4 : (SameOutsidePairedRange rows2 rows1_3 lens2 lens1_3 (pivot + 1 ) high_pre )) by annotation_fact.
+  assert (old_PreH5 : (GreedySortedRange rows1_3 lens1_3 (pivot + 1 ) high_pre )) by annotation_fact.
+  assert (old_PreH8 : (RowsWellFormed rows2 lens2 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH10 : (PairedPermutation rows1_2 rows2 lens1_2 lens2 )) by annotation_fact.
+  assert (old_PreH11 : (SameOutsidePairedRange rows1_2 rows2 lens1_2 lens2 low_pre (pivot - 1 ) )) by annotation_fact.
+  assert (old_PreH12 : (GreedySortedRange rows2 lens2 low_pre (pivot - 1 ) )) by annotation_fact.
+  assert (old_PreH26 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH27 : (PairedPermutation rows rows1_2 lens lens1_2 )) by annotation_fact.
+  assert (old_PreH28 : (SameOutsidePairedRange rows rows1_2 lens lens1_2 low_pre high_pre )) by annotation_fact.
+  assert (old_PreH29 : (GreedyPartitionedAt rows1_2 lens1_2 low_pre high_pre pivot )) by annotation_fact.
+  Exists lens1_3 flat1_3 rows1_3.
   assert (Hpart2 : GreedyPartitionedAt
         rows2 lens2 low_pre high_pre pivot).
   {
     eapply greedy_partitioned_preserved_left__quicksort_range_composition;
-      try exact PreH8; try exact PreH10; try exact PreH11;
-      try exact PreH29; lia.
+      try exact old_PreH8; try exact old_PreH10; try exact old_PreH11;
+      try exact old_PreH29; lia.
   }
   assert (Hpart13 : GreedyPartitionedAt
         rows1_3 lens1_3 low_pre high_pre pivot).
   {
     eapply greedy_partitioned_preserved_right__quicksort_range_composition;
-      try exact PreH1; try exact PreH3; try exact PreH4;
+      try exact old_PreH1; try exact old_PreH3; try exact old_PreH4;
       try exact Hpart2; lia.
   }
   assert (Hleft13 : GreedySortedRange
@@ -863,139 +765,294 @@ Proof.
     eapply greedy_sorted_range_preserved_outside__quicksort_range_composition
       with (rows0 := rows2) (lens0 := lens2)
            (change_left := pivot + 1) (change_right := high_pre).
-    + exact PreH4.
+    + exact old_PreH4.
     + lia.
-    + destruct PreH8 as [Hrows13 _]. rewrite Hrows13. lia.
+    + destruct old_PreH8 as [Hrows13 _]. rewrite Hrows13. lia.
     + intros k Hk. left. lia.
-    + exact PreH12.
+    + exact old_PreH12.
   }
-  assert (Hsum13 : sum lens1_3 = sum lens) by lia.
+  assert (Hsum13 : sum lens1_3 = sum lens) by annotation_fact.
   split_pure_spatial.
   - repeat cancel.
-  - split_pures; dump_pre_spatial; auto; try lia;
+  - split_pures; dump_pre_spatial; auto; try annotation_fact;
       first
         [ eapply greedy_sorted_range_combine__quicksort_range_composition;
-          try exact PreH1; try exact Hpart13; try exact Hleft13;
-          try exact PreH5; lia
+          try exact old_PreH1; try exact Hpart13; try exact Hleft13;
+          try exact old_PreH5; lia
         | eapply same_outside_paired_range_trans__quicksort_range_composition;
-          [ exact PreH28
+          [ exact old_PreH28
           | eapply same_outside_paired_range_trans__quicksort_range_composition;
             [ eapply same_outside_paired_range_weaken__quicksort_range_composition;
-              try exact PreH11; lia
+              try exact old_PreH11; lia
             | eapply same_outside_paired_range_weaken__quicksort_range_composition;
-              try exact PreH4; lia ] ]
+              try exact old_PreH4; lia ] ]
         | eapply paired_permutation_trans__quicksort_range_composition;
-          [ exact PreH27
+          [ exact old_PreH27
           | eapply paired_permutation_trans__quicksort_range_composition; eauto ] ].
-Qed. 
+Qed.
 
 Lemma proof_of_quicksort_numbers_return_wit_2 : quicksort_numbers_return_wit_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  Exists flat2 rows2 lens2.
+  assert (old_PreH2 : (RowsWellFormed rows2 lens2 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH4 : (PairedPermutation rows1_2 rows2 lens1_2 lens2 )) by annotation_fact.
+  assert (old_PreH5 : (SameOutsidePairedRange rows1_2 rows2 lens1_2 lens2 low_pre (pivot - 1 ) )) by annotation_fact.
+  assert (old_PreH6 : (GreedySortedRange rows2 lens2 low_pre (pivot - 1 ) )) by annotation_fact.
+  assert (old_PreH20 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH22 : (SameOutsidePairedRange rows rows1_2 lens lens1_2 low_pre high_pre )) by annotation_fact.
+  assert (old_PreH23 : (GreedyPartitionedAt rows1_2 lens1_2 low_pre high_pre pivot )) by annotation_fact.
+  Exists lens2 flat2 rows2.
   assert (Hpart2 : GreedyPartitionedAt
         rows2 lens2 low_pre high_pre pivot).
   {
     eapply (greedy_partitioned_preserved_left__quicksort_range_composition
       rows1_2 rows2 lens1_2 lens2 count_pre number_width_pre
       low_pre high_pre pivot);
-      try exact PreH2; try exact PreH4; try exact PreH5;
-      try exact PreH23; lia.
+      try exact old_PreH2; try exact old_PreH4; try exact old_PreH5;
+      try exact old_PreH23; lia.
   }
   split_pure_spatial.
   - repeat cancel.
-  - split_pures; dump_pre_spatial; auto; try lia;
+  - split_pures; dump_pre_spatial; auto; try annotation_fact;
       first
         [ eapply greedy_sorted_range_combine__quicksort_range_composition;
-          try exact PreH2; try exact Hpart2; try exact PreH6; try lia;
+          try exact old_PreH2; try exact Hpart2; try exact old_PreH6; try annotation_fact;
           apply greedy_sorted_range_base__quicksort_range_composition; lia
         | eapply same_outside_paired_range_trans__quicksort_range_composition;
-          [ exact PreH22
+          [ exact old_PreH22
           | eapply same_outside_paired_range_weaken__quicksort_range_composition;
-            try exact PreH5; lia ]
+            try exact old_PreH5; lia ]
         | eapply paired_permutation_trans__quicksort_range_composition; eauto ].
-Qed. 
+Qed.
 
 Lemma proof_of_quicksort_numbers_return_wit_3 : quicksort_numbers_return_wit_3.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  Exists flat1_3 rows1_3 lens1_3.
+  assert (old_PreH1 : (RowsWellFormed rows1_3 lens1_3 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH3 : (PairedPermutation rows1_2 rows1_3 lens1_2 lens1_3 )) by annotation_fact.
+  assert (old_PreH4 : (SameOutsidePairedRange rows1_2 rows1_3 lens1_2 lens1_3 (pivot + 1 ) high_pre )) by annotation_fact.
+  assert (old_PreH5 : (GreedySortedRange rows1_3 lens1_3 (pivot + 1 ) high_pre )) by annotation_fact.
+  assert (old_PreH20 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH22 : (SameOutsidePairedRange rows rows1_2 lens lens1_2 low_pre high_pre )) by annotation_fact.
+  assert (old_PreH23 : (GreedyPartitionedAt rows1_2 lens1_2 low_pre high_pre pivot )) by annotation_fact.
+  Exists lens1_3 flat1_3 rows1_3.
   assert (Hpart3 : GreedyPartitionedAt
         rows1_3 lens1_3 low_pre high_pre pivot).
   {
     eapply (greedy_partitioned_preserved_right__quicksort_range_composition
       rows1_2 rows1_3 lens1_2 lens1_3 count_pre number_width_pre
       low_pre high_pre pivot);
-      try exact PreH1; try exact PreH3; try exact PreH4;
-      try exact PreH23; lia.
+      try exact old_PreH1; try exact old_PreH3; try exact old_PreH4;
+      try exact old_PreH23; lia.
   }
   split_pure_spatial.
   - repeat cancel.
-  - split_pures; dump_pre_spatial; auto; try lia;
+  - split_pures; dump_pre_spatial; auto; try annotation_fact;
       first
         [ eapply greedy_sorted_range_combine__quicksort_range_composition;
-          try exact PreH1; try exact Hpart3; try exact PreH5; try lia;
+          try exact old_PreH1; try exact Hpart3; try exact old_PreH5; try annotation_fact;
           apply greedy_sorted_range_base__quicksort_range_composition; lia
         | eapply same_outside_paired_range_trans__quicksort_range_composition;
-          [ exact PreH22
+          [ exact old_PreH22
           | eapply same_outside_paired_range_weaken__quicksort_range_composition;
-            try exact PreH4; lia ]
+            try exact old_PreH4; lia ]
         | eapply paired_permutation_trans__quicksort_range_composition; eauto ].
-Qed. 
+Qed.
 
 Lemma proof_of_quicksort_numbers_return_wit_4 : quicksort_numbers_return_wit_4.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  Exists flat rows lens.
+  assert (old_PreH13 : (RowsWellFormed rows lens count_pre number_width_pre )) by annotation_fact.
+  Exists lens flat rows.
   split_pure_spatial.
   - repeat cancel.
-  - split_pures; dump_pre_spatial; auto; try lia;
+  - split_pures; dump_pre_spatial; auto; try annotation_fact;
       first
         [ apply greedy_sorted_range_base__quicksort_range_composition; lia
         | apply same_outside_paired_range_refl__quicksort_range_composition
         | apply paired_permutation_refl__quicksort_range_composition;
-          destruct PreH13 as [Hrows [Hlens _]]; lia ].
-Qed. 
+          destruct old_PreH13 as [Hrows [Hlens _]]; lia ].
+Qed.
 
-Lemma proof_of_concatenating_numbers_entail_wit_1_1 : concatenating_numbers_entail_wit_1_1.
+Lemma proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_1 : quicksort_numbers_partial_solve_wit_23_pure_split_goal_1.
 Proof.
-  left.
-  intros.
+  LLM_pre_process ltac:(int_auto).
+  assert (Hwf : RowsWellFormed rows1 lens1 count_pre number_width_pre) by annotation_wf.
+  match goal with
+  | H : PairedPermutation rows1 rows2 lens1 lens2 |- _ =>
+    destruct (RowsWellFormed_permutation__annotation _ _ _ _ _ _ Hwf H) as [Hwf2 Hsum2]
+  end.
+  dump_pre_spatial.
+  annotation_fact.
+Qed.
+Lemma proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_2 : quicksort_numbers_partial_solve_wit_23_pure_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  assert (Hwf : RowsWellFormed rows1 lens1 count_pre number_width_pre) by annotation_wf.
+  match goal with
+  | H : PairedPermutation rows1 rows2 lens1 lens2 |- _ =>
+    destruct (RowsWellFormed_permutation__annotation _ _ _ _ _ _ Hwf H) as [Hwf2 Hsum2]
+  end.
+  dump_pre_spatial.
+  annotation_fact.
+Qed.
+Lemma proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_3 : quicksort_numbers_partial_solve_wit_23_pure_split_goal_3.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  assert (Hwf : RowsWellFormed rows1 lens1 count_pre number_width_pre) by annotation_wf.
+  match goal with
+  | H : PairedPermutation rows1 rows2 lens1 lens2 |- _ =>
+    destruct (RowsWellFormed_permutation__annotation _ _ _ _ _ _ Hwf H) as [Hwf2 Hsum2]
+  end.
+  dump_pre_spatial.
+  annotation_fact.
+Qed.
+Lemma proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_4 : quicksort_numbers_partial_solve_wit_23_pure_split_goal_4.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  assert (Hwf : RowsWellFormed rows1 lens1 count_pre number_width_pre) by annotation_wf.
+  match goal with
+  | H : PairedPermutation rows1 rows2 lens1 lens2 |- _ =>
+    destruct (RowsWellFormed_permutation__annotation _ _ _ _ _ _ Hwf H) as [Hwf2 Hsum2]
+  end.
+  dump_pre_spatial.
+  annotation_fact.
+Qed.
+Lemma proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_5 : quicksort_numbers_partial_solve_wit_23_pure_split_goal_5.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  assert (Hwf : RowsWellFormed rows1 lens1 count_pre number_width_pre) by annotation_wf.
+  match goal with
+  | H : PairedPermutation rows1 rows2 lens1 lens2 |- _ =>
+    destruct (RowsWellFormed_permutation__annotation _ _ _ _ _ _ Hwf H) as [Hwf2 Hsum2]
+  end.
+  dump_pre_spatial.
+  annotation_fact.
+Qed.
+Lemma proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_6 : quicksort_numbers_partial_solve_wit_23_pure_split_goal_6.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  assert (Hwf : RowsWellFormed rows1 lens1 count_pre number_width_pre) by annotation_wf.
+  match goal with
+  | H : PairedPermutation rows1 rows2 lens1 lens2 |- _ =>
+    destruct (RowsWellFormed_permutation__annotation _ _ _ _ _ _ Hwf H) as [Hwf2 Hsum2]
+  end.
+  dump_pre_spatial.
+  annotation_fact.
+Qed.
+Lemma proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_7 : quicksort_numbers_partial_solve_wit_23_pure_split_goal_7.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  assert (Hwf : RowsWellFormed rows1 lens1 count_pre number_width_pre) by annotation_wf.
+  match goal with
+  | H : PairedPermutation rows1 rows2 lens1 lens2 |- _ =>
+    destruct (RowsWellFormed_permutation__annotation _ _ _ _ _ _ Hwf H) as [Hwf2 Hsum2]
+  end.
+  dump_pre_spatial.
+  annotation_fact.
+Qed.
+Lemma proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_8 : quicksort_numbers_partial_solve_wit_23_pure_split_goal_8.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  assert (Hwf : RowsWellFormed rows1 lens1 count_pre number_width_pre) by annotation_wf.
+  match goal with
+  | H : PairedPermutation rows1 rows2 lens1 lens2 |- _ =>
+    destruct (RowsWellFormed_permutation__annotation _ _ _ _ _ _ Hwf H) as [Hwf2 Hsum2]
+  end.
+  dump_pre_spatial.
+  annotation_fact.
+Qed.
+Lemma proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_9 : quicksort_numbers_partial_solve_wit_23_pure_split_goal_9.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  assert (Hwf : RowsWellFormed rows1 lens1 count_pre number_width_pre) by annotation_wf.
+  match goal with
+  | H : PairedPermutation rows1 rows2 lens1 lens2 |- _ =>
+    destruct (RowsWellFormed_permutation__annotation _ _ _ _ _ _ Hwf H) as [Hwf2 Hsum2]
+  end.
+  dump_pre_spatial.
+  annotation_fact.
+Qed.
+Lemma proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_10 : quicksort_numbers_partial_solve_wit_23_pure_split_goal_10.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  assert (Hwf : RowsWellFormed rows1 lens1 count_pre number_width_pre) by annotation_wf.
+  match goal with
+  | H : PairedPermutation rows1 rows2 lens1 lens2 |- _ =>
+    destruct (RowsWellFormed_permutation__annotation _ _ _ _ _ _ Hwf H) as [Hwf2 Hsum2]
+  end.
+  dump_pre_spatial.
+  annotation_fact.
+Qed.
+Lemma proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_11 : quicksort_numbers_partial_solve_wit_23_pure_split_goal_11.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  assert (Hwf : RowsWellFormed rows1 lens1 count_pre number_width_pre) by annotation_wf.
+  match goal with
+  | H : PairedPermutation rows1 rows2 lens1 lens2 |- _ =>
+    destruct (RowsWellFormed_permutation__annotation _ _ _ _ _ _ Hwf H) as [Hwf2 Hsum2]
+  end.
+  dump_pre_spatial.
+  annotation_fact.
+Qed.
+Lemma proof_of_quicksort_numbers_partial_solve_wit_23_pure : quicksort_numbers_partial_solve_wit_23_pure.
+Proof.
+  aggressive_pre_process.
+  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_1.
+  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_2.
+  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_3.
+  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_4.
+  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_5.
+  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_6.
+  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_7.
+  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_8.
+  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_9.
+  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_10.
+  Goal_apply proof_of_quicksort_numbers_partial_solve_wit_23_pure_split_goal_11.
+Qed.
+Lemma proof_of_concatenating_numbers_entail_wit_2_1 : concatenating_numbers_entail_wit_2_1.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  assert (old_PreH1 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH5 : (GreedySortedRange rows1_2 lens1_2 0 (count_pre - 1 ) )) by annotation_fact.
+  assert (old_PreH14 : (RowsWellFormed rows lens count_pre number_width_pre )) by annotation_fact.
   assert (Hsorted : GreedySorted rows1_2 lens1_2).
   {
     unfold GreedySorted.
     intros x y [Hx [Hxy Hy]].
-    apply PreH5.
-    pose proof PreH1 as Hwf.
+    apply old_PreH5.
+    pose proof old_PreH1 as Hwf.
     unfold RowsWellFormed in Hwf.
     destruct Hwf as [Hrows_len _].
     rewrite Hrows_len in Hy.
     lia.
   }
-  Exists flat1_2 rows1_2 lens1_2.
+  Exists flat1_2 (@nil Z) lens1_2 rows1_2.
+  rewrite ConcatenatedPrefix_zero__output_setup.
+  sep_apply_l_atomic (IntArray.undef_full_to_undef_seg result_pre (sum lens)).
+  rewrite IntArray.seg_empty.
   split_pure_spatial.
   - cancel (IntArray.full numbers_pre (count_pre * number_width_pre) flat1_2).
     cancel (IntArray.full lengths_pre count_pre lens1_2).
-    cancel (IntArray.undef_full result_pre (sum lens)).
-  - split_pures; dump_pre_spatial; auto; try lia; try exact Hsorted.
-Qed. 
+    cancel (IntArray.undef_seg result_pre 0 (sum lens)).
+  - split_pures; dump_pre_spatial; auto; try annotation_fact; try exact Hsorted.
+Qed.
 
-Lemma proof_of_concatenating_numbers_entail_wit_1_2 : concatenating_numbers_entail_wit_1_2.
+Lemma proof_of_concatenating_numbers_entail_wit_2_2 : concatenating_numbers_entail_wit_2_2.
 Proof.
-  left.
-  intros.
+  LLM_pre_process ltac:(int_auto).
+  assert (old_PreH8 : (RowsWellFormed rows lens count_pre number_width_pre )) by annotation_fact.
   assert (Hcount : count_pre = 1) by lia.
   assert (Hperm : PairedPermutation rows rows lens lens).
   { unfold PairedPermutation.
-    pose proof PreH8 as Hwf.
+    pose proof old_PreH8 as Hwf.
     unfold RowsWellFormed in Hwf.
     destruct Hwf as [Hrows [Hlens _]].
-    repeat split; try lia.
-    apply Permutation_refl. }
+    repeat split; try lia; apply Permutation_refl. }
   assert (Hsorted : GreedySorted rows lens).
   { unfold GreedySorted.
     intros x y [Hx [Hxy Hy]].
-    pose proof PreH8 as Hwf.
+    pose proof old_PreH8 as Hwf.
     unfold RowsWellFormed in Hwf.
     destruct Hwf as [Hrows _].
     rewrite Hrows, Hcount in Hy.
@@ -1003,35 +1060,24 @@ Proof.
     destruct H as [-> ->].
     unfold item_before_or_equal, digit_lex_ge.
     split; [reflexivity | left; reflexivity]. }
-  Exists flat rows lens.
+  Exists flat (@nil Z) lens rows.
+  rewrite ConcatenatedPrefix_zero__output_setup.
+  sep_apply_l_atomic (IntArray.undef_full_to_undef_seg result_pre (sum lens)).
+  rewrite IntArray.seg_empty.
   split_pure_spatial.
   - cancel (IntArray.full numbers_pre (count_pre * number_width_pre) flat).
     cancel (IntArray.full lengths_pre count_pre lens).
-    cancel (IntArray.undef_full result_pre (sum lens)).
-  - split_pures; dump_pre_spatial; auto; try lia; try exact Hperm; try exact Hsorted.
-Qed. 
-
-Lemma proof_of_concatenating_numbers_entail_wit_2 : concatenating_numbers_entail_wit_2.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists flat1_2 (@nil Z) rows1_2 lens1_2.
-  rewrite ConcatenatedPrefix_zero__output_setup.
-  subst result_length.
-  sep_apply_l_atomic
-    (IntArray.undef_full_to_undef_seg result_pre (sum lens)).
-  rewrite IntArray.seg_empty.
-  split_pure_spatial.
-  - cancel (IntArray.full numbers_pre (count_pre * number_width_pre) flat1_2).
-    cancel (IntArray.full lengths_pre count_pre lens1_2).
     cancel (IntArray.undef_seg result_pre 0 (sum lens)).
-  - split_pures; dump_pre_spatial; auto; try lia.
-Qed. 
+  - split_pures; dump_pre_spatial; auto; try annotation_fact; try exact Hperm; try exact Hsorted.
+Qed.
 
 Lemma proof_of_concatenating_numbers_entail_wit_3 : concatenating_numbers_entail_wit_3.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (old_PreH10 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH14 : (output_2 = (ConcatenatedPrefix (rows1_2) (lens1_2) (i)))) by annotation_fact.
   assert (Hlens_i : 1 <= Znth i lens1_2 0 <= number_width_pre).
-  { pose proof PreH10 as Hwf.
+  { pose proof old_PreH10 as Hwf.
     unfold RowsWellFormed in Hwf.
     destruct Hwf as [_ [_ Hrows]].
     specialize (Hrows i ltac:(lia)).
@@ -1039,108 +1085,105 @@ Proof.
   assert (Houtput :
       output_2 = ConcatenatedOutputPrefix rows1_2 lens1_2 i 0).
   { rewrite ConcatenatedOutputPrefix_zero__output_setup.
-    exact PreH14. }
+    exact old_PreH14. }
+  assert (Hcapacity : result_length < sum lens).
+  { pose proof (ConcatenatedOutputPrefix_lt_sum__output_inner_loop
+      rows1_2 lens1_2 count_pre number_width_pre i 0
+      old_PreH10 ltac:(lia) ltac:(lia)) as Hbound.
+    rewrite <- Houtput in Hbound. lia. }
   Exists flat1_2 output_2 rows1_2 lens1_2.
   split_pure_spatial.
   - cancel (IntArray.full numbers_pre (count_pre * number_width_pre) flat1_2).
     cancel (IntArray.full lengths_pre count_pre lens1_2).
     cancel (IntArray.seg result_pre 0 result_length output_2).
     cancel (IntArray.undef_seg result_pre result_length (sum lens)).
-  - split_pures; dump_pre_spatial; auto; try lia; try exact Houtput; try exact Hlens_i.
-Qed. 
-
-Lemma proof_of_concatenating_numbers_entail_wit_4_split_goal_1 : concatenating_numbers_entail_wit_4_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  split_pures.
-  assert (Hi_count : i < count_pre) by lia.
-  assert (Hwidth_pos : 0 < number_width_pre) by lia.
-  assert (Hi_mul :
-    i * number_width_pre <= (count_pre - 1) * number_width_pre).
-  { apply Z.mul_le_mono_nonneg_r; lia. }
-  replace (count_pre * number_width_pre) with
-    ((count_pre - 1) * number_width_pre + number_width_pre) by ring.
-  lia.
+  - split_pures; dump_pre_spatial; auto; try annotation_fact; try exact Houtput; try exact Hlens_i.
 Qed.
 
 Lemma proof_of_concatenating_numbers_entail_wit_4 : concatenating_numbers_entail_wit_4.
 Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_concatenating_numbers_entail_wit_4_split_goal_1.
-Qed. 
-
-Lemma proof_of_concatenating_numbers_entail_wit_5_split_goal_1 : concatenating_numbers_entail_wit_5_split_goal_1.
-Proof.
   LLM_pre_process ltac:(int_auto).
-  rewrite PreH31, PreH30.
-  rewrite <- PreH29.
-  apply (ConcatenatedOutputPrefix_lt_sum__output_inner_loop
-           rows1 lens1 count_pre number_width_pre i j PreH26); lia.
-Qed.
-
-Lemma proof_of_concatenating_numbers_entail_wit_5 : concatenating_numbers_entail_wit_5.
-Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_concatenating_numbers_entail_wit_5_split_goal_1.
-Qed. 
-
-Lemma proof_of_concatenating_numbers_entail_wit_6 : concatenating_numbers_entail_wit_6.
-Proof.
-  LLM_pre_process ltac:(int_auto).
+  assert (Hwf : RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre) by annotation_wf.
+  assert (Hflat : FlatRows flat1_2 rows1_2 count_pre number_width_pre) by assumption.
+  assert (Houtput : output_2 = ConcatenatedOutputPrefix rows1_2 lens1_2 i j) by assumption.
+  assert (Hnext : output_2 ++ Znth (i * number_width_pre + j) flat1_2 0 :: nil =
+    ConcatenatedOutputPrefix rows1_2 lens1_2 i (j + 1)).
+  { rewrite Houtput.
+    apply (ConcatenatedOutputPrefix_append__output_inner_loop
+      flat1_2 rows1_2 lens1_2 count_pre number_width_pre i j Hflat Hwf); lia. }
+  assert (Hnextlen :
+    Zlength (output_2 ++ Znth (i * number_width_pre + j) flat1_2 0 :: nil) = result_length + 1).
+  { rewrite Zlength_app, Zlength_cons, Zlength_nil. lia. }
+  assert (Hcapacity : j + 1 < Znth i lens1_2 0 -> result_length + 1 < sum lens).
+  { intros Hj.
+    pose proof (ConcatenatedOutputPrefix_lt_sum__output_inner_loop
+      rows1_2 lens1_2 count_pre number_width_pre i (j + 1)
+      Hwf ltac:(lia) ltac:(lia)) as Hbound.
+    rewrite <- Hnext, Hnextlen in Hbound. lia. }
   Exists flat1_2
     (output_2 ++ Znth (i * number_width_pre + j) flat1_2 0 :: nil)
     rows1_2 lens1_2.
   split_pure_spatial.
   - repeat cancel.
-  - split_pures; dump_pre_spatial; auto; try lia;
-      first
-        [ rewrite Zlength_app; rewrite <- PreH33; simpl; reflexivity
-        | rewrite PreH32;
-          apply (ConcatenatedOutputPrefix_append__output_inner_loop
-                   flat1_2 rows1_2 lens1_2 count_pre number_width_pre i j
-                   PreH36 PreH28); lia ].
-Qed. 
+  - split_pures; dump_pre_spatial; auto; try annotation_fact.
+Qed.
 
-Lemma proof_of_concatenating_numbers_entail_wit_7 : concatenating_numbers_entail_wit_7.
+
+Lemma proof_of_concatenating_numbers_entail_wit_5 : concatenating_numbers_entail_wit_5.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  Exists flat1_2 output_2 rows1_2 lens1_2.
+  assert (old_PreH14 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH18 : (output_2 = (ConcatenatedOutputPrefix (rows1_2) (lens1_2) (i) (j)))) by annotation_fact.
+  Exists flat1_2 output_2 lens1_2 rows1_2.
   split_pure_spatial.
   - repeat cancel.
-  - split_pures; dump_pre_spatial; auto; try lia.
+  - split_pures; dump_pre_spatial; auto; try annotation_fact.
     assert (Hj : j = Znth i lens1_2 0) by lia.
-    rewrite PreH18, Hj.
+    rewrite old_PreH18, Hj.
     eapply ConcatenatedOutputPrefix_full_row__output_inner_loop; eauto; lia.
-Qed. 
+Qed.
 
 Lemma proof_of_concatenating_numbers_return_wit_1 : concatenating_numbers_return_wit_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (old_PreH10 : (RowsWellFormed rows1_2 lens1_2 count_pre number_width_pre )) by annotation_fact.
+  assert (old_PreH13 : ((sum (lens1_2)) = (sum (lens)))) by annotation_fact.
+  assert (old_PreH14 : (output_2 = (ConcatenatedPrefix (rows1_2) (lens1_2) (i)))) by annotation_fact.
   - assert (Hi_eq : i = count_pre) by lia.
     assert (Houtput_eq :
       output_2 = concatenate_rows rows1_2 lens1_2).
-    { rewrite PreH14, Hi_eq.
+    { rewrite old_PreH14, Hi_eq.
       apply ConcatenatedPrefix_full__largest_concatenation_final
         with (width := number_width_pre).
-      exact PreH10. }
+      exact old_PreH10. }
     assert (Houtput_len : Zlength output_2 = sum lens).
     { rewrite Houtput_eq.
       rewrite (RowsWellFormed_concatenate_rows_length__largest_concatenation_final
-                 rows1_2 lens1_2 count_pre number_width_pre PreH10).
-      exact PreH13. }
+                 rows1_2 lens1_2 count_pre number_width_pre old_PreH10).
+      exact old_PreH13. }
     assert (Hresult_full : result_length = sum lens) by lia.
     assert (Hlargest :
-      LargestConcatenation rows rows1_2 lens lens1_2 output_2).
+      LargestConcatenation rows lens output_2).
     { rewrite Houtput_eq.
       eapply GreedySorted_LargestConcatenation__largest_concatenation_final;
         eauto. }
-    Exists output_2. Exists flat1_2. Exists rows1_2. Exists lens1_2.
+    assert (Hwidth : Forall (fun row : list Z => Zlength row = number_width_pre) rows1_2).
+    { apply decimal_rows_lengths_from_map. assumption. }
+    assert (Hflat : FlatRows flat1 rows1_2 count_pre number_width_pre) by assumption.
+    assert (Hdata : flat1 = concat rows1_2).
+    { unfold FlatRows in Hflat.
+      apply (decimal_rows_concat_unique rows1_2 flat1 count_pre number_width_pre);
+        try lia; try tauto; exact Hwidth. }
+    Exists lens1_2. Exists rows1_2. Exists output_2.
     split_pure_spatial.
     + rewrite Hresult_full.
       rewrite IntArray.undef_seg_empty.
       sep_apply (IntArray.seg_to_full result_pre 0 (sum lens) output_2).
       replace (result_pre + 0 * sizeof(INT)) with result_pre by lia.
       replace (sum lens - 0) with (sum lens) by lia.
-      cancel.
+      rewrite Hdata.
+      sep_apply (decimal_rows_unflatten rows1_2 numbers_pre count_pre number_width_pre
+        ltac:(lia) Hwidth ltac:(lia)).
+      repeat cancel; try apply derivable1_refl.
     + split_pures; dump_pre_spatial; auto.
-Qed. 
+Qed.

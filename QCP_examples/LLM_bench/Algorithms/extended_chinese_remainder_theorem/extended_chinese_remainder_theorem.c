@@ -1,10 +1,14 @@
 /*@ Extern Coq
+      (Forall : {A} -> (A -> Prop) -> list A -> Prop)
+      (Forall2 : {A B} -> (A -> B -> Prop) -> list A -> list B -> Prop)
+      (Z::le : Z -> Z -> Prop)
+      (Z::ge : Z -> Z -> Prop)
+      (Z::lt : Z -> Z -> Prop)
+      (CRTLCMPrefix : list Z -> Z -> Z)
       (Zgcd : Z -> Z -> Z)
       (Zabs : Z -> Z)
       (ModularMul : Z -> Z -> Z -> Z -> Prop)
-      (ExtendedCRTInputs : list Z -> list Z -> Z -> Prop)
       (ExtendedCRTSystemCompatible : list Z -> list Z -> Z -> Prop)
-      (ExtendedCRTIntSafe : list Z -> Z -> Prop)
       (ExtendedCRTSystemResult : list Z -> list Z -> Z -> Z -> Z -> Prop)
       (CRTPrefixMeaning : list Z -> list Z -> Z -> Z -> Z -> Prop)
       (CRTReducedMergeEquation : Z -> Z -> Z -> Z -> Z -> Prop)
@@ -64,9 +68,18 @@ int extended_chinese_remainder_theorem(int n,
                                       int *combined_modulus)
 /*@ With (residue_values modulus_values : list Z)
     Require
-      ExtendedCRTInputs(residue_values, modulus_values, n) &&
+      1 <= n &&
+      Forall(Z::lt(0), modulus_values) &&
+      Forall(Z::ge(INT_MAX), modulus_values) &&
+      Forall(Z::le(0), residue_values) &&
+      Forall2(Z::lt, residue_values, modulus_values) &&
+      (forall (count : Z), 1 <= count && count <= n =>
+        CRTLCMPrefix(modulus_values, count) <= INT_MAX) &&
+      (forall (index : Z), 1 <= index && index < n =>
+        2 * (Znth(index, modulus_values, 0) /
+          Zgcd(CRTLCMPrefix(modulus_values, index),
+               Znth(index, modulus_values, 0))) <= INT_MAX) &&
       ExtendedCRTSystemCompatible(residue_values, modulus_values, n) &&
-      ExtendedCRTIntSafe(modulus_values, n) &&
       IntArray::full(residues, n, residue_values) *
       IntArray::full(moduli, n, modulus_values) *
       has_int_permission(combined_modulus)
@@ -77,7 +90,6 @@ int extended_chinese_remainder_theorem(int n,
       IntArray::full(moduli, n, modulus_values)
 */
 {
-    /*@ 1 <= n */
     int answer = residues[0];
     int lcm = moduli[0];
 
@@ -85,9 +97,17 @@ int extended_chinese_remainder_theorem(int n,
           n == n@pre && residues == residues@pre &&
           moduli == moduli@pre &&
           combined_modulus == combined_modulus@pre &&
-          ExtendedCRTInputs(residue_values, modulus_values, n@pre) &&
+          Forall(Z::lt(0), modulus_values) &&
+          Forall(Z::ge(INT_MAX), modulus_values) &&
+          Forall(Z::le(0), residue_values) &&
+          Forall2(Z::lt, residue_values, modulus_values) &&
+          (forall (count : Z), 1 <= count && count <= n@pre =>
+            CRTLCMPrefix(modulus_values, count) <= INT_MAX) &&
+          (forall (index : Z), 1 <= index && index < n@pre =>
+            2 * (Znth(index, modulus_values, 0) /
+              Zgcd(CRTLCMPrefix(modulus_values, index),
+                   Znth(index, modulus_values, 0))) <= INT_MAX) &&
           ExtendedCRTSystemCompatible(residue_values, modulus_values, n@pre) &&
-          ExtendedCRTIntSafe(modulus_values, n@pre) &&
           1 <= i && i <= n@pre &&
           0 <= answer && answer < lcm &&
           0 < lcm && lcm <= INT_MAX &&
@@ -102,69 +122,18 @@ int extended_chinese_remainder_theorem(int n,
         int gcd = exgcd(lcm, moduli[i], &x, &y);
         int reduced_modulus = moduli[i] / gcd;
 
-        /*@ Assert
-              n == n@pre && residues == residues@pre &&
-              moduli == moduli@pre &&
-              combined_modulus == combined_modulus@pre &&
-              ExtendedCRTInputs(residue_values, modulus_values, n@pre) &&
-              ExtendedCRTSystemCompatible(residue_values, modulus_values,
-                                          n@pre) &&
-              ExtendedCRTIntSafe(modulus_values, n@pre) &&
-              0 <= i && 1 <= i && i < n@pre &&
-              0 <= answer && answer < lcm &&
-              0 < lcm && lcm <= INT_MAX &&
-              CRTPrefixMeaning(residue_values, modulus_values,
-                               i, answer, lcm) &&
-              gcd == Zgcd(lcm, Znth(i, modulus_values, 0)) &&
-              0 < gcd &&
-              lcm * x + Znth(i, modulus_values, 0) * y == gcd &&
-              reduced_modulus == Znth(i, modulus_values, 0) / gcd &&
-              0 < reduced_modulus &&
-              reduced_modulus * 2 <= INT_MAX &&
-              0 - reduced_modulus < x && x < reduced_modulus &&
-              INT_MIN < (Znth(i, residue_values, 0) - answer) / gcd &&
-              (Znth(i, residue_values, 0) - answer) / gcd <= INT_MAX &&
-              data_at(residues@pre + i * sizeof(int), int,
-                      Znth(i, residue_values, 0)) *
-              IntArray::missing_i(residues@pre, i, 0, n@pre,
-                                  residue_values) *
-              IntArray::full(moduli, n@pre, modulus_values) *
-              has_int_permission(combined_modulus@pre)
-        */
+
 
         x = modular_mul(x, (residues[i] - answer) / gcd, reduced_modulus);
         if (x < 0) {
             x += reduced_modulus;
         }
 
-        /*@ Assert
-              n == n@pre && residues == residues@pre &&
-              moduli == moduli@pre &&
-              combined_modulus == combined_modulus@pre &&
-              ExtendedCRTInputs(residue_values, modulus_values, n@pre) &&
-              ExtendedCRTSystemCompatible(residue_values, modulus_values,
-                                          n@pre) &&
-              ExtendedCRTIntSafe(modulus_values, n@pre) &&
-              1 <= i && i < n@pre &&
-              0 <= answer && answer < lcm &&
-              0 < lcm && lcm <= INT_MAX &&
-              CRTPrefixMeaning(residue_values, modulus_values,
-                               i, answer, lcm) &&
-              gcd == Zgcd(lcm, Znth(i, modulus_values, 0)) &&
-              0 < gcd &&
-              reduced_modulus == Znth(i, modulus_values, 0) / gcd &&
-              0 < reduced_modulus && reduced_modulus <= INT_MAX &&
-              0 <= x && x < reduced_modulus &&
-              0 < lcm * reduced_modulus &&
-              lcm * reduced_modulus <= INT_MAX &&
-              CRTReducedMergeEquation(answer, lcm,
-                                      Znth(i, residue_values, 0),
-                                      Znth(i, modulus_values, 0), x) &&
-              IntArray::full(residues@pre, n@pre, residue_values) *
-              IntArray::full(moduli@pre, n@pre, modulus_values) *
-              has_int_permission(combined_modulus@pre) *
-              has_int_permission(&y)
-        */
+        /*@ 0 <= x && x < reduced_modulus &&
+            lcm * reduced_modulus <= INT_MAX &&
+            CRTReducedMergeEquation(answer, lcm,
+                                    Znth(i, residue_values, 0),
+                                    Znth(i, modulus_values, 0), x) */
 
         answer = answer + x * lcm;
         lcm = lcm * reduced_modulus;

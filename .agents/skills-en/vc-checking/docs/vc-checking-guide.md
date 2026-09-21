@@ -18,7 +18,7 @@ For each analyzed target, identify the pre/post spatial resources, pure facts, e
 
 A failed split alone is not a blocker; it causes whole-goal analysis. An unprovable whole goal is a blocker. A hard VC, uncertain tactic search, or an unproved helper is not by itself a blocker.
 
-When goal expansion helps, add `Show.` inside the relevant proof body of the current main-root manual and run the handoff's controller command. Change no other manual token and do not create a debug script. The controller later deletes and regenerates the manual.
+When goal expansion helps, add `Show.` inside the relevant proof body of the handed-off report-directory manual copy and run the handoff's controller command. Change no other manual token and do not create a debug script. The canonical manual stays read-only; acceptance does not regenerate it.
 
 ## Grouping
 
@@ -26,7 +26,7 @@ Group by invariant, proof pattern, resource transformation, refinement transitio
 
 Consider top-level witness count, aggressive split count, helper complexity, library context, proof-mode differences, program phase, and likely tail work. Independent final-result and transition/safety work should be split unless they share an indivisible helper/context. A group usually has two to six top-level VCs.
 
-Groups are independent and contain no dependency field. Planned helpers are only helpers newly proved or materially changed in the current round. They use the owner suffix and `local` or `public` visibility. A frozen public helper copied unchanged is not a new plan item.
+Groups are independent and contain no dependency field. Planned helpers are only helpers newly proved or materially changed in the current round. They use the owner suffix and `local` or `public` visibility. Reused helpers also receive the current group suffix; visibility does not create a public-pool exception.
 
 ## Output
 
@@ -36,7 +36,7 @@ Groups are independent and contain no dependency field. Planned helpers are only
 
 Do not add digests, acceptance, dependency, or reuse metadata.
 
-A successful report contains only `status: completed`. A blocked report adds one complete blocker whose `vcs` list exact failed top-level/split goals and annotation locations. The controller writes the sealed manual, report, and comparison history directly into the next annotation handoff; main writes no replacement summary.
+A successful report contains only `status: completed`. A blocked report adds one complete blocker whose `vcs` list exact failed top-level/split goals and annotation locations. The controller writes the historical manual, report, and comparison history directly into the next annotation handoff; main writes no replacement summary.
 
 ## Signals to return to annotation
 

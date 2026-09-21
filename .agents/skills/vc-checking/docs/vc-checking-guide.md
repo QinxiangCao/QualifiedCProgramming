@@ -29,7 +29,7 @@
 
 mode确定后的详细分析才区分现有facts/lemmas是否足够、是否需要`group_worker_lib`中的current-suffix helper，以及整个top-level VC失败时属于annotation/spec缺口还是工具阻塞。split goal不可证本身不是blocker。
 
-主仓库文件在分析期间变化时保存证据并交给 controller；compaction写 `compact-error`。proof route不确定、helper尚未证明或 VC困难不是 blocker。
+主仓库文件在分析期间变化时保存证据并交给 controller；上下文压缩由运行时处理，不写业务报告。proof route不确定、helper尚未证明或 VC困难不是 blocker。
 
 ## 分组
 
@@ -40,7 +40,7 @@ mode确定后的详细分析才区分现有facts/lemmas是否足够、是否需�
 - 同一function内的初始化、核心语义转换、简单控制流投影和最终结果若没有不可分割的helper family，应拆组。对预计tail group，若final-result与transition/safety可独立证明必须拆开；不可拆时在`agent_output.md`说明helper/context耦合，并规划可提前提供的permutation、sum/length、mask-clear等formal/public helper。
 - manual seed只决定最终manual witness declaration顺序；accepted plan顺序决定group编号与helper merge顺序。程序阶段、实际负载与helper ownership优先决定group边界。
 
-所有groups在机器调度上独立，plan不含dependency字段。若多个witnesses必须使用同一组紧耦合、证明专用的helper family，应留在同一group，由一个`group_worker_lib`维护current-suffix helpers。structured `helpers`只列本组新证/改写且带owner suffix的helper；public snapshot中已有且不需修改的helper不是新plan item。只供本组时写`visibility: local`；稳定数学性质预计可在后续round使用时写`visibility: public`。controller在该group通过validation后，把public candidate及必要依赖append到run-root pool；本轮所有groups只见preparing时冻结的同一`public_helper_snapshot.txt`。snapshot/pool都不能import、不能成为第四种lib或group dependency。不得读取/import sibling `group_worker_lib`。
+所有 groups 独立，plan 不含 dependency。紧耦合的 witness/helper family 留在同一组；新增或复用 helper 使用当前 group suffix。visibility local/public 仅说明复用意图，不创建 pool 或 promotion。历史 proof/helper 由 owner 按交接路径搜索并在当前组重新验证，不读取/import 当前 sibling lib。
 
 类似`sieve_of_euler`的case可在helper ownership允许时使用如下自然语言分组示例；具体witness名称不得硬编码进controller：
 
@@ -88,7 +88,7 @@ mode确定后的详细分析才区分现有facts/lemmas是否足够、是否需�
 
 - `agent_report.json`：成功只含completed status，blocked时增加唯一完整`blocker`，不复制controller checks。
 
-split goal不可证时先分析所属top-level VC，不直接返回blocker。只有整个top-level VC仍不可证，terminal status才写`blocked`。JSON `vcs` 精确列出失败 top-level/split goal 及 annotation location；controller 直接把 sealed manual、report 和 comparison history写入下一次 annotation handoff，不需要 main 重写总结。
+split goal不可证时先分析所属top-level VC，不直接返回blocker。只有整个top-level VC仍不可证，terminal status才写`blocked`。JSON `vcs` 精确列出失败 top-level/split goal 及 annotation location；controller 直接把 historical manual、report 和 comparison history写入下一次 annotation handoff，不需要 main 重写总结。
 
 ## 回 annotation 的信号
 

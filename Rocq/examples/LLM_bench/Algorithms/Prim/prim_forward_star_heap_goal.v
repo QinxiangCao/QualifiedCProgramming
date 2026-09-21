@@ -1667,7 +1667,7 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
 .
 
 Definition prim_forward_star_heap_safety_wit_55 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH9 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH10 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH11 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH12 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH13 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH14 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH15 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "heap_capacity" ) )) # Int  |->_)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
@@ -1694,18 +1694,21 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "link" ) )) # Ptr  |-> link)
   **  (IntArray.full link (2 * m_pre ) l_link )
   **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
-  **  (IntArray.full lowcost n_pre (repeat_Z (1000000000) (n_pre)) )
+  **  (IntArray.seg lowcost 0 i (repeat_Z (1000000000) (i)) )
+  **  (IntArray.undef_seg lowcost i n_pre )
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
-  **  (IntArray.full visited n_pre (repeat_Z (0) (n_pre)) )
+  **  (IntArray.seg visited 0 i (repeat_Z (0) (i)) )
+  **  (IntArray.undef_seg visited i n_pre )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.full edge_parent n_pre (repeat_Z ((-1)) (n_pre)) )
+  **  (IntArray.seg edge_parent 0 i (repeat_Z ((-1)) (i)) )
+  **  (IntArray.undef_seg edge_parent i n_pre )
 |--
   “ (((2 * m_pre ) + 2 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= ((2 * m_pre ) + 2 )) ”
 .
 
 Definition prim_forward_star_heap_safety_wit_56 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH9 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH10 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH11 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH12 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH13 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH14 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH15 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "heap_capacity" ) )) # Int  |->_)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
@@ -1732,18 +1735,21 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "link" ) )) # Ptr  |-> link)
   **  (IntArray.full link (2 * m_pre ) l_link )
   **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
-  **  (IntArray.full lowcost n_pre (repeat_Z (1000000000) (n_pre)) )
+  **  (IntArray.seg lowcost 0 i (repeat_Z (1000000000) (i)) )
+  **  (IntArray.undef_seg lowcost i n_pre )
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
-  **  (IntArray.full visited n_pre (repeat_Z (0) (n_pre)) )
+  **  (IntArray.seg visited 0 i (repeat_Z (0) (i)) )
+  **  (IntArray.undef_seg visited i n_pre )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.full edge_parent n_pre (repeat_Z ((-1)) (n_pre)) )
+  **  (IntArray.seg edge_parent 0 i (repeat_Z ((-1)) (i)) )
+  **  (IntArray.undef_seg edge_parent i n_pre )
 |--
   “ ((2 * m_pre ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (2 * m_pre )) ”
 .
 
 Definition prim_forward_star_heap_safety_wit_57 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH9 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH10 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH11 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH12 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH13 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH14 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH15 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "heap_capacity" ) )) # Int  |->_)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
@@ -1770,18 +1776,21 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "link" ) )) # Ptr  |-> link)
   **  (IntArray.full link (2 * m_pre ) l_link )
   **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
-  **  (IntArray.full lowcost n_pre (repeat_Z (1000000000) (n_pre)) )
+  **  (IntArray.seg lowcost 0 i (repeat_Z (1000000000) (i)) )
+  **  (IntArray.undef_seg lowcost i n_pre )
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
-  **  (IntArray.full visited n_pre (repeat_Z (0) (n_pre)) )
+  **  (IntArray.seg visited 0 i (repeat_Z (0) (i)) )
+  **  (IntArray.undef_seg visited i n_pre )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.full edge_parent n_pre (repeat_Z ((-1)) (n_pre)) )
+  **  (IntArray.seg edge_parent 0 i (repeat_Z ((-1)) (i)) )
+  **  (IntArray.undef_seg edge_parent i n_pre )
 |--
   “ (2 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 2) ”
 .
 
 Definition prim_forward_star_heap_safety_wit_58 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH9 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH10 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH11 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH12 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH13 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH14 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH15 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "heap_capacity" ) )) # Int  |->_)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
@@ -1808,18 +1817,21 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "link" ) )) # Ptr  |-> link)
   **  (IntArray.full link (2 * m_pre ) l_link )
   **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
-  **  (IntArray.full lowcost n_pre (repeat_Z (1000000000) (n_pre)) )
+  **  (IntArray.seg lowcost 0 i (repeat_Z (1000000000) (i)) )
+  **  (IntArray.undef_seg lowcost i n_pre )
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
-  **  (IntArray.full visited n_pre (repeat_Z (0) (n_pre)) )
+  **  (IntArray.seg visited 0 i (repeat_Z (0) (i)) )
+  **  (IntArray.undef_seg visited i n_pre )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.full edge_parent n_pre (repeat_Z ((-1)) (n_pre)) )
+  **  (IntArray.seg edge_parent 0 i (repeat_Z ((-1)) (i)) )
+  **  (IntArray.undef_seg edge_parent i n_pre )
 |--
   “ (2 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 2) ”
 .
 
 Definition prim_forward_star_heap_safety_wit_59 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (retval: Z) (retval_2: Z) (retval_3: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH9 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH10 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH11 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH12 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH13 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH14 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH15 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (i: Z) (retval: Z) (retval_2: Z) (retval_3: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "heap_size" ) )) # Int  |->_)
   **  (IntArray.undef_full retval_3 n_pre )
   **  ((( &( "heap_pos" ) )) # Ptr  |-> retval_3)
@@ -1853,18 +1865,18 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "link" ) )) # Ptr  |-> link)
   **  (IntArray.full link (2 * m_pre ) l_link )
   **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
-  **  (IntArray.full lowcost n_pre (repeat_Z (1000000000) (n_pre)) )
+  **  (IntArray.seg lowcost 0 i (repeat_Z (1000000000) (i)) )
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
-  **  (IntArray.full visited n_pre (repeat_Z (0) (n_pre)) )
+  **  (IntArray.seg visited 0 i (repeat_Z (0) (i)) )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.full edge_parent n_pre (repeat_Z ((-1)) (n_pre)) )
+  **  (IntArray.seg edge_parent 0 i (repeat_Z ((-1)) (i)) )
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
 Definition prim_forward_star_heap_safety_wit_60 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (retval: Z) (retval_2: Z) (retval_3: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH9 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH10 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH11 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH12 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH13 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH14 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH15 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (i: Z) (retval: Z) (retval_2: Z) (retval_3: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "pos_i" ) )) # Int  |->_)
   **  ((( &( "heap_size" ) )) # Int  |-> 0)
   **  (IntArray.undef_full retval_3 n_pre )
@@ -1899,11 +1911,11 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "link" ) )) # Ptr  |-> link)
   **  (IntArray.full link (2 * m_pre ) l_link )
   **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
-  **  (IntArray.full lowcost n_pre (repeat_Z (1000000000) (n_pre)) )
+  **  (IntArray.seg lowcost 0 i (repeat_Z (1000000000) (i)) )
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
-  **  (IntArray.full visited n_pre (repeat_Z (0) (n_pre)) )
+  **  (IntArray.seg visited 0 i (repeat_Z (0) (i)) )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.full edge_parent n_pre (repeat_Z ((-1)) (n_pre)) )
+  **  (IntArray.seg edge_parent 0 i (repeat_Z ((-1)) (i)) )
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -2930,12 +2942,12 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
 .
 
 Definition prim_forward_star_heap_safety_wit_83 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (s: St) (heap_capacity: Z) (heap_size: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH9 : (0 <= heap_size)) (PreH10 : (heap_size <= heap_capacity)) (PreH11 : (prim_heap_loop_state g_low_level_spec src_low_level_spec n_pre s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH12 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH13 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH14 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH16 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH17 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH18 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH19 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) ,
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : (heap_size <= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (0 <= chosen)) (PreH11 : (chosen <= n_pre)) (PreH12 : (0 <= heap_size)) (PreH13 : (heap_size <= heap_capacity)) (PreH14 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH17 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH18 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH19 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH20 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH21 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH22 : ((chosen < n_pre) -> (heap_size > 0))) ,
   ((( &( "out_i" ) )) # Int  |->_)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
-  **  ((( &( "chosen" ) )) # Int  |-> n_pre)
+  **  ((( &( "chosen" ) )) # Int  |-> chosen)
   **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
   **  ((( &( "from_arr" ) )) # Ptr  |-> from_arr_pre)
   **  ((( &( "to_arr" ) )) # Ptr  |-> to_arr_pre)
@@ -2975,13 +2987,58 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
 .
 
 Definition prim_forward_star_heap_safety_wit_84 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (s: St) (heap_capacity: Z) (heap_size: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH9 : (0 <= heap_size)) (PreH10 : (heap_size <= heap_capacity)) (PreH11 : (prim_heap_loop_state g_low_level_spec src_low_level_spec n_pre s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH12 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH13 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH14 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH16 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH17 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH18 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH19 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) ,
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : (chosen >= n_pre)) (PreH2 : (heap_size > 0)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : (1 <= m_pre)) (PreH6 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH7 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH8 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH9 : (src_low_level_spec = 0)) (PreH10 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH11 : (0 <= chosen)) (PreH12 : (chosen <= n_pre)) (PreH13 : (0 <= heap_size)) (PreH14 : (heap_size <= heap_capacity)) (PreH15 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH18 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH19 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH20 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH21 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH22 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH23 : ((chosen < n_pre) -> (heap_size > 0))) ,
+  ((( &( "out_i" ) )) # Int  |->_)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "m" ) )) # Int  |-> m_pre)
+  **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
+  **  ((( &( "chosen" ) )) # Int  |-> chosen)
+  **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
+  **  ((( &( "from_arr" ) )) # Ptr  |-> from_arr_pre)
+  **  ((( &( "to_arr" ) )) # Ptr  |-> to_arr_pre)
+  **  ((( &( "weight_arr" ) )) # Ptr  |-> weight_arr_pre)
+  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
+  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
+  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
+  **  ((( &( "out_u" ) )) # Ptr  |-> out_u)
+  **  (IntArray.undef_full out_u (n_pre - 1 ) )
+  **  ((( &( "out_v" ) )) # Ptr  |-> out_v)
+  **  (IntArray.undef_full out_v (n_pre - 1 ) )
+  **  ((( &( "out_wt" ) )) # Ptr  |-> out_wt)
+  **  (IntArray.undef_full out_wt (n_pre - 1 ) )
+  **  ((( &( "from_new" ) )) # Ptr  |-> from_new)
+  **  (IntArray.full from_new (2 * m_pre ) l_from_new )
+  **  ((( &( "to_new" ) )) # Ptr  |-> to_new)
+  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
+  **  ((( &( "weight_new" ) )) # Ptr  |-> weight_new)
+  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
+  **  ((( &( "first" ) )) # Ptr  |-> first)
+  **  (IntArray.full first n_pre l_first )
+  **  ((( &( "link" ) )) # Ptr  |-> link)
+  **  (IntArray.full link (2 * m_pre ) l_link )
+  **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
+  **  (IntArray.full lowcost n_pre l_lowcost )
+  **  ((( &( "visited" ) )) # Ptr  |-> visited)
+  **  (IntArray.full visited n_pre l_visited )
+  **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
+  **  (IntArray.full edge_parent n_pre l_edge_parent )
+  **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
+  **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
+  **  ((( &( "heap_cost" ) )) # Ptr  |-> heap_cost)
+  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
+|--
+  “ (1 <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= 1) ”
+.
+
+Definition prim_forward_star_heap_safety_wit_85 := 
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : (heap_size <= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (0 <= chosen)) (PreH11 : (chosen <= n_pre)) (PreH12 : (0 <= heap_size)) (PreH13 : (heap_size <= heap_capacity)) (PreH14 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH17 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH18 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH19 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH20 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH21 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH22 : ((chosen < n_pre) -> (heap_size > 0))) ,
   ((( &( "mst_idx" ) )) # Int  |->_)
   **  ((( &( "out_i" ) )) # Int  |-> 1)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
-  **  ((( &( "chosen" ) )) # Int  |-> n_pre)
+  **  ((( &( "chosen" ) )) # Int  |-> chosen)
   **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
   **  ((( &( "from_arr" ) )) # Ptr  |-> from_arr_pre)
   **  ((( &( "to_arr" ) )) # Ptr  |-> to_arr_pre)
@@ -3020,9 +3077,56 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition prim_forward_star_heap_safety_wit_85 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (queue_map: partial_map) (s: St) (rg: G) (heap_capacity: Z) (out_i: Z) (mst_idx: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH9 : (1 <= out_i)) (PreH10 : (out_i < n_pre)) (PreH11 : (mst_idx <= (n_pre - 1 ))) (PreH12 : (mst_idx = (out_i - 1 ))) (PreH13 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH14 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH16 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH17 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH18 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH19 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH20 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH21 : (growing_subgraph_state g_low_level_spec s )) (PreH22 : (visited_matches_state g_low_level_spec s l_visited )) (PreH23 : ((state_vertex_count (s)) = n_pre)) (PreH24 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH25 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH26 : (prim_state_graph_matches rg s )) (PreH27 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH28 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH29 : (0 <= (Znth (out_i) (l_edge_parent) (0)))) (PreH30 : ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))) (PreH31 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
-  ((( &( "edge_id" ) )) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
+Definition prim_forward_star_heap_safety_wit_86 := 
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : (chosen >= n_pre)) (PreH2 : (heap_size > 0)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : (1 <= m_pre)) (PreH6 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH7 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH8 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH9 : (src_low_level_spec = 0)) (PreH10 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH11 : (0 <= chosen)) (PreH12 : (chosen <= n_pre)) (PreH13 : (0 <= heap_size)) (PreH14 : (heap_size <= heap_capacity)) (PreH15 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH18 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH19 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH20 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH21 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH22 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH23 : ((chosen < n_pre) -> (heap_size > 0))) ,
+  ((( &( "mst_idx" ) )) # Int  |->_)
+  **  ((( &( "out_i" ) )) # Int  |-> 1)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "m" ) )) # Int  |-> m_pre)
+  **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
+  **  ((( &( "chosen" ) )) # Int  |-> chosen)
+  **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
+  **  ((( &( "from_arr" ) )) # Ptr  |-> from_arr_pre)
+  **  ((( &( "to_arr" ) )) # Ptr  |-> to_arr_pre)
+  **  ((( &( "weight_arr" ) )) # Ptr  |-> weight_arr_pre)
+  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
+  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
+  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
+  **  ((( &( "out_u" ) )) # Ptr  |-> out_u)
+  **  (IntArray.undef_full out_u (n_pre - 1 ) )
+  **  ((( &( "out_v" ) )) # Ptr  |-> out_v)
+  **  (IntArray.undef_full out_v (n_pre - 1 ) )
+  **  ((( &( "out_wt" ) )) # Ptr  |-> out_wt)
+  **  (IntArray.undef_full out_wt (n_pre - 1 ) )
+  **  ((( &( "from_new" ) )) # Ptr  |-> from_new)
+  **  (IntArray.full from_new (2 * m_pre ) l_from_new )
+  **  ((( &( "to_new" ) )) # Ptr  |-> to_new)
+  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
+  **  ((( &( "weight_new" ) )) # Ptr  |-> weight_new)
+  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
+  **  ((( &( "first" ) )) # Ptr  |-> first)
+  **  (IntArray.full first n_pre l_first )
+  **  ((( &( "link" ) )) # Ptr  |-> link)
+  **  (IntArray.full link (2 * m_pre ) l_link )
+  **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
+  **  (IntArray.full lowcost n_pre l_lowcost )
+  **  ((( &( "visited" ) )) # Ptr  |-> visited)
+  **  (IntArray.full visited n_pre l_visited )
+  **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
+  **  (IntArray.full edge_parent n_pre l_edge_parent )
+  **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
+  **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
+  **  ((( &( "heap_cost" ) )) # Ptr  |-> heap_cost)
+  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
+|--
+  “ (0 <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= 0) ”
+.
+
+Definition prim_forward_star_heap_safety_wit_87 := 
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (heap_size: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (rg: G) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (PreH1 : (out_i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (1 <= out_i)) (PreH11 : (out_i <= n_pre)) (PreH12 : (mst_idx <= (n_pre - 1 ))) (PreH13 : (mst_idx = (out_i - 1 ))) (PreH14 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH17 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH18 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH19 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH20 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH21 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH22 : (growing_subgraph_state g_low_level_spec s )) (PreH23 : (visited_matches_state g_low_level_spec s l_visited )) (PreH24 : ((state_vertex_count (s)) = n_pre)) (PreH25 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH26 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH27 : (prim_state_graph_matches rg s )) (PreH28 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH29 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH30 : ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent) (0))) /\ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH31 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
+  (IntArray.full edge_parent n_pre l_edge_parent )
+  **  ((( &( "edge_id" ) )) # Int  |-> (Znth out_i l_edge_parent 0))
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
@@ -3059,8 +3163,6 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
   **  (IntArray.full visited n_pre l_visited )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.missing_i edge_parent out_i 0 n_pre l_edge_parent )
-  **  (((edge_parent + (out_i * sizeof(INT)))) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
   **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
   **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
   **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
@@ -3070,9 +3172,10 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   “ (1 <> (INT_MIN)) ”
 .
 
-Definition prim_forward_star_heap_safety_wit_86 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (queue_map: partial_map) (s: St) (rg: G) (heap_capacity: Z) (out_i: Z) (mst_idx: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH9 : (1 <= out_i)) (PreH10 : (out_i < n_pre)) (PreH11 : (mst_idx <= (n_pre - 1 ))) (PreH12 : (mst_idx = (out_i - 1 ))) (PreH13 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH14 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH16 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH17 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH18 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH19 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH20 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH21 : (growing_subgraph_state g_low_level_spec s )) (PreH22 : (visited_matches_state g_low_level_spec s l_visited )) (PreH23 : ((state_vertex_count (s)) = n_pre)) (PreH24 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH25 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH26 : (prim_state_graph_matches rg s )) (PreH27 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH28 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH29 : (0 <= (Znth (out_i) (l_edge_parent) (0)))) (PreH30 : ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))) (PreH31 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
-  ((( &( "edge_id" ) )) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
+Definition prim_forward_star_heap_safety_wit_88 := 
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (heap_size: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (rg: G) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (PreH1 : (out_i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (1 <= out_i)) (PreH11 : (out_i <= n_pre)) (PreH12 : (mst_idx <= (n_pre - 1 ))) (PreH13 : (mst_idx = (out_i - 1 ))) (PreH14 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH17 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH18 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH19 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH20 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH21 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH22 : (growing_subgraph_state g_low_level_spec s )) (PreH23 : (visited_matches_state g_low_level_spec s l_visited )) (PreH24 : ((state_vertex_count (s)) = n_pre)) (PreH25 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH26 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH27 : (prim_state_graph_matches rg s )) (PreH28 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH29 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH30 : ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent) (0))) /\ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH31 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
+  (IntArray.full edge_parent n_pre l_edge_parent )
+  **  ((( &( "edge_id" ) )) # Int  |-> (Znth out_i l_edge_parent 0))
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
@@ -3109,8 +3212,6 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
   **  (IntArray.full visited n_pre l_visited )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.missing_i edge_parent out_i 0 n_pre l_edge_parent )
-  **  (((edge_parent + (out_i * sizeof(INT)))) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
   **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
   **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
   **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
@@ -3121,110 +3222,10 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition prim_forward_star_heap_safety_wit_87 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (queue_map: partial_map) (s: St) (rg: G) (heap_capacity: Z) (out_i: Z) (mst_idx: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : ((Znth (out_i) (l_edge_parent) (0)) = (-1))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (1 <= out_i)) (PreH11 : (out_i < n_pre)) (PreH12 : (mst_idx <= (n_pre - 1 ))) (PreH13 : (mst_idx = (out_i - 1 ))) (PreH14 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH17 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH18 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH19 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH20 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH21 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH22 : (growing_subgraph_state g_low_level_spec s )) (PreH23 : (visited_matches_state g_low_level_spec s l_visited )) (PreH24 : ((state_vertex_count (s)) = n_pre)) (PreH25 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH26 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH27 : (prim_state_graph_matches rg s )) (PreH28 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH29 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH30 : (0 <= (Znth (out_i) (l_edge_parent) (0)))) (PreH31 : ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))) (PreH32 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
-  ((( &( "edge_id" ) )) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
-  **  ((( &( "chosen" ) )) # Int  |-> n_pre)
-  **  ((( &( "from_arr" ) )) # Ptr  |-> from_arr_pre)
-  **  ((( &( "to_arr" ) )) # Ptr  |-> to_arr_pre)
-  **  ((( &( "weight_arr" ) )) # Ptr  |-> weight_arr_pre)
-  **  ((( &( "out_i" ) )) # Int  |-> out_i)
-  **  ((( &( "mst_idx" ) )) # Int  |-> mst_idx)
-  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
-  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
-  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
-  **  ((( &( "out_u" ) )) # Ptr  |-> out_u)
-  **  (IntArray.seg out_u 0 mst_idx l_out_u )
-  **  (IntArray.undef_seg out_u mst_idx (n_pre - 1 ) )
-  **  ((( &( "out_v" ) )) # Ptr  |-> out_v)
-  **  (IntArray.seg out_v 0 mst_idx l_out_v )
-  **  (IntArray.undef_seg out_v mst_idx (n_pre - 1 ) )
-  **  ((( &( "out_wt" ) )) # Ptr  |-> out_wt)
-  **  (IntArray.seg out_wt 0 mst_idx l_out_wt )
-  **  (IntArray.undef_seg out_wt mst_idx (n_pre - 1 ) )
-  **  ((( &( "from_new" ) )) # Ptr  |-> from_new)
-  **  (IntArray.full from_new (2 * m_pre ) l_from_new )
-  **  ((( &( "to_new" ) )) # Ptr  |-> to_new)
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
-  **  ((( &( "weight_new" ) )) # Ptr  |-> weight_new)
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
-  **  ((( &( "first" ) )) # Ptr  |-> first)
-  **  (IntArray.full first n_pre l_first )
-  **  ((( &( "link" ) )) # Ptr  |-> link)
-  **  (IntArray.full link (2 * m_pre ) l_link )
-  **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
-  **  (IntArray.full lowcost n_pre l_lowcost )
-  **  ((( &( "visited" ) )) # Ptr  |-> visited)
-  **  (IntArray.full visited n_pre l_visited )
-  **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.missing_i edge_parent out_i 0 n_pre l_edge_parent )
-  **  (((edge_parent + (out_i * sizeof(INT)))) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
-  **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
-  **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
-  **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
-  **  ((( &( "heap_cost" ) )) # Ptr  |-> heap_cost)
-  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
-|--
-  “ False ”
-.
-
-Definition prim_forward_star_heap_safety_wit_88 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (queue_map: partial_map) (s: St) (rg: G) (heap_capacity: Z) (out_i: Z) (mst_idx: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : ((Znth (out_i) (l_edge_parent) (0)) <> (-1))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (1 <= out_i)) (PreH11 : (out_i < n_pre)) (PreH12 : (mst_idx <= (n_pre - 1 ))) (PreH13 : (mst_idx = (out_i - 1 ))) (PreH14 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH17 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH18 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH19 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH20 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH21 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH22 : (growing_subgraph_state g_low_level_spec s )) (PreH23 : (visited_matches_state g_low_level_spec s l_visited )) (PreH24 : ((state_vertex_count (s)) = n_pre)) (PreH25 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH26 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH27 : (prim_state_graph_matches rg s )) (PreH28 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH29 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH30 : (0 <= (Znth (out_i) (l_edge_parent) (0)))) (PreH31 : ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))) (PreH32 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
-  ((( &( "edge_id" ) )) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
-  **  ((( &( "chosen" ) )) # Int  |-> n_pre)
-  **  ((( &( "from_arr" ) )) # Ptr  |-> from_arr_pre)
-  **  ((( &( "to_arr" ) )) # Ptr  |-> to_arr_pre)
-  **  ((( &( "weight_arr" ) )) # Ptr  |-> weight_arr_pre)
-  **  ((( &( "out_i" ) )) # Int  |-> out_i)
-  **  ((( &( "mst_idx" ) )) # Int  |-> mst_idx)
-  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
-  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
-  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
-  **  ((( &( "out_u" ) )) # Ptr  |-> out_u)
-  **  (IntArray.seg out_u 0 mst_idx l_out_u )
-  **  (IntArray.undef_seg out_u mst_idx (n_pre - 1 ) )
-  **  ((( &( "out_v" ) )) # Ptr  |-> out_v)
-  **  (IntArray.seg out_v 0 mst_idx l_out_v )
-  **  (IntArray.undef_seg out_v mst_idx (n_pre - 1 ) )
-  **  ((( &( "out_wt" ) )) # Ptr  |-> out_wt)
-  **  (IntArray.seg out_wt 0 mst_idx l_out_wt )
-  **  (IntArray.undef_seg out_wt mst_idx (n_pre - 1 ) )
-  **  ((( &( "from_new" ) )) # Ptr  |-> from_new)
-  **  (IntArray.full from_new (2 * m_pre ) l_from_new )
-  **  ((( &( "to_new" ) )) # Ptr  |-> to_new)
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
-  **  ((( &( "weight_new" ) )) # Ptr  |-> weight_new)
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
-  **  ((( &( "first" ) )) # Ptr  |-> first)
-  **  (IntArray.full first n_pre l_first )
-  **  ((( &( "link" ) )) # Ptr  |-> link)
-  **  (IntArray.full link (2 * m_pre ) l_link )
-  **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
-  **  (IntArray.full lowcost n_pre l_lowcost )
-  **  ((( &( "visited" ) )) # Ptr  |-> visited)
-  **  (IntArray.full visited n_pre l_visited )
-  **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.missing_i edge_parent out_i 0 n_pre l_edge_parent )
-  **  (((edge_parent + (out_i * sizeof(INT)))) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
-  **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
-  **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
-  **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
-  **  ((( &( "heap_cost" ) )) # Ptr  |-> heap_cost)
-  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
-|--
-  “ (0 <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= 0) ”
-.
-
 Definition prim_forward_star_heap_safety_wit_89 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (queue_map: partial_map) (s: St) (rg: G) (heap_capacity: Z) (out_i: Z) (mst_idx: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (0 > (Znth (out_i) (l_edge_parent) (0)))) (PreH2 : ((Znth (out_i) (l_edge_parent) (0)) <> (-1))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : (1 <= m_pre)) (PreH6 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH7 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH8 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH9 : (src_low_level_spec = 0)) (PreH10 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH11 : (1 <= out_i)) (PreH12 : (out_i < n_pre)) (PreH13 : (mst_idx <= (n_pre - 1 ))) (PreH14 : (mst_idx = (out_i - 1 ))) (PreH15 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH18 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH19 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH20 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH21 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH22 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH23 : (growing_subgraph_state g_low_level_spec s )) (PreH24 : (visited_matches_state g_low_level_spec s l_visited )) (PreH25 : ((state_vertex_count (s)) = n_pre)) (PreH26 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH27 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH28 : (prim_state_graph_matches rg s )) (PreH29 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH30 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH31 : (0 <= (Znth (out_i) (l_edge_parent) (0)))) (PreH32 : ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))) (PreH33 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
-  ((( &( "edge_id" ) )) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (heap_size: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (rg: G) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (PreH1 : ((Znth out_i l_edge_parent 0) = (-1))) (PreH2 : (out_i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : (1 <= m_pre)) (PreH6 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH7 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH8 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH9 : (src_low_level_spec = 0)) (PreH10 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH11 : (1 <= out_i)) (PreH12 : (out_i <= n_pre)) (PreH13 : (mst_idx <= (n_pre - 1 ))) (PreH14 : (mst_idx = (out_i - 1 ))) (PreH15 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH18 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH19 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH20 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH21 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH22 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH23 : (growing_subgraph_state g_low_level_spec s )) (PreH24 : (visited_matches_state g_low_level_spec s l_visited )) (PreH25 : ((state_vertex_count (s)) = n_pre)) (PreH26 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH27 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH28 : (prim_state_graph_matches rg s )) (PreH29 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH30 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH31 : ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent) (0))) /\ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH32 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
+  (IntArray.full edge_parent n_pre l_edge_parent )
+  **  ((( &( "edge_id" ) )) # Int  |-> (Znth out_i l_edge_parent 0))
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
@@ -3261,8 +3262,6 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
   **  (IntArray.full visited n_pre l_visited )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.missing_i edge_parent out_i 0 n_pre l_edge_parent )
-  **  (((edge_parent + (out_i * sizeof(INT)))) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
   **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
   **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
   **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
@@ -3273,8 +3272,9 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
 .
 
 Definition prim_forward_star_heap_safety_wit_90 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (queue_map: partial_map) (s: St) (rg: G) (heap_capacity: Z) (out_i: Z) (mst_idx: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (0 <= (Znth (out_i) (l_edge_parent) (0)))) (PreH2 : ((Znth (out_i) (l_edge_parent) (0)) <> (-1))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : (1 <= m_pre)) (PreH6 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH7 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH8 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH9 : (src_low_level_spec = 0)) (PreH10 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH11 : (1 <= out_i)) (PreH12 : (out_i < n_pre)) (PreH13 : (mst_idx <= (n_pre - 1 ))) (PreH14 : (mst_idx = (out_i - 1 ))) (PreH15 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH18 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH19 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH20 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH21 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH22 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH23 : (growing_subgraph_state g_low_level_spec s )) (PreH24 : (visited_matches_state g_low_level_spec s l_visited )) (PreH25 : ((state_vertex_count (s)) = n_pre)) (PreH26 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH27 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH28 : (prim_state_graph_matches rg s )) (PreH29 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH30 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH31 : (0 <= (Znth (out_i) (l_edge_parent) (0)))) (PreH32 : ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))) (PreH33 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
-  ((( &( "edge_id" ) )) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (heap_size: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (rg: G) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (PreH1 : ((Znth out_i l_edge_parent 0) <> (-1))) (PreH2 : (out_i < n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : (1 <= m_pre)) (PreH6 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH7 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH8 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH9 : (src_low_level_spec = 0)) (PreH10 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH11 : (1 <= out_i)) (PreH12 : (out_i <= n_pre)) (PreH13 : (mst_idx <= (n_pre - 1 ))) (PreH14 : (mst_idx = (out_i - 1 ))) (PreH15 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH18 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH19 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH20 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH21 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH22 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH23 : (growing_subgraph_state g_low_level_spec s )) (PreH24 : (visited_matches_state g_low_level_spec s l_visited )) (PreH25 : ((state_vertex_count (s)) = n_pre)) (PreH26 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH27 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH28 : (prim_state_graph_matches rg s )) (PreH29 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH30 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH31 : ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent) (0))) /\ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH32 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
+  (IntArray.full edge_parent n_pre l_edge_parent )
+  **  ((( &( "edge_id" ) )) # Int  |-> (Znth out_i l_edge_parent 0))
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
@@ -3311,8 +3311,105 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
   **  (IntArray.full visited n_pre l_visited )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.missing_i edge_parent out_i 0 n_pre l_edge_parent )
-  **  (((edge_parent + (out_i * sizeof(INT)))) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
+  **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
+  **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
+  **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
+  **  ((( &( "heap_cost" ) )) # Ptr  |-> heap_cost)
+  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
+|--
+  “ (0 <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= 0) ”
+.
+
+Definition prim_forward_star_heap_safety_wit_91 := 
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (heap_size: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (rg: G) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (PreH1 : (0 > (Znth out_i l_edge_parent 0))) (PreH2 : ((Znth out_i l_edge_parent 0) <> (-1))) (PreH3 : (out_i < n_pre)) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : (1 <= m_pre)) (PreH7 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH8 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH9 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH10 : (src_low_level_spec = 0)) (PreH11 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH12 : (1 <= out_i)) (PreH13 : (out_i <= n_pre)) (PreH14 : (mst_idx <= (n_pre - 1 ))) (PreH15 : (mst_idx = (out_i - 1 ))) (PreH16 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH19 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH20 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH21 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH22 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH23 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH24 : (growing_subgraph_state g_low_level_spec s )) (PreH25 : (visited_matches_state g_low_level_spec s l_visited )) (PreH26 : ((state_vertex_count (s)) = n_pre)) (PreH27 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH28 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH29 : (prim_state_graph_matches rg s )) (PreH30 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH31 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH32 : ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent) (0))) /\ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH33 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
+  (IntArray.full edge_parent n_pre l_edge_parent )
+  **  ((( &( "edge_id" ) )) # Int  |-> (Znth out_i l_edge_parent 0))
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "m" ) )) # Int  |-> m_pre)
+  **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
+  **  ((( &( "chosen" ) )) # Int  |-> n_pre)
+  **  ((( &( "from_arr" ) )) # Ptr  |-> from_arr_pre)
+  **  ((( &( "to_arr" ) )) # Ptr  |-> to_arr_pre)
+  **  ((( &( "weight_arr" ) )) # Ptr  |-> weight_arr_pre)
+  **  ((( &( "out_i" ) )) # Int  |-> out_i)
+  **  ((( &( "mst_idx" ) )) # Int  |-> mst_idx)
+  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
+  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
+  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
+  **  ((( &( "out_u" ) )) # Ptr  |-> out_u)
+  **  (IntArray.seg out_u 0 mst_idx l_out_u )
+  **  (IntArray.undef_seg out_u mst_idx (n_pre - 1 ) )
+  **  ((( &( "out_v" ) )) # Ptr  |-> out_v)
+  **  (IntArray.seg out_v 0 mst_idx l_out_v )
+  **  (IntArray.undef_seg out_v mst_idx (n_pre - 1 ) )
+  **  ((( &( "out_wt" ) )) # Ptr  |-> out_wt)
+  **  (IntArray.seg out_wt 0 mst_idx l_out_wt )
+  **  (IntArray.undef_seg out_wt mst_idx (n_pre - 1 ) )
+  **  ((( &( "from_new" ) )) # Ptr  |-> from_new)
+  **  (IntArray.full from_new (2 * m_pre ) l_from_new )
+  **  ((( &( "to_new" ) )) # Ptr  |-> to_new)
+  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
+  **  ((( &( "weight_new" ) )) # Ptr  |-> weight_new)
+  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
+  **  ((( &( "first" ) )) # Ptr  |-> first)
+  **  (IntArray.full first n_pre l_first )
+  **  ((( &( "link" ) )) # Ptr  |-> link)
+  **  (IntArray.full link (2 * m_pre ) l_link )
+  **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
+  **  (IntArray.full lowcost n_pre l_lowcost )
+  **  ((( &( "visited" ) )) # Ptr  |-> visited)
+  **  (IntArray.full visited n_pre l_visited )
+  **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
+  **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
+  **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
+  **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
+  **  ((( &( "heap_cost" ) )) # Ptr  |-> heap_cost)
+  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
+|--
+  “ False ”
+.
+
+Definition prim_forward_star_heap_safety_wit_92 := 
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (heap_size: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (rg: G) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (PreH1 : (0 <= (Znth out_i l_edge_parent 0))) (PreH2 : ((Znth out_i l_edge_parent 0) <> (-1))) (PreH3 : (out_i < n_pre)) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : (1 <= m_pre)) (PreH7 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH8 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH9 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH10 : (src_low_level_spec = 0)) (PreH11 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH12 : (1 <= out_i)) (PreH13 : (out_i <= n_pre)) (PreH14 : (mst_idx <= (n_pre - 1 ))) (PreH15 : (mst_idx = (out_i - 1 ))) (PreH16 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH19 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH20 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH21 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH22 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH23 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH24 : (growing_subgraph_state g_low_level_spec s )) (PreH25 : (visited_matches_state g_low_level_spec s l_visited )) (PreH26 : ((state_vertex_count (s)) = n_pre)) (PreH27 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH28 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH29 : (prim_state_graph_matches rg s )) (PreH30 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH31 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH32 : ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent) (0))) /\ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH33 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
+  (IntArray.full edge_parent n_pre l_edge_parent )
+  **  ((( &( "edge_id" ) )) # Int  |-> (Znth out_i l_edge_parent 0))
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "m" ) )) # Int  |-> m_pre)
+  **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
+  **  ((( &( "chosen" ) )) # Int  |-> n_pre)
+  **  ((( &( "from_arr" ) )) # Ptr  |-> from_arr_pre)
+  **  ((( &( "to_arr" ) )) # Ptr  |-> to_arr_pre)
+  **  ((( &( "weight_arr" ) )) # Ptr  |-> weight_arr_pre)
+  **  ((( &( "out_i" ) )) # Int  |-> out_i)
+  **  ((( &( "mst_idx" ) )) # Int  |-> mst_idx)
+  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
+  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
+  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
+  **  ((( &( "out_u" ) )) # Ptr  |-> out_u)
+  **  (IntArray.seg out_u 0 mst_idx l_out_u )
+  **  (IntArray.undef_seg out_u mst_idx (n_pre - 1 ) )
+  **  ((( &( "out_v" ) )) # Ptr  |-> out_v)
+  **  (IntArray.seg out_v 0 mst_idx l_out_v )
+  **  (IntArray.undef_seg out_v mst_idx (n_pre - 1 ) )
+  **  ((( &( "out_wt" ) )) # Ptr  |-> out_wt)
+  **  (IntArray.seg out_wt 0 mst_idx l_out_wt )
+  **  (IntArray.undef_seg out_wt mst_idx (n_pre - 1 ) )
+  **  ((( &( "from_new" ) )) # Ptr  |-> from_new)
+  **  (IntArray.full from_new (2 * m_pre ) l_from_new )
+  **  ((( &( "to_new" ) )) # Ptr  |-> to_new)
+  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
+  **  ((( &( "weight_new" ) )) # Ptr  |-> weight_new)
+  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
+  **  ((( &( "first" ) )) # Ptr  |-> first)
+  **  (IntArray.full first n_pre l_first )
+  **  ((( &( "link" ) )) # Ptr  |-> link)
+  **  (IntArray.full link (2 * m_pre ) l_link )
+  **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
+  **  (IntArray.full lowcost n_pre l_lowcost )
+  **  ((( &( "visited" ) )) # Ptr  |-> visited)
+  **  (IntArray.full visited n_pre l_visited )
+  **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
   **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
   **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
   **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
@@ -3323,9 +3420,10 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ ((INT_MIN) <= (2 * m_pre )) ”
 .
 
-Definition prim_forward_star_heap_safety_wit_91 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (queue_map: partial_map) (s: St) (rg: G) (heap_capacity: Z) (out_i: Z) (mst_idx: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (0 <= (Znth (out_i) (l_edge_parent) (0)))) (PreH2 : ((Znth (out_i) (l_edge_parent) (0)) <> (-1))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : (1 <= m_pre)) (PreH6 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH7 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH8 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH9 : (src_low_level_spec = 0)) (PreH10 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH11 : (1 <= out_i)) (PreH12 : (out_i < n_pre)) (PreH13 : (mst_idx <= (n_pre - 1 ))) (PreH14 : (mst_idx = (out_i - 1 ))) (PreH15 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH18 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH19 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH20 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH21 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH22 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH23 : (growing_subgraph_state g_low_level_spec s )) (PreH24 : (visited_matches_state g_low_level_spec s l_visited )) (PreH25 : ((state_vertex_count (s)) = n_pre)) (PreH26 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH27 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH28 : (prim_state_graph_matches rg s )) (PreH29 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH30 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH31 : (0 <= (Znth (out_i) (l_edge_parent) (0)))) (PreH32 : ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))) (PreH33 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
-  ((( &( "edge_id" ) )) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
+Definition prim_forward_star_heap_safety_wit_93 := 
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (heap_size: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (rg: G) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (PreH1 : (0 <= (Znth out_i l_edge_parent 0))) (PreH2 : ((Znth out_i l_edge_parent 0) <> (-1))) (PreH3 : (out_i < n_pre)) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : (1 <= m_pre)) (PreH7 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH8 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH9 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH10 : (src_low_level_spec = 0)) (PreH11 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH12 : (1 <= out_i)) (PreH13 : (out_i <= n_pre)) (PreH14 : (mst_idx <= (n_pre - 1 ))) (PreH15 : (mst_idx = (out_i - 1 ))) (PreH16 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH19 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH20 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH21 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH22 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH23 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH24 : (growing_subgraph_state g_low_level_spec s )) (PreH25 : (visited_matches_state g_low_level_spec s l_visited )) (PreH26 : ((state_vertex_count (s)) = n_pre)) (PreH27 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH28 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH29 : (prim_state_graph_matches rg s )) (PreH30 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH31 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH32 : ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent) (0))) /\ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH33 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
+  (IntArray.full edge_parent n_pre l_edge_parent )
+  **  ((( &( "edge_id" ) )) # Int  |-> (Znth out_i l_edge_parent 0))
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
@@ -3362,8 +3460,6 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
   **  (IntArray.full visited n_pre l_visited )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.missing_i edge_parent out_i 0 n_pre l_edge_parent )
-  **  (((edge_parent + (out_i * sizeof(INT)))) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
   **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
   **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
   **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
@@ -3374,9 +3470,10 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ ((INT_MIN) <= 2) ”
 .
 
-Definition prim_forward_star_heap_safety_wit_92 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (queue_map: partial_map) (s: St) (rg: G) (heap_capacity: Z) (out_i: Z) (mst_idx: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : ((Znth (out_i) (l_edge_parent) (0)) >= (2 * m_pre ))) (PreH2 : (0 <= (Znth (out_i) (l_edge_parent) (0)))) (PreH3 : ((Znth (out_i) (l_edge_parent) (0)) <> (-1))) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : (1 <= m_pre)) (PreH7 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH8 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH9 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH10 : (src_low_level_spec = 0)) (PreH11 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH12 : (1 <= out_i)) (PreH13 : (out_i < n_pre)) (PreH14 : (mst_idx <= (n_pre - 1 ))) (PreH15 : (mst_idx = (out_i - 1 ))) (PreH16 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH19 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH20 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH21 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH22 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH23 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH24 : (growing_subgraph_state g_low_level_spec s )) (PreH25 : (visited_matches_state g_low_level_spec s l_visited )) (PreH26 : ((state_vertex_count (s)) = n_pre)) (PreH27 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH28 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH29 : (prim_state_graph_matches rg s )) (PreH30 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH31 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH32 : (0 <= (Znth (out_i) (l_edge_parent) (0)))) (PreH33 : ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))) (PreH34 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
-  ((( &( "edge_id" ) )) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
+Definition prim_forward_star_heap_safety_wit_94 := 
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (heap_size: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (rg: G) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (PreH1 : ((Znth out_i l_edge_parent 0) >= (2 * m_pre ))) (PreH2 : (0 <= (Znth out_i l_edge_parent 0))) (PreH3 : ((Znth out_i l_edge_parent 0) <> (-1))) (PreH4 : (out_i < n_pre)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (1 <= m_pre)) (PreH8 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH9 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH10 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH11 : (src_low_level_spec = 0)) (PreH12 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH13 : (1 <= out_i)) (PreH14 : (out_i <= n_pre)) (PreH15 : (mst_idx <= (n_pre - 1 ))) (PreH16 : (mst_idx = (out_i - 1 ))) (PreH17 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH20 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH21 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH22 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH23 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH24 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH25 : (growing_subgraph_state g_low_level_spec s )) (PreH26 : (visited_matches_state g_low_level_spec s l_visited )) (PreH27 : ((state_vertex_count (s)) = n_pre)) (PreH28 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH29 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH30 : (prim_state_graph_matches rg s )) (PreH31 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH32 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH33 : ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent) (0))) /\ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH34 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
+  (IntArray.full edge_parent n_pre l_edge_parent )
+  **  ((( &( "edge_id" ) )) # Int  |-> (Znth out_i l_edge_parent 0))
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
@@ -3413,8 +3510,6 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
   **  (IntArray.full visited n_pre l_visited )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.missing_i edge_parent out_i 0 n_pre l_edge_parent )
-  **  (((edge_parent + (out_i * sizeof(INT)))) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
   **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
   **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
   **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
@@ -3424,9 +3519,10 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   “ False ”
 .
 
-Definition prim_forward_star_heap_safety_wit_93 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (queue_map: partial_map) (s: St) (rg: G) (heap_capacity: Z) (out_i: Z) (mst_idx: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))) (PreH2 : (0 <= (Znth (out_i) (l_edge_parent) (0)))) (PreH3 : ((Znth (out_i) (l_edge_parent) (0)) <> (-1))) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : (1 <= m_pre)) (PreH7 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH8 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH9 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH10 : (src_low_level_spec = 0)) (PreH11 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH12 : (1 <= out_i)) (PreH13 : (out_i < n_pre)) (PreH14 : (mst_idx <= (n_pre - 1 ))) (PreH15 : (mst_idx = (out_i - 1 ))) (PreH16 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH19 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH20 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH21 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH22 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH23 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH24 : (growing_subgraph_state g_low_level_spec s )) (PreH25 : (visited_matches_state g_low_level_spec s l_visited )) (PreH26 : ((state_vertex_count (s)) = n_pre)) (PreH27 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH28 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH29 : (prim_state_graph_matches rg s )) (PreH30 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH31 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH32 : (0 <= (Znth (out_i) (l_edge_parent) (0)))) (PreH33 : ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))) (PreH34 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
-  ((( &( "edge_id" ) )) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
+Definition prim_forward_star_heap_safety_wit_95 := 
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (heap_size: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (rg: G) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (PreH1 : ((Znth out_i l_edge_parent 0) < (2 * m_pre ))) (PreH2 : (0 <= (Znth out_i l_edge_parent 0))) (PreH3 : ((Znth out_i l_edge_parent 0) <> (-1))) (PreH4 : (out_i < n_pre)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (1 <= m_pre)) (PreH8 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH9 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH10 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH11 : (src_low_level_spec = 0)) (PreH12 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH13 : (1 <= out_i)) (PreH14 : (out_i <= n_pre)) (PreH15 : (mst_idx <= (n_pre - 1 ))) (PreH16 : (mst_idx = (out_i - 1 ))) (PreH17 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH20 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH21 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH22 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH23 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH24 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH25 : (growing_subgraph_state g_low_level_spec s )) (PreH26 : (visited_matches_state g_low_level_spec s l_visited )) (PreH27 : ((state_vertex_count (s)) = n_pre)) (PreH28 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH29 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH30 : (prim_state_graph_matches rg s )) (PreH31 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH32 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH33 : ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent) (0))) /\ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH34 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
+  (IntArray.full edge_parent n_pre l_edge_parent )
+  **  ((( &( "edge_id" ) )) # Int  |-> (Znth out_i l_edge_parent 0))
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
@@ -3463,8 +3559,6 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
   **  (IntArray.full visited n_pre l_visited )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.missing_i edge_parent out_i 0 n_pre l_edge_parent )
-  **  (((edge_parent + (out_i * sizeof(INT)))) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
   **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
   **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
   **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
@@ -3475,9 +3569,10 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ ((INT_MIN) <= (n_pre - 1 )) ”
 .
 
-Definition prim_forward_star_heap_safety_wit_94 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (queue_map: partial_map) (s: St) (rg: G) (heap_capacity: Z) (out_i: Z) (mst_idx: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))) (PreH2 : (0 <= (Znth (out_i) (l_edge_parent) (0)))) (PreH3 : ((Znth (out_i) (l_edge_parent) (0)) <> (-1))) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : (1 <= m_pre)) (PreH7 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH8 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH9 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH10 : (src_low_level_spec = 0)) (PreH11 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH12 : (1 <= out_i)) (PreH13 : (out_i < n_pre)) (PreH14 : (mst_idx <= (n_pre - 1 ))) (PreH15 : (mst_idx = (out_i - 1 ))) (PreH16 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH19 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH20 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH21 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH22 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH23 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH24 : (growing_subgraph_state g_low_level_spec s )) (PreH25 : (visited_matches_state g_low_level_spec s l_visited )) (PreH26 : ((state_vertex_count (s)) = n_pre)) (PreH27 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH28 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH29 : (prim_state_graph_matches rg s )) (PreH30 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH31 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH32 : (0 <= (Znth (out_i) (l_edge_parent) (0)))) (PreH33 : ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))) (PreH34 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
-  ((( &( "edge_id" ) )) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
+Definition prim_forward_star_heap_safety_wit_96 := 
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (heap_size: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (rg: G) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (PreH1 : ((Znth out_i l_edge_parent 0) < (2 * m_pre ))) (PreH2 : (0 <= (Znth out_i l_edge_parent 0))) (PreH3 : ((Znth out_i l_edge_parent 0) <> (-1))) (PreH4 : (out_i < n_pre)) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (1 <= m_pre)) (PreH8 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH9 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH10 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH11 : (src_low_level_spec = 0)) (PreH12 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH13 : (1 <= out_i)) (PreH14 : (out_i <= n_pre)) (PreH15 : (mst_idx <= (n_pre - 1 ))) (PreH16 : (mst_idx = (out_i - 1 ))) (PreH17 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH20 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH21 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH22 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH23 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH24 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH25 : (growing_subgraph_state g_low_level_spec s )) (PreH26 : (visited_matches_state g_low_level_spec s l_visited )) (PreH27 : ((state_vertex_count (s)) = n_pre)) (PreH28 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH29 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH30 : (prim_state_graph_matches rg s )) (PreH31 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH32 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH33 : ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent) (0))) /\ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH34 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
+  (IntArray.full edge_parent n_pre l_edge_parent )
+  **  ((( &( "edge_id" ) )) # Int  |-> (Znth out_i l_edge_parent 0))
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
@@ -3514,8 +3609,6 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
   **  (IntArray.full visited n_pre l_visited )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.missing_i edge_parent out_i 0 n_pre l_edge_parent )
-  **  (((edge_parent + (out_i * sizeof(INT)))) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
   **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
   **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
   **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
@@ -3526,9 +3619,10 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition prim_forward_star_heap_safety_wit_95 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (queue_map: partial_map) (s: St) (rg: G) (heap_capacity: Z) (out_i: Z) (mst_idx: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (mst_idx >= (n_pre - 1 ))) (PreH2 : ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))) (PreH3 : (0 <= (Znth (out_i) (l_edge_parent) (0)))) (PreH4 : ((Znth (out_i) (l_edge_parent) (0)) <> (-1))) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (1 <= m_pre)) (PreH8 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH9 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH10 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH11 : (src_low_level_spec = 0)) (PreH12 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH13 : (1 <= out_i)) (PreH14 : (out_i < n_pre)) (PreH15 : (mst_idx <= (n_pre - 1 ))) (PreH16 : (mst_idx = (out_i - 1 ))) (PreH17 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH20 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH21 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH22 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH23 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH24 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH25 : (growing_subgraph_state g_low_level_spec s )) (PreH26 : (visited_matches_state g_low_level_spec s l_visited )) (PreH27 : ((state_vertex_count (s)) = n_pre)) (PreH28 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH29 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH30 : (prim_state_graph_matches rg s )) (PreH31 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH32 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH33 : (0 <= (Znth (out_i) (l_edge_parent) (0)))) (PreH34 : ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))) (PreH35 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
-  ((( &( "edge_id" ) )) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
+Definition prim_forward_star_heap_safety_wit_97 := 
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (heap_size: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (rg: G) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (PreH1 : (mst_idx >= (n_pre - 1 ))) (PreH2 : ((Znth out_i l_edge_parent 0) < (2 * m_pre ))) (PreH3 : (0 <= (Znth out_i l_edge_parent 0))) (PreH4 : ((Znth out_i l_edge_parent 0) <> (-1))) (PreH5 : (out_i < n_pre)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : (1 <= m_pre)) (PreH9 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH10 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH11 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH12 : (src_low_level_spec = 0)) (PreH13 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH14 : (1 <= out_i)) (PreH15 : (out_i <= n_pre)) (PreH16 : (mst_idx <= (n_pre - 1 ))) (PreH17 : (mst_idx = (out_i - 1 ))) (PreH18 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH20 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH21 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH22 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH23 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH24 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH25 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH26 : (growing_subgraph_state g_low_level_spec s )) (PreH27 : (visited_matches_state g_low_level_spec s l_visited )) (PreH28 : ((state_vertex_count (s)) = n_pre)) (PreH29 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH30 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH31 : (prim_state_graph_matches rg s )) (PreH32 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH33 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH34 : ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent) (0))) /\ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH35 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
+  (IntArray.full edge_parent n_pre l_edge_parent )
+  **  ((( &( "edge_id" ) )) # Int  |-> (Znth out_i l_edge_parent 0))
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
@@ -3565,8 +3659,6 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
   **  (IntArray.full visited n_pre l_visited )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.missing_i edge_parent out_i 0 n_pre l_edge_parent )
-  **  (((edge_parent + (out_i * sizeof(INT)))) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
   **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
   **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
   **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
@@ -3576,7 +3668,7 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   “ False ”
 .
 
-Definition prim_forward_star_heap_safety_wit_96 := 
+Definition prim_forward_star_heap_safety_wit_98 := 
 forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (queue_map: partial_map) (s: St) (rg: G) (edge_id: Z) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (0 <= edge_id)) (PreH2 : (edge_id < (2 * m_pre ))) (PreH3 : (mst_idx < (n_pre - 1 ))) (PreH4 : (edge_id = (Znth (out_i) (l_edge_parent) (0)))) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (1 <= m_pre)) (PreH8 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH9 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH10 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH11 : (src_low_level_spec = 0)) (PreH12 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH13 : (1 <= out_i)) (PreH14 : (out_i < n_pre)) (PreH15 : (mst_idx <= (n_pre - 1 ))) (PreH16 : (mst_idx = (out_i - 1 ))) (PreH17 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH20 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH21 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH22 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH23 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH24 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH25 : (growing_subgraph_state g_low_level_spec s )) (PreH26 : (visited_matches_state g_low_level_spec s l_visited )) (PreH27 : ((state_vertex_count (s)) = n_pre)) (PreH28 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH29 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH30 : (prim_state_graph_matches rg s )) (PreH31 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH32 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH33 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
   (IntArray.seg out_wt 0 (mst_idx + 1 ) (app (l_out_wt) ((cons ((Znth edge_id l_weight_new 0)) ((@nil Z))))) )
   **  (IntArray.undef_seg out_wt (mst_idx + 1 ) (n_pre - 1 ) )
@@ -3626,7 +3718,7 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ ((INT_MIN) <= (mst_idx + 1 )) ”
 .
 
-Definition prim_forward_star_heap_safety_wit_97 := 
+Definition prim_forward_star_heap_safety_wit_99 := 
 forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (queue_map: partial_map) (s: St) (rg: G) (edge_id: Z) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (0 <= edge_id)) (PreH2 : (edge_id < (2 * m_pre ))) (PreH3 : (mst_idx < (n_pre - 1 ))) (PreH4 : (edge_id = (Znth (out_i) (l_edge_parent) (0)))) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (1 <= m_pre)) (PreH8 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH9 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH10 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH11 : (src_low_level_spec = 0)) (PreH12 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH13 : (1 <= out_i)) (PreH14 : (out_i < n_pre)) (PreH15 : (mst_idx <= (n_pre - 1 ))) (PreH16 : (mst_idx = (out_i - 1 ))) (PreH17 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH20 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH21 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH22 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH23 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH24 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH25 : (growing_subgraph_state g_low_level_spec s )) (PreH26 : (visited_matches_state g_low_level_spec s l_visited )) (PreH27 : ((state_vertex_count (s)) = n_pre)) (PreH28 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH29 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH30 : (prim_state_graph_matches rg s )) (PreH31 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH32 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH33 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
   (IntArray.seg out_wt 0 (mst_idx + 1 ) (app (l_out_wt) ((cons ((Znth edge_id l_weight_new 0)) ((@nil Z))))) )
   **  (IntArray.undef_seg out_wt (mst_idx + 1 ) (n_pre - 1 ) )
@@ -4509,104 +4601,7 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low
 
 Definition prim_forward_star_heap_entail_wit_12 := 
 (
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
-  ((( &( "i" ) )) # Int  |-> i)
-  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
-  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
-  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
-  **  (IntArray.undef_full out_u (n_pre - 1 ) )
-  **  (IntArray.undef_full out_v (n_pre - 1 ) )
-  **  (IntArray.undef_full out_wt (n_pre - 1 ) )
-  **  (IntArray.full from_new (2 * m_pre ) l_from_new_2 )
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new_2 )
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new_2 )
-  **  (IntArray.full first n_pre l_first_2 )
-  **  (IntArray.full link (2 * m_pre ) l_link_2 )
-  **  (IntArray.seg lowcost 0 i (repeat_Z (1000000000) (i)) )
-  **  (IntArray.undef_seg lowcost i n_pre )
-  **  (IntArray.seg visited 0 i (repeat_Z (0) (i)) )
-  **  (IntArray.undef_seg visited i n_pre )
-  **  (IntArray.seg edge_parent 0 i (repeat_Z ((-1)) (i)) )
-  **  (IntArray.undef_seg edge_parent i n_pre )
-|--
-  EX (l_first: (@list Z))  (l_link: (@list Z))  (l_from_new: (@list Z))  (l_to_new: (@list Z))  (l_weight_new: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre < INT_MAX) ” 
-  &&  “ (1 <= m_pre) ” 
-  &&  “ (((2 * m_pre ) + 2 ) < INT_MAX) ” 
-  &&  “ (((4 * m_pre ) + 6 ) < INT_MAX) ” 
-  &&  “ (((2 * m_pre ) + 2 ) <= 100000) ” 
-  &&  “ (src_low_level_spec = 0) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre))) ” 
-  &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre))) ” 
-  &&  “ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000))) ” 
-  &&  “ (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec ) ” 
-  &&  “ (PrimEnv g_low_level_spec src_low_level_spec ) ” 
-  &&  “ (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new ) ” 
-  &&  “ (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link ) ” 
-  &&  “ (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec ) ”
-  &&  ((( &( "i" ) )) # Int  |-> n_pre)
-  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
-  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
-  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
-  **  (IntArray.undef_full out_u (n_pre - 1 ) )
-  **  (IntArray.undef_full out_v (n_pre - 1 ) )
-  **  (IntArray.undef_full out_wt (n_pre - 1 ) )
-  **  (IntArray.full from_new (2 * m_pre ) l_from_new )
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
-  **  (IntArray.full first n_pre l_first )
-  **  (IntArray.full link (2 * m_pre ) l_link )
-  **  (IntArray.full lowcost n_pre (repeat_Z (1000000000) (n_pre)) )
-  **  (IntArray.full visited n_pre (repeat_Z (0) (n_pre)) )
-  **  (IntArray.full edge_parent n_pre (repeat_Z ((-1)) (n_pre)) )
-) \/
-(
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000))) ” 
-  &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre))) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre))) ” 
-  &&  “ ((repeat_Z (1000000000) (i)) = (repeat_Z (1000000000) (n_pre))) ” 
-  &&  “ ((repeat_Z (0) (i)) = (repeat_Z (0) (n_pre))) ” 
-  &&  “ ((repeat_Z ((-1)) (i)) = (repeat_Z ((-1)) (n_pre))) ”
-  &&  emp
-).
-
-Definition prim_forward_star_heap_entail_wit_12_split_goal_1 := 
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
-  forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))
-.
-
-Definition prim_forward_star_heap_entail_wit_12_split_goal_2 := 
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
-  forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))
-.
-
-Definition prim_forward_star_heap_entail_wit_12_split_goal_3 := 
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
-  forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))
-.
-
-Definition prim_forward_star_heap_entail_wit_12_split_goal_4 := 
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
-  ((repeat_Z (1000000000) (i)) = (repeat_Z (1000000000) (n_pre)))
-.
-
-Definition prim_forward_star_heap_entail_wit_12_split_goal_5 := 
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
-  ((repeat_Z (0) (i)) = (repeat_Z (0) (n_pre)))
-.
-
-Definition prim_forward_star_heap_entail_wit_12_split_goal_6 := 
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
-  ((repeat_Z ((-1)) (i)) = (repeat_Z ((-1)) (n_pre)))
-.
-
-Definition prim_forward_star_heap_entail_wit_13 := 
-(
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (retval: Z) (retval_2: Z) (retval_3: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH9 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH10 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH11 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH12 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH13 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH14 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH15 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (i: Z) (retval: Z) (retval_2: Z) (retval_3: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   (IntArray.undef_full retval_3 n_pre )
   **  (IntArray.undef_full retval_2 ((2 * m_pre ) + 2 ) )
   **  (IntArray.undef_full retval ((2 * m_pre ) + 2 ) )
@@ -4621,9 +4616,9 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (IntArray.full weight_new (2 * m_pre ) l_weight_new_2 )
   **  (IntArray.full first n_pre l_first_2 )
   **  (IntArray.full link (2 * m_pre ) l_link_2 )
-  **  (IntArray.full lowcost n_pre (repeat_Z (1000000000) (n_pre)) )
-  **  (IntArray.full visited n_pre (repeat_Z (0) (n_pre)) )
-  **  (IntArray.full edge_parent n_pre (repeat_Z ((-1)) (n_pre)) )
+  **  (IntArray.seg lowcost 0 i (repeat_Z (1000000000) (i)) )
+  **  (IntArray.seg visited 0 i (repeat_Z (0) (i)) )
+  **  (IntArray.seg edge_parent 0 i (repeat_Z ((-1)) (i)) )
 |--
   EX (l_first: (@list Z))  (l_link: (@list Z))  (l_from_new: (@list Z))  (l_to_new: (@list Z))  (l_weight_new: (@list Z)) ,
   “ (2 <= n_pre) ” 
@@ -4665,37 +4660,55 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (IntArray.undef_seg retval_3 0 n_pre )
 ) \/
 (
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH9 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH10 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH11 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH12 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH13 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH14 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH15 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   TT && emp 
 |--
   “ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000))) ” 
   &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre))) ” 
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre))) ” 
-  &&  “ ((repeat_Z ((-1)) (0)) = (@nil Z)) ”
+  &&  “ ((repeat_Z ((-1)) (0)) = (@nil Z)) ” 
+  &&  “ ((repeat_Z (1000000000) (i)) = (repeat_Z (1000000000) (n_pre))) ” 
+  &&  “ ((repeat_Z (0) (i)) = (repeat_Z (0) (n_pre))) ” 
+  &&  “ ((repeat_Z ((-1)) (i)) = (repeat_Z ((-1)) (n_pre))) ”
   &&  emp
 ).
 
-Definition prim_forward_star_heap_entail_wit_13_split_goal_1 := 
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH9 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH10 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH11 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH12 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH13 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH14 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH15 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
+Definition prim_forward_star_heap_entail_wit_12_split_goal_1 := 
+forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))
 .
 
-Definition prim_forward_star_heap_entail_wit_13_split_goal_2 := 
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH9 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH10 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH11 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH12 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH13 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH14 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH15 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
+Definition prim_forward_star_heap_entail_wit_12_split_goal_2 := 
+forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))
 .
 
-Definition prim_forward_star_heap_entail_wit_13_split_goal_3 := 
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH9 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH10 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH11 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH12 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH13 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH14 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH15 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
+Definition prim_forward_star_heap_entail_wit_12_split_goal_3 := 
+forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))
 .
 
-Definition prim_forward_star_heap_entail_wit_13_split_goal_4 := 
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH9 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH10 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH11 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH12 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH13 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH14 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH15 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
+Definition prim_forward_star_heap_entail_wit_12_split_goal_4 := 
+forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   ((repeat_Z ((-1)) (0)) = (@nil Z))
 .
 
-Definition prim_forward_star_heap_entail_wit_14 := 
+Definition prim_forward_star_heap_entail_wit_12_split_goal_5 := 
+forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
+  ((repeat_Z (1000000000) (i)) = (repeat_Z (1000000000) (n_pre)))
+.
+
+Definition prim_forward_star_heap_entail_wit_12_split_goal_6 := 
+forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
+  ((repeat_Z (0) (i)) = (repeat_Z (0) (n_pre)))
+.
+
+Definition prim_forward_star_heap_entail_wit_12_split_goal_7 := 
+forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
+  ((repeat_Z ((-1)) (i)) = (repeat_Z ((-1)) (n_pre)))
+.
+
+Definition prim_forward_star_heap_entail_wit_13 := 
 (
 forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (pos_i: Z) (heap_size: Z) (heap_capacity: Z) (PreH1 : (pos_i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (heap_size = 0)) (PreH11 : (0 <= pos_i)) (PreH12 : (pos_i <= n_pre)) (PreH13 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH14 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH16 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH17 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH18 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH19 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH20 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   (IntArray.seg heap_pos 0 (pos_i + 1 ) (app ((repeat_Z ((-1)) (pos_i))) ((cons ((-1)) ((@nil Z))))) )
@@ -4764,12 +4777,12 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low
   &&  emp
 ).
 
-Definition prim_forward_star_heap_entail_wit_14_split_goal_1 := 
+Definition prim_forward_star_heap_entail_wit_13_split_goal_1 := 
 forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (pos_i: Z) (heap_size: Z) (heap_capacity: Z) (PreH1 : (pos_i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (heap_size = 0)) (PreH11 : (0 <= pos_i)) (PreH12 : (pos_i <= n_pre)) (PreH13 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH14 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH16 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH17 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH18 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH19 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH20 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   ((app ((repeat_Z ((-1)) (pos_i))) ((cons ((-1)) ((@nil Z))))) = (repeat_Z ((-1)) ((pos_i + 1 ))))
 .
 
-Definition prim_forward_star_heap_entail_wit_15 := 
+Definition prim_forward_star_heap_entail_wit_14 := 
 (
 forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (pos_i: Z) (heap_size: Z) (heap_capacity: Z) (PreH1 : (pos_i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (heap_size = 0)) (PreH11 : (0 <= pos_i)) (PreH12 : (pos_i <= n_pre)) (PreH13 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH14 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH16 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH17 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH18 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH19 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH20 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   (IntArray.full lowcost n_pre (replace_Znth (0) (0) ((repeat_Z (1000000000) (n_pre)))) )
@@ -4856,7 +4869,7 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low
   &&  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity partial_map_empty heap_size )
 ).
 
-Definition prim_forward_star_heap_entail_wit_16 := 
+Definition prim_forward_star_heap_entail_wit_15 := 
 (
 forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (queue_map_initial: partial_map) (heap_capacity: Z) (heap_size: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (queue_map_empty: partial_map) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH9 : (heap_size = 0)) (PreH10 : (queue_map_empty = partial_map_empty)) (PreH11 : (partial_map_absent queue_map_empty src_low_level_spec )) (PreH12 : (prim_queue_map_initial queue_map_empty queue_map_initial src_low_level_spec 0 )) (PreH13 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH14 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH16 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH17 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH18 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH19 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH20 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity (partial_map_add (queue_map_empty) (0) (0)) (heap_size + 1 ) )
@@ -4875,7 +4888,7 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (IntArray.full visited n_pre (repeat_Z (0) (n_pre)) )
   **  (IntArray.full edge_parent n_pre (repeat_Z ((-1)) (n_pre)) )
 |--
-  EX (l_first: (@list Z))  (l_link: (@list Z))  (l_from_new: (@list Z))  (l_to_new: (@list Z))  (l_weight_new: (@list Z))  (s: St)  (queue_map: partial_map) ,
+  EX (s: St)  (l_lowcost: (@list Z))  (l_visited: (@list Z))  (l_edge_parent: (@list Z))  (queue_map: partial_map)  (l_first: (@list Z))  (l_link: (@list Z))  (l_from_new: (@list Z))  (l_to_new: (@list Z))  (l_weight_new: (@list Z)) ,
   “ (2 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (1 <= m_pre) ” 
@@ -4884,18 +4897,19 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ (((2 * m_pre ) + 2 ) <= 100000) ” 
   &&  “ (src_low_level_spec = 0) ” 
   &&  “ (heap_capacity = ((2 * m_pre ) + 2 )) ” 
-  &&  “ (0 = 0) ” 
-  &&  “ ((heap_size + 1 ) = 1) ” 
-  &&  “ (prim_queue_map_initial partial_map_empty queue_map src_low_level_spec 0 ) ” 
-  &&  “ (prim_heap_loop_state g_low_level_spec src_low_level_spec 0 s (replace_Znth (0) (0) ((repeat_Z (1000000000) (n_pre)))) (repeat_Z (0) (n_pre)) (repeat_Z ((-1)) (n_pre)) queue_map X_low_level_spec ) ” 
-  &&  “ ((0 < n_pre) -> ((heap_size + 1 ) > 0)) ” 
+  &&  “ (0 <= 0) ” 
+  &&  “ (0 <= n_pre) ” 
+  &&  “ (0 <= (heap_size + 1 )) ” 
+  &&  “ ((heap_size + 1 ) <= heap_capacity) ” 
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre))) ” 
   &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre))) ” 
   &&  “ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000))) ” 
   &&  “ (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec ) ” 
   &&  “ (PrimEnv g_low_level_spec src_low_level_spec ) ” 
   &&  “ (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new ) ” 
-  &&  “ (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link ) ”
+  &&  “ (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link ) ” 
+  &&  “ (prim_heap_loop_state g_low_level_spec src_low_level_spec 0 s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec ) ” 
+  &&  “ ((0 < n_pre) -> ((heap_size + 1 ) > 0)) ”
   &&  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
   **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
@@ -4907,9 +4921,9 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
   **  (IntArray.full first n_pre l_first )
   **  (IntArray.full link (2 * m_pre ) l_link )
-  **  (IntArray.full lowcost n_pre (replace_Znth (0) (0) ((repeat_Z (1000000000) (n_pre)))) )
-  **  (IntArray.full visited n_pre (repeat_Z (0) (n_pre)) )
-  **  (IntArray.full edge_parent n_pre (repeat_Z ((-1)) (n_pre)) )
+  **  (IntArray.full lowcost n_pre l_lowcost )
+  **  (IntArray.full visited n_pre l_visited )
+  **  (IntArray.full edge_parent n_pre l_edge_parent )
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map (heap_size + 1 ) )
 ) \/
 (
@@ -4917,129 +4931,18 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low
   TT && emp 
 |--
   EX (s: St) ,
-  “ ((0 + 1 ) = 1) ” 
-  &&  “ (prim_queue_map_initial partial_map_empty (partial_map_add (partial_map_empty) (0) (0)) 0 0 ) ” 
+  “ (0 <= 0) ” 
+  &&  “ (0 <= n_pre) ” 
+  &&  “ (0 <= (0 + 1 )) ” 
+  &&  “ ((0 + 1 ) <= ((2 * m_pre ) + 2 )) ” 
   &&  “ (prim_heap_loop_state g_low_level_spec 0 0 s (replace_Znth (0) (0) ((repeat_Z (1000000000) (n_pre)))) (repeat_Z (0) (n_pre)) (repeat_Z ((-1)) (n_pre)) (partial_map_add (partial_map_empty) (0) (0)) X_low_level_spec ) ” 
   &&  “ ((0 < n_pre) -> ((0 + 1 ) > 0)) ”
   &&  emp
 ).
 
-Definition prim_forward_star_heap_entail_wit_17 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (queue_map_2: partial_map) (s_2: St) (heap_capacity: Z) (chosen: Z) (heap_size: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH9 : (chosen = 0)) (PreH10 : (heap_size = 1)) (PreH11 : (prim_queue_map_initial partial_map_empty queue_map_2 src_low_level_spec 0 )) (PreH12 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s_2 (replace_Znth (0) (0) ((repeat_Z (1000000000) (n_pre)))) (repeat_Z (0) (n_pre)) (repeat_Z ((-1)) (n_pre)) queue_map_2 X_low_level_spec )) (PreH13 : ((chosen < n_pre) -> (heap_size > 0))) (PreH14 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH17 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH18 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH19 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH20 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) ,
-  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
-  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
-  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
-  **  (IntArray.undef_full out_u (n_pre - 1 ) )
-  **  (IntArray.undef_full out_v (n_pre - 1 ) )
-  **  (IntArray.undef_full out_wt (n_pre - 1 ) )
-  **  (IntArray.full from_new (2 * m_pre ) l_from_new_2 )
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new_2 )
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new_2 )
-  **  (IntArray.full first n_pre l_first_2 )
-  **  (IntArray.full link (2 * m_pre ) l_link_2 )
-  **  (IntArray.full lowcost n_pre (replace_Znth (0) (0) ((repeat_Z (1000000000) (n_pre)))) )
-  **  (IntArray.full visited n_pre (repeat_Z (0) (n_pre)) )
-  **  (IntArray.full edge_parent n_pre (repeat_Z ((-1)) (n_pre)) )
-  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map_2 heap_size )
-|--
-  EX (s: St)  (l_lowcost: (@list Z))  (l_visited: (@list Z))  (l_edge_parent: (@list Z))  (queue_map: partial_map)  (l_first: (@list Z))  (l_link: (@list Z))  (l_from_new: (@list Z))  (l_to_new: (@list Z))  (l_weight_new: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre < INT_MAX) ” 
-  &&  “ (1 <= m_pre) ” 
-  &&  “ (((2 * m_pre ) + 2 ) < INT_MAX) ” 
-  &&  “ (((4 * m_pre ) + 6 ) < INT_MAX) ” 
-  &&  “ (((2 * m_pre ) + 2 ) <= 100000) ” 
-  &&  “ (src_low_level_spec = 0) ” 
-  &&  “ (heap_capacity = ((2 * m_pre ) + 2 )) ” 
-  &&  “ (0 <= chosen) ” 
-  &&  “ (chosen <= n_pre) ” 
-  &&  “ (0 <= heap_size) ” 
-  &&  “ (heap_size <= heap_capacity) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre))) ” 
-  &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre))) ” 
-  &&  “ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000))) ” 
-  &&  “ (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec ) ” 
-  &&  “ (PrimEnv g_low_level_spec src_low_level_spec ) ” 
-  &&  “ (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new ) ” 
-  &&  “ (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link ) ” 
-  &&  “ (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec ) ” 
-  &&  “ ((chosen < n_pre) -> (heap_size > 0)) ”
-  &&  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
-  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
-  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
-  **  (IntArray.undef_full out_u (n_pre - 1 ) )
-  **  (IntArray.undef_full out_v (n_pre - 1 ) )
-  **  (IntArray.undef_full out_wt (n_pre - 1 ) )
-  **  (IntArray.full from_new (2 * m_pre ) l_from_new )
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
-  **  (IntArray.full first n_pre l_first )
-  **  (IntArray.full link (2 * m_pre ) l_link )
-  **  (IntArray.full lowcost n_pre l_lowcost )
-  **  (IntArray.full visited n_pre l_visited )
-  **  (IntArray.full edge_parent n_pre l_edge_parent )
-  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
-.
-
-Definition prim_forward_star_heap_entail_wit_18 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s_2: St) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (queue_map_2: partial_map) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : (chosen < n_pre)) (PreH2 : (heap_size > 0)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : (1 <= m_pre)) (PreH6 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH7 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH8 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH9 : (src_low_level_spec = 0)) (PreH10 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH11 : (0 <= chosen)) (PreH12 : (chosen <= n_pre)) (PreH13 : (0 <= heap_size)) (PreH14 : (heap_size <= heap_capacity)) (PreH15 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH18 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH19 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH20 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH21 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH22 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) (PreH23 : ((chosen < n_pre) -> (heap_size > 0))) ,
-  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
-  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
-  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
-  **  (IntArray.undef_full out_u (n_pre - 1 ) )
-  **  (IntArray.undef_full out_v (n_pre - 1 ) )
-  **  (IntArray.undef_full out_wt (n_pre - 1 ) )
-  **  (IntArray.full from_new (2 * m_pre ) l_from_new_2 )
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new_2 )
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new_2 )
-  **  (IntArray.full first n_pre l_first_2 )
-  **  (IntArray.full link (2 * m_pre ) l_link_2 )
-  **  (IntArray.full lowcost n_pre l_lowcost_2 )
-  **  (IntArray.full visited n_pre l_visited_2 )
-  **  (IntArray.full edge_parent n_pre l_edge_parent_2 )
-  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map_2 heap_size )
-|--
-  EX (s: St)  (l_lowcost: (@list Z))  (l_visited: (@list Z))  (l_edge_parent: (@list Z))  (queue_map: partial_map)  (l_first: (@list Z))  (l_link: (@list Z))  (l_from_new: (@list Z))  (l_to_new: (@list Z))  (l_weight_new: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre < INT_MAX) ” 
-  &&  “ (1 <= m_pre) ” 
-  &&  “ (((2 * m_pre ) + 2 ) < INT_MAX) ” 
-  &&  “ (((4 * m_pre ) + 6 ) < INT_MAX) ” 
-  &&  “ (((2 * m_pre ) + 2 ) <= 100000) ” 
-  &&  “ (src_low_level_spec = 0) ” 
-  &&  “ (heap_capacity = ((2 * m_pre ) + 2 )) ” 
-  &&  “ (0 <= chosen) ” 
-  &&  “ (chosen < n_pre) ” 
-  &&  “ (0 < heap_size) ” 
-  &&  “ (heap_size <= heap_capacity) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre))) ” 
-  &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre))) ” 
-  &&  “ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000))) ” 
-  &&  “ (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec ) ” 
-  &&  “ (PrimEnv g_low_level_spec src_low_level_spec ) ” 
-  &&  “ (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new ) ” 
-  &&  “ (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link ) ” 
-  &&  “ (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec ) ”
-  &&  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
-  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
-  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
-  **  (IntArray.undef_full out_u (n_pre - 1 ) )
-  **  (IntArray.undef_full out_v (n_pre - 1 ) )
-  **  (IntArray.undef_full out_wt (n_pre - 1 ) )
-  **  (IntArray.full from_new (2 * m_pre ) l_from_new )
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
-  **  (IntArray.full first n_pre l_first )
-  **  (IntArray.full link (2 * m_pre ) l_link )
-  **  (IntArray.full lowcost n_pre l_lowcost )
-  **  (IntArray.full visited n_pre l_visited )
-  **  (IntArray.full edge_parent n_pre l_edge_parent )
-  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
-.
-
-Definition prim_forward_star_heap_entail_wit_19 := 
+Definition prim_forward_star_heap_entail_wit_16 := 
 (
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (s_2: St) (heap_capacity: Z) (chosen: Z) (heap_size: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (queue_map_2: partial_map) (data_out_callee_v: Z) (popped: (Z * Z)) (key_out_callee_v: Z) (PreH1 : (key_out_callee_v = (item_key (popped)))) (PreH2 : (data_out_callee_v = (item_data (popped)))) (PreH3 : (partial_map_minimum queue_map_2 popped )) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : (1 <= m_pre)) (PreH7 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH8 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH9 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH10 : (src_low_level_spec = 0)) (PreH11 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH12 : (0 <= chosen)) (PreH13 : (chosen < n_pre)) (PreH14 : (0 < heap_size)) (PreH15 : (heap_size <= heap_capacity)) (PreH16 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH19 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH20 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH21 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH22 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH23 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s_2: St) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (queue_map_2: partial_map) (data_out_callee_v: Z) (popped: (Z * Z)) (key_out_callee_v: Z) (PreH1 : (key_out_callee_v = (item_key (popped)))) (PreH2 : (data_out_callee_v = (item_data (popped)))) (PreH3 : (partial_map_minimum queue_map_2 popped )) (PreH4 : (chosen < n_pre)) (PreH5 : (heap_size > 0)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : (1 <= m_pre)) (PreH9 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH10 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH11 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH12 : (src_low_level_spec = 0)) (PreH13 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH14 : (0 <= chosen)) (PreH15 : (chosen <= n_pre)) (PreH16 : (0 <= heap_size)) (PreH17 : (heap_size <= heap_capacity)) (PreH18 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH20 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH21 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH22 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH23 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH24 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH25 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) (PreH26 : ((chosen < n_pre) -> (heap_size > 0))) ,
   (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity (partial_map_remove (queue_map_2) ((item_data (popped)))) (heap_size - 1 ) )
   **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
@@ -5102,7 +5005,7 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map (heap_size - 1 ) )
 ) \/
 (
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (s_2: St) (heap_capacity: Z) (chosen: Z) (heap_size: Z) (first: Z) (visited: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (queue_map_2: partial_map) (data_out_callee_v: Z) (popped: (Z * Z)) (key_out_callee_v: Z) (PreH1 : (key_out_callee_v = (item_key (popped)))) (PreH2 : (data_out_callee_v = (item_data (popped)))) (PreH3 : (partial_map_minimum queue_map_2 popped )) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : (1 <= m_pre)) (PreH7 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH8 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH9 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH10 : (src_low_level_spec = 0)) (PreH11 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH12 : (0 <= chosen)) (PreH13 : (chosen < n_pre)) (PreH14 : (0 < heap_size)) (PreH15 : (heap_size <= heap_capacity)) (PreH16 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH19 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH20 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH21 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH22 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH23 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (visited: Z) (first: Z) (s_2: St) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (queue_map_2: partial_map) (data_out_callee_v: Z) (popped: (Z * Z)) (key_out_callee_v: Z) (PreH1 : (key_out_callee_v = (item_key (popped)))) (PreH2 : (data_out_callee_v = (item_data (popped)))) (PreH3 : (partial_map_minimum queue_map_2 popped )) (PreH4 : (chosen < n_pre)) (PreH5 : (heap_size > 0)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : (1 <= m_pre)) (PreH9 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH10 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH11 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH12 : (src_low_level_spec = 0)) (PreH13 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH14 : (0 <= chosen)) (PreH15 : (chosen <= n_pre)) (PreH16 : (0 <= heap_size)) (PreH17 : (heap_size <= heap_capacity)) (PreH18 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH20 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH21 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH22 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH23 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH24 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH25 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) (PreH26 : ((chosen < n_pre) -> (heap_size > 0))) ,
   (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity (partial_map_remove (queue_map_2) ((item_data (popped)))) (heap_size - 1 ) )
   **  (IntArray.full first n_pre l_first_2 )
   **  (IntArray.full visited n_pre l_visited_2 )
@@ -5141,7 +5044,7 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map (heap_size - 1 ) )
 ).
 
-Definition prim_forward_star_heap_entail_wit_20 := 
+Definition prim_forward_star_heap_entail_wit_17 := 
 (
 forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (queue_map_before_2: partial_map) (queue_map: partial_map) (s_2: St) (heap_capacity: Z) (chosen: Z) (heap_size: Z) (minIndex: Z) (min: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH9 : (0 <= chosen)) (PreH10 : (chosen < n_pre)) (PreH11 : (0 <= heap_size)) (PreH12 : (heap_size < heap_capacity)) (PreH13 : (0 <= minIndex)) (PreH14 : (minIndex < n_pre)) (PreH15 : (INT_MIN <= min)) (PreH16 : (min <= INT_MAX)) (PreH17 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_before_2 X_low_level_spec )) (PreH18 : (prim_queue_map_pop queue_map_before_2 queue_map minIndex min )) (PreH19 : (prim_heap_after_pop_state g_low_level_spec src_low_level_spec chosen s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_before_2 queue_map minIndex min X_low_level_spec )) (PreH20 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH21 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH22 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH23 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH24 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH25 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH26 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first l_link_2 )) ,
   ((( &( "minIndex" ) )) # Int  |-> minIndex)
@@ -5239,10 +5142,11 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map_cur heap_size )
 ).
 
-Definition prim_forward_star_heap_entail_wit_21 := 
+Definition prim_forward_star_heap_entail_wit_18 := 
 (
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s_2: St) (s_after_2: St) (l_from_new_2: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (min: Z) (queue_map_before_2: partial_map) (l_lowcost_cur_2: (@list Z)) (l_edge_parent_cur_2: (@list Z)) (queue_map_cur_2: partial_map) (current_edge: Z) (selected_2: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : ((Znth current_edge l_weight_new 0) < (Znth (Znth current_edge l_to_new 0) l_lowcost_cur_2 0))) (PreH2 : ((Znth (Znth current_edge l_to_new 0) (replace_Znth (selected_2) (1) (l_visited_2)) 0) = 0)) (PreH3 : ((Znth current_edge l_to_new 0) < n_pre)) (PreH4 : (0 <= (Znth current_edge l_to_new 0))) (PreH5 : (current_edge < (2 * m_pre ))) (PreH6 : (0 <= current_edge)) (PreH7 : (current_edge <> (-1))) (PreH8 : (2 <= n_pre)) (PreH9 : (n_pre < INT_MAX)) (PreH10 : (1 <= m_pre)) (PreH11 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH12 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH13 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH14 : (src_low_level_spec = 0)) (PreH15 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH16 : (1 <= chosen)) (PreH17 : (chosen <= n_pre)) (PreH18 : (0 <= heap_size)) (PreH19 : (heap_size <= heap_capacity)) (PreH20 : (0 <= selected_2)) (PreH21 : (selected_2 < n_pre)) (PreH22 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s_2 s_after_2 l_from_new_2 l_first_2 l_link_2 l_to_new l_weight_new l_lowcost_2 (replace_Znth (selected_2) (1) (l_visited_2)) l_edge_parent_2 l_lowcost_cur_2 l_edge_parent_cur_2 current_edge selected_2 min queue_map_before_2 l_lowcost_cur_2 l_edge_parent_cur_2 queue_map_cur_2 X_low_level_spec )) (PreH23 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH24 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH25 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH26 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH27 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH28 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new l_weight_new )) (PreH29 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) ,
-  (IntArray.full edge_parent n_pre (replace_Znth ((Znth current_edge l_to_new 0)) (current_edge) (l_edge_parent_cur_2)) )
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s_2: St) (s_after_2: St) (l_from_new_2: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (min: Z) (queue_map_before_2: partial_map) (l_lowcost_cur_2: (@list Z)) (l_edge_parent_cur: (@list Z)) (current_edge: Z) (selected_2: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (queue_map_cur_2: partial_map) (n_after: Z) (PreH1 : (partial_map_update_or_add_size queue_map_cur_2 heap_size n_after (Znth current_edge l_to_new 0) (Znth current_edge l_weight_new 0) )) (PreH2 : ((Znth current_edge l_weight_new 0) < (Znth (Znth current_edge l_to_new 0) l_lowcost_cur_2 0))) (PreH3 : ((Znth (Znth current_edge l_to_new 0) (replace_Znth (selected_2) (1) (l_visited_2)) 0) = 0)) (PreH4 : ((Znth current_edge l_to_new 0) < n_pre)) (PreH5 : (0 <= (Znth current_edge l_to_new 0))) (PreH6 : (current_edge < (2 * m_pre ))) (PreH7 : (0 <= current_edge)) (PreH8 : (current_edge <> (-1))) (PreH9 : (2 <= n_pre)) (PreH10 : (n_pre < INT_MAX)) (PreH11 : (1 <= m_pre)) (PreH12 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH13 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH14 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH15 : (src_low_level_spec = 0)) (PreH16 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH17 : (1 <= chosen)) (PreH18 : (chosen <= n_pre)) (PreH19 : (0 <= heap_size)) (PreH20 : (heap_size <= heap_capacity)) (PreH21 : (0 <= selected_2)) (PreH22 : (selected_2 < n_pre)) (PreH23 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s_2 s_after_2 l_from_new_2 l_first_2 l_link_2 l_to_new l_weight_new l_lowcost_2 (replace_Znth (selected_2) (1) (l_visited_2)) l_edge_parent_2 l_lowcost_cur_2 l_edge_parent_cur current_edge selected_2 min queue_map_before_2 l_lowcost_cur_2 l_edge_parent_cur queue_map_cur_2 X_low_level_spec )) (PreH24 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH25 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH26 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH27 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH28 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH29 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new l_weight_new )) (PreH30 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) ,
+  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity (partial_map_update_or_add (queue_map_cur_2) ((Znth current_edge l_to_new 0)) ((Znth current_edge l_weight_new 0))) n_after )
+  **  (IntArray.full edge_parent n_pre (replace_Znth ((Znth current_edge l_to_new 0)) (current_edge) (l_edge_parent_cur)) )
   **  (IntArray.full lowcost n_pre (replace_Znth ((Znth current_edge l_to_new 0)) ((Znth current_edge l_weight_new 0)) (l_lowcost_cur_2)) )
   **  (IntArray.full visited n_pre (replace_Znth (selected_2) (1) (l_visited_2)) )
   **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
@@ -5256,9 +5160,8 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (IntArray.full from_new (2 * m_pre ) l_from_new_2 )
   **  (IntArray.full first n_pre l_first_2 )
   **  (IntArray.full link (2 * m_pre ) l_link_2 )
-  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map_cur_2 heap_size )
 |--
-  EX (s: St)  (s_after: St)  (l_from_new: (@list Z))  (l_first: (@list Z))  (l_link: (@list Z))  (l_lowcost: (@list Z))  (l_edge_parent: (@list Z))  (queue_map_before: partial_map)  (queue_map_cur: partial_map)  (l_edge_parent_cur: (@list Z))  (l_edge_parent_next: (@list Z))  (l_lowcost_next: (@list Z))  (l_visited: (@list Z))  (l_lowcost_cur: (@list Z))  (l_weight_new_2: (@list Z))  (l_to_new_2: (@list Z))  (selected: Z) ,
+  EX (s: St)  (s_after: St)  (l_from_new: (@list Z))  (l_first: (@list Z))  (l_lowcost: (@list Z))  (l_edge_parent: (@list Z))  (queue_map_before: partial_map)  (l_lowcost_next: (@list Z))  (l_edge_parent_next: (@list Z))  (queue_map_cur: partial_map)  (queue_map_next: partial_map)  (l_weight_new_2: (@list Z))  (l_to_new_2: (@list Z))  (l_link: (@list Z))  (current_edge_2: Z)  (l_visited: (@list Z))  (l_lowcost_cur: (@list Z))  (selected: Z) ,
   “ (2 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (1 <= m_pre) ” 
@@ -5267,8 +5170,8 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ (((2 * m_pre ) + 2 ) <= 100000) ” 
   &&  “ (src_low_level_spec = 0) ” 
   &&  “ (heap_capacity = ((2 * m_pre ) + 2 )) ” 
-  &&  “ (0 <= heap_size) ” 
-  &&  “ (heap_size < heap_capacity) ” 
+  &&  “ (0 <= n_after) ” 
+  &&  “ (n_after <= heap_capacity) ” 
   &&  “ (1 <= chosen) ” 
   &&  “ (chosen <= n_pre) ” 
   &&  “ (0 <= selected) ” 
@@ -5279,14 +5182,13 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ ((Znth current_edge l_to_new 0) < n_pre) ” 
   &&  “ (INT_MIN <= (Znth current_edge l_weight_new 0)) ” 
   &&  “ ((Znth current_edge l_weight_new 0) <= INT_MAX) ” 
-  &&  “ ((Znth current_edge l_to_new 0) = (Znth (current_edge) (l_to_new_2) (0))) ” 
-  &&  “ ((Znth current_edge l_weight_new 0) = (Znth (current_edge) (l_weight_new_2) (0))) ” 
   &&  “ ((Znth current_edge l_weight_new 0) < (Znth ((Znth current_edge l_to_new 0)) (l_lowcost_cur) (0))) ” 
   &&  “ ((Znth ((Znth current_edge l_to_new 0)) ((replace_Znth (selected) (1) (l_visited))) (0)) = 0) ” 
-  &&  “ (l_lowcost_next = (replace_Znth ((Znth current_edge l_to_new 0)) ((Znth current_edge l_weight_new 0)) (l_lowcost_cur))) ” 
-  &&  “ (l_edge_parent_next = (replace_Znth ((Znth current_edge l_to_new 0)) (current_edge) (l_edge_parent_cur))) ” 
-  &&  “ (partial_map_update_or_add_pre queue_map_cur (Znth current_edge l_to_new 0) (Znth current_edge l_weight_new 0) ) ” 
-  &&  “ (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s s_after l_from_new l_first l_link l_to_new_2 l_weight_new_2 l_lowcost (replace_Znth (selected) (1) (l_visited)) l_edge_parent l_lowcost_cur l_edge_parent_cur current_edge selected min queue_map_before l_lowcost_cur l_edge_parent_cur queue_map_cur X_low_level_spec ) ” 
+  &&  “ (current_edge_2 = (Znth (current_edge) (l_link) (0))) ” 
+  &&  “ ((Znth current_edge l_to_new 0) = (Znth (current_edge) (l_to_new_2) (0))) ” 
+  &&  “ ((Znth current_edge l_weight_new 0) = (Znth (current_edge) (l_weight_new_2) (0))) ” 
+  &&  “ (queue_map_next = (partial_map_update_or_add (queue_map_cur) ((Znth current_edge l_to_new 0)) ((Znth current_edge l_weight_new 0)))) ” 
+  &&  “ (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s s_after l_from_new l_first l_link l_to_new_2 l_weight_new_2 l_lowcost (replace_Znth (selected) (1) (l_visited)) l_edge_parent l_lowcost_next l_edge_parent_next current_edge_2 selected min queue_map_before l_lowcost_next l_edge_parent_next queue_map_next X_low_level_spec ) ” 
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre))) ” 
   &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre))) ” 
   &&  “ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000))) ” 
@@ -5308,102 +5210,10 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (IntArray.full lowcost n_pre l_lowcost_next )
   **  (IntArray.full visited n_pre (replace_Znth (selected) (1) (l_visited)) )
   **  (IntArray.full edge_parent n_pre l_edge_parent_next )
-  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map_cur heap_size )
-) \/
-(
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (s_2: St) (s_after_2: St) (l_from_new_2: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (min: Z) (queue_map_before_2: partial_map) (l_lowcost_cur_2: (@list Z)) (l_edge_parent_cur_2: (@list Z)) (queue_map_cur_2: partial_map) (current_edge: Z) (selected_2: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : ((Znth current_edge l_weight_new 0) < (Znth (Znth current_edge l_to_new 0) l_lowcost_cur_2 0))) (PreH2 : ((Znth (Znth current_edge l_to_new 0) (replace_Znth (selected_2) (1) (l_visited_2)) 0) = 0)) (PreH3 : ((Znth current_edge l_to_new 0) < n_pre)) (PreH4 : (0 <= (Znth current_edge l_to_new 0))) (PreH5 : (current_edge < (2 * m_pre ))) (PreH6 : (0 <= current_edge)) (PreH7 : (current_edge <> (-1))) (PreH8 : (2 <= n_pre)) (PreH9 : (n_pre < INT_MAX)) (PreH10 : (1 <= m_pre)) (PreH11 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH12 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH13 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH14 : (src_low_level_spec = 0)) (PreH15 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH16 : (1 <= chosen)) (PreH17 : (chosen <= n_pre)) (PreH18 : (0 <= heap_size)) (PreH19 : (heap_size <= heap_capacity)) (PreH20 : (0 <= selected_2)) (PreH21 : (selected_2 < n_pre)) (PreH22 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s_2 s_after_2 l_from_new_2 l_first_2 l_link_2 l_to_new l_weight_new l_lowcost_2 (replace_Znth (selected_2) (1) (l_visited_2)) l_edge_parent_2 l_lowcost_cur_2 l_edge_parent_cur_2 current_edge selected_2 min queue_map_before_2 l_lowcost_cur_2 l_edge_parent_cur_2 queue_map_cur_2 X_low_level_spec )) (PreH23 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH24 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH25 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH26 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH27 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH28 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new l_weight_new )) (PreH29 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) ,
-  TT && emp 
-|--
-  EX (s: St)  (s_after: St)  (l_lowcost: (@list Z))  (l_edge_parent: (@list Z))  (queue_map_before: partial_map)  (l_edge_parent_cur: (@list Z))  (l_visited: (@list Z))  (l_lowcost_cur: (@list Z))  (selected: Z) ,
-  “ ((replace_Znth (selected_2) (1) (l_visited_2)) = (replace_Znth (selected) (1) (l_visited))) ” 
-  &&  “ ((replace_Znth ((Znth current_edge l_to_new 0)) ((Znth current_edge l_weight_new 0)) (l_lowcost_cur_2)) = (replace_Znth ((Znth current_edge l_to_new 0)) ((Znth current_edge l_weight_new 0)) (l_lowcost_cur))) ” 
-  &&  “ ((replace_Znth ((Znth current_edge l_to_new 0)) (current_edge) (l_edge_parent_cur_2)) = (replace_Znth ((Znth current_edge l_to_new 0)) (current_edge) (l_edge_parent_cur))) ” 
-  &&  “ (heap_size < ((2 * m_pre ) + 2 )) ” 
-  &&  “ (0 <= selected) ” 
-  &&  “ (selected < n_pre) ” 
-  &&  “ (INT_MIN <= (Znth current_edge l_weight_new 0)) ” 
-  &&  “ ((Znth current_edge l_weight_new 0) <= INT_MAX) ” 
-  &&  “ ((Znth current_edge l_to_new 0) = (Znth (current_edge) (l_to_new) (0))) ” 
-  &&  “ ((Znth current_edge l_weight_new 0) = (Znth (current_edge) (l_weight_new) (0))) ” 
-  &&  “ ((Znth current_edge l_weight_new 0) < (Znth ((Znth current_edge l_to_new 0)) (l_lowcost_cur) (0))) ” 
-  &&  “ ((Znth ((Znth current_edge l_to_new 0)) ((replace_Znth (selected) (1) (l_visited))) (0)) = 0) ” 
-  &&  “ (partial_map_update_or_add_pre queue_map_cur_2 (Znth current_edge l_to_new 0) (Znth current_edge l_weight_new 0) ) ” 
-  &&  “ (prim_heap_scan_state g_low_level_spec 0 chosen s s_after l_from_new_2 l_first_2 l_link_2 l_to_new l_weight_new l_lowcost (replace_Znth (selected) (1) (l_visited)) l_edge_parent l_lowcost_cur l_edge_parent_cur current_edge selected min queue_map_before l_lowcost_cur l_edge_parent_cur queue_map_cur_2 X_low_level_spec ) ”
-  &&  emp
-).
-
-Definition prim_forward_star_heap_entail_wit_22 := 
-(
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (current_edge: Z) (selected_2: Z) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (l_lowcost_cur_2: (@list Z)) (l_edge_parent_cur: (@list Z)) (l_lowcost_next_2: (@list Z)) (l_edge_parent_next_2: (@list Z)) (queue_map_before_2: partial_map) (s_2: St) (s_after_2: St) (heap_capacity: Z) (heap_size: Z) (chosen: Z) (to_node: Z) (edge_weight: Z) (min: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (queue_map_cur_2: partial_map) (n_after: Z) (PreH1 : (partial_map_update_or_add_size queue_map_cur_2 heap_size n_after to_node edge_weight )) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (0 <= heap_size)) (PreH11 : (heap_size < heap_capacity)) (PreH12 : (1 <= chosen)) (PreH13 : (chosen <= n_pre)) (PreH14 : (0 <= selected_2)) (PreH15 : (selected_2 < n_pre)) (PreH16 : (0 <= current_edge)) (PreH17 : (current_edge < (2 * m_pre ))) (PreH18 : (0 <= to_node)) (PreH19 : (to_node < n_pre)) (PreH20 : (INT_MIN <= edge_weight)) (PreH21 : (edge_weight <= INT_MAX)) (PreH22 : (to_node = (Znth (current_edge) (l_to_new_2) (0)))) (PreH23 : (edge_weight = (Znth (current_edge) (l_weight_new_2) (0)))) (PreH24 : (edge_weight < (Znth (to_node) (l_lowcost_cur_2) (0)))) (PreH25 : ((Znth (to_node) ((replace_Znth (selected_2) (1) (l_visited_2))) (0)) = 0)) (PreH26 : (l_lowcost_next_2 = (replace_Znth (to_node) (edge_weight) (l_lowcost_cur_2)))) (PreH27 : (l_edge_parent_next_2 = (replace_Znth (to_node) (current_edge) (l_edge_parent_cur)))) (PreH28 : (partial_map_update_or_add_pre queue_map_cur_2 to_node edge_weight )) (PreH29 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s_2 s_after_2 l_from_new_2 l_first_2 l_link_2 l_to_new_2 l_weight_new_2 l_lowcost_2 (replace_Znth (selected_2) (1) (l_visited_2)) l_edge_parent_2 l_lowcost_cur_2 l_edge_parent_cur current_edge selected_2 min queue_map_before_2 l_lowcost_cur_2 l_edge_parent_cur queue_map_cur_2 X_low_level_spec )) (PreH30 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH31 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH32 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH33 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH34 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH35 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH36 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) ,
-  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity (partial_map_update_or_add (queue_map_cur_2) (to_node) (edge_weight)) n_after )
-  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
-  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
-  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
-  **  (IntArray.undef_full out_u (n_pre - 1 ) )
-  **  (IntArray.undef_full out_v (n_pre - 1 ) )
-  **  (IntArray.undef_full out_wt (n_pre - 1 ) )
-  **  (IntArray.full from_new (2 * m_pre ) l_from_new_2 )
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new_2 )
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new_2 )
-  **  (IntArray.full first n_pre l_first_2 )
-  **  (IntArray.full link (2 * m_pre ) l_link_2 )
-  **  (IntArray.full lowcost n_pre l_lowcost_next_2 )
-  **  (IntArray.full visited n_pre (replace_Znth (selected_2) (1) (l_visited_2)) )
-  **  (IntArray.full edge_parent n_pre l_edge_parent_next_2 )
-|--
-  EX (s: St)  (s_after: St)  (l_from_new: (@list Z))  (l_first: (@list Z))  (l_lowcost: (@list Z))  (l_edge_parent: (@list Z))  (queue_map_before: partial_map)  (l_lowcost_next: (@list Z))  (l_edge_parent_next: (@list Z))  (queue_map_cur: partial_map)  (queue_map_next: partial_map)  (l_weight_new: (@list Z))  (l_to_new: (@list Z))  (l_link: (@list Z))  (current_edge_2: Z)  (l_visited: (@list Z))  (l_lowcost_cur: (@list Z))  (selected: Z) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre < INT_MAX) ” 
-  &&  “ (1 <= m_pre) ” 
-  &&  “ (((2 * m_pre ) + 2 ) < INT_MAX) ” 
-  &&  “ (((4 * m_pre ) + 6 ) < INT_MAX) ” 
-  &&  “ (((2 * m_pre ) + 2 ) <= 100000) ” 
-  &&  “ (src_low_level_spec = 0) ” 
-  &&  “ (heap_capacity = ((2 * m_pre ) + 2 )) ” 
-  &&  “ (0 <= n_after) ” 
-  &&  “ (n_after <= heap_capacity) ” 
-  &&  “ (1 <= chosen) ” 
-  &&  “ (chosen <= n_pre) ” 
-  &&  “ (0 <= selected) ” 
-  &&  “ (selected < n_pre) ” 
-  &&  “ (0 <= current_edge) ” 
-  &&  “ (current_edge < (2 * m_pre )) ” 
-  &&  “ (0 <= to_node) ” 
-  &&  “ (to_node < n_pre) ” 
-  &&  “ (INT_MIN <= edge_weight) ” 
-  &&  “ (edge_weight <= INT_MAX) ” 
-  &&  “ (edge_weight < (Znth (to_node) (l_lowcost_cur) (0))) ” 
-  &&  “ ((Znth (to_node) ((replace_Znth (selected) (1) (l_visited))) (0)) = 0) ” 
-  &&  “ (current_edge_2 = (Znth (current_edge) (l_link) (0))) ” 
-  &&  “ (to_node = (Znth (current_edge) (l_to_new) (0))) ” 
-  &&  “ (edge_weight = (Znth (current_edge) (l_weight_new) (0))) ” 
-  &&  “ (queue_map_next = (partial_map_update_or_add (queue_map_cur) (to_node) (edge_weight))) ” 
-  &&  “ (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s s_after l_from_new l_first l_link l_to_new l_weight_new l_lowcost (replace_Znth (selected) (1) (l_visited)) l_edge_parent l_lowcost_next l_edge_parent_next current_edge_2 selected min queue_map_before l_lowcost_next l_edge_parent_next queue_map_next X_low_level_spec ) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre))) ” 
-  &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre))) ” 
-  &&  “ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000))) ” 
-  &&  “ (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec ) ” 
-  &&  “ (PrimEnv g_low_level_spec src_low_level_spec ) ” 
-  &&  “ (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new ) ” 
-  &&  “ (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link ) ”
-  &&  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
-  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
-  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
-  **  (IntArray.undef_full out_u (n_pre - 1 ) )
-  **  (IntArray.undef_full out_v (n_pre - 1 ) )
-  **  (IntArray.undef_full out_wt (n_pre - 1 ) )
-  **  (IntArray.full from_new (2 * m_pre ) l_from_new )
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
-  **  (IntArray.full first n_pre l_first )
-  **  (IntArray.full link (2 * m_pre ) l_link )
-  **  (IntArray.full lowcost n_pre l_lowcost_next )
-  **  (IntArray.full visited n_pre (replace_Znth (selected) (1) (l_visited)) )
-  **  (IntArray.full edge_parent n_pre l_edge_parent_next )
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map_next n_after )
 ) \/
 (
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (current_edge: Z) (selected_2: Z) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (l_lowcost_cur_2: (@list Z)) (l_edge_parent_cur: (@list Z)) (l_lowcost_next_2: (@list Z)) (l_edge_parent_next_2: (@list Z)) (queue_map_before_2: partial_map) (s_2: St) (s_after_2: St) (heap_capacity: Z) (heap_size: Z) (chosen: Z) (to_node: Z) (edge_weight: Z) (min: Z) (queue_map_cur_2: partial_map) (n_after: Z) (PreH1 : (partial_map_update_or_add_size queue_map_cur_2 heap_size n_after to_node edge_weight )) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (0 <= heap_size)) (PreH11 : (heap_size < heap_capacity)) (PreH12 : (1 <= chosen)) (PreH13 : (chosen <= n_pre)) (PreH14 : (0 <= selected_2)) (PreH15 : (selected_2 < n_pre)) (PreH16 : (0 <= current_edge)) (PreH17 : (current_edge < (2 * m_pre ))) (PreH18 : (0 <= to_node)) (PreH19 : (to_node < n_pre)) (PreH20 : (INT_MIN <= edge_weight)) (PreH21 : (edge_weight <= INT_MAX)) (PreH22 : (to_node = (Znth (current_edge) (l_to_new_2) (0)))) (PreH23 : (edge_weight = (Znth (current_edge) (l_weight_new_2) (0)))) (PreH24 : (edge_weight < (Znth (to_node) (l_lowcost_cur_2) (0)))) (PreH25 : ((Znth (to_node) ((replace_Znth (selected_2) (1) (l_visited_2))) (0)) = 0)) (PreH26 : (l_lowcost_next_2 = (replace_Znth (to_node) (edge_weight) (l_lowcost_cur_2)))) (PreH27 : (l_edge_parent_next_2 = (replace_Znth (to_node) (current_edge) (l_edge_parent_cur)))) (PreH28 : (partial_map_update_or_add_pre queue_map_cur_2 to_node edge_weight )) (PreH29 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s_2 s_after_2 l_from_new_2 l_first_2 l_link_2 l_to_new_2 l_weight_new_2 l_lowcost_2 (replace_Znth (selected_2) (1) (l_visited_2)) l_edge_parent_2 l_lowcost_cur_2 l_edge_parent_cur current_edge selected_2 min queue_map_before_2 l_lowcost_cur_2 l_edge_parent_cur queue_map_cur_2 X_low_level_spec )) (PreH30 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH31 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH32 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH33 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH34 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH35 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH36 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) ,
+forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (s_2: St) (s_after_2: St) (l_from_new_2: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (min: Z) (queue_map_before_2: partial_map) (l_lowcost_cur_2: (@list Z)) (l_edge_parent_cur: (@list Z)) (current_edge: Z) (selected_2: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (queue_map_cur_2: partial_map) (n_after: Z) (PreH1 : (partial_map_update_or_add_size queue_map_cur_2 heap_size n_after (Znth current_edge l_to_new 0) (Znth current_edge l_weight_new 0) )) (PreH2 : ((Znth current_edge l_weight_new 0) < (Znth (Znth current_edge l_to_new 0) l_lowcost_cur_2 0))) (PreH3 : ((Znth (Znth current_edge l_to_new 0) (replace_Znth (selected_2) (1) (l_visited_2)) 0) = 0)) (PreH4 : ((Znth current_edge l_to_new 0) < n_pre)) (PreH5 : (0 <= (Znth current_edge l_to_new 0))) (PreH6 : (current_edge < (2 * m_pre ))) (PreH7 : (0 <= current_edge)) (PreH8 : (current_edge <> (-1))) (PreH9 : (2 <= n_pre)) (PreH10 : (n_pre < INT_MAX)) (PreH11 : (1 <= m_pre)) (PreH12 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH13 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH14 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH15 : (src_low_level_spec = 0)) (PreH16 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH17 : (1 <= chosen)) (PreH18 : (chosen <= n_pre)) (PreH19 : (0 <= heap_size)) (PreH20 : (heap_size <= heap_capacity)) (PreH21 : (0 <= selected_2)) (PreH22 : (selected_2 < n_pre)) (PreH23 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s_2 s_after_2 l_from_new_2 l_first_2 l_link_2 l_to_new l_weight_new l_lowcost_2 (replace_Znth (selected_2) (1) (l_visited_2)) l_edge_parent_2 l_lowcost_cur_2 l_edge_parent_cur current_edge selected_2 min queue_map_before_2 l_lowcost_cur_2 l_edge_parent_cur queue_map_cur_2 X_low_level_spec )) (PreH24 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH25 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH26 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH27 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH28 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH29 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new l_weight_new )) (PreH30 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) ,
   TT && emp 
 |--
   EX (s: St)  (s_after: St)  (l_lowcost: (@list Z))  (l_edge_parent: (@list Z))  (queue_map_before: partial_map)  (l_visited: (@list Z))  (l_lowcost_cur: (@list Z))  (selected: Z) ,
@@ -5412,13 +5222,17 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low
   &&  “ (n_after <= ((2 * m_pre ) + 2 )) ” 
   &&  “ (0 <= selected) ” 
   &&  “ (selected < n_pre) ” 
-  &&  “ ((Znth (current_edge) (l_weight_new_2) (0)) < (Znth ((Znth (current_edge) (l_to_new_2) (0))) (l_lowcost_cur) (0))) ” 
-  &&  “ ((Znth ((Znth (current_edge) (l_to_new_2) (0))) ((replace_Znth (selected) (1) (l_visited))) (0)) = 0) ” 
-  &&  “ (prim_heap_scan_state g_low_level_spec 0 chosen s s_after l_from_new_2 l_first_2 l_link_2 l_to_new_2 l_weight_new_2 l_lowcost (replace_Znth (selected) (1) (l_visited)) l_edge_parent (replace_Znth (to_node) (edge_weight) (l_lowcost_cur_2)) (replace_Znth (to_node) (current_edge) (l_edge_parent_cur)) (Znth (current_edge) (l_link_2) (0)) selected min queue_map_before (replace_Znth (to_node) (edge_weight) (l_lowcost_cur_2)) (replace_Znth (to_node) (current_edge) (l_edge_parent_cur)) (partial_map_update_or_add (queue_map_cur_2) ((Znth (current_edge) (l_to_new_2) (0))) ((Znth (current_edge) (l_weight_new_2) (0)))) X_low_level_spec ) ”
+  &&  “ (INT_MIN <= (Znth current_edge l_weight_new 0)) ” 
+  &&  “ ((Znth current_edge l_weight_new 0) <= INT_MAX) ” 
+  &&  “ ((Znth current_edge l_weight_new 0) < (Znth ((Znth current_edge l_to_new 0)) (l_lowcost_cur) (0))) ” 
+  &&  “ ((Znth ((Znth current_edge l_to_new 0)) ((replace_Znth (selected) (1) (l_visited))) (0)) = 0) ” 
+  &&  “ ((Znth current_edge l_to_new 0) = (Znth (current_edge) (l_to_new) (0))) ” 
+  &&  “ ((Znth current_edge l_weight_new 0) = (Znth (current_edge) (l_weight_new) (0))) ” 
+  &&  “ (prim_heap_scan_state g_low_level_spec 0 chosen s s_after l_from_new_2 l_first_2 l_link_2 l_to_new l_weight_new l_lowcost (replace_Znth (selected) (1) (l_visited)) l_edge_parent (replace_Znth ((Znth current_edge l_to_new 0)) ((Znth current_edge l_weight_new 0)) (l_lowcost_cur_2)) (replace_Znth ((Znth current_edge l_to_new 0)) (current_edge) (l_edge_parent_cur)) (Znth (current_edge) (l_link_2) (0)) selected min queue_map_before (replace_Znth ((Znth current_edge l_to_new 0)) ((Znth current_edge l_weight_new 0)) (l_lowcost_cur_2)) (replace_Znth ((Znth current_edge l_to_new 0)) (current_edge) (l_edge_parent_cur)) (partial_map_update_or_add (queue_map_cur_2) ((Znth current_edge l_to_new 0)) ((Znth current_edge l_weight_new 0))) X_low_level_spec ) ”
   &&  emp
 ).
 
-Definition prim_forward_star_heap_entail_wit_23_1 := 
+Definition prim_forward_star_heap_entail_wit_19_1 := 
 (
 forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (current_edge: Z) (selected_2: Z) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (l_lowcost_cur_2: (@list Z)) (l_lowcost_next: (@list Z)) (l_edge_parent_next: (@list Z)) (queue_map_before_2: partial_map) (queue_map_cur_2: partial_map) (queue_map_next: partial_map) (s_2: St) (s_after_2: St) (heap_capacity: Z) (heap_size: Z) (chosen: Z) (cur_edge: Z) (to_node: Z) (edge_weight: Z) (min: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH9 : (0 <= heap_size)) (PreH10 : (heap_size <= heap_capacity)) (PreH11 : (1 <= chosen)) (PreH12 : (chosen <= n_pre)) (PreH13 : (0 <= selected_2)) (PreH14 : (selected_2 < n_pre)) (PreH15 : (0 <= cur_edge)) (PreH16 : (cur_edge < (2 * m_pre ))) (PreH17 : (0 <= to_node)) (PreH18 : (to_node < n_pre)) (PreH19 : (INT_MIN <= edge_weight)) (PreH20 : (edge_weight <= INT_MAX)) (PreH21 : (edge_weight < (Znth (to_node) (l_lowcost_cur_2) (0)))) (PreH22 : ((Znth (to_node) ((replace_Znth (selected_2) (1) (l_visited_2))) (0)) = 0)) (PreH23 : (current_edge = (Znth (cur_edge) (l_link_2) (0)))) (PreH24 : (to_node = (Znth (cur_edge) (l_to_new_2) (0)))) (PreH25 : (edge_weight = (Znth (cur_edge) (l_weight_new_2) (0)))) (PreH26 : (queue_map_next = (partial_map_update_or_add (queue_map_cur_2) (to_node) (edge_weight)))) (PreH27 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s_2 s_after_2 l_from_new_2 l_first_2 l_link_2 l_to_new_2 l_weight_new_2 l_lowcost_2 (replace_Znth (selected_2) (1) (l_visited_2)) l_edge_parent_2 l_lowcost_next l_edge_parent_next current_edge selected_2 min queue_map_before_2 l_lowcost_next l_edge_parent_next queue_map_next X_low_level_spec )) (PreH28 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH29 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH30 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH31 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH32 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH33 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH34 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) ,
   (IntArray.full link (2 * m_pre ) l_link_2 )
@@ -5488,7 +5302,7 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low
   &&  emp
 ).
 
-Definition prim_forward_star_heap_entail_wit_23_2 := 
+Definition prim_forward_star_heap_entail_wit_19_2 := 
 (
 forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s_2: St) (s_after_2: St) (l_from_new_2: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (min: Z) (queue_map_before_2: partial_map) (l_lowcost_cur_2: (@list Z)) (l_edge_parent_cur_2: (@list Z)) (queue_map_cur_2: partial_map) (current_edge: Z) (selected_2: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : ((Znth (Znth current_edge l_to_new_2 0) (replace_Znth (selected_2) (1) (l_visited_2)) 0) <> 0)) (PreH2 : ((Znth current_edge l_to_new_2 0) < n_pre)) (PreH3 : (0 <= (Znth current_edge l_to_new_2 0))) (PreH4 : (current_edge < (2 * m_pre ))) (PreH5 : (0 <= current_edge)) (PreH6 : (current_edge <> (-1))) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH11 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH12 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH13 : (src_low_level_spec = 0)) (PreH14 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH15 : (1 <= chosen)) (PreH16 : (chosen <= n_pre)) (PreH17 : (0 <= heap_size)) (PreH18 : (heap_size <= heap_capacity)) (PreH19 : (0 <= selected_2)) (PreH20 : (selected_2 < n_pre)) (PreH21 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s_2 s_after_2 l_from_new_2 l_first_2 l_link_2 l_to_new_2 l_weight_new_2 l_lowcost_2 (replace_Znth (selected_2) (1) (l_visited_2)) l_edge_parent_2 l_lowcost_cur_2 l_edge_parent_cur_2 current_edge selected_2 min queue_map_before_2 l_lowcost_cur_2 l_edge_parent_cur_2 queue_map_cur_2 X_low_level_spec )) (PreH22 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH23 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH24 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH25 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH26 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH27 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH28 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) ,
   (IntArray.full link (2 * m_pre ) l_link_2 )
@@ -5558,7 +5372,7 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low
   &&  emp
 ).
 
-Definition prim_forward_star_heap_entail_wit_23_3 := 
+Definition prim_forward_star_heap_entail_wit_19_3 := 
 (
 forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s_2: St) (s_after_2: St) (l_from_new_2: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (min: Z) (queue_map_before_2: partial_map) (l_lowcost_cur_2: (@list Z)) (l_edge_parent_cur_2: (@list Z)) (queue_map_cur_2: partial_map) (current_edge: Z) (selected_2: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : (0 > (Znth current_edge l_to_new_2 0))) (PreH2 : (current_edge < (2 * m_pre ))) (PreH3 : (0 <= current_edge)) (PreH4 : (current_edge <> (-1))) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (1 <= m_pre)) (PreH8 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH9 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH10 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH11 : (src_low_level_spec = 0)) (PreH12 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH13 : (1 <= chosen)) (PreH14 : (chosen <= n_pre)) (PreH15 : (0 <= heap_size)) (PreH16 : (heap_size <= heap_capacity)) (PreH17 : (0 <= selected_2)) (PreH18 : (selected_2 < n_pre)) (PreH19 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s_2 s_after_2 l_from_new_2 l_first_2 l_link_2 l_to_new_2 l_weight_new_2 l_lowcost_2 (replace_Znth (selected_2) (1) (l_visited_2)) l_edge_parent_2 l_lowcost_cur_2 l_edge_parent_cur_2 current_edge selected_2 min queue_map_before_2 l_lowcost_cur_2 l_edge_parent_cur_2 queue_map_cur_2 X_low_level_spec )) (PreH20 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH21 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH22 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH23 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH24 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH25 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH26 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) ,
   (IntArray.full link (2 * m_pre ) l_link_2 )
@@ -5628,7 +5442,7 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low
   &&  emp
 ).
 
-Definition prim_forward_star_heap_entail_wit_23_4 := 
+Definition prim_forward_star_heap_entail_wit_19_4 := 
 (
 forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s_2: St) (s_after_2: St) (l_from_new_2: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (min: Z) (queue_map_before_2: partial_map) (l_lowcost_cur_2: (@list Z)) (l_edge_parent_cur_2: (@list Z)) (queue_map_cur_2: partial_map) (current_edge: Z) (selected_2: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : ((Znth current_edge l_to_new_2 0) >= n_pre)) (PreH2 : (0 <= (Znth current_edge l_to_new_2 0))) (PreH3 : (current_edge < (2 * m_pre ))) (PreH4 : (0 <= current_edge)) (PreH5 : (current_edge <> (-1))) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : (1 <= m_pre)) (PreH9 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH10 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH11 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH12 : (src_low_level_spec = 0)) (PreH13 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH14 : (1 <= chosen)) (PreH15 : (chosen <= n_pre)) (PreH16 : (0 <= heap_size)) (PreH17 : (heap_size <= heap_capacity)) (PreH18 : (0 <= selected_2)) (PreH19 : (selected_2 < n_pre)) (PreH20 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s_2 s_after_2 l_from_new_2 l_first_2 l_link_2 l_to_new_2 l_weight_new_2 l_lowcost_2 (replace_Znth (selected_2) (1) (l_visited_2)) l_edge_parent_2 l_lowcost_cur_2 l_edge_parent_cur_2 current_edge selected_2 min queue_map_before_2 l_lowcost_cur_2 l_edge_parent_cur_2 queue_map_cur_2 X_low_level_spec )) (PreH21 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH22 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH23 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH24 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH25 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH26 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH27 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) ,
   (IntArray.full link (2 * m_pre ) l_link_2 )
@@ -5698,7 +5512,7 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low
   &&  emp
 ).
 
-Definition prim_forward_star_heap_entail_wit_23_5 := 
+Definition prim_forward_star_heap_entail_wit_19_5 := 
 (
 forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s_2: St) (s_after_2: St) (l_from_new_2: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (min: Z) (queue_map_before_2: partial_map) (l_lowcost_cur_2: (@list Z)) (l_edge_parent_cur_2: (@list Z)) (queue_map_cur_2: partial_map) (current_edge: Z) (selected_2: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : ((Znth current_edge l_weight_new_2 0) >= (Znth (Znth current_edge l_to_new_2 0) l_lowcost_cur_2 0))) (PreH2 : ((Znth (Znth current_edge l_to_new_2 0) (replace_Znth (selected_2) (1) (l_visited_2)) 0) = 0)) (PreH3 : ((Znth current_edge l_to_new_2 0) < n_pre)) (PreH4 : (0 <= (Znth current_edge l_to_new_2 0))) (PreH5 : (current_edge < (2 * m_pre ))) (PreH6 : (0 <= current_edge)) (PreH7 : (current_edge <> (-1))) (PreH8 : (2 <= n_pre)) (PreH9 : (n_pre < INT_MAX)) (PreH10 : (1 <= m_pre)) (PreH11 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH12 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH13 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH14 : (src_low_level_spec = 0)) (PreH15 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH16 : (1 <= chosen)) (PreH17 : (chosen <= n_pre)) (PreH18 : (0 <= heap_size)) (PreH19 : (heap_size <= heap_capacity)) (PreH20 : (0 <= selected_2)) (PreH21 : (selected_2 < n_pre)) (PreH22 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s_2 s_after_2 l_from_new_2 l_first_2 l_link_2 l_to_new_2 l_weight_new_2 l_lowcost_2 (replace_Znth (selected_2) (1) (l_visited_2)) l_edge_parent_2 l_lowcost_cur_2 l_edge_parent_cur_2 current_edge selected_2 min queue_map_before_2 l_lowcost_cur_2 l_edge_parent_cur_2 queue_map_cur_2 X_low_level_spec )) (PreH23 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH24 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH25 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH26 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH27 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH28 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH29 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) ,
   (IntArray.full link (2 * m_pre ) l_link_2 )
@@ -5768,7 +5582,7 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low
   &&  emp
 ).
 
-Definition prim_forward_star_heap_entail_wit_23_6 := 
+Definition prim_forward_star_heap_entail_wit_19_6 := 
 (
 forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s_2: St) (s_after_2: St) (l_from_new_2: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (min: Z) (queue_map_before_2: partial_map) (l_lowcost_cur_2: (@list Z)) (l_edge_parent_cur_2: (@list Z)) (queue_map_cur_2: partial_map) (current_edge: Z) (selected_2: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : (0 > current_edge)) (PreH2 : (current_edge <> (-1))) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : (1 <= m_pre)) (PreH6 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH7 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH8 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH9 : (src_low_level_spec = 0)) (PreH10 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH11 : (1 <= chosen)) (PreH12 : (chosen <= n_pre)) (PreH13 : (0 <= heap_size)) (PreH14 : (heap_size <= heap_capacity)) (PreH15 : (0 <= selected_2)) (PreH16 : (selected_2 < n_pre)) (PreH17 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s_2 s_after_2 l_from_new_2 l_first_2 l_link_2 l_to_new_2 l_weight_new_2 l_lowcost_2 (replace_Znth (selected_2) (1) (l_visited_2)) l_edge_parent_2 l_lowcost_cur_2 l_edge_parent_cur_2 current_edge selected_2 min queue_map_before_2 l_lowcost_cur_2 l_edge_parent_cur_2 queue_map_cur_2 X_low_level_spec )) (PreH18 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH20 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH21 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH22 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH23 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH24 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) ,
   (IntArray.full from_arr_pre m_pre lf_low_level_spec )
@@ -5838,7 +5652,7 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low
   &&  emp
 ).
 
-Definition prim_forward_star_heap_entail_wit_23_7 := 
+Definition prim_forward_star_heap_entail_wit_19_7 := 
 (
 forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s_2: St) (s_after_2: St) (l_from_new_2: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (min: Z) (queue_map_before_2: partial_map) (l_lowcost_cur_2: (@list Z)) (l_edge_parent_cur_2: (@list Z)) (queue_map_cur_2: partial_map) (current_edge: Z) (selected_2: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : (current_edge >= (2 * m_pre ))) (PreH2 : (0 <= current_edge)) (PreH3 : (current_edge <> (-1))) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : (1 <= m_pre)) (PreH7 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH8 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH9 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH10 : (src_low_level_spec = 0)) (PreH11 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH12 : (1 <= chosen)) (PreH13 : (chosen <= n_pre)) (PreH14 : (0 <= heap_size)) (PreH15 : (heap_size <= heap_capacity)) (PreH16 : (0 <= selected_2)) (PreH17 : (selected_2 < n_pre)) (PreH18 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s_2 s_after_2 l_from_new_2 l_first_2 l_link_2 l_to_new_2 l_weight_new_2 l_lowcost_2 (replace_Znth (selected_2) (1) (l_visited_2)) l_edge_parent_2 l_lowcost_cur_2 l_edge_parent_cur_2 current_edge selected_2 min queue_map_before_2 l_lowcost_cur_2 l_edge_parent_cur_2 queue_map_cur_2 X_low_level_spec )) (PreH19 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH20 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH21 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH22 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH23 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH24 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH25 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) ,
   (IntArray.full from_arr_pre m_pre lf_low_level_spec )
@@ -5908,80 +5722,9 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low
   &&  emp
 ).
 
-Definition prim_forward_star_heap_entail_wit_24 := 
+Definition prim_forward_star_heap_entail_wit_20 := 
 (
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s: St) (s_after_2: St) (l_from_new_2: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_lowcost: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent: (@list Z)) (min: Z) (queue_map_before: partial_map) (l_lowcost_cur: (@list Z)) (l_edge_parent_cur: (@list Z)) (queue_map_cur: partial_map) (current_edge: Z) (selected_2: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : (current_edge = (-1))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (1 <= chosen)) (PreH11 : (chosen <= n_pre)) (PreH12 : (0 <= heap_size)) (PreH13 : (heap_size <= heap_capacity)) (PreH14 : (0 <= selected_2)) (PreH15 : (selected_2 < n_pre)) (PreH16 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s s_after_2 l_from_new_2 l_first_2 l_link_2 l_to_new_2 l_weight_new_2 l_lowcost (replace_Znth (selected_2) (1) (l_visited_2)) l_edge_parent l_lowcost_cur l_edge_parent_cur current_edge selected_2 min queue_map_before l_lowcost_cur l_edge_parent_cur queue_map_cur X_low_level_spec )) (PreH17 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH20 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH21 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH22 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH23 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) ,
-  ((( &( "cur_edge" ) )) # Int  |-> current_edge)
-  **  ((( &( "min" ) )) # Int  |-> min)
-  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
-  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
-  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
-  **  (IntArray.undef_full out_u (n_pre - 1 ) )
-  **  (IntArray.undef_full out_v (n_pre - 1 ) )
-  **  (IntArray.undef_full out_wt (n_pre - 1 ) )
-  **  (IntArray.full from_new (2 * m_pre ) l_from_new_2 )
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new_2 )
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new_2 )
-  **  (IntArray.full first n_pre l_first_2 )
-  **  (IntArray.full link (2 * m_pre ) l_link_2 )
-  **  (IntArray.full lowcost n_pre l_lowcost_cur )
-  **  (IntArray.full visited n_pre (replace_Znth (selected_2) (1) (l_visited_2)) )
-  **  (IntArray.full edge_parent n_pre l_edge_parent_cur )
-  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map_cur heap_size )
-|--
-  EX (l_first: (@list Z))  (l_link: (@list Z))  (l_from_new: (@list Z))  (l_to_new: (@list Z))  (l_weight_new: (@list Z))  (s_after: St)  (l_lowcost_next: (@list Z))  (selected: Z)  (l_visited: (@list Z))  (l_edge_parent_next: (@list Z))  (queue_map: partial_map) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre < INT_MAX) ” 
-  &&  “ (1 <= m_pre) ” 
-  &&  “ (((2 * m_pre ) + 2 ) < INT_MAX) ” 
-  &&  “ (((4 * m_pre ) + 6 ) < INT_MAX) ” 
-  &&  “ (((2 * m_pre ) + 2 ) <= 100000) ” 
-  &&  “ (src_low_level_spec = 0) ” 
-  &&  “ (heap_capacity = ((2 * m_pre ) + 2 )) ” 
-  &&  “ (1 <= chosen) ” 
-  &&  “ (chosen <= n_pre) ” 
-  &&  “ (0 <= heap_size) ” 
-  &&  “ (heap_size <= heap_capacity) ” 
-  &&  “ (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s_after l_lowcost_next (replace_Znth (selected) (1) (l_visited)) l_edge_parent_next queue_map X_low_level_spec ) ” 
-  &&  “ ((chosen < n_pre) -> (heap_size > 0)) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre))) ” 
-  &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre))) ” 
-  &&  “ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000))) ” 
-  &&  “ (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec ) ” 
-  &&  “ (PrimEnv g_low_level_spec src_low_level_spec ) ” 
-  &&  “ (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new ) ” 
-  &&  “ (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link ) ”
-  &&  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
-  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
-  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
-  **  (IntArray.undef_full out_u (n_pre - 1 ) )
-  **  (IntArray.undef_full out_v (n_pre - 1 ) )
-  **  (IntArray.undef_full out_wt (n_pre - 1 ) )
-  **  (IntArray.full from_new (2 * m_pre ) l_from_new )
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
-  **  (IntArray.full first n_pre l_first )
-  **  (IntArray.full link (2 * m_pre ) l_link )
-  **  (IntArray.full lowcost n_pre l_lowcost_next )
-  **  (IntArray.full visited n_pre (replace_Znth (selected) (1) (l_visited)) )
-  **  (IntArray.full edge_parent n_pre l_edge_parent_next )
-  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
-  **  ((( &( "cur_edge" ) )) # Int  |->_)
-  **  ((( &( "min" ) )) # Int  |->_)
-) \/
-(
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (s: St) (s_after_2: St) (l_from_new_2: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_lowcost: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent: (@list Z)) (min: Z) (queue_map_before: partial_map) (l_lowcost_cur: (@list Z)) (l_edge_parent_cur: (@list Z)) (queue_map_cur: partial_map) (current_edge: Z) (selected_2: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : (current_edge = (-1))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (1 <= chosen)) (PreH11 : (chosen <= n_pre)) (PreH12 : (0 <= heap_size)) (PreH13 : (heap_size <= heap_capacity)) (PreH14 : (0 <= selected_2)) (PreH15 : (selected_2 < n_pre)) (PreH16 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s s_after_2 l_from_new_2 l_first_2 l_link_2 l_to_new_2 l_weight_new_2 l_lowcost (replace_Znth (selected_2) (1) (l_visited_2)) l_edge_parent l_lowcost_cur l_edge_parent_cur current_edge selected_2 min queue_map_before l_lowcost_cur l_edge_parent_cur queue_map_cur X_low_level_spec )) (PreH17 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH20 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH21 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH22 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH23 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) ,
-  TT && emp 
-|--
-  EX (s_after: St)  (selected: Z)  (l_visited: (@list Z)) ,
-  “ ((replace_Znth (selected_2) (1) (l_visited_2)) = (replace_Znth (selected) (1) (l_visited))) ” 
-  &&  “ (prim_heap_loop_state g_low_level_spec 0 chosen s_after l_lowcost_cur (replace_Znth (selected) (1) (l_visited)) l_edge_parent_cur queue_map_cur X_low_level_spec ) ” 
-  &&  “ ((chosen < n_pre) -> (heap_size > 0)) ”
-  &&  emp
-).
-
-Definition prim_forward_star_heap_entail_wit_25 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (selected: Z) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_visited_2: (@list Z)) (l_lowcost_next: (@list Z)) (l_edge_parent_next: (@list Z)) (queue_map_2: partial_map) (s_after: St) (heap_capacity: Z) (chosen: Z) (heap_size: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH9 : (1 <= chosen)) (PreH10 : (chosen <= n_pre)) (PreH11 : (0 <= heap_size)) (PreH12 : (heap_size <= heap_capacity)) (PreH13 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s_after l_lowcost_next (replace_Znth (selected) (1) (l_visited_2)) l_edge_parent_next queue_map_2 X_low_level_spec )) (PreH14 : ((chosen < n_pre) -> (heap_size > 0))) (PreH15 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH18 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH19 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH20 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH21 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) ,
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s_2: St) (s_after: St) (l_from_new_2: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (min: Z) (queue_map_before: partial_map) (l_lowcost_cur: (@list Z)) (l_edge_parent_cur: (@list Z)) (queue_map_cur: partial_map) (current_edge: Z) (selected: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : (current_edge = (-1))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (1 <= chosen)) (PreH11 : (chosen <= n_pre)) (PreH12 : (0 <= heap_size)) (PreH13 : (heap_size <= heap_capacity)) (PreH14 : (0 <= selected)) (PreH15 : (selected < n_pre)) (PreH16 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s_2 s_after l_from_new_2 l_first_2 l_link_2 l_to_new_2 l_weight_new_2 l_lowcost_2 (replace_Znth (selected) (1) (l_visited_2)) l_edge_parent_2 l_lowcost_cur l_edge_parent_cur current_edge selected min queue_map_before l_lowcost_cur l_edge_parent_cur queue_map_cur X_low_level_spec )) (PreH17 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH20 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH21 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH22 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH23 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) ,
   (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
   **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
@@ -5993,10 +5736,10 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (IntArray.full weight_new (2 * m_pre ) l_weight_new_2 )
   **  (IntArray.full first n_pre l_first_2 )
   **  (IntArray.full link (2 * m_pre ) l_link_2 )
-  **  (IntArray.full lowcost n_pre l_lowcost_next )
+  **  (IntArray.full lowcost n_pre l_lowcost_cur )
   **  (IntArray.full visited n_pre (replace_Znth (selected) (1) (l_visited_2)) )
-  **  (IntArray.full edge_parent n_pre l_edge_parent_next )
-  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map_2 heap_size )
+  **  (IntArray.full edge_parent n_pre l_edge_parent_cur )
+  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map_cur heap_size )
 |--
   EX (s: St)  (l_lowcost: (@list Z))  (l_visited: (@list Z))  (l_edge_parent: (@list Z))  (queue_map: partial_map)  (l_first: (@list Z))  (l_link: (@list Z))  (l_from_new: (@list Z))  (l_to_new: (@list Z))  (l_weight_new: (@list Z)) ,
   “ (2 <= n_pre) ” 
@@ -6035,148 +5778,23 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (IntArray.full visited n_pre l_visited )
   **  (IntArray.full edge_parent n_pre l_edge_parent )
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
-.
-
-Definition prim_forward_star_heap_entail_wit_26_1 := 
-(
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s_2: St) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (queue_map_2: partial_map) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : (heap_size <= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (0 <= chosen)) (PreH11 : (chosen <= n_pre)) (PreH12 : (0 <= heap_size)) (PreH13 : (heap_size <= heap_capacity)) (PreH14 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH17 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH18 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH19 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH20 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH21 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) (PreH22 : ((chosen < n_pre) -> (heap_size > 0))) ,
-  ((( &( "chosen" ) )) # Int  |-> chosen)
-  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
-  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
-  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
-  **  (IntArray.undef_full out_u (n_pre - 1 ) )
-  **  (IntArray.undef_full out_v (n_pre - 1 ) )
-  **  (IntArray.undef_full out_wt (n_pre - 1 ) )
-  **  (IntArray.full from_new (2 * m_pre ) l_from_new_2 )
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new_2 )
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new_2 )
-  **  (IntArray.full first n_pre l_first_2 )
-  **  (IntArray.full link (2 * m_pre ) l_link_2 )
-  **  (IntArray.full lowcost n_pre l_lowcost_2 )
-  **  (IntArray.full visited n_pre l_visited_2 )
-  **  (IntArray.full edge_parent n_pre l_edge_parent_2 )
-  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map_2 heap_size )
-|--
-  EX (l_first: (@list Z))  (l_link: (@list Z))  (l_from_new: (@list Z))  (l_to_new: (@list Z))  (l_weight_new: (@list Z))  (s: St)  (l_lowcost: (@list Z))  (l_visited: (@list Z))  (l_edge_parent: (@list Z))  (queue_map: partial_map) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre < INT_MAX) ” 
-  &&  “ (1 <= m_pre) ” 
-  &&  “ (((2 * m_pre ) + 2 ) < INT_MAX) ” 
-  &&  “ (((4 * m_pre ) + 6 ) < INT_MAX) ” 
-  &&  “ (((2 * m_pre ) + 2 ) <= 100000) ” 
-  &&  “ (src_low_level_spec = 0) ” 
-  &&  “ (heap_capacity = ((2 * m_pre ) + 2 )) ” 
-  &&  “ (0 <= heap_size) ” 
-  &&  “ (heap_size <= heap_capacity) ” 
-  &&  “ (prim_heap_loop_state g_low_level_spec src_low_level_spec n_pre s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec ) ” 
-  &&  “ (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec ) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre))) ” 
-  &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre))) ” 
-  &&  “ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000))) ” 
-  &&  “ (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec ) ” 
-  &&  “ (PrimEnv g_low_level_spec src_low_level_spec ) ” 
-  &&  “ (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new ) ” 
-  &&  “ (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link ) ”
-  &&  ((( &( "chosen" ) )) # Int  |-> n_pre)
-  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
-  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
-  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
-  **  (IntArray.undef_full out_u (n_pre - 1 ) )
-  **  (IntArray.undef_full out_v (n_pre - 1 ) )
-  **  (IntArray.undef_full out_wt (n_pre - 1 ) )
-  **  (IntArray.full from_new (2 * m_pre ) l_from_new )
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
-  **  (IntArray.full first n_pre l_first )
-  **  (IntArray.full link (2 * m_pre ) l_link )
-  **  (IntArray.full lowcost n_pre l_lowcost )
-  **  (IntArray.full visited n_pre l_visited )
-  **  (IntArray.full edge_parent n_pre l_edge_parent )
-  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
 ) \/
 (
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (s_2: St) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (queue_map_2: partial_map) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : (heap_size <= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (0 <= chosen)) (PreH11 : (chosen <= n_pre)) (PreH12 : (0 <= heap_size)) (PreH13 : (heap_size <= heap_capacity)) (PreH14 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH17 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH18 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH19 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH20 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH21 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) (PreH22 : ((chosen < n_pre) -> (heap_size > 0))) ,
+forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (s_2: St) (s_after: St) (l_from_new_2: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (min: Z) (queue_map_before: partial_map) (l_lowcost_cur: (@list Z)) (l_edge_parent_cur: (@list Z)) (queue_map_cur: partial_map) (current_edge: Z) (selected: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : (current_edge = (-1))) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (1 <= chosen)) (PreH11 : (chosen <= n_pre)) (PreH12 : (0 <= heap_size)) (PreH13 : (heap_size <= heap_capacity)) (PreH14 : (0 <= selected)) (PreH15 : (selected < n_pre)) (PreH16 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s_2 s_after l_from_new_2 l_first_2 l_link_2 l_to_new_2 l_weight_new_2 l_lowcost_2 (replace_Znth (selected) (1) (l_visited_2)) l_edge_parent_2 l_lowcost_cur l_edge_parent_cur current_edge selected min queue_map_before l_lowcost_cur l_edge_parent_cur queue_map_cur X_low_level_spec )) (PreH17 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH20 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH21 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH22 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH23 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) ,
   TT && emp 
 |--
   EX (s: St) ,
-  “ (chosen = n_pre) ” 
-  &&  “ (prim_heap_loop_state g_low_level_spec 0 n_pre s l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec ) ” 
-  &&  “ (prim_heap_done_state g_low_level_spec 0 s l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec ) ”
+  “ (0 <= chosen) ” 
+  &&  “ (prim_heap_loop_state g_low_level_spec 0 chosen s l_lowcost_cur (replace_Znth (selected) (1) (l_visited_2)) l_edge_parent_cur queue_map_cur X_low_level_spec ) ” 
+  &&  “ ((chosen < n_pre) -> (heap_size > 0)) ”
   &&  emp
 ).
 
-Definition prim_forward_star_heap_entail_wit_26_2 := 
+Definition prim_forward_star_heap_entail_wit_21_1 := 
 (
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s_2: St) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (queue_map_2: partial_map) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : (chosen >= n_pre)) (PreH2 : (heap_size > 0)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : (1 <= m_pre)) (PreH6 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH7 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH8 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH9 : (src_low_level_spec = 0)) (PreH10 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH11 : (0 <= chosen)) (PreH12 : (chosen <= n_pre)) (PreH13 : (0 <= heap_size)) (PreH14 : (heap_size <= heap_capacity)) (PreH15 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH18 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH19 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH20 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH21 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH22 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) (PreH23 : ((chosen < n_pre) -> (heap_size > 0))) ,
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s_2: St) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (queue_map_2: partial_map) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : (heap_size <= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (0 <= chosen)) (PreH11 : (chosen <= n_pre)) (PreH12 : (0 <= heap_size)) (PreH13 : (heap_size <= heap_capacity)) (PreH14 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH17 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH18 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH19 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH20 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH21 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) (PreH22 : ((chosen < n_pre) -> (heap_size > 0))) ,
   ((( &( "chosen" ) )) # Int  |-> chosen)
   **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
-  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
-  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
-  **  (IntArray.undef_full out_u (n_pre - 1 ) )
-  **  (IntArray.undef_full out_v (n_pre - 1 ) )
-  **  (IntArray.undef_full out_wt (n_pre - 1 ) )
-  **  (IntArray.full from_new (2 * m_pre ) l_from_new_2 )
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new_2 )
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new_2 )
-  **  (IntArray.full first n_pre l_first_2 )
-  **  (IntArray.full link (2 * m_pre ) l_link_2 )
-  **  (IntArray.full lowcost n_pre l_lowcost_2 )
-  **  (IntArray.full visited n_pre l_visited_2 )
-  **  (IntArray.full edge_parent n_pre l_edge_parent_2 )
-  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map_2 heap_size )
-|--
-  EX (l_first: (@list Z))  (l_link: (@list Z))  (l_from_new: (@list Z))  (l_to_new: (@list Z))  (l_weight_new: (@list Z))  (s: St)  (l_lowcost: (@list Z))  (l_visited: (@list Z))  (l_edge_parent: (@list Z))  (queue_map: partial_map) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre < INT_MAX) ” 
-  &&  “ (1 <= m_pre) ” 
-  &&  “ (((2 * m_pre ) + 2 ) < INT_MAX) ” 
-  &&  “ (((4 * m_pre ) + 6 ) < INT_MAX) ” 
-  &&  “ (((2 * m_pre ) + 2 ) <= 100000) ” 
-  &&  “ (src_low_level_spec = 0) ” 
-  &&  “ (heap_capacity = ((2 * m_pre ) + 2 )) ” 
-  &&  “ (0 <= heap_size) ” 
-  &&  “ (heap_size <= heap_capacity) ” 
-  &&  “ (prim_heap_loop_state g_low_level_spec src_low_level_spec n_pre s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec ) ” 
-  &&  “ (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec ) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre))) ” 
-  &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre))) ” 
-  &&  “ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000))) ” 
-  &&  “ (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec ) ” 
-  &&  “ (PrimEnv g_low_level_spec src_low_level_spec ) ” 
-  &&  “ (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new ) ” 
-  &&  “ (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link ) ”
-  &&  ((( &( "chosen" ) )) # Int  |-> n_pre)
-  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
-  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
-  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
-  **  (IntArray.undef_full out_u (n_pre - 1 ) )
-  **  (IntArray.undef_full out_v (n_pre - 1 ) )
-  **  (IntArray.undef_full out_wt (n_pre - 1 ) )
-  **  (IntArray.full from_new (2 * m_pre ) l_from_new )
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
-  **  (IntArray.full first n_pre l_first )
-  **  (IntArray.full link (2 * m_pre ) l_link )
-  **  (IntArray.full lowcost n_pre l_lowcost )
-  **  (IntArray.full visited n_pre l_visited )
-  **  (IntArray.full edge_parent n_pre l_edge_parent )
-  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
-) \/
-(
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (s_2: St) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (queue_map_2: partial_map) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : (chosen >= n_pre)) (PreH2 : (heap_size > 0)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : (1 <= m_pre)) (PreH6 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH7 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH8 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH9 : (src_low_level_spec = 0)) (PreH10 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH11 : (0 <= chosen)) (PreH12 : (chosen <= n_pre)) (PreH13 : (0 <= heap_size)) (PreH14 : (heap_size <= heap_capacity)) (PreH15 : forall (k_4: Z) , (((0 <= k_4) /\ (k_4 < m_pre)) -> ((0 <= (Znth (k_4) (lf_low_level_spec) (0))) /\ ((Znth (k_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (k_5: Z) , (((0 <= k_5) /\ (k_5 < m_pre)) -> ((0 <= (Znth (k_5) (lt_low_level_spec) (0))) /\ ((Znth (k_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (k_6: Z) , (((0 <= k_6) /\ (k_6 < m_pre)) -> ((0 <= (Znth (k_6) (lw_low_level_spec) (0))) /\ ((Znth (k_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH18 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH19 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH20 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH21 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH22 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) (PreH23 : ((chosen < n_pre) -> (heap_size > 0))) ,
-  TT && emp 
-|--
-  EX (s: St) ,
-  “ (chosen = n_pre) ” 
-  &&  “ (prim_heap_loop_state g_low_level_spec 0 n_pre s l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec ) ” 
-  &&  “ (prim_heap_done_state g_low_level_spec 0 s l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec ) ”
-  &&  emp
-).
-
-Definition prim_forward_star_heap_entail_wit_27 := 
-(
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (queue_map_2: partial_map) (s_2: St) (heap_capacity: Z) (heap_size: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH9 : (0 <= heap_size)) (PreH10 : (heap_size <= heap_capacity)) (PreH11 : (prim_heap_loop_state g_low_level_spec src_low_level_spec n_pre s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) (PreH12 : (prim_heap_done_state g_low_level_spec src_low_level_spec s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) (PreH13 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH14 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH16 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH17 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH18 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH19 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) ,
-  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
   **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
   **  (IntArray.undef_full out_u (n_pre - 1 ) )
@@ -6223,7 +5841,8 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre )))) ” 
   &&  “ ((1 < n_pre) -> ((0 <= (Znth (1) (l_edge_parent) (0))) /\ ((Znth (1) (l_edge_parent) (0)) < (2 * m_pre )))) ” 
   &&  “ (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec ) ”
-  &&  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
+  &&  ((( &( "chosen" ) )) # Int  |-> n_pre)
+  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
   **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
   **  (IntArray.seg out_u 0 0 l_out_u )
@@ -6243,11 +5862,12 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
 ) \/
 (
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (queue_map_2: partial_map) (s_2: St) (heap_capacity: Z) (heap_size: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH9 : (0 <= heap_size)) (PreH10 : (heap_size <= heap_capacity)) (PreH11 : (prim_heap_loop_state g_low_level_spec src_low_level_spec n_pre s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) (PreH12 : (prim_heap_done_state g_low_level_spec src_low_level_spec s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) (PreH13 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH14 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH16 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH17 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH18 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH19 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) ,
+forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (s_2: St) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (queue_map_2: partial_map) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : (heap_size <= 0)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (0 <= chosen)) (PreH11 : (chosen <= n_pre)) (PreH12 : (0 <= heap_size)) (PreH13 : (heap_size <= heap_capacity)) (PreH14 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH17 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH18 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH19 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH20 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH21 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) (PreH22 : ((chosen < n_pre) -> (heap_size > 0))) ,
   TT && emp 
 |--
   EX (rg: G)  (s: St) ,
-  “ (1 <= 1) ” 
+  “ (chosen = n_pre) ” 
+  &&  “ (1 <= 1) ” 
   &&  “ (1 <= n_pre) ” 
   &&  “ (0 <= (n_pre - 1 )) ” 
   &&  “ (0 = (1 - 1 )) ” 
@@ -6265,18 +5885,16 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low
   &&  emp
 ).
 
-Definition prim_forward_star_heap_entail_wit_28 := 
+Definition prim_forward_star_heap_entail_wit_21_2 := 
 (
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (heap_size: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_wt_2: (@list Z)) (rg_2: G) (s_2: St) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (queue_map_2: partial_map) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (PreH1 : (out_i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (1 <= out_i)) (PreH11 : (out_i <= n_pre)) (PreH12 : (mst_idx <= (n_pre - 1 ))) (PreH13 : (mst_idx = (out_i - 1 ))) (PreH14 : forall (a_4: Z) , (((0 <= a_4) /\ (a_4 < m_pre)) -> ((0 <= (Znth (a_4) (lf_low_level_spec) (0))) /\ ((Znth (a_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (a_5: Z) , (((0 <= a_5) /\ (a_5 < m_pre)) -> ((0 <= (Znth (a_5) (lt_low_level_spec) (0))) /\ ((Znth (a_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (a_6: Z) , (((0 <= a_6) /\ (a_6 < m_pre)) -> ((0 <= (Znth (a_6) (lw_low_level_spec) (0))) /\ ((Znth (a_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH17 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH18 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH19 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH20 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH21 : (prim_heap_done_state g_low_level_spec src_low_level_spec s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) (PreH22 : (growing_subgraph_state g_low_level_spec s_2 )) (PreH23 : (visited_matches_state g_low_level_spec s_2 l_visited_2 )) (PreH24 : ((state_vertex_count (s_2)) = n_pre)) (PreH25 : (selected_edges_match_state g_low_level_spec src_low_level_spec s_2 l_edge_parent_2 )) (PreH26 : (lowcost_parent_match g_low_level_spec s_2 l_lowcost_2 l_edge_parent_2 1000000000 )) (PreH27 : (prim_state_graph_matches rg_2 s_2 )) (PreH28 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u_2 l_out_v_2 l_out_wt_2 g_low_level_spec rg_2 l_edge_parent_2 l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH29 : forall (v_2: Z) , (((1 <= v_2) /\ (v_2 < n_pre)) -> ((0 <= (Znth (v_2) (l_edge_parent_2) (0))) /\ ((Znth (v_2) (l_edge_parent_2) (0)) < (2 * m_pre ))))) (PreH30 : ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent_2) (0))) /\ ((Znth (out_i) (l_edge_parent_2) (0)) < (2 * m_pre ))))) (PreH31 : (safeExec (prim_state_is (s_2)) (return (tt)) X_low_level_spec )) ,
-  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s_2: St) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (queue_map_2: partial_map) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : (chosen >= n_pre)) (PreH2 : (heap_size > 0)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : (1 <= m_pre)) (PreH6 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH7 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH8 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH9 : (src_low_level_spec = 0)) (PreH10 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH11 : (0 <= chosen)) (PreH12 : (chosen <= n_pre)) (PreH13 : (0 <= heap_size)) (PreH14 : (heap_size <= heap_capacity)) (PreH15 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH18 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH19 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH20 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH21 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH22 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) (PreH23 : ((chosen < n_pre) -> (heap_size > 0))) ,
+  ((( &( "chosen" ) )) # Int  |-> chosen)
+  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
   **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
-  **  (IntArray.seg out_u 0 mst_idx l_out_u_2 )
-  **  (IntArray.undef_seg out_u mst_idx (n_pre - 1 ) )
-  **  (IntArray.seg out_v 0 mst_idx l_out_v_2 )
-  **  (IntArray.undef_seg out_v mst_idx (n_pre - 1 ) )
-  **  (IntArray.seg out_wt 0 mst_idx l_out_wt_2 )
-  **  (IntArray.undef_seg out_wt mst_idx (n_pre - 1 ) )
+  **  (IntArray.undef_full out_u (n_pre - 1 ) )
+  **  (IntArray.undef_full out_v (n_pre - 1 ) )
+  **  (IntArray.undef_full out_wt (n_pre - 1 ) )
   **  (IntArray.full from_new (2 * m_pre ) l_from_new_2 )
   **  (IntArray.full to_new (2 * m_pre ) l_to_new_2 )
   **  (IntArray.full weight_new (2 * m_pre ) l_weight_new_2 )
@@ -6296,10 +5914,10 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ (((2 * m_pre ) + 2 ) <= 100000) ” 
   &&  “ (src_low_level_spec = 0) ” 
   &&  “ (heap_capacity = ((2 * m_pre ) + 2 )) ” 
-  &&  “ (1 <= out_i) ” 
-  &&  “ (out_i < n_pre) ” 
-  &&  “ (mst_idx <= (n_pre - 1 )) ” 
-  &&  “ (mst_idx = (out_i - 1 )) ” 
+  &&  “ (1 <= 1) ” 
+  &&  “ (1 <= n_pre) ” 
+  &&  “ (0 <= (n_pre - 1 )) ” 
+  &&  “ (0 = (1 - 1 )) ” 
   &&  “ forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre))) ” 
   &&  “ forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre))) ” 
   &&  “ forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000))) ” 
@@ -6314,20 +5932,20 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent ) ” 
   &&  “ (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 ) ” 
   &&  “ (prim_state_graph_matches rg s ) ” 
-  &&  “ (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new ) ” 
+  &&  “ (prim_result_graph_matches_array_prefix n_pre 0 l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new ) ” 
   &&  “ forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre )))) ” 
-  &&  “ (0 <= (Znth (out_i) (l_edge_parent) (0))) ” 
-  &&  “ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre )) ” 
+  &&  “ ((1 < n_pre) -> ((0 <= (Znth (1) (l_edge_parent) (0))) /\ ((Znth (1) (l_edge_parent) (0)) < (2 * m_pre )))) ” 
   &&  “ (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec ) ”
-  &&  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
+  &&  ((( &( "chosen" ) )) # Int  |-> n_pre)
+  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
   **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
-  **  (IntArray.seg out_u 0 mst_idx l_out_u )
-  **  (IntArray.undef_seg out_u mst_idx (n_pre - 1 ) )
-  **  (IntArray.seg out_v 0 mst_idx l_out_v )
-  **  (IntArray.undef_seg out_v mst_idx (n_pre - 1 ) )
-  **  (IntArray.seg out_wt 0 mst_idx l_out_wt )
-  **  (IntArray.undef_seg out_wt mst_idx (n_pre - 1 ) )
+  **  (IntArray.seg out_u 0 0 l_out_u )
+  **  (IntArray.undef_seg out_u 0 (n_pre - 1 ) )
+  **  (IntArray.seg out_v 0 0 l_out_v )
+  **  (IntArray.undef_seg out_v 0 (n_pre - 1 ) )
+  **  (IntArray.seg out_wt 0 0 l_out_wt )
+  **  (IntArray.undef_seg out_wt 0 (n_pre - 1 ) )
   **  (IntArray.full from_new (2 * m_pre ) l_from_new )
   **  (IntArray.full to_new (2 * m_pre ) l_to_new )
   **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
@@ -6335,34 +5953,38 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (IntArray.full link (2 * m_pre ) l_link )
   **  (IntArray.full lowcost n_pre l_lowcost )
   **  (IntArray.full visited n_pre l_visited )
-  **  (IntArray.missing_i edge_parent out_i 0 n_pre l_edge_parent )
-  **  (((edge_parent + (out_i * sizeof(INT)))) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
+  **  (IntArray.full edge_parent n_pre l_edge_parent )
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
 ) \/
 (
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_wt_2: (@list Z)) (rg_2: G) (s_2: St) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (queue_map_2: partial_map) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (PreH1 : (out_i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (1 <= out_i)) (PreH11 : (out_i <= n_pre)) (PreH12 : (mst_idx <= (n_pre - 1 ))) (PreH13 : (mst_idx = (out_i - 1 ))) (PreH14 : forall (a_4: Z) , (((0 <= a_4) /\ (a_4 < m_pre)) -> ((0 <= (Znth (a_4) (lf_low_level_spec) (0))) /\ ((Znth (a_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (a_5: Z) , (((0 <= a_5) /\ (a_5 < m_pre)) -> ((0 <= (Znth (a_5) (lt_low_level_spec) (0))) /\ ((Znth (a_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (a_6: Z) , (((0 <= a_6) /\ (a_6 < m_pre)) -> ((0 <= (Znth (a_6) (lw_low_level_spec) (0))) /\ ((Znth (a_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH17 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH18 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH19 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH20 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH21 : (prim_heap_done_state g_low_level_spec src_low_level_spec s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) (PreH22 : (growing_subgraph_state g_low_level_spec s_2 )) (PreH23 : (visited_matches_state g_low_level_spec s_2 l_visited_2 )) (PreH24 : ((state_vertex_count (s_2)) = n_pre)) (PreH25 : (selected_edges_match_state g_low_level_spec src_low_level_spec s_2 l_edge_parent_2 )) (PreH26 : (lowcost_parent_match g_low_level_spec s_2 l_lowcost_2 l_edge_parent_2 1000000000 )) (PreH27 : (prim_state_graph_matches rg_2 s_2 )) (PreH28 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u_2 l_out_v_2 l_out_wt_2 g_low_level_spec rg_2 l_edge_parent_2 l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH29 : forall (v_2: Z) , (((1 <= v_2) /\ (v_2 < n_pre)) -> ((0 <= (Znth (v_2) (l_edge_parent_2) (0))) /\ ((Znth (v_2) (l_edge_parent_2) (0)) < (2 * m_pre ))))) (PreH30 : ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent_2) (0))) /\ ((Znth (out_i) (l_edge_parent_2) (0)) < (2 * m_pre ))))) (PreH31 : (safeExec (prim_state_is (s_2)) (return (tt)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (s_2: St) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (queue_map_2: partial_map) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (PreH1 : (chosen >= n_pre)) (PreH2 : (heap_size > 0)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : (1 <= m_pre)) (PreH6 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH7 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH8 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH9 : (src_low_level_spec = 0)) (PreH10 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH11 : (0 <= chosen)) (PreH12 : (chosen <= n_pre)) (PreH13 : (0 <= heap_size)) (PreH14 : (heap_size <= heap_capacity)) (PreH15 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH18 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH19 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH20 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH21 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH22 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) (PreH23 : ((chosen < n_pre) -> (heap_size > 0))) ,
   TT && emp 
 |--
   EX (rg: G)  (s: St) ,
-  “ ((Znth (out_i) (l_edge_parent_2) (0)) = (Znth out_i l_edge_parent_2 0)) ” 
+  “ (chosen = n_pre) ” 
+  &&  “ (1 <= 1) ” 
+  &&  “ (1 <= n_pre) ” 
+  &&  “ (0 <= (n_pre - 1 )) ” 
+  &&  “ (0 = (1 - 1 )) ” 
   &&  “ (prim_heap_done_state g_low_level_spec 0 s l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec ) ” 
   &&  “ (growing_subgraph_state g_low_level_spec s ) ” 
   &&  “ (visited_matches_state g_low_level_spec s l_visited_2 ) ” 
-  &&  “ ((state_vertex_count (s)) = (state_vertex_count (s_2))) ” 
+  &&  “ ((state_vertex_count (s)) = n_pre) ” 
   &&  “ (selected_edges_match_state g_low_level_spec 0 s l_edge_parent_2 ) ” 
   &&  “ (lowcost_parent_match g_low_level_spec s l_lowcost_2 l_edge_parent_2 1000000000 ) ” 
   &&  “ (prim_state_graph_matches rg s ) ” 
-  &&  “ (prim_result_graph_matches_array_prefix (state_vertex_count (s_2)) (out_i - 1 ) l_out_u_2 l_out_v_2 l_out_wt_2 g_low_level_spec rg l_edge_parent_2 l_from_new_2 l_to_new_2 l_weight_new_2 ) ” 
-  &&  “ (0 <= (Znth (out_i) (l_edge_parent_2) (0))) ” 
-  &&  “ ((Znth (out_i) (l_edge_parent_2) (0)) < (2 * m_pre )) ” 
+  &&  “ (prim_result_graph_matches_array_prefix n_pre 0 (@nil Z) (@nil Z) (@nil Z) g_low_level_spec rg l_edge_parent_2 l_from_new_2 l_to_new_2 l_weight_new_2 ) ” 
+  &&  “ forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent_2) (0))) /\ ((Znth (v) (l_edge_parent_2) (0)) < (2 * m_pre )))) ” 
+  &&  “ ((1 < n_pre) -> ((0 <= (Znth (1) (l_edge_parent_2) (0))) /\ ((Znth (1) (l_edge_parent_2) (0)) < (2 * m_pre )))) ” 
   &&  “ (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec ) ”
   &&  emp
 ).
 
-Definition prim_forward_star_heap_entail_wit_29 := 
+Definition prim_forward_star_heap_entail_wit_22 := 
 (
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent: (@list Z)) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_wt_2: (@list Z)) (queue_map_2: partial_map) (s_2: St) (rg_2: G) (heap_capacity: Z) (out_i: Z) (mst_idx: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (mst_idx < (n_pre - 1 ))) (PreH2 : ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))) (PreH3 : (0 <= (Znth (out_i) (l_edge_parent) (0)))) (PreH4 : ((Znth (out_i) (l_edge_parent) (0)) <> (-1))) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (1 <= m_pre)) (PreH8 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH9 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH10 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH11 : (src_low_level_spec = 0)) (PreH12 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH13 : (1 <= out_i)) (PreH14 : (out_i < n_pre)) (PreH15 : (mst_idx <= (n_pre - 1 ))) (PreH16 : (mst_idx = (out_i - 1 ))) (PreH17 : forall (a_4: Z) , (((0 <= a_4) /\ (a_4 < m_pre)) -> ((0 <= (Znth (a_4) (lf_low_level_spec) (0))) /\ ((Znth (a_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (a_5: Z) , (((0 <= a_5) /\ (a_5 < m_pre)) -> ((0 <= (Znth (a_5) (lt_low_level_spec) (0))) /\ ((Znth (a_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (a_6: Z) , (((0 <= a_6) /\ (a_6 < m_pre)) -> ((0 <= (Znth (a_6) (lw_low_level_spec) (0))) /\ ((Znth (a_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH20 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH21 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH22 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH23 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH24 : (prim_heap_done_state g_low_level_spec src_low_level_spec s_2 l_lowcost_2 l_visited_2 l_edge_parent queue_map_2 X_low_level_spec )) (PreH25 : (growing_subgraph_state g_low_level_spec s_2 )) (PreH26 : (visited_matches_state g_low_level_spec s_2 l_visited_2 )) (PreH27 : ((state_vertex_count (s_2)) = n_pre)) (PreH28 : (selected_edges_match_state g_low_level_spec src_low_level_spec s_2 l_edge_parent )) (PreH29 : (lowcost_parent_match g_low_level_spec s_2 l_lowcost_2 l_edge_parent 1000000000 )) (PreH30 : (prim_state_graph_matches rg_2 s_2 )) (PreH31 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u_2 l_out_v_2 l_out_wt_2 g_low_level_spec rg_2 l_edge_parent l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH32 : forall (v_2: Z) , (((1 <= v_2) /\ (v_2 < n_pre)) -> ((0 <= (Znth (v_2) (l_edge_parent) (0))) /\ ((Znth (v_2) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH33 : (0 <= (Znth (out_i) (l_edge_parent) (0)))) (PreH34 : ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))) (PreH35 : (safeExec (prim_state_is (s_2)) (return (tt)) X_low_level_spec )) ,
-  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (heap_size: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_wt_2: (@list Z)) (rg_2: G) (s_2: St) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent: (@list Z)) (queue_map_2: partial_map) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (PreH1 : (mst_idx < (n_pre - 1 ))) (PreH2 : ((Znth out_i l_edge_parent 0) < (2 * m_pre ))) (PreH3 : (0 <= (Znth out_i l_edge_parent 0))) (PreH4 : ((Znth out_i l_edge_parent 0) <> (-1))) (PreH5 : (out_i < n_pre)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : (1 <= m_pre)) (PreH9 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH10 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH11 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH12 : (src_low_level_spec = 0)) (PreH13 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH14 : (1 <= out_i)) (PreH15 : (out_i <= n_pre)) (PreH16 : (mst_idx <= (n_pre - 1 ))) (PreH17 : (mst_idx = (out_i - 1 ))) (PreH18 : forall (a_4: Z) , (((0 <= a_4) /\ (a_4 < m_pre)) -> ((0 <= (Znth (a_4) (lf_low_level_spec) (0))) /\ ((Znth (a_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (a_5: Z) , (((0 <= a_5) /\ (a_5 < m_pre)) -> ((0 <= (Znth (a_5) (lt_low_level_spec) (0))) /\ ((Znth (a_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH20 : forall (a_6: Z) , (((0 <= a_6) /\ (a_6 < m_pre)) -> ((0 <= (Znth (a_6) (lw_low_level_spec) (0))) /\ ((Znth (a_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH21 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH22 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH23 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH24 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH25 : (prim_heap_done_state g_low_level_spec src_low_level_spec s_2 l_lowcost_2 l_visited_2 l_edge_parent queue_map_2 X_low_level_spec )) (PreH26 : (growing_subgraph_state g_low_level_spec s_2 )) (PreH27 : (visited_matches_state g_low_level_spec s_2 l_visited_2 )) (PreH28 : ((state_vertex_count (s_2)) = n_pre)) (PreH29 : (selected_edges_match_state g_low_level_spec src_low_level_spec s_2 l_edge_parent )) (PreH30 : (lowcost_parent_match g_low_level_spec s_2 l_lowcost_2 l_edge_parent 1000000000 )) (PreH31 : (prim_state_graph_matches rg_2 s_2 )) (PreH32 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u_2 l_out_v_2 l_out_wt_2 g_low_level_spec rg_2 l_edge_parent l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH33 : forall (v_2: Z) , (((1 <= v_2) /\ (v_2 < n_pre)) -> ((0 <= (Znth (v_2) (l_edge_parent) (0))) /\ ((Znth (v_2) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH34 : ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent) (0))) /\ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH35 : (safeExec (prim_state_is (s_2)) (return (tt)) X_low_level_spec )) ,
+  (IntArray.full edge_parent n_pre l_edge_parent )
+  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
   **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
   **  (IntArray.seg out_u 0 mst_idx l_out_u_2 )
@@ -6378,15 +6000,13 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (IntArray.full link (2 * m_pre ) l_link_2 )
   **  (IntArray.full lowcost n_pre l_lowcost_2 )
   **  (IntArray.full visited n_pre l_visited_2 )
-  **  (IntArray.missing_i edge_parent out_i 0 n_pre l_edge_parent )
-  **  (((edge_parent + (out_i * sizeof(INT)))) # Int  |-> (Znth (out_i) (l_edge_parent) (0)))
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map_2 heap_size )
 |--
   EX (l_out_u: (@list Z))  (l_out_v: (@list Z))  (l_out_wt: (@list Z))  (rg: G)  (s: St)  (l_lowcost: (@list Z))  (l_visited: (@list Z))  (queue_map: partial_map)  (l_first: (@list Z))  (l_link: (@list Z))  (l_from_new: (@list Z))  (l_to_new: (@list Z))  (l_weight_new: (@list Z))  (l_edge_parent_2: (@list Z)) ,
-  “ (0 <= (Znth (out_i) (l_edge_parent) (0))) ” 
-  &&  “ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre )) ” 
+  “ (0 <= (Znth out_i l_edge_parent 0)) ” 
+  &&  “ ((Znth out_i l_edge_parent 0) < (2 * m_pre )) ” 
   &&  “ (mst_idx < (n_pre - 1 )) ” 
-  &&  “ ((Znth (out_i) (l_edge_parent) (0)) = (Znth (out_i) (l_edge_parent_2) (0))) ” 
+  &&  “ ((Znth out_i l_edge_parent 0) = (Znth (out_i) (l_edge_parent_2) (0))) ” 
   &&  “ (2 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (1 <= m_pre) ” 
@@ -6425,12 +6045,12 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (IntArray.undef_seg out_v mst_idx (n_pre - 1 ) )
   **  (IntArray.seg out_wt 0 mst_idx l_out_wt )
   **  (IntArray.undef_seg out_wt mst_idx (n_pre - 1 ) )
-  **  (IntArray.missing_i from_new (Znth (out_i) (l_edge_parent) (0)) 0 (2 * m_pre ) l_from_new )
-  **  (((from_new + ((Znth (out_i) (l_edge_parent) (0)) * sizeof(INT)))) # Int  |-> (Znth ((Znth (out_i) (l_edge_parent) (0))) (l_from_new) (0)))
-  **  (IntArray.missing_i to_new (Znth (out_i) (l_edge_parent) (0)) 0 (2 * m_pre ) l_to_new )
-  **  (((to_new + ((Znth (out_i) (l_edge_parent) (0)) * sizeof(INT)))) # Int  |-> (Znth ((Znth (out_i) (l_edge_parent) (0))) (l_to_new) (0)))
-  **  (IntArray.missing_i weight_new (Znth (out_i) (l_edge_parent) (0)) 0 (2 * m_pre ) l_weight_new )
-  **  (((weight_new + ((Znth (out_i) (l_edge_parent) (0)) * sizeof(INT)))) # Int  |-> (Znth ((Znth (out_i) (l_edge_parent) (0))) (l_weight_new) (0)))
+  **  (IntArray.missing_i from_new (Znth out_i l_edge_parent 0) 0 (2 * m_pre ) l_from_new )
+  **  (((from_new + ((Znth out_i l_edge_parent 0) * sizeof(INT)))) # Int  |-> (Znth ((Znth out_i l_edge_parent 0)) (l_from_new) (0)))
+  **  (IntArray.missing_i to_new (Znth out_i l_edge_parent 0) 0 (2 * m_pre ) l_to_new )
+  **  (((to_new + ((Znth out_i l_edge_parent 0) * sizeof(INT)))) # Int  |-> (Znth ((Znth out_i l_edge_parent 0)) (l_to_new) (0)))
+  **  (IntArray.missing_i weight_new (Znth out_i l_edge_parent 0) 0 (2 * m_pre ) l_weight_new )
+  **  (((weight_new + ((Znth out_i l_edge_parent 0) * sizeof(INT)))) # Int  |-> (Znth ((Znth out_i l_edge_parent 0)) (l_weight_new) (0)))
   **  (IntArray.full first n_pre l_first )
   **  (IntArray.full link (2 * m_pre ) l_link )
   **  (IntArray.full lowcost n_pre l_lowcost )
@@ -6440,17 +6060,15 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
 ) \/
 (
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent: (@list Z)) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_wt_2: (@list Z)) (queue_map_2: partial_map) (s_2: St) (rg_2: G) (heap_capacity: Z) (out_i: Z) (mst_idx: Z) (PreH1 : (mst_idx < (n_pre - 1 ))) (PreH2 : ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))) (PreH3 : (0 <= (Znth (out_i) (l_edge_parent) (0)))) (PreH4 : ((Znth (out_i) (l_edge_parent) (0)) <> (-1))) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (1 <= m_pre)) (PreH8 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH9 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH10 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH11 : (src_low_level_spec = 0)) (PreH12 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH13 : (1 <= out_i)) (PreH14 : (out_i < n_pre)) (PreH15 : (mst_idx <= (n_pre - 1 ))) (PreH16 : (mst_idx = (out_i - 1 ))) (PreH17 : forall (a_4: Z) , (((0 <= a_4) /\ (a_4 < m_pre)) -> ((0 <= (Znth (a_4) (lf_low_level_spec) (0))) /\ ((Znth (a_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (a_5: Z) , (((0 <= a_5) /\ (a_5 < m_pre)) -> ((0 <= (Znth (a_5) (lt_low_level_spec) (0))) /\ ((Znth (a_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (a_6: Z) , (((0 <= a_6) /\ (a_6 < m_pre)) -> ((0 <= (Znth (a_6) (lw_low_level_spec) (0))) /\ ((Znth (a_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH20 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH21 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH22 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH23 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH24 : (prim_heap_done_state g_low_level_spec src_low_level_spec s_2 l_lowcost_2 l_visited_2 l_edge_parent queue_map_2 X_low_level_spec )) (PreH25 : (growing_subgraph_state g_low_level_spec s_2 )) (PreH26 : (visited_matches_state g_low_level_spec s_2 l_visited_2 )) (PreH27 : ((state_vertex_count (s_2)) = n_pre)) (PreH28 : (selected_edges_match_state g_low_level_spec src_low_level_spec s_2 l_edge_parent )) (PreH29 : (lowcost_parent_match g_low_level_spec s_2 l_lowcost_2 l_edge_parent 1000000000 )) (PreH30 : (prim_state_graph_matches rg_2 s_2 )) (PreH31 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u_2 l_out_v_2 l_out_wt_2 g_low_level_spec rg_2 l_edge_parent l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH32 : forall (v_2: Z) , (((1 <= v_2) /\ (v_2 < n_pre)) -> ((0 <= (Znth (v_2) (l_edge_parent) (0))) /\ ((Znth (v_2) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH33 : (0 <= (Znth (out_i) (l_edge_parent) (0)))) (PreH34 : ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))) (PreH35 : (safeExec (prim_state_is (s_2)) (return (tt)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_wt_2: (@list Z)) (rg_2: G) (s_2: St) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent: (@list Z)) (queue_map_2: partial_map) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (PreH1 : (mst_idx < (n_pre - 1 ))) (PreH2 : ((Znth out_i l_edge_parent 0) < (2 * m_pre ))) (PreH3 : (0 <= (Znth out_i l_edge_parent 0))) (PreH4 : ((Znth out_i l_edge_parent 0) <> (-1))) (PreH5 : (out_i < n_pre)) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : (1 <= m_pre)) (PreH9 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH10 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH11 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH12 : (src_low_level_spec = 0)) (PreH13 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH14 : (1 <= out_i)) (PreH15 : (out_i <= n_pre)) (PreH16 : (mst_idx <= (n_pre - 1 ))) (PreH17 : (mst_idx = (out_i - 1 ))) (PreH18 : forall (a_4: Z) , (((0 <= a_4) /\ (a_4 < m_pre)) -> ((0 <= (Znth (a_4) (lf_low_level_spec) (0))) /\ ((Znth (a_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (a_5: Z) , (((0 <= a_5) /\ (a_5 < m_pre)) -> ((0 <= (Znth (a_5) (lt_low_level_spec) (0))) /\ ((Znth (a_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH20 : forall (a_6: Z) , (((0 <= a_6) /\ (a_6 < m_pre)) -> ((0 <= (Znth (a_6) (lw_low_level_spec) (0))) /\ ((Znth (a_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH21 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH22 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH23 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH24 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH25 : (prim_heap_done_state g_low_level_spec src_low_level_spec s_2 l_lowcost_2 l_visited_2 l_edge_parent queue_map_2 X_low_level_spec )) (PreH26 : (growing_subgraph_state g_low_level_spec s_2 )) (PreH27 : (visited_matches_state g_low_level_spec s_2 l_visited_2 )) (PreH28 : ((state_vertex_count (s_2)) = n_pre)) (PreH29 : (selected_edges_match_state g_low_level_spec src_low_level_spec s_2 l_edge_parent )) (PreH30 : (lowcost_parent_match g_low_level_spec s_2 l_lowcost_2 l_edge_parent 1000000000 )) (PreH31 : (prim_state_graph_matches rg_2 s_2 )) (PreH32 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u_2 l_out_v_2 l_out_wt_2 g_low_level_spec rg_2 l_edge_parent l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH33 : forall (v_2: Z) , (((1 <= v_2) /\ (v_2 < n_pre)) -> ((0 <= (Znth (v_2) (l_edge_parent) (0))) /\ ((Znth (v_2) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH34 : ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent) (0))) /\ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH35 : (safeExec (prim_state_is (s_2)) (return (tt)) X_low_level_spec )) ,
   TT && emp 
 |--
   EX (rg: G)  (s: St) ,
-  “ ((Znth ((Znth (out_i) (l_edge_parent) (0))) (l_weight_new_2) (0)) = (Znth (Znth (out_i) (l_edge_parent) (0)) l_weight_new_2 0)) ” 
-  &&  “ ((Znth ((Znth (out_i) (l_edge_parent) (0))) (l_to_new_2) (0)) = (Znth (Znth (out_i) (l_edge_parent) (0)) l_to_new_2 0)) ” 
-  &&  “ ((Znth ((Znth (out_i) (l_edge_parent) (0))) (l_from_new_2) (0)) = (Znth (Znth (out_i) (l_edge_parent) (0)) l_from_new_2 0)) ” 
-  &&  “ ((Znth (out_i) (l_edge_parent) (0)) = (Znth (out_i) (l_edge_parent) (0))) ” 
-  &&  “ (0 <= (Znth (out_i) (l_edge_parent) (0))) ” 
-  &&  “ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre )) ” 
-  &&  “ ((Znth (out_i) (l_edge_parent) (0)) = (Znth (out_i) (l_edge_parent) (0))) ” 
+  “ ((Znth ((Znth out_i l_edge_parent 0)) (l_weight_new_2) (0)) = (Znth (Znth out_i l_edge_parent 0) l_weight_new_2 0)) ” 
+  &&  “ ((Znth ((Znth out_i l_edge_parent 0)) (l_to_new_2) (0)) = (Znth (Znth out_i l_edge_parent 0) l_to_new_2 0)) ” 
+  &&  “ ((Znth ((Znth out_i l_edge_parent 0)) (l_from_new_2) (0)) = (Znth (Znth out_i l_edge_parent 0) l_from_new_2 0)) ” 
+  &&  “ ((Znth (out_i) (l_edge_parent) (0)) = (Znth out_i l_edge_parent 0)) ” 
+  &&  “ ((Znth out_i l_edge_parent 0) = (Znth (out_i) (l_edge_parent) (0))) ” 
   &&  “ (prim_heap_done_state g_low_level_spec 0 s l_lowcost_2 l_visited_2 l_edge_parent queue_map_2 X_low_level_spec ) ” 
   &&  “ (growing_subgraph_state g_low_level_spec s ) ” 
   &&  “ (visited_matches_state g_low_level_spec s l_visited_2 ) ” 
@@ -6463,7 +6081,7 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low
   &&  emp
 ).
 
-Definition prim_forward_star_heap_entail_wit_30 := 
+Definition prim_forward_star_heap_entail_wit_23 := 
 (
 forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_wt_2: (@list Z)) (queue_map_2: partial_map) (s_2: St) (rg_2: G) (edge_id: Z) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (0 <= edge_id)) (PreH2 : (edge_id < (2 * m_pre ))) (PreH3 : (mst_idx < (n_pre - 1 ))) (PreH4 : (edge_id = (Znth (out_i) (l_edge_parent_2) (0)))) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (1 <= m_pre)) (PreH8 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH9 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH10 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH11 : (src_low_level_spec = 0)) (PreH12 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH13 : (1 <= out_i)) (PreH14 : (out_i < n_pre)) (PreH15 : (mst_idx <= (n_pre - 1 ))) (PreH16 : (mst_idx = (out_i - 1 ))) (PreH17 : forall (a_4: Z) , (((0 <= a_4) /\ (a_4 < m_pre)) -> ((0 <= (Znth (a_4) (lf_low_level_spec) (0))) /\ ((Znth (a_4) (lf_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (a_5: Z) , (((0 <= a_5) /\ (a_5 < m_pre)) -> ((0 <= (Znth (a_5) (lt_low_level_spec) (0))) /\ ((Znth (a_5) (lt_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (a_6: Z) , (((0 <= a_6) /\ (a_6 < m_pre)) -> ((0 <= (Znth (a_6) (lw_low_level_spec) (0))) /\ ((Znth (a_6) (lw_low_level_spec) (0)) < 1000000000)))) (PreH20 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH21 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH22 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH23 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH24 : (prim_heap_done_state g_low_level_spec src_low_level_spec s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) (PreH25 : (growing_subgraph_state g_low_level_spec s_2 )) (PreH26 : (visited_matches_state g_low_level_spec s_2 l_visited_2 )) (PreH27 : ((state_vertex_count (s_2)) = n_pre)) (PreH28 : (selected_edges_match_state g_low_level_spec src_low_level_spec s_2 l_edge_parent_2 )) (PreH29 : (lowcost_parent_match g_low_level_spec s_2 l_lowcost_2 l_edge_parent_2 1000000000 )) (PreH30 : (prim_state_graph_matches rg_2 s_2 )) (PreH31 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u_2 l_out_v_2 l_out_wt_2 g_low_level_spec rg_2 l_edge_parent_2 l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH32 : forall (v_2: Z) , (((1 <= v_2) /\ (v_2 < n_pre)) -> ((0 <= (Znth (v_2) (l_edge_parent_2) (0))) /\ ((Znth (v_2) (l_edge_parent_2) (0)) < (2 * m_pre ))))) (PreH33 : (safeExec (prim_state_is (s_2)) (return (tt)) X_low_level_spec )) ,
   (IntArray.seg out_wt 0 (mst_idx + 1 ) (app (l_out_wt_2) ((cons ((Znth edge_id l_weight_new_2 0)) ((@nil Z))))) )
@@ -6557,87 +6175,18 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low
   &&  emp
 ).
 
-Definition prim_forward_star_heap_entail_wit_31 := 
+Definition prim_forward_star_heap_return_wit_1 := 
 (
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (heap_size: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (rg_2: G) (s_2: St) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (queue_map_2: partial_map) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (PreH1 : (out_i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (1 <= out_i)) (PreH11 : (out_i <= n_pre)) (PreH12 : (mst_idx <= (n_pre - 1 ))) (PreH13 : (mst_idx = (out_i - 1 ))) (PreH14 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH17 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH18 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH19 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH20 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH21 : (prim_heap_done_state g_low_level_spec src_low_level_spec s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) (PreH22 : (growing_subgraph_state g_low_level_spec s_2 )) (PreH23 : (visited_matches_state g_low_level_spec s_2 l_visited_2 )) (PreH24 : ((state_vertex_count (s_2)) = n_pre)) (PreH25 : (selected_edges_match_state g_low_level_spec src_low_level_spec s_2 l_edge_parent_2 )) (PreH26 : (lowcost_parent_match g_low_level_spec s_2 l_lowcost_2 l_edge_parent_2 1000000000 )) (PreH27 : (prim_state_graph_matches rg_2 s_2 )) (PreH28 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg_2 l_edge_parent_2 l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH29 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent_2) (0))) /\ ((Znth (v) (l_edge_parent_2) (0)) < (2 * m_pre ))))) (PreH30 : ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent_2) (0))) /\ ((Znth (out_i) (l_edge_parent_2) (0)) < (2 * m_pre ))))) (PreH31 : (safeExec (prim_state_is (s_2)) (return (tt)) X_low_level_spec )) ,
-  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  ((( &( "from_arr" ) )) # Ptr  |-> from_arr_pre)
-  **  ((( &( "to_arr" ) )) # Ptr  |-> to_arr_pre)
-  **  ((( &( "weight_arr" ) )) # Ptr  |-> weight_arr_pre)
-  **  ((( &( "out_i" ) )) # Int  |-> out_i)
-  **  ((( &( "mst_idx" ) )) # Int  |-> mst_idx)
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (heap_size: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (rg_2: G) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (retval: Z) (PreH1 : (retval <> 0)) (PreH2 : (out_i >= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : (1 <= m_pre)) (PreH6 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH7 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH8 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH9 : (src_low_level_spec = 0)) (PreH10 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH11 : (1 <= out_i)) (PreH12 : (out_i <= n_pre)) (PreH13 : (mst_idx <= (n_pre - 1 ))) (PreH14 : (mst_idx = (out_i - 1 ))) (PreH15 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH18 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH19 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH20 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH21 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH22 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH23 : (growing_subgraph_state g_low_level_spec s )) (PreH24 : (visited_matches_state g_low_level_spec s l_visited )) (PreH25 : ((state_vertex_count (s)) = n_pre)) (PreH26 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH27 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH28 : (prim_state_graph_matches rg_2 s )) (PreH29 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg_2 l_edge_parent l_from_new l_to_new l_weight_new )) (PreH30 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH31 : ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent) (0))) /\ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH32 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
+  ((&((retval)  # "mst_tree" ->ₛ "u")) # Ptr  |-> out_u)
+  **  ((&((retval)  # "mst_tree" ->ₛ "v")) # Ptr  |-> out_v)
+  **  ((&((retval)  # "mst_tree" ->ₛ "wt")) # Ptr  |-> out_wt)
   **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
   **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
   **  (IntArray.seg out_u 0 mst_idx l_out_u )
-  **  (IntArray.undef_seg out_u mst_idx (n_pre - 1 ) )
   **  (IntArray.seg out_v 0 mst_idx l_out_v )
-  **  (IntArray.undef_seg out_v mst_idx (n_pre - 1 ) )
   **  (IntArray.seg out_wt 0 mst_idx l_out_wt )
-  **  (IntArray.undef_seg out_wt mst_idx (n_pre - 1 ) )
-  **  (IntArray.full from_new (2 * m_pre ) l_from_new_2 )
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new_2 )
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new_2 )
-  **  (IntArray.full first n_pre l_first_2 )
-  **  (IntArray.full link (2 * m_pre ) l_link_2 )
-  **  (IntArray.full lowcost n_pre l_lowcost_2 )
-  **  (IntArray.full visited n_pre l_visited_2 )
-  **  (IntArray.full edge_parent n_pre l_edge_parent_2 )
-  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map_2 heap_size )
-|--
-  EX (l_link: (@list Z))  (l_first: (@list Z))  (l_weight_new: (@list Z))  (l_to_new: (@list Z))  (l_from_new: (@list Z))  (s: St)  (l_lowcost: (@list Z))  (l_visited: (@list Z))  (l_edge_parent: (@list Z))  (queue_map: partial_map)  (lru: (@list Z))  (lrv: (@list Z))  (lrwt: (@list Z))  (rg: G) ,
-  “ (safeExec (prim_state_graph_matches (rg)) (return (tt)) X_low_level_spec ) ” 
-  &&  “ (prim_result_graph_matches_array n_pre lru lrv lrwt g_low_level_spec rg ) ” 
-  &&  “ (heap_capacity = ((2 * m_pre ) + 2 )) ” 
-  &&  “ (0 <= heap_capacity) ” 
-  &&  “ (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec ) ”
-  &&  (IntArray.full out_u (n_pre - 1 ) lru )
-  **  (IntArray.full out_v (n_pre - 1 ) lrv )
-  **  (IntArray.full out_wt (n_pre - 1 ) lrwt )
-  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
-  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
-  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
-  **  ((( &( "n" ) )) # Int  |->_)
-  **  ((( &( "m" ) )) # Int  |->_)
-  **  ((( &( "from_arr" ) )) # Ptr  |->_)
-  **  ((( &( "to_arr" ) )) # Ptr  |->_)
-  **  ((( &( "weight_arr" ) )) # Ptr  |->_)
-  **  ((( &( "out_i" ) )) # Int  |->_)
-  **  ((( &( "mst_idx" ) )) # Int  |->_)
-  **  (IntArray.full from_new (2 * m_pre ) l_from_new )
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
-  **  (IntArray.full first n_pre l_first )
-  **  (IntArray.full link (2 * m_pre ) l_link )
-  **  (IntArray.full lowcost n_pre l_lowcost )
-  **  (IntArray.full visited n_pre l_visited )
-  **  (IntArray.full edge_parent n_pre l_edge_parent )
-  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
-) \/
-(
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (rg_2: G) (s_2: St) (l_lowcost_2: (@list Z)) (l_visited_2: (@list Z)) (l_edge_parent_2: (@list Z)) (queue_map_2: partial_map) (l_first_2: (@list Z)) (l_link_2: (@list Z)) (l_from_new_2: (@list Z)) (l_to_new_2: (@list Z)) (l_weight_new_2: (@list Z)) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (PreH1 : (out_i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (1 <= out_i)) (PreH11 : (out_i <= n_pre)) (PreH12 : (mst_idx <= (n_pre - 1 ))) (PreH13 : (mst_idx = (out_i - 1 ))) (PreH14 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH17 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH18 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH19 : (directed_array_graph g_low_level_spec l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH20 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new_2 l_first_2 l_link_2 )) (PreH21 : (prim_heap_done_state g_low_level_spec src_low_level_spec s_2 l_lowcost_2 l_visited_2 l_edge_parent_2 queue_map_2 X_low_level_spec )) (PreH22 : (growing_subgraph_state g_low_level_spec s_2 )) (PreH23 : (visited_matches_state g_low_level_spec s_2 l_visited_2 )) (PreH24 : ((state_vertex_count (s_2)) = n_pre)) (PreH25 : (selected_edges_match_state g_low_level_spec src_low_level_spec s_2 l_edge_parent_2 )) (PreH26 : (lowcost_parent_match g_low_level_spec s_2 l_lowcost_2 l_edge_parent_2 1000000000 )) (PreH27 : (prim_state_graph_matches rg_2 s_2 )) (PreH28 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg_2 l_edge_parent_2 l_from_new_2 l_to_new_2 l_weight_new_2 )) (PreH29 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent_2) (0))) /\ ((Znth (v) (l_edge_parent_2) (0)) < (2 * m_pre ))))) (PreH30 : ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent_2) (0))) /\ ((Znth (out_i) (l_edge_parent_2) (0)) < (2 * m_pre ))))) (PreH31 : (safeExec (prim_state_is (s_2)) (return (tt)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  EX (rg: G) ,
-  “ (safeExec (prim_state_graph_matches (rg)) (return (tt)) X_low_level_spec ) ” 
-  &&  “ (prim_result_graph_matches_array (state_vertex_count (s_2)) l_out_u l_out_v l_out_wt g_low_level_spec rg ) ” 
-  &&  “ (0 <= ((2 * m_pre ) + 2 )) ”
-  &&  emp
-).
-
-Definition prim_forward_star_heap_return_wit_1 := 
-(
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (lru_2: (@list Z)) (lrv_2: (@list Z)) (lrwt_2: (@list Z)) (rg_2: G) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (s: St) (heap_capacity: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (retval: Z) (PreH1 : (retval <> 0)) (PreH2 : (safeExec (prim_state_graph_matches (rg_2)) (return (tt)) X_low_level_spec )) (PreH3 : (prim_result_graph_matches_array n_pre lru_2 lrv_2 lrwt_2 g_low_level_spec rg_2 )) (PreH4 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH5 : (0 <= heap_capacity)) (PreH6 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) ,
-  ((&((retval)  # "mst_tree" ->ₛ "u")) # Ptr  |-> out_u)
-  **  ((&((retval)  # "mst_tree" ->ₛ "v")) # Ptr  |-> out_v)
-  **  ((&((retval)  # "mst_tree" ->ₛ "wt")) # Ptr  |-> out_wt)
-  **  (IntArray.full out_u (n_pre - 1 ) lru_2 )
-  **  (IntArray.full out_v (n_pre - 1 ) lrv_2 )
-  **  (IntArray.full out_wt (n_pre - 1 ) lrwt_2 )
-  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
-  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
-  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
   **  (IntArray.full from_new (2 * m_pre ) l_from_new )
   **  (IntArray.full to_new (2 * m_pre ) l_to_new )
   **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
@@ -6672,7 +6221,7 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (store_heap r_heap_cost r_heap_vertex r_heap_pos n_pre ((2 * m_pre ) + 2 ) r_queue_map r_heap_size )
 ) \/
 (
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lru_2: (@list Z)) (lrv_2: (@list Z)) (lrwt_2: (@list Z)) (rg_2: G) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (s: St) (heap_capacity: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (retval: Z) (PreH1 : (retval <> 0)) (PreH2 : (safeExec (prim_state_graph_matches (rg_2)) (return (tt)) X_low_level_spec )) (PreH3 : (prim_result_graph_matches_array n_pre lru_2 lrv_2 lrwt_2 g_low_level_spec rg_2 )) (PreH4 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH5 : (0 <= heap_capacity)) (PreH6 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (heap_size: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (rg_2: G) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (retval: Z) (PreH1 : (retval <> 0)) (PreH2 : (out_i >= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : (1 <= m_pre)) (PreH6 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH7 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH8 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH9 : (src_low_level_spec = 0)) (PreH10 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH11 : (1 <= out_i)) (PreH12 : (out_i <= n_pre)) (PreH13 : (mst_idx <= (n_pre - 1 ))) (PreH14 : (mst_idx = (out_i - 1 ))) (PreH15 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH18 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH19 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH20 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH21 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH22 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH23 : (growing_subgraph_state g_low_level_spec s )) (PreH24 : (visited_matches_state g_low_level_spec s l_visited )) (PreH25 : ((state_vertex_count (s)) = n_pre)) (PreH26 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH27 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH28 : (prim_state_graph_matches rg_2 s )) (PreH29 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg_2 l_edge_parent l_from_new l_to_new l_weight_new )) (PreH30 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH31 : ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent) (0))) /\ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH32 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
   (IntArray.full from_new (2 * m_pre ) l_from_new )
   **  (IntArray.full to_new (2 * m_pre ) l_to_new )
   **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
@@ -6685,7 +6234,7 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low
 |--
   EX (r_heap_cost: Z)  (r_heap_vertex: Z)  (r_heap_pos: Z)  (r_queue_map: partial_map)  (r_heap_size: Z)  (r_edge_parent: Z)  (l_edge_parent_ret: (@list Z))  (r_visited: Z)  (l_visited_ret: (@list Z))  (r_lowcost: Z)  (l_lowcost_ret: (@list Z))  (r_link: Z)  (l_link_ret: (@list Z))  (r_first: Z)  (l_first_ret: (@list Z))  (r_weight_new: Z)  (l_weight_new_ret: (@list Z))  (r_to_new: Z)  (l_to_new_ret: (@list Z))  (r_from_new: Z)  (l_from_new_ret: (@list Z))  (rg: G) ,
   “ (safeExec (prim_state_graph_matches (rg)) (return (tt)) X_low_level_spec ) ” 
-  &&  “ (prim_result_graph_matches_array n_pre lru_2 lrv_2 lrwt_2 g_low_level_spec rg ) ” 
+  &&  “ (prim_result_graph_matches_array n_pre l_out_u l_out_v l_out_wt g_low_level_spec rg ) ” 
   &&  “ (retval <> 0) ”
   &&  (IntArray.full r_from_new (2 * m_pre ) l_from_new_ret )
   **  (IntArray.full r_to_new (2 * m_pre ) l_to_new_ret )
@@ -8432,7 +7981,7 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
 .
 
 Definition prim_forward_star_heap_partial_solve_wit_33_pure := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH9 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH10 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH11 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH12 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH13 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH14 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH15 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "heap_cost" ) )) # Ptr  |->_)
   **  ((( &( "heap_capacity" ) )) # Int  |-> ((2 * m_pre ) + 2 ))
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -8460,17 +8009,20 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "link" ) )) # Ptr  |-> link)
   **  (IntArray.full link (2 * m_pre ) l_link )
   **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
-  **  (IntArray.full lowcost n_pre (repeat_Z (1000000000) (n_pre)) )
+  **  (IntArray.seg lowcost 0 i (repeat_Z (1000000000) (i)) )
+  **  (IntArray.undef_seg lowcost i n_pre )
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
-  **  (IntArray.full visited n_pre (repeat_Z (0) (n_pre)) )
+  **  (IntArray.seg visited 0 i (repeat_Z (0) (i)) )
+  **  (IntArray.undef_seg visited i n_pre )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.full edge_parent n_pre (repeat_Z ((-1)) (n_pre)) )
+  **  (IntArray.seg edge_parent 0 i (repeat_Z ((-1)) (i)) )
+  **  (IntArray.undef_seg edge_parent i n_pre )
 |--
   “ (((2 * m_pre ) + 2 ) > 0) ”
 .
 
 Definition prim_forward_star_heap_partial_solve_wit_33_aux := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH9 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH10 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH11 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH12 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH13 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH14 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH15 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (i: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
   **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
@@ -8482,11 +8034,15 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
   **  (IntArray.full first n_pre l_first )
   **  (IntArray.full link (2 * m_pre ) l_link )
-  **  (IntArray.full lowcost n_pre (repeat_Z (1000000000) (n_pre)) )
-  **  (IntArray.full visited n_pre (repeat_Z (0) (n_pre)) )
-  **  (IntArray.full edge_parent n_pre (repeat_Z ((-1)) (n_pre)) )
+  **  (IntArray.seg lowcost 0 i (repeat_Z (1000000000) (i)) )
+  **  (IntArray.undef_seg lowcost i n_pre )
+  **  (IntArray.seg visited 0 i (repeat_Z (0) (i)) )
+  **  (IntArray.undef_seg visited i n_pre )
+  **  (IntArray.seg edge_parent 0 i (repeat_Z ((-1)) (i)) )
+  **  (IntArray.undef_seg edge_parent i n_pre )
 |--
   “ (((2 * m_pre ) + 2 ) > 0) ” 
+  &&  “ (i >= n_pre) ” 
   &&  “ (2 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (1 <= m_pre) ” 
@@ -8494,6 +8050,8 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ (((4 * m_pre ) + 6 ) < INT_MAX) ” 
   &&  “ (((2 * m_pre ) + 2 ) <= 100000) ” 
   &&  “ (src_low_level_spec = 0) ” 
+  &&  “ (0 <= i) ” 
+  &&  “ (i <= n_pre) ” 
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre))) ” 
   &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre))) ” 
   &&  “ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000))) ” 
@@ -8513,15 +8071,15 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
   **  (IntArray.full first n_pre l_first )
   **  (IntArray.full link (2 * m_pre ) l_link )
-  **  (IntArray.full lowcost n_pre (repeat_Z (1000000000) (n_pre)) )
-  **  (IntArray.full visited n_pre (repeat_Z (0) (n_pre)) )
-  **  (IntArray.full edge_parent n_pre (repeat_Z ((-1)) (n_pre)) )
+  **  (IntArray.seg lowcost 0 i (repeat_Z (1000000000) (i)) )
+  **  (IntArray.seg visited 0 i (repeat_Z (0) (i)) )
+  **  (IntArray.seg edge_parent 0 i (repeat_Z ((-1)) (i)) )
 .
 
 Definition prim_forward_star_heap_partial_solve_wit_33 := prim_forward_star_heap_partial_solve_wit_33_pure -> prim_forward_star_heap_partial_solve_wit_33_aux.
 
 Definition prim_forward_star_heap_partial_solve_wit_34_pure := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (retval: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH9 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH10 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH11 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH12 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH13 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH14 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH15 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (i: Z) (retval: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "heap_vertex" ) )) # Ptr  |->_)
   **  (IntArray.undef_full retval ((2 * m_pre ) + 2 ) )
   **  ((( &( "heap_cost" ) )) # Ptr  |-> retval)
@@ -8551,17 +8109,17 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "link" ) )) # Ptr  |-> link)
   **  (IntArray.full link (2 * m_pre ) l_link )
   **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
-  **  (IntArray.full lowcost n_pre (repeat_Z (1000000000) (n_pre)) )
+  **  (IntArray.seg lowcost 0 i (repeat_Z (1000000000) (i)) )
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
-  **  (IntArray.full visited n_pre (repeat_Z (0) (n_pre)) )
+  **  (IntArray.seg visited 0 i (repeat_Z (0) (i)) )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.full edge_parent n_pre (repeat_Z ((-1)) (n_pre)) )
+  **  (IntArray.seg edge_parent 0 i (repeat_Z ((-1)) (i)) )
 |--
   “ (((2 * m_pre ) + 2 ) > 0) ”
 .
 
 Definition prim_forward_star_heap_partial_solve_wit_34_aux := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (retval: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH9 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH10 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH11 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH12 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH13 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH14 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH15 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (i: Z) (retval: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   (IntArray.undef_full retval ((2 * m_pre ) + 2 ) )
   **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
@@ -8574,11 +8132,12 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
   **  (IntArray.full first n_pre l_first )
   **  (IntArray.full link (2 * m_pre ) l_link )
-  **  (IntArray.full lowcost n_pre (repeat_Z (1000000000) (n_pre)) )
-  **  (IntArray.full visited n_pre (repeat_Z (0) (n_pre)) )
-  **  (IntArray.full edge_parent n_pre (repeat_Z ((-1)) (n_pre)) )
+  **  (IntArray.seg lowcost 0 i (repeat_Z (1000000000) (i)) )
+  **  (IntArray.seg visited 0 i (repeat_Z (0) (i)) )
+  **  (IntArray.seg edge_parent 0 i (repeat_Z ((-1)) (i)) )
 |--
   “ (((2 * m_pre ) + 2 ) > 0) ” 
+  &&  “ (i >= n_pre) ” 
   &&  “ (2 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (1 <= m_pre) ” 
@@ -8586,6 +8145,8 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ (((4 * m_pre ) + 6 ) < INT_MAX) ” 
   &&  “ (((2 * m_pre ) + 2 ) <= 100000) ” 
   &&  “ (src_low_level_spec = 0) ” 
+  &&  “ (0 <= i) ” 
+  &&  “ (i <= n_pre) ” 
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre))) ” 
   &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre))) ” 
   &&  “ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000))) ” 
@@ -8606,15 +8167,15 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
   **  (IntArray.full first n_pre l_first )
   **  (IntArray.full link (2 * m_pre ) l_link )
-  **  (IntArray.full lowcost n_pre (repeat_Z (1000000000) (n_pre)) )
-  **  (IntArray.full visited n_pre (repeat_Z (0) (n_pre)) )
-  **  (IntArray.full edge_parent n_pre (repeat_Z ((-1)) (n_pre)) )
+  **  (IntArray.seg lowcost 0 i (repeat_Z (1000000000) (i)) )
+  **  (IntArray.seg visited 0 i (repeat_Z (0) (i)) )
+  **  (IntArray.seg edge_parent 0 i (repeat_Z ((-1)) (i)) )
 .
 
 Definition prim_forward_star_heap_partial_solve_wit_34 := prim_forward_star_heap_partial_solve_wit_34_pure -> prim_forward_star_heap_partial_solve_wit_34_aux.
 
 Definition prim_forward_star_heap_partial_solve_wit_35_pure := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (retval: Z) (retval_2: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH9 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH10 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH11 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH12 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH13 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH14 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH15 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (i: Z) (retval: Z) (retval_2: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "heap_pos" ) )) # Ptr  |->_)
   **  (IntArray.undef_full retval_2 ((2 * m_pre ) + 2 ) )
   **  ((( &( "heap_vertex" ) )) # Ptr  |-> retval_2)
@@ -8646,17 +8207,17 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "link" ) )) # Ptr  |-> link)
   **  (IntArray.full link (2 * m_pre ) l_link )
   **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
-  **  (IntArray.full lowcost n_pre (repeat_Z (1000000000) (n_pre)) )
+  **  (IntArray.seg lowcost 0 i (repeat_Z (1000000000) (i)) )
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
-  **  (IntArray.full visited n_pre (repeat_Z (0) (n_pre)) )
+  **  (IntArray.seg visited 0 i (repeat_Z (0) (i)) )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.full edge_parent n_pre (repeat_Z ((-1)) (n_pre)) )
+  **  (IntArray.seg edge_parent 0 i (repeat_Z ((-1)) (i)) )
 |--
   “ (n_pre > 0) ”
 .
 
 Definition prim_forward_star_heap_partial_solve_wit_35_aux := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (retval: Z) (retval_2: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH9 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH10 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH11 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH12 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH13 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH14 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH15 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (i: Z) (retval: Z) (retval_2: Z) (PreH1 : (i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (0 <= i)) (PreH10 : (i <= n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH12 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH13 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH14 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH15 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH16 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH17 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH18 : (safeExec (initStPred (g_low_level_spec) (src_low_level_spec)) (Prim2 (g_low_level_spec)) X_low_level_spec )) ,
   (IntArray.undef_full retval_2 ((2 * m_pre ) + 2 ) )
   **  (IntArray.undef_full retval ((2 * m_pre ) + 2 ) )
   **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
@@ -8670,11 +8231,12 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
   **  (IntArray.full first n_pre l_first )
   **  (IntArray.full link (2 * m_pre ) l_link )
-  **  (IntArray.full lowcost n_pre (repeat_Z (1000000000) (n_pre)) )
-  **  (IntArray.full visited n_pre (repeat_Z (0) (n_pre)) )
-  **  (IntArray.full edge_parent n_pre (repeat_Z ((-1)) (n_pre)) )
+  **  (IntArray.seg lowcost 0 i (repeat_Z (1000000000) (i)) )
+  **  (IntArray.seg visited 0 i (repeat_Z (0) (i)) )
+  **  (IntArray.seg edge_parent 0 i (repeat_Z ((-1)) (i)) )
 |--
   “ (n_pre > 0) ” 
+  &&  “ (i >= n_pre) ” 
   &&  “ (2 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (1 <= m_pre) ” 
@@ -8682,6 +8244,8 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ (((4 * m_pre ) + 6 ) < INT_MAX) ” 
   &&  “ (((2 * m_pre ) + 2 ) <= 100000) ” 
   &&  “ (src_low_level_spec = 0) ” 
+  &&  “ (0 <= i) ” 
+  &&  “ (i <= n_pre) ” 
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre))) ” 
   &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre))) ” 
   &&  “ forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000))) ” 
@@ -8703,9 +8267,9 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
   **  (IntArray.full first n_pre l_first )
   **  (IntArray.full link (2 * m_pre ) l_link )
-  **  (IntArray.full lowcost n_pre (repeat_Z (1000000000) (n_pre)) )
-  **  (IntArray.full visited n_pre (repeat_Z (0) (n_pre)) )
-  **  (IntArray.full edge_parent n_pre (repeat_Z ((-1)) (n_pre)) )
+  **  (IntArray.seg lowcost 0 i (repeat_Z (1000000000) (i)) )
+  **  (IntArray.seg visited 0 i (repeat_Z (0) (i)) )
+  **  (IntArray.seg edge_parent 0 i (repeat_Z ((-1)) (i)) )
 .
 
 Definition prim_forward_star_heap_partial_solve_wit_35 := prim_forward_star_heap_partial_solve_wit_35_pure -> prim_forward_star_heap_partial_solve_wit_35_aux.
@@ -9074,8 +8638,10 @@ Definition prim_forward_star_heap_partial_solve_wit_38 := prim_forward_star_heap
 
 Definition prim_forward_star_heap_partial_solve_wit_39_pure := 
 (
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (s: St) (heap_capacity: Z) (chosen: Z) (heap_size: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (queue_map: partial_map) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH9 : (0 <= chosen)) (PreH10 : (chosen < n_pre)) (PreH11 : (0 < heap_size)) (PreH12 : (heap_size <= heap_capacity)) (PreH13 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH14 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH16 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH17 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH18 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH19 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH20 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) ,
-  ((( &( "n" ) )) # Int  |-> n_pre)
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (queue_map: partial_map) (PreH1 : (chosen < n_pre)) (PreH2 : (heap_size > 0)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : (1 <= m_pre)) (PreH6 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH7 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH8 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH9 : (src_low_level_spec = 0)) (PreH10 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH11 : (0 <= chosen)) (PreH12 : (chosen <= n_pre)) (PreH13 : (0 <= heap_size)) (PreH14 : (heap_size <= heap_capacity)) (PreH15 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH18 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH19 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH20 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH21 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH22 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH23 : ((chosen < n_pre) -> (heap_size > 0))) ,
+  ((( &( "min" ) )) # Int  |->_)
+  **  ((( &( "minIndex" ) )) # Int  |->_)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
   **  ((( &( "chosen" ) )) # Int  |-> chosen)
@@ -9112,8 +8678,6 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
   **  ((( &( "heap_cost" ) )) # Ptr  |-> heap_cost)
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
-  **  ((( &( "minIndex" ) )) # Int  |->_)
-  **  ((( &( "min" ) )) # Int  |->_)
 |--
   “ (1 <= heap_size) ” 
   &&  “ (heap_size <= heap_capacity) ” 
@@ -9121,8 +8685,10 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ (((2 * m_pre ) + 2 ) <= heap_capacity) ”
 ) \/
 (
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (s: St) (heap_capacity: Z) (chosen: Z) (heap_size: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (queue_map: partial_map) (PreH1 : (heap_size <= INT_MAX)) (PreH2 : (chosen <= INT_MAX)) (PreH3 : (heap_capacity <= INT_MAX)) (PreH4 : (m_pre <= INT_MAX)) (PreH5 : (n_pre <= INT_MAX)) (PreH6 : (heap_size >= INT_MIN)) (PreH7 : (chosen >= INT_MIN)) (PreH8 : (heap_capacity >= INT_MIN)) (PreH9 : (m_pre >= INT_MIN)) (PreH10 : (n_pre >= INT_MIN)) (PreH11 : (2 <= n_pre)) (PreH12 : (n_pre < INT_MAX)) (PreH13 : (1 <= m_pre)) (PreH14 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH15 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH16 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH17 : (src_low_level_spec = 0)) (PreH18 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH19 : (0 <= chosen)) (PreH20 : (chosen < n_pre)) (PreH21 : (0 < heap_size)) (PreH22 : (heap_size <= heap_capacity)) (PreH23 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH24 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH25 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH26 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH27 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH28 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH29 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH30 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) ,
-  ((( &( "n" ) )) # Int  |-> n_pre)
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (queue_map: partial_map) (PreH1 : (heap_size <= INT_MAX)) (PreH2 : (chosen <= INT_MAX)) (PreH3 : (heap_capacity <= INT_MAX)) (PreH4 : (m_pre <= INT_MAX)) (PreH5 : (n_pre <= INT_MAX)) (PreH6 : (heap_size >= INT_MIN)) (PreH7 : (chosen >= INT_MIN)) (PreH8 : (heap_capacity >= INT_MIN)) (PreH9 : (m_pre >= INT_MIN)) (PreH10 : (n_pre >= INT_MIN)) (PreH11 : (chosen < n_pre)) (PreH12 : (heap_size > 0)) (PreH13 : (2 <= n_pre)) (PreH14 : (n_pre < INT_MAX)) (PreH15 : (1 <= m_pre)) (PreH16 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH17 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH18 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH19 : (src_low_level_spec = 0)) (PreH20 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH21 : (0 <= chosen)) (PreH22 : (chosen <= n_pre)) (PreH23 : (0 <= heap_size)) (PreH24 : (heap_size <= heap_capacity)) (PreH25 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH26 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH27 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH28 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH29 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH30 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH31 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH32 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH33 : ((chosen < n_pre) -> (heap_size > 0))) ,
+  ((( &( "min" ) )) # Int  |->_)
+  **  ((( &( "minIndex" ) )) # Int  |->_)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
   **  ((( &( "chosen" ) )) # Int  |-> chosen)
@@ -9159,16 +8725,16 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
   **  ((( &( "heap_cost" ) )) # Ptr  |-> heap_cost)
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
-  **  ((( &( "minIndex" ) )) # Int  |->_)
-  **  ((( &( "min" ) )) # Int  |->_)
 |--
   “ (((2 * m_pre ) + 2 ) <= heap_capacity) ” 
   &&  “ (((2 * m_pre ) + 2 ) <= heap_capacity) ”
 ).
 
 Definition prim_forward_star_heap_partial_solve_wit_39_pure_split_goal_1 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (s: St) (heap_capacity: Z) (chosen: Z) (heap_size: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (queue_map: partial_map) (PreH1 : (heap_size <= INT_MAX)) (PreH2 : (chosen <= INT_MAX)) (PreH3 : (heap_capacity <= INT_MAX)) (PreH4 : (m_pre <= INT_MAX)) (PreH5 : (n_pre <= INT_MAX)) (PreH6 : (heap_size >= INT_MIN)) (PreH7 : (chosen >= INT_MIN)) (PreH8 : (heap_capacity >= INT_MIN)) (PreH9 : (m_pre >= INT_MIN)) (PreH10 : (n_pre >= INT_MIN)) (PreH11 : (2 <= n_pre)) (PreH12 : (n_pre < INT_MAX)) (PreH13 : (1 <= m_pre)) (PreH14 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH15 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH16 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH17 : (src_low_level_spec = 0)) (PreH18 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH19 : (0 <= chosen)) (PreH20 : (chosen < n_pre)) (PreH21 : (0 < heap_size)) (PreH22 : (heap_size <= heap_capacity)) (PreH23 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH24 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH25 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH26 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH27 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH28 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH29 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH30 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) ,
-  ((( &( "n" ) )) # Int  |-> n_pre)
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (queue_map: partial_map) (PreH1 : (heap_size <= INT_MAX)) (PreH2 : (chosen <= INT_MAX)) (PreH3 : (heap_capacity <= INT_MAX)) (PreH4 : (m_pre <= INT_MAX)) (PreH5 : (n_pre <= INT_MAX)) (PreH6 : (heap_size >= INT_MIN)) (PreH7 : (chosen >= INT_MIN)) (PreH8 : (heap_capacity >= INT_MIN)) (PreH9 : (m_pre >= INT_MIN)) (PreH10 : (n_pre >= INT_MIN)) (PreH11 : (chosen < n_pre)) (PreH12 : (heap_size > 0)) (PreH13 : (2 <= n_pre)) (PreH14 : (n_pre < INT_MAX)) (PreH15 : (1 <= m_pre)) (PreH16 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH17 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH18 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH19 : (src_low_level_spec = 0)) (PreH20 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH21 : (0 <= chosen)) (PreH22 : (chosen <= n_pre)) (PreH23 : (0 <= heap_size)) (PreH24 : (heap_size <= heap_capacity)) (PreH25 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH26 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH27 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH28 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH29 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH30 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH31 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH32 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH33 : ((chosen < n_pre) -> (heap_size > 0))) ,
+  ((( &( "min" ) )) # Int  |->_)
+  **  ((( &( "minIndex" ) )) # Int  |->_)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
   **  ((( &( "chosen" ) )) # Int  |-> chosen)
@@ -9205,15 +8771,15 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
   **  ((( &( "heap_cost" ) )) # Ptr  |-> heap_cost)
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
-  **  ((( &( "minIndex" ) )) # Int  |->_)
-  **  ((( &( "min" ) )) # Int  |->_)
 |--
   “ (((2 * m_pre ) + 2 ) <= heap_capacity) ”
 .
 
 Definition prim_forward_star_heap_partial_solve_wit_39_pure_split_goal_2 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (s: St) (heap_capacity: Z) (chosen: Z) (heap_size: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (queue_map: partial_map) (PreH1 : (heap_size <= INT_MAX)) (PreH2 : (chosen <= INT_MAX)) (PreH3 : (heap_capacity <= INT_MAX)) (PreH4 : (m_pre <= INT_MAX)) (PreH5 : (n_pre <= INT_MAX)) (PreH6 : (heap_size >= INT_MIN)) (PreH7 : (chosen >= INT_MIN)) (PreH8 : (heap_capacity >= INT_MIN)) (PreH9 : (m_pre >= INT_MIN)) (PreH10 : (n_pre >= INT_MIN)) (PreH11 : (2 <= n_pre)) (PreH12 : (n_pre < INT_MAX)) (PreH13 : (1 <= m_pre)) (PreH14 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH15 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH16 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH17 : (src_low_level_spec = 0)) (PreH18 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH19 : (0 <= chosen)) (PreH20 : (chosen < n_pre)) (PreH21 : (0 < heap_size)) (PreH22 : (heap_size <= heap_capacity)) (PreH23 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH24 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH25 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH26 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH27 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH28 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH29 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH30 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) ,
-  ((( &( "n" ) )) # Int  |-> n_pre)
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (queue_map: partial_map) (PreH1 : (heap_size <= INT_MAX)) (PreH2 : (chosen <= INT_MAX)) (PreH3 : (heap_capacity <= INT_MAX)) (PreH4 : (m_pre <= INT_MAX)) (PreH5 : (n_pre <= INT_MAX)) (PreH6 : (heap_size >= INT_MIN)) (PreH7 : (chosen >= INT_MIN)) (PreH8 : (heap_capacity >= INT_MIN)) (PreH9 : (m_pre >= INT_MIN)) (PreH10 : (n_pre >= INT_MIN)) (PreH11 : (chosen < n_pre)) (PreH12 : (heap_size > 0)) (PreH13 : (2 <= n_pre)) (PreH14 : (n_pre < INT_MAX)) (PreH15 : (1 <= m_pre)) (PreH16 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH17 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH18 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH19 : (src_low_level_spec = 0)) (PreH20 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH21 : (0 <= chosen)) (PreH22 : (chosen <= n_pre)) (PreH23 : (0 <= heap_size)) (PreH24 : (heap_size <= heap_capacity)) (PreH25 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH26 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH27 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH28 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH29 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH30 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH31 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH32 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH33 : ((chosen < n_pre) -> (heap_size > 0))) ,
+  ((( &( "min" ) )) # Int  |->_)
+  **  ((( &( "minIndex" ) )) # Int  |->_)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
   **  ((( &( "chosen" ) )) # Int  |-> chosen)
@@ -9250,14 +8816,12 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
   **  ((( &( "heap_cost" ) )) # Ptr  |-> heap_cost)
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
-  **  ((( &( "minIndex" ) )) # Int  |->_)
-  **  ((( &( "min" ) )) # Int  |->_)
 |--
   “ (((2 * m_pre ) + 2 ) <= heap_capacity) ”
 .
 
 Definition prim_forward_star_heap_partial_solve_wit_39_aux := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (s: St) (heap_capacity: Z) (chosen: Z) (heap_size: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (queue_map: partial_map) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH9 : (0 <= chosen)) (PreH10 : (chosen < n_pre)) (PreH11 : (0 < heap_size)) (PreH12 : (heap_size <= heap_capacity)) (PreH13 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH14 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH16 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH17 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH18 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH19 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH20 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (queue_map: partial_map) (PreH1 : (chosen < n_pre)) (PreH2 : (heap_size > 0)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : (1 <= m_pre)) (PreH6 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH7 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH8 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH9 : (src_low_level_spec = 0)) (PreH10 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH11 : (0 <= chosen)) (PreH12 : (chosen <= n_pre)) (PreH13 : (0 <= heap_size)) (PreH14 : (heap_size <= heap_capacity)) (PreH15 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH17 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH18 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH19 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH20 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH21 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH22 : (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH23 : ((chosen < n_pre) -> (heap_size > 0))) ,
   (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
   **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
@@ -9278,6 +8842,8 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ (heap_size <= heap_capacity) ” 
   &&  “ (heap_capacity <= heap_capacity) ” 
   &&  “ (((2 * m_pre ) + 2 ) <= heap_capacity) ” 
+  &&  “ (chosen < n_pre) ” 
+  &&  “ (heap_size > 0) ” 
   &&  “ (2 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (1 <= m_pre) ” 
@@ -9287,8 +8853,8 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ (src_low_level_spec = 0) ” 
   &&  “ (heap_capacity = ((2 * m_pre ) + 2 )) ” 
   &&  “ (0 <= chosen) ” 
-  &&  “ (chosen < n_pre) ” 
-  &&  “ (0 < heap_size) ” 
+  &&  “ (chosen <= n_pre) ” 
+  &&  “ (0 <= heap_size) ” 
   &&  “ (heap_size <= heap_capacity) ” 
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre))) ” 
   &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre))) ” 
@@ -9297,7 +8863,8 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ (PrimEnv g_low_level_spec src_low_level_spec ) ” 
   &&  “ (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new ) ” 
   &&  “ (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link ) ” 
-  &&  “ (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec ) ”
+  &&  “ (prim_heap_loop_state g_low_level_spec src_low_level_spec chosen s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec ) ” 
+  &&  “ ((chosen < n_pre) -> (heap_size > 0)) ”
   &&  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
   **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
@@ -9698,18 +9265,23 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
 
 Definition prim_forward_star_heap_partial_solve_wit_46_pure := 
 (
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (current_edge: Z) (selected: Z) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_lowcost_cur: (@list Z)) (l_edge_parent_cur: (@list Z)) (l_lowcost_next: (@list Z)) (l_edge_parent_next: (@list Z)) (queue_map_before: partial_map) (s: St) (s_after: St) (heap_capacity: Z) (heap_size: Z) (chosen: Z) (to_node: Z) (edge_weight: Z) (min: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (queue_map_cur: partial_map) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH9 : (0 <= heap_size)) (PreH10 : (heap_size < heap_capacity)) (PreH11 : (1 <= chosen)) (PreH12 : (chosen <= n_pre)) (PreH13 : (0 <= selected)) (PreH14 : (selected < n_pre)) (PreH15 : (0 <= current_edge)) (PreH16 : (current_edge < (2 * m_pre ))) (PreH17 : (0 <= to_node)) (PreH18 : (to_node < n_pre)) (PreH19 : (INT_MIN <= edge_weight)) (PreH20 : (edge_weight <= INT_MAX)) (PreH21 : (to_node = (Znth (current_edge) (l_to_new) (0)))) (PreH22 : (edge_weight = (Znth (current_edge) (l_weight_new) (0)))) (PreH23 : (edge_weight < (Znth (to_node) (l_lowcost_cur) (0)))) (PreH24 : ((Znth (to_node) ((replace_Znth (selected) (1) (l_visited))) (0)) = 0)) (PreH25 : (l_lowcost_next = (replace_Znth (to_node) (edge_weight) (l_lowcost_cur)))) (PreH26 : (l_edge_parent_next = (replace_Znth (to_node) (current_edge) (l_edge_parent_cur)))) (PreH27 : (partial_map_update_or_add_pre queue_map_cur to_node edge_weight )) (PreH28 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s s_after l_from_new l_first l_link l_to_new l_weight_new l_lowcost (replace_Znth (selected) (1) (l_visited)) l_edge_parent l_lowcost_cur l_edge_parent_cur current_edge selected min queue_map_before l_lowcost_cur l_edge_parent_cur queue_map_cur X_low_level_spec )) (PreH29 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH30 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH31 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH32 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH33 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH34 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH35 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) ,
-  ((( &( "n" ) )) # Int  |-> n_pre)
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s: St) (s_after: St) (l_from_new: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (min: Z) (queue_map_before: partial_map) (l_lowcost_cur: (@list Z)) (l_edge_parent_cur: (@list Z)) (current_edge: Z) (selected: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (queue_map_cur: partial_map) (PreH1 : ((Znth current_edge l_weight_new 0) < (Znth (Znth current_edge l_to_new 0) l_lowcost_cur 0))) (PreH2 : ((Znth (Znth current_edge l_to_new 0) (replace_Znth (selected) (1) (l_visited)) 0) = 0)) (PreH3 : ((Znth current_edge l_to_new 0) < n_pre)) (PreH4 : (0 <= (Znth current_edge l_to_new 0))) (PreH5 : (current_edge < (2 * m_pre ))) (PreH6 : (0 <= current_edge)) (PreH7 : (current_edge <> (-1))) (PreH8 : (2 <= n_pre)) (PreH9 : (n_pre < INT_MAX)) (PreH10 : (1 <= m_pre)) (PreH11 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH12 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH13 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH14 : (src_low_level_spec = 0)) (PreH15 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH16 : (1 <= chosen)) (PreH17 : (chosen <= n_pre)) (PreH18 : (0 <= heap_size)) (PreH19 : (heap_size <= heap_capacity)) (PreH20 : (0 <= selected)) (PreH21 : (selected < n_pre)) (PreH22 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s s_after l_from_new l_first l_link l_to_new l_weight_new l_lowcost (replace_Znth (selected) (1) (l_visited)) l_edge_parent l_lowcost_cur l_edge_parent_cur current_edge selected min queue_map_before l_lowcost_cur l_edge_parent_cur queue_map_cur X_low_level_spec )) (PreH23 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH24 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH25 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH26 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH27 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH28 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH29 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) ,
+  (IntArray.full edge_parent n_pre (replace_Znth ((Znth current_edge l_to_new 0)) (current_edge) (l_edge_parent_cur)) )
+  **  (IntArray.full lowcost n_pre (replace_Znth ((Znth current_edge l_to_new 0)) ((Znth current_edge l_weight_new 0)) (l_lowcost_cur)) )
+  **  (IntArray.full visited n_pre (replace_Znth (selected) (1) (l_visited)) )
+  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
+  **  ((( &( "edge_weight" ) )) # Int  |-> (Znth current_edge l_weight_new 0))
+  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
+  **  ((( &( "to_node" ) )) # Int  |-> (Znth current_edge l_to_new 0))
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
+  **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
+  **  ((( &( "chosen" ) )) # Int  |-> chosen)
+  **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
+  **  ((( &( "cur_edge" ) )) # Int  |-> current_edge)
   **  ((( &( "from_arr" ) )) # Ptr  |-> from_arr_pre)
   **  ((( &( "to_arr" ) )) # Ptr  |-> to_arr_pre)
   **  ((( &( "weight_arr" ) )) # Ptr  |-> weight_arr_pre)
-  **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
-  **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
-  **  ((( &( "chosen" ) )) # Int  |-> chosen)
-  **  ((( &( "cur_edge" ) )) # Int  |-> current_edge)
-  **  ((( &( "to_node" ) )) # Int  |-> to_node)
-  **  ((( &( "edge_weight" ) )) # Int  |-> edge_weight)
   **  ((( &( "min" ) )) # Int  |-> min)
   **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
@@ -9723,19 +9295,14 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "from_new" ) )) # Ptr  |-> from_new)
   **  (IntArray.full from_new (2 * m_pre ) l_from_new )
   **  ((( &( "to_new" ) )) # Ptr  |-> to_new)
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
   **  ((( &( "weight_new" ) )) # Ptr  |-> weight_new)
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
   **  ((( &( "first" ) )) # Ptr  |-> first)
   **  (IntArray.full first n_pre l_first )
   **  ((( &( "link" ) )) # Ptr  |-> link)
   **  (IntArray.full link (2 * m_pre ) l_link )
   **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
-  **  (IntArray.full lowcost n_pre l_lowcost_next )
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
-  **  (IntArray.full visited n_pre (replace_Znth (selected) (1) (l_visited)) )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.full edge_parent n_pre l_edge_parent_next )
   **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
   **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
   **  ((( &( "heap_cost" ) )) # Ptr  |-> heap_cost)
@@ -9745,24 +9312,30 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   “ (0 <= heap_size) ” 
   &&  “ (heap_size < heap_capacity) ” 
   &&  “ (heap_capacity <= heap_capacity) ” 
-  &&  “ (0 <= to_node) ” 
-  &&  “ (to_node < n_pre) ” 
-  &&  “ (partial_map_update_or_add_pre queue_map_cur to_node edge_weight ) ” 
-  &&  “ (((2 * m_pre ) + 2 ) <= heap_capacity) ”
+  &&  “ (0 <= (Znth current_edge l_to_new 0)) ” 
+  &&  “ ((Znth current_edge l_to_new 0) < n_pre) ” 
+  &&  “ (partial_map_update_or_add_pre queue_map_cur (Znth current_edge l_to_new 0) (Znth current_edge l_weight_new 0) ) ” 
+  &&  “ (((2 * m_pre ) + 2 ) <= heap_capacity) ” 
+  &&  “ (heap_size < ((2 * m_pre ) + 2 )) ”
 ) \/
 (
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (current_edge: Z) (selected: Z) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_lowcost_cur: (@list Z)) (l_edge_parent_cur: (@list Z)) (l_lowcost_next: (@list Z)) (l_edge_parent_next: (@list Z)) (queue_map_before: partial_map) (s: St) (s_after: St) (heap_capacity: Z) (heap_size: Z) (chosen: Z) (to_node: Z) (edge_weight: Z) (min: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (queue_map_cur: partial_map) (PreH1 : (min <= INT_MAX)) (PreH2 : (to_node <= INT_MAX)) (PreH3 : (current_edge <= INT_MAX)) (PreH4 : (chosen <= INT_MAX)) (PreH5 : (heap_size <= INT_MAX)) (PreH6 : (heap_capacity <= INT_MAX)) (PreH7 : (m_pre <= INT_MAX)) (PreH8 : (n_pre <= INT_MAX)) (PreH9 : (min >= INT_MIN)) (PreH10 : (edge_weight >= INT_MIN)) (PreH11 : (to_node >= INT_MIN)) (PreH12 : (current_edge >= INT_MIN)) (PreH13 : (chosen >= INT_MIN)) (PreH14 : (heap_size >= INT_MIN)) (PreH15 : (heap_capacity >= INT_MIN)) (PreH16 : (m_pre >= INT_MIN)) (PreH17 : (n_pre >= INT_MIN)) (PreH18 : (2 <= n_pre)) (PreH19 : (n_pre < INT_MAX)) (PreH20 : (1 <= m_pre)) (PreH21 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH22 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH23 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH24 : (src_low_level_spec = 0)) (PreH25 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH26 : (0 <= heap_size)) (PreH27 : (heap_size < heap_capacity)) (PreH28 : (1 <= chosen)) (PreH29 : (chosen <= n_pre)) (PreH30 : (0 <= selected)) (PreH31 : (selected < n_pre)) (PreH32 : (0 <= current_edge)) (PreH33 : (current_edge < (2 * m_pre ))) (PreH34 : (0 <= to_node)) (PreH35 : (to_node < n_pre)) (PreH36 : (INT_MIN <= edge_weight)) (PreH37 : (edge_weight <= INT_MAX)) (PreH38 : (to_node = (Znth (current_edge) (l_to_new) (0)))) (PreH39 : (edge_weight = (Znth (current_edge) (l_weight_new) (0)))) (PreH40 : (edge_weight < (Znth (to_node) (l_lowcost_cur) (0)))) (PreH41 : ((Znth (to_node) ((replace_Znth (selected) (1) (l_visited))) (0)) = 0)) (PreH42 : (l_lowcost_next = (replace_Znth (to_node) (edge_weight) (l_lowcost_cur)))) (PreH43 : (l_edge_parent_next = (replace_Znth (to_node) (current_edge) (l_edge_parent_cur)))) (PreH44 : (partial_map_update_or_add_pre queue_map_cur to_node edge_weight )) (PreH45 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s s_after l_from_new l_first l_link l_to_new l_weight_new l_lowcost (replace_Znth (selected) (1) (l_visited)) l_edge_parent l_lowcost_cur l_edge_parent_cur current_edge selected min queue_map_before l_lowcost_cur l_edge_parent_cur queue_map_cur X_low_level_spec )) (PreH46 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH47 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH48 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH49 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH50 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH51 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH52 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) ,
-  ((( &( "n" ) )) # Int  |-> n_pre)
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s: St) (s_after: St) (l_from_new: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (min: Z) (queue_map_before: partial_map) (l_lowcost_cur: (@list Z)) (l_edge_parent_cur: (@list Z)) (current_edge: Z) (selected: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (queue_map_cur: partial_map) (PreH1 : (min <= INT_MAX)) (PreH2 : (current_edge <= INT_MAX)) (PreH3 : (heap_size <= INT_MAX)) (PreH4 : (chosen <= INT_MAX)) (PreH5 : (heap_capacity <= INT_MAX)) (PreH6 : (m_pre <= INT_MAX)) (PreH7 : (n_pre <= INT_MAX)) (PreH8 : ((Znth current_edge l_to_new 0) <= INT_MAX)) (PreH9 : ((Znth current_edge l_weight_new 0) <= INT_MAX)) (PreH10 : (min >= INT_MIN)) (PreH11 : (current_edge >= INT_MIN)) (PreH12 : (heap_size >= INT_MIN)) (PreH13 : (chosen >= INT_MIN)) (PreH14 : (heap_capacity >= INT_MIN)) (PreH15 : (m_pre >= INT_MIN)) (PreH16 : (n_pre >= INT_MIN)) (PreH17 : ((Znth current_edge l_to_new 0) >= INT_MIN)) (PreH18 : ((Znth current_edge l_weight_new 0) >= INT_MIN)) (PreH19 : ((Znth current_edge l_weight_new 0) < (Znth (Znth current_edge l_to_new 0) l_lowcost_cur 0))) (PreH20 : ((Znth (Znth current_edge l_to_new 0) (replace_Znth (selected) (1) (l_visited)) 0) = 0)) (PreH21 : ((Znth current_edge l_to_new 0) < n_pre)) (PreH22 : (0 <= (Znth current_edge l_to_new 0))) (PreH23 : (current_edge < (2 * m_pre ))) (PreH24 : (0 <= current_edge)) (PreH25 : (current_edge <> (-1))) (PreH26 : (2 <= n_pre)) (PreH27 : (n_pre < INT_MAX)) (PreH28 : (1 <= m_pre)) (PreH29 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH30 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH31 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH32 : (src_low_level_spec = 0)) (PreH33 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH34 : (1 <= chosen)) (PreH35 : (chosen <= n_pre)) (PreH36 : (0 <= heap_size)) (PreH37 : (heap_size <= heap_capacity)) (PreH38 : (0 <= selected)) (PreH39 : (selected < n_pre)) (PreH40 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s s_after l_from_new l_first l_link l_to_new l_weight_new l_lowcost (replace_Znth (selected) (1) (l_visited)) l_edge_parent l_lowcost_cur l_edge_parent_cur current_edge selected min queue_map_before l_lowcost_cur l_edge_parent_cur queue_map_cur X_low_level_spec )) (PreH41 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH42 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH43 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH44 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH45 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH46 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH47 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) ,
+  (IntArray.full edge_parent n_pre (replace_Znth ((Znth current_edge l_to_new 0)) (current_edge) (l_edge_parent_cur)) )
+  **  (IntArray.full lowcost n_pre (replace_Znth ((Znth current_edge l_to_new 0)) ((Znth current_edge l_weight_new 0)) (l_lowcost_cur)) )
+  **  (IntArray.full visited n_pre (replace_Znth (selected) (1) (l_visited)) )
+  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
+  **  ((( &( "edge_weight" ) )) # Int  |-> (Znth current_edge l_weight_new 0))
+  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
+  **  ((( &( "to_node" ) )) # Int  |-> (Znth current_edge l_to_new 0))
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
+  **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
+  **  ((( &( "chosen" ) )) # Int  |-> chosen)
+  **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
+  **  ((( &( "cur_edge" ) )) # Int  |-> current_edge)
   **  ((( &( "from_arr" ) )) # Ptr  |-> from_arr_pre)
   **  ((( &( "to_arr" ) )) # Ptr  |-> to_arr_pre)
   **  ((( &( "weight_arr" ) )) # Ptr  |-> weight_arr_pre)
-  **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
-  **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
-  **  ((( &( "chosen" ) )) # Int  |-> chosen)
-  **  ((( &( "cur_edge" ) )) # Int  |-> current_edge)
-  **  ((( &( "to_node" ) )) # Int  |-> to_node)
-  **  ((( &( "edge_weight" ) )) # Int  |-> edge_weight)
   **  ((( &( "min" ) )) # Int  |-> min)
   **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
@@ -9776,42 +9349,45 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "from_new" ) )) # Ptr  |-> from_new)
   **  (IntArray.full from_new (2 * m_pre ) l_from_new )
   **  ((( &( "to_new" ) )) # Ptr  |-> to_new)
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
   **  ((( &( "weight_new" ) )) # Ptr  |-> weight_new)
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
   **  ((( &( "first" ) )) # Ptr  |-> first)
   **  (IntArray.full first n_pre l_first )
   **  ((( &( "link" ) )) # Ptr  |-> link)
   **  (IntArray.full link (2 * m_pre ) l_link )
   **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
-  **  (IntArray.full lowcost n_pre l_lowcost_next )
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
-  **  (IntArray.full visited n_pre (replace_Znth (selected) (1) (l_visited)) )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.full edge_parent n_pre l_edge_parent_next )
   **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
   **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
   **  ((( &( "heap_cost" ) )) # Ptr  |-> heap_cost)
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map_cur heap_size )
   **  ((( &( "minIndex" ) )) # Int  |->_)
 |--
-  “ (((2 * m_pre ) + 2 ) <= heap_capacity) ” 
-  &&  “ (((2 * m_pre ) + 2 ) <= heap_capacity) ”
+  “ (heap_size < ((2 * m_pre ) + 2 )) ” 
+  &&  “ (((2 * m_pre ) + 2 ) <= heap_capacity) ” 
+  &&  “ (partial_map_update_or_add_pre queue_map_cur (Znth current_edge l_to_new 0) (Znth current_edge l_weight_new 0) ) ” 
+  &&  “ (((2 * m_pre ) + 2 ) <= heap_capacity) ” 
+  &&  “ (heap_size < ((2 * m_pre ) + 2 )) ”
 ).
 
 Definition prim_forward_star_heap_partial_solve_wit_46_pure_split_goal_1 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (current_edge: Z) (selected: Z) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_lowcost_cur: (@list Z)) (l_edge_parent_cur: (@list Z)) (l_lowcost_next: (@list Z)) (l_edge_parent_next: (@list Z)) (queue_map_before: partial_map) (s: St) (s_after: St) (heap_capacity: Z) (heap_size: Z) (chosen: Z) (to_node: Z) (edge_weight: Z) (min: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (queue_map_cur: partial_map) (PreH1 : (min <= INT_MAX)) (PreH2 : (to_node <= INT_MAX)) (PreH3 : (current_edge <= INT_MAX)) (PreH4 : (chosen <= INT_MAX)) (PreH5 : (heap_size <= INT_MAX)) (PreH6 : (heap_capacity <= INT_MAX)) (PreH7 : (m_pre <= INT_MAX)) (PreH8 : (n_pre <= INT_MAX)) (PreH9 : (min >= INT_MIN)) (PreH10 : (edge_weight >= INT_MIN)) (PreH11 : (to_node >= INT_MIN)) (PreH12 : (current_edge >= INT_MIN)) (PreH13 : (chosen >= INT_MIN)) (PreH14 : (heap_size >= INT_MIN)) (PreH15 : (heap_capacity >= INT_MIN)) (PreH16 : (m_pre >= INT_MIN)) (PreH17 : (n_pre >= INT_MIN)) (PreH18 : (2 <= n_pre)) (PreH19 : (n_pre < INT_MAX)) (PreH20 : (1 <= m_pre)) (PreH21 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH22 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH23 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH24 : (src_low_level_spec = 0)) (PreH25 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH26 : (0 <= heap_size)) (PreH27 : (heap_size < heap_capacity)) (PreH28 : (1 <= chosen)) (PreH29 : (chosen <= n_pre)) (PreH30 : (0 <= selected)) (PreH31 : (selected < n_pre)) (PreH32 : (0 <= current_edge)) (PreH33 : (current_edge < (2 * m_pre ))) (PreH34 : (0 <= to_node)) (PreH35 : (to_node < n_pre)) (PreH36 : (INT_MIN <= edge_weight)) (PreH37 : (edge_weight <= INT_MAX)) (PreH38 : (to_node = (Znth (current_edge) (l_to_new) (0)))) (PreH39 : (edge_weight = (Znth (current_edge) (l_weight_new) (0)))) (PreH40 : (edge_weight < (Znth (to_node) (l_lowcost_cur) (0)))) (PreH41 : ((Znth (to_node) ((replace_Znth (selected) (1) (l_visited))) (0)) = 0)) (PreH42 : (l_lowcost_next = (replace_Znth (to_node) (edge_weight) (l_lowcost_cur)))) (PreH43 : (l_edge_parent_next = (replace_Znth (to_node) (current_edge) (l_edge_parent_cur)))) (PreH44 : (partial_map_update_or_add_pre queue_map_cur to_node edge_weight )) (PreH45 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s s_after l_from_new l_first l_link l_to_new l_weight_new l_lowcost (replace_Znth (selected) (1) (l_visited)) l_edge_parent l_lowcost_cur l_edge_parent_cur current_edge selected min queue_map_before l_lowcost_cur l_edge_parent_cur queue_map_cur X_low_level_spec )) (PreH46 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH47 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH48 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH49 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH50 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH51 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH52 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) ,
-  ((( &( "n" ) )) # Int  |-> n_pre)
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s: St) (s_after: St) (l_from_new: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (min: Z) (queue_map_before: partial_map) (l_lowcost_cur: (@list Z)) (l_edge_parent_cur: (@list Z)) (current_edge: Z) (selected: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (queue_map_cur: partial_map) (PreH1 : (min <= INT_MAX)) (PreH2 : (current_edge <= INT_MAX)) (PreH3 : (heap_size <= INT_MAX)) (PreH4 : (chosen <= INT_MAX)) (PreH5 : (heap_capacity <= INT_MAX)) (PreH6 : (m_pre <= INT_MAX)) (PreH7 : (n_pre <= INT_MAX)) (PreH8 : ((Znth current_edge l_to_new 0) <= INT_MAX)) (PreH9 : ((Znth current_edge l_weight_new 0) <= INT_MAX)) (PreH10 : (min >= INT_MIN)) (PreH11 : (current_edge >= INT_MIN)) (PreH12 : (heap_size >= INT_MIN)) (PreH13 : (chosen >= INT_MIN)) (PreH14 : (heap_capacity >= INT_MIN)) (PreH15 : (m_pre >= INT_MIN)) (PreH16 : (n_pre >= INT_MIN)) (PreH17 : ((Znth current_edge l_to_new 0) >= INT_MIN)) (PreH18 : ((Znth current_edge l_weight_new 0) >= INT_MIN)) (PreH19 : ((Znth current_edge l_weight_new 0) < (Znth (Znth current_edge l_to_new 0) l_lowcost_cur 0))) (PreH20 : ((Znth (Znth current_edge l_to_new 0) (replace_Znth (selected) (1) (l_visited)) 0) = 0)) (PreH21 : ((Znth current_edge l_to_new 0) < n_pre)) (PreH22 : (0 <= (Znth current_edge l_to_new 0))) (PreH23 : (current_edge < (2 * m_pre ))) (PreH24 : (0 <= current_edge)) (PreH25 : (current_edge <> (-1))) (PreH26 : (2 <= n_pre)) (PreH27 : (n_pre < INT_MAX)) (PreH28 : (1 <= m_pre)) (PreH29 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH30 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH31 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH32 : (src_low_level_spec = 0)) (PreH33 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH34 : (1 <= chosen)) (PreH35 : (chosen <= n_pre)) (PreH36 : (0 <= heap_size)) (PreH37 : (heap_size <= heap_capacity)) (PreH38 : (0 <= selected)) (PreH39 : (selected < n_pre)) (PreH40 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s s_after l_from_new l_first l_link l_to_new l_weight_new l_lowcost (replace_Znth (selected) (1) (l_visited)) l_edge_parent l_lowcost_cur l_edge_parent_cur current_edge selected min queue_map_before l_lowcost_cur l_edge_parent_cur queue_map_cur X_low_level_spec )) (PreH41 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH42 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH43 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH44 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH45 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH46 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH47 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) ,
+  (IntArray.full edge_parent n_pre (replace_Znth ((Znth current_edge l_to_new 0)) (current_edge) (l_edge_parent_cur)) )
+  **  (IntArray.full lowcost n_pre (replace_Znth ((Znth current_edge l_to_new 0)) ((Znth current_edge l_weight_new 0)) (l_lowcost_cur)) )
+  **  (IntArray.full visited n_pre (replace_Znth (selected) (1) (l_visited)) )
+  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
+  **  ((( &( "edge_weight" ) )) # Int  |-> (Znth current_edge l_weight_new 0))
+  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
+  **  ((( &( "to_node" ) )) # Int  |-> (Znth current_edge l_to_new 0))
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
+  **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
+  **  ((( &( "chosen" ) )) # Int  |-> chosen)
+  **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
+  **  ((( &( "cur_edge" ) )) # Int  |-> current_edge)
   **  ((( &( "from_arr" ) )) # Ptr  |-> from_arr_pre)
   **  ((( &( "to_arr" ) )) # Ptr  |-> to_arr_pre)
   **  ((( &( "weight_arr" ) )) # Ptr  |-> weight_arr_pre)
-  **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
-  **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
-  **  ((( &( "chosen" ) )) # Int  |-> chosen)
-  **  ((( &( "cur_edge" ) )) # Int  |-> current_edge)
-  **  ((( &( "to_node" ) )) # Int  |-> to_node)
-  **  ((( &( "edge_weight" ) )) # Int  |-> edge_weight)
   **  ((( &( "min" ) )) # Int  |-> min)
   **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
@@ -9825,41 +9401,41 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "from_new" ) )) # Ptr  |-> from_new)
   **  (IntArray.full from_new (2 * m_pre ) l_from_new )
   **  ((( &( "to_new" ) )) # Ptr  |-> to_new)
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
   **  ((( &( "weight_new" ) )) # Ptr  |-> weight_new)
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
   **  ((( &( "first" ) )) # Ptr  |-> first)
   **  (IntArray.full first n_pre l_first )
   **  ((( &( "link" ) )) # Ptr  |-> link)
   **  (IntArray.full link (2 * m_pre ) l_link )
   **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
-  **  (IntArray.full lowcost n_pre l_lowcost_next )
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
-  **  (IntArray.full visited n_pre (replace_Znth (selected) (1) (l_visited)) )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.full edge_parent n_pre l_edge_parent_next )
   **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
   **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
   **  ((( &( "heap_cost" ) )) # Ptr  |-> heap_cost)
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map_cur heap_size )
   **  ((( &( "minIndex" ) )) # Int  |->_)
 |--
-  “ (((2 * m_pre ) + 2 ) <= heap_capacity) ”
+  “ (heap_size < ((2 * m_pre ) + 2 )) ”
 .
 
 Definition prim_forward_star_heap_partial_solve_wit_46_pure_split_goal_2 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (current_edge: Z) (selected: Z) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_lowcost_cur: (@list Z)) (l_edge_parent_cur: (@list Z)) (l_lowcost_next: (@list Z)) (l_edge_parent_next: (@list Z)) (queue_map_before: partial_map) (s: St) (s_after: St) (heap_capacity: Z) (heap_size: Z) (chosen: Z) (to_node: Z) (edge_weight: Z) (min: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (queue_map_cur: partial_map) (PreH1 : (min <= INT_MAX)) (PreH2 : (to_node <= INT_MAX)) (PreH3 : (current_edge <= INT_MAX)) (PreH4 : (chosen <= INT_MAX)) (PreH5 : (heap_size <= INT_MAX)) (PreH6 : (heap_capacity <= INT_MAX)) (PreH7 : (m_pre <= INT_MAX)) (PreH8 : (n_pre <= INT_MAX)) (PreH9 : (min >= INT_MIN)) (PreH10 : (edge_weight >= INT_MIN)) (PreH11 : (to_node >= INT_MIN)) (PreH12 : (current_edge >= INT_MIN)) (PreH13 : (chosen >= INT_MIN)) (PreH14 : (heap_size >= INT_MIN)) (PreH15 : (heap_capacity >= INT_MIN)) (PreH16 : (m_pre >= INT_MIN)) (PreH17 : (n_pre >= INT_MIN)) (PreH18 : (2 <= n_pre)) (PreH19 : (n_pre < INT_MAX)) (PreH20 : (1 <= m_pre)) (PreH21 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH22 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH23 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH24 : (src_low_level_spec = 0)) (PreH25 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH26 : (0 <= heap_size)) (PreH27 : (heap_size < heap_capacity)) (PreH28 : (1 <= chosen)) (PreH29 : (chosen <= n_pre)) (PreH30 : (0 <= selected)) (PreH31 : (selected < n_pre)) (PreH32 : (0 <= current_edge)) (PreH33 : (current_edge < (2 * m_pre ))) (PreH34 : (0 <= to_node)) (PreH35 : (to_node < n_pre)) (PreH36 : (INT_MIN <= edge_weight)) (PreH37 : (edge_weight <= INT_MAX)) (PreH38 : (to_node = (Znth (current_edge) (l_to_new) (0)))) (PreH39 : (edge_weight = (Znth (current_edge) (l_weight_new) (0)))) (PreH40 : (edge_weight < (Znth (to_node) (l_lowcost_cur) (0)))) (PreH41 : ((Znth (to_node) ((replace_Znth (selected) (1) (l_visited))) (0)) = 0)) (PreH42 : (l_lowcost_next = (replace_Znth (to_node) (edge_weight) (l_lowcost_cur)))) (PreH43 : (l_edge_parent_next = (replace_Znth (to_node) (current_edge) (l_edge_parent_cur)))) (PreH44 : (partial_map_update_or_add_pre queue_map_cur to_node edge_weight )) (PreH45 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s s_after l_from_new l_first l_link l_to_new l_weight_new l_lowcost (replace_Znth (selected) (1) (l_visited)) l_edge_parent l_lowcost_cur l_edge_parent_cur current_edge selected min queue_map_before l_lowcost_cur l_edge_parent_cur queue_map_cur X_low_level_spec )) (PreH46 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH47 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH48 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH49 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH50 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH51 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH52 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) ,
-  ((( &( "n" ) )) # Int  |-> n_pre)
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s: St) (s_after: St) (l_from_new: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (min: Z) (queue_map_before: partial_map) (l_lowcost_cur: (@list Z)) (l_edge_parent_cur: (@list Z)) (current_edge: Z) (selected: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (queue_map_cur: partial_map) (PreH1 : (min <= INT_MAX)) (PreH2 : (current_edge <= INT_MAX)) (PreH3 : (heap_size <= INT_MAX)) (PreH4 : (chosen <= INT_MAX)) (PreH5 : (heap_capacity <= INT_MAX)) (PreH6 : (m_pre <= INT_MAX)) (PreH7 : (n_pre <= INT_MAX)) (PreH8 : ((Znth current_edge l_to_new 0) <= INT_MAX)) (PreH9 : ((Znth current_edge l_weight_new 0) <= INT_MAX)) (PreH10 : (min >= INT_MIN)) (PreH11 : (current_edge >= INT_MIN)) (PreH12 : (heap_size >= INT_MIN)) (PreH13 : (chosen >= INT_MIN)) (PreH14 : (heap_capacity >= INT_MIN)) (PreH15 : (m_pre >= INT_MIN)) (PreH16 : (n_pre >= INT_MIN)) (PreH17 : ((Znth current_edge l_to_new 0) >= INT_MIN)) (PreH18 : ((Znth current_edge l_weight_new 0) >= INT_MIN)) (PreH19 : ((Znth current_edge l_weight_new 0) < (Znth (Znth current_edge l_to_new 0) l_lowcost_cur 0))) (PreH20 : ((Znth (Znth current_edge l_to_new 0) (replace_Znth (selected) (1) (l_visited)) 0) = 0)) (PreH21 : ((Znth current_edge l_to_new 0) < n_pre)) (PreH22 : (0 <= (Znth current_edge l_to_new 0))) (PreH23 : (current_edge < (2 * m_pre ))) (PreH24 : (0 <= current_edge)) (PreH25 : (current_edge <> (-1))) (PreH26 : (2 <= n_pre)) (PreH27 : (n_pre < INT_MAX)) (PreH28 : (1 <= m_pre)) (PreH29 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH30 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH31 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH32 : (src_low_level_spec = 0)) (PreH33 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH34 : (1 <= chosen)) (PreH35 : (chosen <= n_pre)) (PreH36 : (0 <= heap_size)) (PreH37 : (heap_size <= heap_capacity)) (PreH38 : (0 <= selected)) (PreH39 : (selected < n_pre)) (PreH40 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s s_after l_from_new l_first l_link l_to_new l_weight_new l_lowcost (replace_Znth (selected) (1) (l_visited)) l_edge_parent l_lowcost_cur l_edge_parent_cur current_edge selected min queue_map_before l_lowcost_cur l_edge_parent_cur queue_map_cur X_low_level_spec )) (PreH41 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH42 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH43 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH44 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH45 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH46 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH47 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) ,
+  (IntArray.full edge_parent n_pre (replace_Znth ((Znth current_edge l_to_new 0)) (current_edge) (l_edge_parent_cur)) )
+  **  (IntArray.full lowcost n_pre (replace_Znth ((Znth current_edge l_to_new 0)) ((Znth current_edge l_weight_new 0)) (l_lowcost_cur)) )
+  **  (IntArray.full visited n_pre (replace_Znth (selected) (1) (l_visited)) )
+  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
+  **  ((( &( "edge_weight" ) )) # Int  |-> (Znth current_edge l_weight_new 0))
+  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
+  **  ((( &( "to_node" ) )) # Int  |-> (Znth current_edge l_to_new 0))
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
+  **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
+  **  ((( &( "chosen" ) )) # Int  |-> chosen)
+  **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
+  **  ((( &( "cur_edge" ) )) # Int  |-> current_edge)
   **  ((( &( "from_arr" ) )) # Ptr  |-> from_arr_pre)
   **  ((( &( "to_arr" ) )) # Ptr  |-> to_arr_pre)
   **  ((( &( "weight_arr" ) )) # Ptr  |-> weight_arr_pre)
-  **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
-  **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
-  **  ((( &( "chosen" ) )) # Int  |-> chosen)
-  **  ((( &( "cur_edge" ) )) # Int  |-> current_edge)
-  **  ((( &( "to_node" ) )) # Int  |-> to_node)
-  **  ((( &( "edge_weight" ) )) # Int  |-> edge_weight)
   **  ((( &( "min" ) )) # Int  |-> min)
   **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
@@ -9873,19 +9449,14 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  ((( &( "from_new" ) )) # Ptr  |-> from_new)
   **  (IntArray.full from_new (2 * m_pre ) l_from_new )
   **  ((( &( "to_new" ) )) # Ptr  |-> to_new)
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
   **  ((( &( "weight_new" ) )) # Ptr  |-> weight_new)
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
   **  ((( &( "first" ) )) # Ptr  |-> first)
   **  (IntArray.full first n_pre l_first )
   **  ((( &( "link" ) )) # Ptr  |-> link)
   **  (IntArray.full link (2 * m_pre ) l_link )
   **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
-  **  (IntArray.full lowcost n_pre l_lowcost_next )
   **  ((( &( "visited" ) )) # Ptr  |-> visited)
-  **  (IntArray.full visited n_pre (replace_Znth (selected) (1) (l_visited)) )
   **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
-  **  (IntArray.full edge_parent n_pre l_edge_parent_next )
   **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
   **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
   **  ((( &( "heap_cost" ) )) # Ptr  |-> heap_cost)
@@ -9895,31 +9466,183 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   “ (((2 * m_pre ) + 2 ) <= heap_capacity) ”
 .
 
+Definition prim_forward_star_heap_partial_solve_wit_46_pure_split_goal_3 := 
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s: St) (s_after: St) (l_from_new: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (min: Z) (queue_map_before: partial_map) (l_lowcost_cur: (@list Z)) (l_edge_parent_cur: (@list Z)) (current_edge: Z) (selected: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (queue_map_cur: partial_map) (PreH1 : (min <= INT_MAX)) (PreH2 : (current_edge <= INT_MAX)) (PreH3 : (heap_size <= INT_MAX)) (PreH4 : (chosen <= INT_MAX)) (PreH5 : (heap_capacity <= INT_MAX)) (PreH6 : (m_pre <= INT_MAX)) (PreH7 : (n_pre <= INT_MAX)) (PreH8 : ((Znth current_edge l_to_new 0) <= INT_MAX)) (PreH9 : ((Znth current_edge l_weight_new 0) <= INT_MAX)) (PreH10 : (min >= INT_MIN)) (PreH11 : (current_edge >= INT_MIN)) (PreH12 : (heap_size >= INT_MIN)) (PreH13 : (chosen >= INT_MIN)) (PreH14 : (heap_capacity >= INT_MIN)) (PreH15 : (m_pre >= INT_MIN)) (PreH16 : (n_pre >= INT_MIN)) (PreH17 : ((Znth current_edge l_to_new 0) >= INT_MIN)) (PreH18 : ((Znth current_edge l_weight_new 0) >= INT_MIN)) (PreH19 : ((Znth current_edge l_weight_new 0) < (Znth (Znth current_edge l_to_new 0) l_lowcost_cur 0))) (PreH20 : ((Znth (Znth current_edge l_to_new 0) (replace_Znth (selected) (1) (l_visited)) 0) = 0)) (PreH21 : ((Znth current_edge l_to_new 0) < n_pre)) (PreH22 : (0 <= (Znth current_edge l_to_new 0))) (PreH23 : (current_edge < (2 * m_pre ))) (PreH24 : (0 <= current_edge)) (PreH25 : (current_edge <> (-1))) (PreH26 : (2 <= n_pre)) (PreH27 : (n_pre < INT_MAX)) (PreH28 : (1 <= m_pre)) (PreH29 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH30 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH31 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH32 : (src_low_level_spec = 0)) (PreH33 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH34 : (1 <= chosen)) (PreH35 : (chosen <= n_pre)) (PreH36 : (0 <= heap_size)) (PreH37 : (heap_size <= heap_capacity)) (PreH38 : (0 <= selected)) (PreH39 : (selected < n_pre)) (PreH40 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s s_after l_from_new l_first l_link l_to_new l_weight_new l_lowcost (replace_Znth (selected) (1) (l_visited)) l_edge_parent l_lowcost_cur l_edge_parent_cur current_edge selected min queue_map_before l_lowcost_cur l_edge_parent_cur queue_map_cur X_low_level_spec )) (PreH41 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH42 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH43 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH44 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH45 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH46 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH47 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) ,
+  (IntArray.full edge_parent n_pre (replace_Znth ((Znth current_edge l_to_new 0)) (current_edge) (l_edge_parent_cur)) )
+  **  (IntArray.full lowcost n_pre (replace_Znth ((Znth current_edge l_to_new 0)) ((Znth current_edge l_weight_new 0)) (l_lowcost_cur)) )
+  **  (IntArray.full visited n_pre (replace_Znth (selected) (1) (l_visited)) )
+  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
+  **  ((( &( "edge_weight" ) )) # Int  |-> (Znth current_edge l_weight_new 0))
+  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
+  **  ((( &( "to_node" ) )) # Int  |-> (Znth current_edge l_to_new 0))
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "m" ) )) # Int  |-> m_pre)
+  **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
+  **  ((( &( "chosen" ) )) # Int  |-> chosen)
+  **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
+  **  ((( &( "cur_edge" ) )) # Int  |-> current_edge)
+  **  ((( &( "from_arr" ) )) # Ptr  |-> from_arr_pre)
+  **  ((( &( "to_arr" ) )) # Ptr  |-> to_arr_pre)
+  **  ((( &( "weight_arr" ) )) # Ptr  |-> weight_arr_pre)
+  **  ((( &( "min" ) )) # Int  |-> min)
+  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
+  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
+  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
+  **  ((( &( "out_u" ) )) # Ptr  |-> out_u)
+  **  (IntArray.undef_full out_u (n_pre - 1 ) )
+  **  ((( &( "out_v" ) )) # Ptr  |-> out_v)
+  **  (IntArray.undef_full out_v (n_pre - 1 ) )
+  **  ((( &( "out_wt" ) )) # Ptr  |-> out_wt)
+  **  (IntArray.undef_full out_wt (n_pre - 1 ) )
+  **  ((( &( "from_new" ) )) # Ptr  |-> from_new)
+  **  (IntArray.full from_new (2 * m_pre ) l_from_new )
+  **  ((( &( "to_new" ) )) # Ptr  |-> to_new)
+  **  ((( &( "weight_new" ) )) # Ptr  |-> weight_new)
+  **  ((( &( "first" ) )) # Ptr  |-> first)
+  **  (IntArray.full first n_pre l_first )
+  **  ((( &( "link" ) )) # Ptr  |-> link)
+  **  (IntArray.full link (2 * m_pre ) l_link )
+  **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
+  **  ((( &( "visited" ) )) # Ptr  |-> visited)
+  **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
+  **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
+  **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
+  **  ((( &( "heap_cost" ) )) # Ptr  |-> heap_cost)
+  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map_cur heap_size )
+  **  ((( &( "minIndex" ) )) # Int  |->_)
+|--
+  “ (partial_map_update_or_add_pre queue_map_cur (Znth current_edge l_to_new 0) (Znth current_edge l_weight_new 0) ) ”
+.
+
+Definition prim_forward_star_heap_partial_solve_wit_46_pure_split_goal_4 := 
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s: St) (s_after: St) (l_from_new: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (min: Z) (queue_map_before: partial_map) (l_lowcost_cur: (@list Z)) (l_edge_parent_cur: (@list Z)) (current_edge: Z) (selected: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (queue_map_cur: partial_map) (PreH1 : (min <= INT_MAX)) (PreH2 : (current_edge <= INT_MAX)) (PreH3 : (heap_size <= INT_MAX)) (PreH4 : (chosen <= INT_MAX)) (PreH5 : (heap_capacity <= INT_MAX)) (PreH6 : (m_pre <= INT_MAX)) (PreH7 : (n_pre <= INT_MAX)) (PreH8 : ((Znth current_edge l_to_new 0) <= INT_MAX)) (PreH9 : ((Znth current_edge l_weight_new 0) <= INT_MAX)) (PreH10 : (min >= INT_MIN)) (PreH11 : (current_edge >= INT_MIN)) (PreH12 : (heap_size >= INT_MIN)) (PreH13 : (chosen >= INT_MIN)) (PreH14 : (heap_capacity >= INT_MIN)) (PreH15 : (m_pre >= INT_MIN)) (PreH16 : (n_pre >= INT_MIN)) (PreH17 : ((Znth current_edge l_to_new 0) >= INT_MIN)) (PreH18 : ((Znth current_edge l_weight_new 0) >= INT_MIN)) (PreH19 : ((Znth current_edge l_weight_new 0) < (Znth (Znth current_edge l_to_new 0) l_lowcost_cur 0))) (PreH20 : ((Znth (Znth current_edge l_to_new 0) (replace_Znth (selected) (1) (l_visited)) 0) = 0)) (PreH21 : ((Znth current_edge l_to_new 0) < n_pre)) (PreH22 : (0 <= (Znth current_edge l_to_new 0))) (PreH23 : (current_edge < (2 * m_pre ))) (PreH24 : (0 <= current_edge)) (PreH25 : (current_edge <> (-1))) (PreH26 : (2 <= n_pre)) (PreH27 : (n_pre < INT_MAX)) (PreH28 : (1 <= m_pre)) (PreH29 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH30 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH31 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH32 : (src_low_level_spec = 0)) (PreH33 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH34 : (1 <= chosen)) (PreH35 : (chosen <= n_pre)) (PreH36 : (0 <= heap_size)) (PreH37 : (heap_size <= heap_capacity)) (PreH38 : (0 <= selected)) (PreH39 : (selected < n_pre)) (PreH40 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s s_after l_from_new l_first l_link l_to_new l_weight_new l_lowcost (replace_Znth (selected) (1) (l_visited)) l_edge_parent l_lowcost_cur l_edge_parent_cur current_edge selected min queue_map_before l_lowcost_cur l_edge_parent_cur queue_map_cur X_low_level_spec )) (PreH41 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH42 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH43 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH44 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH45 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH46 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH47 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) ,
+  (IntArray.full edge_parent n_pre (replace_Znth ((Znth current_edge l_to_new 0)) (current_edge) (l_edge_parent_cur)) )
+  **  (IntArray.full lowcost n_pre (replace_Znth ((Znth current_edge l_to_new 0)) ((Znth current_edge l_weight_new 0)) (l_lowcost_cur)) )
+  **  (IntArray.full visited n_pre (replace_Znth (selected) (1) (l_visited)) )
+  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
+  **  ((( &( "edge_weight" ) )) # Int  |-> (Znth current_edge l_weight_new 0))
+  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
+  **  ((( &( "to_node" ) )) # Int  |-> (Znth current_edge l_to_new 0))
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "m" ) )) # Int  |-> m_pre)
+  **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
+  **  ((( &( "chosen" ) )) # Int  |-> chosen)
+  **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
+  **  ((( &( "cur_edge" ) )) # Int  |-> current_edge)
+  **  ((( &( "from_arr" ) )) # Ptr  |-> from_arr_pre)
+  **  ((( &( "to_arr" ) )) # Ptr  |-> to_arr_pre)
+  **  ((( &( "weight_arr" ) )) # Ptr  |-> weight_arr_pre)
+  **  ((( &( "min" ) )) # Int  |-> min)
+  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
+  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
+  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
+  **  ((( &( "out_u" ) )) # Ptr  |-> out_u)
+  **  (IntArray.undef_full out_u (n_pre - 1 ) )
+  **  ((( &( "out_v" ) )) # Ptr  |-> out_v)
+  **  (IntArray.undef_full out_v (n_pre - 1 ) )
+  **  ((( &( "out_wt" ) )) # Ptr  |-> out_wt)
+  **  (IntArray.undef_full out_wt (n_pre - 1 ) )
+  **  ((( &( "from_new" ) )) # Ptr  |-> from_new)
+  **  (IntArray.full from_new (2 * m_pre ) l_from_new )
+  **  ((( &( "to_new" ) )) # Ptr  |-> to_new)
+  **  ((( &( "weight_new" ) )) # Ptr  |-> weight_new)
+  **  ((( &( "first" ) )) # Ptr  |-> first)
+  **  (IntArray.full first n_pre l_first )
+  **  ((( &( "link" ) )) # Ptr  |-> link)
+  **  (IntArray.full link (2 * m_pre ) l_link )
+  **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
+  **  ((( &( "visited" ) )) # Ptr  |-> visited)
+  **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
+  **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
+  **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
+  **  ((( &( "heap_cost" ) )) # Ptr  |-> heap_cost)
+  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map_cur heap_size )
+  **  ((( &( "minIndex" ) )) # Int  |->_)
+|--
+  “ (((2 * m_pre ) + 2 ) <= heap_capacity) ”
+.
+
+Definition prim_forward_star_heap_partial_solve_wit_46_pure_split_goal_5 := 
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s: St) (s_after: St) (l_from_new: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (min: Z) (queue_map_before: partial_map) (l_lowcost_cur: (@list Z)) (l_edge_parent_cur: (@list Z)) (current_edge: Z) (selected: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (queue_map_cur: partial_map) (PreH1 : (min <= INT_MAX)) (PreH2 : (current_edge <= INT_MAX)) (PreH3 : (heap_size <= INT_MAX)) (PreH4 : (chosen <= INT_MAX)) (PreH5 : (heap_capacity <= INT_MAX)) (PreH6 : (m_pre <= INT_MAX)) (PreH7 : (n_pre <= INT_MAX)) (PreH8 : ((Znth current_edge l_to_new 0) <= INT_MAX)) (PreH9 : ((Znth current_edge l_weight_new 0) <= INT_MAX)) (PreH10 : (min >= INT_MIN)) (PreH11 : (current_edge >= INT_MIN)) (PreH12 : (heap_size >= INT_MIN)) (PreH13 : (chosen >= INT_MIN)) (PreH14 : (heap_capacity >= INT_MIN)) (PreH15 : (m_pre >= INT_MIN)) (PreH16 : (n_pre >= INT_MIN)) (PreH17 : ((Znth current_edge l_to_new 0) >= INT_MIN)) (PreH18 : ((Znth current_edge l_weight_new 0) >= INT_MIN)) (PreH19 : ((Znth current_edge l_weight_new 0) < (Znth (Znth current_edge l_to_new 0) l_lowcost_cur 0))) (PreH20 : ((Znth (Znth current_edge l_to_new 0) (replace_Znth (selected) (1) (l_visited)) 0) = 0)) (PreH21 : ((Znth current_edge l_to_new 0) < n_pre)) (PreH22 : (0 <= (Znth current_edge l_to_new 0))) (PreH23 : (current_edge < (2 * m_pre ))) (PreH24 : (0 <= current_edge)) (PreH25 : (current_edge <> (-1))) (PreH26 : (2 <= n_pre)) (PreH27 : (n_pre < INT_MAX)) (PreH28 : (1 <= m_pre)) (PreH29 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH30 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH31 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH32 : (src_low_level_spec = 0)) (PreH33 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH34 : (1 <= chosen)) (PreH35 : (chosen <= n_pre)) (PreH36 : (0 <= heap_size)) (PreH37 : (heap_size <= heap_capacity)) (PreH38 : (0 <= selected)) (PreH39 : (selected < n_pre)) (PreH40 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s s_after l_from_new l_first l_link l_to_new l_weight_new l_lowcost (replace_Znth (selected) (1) (l_visited)) l_edge_parent l_lowcost_cur l_edge_parent_cur current_edge selected min queue_map_before l_lowcost_cur l_edge_parent_cur queue_map_cur X_low_level_spec )) (PreH41 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH42 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH43 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH44 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH45 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH46 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH47 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) ,
+  (IntArray.full edge_parent n_pre (replace_Znth ((Znth current_edge l_to_new 0)) (current_edge) (l_edge_parent_cur)) )
+  **  (IntArray.full lowcost n_pre (replace_Znth ((Znth current_edge l_to_new 0)) ((Znth current_edge l_weight_new 0)) (l_lowcost_cur)) )
+  **  (IntArray.full visited n_pre (replace_Znth (selected) (1) (l_visited)) )
+  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
+  **  ((( &( "edge_weight" ) )) # Int  |-> (Znth current_edge l_weight_new 0))
+  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
+  **  ((( &( "to_node" ) )) # Int  |-> (Znth current_edge l_to_new 0))
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "m" ) )) # Int  |-> m_pre)
+  **  ((( &( "heap_capacity" ) )) # Int  |-> heap_capacity)
+  **  ((( &( "chosen" ) )) # Int  |-> chosen)
+  **  ((( &( "heap_size" ) )) # Int  |-> heap_size)
+  **  ((( &( "cur_edge" ) )) # Int  |-> current_edge)
+  **  ((( &( "from_arr" ) )) # Ptr  |-> from_arr_pre)
+  **  ((( &( "to_arr" ) )) # Ptr  |-> to_arr_pre)
+  **  ((( &( "weight_arr" ) )) # Ptr  |-> weight_arr_pre)
+  **  ((( &( "min" ) )) # Int  |-> min)
+  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
+  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
+  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
+  **  ((( &( "out_u" ) )) # Ptr  |-> out_u)
+  **  (IntArray.undef_full out_u (n_pre - 1 ) )
+  **  ((( &( "out_v" ) )) # Ptr  |-> out_v)
+  **  (IntArray.undef_full out_v (n_pre - 1 ) )
+  **  ((( &( "out_wt" ) )) # Ptr  |-> out_wt)
+  **  (IntArray.undef_full out_wt (n_pre - 1 ) )
+  **  ((( &( "from_new" ) )) # Ptr  |-> from_new)
+  **  (IntArray.full from_new (2 * m_pre ) l_from_new )
+  **  ((( &( "to_new" ) )) # Ptr  |-> to_new)
+  **  ((( &( "weight_new" ) )) # Ptr  |-> weight_new)
+  **  ((( &( "first" ) )) # Ptr  |-> first)
+  **  (IntArray.full first n_pre l_first )
+  **  ((( &( "link" ) )) # Ptr  |-> link)
+  **  (IntArray.full link (2 * m_pre ) l_link )
+  **  ((( &( "lowcost" ) )) # Ptr  |-> lowcost)
+  **  ((( &( "visited" ) )) # Ptr  |-> visited)
+  **  ((( &( "edge_parent" ) )) # Ptr  |-> edge_parent)
+  **  ((( &( "heap_pos" ) )) # Ptr  |-> heap_pos)
+  **  ((( &( "heap_vertex" ) )) # Ptr  |-> heap_vertex)
+  **  ((( &( "heap_cost" ) )) # Ptr  |-> heap_cost)
+  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map_cur heap_size )
+  **  ((( &( "minIndex" ) )) # Int  |->_)
+|--
+  “ (heap_size < ((2 * m_pre ) + 2 )) ”
+.
+
 Definition prim_forward_star_heap_partial_solve_wit_46_aux := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (current_edge: Z) (selected: Z) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_lowcost_cur: (@list Z)) (l_edge_parent_cur: (@list Z)) (l_lowcost_next: (@list Z)) (l_edge_parent_next: (@list Z)) (queue_map_before: partial_map) (s: St) (s_after: St) (heap_capacity: Z) (heap_size: Z) (chosen: Z) (to_node: Z) (edge_weight: Z) (min: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (queue_map_cur: partial_map) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH5 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH6 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH7 : (src_low_level_spec = 0)) (PreH8 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH9 : (0 <= heap_size)) (PreH10 : (heap_size < heap_capacity)) (PreH11 : (1 <= chosen)) (PreH12 : (chosen <= n_pre)) (PreH13 : (0 <= selected)) (PreH14 : (selected < n_pre)) (PreH15 : (0 <= current_edge)) (PreH16 : (current_edge < (2 * m_pre ))) (PreH17 : (0 <= to_node)) (PreH18 : (to_node < n_pre)) (PreH19 : (INT_MIN <= edge_weight)) (PreH20 : (edge_weight <= INT_MAX)) (PreH21 : (to_node = (Znth (current_edge) (l_to_new) (0)))) (PreH22 : (edge_weight = (Znth (current_edge) (l_weight_new) (0)))) (PreH23 : (edge_weight < (Znth (to_node) (l_lowcost_cur) (0)))) (PreH24 : ((Znth (to_node) ((replace_Znth (selected) (1) (l_visited))) (0)) = 0)) (PreH25 : (l_lowcost_next = (replace_Znth (to_node) (edge_weight) (l_lowcost_cur)))) (PreH26 : (l_edge_parent_next = (replace_Znth (to_node) (current_edge) (l_edge_parent_cur)))) (PreH27 : (partial_map_update_or_add_pre queue_map_cur to_node edge_weight )) (PreH28 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s s_after l_from_new l_first l_link l_to_new l_weight_new l_lowcost (replace_Znth (selected) (1) (l_visited)) l_edge_parent l_lowcost_cur l_edge_parent_cur current_edge selected min queue_map_before l_lowcost_cur l_edge_parent_cur queue_map_cur X_low_level_spec )) (PreH29 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH30 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH31 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH32 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH33 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH34 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH35 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) ,
-  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (s: St) (s_after: St) (l_from_new: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (min: Z) (queue_map_before: partial_map) (l_lowcost_cur: (@list Z)) (l_edge_parent_cur: (@list Z)) (current_edge: Z) (selected: Z) (heap_size: Z) (chosen: Z) (heap_capacity: Z) (queue_map_cur: partial_map) (PreH1 : ((Znth current_edge l_weight_new 0) < (Znth (Znth current_edge l_to_new 0) l_lowcost_cur 0))) (PreH2 : ((Znth (Znth current_edge l_to_new 0) (replace_Znth (selected) (1) (l_visited)) 0) = 0)) (PreH3 : ((Znth current_edge l_to_new 0) < n_pre)) (PreH4 : (0 <= (Znth current_edge l_to_new 0))) (PreH5 : (current_edge < (2 * m_pre ))) (PreH6 : (0 <= current_edge)) (PreH7 : (current_edge <> (-1))) (PreH8 : (2 <= n_pre)) (PreH9 : (n_pre < INT_MAX)) (PreH10 : (1 <= m_pre)) (PreH11 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH12 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH13 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH14 : (src_low_level_spec = 0)) (PreH15 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH16 : (1 <= chosen)) (PreH17 : (chosen <= n_pre)) (PreH18 : (0 <= heap_size)) (PreH19 : (heap_size <= heap_capacity)) (PreH20 : (0 <= selected)) (PreH21 : (selected < n_pre)) (PreH22 : (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s s_after l_from_new l_first l_link l_to_new l_weight_new l_lowcost (replace_Znth (selected) (1) (l_visited)) l_edge_parent l_lowcost_cur l_edge_parent_cur current_edge selected min queue_map_before l_lowcost_cur l_edge_parent_cur queue_map_cur X_low_level_spec )) (PreH23 : forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre)))) (PreH24 : forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH25 : forall (k_3: Z) , (((0 <= k_3) /\ (k_3 < m_pre)) -> ((0 <= (Znth (k_3) (lw_low_level_spec) (0))) /\ ((Znth (k_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH26 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH27 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH28 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH29 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) ,
+  (IntArray.full edge_parent n_pre (replace_Znth ((Znth current_edge l_to_new 0)) (current_edge) (l_edge_parent_cur)) )
+  **  (IntArray.full lowcost n_pre (replace_Znth ((Znth current_edge l_to_new 0)) ((Znth current_edge l_weight_new 0)) (l_lowcost_cur)) )
+  **  (IntArray.full visited n_pre (replace_Znth (selected) (1) (l_visited)) )
+  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
+  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
+  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
   **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
   **  (IntArray.undef_full out_u (n_pre - 1 ) )
   **  (IntArray.undef_full out_v (n_pre - 1 ) )
   **  (IntArray.undef_full out_wt (n_pre - 1 ) )
   **  (IntArray.full from_new (2 * m_pre ) l_from_new )
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
   **  (IntArray.full first n_pre l_first )
   **  (IntArray.full link (2 * m_pre ) l_link )
-  **  (IntArray.full lowcost n_pre l_lowcost_next )
-  **  (IntArray.full visited n_pre (replace_Znth (selected) (1) (l_visited)) )
-  **  (IntArray.full edge_parent n_pre l_edge_parent_next )
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map_cur heap_size )
 |--
   “ (0 <= heap_size) ” 
   &&  “ (heap_size < heap_capacity) ” 
   &&  “ (heap_capacity <= heap_capacity) ” 
-  &&  “ (0 <= to_node) ” 
-  &&  “ (to_node < n_pre) ” 
-  &&  “ (partial_map_update_or_add_pre queue_map_cur to_node edge_weight ) ” 
+  &&  “ (0 <= (Znth current_edge l_to_new 0)) ” 
+  &&  “ ((Znth current_edge l_to_new 0) < n_pre) ” 
+  &&  “ (partial_map_update_or_add_pre queue_map_cur (Znth current_edge l_to_new 0) (Znth current_edge l_weight_new 0) ) ” 
   &&  “ (((2 * m_pre ) + 2 ) <= heap_capacity) ” 
+  &&  “ (heap_size < ((2 * m_pre ) + 2 )) ” 
+  &&  “ ((Znth current_edge l_weight_new 0) < (Znth (Znth current_edge l_to_new 0) l_lowcost_cur 0)) ” 
+  &&  “ ((Znth (Znth current_edge l_to_new 0) (replace_Znth (selected) (1) (l_visited)) 0) = 0) ” 
+  &&  “ ((Znth current_edge l_to_new 0) < n_pre) ” 
+  &&  “ (0 <= (Znth current_edge l_to_new 0)) ” 
+  &&  “ (current_edge < (2 * m_pre )) ” 
+  &&  “ (0 <= current_edge) ” 
+  &&  “ (current_edge <> (-1)) ” 
   &&  “ (2 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (1 <= m_pre) ” 
@@ -9928,25 +9651,12 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ (((2 * m_pre ) + 2 ) <= 100000) ” 
   &&  “ (src_low_level_spec = 0) ” 
   &&  “ (heap_capacity = ((2 * m_pre ) + 2 )) ” 
-  &&  “ (0 <= heap_size) ” 
-  &&  “ (heap_size < heap_capacity) ” 
   &&  “ (1 <= chosen) ” 
   &&  “ (chosen <= n_pre) ” 
+  &&  “ (0 <= heap_size) ” 
+  &&  “ (heap_size <= heap_capacity) ” 
   &&  “ (0 <= selected) ” 
   &&  “ (selected < n_pre) ” 
-  &&  “ (0 <= current_edge) ” 
-  &&  “ (current_edge < (2 * m_pre )) ” 
-  &&  “ (0 <= to_node) ” 
-  &&  “ (to_node < n_pre) ” 
-  &&  “ (INT_MIN <= edge_weight) ” 
-  &&  “ (edge_weight <= INT_MAX) ” 
-  &&  “ (to_node = (Znth (current_edge) (l_to_new) (0))) ” 
-  &&  “ (edge_weight = (Znth (current_edge) (l_weight_new) (0))) ” 
-  &&  “ (edge_weight < (Znth (to_node) (l_lowcost_cur) (0))) ” 
-  &&  “ ((Znth (to_node) ((replace_Znth (selected) (1) (l_visited))) (0)) = 0) ” 
-  &&  “ (l_lowcost_next = (replace_Znth (to_node) (edge_weight) (l_lowcost_cur))) ” 
-  &&  “ (l_edge_parent_next = (replace_Znth (to_node) (current_edge) (l_edge_parent_cur))) ” 
-  &&  “ (partial_map_update_or_add_pre queue_map_cur to_node edge_weight ) ” 
   &&  “ (prim_heap_scan_state g_low_level_spec src_low_level_spec chosen s s_after l_from_new l_first l_link l_to_new l_weight_new l_lowcost (replace_Znth (selected) (1) (l_visited)) l_edge_parent l_lowcost_cur l_edge_parent_cur current_edge selected min queue_map_before l_lowcost_cur l_edge_parent_cur queue_map_cur X_low_level_spec ) ” 
   &&  “ forall (k: Z) , (((0 <= k) /\ (k < m_pre)) -> ((0 <= (Znth (k) (lf_low_level_spec) (0))) /\ ((Znth (k) (lf_low_level_spec) (0)) < n_pre))) ” 
   &&  “ forall (k_2: Z) , (((0 <= k_2) /\ (k_2 < m_pre)) -> ((0 <= (Znth (k_2) (lt_low_level_spec) (0))) /\ ((Znth (k_2) (lt_low_level_spec) (0)) < n_pre))) ” 
@@ -9956,6 +9666,11 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   &&  “ (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new ) ” 
   &&  “ (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link ) ”
   &&  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map_cur heap_size )
+  **  (IntArray.full edge_parent n_pre (replace_Znth ((Znth current_edge l_to_new 0)) (current_edge) (l_edge_parent_cur)) )
+  **  (IntArray.full lowcost n_pre (replace_Znth ((Znth current_edge l_to_new 0)) ((Znth current_edge l_weight_new 0)) (l_lowcost_cur)) )
+  **  (IntArray.full visited n_pre (replace_Znth (selected) (1) (l_visited)) )
+  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
+  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
   **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
   **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
@@ -9963,13 +9678,8 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (IntArray.undef_full out_v (n_pre - 1 ) )
   **  (IntArray.undef_full out_wt (n_pre - 1 ) )
   **  (IntArray.full from_new (2 * m_pre ) l_from_new )
-  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
-  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
   **  (IntArray.full first n_pre l_first )
   **  (IntArray.full link (2 * m_pre ) l_link )
-  **  (IntArray.full lowcost n_pre l_lowcost_next )
-  **  (IntArray.full visited n_pre (replace_Znth (selected) (1) (l_visited)) )
-  **  (IntArray.full edge_parent n_pre l_edge_parent_next )
 .
 
 Definition prim_forward_star_heap_partial_solve_wit_46 := prim_forward_star_heap_partial_solve_wit_46_pure -> prim_forward_star_heap_partial_solve_wit_46_aux.
@@ -10299,6 +10009,79 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
 .
 
 Definition prim_forward_star_heap_partial_solve_wit_52 := 
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (heap_size: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (rg: G) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (PreH1 : (out_i < n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (1 <= out_i)) (PreH11 : (out_i <= n_pre)) (PreH12 : (mst_idx <= (n_pre - 1 ))) (PreH13 : (mst_idx = (out_i - 1 ))) (PreH14 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH17 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH18 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH19 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH20 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH21 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH22 : (growing_subgraph_state g_low_level_spec s )) (PreH23 : (visited_matches_state g_low_level_spec s l_visited )) (PreH24 : ((state_vertex_count (s)) = n_pre)) (PreH25 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH26 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH27 : (prim_state_graph_matches rg s )) (PreH28 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH29 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH30 : ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent) (0))) /\ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH31 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
+  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
+  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
+  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
+  **  (IntArray.seg out_u 0 mst_idx l_out_u )
+  **  (IntArray.undef_seg out_u mst_idx (n_pre - 1 ) )
+  **  (IntArray.seg out_v 0 mst_idx l_out_v )
+  **  (IntArray.undef_seg out_v mst_idx (n_pre - 1 ) )
+  **  (IntArray.seg out_wt 0 mst_idx l_out_wt )
+  **  (IntArray.undef_seg out_wt mst_idx (n_pre - 1 ) )
+  **  (IntArray.full from_new (2 * m_pre ) l_from_new )
+  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
+  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
+  **  (IntArray.full first n_pre l_first )
+  **  (IntArray.full link (2 * m_pre ) l_link )
+  **  (IntArray.full lowcost n_pre l_lowcost )
+  **  (IntArray.full visited n_pre l_visited )
+  **  (IntArray.full edge_parent n_pre l_edge_parent )
+  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
+|--
+  “ (out_i < n_pre) ” 
+  &&  “ (2 <= n_pre) ” 
+  &&  “ (n_pre < INT_MAX) ” 
+  &&  “ (1 <= m_pre) ” 
+  &&  “ (((2 * m_pre ) + 2 ) < INT_MAX) ” 
+  &&  “ (((4 * m_pre ) + 6 ) < INT_MAX) ” 
+  &&  “ (((2 * m_pre ) + 2 ) <= 100000) ” 
+  &&  “ (src_low_level_spec = 0) ” 
+  &&  “ (heap_capacity = ((2 * m_pre ) + 2 )) ” 
+  &&  “ (1 <= out_i) ” 
+  &&  “ (out_i <= n_pre) ” 
+  &&  “ (mst_idx <= (n_pre - 1 )) ” 
+  &&  “ (mst_idx = (out_i - 1 )) ” 
+  &&  “ forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre))) ” 
+  &&  “ forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre))) ” 
+  &&  “ forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000))) ” 
+  &&  “ (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec ) ” 
+  &&  “ (PrimEnv g_low_level_spec src_low_level_spec ) ” 
+  &&  “ (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new ) ” 
+  &&  “ (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link ) ” 
+  &&  “ (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec ) ” 
+  &&  “ (growing_subgraph_state g_low_level_spec s ) ” 
+  &&  “ (visited_matches_state g_low_level_spec s l_visited ) ” 
+  &&  “ ((state_vertex_count (s)) = n_pre) ” 
+  &&  “ (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent ) ” 
+  &&  “ (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 ) ” 
+  &&  “ (prim_state_graph_matches rg s ) ” 
+  &&  “ (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new ) ” 
+  &&  “ forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre )))) ” 
+  &&  “ ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent) (0))) /\ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre )))) ” 
+  &&  “ (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec ) ”
+  &&  (((edge_parent + (out_i * sizeof(INT)))) # Int  |-> (Znth out_i l_edge_parent 0))
+  **  (IntArray.missing_i edge_parent out_i 0 n_pre l_edge_parent )
+  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
+  **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
+  **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
+  **  (IntArray.seg out_u 0 mst_idx l_out_u )
+  **  (IntArray.undef_seg out_u mst_idx (n_pre - 1 ) )
+  **  (IntArray.seg out_v 0 mst_idx l_out_v )
+  **  (IntArray.undef_seg out_v mst_idx (n_pre - 1 ) )
+  **  (IntArray.seg out_wt 0 mst_idx l_out_wt )
+  **  (IntArray.undef_seg out_wt mst_idx (n_pre - 1 ) )
+  **  (IntArray.full from_new (2 * m_pre ) l_from_new )
+  **  (IntArray.full to_new (2 * m_pre ) l_to_new )
+  **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
+  **  (IntArray.full first n_pre l_first )
+  **  (IntArray.full link (2 * m_pre ) l_link )
+  **  (IntArray.full lowcost n_pre l_lowcost )
+  **  (IntArray.full visited n_pre l_visited )
+  **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
+.
+
+Definition prim_forward_star_heap_partial_solve_wit_53 := 
 forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (queue_map: partial_map) (s: St) (rg: G) (edge_id: Z) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (0 <= edge_id)) (PreH2 : (edge_id < (2 * m_pre ))) (PreH3 : (mst_idx < (n_pre - 1 ))) (PreH4 : (edge_id = (Znth (out_i) (l_edge_parent) (0)))) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (1 <= m_pre)) (PreH8 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH9 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH10 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH11 : (src_low_level_spec = 0)) (PreH12 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH13 : (1 <= out_i)) (PreH14 : (out_i < n_pre)) (PreH15 : (mst_idx <= (n_pre - 1 ))) (PreH16 : (mst_idx = (out_i - 1 ))) (PreH17 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH20 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH21 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH22 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH23 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH24 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH25 : (growing_subgraph_state g_low_level_spec s )) (PreH26 : (visited_matches_state g_low_level_spec s l_visited )) (PreH27 : ((state_vertex_count (s)) = n_pre)) (PreH28 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH29 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH30 : (prim_state_graph_matches rg s )) (PreH31 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH32 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH33 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
   (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
@@ -10381,7 +10164,7 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
 .
 
-Definition prim_forward_star_heap_partial_solve_wit_53 := 
+Definition prim_forward_star_heap_partial_solve_wit_54 := 
 forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (queue_map: partial_map) (s: St) (rg: G) (edge_id: Z) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (0 <= edge_id)) (PreH2 : (edge_id < (2 * m_pre ))) (PreH3 : (mst_idx < (n_pre - 1 ))) (PreH4 : (edge_id = (Znth (out_i) (l_edge_parent) (0)))) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (1 <= m_pre)) (PreH8 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH9 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH10 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH11 : (src_low_level_spec = 0)) (PreH12 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH13 : (1 <= out_i)) (PreH14 : (out_i < n_pre)) (PreH15 : (mst_idx <= (n_pre - 1 ))) (PreH16 : (mst_idx = (out_i - 1 ))) (PreH17 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH20 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH21 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH22 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH23 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH24 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH25 : (growing_subgraph_state g_low_level_spec s )) (PreH26 : (visited_matches_state g_low_level_spec s l_visited )) (PreH27 : ((state_vertex_count (s)) = n_pre)) (PreH28 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH29 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH30 : (prim_state_graph_matches rg s )) (PreH31 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH32 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH33 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
   (IntArray.full edge_parent n_pre l_edge_parent )
   **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
@@ -10456,7 +10239,7 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
 .
 
-Definition prim_forward_star_heap_partial_solve_wit_54 := 
+Definition prim_forward_star_heap_partial_solve_wit_55 := 
 forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (queue_map: partial_map) (s: St) (rg: G) (edge_id: Z) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (0 <= edge_id)) (PreH2 : (edge_id < (2 * m_pre ))) (PreH3 : (mst_idx < (n_pre - 1 ))) (PreH4 : (edge_id = (Znth (out_i) (l_edge_parent) (0)))) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (1 <= m_pre)) (PreH8 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH9 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH10 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH11 : (src_low_level_spec = 0)) (PreH12 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH13 : (1 <= out_i)) (PreH14 : (out_i < n_pre)) (PreH15 : (mst_idx <= (n_pre - 1 ))) (PreH16 : (mst_idx = (out_i - 1 ))) (PreH17 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH20 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH21 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH22 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH23 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH24 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH25 : (growing_subgraph_state g_low_level_spec s )) (PreH26 : (visited_matches_state g_low_level_spec s l_visited )) (PreH27 : ((state_vertex_count (s)) = n_pre)) (PreH28 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH29 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH30 : (prim_state_graph_matches rg s )) (PreH31 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH32 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH33 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
   (IntArray.full to_new (2 * m_pre ) l_to_new )
   **  (IntArray.full edge_parent n_pre l_edge_parent )
@@ -10531,7 +10314,7 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
 .
 
-Definition prim_forward_star_heap_partial_solve_wit_55 := 
+Definition prim_forward_star_heap_partial_solve_wit_56 := 
 forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (queue_map: partial_map) (s: St) (rg: G) (edge_id: Z) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (0 <= edge_id)) (PreH2 : (edge_id < (2 * m_pre ))) (PreH3 : (mst_idx < (n_pre - 1 ))) (PreH4 : (edge_id = (Znth (out_i) (l_edge_parent) (0)))) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (1 <= m_pre)) (PreH8 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH9 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH10 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH11 : (src_low_level_spec = 0)) (PreH12 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH13 : (1 <= out_i)) (PreH14 : (out_i < n_pre)) (PreH15 : (mst_idx <= (n_pre - 1 ))) (PreH16 : (mst_idx = (out_i - 1 ))) (PreH17 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH20 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH21 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH22 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH23 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH24 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH25 : (growing_subgraph_state g_low_level_spec s )) (PreH26 : (visited_matches_state g_low_level_spec s l_visited )) (PreH27 : ((state_vertex_count (s)) = n_pre)) (PreH28 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH29 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH30 : (prim_state_graph_matches rg s )) (PreH31 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH32 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH33 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
   (IntArray.seg out_v 0 (mst_idx + 1 ) (app (l_out_v) ((cons ((Znth edge_id l_to_new 0)) ((@nil Z))))) )
   **  (IntArray.undef_seg out_v (mst_idx + 1 ) (n_pre - 1 ) )
@@ -10606,7 +10389,7 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
 .
 
-Definition prim_forward_star_heap_partial_solve_wit_56 := 
+Definition prim_forward_star_heap_partial_solve_wit_57 := 
 forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (queue_map: partial_map) (s: St) (rg: G) (edge_id: Z) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (0 <= edge_id)) (PreH2 : (edge_id < (2 * m_pre ))) (PreH3 : (mst_idx < (n_pre - 1 ))) (PreH4 : (edge_id = (Znth (out_i) (l_edge_parent) (0)))) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (1 <= m_pre)) (PreH8 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH9 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH10 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH11 : (src_low_level_spec = 0)) (PreH12 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH13 : (1 <= out_i)) (PreH14 : (out_i < n_pre)) (PreH15 : (mst_idx <= (n_pre - 1 ))) (PreH16 : (mst_idx = (out_i - 1 ))) (PreH17 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH18 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH19 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH20 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH21 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH22 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH23 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH24 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH25 : (growing_subgraph_state g_low_level_spec s )) (PreH26 : (visited_matches_state g_low_level_spec s l_visited )) (PreH27 : ((state_vertex_count (s)) = n_pre)) (PreH28 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH29 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH30 : (prim_state_graph_matches rg s )) (PreH31 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH32 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH33 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
   (IntArray.full weight_new (2 * m_pre ) l_weight_new )
   **  (IntArray.seg out_v 0 (mst_idx + 1 ) (app (l_out_v) ((cons ((Znth edge_id l_to_new 0)) ((@nil Z))))) )
@@ -10681,14 +10464,17 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
 .
 
-Definition prim_forward_star_heap_partial_solve_wit_57 := 
-forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (lru: (@list Z)) (lrv: (@list Z)) (lrwt: (@list Z)) (rg: G) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (l_first: (@list Z)) (l_link: (@list Z)) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (s: St) (heap_capacity: Z) (out_u: Z) (out_v: Z) (out_wt: Z) (from_new: Z) (to_new: Z) (weight_new: Z) (first: Z) (link: Z) (lowcost: Z) (visited: Z) (edge_parent: Z) (heap_size: Z) (heap_pos: Z) (heap_vertex: Z) (heap_cost: Z) (PreH1 : (safeExec (prim_state_graph_matches (rg)) (return (tt)) X_low_level_spec )) (PreH2 : (prim_result_graph_matches_array n_pre lru lrv lrwt g_low_level_spec rg )) (PreH3 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH4 : (0 <= heap_capacity)) (PreH5 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) ,
-  (IntArray.full out_u (n_pre - 1 ) lru )
-  **  (IntArray.full out_v (n_pre - 1 ) lrv )
-  **  (IntArray.full out_wt (n_pre - 1 ) lrwt )
-  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
+Definition prim_forward_star_heap_partial_solve_wit_58 := 
+forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (src_low_level_spec: Z) (g_low_level_spec: G) (lw_low_level_spec: (@list Z)) (lt_low_level_spec: (@list Z)) (lf_low_level_spec: (@list Z)) (heap_cost: Z) (heap_vertex: Z) (heap_pos: Z) (heap_size: Z) (edge_parent: Z) (visited: Z) (lowcost: Z) (link: Z) (first: Z) (weight_new: Z) (to_new: Z) (from_new: Z) (out_wt: Z) (out_v: Z) (out_u: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_wt: (@list Z)) (rg: G) (s: St) (l_lowcost: (@list Z)) (l_visited: (@list Z)) (l_edge_parent: (@list Z)) (queue_map: partial_map) (l_first: (@list Z)) (l_link: (@list Z)) (l_from_new: (@list Z)) (l_to_new: (@list Z)) (l_weight_new: (@list Z)) (mst_idx: Z) (out_i: Z) (heap_capacity: Z) (PreH1 : (out_i >= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre < INT_MAX)) (PreH4 : (1 <= m_pre)) (PreH5 : (((2 * m_pre ) + 2 ) < INT_MAX)) (PreH6 : (((4 * m_pre ) + 6 ) < INT_MAX)) (PreH7 : (((2 * m_pre ) + 2 ) <= 100000)) (PreH8 : (src_low_level_spec = 0)) (PreH9 : (heap_capacity = ((2 * m_pre ) + 2 ))) (PreH10 : (1 <= out_i)) (PreH11 : (out_i <= n_pre)) (PreH12 : (mst_idx <= (n_pre - 1 ))) (PreH13 : (mst_idx = (out_i - 1 ))) (PreH14 : forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre)))) (PreH15 : forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre)))) (PreH16 : forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000)))) (PreH17 : (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec )) (PreH18 : (PrimEnv g_low_level_spec src_low_level_spec )) (PreH19 : (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new )) (PreH20 : (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link )) (PreH21 : (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec )) (PreH22 : (growing_subgraph_state g_low_level_spec s )) (PreH23 : (visited_matches_state g_low_level_spec s l_visited )) (PreH24 : ((state_vertex_count (s)) = n_pre)) (PreH25 : (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent )) (PreH26 : (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 )) (PreH27 : (prim_state_graph_matches rg s )) (PreH28 : (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new )) (PreH29 : forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH30 : ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent) (0))) /\ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre ))))) (PreH31 : (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec )) ,
+  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
   **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
+  **  (IntArray.seg out_u 0 mst_idx l_out_u )
+  **  (IntArray.undef_seg out_u mst_idx (n_pre - 1 ) )
+  **  (IntArray.seg out_v 0 mst_idx l_out_v )
+  **  (IntArray.undef_seg out_v mst_idx (n_pre - 1 ) )
+  **  (IntArray.seg out_wt 0 mst_idx l_out_wt )
+  **  (IntArray.undef_seg out_wt mst_idx (n_pre - 1 ) )
   **  (IntArray.full from_new (2 * m_pre ) l_from_new )
   **  (IntArray.full to_new (2 * m_pre ) l_to_new )
   **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
@@ -10699,17 +10485,43 @@ forall (m_pre: Z) (n_pre: Z) (weight_arr_pre: Z) (to_arr_pre: Z) (from_arr_pre: 
   **  (IntArray.full edge_parent n_pre l_edge_parent )
   **  (store_heap heap_cost heap_vertex heap_pos n_pre heap_capacity queue_map heap_size )
 |--
-  “ (safeExec (prim_state_graph_matches (rg)) (return (tt)) X_low_level_spec ) ” 
-  &&  “ (prim_result_graph_matches_array n_pre lru lrv lrwt g_low_level_spec rg ) ” 
+  “ (out_i >= n_pre) ” 
+  &&  “ (2 <= n_pre) ” 
+  &&  “ (n_pre < INT_MAX) ” 
+  &&  “ (1 <= m_pre) ” 
+  &&  “ (((2 * m_pre ) + 2 ) < INT_MAX) ” 
+  &&  “ (((4 * m_pre ) + 6 ) < INT_MAX) ” 
+  &&  “ (((2 * m_pre ) + 2 ) <= 100000) ” 
+  &&  “ (src_low_level_spec = 0) ” 
   &&  “ (heap_capacity = ((2 * m_pre ) + 2 )) ” 
-  &&  “ (0 <= heap_capacity) ” 
-  &&  “ (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec ) ”
-  &&  (IntArray.full out_u (n_pre - 1 ) lru )
-  **  (IntArray.full out_v (n_pre - 1 ) lrv )
-  **  (IntArray.full out_wt (n_pre - 1 ) lrwt )
-  **  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
+  &&  “ (1 <= out_i) ” 
+  &&  “ (out_i <= n_pre) ” 
+  &&  “ (mst_idx <= (n_pre - 1 )) ” 
+  &&  “ (mst_idx = (out_i - 1 )) ” 
+  &&  “ forall (a: Z) , (((0 <= a) /\ (a < m_pre)) -> ((0 <= (Znth (a) (lf_low_level_spec) (0))) /\ ((Znth (a) (lf_low_level_spec) (0)) < n_pre))) ” 
+  &&  “ forall (a_2: Z) , (((0 <= a_2) /\ (a_2 < m_pre)) -> ((0 <= (Znth (a_2) (lt_low_level_spec) (0))) /\ ((Znth (a_2) (lt_low_level_spec) (0)) < n_pre))) ” 
+  &&  “ forall (a_3: Z) , (((0 <= a_3) /\ (a_3 < m_pre)) -> ((0 <= (Znth (a_3) (lw_low_level_spec) (0))) /\ ((Znth (a_3) (lw_low_level_spec) (0)) < 1000000000))) ” 
+  &&  “ (array_graph n_pre m_pre lf_low_level_spec lt_low_level_spec lw_low_level_spec g_low_level_spec ) ” 
+  &&  “ (PrimEnv g_low_level_spec src_low_level_spec ) ” 
+  &&  “ (directed_array_graph g_low_level_spec l_from_new l_to_new l_weight_new ) ” 
+  &&  “ (first_link_matches_vertex_directed_edges g_low_level_spec l_from_new l_first l_link ) ” 
+  &&  “ (prim_heap_done_state g_low_level_spec src_low_level_spec s l_lowcost l_visited l_edge_parent queue_map X_low_level_spec ) ” 
+  &&  “ (growing_subgraph_state g_low_level_spec s ) ” 
+  &&  “ (visited_matches_state g_low_level_spec s l_visited ) ” 
+  &&  “ ((state_vertex_count (s)) = n_pre) ” 
+  &&  “ (selected_edges_match_state g_low_level_spec src_low_level_spec s l_edge_parent ) ” 
+  &&  “ (lowcost_parent_match g_low_level_spec s l_lowcost l_edge_parent 1000000000 ) ” 
+  &&  “ (prim_state_graph_matches rg s ) ” 
+  &&  “ (prim_result_graph_matches_array_prefix n_pre mst_idx l_out_u l_out_v l_out_wt g_low_level_spec rg l_edge_parent l_from_new l_to_new l_weight_new ) ” 
+  &&  “ forall (v: Z) , (((1 <= v) /\ (v < n_pre)) -> ((0 <= (Znth (v) (l_edge_parent) (0))) /\ ((Znth (v) (l_edge_parent) (0)) < (2 * m_pre )))) ” 
+  &&  “ ((out_i < n_pre) -> ((0 <= (Znth (out_i) (l_edge_parent) (0))) /\ ((Znth (out_i) (l_edge_parent) (0)) < (2 * m_pre )))) ” 
+  &&  “ (safeExec (prim_state_is (s)) (return (tt)) X_low_level_spec ) ”
+  &&  (IntArray.full from_arr_pre m_pre lf_low_level_spec )
   **  (IntArray.full to_arr_pre m_pre lt_low_level_spec )
   **  (IntArray.full weight_arr_pre m_pre lw_low_level_spec )
+  **  (IntArray.seg out_u 0 mst_idx l_out_u )
+  **  (IntArray.seg out_v 0 mst_idx l_out_v )
+  **  (IntArray.seg out_wt 0 mst_idx l_out_wt )
   **  (IntArray.full from_new (2 * m_pre ) l_from_new )
   **  (IntArray.full to_new (2 * m_pre ) l_to_new )
   **  (IntArray.full weight_new (2 * m_pre ) l_weight_new )
@@ -10909,6 +10721,8 @@ Axiom proof_of_prim_forward_star_heap_safety_wit_94 : prim_forward_star_heap_saf
 Axiom proof_of_prim_forward_star_heap_safety_wit_95 : prim_forward_star_heap_safety_wit_95.
 Axiom proof_of_prim_forward_star_heap_safety_wit_96 : prim_forward_star_heap_safety_wit_96.
 Axiom proof_of_prim_forward_star_heap_safety_wit_97 : prim_forward_star_heap_safety_wit_97.
+Axiom proof_of_prim_forward_star_heap_safety_wit_98 : prim_forward_star_heap_safety_wit_98.
+Axiom proof_of_prim_forward_star_heap_safety_wit_99 : prim_forward_star_heap_safety_wit_99.
 Axiom proof_of_prim_forward_star_heap_entail_wit_1 : prim_forward_star_heap_entail_wit_1.
 Axiom proof_of_prim_forward_star_heap_entail_wit_2 : prim_forward_star_heap_entail_wit_2.
 Axiom proof_of_prim_forward_star_heap_entail_wit_3 : prim_forward_star_heap_entail_wit_3.
@@ -10927,26 +10741,18 @@ Axiom proof_of_prim_forward_star_heap_entail_wit_15 : prim_forward_star_heap_ent
 Axiom proof_of_prim_forward_star_heap_entail_wit_16 : prim_forward_star_heap_entail_wit_16.
 Axiom proof_of_prim_forward_star_heap_entail_wit_17 : prim_forward_star_heap_entail_wit_17.
 Axiom proof_of_prim_forward_star_heap_entail_wit_18 : prim_forward_star_heap_entail_wit_18.
-Axiom proof_of_prim_forward_star_heap_entail_wit_19 : prim_forward_star_heap_entail_wit_19.
+Axiom proof_of_prim_forward_star_heap_entail_wit_19_1 : prim_forward_star_heap_entail_wit_19_1.
+Axiom proof_of_prim_forward_star_heap_entail_wit_19_2 : prim_forward_star_heap_entail_wit_19_2.
+Axiom proof_of_prim_forward_star_heap_entail_wit_19_3 : prim_forward_star_heap_entail_wit_19_3.
+Axiom proof_of_prim_forward_star_heap_entail_wit_19_4 : prim_forward_star_heap_entail_wit_19_4.
+Axiom proof_of_prim_forward_star_heap_entail_wit_19_5 : prim_forward_star_heap_entail_wit_19_5.
+Axiom proof_of_prim_forward_star_heap_entail_wit_19_6 : prim_forward_star_heap_entail_wit_19_6.
+Axiom proof_of_prim_forward_star_heap_entail_wit_19_7 : prim_forward_star_heap_entail_wit_19_7.
 Axiom proof_of_prim_forward_star_heap_entail_wit_20 : prim_forward_star_heap_entail_wit_20.
-Axiom proof_of_prim_forward_star_heap_entail_wit_21 : prim_forward_star_heap_entail_wit_21.
+Axiom proof_of_prim_forward_star_heap_entail_wit_21_1 : prim_forward_star_heap_entail_wit_21_1.
+Axiom proof_of_prim_forward_star_heap_entail_wit_21_2 : prim_forward_star_heap_entail_wit_21_2.
 Axiom proof_of_prim_forward_star_heap_entail_wit_22 : prim_forward_star_heap_entail_wit_22.
-Axiom proof_of_prim_forward_star_heap_entail_wit_23_1 : prim_forward_star_heap_entail_wit_23_1.
-Axiom proof_of_prim_forward_star_heap_entail_wit_23_2 : prim_forward_star_heap_entail_wit_23_2.
-Axiom proof_of_prim_forward_star_heap_entail_wit_23_3 : prim_forward_star_heap_entail_wit_23_3.
-Axiom proof_of_prim_forward_star_heap_entail_wit_23_4 : prim_forward_star_heap_entail_wit_23_4.
-Axiom proof_of_prim_forward_star_heap_entail_wit_23_5 : prim_forward_star_heap_entail_wit_23_5.
-Axiom proof_of_prim_forward_star_heap_entail_wit_23_6 : prim_forward_star_heap_entail_wit_23_6.
-Axiom proof_of_prim_forward_star_heap_entail_wit_23_7 : prim_forward_star_heap_entail_wit_23_7.
-Axiom proof_of_prim_forward_star_heap_entail_wit_24 : prim_forward_star_heap_entail_wit_24.
-Axiom proof_of_prim_forward_star_heap_entail_wit_25 : prim_forward_star_heap_entail_wit_25.
-Axiom proof_of_prim_forward_star_heap_entail_wit_26_1 : prim_forward_star_heap_entail_wit_26_1.
-Axiom proof_of_prim_forward_star_heap_entail_wit_26_2 : prim_forward_star_heap_entail_wit_26_2.
-Axiom proof_of_prim_forward_star_heap_entail_wit_27 : prim_forward_star_heap_entail_wit_27.
-Axiom proof_of_prim_forward_star_heap_entail_wit_28 : prim_forward_star_heap_entail_wit_28.
-Axiom proof_of_prim_forward_star_heap_entail_wit_29 : prim_forward_star_heap_entail_wit_29.
-Axiom proof_of_prim_forward_star_heap_entail_wit_30 : prim_forward_star_heap_entail_wit_30.
-Axiom proof_of_prim_forward_star_heap_entail_wit_31 : prim_forward_star_heap_entail_wit_31.
+Axiom proof_of_prim_forward_star_heap_entail_wit_23 : prim_forward_star_heap_entail_wit_23.
 Axiom proof_of_prim_forward_star_heap_return_wit_1 : prim_forward_star_heap_return_wit_1.
 Axiom proof_of_prim_forward_star_heap_partial_solve_wit_1_pure : prim_forward_star_heap_partial_solve_wit_1_pure.
 Axiom proof_of_prim_forward_star_heap_partial_solve_wit_1 : prim_forward_star_heap_partial_solve_wit_1.
@@ -11022,6 +10828,7 @@ Axiom proof_of_prim_forward_star_heap_partial_solve_wit_54 : prim_forward_star_h
 Axiom proof_of_prim_forward_star_heap_partial_solve_wit_55 : prim_forward_star_heap_partial_solve_wit_55.
 Axiom proof_of_prim_forward_star_heap_partial_solve_wit_56 : prim_forward_star_heap_partial_solve_wit_56.
 Axiom proof_of_prim_forward_star_heap_partial_solve_wit_57 : prim_forward_star_heap_partial_solve_wit_57.
+Axiom proof_of_prim_forward_star_heap_partial_solve_wit_58 : prim_forward_star_heap_partial_solve_wit_58.
 Axiom proof_of_prim_forward_star_heap_derive_high_level_spec_by_low_level_spec : prim_forward_star_heap_derive_high_level_spec_by_low_level_spec.
 
 End VC_Correct.

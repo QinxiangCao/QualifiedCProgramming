@@ -7,7 +7,7 @@
  * runs in linear time.
  *
  * The verification case limits n to 1000.  The caller provides n initialized
- * elements in a, room for 2 * n elements in b, and room for n elements in out.
+ * elements in a and room for n elements in out. The doubled buffer is local.
  * The function writes the smallest rotation to out and returns its zero-based
  * starting position in a.
  */
@@ -20,7 +20,7 @@
  */
 /*@ Import Coq Require Import SimpleC.EE.LLM_bench.Algorithms.minimal_representation.minimal_representation_lib */
 
-int minimal_representation(int *a, int n, int *b, int *out)
+int minimal_representation(int *a, int n, int *out)
 /*@ With (l : list Z) (best : Z)
     Require
       1 <= n && n <= 1000 &&
@@ -28,31 +28,29 @@ int minimal_representation(int *a, int n, int *b, int *out)
       0 <= best && best < n &&
       MRFirstMinimalRotationAt(l, best) &&
       IntArray::full(a, n, l) *
-      IntArray::undef_full(b, 2 * n) *
       IntArray::undef_full(out, n)
     Ensure
-      exists bl,
-      __return == best &&
       MRFirstMinimalRotationAt(l, __return) &&
       IntArray::full(a, n, l) *
-      IntArray::full(b, 2 * n, bl) *
       IntArray::full(out, n, MRRotation(l, __return))
  */
 {
+    int b[2000];
     int p = 0;
 
     /*@ Inv Assert
-        a == a@pre && n == n@pre && b == b@pre && out == out@pre &&
+        a == a@pre && n == n@pre && out == out@pre &&
         1 <= n@pre && n@pre <= 1000 &&
         Zlength(l) == n@pre &&
         0 <= best && best < n@pre &&
         0 <= p && p <= n@pre &&
         MRFirstMinimalRotationAt(l, best) &&
         IntArray::full(a@pre, n@pre, l) *
-        IntArray::seg(b@pre, 0, p, sublist(0, p, l)) *
-        IntArray::undef_seg(b@pre, p, n@pre) *
-        IntArray::seg(b@pre, n@pre, n@pre + p, sublist(0, p, l)) *
-        IntArray::undef_seg(b@pre, n@pre + p, 2 * n@pre) *
+        IntArray::seg(b, 0, p, sublist(0, p, l)) *
+        IntArray::undef_seg(b, p, n@pre) *
+        IntArray::seg(b, n@pre, n@pre + p, sublist(0, p, l)) *
+        IntArray::undef_seg(b, n@pre + p, 2 * n@pre) *
+        IntArray::undef_seg(b, 2 * n@pre, 2000) *
         IntArray::undef_full(out@pre, n@pre)
      */
     while (p < n) {
@@ -61,24 +59,14 @@ int minimal_representation(int *a, int n, int *b, int *out)
         ++p;
     }
 
-    /*@ Assert
-        a == a@pre && n == n@pre && b == b@pre && out == out@pre &&
-        1 <= n@pre && n@pre <= 1000 &&
-        Zlength(l) == n@pre &&
-        p == n@pre &&
-        0 <= best && best < n@pre &&
-        MRFirstMinimalRotationAt(l, best) &&
-        IntArray::full(a@pre, n@pre, l) *
-        IntArray::full(b@pre, 2 * n@pre, app(l, l)) *
-        IntArray::undef_full(out@pre, n@pre)
-     */
+
 
     int i = 0;
     int j = 1;
     int k = 0;
 
     /*@ Inv Assert
-        a == a@pre && n == n@pre && b == b@pre && out == out@pre &&
+        a == a@pre && n == n@pre && out == out@pre &&
         1 <= n@pre && n@pre <= 1000 &&
         Zlength(l) == n@pre &&
         p == n@pre &&
@@ -91,14 +79,15 @@ int minimal_representation(int *a, int n, int *b, int *out)
         MRFirstMinimalRotationAt(l, best) &&
         MRCandidateState(l, best, i, j) &&
         IntArray::full(a@pre, n@pre, l) *
-        IntArray::full(b@pre, 2 * n@pre, app(l, l)) *
+        IntArray::full(b, 2 * n@pre, app(l, l)) *
+        IntArray::undef_seg(b, 2 * n@pre, 2000) *
         IntArray::undef_full(out@pre, n@pre)
      */
     while (i < n && j < n) {
         k = 0;
 
         /*@ Inv Assert
-            a == a@pre && n == n@pre && b == b@pre && out == out@pre &&
+            a == a@pre && n == n@pre && out == out@pre &&
             1 <= n@pre && n@pre <= 1000 &&
             Zlength(l) == n@pre &&
             p == n@pre &&
@@ -111,7 +100,8 @@ int minimal_representation(int *a, int n, int *b, int *out)
             MRCandidateState(l, best, i, j) &&
             MRRotationPrefixEq(l, i, j, k) &&
             IntArray::full(a@pre, n@pre, l) *
-            IntArray::full(b@pre, 2 * n@pre, app(l, l)) *
+            IntArray::full(b, 2 * n@pre, app(l, l)) *
+        IntArray::undef_seg(b, 2 * n@pre, 2000) *
             IntArray::undef_full(out@pre, n@pre)
          */
         while (k < n && b[i + k] == b[j + k]) {
@@ -137,7 +127,7 @@ int minimal_representation(int *a, int n, int *b, int *out)
     }
 
     /*@ Assert
-        a == a@pre && n == n@pre && b == b@pre && out == out@pre &&
+        a == a@pre && n == n@pre && out == out@pre &&
         1 <= n@pre && n@pre <= 1000 &&
         Zlength(l) == n@pre &&
         p == n@pre &&
@@ -151,7 +141,8 @@ int minimal_representation(int *a, int n, int *b, int *out)
         (i >= j => j == best) &&
         MRFirstMinimalRotationAt(l, best) &&
         IntArray::full(a@pre, n@pre, l) *
-        IntArray::full(b@pre, 2 * n@pre, app(l, l)) *
+        IntArray::full(b, 2 * n@pre, app(l, l)) *
+        IntArray::undef_seg(b, 2 * n@pre, 2000) *
         IntArray::undef_full(out@pre, n@pre)
      */
     if (i < j) {
@@ -163,7 +154,7 @@ int minimal_representation(int *a, int n, int *b, int *out)
 
     k = 0;
     /*@ Inv Assert
-        a == a@pre && n == n@pre && b == b@pre && out == out@pre &&
+        a == a@pre && n == n@pre && out == out@pre &&
         1 <= n@pre && n@pre <= 1000 &&
         Zlength(l) == n@pre &&
         0 <= best && best < n@pre &&
@@ -175,7 +166,8 @@ int minimal_representation(int *a, int n, int *b, int *out)
         0 <= k && k <= n@pre &&
         MRFirstMinimalRotationAt(l, best) &&
         IntArray::full(a@pre, n@pre, l) *
-        IntArray::full(b@pre, 2 * n@pre, app(l, l)) *
+        IntArray::full(b, 2 * n@pre, app(l, l)) *
+        IntArray::undef_seg(b, 2 * n@pre, 2000) *
         IntArray::seg(out@pre, 0, k, sublist(0, k, MRRotation(l, p))) *
         IntArray::undef_seg(out@pre, k, n@pre)
      */
@@ -184,5 +176,13 @@ int minimal_representation(int *a, int n, int *b, int *out)
         ++k;
     }
 
+    /*@ Assert
+        a == a@pre && n == n@pre && out == out@pre &&
+        0 <= i && 0 <= j && 0 <= k &&
+        MRFirstMinimalRotationAt(l, p) &&
+        IntArray::full(a, n, l) *
+        IntArray::full(out, n, MRRotation(l, p)) *
+        IntArray::undef_full(b, 2000)
+     */
     return p;
 }

@@ -44,7 +44,7 @@ Proof.
   split_pure_spatial.
   - cancel.
   - split_pures; dump_pre_spatial; first [assumption | reflexivity | lia].
-Qed.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_matrix_2Darray_entail_wit_2 : dfs_adjacency_matrix_2Darray_entail_wit_2.
 Proof.
@@ -96,7 +96,7 @@ Proof.
     apply propositional_extensionality.
     sets_unfold. split; intros [Hv | Heq]; auto;
       right; symmetry; exact Heq.
-Qed.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_matrix_2Darray_entail_wit_3 : dfs_adjacency_matrix_2Darray_entail_wit_3.
 Proof.
@@ -119,7 +119,7 @@ Proof.
     split_pure_spatial.
     + sepcon_assoc_change. cancel.
     + split_pures; dump_pre_spatial; first [assumption | reflexivity | lia].
-Qed.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_matrix_2Darray_entail_wit_4 : dfs_adjacency_matrix_2Darray_entail_wit_4.
 Proof.
@@ -144,7 +144,7 @@ Proof.
   split_pure_spatial.
   - cancel.
   - split_pures; dump_pre_spatial; first [assumption | reflexivity | lia].
-Qed.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_matrix_2Darray_entail_wit_5 : dfs_adjacency_matrix_2Darray_entail_wit_5.
 Proof.
@@ -185,7 +185,7 @@ Proof.
     apply (safeExec_get_bind neighbor) in Hsafe.
     2:{ intros st Hst. subst st. split; assumption. }
     exact Hsafe.
-Qed.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_matrix_2Darray_entail_wit_6_1 : dfs_adjacency_matrix_2Darray_entail_wit_6_1.
 Proof.
@@ -213,7 +213,7 @@ Proof.
   split_pure_spatial.
   - cancel.
   - split_pures; dump_pre_spatial; try assumption; try lia.
-Qed.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_matrix_2Darray_entail_wit_6_2 : dfs_adjacency_matrix_2Darray_entail_wit_6_2.
 Proof.
@@ -280,9 +280,9 @@ Proof.
   - cancel (IntPtrArray2.full matrix_pre vertex_count_pre rows_low_level_spec).
     cancel (IntArray.full visited_pre vertex_count_pre values2).
   - split_pures; dump_pre_spatial; auto; lia.
-Qed.
+Qed. 
 
-Lemma proof_of_dfs_adjacency_matrix_2Darray_entail_wit_8 : dfs_adjacency_matrix_2Darray_entail_wit_8.
+Lemma proof_of_dfs_adjacency_matrix_2Darray_return_wit_1 : dfs_adjacency_matrix_2Darray_return_wit_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   assert (Hneighbor_eq: neighbor = vertex_count_pre) by lia.
@@ -312,17 +312,7 @@ Proof.
         unfold ZSimpleGraph.graph_step, ZSimpleGraph.vertex_valid in Hedge.
         lia.
       * exact Hedge.
-Qed.
-
-Lemma proof_of_dfs_adjacency_matrix_2Darray_return_wit_1 : dfs_adjacency_matrix_2Darray_return_wit_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  Exists visited_set_out.
-  split_pure_spatial.
-  - cancel (DFSAdjacencyMatrix2Darray.store_graph matrix_pre g_low_level_spec rows_low_level_spec).
-    cancel (DFSAdjacencyMatrix2Darray.visited visited_pre g_low_level_spec visited_set_out).
-  - split_pures; dump_pre_spatial; assumption.
-Qed.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_matrix_2Darray_derive_bind_spec_by_low_level_spec : dfs_adjacency_matrix_2Darray_derive_bind_spec_by_low_level_spec.
 Proof.

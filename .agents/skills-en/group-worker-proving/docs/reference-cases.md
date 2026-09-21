@@ -9,7 +9,7 @@ Prefer:
 - `Rocq/examples/LLM_bench`
 - `QCP_demos_LLM`
 
-Reading `QCP_demos_human` is allowed but not recommended. Read-only inspection of a human case does not itself create a blocker. Acceptability of the current group depends only on assigned witnesses, helper/import boundaries, controller group validation of the sealed formal files, and later parent verification and final-check. Development and exact checks are optional preflights. Reject under the contract only when formal files introduce a library, import, generated artifact, or other formal dependency forbidden by the phase contract.
+Reading `QCP_demos_human` is allowed but not recommended. Read-only inspection of a human case does not itself create a blocker. Acceptability of the current group depends only on assigned witnesses, helper/import boundaries, controller group validation of the current formal files, and later parent verification and final-check. Development and exact checks are optional preflights. Reject under the contract only when formal files introduce a library, import, generated artifact, or other formal dependency forbidden by the phase contract.
 
 ## Useful material
 

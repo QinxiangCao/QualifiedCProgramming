@@ -297,44 +297,10 @@ struct mst_tree* kruskal(int*u, int* v, int* w, int n, int m)
 	quickByWeight(u, v, w, m)
 		/*@ where orig_u = orig_u, orig_v = orig_v, orig_w = orig_w,
 			  edge_order = Zrange(0, m), l_u = orig_u, l_v = orig_v, l_w = orig_w */;
-	/*@ Assert
-			exists l_u_sorted l_v_sorted l_w_sorted edge_order,
-				u == u@pre && v == v@pre && w == w@pre &&
-				n == n@pre && m == m@pre &&
-				2 <= n && n < INT_MAX && 1 <= m && m < INT_MAX &&
-				array_graph(n, m, orig_u, orig_v, orig_w, g) &&
-				KruskalEnv(g) &&
-				after_sorted_edge_of_input(m, orig_u, orig_v, orig_w,
-				l_u_sorted, l_v_sorted, l_w_sorted, edge_order) &&
-			safeExec(initStPred(g), KruskalProg(g), X) &&
-			IntArray::full(u, m, l_u_sorted) *
-			IntArray::full(v, m, l_v_sorted) *
-			IntArray::full(w, m, l_w_sorted)
-	*/
+
 
 	struct union_find* uf = uf_create(n);
-	/*@ Assert
-		exists l_u l_v l_w edge_order
-			   (s : St) (repr_of : Z -> Z),
-			u == u@pre && v == v@pre && w == w@pre &&
-			n == n@pre && m == m@pre &&
-			2 <= n && n < INT_MAX && 1 <= m && m < INT_MAX &&
-			array_graph(n, m, orig_u, orig_v, orig_w, g) &&
-			KruskalEnv(g) &&
-			after_sorted_edge_of_input(m, orig_u, orig_v, orig_w,
-				l_u, l_v, l_w, edge_order) &&
-			initStPred(g, s) &&
-			kruskal_scan_state(g, edge_order, 0, 0, s) &&
-			kruskal_scan_phase(g, s, 0) &&
-			uf_initial(n, repr_of) &&
-			union_find_connectivity_matches_state(g, s, repr_of) &&
-			output_prefix_matches_state(g, 0, nil, nil, nil, s) &&
-			safeExec(kruskal_state_is(s), KruskalProg(g), X) &&
-			UF(uf, n, repr_of) *
-			IntArray::full(u, m, l_u) *
-			IntArray::full(v, m, l_v) *
-			IntArray::full(w, m, l_w)
-	*/
+
 
 	int* out_u = malloc_int_array(n - 1);
 	int* out_v = malloc_int_array(n - 1);
@@ -377,78 +343,10 @@ struct mst_tree* kruskal(int*u, int* v, int* w, int n, int m)
 		int edge_u = u[i];
 		int edge_v = v[i];
 		int edge_w = w[i];
-		/*@ Assert
-			exists l_u l_v l_w edge_order
-				   l_out_u l_out_v l_out_w
-				   (s : St) (repr_of : Z -> Z),
-				0 <= i && i < m &&
-				0 <= chosen && chosen <= n - 1 &&
-				chosen < n - 1 &&
-				edge_u == l_u[i] && edge_v == l_v[i] && edge_w == l_w[i] &&
-				0 <= edge_u && edge_u < n &&
-				0 <= edge_v && edge_v < n &&
-				u == u@pre && v == v@pre && w == w@pre &&
-				n == n@pre && m == m@pre &&
-				2 <= n && n < INT_MAX && 1 <= m && m < INT_MAX &&
-				array_graph(n, m, orig_u, orig_v, orig_w, g) &&
-				KruskalEnv(g) &&
-				after_sorted_edge_of_input(m, orig_u, orig_v, orig_w,
-					l_u, l_v, l_w, edge_order) &&
-				kruskal_scan_state(g, edge_order, i, chosen, s) &&
-				kruskal_scan_phase(g, s, chosen) &&
-				union_find_connectivity_matches_state(g, s, repr_of) &&
-				output_prefix_matches_state(g, chosen,
-					l_out_u, l_out_v, l_out_w, s) &&
-				safeExec(kruskal_state_is(s), KruskalProg(g), X) &&
-				UF(uf, n, repr_of) *
-				IntArray::full(u, m, l_u) *
-				IntArray::full(v, m, l_v) *
-				IntArray::full(w, m, l_w) *
-				IntArray::seg(out_u, 0, chosen, l_out_u) *
-				IntArray::undef_seg(out_u, chosen, n - 1) *
-				IntArray::seg(out_v, 0, chosen, l_out_v) *
-				IntArray::undef_seg(out_v, chosen, n - 1) *
-				IntArray::seg(out_w, 0, chosen, l_out_w) *
-				IntArray::undef_seg(out_w, chosen, n - 1)
-		*/
+
 		int root_u = uf_find(uf, edge_u)
 			/*@ where n = n */;
-		/*@ Assert
-			exists l_u l_v l_w edge_order
-				   l_out_u l_out_v l_out_w
-				   (s : St) (repr_of : Z -> Z),
-				0 <= i && i < m &&
-				0 <= chosen && chosen <= n - 1 &&
-				chosen < n - 1 &&
-				edge_u == l_u[i] && edge_v == l_v[i] && edge_w == l_w[i] &&
-				0 <= edge_u && edge_u < n &&
-				0 <= edge_v && edge_v < n &&
-				0 <= root_u && root_u < n &&
-				root_u == repr_of(edge_u) &&
-				u == u@pre && v == v@pre && w == w@pre &&
-				n == n@pre && m == m@pre &&
-				2 <= n && n < INT_MAX && 1 <= m && m < INT_MAX &&
-				array_graph(n, m, orig_u, orig_v, orig_w, g) &&
-				KruskalEnv(g) &&
-				after_sorted_edge_of_input(m, orig_u, orig_v, orig_w,
-					l_u, l_v, l_w, edge_order) &&
-				kruskal_scan_state(g, edge_order, i, chosen, s) &&
-				kruskal_scan_phase(g, s, chosen) &&
-				union_find_connectivity_matches_state(g, s, repr_of) &&
-				output_prefix_matches_state(g, chosen,
-					l_out_u, l_out_v, l_out_w, s) &&
-				safeExec(kruskal_state_is(s), KruskalProg(g), X) &&
-				UF(uf, n, repr_of) *
-				IntArray::full(u, m, l_u) *
-				IntArray::full(v, m, l_v) *
-				IntArray::full(w, m, l_w) *
-				IntArray::seg(out_u, 0, chosen, l_out_u) *
-				IntArray::undef_seg(out_u, chosen, n - 1) *
-				IntArray::seg(out_v, 0, chosen, l_out_v) *
-				IntArray::undef_seg(out_v, chosen, n - 1) *
-				IntArray::seg(out_w, 0, chosen, l_out_w) *
-				IntArray::undef_seg(out_w, chosen, n - 1)
-		*/
+
 		int root_v = uf_find(uf, edge_v)
 			/*@ where n = n */;
 		/*@ Assert
@@ -625,33 +523,7 @@ struct mst_tree* kruskal(int*u, int* v, int* w, int n, int m)
 					IntArray::undef_seg(out_w, chosen, n - 1)
 			*/
 		}
-	/*@ Assert
-		exists l_u l_v l_w edge_order
-			   l_out_u l_out_v l_out_w
-			   (s : St) (repr_of : Z -> Z),
-			0 <= i && i <= m &&
-			chosen == n - 1 &&
-			u == u@pre && v == v@pre && w == w@pre &&
-			n == n@pre && m == m@pre &&
-			2 <= n && n < INT_MAX && 1 <= m && m < INT_MAX &&
-			array_graph(n, m, orig_u, orig_v, orig_w, g) &&
-			KruskalEnv(g) &&
-			after_sorted_edge_of_input(m, orig_u, orig_v, orig_w,
-				l_u, l_v, l_w, edge_order) &&
-			kruskal_scan_state(g, edge_order, i, chosen, s) &&
-			kruskal_scan_phase(g, s, chosen) &&
-			union_find_connectivity_matches_state(g, s, repr_of) &&
-			output_prefix_matches_state(g, chosen,
-				l_out_u, l_out_v, l_out_w, s) &&
-			safeExec(kruskal_state_is(s), KruskalProg(g), X) &&
-			UF(uf, n, repr_of) *
-			IntArray::full(u, m, l_u) *
-			IntArray::full(v, m, l_v) *
-			IntArray::full(w, m, l_w) *
-			IntArray::full(out_u, n - 1, l_out_u) *
-			IntArray::full(out_v, n - 1, l_out_v) *
-			IntArray::full(out_w, n - 1, l_out_w)
-		*/
+
 	uf_free(uf) /*@ where n = n */;
 
 	struct mst_tree* result = malloc_mst_tree();

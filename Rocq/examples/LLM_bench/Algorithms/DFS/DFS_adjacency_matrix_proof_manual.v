@@ -30,12 +30,32 @@ Require Import SimpleC.EE.LLM_bench.Algorithms.DFS.DFS_adjacency_matrix_lib.
 Import ZSimpleGraph.
 Local Open Scope sac.
 
+Lemma proof_of_dfs_adjacency_matrix_safety_wit_3_split_goal_1 : dfs_adjacency_matrix_safety_wit_3_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+Qed.
+
+Lemma proof_of_dfs_adjacency_matrix_safety_wit_3_split_goal_2 : dfs_adjacency_matrix_safety_wit_3_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+Qed.
+
 Lemma proof_of_dfs_adjacency_matrix_safety_wit_3 : dfs_adjacency_matrix_safety_wit_3.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   split_pures;
   dump_pre_spatial ;
   nia.
+Qed. 
+
+Lemma proof_of_dfs_adjacency_matrix_safety_wit_4_split_goal_1 : dfs_adjacency_matrix_safety_wit_4_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+Qed.
+
+Lemma proof_of_dfs_adjacency_matrix_safety_wit_4_split_goal_2 : dfs_adjacency_matrix_safety_wit_4_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
 Qed.
 
 Lemma proof_of_dfs_adjacency_matrix_safety_wit_4 : dfs_adjacency_matrix_safety_wit_4.
@@ -44,7 +64,7 @@ Proof.
   split_pures;
   dump_pre_spatial ;
   nia.
-Qed.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_matrix_entail_wit_1 : dfs_adjacency_matrix_entail_wit_1.
 Proof.
@@ -55,7 +75,7 @@ Proof.
   Exists values.
   unfold ZSimpleGraph.vertex_valid in PreH4.
   entailer!.
-Qed.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_matrix_entail_wit_2 : dfs_adjacency_matrix_entail_wit_2.
 Proof.
@@ -109,7 +129,7 @@ Proof.
   }
   Exists (replace_Znth vertex_pre 1 values) entered_set.
   entailer!.
-Qed.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_matrix_entail_wit_3 : dfs_adjacency_matrix_entail_wit_3.
 Proof.
@@ -157,7 +177,7 @@ Proof.
   repeat (split_pure_spatial || split_pures);
     try (dump_pre_spatial; eauto; lia).
   cancel.
-Qed.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_matrix_entail_wit_4_1 : dfs_adjacency_matrix_entail_wit_4_1.
 Proof.
@@ -184,7 +204,7 @@ Proof.
   subst vertex_count_pre.
   unfold DFSAdjacencyMatrix.dfs_continue, applyf in PreH3.
   entailer!.
-Qed.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_matrix_entail_wit_4_2 : dfs_adjacency_matrix_entail_wit_4_2.
 Proof.
@@ -217,7 +237,7 @@ Proof.
   repeat (split_pure_spatial || split_pures);
     try (dump_pre_spatial; eauto; lia).
   cancel.
-Qed.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_matrix_entail_wit_4_3 : dfs_adjacency_matrix_entail_wit_4_3.
 Proof.
@@ -252,16 +272,16 @@ Proof.
   repeat (split_pure_spatial || split_pures);
     try (dump_pre_spatial; eauto; lia).
   cancel.
-Qed.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_matrix_entail_wit_5 : dfs_adjacency_matrix_entail_wit_5.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   Exists values2 visited_set2.
   entailer!.
-Qed.
+Qed. 
 
-Lemma proof_of_dfs_adjacency_matrix_entail_wit_6 : dfs_adjacency_matrix_entail_wit_6.
+Lemma proof_of_dfs_adjacency_matrix_return_wit_1 : dfs_adjacency_matrix_return_wit_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   assert (Hneighbor_eq: neighbor = vertex_count_pre) by lia.
@@ -290,14 +310,7 @@ Proof.
   Exists values1.
   subst vertex_count_pre.
   entailer!.
-Qed.
-
-Lemma proof_of_dfs_adjacency_matrix_return_wit_1 : dfs_adjacency_matrix_return_wit_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  Exists visited_set_out.
-  entailer!.
-Qed.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_matrix_derive_bind_spec_by_low_level_spec : dfs_adjacency_matrix_derive_bind_spec_by_low_level_spec.
 Proof.
@@ -331,7 +344,7 @@ Proof.
       exact H5.
   - repeat (split_pure_spatial || split_pures);
       dump_pre_spatial; assumption.
-Qed.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_matrix_derive_high_level_spec_by_low_level_spec : dfs_adjacency_matrix_derive_high_level_spec_by_low_level_spec.
 Proof.
@@ -402,4 +415,5 @@ Proof.
       apply Hdfs. exact Hv.
   - repeat (split_pure_spatial || split_pures);
       dump_pre_spatial; assumption.
-Qed.
+Qed. 
+

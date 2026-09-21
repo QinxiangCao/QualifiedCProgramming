@@ -90,6 +90,13 @@ Proof.
 Qed.
 
 
+
+
+
+
+
+
+
 Lemma proof_of_prim_entail_wit_3 : prim_entail_wit_3.
 Proof.
   aggressive_pre_process.
@@ -113,11 +120,18 @@ Proof.
   rewrite <- repeat_Z_tail by lia.
   entailer!.
 Qed.
+
 Lemma proof_of_prim_entail_wit_4 : prim_entail_wit_4.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_prim_entail_wit_4_split_goal_1.
 Qed. 
+
+
+
+
+
+
 
 
 
@@ -127,6 +141,7 @@ Proof.
   replace i with n_pre by lia.
   entailer!.
 Qed.
+
 Lemma proof_of_prim_entail_wit_5 : prim_entail_wit_5.
 Proof.
   aggressive_pre_process.
@@ -143,6 +158,7 @@ Proof.
   rewrite <- repeat_Z_tail by lia.
   entailer!.
 Qed.
+
 Lemma proof_of_prim_entail_wit_6 : prim_entail_wit_6.
 Proof.
   aggressive_pre_process.
@@ -178,6 +194,7 @@ Qed.
 
 
 
+
 Lemma proof_of_prim_entail_wit_7 : prim_entail_wit_7.
 Proof.
   aggressive_pre_process.
@@ -192,8 +209,6 @@ Proof.
   - exact PreH10.
   - exact PreH9.
 Qed. 
-  
-
 
 
 
@@ -228,6 +243,7 @@ Proof.
     ltac:(lia)) as Hrange.
   exact (proj1 Hrange).
 Qed.
+
 Lemma proof_of_prim_entail_wit_8 : prim_entail_wit_8.
 Proof.
   aggressive_pre_process.
@@ -257,6 +273,11 @@ Proof.
     pose proof (array_graph_edge_count _ _ _ _ _ _ PreH14) as Hedge_count.
     lia.
 Qed.
+
+
+
+
+
 
 
 Lemma proof_of_prim_entail_wit_9 : prim_entail_wit_9.
@@ -293,6 +314,15 @@ Qed.
 
 
 
+
+
+
+
+
+
+
+
+
 Lemma proof_of_prim_entail_wit_10 : prim_entail_wit_10.
 Proof.
   aggressive_pre_process.
@@ -325,6 +355,7 @@ Proof.
   rewrite <- repeat_Z_tail by lia.
   entailer!.
 Qed.
+
 Lemma proof_of_prim_entail_wit_11 : prim_entail_wit_11.
 Proof.
   aggressive_pre_process.
@@ -359,6 +390,7 @@ Proof.
   replace i with n_pre by lia.
   entailer!.
 Qed.
+
 Lemma proof_of_prim_entail_wit_12 : prim_entail_wit_12.
 Proof.
   aggressive_pre_process.
@@ -370,11 +402,23 @@ Proof.
   - Goal_apply proof_of_prim_entail_wit_12_split_goal_6.
 Qed. 
 
+
+
+
+
+
+
 Lemma proof_of_prim_entail_wit_13_boot : prim_entail_wit_13_boot.
 Proof.
   right.
   LLM_pre_process ltac:(lia || nia || int_auto).
-Qed.
+Qed. 
+
+
+
+
+
+
 
 Lemma proof_of_prim_entail_wit_14_boot : prim_entail_wit_14_boot.
 Proof.
@@ -418,6 +462,7 @@ Proof.
     rewrite Zlength_correct, repeat_length.
     lia.
 Qed.
+
 Lemma proof_of_prim_entail_wit_15_1_boot : prim_entail_wit_15_1_boot.
 Proof.
   aggressive_pre_process.
@@ -473,6 +518,7 @@ Proof.
   destruct (PreH21 Hj_pos) as [Hmin HminIndex].
   entailer!.
 Qed.
+
 Lemma proof_of_prim_entail_wit_15_3_boot : prim_entail_wit_15_3_boot.
 Proof.
   aggressive_pre_process.
@@ -519,6 +565,7 @@ Proof.
   - rewrite Z2Nat.id by lia.
     lia.
 Qed.
+
 Lemma proof_of_prim_entail_wit_15_5_boot : prim_entail_wit_15_5_boot.
 Proof.
   aggressive_pre_process.
@@ -550,11 +597,17 @@ Proof.
   all: try solve [entailer! | cancel | dump_pre_spatial; assumption | dump_pre_spatial; lia].
 Qed. 
 
+
+
+
+
+
+
 Lemma proof_of_prim_entail_wit_16_1_boot : prim_entail_wit_16_1_boot.
 Proof.
   right.
   LLM_pre_process ltac:(lia || nia || int_auto).
-Qed.
+Qed. 
 
 Lemma proof_of_prim_entail_wit_16_2_boot : prim_entail_wit_16_2_boot.
 Proof.
@@ -595,14 +648,151 @@ Qed.
 
 Lemma proof_of_prim_entail_wit_17_1_boot : prim_entail_wit_17_1_boot.
 Proof.
-  right.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-Qed.
+  LLM_pre_process ltac:(int_auto).
+  assert (Hsrc_graph : In src_low_level_spec (graph_vertices g_low_level_spec)).
+  {
+    subst src_low_level_spec.
+    eapply array_graph_vertex_in; eauto; lia.
+  }
+  assert (Hvisited_init :
+    visited_matches_state g_low_level_spec
+      (initSt g_low_level_spec src_low_level_spec)
+      (replace_Znth minIndex 1 l_visited_2)).
+  {
+    rewrite PreH19, PreH21.
+    unfold visited_matches_state.
+    intros v Hv.
+    rewrite initSt_vvalid.
+    rewrite PreH6.
+    destruct (Z.eq_dec v 0) as [Hv0 | Hv0].
+    - subst v.
+      rewrite Znth_replace_Znth_same_local.
+      + split; intros _; [reflexivity | lia].
+      + unfold repeat_Z.
+        rewrite Zlength_correct, repeat_length.
+        rewrite Z2Nat.id by lia.
+        lia.
+    - assert (Hv_range : 0 <= v < n_pre)
+        by (eapply array_graph_vertex_range; eauto).
+      rewrite Znth_replace_Znth_diff_local.
+      + unfold repeat_Z.
+        rewrite Znth_repeat_lt by lia.
+        split; intros H; [contradiction | contradiction].
+      + unfold repeat_Z.
+        rewrite Zlength_correct, repeat_length.
+        rewrite Z2Nat.id by lia.
+        lia.
+      + unfold repeat_Z.
+        rewrite Zlength_correct, repeat_length.
+        rewrite Z2Nat.id by lia.
+        lia.
+      + intro Heq; apply Hv0; symmetry; exact Heq.
+  }
+  assert (Hstate_after :
+    selected_state_after_add
+      g_low_level_spec src_low_level_spec i n_pre
+      (initSt g_low_level_spec src_low_level_spec)
+      (initSt g_low_level_spec src_low_level_spec)
+      l_from_new_2 l_to_new_2 (repeat_Z (-1) n_pre)
+      (replace_Znth 0 0 (repeat_Z 1000000000 n_pre))
+      (repeat_Z 0 n_pre) minIndex).
+  {
+    left.
+    split.
+    - exact PreH16.
+    - split.
+      + rewrite PreH19, PreH6. reflexivity.
+      + split.
+        * unfold initStPred. reflexivity.
+        * split.
+          -- rewrite PreH6. reflexivity.
+          -- split.
+             ++ reflexivity.
+             ++ split.
+                ** reflexivity.
+                ** rewrite <- PreH21. exact Hvisited_init.
+  }
+  assert (Hsafe :
+    safeExec
+      (prim_state_is (initSt g_low_level_spec src_low_level_spec))
+      (Prim2_loop g_low_level_spec i) X_low_level_spec).
+  {
+    rewrite PreH16.
+    unfold Prim2, Prim2_loop, initStPred, prim_state_is in *.
+    exact PreH17.
+  }
+	  assert (Hstate_count_after :
+	    state_vertex_count (initSt g_low_level_spec src_low_level_spec) = i + 1).
+	  {
+	    rewrite PreH16.
+	    rewrite initSt_state_vertex_count.
+	    lia.
+	  }
+  assert (Hparent_after :
+    parent_edges_match_state
+      g_low_level_spec src_low_level_spec
+      (initSt g_low_level_spec src_low_level_spec) l_edge_parent_2).
+  {
+    unfold parent_edges_match_state.
+    split.
+    - apply initSt_vvalid; reflexivity.
+    - split.
+      + intros v _ Hv_not_src Hv_valid.
+        apply initSt_vvalid in Hv_valid.
+        contradiction.
+      + intros e.
+        split.
+        * intro He.
+          unfold initSt in He.
+          simpl in He.
+          unfold empty_graph_of, graph_instance, edge_valid in He.
+          simpl in He.
+          contradiction.
+        * intros [v [_ [Hv_not_src [Hv _]]]].
+          apply initSt_vvalid in Hv.
+          contradiction.
+  }
+	  assert (Hscan :
+    scan_minIndex_adjacency_prefix_update
+      g_low_level_spec
+      (initSt g_low_level_spec src_low_level_spec)
+      l_from_new_2 l_first l_link_2 l_to_new_2 l_weight_new_2
+      minIndex (Znth minIndex l_first 0)
+      (replace_Znth 0 0 (repeat_Z 1000000000 n_pre))
+      (repeat_Z (-1) n_pre)
+      l_lowcost_2 l_edge_parent_2).
+  {
+    rewrite PreH19, PreH20, PreH22.
+    eapply scan_minIndex_adjacency_prefix_start; eauto.
+    rewrite <- PreH19.
+    eapply array_graph_vertex_in; eauto.
+  }
+	  Exists l_lowcost_2 l_edge_parent_2
+	         (initSt g_low_level_spec src_low_level_spec)
+	         (initSt g_low_level_spec src_low_level_spec)
+	         (repeat_Z (-1) n_pre)
+	         (repeat_Z 0 n_pre)
+	         (replace_Znth 0 0 (repeat_Z 1000000000 n_pre))
+	         l_first l_link_2 l_from_new_2 l_to_new_2 l_weight_new_2.
+	  rewrite PreH20, PreH21, PreH22.
+  rewrite PreH20 in Hscan.
+  rewrite PreH22 in Hscan.
+  rewrite PreH22 in Hparent_after.
+  repeat (split_pure_spatial || split_pures);
+    try (dump_pre_spatial; assumption);
+    try (dump_pre_spatial; exact Hstate_after);
+    try (dump_pre_spatial; exact Hsafe);
+    try (dump_pre_spatial; exact Hstate_count_after);
+    try (dump_pre_spatial; exact Hparent_after);
+    try (dump_pre_spatial; exact Hscan);
+    try (dump_pre_spatial; lia);
+    try solve [entailer! | cancel].
+Qed. 
 
 Lemma proof_of_prim_entail_wit_17_2_boot : prim_entail_wit_17_2_boot.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  prop_apply IntArray.full_Zlength.
+  prop_apply (IntArray.full_Zlength visited n_pre (replace_Znth minIndex 1 l_visited_2)).
   Intros_p Hvisited_replace_len.
   assert (Hvisited_len : Zlength l_visited_2 = n_pre).
   {
@@ -710,199 +900,33 @@ Proof.
              right.
              exact Heq.
   }
-  Exists x_u x_v l_lowcost_2 l_edge_parent_2 l_visited_2 s_2 s_next
-         l_first_2 l_link_2 l_from_new_2 l_to_new_2 l_weight_new_2.
-  repeat (split_pure_spatial || split_pures);
-    try (dump_pre_spatial; assumption);
-    try (dump_pre_spatial; lia);
-    try solve [entailer! | cancel].
-Qed. 
-
-Lemma proof_of_prim_entail_wit_18_1_boot : prim_entail_wit_18_1_boot.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  assert (Hsrc_graph : In src_low_level_spec (graph_vertices g_low_level_spec)).
-  {
-    subst src_low_level_spec.
-    eapply array_graph_vertex_in; eauto; lia.
-  }
-  assert (Hvisited_init :
-    visited_matches_state g_low_level_spec
-      (initSt g_low_level_spec src_low_level_spec)
-      (replace_Znth minIndex 1 l_visited_2)).
-  {
-    rewrite PreH19, PreH21.
-    unfold visited_matches_state.
-    intros v Hv.
-    rewrite initSt_vvalid.
-    rewrite PreH5.
-    destruct (Z.eq_dec v 0) as [Hv0 | Hv0].
-    - subst v.
-      rewrite Znth_replace_Znth_same_local.
-      + split; intros _; [reflexivity | lia].
-      + unfold repeat_Z.
-        rewrite Zlength_correct, repeat_length.
-        rewrite Z2Nat.id by lia.
-        lia.
-    - assert (Hv_range : 0 <= v < n_pre)
-        by (eapply array_graph_vertex_range; eauto).
-      rewrite Znth_replace_Znth_diff_local.
-      + unfold repeat_Z.
-        rewrite Znth_repeat_lt by lia.
-        split; intros H; [contradiction | contradiction].
-      + unfold repeat_Z.
-        rewrite Zlength_correct, repeat_length.
-        rewrite Z2Nat.id by lia.
-        lia.
-      + unfold repeat_Z.
-        rewrite Zlength_correct, repeat_length.
-        rewrite Z2Nat.id by lia.
-        lia.
-      + intro Heq; apply Hv0; symmetry; exact Heq.
-  }
   assert (Hstate_after :
-    selected_state_after_add
-      g_low_level_spec src_low_level_spec i n_pre
-      (initSt g_low_level_spec src_low_level_spec)
-      (initSt g_low_level_spec src_low_level_spec)
-      l_from_new_2 l_to_new_2 (repeat_Z (-1) n_pre)
-      (replace_Znth 0 0 (repeat_Z 1000000000 n_pre))
-      (repeat_Z 0 n_pre) minIndex).
-  {
-    left.
-    split.
-    - exact PreH16.
-    - split.
-      + rewrite PreH19, PreH5. reflexivity.
-      + split.
-        * unfold initStPred. reflexivity.
-        * split.
-          -- rewrite PreH5. reflexivity.
-          -- split.
-             ++ reflexivity.
-             ++ split.
-                ** reflexivity.
-                ** rewrite <- PreH21. exact Hvisited_init.
-  }
-  assert (Hsafe :
-    safeExec
-      (prim_state_is (initSt g_low_level_spec src_low_level_spec))
-      (Prim2_loop g_low_level_spec i) X_low_level_spec).
-  {
-    rewrite PreH16.
-    unfold Prim2, Prim2_loop, initStPred, prim_state_is in *.
-    exact PreH17.
-  }
-	  assert (Hstate_count_after :
-	    state_vertex_count (initSt g_low_level_spec src_low_level_spec) = i + 1).
-	  {
-	    rewrite PreH16.
-	    rewrite initSt_state_vertex_count.
-	    lia.
-	  }
-  assert (Hparent_after :
-    parent_edges_match_state
-      g_low_level_spec src_low_level_spec
-      (initSt g_low_level_spec src_low_level_spec) l_edge_parent_2).
-  {
-    unfold parent_edges_match_state.
-    split.
-    - apply initSt_vvalid; reflexivity.
-    - split.
-      + intros v _ Hv_not_src Hv_valid.
-        apply initSt_vvalid in Hv_valid.
-        contradiction.
-      + intros e.
-        split.
-        * intro He.
-          unfold initSt in He.
-          simpl in He.
-          unfold empty_graph_of, graph_instance, edge_valid in He.
-          simpl in He.
-          contradiction.
-        * intros [v [_ [Hv_not_src [Hv _]]]].
-          apply initSt_vvalid in Hv.
-          contradiction.
-  }
-	  assert (Hscan :
-    scan_minIndex_adjacency_prefix_update
-      g_low_level_spec
-      (initSt g_low_level_spec src_low_level_spec)
-      l_from_new_2 l_first l_link_2 l_to_new_2 l_weight_new_2
-      minIndex (Znth minIndex l_first 0)
-      (replace_Znth 0 0 (repeat_Z 1000000000 n_pre))
-      (repeat_Z (-1) n_pre)
-      l_lowcost_2 l_edge_parent_2).
-  {
-    rewrite PreH19, PreH20, PreH22.
-    eapply scan_minIndex_adjacency_prefix_start; eauto.
-    rewrite <- PreH19.
-    eapply array_graph_vertex_in; eauto.
-  }
-	  Exists l_lowcost_2 l_edge_parent_2
-	         (initSt g_low_level_spec src_low_level_spec)
-	         (initSt g_low_level_spec src_low_level_spec)
-	         (repeat_Z (-1) n_pre)
-	         (repeat_Z 0 n_pre)
-	         (replace_Znth 0 0 (repeat_Z 1000000000 n_pre))
-	         l_first l_link_2 l_from_new_2 l_to_new_2 l_weight_new_2.
-	  rewrite PreH20, PreH21, PreH22.
-  rewrite PreH20 in Hscan.
-  rewrite PreH22 in Hscan.
-  rewrite PreH22 in Hparent_after.
-  repeat (split_pure_spatial || split_pures);
-    try (dump_pre_spatial; assumption);
-    try (dump_pre_spatial; exact Hstate_after);
-    try (dump_pre_spatial; exact Hsafe);
-    try (dump_pre_spatial; exact Hstate_count_after);
-    try (dump_pre_spatial; exact Hparent_after);
-    try (dump_pre_spatial; exact Hscan);
-    try (dump_pre_spatial; lia);
-    try solve [entailer! | cancel].
-Qed. 
-
-Lemma proof_of_prim_entail_wit_18_2_boot : prim_entail_wit_18_2_boot.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  assert (Hstate_after :
-    selected_state_after_add
-      g_low_level_spec src_low_level_spec i n_pre
-      s_2 s_next_2
-      l_from_new_2 l_to_new_2 l_edge_parent_2
+    selected_state_after_add g_low_level_spec src_low_level_spec i n_pre
+      s_2 s_next l_from_new_2 l_to_new_2 l_edge_parent_2
       l_lowcost_2 l_visited_2 minIndex).
   {
-    right.
-	    split; [lia|].
-	    split; [exact PreH19|].
-	    split; [exact PreH20|].
-	    split; [exact PreH23|].
-	    split; [exact PreH25|].
-	    exists x_u_2, x_v_2.
-	    split; [exact PreH26|].
-	    split; [exact PreH27|].
-	    exact PreH28.
+    right. split; [lia |].
+    split; [exact PreH19 |].
+    split; [exact PreH20 |].
+    split; [exact PreH23 |].
+    split; [exact PreH27 |].
+    exists x_u, x_v.
+    split; [exact Hpair |].
+    split; [exact Hadd |].
+    exact Hvisited_next.
   }
-  assert (Hscan :
-    scan_minIndex_adjacency_prefix_update
-      g_low_level_spec s_next_2
-      l_from_new_2 l_first l_link_2 l_to_new_2 l_weight_new_2
-      minIndex (Znth minIndex l_first 0)
-      l_lowcost_2 l_edge_parent_2
-      l_lowcost_2 l_edge_parent_2).
-	  {
-	    eapply scan_minIndex_adjacency_prefix_start; eauto.
-	    destruct PreH31 as [[Hminus _] | [Hcand _]].
-	    - contradiction.
-	    - exact (proj1 Hcand).
-	  }
-  Exists l_lowcost_2 l_edge_parent_2
-         s_next_2 s_next_2 x_u_2 x_v_2
-         l_lowcost_2 l_edge_parent_2 l_visited_2 s_2
-         l_first l_link_2 l_from_new_2 l_to_new_2 l_weight_new_2.
+  assert (Hscan : scan_minIndex_adjacency_prefix_update
+    g_low_level_spec s_next l_from_new_2 l_first l_link_2
+    l_to_new_2 l_weight_new_2 minIndex (Znth minIndex l_first 0)
+    l_lowcost_2 l_edge_parent_2 l_lowcost_2 l_edge_parent_2).
+  { eapply scan_minIndex_adjacency_prefix_start; eauto. }
+  Exists l_lowcost_2 l_edge_parent_2 s_next s_next x_u x_v
+    l_lowcost_2 l_edge_parent_2 l_visited_2 s_2
+    l_first l_link_2 l_from_new_2 l_to_new_2 l_weight_new_2.
   entailer!.
 Qed. 
 
-Lemma proof_of_prim_entail_wit_19_1_boot : prim_entail_wit_19_1_boot.
+Lemma proof_of_prim_entail_wit_18_1_boot : prim_entail_wit_18_1_boot.
 Proof.
   LLM_pre_process ltac:(int_auto).
   pose proof (array_graph_edge_count
@@ -1057,7 +1081,7 @@ Proof.
     ].
 Qed. 
 
-Lemma proof_of_prim_entail_wit_19_2_boot : prim_entail_wit_19_2_boot.
+Lemma proof_of_prim_entail_wit_18_2_boot : prim_entail_wit_18_2_boot.
 Proof.
   LLM_pre_process ltac:(int_auto).
   pose proof (array_graph_edge_count
@@ -1211,7 +1235,7 @@ Proof.
     ].
 Qed. 
 
-Lemma proof_of_prim_entail_wit_19_3_boot : prim_entail_wit_19_3_boot.
+Lemma proof_of_prim_entail_wit_18_3_boot : prim_entail_wit_18_3_boot.
 Proof.
   LLM_pre_process ltac:(int_auto).
   assert (Hv_graph : In (Znth current_e l_to_new_2 0) (graph_vertices g_low_level_spec)).
@@ -1269,7 +1293,7 @@ Proof.
     ].
 Qed. 
 
-Lemma proof_of_prim_entail_wit_19_4_boot : prim_entail_wit_19_4_boot.
+Lemma proof_of_prim_entail_wit_18_4_boot : prim_entail_wit_18_4_boot.
 Proof.
   LLM_pre_process ltac:(int_auto).
   pose proof (selected_state_after_add_visited
@@ -1328,7 +1352,7 @@ Proof.
     ].
 Qed. 
 
-Lemma proof_of_prim_entail_wit_19_5_boot : prim_entail_wit_19_5_boot.
+Lemma proof_of_prim_entail_wit_18_5_boot : prim_entail_wit_18_5_boot.
 Proof.
   LLM_pre_process ltac:(int_auto).
   assert (Hfalse : False).
@@ -1350,9 +1374,9 @@ Proof.
     try (dump_pre_spatial; assumption);
     try (dump_pre_spatial; lia);
     try cancel.
-Qed.
+Qed. 
 
-Lemma proof_of_prim_entail_wit_19_6_boot : prim_entail_wit_19_6_boot.
+Lemma proof_of_prim_entail_wit_18_6_boot : prim_entail_wit_18_6_boot.
 Proof.
   LLM_pre_process ltac:(int_auto).
   
@@ -1375,9 +1399,9 @@ Proof.
     try (dump_pre_spatial; assumption);
     try (dump_pre_spatial; lia);
     try cancel.
-Qed.
+Qed. 
 
-Lemma proof_of_prim_entail_wit_19_7_boot : prim_entail_wit_19_7_boot.
+Lemma proof_of_prim_entail_wit_18_7_boot : prim_entail_wit_18_7_boot.
 Proof.
   LLM_pre_process ltac:(int_auto).
   
@@ -1400,9 +1424,9 @@ Proof.
     try (dump_pre_spatial; assumption);
     try (dump_pre_spatial; lia);
     try cancel.
-Qed.
+Qed. 
 
-Lemma proof_of_prim_entail_wit_19_8_boot : prim_entail_wit_19_8_boot.
+Lemma proof_of_prim_entail_wit_18_8_boot : prim_entail_wit_18_8_boot.
 Proof.
   LLM_pre_process ltac:(int_auto).
   
@@ -1425,9 +1449,9 @@ Proof.
     try (dump_pre_spatial; assumption);
     try (dump_pre_spatial; lia);
     try cancel.
-Qed.
+Qed. 
 
-Lemma proof_of_prim_entail_wit_19_9_boot : prim_entail_wit_19_9_boot.
+Lemma proof_of_prim_entail_wit_18_9_boot : prim_entail_wit_18_9_boot.
 Proof.
   right.
   LLM_pre_process ltac:(lia || nia || int_auto).
@@ -1461,7 +1485,7 @@ Proof.
        try assumption; try reflexivity; try lia.
 Qed. 
 
-Lemma proof_of_prim_entail_wit_19_10_boot : prim_entail_wit_19_10_boot.
+Lemma proof_of_prim_entail_wit_18_10_boot : prim_entail_wit_18_10_boot.
 Proof.
   right.
   LLM_pre_process ltac:(lia || nia || int_auto).
@@ -1493,16 +1517,16 @@ Proof.
        try assumption; try reflexivity; try lia.
 Qed. 
 
-Lemma proof_of_prim_entail_wit_20_1_boot : prim_entail_wit_20_1_boot.
+Lemma proof_of_prim_entail_wit_19_1_boot : prim_entail_wit_19_1_boot.
 Proof.
   LLM_pre_process ltac:(int_auto).
   Exists l_lowcost_next l_edge_parent_next
          s_2 s_after_2 l_edge_parent_2 l_visited_2 l_lowcost_2
          l_first_2 l_link_2 l_from_new_2 l_to_new_2 l_weight_new_2.
   entailer!.
-Qed.
+Qed. 
 
-Lemma proof_of_prim_entail_wit_20_2_boot : prim_entail_wit_20_2_boot.
+Lemma proof_of_prim_entail_wit_19_2_boot : prim_entail_wit_19_2_boot.
 Proof.
   LLM_pre_process ltac:(int_auto).
   Exists l_lowcost_next l_edge_parent_next
@@ -1510,9 +1534,9 @@ Proof.
          l_lowcost_2 l_edge_parent_2 l_visited_2 s_2
          l_first_2 l_link_2 l_from_new_2 l_to_new_2 l_weight_new_2.
   entailer!.
-Qed.
+Qed. 
 
-Lemma proof_of_prim_entail_wit_20_3_boot : prim_entail_wit_20_3_boot.
+Lemma proof_of_prim_entail_wit_19_3_boot : prim_entail_wit_19_3_boot.
 Proof.
   LLM_pre_process ltac:(auto).
   pose proof (scan_minIndex_adjacency_prefix_current_in
@@ -1525,9 +1549,9 @@ Proof.
     as [Hcur_ge _].
   assert (Hfalse : False) by lia.
   destruct Hfalse.
-Qed.
+Qed. 
 
-Lemma proof_of_prim_entail_wit_20_4_boot : prim_entail_wit_20_4_boot.
+Lemma proof_of_prim_entail_wit_19_4_boot : prim_entail_wit_19_4_boot.
 Proof.
   LLM_pre_process ltac:(auto).
   pose proof (scan_minIndex_adjacency_prefix_current_in
@@ -1540,9 +1564,9 @@ Proof.
     as [Hcur_ge _].
   assert (Hfalse : False) by lia.
   destruct Hfalse.
-Qed.
+Qed. 
 
-Lemma proof_of_prim_entail_wit_20_5_boot : prim_entail_wit_20_5_boot.
+Lemma proof_of_prim_entail_wit_19_5_boot : prim_entail_wit_19_5_boot.
 Proof.
   LLM_pre_process ltac:(auto).
   pose proof (array_graph_edge_count
@@ -1558,9 +1582,9 @@ Proof.
     as [_ Hcur_lt].
   assert (Hfalse : False) by lia.
   destruct Hfalse.
-Qed.
+Qed. 
 
-Lemma proof_of_prim_entail_wit_20_6_boot : prim_entail_wit_20_6_boot.
+Lemma proof_of_prim_entail_wit_19_6_boot : prim_entail_wit_19_6_boot.
 Proof.
   LLM_pre_process ltac:(auto).
   pose proof (array_graph_edge_count
@@ -1576,9 +1600,9 @@ Proof.
     as [_ Hcur_lt].
   assert (Hfalse : False) by lia.
   destruct Hfalse.
-Qed.
+Qed. 
 
-Lemma proof_of_prim_entail_wit_21_1_boot : prim_entail_wit_21_1_boot.
+Lemma proof_of_prim_entail_wit_20_1_boot : prim_entail_wit_20_1_boot.
 Proof.
   LLM_pre_process ltac:(int_auto).
   assert (Hscan_done :
@@ -1624,7 +1648,7 @@ Proof.
   entailer!.
 Qed. 
 
-Lemma proof_of_prim_entail_wit_21_2_boot : prim_entail_wit_21_2_boot.
+Lemma proof_of_prim_entail_wit_20_2_boot : prim_entail_wit_20_2_boot.
 Proof.
   LLM_pre_process ltac:(int_auto).
   
@@ -1671,25 +1695,25 @@ Proof.
   entailer!.
 Qed. 
 
+Lemma proof_of_prim_entail_wit_21_1_running : prim_entail_wit_21_1_running.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  Exists l_lowcost_3 l_edge_parent_3 l_visited_3 s_3
+         l_first_3 l_link_3 l_from_new_3 l_to_new_3 l_weight_new_3.
+  entailer!.
+  apply min_vertex_in_range_empty.
+Qed. 
+
+Lemma proof_of_prim_entail_wit_21_2_running : prim_entail_wit_21_2_running.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  Exists l_lowcost_3 l_edge_parent_3 l_visited_3 s_3
+         l_first_3 l_link_3 l_from_new_3 l_to_new_3 l_weight_new_3.
+  entailer!.
+  apply min_vertex_in_range_empty.
+Qed. 
+
 Lemma proof_of_prim_entail_wit_22_1_running : prim_entail_wit_22_1_running.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists l_lowcost_3 l_edge_parent_3 l_visited_3 s_3
-         l_first_3 l_link_3 l_from_new_3 l_to_new_3 l_weight_new_3.
-  entailer!.
-  apply min_vertex_in_range_empty.
-Qed. 
-
-Lemma proof_of_prim_entail_wit_22_2_running : prim_entail_wit_22_2_running.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists l_lowcost_3 l_edge_parent_3 l_visited_3 s_3
-         l_first_3 l_link_3 l_from_new_3 l_to_new_3 l_weight_new_3.
-  entailer!.
-  apply min_vertex_in_range_empty.
-Qed. 
-
-Lemma proof_of_prim_entail_wit_23_1_running : prim_entail_wit_23_1_running.
 Proof.
   LLM_pre_process ltac:(int_auto).
   
@@ -1719,7 +1743,7 @@ Proof.
   entailer!.
 Qed. 
 
-Lemma proof_of_prim_entail_wit_23_2_running : prim_entail_wit_23_2_running.
+Lemma proof_of_prim_entail_wit_22_2_running : prim_entail_wit_22_2_running.
 Proof.
   LLM_pre_process ltac:(int_auto).
   
@@ -1749,7 +1773,7 @@ Proof.
   entailer!.
 Qed. 
 
-Lemma proof_of_prim_entail_wit_24_1_running : prim_entail_wit_24_1_running.
+Lemma proof_of_prim_entail_wit_23_1_running : prim_entail_wit_23_1_running.
 Proof.
   LLM_pre_process ltac:(int_auto).
   
@@ -1828,7 +1852,7 @@ Proof.
       try (dump_pre_spatial; lia).
 Qed. 
 
-Lemma proof_of_prim_entail_wit_24_2_running : prim_entail_wit_24_2_running.
+Lemma proof_of_prim_entail_wit_23_2_running : prim_entail_wit_23_2_running.
 Proof.
   LLM_pre_process ltac:(int_auto).
   assert (Hsafe_ret :
@@ -1906,7 +1930,7 @@ Proof.
       try (dump_pre_spatial; lia).
 Qed. 
 
-Lemma proof_of_prim_entail_wit_25_running : prim_entail_wit_25_running.
+Lemma proof_of_prim_entail_wit_24_running : prim_entail_wit_24_running.
 Proof.
   LLM_pre_process ltac:(int_auto).
   set (de := Znth i l_edge_parent_2 0).
@@ -2109,86 +2133,27 @@ Proof.
         apply PreH29;
         lia
       ].
-Qed.
-
-Lemma proof_of_prim_entail_wit_26_running : prim_entail_wit_26_running.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  assert (Hidx_full : mst_idx = n_pre - 1) by lia.
-  assert (Hsafe_ret :
-    safeExec (prim_state_graph_matches rg_2) (return tt) X_low_level_spec).
-  {
-    eapply safeExec_conseq; [exact PreH27 |].
-    intros st Hst.
-    unfold prim_state_is in Hst.
-    subst st.
-    exact PreH23.
-  }
-  assert (Hresult :
-    prim_result_graph_matches_array
-      n_pre l_out_u l_out_v l_out_wt g_low_level_spec rg_2).
-  {
-    rewrite Hidx_full in PreH24.
-    eapply prim_result_graph_matches_array_of_full_prefix; eauto.
-  }
-  Exists l_edge_parent_2 l_visited_2 l_lowcost_2 l_link_2 l_first_2
-         l_weight_new_2 l_to_new_2 l_from_new_2
-         l_out_u l_out_v l_out_wt rg_2.
-  split_pure_spatial.
-  - rewrite Hidx_full.
-    rewrite IntArray.undef_seg_empty.
-    rewrite IntArray.undef_seg_empty.
-    rewrite IntArray.undef_seg_empty.
-    sep_apply_l_atomic (IntArray.seg_to_full out_u 0 (n_pre - 1) l_out_u).
-    sep_apply_l_atomic (IntArray.seg_to_full out_v 0 (n_pre - 1) l_out_v).
-    sep_apply_l_atomic (IntArray.seg_to_full out_wt 0 (n_pre - 1) l_out_wt).
-    replace (out_u + 0 * sizeof (INT)) with out_u by lia.
-    replace (out_v + 0 * sizeof (INT)) with out_v by lia.
-    replace (out_wt + 0 * sizeof (INT)) with out_wt by lia.
-    replace (n_pre - 1 - 0) with (n_pre - 1) by lia.
-    cancel (IntArray.full out_u (n_pre - 1) l_out_u).
-    cancel (IntArray.full out_v (n_pre - 1) l_out_v).
-    cancel (IntArray.full out_wt (n_pre - 1) l_out_wt).
-    cancel (IntArray.full from_arr_pre m_pre lf_low_level_spec).
-    cancel (IntArray.full to_arr_pre m_pre lt_low_level_spec).
-    cancel (IntArray.full weight_arr_pre m_pre lw_low_level_spec).
-    cancel (IntArray.full from_new (2 * m_pre) l_from_new_2).
-    cancel (IntArray.full to_new (2 * m_pre) l_to_new_2).
-    cancel (IntArray.full weight_new (2 * m_pre) l_weight_new_2).
-    cancel (IntArray.full first n_pre l_first_2).
-    cancel (IntArray.full link (2 * m_pre) l_link_2).
-    cancel (IntArray.full lowcost n_pre l_lowcost_2).
-    cancel (IntArray.full visited n_pre l_visited_2).
-    cancel (IntArray.full edge_parent n_pre l_edge_parent_2).
-    sep_apply store_int_undef_store_int.
-    sep_apply store_int_undef_store_int.
-    sep_apply store_ptr_undef_store_ptr.
-    sep_apply store_ptr_undef_store_ptr.
-    sep_apply store_ptr_undef_store_ptr.
-    sep_apply store_int_undef_store_int.
-    sep_apply store_int_undef_store_int.
-    cancel.
-  - split_pures;
-      try (dump_pre_spatial; assumption);
-      try (dump_pre_spatial; exact Hsafe_ret);
-      try (dump_pre_spatial; exact Hresult);
-      try (dump_pre_spatial; lia).
 Qed. 
 
 Lemma proof_of_prim_return_wit_1_running : prim_return_wit_1_running.
 Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists edge_parent l_edge_parent
-         visited l_visited
-         lowcost l_lowcost
-         link l_link
-         first l_first
-         weight_new l_weight_new
-         to_new l_to_new
-         from_new l_from_new
-         out_wt out_v out_u
-         lru_2.
-  Exists lrv_2 lrwt_2 rg_2.
+  unfold prim_return_wit_1_running. right; intros.
+  assert (Hidx_full : mst_idx = n_pre - 1) by lia.
+  assert (Hsafe_ret : safeExec (prim_state_graph_matches rg_2)
+    (return tt) X_low_level_spec).
+  {
+    eapply safeExec_conseq; [exact PreH28 |].
+    intros st Hst. unfold prim_state_is in Hst. subst st. exact PreH24.
+  }
+  assert (Hresult : prim_result_graph_matches_array
+    n_pre l_out_u l_out_v l_out_wt g_low_level_spec rg_2).
+  {
+    rewrite Hidx_full in PreH25.
+    eapply prim_result_graph_matches_array_of_full_prefix; eauto.
+  }
+  Exists edge_parent l_edge_parent visited l_visited lowcost l_lowcost
+    link l_link first l_first weight_new l_weight_new
+    to_new l_to_new from_new l_from_new rg_2.
   entailer!.
 Qed. 
 
@@ -2232,3 +2197,4 @@ Proof.
       try (dump_pre_spatial; assumption);
       try (dump_pre_spatial; lia).
 Qed. 
+

@@ -1,4 +1,6 @@
-/*@ Extern Coq (Zgcd: Z -> Z -> Z) */
+/*@ Extern Coq (Zgcd: Z -> Z -> Z)
+      (ModularInverse : Z -> Z -> Z -> Prop) */
+/*@ Import Coq Require Import SimpleC.EE.LLM_bench.Algorithms.modular_inverse.modular_inverse_lib */
 
 /*
  * The verified exgcd case supplies this interface.  In particular, x and y
@@ -24,7 +26,7 @@ int modular_inverse(int a, int modulus)
       1 < modulus && 0 < a && a < modulus && Zgcd(a, modulus) == 1 && emp
     Ensure
       0 <= __return && __return < modulus &&
-      exists k, a * __return + modulus * k == 1 && emp
+      ModularInverse(a, modulus, __return) && emp
 */
 {
     int x;

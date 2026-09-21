@@ -1,58 +1,73 @@
 # Paths and Commands
 
-## 1. Controller Entrypoint
+The public entry point is `verification-orchestrator/controller.py` in the running code checkout.
+For an initial command:
 
-The only public entrypoint is:
-
-```text
-<python> .agents/scripts/verification-orchestrator/controller.py --main-root <root> <command> ...
+```sh
+uv run --frozen --python 3.12 python .agents/scripts/verification-orchestrator/controller.py --main-root <root> <command> ...
 ```
 
-Main executes only structured action `invocation` values. Owners execute only handoff `Commands`. Never invoke internal Python modules, raw symexec, raw Coq, Dune, or Make.
+Run actions and handoff Commands use `{ "argv": [...], "cwd": "..." }`. Preserve the interpreter,
+arguments, and cwd. Pass the array directly when the terminal supports argv; otherwise quote each
+argument for the actual shell. Keep tool/session handles until the command actually exits, then
+check its exit code and JSON result. Do not add raw Coq/symexec/Dune/Make arguments or invoke internal
+modules to bypass the controller.
 
-Use the exact cwd/argv and continue a live terminal session until real exit. Both exit zero and the final JSON success status are required.
+Script paths come from the running code; `--main-root` selects the workspace. These need not share a
+checkout. Interpret relative C paths from main root. `target_files` fixes all canonical files, and
+C and formal stems may differ. Collection names and arbitrarily nested subdirectories must still
+form valid Rocq logical paths.
 
-Controller-owned Coq/build processes use one 900-second limit throughout the workflow, including annotation, VC checking, groups, parent verification, final check, and dependency preparation. Each runs in an independent process group. On timeout the controller explicitly terminates the whole group and force-kills anything still running; returning a timeout status alone is not sufficient.
+## Regular files and publication
 
-## 2. Fixed Roots
+Use `/` in repository-relative JSON paths and preserve Coq identity case. Use Path for filesystem
+operations. Reject escapes, symlinks, junctions, reparse points, and non-regular inputs; inspect path
+components before normalization. C/strategy includes may contain `..` only when direct resolution
+remains inside `QCP_examples`. Return ambiguous includes to the owner for repair.
 
-```text
-<root>/verification_runs/<run>/
-<root>/reports/<run>/
-```
+Generated/staged text uses UTF-8/LF; original backups preserve exact bytes. Replace published files
+using a temporary file in the destination directory, flushing/fsyncing and closing it before
+`os.replace`. Annotation generates in a fresh directory and publishes only after every output is
+valid. Failure does not first delete the canonical manual. If the optional manual is truly absent,
+do not create a placeholder.
 
-`target_files` fixes the C file, formal directory, case library, goal, auto, manual, goal-check, case name, and active theory. The C stem may differ from the case stem; always use exact state/action paths.
+Final publication preserves original/candidate bytes. Recovery checks fixed roles/paths and current
+content; never silently overwrite external new content. If a file is in use, preserve originals and
+backups and report the actual error.
 
-Annotation sources live in the main root; `before/after` histories are controller-owned seals. VC checking may edit only temporary `Show.` commands in the main-root manual. Group workers write only fixed group copies. Never copy a group/merged candidate into the main root before final apply.
+## Dependency preparation and Rocq
 
-## 3. Annotation Commands
+Select Dune when the workspace has an `_build` directory; otherwise select Make. Dune discovers
+dependencies through native rules and builds the base. Make uses coqdep and a temporary exact
+Makefile. The shared `dependency_plan.json` stores only `build_mode`, `target`, `case_anchor`, and
+`dependencies`; compute current/base sources from the current case family and graph.
 
-The handoff order is:
+Both backends share one stage → select dependencies → compile pipeline. Each check reads current
+files and prepares native dependencies. Current modules actually run coqc; the base uses native
+incremental builds. Staging normalizes generator imports and auto/manual overlaps in memory and
+writes only changed content. Final prelude comparisons reuse the same import normalization.
 
-```text
-coq-check --target-kind formal-case-lib-design
-symexec
-coq-check --target-kind formal-case-lib       # active library
-```
+A group wrapper requires only assigned witnesses. Compile an active case library independently even
+when goal-check does not import it. VC debug manuals and group copies enter the run build directory
+as overlays; the canonical manual stays read-only. Parent checks the complete merged goal-check,
+and final apply checks the latest candidate again.
 
-An agent-written specification may change together with internal annotations and the case library in the current attempt. After changes, rerun `formal-case-lib-design` and symexec as needed. If a user-provided specification needs a change, the owner stops and gives the proposal to main. After user approval, main runs `unfreeze --run <run> --round <round>` and returns the proposal to the same owner. `unfreeze` is not an owner handoff command.
+## Tool budgets and output
 
-`symexec` transactionally rebuilds exact generated roles. On retry, the owner reads the current manual and fills VC comparisons; the proof manual is always read-only.
+Dependency preparation, waiting, and compilation for one Coq check/debug share at most 900 seconds.
+A Dune workspace lock serializes shared dependency refreshes; group compilation can continue in
+parallel after release. Lock waiting consumes the budget and responds to cancellation. Long native
+commands report their stage and elapsed time to stderr, leaving stdout for final JSON.
 
-## 4. VC-Checking Commands
+Symexec uses the profile selected at initialization; one command starts at most one driver. Zero-byte
+or missing required outputs are failures and do not start a second driver automatically. Progress is
+diagnostic and cannot replace a successful exit and complete-output checks.
 
-The owner may insert temporary `Show.` in the current manual and run the handed-off `coq-debug`. On successful delivery the controller runs `vc-checking-check-round`, regenerates a clean manual, and seals the clean manual/group plan.
+Zero budget or pending cancellation prevents a new process from starting. Timeout/pause cleans up
+the independent process group and descendants, with a bounded output drain. Windows does not
+guarantee partial stdout/stderr while a tool runs. Successful cleanup retains final output; if a
+detached process still holds a pipe, report `cleanup_incomplete`. Do not continue before the user
+explicitly requests resumption.
 
-## 5. Group Commands
-
-Each handoff names a fixed directory, copied manual, optional group library, report paths, and controller commands for `group-development` and exact `group-check`. A worker may use development checks repeatedly; controller acceptance always runs the exact check. Never invoke a sibling command or substitute a main-root path.
-
-If a previous round exists, every actually claimed worker searches it by current witness/helper names and reads only candidate proof blocks; it does not read every full manual. It may write a per-witness `proof_reuse.md`, but a missing or empty note is valid and never gates finalize. The current manual/plan remains authoritative, and the controller does not parse the Markdown.
-
-## 6. Main-Owned Actions
-
-Main uses action invocations for retry, annotation/VC acceptance, dependency preparation, proving preparation/previous-round handoff/scheduling, merge/parent verification, final apply/check, and pause/cancel/resume. After user approval, main runs `unfreeze` for the current annotation round.
-
-## 7. Seals and Deletion Boundary
-
-Before reading, writing, deleting, reusing, or validating, the controller re-derives each target and rejects aliases, symlinks, cross-run paths, and wrong rounds. Agents never delete run/report trees or edit manifests, state, histories, or seals. Final check owns cleanup.
+Final cleanup deletes only permitted generated side products and skips `_coq_builds` before
+traversal. Preserve sources, reports, histories, candidates, and base-library artifacts.

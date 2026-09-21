@@ -1,68 +1,74 @@
-# Controller Public Interface
-
-The public parser exposes 20 subcommands. `public_command_schema()` is authoritative; main uses action invocations instead of composing commands.
+# Controller Public CLI
 
 ```text
-<python> .agents/scripts/verification-orchestrator/controller.py --main-root <root> <subcommand> ...
+<python> <scripts>/verification-orchestrator/controller.py --main-root <root> <command> ...
 ```
 
-## Command Table
+Python must be exactly 3.12. For initial commands, use the repository's
+`uv run --frozen --python 3.12 python`; structured invocations during a run already contain absolute
+interpreter and script paths. `--main-root` defaults to cwd; preserve its supplied value in actions.
+All commands except `init-run` and `validate-artifact` require `--run <run-id>`.
 
-| Command | Required arguments | Purpose |
+## Initialization
+
+```text
+init-run --case <formal-stem> --target-c-file <C-path>
+```
+
+`--case` is a valid Rocq identifier, independent of the C filename. The C path may be absolute or
+main-root-relative and must be inside `QCP_examples/<collection>/...`. Other options:
+
+| Option | Meaning |
+|---|---|
+| `--formal-case-lib-policy present\|create\|absent` | Use an existing library, create a seed, or keep it absent; defaults according to the current file |
+| `--freeze-spec <function>` | Freeze a user-provided specification; repeat or use comma-separated names; omission assigns specification writing to the annotation owner |
+| `--max-witnesses-per-group <n>` | Positive integer; default 12 |
+| `--max-parallel-group-workers <n>` | Positive integer; default 5 |
+| `--symexec-profile standard\|recursive-large` | Select an existing symexec budget; default standard |
+| `--problem-statement` / `--problem-statement-file` | Problem text or a UTF-8 file |
+| `--target-function` / `--expected-behavior` / `--input-output-contract` | Current problem constraints |
+| `--spec-hint` / `--preferred-hidden-property` / `--forbidden-pattern` / `--reference-case-hint` | Repeatable owner hints |
+| `--timestamp <YYYYMMDDhhmmss>` | Optional 14-digit run timestamp |
+
+## Current 18 commands
+
+| Command | Arguments besides `--run` | Purpose |
 |---|---|---|
-| `init-run` | `--case --target-c-file` | Create fixed run/topology/state; problem, policy, profile, group limits, and hard-spec inputs are optional |
-| `step` | `--run` | Publish actions or waiting/done/blocker |
-| `pause-run` | `--run --reason` | Cooperative pause |
-| `cancel-action` | `--run --action --reason` | Cancel exact active action and pause |
-| `resume-run` | `--run` | Resume only after explicit user request |
-| `claim-attempt` | `--run --next-action --owner` | Atomically claim a delivery and return handoff/finalize invocation |
-| `finalize-delivery` | `--run --attempt --owner` | Seal owner delivery and enter controller validation |
-| `retry-round` | `--run --phase --reason --previous-attempt` | Create an authorized annotation/vc-checking retry |
-| `unfreeze` | `--run --round` | Allow the current attempt to revise a user-provided specification |
-| `annotation-check-round` | `--run --round` | Annotation acceptance, clean replay, and comparison revalidation |
-| `vc-checking-check-round` | `--run --round` | Seal group plan and restore clean manual; optional `--group-plan` must be fixed |
-| `dune-build` | `--run` | Prepare exact goal-check dependency snapshot with selected backend |
-| `vc-proving-preparing` | `--run --round` | Create groups, hand off the previous proving round, and compute priority batch |
-| `vc-proving-verify` | `--run --round` | Merge accepted groups and run parent full check |
-| `symexec` | `--run --round` | Transactional generated refresh for a claimed annotation attempt |
-| `coq-check` | `--run --round --target-kind` | Check case library or group; group targets also use `--group` |
-| `coq-debug` | `--run --round` | Inspect VC manual/group debug; group mode uses `--group` |
-| `final-apply` | `--run` | Transactionally apply accepted merged candidate |
-| `final-check` | `--run` | Final freshness/Rocq/structure/seal/cleanup checks |
-| `validate-artifact` | `--kind --path` | Validate public JSON, including annotation plan version 2 |
+| `init-run` | See above | Create a schema 4 run |
+| `step` | None | Read current facts and return actions, waiting, and blockers |
+| `claim-attempt` | `--next-action --owner` | Claim the current owner action; return its handoff and finalize invocation |
+| `finalize-delivery` | `--attempt --owner` | Record that the owner has stopped and directly perform all acceptance checks for its role |
+| `retry-round` | `--phase annotation\|vc-checking --reason --previous-attempt` | Execute the retry specified by the current action |
+| `unfreeze` | `--round` | Remove the current annotation's specification baseline constraint after user approval |
+| `dune-build` | None | Prepare dependencies with the selected native backend, then enter VC checking or empty proving |
+| `vc-proving-preparing` | `--round` | Create current group copies and handoffs |
+| `vc-proving-verify` | `--round` | Read current groups, mechanically merge, and run the parent check |
+| `symexec` | `--round` | Let the annotation owner generate and publish outputs for its current task |
+| `coq-check` | `--round --target-kind`; group kinds also require `--group` | Development/exact checks |
+| `coq-debug` | `--round`; group owners also require `--group` | Check an authorized debug script/copy |
+| `final-apply` | None | Recheck the latest candidate and publish with recovery support |
+| `final-check` | None | Check actual files, independent replay, and cleanup; success marks done |
+| `pause-run` | `--reason` | Pause the run while retaining task facts |
+| `cancel-action` | `--action --reason` | Validate the current/claimed action id and pause the run |
+| `resume-run` | None | Recompute actions after explicit resumption |
+| `validate-artifact` | `--kind --path`; no `--run` required | Validate the specified file with the runtime validator |
 
-## Init
+`coq-check --target-kind` supports only `formal-case-lib-design`, `formal-case-lib`,
+`group-development`, and `group-check`. `validate-artifact --kind` supports only `agent-report`,
+`group-worker-report`, `annotation-plan`, `controller-state`, and `run-log`.
 
-`--case` is the authoritative Rocq/generated stem. Common options select library policy, a user-provided specification, symexec profile, group limits, and problem/spec hints. Presence of the existing `--freeze-spec` option means the formal specification is user-provided; every name must exactly match a C function with an extracted specification or init fails. Omission means the annotation owner generates it. Init never takes over an existing same-named run/report directory.
+## Usage rules
 
-## Claim and Finalize
+Execute the controller's returned invocation; do not infer the currently permitted phase from this
+table. Claim owner actions first. Main finalizes after the owner stops writing. Repeat finalize for
+a `returned` task to continue interrupted acceptance; repairable errors return to a prepared action
+for the same owner.
 
-`claim-attempt` accepts only the current delivery action and returns stable owner, role/CWD, verbatim claim/handoff prompt, and finalize invocation. Main retains the owner-to-target mapping. Annotation retry and group repair reuse their existing targets; each vc-checking retry is independent.
+Results vary by command. Tool checks require both successful exit and JSON `passed`; claim returns
+`claimed` or `already-claimed`; acceptance returns `accepted`, repair, or a blocker; `step` returns
+run status and current actions. Exit code 0, an owner's `completed`, or one `valid` report does not
+mean the whole run is complete.
 
-`finalize-delivery` seals report/plan/formal copies and immediately performs phase/group validation. `report-repair-required` keeps the same owner and attempt.
-
-## Retry
-
-`retry-round` must exactly match the current action. A new annotation attempt accepts only an annotation gap from VC checking or VC proving. It revalidates feedback sources, derives failed VCs from structured blocker entries and sealed manuals, carries unresolved failed VCs, renders related comparison history, copies function specifications, loop invariants, and new predicates, clears comparisons, and directly publishes a prepared append delivery. An identical repeat returns `already-retried`.
-
-## Annotation and unfreeze
-
-Without `--freeze-spec`, the annotation owner edits function specifications, internal annotations, and the case library together in the current attempt. `formal-case-lib-design` checks only the current C and case library.
-
-With `--freeze-spec`, the annotation owner does not change the user-provided specification. When a change is needed, the owner stops, writes the proposal in `agent_output.md`, and main asks the user. After approval, main resumes the run and executes `unfreeze --run <run> --round <round>`. The command preserves functions, sets baseline to `null`, and keeps the round, attempt, and owner unchanged.
-
-`annotation-check-round` validates plan version 2, the user-spec baseline, case-library checks, transactional symexec, comparisons, and clean replay. When baseline is `null`, successful acceptance records the current specification surface as the new baseline. An unresolved result, missing source, or nonexistent current VC returns to the same annotation owner in the current attempt.
-
-## VC Checking and Proving
-
-`vc-checking-check-round` requires a clean-equivalent manual and complete group plan.
-
-`vc-proving-preparing` seals base/group-plan/public-helper/dependency-snapshot digests, group ids/order, and previous round. It never decides or copies old proofs: every current group stays `prepared` and is published in priority/remaining order. With a previous round, an actual worker searches candidate proof blocks by current witness/helper names without reading every full manual; an optional `proof_reuse.md` may be missing or empty without affecting finalize. `vc-proving-verify` runs only after every required group is accepted.
-
-## Artifact Validation
-
-Kinds are `agent-report`, `group-worker-report`, `annotation-plan`, `manifest`, `group-plan`, `merge-result`, `controller-state`, and `run-log`. Blockers use `vcs`; annotation plans accept only version 2 exact fields.
-
-## Errors and Idempotency
-
-Action mismatch, wrong owner, topology/seal drift, current-file drift, or schema errors are rejected or become explicit controller blockers. Repair at the returned boundary; never edit state/seals or respawn to bypass an error.
+There are no separate annotation/VC acceptance commands. Older-schema runs are not migrated; do not
+hand-edit their schema to continue. Recover with their original code or initialize a new run. After
+a user pause, `resume-run` requires explicit authorization to resume.

@@ -33,16 +33,10 @@ Lemma proof_of_glibc_slist_clean_iter_back_safety_wit_3 : glibc_slist_clean_iter
 Proof.
   LLM_pre_process ltac:(int_auto).
   subst_eqs.
-  unfold residual_prog_in_glibc_slist_clean_iter_back_M_call_1 in PreH1 at 1.
-  unfold maketuple in PreH1 at 1.
   prog_nf in PreH1.
-  unfold safeExec, safe, weakestpre in PreH1.
-  simpl in PreH1.
-  destruct PreH1 as [? [_ [Hsafe _]]].
-  assert (Hrng : -2147483648 <= r + v <= 2147483647).
-  { destruct (Z_le_dec (-2147483648) (r + v));
-      destruct (Z_le_dec (r + v) 2147483647); try lia.
-    all: exfalso; apply Hsafe; left; intro; lia. }
+  unfold residual_prog_in_glibc_slist_clean_iter_back_M_call_1 in PreH1.
+  cbn in PreH1.
+  apply safeExec_assert_seq in PreH1 as [[Hsum_lo Hsum_hi] Hsafe].
   split_pures; dump_pre_spatial; lia.
 Qed.
 Lemma proof_of_glibc_slist_clean_iter_back_entail_wit_1 : glibc_slist_clean_iter_back_entail_wit_1.
@@ -69,27 +63,16 @@ Proof.
       * rewrite Zlength_cons in Hz. lia.
       * inversion Hf; auto.
 Qed. 
-(* Already exported by glibc_slist_iter_back_rel_proof_auto.v.
-Lemma proof_of_glibc_slist_clean_iter_back_entail_wit_2 : glibc_slist_clean_iter_back_entail_wit_2.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  subst_eqs.
-  Exists l2.
-  Exists v_2.
-  split_pure_spatial.
-  - cancel.
-  - split_pure_and_solve.
-Qed. 
-*)
+
 Lemma proof_of_glibc_slist_clean_iter_back_return_wit_1 : glibc_slist_clean_iter_back_return_wit_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
   subst_eqs.
-  Exists (v :: ltail_2).
+  Exists (v :: l2_2).
   Exists (r_2 + v).
   split_pure_spatial.
-  - sep_apply (sllseg_len1 x_pre v x_next PreH5).
-    sep_apply (sllseg_sll x_pre x_next (v :: nil) ltail_2).
+  - sep_apply (sllseg_len1 x_pre v x_next PreH4).
+    sep_apply (sllseg_sll x_pre x_next (v :: nil) l2_2).
     simpl.
     cancel.
   - split_pure_and_solve.

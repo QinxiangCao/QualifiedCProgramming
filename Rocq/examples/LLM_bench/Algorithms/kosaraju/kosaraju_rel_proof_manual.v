@@ -27,8 +27,6 @@ From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap relations.
 From FP Require Import PartialOrder_Setoid BourbakiWitt.
 Require Import SimpleC.EE.LLM_bench.Algorithms.kosaraju.Kosaraju.
 Require Import SimpleC.EE.LLM_bench.Algorithms.kosaraju.kosaraju_rel_lib.
-Require SimpleC.EE.LLM_bench.Algorithms.kosaraju.dfs1_proof_manual.
-Module Dfs1Manual := SimpleC.EE.LLM_bench.Algorithms.kosaraju.dfs1_proof_manual.
 Local Open Scope sac.
 
 Lemma dfs2_safeExec_from_Hoare :
@@ -215,7 +213,7 @@ Proof.
       * rewrite Znth_replace_Znth_Same by lia. reflexivity.
       * rewrite Znth_replace_Znth_Diff by lia.
         apply PreH17. lia.
-Qed.
+Qed. 
 
 Lemma proof_of_transpose_entail_wit_3_split_goal_1 : transpose_entail_wit_3_split_goal_1.
 Proof.
@@ -888,50 +886,12 @@ Proof.
   - split_pures; try (dump_pre_spatial; try rewrite Hcursor; eauto; lia).
 Qed. 
 
-Lemma proof_of_transpose_entail_wit_14_split_goal_1 : transpose_entail_wit_14_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  assert (Hu : u = n_pre) by lia.
-  subst u.
-  exact PreH22.
-Qed.
 
-Lemma proof_of_transpose_entail_wit_14_split_goal_2 : transpose_entail_wit_14_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  assert (Hu : u = n_pre) by lia.
-  subst u.
-  rewrite PreH9.
-  exact PreH20.
-Qed.
-
-Lemma proof_of_transpose_entail_wit_14 : transpose_entail_wit_14.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  assert (Hu : u = n_pre) by lia.
-  subst u.
-  Exists rr_m_2 pos_m_2 rc_m_2.
-  split_pure_spatial.
-  - cancel (IntArray.full fadj_col_pre (m_of fadj_row_l_low_level_spec)
-      fadj_col_l_low_level_spec).
-    cancel (IntArray.full fadj_row_pre (n_pre + 1) fadj_row_l_low_level_spec).
-    cancel (IntArray.full radj_col_pre (m_of fadj_row_l_low_level_spec) rc_m_2).
-    cancel (IntArray.full radj_row_pre (n_pre + 1) rr_m_2).
-    cancel (IntArray.full pos_pre n_pre pos_m_2).
-  - split_pures; try (dump_pre_spatial; eauto; lia).
-Qed. 
-
-Lemma proof_of_transpose_return_wit_1_split_goal_1 : transpose_return_wit_1_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  eapply (transpose_spec_from_completed_scatter__transpose_exit
-    g_low_level_spec n_pre m fadj_col_l_low_level_spec
-    fadj_row_l_low_level_spec rc_m rr_m pos_m); eassumption.
-Qed.
 
 Lemma proof_of_transpose_return_wit_1 : transpose_return_wit_1.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
+  assert (u = n_pre) by lia. subst u.
   assert (Hspec : transpose_spec g_low_level_spec fadj_col_l_low_level_spec
     fadj_row_l_low_level_spec rc_m rr_m n_pre).
   { eapply (transpose_spec_from_completed_scatter__transpose_exit
@@ -1059,22 +1019,7 @@ Proof.
     + intros i Hi. apply PreH13. lia.
 Qed. 
 
-Lemma proof_of_kosaraju_entail_wit_5_split_goal_1 : kosaraju_entail_wit_5_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-Qed.
-
-Lemma proof_of_kosaraju_entail_wit_5_split_goal_2 : kosaraju_entail_wit_5_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-Qed.
-
 Lemma proof_of_kosaraju_entail_wit_5 : kosaraju_entail_wit_5.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-Qed. 
-
-Lemma proof_of_kosaraju_entail_wit_6 : kosaraju_entail_wit_6.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   prop_apply (IntArray.full_Zlength fin n_pre fin_l0).
@@ -1105,14 +1050,14 @@ Proof.
       try solve [assumption | reflexivity | lia | exact Hphase1 | exact Hprefix0].
 Qed. 
 
-Lemma proof_of_kosaraju_entail_wit_7_split_goal_1 : kosaraju_entail_wit_7_split_goal_1.
+Lemma proof_of_kosaraju_entail_wit_6_split_goal_1 : kosaraju_entail_wit_6_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   destruct PreH13 as [_ [Htimer_count _]].
   exact Htimer_count.
 Qed.
 
-Lemma proof_of_kosaraju_entail_wit_7_split_goal_2 : kosaraju_entail_wit_7_split_goal_2.
+Lemma proof_of_kosaraju_entail_wit_6_split_goal_2 : kosaraju_entail_wit_6_split_goal_2.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   destruct PreH13 as [Hready _].
@@ -1120,39 +1065,39 @@ Proof.
   lia.
 Qed.
 
-Lemma proof_of_kosaraju_entail_wit_7_split_goal_3 : kosaraju_entail_wit_7_split_goal_3.
+Lemma proof_of_kosaraju_entail_wit_6_split_goal_3 : kosaraju_entail_wit_6_split_goal_3.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   destruct PreH13 as [_ [_ Hsafe]].
   eapply dfs_finish_schedule_unvisited_step_safeExec_sequence; eauto; lia.
 Qed.
 
-Lemma proof_of_kosaraju_entail_wit_7_split_goal_4 : kosaraju_entail_wit_7_split_goal_4.
+Lemma proof_of_kosaraju_entail_wit_6_split_goal_4 : kosaraju_entail_wit_6_split_goal_4.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   exact (proj1 PreH13).
 Qed.
 
-Lemma proof_of_kosaraju_entail_wit_7_split_goal_5 : kosaraju_entail_wit_7_split_goal_5.
+Lemma proof_of_kosaraju_entail_wit_6_split_goal_5 : kosaraju_entail_wit_6_split_goal_5.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   destruct PreH13 as [Hready _].
   exact (proj1 (proj2 Hready)).
 Qed.
 
-Lemma proof_of_kosaraju_entail_wit_7_split_goal_6 : kosaraju_entail_wit_7_split_goal_6.
+Lemma proof_of_kosaraju_entail_wit_6_split_goal_6 : kosaraju_entail_wit_6_split_goal_6.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   destruct PreH13 as [Hready _].
   exact (proj1 Hready).
 Qed.
 
-Lemma proof_of_kosaraju_entail_wit_7_split_goal_7 : kosaraju_entail_wit_7_split_goal_7.
+Lemma proof_of_kosaraju_entail_wit_6_split_goal_7 : kosaraju_entail_wit_6_split_goal_7.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
 Qed.
 
-Lemma proof_of_kosaraju_entail_wit_7 : kosaraju_entail_wit_7.
+Lemma proof_of_kosaraju_entail_wit_6 : kosaraju_entail_wit_6.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   pose proof PreH13 as Hphase1.
@@ -1163,14 +1108,14 @@ Proof.
   - split_pures; dump_pre_spatial; try solve [assumption | reflexivity | lia].
     + unfold dfs1_sequence_state_ready.
       exact (conj Hwf1 (conj Hfaith1 Htimer_bounds)).
-    + exact (proof_of_kosaraju_entail_wit_7_split_goal_3
+    + exact (proof_of_kosaraju_entail_wit_6_split_goal_3
         n_pre sid_l_high_level_spec fadj_row_l_high_level_spec
         fadj_col_l_high_level_spec g_high_level_spec fin_l0 vis1_zero
         vis2_zero timer u m vis1_m fin_m radj_col_l radj_row_l
         PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8 PreH9
         PreH10 PreH11 PreH12 PreH13 PreH14 PreH15 PreH16 PreH17
         PreH18 PreH19 PreH20).
-    + exact (proof_of_kosaraju_entail_wit_7_split_goal_1
+    + exact (proof_of_kosaraju_entail_wit_6_split_goal_1
         n_pre sid_l_high_level_spec fadj_row_l_high_level_spec
         fadj_col_l_high_level_spec g_high_level_spec fin_l0 vis1_zero
         vis2_zero timer u m vis1_m fin_m radj_col_l radj_row_l
@@ -1179,7 +1124,7 @@ Proof.
         PreH18 PreH19 PreH20).
 Qed. 
 
-Lemma proof_of_kosaraju_entail_wit_8_split_goal_1 : kosaraju_entail_wit_8_split_goal_1.
+Lemma proof_of_kosaraju_entail_wit_7_split_goal_1 : kosaraju_entail_wit_7_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   unfold phase1_sequence_refinement.
@@ -1190,24 +1135,24 @@ Proof.
   exact PreH6.
 Qed.
 
-Lemma proof_of_kosaraju_entail_wit_8_split_goal_2 : kosaraju_entail_wit_8_split_goal_2.
+Lemma proof_of_kosaraju_entail_wit_7_split_goal_2 : kosaraju_entail_wit_7_split_goal_2.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
 Qed.
 
-Lemma proof_of_kosaraju_entail_wit_8_split_goal_3 : kosaraju_entail_wit_8_split_goal_3.
+Lemma proof_of_kosaraju_entail_wit_7_split_goal_3 : kosaraju_entail_wit_7_split_goal_3.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
 Qed.
 
-Lemma proof_of_kosaraju_entail_wit_8 : kosaraju_entail_wit_8.
+Lemma proof_of_kosaraju_entail_wit_7 : kosaraju_entail_wit_7.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   Exists vis1_l_ fin_l_.
   split_pure_spatial.
   - repeat cancel.
   - split_pures; dump_pre_spatial; try solve [assumption | reflexivity | lia].
-    + exact (proof_of_kosaraju_entail_wit_8_split_goal_1
+    + exact (proof_of_kosaraju_entail_wit_7_split_goal_1
         n_pre sid_l_high_level_spec fadj_row_l_high_level_spec
         fadj_col_l_high_level_spec g_high_level_spec fin_l0 vis1_zero
         vis2_zero vis1_m fin_m radj_col_l radj_row_l m timer u
@@ -1216,9 +1161,13 @@ Proof.
         PreH14 PreH15 PreH16 PreH17 PreH18 PreH19 PreH20 PreH21
         PreH22 PreH23 PreH24 PreH25 PreH26 PreH27 PreH28 PreH29
         PreH30 PreH31 PreH32 PreH33).
-Qed.
+Qed. 
 
-Lemma proof_of_kosaraju_entail_wit_9_1 : kosaraju_entail_wit_9_1.
+
+
+
+
+Lemma proof_of_kosaraju_entail_wit_8_1 : kosaraju_entail_wit_8_1.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   Exists pos_l_2 radj_col_l_2 fin_m_ vis1_m_ radj_row_l_2.
@@ -1233,9 +1182,9 @@ Proof.
         destruct Hwf as [_ [_ [Hlen _]]];
         lia
     end.
-Qed.
+Qed. 
 
-Lemma proof_of_kosaraju_entail_wit_9_2_split_goal_1 : kosaraju_entail_wit_9_2_split_goal_1.
+Lemma proof_of_kosaraju_entail_wit_8_2_split_goal_1 : kosaraju_entail_wit_8_2_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   unfold phase1_sequence_refinement in PreH13.
@@ -1246,14 +1195,14 @@ Proof.
   eapply dfs_finish_schedule_skip_safeExec_sequence; eauto; lia.
 Qed.
 
-Lemma proof_of_kosaraju_entail_wit_9_2 : kosaraju_entail_wit_9_2.
+Lemma proof_of_kosaraju_entail_wit_8_2 : kosaraju_entail_wit_8_2.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   Exists pos_l_2 radj_col_l_2 fin_m_2 vis1_m_2 radj_row_l_2.
   split_pure_spatial.
   - repeat cancel.
   - split_pures; dump_pre_spatial; try solve [assumption | reflexivity | lia].
-    exact (proof_of_kosaraju_entail_wit_9_2_split_goal_1
+    exact (proof_of_kosaraju_entail_wit_8_2_split_goal_1
       n_pre sid_l_high_level_spec fadj_row_l_high_level_spec
       fadj_col_l_high_level_spec g_high_level_spec fin_l0 vis1_zero
       vis2_zero timer u m vis1_m_2 fin_m_2 radj_col_l_2 radj_row_l_2
@@ -1262,52 +1211,30 @@ Proof.
       PreH18 PreH19 PreH20).
 Qed. 
 
-Lemma proof_of_kosaraju_entail_wit_10_split_goal_1 : kosaraju_entail_wit_10_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-Qed.
 
-Lemma proof_of_kosaraju_entail_wit_10_split_goal_2 : kosaraju_entail_wit_10_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  assert (u = n_pre) by lia.
-  subst u.
-  exact PreH12.
-Qed.
 
-Lemma proof_of_kosaraju_entail_wit_10 : kosaraju_entail_wit_10.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  assert (u = n_pre) by lia.
-  subst u.
-  Exists pos_l_2 radj_col_l_2 radj_row_l_2 vis1_m_2 fin_m_2.
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures; dump_pre_spatial; try solve [assumption | reflexivity | lia].
-Qed. 
 
-Lemma proof_of_kosaraju_entail_wit_11_split_goal_1 : kosaraju_entail_wit_11_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  eapply csr_wf2_of_core; eauto; lia.
-Qed.
 
-Lemma proof_of_kosaraju_entail_wit_11_split_goal_2 : kosaraju_entail_wit_11_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-Qed.
 
-Lemma proof_of_kosaraju_entail_wit_11 : kosaraju_entail_wit_11.
+
+
+
+
+
+
+
+Lemma proof_of_kosaraju_entail_wit_9 : kosaraju_entail_wit_9.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  pose proof PreH1 as Hphase1.
+  unfold kosaraju_entail_wit_9. left. intros.
+  assert (u_2 = n_pre) by lia. subst u_2.
+  pose proof PreH12 as Hphase1.
   unfold phase1_sequence_refinement in Hphase1.
   destruct Hphase1 as [Hready _].
   unfold dfs1_sequence_state_ready in Hready.
   destruct Hready as [Hwf _].
   unfold csr_wf1 in Hwf.
   destruct Hwf as [_ [_ [Hvis1_len [Hfin_len _]]]].
-  rewrite PreH4 in Hvis1_len, Hfin_len.
+  rewrite PreH19 in Hvis1_len, Hfin_len.
   prop_apply (IntArray.full_Zlength pos n_pre pos_l).
   Intros_p Hpos_len.
   Exists radj_col_l_2 sid_l_high_level_spec vis2_zero vis1_m_2
@@ -1318,16 +1245,16 @@ Proof.
       try solve [assumption | reflexivity | lia |
         intros u Hu; lia |
         eapply csr_wf2_of_core; eauto; lia].
-Qed.
+Qed. 
 
-Lemma proof_of_kosaraju_entail_wit_12_split_goal_1 : kosaraju_entail_wit_12_split_goal_1.
+Lemma proof_of_kosaraju_entail_wit_10_split_goal_1 : kosaraju_entail_wit_10_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   rewrite Zlength_replace_Znth.
   exact PreH9.
 Qed.
 
-Lemma proof_of_kosaraju_entail_wit_12 : kosaraju_entail_wit_12.
+Lemma proof_of_kosaraju_entail_wit_10 : kosaraju_entail_wit_10.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   Exists radj_col_l_2 sid_m_2 vis2_m_2 vis1_m_2
@@ -1346,9 +1273,9 @@ Proof.
     + rewrite Znth_replace_Znth_Diff by lia.
       apply PreH14.
       lia.
-Qed.
+Qed. 
 
-Lemma proof_of_kosaraju_entail_wit_13_split_goal_1 : kosaraju_entail_wit_13_split_goal_1.
+Lemma proof_of_kosaraju_entail_wit_11_split_goal_1 : kosaraju_entail_wit_11_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   assert (i = n_pre) by lia.
@@ -1393,7 +1320,7 @@ Proof.
                              lia.
 Qed.
 
-Lemma proof_of_kosaraju_entail_wit_13 : kosaraju_entail_wit_13.
+Lemma proof_of_kosaraju_entail_wit_11 : kosaraju_entail_wit_11.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   assert (i = n_pre) by lia.
@@ -1406,7 +1333,7 @@ Proof.
       try solve [assumption | reflexivity | lia |
         intros u Hu; lia |
         intros Hzero; lia].
-    exact (proof_of_kosaraju_entail_wit_13_split_goal_1
+    exact (proof_of_kosaraju_entail_wit_11_split_goal_1
       n_pre fadj_row_l_high_level_spec fadj_col_l_high_level_spec
       g_high_level_spec fin_l0 vis1_zero radj_col_l_2 sid_m_2 vis2_m_2
       vis1_m_2 order_l_2 fin_m_2 timer_m n_pre radj_row_l_2 m
@@ -1415,7 +1342,7 @@ Proof.
       PreH18 PreH19 PreH20 PreH21).
 Qed. 
 
-Lemma proof_of_kosaraju_entail_wit_14_split_goal_1 : kosaraju_entail_wit_14_split_goal_1.
+Lemma proof_of_kosaraju_entail_wit_12_split_goal_1 : kosaraju_entail_wit_12_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   unfold phase2_sequence_residual_refinement in PreH8.
@@ -1424,7 +1351,7 @@ Proof.
   lia.
 Qed.
 
-Lemma proof_of_kosaraju_entail_wit_14_split_goal_2 : kosaraju_entail_wit_14_split_goal_2.
+Lemma proof_of_kosaraju_entail_wit_12_split_goal_2 : kosaraju_entail_wit_12_split_goal_2.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   unfold phase2_sequence_residual_refinement in PreH8.
@@ -1433,7 +1360,7 @@ Proof.
   lia.
 Qed.
 
-Lemma proof_of_kosaraju_entail_wit_14 : kosaraju_entail_wit_14.
+Lemma proof_of_kosaraju_entail_wit_12 : kosaraju_entail_wit_12.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   assert (Hroot_range : 0 <= Znth k order_l 0 < n_pre).
@@ -1448,7 +1375,7 @@ Proof.
   - split_pures; dump_pre_spatial; try solve [assumption | reflexivity | lia].
 Qed. 
 
-Lemma proof_of_kosaraju_entail_wit_15_split_goal_1 : kosaraju_entail_wit_15_split_goal_1.
+Lemma proof_of_kosaraju_entail_wit_13_split_goal_1 : kosaraju_entail_wit_13_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   pose proof PreH17 as Hwf.
@@ -1458,13 +1385,13 @@ Proof.
   reflexivity.
 Qed.
 
-Lemma proof_of_kosaraju_entail_wit_15_split_goal_2 : kosaraju_entail_wit_15_split_goal_2.
+Lemma proof_of_kosaraju_entail_wit_13_split_goal_2 : kosaraju_entail_wit_13_split_goal_2.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   eapply csr_wf2_sid_replace_Znth; eauto; lia.
 Qed.
 
-Lemma proof_of_kosaraju_entail_wit_15 : kosaraju_entail_wit_15.
+Lemma proof_of_kosaraju_entail_wit_13 : kosaraju_entail_wit_13.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   assert (Hsid_len : Zlength sid_m = n_pre).
@@ -1481,9 +1408,9 @@ Proof.
       try solve [assumption | reflexivity | lia |
         rewrite Znth_replace_Znth_Same by (rewrite Hsid_len; lia); reflexivity |
         eapply csr_wf2_sid_replace_Znth; eauto; rewrite PreH14; lia].
-Qed.
+Qed. 
 
-Lemma proof_of_kosaraju_entail_wit_17_1_split_goal_1 : kosaraju_entail_wit_17_1_split_goal_1.
+Lemma proof_of_kosaraju_entail_wit_15_1_split_goal_1 : kosaraju_entail_wit_15_1_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   unfold phase2_sequence_residual_refinement in PreH20.
@@ -1491,7 +1418,7 @@ Proof.
   eapply PreH20; eauto.
 Qed.
 
-Lemma proof_of_kosaraju_entail_wit_17_1 : kosaraju_entail_wit_17_1.
+Lemma proof_of_kosaraju_entail_wit_15_1 : kosaraju_entail_wit_15_1.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   Exists radj_col_l_2 fin_m_2 order_l_2 vis1_m_2 vis2_m_ sid_m_ radj_row_l_2.
@@ -1504,9 +1431,9 @@ Proof.
         unfold phase2_sequence_residual_refinement in Hres;
         repeat (destruct Hres as [_ Hres]);
         exact Hres].
-Qed.
+Qed. 
 
-Lemma proof_of_kosaraju_entail_wit_17_2_split_goal_1 : kosaraju_entail_wit_17_2_split_goal_1.
+Lemma proof_of_kosaraju_entail_wit_15_2_split_goal_1 : kosaraju_entail_wit_15_2_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   assert (Hstep :
@@ -1520,13 +1447,13 @@ Proof.
   eapply Hstep; eauto.
 Qed.
 
-Lemma proof_of_kosaraju_entail_wit_17_2_split_goal_2 : kosaraju_entail_wit_17_2_split_goal_2.
+Lemma proof_of_kosaraju_entail_wit_15_2_split_goal_2 : kosaraju_entail_wit_15_2_split_goal_2.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   eapply phase2_sequence_residual_step_from_marked; eauto; lia.
 Qed.
 
-Lemma proof_of_kosaraju_entail_wit_17_2 : kosaraju_entail_wit_17_2.
+Lemma proof_of_kosaraju_entail_wit_15_2 : kosaraju_entail_wit_15_2.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   assert (Hstep :
@@ -1554,9 +1481,9 @@ Proof.
   - repeat cancel.
   - split_pures; dump_pre_spatial;
       try solve [assumption | reflexivity | lia | exact Hstep | exact Hfinal].
-Qed.
+Qed. 
 
-Lemma proof_of_kosaraju_entail_wit_18 : kosaraju_entail_wit_18.
+Lemma proof_of_kosaraju_entail_wit_16 : kosaraju_entail_wit_16.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   assert (k = n_pre) by lia.
@@ -1567,7 +1494,7 @@ Proof.
     repeat cancel.
   - split_pures; dump_pre_spatial;
       try solve [assumption | reflexivity | lia | apply PreH15; reflexivity].
-Qed.
+Qed. 
 
 Lemma proof_of_kosaraju_return_wit_1_split_goal_1 : kosaraju_return_wit_1_split_goal_1.
 Proof.
@@ -1582,7 +1509,7 @@ Proof.
   split_pure_spatial.
   - repeat cancel.
   - split_pures; dump_pre_spatial; assumption.
-Qed.
+Qed. 
 
 Lemma proof_of_kosaraju_partial_solve_wit_2_pure_split_goal_1 : kosaraju_partial_solve_wit_2_pure_split_goal_1.
 Proof.
@@ -1604,59 +1531,17 @@ Proof.
       rewrite <- (csr_wf2_core_m_of_last g fc fr n Hcore Hverts);
       exact Hpos
   end.
-Qed.
+Qed. 
 
-Lemma proof_of_kosaraju_partial_solve_wit_10_pure_split_goal_1 : kosaraju_partial_solve_wit_10_pure_split_goal_1.
-Proof.
-  unfold kosaraju_partial_solve_wit_10_pure_split_goal_1.
-  intros.
-  apply derivable1s_coq_prop_r.
-  pose proof (csr_wf2_core_m_of_bounds g_high_level_spec
-    fadj_col_l_high_level_spec fadj_row_l_high_level_spec PreH19).
-  lia.
-Qed.
 
-Lemma proof_of_kosaraju_partial_solve_wit_10_pure_split_goal_2 : kosaraju_partial_solve_wit_10_pure_split_goal_2.
-Proof.
-  unfold kosaraju_partial_solve_wit_10_pure_split_goal_2.
-  intros.
-  apply derivable1s_coq_prop_r.
-  pose proof (csr_wf2_core_m_of_bounds g_high_level_spec
-    fadj_col_l_high_level_spec fadj_row_l_high_level_spec PreH19).
-  lia.
-Qed.
 
-Lemma proof_of_kosaraju_partial_solve_wit_10_pure_split_goal_3 : kosaraju_partial_solve_wit_10_pure_split_goal_3.
-Proof.
-  unfold kosaraju_partial_solve_wit_10_pure_split_goal_3.
-  intros.
-  prop_apply (IntArray.full_Zlength radj_col
-    (m_of fadj_row_l_high_level_spec) radj_col_l0).
-  Intros_p Hradj_col_len.
-  apply derivable1s_coq_prop_r.
-  lia.
-Qed.
 
-Lemma proof_of_kosaraju_partial_solve_wit_10_pure_split_goal_4 : kosaraju_partial_solve_wit_10_pure_split_goal_4.
-Proof.
-  unfold kosaraju_partial_solve_wit_10_pure_split_goal_4.
-  intros.
-  prop_apply (IntArray.full_Zlength radj_row
-    (n_pre + 1) radj_row_l0).
-  Intros_p Hradj_row_len.
-  apply derivable1s_coq_prop_r.
-  exact Hradj_row_len.
-Qed.
 
-Lemma proof_of_kosaraju_partial_solve_wit_10_pure_split_goal_5 : kosaraju_partial_solve_wit_10_pure_split_goal_5.
-Proof.
-  unfold kosaraju_partial_solve_wit_10_pure_split_goal_5.
-  intros.
-  prop_apply (IntArray.full_Zlength pos n_pre pos_l0).
-  Intros_p Hpos_len.
-  apply derivable1s_coq_prop_r.
-  exact Hpos_len.
-Qed.
+
+
+
+
+
 
 Lemma proof_of_kosaraju_partial_solve_wit_10_pure : kosaraju_partial_solve_wit_10_pure.
 Proof.
@@ -1677,7 +1562,7 @@ Proof.
       pose proof (csr_wf2_core_m_of_bounds g fc fr Hcore)
   end.
   split_pures; dump_pre_spatial; try solve [assumption | reflexivity | lia].
-Qed.
+Qed. 
 
 Lemma proof_of_kosaraju_partial_solve_wit_12_pure_split_goal_1 : kosaraju_partial_solve_wit_12_pure_split_goal_1.
 Proof.
@@ -1726,7 +1611,7 @@ Proof.
     end.
   }
   split_pures; dump_pre_spatial; try solve [assumption | reflexivity | lia].
-Qed.
+Qed. 
 
 Lemma proof_of_transpose_derive_high_level_spec_by_low_level_spec : transpose_derive_high_level_spec_by_low_level_spec.
 Proof.
@@ -2001,3 +1886,4 @@ Proof.
     + split_pures; dump_pre_spatial; assumption.
   - split_pures; dump_pre_spatial; assumption.
 Qed. 
+

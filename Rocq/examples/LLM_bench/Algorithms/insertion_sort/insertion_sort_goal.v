@@ -411,8 +411,7 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (i: Z)
 |--
   EX (l1: (@list Z)) ,
   “ (Permutation l l1 ) ” 
-  &&  “ (increasing l1 ) ” 
-  &&  “ ((Zlength (l1)) = numsSize_pre) ”
+  &&  “ (increasing l1 ) ”
   &&  (IntArray.full nums_pre numsSize_pre l1 )
   **  ((returnSize_pre) # Int  |-> numsSize_pre)
 ) \/
@@ -420,23 +419,17 @@ forall (returnSize_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (i: Z)
 forall (numsSize_pre: Z) (l: (@list Z)) (i: Z) (l0: (@list Z)) (l3: (@list Z)) (l1_2: (@list Z)) (l2: (@list Z)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (app (l1_2) (l2)))) (PreH5 : (l3 = (app (l0) (l2)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1_2 l0 )) (PreH11 : (increasing l0 )) ,
   TT && emp 
 |--
-  “ ((Zlength (l3)) = numsSize_pre) ” 
-  &&  “ (increasing l3 ) ” 
+  “ (increasing l3 ) ” 
   &&  “ (Permutation l l3 ) ”
   &&  emp
 ).
 
 Definition sortArray_return_wit_1_split_goal_1 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (i: Z) (l0: (@list Z)) (l3: (@list Z)) (l1_2: (@list Z)) (l2: (@list Z)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (app (l1_2) (l2)))) (PreH5 : (l3 = (app (l0) (l2)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1_2 l0 )) (PreH11 : (increasing l0 )) ,
-  ((Zlength (l3)) = numsSize_pre)
-.
-
-Definition sortArray_return_wit_1_split_goal_2 := 
-forall (numsSize_pre: Z) (l: (@list Z)) (i: Z) (l0: (@list Z)) (l3: (@list Z)) (l1_2: (@list Z)) (l2: (@list Z)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (app (l1_2) (l2)))) (PreH5 : (l3 = (app (l0) (l2)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1_2 l0 )) (PreH11 : (increasing l0 )) ,
   (increasing l3 )
 .
 
-Definition sortArray_return_wit_1_split_goal_3 := 
+Definition sortArray_return_wit_1_split_goal_2 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (i: Z) (l0: (@list Z)) (l3: (@list Z)) (l1_2: (@list Z)) (l2: (@list Z)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (l = (app (l1_2) (l2)))) (PreH5 : (l3 = (app (l0) (l2)))) (PreH6 : (numsSize_pre = (Zlength (l)))) (PreH7 : (i = (Zlength (l1_2)))) (PreH8 : (1 <= i)) (PreH9 : (i <= numsSize_pre)) (PreH10 : (Permutation l1_2 l0 )) (PreH11 : (increasing l0 )) ,
   (Permutation l l3 )
 .

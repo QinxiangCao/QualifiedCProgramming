@@ -37,13 +37,12 @@ long glibc_slist_clean_iter_back_2(struct list *x)
 	    while (x != stop) {
 	        prev = 0;
 	        node = x;
-		        /*@ Assert exists st s l2_1 ldone y v lrest, l2_1 == cons(v, lrest) && safeExec(ATrue, bind(glibc_slist_clean_iter_back_2_M_loop2(l2_1,s), glibc_slist_clean_iter_back_2_M_loop2_cont(app(app(nil, l2_1), ldone), app(nil, l2_1), s)), X) && x == x@pre && node == x@pre && node != 0 && x != st && range(nil) && range(l2_1) && range(app(nil, l2_1)) && range(l1) && -2147483648 <= s && s <= 2147483647 && glibc_slist_clean_iter_back_2_prev_case(0, nil, node, x@pre) && store(&prev, struct list*, 0) * store(&stop, struct list*, st) * store(&sum, long, s) * sllseg(x@pre, x@pre, nil) * store(&(node->next), struct list*, y) * store(&(node->data), int, v) * sllseg(y, st, lrest) * sll(st, ldone) */
-		        /*@ Inv exists p st s lpre l2_1 ldone y v lrest, l2_1 == cons(v, lrest) && safeExec(ATrue, bind(glibc_slist_clean_iter_back_2_M_loop2(l2_1,s), glibc_slist_clean_iter_back_2_M_loop2_cont(app(app(lpre, l2_1), ldone), app(lpre, l2_1), s)), X) && x == x@pre && node != 0 && x != st && range(lpre) && range(l2_1) && range(app(lpre, l2_1)) && range(l1) && -2147483648 <= s && s <= 2147483647 && glibc_slist_clean_iter_back_2_prev_case(p, lpre, node, x@pre) && store(&prev, struct list*, p) * store(&stop, struct list*, st) * store(&sum, long, s) * sllseg(x@pre, node, lpre) * store(&(node->next), struct list*, y) * store(&(node->data), int, v) * sllseg(y, st, lrest) * sll(st, ldone) */
+		        
+		        /*@ Inv Assert exists p st s lpre l2_1 ldone y v lrest, l2_1 == cons(v, lrest) && safeExec(ATrue, bind(glibc_slist_clean_iter_back_2_M_loop2(l2_1,s), glibc_slist_clean_iter_back_2_M_loop2_cont(app(app(lpre, l2_1), ldone), app(lpre, l2_1), s)), X) && x == x@pre && node != 0 && x != st && range(lpre) && range(l2_1) && range(app(lpre, l2_1)) && range(l1) && -2147483648 <= s && s <= 2147483647 && glibc_slist_clean_iter_back_2_prev_case(p, lpre, node, x@pre) && store(&prev, struct list*, p) * store(&stop, struct list*, st) * store(&sum, long, s) * sllseg(x@pre, node, lpre) * store(&(node->next), struct list*, y) * store(&(node->data), int, v) * sllseg(y, st, lrest) * sll(st, ldone) */
         while (node->next != stop) {
             prev = node;
             node = node->next;
         }
-        /*@ Assert exists p st s lpre ldone y v, y == st && safeExec(ATrue, bind(glibc_slist_clean_iter_back_2_M_loop2(cons(v, nil),s), glibc_slist_clean_iter_back_2_M_loop2_cont(app(app(lpre, cons(v, nil)), ldone), app(lpre, cons(v, nil)), s)), X) && x == x@pre && node != 0 && range(lpre) && range(cons(v, nil)) && range(app(lpre, cons(v, nil))) && range(l1) && -2147483648 <= s && s <= 2147483647 && -2147483648 <= s + v && s + v <= 2147483647 && glibc_slist_clean_iter_back_2_prev_case(p, lpre, node, x@pre) && store(&prev, struct list*, p) * store(&stop, struct list*, st) * store(&sum, long, s) * sllseg(x@pre, node, lpre) * store(&(node->next), struct list*, y) * store(&(node->data), int, v) * sll(y, ldone) */
         sum += node->data;
         stop = node;
         if (prev == 0) {

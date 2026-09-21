@@ -2,6 +2,10 @@
 
 
 
+/*@ Extern Coq (Forall : {A} -> (A -> Prop) -> list A -> Prop)
+                 (Z::le : Z -> Z -> Prop)
+                 (Z::ge : Z -> Z -> Prop)
+                 (Z::lt : Z -> Z -> Prop) */
 /*@ Extern Coq (Permutation : list Z -> list Z -> Prop) */
 /*@ Extern Coq (increasing : list Z -> Prop) */
 /*@ Extern Coq (range_nondecreasing : list Z -> Z -> Z -> Prop) */
@@ -46,8 +50,8 @@ int partition(int *arr, int n, int low, int high)
         Permutation(l, l1) &&
         same_outside_range(l, l1, low, high) &&
         l1[high] == pivot &&
-        (forall (k: Z), (low <= k && k <= i) => (l1[k] <= pivot)) &&
-        (forall (k: Z), (i < k && k < j) => (pivot < l1[k])) &&
+        Forall(Z::ge(pivot), sublist(low, i + 1, l1)) &&
+        Forall(Z::lt(pivot), sublist(i + 1, j, l1)) &&
         IntArray::full(arr, n, l1)
       by array_length
   */

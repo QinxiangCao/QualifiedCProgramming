@@ -623,65 +623,7 @@ struct mst_tree* prim(int* from_arr, int* to_arr, int* weight_arr, int n, int m)
 						
 					if (minIndex != -1) {
 						visited[minIndex] = 1;
-							/*@ Assert
-								exists l_first l_link l_from_new l_to_new l_weight_new
-									   l_lowcost l_visited l_edge_parent s,
-								2 <= n@pre && n@pre < INT_MAX &&
-								1 <= m@pre && 2 * m@pre < INT_MAX &&
-								src == 0 &&
-								n == n@pre && m == m@pre &&
-								from_arr == from_arr@pre && to_arr == to_arr@pre && weight_arr == weight_arr@pre &&
-									j == n@pre &&
-									minIndex != -1 &&
-									0 <= minIndex && minIndex < n@pre &&
-								(forall (k: Z), (0 <= k && k < m@pre) => 0 <= Znth(k, lf, 0) && Znth(k, lf, 0) < n@pre) &&
-								(forall (k: Z), (0 <= k && k < m@pre) => 0 <= Znth(k, lt, 0) && Znth(k, lt, 0) < n@pre) &&
-								(forall (k: Z), (0 <= k && k < m@pre) => 0 <= Znth(k, lw, 0) && Znth(k, lw, 0) < 1000000000) &&
-								array_graph(n@pre, m@pre, lf, lt, lw, g) &&
-				PrimEnv(g, src) &&
-								directed_array_graph(g, l_from_new, l_to_new, l_weight_new) &&
-								first_link_matches_vertex_directed_edges(g, l_from_new, l_first, l_link) &&
 
-								((i == 0 &&
-								  safeExec(initStPred(g, src), Prim2(g), X) &&
-								  min == 0 &&
-								  minIndex == 0 &&
-								  l_lowcost == replace_Znth(0, 0, repeat_Z(1000000000, n@pre)) &&
-								  l_visited == repeat_Z(0, n@pre) &&
-								  l_edge_parent == repeat_Z(-1, n@pre)) 
-								  ||
-									 (exists x_u x_v s_next,
-									  1 <= i && i < n@pre &&
-									  safeExec(prim_state_is(s_next), Prim2_loop(g, i), X) &&
-									  growing_subgraph_state(g, s) &&
-									  visited_matches_state(g, s, l_visited) &&
-									  state_vertex_count(s) == i &&
-									  parent_edges_match_state(g, src, s, l_edge_parent) &&
-									  lowcost_parent_match(g, s, l_lowcost, l_edge_parent, 1000000000) &&
-											  min == Znth(minIndex, l_lowcost, 0) &&
-										  selected_parent_edge_is_min_cut_edge(g, s, l_edge_parent, minIndex) &&
-											  selected_parent_pair(g, s, l_from_new, l_to_new, l_edge_parent, minIndex, x_u, x_v) &&
-											  selected_parent_add_to_mst(g, s, s_next, l_from_new, l_to_new, l_edge_parent, minIndex) &&
-												  visited_matches_state(g, s_next, replace_Znth(minIndex, 1, l_visited)) &&
-												  state_vertex_count(s_next) == i + 1 &&
-												  parent_edges_match_state(g, src, s_next, l_edge_parent) &&
-												  min_vertex_in_range(g, s, n@pre, 1000000000, minIndex, l_lowcost, l_edge_parent))) &&
-
-								IntArray::full(from_arr@pre, m@pre, lf) *
-								IntArray::full(to_arr@pre, m@pre, lt) *
-								IntArray::full(weight_arr@pre, m@pre, lw) *
-								IntArray::undef_full(out_u, n@pre - 1) *
-								IntArray::undef_full(out_v, n@pre - 1) *
-								IntArray::undef_full(out_wt, n@pre - 1) *
-								IntArray::full(from_new, 2 * m@pre, l_from_new) *
-								IntArray::full(to_new, 2 * m@pre, l_to_new) *
-								IntArray::full(weight_new, 2 * m@pre, l_weight_new) *
-								IntArray::full(first, n@pre, l_first) *
-								IntArray::full(link, 2 * m@pre, l_link) *
-								IntArray::full(lowcost, n@pre, l_lowcost) *
-									IntArray::full(visited, n@pre, replace_Znth(minIndex, 1, l_visited)) *
-									IntArray::full(edge_parent, n@pre, l_edge_parent)	
-							*/
 								
 							
 							int cur_edge = first[minIndex];
@@ -993,35 +935,7 @@ struct mst_tree* prim(int* from_arr, int* to_arr, int* weight_arr, int n, int m)
 		}
 	}
 
-	/*@ Assert
-		exists lru lrv lrwt rg
-			   l_from_new l_to_new l_weight_new l_first l_link
-			   l_lowcost l_visited l_edge_parent,
-			safeExec(prim_state_graph_matches(rg), return(tt), X) &&
-			prim_result_graph_matches_array(n@pre, lru, lrv, lrwt, g, rg) &&
 
-			IntArray::full(out_u, n@pre - 1, lru) *
-			IntArray::full(out_v, n@pre - 1, lrv) *
-				IntArray::full(out_wt, n@pre - 1, lrwt) *
-				IntArray::full(from_arr@pre, m@pre, lf) *
-				IntArray::full(to_arr@pre, m@pre, lt) *
-				IntArray::full(weight_arr@pre, m@pre, lw) *
-					has_permission(&n) *
-					has_permission(&m) *
-					has_permission(&from_arr) *
-					has_permission(&to_arr) *
-					has_permission(&weight_arr) *
-					has_permission(&i) *
-					has_permission(&mst_idx) *
-					IntArray::full(from_new, 2 * m@pre, l_from_new) *
-				IntArray::full(to_new, 2 * m@pre, l_to_new) *
-				IntArray::full(weight_new, 2 * m@pre, l_weight_new) *
-				IntArray::full(first, n@pre, l_first) *
-				IntArray::full(link, 2 * m@pre, l_link) *
-				IntArray::full(lowcost, n@pre, l_lowcost) *
-				IntArray::full(visited, n@pre, l_visited) *
-				IntArray::full(edge_parent, n@pre, l_edge_parent)
-	*/
 
 	struct mst_tree* p = malloc_mst_tree();
 	p->u = out_u;

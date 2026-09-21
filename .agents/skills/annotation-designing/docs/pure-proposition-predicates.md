@@ -6,6 +6,8 @@
 
 核心规则：书写程序必须维持的数学事实。优先使用已有语义谓词，不要只为方便证明而暴露面向证明的结构，也不要在 `formal_case_lib` 中重复定义已有谓词。
 
+结果与进度 predicate 的范围/资源边界、指定库的必用规则，以[知识规则 §0–2、§5–6](spec-and-contract-knowledge.md)为准；下文示例沿用这些约束。
+
 ## 在 C Annotation 中导入名称
 
 C annotation 直接提及 Rocq 纯谓词时，在 C 文件顶部声明该名称：
@@ -47,9 +49,9 @@ C annotation 直接提及 Rocq 纯谓词时，在 C 文件顶部声明该名称�
 
 - 排序结果：写 `Permutation(l, l1) && increasing(l1)`；结果降序时写 `decreasing(l1)`。
 - 求和结果：写 `__return == sum(l)`；在循环中维持 `ret == sum(sublist(0, i, l))` 等事实。
-- 最大值、最小值或最优值：先用 `min_value_of_subset`、`max_value_of_subset` 或当前依赖的最优值接口；题目概念在多处复用且直接组合不清楚时，再保留一个业务名称。
+- 最大值、最小值或最优值：必须使用 `MaxMinLib` 的 `min_value_of_subset` / `max_value_of_subset`，不自定义 `IsMinimum` / `IsMaximum` 等同义接口；题目或跨函数接口需要名称时，保留一层直接复用库语义的 case predicate。
 - 仍要陈述算法真正需要的元素范围和内存事实；`IntArray::full(a, n, l)` 已经包含 `Zlength(l) == n` 与 `0 <= n`，不要重复。
-- 输入大小、元素范围和 safety 条件直接展开在 spec 中，不用 `SizeSafe`、`InputValues`、`InputValid`、`InputBound` 一类 predicate 包装。
+- 输入大小、元素范围和 safety 条件直接展开在 `Require` 中，不用 `SizeSafe`、`InputValues`、`InputValid`、`InputBound` 一类 predicate 包装；与下标无关的元素范围使用 `Forall`。结果和进度 predicate 都不混入这些前提或 ownership；`Ensure` 的数学部分只承诺最终输出，资源单独归还。
 
 不要把 spec 写成“C 程序执行了这个递归模拟”。Spec 应描述输入/输出关系，而不是镜像实现。
 
@@ -92,8 +94,8 @@ C annotation 直接提及 Rocq 纯谓词时，在 C 文件顶部声明该名称�
 - `strict_upperbound(x, l)`：`x` 是严格上界。
 - `lowerbound(x, l)` / `lower_bound(x, l)`：`x` 是所有元素的下界。
 - `strict_lowerbound(x, l)`：`x` 是严格下界。
-- `sum(l)`：轻量 `list Z` 求和，适用于 `sum(l)` 和 `sum(sublist(lo, hi, l))`。
-- `Zlist_max(l, lo)`：旧式 list 最大值计算；新的优化 spec 应优先使用基于 `MaxMinLib` 构造的 case-level 谓词。
+- `sum(l)`：来自 `AUXLib.ListLib` 的轻量 `list Z` 求和，适用于 `sum(l)` 和 `sum(sublist(lo, hi, l))`；不要与 `SumLib.Sum.sum P f` 混用。
+- `Zlist_max(l, lo)`：旧式 list 最大值计算；新 spec 的最值性必须使用 `MaxMinLib` 的 `min_value_of_subset` / `max_value_of_subset`，必要的 case predicate 也直接复用该语义。
 
 示例：
 
@@ -116,22 +118,24 @@ ret == sum(sublist(0, i, l))
 
 ### MaxMinLib 谓词
 
-能直接使用 `min_value_of_subset` / `max_value_of_subset` 时直接使用。题目输出需要一个名称时，在 `formal_case_lib` 中保留一层问题 predicate，并让它直接引用 `MaxMinLib`；C annotation、helper 和 invariant 都调用这一名称，不再增加嵌套 wrapper。
+最值性必须使用 `min_value_of_subset` / `max_value_of_subset`。题目输出需要一个名称时，在 `formal_case_lib` 中保留一层问题 predicate，并让它直接引用 `MaxMinLib`；C annotation、helper 和 invariant 都调用这一名称，不再增加嵌套 wrapper。
 
 推荐模式：在 `formal_case_lib` 中定义 `MinimizedMaxSegmentSum : list Z -> Z -> Z -> Prop` 这样的数学谓词，然后在 C annotation 中只声明并调用该名称。
 
-`formal_case_lib` 一侧：
+`formal_case_lib` 一侧：以下片段沿用示例库的 `PartitionMaxSegmentSum : list Z -> Z -> Z -> Prop`，只展示最值层。它的候选集合是合法分段的最大段和值，不包含输入范围或 C 安全条件。
 
 ```coq
-Require Import SimpleC.EE.QCP_demos_LLM.MaxMinLib.
-
-Definition SegmentFeasible (l : list Z) (m cap : Z) : Prop := ...
+Require Import Coq.ZArith.ZArith Coq.Lists.List.
+Require Import MaxMinLib.MaxMin.
 
 Definition MinimizedMaxSegmentSum (l : list Z) (m ans : Z) : Prop :=
-  min_value_of_subset
-    (fun v => exists parts, PartitionMaxSegmentSum l m parts v)
+  min_value_of_subset Z.le
+    (fun v : Z => PartitionMaxSegmentSum l m v)
+    (fun v : Z => v)
     ans.
 ```
+
+比较关系、候选集合、度量函数和结果四项不可省略。候选可能为空的题目另按输出格式保留 sentinel / `NO` 分支。
 
 ```c
 /*@ Extern Coq (MinimizedMaxSegmentSum : list Z -> Z -> Z -> Prop) */
@@ -163,7 +167,7 @@ exists res,
 
 C 循环维持 `left <= ans <= right`；证明侧 helper lemma 把 `CanX` / `CannotX` 与最优值边界连接起来。参见 [二分答案正例](examples/binary-search-answer.md)。
 
-不要在每个 C 不变量中书写原始的 `min_value_of_subset` 或 `max_value_of_subset` 公式。应在 `formal_case_lib` 的业务谓词后封装它们，并且只向 C 暴露业务谓词。
+复杂且重复的最值公式需要题目名称时，用这一层业务 predicate，避免在每个 C invariant 中展开。直接调用库接口已清楚时，不为隐藏调用再加 wrapper。
 
 ### SumLib 谓词
 
@@ -173,16 +177,19 @@ C 循环维持 `left <= ans <= right`；证明侧 helper lemma 把 `CanX` / `Can
 ret == sum(sublist(0, i, l))
 ```
 
-如果 spec 需要索引区间、有限集合或二维区域求和，先在 `formal_case_lib` 的业务谓词中封装 `SumLib` 语义，再从 annotation 调用该谓词。除非公式简短且确实提高可读性，否则不要把复杂有限集合公式放进每个不变量。
+索引区间、有限集合或二维区域求和必须按签名复用 `sum_range` / `sum` / `sum_set_R`；区间枚举使用 `Zrange`，不自行递归定义。复杂且重复的数学概念需要名称时，在 `formal_case_lib` 中保留一层直接复用这些接口的定义，避免在每个不变量中展开。
 
-`formal_case_lib` 一侧：
+`SumLib.SumLib` 是有限集合求和库总入口；下例使用现有 `SpecHelpers` 提供的 `sum_range`，该模块也导出所需的整数、列表与有限集合接口。`[lo, hi)` 的右端点对应 `hi - 1`，表达式直接用于结果或累积值等式，不新增只包装等式的 `RangeContribution`：
 
 ```coq
-Require Import SimpleC.EE.QCP_demos_LLM.SumLib.
+Require Import SimpleC.EE.LLM_bench.Codeforces.SpecHelpers.
+Open Scope Z_scope.
 
-Definition RangeContribution (l : list Z) (lo hi acc : Z) : Prop :=
-  acc = sum_Z_range lo hi (fun i => Znth i l 0).
+Check (fun (l : list Z) (lo hi : Z) =>
+  sum_range lo (hi - 1) (fun i : Z => Znth i l 0)).
 ```
+
+也可使用 `SumLib.Sum.sum (fun i : Z => lo <= i < hi) (fun i => Znth i l 0)`；该区间形状由 `SumLib.ZRange` 提供 `Finite` instance。`sum_set_R P f` 则需要 `Finite P` 与实数值 `f`。使用 `Znth` 的有效域条件仍由上下文提供。List 求和使用 `AUXLib.ListLib.sum`，不能因同名导入而误用 finite-set `sum P f`。
 
 优先写：
 
@@ -200,6 +207,20 @@ acc == sum(sublist(lo, hi, l))
 
 只有 helper 自然需要有限区间、单调性、拆分或索引 map 时，才在证明中桥接到 `SumLib`。
 
+### Relation 的自反传递闭包
+
+零步或多步 relation step 使用 `clos_refl_trans`，不自定义递归 `Reachable`、执行链或 path `Inductive`。当前仓库的接口可明确写为：
+
+```coq
+Require Import Coq.ZArith.ZArith.
+Require Import SetsClass.RelsDomain.
+
+Check (fun (step : Z -> Z -> Prop) =>
+  SetsClass.RelsDomain.clos_refl_trans step).
+```
+
+它包含零步的 identity 与任意有限步；固定次数的 relation composition 不能替代该闭包。图路径语义仍复用类型匹配的 `valid_vpath` / `reachable`，不与标准库同名闭包接口混淆。
+
 ## 设计新谓词与不变量
 
 已有谓词不足时，应把新谓词设计成紧凑的数学关系，而不是可执行的 list 程序。
@@ -207,15 +228,15 @@ acc == sum(sublist(lo, hi, l))
 谓词设计规则：
 
 - 直接逻辑陈述清晰时，避免用 `Fixpoint` 定义 list 性质；优先使用 `forall` / `exists`，不要定义递归遍历。
-- 对 list 逐元素事实，使用基于 `Znth` 和 `Zlength` 的索引陈述，例如 `forall i, 0 <= i < Zlength l -> P (Znth i l d)`。
-- 对区间事实，在 `sublist lo hi l` 上陈述，或对 `lo <= i < hi` 量化；不要把同一含义编码成自定义递归 list 扫描器。
-- 只有确认 `Inductive` 的归纳原理和构造子便于预期证明后才使用它。构造子过多的语义谓词常使 generated goal 和证明搜索更重。
-- 如果某性质天然包含多个字段或分支，考虑用带命名字段的 `Record` 封装事实。过多 inductive 分支会降低 Rocq 编译速度并使 goal 难以阅读。
+- 与下标无关的 list 逐元素事实使用 `Forall P l`，不写 `forall i, 0 <= i < Zlength l -> P (Znth i l d)`；两表对应元素关系使用 `Forall2`。
+- 对有效片段上的逐元素事实使用 `Forall P (sublist lo hi l)`；真正依赖位置或跨下标关系时才保留 guarded indexed quantification，不自定义递归 list 扫描器。
+- `Inductive` 仅按知识规则 §1.4 的输出类型边界选用；不因证明方便而新建 operation chain、reachability 或普通值 wrapper。
+- 多字段 predicate 或 `Record` 只有在表达明确数学概念时才保留；不得用它隐藏输入范围、容量、安全条件或空间 ownership。
 - 新谓词应对小幅实现变化保持稳定。好的谓词描述数学状态，而不是产生它的具体循环步骤。
 
 不变量书写规则：
 
-- 对保持不变的性质优先使用简短 `forall` 事实，尤其是范围、边界、按索引排序和逐元素约束。
+- 只保留后续需要的范围并直接列出；与下标无关的逐元素约束使用 `Forall`，位置或跨下标约束才使用 guarded `forall`，已有单调性直接复用对应库。范围与资源不进入进度 predicate。
 - 如果不变量选取一个元素，直接使用 `Znth i l d`。
 - 如果不变量选取一个区间，直接使用 `sublist lo hi l`。
 - 不要只为暴露一个元素而拆分 list。例如，当 `a == Znth i l d` 已表达相同观察时，应避免 `l == app(sublist(0, i, l), cons(a, sublist(i + 1, n, l)))` 这类形式。
@@ -225,7 +246,7 @@ acc == sum(sublist(lo, hi, l))
 推荐形式：
 
 ```c
-forall i, 0 <= i && i < n => lower <= Znth(i, l, 0) && Znth(i, l, 0) <= upper
+Forall(Z::le(lower), l) && Forall(Z::ge(upper), l)
 cur == Znth(i, l, 0)
 window == sublist(lo, hi, l)
 ```
@@ -278,11 +299,11 @@ increasing(sublist(n - i, n, a)) &&
 - `increasing` / `decreasing` 能否直接表达顺序性质？
 - `upperbound` / `lowerbound` 能否直接表达边界性质？
 - `sum(sublist(...))` 能否直接表达区间累积？
-- 最大值、最小值或最优值是否应在业务谓词中用 `MaxMinLib` 封装？
-- 区间、有限集合或二维求和是否应在业务谓词中用 `SumLib` 封装？
+- 最值是否直接使用 `MaxMinLib` 的 `min_value_of_subset` / `max_value_of_subset`，必要的业务 predicate 内部也只复用该语义？
+- 求和、区间枚举与闭包是否复用了签名匹配的 `sum_range` / `sum` / `sum_set_R`、`Zrange`、`clos_refl_trans`？
 - 新定义表达的是数学语义，还是在复制 C 循环？
-- 能否写成索引或区间上的 `forall` / `exists`，而不是 list `Fixpoint`？
-- `Inductive` 定义会让证明结构更清晰，还是会引入过多分支？
+- 是否已用 `Forall` / `Forall2` 表达逐元素/对应关系，只对确需位置的性质保留 indexed quantification？
+- 新 predicate / `Record` 是否只包含目标数学性质，且没有混入输入范围、执行安全条件或资源？
 
 只有已有谓词无法清晰表达预期语义时才添加新定义。新定义应提高 annotation 可读性和 spec 稳定性，而不是只服务于一个局部证明技巧。
 

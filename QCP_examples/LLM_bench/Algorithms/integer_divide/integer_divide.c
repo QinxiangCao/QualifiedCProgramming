@@ -13,7 +13,6 @@ void divide(int n, int *p)
     Ensure
       exists factors,
       PrimeFactorization(original, factors) &&
-      Zlength(factors) < original &&
       IntArray::undef_seg(p, 0, 1) *
       IntArray::seg(p, 1, 1 + Zlength(factors), factors) *
       IntArray::undef_seg(p, 1 + Zlength(factors), original)

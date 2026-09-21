@@ -63,15 +63,6 @@ Proof. Admitted.
 Lemma proof_of_floyd_adjacency_matrix_ptr_safety_wit_13 : floyd_adjacency_matrix_ptr_safety_wit_13.
 Proof. Admitted. 
 
-Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_6 : floyd_adjacency_matrix_ptr_entail_wit_6.
-Proof. Admitted. 
-
-Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_8 : floyd_adjacency_matrix_ptr_entail_wit_8.
-Proof. Admitted. 
-
-Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_10 : floyd_adjacency_matrix_ptr_entail_wit_10.
-Proof. Admitted. 
-
 Lemma proof_of_floyd_adjacency_matrix_ptr_partial_solve_wit_1_pure : floyd_adjacency_matrix_ptr_partial_solve_wit_1_pure.
 Proof. Admitted. 
 

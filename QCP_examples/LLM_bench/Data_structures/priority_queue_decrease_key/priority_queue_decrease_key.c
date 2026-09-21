@@ -92,31 +92,6 @@ void pqdk_sift_up(int *key, int *data, int *pos, int data_bound,
     data[parent] = data[child];
     key[child] = tmp_key;
     data[child] = tmp_data;
-    /*@ Assert
-        exists key_values data_values pos_values,
-          key == key@pre && data == data@pre &&
-          pos == pos@pre && data_bound == data_bound@pre &&
-          n == n@pre && idx == idx@pre &&
-        n@pre <= capacity && capacity <= heap_capacity &&
-          0 < child && child < n@pre &&
-          0 <= parent && parent < child && parent < n@pre &&
-          parent == heap_parent(child) &&
-          tmp_key == key_values[child] &&
-          tmp_data == data_values[child] &&
-          0 <= data_values[parent] &&
-          data_values[parent] < data_bound@pre &&
-          0 <= data_values[child] &&
-          data_values[child] < data_bound@pre &&
-          SiftUpState(
-            M, key_values, data_values, pos_values,
-            data_bound@pre, n@pre, parent
-          ) &&
-          IntArray::full(key, n@pre, key_values) *
-          IntArray::undef_seg(key, n@pre, capacity) *
-          IntArray::full(data, n@pre, data_values) *
-          IntArray::undef_seg(data, n@pre, capacity) *
-          IntArray::full(pos, data_bound@pre, pos_values)
-     */
     child = parent;
   }
 }
@@ -253,36 +228,6 @@ void pqdk_sift_down(int *key, int *data, int *pos, int data_bound,
     data[current] = data[smallest];
     key[smallest] = tmp_key;
     data[smallest] = tmp_data;
-    /*@ Assert
-        exists key_values data_values pos_values,
-          key == key@pre && data == data@pre &&
-          pos == pos@pre && data_bound == data_bound@pre &&
-          n == n@pre && idx == idx@pre &&
-        n@pre <= capacity && capacity <= heap_capacity &&
-          0 <= current && current < n@pre &&
-          left == current * 2 + 1 &&
-          right == left + 1 &&
-          0 <= left && left < n@pre &&
-          0 <= right &&
-          0 <= smallest && smallest < n@pre &&
-          current < smallest &&
-          tmp_key > key_values[current] &&
-          tmp_key == key_values[smallest] &&
-          tmp_data == data_values[smallest] &&
-          0 <= data_values[current] &&
-          data_values[current] < data_bound@pre &&
-          0 <= data_values[smallest] &&
-          data_values[smallest] < data_bound@pre &&
-          SiftDownState(
-            M, key_values, data_values, pos_values,
-            data_bound@pre, n@pre, smallest
-          ) &&
-          IntArray::full(key, n@pre, key_values) *
-          IntArray::undef_seg(key, n@pre, capacity) *
-          IntArray::full(data, n@pre, data_values) *
-          IntArray::undef_seg(data, n@pre, capacity) *
-          IntArray::full(pos, data_bound@pre, pos_values)
-     */
     current = smallest;
   }
 }
@@ -334,25 +279,6 @@ void pqdk_push(int *key, int *data, int *pos, int *size,
   data[n0] = data_x;
   pos[data_x] = n0;
   *size = n0 + 1;
-  /*@ Assert
-      exists key_values data_values pos_values,
-        key == key@pre && data == data@pre &&
-        pos == pos@pre && size == size@pre &&
-        data_bound == data_bound@pre &&
-        data_x == data_x@pre && key_x == key_x@pre &&
-        n0 == n &&
-        0 <= n && n < capacity && capacity <= heap_capacity &&
-        PushWriteState(
-          M_before, key_values, data_values, pos_values,
-          data_bound@pre, n, data_x@pre, key_x@pre
-        ) &&
-        store(size, int, n + 1) *
-        IntArray::full(key, n + 1, key_values) *
-        IntArray::undef_seg(key, n + 1, capacity) *
-        IntArray::full(data, n + 1, data_values) *
-        IntArray::undef_seg(data, n + 1, capacity) *
-        IntArray::full(pos, data_bound@pre, pos_values)
-   */
   /*@ Assert
       key == key@pre && data == data@pre &&
         pos == pos@pre && size == size@pre &&
@@ -441,26 +367,6 @@ void pqdk_decrease_key(int *key, int *data, int *pos, int *size,
         IntArray::full(pos, data_bound@pre, pos_values)
    */
   key[idx] = key_x;
-  /*@ Assert
-      exists key_values data_values pos_values,
-        key == key@pre && data == data@pre &&
-        pos == pos@pre && size == size@pre &&
-        data_bound == data_bound@pre &&
-        data_x == data_x@pre && key_x == key_x@pre &&
-        n0 == n &&
-        0 <= n && n <= capacity && capacity <= heap_capacity &&
-        0 <= idx && idx < n &&
-        DecreaseKeyWriteState(
-          M_before, key_values, data_values, pos_values,
-          data_bound@pre, n, data_x@pre, key_x@pre, idx
-        ) &&
-        store(size, int, n) *
-        IntArray::full(key, n, key_values) *
-        IntArray::undef_seg(key, n, capacity) *
-        IntArray::full(data, n, data_values) *
-        IntArray::undef_seg(data, n, capacity) *
-        IntArray::full(pos, data_bound@pre, pos_values)
-   */
   /*@ Assert
       key == key@pre && data == data@pre &&
         pos == pos@pre && size == size@pre &&
@@ -655,24 +561,6 @@ void pqdk_pop(int *key, int *data, int *pos, int *size,
 
   if (n0 == 1) {
     *size = 0;
-    /*@ Assert
-        exists popped,
-          key == key@pre && data == data@pre &&
-          pos == pos@pre && size == size@pre &&
-          data_bound == data_bound@pre &&
-          data_out == data_out@pre && key_out == key_out@pre &&
-          n0 == n && n == 1 &&
-          result_key == item_key(popped) &&
-          result_data == item_data(popped) &&
-          partial_map_minimum(M_before, popped) &&
-          store(size, int, 0) *
-          store_heap(
-            key, data, pos, data_bound@pre, capacity,
-            partial_map_remove(M_before, item_data(popped)), 0
-          ) *
-          store(data_out, int, result_data) *
-          store(key_out, int, result_key)
-     */
     return;
   }
   /*@ Assert
@@ -705,61 +593,7 @@ void pqdk_pop(int *key, int *data, int *pos, int *size,
   pos[data[n0 - 1]] = 0;
   key[0] = key[n0 - 1];
   data[0] = data[n0 - 1];
-  /*@ Assert
-      exists popped key_values data_values pos_values,
-        key == key@pre && data == data@pre &&
-        pos == pos@pre && size == size@pre &&
-        data_bound == data_bound@pre &&
-        data_out == data_out@pre && key_out == key_out@pre &&
-        n0 == n && 1 < n &&
-        0 < n - 1 && n - 1 <= capacity &&
-        capacity <= heap_capacity &&
-        result_key == item_key(popped) &&
-        result_data == item_data(popped) &&
-        partial_map_minimum(M_before, popped) &&
-        0 <= data_values[0] && data_values[0] < data_bound@pre &&
-        SiftDownState(
-          partial_map_remove(M_before, item_data(popped)),
-          key_values, data_values, pos_values,
-          data_bound@pre, n - 1, 0
-        ) &&
-        store(size, int, n) *
-        IntArray::full(key, n - 1, key_values) *
-        IntArray::undef_seg(key, n - 1, capacity) *
-        IntArray::full(data, n - 1, data_values) *
-        IntArray::undef_seg(data, n - 1, capacity) *
-        IntArray::full(pos, data_bound@pre, pos_values) *
-          store(data_out, int, result_data) *
-          store(key_out, int, result_key)
-   */
   *size = n0 - 1;
-  /*@ Assert
-      exists popped key_values data_values pos_values,
-        key == key@pre && data == data@pre &&
-        pos == pos@pre && size == size@pre &&
-        data_bound == data_bound@pre &&
-        data_out == data_out@pre && key_out == key_out@pre &&
-        n0 == n && 1 < n &&
-        0 < n - 1 && n - 1 <= capacity &&
-        capacity <= heap_capacity &&
-        result_key == item_key(popped) &&
-        result_data == item_data(popped) &&
-        partial_map_minimum(M_before, popped) &&
-        0 <= data_values[0] && data_values[0] < data_bound@pre &&
-        SiftDownState(
-          partial_map_remove(M_before, item_data(popped)),
-          key_values, data_values, pos_values,
-          data_bound@pre, n - 1, 0
-        ) &&
-        store(size, int, n - 1) *
-        IntArray::full(key, n - 1, key_values) *
-        IntArray::undef_seg(key, n - 1, capacity) *
-        IntArray::full(data, n - 1, data_values) *
-        IntArray::undef_seg(data, n - 1, capacity) *
-        IntArray::full(pos, data_bound@pre, pos_values) *
-        store(data_out, int, result_data) *
-        store(key_out, int, result_key)
-   */
   /*@ Assert
       exists popped,
         key == key@pre && data == data@pre &&

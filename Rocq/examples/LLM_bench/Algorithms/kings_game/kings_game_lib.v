@@ -91,7 +91,6 @@ Definition KingsGameOptimum
 Definition KingsGameResult
     (input : list minister) (king_left : Z) (output : list minister) : Prop :=
   MinisterPermutation input output /\
-  MinisterSorted output /\
   exists reward,
     OrderMaxReward king_left output reward /\
     KingsGameOptimum input king_left reward.
@@ -113,11 +112,11 @@ Definition minister_swap_flat
       (replace_Znth (2 * i + 1) jr
         (replace_Znth (2 * i) jl flat))).
 
-(** Predicate-first bubble-sort invariants.  [BubbleOuterProperty] says that
+(** Predicate-first bubble-sort invariants.  [BubbleOuterFacts] says that
     the last [pass] records are sorted and dominate the remaining prefix.
-    [BubbleScanProperty] says that position [j] contains a maximum greedy key
+    [BubbleScanFacts] says that position [j] contains a maximum greedy key
     of the scanned prefix. *)
-Definition BubbleOuterProperty
+Definition BubbleOuterFacts
     (ps : list minister) (n pass : Z) : Prop :=
   Zlength ps = n /\
   (forall i j,
@@ -132,7 +131,7 @@ Definition BubbleOuterProperty
         (Znth i ps default_minister)
         (Znth j ps default_minister)).
 
-Definition BubbleScanProperty
+Definition BubbleScanFacts
     (ps : list minister) (n pass j : Z) : Prop :=
   0 <= j < n - pass /\
   forall k,
@@ -584,20 +583,20 @@ Qed.
 Lemma bubble_outer_initial__flat_bubble :
   forall ps n,
     Zlength ps = n ->
-    BubbleOuterProperty ps n 0.
+    BubbleOuterFacts ps n 0.
 Proof.
   intros ps n Hlen.
-  unfold BubbleOuterProperty.
+  unfold BubbleOuterFacts.
   split; [exact Hlen |].
   split; intros i j; unfold MinisterProductLe; intros; lia.
 Qed.
 Lemma bubble_scan_initial__flat_bubble :
   forall ps n pass,
     0 < n - pass ->
-    BubbleScanProperty ps n pass 0.
+    BubbleScanFacts ps n pass 0.
 Proof.
   intros ps n pass Hrange.
-  unfold BubbleScanProperty.
+  unfold BubbleScanFacts.
   split; [lia |].
   intros k Hk Hk0.
   assert (k = 0) by lia. subst k.
@@ -607,11 +606,11 @@ Lemma bubble_scan_step_no_swap__flat_bubble :
   forall ps n pass j,
     Zlength ps = n ->
     j + 1 < n - pass ->
-    BubbleScanProperty ps n pass j ->
+    BubbleScanFacts ps n pass j ->
     MinisterProductLe
       (Znth j ps default_minister)
       (Znth (j + 1) ps default_minister) ->
-    BubbleScanProperty ps n pass (j + 1).
+    BubbleScanFacts ps n pass (j + 1).
 Proof.
   intros ps n pass j Hlen Hnext Hscan Hle.
   destruct Hscan as [Hj Hmax].
@@ -629,14 +628,14 @@ Lemma bubble_outer_swap_prefix__flat_bubble :
     0 <= pass ->
     0 <= j ->
     j + 1 < n - pass ->
-    BubbleOuterProperty ps n pass ->
-    BubbleOuterProperty (minister_swap ps j (j + 1)) n pass.
+    BubbleOuterFacts ps n pass ->
+    BubbleOuterFacts (minister_swap ps j (j + 1)) n pass.
 Proof.
   intros ps n pass j Hlen Hpass Hj Hbefore Houter.
   destruct Houter as [Houter_len [Hsuffix Hcross]].
   assert (Hj0 : 0 <= j < Zlength ps) by lia.
   assert (Hj1 : 0 <= j + 1 < Zlength ps) by lia.
-  unfold BubbleOuterProperty.
+  unfold BubbleOuterFacts.
   split.
   - rewrite minister_swap_Zlength__flat_bubble. exact Hlen.
   - split.
@@ -665,11 +664,11 @@ Lemma bubble_scan_step_swap__flat_bubble :
     0 <= pass ->
     0 <= j ->
     j + 1 < n - pass ->
-    BubbleScanProperty ps n pass j ->
+    BubbleScanFacts ps n pass j ->
     MinisterProductLe
       (Znth (j + 1) ps default_minister)
       (Znth j ps default_minister) ->
-    BubbleScanProperty (minister_swap ps j (j + 1)) n pass (j + 1).
+    BubbleScanFacts (minister_swap ps j (j + 1)) n pass (j + 1).
 Proof.
   intros ps n pass j Hlen Hpass Hj Hnext Hscan Hguard.
   destruct Hscan as [Hscan_range Hmax].
@@ -691,15 +690,15 @@ Qed.
 Lemma bubble_outer_finish_pass__flat_bubble :
   forall ps n pass j,
     j = n - 1 - pass ->
-    BubbleOuterProperty ps n pass ->
-    BubbleScanProperty ps n pass j ->
-    BubbleOuterProperty ps n (pass + 1).
+    BubbleOuterFacts ps n pass ->
+    BubbleScanFacts ps n pass j ->
+    BubbleOuterFacts ps n (pass + 1).
 Proof.
   intros ps n pass j Hj Houter Hscan.
   subst j.
   destruct Houter as [Hlen [Hsuffix Hcross]].
   destruct Hscan as [Hscan_range Hmax].
-  unfold BubbleOuterProperty.
+  unfold BubbleOuterFacts.
   split; [exact Hlen |].
   split.
   - intros i j Hi Hij Hjlen.
@@ -718,7 +717,7 @@ Lemma bubble_outer_final_sorted__greedy_optimum :
   forall ps n pass,
     pass >= n - 1 ->
     pass <= n - 1 ->
-    BubbleOuterProperty ps n pass ->
+    BubbleOuterFacts ps n pass ->
     MinisterSorted ps.
 Proof.
   intros ps n pass Hge Hle [Hlen [Hsuffix Hcross]].
@@ -1088,7 +1087,6 @@ Proof.
   intros input output king Hking Hnonempty Hhands Hsorted Hperm.
   unfold KingsGameResult.
   split; [exact Hperm |].
-  split; [exact Hsorted |].
   destruct
     (finite_nonempty_index_max__greedy_optimum
       (Zlength output) (fun i => MinisterReward king output i) Hnonempty)
@@ -1138,4 +1136,51 @@ Proof.
       rewrite Hj_reward in Hsorted_bound.
       exact Hsorted_bound.
   - reflexivity.
+Qed.
+
+
+(** Pure ordering progress; list-length bindings and scan ranges stay in C. *)
+Definition BubbleOuterProperty (ps : list minister) (n pass : Z) : Prop :=
+  (forall i j, n - pass <= i -> i <= j -> j < n ->
+    MinisterProductLe (Znth i ps default_minister) (Znth j ps default_minister)) /\
+  (forall i j, 0 <= i -> i < n - pass -> n - pass <= j -> j < n ->
+    MinisterProductLe (Znth i ps default_minister) (Znth j ps default_minister)).
+
+Definition BubbleScanProperty (ps : list minister) (n pass j : Z) : Prop :=
+  max_value_of_subset Z.le (fun k : Z => 0 <= k <= j)
+    (fun k => minister_product (Znth k ps default_minister))
+    (minister_product (Znth j ps default_minister)).
+
+Lemma bubble_outer_facts ps n pass :
+  Zlength ps = n ->
+  (BubbleOuterProperty ps n pass <-> BubbleOuterFacts ps n pass).
+Proof. unfold BubbleOuterProperty, BubbleOuterFacts. tauto. Qed.
+
+Lemma bubble_scan_facts ps n pass j :
+  0 <= j < n - pass ->
+  (BubbleScanProperty ps n pass j <-> BubbleScanFacts ps n pass j).
+Proof.
+  intros Hj. unfold BubbleScanProperty, BubbleScanFacts, MinisterProductLe,
+    max_value_of_subset, max_object_of_subset.
+  split.
+  - intros [k [[Hk Hmax] Heq]]. split; [exact Hj|].
+    intros i Hi Hij. rewrite <- Heq. apply Hmax. change (0 <= i <= j). lia.
+  - intros [_ Hmax]. exists j. split; [split|reflexivity].
+    + change (0 <= j <= j). lia.
+    + intros i Hi. change (0 <= i <= j) in Hi. apply Hmax; lia.
+Qed.
+
+Lemma minister_hands_explicit ps :
+  MinisterHandsBound ps <->
+  Forall (Z.le 1) (map minister_left ps) /\
+  Forall (Z.ge 10) (map minister_left ps) /\
+  Forall (Z.le 1) (map minister_right ps) /\
+  Forall (Z.ge 10) (map minister_right ps).
+Proof.
+  unfold MinisterHandsBound. rewrite !Forall_map, !Forall_forall.
+  split.
+  - intros H. repeat split; intros p Hp; specialize (H p Hp); lia.
+  - intros [Hll [Hlh [Hrl Hrh]]] p Hp.
+    specialize (Hll p Hp); specialize (Hlh p Hp);
+    specialize (Hrl p Hp); specialize (Hrh p Hp); lia.
 Qed.

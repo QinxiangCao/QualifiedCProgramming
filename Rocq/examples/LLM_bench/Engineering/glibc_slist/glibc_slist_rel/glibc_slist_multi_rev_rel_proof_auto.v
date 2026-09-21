@@ -37,9 +37,6 @@ Proof. Admitted.
 Lemma proof_of_glibc_slist_clean_multi_rev_safety_wit_1 : glibc_slist_clean_multi_rev_safety_wit_1.
 Proof. Admitted. 
 
-Lemma proof_of_glibc_slist_clean_multi_rev_entail_wit_3 : glibc_slist_clean_multi_rev_entail_wit_3.
-Proof. Admitted. 
-
 Lemma proof_of_glibc_slist_clean_multi_rev_return_wit_1 : glibc_slist_clean_multi_rev_return_wit_1.
 Proof. Admitted. 
 
@@ -47,9 +44,6 @@ Lemma proof_of_glibc_slist_clean_multi_rev_partial_solve_wit_1_pure : glibc_slis
 Proof. Admitted. 
 
 Lemma proof_of_glibc_slist_clean_multi_rev_partial_solve_wit_1 : glibc_slist_clean_multi_rev_partial_solve_wit_1.
-Proof. Admitted. 
-
-Lemma proof_of_glibc_slist_clean_multi_rev_partial_solve_wit_2_pure : glibc_slist_clean_multi_rev_partial_solve_wit_2_pure.
 Proof. Admitted. 
 
 Lemma proof_of_glibc_slist_clean_multi_rev_partial_solve_wit_2 : glibc_slist_clean_multi_rev_partial_solve_wit_2.

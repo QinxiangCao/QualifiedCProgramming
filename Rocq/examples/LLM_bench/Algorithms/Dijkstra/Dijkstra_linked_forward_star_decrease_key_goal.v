@@ -92,11 +92,11 @@ forall (dist_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (dist_cur: (@list Z))
 .
 
 Definition dijkstra_linked_forward_star_init_safety_wit_5 := 
-forall (dist_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (dist_all_inf: (@list Z)) (PreH1 : (0 < vertex_count_pre)) (PreH2 : (vertex_count_pre <= 10)) (PreH3 : (0 <= source_pre)) (PreH4 : (source_pre < vertex_count_pre)) (PreH5 : (dist_init_loop 10 dist_all_inf )) ,
+forall (dist_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (dist_cur: (@list Z)) (i: Z) (PreH1 : (i >= 10)) (PreH2 : (0 < vertex_count_pre)) (PreH3 : (vertex_count_pre <= 10)) (PreH4 : (0 <= source_pre)) (PreH5 : (source_pre < vertex_count_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= 10)) (PreH8 : (dist_init_loop i dist_cur )) ,
   ((( &( "vertex_count" ) )) # Int  |-> vertex_count_pre)
   **  ((( &( "source" ) )) # Int  |-> source_pre)
   **  ((( &( "dist" ) )) # Ptr  |-> dist_pre)
-  **  (IntArray.full dist_pre 10 dist_all_inf )
+  **  (IntArray.full dist_pre 10 dist_cur )
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -158,52 +158,26 @@ forall (source_pre: Z) (vertex_count_pre: Z) (dist_cur_2: (@list Z)) (i: Z) (Pre
   (dist_init_loop (i + 1 ) (replace_Znth (i) (1000000000) (dist_cur_2)) )
 .
 
-Definition dijkstra_linked_forward_star_init_entail_wit_3 := 
-(
-forall (dist_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (dist_cur: (@list Z)) (i: Z) (PreH1 : (i >= 10)) (PreH2 : (0 < vertex_count_pre)) (PreH3 : (vertex_count_pre <= 10)) (PreH4 : (0 <= source_pre)) (PreH5 : (source_pre < vertex_count_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= 10)) (PreH8 : (dist_init_loop i dist_cur )) ,
-  (IntArray.full dist_pre 10 dist_cur )
-|--
-  EX (dist_all_inf: (@list Z)) ,
-  “ (0 < vertex_count_pre) ” 
-  &&  “ (vertex_count_pre <= 10) ” 
-  &&  “ (0 <= source_pre) ” 
-  &&  “ (source_pre < vertex_count_pre) ” 
-  &&  “ (dist_init_loop 10 dist_all_inf ) ”
-  &&  (IntArray.full dist_pre 10 dist_all_inf )
-) \/
-(
-forall (source_pre: Z) (vertex_count_pre: Z) (dist_cur: (@list Z)) (i: Z) (PreH1 : (i >= 10)) (PreH2 : (0 < vertex_count_pre)) (PreH3 : (vertex_count_pre <= 10)) (PreH4 : (0 <= source_pre)) (PreH5 : (source_pre < vertex_count_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= 10)) (PreH8 : (dist_init_loop i dist_cur )) ,
-  TT && emp 
-|--
-  “ (dist_init_loop 10 dist_cur ) ”
-  &&  emp
-).
-
-Definition dijkstra_linked_forward_star_init_entail_wit_3_split_goal_1 := 
-forall (source_pre: Z) (vertex_count_pre: Z) (dist_cur: (@list Z)) (i: Z) (PreH1 : (i >= 10)) (PreH2 : (0 < vertex_count_pre)) (PreH3 : (vertex_count_pre <= 10)) (PreH4 : (0 <= source_pre)) (PreH5 : (source_pre < vertex_count_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= 10)) (PreH8 : (dist_init_loop i dist_cur )) ,
-  (dist_init_loop 10 dist_cur )
-.
-
 Definition dijkstra_linked_forward_star_init_return_wit_1 := 
 (
-forall (dist_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (dist_all_inf: (@list Z)) (PreH1 : (0 < vertex_count_pre)) (PreH2 : (vertex_count_pre <= 10)) (PreH3 : (0 <= source_pre)) (PreH4 : (source_pre < vertex_count_pre)) (PreH5 : (dist_init_loop 10 dist_all_inf )) ,
-  (IntArray.full dist_pre 10 (replace_Znth (source_pre) (0) (dist_all_inf)) )
+forall (dist_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (dist_cur: (@list Z)) (i: Z) (PreH1 : (i >= 10)) (PreH2 : (0 < vertex_count_pre)) (PreH3 : (vertex_count_pre <= 10)) (PreH4 : (0 <= source_pre)) (PreH5 : (source_pre < vertex_count_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= 10)) (PreH8 : (dist_init_loop i dist_cur )) ,
+  (IntArray.full dist_pre 10 (replace_Znth (source_pre) (0) (dist_cur)) )
 |--
   EX (dist1: (@list Z)) ,
   “ (dijkstra_init_dist vertex_count_pre source_pre dist1 ) ”
   &&  (IntArray.full dist_pre 10 dist1 )
 ) \/
 (
-forall (source_pre: Z) (vertex_count_pre: Z) (dist_all_inf: (@list Z)) (PreH1 : (0 < vertex_count_pre)) (PreH2 : (vertex_count_pre <= 10)) (PreH3 : (0 <= source_pre)) (PreH4 : (source_pre < vertex_count_pre)) (PreH5 : (dist_init_loop 10 dist_all_inf )) ,
+forall (source_pre: Z) (vertex_count_pre: Z) (dist_cur: (@list Z)) (i: Z) (PreH1 : (i >= 10)) (PreH2 : (0 < vertex_count_pre)) (PreH3 : (vertex_count_pre <= 10)) (PreH4 : (0 <= source_pre)) (PreH5 : (source_pre < vertex_count_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= 10)) (PreH8 : (dist_init_loop i dist_cur )) ,
   TT && emp 
 |--
-  “ (dijkstra_init_dist vertex_count_pre source_pre (replace_Znth (source_pre) (0) (dist_all_inf)) ) ”
+  “ (dijkstra_init_dist vertex_count_pre source_pre (replace_Znth (source_pre) (0) (dist_cur)) ) ”
   &&  emp
 ).
 
 Definition dijkstra_linked_forward_star_init_return_wit_1_split_goal_1 := 
-forall (source_pre: Z) (vertex_count_pre: Z) (dist_all_inf: (@list Z)) (PreH1 : (0 < vertex_count_pre)) (PreH2 : (vertex_count_pre <= 10)) (PreH3 : (0 <= source_pre)) (PreH4 : (source_pre < vertex_count_pre)) (PreH5 : (dist_init_loop 10 dist_all_inf )) ,
-  (dijkstra_init_dist vertex_count_pre source_pre (replace_Znth (source_pre) (0) (dist_all_inf)) )
+forall (source_pre: Z) (vertex_count_pre: Z) (dist_cur: (@list Z)) (i: Z) (PreH1 : (i >= 10)) (PreH2 : (0 < vertex_count_pre)) (PreH3 : (vertex_count_pre <= 10)) (PreH4 : (0 <= source_pre)) (PreH5 : (source_pre < vertex_count_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= 10)) (PreH8 : (dist_init_loop i dist_cur )) ,
+  (dijkstra_init_dist vertex_count_pre source_pre (replace_Znth (source_pre) (0) (dist_cur)) )
 .
 
 Definition dijkstra_linked_forward_star_init_partial_solve_wit_1 := 
@@ -223,16 +197,19 @@ forall (dist_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (dist_cur: (@list Z))
 .
 
 Definition dijkstra_linked_forward_star_init_partial_solve_wit_2 := 
-forall (dist_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (dist_all_inf: (@list Z)) (PreH1 : (0 < vertex_count_pre)) (PreH2 : (vertex_count_pre <= 10)) (PreH3 : (0 <= source_pre)) (PreH4 : (source_pre < vertex_count_pre)) (PreH5 : (dist_init_loop 10 dist_all_inf )) ,
-  (IntArray.full dist_pre 10 dist_all_inf )
+forall (dist_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (dist_cur: (@list Z)) (i: Z) (PreH1 : (i >= 10)) (PreH2 : (0 < vertex_count_pre)) (PreH3 : (vertex_count_pre <= 10)) (PreH4 : (0 <= source_pre)) (PreH5 : (source_pre < vertex_count_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= 10)) (PreH8 : (dist_init_loop i dist_cur )) ,
+  (IntArray.full dist_pre 10 dist_cur )
 |--
-  “ (0 < vertex_count_pre) ” 
+  “ (i >= 10) ” 
+  &&  “ (0 < vertex_count_pre) ” 
   &&  “ (vertex_count_pre <= 10) ” 
   &&  “ (0 <= source_pre) ” 
   &&  “ (source_pre < vertex_count_pre) ” 
-  &&  “ (dist_init_loop 10 dist_all_inf ) ”
+  &&  “ (0 <= i) ” 
+  &&  “ (i <= 10) ” 
+  &&  “ (dist_init_loop i dist_cur ) ”
   &&  (((dist_pre + (source_pre * sizeof(INT)))) # Int  |->_)
-  **  (IntArray.missing_i dist_pre source_pre 0 10 dist_all_inf )
+  **  (IntArray.missing_i dist_pre source_pre 0 10 dist_cur )
 .
 
 (*----- Function dijkstra_linked_forward_star_decrease_key -----*)
@@ -361,7 +338,7 @@ forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (ed
 .
 
 Definition dijkstra_linked_forward_star_decrease_key_safety_wit_6 := 
-forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (dist_init: (@list Z)) (PreH1 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH2 : (vertex_valid g_low_level_spec source_pre )) (PreH3 : (nonnegative_edges g_low_level_spec )) (PreH4 : (0 < heap_capacity)) (PreH5 : (100000 <= heap_capacity)) (PreH6 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH7 : (dijkstra_init_dist vertex_count_pre source_pre dist_init )) (PreH8 : (dijkstra_dk_lfs_initial_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec X_low_level_spec )) (PreH9 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
+forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (dist_init: (@list Z)) (i: Z) (PreH1 : (i >= 10)) (PreH2 : (0 <= i)) (PreH3 : (i <= 10)) (PreH4 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH5 : (vertex_valid g_low_level_spec source_pre )) (PreH6 : (nonnegative_edges g_low_level_spec )) (PreH7 : (0 < heap_capacity)) (PreH8 : (100000 <= heap_capacity)) (PreH9 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH10 : (dijkstra_init_dist vertex_count_pre source_pre dist_init )) (PreH11 : (dijkstra_dk_lfs_initial_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec X_low_level_spec )) (PreH12 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
   ((( &( "queue_size" ) )) # Int  |->_)
   **  ((( &( "vertex_count" ) )) # Int  |-> vertex_count_pre)
   **  ((( &( "source" ) )) # Int  |-> source_pre)
@@ -378,7 +355,8 @@ forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (ed
   **  (IntArray.full dist_pre 10 dist_init )
   **  (IntArray.undef_seg (( &( "queue_key" ) ) + (0 * sizeof(INT))) 0 100000 )
   **  (IntArray.undef_seg (( &( "queue_data" ) ) + (0 * sizeof(INT))) 0 100000 )
-  **  (IntArray.full ( &( "queue_pos" ) ) 10 (repeat_Z ((-1)) (10)) )
+  **  (IntArray.full ( &( "queue_pos" ) ) i (repeat_Z ((-1)) (i)) )
+  **  (IntArray.undef_seg ( &( "queue_pos" ) ) i 10 )
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -517,8 +495,10 @@ forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (ed
 .
 
 Definition dijkstra_linked_forward_star_decrease_key_safety_wit_13 := 
-forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur: (Z -> Prop)) (dist_cur: (@list Z)) (queue_size: Z) (queue_map: partial_map) (PreH1 : (0 < queue_size)) (PreH2 : (queue_size <= 100000)) (PreH3 : (100000 <= heap_capacity)) (PreH4 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH5 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH6 : (vertex_valid g_low_level_spec source_pre )) (PreH7 : (nonnegative_edges g_low_level_spec )) (PreH8 : (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur dist_cur queue_map )) (PreH9 : (dijkstra_dk_map_loop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur dist_cur queue_map X_low_level_spec )) (PreH10 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
-  ((( &( "vertex_count" ) )) # Int  |-> vertex_count_pre)
+forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur: (Z -> Prop)) (dist_cur: (@list Z)) (queue_size: Z) (queue_map: partial_map) (PreH1 : (queue_size <> 0)) (PreH2 : (0 <= queue_size)) (PreH3 : (queue_size <= 100000)) (PreH4 : (100000 <= heap_capacity)) (PreH5 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH6 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH7 : (vertex_valid g_low_level_spec source_pre )) (PreH8 : (nonnegative_edges g_low_level_spec )) (PreH9 : (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur dist_cur queue_map )) (PreH10 : (dijkstra_dk_map_loop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur dist_cur queue_map X_low_level_spec )) (PreH11 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
+  ((( &( "cur_distance" ) )) # Int  |->_)
+  **  ((( &( "cur_vertex" ) )) # Int  |->_)
+  **  ((( &( "vertex_count" ) )) # Int  |-> vertex_count_pre)
   **  ((( &( "source" ) )) # Int  |-> source_pre)
   **  ((( &( "edge_count" ) )) # Int  |-> edge_count_pre)
   **  ((( &( "head" ) )) # Ptr  |-> head_pre)
@@ -533,16 +513,16 @@ forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (ed
   **  (IntArray.full next_pre edge_count_pre next_values_low_level_spec )
   **  (IntArray.full dist_pre 10 dist_cur )
   **  (store_heap (( &( "queue_key" ) ) + (0 * sizeof(INT))) (( &( "queue_data" ) ) + (0 * sizeof(INT))) (( &( "queue_pos" ) ) + (0 * sizeof(INT))) 10 100000 queue_map queue_size )
-  **  ((( &( "cur_vertex" ) )) # Int  |->_)
-  **  ((( &( "cur_distance" ) )) # Int  |->_)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
 Definition dijkstra_linked_forward_star_decrease_key_safety_wit_14 := 
-forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur: (Z -> Prop)) (dist_cur: (@list Z)) (queue_size: Z) (queue_map: partial_map) (PreH1 : (0 < queue_size)) (PreH2 : (queue_size <= 100000)) (PreH3 : (100000 <= heap_capacity)) (PreH4 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH5 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH6 : (vertex_valid g_low_level_spec source_pre )) (PreH7 : (nonnegative_edges g_low_level_spec )) (PreH8 : (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur dist_cur queue_map )) (PreH9 : (dijkstra_dk_map_loop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur dist_cur queue_map X_low_level_spec )) (PreH10 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
-  ((( &( "vertex_count" ) )) # Int  |-> vertex_count_pre)
+forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur: (Z -> Prop)) (dist_cur: (@list Z)) (queue_size: Z) (queue_map: partial_map) (PreH1 : (queue_size <> 0)) (PreH2 : (0 <= queue_size)) (PreH3 : (queue_size <= 100000)) (PreH4 : (100000 <= heap_capacity)) (PreH5 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH6 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH7 : (vertex_valid g_low_level_spec source_pre )) (PreH8 : (nonnegative_edges g_low_level_spec )) (PreH9 : (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur dist_cur queue_map )) (PreH10 : (dijkstra_dk_map_loop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur dist_cur queue_map X_low_level_spec )) (PreH11 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
+  ((( &( "cur_distance" ) )) # Int  |->_)
+  **  ((( &( "cur_vertex" ) )) # Int  |->_)
+  **  ((( &( "vertex_count" ) )) # Int  |-> vertex_count_pre)
   **  ((( &( "source" ) )) # Int  |-> source_pre)
   **  ((( &( "edge_count" ) )) # Int  |-> edge_count_pre)
   **  ((( &( "head" ) )) # Ptr  |-> head_pre)
@@ -557,16 +537,16 @@ forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (ed
   **  (IntArray.full next_pre edge_count_pre next_values_low_level_spec )
   **  (IntArray.full dist_pre 10 dist_cur )
   **  (store_heap (( &( "queue_key" ) ) + (0 * sizeof(INT))) (( &( "queue_data" ) ) + (0 * sizeof(INT))) (( &( "queue_pos" ) ) + (0 * sizeof(INT))) 10 100000 queue_map queue_size )
-  **  ((( &( "cur_vertex" ) )) # Int  |->_)
-  **  ((( &( "cur_distance" ) )) # Int  |->_)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
 Definition dijkstra_linked_forward_star_decrease_key_safety_wit_15 := 
-forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur: (Z -> Prop)) (dist_cur: (@list Z)) (queue_size: Z) (queue_map: partial_map) (PreH1 : (0 < queue_size)) (PreH2 : (queue_size <= 100000)) (PreH3 : (100000 <= heap_capacity)) (PreH4 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH5 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH6 : (vertex_valid g_low_level_spec source_pre )) (PreH7 : (nonnegative_edges g_low_level_spec )) (PreH8 : (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur dist_cur queue_map )) (PreH9 : (dijkstra_dk_map_loop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur dist_cur queue_map X_low_level_spec )) (PreH10 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
-  ((( &( "vertex_count" ) )) # Int  |-> vertex_count_pre)
+forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur: (Z -> Prop)) (dist_cur: (@list Z)) (queue_size: Z) (queue_map: partial_map) (PreH1 : (queue_size <> 0)) (PreH2 : (0 <= queue_size)) (PreH3 : (queue_size <= 100000)) (PreH4 : (100000 <= heap_capacity)) (PreH5 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH6 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH7 : (vertex_valid g_low_level_spec source_pre )) (PreH8 : (nonnegative_edges g_low_level_spec )) (PreH9 : (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur dist_cur queue_map )) (PreH10 : (dijkstra_dk_map_loop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur dist_cur queue_map X_low_level_spec )) (PreH11 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
+  ((( &( "cur_distance" ) )) # Int  |->_)
+  **  ((( &( "cur_vertex" ) )) # Int  |->_)
+  **  ((( &( "vertex_count" ) )) # Int  |-> vertex_count_pre)
   **  ((( &( "source" ) )) # Int  |-> source_pre)
   **  ((( &( "edge_count" ) )) # Int  |-> edge_count_pre)
   **  ((( &( "head" ) )) # Ptr  |-> head_pre)
@@ -581,16 +561,16 @@ forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (ed
   **  (IntArray.full next_pre edge_count_pre next_values_low_level_spec )
   **  (IntArray.full dist_pre 10 dist_cur )
   **  (store_heap (( &( "queue_key" ) ) + (0 * sizeof(INT))) (( &( "queue_data" ) ) + (0 * sizeof(INT))) (( &( "queue_pos" ) ) + (0 * sizeof(INT))) 10 100000 queue_map queue_size )
-  **  ((( &( "cur_vertex" ) )) # Int  |->_)
-  **  ((( &( "cur_distance" ) )) # Int  |->_)
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
 Definition dijkstra_linked_forward_star_decrease_key_safety_wit_16 := 
-forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur: (Z -> Prop)) (dist_cur: (@list Z)) (queue_size: Z) (queue_map: partial_map) (PreH1 : (0 < queue_size)) (PreH2 : (queue_size <= 100000)) (PreH3 : (100000 <= heap_capacity)) (PreH4 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH5 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH6 : (vertex_valid g_low_level_spec source_pre )) (PreH7 : (nonnegative_edges g_low_level_spec )) (PreH8 : (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur dist_cur queue_map )) (PreH9 : (dijkstra_dk_map_loop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur dist_cur queue_map X_low_level_spec )) (PreH10 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
-  ((( &( "vertex_count" ) )) # Int  |-> vertex_count_pre)
+forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur: (Z -> Prop)) (dist_cur: (@list Z)) (queue_size: Z) (queue_map: partial_map) (PreH1 : (queue_size <> 0)) (PreH2 : (0 <= queue_size)) (PreH3 : (queue_size <= 100000)) (PreH4 : (100000 <= heap_capacity)) (PreH5 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH6 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH7 : (vertex_valid g_low_level_spec source_pre )) (PreH8 : (nonnegative_edges g_low_level_spec )) (PreH9 : (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur dist_cur queue_map )) (PreH10 : (dijkstra_dk_map_loop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur dist_cur queue_map X_low_level_spec )) (PreH11 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
+  ((( &( "cur_distance" ) )) # Int  |->_)
+  **  ((( &( "cur_vertex" ) )) # Int  |->_)
+  **  ((( &( "vertex_count" ) )) # Int  |-> vertex_count_pre)
   **  ((( &( "source" ) )) # Int  |-> source_pre)
   **  ((( &( "edge_count" ) )) # Int  |-> edge_count_pre)
   **  ((( &( "head" ) )) # Ptr  |-> head_pre)
@@ -605,8 +585,6 @@ forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (ed
   **  (IntArray.full next_pre edge_count_pre next_values_low_level_spec )
   **  (IntArray.full dist_pre 10 dist_cur )
   **  (store_heap (( &( "queue_key" ) ) + (0 * sizeof(INT))) (( &( "queue_data" ) ) + (0 * sizeof(INT))) (( &( "queue_pos" ) ) + (0 * sizeof(INT))) 10 100000 queue_map queue_size )
-  **  ((( &( "cur_vertex" ) )) # Int  |->_)
-  **  ((( &( "cur_distance" ) )) # Int  |->_)
 |--
   “ (10 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 10) ”
@@ -1127,51 +1105,6 @@ forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (ed
   **  (IntArray.full ( &( "queue_pos" ) ) i (repeat_Z ((-1)) (i)) )
   **  (IntArray.undef_seg ( &( "queue_pos" ) ) i 10 )
 |--
-  EX (dist_init: (@list Z)) ,
-  “ (graph_has_size g_low_level_spec vertex_count_pre ) ” 
-  &&  “ (vertex_valid g_low_level_spec source_pre ) ” 
-  &&  “ (nonnegative_edges g_low_level_spec ) ” 
-  &&  “ (0 < heap_capacity) ” 
-  &&  “ (100000 <= heap_capacity) ” 
-  &&  “ ((edge_count_pre + 1 ) <= heap_capacity) ” 
-  &&  “ (dijkstra_init_dist vertex_count_pre source_pre dist_init ) ” 
-  &&  “ (dijkstra_dk_lfs_initial_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec X_low_level_spec ) ” 
-  &&  “ (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec ) ”
-  &&  (IntArray.full head_pre vertex_count_pre head_values_low_level_spec )
-  **  (IntArray.full to_pre edge_count_pre to_values_low_level_spec )
-  **  (IntArray.full weight_pre edge_count_pre weight_values_low_level_spec )
-  **  (IntArray.full next_pre edge_count_pre next_values_low_level_spec )
-  **  (IntArray.full dist_pre 10 dist_init )
-  **  (IntArray.undef_seg (( &( "queue_key" ) ) + (0 * sizeof(INT))) 0 100000 )
-  **  (IntArray.undef_seg (( &( "queue_data" ) ) + (0 * sizeof(INT))) 0 100000 )
-  **  (IntArray.full ( &( "queue_pos" ) ) 10 (repeat_Z ((-1)) (10)) )
-) \/
-(
-forall (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (dist_init_2: (@list Z)) (i: Z) (PreH1 : (i >= 10)) (PreH2 : (0 <= i)) (PreH3 : (i <= 10)) (PreH4 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH5 : (vertex_valid g_low_level_spec source_pre )) (PreH6 : (nonnegative_edges g_low_level_spec )) (PreH7 : (0 < heap_capacity)) (PreH8 : (100000 <= heap_capacity)) (PreH9 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH10 : (dijkstra_init_dist vertex_count_pre source_pre dist_init_2 )) (PreH11 : (dijkstra_dk_lfs_initial_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec X_low_level_spec )) (PreH12 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
-  (IntArray.full ( &( "queue_pos" ) ) i (repeat_Z ((-1)) (i)) )
-|--
-  (IntArray.full ( &( "queue_pos" ) ) 10 (repeat_Z ((-1)) (10)) )
-).
-
-Definition dijkstra_linked_forward_star_decrease_key_entail_wit_3_split_goal_spatial := 
-forall (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (dist_init_2: (@list Z)) (i: Z) (PreH1 : (i >= 10)) (PreH2 : (0 <= i)) (PreH3 : (i <= 10)) (PreH4 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH5 : (vertex_valid g_low_level_spec source_pre )) (PreH6 : (nonnegative_edges g_low_level_spec )) (PreH7 : (0 < heap_capacity)) (PreH8 : (100000 <= heap_capacity)) (PreH9 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH10 : (dijkstra_init_dist vertex_count_pre source_pre dist_init_2 )) (PreH11 : (dijkstra_dk_lfs_initial_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec X_low_level_spec )) (PreH12 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
-  (IntArray.full ( &( "queue_pos" ) ) i (repeat_Z ((-1)) (i)) )
-|--
-  (IntArray.full ( &( "queue_pos" ) ) 10 (repeat_Z ((-1)) (10)) )
-.
-
-Definition dijkstra_linked_forward_star_decrease_key_entail_wit_4 := 
-(
-forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (dist_init_2: (@list Z)) (PreH1 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH2 : (vertex_valid g_low_level_spec source_pre )) (PreH3 : (nonnegative_edges g_low_level_spec )) (PreH4 : (0 < heap_capacity)) (PreH5 : (100000 <= heap_capacity)) (PreH6 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH7 : (dijkstra_init_dist vertex_count_pre source_pre dist_init_2 )) (PreH8 : (dijkstra_dk_lfs_initial_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec X_low_level_spec )) (PreH9 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
-  (IntArray.full head_pre vertex_count_pre head_values_low_level_spec )
-  **  (IntArray.full to_pre edge_count_pre to_values_low_level_spec )
-  **  (IntArray.full weight_pre edge_count_pre weight_values_low_level_spec )
-  **  (IntArray.full next_pre edge_count_pre next_values_low_level_spec )
-  **  (IntArray.full dist_pre 10 dist_init_2 )
-  **  (IntArray.undef_seg (( &( "queue_key" ) ) + (0 * sizeof(INT))) 0 100000 )
-  **  (IntArray.undef_seg (( &( "queue_data" ) ) + (0 * sizeof(INT))) 0 100000 )
-  **  (IntArray.full ( &( "queue_pos" ) ) 10 (repeat_Z ((-1)) (10)) )
-|--
   EX (queue_map_initial_after: partial_map)  (queue_map_empty: partial_map)  (visited_init: (Z -> Prop))  (dist_init: (@list Z)) ,
   “ (0 = 0) ” 
   &&  “ (graph_has_size g_low_level_spec vertex_count_pre ) ” 
@@ -1195,10 +1128,10 @@ forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (ed
   **  (store_heap (( &( "queue_key" ) ) + (0 * sizeof(INT))) (( &( "queue_data" ) ) + (0 * sizeof(INT))) (( &( "queue_pos" ) ) + (0 * sizeof(INT))) 10 100000 queue_map_empty 0 )
 ) \/
 (
-forall (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (dist_init_2: (@list Z)) (PreH1 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH2 : (vertex_valid g_low_level_spec source_pre )) (PreH3 : (nonnegative_edges g_low_level_spec )) (PreH4 : (0 < heap_capacity)) (PreH5 : (100000 <= heap_capacity)) (PreH6 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH7 : (dijkstra_init_dist vertex_count_pre source_pre dist_init_2 )) (PreH8 : (dijkstra_dk_lfs_initial_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec X_low_level_spec )) (PreH9 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
+forall (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (dist_init_2: (@list Z)) (i: Z) (PreH1 : (i >= 10)) (PreH2 : (0 <= i)) (PreH3 : (i <= 10)) (PreH4 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH5 : (vertex_valid g_low_level_spec source_pre )) (PreH6 : (nonnegative_edges g_low_level_spec )) (PreH7 : (0 < heap_capacity)) (PreH8 : (100000 <= heap_capacity)) (PreH9 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH10 : (dijkstra_init_dist vertex_count_pre source_pre dist_init_2 )) (PreH11 : (dijkstra_dk_lfs_initial_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec X_low_level_spec )) (PreH12 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
   (IntArray.undef_seg (( &( "queue_key" ) ) + (0 * sizeof(INT))) 0 100000 )
   **  (IntArray.undef_seg (( &( "queue_data" ) ) + (0 * sizeof(INT))) 0 100000 )
-  **  (IntArray.full ( &( "queue_pos" ) ) 10 (repeat_Z ((-1)) (10)) )
+  **  (IntArray.full ( &( "queue_pos" ) ) i (repeat_Z ((-1)) (i)) )
 |--
   EX (queue_map_initial_after: partial_map)  (visited_init: (Z -> Prop)) ,
   “ (graph_has_size g_low_level_spec vertex_count_pre ) ” 
@@ -1216,7 +1149,7 @@ forall (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_sp
   &&  (store_heap (( &( "queue_key" ) ) + (0 * sizeof(INT))) (( &( "queue_data" ) ) + (0 * sizeof(INT))) (( &( "queue_pos" ) ) + (0 * sizeof(INT))) 10 100000 partial_map_empty 0 )
 ).
 
-Definition dijkstra_linked_forward_star_decrease_key_entail_wit_5 := 
+Definition dijkstra_linked_forward_star_decrease_key_entail_wit_4 := 
 (
 forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_init: (Z -> Prop)) (dist_init: (@list Z)) (queue_map_initial_after: partial_map) (queue_size: Z) (queue_map_empty: partial_map) (PreH1 : (queue_size = 0)) (PreH2 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH3 : (vertex_valid g_low_level_spec source_pre )) (PreH4 : (nonnegative_edges g_low_level_spec )) (PreH5 : (0 < heap_capacity)) (PreH6 : (100000 <= heap_capacity)) (PreH7 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH8 : (dijkstra_init_dist vertex_count_pre source_pre dist_init )) (PreH9 : (dijkstra_dk_lfs_initial_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec X_low_level_spec )) (PreH10 : (visited_set_empty visited_init )) (PreH11 : (queue_map_empty = partial_map_empty)) (PreH12 : (partial_map_absent queue_map_empty source_pre )) (PreH13 : (dk_map_queue_push_result queue_map_empty queue_map_initial_after source_pre 0 )) (PreH14 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
   (store_heap (( &( "queue_key" ) ) + (0 * sizeof(INT))) (( &( "queue_data" ) ) + (0 * sizeof(INT))) (( &( "queue_pos" ) ) + (0 * sizeof(INT))) 10 100000 (partial_map_add (queue_map_empty) (source_pre) (0)) (queue_size + 1 ) )
@@ -1256,48 +1189,9 @@ forall (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_sp
   &&  emp
 ).
 
-Definition dijkstra_linked_forward_star_decrease_key_entail_wit_6 := 
+Definition dijkstra_linked_forward_star_decrease_key_entail_wit_5 := 
 (
-forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur_2: (Z -> Prop)) (dist_cur_2: (@list Z)) (queue_map_2: partial_map) (queue_size: Z) (PreH1 : (queue_size <> 0)) (PreH2 : (0 <= queue_size)) (PreH3 : (queue_size <= 100000)) (PreH4 : (100000 <= heap_capacity)) (PreH5 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH6 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH7 : (vertex_valid g_low_level_spec source_pre )) (PreH8 : (nonnegative_edges g_low_level_spec )) (PreH9 : (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur_2 dist_cur_2 queue_map_2 )) (PreH10 : (dijkstra_dk_map_loop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur_2 dist_cur_2 queue_map_2 X_low_level_spec )) (PreH11 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
-  (IntArray.full head_pre vertex_count_pre head_values_low_level_spec )
-  **  (IntArray.full to_pre edge_count_pre to_values_low_level_spec )
-  **  (IntArray.full weight_pre edge_count_pre weight_values_low_level_spec )
-  **  (IntArray.full next_pre edge_count_pre next_values_low_level_spec )
-  **  (IntArray.full dist_pre 10 dist_cur_2 )
-  **  (store_heap (( &( "queue_key" ) ) + (0 * sizeof(INT))) (( &( "queue_data" ) ) + (0 * sizeof(INT))) (( &( "queue_pos" ) ) + (0 * sizeof(INT))) 10 100000 queue_map_2 queue_size )
-|--
-  EX (visited_cur: (Z -> Prop))  (dist_cur: (@list Z))  (queue_map: partial_map) ,
-  “ (0 < queue_size) ” 
-  &&  “ (queue_size <= 100000) ” 
-  &&  “ (100000 <= heap_capacity) ” 
-  &&  “ ((edge_count_pre + 1 ) <= heap_capacity) ” 
-  &&  “ (graph_has_size g_low_level_spec vertex_count_pre ) ” 
-  &&  “ (vertex_valid g_low_level_spec source_pre ) ” 
-  &&  “ (nonnegative_edges g_low_level_spec ) ” 
-  &&  “ (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur dist_cur queue_map ) ” 
-  &&  “ (dijkstra_dk_map_loop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur dist_cur queue_map X_low_level_spec ) ” 
-  &&  “ (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec ) ”
-  &&  (IntArray.full head_pre vertex_count_pre head_values_low_level_spec )
-  **  (IntArray.full to_pre edge_count_pre to_values_low_level_spec )
-  **  (IntArray.full weight_pre edge_count_pre weight_values_low_level_spec )
-  **  (IntArray.full next_pre edge_count_pre next_values_low_level_spec )
-  **  (IntArray.full dist_pre 10 dist_cur )
-  **  (store_heap (( &( "queue_key" ) ) + (0 * sizeof(INT))) (( &( "queue_data" ) ) + (0 * sizeof(INT))) (( &( "queue_pos" ) ) + (0 * sizeof(INT))) 10 100000 queue_map queue_size )
-) \/
-(
-forall (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur_2: (Z -> Prop)) (dist_cur_2: (@list Z)) (queue_map_2: partial_map) (queue_size: Z) (PreH1 : (queue_size <> 0)) (PreH2 : (0 <= queue_size)) (PreH3 : (queue_size <= 100000)) (PreH4 : (100000 <= heap_capacity)) (PreH5 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH6 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH7 : (vertex_valid g_low_level_spec source_pre )) (PreH8 : (nonnegative_edges g_low_level_spec )) (PreH9 : (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur_2 dist_cur_2 queue_map_2 )) (PreH10 : (dijkstra_dk_map_loop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur_2 dist_cur_2 queue_map_2 X_low_level_spec )) (PreH11 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
-  TT && emp 
-|--
-  EX (visited_cur: (Z -> Prop)) ,
-  “ (0 < queue_size) ” 
-  &&  “ (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur dist_cur_2 queue_map_2 ) ” 
-  &&  “ (dijkstra_dk_map_loop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur dist_cur_2 queue_map_2 X_low_level_spec ) ”
-  &&  emp
-).
-
-Definition dijkstra_linked_forward_star_decrease_key_entail_wit_7 := 
-(
-forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur_2: (Z -> Prop)) (dist_cur_2: (@list Z)) (queue_size: Z) (queue_map_2: partial_map) (data_out_callee_v: Z) (popped: (Z * Z)) (key_out_callee_v: Z) (PreH1 : (key_out_callee_v = (item_key (popped)))) (PreH2 : (data_out_callee_v = (item_data (popped)))) (PreH3 : (partial_map_minimum queue_map_2 popped )) (PreH4 : (0 < queue_size)) (PreH5 : (queue_size <= 100000)) (PreH6 : (100000 <= heap_capacity)) (PreH7 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH8 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH9 : (vertex_valid g_low_level_spec source_pre )) (PreH10 : (nonnegative_edges g_low_level_spec )) (PreH11 : (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur_2 dist_cur_2 queue_map_2 )) (PreH12 : (dijkstra_dk_map_loop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur_2 dist_cur_2 queue_map_2 X_low_level_spec )) (PreH13 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
+forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur_2: (Z -> Prop)) (dist_cur_2: (@list Z)) (queue_size: Z) (queue_map_2: partial_map) (data_out_callee_v: Z) (popped: (Z * Z)) (key_out_callee_v: Z) (PreH1 : (key_out_callee_v = (item_key (popped)))) (PreH2 : (data_out_callee_v = (item_data (popped)))) (PreH3 : (partial_map_minimum queue_map_2 popped )) (PreH4 : (queue_size <> 0)) (PreH5 : (0 <= queue_size)) (PreH6 : (queue_size <= 100000)) (PreH7 : (100000 <= heap_capacity)) (PreH8 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH9 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH10 : (vertex_valid g_low_level_spec source_pre )) (PreH11 : (nonnegative_edges g_low_level_spec )) (PreH12 : (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur_2 dist_cur_2 queue_map_2 )) (PreH13 : (dijkstra_dk_map_loop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur_2 dist_cur_2 queue_map_2 X_low_level_spec )) (PreH14 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
   (store_heap (( &( "queue_key" ) ) + (0 * sizeof(INT))) (( &( "queue_data" ) ) + (0 * sizeof(INT))) (( &( "queue_pos" ) ) + (0 * sizeof(INT))) 10 100000 (partial_map_remove (queue_map_2) ((item_data (popped)))) (queue_size - 1 ) )
   **  (IntArray.full head_pre vertex_count_pre head_values_low_level_spec )
   **  (IntArray.full to_pre edge_count_pre to_values_low_level_spec )
@@ -1331,7 +1225,7 @@ forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (ed
   **  (store_heap (( &( "queue_key" ) ) + (0 * sizeof(INT))) (( &( "queue_data" ) ) + (0 * sizeof(INT))) (( &( "queue_pos" ) ) + (0 * sizeof(INT))) 10 100000 queue_map (queue_size - 1 ) )
 ) \/
 (
-forall (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur_2: (Z -> Prop)) (dist_cur_2: (@list Z)) (queue_size: Z) (queue_map_2: partial_map) (data_out_callee_v: Z) (popped: (Z * Z)) (key_out_callee_v: Z) (PreH1 : (key_out_callee_v = (item_key (popped)))) (PreH2 : (data_out_callee_v = (item_data (popped)))) (PreH3 : (partial_map_minimum queue_map_2 popped )) (PreH4 : (0 < queue_size)) (PreH5 : (queue_size <= 100000)) (PreH6 : (100000 <= heap_capacity)) (PreH7 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH8 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH9 : (vertex_valid g_low_level_spec source_pre )) (PreH10 : (nonnegative_edges g_low_level_spec )) (PreH11 : (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur_2 dist_cur_2 queue_map_2 )) (PreH12 : (dijkstra_dk_map_loop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur_2 dist_cur_2 queue_map_2 X_low_level_spec )) (PreH13 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
+forall (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur_2: (Z -> Prop)) (dist_cur_2: (@list Z)) (queue_size: Z) (queue_map_2: partial_map) (data_out_callee_v: Z) (popped: (Z * Z)) (key_out_callee_v: Z) (PreH1 : (key_out_callee_v = (item_key (popped)))) (PreH2 : (data_out_callee_v = (item_data (popped)))) (PreH3 : (partial_map_minimum queue_map_2 popped )) (PreH4 : (queue_size <> 0)) (PreH5 : (0 <= queue_size)) (PreH6 : (queue_size <= 100000)) (PreH7 : (100000 <= heap_capacity)) (PreH8 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH9 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH10 : (vertex_valid g_low_level_spec source_pre )) (PreH11 : (nonnegative_edges g_low_level_spec )) (PreH12 : (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur_2 dist_cur_2 queue_map_2 )) (PreH13 : (dijkstra_dk_map_loop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur_2 dist_cur_2 queue_map_2 X_low_level_spec )) (PreH14 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
   TT && emp 
 |--
   EX (visited_cur: (Z -> Prop))  (queue_map_before: partial_map) ,
@@ -1349,7 +1243,7 @@ forall (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_sp
   &&  emp
 ).
 
-Definition dijkstra_linked_forward_star_decrease_key_entail_wit_8 := 
+Definition dijkstra_linked_forward_star_decrease_key_entail_wit_6 := 
 forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur_2: (Z -> Prop)) (dist_cur: (@list Z)) (queue_map_before: partial_map) (queue_map_2: partial_map) (queue_size: Z) (cur_vertex: Z) (cur_distance: Z) (PreH1 : (0 <= queue_size)) (PreH2 : (queue_size < 100000)) (PreH3 : (100000 <= heap_capacity)) (PreH4 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH5 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH6 : (vertex_valid g_low_level_spec source_pre )) (PreH7 : (nonnegative_edges g_low_level_spec )) (PreH8 : (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur_2 dist_cur queue_map_before )) (PreH9 : (storage_index cur_vertex )) (PreH10 : (0 <= cur_vertex)) (PreH11 : (cur_vertex < vertex_count_pre)) (PreH12 : (cur_vertex < 10)) (PreH13 : (0 <= cur_distance)) (PreH14 : (cur_distance <= 1000000000)) (PreH15 : (dk_map_queue_pop_result queue_map_before queue_map_2 cur_vertex cur_distance )) (PreH16 : (dijkstra_dk_map_after_pop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur_2 dist_cur queue_map_2 cur_vertex cur_distance X_low_level_spec )) (PreH17 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
   (IntArray.full head_pre vertex_count_pre head_values_low_level_spec )
   **  (IntArray.full to_pre edge_count_pre to_values_low_level_spec )
@@ -1408,7 +1302,7 @@ forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (ed
   **  (store_heap (( &( "queue_key" ) ) + (0 * sizeof(INT))) (( &( "queue_data" ) ) + (0 * sizeof(INT))) (( &( "queue_pos" ) ) + (0 * sizeof(INT))) 10 100000 queue_map queue_size ))
 .
 
-Definition dijkstra_linked_forward_star_decrease_key_entail_wit_9 := 
+Definition dijkstra_linked_forward_star_decrease_key_entail_wit_7 := 
 (
 forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (edge: Z) (dist_edge_2: (@list Z)) (queue_map_2: partial_map) (visited_cur_2: (Z -> Prop)) (visited_edge_2: (Z -> Prop)) (cur_distance: Z) (cur_vertex: Z) (queue_size: Z) (PreH1 : (edge <> (-1))) (PreH2 : (0 <= queue_size)) (PreH3 : (queue_size <= 100000)) (PreH4 : (100000 <= heap_capacity)) (PreH5 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH6 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH7 : (vertex_valid g_low_level_spec source_pre )) (PreH8 : (nonnegative_edges g_low_level_spec )) (PreH9 : (0 <= cur_vertex)) (PreH10 : (cur_vertex < vertex_count_pre)) (PreH11 : (0 <= cur_distance)) (PreH12 : (cur_distance <= 1000000000)) (PreH13 : (visited_set_add visited_cur_2 cur_vertex visited_edge_2 )) (PreH14 : (dijkstra_dk_map_edge_loop_state g_low_level_spec source_pre visited_edge_2 cur_vertex cur_distance edge dist_edge_2 queue_map_2 )) (PreH15 : (0 <= edge)) (PreH16 : (edge < edge_count_pre)) (PreH17 : (dijkstra_dk_map_edge_loop_refines g_low_level_spec source_pre cur_vertex cur_distance edge head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_edge_2 dist_edge_2 queue_map_2 X_low_level_spec )) (PreH18 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
   (IntArray.full weight_pre edge_count_pre weight_values_low_level_spec )
@@ -1468,7 +1362,7 @@ forall (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_sp
   &&  emp
 ).
 
-Definition dijkstra_linked_forward_star_decrease_key_entail_wit_10 := 
+Definition dijkstra_linked_forward_star_decrease_key_entail_wit_8 := 
 (
 forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur_2: (Z -> Prop)) (visited_edge_2: (Z -> Prop)) (dist_edge: (@list Z)) (queue_map: partial_map) (queue_size: Z) (cur_vertex: Z) (cur_distance: Z) (edge: Z) (neighbor: Z) (edge_weight: Z) (PreH1 : ((cur_distance + edge_weight ) < (Znth neighbor dist_edge 0))) (PreH2 : (cur_distance <= (1000000000 - edge_weight ))) (PreH3 : (edge_weight >= 0)) (PreH4 : (0 <= queue_size)) (PreH5 : (queue_size <= 100000)) (PreH6 : (100000 <= heap_capacity)) (PreH7 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH8 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH9 : (vertex_valid g_low_level_spec source_pre )) (PreH10 : (nonnegative_edges g_low_level_spec )) (PreH11 : (0 <= cur_vertex)) (PreH12 : (cur_vertex < vertex_count_pre)) (PreH13 : (0 <= cur_distance)) (PreH14 : (cur_distance <= 1000000000)) (PreH15 : (0 <= edge)) (PreH16 : (edge < edge_count_pre)) (PreH17 : (neighbor = (Znth (edge) (to_values_low_level_spec) (0)))) (PreH18 : (edge_weight = (Znth (edge) (weight_values_low_level_spec) (0)))) (PreH19 : (0 <= neighbor)) (PreH20 : (neighbor < vertex_count_pre)) (PreH21 : (neighbor < 10)) (PreH22 : (0 <= edge_weight)) (PreH23 : (edge_weight <= 1000000000)) (PreH24 : (visited_set_add visited_cur_2 cur_vertex visited_edge_2 )) (PreH25 : (dijkstra_dk_map_edge_loop_state g_low_level_spec source_pre visited_edge_2 cur_vertex cur_distance edge dist_edge queue_map )) (PreH26 : (dijkstra_dk_map_edge_loop_refines g_low_level_spec source_pre cur_vertex cur_distance edge head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_edge_2 dist_edge queue_map X_low_level_spec )) (PreH27 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
   (IntArray.full dist_pre 10 (replace_Znth (neighbor) ((cur_distance + edge_weight )) (dist_edge)) )
@@ -1533,7 +1427,7 @@ forall (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_sp
   &&  emp
 ).
 
-Definition dijkstra_linked_forward_star_decrease_key_entail_wit_11_1 := 
+Definition dijkstra_linked_forward_star_decrease_key_entail_wit_9_1 := 
 forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur_2: (Z -> Prop)) (visited_edge_2: (Z -> Prop)) (dist_after: (@list Z)) (queue_map_after: partial_map) (queue_size_after: Z) (queue_size: Z) (cur_vertex: Z) (cur_distance: Z) (edge: Z) (neighbor: Z) (edge_weight: Z) (candidate: Z) (queue_map_before: partial_map) (n_after: Z) (PreH1 : (partial_map_update_or_add_size queue_map_before queue_size n_after neighbor candidate )) (PreH2 : (0 <= queue_size)) (PreH3 : (queue_size < 100000)) (PreH4 : (queue_size < heap_capacity)) (PreH5 : (100000 <= heap_capacity)) (PreH6 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH7 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH8 : (vertex_valid g_low_level_spec source_pre )) (PreH9 : (nonnegative_edges g_low_level_spec )) (PreH10 : (0 <= cur_vertex)) (PreH11 : (cur_vertex < vertex_count_pre)) (PreH12 : (0 <= cur_distance)) (PreH13 : (cur_distance <= 1000000000)) (PreH14 : (0 <= edge)) (PreH15 : (edge < edge_count_pre)) (PreH16 : (neighbor = (Znth (edge) (to_values_low_level_spec) (0)))) (PreH17 : (edge_weight = (Znth (edge) (weight_values_low_level_spec) (0)))) (PreH18 : (0 <= neighbor)) (PreH19 : (neighbor < vertex_count_pre)) (PreH20 : (neighbor < 10)) (PreH21 : (0 <= edge_weight)) (PreH22 : (edge_weight <= 1000000000)) (PreH23 : (candidate = (cur_distance + edge_weight ))) (PreH24 : (0 <= candidate)) (PreH25 : (candidate <= 1000000000)) (PreH26 : (visited_set_add visited_cur_2 cur_vertex visited_edge_2 )) (PreH27 : (dijkstra_dk_map_edge_loop_state g_low_level_spec source_pre visited_edge_2 cur_vertex cur_distance edge dist_after queue_map_before )) (PreH28 : (dijkstra_dk_map_after_relax_refines g_low_level_spec source_pre cur_vertex cur_distance edge neighbor candidate head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_edge_2 dist_after queue_map_before X_low_level_spec )) (PreH29 : (partial_map_update_or_add_pre queue_map_before neighbor candidate )) (PreH30 : (dk_map_queue_update_or_push_result queue_map_before queue_map_after queue_size queue_size_after neighbor candidate )) (PreH31 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
   (IntArray.full next_pre edge_count_pre next_values_low_level_spec )
   **  (store_heap (( &( "queue_key" ) ) + (0 * sizeof(INT))) (( &( "queue_data" ) ) + (0 * sizeof(INT))) (( &( "queue_pos" ) ) + (0 * sizeof(INT))) 10 100000 (partial_map_update_or_add (queue_map_before) (neighbor) (candidate)) n_after )
@@ -1592,7 +1486,7 @@ forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (ed
   **  (store_heap (( &( "queue_key" ) ) + (0 * sizeof(INT))) (( &( "queue_data" ) ) + (0 * sizeof(INT))) (( &( "queue_pos" ) ) + (0 * sizeof(INT))) 10 100000 queue_map n_after ))
 .
 
-Definition dijkstra_linked_forward_star_decrease_key_entail_wit_11_2 := 
+Definition dijkstra_linked_forward_star_decrease_key_entail_wit_9_2 := 
 forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur_2: (Z -> Prop)) (visited_edge_2: (Z -> Prop)) (dist_edge_2: (@list Z)) (queue_map_2: partial_map) (queue_size: Z) (cur_vertex: Z) (cur_distance: Z) (edge: Z) (neighbor: Z) (edge_weight: Z) (PreH1 : ((cur_distance + edge_weight ) >= (Znth neighbor dist_edge_2 0))) (PreH2 : (cur_distance <= (1000000000 - edge_weight ))) (PreH3 : (edge_weight >= 0)) (PreH4 : (0 <= queue_size)) (PreH5 : (queue_size <= 100000)) (PreH6 : (100000 <= heap_capacity)) (PreH7 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH8 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH9 : (vertex_valid g_low_level_spec source_pre )) (PreH10 : (nonnegative_edges g_low_level_spec )) (PreH11 : (0 <= cur_vertex)) (PreH12 : (cur_vertex < vertex_count_pre)) (PreH13 : (0 <= cur_distance)) (PreH14 : (cur_distance <= 1000000000)) (PreH15 : (0 <= edge)) (PreH16 : (edge < edge_count_pre)) (PreH17 : (neighbor = (Znth (edge) (to_values_low_level_spec) (0)))) (PreH18 : (edge_weight = (Znth (edge) (weight_values_low_level_spec) (0)))) (PreH19 : (0 <= neighbor)) (PreH20 : (neighbor < vertex_count_pre)) (PreH21 : (neighbor < 10)) (PreH22 : (0 <= edge_weight)) (PreH23 : (edge_weight <= 1000000000)) (PreH24 : (visited_set_add visited_cur_2 cur_vertex visited_edge_2 )) (PreH25 : (dijkstra_dk_map_edge_loop_state g_low_level_spec source_pre visited_edge_2 cur_vertex cur_distance edge dist_edge_2 queue_map_2 )) (PreH26 : (dijkstra_dk_map_edge_loop_refines g_low_level_spec source_pre cur_vertex cur_distance edge head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_edge_2 dist_edge_2 queue_map_2 X_low_level_spec )) (PreH27 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
   (IntArray.full next_pre edge_count_pre next_values_low_level_spec )
   **  (IntArray.full dist_pre 10 dist_edge_2 )
@@ -1651,7 +1545,7 @@ forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (ed
   **  (store_heap (( &( "queue_key" ) ) + (0 * sizeof(INT))) (( &( "queue_data" ) ) + (0 * sizeof(INT))) (( &( "queue_pos" ) ) + (0 * sizeof(INT))) 10 100000 queue_map queue_size ))
 .
 
-Definition dijkstra_linked_forward_star_decrease_key_entail_wit_11_3 := 
+Definition dijkstra_linked_forward_star_decrease_key_entail_wit_9_3 := 
 forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur_2: (Z -> Prop)) (visited_edge_2: (Z -> Prop)) (dist_edge_2: (@list Z)) (queue_map_2: partial_map) (queue_size: Z) (cur_vertex: Z) (cur_distance: Z) (edge: Z) (neighbor: Z) (edge_weight: Z) (PreH1 : (cur_distance > (1000000000 - edge_weight ))) (PreH2 : (edge_weight >= 0)) (PreH3 : (0 <= queue_size)) (PreH4 : (queue_size <= 100000)) (PreH5 : (100000 <= heap_capacity)) (PreH6 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH7 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH8 : (vertex_valid g_low_level_spec source_pre )) (PreH9 : (nonnegative_edges g_low_level_spec )) (PreH10 : (0 <= cur_vertex)) (PreH11 : (cur_vertex < vertex_count_pre)) (PreH12 : (0 <= cur_distance)) (PreH13 : (cur_distance <= 1000000000)) (PreH14 : (0 <= edge)) (PreH15 : (edge < edge_count_pre)) (PreH16 : (neighbor = (Znth (edge) (to_values_low_level_spec) (0)))) (PreH17 : (edge_weight = (Znth (edge) (weight_values_low_level_spec) (0)))) (PreH18 : (0 <= neighbor)) (PreH19 : (neighbor < vertex_count_pre)) (PreH20 : (neighbor < 10)) (PreH21 : (0 <= edge_weight)) (PreH22 : (edge_weight <= 1000000000)) (PreH23 : (visited_set_add visited_cur_2 cur_vertex visited_edge_2 )) (PreH24 : (dijkstra_dk_map_edge_loop_state g_low_level_spec source_pre visited_edge_2 cur_vertex cur_distance edge dist_edge_2 queue_map_2 )) (PreH25 : (dijkstra_dk_map_edge_loop_refines g_low_level_spec source_pre cur_vertex cur_distance edge head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_edge_2 dist_edge_2 queue_map_2 X_low_level_spec )) (PreH26 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
   (IntArray.full next_pre edge_count_pre next_values_low_level_spec )
   **  (IntArray.full head_pre vertex_count_pre head_values_low_level_spec )
@@ -1710,7 +1604,7 @@ forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (ed
   **  (store_heap (( &( "queue_key" ) ) + (0 * sizeof(INT))) (( &( "queue_data" ) ) + (0 * sizeof(INT))) (( &( "queue_pos" ) ) + (0 * sizeof(INT))) 10 100000 queue_map queue_size ))
 .
 
-Definition dijkstra_linked_forward_star_decrease_key_entail_wit_12 := 
+Definition dijkstra_linked_forward_star_decrease_key_entail_wit_10 := 
 (
 forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (edge: Z) (dist_edge: (@list Z)) (queue_map_2: partial_map) (visited_cur_2: (Z -> Prop)) (visited_edge: (Z -> Prop)) (cur_distance: Z) (cur_vertex: Z) (queue_size: Z) (PreH1 : (edge = (-1))) (PreH2 : (0 <= queue_size)) (PreH3 : (queue_size <= 100000)) (PreH4 : (100000 <= heap_capacity)) (PreH5 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH6 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH7 : (vertex_valid g_low_level_spec source_pre )) (PreH8 : (nonnegative_edges g_low_level_spec )) (PreH9 : (0 <= cur_vertex)) (PreH10 : (cur_vertex < vertex_count_pre)) (PreH11 : (0 <= cur_distance)) (PreH12 : (cur_distance <= 1000000000)) (PreH13 : (visited_set_add visited_cur_2 cur_vertex visited_edge )) (PreH14 : (dijkstra_dk_map_edge_loop_state g_low_level_spec source_pre visited_edge cur_vertex cur_distance edge dist_edge queue_map_2 )) (PreH15 : (edge = (-1))) (PreH16 : (dijkstra_dk_map_edge_loop_refines g_low_level_spec source_pre cur_vertex cur_distance edge head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_edge dist_edge queue_map_2 X_low_level_spec )) (PreH17 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
   (IntArray.full head_pre vertex_count_pre head_values_low_level_spec )
@@ -1748,7 +1642,7 @@ forall (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_sp
   &&  emp
 ).
 
-Definition dijkstra_linked_forward_star_decrease_key_entail_wit_13 := 
+Definition dijkstra_linked_forward_star_decrease_key_entail_wit_11 := 
 (
 forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur: (Z -> Prop)) (dist_cur: (@list Z)) (queue_map: partial_map) (queue_size: Z) (PreH1 : (queue_size = 0)) (PreH2 : (0 <= queue_size)) (PreH3 : (queue_size <= 100000)) (PreH4 : (100000 <= heap_capacity)) (PreH5 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH6 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH7 : (vertex_valid g_low_level_spec source_pre )) (PreH8 : (nonnegative_edges g_low_level_spec )) (PreH9 : (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur dist_cur queue_map )) (PreH10 : (dijkstra_dk_map_loop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur dist_cur queue_map X_low_level_spec )) (PreH11 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
   (IntArray.full head_pre vertex_count_pre head_values_low_level_spec )
@@ -2135,8 +2029,10 @@ forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (ed
 Definition dijkstra_linked_forward_star_decrease_key_partial_solve_wit_3 := dijkstra_linked_forward_star_decrease_key_partial_solve_wit_3_pure -> dijkstra_linked_forward_star_decrease_key_partial_solve_wit_3_aux.
 
 Definition dijkstra_linked_forward_star_decrease_key_partial_solve_wit_4_pure := 
-forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur: (Z -> Prop)) (dist_cur: (@list Z)) (queue_size: Z) (queue_map: partial_map) (PreH1 : (0 < queue_size)) (PreH2 : (queue_size <= 100000)) (PreH3 : (100000 <= heap_capacity)) (PreH4 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH5 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH6 : (vertex_valid g_low_level_spec source_pre )) (PreH7 : (nonnegative_edges g_low_level_spec )) (PreH8 : (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur dist_cur queue_map )) (PreH9 : (dijkstra_dk_map_loop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur dist_cur queue_map X_low_level_spec )) (PreH10 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
-  ((( &( "vertex_count" ) )) # Int  |-> vertex_count_pre)
+forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur: (Z -> Prop)) (dist_cur: (@list Z)) (queue_size: Z) (queue_map: partial_map) (PreH1 : (queue_size <> 0)) (PreH2 : (0 <= queue_size)) (PreH3 : (queue_size <= 100000)) (PreH4 : (100000 <= heap_capacity)) (PreH5 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH6 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH7 : (vertex_valid g_low_level_spec source_pre )) (PreH8 : (nonnegative_edges g_low_level_spec )) (PreH9 : (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur dist_cur queue_map )) (PreH10 : (dijkstra_dk_map_loop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur dist_cur queue_map X_low_level_spec )) (PreH11 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
+  ((( &( "cur_distance" ) )) # Int  |->_)
+  **  ((( &( "cur_vertex" ) )) # Int  |->_)
+  **  ((( &( "vertex_count" ) )) # Int  |-> vertex_count_pre)
   **  ((( &( "source" ) )) # Int  |-> source_pre)
   **  ((( &( "edge_count" ) )) # Int  |-> edge_count_pre)
   **  ((( &( "head" ) )) # Ptr  |-> head_pre)
@@ -2151,8 +2047,6 @@ forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (ed
   **  (IntArray.full next_pre edge_count_pre next_values_low_level_spec )
   **  (IntArray.full dist_pre 10 dist_cur )
   **  (store_heap (( &( "queue_key" ) ) + (0 * sizeof(INT))) (( &( "queue_data" ) ) + (0 * sizeof(INT))) (( &( "queue_pos" ) ) + (0 * sizeof(INT))) 10 100000 queue_map queue_size )
-  **  ((( &( "cur_vertex" ) )) # Int  |->_)
-  **  ((( &( "cur_distance" ) )) # Int  |->_)
 |--
   “ (1 <= queue_size) ” 
   &&  “ (queue_size <= 100000) ” 
@@ -2160,7 +2054,7 @@ forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (ed
 .
 
 Definition dijkstra_linked_forward_star_decrease_key_partial_solve_wit_4_aux := 
-forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur: (Z -> Prop)) (dist_cur: (@list Z)) (queue_size: Z) (queue_map: partial_map) (PreH1 : (0 < queue_size)) (PreH2 : (queue_size <= 100000)) (PreH3 : (100000 <= heap_capacity)) (PreH4 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH5 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH6 : (vertex_valid g_low_level_spec source_pre )) (PreH7 : (nonnegative_edges g_low_level_spec )) (PreH8 : (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur dist_cur queue_map )) (PreH9 : (dijkstra_dk_map_loop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur dist_cur queue_map X_low_level_spec )) (PreH10 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
+forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (edge_count_pre: Z) (source_pre: Z) (vertex_count_pre: Z) (X_low_level_spec: (unit -> (state -> Prop))) (next_values_low_level_spec: (@list Z)) (weight_values_low_level_spec: (@list Z)) (to_values_low_level_spec: (@list Z)) (head_values_low_level_spec: (@list Z)) (g_low_level_spec: G) (visited_cur: (Z -> Prop)) (dist_cur: (@list Z)) (queue_size: Z) (queue_map: partial_map) (PreH1 : (queue_size <> 0)) (PreH2 : (0 <= queue_size)) (PreH3 : (queue_size <= 100000)) (PreH4 : (100000 <= heap_capacity)) (PreH5 : ((edge_count_pre + 1 ) <= heap_capacity)) (PreH6 : (graph_has_size g_low_level_spec vertex_count_pre )) (PreH7 : (vertex_valid g_low_level_spec source_pre )) (PreH8 : (nonnegative_edges g_low_level_spec )) (PreH9 : (dijkstra_dk_map_loop_state g_low_level_spec source_pre visited_cur dist_cur queue_map )) (PreH10 : (dijkstra_dk_map_loop_refines g_low_level_spec source_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec visited_cur dist_cur queue_map X_low_level_spec )) (PreH11 : (forward_star_model g_low_level_spec edge_count_pre head_values_low_level_spec to_values_low_level_spec weight_values_low_level_spec next_values_low_level_spec )) ,
   (IntArray.full head_pre vertex_count_pre head_values_low_level_spec )
   **  (IntArray.full to_pre edge_count_pre to_values_low_level_spec )
   **  (IntArray.full weight_pre edge_count_pre weight_values_low_level_spec )
@@ -2171,7 +2065,8 @@ forall (dist_pre: Z) (next_pre: Z) (weight_pre: Z) (to_pre: Z) (head_pre: Z) (ed
   “ (1 <= queue_size) ” 
   &&  “ (queue_size <= 100000) ” 
   &&  “ (100000 <= heap_capacity) ” 
-  &&  “ (0 < queue_size) ” 
+  &&  “ (queue_size <> 0) ” 
+  &&  “ (0 <= queue_size) ” 
   &&  “ (queue_size <= 100000) ” 
   &&  “ (100000 <= heap_capacity) ” 
   &&  “ ((edge_count_pre + 1 ) <= heap_capacity) ” 
@@ -2674,7 +2569,6 @@ Axiom proof_of_dijkstra_linked_forward_star_init_safety_wit_4 : dijkstra_linked_
 Axiom proof_of_dijkstra_linked_forward_star_init_safety_wit_5 : dijkstra_linked_forward_star_init_safety_wit_5.
 Axiom proof_of_dijkstra_linked_forward_star_init_entail_wit_1 : dijkstra_linked_forward_star_init_entail_wit_1.
 Axiom proof_of_dijkstra_linked_forward_star_init_entail_wit_2 : dijkstra_linked_forward_star_init_entail_wit_2.
-Axiom proof_of_dijkstra_linked_forward_star_init_entail_wit_3 : dijkstra_linked_forward_star_init_entail_wit_3.
 Axiom proof_of_dijkstra_linked_forward_star_init_return_wit_1 : dijkstra_linked_forward_star_init_return_wit_1.
 Axiom proof_of_dijkstra_linked_forward_star_init_partial_solve_wit_1 : dijkstra_linked_forward_star_init_partial_solve_wit_1.
 Axiom proof_of_dijkstra_linked_forward_star_init_partial_solve_wit_2 : dijkstra_linked_forward_star_init_partial_solve_wit_2.
@@ -2717,13 +2611,11 @@ Axiom proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_5 : dijkstra
 Axiom proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_6 : dijkstra_linked_forward_star_decrease_key_entail_wit_6.
 Axiom proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_7 : dijkstra_linked_forward_star_decrease_key_entail_wit_7.
 Axiom proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_8 : dijkstra_linked_forward_star_decrease_key_entail_wit_8.
-Axiom proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_9 : dijkstra_linked_forward_star_decrease_key_entail_wit_9.
+Axiom proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_9_1 : dijkstra_linked_forward_star_decrease_key_entail_wit_9_1.
+Axiom proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_9_2 : dijkstra_linked_forward_star_decrease_key_entail_wit_9_2.
+Axiom proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_9_3 : dijkstra_linked_forward_star_decrease_key_entail_wit_9_3.
 Axiom proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_10 : dijkstra_linked_forward_star_decrease_key_entail_wit_10.
-Axiom proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_11_1 : dijkstra_linked_forward_star_decrease_key_entail_wit_11_1.
-Axiom proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_11_2 : dijkstra_linked_forward_star_decrease_key_entail_wit_11_2.
-Axiom proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_11_3 : dijkstra_linked_forward_star_decrease_key_entail_wit_11_3.
-Axiom proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_12 : dijkstra_linked_forward_star_decrease_key_entail_wit_12.
-Axiom proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_13 : dijkstra_linked_forward_star_decrease_key_entail_wit_13.
+Axiom proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_11 : dijkstra_linked_forward_star_decrease_key_entail_wit_11.
 Axiom proof_of_dijkstra_linked_forward_star_decrease_key_return_wit_1 : dijkstra_linked_forward_star_decrease_key_return_wit_1.
 Axiom proof_of_dijkstra_linked_forward_star_decrease_key_partial_solve_wit_1_pure : dijkstra_linked_forward_star_decrease_key_partial_solve_wit_1_pure.
 Axiom proof_of_dijkstra_linked_forward_star_decrease_key_partial_solve_wit_1 : dijkstra_linked_forward_star_decrease_key_partial_solve_wit_1.

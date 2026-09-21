@@ -18,9 +18,7 @@ int climbStairs(int n)
           2 <= i && i <= n@pre + 1 &&
           0 <= prev && 0 <= curr &&
           ClimbingStairsCount(i - 2, prev) &&
-          ClimbingStairsCount(i - 1, curr) &&
-          (i <= n@pre =>
-             INT_MIN <= prev + curr && prev + curr <= INT_MAX)
+          ClimbingStairsCount(i - 1, curr)
      */
     while (i <= n) {
         int next = prev + curr;

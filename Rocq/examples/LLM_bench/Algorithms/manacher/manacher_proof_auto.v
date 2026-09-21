@@ -243,9 +243,6 @@ Proof. Admitted.
 Lemma proof_of_longestPalindrom_safety_wit_74 : longestPalindrom_safety_wit_74.
 Proof. Admitted. 
 
-Lemma proof_of_longestPalindrom_entail_wit_7 : longestPalindrom_entail_wit_7.
-Proof. Admitted. 
-
 Lemma proof_of_longestPalindrom_partial_solve_wit_1 : longestPalindrom_partial_solve_wit_1.
 Proof. Admitted. 
 

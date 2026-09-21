@@ -2,6 +2,7 @@
 
 
 
+/* Mathematical progress excludes the vote counter bounds, which are explicit below. */
 /*@ Extern Coq (IsMajorityElement : Z -> list Z -> Prop) */
 /*@ Extern Coq (MajorityOnReduced : Z -> Z -> Z -> list Z -> Prop) */
 

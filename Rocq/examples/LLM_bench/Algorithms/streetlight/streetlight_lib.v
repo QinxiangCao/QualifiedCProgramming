@@ -6,21 +6,21 @@ Import ListNotations.
 Local Open Scope Z_scope.
 Local Open Scope list_scope.
 
-Inductive StreetlightPlan
+Inductive StreetlightPlanFacts
     (positions powers : list Z) (start : Z) :
     Z -> Z -> Z -> Z -> Prop :=
   | StreetlightPlan_start :
       0 <= start < Zlength positions ->
       Zlength powers = Zlength positions ->
-      StreetlightPlan positions powers start start start start 0
+      StreetlightPlanFacts positions powers start start start start 0
   | StreetlightPlan_extend_left :
       forall left right endpoint cost,
         0 <= left ->
         left < start <= right ->
         right < Zlength positions ->
-        StreetlightPlan positions powers start
+        StreetlightPlanFacts positions powers start
           (left + 1) right endpoint cost ->
-        StreetlightPlan positions powers start left right left
+        StreetlightPlanFacts positions powers start left right left
           (cost +
            (Znth endpoint positions 0 - Znth left positions 0) *
            (sum powers - sum (sublist (left + 1) (right + 1) powers)))
@@ -29,23 +29,23 @@ Inductive StreetlightPlan
         0 <= left ->
         left <= start < right ->
         right < Zlength positions ->
-        StreetlightPlan positions powers start
+        StreetlightPlanFacts positions powers start
           left (right - 1) endpoint cost ->
-        StreetlightPlan positions powers start left right right
+        StreetlightPlanFacts positions powers start left right right
           (cost +
            (Znth right positions 0 - Znth endpoint positions 0) *
            (sum powers - sum (sublist left right powers))).
 
-Definition StreetlightCompletePlan
+Definition StreetlightCompletePlanFacts
     (positions powers : list Z) (start cost : Z) : Prop :=
   exists endpoint,
-    StreetlightPlan positions powers start
+    StreetlightPlanFacts positions powers start
       0 (Zlength positions - 1) endpoint cost.
 
-Definition StreetlightMinimumEnergy
+Definition StreetlightMinimumEnergyFacts
     (positions powers : list Z) (start answer : Z) : Prop :=
   min_value_of_subset Z.le
-    (fun cost => StreetlightCompletePlan positions powers start cost)
+    (fun cost => StreetlightCompletePlanFacts positions powers start cost)
     (fun cost => cost)
     answer.
 
@@ -54,13 +54,13 @@ Definition StreetlightTableShape
   Zlength table = n /\
   forall row, 0 <= row < n -> Zlength (Znth row table []) = n.
 
-Definition StreetlightPrefixProgress
+Definition StreetlightPrefixProgressFacts
     (powers prefix : list Z) (done : Z) : Prop :=
   Zlength prefix = done + 1 /\
   forall k, 0 <= k <= done ->
     Znth k prefix 0 = sum (sublist 0 k powers).
 
-Definition StreetlightInfRows
+Definition StreetlightInfRowsFacts
     (table : list (list Z)) (n rows_done : Z) : Prop :=
   StreetlightTableShape table n /\
   forall row col,
@@ -68,47 +68,47 @@ Definition StreetlightInfRows
     0 <= col < n ->
     Znth col (Znth row table []) 0 = 2147483647.
 
-Definition StreetlightInfProgress
+Definition StreetlightInfProgressFacts
     (table : list (list Z)) (n row next_col : Z) : Prop :=
-  StreetlightInfRows table n row /\
+  StreetlightInfRowsFacts table n row /\
   forall col,
     0 <= col < next_col ->
     Znth col (Znth row table []) 0 = 2147483647.
 
-Definition StreetlightEndpointMinimum
+Definition StreetlightEndpointMinimumFacts
     (positions powers : list Z) (start left right endpoint answer : Z) : Prop :=
   min_value_of_subset Z.le
     (fun cost =>
-       StreetlightPlan positions powers start left right endpoint cost)
+       StreetlightPlanFacts positions powers start left right endpoint cost)
     (fun cost => cost)
     answer.
 
-Definition StreetlightLeftEntryCorrect
+Definition StreetlightLeftEntryCorrectFacts
     (positions powers : list Z) (start left right value : Z) : Prop :=
   (left = start /\ right = start /\ value = 0) \/
   (left < start /\
-   StreetlightEndpointMinimum
+   StreetlightEndpointMinimumFacts
      positions powers start left right left value) \/
   (left = start /\ start < right /\ value = 2147483647).
 
-Definition StreetlightRightEntryCorrect
+Definition StreetlightRightEntryCorrectFacts
     (positions powers : list Z) (start left right value : Z) : Prop :=
   (left = start /\ right = start /\ value = 0) \/
   (start < right /\
-   StreetlightEndpointMinimum
+   StreetlightEndpointMinimumFacts
      positions powers start left right right value) \/
   (left < start /\ right = start /\ value = 2147483647).
 
-Definition StreetlightIntervalCorrect
+Definition StreetlightIntervalCorrectFacts
     (positions powers : list Z)
     (left_table right_table : list (list Z))
     (start left right : Z) : Prop :=
-  StreetlightLeftEntryCorrect positions powers start left right
+  StreetlightLeftEntryCorrectFacts positions powers start left right
     (Znth right (Znth left left_table []) 0) /\
-  StreetlightRightEntryCorrect positions powers start left right
+  StreetlightRightEntryCorrectFacts positions powers start left right
     (Znth right (Znth left right_table []) 0).
 
-Definition StreetlightLengthsDone
+Definition StreetlightLengthsDoneFacts
     (positions powers : list Z)
     (left_table right_table : list (list Z))
     (n start next_len : Z) : Prop :=
@@ -120,41 +120,41 @@ Definition StreetlightLengthsDone
     0 <= left ->
     right < n ->
     left <= start <= right ->
-    StreetlightIntervalCorrect
+    StreetlightIntervalCorrectFacts
       positions powers left_table right_table start left right.
 
-Definition StreetlightLeftProgress
+Definition StreetlightLeftProgressFacts
     (positions powers : list Z)
     (left_table right_table : list (list Z))
     (n start len next_left : Z) : Prop :=
-  StreetlightLengthsDone
+  StreetlightLengthsDoneFacts
     positions powers left_table right_table n start len /\
   forall left right,
     0 <= left < next_left ->
     right = left + len - 1 ->
     right < n ->
     left <= start <= right ->
-    StreetlightIntervalCorrect
+    StreetlightIntervalCorrectFacts
       positions powers left_table right_table start left right.
 
-Definition StreetlightLeftEndpointReady
+Definition StreetlightLeftEndpointReadyFacts
     (positions powers : list Z)
     (left_table right_table : list (list Z))
     (n start len left : Z) : Prop :=
-  StreetlightLeftProgress
+  StreetlightLeftProgressFacts
     positions powers left_table right_table n start len left /\
   let right := left + len - 1 in
-  StreetlightLeftEntryCorrect positions powers start left right
+  StreetlightLeftEntryCorrectFacts positions powers start left right
     (Znth right (Znth left left_table []) 0).
 
-Definition StreetlightFinalCandidates
+Definition StreetlightFinalCandidatesFacts
     (positions powers : list Z)
     (left_table right_table : list (list Z))
     (start left_answer right_answer : Z) : Prop :=
   let right := Zlength positions - 1 in
-  StreetlightLeftEntryCorrect positions powers start 0 right left_answer /\
-  StreetlightRightEntryCorrect positions powers start 0 right right_answer /\
-  StreetlightMinimumEnergy
+  StreetlightLeftEntryCorrectFacts positions powers start 0 right left_answer /\
+  StreetlightRightEntryCorrectFacts positions powers start 0 right right_answer /\
+  StreetlightMinimumEnergyFacts
     positions powers start (Z.min left_answer right_answer).
 
 From Coq Require Import Lia.
@@ -164,12 +164,12 @@ Lemma streetlight_prefix_extend__prefix_setup :
   forall powers prefix i,
     0 <= i ->
     i < Zlength powers ->
-    StreetlightPrefixProgress powers prefix i ->
-    StreetlightPrefixProgress powers
+    StreetlightPrefixProgressFacts powers prefix i ->
+    StreetlightPrefixProgressFacts powers
       (prefix ++ [Znth i prefix 0 + Znth i powers 0]) (i + 1).
 Proof.
   intros powers prefix i Hi Hipower Hprefix.
-  unfold StreetlightPrefixProgress in *.
+  unfold StreetlightPrefixProgressFacts in *.
   destruct Hprefix as [Hlength Hvalues].
   split.
   - rewrite Zlength_app, Zlength_cons, Zlength_nil.
@@ -205,10 +205,10 @@ Proof.
 Qed.
 Lemma streetlight_prefix_zero_progress__prefix_setup :
   forall powers,
-    StreetlightPrefixProgress powers [0] 0.
+    StreetlightPrefixProgressFacts powers [0] 0.
 Proof.
   intros powers.
-  unfold StreetlightPrefixProgress.
+  unfold StreetlightPrefixProgressFacts.
   split.
   - reflexivity.
   - intros k Hk.
@@ -234,10 +234,10 @@ Qed.
 Lemma streetlight_inf_rows_zero__prefix_setup :
   forall table n,
     StreetlightTableShape table n ->
-    StreetlightInfRows table n 0.
+    StreetlightInfRowsFacts table n 0.
 Proof.
   intros table n Hshape.
-  unfold StreetlightInfRows.
+  unfold StreetlightInfRowsFacts.
   split.
   - exact Hshape.
   - intros row col Hrow.
@@ -290,11 +290,11 @@ Lemma streetlight_prefix_total_positive__prefix_setup :
     (forall k,
       0 <= k < n ->
       1 <= Znth k powers 0) ->
-    StreetlightPrefixProgress powers prefix n ->
+    StreetlightPrefixProgressFacts powers prefix n ->
     1 <= Znth n prefix 0.
 Proof.
   intros powers prefix n Hn Hlength Hpowers Hprefix.
-  unfold StreetlightPrefixProgress in Hprefix.
+  unfold StreetlightPrefixProgressFacts in Hprefix.
   destruct Hprefix as [_ Hprefix].
   rewrite Hprefix by lia.
   rewrite (sublist_self powers n) by lia.
@@ -311,8 +311,8 @@ Qed.
 Lemma streetlight_inf_progress_close_row__inf_tables :
   forall table n row next_col,
     n <= next_col ->
-    StreetlightInfProgress table n row next_col ->
-    StreetlightInfRows table n (row + 1).
+    StreetlightInfProgressFacts table n row next_col ->
+    StreetlightInfRowsFacts table n (row + 1).
 Proof.
   intros table n row next_col Hnext
     [Hrows Hcurrent].
@@ -329,14 +329,14 @@ Lemma streetlight_inf_progress_store__inf_tables :
   forall table n row col d,
     0 <= row < n ->
     0 <= col < n ->
-    StreetlightInfProgress table n row col ->
-    StreetlightInfProgress
+    StreetlightInfProgressFacts table n row col ->
+    StreetlightInfProgressFacts
       (replace_Znth row
         (replace_Znth col 2147483647 (Znth row table d)) table)
       n row (col + 1).
 Proof.
   intros table n row col d Hrow Hcol Hprogress.
-  unfold StreetlightInfProgress in Hprogress |- *.
+  unfold StreetlightInfProgressFacts in Hprogress |- *.
   destruct Hprogress as [[Hshape Hprevious] Hcurrent].
   destruct Hshape as [Htable_len Hrow_len].
   assert (Hrow_default : Znth row table d = Znth row table []).
@@ -377,9 +377,9 @@ Qed.
 Lemma streetlight_diagonal_base__diagonal_base :
   forall positions powers left_table right_table n start d,
     0 <= start < n ->
-    StreetlightInfRows left_table n n ->
-    StreetlightInfRows right_table n n ->
-    StreetlightLengthsDone positions powers
+    StreetlightInfRowsFacts left_table n n ->
+    StreetlightInfRowsFacts right_table n n ->
+    StreetlightLengthsDoneFacts positions powers
       (replace_Znth start
         (replace_Znth start 0 (Znth start left_table d)) left_table)
       (replace_Znth start
@@ -453,7 +453,7 @@ Proof.
         apply Hright_row_len. exact Hr.
   }
   split.
-  - unfold StreetlightLengthsDone.
+  - unfold StreetlightLengthsDoneFacts.
     split; [exact Hleft_shape |].
     split; [exact Hright_shape |].
     intros len l r Hlen Hr_eq Hl Hr Hcontains.
@@ -462,9 +462,9 @@ Proof.
     assert (l = start) by lia.
     subst l.
     replace r with start in * by lia.
-    unfold StreetlightIntervalCorrect.
+    unfold StreetlightIntervalCorrectFacts.
     split.
-    + unfold StreetlightLeftEntryCorrect.
+    + unfold StreetlightLeftEntryCorrectFacts.
       left.
       split; [reflexivity |].
       split; [reflexivity |].
@@ -473,7 +473,7 @@ Proof.
       rewrite Znth_replace_Znth_Same by
         (rewrite Hleft_start_len; exact Hstart).
       reflexivity.
-    + unfold StreetlightRightEntryCorrect.
+    + unfold StreetlightRightEntryCorrectFacts.
       left.
       split; [reflexivity |].
       split; [reflexivity |].
@@ -500,15 +500,15 @@ Qed.
 Lemma streetlight_left_progress_zero__length_entry :
   forall positions powers left_table right_table n start entry len,
     start = entry ->
-    StreetlightLengthsDone
+    StreetlightLengthsDoneFacts
       positions powers left_table right_table n start len ->
-    StreetlightLeftProgress
+    StreetlightLeftProgressFacts
       positions powers left_table right_table n entry len 0.
 Proof.
   intros positions powers left_table right_table n start entry len
     Hentry Hdone.
   subst entry.
-  unfold StreetlightLeftProgress.
+  unfold StreetlightLeftProgressFacts.
   split.
   - exact Hdone.
   - intros left right Hleft.
@@ -516,14 +516,14 @@ Proof.
 Qed.
 Lemma streetlight_left_progress_initial__length_entry :
   forall positions powers left_table right_table n start len,
-    StreetlightLengthsDone
+    StreetlightLengthsDoneFacts
       positions powers left_table right_table n start len ->
-    StreetlightLeftProgress
+    StreetlightLeftProgressFacts
       positions powers left_table right_table n start len
       (start - len + 1).
 Proof.
   intros positions powers left_table right_table n start len Hdone.
-  unfold StreetlightLeftProgress.
+  unfold StreetlightLeftProgressFacts.
   split.
   - exact Hdone.
   - intros left right Hleft Hright Hright_bound Hcontains_start.
@@ -566,7 +566,7 @@ Lemma streetlight_remaining_bounds__left_remain :
   forall powers prefix n total left right,
     Zlength powers = n ->
     (forall k, 0 <= k < n -> 1 <= Znth k powers 0 <= 100) ->
-    StreetlightPrefixProgress powers prefix n ->
+    StreetlightPrefixProgressFacts powers prefix n ->
     total = Znth n prefix 0 ->
     0 <= left ->
     left < right ->
@@ -715,7 +715,7 @@ Proof.
 Qed.
 Lemma streetlight_plan_endpoint_bounds__left_predecessor :
   forall positions powers start left right endpoint cost,
-    StreetlightPlan positions powers start left right endpoint cost ->
+    StreetlightPlanFacts positions powers start left right endpoint cost ->
     left <= endpoint <= right.
 Proof.
   intros positions powers start left right endpoint cost Hplan.
@@ -768,7 +768,7 @@ Lemma streetlight_plan_cost_bounds__left_predecessor :
     (forall k, 0 <= k < Zlength powers ->
        1 <= Znth k powers 0 <= 100) ->
     sum powers <= 5000 ->
-    StreetlightPlan positions powers start left right endpoint cost ->
+    StreetlightPlanFacts positions powers start left right endpoint cost ->
     0 <= cost <= (right - left) * 40000000.
 Proof.
   intros positions powers start left right endpoint cost
@@ -813,18 +813,18 @@ Lemma streetlight_endpoint_minimum_bounds__left_predecessor :
     (forall k, 0 <= k < Zlength powers ->
        1 <= Znth k powers 0 <= 100) ->
     sum powers <= 5000 ->
-    StreetlightEndpointMinimum
+    StreetlightEndpointMinimumFacts
       positions powers start left right endpoint answer ->
     0 <= answer <= (right - left) * 40000000.
 Proof.
   intros positions powers start left right endpoint answer
     Hlength Hpositions Hadj Hpowers Htotal Hminimum.
-  unfold StreetlightEndpointMinimum,
+  unfold StreetlightEndpointMinimumFacts,
     min_value_of_subset, min_object_of_subset in Hminimum.
   destruct Hminimum as [candidate [[Hcandidate Hleast] Heq]].
   subst answer.
   change
-    (StreetlightPlan positions powers start left right endpoint candidate)
+    (StreetlightPlanFacts positions powers start left right endpoint candidate)
     in Hcandidate.
   exact
     (streetlight_plan_cost_bounds__left_predecessor
@@ -850,8 +850,8 @@ Lemma streetlight_previous_left_entry_bounds__left_predecessor :
     left + len - 1 < n ->
     2 <= len ->
     inf = 2147483647 ->
-    StreetlightPrefixProgress powers prefix n ->
-    StreetlightLeftProgress
+    StreetlightPrefixProgressFacts powers prefix n ->
+    StreetlightLeftProgressFacts
       positions powers left_table right_table n start len left ->
     Znth (left + len - 1)
       (Znth (left + 1) left_table default_row) 0 < inf ->
@@ -866,15 +866,15 @@ Proof.
     Hlen Hinf Hprefix Hprogress Hentry_inf.
   assert (Hsum_total : sum powers = total).
   {
-    unfold StreetlightPrefixProgress in Hprefix.
+    unfold StreetlightPrefixProgressFacts in Hprefix.
     destruct Hprefix as [_ Hprefix_values].
     specialize (Hprefix_values n ltac:(lia)).
     rewrite (sublist_self powers n ltac:(lia)) in Hprefix_values.
     lia.
   }
-  unfold StreetlightLeftProgress in Hprogress.
+  unfold StreetlightLeftProgressFacts in Hprogress.
   destruct Hprogress as [Hlengths_done _].
-  unfold StreetlightLengthsDone in Hlengths_done.
+  unfold StreetlightLengthsDoneFacts in Hlengths_done.
   destruct Hlengths_done as [Hleft_shape [_ Hintervals]].
   unfold StreetlightTableShape in Hleft_shape.
   destruct Hleft_shape as [Hleft_table_length _].
@@ -893,9 +893,9 @@ Proof.
   specialize
     (Hintervals (len - 1) (left + 1) (left + len - 1)
        ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia)).
-  unfold StreetlightIntervalCorrect in Hintervals.
+  unfold StreetlightIntervalCorrectFacts in Hintervals.
   destruct Hintervals as [Hleft_correct _].
-  unfold StreetlightLeftEntryCorrect in Hleft_correct.
+  unfold StreetlightLeftEntryCorrectFacts in Hleft_correct.
   destruct Hleft_correct as
     [[Hsingle_left [Hsingle_right Hsingle_value]]
     | [[Hproper_left Hminimum]
@@ -1000,7 +1000,7 @@ Proof.
 Qed.
 Lemma streetlight_plan_endpoint_bounds__left_best_a :
   forall positions powers start left right endpoint cost,
-    StreetlightPlan positions powers start left right endpoint cost ->
+    StreetlightPlanFacts positions powers start left right endpoint cost ->
     left <= endpoint <= right.
 Proof.
   intros positions powers start left right endpoint cost Hplan.
@@ -1015,7 +1015,7 @@ Lemma streetlight_plan_cost_bounds__left_best_a :
        Znth k positions 0 < Znth (k + 1) positions 0) ->
     (forall k, 0 <= k < n -> 1 <= Znth k powers 0 <= 100) ->
     sum powers <= 5000 ->
-    StreetlightPlan positions powers start left right endpoint cost ->
+    StreetlightPlanFacts positions powers start left right endpoint cost ->
     0 <= cost <= (right - left) * 40000000.
 Proof.
   intros positions powers n start left right endpoint cost
@@ -1071,8 +1071,8 @@ Lemma streetlight_right_predecessor_bounds__left_best_a :
     (forall k, 0 <= k < n -> 1 <= Znth k powers 0 <= 100) ->
     total = Znth n prefix 0 ->
     total <= 5000 ->
-    StreetlightPrefixProgress powers prefix n ->
-    StreetlightLeftProgress
+    StreetlightPrefixProgressFacts powers prefix n ->
+    StreetlightLeftProgressFacts
       positions powers left_table right_table n start len left ->
     0 <= left ->
     left < start ->
@@ -1097,14 +1097,14 @@ Proof.
     rewrite app_nil_r in H.
     exact H.
   }
-  unfold StreetlightPrefixProgress in Hprefix.
+  unfold StreetlightPrefixProgressFacts in Hprefix.
   destruct Hprefix as [_ Hprefix].
   specialize (Hprefix n ltac:(lia)).
   rewrite Hfull in Hprefix.
   assert (Hsumpowers : sum powers <= 5000) by lia.
-  unfold StreetlightLeftProgress in Hprogress.
+  unfold StreetlightLeftProgressFacts in Hprogress.
   destruct Hprogress as [Hdone _].
-  unfold StreetlightLengthsDone in Hdone.
+  unfold StreetlightLengthsDoneFacts in Hdone.
   destruct Hdone as [Hleftshape [Hrightshape Hdone]].
   pose proof
     (Hdone (len - 1) (left + 1) (left + len - 1)
@@ -1116,16 +1116,16 @@ Proof.
     (Znth_indep right_table (left + 1) default_row [] ltac:(lia))
     as Hroweq.
   rewrite Hroweq in Hfinite |- *.
-  unfold StreetlightIntervalCorrect in Hinter.
+  unfold StreetlightIntervalCorrectFacts in Hinter.
   destruct Hinter as [_ Hrightcorrect].
-  unfold StreetlightRightEntryCorrect in Hrightcorrect.
+  unfold StreetlightRightEntryCorrectFacts in Hrightcorrect.
   destruct Hrightcorrect as
       [[Hsameleft [Hsameright Hvalue]]
       | [[Hstartlt Hminimum]
         | [Hleftlt [Hrightstart Hvalue]]]].
   - rewrite Hvalue.
     lia.
-  - unfold StreetlightEndpointMinimum in Hminimum.
+  - unfold StreetlightEndpointMinimumFacts in Hminimum.
     unfold min_value_of_subset, min_object_of_subset in Hminimum.
     destruct Hminimum as [candidate [[Hcandidate _] Hcandidate_value]].
     simpl in Hcandidate_value.
@@ -1242,7 +1242,7 @@ Proof.
 Qed.
 Lemma StreetlightPlan_endpoint_bounds__left_best_b :
   forall positions powers start left right endpoint cost,
-    StreetlightPlan positions powers start left right endpoint cost ->
+    StreetlightPlanFacts positions powers start left right endpoint cost ->
     left <= endpoint <= right.
 Proof.
   intros positions powers start left right endpoint cost Hplan.
@@ -1258,7 +1258,7 @@ Lemma StreetlightPlan_cost_bounds__left_best_b :
       (0 <= k /\ k + 1 < n) ->
       Znth k positions 0 < Znth (k + 1) positions 0) ->
     (forall k, 0 <= k < n -> 1 <= Znth k powers 0 <= 100) ->
-    StreetlightPlan positions powers start left right endpoint cost ->
+    StreetlightPlanFacts positions powers start left right endpoint cost ->
     0 <= cost /\ cost <= (right - left) * 40000000.
 Proof.
   intros positions powers start left right endpoint cost n
@@ -1330,13 +1330,13 @@ Lemma StreetlightEndpointMinimum_bounds__left_best_b :
       (0 <= k /\ k + 1 < n) ->
       Znth k positions 0 < Znth (k + 1) positions 0) ->
     (forall k, 0 <= k < n -> 1 <= Znth k powers 0 <= 100) ->
-    StreetlightEndpointMinimum
+    StreetlightEndpointMinimumFacts
       positions powers start left right endpoint value ->
     0 <= value /\ value <= (right - left) * 40000000.
 Proof.
   intros positions powers start left right endpoint value n
     Hpositions Hpowers Hn Hpos Hpos_adj Hpower Hminimum.
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset in Hminimum.
   destruct Hminimum as [cost [[Hplan Hleast] Hcost]].
   simpl in Hcost.
@@ -1360,7 +1360,7 @@ Lemma StreetlightLeftProgress_predecessor_right_bounds__left_best_b :
       (0 <= k /\ k + 1 < n) ->
       Znth k positions 0 < Znth (k + 1) positions 0) ->
     (forall k, 0 <= k < n -> 1 <= Znth k powers 0 <= 100) ->
-    StreetlightLeftProgress
+    StreetlightLeftProgressFacts
       positions powers left_table right_table n start len left ->
     Znth (left + len - 1)
       (Znth (left + 1) right_table default_row) 0 < 2147483647 ->
@@ -1373,16 +1373,16 @@ Proof.
   intros positions powers left_table right_table n start len left default_row
     Hpositions Hpowers Hn Hlen Hleft Hleft_start Hstart_right Hright
     Hpos Hpos_adj Hpower Hprogress Hfinite.
-  unfold StreetlightLeftProgress in Hprogress.
+  unfold StreetlightLeftProgressFacts in Hprogress.
   destruct Hprogress as [Hlengths_done Hcurrent].
-  unfold StreetlightLengthsDone in Hlengths_done.
+  unfold StreetlightLengthsDoneFacts in Hlengths_done.
   destruct Hlengths_done as
     [Hleft_shape [Hright_shape Hprevious_lengths]].
   specialize
     (Hprevious_lengths
       (len - 1) (left + 1) (left + len - 1)
       ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia)).
-  unfold StreetlightIntervalCorrect in Hprevious_lengths.
+  unfold StreetlightIntervalCorrectFacts in Hprevious_lengths.
   destruct Hprevious_lengths as [Hleft_correct Hright_correct].
   unfold StreetlightTableShape in Hright_shape.
   destruct Hright_shape as [Hright_length Hrow_lengths].
@@ -1395,7 +1395,7 @@ Proof.
     lia.
   }
   rewrite Hrow_default in Hfinite |- *.
-  unfold StreetlightRightEntryCorrect in Hright_correct.
+  unfold StreetlightRightEntryCorrectFacts in Hright_correct.
   destruct Hright_correct as
     [[Hentry_left [Hentry_right Hvalue]]
     | [[Hentry_right Hminimum]
@@ -1544,7 +1544,7 @@ Qed.
 Lemma StreetlightPrefixProgress_remainder__right_remain_a :
   forall powers prefix n total left right remain,
     Zlength powers = n ->
-    StreetlightPrefixProgress powers prefix n ->
+    StreetlightPrefixProgressFacts powers prefix n ->
     total = Znth n prefix 0 ->
     remain = total - (Znth (right + 1) prefix 0 -
                       Znth (left + 1) prefix 0) ->
@@ -1555,7 +1555,7 @@ Lemma StreetlightPrefixProgress_remainder__right_remain_a :
 Proof.
   intros powers prefix n total left right remain Hpowlen Hprefix
     Htotal Hremain Hleft Hlr Hright.
-  unfold StreetlightPrefixProgress in Hprefix.
+  unfold StreetlightPrefixProgressFacts in Hprefix.
   destruct Hprefix as [_ Hprefix].
   pose proof (Hprefix n ltac:(lia)) as Hn.
   pose proof (Hprefix (left + 1) ltac:(lia)) as Hleft_prefix.
@@ -1573,13 +1573,13 @@ Proof.
 Qed.
 Lemma StreetlightLeftProgress_update_cell__right_remain_a :
   forall positions powers left_table right_table n start len left right best,
-    StreetlightLeftProgress positions powers left_table right_table
+    StreetlightLeftProgressFacts positions powers left_table right_table
       n start len left ->
     1 <= len ->
     0 <= left ->
     right = left + len - 1 ->
     right < n ->
-    StreetlightLeftProgress positions powers
+    StreetlightLeftProgressFacts positions powers
       (replace_Znth left
         (replace_Znth right best (Znth left left_table []))
         left_table)
@@ -1587,9 +1587,9 @@ Lemma StreetlightLeftProgress_update_cell__right_remain_a :
 Proof.
   intros positions powers left_table right_table n start len left right best
     Hprogress Hlen Hleft Hright_eq Hright.
-  unfold StreetlightLeftProgress in Hprogress |- *.
+  unfold StreetlightLeftProgressFacts in Hprogress |- *.
   destruct Hprogress as [Hdone Hcurrent].
-  unfold StreetlightLengthsDone in Hdone |- *.
+  unfold StreetlightLengthsDoneFacts in Hdone |- *.
   destruct Hdone as [Hshape_left [Hshape_right Hshort]].
   destruct Hshape_left as [Htable_len Hrow_len].
   split.
@@ -1608,7 +1608,7 @@ Proof.
         Hcontains.
       specialize (Hshort short_len row col Hshort_len Hcol_eq Hrow_nonneg
         Hcol_bound Hcontains).
-      unfold StreetlightIntervalCorrect in Hshort |- *.
+      unfold StreetlightIntervalCorrectFacts in Hshort |- *.
       destruct Hshort as [Hleft_entry Hright_entry].
       split; [| exact Hright_entry].
       destruct (Z.eq_dec row left) as [Hsame | Hdiff].
@@ -1621,7 +1621,7 @@ Proof.
         exact Hleft_entry.
   - intros row col Hrow Hcol_eq Hcol_bound Hcontains.
     specialize (Hcurrent row col Hrow Hcol_eq Hcol_bound Hcontains).
-    unfold StreetlightIntervalCorrect in Hcurrent |- *.
+    unfold StreetlightIntervalCorrectFacts in Hcurrent |- *.
     destruct Hcurrent as [Hleft_entry Hright_entry].
     split; [| exact Hright_entry].
     rewrite Znth_replace_Znth_Diff by lia.
@@ -1629,7 +1629,7 @@ Proof.
 Qed.
 Lemma StreetlightPlan_endpoint_boundary__right_remain_a :
   forall positions powers start left right endpoint cost,
-    StreetlightPlan positions powers start left right endpoint cost ->
+    StreetlightPlanFacts positions powers start left right endpoint cost ->
     endpoint = left \/ endpoint = right.
 Proof.
   intros positions powers start left right endpoint cost Hplan.
@@ -1637,7 +1637,7 @@ Proof.
 Qed.
 Lemma StreetlightPlan_right_start_endpoint__right_remain_a :
   forall positions powers start left endpoint cost,
-    StreetlightPlan positions powers start left start endpoint cost ->
+    StreetlightPlanFacts positions powers start left start endpoint cost ->
     endpoint = left.
 Proof.
   intros positions powers start left endpoint cost Hplan.
@@ -1647,10 +1647,10 @@ Lemma StreetlightEndpointMinimum_start__right_remain_a :
   forall positions powers start,
     0 <= start < Zlength positions ->
     Zlength powers = Zlength positions ->
-    StreetlightEndpointMinimum positions powers start start start start 0.
+    StreetlightEndpointMinimumFacts positions powers start start start start 0.
 Proof.
   intros positions powers start Hstart Hlength.
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset.
   exists 0.
   split.
@@ -1762,7 +1762,7 @@ Proof.
 Qed.
 Lemma StreetlightPlan_bounds__right_remain_a :
   forall positions powers start left right endpoint cost,
-    StreetlightPlan positions powers start left right endpoint cost ->
+    StreetlightPlanFacts positions powers start left right endpoint cost ->
     forall n,
       Zlength positions = n ->
       Zlength powers = n ->
@@ -1852,12 +1852,12 @@ Lemma StreetlightEndpointMinimum_bounds__right_remain_a :
       Znth k positions 0 < Znth (k + 1) positions 0) ->
     (forall k, 0 <= k < n -> 1 <= Znth k powers 0 <= 100) ->
     0 <= sum powers <= 5000 ->
-    StreetlightEndpointMinimum positions powers start left right endpoint answer ->
+    StreetlightEndpointMinimumFacts positions powers start left right endpoint answer ->
     0 <= answer <= (right - left) * 40000000.
 Proof.
   intros positions powers start left right endpoint answer n Hposlen Hpowlen
     Hposbound Hposstep Hpowerbound Hsum Hminimum.
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset in Hminimum.
   destruct Hminimum as [cost [[Hplan _] Hanswer]].
   subst answer.
@@ -1869,13 +1869,13 @@ Qed.
 Lemma StreetlightPrefixProgress_total_sum__right_remain_a :
   forall powers prefix n total,
     Zlength powers = n ->
-    StreetlightPrefixProgress powers prefix n ->
+    StreetlightPrefixProgressFacts powers prefix n ->
     total = Znth n prefix 0 ->
     total = sum powers.
 Proof.
   intros powers prefix n total Hlength Hprefix Htotal.
   pose proof (Zlength_nonneg powers) as Hnonneg.
-  unfold StreetlightPrefixProgress in Hprefix.
+  unfold StreetlightPrefixProgressFacts in Hprefix.
   destruct Hprefix as [_ Hprefix].
   pose proof (Hprefix n ltac:(lia)) as Hn.
   rewrite (sublist_self powers n ltac:(lia)) in Hn.
@@ -1898,7 +1898,7 @@ Lemma StreetlightLeftProgress_predecessor_finite__right_remain_a :
     right = left + len - 1 ->
     start <= right ->
     right < n ->
-    StreetlightLeftProgress positions powers left_table right_table
+    StreetlightLeftProgressFacts positions powers left_table right_table
       n start len left ->
     Znth right (Znth (left + 1) left_table default_row) 0 < 2147483647 \/
     Znth right (Znth (left + 1) right_table default_row) 0 < 2147483647.
@@ -1906,19 +1906,19 @@ Proof.
   intros positions powers left_table right_table n start len left right default_row
     Hposlen Hpowlen Hposbound Hposstep Hpowerbound Hsum Hn Hlen Hleft
     Hleft_start Hright_eq Hstart_right Hright Hprogress.
-  unfold StreetlightLeftProgress in Hprogress.
+  unfold StreetlightLeftProgressFacts in Hprogress.
   destruct Hprogress as [Hdone _].
-  unfold StreetlightLengthsDone in Hdone.
+  unfold StreetlightLengthsDoneFacts in Hdone.
   destruct Hdone as [Hshape_left [Hshape_right Hintervals]].
   destruct Hshape_left as [Hleft_table_len Hleft_row_len].
   destruct Hshape_right as [Hright_table_len Hright_row_len].
   assert (Hinterval :
-    StreetlightIntervalCorrect positions powers left_table right_table start
+    StreetlightIntervalCorrectFacts positions powers left_table right_table start
       (left + 1) right).
   {
     apply (Hintervals (len - 1) (left + 1) right); lia.
   }
-  unfold StreetlightIntervalCorrect in Hinterval.
+  unfold StreetlightIntervalCorrectFacts in Hinterval.
   destruct Hinterval as [Hleft_entry Hright_entry].
   rewrite (Znth_indep left_table (left + 1) [] default_row) in Hleft_entry
     by lia.
@@ -1926,7 +1926,7 @@ Proof.
     by lia.
   assert (Hminimum_finite :
     forall endpoint answer,
-      StreetlightEndpointMinimum positions powers start
+      StreetlightEndpointMinimumFacts positions powers start
         (left + 1) right endpoint answer ->
       answer < 2147483647).
   {
@@ -1938,14 +1938,14 @@ Proof.
       as Hbounds.
     nia.
   }
-  unfold StreetlightLeftEntryCorrect in Hleft_entry.
+  unfold StreetlightLeftEntryCorrectFacts in Hleft_entry.
   destruct Hleft_entry as
       [[Hleft_base [Hright_base Hvalue_base]]
       |[[Hleft_strict Hminimum_left]
         |[Hleft_start_eq [Hright_strict Hvalue_inf]]]].
   - left. lia.
   - left. apply (Hminimum_finite (left + 1)). exact Hminimum_left.
-  - unfold StreetlightRightEntryCorrect in Hright_entry.
+  - unfold StreetlightRightEntryCorrectFacts in Hright_entry.
     destruct Hright_entry as
         [[Hleft_base [Hright_base Hvalue_base]]
         |[[Hright_strict' Hminimum_right]
@@ -1958,9 +1958,9 @@ Lemma StreetlightPlan_extend_left_inv__right_remain_a :
   forall positions powers start left right new_cost,
     left < start ->
     left < right ->
-    StreetlightPlan positions powers start left right left new_cost ->
+    StreetlightPlanFacts positions powers start left right left new_cost ->
     exists endpoint old_cost,
-      StreetlightPlan positions powers start (left + 1) right endpoint old_cost /\
+      StreetlightPlanFacts positions powers start (left + 1) right endpoint old_cost /\
       new_cost =
         old_cost +
         (Znth endpoint positions 0 - Znth left positions 0) *
@@ -1980,7 +1980,7 @@ Lemma StreetlightLeftEntryCorrect_from_left_candidate__right_remain_a :
     (forall k, 0 <= k /\ k + 1 < n ->
       Znth k positions 0 < Znth (k + 1) positions 0) ->
     (forall k, 0 <= k < n -> 1 <= Znth k powers 0 <= 100) ->
-    StreetlightPrefixProgress powers prefix n ->
+    StreetlightPrefixProgressFacts powers prefix n ->
     total = Znth n prefix 0 ->
     1 <= total <= 5000 ->
     n <= 50 ->
@@ -1993,7 +1993,7 @@ Lemma StreetlightLeftEntryCorrect_from_left_candidate__right_remain_a :
     remain = total -
       (Znth (right + 1) prefix 0 - Znth (left + 1) prefix 0) ->
     1 <= remain <= 5000 ->
-    StreetlightLeftProgress positions powers left_table right_table
+    StreetlightLeftProgressFacts positions powers left_table right_table
       n start len left ->
     Znth right (Znth (left + 1) left_table default_row) 0 < 2147483647 ->
     best =
@@ -2003,7 +2003,7 @@ Lemma StreetlightLeftEntryCorrect_from_left_candidate__right_remain_a :
       best <=
         Znth right (Znth (left + 1) right_table default_row) 0 +
         (Znth right positions 0 - Znth left positions 0) * remain) ->
-    StreetlightLeftEntryCorrect positions powers start left right best.
+    StreetlightLeftEntryCorrectFacts positions powers start left right best.
 Proof.
   intros positions powers prefix left_table right_table n total start len
     left right remain best default_row Hposlen Hpowlen Hposbound Hposstep
@@ -2018,30 +2018,30 @@ Proof.
     (StreetlightPrefixProgress_remainder__right_remain_a
        powers prefix n total left right remain Hpowlen Hprefix Htotal Hremain
        Hleft ltac:(lia) Hright) as Hremain_sum.
-  unfold StreetlightLeftProgress in Hprogress.
+  unfold StreetlightLeftProgressFacts in Hprogress.
   destruct Hprogress as [Hdone _].
-  unfold StreetlightLengthsDone in Hdone.
+  unfold StreetlightLengthsDoneFacts in Hdone.
   destruct Hdone as [Hshape_left [Hshape_right Hintervals]].
   destruct Hshape_left as [Hleft_table_len Hleft_row_len].
   destruct Hshape_right as [Hright_table_len Hright_row_len].
   assert (Hinterval :
-    StreetlightIntervalCorrect positions powers left_table right_table start
+    StreetlightIntervalCorrectFacts positions powers left_table right_table start
       (left + 1) right).
   {
     apply (Hintervals (len - 1) (left + 1) right); lia.
   }
-  unfold StreetlightIntervalCorrect in Hinterval.
+  unfold StreetlightIntervalCorrectFacts in Hinterval.
   destruct Hinterval as [Hleft_entry Hright_entry].
   rewrite (Znth_indep left_table (left + 1) [] default_row) in Hleft_entry
     by lia.
   rewrite (Znth_indep right_table (left + 1) [] default_row) in Hright_entry
     by lia.
   assert (Hminimum_left :
-    StreetlightEndpointMinimum positions powers start (left + 1) right
+    StreetlightEndpointMinimumFacts positions powers start (left + 1) right
       (left + 1)
       (Znth right (Znth (left + 1) left_table default_row) 0)).
   {
-    unfold StreetlightLeftEntryCorrect in Hleft_entry.
+    unfold StreetlightLeftEntryCorrectFacts in Hleft_entry.
     destruct Hleft_entry as
         [[Hleft_base [Hright_base Hvalue_base]]
         |[[Hleft_strict Hminimum]
@@ -2053,11 +2053,11 @@ Proof.
   }
   assert (Hminimum_right :
     start < right ->
-    StreetlightEndpointMinimum positions powers start (left + 1) right
+    StreetlightEndpointMinimumFacts positions powers start (left + 1) right
       right (Znth right (Znth (left + 1) right_table default_row) 0)).
   {
     intro Hstart_right_strict.
-    unfold StreetlightRightEntryCorrect in Hright_entry.
+    unfold StreetlightRightEntryCorrectFacts in Hright_entry.
     destruct Hright_entry as
         [[Hleft_base [Hright_base Hvalue_base]]
         |[[Hright_strict Hminimum]
@@ -2066,14 +2066,14 @@ Proof.
     - exact Hminimum.
     - lia.
   }
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset in Hminimum_left.
   destruct Hminimum_left as
     [left_cost [[Hleft_plan Hleft_least] Hleft_cost_eq]].
-  unfold StreetlightLeftEntryCorrect.
+  unfold StreetlightLeftEntryCorrectFacts.
   right; left.
   split; [exact Hleft_start |].
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset.
   exists
     (left_cost +
@@ -2116,7 +2116,7 @@ Proof.
            lia.
         -- assert (Hstart_right_strict : start < right) by lia.
            specialize (Hminimum_right Hstart_right_strict).
-           unfold StreetlightEndpointMinimum, min_value_of_subset,
+           unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
              min_object_of_subset in Hminimum_right.
            destruct Hminimum_right as
              [right_cost [[Hright_plan Hright_least] Hright_cost_eq]].
@@ -2128,12 +2128,12 @@ Proof.
                 Hposlen Hpowlen Hposbound Hposstep Hpowerbound Hsum)
              as Hright_bounds.
            assert (Hright_minimum_original :
-             StreetlightEndpointMinimum positions powers start
+             StreetlightEndpointMinimumFacts positions powers start
                (left + 1) right right
                (Znth right
                   (Znth (left + 1) right_table default_row) 0)).
            {
-             unfold StreetlightEndpointMinimum, min_value_of_subset,
+             unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
                min_object_of_subset.
              exists right_cost.
              repeat split; assumption.
@@ -2153,12 +2153,12 @@ Lemma StreetlightPrefixProgress_remaining__right_remain_b :
     total = Znth n prefix 0 ->
     remain = total -
       (Znth (right + 1) prefix 0 - Znth (left + 1) prefix 0) ->
-    StreetlightPrefixProgress powers prefix n ->
+    StreetlightPrefixProgressFacts powers prefix n ->
     remain = sum powers - sum (sublist (left + 1) (right + 1) powers).
 Proof.
   intros powers prefix n total left right remain Hpowers Hleft Hlr Hright
     Htotal Hremain Hprefix.
-  unfold StreetlightPrefixProgress in Hprefix.
+  unfold StreetlightPrefixProgressFacts in Hprefix.
   destruct Hprefix as [_ Hprefix].
   pose proof (Hprefix n ltac:(lia)) as Hn.
   pose proof (Hprefix (left + 1) ltac:(lia)) as Hleft_prefix.
@@ -2171,7 +2171,7 @@ Proof.
 Qed.
 Lemma StreetlightPlan_endpoint__right_remain_b :
   forall positions powers start left right endpoint cost,
-    StreetlightPlan positions powers start left right endpoint cost ->
+    StreetlightPlanFacts positions powers start left right endpoint cost ->
     endpoint = left \/ endpoint = right.
 Proof.
   intros positions powers start left right endpoint cost Hplan.
@@ -2180,9 +2180,9 @@ Qed.
 Lemma StreetlightPlan_left_inv__right_remain_b :
   forall positions powers start left right cost,
     left < start ->
-    StreetlightPlan positions powers start left right left cost ->
+    StreetlightPlanFacts positions powers start left right left cost ->
     exists endpoint previous,
-      StreetlightPlan positions powers start (left + 1) right endpoint previous /\
+      StreetlightPlanFacts positions powers start (left + 1) right endpoint previous /\
       cost = previous +
         (Znth endpoint positions 0 - Znth left positions 0) *
         (sum powers - sum (sublist (left + 1) (right + 1) powers)).
@@ -2193,15 +2193,15 @@ Proof.
 Qed.
 Lemma StreetlightLeftEntryCorrect_lower__right_remain_b :
   forall positions powers start left right value cost,
-    StreetlightLeftEntryCorrect positions powers start left right value ->
-    StreetlightPlan positions powers start left right left cost ->
+    StreetlightLeftEntryCorrectFacts positions powers start left right value ->
+    StreetlightPlanFacts positions powers start left right left cost ->
     value <= cost.
 Proof.
   intros positions powers start left right value cost Hcorrect Hplan.
-  unfold StreetlightLeftEntryCorrect in Hcorrect.
+  unfold StreetlightLeftEntryCorrectFacts in Hcorrect.
   destruct Hcorrect as [[? [? ?]] | [[? Hminimum] | [? [? ?]]]]; subst.
   - inversion Hplan; subst; lia.
-  - unfold StreetlightEndpointMinimum, min_value_of_subset,
+  - unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
       min_object_of_subset in Hminimum.
     destruct Hminimum as [minimum [[Hlegal Hlower] Hvalue]].
     subst value.
@@ -2210,15 +2210,15 @@ Proof.
 Qed.
 Lemma StreetlightRightEntryCorrect_lower__right_remain_b :
   forall positions powers start left right value cost,
-    StreetlightRightEntryCorrect positions powers start left right value ->
-    StreetlightPlan positions powers start left right right cost ->
+    StreetlightRightEntryCorrectFacts positions powers start left right value ->
+    StreetlightPlanFacts positions powers start left right right cost ->
     value <= cost.
 Proof.
   intros positions powers start left right value cost Hcorrect Hplan.
-  unfold StreetlightRightEntryCorrect in Hcorrect.
+  unfold StreetlightRightEntryCorrectFacts in Hcorrect.
   destruct Hcorrect as [[? [? ?]] | [[? Hminimum] | [? [? ?]]]]; subst.
   - inversion Hplan; subst; lia.
-  - unfold StreetlightEndpointMinimum, min_value_of_subset,
+  - unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
       min_object_of_subset in Hminimum.
     destruct Hminimum as [minimum [[Hlegal Hlower] Hvalue]].
     subst value.
@@ -2229,14 +2229,14 @@ Lemma StreetlightLeftEntryCorrect_finite_min__right_remain_b :
   forall positions powers start left right value,
     0 <= start < Zlength positions ->
     Zlength powers = Zlength positions ->
-    StreetlightLeftEntryCorrect positions powers start left right value ->
+    StreetlightLeftEntryCorrectFacts positions powers start left right value ->
     value < 2147483647 ->
-    StreetlightEndpointMinimum positions powers start left right left value.
+    StreetlightEndpointMinimumFacts positions powers start left right left value.
 Proof.
   intros positions powers start left right value Hstart Hlength Hcorrect Hfinite.
-  unfold StreetlightLeftEntryCorrect in Hcorrect.
+  unfold StreetlightLeftEntryCorrectFacts in Hcorrect.
   destruct Hcorrect as [[? [? ?]] | [[? Hminimum] | [? [? ?]]]]; subst.
-  - unfold StreetlightEndpointMinimum, min_value_of_subset,
+  - unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
       min_object_of_subset.
     exists 0. split.
     + split.
@@ -2250,14 +2250,14 @@ Lemma StreetlightRightEntryCorrect_finite_min__right_remain_b :
   forall positions powers start left right value,
     0 <= start < Zlength positions ->
     Zlength powers = Zlength positions ->
-    StreetlightRightEntryCorrect positions powers start left right value ->
+    StreetlightRightEntryCorrectFacts positions powers start left right value ->
     value < 2147483647 ->
-    StreetlightEndpointMinimum positions powers start left right right value.
+    StreetlightEndpointMinimumFacts positions powers start left right right value.
 Proof.
   intros positions powers start left right value Hstart Hlength Hcorrect Hfinite.
-  unfold StreetlightRightEntryCorrect in Hcorrect.
+  unfold StreetlightRightEntryCorrectFacts in Hcorrect.
   destruct Hcorrect as [[? [? ?]] | [[? Hminimum] | [? [? ?]]]]; subst.
-  - unfold StreetlightEndpointMinimum, min_value_of_subset,
+  - unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
       min_object_of_subset.
     exists 0. split.
     + split.
@@ -2305,9 +2305,9 @@ Lemma StreetlightEndpointMinimum_extend_left__right_remain_b :
     (forall k, 0 <= k /\ k + 1 < Zlength positions ->
        Znth k positions 0 < Znth (k + 1) positions 0) ->
     remain = sum powers - sum (sublist (left + 1) (right + 1) powers) ->
-    StreetlightLeftEntryCorrect positions powers start (left + 1) right
+    StreetlightLeftEntryCorrectFacts positions powers start (left + 1) right
       left_value ->
-    StreetlightRightEntryCorrect positions powers start (left + 1) right
+    StreetlightRightEntryCorrectFacts positions powers start (left + 1) right
       right_value ->
     best <= (len - 1) * 40000000 ->
     (left_value < 2147483647 ->
@@ -2322,7 +2322,7 @@ Lemma StreetlightEndpointMinimum_extend_left__right_remain_b :
      (right_value < 2147483647 /\
       best = right_value +
         (Znth right positions 0 - Znth left positions 0) * remain)) ->
-    StreetlightEndpointMinimum positions powers start left right left best.
+    StreetlightEndpointMinimumFacts positions powers start left right left best.
 Proof.
   intros positions powers start n len left right remain left_value right_value
     best Hpositions Hpowers Hn Hlen Hleft Hstart_right Hright Hremain_pos
@@ -2341,7 +2341,7 @@ Proof.
     lia. }
   assert (Hcurrent_lower :
       forall cost,
-        StreetlightPlan positions powers start left right left cost ->
+        StreetlightPlanFacts positions powers start left right left cost ->
         best <= cost).
   { intros cost Hplan.
     destruct (StreetlightPlan_left_inv__right_remain_b
@@ -2362,13 +2362,13 @@ Proof.
       destruct (Z_lt_ge_dec right_value 2147483647) as [Hfinite | Hinfinite].
       + specialize (Hbest_right Hfinite). rewrite <- Hremain in Hcost. nia.
       + rewrite <- Hremain in Hcost. nia. }
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset.
   destruct Hselected as [[Hfinite Hbest] | [Hfinite Hbest]].
   - pose proof (StreetlightLeftEntryCorrect_finite_min__right_remain_b
       positions powers start (left + 1) right left_value
       Hstart Hpowers_positions Hleft_correct Hfinite) as Hminimum.
-    unfold StreetlightEndpointMinimum, min_value_of_subset,
+    unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
       min_object_of_subset in Hminimum.
     destruct Hminimum as [previous [[Hprevious _] Hprevious_value]].
     subst previous.
@@ -2381,7 +2381,7 @@ Proof.
   - pose proof (StreetlightRightEntryCorrect_finite_min__right_remain_b
       positions powers start (left + 1) right right_value
       Hstart Hpowers_positions Hright_correct Hfinite) as Hminimum.
-    unfold StreetlightEndpointMinimum, min_value_of_subset,
+    unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
       min_object_of_subset in Hminimum.
     destruct Hminimum as [previous [[Hprevious _] Hprevious_value]].
     subst previous.
@@ -2477,19 +2477,19 @@ Lemma StreetlightLeftEndpointReady_store__right_remain_b :
     left < start ->
     right = left + len - 1 ->
     right < n ->
-    StreetlightLeftProgress positions powers left_table right_table
+    StreetlightLeftProgressFacts positions powers left_table right_table
       n start len left ->
-    StreetlightLeftEntryCorrect positions powers start left right value ->
-    StreetlightLeftEndpointReady positions powers
+    StreetlightLeftEntryCorrectFacts positions powers start left right value ->
+    StreetlightLeftEndpointReadyFacts positions powers
       (replace_Znth left
         (replace_Znth right value (Znth left left_table default)) left_table)
       right_table n start len left.
 Proof.
   intros positions powers left_table right_table n start len left right value
     default Hlen Hleft Hleft_start Hright Hright_n Hprogress Hentry.
-  unfold StreetlightLeftProgress in Hprogress.
+  unfold StreetlightLeftProgressFacts in Hprogress.
   destruct Hprogress as [Hdone Hprocessed].
-  unfold StreetlightLengthsDone in Hdone.
+  unfold StreetlightLengthsDoneFacts in Hdone.
   destruct Hdone as [Hshape_left [Hshape_right Hdone]].
   assert (Hleft_n : 0 <= left < n) by lia.
   assert (Hright_bounds : 0 <= right < n) by lia.
@@ -2498,18 +2498,18 @@ Proof.
         (replace_Znth left
           (replace_Znth right value (Znth left left_table default)) left_table) n).
   { eapply StreetlightTableShape_replace_cell__right_remain_b; eauto. }
-  unfold StreetlightLeftEndpointReady.
+  unfold StreetlightLeftEndpointReadyFacts.
   split.
-  - unfold StreetlightLeftProgress.
+  - unfold StreetlightLeftProgressFacts.
     split.
-    + unfold StreetlightLengthsDone.
+    + unfold StreetlightLengthsDoneFacts.
       split; [exact Hshape_updated |].
       split; [exact Hshape_right |].
       intros old_len old_left old_right Hold_len Hold_right Hold_left
         Hold_right_n Hold_contains.
       specialize (Hdone old_len old_left old_right Hold_len Hold_right Hold_left
         Hold_right_n Hold_contains).
-      unfold StreetlightIntervalCorrect in *.
+      unfold StreetlightIntervalCorrectFacts in *.
       destruct Hdone as [Hdone_left Hdone_right].
       split; [| exact Hdone_right].
       assert (Hold_left_n : 0 <= old_left < n) by lia.
@@ -2525,7 +2525,7 @@ Proof.
     + intros old_left old_right Hold_left Hold_right Hold_right_n Hold_contains.
       specialize (Hprocessed old_left old_right Hold_left Hold_right
         Hold_right_n Hold_contains).
-      unfold StreetlightIntervalCorrect in *.
+      unfold StreetlightIntervalCorrectFacts in *.
       destruct Hprocessed as [Hprocessed_left Hprocessed_right].
       split; [| exact Hprocessed_right].
       assert (Hold_left_n : 0 <= old_left < n) by lia.
@@ -2555,7 +2555,7 @@ Lemma StreetlightLeftEndpointReady_after_best__right_remain_b :
     (forall k, 0 <= k /\ k + 1 < n ->
        Znth k positions 0 < Znth (k + 1) positions 0) ->
     remain = sum powers - sum (sublist (left + 1) (right + 1) powers) ->
-    StreetlightLeftProgress positions powers left_table right_table
+    StreetlightLeftProgressFacts positions powers left_table right_table
       n start len left ->
     best <= (len - 1) * 40000000 ->
     (Znth right (Znth (left + 1) left_table default) 0 < 2147483647 ->
@@ -2570,7 +2570,7 @@ Lemma StreetlightLeftEndpointReady_after_best__right_remain_b :
      (Znth right (Znth (left + 1) right_table default) 0 < 2147483647 /\
       best = Znth right (Znth (left + 1) right_table default) 0 +
         (Znth right positions 0 - Znth left positions 0) * remain)) ->
-    StreetlightLeftEndpointReady positions powers
+    StreetlightLeftEndpointReadyFacts positions powers
       (replace_Znth left
         (replace_Znth right best (Znth left left_table default)) left_table)
       right_table n start len left.
@@ -2580,13 +2580,13 @@ Proof.
     Hremain_pos Hadj Hremain Hprogress Hbest_bound Hbest_left Hbest_right
     Hselected.
   pose proof Hprogress as Hprogress_copy.
-  unfold StreetlightLeftProgress in Hprogress.
+  unfold StreetlightLeftProgressFacts in Hprogress.
   destruct Hprogress as [Hdone _].
-  unfold StreetlightLengthsDone in Hdone.
+  unfold StreetlightLengthsDoneFacts in Hdone.
   destruct Hdone as [Hshape_left [Hshape_right Hdone]].
   specialize (Hdone (len - 1) (left + 1) right
     ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia)).
-  unfold StreetlightIntervalCorrect in Hdone.
+  unfold StreetlightIntervalCorrectFacts in Hdone.
   destruct Hdone as [Hleft_correct Hright_correct].
   assert (Hsub_left : 0 <= left + 1 < n) by lia.
   assert (Hleft_default :
@@ -2604,7 +2604,7 @@ Proof.
         Znth k positions 0 < Znth (k + 1) positions 0).
   { intros k Hk. apply Hadj. rewrite <- Hpositions. exact Hk. }
   assert (Hendpoint :
-      StreetlightEndpointMinimum positions powers start left right left best).
+      StreetlightEndpointMinimumFacts positions powers start left right left best).
   { eapply StreetlightEndpointMinimum_extend_left__right_remain_b
       with (n := n) (len := len) (remain := remain)
         (left_value := Znth right (Znth (left + 1) left_table default) 0)
@@ -2617,7 +2617,7 @@ Proof.
   - exact Hright.
   - exact Hright_n.
   - exact Hprogress_copy.
-  - unfold StreetlightLeftEntryCorrect.
+  - unfold StreetlightLeftEntryCorrectFacts.
     right. left. split; [lia | exact Hendpoint].
 Qed.
 Lemma StreetlightPrefixProgress_remaining__right_remain_c :
@@ -2629,12 +2629,12 @@ Lemma StreetlightPrefixProgress_remaining__right_remain_c :
     total = Znth n prefix 0 ->
     remain = total -
       (Znth (right + 1) prefix 0 - Znth (left + 1) prefix 0) ->
-    StreetlightPrefixProgress powers prefix n ->
+    StreetlightPrefixProgressFacts powers prefix n ->
     remain = sum powers - sum (sublist (left + 1) (right + 1) powers).
 Proof.
   intros powers prefix n total left right remain Hpowers Hleft Hlr Hright
     Htotal Hremain Hprefix.
-  unfold StreetlightPrefixProgress in Hprefix.
+  unfold StreetlightPrefixProgressFacts in Hprefix.
   destruct Hprefix as [_ Hprefix].
   pose proof (Hprefix n ltac:(lia)) as Hn.
   pose proof (Hprefix (left + 1) ltac:(lia)) as Hleft_prefix.
@@ -2647,7 +2647,7 @@ Proof.
 Qed.
 Lemma StreetlightPlan_endpoint__right_remain_c :
   forall positions powers start left right endpoint cost,
-    StreetlightPlan positions powers start left right endpoint cost ->
+    StreetlightPlanFacts positions powers start left right endpoint cost ->
     endpoint = left \/ endpoint = right.
 Proof.
   intros positions powers start left right endpoint cost Hplan.
@@ -2656,9 +2656,9 @@ Qed.
 Lemma StreetlightPlan_left_inv__right_remain_c :
   forall positions powers start left right cost,
     left < start ->
-    StreetlightPlan positions powers start left right left cost ->
+    StreetlightPlanFacts positions powers start left right left cost ->
     exists endpoint previous,
-      StreetlightPlan positions powers start (left + 1) right endpoint previous /\
+      StreetlightPlanFacts positions powers start (left + 1) right endpoint previous /\
       cost = previous +
         (Znth endpoint positions 0 - Znth left positions 0) *
         (sum powers - sum (sublist (left + 1) (right + 1) powers)).
@@ -2669,15 +2669,15 @@ Proof.
 Qed.
 Lemma StreetlightLeftEntryCorrect_lower__right_remain_c :
   forall positions powers start left right value cost,
-    StreetlightLeftEntryCorrect positions powers start left right value ->
-    StreetlightPlan positions powers start left right left cost ->
+    StreetlightLeftEntryCorrectFacts positions powers start left right value ->
+    StreetlightPlanFacts positions powers start left right left cost ->
     value <= cost.
 Proof.
   intros positions powers start left right value cost Hcorrect Hplan.
-  unfold StreetlightLeftEntryCorrect in Hcorrect.
+  unfold StreetlightLeftEntryCorrectFacts in Hcorrect.
   destruct Hcorrect as [[? [? ?]] | [[? Hminimum] | [? [? ?]]]]; subst.
   - inversion Hplan; subst; lia.
-  - unfold StreetlightEndpointMinimum, min_value_of_subset,
+  - unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
       min_object_of_subset in Hminimum.
     destruct Hminimum as [minimum [[Hlegal Hlower] Hvalue]].
     subst value.
@@ -2686,15 +2686,15 @@ Proof.
 Qed.
 Lemma StreetlightRightEntryCorrect_lower__right_remain_c :
   forall positions powers start left right value cost,
-    StreetlightRightEntryCorrect positions powers start left right value ->
-    StreetlightPlan positions powers start left right right cost ->
+    StreetlightRightEntryCorrectFacts positions powers start left right value ->
+    StreetlightPlanFacts positions powers start left right right cost ->
     value <= cost.
 Proof.
   intros positions powers start left right value cost Hcorrect Hplan.
-  unfold StreetlightRightEntryCorrect in Hcorrect.
+  unfold StreetlightRightEntryCorrectFacts in Hcorrect.
   destruct Hcorrect as [[? [? ?]] | [[? Hminimum] | [? [? ?]]]]; subst.
   - inversion Hplan; subst; lia.
-  - unfold StreetlightEndpointMinimum, min_value_of_subset,
+  - unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
       min_object_of_subset in Hminimum.
     destruct Hminimum as [minimum [[Hlegal Hlower] Hvalue]].
     subst value.
@@ -2705,14 +2705,14 @@ Lemma StreetlightLeftEntryCorrect_finite_min__right_remain_c :
   forall positions powers start left right value,
     0 <= start < Zlength positions ->
     Zlength powers = Zlength positions ->
-    StreetlightLeftEntryCorrect positions powers start left right value ->
+    StreetlightLeftEntryCorrectFacts positions powers start left right value ->
     value < 2147483647 ->
-    StreetlightEndpointMinimum positions powers start left right left value.
+    StreetlightEndpointMinimumFacts positions powers start left right left value.
 Proof.
   intros positions powers start left right value Hstart Hlength Hcorrect Hfinite.
-  unfold StreetlightLeftEntryCorrect in Hcorrect.
+  unfold StreetlightLeftEntryCorrectFacts in Hcorrect.
   destruct Hcorrect as [[? [? ?]] | [[? Hminimum] | [? [? ?]]]]; subst.
-  - unfold StreetlightEndpointMinimum, min_value_of_subset,
+  - unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
       min_object_of_subset.
     exists 0. split.
     + split.
@@ -2726,14 +2726,14 @@ Lemma StreetlightRightEntryCorrect_finite_min__right_remain_c :
   forall positions powers start left right value,
     0 <= start < Zlength positions ->
     Zlength powers = Zlength positions ->
-    StreetlightRightEntryCorrect positions powers start left right value ->
+    StreetlightRightEntryCorrectFacts positions powers start left right value ->
     value < 2147483647 ->
-    StreetlightEndpointMinimum positions powers start left right right value.
+    StreetlightEndpointMinimumFacts positions powers start left right right value.
 Proof.
   intros positions powers start left right value Hstart Hlength Hcorrect Hfinite.
-  unfold StreetlightRightEntryCorrect in Hcorrect.
+  unfold StreetlightRightEntryCorrectFacts in Hcorrect.
   destruct Hcorrect as [[? [? ?]] | [[? Hminimum] | [? [? ?]]]]; subst.
-  - unfold StreetlightEndpointMinimum, min_value_of_subset,
+  - unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
       min_object_of_subset.
     exists 0. split.
     + split.
@@ -2781,9 +2781,9 @@ Lemma StreetlightEndpointMinimum_extend_left__right_remain_c :
     (forall k, 0 <= k /\ k + 1 < Zlength positions ->
        Znth k positions 0 < Znth (k + 1) positions 0) ->
     remain = sum powers - sum (sublist (left + 1) (right + 1) powers) ->
-    StreetlightLeftEntryCorrect positions powers start (left + 1) right
+    StreetlightLeftEntryCorrectFacts positions powers start (left + 1) right
       left_value ->
-    StreetlightRightEntryCorrect positions powers start (left + 1) right
+    StreetlightRightEntryCorrectFacts positions powers start (left + 1) right
       right_value ->
     best <= (len - 1) * 40000000 ->
     (left_value < 2147483647 ->
@@ -2798,7 +2798,7 @@ Lemma StreetlightEndpointMinimum_extend_left__right_remain_c :
      (right_value < 2147483647 /\
       best = right_value +
         (Znth right positions 0 - Znth left positions 0) * remain)) ->
-    StreetlightEndpointMinimum positions powers start left right left best.
+    StreetlightEndpointMinimumFacts positions powers start left right left best.
 Proof.
   intros positions powers start n len left right remain left_value right_value
     best Hpositions Hpowers Hn Hlen Hleft Hstart_right Hright Hremain_pos
@@ -2817,7 +2817,7 @@ Proof.
     lia. }
   assert (Hcurrent_lower :
       forall cost,
-        StreetlightPlan positions powers start left right left cost ->
+        StreetlightPlanFacts positions powers start left right left cost ->
         best <= cost).
   { intros cost Hplan.
     destruct (StreetlightPlan_left_inv__right_remain_c
@@ -2838,13 +2838,13 @@ Proof.
       destruct (Z_lt_ge_dec right_value 2147483647) as [Hfinite | Hinfinite].
       + specialize (Hbest_right Hfinite). rewrite <- Hremain in Hcost. nia.
       + rewrite <- Hremain in Hcost. nia. }
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset.
   destruct Hselected as [[Hfinite Hbest] | [Hfinite Hbest]].
   - pose proof (StreetlightLeftEntryCorrect_finite_min__right_remain_c
       positions powers start (left + 1) right left_value
       Hstart Hpowers_positions Hleft_correct Hfinite) as Hminimum.
-    unfold StreetlightEndpointMinimum, min_value_of_subset,
+    unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
       min_object_of_subset in Hminimum.
     destruct Hminimum as [previous [[Hprevious _] Hprevious_value]].
     subst previous.
@@ -2857,7 +2857,7 @@ Proof.
   - pose proof (StreetlightRightEntryCorrect_finite_min__right_remain_c
       positions powers start (left + 1) right right_value
       Hstart Hpowers_positions Hright_correct Hfinite) as Hminimum.
-    unfold StreetlightEndpointMinimum, min_value_of_subset,
+    unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
       min_object_of_subset in Hminimum.
     destruct Hminimum as [previous [[Hprevious _] Hprevious_value]].
     subst previous.
@@ -2953,19 +2953,19 @@ Lemma StreetlightLeftEndpointReady_store__right_remain_c :
     left < start ->
     right = left + len - 1 ->
     right < n ->
-    StreetlightLeftProgress positions powers left_table right_table
+    StreetlightLeftProgressFacts positions powers left_table right_table
       n start len left ->
-    StreetlightLeftEntryCorrect positions powers start left right value ->
-    StreetlightLeftEndpointReady positions powers
+    StreetlightLeftEntryCorrectFacts positions powers start left right value ->
+    StreetlightLeftEndpointReadyFacts positions powers
       (replace_Znth left
         (replace_Znth right value (Znth left left_table default)) left_table)
       right_table n start len left.
 Proof.
   intros positions powers left_table right_table n start len left right value
     default Hlen Hleft Hleft_start Hright Hright_n Hprogress Hentry.
-  unfold StreetlightLeftProgress in Hprogress.
+  unfold StreetlightLeftProgressFacts in Hprogress.
   destruct Hprogress as [Hdone Hprocessed].
-  unfold StreetlightLengthsDone in Hdone.
+  unfold StreetlightLengthsDoneFacts in Hdone.
   destruct Hdone as [Hshape_left [Hshape_right Hdone]].
   assert (Hleft_n : 0 <= left < n) by lia.
   assert (Hright_bounds : 0 <= right < n) by lia.
@@ -2974,18 +2974,18 @@ Proof.
         (replace_Znth left
           (replace_Znth right value (Znth left left_table default)) left_table) n).
   { eapply StreetlightTableShape_replace_cell__right_remain_c; eauto. }
-  unfold StreetlightLeftEndpointReady.
+  unfold StreetlightLeftEndpointReadyFacts.
   split.
-  - unfold StreetlightLeftProgress.
+  - unfold StreetlightLeftProgressFacts.
     split.
-    + unfold StreetlightLengthsDone.
+    + unfold StreetlightLengthsDoneFacts.
       split; [exact Hshape_updated |].
       split; [exact Hshape_right |].
       intros old_len old_left old_right Hold_len Hold_right Hold_left
         Hold_right_n Hold_contains.
       specialize (Hdone old_len old_left old_right Hold_len Hold_right Hold_left
         Hold_right_n Hold_contains).
-      unfold StreetlightIntervalCorrect in *.
+      unfold StreetlightIntervalCorrectFacts in *.
       destruct Hdone as [Hdone_left Hdone_right].
       split; [| exact Hdone_right].
       assert (Hold_left_n : 0 <= old_left < n) by lia.
@@ -3001,7 +3001,7 @@ Proof.
     + intros old_left old_right Hold_left Hold_right Hold_right_n Hold_contains.
       specialize (Hprocessed old_left old_right Hold_left Hold_right
         Hold_right_n Hold_contains).
-      unfold StreetlightIntervalCorrect in *.
+      unfold StreetlightIntervalCorrectFacts in *.
       destruct Hprocessed as [Hprocessed_left Hprocessed_right].
       split; [| exact Hprocessed_right].
       assert (Hold_left_n : 0 <= old_left < n) by lia.
@@ -3031,7 +3031,7 @@ Lemma streetlight_left_endpoint_minimum_extend__right_remain_c :
     (forall k, 0 <= k /\ k + 1 < n ->
        Znth k positions 0 < Znth (k + 1) positions 0) ->
     remain = sum powers - sum (sublist (left + 1) (right + 1) powers) ->
-    StreetlightLeftProgress positions powers left_table right_table
+    StreetlightLeftProgressFacts positions powers left_table right_table
       n start len left ->
     best <= (len - 1) * 40000000 ->
     (Znth right (Znth (left + 1) left_table default) 0 < 2147483647 ->
@@ -3046,7 +3046,7 @@ Lemma streetlight_left_endpoint_minimum_extend__right_remain_c :
      (Znth right (Znth (left + 1) right_table default) 0 < 2147483647 /\
       best = Znth right (Znth (left + 1) right_table default) 0 +
         (Znth right positions 0 - Znth left positions 0) * remain)) ->
-    StreetlightLeftEndpointReady positions powers
+    StreetlightLeftEndpointReadyFacts positions powers
       (replace_Znth left
         (replace_Znth right best (Znth left left_table default)) left_table)
       right_table n start len left.
@@ -3056,13 +3056,13 @@ Proof.
     Hremain_pos Hadj Hremain Hprogress Hbest_bound Hbest_left Hbest_right
     Hselected.
   pose proof Hprogress as Hprogress_copy.
-  unfold StreetlightLeftProgress in Hprogress.
+  unfold StreetlightLeftProgressFacts in Hprogress.
   destruct Hprogress as [Hdone _].
-  unfold StreetlightLengthsDone in Hdone.
+  unfold StreetlightLengthsDoneFacts in Hdone.
   destruct Hdone as [Hshape_left [Hshape_right Hdone]].
   specialize (Hdone (len - 1) (left + 1) right
     ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia)).
-  unfold StreetlightIntervalCorrect in Hdone.
+  unfold StreetlightIntervalCorrectFacts in Hdone.
   destruct Hdone as [Hleft_correct Hright_correct].
   assert (Hsub_left : 0 <= left + 1 < n) by lia.
   assert (Hleft_default :
@@ -3080,7 +3080,7 @@ Proof.
         Znth k positions 0 < Znth (k + 1) positions 0).
   { intros k Hk. apply Hadj. rewrite <- Hpositions. exact Hk. }
   assert (Hendpoint :
-      StreetlightEndpointMinimum positions powers start left right left best).
+      StreetlightEndpointMinimumFacts positions powers start left right left best).
   { eapply StreetlightEndpointMinimum_extend_left__right_remain_c
       with (n := n) (len := len) (remain := remain)
         (left_value := Znth right (Znth (left + 1) left_table default) 0)
@@ -3093,12 +3093,12 @@ Proof.
   - exact Hright.
   - exact Hright_n.
   - exact Hprogress_copy.
-  - unfold StreetlightLeftEntryCorrect.
+  - unfold StreetlightLeftEntryCorrectFacts.
     right. left. split; [lia | exact Hendpoint].
 Qed.
 Lemma streetlight_prefix_interval_sum__right_remain_d :
   forall powers prefix n lo hi,
-    StreetlightPrefixProgress powers prefix n ->
+    StreetlightPrefixProgressFacts powers prefix n ->
     Zlength powers = n ->
     0 <= lo <= hi ->
     hi <= n ->
@@ -3114,7 +3114,7 @@ Proof.
 Qed.
 Lemma streetlight_plan_endpoint_boundary__right_remain_d :
   forall positions powers start left right endpoint cost,
-    StreetlightPlan positions powers start left right endpoint cost ->
+    StreetlightPlanFacts positions powers start left right endpoint cost ->
     endpoint = left \/ endpoint = right.
 Proof.
   intros positions powers start left right endpoint cost Hplan.
@@ -3127,20 +3127,20 @@ Lemma streetlight_right_entry_finite_min__right_remain_d :
     0 <= start < Zlength positions ->
     Zlength powers = Zlength positions ->
     left <= start <= right ->
-    StreetlightRightEntryCorrect
+    StreetlightRightEntryCorrectFacts
       positions powers start left right value ->
-    StreetlightEndpointMinimum
+    StreetlightEndpointMinimumFacts
       positions powers start left right right value.
 Proof.
   intros positions powers start left right value inf
     Hinf Hvalue Hstart Hlength Hbounds Hentry.
-  unfold StreetlightRightEntryCorrect in Hentry.
+  unfold StreetlightRightEntryCorrectFacts in Hentry.
   destruct Hentry as
     [[Hleft [Hright Hzero]] |
      [[Hright Hminimum] |
       [Hleft [Hright Hsentinel]]]].
   - subst left right value.
-    unfold StreetlightEndpointMinimum, min_value_of_subset,
+    unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
       min_object_of_subset.
     exists 0.
     split; [split | reflexivity].
@@ -3153,9 +3153,9 @@ Qed.
 Lemma streetlight_left_plan_decompose__right_remain_d :
   forall positions powers start left right candidate,
     left < start ->
-    StreetlightPlan positions powers start left right left candidate ->
+    StreetlightPlanFacts positions powers start left right left candidate ->
     exists endpoint cost,
-      StreetlightPlan positions powers start
+      StreetlightPlanFacts positions powers start
         (left + 1) right endpoint cost /\
       candidate =
         cost +
@@ -3193,10 +3193,10 @@ Lemma streetlight_right_candidate_left_entry__right_remain_d :
     (forall k,
       0 <= k /\ k + 1 < n ->
       Znth k positions 0 < Znth (k + 1) positions 0) ->
-    StreetlightPrefixProgress powers prefix n ->
-    StreetlightLeftProgress
+    StreetlightPrefixProgressFacts powers prefix n ->
+    StreetlightLeftProgressFacts
       positions powers left_table right_table n start len left ->
-    StreetlightLeftEntryCorrect positions powers start left right best.
+    StreetlightLeftEntryCorrectFacts positions powers start left right best.
 Proof.
   intros positions powers prefix left_table right_table
     n start len left right total remain best inf default_row
@@ -3204,9 +3204,9 @@ Proof.
     Hright_bounds Hremain_pos Htotal Hremain Hbest Hright_value_inf
     Hbest_inf Hwin
     Hpositions Hprefix Hprogress.
-  unfold StreetlightLeftProgress in Hprogress.
+  unfold StreetlightLeftProgressFacts in Hprogress.
   destruct Hprogress as [Hdone Hcurrent].
-  unfold StreetlightLengthsDone in Hdone.
+  unfold StreetlightLengthsDoneFacts in Hdone.
   destruct Hdone as [Hleft_shape [Hright_shape Hdone]].
   destruct Hleft_shape as [Hleft_table_len Hleft_row_len].
   destruct Hright_shape as [Hright_table_len Hright_row_len].
@@ -3229,7 +3229,7 @@ Proof.
   set (right_value :=
     Znth right (Znth (left + 1) right_table []) 0) in *.
   assert (Hright_min :
-    StreetlightEndpointMinimum positions powers start
+    StreetlightEndpointMinimumFacts positions powers start
       (left + 1) right right right_value).
   {
     eapply streetlight_right_entry_finite_min__right_remain_d.
@@ -3242,7 +3242,7 @@ Proof.
   }
   assert (Htotal_sum : total = sum powers).
   {
-    unfold StreetlightPrefixProgress in Hprefix.
+    unfold StreetlightPrefixProgressFacts in Hprefix.
     destruct Hprefix as [Hprefix_len Hprefix_values].
     pose proof (Hprefix_values n ltac:(lia)) as Hprefix_n.
     rewrite (sublist_self powers n) in Hprefix_n by lia.
@@ -3258,14 +3258,14 @@ Proof.
   assert (Hremain_sum :
     remain = sum powers -
       sum (sublist (left + 1) (right + 1) powers)) by lia.
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset in Hright_min.
   destruct Hright_min as
     [right_cost [[Hright_plan Hright_least] Hright_value]].
   cbn in Hright_value.
   subst right_cost.
   assert (Hcandidate_plan :
-    StreetlightPlan positions powers start left right left best).
+    StreetlightPlanFacts positions powers start left right left best).
   {
     rewrite Hbest, Hremain_sum.
     eapply StreetlightPlan_extend_left
@@ -3273,9 +3273,9 @@ Proof.
       try lia.
     exact Hright_plan.
   }
-  unfold StreetlightLeftEntryCorrect.
+  unfold StreetlightLeftEntryCorrectFacts.
   right; left; split; [lia |].
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset.
   exists best.
   split; [split | reflexivity].
@@ -3288,7 +3288,7 @@ Proof.
       positions powers start (left + 1) right endpoint cost Hprevious)
       as [Hendpoint | Hendpoint].
     + subst endpoint.
-      unfold StreetlightLeftEntryCorrect in Hleft_entry.
+      unfold StreetlightLeftEntryCorrectFacts in Hleft_entry.
       destruct Hleft_entry as
         [[Hold_left [Hold_right Hleft_value]] |
          [[Hold_left Hleft_min] |
@@ -3301,7 +3301,7 @@ Proof.
         cbn in Hright_least.
         rewrite <- Hremain_sum in Hcandidate_cost.
         lia.
-      * unfold StreetlightEndpointMinimum, min_value_of_subset,
+      * unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
           min_object_of_subset in Hleft_min.
         destruct Hleft_min as
           [left_cost [[Hleft_plan Hleft_least] Hleft_value]].
@@ -3327,11 +3327,11 @@ Lemma streetlight_right_candidate_left_store__right_remain_d :
     1 <= len ->
     0 <= left ->
     right < n ->
-    StreetlightLeftProgress
+    StreetlightLeftProgressFacts
       positions powers left_table right_table n start len left ->
-    StreetlightLeftEntryCorrect
+    StreetlightLeftEntryCorrectFacts
       positions powers start left right best ->
-    StreetlightLeftEndpointReady
+    StreetlightLeftEndpointReadyFacts
       positions powers
       (replace_Znth left
         (replace_Znth right best (Znth left left_table default_row))
@@ -3341,9 +3341,9 @@ Proof.
   intros positions powers left_table right_table
     n start len left right best default_row
     Hright Hlen Hleft Hright_bound Hprogress Hentry.
-  unfold StreetlightLeftProgress in Hprogress.
+  unfold StreetlightLeftProgressFacts in Hprogress.
   destruct Hprogress as [Hdone Hcurrent].
-  unfold StreetlightLengthsDone in Hdone.
+  unfold StreetlightLengthsDoneFacts in Hdone.
   destruct Hdone as [Hleft_shape [Hright_shape Hdone]].
   destruct Hleft_shape as [Htable_len Hrow_len].
   assert (Hrow_default :
@@ -3373,17 +3373,17 @@ Proof.
         * congruence.
   }
   assert (Hlengths_done :
-    StreetlightLengthsDone
+    StreetlightLengthsDoneFacts
       positions powers table' right_table n start len).
   {
-    unfold StreetlightLengthsDone.
+    unfold StreetlightLengthsDoneFacts.
     split; [exact Htable_shape |].
     split; [exact Hright_shape |].
     intros old_len old_left old_right
       Hold_len Hold_right Hold_left Hold_right_bound Hold_start.
     specialize (Hdone old_len old_left old_right
       Hold_len Hold_right Hold_left Hold_right_bound Hold_start).
-    unfold StreetlightIntervalCorrect in Hdone |- *.
+    unfold StreetlightIntervalCorrectFacts in Hdone |- *.
     destruct Hdone as [Hdone_left Hdone_right].
     split; [|exact Hdone_right].
     assert (Hcell :
@@ -3410,16 +3410,16 @@ Proof.
     rewrite Hcell. exact Hdone_left.
   }
   assert (Hleft_progress :
-    StreetlightLeftProgress
+    StreetlightLeftProgressFacts
       positions powers table' right_table n start len left).
   {
-    unfold StreetlightLeftProgress.
+    unfold StreetlightLeftProgressFacts.
     split; [exact Hlengths_done |].
     intros old_left old_right
       Hold_left Hold_right Hold_right_bound Hold_start.
     specialize (Hcurrent old_left old_right
       Hold_left Hold_right Hold_right_bound Hold_start).
-    unfold StreetlightIntervalCorrect in Hcurrent |- *.
+    unfold StreetlightIntervalCorrectFacts in Hcurrent |- *.
     destruct Hcurrent as [Hcurrent_left Hcurrent_right].
     split; [|exact Hcurrent_right].
     unfold table'.
@@ -3429,10 +3429,10 @@ Proof.
     - rewrite Htable_len; lia.
     - lia.
   }
-  unfold StreetlightLeftEndpointReady.
+  unfold StreetlightLeftEndpointReadyFacts.
   split; [exact Hleft_progress |].
   replace (left + len - 1) with right by lia.
-  change (StreetlightLeftEntryCorrect positions powers start left right
+  change (StreetlightLeftEntryCorrectFacts positions powers start left right
     (Znth right (Znth left table' []) 0)).
   unfold table'.
   rewrite Znth_replace_Znth_Same by (rewrite Htable_len; lia).
@@ -3447,9 +3447,9 @@ Lemma StreetlightLeftProgress_replace_current__right_remain_e :
     0 <= left < n ->
     0 <= right < n ->
     right = left + len - 1 ->
-    StreetlightLeftProgress positions powers left_table right_table
+    StreetlightLeftProgressFacts positions powers left_table right_table
       n start len left ->
-    StreetlightLeftProgress positions powers
+    StreetlightLeftProgressFacts positions powers
       (replace_Znth left
         (replace_Znth right value (Znth left left_table default_row))
         left_table)
@@ -3457,9 +3457,9 @@ Lemma StreetlightLeftProgress_replace_current__right_remain_e :
 Proof.
   intros positions powers left_table right_table n start len left right value
     default_row Hleft Hright Hright_eq Hprogress.
-  unfold StreetlightLeftProgress in *.
+  unfold StreetlightLeftProgressFacts in *.
   destruct Hprogress as [Hdone Hcurrent].
-  unfold StreetlightLengthsDone in *.
+  unfold StreetlightLengthsDoneFacts in *.
   destruct Hdone as [Hleft_shape [Hright_shape Hdone]].
   unfold StreetlightTableShape in Hleft_shape.
   destruct Hleft_shape as [Htable_len Hrow_len].
@@ -3484,7 +3484,7 @@ Proof.
           Hcontains.
         specialize (Hdone len0 left0 right0 Hlen0 Hright0_eq Hleft0
           Hright0 Hcontains).
-        unfold StreetlightIntervalCorrect in *.
+        unfold StreetlightIntervalCorrectFacts in *.
         destruct Hdone as [Hleft_entry Hright_entry].
         split.
         -- assert (Hcell :
@@ -3516,7 +3516,7 @@ Proof.
         -- exact Hright_entry.
   - intros left0 right0 Hleft0 Hright0_eq Hright0 Hcontains.
     specialize (Hcurrent left0 right0 Hleft0 Hright0_eq Hright0 Hcontains).
-    unfold StreetlightIntervalCorrect in *.
+    unfold StreetlightIntervalCorrectFacts in *.
     destruct Hcurrent as [Hleft_entry Hright_entry].
     split.
     + assert (Hdiff : left <> left0) by lia.
@@ -3526,7 +3526,7 @@ Proof.
 Qed.
 Lemma StreetlightPlan_endpoint_boundary__right_remain_e :
   forall positions powers start left right endpoint cost,
-    StreetlightPlan positions powers start left right endpoint cost ->
+    StreetlightPlanFacts positions powers start left right endpoint cost ->
     endpoint = left \/ endpoint = right.
 Proof.
   intros positions powers start left right endpoint cost Hplan.
@@ -3536,10 +3536,10 @@ Lemma StreetlightEndpointMinimum_singleton__right_remain_e :
   forall positions powers start,
     0 <= start < Zlength positions ->
     Zlength powers = Zlength positions ->
-    StreetlightEndpointMinimum positions powers start start start start 0.
+    StreetlightEndpointMinimumFacts positions powers start start start start 0.
 Proof.
   intros positions powers start Hstart Hlength.
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset.
   exists 0.
   split.
@@ -3568,17 +3568,17 @@ Lemma StreetlightLeftEntryCorrect_right_choice__right_remain_e :
         (Znth (left + 1) positions 0 - Znth left positions 0) * remain ->
     best = Znth right (Znth (left + 1) right_table default_row) 0 +
       (Znth right positions 0 - Znth left positions 0) * remain ->
-    StreetlightPrefixProgress powers prefix n ->
-    StreetlightLeftProgress positions powers left_table right_table
+    StreetlightPrefixProgressFacts powers prefix n ->
+    StreetlightLeftProgressFacts positions powers left_table right_table
       n start len left ->
-    StreetlightLeftEntryCorrect positions powers start left right best.
+    StreetlightLeftEntryCorrectFacts positions powers start left right best.
 Proof.
   intros positions powers prefix left_table right_table n start len left right
     total remain best default_row Hpositions Hpowers Hleft Hright_eq Hright
     Hlen Htotal Hremain Hright_finite Hchoice Hbest Hprefix Hprogress.
   assert (Hremain_sum :
     remain = sum powers - sum (sublist (left + 1) (right + 1) powers)).
-  { unfold StreetlightPrefixProgress in Hprefix.
+  { unfold StreetlightPrefixProgressFacts in Hprefix.
     destruct Hprefix as [_ Hprefix].
     pose proof (Hprefix n ltac:(lia)) as Hprefix_n.
     pose proof (Hprefix (left + 1) ltac:(lia)) as Hprefix_left.
@@ -3589,25 +3589,25 @@ Proof.
     rewrite sum_app in Hprefix_right.
     lia. }
   pose proof Hprogress as Hprogress_parts.
-  unfold StreetlightLeftProgress in Hprogress_parts.
+  unfold StreetlightLeftProgressFacts in Hprogress_parts.
   destruct Hprogress_parts as [Hdone _].
-  unfold StreetlightLengthsDone in Hdone.
+  unfold StreetlightLengthsDoneFacts in Hdone.
   destruct Hdone as [Hleft_shape [Hright_shape Hdone]].
   unfold StreetlightTableShape in Hleft_shape, Hright_shape.
   destruct Hleft_shape as [Hleft_table_len _].
   destruct Hright_shape as [Hright_table_len _].
   pose proof (Hdone (len - 1) (left + 1) right
     ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia)) as Hinterval.
-  unfold StreetlightIntervalCorrect in Hinterval.
+  unfold StreetlightIntervalCorrectFacts in Hinterval.
   destruct Hinterval as [Hleft_entry Hright_entry].
   rewrite (Znth_indep left_table (left + 1) nil default_row)
     in Hleft_entry by lia.
   rewrite (Znth_indep right_table (left + 1) nil default_row)
     in Hright_entry by lia.
   assert (Hright_min :
-    StreetlightEndpointMinimum positions powers start (left + 1) right right
+    StreetlightEndpointMinimumFacts positions powers start (left + 1) right right
       (Znth right (Znth (left + 1) right_table default_row) 0)).
-  { unfold StreetlightRightEntryCorrect in Hright_entry.
+  { unfold StreetlightRightEntryCorrectFacts in Hright_entry.
     destruct Hright_entry as
       [[Hsub_left [Hsub_right Hzero]] |
        [[Hstart_right Hmin] | [Hsub_left [Hsub_right Hinf]]]].
@@ -3617,10 +3617,10 @@ Proof.
       apply StreetlightEndpointMinimum_singleton__right_remain_e; lia.
     - exact Hmin.
     - lia. }
-  unfold StreetlightLeftEntryCorrect.
+  unfold StreetlightLeftEntryCorrectFacts.
   right; left.
   split; [lia|].
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset in Hright_min |- *.
   destruct Hright_min as
     [right_cost [[Hright_plan Hright_lower] Hright_cost]].
@@ -3643,13 +3643,13 @@ Proof.
           Znth (left + len - 1)
             (Znth (left + 1) left_table default_row) 0 <=
           cost0).
-        { unfold StreetlightLeftEntryCorrect in Hleft_entry.
+        { unfold StreetlightLeftEntryCorrectFacts in Hleft_entry.
           destruct Hleft_entry as
             [[Hsub_left [Hsub_right Hzero]] |
              [[Hleft_start Hmin] | [Hsub_left [Hstart_right Hinf]]]].
           - rewrite Hzero.
             inversion H2; subst; lia.
-          - unfold StreetlightEndpointMinimum, min_value_of_subset,
+          - unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
               min_object_of_subset in Hmin.
             destruct Hmin as [left_cost [[_ Hlower] Hleft_cost]].
             specialize (Hlower cost0 H2).
@@ -3667,7 +3667,7 @@ Lemma streetlight_prefix_remaining_bounds__right_first :
   forall powers prefix n left right total,
     Zlength powers = n ->
     (forall k, 0 <= k < n -> 1 <= Znth k powers 0 <= 100) ->
-    StreetlightPrefixProgress powers prefix n ->
+    StreetlightPrefixProgressFacts powers prefix n ->
     total = Znth n prefix 0 ->
     0 <= left ->
     left <= right ->
@@ -3847,7 +3847,7 @@ Lemma StreetlightPlan_bounds__right_second :
        0 <= k < n ->
        0 <= Znth k powers 0 <= 100) ->
     0 <= sum powers <= 5000 ->
-    StreetlightPlan positions powers start
+    StreetlightPlanFacts positions powers start
       left right endpoint cost ->
     left <= endpoint <= right /\
     0 <= cost <= (right - left) * 40000000.
@@ -3960,14 +3960,14 @@ Lemma StreetlightEndpointMinimum_bounds__right_second :
        0 <= k < n ->
        0 <= Znth k powers 0 <= 100) ->
     0 <= sum powers <= 5000 ->
-    StreetlightEndpointMinimum
+    StreetlightEndpointMinimumFacts
       positions powers start left right endpoint value ->
     0 <= value <= (right - left) * 40000000.
 Proof.
   intros positions powers start left right endpoint value n
     Hpositions_len Hpowers_len Hpositions_bound Hpositions_order
     Hpowers_bound Hpowers_sum Hminimum.
-  unfold StreetlightEndpointMinimum,
+  unfold StreetlightEndpointMinimumFacts,
     min_value_of_subset, min_object_of_subset in Hminimum.
   simpl in Hminimum.
   destruct Hminimum as [chosen [[Hplan Hleast] Hchosen]].
@@ -3994,7 +3994,7 @@ Lemma streetlight_right_predecessor_bounds__right_second :
     (forall k,
        0 <= k < n ->
        1 <= Znth k powers 0 <= 100) ->
-    StreetlightPrefixProgress powers prefix n ->
+    StreetlightPrefixProgressFacts powers prefix n ->
     total = Znth n prefix 0 ->
     1 <= total <= 5000 ->
     inf = 2147483647 ->
@@ -4004,7 +4004,7 @@ Lemma streetlight_right_predecessor_bounds__right_second :
     right = left + len - 1 ->
     right > start ->
     right < n ->
-    StreetlightLeftEndpointReady
+    StreetlightLeftEndpointReadyFacts
       positions powers left_table right_table n start len left ->
     Znth (right - 1) (Znth left left_table default) 0 < inf ->
     0 <= Znth (right - 1) (Znth left left_table default) 0 <=
@@ -4044,7 +4044,7 @@ Proof.
     specialize (Hpowers_bound k Hk).
     lia.
   }
-  unfold StreetlightPrefixProgress in Hprefix.
+  unfold StreetlightPrefixProgressFacts in Hprefix.
   destruct Hprefix as [Hprefix_len Hprefix_values].
   specialize (Hprefix_values n ltac:(lia)).
   assert (Hfull_sublist : sublist 0 n powers = powers).
@@ -4054,11 +4054,11 @@ Proof.
   }
   rewrite Hfull_sublist in Hprefix_values.
   assert (Hpowers_sum : 0 <= sum powers <= 5000) by lia.
-  unfold StreetlightLeftEndpointReady in Hready.
+  unfold StreetlightLeftEndpointReadyFacts in Hready.
   destruct Hready as [Hprogress Hcurrent].
-  unfold StreetlightLeftProgress in Hprogress.
+  unfold StreetlightLeftProgressFacts in Hprogress.
   destruct Hprogress as [Hlengths_done Hleft_progress].
-  unfold StreetlightLengthsDone in Hlengths_done.
+  unfold StreetlightLengthsDoneFacts in Hlengths_done.
   destruct Hlengths_done as
     [Hleft_shape [Hright_shape Hcompleted_lengths]].
   unfold StreetlightTableShape in Hleft_shape.
@@ -4071,15 +4071,15 @@ Proof.
   }
   rewrite Hrow_default in Hvalue_inf |- *.
   assert (Hprevious_interval :
-            StreetlightIntervalCorrect
+            StreetlightIntervalCorrectFacts
               positions powers left_table right_table
               start left (right - 1)).
   {
     apply (Hcompleted_lengths (len - 1) left (right - 1)); lia.
   }
-  unfold StreetlightIntervalCorrect in Hprevious_interval.
+  unfold StreetlightIntervalCorrectFacts in Hprevious_interval.
   destruct Hprevious_interval as [Hleft_correct Hright_correct].
-  unfold StreetlightLeftEntryCorrect in Hleft_correct.
+  unfold StreetlightLeftEntryCorrectFacts in Hleft_correct.
   destruct Hleft_correct as
     [[Hleft_eq [Hright_eq Hzero]] |
      [[Hleft_lt Hminimum] |
@@ -4223,7 +4223,7 @@ Proof.
 Qed.
 Lemma StreetlightPlan_endpoint_bounds__right_bounds_a :
   forall positions powers start left right endpoint cost,
-    StreetlightPlan positions powers start left right endpoint cost ->
+    StreetlightPlanFacts positions powers start left right endpoint cost ->
     left <= endpoint <= right.
 Proof.
   intros positions powers start left right endpoint cost Hplan.
@@ -4231,7 +4231,7 @@ Proof.
 Qed.
 Lemma StreetlightPlan_cost_bounds__right_bounds_a :
   forall positions powers start left right endpoint cost,
-    StreetlightPlan positions powers start left right endpoint cost ->
+    StreetlightPlanFacts positions powers start left right endpoint cost ->
     (forall k, 0 <= k -> k + 1 < Zlength positions ->
        Znth k positions 0 < Znth (k + 1) positions 0) ->
     (forall k, 0 <= k < Zlength positions ->
@@ -4372,7 +4372,7 @@ Proof.
 Qed.
 Lemma streetlight_plan_endpoint_bounds__right_bounds_b :
   forall positions powers start left right endpoint cost,
-    StreetlightPlan positions powers start left right endpoint cost ->
+    StreetlightPlanFacts positions powers start left right endpoint cost ->
     left <= endpoint <= right.
 Proof.
   intros positions powers start left right endpoint cost Hplan.
@@ -4380,7 +4380,7 @@ Proof.
 Qed.
 Lemma streetlight_plan_cost_bounds__right_bounds_b :
   forall positions powers start left right endpoint cost,
-    StreetlightPlan positions powers start left right endpoint cost ->
+    StreetlightPlanFacts positions powers start left right endpoint cost ->
     forall n,
       Zlength positions = n ->
       Zlength powers = n ->
@@ -4440,13 +4440,13 @@ Lemma streetlight_endpoint_minimum_bounds__right_bounds_b :
        Znth k positions 0 < Znth (k + 1) positions 0) ->
     (forall k, 0 <= k < n -> 1 <= Znth k powers 0 <= 100) ->
     0 <= sum powers <= 5000 ->
-    StreetlightEndpointMinimum
+    StreetlightEndpointMinimumFacts
       positions powers start left right endpoint answer ->
     0 <= answer <= (right - left) * 40000000.
 Proof.
   intros positions powers n start left right endpoint answer
     Hpositions_length Hpowers_length Hposition Hadjacent Hpower Htotal Hminimum.
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset in Hminimum.
   destruct Hminimum as [cost [[Hplan Hleast] Hanswer]].
   subst answer.
@@ -4474,10 +4474,10 @@ Lemma streetlight_right_predecessor_bounds__right_bounds_b :
     right = left + len - 1 ->
     start < right ->
     right < n ->
-    StreetlightPrefixProgress powers prefix n ->
+    StreetlightPrefixProgressFacts powers prefix n ->
     inf = 2147483647 ->
     Znth (right - 1) (Znth left right_table default) 0 < inf ->
-    StreetlightLeftEndpointReady
+    StreetlightLeftEndpointReadyFacts
       positions powers left_table right_table n start len left ->
     0 <= Znth (right - 1) (Znth left right_table default) 0 <=
       (len - 2) * 40000000.
@@ -4487,17 +4487,17 @@ Proof.
     Hpositions_length Hpowers_length Hposition Hadjacent Hpower
     Htotal Htotal_bounds Hlen Hleft Hleft_start Hright Hstart_right Hright_n
     Hprefix Hinf_value Hfinite Hready.
-  unfold StreetlightPrefixProgress in Hprefix.
+  unfold StreetlightPrefixProgressFacts in Hprefix.
   destruct Hprefix as [Hprefix_length Hprefix_values].
   specialize (Hprefix_values n ltac:(lia)).
   rewrite (sublist_self powers n (eq_sym Hpowers_length)) in Hprefix_values.
   assert (Hpower_sum : 0 <= sum powers <= 5000) by lia.
 
-  unfold StreetlightLeftEndpointReady in Hready.
+  unfold StreetlightLeftEndpointReadyFacts in Hready.
   destruct Hready as [Hprogress Hcurrent_left].
-  unfold StreetlightLeftProgress in Hprogress.
+  unfold StreetlightLeftProgressFacts in Hprogress.
   destruct Hprogress as [Hdone Hprevious_lefts].
-  unfold StreetlightLengthsDone in Hdone.
+  unfold StreetlightLengthsDoneFacts in Hdone.
   destruct Hdone as [Hleft_shape [Hright_shape Hdone]].
   unfold StreetlightTableShape in Hright_shape.
   destruct Hright_shape as [Hright_table_length Hright_row_lengths].
@@ -4510,9 +4510,9 @@ Proof.
     (Hdone (len - 1) left (right - 1)
        ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia))
     as Hinterval.
-  unfold StreetlightIntervalCorrect in Hinterval.
+  unfold StreetlightIntervalCorrectFacts in Hinterval.
   destruct Hinterval as [Hleft_entry Hright_entry].
-  unfold StreetlightRightEntryCorrect in Hright_entry.
+  unfold StreetlightRightEntryCorrectFacts in Hright_entry.
   destruct Hright_entry as
       [[Hbase_left [Hbase_right Hzero]]
       |[[Hinterior Hminimum]
@@ -4589,7 +4589,7 @@ Lemma streetlight_plan_cost_bound__right_close_a :
   sum powers <= 5000 ->
   (forall lo hi, 0 <= lo <= hi -> hi <= n ->
     0 <= sum (sublist lo hi powers)) ->
-  StreetlightPlan positions powers start left right endpoint cost ->
+  StreetlightPlanFacts positions powers start left right endpoint cost ->
   0 <= left /\ left <= endpoint /\ endpoint <= right /\ right < n /\
   cost <= (right - left) * 40000000.
 Proof.
@@ -4626,13 +4626,13 @@ Lemma streetlight_endpoint_minimum_below_inf__right_close_a :
   sum powers <= 5000 ->
   (forall lo hi, 0 <= lo <= hi -> hi <= n ->
     0 <= sum (sublist lo hi powers)) ->
-  StreetlightEndpointMinimum
+  StreetlightEndpointMinimumFacts
     positions powers start left right endpoint answer ->
   answer < 2147483647.
 Proof.
   intros positions powers n start left right endpoint answer
     Hpositions Hn Hvalues Hmono Hsum Hsub Hminimum.
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset in Hminimum.
   destruct Hminimum as [cost [[Hplan Hleast] Hanswer]].
   simpl in Hanswer. subst answer.
@@ -4663,18 +4663,18 @@ Lemma streetlight_close_interval_right__right_close_a :
   inf = 2147483647 ->
   Znth (right - 1) (Znth left left_table default) 0 = inf ->
   Znth (right - 1) (Znth left right_table default) 0 = inf ->
-  StreetlightLeftEndpointReady
+  StreetlightLeftEndpointReadyFacts
     positions powers left_table right_table n start len left ->
   False.
 Proof.
   intros positions powers left_table right_table n start len left right inf
     default Hpositions Hn Hvalues Hmono Hsum Hsub Hlen Hleft Hleft_le_start
     Hright Hstart Hbound Hinf Hleft_inf Hright_inf Hready.
-  unfold StreetlightLeftEndpointReady in Hready.
+  unfold StreetlightLeftEndpointReadyFacts in Hready.
   destruct Hready as [Hprogress Hleft_ready].
-  unfold StreetlightLeftProgress in Hprogress.
+  unfold StreetlightLeftProgressFacts in Hprogress.
   destruct Hprogress as [Hdone Hprevious].
-  unfold StreetlightLengthsDone in Hdone.
+  unfold StreetlightLengthsDoneFacts in Hdone.
   destruct Hdone as [Hleft_shape [Hright_shape Hintervals]].
   unfold StreetlightTableShape in Hleft_shape, Hright_shape.
   destruct Hleft_shape as [Hleft_table_length Hleft_rows].
@@ -4685,10 +4685,10 @@ Proof.
     (Hintervals (len - 1) left (right - 1)
       ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia))
     as Hinterval.
-  unfold StreetlightIntervalCorrect in Hinterval.
+  unfold StreetlightIntervalCorrectFacts in Hinterval.
   destruct Hinterval as [Hleft_entry Hright_entry].
-  unfold StreetlightLeftEntryCorrect in Hleft_entry.
-  unfold StreetlightRightEntryCorrect in Hright_entry.
+  unfold StreetlightLeftEntryCorrectFacts in Hleft_entry.
+  unfold StreetlightRightEntryCorrectFacts in Hright_entry.
   destruct Hleft_entry as
     [[Hleft_start [Hprevious_start Hleft_zero]] |
      [[Hleft_before Hleft_minimum] |
@@ -4717,11 +4717,11 @@ Lemma streetlight_start_endpoint_minimum__right_close_b :
   forall positions powers start,
     0 <= start < Zlength positions ->
     Zlength powers = Zlength positions ->
-    StreetlightEndpointMinimum
+    StreetlightEndpointMinimumFacts
       positions powers start start start start 0.
 Proof.
   intros positions powers start Hstart Hlength.
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset.
   exists 0.
   split.
@@ -4733,7 +4733,7 @@ Proof.
 Qed.
 Lemma streetlight_plan_endpoint_boundary__right_close_b :
   forall positions powers start left right endpoint cost,
-    StreetlightPlan positions powers start left right endpoint cost ->
+    StreetlightPlanFacts positions powers start left right endpoint cost ->
     endpoint = left \/ endpoint = right.
 Proof.
   intros positions powers start left right endpoint cost Hplan.
@@ -4742,9 +4742,9 @@ Qed.
 Lemma streetlight_plan_right_decompose__right_close_b :
   forall positions powers start left right cost,
     start < right ->
-    StreetlightPlan positions powers start left right right cost ->
+    StreetlightPlanFacts positions powers start left right right cost ->
     exists endpoint previous_cost,
-      StreetlightPlan positions powers start
+      StreetlightPlanFacts positions powers start
         left (right - 1) endpoint previous_cost /\
       cost =
         previous_cost +
@@ -4780,8 +4780,8 @@ Lemma streetlight_right_endpoint_minimum__right_close_b :
     remain =
       Znth n prefix 0 -
       (Znth right prefix 0 - Znth left prefix 0) ->
-    StreetlightPrefixProgress powers prefix n ->
-    StreetlightLeftEndpointReady
+    StreetlightPrefixProgressFacts powers prefix n ->
+    StreetlightLeftEndpointReadyFacts
       positions powers left_table right_table n start len left ->
     Znth (right - 1) (Znth left left_table default_row) 0 < inf ->
     best <= (len - 1) * 40000000 ->
@@ -4797,7 +4797,7 @@ Lemma streetlight_right_endpoint_minimum__right_close_b :
         Znth (right - 1) (Znth left right_table default_row) 0 +
         (Znth right positions 0 - Znth (right - 1) positions 0) *
           remain) ->
-    StreetlightEndpointMinimum
+    StreetlightEndpointMinimumFacts
       positions powers start left right right best.
 Proof.
   intros positions powers prefix left_table right_table
@@ -4809,11 +4809,11 @@ Proof.
     Hleft_candidate Hright_candidate.
 
   pose proof Hready as Hready_shape.
-  unfold StreetlightLeftEndpointReady in Hready_shape.
+  unfold StreetlightLeftEndpointReadyFacts in Hready_shape.
   destruct Hready_shape as [Hprogress_shape _].
-  unfold StreetlightLeftProgress in Hprogress_shape.
+  unfold StreetlightLeftProgressFacts in Hprogress_shape.
   destruct Hprogress_shape as [Hdone_shape _].
-  unfold StreetlightLengthsDone in Hdone_shape.
+  unfold StreetlightLengthsDoneFacts in Hdone_shape.
   destruct Hdone_shape as [Hleft_shape [Hright_shape _]].
   unfold StreetlightTableShape in Hleft_shape, Hright_shape.
   destruct Hleft_shape as [Hleft_table_length Hleft_row_length].
@@ -4829,7 +4829,7 @@ Proof.
     remain = sum powers - sum (sublist left right powers)).
   {
     pose proof Hprefix as Hprefix_values.
-    unfold StreetlightPrefixProgress in Hprefix_values.
+    unfold StreetlightPrefixProgressFacts in Hprefix_values.
     destruct Hprefix_values as [_ Hprefix_values].
     pose proof (Hprefix_values n ltac:(lia)) as Hall.
     pose proof (Hprefix_values right ltac:(lia)) as Hright_sum.
@@ -4842,25 +4842,25 @@ Proof.
   }
 
   pose proof Hready as Hready_previous.
-  unfold StreetlightLeftEndpointReady in Hready_previous.
+  unfold StreetlightLeftEndpointReadyFacts in Hready_previous.
   destruct Hready_previous as [Hprogress_previous _].
-  unfold StreetlightLeftProgress in Hprogress_previous.
+  unfold StreetlightLeftProgressFacts in Hprogress_previous.
   destruct Hprogress_previous as [Hdone_previous _].
-  unfold StreetlightLengthsDone in Hdone_previous.
+  unfold StreetlightLengthsDoneFacts in Hdone_previous.
   destruct Hdone_previous as [_ [_ Hshorter]].
   pose proof
     (Hshorter (len - 1) left (right - 1)
       ltac:(lia) ltac:(lia) Hleft ltac:(lia) ltac:(lia))
     as Hprevious_interval.
-  unfold StreetlightIntervalCorrect in Hprevious_interval.
+  unfold StreetlightIntervalCorrectFacts in Hprevious_interval.
   destruct Hprevious_interval as [Hprevious_left Hprevious_right].
 
   assert (Hleft_minimum :
-    StreetlightEndpointMinimum positions powers start
+    StreetlightEndpointMinimumFacts positions powers start
       left (right - 1) left
       (Znth (right - 1) (Znth left left_table []) 0)).
   {
-    unfold StreetlightLeftEntryCorrect in Hprevious_left.
+    unfold StreetlightLeftEntryCorrectFacts in Hprevious_left.
     destruct Hprevious_left as
       [Hbase | [Hminimum | Hinfinite]].
     - destruct Hbase as [Hleft_start' [Hright_start Hvalue]].
@@ -4875,14 +4875,14 @@ Proof.
     - destruct Hinfinite as [_ [_ Hvalue]].
       exfalso; lia.
   }
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset in Hleft_minimum.
   destruct Hleft_minimum as
     [left_cost [[Hleft_plan Hleft_least] Hleft_cost]].
   cbn in Hleft_cost.
   subst left_cost.
 
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset.
   exists best.
   split.
@@ -4908,11 +4908,11 @@ Proof.
         nia.
       * subst endpoint.
         assert (Hright_minimum :
-          StreetlightEndpointMinimum positions powers start
+          StreetlightEndpointMinimumFacts positions powers start
             left (right - 1) (right - 1)
             (Znth (right - 1) (Znth left right_table []) 0)).
         {
-          unfold StreetlightRightEntryCorrect in Hprevious_right.
+          unfold StreetlightRightEntryCorrectFacts in Hprevious_right.
           destruct Hprevious_right as
             [Hbase | [Hminimum | Hinfinite]].
           - destruct Hbase as [Hleft_start' [Hright_start Hvalue]].
@@ -4928,7 +4928,7 @@ Proof.
             exfalso.
             inversion Hprevious_plan; subst; lia.
         }
-        unfold StreetlightEndpointMinimum, min_value_of_subset,
+        unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
           min_object_of_subset in Hright_minimum.
         destruct Hright_minimum as
           [right_cost [[Hright_plan Hright_least] Hright_cost]].
@@ -4962,11 +4962,11 @@ Lemma streetlight_close_interval_and_advance__right_close_b :
     right = left + len - 1 ->
     start < right ->
     right < n ->
-    StreetlightLeftEndpointReady
+    StreetlightLeftEndpointReadyFacts
       positions powers left_table right_table n start len left ->
-    StreetlightEndpointMinimum
+    StreetlightEndpointMinimumFacts
       positions powers start left right right best ->
-    StreetlightLeftProgress
+    StreetlightLeftProgressFacts
       positions powers left_table
       (replace_Znth left
         (replace_Znth right best (Znth left right_table default_row))
@@ -4976,12 +4976,12 @@ Proof.
   intros positions powers left_table right_table n start len left right
     best default_row Hlen Hleft Hright Hstart_right Hright_upper
     Hready Hminimum.
-  unfold StreetlightLeftEndpointReady in Hready.
+  unfold StreetlightLeftEndpointReadyFacts in Hready.
   destruct Hready as [Hprogress Hcurrent_left].
   rewrite <- Hright in Hcurrent_left.
-  unfold StreetlightLeftProgress in Hprogress.
+  unfold StreetlightLeftProgressFacts in Hprogress.
   destruct Hprogress as [Hdone Hprevious].
-  unfold StreetlightLengthsDone in Hdone.
+  unfold StreetlightLengthsDoneFacts in Hdone.
   destruct Hdone as [Hleft_shape [Hright_shape Hshorter]].
   unfold StreetlightTableShape in Hright_shape.
   destruct Hright_shape as [Htable_length Hrow_length].
@@ -4990,9 +4990,9 @@ Proof.
     0 <= right < Zlength (Znth left right_table [])) by
     (rewrite Hrow_length by lia; lia).
   rewrite (Znth_indep right_table left default_row [] Hleft_index).
-  unfold StreetlightLeftProgress.
+  unfold StreetlightLeftProgressFacts.
   split.
-  - unfold StreetlightLengthsDone.
+  - unfold StreetlightLengthsDoneFacts.
     split; [exact Hleft_shape |].
     split.
     + unfold StreetlightTableShape.
@@ -5015,7 +5015,7 @@ Proof.
         (Hshorter shorter_len shorter_left shorter_right
           Hshorter_len Hshorter_right Hshorter_left Hshorter_bound
           Hshorter_contains) as Hinterval.
-      unfold StreetlightIntervalCorrect in Hinterval |- *.
+      unfold StreetlightIntervalCorrectFacts in Hinterval |- *.
       destruct Hinterval as [Hleft_correct Hright_correct].
       split; [exact Hleft_correct |].
       destruct (Z.eq_dec shorter_left left) as [Heq | Hneq].
@@ -5034,7 +5034,7 @@ Proof.
         (Hprevious done_left interval_right ltac:(lia)
           Hinterval_right Hinterval_bound Hinterval_contains)
         as Hinterval.
-      unfold StreetlightIntervalCorrect in Hinterval |- *.
+      unfold StreetlightIntervalCorrectFacts in Hinterval |- *.
       destruct Hinterval as [Hleft_correct Hright_correct].
       split; [exact Hleft_correct |].
       rewrite Znth_replace_Znth_Diff by
@@ -5043,11 +5043,11 @@ Proof.
     + assert (Hdone_eq : done_left = left) by lia.
       subst done_left.
       replace interval_right with right in * by lia.
-      unfold StreetlightIntervalCorrect.
+      unfold StreetlightIntervalCorrectFacts.
       split; [exact Hcurrent_left |].
       rewrite Znth_replace_Znth_Same by exact Hleft_index.
       rewrite Znth_replace_Znth_Same by exact Hright_index.
-      unfold StreetlightRightEntryCorrect.
+      unfold StreetlightRightEntryCorrectFacts.
       right; left.
       split; assumption.
 Qed.
@@ -5111,7 +5111,7 @@ Proof.
 Qed.
 Lemma streetlight_plan_endpoint_boundary__right_close_c :
   forall positions powers start left right endpoint cost,
-    StreetlightPlan positions powers start left right endpoint cost ->
+    StreetlightPlanFacts positions powers start left right endpoint cost ->
     endpoint = left \/ endpoint = right.
 Proof.
   intros positions powers start left right endpoint cost Hplan.
@@ -5120,9 +5120,9 @@ Qed.
 Lemma streetlight_plan_end_right_inv__right_close_c :
   forall positions powers start left right cost,
     left <= start < right ->
-    StreetlightPlan positions powers start left right right cost ->
+    StreetlightPlanFacts positions powers start left right right cost ->
     exists endpoint previous,
-      StreetlightPlan positions powers start
+      StreetlightPlanFacts positions powers start
         left (right - 1) endpoint previous /\
       cost =
         previous +
@@ -5135,7 +5135,7 @@ Proof.
 Qed.
 Lemma streetlight_plan_left_at_start_singleton__right_close_c :
   forall positions powers start right cost,
-    StreetlightPlan positions powers start start right start cost ->
+    StreetlightPlanFacts positions powers start start right start cost ->
     right = start /\ cost = 0.
 Proof.
   intros positions powers start right cost Hplan.
@@ -5149,7 +5149,7 @@ Lemma streetlight_plan_upper_bound__right_close_c :
     (forall k, 0 <= k < n -> 0 <= Znth k positions 0 <= 8000) ->
     (forall k, 0 <= k < n -> 1 <= Znth k powers 0 <= 100) ->
     sum powers <= 5000 ->
-    StreetlightPlan positions powers start left right endpoint cost ->
+    StreetlightPlanFacts positions powers start left right endpoint cost ->
     0 <= endpoint < n /\ cost <= (right - left) * 40000000.
 Proof.
   intros positions powers n start left right endpoint cost
@@ -5183,19 +5183,19 @@ Lemma streetlight_right_entry_finite_minimum__right_close_c :
     Zlength powers = Zlength positions ->
     left <= start <= right ->
     value < 2147483647 ->
-    StreetlightRightEntryCorrect
+    StreetlightRightEntryCorrectFacts
       positions powers start left right value ->
-    StreetlightEndpointMinimum
+    StreetlightEndpointMinimumFacts
       positions powers start left right right value.
 Proof.
   intros positions powers start left right value
     Hstart Hlength Hrange Hfinite Hcorrect.
-  unfold StreetlightRightEntryCorrect in Hcorrect.
+  unfold StreetlightRightEntryCorrectFacts in Hcorrect.
   destruct Hcorrect as
     [[Hleft [Hright Hvalue]] |
      [[Hright Hminimum] | [Hleft [Hright Hvalue]]]].
   - subst left right value.
-    unfold StreetlightEndpointMinimum, min_value_of_subset,
+    unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
       min_object_of_subset.
     exists 0.
     split.
@@ -5236,9 +5236,9 @@ Lemma streetlight_close_endpoint_right__right_close_c :
      best <=
        Znth (right - 1) (Znth left right_table []) 0 +
        (Znth right positions 0 - Znth (right - 1) positions 0) * remain) ->
-    StreetlightLeftEndpointReady
+    StreetlightLeftEndpointReadyFacts
       positions powers left_table right_table n start len left ->
-    StreetlightEndpointMinimum
+    StreetlightEndpointMinimumFacts
       positions powers start left right right best.
 Proof.
   intros positions powers left_table right_table n start len left right
@@ -5249,19 +5249,19 @@ Proof.
     Znth (right - 1) (Znth left left_table []) 0) in *.
   set (right_value :=
     Znth (right - 1) (Znth left right_table []) 0) in *.
-  unfold StreetlightLeftEndpointReady in Hready.
+  unfold StreetlightLeftEndpointReadyFacts in Hready.
   cbn in Hready.
   destruct Hready as [Hprogress Hcurrent_left].
   replace (left + len - 1) with right in Hcurrent_left by lia.
-  unfold StreetlightLeftProgress in Hprogress.
+  unfold StreetlightLeftProgressFacts in Hprogress.
   destruct Hprogress as [Hdone Hprevious].
-  unfold StreetlightLengthsDone in Hdone.
+  unfold StreetlightLengthsDoneFacts in Hdone.
   destruct Hdone as [Hleft_shape [Hright_shape Hshorter]].
   pose proof
     (Hshorter (len - 1) left (right - 1)
        ltac:(lia) ltac:(lia) Hleft ltac:(lia) ltac:(lia))
     as Hpredecessor_correct.
-  unfold StreetlightIntervalCorrect in Hpredecessor_correct.
+  unfold StreetlightIntervalCorrectFacts in Hpredecessor_correct.
   destruct Hpredecessor_correct as [Hleft_entry Hright_entry].
   fold left_value in Hleft_entry.
   fold right_value in Hright_entry.
@@ -5274,13 +5274,13 @@ Proof.
        positions powers start left (right - 1) right_value
        Hstart Hsame_length ltac:(lia) Hright_finite' Hright_entry)
     as Hright_minimum.
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset in Hright_minimum.
   destruct Hright_minimum as
     [right_cost [[Hright_plan Hright_least] Hright_cost]].
   cbn in Hright_cost.
   subst right_cost.
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset.
   exists best.
   split.
@@ -5302,7 +5302,7 @@ Proof.
            positions powers start left (right - 1) endpoint previous
            Hprevious_plan) as [Hendpoint | Hendpoint].
       * subst endpoint.
-        unfold StreetlightLeftEntryCorrect in Hleft_entry.
+        unfold StreetlightLeftEntryCorrectFacts in Hleft_entry.
         destruct Hleft_entry as
           [[Hleft_start [Hright_start Hleft_value]] |
            [[Hleft_start Hleft_minimum] |
@@ -5318,7 +5318,7 @@ Proof.
            }
            pose proof Hbest_left ltac:(lia) as Hbest_bound.
            lia.
-        -- unfold StreetlightEndpointMinimum, min_value_of_subset,
+        -- unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
              min_object_of_subset in Hleft_minimum.
            destruct Hleft_minimum as
              [left_cost [[Hleft_plan Hleft_least] Hleft_cost]].
@@ -5351,11 +5351,11 @@ Lemma streetlight_close_interval_right__right_close_c :
     left <= start < right ->
     right < n ->
     right = left + len - 1 ->
-    StreetlightEndpointMinimum
+    StreetlightEndpointMinimumFacts
       positions powers start left right right best ->
-    StreetlightLeftEndpointReady
+    StreetlightLeftEndpointReadyFacts
       positions powers left_table right_table n start len left ->
-    StreetlightLeftProgress
+    StreetlightLeftProgressFacts
       positions powers left_table
       (replace_Znth left
          (replace_Znth right best (Znth left right_table []))
@@ -5364,13 +5364,13 @@ Lemma streetlight_close_interval_right__right_close_c :
 Proof.
   intros positions powers left_table right_table n start len left right best
     Hleft Hrange Hright Hright_eq Hminimum Hready.
-  unfold StreetlightLeftEndpointReady in Hready.
+  unfold StreetlightLeftEndpointReadyFacts in Hready.
   cbn in Hready.
   destruct Hready as [Hprogress Hcurrent_left].
   replace (left + len - 1) with right in Hcurrent_left by lia.
-  unfold StreetlightLeftProgress in Hprogress.
+  unfold StreetlightLeftProgressFacts in Hprogress.
   destruct Hprogress as [Hdone Hprevious].
-  unfold StreetlightLengthsDone in Hdone.
+  unfold StreetlightLengthsDoneFacts in Hdone.
   destruct Hdone as [Hleft_shape [Hright_shape Hshorter]].
   unfold StreetlightTableShape in Hright_shape.
   destruct Hright_shape as [Htable_length Hrow_length].
@@ -5379,9 +5379,9 @@ Proof.
   assert (Hright_index :
     0 <= right < Zlength (Znth left right_table [])) by
     (rewrite Hrow_length by lia; lia).
-  unfold StreetlightLeftProgress.
+  unfold StreetlightLeftProgressFacts.
   split.
-  - unfold StreetlightLengthsDone.
+  - unfold StreetlightLengthsDoneFacts.
     split; [exact Hleft_shape |].
     split.
     + unfold StreetlightTableShape.
@@ -5400,7 +5400,7 @@ Proof.
       pose proof
         (Hshorter old_len done_left interval_right Hold_len Hinterval_right
            Hdone_left Hinterval_bound Hcontains) as Hcorrect.
-      unfold StreetlightIntervalCorrect in Hcorrect |- *.
+      unfold StreetlightIntervalCorrectFacts in Hcorrect |- *.
       destruct Hcorrect as [Hleft_entry Hright_entry].
       split; [exact Hleft_entry |].
       destruct (Z.eq_dec done_left left) as [Hsame | Hdiff].
@@ -5418,10 +5418,10 @@ Proof.
     + subst done_left.
       assert (Hsame_right : interval_right = right) by lia.
       subst interval_right.
-      unfold StreetlightIntervalCorrect.
+      unfold StreetlightIntervalCorrectFacts.
       rewrite Hsame_right.
       split; [exact Hcurrent_left |].
-      unfold StreetlightRightEntryCorrect.
+      unfold StreetlightRightEntryCorrectFacts.
       right; left.
       split; [lia |].
       rewrite Znth_replace_Znth_Same by exact Hleft_index.
@@ -5430,7 +5430,7 @@ Proof.
     + pose proof
         (Hprevious done_left interval_right ltac:(lia) Hinterval_right
            Hinterval_bound Hcontains) as Hcorrect.
-      unfold StreetlightIntervalCorrect in Hcorrect |- *.
+      unfold StreetlightIntervalCorrectFacts in Hcorrect |- *.
       destruct Hcorrect as [Hleft_entry Hright_entry].
       split; [exact Hleft_entry |].
       rewrite Znth_replace_Znth_Diff by
@@ -5465,11 +5465,11 @@ Lemma streetlight_endpoint_interval_advance__right_close_c :
      best <=
        Znth (right - 1) (Znth left right_table []) 0 +
        (Znth right positions 0 - Znth (right - 1) positions 0) * remain) ->
-    StreetlightLeftEndpointReady
+    StreetlightLeftEndpointReadyFacts
       positions powers left_table right_table n start len left ->
-    StreetlightEndpointMinimum
+    StreetlightEndpointMinimumFacts
       positions powers start left right right best /\
-    StreetlightLeftProgress
+    StreetlightLeftProgressFacts
       positions powers left_table
       (replace_Znth left
          (replace_Znth right best (Znth left right_table []))
@@ -5481,7 +5481,7 @@ Proof.
     Hpower_bounds Htotal Hlen Hleft Hrange Hright Hright_eq Hremaining
     Hright_finite Hbest Hbest_left Hbest_right Hready.
   assert (Hminimum :
-    StreetlightEndpointMinimum
+    StreetlightEndpointMinimumFacts
       positions powers start left right right best).
   {
     eapply
@@ -5509,21 +5509,21 @@ Lemma streetlight_close_interval_right__right_close_d :
     right < n ->
     (right = start ->
       Znth right (Znth left right_table default) 0 = inf) ->
-    StreetlightLeftEndpointReady
+    StreetlightLeftEndpointReadyFacts
       positions powers left_table right_table n start len left ->
-    StreetlightLeftProgress
+    StreetlightLeftProgressFacts
       positions powers left_table right_table n start len (left + 1).
 Proof.
   intros positions powers left_table right_table default n start len left right inf
     Hinf Hlen Hleft_nonnegative Hleft_start Hright Hstart_right
     Hright_start Hright_bound Hright_inf Hready.
-  unfold StreetlightLeftEndpointReady in Hready.
+  unfold StreetlightLeftEndpointReadyFacts in Hready.
   cbn in Hready.
   destruct Hready as [Hprogress Hleft_entry].
-  unfold StreetlightLeftProgress in Hprogress |- *.
+  unfold StreetlightLeftProgressFacts in Hprogress |- *.
   destruct Hprogress as [Hlengths_done Hprevious].
   pose proof Hlengths_done as Htable_shapes.
-  unfold StreetlightLengthsDone in Htable_shapes.
+  unfold StreetlightLengthsDoneFacts in Htable_shapes.
   destruct Htable_shapes as [_ [Hright_shape _]].
   unfold StreetlightTableShape in Hright_shape.
   destruct Hright_shape as [Hright_table_length _].
@@ -5540,11 +5540,11 @@ Proof.
     + assert (Hcurrent_left_eq : current_left = left) by lia.
       subst current_left.
       replace current_right with right by lia.
-      unfold StreetlightIntervalCorrect.
+      unfold StreetlightIntervalCorrectFacts.
       split.
       * rewrite Hright.
         exact Hleft_entry.
-      * unfold StreetlightRightEntryCorrect.
+      * unfold StreetlightRightEntryCorrectFacts.
         right; right.
         split; [lia |].
         split; [lia |].
@@ -5558,21 +5558,21 @@ Proof.
 Qed.
 Lemma streetlight_lengths_done_succ__length_close_a :
   forall positions powers left_table right_table n start len next_left,
-    StreetlightLeftProgress
+    StreetlightLeftProgressFacts
       positions powers left_table right_table n start len next_left ->
     (forall left,
        0 <= left ->
        left + len - 1 < n ->
        left <= start <= left + len - 1 ->
        left < next_left) ->
-    StreetlightLengthsDone
+    StreetlightLengthsDoneFacts
       positions powers left_table right_table n start (len + 1).
 Proof.
   intros positions powers left_table right_table n start len next_left
     Hprogress Hterminal.
-  unfold StreetlightLeftProgress in Hprogress.
+  unfold StreetlightLeftProgressFacts in Hprogress.
   destruct Hprogress as [Hdone Hprocessed].
-  unfold StreetlightLengthsDone in Hdone |- *.
+  unfold StreetlightLengthsDoneFacts in Hdone |- *.
   destruct Hdone as [Hleft_shape [Hright_shape Hshorter]].
   split; [exact Hleft_shape |].
   split; [exact Hright_shape |].
@@ -5600,21 +5600,21 @@ Proof.
 Qed.
 Lemma streetlight_lengths_done_succ__length_close_b :
   forall positions powers left_table right_table n start len next_left,
-    StreetlightLeftProgress
+    StreetlightLeftProgressFacts
       positions powers left_table right_table n start len next_left ->
     (forall left,
        0 <= left ->
        left + len - 1 < n ->
        left <= start <= left + len - 1 ->
        left < next_left) ->
-    StreetlightLengthsDone
+    StreetlightLengthsDoneFacts
       positions powers left_table right_table n start (len + 1).
 Proof.
   intros positions powers left_table right_table n start len next_left
     Hprogress Hterminal.
-  unfold StreetlightLeftProgress in Hprogress.
+  unfold StreetlightLeftProgressFacts in Hprogress.
   destruct Hprogress as [Hdone Hprocessed].
-  unfold StreetlightLengthsDone in Hdone |- *.
+  unfold StreetlightLengthsDoneFacts in Hdone |- *.
   destruct Hdone as [Hleft_shape [Hright_shape Hshorter]].
   split; [exact Hleft_shape |].
   split; [exact Hright_shape |].
@@ -5642,20 +5642,20 @@ Proof.
 Qed.
 Lemma streetlight_endpoint_pair_minimum__final_state :
   forall positions powers start left_answer right_answer,
-    StreetlightEndpointMinimum positions powers start
+    StreetlightEndpointMinimumFacts positions powers start
       0 (Zlength positions - 1) 0 left_answer ->
-    StreetlightEndpointMinimum positions powers start
+    StreetlightEndpointMinimumFacts positions powers start
       0 (Zlength positions - 1) (Zlength positions - 1) right_answer ->
-    StreetlightMinimumEnergy positions powers start
+    StreetlightMinimumEnergyFacts positions powers start
       (Z.min left_answer right_answer).
 Proof.
   intros positions powers start left_answer right_answer Hleft Hright.
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset in Hleft, Hright.
   cbn in Hleft, Hright.
   destruct Hleft as [left_cost [[Hleft_plan Hleft_min] Hleft_value]].
   destruct Hright as [right_cost [[Hright_plan Hright_min] Hright_value]].
-  unfold StreetlightMinimumEnergy, StreetlightCompletePlan,
+  unfold StreetlightMinimumEnergyFacts, StreetlightCompletePlanFacts,
     min_value_of_subset, min_object_of_subset.
   cbn.
   destruct (Z_le_dec left_answer right_answer) as [Horder | Horder].
@@ -5694,7 +5694,7 @@ Proof.
 Qed.
 Lemma streetlight_plan_endpoint_boundary__final_state :
   forall positions powers start left right endpoint cost,
-    StreetlightPlan positions powers start left right endpoint cost ->
+    StreetlightPlanFacts positions powers start left right endpoint cost ->
     endpoint = left \/ endpoint = right.
 Proof.
   intros positions powers start left right endpoint cost Hplan.
@@ -5795,7 +5795,7 @@ Lemma streetlight_plan_cost_bounds__final_state :
       1 <= Znth i powers 0 <= 100) ->
     sum powers <= 5000 ->
     forall left right endpoint cost,
-      StreetlightPlan positions powers start left right endpoint cost ->
+      StreetlightPlanFacts positions powers start left right endpoint cost ->
       0 <= left ->
       left <= start <= right ->
       right < Zlength positions ->
@@ -5889,14 +5889,14 @@ Lemma streetlight_endpoint_minimum_bounds__final_state :
     0 <= left ->
     left <= start <= right ->
     right < Zlength positions ->
-    StreetlightEndpointMinimum
+    StreetlightEndpointMinimumFacts
       positions powers start left right endpoint answer ->
     0 <= answer <= (right - left) * 40000000.
 Proof.
   intros positions powers start left right endpoint answer
     Hn Hlength Hpositions Hadj Hpowers Hsum
     Hleft Hcover Hright Hminimum.
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset in Hminimum.
   cbn in Hminimum.
   destruct Hminimum as [cost [[Hplan Hleast] Hvalue]].
@@ -5910,10 +5910,10 @@ Lemma streetlight_singleton_minimum__final_state :
   forall positions powers,
     Zlength positions = 1 ->
     Zlength powers = 1 ->
-    StreetlightMinimumEnergy positions powers 0 0.
+    StreetlightMinimumEnergyFacts positions powers 0 0.
 Proof.
   intros positions powers Hpositions Hpowers.
-  unfold StreetlightMinimumEnergy, StreetlightCompletePlan,
+  unfold StreetlightMinimumEnergyFacts, StreetlightCompletePlanFacts,
     min_value_of_subset, min_object_of_subset.
   cbn.
   exists 0.
@@ -5931,18 +5931,18 @@ Lemma streetlight_left_endpoint_global__final_state :
     0 < start ->
     start = Zlength positions - 1 ->
     answer <= 1960000000 ->
-    StreetlightEndpointMinimum positions powers start
+    StreetlightEndpointMinimumFacts positions powers start
       0 (Zlength positions - 1) 0 answer ->
-    StreetlightMinimumEnergy positions powers start
+    StreetlightMinimumEnergyFacts positions powers start
       (Z.min answer 2147483647).
 Proof.
   intros positions powers start answer Hstart Hright Hbound Hminimum.
   rewrite Z.min_l by lia.
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset in Hminimum.
   cbn in Hminimum.
   destruct Hminimum as [cost [[Hplan Hleast] Hvalue]].
-  unfold StreetlightMinimumEnergy, StreetlightCompletePlan,
+  unfold StreetlightMinimumEnergyFacts, StreetlightCompletePlanFacts,
     min_value_of_subset, min_object_of_subset.
   cbn.
   exists cost.
@@ -5963,18 +5963,18 @@ Lemma streetlight_right_endpoint_global__final_state :
     start = 0 ->
     0 < Zlength positions - 1 ->
     answer <= 1960000000 ->
-    StreetlightEndpointMinimum positions powers start
+    StreetlightEndpointMinimumFacts positions powers start
       0 (Zlength positions - 1) (Zlength positions - 1) answer ->
-    StreetlightMinimumEnergy positions powers start
+    StreetlightMinimumEnergyFacts positions powers start
       (Z.min 2147483647 answer).
 Proof.
   intros positions powers start answer Hstart Hright Hbound Hminimum.
   rewrite Z.min_r by lia.
-  unfold StreetlightEndpointMinimum, min_value_of_subset,
+  unfold StreetlightEndpointMinimumFacts, min_value_of_subset,
     min_object_of_subset in Hminimum.
   cbn in Hminimum.
   destruct Hminimum as [cost [[Hplan Hleast] Hvalue]].
-  unfold StreetlightMinimumEnergy, StreetlightCompletePlan,
+  unfold StreetlightMinimumEnergyFacts, StreetlightCompletePlanFacts,
     min_value_of_subset, min_object_of_subset.
   cbn.
   exists cost.
@@ -6007,11 +6007,11 @@ Lemma streetlight_final_candidates_cases__final_state :
       0 <= i < n ->
       1 <= Znth i powers 0 <= 100) ->
     sum powers <= 5000 ->
-    StreetlightLeftEntryCorrect
+    StreetlightLeftEntryCorrectFacts
       positions powers start 0 (n - 1) left_answer ->
-    StreetlightRightEntryCorrect
+    StreetlightRightEntryCorrectFacts
       positions powers start 0 (n - 1) right_answer ->
-    StreetlightFinalCandidates
+    StreetlightFinalCandidatesFacts
       positions powers left_table right_table start
       left_answer right_answer /\
     ((right_answer = 2147483647 /\
@@ -6032,8 +6032,8 @@ Proof.
     Hn Hstart Hpositions Hadj Hpowers Hsum Hleft_entry Hright_entry.
   pose proof Hleft_entry as Hleft_saved.
   pose proof Hright_entry as Hright_saved.
-  unfold StreetlightLeftEntryCorrect in Hleft_entry.
-  unfold StreetlightRightEntryCorrect in Hright_entry.
+  unfold StreetlightLeftEntryCorrectFacts in Hleft_entry.
+  unfold StreetlightRightEntryCorrectFacts in Hright_entry.
   destruct Hleft_entry as
     [[Hleft_start [Hright_start Hleft_value]] |
      [[Hleft_lt Hleft_minimum] |
@@ -6046,10 +6046,10 @@ Proof.
       assert (Hpositions_one : Zlength positions = 1) by lia.
       assert (Hpowers_one : Zlength powers = 1) by lia.
       subst n start left_answer right_answer.
-      assert (Hglobal : StreetlightMinimumEnergy positions powers 0 0).
+      assert (Hglobal : StreetlightMinimumEnergyFacts positions powers 0 0).
       { apply streetlight_singleton_minimum__final_state; assumption. }
       split.
-      * unfold StreetlightFinalCandidates.
+      * unfold StreetlightFinalCandidatesFacts.
         split.
         -- exact Hleft_saved.
         -- split.
@@ -6086,12 +6086,12 @@ Proof.
           as Hbound.
         nia. }
       assert (Hglobal :
-        StreetlightMinimumEnergy positions powers start
+        StreetlightMinimumEnergyFacts positions powers start
           (Z.min left_answer right_answer)).
       { apply streetlight_endpoint_pair_minimum__final_state;
           rewrite Hpositions_length; assumption. }
       split.
-      * unfold StreetlightFinalCandidates.
+      * unfold StreetlightFinalCandidatesFacts.
         rewrite Hpositions_length.
         repeat split; assumption.
       * right; left; lia.
@@ -6108,14 +6108,14 @@ Proof.
           as Hbound.
         nia. }
       assert (Hglobal :
-        StreetlightMinimumEnergy positions powers start
+        StreetlightMinimumEnergyFacts positions powers start
           (Z.min left_answer 2147483647)).
       { apply streetlight_left_endpoint_global__final_state;
           try lia.
         rewrite Hpositions_length.
         exact Hleft_minimum. }
       split.
-      * unfold StreetlightFinalCandidates.
+      * unfold StreetlightFinalCandidatesFacts.
         rewrite Hpositions_length.
         repeat split; assumption.
       * left; lia.
@@ -6137,16 +6137,874 @@ Proof.
           as Hbound.
         nia. }
       assert (Hglobal :
-        StreetlightMinimumEnergy positions powers start
+        StreetlightMinimumEnergyFacts positions powers start
           (Z.min 2147483647 right_answer)).
       { apply streetlight_right_endpoint_global__final_state;
           try lia.
         rewrite Hpositions_length.
         exact Hright_minimum. }
       split.
-      * unfold StreetlightFinalCandidates.
+      * unfold StreetlightFinalCandidatesFacts.
         rewrite Hpositions_length.
         repeat split; assumption.
       * right; right; right; lia.
     + exfalso; lia.
+Qed.
+
+Require Import Coq.Relations.Relation_Operators.
+Require Import AUXLib.MonotonicList.
+Definition StreetlightState : Type := (Z * Z * Z * Z)%type.
+Definition StreetlightStep (positions powers : list Z) (start : Z)
+    (before after : StreetlightState) : Prop :=
+  exists left right endpoint cost,
+    (0 <= left /\ left < start <= right /\ right < Zlength positions /\
+     before = (left + 1, right, endpoint, cost) /\
+     after = (left, right, left, cost +
+       (Znth endpoint positions 0 - Znth left positions 0) *
+       (sum powers - sum (sublist (left + 1) (right + 1) powers)))) \/
+    (0 <= left /\ left <= start < right /\ right < Zlength positions /\
+     before = (left, right - 1, endpoint, cost) /\
+     after = (left, right, right, cost +
+       (Znth right positions 0 - Znth endpoint positions 0) *
+       (sum powers - sum (sublist left right powers)))).
+Definition StreetlightPlan (positions powers : list Z) (start left right endpoint cost : Z) : Prop :=
+  0 <= start < Zlength positions /\
+  Relation_Operators.clos_refl_trans StreetlightState
+    (StreetlightStep positions powers start)
+    (start,start,start,0) (left,right,endpoint,cost).
+Definition StreetlightCompletePlan (positions powers : list Z) (start cost : Z) : Prop :=
+  exists endpoint, StreetlightPlan positions powers start 0 (Zlength positions - 1) endpoint cost.
+Definition StreetlightMinimumEnergy (positions powers : list Z) (start answer : Z) : Prop :=
+  min_value_of_subset Z.le (StreetlightCompletePlan positions powers start) (fun cost : Z => cost) answer.
+Lemma streetlight_plan_equiv : forall positions powers start left right endpoint cost,
+  Zlength powers = Zlength positions ->
+  (StreetlightPlanFacts positions powers start left right endpoint cost <->
+   StreetlightPlan positions powers start left right endpoint cost).
+Proof.
+  intros positions powers start left right endpoint cost Hshape; split.
+  - intro Hp. induction Hp.
+    + split; [assumption | apply rt_refl].
+    + destruct IHHp as [Hs Hr]. split; [exact Hs |].
+      eapply rt_trans; [exact Hr | apply rt_step].
+      exists left, right, endpoint, cost. left; auto.
+    + destruct IHHp as [Hs Hr]. split; [exact Hs |].
+      eapply rt_trans; [exact Hr | apply rt_step].
+      exists left, right, endpoint, cost. right; auto.
+  - intros [Hs Hr].
+    set (P := fun st : StreetlightState => let '(l,r,e,v) := st in StreetlightPlanFacts positions powers start l r e v).
+    assert (Hstep : forall a b, StreetlightStep positions powers start a b -> P a -> P b).
+    { intros a b [l [r [e [v [H | H]]]]] Hp; destruct H as [Hl [Hm [Hright [-> ->]]]]; cbn in Hp |- *.
+      - eapply StreetlightPlan_extend_left; eauto.
+      - eapply StreetlightPlan_extend_right; eauto. }
+    assert (Hpreserve : forall a b, Relation_Operators.clos_refl_trans StreetlightState (StreetlightStep positions powers start) a b -> P a -> P b).
+    { intros a b Hreach; induction Hreach; eauto. }
+    apply (Hpreserve _ _ Hr). unfold P. constructor; assumption.
+Qed.
+Lemma streetlight_min_set_equiv : forall (P Q : Z -> Prop) value,
+  (forall cost, P cost <-> Q cost) ->
+  (min_value_of_subset Z.le P (fun x => x) value <->
+   min_value_of_subset Z.le Q (fun x => x) value).
+Proof.
+  intros P Q value Hequiv.
+  unfold min_value_of_subset, min_object_of_subset.
+  split; intros [v [[Hv Hmin] Heq]]; exists v; split; [split |exact Heq|split|exact Heq].
+  - apply Hequiv; exact Hv.
+  - intros x Hx; apply Hmin; apply Hequiv; exact Hx.
+  - apply Hequiv; exact Hv.
+  - intros x Hx; apply Hmin; apply Hequiv; exact Hx.
+Qed.
+Lemma streetlight_minimum_equiv : forall positions powers start answer,
+  Zlength powers = Zlength positions ->
+  (StreetlightMinimumEnergyFacts positions powers start answer <->
+   StreetlightMinimumEnergy positions powers start answer).
+Proof.
+  intros positions powers start answer Hshape.
+  unfold StreetlightMinimumEnergyFacts, StreetlightMinimumEnergy,
+    StreetlightCompletePlanFacts, StreetlightCompletePlan.
+  apply streetlight_min_set_equiv. intro cost.
+  split; intros [endpoint Hp]; exists endpoint;
+    apply (streetlight_plan_equiv positions powers start _ _ _ _ Hshape); exact Hp.
+Qed.
+
+Definition StreetlightRowLength (row : list Z) : Z := Zlength row.
+Definition StreetlightPrefixProgress (powers prefix : list Z) (done : Z) : Prop :=
+  forall k, 0 <= k <= done -> Znth k prefix 0 = sum (sublist 0 k powers).
+Definition StreetlightInfRows (table : list (list Z)) (_n rows_done : Z) : Prop :=
+  Forall (Forall (eq 2147483647)) (sublist 0 rows_done table).
+Definition StreetlightInfProgress (table : list (list Z)) (n row next_col : Z) : Prop :=
+  StreetlightInfRows table n row /\
+  Forall (eq 2147483647) (sublist 0 next_col (Znth row table [])).
+Definition StreetlightEndpointMinimum
+    (positions powers : list Z) (start left right endpoint answer : Z) : Prop :=
+  min_value_of_subset Z.le
+    (fun cost =>
+       StreetlightPlan positions powers start left right endpoint cost)
+    (fun cost => cost)
+    answer.
+
+Definition StreetlightLeftEntryCorrect
+    (positions powers : list Z) (start left right value : Z) : Prop :=
+  (left = start /\ right = start /\ value = 0) \/
+  (left < start /\
+   StreetlightEndpointMinimum
+     positions powers start left right left value) \/
+  (left = start /\ start < right /\ value = 2147483647).
+
+Definition StreetlightRightEntryCorrect
+    (positions powers : list Z) (start left right value : Z) : Prop :=
+  (left = start /\ right = start /\ value = 0) \/
+  (start < right /\
+   StreetlightEndpointMinimum
+     positions powers start left right right value) \/
+  (left < start /\ right = start /\ value = 2147483647).
+
+Definition StreetlightIntervalCorrect
+    (positions powers : list Z)
+    (left_table right_table : list (list Z))
+    (start left right : Z) : Prop :=
+  StreetlightLeftEntryCorrect positions powers start left right
+    (Znth right (Znth left left_table []) 0) /\
+  StreetlightRightEntryCorrect positions powers start left right
+    (Znth right (Znth left right_table []) 0).
+
+Definition StreetlightLengthsDone (positions powers : list Z)
+    (left_table right_table : list (list Z)) (n start next_len : Z) : Prop :=
+  forall len left right, 1 <= len < next_len -> right = left + len - 1 ->
+    0 <= left -> right < n -> left <= start <= right ->
+    StreetlightIntervalCorrect positions powers left_table right_table start left right.
+Definition StreetlightLeftProgress
+    (positions powers : list Z)
+    (left_table right_table : list (list Z))
+    (n start len next_left : Z) : Prop :=
+  StreetlightLengthsDone
+    positions powers left_table right_table n start len /\
+  forall left right,
+    0 <= left < next_left ->
+    right = left + len - 1 ->
+    right < n ->
+    left <= start <= right ->
+    StreetlightIntervalCorrect
+      positions powers left_table right_table start left right.
+
+Definition StreetlightLeftEndpointReady
+    (positions powers : list Z)
+    (left_table right_table : list (list Z))
+    (n start len left : Z) : Prop :=
+  StreetlightLeftProgress
+    positions powers left_table right_table n start len left /\
+  let right := left + len - 1 in
+  StreetlightLeftEntryCorrect positions powers start left right
+    (Znth right (Znth left left_table []) 0).
+
+Definition StreetlightFinalCandidates
+    (positions powers : list Z)
+    (left_table right_table : list (list Z))
+    (start left_answer right_answer : Z) : Prop :=
+  let right := Zlength positions - 1 in
+  StreetlightLeftEntryCorrect positions powers start 0 right left_answer /\
+  StreetlightRightEntryCorrect positions powers start 0 right right_answer /\
+  StreetlightMinimumEnergy
+    positions powers start (Z.min left_answer right_answer).
+
+Lemma streetlight_endpoint_equiv : forall positions powers start left right endpoint answer,
+  Zlength powers = Zlength positions ->
+  (StreetlightEndpointMinimumFacts positions powers start left right endpoint answer <->
+   StreetlightEndpointMinimum positions powers start left right endpoint answer).
+Proof.
+  intros positions powers start left right endpoint answer Hshape.
+  unfold StreetlightEndpointMinimumFacts, StreetlightEndpointMinimum.
+  apply streetlight_min_set_equiv. intro cost.
+  apply streetlight_plan_equiv; exact Hshape.
+Qed.
+Lemma streetlight_interval_equiv : forall positions powers lt rt start left right,
+  Zlength powers = Zlength positions ->
+  (StreetlightIntervalCorrectFacts positions powers lt rt start left right <->
+   StreetlightIntervalCorrect positions powers lt rt start left right).
+Proof.
+  intros positions powers lt rt start left right Hshape.
+  unfold StreetlightIntervalCorrectFacts, StreetlightIntervalCorrect,
+    StreetlightLeftEntryCorrectFacts, StreetlightLeftEntryCorrect,
+    StreetlightRightEntryCorrectFacts, StreetlightRightEntryCorrect.
+  rewrite !streetlight_endpoint_equiv by exact Hshape. reflexivity.
+Qed.
+Lemma streetlight_left_entry_equiv : forall p w s l r v,
+  Zlength w = Zlength p ->
+  (StreetlightLeftEntryCorrectFacts p w s l r v <-> StreetlightLeftEntryCorrect p w s l r v).
+Proof.
+  intros p w s l r v Hw.
+  unfold StreetlightLeftEntryCorrectFacts, StreetlightLeftEntryCorrect.
+  rewrite streetlight_endpoint_equiv by exact Hw. reflexivity.
+Qed.
+Lemma streetlight_shape_Forall : forall table n,
+  StreetlightTableShape table n <->
+  Zlength table = n /\ Forall (eq n) (map StreetlightRowLength table).
+Proof.
+  intros table n. unfold StreetlightTableShape.
+  rewrite Forall_map, (Forall_Znth _ (@nil Z)).
+  unfold StreetlightRowLength. split.
+  - intros [Hlen Hrows]. split; [exact Hlen |]. intros k Hk. symmetry; apply Hrows; lia.
+  - intros [Hlen Hrows]. split; [exact Hlen |]. intros k Hk. symmetry; apply Hrows; lia.
+Qed.
+Lemma streetlight_prefix_equiv : forall powers prefix done,
+  StreetlightPrefixProgressFacts powers prefix done <->
+  Zlength prefix = done+1 /\ StreetlightPrefixProgress powers prefix done.
+Proof. unfold StreetlightPrefixProgressFacts, StreetlightPrefixProgress; tauto. Qed.
+Lemma streetlight_inf_rows_equiv : forall table n rows,
+  0 <= rows <= n -> StreetlightTableShape table n ->
+  (StreetlightInfRowsFacts table n rows <-> StreetlightInfRows table n rows).
+Proof.
+  intros table n rows Hr Hshape.
+  pose proof Hshape as [Hlen Hrows].
+  unfold StreetlightInfRowsFacts, StreetlightInfRows.
+  rewrite (Forall_Znth _ (@nil Z)).
+  split.
+  - intros [_ Hvalues] row Hrow.
+    rewrite Zlength_sublist in Hrow by lia.
+    rewrite Znth_sublist0 by lia.
+    apply (proj2 (Forall_Znth _ 0 _)). intros col Hcol.
+    rewrite Hrows in Hcol by lia. symmetry; apply Hvalues; lia.
+  - intros Hvalues. split; [exact Hshape |]. intros row col Hrow Hcol.
+    specialize (Hvalues row ltac:(rewrite Zlength_sublist by lia; lia)).
+    rewrite Znth_sublist0 in Hvalues by lia.
+    symmetry; apply (proj1 (Forall_Znth _ 0 _) Hvalues).
+    rewrite Hrows by lia; lia.
+Qed.
+Lemma streetlight_inf_progress_equiv : forall table n row col,
+  0 <= row < n -> 0 <= col <= n -> StreetlightTableShape table n ->
+  (StreetlightInfProgressFacts table n row col <-> StreetlightInfProgress table n row col).
+Proof.
+  intros table n row col Hr Hc Hshape.
+  unfold StreetlightInfProgressFacts, StreetlightInfProgress.
+  rewrite streetlight_inf_rows_equiv by (auto; lia).
+  rewrite (Forall_Znth _ 0).
+  pose proof Hshape as [Hlen Hrows].
+  split.
+  - intros [Hdone Hcurrent]; split; [exact Hdone |]. intros k Hk.
+    rewrite Zlength_sublist in Hk by (rewrite Hrows by lia; lia).
+    rewrite Znth_sublist0 by lia. symmetry; apply Hcurrent; lia.
+  - intros [Hdone Hcurrent]; split; [exact Hdone |]. intros k Hk.
+    specialize (Hcurrent k ltac:(rewrite Zlength_sublist by (rewrite Hrows by lia; lia); lia)).
+    rewrite Znth_sublist0 in Hcurrent by lia. symmetry; exact Hcurrent.
+Qed.
+Lemma streetlight_lengths_equiv : forall p w lt rt n s k,
+  Zlength w = Zlength p -> StreetlightTableShape lt n -> StreetlightTableShape rt n ->
+  (StreetlightLengthsDoneFacts p w lt rt n s k <-> StreetlightLengthsDone p w lt rt n s k).
+Proof.
+  intros p w lt rt n s k Hw Hl Hr.
+  unfold StreetlightLengthsDoneFacts, StreetlightLengthsDone.
+  setoid_rewrite (streetlight_interval_equiv p w lt rt s _ _ Hw). tauto.
+Qed.
+Lemma streetlight_left_equiv : forall p w lt rt n s len left,
+  Zlength w = Zlength p -> StreetlightTableShape lt n -> StreetlightTableShape rt n ->
+  (StreetlightLeftProgressFacts p w lt rt n s len left <-> StreetlightLeftProgress p w lt rt n s len left).
+Proof.
+  intros p w lt rt n s len left Hw Hl Hr.
+  unfold StreetlightLeftProgressFacts, StreetlightLeftProgress.
+  rewrite streetlight_lengths_equiv by assumption.
+  setoid_rewrite (streetlight_interval_equiv p w lt rt s _ _ Hw). reflexivity.
+Qed.
+Lemma streetlight_ready_equiv : forall p w lt rt n s len left,
+  Zlength w = Zlength p -> StreetlightTableShape lt n -> StreetlightTableShape rt n ->
+  (StreetlightLeftEndpointReadyFacts p w lt rt n s len left <-> StreetlightLeftEndpointReady p w lt rt n s len left).
+Proof.
+  intros p w lt rt n s len left Hw Hl Hr.
+  unfold StreetlightLeftEndpointReadyFacts, StreetlightLeftEndpointReady.
+  rewrite streetlight_left_equiv by assumption.
+  rewrite streetlight_left_entry_equiv by assumption. reflexivity.
+Qed.
+Lemma streetlight_final_equiv : forall p w lt rt s a b,
+  Zlength w = Zlength p ->
+  (StreetlightFinalCandidatesFacts p w lt rt s a b <-> StreetlightFinalCandidates p w lt rt s a b).
+Proof.
+  intros p w lt rt s a b Hw.
+  unfold StreetlightFinalCandidatesFacts, StreetlightFinalCandidates,
+    StreetlightLeftEntryCorrectFacts, StreetlightLeftEntryCorrect,
+    StreetlightRightEntryCorrectFacts, StreetlightRightEntryCorrect.
+  rewrite !streetlight_endpoint_equiv, streetlight_minimum_equiv by assumption. reflexivity.
+Qed.
+Lemma streetlight_shape_update : forall table n row col value dflt,
+  StreetlightTableShape table n -> 0 <= row < n ->
+  StreetlightTableShape
+    (replace_Znth row (replace_Znth col value (Znth row table dflt)) table) n.
+Proof.
+  intros table n row col value dflt [Hlen Hrows] Hrow.
+  split; [rewrite Zlength_replace_Znth; exact Hlen |].
+  intros k Hk.
+  destruct (Z.eq_dec k row) as [-> | Hneq].
+  - rewrite Znth_replace_Znth_Same by lia.
+    rewrite Zlength_replace_Znth.
+    replace (Znth row table dflt) with (Znth row table []) by (apply Znth_indep; lia).
+    apply Hrows; exact Hrow.
+  - rewrite Znth_replace_Znth_Diff by lia. apply Hrows; exact Hk.
+Qed.
+Lemma streetlight_prefix_Forall_bounds : forall powers prefix done,
+  0 <= done <= Zlength powers -> Zlength powers <= 50 ->
+  Forall (Z.le 1) powers -> Forall (Z.ge 100) powers ->
+  Zlength prefix = done + 1 -> StreetlightPrefixProgress powers prefix done ->
+  Forall (Z.le 0) prefix /\ Forall (Z.ge 5000) prefix.
+Proof.
+  intros powers prefix done Hdone Hsize Hlo Hhi Hlen Hprefix.
+  assert (Hpowers : forall k, 0 <= k < Zlength powers -> 0 <= Znth k powers 0 <= 100).
+  { intros k Hk.
+    pose proof (proj1 (Forall_Znth _ 0 _) Hlo k Hk).
+    pose proof (proj1 (Forall_Znth _ 0 _) Hhi k Hk). lia. }
+  pose proof (sum_total_bounds__left_best_b powers Hpowers) as Htotal.
+  assert (Hentry : forall k, 0 <= k < Zlength prefix -> 0 <= Znth k prefix 0 <= 5000).
+  { intros k Hk. rewrite Hprefix by lia.
+    pose proof (sum_sublist_bounds__left_best_b powers 0 k ltac:(lia) ltac:(lia) Hpowers). lia. }
+  split; apply (proj2 (Forall_Znth _ 0 _)); intros k Hk; specialize (Hentry k Hk); lia.
+Qed.
+Lemma streetlight_prefix_public : forall p q k,
+  StreetlightPrefixProgressFacts p q k -> StreetlightPrefixProgress p q k.
+Proof. unfold StreetlightPrefixProgressFacts, StreetlightPrefixProgress; firstorder. Qed.
+Lemma streetlight_lengths_public : forall p w lt rt n s k,
+  Zlength w = Zlength p -> StreetlightLengthsDoneFacts p w lt rt n s k ->
+  StreetlightLengthsDone p w lt rt n s k.
+Proof.
+  intros p w lt rt n s k Hw H. apply streetlight_lengths_equiv; auto; unfold StreetlightLengthsDoneFacts in H; tauto.
+Qed.
+Lemma streetlight_left_public : forall p w lt rt n s len left,
+  Zlength w = Zlength p -> StreetlightLeftProgressFacts p w lt rt n s len left ->
+  StreetlightLeftProgress p w lt rt n s len left.
+Proof.
+  intros p w lt rt n s len left Hw H. apply streetlight_left_equiv; auto; unfold StreetlightLeftProgressFacts, StreetlightLengthsDoneFacts in H; tauto.
+Qed.
+Lemma streetlight_ready_public : forall p w lt rt n s len left,
+  Zlength w = Zlength p -> StreetlightLeftEndpointReadyFacts p w lt rt n s len left ->
+  StreetlightLeftEndpointReady p w lt rt n s len left.
+Proof.
+  intros p w lt rt n s len left Hw H. apply streetlight_ready_equiv; auto; unfold StreetlightLeftEndpointReadyFacts, StreetlightLeftProgressFacts, StreetlightLengthsDoneFacts in H; tauto.
+Qed.
+Lemma streetlight_inf_rows_public : forall t n r,
+  0 <= r <= n -> StreetlightInfRowsFacts t n r -> StreetlightInfRows t n r.
+Proof. intros t n r Hr H; apply streetlight_inf_rows_equiv; auto; exact (proj1 H). Qed.
+Lemma streetlight_inf_progress_public : forall t n r c,
+  0 <= r < n -> 0 <= c <= n -> StreetlightInfProgressFacts t n r c -> StreetlightInfProgress t n r c.
+Proof. intros t n r c Hr Hc H; apply streetlight_inf_progress_equiv; auto; exact (proj1 (proj1 H)). Qed.
+
+From SumLib Require Import ZRange.
+Require Import Coq.Sorting.Permutation.
+Local Notation sum := AUXLib.ListLib.sum.
+
+(** General itineraries specify the light switched off at each stop and the
+    time spent reaching it.  They permit every order and extra travel time;
+    lights passed along the way need not be switched off immediately. *)
+Definition StreetlightTravelAllowed (positions : list Z) (start : Z)
+    (moves : list (Z * Z)) : Prop :=
+  Forall (fun leg =>
+    Z.abs (Znth (fst leg) positions 0 - Znth (fst (snd leg)) positions 0) <= snd (snd leg))
+    (combine (start :: map (@fst Z Z) moves) moves).
+
+Definition StreetlightWalkStep (powers : list Z)
+    (state : Z * Z * Z) (move : Z * Z) : Z * Z * Z :=
+  let '(current, remaining, energy) := state in
+  (fst move, remaining - Znth (fst move) powers 0, energy + snd move * remaining).
+
+Definition StreetlightTourEnergy (powers : list Z) (start : Z)
+    (moves : list (Z * Z)) : Z :=
+  snd (fold_left (StreetlightWalkStep powers) moves
+    (start, sum powers - Znth start powers 0, 0)).
+
+Definition StreetlightTourMinimumEnergy (positions powers : list Z)
+    (start answer : Z) : Prop :=
+  min_value_of_subset Z.le
+    (fun moves =>
+      Permutation (Zrange 0 start ++ Zrange (start + 1) (Zlength positions))
+        (map (@fst Z Z) moves) /\ StreetlightTravelAllowed positions start moves)
+    (StreetlightTourEnergy powers start) answer.
+
+Definition StreetlightUnvisitedPower (powers : list Z) (left right : Z) : Z :=
+  sum powers - sum (sublist left (right + 1) powers).
+
+Lemma streetlight_travel_cons positions current next duration rest :
+  StreetlightTravelAllowed positions current ((next, duration) :: rest) <->
+  Z.abs (Znth current positions 0 - Znth next positions 0) <= duration /\
+  StreetlightTravelAllowed positions next rest.
+Proof.
+  unfold StreetlightTravelAllowed. cbn [map combine fst snd].
+  rewrite Forall_cons_iff. reflexivity.
+Qed.
+
+Lemma streetlight_travel_append positions front back current :
+  StreetlightTravelAllowed positions current front ->
+  StreetlightTravelAllowed positions
+    (fold_left (fun (_ : Z) (move : Z * Z) => fst move) front current) back ->
+  StreetlightTravelAllowed positions current (front ++ back).
+Proof.
+  revert current. induction front as [|[next duration] front IH]; intros current Hfront Hback.
+  - exact Hback.
+  - apply streetlight_travel_cons in Hfront as [Hleg Hfront].
+    apply streetlight_travel_cons. split; [exact Hleg |].
+    apply IH; assumption.
+Qed.
+
+Lemma streetlight_walk_endpoint powers moves state :
+  fst (fst (fold_left (StreetlightWalkStep powers) moves state)) =
+  fold_left (fun (_ : Z) (move : Z * Z) => fst move) moves (fst (fst state)).
+Proof.
+  revert state. induction moves as [|[next duration] moves IH]; intros [[current remaining] energy];
+    cbn [fold_left StreetlightWalkStep fst snd]; [reflexivity | apply IH].
+Qed.
+
+Lemma streetlight_weighted_sum_nonnegative (weight : Z -> Z) indices :
+  (forall i, In i indices -> 0 <= weight i) -> 0 <= sum (map weight indices).
+Proof.
+  induction indices as [|i rest IH]; intros H; [reflexivity |].
+  change (0 <= weight i + sum (map weight rest)).
+  pose proof (H i (or_introl eq_refl)) as Hi.
+  assert (Hr : forall j, In j rest -> 0 <= weight j).
+  { intros j Hj. apply H. right. exact Hj. }
+  specialize (IH Hr). lia.
+Qed.
+
+Lemma streetlight_weighted_sum_inclusion (weight : Z -> Z) needed pending :
+  NoDup needed -> incl needed pending ->
+  (forall i, In i pending -> 0 <= weight i) ->
+  sum (map weight needed) <= sum (map weight pending).
+Proof.
+  intros Hnd. revert pending.
+  induction Hnd as [|i needed Hnot Hnd IH]; intros pending Hinclude Hweights.
+  - cbn [map AUXLib.ListLib.sum fold_right]. apply streetlight_weighted_sum_nonnegative. exact Hweights.
+  - assert (Hin : In i pending) by (apply Hinclude; left; reflexivity).
+    apply in_split in Hin as [before [after ->]].
+    assert (Hinclude' : incl needed (before ++ after)).
+    { intros j Hj. pose proof (Hinclude j (or_intror Hj)) as Hin.
+      apply in_app_iff in Hin. apply in_app_iff. destruct Hin as [Hin | [Heq | Hin]]; auto.
+      subst j. contradiction. }
+    assert (Hweights' : forall j, In j (before ++ after) -> 0 <= weight j).
+    { intros j Hj. apply Hweights. apply in_app_iff in Hj. apply in_app_iff.
+      destruct Hj as [Ha | Hb]; [left; exact Ha | right; right; exact Hb]. }
+    specialize (IH _ Hinclude' Hweights').
+    rewrite !map_app, !sum_app in *.
+    change (weight i + sum (map weight needed) <=
+      sum (map weight before) + (weight i + sum (map weight after))). lia.
+Qed.
+
+Lemma streetlight_sum_index_range powers lo hi :
+  0 <= lo <= hi -> hi <= Zlength powers ->
+  sum (map (fun i => Znth i powers 0) (Zrange lo hi)) = sum (sublist lo hi powers).
+Proof.
+  intros Hl Hh. rewrite list_sum_sublist_as_Z_range_sum by assumption.
+  rewrite sum_range_unfold. unfold AUXLib.ListLib.sum.
+  induction (Zrange lo hi) as [|i rest IH]; [reflexivity |].
+  cbn [map fold_right]. rewrite IH. reflexivity.
+Qed.
+
+Lemma streetlight_unvisited_indices powers left right :
+  0 <= left <= right -> right < Zlength powers ->
+  StreetlightUnvisitedPower powers left right =
+    sum (map (fun i => Znth i powers 0)
+      (Zrange 0 left ++ Zrange (right + 1) (Zlength powers))).
+Proof.
+  intros Hl Hr. rewrite map_app, sum_app, !streetlight_sum_index_range by lia.
+  unfold StreetlightUnvisitedPower.
+  pose proof (sublist_split 0 (Zlength powers) left powers ltac:(lia) ltac:(lia)) as Hsplit.
+  rewrite sublist_self in Hsplit by reflexivity.
+  rewrite (sublist_split left (Zlength powers) (right + 1) powers ltac:(lia) ltac:(lia)) in Hsplit.
+  apply (f_equal sum) in Hsplit. rewrite !sum_app in Hsplit. lia.
+Qed.
+
+Lemma streetlight_unvisited_covered powers left right pending :
+  0 <= left <= right -> right < Zlength powers ->
+  (forall i, In i pending -> 0 <= i < Zlength powers) ->
+  (forall i, 0 <= i < Zlength powers -> i < left \/ right < i -> In i pending) ->
+  (forall i, 0 <= i < Zlength powers -> 1 <= Znth i powers 0 <= 100) ->
+  0 <= StreetlightUnvisitedPower powers left right <=
+    sum (map (fun i => Znth i powers 0) pending).
+Proof.
+  intros Hl Hr Hvalid Hcover Hw. split.
+  - unfold StreetlightUnvisitedPower.
+    pose proof (streetlight_remaining_sum_bounds__left_predecessor powers left (right + 1)
+      ltac:(lia) ltac:(lia) Hw). lia.
+  - rewrite streetlight_unvisited_indices by lia. apply streetlight_weighted_sum_inclusion.
+    + apply NoDup_app; try apply NoDup_Zrange.
+      intros i Ha Hb. apply In_Zrange in Ha, Hb. lia.
+    + intros i Hin. apply in_app_iff in Hin. destruct Hin as [Hin | Hin];
+        apply In_Zrange in Hin; apply Hcover; lia.
+    + intros i Hin. pose proof (Hw i (Hvalid i Hin)). lia.
+Qed.
+
+Lemma streetlight_plan_interval positions powers start left right endpoint cost :
+  StreetlightPlanFacts positions powers start left right endpoint cost ->
+  0 <= left <= start /\ start <= right < Zlength positions /\ left <= endpoint <= right.
+Proof.
+  intros Hp. induction Hp; intuition lia.
+Qed.
+
+Lemma streetlight_unvisited_left_step powers left right :
+  1 <= left <= right -> right < Zlength powers ->
+  StreetlightUnvisitedPower powers (left - 1) right =
+    StreetlightUnvisitedPower powers left right - Znth (left - 1) powers 0.
+Proof.
+  intros Hl Hr. unfold StreetlightUnvisitedPower.
+  rewrite (sublist_split (left - 1) (right + 1) left powers) by lia.
+  rewrite sum_app.
+  pose proof (sublist_single 0 (left - 1) powers ltac:(lia)) as Hsingle.
+  replace (left - 1 + 1) with left in Hsingle by lia. rewrite Hsingle.
+  cbn [AUXLib.ListLib.sum fold_right]. lia.
+Qed.
+
+Lemma streetlight_unvisited_right_step powers left right :
+  0 <= left <= right -> right + 1 < Zlength powers ->
+  StreetlightUnvisitedPower powers left (right + 1) =
+    StreetlightUnvisitedPower powers left right - Znth (right + 1) powers 0.
+Proof.
+  intros Hl Hr. unfold StreetlightUnvisitedPower.
+  rewrite (sublist_split left (right + 1 + 1) (right + 1) powers) by lia.
+  rewrite sum_app, (sublist_single 0 (right + 1) powers) by lia.
+  cbn [AUXLib.ListLib.sum fold_right]. lia.
+Qed.
+
+Lemma streetlight_unvisited_start powers start :
+  0 <= start < Zlength powers ->
+  StreetlightUnvisitedPower powers start start = sum powers - Znth start powers 0.
+Proof.
+  intros Hs. unfold StreetlightUnvisitedPower.
+  rewrite (sublist_single 0 start powers Hs). cbn [AUXLib.ListLib.sum fold_right]. lia.
+Qed.
+
+Lemma streetlight_range_split lo mid hi :
+  lo <= mid <= hi -> Zrange lo hi = Zrange lo mid ++ Zrange mid hi.
+Proof.
+  intros H. unfold Zrange.
+  replace (hi - lo) with ((mid - lo) + (hi - mid)) by lia.
+  rewrite Z2Nat.inj_add by lia. rewrite Zrange_aux_app.
+  rewrite Z2Nat.id by lia. replace (lo + (mid - lo)) with mid by lia. reflexivity.
+Qed.
+
+Lemma streetlight_range_cons lo hi :
+  lo < hi -> Zrange lo hi = lo :: Zrange (lo + 1) hi.
+Proof.
+  intros H. rewrite streetlight_range_split with (mid := lo + 1) by lia.
+  unfold Zrange at 1. replace (lo + 1 - lo) with 1 by lia. reflexivity.
+Qed.
+
+Lemma streetlight_range_snoc lo hi :
+  lo <= hi -> Zrange lo (hi + 1) = Zrange lo hi ++ [hi].
+Proof.
+  intros H. rewrite streetlight_range_split with (mid := hi) by lia.
+  unfold Zrange at 2. replace (hi + 1 - hi) with 1 by lia. reflexivity.
+Qed.
+
+Lemma streetlight_sum_permutation xs ys :
+  Permutation xs ys -> sum xs = sum ys.
+Proof.
+  intros H. induction H.
+  - reflexivity.
+  - change (x + sum l = x + sum l'). congruence.
+  - change (y + (x + sum l) = x + (y + sum l)). lia.
+  - congruence.
+Qed.
+
+Lemma streetlight_extend_left_to positions powers start left right endpoint cost target :
+  Zlength powers = Zlength positions ->
+  (forall k, 0 <= k /\ k + 1 < Zlength positions ->
+    Znth k positions 0 < Znth (k + 1) positions 0) ->
+  (forall k, 0 <= k < Zlength powers -> 1 <= Znth k powers 0 <= 100) ->
+  StreetlightPlanFacts positions powers start left right endpoint cost ->
+  0 <= target < left ->
+  exists final,
+    StreetlightPlanFacts positions powers start target right target final /\
+    final <= cost + Z.abs (Znth endpoint positions 0 - Znth target positions 0) *
+      StreetlightUnvisitedPower powers left right.
+Proof.
+  intros Hshape Hsorted Hw Hp Htarget.
+  remember (left - target) as distance eqn:Hdistance.
+  assert (0 <= distance) as Hd by lia.
+  revert left endpoint cost target Hp Htarget Hdistance.
+  pattern distance. apply Z_lt_induction; [|exact Hd].
+  clear distance Hd. intros distance IH left endpoint cost target Hp Htarget Hdistance.
+  pose proof (streetlight_plan_interval _ _ _ _ _ _ _ Hp) as Hrange.
+  pose proof (streetlight_adjacent_nondecreasing__left_predecessor positions
+    (left - 1) endpoint Hsorted ltac:(lia) ltac:(lia) ltac:(lia)) as Hep.
+  pose proof (streetlight_adjacent_nondecreasing__left_predecessor positions
+    target (left - 1) Hsorted ltac:(lia) ltac:(lia) ltac:(lia)) as Htm.
+  assert (Hp' : StreetlightPlanFacts positions powers start (left - 1 + 1) right endpoint cost).
+  { replace (left - 1 + 1) with left by lia. exact Hp. }
+  pose proof (@StreetlightPlan_extend_left positions powers start (left - 1) right endpoint cost
+    ltac:(lia) ltac:(lia) ltac:(lia) Hp') as Hstep.
+  replace (left - 1 + 1) with left in Hstep by lia.
+  fold (StreetlightUnvisitedPower powers left right) in Hstep.
+  set (next_cost := cost + (Znth endpoint positions 0 - Znth (left - 1) positions 0) *
+    StreetlightUnvisitedPower powers left right) in Hstep.
+  destruct (Z.eq_dec target (left - 1)) as [-> | Hne].
+  - exists next_cost. split; [exact Hstep |].
+    unfold next_cost. rewrite Z.abs_eq by lia. lia.
+  - destruct (IH (distance - 1) ltac:(lia) (left - 1) (left - 1) next_cost target
+      Hstep ltac:(lia) ltac:(lia)) as [final [Hfinal Hbound]].
+    exists final. split; [exact Hfinal |].
+    rewrite Z.abs_eq in Hbound by lia. rewrite Z.abs_eq by lia.
+    rewrite streetlight_unvisited_left_step in Hbound by lia.
+    pose proof (Hw (left - 1) ltac:(lia)) as Hpower.
+    unfold next_cost in Hbound. nia.
+Qed.
+
+Lemma streetlight_extend_right_to positions powers start left right endpoint cost target :
+  Zlength powers = Zlength positions ->
+  (forall k, 0 <= k /\ k + 1 < Zlength positions ->
+    Znth k positions 0 < Znth (k + 1) positions 0) ->
+  (forall k, 0 <= k < Zlength powers -> 1 <= Znth k powers 0 <= 100) ->
+  StreetlightPlanFacts positions powers start left right endpoint cost ->
+  right < target < Zlength positions ->
+  exists final,
+    StreetlightPlanFacts positions powers start left target target final /\
+    final <= cost + Z.abs (Znth endpoint positions 0 - Znth target positions 0) *
+      StreetlightUnvisitedPower powers left right.
+Proof.
+  intros Hshape Hsorted Hw Hp Htarget.
+  remember (target - right) as distance eqn:Hdistance.
+  assert (0 <= distance) as Hd by lia.
+  revert right endpoint cost target Hp Htarget Hdistance.
+  pattern distance. apply Z_lt_induction; [|exact Hd].
+  clear distance Hd. intros distance IH right endpoint cost target Hp Htarget Hdistance.
+  pose proof (streetlight_plan_interval _ _ _ _ _ _ _ Hp) as Hrange.
+  pose proof (streetlight_adjacent_nondecreasing__left_predecessor positions
+    endpoint (right + 1) Hsorted ltac:(lia) ltac:(lia) ltac:(lia)) as Hep.
+  pose proof (streetlight_adjacent_nondecreasing__left_predecessor positions
+    (right + 1) target Hsorted ltac:(lia) ltac:(lia) ltac:(lia)) as Hmt.
+  assert (Hp' : StreetlightPlanFacts positions powers start left (right + 1 - 1) endpoint cost).
+  { replace (right + 1 - 1) with right by lia. exact Hp. }
+  pose proof (@StreetlightPlan_extend_right positions powers start left (right + 1) endpoint cost
+    ltac:(lia) ltac:(lia) ltac:(lia) Hp') as Hstep.
+  fold (StreetlightUnvisitedPower powers left right) in Hstep.
+  set (next_cost := cost + (Znth (right + 1) positions 0 - Znth endpoint positions 0) *
+    StreetlightUnvisitedPower powers left right) in Hstep.
+  destruct (Z.eq_dec target (right + 1)) as [-> | Hne].
+  - exists next_cost. split; [exact Hstep |].
+    unfold next_cost. rewrite Z.abs_neq by lia. nia.
+  - destruct (IH (distance - 1) ltac:(lia) (right + 1) (right + 1) next_cost target
+      Hstep ltac:(lia) ltac:(lia)) as [final [Hfinal Hbound]].
+    exists final. split; [exact Hfinal |].
+    rewrite Z.abs_neq in Hbound by lia. rewrite Z.abs_neq by lia.
+    rewrite streetlight_unvisited_right_step in Hbound by lia.
+    pose proof (Hw (right + 1) ltac:(lia)) as Hpower.
+    unfold next_cost in Hbound. nia.
+Qed.
+
+(** Normalize any remaining itinerary while accounting for the distance from
+    the last newly extinguished boundary to the worker's current location. *)
+Lemma streetlight_normalize_suffix positions powers start moves current actual left right endpoint cost :
+  Zlength powers = Zlength positions ->
+  (forall k, 0 <= k /\ k + 1 < Zlength positions ->
+    Znth k positions 0 < Znth (k + 1) positions 0) ->
+  (forall k, 0 <= k < Zlength powers -> 1 <= Znth k powers 0 <= 100) ->
+  (forall i, In i (map (@fst Z Z) moves) -> 0 <= i < Zlength positions) ->
+  StreetlightTravelAllowed positions current moves ->
+  (forall i, 0 <= i < Zlength positions -> i < left \/ right < i ->
+    In i (map (@fst Z Z) moves)) ->
+  StreetlightPlanFacts positions powers start left right endpoint cost ->
+  left <= current <= right ->
+  cost + Z.abs (Znth endpoint positions 0 - Znth current positions 0) *
+    StreetlightUnvisitedPower powers left right <= actual ->
+  exists final_endpoint final_cost,
+    StreetlightPlanFacts positions powers start 0 (Zlength positions - 1) final_endpoint final_cost /\
+    final_cost <= snd (fold_left (StreetlightWalkStep powers) moves
+      (current, sum (map (fun i => Znth i powers 0) (map (@fst Z Z) moves)), actual)).
+Proof.
+  intros Hshape Hsorted Hw. revert current actual left right endpoint cost.
+  induction moves as [|[next duration] moves IH]; intros current actual left right endpoint cost
+    Hvalid Hallowed Hcover Hp Hcurrent Hpotential.
+  - pose proof (streetlight_plan_interval _ _ _ _ _ _ _ Hp) as Hrange.
+    assert (Hl : left = 0).
+    { destruct (Z.eq_dec left 0); [assumption |].
+      specialize (Hcover (left - 1) ltac:(lia) ltac:(lia)). contradiction. }
+    assert (Hr : right = Zlength positions - 1).
+    { destruct (Z.eq_dec right (Zlength positions - 1)); [assumption |].
+      specialize (Hcover (right + 1) ltac:(lia) ltac:(lia)). contradiction. }
+    exists endpoint, cost. split; [subst left right; exact Hp |].
+    pose proof (streetlight_remaining_sum_bounds__left_predecessor powers left (right + 1)
+      ltac:(lia) ltac:(lia) Hw) as Hu.
+    pose proof (Z.abs_nonneg (Znth endpoint positions 0 - Znth current positions 0)).
+    unfold StreetlightUnvisitedPower in Hpotential. cbn [fold_left snd]. nia.
+  - apply streetlight_travel_cons in Hallowed as [Hduration Htail_allowed].
+    assert (Hnext : 0 <= next < Zlength positions) by (apply Hvalid; left; reflexivity).
+    assert (Htail_valid : forall i, In i (map (@fst Z Z) moves) -> 0 <= i < Zlength positions).
+    { intros i Hi. apply Hvalid. right. exact Hi. }
+    pose proof (streetlight_plan_interval _ _ _ _ _ _ _ Hp) as Hrange.
+    pose proof (streetlight_unvisited_covered powers left right (next :: map (@fst Z Z) moves)
+      ltac:(lia) ltac:(lia)
+      ltac:(intros i Hi; pose proof (Hvalid i Hi); lia)
+      ltac:(intros i Hi Hout; apply Hcover; lia) Hw) as [Hu Hremaining].
+    set (remaining := sum (map (fun i => Znth i powers 0) (next :: map (@fst Z Z) moves))) in *.
+    assert (Hleg : cost + Z.abs (Znth endpoint positions 0 - Znth next positions 0) *
+      StreetlightUnvisitedPower powers left right <= actual + duration * remaining).
+    { pose proof (Z.abs_triangle
+        (Znth endpoint positions 0 - Znth current positions 0)
+        (Znth current positions 0 - Znth next positions 0)) as Htriangle.
+      replace ((Znth endpoint positions 0 - Znth current positions 0) +
+        (Znth current positions 0 - Znth next positions 0)) with
+        (Znth endpoint positions 0 - Znth next positions 0) in Htriangle by ring.
+      pose proof (Z.abs_nonneg (Znth current positions 0 - Znth next positions 0)).
+      assert (Hproduct : Z.abs (Znth current positions 0 - Znth next positions 0) *
+        StreetlightUnvisitedPower powers left right <= duration * remaining)
+        by (apply Z.mul_le_mono_nonneg; lia).
+      nia. }
+    assert (Hrest : remaining - Znth next powers 0 =
+      sum (map (fun i => Znth i powers 0) (map (@fst Z Z) moves))).
+    { unfold remaining. change (Znth next powers 0 +
+        sum (map (fun i => Znth i powers 0) (map (@fst Z Z) moves)) - Znth next powers 0 =
+        sum (map (fun i => Znth i powers 0) (map (@fst Z Z) moves))). lia. }
+    change (exists final_endpoint final_cost,
+      StreetlightPlanFacts positions powers start 0 (Zlength positions - 1) final_endpoint final_cost /\
+      final_cost <= snd (fold_left (StreetlightWalkStep powers) moves
+        (next, remaining - Znth next powers 0, actual + duration * remaining))).
+    rewrite Hrest.
+    destruct (Z_lt_ge_dec next left) as [Hleft | Hleft].
+    + destruct (streetlight_extend_left_to positions powers start left right endpoint cost next
+        Hshape Hsorted Hw Hp ltac:(lia)) as [next_cost [Hplan Hcost]].
+      eapply (IH next (actual + duration * remaining) next right next next_cost).
+      * exact Htail_valid.
+      * exact Htail_allowed.
+      * intros i Hi Hout. specialize (Hcover i Hi ltac:(lia)).
+        destruct Hcover as [Heq | Hin]; [exfalso; cbn [fst] in Heq; lia | exact Hin].
+      * exact Hplan.
+      * lia.
+      * rewrite Z.sub_diag, Z.abs_0, Z.mul_0_l, Z.add_0_r. lia.
+    + destruct (Z_lt_ge_dec right next) as [Hright | Hright].
+      * destruct (streetlight_extend_right_to positions powers start left right endpoint cost next
+          Hshape Hsorted Hw Hp ltac:(lia)) as [next_cost [Hplan Hcost]].
+        eapply (IH next (actual + duration * remaining) left next next next_cost).
+        -- exact Htail_valid.
+        -- exact Htail_allowed.
+        -- intros i Hi Hout. specialize (Hcover i Hi ltac:(lia)).
+           destruct Hcover as [Heq | Hin]; [exfalso; cbn [fst] in Heq; lia | exact Hin].
+        -- exact Hplan.
+        -- lia.
+        -- rewrite Z.sub_diag, Z.abs_0, Z.mul_0_l, Z.add_0_r. lia.
+      * eapply (IH next (actual + duration * remaining) left right endpoint cost).
+        -- exact Htail_valid.
+        -- exact Htail_allowed.
+        -- intros i Hi Hout. specialize (Hcover i Hi Hout).
+           destruct Hcover as [Heq | Hin]; [exfalso; cbn [fst] in Heq; lia | exact Hin].
+        -- exact Hp.
+        -- lia.
+        -- exact Hleg.
+Qed.
+
+(** A canonical interval plan is itself a legal itinerary, with exactly the
+    same consumed energy; normalization therefore does not add fictional
+    candidates to the minimum. *)
+Lemma streetlight_canonical_realization positions powers start left right endpoint cost :
+  Zlength powers = Zlength positions ->
+  (forall k, 0 <= k /\ k + 1 < Zlength positions ->
+    Znth k positions 0 < Znth (k + 1) positions 0) ->
+  StreetlightPlanFacts positions powers start left right endpoint cost ->
+  exists moves : list (Z * Z),
+    Permutation (Zrange left start ++ Zrange (start + 1) (right + 1)) (map (@fst Z Z) moves) /\
+    StreetlightTravelAllowed positions start moves /\
+    fold_left (StreetlightWalkStep powers) moves
+      (start, sum powers - Znth start powers 0, 0) =
+      (endpoint, StreetlightUnvisitedPower powers left right, cost).
+Proof.
+  intros Hshape Hsorted Hp.
+  induction Hp as [Hs Hlength |
+    left right endpoint cost Hl Hmiddle Hr Hp IH |
+    left right endpoint cost Hl Hmiddle Hr Hp IH].
+  - exists []. split.
+    + unfold Zrange. replace (start - start) with 0 by lia.
+      replace (start + 1 - (start + 1)) with 0 by lia. apply Permutation_refl.
+    + split; [unfold StreetlightTravelAllowed; constructor |].
+      cbn [fold_left]. rewrite streetlight_unvisited_start by lia. reflexivity.
+  - destruct IH as [moves [Hperm [Hallowed Hrun]]].
+    pose proof (streetlight_plan_interval _ _ _ _ _ _ _ Hp) as Hrange.
+    pose proof (streetlight_adjacent_nondecreasing__left_predecessor positions left endpoint
+      Hsorted ltac:(lia) ltac:(lia) ltac:(lia)) as Horder.
+    pose proof (f_equal (fun st : Z * Z * Z => fst (fst st)) Hrun) as Hend.
+    cbv beta in Hend.
+    rewrite streetlight_walk_endpoint in Hend. cbn [fst snd] in Hend.
+    exists (moves ++ [(left, Z.abs (Znth endpoint positions 0 - Znth left positions 0))]).
+    split.
+    + rewrite streetlight_range_cons by lia. rewrite map_app. cbn [map fst app].
+      eapply Permutation_trans with (l' := left :: map (@fst Z Z) moves).
+      * apply perm_skip. exact Hperm.
+      * change (Permutation ([left] ++ map (@fst Z Z) moves) (map (@fst Z Z) moves ++ [left])).
+        apply Permutation_app_comm.
+    + split.
+      * apply streetlight_travel_append; [exact Hallowed |]. rewrite Hend.
+        apply streetlight_travel_cons. split; [lia | unfold StreetlightTravelAllowed; constructor].
+      * rewrite fold_left_app, Hrun. cbn [fold_left StreetlightWalkStep fst snd].
+        pose proof (streetlight_unvisited_left_step powers (left + 1) right ltac:(lia) ltac:(lia)) as Hu.
+        replace (left + 1 - 1) with left in Hu by lia.
+        rewrite Hu, Z.abs_eq by lia. unfold StreetlightUnvisitedPower. reflexivity.
+  - destruct IH as [moves [Hperm [Hallowed Hrun]]].
+    pose proof (streetlight_plan_interval _ _ _ _ _ _ _ Hp) as Hrange.
+    pose proof (streetlight_adjacent_nondecreasing__left_predecessor positions endpoint right
+      Hsorted ltac:(lia) ltac:(lia) ltac:(lia)) as Horder.
+    pose proof (f_equal (fun st : Z * Z * Z => fst (fst st)) Hrun) as Hend.
+    cbv beta in Hend.
+    rewrite streetlight_walk_endpoint in Hend. cbn [fst snd] in Hend.
+    exists (moves ++ [(right, Z.abs (Znth endpoint positions 0 - Znth right positions 0))]).
+    split.
+    + replace (right - 1 + 1) with right in Hperm by lia.
+      rewrite streetlight_range_snoc by lia. rewrite app_assoc, map_app. cbn [map fst].
+      apply Permutation_app; [exact Hperm | apply Permutation_refl].
+    + split.
+      * apply streetlight_travel_append; [exact Hallowed |]. rewrite Hend.
+        apply streetlight_travel_cons. split; [lia | unfold StreetlightTravelAllowed; constructor].
+      * rewrite fold_left_app, Hrun. cbn [fold_left StreetlightWalkStep fst snd].
+        pose proof (streetlight_unvisited_right_step powers left (right - 1) ltac:(lia) ltac:(lia)) as Hu.
+        replace (right - 1 + 1) with right in Hu by lia.
+        rewrite Hu, Z.abs_neq by lia. unfold StreetlightUnvisitedPower.
+        replace (right - 1 + 1) with right by lia. f_equal; try reflexivity; ring.
+Qed.
+
+Lemma streetlight_general_dominated positions powers start moves :
+  Zlength powers = Zlength positions -> 0 <= start < Zlength positions ->
+  (forall k, 0 <= k /\ k + 1 < Zlength positions ->
+    Znth k positions 0 < Znth (k + 1) positions 0) ->
+  (forall k, 0 <= k < Zlength powers -> 1 <= Znth k powers 0 <= 100) ->
+  Permutation (Zrange 0 start ++ Zrange (start + 1) (Zlength positions)) (map (@fst Z Z) moves) ->
+  StreetlightTravelAllowed positions start moves ->
+  exists endpoint cost,
+    StreetlightPlanFacts positions powers start 0 (Zlength positions - 1) endpoint cost /\
+    cost <= StreetlightTourEnergy powers start moves.
+Proof.
+  intros Hshape Hstart Hsorted Hw Hperm Hallowed.
+  assert (Hvalid : forall i, In i (map (@fst Z Z) moves) -> 0 <= i < Zlength positions).
+  { intros i Hin. apply (Permutation_in i (Permutation_sym Hperm)) in Hin.
+    apply in_app_iff in Hin. destruct Hin as [Hin | Hin]; apply In_Zrange in Hin; lia. }
+  assert (Hcover : forall i, 0 <= i < Zlength positions -> i < start \/ start < i ->
+    In i (map (@fst Z Z) moves)).
+  { intros i Hi Hout. apply (Permutation_in i Hperm). apply in_app_iff.
+    destruct Hout; [left | right]; apply In_Zrange; lia. }
+  assert (Hremaining : sum (map (fun i => Znth i powers 0) (map (@fst Z Z) moves)) =
+    sum powers - Znth start powers 0).
+  { rewrite <- (streetlight_sum_permutation _ _ (Permutation_map (fun i => Znth i powers 0) Hperm)).
+    rewrite <- Hshape.
+    rewrite <- streetlight_unvisited_indices by lia.
+    apply streetlight_unvisited_start. lia. }
+  pose proof (streetlight_normalize_suffix positions powers start moves start 0 start start start 0
+    Hshape Hsorted Hw Hvalid Hallowed Hcover
+    (@StreetlightPlan_start positions powers start Hstart Hshape) ltac:(lia)
+    ltac:(rewrite Z.sub_diag, Z.abs_0, Z.mul_0_l; lia)) as Hnormal.
+  rewrite Hremaining in Hnormal. exact Hnormal.
+Qed.
+
+Lemma streetlight_interval_minimum_is_global positions powers start answer :
+  Zlength powers = Zlength positions -> 0 <= start < Zlength positions ->
+  (forall k, 0 <= k /\ k + 1 < Zlength positions ->
+    Znth k positions 0 < Znth (k + 1) positions 0) ->
+  Forall (Z.le 1) powers -> Forall (Z.ge 100) powers ->
+  StreetlightMinimumEnergyFacts positions powers start answer ->
+  StreetlightTourMinimumEnergy positions powers start answer.
+Proof.
+  intros Hshape Hstart Hsorted Hlo Hhi Hmin.
+  assert (Hw : forall k, 0 <= k < Zlength powers -> 1 <= Znth k powers 0 <= 100).
+  { intros k Hk.
+    pose proof (proj1 (Forall_Znth (Z.le 1) 0 powers) Hlo k Hk) as Hlower.
+    pose proof (proj1 (Forall_Znth (Z.ge 100) 0 powers) Hhi k Hk) as Hupper.
+    apply Z.ge_le in Hupper. lia. }
+  unfold StreetlightMinimumEnergyFacts, min_value_of_subset, min_object_of_subset in Hmin.
+  destruct Hmin as [best [[[endpoint Hp] Hminimum] Hanswer]]. cbn in Hanswer. subst best.
+  destruct (streetlight_canonical_realization positions powers start 0 (Zlength positions - 1)
+    endpoint answer Hshape Hsorted Hp) as [moves [Hperm [Hallowed Hrun]]].
+  replace (Zlength positions - 1 + 1) with (Zlength positions) in Hperm by lia.
+  unfold StreetlightTourMinimumEnergy, min_value_of_subset, min_object_of_subset.
+  exists moves. split.
+  - split; [split; assumption |]. intros other [Hother Htravel].
+    destruct (streetlight_general_dominated positions powers start other Hshape Hstart Hsorted Hw
+      Hother Htravel) as [last [cost [Hplan Hbound]]].
+    assert (Hminimum' : answer <= cost) by (apply Hminimum; exists last; exact Hplan).
+    unfold StreetlightTourEnergy in Hbound |- *. rewrite Hrun. cbn [snd]. lia.
+  - unfold StreetlightTourEnergy. rewrite Hrun. reflexivity.
 Qed.

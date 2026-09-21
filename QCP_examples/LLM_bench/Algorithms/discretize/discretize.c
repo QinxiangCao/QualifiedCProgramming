@@ -1,3 +1,8 @@
+/* Sorted coordinate compression: the returned prefix contains exactly the
+ * source values in strictly increasing order.  The remaining destination
+ * cells are valid storage; their values are not part of the result.
+ * Forward lookup returns the matching index, or -1 exactly when absent.
+ */
 
 
 
@@ -10,8 +15,8 @@
 /*@ Extern Coq (partition_scan_inv : list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Prop) */
 /*@ Extern Coq (strict_increasing : list Z -> Prop) */
 /*@ Extern Coq (dedup_scan_inv : list Z -> list Z -> list Z -> Z -> Z -> Prop) */
-/*@ Extern Coq (discretize_result : list Z -> Z -> list Z -> Z -> Prop) */
-/*@ Extern Coq (query_forward_result : list Z -> Z -> Z -> Z -> Prop) */
+/*@ Extern Coq (discretize_result : list Z -> list Z -> Z -> Prop) */
+/*@ Extern Coq (query_forward_result : list Z -> Z -> Z -> Prop) */
 /*@ Extern Coq (query_forward_search_inv : list Z -> Z -> Z -> Z -> Z -> Prop) */
 /*@ Import Coq Require Import SimpleC.EE.LLM_bench.Algorithms.discretize.discretize_lib */
 
@@ -99,18 +104,16 @@ void int_array_quicksort(int *arr, int n)
 
 int discretize(const int *src, int n, int *dest_map) 
 /*@ With src_l
-    Require Zlength(src_l) == n &&
-            1 <= n && n <= 50000 &&
+    Require 1 <= n && n <= 50000 &&
             IntArray::full(src, n, src_l) *
             IntArray::undef_full(dest_map, n)
     Ensure exists out_l,
-            discretize_result(src_l, n, out_l, __return) &&
+            discretize_result(src_l, out_l, __return) &&
             IntArray::full(src, n, src_l) *
             IntArray::full(dest_map, n, out_l)
 */
 {
     /*@ Inv Assert
-        Zlength(src_l) == n@pre &&
         1 <= n@pre && n@pre <= 50000 &&
         0 <= i && i <= n@pre &&
         src == src@pre && dest_map == dest_map@pre && n == n@pre &&
@@ -122,7 +125,6 @@ int discretize(const int *src, int n, int *dest_map)
         dest_map[i] = src[i];
     }
     /*@ Assert
-        Zlength(src_l) == n@pre &&
         1 <= n@pre && n@pre <= 50000 &&
         src == src@pre && dest_map == dest_map@pre && n == n@pre &&
         IntArray::full(src@pre, n@pre, src_l) *
@@ -132,8 +134,7 @@ int discretize(const int *src, int n, int *dest_map)
     int slow = 0;
     /*@ Inv Assert
         exists sorted_l cur_l,
-          Zlength(src_l) == n@pre &&
-          1 <= n@pre && n@pre <= 50000 &&
+          n@pre <= 50000 &&
           src == src@pre && dest_map == dest_map@pre && n == n@pre &&
           0 <= slow && slow < fast && 1 <= fast && fast <= n@pre &&
           dedup_scan_inv(src_l, sorted_l, cur_l, slow, fast) &&
@@ -146,25 +147,15 @@ int discretize(const int *src, int n, int *dest_map)
             dest_map[slow] = dest_map[fast];
         }
     }
-    /*@ Assert
-        exists out_l,
-          Zlength(src_l) == n@pre &&
-          1 <= n@pre && n@pre <= 50000 &&
-          src == src@pre && dest_map == dest_map@pre && n == n@pre &&
-          discretize_result(src_l, n@pre, out_l, slow + 1) &&
-          IntArray::full(src@pre, n@pre, src_l) *
-          IntArray::full(dest_map@pre, n@pre, out_l)
-    */
     return slow + 1;
 }
 
 int query_forward(const int *map, int map_size, int target) 
 /*@ With map_l
-    Require Zlength(map_l) == map_size &&
-            0 <= map_size && map_size <= 50000 &&
+    Require map_size <= 50000 &&
             strict_increasing(map_l) &&
             IntArray::full(map, map_size, map_l)
-    Ensure query_forward_result(map_l, map_size, target, __return) &&
+    Ensure query_forward_result(map_l, target, __return) &&
            IntArray::full(map, map_size, map_l)
 */
 {
@@ -172,8 +163,7 @@ int query_forward(const int *map, int map_size, int target)
     int high = map_size - 1;
     
     /*@ Inv Assert
-        Zlength(map_l) == map_size@pre &&
-        0 <= map_size@pre && map_size@pre <= 50000 &&
+        map_size@pre <= 50000 &&
         strict_increasing(map_l) &&
         map == map@pre && map_size == map_size@pre && target == target@pre &&
         0 <= low && low <= high + 1 && high < map_size@pre &&
@@ -183,9 +173,7 @@ int query_forward(const int *map, int map_size, int target)
     while (low <= high) {
         int mid = low + (high - low) / 2;
         /*@ Assert
-            Zlength(map_l) == map_size@pre &&
-            0 <= map_size@pre && map_size@pre <= 50000 &&
-            strict_increasing(map_l) &&
+            map_size@pre <= 50000 && strict_increasing(map_l) &&
             map == map@pre && map_size == map_size@pre && target == target@pre &&
             0 <= low && low <= mid && mid <= high && high < map_size@pre &&
             query_forward_search_inv(map_l, map_size@pre, target@pre, low, high) &&
@@ -199,15 +187,5 @@ int query_forward(const int *map, int map_size, int target)
             high = mid - 1;
         }
     }
-    /*@ Assert
-        Zlength(map_l) == map_size@pre &&
-        0 <= map_size@pre && map_size@pre <= 50000 &&
-        strict_increasing(map_l) &&
-        map == map@pre && map_size == map_size@pre && target == target@pre &&
-        0 <= low && low <= high + 1 && high < map_size@pre &&
-        query_forward_search_inv(map_l, map_size@pre, target@pre, low, high) &&
-        query_forward_result(map_l, map_size@pre, target@pre, -1) &&
-        IntArray::full(map@pre, map_size@pre, map_l)
-    */
     return -1; 
 }

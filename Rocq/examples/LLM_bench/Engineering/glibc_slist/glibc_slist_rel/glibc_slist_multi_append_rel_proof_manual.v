@@ -33,11 +33,12 @@ Lemma proof_of_glibc_slist_clean_multi_append_entail_wit_1 : glibc_slist_clean_m
 Proof.
   LLM_pre_process ltac:(int_auto).
 Qed.
-Lemma proof_of_glibc_slist_clean_multi_append_entail_wit_3 : glibc_slist_clean_multi_append_entail_wit_3.
+
+Lemma proof_of_glibc_slist_clean_multi_append_entail_wit_2 : glibc_slist_clean_multi_append_entail_wit_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
   subst_eqs.
-  Exists l4_2.
+  Exists l3.
   split_pure_spatial.
   - cancel.
   - split_pure_and_solve.
@@ -48,11 +49,12 @@ Proof.
     prog_nf.
     exact PreH1.
 Qed.
+
 Lemma proof_of_glibc_slist_clean_multi_append_return_wit_1 : glibc_slist_clean_multi_append_return_wit_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
   subst_eqs.
-  Exists l5.
+  Exists l3.
   split_pure_spatial.
   - cancel.
   - split_pure_and_solve.
@@ -60,6 +62,7 @@ Proof.
     dump_pre_spatial.
     exact PreH1.
 Qed.
+
 Lemma proof_of_glibc_slist_clean_multi_append_derive_high_level_spec_by_low_level_spec : glibc_slist_clean_multi_append_derive_high_level_spec_by_low_level_spec.
 Proof.
   LLM_pre_process ltac:(int_auto).

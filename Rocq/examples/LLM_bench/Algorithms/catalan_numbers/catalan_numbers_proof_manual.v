@@ -20,90 +20,40 @@ Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.catalan_numbers.catalan_numbers_lib.
 Local Open Scope sac.
-
-Lemma proof_of_id_return_wit_1_split_goal_1 : id_return_wit_1_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(nia).
-Qed.
-
-Lemma proof_of_id_return_wit_1 : id_return_wit_1.
-Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_id_return_wit_1_split_goal_1.
-Qed.
+Local Opaque IntArray.full IntArray.seg IntArray.undef_full IntArray.undef_seg IntArray.mixed_full IntArray.mixed_seg.
+Import ListNotations.
+Local Open Scope list_scope.
 
 Lemma proof_of_solve_safety_wit_10_split_goal_1 : solve_safety_wit_10_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  subst retval. subst retval_2.
-  unfold StackRowProgress in PreH22.
-  destruct PreH22 as [_ [_ Hprefix]].
-  unfold StackTablePrefix in Hprefix.
-  destruct Hprefix as [_ [_ Hcells]].
-  assert (Ha : StackCellBound (i - 1) (j + 1)
-      (Znth (StackCellIndex n_pre (i - 1) (j + 1)) table 0)).
-  { destruct (Z_lt_ge_dec j n_pre) as [Hjlt | Hjend].
-    - exact (proj1 (Hcells (i - 1) (j + 1) ltac:(lia) ltac:(lia)
-        ltac:(unfold StackCellIndex; lia))).
-    - assert (Hjeq : j = n_pre) by lia.
-      pose proof (proj1 (Hcells i 0 ltac:(lia) ltac:(lia)
-        ltac:(unfold StackCellIndex; lia))) as Ha0.
-      assert (Hidxeq : StackCellIndex n_pre i 0 =
-                       StackCellIndex n_pre (i - 1) (j + 1)) by
-        (unfold StackCellIndex; lia).
-      rewrite Hidxeq in Ha0.
-      exact (StackCellBound_normalize_row_end__cell_dp i j _
-        ltac:(lia) ltac:(lia) Ha0). }
-  pose proof (Hcells i (j - 1) ltac:(lia) ltac:(lia)
-    ltac:(unfold StackCellIndex; lia)) as [Hb _].
-  pose proof (StackCellBound_add_step__cell_dp i j
-    (Znth (StackCellIndex n_pre (i - 1) (j + 1)) table 0)
-    (Znth (StackCellIndex n_pre i (j - 1)) table 0)
-    ltac:(lia) ltac:(lia) Ha Hb) as Hsum.
-  pose proof (StackCellBound_int_range__cell_dp i j _
-    ltac:(lia) ltac:(lia) Hsum) as [_ Hmax].
+  subst retval retval_2.
+  assert (Hsum : 0 <=
+      Znth (StackCellIndex n_pre (i - 1) (j + 1)) table 0 +
+      Znth (StackCellIndex n_pre i (j - 1)) table 0 <= 2 ^ (2 * i + j)).
+  { apply table_add_bound__cell_dp; try lia.
+    intros r c Hr Hc Hlt. apply PreH17.
+    unfold StackCellIndex in Hlt. lia. }
+  pose proof (StackCellBound_int_range__cell_dp i j
+    (Znth (StackCellIndex n_pre (i - 1) (j + 1)) table 0 +
+     Znth (StackCellIndex n_pre i (j - 1)) table 0)
+    ltac:(lia) ltac:(lia) ltac:(repeat split; tauto || lia)) as Hrange.
   dump_pre_spatial.
-  unfold StackCellIndex in *.
-  replace ((i - 1) * (n_pre + 1) + (j + 1) - 0)
-    with ((i - 1) * (n_pre + 1) + (j + 1)) by lia.
-  replace (i * (n_pre + 1) + (j - 1) - 0)
-    with (i * (n_pre + 1) + (j - 1)) by lia.
-  exact Hmax.
+  unfold StackCellIndex in Hrange.
+  repeat rewrite Z.sub_0_r. exact (proj2 Hrange).
 Qed.
 
 Lemma proof_of_solve_safety_wit_10_split_goal_2 : solve_safety_wit_10_split_goal_2.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  subst retval. subst retval_2.
-  unfold StackRowProgress in PreH22.
-  destruct PreH22 as [_ [_ Hprefix]].
-  unfold StackTablePrefix in Hprefix.
-  destruct Hprefix as [_ [_ Hcells]].
-  assert (Ha : StackCellBound (i - 1) (j + 1)
-      (Znth (StackCellIndex n_pre (i - 1) (j + 1)) table 0)).
-  { destruct (Z_lt_ge_dec j n_pre) as [Hjlt | Hjend].
-    - exact (proj1 (Hcells (i - 1) (j + 1) ltac:(lia) ltac:(lia)
-        ltac:(unfold StackCellIndex; lia))).
-    - assert (Hjeq : j = n_pre) by lia.
-      pose proof (proj1 (Hcells i 0 ltac:(lia) ltac:(lia)
-        ltac:(unfold StackCellIndex; lia))) as Ha0.
-      assert (Hidxeq : StackCellIndex n_pre i 0 =
-                       StackCellIndex n_pre (i - 1) (j + 1)) by
-        (unfold StackCellIndex; lia).
-      rewrite Hidxeq in Ha0.
-      exact (StackCellBound_normalize_row_end__cell_dp i j _
-        ltac:(lia) ltac:(lia) Ha0). }
-  pose proof (proj1 (Hcells i (j - 1) ltac:(lia) ltac:(lia)
-    ltac:(unfold StackCellIndex; lia))) as Hb.
-  unfold StackCellBound in Ha, Hb.
-  destruct Ha as [_ [_ [Ha0 _]]].
-  destruct Hb as [_ [_ [Hb0 _]]].
+  subst retval retval_2.
+  pose proof (table_add_bound__cell_dp n_pre table i j
+    ltac:(lia) ltac:(lia) ltac:(lia)
+    ltac:(intros r c Hr Hc Hlt; apply PreH17;
+      unfold StackCellIndex in Hlt; lia)) as Hsum.
   dump_pre_spatial.
-  unfold StackCellIndex in *.
-  repeat match goal with
-  | |- context [?x - 0] => replace (x - 0) with x by lia
-  end.
-  lia.
+  unfold StackCellIndex in Hsum.
+  repeat rewrite Z.sub_0_r. lia.
 Qed.
 
 Lemma proof_of_solve_safety_wit_10 : solve_safety_wit_10.
@@ -119,20 +69,13 @@ Proof.
   Exists (@nil Z).
   replace (0 * (n_pre + 1)) with 0 by ring.
   sep_apply_l_atomic
-    (IntArray.undef_full_to_undef_seg f_pre ((n_pre + 1) * (n_pre + 1))).
-  rewrite (IntArray.seg_empty f_pre 0 0).
+    (IntArray.undef_full_split_to_undef_seg (&("f")) ((n_pre + 1) * (n_pre + 1)) 64 ltac:(nia)).
+  rewrite (IntArray.seg_empty (&("f")) 0 0).
   split_pure_spatial.
-  - cancel (IntArray.undef_seg f_pre 0 ((n_pre + 1) * (n_pre + 1))).
-  - split_pures.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial.
-      unfold StackRowsDone, StackTablePrefix.
-      rewrite Zlength_nil.
-      repeat split; try lia.
-    + dump_pre_spatial. reflexivity.
+  - cancel (IntArray.undef_seg (&("f")) 0 ((n_pre + 1) * (n_pre + 1))).
+    cancel (IntArray.undef_seg (&("f")) ((n_pre + 1) * (n_pre + 1)) 64).
+  - split_pures; dump_pre_spatial; try lia; try reflexivity.
+    + unfold StackTablePrefix, StackCellIndex. intros. nia.
 Qed.
 
 Lemma proof_of_solve_entail_wit_2 : solve_entail_wit_2.
@@ -141,286 +84,190 @@ Proof.
   Exists table_2.
   replace (i * (n_pre + 1) + 0) with (i * (n_pre + 1)) by lia.
   split_pure_spatial.
-  - cancel (IntArray.seg f_pre 0 (i * (n_pre + 1)) table_2).
-    cancel (IntArray.undef_seg f_pre (i * (n_pre + 1))
+  - cancel (IntArray.seg (&("f")) 0 (i * (n_pre + 1)) table_2).
+    cancel (IntArray.undef_seg (&("f")) (i * (n_pre + 1))
       ((n_pre + 1) * (n_pre + 1))).
-  - split_pures.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial.
-      unfold StackRowsDone in PreH6.
-      unfold StackRowProgress.
-      destruct PreH6 as [Hi Hprefix].
-      split; [exact Hi |].
-      split; [lia |].
-      replace (i * (n_pre + 1) + 0) with (i * (n_pre + 1)) by lia.
-      exact Hprefix.
+    cancel (IntArray.undef_seg (&("f")) ((n_pre + 1) * (n_pre + 1)) 64).
+  - split_pures; dump_pre_spatial; try lia; assumption.
 Qed.
 
 Lemma proof_of_solve_entail_wit_3_split_goal_1 : solve_entail_wit_3_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(nia).
-Qed.
-
+Proof. unfold solve_entail_wit_3_split_goal_1. intros. apply PreH11. assumption. Qed.
 Lemma proof_of_solve_entail_wit_3_split_goal_2 : solve_entail_wit_3_split_goal_2.
+Proof. LLM_pre_process ltac:(lia || int_auto); auto. Qed.
+Lemma proof_of_solve_entail_wit_3_split_goal_3 : solve_entail_wit_3_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(nia).
+  LLM_pre_process ltac:(lia || int_auto).
+  pose proof (Z.mul_le_mono_nonneg_r i n_pre (n_pre + 1)
+    ltac:(lia) ltac:(lia)).
+  rewrite Z.mul_add_distr_r. lia.
 Qed.
-
 Lemma proof_of_solve_entail_wit_3 : solve_entail_wit_3.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_solve_entail_wit_3_split_goal_1.
   - Goal_apply proof_of_solve_entail_wit_3_split_goal_2.
+  - Goal_apply proof_of_solve_entail_wit_3_split_goal_3.
 Qed.
 
 Lemma proof_of_solve_entail_wit_4_split_goal_1 : solve_entail_wit_4_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(nia).
-Qed.
-
+Proof. unfold solve_entail_wit_4_split_goal_1. intros. apply PreH11. assumption. Qed.
 Lemma proof_of_solve_entail_wit_4_split_goal_2 : solve_entail_wit_4_split_goal_2.
+Proof. LLM_pre_process ltac:(lia || int_auto); auto. Qed.
+Lemma proof_of_solve_entail_wit_4_split_goal_3 : solve_entail_wit_4_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(nia).
+  LLM_pre_process ltac:(lia || int_auto).
+  pose proof (Z.mul_le_mono_nonneg_r i n_pre (n_pre + 1)
+    ltac:(lia) ltac:(lia)).
+  rewrite Z.mul_add_distr_r. lia.
 Qed.
-
 Lemma proof_of_solve_entail_wit_4 : solve_entail_wit_4.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_solve_entail_wit_4_split_goal_1.
   - Goal_apply proof_of_solve_entail_wit_4_split_goal_2.
-Qed.
-
-Lemma proof_of_solve_entail_wit_5_1_split_goal_1 : solve_entail_wit_5_1_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  subst i.
-  pose proof (StackRowProgress_zero_row_extend__cell_dp
-    n_pre table_2 j ltac:(lia) ltac:(lia) PreH12) as [Hprogress _].
-  exact Hprogress.
-Qed.
-
-Lemma proof_of_solve_entail_wit_5_1_split_goal_2 : solve_entail_wit_5_1_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  subst i.
-  pose proof (StackRowProgress_zero_row_extend__cell_dp
-    n_pre table_2 j ltac:(lia) ltac:(lia) PreH12)
-    as [_ [Hcorrect _]].
-  cbn [StackCellIndex] in Hcorrect.
-  exact Hcorrect.
-Qed.
-
-Lemma proof_of_solve_entail_wit_5_1_split_goal_3 : solve_entail_wit_5_1_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  subst i.
-  pose proof (StackRowProgress_zero_row_extend__cell_dp
-    n_pre table_2 j ltac:(lia) ltac:(lia) PreH12)
-    as [_ [_ Hbound]].
-  cbn [StackCellIndex] in Hbound.
-  exact Hbound.
+  - Goal_apply proof_of_solve_entail_wit_4_split_goal_3.
 Qed.
 
 Lemma proof_of_solve_entail_wit_5_1 : solve_entail_wit_5_1.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_solve_entail_wit_5_1_split_goal_1.
-  - Goal_apply proof_of_solve_entail_wit_5_1_split_goal_2.
-  - Goal_apply proof_of_solve_entail_wit_5_1_split_goal_3.
-Qed.
-
-Lemma proof_of_solve_entail_wit_5_2_split_goal_1 : solve_entail_wit_5_2_split_goal_1.
-Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  subst j.
-  pose proof (StackRowProgress_copy_boundary_extend__cell_dp
-    n_pre table_2 i ltac:(lia) ltac:(lia) PreH16) as [Hprogress _].
-  cbn [StackCellIndex] in Hprogress.
-  replace ((((i - 1) * (n_pre + 1) + (0 + 1)) - 0))
-    with ((i - 1) * (n_pre + 1) + 1) by lia.
-  exact Hprogress.
-Qed.
-
-Lemma proof_of_solve_entail_wit_5_2_split_goal_2 : solve_entail_wit_5_2_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  subst j.
-  pose proof (StackRowProgress_copy_boundary_extend__cell_dp
-    n_pre table_2 i ltac:(lia) ltac:(lia) PreH16)
-    as [_ [Hcorrect _]].
-  cbn [StackCellIndex] in Hcorrect.
-  replace ((((i - 1) * (n_pre + 1) + (0 + 1)) - 0))
-    with ((i - 1) * (n_pre + 1) + 1) by lia.
-  exact Hcorrect.
-Qed.
-
-Lemma proof_of_solve_entail_wit_5_2_split_goal_3 : solve_entail_wit_5_2_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  subst j.
-  pose proof (StackRowProgress_copy_boundary_extend__cell_dp
-    n_pre table_2 i ltac:(lia) ltac:(lia) PreH16)
-    as [_ [_ Hbound]].
-  cbn [StackCellIndex] in Hbound.
-  replace ((((i - 1) * (n_pre + 1) + (0 + 1)) - 0))
-    with ((i - 1) * (n_pre + 1) + 1) by lia.
-  exact Hbound.
+  subst i. repeat rewrite Z.mul_0_l in *. repeat rewrite Z.add_0_l in *.
+  prop_apply (IntArray.seg_Zlength (&("f")) 0 (j + 1) (table_2 ++ [1])).
+  Intros_p Hlen.
+  rewrite Zlength_app_cons in Hlen.
+  assert (Hprefix : StackTablePrefix n_pre (table_2 ++ [1]) (j + 1)).
+  { apply StackTablePrefix_zero_row_extend__cell_dp; try lia; assumption. }
+  pose proof (table_snoc_pointwise
+    (fun r c v => 0 <= v <= 2 ^ (2 * r + c))
+    n_pre table_2 0 j 1 ltac:(lia) ltac:(lia) ltac:(lia)
+    ltac:(intros r c Hr Hc Hlt; apply PreH11;
+      unfold StackCellIndex in Hlt; lia)
+    ltac:(pose proof (StackCellBound_zero_row__cell_dp j ltac:(lia)); tauto))
+    as Hbounds.
+  Exists (table_2 ++ [1]).
+  split_pure_spatial.
+  - cancel (IntArray.seg (&("f")) 0 (j + 1) (table_2 ++ [1])).
+    cancel (IntArray.undef_seg (&("f")) (j + 1) ((n_pre + 1) * (n_pre + 1))).
+    cancel (IntArray.undef_seg (&("f")) ((n_pre + 1) * (n_pre + 1)) 64).
+  - split_pures; dump_pre_spatial; try lia; try assumption.
+    intros r c Hrc. apply Hbounds; unfold StackCellIndex; lia.
 Qed.
 
 Lemma proof_of_solve_entail_wit_5_2 : solve_entail_wit_5_2.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_solve_entail_wit_5_2_split_goal_1.
-  - Goal_apply proof_of_solve_entail_wit_5_2_split_goal_2.
-  - Goal_apply proof_of_solve_entail_wit_5_2_split_goal_3.
-Qed.
-
-Lemma proof_of_solve_entail_wit_5_3_split_goal_1 : solve_entail_wit_5_3_split_goal_1.
-Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  pose proof (StackRowProgress_add_step_extend__cell_dp
-    n_pre table_2 i j ltac:(lia) ltac:(lia) ltac:(lia) PreH22)
-    as [Hprogress _].
-  cbn [StackCellIndex] in Hprogress.
-  repeat match goal with
-  | |- context [?x - 0] => replace (x - 0) with x by lia
-  end.
-  exact Hprogress.
-Qed.
-
-Lemma proof_of_solve_entail_wit_5_3_split_goal_2 : solve_entail_wit_5_3_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (StackRowProgress_add_step_extend__cell_dp
-    n_pre table_2 i j ltac:(lia) ltac:(lia) ltac:(lia) PreH22)
-    as [_ [Hcorrect _]].
-  cbn [StackCellIndex] in Hcorrect.
-  repeat match goal with
-  | |- context [?x - 0] => replace (x - 0) with x by lia
-  end.
-  exact Hcorrect.
-Qed.
-
-Lemma proof_of_solve_entail_wit_5_3_split_goal_3 : solve_entail_wit_5_3_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (StackRowProgress_add_step_extend__cell_dp
-    n_pre table_2 i j ltac:(lia) ltac:(lia) ltac:(lia) PreH22)
-    as [_ [_ Hbound]].
-  cbn [StackCellIndex] in Hbound.
-  repeat match goal with
-  | |- context [?x - 0] => replace (x - 0) with x by lia
-  end.
-  exact Hbound.
+  subst j retval_2.
+  repeat rewrite Z.add_0_r in *.
+  repeat rewrite Z.sub_0_r in *.
+  repeat rewrite Z.add_0_l in *.
+  set (v := Znth (StackCellIndex n_pre (i - 1) 1) table_2 0).
+  change (Znth ((i - 1) * (n_pre + 1) + 1) table_2 0) with v in *.
+  prop_apply (IntArray.seg_Zlength (&("f")) 0 (i * (n_pre + 1) + 1) (table_2 ++ [v])).
+  Intros_p Hlen.
+  rewrite Zlength_app_cons in Hlen.
+  assert (Hprefix : StackTablePrefix n_pre (table_2 ++ [v]) (i * (n_pre + 1) + 1)).
+  { apply StackTablePrefix_copy_boundary_extend__cell_dp; try lia; assumption. }
+  assert (Hsrc : 0 <= v <= 2 ^ (2 * (i - 1) + 1)).
+  { unfold v, StackCellIndex. apply PreH13. nia. }
+  pose proof (StackCellBound_copy_boundary__cell_dp i v ltac:(lia)
+    ltac:(repeat split; tauto || lia)) as [_ [_ Hv]].
+  pose proof (table_snoc_pointwise
+    (fun r c v => 0 <= v <= 2 ^ (2 * r + c))
+    n_pre table_2 i 0 v ltac:(lia) ltac:(lia) ltac:(lia)
+    ltac:(intros r c Hr Hc Hlt; apply PreH13;
+      unfold StackCellIndex in Hlt; lia) Hv) as Hbounds.
+  Exists (table_2 ++ [v]).
+  split_pure_spatial.
+  - cancel (IntArray.seg (&("f")) 0 (i * (n_pre + 1) + 1) (table_2 ++ [v])).
+    cancel (IntArray.undef_seg (&("f")) (i * (n_pre + 1) + 1) ((n_pre + 1) * (n_pre + 1))).
+    cancel (IntArray.undef_seg (&("f")) ((n_pre + 1) * (n_pre + 1)) 64).
+  - split_pures; dump_pre_spatial; try lia; try assumption.
+    intros r c Hrc. apply Hbounds; unfold StackCellIndex; lia.
 Qed.
 
 Lemma proof_of_solve_entail_wit_5_3 : solve_entail_wit_5_3.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_solve_entail_wit_5_3_split_goal_1.
-  - Goal_apply proof_of_solve_entail_wit_5_3_split_goal_2.
-  - Goal_apply proof_of_solve_entail_wit_5_3_split_goal_3.
+  LLM_pre_process ltac:(lia || int_auto).
+  subst retval_2 retval_3.
+  repeat rewrite Z.sub_0_r in *.
+  set (v := Znth (StackCellIndex n_pre (i - 1) (j + 1)) table_2 0 +
+            Znth (StackCellIndex n_pre i (j - 1)) table_2 0).
+  change (Znth ((i - 1) * (n_pre + 1) + (j + 1)) table_2 0 +
+          Znth (i * (n_pre + 1) + (j - 1)) table_2 0) with v in *.
+  prop_apply (IntArray.seg_Zlength (&("f")) 0 (i * (n_pre + 1) + j + 1) (table_2 ++ [v])).
+  Intros_p Hlen.
+  rewrite Zlength_app_cons in Hlen.
+  assert (Hprefix : StackTablePrefix n_pre (table_2 ++ [v]) (i * (n_pre + 1) + (j + 1))).
+  { apply StackTablePrefix_add_step_extend__cell_dp; try lia; assumption. }
+  assert (Hv : 0 <= v <= 2 ^ (2 * i + j)).
+  { unfold v. apply table_add_bound__cell_dp; try lia.
+    intros r c Hr Hc Hlt. apply PreH17.
+    unfold StackCellIndex in Hlt. lia. }
+  pose proof (table_snoc_pointwise
+    (fun r c v => 0 <= v <= 2 ^ (2 * r + c))
+    n_pre table_2 i j v ltac:(lia) ltac:(lia) ltac:(lia)
+    ltac:(intros r c Hr Hc Hlt; apply PreH17;
+      unfold StackCellIndex in Hlt; lia) Hv) as Hbounds.
+  Exists (table_2 ++ [v]).
+  replace (i * (n_pre + 1) + j + 1) with (i * (n_pre + 1) + (j + 1)) by lia.
+  split_pure_spatial.
+  - cancel (IntArray.seg (&("f")) 0 (i * (n_pre + 1) + (j + 1)) (table_2 ++ [v])).
+    cancel (IntArray.undef_seg (&("f")) (i * (n_pre + 1) + (j + 1)) ((n_pre + 1) * (n_pre + 1))).
+    cancel (IntArray.undef_seg (&("f")) ((n_pre + 1) * (n_pre + 1)) 64).
+  - split_pures; dump_pre_spatial; try lia; try assumption.
+    intros r c Hrc. apply Hbounds; unfold StackCellIndex; lia.
 Qed.
 
 Lemma proof_of_solve_entail_wit_6 : solve_entail_wit_6.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  assert (j = n_pre + 1) by lia. subst j.
+  replace (i * (n_pre + 1) + (n_pre + 1))
+    with ((i + 1) * (n_pre + 1)) in * by ring.
   Exists table_2.
-  replace (i * (n_pre + 1) + j + 1)
-    with (i * (n_pre + 1) + (j + 1)) by lia.
   split_pure_spatial.
-  - cancel (IntArray.seg f_pre 0 (i * (n_pre + 1) + (j + 1)) table_2).
-    cancel (IntArray.undef_seg f_pre (i * (n_pre + 1) + (j + 1))
-      ((n_pre + 1) * (n_pre + 1))).
-  - split_pures.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial. exact PreH9.
+  - cancel (IntArray.seg (&("f")) 0 ((i + 1) * (n_pre + 1)) table_2).
+    cancel (IntArray.undef_seg (&("f")) ((i + 1) * (n_pre + 1)) ((n_pre + 1) * (n_pre + 1))).
+    cancel (IntArray.undef_seg (&("f")) ((n_pre + 1) * (n_pre + 1)) 64).
+  - split_pures; dump_pre_spatial; try lia; assumption.
 Qed.
 
 Lemma proof_of_solve_entail_wit_7 : solve_entail_wit_7.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  assert (j = n_pre + 1) by lia.
-  subst j.
-  Exists table_2.
-  replace (i * (n_pre + 1) + (n_pre + 1))
-    with ((i + 1) * (n_pre + 1)) by ring.
-  split_pure_spatial.
-  - cancel (IntArray.seg f_pre 0 ((i + 1) * (n_pre + 1)) table_2).
-    cancel (IntArray.undef_seg f_pre ((i + 1) * (n_pre + 1))
-      ((n_pre + 1) * (n_pre + 1))).
-  - split_pures.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial.
-      unfold StackRowProgress in PreH8.
-      unfold StackRowsDone.
-      destruct PreH8 as [Hi [_ Hprefix]].
-      split; [lia |].
-      replace ((i + 1) * (n_pre + 1))
-        with (i * (n_pre + 1) + (n_pre + 1)) by ring.
-      exact Hprefix.
-Qed.
-
-Lemma proof_of_solve_entail_wit_9 : solve_entail_wit_9.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   replace i with (n_pre + 1) in * by lia.
   Exists table_2.
   split_pure_spatial.
   - rewrite IntArray.undef_seg_empty.
-    sep_apply (IntArray.seg_to_full f_pre 0
-      ((n_pre + 1) * (n_pre + 1)) table_2).
-    replace (f_pre + 0 * sizeof (INT)) with f_pre by lia.
+    sep_apply (IntArray.seg_to_full (&("f")) 0 ((n_pre + 1) * (n_pre + 1)) table_2).
+    replace ((&("f")) + 0 * sizeof (INT)) with (&("f")) by lia.
     replace ((n_pre + 1) * (n_pre + 1) - 0)
       with ((n_pre + 1) * (n_pre + 1)) by lia.
-    cancel (IntArray.full f_pre
-      ((n_pre + 1) * (n_pre + 1)) table_2).
-  - split_pures.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial. lia.
-    + dump_pre_spatial. nia.
-    + dump_pre_spatial. nia.
-    + dump_pre_spatial. exact PreH6.
-    + dump_pre_spatial.
-      unfold StackRowsDone in PreH6.
-      destruct PreH6 as [_ Hprefix].
-      unfold StackTablePrefix in Hprefix.
-      destruct Hprefix as [_ [_ Hcells]].
-      specialize (Hcells n_pre 0 ltac:(lia) ltac:(lia) ltac:(
-        unfold StackCellIndex; nia)).
-      destruct Hcells as [_ Hcorrect].
-      unfold StackCellCorrect in Hcorrect.
-      unfold StackCellIndex in Hcorrect.
-      replace (n_pre * (n_pre + 1) + 0) with (n_pre * (n_pre + 1))
-        in Hcorrect by lia.
-      apply StackCompletionCount_zero_to_StackSequenceCount.
-      apply Hcorrect.
-      lia.
+    cancel (IntArray.full (&("f")) ((n_pre + 1) * (n_pre + 1)) table_2).
+    cancel (IntArray.undef_seg (&("f")) ((n_pre + 1) * (n_pre + 1)) 64).
+  - split_pures; dump_pre_spatial; try nia.
+    apply StackOperationWordCount_to_output; [lia |].
+    apply StackTablePrefix_result; assumption.
 Qed.
 
-Lemma proof_of_solve_return_wit_1_split_goal_1 : solve_return_wit_1_split_goal_1.
+Lemma proof_of_solve_entail_wit_8_split_goal_1 : solve_entail_wit_8_split_goal_1.
+Proof. LLM_pre_process ltac:(lia || int_auto). rewrite Z.add_0_r. dump_pre_spatial. assumption. Qed.
+Lemma proof_of_solve_entail_wit_8_split_goal_spatial : solve_entail_wit_8_split_goal_spatial.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  replace ((n_pre * (n_pre + 1)) + 0)
-    with (n_pre * (n_pre + 1)) by lia.
-  exact PreH9.
+  sep_apply (IntArray.full_to_undef_full (&("f")) ((n_pre + 1) * (n_pre + 1)) table).
+  sep_apply (IntArray.undef_full_to_undef_seg (&("f")) ((n_pre + 1) * (n_pre + 1))).
+  sep_apply (IntArray.undef_seg_merge_to_undef_full (&("f")) 0 ((n_pre + 1) * (n_pre + 1)) 64 ltac:(nia)).
+  replace ((&("f")) + 0 * sizeof (INT)) with (&("f")) by lia.
+  replace (64 - 0) with 64 by lia. entailer!.
 Qed.
-
-Lemma proof_of_solve_return_wit_1 : solve_return_wit_1.
+Lemma proof_of_solve_entail_wit_8 : solve_entail_wit_8.
 Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_solve_return_wit_1_split_goal_1.
+  unfold solve_entail_wit_8; left; intros. subst retval. rewrite Z.add_0_r.
+  sep_apply (IntArray.full_to_undef_full (&("f")) ((n_pre + 1) * (n_pre + 1)) table).
+  sep_apply (IntArray.undef_full_to_undef_seg (&("f")) ((n_pre + 1) * (n_pre + 1))).
+  sep_apply (IntArray.undef_seg_merge_to_undef_full (&("f")) 0 ((n_pre + 1) * (n_pre + 1)) 64 ltac:(nia)).
+  replace ((&("f")) + 0 * sizeof (INT)) with (&("f")) by lia.
+  replace (64 - 0) with 64 by lia. entailer!.
 Qed.

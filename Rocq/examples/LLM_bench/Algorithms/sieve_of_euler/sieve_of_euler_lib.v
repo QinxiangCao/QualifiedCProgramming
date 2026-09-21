@@ -6,6 +6,8 @@ Require Import AUXLib.ListLib.
 Import ListNotations.
 Local Open Scope Z_scope.
 
+Require Import Coq.ZArith.Znumtheory Coq.ZArith.Wf_Z MaxMinLib.MaxMin SetsClass.SetsClass AUXLib.MonotonicList Coq.Setoids.Setoid.
+Module Legacy.
 (** Mathematical primality, independent of the concrete sieve arrays. *)
 Definition StrictPrime (p : Z) : Prop :=
   1 < p /\
@@ -199,8 +201,6 @@ Definition EulerInnerMarkedState
   (~ Z.divide (Znth (j - 1) primes 0) current ->
    EulerInnerState n current (j + 1) tot flags primes).
 
-Require Import Coq.ZArith.Znumtheory.
-Require Import Coq.ZArith.Wf_Z.
 Lemma StrictPrime_two__core_invariants :
   StrictPrime 2.
 Proof.
@@ -1705,3 +1705,356 @@ Proof.
       * unfold selected in Hnondivide_exit.
         exact Hnondivide_exit.
 Qed.
+
+End Legacy.
+
+Module Modern.
+Import Legacy.
+Definition StrictPrime : Z -> Prop := Legacy.StrictPrime.
+Definition ProductIndex := Legacy.ProductIndex.
+Definition FlagValue := Legacy.FlagValue.
+Definition LeastPrimeFactor (p k : Z) : Prop :=
+  min_value_of_subset Z.le (fun q => StrictPrime q /\ Z.divide q k)
+    (fun q : Z => q) p.
+
+Definition FlagEntryFor (k value : Z) : Prop :=
+  (StrictPrime k /\ value = k) \/
+  (~ StrictPrime k /\ LeastPrimeFactor value k).
+
+Definition LeastPrimeFlagList (n : Z) (flags : list Z) : Prop :=
+  forall k : Z,
+    2 <= k /\ k <= n ->
+    FlagEntryFor k (Znth (k - 2) flags 0).
+
+Definition PrimePrefixList (bound tot : Z) (primes : list Z) : Prop :=
+  Forall StrictPrime (sublist 0 tot primes) /\
+  Forall (Z.ge bound) (sublist 0 tot primes) /\
+  (forall p : Z,
+    2 <= p /\ p <= bound ->
+    (StrictPrime p <->
+     exists pos : Z,
+       1 <= pos /\ pos <= tot /\
+       Znth (pos - 1) primes 0 = p)) /\
+  (forall p q : Z,
+    1 <= p /\ p < q /\ q <= tot ->
+    Znth (p - 1) primes 0 < Znth (q - 1) primes 0).
+
+Definition PriorNonDivisibility
+    (current j : Z) (primes : list Z) : Prop :=
+  Forall (fun p => ~ Z.divide p current) (sublist 0 (j - 1) primes).
+
+Definition CurrentProductMarked
+    (n current pos : Z) (flags primes : list Z) : Prop :=
+  2 <= ProductIndex current pos primes /\
+  ProductIndex current pos primes <= n ->
+  FlagValue flags (ProductIndex current pos primes) =
+    Znth (pos - 1) primes 0 /\
+  FlagValue flags (ProductIndex current pos primes) <>
+    ProductIndex current pos primes /\
+  FlagEntryFor (ProductIndex current pos primes)
+    (FlagValue flags (ProductIndex current pos primes)).
+
+Definition CurrentBaseProgress
+    (n current j : Z) (flags primes : list Z) : Prop :=
+  forall pos : Z,
+    1 <= pos /\ pos < j ->
+    CurrentProductMarked n current pos flags primes.
+
+Definition EarlierLinearProduct
+    (frontier k tot : Z) (primes : list Z) : Prop :=
+  exists base pos : Z,
+    2 <= base /\ base < frontier /\
+    1 <= pos /\ pos <= tot /\
+    Znth (pos - 1) primes 0 <= base /\
+    PriorNonDivisibility base pos primes /\
+    k = base * Znth (pos - 1) primes 0.
+
+Definition FutureSelfCompleteness
+    (frontier k tot : Z) (primes : list Z) : Prop :=
+  ~ EarlierLinearProduct frontier k tot primes.
+
+Definition FutureFlagState
+    (frontier k tot : Z) (flags primes : list Z) : Prop :=
+  (FlagValue flags k <> k -> FlagEntryFor k (FlagValue flags k)) /\
+  (FlagValue flags k = k -> FutureSelfCompleteness frontier k tot primes).
+
+Definition EulerFlagState
+    (n frontier tot : Z) (flags primes : list Z) : Prop :=
+  forall k : Z,
+    2 <= k /\ k <= n ->
+    (k <= frontier -> FlagEntryFor k (FlagValue flags k)) /\
+    (frontier < k -> FutureFlagState frontier k tot flags primes).
+
+Definition EulerSieveResult
+    (n tot : Z) (flags primes : list Z) : Prop :=
+  LeastPrimeFlagList n flags /\
+  PrimePrefixList n tot primes.
+
+Definition EulerInitPrefix (n next : Z) (flags : list Z) : Prop :=
+  forall k : Z,
+    2 <= k /\ k < next ->
+    Znth (k - 2) flags 0 = k.
+
+Definition EulerOuterState
+    (n next tot : Z) (flags primes : list Z) : Prop :=
+  EulerFlagState n next tot flags primes /\
+  PrimePrefixList (next - 1) tot primes.
+
+Definition EulerInnerState
+    (n current j tot : Z) (flags primes : list Z) : Prop :=
+  EulerFlagState n current tot flags primes /\
+  PrimePrefixList current tot primes /\
+  CurrentBaseProgress n current j flags primes /\
+  PriorNonDivisibility current j primes /\
+  (ProductIndex current j primes > n ->
+   EulerOuterState n (current + 1) tot flags primes).
+
+Definition EulerInnerMarkedState
+    (n current j tot : Z) (flags primes : list Z) : Prop :=
+  EulerInnerState n current j tot flags primes /\
+  FlagEntryFor (ProductIndex current j primes)
+    (Znth (j - 1) primes 0) /\
+  FlagValue flags (ProductIndex current j primes) =
+    Znth (j - 1) primes 0 /\
+  CurrentBaseProgress n current (j + 1) flags primes /\
+  (Z.divide (Znth (j - 1) primes 0) current ->
+   EulerOuterState n (current + 1) tot flags primes) /\
+  (~ Z.divide (Znth (j - 1) primes 0) current ->
+   EulerInnerState n current (j + 1) tot flags primes).
+
+Lemma least_factor_legacy p k : LeastPrimeFactor p k <-> Legacy.LeastPrimeFactor p k.
+Proof.
+  unfold LeastPrimeFactor, Legacy.LeastPrimeFactor, StrictPrime,
+    min_value_of_subset, min_object_of_subset. sets_unfold.
+  split.
+  - intros [q [[[Hq Hd] Hmin] Heq]]. subst q. split; [exact Hq|].
+    split; [exact Hd|]. intros r Hr Hrd. apply Hmin; auto.
+  - intros [Hp [Hd Hmin]]. exists p. split; [split; [auto|]|reflexivity].
+    intros q [Hq Hqd]. apply Hmin; assumption.
+Qed.
+Lemma flag_entry_legacy k value : FlagEntryFor k value <-> Legacy.FlagEntryFor k value.
+Proof. unfold FlagEntryFor, Legacy.FlagEntryFor. rewrite least_factor_legacy. reflexivity. Qed.
+Lemma flag_list_facts n flags :
+  Legacy.LeastPrimeFlagList n flags <->
+  Zlength flags = n-1 /\ LeastPrimeFlagList n flags.
+Proof.
+  unfold Legacy.LeastPrimeFlagList, LeastPrimeFlagList.
+  setoid_rewrite flag_entry_legacy. reflexivity.
+Qed.
+Lemma prefix_Forall (P : Z -> Prop) primes tot :
+  0 <= tot <= Zlength primes ->
+  (Forall P (sublist 0 tot primes) <->
+   forall pos, 1 <= pos /\ pos <= tot -> P (Znth (pos-1) primes 0)).
+Proof.
+  intros Htot. rewrite Forall_Znth with (d:=0).
+  rewrite Zlength_sublist by lia. split.
+  - intros H pos Hp. specialize (H (pos-1) ltac:(lia)).
+    rewrite Znth_sublist in H by lia. replace (pos-1+0) with (pos-1) in H by lia. exact H.
+  - intros H pos Hp. rewrite Znth_sublist by lia.
+    replace (pos+0) with pos by lia.
+    specialize (H (pos+1) ltac:(lia)). replace (pos+1-1) with pos in H by lia. exact H.
+Qed.
+Lemma prime_prefix_legacy bound tot primes :
+  0 <= tot <= Zlength primes ->
+  (PrimePrefixList bound tot primes <-> Legacy.PrimePrefixList bound tot primes).
+Proof.
+  intros Htot. unfold PrimePrefixList, Legacy.PrimePrefixList.
+  rewrite !prefix_Forall by lia. unfold StrictPrime.
+  split.
+  - intros [Hp [Hb Hrest]]. split; [lia|]. split; [|exact Hrest].
+    intros pos Hpos. split; [apply Hp; exact Hpos|].
+    specialize (Hb pos Hpos). lia.
+  - intros [Ht [Hvals Hrest]]. split; [|split]; try exact Hrest;
+      intros pos Hpos; specialize (Hvals pos Hpos); intuition lia.
+Qed.
+Lemma prior_nondiv_legacy current j primes :
+  1 <= j <= Zlength primes+1 ->
+  (PriorNonDivisibility current j primes <-> Legacy.PriorNonDivisibility current j primes).
+Proof.
+  intros Hj. unfold PriorNonDivisibility, Legacy.PriorNonDivisibility.
+  rewrite prefix_Forall by lia. split; intros H pos Hp; apply H; lia.
+Qed.
+Lemma current_marked_legacy n current pos flags primes :
+  CurrentProductMarked n current pos flags primes <->
+  Legacy.CurrentProductMarked n current pos flags primes.
+Proof.
+  unfold CurrentProductMarked, Legacy.CurrentProductMarked.
+  setoid_rewrite flag_entry_legacy. reflexivity.
+Qed.
+Lemma current_progress_legacy n current j flags primes :
+  CurrentBaseProgress n current j flags primes <->
+  Legacy.CurrentBaseProgress n current j flags primes.
+Proof.
+  unfold CurrentBaseProgress, Legacy.CurrentBaseProgress.
+  setoid_rewrite current_marked_legacy. reflexivity.
+Qed.
+
+Lemma earlier_product_legacy frontier k tot primes :
+  0 <= tot <= Zlength primes ->
+  (EarlierLinearProduct frontier k tot primes <->
+   Legacy.EarlierLinearProduct frontier k tot primes).
+Proof.
+  intros Htot. unfold EarlierLinearProduct, Legacy.EarlierLinearProduct.
+  split.
+  - intros [base [pos [Hbase [Hfront [Hpos [Hpost [Hvalue [Hprior Hprod]]]]]]]].
+    exists base, pos. split; [exact Hbase|]. split; [exact Hfront|].
+    split; [exact Hpos|]. split; [exact Hpost|]. split; [exact Hvalue|].
+    split; [|exact Hprod].
+    apply (proj1 (prior_nondiv_legacy base pos primes ltac:(lia))); exact Hprior.
+  - intros [base [pos [Hbase [Hfront [Hpos [Hpost [Hvalue [Hprior Hprod]]]]]]]].
+    exists base, pos. split; [exact Hbase|]. split; [exact Hfront|].
+    split; [exact Hpos|]. split; [exact Hpost|]. split; [exact Hvalue|].
+    split; [|exact Hprod].
+    apply (proj2 (prior_nondiv_legacy base pos primes ltac:(lia))); exact Hprior.
+Qed.
+Lemma future_self_legacy frontier k tot primes :
+  0 <= tot <= Zlength primes ->
+  (FutureSelfCompleteness frontier k tot primes <->
+   Legacy.FutureSelfCompleteness frontier k tot primes).
+Proof.
+  intros Htot. unfold FutureSelfCompleteness, Legacy.FutureSelfCompleteness.
+  rewrite earlier_product_legacy by exact Htot. reflexivity.
+Qed.
+Lemma future_flag_legacy frontier k tot flags primes :
+  0 <= tot <= Zlength primes ->
+  (FutureFlagState frontier k tot flags primes <->
+   Legacy.FutureFlagState frontier k tot flags primes).
+Proof.
+  intros Htot. unfold FutureFlagState, Legacy.FutureFlagState.
+  rewrite flag_entry_legacy, future_self_legacy by exact Htot. reflexivity.
+Qed.
+Lemma flag_state_facts n frontier tot flags primes :
+  0 <= tot <= Zlength primes ->
+  (Legacy.EulerFlagState n frontier tot flags primes <->
+   Zlength flags = n-1 /\ EulerFlagState n frontier tot flags primes).
+Proof.
+  intros Htot. unfold Legacy.EulerFlagState, EulerFlagState.
+  split; intros [Hlen H]; split; [exact Hlen| |exact Hlen|]; intros k Hk;
+    specialize (H k Hk); destruct H as [Hpast Hfuture]; split; intro Hside.
+  - apply (proj2 (flag_entry_legacy _ _)); apply Hpast; exact Hside.
+  - apply (proj2 (future_flag_legacy _ _ _ _ _ Htot)); apply Hfuture; exact Hside.
+  - apply (proj1 (flag_entry_legacy _ _)); apply Hpast; exact Hside.
+  - apply (proj1 (future_flag_legacy _ _ _ _ _ Htot)); apply Hfuture; exact Hside.
+Qed.
+Lemma init_prefix_facts n next flags :
+  Legacy.EulerInitPrefix n next flags <->
+  Zlength flags = n-1 /\ EulerInitPrefix n next flags.
+Proof. reflexivity. Qed.
+Lemma outer_state_facts n next tot flags primes :
+  Legacy.EulerOuterState n next tot flags primes <->
+  Zlength flags = n-1 /\ Zlength primes = n /\
+  2 <= next <= n+1 /\ 0 <= tot < next /\
+  EulerOuterState n next tot flags primes.
+Proof.
+  unfold Legacy.EulerOuterState, EulerOuterState. split.
+  - intros [Hflags [Hlen [Hnext [Hnextn [Htot [Htotn [Hprefix Hbounds]]]]]]].
+    apply (proj1 (flag_state_facts n next tot flags primes ltac:(lia))) in Hflags.
+    destruct Hflags as [Hfl Hfm].
+    split; [exact Hfl|]. split; [exact Hlen|]. split; [lia|]. split; [lia|].
+    split; [exact Hfm|]. apply (proj2 (prime_prefix_legacy (next-1) tot primes ltac:(lia))); exact Hprefix.
+  - intros [Hfl [Hlen [Hnext [Htot [Hfm Hpm]]]]].
+    assert (Hprefix : Legacy.PrimePrefixList (next-1) tot primes).
+    { apply (proj1 (prime_prefix_legacy (next-1) tot primes ltac:(lia))); exact Hpm. }
+    split.
+    + apply (proj2 (flag_state_facts n next tot flags primes ltac:(lia))). auto.
+    + split; [exact Hlen|]. split; [lia|]. split; [lia|]. split; [lia|]. split; [lia|].
+      split; [exact Hprefix|].
+      pose proof (Legacy.PrimeBounds_from_prefix__core_invariants _ _ _ Hprefix) as Hb.
+      intros pos Hp. specialize (Hb pos Hp). lia.
+Qed.
+Lemma inner_state_facts n current j tot flags primes :
+  Legacy.EulerInnerState n current j tot flags primes <->
+  Zlength flags = n-1 /\ Zlength primes = n /\
+  2 <= current <= n /\ 1 <= j <= tot /\ 0 < tot <= n /\ tot < current+1 /\
+  EulerInnerState n current j tot flags primes.
+Proof.
+  unfold Legacy.EulerInnerState, EulerInnerState. split.
+  - intros [Hflags [Hlen [Hc [Hcn [Hj [Hjt [Ht [Htn [Htc [Hp [Hb [Hprog [Hprior Hexit]]]]]]]]]]]]].
+    apply (proj1 (flag_state_facts n current tot flags primes ltac:(lia))) in Hflags.
+    destruct Hflags as [Hfl Hfm].
+    split; [exact Hfl|]. split; [exact Hlen|]. split; [lia|]. split; [lia|].
+    split; [lia|]. split; [exact Htc|]. split; [exact Hfm|]. split.
+    + apply (proj2 (prime_prefix_legacy current tot primes ltac:(lia))); exact Hp.
+    + split; [apply (proj2 (current_progress_legacy _ _ _ _ _)); exact Hprog|].
+      split; [apply (proj2 (prior_nondiv_legacy current j primes ltac:(lia))); exact Hprior|].
+      intros Hguard. specialize (Hexit Hguard). pose proof (proj1 (outer_state_facts n (current+1) tot flags primes) Hexit) as HF. tauto.
+  - intros [Hfl [Hlen [Hc [Hj [Ht [Htc [Hfm [Hp [Hprog [Hprior Hexit]]]]]]]]]].
+    assert (Hprefix : Legacy.PrimePrefixList current tot primes).
+    { apply (proj1 (prime_prefix_legacy current tot primes ltac:(lia))); exact Hp. }
+    split.
+    + apply (proj2 (flag_state_facts n current tot flags primes ltac:(lia))). auto.
+    + split; [exact Hlen|]. split; [lia|]. split; [lia|]. split; [lia|]. split; [lia|].
+      split; [lia|]. split; [lia|]. split; [exact Htc|]. split; [exact Hprefix|].
+      split; [apply Legacy.PrimeBounds_from_prefix__core_invariants; exact Hprefix|].
+      split; [apply (proj1 (current_progress_legacy _ _ _ _ _)); exact Hprog|].
+      split; [apply (proj1 (prior_nondiv_legacy current j primes ltac:(lia))); exact Hprior|].
+      intros Hguard. apply (proj2 (outer_state_facts n (current+1) tot flags primes)).
+      split; [exact Hfl|]. split; [exact Hlen|]. split; [lia|]. split; [lia|]. exact (Hexit Hguard).
+Qed.
+
+Lemma marked_state_facts n current j tot flags primes :
+  Legacy.EulerInnerMarkedState n current j tot flags primes <->
+  Zlength flags = n-1 /\ Zlength primes = n /\
+  2 <= current <= n /\ 1 <= j <= tot /\ 0 < tot <= n /\ tot < current+1 /\
+  ProductIndex current j primes <= n /\
+  (~ Z.divide (Znth (j-1) primes 0) current -> j+1 <= tot) /\
+  EulerInnerMarkedState n current j tot flags primes.
+Proof.
+  unfold Legacy.EulerInnerMarkedState, EulerInnerMarkedState. split.
+  - intros [Hinner [Hprod [Hentry [Hvalue [Hprogress [Hdiv Hnondiv]]]]]].
+    apply inner_state_facts in Hinner.
+    destruct Hinner as [Hfl [Hpl [Hc [Hj [Ht [Htc Hinner]]]]]].
+    split; [exact Hfl|]. split; [exact Hpl|]. split; [exact Hc|]. split; [exact Hj|].
+    split; [exact Ht|]. split; [exact Htc|]. split; [exact Hprod|]. split.
+    + intro Hnot. specialize (Hnondiv Hnot). apply inner_state_facts in Hnondiv. tauto.
+    + split; [exact Hinner|]. split; [apply (proj2 (flag_entry_legacy _ _)); exact Hentry|].
+      split; [exact Hvalue|]. split; [apply (proj2 (current_progress_legacy _ _ _ _ _)); exact Hprogress|].
+      split.
+      * intro Hd. specialize (Hdiv Hd). apply outer_state_facts in Hdiv. tauto.
+      * intro Hnd. specialize (Hnondiv Hnd). apply inner_state_facts in Hnondiv. tauto.
+  - intros [Hfl [Hpl [Hc [Hj [Ht [Htc [Hprod [Hnext [Hinner [Hentry [Hvalue [Hprogress [Hdiv Hnondiv]]]]]]]]]]]]].
+    split.
+    + apply (proj2 (inner_state_facts n current j tot flags primes)).
+      split; [exact Hfl|]. split; [exact Hpl|]. split; [exact Hc|].
+      split; [exact Hj|]. split; [exact Ht|]. split; [exact Htc|]. exact Hinner.
+    + split; [exact Hprod|]. split; [apply (proj1 (flag_entry_legacy _ _)); exact Hentry|].
+      split; [exact Hvalue|]. split; [apply (proj1 (current_progress_legacy _ _ _ _ _)); exact Hprogress|].
+      split.
+      * intro Hd. apply outer_state_facts. split; [exact Hfl|]. split; [exact Hpl|].
+        split; [lia|]. split; [lia|]. exact (Hdiv Hd).
+      * intro Hnd. apply inner_state_facts. split; [exact Hfl|]. split; [exact Hpl|].
+        split; [exact Hc|]. split; [specialize (Hnext Hnd); lia|].
+        split; [exact Ht|]. split; [exact Htc|]. exact (Hnondiv Hnd).
+Qed.
+Lemma sieve_result_facts n tot flags primes :
+  Legacy.EulerSieveResult n tot flags primes <->
+  Zlength flags = n-1 /\ Zlength primes = n /\ 0 <= tot <= n /\
+  EulerSieveResult n tot flags primes.
+Proof.
+  unfold Legacy.EulerSieveResult, EulerSieveResult. split.
+  - intros [Hfl [Hpl [Ht [Htn [Hflags Hp]]]]].
+    split; [exact Hfl|]. split; [exact Hpl|]. split; [lia|]. split.
+    + apply flag_list_facts in Hflags. tauto.
+    + apply (proj2 (prime_prefix_legacy n tot primes ltac:(lia))); exact Hp.
+  - intros [Hfl [Hpl [Ht [Hflags Hp]]]].
+    split; [exact Hfl|]. split; [exact Hpl|]. split; [lia|]. split; [lia|]. split.
+    + apply flag_list_facts. auto.
+    + apply (proj1 (prime_prefix_legacy n tot primes ltac:(lia))); exact Hp.
+Qed.
+Lemma init_prefix_math n next flags : Legacy.EulerInitPrefix n next flags -> EulerInitPrefix n next flags.
+Proof. intros H. exact (proj2 (proj1 (init_prefix_facts n next flags) H)). Qed.
+Lemma outer_state_math n next tot flags primes :
+  Legacy.EulerOuterState n next tot flags primes -> EulerOuterState n next tot flags primes.
+Proof. intros H. pose proof (proj1 (outer_state_facts n next tot flags primes) H). tauto. Qed.
+Lemma inner_state_math n current j tot flags primes :
+  Legacy.EulerInnerState n current j tot flags primes -> EulerInnerState n current j tot flags primes.
+Proof. intros H. pose proof (proj1 (inner_state_facts n current j tot flags primes) H). tauto. Qed.
+Lemma marked_state_math n current j tot flags primes :
+  Legacy.EulerInnerMarkedState n current j tot flags primes -> EulerInnerMarkedState n current j tot flags primes.
+Proof. intros H. pose proof (proj1 (marked_state_facts n current j tot flags primes) H). tauto. Qed.
+Lemma sieve_result_math n tot flags primes :
+  Legacy.EulerSieveResult n tot flags primes -> EulerSieveResult n tot flags primes.
+Proof. intros H. pose proof (proj1 (sieve_result_facts n tot flags primes) H). tauto. Qed.
+
+End Modern.
+Export Legacy Modern.

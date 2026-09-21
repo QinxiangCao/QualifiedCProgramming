@@ -29,7 +29,7 @@ The annotation must not restate the binary-search loop. It separates three kinds
 
 ## Recommended specification shape
 
-Reuse `MaxMinLib` first. `CanSplit`, `CannotSplit`, and `MinimizedMaxSegmentSum` respectively name the decision, negative decision, and final optimum required by the problem and helper. Do not add synonymous wrappers around them:
+Extrema must reuse `min_value_of_subset` / `max_value_of_subset` from `MaxMinLib`. `CanSplit`, `CannotSplit`, and `MinimizedMaxSegmentSum` respectively name the decision, negative decision, and final optimum required by the problem and helper. Do not add synonymous wrappers around them:
 
 ```coq
 Definition CanSplit (l : list Z) (m cap : Z) : Prop := ...
@@ -96,7 +96,7 @@ Prove these connections as proof-side helper lemmas. The annotation retains only
 ## Checklist
 
 - Does the return value of `check` expose a `CanX` / `CannotX` decision property?
-- Does the main problem directly use the existing extrema interface, or retain only one `Minimized...` / `Maximized...` problem predicate?
+- Do extrema in the main problem use `min_value_of_subset` / `max_value_of_subset` from `MaxMinLib`, including inside any necessary `Minimized...` / `Maximized...` problem predicate?
 - Does the main-loop invariant state that the true answer lies in `[left, right]`?
 - Do the `ok` branches retain the feasible/infeasible fact, `mid` range, and boundary facts?
 - Do the C annotations describe mathematical state instead of tracking a Rocq binary-search program?

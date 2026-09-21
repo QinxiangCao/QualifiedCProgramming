@@ -29,9 +29,6 @@ Proof. Admitted.
 Lemma proof_of_climbStairs_safety_wit_3 : climbStairs_safety_wit_3.
 Proof. Admitted. 
 
-Lemma proof_of_climbStairs_safety_wit_4 : climbStairs_safety_wit_4.
-Proof. Admitted. 
-
 Lemma proof_of_climbStairs_safety_wit_5 : climbStairs_safety_wit_5.
 Proof. Admitted. 
 

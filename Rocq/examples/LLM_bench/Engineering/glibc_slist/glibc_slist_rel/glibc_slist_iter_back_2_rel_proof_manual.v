@@ -29,6 +29,31 @@ Require Import glibc_slist_lib.
 Require Import glibc_slist_iter_back_2_rel_lib.
 Local Open Scope sac.
 
+Local Lemma cleanup_iter_back_sum_bounds :
+  forall X lpre ldone s v,
+  safeExec ATrue
+    (bind (glibc_slist_clean_iter_back_2_M_loop2 (v :: nil) s)
+      (glibc_slist_clean_iter_back_2_M_loop2_cont
+        (app (app lpre (v :: nil)) ldone) (app lpre (v :: nil)) s)) X ->
+  -2147483648 <= s + v /\ s + v <= 2147483647.
+Proof.
+  intros X lpre ldone s v Hsafe.
+  unfold glibc_slist_clean_iter_back_2_M_loop2 in Hsafe at 1.
+  prog_nf in Hsafe.
+  unfold glibc_slist_clean_iter_back_2_M_loop2_aux in Hsafe at 1.
+  prog_nf in Hsafe.
+  unfold_loop in Hsafe.
+  prog_nf in Hsafe.
+  unfold glibc_slist_clean_iter_back_2_M_loop2_body in Hsafe at 1.
+  prog_nf in Hsafe.
+  apply safeExec_choice_l in Hsafe.
+  safe_step Hsafe.
+  unfold glibc_slist_clean_iter_back_2_M_loop2_M1 in Hsafe at 1.
+  prog_nf in Hsafe.
+  safe_step Hsafe.
+  assumption.
+Qed.
+
 Lemma proof_of_glibc_slist_clean_iter_back_2_entail_wit_1 : glibc_slist_clean_iter_back_2_entail_wit_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
@@ -68,6 +93,7 @@ Proof.
     Intros y.
     Exists y.
     Exists ldone_2.
+    Exists (@nil Z).
     Exists d.
     Exists l0.
     Exists (d :: l0).
@@ -78,6 +104,7 @@ Proof.
         cancel (&(x_pre # "list" ->ₛ "data") # Int |-> d).
         cancel (sllseg y st l0).
         cancel (sll st ldone_2).
+      * dump_pre_spatial. reflexivity.
     + split_pure_and_solve.
       unfold glibc_slist_clean_iter_back_2_M_loop1 in PreH2 at 1.
       prog_nf in PreH2.
@@ -130,30 +157,7 @@ Lemma proof_of_glibc_slist_clean_iter_back_2_entail_wit_3 : glibc_slist_clean_it
 Proof.
   LLM_pre_process ltac:(int_auto).
   subst_eqs.
-  Exists y_2.
-  Exists ldone_2.
-  Exists (@nil Z).
-  Exists v.
-  Exists lrest.
-  Exists (v :: lrest).
-  split_pure_spatial.
-  - simpl sllseg.
-    repeat (split_pure_spatial || split_pures).
-    + Intros_p Hself.
-      repeat (split_pure_spatial || split_pures).
-      * cancel (&(x_pre # "list" ->ₛ "next") # Ptr |-> y_2).
-        cancel (&(x_pre # "list" ->ₛ "data") # Int |-> v).
-        cancel (sllseg y_2 st lrest).
-        cancel (sll st ldone_2).
-    + dump_pre_spatial. reflexivity.
-    + dump_pre_spatial. reflexivity.
-  - split_pure_and_solve.
-Qed.
-Lemma proof_of_glibc_slist_clean_iter_back_2_entail_wit_4 : glibc_slist_clean_iter_back_2_entail_wit_4.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  subst_eqs.
-  destruct lrest_3 as [| vnext lrest_next].
+  destruct lrest_2 as [| vnext lrest_next].
   - simpl sllseg.
     Intros.
     subst; contradiction.
@@ -161,15 +165,15 @@ Proof.
     Intros y.
     Exists y.
     Exists ldone_2.
-    Exists (app lpre_2 (v_3 :: nil)).
+    Exists (app lpre_2 (v_2 :: nil)).
     Exists vnext.
     Exists lrest_next.
     Exists (vnext :: lrest_next).
     split_pure_spatial.
-    + sep_apply_left (sllseg_len1 node v_3 y_2 PreH4).
-      sep_apply_left (sllseg_sllseg x_pre node y_2 lpre_2 (v_3 :: nil)).
+    + sep_apply_left (sllseg_len1 node v_2 y_2 PreH4).
+      sep_apply_left (sllseg_sllseg x_pre node y_2 lpre_2 (v_2 :: nil)).
       cancel.
-      change (app lpre_2 (v_3 :: nil)) with (lpre_2 +:: v_3).
+      change (app lpre_2 (v_2 :: nil)) with (lpre_2 +:: v_2).
       reflexivity.
     + split_pure_and_solve.
       unfold glibc_slist_clean_iter_back_2_M_loop2 in PreH3 at 1.
@@ -185,10 +189,10 @@ Proof.
         prog_nf in PreH3.
         unfold continue in PreH3 at 1.
         eapply (safeExec_proequiv _
-          (r <- glibc_slist_clean_iter_back_2_M_loop2_aux (vnext :: lrest_next, s_2);;
+          (r <- glibc_slist_clean_iter_back_2_M_loop2_aux (vnext :: lrest_next, s);;
            glibc_slist_clean_iter_back_2_M_loop2_cont
-             (app (app lpre_2 (v_3 :: vnext :: lrest_next)) ldone_2)
-             (app lpre_2 (v_3 :: vnext :: lrest_next)) s_2 r)) in PreH3.
+             (app (app lpre_2 (v_2 :: vnext :: lrest_next)) ldone_2)
+             (app lpre_2 (v_2 :: vnext :: lrest_next)) s r)) in PreH3.
         2:{
           unfold glibc_slist_clean_iter_back_2_M_loop2_aux.
           rewrite bind_ret_l.
@@ -196,18 +200,18 @@ Proof.
         }
         dump_pre_spatial.
         unfold glibc_slist_clean_iter_back_2_M_loop2.
-        pose proof (app_assoc lpre_2 (v_3 :: nil) (vnext :: lrest_next)) as Happ.
+        pose proof (app_assoc lpre_2 (v_2 :: nil) (vnext :: lrest_next)) as Happ.
         simpl in Happ.
         eapply (safeExec_proequiv _
-          (r <- glibc_slist_clean_iter_back_2_M_loop2_aux (vnext :: lrest_next, s_2);;
+          (r <- glibc_slist_clean_iter_back_2_M_loop2_aux (vnext :: lrest_next, s);;
            glibc_slist_clean_iter_back_2_M_loop2_cont
-             (app (app (app lpre_2 (v_3 :: nil)) (vnext :: lrest_next)) ldone_2)
-             (app (app lpre_2 (v_3 :: nil)) (vnext :: lrest_next)) s_2 r)) in PreH3.
+             (app (app (app lpre_2 (v_2 :: nil)) (vnext :: lrest_next)) ldone_2)
+             (app (app lpre_2 (v_2 :: nil)) (vnext :: lrest_next)) s r)) in PreH3.
         2:{
-          change (app (app lpre_2 (v_3 :: nil)) (vnext :: lrest_next))
-            with (lpre_2 +:: v_3 ++ vnext :: lrest_next).
-          change (app (app (app lpre_2 (v_3 :: nil)) (vnext :: lrest_next)) ldone_2)
-            with (app (lpre_2 +:: v_3 ++ vnext :: lrest_next) ldone_2).
+          change (app (app lpre_2 (v_2 :: nil)) (vnext :: lrest_next))
+            with (lpre_2 +:: v_2 ++ vnext :: lrest_next).
+          change (app (app (app lpre_2 (v_2 :: nil)) (vnext :: lrest_next)) ldone_2)
+            with (app (lpre_2 +:: v_2 ++ vnext :: lrest_next) ldone_2).
           rewrite <- Happ.
           reflexivity.
         }
@@ -247,77 +251,26 @@ Proof.
         -- inversion Hforall_tail; subst; assumption.
   Unshelve.
   * assert (Hrange_reassoc:
-      range (app (app lpre_2 (v_3 :: nil)) (vnext :: lrest_next))) by
+      range (app (app lpre_2 (v_2 :: nil)) (vnext :: lrest_next))) by
       (unfold range in *; destruct PreH8 as [Hlen Hforall]; split;
        [ assert (Hlen_eq:
-           Zlength (app (app lpre_2 (v_3 :: nil)) (vnext :: lrest_next)) =
-           Zlength (app lpre_2 (v_3 :: vnext :: lrest_next)))
-           by (clear - lpre_2 v_3 vnext lrest_next;
+           Zlength (app (app lpre_2 (v_2 :: nil)) (vnext :: lrest_next)) =
+           Zlength (app lpre_2 (v_2 :: vnext :: lrest_next)))
+           by (clear - lpre_2 v_2 vnext lrest_next;
                induction lpre_2 as [|a lpre IH]; simpl; auto;
                rewrite !Zlength_cons; rewrite IH; reflexivity);
          rewrite Hlen_eq; exact Hlen
        | revert Hforall;
-         clear - lpre_2 v_3 vnext lrest_next;
+         clear - lpre_2 v_2 vnext lrest_next;
          induction lpre_2 as [|a lpre IH]; intros Hforall; simpl in *; auto;
          inversion Hforall; subst; constructor; auto ]).
     dump_pre_spatial. exact Hrange_reassoc.
   * assert (Hprev:
       glibc_slist_clean_iter_back_2_prev_case node
-        (app lpre_2 (v_3 :: nil)) y_2 x_pre) by
+        (app lpre_2 (v_2 :: nil)) y_2 x_pre) by
       (unfold glibc_slist_clean_iter_back_2_prev_case; intros Hnode; contradiction).
     dump_pre_spatial. exact Hprev.
 Qed.
-Lemma proof_of_glibc_slist_clean_iter_back_2_entail_wit_5 : glibc_slist_clean_iter_back_2_entail_wit_5.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  subst_eqs.
-  destruct lrest_2 as [| w rest].
-  - simpl in PreH3.
-    Exists ldone_2.
-    Exists lpre_2.
-    Exists v_3.
-    Exists st.
-    split_pure_spatial.
-    + simpl (sllseg st st (@nil Z)).
-      simpl (sllseg x_pre x_pre (@nil Z)).
-      Intros Hst_self.
-      Intros Hx_self.
-      cancel.
-      repeat (split_pure_spatial || split_pures).
-      * simpl sllseg.
-        Exists Hst_self.
-        Exists Hx_self.
-        intros m Hm.
-        exact Hm.
-    + pose proof PreH3 as Hsum_safe.
-      unfold glibc_slist_clean_iter_back_2_M_loop2 in Hsum_safe at 1.
-      prog_nf in Hsum_safe.
-      unfold glibc_slist_clean_iter_back_2_M_loop2_aux in Hsum_safe at 1.
-      prog_nf in Hsum_safe.
-      unfold_loop in Hsum_safe.
-      prog_nf in Hsum_safe.
-      unfold glibc_slist_clean_iter_back_2_M_loop2_body in Hsum_safe at 1.
-      prog_nf in Hsum_safe.
-      apply safeExec_choice_l in Hsum_safe.
-      safe_step Hsum_safe.
-      * unfold glibc_slist_clean_iter_back_2_M_loop2_M1 in Hsum_safe at 1.
-        prog_nf in Hsum_safe.
-        safe_step Hsum_safe.
-        destruct H as [Hsum_lo Hsum_hi].
-        split_pure_and_solve.
-  - simpl sllseg.
-    destruct ldone_2 as [| done ldone].
-    + simpl sll.
-      Intros z.
-      subst; contradiction.
-    + simpl sll.
-      Intros z.
-      Intros y.
-      sep_apply (dup_store_int (&( st # "list" ->ₛ "data")) w done).
-      Intros Hdup.
-      contradiction.
-Qed. 
-
 Lemma proof_of_glibc_slist_clean_iter_back_2_derive_high_level_spec_by_low_level_spec :
   glibc_slist_clean_iter_back_2_derive_high_level_spec_by_low_level_spec.
 Proof.
@@ -352,10 +305,21 @@ Proof.
     + cancel.
     + split_pures; dump_pre_spatial; reflexivity.
 Qed.
-Lemma proof_of_glibc_slist_clean_iter_back_2_entail_wit_6 : glibc_slist_clean_iter_back_2_entail_wit_6.
+Lemma proof_of_glibc_slist_clean_iter_back_2_entail_wit_4 : glibc_slist_clean_iter_back_2_entail_wit_4.
 Proof.
   LLM_pre_process ltac:(int_auto).
   subst_eqs.
+  destruct lrest as [| w rest].
+  2: {
+    simpl sllseg.
+    destruct ldone_2 as [| done ldone0].
+    - simpl sll. Intros z. subst; contradiction.
+    - simpl sll. Intros z y0.
+      sep_apply (dup_store_int (&(st # "list" ->ₛ "data")) w done).
+      Intros Hdup. contradiction.
+  }
+  simpl (sllseg st st (@nil Z)). Intros.
+  pose proof (cleanup_iter_back_sum_bounds _ _ _ _ _ PreH4) as [Hsum_lo Hsum_hi].
   specialize (PreH13 eq_refl) as [Hlpre Hnode].
   subst_eqs.
   Exists v.
@@ -372,57 +336,68 @@ Proof.
         cancel (sll st ldone_2).
         cancel (&("node") # Ptr |-> x_pre).
         cancel (&("prev") # Ptr |-> 0).
-    + dump_pre_spatial. exact PreH4.
+    + dump_pre_spatial. exact PreH5.
   - split_pure_and_solve.
-    unfold glibc_slist_clean_iter_back_2_M_loop2 in PreH3 at 1.
-    prog_nf in PreH3.
-    unfold glibc_slist_clean_iter_back_2_M_loop2_aux in PreH3 at 1.
-    prog_nf in PreH3.
-    unfold_loop in PreH3.
-    prog_nf in PreH3.
-    unfold glibc_slist_clean_iter_back_2_M_loop2_body in PreH3 at 1.
-    prog_nf in PreH3.
-    apply safeExec_choice_l in PreH3.
-    safe_step PreH3.
-    + unfold glibc_slist_clean_iter_back_2_M_loop2_M1 in PreH3 at 1.
-      prog_nf in PreH3.
-      safe_step PreH3.
-      unfold break in PreH3 at 1.
-      prog_nf in PreH3.
-      unfold glibc_slist_clean_iter_back_2_M_loop2_cont in PreH3 at 1.
-      simpl app in PreH3.
-      prog_nf in PreH3.
-      unfold glibc_slist_clean_iter_back_2_M_loop1_after_inner_2 in PreH3 at 1.
-      simpl in PreH3.
-      prog_nf in PreH3.
-      safe_step PreH3.
-      unfold glibc_slist_clean_iter_back_2_M_loop1_aux in PreH3.
-      eapply safeExec_proequiv in PreH3.
+    unfold glibc_slist_clean_iter_back_2_M_loop2 in PreH4 at 1.
+    prog_nf in PreH4.
+    unfold glibc_slist_clean_iter_back_2_M_loop2_aux in PreH4 at 1.
+    prog_nf in PreH4.
+    unfold_loop in PreH4.
+    prog_nf in PreH4.
+    unfold glibc_slist_clean_iter_back_2_M_loop2_body in PreH4 at 1.
+    prog_nf in PreH4.
+    apply safeExec_choice_l in PreH4.
+    safe_step PreH4.
+    + unfold glibc_slist_clean_iter_back_2_M_loop2_M1 in PreH4 at 1.
+      prog_nf in PreH4.
+      safe_step PreH4.
+      unfold break in PreH4 at 1.
+      prog_nf in PreH4.
+      unfold glibc_slist_clean_iter_back_2_M_loop2_cont in PreH4 at 1.
+      simpl app in PreH4.
+      prog_nf in PreH4.
+      unfold glibc_slist_clean_iter_back_2_M_loop1_after_inner_2 in PreH4 at 1.
+      simpl in PreH4.
+      prog_nf in PreH4.
+      safe_step PreH4.
+      unfold glibc_slist_clean_iter_back_2_M_loop1_aux in PreH4.
+      eapply safeExec_proequiv in PreH4.
       2: {
         eapply programbind_Proper.
         - apply repeat_break_unfold.
         - reflexivity.
       }
-      prog_nf in PreH3.
-      unfold glibc_slist_clean_iter_back_2_M_loop1_body in PreH3 at 1.
-      prog_nf in PreH3.
-      unfold glibc_slist_clean_iter_back_2_loop1_guardP in PreH3.
-      simpl in PreH3.
-      eapply safeExec_proequiv in PreH3.
+      prog_nf in PreH4.
+      unfold glibc_slist_clean_iter_back_2_M_loop1_body in PreH4 at 1.
+      prog_nf in PreH4.
+      unfold glibc_slist_clean_iter_back_2_loop1_guardP in PreH4.
+      simpl in PreH4.
+      eapply safeExec_proequiv in PreH4.
       2: { apply bind_choice_equiv. }
-      safe_choice_l PreH3.
-      unfold break in PreH3.
-      prog_nf in PreH3.
-      unfold glibc_slist_clean_iter_back_2_M_loop1_end in PreH3.
-      prog_nf in PreH3.
+      safe_choice_l PreH4.
+      unfold break in PreH4.
+      prog_nf in PreH4.
+      unfold glibc_slist_clean_iter_back_2_M_loop1_end in PreH4.
+      prog_nf in PreH4.
       unfold maketuple.
       dump_pre_spatial.
-      exact PreH3.
+      exact PreH4.
 Qed. 
-Lemma proof_of_glibc_slist_clean_iter_back_2_entail_wit_7 : glibc_slist_clean_iter_back_2_entail_wit_7.
+Lemma proof_of_glibc_slist_clean_iter_back_2_entail_wit_5 : glibc_slist_clean_iter_back_2_entail_wit_5.
 Proof.
   LLM_pre_process ltac:(int_auto).
   subst_eqs.
+  destruct lrest as [| w rest].
+  2: {
+    simpl sllseg.
+    destruct ldone_2 as [| done ldone0].
+    - simpl sll. Intros z. subst; contradiction.
+    - simpl sll. Intros z y0.
+      sep_apply (dup_store_int (&(st # "list" ->ₛ "data")) w done).
+      Intros Hdup. contradiction.
+  }
+  simpl (sllseg st st (@nil Z)). Intros.
+  pose proof (cleanup_iter_back_sum_bounds _ _ _ _ _ PreH4) as [Hsum_lo Hsum_hi].
   Exists lpre.
   Exists (v :: ldone_2).
   split_pure_spatial.
@@ -435,28 +410,28 @@ Proof.
       cancel (&(node # "list" ->ₛ "next") # Ptr |-> st).
       cancel (sll st ldone_2).
       reflexivity.
-    + dump_pre_spatial. exact PreH4.
+    + dump_pre_spatial. exact PreH5.
   - split_pure_and_solve.
-    + unfold glibc_slist_clean_iter_back_2_M_loop2 in PreH3 at 1.
-      prog_nf in PreH3.
-      unfold glibc_slist_clean_iter_back_2_M_loop2_aux in PreH3 at 1.
-      prog_nf in PreH3.
-      unfold_loop in PreH3.
-      prog_nf in PreH3.
-      unfold glibc_slist_clean_iter_back_2_M_loop2_body in PreH3 at 1.
-      prog_nf in PreH3.
-      apply safeExec_choice_l in PreH3.
-      safe_step PreH3.
-      * unfold glibc_slist_clean_iter_back_2_M_loop2_M1 in PreH3 at 1.
-        prog_nf in PreH3.
-        safe_step PreH3.
-        unfold break in PreH3 at 1.
-        prog_nf in PreH3.
-        unfold glibc_slist_clean_iter_back_2_M_loop2_cont in PreH3 at 1.
-        simpl app in PreH3.
-        prog_nf in PreH3.
-        unfold glibc_slist_clean_iter_back_2_M_loop1_after_inner_2 in PreH3 at 1.
-        prog_nf in PreH3.
+    + unfold glibc_slist_clean_iter_back_2_M_loop2 in PreH4 at 1.
+      prog_nf in PreH4.
+      unfold glibc_slist_clean_iter_back_2_M_loop2_aux in PreH4 at 1.
+      prog_nf in PreH4.
+      unfold_loop in PreH4.
+      prog_nf in PreH4.
+      unfold glibc_slist_clean_iter_back_2_M_loop2_body in PreH4 at 1.
+      prog_nf in PreH4.
+      apply safeExec_choice_l in PreH4.
+      safe_step PreH4.
+      * unfold glibc_slist_clean_iter_back_2_M_loop2_M1 in PreH4 at 1.
+        prog_nf in PreH4.
+        safe_step PreH4.
+        unfold break in PreH4 at 1.
+        prog_nf in PreH4.
+        unfold glibc_slist_clean_iter_back_2_M_loop2_cont in PreH4 at 1.
+        simpl app in PreH4.
+        prog_nf in PreH4.
+        unfold glibc_slist_clean_iter_back_2_M_loop1_after_inner_2 in PreH4 at 1.
+        prog_nf in PreH4.
         assert (Hfront_all : forall (l : list Z) (last_value : Z),
           (fix front_and_last (l0 : list Z) : list Z * Z :=
              match l0 with
@@ -469,9 +444,9 @@ Proof.
               destruct tl as [| b tl]; simpl; auto;
               specialize (IH last_value); simpl in IH; rewrite IH; auto).
         specialize (Hfront_all lpre v) as Hfront.
-        rewrite Hfront in PreH3.
-        prog_nf in PreH3.
-        safe_step PreH3.
+        rewrite Hfront in PreH4.
+        prog_nf in PreH4.
+        safe_step PreH4.
         unfold glibc_slist_clean_iter_back_2_M_loop1 at 1.
         prog_nf.
         assert (Happ_all : forall (l : list Z) (last_value : Z) (done : list Z),
@@ -480,9 +455,9 @@ Proof.
           f_equal; apply IH.
         }
         specialize (Happ_all lpre v ldone_2) as Happ.
-        rewrite <- Happ in PreH3.
+        rewrite <- Happ in PreH4.
         dump_pre_spatial.
-        exact PreH3.
+        exact PreH4.
 Qed. 
 Lemma proof_of_glibc_slist_clean_iter_back_2_return_wit_1 : glibc_slist_clean_iter_back_2_return_wit_1.
 Proof.
@@ -531,3 +506,22 @@ Proof.
         Intros Hdup.
         contradiction.
 Qed. 
+
+Lemma proof_of_glibc_slist_clean_iter_back_2_safety_wit_4 : glibc_slist_clean_iter_back_2_safety_wit_4.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  subst_eqs.
+  destruct lrest as [| w rest].
+  2: {
+    simpl sllseg.
+    destruct ldone as [| done ldone0].
+    - simpl sll. Intros z. subst; contradiction.
+    - simpl sll. Intros z y0.
+      sep_apply (dup_store_int (&(st # "list" ->ₛ "data")) w done).
+      Intros Hdup. contradiction.
+  }
+  simpl (sllseg st st (@nil Z)). Intros.
+  pose proof (cleanup_iter_back_sum_bounds _ _ _ _ _ PreH3) as [Hsum_lo Hsum_hi].
+  split_pures; dump_pre_spatial; int_auto.
+Qed.
+

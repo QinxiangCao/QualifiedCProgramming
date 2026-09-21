@@ -16,6 +16,7 @@ Local Open Scope sets.
 Local Open Scope string_scope.
 Local Open Scope list.
 Import naive_C_Rules.
+Require Import SimpleC.EE.LLM_bench.Algorithms.optimized_selection_sort.optimized_selection_sort_lib.
 Local Open Scope sac.
 
 (*----- Function sortArray -----*)
@@ -56,7 +57,7 @@ forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (i: Z) (Pre
 .
 
 Definition sortArray_safety_wit_4 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j a 0) < (Znth i a 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (Permutation l a )) (PreH10 : (increasing (sublist (0) (i) (a)) )) (PreH11 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0)))) (PreH12 : forall (q_2: Z) , (((i <= q_2) /\ (q_2 < j)) -> ((Znth i a 0) <= (Znth q_2 a 0)))) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j a 0) < (Znth i a 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (Permutation l a )) (PreH10 : (increasing (sublist (0) (i) (a)) )) (PreH11 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0)))) (PreH12 : (selection_minimum (sublist (i) (j) (a)) (Znth i a 0) )) ,
   (IntArray.full nums_pre numsSize_pre (replace_Znth (j) ((Znth i a 0)) ((replace_Znth (i) ((Znth j a 0)) (a)))) )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -68,7 +69,7 @@ forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: 
 .
 
 Definition sortArray_safety_wit_5 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j a 0) >= (Znth i a 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (Permutation l a )) (PreH10 : (increasing (sublist (0) (i) (a)) )) (PreH11 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0)))) (PreH12 : forall (q_2: Z) , (((i <= q_2) /\ (q_2 < j)) -> ((Znth i a 0) <= (Znth q_2 a 0)))) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j a 0) >= (Znth i a 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (Permutation l a )) (PreH10 : (increasing (sublist (0) (i) (a)) )) (PreH11 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0)))) (PreH12 : (selection_minimum (sublist (i) (j) (a)) (Znth i a 0) )) ,
   (IntArray.full nums_pre numsSize_pre a )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -80,7 +81,7 @@ forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: 
 .
 
 Definition sortArray_safety_wit_6 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: Z) (PreH1 : (j >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : ((i + 1 ) <= j)) (PreH7 : (j <= numsSize_pre)) (PreH8 : (Permutation l a )) (PreH9 : (increasing (sublist (0) (i) (a)) )) (PreH10 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0)))) (PreH11 : forall (q_2: Z) , (((i <= q_2) /\ (q_2 < j)) -> ((Znth i a 0) <= (Znth q_2 a 0)))) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: Z) (PreH1 : (j >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : ((i + 1 ) <= j)) (PreH7 : (j <= numsSize_pre)) (PreH8 : (Permutation l a )) (PreH9 : (increasing (sublist (0) (i) (a)) )) (PreH10 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0)))) (PreH11 : (selection_minimum (sublist (i) (j) (a)) (Znth i a 0) )) ,
   ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
@@ -138,7 +139,7 @@ forall (numsSize_pre: Z) (l: (@list Z)) (PreH1 : ((Zlength (l)) = numsSize_pre))
 
 Definition sortArray_entail_wit_2 := 
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (i_2: Z) (PreH1 : (i_2 < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 <= numsSize_pre)) (PreH6 : (Permutation l a_2 )) (PreH7 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH8 : forall (p_2: Z) , forall (q_3: Z) , (((((0 <= p_2) /\ (p_2 < i_2)) /\ (i_2 <= q_3)) /\ (q_3 < numsSize_pre)) -> ((Znth p_2 a_2 0) <= (Znth q_3 a_2 0)))) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (i_2: Z) (PreH1 : (i_2 < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 <= numsSize_pre)) (PreH6 : (Permutation l a_2 )) (PreH7 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH8 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < i_2)) /\ (i_2 <= q_2)) /\ (q_2 < numsSize_pre)) -> ((Znth p_2 a_2 0) <= (Znth q_2 a_2 0)))) ,
   ((( &( "j" ) )) # Int  |-> (i_2 + 1 ))
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -155,7 +156,7 @@ forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (i_2: Z) 
   &&  “ (Permutation l a ) ” 
   &&  “ (increasing (sublist (0) (i) (a)) ) ” 
   &&  “ forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0))) ” 
-  &&  “ forall (q_2: Z) , (((i <= q_2) /\ (q_2 < j)) -> ((Znth i a 0) <= (Znth q_2 a 0))) ”
+  &&  “ (selection_minimum (sublist (i) (j) (a)) (Znth i a 0) ) ”
   &&  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
@@ -163,27 +164,27 @@ forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (i_2: Z) 
   **  (IntArray.full nums_pre numsSize_pre a )
 ) \/
 (
-forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (i_2: Z) (PreH1 : ((Zlength (a_2)) = numsSize_pre)) (PreH2 : (i_2 < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i_2)) (PreH6 : (i_2 <= numsSize_pre)) (PreH7 : (Permutation l a_2 )) (PreH8 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH9 : forall (p_2: Z) , forall (q_3: Z) , (((((0 <= p_2) /\ (p_2 < i_2)) /\ (i_2 <= q_3)) /\ (q_3 < numsSize_pre)) -> ((Znth p_2 a_2 0) <= (Znth q_3 a_2 0)))) ,
+forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (i_2: Z) (PreH1 : ((Zlength (a_2)) = numsSize_pre)) (PreH2 : (i_2 < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i_2)) (PreH6 : (i_2 <= numsSize_pre)) (PreH7 : (Permutation l a_2 )) (PreH8 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH9 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < i_2)) /\ (i_2 <= q_2)) /\ (q_2 < numsSize_pre)) -> ((Znth p_2 a_2 0) <= (Znth q_2 a_2 0)))) ,
   TT && emp 
 |--
-  “ forall (q_2: Z) , (((i_2 <= q_2) /\ (q_2 < (i_2 + 1 ))) -> ((Znth i_2 a_2 0) <= (Znth q_2 a_2 0))) ” 
+  “ (selection_minimum (sublist (i_2) ((i_2 + 1 )) (a_2)) (Znth i_2 a_2 0) ) ” 
   &&  “ forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i_2)) /\ (i_2 <= q)) /\ (q < numsSize_pre)) -> ((Znth p a_2 0) <= (Znth q a_2 0))) ”
   &&  emp
 ).
 
 Definition sortArray_entail_wit_2_split_goal_1 := 
-forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (i_2: Z) (PreH1 : ((Zlength (a_2)) = numsSize_pre)) (PreH2 : (i_2 < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i_2)) (PreH6 : (i_2 <= numsSize_pre)) (PreH7 : (Permutation l a_2 )) (PreH8 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH9 : forall (p_2: Z) , forall (q_3: Z) , (((((0 <= p_2) /\ (p_2 < i_2)) /\ (i_2 <= q_3)) /\ (q_3 < numsSize_pre)) -> ((Znth p_2 a_2 0) <= (Znth q_3 a_2 0)))) ,
-  forall (q_2: Z) , (((i_2 <= q_2) /\ (q_2 < (i_2 + 1 ))) -> ((Znth i_2 a_2 0) <= (Znth q_2 a_2 0)))
+forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (i_2: Z) (PreH1 : ((Zlength (a_2)) = numsSize_pre)) (PreH2 : (i_2 < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i_2)) (PreH6 : (i_2 <= numsSize_pre)) (PreH7 : (Permutation l a_2 )) (PreH8 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH9 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < i_2)) /\ (i_2 <= q_2)) /\ (q_2 < numsSize_pre)) -> ((Znth p_2 a_2 0) <= (Znth q_2 a_2 0)))) ,
+  (selection_minimum (sublist (i_2) ((i_2 + 1 )) (a_2)) (Znth i_2 a_2 0) )
 .
 
 Definition sortArray_entail_wit_2_split_goal_2 := 
-forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (i_2: Z) (PreH1 : ((Zlength (a_2)) = numsSize_pre)) (PreH2 : (i_2 < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i_2)) (PreH6 : (i_2 <= numsSize_pre)) (PreH7 : (Permutation l a_2 )) (PreH8 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH9 : forall (p_2: Z) , forall (q_3: Z) , (((((0 <= p_2) /\ (p_2 < i_2)) /\ (i_2 <= q_3)) /\ (q_3 < numsSize_pre)) -> ((Znth p_2 a_2 0) <= (Znth q_3 a_2 0)))) ,
+forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (i_2: Z) (PreH1 : ((Zlength (a_2)) = numsSize_pre)) (PreH2 : (i_2 < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i_2)) (PreH6 : (i_2 <= numsSize_pre)) (PreH7 : (Permutation l a_2 )) (PreH8 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH9 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < i_2)) /\ (i_2 <= q_2)) /\ (q_2 < numsSize_pre)) -> ((Znth p_2 a_2 0) <= (Znth q_2 a_2 0)))) ,
   forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i_2)) /\ (i_2 <= q)) /\ (q < numsSize_pre)) -> ((Znth p a_2 0) <= (Znth q a_2 0)))
 .
 
 Definition sortArray_entail_wit_3_1 := 
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j_2: Z) (i_2: Z) (PreH1 : ((Znth j_2 a_2 0) < (Znth i_2 a_2 0))) (PreH2 : (j_2 < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i_2)) (PreH6 : (i_2 < numsSize_pre)) (PreH7 : ((i_2 + 1 ) <= j_2)) (PreH8 : (j_2 <= numsSize_pre)) (PreH9 : (Permutation l a_2 )) (PreH10 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH11 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i_2)) /\ (i_2 <= q)) /\ (q < numsSize_pre)) -> ((Znth p a_2 0) <= (Znth q a_2 0)))) (PreH12 : forall (q_2: Z) , (((i_2 <= q_2) /\ (q_2 < j_2)) -> ((Znth i_2 a_2 0) <= (Znth q_2 a_2 0)))) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j_2: Z) (i_2: Z) (PreH1 : ((Znth j_2 a_2 0) < (Znth i_2 a_2 0))) (PreH2 : (j_2 < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i_2)) (PreH6 : (i_2 < numsSize_pre)) (PreH7 : ((i_2 + 1 ) <= j_2)) (PreH8 : (j_2 <= numsSize_pre)) (PreH9 : (Permutation l a_2 )) (PreH10 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH11 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i_2)) /\ (i_2 <= q)) /\ (q < numsSize_pre)) -> ((Znth p a_2 0) <= (Znth q a_2 0)))) (PreH12 : (selection_minimum (sublist (i_2) (j_2) (a_2)) (Znth i_2 a_2 0) )) ,
   (IntArray.full nums_pre numsSize_pre (replace_Znth (j_2) ((Znth i_2 a_2 0)) ((replace_Znth (i_2) ((Znth j_2 a_2 0)) (a_2)))) )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -200,7 +201,7 @@ forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j_2: Z) 
   &&  “ (Permutation l a ) ” 
   &&  “ (increasing (sublist (0) (i) (a)) ) ” 
   &&  “ forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0))) ” 
-  &&  “ forall (q_2: Z) , (((i <= q_2) /\ (q_2 < j)) -> ((Znth i a 0) <= (Znth q_2 a 0))) ”
+  &&  “ (selection_minimum (sublist (i) (j) (a)) (Znth i a 0) ) ”
   &&  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
@@ -208,26 +209,33 @@ forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j_2: Z) 
   **  (IntArray.full nums_pre numsSize_pre a )
 ) \/
 (
-forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j_2: Z) (i_2: Z) (PreH1 : ((Zlength ((replace_Znth (j_2) ((Znth i_2 a_2 0)) ((replace_Znth (i_2) ((Znth j_2 a_2 0)) (a_2)))))) = numsSize_pre)) (PreH2 : ((Znth j_2 a_2 0) < (Znth i_2 a_2 0))) (PreH3 : (j_2 < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 50000)) (PreH6 : (0 <= i_2)) (PreH7 : (i_2 < numsSize_pre)) (PreH8 : ((i_2 + 1 ) <= j_2)) (PreH9 : (j_2 <= numsSize_pre)) (PreH10 : (Permutation l a_2 )) (PreH11 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH12 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i_2)) /\ (i_2 <= q)) /\ (q < numsSize_pre)) -> ((Znth p a_2 0) <= (Znth q a_2 0)))) (PreH13 : forall (q_2: Z) , (((i_2 <= q_2) /\ (q_2 < j_2)) -> ((Znth i_2 a_2 0) <= (Znth q_2 a_2 0)))) ,
+forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j_2: Z) (i_2: Z) (PreH1 : ((Zlength ((replace_Znth (j_2) ((Znth i_2 a_2 0)) ((replace_Znth (i_2) ((Znth j_2 a_2 0)) (a_2)))))) = numsSize_pre)) (PreH2 : ((Znth j_2 a_2 0) < (Znth i_2 a_2 0))) (PreH3 : (j_2 < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 50000)) (PreH6 : (0 <= i_2)) (PreH7 : (i_2 < numsSize_pre)) (PreH8 : ((i_2 + 1 ) <= j_2)) (PreH9 : (j_2 <= numsSize_pre)) (PreH10 : (Permutation l a_2 )) (PreH11 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH12 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i_2)) /\ (i_2 <= q)) /\ (q < numsSize_pre)) -> ((Znth p a_2 0) <= (Znth q a_2 0)))) (PreH13 : (selection_minimum (sublist (i_2) (j_2) (a_2)) (Znth i_2 a_2 0) )) ,
   TT && emp 
 |--
-  “ (increasing (sublist (0) (i_2) ((replace_Znth (j_2) ((Znth i_2 a_2 0)) ((replace_Znth (i_2) ((Znth j_2 a_2 0)) (a_2)))))) ) ” 
+  “ (selection_minimum (sublist (i_2) ((j_2 + 1 )) ((replace_Znth (j_2) ((Znth i_2 a_2 0)) ((replace_Znth (i_2) ((Znth j_2 a_2 0)) (a_2)))))) (Znth i_2 (replace_Znth (j_2) ((Znth i_2 a_2 0)) ((replace_Znth (i_2) ((Znth j_2 a_2 0)) (a_2)))) 0) ) ” 
+  &&  “ (increasing (sublist (0) (i_2) ((replace_Znth (j_2) ((Znth i_2 a_2 0)) ((replace_Znth (i_2) ((Znth j_2 a_2 0)) (a_2)))))) ) ” 
   &&  “ (Permutation l (replace_Znth (j_2) ((Znth i_2 a_2 0)) ((replace_Znth (i_2) ((Znth j_2 a_2 0)) (a_2)))) ) ”
   &&  emp
 ).
 
 Definition sortArray_entail_wit_3_1_split_goal_1 := 
-forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j_2: Z) (i_2: Z) (PreH1 : ((Zlength ((replace_Znth (j_2) ((Znth i_2 a_2 0)) ((replace_Znth (i_2) ((Znth j_2 a_2 0)) (a_2)))))) = numsSize_pre)) (PreH2 : ((Znth j_2 a_2 0) < (Znth i_2 a_2 0))) (PreH3 : (j_2 < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 50000)) (PreH6 : (0 <= i_2)) (PreH7 : (i_2 < numsSize_pre)) (PreH8 : ((i_2 + 1 ) <= j_2)) (PreH9 : (j_2 <= numsSize_pre)) (PreH10 : (Permutation l a_2 )) (PreH11 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH12 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i_2)) /\ (i_2 <= q)) /\ (q < numsSize_pre)) -> ((Znth p a_2 0) <= (Znth q a_2 0)))) (PreH13 : forall (q_2: Z) , (((i_2 <= q_2) /\ (q_2 < j_2)) -> ((Znth i_2 a_2 0) <= (Znth q_2 a_2 0)))) ,
-  (increasing (sublist (0) (i_2) ((replace_Znth (j_2) ((Znth i_2 a_2 0)) ((replace_Znth (i_2) ((Znth j_2 a_2 0)) (a_2)))))) )
+forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j_2: Z) (i_2: Z) (PreH1 : ((Zlength ((replace_Znth (j_2) ((Znth i_2 a_2 0)) ((replace_Znth (i_2) ((Znth j_2 a_2 0)) (a_2)))))) = numsSize_pre)) (PreH2 : ((Znth j_2 a_2 0) < (Znth i_2 a_2 0))) (PreH3 : (j_2 < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 50000)) (PreH6 : (0 <= i_2)) (PreH7 : (i_2 < numsSize_pre)) (PreH8 : ((i_2 + 1 ) <= j_2)) (PreH9 : (j_2 <= numsSize_pre)) (PreH10 : (Permutation l a_2 )) (PreH11 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH12 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i_2)) /\ (i_2 <= q)) /\ (q < numsSize_pre)) -> ((Znth p a_2 0) <= (Znth q a_2 0)))) (PreH13 : (selection_minimum (sublist (i_2) (j_2) (a_2)) (Znth i_2 a_2 0) )) ,
+  (selection_minimum (sublist (i_2) ((j_2 + 1 )) ((replace_Znth (j_2) ((Znth i_2 a_2 0)) ((replace_Znth (i_2) ((Znth j_2 a_2 0)) (a_2)))))) (Znth i_2 (replace_Znth (j_2) ((Znth i_2 a_2 0)) ((replace_Znth (i_2) ((Znth j_2 a_2 0)) (a_2)))) 0) )
 .
 
 Definition sortArray_entail_wit_3_1_split_goal_2 := 
-forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j_2: Z) (i_2: Z) (PreH1 : ((Zlength ((replace_Znth (j_2) ((Znth i_2 a_2 0)) ((replace_Znth (i_2) ((Znth j_2 a_2 0)) (a_2)))))) = numsSize_pre)) (PreH2 : ((Znth j_2 a_2 0) < (Znth i_2 a_2 0))) (PreH3 : (j_2 < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 50000)) (PreH6 : (0 <= i_2)) (PreH7 : (i_2 < numsSize_pre)) (PreH8 : ((i_2 + 1 ) <= j_2)) (PreH9 : (j_2 <= numsSize_pre)) (PreH10 : (Permutation l a_2 )) (PreH11 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH12 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i_2)) /\ (i_2 <= q)) /\ (q < numsSize_pre)) -> ((Znth p a_2 0) <= (Znth q a_2 0)))) (PreH13 : forall (q_2: Z) , (((i_2 <= q_2) /\ (q_2 < j_2)) -> ((Znth i_2 a_2 0) <= (Znth q_2 a_2 0)))) ,
+forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j_2: Z) (i_2: Z) (PreH1 : ((Zlength ((replace_Znth (j_2) ((Znth i_2 a_2 0)) ((replace_Znth (i_2) ((Znth j_2 a_2 0)) (a_2)))))) = numsSize_pre)) (PreH2 : ((Znth j_2 a_2 0) < (Znth i_2 a_2 0))) (PreH3 : (j_2 < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 50000)) (PreH6 : (0 <= i_2)) (PreH7 : (i_2 < numsSize_pre)) (PreH8 : ((i_2 + 1 ) <= j_2)) (PreH9 : (j_2 <= numsSize_pre)) (PreH10 : (Permutation l a_2 )) (PreH11 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH12 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i_2)) /\ (i_2 <= q)) /\ (q < numsSize_pre)) -> ((Znth p a_2 0) <= (Znth q a_2 0)))) (PreH13 : (selection_minimum (sublist (i_2) (j_2) (a_2)) (Znth i_2 a_2 0) )) ,
+  (increasing (sublist (0) (i_2) ((replace_Znth (j_2) ((Znth i_2 a_2 0)) ((replace_Znth (i_2) ((Znth j_2 a_2 0)) (a_2)))))) )
+.
+
+Definition sortArray_entail_wit_3_1_split_goal_3 := 
+forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j_2: Z) (i_2: Z) (PreH1 : ((Zlength ((replace_Znth (j_2) ((Znth i_2 a_2 0)) ((replace_Znth (i_2) ((Znth j_2 a_2 0)) (a_2)))))) = numsSize_pre)) (PreH2 : ((Znth j_2 a_2 0) < (Znth i_2 a_2 0))) (PreH3 : (j_2 < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 50000)) (PreH6 : (0 <= i_2)) (PreH7 : (i_2 < numsSize_pre)) (PreH8 : ((i_2 + 1 ) <= j_2)) (PreH9 : (j_2 <= numsSize_pre)) (PreH10 : (Permutation l a_2 )) (PreH11 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH12 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i_2)) /\ (i_2 <= q)) /\ (q < numsSize_pre)) -> ((Znth p a_2 0) <= (Znth q a_2 0)))) (PreH13 : (selection_minimum (sublist (i_2) (j_2) (a_2)) (Znth i_2 a_2 0) )) ,
   (Permutation l (replace_Znth (j_2) ((Znth i_2 a_2 0)) ((replace_Znth (i_2) ((Znth j_2 a_2 0)) (a_2)))) )
 .
 
 Definition sortArray_entail_wit_3_2 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j_2: Z) (i_2: Z) (PreH1 : ((Znth j_2 a_2 0) >= (Znth i_2 a_2 0))) (PreH2 : (j_2 < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i_2)) (PreH6 : (i_2 < numsSize_pre)) (PreH7 : ((i_2 + 1 ) <= j_2)) (PreH8 : (j_2 <= numsSize_pre)) (PreH9 : (Permutation l a_2 )) (PreH10 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH11 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i_2)) /\ (i_2 <= q)) /\ (q < numsSize_pre)) -> ((Znth p a_2 0) <= (Znth q a_2 0)))) (PreH12 : forall (q_2: Z) , (((i_2 <= q_2) /\ (q_2 < j_2)) -> ((Znth i_2 a_2 0) <= (Znth q_2 a_2 0)))) ,
+(
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j_2: Z) (i_2: Z) (PreH1 : ((Znth j_2 a_2 0) >= (Znth i_2 a_2 0))) (PreH2 : (j_2 < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i_2)) (PreH6 : (i_2 < numsSize_pre)) (PreH7 : ((i_2 + 1 ) <= j_2)) (PreH8 : (j_2 <= numsSize_pre)) (PreH9 : (Permutation l a_2 )) (PreH10 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH11 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i_2)) /\ (i_2 <= q)) /\ (q < numsSize_pre)) -> ((Znth p a_2 0) <= (Znth q a_2 0)))) (PreH12 : (selection_minimum (sublist (i_2) (j_2) (a_2)) (Znth i_2 a_2 0) )) ,
   (IntArray.full nums_pre numsSize_pre a_2 )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
@@ -244,17 +252,29 @@ forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j_2: Z) 
   &&  “ (Permutation l a ) ” 
   &&  “ (increasing (sublist (0) (i) (a)) ) ” 
   &&  “ forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0))) ” 
-  &&  “ forall (q_2: Z) , (((i <= q_2) /\ (q_2 < j)) -> ((Znth i a 0) <= (Znth q_2 a 0))) ”
+  &&  “ (selection_minimum (sublist (i) (j) (a)) (Znth i a 0) ) ”
   &&  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "j" ) )) # Int  |-> j)
   **  (IntArray.full nums_pre numsSize_pre a )
+) \/
+(
+forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j_2: Z) (i_2: Z) (PreH1 : ((Zlength (a_2)) = numsSize_pre)) (PreH2 : ((Znth j_2 a_2 0) >= (Znth i_2 a_2 0))) (PreH3 : (j_2 < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 50000)) (PreH6 : (0 <= i_2)) (PreH7 : (i_2 < numsSize_pre)) (PreH8 : ((i_2 + 1 ) <= j_2)) (PreH9 : (j_2 <= numsSize_pre)) (PreH10 : (Permutation l a_2 )) (PreH11 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH12 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i_2)) /\ (i_2 <= q)) /\ (q < numsSize_pre)) -> ((Znth p a_2 0) <= (Znth q a_2 0)))) (PreH13 : (selection_minimum (sublist (i_2) (j_2) (a_2)) (Znth i_2 a_2 0) )) ,
+  TT && emp 
+|--
+  “ (selection_minimum (sublist (i_2) ((j_2 + 1 )) (a_2)) (Znth i_2 a_2 0) ) ”
+  &&  emp
+).
+
+Definition sortArray_entail_wit_3_2_split_goal_1 := 
+forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j_2: Z) (i_2: Z) (PreH1 : ((Zlength (a_2)) = numsSize_pre)) (PreH2 : ((Znth j_2 a_2 0) >= (Znth i_2 a_2 0))) (PreH3 : (j_2 < numsSize_pre)) (PreH4 : (1 <= numsSize_pre)) (PreH5 : (numsSize_pre <= 50000)) (PreH6 : (0 <= i_2)) (PreH7 : (i_2 < numsSize_pre)) (PreH8 : ((i_2 + 1 ) <= j_2)) (PreH9 : (j_2 <= numsSize_pre)) (PreH10 : (Permutation l a_2 )) (PreH11 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH12 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i_2)) /\ (i_2 <= q)) /\ (q < numsSize_pre)) -> ((Znth p a_2 0) <= (Znth q a_2 0)))) (PreH13 : (selection_minimum (sublist (i_2) (j_2) (a_2)) (Znth i_2 a_2 0) )) ,
+  (selection_minimum (sublist (i_2) ((j_2 + 1 )) (a_2)) (Znth i_2 a_2 0) )
 .
 
 Definition sortArray_entail_wit_4 := 
 (
-forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j: Z) (i_2: Z) (PreH1 : (j >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 < numsSize_pre)) (PreH6 : ((i_2 + 1 ) <= j)) (PreH7 : (j <= numsSize_pre)) (PreH8 : (Permutation l a_2 )) (PreH9 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH10 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < i_2)) /\ (i_2 <= q_2)) /\ (q_2 < numsSize_pre)) -> ((Znth p_2 a_2 0) <= (Znth q_2 a_2 0)))) (PreH11 : forall (q_3: Z) , (((i_2 <= q_3) /\ (q_3 < j)) -> ((Znth i_2 a_2 0) <= (Znth q_3 a_2 0)))) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j: Z) (i_2: Z) (PreH1 : (j >= numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (0 <= i_2)) (PreH5 : (i_2 < numsSize_pre)) (PreH6 : ((i_2 + 1 ) <= j)) (PreH7 : (j <= numsSize_pre)) (PreH8 : (Permutation l a_2 )) (PreH9 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH10 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < i_2)) /\ (i_2 <= q_2)) /\ (q_2 < numsSize_pre)) -> ((Znth p_2 a_2 0) <= (Znth q_2 a_2 0)))) (PreH11 : (selection_minimum (sublist (i_2) (j) (a_2)) (Znth i_2 a_2 0) )) ,
   ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> (i_2 + 1 ))
@@ -274,7 +294,7 @@ forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j: Z) (i
   **  (IntArray.full nums_pre numsSize_pre a )
 ) \/
 (
-forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j: Z) (i_2: Z) (PreH1 : ((Zlength (a_2)) = numsSize_pre)) (PreH2 : (j >= numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i_2)) (PreH6 : (i_2 < numsSize_pre)) (PreH7 : ((i_2 + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (Permutation l a_2 )) (PreH10 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH11 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < i_2)) /\ (i_2 <= q_2)) /\ (q_2 < numsSize_pre)) -> ((Znth p_2 a_2 0) <= (Znth q_2 a_2 0)))) (PreH12 : forall (q_3: Z) , (((i_2 <= q_3) /\ (q_3 < j)) -> ((Znth i_2 a_2 0) <= (Znth q_3 a_2 0)))) ,
+forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j: Z) (i_2: Z) (PreH1 : ((Zlength (a_2)) = numsSize_pre)) (PreH2 : (j >= numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i_2)) (PreH6 : (i_2 < numsSize_pre)) (PreH7 : ((i_2 + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (Permutation l a_2 )) (PreH10 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH11 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < i_2)) /\ (i_2 <= q_2)) /\ (q_2 < numsSize_pre)) -> ((Znth p_2 a_2 0) <= (Znth q_2 a_2 0)))) (PreH12 : (selection_minimum (sublist (i_2) (j) (a_2)) (Znth i_2 a_2 0) )) ,
   TT && emp 
 |--
   “ forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (i_2 + 1 ))) /\ ((i_2 + 1 ) <= q)) /\ (q < numsSize_pre)) -> ((Znth p a_2 0) <= (Znth q a_2 0))) ” 
@@ -283,12 +303,12 @@ forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j: Z) (i_2: Z) (PreH1 
 ).
 
 Definition sortArray_entail_wit_4_split_goal_1 := 
-forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j: Z) (i_2: Z) (PreH1 : ((Zlength (a_2)) = numsSize_pre)) (PreH2 : (j >= numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i_2)) (PreH6 : (i_2 < numsSize_pre)) (PreH7 : ((i_2 + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (Permutation l a_2 )) (PreH10 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH11 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < i_2)) /\ (i_2 <= q_2)) /\ (q_2 < numsSize_pre)) -> ((Znth p_2 a_2 0) <= (Znth q_2 a_2 0)))) (PreH12 : forall (q_3: Z) , (((i_2 <= q_3) /\ (q_3 < j)) -> ((Znth i_2 a_2 0) <= (Znth q_3 a_2 0)))) ,
+forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j: Z) (i_2: Z) (PreH1 : ((Zlength (a_2)) = numsSize_pre)) (PreH2 : (j >= numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i_2)) (PreH6 : (i_2 < numsSize_pre)) (PreH7 : ((i_2 + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (Permutation l a_2 )) (PreH10 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH11 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < i_2)) /\ (i_2 <= q_2)) /\ (q_2 < numsSize_pre)) -> ((Znth p_2 a_2 0) <= (Znth q_2 a_2 0)))) (PreH12 : (selection_minimum (sublist (i_2) (j) (a_2)) (Znth i_2 a_2 0) )) ,
   forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < (i_2 + 1 ))) /\ ((i_2 + 1 ) <= q)) /\ (q < numsSize_pre)) -> ((Znth p a_2 0) <= (Znth q a_2 0)))
 .
 
 Definition sortArray_entail_wit_4_split_goal_2 := 
-forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j: Z) (i_2: Z) (PreH1 : ((Zlength (a_2)) = numsSize_pre)) (PreH2 : (j >= numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i_2)) (PreH6 : (i_2 < numsSize_pre)) (PreH7 : ((i_2 + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (Permutation l a_2 )) (PreH10 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH11 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < i_2)) /\ (i_2 <= q_2)) /\ (q_2 < numsSize_pre)) -> ((Znth p_2 a_2 0) <= (Znth q_2 a_2 0)))) (PreH12 : forall (q_3: Z) , (((i_2 <= q_3) /\ (q_3 < j)) -> ((Znth i_2 a_2 0) <= (Znth q_3 a_2 0)))) ,
+forall (numsSize_pre: Z) (l: (@list Z)) (a_2: (@list Z)) (j: Z) (i_2: Z) (PreH1 : ((Zlength (a_2)) = numsSize_pre)) (PreH2 : (j >= numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i_2)) (PreH6 : (i_2 < numsSize_pre)) (PreH7 : ((i_2 + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (Permutation l a_2 )) (PreH10 : (increasing (sublist (0) (i_2) (a_2)) )) (PreH11 : forall (p_2: Z) , forall (q_2: Z) , (((((0 <= p_2) /\ (p_2 < i_2)) /\ (i_2 <= q_2)) /\ (q_2 < numsSize_pre)) -> ((Znth p_2 a_2 0) <= (Znth q_2 a_2 0)))) (PreH12 : (selection_minimum (sublist (i_2) (j) (a_2)) (Znth i_2 a_2 0) )) ,
   (increasing (sublist (0) ((i_2 + 1 )) (a_2)) )
 .
 
@@ -316,7 +336,7 @@ forall (numsSize_pre: Z) (l: (@list Z)) (a: (@list Z)) (i: Z) (PreH1 : ((Zlength
 .
 
 Definition sortArray_partial_solve_wit_1 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: Z) (PreH1 : (j < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : ((i + 1 ) <= j)) (PreH7 : (j <= numsSize_pre)) (PreH8 : (Permutation l a )) (PreH9 : (increasing (sublist (0) (i) (a)) )) (PreH10 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0)))) (PreH11 : forall (q_2: Z) , (((i <= q_2) /\ (q_2 < j)) -> ((Znth i a 0) <= (Znth q_2 a 0)))) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: Z) (PreH1 : (j < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : ((i + 1 ) <= j)) (PreH7 : (j <= numsSize_pre)) (PreH8 : (Permutation l a )) (PreH9 : (increasing (sublist (0) (i) (a)) )) (PreH10 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0)))) (PreH11 : (selection_minimum (sublist (i) (j) (a)) (Znth i a 0) )) ,
   (IntArray.full nums_pre numsSize_pre a )
 |--
   “ (j < numsSize_pre) ” 
@@ -329,13 +349,13 @@ forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: 
   &&  “ (Permutation l a ) ” 
   &&  “ (increasing (sublist (0) (i) (a)) ) ” 
   &&  “ forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0))) ” 
-  &&  “ forall (q_2: Z) , (((i <= q_2) /\ (q_2 < j)) -> ((Znth i a 0) <= (Znth q_2 a 0))) ”
+  &&  “ (selection_minimum (sublist (i) (j) (a)) (Znth i a 0) ) ”
   &&  (((nums_pre + (j * sizeof(INT)))) # Int  |-> (Znth j a 0))
   **  (IntArray.missing_i nums_pre j 0 numsSize_pre a )
 .
 
 Definition sortArray_partial_solve_wit_2 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: Z) (PreH1 : (j < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : ((i + 1 ) <= j)) (PreH7 : (j <= numsSize_pre)) (PreH8 : (Permutation l a )) (PreH9 : (increasing (sublist (0) (i) (a)) )) (PreH10 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0)))) (PreH11 : forall (q_2: Z) , (((i <= q_2) /\ (q_2 < j)) -> ((Znth i a 0) <= (Znth q_2 a 0)))) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: Z) (PreH1 : (j < numsSize_pre)) (PreH2 : (1 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 50000)) (PreH4 : (0 <= i)) (PreH5 : (i < numsSize_pre)) (PreH6 : ((i + 1 ) <= j)) (PreH7 : (j <= numsSize_pre)) (PreH8 : (Permutation l a )) (PreH9 : (increasing (sublist (0) (i) (a)) )) (PreH10 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0)))) (PreH11 : (selection_minimum (sublist (i) (j) (a)) (Znth i a 0) )) ,
   (IntArray.full nums_pre numsSize_pre a )
 |--
   “ (j < numsSize_pre) ” 
@@ -348,13 +368,13 @@ forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: 
   &&  “ (Permutation l a ) ” 
   &&  “ (increasing (sublist (0) (i) (a)) ) ” 
   &&  “ forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0))) ” 
-  &&  “ forall (q_2: Z) , (((i <= q_2) /\ (q_2 < j)) -> ((Znth i a 0) <= (Znth q_2 a 0))) ”
+  &&  “ (selection_minimum (sublist (i) (j) (a)) (Znth i a 0) ) ”
   &&  (((nums_pre + (i * sizeof(INT)))) # Int  |-> (Znth i a 0))
   **  (IntArray.missing_i nums_pre i 0 numsSize_pre a )
 .
 
 Definition sortArray_partial_solve_wit_3 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j a 0) < (Znth i a 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (Permutation l a )) (PreH10 : (increasing (sublist (0) (i) (a)) )) (PreH11 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0)))) (PreH12 : forall (q_2: Z) , (((i <= q_2) /\ (q_2 < j)) -> ((Znth i a 0) <= (Znth q_2 a 0)))) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j a 0) < (Znth i a 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (Permutation l a )) (PreH10 : (increasing (sublist (0) (i) (a)) )) (PreH11 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0)))) (PreH12 : (selection_minimum (sublist (i) (j) (a)) (Znth i a 0) )) ,
   (IntArray.full nums_pre numsSize_pre a )
 |--
   “ ((Znth j a 0) < (Znth i a 0)) ” 
@@ -368,13 +388,13 @@ forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: 
   &&  “ (Permutation l a ) ” 
   &&  “ (increasing (sublist (0) (i) (a)) ) ” 
   &&  “ forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0))) ” 
-  &&  “ forall (q_2: Z) , (((i <= q_2) /\ (q_2 < j)) -> ((Znth i a 0) <= (Znth q_2 a 0))) ”
+  &&  “ (selection_minimum (sublist (i) (j) (a)) (Znth i a 0) ) ”
   &&  (((nums_pre + (i * sizeof(INT)))) # Int  |-> (Znth i a 0))
   **  (IntArray.missing_i nums_pre i 0 numsSize_pre a )
 .
 
 Definition sortArray_partial_solve_wit_4 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j a 0) < (Znth i a 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (Permutation l a )) (PreH10 : (increasing (sublist (0) (i) (a)) )) (PreH11 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0)))) (PreH12 : forall (q_2: Z) , (((i <= q_2) /\ (q_2 < j)) -> ((Znth i a 0) <= (Znth q_2 a 0)))) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j a 0) < (Znth i a 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (Permutation l a )) (PreH10 : (increasing (sublist (0) (i) (a)) )) (PreH11 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0)))) (PreH12 : (selection_minimum (sublist (i) (j) (a)) (Znth i a 0) )) ,
   (IntArray.full nums_pre numsSize_pre a )
 |--
   “ ((Znth j a 0) < (Znth i a 0)) ” 
@@ -388,13 +408,13 @@ forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: 
   &&  “ (Permutation l a ) ” 
   &&  “ (increasing (sublist (0) (i) (a)) ) ” 
   &&  “ forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0))) ” 
-  &&  “ forall (q_2: Z) , (((i <= q_2) /\ (q_2 < j)) -> ((Znth i a 0) <= (Znth q_2 a 0))) ”
+  &&  “ (selection_minimum (sublist (i) (j) (a)) (Znth i a 0) ) ”
   &&  (((nums_pre + (j * sizeof(INT)))) # Int  |-> (Znth j a 0))
   **  (IntArray.missing_i nums_pre j 0 numsSize_pre a )
 .
 
 Definition sortArray_partial_solve_wit_5 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j a 0) < (Znth i a 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (Permutation l a )) (PreH10 : (increasing (sublist (0) (i) (a)) )) (PreH11 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0)))) (PreH12 : forall (q_2: Z) , (((i <= q_2) /\ (q_2 < j)) -> ((Znth i a 0) <= (Znth q_2 a 0)))) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j a 0) < (Znth i a 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (Permutation l a )) (PreH10 : (increasing (sublist (0) (i) (a)) )) (PreH11 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0)))) (PreH12 : (selection_minimum (sublist (i) (j) (a)) (Znth i a 0) )) ,
   (IntArray.full nums_pre numsSize_pre a )
 |--
   “ ((Znth j a 0) < (Znth i a 0)) ” 
@@ -408,13 +428,13 @@ forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: 
   &&  “ (Permutation l a ) ” 
   &&  “ (increasing (sublist (0) (i) (a)) ) ” 
   &&  “ forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0))) ” 
-  &&  “ forall (q_2: Z) , (((i <= q_2) /\ (q_2 < j)) -> ((Znth i a 0) <= (Znth q_2 a 0))) ”
+  &&  “ (selection_minimum (sublist (i) (j) (a)) (Znth i a 0) ) ”
   &&  (((nums_pre + (i * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i nums_pre i 0 numsSize_pre a )
 .
 
 Definition sortArray_partial_solve_wit_6 := 
-forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j a 0) < (Znth i a 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (Permutation l a )) (PreH10 : (increasing (sublist (0) (i) (a)) )) (PreH11 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0)))) (PreH12 : forall (q_2: Z) , (((i <= q_2) /\ (q_2 < j)) -> ((Znth i a 0) <= (Znth q_2 a 0)))) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j a 0) < (Znth i a 0))) (PreH2 : (j < numsSize_pre)) (PreH3 : (1 <= numsSize_pre)) (PreH4 : (numsSize_pre <= 50000)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : ((i + 1 ) <= j)) (PreH8 : (j <= numsSize_pre)) (PreH9 : (Permutation l a )) (PreH10 : (increasing (sublist (0) (i) (a)) )) (PreH11 : forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0)))) (PreH12 : (selection_minimum (sublist (i) (j) (a)) (Znth i a 0) )) ,
   (IntArray.full nums_pre numsSize_pre (replace_Znth (i) ((Znth j a 0)) (a)) )
 |--
   “ ((Znth j a 0) < (Znth i a 0)) ” 
@@ -428,7 +448,7 @@ forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (a: (@list Z)) (j: Z) (i: 
   &&  “ (Permutation l a ) ” 
   &&  “ (increasing (sublist (0) (i) (a)) ) ” 
   &&  “ forall (p: Z) , forall (q: Z) , (((((0 <= p) /\ (p < i)) /\ (i <= q)) /\ (q < numsSize_pre)) -> ((Znth p a 0) <= (Znth q a 0))) ” 
-  &&  “ forall (q_2: Z) , (((i <= q_2) /\ (q_2 < j)) -> ((Znth i a 0) <= (Znth q_2 a 0))) ”
+  &&  “ (selection_minimum (sublist (i) (j) (a)) (Znth i a 0) ) ”
   &&  (((nums_pre + (j * sizeof(INT)))) # Int  |->_)
   **  (IntArray.missing_i nums_pre j 0 numsSize_pre (replace_Znth (i) ((Znth j a 0)) (a)) )
 .

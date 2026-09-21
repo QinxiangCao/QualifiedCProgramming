@@ -6,7 +6,7 @@ Only a claimed `vc-checking` owner runs this workflow. Current formal files in t
 
 1. Check the claimed role, owner, and CWD.
 2. Read this skill, the current `agent_input.md`, and its listed current formal files in full.
-3. Read the handoff's annotation VC comparisons and record each source, current/related VCs, fact sources, and judgement; they are priority review leads only.
+3. Read each annotation comparison's `source`, `current`, `old_gap`, `change`, and `result` from the handoff as priority review leads. Independently identify related VCs and premise sources in the current manual; no additional plan fields are required.
 4. On the second and later attempts, read the earlier vc-checking `agent_output.md`, `group_plan.json`, and blocker listed by the handoff. They prevent repeated analysis, but the current main-root manual remains authoritative.
 5. Do not read controller state/events, another role's skill, or unlisted history.
 
@@ -22,26 +22,26 @@ You may read:
 
 You may write:
 
-- the current main-root `*_proof_manual.v`, only to insert temporary `Show.` commands inside proof bodies while inspecting raw goals;
+- the report-directory manual debug copy named by the handoff, only for Show commands inside proof bodies;
 - this attempt's `group_plan.json`;
 - `agent_output.md`;
 - `agent_report.json`.
 
 Other than inserting `Show.`, do not modify any proof or non-proof manual token, C file, goal, auto, goal-check, library, or history. Do not create a debug script, reuse hint, parser output, or line-number list.
 
-After vc-checking is accepted, the controller deletes the main-root manual and reruns symbolic execution. Group workers therefore receive a clean generated manual, and this owner need not clean temporary `Show.` commands manually.
+The canonical manual remains read-only. The plan is checked against it; the debug copy never becomes a proving input and does not trigger another symexec.
 
 ## 3. Inspecting a goal
 
-When Rocq expansion is useful, insert `Show.` directly in the target proof body and run the handoff's exact `coq-debug --round <current-round>` command. It reads the current manual itself. Do not create another script, copy the goal, change any other manual token, or assemble a raw Coq command.
+When Rocq expansion is useful, insert `Show.` in the debug copy's target proof body and run the handoff's exact `coq-debug --round <current-round>` command. It stages that copy as an overlay. Do not create another script, copy the goal, change any other manual token, or assemble a raw Coq command.
 
-Keep the controller argv, cwd, interpreter, arguments, and order unchanged. A check passes only with exit code 0 and JSON `status: passed`. Preserve the first diagnostic on failure; do not bypass it with raw Coq, Dune, Make, `coqdep`, or a custom script.
+Use the controller's structured JSON argv/cwd, preserving the interpreter, arguments, and order. When a terminal tool accepts only shell text, quote arguments for the actual shell; PowerShell uses `&` with single-quoted arguments and doubled embedded apostrophes. A check passes only with exit code 0 and JSON `status: passed`. Repeated tool errors have no attempt-count gate; use the diagnostic to decide whether to retry in place or report a concrete blocker. Preserve the first diagnostic on failure; do not bypass it with raw Coq, Dune, Make, `coqdep`, or a custom script.
 
 ## 4. Structural-blocker scan, then exhaustive split-first analysis
 
 First perform a cheap scan of every top-level VC, prioritizing whole goals with no split goals. Look only for structural facts that make the entailment definitely false: missing equalities from current pointer/scalar values to consequent `@pre` parameters, absent resource addresses, or existentials that cannot be instantiated from current resources. Do not plan tactics/helpers here, and do not treat difficulty as a blocker.
 
-Fill the four exact `Structural Blocker Scan` fields in `agent_output.md`: status, number of top-level VCs scanned, number of no-split VCs checked first, and number of definite blockers. A concrete countermodel must explain how P can hold while Q fails and may immediately return an annotation/specification/dependency blocker; exhaustive split analysis is unnecessary in that blocked attempt. If no definite blocker exists, continue with the strict exhaustive split-first pass below.
+Briefly explain the scan outcome in agent_output.md. Headings and counts are not a machine protocol. A concrete countermodel must explain how P can hold while Q fails and may immediately return an annotation/specification/dependency blocker; exhaustive split analysis is unnecessary in that blocked attempt. If no definite blocker exists, continue with the strict exhaustive split-first pass below.
 
 After that scan passes, two ordering boundaries are mandatory:
 
@@ -65,7 +65,7 @@ Then decide each top-level VC in manual order:
 
 The formal targets for an aggressive route are all of its split goals. An LLM route proves only the top-level VC and leaves its generated split blocks unchanged.
 
-After the structural scan, independently review annotation comparisons in the current manual. Check the actual source of every added premise/resource and whether a related VC carries its establishment. `provable` is not proof evidence. Return a structured annotation blocker for a missing source. Mark a VC high-risk when it needs a new substantial mathematical lemma but has no definite counterexample or missing premise.
+After the structural scan, independently review annotation comparisons in the current manual. Check the actual source of every added premise/resource and whether a related VC carries its establishment. Comparison `resolved` is not proof evidence. Return a structured annotation blocker for a missing source. Mark a VC high-risk when it needs a new substantial mathematical lemma but has no definite counterexample or missing premise.
 
 ## 5. Strategies and helpers
 
@@ -93,9 +93,9 @@ Form preliminary groups by invariant, proof pattern, resource transformation, re
 - likely tail groups;
 - whether independent final-result, transition, or safety work can be split.
 
-A group usually has two to six top-level VCs. A truly independent result, route, or helper family may have one. Give each group an integer `estimated_difficulty` from 1 through 5. The handoff's size limit is only a hard cap. Groups are independent, do not read sibling output, and never contain `depends_on`.
+A group usually has two to six top-level VCs. A truly independent result, route, or helper family may have one. Give each group an integer `estimated_difficulty` from 1 through 5 as a human hint. The handoff's size limit is only a hard cap. Groups are independent, do not read sibling output, and never contain `depends_on`.
 
-Put high-risk witnesses containing comparison current/related VCs in a separate first group; do not mix them with many light projection/lia witnesses. The controller dispatches remaining groups only after this priority group passes.
+Choose plan order by risk and context, keeping comparison current/related VCs together when they need a shared establishment proof. The controller selects its first batch solely by the comparison's explicit `current` VCs, then dispatches other groups after every first-batch group passes. Each batch keeps plan order. Scripts do not infer mathematical risk, reorder by scores/split counts, or automatically add `related` VCs to the first batch.
 
 ## 7. Output contract
 
@@ -104,6 +104,8 @@ Put high-risk witnesses containing comparison current/related VCs in a separate 
 The top level contains only `groups`. A successful plan is nonempty and covers every current top-level VC exactly once.
 
 Each group contains only `id`, `estimated_difficulty`, `witnesses`, and optional `helpers`.
+
+Every `id` is nonempty, unique, and contains only ASCII letters, digits, or underscores. Its helper suffix is the exact `__<id>`; the controller does not sanitize names.
 
 An aggressive witness contains only `name`, `proof_mode`, and `split_strategies`, whose keys match manual names and order. An LLM witness contains only `name`, `proof_mode`, and `strategy`. A helper contains only `name`, `strategy`, and `visibility`.
 
@@ -114,7 +116,7 @@ Do not add digests, acceptance, dispatch, dependency, or reuse fields.
 Keep these concise sections:
 
 1. Outcome;
-2. Structural Blocker Scan (the four machine-read fields);
+2. Structural Blocker Scan (human explanation; free formatting);
 3. Annotation Comparison Review;
 4. Proof-Mode Decisions;
 5. Common Proof Patterns;
@@ -132,12 +134,12 @@ Success is exactly:
 {"status": "completed"}
 ```
 
-A blocked result adds one blocker with `failure_class`, `kind`, `vcs`, `message`, and `repair_boundary`. Annotation/specification/dependency blockers use nonempty `vcs` entries with exact current-manual `name`, `parent`, and `annotation_location`; plan/report/infrastructure blockers use an empty list. Legal failure classes are `annotation-gap`, `specification-gap`, `dependency-gap`, `plan-defect`, `report-defect`, and `infrastructure`. The first three return to annotation; the others retry vc-checking.
+A blocked result adds one blocker with `failure_class`, `kind`, `vcs`, `message`, and `repair_boundary`. Annotation/specification/dependency blockers use nonempty `vcs` entries with exact current-manual `name`, `parent`, and `annotation_location`; plan/report/infrastructure blockers use an empty list. Legal failure classes are `annotation-gap`, `specification-gap`, `dependency-gap`, `plan-defect`, `report-defect`, and `infrastructure`. The first three return to annotation; plan/report defects retry VC checking. Explicit infrastructure reports remain blockers without automatic rounds. Before delivery, the owner decides whether a local retry is appropriate.
 
 Do not copy command output, digests, or controller checks into the report.
 
 ## 8. Delivery
 
-Write the plan and `agent_output.md` first. Write the report last, stop all writes, and tell main the owner has stopped. Main then runs `finalize-delivery`.
+Write the plan and `agent_output.md` first. Write the report last, stop all writes, and notify main. Main's `finalize-delivery` checks the report, debug-manual boundary, complete current VC coverage, proof modes, and group limits in one acceptance operation. Success accepts this attempt; there is no separate VC round-check command.
 
-For `report-repair-required`, keep the same owner and attempt and repair only the named plan, explanation, manual inspection, or report. Do not create another round. After acceptance, the controller deletes the temporary manual and regenerates it; do not modify files again.
+For `report-repair-required`, continue the same owner and attempt through `append-attempt`, repairing only the named plan, explanation, or report. Do not create another round. After acceptance, stop writing; the debug copy is not a proving input and acceptance does not rerun symbolic execution.

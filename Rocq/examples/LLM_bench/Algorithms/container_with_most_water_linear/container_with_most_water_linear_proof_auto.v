@@ -47,19 +47,10 @@ Proof. Admitted.
 Lemma proof_of_maxAreaLinear_safety_wit_9 : maxAreaLinear_safety_wit_9.
 Proof. Admitted. 
 
-Lemma proof_of_maxAreaLinear_safety_wit_10 : maxAreaLinear_safety_wit_10.
-Proof. Admitted. 
-
-Lemma proof_of_maxAreaLinear_safety_wit_11 : maxAreaLinear_safety_wit_11.
-Proof. Admitted. 
-
 Lemma proof_of_maxAreaLinear_safety_wit_12 : maxAreaLinear_safety_wit_12.
 Proof. Admitted. 
 
 Lemma proof_of_maxAreaLinear_safety_wit_13 : maxAreaLinear_safety_wit_13.
-Proof. Admitted. 
-
-Lemma proof_of_maxAreaLinear_return_wit_1 : maxAreaLinear_return_wit_1.
 Proof. Admitted. 
 
 Lemma proof_of_maxAreaLinear_partial_solve_wit_1 : maxAreaLinear_partial_solve_wit_1.

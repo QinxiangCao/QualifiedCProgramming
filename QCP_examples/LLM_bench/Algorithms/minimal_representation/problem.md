@@ -19,8 +19,8 @@ and the linear-time two-candidate elimination algorithm.
 Given a circular sequence of $n$ integers, output its lexicographically
 smallest cyclic rotation.
 
-The verification function `minimal_representation` receives the sequence, a
-working buffer, and an output array. It writes the smallest rotation into the
+The verification function `minimal_representation` receives the sequence, its
+length, and an output array. It writes the smallest rotation into the
 output array and returns the corresponding zero-based starting position in the
 input sequence.
 
@@ -29,9 +29,9 @@ input sequence.
 The original problem reads $n$ followed by $n$ integers and prints the
 lexicographically smallest rotation, with adjacent values separated by spaces.
 
-In the verification interface, `a` contains the $n$ input values, `b` is a
-caller-provided working buffer with capacity for $2n$ values, and `out` has
-capacity for $n$ values. The function copies the input twice into `b`. After
+In the verification interface, `a` contains the $n$ input values and `out` has
+capacity for $n$ values. The function declares a local buffer `b[2000]` and
+copies the input twice into its first $2n$ cells. After
 the function returns, `out` contains the smallest rotation and the return value
 is an integer in $[0,n-1]$.
 

@@ -3,6 +3,8 @@ Require Import Coq.Sorting.Permutation.
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.micromega.Lia.
 Require Import AUXLib.ListLib.
+Require Import AUXLib.MonotonicList.
+Require Import SumLib.ZRange.
 From MaxMinLib Require Import MaxMin Interface.
 
 Import ListNotations.
@@ -21,17 +23,51 @@ Definition ContainerPairNLogN (l : list Z) (i j : Z) : Prop :=
 (** The exact attained global optimum, stated only in terms of original
     indices.  A different implementation can satisfy the same predicate. *)
 Definition MaximumContainerArea (l : list Z) (ans : Z) : Prop :=
-  exists i j,
-    0 <= i /\ i < j /\ j < Zlength l /\
-    ans = (j - i) * Z.min (Znth i l 0) (Znth j l 0) /\
-    forall p q,
-      0 <= p -> p < q -> q < Zlength l ->
-      (q - p) * Z.min (Znth p l 0) (Znth q l 0) <= ans.
+  max_value_of_subset Z.le
+    (fun ij : Z * Z => ContainerPairNLogN l (fst ij) (snd ij))
+    (fun ij => ContainerAreaNLogN l (fst ij) (snd ij)) ans.
+
+Lemma MaximumContainerArea_unfold l ans :
+  MaximumContainerArea l ans <->
+  exists i j, 0 <= i /\ i < j /\ j < Zlength l /\
+    ans = (j-i) * Z.min (Znth i l 0) (Znth j l 0) /\
+    forall p q, 0 <= p -> p < q -> q < Zlength l ->
+      (q-p) * Z.min (Znth p l 0) (Znth q l 0) <= ans.
+Proof.
+  unfold MaximumContainerArea, max_value_of_subset, max_object_of_subset,
+    ContainerPairNLogN, ContainerAreaNLogN, ContainerHeightNLogN.
+  cbn beta. split.
+  - intros [[i j] [[Hp Hbound] Heq]]. cbn in *.
+    change (0 <= i /\ i < j /\ j < Zlength l) in Hp.
+    exists i,j. split; [tauto|]. split; [tauto|]. split; [tauto|].
+    split; [lia|]. intros p q H0 Hlt Hlen. specialize (Hbound (p,q) ltac:(change (0<=p /\ p<q /\q<Zlength l);tauto)). cbn in Hbound. lia.
+  - intros [i [j [H0 [Hij [Hj [Heq Hbound]]]]]]. exists (i,j). cbn.
+    split; [split |lia]; [change (0<=i /\ i<j /\j<Zlength l);tauto|]. intros [p q] Hp. cbn in *. change (0<=p /\ p<q /\ q<Zlength l) in Hp.
+    specialize (Hbound p q ltac:(tauto) ltac:(tauto) ltac:(tauto)). lia.
+Qed.
 
 (** Canonical list of the input's [(height,index)] pairs. *)
 Definition IndexedHeightsNLogN (l : list Z) : list (Z * Z) :=
-  map (fun k : nat => (nth k l 0, Z.of_nat k))
-      (seq 0 (length l)).
+  map (fun k : Z => (Znth k l 0, k)) (Zrange 0 (Zlength l)).
+
+(** Bridge for the pre-existing helper proofs, whose internal induction is on nat. *)
+Lemma Zrange_aux_seq n start :
+  Zrange_aux (Z.of_nat start) n = map Z.of_nat (seq start n).
+Proof.
+  revert start. induction n; intros start; cbn; [reflexivity |].
+  replace (Z.of_nat start + 1) with (Z.of_nat (S start)) by lia.
+  rewrite IHn. reflexivity.
+Qed.
+Lemma IndexedHeightsNLogN_legacy l :
+  IndexedHeightsNLogN l =
+  map (fun k : nat => (nth k l 0, Z.of_nat k)) (seq 0 (length l)).
+Proof.
+  unfold IndexedHeightsNLogN, Zrange.
+  rewrite Z.sub_0_r, Zlength_correct, Nat2Z.id.
+  change 0 with (Z.of_nat 0). rewrite Zrange_aux_seq, map_map.
+  apply map_ext. intros k. unfold Znth. rewrite Nat2Z.id. reflexivity.
+Qed.
+
 
 Definition HeightIndexPermutationNLogN
     (l heights indices : list Z) : Prop :=
@@ -41,7 +77,6 @@ Definition HeightIndexPermutationNLogN
 
 Definition HeightIndexRangeDescendingNLogN
     (heights : list Z) (lo hi : Z) : Prop :=
-  0 <= lo /\ lo <= hi /\ hi <= Zlength heights /\
   forall p q,
     lo <= p -> p <= q -> q < hi ->
     Znth q heights 0 <= Znth p heights 0.
@@ -51,15 +86,65 @@ Definition SortedHeightIndexWorkspaceNLogN
   HeightIndexPermutationNLogN l heights indices /\
   HeightIndexRangeDescendingNLogN heights 0 (Zlength heights).
 
+Lemma NLogN_Forall2_indexed {A B : Type} (R : A -> B -> Prop)
+    (f : Z -> A) (g : Z -> B) lo hi :
+  Forall2 R (map f (Zrange lo hi)) (map g (Zrange lo hi)) <->
+  forall p, lo <= p < hi -> R (f p) (g p).
+Proof.
+  assert (Hmap : forall xs, Forall2 R (map f xs) (map g xs) <->
+    Forall (fun p => R (f p) (g p)) xs).
+  { induction xs as [|x xs IH]; cbn.
+    - split; intros; constructor.
+    - split; intro H; inversion H; subst; constructor; try assumption;
+      apply IH; assumption. }
+  rewrite Hmap, Forall_forall. split; intros H p Hp; apply H;
+    [apply In_Zrange | apply In_Zrange]; assumption.
+Qed.
+
 (** Prefix produced while the four caller-owned work arrays are initialized. *)
 Definition WorkspacePrefixNLogN
     (l heights indices : list Z) (k : Z) : Prop :=
+  Forall2 eq
+    (map (fun p => Znth p heights 0) (Zrange 0 k))
+    (map (fun p => Znth p l 0) (Zrange 0 k)) /\
+  (forall p, 0 <= p < k -> Znth p indices 0 = p).
+
+Lemma WorkspacePrefixNLogN_unfold l heights indices k :
+  WorkspacePrefixNLogN l heights indices k <->
   (forall p, 0 <= p < k -> Znth p heights 0 = Znth p l 0) /\
   (forall p, 0 <= p < k -> Znth p indices 0 = p).
+Proof. unfold WorkspacePrefixNLogN. rewrite NLogN_Forall2_indexed. reflexivity. Qed.
+
+
+Lemma NLogN_Forall2_filtered {A B : Type} (R : A -> B -> Prop)
+    (f : Z -> A) (g : Z -> B) (keep : Z -> bool) lo hi :
+  Forall2 R (map f (filter keep (Zrange lo hi)))
+    (map g (filter keep (Zrange lo hi))) <->
+  forall p, lo <= p < hi -> keep p = true -> R (f p) (g p).
+Proof.
+  assert (Hmap : forall xs, Forall2 R (map f xs) (map g xs) <->
+    Forall (fun p => R (f p) (g p)) xs).
+  { induction xs as [|x xs IH]; cbn.
+    - split; intros; constructor.
+    - split; intro H; inversion H; subst; constructor; try assumption;
+      apply IH; assumption. }
+  rewrite Hmap, Forall_forall. split; intros H p Hp.
+  - intro Hkeep. apply H. apply filter_In. split; [apply In_Zrange|]; assumption.
+  - apply filter_In in Hp. destruct Hp as [Hp Hkeep].
+    apply H; [apply In_Zrange|]; assumption.
+Qed.
 
 Definition SameHeightIndexOutsideNLogN
     (before_h before_i after_h after_i : list Z)
     (lo hi : Z) : Prop :=
+  Zlength after_h = Zlength before_h /\
+  Zlength after_i = Zlength before_i /\
+  Forall2 (fun a b : Z * Z => fst a = fst b /\ snd a = snd b)
+    (map (fun idx => (Znth idx after_h 0, Znth idx after_i 0)) (filter (fun idx => orb (idx <? lo) (hi <=? idx)) (Zrange 0 (Zlength before_h))))
+    (map (fun idx => (Znth idx before_h 0, Znth idx before_i 0)) (filter (fun idx => orb (idx <? lo) (hi <=? idx)) (Zrange 0 (Zlength before_h)))).
+
+Lemma SameHeightIndexOutsideNLogN_unfold before_h before_i after_h after_i lo hi :
+  SameHeightIndexOutsideNLogN before_h before_i after_h after_i lo hi <->
   Zlength after_h = Zlength before_h /\
   Zlength after_i = Zlength before_i /\
   forall k,
@@ -67,6 +152,11 @@ Definition SameHeightIndexOutsideNLogN
     (k < lo \/ hi <= k) ->
     Znth k after_h 0 = Znth k before_h 0 /\
     Znth k after_i 0 = Znth k before_i 0.
+Proof.
+  unfold SameHeightIndexOutsideNLogN. rewrite NLogN_Forall2_filtered.
+  setoid_rewrite Bool.orb_true_iff. setoid_rewrite Z.ltb_lt.
+  setoid_rewrite Z.leb_le. cbn. firstorder.
+Qed.
 
 Definition HeightIndexRangePermutationNLogN
     (before_h before_i after_h after_i : list Z)
@@ -81,7 +171,6 @@ Definition HeightIndexRangeSortResultNLogN
     (lo hi : Z) : Prop :=
   Zlength before_h = Zlength before_i /\
   Zlength after_h = Zlength after_i /\
-  0 <= lo /\ lo <= hi /\ hi <= Zlength before_h /\
   SameHeightIndexOutsideNLogN
     before_h before_i after_h after_i lo hi /\
   HeightIndexRangePermutationNLogN
@@ -94,6 +183,25 @@ Definition HeightIndexRangeSortResultNLogN
 Definition MergePrefixStateNLogN
     (source_h source_i dest0_h dest0_i dest_h dest_i : list Z)
     (left middle right p q output : Z) : Prop :=
+  HeightIndexRangeDescendingNLogN source_h left middle /\
+  HeightIndexRangeDescendingNLogN source_h middle right /\
+  Forall2 (fun a b : Z * Z => fst a = fst b /\ snd a = snd b)
+    (map (fun idx => (Znth idx dest_h 0, Znth idx dest_i 0)) (filter (fun idx => orb (idx <? left) (output <=? idx)) (Zrange 0 (Zlength dest0_h))))
+    (map (fun idx => (Znth idx dest0_h 0, Znth idx dest0_i 0)) (filter (fun idx => orb (idx <? left) (output <=? idx)) (Zrange 0 (Zlength dest0_h)))) /\
+  Permutation
+    (combine (sublist left output dest_h) (sublist left output dest_i))
+    (combine (sublist left p source_h) (sublist left p source_i) ++
+     combine (sublist middle q source_h) (sublist middle q source_i)) /\
+  (forall u v,
+     left <= u -> u <= v -> v < output ->
+     Znth v dest_h 0 <= Znth u dest_h 0) /\
+  (forall u v,
+     left <= u < output ->
+     ((p <= v < middle) \/ (q <= v < right)) ->
+     Znth v source_h 0 <= Znth u dest_h 0).
+
+Lemma MergePrefixStateNLogN_unfold source_h source_i dest0_h dest0_i dest_h dest_i left middle right p q output :
+  MergePrefixStateNLogN source_h source_i dest0_h dest0_i dest_h dest_i left middle right p q output <->
   HeightIndexRangeDescendingNLogN source_h left middle /\
   HeightIndexRangeDescendingNLogN source_h middle right /\
   (forall t,
@@ -112,12 +220,15 @@ Definition MergePrefixStateNLogN
      left <= u < output ->
      ((p <= v < middle) \/ (q <= v < right)) ->
      Znth v source_h 0 <= Znth u dest_h 0).
+Proof.
+  unfold MergePrefixStateNLogN. rewrite NLogN_Forall2_filtered.
+  setoid_rewrite Bool.orb_true_iff. setoid_rewrite Z.ltb_lt.
+  setoid_rewrite Z.leb_le. cbn. firstorder.
+Qed.
 
 Definition HeightIndexRangeMergeResultNLogN
     (source_h source_i dest0_h dest0_i dest_h dest_i : list Z)
     (left middle right : Z) : Prop :=
-  0 <= left /\ left <= middle /\ middle <= right /\
-  right <= Zlength source_h /\
   SameHeightIndexOutsideNLogN
     dest0_h dest0_i dest_h dest_i left right /\
   Permutation
@@ -130,6 +241,15 @@ Definition HeightIndexRangeMergeResultNLogN
 Definition CopyHeightIndexPrefixNLogN
     (source_h source_i dest0_h dest0_i dest_h dest_i : list Z)
     (left right k : Z) : Prop :=
+  Forall2 (fun a b : Z * Z => fst a = fst b /\ snd a = snd b)
+    (map (fun p => (Znth p dest_h 0, Znth p dest_i 0)) (Zrange left k))
+    (map (fun p => (Znth p source_h 0, Znth p source_i 0)) (Zrange left k)) /\
+  Forall2 (fun a b : Z * Z => fst a = fst b /\ snd a = snd b)
+    (map (fun idx => (Znth idx dest_h 0, Znth idx dest_i 0)) (filter (fun idx => orb (idx <? left) (k <=? idx)) (Zrange 0 (Zlength dest0_h))))
+    (map (fun idx => (Znth idx dest0_h 0, Znth idx dest0_i 0)) (filter (fun idx => orb (idx <? left) (k <=? idx)) (Zrange 0 (Zlength dest0_h)))).
+
+Lemma CopyHeightIndexPrefixNLogN_unfold source_h source_i dest0_h dest0_i dest_h dest_i left right k :
+  CopyHeightIndexPrefixNLogN source_h source_i dest0_h dest0_i dest_h dest_i left right k <->
   (forall p, left <= p < k ->
      Znth p dest_h 0 = Znth p source_h 0 /\
      Znth p dest_i 0 = Znth p source_i 0) /\
@@ -138,15 +258,40 @@ Definition CopyHeightIndexPrefixNLogN
      (p < left \/ k <= p) ->
      Znth p dest_h 0 = Znth p dest0_h 0 /\
      Znth p dest_i 0 = Znth p dest0_i 0).
+Proof.
+  unfold CopyHeightIndexPrefixNLogN. rewrite NLogN_Forall2_indexed, NLogN_Forall2_filtered.
+  setoid_rewrite Bool.orb_true_iff. setoid_rewrite Z.ltb_lt.
+  setoid_rewrite Z.leb_le. cbn. firstorder.
+Qed.
+
 
 (** Endpoints of the original indices represented by a nonempty sorted
     prefix.  These endpoints are sufficient to find the farthest prior bar. *)
 Definition ProcessedIndexEndpointsNLogN
     (indices : list Z) (k minimum maximum : Z) : Prop :=
+  min_value_of_subset Z.le (fun p : Z => 0 <= p < k)
+    (fun p => Znth p indices 0) minimum /\
+  max_value_of_subset Z.le (fun p : Z => 0 <= p < k)
+    (fun p => Znth p indices 0) maximum.
+
+Lemma ProcessedIndexEndpointsNLogN_unfold indices k minimum maximum :
+  ProcessedIndexEndpointsNLogN indices k minimum maximum <->
   (exists p, 0 <= p < k /\ Znth p indices 0 = minimum) /\
   (exists p, 0 <= p < k /\ Znth p indices 0 = maximum) /\
-  (forall p, 0 <= p < k ->
-     minimum <= Znth p indices 0 <= maximum).
+  (forall p, 0 <= p < k -> minimum <= Znth p indices 0 <= maximum).
+Proof.
+  unfold ProcessedIndexEndpointsNLogN, min_value_of_subset, min_object_of_subset,
+    max_value_of_subset, max_object_of_subset. cbn beta. split.
+  - intros [[p [[Hp Hmin] Heqmin]] [q [[Hq Hmax] Heqmax]]].
+    split; [exists p;auto|]. split; [exists q;auto|].
+    intros r Hr. specialize (Hmin r Hr). specialize (Hmax r Hr). lia.
+  - intros [[p [Hp Heqmin]] [[q [Hq Heqmax]] Hall]]. split.
+    + exists p. split; [split; [exact Hp|] |exact Heqmin].
+      intros r Hr. specialize (Hall r Hr). lia.
+    + exists q. split; [split; [exact Hq|] |exact Heqmax].
+      intros r Hr. specialize (Hall r Hr). lia.
+Qed.
+
 
 Definition ProcessedContainerPairNLogN
     (l indices : list Z) (k : Z) (ij : Z * Z) : Prop :=
@@ -214,7 +359,7 @@ Lemma merge_prefix_init__merge_core :
 Proof.
   intros source_h source_i dest0_h dest0_i left middle right
     Hleft Hmiddle Hright Hdesc_left Hdesc_right.
-  unfold MergePrefixStateNLogN.
+  rewrite MergePrefixStateNLogN_unfold.
   split; [exact Hdesc_left |].
   split; [exact Hdesc_right |].
   split.
@@ -264,13 +409,14 @@ Proof.
   { rewrite Hdest_h, Hdest0_h. lia. }
   assert (Hout_i : 0 <= output < Zlength dest_i).
   { rewrite Hdest_i, Hdest0_i. lia. }
+  rewrite MergePrefixStateNLogN_unfold in Hstate.
   destruct Hstate as
       [Hdesc_left [Hdesc_right [Houtside [Hperm [Hdescending Hpending]]]]].
   pose proof Hdesc_left as Hdesc_left_parts.
   pose proof Hdesc_right as Hdesc_right_parts.
-  destruct Hdesc_left_parts as [_ [_ [_ Hleft_order]]].
-  destruct Hdesc_right_parts as [_ [_ [_ Hright_order]]].
-  unfold MergePrefixStateNLogN.
+  pose proof Hdesc_left_parts as Hleft_order.
+  pose proof Hdesc_right_parts as Hright_order.
+  rewrite MergePrefixStateNLogN_unfold.
   split; [exact Hdesc_left |].
   split; [exact Hdesc_right |].
   split.
@@ -394,13 +540,14 @@ Proof.
   { rewrite Hdest_h, Hdest0_h. lia. }
   assert (Hout_i : 0 <= output < Zlength dest_i).
   { rewrite Hdest_i, Hdest0_i. lia. }
+  rewrite MergePrefixStateNLogN_unfold in Hstate.
   destruct Hstate as
       [Hdesc_left [Hdesc_right [Houtside [Hperm [Hdescending Hpending]]]]].
   pose proof Hdesc_left as Hdesc_left_parts.
   pose proof Hdesc_right as Hdesc_right_parts.
-  destruct Hdesc_left_parts as [_ [_ [_ Hleft_order]]].
-  destruct Hdesc_right_parts as [_ [_ [_ Hright_order]]].
-  unfold MergePrefixStateNLogN.
+  pose proof Hdesc_left_parts as Hleft_order.
+  pose proof Hdesc_right_parts as Hright_order.
+  rewrite MergePrefixStateNLogN_unfold.
   split; [exact Hdesc_left |].
   split; [exact Hdesc_right |].
   split.
@@ -501,15 +648,12 @@ Proof.
   intros source_h source_i dest0_h dest0_i dest_h dest_i
     left middle right Hsource_i Hdest0_h Hdest0_i Hdest_h Hdest_i
     Hleft Hleft_middle Hmiddle_right Hright_len Hstate.
+  rewrite MergePrefixStateNLogN_unfold in Hstate.
   destruct Hstate as
       [Hdesc_left [Hdesc_right [Houtside [Hperm [Hdescending _]]]]].
   unfold HeightIndexRangeMergeResultNLogN.
-  split; [exact Hleft |].
-  split; [exact Hleft_middle |].
-  split; [exact Hmiddle_right |].
-  split; [exact Hright_len |].
   split.
-  - unfold SameHeightIndexOutsideNLogN.
+  - rewrite SameHeightIndexOutsideNLogN_unfold.
     split; [exact Hdest_h |].
     split; [exact Hdest_i |].
     exact Houtside.
@@ -528,12 +672,7 @@ Proof.
         rewrite !Zlength_sublist by (rewrite ?Hsource_i; lia). lia.
     }
       rewrite Hsource_pairs. exact Hperm.
-    + unfold HeightIndexRangeDescendingNLogN.
-      split; [exact Hleft |].
-      split; [lia |].
-      split.
-      * rewrite Hdest_h, Hdest0_h. lia.
-      * exact Hdescending.
+    + exact Hdescending.
 Qed.
 Lemma range_sort_left_desc__sort_recursion :
   forall work0_h work0_i work_mid_h work_mid_i work_h work_i
@@ -542,22 +681,22 @@ Lemma range_sort_left_desc__sort_recursion :
       work0_h work0_i work_mid_h work_mid_i left middle ->
     HeightIndexRangeSortResultNLogN
       work_mid_h work_mid_i work_h work_i middle right ->
+    0 <= left /\ left <= middle /\ middle <= right /\ right <= Zlength work0_h ->
     HeightIndexRangeDescendingNLogN work_h left middle.
 Proof.
   intros work0_h work0_i work_mid_h work_mid_i work_h work_i
-    left middle right Hleft Hright.
+    left middle right Hleft Hright Hbounds.
   unfold HeightIndexRangeSortResultNLogN in Hleft, Hright.
   destruct Hleft as
-    [Hbefore_len [Hafter_len [Hleft0 [Hleftmid [Hmidlen
-      [Hsame_left [Hperm_left Hdesc]]]]]]].
+    [Hbefore_len [Hafter_len [Hsame_left [Hperm_left Hdesc]]]].
+  try rewrite SameHeightIndexOutsideNLogN_unfold in Hsame_left.
+  destruct Hsame_left as [Hmidlenh [Hmidleni Houtsideleft]].
   destruct Hright as
-    [Hmid_pair_len [Hwork_pair_len [Hmiddle0 [Hmiddle_right [Hright_len
-      [Hsame [Hperm_right Hdesc_right]]]]]]].
-  unfold SameHeightIndexOutsideNLogN in Hsame.
+    [Hmid_pair_len [Hwork_pair_len [Hsame [Hperm_right Hdesc_right]]]].
+  rewrite SameHeightIndexOutsideNLogN_unfold in Hsame.
   destruct Hsame as [Hhlen [_ Houtside]].
   unfold HeightIndexRangeDescendingNLogN in Hdesc |- *.
-  destruct Hdesc as [Hleft0' [Hleftmid' [Hmidlen' Hordered]]].
-  repeat split; try lia.
+  pose proof Hdesc as Hordered.
   intros p q Hlp Hpq Hqm.
   assert (Hp : 0 <= p < Zlength work_mid_h) by lia.
   assert (Hq : 0 <= q < Zlength work_mid_h) by lia.
@@ -627,27 +766,29 @@ Lemma sort_range_after_merge_copy__sort_copy :
       left middle right ->
     CopyHeightIndexPrefixNLogN
       buffer_h buffer_i work_h work_i out_h out_i left right right ->
+    0 <= left /\ left <= middle /\ middle <= right /\ right <= Zlength before_h ->
     HeightIndexRangeSortResultNLogN
       before_h before_i out_h out_i left right.
 Proof.
   intros before_h before_i mid_h mid_i work_h work_i
     buffer0_h buffer0_i buffer_h buffer_i out_h out_i
     left middle right HoutH HoutI HBufferH HBufferI
-    Hleft Hright Hmerge Hcopy.
+    Hleft Hright Hmerge Hcopy Hbounds.
+  destruct Hbounds as [Hleft0 [HleftMiddle [HmiddleRight HrightBefore]]].
   destruct Hleft as
-    [HbeforeLen [HmidLen [Hleft0 [HleftMiddle [HmiddleBefore
-      [HoutsideLeft [HpermLeft HdescLeft]]]]]]].
+    [HbeforeLen [HmidLen [HoutsideLeft [HpermLeft HdescLeft]]]].
+  try rewrite SameHeightIndexOutsideNLogN_unfold in HoutsideLeft.
   destruct HoutsideLeft as [HmidHLen [HmidILen HoutsideLeft]].
   destruct Hright as
-    [HmidLen' [HworkLen [Hmiddle0 [HmiddleRight [HrightMid
-      [HoutsideRight [HpermRight HdescRight]]]]]]].
+    [HmidLen' [HworkLen [HoutsideRight [HpermRight HdescRight]]]].
+  try rewrite SameHeightIndexOutsideNLogN_unfold in HoutsideRight.
   destruct HoutsideRight as [HworkHLen [HworkILen HoutsideRight]].
   destruct Hmerge as
-    [HmergeLeft0 [HmergeLeftMiddle [HmergeMiddleRight [HrightWork
-      [HoutsideMerge [HpermMerge HdescMerge]]]]]].
+    [HoutsideMerge [HpermMerge HdescMerge]].
+  rewrite CopyHeightIndexPrefixNLogN_unfold in Hcopy.
   destruct Hcopy as [HcopyInside HcopyOutside].
 
-  assert (HrightBefore : right <= Zlength before_h) by lia.
+
   assert (HrightOut : right <= Zlength out_h) by lia.
   assert (HrightOutI : right <= Zlength out_i) by lia.
 
@@ -729,17 +870,13 @@ Proof.
     - rewrite <- HmidBeforeRightH, <- HmidBeforeRightI. exact HpermRight.
   }
 
-  destruct HdescMerge as [Hd0 [HdLR [HdBound HdMono]]].
+  pose proof HdescMerge as HdMono.
 
   unfold HeightIndexRangeSortResultNLogN,
-    SameHeightIndexOutsideNLogN,
-    HeightIndexRangePermutationNLogN,
-    HeightIndexRangeDescendingNLogN.
+    HeightIndexRangePermutationNLogN, HeightIndexRangeDescendingNLogN.
+  rewrite SameHeightIndexOutsideNLogN_unfold.
   split; [exact HbeforeLen |].
   split; [lia |].
-  split; [exact Hleft0 |].
-  split; [lia |].
-  split; [exact HrightBefore |].
   split.
   - split; [exact HoutH |].
     split; [exact HoutI |].
@@ -751,16 +888,15 @@ Proof.
     assert (HoutsideL : p < left \/ middle <= p) by lia.
     specialize (HoutsideLeft p Hp HoutsideL).
     destruct HcopyOutside as [HcopyH HcopyI].
+    try rewrite SameHeightIndexOutsideNLogN_unfold in HoutsideRight.
     destruct HoutsideRight as [HrightH HrightI].
+    try rewrite SameHeightIndexOutsideNLogN_unfold in HoutsideLeft.
     destruct HoutsideLeft as [HleftH HleftI].
     split; congruence.
   - split.
     + rewrite HoutBufferH, HOutBufferI.
       eapply Permutation_trans; eauto.
-    + split; [exact Hd0 |].
-      split; [exact HdLR |].
-      split; [exact HrightOut |].
-      intros p q Hp Hpq Hq.
+    + intros p q Hp Hpq Hq.
       destruct (HcopyInside p ltac:(lia)) as [HpH HpI].
       destruct (HcopyInside q ltac:(lia)) as [HqH HqI].
       rewrite HpH, HqH.
@@ -796,8 +932,9 @@ Proof.
   - rewrite Zlength_app, Zlength_cons, Zlength_nil. lia.
   - split.
     + rewrite Zlength_app, Zlength_cons, Zlength_nil. lia.
-    + destruct Hprefix as [Hheights Hindices].
-      unfold WorkspacePrefixNLogN.
+    + rewrite WorkspacePrefixNLogN_unfold in Hprefix.
+    destruct Hprefix as [Hheights Hindices].
+      rewrite WorkspacePrefixNLogN_unfold.
       split.
       * intros p Hp.
         destruct (Z_lt_ge_dec p k) as [Hpk | Hpk].
@@ -859,7 +996,7 @@ Proof.
     In (Znth k heights 0, Znth k indices 0)
        (IndexedHeightsNLogN l)).
   { eapply Permutation_in; [exact Hperm | exact Hin_pair]. }
-  unfold IndexedHeightsNLogN in Hin_indexed.
+  rewrite IndexedHeightsNLogN_legacy in Hin_indexed.
   apply in_map_iff in Hin_indexed.
   destruct Hin_indexed as [m [Hpair Hm]].
   apply in_seq in Hm.
@@ -893,12 +1030,13 @@ Lemma workspace_prefix_indexed__max_loop_setup :
     combine heights indices = IndexedHeightsNLogN l.
 Proof.
   intros l heights indices n Hl Hh Hi Hprefix.
-  destruct Hprefix as [Hheights Hindices].
+  rewrite WorkspacePrefixNLogN_unfold in Hprefix.
+    destruct Hprefix as [Hheights Hindices].
   assert (Hlen_h : length heights = length l).
   { apply Nat2Z.inj. rewrite <- !Zlength_correct. lia. }
   assert (Hlen_i : length indices = length l).
   { apply Nat2Z.inj. rewrite <- !Zlength_correct. lia. }
-  unfold IndexedHeightsNLogN.
+  rewrite IndexedHeightsNLogN_legacy.
   apply List.nth_ext with
       (d := (0, 0)) (d' := (nth 0 l 0, 0)).
   - rewrite length_combine, length_map, length_seq.
@@ -948,8 +1086,8 @@ Proof.
   intros l work0_h work0_i work_h work_i n
     Hl Hwork0_h Hwork0_i Hprefix Hsort.
   destruct Hsort as
-    [Hbefore_len [Hafter_len [Hlo [Hlohi [Hhi
-      [Houtside [Hrange_perm Hdescending]]]]]]].
+    [Hbefore_len [Hafter_len [Houtside [Hrange_perm Hdescending]]]].
+  try rewrite SameHeightIndexOutsideNLogN_unfold in Houtside.
   destruct Houtside as [Hwork_h [Hwork_i Hframe]].
   unfold HeightIndexRangePermutationNLogN in Hrange_perm.
   rewrite (sublist_self work_h n) in Hrange_perm by lia.
@@ -1001,7 +1139,7 @@ Proof.
     In (Znth k sorted_h 0, Znth k sorted_i 0)
        (IndexedHeightsNLogN l)).
   { eapply Permutation_in; [exact Hperm | exact Hin_pair]. }
-  unfold IndexedHeightsNLogN in Hin_indexed.
+  rewrite IndexedHeightsNLogN_legacy in Hin_indexed.
   apply in_map_iff in Hin_indexed.
   destruct Hin_indexed as [m [Hpair Hm]].
   apply in_seq in Hm.
@@ -1039,7 +1177,8 @@ Lemma processed_endpoint_bounds__max_width_selection :
     0 <= minimum /\ minimum <= maximum /\ maximum < n.
 Proof.
   intros indices k minimum maximum n Hendpoints Hindex_bounds.
-  unfold ProcessedIndexEndpointsNLogN in Hendpoints.
+  rewrite ProcessedIndexEndpointsNLogN_unfold in Hendpoints.
+  try rewrite ProcessedIndexEndpointsNLogN_unfold in Hendpoints.
   destruct Hendpoints as [[p [Hp Hminimum]]
     [[q [Hq Hmaximum]] Hordered]].
   pose proof (Hindex_bounds p Hp) as Hp_bound.
@@ -1081,7 +1220,7 @@ Proof.
   assert (Hindexed :
     In (Znth k heights 0, Znth k indices 0) (IndexedHeightsNLogN l)).
   { eapply Permutation_in; [exact Hperm | exact Hpair_in]. }
-  unfold IndexedHeightsNLogN in Hindexed.
+  rewrite IndexedHeightsNLogN_legacy in Hindexed.
   apply in_map_iff in Hindexed.
   destruct Hindexed as [position [Heq Hposition]].
   apply in_seq in Hposition.
@@ -1130,7 +1269,7 @@ Proof.
   assert (Hin_indexed :
     In (nth nq heights 0, nth nq indices 0) (IndexedHeightsNLogN l)).
   { eapply Permutation_in; eauto. }
-  unfold IndexedHeightsNLogN in Hin_indexed.
+  rewrite IndexedHeightsNLogN_legacy in Hin_indexed.
   apply in_map_iff in Hin_indexed.
   destruct Hin_indexed as [n [Heq Hin_seq]].
   apply in_seq in Hin_seq.
@@ -1158,13 +1297,14 @@ Lemma processed_endpoints_extend__max_endpoint_a :
 Proof.
   intros indices k minimum maximum index new_min new_max
     Hk Hklen Hindex Hends Hcase.
+  try rewrite ProcessedIndexEndpointsNLogN_unfold in Hends.
   destruct Hends as [[pmin [Hpmin Hmin]]
                      [[pmax [Hpmax Hmax]] Hall]].
   assert (Hminmax : minimum <= maximum).
   { pose proof (Hall pmin Hpmin). lia. }
   destruct Hcase as [[Hbelow [-> ->]] |
                      [[Habove [-> ->]] | [Hinside [-> ->]]]].
-  - unfold ProcessedIndexEndpointsNLogN.
+  - rewrite ProcessedIndexEndpointsNLogN_unfold.
     split.
     + exists k. split; [lia | symmetry; exact Hindex].
     + split.
@@ -1173,7 +1313,7 @@ Proof.
         destruct (Z_lt_ge_dec p k) as [Hpk | Hpk].
         -- specialize (Hall p ltac:(lia)). lia.
         -- assert (p = k) by lia. subst p. rewrite <- Hindex. lia.
-  - unfold ProcessedIndexEndpointsNLogN.
+  - rewrite ProcessedIndexEndpointsNLogN_unfold.
     split.
     + exists pmin. split; [lia | exact Hmin].
     + split.
@@ -1182,7 +1322,7 @@ Proof.
         destruct (Z_lt_ge_dec p k) as [Hpk | Hpk].
         -- specialize (Hall p ltac:(lia)). lia.
         -- assert (p = k) by lia. subst p. rewrite <- Hindex. lia.
-  - unfold ProcessedIndexEndpointsNLogN.
+  - rewrite ProcessedIndexEndpointsNLogN_unfold.
     split.
     + exists pmin. split; [lia | exact Hmin].
     + split.
@@ -1223,6 +1363,7 @@ Proof.
       Hsorted_full Hkheight).
   rewrite <- Hindex, <- Hcurrent in Hnew_lookup.
   destruct Hnew_lookup as [Hindex_bounds Hcurrent_original].
+  try rewrite ProcessedIndexEndpointsNLogN_unfold in Hends.
   destruct Hends as [[pmin [Hpmin Hmin]]
                      [[pmax [Hpmax Hmax]] Hall]].
   assert (Hprefix_member : forall p,
@@ -1438,7 +1579,7 @@ Proof.
   unfold HeightIndexPermutationNLogN in Hperm.
   destruct Hperm as [Hheights [Hindices Hpermutation]].
   unfold HeightIndexRangeDescendingNLogN in Hdescending.
-  destruct Hdescending as [Hlo [Hlohi [Hhi Hmono]]].
+  pose proof Hdescending as Hmono.
   assert (Hpheight : p < Zlength heights) by lia.
   assert (Hlen_nat : length heights = length indices).
   { rewrite !Zlength_correct in Hheights, Hindices. lia. }
@@ -1459,7 +1600,7 @@ Proof.
   assert (Hin_indexed :
       In (Znth p heights 0, Znth p indices 0) (IndexedHeightsNLogN l)).
   { eapply Permutation_in; eauto. }
-  unfold IndexedHeightsNLogN in Hin_indexed.
+  rewrite IndexedHeightsNLogN_legacy in Hin_indexed.
   apply in_map_iff in Hin_indexed.
   destruct Hin_indexed as [n [Heq Hn]].
   apply in_seq in Hn.
@@ -1480,7 +1621,8 @@ Lemma processed_endpoints_extend__max_endpoint_b :
       (Z.max maximum (Znth k indices 0)).
 Proof.
   intros indices k minimum maximum Hk Hendpoints.
-  unfold ProcessedIndexEndpointsNLogN in *.
+  rewrite ProcessedIndexEndpointsNLogN_unfold in *.
+  try rewrite ProcessedIndexEndpointsNLogN_unfold in Hendpoints.
   destruct Hendpoints as
       [[pmin [Hpmin Hmin]] [[pmax [Hpmax Hmax]] Hall]].
   destruct (Z_le_gt_dec minimum (Znth k indices 0)) as [Hminle | Hminlt];
@@ -1583,7 +1725,8 @@ Proof.
       pose proof (sorted_workspace_lookup__max_endpoint_b
         l heights indices p k Hsorted ltac:(lia) Hklen)
         as [Ha_bounds [Ha_height Hheight_order]].
-      unfold ProcessedIndexEndpointsNLogN in Hendpoints.
+      rewrite ProcessedIndexEndpointsNLogN_unfold in Hendpoints.
+      try rewrite ProcessedIndexEndpointsNLogN_unfold in Hendpoints.
       destruct Hendpoints as [_ [_ Hall]].
       specialize (Hall p Hp).
       rewrite Hpa in Ha_bounds, Ha_height, Hall.
@@ -1601,7 +1744,8 @@ Proof.
       pose proof (sorted_workspace_lookup__max_endpoint_b
         l heights indices p k Hsorted ltac:(lia) Hklen)
         as [Hb_bounds [Hb_height Hheight_order]].
-      unfold ProcessedIndexEndpointsNLogN in Hendpoints.
+      rewrite ProcessedIndexEndpointsNLogN_unfold in Hendpoints.
+      try rewrite ProcessedIndexEndpointsNLogN_unfold in Hendpoints.
       destruct Hendpoints as [_ [_ Hall]].
       specialize (Hall p Hp).
       rewrite Hpb in Hb_bounds, Hb_height, Hall.
@@ -1649,7 +1793,8 @@ Proof.
           ContainerAreaNLogN l (fst ij) (snd ij) =
             width * currentHeight).
     {
-      unfold ProcessedIndexEndpointsNLogN in Hendpoints.
+      rewrite ProcessedIndexEndpointsNLogN_unfold in Hendpoints.
+      try rewrite ProcessedIndexEndpointsNLogN_unfold in Hendpoints.
       destruct Hendpoints as
           [[pmin [Hpmin Hmin]] [[pmax [Hpmax Hmax]] Hall]].
       destruct Hwidth_attained as [Hattain | Hattain].
@@ -1761,7 +1906,7 @@ Proof.
   assert (Hsame : Zlength heights = Zlength indices) by lia.
   pose proof (Permutation_map snd Hperm) as Hmap.
   rewrite (map_snd_combine__max_final_result heights indices Hsame) in Hmap.
-  unfold IndexedHeightsNLogN in Hmap.
+  rewrite IndexedHeightsNLogN_legacy in Hmap.
   rewrite map_map in Hmap. simpl in Hmap.
   apply (Permutation_NoDup (Permutation_sym Hmap)).
   apply NoDup_map_NoDup_ForallPairs.
@@ -1779,6 +1924,7 @@ Lemma processed_endpoint_fresh__max_endpoint_c :
     index <> minimum /\ index <> maximum.
 Proof.
   intros indices k minimum maximum index Hk0 Hklen Hnodup Hindex Hendpoints.
+  try rewrite ProcessedIndexEndpointsNLogN_unfold in Hendpoints.
   destruct Hendpoints as [[p [[Hp0 Hpk] Hpmin]]
                          [[q [[Hq0 Hqk] Hqmax]] _]].
   split; intro Heq.
@@ -1858,7 +2004,8 @@ Lemma sorted_workspace_lookup__max_endpoint_d :
     minimum <= x <= maximum.
 Proof.
   intros indices k minimum maximum x Hk Hendpoints Hin.
-  unfold ProcessedIndexEndpointsNLogN in Hendpoints.
+  rewrite ProcessedIndexEndpointsNLogN_unfold in Hendpoints.
+  try rewrite ProcessedIndexEndpointsNLogN_unfold in Hendpoints.
   destruct Hendpoints as [_ [_ Hall]].
   pose proof (In_nth (sublist 0 k indices) x 0 Hin) as [n [Hn Hnth]].
   rewrite sublist_length in Hn by lia.
@@ -1883,7 +2030,8 @@ Lemma processed_endpoints_extend__max_endpoint_d :
     ProcessedIndexEndpointsNLogN indices (k + 1) minimum maximum.
 Proof.
   intros indices k index minimum maximum Hk Hindex Hbetween Hendpoints.
-  unfold ProcessedIndexEndpointsNLogN in *.
+  rewrite ProcessedIndexEndpointsNLogN_unfold in *.
+  try rewrite ProcessedIndexEndpointsNLogN_unfold in Hendpoints.
   destruct Hendpoints as [[pmin [Hpmin Hmin]]
                            [[pmax [Hpmax Hmax]] Hall]].
   split.
@@ -1988,7 +2136,7 @@ Lemma original_pair_in_indexed__max_final_result : forall (l : list Z) p,
   0 <= p < Zlength l ->
   In (Znth p l 0, p) (IndexedHeightsNLogN l).
 Proof.
-  intros l p Hp. unfold IndexedHeightsNLogN.
+  intros l p Hp. rewrite IndexedHeightsNLogN_legacy.
   apply in_map_iff. exists (Z.to_nat p). split.
   - unfold Znth. rewrite Z2Nat.id by lia. reflexivity.
   - apply in_seq. rewrite Zlength_correct in Hp. lia.
@@ -2048,7 +2196,7 @@ Lemma processed_full_prefix_maximum__max_final_result :
 Proof.
   intros l heights indices ans Hlen Hperm Hprocessed Hnonneg.
   unfold ProcessedContainerMaximumNLogN in Hprocessed.
-  unfold MaximumContainerArea.
+  apply MaximumContainerArea_unfold.
   destruct Hprocessed as [[Hmaximum Hans_nonneg] | [Hall Hans]].
   - destruct Hmaximum as [[i j] [[Hmember Hbound] Harea]].
     unfold ProcessedContainerPairNLogN in Hmember. simpl in Hmember.

@@ -22,591 +22,444 @@ Require Import SimpleC.EE.LLM_bench.Algorithms.modular_mul.modular_mul_lib.
 Require Import SimpleC.EE.LLM_bench.Algorithms.extended_chinese_remainder_theorem.extended_chinese_remainder_theorem_lib.
 Local Open Scope sac.
 
-Lemma proof_of_extended_chinese_remainder_theorem_safety_wit_7_split_goal_1 : extended_chinese_remainder_theorem_safety_wit_7_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (extended_crt_index_bounds__machine_bounds
-    residue_values modulus_values n_pre i PreH1 ltac:(lia)) as Hbounds.
-  destruct Hbounds as [[Hmod_pos Hmod_max] [Hres_nonneg Hres_lt]].
-  dump_pre_spatial.
-  nia.
-Qed.
+Require Import AUXLib.MonotonicList.
 
-Lemma proof_of_extended_chinese_remainder_theorem_safety_wit_7_split_goal_2 : extended_chinese_remainder_theorem_safety_wit_7_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (extended_crt_index_bounds__machine_bounds
-    residue_values modulus_values n_pre i PreH1 ltac:(lia)) as Hbounds.
-  destruct Hbounds as [[Hmod_pos Hmod_max] [Hres_nonneg Hres_lt]].
-  dump_pre_spatial.
-  nia.
-Qed.
+(* Extract list domains from ownership before using the preserved arithmetic
+   helpers. No input-range predicate is added to the public specification. *)
+Ltac crt_prepare :=
+  (LLM_pre_process ltac:(lia || int_auto));
+  match goal with
+  | |- context [IntArray.full ?ptr ?n ?xs] =>
+    prop_apply (IntArray.full_Zlength ptr n xs)
+  end; Intros;
+  lazymatch goal with
+  | HF : Forall2 Z.lt ?rs ?ms,
+    HP : Forall (Z.lt 0) ?ms,
+    HM : Forall (Z.ge 2147483647) ?ms,
+    HR : Forall (Z.le 0) ?rs,
+    HL : Zlength ?xs = ?n |- _ =>
+    pose proof (proj1 (crt_forall2_Znth_iff Z.lt _ _) HF) as [Hsame_length2 Hlt2];
+    pose proof (proj1 (Forall_Znth _ 0 _) HP) as Hpositive;
+    pose proof (proj1 (Forall_Znth _ 0 _) HM) as Hmaximum;
+    pose proof (proj1 (Forall_Znth _ 0 _) HR) as Hnonnegative;
+    assert (Hinputs :
+      1 <= n /\ Zlength rs = n /\ Zlength ms = n /\
+      forall k, 0 <= k < n ->
+        0 < Znth k ms 0 <= 2147483647 /\
+        0 <= Znth k rs 0 < Znth k ms 0)
+      by (split; [lia |]; split; [lia |]; split; [lia |];
+          intros k Hk;
+          specialize (Hpositive k ltac:(lia));
+          specialize (Hmaximum k ltac:(lia));
+          specialize (Hnonnegative k ltac:(lia));
+          specialize (Hlt2 k ltac:(lia)); lia)
+  end.
 
 Lemma proof_of_extended_chinese_remainder_theorem_safety_wit_7 : extended_chinese_remainder_theorem_safety_wit_7.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_safety_wit_7_split_goal_1.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_safety_wit_7_split_goal_2.
+  crt_prepare.
+  destruct (extended_crt_index_bounds__machine_bounds
+    residue_values modulus_values n_pre i Hinputs ltac:(lia))
+    as [[Hmpos Hmmax] [Hrpos Hrmax]].
+  entailer_with ltac:(lia || int_auto).
 Qed.
 
-Lemma proof_of_extended_chinese_remainder_theorem_safety_wit_10_split_goal_1 : extended_chinese_remainder_theorem_safety_wit_10_split_goal_1.
+Lemma proof_of_extended_chinese_remainder_theorem_safety_wit_9 : extended_chinese_remainder_theorem_safety_wit_9.
+Proof.
+  crt_prepare.
+  destruct (extended_crt_index_bounds__machine_bounds
+    residue_values modulus_values n_pre i Hinputs ltac:(lia))
+    as [[Hmpos Hmmax] [Hrpos Hrmax]].
+  entailer_with ltac:(lia || int_auto).
+Qed.
+
+Lemma proof_of_extended_chinese_remainder_theorem_safety_wit_14 : extended_chinese_remainder_theorem_safety_wit_14.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  dump_pre_spatial.
-  nia.
+  pose proof (bounded_merge_arithmetic__machine_bounds answer lcm
+    (retval_2 + Z.quot (Znth i modulus_values 0) retval)
+    (Z.quot (Znth i modulus_values 0) retval)
+    ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia)) as Hbounds.
+  split_pures; dump_pre_spatial; lia.
 Qed.
 
-Lemma proof_of_extended_chinese_remainder_theorem_safety_wit_10_split_goal_2 : extended_chinese_remainder_theorem_safety_wit_10_split_goal_2.
+Lemma proof_of_extended_chinese_remainder_theorem_safety_wit_15 : extended_chinese_remainder_theorem_safety_wit_15.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  pose proof (bounded_merge_arithmetic__machine_bounds answer lcm
+    (retval_2 + Z.quot (Znth i modulus_values 0) retval)
+    (Z.quot (Znth i modulus_values 0) retval)
+    ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia)) as Hbounds.
+  split_pures; dump_pre_spatial; lia.
 Qed.
 
-Lemma proof_of_extended_chinese_remainder_theorem_safety_wit_10 : extended_chinese_remainder_theorem_safety_wit_10.
-Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_safety_wit_10_split_goal_1.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_safety_wit_10_split_goal_2.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_safety_wit_11_split_goal_1 : extended_chinese_remainder_theorem_safety_wit_11_split_goal_1.
+Lemma proof_of_extended_chinese_remainder_theorem_safety_wit_16 : extended_chinese_remainder_theorem_safety_wit_16.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  dump_pre_spatial.
-  nia.
+  pose proof (bounded_merge_arithmetic__machine_bounds answer lcm
+    (retval_2 + Z.quot (Znth i modulus_values 0) retval)
+    (Z.quot (Znth i modulus_values 0) retval)
+    ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia)) as Hbounds.
+  split_pures; dump_pre_spatial; lia.
 Qed.
 
-Lemma proof_of_extended_chinese_remainder_theorem_safety_wit_11_split_goal_2 : extended_chinese_remainder_theorem_safety_wit_11_split_goal_2.
+Lemma proof_of_extended_chinese_remainder_theorem_safety_wit_17 : extended_chinese_remainder_theorem_safety_wit_17.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  pose proof (bounded_merge_arithmetic__machine_bounds answer lcm
+    (retval_2 + Z.quot (Znth i modulus_values 0) retval)
+    (Z.quot (Znth i modulus_values 0) retval)
+    ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia)) as Hbounds.
+  split_pures; dump_pre_spatial; lia.
 Qed.
 
-Lemma proof_of_extended_chinese_remainder_theorem_safety_wit_11 : extended_chinese_remainder_theorem_safety_wit_11.
-Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_safety_wit_11_split_goal_1.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_safety_wit_11_split_goal_2.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_1_split_goal_1 : extended_chinese_remainder_theorem_entail_wit_1_split_goal_1.
+Lemma proof_of_extended_chinese_remainder_theorem_safety_wit_18 : extended_chinese_remainder_theorem_safety_wit_18.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  unfold ExtendedCRTInputs in PreH1.
-  tauto.
+  pose proof (bounded_merge_arithmetic__machine_bounds answer lcm retval
+    (Z.quot (Znth i modulus_values 0) retval_2)
+    ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia)) as Hbounds.
+  split_pures; dump_pre_spatial; lia.
+Qed.
+
+Lemma proof_of_extended_chinese_remainder_theorem_safety_wit_19 : extended_chinese_remainder_theorem_safety_wit_19.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  pose proof (bounded_merge_arithmetic__machine_bounds answer lcm retval
+    (Z.quot (Znth i modulus_values 0) retval_2)
+    ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia)) as Hbounds.
+  split_pures; dump_pre_spatial; lia.
+Qed.
+
+Lemma proof_of_extended_chinese_remainder_theorem_safety_wit_20 : extended_chinese_remainder_theorem_safety_wit_20.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  pose proof (bounded_merge_arithmetic__machine_bounds answer lcm retval
+    (Z.quot (Znth i modulus_values 0) retval_2)
+    ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia)) as Hbounds.
+  split_pures; dump_pre_spatial; lia.
+Qed.
+
+Lemma proof_of_extended_chinese_remainder_theorem_safety_wit_21 : extended_chinese_remainder_theorem_safety_wit_21.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  pose proof (bounded_merge_arithmetic__machine_bounds answer lcm retval
+    (Z.quot (Znth i modulus_values 0) retval_2)
+    ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia)) as Hbounds.
+  split_pures; dump_pre_spatial; lia.
 Qed.
 
 Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_1 : extended_chinese_remainder_theorem_entail_wit_1.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_1_split_goal_1.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_2_split_goal_1 : extended_chinese_remainder_theorem_entail_wit_2_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  exact (crt_prefix_meaning_one__prefix_boundaries
-    residue_values modulus_values n_pre PreH2 PreH1).
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_2_split_goal_2 : extended_chinese_remainder_theorem_entail_wit_2_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  crt_prepare.
+  pose proof (crt_prefix_meaning_one__prefix_boundaries
+    residue_values modulus_values n_pre Hinputs ltac:(lia)) as Hprefix.
   destruct (extended_crt_index_bounds__machine_bounds
-    residue_values modulus_values n_pre 0 PreH2 ltac:(lia))
-    as [[Hmodulus_pos Hmodulus_max] [Hresidue_nonneg Hresidue_lt]].
-  exact Hmodulus_max.
+    residue_values modulus_values n_pre 0 Hinputs ltac:(lia))
+    as [[Hmpos Hmmax] [Hrpos Hrmax]].
+  entailer_with ltac:(lia || int_auto).
 Qed.
 
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_2_split_goal_3 : extended_chinese_remainder_theorem_entail_wit_2_split_goal_3.
+Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_2_1 : extended_chinese_remainder_theorem_entail_wit_2_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  destruct (extended_crt_index_bounds__machine_bounds
-    residue_values modulus_values n_pre 0 PreH2 ltac:(lia))
-    as [[Hmodulus_pos Hmodulus_max] [Hresidue_nonneg Hresidue_lt]].
-  exact Hmodulus_pos.
+  crt_prepare.
+  destruct (extended_crt_index_bounds__machine_bounds residue_values modulus_values n_pre i Hinputs ltac:(lia)) as [[Hmpos Hmmax] [Hrpos Hrmax]].
+  pose proof (positive_gcd_quotient_bounds__machine_bounds lcm (Znth i modulus_values 0) retval ltac:(lia) PreH4 PreH3) as Hquotient.
+  pose proof (crt_merge_difference_divisible__merge_transition
+    residue_values modulus_values n_pre i answer lcm
+    ltac:(lia) ltac:(lia) ltac:(eassumption) ltac:(eassumption) ltac:(lia))
+    as Hdifference.
+  rewrite <- PreH4 in Hdifference.
+  assert (Hmodulus_divides : (retval | Znth i modulus_values 0)).
+  { rewrite PreH4. apply Z.gcd_divide_r. }
+  assert (Hmodulus_quot : Znth i modulus_values 0 ÷ retval =
+      Znth i modulus_values 0 / retval).
+  { apply quot_div_of_divide_pos__merge_transition; assumption. }
+  assert (Hdifference_quot : (Znth i residue_values 0 - answer) ÷ retval =
+      (Znth i residue_values 0 - answer) / retval).
+  { apply quot_div_of_divide_pos__merge_transition; assumption. }
+  pose proof PreH2 as Hmul.
+  unfold ModularMul in Hmul. destruct Hmul as [Hrange [q Hmul]].
+  rewrite Hdifference_quot in Hmul.
+  assert (Hmerge : CRTReducedMergeEquation answer lcm
+    (Znth i residue_values 0) (Znth i modulus_values 0) (retval_2 + Znth i modulus_values 0 ÷ retval)).
+  { eapply (reduced_merge_equation_from_bezout__merge_transition
+      answer lcm (Znth i residue_values 0) (Znth i modulus_values 0)
+      retval x_callee_v y_callee_v (retval_2 + Znth i modulus_values 0 ÷ retval) (q - 1));
+      try eassumption.
+    rewrite <- Hmodulus_quot. lia. }
+  assert (Hstep : CRTLCMPrefix modulus_values (i + 1) =
+    lcm * (Znth i modulus_values 0 ÷ retval)).
+  { eapply crt_lcm_prefix_step__merge_transition;
+      [exact Hinputs | lia | lia | eassumption | exact PreH4 | lia | exact Hmodulus_quot]. }
+  match goal with
+  | HS : forall count, 1 <= count <= n_pre -> _ |- _ =>
+    pose proof (HS (i + 1) ltac:(lia)) as Hbound;
+    rewrite Hstep in Hbound
+  end.
+  entailer_with ltac:(lia || int_auto).
 Qed.
 
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_2_split_goal_4 : extended_chinese_remainder_theorem_entail_wit_2_split_goal_4.
+Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_2_2 : extended_chinese_remainder_theorem_entail_wit_2_2.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  destruct (extended_crt_index_bounds__machine_bounds
-    residue_values modulus_values n_pre 0 PreH2 ltac:(lia))
-    as [[Hmodulus_pos Hmodulus_max] [Hresidue_nonneg Hresidue_lt]].
-  exact Hresidue_lt.
+  crt_prepare.
+  destruct (extended_crt_index_bounds__machine_bounds residue_values modulus_values n_pre i Hinputs ltac:(lia)) as [[Hmpos Hmmax] [Hrpos Hrmax]].
+  pose proof (positive_gcd_quotient_bounds__machine_bounds lcm (Znth i modulus_values 0) retval ltac:(lia) PreH4 PreH3) as Hquotient.
+  pose proof (crt_merge_difference_divisible__merge_transition
+    residue_values modulus_values n_pre i answer lcm
+    ltac:(lia) ltac:(lia) ltac:(eassumption) ltac:(eassumption) ltac:(lia))
+    as Hdifference.
+  rewrite <- PreH4 in Hdifference.
+  assert (Hmodulus_divides : (retval | Znth i modulus_values 0)).
+  { rewrite PreH4. apply Z.gcd_divide_r. }
+  assert (Hmodulus_quot : Znth i modulus_values 0 ÷ retval =
+      Znth i modulus_values 0 / retval).
+  { apply quot_div_of_divide_pos__merge_transition; assumption. }
+  assert (Hdifference_quot : (Znth i residue_values 0 - answer) ÷ retval =
+      (Znth i residue_values 0 - answer) / retval).
+  { apply quot_div_of_divide_pos__merge_transition; assumption. }
+  pose proof PreH2 as Hmul.
+  unfold ModularMul in Hmul. destruct Hmul as [Hrange [q Hmul]].
+  rewrite Hdifference_quot in Hmul.
+  assert (Hmerge : CRTReducedMergeEquation answer lcm
+    (Znth i residue_values 0) (Znth i modulus_values 0) (retval_3 + Znth i modulus_values 0 ÷ retval)).
+  { eapply (reduced_merge_equation_from_bezout__merge_transition
+      answer lcm (Znth i residue_values 0) (Znth i modulus_values 0)
+      retval x_callee_v_2 y_callee_v (retval_3 + Znth i modulus_values 0 ÷ retval) (q - 1));
+      try eassumption.
+    rewrite <- Hmodulus_quot. lia. }
+  assert (Hstep : CRTLCMPrefix modulus_values (i + 1) =
+    lcm * (Znth i modulus_values 0 ÷ retval)).
+  { eapply crt_lcm_prefix_step__merge_transition;
+      [exact Hinputs | lia | lia | eassumption | exact PreH4 | lia | exact Hmodulus_quot]. }
+  match goal with
+  | HS : forall count, 1 <= count <= n_pre -> _ |- _ =>
+    pose proof (HS (i + 1) ltac:(lia)) as Hbound;
+    rewrite Hstep in Hbound
+  end.
+  entailer_with ltac:(lia || int_auto).
 Qed.
 
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_2_split_goal_5 : extended_chinese_remainder_theorem_entail_wit_2_split_goal_5.
+Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_2_3 : extended_chinese_remainder_theorem_entail_wit_2_3.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  destruct (extended_crt_index_bounds__machine_bounds
-    residue_values modulus_values n_pre 0 PreH2 ltac:(lia))
-    as [[Hmodulus_pos Hmodulus_max] [Hresidue_nonneg Hresidue_lt]].
-  exact Hresidue_nonneg.
+  crt_prepare.
+  destruct (extended_crt_index_bounds__machine_bounds residue_values modulus_values n_pre i Hinputs ltac:(lia)) as [[Hmpos Hmmax] [Hrpos Hrmax]].
+  pose proof (positive_gcd_quotient_bounds__machine_bounds lcm (Znth i modulus_values 0) retval ltac:(lia) PreH4 PreH3) as Hquotient.
+  pose proof (crt_merge_difference_divisible__merge_transition
+    residue_values modulus_values n_pre i answer lcm
+    ltac:(lia) ltac:(lia) ltac:(eassumption) ltac:(eassumption) ltac:(lia))
+    as Hdifference.
+  rewrite <- PreH4 in Hdifference.
+  assert (Hmodulus_divides : (retval | Znth i modulus_values 0)).
+  { rewrite PreH4. apply Z.gcd_divide_r. }
+  assert (Hmodulus_quot : Znth i modulus_values 0 ÷ retval =
+      Znth i modulus_values 0 / retval).
+  { apply quot_div_of_divide_pos__merge_transition; assumption. }
+  assert (Hdifference_quot : (Znth i residue_values 0 - answer) ÷ retval =
+      (Znth i residue_values 0 - answer) / retval).
+  { apply quot_div_of_divide_pos__merge_transition; assumption. }
+  pose proof PreH2 as Hmul.
+  unfold ModularMul in Hmul. destruct Hmul as [Hrange [q Hmul]].
+  rewrite Hdifference_quot in Hmul.
+  assert (Hmerge : CRTReducedMergeEquation answer lcm
+    (Znth i residue_values 0) (Znth i modulus_values 0) retval_2).
+  { eapply (reduced_merge_equation_from_bezout__merge_transition
+      answer lcm (Znth i residue_values 0) (Znth i modulus_values 0)
+      retval x_callee_v y_callee_v retval_2 q);
+      try eassumption.
+    rewrite <- Hmodulus_quot. lia. }
+  assert (Hstep : CRTLCMPrefix modulus_values (i + 1) =
+    lcm * (Znth i modulus_values 0 ÷ retval)).
+  { eapply crt_lcm_prefix_step__merge_transition;
+      [exact Hinputs | lia | lia | eassumption | exact PreH4 | lia | exact Hmodulus_quot]. }
+  match goal with
+  | HS : forall count, 1 <= count <= n_pre -> _ |- _ =>
+    pose proof (HS (i + 1) ltac:(lia)) as Hbound;
+    rewrite Hstep in Hbound
+  end.
+  entailer_with ltac:(lia || int_auto).
 Qed.
 
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_2 : extended_chinese_remainder_theorem_entail_wit_2.
+Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_2_4 : extended_chinese_remainder_theorem_entail_wit_2_4.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_2_split_goal_1.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_2_split_goal_2.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_2_split_goal_3.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_2_split_goal_4.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_2_split_goal_5.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_1 : extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (extended_crt_index_bounds__machine_bounds
-      residue_values modulus_values n_pre i PreH7 ltac:(lia))
-    as Hbounds.
-  destruct Hbounds as [[Hmodulus_pos Hmodulus_max]
-                        [Hresidue_nonneg Hresidue_lt]].
-  pose proof
-    (signed_difference_division_bounds__machine_bounds
-      (Znth i residue_values 0) answer retval
-      ltac:(lia) ltac:(lia) PreH1) as Hdivision.
-  exact (proj2 Hdivision).
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_2 : extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (extended_crt_index_bounds__machine_bounds
-      residue_values modulus_values n_pre i PreH7 ltac:(lia))
-    as Hbounds.
-  destruct Hbounds as [[Hmodulus_pos Hmodulus_max]
-                        [Hresidue_nonneg Hresidue_lt]].
-  pose proof
-    (signed_difference_division_bounds__machine_bounds
-      (Znth i residue_values 0) answer retval
-      ltac:(lia) ltac:(lia) PreH1) as Hdivision.
-  exact (proj1 Hdivision).
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_3 : extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (extended_crt_index_bounds__machine_bounds
-      residue_values modulus_values n_pre i PreH7 ltac:(lia))
-    as Hbounds.
-  destruct Hbounds as [[Hmodulus_pos Hmodulus_max] Hresidue_bounds].
-  pose proof
-    (bezout_coefficient_strict__gcd_branch_setup
-      lcm (Znth i modulus_values 0) retval x_callee_v y_callee_v
-      Hmodulus_pos PreH2 PreH1 PreH5 PreH3 PreH4) as Hstrict.
-  exact (proj2 Hstrict).
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_4 : extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_4.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (extended_crt_index_bounds__machine_bounds
-      residue_values modulus_values n_pre i PreH7 ltac:(lia))
-    as Hbounds.
-  destruct Hbounds as [[Hmodulus_pos Hmodulus_max] Hresidue_bounds].
-  pose proof
-    (bezout_coefficient_strict__gcd_branch_setup
-      lcm (Znth i modulus_values 0) retval x_callee_v y_callee_v
-      Hmodulus_pos PreH2 PreH1 PreH5 PreH3 PreH4) as Hstrict.
-  exact (proj1 Hstrict).
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_5 : extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_5.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold ExtendedCRTIntSafe in PreH9.
-  destruct PreH9 as [Hprefix_safe Hstep_safe].
-  specialize (Hstep_safe i ltac:(lia)).
-  unfold CRTPrefixMeaning in PreH16.
-  destruct PreH16 as [Hlcm Hcongruences].
-  rewrite <- Hlcm in Hstep_safe.
-  rewrite <- PreH2 in Hstep_safe.
-  nia.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_6 : extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_6.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (extended_crt_index_bounds__machine_bounds
-      residue_values modulus_values n_pre i PreH7 ltac:(lia))
-    as Hbounds.
-  destruct Hbounds as [Hmodulus_bounds Hresidue_bounds].
-  pose proof
-    (positive_gcd_quotient_bounds__machine_bounds
-      lcm (Znth i modulus_values 0) retval
-      Hmodulus_bounds PreH2 PreH1) as Hquotient.
-  lia.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_7 : extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_7.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_8 : extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_8.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  crt_prepare.
+  destruct (extended_crt_index_bounds__machine_bounds residue_values modulus_values n_pre i Hinputs ltac:(lia)) as [[Hmpos Hmmax] [Hrpos Hrmax]].
+  pose proof (positive_gcd_quotient_bounds__machine_bounds lcm (Znth i modulus_values 0) retval ltac:(lia) PreH4 PreH3) as Hquotient.
+  pose proof (crt_merge_difference_divisible__merge_transition
+    residue_values modulus_values n_pre i answer lcm
+    ltac:(lia) ltac:(lia) ltac:(eassumption) ltac:(eassumption) ltac:(lia))
+    as Hdifference.
+  rewrite <- PreH4 in Hdifference.
+  assert (Hmodulus_divides : (retval | Znth i modulus_values 0)).
+  { rewrite PreH4. apply Z.gcd_divide_r. }
+  assert (Hmodulus_quot : Znth i modulus_values 0 ÷ retval =
+      Znth i modulus_values 0 / retval).
+  { apply quot_div_of_divide_pos__merge_transition; assumption. }
+  assert (Hdifference_quot : (Znth i residue_values 0 - answer) ÷ retval =
+      (Znth i residue_values 0 - answer) / retval).
+  { apply quot_div_of_divide_pos__merge_transition; assumption. }
+  pose proof PreH2 as Hmul.
+  unfold ModularMul in Hmul. destruct Hmul as [Hrange [q Hmul]].
+  rewrite Hdifference_quot in Hmul.
+  assert (Hmerge : CRTReducedMergeEquation answer lcm
+    (Znth i residue_values 0) (Znth i modulus_values 0) retval_3).
+  { eapply (reduced_merge_equation_from_bezout__merge_transition
+      answer lcm (Znth i residue_values 0) (Znth i modulus_values 0)
+      retval x_callee_v_2 y_callee_v retval_3 q);
+      try eassumption.
+    rewrite <- Hmodulus_quot. lia. }
+  assert (Hstep : CRTLCMPrefix modulus_values (i + 1) =
+    lcm * (Znth i modulus_values 0 ÷ retval)).
+  { eapply crt_lcm_prefix_step__merge_transition;
+      [exact Hinputs | lia | lia | eassumption | exact PreH4 | lia | exact Hmodulus_quot]. }
+  match goal with
+  | HS : forall count, 1 <= count <= n_pre -> _ |- _ =>
+    pose proof (HS (i + 1) ltac:(lia)) as Hbound;
+    rewrite Hstep in Hbound
+  end.
+  entailer_with ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_3_1 : extended_chinese_remainder_theorem_entail_wit_3_1.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_1.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_2.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_3.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_4.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_5.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_6.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_7.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_3_1_split_goal_8.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_1 : extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (extended_crt_index_bounds__machine_bounds
-      residue_values modulus_values n_pre i PreH8 ltac:(lia))
-    as Hbounds.
-  destruct Hbounds as [[Hmodulus_pos Hmodulus_max]
-                        [Hresidue_nonneg Hresidue_lt]].
-  pose proof
-    (signed_difference_division_bounds__machine_bounds
-      (Znth i residue_values 0) answer retval
-      ltac:(lia) ltac:(lia) PreH1) as Hdivision.
-  exact (proj2 Hdivision).
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_2 : extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (extended_crt_index_bounds__machine_bounds
-      residue_values modulus_values n_pre i PreH8 ltac:(lia))
-    as Hbounds.
-  destruct Hbounds as [[Hmodulus_pos Hmodulus_max]
-                        [Hresidue_nonneg Hresidue_lt]].
-  pose proof
-    (signed_difference_division_bounds__machine_bounds
-      (Znth i residue_values 0) answer retval
-      ltac:(lia) ltac:(lia) PreH1) as Hdivision.
-  exact (proj1 Hdivision).
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_3 : extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (extended_crt_index_bounds__machine_bounds
-      residue_values modulus_values n_pre i PreH8 ltac:(lia))
-    as Hbounds.
-  destruct Hbounds as [Hmodulus_bounds Hresidue_bounds].
-  pose proof
-    (positive_gcd_quotient_bounds__machine_bounds
-      lcm (Znth i modulus_values 0) retval
-      Hmodulus_bounds PreH2 PreH1) as Hquotient.
-  exact (proj1 Hquotient).
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_4 : extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_4.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (extended_crt_index_bounds__machine_bounds
-      residue_values modulus_values n_pre i PreH8 ltac:(lia))
-    as Hbounds.
-  destruct Hbounds as [Hmodulus_bounds Hresidue_bounds].
-  pose proof
-    (positive_gcd_quotient_bounds__machine_bounds
-      lcm (Znth i modulus_values 0) retval
-      Hmodulus_bounds PreH2 PreH1) as Hquotient.
-  lia.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_5 : extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_5.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold ExtendedCRTIntSafe in PreH10.
-  destruct PreH10 as [Hprefix_safe Hstep_safe].
-  specialize (Hstep_safe i ltac:(lia)).
-  unfold CRTPrefixMeaning in PreH17.
-  destruct PreH17 as [Hlcm Hcongruences].
-  rewrite <- Hlcm in Hstep_safe.
-  rewrite <- PreH2 in Hstep_safe.
-  nia.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_6 : extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_6.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (extended_crt_index_bounds__machine_bounds
-      residue_values modulus_values n_pre i PreH8 ltac:(lia))
-    as Hbounds.
-  destruct Hbounds as [Hmodulus_bounds Hresidue_bounds].
-  pose proof
-    (positive_gcd_quotient_bounds__machine_bounds
-      lcm (Znth i modulus_values 0) retval
-      Hmodulus_bounds PreH2 PreH1) as Hquotient.
-  exact (proj1 Hquotient).
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_7 : extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_7.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_8 : extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_8.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  crt_prepare.
+  assert (Hnext : CRTPrefixMeaning residue_values modulus_values (i + 1)
+    (answer + (retval_2 + Znth i modulus_values 0 ÷ retval) * lcm)
+    (lcm * (Znth i modulus_values 0 ÷ retval))).
+  { eapply crt_prefix_meaning_merge__merge_transition with (gcd := retval);
+      try eassumption; try lia.
+    apply quot_div_of_divide_pos__merge_transition; [lia |].
+    match goal with HG : retval = Zgcd _ _ |- _ => rewrite HG end.
+    apply Z.gcd_divide_r. }
+  entailer_with ltac:(lia || int_auto); nia.
 Qed.
 
 Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_3_2 : extended_chinese_remainder_theorem_entail_wit_3_2.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_1.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_2.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_3.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_4.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_5.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_6.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_7.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_3_2_split_goal_8.
+  crt_prepare.
+  assert (Hnext : CRTPrefixMeaning residue_values modulus_values (i + 1)
+    (answer + (retval_2 + Znth i modulus_values 0 ÷ retval) * lcm)
+    (lcm * (Znth i modulus_values 0 ÷ retval))).
+  { eapply crt_prefix_meaning_merge__merge_transition with (gcd := retval);
+      try eassumption; try lia.
+    apply quot_div_of_divide_pos__merge_transition; [lia |].
+    match goal with HG : retval = Zgcd _ _ |- _ => rewrite HG end.
+    apply Z.gcd_divide_r. }
+  entailer_with ltac:(lia || int_auto); nia.
 Qed.
 
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_4_1_split_goal_1 : extended_chinese_remainder_theorem_entail_wit_4_1_split_goal_1.
+Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_3_3 : extended_chinese_remainder_theorem_entail_wit_3_3.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (crt_merge_difference_divisible__merge_transition
-      residue_values modulus_values n_pre i answer lcm
-      PreH4 PreH13 (conj PreH6 PreH8)) as Hdifference.
-  rewrite <- PreH14 in Hdifference.
-  assert (Hmodulus_divides :
-      (gcd | Znth i modulus_values 0)).
-  { rewrite PreH14. apply Z.gcd_divide_r. }
-  assert (Hdifference_quot_div :
-      (Znth i residue_values 0 - answer) ÷ gcd =
-      (Znth i residue_values 0 - answer) / gcd).
-  { apply quot_div_of_divide_pos__merge_transition; assumption. }
-  assert (Hmodulus_quot_div :
-      Znth i modulus_values 0 ÷ gcd =
-      Znth i modulus_values 0 / gcd).
-  { apply quot_div_of_divide_pos__merge_transition; assumption. }
-  unfold ModularMul in PreH2.
-  destruct PreH2 as [[Hretval_lower Hretval_upper] [q Hmul]].
-  rewrite Hdifference_quot_div in Hmul.
-  rewrite Hmodulus_quot_div in PreH17.
-  eapply (reduced_merge_equation_from_bezout__merge_transition
-    answer lcm (Znth i residue_values 0) (Znth i modulus_values 0)
-    gcd x y (retval + reduced_modulus) (q - 1)); eauto.
-  nia.
+  crt_prepare.
+  assert (Hnext : CRTPrefixMeaning residue_values modulus_values (i + 1)
+    (answer + retval_2 * lcm)
+    (lcm * (Znth i modulus_values 0 ÷ retval))).
+  { eapply crt_prefix_meaning_merge__merge_transition with (gcd := retval);
+      try eassumption; try lia.
+    apply quot_div_of_divide_pos__merge_transition; [lia |].
+    match goal with HG : retval = Zgcd _ _ |- _ => rewrite HG end.
+    apply Z.gcd_divide_r. }
+  entailer_with ltac:(lia || int_auto); nia.
 Qed.
 
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_4_1_split_goal_2 : extended_chinese_remainder_theorem_entail_wit_4_1_split_goal_2.
+Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_3_4 : extended_chinese_remainder_theorem_entail_wit_3_4.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  assert (Hmodulus_divides :
-      (gcd | Znth i modulus_values 0)).
-  { rewrite PreH14. apply Z.gcd_divide_r. }
-  assert (Hmodulus_quot_div :
-      Znth i modulus_values 0 ÷ gcd =
-      Znth i modulus_values 0 / gcd).
-  { apply quot_div_of_divide_pos__merge_transition; assumption. }
-  assert (Hreduced_div :
-      reduced_modulus = Znth i modulus_values 0 / gcd).
-  { rewrite <- Hmodulus_quot_div. exact PreH17. }
-  pose proof PreH5 as Hsafe.
-  unfold ExtendedCRTIntSafe in Hsafe.
-  destruct Hsafe as [Hprefix_bound _].
-  specialize (Hprefix_bound (i + 1) ltac:(lia)).
-  destruct Hprefix_bound as [_ Hbound].
-  assert (Hstep :
-      CRTLCMPrefix modulus_values (i + 1) =
-      lcm * reduced_modulus).
-  { eapply crt_lcm_prefix_step__merge_transition; eauto; lia. }
-  rewrite Hstep in Hbound.
-  exact Hbound.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_4_1_split_goal_3 : extended_chinese_remainder_theorem_entail_wit_4_1_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold ModularMul in PreH2.
-  destruct PreH2 as [[Hretval_lower Hretval_upper] Hmul].
-  lia.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_4_1_split_goal_4 : extended_chinese_remainder_theorem_entail_wit_4_1_split_goal_4.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  apply replace_Znth_Znth.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_4_1 : extended_chinese_remainder_theorem_entail_wit_4_1.
-Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_4_1_split_goal_1.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_4_1_split_goal_2.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_4_1_split_goal_3.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_4_1_split_goal_4.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_4_2_split_goal_1 : extended_chinese_remainder_theorem_entail_wit_4_2_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (crt_merge_difference_divisible__merge_transition
-      residue_values modulus_values n_pre i answer lcm
-      PreH4 PreH13 (conj PreH6 PreH8)) as Hdifference.
-  rewrite <- PreH14 in Hdifference.
-  assert (Hmodulus_divides :
-      (gcd | Znth i modulus_values 0)).
-  { rewrite PreH14. apply Z.gcd_divide_r. }
-  assert (Hdifference_quot_div :
-      (Znth i residue_values 0 - answer) ÷ gcd =
-      (Znth i residue_values 0 - answer) / gcd).
-  { apply quot_div_of_divide_pos__merge_transition; assumption. }
-  assert (Hmodulus_quot_div :
-      Znth i modulus_values 0 ÷ gcd =
-      Znth i modulus_values 0 / gcd).
-  { apply quot_div_of_divide_pos__merge_transition; assumption. }
-  unfold ModularMul in PreH2.
-  destruct PreH2 as [[Hretval_lower Hretval_upper] [q Hmul]].
-  rewrite Hdifference_quot_div in Hmul.
-  rewrite Hmodulus_quot_div in PreH17.
-  eapply (reduced_merge_equation_from_bezout__merge_transition
-    answer lcm (Znth i residue_values 0) (Znth i modulus_values 0)
-    gcd x y retval q); eauto.
-  nia.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_4_2_split_goal_2 : extended_chinese_remainder_theorem_entail_wit_4_2_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  assert (Hmodulus_divides :
-      (gcd | Znth i modulus_values 0)).
-  { rewrite PreH14. apply Z.gcd_divide_r. }
-  assert (Hmodulus_quot_div :
-      Znth i modulus_values 0 ÷ gcd =
-      Znth i modulus_values 0 / gcd).
-  { apply quot_div_of_divide_pos__merge_transition; assumption. }
-  assert (Hreduced_div :
-      reduced_modulus = Znth i modulus_values 0 / gcd).
-  { rewrite <- Hmodulus_quot_div. exact PreH17. }
-  pose proof PreH5 as Hsafe.
-  unfold ExtendedCRTIntSafe in Hsafe.
-  destruct Hsafe as [Hprefix_bound _].
-  specialize (Hprefix_bound (i + 1) ltac:(lia)).
-  destruct Hprefix_bound as [_ Hbound].
-  assert (Hstep :
-      CRTLCMPrefix modulus_values (i + 1) =
-      lcm * reduced_modulus).
-  { eapply crt_lcm_prefix_step__merge_transition; eauto; lia. }
-  rewrite Hstep in Hbound.
-  exact Hbound.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_4_2_split_goal_3 : extended_chinese_remainder_theorem_entail_wit_4_2_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold ModularMul in PreH2.
-  destruct PreH2 as [[Hretval_lower Hretval_upper] Hmul].
-  lia.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_4_2_split_goal_4 : extended_chinese_remainder_theorem_entail_wit_4_2_split_goal_4.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  apply replace_Znth_Znth.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_4_2 : extended_chinese_remainder_theorem_entail_wit_4_2.
-Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_4_2_split_goal_1.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_4_2_split_goal_2.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_4_2_split_goal_3.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_4_2_split_goal_4.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_5_split_goal_1 : extended_chinese_remainder_theorem_entail_wit_5_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  eapply crt_prefix_meaning_merge__merge_transition
-    with (gcd := gcd).
-  - exact PreH1.
-  - exact PreH2.
-  - lia.
-  - lia.
-  - exact PreH10.
-  - exact PreH11.
-  - exact PreH12.
-  - rewrite PreH13.
-    apply quot_div_of_divide_pos__merge_transition.
-    + exact PreH12.
-    + rewrite PreH11.
-      apply Z.gcd_divide_r.
-  - lia.
-  - exact PreH20.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_5_split_goal_2 : extended_chinese_remainder_theorem_entail_wit_5_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  nia.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_entail_wit_5 : extended_chinese_remainder_theorem_entail_wit_5.
-Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_5_split_goal_1.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_entail_wit_5_split_goal_2.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_return_wit_1_split_goal_1 : extended_chinese_remainder_theorem_return_wit_1_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  apply crt_prefix_meaning_to_result__prefix_boundaries with (i := i).
-  - lia.
-  - lia.
-  - exact PreH11.
+  crt_prepare.
+  assert (Hnext : CRTPrefixMeaning residue_values modulus_values (i + 1)
+    (answer + retval_2 * lcm)
+    (lcm * (Znth i modulus_values 0 ÷ retval))).
+  { eapply crt_prefix_meaning_merge__merge_transition with (gcd := retval);
+      try eassumption; try lia.
+    apply quot_div_of_divide_pos__merge_transition; [lia |].
+    match goal with HG : retval = Zgcd _ _ |- _ => rewrite HG end.
+    apply Z.gcd_divide_r. }
+  entailer_with ltac:(lia || int_auto); nia.
 Qed.
 
 Lemma proof_of_extended_chinese_remainder_theorem_return_wit_1 : extended_chinese_remainder_theorem_return_wit_1.
 Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_extended_chinese_remainder_theorem_return_wit_1_split_goal_1.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_1 : extended_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (extended_crt_index_bounds__machine_bounds
-    residue_values modulus_values n_pre i PreH9 ltac:(lia)) as Hbounds.
-  destruct Hbounds as [[Hmod_pos Hmod_max] [Hres_nonneg Hres_lt]].
-  dump_pre_spatial.
-  nia.
-Qed.
-
-Lemma proof_of_extended_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_2 : extended_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (extended_crt_index_bounds__machine_bounds
-    residue_values modulus_values n_pre i PreH9 ltac:(lia)) as Hbounds.
-  destruct Hbounds as [[Hmod_pos Hmod_max] [Hres_nonneg Hres_lt]].
-  dump_pre_spatial.
-  nia.
+  crt_prepare.
+  assert (Hresult : ExtendedCRTSystemResult residue_values modulus_values
+    n_pre answer lcm).
+  { eapply crt_prefix_meaning_to_result__prefix_boundaries with (i := i);
+      [lia | lia | lia | eassumption]. }
+  Exists lcm. entailer_with ltac:(lia || int_auto).
 Qed.
 
 Lemma proof_of_extended_chinese_remainder_theorem_partial_solve_wit_4_pure : extended_chinese_remainder_theorem_partial_solve_wit_4_pure.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_1.
-  - Goal_apply proof_of_extended_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_2.
+  crt_prepare.
+  destruct (extended_crt_index_bounds__machine_bounds
+    residue_values modulus_values n_pre i Hinputs ltac:(lia))
+    as [[Hmpos Hmmax] [Hrpos Hrmax]].
+  entailer_with ltac:(lia || int_auto).
+Qed.
+
+Lemma proof_of_extended_chinese_remainder_theorem_safety_wit_12 : extended_chinese_remainder_theorem_safety_wit_12.
+Proof.
+  crt_prepare.
+  destruct (extended_crt_index_bounds__machine_bounds residue_values modulus_values n_pre i Hinputs ltac:(lia)) as [[Hmpos Hmmax] [Hrpos Hrmax]].
+  pose proof (positive_gcd_quotient_bounds__machine_bounds lcm (Znth i modulus_values 0) retval ltac:(lia) PreH4 PreH3) as Hquotient.
+  pose proof (proj1 PreH22) as Hlcm.
+  pose proof (PreH14 i ltac:(lia)) as Hstep.
+  rewrite <- Hlcm, <- PreH4 in Hstep.
+  unfold ModularMul in PreH2. destruct PreH2 as [Hrange Hmul].
+  entailer_with ltac:(lia || int_auto).
+Qed.
+
+Lemma proof_of_extended_chinese_remainder_theorem_safety_wit_13 : extended_chinese_remainder_theorem_safety_wit_13.
+Proof.
+  crt_prepare.
+  destruct (extended_crt_index_bounds__machine_bounds residue_values modulus_values n_pre i Hinputs ltac:(lia)) as [[Hmpos Hmmax] [Hrpos Hrmax]].
+  pose proof (positive_gcd_quotient_bounds__machine_bounds lcm (Znth i modulus_values 0) retval ltac:(lia) PreH4 PreH3) as Hquotient.
+  pose proof (proj1 PreH23) as Hlcm.
+  pose proof (PreH15 i ltac:(lia)) as Hstep.
+  rewrite <- Hlcm, <- PreH4 in Hstep.
+  unfold ModularMul in PreH2. destruct PreH2 as [Hrange Hmul].
+  entailer_with ltac:(lia || int_auto).
+Qed.
+
+Lemma proof_of_extended_chinese_remainder_theorem_partial_solve_wit_8_pure : extended_chinese_remainder_theorem_partial_solve_wit_8_pure.
+Proof.
+  crt_prepare.
+  destruct (extended_crt_index_bounds__machine_bounds
+    residue_values modulus_values n_pre i Hinputs ltac:(lia))
+    as [[Hmpos Hmmax] [Hrpos Hrmax]].
+  pose proof (positive_gcd_quotient_bounds__machine_bounds
+    lcm (Znth i modulus_values 0) retval ltac:(lia) PreH2 PreH1) as Hquotient.
+  pose proof (signed_difference_division_bounds__machine_bounds
+    (Znth i residue_values 0) answer retval ltac:(lia) ltac:(lia) PreH1)
+    as Hdivision.
+  match goal with
+  | HP : CRTPrefixMeaning _ _ _ _ _,
+    HS : forall k, 1 <= k < n_pre -> _ |- _ =>
+    pose proof (proj1 HP) as Hlcm;
+    pose proof (HS i ltac:(lia)) as Hstep;
+    rewrite <- Hlcm, <- PreH2 in Hstep
+  end.
+  pose proof (bezout_coefficient_strict__gcd_branch_setup
+    lcm (Znth i modulus_values 0) retval x_callee_v y_callee_v
+    Hmpos PreH2 PreH1 PreH5 PreH3 PreH4) as Hstrict.
+  entailer_with ltac:(lia || int_auto).
+Qed.
+
+Lemma proof_of_extended_chinese_remainder_theorem_partial_solve_wit_10_pure : extended_chinese_remainder_theorem_partial_solve_wit_10_pure.
+Proof.
+  crt_prepare.
+  destruct (extended_crt_index_bounds__machine_bounds
+    residue_values modulus_values n_pre i Hinputs ltac:(lia))
+    as [[Hmpos Hmmax] [Hrpos Hrmax]].
+  pose proof (positive_gcd_quotient_bounds__machine_bounds
+    lcm (Znth i modulus_values 0) retval ltac:(lia) PreH2 PreH1) as Hquotient.
+  pose proof (signed_difference_division_bounds__machine_bounds
+    (Znth i residue_values 0) answer retval ltac:(lia) ltac:(lia) PreH1)
+    as Hdivision.
+  match goal with
+  | HP : CRTPrefixMeaning _ _ _ _ _,
+    HS : forall k, 1 <= k < n_pre -> _ |- _ =>
+    pose proof (proj1 HP) as Hlcm;
+    pose proof (HS i ltac:(lia)) as Hstep;
+    rewrite <- Hlcm, <- PreH2 in Hstep
+  end.
+  entailer_with ltac:(lia || int_auto).
 Qed.

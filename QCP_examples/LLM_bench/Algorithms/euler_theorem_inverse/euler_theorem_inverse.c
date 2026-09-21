@@ -35,7 +35,6 @@ int euler_phi(int value)
           1 <= value && value <= value@pre &&
           1 <= result && result <= value@pre &&
           2 <= factor && factor <= 216 &&
-          0 <= factor * factor && factor * factor <= INT_MAX &&
           EulerPhiProgress(value@pre, factor, value, result) && emp
      */
     for (int factor = 2; factor * factor <= value; ++factor) {
@@ -52,20 +51,7 @@ int euler_phi(int value)
                 value /= factor;
             }
 
-            /*@ Assert
-                  2 <= value@pre && value@pre <= 46341 &&
-                  1 <= value && value <= value@pre &&
-                  1 <= result && result <= value@pre &&
-                  2 <= factor && factor <= 216 &&
-                  value % factor != 0 &&
-                  result % factor == 0 &&
-                  1 <= result / factor &&
-                  0 <= (result / factor) * (factor - 1) &&
-                  (result / factor) * (factor - 1) <= value@pre &&
-                  (result / factor) * (factor - 1) <= INT_MAX &&
-                  EulerPhiRemovalProgress(
-                    value@pre, factor, value, result) && emp
-             */
+
             result = result / factor * (factor - 1);
         }
     }
@@ -76,14 +62,12 @@ int euler_phi(int value)
           1 <= value && value <= value@pre &&
           1 <= result && result <= value@pre &&
           2 <= frontier && frontier <= 216 &&
-          0 <= frontier * frontier && frontier * frontier <= INT_MAX &&
           frontier * frontier > value &&
           (value == 1 ||
             (result % value == 0 &&
              1 <= result / value &&
              0 <= (result / value) * (value - 1) &&
-             (result / value) * (value - 1) <= value@pre &&
-             (result / value) * (value - 1) <= INT_MAX)) &&
+             (result / value) * (value - 1) <= value@pre)) &&
           EulerPhiProgress(value@pre, frontier, value, result) && emp
      */
     if (value != 1) {
@@ -106,15 +90,11 @@ int modular_power(int base, int exponent, int modulus)
     int result = 1;
 
     /*@ Inv Assert
-          0 <= base@pre && base@pre < modulus@pre &&
-          0 <= exponent@pre &&
           modulus == modulus@pre &&
           2 <= modulus@pre && modulus@pre <= 46341 &&
           0 <= base && base < modulus@pre &&
-          0 <= exponent && exponent <= exponent@pre &&
+          0 <= exponent &&
           0 <= result && result < modulus@pre &&
-          0 <= base * base && base * base <= INT_MAX &&
-          0 <= result * base && result * base <= INT_MAX &&
           EulerModularPowerProgress(
             base@pre, exponent@pre, modulus@pre,
             base, exponent, result) && emp
@@ -142,13 +122,6 @@ int euler_theorem_inverse(int value, int modulus)
 {
     int exponent = euler_phi(modulus) - 1;
 
-    /*@ Assert
-          value == value@pre && modulus == modulus@pre &&
-          0 < value@pre && value@pre < modulus@pre &&
-          2 <= modulus@pre && modulus@pre <= 46341 &&
-          Zgcd(value@pre, modulus@pre) == 1 &&
-          0 <= exponent && exponent < modulus@pre &&
-          EulerPhi(modulus@pre, exponent + 1) && emp
-     */
+
     return modular_power(value, exponent, modulus);
 }

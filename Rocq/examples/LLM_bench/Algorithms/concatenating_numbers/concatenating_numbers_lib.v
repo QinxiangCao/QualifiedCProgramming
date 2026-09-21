@@ -1,8 +1,10 @@
+Require Export SimpleC.EE.LLM_bench.Algorithms.decimal_digits.decimal_digits_lib.
 Require Import Coq.Lists.List.
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.micromega.Lia.
 Require Import Coq.Sorting.Permutation.
 Require Import AUXLib.ListLib.
+Require Import MaxMinLib.MaxMin.
 
 Import ListNotations.
 Local Open Scope Z_scope.
@@ -70,6 +72,8 @@ Definition ConcatRightDigit
     (item_digits (item_at rows lens j) ++
      item_digits (item_at rows lens i)) 0.
 
+(* Internal compatibility hypothesis for the existing helper proofs.
+   C contracts and invariants state these conditions separately. *)
 Definition RowsWellFormed
     (rows : list (list Z)) (lengths : list Z)
     (count width : Z) : Prop :=
@@ -117,8 +121,6 @@ Definition ConcatComparePrefix
              item_digits (item_at rows lens j) in
   let rhs := item_digits (item_at rows lens j) ++
              item_digits (item_at rows lens i) in
-  0 <= position <= Zlength lhs /\
-  Zlength lhs = Zlength rhs /\
   forall k, 0 <= k < position -> Znth k lhs 0 = Znth k rhs 0.
 
 Definition ConcatCompareOutcome
@@ -164,7 +166,6 @@ Definition PartitionScanState
 Definition GreedyPartitionedAt
     (rows : list (list Z)) (lens : list Z)
     (low high pivot : Z) : Prop :=
-  low <= pivot <= high /\
   (forall k, low <= k < pivot -> item_before rows lens k pivot) /\
   (forall k, pivot < k <= high -> ~ item_before rows lens k pivot).
 
@@ -190,17 +191,15 @@ Definition ConcatenatedOutputPrefix
   ConcatenatedPrefix rows lens row_count ++
   sublist 0 digit_count (Znth row_count rows nil).
 
+(* The result is the greatest concatenation among all permutations of the
+   input items.  Layout, capacities, digit bounds and sorting state are not
+   part of this mathematical output relation. *)
 Definition LargestConcatenation
-    (original_rows arranged_rows : list (list Z))
-    (original_lens arranged_lens output : list Z) : Prop :=
-  PairedPermutation original_rows arranged_rows
-                    original_lens arranged_lens /\
-  output = concatenate_rows arranged_rows arranged_lens /\
-  forall alternative_rows alternative_lens,
-    PairedPermutation original_rows alternative_rows
-                      original_lens alternative_lens ->
-    digit_lex_ge output
-      (concatenate_rows alternative_rows alternative_lens).
+    (rows : list (list Z)) (lens output : list Z) : Prop :=
+  max_value_of_subset
+    (fun xs ys => digit_lex_ge ys xs)
+    (Permutation (paired_items rows lens))
+    concatenate_items output.
 
 Require Import Coq.ZArith.Zpow_facts.
 Lemma concat_left_digit_bounds__safety_arithmetic :
@@ -308,13 +307,7 @@ Lemma ConcatComparePrefix_zero__partition_and_compare_init :
 Proof.
   intros rows lens i j.
   unfold ConcatComparePrefix.
-  repeat split.
-  - lia.
-  - apply Zlength_nonneg.
-  - rewrite !Zlength_app.
-    lia.
-  - intros k Hk.
-    lia.
+  intros k Hk; lia.
 Qed.
 Lemma FlatRows_Znth__compare_left_digit :
   forall flat rows count width i j,
@@ -492,20 +485,14 @@ Proof.
   unfold ConcatComparePrefix in Hprefix |- *.
   cbv beta zeta in Hprefix |- *.
   unfold ConcatLeftDigit, ConcatRightDigit in Heq.
-  destruct Hprefix as [Hposition [Hlength Hprefix]].
-  split.
-  - lia.
-  - split.
-    + exact Hlength.
-    + intros k Hk.
-      destruct (Z.lt_ge_cases k position) as [Hlt | Hge].
-      * apply Hprefix; lia.
-      * assert (k = position) by lia.
-        subst k.
-        exact Heq.
+  intros k Hk.
+  destruct (Z.lt_ge_cases k position) as [Hlt | Hge].
+  - apply Hprefix; lia.
+  - assert (k = position) by lia. subst k. exact Heq.
 Qed.
 Lemma ConcatCompareOutcome_difference__compare_outcome :
   forall rows lens i j position,
+    0 <= position ->
     ConcatComparePrefix rows lens i j position ->
     position <
       Zlength
@@ -517,16 +504,16 @@ Lemma ConcatCompareOutcome_difference__compare_outcome :
       (ConcatLeftDigit rows lens i j position -
        ConcatRightDigit rows lens i j position).
 Proof.
-  intros rows lens i j position Hprefix Hbound Hneq.
+  intros rows lens i j position Hposition Hprefix Hbound Hneq.
   unfold ConcatComparePrefix in Hprefix.
   cbv beta zeta in Hprefix.
-  destruct Hprefix as [Hposition [Hlength Hprefix]].
   unfold ConcatCompareOutcome.
   cbv beta zeta.
   right.
   exists position.
   unfold ConcatLeftDigit, ConcatRightDigit in Hneq |- *.
   repeat split; try assumption; try lia.
+  rewrite !Zlength_app; lia.
 Qed.
 Lemma ConcatCompareOutcome_zero__compare_outcome :
   forall rows lens i j position,
@@ -539,7 +526,6 @@ Proof.
   intros rows lens i j position Hprefix Hfull.
   unfold ConcatComparePrefix in Hprefix.
   cbv beta zeta in Hprefix.
-  destruct Hprefix as [Hposition [Hlength Hprefix]].
   unfold ConcatCompareOutcome.
   cbv beta zeta.
   left.
@@ -547,7 +533,7 @@ Proof.
   - reflexivity.
   - apply (proj2 (list_eq_ext _ _ 0)).
     split.
-    + exact Hlength.
+    + rewrite !Zlength_app; lia.
     + intros k Hk.
       apply Hprefix.
       lia.
@@ -2402,7 +2388,6 @@ Proof.
   assert (Hhigh_lens : 0 <= high < Zlength lens) by
     (rewrite Hlens_len; lia).
   unfold GreedyPartitionedAt.
-  split; [exact Hpivot |].
   split.
   - intros k Hk.
     assert (Hk_bound : 0 <= k < Zlength rows) by
@@ -3168,23 +3153,23 @@ Lemma greedy_partitioned_preserved_left__quicksort_range_composition :
     SameOutsidePairedRange rows0 rows1 lens0 lens1 low (pivot - 1) ->
     0 <= low ->
     high < count ->
+    low <= pivot <= high ->
     GreedyPartitionedAt rows0 lens0 low high pivot ->
     GreedyPartitionedAt rows1 lens1 low high pivot.
 Proof.
   intros rows0 rows1 lens0 lens1 count width low high pivot
-    Hwf Hperm Hsame Hlow Hhigh Hpart.
+    Hwf Hperm Hsame Hlow Hhigh Hp_range Hpart.
   pose proof Hperm as Hperm0.
   pose proof Hsame as Hsame0.
   destruct Hwf as [Hrows1 [Hlens1 Hitems1]].
   destruct Hperm as [Hlen0 [Hlen1 Hpairperm]].
   destruct Hsame as [Hrows [Hlens Heq]].
-  destruct Hpart as [Hp_range [Hleft Hright]].
+  destruct Hpart as [Hleft Hright].
   assert (Hrows0 : Zlength rows0 = count) by lia.
   assert (Hpivot : item_at rows1 lens1 pivot = item_at rows0 lens0 pivot).
   {
     apply Heq; [lia |]. right. lia.
   }
-  split; [exact Hp_range |].
   split.
   - assert (Hmid : Permutation
       (sublist low pivot (paired_items rows0 lens0))
@@ -3242,23 +3227,23 @@ Lemma greedy_partitioned_preserved_right__quicksort_range_composition :
     SameOutsidePairedRange rows0 rows1 lens0 lens1 (pivot + 1) high ->
     0 <= low ->
     high < count ->
+    low <= pivot <= high ->
     GreedyPartitionedAt rows0 lens0 low high pivot ->
     GreedyPartitionedAt rows1 lens1 low high pivot.
 Proof.
   intros rows0 rows1 lens0 lens1 count width low high pivot
-    Hwf Hperm Hsame Hlow Hhigh Hpart.
+    Hwf Hperm Hsame Hlow Hhigh Hp_range Hpart.
   pose proof Hperm as Hperm0.
   pose proof Hsame as Hsame0.
   destruct Hwf as [Hrows1 [Hlens1 Hitems1]].
   destruct Hperm as [Hlen0 [Hlen1 Hpairperm]].
   destruct Hsame as [Hrows [Hlens Heq]].
-  destruct Hpart as [Hp_range [Hleft Hright]].
+  destruct Hpart as [Hleft Hright].
   assert (Hrows0 : Zlength rows0 = count) by lia.
   assert (Hpivot : item_at rows1 lens1 pivot = item_at rows0 lens0 pivot).
   {
     apply Heq; [lia |]. left. lia.
   }
-  split; [exact Hp_range |].
   split.
   - intros k Hk.
     assert (Hitem : item_at rows1 lens1 k = item_at rows0 lens0 k).
@@ -3338,13 +3323,14 @@ Lemma greedy_sorted_range_combine__quicksort_range_composition :
     RowsWellFormed rows lens count width ->
     0 <= low ->
     high < count ->
+    low <= pivot <= high ->
     GreedyPartitionedAt rows lens low high pivot ->
     GreedySortedRange rows lens low (pivot - 1) ->
     GreedySortedRange rows lens (pivot + 1) high ->
     GreedySortedRange rows lens low high.
 Proof.
   intros rows lens count width low high pivot Hwf Hlow Hhigh
-    [Hpivot [Hpart_left Hpart_right]] Hsorted_left Hsorted_right.
+    Hpivot [Hpart_left Hpart_right] Hsorted_left Hsorted_right.
   intros i j [Hi [Hij Hj]].
   assert (Hip : i <= pivot \/ pivot < i) by lia.
   assert (Hjp : j < pivot \/ pivot <= j) by lia.
@@ -4169,23 +4155,164 @@ Lemma GreedySorted_LargestConcatenation__largest_concatenation_final :
     PairedPermutation original_rows arranged_rows
                       original_lens arranged_lens ->
     GreedySorted arranged_rows arranged_lens ->
-    LargestConcatenation
-      original_rows arranged_rows original_lens arranged_lens
+    LargestConcatenation original_rows original_lens
       (concatenate_rows arranged_rows arranged_lens).
 Proof.
   intros original_rows arranged_rows original_lens arranged_lens
          count width Hwf Hpaired Hsorted.
-  unfold LargestConcatenation.
-  split; [exact Hpaired |].
-  split; [reflexivity |].
-  intros alternative_rows alternative_lens Halternative.
-  unfold PairedPermutation in Hpaired, Halternative.
-  destruct Hpaired as [Horiginal [Harranged Hperm_arranged]].
-  destruct Halternative as [Horiginal_alt [Halternative_len Hperm_alt]].
-  eapply greedy_sorted_maximizes_concatenate_rows__largest_concatenation_final.
-  - unfold RowsWellFormed in Hwf. lia.
-  - exact Hsorted.
-  - eapply Permutation_trans.
-    + apply Permutation_sym. exact Hperm_arranged.
-    + exact Hperm_alt.
+  destruct Hpaired as [Horiginal [Harranged Hperm]].
+  unfold LargestConcatenation, max_value_of_subset, max_object_of_subset.
+  exists (paired_items arranged_rows arranged_lens).
+  split; [split | reflexivity].
+  - exact Hperm.
+  - intros alternative Halternative.
+    eapply ordered_items_maximize_concatenation__largest_concatenation_final.
+    + eapply greedy_sorted_orders_paired_items__largest_concatenation_final;
+        eauto.
+    + eapply Permutation_trans; [apply Permutation_sym; exact Hperm | exact Halternative].
+Qed.
+
+(* Let higher-order C annotations pass Zlength directly to map. *)
+Arguments Zlength {A}.
+
+(* Bridges for reusing the existing helpers with explicit Forall contracts. *)
+Lemma hd_Znth__annotation xs : hd 0 xs = Znth 0 xs 0.
+Proof. unfold Znth. rewrite Z2Nat.inj_0. destruct xs; reflexivity. Qed.
+
+Lemma Forall_Znth_iff__annotation {A} (P : A -> Prop) xs (d : A) :
+  Forall P xs <-> forall i, 0 <= i < Zlength xs -> P (Znth i xs d).
+Proof.
+  split.
+  - intros H i Hi. rewrite Forall_nth in H.
+    apply H. rewrite Zlength_correct in Hi.
+    apply Nat2Z.inj_lt. rewrite Z2Nat.id by lia. lia.
+  - intros H. apply Forall_nth. intros i d' Hi.
+    specialize (H (Z.of_nat i)).
+    rewrite Zlength_correct in H.
+    specialize (H ltac:(lia)).
+    unfold Znth in H. rewrite Nat2Z.id in H.
+    rewrite (nth_indep xs d d' Hi) in H. exact H.
+Qed.
+
+Lemma Forall_concatenate_rows_iff__annotation P rows lens :
+  Zlength rows = Zlength lens ->
+  (Forall P (concatenate_rows rows lens) <->
+   forall i, 0 <= i < Zlength rows ->
+     Forall P (sublist 0 (Znth i lens 0) (Znth i rows nil))).
+Proof.
+  intros Hlen.
+  unfold concatenate_rows, concatenate_items.
+  rewrite Forall_concat, Forall_map.
+  rewrite (Forall_Znth_iff__annotation (fun x => Forall P (item_digits x)) (paired_items rows lens) (nil, 0)).
+  rewrite (Zlength_paired_items__largest_concatenation_final rows lens Hlen).
+  split; intros H i Hi; specialize (H i Hi);
+    rewrite Znth_paired_items__largest_concatenation_final in * by (exact Hlen || exact Hi);
+    exact H.
+Qed.
+
+Lemma RowsWellFormed_explicit__annotation rows lens count width :
+  RowsWellFormed rows lens count width <->
+  Zlength rows = count /\ Zlength lens = count /\
+  Forall (eq width) (map (@Zlength Z) rows) /\
+  Forall (Z.le 1) lens /\ Forall (Z.ge width) lens /\
+  Forall (Z.le 1) (map (hd 0) rows) /\
+  Forall (Z.ge 9) (map (hd 0) rows) /\
+  Forall (Z.le 0) (concatenate_rows rows lens) /\
+  Forall (Z.ge 9) (concatenate_rows rows lens).
+Proof.
+  unfold RowsWellFormed.
+  split.
+  - intros [Hr [Hl H]]. repeat split; try assumption.
+    + rewrite Forall_map, (Forall_Znth_iff__annotation _ _ nil).
+      intros i Hi. specialize (H i ltac:(lia)). lia.
+    + rewrite (Forall_Znth_iff__annotation _ _ 0).
+      intros i Hi. specialize (H i ltac:(lia)). lia.
+    + rewrite (Forall_Znth_iff__annotation _ _ 0).
+      intros i Hi. specialize (H i ltac:(lia)). lia.
+    + rewrite Forall_map, (Forall_Znth_iff__annotation _ _ nil).
+      intros i Hi. specialize (H i ltac:(lia)).
+      rewrite hd_Znth__annotation. lia.
+    + rewrite Forall_map, (Forall_Znth_iff__annotation _ _ nil).
+      intros i Hi. specialize (H i ltac:(lia)).
+      rewrite hd_Znth__annotation. lia.
+    + apply Forall_concatenate_rows_iff__annotation; [lia |].
+      intros i Hi. specialize (H i ltac:(lia)).
+      rewrite (Forall_Znth_iff__annotation _ _ 0).
+      intros j Hj. rewrite Zlength_sublist in Hj by lia.
+      rewrite Znth_sublist by lia. replace (j + 0) with j by lia.
+      destruct H as [_ [_ [_ H]]]. specialize (H j ltac:(lia)). lia.
+    + apply Forall_concatenate_rows_iff__annotation; [lia |].
+      intros i Hi. specialize (H i ltac:(lia)).
+      rewrite (Forall_Znth_iff__annotation _ _ 0).
+      intros j Hj. rewrite Zlength_sublist in Hj by lia.
+      rewrite Znth_sublist by lia. replace (j + 0) with j by lia.
+      destruct H as [_ [_ [_ H]]]. specialize (H j ltac:(lia)). lia.
+  - intros [Hr [Hl [Hw [Hlo [Hhi [Hheadlo [Hheadhi [Hdlo Hdhi]]]]]]]].
+    rewrite Forall_map in Hw, Hheadlo, Hheadhi.
+    rewrite (Forall_Znth_iff__annotation _ _ nil) in Hw.
+    rewrite (Forall_Znth_iff__annotation _ _ nil) in Hheadlo.
+    rewrite (Forall_Znth_iff__annotation _ _ nil) in Hheadhi.
+    rewrite (Forall_Znth_iff__annotation _ _ 0) in Hlo.
+    rewrite (Forall_Znth_iff__annotation _ _ 0) in Hhi.
+    rewrite (Forall_concatenate_rows_iff__annotation _ rows lens ltac:(lia)) in Hdlo.
+    rewrite (Forall_concatenate_rows_iff__annotation _ rows lens ltac:(lia)) in Hdhi.
+    split; [exact Hr |]. split; [exact Hl |].
+    intros i Hi.
+    specialize (Hw i ltac:(lia)); specialize (Hlo i ltac:(lia));
+      specialize (Hhi i ltac:(lia)); specialize (Hheadlo i ltac:(lia));
+      specialize (Hheadhi i ltac:(lia)); specialize (Hdlo i ltac:(lia));
+      specialize (Hdhi i ltac:(lia)).
+    rewrite hd_Znth__annotation in Hheadlo, Hheadhi.
+    split; [lia |]. split; [lia |]. split; [lia |].
+    intros j Hj;
+      rewrite (Forall_Znth_iff__annotation _ _ 0) in Hdlo;
+      rewrite (Forall_Znth_iff__annotation _ _ 0) in Hdhi;
+      specialize (Hdlo j ltac:(rewrite Zlength_sublist by lia; lia));
+      specialize (Hdhi j ltac:(rewrite Zlength_sublist by lia; lia));
+      rewrite Znth_sublist in Hdlo, Hdhi by lia;
+      replace (j + 0) with j in * by lia; lia.
+Qed.
+
+Lemma PairedPermutation_projections__annotation rows0 rows1 lens0 lens1 :
+  PairedPermutation rows0 rows1 lens0 lens1 ->
+  Permutation rows0 rows1 /\ Permutation lens0 lens1 /\
+  Permutation (concatenate_rows rows0 lens0) (concatenate_rows rows1 lens1).
+Proof.
+  intros [H0 [H1 Hp]].
+  assert (Hr := Permutation_map (@fst (list Z) Z) Hp).
+  assert (Hl := Permutation_map (@snd (list Z) Z) Hp).
+  unfold paired_items in Hr, Hl.
+  rewrite !map_fst_combine__scan_advance in Hr by
+    (rewrite !Zlength_correct in *; lia).
+  rewrite !map_snd_combine__scan_advance in Hl by
+    (rewrite !Zlength_correct in *; lia).
+  repeat split; try assumption.
+  unfold concatenate_rows, concatenate_items.
+  rewrite <- !flat_map_concat_map.
+  apply Permutation_flat_map. exact Hp.
+Qed.
+
+Lemma RowsWellFormed_permutation__annotation rows0 rows1 lens0 lens1 count width :
+  RowsWellFormed rows0 lens0 count width ->
+  PairedPermutation rows0 rows1 lens0 lens1 ->
+  RowsWellFormed rows1 lens1 count width /\ sum lens1 = sum lens0.
+Proof.
+  intros Hwf Hp.
+  destruct (PairedPermutation_projections__annotation _ _ _ _ Hp) as [Hr [Hl Hd]].
+  split.
+  - rewrite RowsWellFormed_explicit__annotation in *.
+    destruct Hwf as [H0 [H1 [H2 [H3 [H4 [H5 [H6 [H7 H8]]]]]]]].
+    pose proof (Permutation_length Hr) as Hrl.
+    pose proof (Permutation_length Hl) as Hll.
+    assert (Zlength rows0 = Zlength rows1) by (rewrite !Zlength_correct; lia).
+    assert (Zlength lens0 = Zlength lens1) by (rewrite !Zlength_correct; lia).
+    repeat split; try lia.
+    + eapply Permutation_Forall; [apply Permutation_map; exact Hr | exact H2].
+    + eapply Permutation_Forall; [exact Hl | exact H3].
+    + eapply Permutation_Forall; [exact Hl | exact H4].
+    + eapply Permutation_Forall; [apply Permutation_map; exact Hr | exact H5].
+    + eapply Permutation_Forall; [apply Permutation_map; exact Hr | exact H6].
+    + eapply Permutation_Forall; [exact Hd | exact H7].
+    + eapply Permutation_Forall; [exact Hd | exact H8].
+  - symmetry. apply sum_permutation__scan_advance. exact Hl.
 Qed.

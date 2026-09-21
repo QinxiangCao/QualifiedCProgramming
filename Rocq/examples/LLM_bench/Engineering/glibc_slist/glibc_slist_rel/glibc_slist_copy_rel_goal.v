@@ -159,39 +159,14 @@ forall (X_low_level_spec: (((@list Z) * (@list Z)) -> (unit -> Prop))) (node: Z)
 .
 
 Definition glibc_slist_clean_copy_entail_wit_3 := 
-forall (src_pre: Z) (X_low_level_spec: (((@list Z) * (@list Z)) -> (unit -> Prop))) (node: Z) (l2: (@list Z)) (x: Z) (l0: (@list Z)) (y: Z) (retval_next: Z) (retval: Z) (lprefix_2: (@list Z)) (v_2: Z) (lrest_2: (@list Z)) (l3: (@list Z)) (retval_2: Z) (PreH1 : (safeExec ATrue (bind ((return (l3))) ((residual_prog_in_glibc_slist_clean_copy_M_call_1 (lprefix_2) (v_2) (lrest_2)))) X_low_level_spec )) (PreH2 : (node <> 0)) (PreH3 : (retval <> 0)) (PreH4 : (retval <> 0)) (PreH5 : (retval <> 0)) (PreH6 : (retval_next = 0)) (PreH7 : (l2 = (cons (x) (l0)))) (PreH8 : (node <> 0)) ,
-  (sll retval_2 l3 )
-  **  ((&((node)  # "list" ->ₛ "data")) # Int  |-> v_2)
-  **  (sllseg src_pre node lprefix_2 )
-  **  ((&((node)  # "list" ->ₛ "next")) # Ptr  |-> y)
-  **  (sll y lrest_2 )
-|--
-  EX (ldst: (@list Z))  (lprefix: (@list Z))  (v: Z)  (lrest: (@list Z)) ,
-  “ (safeExec ATrue (bind ((return (ldst))) ((residual_prog_in_glibc_slist_clean_copy_M_call_1 (lprefix) (v) (lrest)))) X_low_level_spec ) ” 
-  &&  “ (node <> 0) ” 
-  &&  “ (node <> 0) ” 
-  &&  “ (retval <> 0) ” 
-  &&  “ (retval <> 0) ” 
-  &&  “ (retval <> 0) ” 
-  &&  “ (retval_next = 0) ” 
-  &&  “ (l2 = (cons (x) (l0))) ” 
-  &&  “ (node <> 0) ”
-  &&  ((&((node)  # "list" ->ₛ "data")) # Int  |-> v)
-  **  (sllseg src_pre node lprefix )
-  **  ((&((node)  # "list" ->ₛ "next")) # Ptr  |-> y)
-  **  (sll y lrest )
-  **  (sll retval_2 ldst )
-.
-
-Definition glibc_slist_clean_copy_entail_wit_4 := 
 (
-forall (src_pre: Z) (X_low_level_spec: (((@list Z) * (@list Z)) -> (unit -> Prop))) (node: Z) (l2_2: (@list Z)) (x: Z) (l0: (@list Z)) (y: Z) (retval_next: Z) (retval_2: Z) (retval: Z) (ldst: (@list Z)) (lprefix: (@list Z)) (v: Z) (lrest: (@list Z)) (PreH1 : (safeExec ATrue (bind ((return (ldst))) ((residual_prog_in_glibc_slist_clean_copy_M_call_1 (lprefix) (v) (lrest)))) X_low_level_spec )) (PreH2 : (node <> 0)) (PreH3 : (node <> 0)) (PreH4 : (retval_2 <> 0)) (PreH5 : (retval_2 <> 0)) (PreH6 : (retval_2 <> 0)) (PreH7 : (retval_next = 0)) (PreH8 : (l2_2 = (cons (x) (l0)))) (PreH9 : (node <> 0)) ,
-  ((&((node)  # "list" ->ₛ "data")) # Int  |-> v)
+forall (src_pre: Z) (X_low_level_spec: (((@list Z) * (@list Z)) -> (unit -> Prop))) (node: Z) (l2_2: (@list Z)) (x: Z) (l0: (@list Z)) (y: Z) (retval_next: Z) (retval_2: Z) (lprefix: (@list Z)) (v: Z) (lrest: (@list Z)) (l3_2: (@list Z)) (retval: Z) (PreH1 : (safeExec ATrue (bind ((return (l3_2))) ((residual_prog_in_glibc_slist_clean_copy_M_call_1 (lprefix) (v) (lrest)))) X_low_level_spec )) (PreH2 : (node <> 0)) (PreH3 : (retval_2 <> 0)) (PreH4 : (retval_2 <> 0)) (PreH5 : (retval_2 <> 0)) (PreH6 : (retval_next = 0)) (PreH7 : (l2_2 = (cons (x) (l0)))) (PreH8 : (node <> 0)) ,
+  (sll retval l3_2 )
+  **  ((&((node)  # "list" ->ₛ "data")) # Int  |-> v)
+  **  ((( &( "copy" ) )) # Ptr  |-> retval_2)
   **  (sllseg src_pre node lprefix )
   **  ((&((node)  # "list" ->ₛ "next")) # Ptr  |-> y)
   **  (sll y lrest )
-  **  (sll retval ldst )
-  **  ((( &( "copy" ) )) # Ptr  |-> retval_2)
 |--
   EX (l1: (@list Z))  (l2: (@list Z))  (l3: (@list Z)) ,
   “ (safeExec ATrue (bind ((glibc_slist_clean_copy_M_loop (l1) (l2) (l3))) (glibc_slist_clean_copy_M_after_loop)) X_low_level_spec ) ”
@@ -201,13 +176,13 @@ forall (src_pre: Z) (X_low_level_spec: (((@list Z) * (@list Z)) -> (unit -> Prop
   **  (sll retval l3 )
 ) \/
 (
-forall (src_pre: Z) (X_low_level_spec: (((@list Z) * (@list Z)) -> (unit -> Prop))) (node: Z) (l2_2: (@list Z)) (x: Z) (l0: (@list Z)) (y: Z) (retval_next: Z) (retval_2: Z) (ldst: (@list Z)) (lprefix: (@list Z)) (v: Z) (lrest: (@list Z)) (PreH1 : (v <= INT_MAX)) (PreH2 : (v >= INT_MIN)) (PreH3 : (safeExec ATrue (bind ((return (ldst))) ((residual_prog_in_glibc_slist_clean_copy_M_call_1 (lprefix) (v) (lrest)))) X_low_level_spec )) (PreH4 : (node <> 0)) (PreH5 : (node <> 0)) (PreH6 : (retval_2 <> 0)) (PreH7 : (retval_2 <> 0)) (PreH8 : (retval_2 <> 0)) (PreH9 : (retval_next = 0)) (PreH10 : (l2_2 = (cons (x) (l0)))) (PreH11 : (node <> 0)) ,
+forall (src_pre: Z) (X_low_level_spec: (((@list Z) * (@list Z)) -> (unit -> Prop))) (node: Z) (l2_2: (@list Z)) (x: Z) (l0: (@list Z)) (y: Z) (retval_next: Z) (retval_2: Z) (lprefix: (@list Z)) (v: Z) (lrest: (@list Z)) (l3_2: (@list Z)) (PreH1 : (v <= INT_MAX)) (PreH2 : (v >= INT_MIN)) (PreH3 : (safeExec ATrue (bind ((return (l3_2))) ((residual_prog_in_glibc_slist_clean_copy_M_call_1 (lprefix) (v) (lrest)))) X_low_level_spec )) (PreH4 : (node <> 0)) (PreH5 : (retval_2 <> 0)) (PreH6 : (retval_2 <> 0)) (PreH7 : (retval_2 <> 0)) (PreH8 : (retval_next = 0)) (PreH9 : (l2_2 = (cons (x) (l0)))) (PreH10 : (node <> 0)) ,
   ((&((node)  # "list" ->ₛ "data")) # Int  |-> v)
   **  (sllseg src_pre node lprefix )
   **  ((&((node)  # "list" ->ₛ "next")) # Ptr  |-> y)
 |--
   EX (l1: (@list Z)) ,
-  “ (safeExec ATrue (bind ((glibc_slist_clean_copy_M_loop (l1) (lrest) (ldst))) (glibc_slist_clean_copy_M_after_loop)) X_low_level_spec ) ”
+  “ (safeExec ATrue (bind ((glibc_slist_clean_copy_M_loop (l1) (lrest) (l3_2))) (glibc_slist_clean_copy_M_after_loop)) X_low_level_spec ) ”
   &&  (sllseg src_pre y l1 )
 ).
 
@@ -361,7 +336,6 @@ Axiom proof_of_glibc_slist_clean_copy_safety_wit_4 : glibc_slist_clean_copy_safe
 Axiom proof_of_glibc_slist_clean_copy_entail_wit_1 : glibc_slist_clean_copy_entail_wit_1.
 Axiom proof_of_glibc_slist_clean_copy_entail_wit_2 : glibc_slist_clean_copy_entail_wit_2.
 Axiom proof_of_glibc_slist_clean_copy_entail_wit_3 : glibc_slist_clean_copy_entail_wit_3.
-Axiom proof_of_glibc_slist_clean_copy_entail_wit_4 : glibc_slist_clean_copy_entail_wit_4.
 Axiom proof_of_glibc_slist_clean_copy_return_wit_1 : glibc_slist_clean_copy_return_wit_1.
 Axiom proof_of_glibc_slist_clean_copy_partial_solve_wit_1 : glibc_slist_clean_copy_partial_solve_wit_1.
 Axiom proof_of_glibc_slist_clean_copy_partial_solve_wit_2_pure : glibc_slist_clean_copy_partial_solve_wit_2_pure.

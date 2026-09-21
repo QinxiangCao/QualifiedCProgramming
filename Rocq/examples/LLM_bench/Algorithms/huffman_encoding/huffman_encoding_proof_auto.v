@@ -62,22 +62,10 @@ Proof. Admitted.
 Lemma proof_of_huffman_cost_safety_wit_14 : huffman_cost_safety_wit_14.
 Proof. Admitted. 
 
-Lemma proof_of_huffman_cost_safety_wit_15 : huffman_cost_safety_wit_15.
-Proof. Admitted. 
-
-Lemma proof_of_huffman_cost_safety_wit_16 : huffman_cost_safety_wit_16.
-Proof. Admitted. 
-
 Lemma proof_of_huffman_cost_safety_wit_17 : huffman_cost_safety_wit_17.
 Proof. Admitted. 
 
 Lemma proof_of_huffman_cost_entail_wit_5 : huffman_cost_entail_wit_5.
-Proof. Admitted. 
-
-Lemma proof_of_huffman_cost_entail_wit_7 : huffman_cost_entail_wit_7.
-Proof. Admitted. 
-
-Lemma proof_of_huffman_cost_entail_wit_11 : huffman_cost_entail_wit_11.
 Proof. Admitted. 
 
 Lemma proof_of_huffman_cost_return_wit_1 : huffman_cost_return_wit_1.

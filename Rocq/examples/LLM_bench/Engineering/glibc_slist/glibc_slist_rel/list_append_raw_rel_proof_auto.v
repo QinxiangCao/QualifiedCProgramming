@@ -31,9 +31,6 @@ Local Open Scope sac.
 Lemma proof_of_list_append_raw_safety_wit_1 : list_append_raw_safety_wit_1.
 Proof. Admitted. 
 
-Lemma proof_of_list_append_raw_entail_wit_2 : list_append_raw_entail_wit_2.
-Proof. Admitted. 
-
 Lemma proof_of_list_append_raw_partial_solve_wit_1_pure : list_append_raw_partial_solve_wit_1_pure.
 Proof. Admitted. 
 

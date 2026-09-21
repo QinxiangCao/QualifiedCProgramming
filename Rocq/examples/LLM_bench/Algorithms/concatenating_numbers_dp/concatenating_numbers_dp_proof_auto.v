@@ -68,18 +68,6 @@ Proof. Admitted.
 Lemma proof_of_compare_concatenated_order_safety_wit_17 : compare_concatenated_order_safety_wit_17.
 Proof. Admitted. 
 
-Lemma proof_of_compare_concatenated_order_entail_wit_2 : compare_concatenated_order_entail_wit_2.
-Proof. Admitted. 
-
-Lemma proof_of_compare_concatenated_order_entail_wit_4 : compare_concatenated_order_entail_wit_4.
-Proof. Admitted. 
-
-Lemma proof_of_compare_concatenated_order_entail_wit_7 : compare_concatenated_order_entail_wit_7.
-Proof. Admitted. 
-
-Lemma proof_of_compare_concatenated_order_entail_wit_9 : compare_concatenated_order_entail_wit_9.
-Proof. Admitted. 
-
 Lemma proof_of_compare_concatenated_order_partial_solve_wit_1 : compare_concatenated_order_partial_solve_wit_1.
 Proof. Admitted. 
 
@@ -179,7 +167,7 @@ Proof. Admitted.
 Lemma proof_of_concatenating_numbers_dp_entail_wit_7 : concatenating_numbers_dp_entail_wit_7.
 Proof. Admitted. 
 
-Lemma proof_of_concatenating_numbers_dp_entail_wit_12 : concatenating_numbers_dp_entail_wit_12.
+Lemma proof_of_concatenating_numbers_dp_return_wit_1 : concatenating_numbers_dp_return_wit_1.
 Proof. Admitted. 
 
 Lemma proof_of_concatenating_numbers_dp_partial_solve_wit_1 : concatenating_numbers_dp_partial_solve_wit_1.

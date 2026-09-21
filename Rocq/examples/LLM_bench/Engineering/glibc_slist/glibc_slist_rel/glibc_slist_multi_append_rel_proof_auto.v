@@ -28,12 +28,6 @@ Require Import glibc_slist_lib.
 Require Import glibc_slist_multi_append_rel_lib.
 Local Open Scope sac.
 
-Lemma proof_of_glibc_slist_clean_multi_append_entail_wit_2 : glibc_slist_clean_multi_append_entail_wit_2.
-Proof. Admitted. 
-
-Lemma proof_of_glibc_slist_clean_multi_append_entail_wit_4 : glibc_slist_clean_multi_append_entail_wit_4.
-Proof. Admitted. 
-
 Lemma proof_of_glibc_slist_clean_multi_append_partial_solve_wit_1_pure : glibc_slist_clean_multi_append_partial_solve_wit_1_pure.
 Proof. Admitted. 
 

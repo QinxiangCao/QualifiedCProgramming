@@ -3,6 +3,7 @@ Require Import Coq.Sorting.Permutation.
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.micromega.Lia.
 Require Import AUXLib.ListLib.
+Require Import AUXLib.MonotonicList.
 From MaxMinLib Require Import MaxMin Interface.
 
 Import ListNotations.
@@ -56,6 +57,8 @@ Definition HuffmanOptimalCost
     HuffmanWeightedPathLength
     answer.
 
+(* Compatibility premise used only by the original internal arithmetic lemmas.
+   Public annotations state both Forall bounds explicitly. *)
 Definition HuffmanInputBounded (weights : list Z) : Prop :=
   forall i,
     0 <= i < Zlength weights ->
@@ -82,9 +85,13 @@ Definition HuffmanProgress
     (input scratch : list Z) (active accumulated : Z) : Prop :=
   HuffmanResidualOptimum input (sublist 0 active scratch) accumulated.
 
-(** [best] denotes a minimum of the already scanned prefix.  Bounds for
+(** Legacy proof compatibility below: these three predicates are used only
+    in the existing internal lemmas. The public C interfaces at the end of this
+    file use MaxMinLib and are connected by proved equivalences.
+
+    [best] denotes a minimum of the already scanned prefix. Bounds for
     [best], [scanned], and concrete array access deliberately remain in C. *)
-Definition HuffmanMinScan
+Definition HuffmanMinScanLegacy
     (scratch : list Z) (scanned best : Z) : Prop :=
   forall k,
     0 <= k < scanned ->
@@ -93,7 +100,7 @@ Definition HuffmanMinScan
 (** One globally minimum residual weight has been removed from scratch and is
     held in the local [held].  The remaining live prefix plus that value is
     the prior residual multiset. *)
-Definition HuffmanFirstHeld
+Definition HuffmanFirstHeldLegacy
     (input scratch : list Z)
     (active held accumulated : Z) : Prop :=
   exists prior_live,
@@ -104,7 +111,7 @@ Definition HuffmanFirstHeld
 (** Both greedy-smallest values are held and [scratch[0..active)] is the rest
     of the prior residual multiset.  This is the implementation-independent
     premise of the Huffman greedy-choice theorem. *)
-Definition HuffmanPairReady
+Definition HuffmanPairReadyLegacy
     (input scratch : list Z)
     (active first second accumulated : Z) : Prop :=
   exists prior_live,
@@ -886,7 +893,7 @@ Proof.
 Qed.
 Lemma huffman_min_scan_init__min_scan_updates :
   forall scratch,
-    HuffmanMinScan scratch 1 0.
+    HuffmanMinScanLegacy scratch 1 0.
 Proof.
   intros scratch k [Hnonnegative Hbelow_one].
   assert (k = 0) by lia.
@@ -895,9 +902,9 @@ Proof.
 Qed.
 Lemma huffman_min_scan_take_new__min_scan_updates :
   forall scratch scanned best,
-    HuffmanMinScan scratch scanned best ->
+    HuffmanMinScanLegacy scratch scanned best ->
     Znth scanned scratch 0 < Znth best scratch 0 ->
-    HuffmanMinScan scratch (scanned + 1) scanned.
+    HuffmanMinScanLegacy scratch (scanned + 1) scanned.
 Proof.
   intros scratch scanned best Hscan Hnew k [Hnonnegative Hbelow_next].
   destruct (Z.lt_ge_cases k scanned) as [Hbelow | Hat_or_above].
@@ -909,9 +916,9 @@ Proof.
 Qed.
 Lemma huffman_min_scan_keep_old__min_scan_updates :
   forall scratch scanned best,
-    HuffmanMinScan scratch scanned best ->
+    HuffmanMinScanLegacy scratch scanned best ->
     Znth best scratch 0 <= Znth scanned scratch 0 ->
-    HuffmanMinScan scratch (scanned + 1) best.
+    HuffmanMinScanLegacy scratch (scanned + 1) best.
 Proof.
   intros scratch scanned best Hscan Hnew k [Hnonnegative Hbelow_next].
   destruct (Z.lt_ge_cases k scanned) as [Hbelow | Hat_or_above].
@@ -988,15 +995,15 @@ Lemma huffman_first_held_after_removal__removals_bounds :
   forall input xs selected active accumulated,
     0 <= selected < active ->
     active <= Zlength xs ->
-    HuffmanMinScan xs active selected ->
+    HuffmanMinScanLegacy xs active selected ->
     HuffmanResidualOptimum input (sublist 0 active xs) accumulated ->
-    HuffmanFirstHeld input
+    HuffmanFirstHeldLegacy input
       (replace_Znth selected (Znth (active - 1) xs 0) xs)
       (active - 1) (Znth selected xs 0) accumulated.
 Proof.
   intros input xs selected active accumulated
     Hselected Hactive Hminimum Hresidual.
-  unfold HuffmanFirstHeld.
+  unfold HuffmanFirstHeldLegacy.
   exists (sublist 0 active xs).
   split.
   - apply replace_last_removal_permutation__removals_bounds; assumption.
@@ -1045,9 +1052,9 @@ Lemma huffman_pair_ready_after_removal__removals_bounds :
     1 <= active < n ->
     0 <= selected < scanned ->
     active <= scanned <= active ->
-    HuffmanFirstHeld input scratch active held accumulated ->
-    HuffmanMinScan scratch scanned selected ->
-    HuffmanPairReady input
+    HuffmanFirstHeldLegacy input scratch active held accumulated ->
+    HuffmanMinScanLegacy scratch scanned selected ->
+    HuffmanPairReadyLegacy input
       (replace_Znth selected (Znth (active - 1) scratch 0) scratch)
       (active - 1) held (Znth selected scratch 0) accumulated.
 Proof.
@@ -1323,7 +1330,7 @@ Lemma huffman_residual_charge_bounds__removals_bounds :
     1 <= active < n ->
     0 <= selected < active ->
     1 <= held ->
-    HuffmanFirstHeld input scratch active held accumulated ->
+    HuffmanFirstHeldLegacy input scratch active held accumulated ->
     held + Znth selected scratch 0 <= 8000 /\
     accumulated + held + Znth selected scratch 0 <= 56000.
 Proof.
@@ -2349,13 +2356,13 @@ Qed.
 Lemma huffman_progress_after_merge__merge_transition :
   forall input scratch active x y accumulated,
     0 <= active < Zlength scratch ->
-    HuffmanPairReady input scratch active x y accumulated ->
+    HuffmanPairReadyLegacy input scratch active x y accumulated ->
     HuffmanProgress input
       (replace_Znth active (x + y) scratch)
       (active + 1) (accumulated + x + y).
 Proof.
   intros input scratch active x y accumulated Hactive Hpair.
-  unfold HuffmanPairReady in Hpair.
+  unfold HuffmanPairReadyLegacy in Hpair.
   destruct Hpair as
     [prior [Hprior [Hxminimum [Hyminimum Hresidual]]]].
   unfold HuffmanResidualOptimum in Hresidual.
@@ -2425,4 +2432,109 @@ Proof.
   replace (0 + 1) with 1 in Hsingle by lia.
   apply Hsingle.
   lia.
+Qed.
+
+(** Public selection facts use the same library minimum as the final optimum.
+    The prefix is the mathematical candidate domain; all storage and machine
+    constraints remain explicit in the C annotations. *)
+Definition HuffmanMinScan (scratch : list Z) (scanned best : Z) : Prop :=
+  min_value_of_subset Z.le
+    (fun k : Z => 0 <= k < scanned)
+    (fun k => Znth k scratch 0) (Znth best scratch 0).
+
+Definition HuffmanFirstHeld (input scratch : list Z)
+    (active held accumulated : Z) : Prop :=
+  exists prior_live,
+    Permutation prior_live (held :: sublist 0 active scratch) /\
+    min_value_of_subset Z.le (fun weight => In weight prior_live)
+      (fun weight : Z => weight) held /\
+    HuffmanResidualOptimum input prior_live accumulated.
+
+Definition HuffmanPairReady (input scratch : list Z)
+    (active first second accumulated : Z) : Prop :=
+  exists prior_live,
+    Permutation prior_live (first :: second :: sublist 0 active scratch) /\
+    min_value_of_subset Z.le (fun weight => In weight prior_live)
+      (fun weight : Z => weight) first /\
+    min_value_of_subset Z.le
+      (fun weight => In weight (second :: sublist 0 active scratch))
+      (fun weight : Z => weight) second /\
+    HuffmanResidualOptimum input prior_live accumulated.
+
+Lemma huffman_scan_iff scratch scanned best :
+  0 <= best < scanned ->
+  (HuffmanMinScan scratch scanned best <->
+   HuffmanMinScanLegacy scratch scanned best).
+Proof.
+  intros Hbest. unfold HuffmanMinScan, HuffmanMinScanLegacy,
+    min_value_of_subset, min_object_of_subset.
+  split.
+  - intros [k [[Hk Hmin] Heq]] j Hj. rewrite <- Heq. apply Hmin, Hj.
+  - intros Hmin. exists best. repeat split; auto; lia.
+Qed.
+
+Lemma huffman_value_minimum_iff values best :
+  In best values ->
+  (min_value_of_subset Z.le (fun value => In value values)
+    (fun value : Z => value) best <->
+   (forall value, In value values -> best <= value)).
+Proof.
+  intros Hin. unfold min_value_of_subset, min_object_of_subset.
+  split.
+  - intros [value [[Hv Hmin] ->]]. exact Hmin.
+  - intros Hmin. exists best. auto.
+Qed.
+
+Lemma huffman_first_held_iff input scratch active held accumulated :
+  HuffmanFirstHeld input scratch active held accumulated <->
+  HuffmanFirstHeldLegacy input scratch active held accumulated.
+Proof.
+  unfold HuffmanFirstHeld, HuffmanFirstHeldLegacy.
+  assert (Hmember : forall prior,
+    Permutation prior (held :: sublist 0 active scratch) -> In held prior).
+  { intros prior Hp. eapply Permutation_in; [apply Permutation_sym, Hp|]. simpl; auto. }
+  split; intros [prior [Hp [Hm Hr]]]; exists prior; split; [exact Hp| |exact Hp|];
+    split; try exact Hr.
+  - apply (proj1 (huffman_value_minimum_iff prior held (Hmember prior Hp))), Hm.
+  - apply (proj2 (huffman_value_minimum_iff prior held (Hmember prior Hp))), Hm.
+Qed.
+
+Lemma huffman_pair_ready_iff input scratch active first second accumulated :
+  HuffmanPairReady input scratch active first second accumulated <->
+  HuffmanPairReadyLegacy input scratch active first second accumulated.
+Proof.
+  unfold HuffmanPairReady, HuffmanPairReadyLegacy.
+  assert (Hmember : forall prior,
+    Permutation prior (first :: second :: sublist 0 active scratch) -> In first prior).
+  { intros prior Hp. eapply Permutation_in; [apply Permutation_sym, Hp|]. simpl; auto. }
+  split; intros [prior [Hp [Hf [Hs Hr]]]]; exists prior;
+    split; [exact Hp| |exact Hp|]; split.
+  - apply (proj1 (huffman_value_minimum_iff prior first (Hmember prior Hp))), Hf.
+  - split; [|exact Hr].
+    apply (proj1 (huffman_value_minimum_iff (second :: sublist 0 active scratch) second (or_introl eq_refl))), Hs.
+  - apply (proj2 (huffman_value_minimum_iff prior first (Hmember prior Hp))), Hf.
+  - split; [|exact Hr].
+    apply (proj2 (huffman_value_minimum_iff (second :: sublist 0 active scratch) second (or_introl eq_refl))), Hs.
+Qed.
+
+Lemma huffman_input_bounds_iff weights :
+  HuffmanInputBounded weights <->
+  Forall (Z.le 1) weights /\ Forall (Z.ge 1000) weights.
+Proof.
+  unfold HuffmanInputBounded.
+  rewrite !(Forall_Znth _ 0). setoid_rewrite Z.ge_le_iff. split.
+  - intros H. split; intros i Hi; specialize (H i Hi); lia.
+  - intros [Hl Hu] i Hi. specialize (Hl i Hi). specialize (Hu i Hi). lia.
+Qed.
+
+Lemma huffman_prefix_forall_iff (P : Z -> Prop) values active :
+  0 <= active <= Zlength values ->
+  (Forall P (sublist 0 active values) <->
+   forall k, 0 <= k < active -> P (Znth k values 0)).
+Proof.
+  intros Hactive. rewrite (Forall_Znth _ 0).
+  rewrite Zlength_sublist0 by exact Hactive.
+  split; intros H k Hk.
+  - specialize (H k Hk). rewrite Znth_sublist0 in H by lia. exact H.
+  - rewrite Znth_sublist0 by lia. apply H, Hk.
 Qed.

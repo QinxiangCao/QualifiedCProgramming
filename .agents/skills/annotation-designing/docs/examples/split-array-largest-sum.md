@@ -84,7 +84,7 @@ arr == arr@pre && n == n@pre && m == m@pre &&
 1 <= n && n <= 100000 &&
 1 <= m && m <= n &&
 IntArray::full(arr, n, l) &&
-(forall (i : Z), (0 <= i && i < n) => (0 <= l[i] && l[i] < 100000000)) &&
+Forall(Z::le(0), l) && Forall(Z::gt(100000000), l) &&
 0 <= left && right <= 1000000000 &&
 left <= right &&
 left <= res && res <= right &&
@@ -143,7 +143,7 @@ annotation 中不需要把这些证明塞进 C 断言；它只要保留足够的
 ## 写类似 case 前的 checklist
 
 1. `check` 的返回值是否已经封装成 `CanX` / `CannotX` 这类判定性质？
-2. 主问题是否已经用 `min_value_of_subset`、`max_value_of_subset` 或同等级的数学定义表达？
+2. 主问题的最值性是否使用 `MaxMinLib` 的 `min_value_of_subset` / `max_value_of_subset`，必要的题目 predicate 内部也直接复用这些接口？
 3. 主循环 invariant 是否包含“真实答案在当前 `[left, right]` 内”？
 4. `ok` 分支是否分别有 lemma 把可行 / 不可行结论转化成 `res <= mid` 或 `mid < res`？
 5. C annotation 是否仍在描述程序状态，而不是追踪一份 Rocq 版程序？

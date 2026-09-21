@@ -3,9 +3,12 @@
 #include "convex_hull_float_def.h"
 
 /*@ Extern Coq
-      (pointf_finite : PointF -> Prop)
-      (pointsf_finite : list PointF -> Prop)
-      (all_pointf_cross_finite : list PointF -> Prop)
+      (Forall : {A} -> (A -> Prop) -> list A -> Prop)
+      (map : {A B} -> (A -> B) -> list A -> list B)
+      (In : {A} -> A -> list A -> Prop)
+      (fp32_isFinite : fp32 -> Prop)
+      (fp32_sub : fp32 -> fp32 -> fp32)
+      (fp32_mul : fp32 -> fp32 -> fp32)
       (pointf_permutation : list PointF -> list PointF -> Prop)
       (pointf_same_outside_range : list PointF -> list PointF -> Z -> Z -> Prop)
       (pointf_xy_sorted : list PointF -> Prop)
@@ -21,10 +24,9 @@
 
 static int point_cmp_xy(float ax, float ay, float bx, float b_y)
 /*@ Require
-      pointf_finite(pointf_mk(ax, ay)) &&
-      pointf_finite(pointf_mk(bx, b_y))
+      (fp32_isFinite(pointf_get_x(pointf_mk(ax, ay))) && fp32_isFinite(pointf_get_y(pointf_mk(ax, ay)))) &&
+      (fp32_isFinite(pointf_get_x(pointf_mk(bx, b_y))) && fp32_isFinite(pointf_get_y(pointf_mk(bx, b_y))))
     Ensure
-      ax == ax@pre && ay == ay@pre && bx == bx@pre && b_y == b_y@pre &&
       __return == pointf_cmp_xy(
         pointf_mk(ax@pre, ay@pre), pointf_mk(bx@pre, b_y@pre))
  */
@@ -39,14 +41,18 @@ static int point_cmp_xy(float ax, float ay, float bx, float b_y)
 static float point_cross(float ax, float ay, float bx, float b_y,
                          float cx, float cy)
 /*@ Require
-      pointf_finite(pointf_mk(ax, ay)) &&
-      pointf_finite(pointf_mk(bx, b_y)) &&
-      pointf_finite(pointf_mk(cx, cy)) &&
-      pointf_cross_finite(
-        pointf_mk(ax, ay), pointf_mk(bx, b_y), pointf_mk(cx, cy))
+      (fp32_isFinite(pointf_get_x(pointf_mk(ax, ay))) && fp32_isFinite(pointf_get_y(pointf_mk(ax, ay)))) &&
+      (fp32_isFinite(pointf_get_x(pointf_mk(bx, b_y))) && fp32_isFinite(pointf_get_y(pointf_mk(bx, b_y)))) &&
+      (fp32_isFinite(pointf_get_x(pointf_mk(cx, cy))) && fp32_isFinite(pointf_get_y(pointf_mk(cx, cy)))) &&
+      (fp32_isFinite(fp32_sub(pointf_get_x(pointf_mk(bx, b_y)), pointf_get_x(pointf_mk(ax, ay)))) &&
+          fp32_isFinite(fp32_sub(pointf_get_y(pointf_mk(cx, cy)), pointf_get_y(pointf_mk(ax, ay)))) &&
+          fp32_isFinite(fp32_sub(pointf_get_y(pointf_mk(bx, b_y)), pointf_get_y(pointf_mk(ax, ay)))) &&
+          fp32_isFinite(fp32_sub(pointf_get_x(pointf_mk(cx, cy)), pointf_get_x(pointf_mk(ax, ay)))) &&
+          fp32_isFinite(fp32_mul(fp32_sub(pointf_get_x(pointf_mk(bx, b_y)), pointf_get_x(pointf_mk(ax, ay))), fp32_sub(pointf_get_y(pointf_mk(cx, cy)), pointf_get_y(pointf_mk(ax, ay))))) &&
+          fp32_isFinite(fp32_mul(fp32_sub(pointf_get_y(pointf_mk(bx, b_y)), pointf_get_y(pointf_mk(ax, ay))), fp32_sub(pointf_get_x(pointf_mk(cx, cy)), pointf_get_x(pointf_mk(ax, ay))))) &&
+          fp32_isFinite(pointf_cross(pointf_mk(ax, ay), pointf_mk(bx, b_y), pointf_mk(cx, cy))))
     Ensure
-      ax == ax@pre && ay == ay@pre && bx == bx@pre && b_y == b_y@pre &&
-      cx == cx@pre && cy == cy@pre &&
+
       __return == pointf_cross(
         pointf_mk(ax@pre, ay@pre), pointf_mk(bx@pre, b_y@pre),
         pointf_mk(cx@pre, cy@pre))
@@ -61,7 +67,6 @@ static void swap_points(struct PointF *pts, int n, int i, int j)
       0 <= i && i < n && 0 <= j && j < n &&
       Zlength(l) == n && PointFArray::full(pts, n, l)
     Ensure
-      pts == pts@pre && n == n@pre && i == i@pre && j == j@pre &&
       PointFArray::full(pts, n, pointf_swap(l, i, j))
  */
 {
@@ -78,14 +83,21 @@ static int partition_xy_points(struct PointF *pts, int n, int low, int high)
     Require
       0 <= low && low <= high && high < n &&
       0 <= n && n <= 50000 && Zlength(l) == n &&
-      pointsf_finite(l) && all_pointf_cross_finite(l) &&
+      Forall(fp32_isFinite, map(pointf_get_x, l)) &&
+          Forall(fp32_isFinite, map(pointf_get_y, l)) && (forall (pa : PointF) (pb : PointF) (pc : PointF),
+          (In(pa, l) && In(pb, l) && In(pc, l)) =>
+          (fp32_isFinite(fp32_sub(pointf_get_x(pb), pointf_get_x(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_y(pc), pointf_get_y(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_y(pb), pointf_get_y(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_x(pc), pointf_get_x(pa))) &&
+          fp32_isFinite(fp32_mul(fp32_sub(pointf_get_x(pb), pointf_get_x(pa)), fp32_sub(pointf_get_y(pc), pointf_get_y(pa)))) &&
+          fp32_isFinite(fp32_mul(fp32_sub(pointf_get_y(pb), pointf_get_y(pa)), fp32_sub(pointf_get_x(pc), pointf_get_x(pa)))) &&
+          fp32_isFinite(pointf_cross(pa, pb, pc)))) &&
       PointFArray::full(pts, n, l)
     Ensure
-      pts == pts@pre && n == n@pre && low == low@pre && high == high@pre &&
       low <= __return && __return <= high &&
       exists out,
-        Zlength(out) == n && pointsf_finite(out) &&
-        all_pointf_cross_finite(out) && pointf_permutation(l, out) &&
+        pointf_permutation(l, out) &&
         pointf_same_outside_range(l, out, low, high) &&
         pointf_xy_partitioned_at(out, low, high, __return) &&
         PointFArray::full(pts, n, out)
@@ -100,8 +112,17 @@ static int partition_xy_points(struct PointF *pts, int n, int low, int high)
         0 <= n && n <= 50000 && 0 <= low && low <= high && high < n &&
         low - 1 <= i && i < j && j <= high && Zlength(cur) == n &&
         cur[high].pointf_x == pivot_x && cur[high].pointf_y == pivot_y &&
-        pointsf_finite(cur) && all_pointf_cross_finite(cur) &&
-        pointf_finite(pointf_mk(pivot_x, pivot_y)) &&
+        Forall(fp32_isFinite, map(pointf_get_x, cur)) &&
+          Forall(fp32_isFinite, map(pointf_get_y, cur)) && (forall (pa : PointF) (pb : PointF) (pc : PointF),
+          (In(pa, cur) && In(pb, cur) && In(pc, cur)) =>
+          (fp32_isFinite(fp32_sub(pointf_get_x(pb), pointf_get_x(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_y(pc), pointf_get_y(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_y(pb), pointf_get_y(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_x(pc), pointf_get_x(pa))) &&
+          fp32_isFinite(fp32_mul(fp32_sub(pointf_get_x(pb), pointf_get_x(pa)), fp32_sub(pointf_get_y(pc), pointf_get_y(pa)))) &&
+          fp32_isFinite(fp32_mul(fp32_sub(pointf_get_y(pb), pointf_get_y(pa)), fp32_sub(pointf_get_x(pc), pointf_get_x(pa)))) &&
+          fp32_isFinite(pointf_cross(pa, pb, pc)))) &&
+        (fp32_isFinite(pointf_get_x(pointf_mk(pivot_x, pivot_y))) && fp32_isFinite(pointf_get_y(pointf_mk(pivot_x, pivot_y)))) &&
         pointf_xy_partition_scan_inv(
           l, cur, low, high, pointf_mk(pivot_x, pivot_y), i, j) &&
         PointFArray::full(pts, n, cur)
@@ -126,12 +147,20 @@ static void quicksort_xy_points(struct PointF *pts, int n, int left, int right)
 /*@ With (l : list PointF)
     Require
       0 <= n && n <= 50000 && 0 <= left && -1 <= right && right < n &&
-      Zlength(l) == n && pointsf_finite(l) && all_pointf_cross_finite(l) &&
+      Zlength(l) == n && Forall(fp32_isFinite, map(pointf_get_x, l)) &&
+          Forall(fp32_isFinite, map(pointf_get_y, l)) && (forall (pa : PointF) (pb : PointF) (pc : PointF),
+          (In(pa, l) && In(pb, l) && In(pc, l)) =>
+          (fp32_isFinite(fp32_sub(pointf_get_x(pb), pointf_get_x(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_y(pc), pointf_get_y(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_y(pb), pointf_get_y(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_x(pc), pointf_get_x(pa))) &&
+          fp32_isFinite(fp32_mul(fp32_sub(pointf_get_x(pb), pointf_get_x(pa)), fp32_sub(pointf_get_y(pc), pointf_get_y(pa)))) &&
+          fp32_isFinite(fp32_mul(fp32_sub(pointf_get_y(pb), pointf_get_y(pa)), fp32_sub(pointf_get_x(pc), pointf_get_x(pa)))) &&
+          fp32_isFinite(pointf_cross(pa, pb, pc)))) &&
       PointFArray::full(pts, n, l)
     Ensure
       exists out,
-        Zlength(out) == n && pointsf_finite(out) &&
-        all_pointf_cross_finite(out) && pointf_permutation(l, out) &&
+        pointf_permutation(l, out) &&
         pointf_same_outside_range(l, out, left, right) &&
         pointf_xy_sorted_range(out, left, right) &&
         PointFArray::full(pts, n, out)
@@ -151,19 +180,24 @@ static int andrew_build_from_sorted(
 /*@ With (sorted hull_init : list PointF)
     Require
       2 <= n && n <= 50000 && Zlength(sorted) == n &&
-      pointsf_finite(sorted) && all_pointf_cross_finite(sorted) &&
+      Forall(fp32_isFinite, map(pointf_get_x, sorted)) &&
+          Forall(fp32_isFinite, map(pointf_get_y, sorted)) && (forall (pa : PointF) (pb : PointF) (pc : PointF),
+          (In(pa, sorted) && In(pb, sorted) && In(pc, sorted)) =>
+          (fp32_isFinite(fp32_sub(pointf_get_x(pb), pointf_get_x(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_y(pc), pointf_get_y(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_y(pb), pointf_get_y(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_x(pc), pointf_get_x(pa))) &&
+          fp32_isFinite(fp32_mul(fp32_sub(pointf_get_x(pb), pointf_get_x(pa)), fp32_sub(pointf_get_y(pc), pointf_get_y(pa)))) &&
+          fp32_isFinite(fp32_mul(fp32_sub(pointf_get_y(pb), pointf_get_y(pa)), fp32_sub(pointf_get_x(pc), pointf_get_x(pa)))) &&
+          fp32_isFinite(pointf_cross(pa, pb, pc)))) &&
       pointf_xy_sorted(sorted) && Zlength(hull_init) == 2 * n &&
-      pointsf_finite(hull_init) &&
+      Forall(fp32_isFinite, map(pointf_get_x, hull_init)) &&
+          Forall(fp32_isFinite, map(pointf_get_y, hull_init)) &&
       PointFArray::full(pts, n, sorted) *
       PointFArray::full(hull, 2 * n, hull_init)
     Ensure
       exists pts_out hull_all out,
-        Zlength(pts_out) == n && Zlength(hull_all) == 2 * n &&
         out == sublist(0, __return, hull_all) && Zlength(out) == __return &&
-        2 <= __return && __return <= 2 * n &&
-        pointsf_finite(pts_out) && all_pointf_cross_finite(pts_out) &&
-        pointsf_finite(hull_all) && pointf_permutation(sorted, pts_out) &&
-        pointf_xy_sorted(pts_out) &&
         is_andrew_hull_float(sorted, pts_out, out) &&
         PointFArray::full(pts, n, pts_out) *
         PointFArray::full(hull, 2 * n, hull_all)
@@ -175,10 +209,21 @@ static int andrew_build_from_sorted(
         pts == pts@pre && hull == hull@pre && n == n@pre &&
         2 <= n && n <= 50000 &&
         0 <= i && i <= n && 0 <= k && k <= i &&
-        Zlength(sorted) == n && pointsf_finite(sorted) &&
-        all_pointf_cross_finite(sorted) && pointf_xy_sorted(sorted) &&
-        Zlength(hull_all) == 2 * n && pointsf_finite(hull_all) &&
+        Zlength(sorted) == n && Forall(fp32_isFinite, map(pointf_get_x, sorted)) &&
+          Forall(fp32_isFinite, map(pointf_get_y, sorted)) &&
+        (forall (pa : PointF) (pb : PointF) (pc : PointF),
+          (In(pa, sorted) && In(pb, sorted) && In(pc, sorted)) =>
+          (fp32_isFinite(fp32_sub(pointf_get_x(pb), pointf_get_x(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_y(pc), pointf_get_y(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_y(pb), pointf_get_y(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_x(pc), pointf_get_x(pa))) &&
+          fp32_isFinite(fp32_mul(fp32_sub(pointf_get_x(pb), pointf_get_x(pa)), fp32_sub(pointf_get_y(pc), pointf_get_y(pa)))) &&
+          fp32_isFinite(fp32_mul(fp32_sub(pointf_get_y(pb), pointf_get_y(pa)), fp32_sub(pointf_get_x(pc), pointf_get_x(pa)))) &&
+          fp32_isFinite(pointf_cross(pa, pb, pc)))) && pointf_xy_sorted(sorted) &&
+        Zlength(hull_all) == 2 * n && Forall(fp32_isFinite, map(pointf_get_x, hull_all)) &&
+          Forall(fp32_isFinite, map(pointf_get_y, hull_all)) &&
         pointf_lower_scan_inv(sorted, sublist(0, k, hull_all), i, k) &&
+        (n <= i => 2 <= k) &&
         PointFArray::full(pts, n, sorted) *
         PointFArray::full(hull, 2 * n, hull_all)
    */
@@ -188,9 +233,19 @@ static int andrew_build_from_sorted(
           pts == pts@pre && hull == hull@pre && n == n@pre &&
           2 <= n && n <= 50000 &&
           0 <= i && i < n && 0 <= k && k <= i &&
-          Zlength(sorted) == n && pointsf_finite(sorted) &&
-          all_pointf_cross_finite(sorted) && pointf_xy_sorted(sorted) &&
-          Zlength(hull_all) == 2 * n && pointsf_finite(hull_all) &&
+          Zlength(sorted) == n && Forall(fp32_isFinite, map(pointf_get_x, sorted)) &&
+          Forall(fp32_isFinite, map(pointf_get_y, sorted)) &&
+          (forall (pa : PointF) (pb : PointF) (pc : PointF),
+          (In(pa, sorted) && In(pb, sorted) && In(pc, sorted)) =>
+          (fp32_isFinite(fp32_sub(pointf_get_x(pb), pointf_get_x(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_y(pc), pointf_get_y(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_y(pb), pointf_get_y(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_x(pc), pointf_get_x(pa))) &&
+          fp32_isFinite(fp32_mul(fp32_sub(pointf_get_x(pb), pointf_get_x(pa)), fp32_sub(pointf_get_y(pc), pointf_get_y(pa)))) &&
+          fp32_isFinite(fp32_mul(fp32_sub(pointf_get_y(pb), pointf_get_y(pa)), fp32_sub(pointf_get_x(pc), pointf_get_x(pa)))) &&
+          fp32_isFinite(pointf_cross(pa, pb, pc)))) && pointf_xy_sorted(sorted) &&
+          Zlength(hull_all) == 2 * n && Forall(fp32_isFinite, map(pointf_get_x, hull_all)) &&
+          Forall(fp32_isFinite, map(pointf_get_y, hull_all)) &&
           pointf_lower_pop_inv(
             sorted, before, sublist(0, k, hull_all), i, k) &&
           PointFArray::full(pts, n, sorted) *
@@ -218,11 +273,23 @@ static int andrew_build_from_sorted(
         2 <= lower_n && lower_n <= k && k <= 2 * n &&
         lower_n == Zlength(lower) &&
         lower == sublist(0, lower_n, sublist(0, k, hull_all)) &&
-        Zlength(sorted) == n && pointsf_finite(sorted) &&
-        all_pointf_cross_finite(sorted) && pointf_xy_sorted(sorted) &&
-        Zlength(hull_all) == 2 * n && pointsf_finite(hull_all) &&
+        Zlength(sorted) == n && Forall(fp32_isFinite, map(pointf_get_x, sorted)) &&
+          Forall(fp32_isFinite, map(pointf_get_y, sorted)) &&
+        (forall (pa : PointF) (pb : PointF) (pc : PointF),
+          (In(pa, sorted) && In(pb, sorted) && In(pc, sorted)) =>
+          (fp32_isFinite(fp32_sub(pointf_get_x(pb), pointf_get_x(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_y(pc), pointf_get_y(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_y(pb), pointf_get_y(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_x(pc), pointf_get_x(pa))) &&
+          fp32_isFinite(fp32_mul(fp32_sub(pointf_get_x(pb), pointf_get_x(pa)), fp32_sub(pointf_get_y(pc), pointf_get_y(pa)))) &&
+          fp32_isFinite(fp32_mul(fp32_sub(pointf_get_y(pb), pointf_get_y(pa)), fp32_sub(pointf_get_x(pc), pointf_get_x(pa)))) &&
+          fp32_isFinite(pointf_cross(pa, pb, pc)))) && pointf_xy_sorted(sorted) &&
+        Zlength(hull_all) == 2 * n && Forall(fp32_isFinite, map(pointf_get_x, hull_all)) &&
+          Forall(fp32_isFinite, map(pointf_get_y, hull_all)) &&
         pointf_upper_scan_inv(
           sorted, lower, sublist(0, k, hull_all), i + 1, k, lower_n) &&
+        lower_n <= n && k <= lower_n + (n - (i + 1)) &&
+        (1 <= i + 1 => k < 2 * n) && (i + 1 <= 0 => lower_n < k) &&
         PointFArray::full(pts, n, sorted) *
         PointFArray::full(hull, 2 * n, hull_all)
    */
@@ -236,11 +303,25 @@ static int andrew_build_from_sorted(
           lower_n == Zlength(lower) &&
           lower == sublist(0, lower_n, sublist(0, k, hull_all)) &&
           Zlength(sorted) == n &&
-          pointsf_finite(sorted) && all_pointf_cross_finite(sorted) &&
+          Forall(fp32_isFinite, map(pointf_get_x, sorted)) &&
+          Forall(fp32_isFinite, map(pointf_get_y, sorted)) && (forall (pa : PointF) (pb : PointF) (pc : PointF),
+          (In(pa, sorted) && In(pb, sorted) && In(pc, sorted)) =>
+          (fp32_isFinite(fp32_sub(pointf_get_x(pb), pointf_get_x(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_y(pc), pointf_get_y(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_y(pb), pointf_get_y(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_x(pc), pointf_get_x(pa))) &&
+          fp32_isFinite(fp32_mul(fp32_sub(pointf_get_x(pb), pointf_get_x(pa)), fp32_sub(pointf_get_y(pc), pointf_get_y(pa)))) &&
+          fp32_isFinite(fp32_mul(fp32_sub(pointf_get_y(pb), pointf_get_y(pa)), fp32_sub(pointf_get_x(pc), pointf_get_x(pa)))) &&
+          fp32_isFinite(pointf_cross(pa, pb, pc)))) &&
           pointf_xy_sorted(sorted) &&
-          Zlength(hull_all) == 2 * n && pointsf_finite(hull_all) &&
+          Zlength(hull_all) == 2 * n && Forall(fp32_isFinite, map(pointf_get_x, hull_all)) &&
+          Forall(fp32_isFinite, map(pointf_get_y, hull_all)) &&
           pointf_upper_pop_inv(
             sorted, lower, before, sublist(0, k, hull_all), i, k, lower_n) &&
+          lower_n <= Zlength(before) && lower_n <= n &&
+          Zlength(before) <= lower_n + (n - (i + 1)) &&
+          (1 <= i + 1 => Zlength(before) < 2 * n) &&
+          (i + 1 <= 0 => lower_n < Zlength(before)) &&
           PointFArray::full(pts, n, sorted) *
           PointFArray::full(hull, 2 * n, hull_all)
      */
@@ -264,34 +345,30 @@ int convex_hull_float(struct PointF *pts, int n, struct PointF *hull)
 /*@ With (input hull_init : list PointF)
     Require
       2 <= n && n <= 50000 && Zlength(input) == n &&
-      pointsf_finite(input) && all_pointf_cross_finite(input) &&
-      Zlength(hull_init) == 2 * n && pointsf_finite(hull_init) &&
+      Forall(fp32_isFinite, map(pointf_get_x, input)) &&
+          Forall(fp32_isFinite, map(pointf_get_y, input)) && (forall (pa : PointF) (pb : PointF) (pc : PointF),
+          (In(pa, input) && In(pb, input) && In(pc, input)) =>
+          (fp32_isFinite(fp32_sub(pointf_get_x(pb), pointf_get_x(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_y(pc), pointf_get_y(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_y(pb), pointf_get_y(pa))) &&
+          fp32_isFinite(fp32_sub(pointf_get_x(pc), pointf_get_x(pa))) &&
+          fp32_isFinite(fp32_mul(fp32_sub(pointf_get_x(pb), pointf_get_x(pa)), fp32_sub(pointf_get_y(pc), pointf_get_y(pa)))) &&
+          fp32_isFinite(fp32_mul(fp32_sub(pointf_get_y(pb), pointf_get_y(pa)), fp32_sub(pointf_get_x(pc), pointf_get_x(pa)))) &&
+          fp32_isFinite(pointf_cross(pa, pb, pc)))) &&
+      Zlength(hull_init) == 2 * n && Forall(fp32_isFinite, map(pointf_get_x, hull_init)) &&
+          Forall(fp32_isFinite, map(pointf_get_y, hull_init)) &&
       PointFArray::full(pts, n, input) *
       PointFArray::full(hull, 2 * n, hull_init)
     Ensure
       exists sorted hull_all out,
-        pts == pts@pre && hull == hull@pre && n == n@pre &&
-        Zlength(sorted) == n && Zlength(hull_all) == 2 * n &&
+
         out == sublist(0, __return, hull_all) && Zlength(out) == __return &&
-        2 <= __return && __return <= 2 * n &&
-        pointsf_finite(sorted) && all_pointf_cross_finite(sorted) &&
-        pointsf_finite(hull_all) && pointf_permutation(input, sorted) &&
-        pointf_xy_sorted(sorted) &&
         is_andrew_hull_float(input, sorted, out) &&
         PointFArray::full(pts, n, sorted) *
         PointFArray::full(hull, 2 * n, hull_all)
  */
 {
   quicksort_xy_points(pts, n, 0, n - 1);
-  /*@ Assert
-      exists sorted,
-        pts == pts@pre && hull == hull@pre && n == n@pre &&
-        2 <= n && n <= 50000 && Zlength(sorted) == n &&
-        pointsf_finite(sorted) && all_pointf_cross_finite(sorted) &&
-        pointf_permutation(input, sorted) && pointf_xy_sorted(sorted) &&
-        Zlength(hull_init) == 2 * n && pointsf_finite(hull_init) &&
-        PointFArray::full(pts, n, sorted) *
-        PointFArray::full(hull, 2 * n, hull_init)
-   */
+
   return andrew_build_from_sorted(pts, n, hull);
 }

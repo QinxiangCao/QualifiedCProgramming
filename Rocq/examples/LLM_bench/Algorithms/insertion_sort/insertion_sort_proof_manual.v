@@ -435,5 +435,4 @@ Proof.
 			rewrite app_nil_r.
 			exact PreH10.
 		+ dump_pre_spatial. exact PreH11.
-		+ dump_pre_spatial. exact Hlen0.
 Qed.

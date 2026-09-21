@@ -14,6 +14,8 @@ Local Open Scope list_scope.
 Import naive_C_Rules.
 Local Open Scope sac.
 
+Module HeapProofFacts.
+
 (**
   A reusable multiset has exactly one piece of data: an arbitrary list
   representative.  Two representatives denote the same bag precisely when
@@ -2678,4 +2680,267 @@ Proof.
   replace (n - 0) with n by lia.
   simpl.
   entailer!.
+Qed.
+
+End HeapProofFacts.
+Export HeapProofFacts.
+
+Require Import MaxMinLib.MaxMin.
+Require Import AUXLib.MonotonicList.
+
+(** Public mathematical vocabulary.  Capacity and cursor safety are explicit
+    C preconditions and invariants.  HeapProofFacts retains the already proved
+    implementation lemmas; the bridges below pass their bounds explicitly. *)
+Definition multiset_maximum (S : multiset Z) (value : Z) : Prop :=
+  max_value_of_subset Z.le (fun x => In x (mlist S)) (fun x : Z => x) value.
+
+Definition heap_representation (S : multiset Z) (concrete : list Z) (size : Z) : Prop :=
+  multiset_size S = size /\ Zlength concrete = size /\
+  heap_relation S concrete /\ heap_ordered concrete size.
+
+Definition store_heap (p : Z) (S : multiset Z) (size : Z) : Assertion :=
+  EX concrete : list Z,
+    “ heap_representation S concrete size ” && IntArray.full p size concrete.
+
+Definition PrefixMaximum (concrete : list Z) (size value : Z) : Prop :=
+  Znth 0 concrete 0 = value /\
+  max_value_of_subset Z.le
+    (fun x => In x (sublist 0 size concrete)) (fun x : Z => x) value.
+
+Definition HeapOrderExceptUp (concrete : list Z) (size child : Z) : Prop :=
+  forall node, 0 < node /\ node < size /\ node <> child ->
+    Znth (heap_parent node) concrete 0 >= Znth node concrete 0.
+
+Definition PushLoopState (written current : list Z) (size child x : Z) : Prop :=
+  Zlength written = size + 1 /\ Zlength current = size + 1 /\
+  Znth child current 0 = x /\ Permutation written current /\
+  HeapOrderExceptUp current (size + 1) child /\
+  PushHoleChildrenPreserved current (size + 1) child.
+
+Definition PushResult (before : multiset Z) (result : list Z) (size x : Z) : Prop :=
+  Zlength result = size + 1 /\ Permutation result (x :: mlist before) /\
+  heap_ordered result (size + 1).
+
+Definition BuildPrefixState (prefix : multiset Z) (input : list Z) (processed : Z) : Prop :=
+  multiset_equiv prefix (list_to_multiset (sublist 0 processed input)).
+
+Definition HeapOrderExceptDown (concrete : list Z) (size index : Z) : Prop :=
+  forall child, 0 < child /\ child < size /\ heap_parent child <> index ->
+    Znth (heap_parent child) concrete 0 >= Znth child concrete 0.
+
+Definition PopSelectedChild (current : list Z) (size index selected : Z) : Prop :=
+  heap_parent selected = index /\ selected = heap_selected_child current size index /\
+  max_value_of_subset Z.le
+    (fun child => 0 < child /\ child < size /\ heap_parent child = index)
+    (fun child => Znth child current 0) (Znth selected current 0).
+
+Definition PopRemainingElements (before current : list Z) (size : Z) : Prop :=
+  Permutation (sublist 0 (size - 1) current) (sublist 1 size before).
+
+Definition PopLoopState (before current : list Z) (size index : Z) : Prop :=
+  Zlength before = size /\ Zlength current = size /\ heap_ordered before size /\
+  Znth index current 0 = Znth (size - 1) before 0 /\
+  Znth (size - 1) current 0 = Znth (size - 1) before 0 /\
+  PopRemainingElements before current size /\
+  HeapOrderExceptDown current (size - 1) index /\
+  PopHoleParentDominatesChildren current (size - 1) index.
+
+Definition PopReadyState (before current : list Z) (size result : Z) : Prop :=
+  Zlength before = size /\ Zlength current = size /\ heap_ordered before size /\
+  PrefixMaximum before size result /\
+  Znth (size - 1) current 0 = Znth (size - 1) before 0 /\
+  PopRemainingElements before current size /\ heap_ordered current (size - 1).
+
+Definition PopResult (S : multiset Z) (before result : list Z) (size value : Z) : Prop :=
+  Zlength before = size /\ Zlength result = size /\ multiset_maximum S value /\
+  heap_ordered (sublist 0 (size - 1) result) (size - 1) /\
+  Permutation (sublist 0 (size - 1) result) (mlist (multiset_remove S value)).
+
+Definition HeapSortState (input : list Z) (active : multiset Z) (suffix : list Z) : Prop :=
+  Permutation input (mlist active ++ suffix) /\ increasing suffix /\
+  Forall (fun a => Forall (fun b => a <= b) suffix) (mlist active).
+
+Lemma multiset_maximum_compat : forall S value,
+  multiset_maximum S value <-> HeapProofFacts.multiset_maximum S value.
+Proof.
+  intros. unfold multiset_maximum, max_value_of_subset, max_object_of_subset,
+    HeapProofFacts.multiset_maximum. cbn.
+  split.
+  - intros [a [[Hin Hmax] ->]]. auto.
+  - intros H. exists value. auto.
+Qed.
+
+Lemma heap_representation_compat : forall S l n,
+  0 <= n -> n <= heap_capacity ->
+  (heap_representation S l n <-> HeapProofFacts.heap_representation S l n).
+Proof. intros; unfold heap_representation, HeapProofFacts.heap_representation; tauto. Qed.
+
+Lemma heap_representation_forget : forall S l n,
+  HeapProofFacts.heap_representation S l n -> heap_representation S l n.
+Proof. unfold heap_representation, HeapProofFacts.heap_representation; tauto. Qed.
+
+Lemma PushLoopState_compat : forall w c n i x,
+  0 <= n -> 0 <= i <= n ->
+  (PushLoopState w c n i x <-> HeapProofFacts.PushLoopState w c n i x).
+Proof.
+  intros. unfold PushLoopState, HeapProofFacts.PushLoopState,
+    HeapOrderExceptUp, HeapProofFacts.HeapOrderExceptUp. intuition lia.
+Qed.
+
+Lemma PushLoopState_forget : forall w c n i x,
+  HeapProofFacts.PushLoopState w c n i x -> PushLoopState w c n i x.
+Proof.
+  intros. unfold PushLoopState, HeapProofFacts.PushLoopState,
+    HeapOrderExceptUp, HeapProofFacts.HeapOrderExceptUp in *. tauto.
+Qed.
+
+Lemma PushResult_forget : forall S c n x,
+  HeapProofFacts.PushResult S c n x -> PushResult S c n x.
+Proof. unfold PushResult, HeapProofFacts.PushResult; tauto. Qed.
+
+Lemma BuildPrefixState_compat : forall S l i,
+  1 <= i -> i <= Zlength l ->
+  (BuildPrefixState S l i <-> HeapProofFacts.BuildPrefixState S l i).
+Proof. unfold BuildPrefixState, HeapProofFacts.BuildPrefixState; tauto. Qed.
+
+Lemma HeapSortState_compat : forall input S suffix,
+  HeapSortState input S suffix <-> HeapProofFacts.HeapSortState input S suffix.
+Proof.
+  intros. unfold HeapSortState, HeapProofFacts.HeapSortState.
+  split; intros [HP [HI HF]]; repeat split; auto.
+  - intros a b Ha Hb. rewrite Forall_forall in HF.
+    specialize (HF a Ha). rewrite Forall_forall in HF. auto.
+  - apply Forall_forall. intros a Ha. apply Forall_forall. intros b Hb. auto.
+Qed.
+
+Lemma list_member_Znth : forall (l : list Z) i,
+  0 <= i < Zlength l -> In (Znth i l 0) l.
+Proof.
+  intros l i Hi. apply (proj1 (Forall_Znth (fun x => In x l) 0 l)); auto.
+  apply Forall_forall; auto.
+Qed.
+
+Lemma PrefixMaximum_compat : forall l n v,
+  0 < n -> n <= Zlength l ->
+  (PrefixMaximum l n v <-> HeapProofFacts.PrefixMaximum l n v).
+Proof.
+  intros l n v Hn Hlen.
+  unfold PrefixMaximum, HeapProofFacts.PrefixMaximum.
+  unfold max_value_of_subset, max_object_of_subset. cbn.
+  split.
+  - intros [Hroot [a [[Hin Hupper] Heq]]]. subst a.
+    repeat split; auto. intros i Hi.
+    assert (HF : Forall (fun x => x <= v) (sublist 0 n l)).
+    { apply Forall_forall. auto. }
+    pose proof (proj1 (Forall_Znth (fun x => x <= v) 0 _) HF i
+      ltac:(rewrite Zlength_sublist0; lia)) as Hbound.
+    rewrite Znth_sublist0 in Hbound by lia. exact Hbound.
+  - intros [_ [_ [Hroot Hupper]]]. split; auto. exists v. split; auto.
+    split.
+    + rewrite <- Hroot.
+      replace (Znth 0 l 0) with (Znth 0 (sublist 0 n l) 0)
+        by (rewrite Znth_sublist0 by lia; reflexivity).
+      apply list_member_Znth. change (0 <= 0 < Zlength (sublist 0 n l)).
+      rewrite Zlength_sublist0; lia.
+    + assert (HF : Forall (fun x => x <= v) (sublist 0 n l)).
+      { apply (proj2 (Forall_Znth (fun x => x <= v) 0 _)). intros i Hi.
+        rewrite Zlength_sublist0 in Hi by lia.
+        rewrite Znth_sublist0 by lia. auto. }
+      now apply Forall_forall.
+Qed.
+
+Lemma PrefixMaximum_forget : forall l n v,
+  HeapProofFacts.PrefixMaximum l n v -> PrefixMaximum l n v.
+Proof.
+  intros l n v H. pose proof H as Hbounds.
+  destruct Hbounds as [Hn [Hlen _]].
+  apply (proj2 (PrefixMaximum_compat l n v Hn Hlen)). exact H.
+Qed.
+
+Lemma PopSelectedChild_compat : forall l n i s,
+  0 <= i < n -> i < s -> 0 <= s < n ->
+  (PopSelectedChild l n i s <-> HeapProofFacts.PopSelectedChild l n i s).
+Proof.
+  intros l n i s Hi His Hs.
+  unfold PopSelectedChild, HeapProofFacts.PopSelectedChild,
+    max_value_of_subset, max_object_of_subset. cbn.
+  split.
+  - intros [Hp [Hchoice [a [[Ha Hmax] Heq]]]].
+    repeat split; try lia; try assumption.
+    intros child Hchild. specialize (Hmax child Hchild). lia.
+  - intros [_ [_ [_ [_ [_ [Hp [Hchoice Hmax]]]]]]].
+    split; auto. split; auto. exists s. repeat split; try lia; try assumption.
+    intros child Hchild. specialize (Hmax child Hchild). lia.
+Qed.
+
+Lemma PopSelectedChild_forget : forall l n i s,
+  HeapProofFacts.PopSelectedChild l n i s -> PopSelectedChild l n i s.
+Proof.
+  intros l n i s H. pose proof H as [Hi [Hin [His [Hs [Hsn _]]]]].
+  apply (proj2 (PopSelectedChild_compat l n i s ltac:(lia) His ltac:(lia))). exact H.
+Qed.
+
+Lemma PopSelectedChild_forward : forall l n i s,
+  0 <= i -> PopSelectedChild l n i s -> i < s.
+Proof.
+  intros l n i s Hi [_ [Hchoice _]]. unfold heap_selected_child in Hchoice.
+  destruct (Z_lt_dec (heap_right_child i) n).
+  - destruct (Z_lt_dec (Znth (heap_left_child i) l 0) (Znth (heap_right_child i) l 0));
+    subst s; unfold heap_left_child, heap_right_child; lia.
+  - subst s. unfold heap_left_child; lia.
+Qed.
+
+Lemma PopLoopState_compat : forall b c n i,
+  1 < n -> 0 <= i < n - 1 ->
+  (PopLoopState b c n i <-> HeapProofFacts.PopLoopState b c n i).
+Proof.
+  intros. unfold PopLoopState, HeapProofFacts.PopLoopState,
+    PopRemainingElements, HeapProofFacts.PopRemainingElements,
+    HeapOrderExceptDown, HeapProofFacts.HeapOrderExceptDown.
+  intuition lia.
+Qed.
+
+Lemma PopLoopState_forget : forall b c n i,
+  HeapProofFacts.PopLoopState b c n i -> PopLoopState b c n i.
+Proof.
+  unfold PopLoopState, HeapProofFacts.PopLoopState,
+    PopRemainingElements, HeapProofFacts.PopRemainingElements,
+    HeapOrderExceptDown, HeapProofFacts.HeapOrderExceptDown. tauto.
+Qed.
+
+Lemma store_heap_forget : forall p S n,
+  HeapProofFacts.store_heap p S n |-- store_heap p S n.
+Proof.
+  intros. unfold HeapProofFacts.store_heap, store_heap. Intros l. Exists l.
+  entailer!. now apply heap_representation_forget.
+Qed.
+
+Lemma store_heap_to_internal : forall p S n,
+  0 <= n -> n <= heap_capacity ->
+  store_heap p S n |-- HeapProofFacts.store_heap p S n.
+Proof.
+  intros. unfold HeapProofFacts.store_heap, store_heap. Intros l. Exists l.
+  entailer!. apply heap_representation_compat; auto.
+Qed.
+
+Lemma multiset_maximum_selector : forall S v,
+  multiset_maximum S v -> v = multiset_max S.
+Proof.
+  intros S v H. apply multiset_maximum_compat in H. destruct H as [Hin Hupper].
+  assert (Hnonempty : mlist S <> []) by (intro E; rewrite E in Hin; contradiction).
+  pose proof (multiset_max_upper_bound S v Hnonempty Hin).
+  pose proof (multiset_max_member S Hnonempty). specialize (Hupper _ H0). lia.
+Qed.
+
+Lemma heap_sort_extract : forall input S suffix value,
+  multiset_maximum S value -> HeapSortState input S suffix ->
+  multiset_size (multiset_remove S value) = multiset_size S - 1 /\
+  HeapSortState input (multiset_remove S value) (value :: suffix).
+Proof.
+  intros input S suffix value Hmax Hstate.
+  pose proof (multiset_maximum_selector S value Hmax) as E.
+  apply multiset_maximum_compat in Hmax. apply HeapSortState_compat in Hstate.
+  pose proof (heap_sort_extract_step__heap_sort_transition input S suffix value E Hmax Hstate)
+    as [Hsize Hnext]. rewrite E. split; auto. apply HeapSortState_compat.
+  rewrite E in Hnext. exact Hnext.
 Qed.

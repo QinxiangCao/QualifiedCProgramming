@@ -140,25 +140,7 @@ void dfs_adjacency_list(struct list **adjacency, int vertex_count,
      */
     visited[vertex] = 1;
 
-    /*@ Assert
-          exists (entered_set: Z -> Prop) (entered_values: list Z),
-            adjacency == adjacency@pre &&
-            vertex_count == vertex_count@pre &&
-            visited == visited@pre && vertex == vertex@pre &&
-            vertex_count == ZSimpleGraph::vertex_count(g) &&
-            0 < vertex_count && vertex_count < INT_MAX &&
-            ZSimpleGraph::vertex_valid(g, vertex) &&
-            0 <= vertex && vertex < vertex_count &&
-            DFSAdjacencyList::visited_extension(
-              visited_set, entered_set) &&
-            entered_set(vertex) &&
-            safeExec(eq(entered_set),
-              DFSAdjacencyList::dfs_loop(g, vertex), X) &&
-            ZSimpleGraph::visited_values(g, entered_values, entered_set) &&
-            DFSAdjacencyList::store_graph(
-              adjacency, g, row_ptrs, node_addrs, rows) *
-            IntArray::full(visited, vertex_count, entered_values)
-     */
+
 
     /*@ Assert
           exists (split_set: Z -> Prop) (split_values: list Z)
@@ -456,18 +438,5 @@ void dfs_adjacency_list(struct list **adjacency, int vertex_count,
 
     }
 
-    /*@ Assert
-          exists (visited_set_out: Z -> Prop),
-            adjacency == adjacency@pre &&
-            vertex_count == vertex_count@pre &&
-            visited == visited@pre && vertex == vertex@pre &&
-            DFSAdjacencyList::visited_extension(
-              visited_set, visited_set_out) &&
-            visited_set_out(vertex@pre) &&
-            safeExec(eq(visited_set_out), return(tt), X) &&
-            edge == 0 &&
-            DFSAdjacencyList::store_graph(
-              adjacency, g, row_ptrs, node_addrs, rows) *
-            DFSAdjacencyList::visited(visited, g, visited_set_out)
-     */
+
 }

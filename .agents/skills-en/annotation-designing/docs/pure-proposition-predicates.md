@@ -6,6 +6,8 @@ This guide is only for the annotation phase: how to choose and write existing pu
 
 Core rule: write the mathematical fact that the program must maintain. Prefer existing semantic predicates, do not expose proof-facing structures just to make a proof convenient, and do not duplicate an existing predicate in `formal_case_lib`.
 
+Follow [knowledge rules §0–2 and §5–6](spec-and-contract-knowledge.md) for the range/resource boundaries of result and progress predicates and for required library reuse. The examples below follow those constraints.
+
 ## Importing Names in C Annotation
 
 When a C annotation directly mentions a Rocq pure predicate, declare the name at the top of the C file:
@@ -47,9 +49,9 @@ Selection rules:
 
 - Sorted result: write `Permutation(l, l1) && increasing(l1)`, or `decreasing(l1)` when the result is descending.
 - Sum result: write `__return == sum(l)`; in loops, maintain facts such as `ret == sum(sublist(0, i, l))`.
-- Maximum, minimum, or optimum value: first use `min_value_of_subset`, `max_value_of_subset`, or an optimum interface already present in the dependencies. Retain one business name only when the problem concept is reused and a direct combination is unclear.
+- Maximum, minimum, or optimum value: use `min_value_of_subset` / `max_value_of_subset` from `MaxMinLib`; do not define `IsMinimum` / `IsMaximum` or another synonymous interface. When a problem or cross-function interface needs a name, retain one case predicate that directly reuses the library semantics.
 - Still state the element ranges and memory facts the algorithm genuinely needs. `IntArray::full(a, n, l)` already includes `Zlength(l) == n` and `0 <= n`, so do not repeat them.
-- Expand input sizes, element ranges, and safety conditions directly in the specification; do not wrap them in predicates such as `SizeSafe`, `InputValues`, `InputValid`, or `InputBound`.
+- Expand input sizes, element ranges, and safety conditions directly in `Require`; do not wrap them in `SizeSafe`, `InputValues`, `InputValid`, or `InputBound`. Use `Forall` for index-independent element ranges. Neither result nor progress predicates contain these premises or ownership. The mathematical part of `Ensure` promises only the final output and returns resources separately.
 
 Do not write a spec as “the C program ran this recursive simulation.” Specs should describe input/output relations, not mirror the implementation.
 
@@ -92,8 +94,8 @@ Common annotation-facing names:
 - `strict_upperbound(x, l)`: `x` is a strict upper bound.
 - `lowerbound(x, l)` / `lower_bound(x, l)`: `x` is a lower bound of every element.
 - `strict_lowerbound(x, l)`: `x` is a strict lower bound.
-- `sum(l)`: lightweight `list Z` sum; suitable for `sum(l)` and `sum(sublist(lo, hi, l))`.
-- `Zlist_max(l, lo)`: legacy list maximum computation; for new optimization specs, prefer a case-level predicate built from `MaxMinLib`.
+- `sum(l)`: the lightweight `list Z` sum from `AUXLib.ListLib`, suitable for `sum(l)` and `sum(sublist(lo, hi, l))`; do not confuse it with `SumLib.Sum.sum P f`.
+- `Zlist_max(l, lo)`: legacy list maximum computation; extrema in new specifications must use `min_value_of_subset` / `max_value_of_subset` from `MaxMinLib`, including inside any necessary case predicate.
 
 Examples:
 
@@ -116,22 +118,24 @@ Default annotation choices:
 
 ### MaxMinLib
 
-Use `min_value_of_subset` / `max_value_of_subset` directly when that remains clear. When the problem output needs a name, retain one problem predicate in `formal_case_lib` and make it refer directly to `MaxMinLib`; C annotations, helpers, and invariants call that name without another wrapper layer.
+Extrema must use `min_value_of_subset` / `max_value_of_subset`. When the problem output needs a name, retain one problem predicate in `formal_case_lib` and make it refer directly to `MaxMinLib`; C annotations, helpers, and invariants call that name without another wrapper layer.
 
 Recommended pattern: define a mathematical predicate such as `MinimizedMaxSegmentSum : list Z -> Z -> Z -> Prop` in `formal_case_lib`, then declare and call only that name in C annotation:
 
-`formal_case_lib` side:
+On the `formal_case_lib` side, this fragment uses the example library's `PartitionMaxSegmentSum : list Z -> Z -> Z -> Prop` and shows only the extremum layer. Its candidates are maximum segment-sum values of legal partitions, without input ranges or C safety conditions.
 
 ```coq
-Require Import SimpleC.EE.QCP_demos_LLM.MaxMinLib.
-
-Definition SegmentFeasible (l : list Z) (m cap : Z) : Prop := ...
+Require Import Coq.ZArith.ZArith Coq.Lists.List.
+Require Import MaxMinLib.MaxMin.
 
 Definition MinimizedMaxSegmentSum (l : list Z) (m ans : Z) : Prop :=
-  min_value_of_subset
-    (fun v => exists parts, PartitionMaxSegmentSum l m parts v)
+  min_value_of_subset Z.le
+    (fun v : Z => PartitionMaxSegmentSum l m v)
+    (fun v : Z => v)
     ans.
 ```
+
+Supply all four arguments: comparison relation, candidate set, measure, and result. If a problem permits an empty candidate set, retain its sentinel / `NO` branch according to the output format.
 
 ```c
 /*@ Extern Coq (MinimizedMaxSegmentSum : list Z -> Z -> Z -> Prop) */
@@ -163,7 +167,7 @@ For binary-answer programs, split the spec into:
 
 The C loop keeps `left <= ans <= right`; proof-side helper lemmas connect `CanX` / `CannotX` to the optimum bounds. See [the binary-answer example](examples/binary-search-answer.md).
 
-Do not write raw `min_value_of_subset` or `max_value_of_subset` formulas in every C invariant. Put them behind a business predicate in `formal_case_lib`, and expose only the business predicate in C.
+Use this one business predicate when a complex, repeated extremum formula needs a problem name, avoiding expansion in every C invariant. When a direct library call is already clear, do not add a wrapper just to hide it.
 
 ### SumLib
 
@@ -173,16 +177,19 @@ For ordinary array/list segment sums, keep the annotation simple:
 ret == sum(sublist(0, i, l))
 ```
 
-If the spec needs indexed ranges, finite sets, or two-dimensional region sums, first wrap the `SumLib` meaning in a business predicate in `formal_case_lib`, then call that predicate from annotation. Do not put complex finite-set formulas into every invariant unless the formula is short and improves readability.
+Indexed ranges, finite sets, and two-dimensional sums must reuse `sum_range` / `sum` / `sum_set_R` according to their signatures; use `Zrange` for enumeration and do not redefine these recursively. When a complex, repeated mathematical concept needs a name, retain one definition in `formal_case_lib` that calls these interfaces directly, avoiding expansion in every invariant.
 
-`formal_case_lib` side:
+`SumLib.SumLib` is the finite-set sum library's umbrella import. The example uses the existing `sum_range` from `SpecHelpers`, which also exports the required integer, list, and finite-set interfaces. The right endpoint for `[lo, hi)` is `hi - 1`. Use the expression directly in a result or accumulator equality, without a `RangeContribution` wrapper around that equality:
 
 ```coq
-Require Import SimpleC.EE.QCP_demos_LLM.SumLib.
+Require Import SimpleC.EE.LLM_bench.Codeforces.SpecHelpers.
+Open Scope Z_scope.
 
-Definition RangeContribution (l : list Z) (lo hi acc : Z) : Prop :=
-  acc = sum_Z_range lo hi (fun i => Znth i l 0).
+Check (fun (l : list Z) (lo hi : Z) =>
+  sum_range lo (hi - 1) (fun i : Z => Znth i l 0)).
 ```
+
+Alternatively, use `SumLib.Sum.sum (fun i : Z => lo <= i < hi) (fun i => Znth i l 0)`; `SumLib.ZRange` supplies the `Finite` instance for this interval shape. `sum_set_R P f` requires `Finite P` and a real-valued `f`. The context must still supply valid domains for `Znth` reads. Use `AUXLib.ListLib.sum` for lists rather than accidentally selecting finite-set `sum P f` through a conflicting import.
 
 Prefer:
 
@@ -200,6 +207,20 @@ acc == sum(sublist(lo, hi, l))
 
 Bridge to `SumLib` in proof only when the helper naturally needs finite ranges, monotonicity, splitting, or indexed maps.
 
+### Reflexive-Transitive Closure of a Relation
+
+Use `clos_refl_trans` for zero or more relation steps; do not recursively define `Reachable`, an execution chain, or a path `Inductive`. The current repository interface can be named explicitly:
+
+```coq
+Require Import Coq.ZArith.ZArith.
+Require Import SetsClass.RelsDomain.
+
+Check (fun (step : Z -> Z -> Prop) =>
+  SetsClass.RelsDomain.clos_refl_trans step).
+```
+
+It includes the zero-step identity and any finite number of steps. A fixed number of relation compositions cannot replace it. Reuse type-compatible `valid_vpath` / `reachable` for graph-path semantics, and distinguish the repository closure from its standard-library namesake.
+
 ## Designing New Predicates and Invariants
 
 When existing predicates are not enough, design the new predicate as a compact mathematical relation, not as an executable list program.
@@ -207,15 +228,15 @@ When existing predicates are not enough, design the new predicate as a compact m
 Predicate design rules:
 
 - Avoid defining list properties with `Fixpoint` when a direct logical statement is clear. Prefer `forall` / `exists` over recursive traversal definitions.
-- For elementwise list facts, write index-based statements with `Znth` and `Zlength`, for example `forall i, 0 <= i < Zlength l -> P (Znth i l d)`.
-- For segment facts, write them over `sublist lo hi l` or quantify over `lo <= i < hi`; do not encode the same idea as a custom recursive list scanner.
-- Use `Inductive` only after checking that its induction principle and constructors will be convenient for the expected proofs. A semantic predicate with many constructors often makes generated goals and proof search heavier.
-- If a property naturally has many fields or branches, consider wrapping the facts in a `Record` with named fields. Too many inductive branches can slow Rocq compilation and make goals harder to read.
+- Use `Forall P l` for index-independent elementwise list facts instead of `forall i, 0 <= i < Zlength l -> P (Znth i l d)`. Use `Forall2` for corresponding elements of two lists.
+- Use `Forall P (sublist lo hi l)` for elementwise facts on a valid segment. Retain guarded indexed quantification only for positions or relationships across indices; do not define a recursive list scanner.
+- Select `Inductive` only within the output-type boundary in knowledge rules §1.4; proof convenience does not justify a new operation chain, reachability definition, or ordinary-value wrapper.
+- Retain a predicate with multiple fields or a `Record` only for a clear mathematical concept. Do not use it to hide input ranges, capacities, safety conditions, or spatial ownership.
 - Keep new predicates stable under small implementation changes. A good predicate describes the mathematical state, not the exact loop step that produced it.
 
 Invariant writing rules:
 
-- Prefer short `forall` facts for preserved properties, especially range, bound, sortedness-by-index, and per-element constraints.
+- State only ranges needed downstream, directly in the annotation. Use `Forall` for index-independent elementwise constraints and guarded `forall` for positions or relationships across indices; reuse the established monotonicity library. Keep ranges and resources outside progress predicates.
 - If the invariant selects one element, use `Znth i l d` directly.
 - If the invariant selects a segment, use `sublist lo hi l` directly.
 - Do not split a list only to expose one element, for example avoid shapes like `l == app(sublist(0, i, l), cons(a, sublist(i + 1, n, l)))` when `a == Znth i l d` states the same observation.
@@ -225,7 +246,7 @@ Invariant writing rules:
 Preferred shapes:
 
 ```c
-forall i, 0 <= i && i < n => lower <= Znth(i, l, 0) && Znth(i, l, 0) <= upper
+Forall(Z::le(lower), l) && Forall(Z::ge(upper), l)
 cur == Znth(i, l, 0)
 window == sublist(lo, hi, l)
 ```
@@ -278,11 +299,11 @@ Before adding a new `formal_case_lib` definition, ask:
 - Can `increasing` / `decreasing` express the ordering property directly?
 - Can `upperbound` / `lowerbound` express the boundary property directly?
 - Can `sum(sublist(...))` express the segment accumulation directly?
-- Should maximum, minimum, or optimum values be wrapped with `MaxMinLib` in a business predicate?
-- Should range, finite-set, or two-dimensional sums be wrapped with `SumLib` in a business predicate?
+- Do extrema directly use `min_value_of_subset` / `max_value_of_subset` from `MaxMinLib`, including inside any necessary business predicate?
+- Do sums, range enumeration, and closure reuse signature-compatible `sum_range` / `sum` / `sum_set_R`, `Zrange`, and `clos_refl_trans`?
 - Is the new definition mathematical semantics, or is it copying the C loop?
-- Can the property be written as `forall` / `exists` over indices or segments instead of as a list `Fixpoint`?
-- Would an `Inductive` definition make the proof structure clearer, or would it introduce too many branches?
+- Are elementwise and corresponding-element relations expressed with `Forall` / `Forall2`, retaining indexed quantification only where position matters?
+- Does each new predicate or `Record` contain only its target mathematics, without input ranges, execution-safety conditions, or resources?
 
 Add a new definition only when existing predicates cannot express the intended semantics clearly. New definitions should improve annotation readability and spec stability, not serve one local proof trick.
 

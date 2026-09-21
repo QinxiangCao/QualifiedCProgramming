@@ -25,7 +25,6 @@ The user hard-input freeze extracts the following surface (frozen when
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import re
 import sys
@@ -41,7 +40,7 @@ for _path in (SCRIPT_DIR, VC_PROVING_SCRIPTS):
     if str(_path) not in sys.path:
         sys.path.insert(0, str(_path))
 
-from proof_manual_utils import coq_token_digest, parse_lib_declarations
+from proof_manual_utils import _coq_commands, coq_token_text, parse_lib_declarations
 
 ANNOTATION_RE = re.compile(r"/\*@(.*?)\*/", re.DOTALL)
 EXTERN_ENTRY_RE = re.compile(
@@ -122,52 +121,32 @@ def extract_c(source: str) -> dict[str, Any]:
     return {"extern_coq": extern, "import_coq": imports, "specs": specs}
 
 
-def extract_lib(text: str) -> dict[str, dict[str, str]]:
-    """Return the lib surface, split by what a key means.
+def extract_lib(text: str) -> dict[str, Any]:
+    """Freeze every import block by its tokens, retaining a readable command.
 
-    ``parse_lib_declarations`` reports imports as declarations whose ``name`` is
-    the whole ``Require Import ...`` line, so they are separated here: an import
-    is keyed by the module it names, a definition by its identifier.
+    Imports sharing a final module and repeated commands with different trailing
+    scope settings remain distinct. Identical copies remain harmless.
     """
 
     declarations: dict[str, str] = {}
     imports: dict[str, str] = {}
     for declaration in parse_lib_declarations(text):
         name = str(declaration["name"])
-        digest = coq_token_digest(str(declaration["block"]))
+        tokens = coq_token_text(str(declaration["block"]))
         if str(declaration.get("kind")) == "Import":
-            module = normalize(name).rstrip(".").split()[-1]
-            imports[module] = digest
+            command = _coq_commands(str(declaration["block"]))[0][0]
+            imports[tokens] = " ".join(coq_token_text(command).splitlines())
         else:
-            declarations[name] = digest
-    return {"declarations": declarations, "imports": imports}
+            declarations[name] = tokens
+    return {
+        "declarations": declarations,
+        "imports": imports,
+    }
 
 
-def _design_digest(payload: Any) -> str:
-    rendered = json.dumps(payload, sort_keys=True, separators=(",", ":"))
-    return hashlib.sha256(rendered.encode("utf-8")).hexdigest()
-
-
-def annotation_spec_source_digest(c_file: Path, lib_file: Path | None) -> str:
-    """Digest the exact C/lib inputs used by a standalone design check."""
-
-    records: list[dict[str, Any]] = []
-    for role, path in (("c", c_file), ("formal_case_lib", lib_file)):
-        if path is None or not path.is_file():
-            records.append({"role": role, "state": "missing", "sha256": None})
-            continue
-        data = path.read_bytes()
-        records.append(
-            {
-                "role": role,
-                "state": "present",
-                "sha256": hashlib.sha256(data).hexdigest(),
-            }
-        )
-    return _design_digest(records)
-
-
-def extract_spec_surface(c_file: Path, lib_file: Path | None) -> dict[str, Any]:
+def extract_spec_surface(
+    c_file: Path, lib_file: Path | None
+) -> dict[str, Any]:
     """Controller entry point: extract the surface a frozen run must preserve."""
 
     return extract(c_file, lib_file)
@@ -194,10 +173,14 @@ def spec_freeze_findings(
     )
 
 
-def extract(c_file: Path, lib_file: Path | None) -> dict[str, Any]:
+def extract(
+    c_file: Path, lib_file: Path | None
+) -> dict[str, Any]:
     surface = extract_c(c_file.read_text(encoding="utf-8"))
     surface["lib"] = (
-        extract_lib(lib_file.read_text(encoding="utf-8"))
+        extract_lib(
+            lib_file.read_text(encoding="utf-8")
+        )
         if lib_file is not None and lib_file.is_file()
         else {}
     )
@@ -217,12 +200,13 @@ def compare(
     """
 
     findings: list[dict[str, str]] = []
+    baseline_lib = baseline.get("lib", {})
     sections = {
         "extern_coq": baseline.get("extern_coq", {}),
         "import_coq": baseline.get("import_coq", {}),
         "specs": baseline.get("specs", {}),
         "lib.declarations": baseline.get("lib", {}).get("declarations", {}),
-        "lib.imports": baseline.get("lib", {}).get("imports", {}),
+        "lib.imports": baseline_lib.get("imports", {}),
     }
     for section, entries in sections.items():
         for key, before in entries.items():
@@ -236,15 +220,16 @@ def compare(
             for part in section.split("."):
                 scope = scope.get(part, {}) if isinstance(scope, dict) else {}
             after = scope.get(key) if isinstance(scope, dict) else None
+            entry = before if section == "lib.imports" else key
             if after is None:
                 findings.append(
-                    {"section": section, "entry": key, "kind": "removed"}
+                    {"section": section, "entry": entry, "kind": "removed"}
                 )
             elif after != before:
                 findings.append(
                     {
                         "section": section,
-                        "entry": key,
+                        "entry": entry,
                         "kind": "changed",
                         "baseline": before,
                         "current": after,

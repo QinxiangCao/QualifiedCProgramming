@@ -1,171 +1,102 @@
-# 单个 C Case 的验证流程
+# 单个 C Case 的流程
 
-main agent 只执行 controller action、维护 owner 到 agent target 的映射并传递 claim 的原始 `handoff.prompt`。Owner 修改各自允许的文件；controller 管理状态、seal、检查、调度、merge、写回和清理。
-
-## 1. 总流程
+## Main 的执行循环
 
 ```text
-init-run
-  → step
-  → annotation
-      → function spec + internal predicates + C annotations + case-lib lemmas + plan
-      → symexec + failed-VC comparison
-      → annotation-check-round
-  → dune-build
-  → vc-checking
-      → structural scan + independent comparison review + group plan
-      → vc-checking-check-round
-  → vc-proving-preparing
-      → group reviews previous manual/lib
-      → priority groups
-      → remaining groups
-      → vc-proving-verify
-  → final-apply
-  → final-check
-  → done
+init-run → step → annotation owner → finalize-delivery
+→ dune-build → VC-checking owner → finalize-delivery
+→ vc-proving-preparing → group owners → finalize-delivery
+→ vc-proving-verify → final-apply → final-check → done
 ```
 
-每次 controller 命令结束后读取最终 JSON：
+没有 manual top-level VC 时，依赖准备后直接进入空 group 的 proving 流程；仍做 parent check、
+写回和终检。`dune-build` 是公共命令名，实际使用当前 workspace 选择的 Dune 或 Make。
 
-- `next_actions` 非空：按 action 执行；
-- `waiting_for` 非空：等待相应 owner/tool 完成；
-- 当前 action 消耗后两者都空：运行一次 `step`；
-- `phase: done`：结束；
-- controller 给出 terminal blocker：停止并报告。
+每次命令实际退出后检查最终 JSON。执行 `next_actions` 中的当前动作；存在 `waiting_for` 时等待
+对应 owner。Owner 已完成报告且停止写入时，用 claim response 或 waiting entry 给出的
+`finalize_invocation` 接纳。命令未返回后续动作时调用一次 `step`，不要自行拼接下一阶段命令。
+没有动作、运行中的 owner 或明确 blocker 的未完成任务会报告 `controller-no-progress`，不应无限轮询。
 
-不要自行推断阶段、构造命令或改 state。
+## 初始化
 
-## 2. Init 与固定 topology
+`init-run` 确定 C 文件、独立的 formal case stem、固定 `target_files`、case-lib policy、问题描述、
+symexec profile 和 group 限额。当前映射为
+`QCP_examples/<collection>/.../<input>.c` → `Rocq/examples/<collection>/.../<case>_*.v`。
 
-`init-run` 固定 run/report roots、C path、formal case stem、九个 `target_files`、case-lib policy、用户提供的 formal spec、symexec profile、group limits 和 public-helper pool。Spec 权限只看 `--freeze-spec` 是否出现：出现时 formal spec 由用户提供；省略时 formal spec 由 annotation owner 编写并在当前 attempt 中修改。后续所有路径都由该 topology 重算并校验。
+库策略为 `present`（已有）、`create`（创建 seed）或 `absent`（保持不存在）；未显式指定时依据
+当前 canonical lib 是否存在选择前两者。`--freeze-spec` 指定用户已提供的函数 spec；省略时由
+annotation owner 编写 spec。用户意图不清楚时，先澄清问题或 spec 权限，再初始化。
 
-`formal_case_lib_policy`：
+## Annotation
 
-- `present`：canonical lib 必须已存在；
-- `create`：canonical path 必须不存在，controller 创建 seed；
-- `absent`：path 必须保持 absent。
+Annotation owner 按角色技能从题意设计数学 spec、必要 predicate、最小 function spec 与 loop
+invariant，并在当前 attempt 内修正 symexec 暴露的问题。它只修改交接允许的 C annotation、
+active case lib 和报告/plan，不手改 generated 文件或证明 manual。
 
-Windows 还要遵循 [Windows 说明](../docs/windows.md)。
+开发检查顺序是 `formal-case-lib-design` → `symexec` → `formal-case-lib`；最后一步仅在库存在时
+执行。Generated 输出由 controller 在临时目录生成和验证后发布。一次 symexec 命令至多启动
+一次 driver；失败诊断交 owner 处理，不因零字节输出自动重跑。
 
-## 3. Annotation
+Owner 写 `completed` 并停止后，main 的 `finalize-delivery` 直接完成 annotation 接纳：验证 plan
+及冻结 spec、从当前输入重新生成一次、检查 failed-VC/current-VC comparisons、编译 active lib、
+保存 after history。成功才把任务设为 `accepted` 并进入依赖准备。
 
-每个 run 只 spawn 一个 annotation agent；所有 retry 都 append 到同一 target。
+需要改冻结 spec 时，owner 在 notes 写明函数、原/新含义、理由与影响，停止修改并交 main 请求
+用户批准。批准后在同一 attempt `unfreeze`；接纳成功时记录新的 baseline。该流程不更换 owner。
 
-Annotation owner 在当前 attempt 内发现新的 annotation gap 时继续修改当前 attempt，不能为该 gap 结束
-当前 attempt 或创建下一轮。若 owner 已返回后才以 annotation-gap 报告该问题，controller 仍把同一
-attempt 重新交给同一 owner 继续；round 与 attempt 均不改变。
+## VC checking
 
-首次 attempt 从 `prepared` 开始。controller 创建 `annotation_plan.json` version 2：
+有 manual VC 时，controller 创建独立 VC-checking owner。数学工作仍遵循该角色技能：先做
+廉价 top-level structural blocker scan，再对没有明确 blocker 的输入完成全量 split-first 分析、
+proof mode 选择和 group plan；独立复核 annotation comparisons，不能把其 `resolved` 当作证明。
 
-```json
-{
-  "version": 2,
-  "status": "planning",
-  "function_specs": [],
-  "loop_invariants": [],
-  "new_predicates": [],
-  "vc_comparisons": []
-}
-```
+Canonical 文件只读。需要观察 goal 时，只在 handoff 的 debug manual 副本中增加 `Show.`，再执行
+给定 `coq-debug`。Main 的 `finalize-delivery` 检查调试编辑边界、当前 manual 的 plan 覆盖与分组
+限制；成功后创建 proving task。不会为清除 Show 重跑 symexec。
 
-没有用户 spec 时，owner 从自然语言 spec 开始，在同一 attempt 编写和修改 Rocq spec、function specs、必要 predicates、最小 C body annotations、case-lib definitions/lemmas 和 plan，运行：
+## Group proving
 
-```text
-formal-case-lib-design
-symexec
-formal-case-lib                 # active case lib 时
-```
+`vc-proving-preparing` 从当前 plan 与 canonical manual/lib 创建每组独立副本和 handoff。
+Assignment、路径和候选由当前输入派生。Owner 可只读查找 handoff 指定的历史证明，自行决定
+复用；脚本不预填 proof/helper 或自动改名。
 
-Annotation agent 不编辑 proof manual、不写 proof。
+按 plan 数组顺序、并发限额派发。Annotation retry 后，覆盖 comparison `current` 的 groups 先运行；
+它们全部 accepted 才派剩余 groups。优先批出现 annotation gap 时停止扩大派发，等待已运行或
+returned 交付处理完毕，再聚合实际 blocker 进入 annotation retry。
 
-有用户 spec 时，owner 保持 `spec_freeze.baseline` 一致并完成内部 annotation 与 case-lib 工作。若用户 spec 本身需要修改，owner 立即停止，不修改 spec，也不执行 `finalize-delivery`；它在 `agent_output.md` 写清函数、原因、准备修改的 `With` / `Require` / `Ensure`、修改前后含义及对用户目标的影响。main 暂停 run 并询问用户。用户确认后 main 恢复 run，执行当前 round 的 `unfreeze`，再把确认方案交回同一 owner。round 与 attempt 均不改变。
+Group owner 只修改 assigned proof spans 及允许的 suffixed helpers。`group-development` 和
+`coq-debug` 提供开发反馈；`finalize-delivery` 必须检查当前结构、proof mode、helper suffix、禁止
+假设/命令，并编译 assigned-witness wrapper。其他组的未完成 witness 不阻止本组接纳。
 
-### Retry
+所有必要 group accepted 后，`vc-proving-verify` 从当前副本机械合并，再执行 full parent check。
+合并或 parent 失败使用 controller 给出的修复/重试动作；main 不替 owner 修证明或改 plan。
 
-VC-checking 或 group blocker 必须用结构化 `vcs` 给出 exact `name`、`parent` 和 `annotation_location`。`retry-round` 从 sealed source manual 把每个目标写入新 attempt 的 `failed_vcs`。新 attempt 直接是 `prepared`，controller 生成完整 handoff 并立即发布 `append-annotation-agent`；main 不填写中间总结。
+## 修复与重试
 
-Retry plan 复制上一 plan 的 `function_specs`、`loop_invariants` 和 `new_predicates`，清空 `vc_comparisons`。Owner symexec 后直接比较 sealed old statement 与 current manual：
+可修的报告或检查失败把同一任务恢复为 `prepared`，保留 owner 并增加 `repair_index`；main claim
+其 append action 后交原 agent 继续。不要把同任务修复变成新的 round。
 
-- `resolved`：本轮修改已经消除旧缺口；
-- `unresolved`：继续修改当前 attempt。
+| 已确认的原因 | 后续行为 |
+|---|---|
+| Annotation 自己发现 annotation/spec/dependency gap | 同 attempt、同 owner 继续修复 |
+| VC checking 的 annotation/spec/dependency gap | 按结构化 VC feedback 创建 annotation retry |
+| VC checking 的 plan/report defect | 创建 VC-checking retry |
+| Group annotation gap | 等待当前批次可安全结束，聚合 exact VCs 后 annotation retry |
+| Group plan defect | 根据当前 groups 的终态派生 VC-checking retry |
+| 工具或基础设施 blocker | 保留诊断，不从错误文字猜测数学缺口或擅自换轮 |
+| 当前输入不可读、parent 失败等机械问题 | 只执行 controller 派生的明确恢复/重试动作 |
 
-只有所有 source VC 的 result 为 `resolved` 才能 `status: ready` 和 `completed`。Agent 编写的 spec、必要 predicates、内部 annotation 和 case lib 始终在当前 attempt 可改。新的 annotation attempt 只由 VC checking 或 VC proving 的 annotation gap 创建。
+`retry-round` 必须匹配当前 action，且 running/returned owner 均已处理。新 annotation attempt 带上
+历史 `failed_vcs`，复制必要设计说明并重新填写 comparisons；所有实际旧缺口解决后才能交付。
+模型写的 spec 可直接修，冻结用户 spec 仍需上述确认。
 
-### Acceptance
+## 写回与终检
 
-`annotation-check-round`：
+Parent 成功后 `final_candidate` 只记录 proving round。`final-apply` 重新读取该 round 的当前
+candidate，编译最新候选并检查写入边界，再保存 original/candidate bytes 并发布。
+`final-check` 检查实际 main-root 文件、独立 symexec replay、manual/VC 与 lib 边界、冻结 spec、Rocq 编译和
+精确副产物清理。全部通过才进入 `done`。
 
-1. 重验 sealed report/plan 与 current files；
-2. 校验 plan version 2、每个函数和循环的摘要、new predicate 记录、failed-VC 覆盖与 current VC 名称；
-3. 有用户 spec 且 baseline 非空时校验用户 spec；
-4. 执行 pre-symexec case-lib contract/dependency/coqc；
-5. 复用 exact owner-generation receipt 或重跑 transactional symexec；
-6. 重新校验 comparison；
-7. 执行 post-symexec case-lib check；
-8. clean replay 并再次校验 comparison 与最终 manual；
-9. baseline 为 `null` 时用当前 spec surface 更新用户 baseline；保存 comparison count、resolved count 和 source/current VC 名称，接纳当前 C/lib/generated files。
-
-## 4. Dependency Preparation
-
-`dune-build` 是公共 action 名，实际 backend 由 controller 检测。它准备 exact goal-check target 并 seal dependency snapshot。VC checking、group checks、parent verify 和 final check 使用同一 selected snapshot；owner 不选择 target 或 raw build 参数。
-
-## 5. VC Checking
-
-每个 vc-checking attempt 使用独立 owner。Owner 读取当前 manual 和 annotation comparisons：
-
-1. 廉价扫描全部 top-level VC，先看无 split goal 的 whole goal；
-2. 有明确缺 premise/resource 或 countermodel 时，以结构化 `vcs` 返回 annotation/spec/dependency blocker；
-3. 否则全量 split-first 判断可证性并选唯一 proof mode；
-4. 直接复核 comparison 指向的 current VCs；annotation result 不是证明结果；
-5. 依赖新重型数学 lemma 的 current VCs 标为高风险并单独成最先运行的 group；
-6. 写 `group_plan.json` 和简洁 `agent_output.md`。
-
-`vc-checking-check-round` seal plan，重新 symexec 去除临时 `Show.`，要求 clean manual 与 owner manual 在允许差异外一致，然后接纳 plan。
-
-## 6. Proving 调度
-
-`vc-proving-preparing` 创建 base manifest、固定 group copies、public-helper snapshot 和 compact worker manifest。
-
-### Proof reuse
-
-controller 只把紧邻上一 proving round 的目录和当前可选 `proof_reuse.md` 路径交给每个实际派发的 group worker，不匹配 statement/split hash、proof mode、group id，也不比较 case-lib、dependency 或 public-helper digest来决定复用。
-
-worker 先用 current witness/helper/predicate 名跨上一轮 group manual/lib搜索，只读取候选 declaration/proof block，并在当前 copied manual/lib 中完成实际复制或改写；可按需在 `proof_reuse.md` 简短记录直接复用、修改后复用或不复用。不要逐份通读内容重复的完整 manual。该文件缺失或为空不影响 finalize；旧 group 是否 accepted、旧名是否相同都不替代当前判断，最终一律执行当前 group 的完整 Rocq check。第一 proving round 和未实际派发的 group 不生成该文件。
-
-### Priority batch
-
-首次 proving 没有 comparisons，按现有 concurrency 并行派发全部 groups。
-
-Annotation retry 后，controller 把包含 comparison `current` 的 groups 作为第一批：
-
-- 第一批全部 accepted：再派发剩余 groups；
-- 第一批出现 annotation gap：不派发剩余 groups，等待已运行/待验证的第一批交付结束后，聚合现有 blocker 并立即创建 annotation retry。
-
-剩余 groups 仍按 `dispatch_order` 和 `max_parallel_group_workers` 派发。
-
-### Group terminal result
-
-`completed` group 必须通过 statement/write-boundary/helper/import/safety/proof-mode 和 exact Rocq check。Annotation gap group 可保留未完成 proof，但其 `vcs` 必须全部存在于 sealed group manual 且属于本组 top-level witness；`group_worker_output.md` 说明已有 premises、缺失结论和 repair boundary。
-
-全部需要的 group accepted 后，`vc-proving-verify` 机械合并 manual/lib，处理 helper namespace/public helper promotion，并运行 parent full verification。
-
-## 7. Retry 路由
-
-- `annotation-gap`、`specification-gap`、`dependency-gap` → annotation；
-- `plan-defect`、`report-defect`、`infrastructure` → vc-checking；
-- group proof/report repair → 同一 group owner；
-- current-file drift → accepted annotation 边界；
-- 用户提供的 spec 需要修改 → 当前 attempt 停止，用户确认后 `unfreeze` 并继续；
-- agent 生成的 spec 需要修改 → 当前 attempt 直接修改。
-
-controller 只读结构化字段，不从 `message` 解析 VC 名或 retry phase。
-
-## 8. Final
-
-`final-apply` 事务化写回 accepted merged candidate。随后 main 完整读取并使用 `final-check` skill，执行 action 中的 `final-check`。终检验证 generated freshness、manual/lib/goal-check、proof structure、annotation backup、merge/apply receipts、dependency/public helper seals并清理 run 临时产物。
-
-只有 controller 返回 `done` 才完成。任何 final failure 都按 controller action 修复或回滚，不手工覆盖 main-root 文件。
-
-## 9. Pause 与恢复
-
-用户要求停止时，对精确 active action 执行 `cancel-action`；没有 active action 时执行 `pause-run`。等待 controller-owned process 清理后停止。只有用户明确要求恢复时才执行 `resume-run`，然后继续原 action。
+失败或中断按当前 publication 记录恢复；发现外部新内容时保留备份并报告冲突，不能静默覆盖。
+用户暂停只改变 control 与 signal，任务事实保持原样；明确恢复后重新派生动作。Acceptance 中断
+留下的 `returned` 任务重新 finalize，不需要 owner 再次证明自己已经停止写入。

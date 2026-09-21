@@ -35,9 +35,6 @@ Proof. Admitted.
 Lemma proof_of_rod_cutting_safety_wit_5 : rod_cutting_safety_wit_5.
 Proof. Admitted. 
 
-Lemma proof_of_rod_cutting_safety_wit_6 : rod_cutting_safety_wit_6.
-Proof. Admitted. 
-
 Lemma proof_of_rod_cutting_safety_wit_7 : rod_cutting_safety_wit_7.
 Proof. Admitted. 
 
@@ -50,7 +47,7 @@ Proof. Admitted.
 Lemma proof_of_rod_cutting_safety_wit_10 : rod_cutting_safety_wit_10.
 Proof. Admitted. 
 
-Lemma proof_of_rod_cutting_entail_wit_3 : rod_cutting_entail_wit_3.
+Lemma proof_of_rod_cutting_return_wit_1 : rod_cutting_return_wit_1.
 Proof. Admitted. 
 
 Lemma proof_of_rod_cutting_partial_solve_wit_1 : rod_cutting_partial_solve_wit_1.

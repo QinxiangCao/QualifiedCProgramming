@@ -1,10 +1,4 @@
-#!/usr/bin/env python3
-"""Run creation, durable controller state, logs, backups, and snapshots.
-
-This module is internal to controller.py.  It owns the controller's durable
-state primitives; callers outside the controller use the controller CLI.
-"""
-
+"""Run facts and deterministic paths. Scheduling is derived, never persisted."""
 from __future__ import annotations
 
 import argparse
@@ -13,105 +7,31 @@ import os
 import re
 import shutil
 import sys
-from collections.abc import Callable, Iterator
-from contextlib import contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-SCRIPT_DIR = Path(__file__).resolve().parent
-VC_PROVING_SCRIPTS = SCRIPT_DIR.parent / "vc-proving"
-if str(VC_PROVING_SCRIPTS) not in sys.path:
-    sys.path.insert(0, str(VC_PROVING_SCRIPTS))
-
-from file_integrity import sha256_file, sha256_text
+from build_mode import detect_build_mode
+from file_integrity import _lexical_regular_file_snapshot, _snapshot_text
 from path_utils import (
-    ANNOTATION_ATTEMPTS_DIR_NAME,
-    ANNOTATION_HISTORY_DIR_NAME,
-    TARGET_FILE_FIELDS,
-    annotation_attempt_directory_name,
-    controller_state_path,
-    ensure_run_root,
-    fixed_path_under,
-    is_run_root_name,
-    main_root_from_run_root,
-    reports_root,
-    run_logs_path,
-    slug,
-    target_files_for_c,
-    write_json,
+    ANNOTATION_ATTEMPTS_DIR_NAME, ANNOTATION_HISTORY_DIR_NAME,
+    annotation_attempt_directory_name, controller_state_path, ensure_run_root,
+    fixed_path_under, group_build_workspace, is_run_root_name, main_root_from_run_root,
+    reports_root, run_logs_path, slug, target_files_for_c, write_bytes, write_json,
 )
-from proof_manual_utils import (
-    generated_artifact_module_spellings,
-    manual_vc_index,
-)
-from public_helper_utils import (
-    ensure_public_helper_lemma_lib,
-    public_helper_pool_snapshot,
-)
-from spec_freeze import extract_spec_surface
-from symexec_tooling import (
-    _lexical_regular_file_snapshot,
-    _snapshot_text,
-    symexec_profile_for_state,
-    symexec_profile_record,
-)
+from proof_manual_utils import generated_artifact_module_spellings, manual_vc_index
+from spec_freeze import extract_lib, extract_spec_surface
+from symexec_tooling import symexec_profile_record, symexec_profile_for_state
 
-GENERATED_KEYS = (
-    "goal_file",
-    "proof_auto_file",
-    "proof_manual_file",
-    "goal_check_file",
-)
-TARGET_TOPOLOGY_FILE_NAME = "controller_target_topology.json"
+GENERATED_KEYS = ("goal_file", "proof_auto_file", "proof_manual_file", "goal_check_file")
+CONTROLLER_STATE_SCHEMA_VERSION = 4
 WINDOWS_LEGACY_DIRECTORY_PATH_LIMIT = 248
 WINDOWS_LEGACY_FILE_PATH_LIMIT = 260
-CONTROLLER_STATE_REQUIRED_FIELDS = frozenset(
-    {
-        "generation",
-        "run_id",
-        "case",
-        "phase",
-        "main_root",
-        "run_root",
-        "report_root",
-        "target_files",
-        "public_helper_lemma_lib",
-        "problem_context",
-        "formal_case_lib_policy",
-        "spec_freeze",
-        "max_compact_attempts",
-        "max_witnesses_per_group",
-        "max_parallel_group_workers",
-        "dune_preparation",
-        "rounds",
-        "attempts",
-        "annotation_session",
-        "accepted_rounds",
-        "next_actions",
-        "waiting_for",
-        "current_blockers",
-        "final_candidate",
-        "final_apply",
-        "final_check",
-        "created_at",
-        "updated_at",
-    }
-)
-CONTROLLER_STATE_OPTIONAL_FIELDS = frozenset(
-    {
-        "finished_at",
-        "final_apply_transaction",
-        "public_helper_promotion_transaction",
-        "run_control",
-        "symexec_profile",
-    }
-)
-
-
-_STATE_METADATA: dict[int, dict[str, Any]] = {}
-_PENDING_EVENTS: dict[int, list[dict[str, Any]]] = {}
-
+PHASES = {"intake", "annotation", "dependencies", "vc-checking", "vc-proving", "final-apply", "final-check", "done"}
+TASK_PHASES = ("annotation", "vc-checking", "vc-proving")
+TASK_STATUSES = {"prepared", "running", "returned", "accepted", "blocked"}
+FAILED_VC_FIELDS = {"source_attempt", "name", "parent", "annotation_location", "manual", "message"}
+FORMAL_CASE_LIB_SEED = "From Coq Require Import ZArith List.\nImport ListNotations.\nLocal Open Scope Z_scope.\n"
 
 def _utc() -> str:
     return (
@@ -120,16 +40,13 @@ def _utc() -> str:
         .replace("+00:00", "Z")
     )
 
-
 def _parse_utc(value: str) -> datetime:
     return datetime.fromisoformat(value.replace("Z", "+00:00"))
-
 
 def _elapsed_between(started_at: str, finished_at: str) -> float:
     return round(
         max(0.0, (_parse_utc(finished_at) - _parse_utc(started_at)).total_seconds()), 6
     )
-
 
 def _windows_long_paths_enabled() -> bool:
     """Read the machine switch required by long-path-aware Windows tools."""
@@ -147,7 +64,6 @@ def _windows_long_paths_enabled() -> bool:
         return int(value) == 1
     except (OSError, TypeError, ValueError):
         return False
-
 
 def _windows_path_length_error(
     *,
@@ -173,14 +89,14 @@ def _windows_path_length_error(
     case_name = str(target_files["case_name"])
     run_root = main_root / "verification_runs" / projected_run_name
     report_root = main_root / "reports" / projected_run_name
-    proving_round = f"{case_name}-vc-proving-r1"
-    checking_round = f"{case_name}-vc-checking-r1"
+    proving_round = f"{case_name}-vc-proving-r10"
+    checking_round = f"{case_name}-vc-checking-r10"
     candidates = {
         "formal target": main_root / longest_formal,
         "annotation history": (
             run_root
             / ANNOTATION_HISTORY_DIR_NAME
-            / annotation_attempt_directory_name(1)
+            / annotation_attempt_directory_name(10)
             / "after"
             / longest_formal
         ),
@@ -188,17 +104,14 @@ def _windows_path_length_error(
             run_root
             / "_coq_builds"
             / checking_round
+            / "vc-checking"
             / "src"
             / longest_formal
         ),
-        "group development build": (
-            run_root
-            / "_coq_builds"
-            / proving_round
-            / "group_9999"
-            / "dev"
-            / longest_formal
-        ),
+        "group development build": group_build_workspace(run_root, proving_round, "group_9999__projection").parent / "dev" / longest_formal,
+        "annotation generation": report_root / ANNOTATION_ATTEMPTS_DIR_NAME / annotation_attempt_directory_name(10) / ".gen-xxxxxxxx" / longest_formal,
+        "final replay": report_root / "final-check" / "symexec-refresh" / longest_formal,
+        "final apply build": run_root / "_coq_builds" / "final-apply" / "src" / longest_formal,
         "parent build": (
             run_root
             / "_coq_builds"
@@ -210,13 +123,7 @@ def _windows_path_length_error(
         "final build": (
             run_root / "_coq_builds" / "final-check" / "src" / longest_formal
         ),
-        "final backup": (
-            report_root
-            / "final-check"
-            / "backup"
-            / ("0" * 32)
-            / longest_formal
-        ),
+        "final backup": report_root / "final-check" / "backup" / "proof_manual_file.candidate",
     }
     violations: list[tuple[int, str, str, Path, int, int]] = []
     for label, candidate in candidates.items():
@@ -252,65 +159,10 @@ def _windows_path_length_error(
         "Windows long paths are disabled and the projected "
         f"{label} {path_kind} is {length} characters "
         f"(limit {limit - 1}): {longest}. "
-        "Enable LongPathsEnabled and restart the process, or use a shorter "
-        "main-root/case name; do not use subst, junctions, or aliases."
+        "Use a shorter root, or enable long paths and verify all selected tools support them; "
+        "do not use subst, junctions, or aliases."
     )
 
-
-@contextmanager
-def _state_transaction(run_root: Path) -> Iterator[None]:
-    """Validate the run boundary around one state mutation.
-
-    Runs are intentionally single-controller.  Durability comes from atomic
-    replacement plus generation checking; no filesystem synchronization
-    primitive or marker file is created.
-    """
-
-    main_root = main_root_from_run_root(run_root)
-    fixed_path_under(run_root, main_root, label="run root")
-    yield
-
-
-def _state_content_digest(state: dict[str, Any]) -> str:
-    payload = {
-        key: value
-        for key, value in state.items()
-        if key not in {"generation", "updated_at"}
-    }
-    return sha256_text(
-        json.dumps(payload, sort_keys=True, separators=(",", ":"))
-    )
-
-
-def _register_loaded_state(state: dict[str, Any]) -> None:
-    _STATE_METADATA[id(state)] = {
-        "state": state,
-        "generation": int(state.get("generation", 0)),
-        "content_digest": _state_content_digest(state),
-    }
-
-
-def _json_load(path: Path, default: Any | None = None) -> Any:
-    if not path.is_file():
-        return default
-    return json.loads(path.read_text(encoding="utf-8"))
-
-
-_file_digest = sha256_file
-
-
-def _is_relative_to(path: Path, root: Path) -> bool:
-    try:
-        path.expanduser().resolve().relative_to(root.expanduser().resolve())
-        return True
-    except ValueError:
-        return False
-
-
-def _relative_path(path: Path, root: Path) -> str:
-    return (
-        path.expanduser().resolve().relative_to(root.expanduser().resolve()).as_posix()
-    )
 
 
 def _freeze_spec_functions(args: argparse.Namespace) -> list[str]:
@@ -322,7 +174,6 @@ def _freeze_spec_functions(args: argparse.Namespace) -> list[str]:
         for name in str(value).split(",")
         if name.strip()
     ]
-
 
 def _spec_freeze_baseline(
     *,
@@ -358,7 +209,6 @@ def _spec_freeze_baseline(
         "baseline": baseline,
     }
 
-
 def _problem_context_from_args(args: argparse.Namespace) -> dict[str, Any]:
     statement_parts: list[str] = []
     if args.problem_statement:
@@ -384,6 +234,203 @@ def _problem_context_from_args(args: argparse.Namespace) -> dict[str, Any]:
     }
     return {key: value for key, value in raw.items() if value not in ("", [], None)}
 
+def _json_load(path: Path, default: Any = None) -> Any:
+    if not path.exists():
+        return default
+    return json.loads(_snapshot_text(_lexical_regular_file_snapshot(
+        root=path.parent, relative=path.name, label="JSON input"), label="JSON input"))
+
+
+def _run_root_from_id(main_root: Path, run_id: str) -> Path:
+    if not isinstance(run_id, str) or Path(run_id).name != run_id or not is_run_root_name(run_id):
+        raise SystemExit(f"invalid run id: {run_id}")
+    path = fixed_path_under(main_root / "verification_runs" / run_id, main_root, label="run root")
+    if not path.is_dir():
+        raise SystemExit(f"run not found: {path}")
+    return path
+
+
+def load_run(args: argparse.Namespace) -> dict[str, Any]:
+    root = Path(args.main_root).expanduser().absolute() if args.main_root else Path.cwd()
+    return _load_state(_run_root_from_id(root, args.run))
+
+
+def current_attempt(state: dict, phase: str) -> dict | None:
+    identifier = state["current"].get(phase)
+    return state["attempts"].get(identifier) if identifier else None
+
+
+def require_attempt(state: dict, identifier: str, phase: str | None = None) -> dict:
+    task = state["attempts"].get(identifier)
+    if not isinstance(task, dict) or state["current"].get(task["phase"]) != identifier:
+        raise SystemExit(f"attempt is not current: {identifier}")
+    if phase is not None and task["phase"] != phase:
+        raise SystemExit(f"attempt is not a {phase} task: {identifier}")
+    return task
+
+
+def attempt_paths(state: dict, attempt: dict) -> dict[str, Path]:
+    identifier = attempt["attempt_id"]
+    phase = attempt["phase"]
+    prefix = f"{state['case']}-{phase}-r"
+    if phase not in TASK_PHASES or not identifier.startswith(prefix) or not identifier[len(prefix):].isdigit():
+        raise ValueError(f"invalid task identity: {identifier}")
+    iteration = int(identifier[len(prefix):])
+    if iteration < 1:
+        raise ValueError("task number must be positive")
+    report_root = Path(state["report_root"])
+    run_root = Path(state["run_root"])
+    if phase == "annotation":
+        directory = report_root / ANNOTATION_ATTEMPTS_DIR_NAME / annotation_attempt_directory_name(iteration)
+    else:
+        directory = report_root / "rounds" / identifier
+    paths = {"directory": directory, "input": directory / "agent_input.md",
+             "report": directory / "agent_report.json", "output": directory / "agent_output.md"}
+    if phase == "annotation":
+        history = run_root / ANNOTATION_HISTORY_DIR_NAME / annotation_attempt_directory_name(iteration)
+        paths.update(plan=directory / "annotation_plan.json", history=history,
+                     before=history / "before", after=history / "after")
+    elif phase == "vc-checking":
+        paths.update(group_plan=directory / "group_plan.json",
+                     debug_manual=directory / Path(state["target_files"]["proof_manual_file"]).name)
+    else:
+        paths.update(workspace=run_root / identifier, merged=run_root / identifier / "proving_merged")
+    return {role: fixed_path_under(path, Path(state["main_root"]), label=f"task {role}")
+            for role, path in paths.items()}
+
+
+def _failed_vcs_errors(value: Any, *, run_root: Path | None = None) -> list[str]:
+    if not isinstance(value, list):
+        return ["failed_vcs must be a list"]
+    seen = set()
+    for item in value:
+        if not isinstance(item, dict) or set(item) != FAILED_VC_FIELDS:
+            return ["failed_vcs entries require exact fields"]
+        if any(not isinstance(item[key], str) or not item[key].strip() for key in FAILED_VC_FIELDS - {"parent"}):
+            return ["failed_vcs text fields must be non-empty strings"]
+        if item["parent"] is not None and (not isinstance(item["parent"], str) or not item["parent"]):
+            return ["failed_vcs parent must be null or a non-empty string"]
+        identity = (item["source_attempt"], item["name"])
+        if identity in seen:
+            return ["failed_vcs repeats a source VC"]
+        seen.add(identity)
+        if run_root is not None:
+            try:
+                path = Path(item["manual"])
+                if not path.is_absolute():
+                    return ["failed_vcs manual must be absolute"]
+                fixed_path_under(path, run_root, label="historical manual")
+            except SystemExit as exc:
+                return [str(exc)]
+    return []
+
+
+def validate_state(state: Any, run_root: Path | None = None) -> list[str]:
+    if not isinstance(state, dict) or state.get("schema_version") != CONTROLLER_STATE_SCHEMA_VERSION:
+        return ["This run uses an older controller contract; use its original code or initialize a new run."]
+    try:
+        fields = {"schema_version", "generation", "run_id", "case", "phase", "main_root", "run_root", "report_root",
+                  "target_files", "problem_context", "formal_case_lib_policy", "spec_freeze", "run_control",
+                  "symexec_profile", "max_witnesses_per_group", "max_parallel_group_workers", "dune_preparation",
+                  "attempts", "current", "annotation_owner", "pending_retry", "current_blockers", "final_candidate",
+                  "final_apply", "final_check", "created_at"}
+        if fields - state.keys() or state.keys() - fields - {"updated_at", "finished_at", "final_apply_transaction"}:
+            raise ValueError("unsupported or missing state fields")
+        if not isinstance(state["current_blockers"], list) or not all(isinstance(item, dict) for item in state["current_blockers"]):
+            raise ValueError("current_blockers must be a list of objects")
+        retry = state["pending_retry"]
+        if retry is not None and (not isinstance(retry, dict) or set(retry) != {"phase", "reason", "previous_attempt"}
+                or retry["phase"] not in {"annotation", "vc-checking"} or not all(isinstance(value, str) and value for value in retry.values())):
+            raise ValueError("invalid pending retry")
+        if re.fullmatch(rf"{re.escape(slug(state['case']))}-\d{{14}}(?:-\d{{2}})?", state["run_id"]) is None:
+            raise ValueError("run id differs from its case identity")
+        root = Path(state["main_root"])
+        if not root.is_absolute():
+            raise ValueError("main_root must be absolute")
+        fixed_path_under(root, root, label="main root")
+        expected_run = fixed_path_under(root / "verification_runs" / state["run_id"], root, label="run root")
+        if not is_run_root_name(state["run_id"]) or expected_run.name != state["run_id"]:
+            raise ValueError("invalid run identity")
+        if run_root is not None and expected_run != run_root:
+            raise ValueError("state belongs to a different run")
+        if state["run_root"] != str(expected_run) or state["report_root"] != str(root / "reports" / state["run_id"]):
+            raise ValueError("run/report paths must match run identity")
+        if state["target_files"] != target_files_for_c(state["target_files"]["c_file"], state["case"]):
+            raise ValueError("target_files differs from canonical C/case mapping")
+        for key in ("c_file", "formal_directory", "formal_case_lib", *GENERATED_KEYS):
+            fixed_path_under(root / state["target_files"][key], root, label=key)
+        if state["phase"] not in PHASES or set(state["current"]) != set(TASK_PHASES):
+            raise ValueError("invalid phase/current tasks")
+        if type(state["generation"]) is not int or state["generation"] < 0:
+            raise ValueError("invalid state generation")
+        for key in ("max_witnesses_per_group", "max_parallel_group_workers"):
+            if type(state[key]) is not int or state[key] < 1:
+                raise ValueError(f"{key} must be positive")
+        if state["formal_case_lib_policy"] not in {"present", "create", "absent"}:
+            raise ValueError("invalid library policy")
+        if state["run_control"]["status"] not in {"active", "paused"}:
+            raise ValueError("invalid run control")
+        symexec_profile_for_state(state)
+        if not isinstance(state["attempts"], dict):
+            raise ValueError("attempts must be an object")
+        for identifier, task in state["attempts"].items():
+            if identifier != task["attempt_id"] or task["status"] not in TASK_STATUSES:
+                raise ValueError("invalid task identity/status")
+            attempt_paths(state, task)
+            if task["phase"] == "annotation":
+                errors = _failed_vcs_errors(task.get("failed_vcs", []), run_root=expected_run)
+                if errors:
+                    raise ValueError(errors[0])
+            for owner_task in [task, *task.get("groups", {}).values()]:
+                if owner_task["status"] not in TASK_STATUSES:
+                    raise ValueError("invalid owner task status")
+                if type(owner_task.get("repair_index", 0)) is not int or owner_task.get("repair_index", 0) < 0:
+                    raise ValueError("invalid repair index")
+                if owner_task.get("owner") is not None and not isinstance(owner_task["owner"], str):
+                    raise ValueError("invalid task owner")
+        for phase, identifier in state["current"].items():
+            if identifier is not None and state["attempts"][identifier]["phase"] != phase:
+                raise ValueError("current task has wrong phase")
+    except (KeyError, TypeError, ValueError, OSError, SystemExit) as exc:
+        return [f"invalid controller state: {exc}"]
+    return []
+
+
+def _load_state(run_root: Path) -> dict:
+    path = fixed_path_under(controller_state_path(run_root), main_root_from_run_root(run_root), label="controller state")
+    state = _json_load(path)
+    errors = validate_state(state, run_root)
+    if errors:
+        raise SystemExit(errors[0])
+    return state
+
+
+def _save_state(run_root: Path, state: dict) -> None:
+    errors = validate_state(state, run_root)
+    if errors:
+        raise SystemExit(errors[0])
+    path = fixed_path_under(controller_state_path(run_root), Path(state["main_root"]), label="controller state")
+    current = _json_load(path)
+    if current is not None and current["generation"] != state["generation"]:
+        raise SystemExit("controller state changed during this command; reload before writing")
+    # ponytail: main is the single business-state writer; this is not an interprocess CAS.
+    state["generation"] += 1
+    state["updated_at"] = _utc()
+    write_json(path, state)
+
+
+def _append_log(run_root: Path, record: dict) -> None:
+    path = fixed_path_under(run_logs_path(run_root), main_root_from_run_root(run_root), label="run log")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as stream:
+        stream.write(json.dumps(record, ensure_ascii=True) + "\n")
+
+
+def _append_event(run_root: Path, state: dict, event: str, **details: Any) -> None:
+    try:
+        _append_log(run_root, {"at": _utc(), "phase": state["phase"], "event": event, "details": details})
+    except (OSError, ValueError, SystemExit) as exc:
+        print(f"Run log diagnostic: {exc}", file=sys.stderr)
 
 def _formal_case_lib_is_active(state: dict[str, Any]) -> bool:
     """Return whether this run has an editable canonical case library."""
@@ -393,7 +440,6 @@ def _formal_case_lib_is_active(state: dict[str, Any]) -> bool:
         raise ValueError("formal_case_lib policy is invalid")
     return policy != "absent"
 
-
 def _formal_case_lib_snapshot(state: dict[str, Any]) -> dict[str, Any]:
     """Snapshot the exact optional case-lib leaf without following links."""
 
@@ -402,557 +448,6 @@ def _formal_case_lib_snapshot(state: dict[str, Any]) -> dict[str, Any]:
         relative=str(state["target_files"]["formal_case_lib"]),
         label="formal_case_lib candidate",
     )
-
-
-FAILED_VC_FIELDS = {
-    "source_attempt",
-    "name",
-    "parent",
-    "annotation_location",
-    "manual",
-    "message",
-}
-
-
-def _failed_vcs_errors(
-    value: Any,
-    *,
-    run_root: Path | None = None,
-) -> list[str]:
-    """Validate annotation retry VCs and their sealed source manuals."""
-
-    if not isinstance(value, list):
-        return ["annotation attempt failed_vcs must be a list"]
-    errors: list[str] = []
-    identities: set[tuple[str, str]] = set()
-    manual_indexes: dict[str, dict[str, Any]] = {}
-    for index, item in enumerate(value):
-        location = f"annotation attempt failed_vcs[{index}]"
-        if not isinstance(item, dict) or set(item) != FAILED_VC_FIELDS:
-            errors.append(f"{location} requires exact fields")
-            continue
-        for field in (
-            "source_attempt",
-            "name",
-            "annotation_location",
-            "manual",
-            "message",
-        ):
-            if not isinstance(item[field], str) or not item[field]:
-                errors.append(f"{location}.{field} must be a non-empty string")
-        parent = item["parent"]
-        if parent is not None and (not isinstance(parent, str) or not parent):
-            errors.append(f"{location}.parent must be null or a non-empty string")
-        identity = (str(item["source_attempt"]), str(item["name"]))
-        if identity in identities:
-            errors.append(f"{location} duplicates a source VC")
-        identities.add(identity)
-        if run_root is None or not isinstance(item["manual"], str) or not item["manual"]:
-            continue
-        try:
-            manual = _exact_recorded_path(
-                item["manual"],
-                Path(item["manual"]),
-                owner=run_root,
-                label=f"{location}.manual",
-            )
-        except (OSError, ValueError):
-            errors.append(f"{location}.manual is outside the fixed run root")
-            continue
-        if not manual.is_file():
-            errors.append(f"{location}.manual is missing")
-            continue
-        vc_index = manual_indexes.get(str(manual))
-        if vc_index is None:
-            vc_index = manual_vc_index(manual.read_text(encoding="utf-8"))
-            manual_indexes[str(manual)] = vc_index
-        vc = vc_index["by_name"].get(str(item["name"]))
-        if vc is None:
-            errors.append(f"{location}.name is absent from the sealed manual")
-        elif vc["parent"] != item["parent"]:
-            errors.append(f"{location}.parent differs from the sealed manual")
-    return errors
-
-
-def _lexical_absolute_recorded_path(value: Any, *, label: str) -> Path:
-    if not isinstance(value, str) or not value:
-        raise ValueError(f"{label} is missing or invalid")
-    recorded = Path(value).expanduser()
-    normalized = Path(os.path.abspath(os.fspath(recorded)))
-    if not recorded.is_absolute() or recorded != normalized:
-        raise ValueError(f"{label} must be an absolute normalized path")
-    return normalized
-
-
-def _exact_recorded_path(
-    value: Any,
-    expected: Path,
-    *,
-    owner: Path,
-    label: str,
-) -> Path:
-    recorded = _lexical_absolute_recorded_path(value, label=label)
-    if recorded != expected:
-        raise ValueError(f"{label} differs from its fixed controller path")
-    try:
-        return fixed_path_under(recorded, owner, label=label)
-    except (OSError, SystemExit) as exc:
-        raise ValueError(str(exc)) from exc
-
-
-def _validated_attempt_roots(
-    state: dict[str, Any],
-) -> tuple[Path, Path, Path]:
-    """Return the exact current main/run/report roots without following aliases."""
-
-    main_root = _lexical_absolute_recorded_path(
-        state.get("main_root"), label="main root"
-    )
-    run_root = _lexical_absolute_recorded_path(
-        state.get("run_root"), label="run root"
-    )
-    try:
-        main_root = fixed_path_under(main_root, main_root, label="main root")
-        run_root = fixed_path_under(run_root, main_root, label="run root")
-    except (OSError, SystemExit) as exc:
-        raise ValueError(str(exc)) from exc
-    if run_root.parent != main_root / "verification_runs":
-        raise ValueError("run root differs from its fixed controller path")
-    expected_report_root = main_root / "reports" / run_root.name
-    report_root = _exact_recorded_path(
-        state.get("report_root"),
-        expected_report_root,
-        owner=main_root,
-        label="run report root",
-    )
-    return main_root, run_root, report_root
-
-
-def _validated_attempt_identity(
-    state: dict[str, Any],
-    attempt: dict[str, Any],
-    *,
-    proving: bool,
-    allow_unregistered_attempt: bool = False,
-) -> tuple[str, str, str]:
-    attempt_id = attempt.get("attempt_id")
-    round_id = attempt.get("round")
-    phase = attempt.get("phase")
-    if (
-        not isinstance(attempt_id, str)
-        or not attempt_id
-        or not isinstance(round_id, str)
-        or not round_id
-        or Path(round_id).name != round_id
-        or Path(round_id).is_absolute()
-        or not isinstance(phase, str)
-        or not phase
-    ):
-        raise ValueError("attempt identity contract is invalid")
-    if proving:
-        if attempt_id != round_id or phase != "vc-proving-preparing":
-            raise ValueError("vc-proving attempt identity contract is invalid")
-        round_phase = "vc-proving"
-    else:
-        compact_index = attempt.get("compact_attempt_index")
-        if (
-            isinstance(compact_index, bool)
-            or not isinstance(compact_index, int)
-            or compact_index < 1
-            or attempt_id != f"{round_id}-attempt-{compact_index}"
-        ):
-            raise ValueError("phase attempt identity contract is invalid")
-        round_phase = phase
-    case_name = state.get("case")
-    if (
-        not isinstance(case_name, str)
-        or re.fullmatch(
-            rf"{re.escape(case_name)}-{re.escape(round_phase)}-r[1-9][0-9]*",
-            round_id,
-        )
-        is None
-    ):
-        raise ValueError("attempt round identity differs from its phase and case")
-    if not allow_unregistered_attempt:
-        round_state = state.get("rounds", {}).get(round_id)
-        if (
-            not isinstance(round_state, dict)
-            or round_state.get("phase") != phase
-            or round_state.get("current_attempt") != attempt_id
-        ):
-            raise ValueError("attempt is not bound to its current round record")
-        if state.get("attempts", {}).get(attempt_id) is not attempt:
-            raise ValueError("attempt is not stored under its exact attempt_id")
-    return attempt_id, round_id, phase
-
-
-def _validated_annotation_attempt_paths(
-    state: dict[str, Any],
-    attempt: dict[str, Any],
-    *,
-    allow_missing_history: bool = False,
-    allow_unregistered_attempt: bool = False,
-) -> dict[str, Path]:
-    """Bind every annotation attempt path to its controller-owned topology."""
-
-    if attempt.get("phase") != "annotation":
-        raise ValueError("annotation path validation requires an annotation attempt")
-    attempt_id, round_id, _phase = _validated_attempt_identity(
-        state,
-        attempt,
-        proving=False,
-        allow_unregistered_attempt=allow_unregistered_attempt,
-    )
-    case_name = state.get("case")
-    if (
-        not isinstance(case_name, str)
-        or not case_name
-        or Path(round_id).name != round_id
-        or Path(attempt_id).name != attempt_id
-        or re.fullmatch(
-            rf"{re.escape(case_name)}-annotation-r[1-9][0-9]*",
-            round_id,
-        )
-        is None
-    ):
-        raise ValueError("annotation round path identity is invalid")
-    annotation_iteration = attempt.get("annotation_iteration")
-    if (
-        isinstance(annotation_iteration, bool)
-        or not isinstance(annotation_iteration, int)
-        or annotation_iteration < 1
-    ):
-        raise ValueError("annotation iteration identity is invalid")
-    _main_root, run_root, report_root = _validated_attempt_roots(state)
-    failed_vc_errors = _failed_vcs_errors(
-        attempt.get("failed_vcs"),
-        run_root=run_root,
-    )
-    if failed_vc_errors:
-        raise ValueError(failed_vc_errors[0])
-    compact_name = annotation_attempt_directory_name(annotation_iteration)
-    expected_report_directory = (
-        report_root / ANNOTATION_ATTEMPTS_DIR_NAME / compact_name
-    )
-    report_directory = _exact_recorded_path(
-        attempt.get("report_directory"),
-        expected_report_directory,
-        owner=report_root,
-        label="annotation attempt report directory",
-    )
-    if not os.path.lexists(report_directory) or not report_directory.is_dir():
-        raise ValueError(
-            "annotation attempt report directory is missing or not a fixed directory"
-        )
-
-    compact_history = run_root / ANNOTATION_HISTORY_DIR_NAME / compact_name
-    history = _exact_recorded_path(
-        attempt.get("annotation_history_directory"),
-        compact_history,
-        owner=run_root,
-        label="annotation attempt history directory",
-    )
-    if os.path.lexists(history):
-        if not history.is_dir():
-            raise ValueError(
-                "annotation attempt history path is not a fixed directory"
-            )
-    elif not allow_missing_history:
-        raise ValueError("annotation attempt history directory is missing")
-
-    paths: dict[str, Path] = {
-        "directory": report_directory,
-        "history": history,
-        "before": history / "before",
-        "after": history / "after",
-    }
-    filenames = {
-        "input": "agent_input.md",
-        "report": "agent_report.json",
-        "output": "agent_output.md",
-        "plan": "annotation_plan.json",
-    }
-    for field, filename in filenames.items():
-        expected = report_directory / filename
-        paths[field] = _exact_recorded_path(
-            attempt.get(field),
-            expected,
-            owner=report_directory,
-            label=f"annotation attempt {field}",
-        )
-        snapshot = _lexical_regular_file_snapshot(
-            root=report_directory,
-            relative=filename,
-            label=f"annotation attempt {field}",
-        )
-        artifact_state = snapshot.get("state")
-        if artifact_state == "missing" and field == "output":
-            continue
-        if artifact_state != "present":
-            detail = str(snapshot.get("message") or "artifact is missing")
-            raise ValueError(
-                f"annotation attempt {field} is not a readable non-link regular "
-                f"file: {detail}"
-            )
-    return paths
-
-
-def _validated_phase_attempt_paths(
-    state: dict[str, Any], attempt: dict[str, Any]
-) -> dict[str, Path]:
-    """Bind a non-annotation phase attempt to its current round report tree."""
-
-    _attempt_id, round_id, phase = _validated_attempt_identity(
-        state, attempt, proving=False
-    )
-    if phase != "vc-checking":
-        raise ValueError("unsupported non-annotation phase attempt")
-    _main_root, _run_root, report_root = _validated_attempt_roots(state)
-    expected_directory = report_root / "rounds" / round_id
-    directory = _exact_recorded_path(
-        attempt.get("report_directory"),
-        expected_directory,
-        owner=report_root,
-        label=f"{phase} attempt report directory",
-    )
-    if not os.path.lexists(directory) or not directory.is_dir():
-        raise ValueError(
-            f"{phase} attempt report directory is missing or not a fixed directory"
-        )
-    paths: dict[str, Path] = {
-        "directory": directory,
-        "group_plan": directory / "group_plan.json",
-    }
-    for field, filename in (
-        ("input", "agent_input.md"),
-        ("report", "agent_report.json"),
-        ("output", "agent_output.md"),
-    ):
-        paths[field] = _exact_recorded_path(
-            attempt.get(field),
-            directory / filename,
-            owner=directory,
-            label=f"{phase} attempt {field}",
-        )
-    if "group_plan" in attempt:
-        _exact_recorded_path(
-            attempt.get("group_plan"),
-            paths["group_plan"],
-            owner=directory,
-            label=f"{phase} attempt group_plan",
-        )
-    return paths
-
-
-def _validated_proving_attempt_paths(
-    state: dict[str, Any], attempt: dict[str, Any]
-) -> dict[str, Path]:
-    """Bind every persisted vc-proving path to the current run and round."""
-
-    _attempt_id, round_id, _phase = _validated_attempt_identity(
-        state, attempt, proving=True
-    )
-    _main_root, run_root, report_root = _validated_attempt_roots(state)
-    expected_directory = run_root / round_id
-    expected_report_directory = report_root / "rounds" / slug(round_id)
-    directory = _exact_recorded_path(
-        attempt.get("directory"),
-        expected_directory,
-        owner=run_root,
-        label="vc-proving attempt directory",
-    )
-    report_directory = _exact_recorded_path(
-        attempt.get("report_directory"),
-        expected_report_directory,
-        owner=report_root,
-        label="vc-proving attempt report directory",
-    )
-    for label, path in (
-        ("vc-proving attempt directory", directory),
-        ("vc-proving attempt report directory", report_directory),
-    ):
-        if not os.path.lexists(path) or not path.is_dir():
-            raise ValueError(f"{label} is missing or not a fixed directory")
-    return {
-        "directory": directory,
-        "report_directory": report_directory,
-        "base_manifest": _exact_recorded_path(
-            attempt.get("base_manifest"),
-            directory / "base_manifest.json",
-            owner=directory,
-            label="vc-proving base_manifest",
-        ),
-        "group_workers_manifest": _exact_recorded_path(
-            attempt.get("group_workers_manifest"),
-            report_directory / "group_workers_manifest.json",
-            owner=report_directory,
-            label="vc-proving group_workers_manifest",
-        ),
-        "proving_merged_result": _exact_recorded_path(
-            attempt.get("proving_merged_result"),
-            report_directory / "proving_merged_result.json",
-            owner=report_directory,
-            label="vc-proving proving_merged_result",
-        ),
-    }
-
-
-def _validated_attempt_paths(
-    state: dict[str, Any],
-    attempt: dict[str, Any],
-    *,
-    allow_missing_annotation_history: bool = False,
-) -> dict[str, Path]:
-    """Dispatch the exact topology check for one persisted attempt."""
-
-    phase = attempt.get("phase")
-    if phase == "annotation":
-        return _validated_annotation_attempt_paths(
-            state,
-            attempt,
-            allow_missing_history=allow_missing_annotation_history,
-        )
-    if phase == "vc-proving-preparing":
-        return _validated_proving_attempt_paths(state, attempt)
-    return _validated_phase_attempt_paths(state, attempt)
-
-
-def _validate_accepted_round_path_topology(state: dict[str, Any]) -> None:
-    accepted_rounds = state.get("accepted_rounds")
-    if not isinstance(accepted_rounds, dict):
-        raise ValueError("accepted_rounds is missing or invalid")
-    supported = {"annotation", "vc-checking", "vc-proving-preparing"}
-    if set(accepted_rounds) - supported:
-        raise ValueError("accepted_rounds contains an unsupported phase")
-    for phase, record in accepted_rounds.items():
-        if not isinstance(record, dict):
-            raise ValueError(f"accepted {phase} record is invalid")
-        expected_fields = (
-            {
-                "round",
-                "attempt_id",
-                "annotation_history_directory",
-            }
-            if phase == "annotation"
-            else {
-                "group_plan",
-                "group_plan_sha256",
-                "proof_manual_sha256",
-            }
-            if phase == "vc-checking" and record.get("attempt_id") is None
-            else {
-                "round",
-                "attempt_id",
-                "group_plan",
-                "group_plan_sha256",
-                "proof_manual_sha256",
-                "agent_output_metrics",
-            }
-            if phase == "vc-checking"
-            else {"round", "attempt_id", "result_sha256"}
-        )
-        if set(record) != expected_fields:
-            raise ValueError(f"accepted {phase} record has invalid fields")
-    _main_root, _run_root, report_root = _validated_attempt_roots(state)
-
-    accepted_annotation = accepted_rounds.get("annotation")
-    if isinstance(accepted_annotation, dict):
-        attempt = state.get("attempts", {}).get(
-            str(accepted_annotation.get("attempt_id") or "")
-        )
-        if not isinstance(attempt, dict) or attempt.get("phase") != "annotation":
-            raise ValueError("accepted annotation attempt is missing")
-        paths = _validated_annotation_attempt_paths(state, attempt)
-        if (
-            accepted_annotation.get("round") != attempt.get("round")
-            or accepted_annotation.get("attempt_id") != attempt.get("attempt_id")
-            or accepted_annotation.get("annotation_history_directory")
-            != str(paths["history"])
-        ):
-            raise ValueError("accepted annotation pointer identity is invalid")
-
-    accepted_vc = accepted_rounds.get("vc-checking")
-    if isinstance(accepted_vc, dict):
-        attempt_id = accepted_vc.get("attempt_id")
-        if attempt_id is None:
-            _exact_recorded_path(
-                accepted_vc.get("group_plan"),
-                report_root / "group_plan.json",
-                owner=report_root,
-                label="empty accepted vc-checking group_plan",
-            )
-            if accepted_vc.get("round") is not None:
-                raise ValueError("empty accepted vc-checking pointer is invalid")
-        else:
-            attempt = state.get("attempts", {}).get(str(attempt_id))
-            if not isinstance(attempt, dict) or attempt.get("phase") != "vc-checking":
-                raise ValueError("accepted vc-checking attempt is missing")
-            paths = _validated_phase_attempt_paths(state, attempt)
-            if (
-                accepted_vc.get("round") != attempt.get("round")
-                or accepted_vc.get("attempt_id") != attempt.get("attempt_id")
-            ):
-                raise ValueError("accepted vc-checking pointer identity is invalid")
-            _exact_recorded_path(
-                accepted_vc.get("group_plan"),
-                paths["group_plan"],
-                owner=paths["directory"],
-                label="accepted vc-checking group_plan",
-            )
-
-    accepted_proving = accepted_rounds.get("vc-proving-preparing")
-    if isinstance(accepted_proving, dict):
-        attempt_id = accepted_proving.get("attempt_id")
-        attempt = state.get("attempts", {}).get(str(attempt_id))
-        if not isinstance(attempt, dict):
-            raise ValueError("accepted vc-proving attempt is missing")
-        paths = _validated_proving_attempt_paths(state, attempt)
-        if (
-            accepted_proving.get("round") != attempt.get("round")
-            or accepted_proving.get("attempt_id") != attempt.get("attempt_id")
-        ):
-            raise ValueError("accepted vc-proving pointer identity is invalid")
-        final_candidate = state.get("final_candidate")
-        if isinstance(final_candidate, dict):
-            if final_candidate.get("round") != attempt.get("round"):
-                raise ValueError("final candidate round differs from accepted proving")
-            _exact_recorded_path(
-                final_candidate.get("proving_merged_result"),
-                paths["proving_merged_result"],
-                owner=paths["report_directory"],
-                label="final candidate proving_merged_result",
-            )
-
-
-def _validate_controller_attempt_topologies(state: dict[str, Any]) -> None:
-    attempts = state.get("attempts")
-    rounds = state.get("rounds")
-    if not isinstance(attempts, dict) or not isinstance(rounds, dict):
-        raise ValueError("controller attempts or rounds are missing or invalid")
-    for attempt_id, attempt in attempts.items():
-        if not isinstance(attempt_id, str) or not isinstance(attempt, dict):
-            raise ValueError("controller attempt record is invalid")
-        if attempt.get("attempt_id") != attempt_id:
-            raise ValueError("controller attempt map key differs from attempt_id")
-        _validated_attempt_paths(state, attempt)
-    for round_id, round_state in rounds.items():
-        current_attempt = (
-            attempts.get(round_state.get("current_attempt"))
-            if isinstance(round_state, dict)
-            else None
-        )
-        if (
-            not isinstance(round_id, str)
-            or Path(round_id).name != round_id
-            or Path(round_id).is_absolute()
-            or not isinstance(round_state, dict)
-            or set(round_state) != {"phase", "current_attempt"}
-            or not isinstance(current_attempt, dict)
-            or current_attempt.get("round") != round_id
-            or current_attempt.get("phase") != round_state.get("phase")
-        ):
-            raise ValueError("controller round record is invalid")
-    _validate_accepted_round_path_topology(state)
 
 
 def _generated_artifact_module_spellings_for_state(
@@ -982,7 +477,6 @@ def _generated_artifact_module_spellings_for_state(
         present_roles.add(role)
     return generated_artifact_module_spellings(target, roles=present_roles)
 
-
 def _manual_obligations(state: dict[str, Any]) -> dict[str, Any]:
     """Read the complete VC index from the current main-root manual."""
 
@@ -1000,457 +494,44 @@ def _manual_obligations(state: dict[str, Any]) -> dict[str, Any]:
     text = _snapshot_text(snapshot, label="current proof manual")
     return manual_vc_index(text)
 
-
-def _proof_manual_sha256(state: dict[str, Any]) -> str | None:
-    snapshot = _lexical_regular_file_snapshot(
-        root=Path(str(state["main_root"])),
-        relative=str(state["target_files"]["proof_manual_file"]),
-        label="current proof manual",
-    )
-    if snapshot.get("state") == "missing":
-        return None
-    if snapshot.get("state") != "present":
-        raise ValueError(
-            str(snapshot.get("message") or "current proof manual is invalid")
-        )
-    return str(snapshot["sha256"])
-
-
 def _current_files_errors(state: dict[str, Any]) -> list[str]:
-    """Compare current main-root files with their latest accepted phase output."""
+    """Validate readable current inputs, without comparing earlier revisions."""
 
-    accepted = state.get("accepted_rounds", {}).get("annotation")
-    if not isinstance(accepted, dict):
-        return ["there is no accepted annotation attempt"]
-    attempt = state.get("attempts", {}).get(str(accepted.get("attempt_id") or ""))
-    if not isinstance(attempt, dict):
-        return ["the accepted annotation attempt is missing"]
-    history_errors = _annotation_after_snapshot_errors(state, attempt)
-    if history_errors:
-        return history_errors
-    accepted_vc = state.get("accepted_rounds", {}).get("vc-checking")
-    vc_manual_is_editable = accepted_vc is None and any(
-        isinstance(candidate, dict)
-        and candidate.get("phase") == "vc-checking"
-        and candidate.get("status") not in {"stale", "superseded"}
-        for candidate in state.get("attempts", {}).values()
-    )
-    relatives = [
-        str(state["target_files"][key])
-        for key in (
-            "c_file",
-            "formal_case_lib",
-            "goal_file",
-            "proof_auto_file",
-            "goal_check_file",
+    errors: list[str] = []
+    for role in ("c_file", "formal_case_lib", *GENERATED_KEYS):
+        snapshot = _lexical_regular_file_snapshot(
+            root=Path(state["main_root"]), relative=state["target_files"][role], label=f"current {role}"
         )
-    ]
-    if accepted_vc is None and not vc_manual_is_editable:
-        relatives.append(str(state["target_files"]["proof_manual_file"]))
-    try:
-        after = _validated_annotation_attempt_paths(state, attempt)["after"]
-        expected = _snapshot_digests(after, relatives)
-        current = _snapshot_digests(Path(str(state["main_root"])), relatives)
-    except (OSError, ValueError) as exc:
-        return [f"current verification files cannot be read: {exc}"]
-    errors = [
-        "current main-root file differs from the accepted annotation backup: "
-        + relative
-        for relative in relatives
-        if expected[relative] != current[relative]
-    ]
-    if isinstance(accepted_vc, dict) and "proof_manual_sha256" not in accepted_vc:
-        errors.append("accepted vc-checking result has no clean proof manual seal")
-    elif isinstance(accepted_vc, dict):
+        if role == "formal_case_lib" and not _formal_case_lib_is_active(state) and snapshot["state"] != "missing":
+            errors.append("formal_case_lib must remain absent under the current run policy")
+            continue
+        optional = role == "proof_manual_file" or (role == "formal_case_lib" and not _formal_case_lib_is_active(state))
+        if snapshot["state"] == "missing" and optional:
+            continue
         try:
-            current_manual = _proof_manual_sha256(state)
-        except (OSError, ValueError) as exc:
-            errors.append(f"current proof manual cannot be read: {exc}")
-        else:
-            if current_manual != accepted_vc.get("proof_manual_sha256"):
-                errors.append(
-                    "current proof manual differs from the clean vc-checking output: "
-                    + str(state["target_files"]["proof_manual_file"])
-                )
+            _snapshot_text(snapshot, label=f"current {role}")
+        except ValueError as exc:
+            errors.append(str(exc))
     return errors
 
-
-def _run_root_from_id(main_root: Path, run_id: str) -> Path:
-    if Path(run_id).name != run_id or not is_run_root_name(run_id):
-        raise SystemExit(f"invalid run id: {run_id}")
-    owner = main_root.expanduser().resolve()
-    path = fixed_path_under(
-        owner / "verification_runs" / run_id,
-        owner,
-        label="run root",
-    )
-    if path.parent != owner / "verification_runs":
-        raise SystemExit(f"run is outside the main root: {path}")
-    if not path.is_dir():
-        raise SystemExit(f"run not found: {path}")
-    return path
-
-
-def _validate_target_files_topology(
-    state: dict[str, Any],
-    *,
-    main_root: Path,
-) -> None:
-    """Bind every persisted target field to C path + Rocq case identity."""
-
-    case_name = state.get("case")
-    target_files = state.get("target_files")
-    if (
-        not isinstance(case_name, str)
-        or re.fullmatch(r"[A-Za-z_][A-Za-z0-9_']*", case_name) is None
-    ):
-        raise SystemExit("controller state case is not a legal Rocq artifact stem")
-    if (
-        not isinstance(target_files, dict)
-        or set(target_files) != TARGET_FILE_FIELDS
-        or any(
-            not isinstance(value, str) or not value
-            for value in target_files.values()
-        )
-    ):
-        raise SystemExit("controller state target_files has invalid fields")
-    if target_files.get("case_name") != case_name:
-        raise SystemExit("controller state case does not match target_files case_name")
-    try:
-        expected = target_files_for_c(
-            target_files["c_file"],
-            formal_case_name=case_name,
-        )
-    except ValueError as exc:
-        raise SystemExit(f"controller state target_files is invalid: {exc}") from exc
-    if target_files != expected:
-        raise SystemExit(
-            "controller state target_files does not match its canonical C/case topology"
-        )
-    for field in (
-        "c_file",
-        "formal_directory",
-        "formal_case_lib",
-        *GENERATED_KEYS,
-    ):
-        try:
-            fixed_path_under(
-                main_root / target_files[field],
-                main_root,
-                label=f"controller state target_files {field}",
-            )
-        except SystemExit as exc:
-            raise SystemExit(
-                f"controller state target_files {field} is not lexically confined: {exc}"
-            ) from exc
-
-
-def _target_topology_payload(state: dict[str, Any]) -> dict[str, Any]:
-    return {
-        "run_id": state["run_id"],
-        "case": state["case"],
-        "formal_case_lib_policy": state["formal_case_lib_policy"],
-        "target_files": state["target_files"],
-    }
-
-
-def _write_target_topology_anchor(
-    *,
-    main_root: Path,
-    report_root: Path,
-    state: dict[str, Any],
-) -> None:
-    """Create the run's immutable identity anchor exactly once."""
-
-    anchor = fixed_path_under(
-        report_root / TARGET_TOPOLOGY_FILE_NAME,
-        main_root,
-        label="controller target topology anchor",
-    )
-    payload = (
-        json.dumps(
-            _target_topology_payload(state),
-            indent=2,
-            ensure_ascii=True,
-            sort_keys=True,
-        )
-        + "\n"
-    ).encode("utf-8")
-    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
-    for name in ("O_BINARY", "O_CLOEXEC", "O_NOFOLLOW"):
-        flags |= int(getattr(os, name, 0) or 0)
-    try:
-        descriptor = os.open(anchor, flags, 0o600)
-    except FileExistsError as exc:
-        raise SystemExit(
-            f"controller target topology anchor already exists: {anchor}"
-        ) from exc
-    try:
-        offset = 0
-        while offset < len(payload):
-            offset += os.write(descriptor, payload[offset:])
-        os.fsync(descriptor)
-    finally:
-        os.close(descriptor)
-
-
-def _validated_target_topology_anchor(
-    *,
-    report_root: Path,
-    state: dict[str, Any],
-) -> None:
-    """Require the fixed non-link anchor to match the loaded state exactly."""
-
-    snapshot = _lexical_regular_file_snapshot(
-        root=report_root,
-        relative=TARGET_TOPOLOGY_FILE_NAME,
-        label="controller target topology anchor",
-    )
-    if snapshot.get("state") != "present":
-        detail = str(snapshot.get("message") or snapshot.get("state") or "invalid")
-        raise SystemExit(
-            "controller target topology anchor is missing or invalid: " + detail
-        )
-
-    def strict_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
-        result: dict[str, Any] = {}
-        for key, value in pairs:
-            if key in result:
-                raise ValueError(f"duplicate JSON field: {key}")
-            result[key] = value
-        return result
-
-    try:
-        anchor = json.loads(
-            bytes(snapshot["data"]).decode("utf-8"),
-            object_pairs_hook=strict_object,
-        )
-    except (UnicodeDecodeError, ValueError, TypeError) as exc:
-        raise SystemExit(
-            f"controller target topology anchor is not strict JSON: {exc}"
-        ) from exc
-    if not isinstance(anchor, dict) or anchor != _target_topology_payload(state):
-        raise SystemExit(
-            "controller target topology anchor does not match controller state"
-        )
-
-
-def _load_state(run_root: Path) -> dict[str, Any]:
-    main_root = main_root_from_run_root(run_root)
-    path = fixed_path_under(
-        controller_state_path(run_root),
-        main_root,
-        label="controller state",
-    )
-    state = _json_load(path)
-    if not isinstance(state, dict):
-        raise SystemExit(f"controller state is missing or invalid: {path}")
-    if (
-        CONTROLLER_STATE_REQUIRED_FIELDS - set(state)
-        or set(state)
-        - CONTROLLER_STATE_REQUIRED_FIELDS
-        - CONTROLLER_STATE_OPTIONAL_FIELDS
-    ):
-        raise SystemExit("controller state contains unsupported or missing fields")
-    fixed_run_root = fixed_path_under(run_root, main_root, label="run root")
-    recorded_run_root = fixed_path_under(
-        Path(str(state.get("run_root", ""))),
-        main_root,
-        label="controller state run_root",
-    )
-    if recorded_run_root != fixed_run_root:
-        raise SystemExit(
-            "controller state run_root does not match its fixed run directory"
-        )
-    recorded_main_root = fixed_path_under(
-        Path(str(state.get("main_root", ""))),
-        main_root.parent,
-        label="controller state main_root",
-    )
-    if recorded_main_root != main_root:
-        raise SystemExit(
-            "controller state main_root does not own its fixed run directory"
-        )
-    expected_report_root = reports_root(fixed_run_root)
-    recorded_report_root = fixed_path_under(
-        Path(str(state.get("report_root", ""))),
-        main_root,
-        label="controller state report_root",
-    )
-    if recorded_report_root != expected_report_root:
-        raise SystemExit(
-            "controller state report_root does not match its fixed report directory"
-        )
-    if not isinstance(state.get("generation"), int) or int(state["generation"]) < 1:
-        raise SystemExit("controller state generation is missing or invalid")
-    if state.get("formal_case_lib_policy") not in {"present", "create", "absent"}:
-        raise SystemExit("controller state formal_case_lib_policy is invalid")
-    # Imported lazily to keep the durable state primitives independent from
-    # the public pause/resume services that themselves load and save state.
-    from controller_control import run_control_errors
-
-    control_errors = run_control_errors(state.get("run_control"))
-    if control_errors:
-        raise SystemExit(
-            "controller state run_control record is invalid: " + control_errors[0]
-        )
-    try:
-        symexec_profile_for_state(state)
-    except ValueError as exc:
-        raise SystemExit(f"controller state symexec_profile is invalid: {exc}") from exc
-    _validate_target_files_topology(state, main_root=main_root)
-    run_id = state.get("run_id")
-    case_name = str(state["case"])
-    expected_run_id = rf"{re.escape(slug(case_name))}-\d{{14}}(?:-\d{{2}})?"
-    if (
-        not isinstance(run_id, str)
-        or run_id != fixed_run_root.name
-        or re.fullmatch(expected_run_id, run_id) is None
-    ):
-        raise SystemExit(
-            "controller state run_id does not match its case and fixed run directory"
-        )
-    _validated_target_topology_anchor(
-        report_root=expected_report_root,
-        state=state,
-    )
-    try:
-        _validate_controller_attempt_topologies(state)
-    except (OSError, ValueError) as exc:
-        raise SystemExit(
-            f"controller state attempt path topology is invalid: {exc}"
-        ) from exc
-    _register_loaded_state(state)
-    return state
-
-
-def _append_log(run_root: Path, record: dict[str, Any]) -> None:
-    path = fixed_path_under(
-        run_logs_path(run_root),
-        main_root_from_run_root(run_root),
-        label="controller run log",
-    )
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("a", encoding="utf-8") as handle:
-        handle.write(json.dumps(record, sort_keys=True, ensure_ascii=True) + "\n")
-        handle.flush()
-        os.fsync(handle.fileno())
-
-
-def _append_event(
-    run_root: Path, state: dict[str, Any], event: str, **details: Any
-) -> None:
-    del run_root
-    _PENDING_EVENTS.setdefault(id(state), []).append(
-        {
-            "at": _utc(),
-            "event": event,
-            "phase": state.get("phase"),
-            "details": details,
-        }
-    )
-
-
-def _save_state(run_root: Path, state: dict[str, Any]) -> None:
-    """Commit one state mutation with generation-CAS and post-commit event logging."""
-
-    root = fixed_path_under(
-        run_root,
-        main_root_from_run_root(run_root),
-        label="run root",
-    )
-    with _state_transaction(root):
-        try:
-            path = controller_state_path(root)
-            current = _json_load(path)
-            candidate_metadata = _STATE_METADATA.get(id(state))
-            metadata = (
-                candidate_metadata
-                if isinstance(candidate_metadata, dict)
-                and candidate_metadata.get("state") is state
-                else None
-            )
-            if isinstance(current, dict):
-                if (
-                    set(current) - CONTROLLER_STATE_OPTIONAL_FIELDS
-                    != set(state) - CONTROLLER_STATE_OPTIONAL_FIELDS
-                ):
-                    raise SystemExit(
-                        "controller state fields changed before generation CAS"
-                    )
-                current_generation = int(current.get("generation", 0))
-                expected_generation = (
-                    int(metadata["generation"])
-                    if isinstance(metadata, dict)
-                    else int(state.get("generation", 0))
-                )
-                if current_generation != expected_generation:
-                    base_digest = (
-                        str(metadata.get("content_digest") or "")
-                        if isinstance(metadata, dict)
-                        else ""
-                    )
-                    if (
-                        not base_digest
-                        or _state_content_digest(current) != base_digest
-                    ):
-                        raise SystemExit(
-                            "controller state changed during this command; refusing a stale whole-state write"
-                        )
-                state["generation"] = current_generation + 1
-            else:
-                state["generation"] = max(1, int(state.get("generation", 0)) + 1)
-            try:
-                _validate_controller_attempt_topologies(state)
-            except (OSError, ValueError) as exc:
-                raise SystemExit(
-                    f"refusing to persist invalid attempt path topology: {exc}"
-                ) from exc
-            state["updated_at"] = _utc()
-            write_json(path, state)
-        except BaseException:
-            _PENDING_EVENTS.pop(id(state), None)
-            raise
-        for record in _PENDING_EVENTS.pop(id(state), []):
-            _append_log(root, record)
-        _register_loaded_state(state)
-        _write_timing_summary(state)
-
-
-def _mutate_state[MutationResult](
-    run_root: Path,
-    mutation: Callable[[dict[str, Any]], MutationResult],
-) -> MutationResult:
-    """Load and commit one small run-scoped mutation."""
-
-    root = run_root.expanduser().resolve()
-    with _state_transaction(root):
-        state = _load_state(root)
-        result = mutation(state)
-        _save_state(root, state)
-        return result
-
-
-def _record_attempt_elapsed(
-    run_root: Path,
-    *,
-    attempt_id: str,
-    stage: str,
-    elapsed_seconds: float,
-) -> None:
-    """Append timing to a freshly loaded attempt instead of saving a stale check snapshot."""
-
-    def record(state: dict[str, Any]) -> None:
-        attempt = state.get("attempts", {}).get(attempt_id)
-        if isinstance(attempt, dict):
-            _record_elapsed_stage(attempt, stage, elapsed_seconds)
-
-    _mutate_state(run_root, record)
-
+def _archive_annotation_stage(state: dict, attempt: dict, stage: str) -> None:
+    if stage not in {"before", "after"}:
+        raise ValueError("unknown annotation history stage")
+    destination = attempt_paths(state, attempt)[stage]
+    if destination.exists():
+        shutil.rmtree(destination)
+    destination.mkdir(parents=True)
+    for role in ("c_file", "formal_case_lib", *GENERATED_KEYS):
+        relative = state["target_files"][role]
+        snapshot = _lexical_regular_file_snapshot(root=Path(state["main_root"]), relative=relative, label=role)
+        if snapshot["state"] == "missing":
+            continue
+        if snapshot["state"] != "present":
+            raise ValueError(snapshot.get("message", f"unreadable {role}"))
+        write_bytes(fixed_path_under(destination / relative, destination, label="history copy"), snapshot["data"])
 
 def _timing_path(report_root: Path) -> Path:
     return report_root / "timing_summary.json"
-
 
 def _record_timing_interval(
     attempt: dict[str, Any],
@@ -1472,7 +553,6 @@ def _record_timing_interval(
     attempt.setdefault("timing", {}).setdefault(stage, []).append(interval)
     return interval
 
-
 def _record_elapsed_stage(
     attempt: dict[str, Any], stage: str, elapsed_seconds: float
 ) -> None:
@@ -1487,7 +567,6 @@ def _record_elapsed_stage(
         finished_at=finished.isoformat(timespec="microseconds").replace("+00:00", "Z"),
         elapsed_seconds=elapsed_seconds,
     )
-
 
 def _aggregate_stage(
     name: str, intervals: list[dict[str, Any]]
@@ -1513,7 +592,6 @@ def _aggregate_stage(
         )
     return stage
 
-
 def _lifecycle_stage(
     name: str, started_at: str | None, finished_at: str | None
 ) -> dict[str, Any] | None:
@@ -1525,664 +603,80 @@ def _lifecycle_stage(
         stage["elapsed_seconds"] = _elapsed_between(started_at, finished_at)
     return stage
 
-
-def _same_tool_retry_count(
-    records: list[Any],
-    *,
-    identity_fields: tuple[str, ...],
-    require_tool_category: bool,
-) -> int:
-    retries = 0
-    previous: tuple[str, ...] | None = None
-    for item in records:
-        if not isinstance(item, dict) or (
-            require_tool_category and item.get("failure_category") != "tool"
-        ):
-            previous = None
-            continue
-        identity = tuple(str(item.get(field) or "") for field in identity_fields)
-        if not all(identity):
-            previous = None
-            continue
-        if identity == previous:
-            retries += 1
-        previous = identity
-    return retries
-
-
-def _timing_entry(attempt: dict[str, Any]) -> dict[str, Any]:
-    phase = str(attempt.get("phase") or "")
-    if phase == "annotation":
-        identifier = f"annotation-attempt{int(attempt.get('annotation_iteration', 0))}"
-        entry: dict[str, Any] = {"attempt": identifier, "round": attempt["round"]}
-        lifecycle_name = "annotation-work"
-        entry["activity"] = str(
-            attempt.get("annotation_activity") or "unclassified"
-        )
-        invocations = attempt.get("owner_symexec_invocations")
-        invocation_records = invocations if isinstance(invocations, list) else []
-        tool_failures = [
-            item
-            for item in invocation_records
-            if isinstance(item, dict) and item.get("failure_category") == "tool"
-        ]
-        entry["owner_generation_invocations"] = len(invocation_records)
-        entry["tool_failure_invocations"] = len(tool_failures)
-        entry["same_attempt_tool_retries"] = _same_tool_retry_count(
-            invocation_records,
-            identity_fields=("failure_kind", "formal_input_digest"),
-            require_tool_category=True,
-        )
-        entry["controller_acceptance_runs"] = len(
-            (attempt.get("timing") or {}).get("controller-acceptance-check", [])
-        )
-        controller_tool_invocations = attempt.get("controller_tool_invocations")
-        controller_tool_records = (
-            controller_tool_invocations
-            if isinstance(controller_tool_invocations, list)
-            else []
-        )
-        entry["controller_tool_failure_invocations"] = len(
-            controller_tool_records
-        )
-        entry["same_attempt_controller_tool_retries"] = _same_tool_retry_count(
-            controller_tool_records,
-            identity_fields=("stage", "kind", "formal_input_digest"),
-            require_tool_category=False,
-        )
-    else:
-        entry = {
-            "round": attempt["round"],
-            "phase": "vc-proving" if phase == "vc-proving-preparing" else phase,
-        }
-        lifecycle_name = "witness-analysis" if phase == "vc-checking" else "group-work"
-    entry["status"] = attempt.get("status")
-    created_at = str(attempt.get("created_at") or "")
-    finished_at = str(attempt.get("finished_at") or "")
-    if created_at:
-        entry["created_at"] = created_at
-    if finished_at:
-        entry["finished_at"] = finished_at
-        entry["elapsed_seconds"] = _elapsed_between(created_at, finished_at)
-
-    stages: list[dict[str, Any]] = []
-    if phase in {"annotation", "vc-checking"}:
-        lifecycle = _lifecycle_stage(
-            lifecycle_name,
-            str(attempt.get("started_at") or "") or None,
-            str(attempt.get("returned_at") or "") or None,
-        )
-    else:
-        group_intervals = (attempt.get("timing") or {}).get("group-work", [])
-        if group_intervals:
-            starts = [
-                str(item["started_at"])
-                for item in group_intervals
-                if item.get("started_at")
-            ]
-            ends = [
-                str(item["finished_at"])
-                for item in group_intervals
-                if item.get("finished_at")
-            ]
-        else:
-            groups = list((attempt.get("groups") or {}).values())
-            starts = [
-                str(group["started_at"]) for group in groups if group.get("started_at")
-            ]
-            ends = [
-                str(group["returned_at"])
-                for group in groups
-                if group.get("returned_at")
-            ]
-        lifecycle = _lifecycle_stage(
-            lifecycle_name,
-            min(starts, key=_parse_utc) if starts else None,
-            max(ends, key=_parse_utc) if starts and len(ends) == len(starts) else None,
-        )
-    if lifecycle is not None:
-        stages.append(lifecycle)
-
-    stage_order = {
-        "annotation": (
-            "formal-case-lib-design-coq-check",
-            "owner-generation",
-            "controller-main-refresh",
-            "clean-replay",
-            # Legacy runs recorded both owner and main generation as symexec.
-            "symexec",
-            "formal-case-lib-coq-check",
-            "clean-output-freshness",
-            "controller-validation",
-            "controller-acceptance-check",
-            "dune-build",
-        ),
-        "vc-checking": ("controller-validation", "controller-plan-check"),
-        "vc-proving-preparing": (
-            "preparing",
-            "group-development-check",
-            "group-coq-check",
-            "group-validation",
-            "parent-verify",
-        ),
-    }
-    timing = attempt.get("timing") if isinstance(attempt.get("timing"), dict) else {}
-    for name in stage_order.get(phase, ()):
-        aggregate = _aggregate_stage(name, timing.get(name, []))
-        if aggregate is not None:
-            stages.append(aggregate)
+def _timing_entry(attempt: dict[str, Any], measurements: dict[str, list]) -> dict[str, Any]:
+    entry = {key: attempt[key] for key in ("attempt_id", "phase", "status")}
+    lifecycle = _lifecycle_stage("owner-work", attempt.get("started_at"), attempt.get("returned_at"))
+    stages = []
+    # Keep recorded intervals as data. Do not infer repair categories or retry identities.
+    timing = {name: list(intervals) for name, intervals in attempt.get("timing", {}).items()}
+    if lifecycle:
+        timing.setdefault("owner-work", []).append(lifecycle)
+    for group in attempt.get("groups", {}).values():
+        timing.setdefault("group-work", []).extend(group.get("timing", {}).get("owner-work", []))
+        if group.get("started_at"):
+            timing["group-work"].append({"started_at": group["started_at"]})
+    for name, intervals in measurements.items():
+        timing.setdefault(name, []).extend(intervals)
+    for name, intervals in sorted(timing.items()):
+        stage = _aggregate_stage(name, intervals)
+        if stage is not None:
+            stages.append(stage)
     entry["stages"] = stages
     return entry
 
-
 def _write_timing_summary(state: dict[str, Any]) -> None:
-    attempts = list(state.get("attempts", {}).values())
-    annotation = sorted(
-        (_timing_entry(item) for item in attempts if item.get("phase") == "annotation"),
-        key=lambda item: int(str(item["attempt"]).removeprefix("annotation-attempt")),
-    )
-    rounds = [
-        _timing_entry(item)
-        for item in attempts
-        if item.get("phase") in {"vc-checking", "vc-proving-preparing"}
-    ]
-    rounds.sort(key=lambda item: str(item["created_at"]))
-    annotation_attempt_records = [
-        item
-        for item in attempts
-        if isinstance(item, dict) and item.get("phase") == "annotation"
-    ]
-
-    def stage_seconds(attempt: dict[str, Any], stage: str) -> float:
-        timing = attempt.get("timing")
-        intervals = timing.get(stage, []) if isinstance(timing, dict) else []
-        return sum(
-            float(item.get("elapsed_seconds", 0.0))
-            for item in intervals
-            if isinstance(item, dict)
-        )
-
-    invocation_records = [
-        invocation
-        for attempt in annotation_attempt_records
-        for invocation in (
-            attempt.get("owner_symexec_invocations")
-            if isinstance(attempt.get("owner_symexec_invocations"), list)
-            else []
-        )
-        if isinstance(invocation, dict)
-    ]
-    controller_tool_records = [
-        invocation
-        for attempt in annotation_attempt_records
-        for invocation in (
-            attempt.get("controller_tool_invocations")
-            if isinstance(attempt.get("controller_tool_invocations"), list)
-            else []
-        )
-        if isinstance(invocation, dict)
-    ]
-    annotation_metrics = {
-        "attempt_count": len(annotation_attempt_records),
-        "annotation_repair_count": sum(
-            item.get("annotation_activity") == "annotation-repair"
-            for item in annotation_attempt_records
-        ),
-        "validation_only_attempt_count": sum(
-            item.get("annotation_activity") == "validation-only"
-            for item in annotation_attempt_records
-        ),
-        "owner_generation_invocation_count": len(invocation_records),
-        "tool_failure_invocation_count": sum(
-            item.get("failure_category") == "tool" for item in invocation_records
-        ),
-        "controller_tool_failure_invocation_count": len(
-            controller_tool_records
-        ),
-        "same_attempt_tool_retry_count": sum(
-            _same_tool_retry_count(
-                (
-                    item.get("owner_symexec_invocations")
-                    if isinstance(item.get("owner_symexec_invocations"), list)
-                    else []
-                ),
-                identity_fields=("failure_kind", "formal_input_digest"),
-                require_tool_category=True,
-            )
-            for item in annotation_attempt_records
-        ),
-        "same_attempt_controller_tool_retry_count": sum(
-            _same_tool_retry_count(
-                (
-                    item.get("controller_tool_invocations")
-                    if isinstance(item.get("controller_tool_invocations"), list)
-                    else []
-                ),
-                identity_fields=("stage", "kind", "formal_input_digest"),
-                require_tool_category=False,
-            )
-            for item in annotation_attempt_records
-        ),
-        "controller_acceptance_run_count": sum(
-            len((item.get("timing") or {}).get("controller-acceptance-check", []))
-            for item in annotation_attempt_records
-        ),
-        "controller_acceptance_rerun_count": sum(
-            max(
-                0,
-                len(
-                    (item.get("timing") or {}).get(
-                        "controller-acceptance-check", []
-                    )
-                )
-                - 1,
-            )
-            for item in annotation_attempt_records
-        ),
-        "owner_generation_seconds": round(
-            sum(stage_seconds(item, "owner-generation") for item in annotation_attempt_records),
-            6,
-        ),
-        "controller_main_refresh_seconds": round(
-            sum(
-                stage_seconds(item, "controller-main-refresh")
-                for item in annotation_attempt_records
-            ),
-            6,
-        ),
-        "clean_replay_seconds": round(
-            sum(stage_seconds(item, "clean-replay") for item in annotation_attempt_records),
-            6,
-        ),
-        "wasted_timeout_seconds": round(
-            sum(
-                float(item.get("elapsed_seconds") or 0.0)
-                for item in invocation_records
-                if item.get("failure_category") == "tool"
-                and item.get("failure_kind") == "timeout"
-            ),
-            6,
-        ),
-        "legacy_unclassified_symexec_seconds": round(
-            sum(stage_seconds(item, "symexec") for item in annotation_attempt_records),
-            6,
-        ),
-    }
-    created_at = str(state.get("created_at") or "")
-    finished_at = str(state.get("finished_at") or "")
-    run: dict[str, Any] = {
-        "status": (
-            "completed"
-            if state.get("phase") == "done"
-            else "paused"
-            if isinstance(state.get("run_control"), dict)
-            and state["run_control"].get("status") == "paused"
-            else "running"
-        ),
-        "phase": str(state.get("phase") or ""),
-    }
-    if created_at:
-        run["created_at"] = created_at
-    if created_at and finished_at:
-        run["finished_at"] = finished_at
-        run["elapsed_seconds"] = _elapsed_between(created_at, finished_at)
-
-    proving_finishes = [
-        str(item.get("finished_at"))
-        for item in attempts
-        if item.get("phase") == "vc-proving-preparing"
-        and item.get("status") == "verified"
-        and item.get("finished_at")
-    ]
-    final_apply = (
-        state.get("final_apply") if isinstance(state.get("final_apply"), dict) else {}
-    )
-    final_check = (
-        state.get("final_check") if isinstance(state.get("final_check"), dict) else {}
-    )
-    finalization: dict[str, Any] = {
-        "status": str(
-            final_check.get("status") or final_apply.get("status") or "pending"
-        )
-    }
-    final_started = max(proving_finishes, key=_parse_utc) if proving_finishes else ""
-    final_finished = str(final_check.get("checked_at") or "")
-    if final_started:
-        finalization["started_at"] = final_started
-    if final_apply.get("applied_at"):
-        finalization["applied_at"] = str(final_apply["applied_at"])
-    if final_started and final_finished:
-        finalization["finished_at"] = final_finished
-        finalization["elapsed_seconds"] = _elapsed_between(
-            final_started, final_finished
-        )
-    write_json(
-        _timing_path(Path(str(state["report_root"]))),
-        {
-            "run": run,
-            "annotation_metrics": annotation_metrics,
-            "annotation_attempts": annotation,
-            "rounds": rounds,
-            "finalization": finalization,
-        },
-    )
-
-
-def _record_timing(
-    run_root: Path,
-    command: str,
-    *,
-    started_at: str,
-    elapsed_seconds: float,
-    round_id: str | None = None,
-    attempt_id: str | None = None,
-) -> None:
-    # Timing starts from freshly loaded state after the command so it cannot
-    # write back a pre-check snapshot.
-    with _state_transaction(run_root):
-        state = _load_state(run_root)
-        attempt: dict[str, Any] | None = None
-        stage: str | None = None
-        if command in {
-            "annotation-check-round",
-            "vc-checking-check-round",
-            "vc-proving-preparing",
-            "vc-proving-verify",
-        }:
-            round_state = state.get("rounds", {}).get(str(round_id), {})
-            attempt = state.get("attempts", {}).get(
-                str(round_state.get("current_attempt"))
-            )
-            stage = {
-                "annotation-check-round": "controller-acceptance-check",
-                "vc-checking-check-round": "controller-plan-check",
-                "vc-proving-preparing": "preparing",
-                "vc-proving-verify": "parent-verify",
-            }[command]
-        elif command == "dune-build":
-            accepted_annotation = state.get("accepted_rounds", {}).get(
-                "annotation", {}
-            )
-            attempt = state.get("attempts", {}).get(
-                str(accepted_annotation.get("attempt_id") or "")
-            )
-            stage = "dune-build"
-        elif command == "finalize-delivery" and attempt_id:
-            if ":" in attempt_id:
-                proving_round, _group = attempt_id.split(":", 1)
-                attempt = state.get("attempts", {}).get(proving_round)
-                stage = "group-validation"
-            else:
-                attempt = state.get("attempts", {}).get(attempt_id)
-                stage = "controller-validation"
-        if not isinstance(attempt, dict) or not stage:
-            return
-        finished_at = _utc()
-        _record_timing_interval(
-            attempt,
-            stage,
-            started_at=started_at,
-            finished_at=finished_at,
-            elapsed_seconds=elapsed_seconds,
-        )
-        if attempt.get("status") in {
-            "accepted",
-            "blocked",
-            "stale",
-            "superseded",
-            "invalid-report",
-            "main-check-failed",
-            "parent-verify-failed",
-            "verified",
-        }:
-            attempt["finished_at"] = finished_at
-        _save_state(run_root, state)
-
-
-def _snapshot_files(state: dict[str, Any], destination: Path) -> None:
-    main_root = Path(str(state["main_root"]))
-    run_root = Path(str(state["run_root"]))
-    try:
-        destination = fixed_path_under(
-            destination,
-            run_root,
-            label="annotation history snapshot destination",
-        )
-    except (SystemExit, ValueError) as exc:
-        raise SystemExit(str(exc)) from exc
-    if os.path.lexists(destination) and not destination.is_dir():
-        raise SystemExit(
-            f"annotation history snapshot destination is not a fixed directory: {destination}"
-        )
-    destination.mkdir(parents=True, exist_ok=True)
-    for key in ("c_file", "formal_case_lib", *GENERATED_KEYS):
-        relative = str(state["target_files"][key])
-        snapshot = _lexical_regular_file_snapshot(
-            root=main_root,
-            relative=relative,
-            label=f"annotation snapshot source {key}",
-        )
-        if snapshot.get("state") == "missing":
+    """Summarize recorded durations without mutating business state."""
+    log_path = run_logs_path(Path(state["run_root"]))
+    log_text = _snapshot_text(_lexical_regular_file_snapshot(
+        root=Path(state["report_root"]), relative=log_path.name, label="timing input log"
+    ), label="timing input log")
+    measurements: dict[str, dict[str, list]] = {}
+    commands: dict[tuple[str, str], dict[str, Any]] = {}
+    for line in log_text.splitlines():
+        event = json.loads(line)
+        if event.get("event") != "command-timing":
             continue
-        if snapshot.get("state") != "present" or not isinstance(
-            snapshot.get("data"), bytes
-        ):
-            detail = str(snapshot.get("message") or "invalid source topology")
-            raise SystemExit(
-                f"annotation snapshot source is not a readable non-link regular file: "
-                f"{relative}: {detail}"
-            )
-        try:
-            target = fixed_path_under(
-                destination / relative,
-                destination,
-                label=f"annotation history snapshot target {key}",
-            )
-        except SystemExit as exc:
-            raise SystemExit(str(exc)) from exc
-        if os.path.lexists(target):
-            raise SystemExit(
-                f"annotation history snapshot target already exists: {relative}"
-            )
-        target.parent.mkdir(parents=True, exist_ok=True)
-        try:
-            fixed_path_under(
-                target.parent,
-                destination,
-                label=f"annotation history snapshot target parent {key}",
-            )
-        except SystemExit as exc:
-            raise SystemExit(str(exc)) from exc
-        target.write_bytes(snapshot["data"])
-
-
-def _annotation_snapshot_relatives(state: dict[str, Any]) -> list[str]:
-    return [
-        str(state["target_files"][key])
-        for key in ("c_file", "formal_case_lib", *GENERATED_KEYS)
+        record = event["details"]
+        key = (event["phase"], record["command"])
+        command = commands.setdefault(key, {"phase": key[0], "command": key[1], "calls": 0, "elapsed_seconds": 0.0})
+        command["calls"] += 1
+        command["elapsed_seconds"] = round(command["elapsed_seconds"] + record["elapsed_seconds"], 6)
+        if record.get("attempt_id") and record.get("stage"):
+            measurements.setdefault(record["attempt_id"], {}).setdefault(record["stage"], []).append({
+                "started_at": record["started_at"], "finished_at": event["at"],
+                "elapsed_seconds": record["elapsed_seconds"],
+            })
+    entries = [
+        _timing_entry(attempt, measurements.get(identifier, {}))
+        for identifier, attempt in state["attempts"].items()
     ]
-
-
-def _annotation_snapshot_record(
-    state: dict[str, Any], snapshot_root: Path
-) -> dict[str, Any]:
-    try:
-        root = fixed_path_under(
-            snapshot_root,
-            Path(str(state["run_root"])),
-            label="annotation history snapshot root",
-        )
-    except SystemExit as exc:
-        raise ValueError(str(exc)) from exc
-    if not os.path.lexists(root) or not root.is_dir():
-        raise ValueError(
-            f"annotation history snapshot is missing or not a fixed directory: {root}"
-        )
-    records: list[dict[str, Any]] = []
-    for relative in _annotation_snapshot_relatives(state):
-        snapshot = _lexical_regular_file_snapshot(
-            root=root,
-            relative=relative,
-            label="annotation history snapshot artifact",
-        )
-        artifact_state = snapshot.get("state")
-        if artifact_state not in {"present", "missing"}:
-            detail = str(snapshot.get("message") or "invalid snapshot topology")
-            raise ValueError(
-                "annotation history snapshot path is not a readable non-link "
-                f"regular file: {relative}: {detail}"
-            )
-        present = artifact_state == "present"
-        records.append(
-            {
-                "relative_path": relative,
-                "state": "present" if present else "missing",
-                "sha256": str(snapshot["sha256"]) if present else None,
-            }
-        )
-    return {
-        "digest": sha256_text(
-            json.dumps(records, sort_keys=True, separators=(",", ":"))
-        ),
-        "file_count": sum(record["state"] == "present" for record in records),
-        "missing_count": sum(record["state"] == "missing" for record in records),
+    paused = (state.get("run_control") or {}).get("status") == "paused"
+    run = {
+        "status": "completed" if state["phase"] == "done" else "paused" if paused else "running",
+        "phase": state["phase"], "created_at": state["created_at"],
     }
+    if state.get("finished_at"):
+        run.update(finished_at=state["finished_at"],
+                   elapsed_seconds=_elapsed_between(state["created_at"], state["finished_at"]))
+    write_json(_timing_path(Path(state["report_root"])), {
+        "run": run,
+        "commands": list(commands.values()),
+        "annotation_attempts": [entry for entry in entries if entry["phase"] == "annotation"],
+        "rounds": [entry for entry in entries if entry["phase"] != "annotation"],
+    })
 
-
-def _snapshot_digests(root: Path, relatives: list[str]) -> dict[str, str | None]:
-    result: dict[str, str | None] = {}
-    for relative in relatives:
-        snapshot = _lexical_regular_file_snapshot(
-            root=root,
-            relative=relative,
-            label="snapshot file",
-        )
-        artifact_state = snapshot.get("state")
-        if artifact_state == "missing":
-            result[relative] = None
-        elif artifact_state == "present":
-            result[relative] = str(snapshot["sha256"])
-        else:
-            raise ValueError(
-                str(snapshot.get("message") or f"invalid snapshot file: {relative}")
-            )
-    return result
-
-
-def _archive_annotation_stage(
-    state: dict[str, Any],
-    attempt: dict[str, Any],
-    stage: str,
-    *,
-    initializing: bool = False,
-) -> dict[str, Any]:
-    try:
-        attempt_paths = _validated_annotation_attempt_paths(
-            state,
-            attempt,
-            allow_missing_history=True,
-            allow_unregistered_attempt=initializing,
-        )
-        history = attempt_paths["history"]
-        destination = fixed_path_under(
-            history / stage,
-            history,
-            label="annotation history stage",
-        )
-    except (SystemExit, ValueError) as exc:
-        raise SystemExit(str(exc)) from exc
-    if os.path.lexists(destination):
-        if not destination.is_dir():
-            raise SystemExit(
-                f"annotation history stage is not a fixed directory: {destination}"
-            )
-        shutil.rmtree(destination)
-    _snapshot_files(state, destination)
-    try:
-        return _annotation_snapshot_record(state, destination)
-    except (OSError, ValueError) as exc:
-        raise SystemExit(f"failed to seal annotation history {stage}: {exc}") from exc
-
-
-def _annotation_before_snapshot_errors(
-    state: dict[str, Any], attempt: dict[str, Any]
-) -> list[str]:
-    expected = attempt.get("before_snapshot")
-    if not isinstance(expected, dict):
-        return ["annotation attempt has no sealed before-history snapshot"]
-    try:
-        attempt_paths = _validated_annotation_attempt_paths(state, attempt)
-        before = attempt_paths["before"]
-        current = _annotation_snapshot_record(state, before)
-    except (OSError, ValueError) as exc:
-        return [str(exc)]
-    if current != expected:
-        return ["annotation before-history snapshot changed after attempt creation"]
-    return []
-
-
-def _annotation_after_snapshot_errors(
-    state: dict[str, Any], attempt: dict[str, Any]
-) -> list[str]:
-    """Revalidate the immutable post-delivery annotation history seal."""
-
-    expected = attempt.get("after_snapshot")
-    if not isinstance(expected, dict):
-        # The archived bytes are evidence only when finalize-delivery recorded
-        # their digest.  Hashing an unsealed directory on first read would turn
-        # its current, possibly modified contents into trusted provenance.
-        return ["annotation attempt has no sealed after-history snapshot"]
-    try:
-        attempt_paths = _validated_annotation_attempt_paths(state, attempt)
-        after = attempt_paths["after"]
-        current = _annotation_snapshot_record(state, after)
-    except (OSError, ValueError) as exc:
-        return [str(exc)]
-    if current != expected:
-        return ["annotation after-history snapshot changed after finalize-delivery"]
-    return []
-
-
-def _annotation_changed_files(
-    state: dict[str, Any], attempt: dict[str, Any]
-) -> list[str]:
-    relatives = [
-        str(state["target_files"][key])
-        for key in ("c_file", "formal_case_lib", *GENERATED_KEYS)
-    ]
-    try:
-        history = _validated_annotation_attempt_paths(state, attempt)["history"]
-        before = _snapshot_digests(history / "before", relatives)
-        after = _snapshot_digests(history / "after", relatives)
-    except (OSError, ValueError):
-        return relatives
-    return [relative for relative in relatives if before[relative] != after[relative]]
-
-
-def _annotation_current_changed_files(
-    state: dict[str, Any], attempt: dict[str, Any]
-) -> list[str]:
-    """Compare the archived before image with current root before sealing delivery."""
-
-    main_root = Path(str(state["main_root"]))
-    relatives = [
-        str(state["target_files"][key])
-        for key in ("c_file", "formal_case_lib", *GENERATED_KEYS)
-    ]
-    try:
-        history = _validated_annotation_attempt_paths(state, attempt)["history"]
-        before = _snapshot_digests(history / "before", relatives)
-        current = _snapshot_digests(main_root, relatives)
-    except (OSError, ValueError):
-        return relatives
-    return [relative for relative in relatives if before[relative] != current[relative]]
-
-
-FORMAL_CASE_LIB_SEED = """From Coq Require Import ZArith List.
-Import ListNotations.
-Local Open Scope Z_scope.
-"""
-
+def _record_timing(run_root: Path, command: str, *, started_at: str, elapsed_seconds: float,
+                   round_id: str | None = None, attempt_id: str | None = None,
+                   exit_code: int | None = None) -> None:
+    state = _load_state(run_root)
+    identifier = (attempt_id or round_id or "").split(":", 1)[0]
+    task = state["attempts"].get(identifier)
+    _append_log(run_root, {
+        "at": _utc(), "phase": task["phase"] if task else state["phase"], "event": "command-timing",
+        "details": {"command": command, "attempt_id": identifier or None, "stage": command,
+                    "started_at": started_at, "elapsed_seconds": elapsed_seconds, "exit_code": exit_code},
+    })
+    _write_timing_summary(state)
 
 def _resolve_formal_case_lib_policy(
     args: argparse.Namespace, *, formal_case_lib: Path
@@ -2209,7 +703,6 @@ def _resolve_formal_case_lib_policy(
         )
     return policy
 
-
 def _create_formal_case_lib_seed(path: Path) -> None:
     """Create the canonical editable seed exactly once without following links."""
 
@@ -2230,7 +723,6 @@ def _create_formal_case_lib_seed(path: Path) -> None:
     finally:
         os.close(descriptor)
 
-
 def init_run(args: argparse.Namespace) -> int:
     main_root = (
         Path(args.main_root).expanduser().resolve()
@@ -2242,8 +734,6 @@ def init_run(args: argparse.Namespace) -> int:
         and re.fullmatch(r"\d{14}", str(args.timestamp)) is None
     ):
         raise SystemExit("--timestamp must contain exactly 14 digits (YYYYMMDDhhmmss)")
-    if args.max_compact_attempts < 1:
-        raise SystemExit("--max-compact-attempts must be positive")
     if args.max_witnesses_per_group < 1:
         raise SystemExit("--max-witnesses-per-group must be positive")
     if args.max_parallel_group_workers < 1:
@@ -2257,17 +747,17 @@ def init_run(args: argparse.Namespace) -> int:
     target = Path(args.target_c_file).expanduser()
     if not target.is_absolute():
         target = main_root / target
-    target = target.resolve()
+    target = fixed_path_under(target, main_root, label="target C file")
     qcp_examples_root = main_root / "QCP_examples"
     if (
         qcp_examples_root.resolve() != qcp_examples_root.absolute()
         or not target.is_file()
-        or not _is_relative_to(target, qcp_examples_root)
+        or not target.is_relative_to(qcp_examples_root)
     ):
         raise SystemExit(
             f"target C file must exist under main-root/QCP_examples: {target}"
         )
-    target_rel = _relative_path(target, main_root)
+    target_rel = target.relative_to(main_root).as_posix()
     try:
         target_files = target_files_for_c(
             target_rel,
@@ -2294,11 +784,7 @@ def init_run(args: argparse.Namespace) -> int:
         "goal_check_file",
     ):
         relative = str(target_files[key])
-        lexical = main_root / relative
-        if lexical.resolve() != lexical.absolute():
-            raise SystemExit(
-                f"formal target path uses a symlink or escapes main root: {relative}"
-            )
+        lexical = fixed_path_under(main_root / relative, main_root, label="formal target")
         if lexical.exists() and not lexical.is_file():
             raise SystemExit(f"formal target path is not a regular file: {relative}")
     formal_case_lib_path = main_root / str(target_files["formal_case_lib"])
@@ -2306,14 +792,28 @@ def init_run(args: argparse.Namespace) -> int:
         args,
         formal_case_lib=formal_case_lib_path,
     )
+    problem_context = _problem_context_from_args(args)
+    spec_freeze = _spec_freeze_baseline(
+        main_root=main_root,
+        target_files=target_files,
+        functions=_freeze_spec_functions(args),
+    )
+    if spec_freeze is not None and formal_case_lib_policy == "create":
+        spec_freeze["baseline"]["lib"] = extract_lib(FORMAL_CASE_LIB_SEED)
+    profile = symexec_profile_record(getattr(args, "symexec_profile", None))
+    if detect_build_mode(main_root) == "dune":
+        from coq_tooling_dune import clean_legacy_source_side_products
+
+        cleanup = clean_legacy_source_side_products(main_root)
+        if cleanup["status"] != "passed":
+            raise SystemExit(f"Dune source artifact cleanup failed: {cleanup.get('first_error')}")
     run_root = ensure_run_root(main_root, args.case, timestamp=run_timestamp)
     report_root = reports_root(run_root)
     run_id = run_root.name
     if formal_case_lib_policy == "create":
         _create_formal_case_lib_seed(formal_case_lib_path)
-    public_helper_path = ensure_public_helper_lemma_lib(run_root)
-    public_helper_snapshot = public_helper_pool_snapshot(public_helper_path)
     state: dict[str, Any] = {
+        "schema_version": CONTROLLER_STATE_SCHEMA_VERSION,
         "generation": 0,
         "run_id": run_id,
         "case": args.case,
@@ -2322,46 +822,28 @@ def init_run(args: argparse.Namespace) -> int:
         "run_root": str(run_root),
         "report_root": str(report_root),
         "target_files": target_files,
-        "public_helper_lemma_lib": {
-            key: public_helper_snapshot[key]
-            for key in ("path", "sha256", "declaration_count", "helper_count")
-        },
-        "problem_context": _problem_context_from_args(args),
+        "problem_context": problem_context,
         "formal_case_lib_policy": formal_case_lib_policy,
-        "spec_freeze": _spec_freeze_baseline(
-            main_root=main_root,
-            target_files=target_files,
-            functions=_freeze_spec_functions(args),
-        ),
+        "spec_freeze": spec_freeze,
         "run_control": {
             "status": "active",
             "pause_count": 0,
             "updated_at": _utc(),
         },
-        "symexec_profile": symexec_profile_record(
-            getattr(args, "symexec_profile", None)
-        ),
-        "max_compact_attempts": args.max_compact_attempts,
+        "symexec_profile": profile,
         "max_witnesses_per_group": args.max_witnesses_per_group,
         "max_parallel_group_workers": args.max_parallel_group_workers,
         "dune_preparation": None,
-        "rounds": {},
         "attempts": {},
-        "annotation_session": None,
-        "accepted_rounds": {},
-        "next_actions": [],
-        "waiting_for": [],
+        "current": {phase: None for phase in TASK_PHASES},
+        "annotation_owner": None,
+        "pending_retry": None,
         "current_blockers": [],
         "final_candidate": None,
         "final_apply": None,
         "final_check": None,
         "created_at": _utc(),
     }
-    _write_target_topology_anchor(
-        main_root=main_root,
-        report_root=report_root,
-        state=state,
-    )
     from controller_control import _write_control_signal
 
     _write_control_signal(state)

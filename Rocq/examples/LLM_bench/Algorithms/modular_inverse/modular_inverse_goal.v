@@ -16,6 +16,7 @@ Local Open Scope sets.
 Local Open Scope string_scope.
 Local Open Scope list.
 Import naive_C_Rules.
+Require Import SimpleC.EE.LLM_bench.Algorithms.modular_inverse.modular_inverse_lib.
 Local Open Scope sac.
 
 (*----- Function modular_inverse -----*)
@@ -64,44 +65,58 @@ Definition modular_inverse_return_wit_1 :=
 forall (modulus_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : ((x_callee_v % ( modulus_pre ) ) < 0)) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_callee_v ) + (modulus_pre * y_callee_v ) ) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : (0 < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
   TT && emp 
 |--
-  EX (k: Z) ,
   “ (0 <= ((x_callee_v % ( modulus_pre ) ) + modulus_pre )) ” 
   &&  “ (((x_callee_v % ( modulus_pre ) ) + modulus_pre ) < modulus_pre) ” 
-  &&  “ (((a_pre * ((x_callee_v % ( modulus_pre ) ) + modulus_pre ) ) + (modulus_pre * k ) ) = 1) ”
+  &&  “ (ModularInverse a_pre modulus_pre ((x_callee_v % ( modulus_pre ) ) + modulus_pre ) ) ”
   &&  emp
 ) \/
 (
 forall (modulus_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : ((x_callee_v % ( modulus_pre ) ) < 0)) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_callee_v ) + (modulus_pre * y_callee_v ) ) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : (0 < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
   TT && emp 
 |--
-  EX (k: Z) ,
-  “ (0 <= ((x_callee_v % ( modulus_pre ) ) + modulus_pre )) ” 
-  &&  “ (((x_callee_v % ( modulus_pre ) ) + modulus_pre ) < modulus_pre) ” 
-  &&  “ (((a_pre * ((x_callee_v % ( modulus_pre ) ) + modulus_pre ) ) + (modulus_pre * k ) ) = 1) ”
+  “ (ModularInverse a_pre modulus_pre ((x_callee_v % ( modulus_pre ) ) + modulus_pre ) ) ” 
+  &&  “ (0 <= ((x_callee_v % ( modulus_pre ) ) + modulus_pre )) ”
   &&  emp
 ).
+
+Definition modular_inverse_return_wit_1_split_goal_1 := 
+forall (modulus_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : ((x_callee_v % ( modulus_pre ) ) < 0)) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_callee_v ) + (modulus_pre * y_callee_v ) ) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : (0 < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
+  (ModularInverse a_pre modulus_pre ((x_callee_v % ( modulus_pre ) ) + modulus_pre ) )
+.
+
+Definition modular_inverse_return_wit_1_split_goal_2 := 
+forall (modulus_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : ((x_callee_v % ( modulus_pre ) ) < 0)) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_callee_v ) + (modulus_pre * y_callee_v ) ) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : (0 < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
+  (0 <= ((x_callee_v % ( modulus_pre ) ) + modulus_pre ))
+.
 
 Definition modular_inverse_return_wit_2 := 
 (
 forall (modulus_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : ((x_callee_v % ( modulus_pre ) ) >= 0)) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_callee_v ) + (modulus_pre * y_callee_v ) ) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : (0 < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
   TT && emp 
 |--
-  EX (k: Z) ,
   “ (0 <= (x_callee_v % ( modulus_pre ) )) ” 
   &&  “ ((x_callee_v % ( modulus_pre ) ) < modulus_pre) ” 
-  &&  “ (((a_pre * (x_callee_v % ( modulus_pre ) ) ) + (modulus_pre * k ) ) = 1) ”
+  &&  “ (ModularInverse a_pre modulus_pre (x_callee_v % ( modulus_pre ) ) ) ”
   &&  emp
 ) \/
 (
 forall (modulus_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : ((x_callee_v % ( modulus_pre ) ) >= 0)) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_callee_v ) + (modulus_pre * y_callee_v ) ) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : (0 < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
   TT && emp 
 |--
-  EX (k: Z) ,
-  “ (0 <= (x_callee_v % ( modulus_pre ) )) ” 
-  &&  “ ((x_callee_v % ( modulus_pre ) ) < modulus_pre) ” 
-  &&  “ (((a_pre * (x_callee_v % ( modulus_pre ) ) ) + (modulus_pre * k ) ) = 1) ”
+  “ (ModularInverse a_pre modulus_pre (x_callee_v % ( modulus_pre ) ) ) ” 
+  &&  “ ((x_callee_v % ( modulus_pre ) ) < modulus_pre) ”
   &&  emp
 ).
+
+Definition modular_inverse_return_wit_2_split_goal_1 := 
+forall (modulus_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : ((x_callee_v % ( modulus_pre ) ) >= 0)) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_callee_v ) + (modulus_pre * y_callee_v ) ) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : (0 < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
+  (ModularInverse a_pre modulus_pre (x_callee_v % ( modulus_pre ) ) )
+.
+
+Definition modular_inverse_return_wit_2_split_goal_2 := 
+forall (modulus_pre: Z) (a_pre: Z) (y_callee_v: Z) (x_callee_v: Z) (retval: Z) (PreH1 : ((x_callee_v % ( modulus_pre ) ) >= 0)) (PreH2 : (retval = (Zgcd (a_pre) (modulus_pre)))) (PreH3 : (((a_pre * x_callee_v ) + (modulus_pre * y_callee_v ) ) = (Zgcd (a_pre) (modulus_pre)))) (PreH4 : (1 < modulus_pre)) (PreH5 : (0 < a_pre)) (PreH6 : (a_pre < modulus_pre)) (PreH7 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,
+  ((x_callee_v % ( modulus_pre ) ) < modulus_pre)
+.
 
 Definition modular_inverse_partial_solve_wit_1_pure := 
 forall (modulus_pre: Z) (a_pre: Z) (PreH1 : (1 < modulus_pre)) (PreH2 : (0 < a_pre)) (PreH3 : (a_pre < modulus_pre)) (PreH4 : ((Zgcd (a_pre) (modulus_pre)) = 1)) ,

@@ -1880,169 +1880,169 @@ Definition quickByWeight_partial_solve_wit_1 := quickByWeight_partial_solve_wit_
 (*----- Function kruskal -----*)
 
 Definition kruskal_safety_wit_1 := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (s: St) (repr_of: (Z -> Z)) (uf: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre < INT_MAX)) (PreH5 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH6 : (KruskalEnv g_low_level_spec )) (PreH7 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH8 : (initStPred g_low_level_spec s )) (PreH9 : (kruskal_scan_state g_low_level_spec edge_order 0 0 s )) (PreH10 : (kruskal_scan_phase g_low_level_spec s 0 )) (PreH11 : (uf_initial n_pre repr_of )) (PreH12 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH13 : (output_prefix_matches_state g_low_level_spec 0 (@nil Z) (@nil Z) (@nil Z) s )) (PreH14 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u1: (@list Z)) (l_v1: (@list Z)) (l_w1: (@list Z)) (edge_order1: (@list Z)) (repr_of: (Z -> Z)) (retval: Z) (PreH1 : (retval <> 0)) (PreH2 : (uf_initial n_pre repr_of )) (PreH3 : (0 <= m_pre)) (PreH4 : (m_pre <= INT_MAX)) (PreH5 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 )) (PreH6 : (Permutation (Zrange (0) (m_pre)) edge_order1 )) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) )) (PreH14 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "out_u" ) )) # Ptr  |->_)
+  **  (UF retval n_pre repr_of )
+  **  ((( &( "uf" ) )) # Ptr  |-> retval)
+  **  (IntArray.full u_pre m_pre l_u1 )
+  **  (IntArray.full v_pre m_pre l_v1 )
+  **  (IntArray.full w_pre m_pre l_w1 )
   **  ((( &( "u" ) )) # Ptr  |-> u_pre)
   **  ((( &( "v" ) )) # Ptr  |-> v_pre)
   **  ((( &( "w" ) )) # Ptr  |-> w_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  ((( &( "uf" ) )) # Ptr  |-> uf)
-  **  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
 |--
   “ ((n_pre - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (n_pre - 1 )) ”
 .
 
 Definition kruskal_safety_wit_2 := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (s: St) (repr_of: (Z -> Z)) (uf: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre < INT_MAX)) (PreH5 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH6 : (KruskalEnv g_low_level_spec )) (PreH7 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH8 : (initStPred g_low_level_spec s )) (PreH9 : (kruskal_scan_state g_low_level_spec edge_order 0 0 s )) (PreH10 : (kruskal_scan_phase g_low_level_spec s 0 )) (PreH11 : (uf_initial n_pre repr_of )) (PreH12 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH13 : (output_prefix_matches_state g_low_level_spec 0 (@nil Z) (@nil Z) (@nil Z) s )) (PreH14 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u1: (@list Z)) (l_v1: (@list Z)) (l_w1: (@list Z)) (edge_order1: (@list Z)) (repr_of: (Z -> Z)) (retval: Z) (PreH1 : (retval <> 0)) (PreH2 : (uf_initial n_pre repr_of )) (PreH3 : (0 <= m_pre)) (PreH4 : (m_pre <= INT_MAX)) (PreH5 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 )) (PreH6 : (Permutation (Zrange (0) (m_pre)) edge_order1 )) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) )) (PreH14 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "out_u" ) )) # Ptr  |->_)
+  **  (UF retval n_pre repr_of )
+  **  ((( &( "uf" ) )) # Ptr  |-> retval)
+  **  (IntArray.full u_pre m_pre l_u1 )
+  **  (IntArray.full v_pre m_pre l_v1 )
+  **  (IntArray.full w_pre m_pre l_w1 )
   **  ((( &( "u" ) )) # Ptr  |-> u_pre)
   **  ((( &( "v" ) )) # Ptr  |-> v_pre)
   **  ((( &( "w" ) )) # Ptr  |-> w_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  ((( &( "uf" ) )) # Ptr  |-> uf)
-  **  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
 Definition kruskal_safety_wit_3 := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (s: St) (repr_of: (Z -> Z)) (uf: Z) (retval: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre < INT_MAX)) (PreH5 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH6 : (KruskalEnv g_low_level_spec )) (PreH7 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH8 : (initStPred g_low_level_spec s )) (PreH9 : (kruskal_scan_state g_low_level_spec edge_order 0 0 s )) (PreH10 : (kruskal_scan_phase g_low_level_spec s 0 )) (PreH11 : (uf_initial n_pre repr_of )) (PreH12 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH13 : (output_prefix_matches_state g_low_level_spec 0 (@nil Z) (@nil Z) (@nil Z) s )) (PreH14 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u1: (@list Z)) (l_v1: (@list Z)) (l_w1: (@list Z)) (edge_order1: (@list Z)) (repr_of: (Z -> Z)) (retval: Z) (retval_2: Z) (PreH1 : (retval <> 0)) (PreH2 : (uf_initial n_pre repr_of )) (PreH3 : (0 <= m_pre)) (PreH4 : (m_pre <= INT_MAX)) (PreH5 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 )) (PreH6 : (Permutation (Zrange (0) (m_pre)) edge_order1 )) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) )) (PreH14 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "out_v" ) )) # Ptr  |->_)
-  **  (IntArray.undef_full retval (n_pre - 1 ) )
-  **  ((( &( "out_u" ) )) # Ptr  |-> retval)
+  **  (IntArray.undef_full retval_2 (n_pre - 1 ) )
+  **  ((( &( "out_u" ) )) # Ptr  |-> retval_2)
+  **  (UF retval n_pre repr_of )
+  **  ((( &( "uf" ) )) # Ptr  |-> retval)
+  **  (IntArray.full u_pre m_pre l_u1 )
+  **  (IntArray.full v_pre m_pre l_v1 )
+  **  (IntArray.full w_pre m_pre l_w1 )
   **  ((( &( "u" ) )) # Ptr  |-> u_pre)
   **  ((( &( "v" ) )) # Ptr  |-> v_pre)
   **  ((( &( "w" ) )) # Ptr  |-> w_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  ((( &( "uf" ) )) # Ptr  |-> uf)
-  **  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
 |--
   “ ((n_pre - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (n_pre - 1 )) ”
 .
 
 Definition kruskal_safety_wit_4 := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (s: St) (repr_of: (Z -> Z)) (uf: Z) (retval: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre < INT_MAX)) (PreH5 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH6 : (KruskalEnv g_low_level_spec )) (PreH7 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH8 : (initStPred g_low_level_spec s )) (PreH9 : (kruskal_scan_state g_low_level_spec edge_order 0 0 s )) (PreH10 : (kruskal_scan_phase g_low_level_spec s 0 )) (PreH11 : (uf_initial n_pre repr_of )) (PreH12 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH13 : (output_prefix_matches_state g_low_level_spec 0 (@nil Z) (@nil Z) (@nil Z) s )) (PreH14 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u1: (@list Z)) (l_v1: (@list Z)) (l_w1: (@list Z)) (edge_order1: (@list Z)) (repr_of: (Z -> Z)) (retval: Z) (retval_2: Z) (PreH1 : (retval <> 0)) (PreH2 : (uf_initial n_pre repr_of )) (PreH3 : (0 <= m_pre)) (PreH4 : (m_pre <= INT_MAX)) (PreH5 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 )) (PreH6 : (Permutation (Zrange (0) (m_pre)) edge_order1 )) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) )) (PreH14 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "out_v" ) )) # Ptr  |->_)
-  **  (IntArray.undef_full retval (n_pre - 1 ) )
-  **  ((( &( "out_u" ) )) # Ptr  |-> retval)
+  **  (IntArray.undef_full retval_2 (n_pre - 1 ) )
+  **  ((( &( "out_u" ) )) # Ptr  |-> retval_2)
+  **  (UF retval n_pre repr_of )
+  **  ((( &( "uf" ) )) # Ptr  |-> retval)
+  **  (IntArray.full u_pre m_pre l_u1 )
+  **  (IntArray.full v_pre m_pre l_v1 )
+  **  (IntArray.full w_pre m_pre l_w1 )
   **  ((( &( "u" ) )) # Ptr  |-> u_pre)
   **  ((( &( "v" ) )) # Ptr  |-> v_pre)
   **  ((( &( "w" ) )) # Ptr  |-> w_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  ((( &( "uf" ) )) # Ptr  |-> uf)
-  **  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
 Definition kruskal_safety_wit_5 := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (s: St) (repr_of: (Z -> Z)) (uf: Z) (retval: Z) (retval_2: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre < INT_MAX)) (PreH5 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH6 : (KruskalEnv g_low_level_spec )) (PreH7 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH8 : (initStPred g_low_level_spec s )) (PreH9 : (kruskal_scan_state g_low_level_spec edge_order 0 0 s )) (PreH10 : (kruskal_scan_phase g_low_level_spec s 0 )) (PreH11 : (uf_initial n_pre repr_of )) (PreH12 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH13 : (output_prefix_matches_state g_low_level_spec 0 (@nil Z) (@nil Z) (@nil Z) s )) (PreH14 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u1: (@list Z)) (l_v1: (@list Z)) (l_w1: (@list Z)) (edge_order1: (@list Z)) (repr_of: (Z -> Z)) (retval: Z) (retval_2: Z) (retval_3: Z) (PreH1 : (retval <> 0)) (PreH2 : (uf_initial n_pre repr_of )) (PreH3 : (0 <= m_pre)) (PreH4 : (m_pre <= INT_MAX)) (PreH5 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 )) (PreH6 : (Permutation (Zrange (0) (m_pre)) edge_order1 )) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) )) (PreH14 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "out_w" ) )) # Ptr  |->_)
+  **  (IntArray.undef_full retval_3 (n_pre - 1 ) )
+  **  ((( &( "out_v" ) )) # Ptr  |-> retval_3)
   **  (IntArray.undef_full retval_2 (n_pre - 1 ) )
-  **  ((( &( "out_v" ) )) # Ptr  |-> retval_2)
-  **  (IntArray.undef_full retval (n_pre - 1 ) )
-  **  ((( &( "out_u" ) )) # Ptr  |-> retval)
+  **  ((( &( "out_u" ) )) # Ptr  |-> retval_2)
+  **  (UF retval n_pre repr_of )
+  **  ((( &( "uf" ) )) # Ptr  |-> retval)
+  **  (IntArray.full u_pre m_pre l_u1 )
+  **  (IntArray.full v_pre m_pre l_v1 )
+  **  (IntArray.full w_pre m_pre l_w1 )
   **  ((( &( "u" ) )) # Ptr  |-> u_pre)
   **  ((( &( "v" ) )) # Ptr  |-> v_pre)
   **  ((( &( "w" ) )) # Ptr  |-> w_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  ((( &( "uf" ) )) # Ptr  |-> uf)
-  **  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
 |--
   “ ((n_pre - 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (n_pre - 1 )) ”
 .
 
 Definition kruskal_safety_wit_6 := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (s: St) (repr_of: (Z -> Z)) (uf: Z) (retval: Z) (retval_2: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre < INT_MAX)) (PreH5 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH6 : (KruskalEnv g_low_level_spec )) (PreH7 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH8 : (initStPred g_low_level_spec s )) (PreH9 : (kruskal_scan_state g_low_level_spec edge_order 0 0 s )) (PreH10 : (kruskal_scan_phase g_low_level_spec s 0 )) (PreH11 : (uf_initial n_pre repr_of )) (PreH12 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH13 : (output_prefix_matches_state g_low_level_spec 0 (@nil Z) (@nil Z) (@nil Z) s )) (PreH14 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u1: (@list Z)) (l_v1: (@list Z)) (l_w1: (@list Z)) (edge_order1: (@list Z)) (repr_of: (Z -> Z)) (retval: Z) (retval_2: Z) (retval_3: Z) (PreH1 : (retval <> 0)) (PreH2 : (uf_initial n_pre repr_of )) (PreH3 : (0 <= m_pre)) (PreH4 : (m_pre <= INT_MAX)) (PreH5 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 )) (PreH6 : (Permutation (Zrange (0) (m_pre)) edge_order1 )) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) )) (PreH14 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "out_w" ) )) # Ptr  |->_)
+  **  (IntArray.undef_full retval_3 (n_pre - 1 ) )
+  **  ((( &( "out_v" ) )) # Ptr  |-> retval_3)
   **  (IntArray.undef_full retval_2 (n_pre - 1 ) )
-  **  ((( &( "out_v" ) )) # Ptr  |-> retval_2)
-  **  (IntArray.undef_full retval (n_pre - 1 ) )
-  **  ((( &( "out_u" ) )) # Ptr  |-> retval)
+  **  ((( &( "out_u" ) )) # Ptr  |-> retval_2)
+  **  (UF retval n_pre repr_of )
+  **  ((( &( "uf" ) )) # Ptr  |-> retval)
+  **  (IntArray.full u_pre m_pre l_u1 )
+  **  (IntArray.full v_pre m_pre l_v1 )
+  **  (IntArray.full w_pre m_pre l_w1 )
   **  ((( &( "u" ) )) # Ptr  |-> u_pre)
   **  ((( &( "v" ) )) # Ptr  |-> v_pre)
   **  ((( &( "w" ) )) # Ptr  |-> w_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  ((( &( "uf" ) )) # Ptr  |-> uf)
-  **  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
 Definition kruskal_safety_wit_7 := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (s: St) (repr_of: (Z -> Z)) (uf: Z) (retval: Z) (retval_2: Z) (retval_3: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre < INT_MAX)) (PreH5 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH6 : (KruskalEnv g_low_level_spec )) (PreH7 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH8 : (initStPred g_low_level_spec s )) (PreH9 : (kruskal_scan_state g_low_level_spec edge_order 0 0 s )) (PreH10 : (kruskal_scan_phase g_low_level_spec s 0 )) (PreH11 : (uf_initial n_pre repr_of )) (PreH12 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH13 : (output_prefix_matches_state g_low_level_spec 0 (@nil Z) (@nil Z) (@nil Z) s )) (PreH14 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u1: (@list Z)) (l_v1: (@list Z)) (l_w1: (@list Z)) (edge_order1: (@list Z)) (repr_of: (Z -> Z)) (retval: Z) (retval_2: Z) (retval_3: Z) (retval_4: Z) (PreH1 : (retval <> 0)) (PreH2 : (uf_initial n_pre repr_of )) (PreH3 : (0 <= m_pre)) (PreH4 : (m_pre <= INT_MAX)) (PreH5 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 )) (PreH6 : (Permutation (Zrange (0) (m_pre)) edge_order1 )) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) )) (PreH14 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "chosen" ) )) # Int  |->_)
+  **  (IntArray.undef_full retval_4 (n_pre - 1 ) )
+  **  ((( &( "out_w" ) )) # Ptr  |-> retval_4)
   **  (IntArray.undef_full retval_3 (n_pre - 1 ) )
-  **  ((( &( "out_w" ) )) # Ptr  |-> retval_3)
+  **  ((( &( "out_v" ) )) # Ptr  |-> retval_3)
   **  (IntArray.undef_full retval_2 (n_pre - 1 ) )
-  **  ((( &( "out_v" ) )) # Ptr  |-> retval_2)
-  **  (IntArray.undef_full retval (n_pre - 1 ) )
-  **  ((( &( "out_u" ) )) # Ptr  |-> retval)
+  **  ((( &( "out_u" ) )) # Ptr  |-> retval_2)
+  **  (UF retval n_pre repr_of )
+  **  ((( &( "uf" ) )) # Ptr  |-> retval)
+  **  (IntArray.full u_pre m_pre l_u1 )
+  **  (IntArray.full v_pre m_pre l_v1 )
+  **  (IntArray.full w_pre m_pre l_w1 )
   **  ((( &( "u" ) )) # Ptr  |-> u_pre)
   **  ((( &( "v" ) )) # Ptr  |-> v_pre)
   **  ((( &( "w" ) )) # Ptr  |-> w_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  ((( &( "uf" ) )) # Ptr  |-> uf)
-  **  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
 Definition kruskal_safety_wit_8 := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (s: St) (repr_of: (Z -> Z)) (uf: Z) (retval: Z) (retval_2: Z) (retval_3: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre < INT_MAX)) (PreH5 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH6 : (KruskalEnv g_low_level_spec )) (PreH7 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH8 : (initStPred g_low_level_spec s )) (PreH9 : (kruskal_scan_state g_low_level_spec edge_order 0 0 s )) (PreH10 : (kruskal_scan_phase g_low_level_spec s 0 )) (PreH11 : (uf_initial n_pre repr_of )) (PreH12 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH13 : (output_prefix_matches_state g_low_level_spec 0 (@nil Z) (@nil Z) (@nil Z) s )) (PreH14 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u1: (@list Z)) (l_v1: (@list Z)) (l_w1: (@list Z)) (edge_order1: (@list Z)) (repr_of: (Z -> Z)) (retval: Z) (retval_2: Z) (retval_3: Z) (retval_4: Z) (PreH1 : (retval <> 0)) (PreH2 : (uf_initial n_pre repr_of )) (PreH3 : (0 <= m_pre)) (PreH4 : (m_pre <= INT_MAX)) (PreH5 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 )) (PreH6 : (Permutation (Zrange (0) (m_pre)) edge_order1 )) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) )) (PreH14 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "i" ) )) # Int  |->_)
   **  ((( &( "chosen" ) )) # Int  |-> 0)
+  **  (IntArray.undef_full retval_4 (n_pre - 1 ) )
+  **  ((( &( "out_w" ) )) # Ptr  |-> retval_4)
   **  (IntArray.undef_full retval_3 (n_pre - 1 ) )
-  **  ((( &( "out_w" ) )) # Ptr  |-> retval_3)
+  **  ((( &( "out_v" ) )) # Ptr  |-> retval_3)
   **  (IntArray.undef_full retval_2 (n_pre - 1 ) )
-  **  ((( &( "out_v" ) )) # Ptr  |-> retval_2)
-  **  (IntArray.undef_full retval (n_pre - 1 ) )
-  **  ((( &( "out_u" ) )) # Ptr  |-> retval)
+  **  ((( &( "out_u" ) )) # Ptr  |-> retval_2)
+  **  (UF retval n_pre repr_of )
+  **  ((( &( "uf" ) )) # Ptr  |-> retval)
+  **  (IntArray.full u_pre m_pre l_u1 )
+  **  (IntArray.full v_pre m_pre l_v1 )
+  **  (IntArray.full w_pre m_pre l_w1 )
   **  ((( &( "u" ) )) # Ptr  |-> u_pre)
   **  ((( &( "v" ) )) # Ptr  |-> v_pre)
   **  ((( &( "w" ) )) # Ptr  |-> w_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  ((( &( "uf" ) )) # Ptr  |-> uf)
-  **  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
@@ -2166,89 +2166,26 @@ forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec:
 .
 
 Definition kruskal_entail_wit_1 := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u1: (@list Z)) (l_v1: (@list Z)) (l_w1: (@list Z)) (edge_order1: (@list Z)) (PreH1 : (0 <= m_pre)) (PreH2 : (m_pre <= INT_MAX)) (PreH3 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 )) (PreH4 : (Permutation (Zrange (0) (m_pre)) edge_order1 )) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (1 <= m_pre)) (PreH8 : (m_pre < INT_MAX)) (PreH9 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH10 : (KruskalEnv g_low_level_spec )) (PreH11 : (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) )) (PreH12 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
-  (IntArray.full u_pre m_pre l_u1 )
-  **  (IntArray.full v_pre m_pre l_v1 )
-  **  (IntArray.full w_pre m_pre l_w1 )
-|--
-  EX (l_u_sorted: (@list Z))  (l_v_sorted: (@list Z))  (l_w_sorted: (@list Z))  (edge_order: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre < INT_MAX) ” 
-  &&  “ (1 <= m_pre) ” 
-  &&  “ (m_pre < INT_MAX) ” 
-  &&  “ (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec ) ” 
-  &&  “ (KruskalEnv g_low_level_spec ) ” 
-  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_sorted l_v_sorted l_w_sorted edge_order ) ” 
-  &&  “ (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
-  &&  (IntArray.full u_pre m_pre l_u_sorted )
-  **  (IntArray.full v_pre m_pre l_v_sorted )
-  **  (IntArray.full w_pre m_pre l_w_sorted )
-.
-
-Definition kruskal_entail_wit_2 := 
 (
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u_sorted: (@list Z)) (l_v_sorted: (@list Z)) (l_w_sorted: (@list Z)) (edge_order_2: (@list Z)) (repr_of_2: (Z -> Z)) (retval: Z) (PreH1 : (retval <> 0)) (PreH2 : (uf_initial n_pre repr_of_2 )) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre < INT_MAX)) (PreH7 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH8 : (KruskalEnv g_low_level_spec )) (PreH9 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_sorted l_v_sorted l_w_sorted edge_order_2 )) (PreH10 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
-  (UF retval n_pre repr_of_2 )
-  **  (IntArray.full u_pre m_pre l_u_sorted )
-  **  (IntArray.full v_pre m_pre l_v_sorted )
-  **  (IntArray.full w_pre m_pre l_w_sorted )
-|--
-  EX (repr_of: (Z -> Z))  (s: St)  (l_u: (@list Z))  (l_v: (@list Z))  (l_w: (@list Z))  (edge_order: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre < INT_MAX) ” 
-  &&  “ (1 <= m_pre) ” 
-  &&  “ (m_pre < INT_MAX) ” 
-  &&  “ (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec ) ” 
-  &&  “ (KruskalEnv g_low_level_spec ) ” 
-  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order ) ” 
-  &&  “ (initStPred g_low_level_spec s ) ” 
-  &&  “ (kruskal_scan_state g_low_level_spec edge_order 0 0 s ) ” 
-  &&  “ (kruskal_scan_phase g_low_level_spec s 0 ) ” 
-  &&  “ (uf_initial n_pre repr_of ) ” 
-  &&  “ (union_find_connectivity_matches_state g_low_level_spec s repr_of ) ” 
-  &&  “ (output_prefix_matches_state g_low_level_spec 0 (@nil Z) (@nil Z) (@nil Z) s ) ” 
-  &&  “ (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
-  &&  (UF retval n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
-) \/
-(
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u_sorted: (@list Z)) (l_v_sorted: (@list Z)) (l_w_sorted: (@list Z)) (edge_order_2: (@list Z)) (repr_of_2: (Z -> Z)) (retval: Z) (PreH1 : (retval <> 0)) (PreH2 : (uf_initial n_pre repr_of_2 )) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre < INT_MAX)) (PreH7 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH8 : (KruskalEnv g_low_level_spec )) (PreH9 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_sorted l_v_sorted l_w_sorted edge_order_2 )) (PreH10 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  EX (s: St)  (edge_order: (@list Z)) ,
-  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_sorted l_v_sorted l_w_sorted edge_order ) ” 
-  &&  “ (initStPred g_low_level_spec s ) ” 
-  &&  “ (kruskal_scan_state g_low_level_spec edge_order 0 0 s ) ” 
-  &&  “ (kruskal_scan_phase g_low_level_spec s 0 ) ” 
-  &&  “ (union_find_connectivity_matches_state g_low_level_spec s repr_of_2 ) ” 
-  &&  “ (output_prefix_matches_state g_low_level_spec 0 (@nil Z) (@nil Z) (@nil Z) s ) ” 
-  &&  “ (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
-  &&  emp
-).
-
-Definition kruskal_entail_wit_3 := 
-(
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u_2: (@list Z)) (l_v_2: (@list Z)) (l_w_2: (@list Z)) (edge_order_2: (@list Z)) (s_2: St) (repr_of_2: (Z -> Z)) (uf_2: Z) (retval: Z) (retval_2: Z) (retval_3: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre < INT_MAX)) (PreH5 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH6 : (KruskalEnv g_low_level_spec )) (PreH7 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order_2 )) (PreH8 : (initStPred g_low_level_spec s_2 )) (PreH9 : (kruskal_scan_state g_low_level_spec edge_order_2 0 0 s_2 )) (PreH10 : (kruskal_scan_phase g_low_level_spec s_2 0 )) (PreH11 : (uf_initial n_pre repr_of_2 )) (PreH12 : (union_find_connectivity_matches_state g_low_level_spec s_2 repr_of_2 )) (PreH13 : (output_prefix_matches_state g_low_level_spec 0 (@nil Z) (@nil Z) (@nil Z) s_2 )) (PreH14 : (safeExec (kruskal_state_is (s_2)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u1: (@list Z)) (l_v1: (@list Z)) (l_w1: (@list Z)) (edge_order1: (@list Z)) (repr_of_2: (Z -> Z)) (retval: Z) (retval_2: Z) (retval_3: Z) (retval_4: Z) (PreH1 : (retval <> 0)) (PreH2 : (uf_initial n_pre repr_of_2 )) (PreH3 : (0 <= m_pre)) (PreH4 : (m_pre <= INT_MAX)) (PreH5 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 )) (PreH6 : (Permutation (Zrange (0) (m_pre)) edge_order1 )) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) )) (PreH14 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "i" ) )) # Int  |-> 0)
   **  ((( &( "chosen" ) )) # Int  |-> 0)
+  **  (IntArray.undef_full retval_4 (n_pre - 1 ) )
+  **  ((( &( "out_w" ) )) # Ptr  |-> retval_4)
   **  (IntArray.undef_full retval_3 (n_pre - 1 ) )
-  **  ((( &( "out_w" ) )) # Ptr  |-> retval_3)
+  **  ((( &( "out_v" ) )) # Ptr  |-> retval_3)
   **  (IntArray.undef_full retval_2 (n_pre - 1 ) )
-  **  ((( &( "out_v" ) )) # Ptr  |-> retval_2)
-  **  (IntArray.undef_full retval (n_pre - 1 ) )
-  **  ((( &( "out_u" ) )) # Ptr  |-> retval)
+  **  ((( &( "out_u" ) )) # Ptr  |-> retval_2)
+  **  (UF retval n_pre repr_of_2 )
+  **  ((( &( "uf" ) )) # Ptr  |-> retval)
+  **  (IntArray.full u_pre m_pre l_u1 )
+  **  (IntArray.full v_pre m_pre l_v1 )
+  **  (IntArray.full w_pre m_pre l_w1 )
   **  ((( &( "u" ) )) # Ptr  |-> u_pre)
   **  ((( &( "v" ) )) # Ptr  |-> v_pre)
   **  ((( &( "w" ) )) # Ptr  |-> w_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  ((( &( "uf" ) )) # Ptr  |-> uf_2)
-  **  (UF uf_2 n_pre repr_of_2 )
-  **  (IntArray.full u_pre m_pre l_u_2 )
-  **  (IntArray.full v_pre m_pre l_v_2 )
-  **  (IntArray.full w_pre m_pre l_w_2 )
 |--
   EX (out_w: Z)  (out_v: Z)  (out_u: Z)  (uf: Z)  (l_out_u: (@list Z))  (l_out_v: (@list Z))  (l_out_w: (@list Z))  (repr_of: (Z -> Z))  (s: St)  (l_u: (@list Z))  (l_v: (@list Z))  (l_w: (@list Z))  (edge_order: (@list Z))  (chosen: Z)  (i: Z) ,
   “ (0 <= i) ” 
@@ -2290,15 +2227,14 @@ forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec:
   **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
 ) \/
 (
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u_2: (@list Z)) (l_v_2: (@list Z)) (l_w_2: (@list Z)) (edge_order_2: (@list Z)) (s_2: St) (repr_of_2: (Z -> Z)) (PreH1 : ((Zlength (l_w_2)) = m_pre)) (PreH2 : ((Zlength (l_v_2)) = m_pre)) (PreH3 : ((Zlength (l_u_2)) = m_pre)) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre < INT_MAX)) (PreH8 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH9 : (KruskalEnv g_low_level_spec )) (PreH10 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order_2 )) (PreH11 : (initStPred g_low_level_spec s_2 )) (PreH12 : (kruskal_scan_state g_low_level_spec edge_order_2 0 0 s_2 )) (PreH13 : (kruskal_scan_phase g_low_level_spec s_2 0 )) (PreH14 : (uf_initial n_pre repr_of_2 )) (PreH15 : (union_find_connectivity_matches_state g_low_level_spec s_2 repr_of_2 )) (PreH16 : (output_prefix_matches_state g_low_level_spec 0 (@nil Z) (@nil Z) (@nil Z) s_2 )) (PreH17 : (safeExec (kruskal_state_is (s_2)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u1: (@list Z)) (l_v1: (@list Z)) (l_w1: (@list Z)) (edge_order1: (@list Z)) (repr_of_2: (Z -> Z)) (retval: Z) (PreH1 : ((Zlength (l_w1)) = m_pre)) (PreH2 : ((Zlength (l_v1)) = m_pre)) (PreH3 : ((Zlength (l_u1)) = m_pre)) (PreH4 : (retval <> 0)) (PreH5 : (uf_initial n_pre repr_of_2 )) (PreH6 : (0 <= m_pre)) (PreH7 : (m_pre <= INT_MAX)) (PreH8 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 )) (PreH9 : (Permutation (Zrange (0) (m_pre)) edge_order1 )) (PreH10 : (2 <= n_pre)) (PreH11 : (n_pre < INT_MAX)) (PreH12 : (1 <= m_pre)) (PreH13 : (m_pre < INT_MAX)) (PreH14 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH15 : (KruskalEnv g_low_level_spec )) (PreH16 : (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) )) (PreH17 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   TT && emp 
 |--
   EX (s: St)  (edge_order: (@list Z)) ,
   “ (0 <= 0) ” 
-  &&  “ (0 <= (Zlength (l_w_2))) ” 
   &&  “ (0 <= 0) ” 
   &&  “ (0 <= (n_pre - 1 )) ” 
-  &&  “ (after_sorted_edge_of_input (Zlength (l_w_2)) orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order ) ” 
+  &&  “ (after_sorted_edge_of_input (Zlength (l_w1)) orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order ) ” 
   &&  “ (kruskal_scan_state g_low_level_spec edge_order 0 0 s ) ” 
   &&  “ (kruskal_scan_phase g_low_level_spec s 0 ) ” 
   &&  “ (union_find_connectivity_matches_state g_low_level_spec s repr_of_2 ) ” 
@@ -2307,13 +2243,13 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_l
   &&  emp
 ).
 
-Definition kruskal_entail_wit_4 := 
+Definition kruskal_entail_wit_2 := 
 (
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (uf: Z) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_w_2: (@list Z)) (repr_of_2: (Z -> Z)) (s_2: St) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order_2: (@list Z)) (chosen: Z) (i: Z) (PreH1 : (chosen < (n_pre - 1 ))) (PreH2 : (i < m_pre)) (PreH3 : (0 <= i)) (PreH4 : (i <= m_pre)) (PreH5 : (0 <= chosen)) (PreH6 : (chosen <= (n_pre - 1 ))) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order_2 )) (PreH14 : (kruskal_scan_state g_low_level_spec edge_order_2 i chosen s_2 )) (PreH15 : (kruskal_scan_phase g_low_level_spec s_2 chosen )) (PreH16 : (union_find_connectivity_matches_state g_low_level_spec s_2 repr_of_2 )) (PreH17 : (output_prefix_matches_state g_low_level_spec chosen l_out_u_2 l_out_v_2 l_out_w_2 s_2 )) (PreH18 : (safeExec (kruskal_state_is (s_2)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
-  (IntArray.full w_pre m_pre l_w )
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (uf: Z) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_w_2: (@list Z)) (repr_of_2: (Z -> Z)) (s_2: St) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order_2: (@list Z)) (chosen: Z) (i: Z) (retval: Z) (retval_2: Z) (PreH1 : (0 <= retval_2)) (PreH2 : (retval_2 < n_pre)) (PreH3 : (retval_2 = (repr_of_2 ((Znth i l_v 0))))) (PreH4 : (0 <= retval)) (PreH5 : (retval < n_pre)) (PreH6 : (retval = (repr_of_2 ((Znth i l_u 0))))) (PreH7 : (chosen < (n_pre - 1 ))) (PreH8 : (i < m_pre)) (PreH9 : (0 <= i)) (PreH10 : (i <= m_pre)) (PreH11 : (0 <= chosen)) (PreH12 : (chosen <= (n_pre - 1 ))) (PreH13 : (2 <= n_pre)) (PreH14 : (n_pre < INT_MAX)) (PreH15 : (1 <= m_pre)) (PreH16 : (m_pre < INT_MAX)) (PreH17 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH18 : (KruskalEnv g_low_level_spec )) (PreH19 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order_2 )) (PreH20 : (kruskal_scan_state g_low_level_spec edge_order_2 i chosen s_2 )) (PreH21 : (kruskal_scan_phase g_low_level_spec s_2 chosen )) (PreH22 : (union_find_connectivity_matches_state g_low_level_spec s_2 repr_of_2 )) (PreH23 : (output_prefix_matches_state g_low_level_spec chosen l_out_u_2 l_out_v_2 l_out_w_2 s_2 )) (PreH24 : (safeExec (kruskal_state_is (s_2)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+  (UF uf n_pre repr_of_2 )
+  **  (IntArray.full w_pre m_pre l_w )
   **  (IntArray.full v_pre m_pre l_v )
   **  (IntArray.full u_pre m_pre l_u )
-  **  (UF uf n_pre repr_of_2 )
   **  (IntArray.seg out_u 0 chosen l_out_u_2 )
   **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
   **  (IntArray.seg out_v 0 chosen l_out_v_2 )
@@ -2321,7 +2257,7 @@ forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec:
   **  (IntArray.seg out_w 0 chosen l_out_w_2 )
   **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
 |--
-  EX (l_out_u: (@list Z))  (l_out_v: (@list Z))  (l_out_w: (@list Z))  (repr_of: (Z -> Z))  (s: St)  (edge_order: (@list Z))  (l_w_2: (@list Z))  (l_v_2: (@list Z))  (l_u_2: (@list Z)) ,
+  EX (l_out_u: (@list Z))  (l_out_v: (@list Z))  (l_out_w: (@list Z))  (s: St)  (edge_order: (@list Z))  (repr_of: (Z -> Z))  (l_w_2: (@list Z))  (l_v_2: (@list Z))  (l_u_2: (@list Z)) ,
   “ (0 <= i) ” 
   &&  “ (i < m_pre) ” 
   &&  “ (0 <= chosen) ” 
@@ -2334,6 +2270,12 @@ forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec:
   &&  “ ((Znth i l_u 0) < n_pre) ” 
   &&  “ (0 <= (Znth i l_v 0)) ” 
   &&  “ ((Znth i l_v 0) < n_pre) ” 
+  &&  “ (0 <= retval) ” 
+  &&  “ (retval < n_pre) ” 
+  &&  “ (0 <= retval_2) ” 
+  &&  “ (retval_2 < n_pre) ” 
+  &&  “ (retval = (repr_of ((Znth i l_u 0)))) ” 
+  &&  “ (retval_2 = (repr_of ((Znth i l_v 0)))) ” 
   &&  “ (2 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (1 <= m_pre) ” 
@@ -2358,7 +2300,7 @@ forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec:
   **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
 ) \/
 (
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_w_2: (@list Z)) (repr_of_2: (Z -> Z)) (s_2: St) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order_2: (@list Z)) (chosen: Z) (i: Z) (PreH1 : (chosen < (n_pre - 1 ))) (PreH2 : (i < m_pre)) (PreH3 : (0 <= i)) (PreH4 : (i <= m_pre)) (PreH5 : (0 <= chosen)) (PreH6 : (chosen <= (n_pre - 1 ))) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order_2 )) (PreH14 : (kruskal_scan_state g_low_level_spec edge_order_2 i chosen s_2 )) (PreH15 : (kruskal_scan_phase g_low_level_spec s_2 chosen )) (PreH16 : (union_find_connectivity_matches_state g_low_level_spec s_2 repr_of_2 )) (PreH17 : (output_prefix_matches_state g_low_level_spec chosen l_out_u_2 l_out_v_2 l_out_w_2 s_2 )) (PreH18 : (safeExec (kruskal_state_is (s_2)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_w_2: (@list Z)) (repr_of_2: (Z -> Z)) (s_2: St) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order_2: (@list Z)) (chosen: Z) (i: Z) (retval: Z) (retval_2: Z) (PreH1 : (0 <= retval_2)) (PreH2 : (retval_2 < n_pre)) (PreH3 : (retval_2 = (repr_of_2 ((Znth i l_v 0))))) (PreH4 : (0 <= retval)) (PreH5 : (retval < n_pre)) (PreH6 : (retval = (repr_of_2 ((Znth i l_u 0))))) (PreH7 : (chosen < (n_pre - 1 ))) (PreH8 : (i < m_pre)) (PreH9 : (0 <= i)) (PreH10 : (i <= m_pre)) (PreH11 : (0 <= chosen)) (PreH12 : (chosen <= (n_pre - 1 ))) (PreH13 : (2 <= n_pre)) (PreH14 : (n_pre < INT_MAX)) (PreH15 : (1 <= m_pre)) (PreH16 : (m_pre < INT_MAX)) (PreH17 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH18 : (KruskalEnv g_low_level_spec )) (PreH19 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order_2 )) (PreH20 : (kruskal_scan_state g_low_level_spec edge_order_2 i chosen s_2 )) (PreH21 : (kruskal_scan_phase g_low_level_spec s_2 chosen )) (PreH22 : (union_find_connectivity_matches_state g_low_level_spec s_2 repr_of_2 )) (PreH23 : (output_prefix_matches_state g_low_level_spec chosen l_out_u_2 l_out_v_2 l_out_w_2 s_2 )) (PreH24 : (safeExec (kruskal_state_is (s_2)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   TT && emp 
 |--
   EX (s: St)  (edge_order: (@list Z)) ,
@@ -2366,6 +2308,8 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_l
   &&  “ ((Znth i l_u 0) < n_pre) ” 
   &&  “ (0 <= (Znth i l_v 0)) ” 
   &&  “ ((Znth i l_v 0) < n_pre) ” 
+  &&  “ ((repr_of_2 ((Znth i l_u 0))) = (repr_of_2 ((Znth i l_u 0)))) ” 
+  &&  “ ((repr_of_2 ((Znth i l_v 0))) = (repr_of_2 ((Znth i l_v 0)))) ” 
   &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order ) ” 
   &&  “ (kruskal_scan_state g_low_level_spec edge_order i chosen s ) ” 
   &&  “ (kruskal_scan_phase g_low_level_spec s chosen ) ” 
@@ -2375,147 +2319,7 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_l
   &&  emp
 ).
 
-Definition kruskal_entail_wit_5 := 
-(
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u_2: (@list Z)) (l_v_2: (@list Z)) (l_w_2: (@list Z)) (edge_order_2: (@list Z)) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_w_2: (@list Z)) (s_2: St) (repr_of_2: (Z -> Z)) (i: Z) (chosen: Z) (edge_u: Z) (edge_v: Z) (edge_w: Z) (uf: Z) (out_u: Z) (out_v: Z) (out_w: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval < n_pre)) (PreH3 : (retval = (repr_of_2 (edge_u)))) (PreH4 : (0 <= i)) (PreH5 : (i < m_pre)) (PreH6 : (0 <= chosen)) (PreH7 : (chosen <= (n_pre - 1 ))) (PreH8 : (chosen < (n_pre - 1 ))) (PreH9 : (edge_u = (Znth i l_u_2 0))) (PreH10 : (edge_v = (Znth i l_v_2 0))) (PreH11 : (edge_w = (Znth i l_w_2 0))) (PreH12 : (0 <= edge_u)) (PreH13 : (edge_u < n_pre)) (PreH14 : (0 <= edge_v)) (PreH15 : (edge_v < n_pre)) (PreH16 : (2 <= n_pre)) (PreH17 : (n_pre < INT_MAX)) (PreH18 : (1 <= m_pre)) (PreH19 : (m_pre < INT_MAX)) (PreH20 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH21 : (KruskalEnv g_low_level_spec )) (PreH22 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order_2 )) (PreH23 : (kruskal_scan_state g_low_level_spec edge_order_2 i chosen s_2 )) (PreH24 : (kruskal_scan_phase g_low_level_spec s_2 chosen )) (PreH25 : (union_find_connectivity_matches_state g_low_level_spec s_2 repr_of_2 )) (PreH26 : (output_prefix_matches_state g_low_level_spec chosen l_out_u_2 l_out_v_2 l_out_w_2 s_2 )) (PreH27 : (safeExec (kruskal_state_is (s_2)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
-  (UF uf n_pre repr_of_2 )
-  **  (IntArray.full u_pre m_pre l_u_2 )
-  **  (IntArray.full v_pre m_pre l_v_2 )
-  **  (IntArray.full w_pre m_pre l_w_2 )
-  **  (IntArray.seg out_u 0 chosen l_out_u_2 )
-  **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
-  **  (IntArray.seg out_v 0 chosen l_out_v_2 )
-  **  (IntArray.undef_seg out_v chosen (n_pre - 1 ) )
-  **  (IntArray.seg out_w 0 chosen l_out_w_2 )
-  **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
-|--
-  EX (l_out_u: (@list Z))  (l_out_v: (@list Z))  (l_out_w: (@list Z))  (s: St)  (edge_order: (@list Z))  (repr_of: (Z -> Z))  (l_w: (@list Z))  (l_v: (@list Z))  (l_u: (@list Z)) ,
-  “ (0 <= i) ” 
-  &&  “ (i < m_pre) ” 
-  &&  “ (0 <= chosen) ” 
-  &&  “ (chosen <= (n_pre - 1 )) ” 
-  &&  “ (chosen < (n_pre - 1 )) ” 
-  &&  “ (edge_u = (Znth i l_u 0)) ” 
-  &&  “ (edge_v = (Znth i l_v 0)) ” 
-  &&  “ (edge_w = (Znth i l_w 0)) ” 
-  &&  “ (0 <= edge_u) ” 
-  &&  “ (edge_u < n_pre) ” 
-  &&  “ (0 <= edge_v) ” 
-  &&  “ (edge_v < n_pre) ” 
-  &&  “ (0 <= retval) ” 
-  &&  “ (retval < n_pre) ” 
-  &&  “ (retval = (repr_of (edge_u))) ” 
-  &&  “ (2 <= n_pre) ” 
-  &&  “ (n_pre < INT_MAX) ” 
-  &&  “ (1 <= m_pre) ” 
-  &&  “ (m_pre < INT_MAX) ” 
-  &&  “ (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec ) ” 
-  &&  “ (KruskalEnv g_low_level_spec ) ” 
-  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order ) ” 
-  &&  “ (kruskal_scan_state g_low_level_spec edge_order i chosen s ) ” 
-  &&  “ (kruskal_scan_phase g_low_level_spec s chosen ) ” 
-  &&  “ (union_find_connectivity_matches_state g_low_level_spec s repr_of ) ” 
-  &&  “ (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s ) ” 
-  &&  “ (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
-  &&  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
-  **  (IntArray.seg out_u 0 chosen l_out_u )
-  **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
-  **  (IntArray.seg out_v 0 chosen l_out_v )
-  **  (IntArray.undef_seg out_v chosen (n_pre - 1 ) )
-  **  (IntArray.seg out_w 0 chosen l_out_w )
-  **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
-) \/
-(
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u_2: (@list Z)) (l_v_2: (@list Z)) (l_w_2: (@list Z)) (edge_order_2: (@list Z)) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_w_2: (@list Z)) (s_2: St) (repr_of_2: (Z -> Z)) (i: Z) (chosen: Z) (edge_u: Z) (edge_v: Z) (edge_w: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval < n_pre)) (PreH3 : (retval = (repr_of_2 (edge_u)))) (PreH4 : (0 <= i)) (PreH5 : (i < m_pre)) (PreH6 : (0 <= chosen)) (PreH7 : (chosen <= (n_pre - 1 ))) (PreH8 : (chosen < (n_pre - 1 ))) (PreH9 : (edge_u = (Znth i l_u_2 0))) (PreH10 : (edge_v = (Znth i l_v_2 0))) (PreH11 : (edge_w = (Znth i l_w_2 0))) (PreH12 : (0 <= edge_u)) (PreH13 : (edge_u < n_pre)) (PreH14 : (0 <= edge_v)) (PreH15 : (edge_v < n_pre)) (PreH16 : (2 <= n_pre)) (PreH17 : (n_pre < INT_MAX)) (PreH18 : (1 <= m_pre)) (PreH19 : (m_pre < INT_MAX)) (PreH20 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH21 : (KruskalEnv g_low_level_spec )) (PreH22 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order_2 )) (PreH23 : (kruskal_scan_state g_low_level_spec edge_order_2 i chosen s_2 )) (PreH24 : (kruskal_scan_phase g_low_level_spec s_2 chosen )) (PreH25 : (union_find_connectivity_matches_state g_low_level_spec s_2 repr_of_2 )) (PreH26 : (output_prefix_matches_state g_low_level_spec chosen l_out_u_2 l_out_v_2 l_out_w_2 s_2 )) (PreH27 : (safeExec (kruskal_state_is (s_2)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  EX (s: St)  (edge_order: (@list Z)) ,
-  “ ((repr_of_2 ((Znth i l_u_2 0))) = (repr_of_2 ((Znth i l_u_2 0)))) ” 
-  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order ) ” 
-  &&  “ (kruskal_scan_state g_low_level_spec edge_order i chosen s ) ” 
-  &&  “ (kruskal_scan_phase g_low_level_spec s chosen ) ” 
-  &&  “ (union_find_connectivity_matches_state g_low_level_spec s repr_of_2 ) ” 
-  &&  “ (output_prefix_matches_state g_low_level_spec chosen l_out_u_2 l_out_v_2 l_out_w_2 s ) ” 
-  &&  “ (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
-  &&  emp
-).
-
-Definition kruskal_entail_wit_6 := 
-(
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u_2: (@list Z)) (l_v_2: (@list Z)) (l_w_2: (@list Z)) (edge_order_2: (@list Z)) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_w_2: (@list Z)) (s_2: St) (repr_of_2: (Z -> Z)) (i: Z) (chosen: Z) (edge_u: Z) (edge_v: Z) (edge_w: Z) (root_u: Z) (uf: Z) (out_u: Z) (out_v: Z) (out_w: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval < n_pre)) (PreH3 : (retval = (repr_of_2 (edge_v)))) (PreH4 : (0 <= i)) (PreH5 : (i < m_pre)) (PreH6 : (0 <= chosen)) (PreH7 : (chosen <= (n_pre - 1 ))) (PreH8 : (chosen < (n_pre - 1 ))) (PreH9 : (edge_u = (Znth i l_u_2 0))) (PreH10 : (edge_v = (Znth i l_v_2 0))) (PreH11 : (edge_w = (Znth i l_w_2 0))) (PreH12 : (0 <= edge_u)) (PreH13 : (edge_u < n_pre)) (PreH14 : (0 <= edge_v)) (PreH15 : (edge_v < n_pre)) (PreH16 : (0 <= root_u)) (PreH17 : (root_u < n_pre)) (PreH18 : (root_u = (repr_of_2 (edge_u)))) (PreH19 : (2 <= n_pre)) (PreH20 : (n_pre < INT_MAX)) (PreH21 : (1 <= m_pre)) (PreH22 : (m_pre < INT_MAX)) (PreH23 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH24 : (KruskalEnv g_low_level_spec )) (PreH25 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order_2 )) (PreH26 : (kruskal_scan_state g_low_level_spec edge_order_2 i chosen s_2 )) (PreH27 : (kruskal_scan_phase g_low_level_spec s_2 chosen )) (PreH28 : (union_find_connectivity_matches_state g_low_level_spec s_2 repr_of_2 )) (PreH29 : (output_prefix_matches_state g_low_level_spec chosen l_out_u_2 l_out_v_2 l_out_w_2 s_2 )) (PreH30 : (safeExec (kruskal_state_is (s_2)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
-  (UF uf n_pre repr_of_2 )
-  **  (IntArray.full u_pre m_pre l_u_2 )
-  **  (IntArray.full v_pre m_pre l_v_2 )
-  **  (IntArray.full w_pre m_pre l_w_2 )
-  **  (IntArray.seg out_u 0 chosen l_out_u_2 )
-  **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
-  **  (IntArray.seg out_v 0 chosen l_out_v_2 )
-  **  (IntArray.undef_seg out_v chosen (n_pre - 1 ) )
-  **  (IntArray.seg out_w 0 chosen l_out_w_2 )
-  **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
-|--
-  EX (l_out_u: (@list Z))  (l_out_v: (@list Z))  (l_out_w: (@list Z))  (s: St)  (edge_order: (@list Z))  (repr_of: (Z -> Z))  (l_w: (@list Z))  (l_v: (@list Z))  (l_u: (@list Z)) ,
-  “ (0 <= i) ” 
-  &&  “ (i < m_pre) ” 
-  &&  “ (0 <= chosen) ” 
-  &&  “ (chosen <= (n_pre - 1 )) ” 
-  &&  “ (chosen < (n_pre - 1 )) ” 
-  &&  “ (edge_u = (Znth i l_u 0)) ” 
-  &&  “ (edge_v = (Znth i l_v 0)) ” 
-  &&  “ (edge_w = (Znth i l_w 0)) ” 
-  &&  “ (0 <= edge_u) ” 
-  &&  “ (edge_u < n_pre) ” 
-  &&  “ (0 <= edge_v) ” 
-  &&  “ (edge_v < n_pre) ” 
-  &&  “ (0 <= root_u) ” 
-  &&  “ (root_u < n_pre) ” 
-  &&  “ (0 <= retval) ” 
-  &&  “ (retval < n_pre) ” 
-  &&  “ (root_u = (repr_of (edge_u))) ” 
-  &&  “ (retval = (repr_of (edge_v))) ” 
-  &&  “ (2 <= n_pre) ” 
-  &&  “ (n_pre < INT_MAX) ” 
-  &&  “ (1 <= m_pre) ” 
-  &&  “ (m_pre < INT_MAX) ” 
-  &&  “ (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec ) ” 
-  &&  “ (KruskalEnv g_low_level_spec ) ” 
-  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order ) ” 
-  &&  “ (kruskal_scan_state g_low_level_spec edge_order i chosen s ) ” 
-  &&  “ (kruskal_scan_phase g_low_level_spec s chosen ) ” 
-  &&  “ (union_find_connectivity_matches_state g_low_level_spec s repr_of ) ” 
-  &&  “ (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s ) ” 
-  &&  “ (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
-  &&  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
-  **  (IntArray.seg out_u 0 chosen l_out_u )
-  **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
-  **  (IntArray.seg out_v 0 chosen l_out_v )
-  **  (IntArray.undef_seg out_v chosen (n_pre - 1 ) )
-  **  (IntArray.seg out_w 0 chosen l_out_w )
-  **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
-) \/
-(
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u_2: (@list Z)) (l_v_2: (@list Z)) (l_w_2: (@list Z)) (edge_order_2: (@list Z)) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_w_2: (@list Z)) (s_2: St) (repr_of_2: (Z -> Z)) (i: Z) (chosen: Z) (edge_u: Z) (edge_v: Z) (edge_w: Z) (root_u: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval < n_pre)) (PreH3 : (retval = (repr_of_2 (edge_v)))) (PreH4 : (0 <= i)) (PreH5 : (i < m_pre)) (PreH6 : (0 <= chosen)) (PreH7 : (chosen <= (n_pre - 1 ))) (PreH8 : (chosen < (n_pre - 1 ))) (PreH9 : (edge_u = (Znth i l_u_2 0))) (PreH10 : (edge_v = (Znth i l_v_2 0))) (PreH11 : (edge_w = (Znth i l_w_2 0))) (PreH12 : (0 <= edge_u)) (PreH13 : (edge_u < n_pre)) (PreH14 : (0 <= edge_v)) (PreH15 : (edge_v < n_pre)) (PreH16 : (0 <= root_u)) (PreH17 : (root_u < n_pre)) (PreH18 : (root_u = (repr_of_2 (edge_u)))) (PreH19 : (2 <= n_pre)) (PreH20 : (n_pre < INT_MAX)) (PreH21 : (1 <= m_pre)) (PreH22 : (m_pre < INT_MAX)) (PreH23 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH24 : (KruskalEnv g_low_level_spec )) (PreH25 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order_2 )) (PreH26 : (kruskal_scan_state g_low_level_spec edge_order_2 i chosen s_2 )) (PreH27 : (kruskal_scan_phase g_low_level_spec s_2 chosen )) (PreH28 : (union_find_connectivity_matches_state g_low_level_spec s_2 repr_of_2 )) (PreH29 : (output_prefix_matches_state g_low_level_spec chosen l_out_u_2 l_out_v_2 l_out_w_2 s_2 )) (PreH30 : (safeExec (kruskal_state_is (s_2)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  EX (s: St)  (edge_order: (@list Z)) ,
-  “ ((repr_of_2 (edge_u)) = (repr_of_2 ((Znth i l_u_2 0)))) ” 
-  &&  “ ((repr_of_2 ((Znth i l_v_2 0))) = (repr_of_2 ((Znth i l_v_2 0)))) ” 
-  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order ) ” 
-  &&  “ (kruskal_scan_state g_low_level_spec edge_order i chosen s ) ” 
-  &&  “ (kruskal_scan_phase g_low_level_spec s chosen ) ” 
-  &&  “ (union_find_connectivity_matches_state g_low_level_spec s repr_of_2 ) ” 
-  &&  “ (output_prefix_matches_state g_low_level_spec chosen l_out_u_2 l_out_v_2 l_out_w_2 s ) ” 
-  &&  “ (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
-  &&  emp
-).
-
-Definition kruskal_entail_wit_7 := 
+Definition kruskal_entail_wit_3 := 
 (
 forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u_2: (@list Z)) (l_v_2: (@list Z)) (l_w_2: (@list Z)) (edge_order_2: (@list Z)) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_w_2: (@list Z)) (s_2: St) (repr_of_2: (Z -> Z)) (i: Z) (chosen: Z) (edge_u: Z) (edge_v: Z) (edge_w: Z) (root_u: Z) (root_v: Z) (uf: Z) (out_u: Z) (out_v: Z) (out_w: Z) (repr_of1_2: (Z -> Z)) (PreH1 : (uf_merge n_pre repr_of_2 edge_u edge_v repr_of1_2 )) (PreH2 : (root_u <> root_v)) (PreH3 : (0 <= i)) (PreH4 : (i < m_pre)) (PreH5 : (0 <= chosen)) (PreH6 : (chosen <= (n_pre - 1 ))) (PreH7 : (chosen < (n_pre - 1 ))) (PreH8 : (edge_u = (Znth i l_u_2 0))) (PreH9 : (edge_v = (Znth i l_v_2 0))) (PreH10 : (edge_w = (Znth i l_w_2 0))) (PreH11 : (0 <= edge_u)) (PreH12 : (edge_u < n_pre)) (PreH13 : (0 <= edge_v)) (PreH14 : (edge_v < n_pre)) (PreH15 : (0 <= root_u)) (PreH16 : (root_u < n_pre)) (PreH17 : (0 <= root_v)) (PreH18 : (root_v < n_pre)) (PreH19 : (root_u = (repr_of_2 (edge_u)))) (PreH20 : (root_v = (repr_of_2 (edge_v)))) (PreH21 : (2 <= n_pre)) (PreH22 : (n_pre < INT_MAX)) (PreH23 : (1 <= m_pre)) (PreH24 : (m_pre < INT_MAX)) (PreH25 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH26 : (KruskalEnv g_low_level_spec )) (PreH27 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order_2 )) (PreH28 : (kruskal_scan_state g_low_level_spec edge_order_2 i chosen s_2 )) (PreH29 : (kruskal_scan_phase g_low_level_spec s_2 chosen )) (PreH30 : (union_find_connectivity_matches_state g_low_level_spec s_2 repr_of_2 )) (PreH31 : (output_prefix_matches_state g_low_level_spec chosen l_out_u_2 l_out_v_2 l_out_w_2 s_2 )) (PreH32 : (safeExec (kruskal_state_is (s_2)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   (UF uf n_pre repr_of1_2 )
@@ -2607,7 +2411,7 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_l
   &&  emp
 ).
 
-Definition kruskal_entail_wit_8 := 
+Definition kruskal_entail_wit_4 := 
 (
 forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u_2: (@list Z)) (l_v_2: (@list Z)) (l_w_2: (@list Z)) (edge_order_2: (@list Z)) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_w_2: (@list Z)) (s_2: St) (repr_of_2: (Z -> Z)) (i: Z) (chosen: Z) (edge_u: Z) (edge_v: Z) (edge_w: Z) (root_u: Z) (root_v: Z) (uf: Z) (out_u: Z) (out_v: Z) (out_w: Z) (PreH1 : (root_u = root_v)) (PreH2 : (0 <= i)) (PreH3 : (i < m_pre)) (PreH4 : (0 <= chosen)) (PreH5 : (chosen <= (n_pre - 1 ))) (PreH6 : (chosen < (n_pre - 1 ))) (PreH7 : (edge_u = (Znth i l_u_2 0))) (PreH8 : (edge_v = (Znth i l_v_2 0))) (PreH9 : (edge_w = (Znth i l_w_2 0))) (PreH10 : (0 <= edge_u)) (PreH11 : (edge_u < n_pre)) (PreH12 : (0 <= edge_v)) (PreH13 : (edge_v < n_pre)) (PreH14 : (0 <= root_u)) (PreH15 : (root_u < n_pre)) (PreH16 : (0 <= root_v)) (PreH17 : (root_v < n_pre)) (PreH18 : (root_u = (repr_of_2 (edge_u)))) (PreH19 : (root_v = (repr_of_2 (edge_v)))) (PreH20 : (2 <= n_pre)) (PreH21 : (n_pre < INT_MAX)) (PreH22 : (1 <= m_pre)) (PreH23 : (m_pre < INT_MAX)) (PreH24 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH25 : (KruskalEnv g_low_level_spec )) (PreH26 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order_2 )) (PreH27 : (kruskal_scan_state g_low_level_spec edge_order_2 i chosen s_2 )) (PreH28 : (kruskal_scan_phase g_low_level_spec s_2 chosen )) (PreH29 : (union_find_connectivity_matches_state g_low_level_spec s_2 repr_of_2 )) (PreH30 : (output_prefix_matches_state g_low_level_spec chosen l_out_u_2 l_out_v_2 l_out_w_2 s_2 )) (PreH31 : (safeExec (kruskal_state_is (s_2)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   (UF uf n_pre repr_of_2 )
@@ -2683,7 +2487,7 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_l
   &&  emp
 ).
 
-Definition kruskal_entail_wit_9_1 := 
+Definition kruskal_entail_wit_5_1 := 
 (
 forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u_2: (@list Z)) (l_v_2: (@list Z)) (l_w_2: (@list Z)) (edge_order_2: (@list Z)) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_w_2: (@list Z)) (l_out_u1: (@list Z)) (l_out_v1: (@list Z)) (l_out_w1: (@list Z)) (s: St) (s_next: St) (repr_of: (Z -> Z)) (repr_of1: (Z -> Z)) (e: Z) (i: Z) (chosen: Z) (root_u: Z) (root_v: Z) (edge_u: Z) (edge_v: Z) (edge_w: Z) (uf: Z) (out_u: Z) (out_v: Z) (out_w: Z) (PreH1 : (0 <= i)) (PreH2 : (i < m_pre)) (PreH3 : (1 <= chosen)) (PreH4 : (chosen <= (n_pre - 1 ))) (PreH5 : (root_u <> root_v)) (PreH6 : (edge_u = (Znth i l_u_2 0))) (PreH7 : (edge_v = (Znth i l_v_2 0))) (PreH8 : (edge_w = (Znth i l_w_2 0))) (PreH9 : (0 <= edge_u)) (PreH10 : (edge_u < n_pre)) (PreH11 : (0 <= edge_v)) (PreH12 : (edge_v < n_pre)) (PreH13 : (0 <= root_u)) (PreH14 : (root_u < n_pre)) (PreH15 : (0 <= root_v)) (PreH16 : (root_v < n_pre)) (PreH17 : (root_u = (repr_of (edge_u)))) (PreH18 : (root_v = (repr_of (edge_v)))) (PreH19 : (2 <= n_pre)) (PreH20 : (n_pre < INT_MAX)) (PreH21 : (1 <= m_pre)) (PreH22 : (m_pre < INT_MAX)) (PreH23 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH24 : (KruskalEnv g_low_level_spec )) (PreH25 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order_2 )) (PreH26 : (kruskal_scan_state g_low_level_spec edge_order_2 i (chosen - 1 ) s )) (PreH27 : (kruskal_scan_phase g_low_level_spec s (chosen - 1 ) )) (PreH28 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH29 : (output_prefix_matches_state g_low_level_spec (chosen - 1 ) l_out_u_2 l_out_v_2 l_out_w_2 s )) (PreH30 : (uf_different_class repr_of edge_u edge_v )) (PreH31 : (selected_edge_is_min_edge g_low_level_spec edge_order_2 i s e )) (PreH32 : (selected_edge_pair g_low_level_spec e edge_u edge_v )) (PreH33 : (selected_edge_add_to_mst s s_next edge_u edge_v e )) (PreH34 : (uf_merge n_pre repr_of edge_u edge_v repr_of1 )) (PreH35 : (kruskal_scan_state g_low_level_spec edge_order_2 (i + 1 ) chosen s_next )) (PreH36 : (kruskal_scan_phase g_low_level_spec s_next chosen )) (PreH37 : (union_find_connectivity_matches_state g_low_level_spec s_next repr_of1 )) (PreH38 : (output_prefix_matches_state g_low_level_spec chosen l_out_u1 l_out_v1 l_out_w1 s_next )) (PreH39 : (safeExec (kruskal_state_is (s_next)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   (UF uf n_pre repr_of1 )
@@ -2751,7 +2555,7 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_l
   &&  emp
 ).
 
-Definition kruskal_entail_wit_9_2 := 
+Definition kruskal_entail_wit_5_2 := 
 (
 forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u_2: (@list Z)) (l_v_2: (@list Z)) (l_w_2: (@list Z)) (edge_order_2: (@list Z)) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_w_2: (@list Z)) (s: St) (repr_of: (Z -> Z)) (i: Z) (chosen: Z) (root_u: Z) (root_v: Z) (edge_u: Z) (edge_v: Z) (edge_w: Z) (uf: Z) (out_u: Z) (out_v: Z) (out_w: Z) (PreH1 : (0 <= i)) (PreH2 : (i < m_pre)) (PreH3 : (0 <= chosen)) (PreH4 : (chosen <= (n_pre - 1 ))) (PreH5 : (root_u = root_v)) (PreH6 : (edge_u = (Znth i l_u_2 0))) (PreH7 : (edge_v = (Znth i l_v_2 0))) (PreH8 : (edge_w = (Znth i l_w_2 0))) (PreH9 : (0 <= edge_u)) (PreH10 : (edge_u < n_pre)) (PreH11 : (0 <= edge_v)) (PreH12 : (edge_v < n_pre)) (PreH13 : (0 <= root_u)) (PreH14 : (root_u < n_pre)) (PreH15 : (0 <= root_v)) (PreH16 : (root_v < n_pre)) (PreH17 : (root_u = (repr_of (edge_u)))) (PreH18 : (root_v = (repr_of (edge_v)))) (PreH19 : (2 <= n_pre)) (PreH20 : (n_pre < INT_MAX)) (PreH21 : (1 <= m_pre)) (PreH22 : (m_pre < INT_MAX)) (PreH23 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH24 : (KruskalEnv g_low_level_spec )) (PreH25 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order_2 )) (PreH26 : (kruskal_scan_state g_low_level_spec edge_order_2 i chosen s )) (PreH27 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH28 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH29 : (output_prefix_matches_state g_low_level_spec chosen l_out_u_2 l_out_v_2 l_out_w_2 s )) (PreH30 : (uf_same_class repr_of edge_u edge_v )) (PreH31 : (kruskal_scan_state g_low_level_spec edge_order_2 (i + 1 ) chosen s )) (PreH32 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   (UF uf n_pre repr_of )
@@ -2818,7 +2622,7 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_l
   &&  emp
 ).
 
-Definition kruskal_entail_wit_10 := 
+Definition kruskal_entail_wit_6 := 
 (
 forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u_2: (@list Z)) (l_v_2: (@list Z)) (l_w_2: (@list Z)) (edge_order_2: (@list Z)) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_w_2: (@list Z)) (s_after: St) (repr_of_after: (Z -> Z)) (i_2: Z) (chosen_2: Z) (edge_u: Z) (edge_v: Z) (edge_w: Z) (root_u: Z) (root_v: Z) (uf_2: Z) (out_u_2: Z) (out_v_2: Z) (out_w_2: Z) (PreH1 : (0 <= i_2)) (PreH2 : (i_2 < m_pre)) (PreH3 : (0 <= chosen_2)) (PreH4 : (chosen_2 <= (n_pre - 1 ))) (PreH5 : (edge_u = (Znth i_2 l_u_2 0))) (PreH6 : (edge_v = (Znth i_2 l_v_2 0))) (PreH7 : (edge_w = (Znth i_2 l_w_2 0))) (PreH8 : (0 <= edge_u)) (PreH9 : (edge_u < n_pre)) (PreH10 : (0 <= edge_v)) (PreH11 : (edge_v < n_pre)) (PreH12 : (0 <= root_u)) (PreH13 : (root_u < n_pre)) (PreH14 : (0 <= root_v)) (PreH15 : (root_v < n_pre)) (PreH16 : (2 <= n_pre)) (PreH17 : (n_pre < INT_MAX)) (PreH18 : (1 <= m_pre)) (PreH19 : (m_pre < INT_MAX)) (PreH20 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH21 : (KruskalEnv g_low_level_spec )) (PreH22 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order_2 )) (PreH23 : (kruskal_scan_state g_low_level_spec edge_order_2 (i_2 + 1 ) chosen_2 s_after )) (PreH24 : (kruskal_scan_phase g_low_level_spec s_after chosen_2 )) (PreH25 : (union_find_connectivity_matches_state g_low_level_spec s_after repr_of_after )) (PreH26 : (output_prefix_matches_state g_low_level_spec chosen_2 l_out_u_2 l_out_v_2 l_out_w_2 s_after )) (PreH27 : (safeExec (kruskal_state_is (s_after)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "i" ) )) # Int  |-> (i_2 + 1 ))
@@ -2898,141 +2702,21 @@ forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_l
   &&  emp
 ).
 
-Definition kruskal_entail_wit_11_1 := 
-(
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (uf: Z) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_w_2: (@list Z)) (repr_of_2: (Z -> Z)) (s_2: St) (l_u_2: (@list Z)) (l_v_2: (@list Z)) (l_w_2: (@list Z)) (edge_order_2: (@list Z)) (chosen: Z) (i: Z) (PreH1 : (i >= m_pre)) (PreH2 : (0 <= i)) (PreH3 : (i <= m_pre)) (PreH4 : (0 <= chosen)) (PreH5 : (chosen <= (n_pre - 1 ))) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre < INT_MAX)) (PreH10 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH11 : (KruskalEnv g_low_level_spec )) (PreH12 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order_2 )) (PreH13 : (kruskal_scan_state g_low_level_spec edge_order_2 i chosen s_2 )) (PreH14 : (kruskal_scan_phase g_low_level_spec s_2 chosen )) (PreH15 : (union_find_connectivity_matches_state g_low_level_spec s_2 repr_of_2 )) (PreH16 : (output_prefix_matches_state g_low_level_spec chosen l_out_u_2 l_out_v_2 l_out_w_2 s_2 )) (PreH17 : (safeExec (kruskal_state_is (s_2)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
-  (UF uf n_pre repr_of_2 )
-  **  (IntArray.full u_pre m_pre l_u_2 )
-  **  (IntArray.full v_pre m_pre l_v_2 )
-  **  (IntArray.full w_pre m_pre l_w_2 )
-  **  (IntArray.seg out_u 0 chosen l_out_u_2 )
-  **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
-  **  (IntArray.seg out_v 0 chosen l_out_v_2 )
-  **  (IntArray.undef_seg out_v chosen (n_pre - 1 ) )
-  **  (IntArray.seg out_w 0 chosen l_out_w_2 )
-  **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
-|--
-  EX (l_out_u: (@list Z))  (l_out_v: (@list Z))  (l_out_w: (@list Z))  (repr_of: (Z -> Z))  (s: St)  (l_u: (@list Z))  (l_v: (@list Z))  (l_w: (@list Z))  (edge_order: (@list Z)) ,
-  “ (0 <= i) ” 
-  &&  “ (i <= m_pre) ” 
-  &&  “ (chosen = (n_pre - 1 )) ” 
-  &&  “ (2 <= n_pre) ” 
-  &&  “ (n_pre < INT_MAX) ” 
-  &&  “ (1 <= m_pre) ” 
-  &&  “ (m_pre < INT_MAX) ” 
-  &&  “ (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec ) ” 
-  &&  “ (KruskalEnv g_low_level_spec ) ” 
-  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order ) ” 
-  &&  “ (kruskal_scan_state g_low_level_spec edge_order i chosen s ) ” 
-  &&  “ (kruskal_scan_phase g_low_level_spec s chosen ) ” 
-  &&  “ (union_find_connectivity_matches_state g_low_level_spec s repr_of ) ” 
-  &&  “ (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s ) ” 
-  &&  “ (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
-  &&  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
-  **  (IntArray.full out_u (n_pre - 1 ) l_out_u )
-  **  (IntArray.full out_v (n_pre - 1 ) l_out_v )
-  **  (IntArray.full out_w (n_pre - 1 ) l_out_w )
-) \/
-(
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (uf: Z) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_w_2: (@list Z)) (repr_of_2: (Z -> Z)) (s_2: St) (l_u_2: (@list Z)) (l_v_2: (@list Z)) (l_w_2: (@list Z)) (edge_order_2: (@list Z)) (chosen: Z) (i: Z) (PreH1 : (i >= m_pre)) (PreH2 : (0 <= i)) (PreH3 : (i <= m_pre)) (PreH4 : (0 <= chosen)) (PreH5 : (chosen <= (n_pre - 1 ))) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre < INT_MAX)) (PreH10 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH11 : (KruskalEnv g_low_level_spec )) (PreH12 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order_2 )) (PreH13 : (kruskal_scan_state g_low_level_spec edge_order_2 i chosen s_2 )) (PreH14 : (kruskal_scan_phase g_low_level_spec s_2 chosen )) (PreH15 : (union_find_connectivity_matches_state g_low_level_spec s_2 repr_of_2 )) (PreH16 : (output_prefix_matches_state g_low_level_spec chosen l_out_u_2 l_out_v_2 l_out_w_2 s_2 )) (PreH17 : (safeExec (kruskal_state_is (s_2)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
-  (UF uf n_pre repr_of_2 )
-  **  (IntArray.seg out_u 0 chosen l_out_u_2 )
-  **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
-  **  (IntArray.seg out_v 0 chosen l_out_v_2 )
-  **  (IntArray.undef_seg out_v chosen (n_pre - 1 ) )
-  **  (IntArray.seg out_w 0 chosen l_out_w_2 )
-  **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
-|--
-  EX (l_out_u: (@list Z))  (l_out_v: (@list Z))  (l_out_w: (@list Z))  (repr_of: (Z -> Z))  (s: St)  (edge_order: (@list Z)) ,
-  “ (0 <= i) ” 
-  &&  “ (i <= m_pre) ” 
-  &&  “ (chosen = (n_pre - 1 )) ” 
-  &&  “ (2 <= n_pre) ” 
-  &&  “ (n_pre < INT_MAX) ” 
-  &&  “ (1 <= m_pre) ” 
-  &&  “ (m_pre < INT_MAX) ” 
-  &&  “ (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec ) ” 
-  &&  “ (KruskalEnv g_low_level_spec ) ” 
-  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order ) ” 
-  &&  “ (kruskal_scan_state g_low_level_spec edge_order i chosen s ) ” 
-  &&  “ (kruskal_scan_phase g_low_level_spec s chosen ) ” 
-  &&  “ (union_find_connectivity_matches_state g_low_level_spec s repr_of ) ” 
-  &&  “ (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s ) ” 
-  &&  “ (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
-  &&  (UF uf n_pre repr_of )
-  **  (IntArray.full out_u (n_pre - 1 ) l_out_u )
-  **  (IntArray.full out_v (n_pre - 1 ) l_out_v )
-  **  (IntArray.full out_w (n_pre - 1 ) l_out_w )
-).
-
-Definition kruskal_entail_wit_11_2 := 
-(
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (uf: Z) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_w_2: (@list Z)) (repr_of_2: (Z -> Z)) (s_2: St) (l_u_2: (@list Z)) (l_v_2: (@list Z)) (l_w_2: (@list Z)) (edge_order_2: (@list Z)) (chosen: Z) (i: Z) (PreH1 : (chosen >= (n_pre - 1 ))) (PreH2 : (i < m_pre)) (PreH3 : (0 <= i)) (PreH4 : (i <= m_pre)) (PreH5 : (0 <= chosen)) (PreH6 : (chosen <= (n_pre - 1 ))) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order_2 )) (PreH14 : (kruskal_scan_state g_low_level_spec edge_order_2 i chosen s_2 )) (PreH15 : (kruskal_scan_phase g_low_level_spec s_2 chosen )) (PreH16 : (union_find_connectivity_matches_state g_low_level_spec s_2 repr_of_2 )) (PreH17 : (output_prefix_matches_state g_low_level_spec chosen l_out_u_2 l_out_v_2 l_out_w_2 s_2 )) (PreH18 : (safeExec (kruskal_state_is (s_2)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
-  (UF uf n_pre repr_of_2 )
-  **  (IntArray.full u_pre m_pre l_u_2 )
-  **  (IntArray.full v_pre m_pre l_v_2 )
-  **  (IntArray.full w_pre m_pre l_w_2 )
-  **  (IntArray.seg out_u 0 chosen l_out_u_2 )
-  **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
-  **  (IntArray.seg out_v 0 chosen l_out_v_2 )
-  **  (IntArray.undef_seg out_v chosen (n_pre - 1 ) )
-  **  (IntArray.seg out_w 0 chosen l_out_w_2 )
-  **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
-|--
-  EX (l_out_u: (@list Z))  (l_out_v: (@list Z))  (l_out_w: (@list Z))  (repr_of: (Z -> Z))  (s: St)  (l_u: (@list Z))  (l_v: (@list Z))  (l_w: (@list Z))  (edge_order: (@list Z)) ,
-  “ (0 <= i) ” 
-  &&  “ (i <= m_pre) ” 
-  &&  “ (chosen = (n_pre - 1 )) ” 
-  &&  “ (2 <= n_pre) ” 
-  &&  “ (n_pre < INT_MAX) ” 
-  &&  “ (1 <= m_pre) ” 
-  &&  “ (m_pre < INT_MAX) ” 
-  &&  “ (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec ) ” 
-  &&  “ (KruskalEnv g_low_level_spec ) ” 
-  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order ) ” 
-  &&  “ (kruskal_scan_state g_low_level_spec edge_order i chosen s ) ” 
-  &&  “ (kruskal_scan_phase g_low_level_spec s chosen ) ” 
-  &&  “ (union_find_connectivity_matches_state g_low_level_spec s repr_of ) ” 
-  &&  “ (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s ) ” 
-  &&  “ (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
-  &&  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
-  **  (IntArray.full out_u (n_pre - 1 ) l_out_u )
-  **  (IntArray.full out_v (n_pre - 1 ) l_out_v )
-  **  (IntArray.full out_w (n_pre - 1 ) l_out_w )
-) \/
-(
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_out_u_2: (@list Z)) (l_out_v_2: (@list Z)) (l_out_w_2: (@list Z)) (repr_of_2: (Z -> Z)) (s_2: St) (l_u_2: (@list Z)) (l_v_2: (@list Z)) (l_w_2: (@list Z)) (edge_order_2: (@list Z)) (chosen: Z) (i: Z) (PreH1 : (chosen >= (n_pre - 1 ))) (PreH2 : (i < m_pre)) (PreH3 : (0 <= i)) (PreH4 : (i <= m_pre)) (PreH5 : (0 <= chosen)) (PreH6 : (chosen <= (n_pre - 1 ))) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order_2 )) (PreH14 : (kruskal_scan_state g_low_level_spec edge_order_2 i chosen s_2 )) (PreH15 : (kruskal_scan_phase g_low_level_spec s_2 chosen )) (PreH16 : (union_find_connectivity_matches_state g_low_level_spec s_2 repr_of_2 )) (PreH17 : (output_prefix_matches_state g_low_level_spec chosen l_out_u_2 l_out_v_2 l_out_w_2 s_2 )) (PreH18 : (safeExec (kruskal_state_is (s_2)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
-  TT && emp 
-|--
-  EX (s: St)  (edge_order: (@list Z)) ,
-  “ (chosen = (n_pre - 1 )) ” 
-  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order ) ” 
-  &&  “ (kruskal_scan_state g_low_level_spec edge_order i chosen s ) ” 
-  &&  “ (kruskal_scan_phase g_low_level_spec s chosen ) ” 
-  &&  “ (union_find_connectivity_matches_state g_low_level_spec s repr_of_2 ) ” 
-  &&  “ (output_prefix_matches_state g_low_level_spec chosen l_out_u_2 l_out_v_2 l_out_w_2 s ) ” 
-  &&  “ (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
-  &&  emp
-).
-
 Definition kruskal_return_wit_1 := 
 (
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u_2: (@list Z)) (l_v_2: (@list Z)) (l_w_2: (@list Z)) (edge_order_2: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (s: St) (repr_of: (Z -> Z)) (i: Z) (chosen: Z) (out_u: Z) (out_v: Z) (out_w: Z) (retval: Z) (PreH1 : (retval <> 0)) (PreH2 : (0 <= i)) (PreH3 : (i <= m_pre)) (PreH4 : (chosen = (n_pre - 1 ))) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (1 <= m_pre)) (PreH8 : (m_pre < INT_MAX)) (PreH9 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH10 : (KruskalEnv g_low_level_spec )) (PreH11 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order_2 )) (PreH12 : (kruskal_scan_state g_low_level_spec edge_order_2 i chosen s )) (PreH13 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH14 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH15 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH16 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (repr_of: (Z -> Z)) (s: St) (l_u_2: (@list Z)) (l_v_2: (@list Z)) (l_w_2: (@list Z)) (edge_order_2: (@list Z)) (chosen: Z) (i: Z) (retval: Z) (PreH1 : (retval <> 0)) (PreH2 : (i >= m_pre)) (PreH3 : (0 <= i)) (PreH4 : (i <= m_pre)) (PreH5 : (0 <= chosen)) (PreH6 : (chosen <= (n_pre - 1 ))) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order_2 )) (PreH14 : (kruskal_scan_state g_low_level_spec edge_order_2 i chosen s )) (PreH15 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH16 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH17 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH18 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   ((&((retval)  # "mst_tree" ->ₛ "ru")) # Ptr  |-> out_u)
   **  ((&((retval)  # "mst_tree" ->ₛ "rv")) # Ptr  |-> out_v)
   **  ((&((retval)  # "mst_tree" ->ₛ "rw")) # Ptr  |-> out_w)
   **  (IntArray.full u_pre m_pre l_u_2 )
   **  (IntArray.full v_pre m_pre l_v_2 )
   **  (IntArray.full w_pre m_pre l_w_2 )
-  **  (IntArray.full out_u (n_pre - 1 ) l_out_u )
-  **  (IntArray.full out_v (n_pre - 1 ) l_out_v )
-  **  (IntArray.full out_w (n_pre - 1 ) l_out_w )
+  **  (IntArray.seg out_u 0 chosen l_out_u )
+  **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
+  **  (IntArray.seg out_v 0 chosen l_out_v )
+  **  (IntArray.undef_seg out_v chosen (n_pre - 1 ) )
+  **  (IntArray.seg out_w 0 chosen l_out_w )
+  **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
 |--
   EX (retval_rw: Z)  (retval_rv: Z)  (retval_ru: Z)  (lru: (@list Z))  (lrv: (@list Z))  (lrw: (@list Z))  (l_u: (@list Z))  (l_v: (@list Z))  (l_w: (@list Z))  (edge_order: (@list Z))  (rg: G) ,
   “ (safeExec (kruskal_state_graph_matches (rg)) (return (tt)) X_low_level_spec ) ” 
@@ -3050,7 +2734,54 @@ forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec:
   **  (IntArray.full retval_rw (n_pre - 1 ) lrw )
 ) \/
 (
-forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u_2: (@list Z)) (l_v_2: (@list Z)) (l_w_2: (@list Z)) (edge_order_2: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (s: St) (repr_of: (Z -> Z)) (i: Z) (chosen: Z) (retval: Z) (PreH1 : (retval <> 0)) (PreH2 : (0 <= i)) (PreH3 : (i <= m_pre)) (PreH4 : (chosen = (n_pre - 1 ))) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (1 <= m_pre)) (PreH8 : (m_pre < INT_MAX)) (PreH9 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH10 : (KruskalEnv g_low_level_spec )) (PreH11 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order_2 )) (PreH12 : (kruskal_scan_state g_low_level_spec edge_order_2 i chosen s )) (PreH13 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH14 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH15 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH16 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (repr_of: (Z -> Z)) (s: St) (l_u_2: (@list Z)) (l_v_2: (@list Z)) (l_w_2: (@list Z)) (edge_order_2: (@list Z)) (chosen: Z) (i: Z) (retval: Z) (PreH1 : (retval <> 0)) (PreH2 : (i >= m_pre)) (PreH3 : (0 <= i)) (PreH4 : (i <= m_pre)) (PreH5 : (0 <= chosen)) (PreH6 : (chosen <= (n_pre - 1 ))) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order_2 )) (PreH14 : (kruskal_scan_state g_low_level_spec edge_order_2 i chosen s )) (PreH15 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH16 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH17 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH18 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+  (IntArray.seg out_u 0 chosen l_out_u )
+  **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
+  **  (IntArray.seg out_v 0 chosen l_out_v )
+  **  (IntArray.undef_seg out_v chosen (n_pre - 1 ) )
+  **  (IntArray.seg out_w 0 chosen l_out_w )
+  **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
+|--
+  EX (lru: (@list Z))  (lrv: (@list Z))  (lrw: (@list Z))  (edge_order: (@list Z))  (rg: G) ,
+  “ (safeExec (kruskal_state_graph_matches (rg)) (return (tt)) X_low_level_spec ) ” 
+  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order ) ” 
+  &&  “ (kruskal_result_graph_matches_array lru lrv lrw g_low_level_spec rg ) ” 
+  &&  “ (retval <> 0) ”
+  &&  (IntArray.full out_u (n_pre - 1 ) lru )
+  **  (IntArray.full out_v (n_pre - 1 ) lrv )
+  **  (IntArray.full out_w (n_pre - 1 ) lrw )
+).
+
+Definition kruskal_return_wit_2 := 
+(
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (repr_of: (Z -> Z)) (s: St) (l_u_2: (@list Z)) (l_v_2: (@list Z)) (l_w_2: (@list Z)) (edge_order_2: (@list Z)) (chosen: Z) (i: Z) (retval: Z) (PreH1 : (retval <> 0)) (PreH2 : (chosen >= (n_pre - 1 ))) (PreH3 : (i < m_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= m_pre)) (PreH6 : (0 <= chosen)) (PreH7 : (chosen <= (n_pre - 1 ))) (PreH8 : (2 <= n_pre)) (PreH9 : (n_pre < INT_MAX)) (PreH10 : (1 <= m_pre)) (PreH11 : (m_pre < INT_MAX)) (PreH12 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH13 : (KruskalEnv g_low_level_spec )) (PreH14 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order_2 )) (PreH15 : (kruskal_scan_state g_low_level_spec edge_order_2 i chosen s )) (PreH16 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH17 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH18 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH19 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+  ((&((retval)  # "mst_tree" ->ₛ "ru")) # Ptr  |-> out_u)
+  **  ((&((retval)  # "mst_tree" ->ₛ "rv")) # Ptr  |-> out_v)
+  **  ((&((retval)  # "mst_tree" ->ₛ "rw")) # Ptr  |-> out_w)
+  **  (IntArray.full u_pre m_pre l_u_2 )
+  **  (IntArray.full v_pre m_pre l_v_2 )
+  **  (IntArray.full w_pre m_pre l_w_2 )
+  **  (IntArray.seg out_u 0 chosen l_out_u )
+  **  (IntArray.seg out_v 0 chosen l_out_v )
+  **  (IntArray.seg out_w 0 chosen l_out_w )
+|--
+  EX (retval_rw: Z)  (retval_rv: Z)  (retval_ru: Z)  (lru: (@list Z))  (lrv: (@list Z))  (lrw: (@list Z))  (l_u: (@list Z))  (l_v: (@list Z))  (l_w: (@list Z))  (edge_order: (@list Z))  (rg: G) ,
+  “ (safeExec (kruskal_state_graph_matches (rg)) (return (tt)) X_low_level_spec ) ” 
+  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order ) ” 
+  &&  “ (kruskal_result_graph_matches_array lru lrv lrw g_low_level_spec rg ) ” 
+  &&  “ (retval <> 0) ”
+  &&  (IntArray.full u_pre m_pre l_u )
+  **  (IntArray.full v_pre m_pre l_v )
+  **  (IntArray.full w_pre m_pre l_w )
+  **  ((&((retval)  # "mst_tree" ->ₛ "ru")) # Ptr  |-> retval_ru)
+  **  (IntArray.full retval_ru (n_pre - 1 ) lru )
+  **  ((&((retval)  # "mst_tree" ->ₛ "rv")) # Ptr  |-> retval_rv)
+  **  (IntArray.full retval_rv (n_pre - 1 ) lrv )
+  **  ((&((retval)  # "mst_tree" ->ₛ "rw")) # Ptr  |-> retval_rw)
+  **  (IntArray.full retval_rw (n_pre - 1 ) lrw )
+) \/
+(
+forall (m_pre: Z) (n_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (repr_of: (Z -> Z)) (s: St) (l_u_2: (@list Z)) (l_v_2: (@list Z)) (l_w_2: (@list Z)) (edge_order_2: (@list Z)) (chosen: Z) (i: Z) (retval: Z) (PreH1 : (retval <> 0)) (PreH2 : (chosen >= (n_pre - 1 ))) (PreH3 : (i < m_pre)) (PreH4 : (0 <= i)) (PreH5 : (i <= m_pre)) (PreH6 : (0 <= chosen)) (PreH7 : (chosen <= (n_pre - 1 ))) (PreH8 : (2 <= n_pre)) (PreH9 : (n_pre < INT_MAX)) (PreH10 : (1 <= m_pre)) (PreH11 : (m_pre < INT_MAX)) (PreH12 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH13 : (KruskalEnv g_low_level_spec )) (PreH14 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_2 l_v_2 l_w_2 edge_order_2 )) (PreH15 : (kruskal_scan_state g_low_level_spec edge_order_2 i chosen s )) (PreH16 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH17 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH18 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH19 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   TT && emp 
 |--
   EX (rg: G) ,
@@ -3100,193 +2831,197 @@ forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec:
 Definition kruskal_partial_solve_wit_1 := kruskal_partial_solve_wit_1_pure -> kruskal_partial_solve_wit_1_aux.
 
 Definition kruskal_partial_solve_wit_2_pure := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u_sorted: (@list Z)) (l_v_sorted: (@list Z)) (l_w_sorted: (@list Z)) (edge_order: (@list Z)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre < INT_MAX)) (PreH5 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH6 : (KruskalEnv g_low_level_spec )) (PreH7 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_sorted l_v_sorted l_w_sorted edge_order )) (PreH8 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u1: (@list Z)) (l_v1: (@list Z)) (l_w1: (@list Z)) (edge_order1: (@list Z)) (PreH1 : (0 <= m_pre)) (PreH2 : (m_pre <= INT_MAX)) (PreH3 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 )) (PreH4 : (Permutation (Zrange (0) (m_pre)) edge_order1 )) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (1 <= m_pre)) (PreH8 : (m_pre < INT_MAX)) (PreH9 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH10 : (KruskalEnv g_low_level_spec )) (PreH11 : (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) )) (PreH12 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "uf" ) )) # Ptr  |->_)
+  **  (IntArray.full u_pre m_pre l_u1 )
+  **  (IntArray.full v_pre m_pre l_v1 )
+  **  (IntArray.full w_pre m_pre l_w1 )
   **  ((( &( "u" ) )) # Ptr  |-> u_pre)
   **  ((( &( "v" ) )) # Ptr  |-> v_pre)
   **  ((( &( "w" ) )) # Ptr  |-> w_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  (IntArray.full u_pre m_pre l_u_sorted )
-  **  (IntArray.full v_pre m_pre l_v_sorted )
-  **  (IntArray.full w_pre m_pre l_w_sorted )
 |--
   “ (0 < n_pre) ” 
   &&  “ (n_pre <= INT_MAX) ”
 .
 
 Definition kruskal_partial_solve_wit_2_aux := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u_sorted: (@list Z)) (l_v_sorted: (@list Z)) (l_w_sorted: (@list Z)) (edge_order: (@list Z)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre < INT_MAX)) (PreH5 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH6 : (KruskalEnv g_low_level_spec )) (PreH7 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_sorted l_v_sorted l_w_sorted edge_order )) (PreH8 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
-  (IntArray.full u_pre m_pre l_u_sorted )
-  **  (IntArray.full v_pre m_pre l_v_sorted )
-  **  (IntArray.full w_pre m_pre l_w_sorted )
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u1: (@list Z)) (l_v1: (@list Z)) (l_w1: (@list Z)) (edge_order1: (@list Z)) (PreH1 : (0 <= m_pre)) (PreH2 : (m_pre <= INT_MAX)) (PreH3 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 )) (PreH4 : (Permutation (Zrange (0) (m_pre)) edge_order1 )) (PreH5 : (2 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : (1 <= m_pre)) (PreH8 : (m_pre < INT_MAX)) (PreH9 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH10 : (KruskalEnv g_low_level_spec )) (PreH11 : (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) )) (PreH12 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+  (IntArray.full u_pre m_pre l_u1 )
+  **  (IntArray.full v_pre m_pre l_v1 )
+  **  (IntArray.full w_pre m_pre l_w1 )
 |--
   “ (0 < n_pre) ” 
   &&  “ (n_pre <= INT_MAX) ” 
+  &&  “ (0 <= m_pre) ” 
+  &&  “ (m_pre <= INT_MAX) ” 
+  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 ) ” 
+  &&  “ (Permutation (Zrange (0) (m_pre)) edge_order1 ) ” 
   &&  “ (2 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (1 <= m_pre) ” 
   &&  “ (m_pre < INT_MAX) ” 
   &&  “ (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec ) ” 
   &&  “ (KruskalEnv g_low_level_spec ) ” 
-  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u_sorted l_v_sorted l_w_sorted edge_order ) ” 
+  &&  “ (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) ) ” 
   &&  “ (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
-  &&  (IntArray.full u_pre m_pre l_u_sorted )
-  **  (IntArray.full v_pre m_pre l_v_sorted )
-  **  (IntArray.full w_pre m_pre l_w_sorted )
+  &&  (IntArray.full u_pre m_pre l_u1 )
+  **  (IntArray.full v_pre m_pre l_v1 )
+  **  (IntArray.full w_pre m_pre l_w1 )
 .
 
 Definition kruskal_partial_solve_wit_2 := kruskal_partial_solve_wit_2_pure -> kruskal_partial_solve_wit_2_aux.
 
 Definition kruskal_partial_solve_wit_3_pure := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (s: St) (repr_of: (Z -> Z)) (uf: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre < INT_MAX)) (PreH5 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH6 : (KruskalEnv g_low_level_spec )) (PreH7 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH8 : (initStPred g_low_level_spec s )) (PreH9 : (kruskal_scan_state g_low_level_spec edge_order 0 0 s )) (PreH10 : (kruskal_scan_phase g_low_level_spec s 0 )) (PreH11 : (uf_initial n_pre repr_of )) (PreH12 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH13 : (output_prefix_matches_state g_low_level_spec 0 (@nil Z) (@nil Z) (@nil Z) s )) (PreH14 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u1: (@list Z)) (l_v1: (@list Z)) (l_w1: (@list Z)) (edge_order1: (@list Z)) (repr_of: (Z -> Z)) (retval: Z) (PreH1 : (retval <> 0)) (PreH2 : (uf_initial n_pre repr_of )) (PreH3 : (0 <= m_pre)) (PreH4 : (m_pre <= INT_MAX)) (PreH5 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 )) (PreH6 : (Permutation (Zrange (0) (m_pre)) edge_order1 )) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) )) (PreH14 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "out_u" ) )) # Ptr  |->_)
+  **  (UF retval n_pre repr_of )
+  **  ((( &( "uf" ) )) # Ptr  |-> retval)
+  **  (IntArray.full u_pre m_pre l_u1 )
+  **  (IntArray.full v_pre m_pre l_v1 )
+  **  (IntArray.full w_pre m_pre l_w1 )
   **  ((( &( "u" ) )) # Ptr  |-> u_pre)
   **  ((( &( "v" ) )) # Ptr  |-> v_pre)
   **  ((( &( "w" ) )) # Ptr  |-> w_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  ((( &( "uf" ) )) # Ptr  |-> uf)
-  **  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
 |--
   “ ((n_pre - 1 ) > 0) ”
 .
 
 Definition kruskal_partial_solve_wit_3_aux := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (s: St) (repr_of: (Z -> Z)) (uf: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre < INT_MAX)) (PreH5 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH6 : (KruskalEnv g_low_level_spec )) (PreH7 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH8 : (initStPred g_low_level_spec s )) (PreH9 : (kruskal_scan_state g_low_level_spec edge_order 0 0 s )) (PreH10 : (kruskal_scan_phase g_low_level_spec s 0 )) (PreH11 : (uf_initial n_pre repr_of )) (PreH12 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH13 : (output_prefix_matches_state g_low_level_spec 0 (@nil Z) (@nil Z) (@nil Z) s )) (PreH14 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
-  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u1: (@list Z)) (l_v1: (@list Z)) (l_w1: (@list Z)) (edge_order1: (@list Z)) (repr_of: (Z -> Z)) (retval: Z) (PreH1 : (retval <> 0)) (PreH2 : (uf_initial n_pre repr_of )) (PreH3 : (0 <= m_pre)) (PreH4 : (m_pre <= INT_MAX)) (PreH5 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 )) (PreH6 : (Permutation (Zrange (0) (m_pre)) edge_order1 )) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) )) (PreH14 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+  (UF retval n_pre repr_of )
+  **  (IntArray.full u_pre m_pre l_u1 )
+  **  (IntArray.full v_pre m_pre l_v1 )
+  **  (IntArray.full w_pre m_pre l_w1 )
 |--
   “ ((n_pre - 1 ) > 0) ” 
+  &&  “ (retval <> 0) ” 
+  &&  “ (uf_initial n_pre repr_of ) ” 
+  &&  “ (0 <= m_pre) ” 
+  &&  “ (m_pre <= INT_MAX) ” 
+  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 ) ” 
+  &&  “ (Permutation (Zrange (0) (m_pre)) edge_order1 ) ” 
   &&  “ (2 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (1 <= m_pre) ” 
   &&  “ (m_pre < INT_MAX) ” 
   &&  “ (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec ) ” 
   &&  “ (KruskalEnv g_low_level_spec ) ” 
-  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order ) ” 
-  &&  “ (initStPred g_low_level_spec s ) ” 
-  &&  “ (kruskal_scan_state g_low_level_spec edge_order 0 0 s ) ” 
-  &&  “ (kruskal_scan_phase g_low_level_spec s 0 ) ” 
-  &&  “ (uf_initial n_pre repr_of ) ” 
-  &&  “ (union_find_connectivity_matches_state g_low_level_spec s repr_of ) ” 
-  &&  “ (output_prefix_matches_state g_low_level_spec 0 (@nil Z) (@nil Z) (@nil Z) s ) ” 
-  &&  “ (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
-  &&  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
+  &&  “ (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) ) ” 
+  &&  “ (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
+  &&  (UF retval n_pre repr_of )
+  **  (IntArray.full u_pre m_pre l_u1 )
+  **  (IntArray.full v_pre m_pre l_v1 )
+  **  (IntArray.full w_pre m_pre l_w1 )
 .
 
 Definition kruskal_partial_solve_wit_3 := kruskal_partial_solve_wit_3_pure -> kruskal_partial_solve_wit_3_aux.
 
 Definition kruskal_partial_solve_wit_4_pure := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (s: St) (repr_of: (Z -> Z)) (uf: Z) (retval: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre < INT_MAX)) (PreH5 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH6 : (KruskalEnv g_low_level_spec )) (PreH7 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH8 : (initStPred g_low_level_spec s )) (PreH9 : (kruskal_scan_state g_low_level_spec edge_order 0 0 s )) (PreH10 : (kruskal_scan_phase g_low_level_spec s 0 )) (PreH11 : (uf_initial n_pre repr_of )) (PreH12 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH13 : (output_prefix_matches_state g_low_level_spec 0 (@nil Z) (@nil Z) (@nil Z) s )) (PreH14 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u1: (@list Z)) (l_v1: (@list Z)) (l_w1: (@list Z)) (edge_order1: (@list Z)) (repr_of: (Z -> Z)) (retval: Z) (retval_2: Z) (PreH1 : (retval <> 0)) (PreH2 : (uf_initial n_pre repr_of )) (PreH3 : (0 <= m_pre)) (PreH4 : (m_pre <= INT_MAX)) (PreH5 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 )) (PreH6 : (Permutation (Zrange (0) (m_pre)) edge_order1 )) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) )) (PreH14 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "out_v" ) )) # Ptr  |->_)
-  **  (IntArray.undef_full retval (n_pre - 1 ) )
-  **  ((( &( "out_u" ) )) # Ptr  |-> retval)
+  **  (IntArray.undef_full retval_2 (n_pre - 1 ) )
+  **  ((( &( "out_u" ) )) # Ptr  |-> retval_2)
+  **  (UF retval n_pre repr_of )
+  **  ((( &( "uf" ) )) # Ptr  |-> retval)
+  **  (IntArray.full u_pre m_pre l_u1 )
+  **  (IntArray.full v_pre m_pre l_v1 )
+  **  (IntArray.full w_pre m_pre l_w1 )
   **  ((( &( "u" ) )) # Ptr  |-> u_pre)
   **  ((( &( "v" ) )) # Ptr  |-> v_pre)
   **  ((( &( "w" ) )) # Ptr  |-> w_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  ((( &( "uf" ) )) # Ptr  |-> uf)
-  **  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
 |--
   “ ((n_pre - 1 ) > 0) ”
 .
 
 Definition kruskal_partial_solve_wit_4_aux := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (s: St) (repr_of: (Z -> Z)) (uf: Z) (retval: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre < INT_MAX)) (PreH5 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH6 : (KruskalEnv g_low_level_spec )) (PreH7 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH8 : (initStPred g_low_level_spec s )) (PreH9 : (kruskal_scan_state g_low_level_spec edge_order 0 0 s )) (PreH10 : (kruskal_scan_phase g_low_level_spec s 0 )) (PreH11 : (uf_initial n_pre repr_of )) (PreH12 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH13 : (output_prefix_matches_state g_low_level_spec 0 (@nil Z) (@nil Z) (@nil Z) s )) (PreH14 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
-  (IntArray.undef_full retval (n_pre - 1 ) )
-  **  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u1: (@list Z)) (l_v1: (@list Z)) (l_w1: (@list Z)) (edge_order1: (@list Z)) (repr_of: (Z -> Z)) (retval: Z) (retval_2: Z) (PreH1 : (retval <> 0)) (PreH2 : (uf_initial n_pre repr_of )) (PreH3 : (0 <= m_pre)) (PreH4 : (m_pre <= INT_MAX)) (PreH5 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 )) (PreH6 : (Permutation (Zrange (0) (m_pre)) edge_order1 )) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) )) (PreH14 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+  (IntArray.undef_full retval_2 (n_pre - 1 ) )
+  **  (UF retval n_pre repr_of )
+  **  (IntArray.full u_pre m_pre l_u1 )
+  **  (IntArray.full v_pre m_pre l_v1 )
+  **  (IntArray.full w_pre m_pre l_w1 )
 |--
   “ ((n_pre - 1 ) > 0) ” 
+  &&  “ (retval <> 0) ” 
+  &&  “ (uf_initial n_pre repr_of ) ” 
+  &&  “ (0 <= m_pre) ” 
+  &&  “ (m_pre <= INT_MAX) ” 
+  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 ) ” 
+  &&  “ (Permutation (Zrange (0) (m_pre)) edge_order1 ) ” 
   &&  “ (2 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (1 <= m_pre) ” 
   &&  “ (m_pre < INT_MAX) ” 
   &&  “ (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec ) ” 
   &&  “ (KruskalEnv g_low_level_spec ) ” 
-  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order ) ” 
-  &&  “ (initStPred g_low_level_spec s ) ” 
-  &&  “ (kruskal_scan_state g_low_level_spec edge_order 0 0 s ) ” 
-  &&  “ (kruskal_scan_phase g_low_level_spec s 0 ) ” 
-  &&  “ (uf_initial n_pre repr_of ) ” 
-  &&  “ (union_find_connectivity_matches_state g_low_level_spec s repr_of ) ” 
-  &&  “ (output_prefix_matches_state g_low_level_spec 0 (@nil Z) (@nil Z) (@nil Z) s ) ” 
-  &&  “ (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
-  &&  (IntArray.undef_full retval (n_pre - 1 ) )
-  **  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
+  &&  “ (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) ) ” 
+  &&  “ (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
+  &&  (IntArray.undef_full retval_2 (n_pre - 1 ) )
+  **  (UF retval n_pre repr_of )
+  **  (IntArray.full u_pre m_pre l_u1 )
+  **  (IntArray.full v_pre m_pre l_v1 )
+  **  (IntArray.full w_pre m_pre l_w1 )
 .
 
 Definition kruskal_partial_solve_wit_4 := kruskal_partial_solve_wit_4_pure -> kruskal_partial_solve_wit_4_aux.
 
 Definition kruskal_partial_solve_wit_5_pure := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (s: St) (repr_of: (Z -> Z)) (uf: Z) (retval: Z) (retval_2: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre < INT_MAX)) (PreH5 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH6 : (KruskalEnv g_low_level_spec )) (PreH7 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH8 : (initStPred g_low_level_spec s )) (PreH9 : (kruskal_scan_state g_low_level_spec edge_order 0 0 s )) (PreH10 : (kruskal_scan_phase g_low_level_spec s 0 )) (PreH11 : (uf_initial n_pre repr_of )) (PreH12 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH13 : (output_prefix_matches_state g_low_level_spec 0 (@nil Z) (@nil Z) (@nil Z) s )) (PreH14 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u1: (@list Z)) (l_v1: (@list Z)) (l_w1: (@list Z)) (edge_order1: (@list Z)) (repr_of: (Z -> Z)) (retval: Z) (retval_2: Z) (retval_3: Z) (PreH1 : (retval <> 0)) (PreH2 : (uf_initial n_pre repr_of )) (PreH3 : (0 <= m_pre)) (PreH4 : (m_pre <= INT_MAX)) (PreH5 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 )) (PreH6 : (Permutation (Zrange (0) (m_pre)) edge_order1 )) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) )) (PreH14 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "out_w" ) )) # Ptr  |->_)
+  **  (IntArray.undef_full retval_3 (n_pre - 1 ) )
+  **  ((( &( "out_v" ) )) # Ptr  |-> retval_3)
   **  (IntArray.undef_full retval_2 (n_pre - 1 ) )
-  **  ((( &( "out_v" ) )) # Ptr  |-> retval_2)
-  **  (IntArray.undef_full retval (n_pre - 1 ) )
-  **  ((( &( "out_u" ) )) # Ptr  |-> retval)
+  **  ((( &( "out_u" ) )) # Ptr  |-> retval_2)
+  **  (UF retval n_pre repr_of )
+  **  ((( &( "uf" ) )) # Ptr  |-> retval)
+  **  (IntArray.full u_pre m_pre l_u1 )
+  **  (IntArray.full v_pre m_pre l_v1 )
+  **  (IntArray.full w_pre m_pre l_w1 )
   **  ((( &( "u" ) )) # Ptr  |-> u_pre)
   **  ((( &( "v" ) )) # Ptr  |-> v_pre)
   **  ((( &( "w" ) )) # Ptr  |-> w_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  ((( &( "uf" ) )) # Ptr  |-> uf)
-  **  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
 |--
   “ ((n_pre - 1 ) > 0) ”
 .
 
 Definition kruskal_partial_solve_wit_5_aux := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (s: St) (repr_of: (Z -> Z)) (uf: Z) (retval: Z) (retval_2: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre < INT_MAX)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre < INT_MAX)) (PreH5 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH6 : (KruskalEnv g_low_level_spec )) (PreH7 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH8 : (initStPred g_low_level_spec s )) (PreH9 : (kruskal_scan_state g_low_level_spec edge_order 0 0 s )) (PreH10 : (kruskal_scan_phase g_low_level_spec s 0 )) (PreH11 : (uf_initial n_pre repr_of )) (PreH12 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH13 : (output_prefix_matches_state g_low_level_spec 0 (@nil Z) (@nil Z) (@nil Z) s )) (PreH14 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
-  (IntArray.undef_full retval_2 (n_pre - 1 ) )
-  **  (IntArray.undef_full retval (n_pre - 1 ) )
-  **  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u1: (@list Z)) (l_v1: (@list Z)) (l_w1: (@list Z)) (edge_order1: (@list Z)) (repr_of: (Z -> Z)) (retval: Z) (retval_2: Z) (retval_3: Z) (PreH1 : (retval <> 0)) (PreH2 : (uf_initial n_pre repr_of )) (PreH3 : (0 <= m_pre)) (PreH4 : (m_pre <= INT_MAX)) (PreH5 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 )) (PreH6 : (Permutation (Zrange (0) (m_pre)) edge_order1 )) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) )) (PreH14 : (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+  (IntArray.undef_full retval_3 (n_pre - 1 ) )
+  **  (IntArray.undef_full retval_2 (n_pre - 1 ) )
+  **  (UF retval n_pre repr_of )
+  **  (IntArray.full u_pre m_pre l_u1 )
+  **  (IntArray.full v_pre m_pre l_v1 )
+  **  (IntArray.full w_pre m_pre l_w1 )
 |--
   “ ((n_pre - 1 ) > 0) ” 
+  &&  “ (retval <> 0) ” 
+  &&  “ (uf_initial n_pre repr_of ) ” 
+  &&  “ (0 <= m_pre) ” 
+  &&  “ (m_pre <= INT_MAX) ” 
+  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u1 l_v1 l_w1 edge_order1 ) ” 
+  &&  “ (Permutation (Zrange (0) (m_pre)) edge_order1 ) ” 
   &&  “ (2 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (1 <= m_pre) ” 
   &&  “ (m_pre < INT_MAX) ” 
   &&  “ (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec ) ” 
   &&  “ (KruskalEnv g_low_level_spec ) ” 
-  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order ) ” 
-  &&  “ (initStPred g_low_level_spec s ) ” 
-  &&  “ (kruskal_scan_state g_low_level_spec edge_order 0 0 s ) ” 
-  &&  “ (kruskal_scan_phase g_low_level_spec s 0 ) ” 
-  &&  “ (uf_initial n_pre repr_of ) ” 
-  &&  “ (union_find_connectivity_matches_state g_low_level_spec s repr_of ) ” 
-  &&  “ (output_prefix_matches_state g_low_level_spec 0 (@nil Z) (@nil Z) (@nil Z) s ) ” 
-  &&  “ (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
-  &&  (IntArray.undef_full retval_2 (n_pre - 1 ) )
-  **  (IntArray.undef_full retval (n_pre - 1 ) )
-  **  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
+  &&  “ (edge_arrays_ordered_by m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec (Zrange (0) (m_pre)) ) ” 
+  &&  “ (safeExec (initStPred (g_low_level_spec)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
+  &&  (IntArray.undef_full retval_3 (n_pre - 1 ) )
+  **  (IntArray.undef_full retval_2 (n_pre - 1 ) )
+  **  (UF retval n_pre repr_of )
+  **  (IntArray.full u_pre m_pre l_u1 )
+  **  (IntArray.full v_pre m_pre l_v1 )
+  **  (IntArray.full w_pre m_pre l_w1 )
 .
 
 Definition kruskal_partial_solve_wit_5 := kruskal_partial_solve_wit_5_pure -> kruskal_partial_solve_wit_5_aux.
@@ -3424,23 +3159,24 @@ forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec:
 .
 
 Definition kruskal_partial_solve_wit_9_pure := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (s: St) (repr_of: (Z -> Z)) (i: Z) (chosen: Z) (edge_u: Z) (edge_v: Z) (edge_w: Z) (uf: Z) (out_u: Z) (out_v: Z) (out_w: Z) (PreH1 : (0 <= i)) (PreH2 : (i < m_pre)) (PreH3 : (0 <= chosen)) (PreH4 : (chosen <= (n_pre - 1 ))) (PreH5 : (chosen < (n_pre - 1 ))) (PreH6 : (edge_u = (Znth i l_u 0))) (PreH7 : (edge_v = (Znth i l_v 0))) (PreH8 : (edge_w = (Znth i l_w 0))) (PreH9 : (0 <= edge_u)) (PreH10 : (edge_u < n_pre)) (PreH11 : (0 <= edge_v)) (PreH12 : (edge_v < n_pre)) (PreH13 : (2 <= n_pre)) (PreH14 : (n_pre < INT_MAX)) (PreH15 : (1 <= m_pre)) (PreH16 : (m_pre < INT_MAX)) (PreH17 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH18 : (KruskalEnv g_low_level_spec )) (PreH19 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH20 : (kruskal_scan_state g_low_level_spec edge_order i chosen s )) (PreH21 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH22 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH23 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH24 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+(
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (uf: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (repr_of: (Z -> Z)) (s: St) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (chosen: Z) (i: Z) (PreH1 : (chosen < (n_pre - 1 ))) (PreH2 : (i < m_pre)) (PreH3 : (0 <= i)) (PreH4 : (i <= m_pre)) (PreH5 : (0 <= chosen)) (PreH6 : (chosen <= (n_pre - 1 ))) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH14 : (kruskal_scan_state g_low_level_spec edge_order i chosen s )) (PreH15 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH16 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH17 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH18 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "root_u" ) )) # Int  |->_)
+  **  (IntArray.full w_pre m_pre l_w )
+  **  ((( &( "edge_w" ) )) # Int  |-> (Znth i l_w 0))
+  **  (IntArray.full v_pre m_pre l_v )
+  **  ((( &( "edge_v" ) )) # Int  |-> (Znth i l_v 0))
+  **  (IntArray.full u_pre m_pre l_u )
+  **  ((( &( "edge_u" ) )) # Int  |-> (Znth i l_u 0))
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  ((( &( "chosen" ) )) # Int  |-> chosen)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "edge_u" ) )) # Int  |-> edge_u)
-  **  ((( &( "edge_v" ) )) # Int  |-> edge_v)
-  **  ((( &( "edge_w" ) )) # Int  |-> edge_w)
   **  ((( &( "u" ) )) # Ptr  |-> u_pre)
   **  ((( &( "v" ) )) # Ptr  |-> v_pre)
   **  ((( &( "w" ) )) # Ptr  |-> w_pre)
   **  ((( &( "uf" ) )) # Ptr  |-> uf)
   **  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
   **  ((( &( "out_u" ) )) # Ptr  |-> out_u)
   **  (IntArray.seg out_u 0 chosen l_out_u )
   **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
@@ -3451,16 +3187,109 @@ forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec:
   **  (IntArray.seg out_w 0 chosen l_out_w )
   **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
 |--
-  “ (0 <= edge_u) ” 
-  &&  “ (edge_u < n_pre) ”
+  “ ((Znth i l_u 0) < n_pre) ” 
+  &&  “ (0 <= (Znth i l_u 0)) ”
+) \/
+(
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (uf: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (repr_of: (Z -> Z)) (s: St) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (chosen: Z) (i: Z) (PreH1 : (n_pre <= INT_MAX)) (PreH2 : (chosen <= INT_MAX)) (PreH3 : (m_pre <= INT_MAX)) (PreH4 : (i <= INT_MAX)) (PreH5 : ((Znth i l_u 0) <= INT_MAX)) (PreH6 : ((Znth i l_v 0) <= INT_MAX)) (PreH7 : ((Znth i l_w 0) <= INT_MAX)) (PreH8 : (n_pre >= INT_MIN)) (PreH9 : (chosen >= INT_MIN)) (PreH10 : (m_pre >= INT_MIN)) (PreH11 : (i >= INT_MIN)) (PreH12 : ((Znth i l_u 0) >= INT_MIN)) (PreH13 : ((Znth i l_v 0) >= INT_MIN)) (PreH14 : ((Znth i l_w 0) >= INT_MIN)) (PreH15 : (chosen < (n_pre - 1 ))) (PreH16 : (i < m_pre)) (PreH17 : (0 <= i)) (PreH18 : (i <= m_pre)) (PreH19 : (0 <= chosen)) (PreH20 : (chosen <= (n_pre - 1 ))) (PreH21 : (2 <= n_pre)) (PreH22 : (n_pre < INT_MAX)) (PreH23 : (1 <= m_pre)) (PreH24 : (m_pre < INT_MAX)) (PreH25 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH26 : (KruskalEnv g_low_level_spec )) (PreH27 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH28 : (kruskal_scan_state g_low_level_spec edge_order i chosen s )) (PreH29 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH30 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH31 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH32 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+  ((( &( "root_u" ) )) # Int  |->_)
+  **  (IntArray.full w_pre m_pre l_w )
+  **  ((( &( "edge_w" ) )) # Int  |-> (Znth i l_w 0))
+  **  (IntArray.full v_pre m_pre l_v )
+  **  ((( &( "edge_v" ) )) # Int  |-> (Znth i l_v 0))
+  **  (IntArray.full u_pre m_pre l_u )
+  **  ((( &( "edge_u" ) )) # Int  |-> (Znth i l_u 0))
+  **  ((( &( "i" ) )) # Int  |-> i)
+  **  ((( &( "m" ) )) # Int  |-> m_pre)
+  **  ((( &( "chosen" ) )) # Int  |-> chosen)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "u" ) )) # Ptr  |-> u_pre)
+  **  ((( &( "v" ) )) # Ptr  |-> v_pre)
+  **  ((( &( "w" ) )) # Ptr  |-> w_pre)
+  **  ((( &( "uf" ) )) # Ptr  |-> uf)
+  **  (UF uf n_pre repr_of )
+  **  ((( &( "out_u" ) )) # Ptr  |-> out_u)
+  **  (IntArray.seg out_u 0 chosen l_out_u )
+  **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
+  **  ((( &( "out_v" ) )) # Ptr  |-> out_v)
+  **  (IntArray.seg out_v 0 chosen l_out_v )
+  **  (IntArray.undef_seg out_v chosen (n_pre - 1 ) )
+  **  ((( &( "out_w" ) )) # Ptr  |-> out_w)
+  **  (IntArray.seg out_w 0 chosen l_out_w )
+  **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
+|--
+  “ (0 <= (Znth i l_u 0)) ” 
+  &&  “ ((Znth i l_u 0) < n_pre) ”
+).
+
+Definition kruskal_partial_solve_wit_9_pure_split_goal_1 := 
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (uf: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (repr_of: (Z -> Z)) (s: St) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (chosen: Z) (i: Z) (PreH1 : (n_pre <= INT_MAX)) (PreH2 : (chosen <= INT_MAX)) (PreH3 : (m_pre <= INT_MAX)) (PreH4 : (i <= INT_MAX)) (PreH5 : ((Znth i l_u 0) <= INT_MAX)) (PreH6 : ((Znth i l_v 0) <= INT_MAX)) (PreH7 : ((Znth i l_w 0) <= INT_MAX)) (PreH8 : (n_pre >= INT_MIN)) (PreH9 : (chosen >= INT_MIN)) (PreH10 : (m_pre >= INT_MIN)) (PreH11 : (i >= INT_MIN)) (PreH12 : ((Znth i l_u 0) >= INT_MIN)) (PreH13 : ((Znth i l_v 0) >= INT_MIN)) (PreH14 : ((Znth i l_w 0) >= INT_MIN)) (PreH15 : (chosen < (n_pre - 1 ))) (PreH16 : (i < m_pre)) (PreH17 : (0 <= i)) (PreH18 : (i <= m_pre)) (PreH19 : (0 <= chosen)) (PreH20 : (chosen <= (n_pre - 1 ))) (PreH21 : (2 <= n_pre)) (PreH22 : (n_pre < INT_MAX)) (PreH23 : (1 <= m_pre)) (PreH24 : (m_pre < INT_MAX)) (PreH25 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH26 : (KruskalEnv g_low_level_spec )) (PreH27 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH28 : (kruskal_scan_state g_low_level_spec edge_order i chosen s )) (PreH29 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH30 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH31 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH32 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+  ((( &( "root_u" ) )) # Int  |->_)
+  **  (IntArray.full w_pre m_pre l_w )
+  **  ((( &( "edge_w" ) )) # Int  |-> (Znth i l_w 0))
+  **  (IntArray.full v_pre m_pre l_v )
+  **  ((( &( "edge_v" ) )) # Int  |-> (Znth i l_v 0))
+  **  (IntArray.full u_pre m_pre l_u )
+  **  ((( &( "edge_u" ) )) # Int  |-> (Znth i l_u 0))
+  **  ((( &( "i" ) )) # Int  |-> i)
+  **  ((( &( "m" ) )) # Int  |-> m_pre)
+  **  ((( &( "chosen" ) )) # Int  |-> chosen)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "u" ) )) # Ptr  |-> u_pre)
+  **  ((( &( "v" ) )) # Ptr  |-> v_pre)
+  **  ((( &( "w" ) )) # Ptr  |-> w_pre)
+  **  ((( &( "uf" ) )) # Ptr  |-> uf)
+  **  (UF uf n_pre repr_of )
+  **  ((( &( "out_u" ) )) # Ptr  |-> out_u)
+  **  (IntArray.seg out_u 0 chosen l_out_u )
+  **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
+  **  ((( &( "out_v" ) )) # Ptr  |-> out_v)
+  **  (IntArray.seg out_v 0 chosen l_out_v )
+  **  (IntArray.undef_seg out_v chosen (n_pre - 1 ) )
+  **  ((( &( "out_w" ) )) # Ptr  |-> out_w)
+  **  (IntArray.seg out_w 0 chosen l_out_w )
+  **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
+|--
+  “ (0 <= (Znth i l_u 0)) ”
+.
+
+Definition kruskal_partial_solve_wit_9_pure_split_goal_2 := 
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (uf: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (repr_of: (Z -> Z)) (s: St) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (chosen: Z) (i: Z) (PreH1 : (n_pre <= INT_MAX)) (PreH2 : (chosen <= INT_MAX)) (PreH3 : (m_pre <= INT_MAX)) (PreH4 : (i <= INT_MAX)) (PreH5 : ((Znth i l_u 0) <= INT_MAX)) (PreH6 : ((Znth i l_v 0) <= INT_MAX)) (PreH7 : ((Znth i l_w 0) <= INT_MAX)) (PreH8 : (n_pre >= INT_MIN)) (PreH9 : (chosen >= INT_MIN)) (PreH10 : (m_pre >= INT_MIN)) (PreH11 : (i >= INT_MIN)) (PreH12 : ((Znth i l_u 0) >= INT_MIN)) (PreH13 : ((Znth i l_v 0) >= INT_MIN)) (PreH14 : ((Znth i l_w 0) >= INT_MIN)) (PreH15 : (chosen < (n_pre - 1 ))) (PreH16 : (i < m_pre)) (PreH17 : (0 <= i)) (PreH18 : (i <= m_pre)) (PreH19 : (0 <= chosen)) (PreH20 : (chosen <= (n_pre - 1 ))) (PreH21 : (2 <= n_pre)) (PreH22 : (n_pre < INT_MAX)) (PreH23 : (1 <= m_pre)) (PreH24 : (m_pre < INT_MAX)) (PreH25 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH26 : (KruskalEnv g_low_level_spec )) (PreH27 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH28 : (kruskal_scan_state g_low_level_spec edge_order i chosen s )) (PreH29 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH30 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH31 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH32 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+  ((( &( "root_u" ) )) # Int  |->_)
+  **  (IntArray.full w_pre m_pre l_w )
+  **  ((( &( "edge_w" ) )) # Int  |-> (Znth i l_w 0))
+  **  (IntArray.full v_pre m_pre l_v )
+  **  ((( &( "edge_v" ) )) # Int  |-> (Znth i l_v 0))
+  **  (IntArray.full u_pre m_pre l_u )
+  **  ((( &( "edge_u" ) )) # Int  |-> (Znth i l_u 0))
+  **  ((( &( "i" ) )) # Int  |-> i)
+  **  ((( &( "m" ) )) # Int  |-> m_pre)
+  **  ((( &( "chosen" ) )) # Int  |-> chosen)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "u" ) )) # Ptr  |-> u_pre)
+  **  ((( &( "v" ) )) # Ptr  |-> v_pre)
+  **  ((( &( "w" ) )) # Ptr  |-> w_pre)
+  **  ((( &( "uf" ) )) # Ptr  |-> uf)
+  **  (UF uf n_pre repr_of )
+  **  ((( &( "out_u" ) )) # Ptr  |-> out_u)
+  **  (IntArray.seg out_u 0 chosen l_out_u )
+  **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
+  **  ((( &( "out_v" ) )) # Ptr  |-> out_v)
+  **  (IntArray.seg out_v 0 chosen l_out_v )
+  **  (IntArray.undef_seg out_v chosen (n_pre - 1 ) )
+  **  ((( &( "out_w" ) )) # Ptr  |-> out_w)
+  **  (IntArray.seg out_w 0 chosen l_out_w )
+  **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
+|--
+  “ ((Znth i l_u 0) < n_pre) ”
 .
 
 Definition kruskal_partial_solve_wit_9_aux := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (s: St) (repr_of: (Z -> Z)) (i: Z) (chosen: Z) (edge_u: Z) (edge_v: Z) (edge_w: Z) (uf: Z) (out_u: Z) (out_v: Z) (out_w: Z) (PreH1 : (0 <= i)) (PreH2 : (i < m_pre)) (PreH3 : (0 <= chosen)) (PreH4 : (chosen <= (n_pre - 1 ))) (PreH5 : (chosen < (n_pre - 1 ))) (PreH6 : (edge_u = (Znth i l_u 0))) (PreH7 : (edge_v = (Znth i l_v 0))) (PreH8 : (edge_w = (Znth i l_w 0))) (PreH9 : (0 <= edge_u)) (PreH10 : (edge_u < n_pre)) (PreH11 : (0 <= edge_v)) (PreH12 : (edge_v < n_pre)) (PreH13 : (2 <= n_pre)) (PreH14 : (n_pre < INT_MAX)) (PreH15 : (1 <= m_pre)) (PreH16 : (m_pre < INT_MAX)) (PreH17 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH18 : (KruskalEnv g_low_level_spec )) (PreH19 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH20 : (kruskal_scan_state g_low_level_spec edge_order i chosen s )) (PreH21 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH22 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH23 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH24 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
-  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (uf: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (repr_of: (Z -> Z)) (s: St) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (chosen: Z) (i: Z) (PreH1 : (chosen < (n_pre - 1 ))) (PreH2 : (i < m_pre)) (PreH3 : (0 <= i)) (PreH4 : (i <= m_pre)) (PreH5 : (0 <= chosen)) (PreH6 : (chosen <= (n_pre - 1 ))) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH14 : (kruskal_scan_state g_low_level_spec edge_order i chosen s )) (PreH15 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH16 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH17 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH18 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+  (IntArray.full w_pre m_pre l_w )
   **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
+  **  (IntArray.full u_pre m_pre l_u )
+  **  (UF uf n_pre repr_of )
   **  (IntArray.seg out_u 0 chosen l_out_u )
   **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
   **  (IntArray.seg out_v 0 chosen l_out_v )
@@ -3468,20 +3297,14 @@ forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec:
   **  (IntArray.seg out_w 0 chosen l_out_w )
   **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
 |--
-  “ (0 <= edge_u) ” 
-  &&  “ (edge_u < n_pre) ” 
-  &&  “ (0 <= i) ” 
+  “ ((Znth i l_u 0) < n_pre) ” 
+  &&  “ (0 <= (Znth i l_u 0)) ” 
+  &&  “ (chosen < (n_pre - 1 )) ” 
   &&  “ (i < m_pre) ” 
+  &&  “ (0 <= i) ” 
+  &&  “ (i <= m_pre) ” 
   &&  “ (0 <= chosen) ” 
   &&  “ (chosen <= (n_pre - 1 )) ” 
-  &&  “ (chosen < (n_pre - 1 )) ” 
-  &&  “ (edge_u = (Znth i l_u 0)) ” 
-  &&  “ (edge_v = (Znth i l_v 0)) ” 
-  &&  “ (edge_w = (Znth i l_w 0)) ” 
-  &&  “ (0 <= edge_u) ” 
-  &&  “ (edge_u < n_pre) ” 
-  &&  “ (0 <= edge_v) ” 
-  &&  “ (edge_v < n_pre) ” 
   &&  “ (2 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (1 <= m_pre) ” 
@@ -3495,9 +3318,9 @@ forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec:
   &&  “ (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s ) ” 
   &&  “ (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
   &&  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
   **  (IntArray.full w_pre m_pre l_w )
+  **  (IntArray.full v_pre m_pre l_v )
+  **  (IntArray.full u_pre m_pre l_u )
   **  (IntArray.seg out_u 0 chosen l_out_u )
   **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
   **  (IntArray.seg out_v 0 chosen l_out_v )
@@ -3509,24 +3332,25 @@ forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec:
 Definition kruskal_partial_solve_wit_9 := kruskal_partial_solve_wit_9_pure -> kruskal_partial_solve_wit_9_aux.
 
 Definition kruskal_partial_solve_wit_10_pure := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (s: St) (repr_of: (Z -> Z)) (i: Z) (chosen: Z) (edge_u: Z) (edge_v: Z) (edge_w: Z) (root_u: Z) (uf: Z) (out_u: Z) (out_v: Z) (out_w: Z) (PreH1 : (0 <= i)) (PreH2 : (i < m_pre)) (PreH3 : (0 <= chosen)) (PreH4 : (chosen <= (n_pre - 1 ))) (PreH5 : (chosen < (n_pre - 1 ))) (PreH6 : (edge_u = (Znth i l_u 0))) (PreH7 : (edge_v = (Znth i l_v 0))) (PreH8 : (edge_w = (Znth i l_w 0))) (PreH9 : (0 <= edge_u)) (PreH10 : (edge_u < n_pre)) (PreH11 : (0 <= edge_v)) (PreH12 : (edge_v < n_pre)) (PreH13 : (0 <= root_u)) (PreH14 : (root_u < n_pre)) (PreH15 : (root_u = (repr_of (edge_u)))) (PreH16 : (2 <= n_pre)) (PreH17 : (n_pre < INT_MAX)) (PreH18 : (1 <= m_pre)) (PreH19 : (m_pre < INT_MAX)) (PreH20 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH21 : (KruskalEnv g_low_level_spec )) (PreH22 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH23 : (kruskal_scan_state g_low_level_spec edge_order i chosen s )) (PreH24 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH25 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH26 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH27 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+(
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (uf: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (repr_of: (Z -> Z)) (s: St) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (chosen: Z) (i: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval < n_pre)) (PreH3 : (retval = (repr_of ((Znth i l_u 0))))) (PreH4 : (chosen < (n_pre - 1 ))) (PreH5 : (i < m_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= m_pre)) (PreH8 : (0 <= chosen)) (PreH9 : (chosen <= (n_pre - 1 ))) (PreH10 : (2 <= n_pre)) (PreH11 : (n_pre < INT_MAX)) (PreH12 : (1 <= m_pre)) (PreH13 : (m_pre < INT_MAX)) (PreH14 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH15 : (KruskalEnv g_low_level_spec )) (PreH16 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH17 : (kruskal_scan_state g_low_level_spec edge_order i chosen s )) (PreH18 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH19 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH20 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH21 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   ((( &( "root_v" ) )) # Int  |->_)
+  **  (UF uf n_pre repr_of )
+  **  ((( &( "root_u" ) )) # Int  |-> retval)
+  **  (IntArray.full w_pre m_pre l_w )
+  **  ((( &( "edge_w" ) )) # Int  |-> (Znth i l_w 0))
+  **  (IntArray.full v_pre m_pre l_v )
+  **  ((( &( "edge_v" ) )) # Int  |-> (Znth i l_v 0))
+  **  (IntArray.full u_pre m_pre l_u )
+  **  ((( &( "edge_u" ) )) # Int  |-> (Znth i l_u 0))
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
   **  ((( &( "chosen" ) )) # Int  |-> chosen)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "edge_u" ) )) # Int  |-> edge_u)
-  **  ((( &( "edge_v" ) )) # Int  |-> edge_v)
-  **  ((( &( "edge_w" ) )) # Int  |-> edge_w)
-  **  ((( &( "root_u" ) )) # Int  |-> root_u)
   **  ((( &( "u" ) )) # Ptr  |-> u_pre)
   **  ((( &( "v" ) )) # Ptr  |-> v_pre)
   **  ((( &( "w" ) )) # Ptr  |-> w_pre)
   **  ((( &( "uf" ) )) # Ptr  |-> uf)
-  **  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
-  **  (IntArray.full w_pre m_pre l_w )
   **  ((( &( "out_u" ) )) # Ptr  |-> out_u)
   **  (IntArray.seg out_u 0 chosen l_out_u )
   **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
@@ -3537,16 +3361,112 @@ forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec:
   **  (IntArray.seg out_w 0 chosen l_out_w )
   **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
 |--
-  “ (0 <= edge_v) ” 
-  &&  “ (edge_v < n_pre) ”
+  “ ((Znth i l_v 0) < n_pre) ” 
+  &&  “ (0 <= (Znth i l_v 0)) ”
+) \/
+(
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (uf: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (repr_of: (Z -> Z)) (s: St) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (chosen: Z) (i: Z) (retval: Z) (PreH1 : (n_pre <= INT_MAX)) (PreH2 : (chosen <= INT_MAX)) (PreH3 : (m_pre <= INT_MAX)) (PreH4 : (i <= INT_MAX)) (PreH5 : ((Znth i l_u 0) <= INT_MAX)) (PreH6 : ((Znth i l_v 0) <= INT_MAX)) (PreH7 : ((Znth i l_w 0) <= INT_MAX)) (PreH8 : (retval <= INT_MAX)) (PreH9 : (n_pre >= INT_MIN)) (PreH10 : (chosen >= INT_MIN)) (PreH11 : (m_pre >= INT_MIN)) (PreH12 : (i >= INT_MIN)) (PreH13 : ((Znth i l_u 0) >= INT_MIN)) (PreH14 : ((Znth i l_v 0) >= INT_MIN)) (PreH15 : ((Znth i l_w 0) >= INT_MIN)) (PreH16 : (retval >= INT_MIN)) (PreH17 : (0 <= retval)) (PreH18 : (retval < n_pre)) (PreH19 : (retval = (repr_of ((Znth i l_u 0))))) (PreH20 : (chosen < (n_pre - 1 ))) (PreH21 : (i < m_pre)) (PreH22 : (0 <= i)) (PreH23 : (i <= m_pre)) (PreH24 : (0 <= chosen)) (PreH25 : (chosen <= (n_pre - 1 ))) (PreH26 : (2 <= n_pre)) (PreH27 : (n_pre < INT_MAX)) (PreH28 : (1 <= m_pre)) (PreH29 : (m_pre < INT_MAX)) (PreH30 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH31 : (KruskalEnv g_low_level_spec )) (PreH32 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH33 : (kruskal_scan_state g_low_level_spec edge_order i chosen s )) (PreH34 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH35 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH36 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH37 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+  ((( &( "root_v" ) )) # Int  |->_)
+  **  (UF uf n_pre repr_of )
+  **  ((( &( "root_u" ) )) # Int  |-> retval)
+  **  (IntArray.full w_pre m_pre l_w )
+  **  ((( &( "edge_w" ) )) # Int  |-> (Znth i l_w 0))
+  **  (IntArray.full v_pre m_pre l_v )
+  **  ((( &( "edge_v" ) )) # Int  |-> (Znth i l_v 0))
+  **  (IntArray.full u_pre m_pre l_u )
+  **  ((( &( "edge_u" ) )) # Int  |-> (Znth i l_u 0))
+  **  ((( &( "i" ) )) # Int  |-> i)
+  **  ((( &( "m" ) )) # Int  |-> m_pre)
+  **  ((( &( "chosen" ) )) # Int  |-> chosen)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "u" ) )) # Ptr  |-> u_pre)
+  **  ((( &( "v" ) )) # Ptr  |-> v_pre)
+  **  ((( &( "w" ) )) # Ptr  |-> w_pre)
+  **  ((( &( "uf" ) )) # Ptr  |-> uf)
+  **  ((( &( "out_u" ) )) # Ptr  |-> out_u)
+  **  (IntArray.seg out_u 0 chosen l_out_u )
+  **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
+  **  ((( &( "out_v" ) )) # Ptr  |-> out_v)
+  **  (IntArray.seg out_v 0 chosen l_out_v )
+  **  (IntArray.undef_seg out_v chosen (n_pre - 1 ) )
+  **  ((( &( "out_w" ) )) # Ptr  |-> out_w)
+  **  (IntArray.seg out_w 0 chosen l_out_w )
+  **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
+|--
+  “ (0 <= (Znth i l_v 0)) ” 
+  &&  “ ((Znth i l_v 0) < n_pre) ”
+).
+
+Definition kruskal_partial_solve_wit_10_pure_split_goal_1 := 
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (uf: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (repr_of: (Z -> Z)) (s: St) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (chosen: Z) (i: Z) (retval: Z) (PreH1 : (n_pre <= INT_MAX)) (PreH2 : (chosen <= INT_MAX)) (PreH3 : (m_pre <= INT_MAX)) (PreH4 : (i <= INT_MAX)) (PreH5 : ((Znth i l_u 0) <= INT_MAX)) (PreH6 : ((Znth i l_v 0) <= INT_MAX)) (PreH7 : ((Znth i l_w 0) <= INT_MAX)) (PreH8 : (retval <= INT_MAX)) (PreH9 : (n_pre >= INT_MIN)) (PreH10 : (chosen >= INT_MIN)) (PreH11 : (m_pre >= INT_MIN)) (PreH12 : (i >= INT_MIN)) (PreH13 : ((Znth i l_u 0) >= INT_MIN)) (PreH14 : ((Znth i l_v 0) >= INT_MIN)) (PreH15 : ((Znth i l_w 0) >= INT_MIN)) (PreH16 : (retval >= INT_MIN)) (PreH17 : (0 <= retval)) (PreH18 : (retval < n_pre)) (PreH19 : (retval = (repr_of ((Znth i l_u 0))))) (PreH20 : (chosen < (n_pre - 1 ))) (PreH21 : (i < m_pre)) (PreH22 : (0 <= i)) (PreH23 : (i <= m_pre)) (PreH24 : (0 <= chosen)) (PreH25 : (chosen <= (n_pre - 1 ))) (PreH26 : (2 <= n_pre)) (PreH27 : (n_pre < INT_MAX)) (PreH28 : (1 <= m_pre)) (PreH29 : (m_pre < INT_MAX)) (PreH30 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH31 : (KruskalEnv g_low_level_spec )) (PreH32 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH33 : (kruskal_scan_state g_low_level_spec edge_order i chosen s )) (PreH34 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH35 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH36 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH37 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+  ((( &( "root_v" ) )) # Int  |->_)
+  **  (UF uf n_pre repr_of )
+  **  ((( &( "root_u" ) )) # Int  |-> retval)
+  **  (IntArray.full w_pre m_pre l_w )
+  **  ((( &( "edge_w" ) )) # Int  |-> (Znth i l_w 0))
+  **  (IntArray.full v_pre m_pre l_v )
+  **  ((( &( "edge_v" ) )) # Int  |-> (Znth i l_v 0))
+  **  (IntArray.full u_pre m_pre l_u )
+  **  ((( &( "edge_u" ) )) # Int  |-> (Znth i l_u 0))
+  **  ((( &( "i" ) )) # Int  |-> i)
+  **  ((( &( "m" ) )) # Int  |-> m_pre)
+  **  ((( &( "chosen" ) )) # Int  |-> chosen)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "u" ) )) # Ptr  |-> u_pre)
+  **  ((( &( "v" ) )) # Ptr  |-> v_pre)
+  **  ((( &( "w" ) )) # Ptr  |-> w_pre)
+  **  ((( &( "uf" ) )) # Ptr  |-> uf)
+  **  ((( &( "out_u" ) )) # Ptr  |-> out_u)
+  **  (IntArray.seg out_u 0 chosen l_out_u )
+  **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
+  **  ((( &( "out_v" ) )) # Ptr  |-> out_v)
+  **  (IntArray.seg out_v 0 chosen l_out_v )
+  **  (IntArray.undef_seg out_v chosen (n_pre - 1 ) )
+  **  ((( &( "out_w" ) )) # Ptr  |-> out_w)
+  **  (IntArray.seg out_w 0 chosen l_out_w )
+  **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
+|--
+  “ (0 <= (Znth i l_v 0)) ”
+.
+
+Definition kruskal_partial_solve_wit_10_pure_split_goal_2 := 
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (uf: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (repr_of: (Z -> Z)) (s: St) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (chosen: Z) (i: Z) (retval: Z) (PreH1 : (n_pre <= INT_MAX)) (PreH2 : (chosen <= INT_MAX)) (PreH3 : (m_pre <= INT_MAX)) (PreH4 : (i <= INT_MAX)) (PreH5 : ((Znth i l_u 0) <= INT_MAX)) (PreH6 : ((Znth i l_v 0) <= INT_MAX)) (PreH7 : ((Znth i l_w 0) <= INT_MAX)) (PreH8 : (retval <= INT_MAX)) (PreH9 : (n_pre >= INT_MIN)) (PreH10 : (chosen >= INT_MIN)) (PreH11 : (m_pre >= INT_MIN)) (PreH12 : (i >= INT_MIN)) (PreH13 : ((Znth i l_u 0) >= INT_MIN)) (PreH14 : ((Znth i l_v 0) >= INT_MIN)) (PreH15 : ((Znth i l_w 0) >= INT_MIN)) (PreH16 : (retval >= INT_MIN)) (PreH17 : (0 <= retval)) (PreH18 : (retval < n_pre)) (PreH19 : (retval = (repr_of ((Znth i l_u 0))))) (PreH20 : (chosen < (n_pre - 1 ))) (PreH21 : (i < m_pre)) (PreH22 : (0 <= i)) (PreH23 : (i <= m_pre)) (PreH24 : (0 <= chosen)) (PreH25 : (chosen <= (n_pre - 1 ))) (PreH26 : (2 <= n_pre)) (PreH27 : (n_pre < INT_MAX)) (PreH28 : (1 <= m_pre)) (PreH29 : (m_pre < INT_MAX)) (PreH30 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH31 : (KruskalEnv g_low_level_spec )) (PreH32 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH33 : (kruskal_scan_state g_low_level_spec edge_order i chosen s )) (PreH34 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH35 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH36 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH37 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+  ((( &( "root_v" ) )) # Int  |->_)
+  **  (UF uf n_pre repr_of )
+  **  ((( &( "root_u" ) )) # Int  |-> retval)
+  **  (IntArray.full w_pre m_pre l_w )
+  **  ((( &( "edge_w" ) )) # Int  |-> (Znth i l_w 0))
+  **  (IntArray.full v_pre m_pre l_v )
+  **  ((( &( "edge_v" ) )) # Int  |-> (Znth i l_v 0))
+  **  (IntArray.full u_pre m_pre l_u )
+  **  ((( &( "edge_u" ) )) # Int  |-> (Znth i l_u 0))
+  **  ((( &( "i" ) )) # Int  |-> i)
+  **  ((( &( "m" ) )) # Int  |-> m_pre)
+  **  ((( &( "chosen" ) )) # Int  |-> chosen)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "u" ) )) # Ptr  |-> u_pre)
+  **  ((( &( "v" ) )) # Ptr  |-> v_pre)
+  **  ((( &( "w" ) )) # Ptr  |-> w_pre)
+  **  ((( &( "uf" ) )) # Ptr  |-> uf)
+  **  ((( &( "out_u" ) )) # Ptr  |-> out_u)
+  **  (IntArray.seg out_u 0 chosen l_out_u )
+  **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
+  **  ((( &( "out_v" ) )) # Ptr  |-> out_v)
+  **  (IntArray.seg out_v 0 chosen l_out_v )
+  **  (IntArray.undef_seg out_v chosen (n_pre - 1 ) )
+  **  ((( &( "out_w" ) )) # Ptr  |-> out_w)
+  **  (IntArray.seg out_w 0 chosen l_out_w )
+  **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
+|--
+  “ ((Znth i l_v 0) < n_pre) ”
 .
 
 Definition kruskal_partial_solve_wit_10_aux := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (s: St) (repr_of: (Z -> Z)) (i: Z) (chosen: Z) (edge_u: Z) (edge_v: Z) (edge_w: Z) (root_u: Z) (uf: Z) (out_u: Z) (out_v: Z) (out_w: Z) (PreH1 : (0 <= i)) (PreH2 : (i < m_pre)) (PreH3 : (0 <= chosen)) (PreH4 : (chosen <= (n_pre - 1 ))) (PreH5 : (chosen < (n_pre - 1 ))) (PreH6 : (edge_u = (Znth i l_u 0))) (PreH7 : (edge_v = (Znth i l_v 0))) (PreH8 : (edge_w = (Znth i l_w 0))) (PreH9 : (0 <= edge_u)) (PreH10 : (edge_u < n_pre)) (PreH11 : (0 <= edge_v)) (PreH12 : (edge_v < n_pre)) (PreH13 : (0 <= root_u)) (PreH14 : (root_u < n_pre)) (PreH15 : (root_u = (repr_of (edge_u)))) (PreH16 : (2 <= n_pre)) (PreH17 : (n_pre < INT_MAX)) (PreH18 : (1 <= m_pre)) (PreH19 : (m_pre < INT_MAX)) (PreH20 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH21 : (KruskalEnv g_low_level_spec )) (PreH22 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH23 : (kruskal_scan_state g_low_level_spec edge_order i chosen s )) (PreH24 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH25 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH26 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH27 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (uf: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (repr_of: (Z -> Z)) (s: St) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (chosen: Z) (i: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval < n_pre)) (PreH3 : (retval = (repr_of ((Znth i l_u 0))))) (PreH4 : (chosen < (n_pre - 1 ))) (PreH5 : (i < m_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= m_pre)) (PreH8 : (0 <= chosen)) (PreH9 : (chosen <= (n_pre - 1 ))) (PreH10 : (2 <= n_pre)) (PreH11 : (n_pre < INT_MAX)) (PreH12 : (1 <= m_pre)) (PreH13 : (m_pre < INT_MAX)) (PreH14 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH15 : (KruskalEnv g_low_level_spec )) (PreH16 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH17 : (kruskal_scan_state g_low_level_spec edge_order i chosen s )) (PreH18 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH19 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH20 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH21 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
   **  (IntArray.full w_pre m_pre l_w )
+  **  (IntArray.full v_pre m_pre l_v )
+  **  (IntArray.full u_pre m_pre l_u )
   **  (IntArray.seg out_u 0 chosen l_out_u )
   **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
   **  (IntArray.seg out_v 0 chosen l_out_v )
@@ -3554,23 +3474,17 @@ forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec:
   **  (IntArray.seg out_w 0 chosen l_out_w )
   **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
 |--
-  “ (0 <= edge_v) ” 
-  &&  “ (edge_v < n_pre) ” 
-  &&  “ (0 <= i) ” 
+  “ ((Znth i l_v 0) < n_pre) ” 
+  &&  “ (0 <= (Znth i l_v 0)) ” 
+  &&  “ (0 <= retval) ” 
+  &&  “ (retval < n_pre) ” 
+  &&  “ (retval = (repr_of ((Znth i l_u 0)))) ” 
+  &&  “ (chosen < (n_pre - 1 )) ” 
   &&  “ (i < m_pre) ” 
+  &&  “ (0 <= i) ” 
+  &&  “ (i <= m_pre) ” 
   &&  “ (0 <= chosen) ” 
   &&  “ (chosen <= (n_pre - 1 )) ” 
-  &&  “ (chosen < (n_pre - 1 )) ” 
-  &&  “ (edge_u = (Znth i l_u 0)) ” 
-  &&  “ (edge_v = (Znth i l_v 0)) ” 
-  &&  “ (edge_w = (Znth i l_w 0)) ” 
-  &&  “ (0 <= edge_u) ” 
-  &&  “ (edge_u < n_pre) ” 
-  &&  “ (0 <= edge_v) ” 
-  &&  “ (edge_v < n_pre) ” 
-  &&  “ (0 <= root_u) ” 
-  &&  “ (root_u < n_pre) ” 
-  &&  “ (root_u = (repr_of (edge_u))) ” 
   &&  “ (2 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (1 <= m_pre) ” 
@@ -3584,9 +3498,9 @@ forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec:
   &&  “ (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s ) ” 
   &&  “ (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
   &&  (UF uf n_pre repr_of )
-  **  (IntArray.full u_pre m_pre l_u )
-  **  (IntArray.full v_pre m_pre l_v )
   **  (IntArray.full w_pre m_pre l_w )
+  **  (IntArray.full v_pre m_pre l_v )
+  **  (IntArray.full u_pre m_pre l_u )
   **  (IntArray.seg out_u 0 chosen l_out_u )
   **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
   **  (IntArray.seg out_v 0 chosen l_out_v )
@@ -3866,18 +3780,23 @@ forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec:
 Definition kruskal_partial_solve_wit_14 := kruskal_partial_solve_wit_14_pure -> kruskal_partial_solve_wit_14_aux.
 
 Definition kruskal_partial_solve_wit_15 := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (s: St) (repr_of: (Z -> Z)) (i: Z) (chosen: Z) (uf: Z) (out_u: Z) (out_v: Z) (out_w: Z) (PreH1 : (0 <= i)) (PreH2 : (i <= m_pre)) (PreH3 : (chosen = (n_pre - 1 ))) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre < INT_MAX)) (PreH8 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH9 : (KruskalEnv g_low_level_spec )) (PreH10 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH11 : (kruskal_scan_state g_low_level_spec edge_order i chosen s )) (PreH12 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH13 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH14 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH15 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (uf: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (repr_of: (Z -> Z)) (s: St) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (chosen: Z) (i: Z) (PreH1 : (i >= m_pre)) (PreH2 : (0 <= i)) (PreH3 : (i <= m_pre)) (PreH4 : (0 <= chosen)) (PreH5 : (chosen <= (n_pre - 1 ))) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre < INT_MAX)) (PreH10 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH11 : (KruskalEnv g_low_level_spec )) (PreH12 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH13 : (kruskal_scan_state g_low_level_spec edge_order i chosen s )) (PreH14 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH15 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH16 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH17 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   (UF uf n_pre repr_of )
   **  (IntArray.full u_pre m_pre l_u )
   **  (IntArray.full v_pre m_pre l_v )
   **  (IntArray.full w_pre m_pre l_w )
-  **  (IntArray.full out_u (n_pre - 1 ) l_out_u )
-  **  (IntArray.full out_v (n_pre - 1 ) l_out_v )
-  **  (IntArray.full out_w (n_pre - 1 ) l_out_w )
+  **  (IntArray.seg out_u 0 chosen l_out_u )
+  **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
+  **  (IntArray.seg out_v 0 chosen l_out_v )
+  **  (IntArray.undef_seg out_v chosen (n_pre - 1 ) )
+  **  (IntArray.seg out_w 0 chosen l_out_w )
+  **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
 |--
-  “ (0 <= i) ” 
+  “ (i >= m_pre) ” 
+  &&  “ (0 <= i) ” 
   &&  “ (i <= m_pre) ” 
-  &&  “ (chosen = (n_pre - 1 )) ” 
+  &&  “ (0 <= chosen) ” 
+  &&  “ (chosen <= (n_pre - 1 )) ” 
   &&  “ (2 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (1 <= m_pre) ” 
@@ -3894,23 +3813,71 @@ forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec:
   **  (IntArray.full u_pre m_pre l_u )
   **  (IntArray.full v_pre m_pre l_v )
   **  (IntArray.full w_pre m_pre l_w )
-  **  (IntArray.full out_u (n_pre - 1 ) l_out_u )
-  **  (IntArray.full out_v (n_pre - 1 ) l_out_v )
-  **  (IntArray.full out_w (n_pre - 1 ) l_out_w )
+  **  (IntArray.seg out_u 0 chosen l_out_u )
+  **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
+  **  (IntArray.seg out_v 0 chosen l_out_v )
+  **  (IntArray.undef_seg out_v chosen (n_pre - 1 ) )
+  **  (IntArray.seg out_w 0 chosen l_out_w )
+  **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
 .
 
 Definition kruskal_partial_solve_wit_16 := 
-forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (s: St) (repr_of: (Z -> Z)) (i: Z) (chosen: Z) (out_u: Z) (out_v: Z) (out_w: Z) (PreH1 : (0 <= i)) (PreH2 : (i <= m_pre)) (PreH3 : (chosen = (n_pre - 1 ))) (PreH4 : (2 <= n_pre)) (PreH5 : (n_pre < INT_MAX)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre < INT_MAX)) (PreH8 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH9 : (KruskalEnv g_low_level_spec )) (PreH10 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH11 : (kruskal_scan_state g_low_level_spec edge_order i chosen s )) (PreH12 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH13 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH14 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH15 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (uf: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (repr_of: (Z -> Z)) (s: St) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (chosen: Z) (i: Z) (PreH1 : (chosen >= (n_pre - 1 ))) (PreH2 : (i < m_pre)) (PreH3 : (0 <= i)) (PreH4 : (i <= m_pre)) (PreH5 : (0 <= chosen)) (PreH6 : (chosen <= (n_pre - 1 ))) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH14 : (kruskal_scan_state g_low_level_spec edge_order i chosen s )) (PreH15 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH16 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH17 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH18 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+  (UF uf n_pre repr_of )
+  **  (IntArray.full u_pre m_pre l_u )
+  **  (IntArray.full v_pre m_pre l_v )
+  **  (IntArray.full w_pre m_pre l_w )
+  **  (IntArray.seg out_u 0 chosen l_out_u )
+  **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
+  **  (IntArray.seg out_v 0 chosen l_out_v )
+  **  (IntArray.undef_seg out_v chosen (n_pre - 1 ) )
+  **  (IntArray.seg out_w 0 chosen l_out_w )
+  **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
+|--
+  “ (chosen >= (n_pre - 1 )) ” 
+  &&  “ (i < m_pre) ” 
+  &&  “ (0 <= i) ” 
+  &&  “ (i <= m_pre) ” 
+  &&  “ (0 <= chosen) ” 
+  &&  “ (chosen <= (n_pre - 1 )) ” 
+  &&  “ (2 <= n_pre) ” 
+  &&  “ (n_pre < INT_MAX) ” 
+  &&  “ (1 <= m_pre) ” 
+  &&  “ (m_pre < INT_MAX) ” 
+  &&  “ (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec ) ” 
+  &&  “ (KruskalEnv g_low_level_spec ) ” 
+  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order ) ” 
+  &&  “ (kruskal_scan_state g_low_level_spec edge_order i chosen s ) ” 
+  &&  “ (kruskal_scan_phase g_low_level_spec s chosen ) ” 
+  &&  “ (union_find_connectivity_matches_state g_low_level_spec s repr_of ) ” 
+  &&  “ (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s ) ” 
+  &&  “ (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
+  &&  (UF uf n_pre repr_of )
+  **  (IntArray.full u_pre m_pre l_u )
+  **  (IntArray.full v_pre m_pre l_v )
+  **  (IntArray.full w_pre m_pre l_w )
+  **  (IntArray.seg out_u 0 chosen l_out_u )
+  **  (IntArray.seg out_v 0 chosen l_out_v )
+  **  (IntArray.seg out_w 0 chosen l_out_w )
+.
+
+Definition kruskal_partial_solve_wit_17 := 
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (repr_of: (Z -> Z)) (s: St) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (chosen: Z) (i: Z) (PreH1 : (i >= m_pre)) (PreH2 : (0 <= i)) (PreH3 : (i <= m_pre)) (PreH4 : (0 <= chosen)) (PreH5 : (chosen <= (n_pre - 1 ))) (PreH6 : (2 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre < INT_MAX)) (PreH10 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH11 : (KruskalEnv g_low_level_spec )) (PreH12 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH13 : (kruskal_scan_state g_low_level_spec edge_order i chosen s )) (PreH14 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH15 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH16 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH17 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
   (IntArray.full u_pre m_pre l_u )
   **  (IntArray.full v_pre m_pre l_v )
   **  (IntArray.full w_pre m_pre l_w )
-  **  (IntArray.full out_u (n_pre - 1 ) l_out_u )
-  **  (IntArray.full out_v (n_pre - 1 ) l_out_v )
-  **  (IntArray.full out_w (n_pre - 1 ) l_out_w )
+  **  (IntArray.seg out_u 0 chosen l_out_u )
+  **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
+  **  (IntArray.seg out_v 0 chosen l_out_v )
+  **  (IntArray.undef_seg out_v chosen (n_pre - 1 ) )
+  **  (IntArray.seg out_w 0 chosen l_out_w )
+  **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
 |--
-  “ (0 <= i) ” 
+  “ (i >= m_pre) ” 
+  &&  “ (0 <= i) ” 
   &&  “ (i <= m_pre) ” 
-  &&  “ (chosen = (n_pre - 1 )) ” 
+  &&  “ (0 <= chosen) ” 
+  &&  “ (chosen <= (n_pre - 1 )) ” 
   &&  “ (2 <= n_pre) ” 
   &&  “ (n_pre < INT_MAX) ” 
   &&  “ (1 <= m_pre) ” 
@@ -3926,9 +3893,47 @@ forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec:
   &&  (IntArray.full u_pre m_pre l_u )
   **  (IntArray.full v_pre m_pre l_v )
   **  (IntArray.full w_pre m_pre l_w )
-  **  (IntArray.full out_u (n_pre - 1 ) l_out_u )
-  **  (IntArray.full out_v (n_pre - 1 ) l_out_v )
-  **  (IntArray.full out_w (n_pre - 1 ) l_out_w )
+  **  (IntArray.seg out_u 0 chosen l_out_u )
+  **  (IntArray.undef_seg out_u chosen (n_pre - 1 ) )
+  **  (IntArray.seg out_v 0 chosen l_out_v )
+  **  (IntArray.undef_seg out_v chosen (n_pre - 1 ) )
+  **  (IntArray.seg out_w 0 chosen l_out_w )
+  **  (IntArray.undef_seg out_w chosen (n_pre - 1 ) )
+.
+
+Definition kruskal_partial_solve_wit_18 := 
+forall (m_pre: Z) (n_pre: Z) (w_pre: Z) (v_pre: Z) (u_pre: Z) (X_low_level_spec: (unit -> (St -> Prop))) (g_low_level_spec: G) (orig_w_low_level_spec: (@list Z)) (orig_v_low_level_spec: (@list Z)) (orig_u_low_level_spec: (@list Z)) (out_w: Z) (out_v: Z) (out_u: Z) (l_out_u: (@list Z)) (l_out_v: (@list Z)) (l_out_w: (@list Z)) (repr_of: (Z -> Z)) (s: St) (l_u: (@list Z)) (l_v: (@list Z)) (l_w: (@list Z)) (edge_order: (@list Z)) (chosen: Z) (i: Z) (PreH1 : (chosen >= (n_pre - 1 ))) (PreH2 : (i < m_pre)) (PreH3 : (0 <= i)) (PreH4 : (i <= m_pre)) (PreH5 : (0 <= chosen)) (PreH6 : (chosen <= (n_pre - 1 ))) (PreH7 : (2 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : (1 <= m_pre)) (PreH10 : (m_pre < INT_MAX)) (PreH11 : (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec )) (PreH12 : (KruskalEnv g_low_level_spec )) (PreH13 : (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order )) (PreH14 : (kruskal_scan_state g_low_level_spec edge_order i chosen s )) (PreH15 : (kruskal_scan_phase g_low_level_spec s chosen )) (PreH16 : (union_find_connectivity_matches_state g_low_level_spec s repr_of )) (PreH17 : (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s )) (PreH18 : (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec )) ,
+  (IntArray.full u_pre m_pre l_u )
+  **  (IntArray.full v_pre m_pre l_v )
+  **  (IntArray.full w_pre m_pre l_w )
+  **  (IntArray.seg out_u 0 chosen l_out_u )
+  **  (IntArray.seg out_v 0 chosen l_out_v )
+  **  (IntArray.seg out_w 0 chosen l_out_w )
+|--
+  “ (chosen >= (n_pre - 1 )) ” 
+  &&  “ (i < m_pre) ” 
+  &&  “ (0 <= i) ” 
+  &&  “ (i <= m_pre) ” 
+  &&  “ (0 <= chosen) ” 
+  &&  “ (chosen <= (n_pre - 1 )) ” 
+  &&  “ (2 <= n_pre) ” 
+  &&  “ (n_pre < INT_MAX) ” 
+  &&  “ (1 <= m_pre) ” 
+  &&  “ (m_pre < INT_MAX) ” 
+  &&  “ (array_graph n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec g_low_level_spec ) ” 
+  &&  “ (KruskalEnv g_low_level_spec ) ” 
+  &&  “ (after_sorted_edge_of_input m_pre orig_u_low_level_spec orig_v_low_level_spec orig_w_low_level_spec l_u l_v l_w edge_order ) ” 
+  &&  “ (kruskal_scan_state g_low_level_spec edge_order i chosen s ) ” 
+  &&  “ (kruskal_scan_phase g_low_level_spec s chosen ) ” 
+  &&  “ (union_find_connectivity_matches_state g_low_level_spec s repr_of ) ” 
+  &&  “ (output_prefix_matches_state g_low_level_spec chosen l_out_u l_out_v l_out_w s ) ” 
+  &&  “ (safeExec (kruskal_state_is (s)) (KruskalProg (g_low_level_spec)) X_low_level_spec ) ”
+  &&  (IntArray.full u_pre m_pre l_u )
+  **  (IntArray.full v_pre m_pre l_v )
+  **  (IntArray.full w_pre m_pre l_w )
+  **  (IntArray.seg out_u 0 chosen l_out_u )
+  **  (IntArray.seg out_v 0 chosen l_out_v )
+  **  (IntArray.seg out_w 0 chosen l_out_w )
 .
 
 Definition kruskal_derive_high_level_spec_by_low_level_spec := 
@@ -4063,16 +4068,11 @@ Axiom proof_of_kruskal_entail_wit_1 : kruskal_entail_wit_1.
 Axiom proof_of_kruskal_entail_wit_2 : kruskal_entail_wit_2.
 Axiom proof_of_kruskal_entail_wit_3 : kruskal_entail_wit_3.
 Axiom proof_of_kruskal_entail_wit_4 : kruskal_entail_wit_4.
-Axiom proof_of_kruskal_entail_wit_5 : kruskal_entail_wit_5.
+Axiom proof_of_kruskal_entail_wit_5_1 : kruskal_entail_wit_5_1.
+Axiom proof_of_kruskal_entail_wit_5_2 : kruskal_entail_wit_5_2.
 Axiom proof_of_kruskal_entail_wit_6 : kruskal_entail_wit_6.
-Axiom proof_of_kruskal_entail_wit_7 : kruskal_entail_wit_7.
-Axiom proof_of_kruskal_entail_wit_8 : kruskal_entail_wit_8.
-Axiom proof_of_kruskal_entail_wit_9_1 : kruskal_entail_wit_9_1.
-Axiom proof_of_kruskal_entail_wit_9_2 : kruskal_entail_wit_9_2.
-Axiom proof_of_kruskal_entail_wit_10 : kruskal_entail_wit_10.
-Axiom proof_of_kruskal_entail_wit_11_1 : kruskal_entail_wit_11_1.
-Axiom proof_of_kruskal_entail_wit_11_2 : kruskal_entail_wit_11_2.
 Axiom proof_of_kruskal_return_wit_1 : kruskal_return_wit_1.
+Axiom proof_of_kruskal_return_wit_2 : kruskal_return_wit_2.
 Axiom proof_of_kruskal_partial_solve_wit_1_pure : kruskal_partial_solve_wit_1_pure.
 Axiom proof_of_kruskal_partial_solve_wit_1 : kruskal_partial_solve_wit_1.
 Axiom proof_of_kruskal_partial_solve_wit_2_pure : kruskal_partial_solve_wit_2_pure.
@@ -4097,6 +4097,8 @@ Axiom proof_of_kruskal_partial_solve_wit_14_pure : kruskal_partial_solve_wit_14_
 Axiom proof_of_kruskal_partial_solve_wit_14 : kruskal_partial_solve_wit_14.
 Axiom proof_of_kruskal_partial_solve_wit_15 : kruskal_partial_solve_wit_15.
 Axiom proof_of_kruskal_partial_solve_wit_16 : kruskal_partial_solve_wit_16.
+Axiom proof_of_kruskal_partial_solve_wit_17 : kruskal_partial_solve_wit_17.
+Axiom proof_of_kruskal_partial_solve_wit_18 : kruskal_partial_solve_wit_18.
 Axiom proof_of_kruskal_derive_high_level_spec_by_low_level_spec : kruskal_derive_high_level_spec_by_low_level_spec.
 
 End VC_Correct.

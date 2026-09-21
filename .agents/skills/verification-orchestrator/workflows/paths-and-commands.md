@@ -1,82 +1,59 @@
 # 路径与命令
 
-## 1. Controller 入口
+公共入口为当前代码的 `verification-orchestrator/controller.py`。首次使用：
 
-唯一公共入口：
-
-```text
-<python> .agents/scripts/verification-orchestrator/controller.py --main-root <root> <command> ...
+```sh
+uv run --frozen --python 3.12 python .agents/scripts/verification-orchestrator/controller.py --main-root <root> <command> ...
 ```
 
-main 只执行 action 中的结构化 `invocation`，不从本文拼 argv。Owner 只执行 handoff `Commands`。不要直接调用内部 Python module、raw symexec、raw Coq、Dune 或 Make。
+运行中 action 和 handoff Commands 使用 `{ "argv": [...], "cwd": "..." }`。保持解释器、参数和
+cwd；终端支持 argv 时直接传数组，仅支持字符串时按实际 shell 逐参数引用。保留工具/session
+句柄到实际退出，检查退出码和该命令的 JSON 结果。不得追加 raw Coq/symexec/Dune/Make 参数，
+或调用内部模块来跳过 controller。
 
-每条命令使用给定 cwd/argv；运行中的 terminal session 必须续接到真实退出。退出码 0 和最终 JSON success status 缺一不可。
+脚本路径取自正在运行的代码，workspace 由 `--main-root` 确定，两者不需要处于同一 checkout。
+C 相对路径依据 main root 解释。`target_files` 固定所有 canonical 文件，C stem 与 formal stem
+可以不同；collection 和任意深度子目录仍须能组成合法 Rocq logical path。
 
-整个 workflow 中 controller 启动的 Coq/build 进程统一使用 900 秒上限，包括 annotation、VC checking、group、parent verify、final check 和 dependency preparation。进程在独立 process group 中运行；超时后 controller 显式终止整组，仍未退出就强制 kill，不能只返回 timeout 状态。
+## 普通文件与发布
 
-## 2. 固定 roots
+JSON 中仓库相对路径使用 `/`，保留 Coq identity 大小写。文件操作使用 Path；拒绝逃逸、symlink、
+junction、reparse point 和非普通输入，先检查路径分量再规范化。C/strategy include 的 `..` 仅在
+直接解析仍处于 `QCP_examples` 内时接受；歧义 include 交 owner 修正。
 
-```text
-<root>/verification_runs/<run>/
-<root>/reports/<run>/
-```
+Generated/staging 文本使用 UTF-8/LF；original backup 保存原 bytes。正式替换使用目标目录内
+临时文件，flush/fsync、关闭后 `os.replace`。Annotation 先在新目录生成，全部输出有效后发布；
+失败不先删除 canonical manual。可选 manual 真正缺失时不创建占位文件。
 
-`target_files` 固定 C、formal directory、case lib、goal、auto、manual、goal-check、case name 和 active theory。C stem 不一定等于 case stem；始终使用 state/action 的 exact path。
+Final publication 保留 original/candidate bytes。恢复时核对固定 role/path 和当前内容；外部新内容
+不能被静默覆盖。遇文件占用保留原件和备份并报告实际错误。
 
-Annotation source 在 main root；`before/after` history 是 controller-owned seal。VC checking 只可临时修改 main-root manual 中的 `Show.`。Group worker 只写固定 group copy。Final apply 前不得把 group/merged candidate 手工复制到 main root。
+## 依赖准备与 Rocq
 
-## 3. Annotation commands
+Workspace 有 `_build` directory 时选 Dune，否则选 Make。Dune 用 native rules 找依赖并 build base；
+Make 用 coqdep 和临时 exact Makefile。统一 `dependency_plan.json` 仅保存 `build_mode`、`target`、
+`case_anchor`、`dependencies`，current/base 从当前 case family 与图计算。
 
-Handoff 顺序：
+后端共用一条 stage→选择依赖→编译流程。每个检查读取当前文件并准备 native dependencies；
+current 模块实际运行 coqc，base 使用 native incremental build。Staging 在内存规范化生成器
+import 和 auto/manual overlap，只写变化内容；final prelude 比较复用相同 import 规范化。
 
-```text
-coq-check --target-kind formal-case-lib-design
-symexec
-coq-check --target-kind formal-case-lib       # active lib
-```
+Group wrapper 只要求 assigned witnesses，active case lib 即使未被 goal-check 引用也独立编译。
+VC debug manual 和 group copies 以 overlay 进入 run 的 build 目录，canonical manual 保持只读。
+合并后 parent 检查完整 goal-check，final apply 再检查最新候选。
 
-Agent 编写的 spec 可与内部 annotation 和 case lib 在当前 attempt 中共同修改，每次修改后可重跑 `formal-case-lib-design` 与 symexec。用户 spec 需要修改时，owner 先停止并把方案交给 main；用户确认后 main 执行 `unfreeze --run <run> --round <round>`，再把方案交回同一 owner。`unfreeze` 不出现在 owner handoff commands 中。
+## 工具预算和输出
 
-`symexec` 事务化删除并重建 exact generated roles。Owner 在 retry symexec 后读取当前 manual 并填写 VC comparisons；proof manual 永远只读。
+一次 Coq check/debug 的依赖准备、等待和编译共享至多 900 秒。Dune workspace lock 串行化共享
+依赖刷新，释放后组内编译继续并行；等待计入预算并响应取消。较长 native 命令向 stderr 报告
+阶段与耗时，stdout 留给终态 JSON。
 
-## 4. VC checking commands
+Symexec 使用初始化时选择的 profile；一条命令至多启动一次 driver。零字节或缺失必需输出是
+失败，不自动启动第二次。Progress 是诊断，不能替代成功退出与完整输出检查。
 
-Owner 可在 current manual 临时插入 `Show.`，每次有用修改后执行 handoff 的：
+零预算或已取消时不启动新进程；timeout/pause 清理独立进程组及后代，并限时回收输出。
+Windows 不保证运行中部分 stdout/stderr；成功清理后保留最终输出，管道仍被脱离进程持有时
+报告 `cleanup_incomplete`。用户明确恢复前不继续。
 
-```text
-coq-debug --run <run> --round <vc-checking-round>
-```
-
-交付成功后 controller 运行 `vc-checking-check-round`，重新 symexec 并 seal clean manual/group plan。
-
-## 5. Group commands
-
-每组 handoff 给出 fixed directory、copied manual、可选 group lib、report paths 和两条 controller command：
-
-```text
-coq-check --target-kind group-development --group <id>
-coq-check --target-kind group-check --group <id>
-```
-
-Worker 可反复运行 development check；controller acceptance 总会运行 exact group check。不要运行 sibling group command，不要把 group path替换为 main-root path。
-
-若上一 round 存在，每个实际领取任务的 worker 在 handed-off previous directory 中按 current witness/helper搜索，只读取候选 proof block，不逐份通读完整 manual。可按需写 `proof_reuse.md`；该文件缺失或为空均可，controller 不解析也不据此阻断 finalize。当前 manual/plan 始终为准。
-
-## 6. Main-owned actions
-
-main 只使用 action 自带 invocation：
-
-- `retry-round` 创建 annotation/vc-checking retry；
-- `unfreeze` 在用户确认后允许当前 annotation attempt 修改用户 spec；
-- `annotation-check-round`、`vc-checking-check-round` 接纳 owner 交付；
-- `dune-build` seal dependency snapshot；
-- `vc-proving-preparing` 建 group copies、交接上一 round并调度；
-- `vc-proving-verify` merge 与 parent check；
-- `final-apply`、`final-check` 写回与终检；
-- `pause-run`、`cancel-action`、`resume-run` 控制运行。
-
-## 7. Seal 与删除边界
-
-Controller 在读取、写入、删除、复用或验证前重算目标路径并拒绝 alias/symlink/跨 run/错 round。Agent 不删除 run/report tree，不修改 manifests、state、history 或 seals。
-
-Final check 成功时 controller 负责清理；失败时按 action 修复或回滚。
+Final cleanup 只删除允许的生成副产物，并在遍历前跳过 `_coq_builds`；保留 source、报告、历史、
+candidate 和 base 库产物。

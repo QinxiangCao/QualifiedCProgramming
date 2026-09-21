@@ -1,6 +1,6 @@
 # Specification and Function-Contract Knowledge Rules
 
-This document defines knowledge requirements for the final Rocq specification and QCP function contracts. It adds no procedural requirements beyond the existing workflow, which remains authoritative for execution order and write boundaries.
+This document defines knowledge requirements for Rocq specifications, QCP function contracts, and intermediate annotations. It adds no procedural requirements beyond the existing workflow, which remains authoritative for execution order and write boundaries.
 
 The rules distinguish three layers:
 
@@ -8,11 +8,22 @@ The rules distinguish three layers:
 - `Require` / `Ensure` connect that meaning to C parameters, pre-state / post-state, and ownership;
 - `Assert` / `Inv Assert` describe intermediate program points without changing the top-level input/output relation.
 
+## 0. Separate Mathematics, Premise Ranges, and Spatial Resources
+
+A predicate for a final result, a helper's abstract result, or mathematical loop progress contains only that mathematics. It contains no memory ownership, input-value restrictions, capacities, machine-integer bounds, overflow conditions, or access-safety conditions. The same boundary applies to predicates with multiple fields and to `Record` definitions.
+
+- State the problem's input ranges and guarantees explicitly in `Pre` premises and expose them in C `Require` as specified in §5. State additional implementation-safety conditions directly in `Require`.
+- At intermediate points, retain only ranges needed by later execution or proof, directly in `Inv Assert` / a necessary `Assert`. Do not put them in a progress predicate or copy all entry conditions.
+- Express ownership separately in contracts and assertions with existing spatial predicates. Mathematical result predicates do not return resources.
+- Do not hide a collection of ranges behind `InputValid`, `InputValues`, `InputBound`, `SizeSafe`, or another aggregate predicate, or move the same collection into a result or progress predicate.
+
+The conditions separated out here are **input restrictions and implementation-safety conditions**. Legal candidate sets, valid quantification domains, intervals needed to define the answer, and output-format requirements remain part of the problem's mathematics. For example, a maximum over `[lo, hi)` may still use the extrema library over `sublist lo hi l`; a mathematical object that reads with `Znth` still needs a valid domain. `Pre` describes legal inputs and `Spec` describes correct outputs; do not combine them into one result predicate.
+
 ## 1. Types and Encodings
 
 ### 1.1 Use `Z` and Z-indexed list interfaces
 
-Use `Z` for mathematical integers, lengths, and indices. Do not introduce `nat`, `length`, `nth`, or `nat` subtraction in a new specification or helper. Use `Zlength`, `Znth`, `sublist`, and `replace_Znth`.
+Use `Z`, `Zlength`, `Znth`, `sublist`, and `replace_Znth` for logical integers, lengths, and indices in new specifications, helpers, and annotations. Do not introduce a parallel representation using `nat`, `length`, `nth`, or `nat` subtraction. Reusing a library whose internals use `nat` does not introduce a new case-level model.
 
 ### 1.2 Characters are decimal source-character codes
 
@@ -47,11 +58,24 @@ Write divisibility as `(d | n)`, non-divisibility as `~ (d | n)`, and parity as 
 
 ### 2.2 Reuse extrema, monotonicity, quantification, sums, and reachability
 
-- Express minima and maxima with `min_value_of_subset` / `max_value_of_subset`. Do not hand-roll `IsMinimum` / `IsMaximum` or synthesize an extremum through a classical-choice API. Include the statement's sentinel / `NO` branch when the candidate set may be empty; an extremum over an empty set by itself makes `Spec` unsatisfiable.
+- Minima and maxima must use `min_value_of_subset` / `max_value_of_subset` from the repository's `MaxMinLib`. Do not hand-roll `IsMinimum` / `IsMaximum`, another synonymous definition, or an extremum synthesized through a classical-choice API. When a problem or cross-function interface needs a name, retain one case predicate that directly reuses the library semantics. Include the statement's sentinel / `NO` branch when the candidate set may be empty; an extremum over an empty set by itself makes `Spec` unsatisfiable.
 - Do not hand-roll all-pairs or adjacent-`Znth` monotonicity, and do not introduce stdlib `Sorted` as a synonymous interface. Use the canonical family already selected by the current dependency. Use `mono_inc` / `mono_nondec` / `mono_dec` / `mono_noninc` when that family is available; retain an annotation-facing library's established `increasing` / `decreasing` family when it is already fixed. Do not mix synonymous families within one case.
-- Use `Forall` for elementwise properties independent of the index, `Forall2` for corresponding positions, `Permutation` for rearrangement, and `In` for membership. A genuinely index-dependent condition such as `p_i < i` must remain indexed and must not be weakened to a value-only `Forall`.
-- Do not write a custom `Fixpoint` by default to reimplement a list sum, range enumeration, or state fold. Use `sum_range` / `sum` / `sum_set_R`, `Zrange`, `map`, and `fold_left` / `fold_right`. For partial or relational transitions, use existing one-step relations, `Rels.id`, and relation composition.
-- Do not define recursive `Reachable` or a path `Inductive`. Use `valid_vpath` / `reachable` with the instance matching the vertex type, adding `NoDup` for a simple path; use `clos_refl_trans` or relation composition where appropriate.
+- Elementwise properties independent of the index must use `Forall`: write `Forall P l` for `forall i, 0 <= i < Zlength l -> P (Znth i l d)`, or `Forall P (sublist lo hi l)` for a valid segment. Use `Forall2` for corresponding positions, `Permutation` for rearrangement, and `In` for membership. A condition that genuinely depends on indices, such as `p_i < i` or a relation across indices, retains indexed quantification with a valid domain; do not weaken it to a value-only `Forall`.
+- Sums and range enumerations must reuse `sum_range` / `sum` / `sum_set_R` and `Zrange`, selected for the objects and value types involved. Do not recursively redefine list sums or range enumerations in a case. A complex mathematical concept may have one name, but its body still calls these interfaces directly. Reuse `map` and `fold_left` / `fold_right` for state folds; use existing one-step relations, `Rels.id`, and relation composition for partial or relational transitions.
+- Zero or more relation steps must use `clos_refl_trans` from the current dependencies. Do not recursively define a synonymous `Reachable`, execution chain, or closure. Use `valid_vpath` / `reachable` with the instance matching the vertex type for graph paths, adding `NoDup` for a simple path. A finite number of relation compositions describes only those finite steps and cannot replace reflexive-transitive closure.
+
+The current repository interfaces are listed below. Confirm their imports, argument types, and instances in the selected dependencies; do not copy library definitions:
+
+| Purpose | Module and call shape |
+|---|---|
+| Integer extrema | `MaxMinLib.MaxMin`: `min_value_of_subset Z.le candidates measure result` / `max_value_of_subset Z.le candidates measure result`; use `fun v : Z => v` as the measure when candidates are integer answers |
+| List sum | `AUXLib.ListLib`: `sum l`; qualify it as `AUXLib.ListLib.sum` when finite-set sum is also imported |
+| Integer-valued finite-set sum | `SumLib.Sum` (umbrella import `SumLib.SumLib`): `sum P f`, requiring `Finite P`; qualify it as `SumLib.Sum.sum` when needed |
+| Closed-interval sum and real-valued finite-set sum | `SimpleC.EE.LLM_bench.Codeforces.SpecHelpers`: `sum_range a b f` sums over `[a, b]`; `sum_set_R P f` requires `Finite P` and `f : A -> R` |
+| Range enumeration | `SumLib.ZRange`: `Zrange lo hi` enumerates `[lo, hi)`; use `Zrange a (b + 1)` for the closed interval `[a, b]` |
+| Reflexive-transitive closure | `SetsClass.RelsDomain`: `SetsClass.RelsDomain.clos_refl_trans step`; confirm relation instances and distinguish it from the standard library's namesake |
+
+`sum_range` includes the right endpoint; `Zrange` excludes it. For an indexed sum over `[lo, hi)`, use `sum_range lo (hi - 1) f` or `SumLib.Sum.sum (fun i : Z => lo <= i < hi) f`. Do not mix the signatures of list `sum l` and finite-set `sum P f`.
 
 ### 2.3 Do not retain `Zrange` solely as index scaffolding
 
@@ -70,9 +94,9 @@ Retain range enumeration only when `i` also participates in a shifted read, inde
 
 Every `#P` and `sum P f` must obtain a real `Finite P` instance. Preserve predicate shapes recognized by the library and use an existing module that supplies the instance. A mathematically finite expression that Rocq cannot elaborate is not a deliverable specification.
 
-### 2.5 A negative `Znth` index does not return the default
+### 2.5 A negative `Znth` index maps to index zero
 
-`Znth n l d` indexes through `Z.to_nat n`; a negative number maps to `0`, so `Znth (-1) l d` reads the first element instead of returning `d`. Judge safety from whether the enclosing precondition or quantifier admits a negative index, not merely from the presence of subtraction in the expression.
+`Znth n l d` indexes through `Z.to_nat n`; a negative number maps to `0`. Thus `Znth (-1) l d` returns the first element of a nonempty list and returns `d` for an empty list. Negative indices are not a general out-of-bounds default mechanism: `Znth (-1) [7; 9] 42 = 7`, whereas `Znth (-1) [] 42 = 42`. Judge safety from whether the enclosing precondition or quantifier admits a negative index, not merely from the presence of subtraction in the expression.
 
 If the context can make the index negative, guard the read or tighten the quantified range. If the context already proves non-negativity, do not add a redundant guard. For example:
 
@@ -159,7 +183,7 @@ A bound on the number of test cases or a sum over all test cases constrains an o
 
 ## 5. Range Visibility in `Require`
 
-This section requires simple input ranges to be expanded in `Require`; it does not require expansion in `Ensure`. `Ensure` may call the complete `Spec` and encapsulate output ranges and post-state array conditions.
+State input ranges and execution-safety conditions directly in `Require`. The mathematical part of `Ensure` promises only the required result and returns resources separately, as detailed in §6.5. `Ensure` is not an exception permitting auxiliary ranges or intermediate state inside a result predicate.
 
 ### 5.1 Give every scalar parameter an explicit range
 
@@ -173,19 +197,20 @@ None of the following substitutes for a scalar bound:
 
 Also state implementation-specific overflow, representability, and access-safety conditions directly in `Require`, but do not promote an implementation convenience into a problem-domain condition in `Pre`.
 
-### 5.2 Use a guarded `forall` for a simple element domain
+### 5.2 Use `Forall` for an index-independent element domain
 
-When the element domain of an input or input-output array or buffer can be stated clearly as an equality or interval, write an explicit indexed quantifier in `Require`:
+When the element domain of an input or input-output array or buffer is independent of position, use `Forall` directly in `Pre` and `Require`. In Rocq, write `Forall (fun v : Z => lower <= v <= upper) values`. In C annotation, directly use two partially applied existing relations:
 
 ```c
-forall i,
-  0 <= i && i < logical_extent =>
-  lower <= Znth(i, values, 0) && Znth(i, values, 0) <= upper
+Forall(Z::le(lower), values) &&
+Forall(Z::ge(upper), values)
 ```
 
-A length equation, capacity bound, or spatial predicate such as `TArray::full` does not itself state an element range. For a two-dimensional object, guard both row and column indices and state the applicable cell range.
+Declare the referenced `Forall`, `Z::le`, and `Z::ge` in `Extern Coq` and supply their libraries through the existing import rules. Do not introduce an aggregate predicate for these two bounds. If `values` also contains a capacity tail, state the range only over the actual input segment `sublist 0 logical_extent values`, retaining necessary extent conditions.
 
-A condition that genuinely relates positions, several indices or arrays, prefixes, aggregate equations, or structure may remain in the complete `Pre` or an existing business predicate instead of being forced into a simple per-element interval. For example, a recurrence among `partial[i + 1]`, `partial[i]`, and `years[a - 1 + i]` is not a simple element range.
+A length equation, capacity bound, or spatial predicate such as `TArray::full` does not itself state an element range. Use nested `Forall` for uniform cell ranges in a two-dimensional object; guard row and column indices only for conditions that genuinely depend on their positions.
+
+Use `Forall2` for corresponding elements of two lists. A condition involving positions, relationships across indices, prefixes, aggregate equations, or structure may remain in the complete `Pre` or an existing problem predicate instead of being forced into a simple per-element interval. For example, a recurrence among `partial[i + 1]`, `partial[i]`, and `years[a - 1 + i]` is not a simple element range; its quantification still needs valid index guards.
 
 Do not add `InputValid`, `InputValues`, `InputBound`, or `SizeSafe` merely to hide simple ranges. Direct ranges and a retained complete `Pre` may coexist: the former gives the QCP contract visibility, while the latter preserves unexpanded cross-argument and structural semantics. Restating a clause in `Require` never licenses deleting or weakening the Rocq `Pre`; a user-provided `Pre` remains subject to the freeze rule.
 
@@ -211,6 +236,18 @@ Problem-domain conditions come from `Pre`; C contributes representability, layou
 
 Every output component and every branch of `Spec` must map to a real C return value or post-state memory location. An output that exists only at the logical level and has no return or post-state channel is unconnected.
 
+### 6.5 `Ensure` promises only the required final properties
+
+The mathematical part of `Ensure` connects directly to the required final output relation. A helper promises only the abstract result its caller uses. Do not copy input ranges, loop-control state, execution-safety conditions, or intermediate table construction into it. Required output formats and result intervals remain part of the target meaning and must still be expressed accurately by `Spec`.
+
+Retain required spatial resources separately in the contract; simplifying the mathematical promise does not permit omitting their return. Post-state contents become a mathematical promise only when they are an actual output or an abstract result needed by the caller. Return ownership alone for irrelevant workspace. Result and progress predicates both follow the range boundary in §0.
+
+### 6.6 Intermediate annotations retain only necessary state
+
+Keep one `Inv Assert` before every loop, containing only mathematical progress, ranges needed by later execution and proof, live resources, necessary read bindings, and `@pre` bridges. State ranges directly, outside progress predicates. Do not copy entry conditions wholesale or repeat length and interval facts already supplied by array resources.
+
+An ordinary `Assert` supplies only state that symbolic execution cannot recover and later reasoning needs. Do not add an assertion for each ordinary sequential statement, single assignment, or automatically propagated fact. Placement still follows the existing workflow and authoring reference.
+
 ## 7. Ownership of Global Objects
 
 Every file-scope global read or written by the solver belongs to its memory footprint:
@@ -228,7 +265,7 @@ Do not omit a write-only global. A write still requires entry ownership and retu
 
 When a problem object is intrinsically a matrix, grid, table, board, image, or row collection, and row/column structure materially clarifies the contract, use `list (list Z)` or the corresponding nested element type. Do not flatten it merely to reuse a one-dimensional predicate.
 
-- State the outer length, applicable row lengths, and cell ranges. Simple cell ranges in `Require` use row and column guards.
+- State the outer length, applicable row lengths, and cell ranges. Use nested `Forall` for position-independent cell ranges and valid index guards for conditions that depend on row or column positions.
 - A contiguous row-major C block uses the matching typed `Array2Lib` predicate, such as `IntArray2::full(p, rows, cols, matrix)` after confirming its signature.
 - A row-pointer array such as `int **` or `char **` uses a matching `PtrArray2Lib` predicate, such as `IntPtrArray2::full(p, rows, matrix)` or `CharPtrArray2::full(p, rows, matrix)` after signature confirmation. State row lengths separately when the predicate has no column-count argument.
 - Do not describe pointer-to-pointer storage as one contiguous block, or a contiguous block as independently owned rows.

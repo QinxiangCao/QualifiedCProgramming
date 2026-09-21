@@ -1,6 +1,7 @@
 Require Import Coq.Lists.List.
 Require Import Coq.Sorting.Permutation.
 Require Import Coq.ZArith.ZArith.
+Require Import Coq.micromega.Lia.
 From AUXLib Require Import ListLib.
 From MaxMinLib Require Import MaxMin Interface.
 
@@ -22,20 +23,8 @@ Definition default_interval : interval := mk_interval 0 1.
     In particular, no specification is phrased through a flat array. *)
 Definition PairIntervals
     (starts ends : list Z) (ps : list interval) : Prop :=
-  Zlength starts = Zlength ends /\
-  Zlength ps = Zlength starts /\
-  forall k,
-    0 <= k < Zlength starts ->
-    Znth k ps default_interval =
-      mk_interval (Znth k starts 0) (Znth k ends 0).
-
-Definition IntervalBounds (ps : list interval) : Prop :=
-  Forall
-    (fun p =>
-       -10000 <= interval_start p /\
-       interval_start p < interval_end p /\
-       interval_end p <= 10000)
-    ps.
+  Forall2 (fun start p => start = interval_start p) starts ps /\
+  Forall2 (fun finish p => finish = interval_end p) ends ps.
 
 Definition IntervalPermutation : list interval -> list interval -> Prop :=
   @Permutation interval.
@@ -143,6 +132,56 @@ Definition GreedyPrefixState
     IntervalSelection (sublist 0 processed ps) kept /\
     NonOverlappingSchedule kept /\
     Zlength kept = kept_count /\
+    (* This guards the last-element index used by schedule_finish. *)
+    0 < Zlength kept /\
+    last_finish = schedule_finish kept /\
+    max_value_of_subset Z.le
+      (fun alternative =>
+         IntervalSelection (sublist 0 processed ps) alternative /\
+         NonOverlappingSchedule alternative)
+      (@Zlength interval) kept_count /\
+    min_value_of_subset Z.le
+      (fun alternative =>
+         IntervalSelection (sublist 0 processed ps) alternative /\
+         NonOverlappingSchedule alternative /\
+         Zlength alternative = kept_count)
+      schedule_finish last_finish.
+
+Require Import Coq.micromega.Lia.
+Require Import Coq.Sorting.Sorted.
+(** Proof adapters for the existing record-swap and greedy arguments. *)
+Lemma pair_intervals_indexed : forall starts ends ps,
+  PairIntervals starts ends ps <->
+Zlength starts = Zlength ends /\
+  Zlength ps = Zlength starts /\
+  forall k,
+    0 <= k < Zlength starts ->
+    Znth k ps default_interval =
+      mk_interval (Znth k starts 0) (Znth k ends 0).
+Proof.
+  intros starts ends ps. unfold PairIntervals.
+  rewrite (Forall2_nth_iff _ _ _ starts ps 0 default_interval).
+  rewrite (Forall2_nth_iff _ _ _ ends ps 0 default_interval).
+  rewrite !Zlength_correct. unfold Znth, mk_interval.
+  split.
+  - intros [[Hs Hsfield] [He Hefield]].
+    split; [lia|]. split; [lia|]. intros k Hk.
+    specialize (Hsfield (Z.to_nat k) ltac:(lia)).
+    specialize (Hefield (Z.to_nat k) ltac:(lia)).
+    unfold interval_start, interval_end in *.
+    apply injective_projections; simpl; congruence.
+  - intros [Hse [Hps Hfield]].
+    split; (split; [lia|]); intros k Hk;
+      specialize (Hfield (Z.of_nat k) ltac:(lia));
+      rewrite Nat2Z.id in Hfield; rewrite Hfield; reflexivity.
+Qed.
+
+Lemma greedy_prefix_state_facts : forall ps processed kept_count last_finish,
+  GreedyPrefixState ps processed kept_count last_finish <->
+exists kept,
+    IntervalSelection (sublist 0 processed ps) kept /\
+    NonOverlappingSchedule kept /\
+    Zlength kept = kept_count /\
     0 < Zlength kept /\
     last_finish = schedule_finish kept /\
     (forall alternative,
@@ -154,9 +193,33 @@ Definition GreedyPrefixState
         NonOverlappingSchedule alternative ->
         Zlength alternative = kept_count ->
         last_finish <= schedule_finish alternative).
+Proof.
+  intros ps processed kept_count last_finish.
+  unfold GreedyPrefixState, max_value_of_subset, max_object_of_subset,
+    min_value_of_subset, min_object_of_subset.
+  split.
+  - intros [kept [Hsel [Hno [Hlen [Hpos [Hlast [Hmax Hmin]]]]]]].
+    destruct Hmax as [a [[Ha Hupper] Halen]].
+    destruct Hmin as [b [[Hb Hlower] Hbend]].
+    exists kept. split; [exact Hsel|]. split; [exact Hno|].
+    split; [exact Hlen|]. split; [exact Hpos|]. split; [exact Hlast|].
+    split.
+    + intros alternative Hs Hn.
+      rewrite <- Halen. apply Hupper. split; assumption.
+    + intros alternative Hs Hn Hl.
+      rewrite <- Hbend. apply Hlower. repeat split; assumption.
+  - intros [kept [Hsel [Hno [Hlen [Hpos [Hlast [Hmax Hmin]]]]]]].
+    exists kept. split; [exact Hsel|]. split; [exact Hno|].
+    split; [exact Hlen|]. split; [exact Hpos|]. split; [exact Hlast|].
+    split; exists kept; split.
+    + split; [split; assumption|]. intros alternative [Hs Hn].
+      rewrite Hlen. apply Hmax; assumption.
+    + exact Hlen.
+    + split; [repeat split; assumption|]. intros alternative [Hs [Hn Hl]].
+      rewrite <- Hlast. apply Hmin; assumption.
+    + symmetry. exact Hlast.
+Qed.
 
-Require Import Coq.micromega.Lia.
-Require Import Coq.Sorting.Sorted.
 Lemma replace_Znth_swap_form__swap_records :
   forall {A : Type} (l1 l2 l3 : list A) (xi xj : A),
     replace_Znth (Zlength l1 + 1 + Zlength l2) xi
@@ -341,11 +404,11 @@ Lemma interval_swap_bounds__swap_records :
   forall ps i j,
     0 <= i < Zlength ps ->
     0 <= j < Zlength ps ->
-    IntervalBounds ps ->
-    IntervalBounds (interval_swap ps i j).
+    (Forall (fun p => -10000 <= interval_start p /\ interval_start p < interval_end p /\ interval_end p <= 10000) ps) ->
+    (Forall (fun p => -10000 <= interval_start p /\ interval_start p < interval_end p /\ interval_end p <= 10000) (interval_swap ps i j)).
 Proof.
   intros ps i j Hi Hj Hbounds.
-  unfold IntervalBounds in *.
+
   eapply Permutation_Forall.
   - apply interval_swap_permutation__swap_records; assumption.
   - exact Hbounds.
@@ -363,12 +426,13 @@ Lemma pair_intervals_swap__swap_records :
       (interval_swap ps i j).
 Proof.
   intros starts ends ps i j Hpair Hi Hj.
+  apply pair_intervals_indexed in Hpair.
   destruct Hpair as [Hse [Hps Hpoint]].
   assert (Hie : 0 <= i < Zlength ends) by lia.
   assert (Hje : 0 <= j < Zlength ends) by lia.
   assert (Hip : 0 <= i < Zlength ps) by lia.
   assert (Hjp : 0 <= j < Zlength ps) by lia.
-  unfold PairIntervals, interval_swap.
+  apply pair_intervals_indexed. unfold interval_swap.
   repeat rewrite Zlength_replace_Znth.
   split; [exact Hse|].
   split; [exact Hps|].
@@ -443,7 +507,9 @@ Lemma pair_intervals_lengths_and_fields__partition_lomuto :
         interval_start (Znth k ps default_interval) = Znth k starts 0 /\
         interval_end (Znth k ps default_interval) = Znth k ends 0).
 Proof.
-  intros starts ends ps [Hse [Hps Hfields]].
+  intros starts ends ps Hpair.
+  apply pair_intervals_indexed in Hpair.
+  destruct Hpair as [Hse [Hps Hfields]].
   split; [exact Hse|]. split; [exact Hps|].
   intros k Hk. specialize (Hfields k Hk).
   unfold interval_start, interval_end, mk_interval.
@@ -1402,10 +1468,10 @@ Qed.
 Lemma interval_bounds_prefix__greedy_prefix :
   forall ps n,
     0 <= n <= Zlength ps ->
-    IntervalBounds ps ->
-    IntervalBounds (sublist 0 n ps).
+    (Forall (fun p => -10000 <= interval_start p /\ interval_start p < interval_end p /\ interval_end p <= 10000) ps) ->
+    (Forall (fun p => -10000 <= interval_start p /\ interval_start p < interval_end p /\ interval_end p <= 10000) (sublist 0 n ps)).
 Proof.
-  intros ps n Hn Hbounds. unfold IntervalBounds in *.
+  intros ps n Hn Hbounds.
   apply Forall_forall. intros p Hin.
   destruct (In_nth (sublist 0 n ps) p default_interval Hin)
     as [k [Hk Hnth]].
@@ -1428,11 +1494,11 @@ Proof.
 Qed.
 Lemma interval_bounds_selected__greedy_prefix :
   forall input kept,
-    IntervalBounds input ->
+    (Forall (fun p => -10000 <= interval_start p /\ interval_start p < interval_end p /\ interval_end p <= 10000) input) ->
     IntervalSelection input kept ->
-    IntervalBounds kept.
+    (Forall (fun p => -10000 <= interval_start p /\ interval_start p < interval_end p /\ interval_end p <= 10000) kept).
 Proof.
-  intros input kept Hbounds Hsel. unfold IntervalBounds in *.
+  intros input kept Hbounds Hsel.
   unfold IntervalSelection in Hsel. destruct Hsel as [removed Hperm].
   apply Forall_forall. intros p Hin.
   apply Forall_forall with (x := p) in Hbounds.
@@ -1471,7 +1537,7 @@ Qed.
 Lemma nonoverlap_member_end_le_finish__greedy_prefix :
   forall xs p,
     NonOverlappingSchedule xs ->
-    IntervalBounds xs ->
+    (Forall (fun p => -10000 <= interval_start p /\ interval_start p < interval_end p /\ interval_end p <= 10000) xs) ->
     In p xs ->
     interval_end p <= schedule_finish xs.
 Proof.
@@ -1511,7 +1577,7 @@ Qed.
 Lemma nonoverlap_append__greedy_prefix :
   forall kept p,
     NonOverlappingSchedule kept ->
-    IntervalBounds kept ->
+    (Forall (fun p => -10000 <= interval_start p /\ interval_start p < interval_end p /\ interval_end p <= 10000) kept) ->
     0 < Zlength kept ->
     schedule_finish kept <= interval_start p ->
     NonOverlappingSchedule (kept ++ [p]).
@@ -1572,7 +1638,7 @@ Qed.
 Lemma latest_interval_right_nil__greedy_prefix :
   forall left p right,
     NonOverlappingSchedule (left ++ p :: right) ->
-    IntervalBounds right ->
+    (Forall (fun p => -10000 <= interval_start p /\ interval_start p < interval_end p /\ interval_end p <= 10000) right) ->
     (forall q, In q right -> interval_end q <= interval_end p) ->
     right = [].
 Proof.
@@ -1598,22 +1664,23 @@ Qed.
 Lemma greedy_prefix_accept__greedy_prefix :
   forall ps i kept_count last_finish,
     0 <= i < Zlength ps ->
-    IntervalBounds ps ->
+    (Forall (fun p => -10000 <= interval_start p /\ interval_start p < interval_end p /\ interval_end p <= 10000) ps) ->
     GreedyPrefixState ps i kept_count last_finish ->
     last_finish <= interval_start (Znth i ps default_interval) ->
     GreedyPrefixState ps (i + 1) (kept_count + 1)
       (interval_end (Znth i ps default_interval)).
 Proof.
   intros ps i kept_count last_finish Hi Hbounds Hstate Haccept.
-  unfold GreedyPrefixState in *.
+  apply greedy_prefix_state_facts in Hstate.
+  apply greedy_prefix_state_facts.
   destruct Hstate as
     [kept [Hsel [Hno [Hlen [Hpos [Hlast [Hmax Hfront]]]]]]].
   set (p := Znth i ps default_interval).
   assert (Hprefix : sublist 0 (i + 1) ps = sublist 0 i ps ++ [p]).
   { subst p. apply prefix_snoc__greedy_prefix. exact Hi. }
-  assert (Hprefix_bounds : IntervalBounds (sublist 0 i ps)).
+  assert (Hprefix_bounds : (Forall (fun p => -10000 <= interval_start p /\ interval_start p < interval_end p /\ interval_end p <= 10000) (sublist 0 i ps))).
   { apply interval_bounds_prefix__greedy_prefix; auto. lia. }
-  assert (Hkept_bounds : IntervalBounds kept).
+  assert (Hkept_bounds : (Forall (fun p => -10000 <= interval_start p /\ interval_start p < interval_end p /\ interval_end p <= 10000) kept)).
   { eapply interval_bounds_selected__greedy_prefix; eauto. }
   exists (kept ++ [p]).
   split.
@@ -1649,9 +1716,9 @@ Proof.
                        [left [right [Heq [HoldSel HoldNo]]]]].
                  --- specialize (Hmax alternative HoldSel HoldNo). lia.
                  --- assert (Hnew_bounds :
-                               IntervalBounds (sublist 0 (i + 1) ps)).
+                               (Forall (fun p => -10000 <= interval_start p /\ interval_start p < interval_end p /\ interval_end p <= 10000) (sublist 0 (i + 1) ps))).
                      { apply interval_bounds_prefix__greedy_prefix; auto. lia. }
-                     assert (Halt_bounds : IntervalBounds alternative).
+                     assert (Halt_bounds : (Forall (fun p => -10000 <= interval_start p /\ interval_start p < interval_end p /\ interval_end p <= 10000) alternative)).
                      { eapply interval_bounds_selected__greedy_prefix; eauto.
                        rewrite Hprefix. exact HaltSel. }
                      assert (Hin_p : In p alternative).
@@ -1699,22 +1766,23 @@ Qed.
 Lemma greedy_prefix_skip__greedy_prefix :
   forall ps i kept_count last_finish,
     0 <= i < Zlength ps ->
-    IntervalBounds ps ->
+    (Forall (fun p => -10000 <= interval_start p /\ interval_start p < interval_end p /\ interval_end p <= 10000) ps) ->
     IntervalsEndSorted ps ->
     GreedyPrefixState ps i kept_count last_finish ->
     interval_start (Znth i ps default_interval) < last_finish ->
     GreedyPrefixState ps (i + 1) kept_count last_finish.
 Proof.
   intros ps i kept_count last_finish Hi Hbounds Hsorted Hstate Hskip.
-  unfold GreedyPrefixState in *.
+  apply greedy_prefix_state_facts in Hstate.
+  apply greedy_prefix_state_facts.
   destruct Hstate as
     [kept [Hsel [Hno [Hlen [Hpos [Hlast [Hmax Hfront]]]]]]].
   set (p := Znth i ps default_interval).
   assert (Hprefix : sublist 0 (i + 1) ps = sublist 0 i ps ++ [p]).
   { subst p. apply prefix_snoc__greedy_prefix. exact Hi. }
-  assert (Hold_bounds : IntervalBounds (sublist 0 i ps)).
+  assert (Hold_bounds : (Forall (fun p => -10000 <= interval_start p /\ interval_start p < interval_end p /\ interval_end p <= 10000) (sublist 0 i ps))).
   { apply interval_bounds_prefix__greedy_prefix; auto. lia. }
-  assert (Hnew_bounds : IntervalBounds (sublist 0 (i + 1) ps)).
+  assert (Hnew_bounds : (Forall (fun p => -10000 <= interval_start p /\ interval_start p < interval_end p /\ interval_end p <= 10000) (sublist 0 (i + 1) ps))).
   { apply interval_bounds_prefix__greedy_prefix; auto. lia. }
   assert (Hkept_end : schedule_finish kept <= interval_end p).
   { subst p. eapply selected_finish_end_le_current__greedy_prefix; eauto. }
@@ -1734,7 +1802,7 @@ Proof.
         as [[HoldSel HoldNo] |
             [left [right [Heq [HoldSel HoldNo]]]]].
       * apply Hmax; auto.
-      * assert (Hselected_bounds : IntervalBounds (left ++ right)).
+      * assert (Hselected_bounds : (Forall (fun p => -10000 <= interval_start p /\ interval_start p < interval_end p /\ interval_end p <= 10000) (left ++ right))).
         { eapply interval_bounds_selected__greedy_prefix.
           - exact Hold_bounds.
           - exact HoldSel. }
@@ -1771,7 +1839,7 @@ Proof.
         as [[HoldSel HoldNo] |
             [left [right [Heq [HoldSel HoldNo]]]]].
       * apply Hfront; auto.
-      * assert (Halt_bounds : IntervalBounds alternative).
+      * assert (Halt_bounds : (Forall (fun p => -10000 <= interval_start p /\ interval_start p < interval_end p /\ interval_end p <= 10000) alternative)).
         { eapply interval_bounds_selected__greedy_prefix; eauto.
           rewrite Hprefix. exact HaltSel. }
         assert (Hin_p : In p alternative).
@@ -1784,7 +1852,7 @@ Qed.
 Lemma pair_intervals_fields_at__greedy_prefix :
   forall starts ends ps k,
     PairIntervals starts ends ps ->
-    IntervalBounds ps ->
+    (Forall (fun p => -10000 <= interval_start p /\ interval_start p < interval_end p /\ interval_end p <= 10000) ps) ->
     0 <= k < Zlength ps ->
     Znth k starts 0 = interval_start (Znth k ps default_interval) /\
     Znth k ends 0 = interval_end (Znth k ps default_interval) /\
@@ -1794,7 +1862,7 @@ Lemma pair_intervals_fields_at__greedy_prefix :
     interval_end (Znth k ps default_interval) <= 10000.
 Proof.
   intros starts ends ps k Hpair Hbounds Hk.
-  unfold PairIntervals in Hpair.
+  apply pair_intervals_indexed in Hpair.
   destruct Hpair as [Hlens [Hlenps Hfields]].
   assert (Hkstarts : 0 <= k < Zlength starts) by lia.
   specialize (Hfields k Hkstarts).
@@ -1817,7 +1885,7 @@ Lemma greedy_prefix_singleton__greedy_prefix :
     GreedyPrefixState ps 1 1
       (interval_end (Znth 0 ps default_interval)).
 Proof.
-  intros ps Hlen. unfold GreedyPrefixState.
+  intros ps Hlen. apply greedy_prefix_state_facts.
   set (p := Znth 0 ps default_interval).
   assert (Hprefix : sublist 0 1 ps = [p]).
   { subst p. apply sublist_single. lia. }
@@ -1853,7 +1921,7 @@ Lemma greedy_prefix_yields_minimum_removals__optimum_returns :
     MinimumRemovals input (Zlength input - kept).
 Proof.
   intros input sorted kept last_finish Hlength Hperm Hgreedy.
-  unfold GreedyPrefixState in Hgreedy.
+  apply greedy_prefix_state_facts in Hgreedy.
   destruct Hgreedy as
     [chosen
       [Hchosen_selection
@@ -1934,4 +2002,52 @@ Proof.
   - rewrite Zlength_cons in Hlength.
     pose proof (Zlength_nonneg xs).
     lia.
+Qed.
+
+(** Z-indexed proof view of the standard pointwise relation. *)
+Lemma forall2_znth_intervals {A B : Type} (P : A -> B -> Prop)
+    (xs : list A) (ys : list B) dx dy :
+  Forall2 P xs ys <->
+  Zlength xs = Zlength ys /\
+  forall k, 0 <= k < Zlength xs -> P (Znth k xs dx) (Znth k ys dy).
+Proof.
+  rewrite (Forall2_nth_iff _ _ _ xs ys dx dy), !Zlength_correct.
+  unfold Znth. split.
+  - intros [Hlen Hpoint]. split; [lia|]. intros k Hk. apply Hpoint. lia.
+  - intros [Hlen Hpoint]. split; [lia|]. intros k Hk.
+    specialize (Hpoint (Z.of_nat k) ltac:(lia)).
+    now rewrite Nat2Z.id in Hpoint.
+Qed.
+
+(** Transport the explicit array premises through the record representation. *)
+Lemma pair_intervals_bounds_iff : forall starts ends ps,
+  PairIntervals starts ends ps ->
+  (Forall (Z.le (-10000)) starts /\ Forall2 Z.lt starts ends /\
+   Forall (Z.ge 10000) ends) <->
+  Forall (fun p => -10000 <= interval_start p /\
+    interval_start p < interval_end p /\ interval_end p <= 10000) ps.
+Proof.
+  intros starts ends ps Hpair.
+  pose proof (pair_intervals_lengths_and_fields__partition_lomuto
+    starts ends ps Hpair) as [Hse [Hps Hfields]].
+  rewrite (forall_znth__greedy_prefix _ _ 0 starts).
+  rewrite (forall_znth__greedy_prefix _ _ 0 ends).
+  rewrite (forall_znth__greedy_prefix _ _ default_interval ps).
+  rewrite (forall2_znth_intervals Z.lt starts ends 0 0).
+  split.
+  - intros [Hs [[_ Hproper] He]] k Hk.
+    destruct (Hfields k ltac:(lia)) as [Hstart Hend].
+    rewrite Hstart, Hend. repeat split.
+    + apply Hs. lia.
+    + apply Hproper. lia.
+    + specialize (He k ltac:(lia)). lia.
+  - intros Hb. split.
+    + intros k Hk. specialize (Hb k ltac:(lia)).
+      destruct (Hfields k Hk) as [Hstart Hend]. lia.
+    + split.
+      * split; [exact Hse|]. intros k Hk.
+        specialize (Hb k ltac:(lia)).
+        destruct (Hfields k Hk) as [Hstart Hend]. lia.
+      * intros k Hk. specialize (Hb k ltac:(lia)).
+        destruct (Hfields k ltac:(lia)) as [Hstart Hend]. lia.
 Qed.

@@ -1,11 +1,47 @@
 From Coq Require Import ZArith List Lia.
-From AUXLib Require Import ListLib.
+From AUXLib Require Import ListLib MonotonicList.
 From SumLib Require Import Sum ZRange.
 From MaxMinLib Require Import MaxMin Interface.
 
 Import ListNotations.
 Local Open Scope Z_scope.
 
+Lemma bus_Forall2_indexed {A B : Type} (R : A -> B -> Prop)
+    (f : Z -> A) (g : Z -> B) lo hi :
+  Forall2 R (map f (Zrange lo hi)) (map g (Zrange lo hi)) <->
+  forall p, lo <= p < hi -> R (f p) (g p).
+Proof.
+  assert (Hmap : forall xs, Forall2 R (map f xs) (map g xs) <->
+    Forall (fun p => R (f p) (g p)) xs).
+  { induction xs as [|x xs IH]; cbn.
+    - split; intros; constructor.
+    - split; intro H; inversion H; subst; constructor; try assumption;
+      apply IH; assumption. }
+  rewrite Hmap, Forall_forall. split; intros H p Hp; apply H;
+    [apply In_Zrange | apply In_Zrange]; assumption.
+Qed.
+
+Lemma bus_Forall_prefix (P : Z -> Prop) l k :
+  0 <= k <= Zlength l ->
+  (Forall P (sublist 0 k l) <->
+   forall i, 0 <= i < k -> P (Znth i l 0)).
+Proof.
+  intros Hk. rewrite (Forall_Znth P 0 (sublist 0 k l)), Zlength_sublist0 by lia.
+  split; intros H i Hi.
+  - specialize (H i Hi). rewrite Znth_sublist0 in H by lia. exact H.
+  - rewrite Znth_sublist0 by lia. apply H. exact Hi.
+Qed.
+
+Lemma bus_Forall2_Znth (R : Z -> Z -> Prop) xs ys i :
+  Forall2 R xs ys -> 0 <= i < Zlength xs -> R (Znth i xs 0) (Znth i ys 0).
+Proof.
+  intros H Hi. apply (proj1 (Forall2_nth_iff Z Z R xs ys 0 0)) in H.
+  destruct H as [Hlen Hpoint]. unfold Znth. apply Hpoint.
+  rewrite Zlength_correct in Hi. lia.
+Qed.
+
+(** Compatibility premise retained for the existing arithmetic helpers.
+    The C contracts and invariants spell its conditions out with Forall/Forall2. *)
 Definition SightseeingInputsBounded
     (n m : Z) (dist times origins destinations : list Z) : Prop :=
   2 <= n <= 1000 /\
@@ -51,11 +87,21 @@ Definition DestinationCounts
 Definition FeasibleBoostedDistances
     (n budget : Z) (initial_dist final_dist : list Z) : Prop :=
   Zlength final_dist = n - 1 /\
-  (forall edge, 0 <= edge < n - 1 ->
-     0 <= Znth edge final_dist 0 <= Znth edge initial_dist 0) /\
+  Forall2 (fun final initial => 0 <= final <= initial)
+    (map (fun edge => Znth edge final_dist 0) (Zrange 0 (n - 1)))
+    (map (fun edge => Znth edge initial_dist 0) (Zrange 0 (n - 1))) /\
   sum (fun edge => 0 <= edge < n - 1)
       (fun edge =>
          Znth edge initial_dist 0 - Znth edge final_dist 0) <= budget.
+
+Lemma FeasibleBoostedDistances_unfold n budget initial_dist final_dist :
+  FeasibleBoostedDistances n budget initial_dist final_dist <->
+  Zlength final_dist = n - 1 /\
+  (forall edge, 0 <= edge < n - 1 ->
+    0 <= Znth edge final_dist 0 <= Znth edge initial_dist 0) /\
+  sum (fun edge => 0 <= edge < n - 1)
+    (fun edge => Znth edge initial_dist 0 - Znth edge final_dist 0) <= budget.
+Proof. unfold FeasibleBoostedDistances. rewrite bus_Forall2_indexed. reflexivity. Qed.
 
 (* A departure is the larger of the bus-arrival time and the latest passenger
    arrival time.  This maximum is deliberately represented by MaxMinLib. *)
@@ -113,8 +159,7 @@ Definition SightseeingOptimalState
   BusArrivalSchedule n final_dist latest arrivals /\
   PassengerTravelTotal m times destinations arrivals answer /\
   SightseeingMinimumTotal
-    n m budget initial_dist times origins destinations answer /\
-  0 <= answer <= 2000000000.
+    n m budget initial_dist times origins destinations answer.
 
 (* ------------------------------------------------------------------------- *)
 (* Internal annotation states.  These declarations describe stable program
@@ -133,8 +178,19 @@ Definition CanonicalBusState
 
 Definition WorkspacesZeroPrefix
     (latest counts : list Z) (processed : Z) : Prop :=
-  forall station, 0 <= station < processed ->
-    Znth station latest 0 = 0 /\ Znth station counts 0 = 0.
+  Forall (fun x => x = 0) (sublist 0 processed latest) /\
+  Forall (fun x => x = 0) (sublist 0 processed counts).
+
+Lemma WorkspacesZeroPrefix_unfold latest counts processed :
+  0 <= processed -> processed <= Zlength latest -> processed <= Zlength counts ->
+  (WorkspacesZeroPrefix latest counts processed <->
+   forall station, 0 <= station < processed ->
+     Znth station latest 0 = 0 /\ Znth station counts 0 = 0).
+Proof.
+  intros H0 Hl Hc. unfold WorkspacesZeroPrefix.
+  rewrite !bus_Forall_prefix by lia. firstorder.
+Qed.
+
 
 Definition LatestAtStationPrefix
     (m : Z) (times origins : list Z)
@@ -184,21 +240,42 @@ Definition MarginalBenefitScan
   benefit =
     sum (fun station => edge + 1 <= station < next_station)
         (fun station => Znth station counts 0) /\
+  Forall2 Z.lt
+    (map (fun station => Znth station latest 0) (Zrange (edge + 1) next_station))
+    (map (fun station => Znth station arrivals 0) (Zrange (edge + 1) next_station)).
+
+Lemma MarginalBenefitScan_unfold counts latest arrivals edge next_station benefit :
+  MarginalBenefitScan counts latest arrivals edge next_station benefit <->
+  benefit = sum (fun station => edge + 1 <= station < next_station)
+    (fun station => Znth station counts 0) /\
   forall station, edge + 1 <= station < next_station ->
     Znth station latest 0 < Znth station arrivals 0.
+Proof. unfold MarginalBenefitScan. rewrite bus_Forall2_indexed. reflexivity. Qed.
+
 
 Definition EdgeMarginalBenefit
     (n : Z) (counts latest arrivals : list Z)
     (edge benefit : Z) : Prop :=
   exists stop,
     edge + 2 <= stop <= n /\
-    (forall station, edge + 1 <= station < stop - 1 ->
-       Znth station latest 0 < Znth station arrivals 0) /\
+    Forall2 Z.lt
+      (map (fun station => Znth station latest 0) (Zrange (edge + 1) (stop - 1)))
+      (map (fun station => Znth station arrivals 0) (Zrange (edge + 1) (stop - 1))) /\
     (stop = n \/
      Znth (stop - 1) arrivals 0 <= Znth (stop - 1) latest 0) /\
     benefit =
       sum (fun station => edge + 1 <= station < stop)
           (fun station => Znth station counts 0).
+
+Lemma EdgeMarginalBenefit_unfold n counts latest arrivals edge benefit :
+  EdgeMarginalBenefit n counts latest arrivals edge benefit <->
+  exists stop, edge + 2 <= stop <= n /\
+    (forall station, edge + 1 <= station < stop - 1 ->
+      Znth station latest 0 < Znth station arrivals 0) /\
+    (stop = n \/ Znth (stop - 1) arrivals 0 <= Znth (stop - 1) latest 0) /\
+    benefit = sum (fun station => edge + 1 <= station < stop)
+      (fun station => Znth station counts 0).
+Proof. unfold EdgeMarginalBenefit. setoid_rewrite bus_Forall2_indexed. reflexivity. Qed.
 
 Definition EligibleEdgeBenefit
     (n : Z) (dist counts latest arrivals : list Z)
@@ -234,6 +311,55 @@ Definition ArrivalRepairProgress
        if Z.eq_dec candidate_edge edge
        then Znth candidate_edge old_dist 0 - 1
        else Znth candidate_edge old_dist 0) /\
+  Forall2 eq
+    (map (fun station => Znth station new_arrivals 0) (Zrange 0 (edge + 1)))
+    (map (fun station => Znth station old_arrivals 0) (Zrange 0 (edge + 1))) /\
+  Forall2 (fun current previous =>
+      current = fst previous - 1 /\ snd previous <= current)
+    (map (fun station => Znth station new_arrivals 0) (Zrange (edge + 1) next_station))
+    (map (fun station => (Znth station old_arrivals 0, Znth station latest 0))
+      (Zrange (edge + 1) next_station)) /\
+  Forall2 eq
+    (map (fun station => Znth station new_arrivals 0) (Zrange next_station n))
+    (map (fun station => Znth station old_arrivals 0) (Zrange next_station n)).
+
+Definition ArrivalRepairOutcome
+    (n : Z)
+    (old_dist old_arrivals new_dist new_arrivals latest : list Z)
+    (edge : Z) : Prop :=
+  exists stop,
+    edge + 1 <= stop <= n /\
+    (forall candidate_edge, 0 <= candidate_edge < n - 1 ->
+       Znth candidate_edge new_dist 0 =
+         if Z.eq_dec candidate_edge edge
+         then Znth candidate_edge old_dist 0 - 1
+         else Znth candidate_edge old_dist 0) /\
+    Forall2 eq
+      (map (fun station => Znth station new_arrivals 0) (Zrange 0 (edge + 1)))
+      (map (fun station => Znth station old_arrivals 0) (Zrange 0 (edge + 1))) /\
+    Forall2 (fun current previous =>
+        current = fst previous - 1 /\ snd previous <= current)
+      (map (fun station => Znth station new_arrivals 0) (Zrange (edge + 1) stop))
+      (map (fun station => (Znth station old_arrivals 0, Znth station latest 0))
+        (Zrange (edge + 1) stop)) /\
+    ((stop = n /\
+      Forall2 (fun current previous => current = previous - 1)
+        (map (fun station => Znth station new_arrivals 0) (Zrange (edge + 1) n))
+        (map (fun station => Znth station old_arrivals 0) (Zrange (edge + 1) n))) \/
+     (stop < n /\
+      Znth stop new_arrivals 0 = Znth stop old_arrivals 0 - 1 /\
+      Znth stop new_arrivals 0 < Znth stop latest 0 /\
+      Forall2 eq
+        (map (fun station => Znth station new_arrivals 0) (Zrange (stop + 1) n))
+        (map (fun station => Znth station old_arrivals 0) (Zrange (stop + 1) n)))).
+
+Lemma ArrivalRepairProgress_unfold n old_dist old_arrivals new_dist new_arrivals latest edge next_station :
+  ArrivalRepairProgress n old_dist old_arrivals new_dist new_arrivals latest edge next_station <->
+  (forall candidate_edge, 0 <= candidate_edge < n - 1 ->
+     Znth candidate_edge new_dist 0 =
+       if Z.eq_dec candidate_edge edge
+       then Znth candidate_edge old_dist 0 - 1
+       else Znth candidate_edge old_dist 0) /\
   (forall station, 0 <= station <= edge ->
      Znth station new_arrivals 0 = Znth station old_arrivals 0) /\
   (forall station, edge < station < next_station ->
@@ -241,11 +367,13 @@ Definition ArrivalRepairProgress
      Znth station latest 0 <= Znth station new_arrivals 0) /\
   (forall station, next_station <= station < n ->
      Znth station new_arrivals 0 = Znth station old_arrivals 0).
+Proof.
+  unfold ArrivalRepairProgress. setoid_rewrite bus_Forall2_indexed.
+  cbn. firstorder lia.
+Qed.
 
-Definition ArrivalRepairOutcome
-    (n : Z)
-    (old_dist old_arrivals new_dist new_arrivals latest : list Z)
-    (edge : Z) : Prop :=
+Lemma ArrivalRepairOutcome_unfold n old_dist old_arrivals new_dist new_arrivals latest edge :
+  ArrivalRepairOutcome n old_dist old_arrivals new_dist new_arrivals latest edge <->
   exists stop,
     edge + 1 <= stop <= n /\
     (forall candidate_edge, 0 <= candidate_edge < n - 1 ->
@@ -266,6 +394,10 @@ Definition ArrivalRepairOutcome
       Znth stop new_arrivals 0 < Znth stop latest 0 /\
       forall station, stop < station < n ->
         Znth station new_arrivals 0 = Znth station old_arrivals 0)).
+Proof.
+  unfold ArrivalRepairOutcome. setoid_rewrite bus_Forall2_indexed.
+  cbn. firstorder lia.
+Qed.
 
 Definition BoosterProgress
     (n m budget remaining : Z)
@@ -281,8 +413,7 @@ Definition BoosterProgress
       m times destinations arrivals current_total /\
     SightseeingMinimumTotal
       n m (budget - remaining)
-      initial_dist times origins destinations current_total /\
-    0 <= current_total <= 2000000000.
+      initial_dist times origins destinations current_total.
 
 Definition OptimizedBusState
     (n m budget : Z)
@@ -295,8 +426,7 @@ Definition OptimizedBusState
   exists optimum,
     PassengerTravelTotal m times destinations arrivals optimum /\
     SightseeingMinimumTotal
-      n m budget initial_dist times origins destinations optimum /\
-    0 <= optimum <= 2000000000.
+      n m budget initial_dist times origins destinations optimum.
 
 Definition TravelSumPrefix
     (m : Z) (times destinations arrivals : list Z)
@@ -404,7 +534,8 @@ Proof.
   intros n budget initial_dist final_dist latest counts arrivals
     alpha beta delta gamma lower weighted Hn Hfeasible Hschedule
     Harrivals Hdual Hweighted.
-  unfold FeasibleBoostedDistances in Hfeasible.
+  rewrite FeasibleBoostedDistances_unfold in Hfeasible.
+  try rewrite FeasibleBoostedDistances_unfold in Hfeasible.
   destruct Hfeasible as [Hfinal_len [Hfinal_bounds Hbudget]].
   unfold ChainDualCertificate in Hdual.
   destruct Hdual as
@@ -965,7 +1096,7 @@ Proof.
         0 <= Znth edge candidate_dist 0).
   {
     pose proof Hcandidate_feasible as Hfeasible_fields.
-    unfold FeasibleBoostedDistances in Hfeasible_fields.
+    rewrite FeasibleBoostedDistances_unfold in Hfeasible_fields.
     destruct Hfeasible_fields as [_ [Hbounds _]].
     intros edge Hedge.
     specialize (Hbounds edge Hedge).
@@ -2404,7 +2535,7 @@ Lemma chain_feasible_prefix_lattice__cut_exchange :
 Proof.
   intros n budget1 budget2 initial_dist dist1 dist2
     Hn Hfeasible1 Hfeasible2.
-  unfold FeasibleBoostedDistances in Hfeasible1, Hfeasible2.
+  rewrite FeasibleBoostedDistances_unfold in Hfeasible1, Hfeasible2.
   destruct Hfeasible1 as [Hlength1 [Hbounds1 Hbudget1]].
   destruct Hfeasible2 as [Hlength2 [Hbounds2 Hbudget2]].
   set (prefix1 := fun station =>
@@ -2516,10 +2647,10 @@ Proof.
     lia.
   }
   split.
-  - split; [exact Hmeet_length |].
+  - apply FeasibleBoostedDistances_unfold. split; [exact Hmeet_length |].
     split; [exact Hmeet_bounds | exact Hmeet_budget].
   - split.
-    + split; [exact Hjoin_length |].
+    + apply FeasibleBoostedDistances_unfold. split; [exact Hjoin_length |].
       split; [exact Hjoin_bounds | exact Hjoin_budget].
     + unfold ChainPrefixMeetJoin.
       intros station Hstation.
@@ -2995,10 +3126,11 @@ Lemma chain_clamp_distances_exists__cut_exchange :
 Proof.
   intros n budget initial_dist current_dist candidate_dist
     Hn Hcurrent_feasible Hcandidate_feasible Hbelow Hendpoint.
-  unfold FeasibleBoostedDistances in
+  rewrite FeasibleBoostedDistances_unfold in
     Hcurrent_feasible, Hcandidate_feasible.
   destruct Hcurrent_feasible as
     [Hcurrent_length [Hcurrent_bounds Hcurrent_budget]].
+  try rewrite FeasibleBoostedDistances_unfold in Hcandidate_feasible.
   destruct Hcandidate_feasible as
     [Hcandidate_length [Hcandidate_bounds Hcandidate_budget]].
   set (current_prefix := fun station =>
@@ -3128,10 +3260,10 @@ Proof.
     lia.
   }
   split.
-  - split; [exact Hold_length |].
+  - apply FeasibleBoostedDistances_unfold. split; [exact Hold_length |].
     split; [exact Hold_bounds | exact Hold_budget].
   - split.
-    + split; [exact Hnext_length |].
+    + apply FeasibleBoostedDistances_unfold. split; [exact Hnext_length |].
       split; [exact Hnext_bounds | exact Hnext_budget].
     + split.
       * unfold ChainPrefixClamp.
@@ -3531,7 +3663,7 @@ Proof.
     n old_dist counts latest old_arrivals best position Hbest Hchoice)
     as [Hposition_range Hposition_positive].
   destruct Hschedule as [Hold_arrivals_len [Hold_zero Hold_step]].
-  unfold ArrivalRepairOutcome in Houtcome.
+  rewrite ArrivalRepairOutcome_unfold in Houtcome.
   destruct Houtcome as
     [stop [Hstop [Hdistance [Hbefore [Hchanged Hfinish]]]]].
   unfold BusArrivalSchedule.
@@ -3742,7 +3874,7 @@ Proof.
   pose proof (best_boost_choice_positive_edge__saturation
     n old_dist counts latest old_arrivals best position Hbest Hchoice)
     as [Hposition_range Hposition_positive].
-  unfold ArrivalRepairOutcome in Houtcome.
+  rewrite ArrivalRepairOutcome_unfold in Houtcome.
   destruct Houtcome as
     [stop [Hstop [Hdistance [Hbefore [Hchanged Hfinish]]]]].
   rewrite (sum_Z_range_ext 0 (n - 1)
@@ -3796,11 +3928,11 @@ Proof.
   destruct Heligible as
     [Hposition_scanned
       [Hposition_bound [Hposition_dist Hedge_benefit]]].
-  unfold EdgeMarginalBenefit in Hedge_benefit.
+  rewrite EdgeMarginalBenefit_unfold in Hedge_benefit.
   destruct Hedge_benefit as
     [benefit_stop [Hbenefit_stop [Hbenefit_strict
       [Hbenefit_finish Hbenefit_value]]]].
-  unfold ArrivalRepairOutcome in Houtcome.
+  rewrite ArrivalRepairOutcome_unfold in Houtcome.
   destruct Houtcome as
     [repair_stop [Hrepair_stop [Hdistance
       [Hbefore [Hchanged Hrepair_finish]]]]].
@@ -4053,8 +4185,9 @@ Proof.
   unfold BoosterProgress in Hfields.
   destruct Hfields as
     [Hlatest [Hcounts [Hfeasible [Hschedule
-      [old_total [Hold_total [Hminimum Htotal_bounds]]]]]]].
-  unfold FeasibleBoostedDistances in Hfeasible.
+      [old_total [Hold_total Hminimum]]]]]].
+  rewrite FeasibleBoostedDistances_unfold in Hfeasible.
+  try rewrite FeasibleBoostedDistances_unfold in Hfeasible.
   destruct Hfeasible as
     [Hold_dist_length [Hold_bounds Hold_budget]].
   set (used :=
@@ -4069,7 +4202,7 @@ Proof.
     pose proof (best_boost_choice_positive_edge__saturation
       n old_dist counts latest old_arrivals best position Hbest Hchoice)
       as [Hposition_range Hposition_positive].
-    unfold ArrivalRepairOutcome in Houtcome.
+    rewrite ArrivalRepairOutcome_unfold in Houtcome.
     destruct Houtcome as
       [stop [Hstop [Hdistance [Hbefore [Hchanged Hfinish]]]]].
     assert (Hnew_bounds : forall edge, 0 <= edge < n - 1 ->
@@ -4097,14 +4230,14 @@ Proof.
              (latest := latest) (counts := counts)
              (best := best) (position := position);
         try assumption.
-      unfold ArrivalRepairOutcome.
+      rewrite ArrivalRepairOutcome_unfold.
       exists stop. tauto.
     }
     assert (Hnew_feasible :
       FeasibleBoostedDistances
         n (budget - remaining) initial_dist new_dist).
     {
-      unfold FeasibleBoostedDistances.
+      rewrite FeasibleBoostedDistances_unfold.
       split; [exact Hnew_dist_length |].
       split; [exact Hnew_bounds |].
       rewrite Hused_step.
@@ -4114,7 +4247,7 @@ Proof.
       ArrivalRepairOutcome
         n old_dist old_arrivals new_dist new_arrivals latest position).
     {
-      unfold ArrivalRepairOutcome.
+      rewrite ArrivalRepairOutcome_unfold.
       exists stop. tauto.
     }
     pose proof (arrival_repair_outcome_schedule__saturation
@@ -4910,11 +5043,11 @@ Proof.
     [truncated_arrivals
       [Htruncated_arrivals_length Htruncated_arrivals_value]].
   pose proof Hcurrent_feasible as Hcurrent_fields.
-  unfold FeasibleBoostedDistances in Hcurrent_fields.
+  rewrite FeasibleBoostedDistances_unfold in Hcurrent_fields.
   destruct Hcurrent_fields as
     [Hcurrent_dist_length [Hcurrent_bounds Hcurrent_budget]].
   pose proof Hnext_feasible as Hnext_fields.
-  unfold FeasibleBoostedDistances in Hnext_fields.
+  rewrite FeasibleBoostedDistances_unfold in Hnext_fields.
   destruct Hnext_fields as [Hnext_dist_length [Hnext_bounds Hnext_budget]].
   assert (Htruncated_bounds : forall edge, 0 <= edge < n - 1 ->
     0 <= Znth edge truncated_dist 0 <= Znth edge initial_dist 0).
@@ -4953,7 +5086,7 @@ Proof.
   assert (Htruncated_feasible :
     FeasibleBoostedDistances n budget initial_dist truncated_dist).
   {
-    unfold FeasibleBoostedDistances.
+    rewrite FeasibleBoostedDistances_unfold.
     split; [exact Htruncated_dist_length |].
     split; [exact Htruncated_bounds |].
     rewrite chain_reduction_prefix__cut_exchange.
@@ -5468,7 +5601,7 @@ Proof.
       (fun station => Znth station counts 0)).
     exists benefit.
     split.
-    + unfold EdgeMarginalBenefit.
+    + rewrite EdgeMarginalBenefit_unfold.
       exists high.
       split; [lia |].
       split.
@@ -5528,7 +5661,7 @@ Proof.
       (fun station => Znth station counts 0)).
     exists benefit.
     split.
-    + unfold EdgeMarginalBenefit.
+    + rewrite EdgeMarginalBenefit_unfold.
       exists n.
       split; [lia |].
       split.
@@ -5692,7 +5825,7 @@ Proof.
       Hlast_reset) as [benefit [Hbenefit Hsuffix_effect]].
     assert (Hedge_range : 0 <= start - 1 < n - 1) by lia.
     pose proof Hnext_feasible as Hnext_bounds_fields.
-    unfold FeasibleBoostedDistances in Hnext_bounds_fields.
+    rewrite FeasibleBoostedDistances_unfold in Hnext_bounds_fields.
     destruct Hnext_bounds_fields as [_ [Hnext_bounds Hnext_budget]].
     assert (Hedge_positive : 0 < Znth (start - 1) current_dist 0).
     {
@@ -5759,7 +5892,7 @@ Proof.
   unfold BoosterProgress in Hfields.
   destruct Hfields as
     [Hlatest [Hcounts [Hfeasible [Hschedule
-      [current_total [Hcurrent_total [Hminimum Htotal_bounds]]]]]]].
+      [current_total [Hcurrent_total Hminimum]]]]]].
   pose proof (booster_progress_budget_saturated__saturation
     n m budget remaining initial_dist times origins destinations
     old_dist latest counts old_arrivals new_dist new_arrivals best position
@@ -5791,7 +5924,7 @@ Proof.
     - exact Hcandidate_schedule.
   }
   pose proof Hcandidate_feasible as Hcandidate_fields.
-  unfold FeasibleBoostedDistances in Hcandidate_fields.
+  rewrite FeasibleBoostedDistances_unfold in Hcandidate_fields.
   destruct Hcandidate_fields as
     [Hcandidate_length [Hcandidate_bounds Hcandidate_used_le]].
   set (candidate_used :=
@@ -5804,7 +5937,7 @@ Proof.
       FeasibleBoostedDistances
         n (budget - remaining) initial_dist candidate_dist).
     {
-      unfold FeasibleBoostedDistances.
+      rewrite FeasibleBoostedDistances_unfold.
       split; [exact Hcandidate_length |].
       split; [exact Hcandidate_bounds |].
       unfold candidate_used in Hold_budget.
@@ -6025,6 +6158,7 @@ Proof.
   unfold BoosterProgress in Hprogress.
   destruct Hprogress as
     [Hlatest [Hcounts [Hfeasible [Hschedule Hminimum]]]].
+  try rewrite FeasibleBoostedDistances_unfold in Hfeasible.
   destruct Hfeasible as [Hfinal_len [Hfinal_bounds Hbudget]].
   destruct Hschedule as [Harrival_len [Harrival_zero Harrival_step]].
   assert (Hstrong : forall j, 0 <= j < n ->
@@ -6088,12 +6222,13 @@ Proof.
   unfold BoosterProgress in Hprogress_bounds.
   destruct Hprogress_bounds as
     [_ [_ [Hfeasible [_ _]]]].
-  unfold FeasibleBoostedDistances in Hfeasible.
+  rewrite FeasibleBoostedDistances_unfold in Hfeasible.
+  try rewrite FeasibleBoostedDistances_unfold in Hfeasible.
   destruct Hfeasible as [_ [Hold_bounds _]].
   pose proof (best_boost_choice_positive_edge__exchange_certificate_transition
     n old_dist counts latest old_arrivals best position Hbest Hchoice)
     as [Hposition_range Hposition_positive].
-  unfold ArrivalRepairOutcome in Houtcome.
+  rewrite ArrivalRepairOutcome_unfold in Houtcome.
   destruct Houtcome as
     [stop [Hstop [Hdistance [Hbefore [Hchanged Hfinish]]]]].
   specialize (Hdistance edge Hedge).
@@ -6134,6 +6269,7 @@ Proof.
   unfold BoosterProgress in Hprogress_fields.
   destruct Hprogress_fields as
     [Hlatest [Hcounts [Hfeasible [Hschedule Hminimum]]]].
+  try rewrite FeasibleBoostedDistances_unfold in Hfeasible.
   destruct Hfeasible as [Hdist_len [Hdist_bounds Hbudget]].
   assert (Hafter_position : forall j, position < j < n ->
       0 < Znth j old_arrivals 0).
@@ -6160,7 +6296,7 @@ Proof.
         ltac:(lia) ltac:(lia) ltac:(lia)) as Hnondec.
       lia.
   }
-  unfold ArrivalRepairOutcome in Houtcome.
+  rewrite ArrivalRepairOutcome_unfold in Houtcome.
   destruct Houtcome as
     [stop [Hstop [Hdistance [Hbefore [Hchanged Hfinish]]]]].
   pose proof (Hold_bounds station Hstation) as Hold_station.
@@ -6231,9 +6367,11 @@ Proof.
     n old_dist counts latest old_arrivals best position Hbest Hchoice)
     as [Hposition_range Hposition_positive].
   pose proof Houtcome as Houtcome_fields.
-  unfold FeasibleBoostedDistances in Hfeasible |-.
+  rewrite FeasibleBoostedDistances_unfold in Hfeasible.
+  apply FeasibleBoostedDistances_unfold.
+  try rewrite FeasibleBoostedDistances_unfold in Hfeasible.
   destruct Hfeasible as [Hold_dist_len [Hold_bounds Hold_budget]].
-  unfold ArrivalRepairOutcome in Houtcome_fields.
+  rewrite ArrivalRepairOutcome_unfold in Houtcome_fields.
   destruct Houtcome_fields as
     [stop [Hstop [Hdistance [Hbefore [Hchanged Hfinish]]]]].
   split; [exact Hnew_dist_len |].
@@ -7029,7 +7167,7 @@ Lemma marginal_benefit_scan_snoc__edge_benefit_scan :
       (benefit + Znth next counts 0).
 Proof.
   intros counts latest arrivals edge next benefit Hrange Hscan Hstrict.
-  unfold MarginalBenefitScan in *.
+  rewrite MarginalBenefitScan_unfold in *.
   destruct Hscan as [Hsum Hprefix].
   split.
   - rewrite sum_Z_range_extend_right by lia.
@@ -7066,7 +7204,8 @@ Lemma feasible_zero_budget_identity__booster_entry :
     final_dist = initial_dist.
 Proof.
   intros n initial_dist final_dist Hinitial Hfeasible.
-  unfold FeasibleBoostedDistances in Hfeasible.
+  rewrite FeasibleBoostedDistances_unfold in Hfeasible.
+  try rewrite FeasibleBoostedDistances_unfold in Hfeasible.
   destruct Hfeasible as [Hfinal [Hbounds Hbudget]].
   assert (Hnonneg : forall edge,
     0 <= edge < n - 1 ->
@@ -7112,7 +7251,7 @@ Proof.
   intros n m initial_dist times origins destinations Hinputs.
   unfold SightseeingInputsBounded in Hinputs.
   destruct Hinputs as [_ [_ [Hlen [_ [_ [_ [Hbounds _]]]]]]].
-  unfold FeasibleBoostedDistances.
+  rewrite FeasibleBoostedDistances_unfold.
   split; [exact Hlen |].
   split.
   - intros edge Hedge.
@@ -7294,43 +7433,10 @@ Proof.
     split.
     + unfold PassengerTravelTotal.
       reflexivity.
-    + split.
-      * replace (budget - budget) with 0 by lia.
-        eapply canonical_zero_budget_optimal__booster_entry;
-          [exact Hinputs | exact Hlatest | exact Hschedule |].
-        unfold PassengerTravelTotal.
-        reflexivity.
-      * assert (Hterm : forall passenger,
-          0 <= passenger < m ->
-          0 <=
-            Znth (Znth passenger destinations 0 - 1) arrivals 0 -
-              Znth passenger times 0 <= 200000).
-        {
-          intros passenger Hpassenger.
-          pose proof Hinputs as Hinput_bounds.
-          unfold SightseeingInputsBounded in Hinput_bounds.
-          destruct Hinput_bounds as
-            [_ [_ [_ [_ [_ [_ [_ Hpassenger_bounds]]]]]]].
-          specialize (Hpassenger_bounds passenger Hpassenger).
-          destruct Hpassenger_bounds as
-            [Htime [[Horigin Horigin_destination] Hdestination]].
-          pose proof
-            (Harrival_bounds (Znth passenger destinations 0 - 1)
-              ltac:(lia)) as Harrival.
-          pose proof
-            (arrival_dominates_passenger_time__booster_and_scan_initialization
-              n m initial_dist times origins destinations latest arrivals
-              passenger Hinputs Hlatest Hschedule Hpassenger) as Hlower.
-          lia.
-        }
-        pose proof Hinputs as Hinput_numeric.
-        unfold SightseeingInputsBounded in Hinput_numeric.
-        pose proof (sum_Z_range_bounds 0 m
-          (fun passenger =>
-             Znth (Znth passenger destinations 0 - 1) arrivals 0 -
-             Znth passenger times 0)
-          0 200000 ltac:(lia) Hterm) as Htotal_bounds.
-        lia.
+    + replace (budget - budget) with 0 by lia.
+      eapply canonical_zero_budget_optimal__booster_entry;
+        [exact Hinputs | exact Hlatest | exact Hschedule |].
+      unfold PassengerTravelTotal. reflexivity.
 Qed.
 Lemma destination_count_interval_bound__booster_and_scan_initialization :
   forall n m destinations counts low high,
@@ -7427,7 +7533,7 @@ Lemma marginal_benefit_scan_empty__booster_and_scan_initialization :
     MarginalBenefitScan counts latest arrivals edge (edge + 1) 0.
 Proof.
   intros counts latest arrivals edge.
-  unfold MarginalBenefitScan.
+  rewrite MarginalBenefitScan_unfold.
   split.
   - rewrite sum_Z_range_empty by lia.
     reflexivity.
@@ -7450,7 +7556,7 @@ Proof.
     (destination_count_interval_bound__booster_and_scan_initialization
       n m destinations counts (edge + 1) (next + 1)
       Hm ltac:(lia) ltac:(lia) ltac:(lia) Hcounts) as Hinterval.
-  unfold MarginalBenefitScan in Hscan.
+  rewrite MarginalBenefitScan_unfold in Hscan.
   destruct Hscan as [Hbenefit Hstrict].
   rewrite sum_Z_range_extend_right in Hinterval by lia.
   lia.
@@ -7541,6 +7647,7 @@ Proof.
   unfold BoosterProgress in Hprogress.
   destruct Hprogress as
     [Hlatest [Hcounts [Hfeasible [Hschedule Hminimum]]]].
+  try rewrite FeasibleBoostedDistances_unfold in Hfeasible.
   destruct Hfeasible as [Hfinal_len [Hfinal_bounds Hbudget]].
   destruct Hschedule as [Harrival_len [Harrival_zero Harrival_step]].
   assert (Hstrong : forall j, 0 <= j < n ->
@@ -7621,9 +7728,10 @@ Lemma marginal_scan_to_edge_benefit__edge_benefit_scan :
     EdgeMarginalBenefit n counts latest arrivals edge result.
 Proof.
   intros n counts latest arrivals edge next benefit result Hedge Hrange Hscan Hstop.
+  apply EdgeMarginalBenefit_unfold.
   destruct Hstop as [[-> ->] | [Hnext [Hbreak ->]]].
   - exists n.
-    unfold MarginalBenefitScan in Hscan.
+    rewrite MarginalBenefitScan_unfold in Hscan.
     destruct Hscan as [Hsum Hstrict].
     split.
     + lia.
@@ -7635,7 +7743,7 @@ Proof.
         -- left; reflexivity.
         -- exact Hsum.
   - exists (next + 1).
-    unfold MarginalBenefitScan in Hscan.
+    rewrite MarginalBenefitScan_unfold in Hscan.
     destruct Hscan as [Hsum Hstrict].
     split.
     + lia.
@@ -7657,7 +7765,7 @@ Lemma edge_marginal_benefit_unique__edge_choice :
     benefit1 = benefit2.
 Proof.
   intros n counts latest arrivals edge benefit1 benefit2 Hbenefit1 Hbenefit2.
-  unfold EdgeMarginalBenefit in *.
+  rewrite EdgeMarginalBenefit_unfold in *.
   destruct Hbenefit1 as
       [stop1 [[Hstop1_lo Hstop1_hi]
         [Hbefore1 [Hstop1 Hvalue1]]]].
@@ -7956,7 +8064,7 @@ Lemma arrival_repair_progress_init__arrival_repair :
       old_arrivals latest edge (edge + 1).
 Proof.
   intros n old_dist old_arrivals latest edge Hdist Hedge _.
-  unfold ArrivalRepairProgress.
+  rewrite ArrivalRepairProgress_unfold.
   split.
   - intros candidate Hcandidate.
     destruct (Z.eq_dec candidate edge) as [-> | Hne].
@@ -7993,7 +8101,7 @@ Lemma arrival_repair_progress_step__arrival_repair :
 Proof.
   intros n old_dist old_arrivals new_dist new_arrivals latest edge station
     Harrivals Hstation Hedge_nonnegative Hedge Hprogress Hguard.
-  unfold ArrivalRepairProgress in *.
+  rewrite ArrivalRepairProgress_unfold in *.
   destruct Hprogress as [Hdist [Hbefore [Hchanged Hafter]]].
   split; [exact Hdist |].
   split.
@@ -8032,9 +8140,9 @@ Lemma arrival_repair_progress_outcome__arrival_repair :
 Proof.
   intros n old_dist old_arrivals new_dist new_arrivals updated_arrivals latest
     edge stop Harrivals Hedge Hstop Hprogress Hfinish.
-  unfold ArrivalRepairProgress in Hprogress.
+  rewrite ArrivalRepairProgress_unfold in Hprogress.
   destruct Hprogress as [Hdist [Hbefore [Hchanged Hafter]]].
-  unfold ArrivalRepairOutcome.
+  rewrite ArrivalRepairOutcome_unfold.
   exists stop.
   split; [exact Hstop |].
   destruct Hfinish as [[Hdone ->] | [Hearly [-> Hguard]]].
@@ -8193,6 +8301,7 @@ Proof.
       0 <= Znth edge final_dist 0).
   {
     destruct Hdist_or as [Hfeasible | Hdist]; [|exact Hdist].
+    try rewrite FeasibleBoostedDistances_unfold in Hfeasible.
     destruct Hfeasible as [_ [Hdist _]].
     intros edge Hedge.
     specialize (Hdist edge Hedge).
@@ -8279,6 +8388,7 @@ Proof.
       0 <= Znth edge final_dist 0).
   {
     destruct Hdist_or as [Hfeasible | Hdist]; [|exact Hdist].
+    try rewrite FeasibleBoostedDistances_unfold in Hfeasible.
     destruct Hfeasible as [_ [Hdist _]].
     intros edge Hedge.
     specialize (Hdist edge Hedge).
@@ -8329,10 +8439,11 @@ Proof.
   intros n current_used candidate_used initial_dist current_dist
     candidate_dist Hn Hcurrent_feasible Hcandidate_feasible
     Hcurrent_used Hcandidate_used Hused_lt Hbelow.
-  unfold FeasibleBoostedDistances in
+  rewrite FeasibleBoostedDistances_unfold in
     Hcurrent_feasible, Hcandidate_feasible.
   destruct Hcurrent_feasible as
     [Hcurrent_length [Hcurrent_bounds Hcurrent_budget]].
+  try rewrite FeasibleBoostedDistances_unfold in Hcandidate_feasible.
   destruct Hcandidate_feasible as
     [Hcandidate_length [Hcandidate_bounds Hcandidate_budget]].
   set (current_prefix := fun station =>
@@ -8470,10 +8581,10 @@ Proof.
     lia.
   }
   split.
-  - split; [exact Hold_length |].
+  - apply FeasibleBoostedDistances_unfold. split; [exact Hold_length |].
     split; [exact Hold_bounds | exact Hold_budget].
   - split.
-    + split; [exact Hnext_length |].
+    + apply FeasibleBoostedDistances_unfold. split; [exact Hnext_length |].
       split; [exact Hnext_bounds | exact Hnext_budget].
     + split.
       * unfold ChainPrefixClamp.
@@ -8915,13 +9026,13 @@ Proof.
   unfold BoosterProgress in Hprogress.
   destruct Hprogress as
     [Hlatest [Hcounts [Hfeasible [Hschedule
-      [current_total [Hcurrent_total [Hminimum Htotal_bounds]]]]]]].
+      [current_total [Hcurrent_total Hminimum]]]]]].
   set (used :=
     sum (fun edge => 0 <= edge < n - 1)
         (fun edge =>
            Znth edge initial_dist 0 - Znth edge current_dist 0)).
   pose proof Hfeasible as Hfeasible_fields.
-  unfold FeasibleBoostedDistances in Hfeasible_fields.
+  rewrite FeasibleBoostedDistances_unfold in Hfeasible_fields.
   destruct Hfeasible_fields as
     [Hcurrent_length [Hcurrent_bounds Hused_base]].
   assert (Hused_nonnegative : 0 <= used).
@@ -8937,7 +9048,7 @@ Proof.
   assert (Hfeasible_used :
     FeasibleBoostedDistances n used initial_dist current_dist).
   {
-    unfold FeasibleBoostedDistances.
+    rewrite FeasibleBoostedDistances_unfold.
     split; [exact Hcurrent_length |].
     split; [exact Hcurrent_bounds |].
     unfold used.
@@ -8965,14 +9076,14 @@ Proof.
           [Hcandidate_latest [Hcandidate_feasible
             [Hcandidate_schedule Hcandidate_total]]]]]].
       pose proof Hcandidate_feasible as Hcandidate_fields.
-      unfold FeasibleBoostedDistances in Hcandidate_fields.
+      rewrite FeasibleBoostedDistances_unfold in Hcandidate_fields.
       destruct Hcandidate_fields as
         [Hcandidate_length [Hcandidate_bounds Hcandidate_used]].
       assert (Hcandidate_feasible_base :
         FeasibleBoostedDistances
           n (budget - remaining) initial_dist candidate_dist).
       {
-        unfold FeasibleBoostedDistances.
+        rewrite FeasibleBoostedDistances_unfold.
         split; [exact Hcandidate_length |].
         split; [exact Hcandidate_bounds |].
         lia.
@@ -9002,7 +9113,7 @@ Proof.
   assert (Hfeasible_full :
     FeasibleBoostedDistances n budget initial_dist current_dist).
   {
-    unfold FeasibleBoostedDistances.
+    rewrite FeasibleBoostedDistances_unfold.
     split; [exact Hcurrent_length |].
     split; [exact Hcurrent_bounds |].
     unfold used in Hused_le_base.
@@ -9045,7 +9156,7 @@ Proof.
         - exact Hcandidate_schedule.
       }
       pose proof Hcandidate_feasible as Hcandidate_fields.
-      unfold FeasibleBoostedDistances in Hcandidate_fields.
+      rewrite FeasibleBoostedDistances_unfold in Hcandidate_fields.
       destruct Hcandidate_fields as
         [Hcandidate_length [Hcandidate_bounds Hcandidate_budget]].
       set (candidate_used :=
@@ -9067,7 +9178,7 @@ Proof.
       + assert (Hcandidate_feasible_used :
           FeasibleBoostedDistances n used initial_dist candidate_dist).
         {
-          unfold FeasibleBoostedDistances.
+          rewrite FeasibleBoostedDistances_unfold.
           split; [exact Hcandidate_length |].
           split; [exact Hcandidate_bounds |].
           unfold candidate_used in Hcandidate_old.
@@ -9104,7 +9215,7 @@ Proof.
           FeasibleBoostedDistances
             n candidate_used initial_dist candidate_dist).
         {
-          unfold FeasibleBoostedDistances.
+          rewrite FeasibleBoostedDistances_unfold.
           split; [exact Hcandidate_length |].
           split; [exact Hcandidate_bounds |].
           unfold candidate_used.
@@ -9135,5 +9246,5 @@ Proof.
         (conj Hschedule
           (ex_intro _ current_total
             (conj Hcurrent_total
-              (conj Hminimum_full Htotal_bounds))))))).
+              Hminimum_full)))))).
 Qed.

@@ -1,6 +1,6 @@
 ---
 name: vc-checking
-description: Use by an independent vc-checking owner after the controller has claimed a vc-checking attempt, the selected-backend dependency snapshot is prepared, and the main-root manual contains at least one top-level VC; inspect that current manual directly, perform a cheap top-level structural-blocker scan first, then complete exhaustive split-first provability analysis when no definite blocker exists, choose proof_mode, form a strict group plan, and deliver or repair the current attempt in place.
+description: Use by an independent vc-checking owner after the controller has claimed a vc-checking attempt, the current backend dependency plan is prepared, and the main-root manual contains at least one top-level VC; inspect that current manual directly, perform a cheap top-level structural-blocker scan first, then complete exhaustive split-first provability analysis when no definite blocker exists, choose proof_mode, form a strict group plan, and deliver or repair the current attempt in place.
 ---
 
 # VC Checking
@@ -21,5 +21,5 @@ The root `AGENTS.md`, orchestrator, another role's skill, controller state/event
 - Read annotation VC comparisons as priority review leads, then independently check every added-premise source and related VC in the current manual.
 - When the structural scan finds no definite blocker, apply exhaustive split-first analysis and a unique `proof_mode` decision to every top-level VC.
 - Write executable strategies only for the selected formal targets; do not analyze witness reuse.
-- Put current/related VCs that depend on a new substantial mathematical lemma in the first high-risk group, then complete the remaining grouping and output a strict `group_plan.json` and concise `agent_output.md`.
-- Write `agent_report.json` last, stop all writes, and return the delivery to main/controller; if the controller requires an in-place report repair, repair it only within the same owner, attempt, and permitted boundary.
+- Assess risk and choose plan order yourself, grouping current/related VCs that need a new substantial mathematical lemma together where useful. The controller retains groups containing comparison `current` VCs as the first batch and uses plan order within each batch, without score-based reordering.
+- Write `agent_report.json` last, stop all writes, and return the delivery to main/controller; `finalize-delivery` performs complete report/plan acceptance; repairs stay within the same owner, attempt, and permitted boundary.

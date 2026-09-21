@@ -126,7 +126,7 @@ Use it to:
 - Export a side condition before `sep_apply_*`.
 - Expose a current spatial resource as a pure hypothesis for arithmetic or list reasoning.
 
-Instantiate every parameter and premise explicitly. If a premise cannot be proved from the current context, do not fabricate it; return to annotation or add a helper bearing the current group suffix. A helper from the handoff's frozen public snapshot may retain its historical suffix when its declaration/proof tokens match; a substantively modified version must use the current suffix.
+Instantiate every parameter and premise explicitly. If a premise cannot be proved from the current context, do not fabricate it; return to annotation or add a helper bearing the current group suffix. Historical helpers retain their mathematical premises but use the current group suffix and are checked in the current environment.
 
 ## Disjunction and universal quantification
 
@@ -171,7 +171,7 @@ split_pures.
 - dump_pre_spatial. eapply some_case_helper__gid; eauto.
 ```
 
-For list equalities, first try existing `sublist`, `replace_Znth`, and `Zlength` lemmas. When a stable bridge is missing, put a new helper in `group_worker_lib` with the current group suffix. A frozen public helper may retain its source suffix when its declaration/proof tokens match.
+For list equalities, first try existing `sublist`, `replace_Znth`, and `Zlength` lemmas. When a stable bridge is missing, put a new helper in `group_worker_lib` with the current group suffix. Historical helpers also use the current suffix.
 
 ## Array and string goals
 
@@ -179,7 +179,7 @@ A typical array proof derives `Zlength` from `full`/`seg`, splits at the current
 
 A typical string proof unfolds `store_string`, `c_string`, or `string_length`, handles the terminating zero, and distinguishes a Rocq `string` from `list Z`.
 
-When a helper lemma is needed, first search the handoff's round-start frozen public snapshot by exact lemma/predicate name. Copy only a declaration actually used by this proof whose declaration/proof tokens match, plus required official imports. If none matches, add and prove a current-suffix helper in `group_worker_lib`. Never put helpers in `*_proof_manual.v`, pre-browse or copy candidates that may remain unused, or import/edit the snapshot or durable pool directly.
+When a helper lemma is needed, first review proof_reuse.md and search the listed historical sources by exact lemma/predicate name. Copy only a declaration actually used by this proof with its required helper closure, current-suffix renames, and official imports. If none matches, add and prove a current-suffix helper in `group_worker_lib`. Never put helpers in `*_proof_manual.v`, pre-browse or copy candidates that may remain unused, or import/edit historical candidate libraries directly.
 
 ## Whole-proof skeleton
 

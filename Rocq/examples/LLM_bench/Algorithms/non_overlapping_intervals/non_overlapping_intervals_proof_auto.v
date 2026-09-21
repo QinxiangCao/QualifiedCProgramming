@@ -107,9 +107,6 @@ Proof. Admitted.
 Lemma proof_of_quicksort_intervals_range_partial_solve_wit_1 : quicksort_intervals_range_partial_solve_wit_1.
 Proof. Admitted. 
 
-Lemma proof_of_quicksort_intervals_range_partial_solve_wit_2_pure : quicksort_intervals_range_partial_solve_wit_2_pure.
-Proof. Admitted. 
-
 Lemma proof_of_quicksort_intervals_range_partial_solve_wit_2 : quicksort_intervals_range_partial_solve_wit_2.
 Proof. Admitted. 
 

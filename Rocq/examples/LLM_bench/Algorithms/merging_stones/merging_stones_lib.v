@@ -1,16 +1,12 @@
 Require Import Coq.Lists.List.
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.micromega.Lia.
-Require Import AUXLib.ListLib.
+Require Import AUXLib.ListLib AUXLib.MonotonicList.
 From MaxMinLib Require Import MaxMin Interface.
 
 Import ListNotations.
 Local Open Scope Z_scope.
 Local Open Scope list_scope.
-
-Definition StoneMassesBounded (stones : list Z) (n : Z) : Prop :=
-  Zlength stones = n /\
-  forall i, 0 <= i < n -> 1 <= Znth i stones 0 <= 1000.
 
 Inductive StoneMergePlan (stones : list Z) : Z -> Z -> Z -> Prop :=
   | StoneMergePlan_single :
@@ -34,65 +30,40 @@ Definition StoneIntervalMin
     (fun cost => cost)
     answer.
 
-Definition StoneMinimumCost
-    (stones : list Z) (n answer : Z) : Prop :=
-  Zlength stones = n /\ StoneIntervalMin stones 0 (n - 1) answer.
+(* The public result only describes the least cost among adjacent merge trees. *)
+Definition StoneMinimumCost (stones : list Z) (answer : Z) : Prop :=
+  min_value_of_subset Z.le
+    (fun cost => StoneMergePlan stones 0 (Zlength stones - 1) cost)
+    (fun cost => cost) answer.
 
-Definition StonePrefixProgress
-    (stones prefix : list Z) (n done : Z) : Prop :=
-  Zlength stones = n /\
-  Zlength prefix = done + 1 /\
-  0 <= done <= n /\
+(* Progress predicates describe mathematical facts; execution bounds and
+   list dimensions are separate premises in annotations and helper lemmas. *)
+Definition StonePrefixProgress (stones prefix : list Z) (done : Z) : Prop :=
   forall k, 0 <= k <= done ->
     Znth k prefix 0 = sum (sublist 0 k stones).
 
-Definition StonePrefixDone
-    (stones prefix : list Z) (n : Z) : Prop :=
-  StonePrefixProgress stones prefix n n.
+Definition StonePrefixDone (stones prefix : list Z) (n : Z) : Prop :=
+  StonePrefixProgress stones prefix n.
 
-Definition StoneTableShape (table : list (list Z)) (n : Z) : Prop :=
-  Zlength table = n /\
-  forall row, 0 <= row < n -> Zlength (Znth row table []) = n.
+Definition StoneZeroRows (table : list (list Z)) (row : Z) : Prop :=
+  Forall (Forall (eq 0)) (sublist 0 row table).
 
-Definition StoneZeroRows
-    (table : list (list Z)) (n row : Z) : Prop :=
-  StoneTableShape table n /\
-  0 <= row <= n /\
-  forall r c, 0 <= r < row -> 0 <= c < n ->
-    Znth c (Znth r table []) 0 = 0.
-
-Definition StoneZeroProgress
-    (table : list (list Z)) (n row col : Z) : Prop :=
-  StoneTableShape table n /\
-  0 <= row < n /\
-  0 <= col <= n /\
-  (forall r c, 0 <= r < row -> 0 <= c < n ->
-     Znth c (Znth r table []) 0 = 0) /\
-  (forall c, 0 <= c < col ->
-     Znth c (Znth row table []) 0 = 0).
+Definition StoneZeroProgress (table : list (list Z)) (row col : Z) : Prop :=
+  StoneZeroRows table row /\
+  Forall (eq 0) (sublist 0 col (Znth row table [])).
 
 Definition StoneLenDone
     (stones : list Z) (table : list (list Z)) (n len : Z) : Prop :=
-  Zlength stones = n /\
-  StoneTableShape table n /\
-  1 <= len /\
   forall l left right,
-    1 <= l < len ->
-    right = left + l - 1 ->
-    0 <= left ->
-    left + l <= n ->
-    StoneIntervalMin stones left right
-      (Znth right (Znth left table []) 0).
+    1 <= l < len -> right = left + l - 1 ->
+    0 <= left -> left + l <= n ->
+    StoneIntervalMin stones left right (Znth right (Znth left table []) 0).
 
 Definition StoneLeftProgress
-    (stones : list Z) (table : list (list Z))
-    (n len left : Z) : Prop :=
+    (stones : list Z) (table : list (list Z)) (n len left : Z) : Prop :=
   StoneLenDone stones table n len /\
-  2 <= len <= n /\
-  0 <= left <= n - len + 1 /\
   forall done_left right,
-    0 <= done_left < left ->
-    right = done_left + len - 1 ->
+    0 <= done_left < left -> right = done_left + len - 1 ->
     done_left + len <= n ->
     StoneIntervalMin stones done_left right
       (Znth right (Znth done_left table []) 0).
@@ -100,10 +71,8 @@ Definition StoneLeftProgress
 Definition StoneSplitCandidate
     (stones : list Z) (table : list (list Z))
     (left right split candidate : Z) : Prop :=
-  left <= split < right /\
-  right < Zlength stones /\
-  candidate =
-    Znth split (Znth left table []) 0 +
+  left <= split < right /\ right < Zlength stones /\
+  candidate = Znth split (Znth left table []) 0 +
     Znth right (Znth (split + 1) table []) 0 +
     sum (sublist left (right + 1) stones).
 
@@ -111,29 +80,12 @@ Definition StoneSplitProgress
     (stones : list Z) (table : list (list Z))
     (n len left split best : Z) : Prop :=
   StoneLeftProgress stones table n len left /\
-  let right := left + len - 1 in
-  left <= split <= right /\
-  0 <= best <= 1000000 /\
   ((split = left /\ best = 1000000) \/
    (left < split /\
     min_value_of_subset Z.le
-      (fun candidate =>
-         exists k,
-           left <= k < split /\
-           StoneSplitCandidate stones table left right k candidate)
-      (fun candidate => candidate)
-      best)).
-
-Definition StoneUpdatedCell
-    (stones : list Z) (old_table new_table : list (list Z))
-    (left right value : Z) : Prop :=
-  0 <= left < Zlength old_table /\
-  0 <= right < Zlength (Znth left old_table []) /\
-  new_table =
-    replace_Znth left
-      (replace_Znth right value (Znth left old_table []))
-      old_table /\
-  StoneIntervalMin stones left right value.
+      (fun candidate => exists k, left <= k < split /\
+        StoneSplitCandidate stones table left (left + len - 1) k candidate)
+      (fun candidate => candidate) best)).
 
 Lemma list_sum_bounds__arithmetic_safety :
   forall (l : list Z),
@@ -166,17 +118,19 @@ Proof.
     specialize (IH Htail).
     nia.
 Qed.
+
 Lemma stone_interval_sum_bounds__arithmetic_safety :
   forall stones n left right,
     n <= 8 ->
     0 <= left ->
     left < right ->
     right < n ->
-    StoneMassesBounded stones n ->
+    (Zlength stones = n /\ Forall (fun x => 1 <= x <= 1000) stones) ->
     2 <= sum (sublist left (right + 1) stones) <= 8000.
 Proof.
   intros stones n left right Hn Hleft Hright Hrightn Hmasses.
   destruct Hmasses as [Hlength Hbound].
+  rewrite (Forall_Znth _ 0), Hlength in Hbound.
   assert (Hsub :
     forall i,
       0 <= i < Zlength (sublist left (right + 1) stones) ->
@@ -194,6 +148,7 @@ Proof.
   rewrite Zlength_sublist in Hsum by lia.
   nia.
 Qed.
+
 Lemma sum_lower_bound__prefix_math :
   forall l : list Z,
     (forall i, 0 <= i < Zlength l -> 1 <= Znth i l 0) ->
@@ -225,23 +180,27 @@ Proof.
     rewrite Zlength_cons.
     lia.
 Qed.
+
 Lemma StoneMassesBounded_Znth__prefix_math :
   forall stones n i,
-    StoneMassesBounded stones n ->
+    (Zlength stones = n /\ Forall (fun x => 1 <= x <= 1000) stones) ->
     0 <= i < n ->
     1 <= Znth i stones 0 <= 1000.
 Proof.
-  intros stones n i [_ Hbound] Hi.
+  intros stones n i [Hlength Hbound] Hi.
+  rewrite (Forall_Znth _ 0), Hlength in Hbound.
   apply Hbound; exact Hi.
 Qed.
+
 Lemma StoneMassesBounded_sublist_sum_bounds__prefix_math :
   forall stones n lo hi,
-    StoneMassesBounded stones n ->
+    (Zlength stones = n /\ Forall (fun x => 1 <= x <= 1000) stones) ->
     0 <= lo <= hi ->
     hi <= n ->
     hi - lo <= sum (sublist lo hi stones) <= (hi - lo) * 1000.
 Proof.
   intros stones n lo hi [Hlen Hbound] Hlo Hhi.
+  rewrite (Forall_Znth _ 0), Hlen in Hbound.
   assert (Hsub_lower : Zlength (sublist lo hi stones) <=
                          sum (sublist lo hi stones)).
   {
@@ -271,151 +230,7 @@ Proof.
   rewrite Z2Nat.id in Hsub_upper by lia.
   lia.
 Qed.
-Lemma StonePrefixProgress_value_bounds__prefix_math :
-  forall stones prefix n done k,
-    StoneMassesBounded stones n ->
-    n <= 8 ->
-    StonePrefixProgress stones prefix n done ->
-    0 <= k <= done ->
-    0 <= Znth k prefix 0 <= 8000.
-Proof.
-  intros stones prefix n done k Hmass Hn
-    [_ [_ [Hdone Hprefix]]] Hk.
-  rewrite Hprefix by lia.
-  pose proof
-    (StoneMassesBounded_sublist_sum_bounds__prefix_math
-       stones n 0 k Hmass ltac:(lia) ltac:(lia)) as Hsum.
-  lia.
-Qed.
-Lemma StonePrefixProgress_extend__prefix_math :
-  forall stones prefix n i,
-    StonePrefixProgress stones prefix n i ->
-    0 <= i < n ->
-    StonePrefixProgress stones
-      (prefix ++ [Znth i prefix 0 + Znth i stones 0]) n (i + 1).
-Proof.
-  intros stones prefix n i
-    [Hstones [Hprefix_len [Hi Hprefix]]] Hi_lt.
-  unfold StonePrefixProgress.
-  split; [exact Hstones |].
-  split.
-  - rewrite Zlength_app, Hprefix_len, Zlength_cons, Zlength_nil.
-    lia.
-  - split; [lia |].
-    intros k Hk.
-    destruct (Z.eq_dec k (i + 1)) as [Hlast | Hbefore].
-    + subst k.
-      rewrite app_Znth2 by lia.
-      replace (i + 1 - Zlength prefix) with 0 by lia.
-      rewrite Znth0_cons.
-      rewrite Hprefix by lia.
-      rewrite (sublist_split 0 (i + 1) i stones) by lia.
-      rewrite sum_app.
-      rewrite (sublist_single 0 i stones) by lia.
-      simpl. lia.
-    + assert (0 <= k < Zlength prefix) by lia.
-      rewrite app_Znth1 by exact H.
-      apply Hprefix.
-      lia.
-Qed.
-Lemma StonePrefixDone_interval_sum__prefix_math :
-  forall stones prefix n lo hi,
-    StonePrefixDone stones prefix n ->
-    0 <= lo <= hi ->
-    hi <= n ->
-    Znth hi prefix 0 - Znth lo prefix 0 =
-      sum (sublist lo hi stones).
-Proof.
-  intros stones prefix n lo hi
-    [Hstones [_ [_ Hprefix]]] Hlo Hhi.
-  rewrite Hprefix by lia.
-  rewrite Hprefix by lia.
-  rewrite (sublist_split 0 hi lo stones) by lia.
-  rewrite sum_app.
-  lia.
-Qed.
-Lemma StonePrefixDone_interval_bounds__prefix_math :
-  forall stones prefix n lo hi,
-    StoneMassesBounded stones n ->
-    StonePrefixDone stones prefix n ->
-    0 <= lo <= hi ->
-    hi <= n ->
-    hi - lo <= Znth hi prefix 0 - Znth lo prefix 0 <=
-      (hi - lo) * 1000.
-Proof.
-  intros stones prefix n lo hi Hmass Hprefix Hlo Hhi.
-  rewrite (StonePrefixDone_interval_sum__prefix_math
-             stones prefix n lo hi Hprefix Hlo Hhi).
-  apply StoneMassesBounded_sublist_sum_bounds__prefix_math with (n := n);
-    assumption.
-Qed.
-Lemma StoneSplitProgress_initial__prefix_math :
-  forall stones table n len left,
-    StoneLeftProgress stones table n len left ->
-    2 <= len ->
-    StoneSplitProgress stones table n len left left 1000000.
-Proof.
-  intros stones table n len left Hleft Hlen.
-  unfold StoneSplitProgress.
-  simpl.
-  split; [exact Hleft |].
-  split; [lia |].
-  split; [lia |].
-  left; split; reflexivity.
-Qed.
-Lemma StoneZeroProgress_store__zero_table :
-  forall table n row col d,
-    StoneZeroProgress table n row col ->
-    col < n ->
-    StoneZeroProgress
-      (replace_Znth row
-        (replace_Znth col 0 (Znth row table d)) table)
-      n row (col + 1).
-Proof.
-  intros table n row col d Hprogress Hcol_lt.
-  unfold StoneZeroProgress in Hprogress |- *.
-  destruct Hprogress as
-    [Hshape [Hrow [Hcol [Hzero_rows Hzero_current]]]].
-  destruct Hshape as [Htable_len Hrow_len].
-  assert (Hrow_default : Znth row table d = Znth row table []).
-  { apply Znth_indep. rewrite Htable_len. exact Hrow. }
-  assert (Hrow_len_d : Zlength (Znth row table d) = n).
-  { rewrite Hrow_default. apply Hrow_len. exact Hrow. }
-  split.
-  - unfold StoneTableShape.
-    split.
-    + rewrite Zlength_replace_Znth. exact Htable_len.
-    + intros r Hr.
-      destruct (Z.eq_dec r row) as [Heq | Hneq].
-      * subst r.
-        rewrite Znth_replace_Znth_Same by
-          (rewrite Htable_len; exact Hrow).
-        rewrite Zlength_replace_Znth. exact Hrow_len_d.
-      * rewrite Znth_replace_Znth_Diff by
-          (try rewrite Htable_len; lia).
-        apply Hrow_len. exact Hr.
-  - split.
-    + exact Hrow.
-    + split.
-      * lia.
-      * split.
-        -- intros r c Hr Hc.
-           rewrite Znth_replace_Znth_Diff by
-             (try rewrite Htable_len; lia).
-           apply Hzero_rows; assumption.
-        -- intros c Hc.
-           rewrite Znth_replace_Znth_Same by
-             (rewrite Htable_len; exact Hrow).
-           destruct (Z.eq_dec c col) as [Heq | Hneq].
-           ++ subst c.
-              rewrite Znth_replace_Znth_Same by
-                (rewrite Hrow_len_d; lia).
-              reflexivity.
-           ++ rewrite Znth_replace_Znth_Diff by
-                (try rewrite Hrow_len_d; lia).
-              rewrite Hrow_default.
-              apply Hzero_current. lia.
-Qed.
+
 Lemma StoneIntervalMin_singleton__zero_table :
   forall stones left,
     0 <= left < Zlength stones ->
@@ -431,41 +246,17 @@ Proof.
       inversion Hplan; subst; lia.
   - reflexivity.
 Qed.
-Lemma StoneLenDone_two_of_zero__zero_table :
-  forall stones table n,
-    Zlength stones = n ->
-    1 <= n ->
-    StoneZeroRows table n n ->
-    StoneLenDone stones table n 2.
-Proof.
-  intros stones table n Hstones_len Hn Hzero.
-  unfold StoneZeroRows in Hzero.
-  destruct Hzero as [Hshape [_ Hzero]].
-  unfold StoneLenDone.
-  split; [exact Hstones_len |].
-  split; [exact Hshape |].
-  split; [lia |].
-  intros len left right Hlen Hright Hleft Hwithin.
-  assert (len = 1) by lia.
-  subst len.
-  assert (right = left) by lia.
-  subst right.
-  assert (Hindex : 0 <= left < n) by lia.
-  unfold StoneIntervalMin.
-  replace (left + 1 - 1) with left by lia.
-  rewrite (Hzero left left Hindex Hindex).
-  apply StoneIntervalMin_singleton__zero_table.
-  rewrite Hstones_len. exact Hindex.
-Qed.
+
 Lemma StoneIntervalSum_bounds__interval_min_core :
   forall stones n left right,
-    StoneMassesBounded stones n ->
+    (Zlength stones = n /\ Forall (fun x => 1 <= x <= 1000) stones) ->
     n <= 8 ->
     0 <= left <= right ->
     right < n ->
     0 <= sum (sublist left (right + 1) stones) <= 8000.
 Proof.
   intros stones n left right [Hlen Hmass] Hn Hlr Hright.
+  rewrite (Forall_Znth _ 0), Hlen in Hmass.
   pose proof (sum_bound 1000 (sublist left (right + 1) stones)) as Hsum.
   specialize (Hsum ltac:(
     intros i Hi;
@@ -482,11 +273,12 @@ Proof.
   rewrite Zlength_sublist in Hsum by lia.
   lia.
 Qed.
+
 Lemma StoneMergePlan_bounds__interval_min_core :
   forall stones left right cost,
     StoneMergePlan stones left right cost ->
     forall n,
-      StoneMassesBounded stones n ->
+      (Zlength stones = n /\ Forall (fun x => 1 <= x <= 1000) stones) ->
       n <= 8 ->
       0 <= cost <= (right - left) * 8000.
 Proof.
@@ -506,9 +298,10 @@ Proof.
       as Hinterval.
     lia.
 Qed.
+
 Lemma StoneIntervalMin_precise_bounds__interval_min_core :
   forall stones n left right answer,
-    StoneMassesBounded stones n ->
+    (Zlength stones = n /\ Forall (fun x => 1 <= x <= 1000) stones) ->
     n <= 8 ->
     0 <= left <= right ->
     right < n ->
@@ -524,9 +317,10 @@ Proof.
        stones left right cost Hplan n Hbounded Hn) as Hcost.
   exact Hcost.
 Qed.
+
 Lemma StoneIntervalMin_bounds__interval_min_core :
   forall stones n left right answer,
-    StoneMassesBounded stones n ->
+    (Zlength stones = n /\ Forall (fun x => 1 <= x <= 1000) stones) ->
     n <= 8 ->
     0 <= left <= right ->
     right < n ->
@@ -539,9 +333,10 @@ Proof.
        stones n left right answer Hbounded Hn Hlr Hright Hmin) as Hbounds.
   lia.
 Qed.
+
 Lemma StoneLenDone_entry_bounds__interval_min_core :
   forall stones table n len left right,
-    StoneMassesBounded stones n ->
+    (Zlength stones = n /\ Forall (fun x => 1 <= x <= 1000) stones) ->
     n <= 8 ->
     StoneLenDone stones table n len ->
     0 <= left <= right ->
@@ -550,7 +345,7 @@ Lemma StoneLenDone_entry_bounds__interval_min_core :
     0 <= Znth right (Znth left table []) 0 <= 56000.
 Proof.
   intros stones table n len left right Hbounded Hn Hdone Hlr Hright Hshort.
-  destruct Hdone as [Hstones [Hshape [Hlen Hinterval]]].
+  pose proof Hdone as Hinterval.
   assert (Hmin :
     StoneIntervalMin stones left right
       (Znth right (Znth left table []) 0)).
@@ -559,9 +354,10 @@ Proof.
   }
   eapply StoneIntervalMin_bounds__interval_min_core; eauto.
 Qed.
+
 Lemma StoneLenDone_entry_precise_bounds__interval_min_core :
   forall stones table n len left right,
-    StoneMassesBounded stones n ->
+    (Zlength stones = n /\ Forall (fun x => 1 <= x <= 1000) stones) ->
     n <= 8 ->
     StoneLenDone stones table n len ->
     0 <= left <= right ->
@@ -570,7 +366,7 @@ Lemma StoneLenDone_entry_precise_bounds__interval_min_core :
     0 <= Znth right (Znth left table []) 0 <= (right - left) * 8000.
 Proof.
   intros stones table n len left right Hbounded Hn Hdone Hlr Hright Hshort.
-  destruct Hdone as [Hstones [Hshape [Hlen Hinterval]]].
+  pose proof Hdone as Hinterval.
   assert (Hmin :
     StoneIntervalMin stones left right
       (Znth right (Znth left table []) 0)).
@@ -579,123 +375,25 @@ Proof.
   }
   eapply StoneIntervalMin_precise_bounds__interval_min_core; eauto.
 Qed.
-Lemma StoneSplitProgress_child_bounds__interval_min_core :
-  forall stones table n len left split right best default_row,
-    StoneMassesBounded stones n ->
-    n <= 8 ->
-    StoneSplitProgress stones table n len left split best ->
-    right = left + len - 1 ->
-    left <= split < right ->
-    right < n ->
-    (0 <= Znth split (Znth left table default_row) 0 <= 56000) /\
-    (0 <= Znth right (Znth (split + 1) table default_row) 0 <= 56000).
-Proof.
-  intros stones table n len left split right best default_row
-    Hbounded Hn Hprogress Hright Hsplit Hright_bound.
-  unfold StoneSplitProgress in Hprogress.
-  cbn in Hprogress.
-  destruct Hprogress as [Hleft_progress Hrest].
-  destruct Hleft_progress as [Hdone [Hlen [Hleft Hcompleted]]].
-  pose proof Hdone as Hdone_shape.
-  destruct Hdone_shape as [Hstones [Hshape [Hlen_done Hinterval]]].
-  destruct Hshape as [Htable_len Hrows].
-  split.
-  - pose proof
-      (StoneLenDone_entry_bounds__interval_min_core
-         stones table n len left split
-         Hbounded Hn Hdone ltac:(lia) ltac:(lia) ltac:(lia)) as Hbounds.
-    rewrite
-      (Znth_indep table left [] default_row ltac:(lia))
-      in Hbounds.
-    exact Hbounds.
-  - pose proof
-      (StoneLenDone_entry_bounds__interval_min_core
-         stones table n len (split + 1) right
-         Hbounded Hn Hdone ltac:(lia) ltac:(lia) ltac:(lia)) as Hbounds.
-    rewrite
-      (Znth_indep table (split + 1) [] default_row ltac:(lia))
-      in Hbounds.
-    exact Hbounds.
-Qed.
-Lemma StoneSplitProgress_candidate_facts__interval_min_core :
-  forall stones table n len left split right best interval_sum default_row,
-    StoneMassesBounded stones n ->
-    n <= 8 ->
-    StoneSplitProgress stones table n len left split best ->
-    right = left + len - 1 ->
-    left <= split < right ->
-    right < n ->
-    interval_sum = sum (sublist left (right + 1) stones) ->
-    let candidate :=
-      Znth split (Znth left table default_row) 0 +
-      Znth right (Znth (split + 1) table default_row) 0 +
-      interval_sum in
-    (0 <= candidate <= 56000) /\
-    StoneSplitCandidate stones table left right split candidate.
-Proof.
-  intros stones table n len left split right best interval_sum default_row
-    Hbounded Hn Hprogress Hright Hsplit Hright_bound Hsum.
-  cbn.
-  unfold StoneSplitProgress in Hprogress.
-  cbn in Hprogress.
-  destruct Hprogress as [Hleft_progress Hrest].
-  destruct Hleft_progress as [Hdone [Hlen [Hleft Hcompleted]]].
-  pose proof Hdone as Hdone_shape.
-  destruct Hdone_shape as [Hstones [Hshape [Hlen_done Hinterval]]].
-  destruct Hshape as [Htable_len Hrows].
-  pose proof
-    (StoneLenDone_entry_precise_bounds__interval_min_core
-       stones table n len left split
-       Hbounded Hn Hdone ltac:(lia) ltac:(lia) ltac:(lia)) as Hleft_bounds.
-  pose proof
-    (StoneLenDone_entry_precise_bounds__interval_min_core
-       stones table n len (split + 1) right
-       Hbounded Hn Hdone ltac:(lia) ltac:(lia) ltac:(lia)) as Hright_bounds.
-  rewrite
-    (Znth_indep table left [] default_row ltac:(lia))
-    in Hleft_bounds.
-  rewrite
-    (Znth_indep table (split + 1) [] default_row ltac:(lia))
-    in Hright_bounds.
-  pose proof
-    (StoneIntervalSum_bounds__interval_min_core
-       stones n left right Hbounded Hn ltac:(lia) Hright_bound) as Hsum_bounds.
-  split.
-  - lia.
-  - unfold StoneSplitCandidate.
-    repeat split; try lia.
-    rewrite
-      <- (Znth_indep table left [] default_row ltac:(lia)),
-      <- (Znth_indep table (split + 1) [] default_row ltac:(lia)).
-    lia.
-Qed.
-Lemma StoneSplitProgress_table_shape__interval_min_core :
-  forall stones table n len left split best,
-    StoneSplitProgress stones table n len left split best ->
-    StoneTableShape table n.
-Proof.
-  intros stones table n len left split best Hprogress.
-  unfold StoneSplitProgress, StoneLeftProgress, StoneLenDone in Hprogress.
-  cbn in Hprogress.
-  tauto.
-Qed.
+
 Lemma StoneSplitProgress_complete__interval_min_core :
   forall stones table n len left right best,
+    Zlength stones = n ->
+    0 <= left ->
     right = left + len - 1 ->
     left < right ->
     right < n ->
     StoneSplitProgress stones table n len left right best ->
     StoneIntervalMin stones left right best.
 Proof.
-  intros stones table n len left right best Hright Hleft_right Hright_n
+  intros stones table n len left right best Hstones_len Hleft_bounds Hright Hleft_right Hright_n
     Hprogress.
   unfold StoneSplitProgress in Hprogress.
   cbn in Hprogress.
   destruct Hprogress as
-    [Hleft_progress [Hsplit_bounds [Hbest_bounds Hstate]]].
+    [Hleft_progress Hstate].
   destruct Hleft_progress as
-    [Hdone [Hlen_bounds [Hleft_bounds Hcompleted]]].
-  destruct Hdone as [Hstones_len [Hshape [Hlen_lower Hinterval]]].
+    [Hinterval Hcompleted].
   destruct Hstate as [[Hinitial _] | [Hnoninitial Hcandidate_min]].
   - lia.
   - rewrite <- Hright in Hcandidate_min.
@@ -785,47 +483,10 @@ Proof.
            lia.
     + reflexivity.
 Qed.
-Lemma StoneLenDone_final_facts__interval_min_core :
-  forall stones table n len default_row,
-    1 <= n ->
-    n <= 8 ->
-    StoneMassesBounded stones n ->
-    len > n ->
-    len <= n + 1 ->
-    StoneLenDone stones table n len ->
-    let answer := Znth (n - 1) (Znth 0 table default_row) 0 in
-    StoneLenDone stones table n (n + 1) /\
-    StoneMinimumCost stones n answer /\
-    0 <= answer <= 56000.
-Proof.
-  intros stones table n len default_row Hn Hn_upper Hbounded
-    Hlen_lower Hlen_upper Hdone.
-  assert (Hlen : len = n + 1) by lia.
-  subst len.
-  cbn.
-  pose proof Hdone as Hdone_parts.
-  destruct Hdone_parts as
-    [Hstones_len [Hshape [Hlen_done Hinterval]]].
-  destruct Hshape as [Htable_len Hrow_lengths].
-  assert (Hminimum :
-    StoneIntervalMin stones 0 (n - 1)
-      (Znth (n - 1) (Znth 0 table []) 0)).
-  {
-    apply (Hinterval n 0 (n - 1)); lia.
-  }
-  rewrite
-    (Znth_indep table 0 [] default_row ltac:(lia))
-    in Hminimum.
-  pose proof
-    (StoneIntervalMin_bounds__interval_min_core
-       stones n 0 (n - 1)
-       (Znth (n - 1) (Znth 0 table default_row) 0)
-       Hbounded Hn_upper ltac:(lia) ltac:(lia) Hminimum) as Hbounds.
-  destruct Hbounds as [Hanswer_low Hanswer_high].
-  repeat split; try assumption.
-Qed.
+
 Lemma StoneSplitProgress_keep_best__split_loop_step :
   forall stones table n len left right split candidate best,
+    left <= split ->
     right = left + len - 1 ->
     split < right ->
     candidate <= 56000 ->
@@ -835,16 +496,13 @@ Lemma StoneSplitProgress_keep_best__split_loop_step :
     StoneSplitProgress stones table n len left (split + 1) best.
 Proof.
   intros stones table n len left right split candidate best
-    Hright Hsplit Hcandidate_bound Hbest_candidate Hcandidate Hprogress.
+    Hleft_split Hright Hsplit Hcandidate_bound Hbest_candidate Hcandidate Hprogress.
   unfold StoneSplitProgress in Hprogress |- *.
   cbn in Hprogress |- *.
   rewrite <- Hright in Hprogress |- *.
   destruct Hprogress as
-    [Hleft_progress [[Hleft_split Hsplit_right]
-      [[Hbest_nonneg Hbest_bound] Hminimum]]].
+    [Hleft_progress Hminimum].
   split; [exact Hleft_progress |].
-  split; [lia |].
-  split; [lia |].
   right.
   split; [lia |].
   destruct Hminimum as
@@ -878,8 +536,10 @@ Proof.
            lia.
     + reflexivity.
 Qed.
+
 Lemma StoneSplitProgress_replace_best__split_loop_step :
   forall stones table n len left right split candidate best,
+    left <= split ->
     right = left + len - 1 ->
     split < right ->
     0 <= candidate ->
@@ -890,17 +550,14 @@ Lemma StoneSplitProgress_replace_best__split_loop_step :
     StoneSplitProgress stones table n len left (split + 1) candidate.
 Proof.
   intros stones table n len left right split candidate best
-    Hright Hsplit Hcandidate_nonneg Hcandidate_bound Hcandidate_best
+    Hleft_split Hright Hsplit Hcandidate_nonneg Hcandidate_bound Hcandidate_best
     Hcandidate Hprogress.
   unfold StoneSplitProgress in Hprogress |- *.
   cbn in Hprogress |- *.
   rewrite <- Hright in Hprogress |- *.
   destruct Hprogress as
-    [Hleft_progress [[Hleft_split Hsplit_right]
-      [[Hbest_nonneg Hbest_bound] Hminimum]]].
+    [Hleft_progress Hminimum].
   split; [exact Hleft_progress |].
-  split; [lia |].
-  split; [lia |].
   right.
   split; [lia |].
   unfold min_value_of_subset.
@@ -936,103 +593,311 @@ Proof.
            lia.
   - reflexivity.
 Qed.
-Lemma StoneLenDone_to_initial_left_progress__table_progress :
-  forall stones table n len,
-    StoneLenDone stones table n len ->
-    2 <= len <= n ->
-    StoneLeftProgress stones table n len 0.
+
+Lemma stone_mass_bounds : forall stones,
+  Forall (Z.le 1) stones -> Forall (Z.ge 1000) stones ->
+  Forall (fun x => 1 <= x <= 1000) stones.
 Proof.
-  intros stones table n len Hdone Hlen.
-  unfold StoneLeftProgress.
-  split; [exact Hdone |].
-  split; [exact Hlen |].
-  split; [lia |].
-  intros done_left right Hdone_left. lia.
+  intros stones Hlo Hhi. rewrite Forall_forall in *.
+  intros x Hin. specialize (Hlo x Hin). specialize (Hhi x Hin). lia.
 Qed.
-Lemma StoneUpdatedCell_to_next_left_progress__table_progress :
-  forall stones old_table new_table n len left right value,
-    StoneLeftProgress stones old_table n len left ->
-    right = left + len - 1 ->
-    left + len <= n ->
-    StoneUpdatedCell stones old_table new_table left right value ->
-    StoneLeftProgress stones new_table n len (left + 1).
+
+Lemma StonePrefixProgress_value_bounds__prefix_math :
+  forall stones prefix n done k,
+    Zlength stones = n -> Forall (fun x => 1 <= x <= 1000) stones ->
+    n <= 8 -> done <= n ->
+    StonePrefixProgress stones prefix done -> 0 <= k <= done ->
+    0 <= Znth k prefix 0 <= 8000.
 Proof.
-  intros stones old_table new_table n len left right value
-    Hprogress Hright Hfits Hupdated.
-  unfold StoneUpdatedCell in Hupdated.
-  destruct Hupdated as (Hleft_index & Hright_index & Hnew & Hminimum).
-  subst new_table.
-  unfold StoneLeftProgress in Hprogress |- *.
-  destruct Hprogress as
-    (Hdone & Hlen_bounds & Hleft_bounds & Hprevious).
-  unfold StoneLenDone in Hdone.
-  destruct Hdone as (Hstones_len & Hshape & Hlen_pos & Hshorter).
-  unfold StoneTableShape in Hshape.
-  destruct Hshape as (Htable_len & Hrow_len).
+  intros stones prefix n done k Hlength Hmass Hn Hdone Hprefix Hk.
+  rewrite Hprefix by lia.
+  pose proof (StoneMassesBounded_sublist_sum_bounds__prefix_math
+    stones n 0 k (conj Hlength Hmass) ltac:(lia) ltac:(lia)). lia.
+Qed.
+
+Lemma StonePrefixProgress_extend__prefix_math :
+  forall stones prefix n i,
+    Zlength stones = n -> Zlength prefix = i + 1 ->
+    StonePrefixProgress stones prefix i -> 0 <= i < n ->
+    StonePrefixProgress stones
+      (prefix ++ [Znth i prefix 0 + Znth i stones 0]) (i + 1).
+Proof.
+  intros stones prefix n i Hstones Hprefix_len Hprefix Hi_lt k Hk.
+  destruct (Z.eq_dec k (i + 1)) as [Hlast | Hbefore].
+  - subst k. rewrite app_Znth2 by lia.
+    replace (i + 1 - Zlength prefix) with 0 by lia.
+    rewrite Znth0_cons, Hprefix by lia.
+    rewrite (sublist_split 0 (i + 1) i stones) by lia.
+    rewrite sum_app, (sublist_single 0 i stones) by lia.
+    simpl. lia.
+  - rewrite app_Znth1 by lia. apply Hprefix. lia.
+Qed.
+
+Lemma StonePrefixDone_interval_sum__prefix_math :
+  forall stones prefix n lo hi,
+    Zlength stones = n -> StonePrefixDone stones prefix n ->
+    0 <= lo <= hi -> hi <= n ->
+    Znth hi prefix 0 - Znth lo prefix 0 = sum (sublist lo hi stones).
+Proof.
+  intros stones prefix n lo hi Hstones Hprefix Hlo Hhi.
+  rewrite Hprefix, Hprefix by lia.
+  rewrite (sublist_split 0 hi lo stones) by lia.
+  rewrite sum_app. lia.
+Qed.
+
+Lemma StonePrefixDone_interval_bounds__prefix_math :
+  forall stones prefix n lo hi,
+    (Zlength stones = n /\ Forall (fun x => 1 <= x <= 1000) stones) ->
+    StonePrefixDone stones prefix n -> 0 <= lo <= hi -> hi <= n ->
+    hi - lo <= Znth hi prefix 0 - Znth lo prefix 0 <= (hi - lo) * 1000.
+Proof.
+  intros stones prefix n lo hi [Hlength Hmass] Hprefix Hlo Hhi.
+  rewrite (StonePrefixDone_interval_sum__prefix_math
+    stones prefix n lo hi Hlength Hprefix Hlo Hhi).
+  apply StoneMassesBounded_sublist_sum_bounds__prefix_math with (n := n); auto.
+Qed.
+
+Lemma stone_row_length : forall table n r d,
+  Zlength table = n -> Forall (eq n) (map (@Zlength Z) table) ->
+  0 <= r < n -> Zlength (Znth r table d) = n.
+Proof.
+  intros table n r d Hlen Hrows Hr.
+  rewrite Forall_map, (Forall_Znth _ d), Hlen in Hrows.
+  symmetry. apply Hrows. exact Hr.
+Qed.
+
+Lemma stone_table_store_shape : forall table n row col value,
+  Zlength table = n -> Forall (eq n) (map (@Zlength Z) table) ->
+  0 <= row < n ->
+  Forall (eq n) (map (@Zlength Z)
+    (replace_Znth row (replace_Znth col value (Znth row table [])) table)).
+Proof.
+  intros table n row col value Hlen Hrows Hrow.
+  rewrite Forall_map, (Forall_Znth _ []), Zlength_replace_Znth.
+  intros r Hr.
+  destruct (Z.eq_dec r row) as [-> | Hneq].
+  - rewrite Znth_replace_Znth_Same by lia.
+    rewrite Zlength_replace_Znth.
+    symmetry. eapply stone_row_length; eauto.
+  - rewrite Znth_replace_Znth_Diff by lia.
+    symmetry. eapply stone_row_length; eauto; lia.
+Qed.
+
+Lemma stone_zero_rows_iff : forall table row,
+  0 <= row <= Zlength table ->
+  (StoneZeroRows table row <->
+   forall r, 0 <= r < row -> Forall (eq 0) (Znth r table [])).
+Proof.
+  intros table row Hrow. unfold StoneZeroRows.
+  rewrite (Forall_Znth _ []), Zlength_sublist by lia.
+  split; intros H r Hr; specialize (H r ltac:(lia));
+    rewrite Znth_sublist in * by lia;
+    replace (r + 0) with r in * by lia; exact H.
+Qed.
+
+Lemma stone_zero_prefix_iff : forall values col,
+  0 <= col <= Zlength values ->
+  (Forall (eq 0) (sublist 0 col values) <->
+   forall c, 0 <= c < col -> Znth c values 0 = 0).
+Proof.
+  intros values col Hcol.
+  rewrite (Forall_Znth _ 0), Zlength_sublist by lia.
+  split; intros H c Hc; specialize (H c ltac:(lia));
+    rewrite Znth_sublist in * by lia;
+    replace (c + 0) with c in * by lia; symmetry; exact H.
+Qed.
+
+Lemma StoneZeroProgress_store__zero_table : forall table n row col,
+  Zlength table = n -> Forall (eq n) (map (@Zlength Z) table) ->
+  0 <= row < n -> 0 <= col < n ->
+  StoneZeroProgress table row col ->
+  StoneZeroProgress
+    (replace_Znth row (replace_Znth col 0 (Znth row table [])) table)
+    row (col + 1).
+Proof.
+  intros table n row col Hlen Hrows Hrow Hcol [Hbefore Hcurrent].
+  pose proof (stone_row_length table n row [] Hlen Hrows Hrow) as Hrlen.
+  rewrite stone_zero_rows_iff in Hbefore by lia.
+  rewrite stone_zero_prefix_iff in Hcurrent by lia.
   split.
-  - unfold StoneLenDone.
-    split; [exact Hstones_len |].
-    split.
-    + unfold StoneTableShape.
-      split.
-      * rewrite Zlength_replace_Znth. exact Htable_len.
-      * intros row Hrow.
-        destruct (Z.eq_dec row left) as [-> | Hneq].
-        -- rewrite Znth_replace_Znth_Same by exact Hleft_index.
-           rewrite Zlength_replace_Znth.
-           apply Hrow_len.
-           rewrite Htable_len in Hleft_index. lia.
-        -- rewrite Znth_replace_Znth_Diff by
-               (try rewrite Htable_len; try lia; exact Hneq).
-           apply Hrow_len. exact Hrow.
-    + split; [exact Hlen_pos |].
-      intros l done_left interval_right Hl Hinterval_right Hdone_left Hfit.
-      destruct (Z.eq_dec done_left left) as [-> | Hneq].
-      * rewrite Znth_replace_Znth_Same by exact Hleft_index.
-        assert (Hrow_old : Zlength (Znth left old_table []) = n).
-        {
-          apply Hrow_len.
-          rewrite Htable_len in Hleft_index. lia.
-        }
-        rewrite Znth_replace_Znth_Diff by
-            (rewrite ?Hrow_old; try lia).
-        eapply Hshorter; eauto.
-      * rewrite Znth_replace_Znth_Diff by
-            (try rewrite Htable_len; try lia).
-        eapply Hshorter; eauto.
-  - split; [exact Hlen_bounds |].
-    split; [lia |].
-    intros done_left interval_right Hdone_left Hinterval_right Hfit.
-    destruct (Z.eq_dec done_left left) as [Heq | Hneq].
-    + subst done_left.
-      rewrite Znth_replace_Znth_Same by exact Hleft_index.
-      assert (Heqright : interval_right = right) by lia.
-      rewrite Heqright.
-      rewrite Znth_replace_Znth_Same by exact Hright_index.
-      exact Hminimum.
-    + rewrite Znth_replace_Znth_Diff by
-          (try rewrite Htable_len; try lia).
-      eapply Hprevious; eauto; lia.
+  - rewrite stone_zero_rows_iff by (rewrite Zlength_replace_Znth; lia).
+    intros r Hr. rewrite Znth_replace_Znth_Diff by lia. apply Hbefore; lia.
+  - rewrite Znth_replace_Znth_Same by lia.
+    rewrite stone_zero_prefix_iff by (rewrite Zlength_replace_Znth; lia).
+    intros c Hc.
+    destruct (Z.eq_dec c col) as [-> | Hneq].
+    + rewrite Znth_replace_Znth_Same by lia. reflexivity.
+    + rewrite Znth_replace_Znth_Diff by lia. apply Hcurrent; lia.
 Qed.
+
+Lemma stone_zero_next_row : forall table n row col,
+  Zlength table = n -> Forall (eq n) (map (@Zlength Z) table) ->
+  0 <= row < n -> col = n -> StoneZeroProgress table row col ->
+  StoneZeroRows table (row + 1).
+Proof.
+  intros table n row col Hlen Hrows Hrow -> [Hbefore Hcurrent].
+  pose proof (stone_row_length table n row [] Hlen Hrows Hrow) as Hrlen.
+  rewrite stone_zero_rows_iff in * by lia.
+  rewrite stone_zero_prefix_iff in Hcurrent by lia.
+  intros r Hr. destruct (Z.eq_dec r row) as [-> | Hneq].
+  - rewrite (Forall_Znth _ 0), Hrlen. intros c Hc. symmetry; auto.
+  - apply Hbefore; lia.
+Qed.
+
+Lemma StoneLenDone_two_of_zero__zero_table : forall stones table n,
+  Zlength stones = n -> Zlength table = n ->
+  Forall (eq n) (map (@Zlength Z) table) -> 1 <= n ->
+  StoneZeroRows table n -> StoneLenDone stones table n 2.
+Proof.
+  intros stones table n Hstones Htable Hrows Hn Hzero.
+  rewrite stone_zero_rows_iff in Hzero by lia.
+  intros len left right Hlen Hright Hleft Hwithin.
+  assert (len = 1) by lia. subst len.
+  assert (right = left) by lia. subst right.
+  replace (left + 1 - 1) with left by lia.
+  pose proof (Hzero left ltac:(lia)) as Hrow.
+  rewrite (Forall_Znth _ 0) in Hrow.
+  rewrite <- Hrow by (rewrite (stone_row_length table n left []); auto; lia).
+  apply StoneIntervalMin_singleton__zero_table. lia.
+Qed.
+
+Lemma StoneSplitProgress_initial__prefix_math : forall stones table n len left,
+  StoneLeftProgress stones table n len left ->
+  StoneSplitProgress stones table n len left left 1000000.
+Proof. intros. split; [assumption | left; auto]. Qed.
+
+Lemma StoneLenDone_to_initial_left_progress__table_progress : forall stones table n len,
+  StoneLenDone stones table n len -> StoneLeftProgress stones table n len 0.
+Proof. intros. split; [assumption | intros done_left right Hempty; lia]. Qed.
+
+Lemma StoneUpdatedCell_to_next_left_progress__table_progress :
+  forall stones table n len left right value,
+    Zlength table = n -> Forall (eq n) (map (@Zlength Z) table) ->
+    2 <= len -> 0 <= left -> left + len <= n -> right = left + len - 1 ->
+    StoneLeftProgress stones table n len left ->
+    StoneIntervalMin stones left right value ->
+    StoneLeftProgress stones
+      (replace_Znth left (replace_Znth right value (Znth left table [])) table)
+      n len (left + 1).
+Proof.
+  intros stones table n len left right value Htable Hrows Hlen Hleft Hfit
+    Hright [Hshorter Hprevious] Hminimum.
+  assert (Hli : 0 <= left < Zlength table) by lia.
+  pose proof (stone_row_length table n left [] Htable Hrows ltac:(lia)) as Hrow.
+  split.
+  - intros l dl dr Hl Hdr Hdl Hfits.
+    destruct (Z.eq_dec dl left) as [-> | Hneq].
+    + rewrite Znth_replace_Znth_Same by lia.
+      rewrite Znth_replace_Znth_Diff by lia. eapply Hshorter; eauto.
+    + rewrite Znth_replace_Znth_Diff by lia. eapply Hshorter; eauto.
+  - intros dl dr Hdl Hdr Hfits.
+    destruct (Z.eq_dec dl left) as [-> | Hneq].
+    + rewrite Znth_replace_Znth_Same by lia.
+      assert (Heq : dr = right) by lia. rewrite Heq.
+      rewrite Znth_replace_Znth_Same by lia. exact Hminimum.
+    + rewrite Znth_replace_Znth_Diff by lia. eapply Hprevious; eauto; lia.
+Qed.
+
 Lemma StoneLeftProgress_to_next_len_done__table_progress :
   forall stones table n len left,
-    StoneLeftProgress stones table n len left ->
-    left + len > n ->
+    StoneLeftProgress stones table n len left -> left + len > n ->
     StoneLenDone stones table n (len + 1).
 Proof.
-  intros stones table n len left Hprogress Hexhausted.
-  unfold StoneLeftProgress in Hprogress.
-  destruct Hprogress as
-    (Hdone & Hlen_bounds & Hleft_bounds & Hcurrent).
-  unfold StoneLenDone in Hdone |- *.
-  destruct Hdone as (Hstones_len & Hshape & Hlen_pos & Hshorter).
-  split; [exact Hstones_len |].
-  split; [exact Hshape |].
-  split; [lia |].
-  intros l done_left right Hl Hright Hdone_left Hfits.
+  intros stones table n len left [Hshorter Hcurrent] Hexhausted
+    l done_left right Hl Hright Hdone_left Hfits.
   destruct (Z_lt_ge_dec l len) as [Hlt | Hge].
   - eapply Hshorter; eauto; lia.
-  - assert (l = len) by lia.
-    subst l.
-    eapply Hcurrent; eauto; lia.
+  - assert (l = len) by lia. subst l. eapply Hcurrent; eauto; lia.
 Qed.
+
+Lemma StoneSplitProgress_child_bounds__interval_min_core :
+  forall stones table n len left split right best default_row,
+    (Zlength stones = n /\ Forall (fun x => 1 <= x <= 1000) stones) ->
+    n <= 8 ->
+    Zlength table = n -> 0 <= left ->
+    StoneSplitProgress stones table n len left split best ->
+    right = left + len - 1 ->
+    left <= split < right ->
+    right < n ->
+    (0 <= Znth split (Znth left table default_row) 0 <= 56000) /\
+    (0 <= Znth right (Znth (split + 1) table default_row) 0 <= 56000).
+Proof.
+  intros stones table n len left split right best default_row
+    Hbounded Hn Htable_len Hleft Hprogress Hright Hsplit Hright_bound.
+  unfold StoneSplitProgress in Hprogress.
+  cbn in Hprogress.
+  destruct Hprogress as [Hleft_progress Hrest].
+  destruct Hleft_progress as [Hdone Hcompleted].
+  pose proof (proj1 Hbounded) as Hstones.
+  split.
+  - pose proof
+      (StoneLenDone_entry_bounds__interval_min_core
+         stones table n len left split
+         Hbounded Hn Hdone ltac:(lia) ltac:(lia) ltac:(lia)) as Hbounds.
+    rewrite
+      (Znth_indep table left [] default_row ltac:(lia))
+      in Hbounds.
+    exact Hbounds.
+  - pose proof
+      (StoneLenDone_entry_bounds__interval_min_core
+         stones table n len (split + 1) right
+         Hbounded Hn Hdone ltac:(lia) ltac:(lia) ltac:(lia)) as Hbounds.
+    rewrite
+      (Znth_indep table (split + 1) [] default_row ltac:(lia))
+      in Hbounds.
+    exact Hbounds.
+Qed.
+
+Lemma StoneSplitProgress_candidate_facts__interval_min_core :
+  forall stones table n len left split right best interval_sum default_row,
+    (Zlength stones = n /\ Forall (fun x => 1 <= x <= 1000) stones) ->
+    n <= 8 ->
+    Zlength table = n -> 0 <= left ->
+    StoneSplitProgress stones table n len left split best ->
+    right = left + len - 1 ->
+    left <= split < right ->
+    right < n ->
+    interval_sum = sum (sublist left (right + 1) stones) ->
+    let candidate :=
+      Znth split (Znth left table default_row) 0 +
+      Znth right (Znth (split + 1) table default_row) 0 +
+      interval_sum in
+    (0 <= candidate <= 56000) /\
+    StoneSplitCandidate stones table left right split candidate.
+Proof.
+  intros stones table n len left split right best interval_sum default_row
+    Hbounded Hn Htable_len Hleft Hprogress Hright Hsplit Hright_bound Hsum.
+  cbn.
+  unfold StoneSplitProgress in Hprogress.
+  cbn in Hprogress.
+  destruct Hprogress as [Hleft_progress Hrest].
+  destruct Hleft_progress as [Hdone Hcompleted].
+  pose proof (proj1 Hbounded) as Hstones.
+  pose proof
+    (StoneLenDone_entry_precise_bounds__interval_min_core
+       stones table n len left split
+       Hbounded Hn Hdone ltac:(lia) ltac:(lia) ltac:(lia)) as Hleft_bounds.
+  pose proof
+    (StoneLenDone_entry_precise_bounds__interval_min_core
+       stones table n len (split + 1) right
+       Hbounded Hn Hdone ltac:(lia) ltac:(lia) ltac:(lia)) as Hright_bounds.
+  rewrite
+    (Znth_indep table left [] default_row ltac:(lia))
+    in Hleft_bounds.
+  rewrite
+    (Znth_indep table (split + 1) [] default_row ltac:(lia))
+    in Hright_bounds.
+  pose proof
+    (StoneIntervalSum_bounds__interval_min_core
+       stones n left right Hbounded Hn ltac:(lia) Hright_bound) as Hsum_bounds.
+  split.
+  - lia.
+  - unfold StoneSplitCandidate.
+    repeat split; try lia.
+    rewrite
+      <- (Znth_indep table left [] default_row ltac:(lia)),
+      <- (Znth_indep table (split + 1) [] default_row ltac:(lia)).
+    lia.
+Qed.
+
+Arguments Zlength {A}.

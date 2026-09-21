@@ -1,5 +1,7 @@
 From Coq Require Import ZArith List.
 From AUXLib Require Import ListLib.
+Require Import MaxMinLib.MaxMin.
+From Coq Require Import Lia.
 
 Import ListNotations.
 Local Open Scope Z_scope.
@@ -39,18 +41,43 @@ Definition MRRotationLe (l : list Z) (left right : Z) : Prop :=
 
 (** [start] denotes a globally lexicographically minimal rotation. *)
 Definition MRMinimalRotationAt (l : list Z) (start : Z) : Prop :=
-  MRValidStart l start /\
-  forall other,
-    MRValidStart l other ->
-    MRRotationLe l start other.
+  min_value_of_subset (MRRotationLe l) (MRValidStart l)
+    (fun pos : Z => pos) start.
 
-(** Ties between identical rotations are resolved by the smallest start. *)
+Lemma MRMinimalRotationAt_unfold l start :
+  MRMinimalRotationAt l start <->
+  MRValidStart l start /\
+  forall other, MRValidStart l other -> MRRotationLe l start other.
+Proof.
+  unfold MRMinimalRotationAt, min_value_of_subset, min_object_of_subset.
+  cbn beta. split.
+  - intros [p [[Hp Hmin] Heq]]. subst p. auto.
+  - intros [Hs Hmin]. exists start. auto.
+Qed.
+
+(** Both the lexicographic optimum and its tie-breaking index use MinMax. *)
 Definition MRFirstMinimalRotationAt (l : list Z) (start : Z) : Prop :=
   MRMinimalRotationAt l start /\
-  forall other,
-    MRValidStart l other ->
-    MRRotationEq l start other ->
-    start <= other.
+  min_value_of_subset Z.le
+    (fun other => MRValidStart l other /\ MRRotationEq l start other)
+    (fun pos : Z => pos) start.
+
+Lemma MRFirstMinimalRotationAt_unfold l start :
+  MRFirstMinimalRotationAt l start <->
+  MRMinimalRotationAt l start /\
+  forall other, MRValidStart l other -> MRRotationEq l start other -> start <= other.
+Proof.
+  unfold MRFirstMinimalRotationAt, min_value_of_subset, min_object_of_subset.
+  cbn beta. split.
+  - intros [Hmin [p [[Hp Hall] Heq]]]. subst p.
+    split; [exact Hmin | intros q Hq Heq; apply Hall; split; assumption].
+  - intros [Hmin Htie]. split; [exact Hmin |]. exists start.
+    split; [split | reflexivity].
+    + split.
+      * apply MRMinimalRotationAt_unfold in Hmin. tauto.
+      * unfold MRRotationEq, MRRotationPrefixEq. intros. reflexivity.
+    + intros q [Hq Heq]. apply Htie; assumption.
+Qed.
 
 (** Stable mathematical state of the two-candidate elimination phase.
 
@@ -168,6 +195,7 @@ Lemma MRRotationEq_frontier_neq__candidate_transitions :
     ~ MRRotationEq l x y.
 Proof.
   intros l best x y Hfirst Hx Hy Hfront Hxy Heq.
+  rewrite MRFirstMinimalRotationAt_unfold, MRMinimalRotationAt_unfold in Hfirst.
   destruct Hfirst as [[[Hbest0 Hbestn] Hminimal] Htie].
   destruct Hx as [Hx0 Hxn].
   destruct Hy as [Hy0 Hyn].
@@ -225,6 +253,7 @@ Lemma MRFirstMinimal_excludes_left_interval__candidate_transitions :
     i + k < best.
 Proof.
   intros l best i j k Hfirst Hi Hj Hk Hprefix Hmismatch Hibest.
+  rewrite MRFirstMinimalRotationAt_unfold, MRMinimalRotationAt_unfold in Hfirst.
   destruct Hfirst as [Hminimal Htie].
   destruct Hminimal as [Hbestvalid Hbestle].
   destruct Hbestvalid as [Hbest0 Hbestn].
@@ -322,6 +351,7 @@ Proof.
   pose proof Hi as Hi_saved.
   pose proof Hj as Hj_saved.
   pose proof Hk as Hk_saved.
+  rewrite MRFirstMinimalRotationAt_unfold, MRMinimalRotationAt_unfold in Hfirst.
   destruct Hfirst as [[[Hbest0 Hbestn] Hminimal] Htie].
   destruct Hi as [Hi0 Hin].
   destruct Hj as [Hj0 Hjn].
@@ -475,6 +505,7 @@ Lemma MRCandidateState_initial__candidate_boundaries :
     MRCandidateState l best 0 1.
 Proof.
   intros l best Hlen Hfirst.
+  rewrite MRFirstMinimalRotationAt_unfold, MRMinimalRotationAt_unfold in Hfirst.
   destruct Hfirst as [[Hvalid Hminimal] Htie].
   destruct (Z.eq_dec best 0) as [Hbest | Hbest].
   - left; exact Hbest.
@@ -504,6 +535,7 @@ Lemma MRCandidateState_equal_exit__candidate_boundaries :
     (i < j -> i = best) /\ (i >= j -> j = best).
 Proof.
   intros l best i j Hvalidi Hvalidj Hneq Hfirst Hstate Heq.
+  rewrite MRFirstMinimalRotationAt_unfold, MRMinimalRotationAt_unfold in Hfirst.
   destruct Hfirst as [_ Htie].
   unfold MRCandidateState in Hstate.
   destruct Hstate as [Hbest | [Hbest | [_ Hne]]].

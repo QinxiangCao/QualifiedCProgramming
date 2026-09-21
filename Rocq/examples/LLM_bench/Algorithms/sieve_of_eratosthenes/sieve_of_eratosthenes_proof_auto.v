@@ -62,16 +62,7 @@ Proof. Admitted.
 Lemma proof_of_solve_safety_wit_14 : solve_safety_wit_14.
 Proof. Admitted. 
 
-Lemma proof_of_solve_entail_wit_4 : solve_entail_wit_4.
-Proof. Admitted. 
-
-Lemma proof_of_solve_entail_wit_8_1 : solve_entail_wit_8_1.
-Proof. Admitted. 
-
-Lemma proof_of_solve_entail_wit_9 : solve_entail_wit_9.
-Proof. Admitted. 
-
-Lemma proof_of_solve_return_wit_1 : solve_return_wit_1.
+Lemma proof_of_solve_safety_wit_15 : solve_safety_wit_15.
 Proof. Admitted. 
 
 Lemma proof_of_solve_partial_solve_wit_1 : solve_partial_solve_wit_1.

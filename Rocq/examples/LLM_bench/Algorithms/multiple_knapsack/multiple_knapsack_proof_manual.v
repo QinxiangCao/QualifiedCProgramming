@@ -20,1073 +20,973 @@ Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.multiple_knapsack.multiple_knapsack_lib.
 Local Open Scope sac.
+Local Opaque IntArray.full IntArray.seg IntArray.undef_full IntArray.undef_seg.
 
-Lemma proof_of_multipleKnapsack_safety_wit_12_split_goal_1 : multipleKnapsack_safety_wit_12_split_goal_1.
+From AUXLib Require Import MonotonicList.
+
+(* Convert the public Forall/sublist form to the indexed form used by the
+   existing queue helper proofs. This does not add assumptions. *)
+Lemma MK_Forall_slice (P : Z -> Prop) l lo hi :
+  0 <= lo <= hi -> hi <= Zlength l ->
+  (Forall P (sublist lo hi l) <->
+   forall p, lo <= p < hi -> P (Znth p l 0)).
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKDPValueBound in PreH38.
-  destruct PreH38 as [_ Hbound].
-  specialize (Hbound pos ltac:(lia)).
-  assert (0 <= k * v) by nia.
-  dump_pre_spatial.
-  lia.
+  intros Hlo Hhi. rewrite (Forall_Znth P 0).
+  rewrite Zlength_sublist by lia.
+  split; intros H p Hp.
+  - specialize (H (p - lo) ltac:(lia)).
+    rewrite Znth_sublist in H by lia.
+    replace (p - lo + lo) with p in H by lia. exact H.
+  - rewrite Znth_sublist by lia. apply H. lia.
 Qed.
 
-Lemma proof_of_multipleKnapsack_safety_wit_12_split_goal_2 : multipleKnapsack_safety_wit_12_split_goal_2.
+Ltac mk_lengths := repeat rewrite ?Zlength_replace_Znth, ?Zlength_app,
+  ?Zlength_cons, ?Zlength_nil in *.
+Ltac mk_forall :=
+  repeat match goal with
+  | H : Forall ?P (sublist ?lo ?hi ?l) |- _ =>
+      rewrite (MK_Forall_slice P l lo hi ltac:(lia) ltac:(lia)) in H
+  | H : Forall ?P ?l |- _ => rewrite (Forall_Znth P 0 l) in H
+  end.
+Ltac mk_at idx :=
+  repeat match goal with
+  | H : forall z : Z, 0 <= z < Zlength ?l -> _ |- _ =>
+      specialize (H idx ltac:(lia))
+  | H : forall z : Z, ?lo <= z < ?hi -> _ |- _ =>
+      specialize (H idx ltac:(lia))
+  end.
+Ltac mk_numeric :=
+  lazymatch goal with
+  | |- _ <= _ => idtac | |- _ < _ => idtac
+  | |- _ >= _ => idtac | |- _ > _ => idtac
+  | |- @eq Z _ _ => idtac | |- _ /\ _ => idtac
+  | _ => fail
+  end;
+  mk_lengths; mk_forall;
+  first [lia |
+    match goal with |- context [Znth ?idx ?l 0] => mk_at idx; nia end | nia].
+Ltac mk_slice :=
+  lazymatch goal with |- Forall ?P (sublist ?lo ?hi ?l) =>
+    apply (proj2 (MK_Forall_slice P l lo hi ltac:(lia) ltac:(lia)))
+  end.
+Ltac mk_simple := first [assumption | reflexivity | constructor; fail |
+  solve [intros; eauto] |
+  solve [mk_numeric] |
+  solve [apply Forall_app; split; [assumption | repeat constructor]] |
+  solve [mk_slice;
+         intros idx Hidx; mk_numeric] |
+  solve [apply (proj2 (Forall_Znth _ 0 _)); intros idx Hidx; mk_numeric]].
+
+
+(* Reconstruct proof-only interfaces from explicit annotation facts. *)
+Ltac mk_table := unfold MKDPTable, MKDPTableSafety, MKDPTableSemantics in *;
+  repeat split; try assumption; try lia.
+Ltac mk_copy := unfold MKCopyPrefix, MKCopyPrefixSemantics in *;
+  repeat split; try assumption; try lia.
+Ltac mk_item_bounds := intros idx Hidx; mk_forall; mk_at idx; lia.
+Ltac mk_queue_bound := unfold MKQueueResultValueBound;
+  intros idx Hidx; mk_forall; mk_at idx; lia.
+Ltac mk_transition_bound := unfold MKTransitionValueBound;
+  intros p a Hp Htrans; unfold MKTransitionValue in Htrans;
+  destruct Htrans as (_ & _ & _ & _ & Htrans);
+  match goal with H : forall p a : Z, _ -> _ |- _ =>
+    eapply H; split; [exact Hp | exact Htrans] end.
+
+Ltac mk_drop_state cap :=
+  lazymatch goal with
+  | H : MKQueueDropSemantics ?old ?qi ?qv ?h ?t ?r ?w ?v ?cnt ?k |- _ =>
+    let Hb := fresh "Hqueue_bound" in
+    assert (Hb : MKQueueResultValueBound qv h t v (k - 1)) by mk_queue_bound;
+    let Hs := fresh "Hdrop" in
+    assert (Hs : MKQueueDropLoopState old qi qv h t r w v cnt k cap)
+      by (unfold MKQueueDropLoopState, MKQueueDropSemantics in *; intuition lia)
+  end.
+Ltac mk_pending_state cap :=
+  lazymatch goal with
+  | H : MKQueuePendingSemantics ?old ?qi ?qv ?h ?t ?r ?w ?v ?cnt ?k ?cur |- _ =>
+    let Hb := fresh "Hqueue_bound" in
+    assert (Hb : MKQueueResultValueBound qv h t v k) by mk_queue_bound;
+    let Hs := fresh "Hpending" in
+    assert (Hs : MKQueuePendingState old qi qv h t r w v cnt k cap cur)
+      by (unfold MKQueuePendingState, MKQueuePendingSemantics in *; intuition lia)
+  end.
+Ltac mk_read_bound H :=
+  unfold MKQueueResultValueBound in H;
+  match goal with
+  | |- Forall ?P (sublist ?lo ?hi ?l) =>
+    apply (proj2 (MK_Forall_slice P l lo hi ltac:(mk_lengths; lia) ltac:(mk_lengths; lia)));
+    intros idx Hidx; specialize (H idx Hidx); lia
+  end.
+Ltac mk_after_drop cap cur pos :=
+  mk_drop_state cap;
+  lazymatch goal with
+  | H : MKQueueDropLoopState ?old ?qi ?qv ?h ?t ?r ?w ?v ?cnt ?k cap |- _ =>
+    let Hb := fresh "Htransition_bound" in
+    assert (Hb : MKTransitionValueBound old w v cnt cap) by mk_transition_bound;
+    let Ha := fresh "Hafter" in
+    pose proof (MKQueueDropLoopState_nonempty_exit_to_MKQueueAfterDrop
+      old qi qv h t r w v cnt k cap cur pos
+      ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia)
+      ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia) Hb H) as Ha
+  end.
+Ltac mk_push cap :=
+  mk_pending_state cap;
+  lazymatch goal with
+  | H : MKQueuePendingState ?old ?qi ?qv ?h ?t ?r ?w ?v ?cnt ?k cap ?cur |- _ =>
+    let Hq := fresh "Hresult" in
+    pose proof (MKQueuePendingState_push_to_MKQueueState
+      old qi qv h t r w v cnt k cap cur H
+      ltac:(match goal with E : ?p = r + k * w |- _ => rewrite <- E; assumption end)
+      ltac:(nia) ltac:(lia) ltac:(lia) ltac:(intros; lia)) as Hq
+  end.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lemma proof_of_multipleKnapsack_safety_wit_15_split_goal_1 : multipleKnapsack_safety_wit_15_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKDPValueBound in PreH38.
-  destruct PreH38 as [_ Hbound].
-  specialize (Hbound pos ltac:(lia)).
-  assert (k * v <= 1001000) by nia.
-  dump_pre_spatial.
-  lia.
+LLM_pre_process ltac:(lia || int_auto). dump_pre_spatial. mk_numeric.
 Qed.
 
-Lemma proof_of_multipleKnapsack_safety_wit_12 : multipleKnapsack_safety_wit_12.
+Lemma proof_of_multipleKnapsack_safety_wit_15_split_goal_2 : multipleKnapsack_safety_wit_15_split_goal_2.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_safety_wit_12_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_safety_wit_12_split_goal_2.
+LLM_pre_process ltac:(lia || int_auto). dump_pre_spatial. mk_numeric.
 Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_1_split_goal_1 : multipleKnapsack_entail_wit_1_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  apply PreH9.
-  lia.
-Qed.
+Proof. LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple]. Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_1_split_goal_2 : multipleKnapsack_entail_wit_1_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKZeroPrefixSemantics.
-  intros; lia.
-Qed.
+Proof. LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple]. Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_1_split_goal_3 : multipleKnapsack_entail_wit_1_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKZeroPrefixSafety.
-  split; [lia | reflexivity].
-Qed.
+Proof. LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple]. Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_1_split_goal_4 : multipleKnapsack_entail_wit_1_split_goal_4.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-Qed.
+Proof. LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple]. Qed.
 
-Lemma proof_of_multipleKnapsack_entail_wit_1 : multipleKnapsack_entail_wit_1.
-Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_1_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_1_split_goal_2.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_1_split_goal_3.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_1_split_goal_4.
-Qed.
+Lemma proof_of_multipleKnapsack_entail_wit_1_split_goal_5 : multipleKnapsack_entail_wit_1_split_goal_5.
+Proof. LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple]. Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_2_split_goal_1 : multipleKnapsack_entail_wit_2_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKZeroPrefixSemantics in *.
-  intros cap Hcap.
-  destruct (Z.eq_dec cap j) as [-> | Hneq].
-  - rewrite app_Znth2 by lia.
-    rewrite PreH9.
-    replace (j - j) with 0 by lia.
-    rewrite Znth0_cons.
-    reflexivity.
-  - rewrite app_Znth1 by (rewrite PreH9; lia).
-    apply PreH14.
-    lia.
-Qed.
+Proof. LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple]. Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_2_split_goal_2 : multipleKnapsack_entail_wit_2_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKZeroPrefixSafety in *.
-  destruct PreH13 as [Hj Hlen].
-  split; [lia |].
-  rewrite Zlength_app, Zlength_cons, Zlength_nil.
-  lia.
-Qed.
+Proof. LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple]. Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_2_split_goal_3 : multipleKnapsack_entail_wit_2_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  rewrite Zlength_app, Zlength_cons, Zlength_nil.
-  lia.
-Qed.
+Proof. LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple]. Qed.
 
-Lemma proof_of_multipleKnapsack_entail_wit_2 : multipleKnapsack_entail_wit_2.
-Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_2_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_2_split_goal_2.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_2_split_goal_3.
-Qed. 
+Lemma proof_of_multipleKnapsack_entail_wit_2_split_goal_4 : multipleKnapsack_entail_wit_2_split_goal_4.
+Proof. LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple]. Qed.
 
-Lemma proof_of_multipleKnapsack_entail_wit_3 : multipleKnapsack_entail_wit_3.
-Proof.
-  aggressive_pre_process.
-  assert (Hj : j = capacity_pre + 1) by lia.
-  subst j.
-  Exists dp_l_2.
-  split_pure_spatial.
-  - replace (Zlength dp_l_2) with (capacity_pre + 1) by lia.
-    sep_apply (IntArray.seg_to_full dp_pre 0 (capacity_pre + 1) dp_l_2).
-    replace (dp_pre + 0 * sizeof(INT)) with dp_pre by lia.
-    replace (capacity_pre + 1 - 0) with (capacity_pre + 1) by lia.
-    cancel.
-  - split_pures; dump_pre_spatial; try lia; try assumption;
-      [ replace (capacity_pre + 1) with (Zlength dp_l_2) by lia;
-        exact PreH13
-      | replace (capacity_pre + 1) with (Zlength dp_l_2) by lia;
-        exact PreH14
-      | unfold MKDPTableSafety, MKZeroPrefixSafety in *;
-        destruct PreH13 as [Hhi Hlen];
-        repeat split; try lia
-      | unfold MKDPTableSemantics;
-        intros cap Hcap;
-        rewrite PreH14 by lia;
-        apply MultipleKnapsackPrefixAnswer_zero_items;
-        lia ].
-Qed. 
+Lemma proof_of_multipleKnapsack_entail_wit_2_split_goal_5 : multipleKnapsack_entail_wit_2_split_goal_5.
+Proof. LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple]. Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_4_split_goal_1 : multipleKnapsack_entail_wit_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  apply PreH14.
-  exact H.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_4_split_goal_2 : multipleKnapsack_entail_wit_4_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKScratchArraysSafety in PreH9.
-  tauto.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_4_split_goal_3 : multipleKnapsack_entail_wit_4_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKScratchArraysSafety in PreH9.
-  tauto.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_4_split_goal_4 : multipleKnapsack_entail_wit_4_split_goal_4.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKScratchArraysSafety in PreH9.
-  tauto.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_4 : multipleKnapsack_entail_wit_4.
-Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_4_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_4_split_goal_2.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_4_split_goal_3.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_4_split_goal_4.
+LLM_pre_process ltac:(lia || int_auto). unfold MKCopyPrefixSemantics. intros; lia.
 Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_5_split_goal_1 : multipleKnapsack_entail_wit_5_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  apply PreH17.
-  exact H.
+LLM_pre_process ltac:(lia || int_auto).
+unfold MKCopyPrefixSemantics in *. intros cap Hcap.
+destruct (Z.eq_dec cap j) as [-> | Hneq].
+- rewrite Znth_replace_Znth_Same by lia. reflexivity.
+- rewrite Znth_replace_Znth_Diff by lia. apply PreH18; lia.
 Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_5_split_goal_2 : multipleKnapsack_entail_wit_5_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKCopyPrefixSemantics.
-  intros cap Hcap.
-  lia.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_5_split_goal_3 : multipleKnapsack_entail_wit_5_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKCopyPrefixSafety.
-  repeat split; lia.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_5 : multipleKnapsack_entail_wit_5.
-Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_5_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_5_split_goal_2.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_5_split_goal_3.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
 Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_6_split_goal_1 : multipleKnapsack_entail_wit_6_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKCopyPrefixSemantics in *.
-  intros cap Hcap.
-  destruct (Z.eq_dec cap j) as [-> | Hneq].
-  - rewrite Znth_replace_Znth_Same by lia. reflexivity.
-  - rewrite Znth_replace_Znth_Diff by lia.
-    apply PreH20. lia.
+LLM_pre_process ltac:(lia || int_auto).
+unfold MKItemResidueProgressSemantics. split.
+- intros rem k pos Hpos Hrem. lia.
+- intros rem k pos Hpos Hrem Hk Hp.
+  symmetry. apply PreH18. lia.
 Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_6_split_goal_2 : multipleKnapsack_entail_wit_6_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKCopyPrefixSafety in *.
-  destruct PreH19 as (Hj & Hsrc & Hdst).
-  repeat split; try lia; try assumption.
-  rewrite Zlength_replace_Znth. exact Hdst.
+LLM_pre_process ltac:(lia || int_auto).
+assert (Htable : MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2) by mk_table.
+assert (Hcopy : MKCopyPrefix dp_l_2 old_l_2 (capacity_pre + 1) capacity_pre).
+{ replace (capacity_pre + 1) with j by lia. mk_copy. }
+assert (Hbound : MKTransitionValueBound old_l_2 (Znth i weights_l 0)
+  (Znth i values_l 0) (Znth i counts_l 0) capacity_pre).
+{ eapply MKDPTable_implies_MKTransitionValueBound_for_current_item;
+    try eassumption; try lia; try reflexivity.
+  all: try solve [mk_numeric | split; mk_numeric].
+  all: mk_item_bounds. }
+destruct H as [[Hp0 Hpcap] Hsem]. apply Hbound with (pos := p); [lia |].
+unfold MKTransitionValue.
+split; [mk_numeric |]. split; [mk_numeric |].
+split; [lia |]. split; [lia | exact Hsem].
 Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_6_split_goal_3 : multipleKnapsack_entail_wit_6_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  rewrite Zlength_replace_Znth. assumption.
+LLM_pre_process ltac:(lia || int_auto).
+assert (Htable : MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2) by mk_table.
+assert (Hcopy : MKCopyPrefix dp_l_2 old_l_2 (capacity_pre + 1) capacity_pre).
+{ replace (capacity_pre + 1) with j by lia. mk_copy. }
+assert (Hbound : MKDPValueBound old_l_2 capacity_pre).
+{ eapply MKDPTable_copy_implies_MKDPValueBound_under_global_item_bounds;
+    try eassumption; try lia. mk_item_bounds. }
+unfold MKDPValueBound in Hbound. destruct Hbound as [_ Hbound].
+apply (proj2 (Forall_Znth _ 0 _)). intros idx Hidx.
+specialize (Hbound idx ltac:(lia)). lia.
 Qed.
 
-Lemma proof_of_multipleKnapsack_entail_wit_6 : multipleKnapsack_entail_wit_6.
+Lemma proof_of_multipleKnapsack_entail_wit_6_split_goal_4 : multipleKnapsack_entail_wit_6_split_goal_4.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_6_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_6_split_goal_2.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_6_split_goal_3.
-Qed. 
+LLM_pre_process ltac:(lia || int_auto).
+assert (Htable : MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2) by mk_table.
+assert (Hcopy : MKCopyPrefix dp_l_2 old_l_2 (capacity_pre + 1) capacity_pre).
+{ replace (capacity_pre + 1) with j by lia. mk_copy. }
+assert (Hbound : MKDPValueBound old_l_2 capacity_pre).
+{ eapply MKDPTable_copy_implies_MKDPValueBound_under_global_item_bounds;
+    try eassumption; try lia. mk_item_bounds. }
+unfold MKDPValueBound in Hbound. destruct Hbound as [_ Hbound].
+apply (proj2 (Forall_Znth _ 0 _)). intros idx Hidx.
+specialize (Hbound idx ltac:(lia)). lia.
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_6_split_goal_5 : multipleKnapsack_entail_wit_6_split_goal_5.
+Proof.
+LLM_pre_process ltac:(lia || int_auto).
+unfold MKDPTableSemantics, MKCopyPrefixSemantics in *.
+intros cap Hcap. rewrite (PreH18 cap ltac:(lia)). apply PreH17. lia.
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_6_split_goal_6 : multipleKnapsack_entail_wit_6_split_goal_6.
+Proof.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_6_split_goal_7 : multipleKnapsack_entail_wit_6_split_goal_7.
+Proof.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_6_split_goal_8 : multipleKnapsack_entail_wit_6_split_goal_8.
+Proof.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_6_split_goal_9 : multipleKnapsack_entail_wit_6_split_goal_9.
+Proof.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_6_split_goal_10 : multipleKnapsack_entail_wit_6_split_goal_10.
+Proof.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_6_split_goal_11 : multipleKnapsack_entail_wit_6_split_goal_11.
+Proof.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_6_split_goal_12 : multipleKnapsack_entail_wit_6_split_goal_12.
+Proof.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
+Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_7_split_goal_1 : multipleKnapsack_entail_wit_7_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  apply PreH21. assumption.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
 Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_7_split_goal_2 : multipleKnapsack_entail_wit_7_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKItemResidueProgressSemantics.
-  split.
-  - intros rem k pos Hpos Hrem. lia.
-  - intros rem k pos Hpos Hrem Hk Hpos_range.
-    unfold MKCopyPrefixSemantics in PreH20.
-    symmetry. apply PreH20. lia.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
 Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_7_split_goal_3 : multipleKnapsack_entail_wit_7_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (PreH21 i ltac:(lia)) as Hitem.
-  unfold MKItemResidueProgressSafety.
-  unfold MKCopyPrefixSafety in PreH19.
-  destruct PreH19 as (_ & Hdp & Hold).
-  repeat split; try lia; assumption.
+LLM_pre_process ltac:(lia || int_auto).
+unfold MKQueueResultSemantics, MKQueueEntriesValidForResult,
+ MKQueueIndexIncreasing, MKQueueValueDecreasing, MKQueueCoversResultWindow.
+repeat split; intros; lia.
 Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_7_split_goal_4 : multipleKnapsack_entail_wit_7_split_goal_4.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  replace j with (capacity_pre + 1) in PreH20 by lia.
-  exact PreH20.
+LLM_pre_process ltac:(lia || int_auto).
+unfold MKItemResiduePrefixSemantics.
+match goal with H : MKItemResidueProgressSemantics _ _ _ _ _ _ _ |- _ =>
+  destruct H as [Hdone Hsame] end.
+split; [intros; lia |]. intros pos Hp. split.
+- intros. eapply Hdone; eauto.
+- intros rem t Heq Hrem Ht Hcase. eapply Hsame; eauto. lia.
 Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_7_split_goal_5 : multipleKnapsack_entail_wit_7_split_goal_5.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  replace j with (capacity_pre + 1) in PreH19 by lia.
-  exact PreH19.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
 Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_7_split_goal_6 : multipleKnapsack_entail_wit_7_split_goal_6.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (PreH21 i ltac:(lia)) as Hitem.
-  assert (Hdp : MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2).
-  { unfold MKDPTable, MKDPTableSafety, MKDPTableSemantics in *.
-    tauto. }
-  assert (Hcopy : MKCopyPrefix dp_l_2 old_l_2 (capacity_pre + 1) capacity_pre).
-  { replace j with (capacity_pre + 1) in PreH19, PreH20 by lia.
-    unfold MKCopyPrefix, MKCopyPrefixSafety, MKCopyPrefixSemantics in *.
-    tauto. }
-  eapply MKDPTable_implies_MKTransitionValueBound_for_current_item;
-    try eassumption; try lia.
-  intros idx Hidx.
-  specialize (PreH21 idx).
-  rewrite PreH6 in Hidx.
-  specialize (PreH21 Hidx).
-  tauto.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_7_split_goal_7 : multipleKnapsack_entail_wit_7_split_goal_7.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  assert (Hdp : MKDPTable weights_l values_l counts_l i capacity_pre dp_l_2).
-  { unfold MKDPTable, MKDPTableSafety, MKDPTableSemantics in *.
-    tauto. }
-  assert (Hcopy : MKCopyPrefix dp_l_2 old_l_2 (capacity_pre + 1) capacity_pre).
-  { replace j with (capacity_pre + 1) in PreH19, PreH20 by lia.
-    unfold MKCopyPrefix, MKCopyPrefixSafety, MKCopyPrefixSemantics in *.
-    tauto. }
-  eapply MKDPTable_copy_implies_MKDPValueBound_under_global_item_bounds;
-    try eassumption; try lia.
-  intros idx Hidx.
-  specialize (PreH21 idx).
-  rewrite PreH6 in Hidx.
-  specialize (PreH21 Hidx).
-  tauto.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_7 : multipleKnapsack_entail_wit_7.
-Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_7_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_7_split_goal_2.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_7_split_goal_3.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_7_split_goal_4.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_7_split_goal_5.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_7_split_goal_6.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_7_split_goal_7.
-Qed. 
 
 Lemma proof_of_multipleKnapsack_entail_wit_8_split_goal_1 : multipleKnapsack_entail_wit_8_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  intros; eauto.
+LLM_pre_process ltac:(lia || int_auto).
+unfold MKQueueDropSemantics.
+match goal with H : MKQueueResultSemantics _ _ _ _ _ _ _ _ _ _ _ |- _ =>
+  destruct H as (Hvalid & Hinc & Hdec & Hcover & _) end.
+split; [exact Hvalid |]. split; [exact Hinc |]. split; [exact Hdec |].
+unfold MKQueueCoversWindow, MKQueueCoversResultWindow in *.
+intros. apply Hcover; lia.
 Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_8_split_goal_2 : multipleKnapsack_entail_wit_8_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKDPTableSemantics, MKCopyPrefixSemantics in *.
-  intros cap Hcap.
-  rewrite (PreH28 cap ltac:(lia)).
-  apply PreH24; lia.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
 Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_8_split_goal_3 : multipleKnapsack_entail_wit_8_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKDPTableSafety, MKCopyPrefixSafety in *.
-  tauto.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
 Qed.
 
-Lemma proof_of_multipleKnapsack_entail_wit_8 : multipleKnapsack_entail_wit_8.
+Lemma proof_of_multipleKnapsack_entail_wit_8_split_goal_4 : multipleKnapsack_entail_wit_8_split_goal_4.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_8_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_8_split_goal_2.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_8_split_goal_3.
-Qed. 
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_8_split_goal_5 : multipleKnapsack_entail_wit_8_split_goal_5.
+Proof.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_8_split_goal_6 : multipleKnapsack_entail_wit_8_split_goal_6.
+Proof.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
+Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_9_split_goal_1 : multipleKnapsack_entail_wit_9_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  intros; eauto.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
 Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_9_split_goal_2 : multipleKnapsack_entail_wit_9_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKResidueLoopSemantics, MKQueueResultSemantics,
-    MKQueueEntriesValidForResult, MKQueueIndexIncreasing,
-    MKQueueValueDecreasing, MKQueueCoversResultWindow,
-    MKQueueResultValueBound in *.
-  repeat split; intros; try lia.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
 Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_9_split_goal_3 : multipleKnapsack_entail_wit_9_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKResidueLoopSafety, MKQueueStorageSafety,
-    MKItemResidueProgressSafety in *.
-  repeat split; try lia; assumption.
+LLM_pre_process ltac:(lia || int_auto).
+mk_drop_state capacity_pre.
+pose proof (MKQueueDropLoopState_pop_expired_preserves_predrop
+ old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre ltac:(lia) ltac:(lia) Hdrop) as Hnext.
+unfold MKQueueDropLoopState, MKQueueDropSemantics in *. tauto.
 Qed.
 
-Lemma proof_of_multipleKnapsack_entail_wit_9_split_goal_4 : multipleKnapsack_entail_wit_9_split_goal_4.
+Lemma proof_of_multipleKnapsack_entail_wit_10_1_split_goal_1 : multipleKnapsack_entail_wit_10_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKItemResiduePrefixSemantics, MKItemResidueProgressSemantics in *.
-  destruct PreH33 as [Hdone Hsame].
-  split.
-  - intros; lia.
-  - intros pos Hpos.
-    split.
-    + intros rem t Hpos_eq Hrem Ht.
-      eapply Hdone; eauto.
-    + intros rem t Hpos_eq Hrem Ht Hcase.
-      eapply Hsame; eauto.
-      lia.
+LLM_pre_process ltac:(lia || int_auto).
+assert (head = tail) by lia. subst head.
+mk_slice. intros; lia.
 Qed.
 
-Lemma proof_of_multipleKnapsack_entail_wit_9_split_goal_5 : multipleKnapsack_entail_wit_9_split_goal_5.
+Lemma proof_of_multipleKnapsack_entail_wit_10_1_split_goal_2 : multipleKnapsack_entail_wit_10_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKItemResiduePrefixSafety, MKItemResidueProgressSafety in *.
-  repeat split; try lia; assumption.
+LLM_pre_process ltac:(lia || int_auto).
+assert (head = tail) by lia. subst head.
+mk_slice. intros; lia.
 Qed.
 
-Lemma proof_of_multipleKnapsack_entail_wit_9 : multipleKnapsack_entail_wit_9.
+Lemma proof_of_multipleKnapsack_entail_wit_10_1_split_goal_3 : multipleKnapsack_entail_wit_10_1_split_goal_3.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_9_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_9_split_goal_2.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_9_split_goal_3.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_9_split_goal_4.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_9_split_goal_5.
-Qed. 
-
-Lemma proof_of_multipleKnapsack_entail_wit_10_split_goal_1 : multipleKnapsack_entail_wit_10_split_goal_1.
-Proof.
-  aggressive_pre_process.
-  apply PreH44.
-  exact H.
+LLM_pre_process ltac:(lia || int_auto).
+assert (head = tail) by lia. subst head.
+unfold MKQueuePendingSemantics, MKQueueEntriesValidAfterDrop,
+ MKQueueIndexIncreasing, MKQueueValueDecreasing, MKQueueCoversWithPending.
+match goal with H : MKQueueDropSemantics _ _ _ _ _ _ _ _ _ _ |- _ =>
+  destruct H as (_ & _ & _ & Hcover) end.
+repeat split; intros; try lia.
+left. apply Hcover; assumption.
 Qed.
 
-Lemma proof_of_multipleKnapsack_entail_wit_10_split_goal_2 : multipleKnapsack_entail_wit_10_split_goal_2.
+Lemma proof_of_multipleKnapsack_entail_wit_10_1_split_goal_4 : multipleKnapsack_entail_wit_10_1_split_goal_4.
 Proof.
-  aggressive_pre_process.
-  unfold MKResidueLoopSemantics in PreH43.
-  destruct PreH43 as [_ Hqueue].
-  unfold MKQueueResultSemantics in Hqueue.
-  destruct Hqueue as (Hvalid & Hinc & Hdec & Hcover & Hbound & _).
-  unfold MKQueueDropSemantics.
-  split; [exact Hvalid|].
-  split; [exact Hinc|].
-  split; [exact Hdec|].
-  split.
-  - unfold MKQueueCoversWindow.
-    intros cand Hcand0 Hcandlt Hcandlo Hcandlen.
-    unfold MKQueueCoversResultWindow in Hcover.
-    apply Hcover; lia.
-  - exact Hbound.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
 Qed.
 
-Lemma proof_of_multipleKnapsack_entail_wit_10_split_goal_3 : multipleKnapsack_entail_wit_10_split_goal_3.
+Lemma proof_of_multipleKnapsack_entail_wit_10_2_split_goal_1 : multipleKnapsack_entail_wit_10_2_split_goal_1.
 Proof.
-  aggressive_pre_process.
-  unfold MKResidueLoopSafety in PreH42.
-  unfold MKQueueDropSafety, MKQueueStorageSafety.
-  destruct PreH42 as (Hr & Hk & Hhead & Htail & Hold & _Hdp & Hqidx & Hqval).
-  repeat split; try assumption; lia.
+LLM_pre_process ltac:(lia || int_auto).
+mk_after_drop capacity_pre current pos.
+unfold MKQueueAfterDrop in Hafter.
+destruct Hafter as (_ & _ & _ & _ & _ & _ & _ & _ & _ & _ & _ & _ & Hb).
+mk_read_bound Hb.
 Qed.
 
-Lemma proof_of_multipleKnapsack_entail_wit_10_split_goal_4 : multipleKnapsack_entail_wit_10_split_goal_4.
+Lemma proof_of_multipleKnapsack_entail_wit_10_2_split_goal_2 : multipleKnapsack_entail_wit_10_2_split_goal_2.
 Proof.
-  aggressive_pre_process.
-  unfold MKDPValueBound in PreH38.
-  destruct PreH38 as [_ Hbound].
-  specialize (Hbound pos ltac:(lia)).
-  assert (Hpos : pos = r + k * w) by lia.
-  rewrite <- Hpos.
-  pose proof (Z.sub_add (k * v) (Znth pos old_l 0)) as Hcancel.
-  rewrite Hcancel.
-  lia.
+LLM_pre_process ltac:(lia || int_auto).
+mk_after_drop capacity_pre current pos.
+unfold MKQueueAfterDrop in Hafter.
+destruct Hafter as (_ & _ & _ & _ & _ & _ & _ & _ & _ & _ & _ & _ & Hb).
+mk_read_bound Hb.
 Qed.
 
-Lemma proof_of_multipleKnapsack_entail_wit_10_split_goal_5 : multipleKnapsack_entail_wit_10_split_goal_5.
+Lemma proof_of_multipleKnapsack_entail_wit_10_2_split_goal_3 : multipleKnapsack_entail_wit_10_2_split_goal_3.
 Proof.
-  aggressive_pre_process.
-  unfold MKDPValueBound in PreH38.
-  destruct PreH38 as [_ Hbound].
-  specialize (Hbound pos ltac:(lia)).
-  assert (Hpos : pos = r + k * w) by lia.
-  rewrite <- Hpos.
-  pose proof (Z.sub_add (k * v) (Znth pos old_l 0)) as Hcancel.
-  rewrite Hcancel.
-  lia.
+LLM_pre_process ltac:(lia || int_auto).
+mk_after_drop capacity_pre current pos.
+pose proof (MKQueueAfterDrop_to_MKQueuePendingState_current
+ old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current
+ Hafter ltac:(lia)) as Hp.
+unfold MKQueuePendingState, MKQueuePendingSemantics in *. tauto.
 Qed.
 
-Lemma proof_of_multipleKnapsack_entail_wit_10_split_goal_6 : multipleKnapsack_entail_wit_10_split_goal_6.
+Lemma proof_of_multipleKnapsack_entail_wit_10_2_split_goal_4 : multipleKnapsack_entail_wit_10_2_split_goal_4.
 Proof.
-  aggressive_pre_process.
-  unfold multiple_knapsack_lib.MKDPValueBound in PreH38.
-  destruct PreH38 as [_ Hbound].
-  specialize (Hbound pos (conj PreH30 PreH1)).
-  assert (Hkv : 0 <= k * v) by nia.
-  rewrite <- PreH27.
-  lia.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
 Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_10_split_goal_7 : multipleKnapsack_entail_wit_10_split_goal_7.
-Proof.
-  aggressive_pre_process.
-  unfold multiple_knapsack_lib.MKDPValueBound in PreH38.
-  destruct PreH38 as [_ Hbound].
-  specialize (Hbound pos (conj PreH30 PreH1)).
-  pose proof
-    (Z.mul_le_mono_nonneg_l 1 w k PreH28 PreH21) as Hkw.
-  rewrite Z.mul_1_r in Hkw.
-  assert (Hkcap : k <= capacity_pre) by lia.
-  assert (Hkv : k * v <= 1000000) by nia.
-  rewrite <- PreH27.
-  lia.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_10 : multipleKnapsack_entail_wit_10.
-Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_10_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_10_split_goal_2.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_10_split_goal_3.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_10_split_goal_4.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_10_split_goal_5.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_10_split_goal_6.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_10_split_goal_7.
-Qed. 
 
 Lemma proof_of_multipleKnapsack_entail_wit_11_split_goal_1 : multipleKnapsack_entail_wit_11_split_goal_1.
 Proof.
-  aggressive_pre_process.
-  unfold MKQueueDropSemantics in *.
-  destruct PreH49 as (Hvalid & Hinc & Hdec & Hcover & Hbound).
-  split.
-  - intros p Hp. apply Hvalid. lia.
-  - split.
-    + intros p q Hp. apply Hinc. lia.
-    + split.
-      * intros p q Hp. apply Hdec. lia.
-      * split.
-        -- intros cand Hcand0 Hcandlt Hcandlo Hcandlen.
-           destruct (Hcover cand Hcand0 Hcandlt Hcandlo Hcandlen)
-             as (p & Hp_range & Hcand_p & Hp_k & Hp_val).
-           destruct Hp_range as [Hhead_p Hp_tail].
-           exists p.
-           split.
-           ++ destruct (Z.eq_dec p head) as [-> | Hneq]; split; lia.
-           ++ split; [exact Hcand_p|].
-              split; [exact Hp_k|exact Hp_val].
-        -- intros p Hp. apply Hbound. lia.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
 Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_11_split_goal_2 : multipleKnapsack_entail_wit_11_split_goal_2.
 Proof.
-  aggressive_pre_process.
-  unfold MKQueueDropSafety, MKQueueStorageSafety in *.
-  destruct PreH48 as (Hr & Hk & Hhead & Htail & Htail_len & Hqidx & Hqval & Hold).
-  repeat split; try assumption; lia.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
 Qed.
 
-Lemma proof_of_multipleKnapsack_entail_wit_11 : multipleKnapsack_entail_wit_11.
+Lemma proof_of_multipleKnapsack_entail_wit_11_split_goal_3 : multipleKnapsack_entail_wit_11_split_goal_3.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_11_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_11_split_goal_2.
-Qed. 
+LLM_pre_process ltac:(lia || int_auto).
+mk_pending_state capacity_pre.
+pose proof (MKQueuePendingState_pop_dominated_tail_preserves
+ old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current
+ Hpending ltac:(lia) ltac:(lia)) as Hnext.
+unfold MKQueuePendingState, MKQueuePendingSemantics in *. tauto.
+Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_12_1_split_goal_1 : multipleKnapsack_entail_wit_12_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  exact (PreH49 idx H).
+LLM_pre_process ltac:(lia || int_auto).
+mk_push capacity_pre.
+unfold MKQueueState in Hresult.
+destruct Hresult as (_ & _ & _ & _ & _ & _ & _ & _ & _ & _ & _ & _ & Hb & _).
+mk_read_bound Hb.
 Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_12_1_split_goal_2 : multipleKnapsack_entail_wit_12_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKQueueDropSemantics in PreH48.
-  unfold MKQueueAfterDropSemantics.
-  destruct PreH48 as (Hentries & Hinc & Hdec & Hcovers & Hbound).
-  repeat split; try assumption;
-    unfold MKQueueEntriesValidAfterDrop, MKQueueIndexIncreasing,
-      MKQueueValueDecreasing, MKQueueCoversWindow,
-      MKQueueResultValueBound in *; intros; lia.
+LLM_pre_process ltac:(lia || int_auto).
+mk_push capacity_pre.
+unfold MKQueueState in Hresult.
+destruct Hresult as (_ & _ & _ & _ & _ & _ & _ & _ & _ & _ & _ & _ & Hb & _).
+mk_read_bound Hb.
 Qed.
 
-Lemma proof_of_multipleKnapsack_entail_wit_12_1 : multipleKnapsack_entail_wit_12_1.
+Lemma proof_of_multipleKnapsack_entail_wit_12_1_split_goal_3 : multipleKnapsack_entail_wit_12_1_split_goal_3.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_12_1_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_12_1_split_goal_2.
-Qed. 
+LLM_pre_process ltac:(lia || int_auto).
+mk_push capacity_pre.
+unfold MKQueueState, MKQueueResultSemantics, MKTransitionValue in *.
+intuition.
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_12_1_split_goal_5 : multipleKnapsack_entail_wit_12_1_split_goal_5.
+Proof.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_12_1_split_goal_7 : multipleKnapsack_entail_wit_12_1_split_goal_7.
+Proof.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_12_1_split_goal_8 : multipleKnapsack_entail_wit_12_1_split_goal_8.
+Proof.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
+Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_12_2_split_goal_1 : multipleKnapsack_entail_wit_12_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  exact (PreH50 idx H).
+LLM_pre_process ltac:(lia || int_auto).
+mk_push capacity_pre.
+unfold MKQueueState in Hresult.
+destruct Hresult as (_ & _ & _ & _ & _ & _ & _ & _ & _ & _ & _ & _ & Hb & _).
+mk_read_bound Hb.
 Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_12_2_split_goal_2 : multipleKnapsack_entail_wit_12_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  assert (Hstate : MKQueueDropLoopState old_l_2 qidx_l_2 qval_l_2
-    head tail r w v cnt k capacity_pre).
-  {
-    unfold MKQueueDropLoopState, MKQueueDropSafety, MKQueueStorageSafety,
-      MKQueueDropSemantics in *.
-    intuition.
-  }
-  pose proof (MKQueueDropLoopState_nonempty_exit_to_MKQueueAfterDrop
-    old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current pos
-    PreH1 PreH2 PreH24 PreH16 PreH17 PreH22 PreH28 ltac:(lia) PreH33 PreH37
-    PreH45 Hstate) as Hafter.
-  unfold MKQueueAfterDrop, MKQueueAfterDropSemantics in *.
-  intuition.
+LLM_pre_process ltac:(lia || int_auto).
+mk_push capacity_pre.
+unfold MKQueueState in Hresult.
+destruct Hresult as (_ & _ & _ & _ & _ & _ & _ & _ & _ & _ & _ & _ & Hb & _).
+mk_read_bound Hb.
 Qed.
 
-Lemma proof_of_multipleKnapsack_entail_wit_12_2 : multipleKnapsack_entail_wit_12_2.
+Lemma proof_of_multipleKnapsack_entail_wit_12_2_split_goal_3 : multipleKnapsack_entail_wit_12_2_split_goal_3.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_12_2_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_12_2_split_goal_2.
-Qed. 
+LLM_pre_process ltac:(lia || int_auto).
+mk_push capacity_pre.
+unfold MKQueueState, MKQueueResultSemantics, MKTransitionValue in *.
+intuition.
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_12_2_split_goal_5 : multipleKnapsack_entail_wit_12_2_split_goal_5.
+Proof.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_12_2_split_goal_7 : multipleKnapsack_entail_wit_12_2_split_goal_7.
+Proof.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_12_2_split_goal_8 : multipleKnapsack_entail_wit_12_2_split_goal_8.
+Proof.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
+Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_13_split_goal_1 : multipleKnapsack_entail_wit_13_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  exact (PreH49 idx H).
+LLM_pre_process ltac:(lia || int_auto).
+eapply MKItemResidueProgressSemantics_next_residue__g09; eauto; lia.
 Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_13_split_goal_2 : multipleKnapsack_entail_wit_13_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKQueueAfterDropSemantics in PreH48.
-  unfold MKQueuePendingSemantics.
-  destruct PreH48 as (Hentries & Hinc & Hdec & Hcovers & Hbound).
-  split; [exact Hentries|].
-  split; [exact Hinc|].
-  split; [exact Hdec|].
-  split.
-  - unfold MKQueueCoversWithPending, MKQueueCoversWindow in *.
-    intros. left. eauto.
-  - split; [exact Hbound|]. lia.
+LLM_pre_process ltac:(lia || int_auto). all: try solve [mk_simple].
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_14_split_goal_1 : multipleKnapsack_entail_wit_14_split_goal_1.
+Proof.
+LLM_pre_process ltac:(lia || int_auto).
+assert (Htable : MKDPTable weights_l values_l counts_l i capacity_pre old_l_2) by mk_table.
+assert (Hprogress : MKItemResidueProgress old_l_2 dp_l_2 r w v cnt capacity_pre).
+{ apply MKItemResidueProgress_from_safety_semantics__g10; [|assumption].
+  unfold MKItemResidueProgressSafety. repeat split; lia. }
+pose proof (MKItemResidueProgress_complete_implies_MKDPTable_next_item
+ weights_l values_l counts_l i capacity_pre old_l_2 dp_l_2 r w v cnt
+ ltac:(lia) ltac:(lia) ltac:(lia) ltac:(assumption) ltac:(assumption)
+ ltac:(assumption) ltac:(mk_item_bounds) ltac:(lia) Htable Hprogress) as Hnext.
+unfold MKDPTable, MKDPTableSemantics in *. tauto.
+Qed.
+
+Lemma proof_of_multipleKnapsack_safety_wit_15 : multipleKnapsack_safety_wit_15.
+Proof.
+aggressive_pre_process.
+- Goal_apply proof_of_multipleKnapsack_safety_wit_15_split_goal_1.
+- Goal_apply proof_of_multipleKnapsack_safety_wit_15_split_goal_2.
+Qed.
+
+Lemma proof_of_multipleKnapsack_safety_wit_24 : multipleKnapsack_safety_wit_24.
+Proof.
+  unfold multipleKnapsack_safety_wit_24; left; intros.
+  mk_push capacity_pre.
+  pose proof (MKQueueState_head_bound _ _ _ _ _ _ _ _ _ _ _ Hresult ltac:(lia)) as Hb.
+  replace (k + 1 - 1) with k in Hb by lia.
+  split_pures; dump_pre_spatial; try change INT_MAX with 2147483647; try change INT_MIN with (-2147483648); lia.
+Qed.
+
+Lemma proof_of_multipleKnapsack_safety_wit_26 : multipleKnapsack_safety_wit_26.
+Proof.
+  unfold multipleKnapsack_safety_wit_26; left; intros.
+  mk_push capacity_pre.
+  pose proof (MKQueueState_head_bound _ _ _ _ _ _ _ _ _ _ _ Hresult ltac:(lia)) as Hb.
+  replace (k + 1 - 1) with k in Hb by lia.
+  split_pures; dump_pre_spatial; try change INT_MAX with 2147483647; try change INT_MIN with (-2147483648); lia.
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_1 : multipleKnapsack_entail_wit_1.
+Proof. aggressive_pre_process.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_1_split_goal_1.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_1_split_goal_5.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_1_split_goal_3.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_1_split_goal_4.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_1_split_goal_5.
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_2 : multipleKnapsack_entail_wit_2.
+Proof. aggressive_pre_process.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_2_split_goal_1.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_2_split_goal_2.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_2_split_goal_3.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_2_split_goal_4.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_2_split_goal_5.
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_3 : multipleKnapsack_entail_wit_3.
+Proof.
+aggressive_pre_process.
+assert (Hj : j = capacity_pre + 1) by lia. subst j.
+Exists qval0 qidx0 old0 dp_l_2.
+split_pure_spatial.
+- replace (Zlength dp_l_2) with (capacity_pre + 1) by lia.
+  sep_apply (IntArray.seg_to_full (&( "dp" )) 0 (capacity_pre + 1) dp_l_2).
+  sep_apply (IntArray.seg_to_full (&( "old" )) 0 (capacity_pre + 1) old0).
+  sep_apply (IntArray.seg_to_full (&( "q_idx" )) 0 (capacity_pre + 1) qidx0).
+  sep_apply (IntArray.seg_to_full (&( "q_val" )) 0 (capacity_pre + 1) qval0).
+  simpl. rewrite !Z.add_0_r, !Z.sub_0_r. cancel.
+- split_pures; dump_pre_spatial; try assumption; try lia.
+  unfold MKDPTableSemantics. intros cap Hcap.
+  pose proof (proj1 (Forall_Znth (eq 0) 0 dp_l_2) PreH15 cap ltac:(lia)) as Hz.
+  rewrite <- Hz. apply MultipleKnapsackPrefixAnswer_zero_items. lia.
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_4 : multipleKnapsack_entail_wit_4.
+Proof.
+aggressive_pre_process.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_4_split_goal_1.
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_5 : multipleKnapsack_entail_wit_5.
+Proof.
+aggressive_pre_process.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_5_split_goal_1.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_5_split_goal_2.
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_6 : multipleKnapsack_entail_wit_6.
+Proof.
+aggressive_pre_process.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_6_split_goal_1.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_6_split_goal_2.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_6_split_goal_3.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_6_split_goal_4.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_6_split_goal_5.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_6_split_goal_6.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_6_split_goal_7.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_6_split_goal_8.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_6_split_goal_9.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_6_split_goal_10.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_6_split_goal_11.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_6_split_goal_12.
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_7 : multipleKnapsack_entail_wit_7.
+Proof.
+aggressive_pre_process.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_7_split_goal_1.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_7_split_goal_2.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_7_split_goal_3.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_7_split_goal_4.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_7_split_goal_5.
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_8 : multipleKnapsack_entail_wit_8.
+Proof.
+aggressive_pre_process.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_8_split_goal_1.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_8_split_goal_2.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_8_split_goal_3.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_8_split_goal_4.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_8_split_goal_5.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_8_split_goal_6.
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_9 : multipleKnapsack_entail_wit_9.
+Proof.
+aggressive_pre_process.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_9_split_goal_1.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_9_split_goal_2.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_9_split_goal_3.
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_10_1 : multipleKnapsack_entail_wit_10_1.
+Proof.
+aggressive_pre_process.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_10_1_split_goal_1.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_10_1_split_goal_2.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_10_1_split_goal_3.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_10_1_split_goal_4.
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_10_2 : multipleKnapsack_entail_wit_10_2.
+Proof.
+aggressive_pre_process.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_10_2_split_goal_1.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_10_2_split_goal_2.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_10_2_split_goal_3.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_10_2_split_goal_4.
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_11 : multipleKnapsack_entail_wit_11.
+Proof.
+aggressive_pre_process.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_11_split_goal_1.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_11_split_goal_2.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_11_split_goal_3.
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_12_1 : multipleKnapsack_entail_wit_12_1.
+Proof.
+  unfold multipleKnapsack_entail_wit_12_1; right; intros.
+  mk_push capacity_pre.
+  pose proof (MKQueueState_head_transition _ _ _ _ _ _ _ _ _ _ _ Hresult ltac:(lia)) as Htrans.
+  replace (k + 1 - 1) with k in Htrans by lia.
+  unfold MKTransitionValue in Htrans.
+  destruct Htrans as (_ & _ & _ & _ & Htrans).
+  assert (Hprefix : MKItemResiduePrefixSemantics old_l_2
+    (replace_Znth (r+k*w) (Znth head (replace_Znth tail current qval_l_2) 0+k*v) dp_l_2)
+    r w v cnt (k+1) capacity_pre).
+  { eapply MKItemResiduePrefixSemantics_after_dp_write__g09 with (pos := r+k*w); try eassumption; try reflexivity; try lia. }
+  assert (Hsemantic : MKQueueResultSemantics old_l_2 (replace_Znth tail k qidx_l_2)
+    (replace_Znth tail current qval_l_2) head (tail+1) r w v cnt (k+1) capacity_pre).
+  { pose proof Hresult as Hstate. clear - Hstate.
+    unfold MKQueueState, MKQueueResultSemantics, MKTransitionValue in Hstate |- *. tauto. }
+  pose proof Hresult as Hbound.
+  unfold MKQueueState in Hbound.
+  destruct Hbound as (_ & _ & _ & _ & _ & _ & _ & _ & _ & _ & _ & _ & Hb & _).
+  split_pure_spatial; [entailer! |].
+  split_pures; dump_pre_spatial; try assumption; try solve [mk_read_bound Hb]; try solve [mk_simple].
+Qed.
+
+Lemma proof_of_multipleKnapsack_entail_wit_12_2 : multipleKnapsack_entail_wit_12_2.
+Proof.
+  unfold multipleKnapsack_entail_wit_12_2; right; intros.
+  mk_push capacity_pre.
+  pose proof (MKQueueState_head_transition _ _ _ _ _ _ _ _ _ _ _ Hresult ltac:(lia)) as Htrans.
+  replace (k + 1 - 1) with k in Htrans by lia.
+  unfold MKTransitionValue in Htrans.
+  destruct Htrans as (_ & _ & _ & _ & Htrans).
+  assert (Hprefix : MKItemResiduePrefixSemantics old_l_2
+    (replace_Znth (r+k*w) (Znth head (replace_Znth tail current qval_l_2) 0+k*v) dp_l_2)
+    r w v cnt (k+1) capacity_pre).
+  { eapply MKItemResiduePrefixSemantics_after_dp_write__g09 with (pos := r+k*w); try eassumption; try reflexivity; try lia. }
+  assert (Hsemantic : MKQueueResultSemantics old_l_2 (replace_Znth tail k qidx_l_2)
+    (replace_Znth tail current qval_l_2) head (tail+1) r w v cnt (k+1) capacity_pre).
+  { pose proof Hresult as Hstate. clear - Hstate.
+    unfold MKQueueState, MKQueueResultSemantics, MKTransitionValue in Hstate |- *. tauto. }
+  pose proof Hresult as Hbound.
+  unfold MKQueueState in Hbound.
+  destruct Hbound as (_ & _ & _ & _ & _ & _ & _ & _ & _ & _ & _ & _ & Hb & _).
+  split_pure_spatial; [entailer! |].
+  split_pures; dump_pre_spatial; try assumption; try solve [mk_read_bound Hb]; try solve [mk_simple].
 Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_13 : multipleKnapsack_entail_wit_13.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_13_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_13_split_goal_2.
-Qed. 
-
-Lemma proof_of_multipleKnapsack_entail_wit_14_split_goal_1 : multipleKnapsack_entail_wit_14_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKQueuePendingSemantics in PreH50.
-  unfold MKQueuePendingSemantics.
-  destruct PreH50 as (Hentries & Hinc & Hdec & Hcovers & Hbound & Hcurrent).
-  split.
-  - unfold MKQueueEntriesValidAfterDrop in *.
-    intros p Hp. apply Hentries. lia.
-  - split.
-    + unfold MKQueueIndexIncreasing in *.
-      intros p q Hpq. apply Hinc. lia.
-    + split.
-      * unfold MKQueueValueDecreasing in *.
-        intros p q Hpq. apply Hdec. lia.
-      * split.
-        -- unfold MKQueueCoversWithPending in *.
-           intros cand Hcand0 Hcandk Hwindow Hlen.
-           specialize (Hcovers cand Hcand0 Hcandk Hwindow Hlen).
-           destruct Hcovers as [Hex | Hcur]; [|right; exact Hcur].
-           destruct Hex as (p & Hp & Hpcand & Hpk & Hpval).
-           destruct (Z_lt_ge_dec p (tail - 1)) as [Hplt | Hpge].
-           ++ left. exists p. lia.
-           ++ right.
-              assert (p = tail - 1) by lia. subst p. lia.
-        -- split.
-           ++ unfold MKQueueResultValueBound in *.
-              intros p Hp. apply Hbound. lia.
-           ++ exact Hcurrent.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_14_split_goal_2 : multipleKnapsack_entail_wit_14_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKQueueDropSafety in *.
-  unfold MKQueueStorageSafety in *.
-  destruct PreH49 as (Hr & Hk & Hstorage).
-  destruct Hstorage as (Hheadtail & Htailk & Htailidx & Hidxlen & Hvallen & Holdlen).
-  repeat split; try assumption; lia.
+aggressive_pre_process.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_13_split_goal_1.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_13_split_goal_2.
 Qed.
 
 Lemma proof_of_multipleKnapsack_entail_wit_14 : multipleKnapsack_entail_wit_14.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_14_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_14_split_goal_2.
-Qed. 
+aggressive_pre_process.
+- Goal_apply proof_of_multipleKnapsack_entail_wit_14_split_goal_1.
+Qed.
 
-Lemma proof_of_multipleKnapsack_entail_wit_15_1_split_goal_1 : multipleKnapsack_entail_wit_15_1_split_goal_1.
+Lemma proof_of_multipleKnapsack_entail_wit_15 : multipleKnapsack_entail_wit_15.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  apply PreH50.
-  exact H.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_15_1_split_goal_2 : multipleKnapsack_entail_wit_15_1_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  assert (head = tail) by lia.
-  subst head.
-  rewrite Znth_replace_Znth_Same by (rewrite PreH12; lia).
-  lia.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_15_1_split_goal_3 : multipleKnapsack_entail_wit_15_1_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  assert (head = tail) by lia.
-  subst head.
-  rewrite Znth_replace_Znth_Same by (rewrite PreH12; lia).
-  lia.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_15_1_split_goal_4 : multipleKnapsack_entail_wit_15_1_split_goal_4.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (MKQueuePending_push_complete_outcome__g06
-    old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current pos
-    PreH27 PreH48 PreH49 PreH32 (conj PreH30 PreH31) PreH25 PreH29
-    ltac:(intros; lia)) as (_ & _ & _ & _ & Htransition).
-  rewrite PreH27 in Htransition.
-  exact Htransition.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_15_1_split_goal_5 : multipleKnapsack_entail_wit_15_1_split_goal_5.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (MKQueuePending_push_complete_outcome__g06
-    old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current pos
-    PreH27 PreH48 PreH49 PreH32 (conj PreH30 PreH31) PreH25 PreH29
-    ltac:(intros; lia)) as (_ & _ & _ & Htransition_safe & _).
-  rewrite PreH27 in Htransition_safe.
-  exact Htransition_safe.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_15_1_split_goal_6 : multipleKnapsack_entail_wit_15_1_split_goal_6.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (MKQueuePending_push_complete_outcome__g06
-    old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current pos
-    PreH27 PreH48 PreH49 PreH32 (conj PreH30 PreH31) PreH25 PreH29
-    ltac:(intros; lia)) as (_ & Hresult & _).
-  exact Hresult.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_15_1_split_goal_7 : multipleKnapsack_entail_wit_15_1_split_goal_7.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (MKQueuePending_push_complete_outcome__g06
-    old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current pos
-    PreH27 PreH48 PreH49 PreH32 (conj PreH30 PreH31) PreH25 PreH29
-    ltac:(intros; lia)) as (Hresult & _).
-  exact Hresult.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_15_1_split_goal_8 : multipleKnapsack_entail_wit_15_1_split_goal_8.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  rewrite Zlength_replace_Znth.
-  exact PreH12.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_15_1_split_goal_9 : multipleKnapsack_entail_wit_15_1_split_goal_9.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  rewrite Zlength_replace_Znth.
-  exact PreH11.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_15_1 : multipleKnapsack_entail_wit_15_1.
-Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_15_1_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_15_1_split_goal_2.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_15_1_split_goal_3.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_15_1_split_goal_4.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_15_1_split_goal_5.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_15_1_split_goal_6.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_15_1_split_goal_7.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_15_1_split_goal_8.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_15_1_split_goal_9.
-Qed. 
-
-Lemma proof_of_multipleKnapsack_entail_wit_15_2_split_goal_1 : multipleKnapsack_entail_wit_15_2_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  apply PreH51.
-  lia.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_15_2_split_goal_2 : multipleKnapsack_entail_wit_15_2_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (MKQueuePending_push_complete_outcome__g06
-    old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current pos
-    PreH28 PreH49 PreH50 PreH33 (conj PreH31 PreH32) PreH26 PreH30
-    ltac:(intros; exact PreH1)) as (_ & _ & Hbound & _).
-  exact (proj2 Hbound).
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_15_2_split_goal_3 : multipleKnapsack_entail_wit_15_2_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (MKQueuePending_push_complete_outcome__g06
-    old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current pos
-    PreH28 PreH49 PreH50 PreH33 (conj PreH31 PreH32) PreH26 PreH30
-    ltac:(intros; exact PreH1)) as (_ & _ & Hbound & _).
-  exact (proj1 Hbound).
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_15_2_split_goal_4 : multipleKnapsack_entail_wit_15_2_split_goal_4.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (MKQueuePending_push_complete_outcome__g06
-    old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current pos
-    PreH28 PreH49 PreH50 PreH33 (conj PreH31 PreH32) PreH26 PreH30
-    ltac:(intros; exact PreH1)) as (_ & _ & _ & _ & Htransition).
-  rewrite PreH28 in Htransition.
-  exact Htransition.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_15_2_split_goal_5 : multipleKnapsack_entail_wit_15_2_split_goal_5.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold MKTransitionSafety.
-  repeat split; lia.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_15_2_split_goal_6 : multipleKnapsack_entail_wit_15_2_split_goal_6.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (MKQueuePending_push_complete_outcome__g06
-    old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current pos
-    PreH28 PreH49 PreH50 PreH33 (conj PreH31 PreH32) PreH26 PreH30
-    ltac:(intros; exact PreH1)) as (_ & Hresult & _).
-  exact Hresult.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_15_2_split_goal_7 : multipleKnapsack_entail_wit_15_2_split_goal_7.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (MKQueuePending_push_complete_outcome__g06
-    old_l_2 qidx_l_2 qval_l_2 head tail r w v cnt k capacity_pre current pos
-    PreH28 PreH49 PreH50 PreH33 (conj PreH31 PreH32) PreH26 PreH30
-    ltac:(intros; exact PreH1)) as (Hresult & _).
-  exact Hresult.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_15_2_split_goal_8 : multipleKnapsack_entail_wit_15_2_split_goal_8.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  rewrite Zlength_replace_Znth.
-  exact PreH13.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_15_2_split_goal_9 : multipleKnapsack_entail_wit_15_2_split_goal_9.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  rewrite Zlength_replace_Znth.
-  exact PreH12.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_15_2 : multipleKnapsack_entail_wit_15_2.
-Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_15_2_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_15_2_split_goal_2.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_15_2_split_goal_3.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_15_2_split_goal_4.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_15_2_split_goal_5.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_15_2_split_goal_6.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_15_2_split_goal_7.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_15_2_split_goal_8.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_15_2_split_goal_9.
-Qed. 
-
-Lemma proof_of_multipleKnapsack_entail_wit_16_split_goal_1 : multipleKnapsack_entail_wit_16_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  apply PreH52; assumption.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_16_split_goal_2 : multipleKnapsack_entail_wit_16_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (MKResidueLoopSemantics_after_dp_write__g09
-    old_l_2 dp_l_2 qidx_l_2 qval_l_2 r w v cnt k head tail capacity_pre pos
-    (Znth head qval_l_2 0 + k * v)
-    PreH14 ltac:(lia) PreH26 (conj PreH29 PreH30) PreH8 PreH45 PreH47 PreH49)
-    as Hstep.
-  rewrite PreH26 in Hstep.
-  exact Hstep.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_16_split_goal_3 : multipleKnapsack_entail_wit_16_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (MKResidueLoopSafety_after_dp_write__g09
-    old_l_2 dp_l_2 qidx_l_2 qval_l_2 r w k head tail capacity_pre pos
-    (Znth head qval_l_2 0 + k * v) PreH8 PreH46) as Hstep.
-  rewrite PreH26 in Hstep.
-  exact Hstep.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_16_split_goal_4 : multipleKnapsack_entail_wit_16_split_goal_4.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (MKItemResiduePrefixSemantics_after_dp_write__g09
-    old_l_2 dp_l_2 r w v cnt k capacity_pre pos
-    (Znth head qval_l_2 0 + k * v)
-    ltac:(lia) PreH14 PreH15 PreH26 (conj PreH29 PreH30) PreH8 PreH45 PreH49)
-    as Hstep.
-  rewrite PreH26 in Hstep.
-  exact Hstep.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_16_split_goal_5 : multipleKnapsack_entail_wit_16_split_goal_5.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (MKItemResiduePrefixSafety_after_dp_write__g09
-    old_l_2 dp_l_2 r w cnt k capacity_pre pos
-    (Znth head qval_l_2 0 + k * v) PreH8 PreH44) as Hstep.
-  rewrite PreH26 in Hstep.
-  exact Hstep.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_16_split_goal_6 : multipleKnapsack_entail_wit_16_split_goal_6.
-Proof. LLM_pre_process ltac:(lia || int_auto). Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_16_split_goal_7 : multipleKnapsack_entail_wit_16_split_goal_7.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  rewrite Zlength_replace_Znth; exact PreH8.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_16 : multipleKnapsack_entail_wit_16.
-Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_16_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_16_split_goal_2.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_16_split_goal_3.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_16_split_goal_4.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_16_split_goal_5.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_16_split_goal_6.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_16_split_goal_7.
-Qed. 
-
-Lemma proof_of_multipleKnapsack_entail_wit_17_split_goal_1 : multipleKnapsack_entail_wit_17_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  apply PreH44; assumption.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_17_split_goal_2 : multipleKnapsack_entail_wit_17_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  eapply MKItemResidueProgressSemantics_next_residue__g09; eauto; lia.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_17_split_goal_3 : multipleKnapsack_entail_wit_17_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  eapply MKItemResidueProgressSafety_next_residue__g09; eauto.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_17 : multipleKnapsack_entail_wit_17.
-Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_17_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_17_split_goal_2.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_17_split_goal_3.
-Qed. 
-
-Lemma proof_of_multipleKnapsack_entail_wit_18_split_goal_1 : multipleKnapsack_entail_wit_18_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  apply PreH38; assumption.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_18 : multipleKnapsack_entail_wit_18.
-Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_multipleKnapsack_entail_wit_18_split_goal_1.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_19_split_goal_1 : multipleKnapsack_entail_wit_19_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  apply PreH33; assumption.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_19_split_goal_2 : multipleKnapsack_entail_wit_19_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  assert (Hweights_pos :
-    forall idx, 0 <= idx < Zlength weights_l -> 1 <= Znth idx weights_l 0).
-  { intros idx Hidx.
-    pose proof (PreH33 idx ltac:(lia)) as Hbounds.
-    tauto. }
-  pose proof (MKItemResidue_complete_table__g09
-    weights_l values_l counts_l i capacity_pre old_l_2 dp_l_2 r w v cnt
-    ltac:(lia) ltac:(lia) ltac:(lia) PreH15 PreH16 PreH17 Hweights_pos
-    PreH1 PreH27 PreH28 PreH31 PreH32) as Hnext.
-  exact (proj2 Hnext).
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_19_split_goal_3 : multipleKnapsack_entail_wit_19_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  assert (Hweights_pos :
-    forall idx, 0 <= idx < Zlength weights_l -> 1 <= Znth idx weights_l 0).
-  { intros idx Hidx.
-    pose proof (PreH33 idx ltac:(lia)) as Hbounds.
-    tauto. }
-  pose proof (MKItemResidue_complete_table__g09
-    weights_l values_l counts_l i capacity_pre old_l_2 dp_l_2 r w v cnt
-    ltac:(lia) ltac:(lia) ltac:(lia) PreH15 PreH16 PreH17 Hweights_pos
-    PreH1 PreH27 PreH28 PreH31 PreH32) as Hnext.
-  exact (proj1 Hnext).
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_19 : multipleKnapsack_entail_wit_19.
-Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_19_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_19_split_goal_2.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_19_split_goal_3.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_20_split_goal_1 : multipleKnapsack_entail_wit_20_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  apply PreH25; assumption.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_20 : multipleKnapsack_entail_wit_20.
-Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_multipleKnapsack_entail_wit_20_split_goal_1.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_21_split_goal_1 : multipleKnapsack_entail_wit_21_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  assert (Hi : i = n_pre) by lia.
-  subst i.
-  apply (MKDPTable_final_capacity_implies_MultipleKnapsackAnswer
-    weights_l values_l counts_l capacity_pre dp_l_2 n_pre);
-    try assumption; try lia.
-  apply MKDPTable_from_safety_semantics__g10; assumption.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_21_split_goal_2 : multipleKnapsack_entail_wit_21_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  assert (Hi : i = n_pre) by lia.
-  subst i.
-  exact PreH16.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_21_split_goal_3 : multipleKnapsack_entail_wit_21_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  assert (Hi : i = n_pre) by lia.
-  subst i.
-  exact PreH15.
-Qed.
-
-Lemma proof_of_multipleKnapsack_entail_wit_21 : multipleKnapsack_entail_wit_21.
-Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_21_split_goal_1.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_21_split_goal_2.
-  - Goal_apply proof_of_multipleKnapsack_entail_wit_21_split_goal_3.
+  split_pure_spatial.
+  - sep_apply (IntArray.full_to_undef_full (&( "dp" )) (capacity_pre + 1) dp_l).
+    sep_apply (IntArray.undef_full_to_undef_seg (&( "dp" )) (capacity_pre + 1)).
+    sep_apply (IntArray.undef_seg_merge_to_undef_full (&( "dp" )) 0 (capacity_pre + 1) 1001 ltac:(lia)).
+    sep_apply (IntArray.full_to_undef_full (&( "old" )) (capacity_pre + 1) old_l).
+    sep_apply (IntArray.undef_full_to_undef_seg (&( "old" )) (capacity_pre + 1)).
+    sep_apply (IntArray.undef_seg_merge_to_undef_full (&( "old" )) 0 (capacity_pre + 1) 1001 ltac:(lia)).
+    sep_apply (IntArray.full_to_undef_full (&( "q_idx" )) (capacity_pre + 1) qidx_l).
+    sep_apply (IntArray.undef_full_to_undef_seg (&( "q_idx" )) (capacity_pre + 1)).
+    sep_apply (IntArray.undef_seg_merge_to_undef_full (&( "q_idx" )) 0 (capacity_pre + 1) 1001 ltac:(lia)).
+    sep_apply (IntArray.full_to_undef_full (&( "q_val" )) (capacity_pre + 1) qval_l).
+    sep_apply (IntArray.undef_full_to_undef_seg (&( "q_val" )) (capacity_pre + 1)).
+    sep_apply (IntArray.undef_seg_merge_to_undef_full (&( "q_val" )) 0 (capacity_pre + 1) 1001 ltac:(lia)).
+    simpl. rewrite !Z.add_0_r. cancel.
+  - dump_pre_spatial.
+    assert (i = n_pre) by lia. subst i.
+    eapply MKDPTable_final_capacity_implies_MultipleKnapsackAnswer;
+      try eassumption; try lia; try mk_table.
 Qed.

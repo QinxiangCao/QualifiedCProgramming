@@ -8,6 +8,8 @@ Import ListNotations.
 Local Open Scope Z_scope.
 Local Open Scope list_scope.
 
+Require Import Coq.Relations.Relation_Operators Coq.Setoids.Setoid Coq.Classes.Morphisms SetsClass.SetsClass MaxMinLib.MaxMin AUXLib.MonotonicList.
+Module Legacy.
 Definition STOCK_NEG_INF : Z := -1000000000.
 Definition STOCK_MAX_PROFIT : Z := 1000000000.
 Definition StockInitialCell (day stock : Z) : Z :=
@@ -2459,3 +2461,794 @@ Proof.
     ask bid buy sell table days max_stock wait day source stock value
     Hinputs Hshape Hprogress0 Hstockmax Hcell Hvaluerange).
 Qed.
+
+End Legacy.
+
+(* The current contracts expose mathematical properties and separate safety
+   facts. Legacy contains the original proved arithmetic and DP lemmas. *)
+Module Modern.
+Import Legacy.
+(* Monomorphic spelling needed when passing Zlength through C extern map. *)
+Definition StockRowLength : list Z -> Z := @Zlength Z.
+
+Definition StockTradeState := (Z * Z * Z)%type.
+Definition StockTradeStep (ask bid buy sell : list Z) (max_stock wait : Z)
+    (before after : StockTradeState) : Prop :=
+  let '(previous_day, previous_stock, previous_profit) := before in
+  let '(day, stock, profit) := after in
+  (previous_day = 0 /\ previous_stock = 0 /\ previous_profit = 0 /\
+    1 <= day /\ 1 <= stock <= Znth (day - 1) buy 0 /\
+    stock <= max_stock /\ profit = - stock * Znth (day - 1) ask 0) \/
+  (previous_day + wait < day /\
+    ((1 <= stock - previous_stock <= Znth (day - 1) buy 0 /\
+      stock <= max_stock /\
+      profit = previous_profit - (stock - previous_stock) * Znth (day - 1) ask 0) \/
+     (1 <= previous_stock - stock <= Znth (day - 1) sell 0 /\
+      0 <= stock /\
+      profit = previous_profit + (previous_stock - stock) * Znth (day - 1) bid 0))).
+
+Definition StockTradingPath (ask bid buy sell : list Z) (max_stock wait : Z)
+    (day stock profit : Z) : Prop :=
+  exists first_day first_amount,
+    1 <= first_day /\
+    1 <= first_amount <= Znth (first_day - 1) buy 0 /\
+    first_amount <= max_stock /\
+    Relation_Operators.clos_refl_trans StockTradeState (StockTradeStep ask bid buy sell max_stock wait)
+      (first_day, first_amount, - first_amount * Znth (first_day - 1) ask 0)
+      (day, stock, profit).
+
+Definition StockFeasiblePortfolio
+    (ask bid buy sell : list Z) (max_stock wait horizon stock profit : Z) : Prop :=
+  (stock = 0 /\ profit = 0) \/
+  exists last_day, 1 <= last_day <= horizon /\
+    StockTradingPath ask bid buy sell max_stock wait last_day stock profit.
+
+Lemma stock_path_legacy ask bid buy sell max_stock wait day stock profit :
+  StockTradingPath ask bid buy sell max_stock wait day stock profit <->
+  Legacy.StockTradingHistory ask bid buy sell max_stock wait day stock profit.
+Proof.
+  split.
+  - intros [fd [fa [Hfd [Hfa [Hmax Hpath]]]]].
+    set (History := fun state : StockTradeState =>
+      let '(d,s,p) := state in
+      Legacy.StockTradingHistory ask bid buy sell max_stock wait d s p).
+    assert (Htransport : forall x y,
+      Relation_Operators.clos_refl_trans StockTradeState (StockTradeStep ask bid buy sell max_stock wait) x y ->
+      History x -> History y).
+    { intros x y Hreach. induction Hreach; intros Hstart.
+      - destruct x as [[pd ps] pp], y as [[nd ns] np].
+        cbn [History] in *. unfold StockTradeStep in H.
+        destruct H as [[Hpd [Hps [Hpp [Hd [Hs [Hm Hp]]]]]]|[Hwait [Hbuy|Hsell]]].
+        + subst np. constructor; assumption.
+        + destruct Hbuy as [Hb [Hm Hp]]. subst np.
+          replace ns with (ps + (ns - ps)) at 1 by lia.
+          eapply Legacy.StockTradingHistory_buy; eauto; lia.
+        + destruct Hsell as [Hb [Hs Hp]]. subst np.
+          replace ns with (ps - (ps - ns)) at 1 by lia.
+          eapply Legacy.StockTradingHistory_sell; eauto; lia.
+      - exact Hstart.
+      - apply IHHreach2. apply IHHreach1. exact Hstart. }
+    eapply (Htransport _ _ Hpath). cbn [History]. constructor; assumption.
+  - intros H. induction H.
+    + exists day, amount. split; [assumption|]. split; [assumption|]. split; [assumption|]. apply Relation_Operators.rt_refl.
+    + destruct IHStockTradingHistory as [fd [fa [Hfd [Hfa [Hmax Hp]]]]].
+      exists fd, fa. split; [exact Hfd|]. split; [exact Hfa|]. split; [exact Hmax|].
+      eapply Relation_Operators.rt_trans; [exact Hp|]. apply Relation_Operators.rt_step.
+      unfold StockTradeStep. right. split; [assumption|]. left. repeat split; lia.
+    + destruct IHStockTradingHistory as [fd [fa [Hfd [Hfa [Hmax Hp]]]]].
+      exists fd, fa. split; [exact Hfd|]. split; [exact Hfa|]. split; [exact Hmax|].
+      eapply Relation_Operators.rt_trans; [exact Hp|]. apply Relation_Operators.rt_step.
+      unfold StockTradeStep. right. split; [assumption|]. right. repeat split; lia.
+Qed.
+
+Lemma stock_feasible_legacy ask bid buy sell max_stock wait horizon stock profit :
+  StockFeasiblePortfolio ask bid buy sell max_stock wait horizon stock profit <->
+  Legacy.StockFeasiblePortfolio ask bid buy sell max_stock wait horizon stock profit.
+Proof.
+  unfold StockFeasiblePortfolio, Legacy.StockFeasiblePortfolio.
+  setoid_rewrite stock_path_legacy. reflexivity.
+Qed.
+
+Definition StockPortfolioValue (ask bid buy sell : list Z)
+    (max_stock wait horizon stock value : Z) : Prop :=
+  0 <= stock <= max_stock /\
+  ((value = STOCK_NEG_INF /\ ~ exists profit,
+      StockFeasiblePortfolio ask bid buy sell max_stock wait horizon stock profit) \/
+   max_value_of_subset Z.le
+      (fun profit => StockFeasiblePortfolio ask bid buy sell max_stock wait horizon stock profit)
+      (fun profit : Z => profit) value).
+
+Definition StockMaximumProfit (ask bid buy sell : list Z)
+    (days max_stock wait answer : Z) : Prop :=
+  max_value_of_subset Z.le
+    (fun candidate : Z * Z => 0 <= fst candidate <= max_stock /\
+       StockFeasiblePortfolio ask bid buy sell max_stock wait days
+          (fst candidate) (snd candidate))
+    (@snd Z Z) answer.
+
+Definition StockSellCellValue (bid sell : list Z) (table : list (list Z))
+    (max_stock day source stock value : Z) : Prop :=
+  max_value_of_subset Z.le
+    (fun candidate : Z * Z => Legacy.StockSellCandidate bid sell table max_stock day source stock
+       (fst candidate) (snd candidate)) (@snd Z Z) value.
+
+Definition StockBuyCandidate
+    (ask bid buy sell : list Z) (table : list (list Z))
+    (max_stock day source stock amount value : Z) : Prop :=
+  (amount = 0 /\
+   StockSellCellValue bid sell table max_stock day source stock value) \/
+  (1 <= amount <= Znth (day - 1) buy 0 /\
+   amount <= stock /\
+   Znth (stock - amount) (Znth source table []) 0 <> STOCK_NEG_INF /\
+   value =
+     Znth (stock - amount) (Znth source table []) 0 -
+     amount * Znth (day - 1) ask 0).
+
+Definition StockBuyCellValue (ask bid buy sell : list Z) (table : list (list Z))
+    (max_stock day source stock value : Z) : Prop :=
+  max_value_of_subset Z.le
+    (fun candidate : Z * Z => StockBuyCandidate ask bid buy sell table max_stock day source stock
+       (fst candidate) (snd candidate)) (@snd Z Z) value /\
+  exists zero_value, StockSellCellValue bid sell table max_stock day source stock zero_value.
+
+Lemma stock_portfolio_legacy ask bid buy sell max_stock wait horizon stock value :
+  StockPortfolioValue ask bid buy sell max_stock wait horizon stock value <->
+  Legacy.StockPortfolioValue ask bid buy sell max_stock wait horizon stock value.
+Proof.
+  unfold StockPortfolioValue, Legacy.StockPortfolioValue.
+  unfold max_value_of_subset, max_object_of_subset.
+  sets_unfold. cbn.
+  setoid_rewrite stock_feasible_legacy.
+  split; intros [Hstock Hvalue]; split; [exact Hstock| |exact Hstock|].
+  - destruct Hvalue as [Hnone|[p [[Hp Hmax] Heq]]]; [left; exact Hnone|].
+    subst p. right. auto.
+  - destruct Hvalue as [Hnone|[Hv Hmax]]; [left; exact Hnone|].
+    right. exists value. auto.
+Qed.
+
+Lemma stock_maximum_legacy ask bid buy sell days max_stock wait answer :
+  StockMaximumProfit ask bid buy sell days max_stock wait answer <->
+  Legacy.StockMaximumProfit ask bid buy sell days max_stock wait answer.
+Proof.
+  unfold StockMaximumProfit, Legacy.StockMaximumProfit.
+  unfold max_value_of_subset, max_object_of_subset.
+  sets_unfold. cbn.
+  setoid_rewrite stock_feasible_legacy.
+  split.
+  - intros [[stock profit] [[[Hs Hp] Hmax] Heq]]. cbn in *. subst profit.
+    exists stock. split; [exact Hs|]. split; [exact Hp|].
+    intros stock' profit Hstock Hprofit. apply (Hmax (stock',profit)); auto.
+  - intros [stock [Hs [Hp Hmax]]]. exists (stock,answer). cbn.
+    split; [split; [split; assumption|]|reflexivity].
+    intros [stock' profit] [Hstock Hprofit]. cbn in *.
+    apply (Hmax stock' profit); assumption.
+Qed.
+
+Lemma stock_sell_value_legacy bid sell table max_stock day source stock value :
+  StockSellCellValue bid sell table max_stock day source stock value <->
+  Legacy.StockSellCellValue bid sell table max_stock day source stock value.
+Proof.
+  unfold StockSellCellValue, Legacy.StockSellCellValue,
+    max_value_of_subset, max_object_of_subset.
+  sets_unfold. cbn.
+  split.
+  - intros [[amount profit] [[Hp Hmax] Heq]]. cbn in *. subst profit.
+    split; [exists amount; exact Hp|]. intros a p Ha. apply (Hmax (a,p)); exact Ha.
+  - intros [[amount Hp] Hmax]. exists (amount,value). cbn.
+    split; [split|reflexivity]; [exact Hp|]. intros [a p] Ha. apply (Hmax a p); exact Ha.
+Qed.
+
+Lemma stock_buy_candidate_legacy ask bid buy sell table max_stock day source stock amount value :
+  StockBuyCandidate ask bid buy sell table max_stock day source stock amount value <->
+  Legacy.StockBuyCandidate ask bid buy sell table max_stock day source stock amount value.
+Proof.
+  unfold StockBuyCandidate, Legacy.StockBuyCandidate.
+  rewrite stock_sell_value_legacy. reflexivity.
+Qed.
+
+Lemma stock_buy_value_legacy ask bid buy sell table max_stock day source stock value :
+  StockBuyCellValue ask bid buy sell table max_stock day source stock value <->
+  Legacy.StockBuyCellValue ask bid buy sell table max_stock day source stock value.
+Proof.
+  unfold StockBuyCellValue, Legacy.StockBuyCellValue.
+  unfold max_value_of_subset, max_object_of_subset.
+  sets_unfold. cbn.
+  setoid_rewrite stock_buy_candidate_legacy.
+  setoid_rewrite stock_sell_value_legacy.
+  split.
+  - intros [[[amount profit] [[Hp Hmax] Heq]] Hz]. cbn in *. subst profit.
+    split; [split|exact Hz]; [exists amount; exact Hp|].
+    intros a p Ha. apply (Hmax (a,p)); exact Ha.
+  - intros [[[amount Hp] Hmax] Hz]. split; [|exact Hz].
+    exists (amount,value). cbn. split; [split|reflexivity]; [exact Hp|].
+    intros [a p] Ha. apply (Hmax a p); exact Ha.
+Qed.
+
+Definition StockFillRows (table : list (list Z)) (days max_stock row : Z) : Prop :=
+  forall d stock, 0 <= d < row -> 0 <= stock < max_stock + 1 ->
+    Znth stock (Znth d table []) 0 = StockInitialCell d stock.
+Definition StockFillCells (current_row : list Z) (max_stock row col : Z) : Prop :=
+  forall stock, 0 <= stock < col ->
+    Znth stock current_row 0 = StockInitialCell row stock.
+Definition StockDaysDone (ask bid buy sell : list Z) (table : list (list Z))
+    (max_stock wait next_day : Z) : Prop :=
+  forall day stock, 0 <= day < next_day -> 0 <= stock <= max_stock ->
+    StockPortfolioValue ask bid buy sell max_stock wait day stock
+      (Znth stock (Znth day table []) 0).
+Definition StockCopyProgress (ask bid buy sell : list Z) (table : list (list Z))
+    (max_stock wait day col : Z) : Prop :=
+  StockDaysDone ask bid buy sell table max_stock wait day /\
+  Forall2 eq (sublist 0 col (Znth day table []))
+    (sublist 0 col (Znth (day - 1) table [])).
+Definition StockEarlyBuyProgress (ask bid buy sell : list Z) (table : list (list Z))
+    (max_stock wait day next_stock : Z) : Prop :=
+  StockDaysDone ask bid buy sell table max_stock wait day /\
+  Znth 0 (Znth day table []) 0 = Znth 0 (Znth (day - 1) table []) 0 /\
+  forall stock, 1 <= stock <= max_stock ->
+    if Z_lt_dec stock next_stock then
+      Znth stock (Znth day table []) 0 =
+      Z.max (Znth stock (Znth (day - 1) table []) 0) (-stock * Znth (day - 1) ask 0)
+    else Znth stock (Znth day table []) 0 = Znth stock (Znth (day - 1) table []) 0.
+
+Definition StockSellQueue
+    (table : list (list Z)) (queue : list Z)
+    (source price lower upper head tail : Z) : Prop :=
+  Forall (StockFiniteIndexInWindow table source lower upper) (sublist head tail queue) /\
+  (forall left right, head <= left < right /\ right < tail ->
+     Znth left queue 0 > Znth right queue 0 /\
+     StockSellScore table source price (Znth left queue 0) >
+     StockSellScore table source price (Znth right queue 0)) /\
+  (forall candidate,
+     StockFiniteIndexInWindow table source lower upper candidate ->
+     exists pos, head <= pos < tail /\
+       Znth pos queue 0 <= candidate /\
+       StockSellScore table source price candidate <=
+       StockSellScore table source price (Znth pos queue 0)).
+
+Definition StockSellQueueExpiring
+    (table : list (list Z)) (queue : list Z)
+    (source price lower current_upper head tail : Z) : Prop :=
+  StockSellQueue table queue source price
+    lower (current_upper + 1) head tail \/
+  StockSellQueue table queue source price
+    lower current_upper head tail.
+
+Definition StockSellQueuePopping
+    (table : list (list Z)) (queue : list Z)
+    (source price incoming upper head tail : Z) : Prop :=
+  StockFiniteTableIndex table source incoming /\
+  Forall (StockFiniteIndexInWindow table source (incoming + 1) upper) (sublist head tail queue) /\
+  (forall left right, head <= left < right /\ right < tail ->
+     Znth left queue 0 > Znth right queue 0 /\
+     StockSellScore table source price (Znth left queue 0) >
+     StockSellScore table source price (Znth right queue 0)) /\
+  (forall candidate,
+     StockFiniteIndexInWindow table source incoming upper candidate ->
+     StockSellScore table source price candidate <=
+       StockSellScore table source price incoming \/
+     exists pos, head <= pos < tail /\
+       Znth pos queue 0 <= candidate /\
+       StockSellScore table source price candidate <=
+       StockSellScore table source price (Znth pos queue 0)).
+
+Definition StockSellQueuePending
+    (table : list (list Z)) (queue : list Z)
+    (source price incoming upper head tail : Z) : Prop :=
+  StockSellQueuePopping table queue source price incoming upper head tail /\
+  (head < tail ->
+   StockSellScore table source price incoming <
+   StockSellScore table source price (Znth (tail - 1) queue 0)).
+
+Definition StockBuyQueue
+    (table : list (list Z)) (queue : list Z)
+    (source price lower upper head tail : Z) : Prop :=
+  Forall (StockFiniteIndexInWindow table source lower upper) (sublist head tail queue) /\
+  (forall left right, head <= left < right /\ right < tail ->
+     Znth left queue 0 < Znth right queue 0 /\
+     StockBuyScore table source price (Znth left queue 0) >
+     StockBuyScore table source price (Znth right queue 0)) /\
+  (forall candidate,
+     StockFiniteIndexInWindow table source lower upper candidate ->
+     exists pos, head <= pos < tail /\
+       candidate <= Znth pos queue 0 /\
+       StockBuyScore table source price candidate <=
+       StockBuyScore table source price (Znth pos queue 0)).
+
+Definition StockBuyQueueExpiring
+    (table : list (list Z)) (queue : list Z)
+    (source price current_lower upper head tail : Z) : Prop :=
+  StockBuyQueue table queue source price
+    (current_lower - 1) upper head tail \/
+  StockBuyQueue table queue source price
+    current_lower upper head tail.
+
+Definition StockBuyQueuePopping
+    (table : list (list Z)) (queue : list Z)
+    (source price lower incoming head tail : Z) : Prop :=
+  StockFiniteTableIndex table source incoming /\
+  Forall (StockFiniteIndexInWindow table source lower (incoming - 1)) (sublist head tail queue) /\
+  (forall left right, head <= left < right /\ right < tail ->
+     Znth left queue 0 < Znth right queue 0 /\
+     StockBuyScore table source price (Znth left queue 0) >
+     StockBuyScore table source price (Znth right queue 0)) /\
+  (forall candidate,
+     StockFiniteIndexInWindow table source lower incoming candidate ->
+     StockBuyScore table source price candidate <=
+       StockBuyScore table source price incoming \/
+     exists pos, head <= pos < tail /\
+       candidate <= Znth pos queue 0 /\
+       StockBuyScore table source price candidate <=
+       StockBuyScore table source price (Znth pos queue 0)).
+
+Definition StockBuyQueuePending
+    (table : list (list Z)) (queue : list Z)
+    (source price lower incoming head tail : Z) : Prop :=
+  StockBuyQueuePopping table queue source price lower incoming head tail /\
+  (head < tail ->
+   StockBuyScore table source price incoming <
+   StockBuyScore table source price (Znth (tail - 1) queue 0)).
+
+Definition StockSellProgress
+    (ask bid buy sell : list Z) (table : list (list Z))
+    (max_stock wait day source next_stock : Z) : Prop :=
+  StockDaysDone ask bid buy sell table max_stock wait day /\
+  Forall2 eq (sublist 0 (next_stock + 1) (Znth day table []))
+    (sublist 0 (next_stock + 1) (Znth (day - 1) table [])) /\
+  (forall stock,
+     next_stock < stock < max_stock ->
+     StockSellCellValue bid sell table max_stock day source stock
+       (Znth stock (Znth day table []) 0)) /\
+  Znth max_stock (Znth day table []) 0 =
+    Znth max_stock (Znth (day - 1) table []) 0.
+
+Definition StockBuyProgress
+    (ask bid buy sell : list Z) (table : list (list Z))
+    (max_stock wait day source next_stock : Z) : Prop :=
+  StockDaysDone ask bid buy sell table max_stock wait day /\
+  (forall stock,
+     0 <= stock < next_stock ->
+     StockBuyCellValue ask bid buy sell table max_stock day source stock
+       (Znth stock (Znth day table []) 0)) /\
+  (forall stock,
+     next_stock <= stock <= max_stock ->
+     StockSellCellValue bid sell table max_stock day source stock
+       (Znth stock (Znth day table []) 0)).
+
+Definition StockAnswerProgress (ask bid buy sell : list Z) (table : list (list Z))
+    (days max_stock wait next_stock answer : Z) : Prop :=
+  StockDaysDone ask bid buy sell table max_stock wait (days + 1) /\
+  ((next_stock = 0 /\ answer = 0) \/
+   max_value_of_subset Z.le
+     (fun candidate : Z * Z => 0 <= fst candidate < next_stock /\
+       StockFeasiblePortfolio ask bid buy sell max_stock wait days
+          (fst candidate) (snd candidate)) (@snd Z Z) answer).
+
+Lemma stock_shape_explicit table days max_stock :
+  Legacy.StockTableShape table days max_stock <->
+  Zlength table = days + 1 /\
+  Forall (eq (max_stock + 1)) (map (@Zlength Z) table).
+Proof.
+  unfold Legacy.StockTableShape. rewrite Forall_map, Forall_Znth with (d:=[]).
+  split; intros [Hlen Hrows]; split; [exact Hlen| |exact Hlen|];
+    intros row Hrow; specialize (Hrows row ltac:(lia)); auto.
+Qed.
+Lemma stock_bounds_explicit table days max_stock :
+  Legacy.StockTableShape table days max_stock ->
+  (Legacy.StockTableValuesBounded table days max_stock <->
+   Forall (Forall (Z.le STOCK_NEG_INF)) table /\
+   Forall (Forall (Z.ge STOCK_MAX_PROFIT)) table).
+Proof.
+  intros [Hlen Hrows]. unfold Legacy.StockTableValuesBounded.
+  rewrite !Forall_Znth with (d:=[]).
+  setoid_rewrite (Forall_Znth (Z.le STOCK_NEG_INF) 0).
+  setoid_rewrite (Forall_Znth (Z.ge STOCK_MAX_PROFIT) 0).
+  split.
+  - intros H. split; intros row Hr stock Hs;
+      specialize (Hrows row ltac:(lia)); specialize (H row stock ltac:(lia) ltac:(lia)); lia.
+  - intros [Hl Hu] row stock Hr Hs. specialize (Hrows row Hr).
+    specialize (Hl row ltac:(lia) stock ltac:(lia)).
+    specialize (Hu row ltac:(lia) stock ltac:(lia)). lia.
+Qed.
+Lemma stock_days_facts ask bid buy sell table max_stock wait next :
+  Legacy.StockDaysDone ask bid buy sell table max_stock wait next <->
+  Legacy.StockTableShape table (Zlength ask) max_stock /\
+  Legacy.StockTableValuesBounded table (Zlength ask) max_stock /\
+  0 <= next /\ StockDaysDone ask bid buy sell table max_stock wait next.
+Proof.
+  unfold Legacy.StockDaysDone, StockDaysDone.
+  setoid_rewrite stock_portfolio_legacy. reflexivity.
+Qed.
+Lemma stock_fill_rows_facts table days max_stock row :
+  Legacy.StockFillRows table days max_stock row <->
+  0 <= row <= days + 1 /\ Legacy.StockTableShape table days max_stock /\
+  StockFillRows table days max_stock row.
+Proof.
+  unfold Legacy.StockFillRows, StockFillRows. split.
+  - intros [Hr [Hs H]]. split; [exact Hr|]. split; [exact Hs|].
+    intros d stock Hd Hstock. exact (proj2 (H d stock Hd Hstock)).
+  - intros [Hr [Hs H]]. split; [exact Hr|]. split; [exact Hs|].
+    intros d stock Hd Hstock. split; [destruct Hs as [_ Hrows]; apply Hrows; lia|].
+    apply H; assumption.
+Qed.
+Lemma stock_fill_cells_facts row max_stock day col :
+  Legacy.StockFillCells row max_stock day col <->
+  0 <= col <= max_stock + 1 /\ Zlength row = max_stock + 1 /\
+  StockFillCells row max_stock day col.
+Proof. reflexivity. Qed.
+Lemma stock_Forall2_eq (xs ys : list Z) : Forall2 eq xs ys <-> xs = ys.
+Proof.
+  split; intro H.
+  - induction H; congruence.
+  - subst ys. induction xs; constructor; auto.
+Qed.
+Lemma stock_prefix_eq_Forall2 (xs ys : list Z) count :
+  0 <= count <= Zlength xs -> 0 <= count <= Zlength ys ->
+  (Forall2 eq (sublist 0 count xs) (sublist 0 count ys) <->
+   forall index, 0 <= index < count -> Znth index xs 0 = Znth index ys 0).
+Proof.
+  intros Hxs Hys. rewrite stock_Forall2_eq, (list_eq_ext _ _ 0).
+  rewrite !Zlength_sublist by lia.
+  split.
+  - intros [_ H] index Hindex. specialize (H index ltac:(lia)).
+    rewrite !Znth_sublist0 in H by lia. exact H.
+  - intros H. split; [lia |]. intros index Hindex.
+    rewrite !Znth_sublist0 by lia. apply H. lia.
+Qed.
+Lemma stock_row_prefix_eq_Forall2 table days max_stock day count :
+  Legacy.StockTableShape table days max_stock ->
+  1 <= day <= days -> 0 <= count <= max_stock + 1 ->
+  (Forall2 eq (sublist 0 count (Znth day table []))
+     (sublist 0 count (Znth (day - 1) table [])) <->
+   forall index, 0 <= index < count ->
+     Znth index (Znth day table []) 0 = Znth index (Znth (day - 1) table []) 0).
+Proof.
+  intros [_ Hrows] Hday Hcount. apply stock_prefix_eq_Forall2;
+    rewrite Hrows by lia; lia.
+Qed.
+
+Lemma stock_copy_facts ask bid buy sell table max_stock wait day col :
+  day <= Zlength ask ->
+  (Legacy.StockCopyProgress ask bid buy sell table max_stock wait day col <->
+  Legacy.StockTableShape table (Zlength ask) max_stock /\
+  Legacy.StockTableValuesBounded table (Zlength ask) max_stock /\
+  1 <= day /\ 0 <= col <= max_stock + 1 /\
+  StockCopyProgress ask bid buy sell table max_stock wait day col).
+Proof.
+  intros Hday. unfold Legacy.StockCopyProgress, StockCopyProgress.
+  rewrite stock_days_facts.
+  split; intro H.
+  all: assert (Hshape : Legacy.StockTableShape table (Zlength ask) max_stock) by tauto.
+  all: assert (Hd : 1 <= day <= Zlength ask) by (intuition lia).
+  all: assert (Hcol : 0 <= col <= max_stock + 1) by tauto.
+  all: pose proof (stock_row_prefix_eq_Forall2 table (Zlength ask) max_stock day col Hshape Hd Hcol) as Heq.
+  - rewrite Heq. intuition lia.
+  - rewrite Heq in H. intuition lia.
+Qed.
+Lemma stock_early_facts ask bid buy sell table max_stock wait day next :
+  Legacy.StockEarlyBuyProgress ask bid buy sell table max_stock wait day next <->
+  Legacy.StockTableShape table (Zlength ask) max_stock /\
+  Legacy.StockTableValuesBounded table (Zlength ask) max_stock /\
+  1 <= day /\ 1 <= next <= Znth (day - 1) buy 0 + 1 /\
+  StockEarlyBuyProgress ask bid buy sell table max_stock wait day next.
+Proof.
+  unfold Legacy.StockEarlyBuyProgress, StockEarlyBuyProgress.
+  rewrite stock_days_facts. intuition lia.
+Qed.
+Lemma stock_Forall_sublist (P : Z -> Prop) queue head tail :
+  0 <= head <= tail -> tail <= Zlength queue ->
+  (Forall P (sublist head tail queue) <->
+   forall pos, head <= pos < tail -> P (Znth pos queue 0)).
+Proof.
+  intros Hht Hlen. rewrite Forall_Znth with (d:=0).
+  rewrite Zlength_sublist by lia. split.
+  - intros H pos Hp. specialize (H (pos-head) ltac:(lia)).
+    rewrite Znth_sublist in H by lia.
+    replace (pos-head+head) with pos in H by lia. exact H.
+  - intros H pos Hp. rewrite Znth_sublist by lia. apply H. lia.
+Qed.
+
+Lemma stock_sell_queue_ready_facts table queue source price lower upper head tail :
+  tail <= Zlength queue ->
+  (Legacy.StockSellQueue table queue source price lower upper head tail <->
+   0 <= head <= tail /\ StockSellQueue table queue source price lower upper head tail).
+Proof.
+  intros Hlen. unfold Legacy.StockSellQueue, StockSellQueue.
+  split.
+  - intros H. assert (Hht : 0 <= head <= tail) by tauto.
+    rewrite stock_Forall_sublist by lia. tauto.
+  - intros [Hht H]. rewrite stock_Forall_sublist in H by lia. tauto.
+Qed.
+
+Lemma stock_sell_queue_popping_facts table queue source price incoming upper head tail :
+  tail <= Zlength queue ->
+  (Legacy.StockSellQueuePopping table queue source price incoming upper head tail <->
+   0 <= head <= tail /\ StockSellQueuePopping table queue source price incoming upper head tail).
+Proof.
+  intros Hlen. unfold Legacy.StockSellQueuePopping, StockSellQueuePopping.
+  split.
+  - intros H. assert (Hht : 0 <= head <= tail) by tauto.
+    rewrite stock_Forall_sublist by lia. tauto.
+  - intros [Hht H]. rewrite stock_Forall_sublist in H by lia. tauto.
+Qed.
+
+Lemma stock_sell_queue_expiring_facts table queue source price lower upper head tail :
+  tail <= Zlength queue ->
+  (Legacy.StockSellQueueExpiring table queue source price lower upper head tail <->
+   0 <= head <= tail /\ StockSellQueueExpiring table queue source price lower upper head tail).
+Proof.
+  intros Hlen. unfold Legacy.StockSellQueueExpiring, StockSellQueueExpiring.
+  rewrite !stock_sell_queue_ready_facts by lia. tauto.
+Qed.
+
+Lemma stock_sell_queue_pending_facts table queue source price incoming upper head tail :
+  tail < Zlength queue ->
+  (Legacy.StockSellQueuePending table queue source price incoming upper head tail <->
+   0 <= head <= tail /\ StockSellQueuePending table queue source price incoming upper head tail).
+Proof.
+  intros Hlen. unfold Legacy.StockSellQueuePending, StockSellQueuePending.
+  rewrite !stock_sell_queue_popping_facts by lia. tauto.
+Qed.
+
+Lemma stock_buy_queue_ready_facts table queue source price lower upper head tail :
+  tail <= Zlength queue ->
+  (Legacy.StockBuyQueue table queue source price lower upper head tail <->
+   0 <= head <= tail /\ StockBuyQueue table queue source price lower upper head tail).
+Proof.
+  intros Hlen. unfold Legacy.StockBuyQueue, StockBuyQueue.
+  split.
+  - intros H. assert (Hht : 0 <= head <= tail) by tauto.
+    rewrite stock_Forall_sublist by lia. tauto.
+  - intros [Hht H]. rewrite stock_Forall_sublist in H by lia. tauto.
+Qed.
+
+Lemma stock_buy_queue_popping_facts table queue source price lower incoming head tail :
+  tail <= Zlength queue ->
+  (Legacy.StockBuyQueuePopping table queue source price lower incoming head tail <->
+   0 <= head <= tail /\ StockBuyQueuePopping table queue source price lower incoming head tail).
+Proof.
+  intros Hlen. unfold Legacy.StockBuyQueuePopping, StockBuyQueuePopping.
+  split.
+  - intros H. assert (Hht : 0 <= head <= tail) by tauto.
+    rewrite stock_Forall_sublist by lia. tauto.
+  - intros [Hht H]. rewrite stock_Forall_sublist in H by lia. tauto.
+Qed.
+
+Lemma stock_buy_queue_expiring_facts table queue source price lower upper head tail :
+  tail <= Zlength queue ->
+  (Legacy.StockBuyQueueExpiring table queue source price lower upper head tail <->
+   0 <= head <= tail /\ StockBuyQueueExpiring table queue source price lower upper head tail).
+Proof.
+  intros Hlen. unfold Legacy.StockBuyQueueExpiring, StockBuyQueueExpiring.
+  rewrite !stock_buy_queue_ready_facts by lia. tauto.
+Qed.
+
+Lemma stock_buy_queue_pending_facts table queue source price lower incoming head tail :
+  tail < Zlength queue ->
+  (Legacy.StockBuyQueuePending table queue source price lower incoming head tail <->
+   0 <= head <= tail /\ StockBuyQueuePending table queue source price lower incoming head tail).
+Proof.
+  intros Hlen. unfold Legacy.StockBuyQueuePending, StockBuyQueuePending.
+  rewrite !stock_buy_queue_popping_facts by lia. tauto.
+Qed.
+
+Lemma stock_sell_progress_facts ask bid buy sell table max_stock wait day source next :
+  Legacy.StockSellProgress ask bid buy sell table max_stock wait day source next <->
+  Legacy.StockTableShape table (Zlength ask) max_stock /\
+  Legacy.StockTableValuesBounded table (Zlength ask) max_stock /\
+  1 <= day <= Zlength ask /\ source = day-wait-1 /\ 0 < source < day /\
+  -1 <= next < max_stock /\ StockSellProgress ask bid buy sell table max_stock wait day source next.
+Proof.
+  unfold Legacy.StockSellProgress, StockSellProgress.
+  rewrite stock_days_facts.
+  setoid_rewrite stock_sell_value_legacy.
+  split; intro H.
+  all: assert (Hshape : Legacy.StockTableShape table (Zlength ask) max_stock) by tauto.
+  all: assert (Hday : 1 <= day <= Zlength ask) by tauto.
+  all: assert (Hnext : 0 <= next + 1 <= max_stock + 1) by (intuition lia).
+  all: assert (Heq : Forall2 eq (sublist 0 (next + 1) (Znth day table []))
+                     (sublist 0 (next + 1) (Znth (day - 1) table [])) <->
+    forall stock, 0 <= stock <= next ->
+      Znth stock (Znth day table []) 0 = Znth stock (Znth (day - 1) table []) 0).
+  all: try (rewrite (stock_row_prefix_eq_Forall2 table (Zlength ask) max_stock day (next + 1) Hshape Hday Hnext);
+            split; intros HH index Hindex; apply HH; lia).
+  - rewrite Heq. intuition lia.
+  - rewrite Heq in H. intuition lia.
+Qed.
+
+Lemma stock_buy_progress_facts ask bid buy sell table max_stock wait day source next :
+  Legacy.StockBuyProgress ask bid buy sell table max_stock wait day source next <->
+  Legacy.StockTableShape table (Zlength ask) max_stock /\
+  Legacy.StockTableValuesBounded table (Zlength ask) max_stock /\
+  1 <= day <= Zlength ask /\ source = day-wait-1 /\ 0 < source < day /\
+  1 <= next <= max_stock + 1 /\ StockBuyProgress ask bid buy sell table max_stock wait day source next.
+Proof.
+  unfold Legacy.StockBuyProgress, StockBuyProgress.
+  rewrite stock_days_facts.
+  setoid_rewrite stock_buy_value_legacy.
+  setoid_rewrite stock_sell_value_legacy.
+  intuition lia.
+Qed.
+
+Lemma stock_prefix_maximum_legacy ask bid buy sell max_stock wait days next answer :
+  max_value_of_subset Z.le
+    (fun candidate : Z * Z => 0 <= fst candidate < next /\
+      StockFeasiblePortfolio ask bid buy sell max_stock wait days
+        (fst candidate) (snd candidate)) (@snd Z Z) answer <->
+  0 < next /\
+  (exists stock, 0 <= stock < next /\
+    Legacy.StockFeasiblePortfolio ask bid buy sell max_stock wait days stock answer) /\
+  (forall stock profit, 0 <= stock < next ->
+    Legacy.StockFeasiblePortfolio ask bid buy sell max_stock wait days stock profit ->
+    profit <= answer).
+Proof.
+  unfold max_value_of_subset, max_object_of_subset.
+  sets_unfold. cbn.
+  setoid_rewrite stock_feasible_legacy. split.
+  - intros [[stock profit] [[[Hs Hp] Hmax] Heq]]. cbn in *. subst profit.
+    split; [lia|]. split; [exists stock; auto|].
+    intros s p Hs' Hp'. apply (Hmax (s,p)); auto.
+  - intros [Hnext [[stock [Hs Hp]] Hmax]]. exists (stock,answer). cbn.
+    split; [split|reflexivity]; [auto|].
+    intros [s p] [Hs' Hp']. cbn in *. apply (Hmax s p); assumption.
+Qed.
+Lemma stock_answer_facts ask bid buy sell table days max_stock wait next answer :
+  Legacy.StockAnswerProgress ask bid buy sell table days max_stock wait next answer <->
+  Legacy.StockTableShape table (Zlength ask) max_stock /\
+  Legacy.StockTableValuesBounded table (Zlength ask) max_stock /\
+  0 <= days+1 /\ 0 <= next <= max_stock+1 /\ 0 <= answer /\
+  StockAnswerProgress ask bid buy sell table days max_stock wait next answer.
+Proof.
+  unfold Legacy.StockAnswerProgress, StockAnswerProgress.
+  rewrite stock_days_facts, stock_prefix_maximum_legacy. tauto.
+Qed.
+
+Lemma stock_inputs_from_explicit ask bid buy sell days max_stock :
+  Zlength ask = days -> Zlength bid = days ->
+  Zlength buy = days -> Zlength sell = days ->
+  1 <= days <= 990 -> 1 <= max_stock <= 990 ->
+  Forall (Z.le 1) bid -> Forall (Z.ge 1000) ask -> Forall2 Z.le bid ask ->
+  Forall (Z.le 1) buy -> Forall (Z.ge max_stock) buy ->
+  Forall (Z.le 1) sell -> Forall (Z.ge max_stock) sell ->
+  Legacy.StockInputsBounded ask bid buy sell days max_stock.
+Proof.
+  intros Ha Hb Hu Hs Hd Hm Hbid Hask Hrel Hbuylo Hbuyhi Hselllo Hsellhi.
+  unfold Legacy.StockInputsBounded.
+  split; [exact Ha|]. split; [exact Hb|]. split; [exact Hu|]. split; [exact Hs|].
+  split; [exact Hd|]. split; [exact Hm|]. intros day Hday.
+  pose proof (proj1 (Forall_Znth (Z.le 1) 0 bid) Hbid (day-1) ltac:(lia)).
+  pose proof (proj1 (Forall_Znth (Z.ge 1000) 0 ask) Hask (day-1) ltac:(lia)).
+  pose proof (proj1 (Forall_Znth (Z.le 1) 0 buy) Hbuylo (day-1) ltac:(lia)).
+  pose proof (proj1 (Forall_Znth (Z.ge max_stock) 0 buy) Hbuyhi (day-1) ltac:(lia)).
+  pose proof (proj1 (Forall_Znth (Z.le 1) 0 sell) Hselllo (day-1) ltac:(lia)).
+  pose proof (proj1 (Forall_Znth (Z.ge max_stock) 0 sell) Hsellhi (day-1) ltac:(lia)).
+  apply (proj1 (Forall2_nth_iff _ _ _ _ _ 0 0)) in Hrel.
+  destruct Hrel as [_ Hrel].
+  specialize (Hrel (Z.to_nat (day-1)) ltac:(rewrite Zlength_correct in Hb; lia)).
+  change (Znth (day-1) bid 0 <= Znth (day-1) ask 0) in Hrel. lia.
+Qed.
+
+
+Lemma stock_days_math ask bid buy sell table max_stock wait next :
+  Legacy.StockDaysDone ask bid buy sell table max_stock wait next -> StockDaysDone ask bid buy sell table max_stock wait next.
+Proof.
+  intros H.
+  pose proof (proj1 (stock_days_facts ask bid buy sell table max_stock wait next) H) as HF. tauto.
+Qed.
+
+Lemma stock_fill_rows_math table days max_stock row :
+  Legacy.StockFillRows table days max_stock row -> StockFillRows table days max_stock row.
+Proof.
+  intros H.
+  pose proof (proj1 (stock_fill_rows_facts table days max_stock row) H) as HF. tauto.
+Qed.
+
+Lemma stock_fill_cells_math row max_stock day col :
+  Legacy.StockFillCells row max_stock day col -> StockFillCells row max_stock day col.
+Proof.
+  intros H.
+  pose proof (proj1 (stock_fill_cells_facts row max_stock day col) H) as HF. tauto.
+Qed.
+
+Lemma stock_copy_math ask bid buy sell table max_stock wait day col :
+  day <= Zlength ask ->
+  Legacy.StockCopyProgress ask bid buy sell table max_stock wait day col -> StockCopyProgress ask bid buy sell table max_stock wait day col.
+Proof.
+  intros Hday H.
+  pose proof (proj1 (stock_copy_facts ask bid buy sell table max_stock wait day col Hday) H) as HF. tauto.
+Qed.
+
+Lemma stock_early_math ask bid buy sell table max_stock wait day next :
+  Legacy.StockEarlyBuyProgress ask bid buy sell table max_stock wait day next -> StockEarlyBuyProgress ask bid buy sell table max_stock wait day next.
+Proof.
+  intros H.
+  pose proof (proj1 (stock_early_facts ask bid buy sell table max_stock wait day next) H) as HF. tauto.
+Qed.
+
+Lemma stock_sell_queue_ready_math table queue source price lower upper head tail :
+  tail <= Zlength queue ->
+  Legacy.StockSellQueue table queue source price lower upper head tail -> StockSellQueue table queue source price lower upper head tail.
+Proof.
+  intros Hlen H.
+  pose proof (proj1 (stock_sell_queue_ready_facts table queue source price lower upper head tail Hlen) H) as HF. tauto.
+Qed.
+
+Lemma stock_sell_queue_popping_math table queue source price incoming upper head tail :
+  tail <= Zlength queue ->
+  Legacy.StockSellQueuePopping table queue source price incoming upper head tail -> StockSellQueuePopping table queue source price incoming upper head tail.
+Proof.
+  intros Hlen H.
+  pose proof (proj1 (stock_sell_queue_popping_facts table queue source price incoming upper head tail Hlen) H) as HF. tauto.
+Qed.
+
+Lemma stock_sell_queue_expiring_math table queue source price lower upper head tail :
+  tail <= Zlength queue ->
+  Legacy.StockSellQueueExpiring table queue source price lower upper head tail -> StockSellQueueExpiring table queue source price lower upper head tail.
+Proof.
+  intros Hlen H.
+  pose proof (proj1 (stock_sell_queue_expiring_facts table queue source price lower upper head tail Hlen) H) as HF. tauto.
+Qed.
+
+Lemma stock_sell_queue_pending_math table queue source price incoming upper head tail :
+  tail < Zlength queue ->
+  Legacy.StockSellQueuePending table queue source price incoming upper head tail -> StockSellQueuePending table queue source price incoming upper head tail.
+Proof.
+  intros Hlen H.
+  pose proof (proj1 (stock_sell_queue_pending_facts table queue source price incoming upper head tail Hlen) H) as HF. tauto.
+Qed.
+
+Lemma stock_buy_queue_ready_math table queue source price lower upper head tail :
+  tail <= Zlength queue ->
+  Legacy.StockBuyQueue table queue source price lower upper head tail -> StockBuyQueue table queue source price lower upper head tail.
+Proof.
+  intros Hlen H.
+  pose proof (proj1 (stock_buy_queue_ready_facts table queue source price lower upper head tail Hlen) H) as HF. tauto.
+Qed.
+
+Lemma stock_buy_queue_popping_math table queue source price lower incoming head tail :
+  tail <= Zlength queue ->
+  Legacy.StockBuyQueuePopping table queue source price lower incoming head tail -> StockBuyQueuePopping table queue source price lower incoming head tail.
+Proof.
+  intros Hlen H.
+  pose proof (proj1 (stock_buy_queue_popping_facts table queue source price lower incoming head tail Hlen) H) as HF. tauto.
+Qed.
+
+Lemma stock_buy_queue_expiring_math table queue source price lower upper head tail :
+  tail <= Zlength queue ->
+  Legacy.StockBuyQueueExpiring table queue source price lower upper head tail -> StockBuyQueueExpiring table queue source price lower upper head tail.
+Proof.
+  intros Hlen H.
+  pose proof (proj1 (stock_buy_queue_expiring_facts table queue source price lower upper head tail Hlen) H) as HF. tauto.
+Qed.
+
+Lemma stock_buy_queue_pending_math table queue source price lower incoming head tail :
+  tail < Zlength queue ->
+  Legacy.StockBuyQueuePending table queue source price lower incoming head tail -> StockBuyQueuePending table queue source price lower incoming head tail.
+Proof.
+  intros Hlen H.
+  pose proof (proj1 (stock_buy_queue_pending_facts table queue source price lower incoming head tail Hlen) H) as HF. tauto.
+Qed.
+
+Lemma stock_sell_progress_math ask bid buy sell table max_stock wait day source next :
+  Legacy.StockSellProgress ask bid buy sell table max_stock wait day source next -> StockSellProgress ask bid buy sell table max_stock wait day source next.
+Proof.
+  intros H.
+  pose proof (proj1 (stock_sell_progress_facts ask bid buy sell table max_stock wait day source next) H) as HF. tauto.
+Qed.
+
+Lemma stock_buy_progress_math ask bid buy sell table max_stock wait day source next :
+  Legacy.StockBuyProgress ask bid buy sell table max_stock wait day source next -> StockBuyProgress ask bid buy sell table max_stock wait day source next.
+Proof.
+  intros H.
+  pose proof (proj1 (stock_buy_progress_facts ask bid buy sell table max_stock wait day source next) H) as HF. tauto.
+Qed.
+
+Lemma stock_answer_math ask bid buy sell table days max_stock wait next answer :
+  Legacy.StockAnswerProgress ask bid buy sell table days max_stock wait next answer -> StockAnswerProgress ask bid buy sell table days max_stock wait next answer.
+Proof.
+  intros H.
+  pose proof (proj1 (stock_answer_facts ask bid buy sell table days max_stock wait next answer) H) as HF. tauto.
+Qed.
+
+End Modern.
+
+Export Legacy Modern.

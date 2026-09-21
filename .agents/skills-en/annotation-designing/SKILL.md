@@ -20,7 +20,9 @@ The natural-language specification, Rocq Spec, and C Ensure state the same outpu
 
 Before writing a definition, search the current dependencies, canonical case library, and shared libraries. Directly combine existing predicates such as Zlength, Znth, sublist, replace_Znth, Forall, Forall2, In, NoDup, Permutation, sum, and the existing monotonicity, extrema, path, and array predicates. Do not add successive wrappers around those combinations. When the problem meaning or a cross-function interface needs a name, keep one case predicate and refer to it directly everywhere else.
 
-Expand input ranges, element ranges, and overflow conditions in the function contract. Use With for logical values, Require for entry conditions and resources, and Ensure for the mathematical result and returned resources.
+Result and progress predicates contain mathematics only, without memory ownership, input restrictions, or implementation-safety ranges. Retain the candidate sets, valid domains, and output formats needed to define the answer. Expand input ranges, element ranges, and overflow conditions in the function contract. Use With for logical values and Require for entry conditions and resources. The mathematical part of Ensure promises only the required final result; return spatial resources separately.
+
+Use Z and Z-indexed list interfaces in new specifications, helpers, and annotations, and Forall for index-independent elementwise properties. Extrema must use MaxMinLib's min_value_of_subset / max_value_of_subset. Reuse sum_range / sum / sum_set_R for sums, Zrange for range enumeration, and clos_refl_trans for reflexive-transitive closure; do not redefine these meanings. See [the knowledge rules](docs/spec-and-contract-knowledge.md) for boundaries, signatures, and examples.
 
 Put one Inv Assert before every loop. It contains only mathematical progress, ranges needed by the next execution step, live resources, and necessary @pre bridges. Use an ordinary Assert only when symbolic execution cannot recover state needed downstream; it may appear before an if, but not before a return or an Inv Assert. Do not use by local, branch control, ordinary Inv, multi-invariants, or call where clauses in a function body.
 
@@ -35,4 +37,4 @@ Keep a user-provided specification unchanged. If it must change, describe the fu
 5. When an ordinary Assert is needed, read [ordinary Assert placement](docs/semantic-assert-placement.md).
 6. For concrete patterns, read [the concise predicate examples](docs/internal-predicate-examples.md); read only the relevant binary-answer or algorithm-mirror example when needed.
 
-Follow the workflow's input and write boundaries, commands, retry, report, and finalize-repair contracts. Never edit the proof manual or write proofs.
+Follow the workflow's input/write boundaries, commands, retry, and report contracts. Stop writing after the terminal report; main's `finalize-delivery` performs the complete annotation acceptance against current inputs. Repairs keep the same owner. Never edit or prove manual VCs.

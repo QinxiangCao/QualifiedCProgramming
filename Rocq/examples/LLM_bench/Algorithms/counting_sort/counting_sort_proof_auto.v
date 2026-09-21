@@ -47,9 +47,6 @@ Proof. Admitted.
 Lemma proof_of_sort_safety_wit_9 : sort_safety_wit_9.
 Proof. Admitted. 
 
-Lemma proof_of_sort_safety_wit_10 : sort_safety_wit_10.
-Proof. Admitted. 
-
 Lemma proof_of_sort_safety_wit_11 : sort_safety_wit_11.
 Proof. Admitted. 
 
@@ -78,9 +75,6 @@ Lemma proof_of_sort_safety_wit_19 : sort_safety_wit_19.
 Proof. Admitted. 
 
 Lemma proof_of_sort_safety_wit_20 : sort_safety_wit_20.
-Proof. Admitted. 
-
-Lemma proof_of_sort_entail_wit_5 : sort_entail_wit_5.
 Proof. Admitted. 
 
 Lemma proof_of_sort_partial_solve_wit_1 : sort_partial_solve_wit_1.

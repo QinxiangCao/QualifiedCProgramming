@@ -2,6 +2,7 @@ Require Import Coq.Lists.List.
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.micromega.Lia.
 Require Import AUXLib.ListLib.
+Require Import AUXLib.MonotonicList.
 
 Import ListNotations.
 Local Open Scope Z_scope.
@@ -40,9 +41,7 @@ Definition PrimeIndicatorList (n : Z) (values : list Z) : Prop :=
     [next] have already been written to one. *)
 Definition SieveInitPrefix (n next : Z) (values : list Z) : Prop :=
   Zlength values = n /\
-  forall k : Z,
-    1 <= k < next ->
-    Znth (k - 1) values 0 = 1.
+  Forall (fun value => value = 1) (sublist 0 (next - 1) values).
 
 (** At outer-loop bound [bound], an index greater than one is zero exactly
     when it already has a proper divisor below [bound].  Index one is always
@@ -68,8 +67,6 @@ Definition ProcessedMultiple (factor next k : Z) : Prop :=
     smaller proper divisor, plus the multiples processed in this inner loop. *)
 Definition SieveMarkState
     (n factor next : Z) (values : list Z) : Prop :=
-  2 <= factor /\
-  2 * factor <= next /\
   Z.divide factor next /\
   Zlength values = n /\
   forall k : Z,
@@ -168,8 +165,8 @@ Lemma SieveInitPrefix_start__sieve_invariants :
 Proof.
   intros n values Hlen.
   split; [exact Hlen |].
-  intros k Hrange.
-  lia.
+  change (Forall (fun value : Z => value = 1) nil).
+  constructor.
 Qed.
 Lemma SieveInitPrefix_step__sieve_invariants :
   forall (n next : Z) (values : list Z),
@@ -182,13 +179,21 @@ Proof.
   split.
   - rewrite Zlength_replace_Znth.
     exact Hlen.
-  - intros k Hrange.
-    destruct (Z.eq_dec k next) as [-> | Hneq].
+  - apply (proj2 (Forall_Znth _ 0 _)).
+    intros k Hrange.
+    rewrite Zlength_sublist in Hrange
+      by (rewrite ?Zlength_replace_Znth, ?Hlen; lia).
+    rewrite Znth_sublist by lia.
+    replace (k + 0) with k by lia.
+    destruct (Z.eq_dec k (next - 1)) as [-> | Hneq].
     + rewrite Znth_replace_Znth_Same by (rewrite Hlen; lia).
       reflexivity.
     + rewrite Znth_replace_Znth_Diff by (rewrite ?Hlen; lia).
-      apply Hprefix.
-      lia.
+      pose proof (proj1 (Forall_Znth _ 0 _) Hprefix k
+        ltac:(rewrite Zlength_sublist by (rewrite ?Hlen; lia); lia)) as Hone.
+      rewrite Znth_sublist in Hone by lia.
+      replace (k + 0) with k in Hone by lia.
+      exact Hone.
 Qed.
 Lemma SieveInitPrefix_finish__sieve_invariants :
   forall (n next : Z) (values : list Z),
@@ -227,8 +232,11 @@ Proof.
         -- rewrite Znth_replace_Znth_Diff
              by (rewrite ?Zlength_replace_Znth, ?Hlen; lia).
            rewrite Znth_replace_Znth_Diff by (rewrite ?Hlen; lia).
-           apply Hprefix.
-           lia.
+           pose proof (proj1 (Forall_Znth _ 0 _) Hprefix (k - 1)
+             ltac:(rewrite Zlength_sublist by (rewrite ?Hlen; lia); lia)) as Hone.
+           rewrite Znth_sublist in Hone by lia.
+           replace (k - 1 + 0) with (k - 1) in Hone by lia.
+           exact Hone.
 Qed.
 Lemma SieveStage_mark_start__sieve_invariants :
   forall (n factor : Z) (values : list Z),
@@ -239,8 +247,6 @@ Lemma SieveStage_mark_start__sieve_invariants :
 Proof.
   intros n factor values Hfactor Hfactorn [Hlen Hstage].
   repeat split.
-  - exact Hfactor.
-  - nia.
   - exists 2.
     ring.
   - exact Hlen.
@@ -298,16 +304,16 @@ Proof.
 Qed.
 Lemma SieveMarkState_step__sieve_invariants :
   forall (n factor next : Z) (values : list Z),
+    2 <= factor ->
+    2 * factor <= next ->
     next <= n ->
     SieveMarkState n factor next values ->
     SieveMarkState n factor (next + factor)
       (replace_Znth (next - 1) 0 values).
 Proof.
-  intros n factor next values Hnextn
-    [Hfactor [Hstart [Hnextdiv [Hlen Hmark]]]].
+  intros n factor next values Hfactor Hstart Hnextn
+    [Hnextdiv [Hlen Hmark]].
   repeat split.
-  - exact Hfactor.
-  - lia.
   - destruct Hnextdiv as [q Hq].
     exists (q + 1).
     nia.
@@ -392,12 +398,13 @@ Proof.
 Qed.
 Lemma SieveMarkState_finish__sieve_invariants :
   forall (n factor next : Z) (values : list Z),
+    2 <= factor ->
     n < next ->
     SieveMarkState n factor next values ->
     SieveStage n (factor + 1) values.
 Proof.
-  intros n factor next values Hnnext
-    [Hfactor [Hstart [Hnextdiv [Hlen Hmark]]]].
+  intros n factor next values Hfactor Hnnext
+    [Hnextdiv [Hlen Hmark]].
   split; [exact Hlen |].
   intros k Hrange.
   specialize (Hmark k Hrange).

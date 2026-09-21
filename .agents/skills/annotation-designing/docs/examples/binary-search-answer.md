@@ -29,7 +29,7 @@
 
 ## 推荐的 Spec 形式
 
-先复用 `MaxMinLib`。`CanSplit`、`CannotSplit` 和 `MinimizedMaxSegmentSum` 分别表示判定、否定判定和最终最优值，是题目与 helper 需要的一层接口；不要再为它们增加同义 wrapper：
+最值性必须复用 `MaxMinLib` 的 `min_value_of_subset` / `max_value_of_subset`。`CanSplit`、`CannotSplit` 和 `MinimizedMaxSegmentSum` 分别表示判定、否定判定和最终最优值，是题目与 helper 需要的一层接口；不要再为它们增加同义 wrapper：
 
 ```coq
 Definition CanSplit (l : list Z) (m cap : Z) : Prop := ...
@@ -96,7 +96,7 @@ Inv Assert
 ## 检查清单
 
 - `check` 的返回值是否封装成 `CanX` / `CannotX` 判定性质？
-- 主问题是否直接使用已有最值接口，或只保留一个 `Minimized...` / `Maximized...` 题目 predicate？
+- 主问题是否使用 `MaxMinLib` 的 `min_value_of_subset` / `max_value_of_subset`，必要的 `Minimized...` / `Maximized...` 题目 predicate 内部也直接调用这些接口？
 - 主循环 invariant 是否包含真实答案在 `[left, right]` 内？
 - `ok` 分支是否保留了可行 / 不可行事实、`mid` 范围和边界事实？
 - C annotation 是否描述数学状态，而不是追踪一份 Rocq 版二分程序？

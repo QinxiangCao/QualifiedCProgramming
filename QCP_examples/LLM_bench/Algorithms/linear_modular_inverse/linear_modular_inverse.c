@@ -36,6 +36,7 @@ void linear_modular_inverse(int p, int *inverse)
           PrimeForLinearInverse(p@pre) &&
           2 <= p@pre && p@pre <= 46340 &&
           2 <= i && i <= p@pre &&
+          Zlength(values) == i - 1 &&
           ModularInversePrefix(p@pre, i, values) &&
           IntArray::seg(inverse@pre, 1, i, values) *
           IntArray::undef_seg(inverse@pre, i, p@pre)
@@ -51,14 +52,11 @@ void linear_modular_inverse(int p, int *inverse)
               2 <= i && i < p@pre &&
               quotient == p@pre / i &&
               remainder == p@pre % i &&
-              p@pre == quotient * i + remainder &&
-              1 <= quotient &&
               1 <= remainder && remainder < i &&
               0 < p@pre - quotient && p@pre - quotient < p@pre &&
               0 < values[remainder - 1] &&
               values[remainder - 1] < p@pre &&
-              0 < (p@pre - quotient) * values[remainder - 1] &&
-              (p@pre - quotient) * values[remainder - 1] <= INT_MAX &&
+              Zlength(values) == i - 1 &&
               ModularInversePrefix(p@pre, i, values) &&
               IntArray::seg(inverse@pre, 1, i, values) *
               IntArray::undef_seg(inverse@pre, i, p@pre)

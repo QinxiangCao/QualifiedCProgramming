@@ -32,7 +32,6 @@ require_python_312()
 # The scripts remain standalone files rather than a package.  Resolve the one
 # shared implementation directory only after the no-side-effect runtime gate.
 from pathlib import Path  # noqa: E402
-from typing import Any  # noqa: E402
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -41,54 +40,15 @@ if str(VC_PROVING_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(VC_PROVING_SCRIPTS))
 
 
-import controller_tools as _controller_tools  # noqa: E402
-from controller_artifacts import (  # noqa: E402
-    validate_artifact,
-    validate_artifact_payload,
-)
-from controller_cli import (  # noqa: E402
-    build_parser as _build_parser,
-    public_command_schema,
-)
+from controller_cli import build_parser, public_command_schema  # noqa: E402
 from controller_execution import execute_command  # noqa: E402
-from controller_proving import vc_proving_verify  # noqa: E402
-
-
-# These patchable aliases are retained for the external characterization suite
-# and for maintainers injecting real-tool smoke adapters.  Workflow code takes
-# the selected adapter explicitly; it no longer reaches back into this CLI.
-run_symexec = _controller_tools.run_symexec
-run_coqc_check = _controller_tools.run_coqc_check
-run_coqtop_debug = _controller_tools.run_coqtop_debug
-
-
-def symexec(args: Any) -> int:
-    return _controller_tools.symexec(args, symexec_runner=run_symexec)
-
-
-def coq_check(args: Any) -> int:
-    return _controller_tools.coq_check(args, coq_check_runner=run_coqc_check)
-
-
-def coq_debug(args: Any) -> int:
-    return _controller_tools.coq_debug(
-        args,
-        coq_debug_runner=run_coqtop_debug,
-    )
-
-
-def build_parser() -> Any:
-    return _build_parser(
-        tool_handlers={
-            "symexec": symexec,
-            "coq-check": coq_check,
-            "coq-debug": coq_debug,
-        }
-    )
+from path_utils import fixed_path_under  # noqa: E402
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
+    root = Path(args.main_root).expanduser().absolute() if args.main_root else Path.cwd()
+    args.main_root = str(fixed_path_under(root, root, label="main root"))
     return execute_command(args)
 
 

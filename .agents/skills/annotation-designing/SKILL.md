@@ -20,7 +20,9 @@ description: Controller 首次交付 annotation attempt 或追加失败 VC 时�
 
 写新 definition 前搜索当前依赖、canonical case lib 和公共库。Zlength、Znth、sublist、replace_Znth、Forall、Forall2、In、NoDup、Permutation、sum、已有单调性、最值、路径和数组 predicate 可以直接组合时，不再定义同义 predicate，也不为其组合结果逐层套 wrapper。题目语义或跨函数接口需要名称时只保留一层 case predicate，其他位置直接引用它。
 
-Function spec 直接展开输入范围、元素范围和 overflow 条件；With 管理逻辑值，Require 管理入口条件和资源，Ensure 调用数学结果 predicate 并归还资源。
+结果与进度 predicate 只表达数学性质，不混入内存 ownership、输入限制或实现安全范围。题目定义答案所需的候选集合、有效域和输出格式仍须保留。Function spec 直接展开输入范围、元素范围和 overflow 条件；With 管理逻辑值，Require 管理入口条件和资源，Ensure 的数学部分只承诺需要的最终结果，空间资源单独归还。
+
+新 spec、helper 和 annotation 统一使用 Z 与 Z-indexed list 接口；与下标无关的逐元素性质使用 Forall。最值必须使用 MaxMinLib 的 min_value_of_subset / max_value_of_subset；求和、区间枚举与自反传递闭包分别复用 sum_range / sum / sum_set_R、Zrange、clos_refl_trans，不重写同义定义。边界、签名和示例见[知识规则](docs/spec-and-contract-knowledge.md)。
 
 每个循环前写一条 Inv Assert，只包含当前数学进度、下一次执行需要的范围、仍存活的资源和必要的 @pre bridge。普通 Assert 只在 symbolic execution 无法得到下游必需状态时使用；可按需放在 if 前，不放在 return 或 Inv Assert 前。函数体不使用 by local、branch-control、普通 Inv、multi-inv 或 call where。
 
@@ -35,4 +37,4 @@ Function spec 直接展开输入范围、元素范围和 overflow 条件；With 
 5. 需要普通 Assert 时读取 [普通 Assert 的放置](docs/semantic-assert-placement.md)。
 6. 需要具体例子时读取 [精简 predicate 示例](docs/internal-predicate-examples.md)；二分答案或算法镜像只读取对应 examples。
 
-严格遵循 workflow 的输入、写入边界、命令、retry、报告与 finalize-repair 合同。不要修改 proof manual，不写 proof。
+严格遵循 workflow 的输入、写入边界、命令、retry 与报告合同。写 terminal report 后停止写入，由 main 的 `finalize-delivery` 对当前输入完成整次 annotation 验收；修复继续使用同一 owner。不要修改或证明 manual VC。

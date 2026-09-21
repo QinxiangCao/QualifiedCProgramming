@@ -1,6 +1,8 @@
 From SimpleC.EE.LLM_bench.Algorithms.concatenating_numbers_dp Require Import concatenating_numbers_dp_goal concatenating_numbers_dp_proof_auto concatenating_numbers_dp_proof_manual.
 
 Module VC_Correctness : VC_Correct.
+  Include array2_strategy_proof.
+  Include int_array_strategy_proof.
   Include concatenating_numbers_dp_proof_auto.
   Include concatenating_numbers_dp_proof_manual.
 End VC_Correctness.

@@ -982,3 +982,47 @@ Proof.
       apply PaintHouseIIValidColoring_to_PrefixCost__answer; [lia | exact Hvalid].
   - symmetry; exact Hbest_cost.
 Qed.
+
+(** Mathematical contracts exposed to C; execution bounds remain explicit in
+    the annotation.  Existing proof-support definitions above are unchanged. *)
+Definition PaintHouseIILegalColoring (k n : Z) (colors : list Z) : Prop :=
+  Zlength colors = n /\
+  Forall (fun color => 0 <= color < k) colors /\
+  (forall i, 0 <= i < n - 1 ->
+    Znth i colors (-1) <> Znth (i + 1) colors (-1)).
+Definition PaintHouseIIOptimalCost (costs : list (list Z)) (n k answer : Z) : Prop :=
+  min_value_of_subset Z.le (PaintHouseIILegalColoring k n)
+    (PaintHouseIIColoringCost costs n) answer.
+Definition PaintHouseIIAlternativeMinimum
+  (costs : list (list Z)) (n k row color value : Z) : Prop :=
+  (row = 0 /\ color = -1 /\ value = 0) \/
+  (1 <= row /\ min_value_of_subset Z.le
+    (fun p : Z * Z => fst p <> color /\
+      PaintHouseIIPrefixCost costs n k row (fst p) (snd p))
+    (fun p : Z * Z => snd p) value).
+Definition PaintHouseIIRowMinima
+  (costs : list (list Z)) (n k row min1 min2 color : Z) : Prop :=
+  (row = 0 /\ min1 = 0 /\ min2 = 0 /\ color = -1) \/
+  (1 <= row /\ PaintHouseIIBestColor costs n k row color min1 /\
+    PaintHouseIIAlternativeMinimum costs n k row color min2).
+Definition PaintHouseIIColorMinima
+  (costs : list (list Z)) (n k row processed old_min1 old_min2 old_color
+    new_min1 new_min2 new_color : Z) : Prop :=
+  PaintHouseIIRowMinima costs n k row old_min1 old_min2 old_color /\
+  ((processed = 0 /\ new_min1 = PaintHouseIIInf /\
+      new_min2 = PaintHouseIIInf /\ new_color = -1) \/
+   (1 <= processed /\ 0 <= new_color < processed /\
+    PaintHouseIIProcessedBestColor costs n k row old_min1 old_min2 old_color
+      processed new_color new_min1 /\
+    ((processed = 1 /\ new_min2 = PaintHouseIIInf) \/
+     (2 <= processed /\ PaintHouseIIProcessedSecondBest costs n k row
+       old_min1 old_min2 old_color processed new_color new_min2)))).
+Definition PaintHouseIICompletedMinima
+  (costs : list (list Z)) (n k row old_min1 old_min2 old_color
+    new_min1 new_min2 new_color : Z) : Prop :=
+  PaintHouseIIColorMinima costs n k row k old_min1 old_min2 old_color
+    new_min1 new_min2 new_color /\
+  PaintHouseIIRowMinima costs n k (row + 1) new_min1 new_min2 new_color.
+
+(** Keep the element type implicit when Zlength is passed to map. *)
+Arguments Zlength {A}.

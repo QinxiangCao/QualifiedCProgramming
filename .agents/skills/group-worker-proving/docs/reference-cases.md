@@ -9,7 +9,7 @@ reference case 只用于借鉴 proof style、tactic sequence 和 helper lemma sh
 - `Rocq/examples/LLM_bench`
 - `QCP_demos_LLM`
 
-允许但不推荐参考 `QCP_demos_human`。只读查看 human case 属于 allowed，不因读取本身产生 blocker。当前 group 是否可接受只取决于 assigned witness、helper/import边界、sealed formal上的controller group validation，以及后续parent verify和final-check；development/exact只作可选preflight。若 formal files 引入 phase contract 不允许的库、import、generated artifact 或其他 formal dependency，才按合同拒绝。
+允许但不推荐参考 `QCP_demos_human`。只读查看 human case 属于 allowed，不因读取本身产生 blocker。当前 group 是否可接受只取决于 assigned witness、helper/import边界、当前 formal上的controller group validation，以及后续parent verify和final-check；development/exact只作可选preflight。若 formal files 引入 phase contract 不允许的库、import、generated artifact 或其他 formal dependency，才按合同拒绝。
 
 ## 可参考内容
 

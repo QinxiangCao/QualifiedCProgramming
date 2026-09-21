@@ -24,8 +24,9 @@ and return that maximum amount.
 descending height order. While scanning the sorted pairs, it tracks the minimum
 and maximum original indices already processed, so the current bar can be
 paired with its farthest eligible endpoint. The implementation runs in
-$O(n\log n)$ time and uses four caller-provided work arrays, through which it
-also returns the sorted height/index workspace.
+$O(n\log n)$ time. It declares four local work arrays, each with capacity
+for 100000 integers, and uses their first $n$ cells. The public inputs are
+`height` and `heightSize`, and the return value is the maximum area.
 
 ## Constraints
 

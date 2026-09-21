@@ -46,7 +46,7 @@ Lemma proof_of_swap_edge_entail_wit_1 : swap_edge_entail_wit_1.
 Proof.
   aggressive_pre_process.
   Goal_apply proof_of_swap_edge_entail_wit_1_split_goal_spatial.
-Qed.
+Qed. 
 
 Lemma proof_of_swap_edge_entail_wit_2_split_goal_spatial : swap_edge_entail_wit_2_split_goal_spatial.
 Proof.
@@ -64,7 +64,7 @@ Lemma proof_of_swap_edge_entail_wit_2 : swap_edge_entail_wit_2.
 Proof.
   aggressive_pre_process.
   Goal_apply proof_of_swap_edge_entail_wit_2_split_goal_spatial.
-Qed.
+Qed. 
 
 Lemma proof_of_swap_edge_return_wit_1_split_goal_spatial : swap_edge_return_wit_1_split_goal_spatial.
 Proof.
@@ -127,7 +127,7 @@ Lemma proof_of_swap_edge_return_wit_1 : swap_edge_return_wit_1.
 Proof.
   aggressive_pre_process.
   Goal_apply proof_of_swap_edge_return_wit_1_split_goal_spatial.
-Qed.
+Qed. 
 
 Lemma proof_of_swap_edge_return_wit_2_split_goal_spatial : swap_edge_return_wit_2_split_goal_spatial.
 Proof.
@@ -224,7 +224,7 @@ Lemma proof_of_swap_edge_return_wit_2 : swap_edge_return_wit_2.
 Proof.
   aggressive_pre_process.
   Goal_apply proof_of_swap_edge_return_wit_2_split_goal_spatial.
-Qed.
+Qed. 
 
 Lemma proof_of_swap_edge_return_wit_3_split_goal_1 : swap_edge_return_wit_3_split_goal_1.
 Proof.
@@ -256,7 +256,7 @@ Proof.
   - Goal_apply proof_of_swap_edge_return_wit_3_split_goal_1.
   - Goal_apply proof_of_swap_edge_return_wit_3_split_goal_2.
   - Goal_apply proof_of_swap_edge_return_wit_3_split_goal_3.
-Qed.
+Qed. 
 
 Lemma proof_of_swap_edge_partial_solve_wit_1_pure_split_goal_1 : swap_edge_partial_solve_wit_1_pure_split_goal_1.
 Proof.
@@ -279,7 +279,7 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_swap_edge_partial_solve_wit_1_pure_split_goal_1.
   - Goal_apply proof_of_swap_edge_partial_solve_wit_1_pure_split_goal_2.
-Qed.
+Qed. 
 
 Lemma proof_of_swap_edge_partial_solve_wit_2_pure_split_goal_1 : swap_edge_partial_solve_wit_2_pure_split_goal_1.
 Proof.
@@ -302,7 +302,7 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_swap_edge_partial_solve_wit_2_pure_split_goal_1.
   - Goal_apply proof_of_swap_edge_partial_solve_wit_2_pure_split_goal_2.
-Qed.
+Qed. 
 
 Lemma proof_of_swap_edge_partial_solve_wit_3_pure_split_goal_1 : swap_edge_partial_solve_wit_3_pure_split_goal_1.
 Proof.
@@ -325,7 +325,7 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_swap_edge_partial_solve_wit_3_pure_split_goal_1.
   - Goal_apply proof_of_swap_edge_partial_solve_wit_3_pure_split_goal_2.
-Qed.
+Qed. 
 
 Lemma proof_of_swap_edge_partial_solve_wit_4_pure_split_goal_1 : swap_edge_partial_solve_wit_4_pure_split_goal_1.
 Proof.
@@ -348,7 +348,7 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_swap_edge_partial_solve_wit_4_pure_split_goal_1.
   - Goal_apply proof_of_swap_edge_partial_solve_wit_4_pure_split_goal_2.
-Qed.
+Qed. 
 
 Lemma proof_of_swap_edge_partial_solve_wit_5_pure_split_goal_1 : swap_edge_partial_solve_wit_5_pure_split_goal_1.
 Proof.
@@ -371,7 +371,7 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_swap_edge_partial_solve_wit_5_pure_split_goal_1.
   - Goal_apply proof_of_swap_edge_partial_solve_wit_5_pure_split_goal_2.
-Qed.
+Qed. 
 
 Lemma proof_of_swap_edge_partial_solve_wit_6_pure_split_goal_1 : swap_edge_partial_solve_wit_6_pure_split_goal_1.
 Proof.
@@ -394,7 +394,7 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_swap_edge_partial_solve_wit_6_pure_split_goal_1.
   - Goal_apply proof_of_swap_edge_partial_solve_wit_6_pure_split_goal_2.
-Qed.
+Qed. 
 
 Lemma proof_of_partitionByWeight_entail_wit_1 : partitionByWeight_entail_wit_1.
 Proof.
@@ -405,7 +405,7 @@ Proof.
   - split_pures; dump_pre_spatial; try assumption; try reflexivity; try lia.
     unfold same_outside_edge_arrays_range.
     intros; repeat split; reflexivity.
-Qed.
+Qed. 
 
 Lemma proof_of_partitionByWeight_entail_wit_2_1 : partitionByWeight_entail_wit_2_1.
 Proof.
@@ -444,7 +444,7 @@ Proof.
   split_pure_spatial.
   - repeat cancel.
   - split_pures; dump_pre_spatial; try assumption; try lia.
-Qed.
+Qed. 
 
 Lemma proof_of_partitionByWeight_entail_wit_2_2 : partitionByWeight_entail_wit_2_2.
 Proof.
@@ -457,7 +457,7 @@ Proof.
   split_pure_spatial.
   - repeat cancel.
   - split_pures; dump_pre_spatial; try assumption; try lia.
-Qed.
+Qed. 
 
 Lemma proof_of_partitionByWeight_return_wit_1 : partitionByWeight_return_wit_1.
 Proof.
@@ -494,7 +494,7 @@ Proof.
   split_pure_spatial.
   - repeat cancel.
   - split_pures; dump_pre_spatial; try assumption; try lia.
-Qed.
+Qed. 
 
 Lemma proof_of_partitionByWeight_partial_solve_wit_3_pure_split_goal_1 : partitionByWeight_partial_solve_wit_3_pure_split_goal_1.
 Proof.
@@ -523,7 +523,7 @@ Proof.
   - Goal_apply proof_of_partitionByWeight_partial_solve_wit_3_pure_split_goal_1.
   - Goal_apply proof_of_partitionByWeight_partial_solve_wit_3_pure_split_goal_2.
   - Goal_apply proof_of_partitionByWeight_partial_solve_wit_3_pure_split_goal_3.
-Qed.
+Qed. 
 
 Lemma proof_of_partitionByWeight_partial_solve_wit_4_pure_split_goal_1 : partitionByWeight_partial_solve_wit_4_pure_split_goal_1.
 Proof.
@@ -552,7 +552,7 @@ Proof.
   - Goal_apply proof_of_partitionByWeight_partial_solve_wit_4_pure_split_goal_1.
   - Goal_apply proof_of_partitionByWeight_partial_solve_wit_4_pure_split_goal_2.
   - Goal_apply proof_of_partitionByWeight_partial_solve_wit_4_pure_split_goal_3.
-Qed.
+Qed. 
 
 Lemma proof_of_quickByWeightRange_return_wit_1 : quickByWeightRange_return_wit_1.
 Proof.
@@ -578,7 +578,7 @@ Proof.
   split_pure_spatial.
   - repeat cancel.
   - split_pures; dump_pre_spatial; try assumption; try lia.
-Qed.
+Qed. 
 
 Lemma proof_of_quickByWeightRange_return_wit_2 : quickByWeightRange_return_wit_2.
 Proof.
@@ -589,7 +589,7 @@ Proof.
   - split_pures; dump_pre_spatial; try assumption; try apply Permutation_refl;
       try (unfold same_outside_edge_arrays_range; intros; repeat split; reflexivity);
       try (eapply edge_arrays_range_sorted_vacuous__quicksort_results; lia).
-Qed.
+Qed. 
 
 Lemma proof_of_quickByWeight_return_wit_1 : quickByWeight_return_wit_1.
 Proof.
@@ -603,7 +603,7 @@ Proof.
   - repeat cancel.
   - split_pures; dump_pre_spatial; try assumption; try lia.
     unfold after_sorted_edge_of_input; tauto.
-Qed.
+Qed. 
 
 Lemma proof_of_quickByWeight_return_wit_2 : quickByWeight_return_wit_2.
 Proof.
@@ -619,133 +619,47 @@ Proof.
   - repeat cancel.
   - split_pures; dump_pre_spatial; try assumption; try apply Permutation_refl.
     unfold after_sorted_edge_of_input; tauto.
-Qed.
+Qed. 
+
+Lemma proof_of_kruskal_entail_wit_1 : kruskal_entail_wit_1.
+Proof.
+  unfold kruskal_entail_wit_1; right.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  pose proof (kruskal_initial_scan_state__kruskal_init
+    n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec
+    orig_w_low_level_spec g_low_level_spec edge_order1
+    (initSt g_low_level_spec) X_low_level_spec
+    PreH10 PreH14 PreH15 eq_refl PreH17)
+    as [Hscan [Hphase [Hconnect [Houtput Hsafe]]]].
+  assert (Hconnect_repr : union_find_connectivity_matches_state
+    g_low_level_spec (initSt g_low_level_spec) repr_of_2).
+  { intros x y Hx Hy. specialize (Hconnect x y Hx Hy).
+    rewrite (PreH5 x), (PreH5 y).
+    - exact Hconnect.
+    - eapply array_graph_vertex_in_uf_domain; eauto.
+    - eapply array_graph_vertex_in_uf_domain; eauto. }
+  Exists (initSt g_low_level_spec) edge_order1.
+  rewrite PreH1.
+  split_pure_spatial.
+  - cancel.
+  - split_pures; dump_pre_spatial; auto; try lia.
+Qed. 
 
 Lemma proof_of_kruskal_entail_wit_2 : kruskal_entail_wit_2.
 Proof.
+  unfold kruskal_entail_wit_2; right.
   LLM_pre_process ltac:(lia || nia || int_auto).
-  - pose proof (kruskal_initial_scan_state__kruskal_init
-      n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec
-      orig_w_low_level_spec g_low_level_spec edge_order_2
-      (initSt g_low_level_spec) X_low_level_spec
-      PreH3 PreH7 PreH8 eq_refl PreH10)
-      as [Hscan [Hphase [Hconnect [Houtput Hsafe]]]].
-    assert (Hconnect_repr :
-      union_find_connectivity_matches_state
-        g_low_level_spec (initSt g_low_level_spec) repr_of_2).
-    {
-      intros x y Hx Hy.
-      specialize (Hconnect x y Hx Hy).
-      rewrite (PreH2 x).
-      rewrite (PreH2 y).
-      - exact Hconnect.
-      - eapply array_graph_vertex_in_uf_domain; eauto.
-      - eapply array_graph_vertex_in_uf_domain; eauto.
-    }
-    Exists repr_of_2 (initSt g_low_level_spec) l_u_sorted l_v_sorted
-      l_w_sorted edge_order_2.
-    split_pure_spatial.
-    + repeat cancel.
-    + split_pures;
-        try (dump_pre_spatial; assumption);
-        try (dump_pre_spatial; exact Hscan);
-        try (dump_pre_spatial; exact Hphase);
-        try (dump_pre_spatial; exact Hconnect_repr);
-        try (dump_pre_spatial; exact Houtput);
-        try (dump_pre_spatial; exact Hsafe);
-        try (dump_pre_spatial; reflexivity);
-        try (dump_pre_spatial; lia).
-Qed.
+  pose proof (sorted_edge_endpoints_range__kruskal_scan_control
+    n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec
+    orig_w_low_level_spec l_u l_v l_w edge_order_2 g_low_level_spec i
+    PreH17 PreH18 PreH19 ltac:(lia)) as [[Hu Hu'] [Hv Hv']].
+  Exists s_2 edge_order_2.
+  split_pure_spatial.
+  - cancel.
+  - split_pures; dump_pre_spatial; auto; try lia.
+Qed. 
 
 Lemma proof_of_kruskal_entail_wit_3 : kruskal_entail_wit_3.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  Exists retval_3 retval_2 retval uf_2
-    (@nil Z) (@nil Z) (@nil Z) repr_of_2 s_2
-    l_u_2 l_v_2 l_w_2 edge_order_2 0 0.
-  split_pure_spatial.
-  - sep_apply_l_atomic
-      (IntArray.undef_full_to_undef_seg retval (n_pre - 1)).
-    sep_apply_l_atomic
-      (IntArray.undef_full_to_undef_seg retval_2 (n_pre - 1)).
-    sep_apply_l_atomic
-      (IntArray.undef_full_to_undef_seg retval_3 (n_pre - 1)).
-    rewrite (IntArray.seg_empty retval 0 0).
-    rewrite (IntArray.seg_empty retval_2 0 0).
-    rewrite (IntArray.seg_empty retval_3 0 0).
-    cancel (((&( "i" ))) # Int |-> 0).
-    cancel (((&( "m" ))) # Int |-> m_pre).
-    cancel (((&( "chosen" ))) # Int |-> 0).
-    cancel (((&( "n" ))) # Int |-> n_pre).
-    cancel (((&( "u" ))) # Ptr |-> u_pre).
-    cancel (((&( "v" ))) # Ptr |-> v_pre).
-    cancel (((&( "w" ))) # Ptr |-> w_pre).
-    cancel (((&( "uf" ))) # Ptr |-> uf_2).
-    cancel (UF uf_2 n_pre repr_of_2).
-    cancel (IntArray.full u_pre m_pre l_u_2).
-    cancel (IntArray.full v_pre m_pre l_v_2).
-    cancel (IntArray.full w_pre m_pre l_w_2).
-    cancel (((&( "out_u" ))) # Ptr |-> retval).
-    cancel (IntArray.undef_seg retval 0 (n_pre - 1)).
-    cancel (((&( "out_v" ))) # Ptr |-> retval_2).
-    cancel (IntArray.undef_seg retval_2 0 (n_pre - 1)).
-    cancel (((&( "out_w" ))) # Ptr |-> retval_3).
-    cancel (IntArray.undef_seg retval_3 0 (n_pre - 1)).
-    split_pure_spatial.
-    + cancel.
-    + split_pures; apply derivable1s_coq_prop_r; reflexivity.
-  - split_pures;
-      try (dump_pre_spatial; assumption);
-      try (dump_pre_spatial; reflexivity);
-      try (dump_pre_spatial; lia).
-Qed.
-
-Lemma proof_of_kruskal_entail_wit_4 : kruskal_entail_wit_4.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  pose proof
-    (sorted_edge_endpoints_range__kruskal_scan_control
-      n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec
-      orig_w_low_level_spec l_u l_v l_w edge_order_2
-      g_low_level_spec i PreH11 PreH12 PreH13 ltac:(lia))
-    as [[Hu_lo Hu_hi] [Hv_lo Hv_hi]].
-  Exists l_out_u_2 l_out_v_2 l_out_w_2 repr_of_2 s_2 edge_order_2
-    l_w l_v l_u.
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures;
-      try (dump_pre_spatial; assumption);
-      try (dump_pre_spatial; reflexivity);
-      try (dump_pre_spatial; lia).
-Qed.
-
-Lemma proof_of_kruskal_entail_wit_5 : kruskal_entail_wit_5.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  Exists l_out_u_2 l_out_v_2 l_out_w_2 s_2 edge_order_2 repr_of_2
-    l_w_2 l_v_2 l_u_2.
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures;
-      try (dump_pre_spatial; assumption);
-      try (dump_pre_spatial; reflexivity);
-      try (dump_pre_spatial; lia).
-Qed.
-
-Lemma proof_of_kruskal_entail_wit_6 : kruskal_entail_wit_6.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  Exists l_out_u_2 l_out_v_2 l_out_w_2 s_2 edge_order_2 repr_of_2
-    l_w_2 l_v_2 l_u_2.
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures;
-      try (dump_pre_spatial; assumption);
-      try (dump_pre_spatial; reflexivity);
-      try (dump_pre_spatial; lia).
-Qed.
-
-Lemma proof_of_kruskal_entail_wit_7 : kruskal_entail_wit_7.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   subst edge_u edge_v edge_w.
@@ -820,9 +734,9 @@ Proof.
         exact Hconn_next | exact Hout_next | exact Hsafe_next |
         exact Hufdiff].
     all: replace (chosen + 1 - 1) with chosen by lia; assumption.
-Qed.
+Qed. 
 
-Lemma proof_of_kruskal_entail_wit_8 : kruskal_entail_wit_8.
+Lemma proof_of_kruskal_entail_wit_4 : kruskal_entail_wit_4.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   assert (Hrepr_eq :
@@ -843,9 +757,9 @@ Proof.
   - repeat cancel.
   - split_pures; dump_pre_spatial;
       try solve [auto | lia | exact Hsame | exact Hscan_next].
-Qed.
+Qed. 
 
-Lemma proof_of_kruskal_entail_wit_9_1 : kruskal_entail_wit_9_1.
+Lemma proof_of_kruskal_entail_wit_5_1 : kruskal_entail_wit_5_1.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   Exists l_out_u1 l_out_v1 l_out_w1 repr_of1 s_next edge_order_2
@@ -856,9 +770,9 @@ Proof.
       try (dump_pre_spatial; assumption);
       try (dump_pre_spatial; reflexivity);
       try (dump_pre_spatial; lia).
-Qed.
+Qed. 
 
-Lemma proof_of_kruskal_entail_wit_9_2 : kruskal_entail_wit_9_2.
+Lemma proof_of_kruskal_entail_wit_5_2 : kruskal_entail_wit_5_2.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   Exists l_out_u_2 l_out_v_2 l_out_w_2 repr_of s edge_order_2
@@ -869,9 +783,9 @@ Proof.
       try (dump_pre_spatial; assumption);
       try (dump_pre_spatial; reflexivity);
       try (dump_pre_spatial; lia).
-Qed.
+Qed. 
 
-Lemma proof_of_kruskal_entail_wit_10 : kruskal_entail_wit_10.
+Lemma proof_of_kruskal_entail_wit_6 : kruskal_entail_wit_6.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
   Exists out_w_2 out_v_2 out_u_2 uf_2
@@ -883,96 +797,113 @@ Proof.
       try (dump_pre_spatial; assumption);
       try (dump_pre_spatial; reflexivity);
       try (dump_pre_spatial; lia).
-Qed.
-
-Lemma proof_of_kruskal_entail_wit_11_1 : kruskal_entail_wit_11_1.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  assert (Hchosen : chosen = n_pre - 1).
-  {
-    eapply kruskal_exhausted_scan_complete__kruskal_exit_result; eauto.
-  }
-  subst chosen.
-  repeat rewrite IntArray.undef_seg_empty.
-  sep_apply_l_atomic (IntArray.seg_to_full out_u 0 (n_pre - 1) l_out_u_2).
-  sep_apply_l_atomic (IntArray.seg_to_full out_v 0 (n_pre - 1) l_out_v_2).
-  sep_apply_l_atomic (IntArray.seg_to_full out_w 0 (n_pre - 1) l_out_w_2).
-  replace (out_u + 0 * sizeof ( INT )) with out_u by lia.
-  replace (out_v + 0 * sizeof ( INT )) with out_v by lia.
-  replace (out_w + 0 * sizeof ( INT )) with out_w by lia.
-  repeat rewrite Z.sub_0_r.
-  Exists l_out_u_2 l_out_v_2 l_out_w_2 repr_of_2 s_2
-    l_u_2 l_v_2 l_w_2 edge_order_2.
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures;
-      try (dump_pre_spatial; assumption);
-      try (dump_pre_spatial; reflexivity);
-      try (dump_pre_spatial; lia).
-Qed.
-
-Lemma proof_of_kruskal_entail_wit_11_2 : kruskal_entail_wit_11_2.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  assert (Hchosen : chosen = n_pre - 1) by lia.
-  subst chosen.
-  repeat rewrite IntArray.undef_seg_empty.
-  sep_apply_l_atomic (IntArray.seg_to_full out_u 0 (n_pre - 1) l_out_u_2).
-  sep_apply_l_atomic (IntArray.seg_to_full out_v 0 (n_pre - 1) l_out_v_2).
-  sep_apply_l_atomic (IntArray.seg_to_full out_w 0 (n_pre - 1) l_out_w_2).
-  replace (out_u + 0 * sizeof ( INT )) with out_u by lia.
-  replace (out_v + 0 * sizeof ( INT )) with out_v by lia.
-  replace (out_w + 0 * sizeof ( INT )) with out_w by lia.
-  repeat rewrite Z.sub_0_r.
-  Exists l_out_u_2 l_out_v_2 l_out_w_2 repr_of_2 s_2
-    l_u_2 l_v_2 l_w_2 edge_order_2.
-  split_pure_spatial.
-  - repeat cancel.
-  - split_pures;
-      try (dump_pre_spatial; assumption);
-      try (dump_pre_spatial; reflexivity);
-      try (dump_pre_spatial; lia).
-Qed.
+Qed. 
 
 Lemma proof_of_kruskal_return_wit_1 : kruskal_return_wit_1.
 Proof.
+  unfold kruskal_return_wit_1; right.
   LLM_pre_process ltac:(lia || nia || int_auto).
-  assert (Hresult :
-    kruskal_result_graph_matches_array l_out_u l_out_v l_out_w
-      g_low_level_spec s.(Kruskal.graph_in_state)).
-  {
-    eapply kruskal_completed_output_graph__kruskal_exit_result; eauto.
-  }
+  assert (Hchosen : chosen = n_pre - 1).
+  { eapply kruskal_exhausted_scan_complete__kruskal_exit_result; eauto. }
+  subst chosen.
+  assert (Hresult : kruskal_result_graph_matches_array l_out_u l_out_v l_out_w
+    g_low_level_spec s.(Kruskal.graph_in_state)).
+  { eapply kruskal_completed_output_graph__kruskal_exit_result; eauto. }
   assert (Hcomplete : ~ exists e, state_selectable_edge g_low_level_spec s e).
-  {
-    eapply kruskal_scan_phase_complete; [exact PreH13 |].
-    rewrite (array_graph_vertex_count _ _ _ _ _ _ PreH9).
-    exact PreH4.
-  }
-  assert (Hsafe :
-    safeExec
-      (kruskal_state_graph_matches s.(Kruskal.graph_in_state))
-      (return tt) X_low_level_spec).
-  {
-    eapply safeExec_Kruskal_complete_return__kruskal_exit_result; eauto.
-  }
-  Exists out_w out_v out_u l_out_u l_out_v l_out_w.
-  Exists l_u_2 l_v_2 l_w_2 edge_order_2 s.(Kruskal.graph_in_state).
+  { eapply kruskal_scan_phase_complete; [exact PreH15 |].
+    rewrite (array_graph_vertex_count _ _ _ _ _ _ PreH11). reflexivity. }
+  assert (Hsafe : safeExec (kruskal_state_graph_matches s.(Kruskal.graph_in_state))
+    (return tt) X_low_level_spec).
+  { eapply safeExec_Kruskal_complete_return__kruskal_exit_result; eauto. }
+  repeat rewrite IntArray.undef_seg_empty.
+  sep_apply_l_atomic (IntArray.seg_to_full out_u 0 (n_pre - 1) l_out_u).
+  sep_apply_l_atomic (IntArray.seg_to_full out_v 0 (n_pre - 1) l_out_v).
+  sep_apply_l_atomic (IntArray.seg_to_full out_w 0 (n_pre - 1) l_out_w).
+  replace (out_u + 0 * sizeof ( INT )) with out_u by lia.
+  replace (out_v + 0 * sizeof ( INT )) with out_v by lia.
+  replace (out_w + 0 * sizeof ( INT )) with out_w by lia.
+  repeat rewrite Z.sub_0_r.
+  Exists l_out_u l_out_v l_out_w edge_order_2 s.(Kruskal.graph_in_state).
   split_pure_spatial.
-  - cancel (&(retval # "mst_tree" ->ₛ "ru") # Ptr |-> out_u).
-    cancel (&(retval # "mst_tree" ->ₛ "rv") # Ptr |-> out_v).
-    cancel (&(retval # "mst_tree" ->ₛ "rw") # Ptr |-> out_w).
-    cancel (IntArray.full u_pre m_pre l_u_2).
-    cancel (IntArray.full v_pre m_pre l_v_2).
-    cancel (IntArray.full w_pre m_pre l_w_2).
-    cancel (IntArray.full out_u (n_pre - 1) l_out_u).
-    cancel (IntArray.full out_v (n_pre - 1) l_out_v).
-    cancel (IntArray.full out_w (n_pre - 1) l_out_w).
-  - split_pures;
-      try (dump_pre_spatial; assumption);
-      try (dump_pre_spatial; exact Hsafe);
-      try (dump_pre_spatial; exact Hresult).
+  - repeat cancel.
+  - split_pures; dump_pre_spatial; auto.
+Qed. 
+
+Lemma proof_of_kruskal_return_wit_2 : kruskal_return_wit_2.
+Proof.
+  unfold kruskal_return_wit_2; right.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  assert (Hchosen : chosen = n_pre - 1).
+  { lia. }
+  subst chosen.
+  assert (Hresult : kruskal_result_graph_matches_array l_out_u l_out_v l_out_w
+    g_low_level_spec s.(Kruskal.graph_in_state)).
+  { eapply kruskal_completed_output_graph__kruskal_exit_result; eauto. }
+  assert (Hcomplete : ~ exists e, state_selectable_edge g_low_level_spec s e).
+  { eapply kruskal_scan_phase_complete; [exact PreH16 |].
+    rewrite (array_graph_vertex_count _ _ _ _ _ _ PreH12). reflexivity. }
+  assert (Hsafe : safeExec (kruskal_state_graph_matches s.(Kruskal.graph_in_state))
+    (return tt) X_low_level_spec).
+  { eapply safeExec_Kruskal_complete_return__kruskal_exit_result; eauto. }
+  Exists s.(Kruskal.graph_in_state).
+  split_pure_spatial.
+  - repeat cancel.
+  - split_pures; dump_pre_spatial; auto.
+Qed. 
+
+Lemma proof_of_kruskal_partial_solve_wit_9_pure_split_goal_1 : kruskal_partial_solve_wit_9_pure_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  pose proof (sorted_edge_endpoints_range__kruskal_scan_control
+    n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec
+    orig_w_low_level_spec l_u l_v l_w edge_order g_low_level_spec i
+    PreH25 PreH26 PreH27 ltac:(lia)) as [[Hu Hu'] [Hv Hv']].
+  dump_pre_spatial; lia.
 Qed.
+
+Lemma proof_of_kruskal_partial_solve_wit_9_pure_split_goal_2 : kruskal_partial_solve_wit_9_pure_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  pose proof (sorted_edge_endpoints_range__kruskal_scan_control
+    n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec
+    orig_w_low_level_spec l_u l_v l_w edge_order g_low_level_spec i
+    PreH25 PreH26 PreH27 ltac:(lia)) as [[Hu Hu'] [Hv Hv']].
+  dump_pre_spatial; lia.
+Qed.
+
+Lemma proof_of_kruskal_partial_solve_wit_9_pure : kruskal_partial_solve_wit_9_pure.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_kruskal_partial_solve_wit_9_pure_split_goal_1.
+  - Goal_apply proof_of_kruskal_partial_solve_wit_9_pure_split_goal_2.
+Qed. 
+
+Lemma proof_of_kruskal_partial_solve_wit_10_pure_split_goal_1 : kruskal_partial_solve_wit_10_pure_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  pose proof (sorted_edge_endpoints_range__kruskal_scan_control
+    n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec
+    orig_w_low_level_spec l_u l_v l_w edge_order g_low_level_spec i
+    PreH30 PreH31 PreH32 ltac:(lia)) as [[Hu Hu'] [Hv Hv']].
+  dump_pre_spatial; lia.
+Qed.
+
+Lemma proof_of_kruskal_partial_solve_wit_10_pure_split_goal_2 : kruskal_partial_solve_wit_10_pure_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  pose proof (sorted_edge_endpoints_range__kruskal_scan_control
+    n_pre m_pre orig_u_low_level_spec orig_v_low_level_spec
+    orig_w_low_level_spec l_u l_v l_w edge_order g_low_level_spec i
+    PreH30 PreH31 PreH32 ltac:(lia)) as [[Hu Hu'] [Hv Hv']].
+  dump_pre_spatial; lia.
+Qed.
+
+Lemma proof_of_kruskal_partial_solve_wit_10_pure : kruskal_partial_solve_wit_10_pure.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_kruskal_partial_solve_wit_10_pure_split_goal_1.
+  - Goal_apply proof_of_kruskal_partial_solve_wit_10_pure_split_goal_2.
+Qed. 
 
 Lemma proof_of_kruskal_derive_high_level_spec_by_low_level_spec : kruskal_derive_high_level_spec_by_low_level_spec.
 Proof.
@@ -1012,4 +943,5 @@ Proof.
     + dump_pre_spatial; assumption.
     + dump_pre_spatial; assumption.
   - repeat (split_pure_spatial || split_pures); dump_pre_spatial; assumption.
-Qed.
+Qed. 
+

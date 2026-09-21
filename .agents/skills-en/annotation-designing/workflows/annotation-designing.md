@@ -21,11 +21,11 @@ On the initial attempt, read:
 - the current agent_input.md;
 - problem context;
 - target C file;
-- canonical formal_case_lib;
+- canonical formal_case_lib when present;
 - current generated manual;
 - annotation_plan.json.
 
-On retry, also read each failed VC's source attempt, name and parent, annotation location, sealed manual, and old gap, together with the original blocker files listed by the handoff.
+On retry, also read each failed VC's source attempt, name and parent, annotation location, historical manual, and old gap, together with the original blocker files listed by the handoff.
 
 Write only:
 
@@ -34,7 +34,7 @@ Write only:
 - the current attempt's annotation_plan.json, agent_output.md, and agent_report.json;
 - generated files refreshed together by the handed-off symexec command.
 
-Do not change ordinary C code, the proof manual, controller state, group files, shared libraries, or another case. Do not write proofs or add Admitted, axioms, or disabled lemmas. Under an absent formal_case_lib policy, keep the candidate path absent.
+Do not change ordinary C code, the proof manual, controller state, group files, shared libraries, or another case. Do not prove manual VCs. Case-library lemmas must have complete proofs, without Admitted, axioms, or disabled lemmas. Under an absent formal_case_lib policy, keep the candidate path absent.
 
 ## 2. Derive the Specification from the Problem
 
@@ -72,7 +72,7 @@ Common shapes:
 - total one-step operation: apply_op and fold;
 - relational one-step operation: relation composition.
 
-Use Z for numbers. Use lists for ordered objects and set predicates for unordered choices. Prefer Forall for elementwise conditions; use Znth or Forall2 when position or correspondence matters.
+Use Z and Z-indexed list interfaces for logical integers, lengths, and indices. Use lists for ordered objects and set predicates for unordered choices. Use Forall for index-independent elementwise conditions and Forall2 for corresponding elements; retain guarded indexed quantification for genuinely position-dependent conditions. See [the knowledge rules](../docs/spec-and-contract-knowledge.md) for detailed semantic boundaries and required library reuse.
 
 Finally map the Rocq specification to C:
 
@@ -169,7 +169,7 @@ After each coherent edit, run the handed-off commands in order:
 2. symexec;
 3. coq-check --target-kind formal-case-lib when the policy is present or create.
 
-Repair the specification, invariant, resource, or lemma corresponding to the first failed VC, then rerun. Only symexec updates generated files.
+Use the handoff's argv/cwd. Repair the specification, invariant, resource, or lemma identified by the actual diagnostic, then decide whether to rerun. Repeated tool errors have no automatic attempt limit or phase transition. Only symexec updates generated files; each invocation generates once in a separate directory and publishes only complete output.
 
 The initial attempt keeps vc_comparisons empty. On retry, record this for every failed VC:
 
@@ -185,7 +185,7 @@ The initial attempt keeps vc_comparisons empty. On retry, record this for every 
       "result": "resolved"
     }
 
-Read the sealed old manual and current manual directly. Compare the propositions' conclusions, pure premises, spatial resources, existentials, and witnesses. When a VC is renamed or split, current lists every VC that carries the old responsibility. A missing old name alone does not resolve the gap.
+Read the historical manual and current manual directly. Compare the propositions' conclusions, pure premises, spatial resources, existentials, and witnesses. When a VC is renamed or split, current lists every VC that carries the old responsibility. A missing old name alone does not resolve the gap.
 
 Keep editing in the current attempt while a result is unresolved. Set the plan to ready only after every failed VC is resolved.
 
@@ -195,6 +195,10 @@ Keep agent_output.md to a short summary of this iteration's changes and VC compa
 
     {"status": "completed"}
 
-A proposal to change a user-provided specification goes only in agent_output.md and is not a terminal report. Tool blockers and structured blockers use the fields supplied by the handoff.
+A proposal to change a user-provided specification goes only in agent_output.md and is not a terminal report. A concrete tool/environment blocker may use `status: blocked` with exactly one `blocker` containing `failure_class`, `kind`, `vcs`, `message`, and `repair_boundary`. Infrastructure failures use `failure_class: infrastructure` and empty `vcs`; the other text fields identify the diagnostic and repair boundary. Continue repairing annotation/specification gaps in the current attempt instead of reporting them as tool failures.
 
-After writing the terminal report, stop editing and ask main to run the original finalize_invocation. If it returns report-repair-required, repair it under the same owner and attempt and rerun that invocation. Do not self-accept, prove, merge, apply, or run final-check.
+After writing the terminal report, stop editing and notify main to run the current `finalize_invocation`. `finalize-delivery` performs report, plan, spec-freeze, current symexec output, and case-library acceptance in one operation. Success accepts this attempt; there is no separate annotation round-check command.
+
+For `report-repair-required`, main dispatches an append action to the same owner. Reread the updated handoff, repair within the current boundary, stop writing, and deliver again. Owners decide from tool diagnostics whether to repair in place or report a blocker; do not self-accept, start proving, merge, apply, or run final-check.
+
+The annotation owner reviews function/loop/predicate summaries and contract semantics. Scripts validate plan shapes and VC comparison identities/coverage rather than infer loop counts, predicate purposes, or overflow conditions. History is reference material; acceptance uses current files. The controller derives the next action from current task status. Owners maintain no state, action, or phase copies.

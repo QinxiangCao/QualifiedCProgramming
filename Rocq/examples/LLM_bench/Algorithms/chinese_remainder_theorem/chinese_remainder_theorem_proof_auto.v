@@ -38,6 +38,9 @@ Proof. Admitted.
 Lemma proof_of_chinese_remainder_theorem_safety_wit_8 : chinese_remainder_theorem_safety_wit_8.
 Proof. Admitted. 
 
+Lemma proof_of_chinese_remainder_theorem_safety_wit_9 : chinese_remainder_theorem_safety_wit_9.
+Proof. Admitted. 
+
 Lemma proof_of_chinese_remainder_theorem_safety_wit_10 : chinese_remainder_theorem_safety_wit_10.
 Proof. Admitted. 
 

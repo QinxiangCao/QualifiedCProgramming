@@ -137,25 +137,13 @@ Proof. Admitted.
 Lemma proof_of_quicksort_xy_points_safety_wit_7 : quicksort_xy_points_safety_wit_7.
 Proof. Admitted. 
 
-Lemma proof_of_quicksort_xy_points_partial_solve_wit_1_pure : quicksort_xy_points_partial_solve_wit_1_pure.
-Proof. Admitted. 
-
 Lemma proof_of_quicksort_xy_points_partial_solve_wit_1 : quicksort_xy_points_partial_solve_wit_1.
-Proof. Admitted. 
-
-Lemma proof_of_quicksort_xy_points_partial_solve_wit_2_pure : quicksort_xy_points_partial_solve_wit_2_pure.
 Proof. Admitted. 
 
 Lemma proof_of_quicksort_xy_points_partial_solve_wit_2 : quicksort_xy_points_partial_solve_wit_2.
 Proof. Admitted. 
 
-Lemma proof_of_quicksort_xy_points_partial_solve_wit_3_pure : quicksort_xy_points_partial_solve_wit_3_pure.
-Proof. Admitted. 
-
 Lemma proof_of_quicksort_xy_points_partial_solve_wit_3 : quicksort_xy_points_partial_solve_wit_3.
-Proof. Admitted. 
-
-Lemma proof_of_quicksort_xy_points_partial_solve_wit_4_pure : quicksort_xy_points_partial_solve_wit_4_pure.
 Proof. Admitted. 
 
 Lemma proof_of_quicksort_xy_points_partial_solve_wit_4 : quicksort_xy_points_partial_solve_wit_4.
@@ -389,13 +377,7 @@ Proof. Admitted.
 Lemma proof_of_convex_hull_float_safety_wit_3 : convex_hull_float_safety_wit_3.
 Proof. Admitted. 
 
-Lemma proof_of_convex_hull_float_partial_solve_wit_1_pure : convex_hull_float_partial_solve_wit_1_pure.
-Proof. Admitted. 
-
 Lemma proof_of_convex_hull_float_partial_solve_wit_1 : convex_hull_float_partial_solve_wit_1.
-Proof. Admitted. 
-
-Lemma proof_of_convex_hull_float_partial_solve_wit_2_pure : convex_hull_float_partial_solve_wit_2_pure.
 Proof. Admitted. 
 
 Lemma proof_of_convex_hull_float_partial_solve_wit_2 : convex_hull_float_partial_solve_wit_2.

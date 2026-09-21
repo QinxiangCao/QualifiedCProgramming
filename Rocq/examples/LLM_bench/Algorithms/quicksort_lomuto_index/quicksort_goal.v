@@ -107,7 +107,7 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 
 .
 
 Definition partition_safety_wit_3 := 
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : ((Znth j l1 0) <= pivot)) (PreH2 : (j < high_pre)) (PreH3 : (pivot = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (Permutation l l1 )) (PreH11 : (same_outside_range l l1 low_pre high_pre )) (PreH12 : ((Znth high_pre l1 0) = pivot)) (PreH13 : forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1 0) <= pivot))) (PreH14 : forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1 0)))) ,
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : ((Znth j l1 0) <= pivot)) (PreH2 : (j < high_pre)) (PreH3 : (pivot = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (Permutation l l1 )) (PreH11 : (same_outside_range l l1 low_pre high_pre )) (PreH12 : ((Znth high_pre l1 0) = pivot)) (PreH13 : (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1)) )) (PreH14 : (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1)) )) ,
   (IntArray.full arr_pre n_pre l1 )
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -122,7 +122,7 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@
 .
 
 Definition partition_safety_wit_4 := 
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : ((Znth j l1 0) <= pivot)) (PreH2 : (j < high_pre)) (PreH3 : (pivot = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (Permutation l l1 )) (PreH11 : (same_outside_range l l1 low_pre high_pre )) (PreH12 : ((Znth high_pre l1 0) = pivot)) (PreH13 : forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1 0) <= pivot))) (PreH14 : forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1 0)))) ,
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : ((Znth j l1 0) <= pivot)) (PreH2 : (j < high_pre)) (PreH3 : (pivot = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (Permutation l l1 )) (PreH11 : (same_outside_range l l1 low_pre high_pre )) (PreH12 : ((Znth high_pre l1 0) = pivot)) (PreH13 : (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1)) )) (PreH14 : (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1)) )) ,
   (IntArray.full arr_pre n_pre (replace_Znth (j) ((Znth ((i + 1 )) (l1) (0))) ((replace_Znth ((i + 1 )) ((Znth (j) (l1) (0))) (l1)))) )
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -137,7 +137,7 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@
 .
 
 Definition partition_safety_wit_5 := 
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : ((Znth j l1 0) > pivot)) (PreH2 : (j < high_pre)) (PreH3 : (pivot = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (Permutation l l1 )) (PreH11 : (same_outside_range l l1 low_pre high_pre )) (PreH12 : ((Znth high_pre l1 0) = pivot)) (PreH13 : forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1 0) <= pivot))) (PreH14 : forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1 0)))) ,
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : ((Znth j l1 0) > pivot)) (PreH2 : (j < high_pre)) (PreH3 : (pivot = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (Permutation l l1 )) (PreH11 : (same_outside_range l l1 low_pre high_pre )) (PreH12 : ((Znth high_pre l1 0) = pivot)) (PreH13 : (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1)) )) (PreH14 : (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1)) )) ,
   (IntArray.full arr_pre n_pre l1 )
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -152,7 +152,7 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@
 .
 
 Definition partition_safety_wit_6 := 
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : (j >= high_pre)) (PreH2 : (pivot = (Znth high_pre l 0))) (PreH3 : (0 <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < n_pre)) (PreH6 : ((low_pre - 1 ) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (Permutation l l1 )) (PreH10 : (same_outside_range l l1 low_pre high_pre )) (PreH11 : ((Znth high_pre l1 0) = pivot)) (PreH12 : forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1 0) <= pivot))) (PreH13 : forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1 0)))) ,
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : (j >= high_pre)) (PreH2 : (pivot = (Znth high_pre l 0))) (PreH3 : (0 <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < n_pre)) (PreH6 : ((low_pre - 1 ) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (Permutation l l1 )) (PreH10 : (same_outside_range l l1 low_pre high_pre )) (PreH11 : ((Znth high_pre l1 0) = pivot)) (PreH12 : (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1)) )) (PreH13 : (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1)) )) ,
   ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "low" ) )) # Int  |-> low_pre)
@@ -166,7 +166,7 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@
 .
 
 Definition partition_safety_wit_7 := 
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : (j >= high_pre)) (PreH2 : (pivot = (Znth high_pre l 0))) (PreH3 : (0 <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < n_pre)) (PreH6 : ((low_pre - 1 ) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (Permutation l l1 )) (PreH10 : (same_outside_range l l1 low_pre high_pre )) (PreH11 : ((Znth high_pre l1 0) = pivot)) (PreH12 : forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1 0) <= pivot))) (PreH13 : forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1 0)))) ,
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : (j >= high_pre)) (PreH2 : (pivot = (Znth high_pre l 0))) (PreH3 : (0 <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < n_pre)) (PreH6 : ((low_pre - 1 ) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (Permutation l l1 )) (PreH10 : (same_outside_range l l1 low_pre high_pre )) (PreH11 : ((Znth high_pre l1 0) = pivot)) (PreH12 : (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1)) )) (PreH13 : (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1)) )) ,
   ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "low" ) )) # Int  |-> low_pre)
@@ -180,7 +180,7 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@
 .
 
 Definition partition_safety_wit_8 := 
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : (j >= high_pre)) (PreH2 : (pivot = (Znth high_pre l 0))) (PreH3 : (0 <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < n_pre)) (PreH6 : ((low_pre - 1 ) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (Permutation l l1 )) (PreH10 : (same_outside_range l l1 low_pre high_pre )) (PreH11 : ((Znth high_pre l1 0) = pivot)) (PreH12 : forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1 0) <= pivot))) (PreH13 : forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1 0)))) ,
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : (j >= high_pre)) (PreH2 : (pivot = (Znth high_pre l 0))) (PreH3 : (0 <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < n_pre)) (PreH6 : ((low_pre - 1 ) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (Permutation l l1 )) (PreH10 : (same_outside_range l l1 low_pre high_pre )) (PreH11 : ((Znth high_pre l1 0) = pivot)) (PreH12 : (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1)) )) (PreH13 : (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1)) )) ,
   (IntArray.full arr_pre n_pre (replace_Znth (high_pre) ((Znth ((i + 1 )) (l1) (0))) ((replace_Znth ((i + 1 )) ((Znth (high_pre) (l1) (0))) (l1)))) )
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -194,7 +194,7 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@
 .
 
 Definition partition_safety_wit_9 := 
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : (j >= high_pre)) (PreH2 : (pivot = (Znth high_pre l 0))) (PreH3 : (0 <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < n_pre)) (PreH6 : ((low_pre - 1 ) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (Permutation l l1 )) (PreH10 : (same_outside_range l l1 low_pre high_pre )) (PreH11 : ((Znth high_pre l1 0) = pivot)) (PreH12 : forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1 0) <= pivot))) (PreH13 : forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1 0)))) ,
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : (j >= high_pre)) (PreH2 : (pivot = (Znth high_pre l 0))) (PreH3 : (0 <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < n_pre)) (PreH6 : ((low_pre - 1 ) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (Permutation l l1 )) (PreH10 : (same_outside_range l l1 low_pre high_pre )) (PreH11 : ((Znth high_pre l1 0) = pivot)) (PreH12 : (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1)) )) (PreH13 : (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1)) )) ,
   (IntArray.full arr_pre n_pre (replace_Znth (high_pre) ((Znth ((i + 1 )) (l1) (0))) ((replace_Znth ((i + 1 )) ((Znth (high_pre) (l1) (0))) (l1)))) )
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -230,8 +230,8 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 
   &&  “ (Permutation l l1 ) ” 
   &&  “ (same_outside_range l l1 low_pre high_pre ) ” 
   &&  “ ((Znth high_pre l1 0) = pivot) ” 
-  &&  “ forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1 0) <= pivot)) ” 
-  &&  “ forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1 0))) ”
+  &&  “ (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1)) ) ” 
+  &&  “ (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1)) ) ”
   &&  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "low" ) )) # Int  |-> low_pre)
@@ -245,8 +245,8 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 
 forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : ((Zlength (l)) = n_pre)) (PreH2 : (0 <= low_pre)) (PreH3 : (low_pre <= high_pre)) (PreH4 : (high_pre < n_pre)) ,
   TT && emp 
 |--
-  “ forall (k_2: Z) , ((((low_pre - 1 ) < k_2) /\ (k_2 < low_pre)) -> ((Znth high_pre l 0) < (Znth k_2 l 0))) ” 
-  &&  “ forall (k: Z) , (((low_pre <= k) /\ (k <= (low_pre - 1 ))) -> ((Znth k l 0) <= (Znth high_pre l 0))) ” 
+  “ (Forall (Z.lt ((Znth high_pre l 0))) (sublist (((low_pre - 1 ) + 1 )) (low_pre) (l)) ) ” 
+  &&  “ (Forall (Z.ge ((Znth high_pre l 0))) (sublist (low_pre) (((low_pre - 1 ) + 1 )) (l)) ) ” 
   &&  “ (same_outside_range l l low_pre high_pre ) ” 
   &&  “ (Permutation l l ) ”
   &&  emp
@@ -254,12 +254,12 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : ((Zlength (
 
 Definition partition_entail_wit_1_split_goal_1 := 
 forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : ((Zlength (l)) = n_pre)) (PreH2 : (0 <= low_pre)) (PreH3 : (low_pre <= high_pre)) (PreH4 : (high_pre < n_pre)) ,
-  forall (k_2: Z) , ((((low_pre - 1 ) < k_2) /\ (k_2 < low_pre)) -> ((Znth high_pre l 0) < (Znth k_2 l 0)))
+  (Forall (Z.lt ((Znth high_pre l 0))) (sublist (((low_pre - 1 ) + 1 )) (low_pre) (l)) )
 .
 
 Definition partition_entail_wit_1_split_goal_2 := 
 forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : ((Zlength (l)) = n_pre)) (PreH2 : (0 <= low_pre)) (PreH3 : (low_pre <= high_pre)) (PreH4 : (high_pre < n_pre)) ,
-  forall (k: Z) , (((low_pre <= k) /\ (k <= (low_pre - 1 ))) -> ((Znth k l 0) <= (Znth high_pre l 0)))
+  (Forall (Z.ge ((Znth high_pre l 0))) (sublist (low_pre) (((low_pre - 1 ) + 1 )) (l)) )
 .
 
 Definition partition_entail_wit_1_split_goal_3 := 
@@ -274,7 +274,7 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : ((Zlength (
 
 Definition partition_entail_wit_2_1 := 
 (
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j_2: Z) (i_2: Z) (pivot_2: Z) (PreH1 : ((Znth j_2 l1_2 0) <= pivot_2)) (PreH2 : (j_2 < high_pre)) (PreH3 : (pivot_2 = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i_2)) (PreH8 : (i_2 < j_2)) (PreH9 : (j_2 <= high_pre)) (PreH10 : (Permutation l l1_2 )) (PreH11 : (same_outside_range l l1_2 low_pre high_pre )) (PreH12 : ((Znth high_pre l1_2 0) = pivot_2)) (PreH13 : forall (k: Z) , (((low_pre <= k) /\ (k <= i_2)) -> ((Znth k l1_2 0) <= pivot_2))) (PreH14 : forall (k_2: Z) , (((i_2 < k_2) /\ (k_2 < j_2)) -> (pivot_2 < (Znth k_2 l1_2 0)))) ,
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j_2: Z) (i_2: Z) (pivot_2: Z) (PreH1 : ((Znth j_2 l1_2 0) <= pivot_2)) (PreH2 : (j_2 < high_pre)) (PreH3 : (pivot_2 = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i_2)) (PreH8 : (i_2 < j_2)) (PreH9 : (j_2 <= high_pre)) (PreH10 : (Permutation l l1_2 )) (PreH11 : (same_outside_range l l1_2 low_pre high_pre )) (PreH12 : ((Znth high_pre l1_2 0) = pivot_2)) (PreH13 : (Forall (Z.ge (pivot_2)) (sublist (low_pre) ((i_2 + 1 )) (l1_2)) )) (PreH14 : (Forall (Z.lt (pivot_2)) (sublist ((i_2 + 1 )) (j_2) (l1_2)) )) ,
   (IntArray.full arr_pre n_pre (replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))) )
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -295,8 +295,8 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1_2: 
   &&  “ (Permutation l l1 ) ” 
   &&  “ (same_outside_range l l1 low_pre high_pre ) ” 
   &&  “ ((Znth high_pre l1 0) = pivot) ” 
-  &&  “ forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1 0) <= pivot)) ” 
-  &&  “ forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1 0))) ”
+  &&  “ (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1)) ) ” 
+  &&  “ (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1)) ) ”
   &&  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "low" ) )) # Int  |-> low_pre)
@@ -307,32 +307,45 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1_2: 
   **  (IntArray.full arr_pre n_pre l1 )
 ) \/
 (
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j_2: Z) (i_2: Z) (pivot_2: Z) (PreH1 : ((Zlength ((replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))))) = n_pre)) (PreH2 : ((Znth j_2 l1_2 0) <= pivot_2)) (PreH3 : (j_2 < high_pre)) (PreH4 : (pivot_2 = (Znth high_pre l 0))) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : ((low_pre - 1 ) <= i_2)) (PreH9 : (i_2 < j_2)) (PreH10 : (j_2 <= high_pre)) (PreH11 : (Permutation l l1_2 )) (PreH12 : (same_outside_range l l1_2 low_pre high_pre )) (PreH13 : ((Znth high_pre l1_2 0) = pivot_2)) (PreH14 : forall (k: Z) , (((low_pre <= k) /\ (k <= i_2)) -> ((Znth k l1_2 0) <= pivot_2))) (PreH15 : forall (k_2: Z) , (((i_2 < k_2) /\ (k_2 < j_2)) -> (pivot_2 < (Znth k_2 l1_2 0)))) ,
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j_2: Z) (i_2: Z) (pivot_2: Z) (PreH1 : ((Zlength ((replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))))) = n_pre)) (PreH2 : ((Znth j_2 l1_2 0) <= pivot_2)) (PreH3 : (j_2 < high_pre)) (PreH4 : (pivot_2 = (Znth high_pre l 0))) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : ((low_pre - 1 ) <= i_2)) (PreH9 : (i_2 < j_2)) (PreH10 : (j_2 <= high_pre)) (PreH11 : (Permutation l l1_2 )) (PreH12 : (same_outside_range l l1_2 low_pre high_pre )) (PreH13 : ((Znth high_pre l1_2 0) = pivot_2)) (PreH14 : (Forall (Z.ge (pivot_2)) (sublist (low_pre) ((i_2 + 1 )) (l1_2)) )) (PreH15 : (Forall (Z.lt (pivot_2)) (sublist ((i_2 + 1 )) (j_2) (l1_2)) )) ,
   TT && emp 
 |--
-  “ ((Znth high_pre (replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))) 0) = pivot_2) ” 
+  “ (Forall (Z.lt (pivot_2)) (sublist (((i_2 + 1 ) + 1 )) ((j_2 + 1 )) ((replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))))) ) ” 
+  &&  “ (Forall (Z.ge (pivot_2)) (sublist (low_pre) (((i_2 + 1 ) + 1 )) ((replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))))) ) ” 
+  &&  “ ((Znth high_pre (replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))) 0) = pivot_2) ” 
   &&  “ (same_outside_range l (replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))) low_pre high_pre ) ” 
   &&  “ (Permutation l (replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))) ) ”
   &&  emp
 ).
 
 Definition partition_entail_wit_2_1_split_goal_1 := 
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j_2: Z) (i_2: Z) (pivot_2: Z) (PreH1 : ((Zlength ((replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))))) = n_pre)) (PreH2 : ((Znth j_2 l1_2 0) <= pivot_2)) (PreH3 : (j_2 < high_pre)) (PreH4 : (pivot_2 = (Znth high_pre l 0))) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : ((low_pre - 1 ) <= i_2)) (PreH9 : (i_2 < j_2)) (PreH10 : (j_2 <= high_pre)) (PreH11 : (Permutation l l1_2 )) (PreH12 : (same_outside_range l l1_2 low_pre high_pre )) (PreH13 : ((Znth high_pre l1_2 0) = pivot_2)) (PreH14 : forall (k: Z) , (((low_pre <= k) /\ (k <= i_2)) -> ((Znth k l1_2 0) <= pivot_2))) (PreH15 : forall (k_2: Z) , (((i_2 < k_2) /\ (k_2 < j_2)) -> (pivot_2 < (Znth k_2 l1_2 0)))) ,
-  ((Znth high_pre (replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))) 0) = pivot_2)
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j_2: Z) (i_2: Z) (pivot_2: Z) (PreH1 : ((Zlength ((replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))))) = n_pre)) (PreH2 : ((Znth j_2 l1_2 0) <= pivot_2)) (PreH3 : (j_2 < high_pre)) (PreH4 : (pivot_2 = (Znth high_pre l 0))) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : ((low_pre - 1 ) <= i_2)) (PreH9 : (i_2 < j_2)) (PreH10 : (j_2 <= high_pre)) (PreH11 : (Permutation l l1_2 )) (PreH12 : (same_outside_range l l1_2 low_pre high_pre )) (PreH13 : ((Znth high_pre l1_2 0) = pivot_2)) (PreH14 : (Forall (Z.ge (pivot_2)) (sublist (low_pre) ((i_2 + 1 )) (l1_2)) )) (PreH15 : (Forall (Z.lt (pivot_2)) (sublist ((i_2 + 1 )) (j_2) (l1_2)) )) ,
+  (Forall (Z.lt (pivot_2)) (sublist (((i_2 + 1 ) + 1 )) ((j_2 + 1 )) ((replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))))) )
 .
 
 Definition partition_entail_wit_2_1_split_goal_2 := 
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j_2: Z) (i_2: Z) (pivot_2: Z) (PreH1 : ((Zlength ((replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))))) = n_pre)) (PreH2 : ((Znth j_2 l1_2 0) <= pivot_2)) (PreH3 : (j_2 < high_pre)) (PreH4 : (pivot_2 = (Znth high_pre l 0))) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : ((low_pre - 1 ) <= i_2)) (PreH9 : (i_2 < j_2)) (PreH10 : (j_2 <= high_pre)) (PreH11 : (Permutation l l1_2 )) (PreH12 : (same_outside_range l l1_2 low_pre high_pre )) (PreH13 : ((Znth high_pre l1_2 0) = pivot_2)) (PreH14 : forall (k: Z) , (((low_pre <= k) /\ (k <= i_2)) -> ((Znth k l1_2 0) <= pivot_2))) (PreH15 : forall (k_2: Z) , (((i_2 < k_2) /\ (k_2 < j_2)) -> (pivot_2 < (Znth k_2 l1_2 0)))) ,
-  (same_outside_range l (replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))) low_pre high_pre )
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j_2: Z) (i_2: Z) (pivot_2: Z) (PreH1 : ((Zlength ((replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))))) = n_pre)) (PreH2 : ((Znth j_2 l1_2 0) <= pivot_2)) (PreH3 : (j_2 < high_pre)) (PreH4 : (pivot_2 = (Znth high_pre l 0))) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : ((low_pre - 1 ) <= i_2)) (PreH9 : (i_2 < j_2)) (PreH10 : (j_2 <= high_pre)) (PreH11 : (Permutation l l1_2 )) (PreH12 : (same_outside_range l l1_2 low_pre high_pre )) (PreH13 : ((Znth high_pre l1_2 0) = pivot_2)) (PreH14 : (Forall (Z.ge (pivot_2)) (sublist (low_pre) ((i_2 + 1 )) (l1_2)) )) (PreH15 : (Forall (Z.lt (pivot_2)) (sublist ((i_2 + 1 )) (j_2) (l1_2)) )) ,
+  (Forall (Z.ge (pivot_2)) (sublist (low_pre) (((i_2 + 1 ) + 1 )) ((replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))))) )
 .
 
 Definition partition_entail_wit_2_1_split_goal_3 := 
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j_2: Z) (i_2: Z) (pivot_2: Z) (PreH1 : ((Zlength ((replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))))) = n_pre)) (PreH2 : ((Znth j_2 l1_2 0) <= pivot_2)) (PreH3 : (j_2 < high_pre)) (PreH4 : (pivot_2 = (Znth high_pre l 0))) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : ((low_pre - 1 ) <= i_2)) (PreH9 : (i_2 < j_2)) (PreH10 : (j_2 <= high_pre)) (PreH11 : (Permutation l l1_2 )) (PreH12 : (same_outside_range l l1_2 low_pre high_pre )) (PreH13 : ((Znth high_pre l1_2 0) = pivot_2)) (PreH14 : forall (k: Z) , (((low_pre <= k) /\ (k <= i_2)) -> ((Znth k l1_2 0) <= pivot_2))) (PreH15 : forall (k_2: Z) , (((i_2 < k_2) /\ (k_2 < j_2)) -> (pivot_2 < (Znth k_2 l1_2 0)))) ,
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j_2: Z) (i_2: Z) (pivot_2: Z) (PreH1 : ((Zlength ((replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))))) = n_pre)) (PreH2 : ((Znth j_2 l1_2 0) <= pivot_2)) (PreH3 : (j_2 < high_pre)) (PreH4 : (pivot_2 = (Znth high_pre l 0))) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : ((low_pre - 1 ) <= i_2)) (PreH9 : (i_2 < j_2)) (PreH10 : (j_2 <= high_pre)) (PreH11 : (Permutation l l1_2 )) (PreH12 : (same_outside_range l l1_2 low_pre high_pre )) (PreH13 : ((Znth high_pre l1_2 0) = pivot_2)) (PreH14 : (Forall (Z.ge (pivot_2)) (sublist (low_pre) ((i_2 + 1 )) (l1_2)) )) (PreH15 : (Forall (Z.lt (pivot_2)) (sublist ((i_2 + 1 )) (j_2) (l1_2)) )) ,
+  ((Znth high_pre (replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))) 0) = pivot_2)
+.
+
+Definition partition_entail_wit_2_1_split_goal_4 := 
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j_2: Z) (i_2: Z) (pivot_2: Z) (PreH1 : ((Zlength ((replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))))) = n_pre)) (PreH2 : ((Znth j_2 l1_2 0) <= pivot_2)) (PreH3 : (j_2 < high_pre)) (PreH4 : (pivot_2 = (Znth high_pre l 0))) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : ((low_pre - 1 ) <= i_2)) (PreH9 : (i_2 < j_2)) (PreH10 : (j_2 <= high_pre)) (PreH11 : (Permutation l l1_2 )) (PreH12 : (same_outside_range l l1_2 low_pre high_pre )) (PreH13 : ((Znth high_pre l1_2 0) = pivot_2)) (PreH14 : (Forall (Z.ge (pivot_2)) (sublist (low_pre) ((i_2 + 1 )) (l1_2)) )) (PreH15 : (Forall (Z.lt (pivot_2)) (sublist ((i_2 + 1 )) (j_2) (l1_2)) )) ,
+  (same_outside_range l (replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))) low_pre high_pre )
+.
+
+Definition partition_entail_wit_2_1_split_goal_5 := 
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j_2: Z) (i_2: Z) (pivot_2: Z) (PreH1 : ((Zlength ((replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))))) = n_pre)) (PreH2 : ((Znth j_2 l1_2 0) <= pivot_2)) (PreH3 : (j_2 < high_pre)) (PreH4 : (pivot_2 = (Znth high_pre l 0))) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : ((low_pre - 1 ) <= i_2)) (PreH9 : (i_2 < j_2)) (PreH10 : (j_2 <= high_pre)) (PreH11 : (Permutation l l1_2 )) (PreH12 : (same_outside_range l l1_2 low_pre high_pre )) (PreH13 : ((Znth high_pre l1_2 0) = pivot_2)) (PreH14 : (Forall (Z.ge (pivot_2)) (sublist (low_pre) ((i_2 + 1 )) (l1_2)) )) (PreH15 : (Forall (Z.lt (pivot_2)) (sublist ((i_2 + 1 )) (j_2) (l1_2)) )) ,
   (Permutation l (replace_Znth (j_2) ((Znth ((i_2 + 1 )) (l1_2) (0))) ((replace_Znth ((i_2 + 1 )) ((Znth (j_2) (l1_2) (0))) (l1_2)))) )
 .
 
 Definition partition_entail_wit_2_2 := 
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j_2: Z) (i_2: Z) (pivot_2: Z) (PreH1 : ((Znth j_2 l1_2 0) > pivot_2)) (PreH2 : (j_2 < high_pre)) (PreH3 : (pivot_2 = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i_2)) (PreH8 : (i_2 < j_2)) (PreH9 : (j_2 <= high_pre)) (PreH10 : (Permutation l l1_2 )) (PreH11 : (same_outside_range l l1_2 low_pre high_pre )) (PreH12 : ((Znth high_pre l1_2 0) = pivot_2)) (PreH13 : forall (k: Z) , (((low_pre <= k) /\ (k <= i_2)) -> ((Znth k l1_2 0) <= pivot_2))) (PreH14 : forall (k_2: Z) , (((i_2 < k_2) /\ (k_2 < j_2)) -> (pivot_2 < (Znth k_2 l1_2 0)))) ,
+(
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j_2: Z) (i_2: Z) (pivot_2: Z) (PreH1 : ((Znth j_2 l1_2 0) > pivot_2)) (PreH2 : (j_2 < high_pre)) (PreH3 : (pivot_2 = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i_2)) (PreH8 : (i_2 < j_2)) (PreH9 : (j_2 <= high_pre)) (PreH10 : (Permutation l l1_2 )) (PreH11 : (same_outside_range l l1_2 low_pre high_pre )) (PreH12 : ((Znth high_pre l1_2 0) = pivot_2)) (PreH13 : (Forall (Z.ge (pivot_2)) (sublist (low_pre) ((i_2 + 1 )) (l1_2)) )) (PreH14 : (Forall (Z.lt (pivot_2)) (sublist ((i_2 + 1 )) (j_2) (l1_2)) )) ,
   (IntArray.full arr_pre n_pre l1_2 )
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -353,8 +366,8 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1_2: 
   &&  “ (Permutation l l1 ) ” 
   &&  “ (same_outside_range l l1 low_pre high_pre ) ” 
   &&  “ ((Znth high_pre l1 0) = pivot) ” 
-  &&  “ forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1 0) <= pivot)) ” 
-  &&  “ forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1 0))) ”
+  &&  “ (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1)) ) ” 
+  &&  “ (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1)) ) ”
   &&  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "low" ) )) # Int  |-> low_pre)
@@ -363,11 +376,23 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1_2: 
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "j" ) )) # Int  |-> j)
   **  (IntArray.full arr_pre n_pre l1 )
+) \/
+(
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j_2: Z) (i_2: Z) (pivot_2: Z) (PreH1 : ((Zlength (l1_2)) = n_pre)) (PreH2 : ((Znth j_2 l1_2 0) > pivot_2)) (PreH3 : (j_2 < high_pre)) (PreH4 : (pivot_2 = (Znth high_pre l 0))) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : ((low_pre - 1 ) <= i_2)) (PreH9 : (i_2 < j_2)) (PreH10 : (j_2 <= high_pre)) (PreH11 : (Permutation l l1_2 )) (PreH12 : (same_outside_range l l1_2 low_pre high_pre )) (PreH13 : ((Znth high_pre l1_2 0) = pivot_2)) (PreH14 : (Forall (Z.ge (pivot_2)) (sublist (low_pre) ((i_2 + 1 )) (l1_2)) )) (PreH15 : (Forall (Z.lt (pivot_2)) (sublist ((i_2 + 1 )) (j_2) (l1_2)) )) ,
+  TT && emp 
+|--
+  “ (Forall (Z.lt (pivot_2)) (sublist ((i_2 + 1 )) ((j_2 + 1 )) (l1_2)) ) ”
+  &&  emp
+).
+
+Definition partition_entail_wit_2_2_split_goal_1 := 
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j_2: Z) (i_2: Z) (pivot_2: Z) (PreH1 : ((Zlength (l1_2)) = n_pre)) (PreH2 : ((Znth j_2 l1_2 0) > pivot_2)) (PreH3 : (j_2 < high_pre)) (PreH4 : (pivot_2 = (Znth high_pre l 0))) (PreH5 : (0 <= low_pre)) (PreH6 : (low_pre <= high_pre)) (PreH7 : (high_pre < n_pre)) (PreH8 : ((low_pre - 1 ) <= i_2)) (PreH9 : (i_2 < j_2)) (PreH10 : (j_2 <= high_pre)) (PreH11 : (Permutation l l1_2 )) (PreH12 : (same_outside_range l l1_2 low_pre high_pre )) (PreH13 : ((Znth high_pre l1_2 0) = pivot_2)) (PreH14 : (Forall (Z.ge (pivot_2)) (sublist (low_pre) ((i_2 + 1 )) (l1_2)) )) (PreH15 : (Forall (Z.lt (pivot_2)) (sublist ((i_2 + 1 )) (j_2) (l1_2)) )) ,
+  (Forall (Z.lt (pivot_2)) (sublist ((i_2 + 1 )) ((j_2 + 1 )) (l1_2)) )
 .
 
 Definition partition_return_wit_1 := 
 (
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : (j >= high_pre)) (PreH2 : (pivot = (Znth high_pre l 0))) (PreH3 : (0 <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < n_pre)) (PreH6 : ((low_pre - 1 ) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (Permutation l l1_2 )) (PreH10 : (same_outside_range l l1_2 low_pre high_pre )) (PreH11 : ((Znth high_pre l1_2 0) = pivot)) (PreH12 : forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1_2 0) <= pivot))) (PreH13 : forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1_2 0)))) ,
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : (j >= high_pre)) (PreH2 : (pivot = (Znth high_pre l 0))) (PreH3 : (0 <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < n_pre)) (PreH6 : ((low_pre - 1 ) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (Permutation l l1_2 )) (PreH10 : (same_outside_range l l1_2 low_pre high_pre )) (PreH11 : ((Znth high_pre l1_2 0) = pivot)) (PreH12 : (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1_2)) )) (PreH13 : (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1_2)) )) ,
   (IntArray.full arr_pre n_pre (replace_Znth (high_pre) ((Znth ((i + 1 )) (l1_2) (0))) ((replace_Znth ((i + 1 )) ((Znth (high_pre) (l1_2) (0))) (l1_2)))) )
 |--
   EX (l1: (@list Z)) ,
@@ -379,7 +404,7 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1_2: 
   &&  (IntArray.full arr_pre n_pre l1 )
 ) \/
 (
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : ((Zlength ((replace_Znth (high_pre) ((Znth ((i + 1 )) (l1_2) (0))) ((replace_Znth ((i + 1 )) ((Znth (high_pre) (l1_2) (0))) (l1_2)))))) = n_pre)) (PreH2 : (j >= high_pre)) (PreH3 : (pivot = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (Permutation l l1_2 )) (PreH11 : (same_outside_range l l1_2 low_pre high_pre )) (PreH12 : ((Znth high_pre l1_2 0) = pivot)) (PreH13 : forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1_2 0) <= pivot))) (PreH14 : forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1_2 0)))) ,
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : ((Zlength ((replace_Znth (high_pre) ((Znth ((i + 1 )) (l1_2) (0))) ((replace_Znth ((i + 1 )) ((Znth (high_pre) (l1_2) (0))) (l1_2)))))) = n_pre)) (PreH2 : (j >= high_pre)) (PreH3 : (pivot = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (Permutation l l1_2 )) (PreH11 : (same_outside_range l l1_2 low_pre high_pre )) (PreH12 : ((Znth high_pre l1_2 0) = pivot)) (PreH13 : (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1_2)) )) (PreH14 : (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1_2)) )) ,
   TT && emp 
 |--
   “ (partitioned_at (replace_Znth (high_pre) ((Znth ((i + 1 )) (l1_2) (0))) ((replace_Znth ((i + 1 )) (pivot) (l1_2)))) low_pre high_pre (i + 1 ) ) ” 
@@ -389,17 +414,17 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j
 ).
 
 Definition partition_return_wit_1_split_goal_1 := 
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : ((Zlength ((replace_Znth (high_pre) ((Znth ((i + 1 )) (l1_2) (0))) ((replace_Znth ((i + 1 )) ((Znth (high_pre) (l1_2) (0))) (l1_2)))))) = n_pre)) (PreH2 : (j >= high_pre)) (PreH3 : (pivot = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (Permutation l l1_2 )) (PreH11 : (same_outside_range l l1_2 low_pre high_pre )) (PreH12 : ((Znth high_pre l1_2 0) = pivot)) (PreH13 : forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1_2 0) <= pivot))) (PreH14 : forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1_2 0)))) ,
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : ((Zlength ((replace_Znth (high_pre) ((Znth ((i + 1 )) (l1_2) (0))) ((replace_Znth ((i + 1 )) ((Znth (high_pre) (l1_2) (0))) (l1_2)))))) = n_pre)) (PreH2 : (j >= high_pre)) (PreH3 : (pivot = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (Permutation l l1_2 )) (PreH11 : (same_outside_range l l1_2 low_pre high_pre )) (PreH12 : ((Znth high_pre l1_2 0) = pivot)) (PreH13 : (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1_2)) )) (PreH14 : (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1_2)) )) ,
   (partitioned_at (replace_Znth (high_pre) ((Znth ((i + 1 )) (l1_2) (0))) ((replace_Znth ((i + 1 )) (pivot) (l1_2)))) low_pre high_pre (i + 1 ) )
 .
 
 Definition partition_return_wit_1_split_goal_2 := 
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : ((Zlength ((replace_Znth (high_pre) ((Znth ((i + 1 )) (l1_2) (0))) ((replace_Znth ((i + 1 )) ((Znth (high_pre) (l1_2) (0))) (l1_2)))))) = n_pre)) (PreH2 : (j >= high_pre)) (PreH3 : (pivot = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (Permutation l l1_2 )) (PreH11 : (same_outside_range l l1_2 low_pre high_pre )) (PreH12 : ((Znth high_pre l1_2 0) = pivot)) (PreH13 : forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1_2 0) <= pivot))) (PreH14 : forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1_2 0)))) ,
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : ((Zlength ((replace_Znth (high_pre) ((Znth ((i + 1 )) (l1_2) (0))) ((replace_Znth ((i + 1 )) ((Znth (high_pre) (l1_2) (0))) (l1_2)))))) = n_pre)) (PreH2 : (j >= high_pre)) (PreH3 : (pivot = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (Permutation l l1_2 )) (PreH11 : (same_outside_range l l1_2 low_pre high_pre )) (PreH12 : ((Znth high_pre l1_2 0) = pivot)) (PreH13 : (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1_2)) )) (PreH14 : (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1_2)) )) ,
   (same_outside_range l (replace_Znth (high_pre) ((Znth ((i + 1 )) (l1_2) (0))) ((replace_Znth ((i + 1 )) (pivot) (l1_2)))) low_pre high_pre )
 .
 
 Definition partition_return_wit_1_split_goal_3 := 
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : ((Zlength ((replace_Znth (high_pre) ((Znth ((i + 1 )) (l1_2) (0))) ((replace_Znth ((i + 1 )) ((Znth (high_pre) (l1_2) (0))) (l1_2)))))) = n_pre)) (PreH2 : (j >= high_pre)) (PreH3 : (pivot = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (Permutation l l1_2 )) (PreH11 : (same_outside_range l l1_2 low_pre high_pre )) (PreH12 : ((Znth high_pre l1_2 0) = pivot)) (PreH13 : forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1_2 0) <= pivot))) (PreH14 : forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1_2 0)))) ,
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (l: (@list Z)) (l1_2: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : ((Zlength ((replace_Znth (high_pre) ((Znth ((i + 1 )) (l1_2) (0))) ((replace_Znth ((i + 1 )) ((Znth (high_pre) (l1_2) (0))) (l1_2)))))) = n_pre)) (PreH2 : (j >= high_pre)) (PreH3 : (pivot = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (Permutation l l1_2 )) (PreH11 : (same_outside_range l l1_2 low_pre high_pre )) (PreH12 : ((Znth high_pre l1_2 0) = pivot)) (PreH13 : (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1_2)) )) (PreH14 : (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1_2)) )) ,
   (Permutation l (replace_Znth (high_pre) ((Znth ((i + 1 )) (l1_2) (0))) ((replace_Znth ((i + 1 )) (pivot) (l1_2)))) )
 .
 
@@ -415,7 +440,7 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 
 .
 
 Definition partition_partial_solve_wit_2 := 
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : (j < high_pre)) (PreH2 : (pivot = (Znth high_pre l 0))) (PreH3 : (0 <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < n_pre)) (PreH6 : ((low_pre - 1 ) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (Permutation l l1 )) (PreH10 : (same_outside_range l l1 low_pre high_pre )) (PreH11 : ((Znth high_pre l1 0) = pivot)) (PreH12 : forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1 0) <= pivot))) (PreH13 : forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1 0)))) ,
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : (j < high_pre)) (PreH2 : (pivot = (Znth high_pre l 0))) (PreH3 : (0 <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < n_pre)) (PreH6 : ((low_pre - 1 ) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (Permutation l l1 )) (PreH10 : (same_outside_range l l1 low_pre high_pre )) (PreH11 : ((Znth high_pre l1 0) = pivot)) (PreH12 : (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1)) )) (PreH13 : (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1)) )) ,
   (IntArray.full arr_pre n_pre l1 )
 |--
   “ (j < high_pre) ” 
@@ -429,14 +454,14 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@
   &&  “ (Permutation l l1 ) ” 
   &&  “ (same_outside_range l l1 low_pre high_pre ) ” 
   &&  “ ((Znth high_pre l1 0) = pivot) ” 
-  &&  “ forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1 0) <= pivot)) ” 
-  &&  “ forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1 0))) ”
+  &&  “ (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1)) ) ” 
+  &&  “ (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1)) ) ”
   &&  (((arr_pre + (j * sizeof(INT)))) # Int  |-> (Znth j l1 0))
   **  (IntArray.missing_i arr_pre j 0 n_pre l1 )
 .
 
 Definition partition_partial_solve_wit_3_pure := 
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : ((Znth j l1 0) <= pivot)) (PreH2 : (j < high_pre)) (PreH3 : (pivot = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (Permutation l l1 )) (PreH11 : (same_outside_range l l1 low_pre high_pre )) (PreH12 : ((Znth high_pre l1 0) = pivot)) (PreH13 : forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1 0) <= pivot))) (PreH14 : forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1 0)))) ,
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : ((Znth j l1 0) <= pivot)) (PreH2 : (j < high_pre)) (PreH3 : (pivot = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (Permutation l l1 )) (PreH11 : (same_outside_range l l1 low_pre high_pre )) (PreH12 : ((Znth high_pre l1 0) = pivot)) (PreH13 : (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1)) )) (PreH14 : (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1)) )) ,
   (IntArray.full arr_pre n_pre l1 )
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -453,7 +478,7 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@
 .
 
 Definition partition_partial_solve_wit_3_aux := 
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : ((Znth j l1 0) <= pivot)) (PreH2 : (j < high_pre)) (PreH3 : (pivot = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (Permutation l l1 )) (PreH11 : (same_outside_range l l1 low_pre high_pre )) (PreH12 : ((Znth high_pre l1 0) = pivot)) (PreH13 : forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1 0) <= pivot))) (PreH14 : forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1 0)))) ,
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : ((Znth j l1 0) <= pivot)) (PreH2 : (j < high_pre)) (PreH3 : (pivot = (Znth high_pre l 0))) (PreH4 : (0 <= low_pre)) (PreH5 : (low_pre <= high_pre)) (PreH6 : (high_pre < n_pre)) (PreH7 : ((low_pre - 1 ) <= i)) (PreH8 : (i < j)) (PreH9 : (j <= high_pre)) (PreH10 : (Permutation l l1 )) (PreH11 : (same_outside_range l l1 low_pre high_pre )) (PreH12 : ((Znth high_pre l1 0) = pivot)) (PreH13 : (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1)) )) (PreH14 : (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1)) )) ,
   (IntArray.full arr_pre n_pre l1 )
 |--
   “ (0 <= (i + 1 )) ” 
@@ -472,15 +497,15 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@
   &&  “ (Permutation l l1 ) ” 
   &&  “ (same_outside_range l l1 low_pre high_pre ) ” 
   &&  “ ((Znth high_pre l1 0) = pivot) ” 
-  &&  “ forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1 0) <= pivot)) ” 
-  &&  “ forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1 0))) ”
+  &&  “ (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1)) ) ” 
+  &&  “ (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1)) ) ”
   &&  (IntArray.full arr_pre n_pre l1 )
 .
 
 Definition partition_partial_solve_wit_3 := partition_partial_solve_wit_3_pure -> partition_partial_solve_wit_3_aux.
 
 Definition partition_partial_solve_wit_4_pure := 
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : (j >= high_pre)) (PreH2 : (pivot = (Znth high_pre l 0))) (PreH3 : (0 <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < n_pre)) (PreH6 : ((low_pre - 1 ) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (Permutation l l1 )) (PreH10 : (same_outside_range l l1 low_pre high_pre )) (PreH11 : ((Znth high_pre l1 0) = pivot)) (PreH12 : forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1 0) <= pivot))) (PreH13 : forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1 0)))) ,
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : (j >= high_pre)) (PreH2 : (pivot = (Znth high_pre l 0))) (PreH3 : (0 <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < n_pre)) (PreH6 : ((low_pre - 1 ) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (Permutation l l1 )) (PreH10 : (same_outside_range l l1 low_pre high_pre )) (PreH11 : ((Znth high_pre l1 0) = pivot)) (PreH12 : (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1)) )) (PreH13 : (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1)) )) ,
   ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "low" ) )) # Int  |-> low_pre)
@@ -496,7 +521,7 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@
 .
 
 Definition partition_partial_solve_wit_4_aux := 
-forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : (j >= high_pre)) (PreH2 : (pivot = (Znth high_pre l 0))) (PreH3 : (0 <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < n_pre)) (PreH6 : ((low_pre - 1 ) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (Permutation l l1 )) (PreH10 : (same_outside_range l l1 low_pre high_pre )) (PreH11 : ((Znth high_pre l1 0) = pivot)) (PreH12 : forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1 0) <= pivot))) (PreH13 : forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1 0)))) ,
+forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@list Z)) (j: Z) (i: Z) (pivot: Z) (PreH1 : (j >= high_pre)) (PreH2 : (pivot = (Znth high_pre l 0))) (PreH3 : (0 <= low_pre)) (PreH4 : (low_pre <= high_pre)) (PreH5 : (high_pre < n_pre)) (PreH6 : ((low_pre - 1 ) <= i)) (PreH7 : (i < j)) (PreH8 : (j <= high_pre)) (PreH9 : (Permutation l l1 )) (PreH10 : (same_outside_range l l1 low_pre high_pre )) (PreH11 : ((Znth high_pre l1 0) = pivot)) (PreH12 : (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1)) )) (PreH13 : (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1)) )) ,
   (IntArray.full arr_pre n_pre l1 )
 |--
   “ (0 <= (i + 1 )) ” 
@@ -514,8 +539,8 @@ forall (high_pre: Z) (low_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (l1: (@
   &&  “ (Permutation l l1 ) ” 
   &&  “ (same_outside_range l l1 low_pre high_pre ) ” 
   &&  “ ((Znth high_pre l1 0) = pivot) ” 
-  &&  “ forall (k: Z) , (((low_pre <= k) /\ (k <= i)) -> ((Znth k l1 0) <= pivot)) ” 
-  &&  “ forall (k_2: Z) , (((i < k_2) /\ (k_2 < j)) -> (pivot < (Znth k_2 l1 0))) ”
+  &&  “ (Forall (Z.ge (pivot)) (sublist (low_pre) ((i + 1 )) (l1)) ) ” 
+  &&  “ (Forall (Z.lt (pivot)) (sublist ((i + 1 )) (j) (l1)) ) ”
   &&  (IntArray.full arr_pre n_pre l1 )
 .
 

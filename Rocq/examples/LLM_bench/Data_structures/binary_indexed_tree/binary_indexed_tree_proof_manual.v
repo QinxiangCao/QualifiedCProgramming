@@ -11,7 +11,6 @@ From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
 Require Import SetsClass.SetsClass. Import SetsNotation.
 From SimpleC.SL Require Import Mem SeparationLogic.
 From SimpleC.EE.LLM_bench.Data_structures.binary_indexed_tree Require Import binary_indexed_tree_goal.
-From SimpleC.EE.LLM_bench.Data_structures.binary_indexed_tree Require Import binary_indexed_tree_proof_auto.
 Require Import Logic.LogicGenerator.demo932.Interface.
 Local Open Scope Z_scope.
 Local Open Scope sets.
@@ -23,39 +22,20 @@ Local Open Scope sac.
 
 Lemma proof_of_lowbit_return_wit_1_split_goal_1 : lowbit_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold FenwickLowbit.
-  apply FenwickLowbit_le.
-  lia.
-Qed.
-
-Lemma proof_of_lowbit_return_wit_1_split_goal_2 : lowbit_return_wit_1_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold FenwickLowbit.
-  pose proof (FenwickLowbit_positive x_pre ltac:(lia)).
-  unfold FenwickLowbit in H.
-  lia.
-Qed.
-
-Lemma proof_of_lowbit_return_wit_1_split_goal_3 : lowbit_return_wit_1_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  LLM_pre_process ltac:(lia || nia || int_auto).
 Qed.
 
 Lemma proof_of_lowbit_return_wit_1 : lowbit_return_wit_1.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_lowbit_return_wit_1_split_goal_1.
-  - Goal_apply proof_of_lowbit_return_wit_1_split_goal_2.
-  - Goal_apply proof_of_lowbit_return_wit_1_split_goal_3.
 Qed.
 
 Lemma proof_of_add_safety_wit_1_split_goal_1 : add_safety_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold FenwickAddProgress in PreH11.
-  destruct PreH11 as [Hcur_len [Hcur_zero [Hcursor_cover Hprogress]]].
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  apply FenwickAddProgress_unfold in PreH10.
+  destruct PreH10 as [Hcur_len [Hcur_zero [Hcursor_cover Hprogress]]].
   specialize (Hcursor_cover PreH1).
   specialize (Hprogress pos ltac:(lia)).
   destruct Hprogress as [Hupdated Hold].
@@ -69,8 +49,7 @@ Proof.
   destruct Hpoint as [Hpoint_cover Hpoint_outside].
   specialize (Hpoint_cover Hcursor_cover).
   pose proof (FenwickNodeLo_bounds pos ltac:(lia)) as Hlo.
-  unfold FenwickIntervalsIntSafe in PreH10.
-  specialize (PreH10 (FenwickNodeLo pos) pos ltac:(lia) ltac:(lia)).
+  specialize (PreH9 (FenwickNodeLo pos) pos ltac:(lia)).
   unfold FenwickNodeSum in Hnodes, Hpoint_cover.
   dump_pre_spatial.
   lia.
@@ -78,9 +57,9 @@ Qed.
 
 Lemma proof_of_add_safety_wit_1_split_goal_2 : add_safety_wit_1_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold FenwickAddProgress in PreH11.
-  destruct PreH11 as [Hcur_len [Hcur_zero [Hcursor_cover Hprogress]]].
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  apply FenwickAddProgress_unfold in PreH10.
+  destruct PreH10 as [Hcur_len [Hcur_zero [Hcursor_cover Hprogress]]].
   specialize (Hcursor_cover PreH1).
   specialize (Hprogress pos ltac:(lia)).
   destruct Hprogress as [Hupdated Hold].
@@ -94,8 +73,7 @@ Proof.
   destruct Hpoint as [Hpoint_cover Hpoint_outside].
   specialize (Hpoint_cover Hcursor_cover).
   pose proof (FenwickNodeLo_bounds pos ltac:(lia)) as Hlo.
-  unfold FenwickIntervalsIntSafe in PreH10.
-  specialize (PreH10 (FenwickNodeLo pos) pos ltac:(lia) ltac:(lia)).
+  specialize (PreH9 (FenwickNodeLo pos) pos ltac:(lia)).
   unfold FenwickNodeSum in Hnodes, Hpoint_cover.
   dump_pre_spatial.
   lia.
@@ -108,10 +86,33 @@ Proof.
   - Goal_apply proof_of_add_safety_wit_1_split_goal_2.
 Qed.
 
+Lemma proof_of_add_safety_wit_2_split_goal_1 : add_safety_wit_2_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  pose proof (FenwickLowbit_bounds pos ltac:(lia)).
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_add_safety_wit_2_split_goal_2 : add_safety_wit_2_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  pose proof (FenwickLowbit_bounds pos ltac:(lia)).
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_add_safety_wit_2 : add_safety_wit_2.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_add_safety_wit_2_split_goal_1.
+  - Goal_apply proof_of_add_safety_wit_2_split_goal_2.
+Qed.
+
 Lemma proof_of_add_entail_wit_1_split_goal_1 : add_entail_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold FenwickAddProgress.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  apply FenwickAddProgress_unfold.
   split.
   - reflexivity.
   - split.
@@ -129,15 +130,21 @@ Proof.
            reflexivity.
 Qed.
 
+Lemma proof_of_add_entail_wit_1_split_goal_2 : add_entail_wit_1_split_goal_2.
+Proof.
+  unfold add_entail_wit_1_split_goal_2. intros. eauto.
+Qed.
+
 Lemma proof_of_add_entail_wit_1 : add_entail_wit_1.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_add_entail_wit_1_split_goal_1.
+  - Goal_apply proof_of_add_entail_wit_1_split_goal_2.
 Qed.
 
 Lemma proof_of_add_entail_wit_2_split_goal_1 : add_entail_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  LLM_pre_process ltac:(lia || nia || int_auto).
   subst retval.
   match goal with
   | Hrep : FenwickRep a bit_l n_pre |- _ =>
@@ -147,10 +154,10 @@ Proof.
   match goal with
   | Hprogress : FenwickAddProgress bit_l bit_cur_2 n_pre
         pos_pre pos delta_pre |- _ =>
-      unfold FenwickAddProgress in Hprogress;
+      apply FenwickAddProgress_unfold in Hprogress;
       destruct Hprogress as [Hcurlen [Hcurzero [Hlive Hold]]]
   end.
-  unfold FenwickAddProgress.
+  apply FenwickAddProgress_unfold.
   assert (Hposrange : 0 <= pos < Zlength bit_cur_2) by lia.
   split.
   - rewrite Zlength_replace_Znth.
@@ -214,27 +221,36 @@ Proof.
               ** lia.
 Qed.
 
+Lemma proof_of_add_entail_wit_2_split_goal_2 : add_entail_wit_2_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  pose proof (FenwickLowbit_bounds pos ltac:(lia)).
+  lia.
+Qed.
+
+Lemma proof_of_add_entail_wit_2_split_goal_3 : add_entail_wit_2_split_goal_3.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  pose proof (FenwickLowbit_bounds pos ltac:(lia)).
+  lia.
+Qed.
+
 Lemma proof_of_add_entail_wit_2 : add_entail_wit_2.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_add_entail_wit_2_split_goal_1.
+  - Goal_apply proof_of_add_entail_wit_2_split_goal_2.
+  - Goal_apply proof_of_add_entail_wit_2_split_goal_3.
 Qed.
 
 Lemma proof_of_add_return_wit_1_split_goal_1 : add_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold FenwickAddProgress in PreH11.
-  tauto.
-Qed.
-
-Lemma proof_of_add_return_wit_1_split_goal_2 : add_return_wit_1_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  LLM_pre_process ltac:(lia || nia || int_auto).
   unfold FenwickRep in PreH8 |- *.
   unfold FenwickAddArray.
-  unfold FenwickAddProgress in PreH11.
+  apply FenwickAddProgress_unfold in PreH10.
   destruct PreH8 as [Ha_len [Hbit_len [Ha_zero Hnodes]]].
-  destruct PreH11 as [Hcur_len [Hcur_zero [Hcursor_cover Hprogress]]].
+  destruct PreH10 as [Hcur_len [Hcur_zero [Hcursor_cover Hprogress]]].
   repeat split.
   - rewrite Zlength_replace_Znth, Ha_len.
     reflexivity.
@@ -284,12 +300,11 @@ Lemma proof_of_add_return_wit_1 : add_return_wit_1.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_add_return_wit_1_split_goal_1.
-  - Goal_apply proof_of_add_return_wit_1_split_goal_2.
 Qed.
 
 Lemma proof_of_query_safety_wit_3_split_goal_1 : query_safety_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  LLM_pre_process ltac:(lia || nia || int_auto).
   pose proof
     (Fenwick_query_step_int_safe__query_step
        a bit_l n pos_pre pos sum
@@ -301,7 +316,7 @@ Qed.
 
 Lemma proof_of_query_safety_wit_3_split_goal_2 : query_safety_wit_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  LLM_pre_process ltac:(lia || nia || int_auto).
   pose proof
     (Fenwick_query_step_int_safe__query_step
        a bit_l n pos_pre pos sum
@@ -318,48 +333,91 @@ Proof.
   - Goal_apply proof_of_query_safety_wit_3_split_goal_2.
 Qed.
 
+Lemma proof_of_query_safety_wit_4_split_goal_1 : query_safety_wit_4_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  pose proof (FenwickLowbit_bounds pos ltac:(lia)).
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_query_safety_wit_4_split_goal_2 : query_safety_wit_4_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  pose proof (FenwickLowbit_bounds pos ltac:(lia)).
+  dump_pre_spatial.
+  lia.
+Qed.
+
+Lemma proof_of_query_safety_wit_4 : query_safety_wit_4.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_query_safety_wit_4_split_goal_1.
+  - Goal_apply proof_of_query_safety_wit_4_split_goal_2.
+Qed.
+
 Lemma proof_of_query_entail_wit_1_split_goal_1 : query_entail_wit_1_split_goal_1.
 Proof.
   LLM_pre_process ltac:(apply FenwickQueryState_initial || lia || nia || int_auto).
+Qed.
+
+Lemma proof_of_query_entail_wit_1_split_goal_2 : query_entail_wit_1_split_goal_2.
+Proof.
+  unfold query_entail_wit_1_split_goal_2. intros. eauto.
 Qed.
 
 Lemma proof_of_query_entail_wit_1 : query_entail_wit_1.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_query_entail_wit_1_split_goal_1.
+  - Goal_apply proof_of_query_entail_wit_1_split_goal_2.
 Qed.
 
 Lemma proof_of_query_entail_wit_2_split_goal_1 : query_entail_wit_2_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  LLM_pre_process ltac:(lia || nia || int_auto).
   subst retval.
   eapply FenwickQueryState_step.
-  - exact PreH12.
+  - exact PreH10.
   - lia.
-  - exact PreH14.
+  - exact PreH12.
 Qed.
 
 Lemma proof_of_query_entail_wit_2_split_goal_2 : query_entail_wit_2_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  LLM_pre_process ltac:(lia || nia || int_auto).
   subst retval.
   pose proof
     (Fenwick_query_step_int_safe__query_step
        a bit_l n pos_pre pos sum
-       PreH12 PreH13 ltac:(lia) ltac:(lia) ltac:(lia) PreH14)
+       PreH10 PreH11 ltac:(lia) ltac:(lia) ltac:(lia) PreH12)
     as Hsafe.
   lia.
 Qed.
 
 Lemma proof_of_query_entail_wit_2_split_goal_3 : query_entail_wit_2_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  LLM_pre_process ltac:(lia || nia || int_auto).
   subst retval.
   pose proof
     (Fenwick_query_step_int_safe__query_step
        a bit_l n pos_pre pos sum
-       PreH12 PreH13 ltac:(lia) ltac:(lia) ltac:(lia) PreH14)
+       PreH10 PreH11 ltac:(lia) ltac:(lia) ltac:(lia) PreH12)
     as Hsafe.
+  lia.
+Qed.
+
+Lemma proof_of_query_entail_wit_2_split_goal_4 : query_entail_wit_2_split_goal_4.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  pose proof (FenwickLowbit_bounds pos ltac:(lia)).
+  lia.
+Qed.
+
+Lemma proof_of_query_entail_wit_2_split_goal_5 : query_entail_wit_2_split_goal_5.
+Proof.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  pose proof (FenwickLowbit_bounds pos ltac:(lia)).
   lia.
 Qed.
 
@@ -369,11 +427,13 @@ Proof.
   - Goal_apply proof_of_query_entail_wit_2_split_goal_1.
   - Goal_apply proof_of_query_entail_wit_2_split_goal_2.
   - Goal_apply proof_of_query_entail_wit_2_split_goal_3.
+  - Goal_apply proof_of_query_entail_wit_2_split_goal_4.
+  - Goal_apply proof_of_query_entail_wit_2_split_goal_5.
 Qed.
 
 Lemma proof_of_query_return_wit_1_split_goal_1 : query_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  LLM_pre_process ltac:(lia || nia || int_auto).
   assert (pos = 0) by lia.
   subst pos.
   unfold FenwickQueryState in *.
@@ -386,3 +446,4 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_query_return_wit_1_split_goal_1.
 Qed.
+

@@ -15,8 +15,10 @@ static struct Point gp;
       (point_x : point -> Z)
       (point_y : point -> Z)
       (default_point : point)
-      (CoordInBounds : Z -> Prop)
-      (PointCoordsBound : list point -> Prop)
+      (Forall : {A} -> (A -> Prop) -> list A -> Prop)
+      (map : {A B} -> (A -> B) -> list A -> list B)
+      (Z::le : Z -> Z -> Prop)
+      (Z::ge : Z -> Z -> Prop)
       (FlatPoints : list Z -> list point -> Prop)
       (PointPermutation : list point -> list point -> Prop)
       (PolarCmpResult : point -> point -> point -> Z -> Prop)
@@ -24,7 +26,7 @@ static struct Point gp;
       (PolarLe : point -> point -> point -> Prop)
       (PolarSorted : point -> list point -> Prop)
       (PointSortedRange : point -> list point -> Z -> Z -> Prop)
-      (PointMemoryModel : point -> list Z -> Z -> Prop)
+      (PointFlatModel : list Z -> Prop)
       (PointRangeSortResult : point -> list Z -> list point -> Z -> Z -> Prop)
       (PointSameOutsideRange : list point -> list point -> Z -> Z -> Prop)
       (PointPartitionedAt : point -> list point -> Z -> Z -> Z -> Prop)
@@ -36,12 +38,11 @@ static struct Point gp;
 
 int cmp_polar_values(int gx, int gy, int a_x, int a_y, int b_x, int b_y)
 /*@ Require
-      CoordInBounds(gx) && CoordInBounds(gy) &&
-      CoordInBounds(a_x) && CoordInBounds(a_y) &&
-      CoordInBounds(b_x) && CoordInBounds(b_y)
+      (-10000 <= gx && gx <= 10000) && (-10000 <= gy && gy <= 10000) &&
+      (-10000 <= a_x && a_x <= 10000) && (-10000 <= a_y && a_y <= 10000) &&
+      (-10000 <= b_x && b_x <= 10000) && (-10000 <= b_y && b_y <= 10000)
     Ensure
-      PolarCmpResult(mk_point(gx, gy), mk_point(a_x, a_y), mk_point(b_x, b_y), __return) &&
-      -1 <= __return && __return <= 1
+      PolarCmpResult(mk_point(gx, gy), mk_point(a_x, a_y), mk_point(b_x, b_y), __return)
  */
 {
   int adx = a_x - gx;
@@ -107,12 +108,15 @@ void swap_points(int *coords, int n, int i, int j)
       0 <= n && n <= 50000 &&
       Zlength(pts_l) == n &&
       FlatPoints(flat, pts_l) &&
-      PointCoordsBound(pts_l) &&
+      Forall(Z::le(-10000), map(point_x, pts_l)) &&
+          Forall(Z::ge(10000), map(point_x, pts_l)) &&
+          Forall(Z::le(-10000), map(point_y, pts_l)) &&
+          Forall(Z::ge(10000), map(point_y, pts_l)) &&
       IntArray::full(coords, 2 * n, flat)
     Ensure
       FlatPoints(point_swap_flat(flat, i, j), point_swap_points(pts_l, i, j)) &&
       PointPermutation(pts_l, point_swap_points(pts_l, i, j)) &&
-      PointCoordsBound(point_swap_points(pts_l, i, j)) &&
+
       IntArray::full(coords, 2 * n, point_swap_flat(flat, i, j))
  */
 {
@@ -131,13 +135,16 @@ int partition_points(int *coords, int n, int low, int high, int gx, int gy)
       0 <= n && n <= 50000 &&
       Zlength(pts_l) == n &&
       FlatPoints(flat, pts_l) &&
-      PointCoordsBound(cons(mk_point(gx, gy), pts_l)) &&
+      Forall(Z::le(-10000), map(point_x, cons(mk_point(gx, gy), pts_l))) &&
+          Forall(Z::ge(10000), map(point_x, cons(mk_point(gx, gy), pts_l))) &&
+          Forall(Z::le(-10000), map(point_y, cons(mk_point(gx, gy), pts_l))) &&
+          Forall(Z::ge(10000), map(point_y, cons(mk_point(gx, gy), pts_l))) &&
       IntArray::full(coords, 2 * n, flat)
     Ensure
       low <= __return && __return <= high &&
       exists flat_out pts_out,
         FlatPoints(flat_out, pts_out) &&
-        PointCoordsBound(cons(mk_point(gx, gy), pts_out)) &&
+
         PointPermutation(pts_l, pts_out) &&
         PointSameOutsideRange(pts_l, pts_out, low, high) &&
         PointPartitionedAt(mk_point(gx, gy), pts_out, low, high, __return) &&
@@ -159,8 +166,14 @@ int partition_points(int *coords, int n, int low, int high, int gx, int gy)
         Zlength(pts_cur) == n &&
         mk_point(pivot_x, pivot_y) == Znth(high, pts_cur, default_point) &&
         FlatPoints(flat_cur, pts_cur) &&
-        PointCoordsBound(pts_cur) &&
-        PointCoordsBound(cons(mk_point(gx, gy), pts_cur)) &&
+        Forall(Z::le(-10000), map(point_x, pts_cur)) &&
+          Forall(Z::ge(10000), map(point_x, pts_cur)) &&
+          Forall(Z::le(-10000), map(point_y, pts_cur)) &&
+          Forall(Z::ge(10000), map(point_y, pts_cur)) &&
+        Forall(Z::le(-10000), map(point_x, cons(mk_point(gx, gy), pts_cur))) &&
+          Forall(Z::ge(10000), map(point_x, cons(mk_point(gx, gy), pts_cur))) &&
+          Forall(Z::le(-10000), map(point_y, cons(mk_point(gx, gy), pts_cur))) &&
+          Forall(Z::ge(10000), map(point_y, cons(mk_point(gx, gy), pts_cur))) &&
         PointPartitionScanInv(mk_point(gx, gy), pts_l, pts_cur, low, high,
                               mk_point(pivot_x, pivot_y), i, j) &&
         IntArray::full(coords, 2 * n, flat_cur)
@@ -186,12 +199,14 @@ void quicksort_points_range(int *coords, int n, int left, int right, int gx, int
     Require
       0 <= n && n <= 50000 &&
       0 <= left && -1 <= right && right < n &&
-      PointMemoryModel(mk_point(gx, gy), flat, n) &&
+      PointFlatModel(flat) && Zlength(flat) == 2 * n &&
+          -10000 <= gx && gx <= 10000 && -10000 <= gy && gy <= 10000 &&
+          Forall(Z::le(-10000), flat) && Forall(Z::ge(10000), flat) &&
       IntArray::full(coords, 2 * n, flat)
     Ensure
       exists flat_out pts_out,
         FlatPoints(flat_out, pts_out) &&
-        PointCoordsBound(cons(mk_point(gx, gy), pts_out)) &&
+
         PointRangeSortResult(mk_point(gx, gy), flat, pts_out, left, right) &&
         IntArray::full(coords, 2 * n, flat_out)
  */
@@ -204,10 +219,15 @@ void quicksort_points_range(int *coords, int n, int left, int right, int gx, int
           gx == gx@pre && gy == gy@pre &&
           0 <= n && n <= 50000 &&
           0 <= left && left < right && right < n &&
-          PointMemoryModel(mk_point(gx, gy), flat, n) &&
+          PointFlatModel(flat) && Zlength(flat) == 2 * n &&
+          -10000 <= gx && gx <= 10000 && -10000 <= gy && gy <= 10000 &&
+          Forall(Z::le(-10000), flat) && Forall(Z::ge(10000), flat) &&
           Zlength(pts_l) == n &&
           FlatPoints(flat, pts_l) &&
-          PointCoordsBound(cons(mk_point(gx, gy), pts_l)) &&
+          Forall(Z::le(-10000), map(point_x, cons(mk_point(gx, gy), pts_l))) &&
+          Forall(Z::ge(10000), map(point_x, cons(mk_point(gx, gy), pts_l))) &&
+          Forall(Z::le(-10000), map(point_y, cons(mk_point(gx, gy), pts_l))) &&
+          Forall(Z::ge(10000), map(point_y, cons(mk_point(gx, gy), pts_l))) &&
           IntArray::full(coords, 2 * n, flat)
       */
     /*@ Given pts_l */
@@ -227,13 +247,16 @@ void sort(struct Point *pts, int n)
       0 <= n && n <= 50000 &&
       Zlength(pts_l) == n &&
       FlatPoints(flat, pts_l) &&
-      PointCoordsBound(cons(mk_point(gx, gy), pts_l)) &&
+      Forall(Z::le(-10000), map(point_x, cons(mk_point(gx, gy), pts_l))) &&
+          Forall(Z::ge(10000), map(point_x, cons(mk_point(gx, gy), pts_l))) &&
+          Forall(Z::le(-10000), map(point_y, cons(mk_point(gx, gy), pts_l))) &&
+          Forall(Z::ge(10000), map(point_y, cons(mk_point(gx, gy), pts_l))) &&
       gp.x == gx && gp.y == gy &&
       IntArray::full(pts, 2 * n, flat)
     Ensure
       exists flat_out pts_out,
         FlatPoints(flat_out, pts_out) &&
-        PointCoordsBound(cons(mk_point(gx, gy), pts_out)) &&
+
         PointPermutation(pts_l, pts_out) &&
         PolarSorted(mk_point(gx, gy), pts_out) &&
         gp.x == gx && gp.y == gy &&

@@ -126,7 +126,7 @@ lia.
 - 在 `sep_apply_*` 前先导出一个 side condition。
 - 将当前 spatial resource 暴露成后续 arithmetic / list proof 可用的 pure hypothesis。
 
-要求显式实例化所有参数和 lemma premise。若 premise 无法由当前 context 证明，不要伪造；回到 annotation 或新增当前 group suffix helper。handoff frozen public snapshot中声明/proof token一致的helper可以复制并保留其历史suffix，实质修改后的版本必须换为当前suffix。
+要求显式实例化所有参数和 lemma premise。若 premise 无法由当前 context 证明，不要伪造；回到 annotation 或新增当前 group suffix helper。复制历史 helper 时保留其数学前提，使用当前 suffix，并在当前环境重新检查。
 
 ## Disjunction 和 Universal
 
@@ -171,7 +171,7 @@ split_pures.
 - dump_pre_spatial. eapply some_case_helper__gid; eauto.
 ```
 
-对 list equality，先尝试已有 `sublist` / `replace_Znth` / `Zlength` lemma；缺少稳定连接事实时，把新helper放入 `group_worker_lib`并使用当前group suffix。与 frozen public helper 声明/proof token一致时允许保留来源suffix。
+对 list equality，先尝试已有 `sublist` / `replace_Znth` / `Zlength` lemma；缺少稳定连接事实时，把新helper放入 `group_worker_lib`并使用当前group suffix。历史 helper 也统一使用当前 suffix。
 
 ## Array / string goals 处理
 
@@ -179,7 +179,7 @@ array proof 常见步骤：从 `full` / `seg` 得到 `Zlength`，split 当前 in
 
 string proof 常见步骤：展开 `store_string` / `c_string` / `string_length`，处理结尾 `0`，区分 Rocq `string` 和 `list Z`。
 
-需要 helper lemma 时，先按 exact lemma/predicate 名搜索 handoff 的 round-start frozen public snapshot；命中后只复制实际要用、且声明/proof token一致的 proved declaration与必要官方 import。未命中时在 `group_worker_lib` 新增并证明当前 suffix helper；不要把 helper 写入 `*_proof_manual.v`，不要预先浏览或复制可能最终不用的 declaration，也不直接 import或编辑 snapshot/durable pool。
+需要 helper lemma 时，按 handoff 的历史路径及已有可选 proof_reuse.md，以 exact lemma/predicate 名搜索相关 sources；只复制实际需要的完整 helper closure，并统一当前 suffix。未命中时在 `group_worker_lib` 新增并证明当前 suffix helper；不要把 helper 写入 `*_proof_manual.v`，不要预先浏览或复制可能最终不用的 declaration，也不直接 import 或编辑历史库。
 
 ## 整体证明骨架
 

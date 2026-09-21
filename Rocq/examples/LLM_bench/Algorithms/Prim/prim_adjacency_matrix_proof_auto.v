@@ -256,12 +256,18 @@ Proof. Admitted.
 Lemma proof_of_prim_adjacency_matrix_partial_solve_wit_13_boot : prim_adjacency_matrix_partial_solve_wit_13_boot.
 Proof. Admitted. 
 
-Lemma proof_of_prim_adjacency_matrix_partial_solve_wit_14_running : prim_adjacency_matrix_partial_solve_wit_14_running.
+Lemma proof_of_prim_adjacency_matrix_partial_solve_wit_14_boot : prim_adjacency_matrix_partial_solve_wit_14_boot.
 Proof. Admitted. 
 
-Lemma proof_of_prim_adjacency_matrix_partial_solve_wit_15_running : prim_adjacency_matrix_partial_solve_wit_15_running.
+Lemma proof_of_prim_adjacency_matrix_partial_solve_wit_15_boot : prim_adjacency_matrix_partial_solve_wit_15_boot.
 Proof. Admitted. 
 
 Lemma proof_of_prim_adjacency_matrix_partial_solve_wit_16_running : prim_adjacency_matrix_partial_solve_wit_16_running.
+Proof. Admitted. 
+
+Lemma proof_of_prim_adjacency_matrix_partial_solve_wit_17_running : prim_adjacency_matrix_partial_solve_wit_17_running.
+Proof. Admitted. 
+
+Lemma proof_of_prim_adjacency_matrix_partial_solve_wit_18_running : prim_adjacency_matrix_partial_solve_wit_18_running.
 Proof. Admitted. 
 

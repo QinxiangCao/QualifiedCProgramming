@@ -3119,3 +3119,1446 @@ Proof.
       * eapply edit_remaining_totals_decr_left__greedy_common_and_mismatch_steps; eauto; lia.
     + eapply EditGreedyConsumedPrefix_s1_one_s2_zero; eauto; lia.
 Qed.
+
+From SumLib Require Import ZRange.
+From MaxMinLib Require Import MaxMin Interface.
+Require Import Coq.Relations.Relation_Operators.
+
+(** Legacy region/count interfaces retained for the existing helper proofs.
+    The public C contract below uses EditStringsAnswer and legal swaps. *)
+Definition EditOpenEdgesTest (t : list Z) (lo hi : Z) : bool :=
+  forallb (edit_edge_openb t) (Zrange lo hi).
+Definition EditBlockStartTest (t : list Z) (idx start : Z) : bool :=
+  Z.leb 0 start && Z.leb start idx &&
+  EditOpenEdgesTest t (start + 1) (idx + 1) &&
+  (Z.eqb start 0 || negb (edit_edge_openb t start)).
+Definition EditBlockBitCount (s t : list Z) (limit block bit : Z) : Z :=
+  Zlength (filter (fun idx => Z.ltb idx limit &&
+    EditBlockStartTest t idx block && edit_bit_atb s idx bit)
+    (Zrange 0 (Zlength s))).
+Definition EditSegmentPositionCount (seg : list Z) (limit block : Z) : Z :=
+  Zlength (filter (fun idx => Z.ltb idx limit && Z.eqb (Znth idx seg 0) block)
+    (Zrange 0 (Zlength seg))).
+Definition EditMatchCount (s1 s2 : list Z) (n : Z) : Z :=
+  Zlength (filter (fun idx => Z.eqb (Znth idx s1 0) (Znth idx s2 0)) (Zrange 0 n)).
+Definition EditRegionPermutation (s t out : list Z) (n : Z) : Prop :=
+  Zlength out = n /\ Forall (fun bit => bit = 0 \/ bit = 1) out /\
+  forall block bit, 0 <= block < n -> (bit = 0 \/ bit = 1) ->
+    EditBlockBitCount out t n block bit = EditBlockBitCount s t n block bit.
+Definition EditMaximumMatches (s1 s2 t1 t2 : list Z) (n answer : Z) : Prop :=
+  max_value_of_subset Z.le
+    (fun outputs : list Z * list Z =>
+      EditRegionPermutation s1 t1 (fst outputs) n /\
+      EditRegionPermutation s2 t2 (snd outputs) n)
+    (fun outputs => EditMatchCount (fst outputs) (snd outputs) n) answer.
+Definition EditSegmentMeaning (t : list Z) (upto : Z) (seg : list Z) : Prop :=
+  forall idx, 0 <= idx < upto -> EditBlockStart t idx (Znth idx seg 0).
+Definition EditCountsMeaning (s t : list Z) (n upto : Z) (cnt0 cnt1 : list Z) : Prop :=
+  (forall block, 0 <= block < n -> Znth block cnt0 0 = EditBlockBitCount s t upto block 0) /\
+  (forall block, 0 <= block < n -> Znth block cnt1 0 = EditBlockBitCount s t upto block 1).
+Definition EditBuildMeaning (s t : list Z) (n upto : Z) (seg cnt0 cnt1 : list Z) : Prop :=
+  EditSegmentMeaning t upto seg /\ EditCountsMeaning s t n upto cnt0 cnt1.
+Definition EditRemainingMeaning (seg1 seg2 : list Z) (i : Z)
+  (full10 full11 full20 full21 cnt10 cnt11 cnt20 cnt21 : list Z) : Prop :=
+  (forall block, 0 <= block < Zlength seg1 ->
+    Znth block cnt10 0 + Znth block cnt11 0 =
+    Znth block full10 0 + Znth block full11 0 - EditSegmentPositionCount seg1 i block) /\
+  (forall block, 0 <= block < Zlength seg2 ->
+    Znth block cnt20 0 + Znth block cnt21 0 =
+    Znth block full20 0 + Znth block full21 0 - EditSegmentPositionCount seg2 i block).
+
+Record EditScanState : Type := EditSnapshot {
+  edit_scan_position : Z;
+  edit_scan_answer : Z;
+  edit_zero1 : list Z;
+  edit_one1 : list Z;
+  edit_zero2 : list Z;
+  edit_one2 : list Z
+}.
+(** One consumption step.  This relation is not recursively defined;
+    Relation_Operators.clos_refl_trans supplies all finite execution traces. *)
+Inductive EditGreedyStep (seg1 seg2 : list Z) : EditScanState -> EditScanState -> Prop :=
+| EditStep_common_zero : forall i ans c10 c11 c20 c21 a b,
+    0 <= i < Zlength seg1 -> Zlength seg2 = Zlength seg1 ->
+    a = Znth i seg1 0 -> b = Znth i seg2 0 ->
+    0 < Znth a c10 0 -> 0 < Znth b c20 0 ->
+    EditGreedyStep seg1 seg2 (EditSnapshot i ans c10 c11 c20 c21)
+      (EditSnapshot (i + 1) (ans + 1)
+        (replace_Znth a (Znth a c10 0 - 1) c10) c11
+        (replace_Znth b (Znth b c20 0 - 1) c20) c21)
+| EditStep_common_one : forall i ans c10 c11 c20 c21 a b,
+    0 <= i < Zlength seg1 -> Zlength seg2 = Zlength seg1 ->
+    a = Znth i seg1 0 -> b = Znth i seg2 0 ->
+    ~ (0 < Znth a c10 0 /\ 0 < Znth b c20 0) ->
+    0 < Znth a c11 0 -> 0 < Znth b c21 0 ->
+    EditGreedyStep seg1 seg2 (EditSnapshot i ans c10 c11 c20 c21)
+      (EditSnapshot (i + 1) (ans + 1) c10
+        (replace_Znth a (Znth a c11 0 - 1) c11) c20
+        (replace_Znth b (Znth b c21 0 - 1) c21))
+| EditStep_zero_one : forall i ans c10 c11 c20 c21 a b,
+    0 <= i < Zlength seg1 -> Zlength seg2 = Zlength seg1 ->
+    a = Znth i seg1 0 -> b = Znth i seg2 0 ->
+    ~ (0 < Znth a c10 0 /\ 0 < Znth b c20 0) ->
+    ~ (0 < Znth a c11 0 /\ 0 < Znth b c21 0) ->
+    0 < Znth a c10 0 -> 0 < Znth b c21 0 ->
+    EditGreedyStep seg1 seg2 (EditSnapshot i ans c10 c11 c20 c21)
+      (EditSnapshot (i + 1) ans (replace_Znth a (Znth a c10 0 - 1) c10)
+        c11 c20 (replace_Znth b (Znth b c21 0 - 1) c21))
+| EditStep_one_zero : forall i ans c10 c11 c20 c21 a b,
+    0 <= i < Zlength seg1 -> Zlength seg2 = Zlength seg1 ->
+    a = Znth i seg1 0 -> b = Znth i seg2 0 ->
+    ~ (0 < Znth a c10 0 /\ 0 < Znth b c20 0) ->
+    ~ (0 < Znth a c11 0 /\ 0 < Znth b c21 0) ->
+    ~ (0 < Znth a c10 0) -> 0 < Znth a c11 0 -> 0 < Znth b c20 0 ->
+    EditGreedyStep seg1 seg2 (EditSnapshot i ans c10 c11 c20 c21)
+      (EditSnapshot (i + 1) ans c10 (replace_Znth a (Znth a c11 0 - 1) c11)
+        (replace_Znth b (Znth b c20 0 - 1) c20) c21).
+Definition EditConsumedTrace (seg1 seg2 full10 full11 full20 full21 : list Z)
+  (i answer : Z) (cnt10 cnt11 cnt20 cnt21 : list Z) : Prop :=
+  Relation_Operators.clos_refl_trans EditScanState (EditGreedyStep seg1 seg2)
+    (EditSnapshot 0 0 full10 full11 full20 full21)
+    (EditSnapshot i answer cnt10 cnt11 cnt20 cnt21).
+
+(** Public problem specification. The C solver receives decoded binary digits;
+    its contract maps them back to the original character codes 48 and 49.
+    A legal edit exchanges adjacent characters only when both mask positions
+    permit participation. The answer is the maximum number of equal positions
+    among pairs of strings obtainable by finitely many such edits. *)
+Require Import SetsClass.SetsClass.
+Import Sets.
+
+Definition EditSwapAt (xs : list Z) (i j : Z) : list Z :=
+  replace_Znth j (Znth i xs 0) (replace_Znth i (Znth j xs 0) xs).
+
+Definition EditLegalSwap (mask before after : list Z) : Prop :=
+  exists i : Z,
+    0 <= i /\ i + 1 < Zlength before /\
+    Znth i mask 0 = 49 /\ Znth (i + 1) mask 0 = 49 /\
+    after = EditSwapAt before i (i + 1).
+
+Definition EditPairMatches (left right : list Z) : Z :=
+  Zlength (filter (fun p => Z.eqb (fst p) (snd p)) (combine left right)).
+
+Definition EditStringsAnswer (s1 s2 t1 t2 : list Z) (answer : Z) : Prop :=
+  max_value_of_subset Z.le
+    (fun outputs : list Z * list Z =>
+      SetsClass.RelsDomain.clos_refl_trans (EditLegalSwap t1) s1 (fst outputs) /\
+      SetsClass.RelsDomain.clos_refl_trans (EditLegalSwap t2) s2 (snd outputs))
+    (fun outputs => EditPairMatches (fst outputs) (snd outputs)) answer.
+
+(** The following predicates describe feasible completions of the unprocessed
+    suffix. They contain neither an execution trace nor a greedy-optimality
+    assumption. Inventories use the C interface's decoded binary digits. *)
+Definition EditInventoryCount (regions values : list Z) (block bit : Z) : Z :=
+  Zlength (filter (fun p => Z.eqb (fst p) block && Z.eqb (snd p) bit)
+    (combine regions values)).
+
+Definition EditSuffixInventory (regions : list Z) (i : Z)
+    (zeroes ones values : list Z) : Prop :=
+  Zlength values = Zlength regions - i /\
+  Forall (fun bit => bit = 0 \/ bit = 1) values /\
+  forall block, 0 <= block < Zlength regions ->
+    EditInventoryCount (sublist i (Zlength regions) regions) values block 0 = Znth block zeroes 0 /\
+    EditInventoryCount (sublist i (Zlength regions) regions) values block 1 = Znth block ones 0.
+
+Definition EditCompletion (s1 s2 t1 t2 prefix1 prefix2 : list Z)
+    (outputs : list Z * list Z) : Prop :=
+  SetsClass.RelsDomain.clos_refl_trans (EditLegalSwap (map (Z.add 48) t1))
+    (map (Z.add 48) s1) (map (Z.add 48) (prefix1 ++ fst outputs)) /\
+  SetsClass.RelsDomain.clos_refl_trans (EditLegalSwap (map (Z.add 48) t2))
+    (map (Z.add 48) s2) (map (Z.add 48) (prefix2 ++ snd outputs)).
+
+Definition EditFeasibleSuffix (s1 s2 t1 t2 regions1 regions2 prefix1 prefix2 : list Z)
+    (i : Z) (zeroes1 ones1 zeroes2 ones2 : list Z) (outputs : list Z * list Z) : Prop :=
+  EditCompletion s1 s2 t1 t2 prefix1 prefix2 outputs /\
+  EditSuffixInventory regions1 i zeroes1 ones1 (fst outputs) /\
+  EditSuffixInventory regions2 i zeroes2 ones2 (snd outputs).
+
+Definition EditRemainingMatches (s1 s2 t1 t2 regions1 regions2 prefix1 prefix2 : list Z)
+    (i : Z) (zeroes1 ones1 zeroes2 ones2 : list Z) (answer : Z) : Prop :=
+  max_value_of_subset Z.le
+    (EditFeasibleSuffix s1 s2 t1 t2 regions1 regions2 prefix1 prefix2 i zeroes1 ones1 zeroes2 ones2)
+    (fun outputs => EditPairMatches (fst outputs) (snd outputs)) answer.
+
+Require Import Coq.Logic.Classical_Prop.
+Require Import AUXLib.MonotonicList.
+
+Lemma edit_pair_cons a b xs ys :
+  EditPairMatches (a :: xs) (b :: ys) = Z.b2z (Z.eqb a b) + EditPairMatches xs ys.
+Proof.
+  unfold EditPairMatches. cbn [combine filter fst snd]. destruct (Z.eqb a b);
+    rewrite ?Zlength_cons; cbn [Z.b2z]; lia.
+Qed.
+Lemma edit_pair_symmetric xs ys : EditPairMatches xs ys = EditPairMatches ys xs.
+Proof.
+  revert ys. induction xs as [|a xs IH]; intros [|b ys]; try reflexivity.
+  rewrite !edit_pair_cons, Z.eqb_sym, IH; reflexivity.
+Qed.
+Lemma edit_pair_bounds xs ys : 0 <= EditPairMatches xs ys <= Zlength xs.
+Proof.
+  revert ys. induction xs as [|a xs IH]; intros [|b ys].
+  - change (0 <= 0 <= 0); lia.
+  - change (0 <= 0 <= 0); lia.
+  - change (0 <= 0 <= Zlength (a :: xs)); split; [lia|apply Zlength_nonneg].
+  - rewrite edit_pair_cons, Zlength_cons. specialize (IH ys).
+    destruct (Z.eqb a b); cbn [Z.b2z]; lia.
+Qed.
+Lemma edit_pair_encode xs ys :
+  EditPairMatches (map (Z.add 48) xs) (map (Z.add 48) ys) = EditPairMatches xs ys.
+Proof.
+  revert ys. induction xs as [|a xs IH]; intros [|b ys]; try reflexivity.
+  cbn [map]. rewrite !edit_pair_cons, IH.
+  destruct (Z.eqb_spec a b), (Z.eqb_spec (48 + a) (48 + b)); simpl; try lia.
+Qed.
+Lemma edit_pair_update_left xs ys i value :
+  Zlength xs = Zlength ys -> 0 <= i < Zlength xs ->
+  EditPairMatches (replace_Znth i value xs) ys =
+    EditPairMatches xs ys - Z.b2z (Z.eqb (Znth i xs 0) (Znth i ys 0)) +
+    Z.b2z (Z.eqb value (Znth i ys 0)).
+Proof.
+  revert ys i. induction xs as [|a xs IH]; intros [|b ys] i Hlen Hi;
+    rewrite ?Zlength_cons, ?Zlength_nil in *; try lia; try (pose proof (Zlength_nonneg xs); lia).
+  destruct (Z.eq_dec i 0) as [->|Hne].
+  - change (EditPairMatches (value :: xs) (b :: ys) =
+      EditPairMatches (a :: xs) (b :: ys) - Z.b2z (Z.eqb a b) + Z.b2z (Z.eqb value b)).
+    rewrite !edit_pair_cons; lia.
+  - rewrite replace_Znth_cons by lia. rewrite !edit_pair_cons, !Znth_cons by lia.
+    rewrite IH by lia. lia.
+Qed.
+Lemma edit_pair_swap_left xs ys j :
+  Zlength xs = Zlength ys -> 0 < j < Zlength xs ->
+  EditPairMatches (EditSwapAt xs 0 j) ys = EditPairMatches xs ys -
+    Z.b2z (Z.eqb (Znth 0 xs 0) (Znth 0 ys 0)) -
+    Z.b2z (Z.eqb (Znth j xs 0) (Znth j ys 0)) +
+    Z.b2z (Z.eqb (Znth j xs 0) (Znth 0 ys 0)) +
+    Z.b2z (Z.eqb (Znth 0 xs 0) (Znth j ys 0)).
+Proof.
+  intros Hlen Hj. unfold EditSwapAt.
+  rewrite !edit_pair_update_left by (rewrite ?Zlength_replace_Znth; lia).
+  rewrite Znth_replace_Znth_Diff by lia. lia.
+Qed.
+Lemma edit_pair_swap_improves xs ys j :
+  Zlength xs = Zlength ys -> 0 < j < Zlength xs ->
+  Znth 0 xs 0 <> Znth 0 ys 0 -> Znth j xs 0 = Znth 0 ys 0 ->
+  EditPairMatches xs ys <= EditPairMatches (EditSwapAt xs 0 j) ys.
+Proof.
+  intros Hlen Hj Hneq Heq. rewrite edit_pair_swap_left by auto.
+  rewrite Heq, Z.eqb_refl. rewrite (proj2 (Z.eqb_neq _ _) Hneq).
+  destruct (Z.eqb (Znth 0 ys 0) (Znth j ys 0));
+    destruct (Z.eqb (Znth 0 xs 0) (Znth j ys 0)); cbn; lia.
+Qed.
+Lemma edit_inventory_cons region bit regions values block target :
+  EditInventoryCount (region :: regions) (bit :: values) block target =
+  Z.b2z (Z.eqb region block && Z.eqb bit target) + EditInventoryCount regions values block target.
+Proof.
+  unfold EditInventoryCount; cbn [combine filter fst snd].
+  destruct (Z.eqb region block && Z.eqb bit target); rewrite ?Zlength_cons; cbn [Z.b2z]; lia.
+Qed.
+Lemma edit_inventory_update regions values i bit block target :
+  Zlength regions = Zlength values -> 0 <= i < Zlength values ->
+  EditInventoryCount regions (replace_Znth i bit values) block target =
+  EditInventoryCount regions values block target -
+    Z.b2z (Z.eqb (Znth i regions 0) block && Z.eqb (Znth i values 0) target) +
+    Z.b2z (Z.eqb (Znth i regions 0) block && Z.eqb bit target).
+Proof.
+  revert values i. induction regions as [|r regions IH]; intros [|v values] i Hlen Hi;
+    rewrite ?Zlength_cons, ?Zlength_nil in *; try lia; try (pose proof (Zlength_nonneg regions); lia);
+    try (pose proof (Zlength_nonneg values); lia).
+  destruct (Z.eq_dec i 0) as [->|Hne].
+  - change (EditInventoryCount (r :: regions) (bit :: values) block target =
+      EditInventoryCount (r :: regions) (v :: values) block target -
+      Z.b2z (Z.eqb r block && Z.eqb v target) + Z.b2z (Z.eqb r block && Z.eqb bit target)).
+    rewrite !edit_inventory_cons; lia.
+  - rewrite replace_Znth_cons by lia. rewrite !edit_inventory_cons, !Znth_cons by lia.
+    rewrite IH by lia. lia.
+Qed.
+Lemma edit_inventory_swap regions values i j block bit :
+  Zlength regions = Zlength values -> 0 <= i < Zlength values -> 0 <= j < Zlength values ->
+  Znth i regions 0 = Znth j regions 0 ->
+  EditInventoryCount regions (EditSwapAt values i j) block bit =
+  EditInventoryCount regions values block bit.
+Proof.
+  intros Hlen Hi Hj Hsame. unfold EditSwapAt.
+  destruct (Z.eq_dec i j) as [->|Hne].
+  - rewrite !replace_Znth_Znth; reflexivity.
+  - rewrite !edit_inventory_update by (rewrite ?Zlength_replace_Znth; lia).
+    rewrite Znth_replace_Znth_Diff by lia. rewrite Hsame; lia.
+Qed.
+
+Lemma edit_bounded_maximum {A} (candidates : A -> Prop) (score : A -> Z) bound :
+  (exists x, candidates x) ->
+  (forall x, candidates x -> 0 <= score x <= bound) ->
+  exists answer, max_value_of_subset Z.le candidates score answer.
+Proof.
+  assert (Hmain : forall b, 0 <= b ->
+    (exists x, candidates x) ->
+    (forall x, candidates x -> 0 <= score x <= b) ->
+    exists answer, max_value_of_subset Z.le candidates score answer).
+  { apply (Z_lt_induction (fun b =>
+      (exists x, candidates x) ->
+      (forall x, candidates x -> 0 <= score x <= b) ->
+      exists answer, max_value_of_subset Z.le candidates score answer)).
+    intros b IH Hinh Hbounds.
+    destruct (classic (exists x, candidates x /\ score x = b)) as [[x [Hx Heq]]|Hnot].
+    - exists b. exists x. split; [split; [exact Hx|]|exact Heq].
+      intros y Hy. specialize (Hbounds y Hy). lia.
+    - assert (Hsmaller : forall x, candidates x -> 0 <= score x <= b - 1).
+      { intros x Hx. specialize (Hbounds x Hx).
+        assert (score x <> b) by (intro H; apply Hnot; exists x; auto). lia. }
+      destruct Hinh as [x Hx]. pose proof (Hsmaller x Hx) as Hb.
+      apply (IH (b - 1) ltac:(lia)); [exists x; exact Hx|exact Hsmaller]. }
+  intros Hinh Hbounds. destruct Hinh as [x Hx]. pose proof (Hbounds x Hx) as Hb.
+  apply (Hmain bound ltac:(lia)); [exists x; exact Hx|exact Hbounds].
+Qed.
+Lemma edit_map_length {A B} (f : A -> B) xs : Zlength (map f xs) = Zlength xs.
+Proof. rewrite !Zlength_correct, length_map; reflexivity. Qed.
+Lemma edit_map_replace {A B} (f : A -> B) xs i x :
+  map f (replace_Znth i x xs) = replace_Znth i (f x) (map f xs).
+Proof.
+  unfold replace_Znth. generalize (Z.to_nat i) as k.
+  induction xs; intros [|k]; cbn; auto. rewrite IHxs; reflexivity.
+Qed.
+Lemma edit_map_read {A B} (f : A -> B) xs i da db :
+  0 <= i < Zlength xs -> Znth i (map f xs) db = f (Znth i xs da).
+Proof.
+  intros Hi. unfold Znth.
+  replace (nth (Z.to_nat i) (map f xs) db) with (nth (Z.to_nat i) (map f xs) (f da)).
+  - apply map_nth.
+  - apply nth_indep. rewrite length_map. rewrite Zlength_correct in Hi; lia.
+Qed.
+Lemma edit_swap_length xs i j : Zlength (EditSwapAt xs i j) = Zlength xs.
+Proof. unfold EditSwapAt. rewrite !Zlength_replace_Znth; reflexivity. Qed.
+Lemma edit_swap_read xs i j k :
+  0 <= i < Zlength xs -> 0 <= j < Zlength xs -> 0 <= k < Zlength xs ->
+  Znth k (EditSwapAt xs i j) 0 =
+  if Z.eqb k j then Znth i xs 0 else if Z.eqb k i then Znth j xs 0 else Znth k xs 0.
+Proof.
+  intros Hi Hj Hk. unfold EditSwapAt.
+  destruct (Z.eqb_spec k j) as [->|Hne].
+  - rewrite Znth_replace_Znth_Same by (rewrite Zlength_replace_Znth; lia); reflexivity.
+  - rewrite Znth_replace_Znth_Diff by (rewrite ?Zlength_replace_Znth; lia).
+    destruct (Z.eqb_spec k i) as [->|Hne'];
+      [rewrite Znth_replace_Znth_Same|rewrite Znth_replace_Znth_Diff]; auto; lia.
+Qed.
+Lemma edit_swap_encode xs i j :
+  0 <= i < Zlength xs -> 0 <= j < Zlength xs ->
+  map (Z.add 48) (EditSwapAt xs i j) = EditSwapAt (map (Z.add 48) xs) i j.
+Proof.
+  intros Hi Hj. unfold EditSwapAt. rewrite !edit_map_replace.
+  rewrite !edit_map_read with (da := 0) by lia; reflexivity.
+Qed.
+Lemma edit_Forall_replace {A} (P : A -> Prop) xs i x :
+  Forall P xs -> P x -> Forall P (replace_Znth i x xs).
+Proof.
+  intros Hxs Hx. unfold replace_Znth. generalize (Z.to_nat i) as k.
+  induction Hxs; intros [|k]; cbn; constructor; auto.
+Qed.
+Lemma edit_Forall_swap (P : Z -> Prop) xs i j :
+  Forall P xs -> 0 <= i < Zlength xs -> 0 <= j < Zlength xs ->
+  Forall P (EditSwapAt xs i j).
+Proof.
+  intros Hxs Hi Hj. unfold EditSwapAt. apply edit_Forall_replace.
+  - apply edit_Forall_replace; [exact Hxs|]. apply (proj1 (Forall_Znth P 0 xs) Hxs j Hj).
+  - apply (proj1 (Forall_Znth P 0 xs) Hxs i Hi).
+Qed.
+Lemma edit_closure_preserves {A} (step : A -> A -> Prop) (P : A -> Prop) :
+  (forall x y, step x y -> P x -> P y) ->
+  forall x y, SetsClass.RelsDomain.clos_refl_trans step x y -> P x -> P y.
+Proof.
+  intros Hstep x y [n Hn]. revert x y Hn.
+  induction n as [|n IH]; intros x y Hn Hx.
+  - change (x = y) in Hn. subst y; exact Hx.
+  - change (exists z, step x z /\ nsteps step n z y) in Hn.
+    destruct Hn as [z [Hxz Hzy]]. eapply IH; [exact Hzy|]. eapply Hstep; eauto.
+Qed.
+Lemma edit_legal_length mask before after :
+  EditLegalSwap mask before after -> Zlength after = Zlength before.
+Proof. intros [i (_ & _ & _ & _ & ->)]. apply edit_swap_length. Qed.
+Lemma edit_reachable_length mask before after :
+  SetsClass.RelsDomain.clos_refl_trans (EditLegalSwap mask) before after ->
+  Zlength after = Zlength before.
+Proof.
+  intros H. eapply (edit_closure_preserves (EditLegalSwap mask) (fun xs => Zlength xs = Zlength before));
+    [|exact H|reflexivity].
+  intros x y Hstep Hx. rewrite (edit_legal_length _ _ _ Hstep); exact Hx.
+Qed.
+Lemma edit_reachable_Forall mask before after (P : Z -> Prop) :
+  SetsClass.RelsDomain.clos_refl_trans (EditLegalSwap mask) before after ->
+  Forall P before -> Forall P after.
+Proof.
+  intros H Hbefore. eapply (edit_closure_preserves (EditLegalSwap mask) (Forall P));
+    [|exact H|exact Hbefore].
+  intros x y [i (Hi & Hj & _ & _ & ->)] Hx. apply edit_Forall_swap; auto; lia.
+Qed.
+Lemma edit_reachable_step mask before after :
+  EditLegalSwap mask before after ->
+  SetsClass.RelsDomain.clos_refl_trans (EditLegalSwap mask) before after.
+Proof. intros H. exists 1%nat. change (exists z, EditLegalSwap mask before z /\ z = after). exists after; auto. Qed.
+
+Lemma edit_swap_conjugate xs i p j :
+  0 <= i < p -> p < j < Zlength xs ->
+  EditSwapAt (EditSwapAt (EditSwapAt xs i p) p j) i p = EditSwapAt xs i j.
+Proof.
+  intros Hip Hpj. apply (proj2 (list_eq_ext _ _ 0)); split.
+  - rewrite !edit_swap_length; reflexivity.
+  - intros k Hk. rewrite !edit_swap_length in Hk.
+    repeat rewrite edit_swap_read by (rewrite ?edit_swap_length; lia).
+    repeat match goal with |- context [Z.eqb ?a ?b] =>
+      destruct (Z.eqb_spec a b); subst; try lia end; reflexivity.
+Qed.
+Lemma edit_swap_reachable mask xs i j :
+  0 <= i <= j -> j < Zlength xs ->
+  (forall k, i <= k <= j -> Znth k mask 0 = 49) ->
+  SetsClass.RelsDomain.clos_refl_trans (EditLegalSwap mask) xs (EditSwapAt xs i j).
+Proof.
+  assert (Hmain : forall d, 0 <= d -> forall values lo hi,
+    hi - lo = d -> 0 <= lo <= hi -> hi < Zlength values ->
+    (forall k, lo <= k <= hi -> Znth k mask 0 = 49) ->
+    SetsClass.RelsDomain.clos_refl_trans (EditLegalSwap mask) values (EditSwapAt values lo hi)).
+  { apply (Z_lt_induction (fun d => forall values lo hi,
+      hi - lo = d -> 0 <= lo <= hi -> hi < Zlength values ->
+      (forall k, lo <= k <= hi -> Znth k mask 0 = 49) ->
+      SetsClass.RelsDomain.clos_refl_trans (EditLegalSwap mask) values (EditSwapAt values lo hi))).
+    intros d IH values lo hi Hd Hlo Hhi Hmask.
+    destruct (Z.eq_dec lo hi) as [->|Hne].
+    - unfold EditSwapAt. rewrite !replace_Znth_Znth. reflexivity.
+    - destruct (Z.eq_dec hi (lo + 1)) as [->|Hfar].
+      + apply edit_reachable_step. exists lo. repeat split; try lia; try reflexivity; apply Hmask; lia.
+      + rewrite <- (edit_swap_conjugate values lo (lo + 1) hi ltac:(lia) ltac:(lia)).
+        eapply (rt2_trans_ins (list Z) (EditLegalSwap mask) values
+          (EditSwapAt values lo (lo + 1))).
+        * apply edit_reachable_step. exists lo. repeat split; try lia; try reflexivity; apply Hmask; lia.
+        * eapply (rt2_trans_ins (list Z) (EditLegalSwap mask)
+            (EditSwapAt values lo (lo + 1))
+            (EditSwapAt (EditSwapAt values lo (lo + 1)) (lo + 1) hi)).
+          -- apply (IH (d - 1) ltac:(lia)); try lia.
+             ++ rewrite edit_swap_length; lia.
+             ++ intros k Hk; apply Hmask; lia.
+          -- apply edit_reachable_step. exists lo. repeat split; try reflexivity;
+               try lia; try (rewrite !edit_swap_length; lia); apply Hmask; lia. }
+  intros Hi Hj Hmask. apply (Hmain (j - i) ltac:(lia)); auto.
+Qed.
+
+(** Reused representation lemmas from the backed-up manual. *)
+Lemma edit_interval_library : forall lo hi,
+  edit_zrange_between lo hi = Zrange lo hi.
+Proof.
+  intros lo hi. unfold edit_zrange_between, Zrange.
+  remember (Z.to_nat (hi - lo)) as count. clear Heqcount hi. revert lo.
+  induction count as [|count IH]; intros lo; simpl; [reflexivity |].
+  rewrite Z.add_0_r. f_equal. rewrite <- seq_shift, map_map.
+  rewrite <- IH. apply map_ext. intros x. lia.
+Qed.
+Lemma edit_range_library : forall n, edit_zrange n = Zrange 0 n.
+Proof.
+  intros n. assert (H : edit_zrange n = edit_zrange_between 0 n).
+  { unfold edit_zrange, edit_zrange_between. rewrite Z.sub_0_r. reflexivity. }
+  rewrite H, edit_interval_library. reflexivity.
+Qed.
+Lemma edit_open_edges_eq : forall t lo hi,
+  edit_all_edges_openb t lo hi = EditOpenEdgesTest t lo hi.
+Proof. intros. unfold edit_all_edges_openb, EditOpenEdgesTest. rewrite edit_interval_library. reflexivity. Qed.
+Lemma edit_block_test_eq : forall t idx block,
+  edit_block_startb t idx block = EditBlockStartTest t idx block.
+Proof. intros. unfold edit_block_startb, EditBlockStartTest. rewrite edit_open_edges_eq. reflexivity. Qed.
+Lemma edit_block_bit_count_eq : forall s t limit block bit,
+  edit_count_bit_in_block_prefix s t limit block bit = EditBlockBitCount s t limit block bit.
+Proof.
+  intros. unfold edit_count_bit_in_block_prefix, EditBlockBitCount.
+  rewrite !Zlength_correct, edit_range_library. f_equal. f_equal.
+  apply filter_ext_in. intros idx _. rewrite edit_block_test_eq. reflexivity.
+Qed.
+Lemma edit_position_count_eq : forall seg limit block,
+  edit_count_positions_in_seg_prefix seg limit block = EditSegmentPositionCount seg limit block.
+Proof. intros. unfold edit_count_positions_in_seg_prefix, EditSegmentPositionCount. rewrite !Zlength_correct, edit_range_library. reflexivity. Qed.
+Lemma edit_match_count_eq : forall s1 s2 n,
+  edit_match_count s1 s2 n = EditMatchCount s1 s2 n.
+Proof. intros. unfold edit_match_count, EditMatchCount. rewrite !Zlength_correct, edit_range_library. reflexivity. Qed.
+Lemma edit_binary_alphabet_iff : forall xs n,
+  EditBinaryList xs n <-> Zlength xs = n /\ Forall (fun bit => bit = 0 \/ bit = 1) xs.
+Proof.
+  intros xs n. unfold EditBinaryList.
+  rewrite (Forall_Znth (fun bit => bit = 0 \/ bit = 1) 0 xs).
+  split; intros [Hlen H]; (split; [exact Hlen | intros idx Hi; apply H; lia]).
+Qed.
+Lemma edit_bounds_iff : forall xs lo hi,
+  (Forall (Z.le lo) xs /\ Forall (Z.ge hi) xs) <->
+  (forall idx, 0 <= idx < Zlength xs -> lo <= Znth idx xs 0 <= hi).
+Proof.
+  intros xs lo hi. split.
+  - intros [Hl Hh] idx Hi.
+    pose proof (proj1 (Forall_Znth (Z.le lo) 0 xs) Hl idx Hi) as H1.
+    pose proof (proj1 (Forall_Znth (Z.ge hi) 0 xs) Hh idx Hi) as H2.
+    apply Z.ge_le in H2. lia.
+  - intros H. split.
+    + apply (proj2 (Forall_Znth (Z.le lo) 0 xs)). intros idx Hi. specialize (H idx Hi). lia.
+    + apply (proj2 (Forall_Znth (Z.ge hi) 0 xs)). intros idx Hi. specialize (H idx Hi). apply Z.le_ge. lia.
+Qed.
+Lemma edit_binary_iff : forall xs n,
+  EditBinaryList xs n <-> Zlength xs = n /\ Forall (Z.le 0) xs /\ Forall (Z.ge 1) xs.
+Proof.
+  intros xs n. unfold EditBinaryList. rewrite edit_bounds_iff.
+  split; intros [Hlen H]; (split; [exact Hlen | intros idx Hi; specialize (H idx ltac:(lia)); lia]).
+Qed.
+Lemma edit_zero_prefix_iff : forall xs written,
+  EditZeroPrefix xs written <-> Zlength xs = written /\ Forall (eq 0) xs.
+Proof.
+  intros xs written. unfold EditZeroPrefix. rewrite (Forall_Znth (eq 0) 0 xs).
+  split; intros [Hlen H]; (split; [exact Hlen | intros idx Hi; specialize (H idx ltac:(lia)); lia]).
+Qed.
+Lemma edit_zero_full_iff : forall n xs,
+  EditZeroFull n xs <-> Zlength xs = n /\ Forall (eq 0) xs.
+Proof. intros. exact (edit_zero_prefix_iff xs n). Qed.
+Lemma edit_count_bounds_iff : forall n cnt,
+  EditCountBounds n cnt <-> Zlength cnt = n /\ Forall (Z.le 0) cnt /\ Forall (Z.ge n) cnt.
+Proof.
+  intros n cnt. unfold EditCountBounds. rewrite edit_bounds_iff.
+  split; intros [Hlen H]; (split; [exact Hlen | intros idx Hi; apply H; lia]).
+Qed.
+Lemma edit_segment_iff : forall t upto seg,
+  EditSegmentPrefix t upto seg <-> Zlength seg = upto /\ EditSegmentMeaning t upto seg.
+Proof. intros. unfold EditSegmentPrefix, EditSegmentMeaning. tauto. Qed.
+Lemma edit_counts_iff : forall s t n upto cnt0 cnt1,
+  EditCountsForPrefix s t n upto cnt0 cnt1 <->
+  Zlength cnt0 = n /\ Zlength cnt1 = n /\ EditCountsMeaning s t n upto cnt0 cnt1.
+Proof.
+  intros. unfold EditCountsForPrefix, EditCountsMeaning.
+  setoid_rewrite edit_block_bit_count_eq. tauto.
+Qed.
+Lemma edit_build_iff : forall s t n upto seg cnt0 cnt1,
+  EditBuildState s t n upto seg cnt0 cnt1 <->
+  0 <= upto /\ upto <= n /\
+  Zlength s = n /\ Forall (Z.le 0) s /\ Forall (Z.ge 1) s /\
+  Zlength t = n /\ Forall (Z.le 0) t /\ Forall (Z.ge 1) t /\
+  Zlength seg = upto /\ Zlength cnt0 = n /\ Zlength cnt1 = n /\
+  EditBuildMeaning s t n upto seg cnt0 cnt1.
+Proof.
+  intros. unfold EditBuildState, EditBuildMeaning.
+  rewrite !edit_binary_iff, edit_segment_iff, edit_counts_iff. tauto.
+Qed.
+
+Lemma edit_filter_count {A} (test : A -> bool) xs :
+  Zlength (filter test xs) = AUXLib.ListLib.sum (map (fun x => Z.b2z (test x)) xs).
+Proof.
+  induction xs as [|x xs IH]; [reflexivity|]. cbn [filter map].
+  destruct (test x); rewrite ?Zlength_cons; cbn [AUXLib.ListLib.sum fold_right Z.b2z];
+    unfold AUXLib.ListLib.sum in IH; lia.
+Qed.
+Lemma edit_inventory_range regions values block bit :
+  EditInventoryCount regions values block bit =
+  SumLib.Sum.sum (fun i => 0 <= i < Z.min (Zlength regions) (Zlength values))
+    (fun i => Z.b2z (Z.eqb (Znth i regions 0) block && Z.eqb (Znth i values 0) bit)).
+Proof.
+  unfold EditInventoryCount. rewrite edit_filter_count.
+  exact (list_sum_map_combine_as_Z_range_sum 0 0
+    (fun r v => Z.b2z (Z.eqb r block && Z.eqb v bit)) regions values).
+Qed.
+Lemma edit_block_count_range s t limit block bit :
+  EditBlockBitCount s t limit block bit =
+  SumLib.Sum.sum (fun i => 0 <= i < Zlength s)
+    (fun i => Z.b2z (Z.ltb i limit && EditBlockStartTest t i block && edit_bit_atb s i bit)).
+Proof.
+  unfold EditBlockBitCount. rewrite edit_filter_count, sum_range_unfold.
+  unfold AUXLib.ListLib.sum.
+  induction (Zrange 0 (Zlength s)); cbn [map fold_right]; congruence.
+Qed.
+Lemma edit_block_test_segment t seg n i block :
+  EditSegmentMeaning t n seg -> 0 <= i < n ->
+  EditBlockStartTest t i block = Z.eqb (Znth i seg 0) block.
+Proof.
+  intros Hseg Hi. specialize (Hseg i Hi).
+  destruct (EditBlockStartTest t i block) eqn:Htest;
+    destruct (Z.eqb (Znth i seg 0) block) eqn:Heq; try reflexivity.
+  - rewrite <- edit_block_test_eq in Htest.
+    apply edit_block_startb_true_iff__build_s1_segments_counts in Htest.
+    pose proof (edit_block_start_unique__build_s2_segments_counts t i _ _ Hseg Htest).
+    apply Z.eqb_neq in Heq; contradiction.
+  - apply Z.eqb_eq in Heq. rewrite <- Heq in Htest.
+    rewrite <- edit_block_test_eq in Htest.
+    apply edit_block_startb_true_iff__build_s1_segments_counts in Hseg.
+    rewrite Hseg in Htest; discriminate.
+Qed.
+Lemma edit_full_inventory s t seg n block bit :
+  Zlength s = n -> Zlength seg = n -> EditSegmentMeaning t n seg ->
+  EditBlockBitCount s t n block bit = EditInventoryCount seg s block bit.
+Proof.
+  intros Hs Hseg Hmeaning. rewrite edit_inventory_range, edit_block_count_range.
+  rewrite Hs, Hseg, Z.min_id. apply sum_Z_range_ext. intros i Hi.
+  rewrite (edit_block_test_segment t seg n i block Hmeaning Hi).
+  rewrite (proj2 (Z.ltb_lt i n) ltac:(lia)). cbn [andb]. reflexivity.
+Qed.
+Lemma edit_region_between t seg n i j k :
+  EditSegmentMeaning t n seg -> 0 <= i <= j -> j <= k < n ->
+  Znth i seg 0 = Znth k seg 0 -> Znth j seg 0 = Znth i seg 0.
+Proof.
+  intros Hseg Hij Hjk Heq.
+  pose proof (Hseg i ltac:(lia)) as [[Hstart Hbound] _].
+  pose proof (Hseg k ltac:(lia)) as Hk. rewrite <- Heq in Hk.
+  destruct Hk as [_ [Hedges Hboundary]].
+  eapply edit_block_start_unique__build_s2_segments_counts; [apply Hseg; lia|].
+  split; [lia|]. split; [intros q Hq; apply Hedges; lia|exact Hboundary].
+Qed.
+Lemma edit_region_open t seg n i j :
+  Zlength t = n -> EditSegmentMeaning t n seg -> 0 <= i < j -> j < n ->
+  Znth i seg 0 = Znth j seg 0 ->
+  forall k, i <= k <= j -> Znth k (map (Z.add 48) t) 0 = 49.
+Proof.
+  intros Ht Hseg Hij Hjn Heq k Hk.
+  pose proof (Hseg i ltac:(lia)) as [[Hstart Hbound] _].
+  pose proof (Hseg j ltac:(lia)) as Hj. rewrite <- Heq in Hj.
+  destruct Hj as [_ [Hedges _]]. rewrite edit_map_read with (da := 0) by lia.
+  destruct (Z.eq_dec k i) as [->|Hne].
+  - pose proof (Hedges (i + 1) ltac:(lia)) as [Hleft _].
+    unfold edit_edge_open in Hleft. replace (i + 1 - 1) with i in Hleft by lia. lia.
+  - pose proof (Hedges k ltac:(lia)) as [_ Hright]. lia.
+Qed.
+
+Lemma edit_eqb_shift c x y : Z.eqb (c + x) (c + y) = Z.eqb x y.
+Proof. destruct (Z.eqb_spec (c + x) (c + y)), (Z.eqb_spec x y); try reflexivity; lia. Qed.
+Lemma edit_encode_decode xs : map (Z.add 48) (map (Z.add (-48)) xs) = xs.
+Proof. induction xs; cbn [map]; f_equal; auto; lia. Qed.
+Lemma edit_pair_decode xs ys :
+  EditPairMatches (map (Z.add (-48)) xs) (map (Z.add (-48)) ys) = EditPairMatches xs ys.
+Proof.
+  pose proof (edit_pair_encode (map (Z.add (-48)) xs) (map (Z.add (-48)) ys)) as H.
+  rewrite !edit_encode_decode in H; symmetry; exact H.
+Qed.
+Lemma edit_inventory_encode regions values block bit :
+  EditInventoryCount regions (map (Z.add 48) values) block (48 + bit) =
+  EditInventoryCount regions values block bit.
+Proof.
+  revert values. induction regions as [|r regions IH]; intros [|v values]; try reflexivity.
+  cbn [map]. rewrite !edit_inventory_cons, edit_eqb_shift, IH; reflexivity.
+Qed.
+Lemma edit_encode_alphabet xs :
+  Forall (fun x => x = 0 \/ x = 1) xs ->
+  Forall (fun x => x = 48 \/ x = 49) (map (Z.add 48) xs).
+Proof.
+  rewrite Forall_map. intros H. eapply Forall_impl; [|exact H]. intros x [-> | ->]; cbn; auto.
+Qed.
+Lemma edit_decode_alphabet xs :
+  Forall (fun x => x = 48 \/ x = 49) xs ->
+  Forall (fun x => x = 0 \/ x = 1) (map (Z.add (-48)) xs).
+Proof.
+  rewrite Forall_map. intros H. eapply Forall_impl; [|exact H]. intros x [-> | ->]; cbn; auto.
+Qed.
+Lemma edit_regions_edges t seg n :
+  Zlength t = n -> Zlength seg = n -> EditSegmentMeaning t n seg ->
+  forall i, 0 <= i -> i + 1 < Zlength seg ->
+    Znth i (map (Z.add 48) t) 0 = 49 -> Znth (i + 1) (map (Z.add 48) t) 0 = 49 ->
+    Znth i seg 0 = Znth (i + 1) seg 0.
+Proof.
+  intros Ht Hseg Hmeaning i Hi Hin Hleft Hright.
+  rewrite edit_map_read with (da := 0) in Hleft, Hright by lia.
+  assert (Hedge : edit_edge_open t (i + 1)).
+  { unfold edit_edge_open. replace (i + 1 - 1) with i by lia. split; lia. }
+  pose proof (Hmeaning i ltac:(lia)) as [Hstart [Hedges Hboundary]].
+  eapply edit_block_start_unique__build_s2_segments_counts; [|apply Hmeaning; lia].
+  split; [lia|]. split; [|exact Hboundary].
+  intros k Hk. destruct (Z.eq_dec k (i + 1)) as [->|Hne]; [exact Hedge|]. apply Hedges; lia.
+Qed.
+Lemma edit_reachable_inventory regions mask before after :
+  Zlength regions = Zlength before ->
+  (forall i, 0 <= i -> i + 1 < Zlength regions ->
+    Znth i mask 0 = 49 -> Znth (i + 1) mask 0 = 49 ->
+    Znth i regions 0 = Znth (i + 1) regions 0) ->
+  SetsClass.RelsDomain.clos_refl_trans (EditLegalSwap mask) before after ->
+  forall block bit, EditInventoryCount regions after block bit = EditInventoryCount regions before block bit.
+Proof.
+  intros Hlength Hedges Hreach block bit.
+  assert (Hpreserve : Zlength after = Zlength regions /\
+    EditInventoryCount regions after block bit = EditInventoryCount regions before block bit).
+  { eapply (edit_closure_preserves (EditLegalSwap mask)
+      (fun values => Zlength values = Zlength regions /\
+        EditInventoryCount regions values block bit = EditInventoryCount regions before block bit));
+      [|exact Hreach|split; [symmetry; exact Hlength|reflexivity]].
+    intros xs ys [i (Hi & Hin & Hleft & Hright & ->)] [Hlen Hcount]. split.
+    - rewrite edit_swap_length; exact Hlen.
+    - rewrite edit_inventory_swap by (try lia; apply Hedges; auto; lia). exact Hcount. }
+  exact (proj2 Hpreserve).
+Qed.
+Lemma edit_initial_inventory s t seg zeroes ones n output :
+  Zlength s = n -> Zlength t = n -> Zlength seg = n ->
+  Forall (fun bit => bit = 0 \/ bit = 1) s ->
+  EditBuildMeaning s t n n seg zeroes ones ->
+  SetsClass.RelsDomain.clos_refl_trans (EditLegalSwap (map (Z.add 48) t))
+    (map (Z.add 48) s) output ->
+  EditSuffixInventory seg 0 zeroes ones (map (Z.add (-48)) output).
+Proof.
+  intros Hs Ht Hseg Hbinary [Hsegments [Hz Ho]] Hreach.
+  pose proof (edit_reachable_length _ _ _ Hreach) as Houtlen. rewrite edit_map_length in Houtlen.
+  unfold EditSuffixInventory. split.
+  - rewrite edit_map_length; lia.
+  - split.
+    + apply edit_decode_alphabet. eapply edit_reachable_Forall; [exact Hreach|]. apply edit_encode_alphabet; exact Hbinary.
+    + assert (Hcounts : forall block bit,
+        EditInventoryCount seg (map (Z.add (-48)) output) block bit = EditBlockBitCount s t n block bit).
+      { intros block bit.
+        rewrite <- (edit_inventory_encode seg (map (Z.add (-48)) output) block bit), edit_encode_decode.
+        rewrite (edit_reachable_inventory seg (map (Z.add 48) t) (map (Z.add 48) s) output
+          ltac:(rewrite edit_map_length; lia)
+          (edit_regions_edges t seg n Ht Hseg Hsegments) Hreach block (48 + bit)).
+        rewrite edit_inventory_encode. symmetry. apply edit_full_inventory; auto. }
+      intros block Hb. rewrite Hseg in Hb.
+      rewrite sublist_self by reflexivity. rewrite !Hcounts. split; symmetry; [apply Hz|apply Ho]; lia.
+Qed.
+Lemma edit_answer_exists s1 s2 t1 t2 : exists answer, EditStringsAnswer s1 s2 t1 t2 answer.
+Proof.
+  unfold EditStringsAnswer. apply edit_bounded_maximum with (bound := Zlength s1).
+  - exists (s1,s2); split; reflexivity.
+  - intros [out1 out2] [H1 H2]. cbn [fst snd] in *.
+    pose proof (edit_pair_bounds out1 out2) as Hb.
+    pose proof (edit_reachable_length _ _ _ H1) as Hlen. lia.
+Qed.
+Lemma edit_initial_remaining s1 s2 t1 t2 seg1 seg2 c10 c11 c20 c21 n :
+  Zlength s1 = n -> Zlength s2 = n -> Zlength t1 = n -> Zlength t2 = n ->
+  Zlength seg1 = n -> Zlength seg2 = n ->
+  Forall (fun bit => bit = 0 \/ bit = 1) s1 -> Forall (fun bit => bit = 0 \/ bit = 1) s2 ->
+  EditBuildMeaning s1 t1 n n seg1 c10 c11 -> EditBuildMeaning s2 t2 n n seg2 c20 c21 ->
+  exists answer,
+    EditRemainingMatches s1 s2 t1 t2 seg1 seg2 [] [] 0 c10 c11 c20 c21 answer /\
+    EditStringsAnswer (map (Z.add 48) s1) (map (Z.add 48) s2)
+      (map (Z.add 48) t1) (map (Z.add 48) t2) answer.
+Proof.
+  intros Hs1 Hs2 Ht1 Ht2 Hseg1 Hseg2 Hb1 Hb2 Hbuild1 Hbuild2.
+  destruct (edit_answer_exists (map (Z.add 48) s1) (map (Z.add 48) s2)
+    (map (Z.add 48) t1) (map (Z.add 48) t2)) as [answer Hanswer].
+  exists answer; split; [|exact Hanswer].
+  destruct Hanswer as [[out1 out2] [[[Hreach1 Hreach2] Hupper] Hvalue]]. cbn [fst snd] in *.
+  pose proof (edit_initial_inventory s1 t1 seg1 c10 c11 n out1 Hs1 Ht1 Hseg1 Hb1 Hbuild1 Hreach1) as Hinv1.
+  pose proof (edit_initial_inventory s2 t2 seg2 c20 c21 n out2 Hs2 Ht2 Hseg2 Hb2 Hbuild2 Hreach2) as Hinv2.
+  exists (map (Z.add (-48)) out1, map (Z.add (-48)) out2). split; [split|].
+  - split.
+    + unfold EditCompletion; cbn [fst snd List.app]. rewrite !edit_encode_decode; auto.
+    + cbn [fst snd]; auto.
+  - intros [x y] [Hcompletion Hinv].
+    unfold EditCompletion in Hcompletion; cbn [fst snd List.app] in Hcompletion.
+    specialize (Hupper (map (Z.add 48) x, map (Z.add 48) y) Hcompletion).
+    cbn [fst snd] in Hupper. rewrite edit_pair_encode in Hupper.
+    cbn [fst snd]. rewrite edit_pair_decode. exact Hupper.
+  - cbn [fst snd]. rewrite edit_pair_decode; exact Hvalue.
+Qed.
+
+Lemma edit_swap_prepend prefix values i j :
+  0 <= i < Zlength values -> 0 <= j < Zlength values ->
+  EditSwapAt (prefix ++ values) (Zlength prefix + i) (Zlength prefix + j) =
+    prefix ++ EditSwapAt values i j.
+Proof.
+  intros Hi Hj. unfold EditSwapAt.
+  rewrite !app_Znth2 by lia.
+  replace (Zlength prefix + i - Zlength prefix) with i by lia.
+  replace (Zlength prefix + j - Zlength prefix) with j by lia.
+  rewrite (replace_Znth_app_r (Zlength prefix + i) _ prefix values) by lia.
+  rewrite (replace_Znth_nothing (Zlength prefix + i) prefix) by lia.
+  replace (Zlength prefix + i - Zlength prefix) with i by lia.
+  rewrite (replace_Znth_app_r (Zlength prefix + j) _ prefix) by lia.
+  rewrite (replace_Znth_nothing (Zlength prefix + j) prefix) by lia.
+  replace (Zlength prefix + j - Zlength prefix) with j by lia. reflexivity.
+Qed.
+Lemma edit_extension_swap source t seg n prefix values i j :
+  Zlength t = n -> EditSegmentMeaning t n seg ->
+  Zlength prefix = i -> Zlength values = n - i -> 0 <= i < n -> 0 < j < Zlength values ->
+  Znth (i + j) seg 0 = Znth i seg 0 ->
+  SetsClass.RelsDomain.clos_refl_trans (EditLegalSwap (map (Z.add 48) t))
+    source (map (Z.add 48) (prefix ++ values)) ->
+  SetsClass.RelsDomain.clos_refl_trans (EditLegalSwap (map (Z.add 48) t))
+    source (map (Z.add 48) (prefix ++ EditSwapAt values 0 j)).
+Proof.
+  intros Ht Hseg Hp Hv Hi Hj Hsame Hreach.
+  eapply (rt2_trans_ins (list Z) (EditLegalSwap (map (Z.add 48) t))
+    source (map (Z.add 48) (prefix ++ values))); [exact Hreach|].
+  rewrite <- (edit_swap_prepend prefix values 0 j ltac:(lia) ltac:(lia)).
+  rewrite edit_swap_encode by (rewrite Zlength_app; pose proof (Zlength_nonneg prefix); lia).
+  rewrite Hp, Z.add_0_r. apply edit_swap_reachable.
+  - lia.
+  - rewrite edit_map_length, Zlength_app; lia.
+  - apply (edit_region_open t seg n i (i + j)); auto; lia.
+Qed.
+Lemma edit_suffix_swap regions i zeroes ones values j :
+  0 <= i < Zlength regions -> EditSuffixInventory regions i zeroes ones values ->
+  0 < j < Zlength values -> Znth (i + j) regions 0 = Znth i regions 0 ->
+  EditSuffixInventory regions i zeroes ones (EditSwapAt values 0 j).
+Proof.
+  intros Hi [Hlen [Hbinary Hcounts]] Hj Hsame. split; [rewrite edit_swap_length; exact Hlen|].
+  split; [apply edit_Forall_swap; auto; lia|].
+  intros block Hb. rewrite !edit_inventory_swap; auto;
+    try (rewrite Zlength_sublist; lia);
+    try lia.
+  all: rewrite !Znth_sublist by lia; replace (0 + i) with i by lia;
+    replace (j + i) with (i + j) by lia; symmetry; exact Hsame.
+Qed.
+Lemma edit_feasible_swap_left s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 n x y j :
+  Zlength t1 = n -> Zlength seg1 = n -> EditSegmentMeaning t1 n seg1 ->
+  Zlength prefix1 = i -> 0 <= i < n ->
+  EditFeasibleSuffix s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 (x,y) ->
+  0 < j < n - i -> Znth (i + j) seg1 0 = Znth i seg1 0 ->
+  EditFeasibleSuffix s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 (EditSwapAt x 0 j,y).
+Proof.
+  intros Ht Hseg Hmeaning Hp Hi [Hcompletion [Hinv1 Hinv2]] Hj Hsame.
+  pose proof (proj1 Hinv1) as Hxlen. cbn [fst snd] in Hxlen; rewrite Hseg in Hxlen.
+  split.
+  - destruct Hcompletion as [H1 H2]. split; [|exact H2].
+    eapply edit_extension_swap; eauto; lia.
+  - split; [|exact Hinv2]. apply edit_suffix_swap; auto; lia.
+Qed.
+Lemma edit_feasible_swap_right s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 n x y j :
+  Zlength t2 = n -> Zlength seg2 = n -> EditSegmentMeaning t2 n seg2 ->
+  Zlength prefix2 = i -> 0 <= i < n ->
+  EditFeasibleSuffix s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 (x,y) ->
+  0 < j < n - i -> Znth (i + j) seg2 0 = Znth i seg2 0 ->
+  EditFeasibleSuffix s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 (x,EditSwapAt y 0 j).
+Proof.
+  intros Ht Hseg Hmeaning Hp Hi [Hcompletion [Hinv1 Hinv2]] Hj Hsame.
+  pose proof (proj1 Hinv2) as Hylen. cbn [fst snd] in Hylen; rewrite Hseg in Hylen.
+  split.
+  - destruct Hcompletion as [H1 H2]. split; [exact H1|].
+    eapply edit_extension_swap; eauto; lia.
+  - split; [exact Hinv1|]. apply edit_suffix_swap; auto; lia.
+Qed.
+Lemma edit_pair_swap_flat xs ys j :
+  Zlength xs = Zlength ys -> 0 < j < Zlength xs -> Znth 0 ys 0 = Znth j ys 0 ->
+  EditPairMatches (EditSwapAt xs 0 j) ys = EditPairMatches xs ys.
+Proof. intros Hlen Hj Hsame. rewrite edit_pair_swap_left by auto. rewrite Hsame; lia. Qed.
+Lemma edit_pair_swap_both xs ys j :
+  Zlength xs = Zlength ys -> 0 < j < Zlength xs ->
+  EditPairMatches (EditSwapAt xs 0 j) (EditSwapAt ys 0 j) = EditPairMatches xs ys.
+Proof.
+  intros Hlen Hj.
+  rewrite (edit_pair_symmetric (EditSwapAt xs 0 j) (EditSwapAt ys 0 j)).
+  rewrite edit_pair_swap_left by (rewrite ?edit_swap_length; lia).
+  rewrite (edit_pair_symmetric ys (EditSwapAt xs 0 j)).
+  rewrite edit_pair_swap_left by auto.
+  repeat rewrite edit_swap_read by lia.
+  rewrite !Z.eqb_refl, (proj2 (Z.eqb_neq 0 j) ltac:(lia)); cbn [Z.b2z].
+  rewrite ?(Z.eqb_sym (Znth 0 ys 0) (Znth j xs 0)),
+    ?(Z.eqb_sym (Znth j ys 0) (Znth 0 xs 0)),
+    ?(Z.eqb_sym (Znth j ys 0) (Znth j xs 0)),
+    ?(Z.eqb_sym (Znth 0 ys 0) (Znth 0 xs 0)). lia.
+Qed.
+
+Lemma edit_swap_front xs j :
+  0 < j < Zlength xs -> Znth 0 (EditSwapAt xs 0 j) 0 = Znth j xs 0.
+Proof.
+  intros Hj. rewrite edit_swap_read by lia.
+  rewrite (proj2 (Z.eqb_neq 0 j) ltac:(lia)), Z.eqb_refl; reflexivity.
+Qed.
+Lemma edit_pair_swap_right_improves xs ys j :
+  Zlength xs = Zlength ys -> 0 < j < Zlength ys ->
+  Znth 0 ys 0 <> Znth 0 xs 0 -> Znth j ys 0 = Znth 0 xs 0 ->
+  EditPairMatches xs ys <= EditPairMatches xs (EditSwapAt ys 0 j).
+Proof.
+  intros Hlen Hj Hne Heq. rewrite (edit_pair_symmetric xs ys), (edit_pair_symmetric xs (EditSwapAt ys 0 j)).
+  apply edit_pair_swap_improves; auto.
+Qed.
+
+(** Exchange argument: the earlier of two available positions lies in the
+    other current region as well. A common first bit can therefore be chosen
+    without decreasing the number of matches. The candidate set is arbitrary
+    provided it is closed under the indicated, legal region transpositions. *)
+Lemma edit_force_common_ordered
+    (P : list Z * list Z -> Prop) r1 r2 xs ys m bit j k :
+  0 < m -> Zlength xs = m -> Zlength ys = m ->
+  Forall (fun x => x = 0 \/ x = 1) ys -> (bit = 0 \/ bit = 1) ->
+  P (xs,ys) -> Znth 0 xs 0 = Znth 0 ys 0 -> Znth 0 ys 0 <> bit ->
+  0 < j <= k -> k < m -> Znth j xs 0 = bit -> Znth k ys 0 = bit ->
+  Znth j r1 0 = Znth 0 r1 0 -> Znth k r2 0 = Znth 0 r2 0 ->
+  (forall a b, 0 <= a <= b -> b < m -> Znth b r2 0 = Znth 0 r2 0 -> Znth a r2 0 = Znth 0 r2 0) ->
+  (forall u v q, P (u,v) -> 0 < q < m -> Znth q r1 0 = Znth 0 r1 0 -> P (EditSwapAt u 0 q,v)) ->
+  (forall u v q, P (u,v) -> 0 < q < m -> Znth q r2 0 = Znth 0 r2 0 -> P (u,EditSwapAt v 0 q)) ->
+  exists u v, P (u,v) /\ Znth 0 u 0 = bit /\ Znth 0 v 0 = bit /\
+    EditPairMatches xs ys <= EditPairMatches u v.
+Proof.
+  intros Hm Hx Hy Hbinary Hbit HP Hheads Hnot Hjk Hkm Hxj Hyk Hr1 Hr2 Hclosed Hswap1 Hswap2.
+  assert (Hj2 : Znth j r2 0 = Znth 0 r2 0) by (apply (Hclosed j k); auto; lia).
+  pose proof (proj1 (Forall_Znth _ 0 ys) Hbinary 0 ltac:(lia)) as Hheadbit.
+  pose proof (proj1 (Forall_Znth _ 0 ys) Hbinary j ltac:(lia)) as Hjbit.
+  assert (Hchoice : Znth j ys 0 = bit \/ Znth j ys 0 = Znth 0 ys 0) by
+    (destruct Hbit, Hheadbit, Hjbit; lia).
+  destruct Hchoice as [Hcommon|Hflat].
+  - exists (EditSwapAt xs 0 j), (EditSwapAt ys 0 j). split.
+    + apply Hswap2; auto; try lia. apply Hswap1; auto; lia.
+    + split; [rewrite edit_swap_front by lia; exact Hxj|].
+      split; [rewrite edit_swap_front by lia; exact Hcommon|].
+      rewrite edit_pair_swap_both by lia; lia.
+  - exists (EditSwapAt xs 0 j), (EditSwapAt ys 0 k). split.
+    + apply Hswap2; auto; try lia. apply Hswap1; auto; lia.
+    + split; [rewrite edit_swap_front by lia; exact Hxj|].
+      split; [rewrite edit_swap_front by lia; exact Hyk|].
+      assert (Hsame_score : EditPairMatches (EditSwapAt xs 0 j) ys = EditPairMatches xs ys).
+      { apply edit_pair_swap_flat; auto; lia. }
+      rewrite <- Hsame_score. apply edit_pair_swap_right_improves; try lia; try (rewrite edit_swap_length; lia).
+      * rewrite edit_swap_front by lia. rewrite Hxj; exact Hnot.
+      * rewrite edit_swap_front by lia. rewrite Hxj; exact Hyk.
+Qed.
+Lemma edit_force_common
+    (P : list Z * list Z -> Prop) r1 r2 xs ys m bit j k :
+  0 < m -> Zlength xs = m -> Zlength ys = m ->
+  Forall (fun x => x = 0 \/ x = 1) xs -> Forall (fun x => x = 0 \/ x = 1) ys ->
+  (bit = 0 \/ bit = 1) -> P (xs,ys) ->
+  0 <= j < m -> 0 <= k < m -> Znth j xs 0 = bit -> Znth k ys 0 = bit ->
+  Znth j r1 0 = Znth 0 r1 0 -> Znth k r2 0 = Znth 0 r2 0 ->
+  (forall a b, 0 <= a <= b -> b < m -> Znth b r1 0 = Znth 0 r1 0 -> Znth a r1 0 = Znth 0 r1 0) ->
+  (forall a b, 0 <= a <= b -> b < m -> Znth b r2 0 = Znth 0 r2 0 -> Znth a r2 0 = Znth 0 r2 0) ->
+  (forall u v q, P (u,v) -> 0 < q < m -> Znth q r1 0 = Znth 0 r1 0 -> P (EditSwapAt u 0 q,v)) ->
+  (forall u v q, P (u,v) -> 0 < q < m -> Znth q r2 0 = Znth 0 r2 0 -> P (u,EditSwapAt v 0 q)) ->
+  exists u v, P (u,v) /\ Znth 0 u 0 = bit /\ Znth 0 v 0 = bit /\
+    EditPairMatches xs ys <= EditPairMatches u v.
+Proof.
+  intros Hm Hx Hy Hb1 Hb2 Hbit HP Hj Hk Hxj Hyk Hr1 Hr2 Hclosed1 Hclosed2 Hswap1 Hswap2.
+  destruct (Z.eq_dec (Znth 0 xs 0) bit) as [Hfirst|Hfirst];
+    destruct (Z.eq_dec (Znth 0 ys 0) bit) as [Hsecond|Hsecond].
+  - exists xs, ys; repeat split; auto; lia.
+  - assert (Hkp : 0 < k) by (destruct (Z.eq_dec k 0); subst; try contradiction; lia).
+    exists xs, (EditSwapAt ys 0 k). split; [apply Hswap2; auto; lia|].
+    split; [exact Hfirst|]. split; [rewrite edit_swap_front by lia; exact Hyk|].
+    apply edit_pair_swap_right_improves; auto; try lia; rewrite Hfirst; assumption.
+  - assert (Hjp : 0 < j) by (destruct (Z.eq_dec j 0); subst; try contradiction; lia).
+    exists (EditSwapAt xs 0 j), ys. split; [apply Hswap1; auto; lia|].
+    split; [rewrite edit_swap_front by lia; exact Hxj|]. split; [exact Hsecond|].
+    apply edit_pair_swap_improves; auto; try lia; rewrite Hsecond; assumption.
+  - assert (Hjp : 0 < j) by (destruct (Z.eq_dec j 0); subst; try contradiction; lia).
+    assert (Hkp : 0 < k) by (destruct (Z.eq_dec k 0); subst; try contradiction; lia).
+    pose proof (proj1 (Forall_Znth _ 0 xs) Hb1 0 ltac:(lia)) as Hhead1.
+    pose proof (proj1 (Forall_Znth _ 0 ys) Hb2 0 ltac:(lia)) as Hhead2.
+    assert (Hequal : Znth 0 xs 0 = Znth 0 ys 0) by (destruct Hbit, Hhead1, Hhead2; lia).
+    destruct (Z_le_dec j k) as [Hjk|Hkj].
+    + eapply edit_force_common_ordered with (r1 := r1) (r2 := r2) (m := m) (j := j) (k := k); eauto; lia.
+    + assert (Hreverse : exists v u,
+        (fun outputs : list Z * list Z => P (snd outputs, fst outputs)) (v,u) /\
+        Znth 0 v 0 = bit /\ Znth 0 u 0 = bit /\ EditPairMatches ys xs <= EditPairMatches v u).
+      { eapply (edit_force_common_ordered
+          (fun outputs : list Z * list Z => P (snd outputs, fst outputs)) r2 r1 ys xs m bit k j);
+          cbn [fst snd]; eauto; try lia; try congruence.
+        all: intros u v q Hprev Hq Hlabel; cbn [fst snd] in *;
+          first [apply Hswap2; auto | apply Hswap1; auto]. }
+      destruct Hreverse as [v [u [HP' [Hv [Hu Hscore]]]]]. cbn [fst snd] in HP'.
+      exists u, v. split; [exact HP'|]. split; [exact Hu|]. split; [exact Hv|].
+      rewrite (edit_pair_symmetric xs ys), (edit_pair_symmetric u v); exact Hscore.
+Qed.
+
+Lemma edit_inventory_bounds regions values block bit :
+  0 <= EditInventoryCount regions values block bit <= Zlength values.
+Proof.
+  revert values. induction regions as [|r regions IH]; intros values.
+  - change (0 <= 0 <= Zlength values); split; [lia|apply Zlength_nonneg].
+  - destruct values as [|v values]; [change (0 <= 0 <= 0); lia|].
+    rewrite edit_inventory_cons, Zlength_cons. specialize (IH values).
+    destruct (Z.eqb r block && Z.eqb v bit); cbn [Z.b2z]; lia.
+Qed.
+Lemma edit_inventory_positive regions values block bit :
+  Zlength regions = Zlength values -> 0 < EditInventoryCount regions values block bit ->
+  exists j, 0 <= j < Zlength values /\ Znth j regions 0 = block /\ Znth j values 0 = bit.
+Proof.
+  revert values. induction regions as [|r regions IH]; intros [|v values] Hlen Hpos;
+    try (change (0 < 0) in Hpos; lia).
+  rewrite edit_inventory_cons in Hpos.
+  destruct (Z.eqb r block && Z.eqb v bit) eqn:Htest.
+  - apply andb_true_iff in Htest as [Hr Hv]. apply Z.eqb_eq in Hr, Hv.
+    exists 0. split; [rewrite Zlength_cons; pose proof (Zlength_nonneg values); lia|].
+    cbn [Znth]; auto.
+  - cbn [Z.b2z] in Hpos.
+    destruct (IH values ltac:(rewrite !Zlength_cons in Hlen; lia) ltac:(lia)) as [j [Hj [Hr Hv]]].
+    exists (j + 1). split; [rewrite Zlength_cons; lia|].
+    rewrite !Znth_cons by lia. replace (j + 1 - 1) with j by lia; auto.
+Qed.
+Lemma edit_inventory_at_positive regions values j block bit :
+  Zlength regions = Zlength values -> 0 <= j < Zlength values ->
+  Znth j regions 0 = block -> Znth j values 0 = bit ->
+  0 < EditInventoryCount regions values block bit.
+Proof.
+  revert values j. induction regions as [|r regions IH]; intros [|v values] j Hlen Hj Hr Hv;
+    rewrite ?Zlength_cons, ?Zlength_nil in *; try lia;
+    try (pose proof (Zlength_nonneg regions); lia); try (pose proof (Zlength_nonneg values); lia).
+  rewrite edit_inventory_cons.
+  destruct (Z.eq_dec j 0) as [->|Hne].
+  - change (r = block) in Hr. change (v = bit) in Hv. subst r v.
+    rewrite !Z.eqb_refl. cbn [andb Z.b2z]. pose proof (edit_inventory_bounds regions values block bit); lia.
+  - rewrite Znth_cons in Hr, Hv by lia.
+    pose proof (IH values (j - 1) ltac:(lia) ltac:(lia) Hr Hv) as Htail.
+    destruct (Z.eqb r block && Z.eqb v bit); cbn [Z.b2z]; lia.
+Qed.
+Lemma edit_suffix_regions regions i :
+  0 <= i < Zlength regions ->
+  sublist i (Zlength regions) regions = Znth i regions 0 :: sublist (i + 1) (Zlength regions) regions.
+Proof.
+  intros Hi. rewrite (sublist_split i (Zlength regions) (i + 1)) by lia.
+  rewrite (sublist_single 0 i regions) by lia; reflexivity.
+Qed.
+Lemma edit_count_tail_iff regions i counts label bit target values :
+  Zlength counts = Zlength regions -> 0 <= i < Zlength regions ->
+  label = Znth i regions 0 -> 0 <= label < Zlength regions ->
+  (forall block, 0 <= block < Zlength regions ->
+    EditInventoryCount (sublist i (Zlength regions) regions) (bit :: values) block target = Znth block counts 0) <->
+  (forall block, 0 <= block < Zlength regions ->
+    EditInventoryCount (sublist (i + 1) (Zlength regions) regions) values block target =
+    Znth block (if Z.eqb bit target then replace_Znth label (Znth label counts 0 - 1) counts else counts) 0).
+Proof.
+  intros Hlen Hi Hlabel Hlabel_range.
+  assert (Hpoint : forall block, 0 <= block < Zlength regions ->
+    (EditInventoryCount (sublist i (Zlength regions) regions) (bit :: values) block target = Znth block counts 0 <->
+     EditInventoryCount (sublist (i + 1) (Zlength regions) regions) values block target =
+       Znth block (if Z.eqb bit target then replace_Znth label (Znth label counts 0 - 1) counts else counts) 0)).
+  { intros block Hb. rewrite (edit_suffix_regions regions i Hi), edit_inventory_cons, <- Hlabel.
+    destruct (Z.eqb bit target) eqn:Hbit.
+    - rewrite andb_true_r. destruct (Z.eq_dec label block) as [->|Hne].
+      + rewrite Z.eqb_refl, Znth_replace_Znth_Same by lia. cbn [Z.b2z]; lia.
+      + rewrite (proj2 (Z.eqb_neq label block) Hne), Znth_replace_Znth_Diff by lia. cbn [Z.b2z]; lia.
+    - rewrite andb_false_r. cbn [Z.b2z]; lia. }
+  split; intros H block Hb; [apply (proj1 (Hpoint block Hb))|apply (proj2 (Hpoint block Hb))]; auto.
+Qed.
+Lemma edit_inventory_tail_iff regions i zeroes ones label bit values :
+  Zlength zeroes = Zlength regions -> Zlength ones = Zlength regions ->
+  0 <= i < Zlength regions -> label = Znth i regions 0 -> 0 <= label < Zlength regions ->
+  (bit = 0 \/ bit = 1) ->
+  (EditSuffixInventory regions i zeroes ones (bit :: values) <->
+   EditSuffixInventory regions (i + 1)
+     (if Z.eqb bit 0 then replace_Znth label (Znth label zeroes 0 - 1) zeroes else zeroes)
+     (if Z.eqb bit 1 then replace_Znth label (Znth label ones 0 - 1) ones else ones) values).
+Proof.
+  intros Hz Ho Hi Hlabel Hrange Hbit.
+  pose proof (edit_count_tail_iff regions i zeroes label bit 0 values Hz Hi Hlabel Hrange) as Hzero.
+  pose proof (edit_count_tail_iff regions i ones label bit 1 values Ho Hi Hlabel Hrange) as Hone.
+  split; intros [Hlen [Hbinary Hcounts]].
+  - split; [rewrite Zlength_cons in Hlen; lia|]. split; [inversion Hbinary; assumption|].
+    assert (Hzero' : forall b, 0 <= b < Zlength regions ->
+      EditInventoryCount (sublist (i + 1) (Zlength regions) regions) values b 0 =
+      Znth b (if Z.eqb bit 0 then replace_Znth label (Znth label zeroes 0 - 1) zeroes else zeroes) 0).
+    { apply Hzero. intros b Hb; exact (proj1 (Hcounts b Hb)). }
+    assert (Hone' : forall b, 0 <= b < Zlength regions ->
+      EditInventoryCount (sublist (i + 1) (Zlength regions) regions) values b 1 =
+      Znth b (if Z.eqb bit 1 then replace_Znth label (Znth label ones 0 - 1) ones else ones) 0).
+    { apply Hone. intros b Hb; exact (proj2 (Hcounts b Hb)). }
+    intros b Hb; split; auto.
+  - split; [rewrite Zlength_cons; lia|]. split; [constructor; auto|].
+    assert (Hzero' : forall b, 0 <= b < Zlength regions ->
+      EditInventoryCount (sublist i (Zlength regions) regions) (bit :: values) b 0 = Znth b zeroes 0).
+    { apply Hzero. intros b Hb; exact (proj1 (Hcounts b Hb)). }
+    assert (Hone' : forall b, 0 <= b < Zlength regions ->
+      EditInventoryCount (sublist i (Zlength regions) regions) (bit :: values) b 1 = Znth b ones 0).
+    { apply Hone. intros b Hb; exact (proj2 (Hcounts b Hb)). }
+    intros b Hb; split; auto.
+Qed.
+Lemma edit_pair_app xs ys a b :
+  Zlength xs = Zlength ys ->
+  EditPairMatches (xs ++ a) (ys ++ b) = EditPairMatches xs ys + EditPairMatches a b.
+Proof.
+  revert ys. induction xs as [|x xs IH]; intros [|y ys] Hlen;
+    rewrite ?Zlength_cons, ?Zlength_nil in Hlen;
+    try (pose proof (Zlength_nonneg xs); lia); try (pose proof (Zlength_nonneg ys); lia).
+  - reflexivity.
+  - cbn [List.app]. rewrite !edit_pair_cons, IH by lia. lia.
+Qed.
+Lemma edit_completion_cons s1 s2 t1 t2 prefix1 prefix2 bit1 bit2 xs ys :
+  EditCompletion s1 s2 t1 t2 prefix1 prefix2 (bit1 :: xs, bit2 :: ys) <->
+  EditCompletion s1 s2 t1 t2 (prefix1 ++ [bit1]) (prefix2 ++ [bit2]) (xs,ys).
+Proof.
+  unfold EditCompletion. cbn [fst snd]. rewrite <- !List.app_assoc. reflexivity.
+Qed.
+
+Lemma edit_region_suffix_closed t seg n i :
+  Zlength seg = n -> EditSegmentMeaning t n seg -> 0 <= i < n ->
+  forall j k, 0 <= j <= k -> k < n - i ->
+    Znth k (sublist i n seg) 0 = Znth 0 (sublist i n seg) 0 ->
+    Znth j (sublist i n seg) 0 = Znth 0 (sublist i n seg) 0.
+Proof.
+  intros Hlen Hmeaning Hi j k Hjk Hkn Hlabel.
+  rewrite !Znth_sublist in * by lia. rewrite Z.add_0_l in *.
+  eapply (edit_region_between t seg n i (j + i) (k + i)); eauto; lia.
+Qed.
+Lemma edit_remaining_force_common s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 n a b bit answer :
+  Zlength t1 = n -> Zlength t2 = n -> Zlength seg1 = n -> Zlength seg2 = n ->
+  EditSegmentMeaning t1 n seg1 -> EditSegmentMeaning t2 n seg2 ->
+  Zlength prefix1 = i -> Zlength prefix2 = i -> 0 <= i < n ->
+  a = Znth i seg1 0 -> b = Znth i seg2 0 -> 0 <= a < n -> 0 <= b < n ->
+  (bit = 0 \/ bit = 1) ->
+  0 < Znth a (if Z.eqb bit 0 then c10 else c11) 0 ->
+  0 < Znth b (if Z.eqb bit 0 then c20 else c21) 0 ->
+  EditRemainingMatches s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 answer ->
+  exists xs ys,
+    EditFeasibleSuffix s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 (bit :: xs,bit :: ys) /\
+    EditPairMatches (bit :: xs) (bit :: ys) = answer.
+Proof.
+  intros Ht1 Ht2 Hseg1 Hseg2 Hmeaning1 Hmeaning2 Hp1 Hp2 Hi Ha Hb Har Hbr Hbit Hpos1 Hpos2
+    [[xs ys] [[HP Hupper] Hvalue]]. cbn [fst snd] in Hupper, Hvalue.
+  pose proof HP as [Hcompletion [[Hx [Hbinary1 Hcounts1]] [Hy [Hbinary2 Hcounts2]]]].
+  cbn [fst snd] in Hx, Hy, Hbinary1, Hbinary2, Hcounts1, Hcounts2.
+  rewrite Hseg1 in Hx, Hcounts1. rewrite Hseg2 in Hy, Hcounts2.
+  set (r1 := sublist i n seg1). set (r2 := sublist i n seg2).
+  assert (Hrlen1 : Zlength r1 = n - i) by (unfold r1; rewrite Zlength_sublist; lia).
+  assert (Hrlen2 : Zlength r2 = n - i) by (unfold r2; rewrite Zlength_sublist; lia).
+  assert (Hrhead1 : Znth 0 r1 0 = a).
+  { unfold r1. rewrite Znth_sublist by lia. rewrite Z.add_0_l; symmetry; exact Ha. }
+  assert (Hrhead2 : Znth 0 r2 0 = b).
+  { unfold r2. rewrite Znth_sublist by lia. rewrite Z.add_0_l; symmetry; exact Hb. }
+  assert (Hcount1 : 0 < EditInventoryCount r1 xs a bit).
+  { unfold r1. destruct Hbit as [-> | ->]; cbn [Z.eqb] in Hpos1 |- *;
+      [rewrite (proj1 (Hcounts1 a Har))|rewrite (proj2 (Hcounts1 a Har))]; exact Hpos1. }
+  assert (Hcount2 : 0 < EditInventoryCount r2 ys b bit).
+  { unfold r2. destruct Hbit as [-> | ->]; cbn [Z.eqb] in Hpos2 |- *;
+      [rewrite (proj1 (Hcounts2 b Hbr))|rewrite (proj2 (Hcounts2 b Hbr))]; exact Hpos2. }
+  destruct (edit_inventory_positive r1 xs a bit ltac:(lia) Hcount1) as [j [Hj [Hjr Hjbit]]].
+  destruct (edit_inventory_positive r2 ys b bit ltac:(lia) Hcount2) as [k [Hk [Hkr Hkbit]]].
+  assert (Hclosed1 : forall j k, 0 <= j <= k -> k < n - i ->
+    Znth k r1 0 = Znth 0 r1 0 -> Znth j r1 0 = Znth 0 r1 0).
+  { apply (edit_region_suffix_closed t1 seg1 n i); auto. }
+  assert (Hclosed2 : forall j k, 0 <= j <= k -> k < n - i ->
+    Znth k r2 0 = Znth 0 r2 0 -> Znth j r2 0 = Znth 0 r2 0).
+  { apply (edit_region_suffix_closed t2 seg2 n i); auto. }
+  assert (Hswap1 : forall u v q,
+    EditFeasibleSuffix s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 (u,v) ->
+    0 < q < n - i -> Znth q r1 0 = Znth 0 r1 0 ->
+    EditFeasibleSuffix s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 (EditSwapAt u 0 q,v)).
+  { intros u v q Hprev Hq Hlabel. unfold r1 in Hlabel.
+    rewrite !Znth_sublist in Hlabel by lia. rewrite Z.add_0_l in Hlabel.
+    replace (q + i) with (i + q) in Hlabel by lia.
+    eapply edit_feasible_swap_left with (n := n); eauto. }
+  assert (Hswap2 : forall u v q,
+    EditFeasibleSuffix s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 (u,v) ->
+    0 < q < n - i -> Znth q r2 0 = Znth 0 r2 0 ->
+    EditFeasibleSuffix s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 (u,EditSwapAt v 0 q)).
+  { intros u v q Hprev Hq Hlabel. unfold r2 in Hlabel.
+    rewrite !Znth_sublist in Hlabel by lia. rewrite Z.add_0_l in Hlabel.
+    replace (q + i) with (i + q) in Hlabel by lia.
+    eapply edit_feasible_swap_right with (n := n); eauto. }
+  destruct (edit_force_common
+    (EditFeasibleSuffix s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21)
+    r1 r2 xs ys (n - i) bit j k ltac:(lia) Hx Hy Hbinary1 Hbinary2 Hbit HP
+    ltac:(lia) ltac:(lia) Hjbit Hkbit ltac:(congruence) ltac:(congruence)
+    Hclosed1 Hclosed2 Hswap1 Hswap2) as [u [v [HPuv [Hu [Hv Hscore]]]]].
+  specialize (Hupper (u,v) HPuv). cbn [fst snd] in Hupper.
+  assert (Hvalue' : EditPairMatches u v = answer) by lia.
+  pose proof HPuv as [_ [[Hulen _] [Hvlen _]]]. cbn [fst snd] in Hulen, Hvlen.
+  rewrite Hseg1 in Hulen; rewrite Hseg2 in Hvlen.
+  destruct u as [|head1 us].
+  { change (0 = n - i) in Hulen. exfalso; lia. }
+  destruct v as [|head2 vs].
+  { change (0 = n - i) in Hvlen. exfalso; lia. }
+  change (head1 = bit) in Hu. change (head2 = bit) in Hv.
+  subst head1 head2. exists us, vs; auto.
+Qed.
+Lemma edit_suffix_head_available regions i zeroes ones label bit values :
+  0 <= i < Zlength regions -> label = Znth i regions 0 -> 0 <= label < Zlength regions ->
+  EditSuffixInventory regions i zeroes ones (bit :: values) ->
+  (bit = 0 -> 0 < Znth label zeroes 0) /\ (bit = 1 -> 0 < Znth label ones 0).
+Proof.
+  intros Hi Hlabel Hr [Hlen [Hbinary Hcounts]].
+  specialize (Hcounts label Hr).
+  rewrite (edit_suffix_regions regions i Hi), !edit_inventory_cons, <- Hlabel, !Z.eqb_refl in Hcounts.
+  cbn [andb] in Hcounts.
+  pose proof (edit_inventory_bounds (sublist (i + 1) (Zlength regions) regions) values label 0) as Hzero.
+  pose proof (edit_inventory_bounds (sublist (i + 1) (Zlength regions) regions) values label 1) as Hone.
+  split; intros ->; cbn [Z.eqb Pos.eqb Z.b2z] in Hcounts; lia.
+Qed.
+
+Lemma edit_remaining_heads s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 n a b answer :
+  Zlength seg1 = n -> Zlength seg2 = n -> 0 <= i < n ->
+  a = Znth i seg1 0 -> b = Znth i seg2 0 -> 0 <= a < n -> 0 <= b < n ->
+  EditRemainingMatches s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 answer ->
+  exists bit1 bit2 xs ys,
+    EditFeasibleSuffix s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 (bit1 :: xs,bit2 :: ys) /\
+    EditPairMatches (bit1 :: xs) (bit2 :: ys) = answer /\
+    (bit1 = 0 \/ bit1 = 1) /\ (bit2 = 0 \/ bit2 = 1) /\
+    (bit1 = 0 -> 0 < Znth a c10 0) /\ (bit1 = 1 -> 0 < Znth a c11 0) /\
+    (bit2 = 0 -> 0 < Znth b c20 0) /\ (bit2 = 1 -> 0 < Znth b c21 0).
+Proof.
+  intros Hseg1 Hseg2 Hi Ha Hb Har Hbr [[u v] [[HP Hupper] Hvalue]]. cbn [fst snd] in Hvalue.
+  pose proof HP as [_ [Hinv1 Hinv2]]. cbn [fst snd] in Hinv1, Hinv2.
+  pose proof (proj1 Hinv1) as Hulen. pose proof (proj1 Hinv2) as Hvlen.
+  rewrite Hseg1 in Hulen; rewrite Hseg2 in Hvlen.
+  destruct u as [|bit1 xs]; [change (0 = n - i) in Hulen; exfalso; lia|].
+  destruct v as [|bit2 ys]; [change (0 = n - i) in Hvlen; exfalso; lia|].
+  pose proof (Forall_inv (proj1 (proj2 Hinv1))) as Hbit1.
+  pose proof (Forall_inv (proj1 (proj2 Hinv2))) as Hbit2.
+  pose proof (edit_suffix_head_available seg1 i c10 c11 a bit1 xs ltac:(lia) Ha ltac:(lia) Hinv1) as [H10 H11].
+  pose proof (edit_suffix_head_available seg2 i c20 c21 b bit2 ys ltac:(lia) Hb ltac:(lia) Hinv2) as [H20 H21].
+  exists bit1, bit2, xs, ys. repeat first [assumption | split].
+Qed.
+Lemma edit_remaining_force_zero_one s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 n a b answer :
+  Zlength seg1 = n -> Zlength seg2 = n -> 0 <= i < n ->
+  a = Znth i seg1 0 -> b = Znth i seg2 0 -> 0 <= a < n -> 0 <= b < n ->
+  ~ (0 < Znth a c10 0 /\ 0 < Znth b c20 0) ->
+  ~ (0 < Znth a c11 0 /\ 0 < Znth b c21 0) -> 0 < Znth a c10 0 ->
+  EditRemainingMatches s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 answer ->
+  exists xs ys,
+    EditFeasibleSuffix s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 (0 :: xs,1 :: ys) /\
+    EditPairMatches (0 :: xs) (1 :: ys) = answer.
+Proof.
+  intros Hseg1 Hseg2 Hi Ha Hb Har Hbr Hno0 Hno1 Hpositive Hmax.
+  destruct (edit_remaining_heads s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 n a b answer
+    Hseg1 Hseg2 Hi Ha Hb Har Hbr Hmax) as
+    [bit1 [bit2 [xs [ys [HP [Hvalue [Hbit1 [Hbit2 [H10 [H11 [H20 H21]]]]]]]]]]].
+  assert (Hforced : bit1 = 0 /\ bit2 = 1) by tauto.
+  destruct Hforced as [-> ->]. exists xs, ys; auto.
+Qed.
+Lemma edit_remaining_force_one_zero s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 n a b answer :
+  Zlength seg1 = n -> Zlength seg2 = n -> 0 <= i < n ->
+  a = Znth i seg1 0 -> b = Znth i seg2 0 -> 0 <= a < n -> 0 <= b < n ->
+  ~ (0 < Znth a c11 0 /\ 0 < Znth b c21 0) -> Znth a c10 0 <= 0 ->
+  EditRemainingMatches s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 answer ->
+  exists xs ys,
+    EditFeasibleSuffix s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 (1 :: xs,0 :: ys) /\
+    EditPairMatches (1 :: xs) (0 :: ys) = answer.
+Proof.
+  intros Hseg1 Hseg2 Hi Ha Hb Har Hbr Hno1 Hnonpositive Hmax.
+  destruct (edit_remaining_heads s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 n a b answer
+    Hseg1 Hseg2 Hi Ha Hb Har Hbr Hmax) as
+    [bit1 [bit2 [xs [ys [HP [Hvalue [Hbit1 [Hbit2 [H10 [H11 [H20 H21]]]]]]]]]]].
+  assert (Hnotzero : bit1 <> 0) by (intros H; specialize (H10 H); lia).
+  assert (Hforced : bit1 = 1 /\ bit2 = 0) by tauto.
+  destruct Hforced as [-> ->]. exists xs, ys; auto.
+Qed.
+Lemma edit_feasible_cons_iff s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 n a b bit1 bit2 xs ys :
+  Zlength seg1 = n -> Zlength seg2 = n ->
+  Zlength c10 = n -> Zlength c11 = n -> Zlength c20 = n -> Zlength c21 = n ->
+  0 <= i < n -> a = Znth i seg1 0 -> b = Znth i seg2 0 -> 0 <= a < n -> 0 <= b < n ->
+  (bit1 = 0 \/ bit1 = 1) -> (bit2 = 0 \/ bit2 = 1) ->
+  (EditFeasibleSuffix s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 (bit1 :: xs,bit2 :: ys) <->
+   EditFeasibleSuffix s1 s2 t1 t2 seg1 seg2 (prefix1 ++ [bit1]) (prefix2 ++ [bit2]) (i + 1)
+     (if Z.eqb bit1 0 then replace_Znth a (Znth a c10 0 - 1) c10 else c10)
+     (if Z.eqb bit1 1 then replace_Znth a (Znth a c11 0 - 1) c11 else c11)
+     (if Z.eqb bit2 0 then replace_Znth b (Znth b c20 0 - 1) c20 else c20)
+     (if Z.eqb bit2 1 then replace_Znth b (Znth b c21 0 - 1) c21 else c21) (xs,ys)).
+Proof.
+  intros Hseg1 Hseg2 H10 H11 H20 H21 Hi Ha Hb Har Hbr Hbit1 Hbit2.
+  unfold EditFeasibleSuffix. cbn [fst snd]. rewrite edit_completion_cons.
+  rewrite (edit_inventory_tail_iff seg1 i c10 c11 a bit1 xs ltac:(lia) ltac:(lia) ltac:(lia) Ha ltac:(lia) Hbit1).
+  rewrite (edit_inventory_tail_iff seg2 i c20 c21 b bit2 ys ltac:(lia) ltac:(lia) ltac:(lia) Hb ltac:(lia) Hbit2).
+  reflexivity.
+Qed.
+Lemma edit_maximum_strip (P Q : list Z * list Z -> Prop) bit1 bit2 answer :
+  max_value_of_subset Z.le P (fun outputs => EditPairMatches (fst outputs) (snd outputs)) answer ->
+  (forall xs ys, P (bit1 :: xs,bit2 :: ys) <-> Q (xs,ys)) ->
+  (exists xs ys, P (bit1 :: xs,bit2 :: ys) /\ EditPairMatches (bit1 :: xs) (bit2 :: ys) = answer) ->
+  max_value_of_subset Z.le Q (fun outputs => EditPairMatches (fst outputs) (snd outputs))
+    (answer - Z.b2z (Z.eqb bit1 bit2)).
+Proof.
+  intros [best [[Hbest Hupper] Hbestvalue]] Hiff [xs [ys [HP Hvalue]]].
+  exists (xs,ys). split; [split|].
+  - apply Hiff; exact HP.
+  - intros [u v] HQ. specialize (Hupper (bit1 :: u,bit2 :: v) (proj2 (Hiff u v) HQ)).
+    cbn [fst snd] in *. rewrite edit_pair_cons in Hupper, Hvalue. lia.
+  - cbn [fst snd]. rewrite edit_pair_cons in Hvalue; lia.
+Qed.
+Lemma edit_remaining_strip s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 n a b bit1 bit2 answer :
+  Zlength seg1 = n -> Zlength seg2 = n ->
+  Zlength c10 = n -> Zlength c11 = n -> Zlength c20 = n -> Zlength c21 = n ->
+  0 <= i < n -> a = Znth i seg1 0 -> b = Znth i seg2 0 -> 0 <= a < n -> 0 <= b < n ->
+  (bit1 = 0 \/ bit1 = 1) -> (bit2 = 0 \/ bit2 = 1) ->
+  EditRemainingMatches s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 answer ->
+  (exists xs ys, EditFeasibleSuffix s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21
+    (bit1 :: xs,bit2 :: ys) /\ EditPairMatches (bit1 :: xs) (bit2 :: ys) = answer) ->
+  EditRemainingMatches s1 s2 t1 t2 seg1 seg2 (prefix1 ++ [bit1]) (prefix2 ++ [bit2]) (i + 1)
+    (if Z.eqb bit1 0 then replace_Znth a (Znth a c10 0 - 1) c10 else c10)
+    (if Z.eqb bit1 1 then replace_Znth a (Znth a c11 0 - 1) c11 else c11)
+    (if Z.eqb bit2 0 then replace_Znth b (Znth b c20 0 - 1) c20 else c20)
+    (if Z.eqb bit2 1 then replace_Znth b (Znth b c21 0 - 1) c21 else c21)
+    (answer - Z.b2z (Z.eqb bit1 bit2)).
+Proof.
+  intros Hseg1 Hseg2 H10 H11 H20 H21 Hi Ha Hb Har Hbr Hbit1 Hbit2 Hmax Hforced.
+  eapply edit_maximum_strip; [exact Hmax| |exact Hforced].
+  intros xs ys. apply (edit_feasible_cons_iff s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21
+    n a b bit1 bit2 xs ys); auto.
+Qed.
+Lemma edit_suffix_count_bounds regions i zeroes ones values n :
+  Zlength regions = n -> Zlength zeroes = n -> Zlength ones = n -> 0 <= i ->
+  EditSuffixInventory regions i zeroes ones values ->
+  (Forall (Z.le 0) zeroes /\ Forall (Z.ge n) zeroes) /\
+  (Forall (Z.le 0) ones /\ Forall (Z.ge n) ones).
+Proof.
+  intros Hr Hz Ho Hi [Hlen [Hbinary Hcounts]]. rewrite Hr in Hlen, Hcounts.
+  split; apply (proj2 (edit_bounds_iff _ 0 n)); intros block Hb.
+  - rewrite Hz in Hb. specialize (Hcounts block Hb).
+    pose proof (edit_inventory_bounds (sublist i n regions) values block 0). lia.
+  - rewrite Ho in Hb. specialize (Hcounts block Hb).
+    pose proof (edit_inventory_bounds (sublist i n regions) values block 1). lia.
+Qed.
+Lemma edit_remaining_empty s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 c10 c11 c20 c21 n answer :
+  Zlength seg1 = n -> Zlength seg2 = n ->
+  EditRemainingMatches s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 n c10 c11 c20 c21 answer -> answer = 0.
+Proof.
+  intros Hseg1 Hseg2 [[xs ys] [[HP Hupper] Hvalue]].
+  pose proof HP as [_ [[Hx _] [Hy _]]]. cbn [fst snd] in Hx, Hy, Hvalue.
+  rewrite Hseg1, Z.sub_diag in Hx. rewrite Hseg2, Z.sub_diag in Hy.
+  destruct xs as [|x xs]; [|rewrite Zlength_cons in Hx; pose proof (Zlength_nonneg xs); lia].
+  destruct ys as [|y ys]; [|rewrite Zlength_cons in Hy; pose proof (Zlength_nonneg ys); lia].
+  change (0 = answer) in Hvalue; symmetry; exact Hvalue.
+Qed.
+
+Lemma edit_remaining_common_step s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 n a b bit answer :
+  Zlength t1 = n -> Zlength t2 = n -> Zlength seg1 = n -> Zlength seg2 = n ->
+  Zlength c10 = n -> Zlength c11 = n -> Zlength c20 = n -> Zlength c21 = n ->
+  EditSegmentMeaning t1 n seg1 -> EditSegmentMeaning t2 n seg2 ->
+  Zlength prefix1 = i -> Zlength prefix2 = i -> 0 <= i < n ->
+  a = Znth i seg1 0 -> b = Znth i seg2 0 -> 0 <= a < n -> 0 <= b < n ->
+  (bit = 0 \/ bit = 1) ->
+  0 < Znth a (if Z.eqb bit 0 then c10 else c11) 0 ->
+  0 < Znth b (if Z.eqb bit 0 then c20 else c21) 0 ->
+  EditRemainingMatches s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 answer ->
+  EditRemainingMatches s1 s2 t1 t2 seg1 seg2 (prefix1 ++ [bit]) (prefix2 ++ [bit]) (i + 1)
+    (if Z.eqb bit 0 then replace_Znth a (Znth a c10 0 - 1) c10 else c10)
+    (if Z.eqb bit 1 then replace_Znth a (Znth a c11 0 - 1) c11 else c11)
+    (if Z.eqb bit 0 then replace_Znth b (Znth b c20 0 - 1) c20 else c20)
+    (if Z.eqb bit 1 then replace_Znth b (Znth b c21 0 - 1) c21 else c21) (answer - 1).
+Proof.
+  intros Ht1 Ht2 Hseg1 Hseg2 H10 H11 H20 H21 Hmeaning1 Hmeaning2 Hp1 Hp2 Hi Ha Hb Har Hbr Hbit Hpos1 Hpos2 Hmax.
+  pose proof (edit_remaining_force_common s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21
+    n a b bit answer Ht1 Ht2 Hseg1 Hseg2 Hmeaning1 Hmeaning2 Hp1 Hp2 Hi Ha Hb Har Hbr Hbit Hpos1 Hpos2 Hmax) as Hforced.
+  pose proof (edit_remaining_strip s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21
+    n a b bit bit answer Hseg1 Hseg2 H10 H11 H20 H21 Hi Ha Hb Har Hbr Hbit Hbit Hmax Hforced) as Hnext.
+  rewrite Z.eqb_refl in Hnext. exact Hnext.
+Qed.
+Lemma edit_remaining_zero_one_step s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 n a b answer :
+  Zlength seg1 = n -> Zlength seg2 = n ->
+  Zlength c10 = n -> Zlength c11 = n -> Zlength c20 = n -> Zlength c21 = n ->
+  0 <= i < n -> a = Znth i seg1 0 -> b = Znth i seg2 0 -> 0 <= a < n -> 0 <= b < n ->
+  ~ (0 < Znth a c10 0 /\ 0 < Znth b c20 0) ->
+  ~ (0 < Znth a c11 0 /\ 0 < Znth b c21 0) -> 0 < Znth a c10 0 ->
+  EditRemainingMatches s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 answer ->
+  EditRemainingMatches s1 s2 t1 t2 seg1 seg2 (prefix1 ++ [0]) (prefix2 ++ [1]) (i + 1)
+    (replace_Znth a (Znth a c10 0 - 1) c10) c11 c20 (replace_Znth b (Znth b c21 0 - 1) c21) answer.
+Proof.
+  intros Hseg1 Hseg2 H10 H11 H20 H21 Hi Ha Hb Har Hbr Hno0 Hno1 Hpositive Hmax.
+  pose proof (edit_remaining_force_zero_one s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21
+    n a b answer Hseg1 Hseg2 Hi Ha Hb Har Hbr Hno0 Hno1 Hpositive Hmax) as Hforced.
+  pose proof (edit_remaining_strip s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21
+    n a b 0 1 answer Hseg1 Hseg2 H10 H11 H20 H21 Hi Ha Hb Har Hbr ltac:(auto) ltac:(auto) Hmax Hforced) as Hnext.
+  cbn [Z.eqb Pos.eqb Z.b2z] in Hnext. rewrite Z.sub_0_r in Hnext; exact Hnext.
+Qed.
+Lemma edit_remaining_one_zero_step s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 n a b answer :
+  Zlength seg1 = n -> Zlength seg2 = n ->
+  Zlength c10 = n -> Zlength c11 = n -> Zlength c20 = n -> Zlength c21 = n ->
+  0 <= i < n -> a = Znth i seg1 0 -> b = Znth i seg2 0 -> 0 <= a < n -> 0 <= b < n ->
+  ~ (0 < Znth a c11 0 /\ 0 < Znth b c21 0) -> Znth a c10 0 <= 0 ->
+  EditRemainingMatches s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 answer ->
+  EditRemainingMatches s1 s2 t1 t2 seg1 seg2 (prefix1 ++ [1]) (prefix2 ++ [0]) (i + 1)
+    c10 (replace_Znth a (Znth a c11 0 - 1) c11) (replace_Znth b (Znth b c20 0 - 1) c20) c21 answer.
+Proof.
+  intros Hseg1 Hseg2 H10 H11 H20 H21 Hi Ha Hb Har Hbr Hno1 Hnonpositive Hmax.
+  pose proof (edit_remaining_force_one_zero s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21
+    n a b answer Hseg1 Hseg2 Hi Ha Hb Har Hbr Hno1 Hnonpositive Hmax) as Hforced.
+  pose proof (edit_remaining_strip s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21
+    n a b 1 0 answer Hseg1 Hseg2 H10 H11 H20 H21 Hi Ha Hb Har Hbr ltac:(auto) ltac:(auto) Hmax Hforced) as Hnext.
+  cbn [Z.eqb Pos.eqb Z.b2z] in Hnext. rewrite Z.sub_0_r in Hnext; exact Hnext.
+Qed.
+Lemma edit_remaining_count_bounds s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 n answer :
+  Zlength seg1 = n -> Zlength seg2 = n ->
+  Zlength c10 = n -> Zlength c11 = n -> Zlength c20 = n -> Zlength c21 = n -> 0 <= i ->
+  EditRemainingMatches s1 s2 t1 t2 seg1 seg2 prefix1 prefix2 i c10 c11 c20 c21 answer ->
+  (Forall (Z.le 0) c10 /\ Forall (Z.ge n) c10) /\
+  (Forall (Z.le 0) c11 /\ Forall (Z.ge n) c11) /\
+  (Forall (Z.le 0) c20 /\ Forall (Z.ge n) c20) /\
+  (Forall (Z.le 0) c21 /\ Forall (Z.ge n) c21).
+Proof.
+  intros Hseg1 Hseg2 H10 H11 H20 H21 Hi [[xs ys] [[HP Hupper] Hvalue]].
+  destruct HP as [_ [Hinv1 Hinv2]]. cbn [fst snd] in Hinv1, Hinv2.
+  pose proof (edit_suffix_count_bounds seg1 i c10 c11 xs n Hseg1 H10 H11 Hi Hinv1) as [HC10 HC11].
+  pose proof (edit_suffix_count_bounds seg2 i c20 c21 ys n Hseg2 H20 H21 Hi Hinv2) as [HC20 HC21].
+  auto.
+Qed.
+
+Lemma edit_zero_read xs i : Forall (eq 0) xs -> Znth i xs 0 = 0.
+Proof.
+  intros H. unfold Znth. generalize (Z.to_nat i) as k.
+  induction H; intros [|k]; cbn; auto.
+Qed.
+Lemma edit_bounded_read xs i lo hi :
+  Forall (Z.le lo) xs -> Forall (Z.ge hi) xs -> lo <= 0 <= hi -> lo <= Znth i xs 0 <= hi.
+Proof.
+  intros Hlo Hhi Hzero. unfold Znth.
+  destruct (lt_dec (Z.to_nat i) (length xs)) as [Hin|Hout].
+  - assert (Hmember : In (nth (Z.to_nat i) xs 0) xs) by (apply nth_In; exact Hin).
+    rewrite Forall_forall in Hlo, Hhi. specialize (Hlo _ Hmember). specialize (Hhi _ Hmember). lia.
+  - rewrite nth_overflow by lia; exact Hzero.
+Qed.
+
+(** The build-phase proofs reuse the original counting and region lemmas. *)
+Lemma edit_counts_bounds s t n upto zeroes ones :
+  0 <= n -> Zlength s = n -> Zlength zeroes = n -> Zlength ones = n ->
+  EditCountsMeaning s t n upto zeroes ones ->
+  (Forall (Z.le 0) zeroes /\ Forall (Z.ge n) zeroes) /\
+  (Forall (Z.le 0) ones /\ Forall (Z.ge n) ones).
+Proof.
+  intros Hn Hs Hz Ho [HC0 HC1]. split; apply (proj2 (edit_bounds_iff _ 0 n)); intros b Hb.
+  - rewrite Hz in Hb. rewrite (HC0 b Hb), <- edit_block_bit_count_eq.
+    apply edit_count_bit_in_block_prefix_bound_n__build_s2_segments_counts; auto.
+  - rewrite Ho in Hb. rewrite (HC1 b Hb), <- edit_block_bit_count_eq.
+    apply edit_count_bit_in_block_prefix_bound_n__build_s2_segments_counts; auto.
+Qed.
+Lemma edit_zero_bounds xs n :
+  0 <= n -> Forall (eq 0) xs -> Forall (Z.le 0) xs /\ Forall (Z.ge n) xs.
+Proof.
+  intros Hn Hzero. split; eapply Forall_impl; [|exact Hzero| |exact Hzero]; intros x Hx; subst x; lia.
+Qed.
+Lemma edit_build_first_zero s t n zeroes ones :
+  1 <= n -> Zlength s = n -> Zlength zeroes = n -> Zlength ones = n ->
+  Forall (eq 0) zeroes -> Forall (eq 0) ones -> Znth 0 s 0 = 0 ->
+  EditBuildMeaning s t n 1 [0] (replace_Znth 0 (Znth 0 zeroes 0 + 1) zeroes) ones.
+Proof.
+  intros Hn Hs Hz Ho Hzero Hone Hbit. split.
+  - intros idx Hi. assert (idx = 0) by lia. subst idx.
+    change (EditBlockStart t 0 0). split; [lia|]. split; [intros k Hk; lia|left; reflexivity].
+  - pose proof (EditCountsForPrefix_initial_zero__zeroing_and_base_build s t n zeroes ones Hn Hs Hbit
+      (proj2 (edit_zero_full_iff n zeroes) (conj Hz Hzero))
+      (proj2 (edit_zero_full_iff n ones) (conj Ho Hone))) as Hcounts.
+    apply edit_counts_iff in Hcounts; exact (proj2 (proj2 Hcounts)).
+Qed.
+Lemma edit_build_first_one s t n zeroes ones :
+  1 <= n -> Zlength s = n -> Zlength zeroes = n -> Zlength ones = n ->
+  Forall (eq 0) zeroes -> Forall (eq 0) ones ->
+  Forall (Z.le 0) s -> Forall (Z.ge 1) s -> Znth 0 s 0 <> 0 ->
+  EditBuildMeaning s t n 1 [0] zeroes (replace_Znth 0 (Znth 0 ones 0 + 1) ones).
+Proof.
+  intros Hn Hs Hz Ho Hzero Hone Hlo Hhi Hbit. split.
+  - intros idx Hi. assert (idx = 0) by lia. subst idx.
+    change (EditBlockStart t 0 0). split; [lia|]. split; [intros k Hk; lia|left; reflexivity].
+  - pose proof (EditCountsForPrefix_initial_one__zeroing_and_base_build s t n zeroes ones Hn Hs
+      ltac:(intros idx Hi; eapply edit_bounded_read; eauto; lia) Hbit
+      (proj2 (edit_zero_full_iff n zeroes) (conj Hz Hzero))
+      (proj2 (edit_zero_full_iff n ones) (conj Ho Hone))) as Hcounts.
+    apply edit_counts_iff in Hcounts; exact (proj2 (proj2 Hcounts)).
+Qed.
+Lemma edit_counts_inc_zero s t n i seg zeroes ones block :
+  Zlength s = n -> Zlength zeroes = n -> Zlength ones = n -> Zlength seg = i + 1 ->
+  0 <= i < n -> EditSegmentMeaning t (i + 1) seg -> EditCountsMeaning s t n i zeroes ones ->
+  block = Znth i seg 0 -> Znth i s 0 = 0 ->
+  EditCountsMeaning s t n (i + 1) (replace_Znth block (Znth block zeroes 0 + 1) zeroes) ones.
+Proof.
+  intros Hs Hz Ho Hseg Hi Hmeaning Hcounts Hblock Hbit.
+  pose proof (edit_counts_prefix_extend_zero__build_s2_segments_counts s t n i seg zeroes ones block Hs Hi
+    (proj2 (edit_segment_iff t (i + 1) seg) (conj Hseg Hmeaning))
+    (proj2 (edit_counts_iff s t n i zeroes ones) (conj Hz (conj Ho Hcounts))) Hblock Hbit) as H.
+  apply edit_counts_iff in H; exact (proj2 (proj2 H)).
+Qed.
+Lemma edit_counts_inc_one s t n i seg zeroes ones block :
+  Zlength s = n -> Zlength zeroes = n -> Zlength ones = n -> Zlength seg = i + 1 ->
+  0 <= i < n -> EditSegmentMeaning t (i + 1) seg -> EditCountsMeaning s t n i zeroes ones ->
+  block = Znth i seg 0 -> Znth i s 0 = 1 ->
+  EditCountsMeaning s t n (i + 1) zeroes (replace_Znth block (Znth block ones 0 + 1) ones).
+Proof.
+  intros Hs Hz Ho Hseg Hi Hmeaning Hcounts Hblock Hbit.
+  pose proof (edit_counts_prefix_extend_one__build_s2_segments_counts s t n i seg zeroes ones block Hs Hi
+    (proj2 (edit_segment_iff t (i + 1) seg) (conj Hseg Hmeaning))
+    (proj2 (edit_counts_iff s t n i zeroes ones) (conj Hz (conj Ho Hcounts))) Hblock Hbit) as H.
+  apply edit_counts_iff in H; exact (proj2 (proj2 H)).
+Qed.
+Lemma edit_segment_extend_same t seg i :
+  Zlength seg = i -> 1 <= i -> EditSegmentMeaning t i seg -> edit_edge_open t i ->
+  EditSegmentMeaning t (i + 1) (seg ++ [Znth (i - 1) seg 0]).
+Proof.
+  intros Hlen Hi Hmeaning Hedge.
+  pose proof (edit_segment_prefix_append_same__build_s2_segments_counts t i seg
+    (proj2 (edit_segment_iff t i seg) (conj Hlen Hmeaning)) Hi Hedge) as H.
+  apply edit_segment_iff in H; exact (proj2 H).
+Qed.
+Lemma edit_segment_extend_new t seg i :
+  Zlength seg = i -> 0 <= i -> EditSegmentMeaning t i seg -> ~ edit_edge_open t i ->
+  EditSegmentMeaning t (i + 1) (seg ++ [i]).
+Proof.
+  intros Hlen Hi Hmeaning Hedge.
+  pose proof (edit_segment_prefix_append_new__build_s2_segments_counts t i seg
+    (proj2 (edit_segment_iff t i seg) (conj Hlen Hmeaning)) Hi Hedge) as H.
+  apply edit_segment_iff in H; exact (proj2 H).
+Qed.
+Lemma edit_segment_bound t seg upto idx :
+  EditSegmentMeaning t upto seg -> 0 <= idx < upto -> 0 <= Znth idx seg 0 <= idx.
+Proof. intros H Hi. exact (proj1 (H idx Hi)). Qed.

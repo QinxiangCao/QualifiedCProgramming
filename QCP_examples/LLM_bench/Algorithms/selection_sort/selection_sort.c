@@ -4,6 +4,8 @@
 
 /*@ Extern Coq (Permutation : list Z -> list Z -> Prop) */
 /*@ Extern Coq (increasing : list Z -> Prop) */
+/*@ Extern Coq (selection_minimum : list Z -> Z -> Prop) */
+/*@ Import Coq Require Import SimpleC.EE.LLM_bench.Algorithms.optimized_selection_sort.optimized_selection_sort_lib */
 
 void sortArray(int* nums, int numsSize) 
 /*@ With (l: list Z)
@@ -36,9 +38,7 @@ void sortArray(int* nums, int numsSize)
                 (forall (p: Z) (q: Z),
                     (0 <= p && p < i && i <= q && q < numsSize) =>
                     (a[p] <= a[q])) &&
-                (forall (q: Z),
-                    (i <= q && q < j) =>
-                    (a[i] <= a[q])) &&
+                selection_minimum(sublist(i, j, a), a[i]) &&
                 IntArray::full(nums, numsSize, a)
             by array_length
         */

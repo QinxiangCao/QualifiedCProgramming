@@ -1,3 +1,4 @@
+Require Import SumLib.ZRange.
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.Bool.Bool.
 Require Import Coq.Strings.String.
@@ -7,7 +8,7 @@ Require Import Coq.Classes.Morphisms.
 Require Import Coq.micromega.Psatz.
 Require Import Coq.micromega.Lia.
 Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
+From AUXLib Require Import MonotonicList int_auto Axioms Feq Idents ListLib VMap.
 Require Import SetsClass.SetsClass. Import SetsNotation.
 From SimpleC.SL Require Import Mem SeparationLogic.
 Require Import Logic.LogicGenerator.demo932.Interface.
@@ -99,12 +100,43 @@ Definition PointSortedRange (gp : point) (l : list point) (left right : Z) : Pro
     j <= right ->
     PolarLe gp (Znth i l default_point) (Znth j l default_point).
 
+Lemma outside_sort_point_Forall2_filtered {A B : Type} (R : A -> B -> Prop)
+    (f : Z -> A) (g : Z -> B) (keep : Z -> bool) lo hi :
+  Forall2 R (map f (filter keep (Zrange lo hi)))
+    (map g (filter keep (Zrange lo hi))) <->
+  forall p, lo <= p < hi -> keep p = true -> R (f p) (g p).
+Proof.
+  assert (Hmap : forall xs, Forall2 R (map f xs) (map g xs) <->
+    Forall (fun p => R (f p) (g p)) xs).
+  { induction xs as [|x xs IH]; cbn.
+    - split; intros; constructor.
+    - split; intro H; inversion H; subst; constructor; try assumption;
+      apply IH; assumption. }
+  rewrite Hmap, Forall_forall. split; intros H p Hp.
+  - intro Hkeep. apply H. apply filter_In. split; [apply In_Zrange|]; assumption.
+  - apply filter_In in Hp. destruct Hp as [Hp Hkeep].
+    apply H; [apply In_Zrange|]; assumption.
+Qed.
+
 Definition PointSameOutsideRange (l l1 : list point) (left right : Z) : Prop :=
+  Zlength l = Zlength l1 /\
+  Forall2 eq
+    (map (fun k => Znth k l1 default_point)
+      (filter (fun k : Z => orb (Z.ltb k left) (Z.ltb right k)) (Zrange 0 (Zlength l))))
+    (map (fun k => Znth k l default_point)
+      (filter (fun k : Z => orb (Z.ltb k left) (Z.ltb right k)) (Zrange 0 (Zlength l)))).
+Lemma PointSameOutsideRange_unfold l l1 left right :
+  PointSameOutsideRange l l1 left right <->
   Zlength l = Zlength l1 /\
   forall k,
     0 <= k < Zlength l ->
     k < left \/ right < k ->
     Znth k l1 default_point = Znth k l default_point.
+Proof.
+  unfold PointSameOutsideRange. rewrite outside_sort_point_Forall2_filtered.
+  setoid_rewrite Bool.orb_true_iff. setoid_rewrite Z.ltb_lt.
+  firstorder.
+Qed.
 
 Definition PointMemoryModel (gp : point) (flat : list Z) (n : Z) : Prop :=
   exists pts,
@@ -112,12 +144,14 @@ Definition PointMemoryModel (gp : point) (flat : list Z) (n : Z) : Prop :=
     FlatPoints flat pts /\
     PointCoordsBound (cons gp pts).
 
+Definition PointFlatModel (flat : list Z) : Prop :=
+  exists pts, FlatPoints flat pts.
+
 Definition PointRangeSortResult
   (gp : point) (flat_in : list Z) (pts_out : list point)
   (left right : Z) : Prop :=
   forall pts_in,
     FlatPoints flat_in pts_in ->
-    PointCoordsBound (cons gp pts_in) ->
     PointPermutation pts_in pts_out /\
     PointSameOutsideRange pts_in pts_out left right /\
     PointSortedRange gp pts_out left right.
@@ -129,7 +163,7 @@ Definition PointPartitionedAt
   Forall (fun x => PolarLt gp (Znth p l default_point) x)
          (sublist (p + 1) (high + 1) l).
 
-Definition PointPartitionScanInv
+Definition PointPartitionScanIndexed
   (gp : point) (before cur : list point)
   (low high : Z) (pivot : point) (i j : Z) : Prop :=
   PointPermutation before cur /\
@@ -137,6 +171,15 @@ Definition PointPartitionScanInv
   Znth high cur default_point = pivot /\
   (forall k, low <= k <= i -> PolarLe gp (Znth k cur default_point) pivot) /\
   (forall k, i < k < j -> PolarLt gp pivot (Znth k cur default_point)).
+
+Definition PointPartitionScanInv
+  (gp : point) (before cur : list point)
+  (low high : Z) (pivot : point) (i j : Z) : Prop :=
+  PointPermutation before cur /\
+  PointSameOutsideRange before cur low high /\
+  Znth high cur default_point = pivot /\
+  Forall (fun p => PolarLe gp p pivot) (sublist low (i + 1) cur) /\
+  Forall (PolarLt gp pivot) (sublist (i + 1) j cur).
 
 Definition point_swap_points (l : list point) (i j : Z) : list point :=
   replace_Znth j (Znth i l default_point)
@@ -564,6 +607,7 @@ Lemma PointSameOutsideRange_refl :
   forall l left right,
     PointSameOutsideRange l l left right.
 Proof.
+  setoid_rewrite PointSameOutsideRange_unfold.
   intros l left right.
   split.
   - reflexivity.
@@ -1137,6 +1181,7 @@ Lemma PointSameOutsideRange_trans :
     PointSameOutsideRange l1 l2 left right ->
     PointSameOutsideRange l l2 left right.
 Proof.
+  setoid_rewrite PointSameOutsideRange_unfold.
   intros l l1 l2 left right [Hlen1 Heq1] [Hlen2 Heq2].
   split.
   - rewrite Hlen1. exact Hlen2.
@@ -1153,6 +1198,7 @@ Lemma PointSameOutsideRange_weaken :
     PointSameOutsideRange l l1 left1 right1 ->
     PointSameOutsideRange l l1 left2 right2.
 Proof.
+  setoid_rewrite PointSameOutsideRange_unfold.
   intros l l1 left1 right1 left2 right2 Hleft Hright [Hlen Heq].
   split.
   - exact Hlen.
@@ -1272,6 +1318,7 @@ Lemma PointSameOutsideRange_prefix :
     0 <= left <= Zlength l ->
     sublist 0 left l1 = sublist 0 left l.
 Proof.
+  setoid_rewrite PointSameOutsideRange_unfold.
   intros l l1 left right Hsame Hrange.
   destruct Hsame as [Hlen Heq].
   apply sublist_eq_from_Znth_point.
@@ -1290,6 +1337,7 @@ Lemma PointSameOutsideRange_suffix :
     0 <= right + 1 <= Zlength l ->
     sublist (right + 1) (Zlength l1) l1 = sublist (right + 1) (Zlength l) l.
 Proof.
+  setoid_rewrite PointSameOutsideRange_unfold.
   intros l l1 left right Hsame Hrange.
   destruct Hsame as [Hlen Heq].
   rewrite <- Hlen.
@@ -1396,8 +1444,9 @@ Lemma PointSameOutsideRange_swap_inside :
     high < Zlength l ->
     PointSameOutsideRange l (point_swap_points l i j) low high.
 Proof.
+  setoid_rewrite PointSameOutsideRange_unfold.
   intros l low high i j Hlow Hi Hj Hhigh.
-  unfold PointSameOutsideRange.
+  try rewrite PointSameOutsideRange_unfold.
   split.
   - rewrite Zlength_point_swap_points. reflexivity.
   - intros k Hk Hout.
@@ -1624,6 +1673,7 @@ Lemma PointPartitionedAt_preserved_by_left :
     PointPartitionedAt gp l left right p ->
     PointPartitionedAt gp l1 left right p.
 Proof.
+  setoid_rewrite PointSameOutsideRange_unfold.
   intros gp l l1 left right p Hperm Hleft0 Hsame Hlen Hpart.
   destruct Hsame as [Hlen' Heq].
   destruct Hpart as [Hrange [Hleft Hright]].
@@ -1649,7 +1699,7 @@ Proof.
           eapply PointPermutation_middle_of_same_outside
             with (left := left) (right := p - 1).
           - exact Hperm.
-          - exact (conj Hlen' Heq).
+          - apply (proj2 (PointSameOutsideRange_unfold _ _ _ _)). exact (conj Hlen' Heq).
           - lia.
           - lia.
         }
@@ -1683,6 +1733,7 @@ Lemma PointPartitionedAt_preserved_by_right :
     PointPartitionedAt gp l left right p ->
     PointPartitionedAt gp l1 left right p.
 Proof.
+  setoid_rewrite PointSameOutsideRange_unfold.
   intros gp l l1 left right p Hperm Hleft0 Hsame Hlen Hpart.
   destruct Hsame as [Hlen' Heq].
   destruct Hpart as [Hrange [Hleft Hright]].
@@ -1722,7 +1773,7 @@ Proof.
           eapply PointPermutation_middle_of_same_outside
             with (left := p + 1) (right := right).
           - exact Hperm.
-          - exact (conj Hlen' Heq).
+          - apply (proj2 (PointSameOutsideRange_unfold _ _ _ _)). exact (conj Hlen' Heq).
           - lia.
           - lia.
         }
@@ -1736,7 +1787,7 @@ Lemma PointPartitionedAt_after_final_swap :
     high < Zlength l1 ->
     low - 1 <= i ->
     i < high ->
-    PointPartitionScanInv gp l l1 low high pivot i high ->
+    PointPartitionScanIndexed gp l l1 low high pivot i high ->
     PointPartitionedAt gp (point_swap_points l1 (i + 1) high) low high (i + 1).
 Proof.
   intros gp l l1 low high pivot i Hlow Hhigh Hile Hihigh
@@ -2210,3 +2261,87 @@ Proof.
           rewrite Znth_point_swap_flat_y_other with (n := Zlength pts); auto;
           reflexivity ] ].
 Qed.
+
+(** Explicit field constraints used by the C annotations. *)
+Lemma PointCoordsBound_fields : forall pts,
+  PointCoordsBound pts <->
+  Forall (Z.le (-10000)) (map point_x pts) /\
+  Forall (Z.ge 10000) (map point_x pts) /\
+  Forall (Z.le (-10000)) (map point_y pts) /\
+  Forall (Z.ge 10000) (map point_y pts).
+Proof.
+  intros pts. unfold PointCoordsBound, CoordInBounds.
+  rewrite !Forall_map, !Forall_forall. firstorder lia.
+Qed.
+
+Lemma PointCoordsBound_flat : forall flat pts,
+  FlatPoints flat pts ->
+  (PointCoordsBound pts <->
+   Forall (Z.le (-10000)) flat /\ Forall (Z.ge 10000) flat).
+Proof.
+  intros flat pts [_ Hflat]. revert flat Hflat.
+  induction pts as [|p pts IH]; intros flat Hflat.
+  - simpl in Hflat. subst flat.
+    unfold PointCoordsBound. simpl. split; intros; repeat constructor.
+  - simpl in Hflat. destruct Hflat as [rest [Hflat Hrest]]. subst flat.
+    specialize (IH rest Hrest).
+    unfold PointCoordsBound in IH |- *.
+    simpl map. rewrite !Forall_cons_iff.
+    unfold CoordInBounds. rewrite IH. intuition lia.
+Qed.
+
+Lemma PointFlatModel_safe_legacy : forall gx gy flat n,
+  PointFlatModel flat -> Zlength flat = 2 * n ->
+  -10000 <= gx <= 10000 -> -10000 <= gy <= 10000 ->
+  Forall (Z.le (-10000)) flat -> Forall (Z.ge 10000) flat ->
+  PointMemoryModel (mk_point gx gy) flat n.
+Proof.
+  intros gx gy flat n [pts Hflat] Hlength Hgx Hgy Hlo Hhi.
+  exists pts. split; [pose proof (proj1 Hflat); lia |]. split; [exact Hflat |].
+  unfold PointCoordsBound. constructor.
+  - unfold CoordInBounds, point_x, point_y, mk_point. simpl. auto.
+  - apply (proj2 (PointCoordsBound_flat flat pts Hflat)). auto.
+Qed.
+
+Lemma PolarCmpResult_range : forall gp a b ret,
+  PolarCmpResult gp a b ret -> -1 <= ret <= 1.
+Proof.
+  intros gp a b ret H. unfold PolarCmpResult in H.
+  repeat destruct H as [H | H]; intuition lia.
+Qed.
+
+Lemma point_Forall_sublist : forall (P : point -> Prop) values lo hi,
+  0 <= lo <= hi -> hi <= Zlength values ->
+  (Forall P (sublist lo hi values) <->
+    forall index, lo <= index < hi -> P (Znth index values default_point)).
+Proof.
+  intros P values lo hi Hrange Hlength.
+  rewrite (Forall_Znth P default_point).
+  rewrite Zlength_sublist by lia.
+  split; intros Hall index Hindex.
+  - specialize (Hall (index - lo) ltac:(lia)).
+    rewrite Znth_sublist in Hall by lia.
+    replace (index - lo + lo) with index in Hall by lia. exact Hall.
+  - rewrite Znth_sublist by lia. apply Hall. lia.
+Qed.
+
+Lemma PointPartitionScanInv_index : forall gp before cur low high pivot i j,
+  0 <= low -> low - 1 <= i -> i < j -> j <= Zlength cur ->
+  (PointPartitionScanInv gp before cur low high pivot i j <->
+   PointPartitionScanIndexed gp before cur low high pivot i j).
+Proof.
+  intros gp before cur low high pivot i j Hlow Hloi Hij Hj.
+  unfold PointPartitionScanInv, PointPartitionScanIndexed.
+  rewrite !point_Forall_sublist by lia.
+  split; intros [Hperm [Hsame [Hpivot [Hleft Hright]]]].
+  all: split; [exact Hperm |].
+  all: split; [exact Hsame |].
+  all: split; [exact Hpivot |].
+  all: split; intros index Hindex; [apply Hleft | apply Hright]; lia.
+Qed.
+
+Lemma PointCoordsBound_cons_parts : forall p pts,
+  PointCoordsBound (p :: pts) ->
+  (CoordInBounds (point_x p) /\ CoordInBounds (point_y p)) /\
+  PointCoordsBound pts.
+Proof. intros p pts H. inversion H; subst. auto. Qed.

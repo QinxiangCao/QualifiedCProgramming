@@ -4,9 +4,10 @@ Local Open Scope Z_scope.
 
 Definition ModularMul
     (multiplicand multiplier modulus result : Z) : Prop :=
+  (* A bounded residue of the mathematical product.  This interval defines
+     the answer, independently of C integer bounds or execution safety. *)
   -modulus < result < modulus /\
-  exists quotient,
-    multiplicand * multiplier = result + modulus * quotient.
+  (modulus | multiplicand * multiplier - result).
 
 Definition ModularMulProgress
     (original_multiplicand original_multiplier modulus

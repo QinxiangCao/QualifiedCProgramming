@@ -569,7 +569,7 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@li
 .
 
 Definition strncat_safety_wit_6 := 
-forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (i: Z) (j: Z) (PreH1 : (valid_string dst_str )) (PreH2 : (valid_string src_str )) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH6 : (i = (string_length (dst_str)))) (PreH7 : (0 <= j)) (PreH8 : (j < n_pre)) (PreH9 : (j < (string_length (src_str)))) ,
+forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j (c_string (src_str)) 0) <> 0)) (PreH2 : (j < n_pre)) (PreH3 : (valid_string dst_str )) (PreH4 : (valid_string src_str )) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH8 : (i = (string_length (dst_str)))) (PreH9 : (0 <= j)) (PreH10 : (j <= n_pre)) (PreH11 : (j <= (string_length (src_str)))) ,
   ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "j" ) )) # Int  |-> j)
   **  ((( &( "dest" ) )) # Ptr  |-> dest_pre)
@@ -585,7 +585,7 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@li
 .
 
 Definition strncat_safety_wit_7 := 
-forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (i: Z) (j: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (0 <= ((string_length (dst_str)) + j ))) (PreH3 : (valid_string dst_str )) (PreH4 : (valid_string src_str )) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH8 : (i = (string_length (dst_str)))) (PreH9 : (0 <= j)) (PreH10 : (j < n_pre)) (PreH11 : (j < (string_length (src_str)))) ,
+forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (j: Z) (i: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (0 <= ((string_length (dst_str)) + j ))) (PreH3 : ((Znth j (c_string (src_str)) 0) <> 0)) (PreH4 : (j < n_pre)) (PreH5 : (valid_string dst_str )) (PreH6 : (valid_string src_str )) (PreH7 : (0 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH10 : (i = (string_length (dst_str)))) (PreH11 : (0 <= j)) (PreH12 : (j <= n_pre)) (PreH13 : (j <= (string_length (src_str)))) ,
   (CharArray.full dest_pre (((string_length (dst_str)) + j ) + 1 ) (app ((app (dst_str) ((sublist (0) (j) (src_str))))) ((cons ((Znth j (c_string (src_str)) 0)) ((@nil Z))))) )
   **  (CharArray.full src_pre ((string_length (src_str)) + 1 ) (c_string (src_str)) )
   **  ((( &( "i" ) )) # Int  |-> i)
@@ -600,7 +600,7 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@li
 .
 
 Definition strncat_safety_wit_8 := 
-forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (i: Z) (j: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (0 <= ((string_length (dst_str)) + j ))) (PreH3 : (valid_string dst_str )) (PreH4 : (valid_string src_str )) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH8 : (i = (string_length (dst_str)))) (PreH9 : (0 <= j)) (PreH10 : (j < n_pre)) (PreH11 : (j < (string_length (src_str)))) ,
+forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (j: Z) (i: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (0 <= ((string_length (dst_str)) + j ))) (PreH3 : ((Znth j (c_string (src_str)) 0) <> 0)) (PreH4 : (j < n_pre)) (PreH5 : (valid_string dst_str )) (PreH6 : (valid_string src_str )) (PreH7 : (0 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH10 : (i = (string_length (dst_str)))) (PreH11 : (0 <= j)) (PreH12 : (j <= n_pre)) (PreH13 : (j <= (string_length (src_str)))) ,
   (CharArray.full dest_pre (((string_length (dst_str)) + j ) + 1 ) (app ((app (dst_str) ((sublist (0) (j) (src_str))))) ((cons ((Znth j (c_string (src_str)) 0)) ((@nil Z))))) )
   **  (CharArray.full src_pre ((string_length (src_str)) + 1 ) (c_string (src_str)) )
   **  ((( &( "i" ) )) # Int  |-> i)
@@ -615,7 +615,7 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@li
 .
 
 Definition strncat_safety_wit_9 := 
-forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (i: Z) (j: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (0 <= ((string_length (dst_str)) + j ))) (PreH3 : (valid_string dst_str )) (PreH4 : (valid_string src_str )) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH8 : (i = (string_length (dst_str)))) (PreH9 : (0 <= j)) (PreH10 : (j < n_pre)) (PreH11 : (j < (string_length (src_str)))) ,
+forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (j: Z) (i: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (0 <= ((string_length (dst_str)) + j ))) (PreH3 : ((Znth j (c_string (src_str)) 0) <> 0)) (PreH4 : (j < n_pre)) (PreH5 : (valid_string dst_str )) (PreH6 : (valid_string src_str )) (PreH7 : (0 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH10 : (i = (string_length (dst_str)))) (PreH11 : (0 <= j)) (PreH12 : (j <= n_pre)) (PreH13 : (j <= (string_length (src_str)))) ,
   (CharArray.full dest_pre (((string_length (dst_str)) + j ) + 1 ) (app ((app (dst_str) ((sublist (0) (j) (src_str))))) ((cons ((Znth j (c_string (src_str)) 0)) ((@nil Z))))) )
   **  (CharArray.full src_pre ((string_length (src_str)) + 1 ) (c_string (src_str)) )
   **  ((( &( "i" ) )) # Int  |-> i)
@@ -760,42 +760,7 @@ forall (n_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (i: Z)
 
 Definition strncat_entail_wit_4 := 
 (
-forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j (c_string (src_str)) 0) <> 0)) (PreH2 : (j < n_pre)) (PreH3 : (valid_string dst_str )) (PreH4 : (valid_string src_str )) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH8 : (i = (string_length (dst_str)))) (PreH9 : (0 <= j)) (PreH10 : (j <= n_pre)) (PreH11 : (j <= (string_length (src_str)))) ,
-  (CharArray.full dest_pre ((string_length (dst_str)) + j ) (app (dst_str) ((sublist (0) (j) (src_str)))) )
-  **  (((dest_pre + (((string_length (dst_str)) + j ) * sizeof(CHAR)))) # Char  |-> 0)
-  **  (CharArray.undef_seg dest_pre (((string_length (dst_str)) + j ) + 1 ) (((string_length (dst_str)) + n_pre ) + 1 ) )
-  **  (store_string src_pre src_str )
-|--
-  “ (valid_string dst_str ) ” 
-  &&  “ (valid_string src_str ) ” 
-  &&  “ (0 <= n_pre) ” 
-  &&  “ (n_pre < INT_MAX) ” 
-  &&  “ ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX) ” 
-  &&  “ (i = (string_length (dst_str))) ” 
-  &&  “ (0 <= j) ” 
-  &&  “ (j < n_pre) ” 
-  &&  “ (j < (string_length (src_str))) ”
-  &&  (CharArray.full dest_pre ((string_length (dst_str)) + j ) (app (dst_str) ((sublist (0) (j) (src_str)))) )
-  **  (((dest_pre + (((string_length (dst_str)) + j ) * sizeof(CHAR)))) # Char  |-> 0)
-  **  (CharArray.undef_seg dest_pre (((string_length (dst_str)) + j ) + 1 ) (((string_length (dst_str)) + n_pre ) + 1 ) )
-  **  (store_string src_pre src_str )
-) \/
-(
-forall (n_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (j: Z) (i: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : ((Znth j (c_string (src_str)) 0) <> 0)) (PreH3 : (j < n_pre)) (PreH4 : (valid_string dst_str )) (PreH5 : (valid_string src_str )) (PreH6 : (0 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH9 : (i = (string_length (dst_str)))) (PreH10 : (0 <= j)) (PreH11 : (j <= n_pre)) (PreH12 : (j <= (string_length (src_str)))) ,
-  TT && emp 
-|--
-  “ (j < (string_length (src_str))) ”
-  &&  emp
-).
-
-Definition strncat_entail_wit_4_split_goal_1 := 
-forall (n_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (j: Z) (i: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : ((Znth j (c_string (src_str)) 0) <> 0)) (PreH3 : (j < n_pre)) (PreH4 : (valid_string dst_str )) (PreH5 : (valid_string src_str )) (PreH6 : (0 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH9 : (i = (string_length (dst_str)))) (PreH10 : (0 <= j)) (PreH11 : (j <= n_pre)) (PreH12 : (j <= (string_length (src_str)))) ,
-  (j < (string_length (src_str)))
-.
-
-Definition strncat_entail_wit_5 := 
-(
-forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (i: Z) (j: Z) (PreH1 : (0 <= (((string_length (dst_str)) + j ) + 1 ))) (PreH2 : (0 <= ((string_length (src_str)) + 1 ))) (PreH3 : (0 <= ((string_length (dst_str)) + j ))) (PreH4 : (valid_string dst_str )) (PreH5 : (valid_string src_str )) (PreH6 : (0 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH9 : (i = (string_length (dst_str)))) (PreH10 : (0 <= j)) (PreH11 : (j < n_pre)) (PreH12 : (j < (string_length (src_str)))) ,
+forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (j: Z) (i: Z) (PreH1 : (0 <= (((string_length (dst_str)) + j ) + 1 ))) (PreH2 : (0 <= ((string_length (src_str)) + 1 ))) (PreH3 : (0 <= ((string_length (dst_str)) + j ))) (PreH4 : ((Znth j (c_string (src_str)) 0) <> 0)) (PreH5 : (j < n_pre)) (PreH6 : (valid_string dst_str )) (PreH7 : (valid_string src_str )) (PreH8 : (0 <= n_pre)) (PreH9 : (n_pre < INT_MAX)) (PreH10 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH11 : (i = (string_length (dst_str)))) (PreH12 : (0 <= j)) (PreH13 : (j <= n_pre)) (PreH14 : (j <= (string_length (src_str)))) ,
   (CharArray.full dest_pre ((((string_length (dst_str)) + j ) + 1 ) + 1 ) (app ((app ((app (dst_str) ((sublist (0) (j) (src_str))))) ((cons ((Znth j (c_string (src_str)) 0)) ((@nil Z)))))) ((cons (0) ((@nil Z))))) )
   **  (CharArray.undef_seg dest_pre ((((string_length (dst_str)) + j ) + 1 ) + 1 ) (((string_length (dst_str)) + n_pre ) + 1 ) )
   **  (CharArray.full src_pre ((string_length (src_str)) + 1 ) (c_string (src_str)) )
@@ -815,22 +780,30 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@li
   **  (store_string src_pre src_str )
 ) \/
 (
-forall (n_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (i: Z) (j: Z) (PreH1 : (0 <= (((string_length (dst_str)) + j ) + 1 ))) (PreH2 : (0 <= ((string_length (src_str)) + 1 ))) (PreH3 : (0 <= ((string_length (dst_str)) + j ))) (PreH4 : (valid_string dst_str )) (PreH5 : (valid_string src_str )) (PreH6 : (0 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH9 : (i = (string_length (dst_str)))) (PreH10 : (0 <= j)) (PreH11 : (j < n_pre)) (PreH12 : (j < (string_length (src_str)))) ,
+forall (n_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (j: Z) (i: Z) (PreH1 : (0 <= (((string_length (dst_str)) + j ) + 1 ))) (PreH2 : (0 <= ((string_length (src_str)) + 1 ))) (PreH3 : (0 <= ((string_length (dst_str)) + j ))) (PreH4 : ((Znth j (c_string (src_str)) 0) <> 0)) (PreH5 : (j < n_pre)) (PreH6 : (valid_string dst_str )) (PreH7 : (valid_string src_str )) (PreH8 : (0 <= n_pre)) (PreH9 : (n_pre < INT_MAX)) (PreH10 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH11 : (i = (string_length (dst_str)))) (PreH12 : (0 <= j)) (PreH13 : (j <= n_pre)) (PreH14 : (j <= (string_length (src_str)))) ,
   (CharArray.missing_i dest_pre ((string_length (dst_str)) + (j + 1 ) ) 0 ((((string_length (dst_str)) + j ) + 1 ) + 1 ) (app ((app ((app (dst_str) ((sublist (0) (j) (src_str))))) ((cons ((Znth j (c_string (src_str)) 0)) ((@nil Z)))))) ((cons (0) ((@nil Z))))) )
 |--
-  “ (0 = (Znth (i + (j + 1 ) ) (app ((app ((app (dst_str) ((sublist (0) (j) (src_str))))) ((cons ((Znth j (c_string (src_str)) 0)) ((@nil Z)))))) ((cons (0) ((@nil Z))))) 0)) ”
+  “ ((j + 1 ) <= (string_length (src_str))) ” 
+  &&  “ (0 = (Znth (i + (j + 1 ) ) (app ((app ((app (dst_str) ((sublist (0) (j) (src_str))))) ((cons ((Znth j (c_string (src_str)) 0)) ((@nil Z)))))) ((cons (0) ((@nil Z))))) 0)) ”
   &&  (CharArray.full dest_pre ((string_length (dst_str)) + (j + 1 ) ) (app (dst_str) ((sublist (0) ((j + 1 )) (src_str)))) )
 ).
 
-Definition strncat_entail_wit_5_split_goal_1 := 
-forall (n_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (i: Z) (j: Z) (PreH1 : (0 <= (((string_length (dst_str)) + j ) + 1 ))) (PreH2 : (0 <= ((string_length (src_str)) + 1 ))) (PreH3 : (0 <= ((string_length (dst_str)) + j ))) (PreH4 : (valid_string dst_str )) (PreH5 : (valid_string src_str )) (PreH6 : (0 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH9 : (i = (string_length (dst_str)))) (PreH10 : (0 <= j)) (PreH11 : (j < n_pre)) (PreH12 : (j < (string_length (src_str)))) ,
+Definition strncat_entail_wit_4_split_goal_1 := 
+forall (n_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (j: Z) (i: Z) (PreH1 : (0 <= (((string_length (dst_str)) + j ) + 1 ))) (PreH2 : (0 <= ((string_length (src_str)) + 1 ))) (PreH3 : (0 <= ((string_length (dst_str)) + j ))) (PreH4 : ((Znth j (c_string (src_str)) 0) <> 0)) (PreH5 : (j < n_pre)) (PreH6 : (valid_string dst_str )) (PreH7 : (valid_string src_str )) (PreH8 : (0 <= n_pre)) (PreH9 : (n_pre < INT_MAX)) (PreH10 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH11 : (i = (string_length (dst_str)))) (PreH12 : (0 <= j)) (PreH13 : (j <= n_pre)) (PreH14 : (j <= (string_length (src_str)))) ,
+  (CharArray.missing_i dest_pre ((string_length (dst_str)) + (j + 1 ) ) 0 ((((string_length (dst_str)) + j ) + 1 ) + 1 ) (app ((app ((app (dst_str) ((sublist (0) (j) (src_str))))) ((cons ((Znth j (c_string (src_str)) 0)) ((@nil Z)))))) ((cons (0) ((@nil Z))))) )
+|--
+  “ ((j + 1 ) <= (string_length (src_str))) ”
+.
+
+Definition strncat_entail_wit_4_split_goal_2 := 
+forall (n_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (j: Z) (i: Z) (PreH1 : (0 <= (((string_length (dst_str)) + j ) + 1 ))) (PreH2 : (0 <= ((string_length (src_str)) + 1 ))) (PreH3 : (0 <= ((string_length (dst_str)) + j ))) (PreH4 : ((Znth j (c_string (src_str)) 0) <> 0)) (PreH5 : (j < n_pre)) (PreH6 : (valid_string dst_str )) (PreH7 : (valid_string src_str )) (PreH8 : (0 <= n_pre)) (PreH9 : (n_pre < INT_MAX)) (PreH10 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH11 : (i = (string_length (dst_str)))) (PreH12 : (0 <= j)) (PreH13 : (j <= n_pre)) (PreH14 : (j <= (string_length (src_str)))) ,
   (CharArray.missing_i dest_pre ((string_length (dst_str)) + (j + 1 ) ) 0 ((((string_length (dst_str)) + j ) + 1 ) + 1 ) (app ((app ((app (dst_str) ((sublist (0) (j) (src_str))))) ((cons ((Znth j (c_string (src_str)) 0)) ((@nil Z)))))) ((cons (0) ((@nil Z))))) )
 |--
   “ (0 = (Znth (i + (j + 1 ) ) (app ((app ((app (dst_str) ((sublist (0) (j) (src_str))))) ((cons ((Znth j (c_string (src_str)) 0)) ((@nil Z)))))) ((cons (0) ((@nil Z))))) 0)) ”
 .
 
-Definition strncat_entail_wit_5_split_goal_spatial := 
-forall (n_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (i: Z) (j: Z) (PreH1 : (0 <= (((string_length (dst_str)) + j ) + 1 ))) (PreH2 : (0 <= ((string_length (src_str)) + 1 ))) (PreH3 : (0 <= ((string_length (dst_str)) + j ))) (PreH4 : (valid_string dst_str )) (PreH5 : (valid_string src_str )) (PreH6 : (0 <= n_pre)) (PreH7 : (n_pre < INT_MAX)) (PreH8 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH9 : (i = (string_length (dst_str)))) (PreH10 : (0 <= j)) (PreH11 : (j < n_pre)) (PreH12 : (j < (string_length (src_str)))) ,
+Definition strncat_entail_wit_4_split_goal_spatial := 
+forall (n_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (j: Z) (i: Z) (PreH1 : (0 <= (((string_length (dst_str)) + j ) + 1 ))) (PreH2 : (0 <= ((string_length (src_str)) + 1 ))) (PreH3 : (0 <= ((string_length (dst_str)) + j ))) (PreH4 : ((Znth j (c_string (src_str)) 0) <> 0)) (PreH5 : (j < n_pre)) (PreH6 : (valid_string dst_str )) (PreH7 : (valid_string src_str )) (PreH8 : (0 <= n_pre)) (PreH9 : (n_pre < INT_MAX)) (PreH10 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH11 : (i = (string_length (dst_str)))) (PreH12 : (0 <= j)) (PreH13 : (j <= n_pre)) (PreH14 : (j <= (string_length (src_str)))) ,
   (CharArray.missing_i dest_pre ((string_length (dst_str)) + (j + 1 ) ) 0 ((((string_length (dst_str)) + j ) + 1 ) + 1 ) (app ((app ((app (dst_str) ((sublist (0) (j) (src_str))))) ((cons ((Znth j (c_string (src_str)) 0)) ((@nil Z)))))) ((cons (0) ((@nil Z))))) )
 |--
   (CharArray.full dest_pre ((string_length (dst_str)) + (j + 1 ) ) (app (dst_str) ((sublist (0) ((j + 1 )) (src_str)))) )
@@ -890,7 +863,7 @@ forall (n_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (j: Z)
 ).
 
 Definition strncat_partial_solve_wit_1 := 
-forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (i: Z) (j: Z) (PreH1 : (valid_string dst_str )) (PreH2 : (valid_string src_str )) (PreH3 : (0 <= n_pre)) (PreH4 : (n_pre < INT_MAX)) (PreH5 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH6 : (i = (string_length (dst_str)))) (PreH7 : (0 <= j)) (PreH8 : (j < n_pre)) (PreH9 : (j < (string_length (src_str)))) ,
+forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (j: Z) (i: Z) (PreH1 : ((Znth j (c_string (src_str)) 0) <> 0)) (PreH2 : (j < n_pre)) (PreH3 : (valid_string dst_str )) (PreH4 : (valid_string src_str )) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH8 : (i = (string_length (dst_str)))) (PreH9 : (0 <= j)) (PreH10 : (j <= n_pre)) (PreH11 : (j <= (string_length (src_str)))) ,
   (CharArray.full dest_pre ((string_length (dst_str)) + j ) (app (dst_str) ((sublist (0) (j) (src_str)))) )
   **  (((dest_pre + (((string_length (dst_str)) + j ) * sizeof(CHAR)))) # Char  |-> 0)
   **  (CharArray.undef_seg dest_pre (((string_length (dst_str)) + j ) + 1 ) (((string_length (dst_str)) + n_pre ) + 1 ) )
@@ -898,6 +871,8 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@li
 |--
   “ (0 <= ((string_length (src_str)) + 1 )) ” 
   &&  “ (0 <= ((string_length (dst_str)) + j )) ” 
+  &&  “ ((Znth j (c_string (src_str)) 0) <> 0) ” 
+  &&  “ (j < n_pre) ” 
   &&  “ (valid_string dst_str ) ” 
   &&  “ (valid_string src_str ) ” 
   &&  “ (0 <= n_pre) ” 
@@ -905,8 +880,8 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@li
   &&  “ ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX) ” 
   &&  “ (i = (string_length (dst_str))) ” 
   &&  “ (0 <= j) ” 
-  &&  “ (j < n_pre) ” 
-  &&  “ (j < (string_length (src_str))) ”
+  &&  “ (j <= n_pre) ” 
+  &&  “ (j <= (string_length (src_str))) ”
   &&  (((dest_pre + ((i + j ) * sizeof(CHAR)))) # Char  |->_)
   **  (CharArray.full src_pre ((string_length (src_str)) + 1 ) (c_string (src_str)) )
   **  (CharArray.full dest_pre ((string_length (dst_str)) + j ) (app (dst_str) ((sublist (0) (j) (src_str)))) )
@@ -914,7 +889,7 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@li
 .
 
 Definition strncat_partial_solve_wit_2 := 
-forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (i: Z) (j: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (0 <= ((string_length (dst_str)) + j ))) (PreH3 : (valid_string dst_str )) (PreH4 : (valid_string src_str )) (PreH5 : (0 <= n_pre)) (PreH6 : (n_pre < INT_MAX)) (PreH7 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH8 : (i = (string_length (dst_str)))) (PreH9 : (0 <= j)) (PreH10 : (j < n_pre)) (PreH11 : (j < (string_length (src_str)))) ,
+forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@list Z)) (j: Z) (i: Z) (PreH1 : (0 <= ((string_length (src_str)) + 1 ))) (PreH2 : (0 <= ((string_length (dst_str)) + j ))) (PreH3 : ((Znth j (c_string (src_str)) 0) <> 0)) (PreH4 : (j < n_pre)) (PreH5 : (valid_string dst_str )) (PreH6 : (valid_string src_str )) (PreH7 : (0 <= n_pre)) (PreH8 : (n_pre < INT_MAX)) (PreH9 : ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX)) (PreH10 : (i = (string_length (dst_str)))) (PreH11 : (0 <= j)) (PreH12 : (j <= n_pre)) (PreH13 : (j <= (string_length (src_str)))) ,
   (CharArray.full dest_pre (((string_length (dst_str)) + j ) + 1 ) (app ((app (dst_str) ((sublist (0) (j) (src_str))))) ((cons ((Znth j (c_string (src_str)) 0)) ((@nil Z))))) )
   **  (CharArray.full src_pre ((string_length (src_str)) + 1 ) (c_string (src_str)) )
   **  (CharArray.undef_seg dest_pre (((string_length (dst_str)) + j ) + 1 ) (((string_length (dst_str)) + n_pre ) + 1 ) )
@@ -922,6 +897,8 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@li
   “ (0 <= (((string_length (dst_str)) + j ) + 1 )) ” 
   &&  “ (0 <= ((string_length (src_str)) + 1 )) ” 
   &&  “ (0 <= ((string_length (dst_str)) + j )) ” 
+  &&  “ ((Znth j (c_string (src_str)) 0) <> 0) ” 
+  &&  “ (j < n_pre) ” 
   &&  “ (valid_string dst_str ) ” 
   &&  “ (valid_string src_str ) ” 
   &&  “ (0 <= n_pre) ” 
@@ -929,8 +906,8 @@ forall (n_pre: Z) (src_pre: Z) (dest_pre: Z) (src_str: (@list Z)) (dst_str: (@li
   &&  “ ((((string_length (dst_str)) + n_pre ) + 1 ) < INT_MAX) ” 
   &&  “ (i = (string_length (dst_str))) ” 
   &&  “ (0 <= j) ” 
-  &&  “ (j < n_pre) ” 
-  &&  “ (j < (string_length (src_str))) ”
+  &&  “ (j <= n_pre) ” 
+  &&  “ (j <= (string_length (src_str))) ”
   &&  (((dest_pre + ((i + (j + 1 ) ) * sizeof(CHAR)))) # Char  |->_)
   **  (CharArray.undef_missing_i dest_pre (i + (j + 1 ) ) (((string_length (dst_str)) + j ) + 1 ) (((string_length (dst_str)) + n_pre ) + 1 ) )
   **  (CharArray.full dest_pre (((string_length (dst_str)) + j ) + 1 ) (app ((app (dst_str) ((sublist (0) (j) (src_str))))) ((cons ((Znth j (c_string (src_str)) 0)) ((@nil Z))))) )
@@ -972,7 +949,6 @@ Axiom proof_of_strncat_entail_wit_1 : strncat_entail_wit_1.
 Axiom proof_of_strncat_entail_wit_2 : strncat_entail_wit_2.
 Axiom proof_of_strncat_entail_wit_3 : strncat_entail_wit_3.
 Axiom proof_of_strncat_entail_wit_4 : strncat_entail_wit_4.
-Axiom proof_of_strncat_entail_wit_5 : strncat_entail_wit_5.
 Axiom proof_of_strncat_return_wit_1 : strncat_return_wit_1.
 Axiom proof_of_strncat_return_wit_2 : strncat_return_wit_2.
 Axiom proof_of_strncat_partial_solve_wit_1 : strncat_partial_solve_wit_1.

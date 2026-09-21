@@ -48,9 +48,7 @@ Proof.
     unfold rev_append_local_M_loop_end.
     prog_nf.
     exact PreH1.
-Qed. 
-
-
+Qed.
 
 Lemma proof_of_rev_append_local_entail_wit_2 : rev_append_local_entail_wit_2.
 Proof.
@@ -88,8 +86,7 @@ Proof.
     + unfold rev_append_local_guardP.
       simpl.
       congruence.
-Qed. 
-
+Qed.
 
 Lemma proof_of_rev_append_local_return_wit_1 : rev_append_local_return_wit_1.
 Proof.
@@ -122,8 +119,7 @@ Proof.
     Intros.
     unfold NULL in H.
     lia.
-Qed. 
-
+Qed.
 
 Lemma proof_of_glibc_slist_clean_multi_rev_entail_wit_1 : glibc_slist_clean_multi_rev_entail_wit_1.
 Proof.
@@ -144,23 +140,15 @@ Proof.
       * intro r1.
         apply bind_ret_r.
     + exact PreH1.
-Qed. 
+Qed.
 
-
-Lemma proof_of_glibc_slist_clean_multi_rev_entail_wit_2 : glibc_slist_clean_multi_rev_entail_wit_2.
+Lemma proof_of_glibc_slist_clean_multi_rev_partial_solve_wit_2_pure : glibc_slist_clean_multi_rev_partial_solve_wit_2_pure.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  subst_eqs.
-  Exists l3_2.
-  split_pure_spatial.
-  - cancel.
-  - split_pure_and_solve.
-    prog_nf in PreH1.
-    dump_pre_spatial.
-    exact PreH1.
-Qed. 
-
-
+  prog_nf in PreH1.
+  dump_pre_spatial.
+  exact PreH1.
+Qed.
 
 Lemma proof_of_glibc_slist_clean_multi_rev_derive_high_level_spec_by_low_level_spec : glibc_slist_clean_multi_rev_derive_high_level_spec_by_low_level_spec.
 Proof.
@@ -195,6 +183,7 @@ Proof.
     subst l3.
     cancel.
 Qed.
+
 Lemma proof_of_rev_append_local_derive_low_level_spec_aux_by_low_level_spec : rev_append_local_derive_low_level_spec_aux_by_low_level_spec.
 Proof.
   LLM_pre_process ltac:(int_auto).

@@ -111,6 +111,6 @@ Appropriate places for `Znth` include:
 - The current candidate, pivot, or boundary element.
 - Connecting the states before and after a `replace_Znth` write.
 
-Do not turn an invariant into a long sequence of isolated `Znth` equalities. Express “`best` is the maximum of the processed prefix” directly with `sublist` and the existing maximum interface. Express partition properties with `Forall`, `sublist`, and existing bound predicates first. Retain one business predicate only when the same substantial property is reused and a direct combination is unclear.
+Do not turn an invariant into a long sequence of isolated `Znth` equalities. Express “`best` is the maximum of the processed prefix” with `sublist` and `max_value_of_subset` from `MaxMinLib`. Express partition properties with `Forall`, `sublist`, and existing bound predicates first. A necessary business predicate also reuses the specified library semantics and contains no resources, input ranges, or execution-safety conditions.
 
 If a proof appears to require new foundational array/string memory semantics, first confirm that no built-in predicate already provides them. If the annotation chose the wrong predicate, repair the annotation instead.

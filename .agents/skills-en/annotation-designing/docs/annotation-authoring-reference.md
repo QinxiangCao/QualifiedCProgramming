@@ -2,7 +2,7 @@
 
 This file preserves QCP-language, resource-shape, loop-invariant, and failure-analysis details. The workflow is authoritative for stage order, commands, and reports.
 
-This document is for the single annotation owner. Its goal is to revise specifications, C annotations, and `formal_case_lib` declarations together in the main root until they are ready for the main-owned `annotation-check-round`.
+This document is for the single annotation owner. Its goal is to revise specifications, C annotations, and `formal_case_lib` declarations together in the main root until they are ready for the main-owned `finalize-delivery`.
 
 ## Allowed modifications
 
@@ -54,8 +54,8 @@ If a new definition begins to reproduce loop locals and step transitions one-for
 Prefer short, stable, reusable mathematical interfaces:
 
 - For a sorting result, combine `Permutation` with `increasing` / `decreasing`.
-- For a segment sum, use `sum(sublist lo hi l)` directly in ordinary cases; wrap `SumLib` in a business predicate for complicated indexed sums.
-- For maxima, minima, and optima, prefer `min_value_of_subset`, `max_value_of_subset`, or another interface already present in the dependencies. Retain one business name only when the problem concept is reused.
+- For a segment sum, use the existing list `sum(sublist lo hi l)` directly. Reuse `sum_range` / `sum` / `sum_set_R` for indexed or finite-set sums according to their signatures, and `Zrange` for enumeration; do not redefine them recursively. Retain one business predicate only when a problem concept needs a name. See [knowledge rules §2](spec-and-contract-knowledge.md#2-arithmetic-and-library-interfaces) for endpoints and identically named interfaces.
+- Maxima, minima, and optima must use `min_value_of_subset` / `max_value_of_subset` from `MaxMinLib`. Do not define `IsMinimum` / `IsMaximum` or another synonymous interface. When a problem or cross-function interface needs a name, retain one case predicate that directly references the library semantics.
 - For binary search on an answer, define `CanX`, `CannotX`, and the true-answer predicate. The main-loop invariant keeps the answer inside the current bounds. Read [the binary-answer example](examples/binary-search-answer.md); the companion C annotation is `examples/split_array_largest_sum.c`.
 - For dynamic programming, define the mathematical meaning of a table entry rather than defining another recursive DP program and tracking it.
 - For a refinement proof, retain only the `safeExec` / monadic specification required by the proof type; do not duplicate final functional correctness inside the C loop invariant.
@@ -66,9 +66,9 @@ A preferred new declaration has the shape:
 Definition BusinessPredicate (l : list Z) (args : Z) : Prop := ...
 ```
 
-Prefer `forall` / `exists`, `Znth`, `Zlength`, `sublist`, `Permutation`, `sum`, and existing core predicates. Add one case predicate only when a problem or interface needs a name. Introduce an `Inductive` only when the inductive structure itself is the business semantics. Do not write a `Fixpoint` merely to simulate a program loop.
+Use `Forall` for index-independent elementwise properties and `Forall2` for corresponding elements; retain `forall` with a valid domain only for position-dependent properties. Directly reuse core interfaces such as `exists`, `Znth`, `Zlength`, `sublist`, `Permutation`, and `sum`. Add one case predicate only when a problem or interface needs a name. Zero or more relation steps must use `clos_refl_trans`, not a recursively defined execution chain. Follow knowledge rules §1.4 for datatypes, and do not write a `Fixpoint` to simulate a program loop.
 
-That one case predicate names problem mathematics and does not sit behind another synonymous layer. Expand function-specification input sizes, scalar/element ranges, and overflow/safety conditions directly; never define or call wrapper predicates such as `SizeSafe`, `InputValues`, `InputValid`, or `InputBound` for them.
+That one case predicate names problem mathematics and does not sit behind another synonymous layer. Result and progress predicates contain no memory ownership, input restrictions, or implementation-safety ranges; retain problem candidate sets, valid quantification domains, and answer intervals. Expand input sizes, scalar/element ranges, and overflow/safety conditions directly in `Require` or the intermediate annotation that needs them; never define or call wrappers such as `SizeSafe`, `InputValues`, `InputValid`, or `InputBound`. The mathematical part of `Ensure` promises only the required final properties, returning resources separately.
 
 ## Annotation style
 
@@ -109,6 +109,8 @@ Inv Assert
 ```
 
 `IntArray::full(a, n, l)` already includes `Zlength(l) == n` and `0 <= n`; resources such as `IntArray::seg` likewise include their own length and interval facts. Do not repeat those facts in the same annotation. Keep an access bound such as `0 <= i < n` when the actual array access needs it.
+
+`LoopStatePredicate` contains only mathematical progress. Keep ranges, read bindings, and resources outside it, without copying all entry conditions. Use `Forall` for elementwise ranges as specified in the knowledge rules, and Z interfaces for logical integers and list operations.
 
 Common array-scan shapes:
 
@@ -163,17 +165,13 @@ The following failures remain repairable by the same owner by default:
 - `invariant-too-strong`
 - `resource-loss`
 
-The one annotation owner follows the current stage until completed, stale, compact-error, or a genuine blocker:
+The one annotation owner follows the current stage until completed, stale, or a blocker (context compaction belongs to the runtime):
 
 1. Design the natural-language specification, Rocq specification, function contracts, necessary predicates, C annotations, case-library lemmas, and concise plan in order.
 2. Run the handed-off design-library check, canonical symexec, and applicable post-symexec library check.
 3. Repair the specification, invariant, resource, or lemma corresponding to the first failed VC; continue while the gap remains.
 
-If the controller handoff explicitly sets `consider_broader_refactor: true`, first reevaluate the specification's
-abstraction level and direction. Then inspect the connections among function postconditions, loop invariants, local
-assertions together. Consider deleting and rewriting an incorrect annotation structure
-instead of assuming the first two annotation-causal repairs' local-patch direction remains valid. This requirement
-comes from the controller's causal count, not the annotation-directory ordinal.
+When local repairs do not resolve the gap, the owner reevaluates the specification abstraction and the links between postconditions, loop invariants, and local assertions, then decides whether to rewrite the annotation structure. Scripts do not count failures or issue broader-refactor hints.
 
 ## Analyzing QCP failures
 

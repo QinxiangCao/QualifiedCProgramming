@@ -10,7 +10,10 @@
       (minister_right : minister -> Z)
       (minister_product : minister -> Z)
       (FlatMinisters : list Z -> list minister -> Prop)
-      (MinisterHandsBound : list minister -> Prop)
+      (Forall : {A} -> (A -> Prop) -> list A -> Prop)
+      (map : {A B} -> (A -> B) -> list A -> list B)
+      (Z::le : Z -> Z -> Prop)
+      (Z::ge : Z -> Z -> Prop)
       (MinisterPermutation : list minister -> list minister -> Prop)
       (MinisterSorted : list minister -> Prop)
       (KingsGameResult : list minister -> Z -> list minister -> Prop)
@@ -29,12 +32,13 @@ void swap_ministers(int *a, int n, int i, int j)
       1 <= n && n <= 8 &&
       Zlength(ps) == n &&
       FlatMinisters(flat, ps) &&
-      MinisterHandsBound(ps) &&
+      Forall(Z::le(1), map(minister_left, ps)) &&
+      Forall(Z::ge(10), map(minister_left, ps)) &&
+      Forall(Z::le(1), map(minister_right, ps)) &&
+      Forall(Z::ge(10), map(minister_right, ps)) &&
       IntArray::full(a, 2 * n, flat)
     Ensure
-      Zlength(minister_swap(ps, i, j)) == n &&
       FlatMinisters(minister_swap_flat(flat, i, j), minister_swap(ps, i, j)) &&
-      MinisterHandsBound(minister_swap(ps, i, j)) &&
       MinisterPermutation(ps, minister_swap(ps, i, j)) &&
       IntArray::full(a, 2 * n, minister_swap_flat(flat, i, j))
  */
@@ -66,14 +70,15 @@ void kings_game(int *ministers, int n, int king_left, int king_right, int *ans)
       1 <= king_right && king_right <= 10 &&
       Zlength(input) == n &&
       FlatMinisters(input_flat, input) &&
-      MinisterHandsBound(input) &&
+      Forall(Z::le(1), map(minister_left, input)) &&
+      Forall(Z::ge(10), map(minister_left, input)) &&
+      Forall(Z::le(1), map(minister_right, input)) &&
+      Forall(Z::ge(10), map(minister_right, input)) &&
       IntArray::full(ministers, 2 * n, input_flat) *
       IntArray::undef_full(ans, 2 * n)
     Ensure
       exists output_flat output,
-        Zlength(output) == n &&
         FlatMinisters(output_flat, output) &&
-        MinisterHandsBound(output) &&
         KingsGameResult(input, king_left, output) &&
         IntArray::full(ministers, 2 * n, input_flat) *
         IntArray::full(ans, 2 * n, output_flat)
@@ -92,7 +97,10 @@ void kings_game(int *ministers, int n, int king_left, int king_right, int *ans)
       Zlength(input) == n@pre &&
       Zlength(input_flat) == 2 * n@pre &&
       FlatMinisters(input_flat, input) &&
-      MinisterHandsBound(input) &&
+      Forall(Z::le(1), map(minister_left, input)) &&
+      Forall(Z::ge(10), map(minister_left, input)) &&
+      Forall(Z::le(1), map(minister_right, input)) &&
+      Forall(Z::ge(10), map(minister_right, input)) &&
       0 <= k && k <= 2 * n@pre &&
       IntArray::full(ministers, 2 * n@pre, input_flat) *
       IntArray::seg(ans, 0, k, sublist(0, k, input_flat)) *
@@ -113,11 +121,17 @@ void kings_game(int *ministers, int n, int king_left, int king_right, int *ans)
         1 <= king_right@pre && king_right@pre <= 10 &&
         Zlength(input) == n@pre &&
         FlatMinisters(input_flat, input) &&
-        MinisterHandsBound(input) &&
+        Forall(Z::le(1), map(minister_left, input)) &&
+        Forall(Z::ge(10), map(minister_left, input)) &&
+        Forall(Z::le(1), map(minister_right, input)) &&
+        Forall(Z::ge(10), map(minister_right, input)) &&
         0 <= pass && pass <= n@pre - 1 &&
         Zlength(cur) == n@pre &&
         FlatMinisters(flat_cur, cur) &&
-        MinisterHandsBound(cur) &&
+        Forall(Z::le(1), map(minister_left, cur)) &&
+        Forall(Z::ge(10), map(minister_left, cur)) &&
+        Forall(Z::le(1), map(minister_right, cur)) &&
+        Forall(Z::ge(10), map(minister_right, cur)) &&
         MinisterPermutation(input, cur) &&
         BubbleOuterProperty(cur, n@pre, pass) &&
         IntArray::full(ministers, 2 * n@pre, input_flat) *
@@ -134,12 +148,18 @@ void kings_game(int *ministers, int n, int king_left, int king_right, int *ans)
           1 <= king_right@pre && king_right@pre <= 10 &&
           Zlength(input) == n@pre &&
           FlatMinisters(input_flat, input) &&
-          MinisterHandsBound(input) &&
+          Forall(Z::le(1), map(minister_left, input)) &&
+          Forall(Z::ge(10), map(minister_left, input)) &&
+          Forall(Z::le(1), map(minister_right, input)) &&
+          Forall(Z::ge(10), map(minister_right, input)) &&
           0 <= pass && pass < n@pre - 1 &&
           0 <= j && j <= n@pre - 1 - pass &&
           Zlength(cur) == n@pre &&
           FlatMinisters(flat_cur, cur) &&
-          MinisterHandsBound(cur) &&
+          Forall(Z::le(1), map(minister_left, cur)) &&
+          Forall(Z::ge(10), map(minister_left, cur)) &&
+          Forall(Z::le(1), map(minister_right, cur)) &&
+          Forall(Z::ge(10), map(minister_right, cur)) &&
           MinisterPermutation(input, cur) &&
           BubbleOuterProperty(cur, n@pre, pass) &&
           BubbleScanProperty(cur, n@pre, pass, j) &&

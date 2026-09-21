@@ -343,7 +343,6 @@ Proof.
 		+ split_pures.
 			* dump_pre_spatial. rewrite PreH4 in PreH10. simpl in PreH10. exact PreH10.
 			* dump_pre_spatial. exact Hinc.
-			* dump_pre_spatial. rewrite PreH4 in Hlen_l3. simpl in Hlen_l3. exact Hlen_l3.
 Qed.
 
 Lemma proof_of_sortArray_return_wit_2 : sortArray_return_wit_2.
@@ -359,7 +358,7 @@ Proof.
 			split_pure_spatial.
 			* cancel (IntArray.full nums_pre 1 [z]).
 				cancel ((returnSize_pre) # Int |-> 1).
-			* split_pures; [dump_pre_spatial; apply Permutation_refl | dump_pre_spatial; simpl; auto].
+			* split_pures; dump_pre_spatial; auto using Permutation_refl.
 		+ pose proof (Zlength_nonneg l) as Hl_nonneg.
 			exfalso.
 			assert (Htwo : 2 <= Zlength (z :: z0 :: l)).

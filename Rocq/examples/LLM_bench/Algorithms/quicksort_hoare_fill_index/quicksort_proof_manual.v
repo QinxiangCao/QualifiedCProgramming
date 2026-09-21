@@ -11,7 +11,6 @@ From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
 Require Import SetsClass.SetsClass. Import SetsNotation.
 From SimpleC.SL Require Import Mem SeparationLogic.
 From SimpleC.EE.LLM_bench.Algorithms.quicksort_hoare_fill_index Require Import quicksort_goal.
-From SimpleC.EE.LLM_bench.Algorithms.quicksort_hoare_fill_index Require Import quicksort_proof_auto.
 Require Import Logic.LogicGenerator.demo932.Interface.
 Local Open Scope Z_scope.
 Local Open Scope sets.
@@ -21,25 +20,60 @@ Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.quicksort_hoare_swap_index.quicksort_lib.
 Local Open Scope sac.
 
+
+(** Convert Forall segments only inside proofs when reusing indexed helpers. *)
+Ltac quicksort_bounds :=
+  try dump_pre_spatial;
+  repeat rewrite Zlength_replace_Znth in *;
+  repeat match goal with
+  | H : Forall ?P (sublist ?lo ?hi ?values) |- _ =>
+      rewrite (quicksort_Forall_sublist P values lo hi ltac:(lia) ltac:(repeat rewrite Zlength_replace_Znth; lia)) in H
+  end;
+  try match goal with
+  | |- Forall ?P (sublist ?lo ?hi ?values) =>
+      apply (proj2 (quicksort_Forall_sublist P values lo hi ltac:(lia) ltac:(repeat rewrite Zlength_replace_Znth; lia)))
+  end;
+  intros index Hindex;
+  repeat match goal with
+  | |- context [Znth ?k (replace_Znth ?j ?value ?values) 0] =>
+      let Hequal := fresh "Hequal" in let Hdifferent := fresh "Hdifferent" in
+      destruct (Z.eq_dec k j) as [Hequal | Hdifferent];
+      [rewrite Hequal; rewrite Znth_replace_Znth_Same by (repeat rewrite Zlength_replace_Znth; lia)
+      |rewrite Znth_replace_Znth_Diff by (repeat rewrite Zlength_replace_Znth; lia)]
+  end;
+  repeat match goal with
+  | H : forall k : Z, _ -> ?P (Znth k ?values 0) |- context [Znth ?k ?values 0] =>
+      let T := constr:(P (Znth k values 0)) in
+      match goal with
+      | _ : T |- _ => fail 1
+      | _ => let HH := fresh "Helement" in assert T as HH by (apply H; lia)
+      end
+  end;
+  simpl in *; try lia; try congruence.
+
 Lemma proof_of_partition_entail_wit_1_split_goal_1 : partition_entail_wit_1_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  all: quicksort_bounds.
 Qed.
 
 Lemma proof_of_partition_entail_wit_1_split_goal_2 : partition_entail_wit_1_split_goal_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  all: quicksort_bounds.
 Qed.
 
 Lemma proof_of_partition_entail_wit_1_split_goal_3 : partition_entail_wit_1_split_goal_3.
 Proof.
   LLM_pre_process ltac:(int_auto).
+
   apply same_outside_range_refl.
 Qed.
 
 Lemma proof_of_partition_entail_wit_1_split_goal_4 : partition_entail_wit_1_split_goal_4.
 Proof.
   LLM_pre_process ltac:(int_auto).
+
   rewrite replace_Znth_Znth by (rewrite PreH1; lia).
   apply Permutation_refl.
 Qed.
@@ -53,35 +87,37 @@ Proof.
   - Goal_apply proof_of_partition_entail_wit_1_split_goal_4.
 Qed.
 
+Lemma proof_of_partition_entail_wit_3_split_goal_1 : partition_entail_wit_3_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  all: quicksort_bounds.
+  all: destruct (Z.eq_dec index j_2) as [Heq | Hneq]; [subst index; lia | apply PreH16; lia].
+Qed.
+
+Lemma proof_of_partition_entail_wit_3 : partition_entail_wit_3.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_partition_entail_wit_3_split_goal_1.
+Qed.
+
 Lemma proof_of_partition_entail_wit_4_split_goal_1 : partition_entail_wit_4_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  assert (Hlen_l1 : Zlength l1_2 = n) by (rewrite Zlength_replace_Znth in PreH1; exact PreH1).
-  rewrite Znth_replace_Znth_Diff.
-  - rewrite <- PreH5. apply PreH17. lia.
-  - rewrite Hlen_l1. lia.
-  - rewrite Hlen_l1. lia.
-  - intro Heq; subst; lia.
+  all: quicksort_bounds.
 Qed.
 
 Lemma proof_of_partition_entail_wit_4_split_goal_2 : partition_entail_wit_4_split_goal_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  assert (Hlen_l1 : Zlength l1_2 = n) by (rewrite Zlength_replace_Znth in PreH1; exact PreH1).
-  destruct (Z.eq_dec k i_2) as [-> | Hneq].
-  - rewrite Znth_replace_Znth_Same.
-    + rewrite <- PreH5. exact PreH3.
-    + rewrite Hlen_l1. lia.
-  - rewrite Znth_replace_Znth_Diff.
-    + rewrite <- PreH5. apply PreH16. lia.
-    + rewrite Hlen_l1. lia.
-    + rewrite Hlen_l1. lia.
-    + intro Heq; apply Hneq; symmetry; exact Heq.
+  all: quicksort_bounds.
 Qed.
 
 Lemma proof_of_partition_entail_wit_4_split_goal_3 : partition_entail_wit_4_split_goal_3.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (IndexedPreH17 : forall (k_4: Z) , (((j_2 < k_4) /\ (k_4 <= high_pre)) -> (pivot_2 <= (Znth k_4 l1_2 0)))) by quicksort_bounds.
+  assert (IndexedPreH16 : forall (k_3: Z) , (((low_pre <= k_3) /\ (k_3 < i_2)) -> ((Znth k_3 l1_2 0) <= pivot_2))) by quicksort_bounds.
+
   assert (Hlen_l1 : Zlength l1_2 = n) by (rewrite Zlength_replace_Znth in PreH1; exact PreH1).
   eapply same_outside_range_trans_local.
   - exact PreH15.
@@ -91,6 +127,9 @@ Qed.
 Lemma proof_of_partition_entail_wit_4_split_goal_4 : partition_entail_wit_4_split_goal_4.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (IndexedPreH16 : forall (k_3: Z) , (((low_pre <= k_3) /\ (k_3 < i_2)) -> ((Znth k_3 l1_2 0) <= pivot_2))) by quicksort_bounds.
+  assert (IndexedPreH17 : forall (k_4: Z) , (((j_2 < k_4) /\ (k_4 <= high_pre)) -> (pivot_2 <= (Znth k_4 l1_2 0)))) by quicksort_bounds.
+
   assert (Hlen_l1 : Zlength l1_2 = n) by (rewrite Zlength_replace_Znth in PreH1; exact PreH1).
   pose proof PreH15 as Hsame.
   destruct Hsame as [Hsame_len _].
@@ -107,35 +146,37 @@ Proof.
   - Goal_apply proof_of_partition_entail_wit_4_split_goal_4.
 Qed.
 
+Lemma proof_of_partition_entail_wit_5_split_goal_1 : partition_entail_wit_5_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  all: quicksort_bounds.
+  all: destruct (Z.eq_dec index i_2) as [Heq | Hneq]; [subst index; lia | apply PreH15; lia].
+Qed.
+
+Lemma proof_of_partition_entail_wit_5 : partition_entail_wit_5.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_partition_entail_wit_5_split_goal_1.
+Qed.
+
 Lemma proof_of_partition_entail_wit_6_split_goal_1 : partition_entail_wit_6_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  assert (Hlen_l1 : Zlength l1_2 = n) by (rewrite Zlength_replace_Znth in PreH1; exact PreH1).
-  destruct (Z.eq_dec k_2 j_2) as [-> | Hneq].
-  - rewrite Znth_replace_Znth_Same.
-    + lia.
-    + rewrite Hlen_l1. lia.
-  - rewrite Znth_replace_Znth_Diff.
-    + rewrite <- PreH5. apply PreH17. lia.
-    + rewrite Hlen_l1. lia.
-    + rewrite Hlen_l1. lia.
-    + intro Heq; apply Hneq; symmetry; exact Heq.
+  all: quicksort_bounds.
 Qed.
 
 Lemma proof_of_partition_entail_wit_6_split_goal_2 : partition_entail_wit_6_split_goal_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  assert (Hlen_l1 : Zlength l1_2 = n) by (rewrite Zlength_replace_Znth in PreH1; exact PreH1).
-  rewrite Znth_replace_Znth_Diff.
-  - rewrite <- PreH5. apply PreH16. lia.
-  - rewrite Hlen_l1. lia.
-  - rewrite Hlen_l1. lia.
-  - intro Heq; subst; lia.
+  all: quicksort_bounds.
 Qed.
 
 Lemma proof_of_partition_entail_wit_6_split_goal_3 : partition_entail_wit_6_split_goal_3.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (IndexedPreH17 : forall (k_4: Z) , (((j_2 < k_4) /\ (k_4 <= high_pre)) -> (pivot_2 <= (Znth k_4 l1_2 0)))) by quicksort_bounds.
+  assert (IndexedPreH16 : forall (k_3: Z) , (((low_pre <= k_3) /\ (k_3 < i_2)) -> ((Znth k_3 l1_2 0) <= pivot_2))) by quicksort_bounds.
+
   assert (Hlen_l1 : Zlength l1_2 = n) by (rewrite Zlength_replace_Znth in PreH1; exact PreH1).
   eapply same_outside_range_trans_local.
   - exact PreH15.
@@ -145,6 +186,9 @@ Qed.
 Lemma proof_of_partition_entail_wit_6_split_goal_4 : partition_entail_wit_6_split_goal_4.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (IndexedPreH16 : forall (k_3: Z) , (((low_pre <= k_3) /\ (k_3 < i_2)) -> ((Znth k_3 l1_2 0) <= pivot_2))) by quicksort_bounds.
+  assert (IndexedPreH17 : forall (k_4: Z) , (((j_2 < k_4) /\ (k_4 <= high_pre)) -> (pivot_2 <= (Znth k_4 l1_2 0)))) by quicksort_bounds.
+
   assert (Hlen_l1 : Zlength l1_2 = n) by (rewrite Zlength_replace_Znth in PreH1; exact PreH1).
   pose proof PreH15 as Hsame.
   destruct Hsame as [Hsame_len _].
@@ -164,6 +208,9 @@ Qed.
 Lemma proof_of_partition_return_wit_1_split_goal_1 : partition_return_wit_1_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (IndexedPreH16 : forall (k_2: Z) , (((j < k_2) /\ (k_2 <= high_pre)) -> (pivot <= (Znth k_2 l1_2 0)))) by quicksort_bounds.
+  assert (IndexedPreH15 : forall (k: Z) , (((low_pre <= k) /\ (k < i)) -> ((Znth k l1_2 0) <= pivot))) by quicksort_bounds.
+
   assert (Hlen_l1 : Zlength l1_2 = n) by (rewrite Zlength_replace_Znth in PreH1; exact PreH1).
   pose proof PreH14 as Hsame.
   destruct Hsame as [Hsame_len _].
@@ -174,6 +221,9 @@ Qed.
 Lemma proof_of_partition_return_wit_1_split_goal_2 : partition_return_wit_1_split_goal_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (IndexedPreH16 : forall (k_2: Z) , (((j < k_2) /\ (k_2 <= high_pre)) -> (pivot <= (Znth k_2 l1_2 0)))) by quicksort_bounds.
+  assert (IndexedPreH15 : forall (k: Z) , (((low_pre <= k) /\ (k < i)) -> ((Znth k l1_2 0) <= pivot))) by quicksort_bounds.
+
   assert (Hlen_l1 : Zlength l1_2 = n) by (rewrite Zlength_replace_Znth in PreH1; exact PreH1).
   eapply same_outside_range_trans_local.
   - exact PreH14.
@@ -190,6 +240,9 @@ Qed.
 Lemma proof_of_partition_return_wit_2_split_goal_1 : partition_return_wit_2_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (IndexedPreH16 : forall (k_2: Z) , (((j < k_2) /\ (k_2 <= high_pre)) -> (pivot <= (Znth k_2 l1_2 0)))) by quicksort_bounds.
+  assert (IndexedPreH15 : forall (k: Z) , (((low_pre <= k) /\ (k < i)) -> ((Znth k l1_2 0) <= pivot))) by quicksort_bounds.
+
   assert (Hlen_l1 : Zlength l1_2 = n) by (rewrite Zlength_replace_Znth in PreH1; exact PreH1).
   pose proof PreH14 as Hsame.
   destruct Hsame as [Hsame_len _].
@@ -200,6 +253,9 @@ Qed.
 Lemma proof_of_partition_return_wit_2_split_goal_2 : partition_return_wit_2_split_goal_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (IndexedPreH16 : forall (k_2: Z) , (((j < k_2) /\ (k_2 <= high_pre)) -> (pivot <= (Znth k_2 l1_2 0)))) by quicksort_bounds.
+  assert (IndexedPreH15 : forall (k: Z) , (((low_pre <= k) /\ (k < i)) -> ((Znth k l1_2 0) <= pivot))) by quicksort_bounds.
+
   assert (Hlen_l1 : Zlength l1_2 = n) by (rewrite Zlength_replace_Znth in PreH1; exact PreH1).
   eapply same_outside_range_trans_local.
   - exact PreH14.
@@ -209,6 +265,9 @@ Qed.
 Lemma proof_of_partition_return_wit_2_split_goal_3 : partition_return_wit_2_split_goal_3.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  assert (IndexedPreH16 : forall (k_2: Z) , (((j < k_2) /\ (k_2 <= high_pre)) -> (pivot <= (Znth k_2 l1_2 0)))) by quicksort_bounds.
+  assert (IndexedPreH15 : forall (k: Z) , (((low_pre <= k) /\ (k < i)) -> ((Znth k l1_2 0) <= pivot))) by quicksort_bounds.
+
   assert (Hij_eq : i = j) by lia.
   subst j.
   exact PreH13.
@@ -225,8 +284,12 @@ Qed.
 Lemma proof_of_quicksort_range_return_wit_1_split_goal_1 : quicksort_range_return_wit_1_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
+
+  rewrite same_outside_range_unfold in PreH13.
   destruct PreH13 as [Hlen12 Heq12].
+  rewrite same_outside_range_unfold in PreH7.
   destruct PreH7 as [Hlen23 Heq23].
+  rewrite same_outside_range_unfold in PreH3.
   destruct PreH3 as [Hlen34 Heq34].
   assert (Hlen3 : Zlength l1_3 = n) by (rewrite Hlen34; exact PreH1).
   assert (Hlen2 : Zlength l1_2 = n) by (rewrite Hlen23; exact Hlen3).
@@ -235,7 +298,7 @@ Proof.
     eapply partitioned_at_preserved_by_left_local.
     - exact PreH6.
     - exact PreH17.
-    - exact (conj Hlen23 Heq23).
+    - apply (proj2 (same_outside_range_unfold _ _ _ _)); exact (conj Hlen23 Heq23).
     - rewrite Hlen2. exact PreH19.
     - exact PreH14.
   }
@@ -244,7 +307,7 @@ Proof.
     eapply partitioned_at_preserved_by_right_local.
     - exact PreH2.
     - exact PreH17.
-    - exact (conj Hlen34 Heq34).
+    - apply (proj2 (same_outside_range_unfold _ _ _ _)); exact (conj Hlen34 Heq34).
     - rewrite Hlen3. exact PreH19.
     - exact Hpart3.
   }
@@ -272,11 +335,16 @@ Qed.
 Lemma proof_of_quicksort_range_return_wit_1_split_goal_2 : quicksort_range_return_wit_1_split_goal_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
+
+  rewrite same_outside_range_unfold in PreH13.
   destruct PreH13 as [Hlen12 Heq12].
+  rewrite same_outside_range_unfold in PreH7.
   destruct PreH7 as [Hlen23 Heq23].
+  rewrite same_outside_range_unfold in PreH3.
   destruct PreH3 as [Hlen34 Heq34].
   assert (Hsame23_full : same_outside_range l1_2 l1_3 left_pre right_pre).
   {
+    rewrite same_outside_range_unfold.
     split.
     - exact Hlen23.
     - intros k Hk Hout.
@@ -286,6 +354,7 @@ Proof.
   }
   assert (Hsame34_full : same_outside_range l1_3 l1_4 left_pre right_pre).
   {
+    rewrite same_outside_range_unfold.
     split.
     - exact Hlen34.
     - intros k Hk Hout.
@@ -294,7 +363,7 @@ Proof.
       + destruct Hout as [Hlt | Hgt]; [left | right]; lia.
   }
   eapply same_outside_range_trans_local.
-  - exact (conj Hlen12 Heq12).
+  - apply (proj2 (same_outside_range_unfold _ _ _ _)); exact (conj Hlen12 Heq12).
   - eapply same_outside_range_trans_local.
     + exact Hsame23_full.
     + exact Hsame34_full.
@@ -303,6 +372,7 @@ Qed.
 Lemma proof_of_quicksort_range_return_wit_1_split_goal_3 : quicksort_range_return_wit_1_split_goal_3.
 Proof.
   LLM_pre_process ltac:(int_auto).
+
   eapply Permutation_trans.
   - exact PreH12.
   - eapply Permutation_trans.
@@ -321,9 +391,12 @@ Qed.
 Lemma proof_of_quicksort_range_return_wit_2_split_goal_1 : quicksort_range_return_wit_2_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
+
   assert (Heqret : retval = left_pre) by lia.
   subst retval.
+  rewrite same_outside_range_unfold in PreH10.
   destruct PreH10 as [Hlen12 Heq12].
+  rewrite same_outside_range_unfold in PreH3.
   destruct PreH3 as [Hlen23 Heq23].
   assert (Hlen2 : Zlength l1_2 = n) by (rewrite Hlen23; exact PreH1).
   assert (Hpart3 : partitioned_at l1_3 left_pre right_pre left_pre).
@@ -331,7 +404,7 @@ Proof.
     eapply partitioned_at_preserved_by_right_local.
     - exact PreH2.
     - exact PreH14.
-    - exact (conj Hlen23 Heq23).
+    - apply (proj2 (same_outside_range_unfold _ _ _ _)); exact (conj Hlen23 Heq23).
     - rewrite Hlen2. exact PreH16.
     - exact PreH11.
   }
@@ -346,10 +419,14 @@ Qed.
 Lemma proof_of_quicksort_range_return_wit_2_split_goal_2 : quicksort_range_return_wit_2_split_goal_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
+
   assert (Heqret : retval = left_pre) by lia.
   subst retval.
+  rewrite same_outside_range_unfold in PreH10.
   destruct PreH10 as [Hlen12 Heq12].
+  rewrite same_outside_range_unfold in PreH3.
   destruct PreH3 as [Hlen23 Heq23].
+  rewrite same_outside_range_unfold.
   split.
   - rewrite Hlen12. exact Hlen23.
   - intros k Hk Hout.
@@ -362,6 +439,7 @@ Qed.
 Lemma proof_of_quicksort_range_return_wit_2_split_goal_3 : quicksort_range_return_wit_2_split_goal_3.
 Proof.
   LLM_pre_process ltac:(int_auto).
+
   eapply Permutation_trans.
   - exact PreH9.
   - exact PreH2.
@@ -378,9 +456,12 @@ Qed.
 Lemma proof_of_quicksort_range_return_wit_3_split_goal_1 : quicksort_range_return_wit_3_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
+
   assert (Heqret : retval = right_pre) by lia.
   subst retval.
+  rewrite same_outside_range_unfold in PreH10.
   destruct PreH10 as [Hlen12 Heq12].
+  rewrite same_outside_range_unfold in PreH4.
   destruct PreH4 as [Hlen23 Heq23].
   assert (Hlen2 : Zlength l1_2 = n) by (rewrite Hlen23; exact PreH1).
   assert (Hpart3 : partitioned_at l1_3 left_pre right_pre right_pre).
@@ -388,7 +469,7 @@ Proof.
     eapply partitioned_at_preserved_by_left_local.
     - exact PreH3.
     - exact PreH14.
-    - exact (conj Hlen23 Heq23).
+    - apply (proj2 (same_outside_range_unfold _ _ _ _)); exact (conj Hlen23 Heq23).
     - rewrite Hlen2. exact PreH16.
     - exact PreH11.
   }
@@ -403,10 +484,14 @@ Qed.
 Lemma proof_of_quicksort_range_return_wit_3_split_goal_2 : quicksort_range_return_wit_3_split_goal_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
+
   assert (Heqret : retval = right_pre) by lia.
   subst retval.
+  rewrite same_outside_range_unfold in PreH10.
   destruct PreH10 as [Hlen12 Heq12].
+  rewrite same_outside_range_unfold in PreH4.
   destruct PreH4 as [Hlen23 Heq23].
+  rewrite same_outside_range_unfold.
   split.
   - rewrite Hlen12. exact Hlen23.
   - intros k Hk Hout.
@@ -419,6 +504,7 @@ Qed.
 Lemma proof_of_quicksort_range_return_wit_3_split_goal_3 : quicksort_range_return_wit_3_split_goal_3.
 Proof.
   LLM_pre_process ltac:(int_auto).
+
   eapply Permutation_trans.
   - exact PreH9.
   - exact PreH3.
@@ -435,6 +521,7 @@ Qed.
 Lemma proof_of_quicksort_range_return_wit_4_split_goal_1 : quicksort_range_return_wit_4_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
+
   unfold range_nondecreasing.
   intros i j Hi Hij Hj.
   assert (i = j) by lia.
@@ -444,12 +531,13 @@ Qed.
 Lemma proof_of_quicksort_range_return_wit_4 : quicksort_range_return_wit_4.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_quicksort_range_return_wit_4_split_goal_1.
+  - Goal_apply proof_of_quicksort_range_return_wit_4_split_goal_1.
 Qed.
 
 Lemma proof_of_quicksort_return_wit_1_split_goal_1 : quicksort_return_wit_1_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
+
   apply range_nondecreasing_full_to_increasing.
   rewrite PreH1.
   exact PreH4.
@@ -458,12 +546,13 @@ Qed.
 Lemma proof_of_quicksort_return_wit_1 : quicksort_return_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_quicksort_return_wit_1_split_goal_1.
+  - Goal_apply proof_of_quicksort_return_wit_1_split_goal_1.
 Qed.
 
 Lemma proof_of_quicksort_return_wit_2_split_goal_1 : quicksort_return_wit_2_split_goal_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
+
   assert (Hn0 : n_pre = 0) by lia.
   apply range_nondecreasing_full_to_increasing.
   rewrite PreH1, Hn0.
@@ -475,6 +564,7 @@ Qed.
 Lemma proof_of_quicksort_return_wit_2_split_goal_2 : quicksort_return_wit_2_split_goal_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
+
 Qed.
 
 Lemma proof_of_quicksort_return_wit_2 : quicksort_return_wit_2.
@@ -483,3 +573,4 @@ Proof.
   - Goal_apply proof_of_quicksort_return_wit_2_split_goal_1.
   - Goal_apply proof_of_quicksort_return_wit_2_split_goal_2.
 Qed.
+

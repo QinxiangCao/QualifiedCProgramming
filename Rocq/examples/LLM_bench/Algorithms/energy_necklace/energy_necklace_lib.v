@@ -178,6 +178,7 @@ Definition EnergyComputationBounded
      0 <= left ->
      left <= right ->
      right + 1 < Zlength vals ->
+     right - left + 1 <= n ->
      EnergyIntervalBest vals left right answer ->
      0 <= answer <= bound) /\
   (forall vals dp total width start,
@@ -912,4 +913,178 @@ Proof.
       exists s.
       split; [exact Hs|exact Hbest'].
   - exact Ha_eq.
+Qed.
+
+(** Public progress predicates contain only mathematical table facts.  The
+    original helper lemmas above remain available for proof reuse. *)
+Definition EnergyLengthsComplete (vals dp : list Z) (width len : Z) : Prop :=
+  forall l left right idx,
+    1 <= l < len -> right = left + l - 1 ->
+    idx = EnergyCellIndex width left right -> 0 <= left ->
+    left + l < Zlength vals ->
+    EnergyIntervalBest vals left right (Znth idx dp 0).
+Definition EnergyLeftComplete (vals dp : list Z) (width len left : Z) : Prop :=
+  forall done_left right idx,
+    0 <= done_left < left -> right = done_left + len - 1 ->
+    idx = EnergyCellIndex width done_left right ->
+    done_left + len < Zlength vals ->
+    EnergyIntervalBest vals done_left right (Znth idx dp 0).
+Definition EnergySplitBest (vals dp : list Z) (width len left split best : Z) : Prop :=
+  (split = left /\ best = 0) \/
+  (left < split /\ max_value_of_subset Z.le
+    (fun candidate => exists k, left <= k < split /\
+      EnergySplitCandidate vals dp width left (left + len - 1) k candidate)
+    (fun candidate => candidate) best).
+Definition EnergyAnswerBest (vals : list Z) (n start answer : Z) : Prop :=
+  (start = 0 /\ answer = 0) \/
+  (0 < start /\ max_value_of_subset Z.le
+    (fun value => exists s, 0 <= s < start /\
+      EnergyIntervalBest vals s (s + n - 1) value)
+    (fun value => value) answer).
+
+Require Import AUXLib.MonotonicList.
+
+Lemma EnergyIntervalPlan_nonnegative vals left right energy :
+  Forall (Z.le 0) vals ->
+  EnergyIntervalPlan vals left right energy -> 0 <= energy.
+Proof.
+  intros Hv Hp. induction Hp; [lia |].
+  pose proof (proj1 (Forall_Znth (Z.le 0) 0 vals) Hv left ltac:(lia)).
+  pose proof (proj1 (Forall_Znth (Z.le 0) 0 vals) Hv (split + 1) ltac:(lia)).
+  pose proof (proj1 (Forall_Znth (Z.le 0) 0 vals) Hv (right + 1) ltac:(lia)).
+  nia.
+Qed.
+
+Lemma EnergyIntervalPlan_extend_right vals left right energy extra :
+  Forall (Z.le 0) vals -> 0 <= left <= right -> 0 <= extra ->
+  right + extra + 1 < Zlength vals ->
+  EnergyIntervalPlan vals left right energy ->
+  exists larger, energy <= larger /\
+    EnergyIntervalPlan vals left (right + extra) larger.
+Proof.
+  intros Hv Hlr Hextra. pose proof Hextra as Hextra0.
+  revert right energy Hlr Hextra. pattern extra. apply Z_lt_induction; [|exact Hextra0].
+  clear extra Hextra0. intros extra IH right energy Hlr Hextra Hend Hp.
+  destruct (Z.eq_dec extra 0) as [-> | Hpositive].
+  - exists energy. replace (right + 0) with right by lia. split; [lia | assumption].
+  - assert (0 < extra) by lia.
+    destruct (IH (extra - 1) ltac:(lia) right energy Hlr ltac:(lia) ltac:(lia) Hp) as [larger [Hle Hplan]].
+    replace (right + (extra - 1)) with (right + extra - 1) in Hplan by lia.
+    exists (larger + 0 + Znth left vals 0 * Znth (right + extra) vals 0 *
+      Znth (right + extra + 1) vals 0).
+    split.
+    + pose proof (proj1 (Forall_Znth (Z.le 0) 0 vals) Hv left ltac:(lia)).
+      pose proof (proj1 (Forall_Znth (Z.le 0) 0 vals) Hv (right + extra) ltac:(lia)).
+      pose proof (proj1 (Forall_Znth (Z.le 0) 0 vals) Hv (right + extra + 1) ltac:(lia)). nia.
+    + assert (Hsingle : EnergyIntervalPlan vals (right + extra - 1 + 1) (right + extra) 0).
+      { replace (right + extra - 1 + 1) with (right + extra) by lia. constructor; lia. }
+      pose proof (EnergyIntervalPlan_merge vals left (right + extra - 1) (right + extra)
+        larger 0 ltac:(lia) ltac:(lia) Hend Hplan Hsingle) as Hmerged.
+      replace (right + extra - 1 + 1) with (right + extra) in Hmerged by lia.
+      exact Hmerged.
+Qed.
+
+Lemma EnergyIntervalPlan_extend_left vals left right energy extra :
+  Forall (Z.le 0) vals -> 0 <= extra <= left -> left <= right ->
+  right + 1 < Zlength vals ->
+  EnergyIntervalPlan vals left right energy ->
+  exists larger, energy <= larger /\
+    EnergyIntervalPlan vals (left - extra) right larger.
+Proof.
+  intros Hv He Hl Hr Hp. assert (0 <= extra) as He0 by lia.
+  revert left energy He Hl Hp.
+  pattern extra. apply Z_lt_induction; [|exact He0].
+  clear extra He0. intros extra IH left energy He Hl Hp.
+  destruct (Z.eq_dec extra 0) as [-> | Hpositive].
+  - exists energy. replace (left - 0) with left by lia. split; [lia | assumption].
+  - destruct (IH (extra - 1) ltac:(lia) left energy ltac:(lia) Hl Hp) as [larger [Hle Hplan]].
+    exists (0 + larger + Znth (left - extra) vals 0 *
+      Znth (left - extra + 1) vals 0 * Znth (right + 1) vals 0).
+    split.
+    + pose proof (proj1 (Forall_Znth (Z.le 0) 0 vals) Hv (left - extra) ltac:(lia)).
+      pose proof (proj1 (Forall_Znth (Z.le 0) 0 vals) Hv (left - extra + 1) ltac:(lia)).
+      pose proof (proj1 (Forall_Znth (Z.le 0) 0 vals) Hv (right + 1) ltac:(lia)). nia.
+    + eapply EnergyIntervalPlan_merge with (split := left - extra); try lia.
+      * constructor; lia.
+      * replace (left - extra + 1) with (left - (extra - 1)) by lia. exact Hplan.
+Qed.
+
+(** Every computed subinterval embeds in a full necklace rotation.  Positive
+    labels make the additional merges nonnegative, so the problem's answer
+    bound already bounds all these subproblems. *)
+Lemma EnergyIntervalPlan_bounded_by_rotations beads vals n bound left right energy :
+  1 <= n -> EnergyValsDuplicated beads vals n -> Forall (Z.le 0) vals ->
+  (forall start e, 0 <= start < n ->
+    EnergyIntervalPlan vals start (start + n - 1) e -> e <= bound) ->
+  0 <= left <= right -> right - left + 1 <= n ->
+  right + 1 < Zlength vals -> EnergyIntervalPlan vals left right energy ->
+  0 <= energy <= bound.
+Proof.
+  intros Hn Hd Hv Hb Hlr Hlen Hr Hp.
+  pose proof (EnergyIntervalPlan_nonnegative _ _ _ _ Hv Hp) as He.
+  pose proof Hd as [_ [_ [Hvals _]]].
+  set (start := Z.min left (n - 1)).
+  assert (Hs : 0 <= start < n /\ start <= left /\ right <= start + n - 1).
+  { unfold start. lia. }
+  destruct (EnergyIntervalPlan_extend_left vals left right energy (left - start)
+    Hv ltac:(lia) ltac:(lia) Hr Hp) as [e1 [H1 Hp1]].
+  replace (left - (left - start)) with start in Hp1 by lia.
+  destruct (EnergyIntervalPlan_extend_right vals start right e1 (start + n - 1 - right)
+    Hv ltac:(lia) ltac:(lia) ltac:(lia) Hp1) as [e2 [H2 Hp2]].
+  replace (right + (start + n - 1 - right)) with (start + n - 1) in Hp2 by lia.
+  pose proof (Hb start e2 ltac:(lia) Hp2). lia.
+Qed.
+
+Lemma EnergyIntervalBest_plan vals left right answer :
+  EnergyIntervalBest vals left right answer -> EnergyIntervalPlan vals left right answer.
+Proof.
+  intros [winner [[Hp _] Heq]]. cbn in Heq. subst winner. exact Hp.
+Qed.
+
+Lemma EnergyComputationBounded_from_answer_bound beads n bound :
+  1 <= n -> 0 <= bound -> EnergyLabelsBounded beads n ->
+  (forall vals start energy, EnergyValsDuplicated beads vals n ->
+    0 <= start < n -> EnergyIntervalPlan vals start (start + n - 1) energy ->
+    energy <= bound) ->
+  EnergyComputationBounded beads n bound.
+Proof.
+  intros Hn Hb Hlabels Hanswer.
+  assert (Hnonnegative : forall vals, EnergyValsDuplicated beads vals n -> Forall (Z.le 0) vals).
+  { intros vals Hd. apply (proj2 (Forall_Znth (Z.le 0) 0 vals)). intros k Hk.
+    pose proof Hd as [_ [_ [Hlength _]]].
+    pose proof (EnergyValsDuplicated_label_bound__arithmetic_safety_bounds
+      beads vals n k Hd Hlabels ltac:(lia)). lia. }
+  assert (Hplan : forall vals left right energy,
+    EnergyValsDuplicated beads vals n -> 0 <= left <= right ->
+    right - left + 1 <= n -> right + 1 < Zlength vals ->
+    EnergyIntervalPlan vals left right energy -> 0 <= energy <= bound).
+  { intros vals left right energy Hd Hlr Hl Hr Hp.
+    eapply EnergyIntervalPlan_bounded_by_rotations; eauto. }
+  unfold EnergyComputationBounded. split; [exact Hb |]. split.
+  - intros vals dp total width len left right split Hd Ht Hw Hl Ha Hr Hs Hdp Hdone.
+    pose proof Hdone as [_ [_ [Hvals [_ [_ Hcells]]]]].
+    pose proof (Hcells (split - left + 1) left split (EnergyCellIndex width left split)
+      ltac:(lia) ltac:(lia) eq_refl ltac:(lia) ltac:(lia)) as Hleft.
+    pose proof (Hcells (right - split) (split + 1) right (EnergyCellIndex width (split + 1) right)
+      ltac:(lia) ltac:(lia) eq_refl ltac:(lia) ltac:(lia)) as Hright.
+    apply EnergyIntervalBest_plan in Hleft, Hright.
+    pose proof (Hnonnegative vals Hd) as Hvalues.
+    pose proof (EnergyIntervalPlan_nonnegative _ _ _ _ Hvalues Hleft) as Hel.
+    pose proof (EnergyIntervalPlan_nonnegative _ _ _ _ Hvalues Hright) as Her.
+    pose proof (EnergyIntervalPlan_merge vals left split right _ _
+      ltac:(lia) Hs ltac:(lia) Hleft Hright) as Hmerged.
+    pose proof (Hplan vals left right _ Hd ltac:(lia) ltac:(lia) ltac:(lia) Hmerged) as Htotal.
+    pose proof (proj1 (Forall_Znth (Z.le 0) 0 vals) Hvalues left ltac:(lia)).
+    pose proof (proj1 (Forall_Znth (Z.le 0) 0 vals) Hvalues (split + 1) ltac:(lia)).
+    pose proof (proj1 (Forall_Znth (Z.le 0) 0 vals) Hvalues (right + 1) ltac:(lia)).
+    unfold EnergySplitArithmeticBounded. repeat split; nia.
+  - split.
+    + intros vals left right answer Hd Ha Hlr Hr Hl Hbest.
+      apply (Hplan vals left right answer); try assumption; try lia. apply EnergyIntervalBest_plan. exact Hbest.
+    + intros vals dp total width start Hd Ht Hw Hs Hdp Hdone.
+      pose proof Hdone as [_ [_ [Hvals [_ [_ Hcells]]]]].
+      pose proof (Hcells n start (start + n - 1) (EnergyCellIndex width start (start + n - 1))
+        ltac:(lia) eq_refl eq_refl ltac:(lia) ltac:(lia)) as Hbest.
+      apply EnergyIntervalBest_plan in Hbest.
+      eapply Hplan; eauto; lia.
 Qed.

@@ -40,7 +40,7 @@ Proof.
   Exists values.
   unfold ZSimpleGraph.vertex_valid in PreH4.
   entailer!.
-Qed.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_list_entail_wit_2 : dfs_adjacency_list_entail_wit_2.
 Proof.
@@ -78,28 +78,20 @@ Proof.
       right; symmetry; exact Heq.
   }
   (* subst vertex_count_pre. *)
-  Exists (replace_Znth vertex_pre 1 values) entered_set.
-  unfold entered_set.
-  entailer!.
-Qed.
-
-Lemma proof_of_dfs_adjacency_list_entail_wit_3 : dfs_adjacency_list_entail_wit_3.
-Proof.
-  unfold dfs_adjacency_list_entail_wit_3.
-  left; intros.
-  Exists entered_values entered_set
+  Exists (replace_Znth vertex_pre 1 values) entered_set
     (Znth vertex_pre rows_low_level_spec nil)
     (Znth vertex_pre node_addrs_low_level_spec nil)
     (Znth vertex_pre row_ptrs_low_level_spec 0).
   sep_apply (store_graph_split__execution_representation
     adjacency_pre g_low_level_spec row_ptrs_low_level_spec
     node_addrs_low_level_spec rows_low_level_spec vertex_pre PreH4).
+  unfold entered_set.
   entailer!.
-Qed.
+Qed. 
 
-Lemma proof_of_dfs_adjacency_list_entail_wit_4 : dfs_adjacency_list_entail_wit_4.
+Lemma proof_of_dfs_adjacency_list_entail_wit_3 : dfs_adjacency_list_entail_wit_3.
 Proof.
-  unfold dfs_adjacency_list_entail_wit_4.
+  unfold dfs_adjacency_list_entail_wit_3.
   left; intros.
   Exists split_values split_set
     (@nil Z) row_2 (@nil Z) row_node_addrs_2
@@ -107,11 +99,11 @@ Proof.
   simpl DFSAdjacencyList.addressed_sllseg.
   unfold DFSAdjacencyList.all_visited.
   entailer!.
-Qed.
+Qed. 
 
-Lemma proof_of_dfs_adjacency_list_entail_wit_5 : dfs_adjacency_list_entail_wit_5.
+Lemma proof_of_dfs_adjacency_list_entail_wit_4 : dfs_adjacency_list_entail_wit_4.
 Proof.
-  unfold dfs_adjacency_list_entail_wit_5.
+  unfold dfs_adjacency_list_entail_wit_4.
   left; intros.
   prop_apply_p (graph_except_model__execution_representation
     adjacency_pre g_low_level_spec row_ptrs_low_level_spec
@@ -139,11 +131,11 @@ Proof.
       row_head_2 datum.
     unfold ZSimpleGraph.vertex_valid in *.
     entailer!.
-Qed.
+Qed. 
 
-Lemma proof_of_dfs_adjacency_list_entail_wit_6 : dfs_adjacency_list_entail_wit_6.
+Lemma proof_of_dfs_adjacency_list_entail_wit_5 : dfs_adjacency_list_entail_wit_5.
 Proof.
-  unfold dfs_adjacency_list_entail_wit_6.
+  unfold dfs_adjacency_list_entail_wit_5.
   left; intros.
   sep_apply (IntArray.full_split_to_missing_i
     visited_pre datum vertex_count_pre cursor_values 0); try lia.
@@ -151,11 +143,11 @@ Proof.
     done_addrs_2 rest_addrs_2 row_2 row_node_addrs_2
     row_head_2.
   entailer!.
-Qed.
+Qed. 
 
-Lemma proof_of_dfs_adjacency_list_entail_wit_7 : dfs_adjacency_list_entail_wit_7.
+Lemma proof_of_dfs_adjacency_list_entail_wit_6 : dfs_adjacency_list_entail_wit_6.
 Proof.
-  unfold dfs_adjacency_list_entail_wit_7.
+  unfold dfs_adjacency_list_entail_wit_6.
   left; intros.
   subst vertex_count_pre.
   assert (Hnot_visited : ~ read_set neighbor).
@@ -240,11 +232,11 @@ Proof.
   unfold DFSAdjacencyList.visited.
   Exists read_values.
   entailer!.
-Qed.
+Qed. 
 
-Lemma proof_of_dfs_adjacency_list_entail_wit_8 : dfs_adjacency_list_entail_wit_8.
+Lemma proof_of_dfs_adjacency_list_entail_wit_7 : dfs_adjacency_list_entail_wit_7.
 Proof.
-  unfold dfs_adjacency_list_entail_wit_8.
+  unfold dfs_adjacency_list_entail_wit_7.
   left; intros.
   unfold DFSAdjacencyList.visited.
   Intros after_values.
@@ -296,21 +288,21 @@ Proof.
   entailer!.
   rewrite PreH4, PreH14.
   entailer!.
-Qed.
+Qed. 
 
-Lemma proof_of_dfs_adjacency_list_entail_wit_9_1 : dfs_adjacency_list_entail_wit_9_1.
+Lemma proof_of_dfs_adjacency_list_entail_wit_8_1 : dfs_adjacency_list_entail_wit_8_1.
 Proof.
-  unfold dfs_adjacency_list_entail_wit_9_1.
+  unfold dfs_adjacency_list_entail_wit_8_1.
   left; intros.
   Exists next_2 after_values after_set done_2 rest_2
     done_addrs_2 rest_addrs_2 row_2 row_node_addrs_2
     row_head_2.
   entailer!.
-Qed.
+Qed. 
 
-Lemma proof_of_dfs_adjacency_list_entail_wit_9_2 : dfs_adjacency_list_entail_wit_9_2.
+Lemma proof_of_dfs_adjacency_list_entail_wit_8_2 : dfs_adjacency_list_entail_wit_8_2.
 Proof.
-  unfold dfs_adjacency_list_entail_wit_9_2.
+  unfold dfs_adjacency_list_entail_wit_8_2.
   left; intros.
   assert (Hneighbor_visited : read_set neighbor).
   { unfold ZSimpleGraph.visited_values in PreH22.
@@ -332,11 +324,11 @@ Proof.
     done_addrs_2 rest_addrs_2 row_2 row_node_addrs_2
     row_head_2.
   entailer!.
-Qed.
+Qed. 
 
-Lemma proof_of_dfs_adjacency_list_entail_wit_10 : dfs_adjacency_list_entail_wit_10.
+Lemma proof_of_dfs_adjacency_list_entail_wit_9 : dfs_adjacency_list_entail_wit_9.
 Proof.
-  unfold dfs_adjacency_list_entail_wit_10.
+  unfold dfs_adjacency_list_entail_wit_9.
   left; intros.
   assert (Hsingle :
     (&(edge_value # "list" ->ₛ "data") # Int |-> neighbor) **
@@ -363,11 +355,11 @@ Proof.
   entailer!.
   rewrite !Zlength_correct in *.
   rewrite !length_app. simpl. lia.
-Qed.
+Qed. 
 
-Lemma proof_of_dfs_adjacency_list_entail_wit_11 : dfs_adjacency_list_entail_wit_11.
+Lemma proof_of_dfs_adjacency_list_return_wit_1 : dfs_adjacency_list_return_wit_1.
 Proof.
-  unfold dfs_adjacency_list_entail_wit_11.
+  unfold dfs_adjacency_list_return_wit_1.
   left; intros.
   subst vertex_count_pre.
   subst edge_value.
@@ -431,15 +423,7 @@ Proof.
   - Intros_p Hfalse. contradiction.
   - Intros next0. destruct H as [Hzero Hnonnull].
     exfalso. apply Hnonnull. unfold NULL in *. lia.
-Qed.
-
-Lemma proof_of_dfs_adjacency_list_return_wit_1 : dfs_adjacency_list_return_wit_1.
-Proof.
-  left.
-  intros.
-  Exists visited_set_out.
-  entailer!.
-Qed.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_list_derive_bind_spec_by_low_level_spec : dfs_adjacency_list_derive_bind_spec_by_low_level_spec.
 Proof.
@@ -467,7 +451,7 @@ Proof.
           exact (Hsafe_cont _ tt Hret)
       end.
   - split_pures; dump_pre_spatial; try assumption.
-Qed.
+Qed. 
 
 Lemma proof_of_dfs_adjacency_list_derive_high_level_spec_by_low_level_spec : dfs_adjacency_list_derive_high_level_spec_by_low_level_spec.
 Proof.
@@ -569,4 +553,5 @@ Proof.
     split.
     + reflexivity.
     + apply wp_self.
-Qed.
+Qed. 
+

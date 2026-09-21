@@ -1,62 +1,70 @@
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.Lists.List.
-From AUXLib Require Import ListLib.
+Require Import Coq.Relations.Relation_Operators Coq.Relations.Operators_Properties.
+Require Import Coq.micromega.Psatz.
+From AUXLib Require Import ListLib MonotonicList.
 From MaxMinLib Require Import MaxMin Interface.
 
 Import ListNotations.
 Local Open Scope Z_scope.
 Local Open Scope list_scope.
 
-Inductive ReachableAmount (coins : list Z) : Z -> Prop :=
-  | ReachableAmount_zero :
-      ReachableAmount coins 0
-  | ReachableAmount_add :
-      forall v c,
-        ReachableAmount coins v ->
-        In c coins ->
-        0 < c ->
-        ReachableAmount coins (v + c).
+(* Unlimited reuse is the library reflexive-transitive closure of adding a coin. *)
+Definition ReachableAmount (coins : list Z) (v : Z) : Prop :=
+  Relation_Operators.clos_refl_trans Z
+    (fun u w => exists c, In c coins /\ 0 < c /\ w = u + c) 0 v.
 
 Definition MaxReachableAmount (coins : list Z) (amount ans : Z) : Prop :=
   max_value_of_subset Z.le
     (fun v => ReachableAmount coins v /\ 0 <= v /\ v <= amount)
-    (fun v => v)
-    ans.
+    (fun v => v) ans.
 
 Definition DpPrefixZeroed (dp : list Z) (hi : Z) : Prop :=
-  0 <= hi /\
-  Zlength dp >= hi /\
-  Znth 0 dp 0 = 1 /\
-  forall k, 1 <= k < hi -> Znth k dp 0 = 0.
+  Znth 0 dp 0 = 1 /\ Forall (eq 0) (sublist 1 hi dp).
 
+(* Boolean output format is part of the requested table semantics. *)
 Definition DpReachableTable (coins : list Z) (dp : list Z) (hi : Z) : Prop :=
-  0 <= hi /\
-  Zlength dp >= hi /\
+  Forall (fun flag => flag = 0 \/ flag = 1) dp /\
   forall k, 0 <= k < hi -> (Znth k dp 0 <> 0 <-> ReachableAmount coins k).
 
 Definition DpCoinInnerProgress
     (prev_coins : list Z) (coin : Z) (dp : list Z) (j amount : Z) : Prop :=
-  0 < coin /\
-  coin <= j /\
-  j <= amount + 1 /\
-  Zlength dp >= amount + 1 /\
-  (forall k,
-    0 <= k < j ->
-    (Znth k dp 0 <> 0 <->
-       ReachableAmount (app prev_coins (cons coin nil)) k)) /\
-  forall k,
-    j <= k < amount + 1 ->
+  Forall (fun flag => flag = 0 \/ flag = 1) dp /\
+  (forall k, 0 <= k < j ->
+    (Znth k dp 0 <> 0 <-> ReachableAmount (prev_coins ++ [coin]) k)) /\
+  forall k, j <= k < amount + 1 ->
     (Znth k dp 0 <> 0 <-> ReachableAmount prev_coins k).
 
-Definition NoReachableAbove
-    (coins : list Z) (amount res : Z) : Prop :=
-  0 <= res <= amount /\
+Definition NoReachableAbove (coins : list Z) (amount res : Z) : Prop :=
   forall k, res < k <= amount -> ~ ReachableAmount coins k.
 
-Require Import Coq.micromega.Psatz.
+(* Compatibility lemmas let the existing mathematical proofs use the same
+   zero/add induction, derived here from the library closure. *)
+Lemma ReachableAmount_zero : forall coins, ReachableAmount coins 0.
+Proof. intros; apply Relation_Operators.rt_refl. Qed.
 
-(* Helper lemmas migrated from coin_change__vc_proving_subagent_tmp_proof_manual__merged_proof_manual.v. *)
+Lemma ReachableAmount_add : forall coins v c,
+  ReachableAmount coins v -> In c coins -> 0 < c ->
+  ReachableAmount coins (v + c).
+Proof.
+  intros coins v c Hr Hin Hc.
+  eapply Relation_Operators.rt_trans; [exact Hr |].
+  apply Relation_Operators.rt_step. exists c; auto.
+Qed.
 
+Lemma ReachableAmount_ind : forall coins (P : Z -> Prop),
+  P 0 ->
+  (forall v c, ReachableAmount coins v -> P v -> In c coins -> 0 < c -> P (v + c)) ->
+  forall v, ReachableAmount coins v -> P v.
+Proof.
+  intros coins P Hzero Hstep v Hreach.
+  apply clos_rt_rtn1 in Hreach.
+  induction Hreach as [|v w [c [Hin [Hc ->]]] Hpath IH].
+  - exact Hzero.
+  - apply Hstep; auto. apply clos_rtn1_rt; exact Hpath.
+Qed.
+
+(* Existing helpers are reused below, with safety premises made explicit. *)
 Lemma MaxReachableAmount_intro_no_above :
   forall coins amount res,
     ReachableAmount coins res ->
@@ -77,7 +85,7 @@ Proof.
       destruct (Z_le_gt_dec b res) as [Hb_res | Hb_gt]; [lia |].
       exfalso.
       unfold NoReachableAbove in Hnoabove.
-      destruct Hnoabove as [_ Habove].
+      pose proof Hnoabove as Habove.
       apply (Habove b); [lia | exact Hb_reach].
   - reflexivity.
 Qed.
@@ -87,61 +95,56 @@ Lemma ReachableAmount_nil_inv :
 Proof.
   intros v Hreach.
   remember (@nil Z) as coins eqn:Hcoins.
-  induction Hreach; subst; auto.
+  induction Hreach using ReachableAmount_ind; subst; auto.
   contradiction.
 Qed.
 
 Lemma DpPrefixZeroed_snoc_zero :
-  forall dp j,
-    0 < j ->
-    DpPrefixZeroed dp j ->
-    Zlength (dp ++ 0 :: nil) = j + 1 ->
-    DpPrefixZeroed (dp ++ 0 :: nil) (j + 1).
+  forall dp j, 0 < j -> DpPrefixZeroed dp j ->
+    Zlength (dp ++ [0]) = j + 1 -> DpPrefixZeroed (dp ++ [0]) (j + 1).
 Proof.
-  intros dp j Hj Hpref Hlen_snoc.
-  assert (Hlendp : Zlength dp = j) by
-    (rewrite Zlength_app_cons in Hlen_snoc; lia).
-  unfold DpPrefixZeroed in *.
-  destruct Hpref as [Hj0 [Hlen [Hzero Hzeros]]].
-  repeat split; try lia.
-  - rewrite app_Znth1; auto; lia.
-  - intros k Hk.
-    destruct (Z_lt_ge_dec k j) as [Hlt | Hge].
-    + rewrite app_Znth1; [apply Hzeros; lia | lia].
-    + assert (k = j) by lia; subst k.
-      rewrite app_Znth2; [| lia].
-      replace (j - Zlength dp) with 0 by lia.
-      reflexivity.
+  intros dp j Hj [Hzero Hzeros] Hlen.
+  assert (Hdp : Zlength dp = j) by (rewrite Zlength_app_cons in Hlen; lia).
+  split.
+  - rewrite app_Znth1 by lia. exact Hzero.
+  - apply (proj2 (Forall_Znth (eq 0) 0 _)).
+    intros k Hk. rewrite Zlength_sublist in Hk by lia.
+    rewrite Znth_sublist by lia.
+    destruct (Z.eq_dec (k + 1) j) as [Heq | Hneq].
+    + rewrite Heq, app_Znth2 by lia. rewrite Hdp, Z.sub_diag. reflexivity.
+    + rewrite app_Znth1 by lia.
+      rewrite (Forall_Znth (eq 0) 0 _) in Hzeros.
+      specialize (Hzeros k).
+      rewrite Zlength_sublist in Hzeros by lia.
+      specialize (Hzeros ltac:(lia)). rewrite Znth_sublist in Hzeros by lia.
+      exact Hzeros.
 Qed.
 
 Lemma DpPrefixZeroed_to_DpReachableTable_nil :
-  forall dp hi,
-    DpPrefixZeroed dp hi ->
-    DpReachableTable nil dp hi.
+  forall dp hi, 0 < hi -> Zlength dp = hi ->
+    DpPrefixZeroed dp hi -> DpReachableTable nil dp hi.
 Proof.
-  intros dp hi Hpref.
-  unfold DpPrefixZeroed in Hpref.
-  unfold DpReachableTable.
-  destruct Hpref as [Hhi [Hlen [Hzero Hzeros]]].
-  split; [lia |].
-  split; [lia |].
-  intros idx Hidx.
-  split; intro H.
-  - destruct (Z.eq_dec idx 0) as [-> | Hnz].
-    + constructor.
-    + rewrite Hzeros in H by lia.
-      contradiction.
-  - apply ReachableAmount_nil_inv in H.
-    subst idx.
-    rewrite Hzero.
-    lia.
+  intros dp hi Hhi Hlen [Hzero Hzeros].
+  assert (Hpoint : forall k, 1 <= k < hi -> Znth k dp 0 = 0).
+  { intros k Hk. rewrite (Forall_Znth (eq 0) 0 _) in Hzeros.
+    specialize (Hzeros (k - 1)). rewrite Zlength_sublist in Hzeros by lia.
+    specialize (Hzeros ltac:(lia)). rewrite Znth_sublist in Hzeros by lia.
+    replace (k - 1 + 1) with k in Hzeros by lia. auto. }
+  split.
+  - apply (proj2 (Forall_Znth _ 0 _)). intros k Hk.
+    destruct (Z.eq_dec k 0) as [-> | Hnz]; [auto | left; apply Hpoint; lia].
+  - intros k Hk. split; intro Hr.
+    + destruct (Z.eq_dec k 0) as [-> | Hnz].
+      * apply ReachableAmount_zero.
+      * rewrite Hpoint in Hr by lia; contradiction.
+    + apply ReachableAmount_nil_inv in Hr. subst k. rewrite Hzero; lia.
 Qed.
 
 Lemma ReachableAmount_nonneg :
   forall coins v, ReachableAmount coins v -> 0 <= v.
 Proof.
   intros coins v H.
-  induction H; lia.
+  induction H using ReachableAmount_ind; lia.
 Qed.
 
 Lemma ReachableAmount_mono_incl :
@@ -151,8 +154,8 @@ Lemma ReachableAmount_mono_incl :
     ReachableAmount coins2 v.
 Proof.
   intros coins1 coins2 v Hincl Hreach.
-  induction Hreach.
-  - constructor.
+  induction Hreach using ReachableAmount_ind.
+  - apply ReachableAmount_zero.
   - eapply ReachableAmount_add; eauto.
 Qed.
 
@@ -165,8 +168,8 @@ Proof.
   intros coins coin k Hcoin Hk.
   split.
   - intros Hreach.
-    induction Hreach as [|v c Hreach IHHreach Hin Hc].
-    + constructor.
+    induction Hreach as [|v c Hreach IHHreach Hin Hc] using ReachableAmount_ind.
+    + apply ReachableAmount_zero.
     + apply in_app_or in Hin as [Hin | Hin].
       * eapply ReachableAmount_add; eauto.
         apply IHHreach.
@@ -183,45 +186,51 @@ Qed.
 
 Lemma DpCoinInnerProgress_replace_current :
   forall prev coin dp j amount,
+    0 < coin -> coin <= j -> Zlength dp >= amount + 1 ->
     Znth (j - coin) dp 0 <> 0 ->
     j <= amount ->
     DpCoinInnerProgress prev coin dp j amount ->
     DpCoinInnerProgress prev coin (replace_Znth j 1 dp) (j + 1) amount.
 Proof.
-  intros prev coin dp j amount Hprev Hj_amount Hprogress.
+  intros prev coin dp j amount Hcoin_pos Hcoin_le_j Hlen Hprev Hj_amount Hprogress.
   unfold DpCoinInnerProgress in *.
-  destruct Hprogress as
-    [Hcoin_pos [Hcoin_le_j [Hj_le [Hlen [Hbefore Hafter]]]]].
+  destruct Hprogress as [Hbool [Hbefore Hafter]].
   assert (Hj_bounds : 0 <= j < Zlength dp) by lia.
-  repeat split; try lia.
-  - rewrite Zlength_replace_Znth; lia.
-  - intro Hnz.
+  split.
+  - apply (proj2 (Forall_Znth _ 0 _)). intros k Hk.
+    rewrite Zlength_replace_Znth in Hk.
     destruct (Z.eq_dec k j) as [-> | Hneq].
-    + assert (Hjm : 0 <= j - coin < j) by lia.
-      pose proof (proj1 (Hbefore (j - coin) Hjm) Hprev) as Hreach_prev.
-      replace j with ((j - coin) + coin) by lia.
-      eapply ReachableAmount_add with (v := j - coin) (c := coin); eauto.
-      apply in_or_app. right. simpl. auto.
-    + assert (Hklt : 0 <= k < j) by lia.
+    + rewrite Znth_replace_Znth_Same by lia. auto.
+    + rewrite Znth_replace_Znth_Diff by lia.
+      apply (proj1 (Forall_Znth _ 0 _) Hbool); lia.
+  - split; intros k Hk; split.
+    + intro Hnz.
+      destruct (Z.eq_dec k j) as [-> | Hneq].
+      * assert (Hjm : 0 <= j - coin < j) by lia.
+        pose proof (proj1 (Hbefore (j - coin) Hjm) Hprev) as Hreach_prev.
+        replace j with ((j - coin) + coin) by lia.
+        eapply ReachableAmount_add with (v := j - coin) (c := coin); eauto.
+        apply in_or_app. right. simpl. auto.
+      * assert (Hklt : 0 <= k < j) by lia.
+        rewrite Znth_replace_Znth_Diff in Hnz by lia.
+        apply (proj1 (Hbefore k Hklt)).
+        exact Hnz.
+    + intro Hreach.
+      destruct (Z.eq_dec k j) as [-> | Hneq].
+      * rewrite Znth_replace_Znth_Same by lia.
+        lia.
+      * assert (Hklt : 0 <= k < j) by lia.
+        rewrite Znth_replace_Znth_Diff by lia.
+        apply (proj2 (Hbefore k Hklt)).
+        exact Hreach.
+    + intro Hnz.
       rewrite Znth_replace_Znth_Diff in Hnz by lia.
-      apply (proj1 (Hbefore k Hklt)).
+      apply (proj1 (Hafter k ltac:(lia))).
       exact Hnz.
-  - intro Hreach.
-    destruct (Z.eq_dec k j) as [-> | Hneq].
-    + rewrite Znth_replace_Znth_Same by lia.
-      lia.
-    + assert (Hklt : 0 <= k < j) by lia.
+    + intro Hreach.
       rewrite Znth_replace_Znth_Diff by lia.
-      apply (proj2 (Hbefore k Hklt)).
+      apply (proj2 (Hafter k ltac:(lia))).
       exact Hreach.
-  - intro Hnz.
-    rewrite Znth_replace_Znth_Diff in Hnz by lia.
-    apply (proj1 (Hafter k ltac:(lia))).
-    exact Hnz.
-  - intro Hreach.
-    rewrite Znth_replace_Znth_Diff by lia.
-    apply (proj2 (Hafter k ltac:(lia))).
-    exact Hreach.
 Qed.
 
 Lemma ReachableAmount_app_l :
@@ -230,8 +239,8 @@ Lemma ReachableAmount_app_l :
     ReachableAmount (app coins extra) v.
 Proof.
   intros coins extra v H.
-  induction H.
-  - constructor.
+  induction H using ReachableAmount_ind.
+  - apply ReachableAmount_zero.
   - eapply ReachableAmount_add; eauto.
     apply in_or_app; left; assumption.
 Qed.
@@ -245,8 +254,8 @@ Lemma ReachableAmount_app_single_inv :
      ReachableAmount (app prev (cons coin nil)) (v - coin)).
 Proof.
   intros prev coin v Hcoin Hreach.
-  induction Hreach as [| v c Hreach IH Hin Hc].
-  - left; constructor.
+  induction Hreach as [| v c Hreach IH Hin Hc] using ReachableAmount_ind.
+  - left; apply ReachableAmount_zero.
   - destruct (in_app_or _ _ _ Hin) as [Hinprev | Hsingle].
     + destruct IH as [Hprev | [Hle Hminus]].
       * left.

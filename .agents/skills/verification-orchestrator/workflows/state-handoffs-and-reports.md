@@ -1,191 +1,115 @@
 # 状态、交接与报告
 
-## 1. 权威数据
+## 一份任务事实
 
-`verification_runs/<run>/controller_state.json` 是状态权威；`reports/<run>/controller_target_topology.json` 固定 case topology；owner report 只声明 terminal status/blocker，不声明 controller 检查结果。
+`reports/<run>/controller_state.json` 使用 **schema 4**。固定输入包括 roots、`target_files`、库策略、
+问题与 spec 约束；`attempts` 保存任务事实。`current` 只有 `annotation`、`vc-checking`、`vc-proving`
+三个当前任务指针，group owner 的任务记录位于相应 proving attempt 的 `groups` 中。
 
-主要目录：
+Owner 任务使用同一生命周期：
+
+```text
+prepared → claim → running → finalize 开始 → returned → accepted / blocked
+                                                 ↘ 同 owner repair → prepared
+```
+
+`returned` 表示 owner 已停止写入，接纳可能尚未完成。`finalize-delivery` 可从这个状态继续。
+修复保留 attempt、owner 和文件目录，更新 feedback 与 `repair_index`，再领取 append action。Phase attempt id 同时
+就是 CLI 的 round id；group delivery id 为 `<round>:<group_id>`。
+
+Controller 每次根据事实派生 `next_actions` 和 `waiting_for`。它们只出现在响应中，不持久化。
+没有第二份 `rounds`、`accepted_rounds` 或 session 状态。`pending_retry` 只记录已确定的重试
+目的、原因与来源；group annotation-gap 的批次处理直接从当前 group 终态计算。
+
+Main 顺序提交业务状态；group 工具检查不为计时改业务状态。不得手改 state 伪造接纳。Schema 3
+及更早 run 不迁移：用创建它的代码恢复，或从当前 formal 文件初始化新 run。
+
+## 路径与文件
 
 ```text
 verification_runs/<run>/
-  controller_state.json
+  dependency_plan.json
   annotation_history/annotation-attemptN/{before,after}/...
   <case>-vc-proving-rN/
-    base_manifest.json
-    groups/group_NN__<id>/
-      <case>_proof_manual.v
-      <case>_lib.v                 # active lib 时
-
+    groups/group_NN__<id>/<case>_proof_manual.v
+    groups/group_NN__<id>/<case>_lib.v       # active lib 时
+    proving_merged/...                    # 当前候选
+  _coq_builds/...
 reports/<run>/
+  controller_state.json
+  controller_control.json
+  run_logs.json                           # JSON Lines
+  timing_summary.json
   annotation-attempts/annotation-attemptN/
-    agent_input.md
+    agent_input.md / agent_report.json / agent_output.md
     annotation_plan.json
-    agent_output.md
-    agent_report.json
-  rounds/<round>/
-    agent_input.md
-    agent_output.md
-    agent_report.json
+  rounds/<case>-vc-checking-rN/
+    agent_input.md / agent_report.json / agent_output.md
     group_plan.json
-    group_workers_manifest.json
+    <case>_proof_manual.v                  # VC debug copy
+  rounds/<case>-vc-proving-rN/
     groups/group_NN__<id>/
-      group_worker_input.md
-      group_worker_output.md
-      group_worker_report.json
-      proof_reuse.md
+      group_worker_input.md / group_worker_report.json / group_worker_output.md
+      tool_calls.jsonl
+      proof_reuse.md                      # 可选
+  final-check/backup/...
 ```
 
-所有 persisted path 都必须与 current run/round/attempt 的固定布局一致；seal 后的 source bytes 漂移会拒绝 retry、acceptance 或 merge。
+无 manual VC 时空 `group_plan.json` 位于 run 的 report root。Group assignment、目录及 candidate
+由当前 plan/manual/lib 加 round identity 派生；不另写 base manifest、worker manifest 或 merged-result
+镜像。`final_candidate` 只保存 round，消费时重新读取候选文件。
 
-## 2. Annotation state
+Annotation before/after history 保存原 bytes，作为 failed-VC 解释和模型复用的只读参考。
+`failed_vcs` 项包含 `source_attempt`、`name`、`parent`、`annotation_location`、`manual`、`message`。
+Group id 使用 ASCII 字母、数字与下划线；新增 helper 使用 exact `__<group_id>` suffix。
 
-用户 spec state：
+## Claim 与 owner 交接
 
-```json
-{
-  "spec_freeze": {
-    "functions": ["f"],
-    "baseline": {}
-  }
-}
-```
+Main 执行 owner action 的 `claim_invocation`，保存 owner→agent target 映射，把返回的
+`handoff.prompt` 原样发送。首次 spawn，append action 则联系同一 target。每个 run 的 annotation
+owner 不变；其他任务的同 attempt 修复也不换 owner。
 
-只有 `init-run --freeze-spec` 创建该 record；没有用户 spec 时 `spec_freeze` 为 `null`。用户确认修改后执行 `unfreeze`，保留 `functions` 并把 `baseline` 设为 `null`。当前 annotation attempt 接受后，controller 用已检查的当前 spec surface 更新 baseline。
+Owner 读取 handoff 中的角色 skill、当前 assignment、写入边界和结构化 Commands。终态报告最后
+写入，之后停止修改并通知 main。Main 使用返回的 `finalize_invocation`；不自行构造接纳命令。
 
-每个 annotation attempt 都有 `failed_vcs`。首次 attempt 是空列表。每项 exact schema：
+## 报告与 plan
 
-```json
-{
-  "source_attempt": "<round-or-round:group>",
-  "name": "<top-level-or-split VC>",
-  "parent": null,
-  "annotation_location": "<C annotation point>",
-  "manual": "/absolute/sealed/manual.v",
-  "message": "<old gap>"
-}
-```
-
-controller 验证 manual 位于 run root，VC 名称和 parent 存在。
-
-## 3. Annotation plan version 2
-
-Top-level exact fields：
-
-```json
-{
-  "version": 2,
-  "status": "planning",
-  "function_specs": [],
-  "loop_invariants": [],
-  "new_predicates": [],
-  "vc_comparisons": []
-}
-```
-
-`function_specs` 对每个 C function spec 记录一句含义；`loop_invariants` 对每个 lexical loop 记录一句数学进度；`new_predicates` 只记录当前 case 实际新增的 predicate 及核心接口不足的原因。
-
-首次 attempt 的 comparisons 必须为空。Retry 覆盖所有 `failed_vcs`，同一 `(source attempt, source name)` 只出现一次。每个 current VC 必须存在于当前 manual。Owner 直接比较 old/current proposition，记录 old gap、change 和 `resolved` / `unresolved`；`status: ready` 只接受全部 `resolved`。
-
-Accepted annotation `main_check.vc_comparisons` 保存 comparison count、resolved count 和 source/current VC 名称。
-
-## 4. Retry handoff
-
-VC checking 或 VC proving 提供 annotation gap 后，annotation retry 直接从 `prepared` 开始。controller 一次生成完整 `agent_input.md`：
-
-- assignment、target files 和 writable paths；
-- 原始 sealed Markdown/JSON blocker paths；
-- `failed_vcs`；
-- 与当前 failed VCs 相关的 `Previous VC changes`；
-- exact commands；
-- completion contract。
-
-history 来自旧 `vc_comparisons`，按时间排序，只保留同名 VC、同 parent 或 current VC 名称相关的记录。main 和 annotation agent 不维护另一份副本。
-
-首次 annotation 使用 `spawn-annotation-agent`；retry 创建后直接使用 `append-annotation-agent`。同一 owner/target 持续复用。
-
-## 5. Agent reports
-
-成功：
+成功报告恰为：
 
 ```json
 {"status": "completed"}
 ```
 
-Blocked：
+阻塞报告恰含 `status` 和一个 `blocker`：
 
 ```json
 {
   "status": "blocked",
   "blocker": {
     "failure_class": "annotation-gap",
-    "kind": "missing-annotation-premise",
-    "vcs": [
-      {
-        "name": "proof_of_f_entail_wit_1_split_goal_2",
-        "parent": "proof_of_f_entail_wit_1",
-        "annotation_location": "outer loop exit"
-      }
-    ],
-    "message": "<existing premises and missing conclusion>",
-    "repair_boundary": "<annotation/spec boundary>"
+    "kind": "missing-premise",
+    "vcs": [{"name": "vc_name", "parent": null, "annotation_location": "function/loop boundary"}],
+    "message": "已有前提、缺失结论和原因",
+    "repair_boundary": "C annotation"
   }
 }
 ```
 
-Blocker exact fields 是 `failure_class`、`kind`、`vcs`、`message`、`repair_boundary`。Group/VC-checking 的 annotation/spec/dependency blocker 必须有非空 `vcs`；controller 不从 message 猜 VC。Tool/report blocker 可以使用空 `vcs`。
+Blocker 和 VC 项字段固定。语义缺口必须列实际 VC；工具/报告问题可用空 `vcs`。
+VC-checking 的 gap 类为 `annotation-gap`、`specification-gap`、`dependency-gap`；另允许
+`plan-defect`、`report-defect`、`infrastructure`。Group 的语义缺口统一用 `annotation-gap`，VC 必须
+属于本组，并在 `group_worker_output.md` 写非空解释。调度读取结构化字段，不从 prose 提取 VC。
 
-合法 VC-checking classes：
+`annotation_plan.json` 为 version 2，字段为 `version`、`status`、`function_specs`、`loop_invariants`、
+`new_predicates`、`vc_comparisons`。设计摘要由 owner 负责；脚本检查必要结构、VC 身份和comparison
+覆盖，不根据推测的函数/循环数量判断数学质量。Group plan 的当前覆盖和数组顺序由 VC owner 负责。
 
-- 回 annotation：`annotation-gap`、`specification-gap`、`dependency-gap`；
-- 留在 VC checking：`plan-defect`、`report-defect`、`infrastructure`。
+## 暂停、恢复与诊断
 
-Agent 编写的 spec 在当前 attempt 中直接修改，不创建报告或新 attempt。用户 spec 需要修改时，annotation owner 不执行 `finalize-delivery`，只在 `agent_output.md` 写明方案并交回 main。用户确认并执行 `unfreeze` 后，同一 owner 在同一 attempt 中继续。
+Pause 更新 run control 并写 control signal，任务、owner 和文件保持原样，不保存一份 suspended
+动作列表。工具响应 signal 并清理进程树。明确 resume 后运行 `step`：running owner 继续原任务，
+returned 交付重新 finalize，prepared 任务继续 claim。
 
-Annotation owner 自身发现的 annotation gap 也在当前 attempt 中继续修改，不新建 attempt。兼容已返回
-的 annotation-gap 报告时，controller 发布 `append-annotation-agent`，仍使用原 round、attempt、owner
-和 handoff 文件；owner 修复后重新写同一个 terminal report。
-
-## 6. Group blocker 聚合
-
-controller 只接受 sealed group manual 中存在且属于 assigned witness 的 blocker VCs。聚合 record 保留：
-
-- round/group id；
-- assigned witnesses；
-- exact `vcs`；
-- message/repair boundary；
-- 原始 output/report paths。
-
-首次 proving 等所有普通并发 group 到终态后聚合。Priority batch 出现 annotation gap 时不派发剩余 groups；已运行/返回的 priority work 完成后立即聚合当前 priority blockers。
-
-`retry-round` 将每个 blocker VC 扩展成 `failed_vcs`，manual path 指向该 group 的 sealed copied manual。
-
-## 7. Proving manifest 与上一轮材料
-
-Compact group-worker manifest exact fields包含：
-
-- base/group-plan/public-helper/dependency-snapshot digests；
-- group ids；
-- dispatch order；
-- immediately previous proving round 或 `null`。
-
-previous round id 直接取 controller state 中最近的 proving attempt；preparing 不再探测目录状态后静默清空它，也不在写完 manifest 后回读同一字段。
-
-Proving attempt 还保存 `priority_group_ids`。所有 group 在 preparing 后都是 `prepared`；controller 不复制旧 proof、不生成报告或 `proof_reuse.md`，也不在 group state 保存 reuse 结果。
-
-有上一 round 时，每个实际领取任务的 worker handoff 都包含上一轮目录和本组可选 `proof_reuse.md` 路径。worker 可跨旧 group搜索 current witness/helper并只读候选 proof block，自行决定复用；该 Markdown 缺失或为空都不阻断 finalize，证明是否成立仍仅由当前 group check 决定。第一轮以及未实际派发的 group 不生成该文件。
-
-Accepted group seals report、manual 和 active group lib。Annotation-gap group还 seal `group_worker_output.md` 作为 retry source。
-
-## 8. Owner 与 claim/finalize
-
-Controller owner 是稳定身份：
-
-- annotation：一个 run 一个 owner；
-- vc-checking：每 attempt 独立；
-- group：每 round/group 独立，repair 复用同 owner。
-
-main 先执行 action 的 `claim_invocation`，再把返回的 `handoff.prompt` 原样发给对应 target。Owner 返回后 main 执行原 `finalize_invocation`。`report-repair-required` 使用同一 owner 和 invocation，不 spawn 新 agent。
-
-## 9. Timing
-
-Timing summary 分开记录 annotation attempts、owner generation、controller main refresh、clean replay、acceptance、VC checking、group work、parent verify、final apply/check。Annotation summary不记录 design revision 统计；进展由 VC comparisons 和实际 accepted proof 衡量。
+Run/group 日志记录命令、耗时和退出情况；`timing_summary.json` 含 `run`、`commands`、
+`annotation_attempts`、`rounds`，其中耗时总和不等于并行墙钟时间。日志失败只是诊断，不是证明
+是否成立的证据。Symexec progress 只记录实际输出、耗时和文件尺寸，不猜测当前函数或数学进展。

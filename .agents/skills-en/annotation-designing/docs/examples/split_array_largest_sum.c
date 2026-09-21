@@ -3,6 +3,9 @@
 
 
 /*@ Extern Coq
+      (Forall : {A} -> (A -> Prop) -> list A -> Prop)
+      (Z::le : Z -> Z -> Prop)
+      (Z::gt : Z -> Z -> Prop)
       (PrefixSplitState : list Z -> Z -> Z -> Z -> Z -> Prop)
       (CanSplit : list Z -> Z -> Z -> Prop)
       (CannotSplit : list Z -> Z -> Z -> Prop)
@@ -17,7 +20,7 @@ int check(int *arr, int n, int m, int cap)
       1 <= m && m <= n &&
       0 <= cap && cap <= 1000000000 &&
       IntArray::full(arr, n, l) &&
-      (forall (i : Z), (0 <= i && i < n) => (0 <= l[i] && l[i] < 100000000))
+      Forall(Z::le(0), l) && Forall(Z::gt(100000000), l)
     Ensure
       IntArray::full(arr, n, l) &&
       0 <= __return && __return <= 1 &&
@@ -33,7 +36,7 @@ int check(int *arr, int n, int m, int cap)
       1 <= m && m <= n &&
       0 <= cap && cap <= 1000000000 &&
       IntArray::full(arr, n, l) &&
-      (forall (k : Z), (0 <= k && k < n) => (0 <= l[k] && l[k] < 100000000)) &&
+      Forall(Z::le(0), l) && Forall(Z::gt(100000000), l) &&
       0 <= i && i <= n &&
       1 <= cnt && cnt <= i + 1 &&
       0 <= cur && cur <= cap &&
@@ -65,7 +68,7 @@ int splitArrayLargestSum(int *arr, int n, int m)
       1 <= n && n <= 100000 &&
       1 <= m && m <= n &&
       IntArray::full(arr, n, l) &&
-      (forall (i : Z), (0 <= i && i < n) => (0 <= l[i] && l[i] < 100000000)) &&
+      Forall(Z::le(0), l) && Forall(Z::gt(100000000), l) &&
 
       MinimizedMaxSegmentSum(l, m, ans) &&
       0 <= ans &&
@@ -85,7 +88,7 @@ int splitArrayLargestSum(int *arr, int n, int m)
       1 <= n && n <= 100000 &&
       1 <= m && m <= n &&
       IntArray::full(arr, n, l) &&
-      (forall (i : Z), (0 <= i && i < n) => (0 <= l[i] && l[i] < 100000000)) &&
+      Forall(Z::le(0), l) && Forall(Z::gt(100000000), l) &&
 
       0 <= left && right <= 1000000000 &&
       left <= right &&

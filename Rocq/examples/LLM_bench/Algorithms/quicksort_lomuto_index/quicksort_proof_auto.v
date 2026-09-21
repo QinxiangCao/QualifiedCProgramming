@@ -62,9 +62,6 @@ Proof. Admitted.
 Lemma proof_of_partition_safety_wit_9 : partition_safety_wit_9.
 Proof. Admitted. 
 
-Lemma proof_of_partition_entail_wit_2_2 : partition_entail_wit_2_2.
-Proof. Admitted. 
-
 Lemma proof_of_partition_partial_solve_wit_1 : partition_partial_solve_wit_1.
 Proof. Admitted. 
 

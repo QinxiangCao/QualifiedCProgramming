@@ -1,11 +1,16 @@
-
-
-
 #include "array2_def.h"
 
 /*@ Extern Coq
+      (concat : {A} -> list (list A) -> list A)
+      (DecimalRowValues : list (list Z) -> list Z -> list Z)
       (sum : list Z -> Z)
-      (RowsWellFormed : list (list Z) -> list Z -> Z -> Z -> Prop)
+      (Forall : {A} -> (A -> Prop) -> list A -> Prop)
+      (map : {A B} -> (A -> B) -> list A -> list B)
+      (eq : {A} -> A -> A -> Prop)
+      (Z::le : Z -> Z -> Prop)
+      (Z::ge : Z -> Z -> Prop)
+      (hd : {A} -> A -> list A -> A)
+      (concatenate_rows : list (list Z) -> list Z -> list Z)
       (FlatRows : list Z -> list (list Z) -> Z -> Z -> Prop)
       (PairedPermutation : list (list Z) -> list (list Z) -> list Z -> list Z -> Prop)
       (SameOutsidePairedRange : list (list Z) -> list (list Z) -> list Z -> list Z -> Z -> Z -> Prop)
@@ -20,7 +25,7 @@
       (GreedySorted : list (list Z) -> list Z -> Prop)
       (ConcatenatedPrefix : list (list Z) -> list Z -> Z -> list Z)
       (ConcatenatedOutputPrefix : list (list Z) -> list Z -> Z -> Z -> list Z)
-      (LargestConcatenation : list (list Z) -> list (list Z) -> list Z -> list Z -> list Z -> Prop)
+      (LargestConcatenation : list (list Z) -> list Z -> list Z -> Prop)
  */
 /*@ Import Coq Require Import SimpleC.EE.LLM_bench.Algorithms.concatenating_numbers.concatenating_numbers_lib */
 
@@ -37,18 +42,24 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
       1 <= number_width && number_width <= 10 &&
       0 <= low && low <= count && -1 <= high && high < count &&
       1 <= sum(lens) && sum(lens) <= 200 &&
-      RowsWellFormed(rows, lens, count, number_width) &&
+      Zlength(rows) == count &&
+      Zlength(lens) == count &&
+      Forall(eq(number_width), map(Zlength, rows)) &&
+      Forall(Z::le(1), lens) &&
+      Forall(Z::ge(number_width), lens) &&
+      Forall(Z::le(1), map(hd(0), rows)) &&
+      Forall(Z::ge(9), map(hd(0), rows)) &&
+      Forall(Z::le(0), concatenate_rows(rows, lens)) &&
+      Forall(Z::ge(9), concatenate_rows(rows, lens)) &&
       FlatRows(flat, rows, count, number_width) &&
       IntArray::full(numbers, count * number_width, flat) *
       IntArray::full(lengths, count, lens)
     Ensure
       exists rows1 lens1 flat1,
-        RowsWellFormed(rows1, lens1, count, number_width) &&
         FlatRows(flat1, rows1, count, number_width) &&
         PairedPermutation(rows, rows1, lens, lens1) &&
         SameOutsidePairedRange(rows, rows1, lens, lens1, low, high) &&
         GreedySortedRange(rows1, lens1, low, high) &&
-        sum(lens1) == sum(lens) &&
         IntArray::full(numbers, count * number_width, flat1) *
         IntArray::full(lengths, count, lens1)
  */
@@ -64,6 +75,9 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
               numbers == numbers@pre && lengths == lengths@pre &&
               count == count@pre && number_width == number_width@pre &&
               low == low@pre && high == high@pre &&
+              0 <= high@pre * number_width@pre &&
+              high@pre * number_width@pre + number_width@pre <=
+                count@pre * number_width@pre &&
               1 <= count@pre && count@pre <= 20 &&
               1 <= number_width@pre && number_width@pre <= 10 &&
               0 <= low@pre && low@pre < high@pre && high@pre < count@pre &&
@@ -72,7 +86,15 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
               1 <= sum(lens) && sum(lens) <= 200 &&
               pivot_length == Znth(high@pre, lens1, 0) &&
               1 <= pivot_length && pivot_length <= number_width@pre &&
-              RowsWellFormed(rows1, lens1, count@pre, number_width@pre) &&
+              Zlength(rows1) == count@pre &&
+              Zlength(lens1) == count@pre &&
+              Forall(eq(number_width@pre), map(Zlength, rows1)) &&
+              Forall(Z::le(1), lens1) &&
+              Forall(Z::ge(number_width@pre), lens1) &&
+              Forall(Z::le(1), map(hd(0), rows1)) &&
+              Forall(Z::ge(9), map(hd(0), rows1)) &&
+              Forall(Z::le(0), concatenate_rows(rows1, lens1)) &&
+              Forall(Z::ge(9), concatenate_rows(rows1, lens1)) &&
               PartitionScanState(rows, rows1, lens, lens1,
                                  low@pre, high@pre, boundary, scan) &&
               sum(lens1) == sum(lens) &&
@@ -94,6 +116,12 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
                   numbers == numbers@pre && lengths == lengths@pre &&
                   count == count@pre && number_width == number_width@pre &&
                   low == low@pre && high == high@pre &&
+                  0 <= scan * number_width@pre &&
+                  scan * number_width@pre + number_width@pre <=
+                    count@pre * number_width@pre &&
+                  0 <= high@pre * number_width@pre &&
+                  high@pre * number_width@pre + number_width@pre <=
+                    count@pre * number_width@pre &&
                   1 <= count@pre && count@pre <= 20 &&
                   1 <= number_width@pre && number_width@pre <= 10 &&
                   0 <= low@pre && low@pre < high@pre && high@pre < count@pre &&
@@ -107,7 +135,15 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
                   total_length == current_length + pivot_length &&
                   comparison == 0 &&
                   0 <= position && position <= total_length &&
-                  RowsWellFormed(rows1, lens1, count@pre, number_width@pre) &&
+                  Zlength(rows1) == count@pre &&
+                  Zlength(lens1) == count@pre &&
+                  Forall(eq(number_width@pre), map(Zlength, rows1)) &&
+                  Forall(Z::le(1), lens1) &&
+                  Forall(Z::ge(number_width@pre), lens1) &&
+                  Forall(Z::le(1), map(hd(0), rows1)) &&
+                  Forall(Z::ge(9), map(hd(0), rows1)) &&
+                  Forall(Z::le(0), concatenate_rows(rows1, lens1)) &&
+                  Forall(Z::ge(9), concatenate_rows(rows1, lens1)) &&
                   PartitionScanState(rows, rows1, lens, lens1,
                                      low@pre, high@pre, boundary, scan) &&
                   ConcatComparePrefix(rows1, lens1, scan, high@pre, position) &&
@@ -122,18 +158,8 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
                 int right_digit;
 
                 if (position < current_length) {
-                    /*@ 0 <= position && position < number_width by local */
-                    /*@ 0 <= scan * number_width + position &&
-                        scan * number_width + position <
-                          count * number_width by local */
                     left_digit = numbers[scan * number_width + position];
                 } else {
-                    /*@ 0 <= position - current_length &&
-                        position - current_length < number_width by local */
-                    /*@ 0 <= high * number_width +
-                              (position - current_length) &&
-                        high * number_width + (position - current_length) <
-                          count * number_width by local */
                     left_digit = numbers[high * number_width +
                                          (position - current_length)];
                 }
@@ -143,6 +169,12 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
                       numbers == numbers@pre && lengths == lengths@pre &&
                       count == count@pre && number_width == number_width@pre &&
                       low == low@pre && high == high@pre &&
+                      0 <= scan * number_width@pre &&
+                      scan * number_width@pre + number_width@pre <=
+                        count@pre * number_width@pre &&
+                      0 <= high@pre * number_width@pre &&
+                      high@pre * number_width@pre + number_width@pre <=
+                        count@pre * number_width@pre &&
                       1 <= count@pre && count@pre <= 20 &&
                       1 <= number_width@pre && number_width@pre <= 10 &&
                       0 <= low@pre && low@pre < high@pre && high@pre < count@pre &&
@@ -158,7 +190,15 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
                       0 <= position && position < total_length &&
                       left_digit == ConcatLeftDigit(rows1, lens1, scan,
                                                    high@pre, position) &&
-                      RowsWellFormed(rows1, lens1, count@pre, number_width@pre) &&
+                      Zlength(rows1) == count@pre &&
+                      Zlength(lens1) == count@pre &&
+                      Forall(eq(number_width@pre), map(Zlength, rows1)) &&
+                      Forall(Z::le(1), lens1) &&
+                      Forall(Z::ge(number_width@pre), lens1) &&
+                      Forall(Z::le(1), map(hd(0), rows1)) &&
+                      Forall(Z::ge(9), map(hd(0), rows1)) &&
+                      Forall(Z::le(0), concatenate_rows(rows1, lens1)) &&
+                      Forall(Z::ge(9), concatenate_rows(rows1, lens1)) &&
                       PartitionScanState(rows, rows1, lens, lens1,
                                          low@pre, high@pre, boundary, scan) &&
                       ConcatComparePrefix(rows1, lens1, scan, high@pre, position) &&
@@ -171,18 +211,8 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
                  */
 
                 if (position < pivot_length) {
-                    /*@ 0 <= position && position < number_width by local */
-                    /*@ 0 <= high * number_width + position &&
-                        high * number_width + position <
-                          count * number_width by local */
                     right_digit = numbers[high * number_width + position];
                 } else {
-                    /*@ 0 <= position - pivot_length &&
-                        position - pivot_length < number_width by local */
-                    /*@ 0 <= scan * number_width +
-                              (position - pivot_length) &&
-                        scan * number_width + (position - pivot_length) <
-                          count * number_width by local */
                     right_digit = numbers[scan * number_width +
                                           (position - pivot_length)];
                 }
@@ -192,6 +222,12 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
                       numbers == numbers@pre && lengths == lengths@pre &&
                       count == count@pre && number_width == number_width@pre &&
                       low == low@pre && high == high@pre &&
+                      0 <= scan * number_width@pre &&
+                      scan * number_width@pre + number_width@pre <=
+                        count@pre * number_width@pre &&
+                      0 <= high@pre * number_width@pre &&
+                      high@pre * number_width@pre + number_width@pre <=
+                        count@pre * number_width@pre &&
                       1 <= count@pre && count@pre <= 20 &&
                       1 <= number_width@pre && number_width@pre <= 10 &&
                       0 <= low@pre && low@pre < high@pre && high@pre < count@pre &&
@@ -209,7 +245,15 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
                                                    high@pre, position) &&
                       right_digit == ConcatRightDigit(rows1, lens1, scan,
                                                      high@pre, position) &&
-                      RowsWellFormed(rows1, lens1, count@pre, number_width@pre) &&
+                      Zlength(rows1) == count@pre &&
+                      Zlength(lens1) == count@pre &&
+                      Forall(eq(number_width@pre), map(Zlength, rows1)) &&
+                      Forall(Z::le(1), lens1) &&
+                      Forall(Z::ge(number_width@pre), lens1) &&
+                      Forall(Z::le(1), map(hd(0), rows1)) &&
+                      Forall(Z::ge(9), map(hd(0), rows1)) &&
+                      Forall(Z::le(0), concatenate_rows(rows1, lens1)) &&
+                      Forall(Z::ge(9), concatenate_rows(rows1, lens1)) &&
                       PartitionScanState(rows, rows1, lens, lens1,
                                          low@pre, high@pre, boundary, scan) &&
                       ConcatComparePrefix(rows1, lens1, scan, high@pre, position) &&
@@ -231,6 +275,12 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
                   numbers == numbers@pre && lengths == lengths@pre &&
                   count == count@pre && number_width == number_width@pre &&
                   low == low@pre && high == high@pre &&
+                  0 <= scan * number_width@pre &&
+                  scan * number_width@pre + number_width@pre <=
+                    count@pre * number_width@pre &&
+                  0 <= high@pre * number_width@pre &&
+                  high@pre * number_width@pre + number_width@pre <=
+                    count@pre * number_width@pre &&
                   1 <= count@pre && count@pre <= 20 &&
                   1 <= number_width@pre && number_width@pre <= 10 &&
                   0 <= low@pre && low@pre < high@pre && high@pre < count@pre &&
@@ -242,7 +292,15 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
                   1 <= current_length && current_length <= number_width@pre &&
                   1 <= pivot_length && pivot_length <= number_width@pre &&
                   total_length == current_length + pivot_length &&
-                  RowsWellFormed(rows1, lens1, count@pre, number_width@pre) &&
+                  Zlength(rows1) == count@pre &&
+                  Zlength(lens1) == count@pre &&
+                  Forall(eq(number_width@pre), map(Zlength, rows1)) &&
+                  Forall(Z::le(1), lens1) &&
+                  Forall(Z::ge(number_width@pre), lens1) &&
+                  Forall(Z::le(1), map(hd(0), rows1)) &&
+                  Forall(Z::ge(9), map(hd(0), rows1)) &&
+                  Forall(Z::le(0), concatenate_rows(rows1, lens1)) &&
+                  Forall(Z::ge(9), concatenate_rows(rows1, lens1)) &&
                   PartitionScanState(rows, rows1, lens, lens1,
                                      low@pre, high@pre, boundary, scan) &&
                   ConcatCompareOutcome(rows1, lens1, scan, high@pre, comparison) &&
@@ -264,6 +322,15 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
                       numbers == numbers@pre && lengths == lengths@pre &&
                       count == count@pre && number_width == number_width@pre &&
                       low == low@pre && high == high@pre &&
+                      0 <= boundary * number_width@pre &&
+                      boundary * number_width@pre + number_width@pre <=
+                        count@pre * number_width@pre &&
+                      0 <= scan * number_width@pre &&
+                      scan * number_width@pre + number_width@pre <=
+                        count@pre * number_width@pre &&
+                      0 <= high@pre * number_width@pre &&
+                      high@pre * number_width@pre + number_width@pre <=
+                        count@pre * number_width@pre &&
                       1 <= count@pre && count@pre <= 20 &&
                       1 <= number_width@pre && number_width@pre <= 10 &&
                       0 <= low@pre && low@pre < high@pre && high@pre < count@pre &&
@@ -272,7 +339,15 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
                       1 <= sum(lens) && sum(lens) <= 200 &&
                       pivot_length == Znth(high@pre, lens1, 0) &&
                       1 <= pivot_length && pivot_length <= number_width@pre &&
-                      RowsWellFormed(rows_before, lens1, count@pre, number_width@pre) &&
+                      Zlength(rows_before) == count@pre &&
+                      Zlength(lens1) == count@pre &&
+                      Forall(eq(number_width@pre), map(Zlength, rows_before)) &&
+                      Forall(Z::le(1), lens1) &&
+                      Forall(Z::ge(number_width@pre), lens1) &&
+                      Forall(Z::le(1), map(hd(0), rows_before)) &&
+                      Forall(Z::ge(9), map(hd(0), rows_before)) &&
+                      Forall(Z::le(0), concatenate_rows(rows_before, lens1)) &&
+                      Forall(Z::ge(9), concatenate_rows(rows_before, lens1)) &&
                       PartitionScanState(rows, rows_before, lens, lens1,
                                          low@pre, high@pre, boundary - 1, scan) &&
                       ConcatCompareOutcome(rows_before, lens1, scan, high@pre, comparison) &&
@@ -290,12 +365,6 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
                       has_int_permission(&pivot)
                  */
                 for (column = 0; column < number_width; ++column) {
-                    /*@ 0 <= boundary * number_width + column &&
-                        boundary * number_width + column <
-                          count * number_width by local */
-                    /*@ 0 <= scan * number_width + column &&
-                        scan * number_width + column <
-                          count * number_width by local */
                     int temporary_digit =
                         numbers[boundary * number_width + column];
                     numbers[boundary * number_width + column] =
@@ -313,6 +382,9 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
                   numbers == numbers@pre && lengths == lengths@pre &&
                   count == count@pre && number_width == number_width@pre &&
                   low == low@pre && high == high@pre &&
+                  0 <= high@pre * number_width@pre &&
+                  high@pre * number_width@pre + number_width@pre <=
+                    count@pre * number_width@pre &&
                   1 <= count@pre && count@pre <= 20 &&
                   1 <= number_width@pre && number_width@pre <= 10 &&
                   0 <= low@pre && low@pre < high@pre && high@pre < count@pre &&
@@ -320,7 +392,15 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
                   1 <= sum(lens) && sum(lens) <= 200 &&
                   pivot_length == Znth(high@pre, lens1, 0) &&
                   1 <= pivot_length && pivot_length <= number_width@pre &&
-                  RowsWellFormed(rows1, lens1, count@pre, number_width@pre) &&
+                  Zlength(rows1) == count@pre &&
+                  Zlength(lens1) == count@pre &&
+                  Forall(eq(number_width@pre), map(Zlength, rows1)) &&
+                  Forall(Z::le(1), lens1) &&
+                  Forall(Z::ge(number_width@pre), lens1) &&
+                  Forall(Z::le(1), map(hd(0), rows1)) &&
+                  Forall(Z::ge(9), map(hd(0), rows1)) &&
+                  Forall(Z::le(0), concatenate_rows(rows1, lens1)) &&
+                  Forall(Z::ge(9), concatenate_rows(rows1, lens1)) &&
                   PartitionScanState(rows, rows1, lens, lens1,
                                      low@pre, high@pre, boundary, scan + 1) &&
                   sum(lens1) == sum(lens) &&
@@ -341,6 +421,12 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
               numbers == numbers@pre && lengths == lengths@pre &&
               count == count@pre && number_width == number_width@pre &&
               low == low@pre && high == high@pre &&
+              0 <= pivot * number_width@pre &&
+              pivot * number_width@pre + number_width@pre <=
+                count@pre * number_width@pre &&
+              0 <= high@pre * number_width@pre &&
+              high@pre * number_width@pre + number_width@pre <=
+                count@pre * number_width@pre &&
               1 <= count@pre && count@pre <= 20 &&
               1 <= number_width@pre && number_width@pre <= 10 &&
               0 <= low@pre && low@pre < high@pre && high@pre < count@pre &&
@@ -349,7 +435,15 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
               1 <= sum(lens) && sum(lens) <= 200 &&
               pivot_length == Znth(high@pre, lens1, 0) &&
               1 <= pivot_length && pivot_length <= number_width@pre &&
-              RowsWellFormed(rows_before, lens1, count@pre, number_width@pre) &&
+              Zlength(rows_before) == count@pre &&
+              Zlength(lens1) == count@pre &&
+              Forall(eq(number_width@pre), map(Zlength, rows_before)) &&
+              Forall(Z::le(1), lens1) &&
+              Forall(Z::ge(number_width@pre), lens1) &&
+              Forall(Z::le(1), map(hd(0), rows_before)) &&
+              Forall(Z::ge(9), map(hd(0), rows_before)) &&
+              Forall(Z::le(0), concatenate_rows(rows_before, lens1)) &&
+              Forall(Z::ge(9), concatenate_rows(rows_before, lens1)) &&
               PartitionScanState(rows, rows_before, lens, lens1,
                                  low@pre, high@pre, pivot - 1, high@pre) &&
               SwapRowsPrefix(rows_before, rows_now, pivot, high@pre,
@@ -362,12 +456,6 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
               has_int_permission(&boundary)
          */
         for (int column = 0; column < number_width; ++column) {
-            /*@ 0 <= pivot * number_width + column &&
-                pivot * number_width + column <
-                  count * number_width by local */
-            /*@ 0 <= high * number_width + column &&
-                high * number_width + column <
-                  count * number_width by local */
             int temporary_digit =
                 numbers[pivot * number_width + column];
             numbers[pivot * number_width + column] =
@@ -383,12 +471,26 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
               numbers == numbers@pre && lengths == lengths@pre &&
               count == count@pre && number_width == number_width@pre &&
               low == low@pre && high == high@pre &&
+              0 <= pivot * number_width@pre &&
+              pivot * number_width@pre + number_width@pre <=
+                count@pre * number_width@pre &&
+              0 <= high@pre * number_width@pre &&
+              high@pre * number_width@pre + number_width@pre <=
+                count@pre * number_width@pre &&
               1 <= count@pre && count@pre <= 20 &&
               1 <= number_width@pre && number_width@pre <= 10 &&
               0 <= low@pre && low@pre < high@pre && high@pre < count@pre &&
               low@pre <= pivot && pivot <= high@pre &&
               1 <= sum(lens) && sum(lens) <= 200 &&
-              RowsWellFormed(rows1, lens1, count@pre, number_width@pre) &&
+              Zlength(rows1) == count@pre &&
+              Zlength(lens1) == count@pre &&
+              Forall(eq(number_width@pre), map(Zlength, rows1)) &&
+              Forall(Z::le(1), lens1) &&
+              Forall(Z::ge(number_width@pre), lens1) &&
+              Forall(Z::le(1), map(hd(0), rows1)) &&
+              Forall(Z::ge(9), map(hd(0), rows1)) &&
+              Forall(Z::le(0), concatenate_rows(rows1, lens1)) &&
+              Forall(Z::ge(9), concatenate_rows(rows1, lens1)) &&
               PairedPermutation(rows, rows1, lens, lens1) &&
               SameOutsidePairedRange(rows, rows1, lens, lens1, low@pre, high@pre) &&
               GreedyPartitionedAt(rows1, lens1, low@pre, high@pre, pivot) &&
@@ -400,7 +502,6 @@ void quicksort_numbers(int *numbers, int *lengths, int count,
               has_int_permission(&boundary) *
               has_int_permission(&pivot_length)
          */
-
         /*@ Given rows1 lens1 flat1 */
         if (pivot > low) {
             quicksort_numbers(numbers, lengths, count, number_width,
@@ -431,23 +532,51 @@ int* concatenating_numbers(int *numbers, int count, int number_width,
       1 <= count && count <= 20 &&
       1 <= number_width && number_width <= 10 &&
       1 <= sum(lens) && sum(lens) <= 200 &&
-      RowsWellFormed(rows, lens, count, number_width) &&
-      FlatRows(flat, rows, count, number_width) &&
-      IntArray::full(numbers, count * number_width, flat) *
+      Zlength(rows) == count &&
+      Zlength(lens) == count &&
+      Forall(eq(number_width), map(Zlength, rows)) &&
+      Forall(Z::le(1), lens) &&
+      Forall(Z::ge(number_width), lens) &&
+      Forall(Z::le(1), map(hd(0), rows)) &&
+      Forall(Z::ge(9), map(hd(0), rows)) &&
+      Forall(Z::le(0), concatenate_rows(rows, lens)) &&
+      Forall(Z::ge(9), concatenate_rows(rows, lens)) &&
+      flat == concat(rows) &&
+      Forall(Z::ge(1000000000), DecimalRowValues(rows, lens)) &&
+      IntArray2::full(numbers, count, number_width, rows) *
       IntArray::full(lengths, count, lens) *
       IntArray::undef_full(result, sum(lens))
     Ensure
-      exists rows1 lens1 flat1 output,
+      exists lens1 rows1 output,
         __return == result &&
-        RowsWellFormed(rows1, lens1, count, number_width) &&
-        FlatRows(flat1, rows1, count, number_width) &&
-        LargestConcatenation(rows, rows1, lens, lens1, output) &&
-        Zlength(output) == sum(lens) &&
-        IntArray::full(numbers, count * number_width, flat1) *
+        LargestConcatenation(rows, lens, output) &&
+        IntArray2::full(numbers, count, number_width, rows1) *
         IntArray::full(lengths, count, lens1) *
         IntArray::full(result, sum(lens), output)
  */
 {
+    /* The public matrix resource is viewed linearly by the established helpers. */
+    /*@ Assert
+      numbers == numbers@pre && lengths == lengths@pre &&
+      result == result@pre && count == count@pre && number_width == number_width@pre &&
+      1 <= count && count <= 20 &&
+      1 <= number_width && number_width <= 10 &&
+      1 <= sum(lens) && sum(lens) <= 200 &&
+      Zlength(rows) == count &&
+      Zlength(lens) == count &&
+      Forall(eq(number_width), map(Zlength, rows)) &&
+      Forall(Z::le(1), lens) &&
+      Forall(Z::ge(number_width), lens) &&
+      Forall(Z::le(1), map(hd(0), rows)) &&
+      Forall(Z::ge(9), map(hd(0), rows)) &&
+      Forall(Z::le(0), concatenate_rows(rows, lens)) &&
+      Forall(Z::ge(9), concatenate_rows(rows, lens)) &&
+      FlatRows(flat, rows, count, number_width) &&
+      IntArray::full(numbers, count * number_width, flat) *
+      IntArray::full(lengths, count, lens) *
+      IntArray::undef_full(result, sum(lens))
+    */
+
     int result_length = 0;
     int i;
 
@@ -455,26 +584,6 @@ int* concatenating_numbers(int *numbers, int count, int number_width,
         quicksort_numbers(numbers, lengths, count, number_width,
                           0, count - 1) /*@ where rows = rows, lens = lens, flat = flat */;
     }
-
-    /*@ Assert
-        exists rows1 lens1 flat1,
-          numbers == numbers@pre && lengths == lengths@pre &&
-          result == result@pre && count == count@pre &&
-          number_width == number_width@pre &&
-          1 <= count@pre && count@pre <= 20 &&
-          1 <= number_width@pre && number_width@pre <= 10 &&
-          1 <= sum(lens) && sum(lens) <= 200 &&
-          RowsWellFormed(rows1, lens1, count@pre, number_width@pre) &&
-          PairedPermutation(rows, rows1, lens, lens1) &&
-          GreedySorted(rows1, lens1) &&
-          sum(lens1) == sum(lens) &&
-          result_length == 0 &&
-          FlatRows(flat1, rows1, count@pre, number_width@pre) &&
-          IntArray::full(numbers@pre, count@pre * number_width@pre, flat1) *
-          IntArray::full(lengths@pre, count@pre, lens1) *
-          IntArray::undef_full(result@pre, sum(lens)) *
-          has_int_permission(&i)
-     */
 
     /*@ Inv Assert
         exists rows1 lens1 flat1 output,
@@ -485,7 +594,15 @@ int* concatenating_numbers(int *numbers, int count, int number_width,
           1 <= number_width@pre && number_width@pre <= 10 &&
           1 <= sum(lens) && sum(lens) <= 200 &&
           0 <= i && i <= count@pre &&
-          RowsWellFormed(rows1, lens1, count@pre, number_width@pre) &&
+          Zlength(rows1) == count@pre &&
+          Zlength(lens1) == count@pre &&
+          Forall(eq(number_width@pre), map(Zlength, rows1)) &&
+          Forall(Z::le(1), lens1) &&
+          Forall(Z::ge(number_width@pre), lens1) &&
+          Forall(Z::le(1), map(hd(0), rows1)) &&
+          Forall(Z::ge(9), map(hd(0), rows1)) &&
+          Forall(Z::le(0), concatenate_rows(rows1, lens1)) &&
+          Forall(Z::ge(9), concatenate_rows(rows1, lens1)) &&
           PairedPermutation(rows, rows1, lens, lens1) &&
           GreedySorted(rows1, lens1) &&
           sum(lens1) == sum(lens) &&
@@ -506,6 +623,10 @@ int* concatenating_numbers(int *numbers, int count, int number_width,
               numbers == numbers@pre && lengths == lengths@pre &&
               result == result@pre && count == count@pre &&
               number_width == number_width@pre &&
+              0 <= i * number_width@pre &&
+              i * number_width@pre + number_width@pre <=
+                count@pre * number_width@pre &&
+              (j < Znth(i, lens1, 0) => result_length < sum(lens)) &&
               1 <= count@pre && count@pre <= 20 &&
               1 <= number_width@pre && number_width@pre <= 10 &&
               1 <= sum(lens) && sum(lens) <= 200 &&
@@ -513,7 +634,15 @@ int* concatenating_numbers(int *numbers, int count, int number_width,
               0 <= j && j <= Znth(i, lens1, 0) &&
               1 <= Znth(i, lens1, 0) &&
               Znth(i, lens1, 0) <= number_width@pre &&
-              RowsWellFormed(rows1, lens1, count@pre, number_width@pre) &&
+              Zlength(rows1) == count@pre &&
+              Zlength(lens1) == count@pre &&
+              Forall(eq(number_width@pre), map(Zlength, rows1)) &&
+              Forall(Z::le(1), lens1) &&
+              Forall(Z::ge(number_width@pre), lens1) &&
+              Forall(Z::le(1), map(hd(0), rows1)) &&
+              Forall(Z::ge(9), map(hd(0), rows1)) &&
+              Forall(Z::le(0), concatenate_rows(rows1, lens1)) &&
+              Forall(Z::ge(9), concatenate_rows(rows1, lens1)) &&
               PairedPermutation(rows, rows1, lens, lens1) &&
               GreedySorted(rows1, lens1) &&
               sum(lens1) == sum(lens) &&
@@ -527,9 +656,6 @@ int* concatenating_numbers(int *numbers, int count, int number_width,
               IntArray::undef_seg(result@pre, result_length, sum(lens))
          */
         for (j = 0; j < lengths[i]; ++j) {
-            /*@ 0 <= i * number_width + j &&
-                i * number_width + j < count * number_width by local */
-            /*@ 0 <= result_length && result_length < sum(lens) by local */
             result[result_length] = numbers[i * number_width + j];
             ++result_length;
         }

@@ -11,7 +11,6 @@ From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
 Require Import SetsClass.SetsClass. Import SetsNotation.
 From SimpleC.SL Require Import Mem SeparationLogic.
 From SimpleC.EE.LLM_bench.Algorithms.choir_singing Require Import choir_singing_goal.
-From SimpleC.EE.LLM_bench.Algorithms.choir_singing Require Import choir_singing_proof_auto.
 Require Import Logic.LogicGenerator.demo932.Interface.
 Local Open Scope Z_scope.
 Local Open Scope sets.
@@ -20,639 +19,285 @@ Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.choir_singing.choir_singing_lib.
 Local Open Scope sac.
+Local Opaque IntArray.full IntArray.seg IntArray.undef_full IntArray.undef_seg.
 
-Lemma proof_of_choir_singing_safety_wit_9_split_goal_1 : choir_singing_safety_wit_9_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  dump_pre_spatial.
-  unfold ChoirLeftInnerProgress in PreH10.
-  destruct PreH10 as [_ [_ [_ [Hprocessed _]]]].
-  pose proof (Hprocessed j ltac:(lia)) as Hj_bounds.
-  destruct Hj_bounds as [_ Hj_bounds].
-  change INT_MAX with 2147483647.
-  lia.
-Qed.
 
-Lemma proof_of_choir_singing_safety_wit_9_split_goal_2 : choir_singing_safety_wit_9_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  dump_pre_spatial.
-  unfold ChoirLeftInnerProgress in PreH10.
-  destruct PreH10 as [_ [_ [_ [Hprocessed _]]]].
-  pose proof (Hprocessed j ltac:(lia)) as Hj_bounds.
-  destruct Hj_bounds as [_ Hj_bounds].
-  change INT_MIN with (-2147483648).
-  lia.
-Qed.
+
 
 Lemma proof_of_choir_singing_safety_wit_9 : choir_singing_safety_wit_9.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_choir_singing_safety_wit_9_split_goal_1.
-  - Goal_apply proof_of_choir_singing_safety_wit_9_split_goal_2.
-Qed.
-
-Lemma proof_of_choir_singing_safety_wit_11_split_goal_1 : choir_singing_safety_wit_11_split_goal_1.
-Proof.
   LLM_pre_process ltac:(int_auto).
-  dump_pre_spatial.
-  unfold ChoirLeftInnerProgress in PreH11.
-  destruct PreH11 as [_ [_ [_ [Hprocessed _]]]].
-  pose proof (Hprocessed j ltac:(lia)) as Hj_bounds.
-  destruct Hj_bounds as [_ Hj_bounds].
-  change INT_MAX with 2147483647.
-  lia.
-Qed.
-
-Lemma proof_of_choir_singing_safety_wit_11_split_goal_2 : choir_singing_safety_wit_11_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  dump_pre_spatial.
-  unfold ChoirLeftInnerProgress in PreH11.
-  destruct PreH11 as [_ [_ [_ [Hprocessed _]]]].
-  pose proof (Hprocessed j ltac:(lia)) as Hj_bounds.
-  destruct Hj_bounds as [_ Hj_bounds].
-  change INT_MIN with (-2147483648).
-  lia.
+  pose proof (choir_left_length_bounds _ _ _ (proj1 PreH10 j ltac:(lia))) as Hbounds.
+  split_pures; dump_pre_spatial; try change INT_MAX with 2147483647; try change INT_MIN with (-2147483648); lia.
 Qed.
 
 Lemma proof_of_choir_singing_safety_wit_11 : choir_singing_safety_wit_11.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_choir_singing_safety_wit_11_split_goal_1.
-  - Goal_apply proof_of_choir_singing_safety_wit_11_split_goal_2.
-Qed.
-
-Lemma proof_of_choir_singing_safety_wit_22_split_goal_1 : choir_singing_safety_wit_22_split_goal_1.
-Proof.
   LLM_pre_process ltac:(int_auto).
-  dump_pre_spatial.
-  unfold ChoirRightInnerProgress in PreH11.
-  destruct PreH11 as [_ [_ [_ [Hprocessed _]]]].
-  pose proof (Hprocessed j ltac:(lia)) as Hj_bounds.
-  destruct Hj_bounds as [_ Hj_bounds].
-  change INT_MAX with 2147483647.
-  lia.
-Qed.
-
-Lemma proof_of_choir_singing_safety_wit_22_split_goal_2 : choir_singing_safety_wit_22_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  dump_pre_spatial.
-  unfold ChoirRightInnerProgress in PreH11.
-  destruct PreH11 as [_ [_ [_ [Hprocessed _]]]].
-  pose proof (Hprocessed j ltac:(lia)) as Hj_bounds.
-  destruct Hj_bounds as [_ Hj_bounds].
-  change INT_MIN with (-2147483648).
-  lia.
+  pose proof (choir_left_length_bounds _ _ _ (proj1 PreH11 j ltac:(lia))) as Hbounds.
+  split_pures; dump_pre_spatial; try change INT_MAX with 2147483647; try change INT_MIN with (-2147483648); lia.
 Qed.
 
 Lemma proof_of_choir_singing_safety_wit_22 : choir_singing_safety_wit_22.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_choir_singing_safety_wit_22_split_goal_1.
-  - Goal_apply proof_of_choir_singing_safety_wit_22_split_goal_2.
-Qed.
-
-Lemma proof_of_choir_singing_safety_wit_24_split_goal_1 : choir_singing_safety_wit_24_split_goal_1.
-Proof.
   LLM_pre_process ltac:(int_auto).
-  dump_pre_spatial.
-  unfold ChoirRightInnerProgress in PreH12.
-  destruct PreH12 as [_ [_ [_ [Hprocessed _]]]].
-  pose proof (Hprocessed j ltac:(lia)) as Hj_bounds.
-  destruct Hj_bounds as [_ Hj_bounds].
-  change INT_MAX with 2147483647.
-  lia.
-Qed.
-
-Lemma proof_of_choir_singing_safety_wit_24_split_goal_2 : choir_singing_safety_wit_24_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  dump_pre_spatial.
-  unfold ChoirRightInnerProgress in PreH12.
-  destruct PreH12 as [_ [_ [_ [Hprocessed _]]]].
-  pose proof (Hprocessed j ltac:(lia)) as Hj_bounds.
-  destruct Hj_bounds as [_ Hj_bounds].
-  change INT_MIN with (-2147483648).
-  lia.
+  pose proof (choir_right_length_bounds _ _ _ (proj1 PreH11 j ltac:(lia))) as Hbounds.
+  split_pures; dump_pre_spatial; try change INT_MAX with 2147483647; try change INT_MIN with (-2147483648); lia.
 Qed.
 
 Lemma proof_of_choir_singing_safety_wit_24 : choir_singing_safety_wit_24.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_choir_singing_safety_wit_24_split_goal_1.
-  - Goal_apply proof_of_choir_singing_safety_wit_24_split_goal_2.
-Qed.
-
-Lemma proof_of_choir_singing_safety_wit_32_split_goal_1 : choir_singing_safety_wit_32_split_goal_1.
-Proof.
   LLM_pre_process ltac:(int_auto).
-  dump_pre_spatial.
-  unfold ChoirDPLeftPrefix in PreH9.
-  unfold ChoirDPRightSuffix in PreH10.
-  destruct PreH9 as (_ & _ & Hleft & _).
-  destruct PreH10 as (_ & _ & Hright & _).
-  specialize (Hleft k ltac:(lia)) as (_ & Hleft_bound).
-  specialize (Hright k ltac:(lia)) as (_ & Hright_bound).
-  change INT_MAX with 2147483647.
-  lia.
-Qed.
-
-Lemma proof_of_choir_singing_safety_wit_32_split_goal_2 : choir_singing_safety_wit_32_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  dump_pre_spatial.
-  unfold ChoirDPLeftPrefix in PreH9.
-  unfold ChoirDPRightSuffix in PreH10.
-  destruct PreH9 as (_ & _ & Hleft & _).
-  destruct PreH10 as (_ & _ & Hright & _).
-  specialize (Hleft k ltac:(lia)) as (_ & Hleft_bound).
-  specialize (Hright k ltac:(lia)) as (_ & Hright_bound).
-  change INT_MIN with (-2147483648).
-  lia.
+  pose proof (choir_right_length_bounds _ _ _ (proj1 PreH12 j ltac:(lia))) as Hbounds.
+  split_pures; dump_pre_spatial; try change INT_MAX with 2147483647; try change INT_MIN with (-2147483648); lia.
 Qed.
 
 Lemma proof_of_choir_singing_safety_wit_32 : choir_singing_safety_wit_32.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_choir_singing_safety_wit_32_split_goal_1.
-  - Goal_apply proof_of_choir_singing_safety_wit_32_split_goal_2.
-Qed.
-
-Lemma proof_of_choir_singing_safety_wit_33_split_goal_1 : choir_singing_safety_wit_33_split_goal_1.
-Proof.
   LLM_pre_process ltac:(int_auto).
-  dump_pre_spatial.
-  unfold ChoirDPLeftPrefix in PreH10.
-  unfold ChoirDPRightSuffix in PreH11.
-  destruct PreH10 as (_ & _ & Hleft & _).
-  destruct PreH11 as (_ & _ & Hright & _).
-  specialize (Hleft k ltac:(lia)) as (_ & Hleft_bound).
-  specialize (Hright k ltac:(lia)) as (_ & Hright_bound).
-  change INT_MAX with 2147483647.
-  lia.
-Qed.
-
-Lemma proof_of_choir_singing_safety_wit_33_split_goal_2 : choir_singing_safety_wit_33_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(int_auto).
+  pose proof (choir_left_length_bounds _ _ _ (proj1 PreH9 k ltac:(lia))) as Hleft.
+  pose proof (choir_right_length_bounds _ _ _ (proj1 PreH10 k ltac:(lia))) as Hright.
+  split_pures; dump_pre_spatial; try change INT_MAX with 2147483647; try change INT_MIN with (-2147483648); lia.
 Qed.
 
 Lemma proof_of_choir_singing_safety_wit_33 : choir_singing_safety_wit_33.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_choir_singing_safety_wit_33_split_goal_1.
-  - Goal_apply proof_of_choir_singing_safety_wit_33_split_goal_2.
-Qed.
-
-Lemma proof_of_choir_singing_safety_wit_34_split_goal_1 : choir_singing_safety_wit_34_split_goal_1.
-Proof.
   LLM_pre_process ltac:(int_auto).
-  dump_pre_spatial.
-  unfold ChoirDPLeftPrefix in PreH10.
-  unfold ChoirDPRightSuffix in PreH11.
-  destruct PreH10 as (_ & _ & Hleft & _).
-  destruct PreH11 as (_ & _ & Hright & _).
-  specialize (Hleft k ltac:(lia)) as (_ & Hleft_bound).
-  specialize (Hright k ltac:(lia)) as (_ & Hright_bound).
-  change INT_MAX with 2147483647.
-  lia.
-Qed.
-
-Lemma proof_of_choir_singing_safety_wit_34_split_goal_2 : choir_singing_safety_wit_34_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(int_auto).
+  pose proof (choir_left_length_bounds _ _ _ (proj1 PreH10 k ltac:(lia))) as Hleft.
+  pose proof (choir_right_length_bounds _ _ _ (proj1 PreH11 k ltac:(lia))) as Hright.
+  split_pures; dump_pre_spatial; try change INT_MAX with 2147483647; try change INT_MIN with (-2147483648); lia.
 Qed.
 
 Lemma proof_of_choir_singing_safety_wit_34 : choir_singing_safety_wit_34.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_choir_singing_safety_wit_34_split_goal_1.
-  - Goal_apply proof_of_choir_singing_safety_wit_34_split_goal_2.
+  LLM_pre_process ltac:(int_auto).
+  pose proof (choir_left_length_bounds _ _ _ (proj1 PreH10 k ltac:(lia))) as Hleft.
+  pose proof (choir_right_length_bounds _ _ _ (proj1 PreH11 k ltac:(lia))) as Hright.
+  split_pures; dump_pre_spatial; try change INT_MAX with 2147483647; try change INT_MIN with (-2147483648); lia.
 Qed.
 
-Lemma proof_of_choir_singing_entail_wit_1_split_goal_1 : choir_singing_entail_wit_1_split_goal_1.
-Proof.
-  unfold choir_singing_entail_wit_1_split_goal_1.
-  intros.
-  unfold ChoirOnesPrefix.
-  split.
-  - reflexivity.
-  - intros k Hk.
-    lia.
-Qed.
 
-Lemma proof_of_choir_singing_entail_wit_1_split_goal_2 : choir_singing_entail_wit_1_split_goal_2.
-Proof.
-  unfold choir_singing_entail_wit_1_split_goal_2.
-  intros.
-  unfold ChoirOnesPrefix.
-  split.
-  - reflexivity.
-  - intros k Hk.
-    lia.
-Qed.
 
 Lemma proof_of_choir_singing_entail_wit_1 : choir_singing_entail_wit_1.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_choir_singing_entail_wit_1_split_goal_1.
-  - Goal_apply proof_of_choir_singing_entail_wit_1_split_goal_2.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_2_split_goal_1 : choir_singing_entail_wit_2_split_goal_1.
-Proof.
-  unfold choir_singing_entail_wit_2_split_goal_1.
-  intros.
-  apply choir_ones_prefix_snoc__ones_initialization.
-  exact PreH8.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_2_split_goal_2 : choir_singing_entail_wit_2_split_goal_2.
-Proof.
-  unfold choir_singing_entail_wit_2_split_goal_2.
-  intros.
-  apply choir_ones_prefix_snoc__ones_initialization.
-  exact PreH7.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  Exists (@nil Z) (@nil Z).
+  split_pure_spatial.
+  - rewrite (IntArray.seg_empty (&( "dp_left" )) 0 0).
+    rewrite (IntArray.seg_empty (&( "dp_right" )) 0 0).
+    sep_apply_l_atomic (IntArray.undef_full_split_to_undef_seg (&( "dp_left" )) numsSize_pre 100 ltac:(lia)).
+    sep_apply_l_atomic (IntArray.undef_full_split_to_undef_seg (&( "dp_right" )) numsSize_pre 100 ltac:(lia)).
+    entailer!.
+  - split_pures; dump_pre_spatial; try assumption; try lia; constructor.
 Qed.
 
 Lemma proof_of_choir_singing_entail_wit_2 : choir_singing_entail_wit_2.
 Proof.
   aggressive_pre_process.
-  - Goal_apply proof_of_choir_singing_entail_wit_2_split_goal_1.
-  - Goal_apply proof_of_choir_singing_entail_wit_2_split_goal_2.
+  all: apply Forall_app; split;
+    [assumption | apply Forall_cons; [reflexivity | apply Forall_nil]].
 Qed.
 
 Lemma proof_of_choir_singing_entail_wit_3 : choir_singing_entail_wit_3.
 Proof.
   aggressive_pre_process.
   replace i with numsSize_pre in * by lia.
+  try rewrite (IntArray.undef_seg_empty (&( "dp_left" )) numsSize_pre).
+  try rewrite (IntArray.undef_seg_empty (&( "dp_right" )) numsSize_pre).
+  prop_apply (IntArray.seg_Zlength (&( "dp_left" )) 0 numsSize_pre left_written).
+  Intros.
   Exists right_written left_written.
   split_pure_spatial.
-  - sep_apply (IntArray.seg_to_full dp_left_pre 0 numsSize_pre left_written).
-    replace (dp_left_pre + 0 * sizeof(INT)) with dp_left_pre by lia.
+  - sep_apply (IntArray.seg_to_full (&( "dp_left" )) 0 numsSize_pre left_written).
+    replace ((&( "dp_left" )) + 0 * sizeof(INT)) with (&( "dp_left" )) by lia.
     replace (numsSize_pre - 0) with numsSize_pre by lia.
-    sep_apply (IntArray.seg_to_full dp_right_pre 0 numsSize_pre right_written).
-    replace (dp_right_pre + 0 * sizeof(INT)) with dp_right_pre by lia.
+    sep_apply (IntArray.seg_to_full (&( "dp_right" )) 0 numsSize_pre right_written).
+    replace ((&( "dp_right" )) + 0 * sizeof(INT)) with (&( "dp_right" )) by lia.
     replace (numsSize_pre - 0) with numsSize_pre by lia.
-    cancel.
+    entailer!.
   - split_pures; dump_pre_spatial; try lia; try assumption.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_4_split_goal_1 : choir_singing_entail_wit_4_split_goal_1.
-Proof.
-  unfold choir_singing_entail_wit_4_split_goal_1.
-  intros.
-  unfold ChoirDPLeftPrefix.
-  unfold ChoirOnesFull in PreH4.
-  destruct PreH4 as [Hleft_length Hleft_ones].
-  split.
-  - rewrite PreH3.
-    lia.
-  - split.
-    + lia.
-    + split.
-      * intros k Hk.
-        lia.
-      * intros k Hk.
-        apply Hleft_ones.
-        lia.
+    unfold ChoirDPLeftPrefix. split.
+    + intros k Hk. lia.
+    + rewrite sublist_self by lia. exact PreH7.
 Qed.
 
 Lemma proof_of_choir_singing_entail_wit_4 : choir_singing_entail_wit_4.
 Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_choir_singing_entail_wit_4_split_goal_1.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_5_split_goal_1 : choir_singing_entail_wit_5_split_goal_1.
-Proof.
-  unfold choir_singing_entail_wit_5_split_goal_1.
-  intros.
+  LLM_pre_process ltac:(int_auto).
+  prop_apply (IntArray.full_Zlength (&( "dp_left" )) numsSize_pre left_values_2).
+  Intros.
+  Exists right_values_2 left_values_2.
+  split_pure_spatial; [entailer! |].
+  split_pures; dump_pre_spatial; try lia; try assumption.
   replace (i - 1 + 1) with i by lia.
-  apply choir_left_inner_progress_base__ones_initialization.
-  - exact PreH7.
-  - rewrite PreH4.
-    lia.
+  eapply choir_left_inner_progress_base__ones_initialization; eauto; lia.
 Qed.
 
-Lemma proof_of_choir_singing_entail_wit_5 : choir_singing_entail_wit_5.
+Lemma proof_of_choir_singing_entail_wit_5_1 : choir_singing_entail_wit_5_1.
 Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_choir_singing_entail_wit_5_split_goal_1.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_6_1_split_goal_1 : choir_singing_entail_wit_6_1_split_goal_1.
-Proof.
-  unfold choir_singing_entail_wit_6_1_split_goal_1.
-  intros.
-  replace ((j - 1) + 1) with j by lia.
+  LLM_pre_process ltac:(int_auto).
+  prop_apply (IntArray.full_Zlength (&( "dp_left" )) numsSize_pre (replace_Znth i (Znth j left_values_2 0 + 1) left_values_2)).
+  Intros.
+  try rewrite Zlength_replace_Znth in *.
+  Exists right_values_2 (replace_Znth i (Znth j left_values_2 0 + 1) left_values_2).
+  split_pure_spatial; [entailer! |].
+  split_pures; dump_pre_spatial; try lia; try assumption.
+  replace (j - 1 + 1) with j by lia.
   eapply choir_left_progress_step_update__left_dp_transitions; eauto; lia.
 Qed.
 
-Lemma proof_of_choir_singing_entail_wit_6_1 : choir_singing_entail_wit_6_1.
+Lemma proof_of_choir_singing_entail_wit_5_2 : choir_singing_entail_wit_5_2.
 Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_choir_singing_entail_wit_6_1_split_goal_1.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_6_2_split_goal_1 : choir_singing_entail_wit_6_2_split_goal_1.
-Proof.
-  unfold choir_singing_entail_wit_6_2_split_goal_1.
-  intros.
-  replace ((j - 1) + 1) with j by lia.
+  LLM_pre_process ltac:(int_auto).
+  prop_apply (IntArray.full_Zlength (&( "dp_left" )) numsSize_pre left_values_2).
+  Intros.
+  Exists right_values_2 left_values_2.
+  split_pure_spatial; [entailer! |].
+  split_pures; dump_pre_spatial; try lia; try assumption.
+  replace (j - 1 + 1) with j by lia.
   eapply choir_left_progress_step_ineligible__left_dp_transitions; eauto; lia.
 Qed.
 
-Lemma proof_of_choir_singing_entail_wit_6_2 : choir_singing_entail_wit_6_2.
+Lemma proof_of_choir_singing_entail_wit_5_3 : choir_singing_entail_wit_5_3.
 Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_choir_singing_entail_wit_6_2_split_goal_1.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_6_3_split_goal_1 : choir_singing_entail_wit_6_3_split_goal_1.
-Proof.
-  unfold choir_singing_entail_wit_6_3_split_goal_1.
-  intros.
-  replace ((j - 1) + 1) with j by lia.
+  LLM_pre_process ltac:(int_auto).
+  prop_apply (IntArray.full_Zlength (&( "dp_left" )) numsSize_pre left_values_2).
+  Intros.
+  Exists right_values_2 left_values_2.
+  split_pure_spatial; [entailer! |].
+  split_pures; dump_pre_spatial; try lia; try assumption.
+  replace (j - 1 + 1) with j by lia.
   eapply choir_left_progress_step_dominated__left_dp_transitions; eauto; lia.
 Qed.
 
-Lemma proof_of_choir_singing_entail_wit_6_3 : choir_singing_entail_wit_6_3.
+Lemma proof_of_choir_singing_entail_wit_6 : choir_singing_entail_wit_6.
 Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_choir_singing_entail_wit_6_3_split_goal_1.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_7_split_goal_1 : choir_singing_entail_wit_7_split_goal_1.
-Proof.
-  unfold choir_singing_entail_wit_7_split_goal_1.
-  intros.
-  assert (j = -1) by lia.
-  subst j.
-  replace (-1 + 1) with 0 in PreH9 by lia.
-  eapply choir_left_progress_complete__left_dp_transitions.
-  exact PreH9.
+  LLM_pre_process ltac:(int_auto).
+  prop_apply (IntArray.full_Zlength (&( "dp_left" )) numsSize_pre left_values_2).
+  Intros.
+  Exists right_values_2 left_values_2.
+  split_pure_spatial; [entailer! |].
+  split_pures; dump_pre_spatial; try lia; try assumption.
+  replace (j + 1) with 0 in PreH9 by lia.
+  eapply choir_left_progress_complete__left_dp_transitions; eauto; lia.
 Qed.
 
 Lemma proof_of_choir_singing_entail_wit_7 : choir_singing_entail_wit_7.
 Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_choir_singing_entail_wit_7_split_goal_1.
+  LLM_pre_process ltac:(int_auto).
+  prop_apply (IntArray.full_Zlength (&( "dp_right" )) numsSize_pre right_values_2).
+  Intros.
+  Exists right_values_2 left_values_2.
+  split_pure_spatial; [entailer! |].
+  split_pures; dump_pre_spatial; try lia; try assumption.
+  - replace numsSize_pre with i by lia. exact PreH7.
+  - replace (numsSize_pre - 1 + 1) with (Zlength heights) by lia.
+    eapply choir_right_suffix_from_ones__phase_bridges; eauto; lia.
 Qed.
 
-Lemma proof_of_choir_singing_entail_wit_9_split_goal_1 : choir_singing_entail_wit_9_split_goal_1.
+Lemma proof_of_choir_singing_entail_wit_8 : choir_singing_entail_wit_8.
 Proof.
-  LLM_pre_process ltac:(auto).
-  replace i with numsSize_pre in PreH7 by lia.
-  exact PreH7.
+  LLM_pre_process ltac:(int_auto).
+  prop_apply (IntArray.full_Zlength (&( "dp_right" )) numsSize_pre right_values_2).
+  Intros.
+  Exists right_values_2 left_values_2.
+  split_pure_spatial; [entailer! |].
+  split_pures; dump_pre_spatial; try lia; try assumption.
+  eapply choir_right_inner_progress_base__phase_bridges; eauto; lia.
 Qed.
 
-Lemma proof_of_choir_singing_entail_wit_9 : choir_singing_entail_wit_9.
+Lemma proof_of_choir_singing_entail_wit_9_1 : choir_singing_entail_wit_9_1.
 Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_choir_singing_entail_wit_9_split_goal_1.
+  LLM_pre_process ltac:(int_auto).
+  prop_apply (IntArray.full_Zlength (&( "dp_right" )) numsSize_pre (replace_Znth i (Znth j right_values_2 0 + 1) right_values_2)).
+  Intros.
+  try rewrite Zlength_replace_Znth in *.
+  Exists (replace_Znth i (Znth j right_values_2 0 + 1) right_values_2) left_values_2.
+  split_pure_spatial; [entailer! |].
+  split_pures; dump_pre_spatial; try lia; try assumption.
+  eapply choir_right_progress_step_update__right_dp_transitions; eauto; lia.
 Qed.
 
-Lemma proof_of_choir_singing_entail_wit_10_split_goal_1 : choir_singing_entail_wit_10_split_goal_1.
+Lemma proof_of_choir_singing_entail_wit_9_2 : choir_singing_entail_wit_9_2.
 Proof.
-  LLM_pre_process ltac:(auto).
-  replace ((numsSize_pre - 1) + 1) with numsSize_pre by lia.
-  eapply choir_right_suffix_from_ones__phase_bridges; eauto.
+  LLM_pre_process ltac:(int_auto).
+  prop_apply (IntArray.full_Zlength (&( "dp_right" )) numsSize_pre right_values_2).
+  Intros.
+  Exists right_values_2 left_values_2.
+  split_pure_spatial; [entailer! |].
+  split_pures; dump_pre_spatial; try lia; try assumption.
+  eapply choir_right_progress_step_ineligible__right_dp_transitions; eauto; lia.
+Qed.
+
+Lemma proof_of_choir_singing_entail_wit_9_3 : choir_singing_entail_wit_9_3.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  prop_apply (IntArray.full_Zlength (&( "dp_right" )) numsSize_pre right_values_2).
+  Intros.
+  Exists right_values_2 left_values_2.
+  split_pure_spatial; [entailer! |].
+  split_pures; dump_pre_spatial; try lia; try assumption.
+  eapply choir_right_progress_step_dominated__right_dp_transitions; eauto; lia.
 Qed.
 
 Lemma proof_of_choir_singing_entail_wit_10 : choir_singing_entail_wit_10.
 Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_choir_singing_entail_wit_10_split_goal_1.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_11_split_goal_1 : choir_singing_entail_wit_11_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(auto).
-  apply choir_right_inner_progress_base__phase_bridges.
-  - lia.
-  - exact PreH8.
+  LLM_pre_process ltac:(int_auto).
+  prop_apply (IntArray.full_Zlength (&( "dp_right" )) numsSize_pre right_values_2).
+  Intros.
+  Exists right_values_2 left_values_2.
+  split_pure_spatial; [entailer! |].
+  split_pures; dump_pre_spatial; try lia; try assumption.
+  replace (i - 1 + 1) with i by lia.
+  replace j with (Zlength heights) in PreH10 by lia.
+  eapply choir_right_progress_complete__right_dp_transitions; eauto; lia.
 Qed.
 
 Lemma proof_of_choir_singing_entail_wit_11 : choir_singing_entail_wit_11.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_choir_singing_entail_wit_11_split_goal_1.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_12_1_split_goal_1 : choir_singing_entail_wit_12_1_split_goal_1.
-Proof.
-  intros numsSize_pre heights right_values_2 left_values_2 j i
-    PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
-    PreH7 PreH8 PreH9 PreH10 PreH11 PreH12.
-  eapply choir_right_progress_step_update__right_dp_transitions.
-  - exact PreH12.
-  - lia.
-  - exact PreH2.
-  - lia.
+  - unfold ChoirBestPrefix. left. split; reflexivity.
+  - replace (i + 1) with 0 in PreH8 by lia. exact PreH8.
 Qed.
 
 Lemma proof_of_choir_singing_entail_wit_12_1 : choir_singing_entail_wit_12_1.
 Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_choir_singing_entail_wit_12_1_split_goal_1.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_12_2_split_goal_1 : choir_singing_entail_wit_12_2_split_goal_1.
-Proof.
-  intros numsSize_pre heights right_values_2 left_values_2 j i
-    PreH1 PreH2 PreH3 PreH4 PreH5
-    PreH6 PreH7 PreH8 PreH9 PreH10 PreH11.
-  eapply choir_right_progress_step_ineligible__right_dp_transitions.
-  - exact PreH11.
-  - lia.
+  aggressive_pre_process;
+    subst numsSize_pre;
+    pose proof (choir_peak_length_from_dp__best_prefix_fold
+      heights left_values_2 right_values_2 k PreH10 PreH11 ltac:(lia))
+      as [Hpeak Hbounds].
+  - eapply choir_best_prefix_step_take__best_prefix_fold; eauto; lia.
   - lia.
 Qed.
 
 Lemma proof_of_choir_singing_entail_wit_12_2 : choir_singing_entail_wit_12_2.
 Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_choir_singing_entail_wit_12_2_split_goal_1.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_12_3_split_goal_1 : choir_singing_entail_wit_12_3_split_goal_1.
-Proof.
-  intros numsSize_pre heights right_values_2 left_values_2 j i
-    PreH1 PreH2 PreH3 PreH4 PreH5 PreH6
-    PreH7 PreH8 PreH9 PreH10 PreH11 PreH12.
-  eapply choir_right_progress_step_dominated__right_dp_transitions.
-  - exact PreH12.
-  - lia.
-  - exact PreH2.
-  - exact PreH1.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_12_3 : choir_singing_entail_wit_12_3.
-Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_choir_singing_entail_wit_12_3_split_goal_1.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_13_split_goal_1 : choir_singing_entail_wit_13_split_goal_1.
-Proof.
-  intros numsSize_pre heights right_values_2 left_values_2 j i
-    PreH1 PreH2 PreH3 PreH4 PreH5
-    PreH6 PreH7 PreH8 PreH9 PreH10.
-  assert (j = numsSize_pre) by lia.
-  subst j.
-  apply choir_right_progress_complete__right_dp_transitions.
-  rewrite PreH4.
-  exact PreH10.
+  aggressive_pre_process;
+    subst numsSize_pre;
+    pose proof (choir_peak_length_from_dp__best_prefix_fold
+      heights left_values_2 right_values_2 k PreH10 PreH11 ltac:(lia))
+      as [Hpeak Hbounds].
+  eapply choir_best_prefix_step_keep__best_prefix_fold; eauto; lia.
 Qed.
 
 Lemma proof_of_choir_singing_entail_wit_13 : choir_singing_entail_wit_13.
 Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_choir_singing_entail_wit_13_split_goal_1.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_14_split_goal_1 : choir_singing_entail_wit_14_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(auto).
-  replace ((i - 1) + 1) with i by lia.
-  exact PreH7.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_14 : choir_singing_entail_wit_14.
-Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_choir_singing_entail_wit_14_split_goal_1.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_15_split_goal_1 : choir_singing_entail_wit_15_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(auto).
-  replace (i + 1) with 0 in PreH8 by lia.
-  exact PreH8.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_15 : choir_singing_entail_wit_15.
-Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_choir_singing_entail_wit_15_split_goal_1.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_16_split_goal_1 : choir_singing_entail_wit_16_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  intros.
-  unfold ChoirBestPrefix.
-  split; [lia |].
-  left.
-  lia.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_16 : choir_singing_entail_wit_16.
-Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_choir_singing_entail_wit_16_split_goal_1.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_17_1_split_goal_1 : choir_singing_entail_wit_17_1_split_goal_1.
-Proof.
-  unfold choir_singing_entail_wit_17_1_split_goal_1.
-  intros.
-  subst numsSize_pre.
-  pose proof
-    (choir_peak_length_from_dp__best_prefix_fold
-       heights left_values_2 right_values_2 k
-       PreH10 PreH11 ltac:(lia))
-    as [Hpeak Hpeak_bounds].
-  eapply choir_best_prefix_step_take__best_prefix_fold; eauto; lia.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_17_1_split_goal_2 : choir_singing_entail_wit_17_1_split_goal_2.
-Proof.
-  unfold choir_singing_entail_wit_17_1_split_goal_2.
-  intros.
-  subst numsSize_pre.
-  pose proof
-    (choir_peak_length_from_dp__best_prefix_fold
-       heights left_values_2 right_values_2 k
-       PreH10 PreH11 ltac:(lia))
-    as [Hpeak Hpeak_bounds].
-  lia.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_17_1 : choir_singing_entail_wit_17_1.
-Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_choir_singing_entail_wit_17_1_split_goal_1.
-  Goal_apply proof_of_choir_singing_entail_wit_17_1_split_goal_2.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_17_2_split_goal_1 : choir_singing_entail_wit_17_2_split_goal_1.
-Proof.
-  unfold choir_singing_entail_wit_17_2_split_goal_1.
-  intros.
-  subst numsSize_pre.
-  pose proof
-    (choir_peak_length_from_dp__best_prefix_fold
-       heights left_values_2 right_values_2 k
-       PreH10 PreH11 ltac:(lia))
-    as [Hpeak [Hpeak_positive Hpeak_bound]].
-  eapply choir_best_prefix_step_keep__best_prefix_fold; eauto; lia.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_17_2 : choir_singing_entail_wit_17_2.
-Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_choir_singing_entail_wit_17_2_split_goal_1.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_18_split_goal_1 : choir_singing_entail_wit_18_split_goal_1.
-Proof.
-  unfold choir_singing_entail_wit_18_split_goal_1.
-  intros.
-  assert (k = numsSize_pre) by lia.
-  subst k.
-  exact PreH11.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_18_split_goal_2 : choir_singing_entail_wit_18_split_goal_2.
-Proof.
-  unfold choir_singing_entail_wit_18_split_goal_2.
-  intros.
-  assert (k = numsSize_pre) by lia.
-  subst k.
-  subst numsSize_pre.
-  eapply
-    (choir_best_prefix_positive__best_prefix_fold
-       heights left_values_2 right_values_2
-       (Zlength heights) max_choir);
-    eauto; lia.
-Qed.
-
-Lemma proof_of_choir_singing_entail_wit_18 : choir_singing_entail_wit_18.
-Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_choir_singing_entail_wit_18_split_goal_1.
-  Goal_apply proof_of_choir_singing_entail_wit_18_split_goal_2.
-Qed.
-
-Lemma proof_of_choir_singing_return_wit_1_split_goal_1 : choir_singing_return_wit_1_split_goal_1.
-Proof.
-  intros numsSize_pre heights left_values_2 right_values_2 max_choir
-    PreH1 PreH2 PreH3 PreH4 PreH5 PreH6 PreH7 PreH8.
-  unfold ChoirMinimumRemovals.
-  exists max_choir.
-  split.
-  - unfold ChoirLength.
-    rewrite PreH3.
-    exact PreH8.
-  - rewrite PreH3.
-    reflexivity.
-Qed.
-
-Lemma proof_of_choir_singing_return_wit_1 : choir_singing_return_wit_1.
-Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_choir_singing_return_wit_1_split_goal_1.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  split_pure_spatial.
+  - prop_apply (IntArray.undef_seg_valid (&( "dp_left" )) (numsSize_pre) 100). Intros.
+    sep_apply_l_atomic (IntArray.full_to_undef_full (&( "dp_left" )) (numsSize_pre) left_values).
+    sep_apply_l_atomic (IntArray.undef_full_to_undef_seg (&( "dp_left" )) (numsSize_pre)).
+    sep_apply_l_atomic (IntArray.undef_seg_merge_to_undef_full (&( "dp_left" )) 0 (numsSize_pre) 100 ltac:(lia)).
+    simpl. replace ((&( "dp_left" )) + 0) with (&( "dp_left" )) by lia.
+    prop_apply (IntArray.undef_seg_valid (&( "dp_right" )) (numsSize_pre) 100). Intros.
+    sep_apply_l_atomic (IntArray.full_to_undef_full (&( "dp_right" )) (numsSize_pre) right_values).
+    sep_apply_l_atomic (IntArray.undef_full_to_undef_seg (&( "dp_right" )) (numsSize_pre)).
+    sep_apply_l_atomic (IntArray.undef_seg_merge_to_undef_full (&( "dp_right" )) 0 (numsSize_pre) 100 ltac:(lia)).
+    simpl. replace ((&( "dp_right" )) + 0) with (&( "dp_right" )) by lia.
+    entailer!.
+  - split_pures; dump_pre_spatial; try lia.
+    replace k with (Zlength heights) in PreH11 by lia.
+    subst numsSize_pre.
+    eapply choir_best_prefix_minimum_removals; eauto; lia.
 Qed.

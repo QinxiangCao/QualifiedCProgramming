@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-"""Proof-group planning helpers for copied vc-proving group directories."""
+"""Validate the VC owner's plan and derive one group representation."""
 
 from __future__ import annotations
 
@@ -7,279 +6,115 @@ import json
 from pathlib import Path
 from typing import Any
 
-from proof_manual_utils import helper_namespace_for_group_id
-
+from proof_manual_utils import HELPER_NAMESPACE_SUFFIX_RE, helper_namespace_for_group_id
 
 PROOF_MODES = {"LLM_pre_process", "aggressive_pre_process"}
-MIN_ESTIMATED_DIFFICULTY = 1
-MAX_ESTIMATED_DIFFICULTY = 5
 
 
 def group_witness_names(group: dict[str, Any]) -> list[str]:
-    return [
-        str(item["name"])
-        for item in group.get("witnesses", [])
-        if isinstance(item, dict)
-    ]
+    return [item["name"] for item in group["witnesses"]]
 
 
 def group_aggressive_split_goal_names(group: dict[str, Any]) -> list[str]:
-    return [
-        str(split_goal["name"])
-        for witness in group.get("witnesses", [])
-        if isinstance(witness, dict)
-        and witness.get("proof_mode") == "aggressive_pre_process"
-        for split_goal in witness.get("split_goals", [])
-        if isinstance(split_goal, dict)
-    ]
+    return [split["name"] for witness in group["witnesses"]
+            if witness["proof_mode"] == "aggressive_pre_process"
+            for split in witness["split_goals"]]
 
 
 def group_check_names(group: dict[str, Any]) -> list[str]:
-    return [*group_witness_names(group), *group_aggressive_split_goal_names(group)]
+    return group_witness_names(group) + group_aggressive_split_goal_names(group)
 
 
 def load_group_plan(path: Path) -> dict[str, Any]:
-    data = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(data, dict):
-        raise SystemExit(f"group plan is not a JSON object: {path}")
-    return data
+    plan = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(plan, dict):
+        raise ValueError(f"group plan must contain an object: {path}")
+    return plan
 
 
-def _require_accepted_shape(
-    *,
-    vc_index: dict[str, Any],
-    plan: dict[str, Any],
-) -> None:
-    if set(plan) != {"groups"}:
-        raise SystemExit("group plan contains unsupported top-level fields")
-    expected = [str(name) for name in vc_index["top_level"]]
-    assigned = [
-        str(witness.get("name"))
-        for group in plan.get("groups", [])
-        for witness in group.get("witnesses", [])
-        if isinstance(witness, dict)
-    ]
-    if len(assigned) != len(expected) or set(assigned) != set(expected):
-        raise SystemExit("group plan groups must cover the top-level VCs exactly")
+def _fields(value: Any, required: set[str], optional: set[str], label: str) -> None:
+    if not isinstance(value, dict) or not required <= value.keys() or value.keys() - required - optional:
+        raise ValueError(f"{label} requires {sorted(required)} with optional {sorted(optional)}")
 
 
-def group_entries_from_plan(
-    vc_index: dict[str, Any],
-    plan: dict[str, Any],
-    *,
-    require_accepted: bool = False,
-) -> list[dict[str, Any]]:
-    if require_accepted:
-        _require_accepted_shape(vc_index=vc_index, plan=plan)
-    if set(plan) != {"groups"}:
-        raise SystemExit("group plan contains unsupported top-level fields")
-    known = {
-        str(name): vc_index["by_name"][str(name)]
-        for name in vc_index["top_level"]
-    }
-    known_split_goals = {
-        str(name): {
-            str(split_name): vc_index["by_name"][str(split_name)]
-            for split_name in split_names
-        }
-        for name, split_names in vc_index["split_goals"].items()
-    }
-    proof_groups = plan.get("groups")
-    if not isinstance(proof_groups, list):
-        raise SystemExit("group plan groups must be a list")
-    if not proof_groups:
-        if known:
-            raise SystemExit(
-                "group plan does not cover exactly the current witness set"
-            )
-        return []
+def _strategy(value: Any, label: str) -> str:
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"{label} requires a nonempty proof strategy")
+    return value.strip()
 
+
+def group_entries_from_plan(vc_index: dict[str, Any], plan: dict[str, Any]) -> list[dict[str, Any]]:
+    """Cover every top-level VC exactly once, preserving the owner's plan order."""
+    _fields(plan, {"groups"}, set(), "group plan")
+    if not isinstance(plan["groups"], list):
+        raise ValueError("group plan groups must be a list")
+    known = set(vc_index["top_level"])
     seen: set[str] = set()
-    entries: list[dict[str, Any]] = []
-    group_ids: set[str] = set()
-    for raw in proof_groups:
-        if not isinstance(raw, dict):
-            raise SystemExit("each proof group must be a JSON object")
-        extra_group_fields = set(raw) - {
-            "id",
-            "witnesses",
-            "helpers",
-            "estimated_difficulty",
-        }
-        if extra_group_fields:
-            raise SystemExit(
-                f"proof group contains unsupported fields: {sorted(extra_group_fields)}"
-            )
-        group_id = str(raw.get("id") or "").strip()
-        if not group_id:
-            raise SystemExit("proof group missing group_id")
-        if group_id in group_ids:
-            raise SystemExit(f"duplicate proof group id: {group_id}")
-        group_ids.add(group_id)
-        estimated_difficulty = raw.get("estimated_difficulty")
-        if (
-            not isinstance(estimated_difficulty, int)
-            or isinstance(estimated_difficulty, bool)
-            or not MIN_ESTIMATED_DIFFICULTY
-            <= estimated_difficulty
-            <= MAX_ESTIMATED_DIFFICULTY
-        ):
-            raise SystemExit(
-                f"proof group `{group_id}` estimated_difficulty must be an integer from "
-                f"{MIN_ESTIMATED_DIFFICULTY} to {MAX_ESTIMATED_DIFFICULTY}"
-            )
-        raw_witnesses = raw.get("witnesses")
-        if (
-            not isinstance(raw_witnesses, list)
-            or not raw_witnesses
-            or not all(isinstance(item, dict) for item in raw_witnesses)
-        ):
-            raise SystemExit(f"proof group `{group_id}` must contain witness objects")
-        witness_names = [str(item.get("name") or "") for item in raw_witnesses]
-        if any(not name for name in witness_names):
-            raise SystemExit(f"proof group `{group_id}` has a witness without a name")
-        missing = [name for name in witness_names if name not in known]
-        if missing:
-            raise SystemExit(
-                f"proof group `{group_id}` references unknown witnesses: {', '.join(missing)}"
-            )
-        repeated = [name for name in witness_names if name in seen]
-        if repeated:
-            raise SystemExit(
-                f"proof group `{group_id}` repeats witnesses: {', '.join(repeated)}"
-            )
-        seen.update(witness_names)
-        witnesses: list[dict[str, Any]] = []
-        for item in raw_witnesses:
-            name = str(item["name"])
-            proof_mode = str(item.get("proof_mode") or "")
-            if proof_mode not in PROOF_MODES:
-                raise SystemExit(f"witness `{name}` has an unsupported proof_mode")
-            expected_split_names = list(known_split_goals[name])
-            if proof_mode == "aggressive_pre_process":
-                allowed = {"name", "proof_mode", "split_strategies"}
-            else:
-                allowed = {"name", "proof_mode", "strategy"}
-            extra = set(item) - allowed
-            if extra:
-                raise SystemExit(
-                    f"witness `{name}` contains unsupported fields: {sorted(extra)}"
-                )
-            strategy = ""
-            if proof_mode == "LLM_pre_process":
-                strategy = str(item.get("strategy") or "").strip()
-                if not strategy:
-                    raise SystemExit(
-                        f"LLM_pre_process witness `{name}` requires a proof strategy"
-                    )
-                if "split_strategies" in item:
-                    raise SystemExit(
-                        f"LLM_pre_process witness `{name}` must omit split_strategies"
-                    )
-                split_strategies: dict[str, Any] = {}
-            else:
-                if not expected_split_names:
-                    raise SystemExit(
-                        f"aggressive witness `{name}` requires generated split goals"
-                    )
-                raw_split_strategies = item.get("split_strategies")
-                if not isinstance(raw_split_strategies, dict):
-                    raise SystemExit(
-                        f"aggressive witness `{name}` requires split_strategies"
-                    )
-                split_names = [str(split) for split in raw_split_strategies]
-                if split_names != expected_split_names:
-                    raise SystemExit(
-                        f"witness `{name}` split_strategies must match the raw manual in order"
-                    )
-                if not all(
-                    isinstance(value, str) and value.strip()
-                    for value in raw_split_strategies.values()
-                ):
-                    raise SystemExit(
-                        f"witness `{name}` requires a strategy for every split goal"
-                    )
-                split_strategies = dict(raw_split_strategies)
-            witness = {
-                "name": name,
-                "goal": known[name],
-                "proof_mode": proof_mode,
-                "split_goals": [
-                    {
-                        "name": split_name,
-                        "goal": known_split_goals[name][split_name],
-                        **(
-                            {
-                                "strategy": str(
-                                    split_strategies.get(split_name) or ""
-                                )
-                            }
-                            if proof_mode == "aggressive_pre_process"
-                            else {}
-                        ),
-                    }
-                    for split_name in expected_split_names
-                ],
-            }
-            if proof_mode == "LLM_pre_process":
-                witness["strategy"] = strategy
-            witnesses.append(witness)
-        raw_helpers = raw.get("helpers", [])
-        if not isinstance(raw_helpers, list) or not all(
-            isinstance(item, dict) for item in raw_helpers
-        ):
-            raise SystemExit(
-                f"proof group `{group_id}` helpers must be a planned-helper object list"
-            )
-        helpers: list[dict[str, Any]] = []
-        for helper in raw_helpers:
-            allowed_helper_fields = {"name", "strategy", "visibility"}
-            extra_helper_fields = set(helper) - allowed_helper_fields
-            if extra_helper_fields:
-                raise SystemExit(
-                    f"proof group `{group_id}` helper contains unsupported fields: "
-                    f"{sorted(extra_helper_fields)}"
-                )
-            name = str(helper.get("name") or "")
-            strategy = str(helper.get("strategy") or "").strip()
-            if not name or not strategy:
-                raise SystemExit(
-                    f"proof group `{group_id}` helper requires name and strategy"
-                )
-            visibility = helper.get("visibility")
-            if visibility not in {"local", "public"}:
-                raise SystemExit(
-                    f"proof group `{group_id}` helper visibility must be local or public"
-                )
-            helpers.append(
-                {
-                    "name": name,
-                    "strategy": strategy,
-                    "visibility": visibility,
-                }
-            )
-        entries.append(
-            {
-                "group_id": group_id,
-                "witnesses": witnesses,
-                "estimated_difficulty": estimated_difficulty,
-                "planned_helpers": helpers,
-            }
-        )
-    expected = set(known)
-    if seen != expected:
-        raise SystemExit("group plan does not cover exactly the current witness set")
+    ids: set[str] = set()
     helper_names: set[str] = set()
-    for entry in entries:
-        group_id = str(entry["group_id"])
-        required_suffix = helper_namespace_for_group_id(group_id)["suffix"]
-        for helper in entry["planned_helpers"]:
-            name = str(helper["name"])
-            if not name.endswith(required_suffix):
-                raise SystemExit(
-                    f"planned helper `{name}` must use owner suffix `{required_suffix}`"
-                )
+    groups: list[dict[str, Any]] = []
+    for raw in plan["groups"]:
+        _fields(raw, {"id", "estimated_difficulty", "witnesses"}, {"helpers"}, "proof group")
+        group_id = raw["id"]
+        namespace = helper_namespace_for_group_id(group_id)
+        if group_id in ids:
+            raise ValueError(f"duplicate proof group id: {group_id}")
+        ids.add(group_id)
+        difficulty = raw["estimated_difficulty"]
+        if type(difficulty) is not int or not 1 <= difficulty <= 5:
+            raise ValueError(f"group `{group_id}` estimated_difficulty must be an integer from 1 to 5")
+        if not isinstance(raw["witnesses"], list) or not raw["witnesses"]:
+            raise ValueError(f"group `{group_id}` must contain witnesses")
+        witnesses = []
+        for item in raw["witnesses"]:
+            if not isinstance(item, dict):
+                raise ValueError("each witness must be an object")
+            mode = item.get("proof_mode")
+            if not isinstance(mode, str) or mode not in PROOF_MODES:
+                raise ValueError("witness has an unsupported proof_mode")
+            aggressive = mode == "aggressive_pre_process"
+            _fields(item, {"name", "proof_mode", "split_strategies" if aggressive else "strategy"}, set(), "witness")
+            name = item["name"]
+            if not isinstance(name, str) or name not in known:
+                raise ValueError(f"group `{group_id}` references unknown witness: {name!r}")
+            if name in seen:
+                raise ValueError(f"group `{group_id}` repeats witness: {name}")
+            seen.add(name)
+            splits = vc_index["split_goals"][name]
+            if aggressive:
+                strategies = item["split_strategies"]
+                if not splits or not isinstance(strategies, dict) or list(strategies) != splits:
+                    raise ValueError(f"witness `{name}` split_strategies must match generated split goals in order")
+                for split, strategy in strategies.items():
+                    _strategy(strategy, f"split goal `{split}`")
+            else:
+                strategies = {}
+            witness = {
+                "name": name, "goal": vc_index["by_name"][name], "proof_mode": mode,
+                "split_goals": [{"name": split, "goal": vc_index["by_name"][split],
+                                  **({"strategy": strategies[split]} if aggressive else {})}
+                                 for split in splits],
+            }
+            if not aggressive:
+                witness["strategy"] = _strategy(item["strategy"], f"witness `{name}`")
+            witnesses.append(witness)
+        helpers = raw.get("helpers", [])
+        if not isinstance(helpers, list):
+            raise ValueError(f"group `{group_id}` helpers must be a list")
+        for helper in helpers:
+            _fields(helper, {"name", "strategy", "visibility"}, set(), "helper")
+            name = helper["name"]
+            suffix = HELPER_NAMESPACE_SUFFIX_RE.search(name) if isinstance(name, str) else None
+            if suffix is None or suffix.group() != namespace["suffix"]:
+                raise ValueError(f"helper `{name}` must use owner suffix `{namespace['suffix']}`")
             if name in helper_names:
-                raise SystemExit(f"duplicate planned helper name: {name}")
+                raise ValueError(f"duplicate planned helper name: {name}")
             helper_names.add(name)
-    return entries
+            _strategy(helper["strategy"], f"helper `{name}`")
+            if helper["visibility"] not in ("local", "public"):
+                raise ValueError("helper visibility must be local or public")
+        groups.append({"id": group_id, "estimated_difficulty": difficulty,
+                       "witnesses": witnesses, "helpers": helpers, "helper_namespace": namespace})
+    if seen != known:
+        raise ValueError("group plan does not cover exactly the current witness set")
+    return groups

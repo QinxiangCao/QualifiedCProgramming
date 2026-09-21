@@ -50,6 +50,9 @@ Proof. Admitted.
 Lemma proof_of_maxSumIncreasingSequence_safety_wit_11 : maxSumIncreasingSequence_safety_wit_11.
 Proof. Admitted. 
 
+Lemma proof_of_maxSumIncreasingSequence_return_wit_1 : maxSumIncreasingSequence_return_wit_1.
+Proof. Admitted. 
+
 Lemma proof_of_maxSumIncreasingSequence_partial_solve_wit_1 : maxSumIncreasingSequence_partial_solve_wit_1.
 Proof. Admitted. 
 

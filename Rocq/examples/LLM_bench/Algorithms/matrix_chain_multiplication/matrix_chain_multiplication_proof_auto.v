@@ -164,9 +164,6 @@ Proof. Admitted.
 Lemma proof_of_matrixChainMinCost_safety_wit_48 : matrixChainMinCost_safety_wit_48.
 Proof. Admitted. 
 
-Lemma proof_of_matrixChainMinCost_entail_wit_4 : matrixChainMinCost_entail_wit_4.
-Proof. Admitted. 
-
 Lemma proof_of_matrixChainMinCost_return_wit_1 : matrixChainMinCost_return_wit_1.
 Proof. Admitted. 
 

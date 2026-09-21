@@ -385,20 +385,8 @@ Qed.
 Lemma proof_of_strncat_entail_wit_4 : strncat_entail_wit_4.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  assert (Hj_lt : j < string_lib.string_length src_str) by
-    (assert (j <> string_lib.string_length src_str) by
-       (intro Hj; apply PreH1; rewrite Hj; unfold string_lib.c_string, string_lib.string_length;
-        rewrite app_Znth2 by lia; rewrite Z.sub_diag; apply Znth0_cons);
-     lia).
-  split_pure_spatial.
-  - cancel.
-  - split_pures.
-    all: dump_pre_spatial; try lia; try assumption.
-Qed. 
-
-Lemma proof_of_strncat_entail_wit_5 : strncat_entail_wit_5.
-Proof.
-  LLM_pre_process ltac:(int_auto).
+  assert (Hj_lt : j < string_lib.string_length src_str).
+  { eapply string_lib.c_string_nonzero_index_lt; eauto. }
   subst i.
   split_pure_spatial.
   - unfold string_lib.store_string, string_lib.string_length,
@@ -432,7 +420,7 @@ Proof.
     cancel.
   - unfold string_lib.string_length in *.
     split_pures; dump_pre_spatial; auto; lia.
-Qed. 
+Qed.
 
 Lemma proof_of_strncat_return_wit_1 : strncat_return_wit_1.
 Proof.
@@ -463,7 +451,7 @@ Proof.
       reflexivity.
     + right.
       split; [lia|reflexivity].
-Qed. 
+Qed.
 
 Lemma proof_of_strncat_return_wit_2 : strncat_return_wit_2.
 Proof.
@@ -495,4 +483,4 @@ Proof.
     split; [lia|].
     left.
     split; [lia|reflexivity].
-Qed. 
+Qed.

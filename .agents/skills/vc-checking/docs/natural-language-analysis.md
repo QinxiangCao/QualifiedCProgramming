@@ -9,11 +9,11 @@
 3. goal/auto 和当前 `formal_case_lib`；
 4. 第二轮及以后 handoff 明确列出的前次 vc-checking 结果。
 
-当前 manual 是权威。需要展开 goal 时，只在对应 proof body 中加入 `Show.`，运行 handoff 给出的 controller 命令；除 `Show.` 外不要修改任何 proof 或非 proof token，也不要生成额外 manual、debug script 或历史比较文件。
+当前 manual 是权威。需要展开 goal 时，只在交接的调试副本对应 proof body 中加入 `Show.`，运行 handoff 给出的 controller 命令；除 `Show.` 外不要修改任何 proof 或非 proof token，也不要生成额外 manual、debug script 或历史比较文件。
 
 ## 分析顺序
 
-先对全部 top-level VC 做 structural scan，并优先检查 no-split whole goals 的 resource address、scalar equality、existential 与 current/`@pre` bridge。把四个精确计数写入 `Structural Blocker Scan`；找到 P 可成立而 Q 失败的具体 countermodel 时立即报告 annotation/spec/dependency 缺口，不先消耗全部 split 分析。
+先对全部 top-level VC 做 structural scan，并优先检查 no-split whole goals 的 resource address、scalar equality、existential 与 current/`@pre` bridge。简短说明扫描结论；找到 P 可成立而 Q 失败的具体 countermodel 时立即报告 annotation/spec/dependency 缺口，不先消耗全部 split 分析。
 
 structural scan 通过后，完成全部 split goals 的可证/不可证判断，不分析 top-level VC，也不规划 helper。某个 VC 有 split 且全部可证时选择 `aggressive_pre_process`；否则才判断整个 top-level VC，整体可证时选择 `LLM_pre_process`，整体仍不可证才报告 annotation/spec/dependency 缺口。
 

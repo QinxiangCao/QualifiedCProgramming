@@ -44,6 +44,21 @@ Proof. Admitted.
 Lemma proof_of_memmove_safety_wit_4 : memmove_safety_wit_4.
 Proof. Admitted. 
 
+Lemma proof_of_memmove_safety_wit_5 : memmove_safety_wit_5.
+Proof. Admitted. 
+
+Lemma proof_of_memmove_safety_wit_6 : memmove_safety_wit_6.
+Proof. Admitted. 
+
+Lemma proof_of_memmove_safety_wit_7 : memmove_safety_wit_7.
+Proof. Admitted. 
+
+Lemma proof_of_memmove_safety_wit_8 : memmove_safety_wit_8.
+Proof. Admitted. 
+
+Lemma proof_of_memmove_entail_wit_2_2 : memmove_entail_wit_2_2.
+Proof. Admitted. 
+
 Lemma proof_of_memmove_partial_solve_wit_1 : memmove_partial_solve_wit_1.
 Proof. Admitted. 
 
@@ -54,6 +69,18 @@ Lemma proof_of_memmove_partial_solve_wit_3 : memmove_partial_solve_wit_3.
 Proof. Admitted. 
 
 Lemma proof_of_memmove_partial_solve_wit_4 : memmove_partial_solve_wit_4.
+Proof. Admitted. 
+
+Lemma proof_of_memmove_partial_solve_wit_5 : memmove_partial_solve_wit_5.
+Proof. Admitted. 
+
+Lemma proof_of_memmove_partial_solve_wit_6 : memmove_partial_solve_wit_6.
+Proof. Admitted. 
+
+Lemma proof_of_memmove_partial_solve_wit_7 : memmove_partial_solve_wit_7.
+Proof. Admitted. 
+
+Lemma proof_of_memmove_partial_solve_wit_8 : memmove_partial_solve_wit_8.
 Proof. Admitted. 
 
 Lemma proof_of_memset_safety_wit_1 : memset_safety_wit_1.

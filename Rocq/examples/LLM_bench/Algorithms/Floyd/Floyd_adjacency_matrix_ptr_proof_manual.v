@@ -50,7 +50,7 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_floyd_adjacency_matrix_ptr_safety_wit_6_split_goal_1.
   - Goal_apply proof_of_floyd_adjacency_matrix_ptr_safety_wit_6_split_goal_2.
-Qed.
+Qed. 
 
 Lemma proof_of_floyd_adjacency_matrix_ptr_safety_wit_7_split_goal_1 : floyd_adjacency_matrix_ptr_safety_wit_7_split_goal_1.
 Proof.
@@ -61,8 +61,8 @@ Lemma proof_of_floyd_adjacency_matrix_ptr_safety_wit_7_split_goal_2 : floyd_adja
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   dump_pre_spatial.
-  pose proof PreH24 i k ltac:(split; lia);
-  pose proof PreH24 k j ltac:(split; lia);
+  pose proof PreH25 i k ltac:(split; lia);
+  pose proof PreH25 k j ltac:(split; lia);
   lia.
 Qed.
 
@@ -71,7 +71,7 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_floyd_adjacency_matrix_ptr_safety_wit_7_split_goal_1.
   - Goal_apply proof_of_floyd_adjacency_matrix_ptr_safety_wit_7_split_goal_2.
-Qed.
+Qed. 
 
 Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_1 : floyd_adjacency_matrix_ptr_entail_wit_1.
 Proof.
@@ -108,7 +108,7 @@ Proof.
     unfold FloydAdjacencyMatrix2Darray.matrix_rows_model.
     split; [exact Hmatrix_shape | exact Hmatrix_values_safe].
   - split_pures; dump_pre_spatial; auto; lia.
-Qed.
+Qed. 
 
 Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_2_split_goal_1 : floyd_adjacency_matrix_ptr_entail_wit_2_split_goal_1.
 Proof.
@@ -124,7 +124,7 @@ Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_2 : floyd_adjacency_matrix_
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_floyd_adjacency_matrix_ptr_entail_wit_2_split_goal_1.
-Qed.
+Qed. 
 
 Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_3_split_goal_1 : floyd_adjacency_matrix_ptr_entail_wit_3_split_goal_1.
 Proof.
@@ -141,7 +141,7 @@ Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_3 : floyd_adjacency_matrix_
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_floyd_adjacency_matrix_ptr_entail_wit_3_split_goal_1.
-Qed.
+Qed. 
 
 Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_4_split_goal_1 : floyd_adjacency_matrix_ptr_entail_wit_4_split_goal_1.
 Proof.
@@ -185,7 +185,7 @@ Proof.
   - Goal_apply proof_of_floyd_adjacency_matrix_ptr_entail_wit_4_split_goal_1.
   - Goal_apply proof_of_floyd_adjacency_matrix_ptr_entail_wit_4_split_goal_2.
   - Goal_apply proof_of_floyd_adjacency_matrix_ptr_entail_wit_4_split_goal_3.
-Qed.
+Qed. 
 
 Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_5 : floyd_adjacency_matrix_ptr_entail_wit_5.
 Proof.
@@ -201,7 +201,38 @@ Proof.
   repeat (split_pure_spatial || split_pures);
     try (dump_pre_spatial; auto; lia).
   cancel.
-Qed.
+Qed. 
+
+Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_6 : floyd_adjacency_matrix_ptr_entail_wit_6.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  pose proof PreH27 as Hshape_dist_j.
+  unfold FloydAdjacencyMatrix2Darray.matrix_shape,
+    FloydGraph.matrix_shape, FloydGraph.max_vertices in PreH27.
+  destruct PreH27 as [Hrows_length _].
+  subst retval.
+  sep_apply (IntArray.missing_i_merge_to_full row_ptr k
+    (Zlength (Znth i dist_j __default__List_Z))
+    (Znth k (Znth i dist_j __default__List_Z) 0)
+    (Znth i dist_j __default__List_Z)); try lia.
+  rewrite replace_Znth_Znth by lia.
+  change (((dist_pre + i * sizeof(PTR)) # Ptr |-> row_ptr))
+    with (StorePtrAsElement.storeA dist_pre i row_ptr).
+  change (IntArray.full row_ptr (Zlength (Znth i dist_j __default__List_Z))
+    (Znth i dist_j __default__List_Z))
+    with (IntPtrArray2.ElemArray.full row_ptr
+      (Zlength (Znth i dist_j __default__List_Z)) (Znth i dist_j __default__List_Z)).
+  sep_apply (@IntPtrArray2.missing_i_merge_to_full
+    dist_pre i 10 row_ptr dist_j (Znth i dist_j __default__List_Z)); try lia.
+  rewrite replace_Znth_Znth by lia.
+  Exists dist_j.
+  sep_apply (@GraphMatrixPtr.store_graph_intro
+    10 FloydAdjacencyMatrix2Darray.matrix_rows_model
+    dist_pre dist_j PreH1).
+  repeat (split_pure_spatial || split_pures);
+    try (dump_pre_spatial; auto; lia).
+  cancel.
+Qed. 
 
 Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_7 : floyd_adjacency_matrix_ptr_entail_wit_7.
 Proof.
@@ -210,6 +241,21 @@ Proof.
   unfold FloydAdjacencyMatrix2Darray.matrix_shape,
     FloydGraph.matrix_shape, FloydGraph.max_vertices in PreH26.
   destruct PreH26 as [Hrows_length _].
+  subst retval.
+  sep_apply (IntArray.missing_i_merge_to_full row_ptr j
+    (Zlength (Znth i dist_j __default__List_Z))
+    (Znth j (Znth i dist_j __default__List_Z) 0)
+    (Znth i dist_j __default__List_Z)); try lia.
+  rewrite replace_Znth_Znth by lia.
+  change (((dist_pre + i * sizeof(PTR)) # Ptr |-> row_ptr))
+    with (StorePtrAsElement.storeA dist_pre i row_ptr).
+  change (IntArray.full row_ptr (Zlength (Znth i dist_j __default__List_Z))
+    (Znth i dist_j __default__List_Z))
+    with (IntPtrArray2.ElemArray.full row_ptr
+      (Zlength (Znth i dist_j __default__List_Z)) (Znth i dist_j __default__List_Z)).
+  sep_apply (@IntPtrArray2.missing_i_merge_to_full
+    dist_pre i 10 row_ptr dist_j (Znth i dist_j __default__List_Z)); try lia.
+  rewrite replace_Znth_Znth by lia.
   Exists dist_j.
   sep_apply (@GraphMatrixPtr.store_graph_intro
     10 FloydAdjacencyMatrix2Darray.matrix_rows_model
@@ -217,55 +263,43 @@ Proof.
   repeat (split_pure_spatial || split_pures);
     try (dump_pre_spatial; auto; lia).
   cancel.
-Qed.
+Qed. 
 
-Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_9 : floyd_adjacency_matrix_ptr_entail_wit_9.
+Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_8_1 : floyd_adjacency_matrix_ptr_entail_wit_8_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  pose proof PreH25 as Hshape_dist_j.
-  unfold FloydAdjacencyMatrix2Darray.matrix_shape,
-    FloydGraph.matrix_shape, FloydGraph.max_vertices in PreH25.
-  destruct PreH25 as [Hrows_length _].
-  Exists dist_j.
-  sep_apply (@GraphMatrixPtr.store_graph_intro
-    10 FloydAdjacencyMatrix2Darray.matrix_rows_model
-    dist_pre dist_j PreH1).
-  repeat (split_pure_spatial || split_pures);
-    try (dump_pre_spatial; auto; lia).
-  cancel.
-Qed.
-
-Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_11_1 : floyd_adjacency_matrix_ptr_entail_wit_11_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  subst retval.
+  sep_apply (IntArray.missing_i_merge_to_full row_ptr j
+    (Zlength (Znth i dist_j_2 __default__List_Z)) (dik + dkj)
+    (Znth i dist_j_2 __default__List_Z)); try lia.
   set (dist_j :=
     replace_Znth i
       (replace_Znth j (dik + dkj)
         (Znth i dist_j_2 __default__List_Z))
       dist_j_2).
   Exists dist_j.
-  unfold floyd_j_i_k_from in PreH26 at 1.
-  unfold floyd_j_from in PreH26 at 1.
-  rewrite range_iter_unfold in PreH26.
-  safe_choice_l PreH26; try lia.
+  unfold floyd_j_i_k_from in PreH27 at 1.
+  unfold floyd_j_from in PreH27 at 1.
+  rewrite range_iter_unfold in PreH27.
+  safe_choice_l PreH27; try lia.
   edestruct (floyd_update_matrix_bridge
     dist_j_2 i j k n_pre __default__List_Z g_low_level_spec
     X_low_level_spec)
     as [Hupdated_values [Hupdated_shape Hupdated_safe]].
   all: try eassumption; try lia.
-  - rewrite <- PreH19.
+  - rewrite <- PreH23.
     change FloydGraph.infinity with 1000000000.
-    exact PreH23.
-  - rewrite <- PreH20.
+    exact PreH4.
+  - rewrite <- PreH24.
     change FloydGraph.infinity with 1000000000.
-    exact PreH22.
+    exact PreH5.
   - subst dist_j.
     assert (Hupdated_cell:
       Znth k (Znth i dist_j_2 __default__List_Z) 0 +
         Znth j (Znth k dist_j_2 __default__List_Z) 0 =
       dik + dkj).
     {
-      rewrite <- PreH20, <- PreH19.
+      rewrite <- PreH24, <- PreH23.
       lia.
     }
     rewrite Hupdated_cell in Hupdated_values.
@@ -305,9 +339,9 @@ Proof.
         (Znth i dist_j_2 __default__List_Z)).
     set (updated_matrix := replace_Znth i updated_row dist_j_2).
     assert (Hmerge:
-      IntArray.full row_i_ptr (Zlength (Znth i dist_j_2 __default__List_Z)) updated_row **
-      (IntPtrArray2.missing_i dist_pre 10 i row_i_ptr dist_j_2 **
-       (dist_pre + i * sizeof(PTR)) # Ptr |-> row_i_ptr)
+      IntArray.full row_ptr (Zlength (Znth i dist_j_2 __default__List_Z)) updated_row **
+      (IntPtrArray2.missing_i dist_pre 10 i row_ptr dist_j_2 **
+       (dist_pre + i * sizeof(PTR)) # Ptr |-> row_ptr)
       |-- IntPtrArray2.full dist_pre 10 updated_matrix).
     {
       subst updated_matrix updated_row.
@@ -315,19 +349,19 @@ Proof.
         with (Zlength (replace_Znth j (dik + dkj)
           (Znth i dist_j_2 __default__List_Z)))
         by (rewrite Zlength_replace_Znth; reflexivity).
-      change (((dist_pre + i * sizeof(PTR)) # Ptr |-> row_i_ptr))
-        with (StorePtrAsElement.storeA dist_pre i row_i_ptr).
+      change (((dist_pre + i * sizeof(PTR)) # Ptr |-> row_ptr))
+        with (StorePtrAsElement.storeA dist_pre i row_ptr).
       eapply derivable1_trans with
-        (y := StorePtrAsElement.storeA dist_pre i row_i_ptr **
-              IntPtrArray2.ElemArray.full row_i_ptr
+        (y := StorePtrAsElement.storeA dist_pre i row_ptr **
+              IntPtrArray2.ElemArray.full row_ptr
                 (Zlength (replace_Znth j (dik + dkj)
                   (Znth i dist_j_2 __default__List_Z)))
                 (replace_Znth j (dik + dkj)
                   (Znth i dist_j_2 __default__List_Z)) **
-              IntPtrArray2.missing_i dist_pre 10 i row_i_ptr dist_j_2);
+              IntPtrArray2.missing_i dist_pre 10 i row_ptr dist_j_2);
         [entailer!; try cancel
         |apply (@IntPtrArray2.missing_i_merge_to_full
-          dist_pre i 10 row_i_ptr dist_j_2
+          dist_pre i 10 row_ptr dist_j_2
           (replace_Znth j (dik + dkj)
             (Znth i dist_j_2 __default__List_Z)));
          lia].
@@ -350,9 +384,9 @@ Proof.
       repeat (split_pure_spatial || split_pures);
         try (dump_pre_spatial; auto; try lia);
         try cancel].
-Qed.
+Qed. 
 
-Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_11_2_split_goal_1 : floyd_adjacency_matrix_ptr_entail_wit_11_2_split_goal_1.
+Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_8_2_split_goal_1 : floyd_adjacency_matrix_ptr_entail_wit_8_2_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   unfold floyd_j_i_k_from in PreH24 at 1.
@@ -366,13 +400,13 @@ Proof.
   exact PreH1.
 Qed.
 
-Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_11_2 : floyd_adjacency_matrix_ptr_entail_wit_11_2.
+Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_8_2 : floyd_adjacency_matrix_ptr_entail_wit_8_2.
 Proof.
   aggressive_pre_process.
-  - Goal_apply proof_of_floyd_adjacency_matrix_ptr_entail_wit_11_2_split_goal_1.
-Qed.
+  - Goal_apply proof_of_floyd_adjacency_matrix_ptr_entail_wit_8_2_split_goal_1.
+Qed. 
 
-Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_11_3_split_goal_1 : floyd_adjacency_matrix_ptr_entail_wit_11_3_split_goal_1.
+Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_8_3_split_goal_1 : floyd_adjacency_matrix_ptr_entail_wit_8_3_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   unfold floyd_j_i_k_from in PreH23 at 1.
@@ -386,13 +420,13 @@ Proof.
   exact PreH1.
 Qed.
 
-Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_11_3 : floyd_adjacency_matrix_ptr_entail_wit_11_3.
+Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_8_3 : floyd_adjacency_matrix_ptr_entail_wit_8_3.
 Proof.
   aggressive_pre_process.
-  - Goal_apply proof_of_floyd_adjacency_matrix_ptr_entail_wit_11_3_split_goal_1.
-Qed.
+  - Goal_apply proof_of_floyd_adjacency_matrix_ptr_entail_wit_8_3_split_goal_1.
+Qed. 
 
-Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_11_4_split_goal_1 : floyd_adjacency_matrix_ptr_entail_wit_11_4_split_goal_1.
+Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_8_4_split_goal_1 : floyd_adjacency_matrix_ptr_entail_wit_8_4_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   unfold floyd_j_i_k_from in PreH25 at 1.
@@ -405,13 +439,13 @@ Proof.
   exact PreH1.
 Qed.
 
-Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_11_4 : floyd_adjacency_matrix_ptr_entail_wit_11_4.
+Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_8_4 : floyd_adjacency_matrix_ptr_entail_wit_8_4.
 Proof.
   aggressive_pre_process.
-  - Goal_apply proof_of_floyd_adjacency_matrix_ptr_entail_wit_11_4_split_goal_1.
-Qed.
+  - Goal_apply proof_of_floyd_adjacency_matrix_ptr_entail_wit_8_4_split_goal_1.
+Qed. 
 
-Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_12_split_goal_1 : floyd_adjacency_matrix_ptr_entail_wit_12_split_goal_1.
+Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_9_split_goal_1 : floyd_adjacency_matrix_ptr_entail_wit_9_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   unfold floyd_j_i_k_from in PreH12 at 1.
@@ -422,13 +456,13 @@ Proof.
   exact PreH12.
 Qed.
 
-Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_12 : floyd_adjacency_matrix_ptr_entail_wit_12.
+Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_9 : floyd_adjacency_matrix_ptr_entail_wit_9.
 Proof.
   aggressive_pre_process.
-  - Goal_apply proof_of_floyd_adjacency_matrix_ptr_entail_wit_12_split_goal_1.
-Qed.
+  - Goal_apply proof_of_floyd_adjacency_matrix_ptr_entail_wit_9_split_goal_1.
+Qed. 
 
-Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_13_split_goal_1 : floyd_adjacency_matrix_ptr_entail_wit_13_split_goal_1.
+Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_10_split_goal_1 : floyd_adjacency_matrix_ptr_entail_wit_10_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   unfold floyd_i_k_from in PreH10 at 1.
@@ -439,11 +473,11 @@ Proof.
   exact PreH10.
 Qed.
 
-Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_13 : floyd_adjacency_matrix_ptr_entail_wit_13.
+Lemma proof_of_floyd_adjacency_matrix_ptr_entail_wit_10 : floyd_adjacency_matrix_ptr_entail_wit_10.
 Proof.
   aggressive_pre_process.
-  - Goal_apply proof_of_floyd_adjacency_matrix_ptr_entail_wit_13_split_goal_1.
-Qed.
+  - Goal_apply proof_of_floyd_adjacency_matrix_ptr_entail_wit_10_split_goal_1.
+Qed. 
 
 Lemma proof_of_floyd_adjacency_matrix_ptr_return_wit_1_split_goal_1 : floyd_adjacency_matrix_ptr_return_wit_1_split_goal_1.
 Proof.
@@ -458,7 +492,7 @@ Lemma proof_of_floyd_adjacency_matrix_ptr_return_wit_1 : floyd_adjacency_matrix_
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_floyd_adjacency_matrix_ptr_return_wit_1_split_goal_1.
-Qed.
+Qed. 
 
 Lemma proof_of_floyd_adjacency_matrix_ptr_derive_high_level_spec_by_low_level_spec : floyd_adjacency_matrix_ptr_derive_high_level_spec_by_low_level_spec.
 Proof.
@@ -585,4 +619,5 @@ Proof.
       exact Hshortest.
   - repeat (split_pure_spatial || split_pures);
       dump_pre_spatial; auto; lia.
-Qed.
+Qed. 
+

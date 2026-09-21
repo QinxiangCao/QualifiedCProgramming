@@ -241,18 +241,5 @@ void dfs_adjacency_matrix(int *matrix, int vertex_count,
         /*@ Given visited_set2 values2 */
     }
 
-    /*@ Assert
-          exists (visited_set_out : Z -> Prop),
-            matrix == matrix@pre && visited == visited@pre &&
-            vertex_count == vertex_count@pre && vertex == vertex@pre &&
-            DFSAdjacencyMatrix::visited_extension(
-              visited_set, visited_set_out) &&
-            visited_set_out(vertex) &&
-            safeExec(eq(visited_set_out), return(tt), X) &&
-            GraphMatrixFlat::store_graph(
-              vertex_count,
-              DFSAdjacencyMatrix::adjacency_matrix_model(g),
-              matrix, rows) *
-            DFSAdjacencyMatrix::visited(visited, g, visited_set_out)
-     */
+
 }

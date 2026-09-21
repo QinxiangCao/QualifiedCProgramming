@@ -252,40 +252,7 @@ void floyd_adjacency_matrix_ptr(int n, int **dist)
                 */
 
                 row_i = graph_matrix_ptr_row(dist, i);
-                /*@ Assert
-                      exists (dist_j: list (list Z)) (row_k_ptr : Z) (row_i_ptr : Z),
-                        n == n@pre && dist == dist@pre &&
-                        FloydAdjacencyMatrix2Darray::graph_has_size(g, n) &&
-                        0 <= n && n <= MAXN &&
-                        0 <= k && k < n &&
-                        0 <= k && k < MAXN &&
-                        0 <= i && i < n &&
-                        0 <= i && i < MAXN &&
-                        0 <= j && j < n &&
-                        0 <= j && j < MAXN &&
-                        Zlength(dist_j[i]) == MAXN &&
-                        Zlength(dist_j[k]) == MAXN &&
-                        0 <= k && k < Zlength(dist_j[i]) &&
-                        0 <= j && j < Zlength(dist_j[i]) &&
-                        dkj == dist_j[k][j] &&
-                        (forall (r: Z) (c: Z),
-                          (0 <= r && r < MAXN &&
-                           0 <= c && c < MAXN) =>
-                            (0 <= dist_j[r][c] &&
-                             dist_j[r][c] <= INF)) &&
-                        safeExec(FloydAdjacencyMatrix2Darray::state_model(dist_j),
-                        FloydAdjacencyMatrix2Darray::floyd_j_i_k_from(g, n, k, i, j), X) &&
-                        FloydAdjacencyMatrix2Darray::matrix_shape(dist_j) &&
-                        FloydAdjacencyMatrix2Darray::matrix_values_safe(dist_j) &&
-                        GraphMatrixPtr::row_rep(
-                          MAXN,
-                          FloydAdjacencyMatrix2Darray::matrix_rows_model,
-                          dist, i, row_i_ptr, dist_j) *
-                        store(&row_k, int *, row_k_ptr) *
-                        store(&row_i, int *, row_i_ptr) *
-                        has_int_permission(&dik) *
-                        has_int_permission(&dij)
-                */
+
                 dik = row_i[k];
                 /*@ Assert
                       exists (dist_j: list (list Z)) (row_k_ptr : Z) (row_i_ptr : Z),
@@ -321,39 +288,7 @@ void floyd_adjacency_matrix_ptr(int n, int **dist)
                         has_int_permission(&dij)
                 */
                 row_i = graph_matrix_ptr_row(dist, i);
-                /*@ Assert
-                      exists (dist_j: list (list Z)) (row_k_ptr : Z) (row_i_ptr : Z),
-                        n == n@pre && dist == dist@pre &&
-                        FloydAdjacencyMatrix2Darray::graph_has_size(g, n) &&
-                        0 <= n && n <= MAXN &&
-                        0 <= k && k < n &&
-                        0 <= k && k < MAXN &&
-                        0 <= i && i < n &&
-                        0 <= i && i < MAXN &&
-                        0 <= j && j < n &&
-                        0 <= j && j < MAXN &&
-                        Zlength(dist_j[i]) == MAXN &&
-                        Zlength(dist_j[k]) == MAXN &&
-                        0 <= j && j < Zlength(dist_j[i]) &&
-                        dkj == dist_j[k][j] &&
-                        dik == dist_j[i][k] &&
-                        (forall (r: Z) (c: Z),
-                          (0 <= r && r < MAXN &&
-                           0 <= c && c < MAXN) =>
-                            (0 <= dist_j[r][c] &&
-                             dist_j[r][c] <= INF)) &&
-                        safeExec(FloydAdjacencyMatrix2Darray::state_model(dist_j),
-                        FloydAdjacencyMatrix2Darray::floyd_j_i_k_from(g, n, k, i, j), X) &&
-                        FloydAdjacencyMatrix2Darray::matrix_shape(dist_j) &&
-                        FloydAdjacencyMatrix2Darray::matrix_values_safe(dist_j) &&
-                        GraphMatrixPtr::row_rep(
-                          MAXN,
-                          FloydAdjacencyMatrix2Darray::matrix_rows_model,
-                          dist, i, row_i_ptr, dist_j) *
-                        store(&row_k, int *, row_k_ptr) *
-                        store(&row_i, int *, row_i_ptr) *
-                        has_int_permission(&dij)
-                */
+
                 dij = row_i[j];
                 /*@ Assert
                       exists (dist_j: list (list Z)) (row_k_ptr : Z) (row_i_ptr : Z),
@@ -390,40 +325,7 @@ void floyd_adjacency_matrix_ptr(int n, int **dist)
 
                 if (dik < INF && dkj < INF && dik + dkj < dij) {
                     row_i = graph_matrix_ptr_row(dist, i);
-                    /*@ Assert
-                          exists (dist_j: list (list Z)) (row_k_ptr : Z) (row_i_ptr : Z),
-                            n == n@pre && dist == dist@pre &&
-                            FloydAdjacencyMatrix2Darray::graph_has_size(g, n) &&
-                            0 <= n && n <= MAXN &&
-                            0 <= k && k < n &&
-                            0 <= k && k < MAXN &&
-                            0 <= i && i < n &&
-                            0 <= i && i < MAXN &&
-                            0 <= j && j < n &&
-                            0 <= j && j < MAXN &&
-                            Zlength(dist_j[i]) == MAXN &&
-                            Zlength(dist_j[k]) == MAXN &&
-                            dkj == dist_j[k][j] &&
-                            dik == dist_j[i][k] &&
-                            dij == dist_j[i][j] &&
-                            dik < INF && dkj < INF &&
-                            dik + dkj < dij &&
-                            (forall (r: Z) (c: Z),
-                              (0 <= r && r < MAXN &&
-                               0 <= c && c < MAXN) =>
-                                (0 <= dist_j[r][c] &&
-                                 dist_j[r][c] <= INF)) &&
-                            safeExec(FloydAdjacencyMatrix2Darray::state_model(dist_j),
-                            FloydAdjacencyMatrix2Darray::floyd_j_i_k_from(g, n, k, i, j), X) &&
-                            FloydAdjacencyMatrix2Darray::matrix_shape(dist_j) &&
-                            FloydAdjacencyMatrix2Darray::matrix_values_safe(dist_j) &&
-                            GraphMatrixPtr::row_rep(
-                              MAXN,
-                              FloydAdjacencyMatrix2Darray::matrix_rows_model,
-                              dist, i, row_i_ptr, dist_j) *
-                            store(&row_k, int *, row_k_ptr) *
-                            store(&row_i, int *, row_i_ptr)
-                    */
+
                     row_i[j] = dik + dkj;
                 }
             }

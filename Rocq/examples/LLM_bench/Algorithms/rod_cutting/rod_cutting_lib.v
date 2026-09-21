@@ -17,8 +17,8 @@ Definition RodCutPlanRevenue (price pieces : list Z) : Z :=
 Definition RodCutOptimalRevenue
     (price : list Z) (rod_len answer : Z) : Prop :=
   max_value_of_subset Z.le
-    (fun pieces : list Z => RodCutPlan rod_len pieces)
-    (fun pieces => RodCutPlanRevenue price pieces)
+    (RodCutPlan rod_len)
+    (RodCutPlanRevenue price)
     answer.
 
 Definition RodCutRevenueTable
@@ -30,14 +30,52 @@ Definition RodCutRevenueTable
 Definition RodCutScanBest
     (price revenue : list Z)
     (rod_len next_piece best : Z) : Prop :=
-  max_value_of_subset_with_default Z.le
-    (fun piece : Z => 1 <= piece < next_piece)
-    (fun piece =>
-       Znth piece price 0 + Znth (rod_len - piece) revenue 0)
-    0
-    best.
+  max_value_of_subset Z.le
+    (fun value : Z => value = 0 \/
+       exists piece, 1 <= piece < next_piece /\
+         value = Znth piece price 0 + Znth (rod_len - piece) revenue 0)
+    (fun value => value) best.
 
 From Coq Require Import Lia.
+
+(* The zero candidate covers the empty scan.  This equivalence lets the
+   existing transition proofs keep using the library's default interface. *)
+Lemma rod_cut_scan_best_default_iff :
+  forall price revenue rod_len next_piece best,
+    RodCutScanBest price revenue rod_len next_piece best <->
+    max_value_of_subset_with_default Z.le
+      (fun piece : Z => 1 <= piece < next_piece)
+      (fun piece => Znth piece price 0 + Znth (rod_len - piece) revenue 0)
+      0 best.
+Proof.
+  intros price revenue rod_len next_piece best.
+  unfold RodCutScanBest, max_value_of_subset_with_default,
+    max_value_of_subset, max_object_of_subset.
+  split.
+  - intros [value [[Hvalue Hmax] Heq]].
+    subst value.
+    assert (Hzero : 0 <= best) by (apply Hmax; left; reflexivity).
+    destruct Hvalue as [Hz | [piece [Hpiece Hvalue]]].
+    + right. split; [| lia].
+      intros q Hq.
+      specialize (Hmax _ (or_intror (ex_intro _ q (conj Hq eq_refl)))).
+      lia.
+    + left. split; [| exact Hzero].
+      exists piece. split; [split; [exact Hpiece |] | lia].
+      intros q Hq.
+      specialize (Hmax _ (or_intror (ex_intro _ q (conj Hq eq_refl)))).
+      lia.
+  - intros [[[piece [[Hpiece Hmax] Hvalue]] Hzero] | [Hmax Hzero]].
+    + exists best. split; [split | reflexivity].
+      * right. exists piece. split; [exact Hpiece | lia].
+      * intros value [-> | [q [Hq ->]]]; [exact Hzero |].
+        specialize (Hmax q Hq). lia.
+    + exists best. split; [split | reflexivity].
+      * left. lia.
+      * intros value [-> | [q [Hq ->]]]; [lia |].
+        specialize (Hmax q Hq). lia.
+Qed.
+
 Lemma rod_cut_scan_best_step__scan_transitions :
   forall (f : Z -> Z) i best next_best,
     1 <= i ->
@@ -162,7 +200,8 @@ Proof.
     simpl in Heq.
     lia.
   }
-  unfold RodCutScanBest, max_value_of_subset_with_default in Hscan.
+  apply rod_cut_scan_best_default_iff in Hscan.
+  unfold max_value_of_subset_with_default in Hscan.
   unfold RodCutOptimalRevenue, max_value_of_subset, max_object_of_subset.
   destruct Hscan as [Hscan | Hscan].
   - destruct Hscan as [Hscan _].

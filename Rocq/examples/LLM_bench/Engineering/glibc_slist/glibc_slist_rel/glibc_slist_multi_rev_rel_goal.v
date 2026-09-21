@@ -182,42 +182,9 @@ forall (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) (X_low_leve
   (safeExec ATrue (bind ((rev_append_local_M (l1_low_level_spec) ((@nil Z)))) ((rev_append_local_M (l2_low_level_spec)))) X_low_level_spec )
 .
 
-Definition glibc_slist_clean_multi_rev_entail_wit_2 := 
-(
-forall (y_pre: Z) (l2_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l3_2: (@list Z)) (retval: Z) (PreH1 : (safeExec ATrue (bind ((return (l3_2))) ((rev_append_local_M (l2_low_level_spec)))) X_low_level_spec )) ,
-  (sll retval l3_2 )
-  **  (sll y_pre l2_low_level_spec )
-|--
-  EX (l3: (@list Z)) ,
-  “ (safeExec ATrue (rev_append_local_M (l2_low_level_spec) (l3)) X_low_level_spec ) ”
-  &&  (sll retval l3 )
-  **  (sll y_pre l2_low_level_spec )
-) \/
-(
-forall (l2_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l3_2: (@list Z)) (PreH1 : (safeExec ATrue (bind ((return (l3_2))) ((rev_append_local_M (l2_low_level_spec)))) X_low_level_spec )) ,
-  TT && emp 
-|--
-  “ (safeExec ATrue (rev_append_local_M (l2_low_level_spec) (l3_2)) X_low_level_spec ) ”
-  &&  emp
-).
-
-Definition glibc_slist_clean_multi_rev_entail_wit_2_split_goal_1 := 
-forall (l2_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l3_2: (@list Z)) (PreH1 : (safeExec ATrue (bind ((return (l3_2))) ((rev_append_local_M (l2_low_level_spec)))) X_low_level_spec )) ,
-  (safeExec ATrue (rev_append_local_M (l2_low_level_spec) (l3_2)) X_low_level_spec )
-.
-
-Definition glibc_slist_clean_multi_rev_entail_wit_3 := 
-forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l3: (@list Z)) (retval: Z) (PreH1 : (safeExec ATrue (return (l3)) X_low_level_spec )) ,
-  (sll retval l3 )
-|--
-  EX (l4: (@list Z)) ,
-  “ (safeExec ATrue (return (l4)) X_low_level_spec ) ”
-  &&  (sll retval l4 )
-.
-
 Definition glibc_slist_clean_multi_rev_return_wit_1 := 
-forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (retval: Z) (l4: (@list Z)) (PreH1 : (safeExec ATrue (return (l4)) X_low_level_spec )) ,
-  (sll retval l4 )
+forall (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l3_2: (@list Z)) (retval: Z) (PreH1 : (safeExec ATrue (return (l3_2)) X_low_level_spec )) ,
+  (sll retval l3_2 )
 |--
   EX (l3: (@list Z)) ,
   “ (safeExec ATrue (return (l3)) X_low_level_spec ) ”
@@ -252,23 +219,45 @@ forall (y_pre: Z) (x_pre: Z) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: 
 Definition glibc_slist_clean_multi_rev_partial_solve_wit_1 := glibc_slist_clean_multi_rev_partial_solve_wit_1_pure -> glibc_slist_clean_multi_rev_partial_solve_wit_1_aux.
 
 Definition glibc_slist_clean_multi_rev_partial_solve_wit_2_pure := 
-forall (y_pre: Z) (x_pre: Z) (l2_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (retval: Z) (l3: (@list Z)) (PreH1 : (safeExec ATrue (rev_append_local_M (l2_low_level_spec) (l3)) X_low_level_spec )) ,
-  ((( &( "out" ) )) # Ptr  |-> retval)
-  **  (sll retval l3 )
+(
+forall (y_pre: Z) (x_pre: Z) (l2_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l3: (@list Z)) (retval: Z) (PreH1 : (safeExec ATrue (bind ((return (l3))) ((rev_append_local_M (l2_low_level_spec)))) X_low_level_spec )) ,
+  (sll retval l3 )
+  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "out" ) )) # Ptr  |-> retval)
   **  ((( &( "y" ) )) # Ptr  |-> y_pre)
   **  (sll y_pre l2_low_level_spec )
+|--
+  “ (safeExec ATrue (rev_append_local_M (l2_low_level_spec) (l3)) X_low_level_spec ) ”
+) \/
+(
+forall (y_pre: Z) (x_pre: Z) (l2_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l3: (@list Z)) (retval: Z) (PreH1 : (safeExec ATrue (bind ((return (l3))) ((rev_append_local_M (l2_low_level_spec)))) X_low_level_spec )) ,
+  (sll retval l3 )
   **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "out" ) )) # Ptr  |-> retval)
+  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
+  **  (sll y_pre l2_low_level_spec )
+|--
+  “ (safeExec ATrue (rev_append_local_M (l2_low_level_spec) (l3)) X_low_level_spec ) ”
+).
+
+Definition glibc_slist_clean_multi_rev_partial_solve_wit_2_pure_split_goal_1 := 
+forall (y_pre: Z) (x_pre: Z) (l2_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l3: (@list Z)) (retval: Z) (PreH1 : (safeExec ATrue (bind ((return (l3))) ((rev_append_local_M (l2_low_level_spec)))) X_low_level_spec )) ,
+  (sll retval l3 )
+  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
+  **  ((( &( "out" ) )) # Ptr  |-> retval)
+  **  ((( &( "y" ) )) # Ptr  |-> y_pre)
+  **  (sll y_pre l2_low_level_spec )
 |--
   “ (safeExec ATrue (rev_append_local_M (l2_low_level_spec) (l3)) X_low_level_spec ) ”
 .
 
 Definition glibc_slist_clean_multi_rev_partial_solve_wit_2_aux := 
-forall (y_pre: Z) (l2_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (retval: Z) (l3: (@list Z)) (PreH1 : (safeExec ATrue (rev_append_local_M (l2_low_level_spec) (l3)) X_low_level_spec )) ,
+forall (y_pre: Z) (l2_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l3: (@list Z)) (retval: Z) (PreH1 : (safeExec ATrue (bind ((return (l3))) ((rev_append_local_M (l2_low_level_spec)))) X_low_level_spec )) ,
   (sll retval l3 )
   **  (sll y_pre l2_low_level_spec )
 |--
   “ (safeExec ATrue (rev_append_local_M (l2_low_level_spec) (l3)) X_low_level_spec ) ” 
-  &&  “ (safeExec ATrue (rev_append_local_M (l2_low_level_spec) (l3)) X_low_level_spec ) ”
+  &&  “ (safeExec ATrue (bind ((return (l3))) ((rev_append_local_M (l2_low_level_spec)))) X_low_level_spec ) ”
   &&  (sll y_pre l2_low_level_spec )
   **  (sll retval l3 )
 .
@@ -326,8 +315,6 @@ Axiom proof_of_rev_append_local_return_wit_1 : rev_append_local_return_wit_1.
 Axiom proof_of_rev_append_local_partial_solve_wit_1 : rev_append_local_partial_solve_wit_1.
 Axiom proof_of_glibc_slist_clean_multi_rev_safety_wit_1 : glibc_slist_clean_multi_rev_safety_wit_1.
 Axiom proof_of_glibc_slist_clean_multi_rev_entail_wit_1 : glibc_slist_clean_multi_rev_entail_wit_1.
-Axiom proof_of_glibc_slist_clean_multi_rev_entail_wit_2 : glibc_slist_clean_multi_rev_entail_wit_2.
-Axiom proof_of_glibc_slist_clean_multi_rev_entail_wit_3 : glibc_slist_clean_multi_rev_entail_wit_3.
 Axiom proof_of_glibc_slist_clean_multi_rev_return_wit_1 : glibc_slist_clean_multi_rev_return_wit_1.
 Axiom proof_of_glibc_slist_clean_multi_rev_partial_solve_wit_1_pure : glibc_slist_clean_multi_rev_partial_solve_wit_1_pure.
 Axiom proof_of_glibc_slist_clean_multi_rev_partial_solve_wit_1 : glibc_slist_clean_multi_rev_partial_solve_wit_1.

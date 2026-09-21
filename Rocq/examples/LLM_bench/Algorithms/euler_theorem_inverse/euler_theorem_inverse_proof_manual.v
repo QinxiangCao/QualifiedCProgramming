@@ -21,6 +21,29 @@ Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.euler_theorem_inverse.euler_theorem_inverse_lib.
 Local Open Scope sac.
 
+Lemma proof_of_euler_phi_safety_wit_8_split_goal_1 : euler_phi_safety_wit_8_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  destruct PreH10 as (before & removed & Hremoved & Hbefore & Hfactor_before & Hfactor_result & Hprogress & Hcompletion).
+  pose proof (euler_exact_positive_quotient_bounds__euler_phi_factor_completion result factor PreH6 PreH8 Hfactor_result) as [Hquotient [Hnonnegative Hbounded]].
+  entailer_with ltac:(lia || int_auto).
+Qed.
+
+Lemma proof_of_euler_phi_safety_wit_8_split_goal_2 : euler_phi_safety_wit_8_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  destruct PreH10 as (before & removed & Hremoved & Hbefore & Hfactor_before & Hfactor_result & Hprogress & Hcompletion).
+  pose proof (euler_exact_positive_quotient_bounds__euler_phi_factor_completion result factor PreH6 PreH8 Hfactor_result) as [Hquotient [Hnonnegative Hbounded]].
+  entailer_with ltac:(lia || int_auto).
+Qed.
+
+Lemma proof_of_euler_phi_safety_wit_8 : euler_phi_safety_wit_8.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_euler_phi_safety_wit_8_split_goal_1.
+  - Goal_apply proof_of_euler_phi_safety_wit_8_split_goal_2.
+Qed. 
+
 Lemma proof_of_euler_phi_entail_wit_1_split_goal_1 : euler_phi_entail_wit_1_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
@@ -40,8 +63,8 @@ Qed.
 Lemma proof_of_euler_phi_entail_wit_1 : euler_phi_entail_wit_1.
 Proof.
   aggressive_pre_process.
-  - Goal_apply proof_of_euler_phi_entail_wit_1_split_goal_1.
-Qed.
+  Goal_apply proof_of_euler_phi_entail_wit_1_split_goal_1.
+Qed. 
 
 Lemma proof_of_euler_phi_entail_wit_2_split_goal_1 : euler_phi_entail_wit_2_split_goal_1.
 Proof.
@@ -55,14 +78,14 @@ Proof.
   }
   exact
     (euler_phi_removal_start__euler_phi_setup_removal
-       value_pre factor value result PreH3 PreH5 PreH7 PreH9 Hmod PreH13).
+       value_pre factor value result PreH3 PreH5 PreH7 PreH9 Hmod PreH11).
 Qed.
 
 Lemma proof_of_euler_phi_entail_wit_2 : euler_phi_entail_wit_2.
 Proof.
   aggressive_pre_process.
-  - Goal_apply proof_of_euler_phi_entail_wit_2_split_goal_1.
-Qed.
+  Goal_apply proof_of_euler_phi_entail_wit_2_split_goal_1.
+Qed. 
 
 Lemma proof_of_euler_phi_entail_wit_3_split_goal_1 : euler_phi_entail_wit_3_split_goal_1.
 Proof.
@@ -128,22 +151,19 @@ Proof.
   - Goal_apply proof_of_euler_phi_entail_wit_3_split_goal_1.
   - Goal_apply proof_of_euler_phi_entail_wit_3_split_goal_2.
   - Goal_apply proof_of_euler_phi_entail_wit_3_split_goal_3.
-Qed.
+Qed. 
 
-Lemma proof_of_euler_phi_entail_wit_4_split_goal_1 : euler_phi_entail_wit_4_split_goal_1.
+Lemma proof_of_euler_phi_entail_wit_4_1_split_goal_1 : euler_phi_entail_wit_4_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  destruct PreH10 as
-      (before & removed & Hremoved & Hbefore & Hfactor_before &
-       Hfactor_result & Hprogress & Hcompletion).
-  pose proof
-    (euler_exact_positive_quotient_bounds__euler_phi_factor_completion
-       result factor PreH6 PreH8 Hfactor_result)
-    as [Hquotient [Hnonnegative Hbounded]].
-  int_auto.
+  LLM_pre_process ltac:(lia || int_auto). eapply euler_completed_progress__euler_phi_factor_completion; eauto.
 Qed.
 
-Lemma proof_of_euler_phi_entail_wit_4_split_goal_2 : euler_phi_entail_wit_4_split_goal_2.
+Lemma proof_of_euler_phi_entail_wit_4_1_split_goal_2 : euler_phi_entail_wit_4_1_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto). eapply euler_active_frontier_bound__euler_phi_factor_completion; eauto.
+Qed.
+
+Lemma proof_of_euler_phi_entail_wit_4_1_split_goal_3 : euler_phi_entail_wit_4_1_split_goal_3.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   destruct PreH10 as
@@ -156,92 +176,42 @@ Proof.
   lia.
 Qed.
 
-Lemma proof_of_euler_phi_entail_wit_4_split_goal_3 : euler_phi_entail_wit_4_split_goal_3.
+Lemma proof_of_euler_phi_entail_wit_4_1_split_goal_4 : euler_phi_entail_wit_4_1_split_goal_4.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  destruct PreH10 as
-      (before & removed & Hremoved & Hbefore & Hfactor_before &
-       Hfactor_result & Hprogress & Hcompletion).
-  pose proof
-    (euler_exact_positive_quotient_bounds__euler_phi_factor_completion
-       result factor PreH6 PreH8 Hfactor_result)
-    as [Hquotient [Hnonnegative Hbounded]].
-  exact Hnonnegative.
+  destruct PreH10 as (before & removed & Hremoved & Hbefore & Hfactor_before & Hfactor_result & Hprogress & Hcompletion).
+  pose proof (euler_exact_positive_quotient_bounds__euler_phi_factor_completion result factor PreH6 PreH8 Hfactor_result) as [Hquotient [Hnonnegative Hbounded]].
+  nia.
 Qed.
 
-Lemma proof_of_euler_phi_entail_wit_4_split_goal_4 : euler_phi_entail_wit_4_split_goal_4.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  destruct PreH10 as
-      (before & removed & Hremoved & Hbefore & Hfactor_before &
-       Hfactor_result & Hprogress & Hcompletion).
-  pose proof
-    (euler_exact_positive_quotient_bounds__euler_phi_factor_completion
-       result factor PreH6 PreH8 Hfactor_result)
-    as [Hquotient [Hnonnegative Hbounded]].
-  exact Hquotient.
-Qed.
-
-Lemma proof_of_euler_phi_entail_wit_4_split_goal_5 : euler_phi_entail_wit_4_split_goal_5.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  destruct PreH10 as
-      (before & removed & Hremoved & Hbefore & Hfactor_before &
-       Hfactor_result & Hprogress & Hcompletion).
-  apply (proj2 (Z.rem_divide result factor ltac:(lia))).
-  exact Hfactor_result.
-Qed.
-
-Lemma proof_of_euler_phi_entail_wit_4 : euler_phi_entail_wit_4.
+Lemma proof_of_euler_phi_entail_wit_4_1 : euler_phi_entail_wit_4_1.
 Proof.
   aggressive_pre_process.
-  - Goal_apply proof_of_euler_phi_entail_wit_4_split_goal_1.
-  - Goal_apply proof_of_euler_phi_entail_wit_4_split_goal_2.
-  - Goal_apply proof_of_euler_phi_entail_wit_4_split_goal_3.
-  - Goal_apply proof_of_euler_phi_entail_wit_4_split_goal_4.
-  - Goal_apply proof_of_euler_phi_entail_wit_4_split_goal_5.
-Qed.
+  - Goal_apply proof_of_euler_phi_entail_wit_4_1_split_goal_1.
+  - Goal_apply proof_of_euler_phi_entail_wit_4_1_split_goal_2.
+  - Goal_apply proof_of_euler_phi_entail_wit_4_1_split_goal_3.
+  - Goal_apply proof_of_euler_phi_entail_wit_4_1_split_goal_4.
+Qed. 
 
-Lemma proof_of_euler_phi_entail_wit_5_1_split_goal_1 : euler_phi_entail_wit_5_1_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  exact
-    (euler_completed_progress__euler_phi_factor_completion
-       value_pre factor value result PreH3 PreH5 PreH7 PreH9 PreH15).
-Qed.
-
-Lemma proof_of_euler_phi_entail_wit_5_1_split_goal_2 : euler_phi_entail_wit_5_1_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  eapply euler_active_frontier_bound__euler_phi_factor_completion; eauto.
-Qed.
-
-Lemma proof_of_euler_phi_entail_wit_5_1 : euler_phi_entail_wit_5_1.
-Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_euler_phi_entail_wit_5_1_split_goal_1.
-  - Goal_apply proof_of_euler_phi_entail_wit_5_1_split_goal_2.
-Qed.
-
-Lemma proof_of_euler_phi_entail_wit_5_2_split_goal_1 : euler_phi_entail_wit_5_2_split_goal_1.
+Lemma proof_of_euler_phi_entail_wit_4_2_split_goal_1 : euler_phi_entail_wit_4_2_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   exact
     (euler_progress_advance_nondivisor__euler_phi_factor_completion
-       value_pre factor value result PreH9 PreH1 PreH13).
+       value_pre factor value result PreH9 PreH1 PreH11).
 Qed.
 
-Lemma proof_of_euler_phi_entail_wit_5_2 : euler_phi_entail_wit_5_2.
+Lemma proof_of_euler_phi_entail_wit_4_2 : euler_phi_entail_wit_4_2.
 Proof.
   aggressive_pre_process.
-  - Goal_apply proof_of_euler_phi_entail_wit_5_2_split_goal_1.
-Qed.
+  Goal_apply proof_of_euler_phi_entail_wit_4_2_split_goal_1.
+Qed. 
 
-Lemma proof_of_euler_phi_entail_wit_6 : euler_phi_entail_wit_6.
+Lemma proof_of_euler_phi_entail_wit_5 : euler_phi_entail_wit_5.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  pose proof PreH12 as Hprogress.
-  destruct PreH12 as [[[q Hresult] Hresidual] Hno_small].
+  pose proof PreH10 as Hprogress.
+  destruct PreH10 as [[[q Hresult] Hresidual] Hno_small].
   assert (Hrem : Z.rem result value = 0).
   {
     apply (proj2 (Z.rem_divide result value ltac:(lia))).
@@ -271,7 +241,7 @@ Proof.
       all: try assumption.
       all: rewrite Hquot.
       all: nia.
-Qed.
+Qed. 
 
 Lemma proof_of_euler_phi_return_wit_1_split_goal_1 : euler_phi_return_wit_1_split_goal_1.
 Proof.
@@ -283,7 +253,7 @@ Lemma proof_of_euler_phi_return_wit_1 : euler_phi_return_wit_1.
 Proof.
   aggressive_pre_process.
   Goal_apply proof_of_euler_phi_return_wit_1_split_goal_1.
-Qed.
+Qed. 
 
 Lemma proof_of_euler_phi_return_wit_2_split_goal_1 : euler_phi_return_wit_2_split_goal_1.
 Proof.
@@ -295,7 +265,7 @@ Lemma proof_of_euler_phi_return_wit_2 : euler_phi_return_wit_2.
 Proof.
   aggressive_pre_process.
   Goal_apply proof_of_euler_phi_return_wit_2_split_goal_1.
-Qed.
+Qed. 
 
 Lemma proof_of_euler_phi_return_wit_3_split_goal_1 : euler_phi_return_wit_3_split_goal_1.
 Proof.
@@ -307,7 +277,7 @@ Lemma proof_of_euler_phi_return_wit_3 : euler_phi_return_wit_3.
 Proof.
   aggressive_pre_process.
   Goal_apply proof_of_euler_phi_return_wit_3_split_goal_1.
-Qed.
+Qed. 
 
 Lemma proof_of_modular_power_entail_wit_1_split_goal_1 : modular_power_entail_wit_1_split_goal_1.
 Proof.
@@ -321,7 +291,7 @@ Lemma proof_of_modular_power_entail_wit_1 : modular_power_entail_wit_1.
 Proof.
   aggressive_pre_process.
   Goal_apply proof_of_modular_power_entail_wit_1_split_goal_1.
-Qed.
+Qed. 
 
 Lemma proof_of_modular_power_entail_wit_2_1_split_goal_1 : modular_power_entail_wit_2_1_split_goal_1.
 Proof.
@@ -338,18 +308,7 @@ Proof.
   rewrite !Z.rem_mod_nonneg by lia.
   pose proof
     (Z.mod_pos_bound (result * base) modulus_pre ltac:(lia)) as Hresult_mod.
-  pose proof
-    (Z.mod_pos_bound (base * base) modulus_pre ltac:(lia)) as Hbase_mod.
-  destruct
-    (bounded_residue_product_int__modular_power_loop
-      modulus_pre
-      ((result * base) mod modulus_pre)
-      ((base * base) mod modulus_pre)
-      PreH6 PreH7
-      (proj1 Hresult_mod) (proj2 Hresult_mod)
-      (proj1 Hbase_mod) (proj2 Hbase_mod))
-    as [_ Hbound].
-  exact Hbound.
+  lia.
 Qed.
 
 Lemma proof_of_modular_power_entail_wit_2_1_split_goal_3 : modular_power_entail_wit_2_1_split_goal_3.
@@ -358,70 +317,17 @@ Proof.
   rewrite !Z.rem_mod_nonneg by lia.
   pose proof
     (Z.mod_pos_bound (result * base) modulus_pre ltac:(lia)) as Hresult_mod.
-  pose proof
-    (Z.mod_pos_bound (base * base) modulus_pre ltac:(lia)) as Hbase_mod.
-  nia.
+  lia.
 Qed.
 
 Lemma proof_of_modular_power_entail_wit_2_1_split_goal_4 : modular_power_entail_wit_2_1_split_goal_4.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  rewrite !Z.rem_mod_nonneg by lia.
-  pose proof
-    (Z.mod_pos_bound (base * base) modulus_pre ltac:(lia)) as Hbase_mod.
-  destruct
-    (bounded_residue_product_int__modular_power_loop
-      modulus_pre
-      ((base * base) mod modulus_pre)
-      ((base * base) mod modulus_pre)
-      PreH6 PreH7
-      (proj1 Hbase_mod) (proj2 Hbase_mod)
-      (proj1 Hbase_mod) (proj2 Hbase_mod))
-    as [_ Hbound].
-  exact Hbound.
-Qed.
-
-Lemma proof_of_modular_power_entail_wit_2_1_split_goal_5 : modular_power_entail_wit_2_1_split_goal_5.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  nia.
-Qed.
-
-Lemma proof_of_modular_power_entail_wit_2_1_split_goal_6 : modular_power_entail_wit_2_1_split_goal_6.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  rewrite !Z.rem_mod_nonneg by lia.
-  pose proof
-    (Z.mod_pos_bound (result * base) modulus_pre ltac:(lia)) as Hresult_mod.
-  lia.
-Qed.
-
-Lemma proof_of_modular_power_entail_wit_2_1_split_goal_7 : modular_power_entail_wit_2_1_split_goal_7.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  rewrite !Z.rem_mod_nonneg by lia.
-  pose proof
-    (Z.mod_pos_bound (result * base) modulus_pre ltac:(lia)) as Hresult_mod.
-  lia.
-Qed.
-
-Lemma proof_of_modular_power_entail_wit_2_1_split_goal_8 : modular_power_entail_wit_2_1_split_goal_8.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  rewrite zdiv_equiv by lia.
-  pose proof
-    (Z.div_le_upper_bound exponent 2 exponent ltac:(lia) ltac:(nia)) as Hhalf_le.
-  lia.
-Qed.
-
-Lemma proof_of_modular_power_entail_wit_2_1_split_goal_9 : modular_power_entail_wit_2_1_split_goal_9.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   rewrite zdiv_equiv by lia.
   apply Z.div_pos; lia.
 Qed.
 
-Lemma proof_of_modular_power_entail_wit_2_1_split_goal_10 : modular_power_entail_wit_2_1_split_goal_10.
+Lemma proof_of_modular_power_entail_wit_2_1_split_goal_5 : modular_power_entail_wit_2_1_split_goal_5.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   rewrite !Z.rem_mod_nonneg by lia.
@@ -430,7 +336,7 @@ Proof.
   lia.
 Qed.
 
-Lemma proof_of_modular_power_entail_wit_2_1_split_goal_11 : modular_power_entail_wit_2_1_split_goal_11.
+Lemma proof_of_modular_power_entail_wit_2_1_split_goal_6 : modular_power_entail_wit_2_1_split_goal_6.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   rewrite !Z.rem_mod_nonneg by lia.
@@ -448,12 +354,7 @@ Proof.
   - Goal_apply proof_of_modular_power_entail_wit_2_1_split_goal_4.
   - Goal_apply proof_of_modular_power_entail_wit_2_1_split_goal_5.
   - Goal_apply proof_of_modular_power_entail_wit_2_1_split_goal_6.
-  - Goal_apply proof_of_modular_power_entail_wit_2_1_split_goal_7.
-  - Goal_apply proof_of_modular_power_entail_wit_2_1_split_goal_8.
-  - Goal_apply proof_of_modular_power_entail_wit_2_1_split_goal_9.
-  - Goal_apply proof_of_modular_power_entail_wit_2_1_split_goal_10.
-  - Goal_apply proof_of_modular_power_entail_wit_2_1_split_goal_11.
-Qed.
+Qed. 
 
 Lemma proof_of_modular_power_entail_wit_2_2_split_goal_1 : modular_power_entail_wit_2_2_split_goal_1.
 Proof.
@@ -467,16 +368,8 @@ Qed.
 Lemma proof_of_modular_power_entail_wit_2_2_split_goal_2 : modular_power_entail_wit_2_2_split_goal_2.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  rewrite !Z.rem_mod_nonneg by lia.
-  pose proof
-    (Z.mod_pos_bound (base * base) modulus_pre ltac:(lia)) as Hbase_mod.
-  destruct
-    (bounded_residue_product_int__modular_power_loop
-      modulus_pre result ((base * base) mod modulus_pre)
-      PreH6 PreH7 PreH12 PreH13
-      (proj1 Hbase_mod) (proj2 Hbase_mod))
-    as [_ Hbound].
-  exact Hbound.
+  rewrite zdiv_equiv by lia.
+  apply Z.div_pos; lia.
 Qed.
 
 Lemma proof_of_modular_power_entail_wit_2_2_split_goal_3 : modular_power_entail_wit_2_2_split_goal_3.
@@ -485,59 +378,10 @@ Proof.
   rewrite !Z.rem_mod_nonneg by lia.
   pose proof
     (Z.mod_pos_bound (base * base) modulus_pre ltac:(lia)) as Hbase_mod.
-  nia.
+  lia.
 Qed.
 
 Lemma proof_of_modular_power_entail_wit_2_2_split_goal_4 : modular_power_entail_wit_2_2_split_goal_4.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  rewrite !Z.rem_mod_nonneg by lia.
-  pose proof
-    (Z.mod_pos_bound (base * base) modulus_pre ltac:(lia)) as Hbase_mod.
-  destruct
-    (bounded_residue_product_int__modular_power_loop
-      modulus_pre
-      ((base * base) mod modulus_pre)
-      ((base * base) mod modulus_pre)
-      PreH6 PreH7
-      (proj1 Hbase_mod) (proj2 Hbase_mod)
-      (proj1 Hbase_mod) (proj2 Hbase_mod))
-    as [_ Hbound].
-  exact Hbound.
-Qed.
-
-Lemma proof_of_modular_power_entail_wit_2_2_split_goal_5 : modular_power_entail_wit_2_2_split_goal_5.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  nia.
-Qed.
-
-Lemma proof_of_modular_power_entail_wit_2_2_split_goal_6 : modular_power_entail_wit_2_2_split_goal_6.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  rewrite zdiv_equiv by lia.
-  pose proof
-    (Z.div_le_upper_bound exponent 2 exponent ltac:(lia) ltac:(nia)) as Hhalf_le.
-  lia.
-Qed.
-
-Lemma proof_of_modular_power_entail_wit_2_2_split_goal_7 : modular_power_entail_wit_2_2_split_goal_7.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  rewrite zdiv_equiv by lia.
-  apply Z.div_pos; lia.
-Qed.
-
-Lemma proof_of_modular_power_entail_wit_2_2_split_goal_8 : modular_power_entail_wit_2_2_split_goal_8.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  rewrite !Z.rem_mod_nonneg by lia.
-  pose proof
-    (Z.mod_pos_bound (base * base) modulus_pre ltac:(lia)) as Hbase_mod.
-  lia.
-Qed.
-
-Lemma proof_of_modular_power_entail_wit_2_2_split_goal_9 : modular_power_entail_wit_2_2_split_goal_9.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   rewrite !Z.rem_mod_nonneg by lia.
@@ -553,12 +397,7 @@ Proof.
   - Goal_apply proof_of_modular_power_entail_wit_2_2_split_goal_2.
   - Goal_apply proof_of_modular_power_entail_wit_2_2_split_goal_3.
   - Goal_apply proof_of_modular_power_entail_wit_2_2_split_goal_4.
-  - Goal_apply proof_of_modular_power_entail_wit_2_2_split_goal_5.
-  - Goal_apply proof_of_modular_power_entail_wit_2_2_split_goal_6.
-  - Goal_apply proof_of_modular_power_entail_wit_2_2_split_goal_7.
-  - Goal_apply proof_of_modular_power_entail_wit_2_2_split_goal_8.
-  - Goal_apply proof_of_modular_power_entail_wit_2_2_split_goal_9.
-Qed.
+Qed. 
 
 Lemma proof_of_modular_power_return_wit_1_split_goal_1 : modular_power_return_wit_1_split_goal_1.
 Proof.
@@ -572,34 +411,17 @@ Lemma proof_of_modular_power_return_wit_1 : modular_power_return_wit_1.
 Proof.
   aggressive_pre_process.
   Goal_apply proof_of_modular_power_return_wit_1_split_goal_1.
-Qed.
-
-Lemma proof_of_euler_theorem_inverse_entail_wit_1_split_goal_1 : euler_theorem_inverse_entail_wit_1_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  replace ((retval - 1) + 1) with retval by lia.
-  assumption.
-Qed.
-
-Lemma proof_of_euler_theorem_inverse_entail_wit_1 : euler_theorem_inverse_entail_wit_1.
-Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_euler_theorem_inverse_entail_wit_1_split_goal_1.
-Qed.
+Qed. 
 
 Lemma proof_of_euler_theorem_inverse_return_wit_1_split_goal_1 : euler_theorem_inverse_return_wit_1_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  replace exponent with (exponent + 1 - 1) in PreH3 by lia.
-  exact
-    (proj2
-       (euler_totient_inverse_theorem__inverse_final_result
-          value_pre modulus_pre (exponent + 1) retval
-          PreH4 PreH5 PreH6 PreH8 PreH11 PreH3)).
+  exact (proj2 (euler_totient_inverse_theorem__inverse_final_result value_pre modulus_pre retval_2 retval PreH7 PreH8 PreH9 PreH11 PreH6 PreH3)).
 Qed.
 
 Lemma proof_of_euler_theorem_inverse_return_wit_1 : euler_theorem_inverse_return_wit_1.
 Proof.
   aggressive_pre_process.
   Goal_apply proof_of_euler_theorem_inverse_return_wit_1_split_goal_1.
-Qed.
+Qed. 
+

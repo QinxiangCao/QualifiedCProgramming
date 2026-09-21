@@ -49,15 +49,15 @@ Proof.
     unfold residual_prog_in_list_append_raw_M_call_1.
     dump_pre_spatial.
     exact PreH2.
-Qed. 
+Qed.
 
 Lemma proof_of_list_append_raw_return_wit_1 : list_append_raw_return_wit_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
   subst_eqs.
-  Exists (l3_2 ++ v :: l2_low_level_spec).
+  Exists (l2 ++ v :: l2_low_level_spec).
   split_pure_spatial.
-  - sep_apply_right (sllseg_sll x_pre retval l3_2 (v :: l2_low_level_spec)).
+  - sep_apply_right (sllseg_sll x_pre retval l2 (v :: l2_low_level_spec)).
     simpl.
     Exists y_pre.
     split_pure_spatial.

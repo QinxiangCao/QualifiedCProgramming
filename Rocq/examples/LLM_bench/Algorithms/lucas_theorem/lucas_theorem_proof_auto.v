@@ -59,6 +59,18 @@ Proof. Admitted.
 Lemma proof_of_binomial_digit_mod_prime_safety_wit_13 : binomial_digit_mod_prime_safety_wit_13.
 Proof. Admitted. 
 
+Lemma proof_of_binomial_digit_mod_prime_safety_wit_14 : binomial_digit_mod_prime_safety_wit_14.
+Proof. Admitted. 
+
+Lemma proof_of_binomial_digit_mod_prime_safety_wit_15 : binomial_digit_mod_prime_safety_wit_15.
+Proof. Admitted. 
+
+Lemma proof_of_binomial_digit_mod_prime_safety_wit_16 : binomial_digit_mod_prime_safety_wit_16.
+Proof. Admitted. 
+
+Lemma proof_of_binomial_digit_mod_prime_safety_wit_17 : binomial_digit_mod_prime_safety_wit_17.
+Proof. Admitted. 
+
 Lemma proof_of_binomial_digit_mod_prime_safety_wit_18 : binomial_digit_mod_prime_safety_wit_18.
 Proof. Admitted. 
 
@@ -68,43 +80,10 @@ Proof. Admitted.
 Lemma proof_of_binomial_digit_mod_prime_safety_wit_20 : binomial_digit_mod_prime_safety_wit_20.
 Proof. Admitted. 
 
-Lemma proof_of_binomial_digit_mod_prime_safety_wit_21 : binomial_digit_mod_prime_safety_wit_21.
-Proof. Admitted. 
-
-Lemma proof_of_binomial_digit_mod_prime_safety_wit_22 : binomial_digit_mod_prime_safety_wit_22.
-Proof. Admitted. 
-
-Lemma proof_of_binomial_digit_mod_prime_safety_wit_23 : binomial_digit_mod_prime_safety_wit_23.
-Proof. Admitted. 
-
-Lemma proof_of_binomial_digit_mod_prime_safety_wit_24 : binomial_digit_mod_prime_safety_wit_24.
-Proof. Admitted. 
-
-Lemma proof_of_binomial_digit_mod_prime_safety_wit_25 : binomial_digit_mod_prime_safety_wit_25.
-Proof. Admitted. 
-
-Lemma proof_of_binomial_digit_mod_prime_safety_wit_26 : binomial_digit_mod_prime_safety_wit_26.
-Proof. Admitted. 
-
-Lemma proof_of_binomial_digit_mod_prime_safety_wit_27 : binomial_digit_mod_prime_safety_wit_27.
-Proof. Admitted. 
-
-Lemma proof_of_binomial_digit_mod_prime_safety_wit_30 : binomial_digit_mod_prime_safety_wit_30.
-Proof. Admitted. 
-
-Lemma proof_of_binomial_digit_mod_prime_safety_wit_31 : binomial_digit_mod_prime_safety_wit_31.
-Proof. Admitted. 
-
 Lemma proof_of_binomial_digit_mod_prime_partial_solve_wit_1_pure : binomial_digit_mod_prime_partial_solve_wit_1_pure.
 Proof. Admitted. 
 
 Lemma proof_of_binomial_digit_mod_prime_partial_solve_wit_1 : binomial_digit_mod_prime_partial_solve_wit_1.
-Proof. Admitted. 
-
-Lemma proof_of_binomial_digit_mod_prime_partial_solve_wit_2_pure : binomial_digit_mod_prime_partial_solve_wit_2_pure.
-Proof. Admitted. 
-
-Lemma proof_of_binomial_digit_mod_prime_partial_solve_wit_2 : binomial_digit_mod_prime_partial_solve_wit_2.
 Proof. Admitted. 
 
 Lemma proof_of_lucas_theorem_safety_wit_1 : lucas_theorem_safety_wit_1.
@@ -131,6 +110,9 @@ Proof. Admitted.
 Lemma proof_of_lucas_theorem_safety_wit_8 : lucas_theorem_safety_wit_8.
 Proof. Admitted. 
 
+Lemma proof_of_lucas_theorem_safety_wit_9 : lucas_theorem_safety_wit_9.
+Proof. Admitted. 
+
 Lemma proof_of_lucas_theorem_safety_wit_10 : lucas_theorem_safety_wit_10.
 Proof. Admitted. 
 
@@ -138,9 +120,6 @@ Lemma proof_of_lucas_theorem_safety_wit_11 : lucas_theorem_safety_wit_11.
 Proof. Admitted. 
 
 Lemma proof_of_lucas_theorem_safety_wit_12 : lucas_theorem_safety_wit_12.
-Proof. Admitted. 
-
-Lemma proof_of_lucas_theorem_partial_solve_wit_1_pure : lucas_theorem_partial_solve_wit_1_pure.
 Proof. Admitted. 
 
 Lemma proof_of_lucas_theorem_partial_solve_wit_1 : lucas_theorem_partial_solve_wit_1.

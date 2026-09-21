@@ -1,157 +1,73 @@
-#!/usr/bin/env python3
-"""Build-mode router for controller-owned Rocq tooling.
-
-The selection rule is intentionally blunt and centralized: a repository root
-with an ``_build`` directory uses the existing Dune implementation; every
-other repository root uses the lock-free Makefile implementation.  Callers do
-not construct backend-specific commands or import backend modules directly.
-"""
+"""Controller API for native dependencies and current-source Rocq checks."""
 
 from __future__ import annotations
 
+import json
+import time
 from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
-import coq_tooling_dune as _dune
-import coq_tooling_makefile as _makefile
+import coq_tooling_common as common
+import coq_tooling_dune as dune
+import coq_tooling_makefile as makefile
+from atomic_file import atomic_write_text
 from build_mode import DUNE_BUILD_MODE, detect_build_mode
-
-# Preserve the established utility/type surface for controller modules and
-# external characterization tests.  The backend-specific operations below
-# override the imported Dune names with dispatching wrappers.
-from coq_tooling_dune import *  # noqa: F403
-from coq_tooling_dune import _dependency_modules
+from coq_tooling_common import _dependency_modules
+from path_utils import fixed_path_under
 
 
-DUNE_SNAPSHOT_FILE_NAME = _dune.DUNE_SNAPSHOT_FILE_NAME
-MAKEFILE_SNAPSHOT_FILE_NAME = _makefile.MAKEFILE_SNAPSHOT_FILE_NAME
-
-
-def _backend(workspace_root: Path) -> Any:
-    return (
-        _dune
-        if detect_build_mode(workspace_root) == DUNE_BUILD_MODE
-        else _makefile
-    )
+def _backend(root: Path):
+    return dune if detect_build_mode(root) == DUNE_BUILD_MODE else makefile
 
 
 def dependency_snapshot_file_name(workspace_root: Path) -> str:
-    """Return the selected backend's run-local snapshot filename."""
-
-    backend = _backend(workspace_root)
-    return (
-        _dune.DUNE_SNAPSHOT_FILE_NAME
-        if backend is _dune
-        else _makefile.MAKEFILE_SNAPSHOT_FILE_NAME
-    )
+    return "dependency_plan.json"
 
 
 def prepare_dune_dependencies(
-    *,
-    workspace_root: Path,
-    target_file: Path,
-    current_case_anchor: Path,
-    snapshot_path: Path | None = None,
-    timeout_seconds: int | float | None = _dune.DUNE_BUILD_TIMEOUT_SECONDS,
+    *, workspace_root: Path, target_file: Path, current_case_anchor: Path,
+    snapshot_path: Path | None = None, timeout_seconds: int | float | None = None,
 ) -> dict[str, Any]:
-    """Prepare the exact dependency snapshot with the selected backend.
-
-    The historical function name remains part of the controller API so the
-    Dune path is unchanged.  Makefile receipts carry ``build_mode=makefile``.
-    """
-
-    return _backend(workspace_root).prepare_dune_dependencies(
-        workspace_root=workspace_root,
-        target_file=target_file,
-        current_case_anchor=current_case_anchor,
-        snapshot_path=snapshot_path,
-        timeout_seconds=timeout_seconds,
-    )
+    started = time.monotonic()
+    try:
+        root = fixed_path_under(workspace_root.expanduser().absolute(), workspace_root.expanduser().absolute(), label="workspace")
+        backend = _backend(root)
+        target = common._repository_relative(target_file, root, label="dependency target")
+        anchor = common._repository_relative(current_case_anchor, root, label="case anchor")
+        deadline = common.command_deadline(timeout_seconds)
+        plan = common.prepare_plan(backend, root=root, target=target, anchor=anchor, deadline=deadline,
+                                   all_current=not target.name.endswith("_lib.v"))
+        receipt = common.preparation_receipt(plan, started, deadline)
+        if snapshot_path is not None:
+            path = fixed_path_under(snapshot_path, root, label="dependency plan")
+            atomic_write_text(path, json.dumps(plan, indent=2, ensure_ascii=True) + "\n")
+            receipt["snapshot"] = path.relative_to(root).as_posix()
+        return receipt
+    except (common.CoqBuildPlanError, OSError, UnicodeError, ValueError) as exc:
+        return common.failure_result(exc, started)
 
 
 def compact_dune_preparation(evidence: Mapping[str, Any]) -> dict[str, Any]:
-    backend = (
-        _makefile
-        if evidence.get("build_mode") == _makefile.MAKEFILE_BUILD_MODE
-        else _dune
-    )
-    return backend.compact_dune_preparation(evidence)
+    return {key: value for key, value in evidence.items() if not key.startswith("_")}
 
 
-def dune_preparation_receipt_errors(
-    *,
-    workspace_root: Path,
-    receipt: Mapping[str, Any] | None,
-) -> list[str]:
-    return _backend(workspace_root).dune_preparation_receipt_errors(
-        workspace_root=workspace_root,
-        receipt=receipt,
-    )
+def dune_preparation_receipt_errors(*, workspace_root: Path, receipt: Mapping[str, Any] | None) -> list[str]:
+    try:
+        root = workspace_root.expanduser().absolute()
+        common.load_plan(root, _backend(root), receipt)
+        return []
+    except (common.CoqBuildPlanError, OSError, UnicodeError, ValueError) as exc:
+        return [str(exc)]
 
 
-def run_coqc_check(
-    *,
-    workspace_root: Path,
-    build_workspace: Path,
-    target_file: Path,
-    target_kind: str,
-    timeout_seconds: int | float | None = _dune.COQ_COMMAND_TIMEOUT_SECONDS,
-    group_check: dict[str, Any] | None = None,
-    overlays: dict[Path, Path] | None = None,
-    incremental: bool = False,
-    current_case_anchor: Path | None = None,
-    dune_preparation: Mapping[str, Any] | None = None,
-) -> dict[str, Any]:
-    return _backend(workspace_root).run_coqc_check(
-        workspace_root=workspace_root,
-        build_workspace=build_workspace,
-        target_file=target_file,
-        target_kind=target_kind,
-        timeout_seconds=timeout_seconds,
-        group_check=group_check,
-        overlays=overlays,
-        incremental=incremental,
-        current_case_anchor=current_case_anchor,
-        dune_preparation=dune_preparation,
-    )
+def run_coqc_check(*, workspace_root: Path, **kwargs: Any) -> dict[str, Any]:
+    return common.run_coqc_check(_backend(workspace_root), workspace_root=workspace_root, **kwargs)
 
 
-def run_coqtop_debug(
-    *,
-    workspace_root: Path,
-    build_workspace: Path,
-    debug_script: Path,
-    timeout_seconds: int | float | None = _dune.COQ_COMMAND_TIMEOUT_SECONDS,
-    overlays: dict[Path, Path] | None = None,
-    current_case_anchor: Path | None = None,
-) -> dict[str, Any]:
-    return _backend(workspace_root).run_coqtop_debug(
-        workspace_root=workspace_root,
-        build_workspace=build_workspace,
-        debug_script=debug_script,
-        timeout_seconds=timeout_seconds,
-        overlays=overlays,
-        current_case_anchor=current_case_anchor,
-    )
+def run_coqtop_debug(*, workspace_root: Path, **kwargs: Any) -> dict[str, Any]:
+    return common.run_coqtop_debug(_backend(workspace_root), workspace_root=workspace_root, **kwargs)
 
 
-def audit_formal_case_lib_closure(
-    *,
-    workspace_root: Path,
-    build_workspace: Path,
-    formal_case_lib: Path,
-    current_case_anchor: Path,
-) -> dict[str, Any]:
-    return _backend(workspace_root).audit_formal_case_lib_closure(
-        workspace_root=workspace_root,
-        build_workspace=build_workspace,
-        formal_case_lib=formal_case_lib,
-        current_case_anchor=current_case_anchor,
-    )
-
-
-def __getattr__(name: str) -> Any:
-    """Keep uncommon, mode-independent Dune helpers import-compatible."""
-
-    return getattr(_dune, name)
+def audit_formal_case_lib_closure(*, workspace_root: Path, **kwargs: Any) -> dict[str, Any]:
+    return common.audit_formal_case_lib_closure(_backend(workspace_root), workspace_root=workspace_root, **kwargs)

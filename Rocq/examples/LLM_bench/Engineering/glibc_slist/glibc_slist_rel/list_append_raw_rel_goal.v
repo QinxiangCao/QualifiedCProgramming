@@ -70,31 +70,12 @@ forall (x_pre: Z) (l2_low_level_spec: (@list Z)) (l1_low_level_spec: (@list Z)) 
   (safeExec ATrue (bind ((list_tail_M (l1_low_level_spec))) ((residual_prog_in_list_append_raw_M_call_1 (l2_low_level_spec)))) X_low_level_spec )
 .
 
-Definition list_append_raw_entail_wit_2 := 
-forall (y_pre: Z) (x_pre: Z) (l2_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l2: (@list Z)) (v_2: Z) (retval: Z) (PreH1 : (safeExec ATrue (bind ((return ((maketuple (l2) (v_2))))) ((residual_prog_in_list_append_raw_M_call_1 (l2_low_level_spec)))) X_low_level_spec )) (PreH2 : (retval <> 0)) (PreH3 : (x_pre <> 0)) (PreH4 : (x_pre <> 0)) ,
-  ((&((retval)  # "list" ->ₛ "next")) # Ptr  |-> 0)
-  **  ((&((retval)  # "list" ->ₛ "data")) # Int  |-> v_2)
-  **  (sllseg x_pre retval l2 )
-  **  (sll y_pre l2_low_level_spec )
-|--
-  EX (l3: (@list Z))  (v: Z) ,
-  “ (safeExec ATrue (bind ((return ((maketuple (l3) (v))))) ((residual_prog_in_list_append_raw_M_call_1 (l2_low_level_spec)))) X_low_level_spec ) ” 
-  &&  “ (retval <> 0) ” 
-  &&  “ (retval <> 0) ” 
-  &&  “ (x_pre <> 0) ” 
-  &&  “ (x_pre <> 0) ”
-  &&  ((&((retval)  # "list" ->ₛ "next")) # Ptr  |-> 0)
-  **  ((&((retval)  # "list" ->ₛ "data")) # Int  |-> v)
-  **  (sllseg x_pre retval l3 )
-  **  (sll y_pre l2_low_level_spec )
-.
-
 Definition list_append_raw_return_wit_1 := 
 (
-forall (y_pre: Z) (x_pre: Z) (l2_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (retval: Z) (l3_2: (@list Z)) (v: Z) (PreH1 : (safeExec ATrue (bind ((return ((maketuple (l3_2) (v))))) ((residual_prog_in_list_append_raw_M_call_1 (l2_low_level_spec)))) X_low_level_spec )) (PreH2 : (retval <> 0)) (PreH3 : (retval <> 0)) (PreH4 : (x_pre <> 0)) (PreH5 : (x_pre <> 0)) ,
+forall (y_pre: Z) (x_pre: Z) (l2_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l2: (@list Z)) (v: Z) (retval: Z) (PreH1 : (safeExec ATrue (bind ((return ((maketuple (l2) (v))))) ((residual_prog_in_list_append_raw_M_call_1 (l2_low_level_spec)))) X_low_level_spec )) (PreH2 : (retval <> 0)) (PreH3 : (x_pre <> 0)) (PreH4 : (x_pre <> 0)) ,
   ((&((retval)  # "list" ->ₛ "next")) # Ptr  |-> y_pre)
   **  ((&((retval)  # "list" ->ₛ "data")) # Int  |-> v)
-  **  (sllseg x_pre retval l3_2 )
+  **  (sllseg x_pre retval l2 )
   **  (sll y_pre l2_low_level_spec )
 |--
   EX (l3: (@list Z)) ,
@@ -102,10 +83,10 @@ forall (y_pre: Z) (x_pre: Z) (l2_low_level_spec: (@list Z)) (X_low_level_spec: (
   &&  (sll x_pre l3 )
 ) \/
 (
-forall (y_pre: Z) (x_pre: Z) (l2_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (retval: Z) (l3_2: (@list Z)) (v: Z) (PreH1 : (v <= INT_MAX)) (PreH2 : (v >= INT_MIN)) (PreH3 : (safeExec ATrue (bind ((return ((maketuple (l3_2) (v))))) ((residual_prog_in_list_append_raw_M_call_1 (l2_low_level_spec)))) X_low_level_spec )) (PreH4 : (retval <> 0)) (PreH5 : (retval <> 0)) (PreH6 : (x_pre <> 0)) (PreH7 : (x_pre <> 0)) ,
+forall (y_pre: Z) (x_pre: Z) (l2_low_level_spec: (@list Z)) (X_low_level_spec: ((@list Z) -> (unit -> Prop))) (l2: (@list Z)) (v: Z) (retval: Z) (PreH1 : (v <= INT_MAX)) (PreH2 : (v >= INT_MIN)) (PreH3 : (safeExec ATrue (bind ((return ((maketuple (l2) (v))))) ((residual_prog_in_list_append_raw_M_call_1 (l2_low_level_spec)))) X_low_level_spec )) (PreH4 : (retval <> 0)) (PreH5 : (x_pre <> 0)) (PreH6 : (x_pre <> 0)) ,
   ((&((retval)  # "list" ->ₛ "next")) # Ptr  |-> y_pre)
   **  ((&((retval)  # "list" ->ₛ "data")) # Int  |-> v)
-  **  (sllseg x_pre retval l3_2 )
+  **  (sllseg x_pre retval l2 )
   **  (sll y_pre l2_low_level_spec )
 |--
   EX (y: Z)  (l0: (@list Z))  (x: Z) ,
@@ -201,7 +182,6 @@ Include sll_Strategy_Correct.
 
 Axiom proof_of_list_append_raw_safety_wit_1 : list_append_raw_safety_wit_1.
 Axiom proof_of_list_append_raw_entail_wit_1 : list_append_raw_entail_wit_1.
-Axiom proof_of_list_append_raw_entail_wit_2 : list_append_raw_entail_wit_2.
 Axiom proof_of_list_append_raw_return_wit_1 : list_append_raw_return_wit_1.
 Axiom proof_of_list_append_raw_return_wit_2 : list_append_raw_return_wit_2.
 Axiom proof_of_list_append_raw_partial_solve_wit_1_pure : list_append_raw_partial_solve_wit_1_pure.

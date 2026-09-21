@@ -42,7 +42,7 @@ Proof.
          simpl;
          repeat split; try constructor; try lia.
     all: destruct n_pre; simpl in *; lia.
-Qed.
+Qed. 
 
 Lemma proof_of_divide_entail_wit_3_1 : divide_entail_wit_3_1.
 Proof.
@@ -52,7 +52,7 @@ Proof.
   replace n with 1 in PreH1 by lia.
   rewrite Hmod in PreH1.
   lia.
-Qed.
+Qed. 
 
 Lemma proof_of_divide_entail_wit_3_2 : divide_entail_wit_3_2.
 Proof.
@@ -64,7 +64,7 @@ Proof.
     all: dump_pre_spatial; try lia; try assumption.
     rewrite <- PreH11.
     eapply factorization_progress_room__progress_transitions; eauto.
-Qed.
+Qed. 
 
 Lemma proof_of_divide_entail_wit_4_1 : divide_entail_wit_4_1.
 Proof.
@@ -74,7 +74,7 @@ Proof.
   replace n with 1 in PreH6 by lia.
   rewrite Hmod in PreH6.
   lia.
-Qed.
+Qed. 
 
 Lemma proof_of_divide_entail_wit_4_2 : divide_entail_wit_4_2.
 Proof.
@@ -86,8 +86,12 @@ Proof.
   assert (i <> 0) as Hi_nonzero by lia.
   assert (n = i * Z.quot n i) as Hdivide_exact.
   { apply (proj2 (Z.quot_exact n i Hi_nonzero)). exact PreH6. }
-  assert (1 <= Z.quot n i) as Hquotient_positive by nia.
-  assert (Z.quot n i <= original) as Hquotient_upper by nia.
+  assert (1 <= Z.quot n i) as Hquotient_positive by (destruct Hquotient_cases; lia).
+  assert (Z.quot n i <= original) as Hquotient_upper.
+  { apply Z.quot_le_upper_bound; [lia |].
+    transitivity original; [lia |].
+    rewrite <- (Z.mul_1_l original) at 1.
+    apply Z.mul_le_mono_nonneg_r; lia. }
   destruct Hquotient_cases as [Hquotient_one | Hquotient_large].
   - Left.
     Exists (factors_2 ++ (i :: nil)).
@@ -109,7 +113,7 @@ Proof.
     + split_pures.
       all: dump_pre_spatial; try lia; try assumption.
       rewrite Zlength_app, Zlength_cons, Zlength_nil. lia.
-Qed.
+Qed. 
 
 Lemma proof_of_divide_entail_wit_5_split_goal_1 : divide_entail_wit_5_split_goal_1.
 Proof.
@@ -125,7 +129,7 @@ Lemma proof_of_divide_entail_wit_5 : divide_entail_wit_5.
 Proof.
   aggressive_pre_process.
   Goal_apply proof_of_divide_entail_wit_5_split_goal_1.
-Qed.
+Qed. 
 
 Lemma proof_of_divide_entail_wit_6_split_goal_1 : divide_entail_wit_6_split_goal_1.
 Proof.
@@ -137,7 +141,7 @@ Lemma proof_of_divide_entail_wit_6 : divide_entail_wit_6.
 Proof.
   aggressive_pre_process.
   Goal_apply proof_of_divide_entail_wit_6_split_goal_1.
-Qed.
+Qed. 
 
 Lemma proof_of_divide_return_wit_1 : divide_return_wit_1.
 Proof.
@@ -153,9 +157,7 @@ Proof.
       * exact PreH4.
       * right; lia.
       * exact PreH12.
-    + dump_pre_spatial.
-      lia.
-Qed.
+Qed. 
 
 Lemma proof_of_divide_return_wit_2 : divide_return_wit_2.
 Proof.
@@ -171,6 +173,5 @@ Proof.
       * exact PreH5.
       * left; exact PreH1.
       * exact PreH13.
-    + dump_pre_spatial.
-      lia.
-Qed.
+Qed. 
+

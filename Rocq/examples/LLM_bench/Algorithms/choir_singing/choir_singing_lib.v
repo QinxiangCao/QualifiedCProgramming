@@ -52,25 +52,13 @@ Definition ChoirRightLength
     (fun indices => Zlength indices)
     answer.
 
-Definition ChoirOnesPrefix (values : list Z) (written : Z) : Prop :=
-  Zlength values = written /\
-  forall k, 0 <= k < written -> Znth k values 0 = 1.
-
-Definition ChoirOnesFull (values : list Z) (n : Z) : Prop :=
-  Zlength values = n /\
-  forall k, 0 <= k < n -> Znth k values 0 = 1.
-
+(* Progress predicates contain only the mathematical table contents.
+   Cursor bounds and array ownership belong to the C annotations. *)
 Definition ChoirDPLeftPrefix
     (heights dp_left : list Z) (hi : Z) : Prop :=
-  0 <= hi <= Zlength heights /\
-  Zlength dp_left = Zlength heights /\
-  (forall k,
-      0 <= k < hi ->
-      ChoirLeftLength heights k (Znth k dp_left 0) /\
-      1 <= Znth k dp_left 0 <= k + 1) /\
-  (forall k,
-      hi <= k < Zlength heights ->
-      Znth k dp_left 0 = 1).
+  (forall k, 0 <= k < hi ->
+    ChoirLeftLength heights k (Znth k dp_left 0)) /\
+  Forall (eq 1) (sublist hi (Zlength heights) dp_left).
 
 Definition ChoirLeftCandidate
     (heights dp_left : list Z)
@@ -83,6 +71,152 @@ Definition ChoirLeftCandidate
 
 Definition ChoirLeftInnerProgress
     (heights dp_left : list Z) (peak scanned : Z) : Prop :=
+  (forall k, 0 <= k < peak ->
+    ChoirLeftLength heights k (Znth k dp_left 0)) /\
+  Forall (eq 1) (sublist (peak + 1) (Zlength heights) dp_left) /\
+  max_value_of_subset Z.le
+    (ChoirLeftCandidate heights dp_left peak scanned)
+    (fun candidate => candidate) (Znth peak dp_left 0).
+
+Definition ChoirDPRightSuffix
+    (heights dp_right : list Z) (lo : Z) : Prop :=
+  (forall k, lo <= k < Zlength heights ->
+    ChoirRightLength heights k (Znth k dp_right 0)) /\
+  Forall (eq 1) (sublist 0 lo dp_right).
+
+Definition ChoirRightCandidate
+    (heights dp_right : list Z)
+    (peak scanned candidate : Z) : Prop :=
+  candidate = 1 \/
+  exists k,
+    peak < k < scanned /\
+    Znth k heights 0 < Znth peak heights 0 /\
+    candidate = Znth k dp_right 0 + 1.
+
+Definition ChoirRightInnerProgress
+    (heights dp_right : list Z) (peak scanned : Z) : Prop :=
+  (forall k, peak < k < Zlength heights ->
+    ChoirRightLength heights k (Znth k dp_right 0)) /\
+  Forall (eq 1) (sublist 0 peak dp_right) /\
+  max_value_of_subset Z.le
+    (ChoirRightCandidate heights dp_right peak scanned)
+    (fun candidate => candidate) (Znth peak dp_right 0).
+
+Definition ChoirPeakLength
+    (heights : list Z) (peak answer : Z) : Prop :=
+  exists left right,
+    ChoirLeftLength heights peak left /\
+    ChoirRightLength heights peak right /\
+    answer = left + right - 1.
+
+Definition ChoirBestPrefix
+    (heights : list Z) (limit answer : Z) : Prop :=
+  ((limit = 0 /\ answer = 0) \/
+   (0 < limit /\
+    max_value_of_subset Z.le
+      (fun candidate =>
+         exists peak,
+           0 <= peak < limit /\
+           ChoirPeakLength heights peak candidate)
+      (fun candidate => candidate)
+      answer)).
+
+(* A formation is represented by its increasing and decreasing arms.
+   Both contain the same peak, which is counted only once in the cost. *)
+Definition ChoirMinimumRemovals (heights : list Z) (removed : Z) : Prop :=
+  min_value_of_subset Z.le
+    (fun arms : list Z * list Z =>
+      exists peak,
+        ChoirValidIncreasingEndingAt heights peak (fst arms) /\
+        ChoirValidDecreasingStartingAt heights peak (snd arms))
+    (fun arms => Zlength heights -
+      (Zlength (fst arms) + Zlength (snd arms) - 1)) removed.
+
+Lemma choir_indices_length_bound : forall indices lo hi,
+  lo <= hi -> mono_inc indices ->
+  Forall (fun x => lo <= x < hi) indices ->
+  Zlength indices <= hi - lo.
+Proof.
+  induction indices as [|x xs IH]; intros lo hi Hrange Hmono Hall.
+  - rewrite Zlength_nil. lia.
+  - apply mono_inc_cons in Hmono as [Hhead Htail].
+    inversion Hall as [|? ? Hx Hxs]; subst.
+    assert (Hxs' : Forall (fun y => x + 1 <= y < hi) xs).
+    { rewrite Forall_forall in *. intros y Hy.
+      specialize (Hhead y Hy). specialize (Hxs y Hy). lia. }
+    pose proof (IH (x + 1) hi ltac:(lia) Htail Hxs').
+    rewrite Zlength_cons. lia.
+Qed.
+
+Lemma choir_left_length_bounds : forall heights peak answer,
+  ChoirLeftLength heights peak answer -> 1 <= answer <= peak + 1.
+Proof.
+  intros heights peak answer [indices [[Hvalid Hmax] Heq]].
+  destruct Hvalid as [Hpeak [Hall [Hmono [Hvalues [prefix Hindices]]]]].
+  pose proof (choir_indices_length_bound indices 0 (peak + 1)
+    ltac:(lia) Hmono
+    ltac:(eapply Forall_impl with (P := fun x => 0 <= x <= peak); [intros; lia | exact Hall])).
+  rewrite Hindices, Zlength_app_cons in *.
+  pose proof (Zlength_nonneg prefix). lia.
+Qed.
+
+Lemma choir_right_length_bounds : forall heights peak answer,
+  ChoirRightLength heights peak answer ->
+  1 <= answer <= Zlength heights - peak.
+Proof.
+  intros heights peak answer [indices [[Hvalid Hmax] Heq]].
+  destruct Hvalid as [Hpeak [Hall [Hmono [Hvalues [suffix Hindices]]]]].
+  pose proof (choir_indices_length_bound indices peak (Zlength heights)
+    ltac:(lia) Hmono Hall).
+  rewrite Hindices, Zlength_cons in *.
+  pose proof (Zlength_nonneg suffix). lia.
+Qed.
+
+Lemma choir_ones_sublist : forall values lo hi,
+  0 <= lo <= hi -> hi <= Zlength values ->
+  Forall (eq 1) (sublist lo hi values) <->
+  (forall k, lo <= k < hi -> Znth k values 0 = 1).
+Proof.
+  intros values lo hi Hrange Hlen.
+  rewrite (Forall_Znth (eq 1) 0), Zlength_sublist by lia.
+  split; intros H k Hk.
+  - specialize (H (k - lo) ltac:(lia)).
+    rewrite Znth_sublist in H by lia.
+    replace (k - lo + lo) with k in H by lia. symmetry. exact H.
+  - rewrite Znth_sublist by lia. symmetry. apply H. lia.
+Qed.
+
+(* These equivalences recover the facts used by the existing proofs.
+   Lengths and cursor domains are explicit hypotheses, and numeric bounds
+   are derived from the subsequence maxima rather than stored in predicates. *)
+Lemma ChoirDPLeftPrefix_view : forall heights dp_left hi,
+  0 <= hi <= Zlength heights -> Zlength dp_left = Zlength heights ->
+  ChoirDPLeftPrefix heights dp_left hi <->
+  0 <= hi <= Zlength heights /\
+  Zlength dp_left = Zlength heights /\
+  (forall k,
+      0 <= k < hi ->
+      ChoirLeftLength heights k (Znth k dp_left 0) /\
+      1 <= Znth k dp_left 0 <= k + 1) /\
+  (forall k,
+      hi <= k < Zlength heights ->
+      Znth k dp_left 0 = 1).
+Proof.
+  intros heights dp_left hi Hrange Hlen.
+  unfold ChoirDPLeftPrefix.
+  rewrite choir_ones_sublist by lia.
+  split.
+  - intros [Hcomputed Hones].
+    split; [exact Hrange|]. split; [exact Hlen|]. split; [|exact Hones].
+    intros k Hk. split; [apply Hcomputed; exact Hk |].
+    eapply choir_left_length_bounds, Hcomputed. exact Hk.
+  - intros [_ [_ [Hcomputed Hones]]]. split; [|exact Hones].
+    intros k Hk. exact (proj1 (Hcomputed k Hk)).
+Qed.
+
+Lemma ChoirLeftInnerProgress_view : forall heights dp_left peak scanned,
+  0 <= peak < Zlength heights /\ 0 <= scanned <= peak -> Zlength dp_left = Zlength heights ->
+  ChoirLeftInnerProgress heights dp_left peak scanned <->
   0 <= peak < Zlength heights /\
   0 <= scanned <= peak /\
   Zlength dp_left = Zlength heights /\
@@ -99,9 +233,31 @@ Definition ChoirLeftInnerProgress
     (fun candidate => candidate)
     (Znth peak dp_left 0) /\
   1 <= Znth peak dp_left 0 <= peak + 1.
+Proof.
+  intros heights dp_left peak scanned [Hpeak Hscan] Hlen.
+  unfold ChoirLeftInnerProgress.
+  rewrite choir_ones_sublist by lia.
+  split.
+  - intros [Hcomputed [Hones Hmax]].
+    assert (Hbounds : 1 <= Znth peak dp_left 0 <= peak + 1).
+    { destruct Hmax as [best [[[Hone | [k [Hk [Hheight Heq]]]] Hupper] Hbest]].
+      - simpl in Hbest. lia.
+      - pose proof (choir_left_length_bounds _ _ _ (Hcomputed k ltac:(lia))).
+        simpl in Hbest. lia. }
+    split; [exact Hpeak|]. split; [exact Hscan|].
+    split; [exact Hlen|]. split; [|split; [|split; assumption]].
+    + intros k Hk. split; [apply Hcomputed; exact Hk |].
+      eapply choir_left_length_bounds, Hcomputed. exact Hk.
+    + intros k Hk. apply Hones. lia.
+  - intros [_ [_ [_ [Hcomputed [Hones [Hmax Hbounds]]]]]].
+    split; [|split; [|exact Hmax]].
+    + intros k Hk. exact (proj1 (Hcomputed k Hk)).
+    + intros k Hk. apply Hones. lia.
+Qed.
 
-Definition ChoirDPRightSuffix
-    (heights dp_right : list Z) (lo : Z) : Prop :=
+Lemma ChoirDPRightSuffix_view : forall heights dp_right lo,
+  0 <= lo <= Zlength heights -> Zlength dp_right = Zlength heights ->
+  ChoirDPRightSuffix heights dp_right lo <->
   0 <= lo <= Zlength heights /\
   Zlength dp_right = Zlength heights /\
   (forall k,
@@ -111,18 +267,22 @@ Definition ChoirDPRightSuffix
   (forall k,
       0 <= k < lo ->
       Znth k dp_right 0 = 1).
+Proof.
+  intros heights dp_right lo Hrange Hlen.
+  unfold ChoirDPRightSuffix.
+  rewrite choir_ones_sublist by lia.
+  split.
+  - intros [Hcomputed Hones].
+    split; [exact Hrange|]. split; [exact Hlen|]. split; [|exact Hones].
+    intros k Hk. split; [apply Hcomputed; exact Hk |].
+    eapply choir_right_length_bounds, Hcomputed. exact Hk.
+  - intros [_ [_ [Hcomputed Hones]]]. split; [|exact Hones].
+    intros k Hk. exact (proj1 (Hcomputed k Hk)).
+Qed.
 
-Definition ChoirRightCandidate
-    (heights dp_right : list Z)
-    (peak scanned candidate : Z) : Prop :=
-  candidate = 1 \/
-  exists k,
-    peak < k < scanned /\
-    Znth k heights 0 < Znth peak heights 0 /\
-    candidate = Znth k dp_right 0 + 1.
-
-Definition ChoirRightInnerProgress
-    (heights dp_right : list Z) (peak scanned : Z) : Prop :=
+Lemma ChoirRightInnerProgress_view : forall heights dp_right peak scanned,
+  0 <= peak < Zlength heights /\ peak + 1 <= scanned <= Zlength heights -> Zlength dp_right = Zlength heights ->
+  ChoirRightInnerProgress heights dp_right peak scanned <->
   0 <= peak < Zlength heights /\
   peak + 1 <= scanned <= Zlength heights /\
   Zlength dp_right = Zlength heights /\
@@ -139,66 +299,38 @@ Definition ChoirRightInnerProgress
     (fun candidate => candidate)
     (Znth peak dp_right 0) /\
   1 <= Znth peak dp_right 0 <= Zlength heights - peak.
-
-Definition ChoirPeakLength
-    (heights : list Z) (peak answer : Z) : Prop :=
-  exists left right,
-    ChoirLeftLength heights peak left /\
-    ChoirRightLength heights peak right /\
-    answer = left + right - 1.
-
-Definition ChoirBestPrefix
-    (heights : list Z) (limit answer : Z) : Prop :=
-  0 <= limit <= Zlength heights /\
-  ((limit = 0 /\ answer = 0) \/
-   (0 < limit /\
-    max_value_of_subset Z.le
-      (fun candidate =>
-         exists peak,
-           0 <= peak < limit /\
-           ChoirPeakLength heights peak candidate)
-      (fun candidate => candidate)
-      answer)).
-
-Definition ChoirLength (heights : list Z) (answer : Z) : Prop :=
-  ChoirBestPrefix heights (Zlength heights) answer.
-
-Definition ChoirMinimumRemovals
-    (heights : list Z) (removed : Z) : Prop :=
-  exists best,
-    ChoirLength heights best /\
-    removed = Zlength heights - best.
-
-Lemma choir_ones_prefix_snoc__ones_initialization :
-  forall values written,
-    ChoirOnesPrefix values written ->
-    ChoirOnesPrefix (values ++ [1]) (written + 1).
 Proof.
-  intros values written [Hlength Hones].
-  unfold ChoirOnesPrefix.
+  intros heights dp_right peak scanned [Hpeak Hscan] Hlen.
+  unfold ChoirRightInnerProgress.
+  rewrite choir_ones_sublist by lia.
   split.
-  - rewrite Zlength_app, Zlength_cons, Zlength_nil.
-    lia.
-  - intros k Hk.
-    destruct (Z_lt_ge_dec k written) as [Hbefore | Hat_or_after].
-    + rewrite app_Znth1 by lia.
-      apply Hones.
-      lia.
-    + assert (k = written) by lia.
-      subst k.
-      rewrite app_Znth2 by lia.
-      rewrite Hlength.
-      replace (written - written) with 0 by lia.
-      reflexivity.
+  - intros [Hcomputed [Hones Hmax]].
+    assert (Hbounds : 1 <= Znth peak dp_right 0 <= Zlength heights - peak).
+    { destruct Hmax as [best [[[Hone | [k [Hk [Hheight Heq]]]] Hupper] Hbest]].
+      - simpl in Hbest. lia.
+      - pose proof (choir_right_length_bounds _ _ _ (Hcomputed k ltac:(lia))).
+        simpl in Hbest. lia. }
+    split; [exact Hpeak|]. split; [exact Hscan|].
+    split; [exact Hlen|]. split; [|split; [|split; assumption]].
+    + intros k Hk. split; [apply Hcomputed; exact Hk |].
+      eapply choir_right_length_bounds, Hcomputed. exact Hk.
+    + intros k Hk. apply Hones. lia.
+  - intros [_ [_ [_ [Hcomputed [Hones [Hmax Hbounds]]]]]].
+    split; [|split; [|exact Hmax]].
+    + intros k Hk. exact (proj1 (Hcomputed k Hk)).
+    + intros k Hk. apply Hones. lia.
 Qed.
+
+
 Lemma choir_left_inner_progress_base__ones_initialization :
   forall heights dp peak,
+    Zlength dp = Zlength heights ->
     ChoirDPLeftPrefix heights dp peak ->
     0 <= peak < Zlength heights ->
     ChoirLeftInnerProgress heights dp peak peak.
 Proof.
-  intros heights dp peak Hprefix Hpeak.
-  unfold ChoirDPLeftPrefix in Hprefix.
+  intros heights dp peak Hsize Hprefix Hpeak.
+  rewrite ChoirDPLeftPrefix_view in Hprefix by (try rewrite Zlength_replace_Znth; lia).
   destruct Hprefix as
       [Hhi [Hlength [Hcomputed Huncomputed]]].
   assert (Hpeak_value : Znth peak dp 0 = 1).
@@ -206,7 +338,7 @@ Proof.
     apply Huncomputed.
     lia.
   }
-  unfold ChoirLeftInnerProgress.
+  rewrite ChoirLeftInnerProgress_view by (try rewrite Zlength_replace_Znth; lia).
   split; [exact Hpeak |].
   split; [lia |].
   split; [exact Hlength |].
@@ -233,8 +365,12 @@ Proof.
     + rewrite Hpeak_value.
       lia.
 Qed.
+
 Lemma choir_left_progress_step_update__left_dp_transitions :
   forall heights dp peak j,
+    0 <= peak < Zlength heights ->
+    Zlength dp = Zlength heights ->
+    0 <= j + 1 <= peak ->
     ChoirLeftInnerProgress heights dp peak (j + 1) ->
     0 <= j < peak ->
     Znth j heights 0 < Znth peak heights 0 ->
@@ -242,8 +378,8 @@ Lemma choir_left_progress_step_update__left_dp_transitions :
     ChoirLeftInnerProgress heights
       (replace_Znth peak (Znth j dp 0 + 1) dp) peak j.
 Proof.
-  intros heights dp peak j Hprogress Hj Hheight Himproved.
-  unfold ChoirLeftInnerProgress in *.
+  intros heights dp peak j Hdomain Hsize Hscandomain Hprogress Hj Hheight Himproved.
+  rewrite ChoirLeftInnerProgress_view in * by (try rewrite Zlength_replace_Znth; lia).
   destruct Hprogress as
     [Hpeak [Hscan [Hlen [Hprefix [Hsuffix [Hmaximum Hbounds]]]]]].
   assert (Hpeak_dp : 0 <= peak < Zlength dp) by (rewrite Hlen; lia).
@@ -293,15 +429,19 @@ Proof.
            specialize (Hprefix j Hj) as [_ Hj_bounds].
            lia.
 Qed.
+
 Lemma choir_left_progress_step_ineligible__left_dp_transitions :
   forall heights dp peak j,
+    0 <= peak < Zlength heights ->
+    Zlength dp = Zlength heights ->
+    0 <= j + 1 <= peak ->
     ChoirLeftInnerProgress heights dp peak (j + 1) ->
     0 <= j < peak ->
     Znth peak heights 0 <= Znth j heights 0 ->
     ChoirLeftInnerProgress heights dp peak j.
 Proof.
-  intros heights dp peak j Hprogress Hj Hineligible.
-  unfold ChoirLeftInnerProgress in *.
+  intros heights dp peak j Hdomain Hsize Hscandomain Hprogress Hj Hineligible.
+  rewrite ChoirLeftInnerProgress_view in * by (try rewrite Zlength_replace_Znth; lia).
   destruct Hprogress as
     [Hpeak [Hscan [Hlen [Hprefix [Hsuffix [Hmaximum Hbounds]]]]]].
   split; [exact Hpeak |].
@@ -334,16 +474,20 @@ Proof.
     + exact Hbest_eq.
   - exact Hbounds.
 Qed.
+
 Lemma choir_left_progress_step_dominated__left_dp_transitions :
   forall heights dp peak j,
+    0 <= peak < Zlength heights ->
+    Zlength dp = Zlength heights ->
+    0 <= j + 1 <= peak ->
     ChoirLeftInnerProgress heights dp peak (j + 1) ->
     0 <= j < peak ->
     Znth j heights 0 < Znth peak heights 0 ->
     Znth j dp 0 + 1 <= Znth peak dp 0 ->
     ChoirLeftInnerProgress heights dp peak j.
 Proof.
-  intros heights dp peak j Hprogress Hj Hheight Hdominated.
-  unfold ChoirLeftInnerProgress in *.
+  intros heights dp peak j Hdomain Hsize Hscandomain Hprogress Hj Hheight Hdominated.
+  rewrite ChoirLeftInnerProgress_view in * by (try rewrite Zlength_replace_Znth; lia).
   destruct Hprogress as
     [Hpeak [Hscan [Hlen [Hprefix [Hsuffix [Hmaximum Hbounds]]]]]].
   split; [exact Hpeak |].
@@ -375,13 +519,16 @@ Proof.
     + exact Hbest_eq.
   - exact Hbounds.
 Qed.
+
 Lemma choir_left_progress_complete__left_dp_transitions :
   forall heights dp peak,
+    0 <= peak < Zlength heights ->
+    Zlength dp = Zlength heights ->
     ChoirLeftInnerProgress heights dp peak 0 ->
     ChoirDPLeftPrefix heights dp (peak + 1).
 Proof.
-  intros heights dp peak Hprogress.
-  unfold ChoirLeftInnerProgress in Hprogress.
+  intros heights dp peak Hdomain Hsize Hprogress.
+  rewrite ChoirLeftInnerProgress_view in Hprogress by (try rewrite Zlength_replace_Znth; lia).
   destruct Hprogress as
     [Hpeak [Hscan [Hlen [Hprefix [Hsuffix
       [Hcandidate_max Hcurrent_bounds]]]]]].
@@ -683,7 +830,7 @@ Proof.
       lia.
     - lia.
   }
-  unfold ChoirDPLeftPrefix.
+  rewrite ChoirDPLeftPrefix_view by (try rewrite Zlength_replace_Znth; lia).
   split; [lia |].
   split; [exact Hlen |].
   split.
@@ -695,41 +842,35 @@ Proof.
   - intros k Hk.
     apply Hsuffix. lia.
 Qed.
+
 Lemma choir_right_suffix_from_ones__phase_bridges :
-  forall heights dp n,
-    ChoirOnesFull dp n ->
-    Zlength heights = n ->
-    ChoirDPRightSuffix heights dp n.
+  forall heights dp,
+    Zlength dp = Zlength heights ->
+    Forall (eq 1) dp ->
+    ChoirDPRightSuffix heights dp (Zlength heights).
 Proof.
-  intros heights dp n [Hdp_len Hdp_one] Hheights_len.
-  pose proof (Zlength_nonneg heights) as Hheights_nonneg.
-  unfold ChoirDPRightSuffix.
-  split.
-  - split; lia.
-  - split.
-    + lia.
-    + split.
-      * intros k Hk.
-        exfalso.
-        lia.
-      * intros k Hk.
-        apply Hdp_one.
-        lia.
+  intros heights dp Hsize Hones. split.
+  - intros k Hk. lia.
+  - rewrite <- Hsize, sublist_self by reflexivity. exact Hones.
 Qed.
+
 Lemma choir_right_inner_progress_base__phase_bridges :
   forall heights dp peak,
+    0 <= peak < Zlength heights ->
+    Zlength dp = Zlength heights ->
     0 <= peak ->
     ChoirDPRightSuffix heights dp (peak + 1) ->
     ChoirRightInnerProgress heights dp peak (peak + 1).
 Proof.
-  intros heights dp peak Hpeak
-    [Hrange [Hdp_len [Hcomputed Hones]]].
+  intros heights dp peak Hdomain Hsize Hpeak Hsuffix.
+  rewrite ChoirDPRightSuffix_view in Hsuffix by lia.
+  destruct Hsuffix as [Hrange [Hdp_len [Hcomputed Hones]]].
   assert (Hpeak_one : Znth peak dp 0 = 1).
   {
     apply Hones.
     lia.
   }
-  unfold ChoirRightInnerProgress.
+  rewrite ChoirRightInnerProgress_view by (try rewrite Zlength_replace_Znth; lia).
   split.
   - split; lia.
   - split.
@@ -767,8 +908,12 @@ Proof.
                  --- rewrite Hpeak_one.
                      lia.
 Qed.
+
 Lemma choir_right_progress_step_update__right_dp_transitions :
   forall heights dp_right peak scanned,
+    0 <= peak < Zlength heights ->
+    Zlength dp_right = Zlength heights ->
+    peak + 1 <= scanned <= Zlength heights ->
     ChoirRightInnerProgress heights dp_right peak scanned ->
     scanned < Zlength heights ->
     Znth scanned heights 0 < Znth peak heights 0 ->
@@ -778,8 +923,8 @@ Lemma choir_right_progress_step_update__right_dp_transitions :
       peak (scanned + 1).
 Proof.
   intros heights dp_right peak scanned
-    Hprogress Hscanned Hheight Himproves.
-  unfold ChoirRightInnerProgress in *.
+    Hdomain Hsize Hscandomain Hprogress Hscanned Hheight Himproves.
+  rewrite ChoirRightInnerProgress_view in * by (try rewrite Zlength_replace_Znth; lia).
   destruct Hprogress as
     [Hpeak [Hscan [Hlen [Hsuffix [Hones [Hmaximum Hcurrent_bounds]]]]]].
   assert (Hpeak_dp : 0 <= peak < Zlength dp_right)
@@ -833,16 +978,20 @@ Proof.
         -- rewrite Znth_replace_Znth_Same by exact Hpeak_dp.
            lia.
 Qed.
+
 Lemma choir_right_progress_step_ineligible__right_dp_transitions :
   forall heights dp_right peak scanned,
+    0 <= peak < Zlength heights ->
+    Zlength dp_right = Zlength heights ->
+    peak + 1 <= scanned <= Zlength heights ->
     ChoirRightInnerProgress heights dp_right peak scanned ->
     scanned < Zlength heights ->
     Znth peak heights 0 <= Znth scanned heights 0 ->
     ChoirRightInnerProgress heights dp_right peak (scanned + 1).
 Proof.
   intros heights dp_right peak scanned
-    Hprogress Hscanned Hheight.
-  unfold ChoirRightInnerProgress in *.
+    Hdomain Hsize Hscandomain Hprogress Hscanned Hheight.
+  rewrite ChoirRightInnerProgress_view in * by (try rewrite Zlength_replace_Znth; lia).
   destruct Hprogress as
     [Hpeak [Hscan [Hlen [Hsuffix [Hones [Hmaximum Hcurrent_bounds]]]]]].
   split; [exact Hpeak |].
@@ -876,8 +1025,12 @@ Proof.
     + exact Hbest_eq.
   - exact Hcurrent_bounds.
 Qed.
+
 Lemma choir_right_progress_step_dominated__right_dp_transitions :
   forall heights dp_right peak scanned,
+    0 <= peak < Zlength heights ->
+    Zlength dp_right = Zlength heights ->
+    peak + 1 <= scanned <= Zlength heights ->
     ChoirRightInnerProgress heights dp_right peak scanned ->
     scanned < Zlength heights ->
     Znth scanned heights 0 < Znth peak heights 0 ->
@@ -885,8 +1038,8 @@ Lemma choir_right_progress_step_dominated__right_dp_transitions :
     ChoirRightInnerProgress heights dp_right peak (scanned + 1).
 Proof.
   intros heights dp_right peak scanned
-    Hprogress Hscanned Hheight Hdominated.
-  unfold ChoirRightInnerProgress in *.
+    Hdomain Hsize Hscandomain Hprogress Hscanned Hheight Hdominated.
+  rewrite ChoirRightInnerProgress_view in * by (try rewrite Zlength_replace_Znth; lia).
   destruct Hprogress as
     [Hpeak [Hscan [Hlen [Hsuffix [Hones [Hmaximum Hcurrent_bounds]]]]]].
   split; [exact Hpeak |].
@@ -920,6 +1073,7 @@ Proof.
     + exact Hbest_eq.
   - exact Hcurrent_bounds.
 Qed.
+
 Lemma choir_valid_decreasing_starting_singleton__right_dp_transitions :
   forall heights peak,
     0 <= peak < Zlength heights ->
@@ -938,6 +1092,7 @@ Proof.
         rewrite Zlength_cons, Zlength_nil in Hq. lia.
       * exists nil. reflexivity.
 Qed.
+
 Lemma choir_valid_decreasing_starting_prepend__right_dp_transitions :
   forall heights peak k indices,
     ChoirValidDecreasingStartingAt heights k indices ->
@@ -987,6 +1142,7 @@ Proof.
         -- exists indices. reflexivity.
   - rewrite Zlength_cons. lia.
 Qed.
+
 Lemma choir_valid_decreasing_starting_split__right_dp_transitions :
   forall heights peak indices,
     ChoirValidDecreasingStartingAt heights peak indices ->
@@ -1070,13 +1226,16 @@ Proof.
       split; [exact Hheight |].
       rewrite Zlength_cons. lia.
 Qed.
+
 Lemma choir_right_progress_complete__right_dp_transitions :
   forall heights dp_right peak,
+    0 <= peak < Zlength heights ->
+    Zlength dp_right = Zlength heights ->
     ChoirRightInnerProgress heights dp_right peak (Zlength heights) ->
     ChoirDPRightSuffix heights dp_right peak.
 Proof.
-  intros heights dp_right peak Hprogress.
-  unfold ChoirRightInnerProgress in Hprogress.
+  intros heights dp_right peak Hdomain Hsize Hprogress.
+  rewrite ChoirRightInnerProgress_view in Hprogress by (try rewrite Zlength_replace_Znth; lia).
   destruct Hprogress as
     [Hpeak [Hscan [Hlen [Hsuffix [Hones
       [Hcandidate_max Hcurrent_bounds]]]]]].
@@ -1162,7 +1321,7 @@ Proof.
       lia.
     - lia.
   }
-  unfold ChoirDPRightSuffix.
+  rewrite ChoirDPRightSuffix_view by (try rewrite Zlength_replace_Znth; lia).
   split; [lia |].
   split; [exact Hlen |].
   split.
@@ -1173,6 +1332,7 @@ Proof.
       split; [exact Hright_peak | exact Hcurrent_bounds].
   - exact Hones.
 Qed.
+
 Lemma choir_peak_length_unique__best_prefix_fold :
   forall heights peak first second,
     ChoirPeakLength heights peak first ->
@@ -1215,6 +1375,7 @@ Proof.
     lia. }
   lia.
 Qed.
+
 Lemma choir_peak_length_from_dp__best_prefix_fold :
   forall heights dp_left dp_right peak,
     ChoirDPLeftPrefix heights dp_left (Zlength heights) ->
@@ -1225,21 +1386,17 @@ Lemma choir_peak_length_from_dp__best_prefix_fold :
     1 <= Znth peak dp_left 0 + Znth peak dp_right 0 - 1
       <= Zlength heights.
 Proof.
-  intros heights dp_left dp_right peak Hleft Hright Hpeak.
-  unfold ChoirDPLeftPrefix in Hleft.
-  unfold ChoirDPRightSuffix in Hright.
-  destruct Hleft as [_ [_ [Hleft _]]].
-  destruct Hright as [_ [_ [Hright _]]].
-  specialize (Hleft peak Hpeak) as
-      [Hleft_length [Hleft_lower Hleft_upper]].
-  specialize (Hright peak Hpeak) as
-      [Hright_length [Hright_lower Hright_upper]].
+  intros heights dp_left dp_right peak [Hleft _] [Hright _] Hpeak.
+  specialize (Hleft peak Hpeak).
+  specialize (Hright peak Hpeak).
+  pose proof (choir_left_length_bounds _ _ _ Hleft).
+  pose proof (choir_right_length_bounds _ _ _ Hright).
   split.
-  - unfold ChoirPeakLength.
-    exists (Znth peak dp_left 0), (Znth peak dp_right 0).
-    repeat split; auto.
+  - exists (Znth peak dp_left 0), (Znth peak dp_right 0).
+    repeat split; assumption || reflexivity.
   - lia.
 Qed.
+
 Lemma choir_best_prefix_step_take__best_prefix_fold :
   forall heights k old new,
     ChoirBestPrefix heights k old ->
@@ -1250,8 +1407,6 @@ Lemma choir_best_prefix_step_take__best_prefix_fold :
 Proof.
   intros heights k old new Hbest Hk Hpeak Hold_new.
   unfold ChoirBestPrefix in *.
-  destruct Hbest as [_ Hbest].
-  split; [lia |].
   right.
   split; [lia |].
   unfold max_value_of_subset, max_object_of_subset in *.
@@ -1300,6 +1455,7 @@ Proof.
            lia.
     + reflexivity.
 Qed.
+
 Lemma choir_best_prefix_step_keep__best_prefix_fold :
   forall heights k old new,
     ChoirBestPrefix heights k old ->
@@ -1311,8 +1467,6 @@ Lemma choir_best_prefix_step_keep__best_prefix_fold :
 Proof.
   intros heights k old new Hbest Hk Hpeak Hnew_positive Hnew_old.
   unfold ChoirBestPrefix in *.
-  destruct Hbest as [_ Hbest].
-  split; [lia |].
   right.
   split; [lia |].
   unfold max_value_of_subset, max_object_of_subset in *.
@@ -1345,6 +1499,7 @@ Proof.
            lia.
     + reflexivity.
 Qed.
+
 Lemma choir_best_prefix_positive__best_prefix_fold :
   forall heights dp_left dp_right limit best,
     0 < limit ->
@@ -1361,8 +1516,8 @@ Proof.
        heights dp_left dp_right 0 Hleft Hright ltac:(lia))
     as [Hpeak [Hpeak_positive Hpeak_bound]].
   unfold ChoirBestPrefix in Hbest.
-  destruct Hbest as [_ [[Hlimit_zero Hbest_zero] |
-      [Hlimit_positive' Hmaximum]]]; [lia |].
+  destruct Hbest as [[Hlimit_zero Hbest_zero] |
+      [Hlimit_positive' Hmaximum]]; [lia |].
   unfold max_value_of_subset, max_object_of_subset in Hmaximum.
   destruct Hmaximum as
       [maximum [[Hmaximum_member Hmaximum_upper] Hmaximum_value]].
@@ -1376,4 +1531,40 @@ Proof.
     exists 0.
     split; [lia | exact Hpeak]. }
   lia.
+Qed.
+
+Lemma choir_best_prefix_minimum_removals : forall heights dp_left dp_right best,
+  0 < Zlength heights ->
+  ChoirDPLeftPrefix heights dp_left (Zlength heights) ->
+  ChoirDPRightSuffix heights dp_right 0 ->
+  ChoirBestPrefix heights (Zlength heights) best ->
+  ChoirMinimumRemovals heights (Zlength heights - best).
+Proof.
+  intros heights dp_left dp_right best Hnonempty Hleft Hright Hbest.
+  destruct Hbest as [[Hzero _] | [_ Hmax]]; [lia|].
+  destruct Hmax as [candidate [[[peak [Hpeak Hpeaklen]] Hupper] Hbest]].
+  destruct Hpeaklen as [left [right [Hleftmax [Hrightmax Hsum]]]].
+  destruct Hleftmax as [li [[Hli Hli_upper] Hli_len]].
+  destruct Hrightmax as [ri [[Hri Hri_upper] Hri_len]].
+  unfold ChoirMinimumRemovals, min_value_of_subset, min_object_of_subset.
+  exists (li, ri). split.
+  - split.
+    + exists peak. split; assumption.
+    + intros [other_left other_right] [other_peak [Hother_left Hother_right]].
+      simpl.
+      assert (Hother_peak : 0 <= other_peak < Zlength heights)
+        by exact (proj1 Hother_left).
+      pose proof (proj1 Hleft other_peak Hother_peak) as Hleft_other.
+      pose proof (proj1 Hright other_peak Hother_peak) as Hright_other.
+      destruct Hleft_other as [best_left [[Hbest_left Hbound_left] Hlen_left]].
+      destruct Hright_other as [best_right [[Hbest_right Hbound_right] Hlen_right]].
+      specialize (Hbound_left other_left Hother_left).
+      specialize (Hbound_right other_right Hother_right).
+      pose proof (choir_peak_length_from_dp__best_prefix_fold
+        heights dp_left dp_right other_peak Hleft Hright Hother_peak)
+        as [Hother_length _].
+      specialize (Hupper (Znth other_peak dp_left 0 + Znth other_peak dp_right 0 - 1)
+        (ex_intro _ other_peak (conj Hother_peak Hother_length))).
+      simpl in *. lia.
+  - simpl in *. lia.
 Qed.

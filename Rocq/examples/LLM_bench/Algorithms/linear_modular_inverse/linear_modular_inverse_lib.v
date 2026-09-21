@@ -12,14 +12,12 @@ Definition PrimeForLinearInverse (p : Z) : Prop :=
 
 Definition CanonicalModularInverse
     (p index value : Z) : Prop :=
-  1 <= index < p /\
   0 < value < p /\
   exists coefficient,
     index * value + p * coefficient = 1.
 
 Definition ModularInversePrefix
     (p next : Z) (values : list Z) : Prop :=
-  Zlength values = next - 1 /\
   forall index,
     1 <= index < next ->
     CanonicalModularInverse p index
@@ -66,11 +64,12 @@ Lemma linear_inverse_prefix_extend__recurrence_core :
     2 <= i < p ->
     q = p / i ->
     r = p mod i ->
+    Zlength values = i - 1 ->
     ModularInversePrefix p i values ->
     ModularInversePrefix p (i + 1)
       (values ++ [((p - q) * Znth (r - 1) values 0) mod p]).
 Proof.
-  intros p i q r values Hprime Hi Hq Hr [Hlen Hprefix].
+  intros p i q r values Hprime Hi Hq Hr Hlen Hprefix.
   subst q r.
   destruct (linear_inverse_division_facts__recurrence_core p i Hprime Hi)
     as [Hdiv [Hquot [[Hrem_pos Hrem_lt] Hdiff]]].
@@ -79,11 +78,8 @@ Proof.
         (Znth (p mod i - 1) values 0)).
   { apply Hprefix. lia. }
   destruct Hcanonical as
-    [[Hindex_lo Hindex_hi] [[Hvalue_pos Hvalue_hi] [coefficient Hbezout]]].
-  split.
-  - rewrite Zlength_app, Zlength_cons, Zlength_nil, Hlen.
-    lia.
-  - intros index Hindex.
+    [[Hvalue_pos Hvalue_hi] [coefficient Hbezout]].
+  intros index Hindex.
     destruct (Z_lt_ge_dec index i) as [Hindex_old | Hindex_new].
     + specialize (Hprefix index ltac:(lia)).
       rewrite app_Znth1 by lia.
@@ -114,7 +110,6 @@ Proof.
           p * (coefficient - i * value + value + i * (raw / p)) = 1).
       { rewrite Hraw_div in Hraw_inverse.
         nia. }
-      split; [lia |].
       split.
       * split; [|lia].
         destruct (Z.eq_dec (raw mod p) 0) as [Hzero | Hnonzero].

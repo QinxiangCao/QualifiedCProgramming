@@ -457,11 +457,12 @@ LLM_BENCH_Lib_FILES = \
 	Algorithms/insertion_sort/insertion_sort_lib.v \
 	Algorithms/integer_divide/integer_divide_lib.v \
 	Algorithms/kings_game/kings_game_lib.v \
-	Algorithms/lcs_n/lcs_n_lib.v \
+	Algorithms/longest_common_sequence/longest_common_sequence_lib.v \
 	Algorithms/linear_modular_inverse/linear_modular_inverse_lib.v \
 	Algorithms/longest_increasing_subsequence/longest_increasing_subsequence_lib.v \
 	Algorithms/longest_nondecreasing_subsequence/longest_nondecreasing_subsequence_lib.v \
 	Algorithms/lucas_theorem/lucas_theorem_lib.v \
+	Algorithms/magic_items/magic_items_lib.v \
 	Algorithms/majority_element/majority_element_lib.v \
 	Algorithms/matrix_chain_multiplication/matrix_chain_multiplication_lib.v \
 	Algorithms/maximum_subarray/maximum_subarray_lib.v \
@@ -597,11 +598,12 @@ LLM_BENCH_EXAMPLE_FILE_NAME = \
 	Algorithms/insertion_sort/insertion_sort \
 	Algorithms/integer_divide/integer_divide \
 	Algorithms/kings_game/kings_game \
-	Algorithms/lcs_n/lcs_n \
+	Algorithms/longest_common_sequence/longest_common_sequence \
 	Algorithms/linear_modular_inverse/linear_modular_inverse \
 	Algorithms/longest_increasing_subsequence/longest_increasing_subsequence \
 	Algorithms/longest_nondecreasing_subsequence/longest_nondecreasing_subsequence \
 	Algorithms/lucas_theorem/lucas_theorem \
+	Algorithms/magic_items/magic_items \
 	Algorithms/majority_element/majority_element \
 	Algorithms/matrix_chain_multiplication/matrix_chain_multiplication \
 	Algorithms/maximum_subarray/maximum_subarray \

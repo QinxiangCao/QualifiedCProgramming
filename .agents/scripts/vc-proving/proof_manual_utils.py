@@ -4,15 +4,15 @@
 from __future__ import annotations
 
 import re
+from dataclasses import dataclass
 from collections.abc import Collection, Iterable, Mapping
 from pathlib import Path
 from typing import Any
 
 from coq_tooling import _dependency_modules
-from file_integrity import sha256_text
 
 LEMMA_KEYWORDS = "Lemma|Theorem|Proposition|Corollary|Example|Fact|Remark"
-LEMMA_RE = re.compile(rf"^(?:{LEMMA_KEYWORDS})\s+([A-Za-z0-9_']+)\s*:", re.MULTILINE)
+LEMMA_RE = re.compile(rf"^[ \t]*(?:{LEMMA_KEYWORDS})\s+([A-Za-z0-9_']+)\s*:", re.MULTILINE)
 PROOF_START_RE = re.compile(r"\bProof(?:\s+using\s+[^.]+)?\.", re.MULTILINE)
 PROOF_TERMINATOR_RE = re.compile(r"\b(?:Qed|Defined|Admitted|Abort)\s*\.", re.MULTILINE)
 PROOF_TERMINATOR_COMMAND_RE = re.compile(
@@ -52,7 +52,6 @@ COMMAND_SIMPLE_MODIFIERS = {
     "Succeed",
 }
 COMMAND_WORD_RE = re.compile(r"[A-Za-z][A-Za-z0-9_']*")
-COQ_IDENTIFIER_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_']*")
 COMMAND_NATURAL_RE = re.compile(r"(?:0[xX][0-9A-Fa-f][0-9A-Fa-f_]*|[0-9][0-9_]*)\b")
 BYPASS_CHECK_RE = re.compile(
     r"\bbypass_check\s*\(\s*(guard|positivity|universes)\s*\)", re.IGNORECASE
@@ -332,8 +331,14 @@ def _command_prefix(command: str) -> tuple[str, int, int, list[str], list[str]] 
         return word, word_match.start(), word_match.end(), modifiers, attributes
 
 
-def top_level_commands(text: str) -> list[dict[str, Any]]:
-    """Return command heads outside proofs."""
+def top_level_commands(
+    text: str, *, include_proof_commands: bool = False
+) -> list[dict[str, Any]]:
+    """Read command heads, including proof commands when checking safety.
+
+    Rocq permits commands such as Axiom and Unset Guard Checking inside an
+    open proof. Safety scans must inspect those commands as well.
+    """
 
     uncommented = strip_coq_comments(text)
     commands: list[dict[str, Any]] = []
@@ -348,7 +353,9 @@ def top_level_commands(text: str) -> list[dict[str, Any]]:
             # a top-level declaration.
             if PROOF_TERMINATOR_COMMAND_RE.search(command) is not None:
                 in_proof = False
-            continue
+                continue
+            if not include_proof_commands:
+                continue
         prefix = _command_prefix(command)
         if prefix is None:
             continue
@@ -361,18 +368,8 @@ def top_level_commands(text: str) -> list[dict[str, Any]]:
         name = (
             name_match.group(1)
             if name_match
-            else sha256_text(command.strip())[:16]
+            else head
         )
-        command_hash = coq_token_digest(command)
-        if name_match is not None:
-            name_start = head_end + name_match.start(1)
-            name_end = head_end + name_match.end(1)
-            semantic_command = (
-                command[:name_start] + "__DECL_NAME__" + command[name_end:]
-            )
-        else:
-            semantic_command = command
-        semantic_command_hash = sha256_text(normalize_coq_text(semantic_command))
         bypass_checks = sorted(
             {
                 match.group(1).lower()
@@ -385,11 +382,8 @@ def top_level_commands(text: str) -> list[dict[str, Any]]:
             {
                 "kind": head,
                 "name": name,
-                "command_hash": command_hash,
-                "semantic_command_hash": semantic_command_hash,
-                "semantic_command": normalize_coq_text(semantic_command),
                 "line": uncommented.count("\n", 0, offset + head_start) + 1,
-                **({"wrapped_kind": inner_head} if control else {}),
+                **({"in_proof": in_proof} if include_proof_commands else {}),
                 **({"bypass_checks": bypass_checks} if bypass_checks else {}),
                 **(
                     {"unsafe_typing_control": unsafe_typing_match.group(1).lower()}
@@ -426,7 +420,7 @@ def forbidden_top_level_declarations(
 def rollback_control_commands(text: str) -> list[dict[str, Any]]:
     return [
         item
-        for item in top_level_commands(text)
+        for item in top_level_commands(text, include_proof_commands=True)
         if str(item["kind"]) in ROLLBACK_CONTROL_KINDS
     ]
 
@@ -434,7 +428,7 @@ def rollback_control_commands(text: str) -> list[dict[str, Any]]:
 def unsafe_typing_commands(text: str) -> list[dict[str, Any]]:
     return [
         item
-        for item in top_level_commands(text)
+        for item in top_level_commands(text, include_proof_commands=True)
         if item.get("unsafe_typing_control") or item.get("bypass_checks")
     ]
 
@@ -444,7 +438,7 @@ def unsafe_assumption_declarations(text: str) -> list[dict[str, Any]]:
 
     active_sections: list[str] = []
     findings: list[dict[str, Any]] = []
-    for command in top_level_commands(text):
+    for command in top_level_commands(text, include_proof_commands=True):
         kind = str(command["kind"])
         name = str(command["name"])
         if kind == "Section":
@@ -458,14 +452,23 @@ def unsafe_assumption_declarations(text: str) -> list[dict[str, Any]]:
     return findings
 
 
-def normalize_coq_text(text: str) -> str:
-    text = strip_coq_comments(text).replace("\r\n", "\n").replace("\r", "\n")
-    lines = [line.rstrip() for line in text.split("\n")]
-    while lines and not lines[0].strip():
-        lines.pop(0)
-    while lines and not lines[-1].strip():
-        lines.pop()
-    return "\n".join(lines) + "\n"
+def unsafe_commands(commands: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Find all forbidden assumptions, rollback and typing controls in one scan."""
+    sections: list[str] = []
+    findings: list[dict[str, Any]] = []
+    for command in commands:
+        kind, name = command["kind"], command["name"]
+        if kind == "Section":
+            sections.append(name)
+        elif kind == "End" and sections and name == sections[-1]:
+            sections.pop()
+        elif (
+            kind in UNCONDITIONAL_ASSUMPTION_KINDS | ROLLBACK_CONTROL_KINDS
+            or (kind in SECTION_CONTEXT_DECLARATION_KINDS and not sections)
+            or command.get("unsafe_typing_control") or command.get("bypass_checks")
+        ):
+            findings.append(command)
+    return findings
 
 
 def coq_token_text(text: str) -> str:
@@ -526,63 +529,6 @@ def coq_token_text(text: str) -> str:
         tokens.append(char)
         index += 1
     return "\n".join(tokens)
-
-
-def coq_token_digest(text: str) -> str:
-    return sha256_text(coq_token_text(text))
-
-
-def stable_text_digest(text: str) -> str:
-    return sha256_text(normalize_coq_text(text))
-
-
-def declaration_block_digest(text: str) -> str:
-    """Hash declaration tokens while ignoring comments and formatting.
-
-    The containing artifact still has an exact byte seal.  This digest answers
-    the narrower merge/namespace question: whether statement and proof tokens
-    changed. Kernel validation remains mandatory after merge.
-    """
-
-    return coq_token_digest(text)
-
-
-def rewrite_coq_identifiers(text: str, renames: dict[str, str]) -> str:
-    """Rewrite exact Coq identifier tokens outside comments and strings.
-
-    Parent merge uses this only for helper names whose independently checked
-    group declarations collide.  Masking preserves source offsets, so the
-    replacement cannot rewrite a substring of a longer identifier or textual
-    examples embedded in comments/string literals.  The transformed merged
-    candidate is still required to pass the parent full Coq check.
-    """
-
-    if not renames:
-        return text
-    invalid = [
-        name
-        for name in [*renames, *renames.values()]
-        if COQ_IDENTIFIER_RE.fullmatch(name) is None
-    ]
-    if invalid:
-        raise ValueError(
-            "helper rename map contains an invalid Coq identifier: "
-            + ", ".join(sorted(set(invalid)))
-        )
-    masked = mask_coq_strings(mask_coq_comments(text))
-    parts: list[str] = []
-    previous = 0
-    for match in COQ_IDENTIFIER_RE.finditer(masked):
-        replacement = renames.get(match.group(0))
-        if replacement is None:
-            continue
-        parts.append(text[previous : match.start()])
-        parts.append(replacement)
-        previous = match.end()
-    if not parts:
-        return text
-    parts.append(text[previous:])
-    return "".join(parts)
 
 
 def parse_manual_file(text: str) -> tuple[str, list[dict[str, Any]]]:
@@ -673,8 +619,8 @@ def lemma_proof_parts(
 
     The editable span begins at ``Proof.`` (including ``Proof using``) and
     ends at the first proof terminator's period.  Everything before and after
-    that span is protected, including spaces after ``Admitted.``/``Abort.``,
-    blank lines between declarations, and the file's final newline state.
+    that span has protected tokens. Callers compare those tokens while allowing
+    comments, whitespace and line-ending changes.
     """
 
     block = (
@@ -708,25 +654,27 @@ def block_has_incomplete_proof(block: str) -> bool:
 
 
 def proof_mode_errors(block: str, proof_mode: str) -> list[str]:
-    """Check that a solved top-level VC follows its controller-verified route."""
+    """Check the required opening tactic, rather than a word anywhere in a proof."""
 
-    uncommented = mask_coq_strings(strip_coq_comments(block))
-    errors: list[str] = []
-    if proof_mode == "aggressive_pre_process":
-        if re.search(r"\baggressive_pre_process\b", uncommented) is None:
-            errors.append("does not use aggressive_pre_process")
-        if re.search(r"\bLLM_pre_process\b", uncommented) is not None:
-            errors.append(
-                "uses LLM_pre_process despite the aggressive_pre_process plan"
-            )
-    elif proof_mode == "LLM_pre_process":
-        if re.search(r"\baggressive_pre_process\b", uncommented) is not None:
-            errors.append("uses aggressive_pre_process despite the LLM_pre_process plan")
-        if re.search(r"\bLLM_pre_process\b", uncommented) is None:
-            errors.append("does not use LLM_pre_process")
-    else:
-        errors.append(f"has unsupported proof mode `{proof_mode}`")
-    return errors
+    if proof_mode not in {"LLM_pre_process", "aggressive_pre_process"}:
+        return [f"has unsupported proof mode `{proof_mode}`"]
+    try:
+        _statement, proof, _trailing = lemma_proof_parts(block)
+    except ValueError as exc:
+        return [str(exc)]
+    commands = _coq_commands(proof)
+    if len(commands) < 2 or re.match(
+        rf"\s*{proof_mode}\b", mask_coq_strings(commands[1][0])
+    ) is None:
+        return [f"must open its proof with {proof_mode}"]
+    other_mode = (
+        "aggressive_pre_process"
+        if proof_mode == "LLM_pre_process"
+        else "LLM_pre_process"
+    )
+    if re.search(rf"\b{other_mode}\b", mask_coq_strings(strip_coq_comments(proof))):
+        return [f"uses {other_mode} despite the {proof_mode} plan"]
+    return []
 
 
 def incomplete_proof_markers(text: str) -> list[dict[str, Any]]:
@@ -754,44 +702,37 @@ def lemma_statement_text(block_or_lemma: str | dict[str, Any]) -> str:
     return statement.rstrip() + "\n"
 
 
-def lemma_statement_hash(block_or_lemma: str | dict[str, Any]) -> str:
-    statement = normalize_coq_text(lemma_statement_text(block_or_lemma))
-    canonical = re.sub(
-        rf"^(\s*(?:{LEMMA_KEYWORDS})\s+)[A-Za-z0-9_']+(\s*:)",
-        r"\1__LEMMA_NAME__\2",
-        statement,
-        count=1,
-        flags=re.DOTALL,
-    )
-    return coq_token_digest(canonical)
+@dataclass
+class Manual:
+    """One parsed current source shared by planning, validation and merge."""
+
+    text: str
+    prelude: str
+    lemmas: list[dict[str, Any]]
+    by_name: dict[str, dict[str, Any]]
+    vc_index: dict[str, Any]
+
+
+def parse_manual(text: str) -> Manual:
+    prelude, lemmas = parse_manual_file(text)
+    ensure_unique_lemma_names(lemmas)
+    witnesses, split_goals = partition_manual_lemmas(lemmas)
+    by_name = lemma_by_name(lemmas)
+    index = {
+        "by_name": {
+            name: {"name": name, "parent": split_goal_parent(name),
+                   "statement": lemma_statement_text(lemma)}
+            for name, lemma in by_name.items()
+        },
+        "top_level": [str(item["name"]) for item in witnesses],
+        "split_goals": {name: [str(item["name"]) for item in splits]
+                        for name, splits in split_goals.items()},
+    }
+    return Manual(text, prelude, lemmas, by_name, index)
 
 
 def manual_vc_index(text: str) -> dict[str, Any]:
-    """Index every top-level VC and generated split goal in one manual."""
-
-    _prelude, lemmas = parse_manual_file(text)
-    ensure_unique_lemma_names(lemmas)
-    witnesses, split_goal_lemmas = partition_manual_lemmas(lemmas)
-    by_name: dict[str, dict[str, Any]] = {}
-    for lemma in lemmas:
-        name = str(lemma["name"])
-        by_name[name] = {
-            "name": name,
-            "parent": split_goal_parent(name),
-            "statement": lemma_statement_text(lemma),
-            "statement_sha256": lemma_statement_hash(lemma),
-        }
-    return {
-        "by_name": by_name,
-        "top_level": [str(lemma["name"]) for lemma in witnesses],
-        "split_goals": {
-            str(witness["name"]): [
-                str(split_goal["name"])
-                for split_goal in split_goal_lemmas[str(witness["name"])]
-            ]
-            for witness in witnesses
-        },
-    }
+    return parse_manual(text).vc_index
 
 
 def generated_artifact_module_spellings(
@@ -844,21 +785,20 @@ def lib_contract_errors(
     text: str,
     *,
     forbidden_modules: Collection[str] = (),
+    commands: list[dict[str, Any]] | None = None,
 ) -> list[str]:
     errors: list[str] = []
     for marker in incomplete_proof_markers(text):
         errors.append(f"lib contains {marker['kind']}.")
-    for command in rollback_control_commands(text):
-        errors.append(
-            f"lib contains forbidden rollback control command {command['kind']}."
-        )
-    for command in unsafe_typing_commands(text):
-        detail = command.get("unsafe_typing_control") or ",".join(
-            command.get("bypass_checks", [])
-        )
-        errors.append(f"lib contains unsafe typing control {detail}.")
-    for declaration in unsafe_assumption_declarations(text):
-        errors.append(f"lib contains assumption declaration {declaration['kind']}.")
+    for command in unsafe_commands(
+        commands if commands is not None else top_level_commands(text, include_proof_commands=True)
+    ):
+        if command["kind"] in ROLLBACK_CONTROL_KINDS:
+            errors.append(f"lib contains forbidden rollback control command {command['kind']}.")
+        elif command.get("unsafe_typing_control") or command.get("bypass_checks"):
+            errors.append("lib contains unsafe typing control.")
+        else:
+            errors.append(f"lib contains assumption declaration {command['kind']}.")
     forbidden = frozenset(str(module) for module in forbidden_modules)
     if forbidden:
         try:
@@ -890,7 +830,7 @@ def parse_lib_declarations(text: str) -> list[dict[str, Any]]:
         import_head = match.group(1)
         kind = "Import" if import_head else str(match.group(2))
         name = (
-            normalize_import_line(block.splitlines()[0])
+            normalize_import_line(_coq_commands(block)[0][0])
             if import_head
             else str(match.group(3))
         )
@@ -899,13 +839,6 @@ def parse_lib_declarations(text: str) -> list[dict[str, Any]]:
                 "kind": kind,
                 "name": name,
                 "block": block,
-                "start_offset": start,
-                "end_offset": end,
-                "start_line": text.count("\n", 0, start) + 1,
-                "end_line": max(
-                    text.count("\n", 0, start) + 1,
-                    text.count("\n", 0, end),
-                ),
             }
         )
     return declarations
@@ -935,372 +868,13 @@ def is_official_library_import(line: str) -> bool:
 
 def helper_namespace_for_group_id(group_id: object) -> dict[str, str]:
     """Return the strict helper namespace block for a proof group."""
-    sanitized = re.sub(r"[^A-Za-z0-9_]+", "_", str(group_id).strip())
-    if not sanitized:
+    if not isinstance(group_id, str) or re.fullmatch(r"[A-Za-z0-9_]+", group_id) is None:
         raise ValueError(
-            f"group_id does not produce a valid helper namespace suffix: {group_id!r}"
+            f"group id must contain only ASCII letters, digits, or underscores: {group_id!r}"
         )
     return {
         "policy": "group-id-suffixed",
         "group_id": str(group_id),
-        "suffix": "__" + sanitized,
+        "suffix": "__" + group_id,
         "required": "yes",
     }
-
-
-def _helper_namespace_errors(group_id: str, namespace: dict[str, Any]) -> list[str]:
-    errors: list[str] = []
-    try:
-        expected = helper_namespace_for_group_id(group_id)
-    except ValueError as exc:
-        return [str(exc)]
-    for key, value in expected.items():
-        if namespace.get(key) != value:
-            errors.append(f"{group_id}: helper_namespace.{key} must be {value!r}")
-    return errors
-
-
-def _declaration_statement_hash(decl: dict[str, str]) -> str:
-    if decl.get("kind") in HELPER_DECL_KINDS:
-        return lemma_statement_hash(decl["block"])
-    return stable_text_digest(decl["block"])
-
-
-def _group_helper_conflict_renames(
-    seed_text: str,
-    group_texts: list[tuple[str, str, dict[str, Any]]],
-    allowed_public_helpers_by_group: dict[str, dict[str, set[str]]],
-) -> dict[str, dict[str, str]]:
-    """Plan deterministic per-group names for valid same-name helper variants.
-
-    A token-identical public block is the canonical declaration when one
-    is present; otherwise the first declaration in manifest merge order is
-    canonical.  Every other token-distinct variant receives a fresh name
-    ending in its own group namespace suffix.  Invalid foreign/unsuffixed
-    helpers are deliberately excluded here so the ordinary merge contract
-    still rejects them instead of laundering them through a generated name.
-    """
-
-    seed_keys = {
-        (str(item["kind"]), str(item["name"]))
-        for item in parse_lib_declarations(seed_text)
-    }
-    reserved_names = {
-        str(item["name"])
-        for item in parse_lib_declarations(seed_text)
-        if str(item["kind"]) != "Import"
-    }
-    occurrences: dict[str, list[dict[str, Any]]] = {}
-    for group_id, text, namespace in group_texts:
-        suffix = str(namespace.get("suffix") or "")
-        allowed = allowed_public_helpers_by_group.get(group_id, {})
-        for declaration in parse_lib_declarations(text):
-            kind = str(declaration["kind"])
-            name = str(declaration["name"])
-            if kind != "Import":
-                reserved_names.add(name)
-            if kind not in HELPER_DECL_KINDS or (kind, name) in seed_keys or not name:
-                continue
-            digest = declaration_block_digest(str(declaration["block"]))
-            is_public = digest in allowed.get(name, set())
-            is_owned = bool(suffix and name.endswith(suffix))
-            if not is_public and not is_owned:
-                continue
-            occurrences.setdefault(name, []).append(
-                {
-                    "group_id": group_id,
-                    "digest": digest,
-                    "is_public": is_public,
-                    "suffix": suffix,
-                }
-            )
-
-    renames: dict[str, dict[str, str]] = {}
-    for name, records in occurrences.items():
-        digests = {str(item["digest"]) for item in records}
-        if len(digests) <= 1:
-            continue
-        # One group cannot give two token-distinct declarations with the same
-        # name a single unambiguous rename map. Merge rejects that input.
-        per_group_digests: dict[str, set[str]] = {}
-        for item in records:
-            per_group_digests.setdefault(str(item["group_id"]), set()).add(
-                str(item["digest"])
-            )
-        if any(len(group_digests) != 1 for group_digests in per_group_digests.values()):
-            continue
-        canonical = next(
-            (item for item in records if bool(item["is_public"])),
-            records[0],
-        )
-        canonical_digest = str(canonical["digest"])
-        for item in records:
-            if str(item["digest"]) == canonical_digest:
-                continue
-            group_id = str(item["group_id"])
-            suffix = str(item["suffix"])
-            if not suffix:
-                continue
-            # A helper name has exactly one controller namespace suffix.
-            # Appending a second ``__group`` tail would be parsed as one
-            # foreign composite suffix by the existing namespace contract.
-            # Replace the historical suffix and add a deterministic variant
-            # marker only when the natural current-group name is occupied.
-            stem = HELPER_NAMESPACE_SUFFIX_RE.sub("", name)
-            candidate = stem + suffix
-            while candidate in reserved_names:
-                stem += "_variant"
-                candidate = stem + suffix
-            reserved_names.add(candidate)
-            renames.setdefault(group_id, {})[name] = candidate
-    return renames
-
-
-def merge_group_worker_libs(
-    seed_text: str,
-    group_texts: list[tuple[str, str, dict[str, Any]]],
-    *,
-    allowed_public_helpers_by_group: dict[str, dict[str, set[str]]] | None = None,
-    forbidden_modules: Collection[str] = (),
-) -> tuple[
-    str,
-    list[dict[str, str]],
-    dict[str, dict[str, str]],
-    list[str],
-]:
-    """Merge group_worker_lib helper declarations onto formal_case_lib seed.
-
-    The caller supplies groups in manifest merge order.  Token-identical helper
-    blocks keep the first declaration.  For a same-name token-distinct variant,
-    a token-identical public block remains canonical when available;
-    otherwise the first manifest-order block remains canonical.  Other valid
-    variants and their local references are deterministically renamed with
-    their own group namespace suffix.  Parent verification must apply the
-    returned rename maps to that group's assigned manual proof blocks before
-    the full Coq check.
-
-    Returns ``(merged_text, added_declarations, helper_renames, errors)``.
-    """
-    allowed_by_group = allowed_public_helpers_by_group or {}
-    helper_renames = _group_helper_conflict_renames(
-        seed_text,
-        group_texts,
-        allowed_by_group,
-    )
-    seed_declarations = parse_lib_declarations(seed_text)
-    transformed_group_texts: list[tuple[str, str, dict[str, Any]]] = []
-    for group_id, text, namespace in group_texts:
-        renames = helper_renames.get(group_id, {})
-        group_declarations = parse_lib_declarations(text)
-        seed_prefix_is_intact = (
-            len(group_declarations) >= len(seed_declarations)
-            and all(
-                str(seed["kind"]) == str(candidate["kind"])
-                and str(seed["name"]) == str(candidate["name"])
-                and declaration_block_digest(str(seed["block"]))
-                == declaration_block_digest(str(candidate["block"]))
-                for seed, candidate in zip(
-                    seed_declarations,
-                    group_declarations[: len(seed_declarations)],
-                    strict=True,
-                )
-            )
-        )
-        if (
-            renames
-            and seed_prefix_is_intact
-            and len(group_declarations) > len(seed_declarations)
-        ):
-            # Keep every seed byte in this group copy untouched.  Identifier
-            # rewrites apply only to declarations appended after the complete
-            # token-identical seed prefix.
-            additions_start = int(
-                group_declarations[len(seed_declarations)]["start_offset"]
-            )
-            text = text[:additions_start] + rewrite_coq_identifiers(
-                text[additions_start:],
-                renames,
-            )
-        transformed_group_texts.append((group_id, text, namespace))
-
-    errors = lib_contract_errors(
-        seed_text,
-        forbidden_modules=forbidden_modules,
-    )
-    seed_decls = {f"{d['kind']}:{d['name']}": d for d in seed_declarations}
-    seed_names = {d["name"] for d in seed_declarations if d["kind"] != "Import"}
-    seed_commands = top_level_commands(seed_text)
-    seed_command_keys = [
-        (str(item["kind"]), str(item["name"]), str(item["command_hash"]))
-        for item in seed_commands
-    ]
-    helper_additions_by_name: dict[str, dict[str, str]] = {}
-    import_additions_by_name: dict[str, dict[str, str]] = {}
-    import_additions: list[dict[str, str]] = []
-    helper_additions: list[dict[str, str]] = []
-
-    for group_id, text, namespace in transformed_group_texts:
-        suffix = str(namespace.get("suffix", ""))
-        allowed_public_helpers = allowed_by_group.get(group_id, {})
-        errors.extend(_helper_namespace_errors(group_id, namespace))
-        errors.extend(
-            f"{group_id}: {error}"
-            for error in lib_contract_errors(
-                text,
-                forbidden_modules=forbidden_modules,
-            )
-        )
-        group_decls = parse_lib_declarations(text)
-        group_commands = top_level_commands(text)
-        group_command_keys = [
-            (str(item["kind"]), str(item["name"]), str(item["command_hash"]))
-            for item in group_commands
-        ]
-        if group_command_keys[: len(seed_command_keys)] != seed_command_keys:
-            errors.append(
-                f"{group_id}: group_worker_lib must keep all formal_case_lib seed commands first, in order, with identical tokens"
-            )
-
-        added_commands = group_commands[len(seed_command_keys) :]
-
-        parsed_helper_commands: set[tuple[str, str, str]] = set()
-        parsed_import_commands: set[tuple[str, str, str]] = set()
-        for declaration in group_decls:
-            commands = top_level_commands(str(declaration["block"]))
-            if not commands:
-                continue
-            first = commands[0]
-            key = (str(first["kind"]), str(first["name"]), str(first["command_hash"]))
-            if declaration["kind"] == "Import":
-                parsed_import_commands.add(key)
-            elif (
-                declaration["kind"] in HELPER_DECL_KINDS
-                and declaration["name"] == first["name"]
-            ):
-                parsed_helper_commands.add(key)
-
-        for command in added_commands:
-            kind = str(command["kind"])
-            name = str(command["name"])
-            key = (kind, name, str(command["command_hash"]))
-            if kind in {"Require", "From"}:
-                if key not in parsed_import_commands:
-                    errors.append(
-                        f"{group_id}: new import command is not a standalone parseable block"
-                    )
-            elif kind in HELPER_DECL_KINDS:
-                if key not in parsed_helper_commands:
-                    errors.append(
-                        f"{group_id}: new helper declaration `{name}` is not a standalone parseable block"
-                    )
-                elif name in seed_names:
-                    errors.append(
-                        f"{group_id}: new helper declaration `{name}` duplicates formal_case_lib seed name"
-                    )
-            else:
-                errors.append(
-                    f"{group_id}: new top-level command `{name}` has forbidden kind `{kind}`"
-                )
-        group_by_key = {f"{d['kind']}:{d['name']}": d for d in group_decls}
-        for key, seed in seed_decls.items():
-            group_seed = group_by_key.get(key)
-            if group_seed is None:
-                errors.append(
-                    f"{group_id}: removed formal_case_lib seed declaration `{seed['name']}`"
-                )
-            elif declaration_block_digest(
-                str(seed["block"])
-            ) != declaration_block_digest(str(group_seed["block"])):
-                errors.append(
-                    f"{group_id}: modified formal_case_lib seed declaration `{seed['name']}`"
-                )
-        for decl in group_decls:
-            key = f"{decl['kind']}:{decl['name']}"
-            if key in seed_decls:
-                continue
-            if decl["kind"] == "Import":
-                if not is_official_library_import(decl["name"]):
-                    errors.append(
-                        f"{group_id}: new group_worker_lib import `{decl['name']}` is not an allowed official Rocq import"
-                    )
-                    continue
-                if decl["name"] not in import_additions_by_name:
-                    added = {
-                        **decl,
-                        "group_id": group_id,
-                        "statement_hash": _declaration_statement_hash(decl),
-                        "helper_namespace_suffix": "",
-                    }
-                    import_additions_by_name[decl["name"]] = added
-                    import_additions.append(added)
-                continue
-            if decl["kind"] not in HELPER_DECL_KINDS:
-                errors.append(
-                    f"{group_id}: new group_worker_lib declaration `{decl['name']}` has forbidden kind `{decl['kind']}`"
-                )
-                continue
-            if decl["name"] in seed_names:
-                errors.append(
-                    f"{group_id}: new group_worker_lib declaration `{decl['name']}` duplicates formal_case_lib seed name"
-                )
-                continue
-            block_digest = declaration_block_digest(str(decl["block"]))
-            is_exact_public_helper = block_digest in allowed_public_helpers.get(
-                str(decl["name"]), set()
-            )
-            is_owned_suffix = bool(suffix and decl["name"].endswith(suffix))
-            if not is_owned_suffix and not is_exact_public_helper:
-                errors.append(
-                    f"{group_id}: new helper declaration `{decl['name']}` must end with current suffix `{suffix}` or match a public helper"
-                )
-                continue
-            foreign_suffix = HELPER_NAMESPACE_SUFFIX_RE.search(decl["name"])
-            if (
-                foreign_suffix
-                and foreign_suffix.group(0) != suffix
-                and not is_exact_public_helper
-            ):
-                errors.append(
-                    f"{group_id}: new helper declaration `{decl['name']}` uses foreign helper suffix `{foreign_suffix.group(0)}`"
-                )
-                continue
-            if decl["name"] in helper_additions_by_name:
-                prior = helper_additions_by_name[str(decl["name"])]
-                if declaration_block_digest(str(prior["block"])) != block_digest:
-                    errors.append(
-                        f"{group_id}: conflicting new group_worker_lib declaration name `{decl['name']}` already supplied by group `{prior['group_id']}`"
-                    )
-                continue
-            added = {
-                **decl,
-                "group_id": group_id,
-                "statement_hash": _declaration_statement_hash(decl),
-                "helper_namespace_suffix": (
-                    foreign_suffix.group(0)
-                    if not is_owned_suffix and is_exact_public_helper and foreign_suffix
-                    else suffix
-                ),
-                "helper_origin": (
-                    "public"
-                    if not is_owned_suffix and is_exact_public_helper
-                    else "group-owned"
-                ),
-            }
-            helper_additions_by_name[decl["name"]] = added
-            helper_additions.append(added)
-
-    additions = import_additions + helper_additions
-    if errors:
-        return seed_text, additions, helper_renames, errors
-    added_text = "\n".join(decl["block"].rstrip() for decl in additions)
-    if not added_text:
-        return seed_text, [], helper_renames, []
-    separator = (
-        ""
-        if seed_text.endswith("\n\n")
-        else "\n"
-        if seed_text.endswith("\n")
-        else "\n\n"
-    )
-    merged = seed_text + separator + added_text + "\n"
-    return merged, additions, helper_renames, []

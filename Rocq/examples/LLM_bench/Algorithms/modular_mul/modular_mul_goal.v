@@ -91,7 +91,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (b_pre < 0)) (PreH2 : ((0
 .
 
 Definition modular_mul_safety_wit_7 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((0 - modulus_pre ) < a_pre)) (PreH2 : (a_pre < modulus_pre)) (PreH3 : (INT_MIN < b_pre)) (PreH4 : (b_pre <= INT_MAX)) (PreH5 : (0 < modulus_pre)) (PreH6 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH7 : (0 <= b)) (PreH8 : (b <= INT_MAX)) (PreH9 : (flag = (0 - 1 ))) (PreH10 : ((0 - modulus_pre ) < a)) (PreH11 : (a < modulus_pre)) (PreH12 : ((0 - modulus_pre ) < res)) (PreH13 : (res < modulus_pre)) (PreH14 : (INT_MIN <= (res + a ))) (PreH15 : ((res + a ) <= INT_MAX)) (PreH16 : (INT_MIN <= (a + a ))) (PreH17 : ((a + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (res * flag ))) (PreH19 : ((res * flag ) <= INT_MAX)) (PreH20 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (0 < modulus_pre)) (PreH2 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH3 : (0 <= b)) (PreH4 : (b <= INT_MAX)) (PreH5 : (flag = (0 - 1 ))) (PreH6 : ((0 - modulus_pre ) < a)) (PreH7 : (a < modulus_pre)) (PreH8 : ((0 - modulus_pre ) < res)) (PreH9 : (res < modulus_pre)) (PreH10 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -103,7 +103,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_8 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((0 - modulus_pre ) < a_pre)) (PreH2 : (a_pre < modulus_pre)) (PreH3 : (INT_MIN < b_pre)) (PreH4 : (b_pre <= INT_MAX)) (PreH5 : (0 < modulus_pre)) (PreH6 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH7 : (0 <= b)) (PreH8 : (b <= INT_MAX)) (PreH9 : (flag = 1)) (PreH10 : ((0 - modulus_pre ) < a)) (PreH11 : (a < modulus_pre)) (PreH12 : ((0 - modulus_pre ) < res)) (PreH13 : (res < modulus_pre)) (PreH14 : (INT_MIN <= (res + a ))) (PreH15 : ((res + a ) <= INT_MAX)) (PreH16 : (INT_MIN <= (a + a ))) (PreH17 : ((a + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (res * flag ))) (PreH19 : ((res * flag ) <= INT_MAX)) (PreH20 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (0 < modulus_pre)) (PreH2 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH3 : (0 <= b)) (PreH4 : (b <= INT_MAX)) (PreH5 : (flag = 1)) (PreH6 : ((0 - modulus_pre ) < a)) (PreH7 : (a < modulus_pre)) (PreH8 : ((0 - modulus_pre ) < res)) (PreH9 : (res < modulus_pre)) (PreH10 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -115,7 +115,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_9 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b > 0)) (PreH2 : ((0 - modulus_pre ) < a_pre)) (PreH3 : (a_pre < modulus_pre)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (0 < modulus_pre)) (PreH7 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH8 : (0 <= b)) (PreH9 : (b <= INT_MAX)) (PreH10 : (flag = 1)) (PreH11 : ((0 - modulus_pre ) < a)) (PreH12 : (a < modulus_pre)) (PreH13 : ((0 - modulus_pre ) < res)) (PreH14 : (res < modulus_pre)) (PreH15 : (INT_MIN <= (res + a ))) (PreH16 : ((res + a ) <= INT_MAX)) (PreH17 : (INT_MIN <= (a + a ))) (PreH18 : ((a + a ) <= INT_MAX)) (PreH19 : (INT_MIN <= (res * flag ))) (PreH20 : ((res * flag ) <= INT_MAX)) (PreH21 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b > 0)) (PreH2 : (0 < modulus_pre)) (PreH3 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH4 : (0 <= b)) (PreH5 : (b <= INT_MAX)) (PreH6 : (flag = 1)) (PreH7 : ((0 - modulus_pre ) < a)) (PreH8 : (a < modulus_pre)) (PreH9 : ((0 - modulus_pre ) < res)) (PreH10 : (res < modulus_pre)) (PreH11 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -127,7 +127,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_10 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b > 0)) (PreH2 : ((0 - modulus_pre ) < a_pre)) (PreH3 : (a_pre < modulus_pre)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (0 < modulus_pre)) (PreH7 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH8 : (0 <= b)) (PreH9 : (b <= INT_MAX)) (PreH10 : (flag = (0 - 1 ))) (PreH11 : ((0 - modulus_pre ) < a)) (PreH12 : (a < modulus_pre)) (PreH13 : ((0 - modulus_pre ) < res)) (PreH14 : (res < modulus_pre)) (PreH15 : (INT_MIN <= (res + a ))) (PreH16 : ((res + a ) <= INT_MAX)) (PreH17 : (INT_MIN <= (a + a ))) (PreH18 : ((a + a ) <= INT_MAX)) (PreH19 : (INT_MIN <= (res * flag ))) (PreH20 : ((res * flag ) <= INT_MAX)) (PreH21 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b > 0)) (PreH2 : (0 < modulus_pre)) (PreH3 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH4 : (0 <= b)) (PreH5 : (b <= INT_MAX)) (PreH6 : (flag = (0 - 1 ))) (PreH7 : ((0 - modulus_pre ) < a)) (PreH8 : (a < modulus_pre)) (PreH9 : ((0 - modulus_pre ) < res)) (PreH10 : (res < modulus_pre)) (PreH11 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -139,7 +139,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_11 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b > 0)) (PreH2 : ((0 - modulus_pre ) < a_pre)) (PreH3 : (a_pre < modulus_pre)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (0 < modulus_pre)) (PreH7 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH8 : (0 <= b)) (PreH9 : (b <= INT_MAX)) (PreH10 : (flag = (0 - 1 ))) (PreH11 : ((0 - modulus_pre ) < a)) (PreH12 : (a < modulus_pre)) (PreH13 : ((0 - modulus_pre ) < res)) (PreH14 : (res < modulus_pre)) (PreH15 : (INT_MIN <= (res + a ))) (PreH16 : ((res + a ) <= INT_MAX)) (PreH17 : (INT_MIN <= (a + a ))) (PreH18 : ((a + a ) <= INT_MAX)) (PreH19 : (INT_MIN <= (res * flag ))) (PreH20 : ((res * flag ) <= INT_MAX)) (PreH21 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b > 0)) (PreH2 : (0 < modulus_pre)) (PreH3 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH4 : (0 <= b)) (PreH5 : (b <= INT_MAX)) (PreH6 : (flag = (0 - 1 ))) (PreH7 : ((0 - modulus_pre ) < a)) (PreH8 : (a < modulus_pre)) (PreH9 : ((0 - modulus_pre ) < res)) (PreH10 : (res < modulus_pre)) (PreH11 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -151,7 +151,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_12 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b > 0)) (PreH2 : ((0 - modulus_pre ) < a_pre)) (PreH3 : (a_pre < modulus_pre)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (0 < modulus_pre)) (PreH7 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH8 : (0 <= b)) (PreH9 : (b <= INT_MAX)) (PreH10 : (flag = 1)) (PreH11 : ((0 - modulus_pre ) < a)) (PreH12 : (a < modulus_pre)) (PreH13 : ((0 - modulus_pre ) < res)) (PreH14 : (res < modulus_pre)) (PreH15 : (INT_MIN <= (res + a ))) (PreH16 : ((res + a ) <= INT_MAX)) (PreH17 : (INT_MIN <= (a + a ))) (PreH18 : ((a + a ) <= INT_MAX)) (PreH19 : (INT_MIN <= (res * flag ))) (PreH20 : ((res * flag ) <= INT_MAX)) (PreH21 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b > 0)) (PreH2 : (0 < modulus_pre)) (PreH3 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH4 : (0 <= b)) (PreH5 : (b <= INT_MAX)) (PreH6 : (flag = 1)) (PreH7 : ((0 - modulus_pre ) < a)) (PreH8 : (a < modulus_pre)) (PreH9 : ((0 - modulus_pre ) < res)) (PreH10 : (res < modulus_pre)) (PreH11 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -163,7 +163,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_13 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b > 0)) (PreH2 : ((0 - modulus_pre ) < a_pre)) (PreH3 : (a_pre < modulus_pre)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (0 < modulus_pre)) (PreH7 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH8 : (0 <= b)) (PreH9 : (b <= INT_MAX)) (PreH10 : (flag = (0 - 1 ))) (PreH11 : ((0 - modulus_pre ) < a)) (PreH12 : (a < modulus_pre)) (PreH13 : ((0 - modulus_pre ) < res)) (PreH14 : (res < modulus_pre)) (PreH15 : (INT_MIN <= (res + a ))) (PreH16 : ((res + a ) <= INT_MAX)) (PreH17 : (INT_MIN <= (a + a ))) (PreH18 : ((a + a ) <= INT_MAX)) (PreH19 : (INT_MIN <= (res * flag ))) (PreH20 : ((res * flag ) <= INT_MAX)) (PreH21 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b > 0)) (PreH2 : (0 < modulus_pre)) (PreH3 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH4 : (0 <= b)) (PreH5 : (b <= INT_MAX)) (PreH6 : (flag = (0 - 1 ))) (PreH7 : ((0 - modulus_pre ) < a)) (PreH8 : (a < modulus_pre)) (PreH9 : ((0 - modulus_pre ) < res)) (PreH10 : (res < modulus_pre)) (PreH11 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -175,7 +175,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_14 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b > 0)) (PreH2 : ((0 - modulus_pre ) < a_pre)) (PreH3 : (a_pre < modulus_pre)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (0 < modulus_pre)) (PreH7 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH8 : (0 <= b)) (PreH9 : (b <= INT_MAX)) (PreH10 : (flag = 1)) (PreH11 : ((0 - modulus_pre ) < a)) (PreH12 : (a < modulus_pre)) (PreH13 : ((0 - modulus_pre ) < res)) (PreH14 : (res < modulus_pre)) (PreH15 : (INT_MIN <= (res + a ))) (PreH16 : ((res + a ) <= INT_MAX)) (PreH17 : (INT_MIN <= (a + a ))) (PreH18 : ((a + a ) <= INT_MAX)) (PreH19 : (INT_MIN <= (res * flag ))) (PreH20 : ((res * flag ) <= INT_MAX)) (PreH21 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b > 0)) (PreH2 : (0 < modulus_pre)) (PreH3 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH4 : (0 <= b)) (PreH5 : (b <= INT_MAX)) (PreH6 : (flag = 1)) (PreH7 : ((0 - modulus_pre ) < a)) (PreH8 : (a < modulus_pre)) (PreH9 : ((0 - modulus_pre ) < res)) (PreH10 : (res < modulus_pre)) (PreH11 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -187,7 +187,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_15 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -199,7 +199,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_16 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -211,7 +211,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_17 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -223,7 +223,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_18 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -235,7 +235,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_19 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -247,7 +247,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_20 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -259,7 +259,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_21 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -271,7 +271,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_22 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -283,7 +283,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_23 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -295,7 +295,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_24 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -307,7 +307,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_25 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -319,7 +319,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_26 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -331,7 +331,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_27 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> (b ÷ 2 ))
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -343,7 +343,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_28 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> (b ÷ 2 ))
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -355,7 +355,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_29 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> (b ÷ 2 ))
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -367,7 +367,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_30 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> (b ÷ 2 ))
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -379,7 +379,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_31 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> (b ÷ 2 ))
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -391,7 +391,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_32 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> (b ÷ 2 ))
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -403,7 +403,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_33 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> (b ÷ 2 ))
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -415,7 +415,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_34 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> (b ÷ 2 ))
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -427,7 +427,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_35 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b <= 0)) (PreH2 : ((0 - modulus_pre ) < a_pre)) (PreH3 : (a_pre < modulus_pre)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (0 < modulus_pre)) (PreH7 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH8 : (0 <= b)) (PreH9 : (b <= INT_MAX)) (PreH10 : (flag = 1)) (PreH11 : ((0 - modulus_pre ) < a)) (PreH12 : (a < modulus_pre)) (PreH13 : ((0 - modulus_pre ) < res)) (PreH14 : (res < modulus_pre)) (PreH15 : (INT_MIN <= (res + a ))) (PreH16 : ((res + a ) <= INT_MAX)) (PreH17 : (INT_MIN <= (a + a ))) (PreH18 : ((a + a ) <= INT_MAX)) (PreH19 : (INT_MIN <= (res * flag ))) (PreH20 : ((res * flag ) <= INT_MAX)) (PreH21 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b <= 0)) (PreH2 : (0 < modulus_pre)) (PreH3 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH4 : (0 <= b)) (PreH5 : (b <= INT_MAX)) (PreH6 : (flag = 1)) (PreH7 : ((0 - modulus_pre ) < a)) (PreH8 : (a < modulus_pre)) (PreH9 : ((0 - modulus_pre ) < res)) (PreH10 : (res < modulus_pre)) (PreH11 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -439,7 +439,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 .
 
 Definition modular_mul_safety_wit_36 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b <= 0)) (PreH2 : ((0 - modulus_pre ) < a_pre)) (PreH3 : (a_pre < modulus_pre)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (0 < modulus_pre)) (PreH7 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH8 : (0 <= b)) (PreH9 : (b <= INT_MAX)) (PreH10 : (flag = (0 - 1 ))) (PreH11 : ((0 - modulus_pre ) < a)) (PreH12 : (a < modulus_pre)) (PreH13 : ((0 - modulus_pre ) < res)) (PreH14 : (res < modulus_pre)) (PreH15 : (INT_MIN <= (res + a ))) (PreH16 : ((res + a ) <= INT_MAX)) (PreH17 : (INT_MIN <= (a + a ))) (PreH18 : ((a + a ) <= INT_MAX)) (PreH19 : (INT_MIN <= (res * flag ))) (PreH20 : ((res * flag ) <= INT_MAX)) (PreH21 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b <= 0)) (PreH2 : (0 < modulus_pre)) (PreH3 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH4 : (0 <= b)) (PreH5 : (b <= INT_MAX)) (PreH6 : (flag = (0 - 1 ))) (PreH7 : ((0 - modulus_pre ) < a)) (PreH8 : (a < modulus_pre)) (PreH9 : ((0 - modulus_pre ) < res)) (PreH10 : (res < modulus_pre)) (PreH11 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((( &( "modulus" ) )) # Int  |-> modulus_pre)
   **  ((( &( "b" ) )) # Int  |-> b)
   **  ((( &( "flag" ) )) # Int  |-> flag)
@@ -455,11 +455,7 @@ Definition modular_mul_entail_wit_1_1 :=
 forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (b_pre < 0)) (PreH2 : ((0 - modulus_pre ) < a_pre)) (PreH3 : (a_pre < modulus_pre)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (0 < modulus_pre)) (PreH7 : ((modulus_pre * 2 ) <= INT_MAX)) ,
   TT && emp 
 |--
-  “ ((0 - modulus_pre ) < a_pre) ” 
-  &&  “ (a_pre < modulus_pre) ” 
-  &&  “ (INT_MIN < b_pre) ” 
-  &&  “ (b_pre <= INT_MAX) ” 
-  &&  “ (0 < modulus_pre) ” 
+  “ (0 < modulus_pre) ” 
   &&  “ ((modulus_pre * 2 ) <= INT_MAX) ” 
   &&  “ (0 <= (-b_pre)) ” 
   &&  “ ((-b_pre) <= INT_MAX) ” 
@@ -468,12 +464,6 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (b_pre < 0)) (PreH2 : ((0
   &&  “ (a_pre < modulus_pre) ” 
   &&  “ ((0 - modulus_pre ) < 0) ” 
   &&  “ (0 < modulus_pre) ” 
-  &&  “ (INT_MIN <= (0 + a_pre )) ” 
-  &&  “ ((0 + a_pre ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (a_pre + a_pre )) ” 
-  &&  “ ((a_pre + a_pre ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (0 * (-1) )) ” 
-  &&  “ ((0 * (-1) ) <= INT_MAX) ” 
   &&  “ (ModularMulProgress a_pre b_pre modulus_pre a_pre (-b_pre) 0 (-1) ) ”
   &&  emp
 ) \/
@@ -495,11 +485,7 @@ Definition modular_mul_entail_wit_1_2 :=
 forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (b_pre >= 0)) (PreH2 : ((0 - modulus_pre ) < a_pre)) (PreH3 : (a_pre < modulus_pre)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (0 < modulus_pre)) (PreH7 : ((modulus_pre * 2 ) <= INT_MAX)) ,
   TT && emp 
 |--
-  “ ((0 - modulus_pre ) < a_pre) ” 
-  &&  “ (a_pre < modulus_pre) ” 
-  &&  “ (INT_MIN < b_pre) ” 
-  &&  “ (b_pre <= INT_MAX) ” 
-  &&  “ (0 < modulus_pre) ” 
+  “ (0 < modulus_pre) ” 
   &&  “ ((modulus_pre * 2 ) <= INT_MAX) ” 
   &&  “ (0 <= b_pre) ” 
   &&  “ (b_pre <= INT_MAX) ” 
@@ -508,12 +494,6 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (b_pre >= 0)) (PreH2 : ((
   &&  “ (a_pre < modulus_pre) ” 
   &&  “ ((0 - modulus_pre ) < 0) ” 
   &&  “ (0 < modulus_pre) ” 
-  &&  “ (INT_MIN <= (0 + a_pre )) ” 
-  &&  “ ((0 + a_pre ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (a_pre + a_pre )) ” 
-  &&  “ ((a_pre + a_pre ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (0 * 1 )) ” 
-  &&  “ ((0 * 1 ) <= INT_MAX) ” 
   &&  “ (ModularMulProgress a_pre b_pre modulus_pre a_pre b_pre 0 1 ) ”
   &&  emp
 ) \/
@@ -532,14 +512,10 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (PreH1 : (b_pre >= 0)) (PreH2 : ((
 
 Definition modular_mul_entail_wit_2_1 := 
 (
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   TT && emp 
 |--
-  “ ((0 - modulus_pre ) < a_pre) ” 
-  &&  “ (a_pre < modulus_pre) ” 
-  &&  “ (INT_MIN < b_pre) ” 
-  &&  “ (b_pre <= INT_MAX) ” 
-  &&  “ (0 < modulus_pre) ” 
+  “ (0 < modulus_pre) ” 
   &&  “ ((modulus_pre * 2 ) <= INT_MAX) ” 
   &&  “ (0 <= (b ÷ 2 )) ” 
   &&  “ ((b ÷ 2 ) <= INT_MAX) ” 
@@ -548,26 +524,14 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
   &&  “ (((a + a ) % ( modulus_pre ) ) < modulus_pre) ” 
   &&  “ ((0 - modulus_pre ) < ((res + a ) % ( modulus_pre ) )) ” 
   &&  “ (((res + a ) % ( modulus_pre ) ) < modulus_pre) ” 
-  &&  “ (INT_MIN <= (((res + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) )) ” 
-  &&  “ ((((res + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) )) ” 
-  &&  “ ((((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (((res + a ) % ( modulus_pre ) ) * flag )) ” 
-  &&  “ ((((res + a ) % ( modulus_pre ) ) * flag ) <= INT_MAX) ” 
   &&  “ (ModularMulProgress a_pre b_pre modulus_pre ((a + a ) % ( modulus_pre ) ) (b ÷ 2 ) ((res + a ) % ( modulus_pre ) ) flag ) ”
   &&  emp
 ) \/
 (
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   TT && emp 
 |--
   “ (ModularMulProgress a_pre b_pre modulus_pre ((a + a ) % ( modulus_pre ) ) (b ÷ 2 ) ((res + a ) % ( modulus_pre ) ) (0 - 1 ) ) ” 
-  &&  “ ((((res + a ) % ( modulus_pre ) ) * (0 - 1 ) ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (((res + a ) % ( modulus_pre ) ) * (0 - 1 ) )) ” 
-  &&  “ ((((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) )) ” 
-  &&  “ ((((res + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (((res + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) )) ” 
   &&  “ (((res + a ) % ( modulus_pre ) ) < modulus_pre) ” 
   &&  “ ((0 - modulus_pre ) < ((res + a ) % ( modulus_pre ) )) ” 
   &&  “ (((a + a ) % ( modulus_pre ) ) < modulus_pre) ” 
@@ -578,80 +542,46 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 ).
 
 Definition modular_mul_entail_wit_2_1_split_goal_1 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   (ModularMulProgress a_pre b_pre modulus_pre ((a + a ) % ( modulus_pre ) ) (b ÷ 2 ) ((res + a ) % ( modulus_pre ) ) (0 - 1 ) )
 .
 
 Definition modular_mul_entail_wit_2_1_split_goal_2 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
-  ((((res + a ) % ( modulus_pre ) ) * (0 - 1 ) ) <= INT_MAX)
-.
-
-Definition modular_mul_entail_wit_2_1_split_goal_3 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
-  (INT_MIN <= (((res + a ) % ( modulus_pre ) ) * (0 - 1 ) ))
-.
-
-Definition modular_mul_entail_wit_2_1_split_goal_4 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
-  ((((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX)
-.
-
-Definition modular_mul_entail_wit_2_1_split_goal_5 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
-  (INT_MIN <= (((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ))
-.
-
-Definition modular_mul_entail_wit_2_1_split_goal_6 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
-  ((((res + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX)
-.
-
-Definition modular_mul_entail_wit_2_1_split_goal_7 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
-  (INT_MIN <= (((res + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ))
-.
-
-Definition modular_mul_entail_wit_2_1_split_goal_8 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   (((res + a ) % ( modulus_pre ) ) < modulus_pre)
 .
 
-Definition modular_mul_entail_wit_2_1_split_goal_9 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+Definition modular_mul_entail_wit_2_1_split_goal_3 := 
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((0 - modulus_pre ) < ((res + a ) % ( modulus_pre ) ))
 .
 
-Definition modular_mul_entail_wit_2_1_split_goal_10 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+Definition modular_mul_entail_wit_2_1_split_goal_4 := 
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   (((a + a ) % ( modulus_pre ) ) < modulus_pre)
 .
 
-Definition modular_mul_entail_wit_2_1_split_goal_11 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+Definition modular_mul_entail_wit_2_1_split_goal_5 := 
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((0 - modulus_pre ) < ((a + a ) % ( modulus_pre ) ))
 .
 
-Definition modular_mul_entail_wit_2_1_split_goal_12 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+Definition modular_mul_entail_wit_2_1_split_goal_6 := 
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((b ÷ 2 ) <= INT_MAX)
 .
 
-Definition modular_mul_entail_wit_2_1_split_goal_13 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+Definition modular_mul_entail_wit_2_1_split_goal_7 := 
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   (0 <= (b ÷ 2 ))
 .
 
 Definition modular_mul_entail_wit_2_2 := 
 (
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   TT && emp 
 |--
-  “ ((0 - modulus_pre ) < a_pre) ” 
-  &&  “ (a_pre < modulus_pre) ” 
-  &&  “ (INT_MIN < b_pre) ” 
-  &&  “ (b_pre <= INT_MAX) ” 
-  &&  “ (0 < modulus_pre) ” 
+  “ (0 < modulus_pre) ” 
   &&  “ ((modulus_pre * 2 ) <= INT_MAX) ” 
   &&  “ (0 <= (b ÷ 2 )) ” 
   &&  “ ((b ÷ 2 ) <= INT_MAX) ” 
@@ -660,26 +590,14 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
   &&  “ (((a + a ) % ( modulus_pre ) ) < modulus_pre) ” 
   &&  “ ((0 - modulus_pre ) < ((res + a ) % ( modulus_pre ) )) ” 
   &&  “ (((res + a ) % ( modulus_pre ) ) < modulus_pre) ” 
-  &&  “ (INT_MIN <= (((res + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) )) ” 
-  &&  “ ((((res + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) )) ” 
-  &&  “ ((((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (((res + a ) % ( modulus_pre ) ) * flag )) ” 
-  &&  “ ((((res + a ) % ( modulus_pre ) ) * flag ) <= INT_MAX) ” 
   &&  “ (ModularMulProgress a_pre b_pre modulus_pre ((a + a ) % ( modulus_pre ) ) (b ÷ 2 ) ((res + a ) % ( modulus_pre ) ) flag ) ”
   &&  emp
 ) \/
 (
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   TT && emp 
 |--
   “ (ModularMulProgress a_pre b_pre modulus_pre ((a + a ) % ( modulus_pre ) ) (b ÷ 2 ) ((res + a ) % ( modulus_pre ) ) 1 ) ” 
-  &&  “ ((((res + a ) % ( modulus_pre ) ) * 1 ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (((res + a ) % ( modulus_pre ) ) * 1 )) ” 
-  &&  “ ((((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) )) ” 
-  &&  “ ((((res + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (((res + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) )) ” 
   &&  “ (((res + a ) % ( modulus_pre ) ) < modulus_pre) ” 
   &&  “ ((0 - modulus_pre ) < ((res + a ) % ( modulus_pre ) )) ” 
   &&  “ (((a + a ) % ( modulus_pre ) ) < modulus_pre) ” 
@@ -690,80 +608,46 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 ).
 
 Definition modular_mul_entail_wit_2_2_split_goal_1 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   (ModularMulProgress a_pre b_pre modulus_pre ((a + a ) % ( modulus_pre ) ) (b ÷ 2 ) ((res + a ) % ( modulus_pre ) ) 1 )
 .
 
 Definition modular_mul_entail_wit_2_2_split_goal_2 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
-  ((((res + a ) % ( modulus_pre ) ) * 1 ) <= INT_MAX)
-.
-
-Definition modular_mul_entail_wit_2_2_split_goal_3 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
-  (INT_MIN <= (((res + a ) % ( modulus_pre ) ) * 1 ))
-.
-
-Definition modular_mul_entail_wit_2_2_split_goal_4 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
-  ((((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX)
-.
-
-Definition modular_mul_entail_wit_2_2_split_goal_5 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
-  (INT_MIN <= (((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ))
-.
-
-Definition modular_mul_entail_wit_2_2_split_goal_6 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
-  ((((res + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX)
-.
-
-Definition modular_mul_entail_wit_2_2_split_goal_7 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
-  (INT_MIN <= (((res + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ))
-.
-
-Definition modular_mul_entail_wit_2_2_split_goal_8 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   (((res + a ) % ( modulus_pre ) ) < modulus_pre)
 .
 
-Definition modular_mul_entail_wit_2_2_split_goal_9 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+Definition modular_mul_entail_wit_2_2_split_goal_3 := 
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((0 - modulus_pre ) < ((res + a ) % ( modulus_pre ) ))
 .
 
-Definition modular_mul_entail_wit_2_2_split_goal_10 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+Definition modular_mul_entail_wit_2_2_split_goal_4 := 
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   (((a + a ) % ( modulus_pre ) ) < modulus_pre)
 .
 
-Definition modular_mul_entail_wit_2_2_split_goal_11 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+Definition modular_mul_entail_wit_2_2_split_goal_5 := 
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((0 - modulus_pre ) < ((a + a ) % ( modulus_pre ) ))
 .
 
-Definition modular_mul_entail_wit_2_2_split_goal_12 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+Definition modular_mul_entail_wit_2_2_split_goal_6 := 
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((b ÷ 2 ) <= INT_MAX)
 .
 
-Definition modular_mul_entail_wit_2_2_split_goal_13 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+Definition modular_mul_entail_wit_2_2_split_goal_7 := 
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) = 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   (0 <= (b ÷ 2 ))
 .
 
 Definition modular_mul_entail_wit_2_3 := 
 (
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   TT && emp 
 |--
-  “ ((0 - modulus_pre ) < a_pre) ” 
-  &&  “ (a_pre < modulus_pre) ” 
-  &&  “ (INT_MIN < b_pre) ” 
-  &&  “ (b_pre <= INT_MAX) ” 
-  &&  “ (0 < modulus_pre) ” 
+  “ (0 < modulus_pre) ” 
   &&  “ ((modulus_pre * 2 ) <= INT_MAX) ” 
   &&  “ (0 <= (b ÷ 2 )) ” 
   &&  “ ((b ÷ 2 ) <= INT_MAX) ” 
@@ -772,24 +656,14 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
   &&  “ (((a + a ) % ( modulus_pre ) ) < modulus_pre) ” 
   &&  “ ((0 - modulus_pre ) < res) ” 
   &&  “ (res < modulus_pre) ” 
-  &&  “ (INT_MIN <= (res + ((a + a ) % ( modulus_pre ) ) )) ” 
-  &&  “ ((res + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) )) ” 
-  &&  “ ((((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (res * flag )) ” 
-  &&  “ ((res * flag ) <= INT_MAX) ” 
   &&  “ (ModularMulProgress a_pre b_pre modulus_pre ((a + a ) % ( modulus_pre ) ) (b ÷ 2 ) res flag ) ”
   &&  emp
 ) \/
 (
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   TT && emp 
 |--
   “ (ModularMulProgress a_pre b_pre modulus_pre ((a + a ) % ( modulus_pre ) ) (b ÷ 2 ) res (0 - 1 ) ) ” 
-  &&  “ ((((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) )) ” 
-  &&  “ ((res + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (res + ((a + a ) % ( modulus_pre ) ) )) ” 
   &&  “ (((a + a ) % ( modulus_pre ) ) < modulus_pre) ” 
   &&  “ ((0 - modulus_pre ) < ((a + a ) % ( modulus_pre ) )) ” 
   &&  “ ((b ÷ 2 ) <= INT_MAX) ” 
@@ -798,60 +672,36 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 ).
 
 Definition modular_mul_entail_wit_2_3_split_goal_1 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   (ModularMulProgress a_pre b_pre modulus_pre ((a + a ) % ( modulus_pre ) ) (b ÷ 2 ) res (0 - 1 ) )
 .
 
 Definition modular_mul_entail_wit_2_3_split_goal_2 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
-  ((((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX)
-.
-
-Definition modular_mul_entail_wit_2_3_split_goal_3 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
-  (INT_MIN <= (((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ))
-.
-
-Definition modular_mul_entail_wit_2_3_split_goal_4 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
-  ((res + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX)
-.
-
-Definition modular_mul_entail_wit_2_3_split_goal_5 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
-  (INT_MIN <= (res + ((a + a ) % ( modulus_pre ) ) ))
-.
-
-Definition modular_mul_entail_wit_2_3_split_goal_6 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   (((a + a ) % ( modulus_pre ) ) < modulus_pre)
 .
 
-Definition modular_mul_entail_wit_2_3_split_goal_7 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+Definition modular_mul_entail_wit_2_3_split_goal_3 := 
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((0 - modulus_pre ) < ((a + a ) % ( modulus_pre ) ))
 .
 
-Definition modular_mul_entail_wit_2_3_split_goal_8 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+Definition modular_mul_entail_wit_2_3_split_goal_4 := 
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((b ÷ 2 ) <= INT_MAX)
 .
 
-Definition modular_mul_entail_wit_2_3_split_goal_9 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = (0 - 1 ))) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+Definition modular_mul_entail_wit_2_3_split_goal_5 := 
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = (0 - 1 ))) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   (0 <= (b ÷ 2 ))
 .
 
 Definition modular_mul_entail_wit_2_4 := 
 (
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   TT && emp 
 |--
-  “ ((0 - modulus_pre ) < a_pre) ” 
-  &&  “ (a_pre < modulus_pre) ” 
-  &&  “ (INT_MIN < b_pre) ” 
-  &&  “ (b_pre <= INT_MAX) ” 
-  &&  “ (0 < modulus_pre) ” 
+  “ (0 < modulus_pre) ” 
   &&  “ ((modulus_pre * 2 ) <= INT_MAX) ” 
   &&  “ (0 <= (b ÷ 2 )) ” 
   &&  “ ((b ÷ 2 ) <= INT_MAX) ” 
@@ -860,24 +710,14 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
   &&  “ (((a + a ) % ( modulus_pre ) ) < modulus_pre) ” 
   &&  “ ((0 - modulus_pre ) < res) ” 
   &&  “ (res < modulus_pre) ” 
-  &&  “ (INT_MIN <= (res + ((a + a ) % ( modulus_pre ) ) )) ” 
-  &&  “ ((res + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) )) ” 
-  &&  “ ((((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (res * flag )) ” 
-  &&  “ ((res * flag ) <= INT_MAX) ” 
   &&  “ (ModularMulProgress a_pre b_pre modulus_pre ((a + a ) % ( modulus_pre ) ) (b ÷ 2 ) res flag ) ”
   &&  emp
 ) \/
 (
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   TT && emp 
 |--
   “ (ModularMulProgress a_pre b_pre modulus_pre ((a + a ) % ( modulus_pre ) ) (b ÷ 2 ) res 1 ) ” 
-  &&  “ ((((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) )) ” 
-  &&  “ ((res + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX) ” 
-  &&  “ (INT_MIN <= (res + ((a + a ) % ( modulus_pre ) ) )) ” 
   &&  “ (((a + a ) % ( modulus_pre ) ) < modulus_pre) ” 
   &&  “ ((0 - modulus_pre ) < ((a + a ) % ( modulus_pre ) )) ” 
   &&  “ ((b ÷ 2 ) <= INT_MAX) ” 
@@ -886,60 +726,40 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 ).
 
 Definition modular_mul_entail_wit_2_4_split_goal_1 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   (ModularMulProgress a_pre b_pre modulus_pre ((a + a ) % ( modulus_pre ) ) (b ÷ 2 ) res 1 )
 .
 
 Definition modular_mul_entail_wit_2_4_split_goal_2 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
-  ((((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX)
-.
-
-Definition modular_mul_entail_wit_2_4_split_goal_3 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
-  (INT_MIN <= (((a + a ) % ( modulus_pre ) ) + ((a + a ) % ( modulus_pre ) ) ))
-.
-
-Definition modular_mul_entail_wit_2_4_split_goal_4 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
-  ((res + ((a + a ) % ( modulus_pre ) ) ) <= INT_MAX)
-.
-
-Definition modular_mul_entail_wit_2_4_split_goal_5 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
-  (INT_MIN <= (res + ((a + a ) % ( modulus_pre ) ) ))
-.
-
-Definition modular_mul_entail_wit_2_4_split_goal_6 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   (((a + a ) % ( modulus_pre ) ) < modulus_pre)
 .
 
-Definition modular_mul_entail_wit_2_4_split_goal_7 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+Definition modular_mul_entail_wit_2_4_split_goal_3 := 
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((0 - modulus_pre ) < ((a + a ) % ( modulus_pre ) ))
 .
 
-Definition modular_mul_entail_wit_2_4_split_goal_8 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+Definition modular_mul_entail_wit_2_4_split_goal_4 := 
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   ((b ÷ 2 ) <= INT_MAX)
 .
 
-Definition modular_mul_entail_wit_2_4_split_goal_9 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : ((0 - modulus_pre ) < a_pre)) (PreH4 : (a_pre < modulus_pre)) (PreH5 : (INT_MIN < b_pre)) (PreH6 : (b_pre <= INT_MAX)) (PreH7 : (0 < modulus_pre)) (PreH8 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH9 : (0 <= b)) (PreH10 : (b <= INT_MAX)) (PreH11 : (flag = 1)) (PreH12 : ((0 - modulus_pre ) < a)) (PreH13 : (a < modulus_pre)) (PreH14 : ((0 - modulus_pre ) < res)) (PreH15 : (res < modulus_pre)) (PreH16 : (INT_MIN <= (res + a ))) (PreH17 : ((res + a ) <= INT_MAX)) (PreH18 : (INT_MIN <= (a + a ))) (PreH19 : ((a + a ) <= INT_MAX)) (PreH20 : (INT_MIN <= (res * flag ))) (PreH21 : ((res * flag ) <= INT_MAX)) (PreH22 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+Definition modular_mul_entail_wit_2_4_split_goal_5 := 
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : ((b % ( 2 ) ) <> 1)) (PreH2 : (b > 0)) (PreH3 : (0 < modulus_pre)) (PreH4 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH5 : (0 <= b)) (PreH6 : (b <= INT_MAX)) (PreH7 : (flag = 1)) (PreH8 : ((0 - modulus_pre ) < a)) (PreH9 : (a < modulus_pre)) (PreH10 : ((0 - modulus_pre ) < res)) (PreH11 : (res < modulus_pre)) (PreH12 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   (0 <= (b ÷ 2 ))
 .
 
 Definition modular_mul_return_wit_1 := 
 (
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b <= 0)) (PreH2 : ((0 - modulus_pre ) < a_pre)) (PreH3 : (a_pre < modulus_pre)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (0 < modulus_pre)) (PreH7 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH8 : (0 <= b)) (PreH9 : (b <= INT_MAX)) (PreH10 : (flag = (0 - 1 ))) (PreH11 : ((0 - modulus_pre ) < a)) (PreH12 : (a < modulus_pre)) (PreH13 : ((0 - modulus_pre ) < res)) (PreH14 : (res < modulus_pre)) (PreH15 : (INT_MIN <= (res + a ))) (PreH16 : ((res + a ) <= INT_MAX)) (PreH17 : (INT_MIN <= (a + a ))) (PreH18 : ((a + a ) <= INT_MAX)) (PreH19 : (INT_MIN <= (res * flag ))) (PreH20 : ((res * flag ) <= INT_MAX)) (PreH21 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b <= 0)) (PreH2 : (0 < modulus_pre)) (PreH3 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH4 : (0 <= b)) (PreH5 : (b <= INT_MAX)) (PreH6 : (flag = (0 - 1 ))) (PreH7 : ((0 - modulus_pre ) < a)) (PreH8 : (a < modulus_pre)) (PreH9 : ((0 - modulus_pre ) < res)) (PreH10 : (res < modulus_pre)) (PreH11 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   TT && emp 
 |--
   “ (ModularMul a_pre b_pre modulus_pre (res * flag ) ) ”
   &&  emp
 ) \/
 (
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b <= 0)) (PreH2 : ((0 - modulus_pre ) < a_pre)) (PreH3 : (a_pre < modulus_pre)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (0 < modulus_pre)) (PreH7 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH8 : (0 <= b)) (PreH9 : (b <= INT_MAX)) (PreH10 : (flag = (0 - 1 ))) (PreH11 : ((0 - modulus_pre ) < a)) (PreH12 : (a < modulus_pre)) (PreH13 : ((0 - modulus_pre ) < res)) (PreH14 : (res < modulus_pre)) (PreH15 : (INT_MIN <= (res + a ))) (PreH16 : ((res + a ) <= INT_MAX)) (PreH17 : (INT_MIN <= (a + a ))) (PreH18 : ((a + a ) <= INT_MAX)) (PreH19 : (INT_MIN <= (res * flag ))) (PreH20 : ((res * flag ) <= INT_MAX)) (PreH21 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b <= 0)) (PreH2 : (0 < modulus_pre)) (PreH3 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH4 : (0 <= b)) (PreH5 : (b <= INT_MAX)) (PreH6 : (flag = (0 - 1 ))) (PreH7 : ((0 - modulus_pre ) < a)) (PreH8 : (a < modulus_pre)) (PreH9 : ((0 - modulus_pre ) < res)) (PreH10 : (res < modulus_pre)) (PreH11 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   TT && emp 
 |--
   “ (ModularMul a_pre b_pre modulus_pre (res * (0 - 1 ) ) ) ”
@@ -947,20 +767,20 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 ).
 
 Definition modular_mul_return_wit_1_split_goal_1 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b <= 0)) (PreH2 : ((0 - modulus_pre ) < a_pre)) (PreH3 : (a_pre < modulus_pre)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (0 < modulus_pre)) (PreH7 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH8 : (0 <= b)) (PreH9 : (b <= INT_MAX)) (PreH10 : (flag = (0 - 1 ))) (PreH11 : ((0 - modulus_pre ) < a)) (PreH12 : (a < modulus_pre)) (PreH13 : ((0 - modulus_pre ) < res)) (PreH14 : (res < modulus_pre)) (PreH15 : (INT_MIN <= (res + a ))) (PreH16 : ((res + a ) <= INT_MAX)) (PreH17 : (INT_MIN <= (a + a ))) (PreH18 : ((a + a ) <= INT_MAX)) (PreH19 : (INT_MIN <= (res * flag ))) (PreH20 : ((res * flag ) <= INT_MAX)) (PreH21 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b <= 0)) (PreH2 : (0 < modulus_pre)) (PreH3 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH4 : (0 <= b)) (PreH5 : (b <= INT_MAX)) (PreH6 : (flag = (0 - 1 ))) (PreH7 : ((0 - modulus_pre ) < a)) (PreH8 : (a < modulus_pre)) (PreH9 : ((0 - modulus_pre ) < res)) (PreH10 : (res < modulus_pre)) (PreH11 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   (ModularMul a_pre b_pre modulus_pre (res * (0 - 1 ) ) )
 .
 
 Definition modular_mul_return_wit_2 := 
 (
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b <= 0)) (PreH2 : ((0 - modulus_pre ) < a_pre)) (PreH3 : (a_pre < modulus_pre)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (0 < modulus_pre)) (PreH7 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH8 : (0 <= b)) (PreH9 : (b <= INT_MAX)) (PreH10 : (flag = 1)) (PreH11 : ((0 - modulus_pre ) < a)) (PreH12 : (a < modulus_pre)) (PreH13 : ((0 - modulus_pre ) < res)) (PreH14 : (res < modulus_pre)) (PreH15 : (INT_MIN <= (res + a ))) (PreH16 : ((res + a ) <= INT_MAX)) (PreH17 : (INT_MIN <= (a + a ))) (PreH18 : ((a + a ) <= INT_MAX)) (PreH19 : (INT_MIN <= (res * flag ))) (PreH20 : ((res * flag ) <= INT_MAX)) (PreH21 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b <= 0)) (PreH2 : (0 < modulus_pre)) (PreH3 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH4 : (0 <= b)) (PreH5 : (b <= INT_MAX)) (PreH6 : (flag = 1)) (PreH7 : ((0 - modulus_pre ) < a)) (PreH8 : (a < modulus_pre)) (PreH9 : ((0 - modulus_pre ) < res)) (PreH10 : (res < modulus_pre)) (PreH11 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   TT && emp 
 |--
   “ (ModularMul a_pre b_pre modulus_pre (res * flag ) ) ”
   &&  emp
 ) \/
 (
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b <= 0)) (PreH2 : ((0 - modulus_pre ) < a_pre)) (PreH3 : (a_pre < modulus_pre)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (0 < modulus_pre)) (PreH7 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH8 : (0 <= b)) (PreH9 : (b <= INT_MAX)) (PreH10 : (flag = 1)) (PreH11 : ((0 - modulus_pre ) < a)) (PreH12 : (a < modulus_pre)) (PreH13 : ((0 - modulus_pre ) < res)) (PreH14 : (res < modulus_pre)) (PreH15 : (INT_MIN <= (res + a ))) (PreH16 : ((res + a ) <= INT_MAX)) (PreH17 : (INT_MIN <= (a + a ))) (PreH18 : ((a + a ) <= INT_MAX)) (PreH19 : (INT_MIN <= (res * flag ))) (PreH20 : ((res * flag ) <= INT_MAX)) (PreH21 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b <= 0)) (PreH2 : (0 < modulus_pre)) (PreH3 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH4 : (0 <= b)) (PreH5 : (b <= INT_MAX)) (PreH6 : (flag = 1)) (PreH7 : ((0 - modulus_pre ) < a)) (PreH8 : (a < modulus_pre)) (PreH9 : ((0 - modulus_pre ) < res)) (PreH10 : (res < modulus_pre)) (PreH11 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   TT && emp 
 |--
   “ (ModularMul a_pre b_pre modulus_pre (res * 1 ) ) ”
@@ -968,7 +788,7 @@ forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (
 ).
 
 Definition modular_mul_return_wit_2_split_goal_1 := 
-forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b <= 0)) (PreH2 : ((0 - modulus_pre ) < a_pre)) (PreH3 : (a_pre < modulus_pre)) (PreH4 : (INT_MIN < b_pre)) (PreH5 : (b_pre <= INT_MAX)) (PreH6 : (0 < modulus_pre)) (PreH7 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH8 : (0 <= b)) (PreH9 : (b <= INT_MAX)) (PreH10 : (flag = 1)) (PreH11 : ((0 - modulus_pre ) < a)) (PreH12 : (a < modulus_pre)) (PreH13 : ((0 - modulus_pre ) < res)) (PreH14 : (res < modulus_pre)) (PreH15 : (INT_MIN <= (res + a ))) (PreH16 : ((res + a ) <= INT_MAX)) (PreH17 : (INT_MIN <= (a + a ))) (PreH18 : ((a + a ) <= INT_MAX)) (PreH19 : (INT_MIN <= (res * flag ))) (PreH20 : ((res * flag ) <= INT_MAX)) (PreH21 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
+forall (modulus_pre: Z) (b_pre: Z) (a_pre: Z) (res: Z) (a: Z) (flag: Z) (b: Z) (PreH1 : (b <= 0)) (PreH2 : (0 < modulus_pre)) (PreH3 : ((modulus_pre * 2 ) <= INT_MAX)) (PreH4 : (0 <= b)) (PreH5 : (b <= INT_MAX)) (PreH6 : (flag = 1)) (PreH7 : ((0 - modulus_pre ) < a)) (PreH8 : (a < modulus_pre)) (PreH9 : ((0 - modulus_pre ) < res)) (PreH10 : (res < modulus_pre)) (PreH11 : (ModularMulProgress a_pre b_pre modulus_pre a b res flag )) ,
   (ModularMul a_pre b_pre modulus_pre (res * 1 ) )
 .
 

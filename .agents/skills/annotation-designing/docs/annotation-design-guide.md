@@ -46,7 +46,7 @@
 | 总有定义的操作序列 | apply_op 与 fold |
 | 关系式操作序列 | 关系组合 |
 
-数值使用 Z。有顺序和位置的对象使用 list；无顺序的选择使用集合谓词。逐元素条件优先使用 Forall；需要索引或两表对应关系时使用 Znth 或 Forall2。
+逻辑整数、长度和下标使用 Z 与 Z-indexed list 接口。有顺序和位置的对象使用 list；无顺序的选择使用集合谓词。与下标无关的逐元素条件使用 Forall，两表对应元素关系使用 Forall2；只有真正依赖位置或跨下标关系的条件才保留 guarded indexed quantification。
 
 ## 3. 先复用核心 predicate
 
@@ -59,7 +59,7 @@
 
 常用接口：
 
-| 需要表达的内容 | 优先复用 |
+| 需要表达的内容 | 复用接口 |
 |---|---|
 | C 数组资源 | IntArray::full、seg、undef_seg 及对应 family |
 | list 长度、读取、切片、更新 | Zlength、Znth、sublist、replace_Znth |
@@ -67,11 +67,14 @@
 | 成员、互异、重排 | In、NoDup、Permutation |
 | 单调性 | 当前依赖已有的一套 increasing/decreasing 或 mono 系列 |
 | 有限集合、选择和计数 | 集合谓词、#、已有 Finite |
-| 求和 | sum、sum(sublist lo hi l)、SumLib |
-| 最小值和最大值 | min_value_of_subset、max_value_of_subset |
+| 求和、区间枚举 | 按签名选择 sum_range / sum / sum_set_R、Zrange |
+| 最小值和最大值 | MaxMinLib 的 min_value_of_subset、max_value_of_subset |
 | 图 | valid_vpath、reachable |
+| relation 的零步或多步闭包 | clos_refl_trans |
 
 一个 case 的同类性质只选择一套已有接口。例如单调性统一使用当前依赖中的一套，不再为 annotation 创建另一套同义定义。
+
+最值、求和、区间枚举和自反传递闭包必须使用上述指定库语义，不自行定义 IsMinimum / IsMaximum、递归 list sum、range enumeration 或同义 Reachable。导入、参数、Finite 与端点约定见[知识规则 §2](spec-and-contract-knowledge.md#2-算术与库接口)。
 
 直接组合已有 predicate 可以清楚表达时，不新增 case-local predicate。以下写成原表达：
 
@@ -111,13 +114,13 @@ Helper、循环状态和 Ensure 直接引用这一层，不再增加第二层同
 
 同一性质不在 spec、helper、invariant 中分别展开或重新命名。
 
-空间 ownership 由 IntArray、string、list 或结构体 predicate 表达。Pure predicate 只表达数学性质。范围、guard、overflow、数组读取绑定和必要的 @pre bridge 直接写在 C annotation。
+空间 ownership 由 IntArray、string、list 或结构体 predicate 单独表达。结果、helper 与进度 pure predicate 只表达数学性质，不混入输入限制、容量或执行安全条件；这些条件直接写在 Pre 前提或对应 C annotation，数组读取绑定和必要的 @pre bridge 也直接写出。题目候选集合、量化有效域和答案区间属于数学含义，按[知识规则 §0](spec-and-contract-knowledge.md#0-数学性质前提范围与空间资源的边界)保留。
 
 ## 5. 映射到 C function spec
 
 - With 引入资源对应的逻辑值；
 - Require 直接写输入范围、长度、overflow 条件和输入资源；
-- Ensure 调用数学输出 predicate 并归还资源；
+- Ensure 的数学部分只调用所需最终输出关系，空间资源单独归还，不复制输入范围、执行安全条件或中间构造状态；
 - 顶层函数直接连接题目 Spec；
 - helper 只暴露 caller 使用的抽象结果。
 
@@ -141,7 +144,7 @@ Invariant 需要满足三点：
 - 一轮 body 后可以保持；
 - guard 为假时可以推出下一阶段或 Ensure。
 
-不要复制所有函数入口条件。IntArray::full、seg 等资源已经给出的长度与区间事实不重复；具体数组访问需要的下标范围仍写在 invariant。
+不要复制所有函数入口条件。IntArray::full、seg 等资源已经给出的长度与区间事实不重复；具体数组访问需要的下标范围仍直接写在 invariant，不塞进进度 predicate。与下标无关的元素范围在所需列表或 sublist 上使用 Forall。
 
 读取 v = a[i] 后，后续需要逻辑值时保留 bounds、数组资源和 v = Znth i l default。只有区间拥有独立数学或空间含义时才拆 prefix、current、suffix。
 

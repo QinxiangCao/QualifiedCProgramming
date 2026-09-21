@@ -7,11 +7,11 @@ Require Import Coq.Classes.RelationClasses.
 Require Import Coq.Classes.Morphisms.
 Require Import Coq.micromega.Psatz.
 Require Import Coq.Sorting.Permutation.
-From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
+From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap MonotonicList.
 Require Import SetsClass.SetsClass. Import SetsNotation.
 From SimpleC.SL Require Import Mem SeparationLogic.
-Require Import annoying_math_homework_goal.
-Require Import annoying_math_homework_proof_auto.
+From SimpleC.EE.LLM_bench.Algorithms.annoying_math_homework Require Import annoying_math_homework_goal.
+From SimpleC.EE.LLM_bench.Algorithms.annoying_math_homework Require Import annoying_math_homework_proof_auto.
 Require Import Logic.LogicGenerator.demo932.Interface.
 Local Open Scope Z_scope.
 Local Open Scope sets.
@@ -21,12 +21,18 @@ Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.annoying_math_homework.annoying_math_homework_lib.
 Local Open Scope sac.
 
+Ltac view_bounds :=
+  repeat rewrite Zlength_replace_Znth__digits_dp_cell;
+  repeat rewrite Zlength_app;
+  repeat rewrite Zlength_cons;
+  repeat rewrite Zlength_nil; lia.
+
 Lemma proof_of_digits_sum_init_safety_wit_8_split_goal_1 : digits_sum_init_safety_wit_8_split_goal_1.
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold PowerPrefix in PreH4.
-  destruct PreH4 as [_ [_ Hforall]].
+  rewrite PowerPrefix_view in PreH5 by view_bounds.
+  destruct PreH5 as [_ [_ Hforall]].
   assert (Hi: 0 <= (i-1-0) < i) by lia.
   specialize (Hforall (i-1-0) Hi).
   replace (Znth (i - 1 - 0) power_l 0) with (10 ^ (i - 1 - 0) mod digit_sum_modulus) by lia.
@@ -43,8 +49,8 @@ Lemma proof_of_digits_sum_init_safety_wit_8_split_goal_2 : digits_sum_init_safet
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold PowerPrefix in PreH4.
-  destruct PreH4 as [_ [_ Hforall]].
+  rewrite PowerPrefix_view in PreH5 by view_bounds.
+  destruct PreH5 as [_ [_ Hforall]].
   assert (Hi: 0 <= (i-1-0) < i) by lia.
   specialize (Hforall (i-1-0) Hi).
   replace (Znth (i - 1 - 0) power_l 0) with (10 ^ (i - 1 - 0) mod digit_sum_modulus) by lia.
@@ -68,12 +74,12 @@ Lemma proof_of_digits_sum_init_safety_wit_36_split_goal_1 : digits_sum_init_safe
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold DigitDPCellProgress in PreH8.
-  destruct PreH8 as [_ [_ [_ [_ [_ [Hprev _]]]]]].
+  rewrite DigitDPCellProgress_view in PreH9 by view_bounds.
+  destruct PreH9 as [_ [_ [_ [_ [_ [Hprev _]]]]]].
   specialize (Hprev (i - 1) k ltac:(lia) ltac:(lia)).
   rewrite Hprev.
-  unfold PowerTable in PreH9.
-  destruct PreH9 as [_ Hpower].
+  unfold PowerTable in PreH10.
+  rename PreH10 into Hpower.
   rewrite Hpower by lia.
   unfold DigitDPValue.
   destruct (Z.eq_dec (i - 1) 1).
@@ -118,12 +124,12 @@ Lemma proof_of_digits_sum_init_safety_wit_36_split_goal_2 : digits_sum_init_safe
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold DigitDPCellProgress in PreH8.
-  destruct PreH8 as [_ [_ [_ [_ [_ [Hprev _]]]]]].
+  rewrite DigitDPCellProgress_view in PreH9 by view_bounds.
+  destruct PreH9 as [_ [_ [_ [_ [_ [Hprev _]]]]]].
   specialize (Hprev (i - 1) k ltac:(lia) ltac:(lia)).
   rewrite Hprev.
-  unfold PowerTable in PreH9.
-  destruct PreH9 as [_ Hpower].
+  unfold PowerTable in PreH10.
+  rename PreH10 into Hpower.
   rewrite Hpower by lia.
   unfold DigitDPValue.
   destruct (Z.eq_dec (i - 1) 1).
@@ -171,8 +177,8 @@ Lemma proof_of_digits_sum_init_safety_wit_38_split_goal_1 : digits_sum_init_safe
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold PowerTable in PreH9.
-  destruct PreH9 as [_ Hforall].
+  unfold PowerTable in PreH10.
+  rename PreH10 into Hforall.
   assert (Hi: 0 <= i-2 < 20) by lia.
   specialize (Hforall (i-2) Hi).
   replace (Znth (i - 2) power_l 0) with (10 ^ (i - 2) mod digit_sum_modulus) by lia.
@@ -189,8 +195,8 @@ Lemma proof_of_digits_sum_init_safety_wit_38_split_goal_2 : digits_sum_init_safe
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold PowerTable in PreH9.
-  destruct PreH9 as [_ Hforall].
+  unfold PowerTable in PreH10.
+  rename PreH10 into Hforall.
   assert (Hi: 0 <= i-2 < 20) by lia.
   specialize (Hforall (i-2) Hi).
   replace (Znth (i - 2) power_l 0) with (10 ^ (i - 2) mod digit_sum_modulus) by lia.
@@ -214,12 +220,12 @@ Lemma proof_of_digits_sum_init_safety_wit_47_split_goal_1 : digits_sum_init_safe
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold DigitDPCellProgress in PreH8.
-  destruct PreH8 as
+  rewrite DigitDPCellProgress_view in PreH9 by view_bounds.
+  destruct PreH9 as
     [Hlen [Hplaces [Hleading [Hsuffix [Hbase [Hprev
       [Hdone [Hafter [Hfuture [partial [Hsum Hcell]]]]]]]]]]].
-  unfold PowerTable in PreH9.
-  destruct PreH9 as [_ Hpower].
+  unfold PowerTable in PreH10.
+  rename PreH10 into Hpower.
   specialize (Hprev (i - 1) k ltac:(lia) ltac:(lia)).
   assert (Hprev_nonneg : 0 <= Znth ((i - 1) * 10 + k) dp_l 0).
   { rewrite Hprev.
@@ -265,12 +271,12 @@ Lemma proof_of_digits_sum_init_safety_wit_47_split_goal_2 : digits_sum_init_safe
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold DigitDPCellProgress in PreH8.
-  destruct PreH8 as
+  rewrite DigitDPCellProgress_view in PreH9 by view_bounds.
+  destruct PreH9 as
     [Hlen [Hplaces [Hleading [Hsuffix [Hbase [Hprev
       [Hdone [Hafter [Hfuture [partial [Hsum Hcell]]]]]]]]]]].
-  unfold PowerTable in PreH9.
-  destruct PreH9 as [_ Hpower].
+  unfold PowerTable in PreH10.
+  rename PreH10 into Hpower.
   specialize (Hprev (i - 1) k ltac:(lia) ltac:(lia)).
   assert (Hprev_nonneg : 0 <= Znth ((i - 1) * 10 + k) dp_l 0).
   { rewrite Hprev.
@@ -328,6 +334,7 @@ Proof.
   - split_pures; dump_pre_spatial.
     + lia.
     + lia.
+    + reflexivity.
     + unfold PowerPrefix, digit_sum_modulus.
       simpl.
       repeat split; try lia.
@@ -339,13 +346,13 @@ Qed.
 Lemma proof_of_digits_sum_init_entail_wit_2_split_goal_1 : digits_sum_init_entail_wit_2_split_goal_1.
 Proof.
   aggressive_pre_process.
-  pose proof PreH4 as Hprefix.
+  pose proof PreH5 as Hprefix.
   replace
     (signed_last_nbits
       ((Znth (i - 1 - 0) power_l_2 0 * 10) % 1000000007) 32)
     with ((Znth (i - 1) power_l_2 0 * 10) mod 1000000007).
   - (*intros power_l i Hi_lt Hi_lo Hi_hi Hprefix.*)
-    unfold PowerPrefix in *.
+    rewrite PowerPrefix_view in * by view_bounds.
     destruct Hprefix as [Hlen [Hbounds Hpower]].
     repeat split.
     + rewrite Zlength_app, Hlen, Zlength_cons, Zlength_nil.
@@ -366,7 +373,7 @@ Proof.
         rewrite Z.mul_mod_idemp_l by lia.
         rewrite Z.mul_comm.
         reflexivity.
-  - unfold PowerPrefix in Hprefix.
+  - rewrite PowerPrefix_view in Hprefix by view_bounds.
     destruct Hprefix as [Hlen [Hbounds Hpower]].
     rewrite Hpower by lia.
     replace (i - 1 - 0) with (i - 1) by lia.
@@ -381,10 +388,16 @@ Proof.
     symmetry; apply signed_last_nbits_eq; lia.
 Qed.
 
+Lemma proof_of_digits_sum_init_entail_wit_2_split_goal_2 : digits_sum_init_entail_wit_2_split_goal_2.
+Proof.
+  aggressive_pre_process. view_bounds.
+Qed.
+
 Lemma proof_of_digits_sum_init_entail_wit_2 : digits_sum_init_entail_wit_2.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_digits_sum_init_entail_wit_2_split_goal_1.
+  - Goal_apply proof_of_digits_sum_init_entail_wit_2_split_goal_2.
 Qed.
 
 Lemma proof_of_digits_sum_init_entail_wit_3 : digits_sum_init_entail_wit_3.
@@ -402,14 +415,12 @@ Proof.
   - split_pures; dump_pre_spatial.
     + lia.
     + lia.
-    + unfold ZeroSegment.
-      simpl.
-      repeat split; try lia.
-    + unfold PowerPrefix in PreH4.
+    + reflexivity.
+    + constructor.
+    + rewrite PowerPrefix_view in PreH5 by view_bounds.
       unfold PowerTable.
-      destruct PreH4 as [Hlen [_ Hpower]].
+      destruct PreH5 as [Hlen [_ Hpower]].
       subst i.
-      split; [lia |].
       intros idx Hidx.
       apply Hpower.
       lia.
@@ -432,11 +443,8 @@ Proof.
   split_pure_spatial.
   - replace (i * 10 + (j + 1)) with (i * 10 + j + 1) by lia.
     cancel (IntArray.seg dp_pre 0 (i * 10 + j + 1) (dp_l_2 ++ 0 :: nil)).
-  - split_pures; dump_pre_spatial; try lia; try assumption.
-    replace (i * 10 + (j + 1)) with ((i * 10 + j) + 1) by lia.
-    apply ZeroSegment_app_zero__digits_power_and_zero_init; try assumption.
-    unfold ZeroSegment in PreH6.
-    lia.
+  - split_pures; dump_pre_spatial; try view_bounds; try assumption.
+    apply Forall_app. split; [assumption|]. repeat constructor.
 Qed.
 
 Lemma proof_of_digits_sum_init_entail_wit_6 : digits_sum_init_entail_wit_6.
@@ -453,12 +461,9 @@ Qed.
 Lemma proof_of_digits_sum_init_entail_wit_7_split_goal_1 : digits_sum_init_entail_wit_7_split_goal_1.
 Proof.
   aggressive_pre_process.
-  unfold ZeroSegment in PreH4.
-  unfold DigitDPBaseProgress.
-  destruct PreH4 as [Hlen [Hbounds Hzero]].
+  rewrite DigitDPBaseProgress_view by view_bounds.
   repeat split; try lia.
-  intros k Hk _.
-  apply Hzero; lia.
+  intros k Hk _. symmetry. exact ((proj1 (Forall_Znth (eq 0) 0 dp_l_2)) PreH5 k ltac:(lia)).
 Qed.
 
 Lemma proof_of_digits_sum_init_entail_wit_7 : digits_sum_init_entail_wit_7.
@@ -470,12 +475,12 @@ Qed.
 Lemma proof_of_digits_sum_init_entail_wit_8_split_goal_1 : digits_sum_init_entail_wit_8_split_goal_1.
 Proof.
   aggressive_pre_process.
-  unfold DigitDPBaseProgress in *.
+  rewrite DigitDPBaseProgress_view in * by view_bounds.
   repeat split; try lia.
   - replace 200 with (Zlength dp_l_2) by lia.
     apply (Zlength_replace_Znth dp_l_2 (10+j) j).
   - intros j0 Hj0.
-    destruct PreH4 as [Hlength [_ [Hforall1 _]]].
+    destruct PreH5 as [Hlength [_ [Hforall1 _]]].
     destruct (Z.eq_dec j j0) as [Heq | Hneq].
     + subst j0.
       apply (Znth_replace_Znth_Same 0 dp_l_2 (10+j) j); lia.
@@ -492,22 +497,28 @@ Proof.
       apply (Znth_replace_Znth_Diff 0 dp_l_2 (10+j) k j); lia.
     }
     replace (Znth k (replace_Znth (10 + j) j dp_l_2) 0) with (Znth k dp_l_2 0) by lia.
-    destruct PreH4 as [_ [_ [_ Hforall2]]].
+    destruct PreH5 as [_ [_ [_ Hforall2]]].
     apply Hforall2; lia.
+Qed.
+
+Lemma proof_of_digits_sum_init_entail_wit_8_split_goal_2 : digits_sum_init_entail_wit_8_split_goal_2.
+Proof.
+  aggressive_pre_process. view_bounds.
 Qed.
 
 Lemma proof_of_digits_sum_init_entail_wit_8 : digits_sum_init_entail_wit_8.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_digits_sum_init_entail_wit_8_split_goal_1.
+  - Goal_apply proof_of_digits_sum_init_entail_wit_8_split_goal_2.
 Qed.
 
 Lemma proof_of_digits_sum_init_entail_wit_9_split_goal_1 : digits_sum_init_entail_wit_9_split_goal_1.
 Proof.
   aggressive_pre_process.
-  unfold DigitDPOuterProgress.
-  unfold DigitDPBaseProgress in PreH4.
-  destruct PreH4 as [Hlength [Hj [Hdpold Hdpnew]]].
+  rewrite DigitDPOuterProgress_view by view_bounds.
+  rewrite DigitDPBaseProgress_view in PreH5 by view_bounds.
+  destruct PreH5 as [Hlength [Hj [Hdpold Hdpnew]]].
   assert (j = 10) by lia. subst j.
   repeat split; try tauto; try lia.
   - intros d Hd.
@@ -539,9 +550,9 @@ Qed.
 Lemma proof_of_digits_sum_init_entail_wit_10_split_goal_1 : digits_sum_init_entail_wit_10_split_goal_1.
 Proof.
   aggressive_pre_process.
-  unfold DigitDPRowProgress.
-  unfold DigitDPOuterProgress in PreH4.
-  destruct PreH4 as [Hlength [_ [Hforall1 [Hforall2 Hforall3]]]].
+  rewrite DigitDPRowProgress_view by view_bounds.
+  rewrite DigitDPOuterProgress_view in PreH5 by view_bounds.
+  destruct PreH5 as [Hlength [_ [Hforall1 [Hforall2 Hforall3]]]].
   repeat split; try assumption; try tauto; try lia.
   - intros d Hd.
     specialize (Hforall3 i d ltac:(lia) Hd).
@@ -561,17 +572,17 @@ Qed.
 Lemma proof_of_digits_sum_init_entail_wit_11_split_goal_1 : digits_sum_init_entail_wit_11_split_goal_1.
 Proof.
   aggressive_pre_process.
-  unfold DigitDPCellProgress.
-  unfold DigitDPRowProgress in PreH6.
+  rewrite DigitDPCellProgress_view by view_bounds.
+  rewrite DigitDPRowProgress_view in PreH7 by view_bounds.
   repeat split; try assumption; try tauto; try lia.
   - intros d Hd.
-    destruct PreH6 as [_ [_ [_ [_ [_ [_ [Hforall _]]]]]]].
+    destruct PreH7 as [_ [_ [_ [_ [_ [_ [Hforall _]]]]]]].
     apply Hforall.
     lia.
   - exists 0. split.
     + apply InnerCandidateDigitSum_zero.
     + replace ((0 + 0 * 10 ^ (i - 2) * j) mod digit_sum_modulus) with 0.
-      * destruct PreH6 as [_ [_ [_ [_ [_ [_ [Hforall _]]]]]]].
+      * destruct PreH7 as [_ [_ [_ [_ [_ [_ [Hforall _]]]]]]].
         apply Hforall.
         lia.
       * replace (0 + 0 * 10 ^ (i - 2) * j) with 0 by lia.
@@ -589,13 +600,13 @@ Qed.
 Lemma proof_of_digits_sum_init_entail_wit_12_split_goal_1 : digits_sum_init_entail_wit_12_split_goal_1.
 Proof.
   aggressive_pre_process.
-  unfold DigitDPCellProgress in PreH8.
-  destruct PreH8 as
+  rewrite DigitDPCellProgress_view in PreH9 by view_bounds.
+  destruct PreH9 as
     [Hlen [Hplaces [Hleading [Hnext
       [Hbase [Hprevious [Hdone [Hzero [Hlater
         [partial [Hinner Hcell]]]]]]]]]]].
-  unfold PowerTable in PreH9.
-  destruct PreH9 as [Hpower_len Hpower].
+  unfold PowerTable in PreH10.
+  rename PreH10 into Hpower.
   specialize (Hpower (i - 2) ltac:(lia)).
   assert (Hpower_nonnegative : 0 <= Znth (i - 2) power_l_2 0).
   { rewrite Hpower.
@@ -640,7 +651,7 @@ Proof.
   set (cell :=
     (let v := raw mod (2 ^ 32) in
      if Coqlib.zlt v (2 ^ (32 - 1)) then v else v - 2 ^ 32)).
-  unfold DigitDPCellProgress.
+  rewrite DigitDPCellProgress_view by view_bounds.
   rewrite Zlength_replace_Znth__digits_dp_cell.
   repeat split; try lia; try assumption.
   - intros d Hd.
@@ -688,23 +699,29 @@ Proof.
       lia.
 Qed.
 
+Lemma proof_of_digits_sum_init_entail_wit_12_split_goal_2 : digits_sum_init_entail_wit_12_split_goal_2.
+Proof.
+  aggressive_pre_process. view_bounds.
+Qed.
+
 Lemma proof_of_digits_sum_init_entail_wit_12 : digits_sum_init_entail_wit_12.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_digits_sum_init_entail_wit_12_split_goal_1.
+  - Goal_apply proof_of_digits_sum_init_entail_wit_12_split_goal_2.
 Qed.
 
 Lemma proof_of_digits_sum_init_entail_wit_13_split_goal_1 : digits_sum_init_entail_wit_13_split_goal_1.
 Proof.
   aggressive_pre_process.
-  unfold DigitDPCellProgress in PreH8.
-  destruct PreH8 as
+  rewrite DigitDPCellProgress_view in PreH9 by view_bounds.
+  destruct PreH9 as
     [Hlen [Hplaces [Hleading [Hnext
       [Hbase [Hprevious [Hdone [Hzero [Hlater
         [partial [Hinner Hcell]]]]]]]]]]].
   assert (k = 10) by lia.
   subst k.
-  unfold DigitDPRowProgress.
+  rewrite DigitDPRowProgress_view by view_bounds.
   split; [exact Hlen |].
   split; [exact Hplaces |].
   split; [lia |].
@@ -756,23 +773,23 @@ Qed.
 Lemma proof_of_digits_sum_init_entail_wit_14_split_goal_1 : digits_sum_init_entail_wit_14_split_goal_1.
 Proof.
   aggressive_pre_process.
-  unfold DigitDPOuterProgress.
-  unfold DigitDPRowProgress in PreH6.
+  rewrite DigitDPOuterProgress_view by view_bounds.
+  rewrite DigitDPRowProgress_view in PreH7 by view_bounds.
   assert (j = 10) by lia; subst j.
   repeat split; try assumption; try tauto; try lia.
   - intros places leading Hplaces Hleading.
     destruct (Z.eq_dec places i) as [Hplaces_eq | Hplaces_neq].
     + subst places.
-      destruct PreH6 as [_ [_ [_ [_ [_ [Hforall _]]]]]].
+      destruct PreH7 as [_ [_ [_ [_ [_ [Hforall _]]]]]].
       specialize (Hforall leading Hleading).
       exact Hforall.
     + assert (Hplaces': 1 <= places < i) by lia.
-      destruct PreH6 as [_ [_ [_ [_ [Hforall _]]]]].
+      destruct PreH7 as [_ [_ [_ [_ [Hforall _]]]]].
       specialize (Hforall places leading Hplaces' Hleading).
       exact Hforall.
   - intros places leading Hplaces Hleading.
     assert (Hplaces': i < places < 20) by lia.
-    destruct PreH6 as [_ [_ [_ [_ [_ [_ [_ Hforall]]]]]]].
+    destruct PreH7 as [_ [_ [_ [_ [_ [_ [_ Hforall]]]]]]].
     specialize (Hforall places leading Hplaces' Hleading).
     exact Hforall.
 Qed.
@@ -786,13 +803,8 @@ Qed.
 Lemma proof_of_digits_sum_init_return_wit_1_split_goal_1 : digits_sum_init_return_wit_1_split_goal_1.
 Proof.
   aggressive_pre_process.
-  unfold DigitDPTable.
-  unfold DigitDPOuterProgress in PreH4.
-  repeat split; try assumption; try tauto; try lia.
   assert (i = 20) by lia; subst i.
-  intros places leading Hplaces Hleading.
-  destruct PreH4 as [_ [_ [_ [Hforall _]]]].
-  apply Hforall; lia.
+  unfold DigitDPTable, DigitDPOuterProgress in *. tauto.
 Qed.
 
 Lemma proof_of_digits_sum_init_return_wit_1 : digits_sum_init_return_wit_1.
@@ -805,8 +817,8 @@ Lemma proof_of_prefix_digits_sum_safety_wit_17_split_goal_1 : prefix_digits_sum_
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold DigitPositionPower in PreH11.
-  destruct PreH11 as [[Hi Hile] Hpower].
+  rewrite DigitPositionPower_view in PreH12 by view_bounds.
+  destruct PreH12 as [[Hi Hile] Hpower].
   subst power_ll.
   assert (Hpow : 10 ^ (i - 1) <= 10 ^ 17).
   { apply Z.pow_le_mono_r; lia. }
@@ -818,8 +830,8 @@ Lemma proof_of_prefix_digits_sum_safety_wit_17_split_goal_2 : prefix_digits_sum_
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold DigitPositionPower in PreH11.
-  destruct PreH11 as [[Hi Hile] Hpower].
+  rewrite DigitPositionPower_view in PreH12 by view_bounds.
+  destruct PreH12 as [[Hi Hile] Hpower].
   subst power_ll.
   assert (Hpow : 0 <= 10 ^ (i - 1)).
   { apply Z.pow_nonneg; lia. }
@@ -837,8 +849,8 @@ Lemma proof_of_prefix_digits_sum_safety_wit_23_split_goal_1 : prefix_digits_sum_
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold DigitDPTable in PreH19.
-  destruct PreH19 as [_ [_ Hcell]].
+  unfold DigitDPTable in PreH20.
+  destruct PreH20 as [_ Hcell].
   assert (Hi: 1 <= i < 20) by lia.
   assert (Hj: 0 <= j < 10) by lia.
   specialize (Hcell i j Hi Hj).
@@ -860,8 +872,8 @@ Lemma proof_of_prefix_digits_sum_safety_wit_23_split_goal_2 : prefix_digits_sum_
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold DigitDPTable in PreH19.
-  destruct PreH19 as [_ [_ Hcell]].
+  unfold DigitDPTable in PreH20.
+  destruct PreH20 as [_ Hcell].
   assert (Hi: 1 <= i < 20) by lia.
   assert (Hj: 0 <= j < 10) by lia.
   specialize (Hcell i j Hi Hj).
@@ -890,8 +902,8 @@ Lemma proof_of_prefix_digits_sum_safety_wit_30_split_goal_1 : prefix_digits_sum_
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold OuterDigitPositionPower in PreH18.
-  destruct PreH18 as [[Hz Hzero] | [[Hlo Hhi] Hpow]].
+  rewrite OuterDigitPositionPower_view in PreH19 by view_bounds.
+  destruct PreH19 as [[Hz Hzero] | [[Hlo Hhi] Hpow]].
   - lia.
   - subst power_ll. right.
     assert (Hpos : 0 < 10 ^ (i - 1)).
@@ -903,8 +915,8 @@ Lemma proof_of_prefix_digits_sum_safety_wit_30_split_goal_2 : prefix_digits_sum_
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold OuterDigitPositionPower in PreH18.
-  destruct PreH18 as [[Hz Hzero] | [[Hlo Hhi] Hpow]].
+  rewrite OuterDigitPositionPower_view in PreH19 by view_bounds.
+  destruct PreH19 as [[Hz Hzero] | [[Hlo Hhi] Hpow]].
   - lia.
   - subst power_ll.
     assert (Hpos : 0 < 10 ^ (i - 1)).
@@ -923,10 +935,10 @@ Lemma proof_of_prefix_digits_sum_safety_wit_33_split_goal_1 : prefix_digits_sum_
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold ExtractedDigitCount in PreH15.
-  destruct PreH15 as [[Hcountlo Hcounthi] [Hxlo Hxhi]].
-  unfold OuterDigitPositionPower in PreH18.
-  destruct PreH18 as [[Hz Hzero] | [[Hilo Hihi] Hpow]].
+  rewrite ExtractedDigitCount_view in PreH16 by view_bounds.
+  destruct PreH16 as [[Hcountlo Hcounthi] [Hxlo Hxhi]].
+  rewrite OuterDigitPositionPower_view in PreH19 by view_bounds.
+  destruct PreH19 as [[Hz Hzero] | [[Hilo Hihi] Hpow]].
   - lia.
   - subst power_ll.
     assert (Hpos : 0 < 10 ^ (i - 1)).
@@ -944,10 +956,10 @@ Lemma proof_of_prefix_digits_sum_safety_wit_33_split_goal_2 : prefix_digits_sum_
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold ExtractedDigitCount in PreH15.
-  destruct PreH15 as [[Hcountlo Hcounthi] [Hxlo Hxhi]].
-  unfold OuterDigitPositionPower in PreH18.
-  destruct PreH18 as [[Hz Hzero] | [[Hilo Hihi] Hpow]].
+  rewrite ExtractedDigitCount_view in PreH16 by view_bounds.
+  destruct PreH16 as [[Hcountlo Hcounthi] [Hxlo Hxhi]].
+  rewrite OuterDigitPositionPower_view in PreH19 by view_bounds.
+  destruct PreH19 as [[Hz Hzero] | [[Hilo Hihi] Hpow]].
   - lia.
   - subst power_ll.
     assert (Hpos : 0 < 10 ^ (i - 1)).
@@ -969,8 +981,8 @@ Lemma proof_of_prefix_digits_sum_safety_wit_34_split_goal_1 : prefix_digits_sum_
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold OuterDigitPositionPower in PreH18.
-  destruct PreH18 as [[Hz Hzero] | [[Hlo Hhi] Hpow]].
+  rewrite OuterDigitPositionPower_view in PreH19 by view_bounds.
+  destruct PreH19 as [[Hz Hzero] | [[Hlo Hhi] Hpow]].
   - lia.
   - subst power_ll.
     right.
@@ -983,8 +995,8 @@ Lemma proof_of_prefix_digits_sum_safety_wit_34_split_goal_2 : prefix_digits_sum_
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold OuterDigitPositionPower in PreH18.
-  destruct PreH18 as [[Hz Hzero] | [[Hlo Hhi] Hpow]].
+  rewrite OuterDigitPositionPower_view in PreH19 by view_bounds.
+  destruct PreH19 as [[Hz Hzero] | [[Hlo Hhi] Hpow]].
   - lia.
   - subst power_ll.
     assert (Hpos : 0 < 10 ^ (i - 1)).
@@ -1003,10 +1015,10 @@ Lemma proof_of_prefix_digits_sum_safety_wit_38_split_goal_1 : prefix_digits_sum_
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold ExtractedDigitCount in PreH15.
-  destruct PreH15 as [[Hcountlo Hcounthi] [Hxlo Hxhi]].
-  unfold OuterDigitPositionPower in PreH18.
-  destruct PreH18 as [[Hz Hzero] | [[Hilo Hihi] Hpow]].
+  rewrite ExtractedDigitCount_view in PreH16 by view_bounds.
+  destruct PreH16 as [[Hcountlo Hcounthi] [Hxlo Hxhi]].
+  rewrite OuterDigitPositionPower_view in PreH19 by view_bounds.
+  destruct PreH19 as [[Hz Hzero] | [[Hilo Hihi] Hpow]].
   - lia.
   - subst power_ll.
     assert (Hpos : 0 < 10 ^ (i - 1)) by (apply Z.pow_pos_nonneg; lia).
@@ -1025,10 +1037,10 @@ Lemma proof_of_prefix_digits_sum_safety_wit_38_split_goal_2 : prefix_digits_sum_
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold ExtractedDigitCount in PreH15.
-  destruct PreH15 as [[Hcountlo Hcounthi] [Hxlo Hxhi]].
-  unfold OuterDigitPositionPower in PreH18.
-  destruct PreH18 as [[Hz Hzero] | [[Hilo Hihi] Hpow]].
+  rewrite ExtractedDigitCount_view in PreH16 by view_bounds.
+  destruct PreH16 as [[Hcountlo Hcounthi] [Hxlo Hxhi]].
+  rewrite OuterDigitPositionPower_view in PreH19 by view_bounds.
+  destruct PreH19 as [[Hz Hzero] | [[Hilo Hihi] Hpow]].
   - lia.
   - subst power_ll.
     assert (Hpos : 0 < 10 ^ (i - 1)) by (apply Z.pow_pos_nonneg; lia).
@@ -1054,10 +1066,10 @@ Lemma proof_of_prefix_digits_sum_safety_wit_41_split_goal_1 : prefix_digits_sum_
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold ExtractedDigitCount in PreH15.
-  destruct PreH15 as [[Hcountlo Hcounthi] [Hxlo Hxhi]].
-  unfold OuterDigitPositionPower in PreH18.
-  destruct PreH18 as [[Hz Hzero] | [[Hilo Hihi] Hpow]].
+  rewrite ExtractedDigitCount_view in PreH16 by view_bounds.
+  destruct PreH16 as [[Hcountlo Hcounthi] [Hxlo Hxhi]].
+  rewrite OuterDigitPositionPower_view in PreH19 by view_bounds.
+  destruct PreH19 as [[Hz Hzero] | [[Hilo Hihi] Hpow]].
   - lia.
   - subst power_ll.
     assert (Hpos : 0 < 10 ^ (i - 1)) by (apply Z.pow_pos_nonneg; lia).
@@ -1080,10 +1092,10 @@ Lemma proof_of_prefix_digits_sum_safety_wit_41_split_goal_2 : prefix_digits_sum_
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  unfold ExtractedDigitCount in PreH15.
-  destruct PreH15 as [[Hcountlo Hcounthi] [Hxlo Hxhi]].
-  unfold OuterDigitPositionPower in PreH18.
-  destruct PreH18 as [[Hz Hzero] | [[Hilo Hihi] Hpow]].
+  rewrite ExtractedDigitCount_view in PreH16 by view_bounds.
+  destruct PreH16 as [[Hcountlo Hcounthi] [Hxlo Hxhi]].
+  rewrite OuterDigitPositionPower_view in PreH19 by view_bounds.
+  destruct PreH19 as [[Hz Hzero] | [[Hilo Hihi] Hpow]].
   - lia.
   - subst power_ll.
     assert (Hpos : 0 < 10 ^ (i - 1)) by (apply Z.pow_pos_nonneg; lia).
@@ -1111,51 +1123,44 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_1_split_goal_1 : prefix_digits_sum_entail_wit_1_split_goal_1.
 Proof.
-  aggressive_pre_process.
-  unfold ZeroSegment.
-  repeat split.
-  - reflexivity.
-  - lia.
-  - intros k Hk. lia.
+  aggressive_pre_process. constructor.
+Qed.
+
+Lemma proof_of_prefix_digits_sum_entail_wit_1_split_goal_2 : prefix_digits_sum_entail_wit_1_split_goal_2.
+Proof.
+  aggressive_pre_process. view_bounds.
 Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_1 : prefix_digits_sum_entail_wit_1.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_prefix_digits_sum_entail_wit_1_split_goal_1.
+  - Goal_apply proof_of_prefix_digits_sum_entail_wit_1_split_goal_2.
 Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_2_split_goal_1 : prefix_digits_sum_entail_wit_2_split_goal_1.
 Proof.
-  aggressive_pre_process.
-  unfold ZeroSegment in PreH9 |- *.
-  destruct PreH9 as [Hlen [Hbounds Hzero]].
-  split.
-  - rewrite Zlength_app, Hlen. simpl. reflexivity.
-  - split.
-    + lia.
-    + intros k Hk.
-      destruct (Z_lt_ge_dec k i).
-      * rewrite app_Znth1 by lia.
-        apply Hzero. lia.
-      * assert (k = i) by lia. subst k.
-        rewrite app_Znth2 by lia.
-        replace (i - Zlength digits_l_2) with 0 by lia.
-        reflexivity.
+  aggressive_pre_process. apply Forall_app. split; [assumption|]. repeat constructor.
+Qed.
+
+Lemma proof_of_prefix_digits_sum_entail_wit_2_split_goal_2 : prefix_digits_sum_entail_wit_2_split_goal_2.
+Proof.
+  aggressive_pre_process. view_bounds.
 Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_2 : prefix_digits_sum_entail_wit_2.
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_prefix_digits_sum_entail_wit_2_split_goal_1.
+  - Goal_apply proof_of_prefix_digits_sum_entail_wit_2_split_goal_2.
 Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_3_split_goal_1 : prefix_digits_sum_entail_wit_3_split_goal_1.
 Proof.
   aggressive_pre_process.
-  unfold ZeroSegment in PreH9.
-  unfold ExtractedDigitBuffer.
-  destruct PreH9 as [Hlen [Hbounds Hzero]].
+  rewrite ExtractedDigitBuffer_view by view_bounds.
+  assert (Hzero : forall k, 0 <= k < Zlength digits_l_2 -> Znth k digits_l_2 0 = 0).
+  { intros k Hk. symmetry. exact ((proj1 (Forall_Znth (eq 0) 0 digits_l_2)) PreH10 k Hk). }
   assert (Hi : i = 20) by lia.
   assert (Hlen20 : Zlength digits_l_2 = 20) by lia.
   subst m.
@@ -1180,8 +1185,8 @@ Lemma proof_of_prefix_digits_sum_entail_wit_4_split_goal_1 : prefix_digits_sum_e
 Proof.
   aggressive_pre_process.
   intros.
-  unfold ExtractedDigitBuffer in PreH11 |- *.
-  destruct PreH11 as [Hlen [Hcount [Hremaining [Hdigits Hzero]]]].
+  rewrite ExtractedDigitBuffer_view in PreH12 |- * by view_bounds.
+  destruct PreH12 as [Hlen [Hcount [Hremaining [Hdigits Hzero]]]].
   split.
   - rewrite Zlength_replace_Znth. exact Hlen.
   - split.
@@ -1217,11 +1222,16 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_4_split_goal_2 : prefix_digits_sum_entail_wit_4_split_goal_2.
 Proof.
+  aggressive_pre_process. view_bounds.
+Qed.
+
+Lemma proof_of_prefix_digits_sum_entail_wit_4_split_goal_3 : prefix_digits_sum_entail_wit_4_split_goal_3.
+Proof.
   aggressive_pre_process.
   pose proof H as Hzero.
-  unfold ExtractedDigitBuffer in PreH11.
-  destruct PreH11 as [_ [_ [Hremaining _]]].
-  unfold ExtractedDigitCount.
+  rewrite ExtractedDigitBuffer_view in PreH12 by view_bounds.
+  destruct PreH12 as [_ [_ [Hremaining _]]].
+  rewrite ExtractedDigitCount_view by view_bounds.
   assert (Hp : 0 < 10 ^ m) by (apply Z.pow_pos_nonneg; lia).
   assert (Htmp_one : 1 <= tmpx) by lia.
   rewrite Z.quot_div_nonneg in Hzero by lia.
@@ -1238,11 +1248,11 @@ Proof.
     nia.
 Qed.
 
-Lemma proof_of_prefix_digits_sum_entail_wit_4_split_goal_3 : prefix_digits_sum_entail_wit_4_split_goal_3.
+Lemma proof_of_prefix_digits_sum_entail_wit_4_split_goal_4 : prefix_digits_sum_entail_wit_4_split_goal_4.
 Proof.
   aggressive_pre_process.
-  unfold ExtractedDigitBuffer in PreH11.
-  destruct PreH11 as [_ [_ [Hremaining _]]].
+  rewrite ExtractedDigitBuffer_view in PreH12 by view_bounds.
+  destruct PreH12 as [_ [_ [Hremaining _]]].
   subst tmpx.
   assert (Hm : m = 0 \/ m = 1 \/ m = 2 \/ m = 3 \/ m = 4 \/
     m = 5 \/ m = 6 \/ m = 7 \/ m = 8 \/ m = 9 \/ m = 10 \/
@@ -1260,7 +1270,7 @@ Proof.
   - apply Z.div_lt_upper_bound; lia.
 Qed.
 
-Lemma proof_of_prefix_digits_sum_entail_wit_4_split_goal_4 : prefix_digits_sum_entail_wit_4_split_goal_4.
+Lemma proof_of_prefix_digits_sum_entail_wit_4_split_goal_5 : prefix_digits_sum_entail_wit_4_split_goal_5.
 Proof.
   aggressive_pre_process.
   rewrite Z.quot_div_nonneg by lia.
@@ -1276,6 +1286,7 @@ Proof.
   - Goal_apply proof_of_prefix_digits_sum_entail_wit_4_split_goal_2.
   - Goal_apply proof_of_prefix_digits_sum_entail_wit_4_split_goal_3.
   - Goal_apply proof_of_prefix_digits_sum_entail_wit_4_split_goal_4.
+  - Goal_apply proof_of_prefix_digits_sum_entail_wit_4_split_goal_5.
 Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_5_split_goal_1 : prefix_digits_sum_entail_wit_5_split_goal_1.
@@ -1283,27 +1294,16 @@ Proof.
   aggressive_pre_process.
   subst ans.
   apply AccumulatedDigitSumCorrect_initial.
+  - lia.
   - exact PreH1.
   - apply PreH10.
-    exact PreH13.
+    exact PreH14.
 Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_5_split_goal_2 : prefix_digits_sum_entail_wit_5_split_goal_2.
 Proof.
   aggressive_pre_process.
-  unfold OuterDigitPositionProgress.
-  subst tmpx.
-  subst ans.
-  constructor.
-  - exact PreH11.
-  - apply PreH10.
-    reflexivity.
-Qed.
-
-Lemma proof_of_prefix_digits_sum_entail_wit_5_split_goal_3 : prefix_digits_sum_entail_wit_5_split_goal_3.
-Proof.
-  aggressive_pre_process.
-  unfold DigitPositionPower.
+  rewrite DigitPositionPower_view by view_bounds.
   subst power_ll.
   simpl.
   lia.
@@ -1314,14 +1314,13 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_prefix_digits_sum_entail_wit_5_split_goal_1.
   - Goal_apply proof_of_prefix_digits_sum_entail_wit_5_split_goal_2.
-  - Goal_apply proof_of_prefix_digits_sum_entail_wit_5_split_goal_3.
 Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_6_split_goal_1 : prefix_digits_sum_entail_wit_6_split_goal_1.
 Proof.
   aggressive_pre_process.
-  unfold DigitPositionPower in PreH11 |- *.
-  destruct PreH11 as [Hrange Hpower].
+  rewrite DigitPositionPower_view in PreH12 |- * by view_bounds.
+  destruct PreH12 as [Hrange Hpower].
   split; [lia|].
   rewrite Hpower.
   replace (10 ^ (i - 1) * 10) with (10 * 10 ^ (i - 1)) by ring.
@@ -1338,10 +1337,10 @@ Qed.
 Lemma proof_of_prefix_digits_sum_entail_wit_7_split_goal_1 : prefix_digits_sum_entail_wit_7_split_goal_1.
 Proof.
   aggressive_pre_process.
-  unfold DigitPositionPower in PreH11.
-  unfold OuterDigitPositionPower.
+  rewrite DigitPositionPower_view in PreH12 by view_bounds.
+  rewrite OuterDigitPositionPower_view by view_bounds.
   right.
-  destruct PreH11 as [Hrange Hpower].
+  destruct PreH12 as [Hrange Hpower].
   assert (i = m) by lia.
   subst i.
   exact (conj Hrange Hpower).
@@ -1356,8 +1355,8 @@ Qed.
 Lemma proof_of_prefix_digits_sum_entail_wit_8 : prefix_digits_sum_entail_wit_8.
 Proof.
   aggressive_pre_process.
-  pose proof PreH10 as Hbuffer.
-  unfold ExtractedDigitBuffer in Hbuffer.
+  pose proof PreH11 as Hbuffer.
+  rewrite ExtractedDigitBuffer_view in Hbuffer by view_bounds.
   destruct Hbuffer as [_ [_ [_ [Hdigits _]]]].
   specialize (Hdigits i ltac:(lia)).
   pose proof (Z.mod_pos_bound (x_pre / 10 ^ (i - 1)) 10 ltac:(lia)) as Hdigit_bounds.
@@ -1367,12 +1366,9 @@ Proof.
   - easy.
   - split_pures; dump_pre_spatial; try lia; try assumption.
     unfold InnerCandidateDigitProgress.
-    split; [lia|].
-    split; [lia|].
-    split; [exact PreH12|].
     exists 0.
     split.
-    + constructor.
+    + apply InnerCandidateDigitSum_zero.
     + unfold digit_sum_modulus.
       rewrite Z.add_0_r.
       rewrite Z.mod_small by lia.
@@ -1382,9 +1378,9 @@ Qed.
 Lemma proof_of_prefix_digits_sum_entail_wit_9 : prefix_digits_sum_entail_wit_9.
 Proof.
   aggressive_pre_process.
-  pose proof PreH19 as Htable.
+  pose proof PreH20 as Htable.
   unfold DigitDPTable in Htable.
-  destruct Htable as [_ [_ Htable]].
+  destruct Htable as [_ Htable].
   specialize (Htable i j ltac:(lia) ltac:(lia)).
   pose proof
     (DigitDPValue_nonnegative__prefix_inner_outer_scan i j) as Hdp_nonneg.
@@ -1397,10 +1393,7 @@ Proof.
   - split_pures; dump_pre_spatial;
       try (rewrite Z.rem_mod_nonneg by lia); try lia; try assumption.
     unfold InnerCandidateDigitProgress in *.
-    destruct PreH16 as [Hplaces [Hnext [Houter [choice_sum [Hchoice Hans]]]]].
-    split; [lia|].
-    split; [lia|].
-    split; [exact Houter|].
+    destruct PreH17 as [choice_sum [Hchoice Hans]].
     exists ((choice_sum + Znth (i * 10 + j) dp_l 0) mod digit_sum_modulus).
     split.
     + apply InnerCandidateDigitSum_step; try lia.
@@ -1418,16 +1411,15 @@ Proof.
   aggressive_pre_process.
   eapply outer_power_predecessor__prefix_inner_outer_scan.
   - exact PreH5.
-  - exact PreH18.
+  - exact PreH19.
 Qed.
 
 Lemma proof_of_prefix_digits_sum_entail_wit_10_split_goal_2 : prefix_digits_sum_entail_wit_10_split_goal_2.
 Proof.
   aggressive_pre_process.
   assert (Hjeq : j = Znth i digits_l_2 0) by lia.
-  unfold InnerCandidateDigitProgress in PreH16.
-  destruct PreH16 as
-    [Hplaces [Hnext [Houter [choice_sum [Hchoice HansEq]]]]].
+  unfold InnerCandidateDigitProgress in PreH17.
+  destruct PreH17 as [choice_sum [Hchoice HansEq]].
   assert (Hsemantic :
     AccumulatedDigitSumCorrect x_pre (i - 1)
       ((answer_before + choice_sum +
@@ -1440,16 +1432,16 @@ Proof.
     - exact PreH2.
     - lia.
     - exact PreH7.
-    - exact PreH14.
-    - exact PreH19.
+    - exact PreH15.
+    - exact PreH20.
     - rewrite <- Hjeq.
       exact Hchoice.
-    - exact PreH17.
+    - exact PreH18.
   }
-  unfold OuterDigitPositionPower in PreH18.
-  destruct PreH18 as [[Hposition_zero _] | [[_ _] Hpower]]; [lia|].
-  pose proof PreH14 as Hbuffer.
-  unfold ExtractedDigitBuffer in Hbuffer.
+  rewrite OuterDigitPositionPower_view in PreH19 by view_bounds.
+  destruct PreH19 as [[Hposition_zero _] | [[_ _] Hpower]]; [lia|].
+  pose proof PreH15 as Hbuffer.
+  rewrite ExtractedDigitBuffer_view in Hbuffer by view_bounds.
   destruct Hbuffer as [_ [_ [_ [Hdigits _]]]].
   specialize (Hdigits i ltac:(lia)).
   subst power_ll.
@@ -1542,29 +1534,10 @@ Qed.
 Lemma proof_of_prefix_digits_sum_entail_wit_10_split_goal_3 : prefix_digits_sum_entail_wit_10_split_goal_3.
 Proof.
   aggressive_pre_process.
-  eapply outer_progress_predecessor__prefix_inner_outer_scan.
-  - exact PreH1.
-  - exact PreH2.
-  - exact PreH5.
-  - exact PreH6.
-  - exact PreH7.
-  - lia.
-  - exact PreH10.
-  - exact PreH11.
-  - lia.
-  - exact PreH14.
-  - exact PreH15.
-  - exact PreH16.
-  - exact PreH18.
-Qed.
-
-Lemma proof_of_prefix_digits_sum_entail_wit_10_split_goal_4 : prefix_digits_sum_entail_wit_10_split_goal_4.
-Proof.
-  aggressive_pre_process.
   assert (Hpower_pos : 0 < power_ll).
   {
-    unfold OuterDigitPositionPower in PreH18.
-    destruct PreH18 as [[Hi Hpower] | [[Hlo Hhi] Hpower]].
+    rewrite OuterDigitPositionPower_view in PreH19 by view_bounds.
+    destruct PreH19 as [[Hi Hpower] | [[Hlo Hhi] Hpower]].
     - lia.
     - subst power_ll.
       apply Z.pow_pos_nonneg; lia.
@@ -1609,13 +1582,13 @@ Proof.
     lia.
 Qed.
 
-Lemma proof_of_prefix_digits_sum_entail_wit_10_split_goal_5 : prefix_digits_sum_entail_wit_10_split_goal_5.
+Lemma proof_of_prefix_digits_sum_entail_wit_10_split_goal_4 : prefix_digits_sum_entail_wit_10_split_goal_4.
 Proof.
   aggressive_pre_process.
   assert (Hpower_pos : 0 < power_ll).
   {
-    unfold OuterDigitPositionPower in PreH18.
-    destruct PreH18 as [[Hi Hpower] | [[Hlo Hhi] Hpower]].
+    rewrite OuterDigitPositionPower_view in PreH19 by view_bounds.
+    destruct PreH19 as [[Hi Hpower] | [[Hlo Hhi] Hpower]].
     - lia.
     - subst power_ll.
       apply Z.pow_pos_nonneg; lia.
@@ -1667,7 +1640,6 @@ Proof.
   - Goal_apply proof_of_prefix_digits_sum_entail_wit_10_split_goal_2.
   - Goal_apply proof_of_prefix_digits_sum_entail_wit_10_split_goal_3.
   - Goal_apply proof_of_prefix_digits_sum_entail_wit_10_split_goal_4.
-  - Goal_apply proof_of_prefix_digits_sum_entail_wit_10_split_goal_5.
 Qed.
 
 Lemma proof_of_prefix_digits_sum_return_wit_1_split_goal_1 : prefix_digits_sum_return_wit_1_split_goal_1.
@@ -1688,9 +1660,12 @@ Qed.
 
 Lemma proof_of_prefix_digits_sum_return_wit_1 : prefix_digits_sum_return_wit_1.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_prefix_digits_sum_return_wit_1_split_goal_spatial.
-  - Goal_apply proof_of_prefix_digits_sum_return_wit_1_split_goal_1.
+  unfold prefix_digits_sum_return_wit_1. right. intros.
+  split_pure_spatial.
+  - sep_apply (IntArray.full_to_undef_full digits_pre 20 digits_l); easy.
+  - split_pures; dump_pre_spatial.
+    unfold AccumulatedDigitSumCorrect in PreH13.
+    destruct PreH13 as [[Hi Hsum] | [Hi _]]; [exact Hsum|lia].
 Qed.
 
 Lemma proof_of_prefix_digits_sum_return_wit_2_split_goal_1 : prefix_digits_sum_return_wit_2_split_goal_1.
@@ -1706,50 +1681,59 @@ Proof.
   - Goal_apply proof_of_prefix_digits_sum_return_wit_2_split_goal_1.
 Qed.
 
-Lemma proof_of_interval_digits_sum_safety_wit_4_split_goal_1 : interval_digits_sum_safety_wit_4_split_goal_1.
+Lemma proof_of_interval_digits_sum_safety_wit_10_split_goal_1 : interval_digits_sum_safety_wit_10_split_goal_1.
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  pose proof (Z.rem_bound_abs (retval - retval_2) digit_sum_modulus
+  pose proof (Z.rem_bound_abs (ans1 - ans2) digit_sum_modulus
     ltac:(unfold digit_sum_modulus; lia)) as Hrem.
   apply Z.abs_lt in Hrem.
   unfold digit_sum_modulus in *.
   lia.
 Qed.
 
-Lemma proof_of_interval_digits_sum_safety_wit_4_split_goal_2 : interval_digits_sum_safety_wit_4_split_goal_2.
+Lemma proof_of_interval_digits_sum_safety_wit_10_split_goal_2 : interval_digits_sum_safety_wit_10_split_goal_2.
 Proof.
   aggressive_pre_process.
   split_pures; dump_pre_spatial.
-  pose proof (Z.rem_bound_abs (retval - retval_2) digit_sum_modulus
+  pose proof (Z.rem_bound_abs (ans1 - ans2) digit_sum_modulus
     ltac:(unfold digit_sum_modulus; lia)) as Hrem.
   apply Z.abs_lt in Hrem.
   unfold digit_sum_modulus in *.
   lia.
 Qed.
 
-Lemma proof_of_interval_digits_sum_safety_wit_4 : interval_digits_sum_safety_wit_4.
+Lemma proof_of_interval_digits_sum_safety_wit_10 : interval_digits_sum_safety_wit_10.
 Proof.
   aggressive_pre_process.
-  - Goal_apply proof_of_interval_digits_sum_safety_wit_4_split_goal_1.
-  - Goal_apply proof_of_interval_digits_sum_safety_wit_4_split_goal_2.
+  - Goal_apply proof_of_interval_digits_sum_safety_wit_10_split_goal_1.
+  - Goal_apply proof_of_interval_digits_sum_safety_wit_10_split_goal_2.
+Qed.
+
+Lemma proof_of_interval_digits_sum_safety_wit_12_split_goal_1 : interval_digits_sum_safety_wit_12_split_goal_1.
+Proof.
+  aggressive_pre_process. split_pures; dump_pre_spatial.
+  pose proof (PrefixDigitSum_range _ _ PreH4) as Hleft.
+  pose proof (PrefixDigitSum_range _ _ PreH5) as Hright.
+  unfold digit_sum_modulus in *. lia.
+Qed.
+
+Lemma proof_of_interval_digits_sum_safety_wit_12_split_goal_2 : interval_digits_sum_safety_wit_12_split_goal_2.
+Proof.
+  aggressive_pre_process. split_pures; dump_pre_spatial.
+  pose proof (PrefixDigitSum_range _ _ PreH4) as Hleft.
+  pose proof (PrefixDigitSum_range _ _ PreH5) as Hright.
+  unfold digit_sum_modulus in *. lia.
+Qed.
+
+Lemma proof_of_interval_digits_sum_safety_wit_12 : interval_digits_sum_safety_wit_12.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_interval_digits_sum_safety_wit_12_split_goal_1.
+  - Goal_apply proof_of_interval_digits_sum_safety_wit_12_split_goal_2.
 Qed.
 
 Lemma proof_of_interval_digits_sum_return_wit_1_split_goal_1 : interval_digits_sum_return_wit_1_split_goal_1.
-Proof.
-  aggressive_pre_process.
-  rewrite normalized_outer_rem__interval_bridge.
-  apply interval_answer_upper__interval_bridge.
-Qed.
-
-Lemma proof_of_interval_digits_sum_return_wit_1_split_goal_2 : interval_digits_sum_return_wit_1_split_goal_2.
-Proof.
-  aggressive_pre_process.
-  rewrite normalized_outer_rem__interval_bridge.
-  apply interval_answer_lower__interval_bridge.
-Qed.
-
-Lemma proof_of_interval_digits_sum_return_wit_1_split_goal_3 : interval_digits_sum_return_wit_1_split_goal_3.
 Proof.
   aggressive_pre_process.
   rewrite normalized_outer_rem__interval_bridge.
@@ -1760,6 +1744,18 @@ Lemma proof_of_interval_digits_sum_return_wit_1 : interval_digits_sum_return_wit
 Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_interval_digits_sum_return_wit_1_split_goal_1.
-  - Goal_apply proof_of_interval_digits_sum_return_wit_1_split_goal_2.
-  - Goal_apply proof_of_interval_digits_sum_return_wit_1_split_goal_3.
+Qed.
+
+Lemma proof_of_interval_digits_sum_entail_wit_1 : interval_digits_sum_entail_wit_1.
+Proof.
+  unfold interval_digits_sum_entail_wit_1. left. intros.
+  repeat rewrite Z.mul_0_l. repeat rewrite Z.add_0_r. entailer!.
+Qed.
+Lemma proof_of_interval_digits_sum_entail_wit_2 : interval_digits_sum_entail_wit_2.
+Proof.
+  unfold interval_digits_sum_entail_wit_2. left. intros.
+  repeat rewrite Z.mul_0_l. repeat rewrite Z.add_0_r.
+  sep_apply (IntArray.full_to_undef_full (&("dp")) 200 dp_l).
+  sep_apply (IntArray.full_to_undef_full (&("power")) 20 power_l).
+  entailer!.
 Qed.

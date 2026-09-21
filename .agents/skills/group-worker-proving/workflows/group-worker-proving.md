@@ -1,193 +1,44 @@
-# Group 证明流程
+# Group Worker 证明流程
 
-本流程由一个 group-worker 执行。它只解决 controller 在当前 claim/handoff 中分配给本组的 witnesses，不修改 main root 正式文件，不与 sibling group 建立依赖，不负责任何 parent 阶段。
+## 领取与当前输入
 
-## 一、开始与读取顺序
+只使用当前 claim/handoff、本 skill 和其中指定的资料。读完整 `group_worker_input.md` 与相关证明知识文档；不要读取 controller state、调度 sibling 或推进 parent 阶段。偶然多读文件本身不是 blocker，越界写入和依赖当前 sibling 输出仍然禁止。
 
-main agent 已经执行 controller 给出的 `claim_invocation`。首次领取或同 owner 追加修复时，消息都应包含 `Role`、`Owner`、`CWD` 和逐字保留的 `Claim message`。先确认 role 是当前 group-worker、owner 与 claim message 一致，并始终在给出的 `CWD` 工作；不要自行运行或重建 claim。若四段缺失、互相矛盾或指向的当前交接不存在，停止扩展读取并按已绑定的报告合同指出缺失项，不从 run state 或其他角色文档重建上下文。
+Handoff 给出 group、固定 copied manual、可选 group_worker_lib、当前 proof mode、assigned witnesses、helper suffix、报告和命令。这些内容直接从当前 canonical 文件和 accepted plan 派生。每次命令重新读取当前输入，owner 不创建或维护额外 assignment 文件。
 
-开始 formal 工作前按以下顺序完整读取：
+## 按需复用历史证明
 
-1. `group-worker-proving/SKILL.md`、本流程、命令规则和禁用 lemma 原则。
-2. `Claim message` 指定的当前 `group_worker_input.md`。
-3. `SKILL.md` 按目标导航的证明知识文档。
-4. 按本组需要的 helper/predicate 名搜索 round-start `public_helper_snapshot.txt`，只读取匹配 declaration；不要通读整个目录。
-5. 若 handoff 给出上一 proving round，先按第五节搜索并读取相关旧 proof/helper，可按需写 `proof_reuse.md`，再开始证明。
+Handoff 给出本 run 的历史只读路径；脚本只复制当前 canonical manual/lib，不预填历史 proof：
 
-当前 `group_worker_input.md` 是本 worker 的唯一 scope 来源。它应给出本组 owner/group 身份、固定工作与报告路径、assigned witnesses、每个 witness 的 `proof_mode` 与适用的 split goals、copied manual、可选 `group_worker_lib`、helper suffix、public snapshot、可选上一 proving round 和可执行命令。只使用其中的 exact path、name、assignment 和 argv，不从 C stem、目录名或其他文件推测。
+1. 按当前 witness、命题与 proof mode 搜索先前 proving round；已有证明也可在 annotation history 的各 attempt `before` 目录中查找。不要扫描其他 run 或读取当前 sibling。
+2. 自行判断是否复制、改写或重做。只修改本组允许的 proof spans；需要的 helper 在本组 lib 中使用当前 suffix，并自行同步引用。
+3. 使用 handoff 的 development/check 验证当前定义、导入、premise 与 split route。历史中的 `Qed` 不能代替当前检查。
+4. 可在 `proof_reuse.md` 简短记录来源和决定；它没有固定格式，缺失或为空不阻断交付。
 
-不读 orchestrator 或其他角色 skill，不依赖 parent transcript，不读 `controller_state.json`、`group_workers_manifest.json` 或 sibling 输出来补全交接。如执行本组任务所必需的交接字段缺失或互相矛盾，按现有 blocker 合同精确报告交接位置；不向 scope 外搜索或自行修改 plan。
+同名但命题变化、proof mode 变化、未完成 helper、危险假设或禁用 tactic 都不能当作现成证明。普通 tactic 失败先在当前组修正；只有实际 premise/resource 缺口才交 annotation blocker。
 
-controller 返回 `append-group-worker` 时，必须由相同 owner 在相同 group directory 继续。先完整读取追加到 `group_worker_input.md` 的 category、message、required repair 和本次开放的写入边界：formal repair 只修正原 copied files；report-only repair 只修正报告和可选说明，不得再动 formal files。
+## 写入边界与 proof mode
 
-## 二、写入边界
+只写本组 assigned top-level proof spans、aggressive route 的 assigned split spans、交接提供的 group_worker_lib、debug script 和报告。Statement、declaration 顺序、prelude、unassigned proof、main root、history、plan、state 和 sibling 文件只读。当前 lib 的 seed declaration 也不可修改。
 
-允许修改：
+- `aggressive_pre_process`：先证明全部 split goals，各自以 `LLM_pre_process ltac:(...)` 开始；top-level 使用 aggressive_pre_process，按当前规则仅用 `Goal_apply` 对应 split lemma 完成各分支。Controller 检查 mode、完整性和 Rocq，不做 Goal_apply 的逐字文本门禁。
+- `LLM_pre_process`：只证明 top-level，使用 `LLM_pre_process ltac:(...)`；其 split blocks 保留 generated `Proof. Abort.` token。
+- 禁止 `entailer!`、别名 `pre_process`、Admitted、额外 Axiom、unsafe typing、rollback 控制和禁用 lemma。
 
-- 本组 copied manual 中被分配的 proof spans；
-- 仅在交接明确提供时修改本组 `group_worker_lib`；
-- 交接明确给出的 debug script；
-- `group_worker_report.json`；
-- 可选 `group_worker_output.md`。
-- handoff 提供路径时可选写入的 `proof_reuse.md` 简短说明。
+格式、注释、CRLF/LF 与 EOF 换行不是 proof token 修改。group directory 最终只有 copied manual 和交接提供的可选 lib；debug/build/report 各在给定位置。
 
-只读：
+## Helpers 与依赖
 
-- statement、manual declaration order 和未分配 proof spans；
-- main root `formal_case_lib`；
-- generated files；
-- `public_helper_snapshot.txt`；
-- handoff 给出的上一 proving round 全部文件；
-- sibling group 的全部文件。
+只有交接提供 group_worker_lib 时才能追加完整证明的 Lemma/Theorem/Fact/Remark 和所需官方 Rocq import。全部新增、复制、改写 helper 均使用当前 suffix；`visibility` 只是复用意图，不触发 promotion。合并只拼接已验证的 proof/helper，命名冲突由 owner 修改；脚本不自动改名或改写引用。
 
-不得修改 main root 正式 manual/lib、shared 或异名 lib、generated files、durable public pool、plan/manifest/state 或 sibling 文件。若交接中 `group_worker_lib` 为 missing/未提供，不得创建它，不得新增 helper/import，也不得转而修改任何共享 lib。
+项目依赖来自当前 canonical inputs 和 controller 准备的闭包。需要新的项目依赖或更改 seed/spec 时，精确报告依赖或 annotation 边界；不要自己运行 raw Dune/Make/coqdep、改 load path、导入 generated/current/sibling 模块或修改 main library。lib 缺失时不创建 placeholder，不新增 helper/import。
 
-group directory 最终只能有 copied manual 和交接已提供的可选 `group_worker_lib`。报告和 debug/build 文件分别位于交接指定的 report path 与 `_coq_builds`；不自行创建其他文件或目录。
+## 检查与交付
 
-controller 按 Rocq token 检查语义写入边界。注释、空白、CRLF/LF、行尾空白和 EOF 换行差异不视为 proof token 修改；statement、未分配 proof 和 `LLM_pre_process` split block 的 token 仍受严格保护。
+按照 handoff 使用 coq-debug、group-development 和 group-check。Controller 使用统一依赖 plan 刷新所需 native dependencies，实际编译当前 source。Group check 只检查本组 wrapper 及其依赖，不要求其他 groups 的 proof 完成；parent/final 负责全量组合。
 
-## 三、按 `proof_mode` 完成 manual
+修复完成后先写说明，再写 terminal report，停止全部写入，由 main 执行 finalize-delivery。`finalize-delivery` 一次完成当前报告和本组文件的验收：completed 必须通过结构与本组 Rocq；annotation-gap 检查准确 VC/位置与安全写入边界，不要求不可证目标完成。Report-only repair 只修改说明/报告；formal repair 在同一 owner 和目录中继续。每次新交付均重新检查当前 proof。重复工具错误没有自动次数门禁或换轮；根据诊断原地修复或报告明确 infrastructure blocker。
 
-以交接列出的 assigned top-level witnesses 为闭合 scope。对每个 witness 只执行其 accepted `proof_mode`；即使其他 declaration 看似相同，也不证明、修改或依赖未分配 witness。交接的 mode/split mapping 若与 copied manual 矛盾，不自行改 mode 或 plan，而是按 blocker 合同精确报告矛盾位置。
+成功报告严格为 `{"status":"completed"}`。Blocked 报告严格增加一个 blocker，其字段为 `failure_class`、`kind`、`vcs`、`message`、`repair_boundary`。VC 条目严格包含 `name`、`parent`、`annotation_location`。
 
-### `aggressive_pre_process` 模式
-
-只编辑：
-
-- 当前 top-level VC proof span；
-- 交接列出的全部 split-goal proof spans。
-
-步骤：
-
-1. 先逐个完成全部 split goals，每个都以 `LLM_pre_process ltac:(...)` 开头。
-2. 在 top-level VC 中使用 `aggressive_pre_process`。
-3. 对 `aggressive_pre_process` 产生的每个分支，只使用 `Goal_apply <对应 split-goal lemma>.` 完成，不写其他 tactic。
-4. 每个 split lemma 都要应用到对应分支；不得用 `apply`、`eapply`、`exact`、`refine`、局部别名或其他方式代替 `Goal_apply`。
-
-这是 group-worker 必须遵循的证明原则。controller 不检查 top-level proof 是否逐字使用 `Goal_apply`，只检查所选 `proof_mode`、split goal 完整性、写入边界和 Rocq 结果。
-
-### `LLM_pre_process` 模式
-
-只编辑 top-level VC proof span，并按当前目标选择合适的参数执行 `LLM_pre_process ltac:(...)`。对应 split-goal block 必须继续保持 `Proof. Abort.` 的 Rocq token；只允许注释、空白和换行差异。
-
-### 两种模式共同的骨架与禁用 tactic
-
-`aggressive_pre_process` 只出现在有 split goals 的 top-level VC，其后只跟 `Goal_apply`；其余全部 proof（split goals，以及 `LLM_pre_process` route 的 top-level VC）一律以 `LLM_pre_process ltac:(...)` 开头并显式写出 closer。
-
-proof 文本中禁止出现 `entailer!` 和别名 `pre_process`，与 forbidden lemma 同一扫描，命中即 `forbidden-lemma` 失败；`LLM_pre_process` 和 `Goal_apply` 内部的调用不受影响。改写方式见[完整分离逻辑证明方法](../docs/separation-logic-whole-proof-tactics.md)。
-
-## 四、Helper、import 与 `group_worker_lib`
-
-仅在交接提供 `group_worker_lib` 时，才允许在其中新增已证明的 `Lemma`、`Theorem`、`Fact`、`Remark` 和必要的 Rocq 官方 import。helper 必须在本 lib 中完整证明，不得放入 copied manual。
-
-命名规则：
-
-- 每个全新、改写或重命名的 helper 必须以 `helper_namespace.suffix` 结尾。
-- plan 中的 helper 使用交接给出的 exact name。
-- 只有与冻结 public snapshot 的 declaration/proof token 一致时，才能保留历史或其他 group suffix。
-- 对已有 helper 作实质修改时，必须视为当前 group 的新 helper 并使用当前 suffix。
-
-只可添加证明确实必需且已被 accepted dependency snapshot覆盖的 project import，或 Rocq installed standard-library import。禁止修改 seed declaration，禁止加入 generated/current/sibling import，禁止编辑 durable pool，也禁止把 snapshot 当成 `.v` library import。快照外 project import 不能在本组动态准备；精确记录需求并按 controller 反馈返回 annotation。worker 不观察依赖图、不调用 Dune、Make 或 `coqdep`，也不自己扩大 build target。
-
-`public_helper_snapshot.txt` 是 round-start 只读目录。按当前 proof 缺少的 helper/predicate 名搜索，只读取候选 declaration；可以把其中 token 一致的已证 helper 完整复制进 `group_worker_lib`。不要为了预防未来需要而通读或批量复制整个 snapshot；本 round 其他 group 后来晋升到 `public_helper_lemma_lib.v` 的内容对本组不可见。
-
-planned helper 的 `visibility` 为 `local` 时只属于本组候选；为 `public` 时，也只有本组通过 controller validation 后，controller 才会把它和必要的本地 helper 依赖闭包追加到 durable pool，供未来 round 使用。worker 不向 sibling 发布文件，不将 public helper 当成当轮跨组依赖，也不等待 pool 更新。
-
-后续 merge 若遇到同名但 token 不一致的合法 helper，由 controller 只在 merged candidate 中确定 canonical block、改名其他 variant 并改写本组引用；worker 不预判合并结果，不读取或修改其他 group 名称。
-
-## 五、证明前的简单复用分析
-
-handoff 给出上一 proving round 时，先用 current witness、split goal、planned helper 或关键 predicate 名跨该 round 的 group manual/lib搜索，再读取匹配 declaration/proof block；不要逐份通读内容高度重复的完整 manual。不要扫描更早 round、Git history 或其他 run。上一轮文件只读；可以参考 accepted 或 blocked group，不要求 current/previous group id、witness 名或 proof mode 相同。
-
-若记录复用判断，可在 handoff 给出的 `proof_reuse.md` 为相关 assigned current witness 写一项，说明三种结果之一：直接复用旧 proof/helper、修改后复用，或没有合适内容而不复用。多个 split goals 可以在同一 witness 项下补充，不要求固定分类或顺序。例如：
-
-```markdown
-- `proof_of_x`：修改后复用上一轮 `group_00` 的数组长度证明，并补当前边界条件。
-- `proof_of_y`：直接复用上一轮 helper，按当前 group suffix 改名。
-- `proof_of_z`：没有找到可用的旧证明，从头证明。
-```
-
-不要写行号、声明范围、机器判定、digest 或旧 controller metadata，也不要为了证明“检查完整”而读取与当前 assignment 无关的旧文件。该说明缺失或为空均可，controller 不解析内容，也不据此阻断或接受证明。当前 assignment、manual、`proof_mode` 和 validation 始终为准；任何复用内容都必须在当前 group 中重新通过 Rocq。复制旧 helper 时，除非它来自 frozen public snapshot，否则按当前 group suffix 新建或改名。
-
-## 六、证明循环
-
-1. 先读当前目标和已有 helper；handoff 给出上一 proving round 时，按第五节搜索候选，并可按需记录 `proof_reuse.md`。
-2. 需要时写交接指定的 debug script，并原样运行 `coq-debug`。
-3. 优先使用 `group-development` 获取较快反馈；它允许本组可编辑 proof span 暂时 `Abort.`。
-4. 修正 assigned proof，并仅在存在且需要时修正 `group_worker_lib`。
-5. 需要时运行 exact `group-check`；它要求本组证明和路线完整。
-6. 交付前检查 assignment/mode、helper suffix/import、写入边界和禁用原则；不得留下 `Admitted.`、额外 `Axiom` 或禁用 lemma，annotation gap 的终态副本也不得用这些方式伪造进度。
-7. 写最终报告；`annotation-gap` 终态必须同时写 `group_worker_output.md`，其他终态按需写该说明。然后停止修改 report、Markdown、manual 和 lib。
-8. 把结果交回 main agent。main agent 原样调用 claim/handoff 中绑定的 `finalize-delivery`，controller 封存 report、manual 和适用时的 lib，再执行唯一强制 group validation。
-
-development 和 exact 都是可选的提前检查，不是 owner 报告的前置凭据。即使 exact 通过，最终接纳仍由 finalize 后对封存 bytes 的 controller validation 决定。worker 不自行运行 claim/finalize，不调用 controller `step`，不尝试 merge、parent verify 或 annotation retry。
-
-## 七、修正与阻塞
-
-### 本组内可修问题
-
-以下情况应在本地继续修正，不写 `blocked`：
-
-- tactic 失败；
-- 上一 round 没有可参考目标；
-- 需要新增带 suffix 的 helper；
-- 需要多轮 debug；
-- controller 返回可修的 structure、route、proof-completeness 或 safety 问题。
-
-可修问题会通过 `append-group-worker` 追加给相同 worker。按交接开放的精确边界修正 copied manual 或适用时的 `group_worker_lib`，重写终态报告，停止写入后再交付。
-
-### Annotation/spec 缺口
-
-只有具体 proof state 与合法 helper 路径共同表明以下事实时，才诊断 annotation/spec 缺口：
-
-- 当前 assigned witness 的 hypotheses 确实缺少完成目标所需的语义 premise；
-- 该 premise 不能由现有 helper、frozen public helper、常规 proof transformation 或一个合法的当前 suffix helper 在现有前提下证明；
-- 修复必须改变 group-worker 写入边界之外的数学规范、function contract、loop invariant、assertion 或调用实例。
-
-一旦诊断成立：
-
-1. 把它视为本 group 当前 delivery 的终态，不再在 copied manual 或 `group_worker_lib` 中追加试图代替 annotation 的证明修正，更不得修改 statement、main root 或未分配 proof。
-2. 保留已有合法副本，在 `group_worker_output.md` 中写清交接给出的 group id、每个受影响 assigned witness、top-level/split 位置、具体缺失 premise、已尝试 helper/route 以及必须修改的 annotation/spec 边界。
-3. 写入 `status: blocked` 的完整机器报告，其 `blocker.failure_class` 必须精确为 `annotation-gap`；具体缺少 annotation premise 时使用 `kind: missing-annotation-premise`。`vcs` 逐项列出 sealed copied manual 中受影响的 exact `name`、split `parent`（top-level 为 `null`）和 `annotation_location`。`message` 说明已有 premises 与缺失结论，`repair_boundary` 指向实际需要修改的 annotation/spec 边界。
-4. 停止所有 formal/report 写入并把结果交回 main agent，使当前 delivery 可按正常 `finalize-delivery` 路径封存。
-
-这个终态只描述本 group。worker 不读取或查询 sibling 状态，不要求取消尚未领取的 group，不等待其他 group 结束，不创建 annotation feedback/retry，也不尝试推进 merge 或 parent verify。其他 group 和后续轮次由 controller/main agent 处理。
-
-### 其他 blocker 与报告原地修复
-
-对证明类 blocker，只有具体 proof state/helper 明确显示必要 premise 不可推出时才能阻塞，不得把普通 tactic 搜索失败当成终态。工具/资源、交接、当前文件或其他 blocker 继续使用现有 `failure_class`/`kind` 语义与修复边界；交接命令所代表的 exact 工具完全不可运行时可按既有 tool/resource blocker 报告。这些情况不得为了获得本轮汇总而误标为 `annotation-gap`。当前文件失效使用 `stale`；上下文压缩使用 `compact-error`。
-
-若 finalize 只返回最终报告或 Markdown 合同错误，delivery 仍是同一 claimed attempt，且由同 owner 原地修复。修正范围只开放 `group_worker_report.json` 和可选 `group_worker_output.md`；`proof_reuse.md` 不形成合同错误。controller 已封存的 copied manual 和适用时的 `group_worker_lib` 必须保持 byte/token 不变。修正后再停止写入并交回 main agent重跑原 `finalize-delivery`。formal 漂移会形成 `invalid-report`，不得用报告修复窗口重开 proof。
-
-## 八、最终报告
-
-成功时只写：
-
-```json
-{
-  "status": "completed"
-}
-```
-
-`blocked` 时顶层仍只含 `status` 和唯一完整 `blocker`，`blocker` 严格只含五个字段：
-
-```json
-{
-  "status": "blocked",
-  "blocker": {
-    "failure_class": "<按本流程与交接选择现有确定值>",
-    "kind": "<具体问题类型>",
-    "vcs": [
-      {
-        "name": "<exact top-level or split VC>",
-        "parent": null,
-        "annotation_location": "<exact C annotation point>"
-      }
-    ],
-    "message": "<完整且可诊断的问题与证据>",
-    "repair_boundary": "<允许且必需的修复边界>"
-  }
-}
-```
-
-不在 JSON 中增加 `group`、`witness`、digest、changed files、命令输出、receipt、assignment、candidate paths、namespace 或 declaration metadata。controller 通过当前 delivery/accepted plan/seal 绑定 group 与 assignments，并机械校验 `vcs`；`group_worker_output.md` 对 `annotation-gap` 必填、其他终态可选。
+具体 annotation gap 必须使用 `failure_class: annotation-gap`，在非空 `group_worker_output.md` 说明已有 premise、不可推出的结论、已尝试路径和必须修改的 annotation/spec 位置；`vcs` 指向当前 manual 的实际 assigned VC。该缺口是本组终态，停止越界修正，不判断或控制 sibling。工具/报告问题不得伪装为 annotation gap。普通 proof 搜索失败不作为终态 blocker。

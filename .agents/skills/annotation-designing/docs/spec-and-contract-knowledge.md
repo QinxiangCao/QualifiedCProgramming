@@ -1,6 +1,6 @@
 # Spec 与 Function Contract 知识规则
 
-本文件只规定最终 Rocq spec 与 QCP function contract 的知识性要求，不增加现有 workflow 之外的任何流程要求。执行顺序和写入边界仍以 workflow 为准。
+本文件规定 Rocq spec、QCP function contract 与中间 annotation 的知识性要求，不增加现有 workflow 之外的任何流程要求。执行顺序和写入边界仍以 workflow 为准。
 
 下文区分三个层次：
 
@@ -8,11 +8,22 @@
 - `Require` / `Ensure` 把该语义连接到 C 参数、pre-state / post-state 和 ownership；
 - `Assert` / `Inv Assert` 描述中间程序点，不改变顶层输入输出关系。
 
+## 0. 数学性质、前提范围与空间资源的边界
+
+表达最终结果、helper 抽象结果或循环数学进度的 predicate 只包含相应数学性质，不包含内存 ownership，也不混入输入取值限制、容量、机器整数界、overflow 或 access safety 条件。多字段 predicate 和 `Record` 同样遵守这条边界。
+
+- 题目给出的输入范围和保证明确写在 `Pre` 的前提条款中，并按 §5 在 C `Require` 中展开；实现额外需要的安全条件直接写在 `Require`。
+- 中间程序点仅保留后续执行或证明需要的范围，直接写在 `Inv Assert` / 必要的 `Assert`，不放进进度 predicate，不整段复制入口条件。
+- ownership 使用现有 spatial predicate，在 contract / assertion 中单独表达。数学结果 predicate 不承担资源归还。
+- 不另建 `InputValid`、`InputValues`、`InputBound`、`SizeSafe` 等总括 predicate 来隐藏一组范围，也不把同一组条件转移到结果或进度 predicate 中。
+
+这里剥离的是**输入限制和实现安全条件**。题目本身的合法候选集合、量化对象的有效域、答案定义所需的区间及输出格式要求仍是数学语义，必须保留。例如“区间 `[lo, hi)` 的最大值”仍可在 `sublist lo hi l` 上使用最值库；定义读取 `Znth` 的数学对象时仍须写清其有效域。`Pre` 描述合法输入，`Spec` 描述正确输出，不把两者合并成一个结果 predicate。
+
 ## 1. 类型与编码
 
 ### 1.1 统一使用 `Z` 和 Z-indexed list 接口
 
-数学整数、长度和下标使用 `Z`。不要在新 spec 或 helper 中使用 `nat`、`length`、`nth` 或 `nat` subtraction；使用 `Zlength`、`Znth`、`sublist` 和 `replace_Znth`。
+新 spec、helper 和 annotation 的逻辑整数、长度和下标统一使用 `Z`、`Zlength`、`Znth`、`sublist` 和 `replace_Znth`，不另起 `nat`、`length`、`nth` 或 `nat` subtraction 表示。复用库内部已有的 `nat` 实现不等于在 case 中重新建模。
 
 ### 1.2 字符是源字符的十进制编码
 
@@ -47,11 +58,24 @@
 
 ### 2.2 复用极值、单调性、量化、求和与可达性
 
-- 最小值和最大值使用 `min_value_of_subset` / `max_value_of_subset`，不手写 `IsMinimum` / `IsMaximum`，也不借 classical choice API 合成极值。候选集合可能为空时，覆盖题目要求的 sentinel / `NO` 分支；只写空集合上的 extremum 会让 `Spec` 不可满足。
+- 最小值和最大值必须使用仓库 `MaxMinLib` 的 `min_value_of_subset` / `max_value_of_subset`，不手写 `IsMinimum` / `IsMaximum` 或其他同义定义，也不借 classical choice API 合成极值。题目或跨函数接口需要名称时，只保留一层直接复用库语义的 case predicate。候选集合可能为空时，覆盖题目要求的 sentinel / `NO` 分支；只写空集合上的 extremum 会让 `Spec` 不可满足。
 - 不手写 all-pairs / adjacent `Znth` 单调性，也不另用 stdlib `Sorted` 建同义接口。使用当前 dependency 已采用的 canonical family；已有 `mono_inc` / `mono_nondec` / `mono_dec` / `mono_noninc` 时直接用它们，annotation-facing library 已固定 `increasing` / `decreasing` 时保持该现有 family。一个 case 不混用同义 family。
-- 与 index 无关的逐元素性质使用 `Forall`；对应位置关系使用 `Forall2`；rearrangement 使用 `Permutation`；membership 使用 `In`。真正依赖 index 的条件，例如 `p_i < i`，必须保留 indexed quantification，不能弱化为 value-only `Forall`。
-- 默认不写 custom `Fixpoint` 来重新实现 list sum、range enumeration 或 state fold。使用 `sum_range` / `sum` / `sum_set_R`、`Zrange`、`map`、`fold_left` / `fold_right`；partial 或 relational transition 使用已有 one-step relation、`Rels.id` 和 relation composition。
-- 不自定义递归 `Reachable` / path `Inductive`。使用与 vertex type 匹配的 `valid_vpath` / `reachable`，simple path 另加 `NoDup`；适用时使用 `clos_refl_trans` 或 relation composition。
+- 与 index 无关的逐元素性质必须使用 `Forall`：将 `forall i, 0 <= i < Zlength l -> P (Znth i l d)` 写为 `Forall P l`；只描述有效片段时写 `Forall P (sublist lo hi l)`。对应位置关系使用 `Forall2`；rearrangement 使用 `Permutation`；membership 使用 `In`。真正依赖 index 的条件，例如 `p_i < i` 或跨下标关系，保留带有效域的 indexed quantification，不能弱化为 value-only `Forall`。
+- 求和和区间枚举必须按对象和值域复用 `sum_range` / `sum` / `sum_set_R`、`Zrange`，不在 case 中重新递归定义 list sum 或 range enumeration。复杂数学概念需要一层名称时，内部仍直接调用这些接口。State fold 复用 `map`、`fold_left` / `fold_right`；partial 或 relational transition 使用已有 one-step relation、`Rels.id` 和 relation composition。
+- 表达 relation 的零次或多次 step 时必须使用当前依赖中的 `clos_refl_trans`，不自定义同义递归 `Reachable`、执行链或闭包。图路径使用与 vertex type 匹配的 `valid_vpath` / `reachable`，simple path 另加 `NoDup`。有限次 relation composition 只表达相应有限步骤，不能替代自反传递闭包。
+
+当前仓库接口如下；使用时确认当前 dependency 已提供相应 import、参数类型与 instance，不复制库定义：
+
+| 用途 | 模块与调用形状 |
+|---|---|
+| 整数最值 | `MaxMinLib.MaxMin`：`min_value_of_subset Z.le candidates measure result` / `max_value_of_subset Z.le candidates measure result`；候选本身为整数答案时，measure 为 `fun v : Z => v` |
+| List 求和 | `AUXLib.ListLib`：`sum l`；与有限集合求和同名，混合导入时用 `AUXLib.ListLib.sum` 区分 |
+| 整数值有限集合求和 | `SumLib.Sum`（总入口 `SumLib.SumLib`）：`sum P f`，需要 `Finite P`；必要时限定为 `SumLib.Sum.sum` |
+| 闭区间求和、实数值有限集合求和 | `SimpleC.EE.LLM_bench.Codeforces.SpecHelpers`：`sum_range a b f` 对 `[a, b]` 求和；`sum_set_R P f` 需要 `Finite P` 且 `f : A -> R` |
+| 区间枚举 | `SumLib.ZRange`：`Zrange lo hi` 枚举 `[lo, hi)`；枚举闭区间 `[a, b]` 写 `Zrange a (b + 1)` |
+| 自反传递闭包 | `SetsClass.RelsDomain`：`SetsClass.RelsDomain.clos_refl_trans step`；确认 relation instances，避免与标准库同名接口混淆 |
+
+`sum_range` 包含右端点，`Zrange` 不包含右端点。对 `[lo, hi)` 上的 indexed sum 使用 `sum_range lo (hi - 1) f`，或直接用 `SumLib.Sum.sum (fun i : Z => lo <= i < hi) f`。不要混用 list `sum l` 与 finite-set `sum P f` 的签名。
 
 ### 2.3 避免只为下标 scaffolding 保留 `Zrange`
 
@@ -70,9 +94,9 @@
 
 每个 `#P` 和 `sum P f` 都必须能得到实际的 `Finite P` instance。保持 library 能识别的 predicate shape，并引入提供该 instance 的已有 module。数学上有限但 Rocq 无法 elaboration 的写法不是可交付 spec。
 
-### 2.5 `Znth` 的负下标不会返回 default
+### 2.5 `Znth` 的负下标映射为第零项
 
-`Znth n l d` 经由 `Z.to_nat n` 取下标；负数会映射到 `0`，所以 `Znth (-1) l d` 读取第一个元素，而不是 `d`。判断 read 是否安全时看 enclosing precondition / quantifier 是否允许负下标，不要只看表达式里是否有 subtraction。
+`Znth n l d` 经由 `Z.to_nat n` 取下标；负数会映射到 `0`。因此，非空列表上的 `Znth (-1) l d` 返回首元素，空列表上返回 `d`，不能把负下标视为通用的越界 default 机制。例如 `Znth (-1) [7; 9] 42 = 7`，`Znth (-1) [] 42 = 42`。判断 read 是否安全时看 enclosing precondition / quantifier 是否允许负下标，不要只看表达式里是否有 subtraction。
 
 若上下文可能令下标为负，必须 guard 读取或收紧量化范围；若上下文已经推出非负，不增加冗余 guard。例如：
 
@@ -159,7 +183,7 @@ Definition D (x : Z) : Prop := P x.
 
 ## 5. `Require` 中范围的可见性
 
-本节只要求 `Require` 显式展开简单输入范围，不要求 `Ensure` 展开。`Ensure` 可以直接调用完整 `Spec`，并封装 output range 与 post-state array condition。
+输入范围和执行安全条件直接写在 `Require`；`Ensure` 的数学部分只承诺目标结果，资源归还另行表达，详见 §6.5。不得把 `Ensure` 当作向结果 predicate 填入辅助范围或中间状态的例外。
 
 ### 5.1 每个 scalar parameter 都有显式范围
 
@@ -173,19 +197,20 @@ Definition D (x : Z) : Prop := P x.
 
 实现自己的 overflow、representability 和 access safety 条件也直接写在 `Require`，但不得把 implementation convenience 冒充题目 domain condition 放进 `Pre`。
 
-### 5.2 简单元素 domain 使用带有效下标 guard 的 `forall`
+### 5.2 与下标无关的元素 domain 使用 `Forall`
 
-每个 input 或 input-output array / buffer 的元素 domain 若能清楚写成 equality 或 interval，就在 `Require` 使用显式 indexed quantification：
+每个 input 或 input-output array / buffer 的元素 domain 若与位置无关，在 `Pre` 与 `Require` 中直接使用 `Forall`。Rocq 中可写 `Forall (fun v : Z => lower <= v <= upper) values`；C annotation 可直接拆成两个已有关系的部分应用：
 
 ```c
-forall i,
-  0 <= i && i < logical_extent =>
-  lower <= Znth(i, values, 0) && Znth(i, values, 0) <= upper
+Forall(Z::le(lower), values) &&
+Forall(Z::ge(upper), values)
 ```
 
-length equation、capacity bound 或 `TArray::full` 等 spatial predicate 本身都不表示 element range。二维对象对 row / column 都加有效 index guard，并写 applicable cell range。
+在 `Extern Coq` 声明正文使用的 `Forall`、`Z::le`、`Z::ge`，按现有导入规则提供对应库；不为这两个范围新建一个总括 predicate。若 `values` 还包含容量尾部，仅对实际输入片段 `sublist 0 logical_extent values` 陈述该范围，保留实际需要的 extent 条件。
 
-若条件真正依赖位置、多个 index / array、prefix / aggregate equation 或结构关系，可以保留在完整 `Pre` 或已有业务 predicate 中，不强行改写成简单 per-element interval。例如 `partial[i + 1]`、`partial[i]` 与 `years[a - 1 + i]` 的 recurrence 不是简单元素范围。
+length equation、capacity bound 或 `TArray::full` 等 spatial predicate 本身都不表示 element range。二维对象的统一 cell range 使用嵌套 `Forall`；真正依赖 row / column 位置的条件才使用对应有效 index guard。
+
+两表对应元素关系使用 `Forall2`。若条件真正依赖位置、跨下标关系、prefix / aggregate equation 或结构关系，可以保留在完整 `Pre` 或已有题目 predicate 中，不强行改写成简单 per-element interval。例如 `partial[i + 1]`、`partial[i]` 与 `years[a - 1 + i]` 的 recurrence 不是简单元素范围；其量化仍需有效下标 guard。
 
 不要为了隐藏一组简单范围再新建 `InputValid`、`InputValues`、`InputBound` 或 `SizeSafe`。直接范围与保留的完整 `Pre` 可以同时存在：前者提供 QCP contract 可见性，后者保留未展开的 cross-argument / structural 语义。无论是否在 `Require` 重述，都不得因此删除或弱化 Rocq `Pre`，用户提供的 `Pre` 继续服从 freeze 规则。
 
@@ -211,6 +236,18 @@ contract-level bridge 只处理 representation：layout、tag、sentinel、old/n
 
 `Spec` 的每个 output component 和每个 branch 都要映射到真实 C return value 或 post-state memory。只在逻辑层出现、没有 return / post-state channel 的 output 是未连接输出。
 
+### 6.5 `Ensure` 只承诺需要的最终性质
+
+`Ensure` 的数学部分直接连接题目要求的最终输出关系；helper 只承诺 caller 实际使用的抽象结果。不复制输入范围、循环控制状态、执行安全条件或中间表构造过程。题目要求的输出格式与结果区间属于目标语义，仍由 `Spec` 准确表达。
+
+必须归还的空间资源在 contract 中单独保留，不能因精简数学承诺而遗漏。Post-state contents 只有在它们是实际输出，或 caller 需要其抽象结果时才成为数学承诺；无关 workspace 只归还 ownership。结果 predicate 与进度 predicate 都遵守 §0 的范围边界。
+
+### 6.6 中间 annotation 只保留必要状态
+
+每个循环前保持一条 `Inv Assert`，仅保留数学进度、后续执行和证明需要的范围、存活资源、必要读取绑定及 `@pre` bridge。范围直接列出，不进入进度 predicate，不整段复制入口条件，也不重复数组资源已经给出的长度和区间事实。
+
+普通 `Assert` 只补 symbolic execution 无法得到且下游需要的状态；普通顺序语句、单步赋值和可自动推进的事实不逐条添加 assertion。放置位置仍遵循现有 workflow 与填写参考。
+
 ## 7. 全局对象的 ownership
 
 solver 读写的每个 file-scope global 都属于 memory footprint：
@@ -228,7 +265,7 @@ solver 读写的每个 file-scope global 都属于 memory footprint：
 
 题目对象本质上是 matrix、grid、table、board、image 或 row collection，且 row / column 结构能让 contract 更清楚时，使用 `list (list Z)` 或对应 nested element type，不为复用一维 predicate 而随意 flatten。
 
-- 写 outer length、applicable row length 和 cell range；`Require` 中的简单 cell range使用 row / column guards。
+- 写 outer length、applicable row length 和 cell range；与位置无关的 cell range 使用嵌套 `Forall`，真正依赖 row / column 的条件使用有效 index guard。
 - 连续 row-major C block 使用库中匹配的 `Array2Lib` typed predicate，例如签名确认后的 `IntArray2::full(p, rows, cols, matrix)`。
 - `int **`、`char **` 一类 row-pointer array 使用匹配的 `PtrArray2Lib` predicate，例如签名确认后的 `IntPtrArray2::full(p, rows, matrix)` 或 `CharPtrArray2::full(p, rows, matrix)`；predicate 不含 column count 时另写 row length。
 - pointer-to-pointer 不能描述成一个连续 block；连续 block 也不能描述成独立 row ownership。

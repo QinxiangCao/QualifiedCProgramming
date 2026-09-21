@@ -1,159 +1,123 @@
-# Verification Workflow for One C Case
+# Workflow for One C Case
 
-The main agent executes controller actions, retains the owner-to-agent-target mapping, and forwards each claimed `handoff.prompt` verbatim. Owners modify their permitted files; the controller owns state, seals, checks, scheduling, merge, writeback, and cleanup.
-
-## 1. Overall Flow
+## Main execution loop
 
 ```text
-init-run
-  -> step
-  -> annotation
-      -> function specifications + internal predicates + C annotations + case-library lemmas + plan
-      -> symexec + failed-VC comparisons
-      -> annotation-check-round
-  -> dune-build
-  -> vc-checking
-      -> structural scan + independent comparison review + group plan
-      -> vc-checking-check-round
-  -> vc-proving-preparing
-      -> group reviews previous manual/lib
-      -> priority groups
-      -> remaining groups
-      -> vc-proving-verify
-  -> final-apply
-  -> final-check
-  -> done
+init-run → step → annotation owner → finalize-delivery
+→ dune-build → VC-checking owner → finalize-delivery
+→ vc-proving-preparing → group owners → finalize-delivery
+→ vc-proving-verify → final-apply → final-check → done
 ```
 
-After each controller command, inspect the final JSON:
+If the manual has no top-level VCs, dependency preparation leads directly to proving with no groups;
+parent checks, publication, and final checks still run. `dune-build` is the public command name; the
+selected workspace backend may be Dune or Make.
 
-- execute a nonempty `next_actions` list;
-- wait for nonempty `waiting_for`;
-- run one `step` when the consumed action leaves both empty;
-- finish only at `phase: done`;
-- stop and report a terminal controller blocker.
+After each command actually exits, inspect its final JSON. Execute current `next_actions`, or wait
+for owners listed in `waiting_for`. Once an owner has finished its report and stopped writing, use
+the `finalize_invocation` from the claim response or waiting entry. If a command returns no further
+actions, call `step` once; do not construct the next phase's command yourself. An unfinished task
+with no action, running owner, or explicit blocker produces `controller-no-progress`; do not poll
+indefinitely.
 
-Never infer a phase, build a command, or edit state.
+## Initialization
 
-## 2. Init and Fixed Topology
+`init-run` fixes the C file, independent formal case stem, `target_files`, case-library policy,
+problem statement, symexec profile, and group limits. The current mapping is
+`QCP_examples/<collection>/.../<input>.c` → `Rocq/examples/<collection>/.../<case>_*.v`.
 
-`init-run` fixes run/report roots, C path, formal case stem, the nine `target_files`, case-library policy, user-provided formal specifications, symexec profile, group limits, and public-helper pool. Specification authority uses only `--freeze-spec`: when present, the formal specification is user-provided; when omitted, the annotation owner writes and revises it in the current attempt. Every later path is re-derived from this topology.
+Library policies are `present` (existing library), `create` (create a seed), and `absent` (keep it
+absent). When omitted, select the first or second according to whether the canonical library exists.
+`--freeze-spec` identifies user-provided function specifications; without it, the annotation owner
+writes the specifications. Clarify ambiguous problem requirements or specification authority before
+initialization.
 
-Library policy is `present`, `create`, or `absent`. Windows runs also follow the [Windows guide](../docs/windows.md).
+## Annotation
 
-## 3. Annotation
+Following its role skill, the annotation owner derives mathematical specifications, necessary
+predicates, minimal function contracts, and loop invariants from the problem, and repairs symexec
+findings within the same attempt. It edits only the C annotations, active case library, and reports
+or plan permitted by the handoff. It does not hand-edit generated files or the proof manual.
 
-Spawn one annotation agent per run and append every retry to that same target.
+Development checks run in this order: `formal-case-lib-design` → `symexec` → `formal-case-lib`;
+run the last check only when the library exists. The controller generates and validates outputs in
+a temporary directory before publishing them. A symexec command starts at most one driver. Its
+failure diagnostics go to the owner; zero-byte output does not trigger an automatic rerun.
 
-The first attempt starts `prepared`. The controller creates annotation plan version 2:
+After the owner reports `completed` and stops, main's `finalize-delivery` directly performs annotation
+acceptance: validate the plan and frozen specifications, regenerate once from current inputs, check
+failed-VC/current-VC comparisons, compile the active library, and save after-history. Only success
+marks the task `accepted` and advances to dependency preparation.
 
-```json
-{
-  "version": 2,
-  "status": "planning",
-  "function_specs": [],
-  "loop_invariants": [],
-  "new_predicates": [],
-  "vc_comparisons": []
-}
-```
+To change a frozen specification, the owner records the function, old and proposed meanings, reason,
+and impact in its notes, stops editing, and asks main to obtain user approval. After approval,
+`unfreeze` applies to the same attempt; successful acceptance records the new baseline. Keep the
+same owner throughout.
 
-Without a user-provided specification, the owner starts with a natural-language specification and writes or revises the Rocq specification, function contracts, necessary predicates, minimal C body annotations, case-library definitions/lemmas, and plan in the same attempt, running:
+## VC checking
 
-```text
-formal-case-lib-design
-symexec
-formal-case-lib                 # when the case library is active
-```
+When the manual has VCs, the controller creates an independent VC-checking owner. Its mathematical
+work still follows the role skill: first perform the cheap top-level structural blocker scan, then
+complete exhaustive split-first analysis, proof-mode selection, and the group plan for inputs
+without a definite blocker. Review annotation comparisons independently; `resolved` is not proof.
 
-The annotation owner never edits the proof manual or writes proofs.
+Canonical files are read-only. To inspect goals, add `Show.` only to the handoff's debug manual copy
+and run the provided `coq-debug`. Main's `finalize-delivery` validates debug edit boundaries, plan
+coverage of the current manual, and group limits. Success creates the proving task. Acceptance does
+not rerun symexec to remove `Show.`.
 
-With a user-provided specification, the owner preserves `spec_freeze.baseline` and completes internal annotation and case-library work. If that specification must change, the owner stops immediately, does not edit it, and does not run `finalize-delivery`. It records the function, reason, planned `With` / `Require` / `Ensure` changes, meaning before and after, and effect on the requested result in `agent_output.md`. Main pauses the run and asks the user. After approval, main resumes the run, runs `unfreeze` for the current round, and returns the approved proposal to the same owner. The round and attempt remain unchanged.
+## Group proving
 
-### Retry
+`vc-proving-preparing` creates independent group copies and handoffs from the current plan and
+canonical manual/library. Assignments, paths, and candidates derive from current inputs. Owners may
+read historical proofs listed in their handoffs and decide what to reuse; scripts do not prefill
+proofs/helpers or rename them automatically.
 
-A VC-checking or group blocker uses structured `vcs` entries with exact `name`, `parent`, and `annotation_location`. `retry-round` reads the sealed source manual and writes every target into the new attempt's `failed_vcs`. The attempt is immediately `prepared`; the controller renders the complete handoff and publishes `append-annotation-agent`. Main writes no intermediate summary.
+Dispatch in plan-array order under the concurrency limit. After an annotation retry, groups covering
+comparison `current` VCs run first; dispatch the remaining groups only after all priority groups are
+accepted. If the priority batch finds an annotation gap, stop expanding dispatch, wait until running
+or returned deliveries have been handled, then aggregate actual blockers for an annotation retry.
 
-The retry plan copies prior `function_specs`, `loop_invariants`, and `new_predicates` and clears `vc_comparisons`. After symexec, the owner directly compares each sealed old statement with the current manual:
+A group owner edits only assigned proof spans and permitted suffixed helpers. `group-development`
+and `coq-debug` provide development feedback. `finalize-delivery` must check current structure, proof
+modes, helper suffixes, forbidden assumptions/commands, and compile the assigned-witness wrapper.
+Unfinished witnesses assigned to other groups do not prevent this group's acceptance.
 
-- `resolved`: the current change removes the old gap;
-- `unresolved`: continue editing this attempt.
+After every required group is accepted, `vc-proving-verify` mechanically merges current copies and
+runs the full parent check. Follow controller repair/retry actions for merge or parent failures;
+main does not repair owner proofs or plans.
 
-Only `resolved` results for every source permit plan `status: ready` and report `completed`. Agent-written specifications, necessary predicates, internal annotations, and the case library remain editable in the current attempt. A new annotation attempt is created only from an annotation gap found by VC checking or VC proving.
+## Repairs and retries
 
-### Acceptance
+A repairable report or check failure returns the same task to `prepared`, retains its owner, and
+increments `repair_index`. Main claims the append action and sends it to the original agent. Do not
+turn a repair of the same task into a new round.
 
-`annotation-check-round`:
+| Confirmed cause | Next behavior |
+|---|---|
+| Annotation owner finds an annotation/specification/dependency gap | Repair within the same attempt and owner |
+| VC-checking annotation/specification/dependency gap | Create an annotation retry from structured VC feedback |
+| VC-checking plan/report defect | Create a VC-checking retry |
+| Group annotation gap | Let the current batch finish safely, aggregate exact VCs, then retry annotation |
+| Group plan defect | Derive a VC-checking retry from current groups' terminal states |
+| Tool or infrastructure blocker | Preserve diagnostics; do not infer mathematical gaps from error prose or switch rounds without an action |
+| Unreadable current inputs, parent failure, or another mechanical problem | Execute only the controller's explicit recovery/retry action |
 
-1. revalidates sealed report/plan and current files;
-2. validates plan version 2, function and loop summaries, new-predicate records, complete failed-VC coverage, and current VC names;
-3. checks the user-provided specification when its baseline is non-null;
-4. runs pre-symexec case-library contract/dependency/coqc;
-5. reuses an exact owner-generation receipt or reruns transactional symexec;
-6. revalidates comparisons;
-7. runs the post-symexec case-library check;
-8. performs clean replay and revalidates comparisons against the final manual;
-9. when baseline is `null`, records the current specification surface as the user baseline; records comparison/resolved counts and source/current VC names, then accepts the C/library/generated files.
+`retry-round` must match the current action, with all running/returned owners already handled. A new
+annotation attempt carries historical `failed_vcs`, copies necessary design notes, and requires new
+comparisons. Delivery requires every actual old gap to be resolved. Model-written specifications
+remain directly editable; frozen user specifications still require the approval described above.
 
-## 4. Dependency Preparation
+## Publication and final checks
 
-`dune-build` is the public action name; the controller selects the backend. It prepares the exact goal-check target and seals the dependency snapshot used by VC checking, group checks, parent verification, and final check.
+After parent success, `final_candidate` records only the proving round. `final-apply` rereads that
+round's current candidate, validates write boundaries, compiles the latest candidate, then saves
+original/candidate bytes and publishes. `final-check` checks actual main-root files, frozen
+specifications, an independent symexec replay, manual/VC and library boundaries, Rocq compilation,
+and exact side-product cleanup. Enter `done` only after every check passes.
 
-## 5. VC Checking
-
-Each vc-checking attempt has an independent owner. The owner reads the current manual and annotation comparisons:
-
-1. cheaply scans every top-level VC, checking no-split whole goals first;
-2. returns a structured annotation/specification/dependency blocker for a definite missing premise/resource or countermodel;
-3. otherwise performs exhaustive split-first analysis and chooses one proof mode per top-level VC;
-4. directly reviews the current VCs named by each comparison; an annotation result is not proof evidence;
-5. places current VCs requiring a new substantial mathematical lemma in a first high-risk group;
-6. writes `group_plan.json` and concise `agent_output.md`.
-
-`vc-checking-check-round` seals the plan, reruns symexec to remove temporary `Show.`, compares the clean and owner manuals modulo that permitted difference, and accepts the plan.
-
-## 6. Proving Scheduling
-
-`vc-proving-preparing` creates the base manifest, fixed group copies, public-helper snapshot, and compact worker manifest.
-
-### Proof reuse
-
-The controller only gives each actually dispatched group worker the immediately preceding proving-round directory and the optional current `proof_reuse.md` path. It does not match statement/split hashes, proof mode, or group id, and does not compare case-library, dependency, or public-helper digests to permit reuse.
-
-The worker searches the preceding round's group manuals/libraries by current witness/helper/predicate names and reads only candidate declaration/proof blocks; it does not read every duplicated full manual. It performs the actual copy or rewrite in the current group files and may record direct reuse, reuse with changes, or no reuse for each current witness. Missing or empty `proof_reuse.md` does not affect finalize. A blocked old group, a renamed witness, or a changed grouping may still provide useful material, but never replaces the current full Rocq group check. The first proving round and a group that is never dispatched create no note.
-
-### Priority batch
-
-The first proving round has no comparisons and dispatches all groups under normal concurrency.
-
-After an annotation retry, groups containing comparison `current` form the first batch:
-
-- after all priority groups are accepted, dispatch remaining groups;
-- if a priority group reports an annotation gap, do not dispatch remaining groups; finish already-running/returned priority work, aggregate available blockers, and create an annotation retry immediately.
-
-Remaining groups use `dispatch_order` and `max_parallel_group_workers`.
-
-### Group terminal results
-
-A completed group passes statement/write-boundary/helper/import/safety/proof-mode and exact Rocq checks. An annotation-gap group may retain incomplete proofs, but every blocker VC exists in its sealed manual and belongs to an assigned top-level witness. `group_worker_output.md` explains existing premises, missing conclusion, and repair boundary.
-
-After all required groups are accepted, `vc-proving-verify` mechanically merges the manual/library, handles helper namespaces and public-helper promotion, and runs full parent verification.
-
-## 7. Retry Routing
-
-- `annotation-gap`, `specification-gap`, `dependency-gap` -> annotation;
-- `plan-defect`, `report-defect`, `infrastructure` -> vc-checking;
-- group proof/report repair -> same group owner;
-- current-file drift -> accepted annotation boundary;
-- user-provided specification needs a change -> stop the current attempt, then continue after user approval and `unfreeze`;
-- agent-generated specification needs a change -> edit it directly in the current attempt.
-
-The controller consumes structured fields and never parses VC names or retry phases from `message`.
-
-## 8. Final
-
-`final-apply` transactionally writes the accepted merged candidate. Main then reads and uses the `final-check` skill and executes the action's `final-check`. Finish only when the controller returns `done`.
-
-## 9. Pause and Resume
-
-When the user requests stop, run `cancel-action` for the exact active action, or `pause-run` when none is active. Wait for controller-owned process cleanup. Run `resume-run` only after an explicit user request and continue the same action.
+On failure or interruption, recover using the current publication record. If external new content
+appears, preserve backups and report the conflict; never overwrite it silently. A user pause changes
+only control and the signal, retaining task facts. Explicit resumption derives actions again. A
+`returned` task left by interrupted acceptance can be finalized again without requiring its owner
+to prove again that writing has stopped.

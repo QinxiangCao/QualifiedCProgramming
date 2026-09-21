@@ -10,7 +10,6 @@ SLP, logic, generated-file, input-file, and cwd arguments.
 
 from __future__ import annotations
 
-import json
 import math
 import os
 import platform
@@ -19,6 +18,7 @@ import shutil
 import stat
 import sys
 import time
+from collections import deque
 from collections.abc import Callable, Mapping
 from datetime import UTC, datetime
 from pathlib import Path
@@ -28,16 +28,16 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 VC_PROVING_SCRIPTS = SCRIPT_DIR.parent / "vc-proving"
 sys.path.insert(0, str(VC_PROVING_SCRIPTS))
 
-from file_integrity import sha256_bytes, sha256_text
-from path_utils import fixed_path_under, write_json
+from file_integrity import (
+    _fixed_artifact_leaf, _lexical_regular_file_snapshot,
+    _metadata_is_link_like, _snapshot_text,
+)
+from path_utils import fixed_path_under, path_is_link_like, target_files_for_c, write_json
 from process_adapter import run_bounded_process
 from proof_manual_utils import (
     coq_token_text,
-    ensure_unique_lemma_names,
     generated_artifact_module_spellings,
-    lemma_statement_text,
-    parse_manual_file,
-    partition_manual_lemmas,
+    parse_manual,
     required_rocq_modules,
 )
 GENERATED_FILE_KEYS = (
@@ -59,11 +59,7 @@ STRATEGY_INCLUDE_RE = re.compile(
     r'\binclude\s+strategies\s+"(?P<path>[^"\r\n]+)"'
 )
 ROCQ_IDENTIFIER_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_']*\Z")
-# Recursive verification cases can spend substantially longer in the canonical
-# driver after all local annotation failures have been discharged.  Keep one
-# bounded command budget, shared with the zero-byte-manual recovery run, but do
-# not terminate a progressing recursive call chain at the former ten-minute
-# ceiling.
+# Planning and the single driver call share one bounded command budget.
 SYMEXEC_TIMEOUT_SECONDS = 3600
 DEFAULT_SYMEXEC_PROFILE = "standard"
 SYMEXEC_PROFILES: dict[str, dict[str, int | str]] = {
@@ -110,7 +106,7 @@ def symexec_profile_record(name: str | None = None) -> dict[str, int | str]:
 
 
 def symexec_profile_for_state(state: Mapping[str, Any]) -> dict[str, int | str]:
-    """Read a persisted profile, with a compatible default for older runs."""
+    """Validate the controller-selected performance profile."""
 
     value = state.get("symexec_profile")
     if value is None:
@@ -140,360 +136,153 @@ def _utc() -> str:
     )
 
 
-def _last_output_line(stdout: str, stderr: str) -> str:
-    lines = [
-        line.strip()
-        for line in (stderr + "\n" + stdout).splitlines()
-        if line.strip()
-    ]
-    return _tail(lines[-1], 500) if lines else ""
-
-
-def _progress_hints(last_line: str) -> dict[str, str]:
-    function = re.search(
-        r"\b(?:processing|checking|entering|function)\s+(?:function\s+)?"
-        r"[`']?([A-Za-z_][A-Za-z0-9_]*)",
-        last_line,
-        flags=re.IGNORECASE,
-    )
-    boundary = re.search(
-        r"\b(?:completed|finished)\s+(?:call\s+)?(?:boundary\s+)?"
-        r"[`']?([A-Za-z_][A-Za-z0-9_]*)",
-        last_line,
-        flags=re.IGNORECASE,
-    )
-    return {
-        **({"current_function": function.group(1)} if function else {}),
-        **({"last_completed_boundary": boundary.group(1)} if boundary else {}),
-    }
-
-
-def _generated_progress_snapshot(
-    output_root: Path,
-    target_files: Mapping[str, str],
-) -> dict[str, Any]:
-    """Collect bounded size-only progress without trusting generated contents."""
-
-    records: list[dict[str, Any]] = []
+def _generated_progress_snapshot(output_root: Path, target_files: Mapping[str, str]) -> dict[str, Any]:
+    """Report actual output sizes without parsing files that are still being written."""
+    records = []
     for role in GENERATED_FILE_KEYS:
-        relative = str(target_files[role])
+        record: dict[str, Any] = {"role": role, "state": "missing", "size": 0}
         try:
-            path = _fixed_artifact_leaf(
-                root=output_root,
-                relative=relative,
-                label=f"symexec progress {role}",
-            )
+            path = _fixed_artifact_leaf(root=output_root, relative=target_files[role], label=f"symexec progress {role}")
             metadata = os.lstat(path)
+            if _metadata_is_link_like(metadata) or not stat.S_ISREG(metadata.st_mode):
+                raise ValueError("generated output is not a non-link regular file")
+            record.update(state="present", size=metadata.st_size)
         except FileNotFoundError:
-            records.append({"role": role, "state": "missing", "size": 0})
+            pass
         except (OSError, ValueError) as exc:
-            records.append(
-                {
-                    "role": role,
-                    "state": "invalid",
-                    "size": 0,
-                    "message": str(exc),
-                }
-            )
-        else:
-            records.append(
-                {
-                    "role": role,
-                    "state": (
-                        "present"
-                        if stat.S_ISREG(metadata.st_mode)
-                        and not _metadata_is_link_like(metadata)
-                        else "invalid"
-                    ),
-                    "size": (
-                        int(metadata.st_size)
-                        if stat.S_ISREG(metadata.st_mode)
-                        else 0
-                    ),
-                }
-            )
-    formal_relative = str(target_files["formal_directory"])
-    try:
-        formal_directory = fixed_path_under(
-            output_root / formal_relative,
-            output_root,
-            label="symexec progress formal directory",
-        )
-        temp_files = [
-            path
-            for path in formal_directory.glob("*.sacgen.tmp")
-            if path.is_file() and not path.is_symlink()
-        ]
-    except (OSError, SystemExit):
-        temp_files = []
-    temporary_bytes = 0
-    stable_temp_files: list[Path] = []
-    for path in temp_files:
-        try:
-            temporary_bytes += int(path.stat().st_size)
-            stable_temp_files.append(path)
-        except OSError:
-            continue
-    return {
-        "generated_files": records,
-        "generated_bytes": sum(int(item["size"]) for item in records),
-        "temporary_file_count": len(stable_temp_files),
-        "temporary_bytes": temporary_bytes,
-    }
+            record.update(state="invalid", message=str(exc))
+        records.append(record)
+    return {"generated_files": records, "generated_bytes": sum(item["size"] for item in records)}
 
 
 def _progress_reporter(
-    *,
-    main_root: Path,
-    output_root: Path,
-    target_files: Mapping[str, str],
-    progress_path: Path | None,
-    heartbeat_seconds: float,
-    timeout_seconds: float,
-    profile_name: str,
-) -> tuple[
-    Callable[[float, str, str], None],
-    Callable[[str, float, str, str], None],
-]:
-    """Build rate-limited running and forced terminal telemetry writers."""
-
-    if heartbeat_seconds <= 0 or not math.isfinite(heartbeat_seconds):
-        raise ValueError("symexec heartbeat interval must be finite and positive")
-    if progress_path is not None:
-        owner = main_root.expanduser().resolve()
-        path = fixed_path_under(
-            progress_path.expanduser(),
-            owner,
-            label="symexec progress report",
-        )
-    else:
-        path = None
+    *, main_root: Path, output_root: Path, target_files: Mapping[str, str],
+    progress_path: Path | None, heartbeat_seconds: float, timeout_seconds: float, profile_name: str,
+) -> tuple[Callable[[float, str, str], None], Callable[[str, float, str, str], None]]:
+    path = (_input_path(progress_path, main_root, label="symexec progress report")
+            if progress_path is not None else None)
     last_written = -math.inf
 
-    def write(
-        status: str,
-        elapsed_seconds: float,
-        stdout: str,
-        stderr: str,
-        *,
-        force: bool,
-    ) -> None:
+    def write(status: str, elapsed: float, stdout: str, stderr: str, *, force: bool = False) -> None:
         nonlocal last_written
-        if path is None:
-            return
-        elapsed = max(0.0, float(elapsed_seconds))
-        if not force and elapsed - last_written < heartbeat_seconds:
+        if path is None or (not force and elapsed - last_written < heartbeat_seconds):
             return
         last_written = elapsed
+        lines = (stderr + "\n" + stdout).strip().splitlines()
         try:
-            last_line = _last_output_line(stdout, stderr)
-            write_json(
-                path,
-                {
-                    "status": status,
-                    "updated_at": _utc(),
-                    "elapsed_seconds": round(elapsed, 3),
-                    "timeout_seconds": timeout_seconds,
-                    "profile": profile_name,
-                    "last_output_line": last_line,
-                    **_progress_hints(last_line),
-                    **_generated_progress_snapshot(output_root, target_files),
-                },
-            )
+            write_json(path, {
+                "status": status, "updated_at": _utc(), "elapsed_seconds": round(elapsed, 3),
+                "timeout_seconds": timeout_seconds, "profile": profile_name,
+                "last_output_line": _tail(lines[-1].strip(), 500) if lines else "",
+                **_generated_progress_snapshot(output_root, target_files),
+            })
         except (OSError, SystemExit, ValueError):
-            # Telemetry is deliberately non-acceptance evidence. A transient
-            # progress write failure must never terminate a sound tool run.
-            return
+            # Progress is diagnostic; an unavailable log cannot change proof acceptance.
+            pass
 
-    def progress(elapsed_seconds: float, stdout: str, stderr: str) -> None:
-        write("running", elapsed_seconds, stdout, stderr, force=False)
+    def progress(elapsed: float, stdout: str, stderr: str) -> None:
+        write("running", elapsed, stdout, stderr)
 
-    def finish(
-        status: str,
-        elapsed_seconds: float,
-        stdout: str,
-        stderr: str,
-    ) -> None:
-        write(status, elapsed_seconds, stdout, stderr, force=True)
+    def finish(status: str, elapsed: float, stdout: str, stderr: str) -> None:
+        write(status, elapsed, stdout, stderr, force=True)
 
     return progress, finish
 
 
 def _normalize_generated_freshness_text(text: str, root: Path) -> str:
-    """Mask only the controller-selected output root in generated Coq text."""
-
-    owner = root.expanduser().resolve()
-    variants = {
-        str(owner),
-        str(owner).replace("\\", "/"),
-        str(owner).replace("/", "\\"),
-    }
-    normalized = text
-    for item in sorted(variants, key=len, reverse=True):
-        normalized = normalized.replace(item, "$QCP_OUTPUT_ROOT")
-    return normalized
+    """Ignore the selected output root and platform line endings, nothing else."""
+    root_text = str(root.expanduser().resolve())
+    for spelling in sorted({root_text, root_text.replace("\\", "/"), root_text.replace("/", "\\")},
+                           key=len, reverse=True):
+        text = text.replace(spelling, "$QCP_OUTPUT_ROOT")
+    return text.replace("\r\n", "\n")
 
 
-def _fixed_artifact_leaf(
-    *,
-    root: Path,
-    relative: str,
-    label: str,
-) -> Path:
-    """Return one confined lexical leaf without resolving that leaf itself."""
-
-    owner_input = Path(os.path.abspath(os.fspath(root.expanduser())))
-    relative_path = Path(relative)
-    if (
-        relative_path.is_absolute()
-        or ".." in relative_path.parts
-        or not relative_path.name
-    ):
-        raise ValueError(f"{label} must be a repository-relative file: {relative}")
-    try:
-        owner = fixed_path_under(owner_input, owner_input, label=f"{label} root")
-        parent = fixed_path_under(
-            (owner / relative_path).parent,
-            owner,
-            label=f"{label} parent",
-        )
-    except SystemExit as exc:
-        raise ValueError(str(exc)) from exc
-    return parent / relative_path.name
+def _generated_artifact_snapshots(
+    plan: Mapping[str, Any], output: Path,
+) -> dict[str, dict[str, Any]]:
+    return {role: _lexical_regular_file_snapshot(
+        root=output, relative=str(plan["target_files"][role]), label=f"generated output {role}",
+    ) for role in GENERATED_FILE_KEYS}
 
 
-def _metadata_is_link_like(metadata: os.stat_result) -> bool:
-    return stat.S_ISLNK(metadata.st_mode) or bool(
-        int(getattr(metadata, "st_file_attributes", 0) or 0)
-        & getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400)
-    )
+def _generated_snapshot_records(
+    plan: Mapping[str, Any], snapshots: Mapping[str, Mapping[str, Any]],
+) -> list[dict[str, Any]]:
+    return [{"role": role, "relative_path": str(plan["target_files"][role]),
+             "state": str(snapshots[role].get("state") or "invalid")}
+            for role in GENERATED_FILE_KEYS]
 
 
-def _stable_metadata(metadata: os.stat_result) -> tuple[int, int, int, int]:
-    return (
-        int(metadata.st_dev),
-        int(metadata.st_ino),
-        int(metadata.st_size),
-        int(metadata.st_mtime_ns),
-    )
-
-
-def _lexical_regular_file_snapshot(
-    *,
-    root: Path,
-    relative: str,
-    label: str,
-) -> dict[str, Any]:
-    """Read one stable non-link regular leaf without following a replacement.
-
-    ``lstat`` rejects directories, FIFOs, and link/reparse leaves before open;
-    ``O_NONBLOCK`` ensures a FIFO swapped in during the race cannot stall the
-    controller. The descriptor and a second lexical stat must identify the
-    same unchanged regular file before any bytes are accepted.
-    """
-
-    try:
-        path = _fixed_artifact_leaf(root=root, relative=relative, label=label)
-    except ValueError as exc:
-        return {
-            "path": Path(os.path.abspath(os.fspath(root.expanduser()))) / relative,
-            "state": "invalid",
-            "message": str(exc),
-        }
-    try:
-        before = os.lstat(path)
-    except FileNotFoundError:
-        return {"path": path, "state": "missing"}
-    except OSError as exc:
-        return {"path": path, "state": "unreadable", "message": str(exc)}
-    if _metadata_is_link_like(before) or not stat.S_ISREG(before.st_mode):
-        return {
-            "path": path,
-            "state": "nonregular",
-            "message": f"{label} is not a non-link regular file: {relative}",
-        }
-
-    flags = os.O_RDONLY
-    for name in ("O_BINARY", "O_CLOEXEC", "O_NOFOLLOW", "O_NONBLOCK"):
-        flags |= int(getattr(os, name, 0) or 0)
-    descriptor: int | None = None
-    try:
-        descriptor = os.open(path, flags)
-        opened = os.fstat(descriptor)
-        if (
-            not stat.S_ISREG(opened.st_mode)
-            or (opened.st_dev, opened.st_ino) != (before.st_dev, before.st_ino)
-        ):
-            raise OSError("generated file changed to a non-regular or different leaf")
-        chunks: list[bytes] = []
-        while True:
-            chunk = os.read(descriptor, 1024 * 1024)
-            if not chunk:
-                break
-            chunks.append(chunk)
-        after_open = os.fstat(descriptor)
-        after_lexical = os.lstat(path)
-        if (
-            _metadata_is_link_like(after_lexical)
-            or not stat.S_ISREG(after_lexical.st_mode)
-            or _stable_metadata(before) != _stable_metadata(opened)
-            or _stable_metadata(opened) != _stable_metadata(after_open)
-            or _stable_metadata(after_open) != _stable_metadata(after_lexical)
-        ):
-            raise OSError("generated file changed while it was being read")
-    except OSError as exc:
-        return {"path": path, "state": "unreadable", "message": str(exc)}
-    finally:
-        if descriptor is not None:
-            os.close(descriptor)
-
-    payload = b"".join(chunks)
+def _output_problem(
+    target_files: Mapping[str, str], role: str, kind: str, message: str,
+) -> dict[str, str]:
     return {
-        "path": path,
-        "state": "present",
-        "size": len(payload),
-        "sha256": sha256_bytes(payload),
-        "data": payload,
-        "identity": (int(after_open.st_dev), int(after_open.st_ino)),
+        "category": "generated-output", "kind": kind, "role": role,
+        "relative_path": target_files[role], "message": message,
+        "repair": "Correct the source annotation or generator failure, then rerun the controller symexec command; do not edit generated files.",
     }
 
 
-def _snapshot_text(snapshot: Mapping[str, Any], *, label: str) -> str:
-    if snapshot.get("state") != "present" or not isinstance(
-        snapshot.get("data"), bytes
-    ):
-        raise ValueError(f"{label} is not a readable non-link regular file")
-    try:
-        return snapshot["data"].decode("utf-8")
-    except UnicodeDecodeError as exc:
-        raise ValueError(f"{label} is not valid UTF-8: {exc}") from exc
+def _generated_preflight_failure(
+    plan: Mapping[str, Any], snapshots: Mapping[str, Mapping[str, Any]],
+) -> dict[str, Any] | None:
+    for role, snapshot in snapshots.items():
+        if snapshot.get("state") not in {"present", "missing"}:
+            return {
+                **_output_problem(plan["target_files"], role, "generated-output-path-invalid",
+                                  str(snapshot.get("message") or "generated path is not a non-link regular file")),
+                "category": "structure",
+                "repair": "Restore the exact generated path and its ancestors to ordinary non-link files/directories, then rerun symexec.",
+            }
+    return None
 
 
-def _normalized_generated_digest(path: Path, root: Path) -> str:
-    owner = Path(os.path.abspath(os.fspath(root.expanduser())))
-    try:
-        relative = path.relative_to(owner)
-    except ValueError as exc:
-        raise ValueError(f"generated freshness path escaped its root: {path}") from exc
-    snapshot = _lexical_regular_file_snapshot(
-        root=owner,
-        relative=relative.as_posix(),
-        label="generated freshness file",
-    )
-    normalized = _normalize_generated_freshness_text(
-        _snapshot_text(snapshot, label="generated freshness file"), root
-    )
-    return sha256_text(normalized)
+def _generated_output_failure(
+    plan: dict[str, Any], output: Path, *,
+    snapshots: Mapping[str, Mapping[str, Any]] | None = None,
+) -> dict[str, Any] | None:
+    """Validate one output bundle; a manual is optional unless goal-check imports it."""
+    current = _generated_artifact_snapshots(plan, output) if snapshots is None else snapshots
+    if set(current) != set(GENERATED_FILE_KEYS):
+        raise ValueError("generated output snapshot set is incomplete")
+    target = plan["target_files"]
+    texts: dict[str, str] = {}
+    for role in (*MANDATORY_GENERATED_FILE_KEYS, "proof_manual_file"):
+        snapshot = current[role]
+        state = snapshot.get("state")
+        if state == "missing" and role == "proof_manual_file":
+            continue
+        if state != "present":
+            kind = {"missing": "missing", "unreadable": "unreadable", "nonregular": "nonregular"}.get(state, "invalid")
+            return _output_problem(target, role, f"generated-file-{kind}",
+                                   str(snapshot.get("message") or "symexec did not create a required generated file"))
+        if snapshot.get("size") == 0:
+            return _output_problem(target, role, "generated-file-empty", "symexec returned a zero-byte generated file")
+        try:
+            texts[role] = _snapshot_text(snapshot, label=f"generated output {role}")
+        except ValueError as exc:
+            return _output_problem(target, role, "generated-file-invalid", str(exc))
+    if "proof_manual_file" not in texts:
+        try:
+            imports = required_rocq_modules(texts["goal_check_file"], source_label="<generated-goal-check>")
+        except ValueError as exc:
+            return _output_problem(target, "goal_check_file", "goal-check-contract", str(exc))
+        manual_modules = generated_artifact_module_spellings(target, roles=("proof_manual_file",))
+        if not manual_modules.isdisjoint(imports):
+            return _output_problem(target, "proof_manual_file", "generated-file-missing",
+                                   "generated goal-check imports a proof manual that symexec did not create")
+    else:
+        try:
+            parse_manual(texts["proof_manual_file"])
+        except ValueError as exc:
+            return _output_problem(target, "proof_manual_file", "proof-manual-contract", str(exc))
+    return None
 
 
 def clean_output_freshness(
-    *,
-    main_root: Path,
-    target_c_file: Path,
-    target_files: dict[str, str],
-    reference_root: Path,
-    refresh_root: Path,
-    manual_mode: str,
+    *, main_root: Path, target_c_file: Path, target_files: dict[str, str],
+    reference_root: Path, refresh_root: Path, manual_mode: str,
     symexec_runner: Callable[..., dict[str, Any]] | None = None,
     timeout_seconds: int | float | None = None,
     profile_name: str = DEFAULT_SYMEXEC_PROFILE,
@@ -501,448 +290,73 @@ def clean_output_freshness(
     cancel_requested: Callable[[], bool] | None = None,
     progress_path: Path | None = None,
 ) -> dict[str, Any]:
-    """Replay canonical symexec and compare exact raw or proved-manual obligations."""
-
+    """Generate separately, then compare raw files or the proved manual's obligations."""
     if manual_mode not in {"raw", "proved"}:
         raise ValueError("manual_mode must be raw or proved")
-    refresh = fixed_path_under(
-        refresh_root,
-        main_root,
-        label="clean symbolic-execution replay directory",
-    )
-    recovery: dict[str, Any] = {
-        "status": "not-needed",
-        "removed_entry_count": 0,
-        "removed_zero_byte_temp_count": 0,
-    }
-    if os.path.lexists(refresh):
-        if refresh.is_symlink() or not refresh.is_dir():
-            raise ValueError(
-                "clean symbolic-execution replay path is not a fixed directory"
-            )
-        entries = list(refresh.rglob("*"))
-        zero_byte_temps = 0
-        for path in entries:
-            try:
-                if (
-                    path.is_file()
-                    and path.name.endswith(".sacgen.tmp")
-                    and path.stat().st_size == 0
-                ):
-                    zero_byte_temps += 1
-            except OSError:
-                continue
-        recovery = {
-            "status": "cleaned",
-            "removed_entry_count": len(entries),
-            "removed_zero_byte_temp_count": zero_byte_temps,
-        }
+    refresh = _validate_output_root(main_root, refresh_root)
+    if refresh == main_root or refresh == reference_root:
+        raise ValueError("freshness output must be separate from the main and reference roots")
+    existed = os.path.lexists(refresh)
+    if existed:
+        if not refresh.is_dir():
+            raise ValueError("freshness output is not an ordinary directory")
         shutil.rmtree(refresh)
     refresh.mkdir(parents=True)
-    runner = symexec_runner or run_symexec
-    symexec = runner(
-        main_root=main_root,
-        target_c_file=target_c_file,
-        output_root=refresh,
-        target_files=target_files,
-        timeout_seconds=timeout_seconds,
-        profile_name=profile_name,
-        heartbeat_seconds=heartbeat_seconds,
-        cancel_requested=cancel_requested,
-        progress_path=progress_path,
+    result = (symexec_runner or run_symexec)(
+        main_root=main_root, target_c_file=target_c_file, target_files=target_files,
+        output_root=refresh, timeout_seconds=timeout_seconds, profile_name=profile_name,
+        heartbeat_seconds=heartbeat_seconds, cancel_requested=cancel_requested, progress_path=progress_path,
     )
     mismatches: list[dict[str, Any]] = []
-    if symexec.get("status") == "passed":
-        exact_roles = (
-            GENERATED_FILE_KEYS
-            if manual_mode == "raw"
-            else tuple(
-                key for key in GENERATED_FILE_KEYS if key != "proof_manual_file"
-            )
-        )
-        for role in exact_roles:
-            reference_path = reference_root.expanduser().resolve() / target_files[role]
-            fresh_path = refresh / target_files[role]
-            reference_exists = reference_path.is_file()
-            fresh_exists = fresh_path.is_file()
-            same_content = not reference_exists and not fresh_exists
-            if reference_exists and fresh_exists:
-                try:
-                    same_content = _normalized_generated_digest(
-                        reference_path, reference_root
-                    ) == _normalized_generated_digest(fresh_path, refresh)
-                except (OSError, UnicodeDecodeError, ValueError):
-                    same_content = False
-            if not same_content:
-                mismatches.append(
-                    {"kind": role, "relative_path": target_files[role]}
-                )
-        if manual_mode == "proved":
-            reference_manual_path = (
-                reference_root.expanduser().resolve()
-                / target_files["proof_manual_file"]
-            )
-            fresh_manual_path = refresh / target_files["proof_manual_file"]
-            reference_manual_present = reference_manual_path.is_file()
-            fresh_manual_present = fresh_manual_path.is_file()
-            if not reference_manual_present and not fresh_manual_present:
-                pass
-            elif reference_manual_present != fresh_manual_present:
-                mismatches.append(
-                    {
-                        "kind": "proof_manual_file",
-                        "relative_path": target_files["proof_manual_file"],
-                    }
-                )
-            else:
-                try:
-                    reference_manual = reference_manual_path.read_text(
-                        encoding="utf-8"
-                    )
-                    fresh_manual = fresh_manual_path.read_text(encoding="utf-8")
-                    _reference_prelude, reference_lemmas = parse_manual_file(
-                        reference_manual
-                    )
-                    _fresh_prelude, fresh_lemmas = parse_manual_file(fresh_manual)
-                    reference_declarations = [
-                        (
-                            str(lemma["name"]),
-                            coq_token_text(lemma_statement_text(lemma)),
-                        )
-                        for lemma in reference_lemmas
-                    ]
-                    fresh_declarations = [
-                        (
-                            str(lemma["name"]),
-                            coq_token_text(lemma_statement_text(lemma)),
-                        )
-                        for lemma in fresh_lemmas
-                    ]
-                    if reference_declarations != fresh_declarations:
-                        mismatches.append({"kind": "manual-witness-statements"})
-                except (OSError, UnicodeDecodeError, ValueError) as exc:
-                    mismatches.append(
-                        {
-                            "kind": "manual-witness-statements",
-                            "message": str(exc),
-                        }
-                    )
+    if result.get("status") == "passed":
+        plan = {"target_files": target_files}
+        previous = _generated_artifact_snapshots(plan, reference_root)
+        fresh = _generated_artifact_snapshots(plan, refresh)
+        for role in GENERATED_FILE_KEYS:
+            before, after = previous[role], fresh[role]
+            if role == "proof_manual_file" and before.get("state") == after.get("state") == "missing":
+                continue
+            kind = "manual-witness-statements" if role == "proof_manual_file" and manual_mode == "proved" else role
+            try:
+                before_text = _snapshot_text(before, label=f"current {role}")
+                after_text = _snapshot_text(after, label=f"fresh {role}")
+                if kind == "manual-witness-statements":
+                    declarations = []
+                    for text in (before_text, after_text):
+                        declarations.append([(name, coq_token_text(vc["statement"]))
+                                             for name, vc in parse_manual(text).vc_index["by_name"].items()])
+                    equal = declarations[0] == declarations[1]
+                else:
+                    equal = (_normalize_generated_freshness_text(before_text, reference_root)
+                             == _normalize_generated_freshness_text(after_text, refresh))
+                if not equal:
+                    mismatches.append({"kind": kind, "relative_path": target_files[role]})
+            except ValueError as exc:
+                mismatches.append({"kind": kind, "relative_path": target_files[role], "message": str(exc)})
     return {
-        "status": (
-            "passed"
-            if symexec.get("status") == "passed" and not mismatches
-            else "failed"
-        ),
-        "symexec": {
-            key: symexec.get(key)
-            for key in (
-                "status",
-                "returncode",
-                "timeout_seconds",
-                "performance_profile",
-                "progress_path",
-                "first_failure",
-                "elapsed_seconds",
-            )
-            if symexec.get(key) is not None
-        },
-        "mismatches": mismatches,
-        "refresh_root": str(refresh),
-        "interrupted_output_recovery": recovery,
+        "status": "passed" if result.get("status") == "passed" and not mismatches else "failed",
+        "symexec": {key: result[key] for key in (
+            "status", "returncode", "timeout_seconds", "performance_profile", "progress_path", "first_failure", "elapsed_seconds",
+        ) if result.get(key) is not None},
+        "mismatches": mismatches, "refresh_root": str(refresh),
+        "interrupted_output_recovery": {"status": "cleaned" if existed else "not-needed"},
     }
 
 
-def _invoke_symexec(
-    plan: dict[str, Any],
-    timeout_seconds: int | float | None,
-    *,
-    cancel_requested: Callable[[], bool] | None = None,
-    progress_callback: Callable[[float, str, str], None] | None = None,
-    poll_interval_seconds: int | float = 5,
-) -> tuple[int, str, str]:
-    requested_timeout = (
-        float(SYMEXEC_TIMEOUT_SECONDS)
-        if timeout_seconds is None
-        else float(timeout_seconds)
-    )
-    if not math.isfinite(requested_timeout) or requested_timeout < 0:
-        raise ValueError("symexec timeout must be a finite non-negative number")
-    if requested_timeout <= 0:
-        return (
-            124,
-            "",
-            "Symbolic execution was not started because its shared deadline expired during planning or an earlier run.",
-        )
-    result = run_bounded_process(
-        plan["argv"],
-        cwd=plan["cwd"],
-        timeout_seconds=requested_timeout,
-        timeout_message=f"\nsymexec timed out after {requested_timeout} seconds",
-        detached_pipe_message=(
-            "; detached descendants retained output pipes, so controller "
-            "stopped draining them after 1 second"
-        ),
-        launch_error_prefix="symexec could not be launched: ",
-        cancel_requested=cancel_requested,
-        cancel_message="\nsymexec cancelled by controller pause/cancel request",
-        progress_callback=progress_callback,
-        poll_interval_seconds=float(poll_interval_seconds),
-        return_cancelled_result=True,
-    )
-    return result.returncode, result.stdout, result.stderr
+def _input_path(path: Path, root: Path, *, label: str) -> Path:
+    """Keep lexical paths until their link/reparse and owner checks finish."""
 
-
-def _required_rocq_modules(text: str) -> list[str]:
-    """Extract direct Require modules from generated, controller-owned text."""
-
-    return required_rocq_modules(
-        text,
-        source_label="<generated-goal-check>",
-    )
-
-
-def _generated_artifact_snapshots(
-    plan: Mapping[str, Any], output: Path
-) -> dict[str, dict[str, Any]]:
-    return {
-        key: _lexical_regular_file_snapshot(
-            root=output,
-            relative=str(plan["target_files"][key]),
-            label=f"generated output {key}",
-        )
-        for key in GENERATED_FILE_KEYS
-    }
-
-
-def _generated_snapshot_records(
-    plan: Mapping[str, Any],
-    snapshots: Mapping[str, Mapping[str, Any]],
-) -> list[dict[str, Any]]:
-    return [
-        {
-            "role": key,
-            "relative_path": str(plan["target_files"][key]),
-            "state": str(snapshots[key].get("state") or "invalid"),
-            "sha256": (
-                snapshots[key].get("sha256")
-                if snapshots[key].get("state") == "present"
-                else None
-            ),
-        }
-        for key in GENERATED_FILE_KEYS
-    ]
-
-
-def _generated_preflight_failure(
-    plan: Mapping[str, Any],
-    snapshots: Mapping[str, Mapping[str, Any]],
-) -> dict[str, Any] | None:
-    for key in GENERATED_FILE_KEYS:
-        snapshot = snapshots[key]
-        artifact_state = str(snapshot.get("state") or "invalid")
-        if artifact_state in {"present", "missing"}:
-            continue
-        return {
-            "category": "structure",
-            "kind": "generated-output-path-invalid",
-            "role": key,
-            "relative_path": str(plan["target_files"][key]),
-            "message": str(
-                snapshot.get("message")
-                or "generated output leaf is not a fixed non-link regular file or truly absent"
-            ),
-            "repair": "Restore the exact generated leaf and all of its ancestors to the fixed non-link topology before rerunning symbolic execution.",
-        }
-    return None
-
-
-def _unlink_unchanged_snapshot_leaf(
-    snapshot: Mapping[str, Any],
-    *,
-    label: str,
-) -> None:
-    path = snapshot.get("path")
-    identity = snapshot.get("identity")
-    if (
-        snapshot.get("state") != "present"
-        or not isinstance(path, Path)
-        or not isinstance(identity, tuple)
-        or len(identity) != 2
-    ):
-        raise OSError(f"{label} has no stable present-file identity")
-    current = os.lstat(path)
-    if (
-        _metadata_is_link_like(current)
-        or not stat.S_ISREG(current.st_mode)
-        or (int(current.st_dev), int(current.st_ino)) != identity
-    ):
-        raise OSError(f"{label} changed before controller recovery unlink")
-    path.unlink()
-
-
-def _goal_check_requires_manual(
-    plan: Mapping[str, Any],
-    *,
-    goal_check_snapshot: Mapping[str, Any],
-) -> bool:
-    target_files = plan["target_files"]
-    modules = frozenset(
-        _required_rocq_modules(
-            _snapshot_text(
-                goal_check_snapshot,
-                label="generated output goal_check_file",
-            )
-        )
-    )
-    manual_modules = generated_artifact_module_spellings(
-        target_files,
-        roles=("proof_manual_file",),
-    )
-    return not modules.isdisjoint(manual_modules)
-
-
-def _generated_output_failure(
-    plan: dict[str, Any],
-    output: Path,
-    *,
-    snapshots: Mapping[str, Mapping[str, Any]] | None = None,
-) -> dict[str, Any] | None:
-    current = (
-        _generated_artifact_snapshots(plan, output)
-        if snapshots is None
-        else dict(snapshots)
-    )
-    if set(current) != set(GENERATED_FILE_KEYS):
-        raise ValueError("generated output snapshot set is incomplete")
-    for key in MANDATORY_GENERATED_FILE_KEYS:
-        relative = str(plan["target_files"][key])
-        snapshot = current[key]
-        artifact_state = str(snapshot.get("state") or "invalid")
-        if artifact_state not in {"present", "missing"}:
-            return {
-                "category": "generated-output",
-                "kind": (
-                    "generated-file-unreadable"
-                    if artifact_state == "unreadable"
-                    else (
-                        "generated-file-nonregular"
-                        if artifact_state == "nonregular"
-                        else "generated-file-invalid"
-                    )
-                ),
-                "role": key,
-                "relative_path": relative,
-                "message": str(
-                    snapshot.get("message")
-                    or "generated output is not a non-link regular file"
-                ),
-                "repair": "Restore the exact generated-output leaf as a regular file and rerun the unchanged controller symexec command.",
-            }
-        if artifact_state == "missing":
-            return {
-                "category": "generated-output",
-                "kind": "generated-file-missing",
-                "role": key,
-                "relative_path": relative,
-                "message": "symexec returned success without creating a required generated file",
-                "repair": "Rerun the unchanged controller symexec command; if the file remains absent, inspect the target annotation and symbolic-execution output for the first failing function.",
-            }
-        if snapshot.get("size") == 0:
-            return {
-                "category": "generated-output",
-                "kind": "generated-file-empty",
-                "role": key,
-                "relative_path": relative,
-                "message": "symexec returned success with a zero-byte generated file",
-                "repair": "Remove only the invalid zero-byte output through the controller recovery path and rerun symbolic execution; do not hand-edit generated files.",
-            }
-
-    relative = str(plan["target_files"]["proof_manual_file"])
-    manual_snapshot = current["proof_manual_file"]
-    manual_state = str(manual_snapshot.get("state") or "invalid")
-    if manual_state not in {"present", "missing"}:
-        return {
-            "category": "generated-output",
-            "kind": (
-                "generated-file-unreadable"
-                if manual_state == "unreadable"
-                else (
-                    "generated-file-nonregular"
-                    if manual_state == "nonregular"
-                    else "generated-file-invalid"
-                )
-            ),
-            "role": "proof_manual_file",
-            "relative_path": relative,
-            "message": str(
-                manual_snapshot.get("message")
-                or "generated proof manual is not a non-link regular file"
-            ),
-            "repair": "Restore the exact generated-output leaf as a regular file or truly absent and rerun the unchanged controller symexec command.",
-        }
-    if manual_state == "missing":
-        try:
-            requires_manual = _goal_check_requires_manual(
-                plan,
-                goal_check_snapshot=current["goal_check_file"],
-            )
-        except ValueError as exc:
-            return {
-                "category": "generated-output",
-                "kind": "goal-check-contract",
-                "role": "goal_check_file",
-                "relative_path": plan["target_files"]["goal_check_file"],
-                "message": str(exc),
-                "repair": "Repair the generated goal-check source and rerun canonical symbolic execution.",
-            }
-        if requires_manual:
-            return {
-                "category": "generated-output",
-                "kind": "generated-file-missing",
-                "role": "proof_manual_file",
-                "relative_path": relative,
-                "message": (
-                    "symexec returned success without creating the proof manual "
-                    "which the generated goal-check directly imports"
-                ),
-                "repair": "Repair the annotation or generator output so the imported manual module is generated, then rerun canonical symbolic execution.",
-            }
-        return None
-    if manual_snapshot.get("size") == 0:
-        return {
-            "category": "generated-output",
-            "kind": "generated-file-empty",
-            "role": "proof_manual_file",
-            "relative_path": relative,
-            "message": "symexec returned success with a zero-byte generated file",
-            "repair": "Remove only the invalid zero-byte output through the controller recovery path and rerun symbolic execution; do not hand-edit generated files.",
-        }
     try:
-        _prelude, lemmas = parse_manual_file(
-            _snapshot_text(
-                manual_snapshot,
-                label="generated output proof_manual_file",
-            )
-        )
-        ensure_unique_lemma_names(lemmas)
-        partition_manual_lemmas(lemmas)
-    except ValueError as exc:
-        return {
-            "category": "generated-output",
-            "kind": "proof-manual-contract",
-            "role": "proof_manual_file",
-            "relative_path": relative,
-            "message": str(exc),
-            "repair": "Repair the C annotation or formal specification that produced the malformed manual, then rerun canonical symbolic execution.",
-        }
-    return None
+        return fixed_path_under(path, root, label=label)
+    except SystemExit as exc:
+        raise ValueError(str(exc)) from exc
 
 
 def _relative_target(main_root: Path, target_c_file: Path) -> Path:
     target = target_c_file.expanduser()
     if not target.is_absolute():
         target = main_root / target
-    target = target.resolve()
+    target = _input_path(target, main_root, label="target C file")
     try:
         relative = target.relative_to(main_root)
     except ValueError as exc:
@@ -953,23 +367,15 @@ def _relative_target(main_root: Path, target_c_file: Path) -> Path:
 
 
 def _validate_output_root(main_root: Path, output_root: Path) -> Path:
-    output = output_root.expanduser().resolve()
+    output = _input_path(output_root, main_root, label="symexec output root")
     if output == main_root:
         return output
     allowed = (main_root / "verification_runs", main_root / "reports")
-    if any(_is_relative_to(output, root) for root in allowed):
+    if any(output.is_relative_to(root) for root in allowed):
         return output
     raise ValueError(
         f"output root must be the main root or be under main-root/verification_runs or main-root/reports: {output}"
     )
-
-
-def _is_relative_to(path: Path, root: Path) -> bool:
-    try:
-        path.relative_to(root.resolve())
-        return True
-    except ValueError:
-        return False
 
 
 def _runtime_platform() -> tuple[str, str, str]:
@@ -1057,180 +463,65 @@ def _c_without_comments(text: str) -> str:
     return "".join(output)
 
 
-def _quoted_include_paths(source: Path) -> list[str]:
+def _source_includes(source: Path) -> tuple[list[str], list[str]]:
+    """Read a C/header/strategy source once for its two include forms."""
     try:
         text = source.read_text(encoding="utf-8")
-    except (OSError, UnicodeDecodeError) as exc:
+    except (OSError, UnicodeError) as exc:
         raise ValueError(f"cannot read include source {source}: {exc}") from exc
-    uncommented = _c_without_comments(text)
-    result: list[str] = []
-    for match in QUOTED_INCLUDE_RE.finditer(uncommented):
-        value = match.group("path").strip()
-        if not value or "\0" in value:
-            raise ValueError(f"invalid quoted include in {source}: {value!r}")
-        if value not in result:
-            result.append(value)
-    return result
+    headers = [match.group("path").strip() for match in QUOTED_INCLUDE_RE.finditer(_c_without_comments(text))]
+    strategies = [match.group("path").strip() for annotation in ANNOTATION_BLOCK_RE.finditer(text)
+                  for match in STRATEGY_INCLUDE_RE.finditer(annotation.group("body"))]
+    if any(not path or "\0" in path for path in [*headers, *strategies]):
+        raise ValueError(f"empty or invalid include path in {source}")
+    return list(dict.fromkeys(headers)), list(dict.fromkeys(strategies))
 
 
-def _strategy_include_paths(source: Path) -> list[str]:
-    """Return strategy files named by SimpleC annotation blocks."""
-
-    try:
-        text = source.read_text(encoding="utf-8")
-    except (OSError, UnicodeDecodeError) as exc:
-        raise ValueError(f"cannot read strategy include source {source}: {exc}") from exc
-    result: list[str] = []
-    for annotation in ANNOTATION_BLOCK_RE.finditer(text):
-        for match in STRATEGY_INCLUDE_RE.finditer(annotation.group("body")):
-            value = match.group("path").strip()
-            if not value or "\0" in value:
-                raise ValueError(f"invalid strategy include in {source}: {value!r}")
-            if value not in result:
-                result.append(value)
-    return result
-
-
-def _under_directory(path: Path, directory: Path) -> bool:
-    try:
-        path.relative_to(directory)
-        return True
-    except ValueError:
-        return False
-
-
-def _include_search_root(candidate: Path, include_parts: tuple[str, ...]) -> Path:
-    root = candidate
-    for _part in include_parts:
-        root = root.parent
-    return root
-
-
-def _resolve_quoted_include(
-    *,
-    qcp_root: Path,
-    including_source: Path,
-    include_text: str,
-    known_include_dirs: list[Path],
-    strategy_profile_dirs: tuple[Path, ...],
+def _resolve_include(
+    *, qcp_root: Path, source: Path, name: str, include_dirs: list[Path],
+    profile_dirs: tuple[Path, ...], repository_index: dict[str, list[Path]],
 ) -> tuple[Path, Path]:
-    """Resolve one include according to explicit repository search boundaries.
-
-    The including directory and its top-level collection have deterministic C
-    search precedence.  The target collection's explicit strategy profile is
-    then searched in its declared order.  A repository-wide fallback is
-    accepted only when it is unique; duplicate basenames therefore still fail
-    for collections without a deterministic profile.
-    """
-
-    normalized_text = include_text.replace("\\", "/")
-    include_path = Path(normalized_text)
-    include_parts = tuple(part for part in include_path.parts if part not in {"."})
-    if (
-        not include_parts
-        or include_path.is_absolute()
-        or ".." in include_parts
-        or include_path.drive
-    ):
-        raise ValueError(
-            f"quoted include must stay under QCP_examples: {include_text!r} "
-            f"from {including_source}"
-        )
-
-    local = (including_source.parent / Path(*include_parts)).resolve()
-    if local.is_file() and _under_directory(local, qcp_root):
-        return local, including_source.parent.resolve()
-
-    source_relative = including_source.resolve().relative_to(qcp_root)
-    collection_root = (qcp_root / source_relative.parts[0]).resolve()
-    collection_candidate = (collection_root / Path(*include_parts)).resolve()
-    if collection_candidate.is_file() and _under_directory(
-        collection_candidate, collection_root
-    ):
-        return collection_candidate, collection_root
-
-    for profile_dir in strategy_profile_dirs:
-        candidate = (profile_dir / Path(*include_parts)).resolve()
-        if candidate.is_file() and _under_directory(candidate, profile_dir):
-            return candidate, profile_dir
-
-    known_matches: dict[Path, Path] = {}
-    for include_dir in known_include_dirs:
-        candidate = (include_dir / Path(*include_parts)).resolve()
-        if candidate.is_file() and _under_directory(candidate, qcp_root):
-            known_matches[candidate] = include_dir
-    if len(known_matches) == 1:
-        return next(iter(known_matches.items()))
-    if len(known_matches) > 1:
-        choices = ", ".join(str(path) for path in sorted(known_matches))
-        raise ValueError(
-            f"ambiguous quoted include {include_text!r} from {including_source}: "
-            + choices
-        )
-
-    repository_matches: list[Path] = []
-    for candidate in qcp_root.rglob(include_parts[-1]):
-        if not candidate.is_file():
-            continue
-        relative = candidate.resolve().relative_to(qcp_root)
-        if len(relative.parts) < len(include_parts):
-            continue
-        if tuple(relative.parts[-len(include_parts) :]) == include_parts:
-            repository_matches.append(candidate.resolve())
-    repository_matches = sorted(set(repository_matches))
-    if not repository_matches:
-        raise ValueError(
-            f"cannot resolve quoted include {include_text!r} from {including_source} "
-            "under QCP_examples"
-        )
-    if len(repository_matches) > 1:
-        choices = ", ".join(str(path) for path in repository_matches)
-        raise ValueError(
-            f"ambiguous quoted include {include_text!r} from {including_source}: "
-            + choices
-        )
-    candidate = repository_matches[0]
-    return candidate, _include_search_root(candidate, include_parts)
-
-
-def _resolve_strategy_include(
-    *,
-    qcp_root: Path,
-    including_source: Path,
-    include_text: str,
-    known_include_dirs: list[Path],
-    strategy_profile_dirs: tuple[Path, ...],
-) -> Path:
-    """Resolve one annotation strategy path inside ``QCP_examples``.
-
-    Unlike C preprocessor includes, existing strategy annotations use a
-    confined ``..`` path to share a sibling strategy directory.  That spelling
-    is accepted only when its direct resolution remains below ``QCP_examples``.
-    """
-
-    normalized_text = include_text.replace("\\", "/")
-    include_path = Path(normalized_text)
-    if include_path.is_absolute() or include_path.drive:
-        raise ValueError(
-            f"strategy include must stay under QCP_examples: {include_text!r} "
-            f"from {including_source}"
-        )
-    direct = (including_source.parent / include_path).resolve()
-    if direct.is_file() and _under_directory(direct, qcp_root):
-        return direct
-    if ".." in include_path.parts:
-        raise ValueError(
-            f"cannot resolve confined strategy include {include_text!r} "
-            f"from {including_source}"
-        )
-    resolved, _search_root = _resolve_quoted_include(
-        qcp_root=qcp_root,
-        including_source=including_source,
-        include_text=include_text,
-        known_include_dirs=known_include_dirs,
-        strategy_profile_dirs=strategy_profile_dirs,
-    )
-    return resolved
+    """Use local/collection/profile precedence, then require an unambiguous fallback."""
+    relative = Path(name.replace("\\", "/"))
+    if not relative.parts or relative.is_absolute() or relative.drive:
+        raise ValueError(f"include must be relative to QCP_examples: {name!r} from {source}")
+    local = _input_path(source.parent / relative, qcp_root, label="local include")
+    if local.is_file():
+        return local, source.parent
+    if ".." in relative.parts:
+        raise ValueError(f"cannot resolve confined include {name!r} from {source}")
+    collection = qcp_root / source.relative_to(qcp_root).parts[0]
+    for directory in (collection, *profile_dirs):
+        candidate = _input_path(directory / relative, qcp_root, label="collection/profile include")
+        if candidate.is_file():
+            return candidate, directory
+    matches: dict[Path, Path] = {}
+    for directory in include_dirs:
+        candidate = _input_path(directory / relative, qcp_root, label="known include")
+        if candidate.is_file():
+            matches[candidate] = directory
+    if not matches:
+        if not repository_index:
+            def scan_error(error: OSError) -> None:
+                raise error
+            for directory, directories, files in os.walk(qcp_root, onerror=scan_error):
+                parent = Path(directory)
+                directories[:] = [name for name in directories if not path_is_link_like(parent / name)]
+                for leaf in files:
+                    repository_index.setdefault(os.path.normcase(leaf), []).append(parent / leaf)
+        parts = tuple(os.path.normcase(part) for part in relative.parts)
+        for candidate in repository_index.get(os.path.normcase(relative.name), []):
+            tail = candidate.relative_to(qcp_root).parts[-len(parts):]
+            if tuple(os.path.normcase(part) for part in tail) != parts:
+                continue
+            candidate = _input_path(candidate, qcp_root, label="repository include")
+            if candidate.is_file():
+                matches[candidate] = candidate.parents[len(parts) - 1]
+    if len(matches) == 1:
+        return next(iter(matches.items()))
+    if matches:
+        raise ValueError(f"ambiguous include {name!r} from {source}: " + ", ".join(str(path) for path in sorted(matches)))
+    raise ValueError(f"cannot resolve include {name!r} from {source} under QCP_examples")
 
 
 def _strategy_profile_directories(
@@ -1252,8 +543,8 @@ def _strategy_profile_directories(
             break
     if profile_collection is None:
         return ()
-    profile_root = (qcp_root / profile_collection).resolve()
-    if not profile_root.is_dir() or not _under_directory(profile_root, qcp_root):
+    profile_root = _input_path(qcp_root / profile_collection, qcp_root, label="strategy profile")
+    if not profile_root.is_dir():
         raise ValueError(
             "strategy profile directory is missing for "
             f"QCP_examples/{target_collection}: {profile_root}"
@@ -1311,8 +602,8 @@ def _symexec_search_paths(
 ) -> tuple[list[str], list[tuple[str, str]]]:
     """Discover include roots plus exact-strategy and collection SLP pairs."""
 
-    qcp_root = (main_root / "QCP_examples").resolve()
-    target = (main_root / target_rel).resolve()
+    qcp_root = _input_path(main_root / "QCP_examples", main_root, label="QCP input root")
+    target = _input_path(main_root / target_rel, qcp_root, label="target C file")
     try:
         target_relative = target.relative_to(qcp_root)
     except ValueError as exc:
@@ -1324,13 +615,14 @@ def _symexec_search_paths(
         target_relative,
     )
     include_dirs: list[Path] = [target.parent]
-    source_queue: list[Path] = [target]
+    source_queue = deque([target])
+    repository_index: dict[str, list[Path]] = {}
     visited: set[Path] = set()
     collections: list[str] = []
     strategy_directories: list[Path] = []
 
     while source_queue:
-        source = source_queue.pop(0).resolve()
+        source = source_queue.popleft().resolve()
         if source in visited:
             continue
         visited.add(source)
@@ -1349,31 +641,20 @@ def _symexec_search_paths(
             )
         if collection not in collections:
             collections.append(collection)
-        for include_text in _quoted_include_paths(source):
-            included, search_root = _resolve_quoted_include(
-                qcp_root=qcp_root,
-                including_source=source,
-                include_text=include_text,
-                known_include_dirs=include_dirs,
-                strategy_profile_dirs=strategy_profile_dirs,
-            )
-            if search_root not in include_dirs:
-                include_dirs.append(search_root)
-            if included not in visited:
-                source_queue.append(included)
-        for include_text in _strategy_include_paths(source):
-            strategy = _resolve_strategy_include(
-                qcp_root=qcp_root,
-                including_source=source,
-                include_text=include_text,
-                known_include_dirs=include_dirs,
-                strategy_profile_dirs=strategy_profile_dirs,
-            )
-            strategy_directory = strategy.parent.resolve()
-            if strategy_directory not in strategy_directories:
-                strategy_directories.append(strategy_directory)
-            if strategy not in visited:
-                source_queue.append(strategy)
+        headers, strategies = _source_includes(source)
+        for names, strategy in ((headers, False), (strategies, True)):
+            for name in names:
+                included, search_root = _resolve_include(
+                    qcp_root=qcp_root, source=source, name=name, include_dirs=include_dirs,
+                    profile_dirs=strategy_profile_dirs, repository_index=repository_index,
+                )
+                if strategy:
+                    if included.parent not in strategy_directories:
+                        strategy_directories.append(included.parent)
+                elif search_root not in include_dirs:
+                    include_dirs.append(search_root)
+                if included not in visited:
+                    source_queue.append(included)
 
     # A collection's default strategy profile participates even when the C
     # include graph does not name one of its headers directly.  This preserves
@@ -1418,82 +699,15 @@ def _symexec_search_paths(
     return include_args, slp_pairs
 
 
-def _sealed_target_files(
+def _validated_target_files(
     *,
     target_rel: Path,
     target_files: Mapping[str, str],
 ) -> dict[str, str]:
-    if any(
-        not isinstance(key, str) or not isinstance(value, str)
-        for key, value in target_files.items()
-    ):
-        raise ValueError("sealed target_files fields and values must all be strings")
-    supplied = dict(target_files)
-    required = {
-        "c_file",
-        "formal_directory",
-        "formal_case_lib",
-        "goal_file",
-        "proof_auto_file",
-        "proof_manual_file",
-        "goal_check_file",
-        "case_name",
-        "active_case_theory",
-    }
-    missing = sorted(required - set(supplied))
-    if missing:
-        raise ValueError(
-            "sealed target_files is missing required field(s): " + ", ".join(missing)
-        )
-    unexpected = sorted(set(supplied) - required)
-    if unexpected:
-        raise ValueError(
-            "sealed target_files has unexpected field(s): " + ", ".join(unexpected)
-        )
-    if supplied["c_file"] != target_rel.as_posix():
-        raise ValueError(
-            "sealed target_files c_file does not match the requested target C: "
-            f"{supplied['c_file']!r} != {target_rel.as_posix()!r}"
-        )
-    case_name = supplied["case_name"]
-    if ROCQ_IDENTIFIER_RE.fullmatch(case_name) is None:
-        raise ValueError(f"sealed target_files has an invalid Rocq case name: {case_name!r}")
-    formal_directory = Path(supplied["formal_directory"])
-    if (
-        formal_directory.is_absolute()
-        or ".." in formal_directory.parts
-        or formal_directory.parts[:2] != ("Rocq", "examples")
-        or len(formal_directory.parts) < 3
-    ):
-        raise ValueError(
-            "sealed target_files formal_directory must stay under "
-            f"Rocq/examples/<collection>: {formal_directory}"
-        )
-    logical_parts = formal_directory.parts[2:]
-    if any(ROCQ_IDENTIFIER_RE.fullmatch(part) is None for part in logical_parts):
-        raise ValueError(
-            "sealed target_files formal_directory cannot form a Rocq logical path"
-        )
-    expected_theory = "SimpleC.EE." + ".".join(logical_parts)
-    if supplied["active_case_theory"] != expected_theory:
-        raise ValueError(
-            "sealed target_files active_case_theory does not match formal_directory"
-        )
-    artifact_suffixes = {
-        "formal_case_lib": "_lib.v",
-        "goal_file": "_goal.v",
-        "proof_auto_file": "_proof_auto.v",
-        "proof_manual_file": "_proof_manual.v",
-        "goal_check_file": "_goal_check.v",
-    }
-    for key, suffix in artifact_suffixes.items():
-        expected_path = formal_directory / f"{case_name}{suffix}"
-        if supplied[key] != expected_path.as_posix():
-            raise ValueError(
-                f"sealed target_files {key} is outside its exact canonical path: "
-                f"{supplied[key]!r}"
-            )
-    return dict(supplied)
+    expected = target_files_for_c(target_rel, target_files.get("case_name"))
+    if dict(target_files) != expected:
+        raise ValueError("target_files does not match the canonical C/case topology")
+    return expected
 
 
 def build_symexec_plan(
@@ -1503,7 +717,8 @@ def build_symexec_plan(
     output_root: Path,
     target_files: Mapping[str, str],
 ) -> dict[str, Any]:
-    main_root = main_root.expanduser().resolve()
+    main_root = main_root.expanduser().absolute()
+    main_root = _input_path(main_root, main_root, label="main root")
     if (
         not (main_root / "QCP_examples").is_dir()
         or not (main_root / "Rocq").is_dir()
@@ -1513,7 +728,7 @@ def build_symexec_plan(
         )
     target_rel = _relative_target(main_root, target_c_file)
     output_root = _validate_output_root(main_root, output_root)
-    planned_target_files = _sealed_target_files(
+    planned_target_files = _validated_target_files(
         target_rel=target_rel,
         target_files=target_files,
     )
@@ -1552,303 +767,91 @@ def build_symexec_plan(
     }
 
 
-def _run_symexec_with_budget(
-    *,
-    main_root: Path,
-    target_c_file: Path,
-    output_root: Path,
-    target_files: Mapping[str, str],
-    timeout_seconds: int | float | None = None,
+def run_symexec(
+    *, main_root: Path, target_c_file: Path, output_root: Path,
+    target_files: Mapping[str, str], timeout_seconds: int | float | None = None,
     profile_name: str = DEFAULT_SYMEXEC_PROFILE,
     heartbeat_seconds: int | float | None = None,
     poll_interval_seconds: int | float | None = None,
     cancel_requested: Callable[[], bool] | None = None,
     progress_path: Path | None = None,
 ) -> dict[str, Any]:
-    started = time.time()
-    monotonic_started = time.monotonic()
-    # A zero-byte-manual recovery may invoke the driver twice. Both launches
-    # share this one command budget so recovery cannot double the stall bound.
+    """Plan, launch the driver once, and validate the resulting output bundle."""
+    started = time.monotonic()
     profile = symexec_profile_record(profile_name)
-    budget = float(
-        timeout_seconds
-        if timeout_seconds is not None
-        else profile["timeout_seconds"]
-    )
-    heartbeat = float(
-        heartbeat_seconds
-        if heartbeat_seconds is not None
-        else profile["heartbeat_seconds"]
-    )
-    poll_interval = float(
-        poll_interval_seconds
-        if poll_interval_seconds is not None
-        else profile["poll_interval_seconds"]
-    )
-    if not math.isfinite(budget) or budget < 0:
-        raise ValueError("symexec timeout must be a finite non-negative number")
-    if not math.isfinite(poll_interval) or poll_interval <= 0:
-        raise ValueError("symexec poll interval must be finite and positive")
-    deadline = time.monotonic() + budget
-    plan = build_symexec_plan(
-        main_root=main_root,
-        target_c_file=target_c_file,
-        output_root=output_root,
-        target_files=target_files,
-    )
-    driver = Path(plan["driver"])
-    evidence: dict[str, Any] = {
-        "target_c_file": plan["target_c_file"],
-        "timeout_seconds": budget,
-        "performance_profile": profile_name,
-        "heartbeat_seconds": heartbeat,
-    }
+    budget = float(profile["timeout_seconds"] if timeout_seconds is None else timeout_seconds)
+    heartbeat = float(profile["heartbeat_seconds"] if heartbeat_seconds is None else heartbeat_seconds)
+    poll_interval = float(profile["poll_interval_seconds"] if poll_interval_seconds is None else poll_interval_seconds)
+    for label, value, allow_zero in (("timeout", budget, True), ("heartbeat", heartbeat, False), ("poll interval", poll_interval, False)):
+        if not math.isfinite(value) or value < 0 or (value == 0 and not allow_zero):
+            raise ValueError(f"symexec {label} must be finite and {'non-negative' if allow_zero else 'positive'}")
+    plan = build_symexec_plan(main_root=main_root, target_c_file=target_c_file,
+                              output_root=output_root, target_files=target_files)
+    root, output, driver = Path(plan["cwd"]), Path(plan["output_root"]), Path(plan["driver"])
     progress, finish_progress = _progress_reporter(
-        main_root=main_root,
-        output_root=Path(plan["output_root"]),
-        target_files=plan["target_files"],
-        progress_path=progress_path,
-        heartbeat_seconds=heartbeat,
-        timeout_seconds=budget,
-        profile_name=profile_name,
+        main_root=root, output_root=output, target_files=plan["target_files"], progress_path=progress_path,
+        heartbeat_seconds=heartbeat, timeout_seconds=budget, profile_name=profile_name,
     )
-    progress(0.0, "", "")
+    snapshots: dict[str, dict[str, Any]] = {}
+    returncode: int | None = None
+    stdout = stderr = ""
 
-    def finish_early(result: dict[str, Any]) -> dict[str, Any]:
-        finish_progress(
-            str(result.get("status") or "failed"),
-            time.monotonic() - monotonic_started,
-            "",
-            str((result.get("first_failure") or {}).get("message") or ""),
-        )
+    def finish(failure: dict[str, Any] | None, *, status: str | None = None) -> dict[str, Any]:
+        outcome = status or ("passed" if failure is None else "failed")
+        elapsed = time.monotonic() - started
+        finish_progress("cancelled" if returncode == 130 else outcome, elapsed, stdout, stderr or str((failure or {}).get("message") or ""))
+        result: dict[str, Any] = {
+            "target_c_file": plan["target_c_file"], "timeout_seconds": budget,
+            "performance_profile": profile_name, "heartbeat_seconds": heartbeat,
+            "status": outcome, "returncode": returncode, "elapsed_seconds": round(elapsed, 3),
+            "generated_files": _generated_snapshot_records(plan, snapshots) if snapshots else [],
+        }
         if progress_path is not None:
             result["progress_path"] = str(progress_path)
+        if failure is not None:
+            result.update(first_failure=failure, stdout_tail=_tail(stdout), stderr_tail=_tail(stderr))
         return result
 
-    if not driver.is_file():
-        return finish_early({
-            **evidence,
-            "status": "skipped",
-            "reason": "canonical symexec driver not found",
-            "first_failure": {
-                "category": "tool",
-                "kind": "driver-missing",
-                "message": f"canonical symexec driver not found: {driver}",
-                "repair": "Install or restore the controller-selected platform driver; do not substitute a different executable or raw command.",
-            },
-            "returncode": None,
-            "generated_files": [],
-            "elapsed_seconds": round(time.time() - started, 3),
-        })
-    if os.name != "nt" and not os.access(driver, os.X_OK):
-        return finish_early({
-            **evidence,
-            "status": "skipped",
-            "reason": "canonical symexec driver is not executable",
-            "first_failure": {
-                "category": "tool",
-                "kind": "driver-not-executable",
-                "message": f"canonical symexec driver is not executable: {driver}",
-                "repair": "Restore executable permission for the selected platform driver, then rerun the unchanged controller command.",
-            },
-            "returncode": None,
-            "generated_files": [],
-            "elapsed_seconds": round(time.time() - started, 3),
-        })
-    output = Path(plan["output_root"])
-    preflight_snapshots = _generated_artifact_snapshots(plan, output)
-    preflight_failure = _generated_preflight_failure(plan, preflight_snapshots)
-    if preflight_failure is not None:
-        return finish_early({
-            **evidence,
-            "status": "failed",
-            "returncode": None,
-            "generated_files": _generated_snapshot_records(
-                plan,
-                preflight_snapshots,
-            ),
-            "first_failure": preflight_failure,
-            "elapsed_seconds": round(time.time() - started, 3),
-        })
-    try:
-        formal_directory = fixed_path_under(
-            output / str(plan["target_files"]["formal_directory"]),
-            output,
-            label="generated formal directory",
-        )
-        formal_directory.mkdir(parents=True, exist_ok=True)
-    except (OSError, SystemExit) as exc:
-        return finish_early({
-            **evidence,
-            "status": "failed",
-            "returncode": None,
-            "generated_files": _generated_snapshot_records(
-                plan,
-                preflight_snapshots,
-            ),
-            "first_failure": {
-                "category": "structure",
-                "kind": "generated-output-directory-invalid",
-                "message": str(exc),
-                "repair": "Restore the fixed non-link generated formal directory before rerunning symbolic execution.",
-            },
-            "elapsed_seconds": round(time.time() - started, 3),
-        })
-    try:
-        returncode, stdout, stderr = _invoke_symexec(
-            plan,
-            deadline - time.monotonic(),
-            cancel_requested=cancel_requested,
-            progress_callback=progress,
-            poll_interval_seconds=poll_interval,
-        )
-    except BaseException:
-        finish_progress(
-            "interrupted",
-            time.monotonic() - monotonic_started,
-            "",
-            "",
-        )
-        raise
+    progress(time.monotonic() - started, "", "")
+    if not driver.is_file() or (os.name != "nt" and not os.access(driver, os.X_OK)):
+        kind = "driver-not-executable" if driver.is_file() else "driver-missing"
+        return finish({"category": "tool", "kind": kind, "message": f"symexec driver is unavailable: {driver}",
+                       "repair": "Restore the selected platform driver and its executable permission, then rerun the controller command."}, status="skipped")
     snapshots = _generated_artifact_snapshots(plan, output)
-    manual_snapshot = snapshots["proof_manual_file"]
-    recovery: dict[str, Any] | None = None
-    recovery_failure: dict[str, Any] | None = None
-    zero_byte_manual = (
-        returncode == 0
-        and manual_snapshot.get("state") == "present"
-        and manual_snapshot.get("size") == 0
-    )
-    if zero_byte_manual:
-        recovery = {
-            "kind": "zero-byte-proof-manual",
-        }
-        try:
-            recovery["removed_sha256"] = str(manual_snapshot["sha256"])
-            _unlink_unchanged_snapshot_leaf(
-                manual_snapshot,
-                label="zero-byte generated proof manual",
-            )
-        except OSError as exc:
-            recovery["status"] = "failed"
-            recovery_failure = {
-                "category": "tool",
-                "kind": "zero-byte-proof-manual-recovery",
-                "role": "proof_manual_file",
-                "relative_path": plan["target_files"]["proof_manual_file"],
-                "message": str(exc),
-                "repair": "Fix the generated-output filesystem problem, then rerun the unchanged controller symexec command.",
-            }
-        else:
-            try:
-                returncode, stdout, stderr = _invoke_symexec(
-                    plan,
-                    deadline - time.monotonic(),
-                    cancel_requested=cancel_requested,
-                    progress_callback=progress,
-                    poll_interval_seconds=poll_interval,
-                )
-            except BaseException:
-                finish_progress(
-                    "interrupted",
-                    time.monotonic() - monotonic_started,
-                    stdout,
-                    stderr,
-                )
-                raise
-            recovery["rerun_returncode"] = returncode
-            snapshots = _generated_artifact_snapshots(plan, output)
-
-    generated = _generated_snapshot_records(plan, snapshots)
-    if recovery_failure is not None:
-        output_failure = recovery_failure
-    elif returncode == 0:
-        output_failure = _generated_output_failure(
-            plan,
-            output,
-            snapshots=snapshots,
-        )
+    failure = _generated_preflight_failure(plan, snapshots)
+    if failure is not None:
+        return finish(failure)
+    try:
+        formal = _input_path(output / plan["target_files"]["formal_directory"], output, label="generated formal directory")
+        formal.mkdir(parents=True, exist_ok=True)
+    except (OSError, ValueError) as exc:
+        return finish({"category": "structure", "kind": "generated-output-directory-invalid", "message": str(exc),
+                       "repair": "Restore the generated formal directory as an ordinary writable directory, then rerun symexec."})
+    remaining = budget - (time.monotonic() - started)
+    if remaining <= 0:
+        returncode, stderr = 124, "Symbolic execution's shared deadline expired before launch."
     else:
-        category = (
-            "control"
-            if returncode == 130
-            else "tool"
-            if returncode == 124
-            else "symbolic-execution"
-        )
-        output_failure = {
-            "category": category,
-            "kind": (
-                "cancelled"
-                if returncode == 130
-                else "timeout"
-                if returncode == 124
-                else "symexec-error"
-            ),
-            "message": _tail(stderr or stdout, 1600).strip()
-            or f"symbolic execution exited with return code {returncode}",
-            "repair": (
-                "Resume the paused run explicitly, then rerun the same action."
-                if category == "control"
-                else "Rerun the unchanged controller command once in this same annotation attempt; if the timeout repeats, stop at the tooling blocker without creating another annotation attempt."
-                if category == "tool"
-                else "Inspect the named C function and nearest Require/Ensure/Assert/Inv/where boundary, repair the annotation or spec, and rerun canonical symbolic execution."
-            ),
-        }
-    passed = returncode == 0 and output_failure is None
-    if recovery is not None and "status" not in recovery:
-        recovery["status"] = "passed" if passed else "failed"
-    result = {
-        **evidence,
-        "status": "passed" if passed else "failed",
-        "returncode": returncode,
-        "generated_files": generated,
-        "elapsed_seconds": round(time.time() - started, 3),
-    }
-    if recovery is not None:
-        result["recovery"] = recovery
-    if output_failure is not None:
-        result["first_failure"] = output_failure
-    if not passed:
-        result["stdout_tail"] = _tail(stdout)
-        result["stderr_tail"] = _tail(stderr)
-    finish_progress(
-        "passed" if passed else "cancelled" if returncode == 130 else "failed",
-        time.monotonic() - monotonic_started,
-        stdout,
-        stderr,
-    )
-    if progress_path is not None:
-        result["progress_path"] = str(progress_path)
-    return result
-
-
-def run_symexec(
-    *,
-    main_root: Path,
-    target_c_file: Path,
-    output_root: Path,
-    target_files: Mapping[str, str],
-    timeout_seconds: int | float | None = None,
-    profile_name: str = DEFAULT_SYMEXEC_PROFILE,
-    heartbeat_seconds: int | float | None = None,
-    poll_interval_seconds: int | float | None = None,
-    cancel_requested: Callable[[], bool] | None = None,
-    progress_path: Path | None = None,
-) -> dict[str, Any]:
-    """Run symbolic execution for canonical or replay output."""
-
-    root = main_root.expanduser().resolve()
-    output = output_root.expanduser().resolve()
-    return _run_symexec_with_budget(
-        main_root=root,
-        target_c_file=target_c_file,
-        output_root=output,
-        target_files=target_files,
-        timeout_seconds=timeout_seconds,
-        profile_name=profile_name,
-        heartbeat_seconds=heartbeat_seconds,
-        poll_interval_seconds=poll_interval_seconds,
-        cancel_requested=cancel_requested,
-        progress_path=progress_path,
-    )
+        try:
+            process = run_bounded_process(
+                plan["argv"], cwd=plan["cwd"], timeout_seconds=remaining,
+                timeout_message=f"\nsymexec timed out after {budget} seconds",
+                detached_pipe_message="; output pipes remained open after process exit",
+                launch_error_prefix="symexec could not be launched: ",
+                cancel_requested=cancel_requested, cancel_message="\nsymexec cancelled by controller pause/cancel request",
+                progress_callback=lambda _elapsed, out, err: progress(time.monotonic() - started, out, err),
+                poll_interval_seconds=poll_interval, return_cancelled_result=True,
+            )
+            returncode, stdout, stderr = process.returncode, process.stdout, process.stderr
+        except BaseException:
+            finish_progress("interrupted", time.monotonic() - started, stdout, stderr)
+            raise
+    snapshots = _generated_artifact_snapshots(plan, output)
+    if returncode == 0:
+        return finish(_generated_output_failure(plan, output, snapshots=snapshots))
+    category, kind = {130: ("control", "cancelled"), 124: ("tool", "timeout")}.get(returncode, ("symbolic-execution", "symexec-error"))
+    return finish({
+        "category": category, "kind": kind,
+        "message": _tail(stderr or stdout, 1600).strip() or f"symexec exited with return code {returncode}",
+        "repair": ("Resume the paused run explicitly, then rerun the same action." if returncode == 130
+                   else "Inspect the tool output and repair the reported source or environment issue before rerunning the controller command."),
+    })

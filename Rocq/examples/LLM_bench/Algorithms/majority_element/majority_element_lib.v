@@ -13,13 +13,27 @@ Fixpoint count (m : Z) (l : list Z) : Z :=
   end.
 
 Definition IsMajorityElement (m : Z) (l : list Z) : Prop :=
-  2 * (count m l) > Z.of_nat (length l).
+  2 * Zlength (filter (Z.eqb m) l) > Zlength l.
+
+(** Compatibility with the existing cancellation helpers. *)
+Lemma count_filter m l : count m l = Zlength (filter (Z.eqb m) l).
+Proof.
+  induction l as [|a l IH]; simpl; [reflexivity |].
+  destruct (Z.eq_dec a m) as [-> | Hne].
+  - rewrite Z.eqb_refl, Zlength_cons. lia.
+  - assert (Z.eqb m a = false) by (apply Z.eqb_neq; congruence).
+    rewrite H. lia.
+Qed.
+
+Lemma IsMajorityElement_count m l :
+  IsMajorityElement m l <-> 2 * count m l > Z.of_nat (length l).
+Proof. unfold IsMajorityElement. rewrite count_filter, !Zlength_correct. reflexivity. Qed.
 
 Definition repeated (candidate vote : Z) : list Z :=
   repeat candidate (Z.to_nat vote).
 
 Definition MajorityOnReduced (major candidate vote : Z) (rest : list Z) : Prop :=
-  0 <= vote /\ IsMajorityElement major (repeated candidate vote ++ rest).
+  IsMajorityElement major (repeated candidate vote ++ rest).
 
 Lemma count_app : forall m l1 l2,
   count m (l1 ++ l2) = count m l1 + count m l2.
@@ -94,7 +108,6 @@ Lemma majority_on_reduced_init : forall major candidate rest,
 Proof.
   intros major candidate rest Hmajor.
   unfold MajorityOnReduced.
-  split; [lia |].
   rewrite repeated_nil.
   simpl.
   exact Hmajor.
@@ -108,7 +121,6 @@ Proof.
   unfold MajorityOnReduced.
   rewrite repeated_nil in Hmajor.
   simpl in Hmajor.
-  split; [lia |].
   unfold repeated.
   simpl.
   exact Hmajor.
@@ -121,7 +133,6 @@ Lemma majority_on_reduced_same : forall major candidate vote rest,
 Proof.
   intros major candidate vote rest Hvote Hmajor.
   unfold MajorityOnReduced.
-  split; [lia |].
   rewrite repeated_succ by lia.
   change (candidate :: rest) with ([candidate] ++ rest) in Hmajor.
   rewrite app_assoc in Hmajor.
@@ -136,9 +147,8 @@ Lemma majority_on_reduced_cancel : forall major candidate a vote rest,
 Proof.
   intros major candidate a vote rest Hvote Hneq Hmajor.
   unfold MajorityOnReduced.
-  split; [lia |].
   unfold repeated in *.
-  unfold IsMajorityElement in *.
+  rewrite !IsMajorityElement_count in *.
   rewrite count_app in Hmajor.
   rewrite count_app.
   rewrite count_repeat_nat in Hmajor.
@@ -207,7 +217,7 @@ Lemma majority_of_repeated_eq : forall major candidate vote,
 Proof.
   intros major candidate vote Hvote Hmajor.
   unfold repeated in Hmajor.
-  unfold IsMajorityElement in Hmajor.
+  rewrite IsMajorityElement_count in Hmajor.
   rewrite count_repeat_nat in Hmajor.
   rewrite repeat_length in Hmajor.
   destruct (Z.eq_dec major candidate) as [Heq | Hneq].

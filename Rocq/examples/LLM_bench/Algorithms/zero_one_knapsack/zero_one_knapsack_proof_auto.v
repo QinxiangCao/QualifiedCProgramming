@@ -101,7 +101,10 @@ Proof. Admitted.
 Lemma proof_of_zeroOneKnapsack_safety_wit_28 : zeroOneKnapsack_safety_wit_28.
 Proof. Admitted. 
 
-Lemma proof_of_zeroOneKnapsack_entail_wit_4 : zeroOneKnapsack_entail_wit_4.
+Lemma proof_of_zeroOneKnapsack_safety_wit_29 : zeroOneKnapsack_safety_wit_29.
+Proof. Admitted. 
+
+Lemma proof_of_zeroOneKnapsack_safety_wit_30 : zeroOneKnapsack_safety_wit_30.
 Proof. Admitted. 
 
 Lemma proof_of_zeroOneKnapsack_return_wit_1 : zeroOneKnapsack_return_wit_1.

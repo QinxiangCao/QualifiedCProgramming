@@ -32,6 +32,9 @@ Proof. Admitted.
 Lemma proof_of_id_safety_wit_4 : id_safety_wit_4.
 Proof. Admitted. 
 
+Lemma proof_of_id_return_wit_1 : id_return_wit_1.
+Proof. Admitted. 
+
 Lemma proof_of_solve_safety_wit_1 : solve_safety_wit_1.
 Proof. Admitted. 
 
@@ -86,7 +89,13 @@ Proof. Admitted.
 Lemma proof_of_solve_safety_wit_19 : solve_safety_wit_19.
 Proof. Admitted. 
 
-Lemma proof_of_solve_entail_wit_8 : solve_entail_wit_8.
+Lemma proof_of_solve_safety_wit_20 : solve_safety_wit_20.
+Proof. Admitted. 
+
+Lemma proof_of_solve_safety_wit_21 : solve_safety_wit_21.
+Proof. Admitted. 
+
+Lemma proof_of_solve_return_wit_1 : solve_return_wit_1.
 Proof. Admitted. 
 
 Lemma proof_of_solve_partial_solve_wit_1_pure : solve_partial_solve_wit_1_pure.

@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import json
+import math
 import os
 import signal
 import subprocess
+import sys
 import time
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -26,6 +28,34 @@ class ProcessResult:
     stderr: str
     cleanup_incomplete: bool = False
     cancelled: bool = False
+
+
+def tool_progress(label: str) -> Callable[[float, str, str], None]:
+    """Report the active build step every 30 seconds without mixing JSON stdout."""
+    next_report = 30.0
+
+    def report(elapsed: float, stdout: str, stderr: str) -> None:
+        nonlocal next_report
+        if elapsed < next_report:
+            return
+        next_report = elapsed + 30.0
+        diagnostic = (stderr or stdout).strip().splitlines()
+        suffix = f"; {diagnostic[-1][-300:]}" if diagnostic else ""
+        print(f"[QCP] {label}: {elapsed:.0f}s elapsed{suffix}", file=sys.stderr, flush=True)
+
+    return report
+
+
+def control_signal_requests_stop(path: Path) -> bool:
+    """Fail closed when a present control signal is malformed or paused."""
+
+    try:
+        if not path.is_file():
+            return False
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+        return True
+    return not isinstance(payload, dict) or payload.get("status") != "active"
 
 
 def _terminate_process_group(proc: subprocess.Popen[str]) -> bool:
@@ -61,12 +91,16 @@ def _terminate_process_group(proc: subprocess.Popen[str]) -> bool:
     try:
         proc.communicate(timeout=1)
     except subprocess.TimeoutExpired:
-        for stream in (proc.stdout, proc.stderr):
-            if stream is not None:
-                try:
-                    stream.close()
-                except OSError:
-                    pass
+        # ponytail: detached Windows pipes stay with daemon readers until EOF;
+        # closing here blocks on their read locks. Stronger tree cleanup would
+        # be needed to reclaim those handles before detached descendants exit.
+        if os.name != "nt":
+            for stream in (proc.stdout, proc.stderr):
+                if stream is not None:
+                    try:
+                        stream.close()
+                    except OSError:
+                        pass
         try:
             proc.wait(timeout=0.2)
         except (OSError, subprocess.TimeoutExpired):
@@ -102,24 +136,23 @@ def run_bounded_process(
     down the complete process group and then preserves the original exception.
     """
 
+    if not math.isfinite(timeout_seconds) or timeout_seconds < 0:
+        raise ValueError("process timeout must be non-negative and finite")
+    if not math.isfinite(poll_interval_seconds) or poll_interval_seconds <= 0:
+        raise ValueError("process poll interval must be positive and finite")
+
     if cancel_requested is None:
         raw_control_path = os.environ.get(CONTROL_SIGNAL_ENV)
         if raw_control_path:
             control_path = Path(raw_control_path)
+            cancel_requested = lambda: control_signal_requests_stop(control_path)
 
-            def environment_requests_cancel() -> bool:
-                try:
-                    if not control_path.is_file():
-                        return False
-                    payload = json.loads(control_path.read_text(encoding="utf-8"))
-                except (OSError, UnicodeDecodeError, json.JSONDecodeError):
-                    return True
-                return (
-                    not isinstance(payload, dict)
-                    or payload.get("status") != "active"
-                )
-
-            cancel_requested = environment_requests_cancel
+    if cancel_requested is not None and cancel_requested():
+        if not return_cancelled_result:
+            raise ProcessCancelled(cancel_message.strip())
+        return ProcessResult(130, "", cancel_message, cancelled=True)
+    if timeout_seconds == 0:
+        return ProcessResult(124, "", timeout_message)
 
     try:
         popen_kwargs: dict[str, object] = {}
@@ -141,13 +174,6 @@ def run_bounded_process(
     except OSError as exc:
         return ProcessResult(127, "", f"{launch_error_prefix}{exc}")
 
-    if timeout_seconds < 0:
-        _terminate_process_group(proc)
-        raise ValueError("process timeout must be non-negative")
-    if poll_interval_seconds <= 0:
-        _terminate_process_group(proc)
-        raise ValueError("process poll interval must be positive")
-
     started = time.monotonic()
     deadline = started + float(timeout_seconds)
     latest_stdout = ""
@@ -156,6 +182,9 @@ def run_bounded_process(
         while True:
             if cancel_requested is not None and cancel_requested():
                 cleanup_incomplete = _terminate_process_group(proc)
+                if not cleanup_incomplete:
+                    # Windows only exposes captured output once reader threads finish.
+                    latest_stdout, latest_stderr = proc.communicate(timeout=0)
                 stderr = latest_stderr + cancel_message
                 if cleanup_incomplete:
                     stderr += detached_pipe_message
@@ -173,6 +202,9 @@ def run_bounded_process(
                 # A timeout is not just reported: explicitly terminate the
                 # complete process group, including any coqc descendants.
                 cleanup_incomplete = _terminate_process_group(proc)
+                if not cleanup_incomplete:
+                    # Windows only exposes captured output once reader threads finish.
+                    latest_stdout, latest_stderr = proc.communicate(timeout=0)
                 stderr = latest_stderr + timeout_message
                 if cleanup_incomplete:
                     stderr += detached_pipe_message
@@ -187,11 +219,16 @@ def run_bounded_process(
                     timeout=min(float(poll_interval_seconds), remaining)
                 )
             except subprocess.TimeoutExpired as exc:
+                # TimeoutExpired carries bytes even with Popen(text=True).
                 latest_stdout = (
-                    exc.stdout if isinstance(exc.stdout, str) else latest_stdout
+                    exc.stdout.decode("utf-8", errors="replace")
+                    if isinstance(exc.stdout, bytes)
+                    else exc.stdout if isinstance(exc.stdout, str) else latest_stdout
                 )
                 latest_stderr = (
-                    exc.stderr if isinstance(exc.stderr, str) else latest_stderr
+                    exc.stderr.decode("utf-8", errors="replace")
+                    if isinstance(exc.stderr, bytes)
+                    else exc.stderr if isinstance(exc.stderr, str) else latest_stderr
                 )
                 if progress_callback is not None:
                     progress_callback(

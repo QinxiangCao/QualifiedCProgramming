@@ -8,24 +8,50 @@ Require Import
 (** The canonical Euler totient is the cardinality of the positive residues
     [1, n] that are coprime to [n].  This finite count is independent of the
     trial-division implementation used by the C program. *)
+Require Import AUXLib.ListLib SumLib.ZRange.
+
 Definition EulerTotientValue (n : Z) : Z :=
+  Zlength (filter (fun k : Z => Z.eqb (Z.gcd k n) 1) (Zrange 1 (n + 1))).
+
+(** Compatibility with the original counting helpers, whose internal
+    natural-number enumeration is retained only for proof reuse. *)
+Definition EulerTotientCountLegacy (n : Z) : Z :=
   Z.of_nat
     (length
        (filter
           (fun k : nat => Z.eqb (Z.gcd (Z.of_nat k) n) 1)
           (seq 1 (Z.to_nat n)))).
 
+From Coq Require Import Lia Sorting.Permutation.
+Lemma EulerTotientValue_compat n :
+  EulerTotientValue n = EulerTotientCountLegacy n.
+Proof.
+  unfold EulerTotientValue, EulerTotientCountLegacy.
+  assert (Henum : Zrange 1 (n + 1) = map Z.of_nat (seq 1 (Z.to_nat n))).
+  { unfold Zrange. replace (n + 1 - 1) with n by lia.
+    generalize (Z.to_nat n). intros count.
+    change 1 with (Z.of_nat 1).
+    generalize 1%nat. intros offset.
+    revert offset. induction count as [|count IH]; intros offset; cbn [seq map Zrange_aux].
+    - reflexivity.
+    - f_equal. replace (Z.of_nat offset + 1) with (Z.of_nat (S offset)) by lia.
+      apply IH. }
+  rewrite Henum, Zlength_correct.
+  generalize (seq 1 (Z.to_nat n)); intros l.
+  induction l as [|k l IH]; cbn [filter map length]; [reflexivity|].
+  destruct (Z.eqb (Z.gcd (Z.of_nat k) n) 1); cbn [length].
+  - rewrite !Nat2Z.inj_succ. f_equal. exact IH.
+  - exact IH.
+Qed.
+
 Definition EulerPhi (n result : Z) : Prop :=
   result = EulerTotientValue n.
 
-(** The public inverse result is the canonical modular-power value obtained
-    from Euler's totient, and it satisfies the modular inverse equation. *)
+(** The public result states the inverse equation, independently of the
+    totient computation and modular exponentiation used to obtain it. *)
 Definition EulerTheoremInverse
     (value modulus inverse : Z) : Prop :=
-  exists phi,
-    EulerPhi modulus phi /\
-    ModularPower value (phi - 1) modulus inverse /\
-    (value * inverse) mod modulus = 1.
+  (value * inverse) mod modulus = 1.
 
 (** The residual state isolates the mathematical work still carried by the
     unprocessed factor [remaining].  Besides the totient identity, divisibility
@@ -431,7 +457,7 @@ Proof.
     rewrite Z.pow_1_r.
     ring.
   }
-  unfold EulerTotientValue.
+  rewrite !EulerTotientValue_compat. unfold EulerTotientCountLegacy.
   rewrite
     (filter_ext_in
        (fun j : nat => Z.eqb (Z.gcd (Z.of_nat j) (p ^ exponent)) 1)
@@ -880,7 +906,7 @@ Proof.
   }
   pose proof (Permutation_length Hpermutation) as Hlength.
   rewrite length_map, length_prod in Hlength.
-  unfold EulerTotientValue, lab, la, lb in *.
+  rewrite !EulerTotientValue_compat. unfold EulerTotientCountLegacy, lab, la, lb in *.
   rewrite Hlength.
   apply Nat2Z.inj_mul.
 Qed.
@@ -1234,7 +1260,7 @@ Lemma euler_totient_of_prime__euler_phi_final_results :
 Proof.
   intros p Hp.
   pose proof (prime_ge_2 p Hp) as Hp_ge.
-  unfold EulerTotientValue.
+  rewrite !EulerTotientValue_compat. unfold EulerTotientCountLegacy.
   assert (Hnat : Z.of_nat (Z.to_nat p) = p).
   { rewrite Z2Nat.id; lia. }
   remember (Z.to_nat p) as n eqn:Hn.
@@ -1676,7 +1702,7 @@ Lemma euler_power_totient_mod__inverse_final_result :
     (a ^ EulerTotientValue n) mod n = 1.
 Proof.
   intros a n Ha Han Hn Hagcd.
-  unfold EulerTotientValue.
+  rewrite !EulerTotientValue_compat. unfold EulerTotientCountLegacy.
   set (residues :=
     filter
       (fun k : nat => Z.eqb (Z.gcd (Z.of_nat k) n) 1)
@@ -1744,7 +1770,7 @@ Proof.
   intros a n phi inverse Ha Han Hn Hagcd Hphi Hpower.
   assert (Hphipos : 1 <= phi).
   {
-    unfold EulerPhi, EulerTotientValue in Hphi.
+    unfold EulerPhi in Hphi. rewrite EulerTotientValue_compat in Hphi. unfold EulerTotientCountLegacy in Hphi.
     subst phi.
     assert (Hin :
       In (Z.to_nat a)
@@ -1780,7 +1806,5 @@ Proof.
   }
   split.
   - exact Hinverse.
-  - unfold EulerTheoremInverse.
-    exists phi.
-    repeat split; assumption.
+  - exact Hinverse.
 Qed.

@@ -1,4 +1,7 @@
 /*@ Extern Coq
+      (Forall : {A} -> (A -> Prop) -> list A -> Prop)
+      (Z::le : Z -> Z -> Prop)
+      (Z::ge : Z -> Z -> Prop)
       (MaximumContainerArea : list Z -> Z -> Prop)
       (WorkspacePrefixNLogN : list Z -> list Z -> list Z -> Z -> Prop)
       (HeightIndexRangeDescendingNLogN : list Z -> Z -> Z -> Prop)
@@ -179,55 +182,10 @@ void sortHeightIndexRangeNLogN(
         workHeight, workIndex, bufferHeight, bufferIndex,
         count, middle, right);
 
-    /*@ Assert
-      exists work_mid_h work_mid_i work_h work_i buffer_h buffer_i,
-      workHeight == workHeight@pre && workIndex == workIndex@pre &&
-      bufferHeight == bufferHeight@pre && bufferIndex == bufferIndex@pre &&
-      count == count@pre && count <= 100000 &&
-      left == left@pre && right == right@pre &&
-      left < middle && middle < right &&
-      Zlength(work_mid_h) == count && Zlength(work_mid_i) == count &&
-      Zlength(work_h) == count && Zlength(work_i) == count &&
-      Zlength(buffer_h) == count && Zlength(buffer_i) == count &&
-      HeightIndexRangeSortResultNLogN(
-        work0_h, work0_i, work_mid_h, work_mid_i, left, middle) &&
-      HeightIndexRangeSortResultNLogN(
-        work_mid_h, work_mid_i, work_h, work_i, middle, right) &&
-      HeightIndexRangeDescendingNLogN(work_h, left, middle) &&
-      HeightIndexRangeDescendingNLogN(work_h, middle, right) &&
-      IntArray::full(workHeight, count, work_h) *
-      IntArray::full(workIndex, count, work_i) *
-      IntArray::full(bufferHeight, count, buffer_h) *
-      IntArray::full(bufferIndex, count, buffer_i)
-     */
+
     mergeHeightIndexRunsNLogN(
         workHeight, workIndex, bufferHeight, bufferIndex,
         count, left, middle, right);
-
-    /*@ Assert
-      exists work_mid_h work_mid_i work_h work_i
-             buffer0_h buffer0_i buffer_h buffer_i,
-      workHeight == workHeight@pre && workIndex == workIndex@pre &&
-      bufferHeight == bufferHeight@pre && bufferIndex == bufferIndex@pre &&
-      count == count@pre && count <= 100000 &&
-      left == left@pre && right == right@pre &&
-      left < middle && middle < right &&
-      Zlength(work_mid_h) == count && Zlength(work_mid_i) == count &&
-      Zlength(work_h) == count && Zlength(work_i) == count &&
-      Zlength(buffer_h) == count && Zlength(buffer_i) == count &&
-      0 <= left && right <= count &&
-      HeightIndexRangeSortResultNLogN(
-        work0_h, work0_i, work_mid_h, work_mid_i, left, middle) &&
-      HeightIndexRangeSortResultNLogN(
-        work_mid_h, work_mid_i, work_h, work_i, middle, right) &&
-      HeightIndexRangeMergeResultNLogN(
-        work_h, work_i, buffer0_h, buffer0_i, buffer_h, buffer_i,
-        left, middle, right) &&
-      IntArray::full(workHeight, count, work_h) *
-      IntArray::full(workIndex, count, work_i) *
-      IntArray::full(bufferHeight, count, buffer_h) *
-      IntArray::full(bufferIndex, count, buffer_i)
-     */
 
     /*@ Inv Assert
       exists work_mid_h work_mid_i work_h work_i
@@ -264,38 +222,26 @@ void sortHeightIndexRangeNLogN(
 }
 
 int maxAreaNLogN(
-    const int *height, int heightSize,
-    int *workHeight, int *workIndex,
-    int *bufferHeight, int *bufferIndex)
+    const int *height, int heightSize)
 /*@ With (l : list Z)
     Require
       2 <= heightSize && heightSize <= 100000 &&
       Zlength(l) == heightSize &&
-      (forall (k : Z),
-        (0 <= k && k < heightSize) =>
-        (0 <= l[k] && l[k] <= 10000)) &&
-      IntArray::full(height, heightSize, l) *
-      IntArray::undef_full(workHeight, heightSize) *
-      IntArray::undef_full(workIndex, heightSize) *
-      IntArray::undef_full(bufferHeight, heightSize) *
-      IntArray::undef_full(bufferIndex, heightSize)
+      Forall(Z::le(0), l) && Forall(Z::ge(10000), l) &&
+      IntArray::full(height, heightSize, l)
     Ensure
-      exists sorted_h sorted_i buffer_h buffer_i,
       MaximumContainerArea(l, __return) &&
-      0 <= __return && __return <= 999990000 &&
-      SortedHeightIndexWorkspaceNLogN(l, sorted_h, sorted_i) &&
-      IntArray::full(height, heightSize, l) *
-      IntArray::full(workHeight, heightSize, sorted_h) *
-      IntArray::full(workIndex, heightSize, sorted_i) *
-      IntArray::full(bufferHeight, heightSize, buffer_h) *
-      IntArray::full(bufferIndex, heightSize, buffer_i)
+      IntArray::full(height, heightSize, l)
  */
 {
+    int workHeight[100000];
+    int workIndex[100000];
+    int bufferHeight[100000];
+    int bufferIndex[100000];
+
     /*@ Inv Assert
       exists work_h work_i buffer_h buffer_i,
       height == height@pre && heightSize == heightSize@pre &&
-      workHeight == workHeight@pre && workIndex == workIndex@pre &&
-      bufferHeight == bufferHeight@pre && bufferIndex == bufferIndex@pre &&
       2 <= heightSize@pre && heightSize@pre <= 100000 &&
       Zlength(l) == heightSize@pre &&
       0 <= k && k <= heightSize@pre &&
@@ -303,18 +249,20 @@ int maxAreaNLogN(
       Zlength(buffer_h) == k && Zlength(buffer_i) == k &&
       WorkspacePrefixNLogN(l, work_h, work_i, k) &&
       WorkspacePrefixNLogN(l, buffer_h, buffer_i, k) &&
-      (forall (p : Z),
-        (0 <= p && p < heightSize@pre) =>
-        (0 <= l[p] && l[p] <= 10000)) &&
+      Forall(Z::le(0), l) && Forall(Z::ge(10000), l) &&
       IntArray::full(height, heightSize@pre, l) *
       IntArray::full(workHeight, k, work_h) *
       IntArray::undef_seg(workHeight, k, heightSize@pre) *
+      IntArray::undef_seg(workHeight, heightSize@pre, 100000) *
       IntArray::full(workIndex, k, work_i) *
       IntArray::undef_seg(workIndex, k, heightSize@pre) *
+      IntArray::undef_seg(workIndex, heightSize@pre, 100000) *
       IntArray::full(bufferHeight, k, buffer_h) *
       IntArray::undef_seg(bufferHeight, k, heightSize@pre) *
+      IntArray::undef_seg(bufferHeight, heightSize@pre, 100000) *
       IntArray::full(bufferIndex, k, buffer_i) *
-      IntArray::undef_seg(bufferIndex, k, heightSize@pre)
+      IntArray::undef_seg(bufferIndex, k, heightSize@pre) *
+      IntArray::undef_seg(bufferIndex, heightSize@pre, 100000)
      */
     for (int k = 0; k < heightSize; ++k) {
         int h = height[k];
@@ -327,8 +275,6 @@ int maxAreaNLogN(
     /*@ Assert
       exists work0_h work0_i buffer0_h buffer0_i,
       height == height@pre && heightSize == heightSize@pre &&
-      workHeight == workHeight@pre && workIndex == workIndex@pre &&
-      bufferHeight == bufferHeight@pre && bufferIndex == bufferIndex@pre &&
       2 <= heightSize@pre && heightSize@pre <= 100000 &&
       Zlength(l) == heightSize@pre &&
       Zlength(work0_h) == heightSize@pre &&
@@ -337,14 +283,16 @@ int maxAreaNLogN(
       Zlength(buffer0_i) == heightSize@pre &&
       WorkspacePrefixNLogN(l, work0_h, work0_i, heightSize@pre) &&
       WorkspacePrefixNLogN(l, buffer0_h, buffer0_i, heightSize@pre) &&
-      (forall (p : Z),
-        (0 <= p && p < heightSize@pre) =>
-        (0 <= l[p] && l[p] <= 10000)) &&
+      Forall(Z::le(0), l) && Forall(Z::ge(10000), l) &&
       IntArray::full(height, heightSize@pre, l) *
-      IntArray::full(workHeight, heightSize@pre, work0_h) *
-      IntArray::full(workIndex, heightSize@pre, work0_i) *
-      IntArray::full(bufferHeight, heightSize@pre, buffer0_h) *
-      IntArray::full(bufferIndex, heightSize@pre, buffer0_i)
+      IntArray::full(pointer_offset(workHeight, 0, sizeof(int), int), heightSize@pre, work0_h) *
+      IntArray::undef_seg(workHeight, heightSize@pre, 100000) *
+      IntArray::full(pointer_offset(workIndex, 0, sizeof(int), int), heightSize@pre, work0_i) *
+      IntArray::undef_seg(workIndex, heightSize@pre, 100000) *
+      IntArray::full(pointer_offset(bufferHeight, 0, sizeof(int), int), heightSize@pre, buffer0_h) *
+      IntArray::undef_seg(bufferHeight, heightSize@pre, 100000) *
+      IntArray::full(pointer_offset(bufferIndex, 0, sizeof(int), int), heightSize@pre, buffer0_i) *
+      IntArray::undef_seg(bufferIndex, heightSize@pre, 100000)
      */
 
     sortHeightIndexRangeNLogN(
@@ -354,19 +302,19 @@ int maxAreaNLogN(
     /*@ Assert
       exists sorted_h sorted_i buffer_h buffer_i,
       height == height@pre && heightSize == heightSize@pre &&
-      workHeight == workHeight@pre && workIndex == workIndex@pre &&
-      bufferHeight == bufferHeight@pre && bufferIndex == bufferIndex@pre &&
       2 <= heightSize@pre && heightSize@pre <= 100000 &&
       Zlength(l) == heightSize@pre &&
       SortedHeightIndexWorkspaceNLogN(l, sorted_h, sorted_i) &&
-      (forall (p : Z),
-        (0 <= p && p < heightSize@pre) =>
-        (0 <= l[p] && l[p] <= 10000)) &&
+      Forall(Z::le(0), l) && Forall(Z::ge(10000), l) &&
       IntArray::full(height, heightSize@pre, l) *
       IntArray::full(workHeight, heightSize@pre, sorted_h) *
+      IntArray::undef_seg(workHeight, heightSize@pre, 100000) *
       IntArray::full(workIndex, heightSize@pre, sorted_i) *
+      IntArray::undef_seg(workIndex, heightSize@pre, 100000) *
       IntArray::full(bufferHeight, heightSize@pre, buffer_h) *
-      IntArray::full(bufferIndex, heightSize@pre, buffer_i)
+      IntArray::undef_seg(bufferHeight, heightSize@pre, 100000) *
+      IntArray::full(bufferIndex, heightSize@pre, buffer_i) *
+      IntArray::undef_seg(bufferIndex, heightSize@pre, 100000)
      */
 
     int minimumIndex = workIndex[0];
@@ -376,8 +324,6 @@ int maxAreaNLogN(
     /*@ Inv Assert
       exists sorted_h sorted_i buffer_h buffer_i,
       height == height@pre && heightSize == heightSize@pre &&
-      workHeight == workHeight@pre && workIndex == workIndex@pre &&
-      bufferHeight == bufferHeight@pre && bufferIndex == bufferIndex@pre &&
       2 <= heightSize@pre && heightSize@pre <= 100000 &&
       Zlength(l) == heightSize@pre &&
       1 <= k && k <= heightSize@pre &&
@@ -388,14 +334,16 @@ int maxAreaNLogN(
       ProcessedIndexEndpointsNLogN(
         sorted_i, k, minimumIndex, maximumIndex) &&
       ProcessedContainerMaximumNLogN(l, sorted_i, k, maximumArea) &&
-      (forall (p : Z),
-        (0 <= p && p < heightSize@pre) =>
-        (0 <= l[p] && l[p] <= 10000)) &&
+      Forall(Z::le(0), l) && Forall(Z::ge(10000), l) &&
       IntArray::full(height, heightSize@pre, l) *
       IntArray::full(workHeight, heightSize@pre, sorted_h) *
+      IntArray::undef_seg(workHeight, heightSize@pre, 100000) *
       IntArray::full(workIndex, heightSize@pre, sorted_i) *
+      IntArray::undef_seg(workIndex, heightSize@pre, 100000) *
       IntArray::full(bufferHeight, heightSize@pre, buffer_h) *
-      IntArray::full(bufferIndex, heightSize@pre, buffer_i)
+      IntArray::undef_seg(bufferHeight, heightSize@pre, 100000) *
+      IntArray::full(bufferIndex, heightSize@pre, buffer_i) *
+      IntArray::undef_seg(bufferIndex, heightSize@pre, 100000)
      */
     for (int k = 1; k < heightSize; ++k) {
         int index = workIndex[k];
@@ -420,8 +368,6 @@ int maxAreaNLogN(
         /*@ Branch join all with Assert
           exists sorted_h sorted_i buffer_h buffer_i,
           height == height@pre && heightSize == heightSize@pre &&
-          workHeight == workHeight@pre && workIndex == workIndex@pre &&
-          bufferHeight == bufferHeight@pre && bufferIndex == bufferIndex@pre &&
           2 <= heightSize@pre && heightSize@pre <= 100000 &&
           Zlength(l) == heightSize@pre &&
           1 <= k && k < heightSize@pre &&
@@ -445,14 +391,16 @@ int maxAreaNLogN(
           ProcessedIndexEndpointsNLogN(
             sorted_i, k, minimumIndex, maximumIndex) &&
           ProcessedContainerMaximumNLogN(l, sorted_i, k, maximumArea) &&
-          (forall (p : Z),
-            (0 <= p && p < heightSize@pre) =>
-            (0 <= l[p] && l[p] <= 10000)) &&
+          Forall(Z::le(0), l) && Forall(Z::ge(10000), l) &&
           IntArray::full(height, heightSize@pre, l) *
           IntArray::full(workHeight, heightSize@pre, sorted_h) *
+      IntArray::undef_seg(workHeight, heightSize@pre, 100000) *
           IntArray::full(workIndex, heightSize@pre, sorted_i) *
+      IntArray::undef_seg(workIndex, heightSize@pre, 100000) *
           IntArray::full(bufferHeight, heightSize@pre, buffer_h) *
-          IntArray::full(bufferIndex, heightSize@pre, buffer_i)
+      IntArray::undef_seg(bufferHeight, heightSize@pre, 100000) *
+          IntArray::full(bufferIndex, heightSize@pre, buffer_i) *
+      IntArray::undef_seg(bufferIndex, heightSize@pre, 100000)
          */
 
         int area = width * currentHeight;
@@ -471,21 +419,15 @@ int maxAreaNLogN(
     }
 
     /*@ Assert
-      exists sorted_h sorted_i buffer_h buffer_i,
       height == height@pre && heightSize == heightSize@pre &&
-      workHeight == workHeight@pre && workIndex == workIndex@pre &&
-      bufferHeight == bufferHeight@pre && bufferIndex == bufferIndex@pre &&
-      MaximumContainerArea(l, maximumArea) &&
-      0 <= maximumArea && maximumArea <= 999990000 &&
-      0 <= minimumIndex && minimumIndex < heightSize &&
-      0 <= maximumIndex && maximumIndex < heightSize &&
-      minimumIndex <= maximumIndex &&
-      SortedHeightIndexWorkspaceNLogN(l, sorted_h, sorted_i) &&
+MaximumContainerArea(l, maximumArea) &&
       IntArray::full(height, heightSize, l) *
-      IntArray::full(workHeight, heightSize, sorted_h) *
-      IntArray::full(workIndex, heightSize, sorted_i) *
-      IntArray::full(bufferHeight, heightSize, buffer_h) *
-      IntArray::full(bufferIndex, heightSize, buffer_i)
+      IntArray::undef_full(workHeight, 100000) *
+      IntArray::undef_full(workIndex, 100000) *
+      IntArray::undef_full(bufferHeight, 100000) *
+      IntArray::undef_full(bufferIndex, 100000) *
+      undef_data_at(&minimumIndex, int) *
+      undef_data_at(&maximumIndex, int)
      */
     return maximumArea;
 }

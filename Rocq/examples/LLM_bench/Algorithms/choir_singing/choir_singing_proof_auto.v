@@ -113,7 +113,7 @@ Proof. Admitted.
 Lemma proof_of_choir_singing_safety_wit_38 : choir_singing_safety_wit_38.
 Proof. Admitted. 
 
-Lemma proof_of_choir_singing_entail_wit_8 : choir_singing_entail_wit_8.
+Lemma proof_of_choir_singing_return_wit_1 : choir_singing_return_wit_1.
 Proof. Admitted. 
 
 Lemma proof_of_choir_singing_partial_solve_wit_1 : choir_singing_partial_solve_wit_1.

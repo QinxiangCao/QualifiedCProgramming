@@ -71,53 +71,14 @@ Lemma proof_of_pqdk_sift_up_entail_wit_4 : pqdk_sift_up_entail_wit_4.
 Proof.
   LLM_pre_process ltac:(int_auto).
   subst tmp_key tmp_data.
-  pose proof
-    (sift_up_swap_state
-      M0 key_values_2 data_values_2 pos_values_2
-      data_bound_pre n_pre child parent
-      PreH16 PreH3 PreH8 PreH9) as Hswap.
-  pose proof PreH16 as Hstate_len.
-  destruct Hstate_len as [Harray_len _].
-  destruct Harray_len as [_ [_ [Hmap_len _]]].
-  destruct Hmap_len as [Hkey_len [Hdata_len _]].
-  assert (Hkey_child_after :
-    Znth parent key_values_2 0 =
-    Znth child
-      (replace_Znth child (Znth parent key_values_2 0)
-        (replace_Znth parent (Znth child key_values_2 0) key_values_2)) 0).
-  {
-    rewrite Znth_replace_Znth_Same by
-      (rewrite Zlength_replace_Znth, Hkey_len; lia).
-    reflexivity.
-  }
-  assert (Hdata_child_after :
-    Znth parent data_values_2 0 =
-    Znth child
-      (replace_Znth child (Znth parent data_values_2 0)
-        (replace_Znth parent (Znth child data_values_2 0) data_values_2)) 0).
-  {
-    rewrite Znth_replace_Znth_Same by
-      (rewrite Zlength_replace_Znth, Hdata_len; lia).
-    reflexivity.
-  }
-  assert (Hdata_parent_after :
-    Znth child data_values_2 0 =
-    Znth parent
-      (replace_Znth child (Znth parent data_values_2 0)
-        (replace_Znth parent (Znth child data_values_2 0) data_values_2)) 0).
-  {
-    rewrite Znth_replace_Znth_Diff by
-      (try rewrite Zlength_replace_Znth; lia).
-    rewrite Znth_replace_Znth_Same by lia.
-    reflexivity.
-  }
+  pose proof (sift_up_swap_state M0 key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child parent PreH16 PreH3 PreH8 PreH9) as Hswap.
   unfold heap_swap_values, heap_swap_pos in Hswap.
-  Exists (replace_Znth (Znth child data_values_2 0) parent
-            (replace_Znth (Znth parent data_values_2 0) child pos_values_2))
-         (replace_Znth child (Znth parent data_values_2 0)
-            (replace_Znth parent (Znth child data_values_2 0) data_values_2))
-         (replace_Znth child (Znth parent key_values_2 0)
-            (replace_Znth parent (Znth child key_values_2 0) key_values_2)).
+  Exists (replace_Znth child (Znth parent key_values_2 0)
+    (replace_Znth parent (Znth child key_values_2 0) key_values_2))
+    (replace_Znth child (Znth parent data_values_2 0)
+    (replace_Znth parent (Znth child data_values_2 0) data_values_2))
+    (replace_Znth (Znth child data_values_2 0) parent
+    (replace_Znth (Znth parent data_values_2 0) child pos_values_2)).
   finish_entail.
 Qed.
 
@@ -264,64 +225,14 @@ Lemma proof_of_pqdk_sift_down_entail_wit_5 : pqdk_sift_down_entail_wit_5.
 Proof.
   LLM_pre_process ltac:(int_auto).
   subst tmp_key tmp_data.
-  pose proof
-    (sift_down_swap_state
-      M0 key_values_2 data_values_2 pos_values_2
-      data_bound_pre n_pre current smallest
-      PreH21 PreH20 PreH13) as Hswap.
-  pose proof PreH21 as Hstate_len.
-  destruct Hstate_len as [Harray_len _].
-  destruct Harray_len as [_ [_ [Hmap_len _]]].
-  destruct Hmap_len as [Hkey_len [Hdata_len _]].
-  assert (Hkey_smallest_after :
-    Znth current key_values_2 0 =
-    Znth smallest
-      (replace_Znth smallest (Znth current key_values_2 0)
-        (replace_Znth current (Znth smallest key_values_2 0) key_values_2)) 0).
-  {
-    rewrite Znth_replace_Znth_Same by
-      (try rewrite Zlength_replace_Znth; lia).
-    reflexivity.
-  }
-  assert (Hdata_smallest_after :
-    Znth current data_values_2 0 =
-    Znth smallest
-      (replace_Znth smallest (Znth current data_values_2 0)
-        (replace_Znth current (Znth smallest data_values_2 0) data_values_2)) 0).
-  {
-    rewrite Znth_replace_Znth_Same by
-      (try rewrite Zlength_replace_Znth; lia).
-    reflexivity.
-  }
-  assert (Hkey_current_after :
-    Znth smallest key_values_2 0 =
-    Znth current
-      (replace_Znth smallest (Znth current key_values_2 0)
-        (replace_Znth current (Znth smallest key_values_2 0) key_values_2)) 0).
-  {
-    rewrite Znth_replace_Znth_Diff by
-      (try rewrite Zlength_replace_Znth; lia).
-    rewrite Znth_replace_Znth_Same by lia.
-    reflexivity.
-  }
-  assert (Hdata_current_after :
-    Znth smallest data_values_2 0 =
-    Znth current
-      (replace_Znth smallest (Znth current data_values_2 0)
-        (replace_Znth current (Znth smallest data_values_2 0) data_values_2)) 0).
-  {
-    rewrite Znth_replace_Znth_Diff by
-      (try rewrite Zlength_replace_Znth; lia).
-    rewrite Znth_replace_Znth_Same by lia.
-    reflexivity.
-  }
+  pose proof (sift_down_swap_state M0 key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current smallest PreH21 PreH20 PreH13) as Hswap.
   unfold heap_swap_values, heap_swap_pos in Hswap.
-  Exists (replace_Znth (Znth smallest data_values_2 0) current
-            (replace_Znth (Znth current data_values_2 0) smallest pos_values_2))
-         (replace_Znth smallest (Znth current data_values_2 0)
-            (replace_Znth current (Znth smallest data_values_2 0) data_values_2))
-         (replace_Znth smallest (Znth current key_values_2 0)
-            (replace_Znth current (Znth smallest key_values_2 0) key_values_2)).
+  Exists (replace_Znth smallest (Znth current key_values_2 0)
+    (replace_Znth current (Znth smallest key_values_2 0) key_values_2))
+    (replace_Znth smallest (Znth current data_values_2 0)
+    (replace_Znth current (Znth smallest data_values_2 0) data_values_2))
+    (replace_Znth (Znth smallest data_values_2 0) current
+    (replace_Znth (Znth current data_values_2 0) smallest pos_values_2)).
   finish_entail.
 Qed.
 
@@ -372,22 +283,15 @@ Proof.
   LLM_pre_process ltac:(int_auto).
   pose proof
     (push_write_state_from_heap_representation
-      M_before key_values_2 data_values_2 pos_values_2
+      M_before key_values data_values pos_values
       data_bound_pre n data_x_pre key_x_pre
       PreH7 PreH6 ltac:(lia) ltac:(lia)) as Hpush.
-  Exists (app key_values_2 (cons key_x_pre nil))
-         (app data_values_2 (cons data_x_pre nil))
-         (replace_Znth data_x_pre n pos_values_2).
-  finish_entail.
-Qed.
-
-Lemma proof_of_pqdk_push_entail_wit_3 : pqdk_push_entail_wit_3.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  unfold PushWriteState in PreH4.
-  destruct PreH4 as [_ [Hsift _]].
+  unfold PushWriteState in Hpush.
+  destruct Hpush as [_ [Hsift _]].
   unfold store_sift_up.
-  Exists key_values data_values pos_values.
+  Exists (app key_values (cons key_x_pre nil))
+         (app data_values (cons data_x_pre nil))
+         (replace_Znth data_x_pre n pos_values).
   finish_entail.
 Qed.
 
@@ -417,27 +321,19 @@ Proof.
   LLM_pre_process ltac:(int_auto).
   pose proof
     (decrease_key_write_state_from_heap_representation
-      M_before key_values_2 data_values_2 pos_values_2
+      M_before key_values data_values pos_values
       data_bound_pre n data_x_pre key_x_pre idx
       PreH8 PreH6 PreH7 ltac:(lia)) as Hwrite.
-  Exists (replace_Znth idx key_x_pre key_values_2)
-         data_values_2
-         pos_values_2.
-  finish_entail.
-Qed.
-
-Lemma proof_of_pqdk_decrease_key_entail_wit_4 : pqdk_decrease_key_entail_wit_4.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  unfold DecreaseKeyWriteState in PreH6.
-  destruct PreH6 as [_ [_ [_ [Hsift _]]]].
+  unfold DecreaseKeyWriteState in Hwrite.
+  destruct Hwrite as [_ [_ [_ [Hsift _]]]].
   unfold store_sift_up.
-  Exists key_values data_values pos_values.
+  Exists (replace_Znth idx key_x_pre key_values)
+         data_values
+         pos_values.
   finish_entail.
 Qed.
 
-Lemma proof_of_pqdk_update_or_push_entail_wit_1 :
-  pqdk_update_or_push_entail_wit_1.
+Lemma proof_of_pqdk_update_or_push_entail_wit_1 : pqdk_update_or_push_entail_wit_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
   unfold store_heap.
@@ -446,8 +342,7 @@ Proof.
   finish_entail.
 Qed.
 
-Lemma proof_of_pqdk_update_or_push_entail_wit_2 :
-  pqdk_update_or_push_entail_wit_2.
+Lemma proof_of_pqdk_update_or_push_entail_wit_2 : pqdk_update_or_push_entail_wit_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
   pose proof
@@ -460,8 +355,7 @@ Proof.
   finish_entail.
 Qed.
 
-Lemma proof_of_pqdk_update_or_push_entail_wit_3 :
-  pqdk_update_or_push_entail_wit_3.
+Lemma proof_of_pqdk_update_or_push_entail_wit_3 : pqdk_update_or_push_entail_wit_3.
 Proof.
   LLM_pre_process ltac:(int_auto).
   pose proof
@@ -474,8 +368,7 @@ Proof.
   finish_entail.
 Qed.
 
-Lemma proof_of_pqdk_update_or_push_entail_wit_4_1 :
-  pqdk_update_or_push_entail_wit_4_1.
+Lemma proof_of_pqdk_update_or_push_entail_wit_4_1 : pqdk_update_or_push_entail_wit_4_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
   assert (Hsize :
@@ -491,8 +384,7 @@ Proof.
   repeat cancel.
 Qed.
 
-Lemma proof_of_pqdk_update_or_push_entail_wit_4_2 :
-  pqdk_update_or_push_entail_wit_4_2.
+Lemma proof_of_pqdk_update_or_push_entail_wit_4_2 : pqdk_update_or_push_entail_wit_4_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
   assert (Hsize :
@@ -531,6 +423,62 @@ Qed.
 Lemma proof_of_pqdk_pop_entail_wit_3 : pqdk_pop_entail_wit_3.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  subst result_key result_data.
+  pose proof
+    (pop_marked_state_from_heap_representation
+      M_before key_values_2 data_values_2 pos_values_2
+      data_bound_pre n ltac:(lia) PreH9) as Hmarked.
+  pose proof PreH9 as Hrep.
+  destruct Hrep as [_ [_ [_ [_ Hpos]]]].
+  destruct Hpos as [_ [_ [Hvalid _]]].
+  pose proof (Hvalid (n - 1) ltac:(lia)) as Hlast_valid.
+  unfold absent in *.
+  Exists key_values_2
+         (replace_Znth (Znth 0 data_values_2 0) (-1) pos_values_2)
+         data_values_2
+         (heap_item (Znth 0 key_values_2 0) (Znth 0 data_values_2 0)).
+  finish_entail.
+Qed.
+
+Lemma proof_of_pqdk_pop_entail_wit_4 : pqdk_pop_entail_wit_4.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  pose proof PreH11 as Hmarked.
+  unfold PopMarkedState in Hmarked.
+  destruct Hmarked as
+    (_ & Hminimum & _ & _ & Hmap & _ & _ & _ & _).
+  destruct Hmap as [Hkey_len [Hdata_len _]].
+  pose proof
+    (pop_root_replacement_sift_down_state
+      M_before key_values data_values pos_values
+      data_bound_pre n popped_2 PreH1 PreH11) as Hsift.
+  pose proof Hsift as Hsift_copy.
+  destruct Hsift_copy as [Harray [Hindex_range _]].
+  destruct Harray as [_ [_ [_ Hpos]]].
+  destruct Hpos as [_ [_ [Hvalid_new _]]].
+  pose proof (Hvalid_new 0 ltac:(lia)) as Hnew_root_valid.
+  sep_apply (full_retire_last_to_undef
+    key_pre n capacity
+    (replace_Znth 0 (Znth (n - 1) key_values 0) key_values)
+    ltac:(lia) ltac:(lia)
+    ltac:(rewrite Zlength_replace_Znth; exact Hkey_len)).
+  sep_apply (full_retire_last_to_undef
+    data_pre n capacity
+    (replace_Znth 0 (Znth (n - 1) data_values 0) data_values)
+    ltac:(lia) ltac:(lia)
+    ltac:(rewrite Zlength_replace_Znth; exact Hdata_len)).
+  unfold pop_replaced_values in Hsift, Hnew_root_valid.
+  unfold store_sift_down.
+  Exists popped_2
+    (sublist 0 (n - 1) (replace_Znth 0 (Znth (n - 1) key_values 0) key_values))
+    (sublist 0 (n - 1) (replace_Znth 0 (Znth (n - 1) data_values 0) data_values))
+    (replace_Znth (Znth (n - 1) data_values 0) 0 pos_values).
+  finish_entail.
+Qed.
+
+Lemma proof_of_pqdk_pop_return_wit_1 : pqdk_pop_return_wit_1.
+Proof.
+  LLM_pre_process ltac:(int_auto).
   subst n result_key result_data.
   pose proof
     (heap_root_is_partial_map_minimum
@@ -549,89 +497,9 @@ Proof.
     data_pre capacity data_values ltac:(lia) Hdata_len).
   unfold store_heap.
   unfold absent in *.
-  Exists (heap_item (Znth 0 key_values 0) (Znth 0 data_values 0)).
+  Exists (Znth 0 data_values 0) (heap_item (Znth 0 key_values 0) (Znth 0 data_values 0)) (Znth 0 key_values 0).
   Exists (@nil Z) (@nil Z)
          (replace_Znth (Znth 0 data_values 0) (-1) pos_values).
-  finish_entail.
-Qed.
-
-Lemma proof_of_pqdk_pop_entail_wit_4 : pqdk_pop_entail_wit_4.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  subst result_key result_data.
-  pose proof
-    (pop_marked_state_from_heap_representation
-      M_before key_values_2 data_values_2 pos_values_2
-      data_bound_pre n ltac:(lia) PreH9) as Hmarked.
-  pose proof PreH9 as Hrep.
-  destruct Hrep as [_ [_ [_ [_ Hpos]]]].
-  destruct Hpos as [_ [_ [Hvalid _]]].
-  pose proof (Hvalid (n - 1) ltac:(lia)) as Hlast_valid.
-  unfold absent in *.
-  Exists key_values_2
-         (replace_Znth (Znth 0 data_values_2 0) (-1) pos_values_2)
-         data_values_2
-         (heap_item (Znth 0 key_values_2 0) (Znth 0 data_values_2 0)).
-  finish_entail.
-Qed.
-
-Lemma proof_of_pqdk_pop_entail_wit_5 : pqdk_pop_entail_wit_5.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  pose proof PreH11 as Hmarked.
-  unfold PopMarkedState in Hmarked.
-  destruct Hmarked as
-    (_ & Hminimum & _ & _ & Hmap & _ & _ & _ & _).
-  destruct Hmap as [Hkey_len [Hdata_len _]].
-  pose proof
-    (pop_root_replacement_sift_down_state
-      M_before key_values_2 data_values_2 pos_values_2
-      data_bound_pre n popped_2 PreH1 PreH11) as Hsift.
-  pose proof Hsift as Hsift_copy.
-  destruct Hsift_copy as [Harray [Hindex_range _]].
-  destruct Harray as [_ [_ [_ Hpos]]].
-  destruct Hpos as [_ [_ [Hvalid_new _]]].
-  pose proof (Hvalid_new 0 ltac:(lia)) as Hnew_root_valid.
-  sep_apply (full_retire_last_to_undef
-    key_pre n capacity
-    (replace_Znth 0 (Znth (n - 1) key_values_2 0) key_values_2)
-    ltac:(lia) ltac:(lia)
-    ltac:(rewrite Zlength_replace_Znth; exact Hkey_len)).
-  sep_apply (full_retire_last_to_undef
-    data_pre n capacity
-    (replace_Znth 0 (Znth (n - 1) data_values_2 0) data_values_2)
-    ltac:(lia) ltac:(lia)
-    ltac:(rewrite Zlength_replace_Znth; exact Hdata_len)).
-  unfold pop_replaced_values in Hsift, Hnew_root_valid.
-  Exists (sublist 0 (n - 1)
-            (replace_Znth 0 (Znth (n - 1) key_values_2 0) key_values_2))
-         (replace_Znth (Znth (n - 1) data_values_2 0) 0 pos_values_2)
-         (sublist 0 (n - 1)
-            (replace_Znth 0 (Znth (n - 1) data_values_2 0) data_values_2))
-         popped_2.
-  finish_entail.
-Qed.
-
-Lemma proof_of_pqdk_pop_entail_wit_6 : pqdk_pop_entail_wit_6.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists key_values_2 pos_values_2 data_values_2 popped_2.
-  finish_entail.
-Qed.
-
-Lemma proof_of_pqdk_pop_entail_wit_7 : pqdk_pop_entail_wit_7.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  unfold store_sift_down.
-  Exists popped_2 key_values data_values pos_values.
-  finish_entail.
-Qed.
-
-Lemma proof_of_pqdk_pop_return_wit_1 : pqdk_pop_return_wit_1.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists result_data popped_2 result_key.
-  subst n.
   finish_entail.
   replace (1 - 1) with 0 by lia.
   repeat cancel.

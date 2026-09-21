@@ -34,23 +34,27 @@ present, do not change which amounts are reachable.
 ## C interface
 
 ```c
-int coinChange(int *coins, int coinsSize, int amount, int *dp);
+int coinChange(int *coins, int coinsSize, int amount);
 ```
 
 - `coins[0..coinsSize)` contains the positive denominations and is preserved.
-- `dp[0..amount]` is caller-provided, initially uninitialized workspace.
+- The function declares the initially uninitialized array `dp[100001]`
+  locally and uses its first `amount + 1` cells.
 - The return value is the maximum reachable amount in the closed interval
   $[0,\texttt{amount}]$.
 
-## Workspace semantics
+## Internal workspace semantics
 
-On return, `dp` is the complete reachability table for every value from `0`
-through `amount`:
+Before returning, the internal `dp` table describes reachability for every
+value from `0` through `amount`:
 
 ```text
 dp[v] == 1  if and only if v is reachable from the denominations
 dp[v] == 0  otherwise
 ```
+
+This table property belongs to the function's internal annotations. The
+local array's lifetime ends when the function returns.
 
 The implementation initializes only `0` as reachable. It then processes each
 denomination and scans amounts in increasing order. This forward scan permits
@@ -63,10 +67,10 @@ downward from `amount` and returns the first reachable value.
 - $0 \le \texttt{amount} \le 100000$.
 - $1 \le \texttt{coins[i]} \le \texttt{INT\_MAX}$ for every valid index.
 - `coins` contains exactly `coinsSize` integers.
-- `dp` contains exactly `amount + 1` writable integers.
 
-The implementation runs in $O(\texttt{coinsSize}\times\texttt{amount})$ time
-and uses $O(\texttt{amount})$ caller-provided workspace.
+The implementation runs in $O(\texttt{coinsSize}\times\texttt{amount})$ time.
+The verification implementation reserves 100001 local integers and uses
+the first `amount + 1` cells as its reachability table.
 
 ## Examples
 

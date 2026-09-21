@@ -1,4 +1,6 @@
-﻿Require Import Coq.Lists.List.
+Require Import SumLib.ZRange.
+Require Import Coq.Relations.Relation_Operators.
+Require Import Coq.Lists.List.
 Require Import Coq.Sorting.Permutation.
 Require Import Coq.Strings.String.
 Require Import Coq.ZArith.ZArith.
@@ -264,13 +266,44 @@ Definition pointf_xy_sorted_range
 Definition pointf_xy_sorted (l : list PointF) : Prop :=
   pointf_xy_sorted_range l 0 (Zlength l - 1).
 
+Lemma outside_convex_hull_float_Forall2_filtered {A B : Type} (R : A -> B -> Prop)
+    (f : Z -> A) (g : Z -> B) (keep : Z -> bool) lo hi :
+  Forall2 R (map f (filter keep (Zrange lo hi)))
+    (map g (filter keep (Zrange lo hi))) <->
+  forall p, lo <= p < hi -> keep p = true -> R (f p) (g p).
+Proof.
+  assert (Hmap : forall xs, Forall2 R (map f xs) (map g xs) <->
+    Forall (fun p => R (f p) (g p)) xs).
+  { induction xs as [|x xs IH]; cbn.
+    - split; intros; constructor.
+    - split; intro H; inversion H; subst; constructor; try assumption;
+      apply IH; assumption. }
+  rewrite Hmap, Forall_forall. split; intros H p Hp.
+  - intro Hkeep. apply H. apply filter_In. split; [apply In_Zrange|]; assumption.
+  - apply filter_In in Hp. destruct Hp as [Hp Hkeep].
+    apply H; [apply In_Zrange|]; assumption.
+Qed.
+
 Definition pointf_same_outside_range
     (before cur : list PointF) (lo hi : Z) : Prop :=
+  Zlength before = Zlength cur /\
+  Forall2 eq
+    (map (fun k => Znth k cur default_pointf)
+      (filter (fun k : Z => orb (Z.ltb k lo) (Z.ltb hi k)) (Zrange 0 (Zlength before))))
+    (map (fun k => Znth k before default_pointf)
+      (filter (fun k : Z => orb (Z.ltb k lo) (Z.ltb hi k)) (Zrange 0 (Zlength before)))).
+Lemma pointf_same_outside_range_unfold before cur lo hi :
+  pointf_same_outside_range before cur lo hi <->
   Zlength before = Zlength cur /\
   forall k,
     0 <= k < Zlength before ->
     (k < lo \/ hi < k) ->
     Znth k cur default_pointf = Znth k before default_pointf.
+Proof.
+  unfold pointf_same_outside_range. rewrite outside_convex_hull_float_Forall2_filtered.
+  setoid_rewrite Bool.orb_true_iff. setoid_rewrite Z.ltb_lt.
+  firstorder.
+Qed.
 
 Definition pointf_xy_partitioned_at
     (l : list PointF) (lo hi pivot : Z) : Prop :=
@@ -282,7 +315,7 @@ Definition pointf_xy_partitioned_at
     (fun p => pointf_cmp_xy (Znth pivot l default_pointf) p < 0)
     (sublist (pivot + 1) (hi + 1) l).
 
-Definition pointf_xy_partition_scan_inv
+Definition pointf_xy_partition_scan_inv_legacy
     (before cur : list PointF)
     (lo hi : Z) (pivot : PointF) (split scan : Z) : Prop :=
   pointf_permutation before cur /\
@@ -309,102 +342,102 @@ Definition pointf_insertion_inner_inv
 Definition pointf_ccw (a b c : PointF) : Prop :=
   fp32_gt (pointf_cross a b c) fp32_zero.
 
-Inductive pointf_pop_until (p : PointF) : list PointF -> list PointF -> Prop :=
+Inductive pointf_pop_until_legacy (p : PointF) : list PointF -> list PointF -> Prop :=
 | pointf_pop_until_short : forall s,
-    Zlength s < 2 -> pointf_pop_until p s s
+    Zlength s < 2 -> pointf_pop_until_legacy p s s
 | pointf_pop_until_ccw : forall s,
     2 <= Zlength s ->
     pointf_ccw (Znth (Zlength s - 2) s default_pointf)
                (Znth (Zlength s - 1) s default_pointf) p ->
-    pointf_pop_until p s s
+    pointf_pop_until_legacy p s s
 | pointf_pop_until_pop : forall s out,
     2 <= Zlength s ->
     ~ pointf_ccw (Znth (Zlength s - 2) s default_pointf)
                  (Znth (Zlength s - 1) s default_pointf) p ->
-    pointf_pop_until p (removelast s) out ->
-    pointf_pop_until p s out.
+    pointf_pop_until_legacy p (removelast s) out ->
+    pointf_pop_until_legacy p s out.
 
-Inductive pointf_pop_trace (p : PointF) : list PointF -> list PointF -> Prop :=
+Inductive pointf_pop_trace_legacy (p : PointF) : list PointF -> list PointF -> Prop :=
 | pointf_pop_trace_refl : forall s,
-    pointf_pop_trace p s s
+    pointf_pop_trace_legacy p s s
 | pointf_pop_trace_pop : forall before cur,
-    pointf_pop_trace p before cur ->
+    pointf_pop_trace_legacy p before cur ->
     2 <= Zlength cur ->
     ~ pointf_ccw (Znth (Zlength cur - 2) cur default_pointf)
                  (Znth (Zlength cur - 1) cur default_pointf) p ->
-    pointf_pop_trace p before (removelast cur).
+    pointf_pop_trace_legacy p before (removelast cur).
 
-Inductive pointf_upper_pop_until
+Inductive pointf_upper_pop_until_legacy
     (lower_bound : Z) (p : PointF) : list PointF -> list PointF -> Prop :=
 | pointf_upper_pop_until_boundary : forall s,
-    Zlength s <= lower_bound -> pointf_upper_pop_until lower_bound p s s
+    Zlength s <= lower_bound -> pointf_upper_pop_until_legacy lower_bound p s s
 | pointf_upper_pop_until_short : forall s,
-    Zlength s < 2 -> pointf_upper_pop_until lower_bound p s s
+    Zlength s < 2 -> pointf_upper_pop_until_legacy lower_bound p s s
 | pointf_upper_pop_until_ccw : forall s,
     lower_bound < Zlength s ->
     2 <= Zlength s ->
     pointf_ccw (Znth (Zlength s - 2) s default_pointf)
                (Znth (Zlength s - 1) s default_pointf) p ->
-    pointf_upper_pop_until lower_bound p s s
+    pointf_upper_pop_until_legacy lower_bound p s s
 | pointf_upper_pop_until_pop : forall s out,
     lower_bound < Zlength s ->
     2 <= Zlength s ->
     ~ pointf_ccw (Znth (Zlength s - 2) s default_pointf)
                  (Znth (Zlength s - 1) s default_pointf) p ->
-    pointf_upper_pop_until lower_bound p (removelast s) out ->
-    pointf_upper_pop_until lower_bound p s out.
+    pointf_upper_pop_until_legacy lower_bound p (removelast s) out ->
+    pointf_upper_pop_until_legacy lower_bound p s out.
 
-Inductive pointf_upper_pop_trace
+Inductive pointf_upper_pop_trace_legacy
     (lower_bound : Z) (p : PointF) : list PointF -> list PointF -> Prop :=
 | pointf_upper_pop_trace_refl : forall s,
-    pointf_upper_pop_trace lower_bound p s s
+    pointf_upper_pop_trace_legacy lower_bound p s s
 | pointf_upper_pop_trace_pop : forall before cur,
-    pointf_upper_pop_trace lower_bound p before cur ->
+    pointf_upper_pop_trace_legacy lower_bound p before cur ->
     lower_bound < Zlength cur ->
     2 <= Zlength cur ->
     ~ pointf_ccw (Znth (Zlength cur - 2) cur default_pointf)
                  (Znth (Zlength cur - 1) cur default_pointf) p ->
-    pointf_upper_pop_trace lower_bound p before (removelast cur).
+    pointf_upper_pop_trace_legacy lower_bound p before (removelast cur).
 
-Definition pointf_scan_step
+Definition pointf_scan_step_legacy
     (before : list PointF) (p : PointF) (after : list PointF) : Prop :=
   exists reduced,
-    pointf_pop_until p before reduced /\ after = reduced ++ [p].
+    pointf_pop_until_legacy p before reduced /\ after = reduced ++ [p].
 
-Inductive pointf_scan_from : list PointF -> list PointF -> list PointF -> Prop :=
+Inductive pointf_scan_from_legacy : list PointF -> list PointF -> list PointF -> Prop :=
 | pointf_scan_from_nil : forall initial,
-    pointf_scan_from initial [] initial
+    pointf_scan_from_legacy initial [] initial
 | pointf_scan_from_snoc : forall initial input before p after,
-    pointf_scan_from initial input before ->
-    pointf_scan_step before p after ->
-    pointf_scan_from initial (input ++ [p]) after.
+    pointf_scan_from_legacy initial input before ->
+    pointf_scan_step_legacy before p after ->
+    pointf_scan_from_legacy initial (input ++ [p]) after.
 
-Definition pointf_upper_scan_step
+Definition pointf_upper_scan_step_legacy
     (lower_bound : Z)
     (before : list PointF) (p : PointF) (after : list PointF) : Prop :=
   exists reduced,
-    pointf_upper_pop_until lower_bound p before reduced /\
+    pointf_upper_pop_until_legacy lower_bound p before reduced /\
     after = reduced ++ [p].
 
-Inductive pointf_upper_scan_from
+Inductive pointf_upper_scan_from_legacy
     (lower_bound : Z) : list PointF -> list PointF -> list PointF -> Prop :=
 | pointf_upper_scan_from_nil : forall initial,
-    pointf_upper_scan_from lower_bound initial [] initial
+    pointf_upper_scan_from_legacy lower_bound initial [] initial
 | pointf_upper_scan_from_snoc : forall initial input before p after,
-    pointf_upper_scan_from lower_bound initial input before ->
-    pointf_upper_scan_step lower_bound before p after ->
-    pointf_upper_scan_from lower_bound initial (input ++ [p]) after.
+    pointf_upper_scan_from_legacy lower_bound initial input before ->
+    pointf_upper_scan_step_legacy lower_bound before p after ->
+    pointf_upper_scan_from_legacy lower_bound initial (input ++ [p]) after.
 
-Definition pointf_lower_scan_inv
+Definition pointf_lower_scan_inv_legacy
     (sorted chain : list PointF) (read top : Z) : Prop :=
   0 <= read <= Zlength sorted /\ top = Zlength chain /\
-  pointf_scan_from [] (sublist 0 read sorted) chain /\
+  pointf_scan_from_legacy [] (sublist 0 read sorted) chain /\
   (Zlength sorted <= read -> 2 <= top).
 
-Definition pointf_lower_pop_inv
+Definition pointf_lower_pop_inv_legacy
     (sorted before chain : list PointF) (read top : Z) : Prop :=
-  pointf_lower_scan_inv sorted before read (Zlength before) /\
-  pointf_pop_trace (Znth read sorted default_pointf) before chain /\
+  pointf_lower_scan_inv_legacy sorted before read (Zlength before) /\
+  pointf_pop_trace_legacy (Znth read sorted default_pointf) before chain /\
   top = Zlength chain.
 
 Definition pointf_upper_capacity
@@ -414,28 +447,28 @@ Definition pointf_upper_capacity
   (1 <= read -> Zlength chain < 2 * Zlength sorted) /\
   (read <= 0 -> lower_n < Zlength chain).
 
-Definition pointf_upper_scan_inv
+Definition pointf_upper_scan_inv_legacy
     (sorted lower chain : list PointF) (read top lower_n : Z) : Prop :=
   0 <= read <= Zlength sorted /\ top = Zlength chain /\
   lower_n = Zlength lower /\
   lower = sublist 0 lower_n chain /\
   lower_n <= top /\
-  pointf_scan_from [] sorted lower /\
-  pointf_upper_scan_from lower_n lower
+  pointf_scan_from_legacy [] sorted lower /\
+  pointf_upper_scan_from_legacy lower_n lower
     (rev (sublist read (Zlength sorted - 1) sorted)) chain /\
   pointf_upper_capacity sorted chain read lower_n.
 
-Definition pointf_upper_pop_inv
+Definition pointf_upper_pop_inv_legacy
     (sorted lower before chain : list PointF) (read top lower_n : Z) : Prop :=
-  pointf_upper_scan_inv sorted lower before (read + 1) (Zlength before) lower_n /\
-  pointf_upper_pop_trace lower_n (Znth read sorted default_pointf) before chain /\
+  pointf_upper_scan_inv_legacy sorted lower before (read + 1) (Zlength before) lower_n /\
+  pointf_upper_pop_trace_legacy lower_n (Znth read sorted default_pointf) before chain /\
   top = Zlength chain /\
   lower = sublist 0 lower_n chain /\
   lower_n <= top.
 
 Definition pointf_drop_last (l : list PointF) : list PointF := removelast l.
 
-Definition is_andrew_hull_float
+Definition is_andrew_hull_float_legacy
     (input sorted hull : list PointF) : Prop :=
   pointf_permutation input sorted /\
   pointf_xy_sorted sorted /\
@@ -443,14 +476,15 @@ Definition is_andrew_hull_float
     hull = sorted
   else
     exists lower combined,
-      pointf_scan_from [] sorted lower /\
-      pointf_upper_scan_from (Zlength lower) lower
+      pointf_scan_from_legacy [] sorted lower /\
+      pointf_upper_scan_from_legacy (Zlength lower) lower
         (rev (sublist 0 (Zlength sorted - 1) sorted)) combined /\
       hull = pointf_drop_last combined.
 Lemma pointf_same_outside_range_refl__swap_partition :
   forall l low high, pointf_same_outside_range l l low high.
 Proof.
-  intros. unfold pointf_same_outside_range.
+  setoid_rewrite pointf_same_outside_range_unfold.
+  intros. try rewrite pointf_same_outside_range_unfold.
   split; [reflexivity|]. intros; reflexivity.
 Qed.
 
@@ -463,9 +497,10 @@ Lemma pointf_same_outside_range_swap_inside__swap_partition :
     0 <= j < Zlength cur ->
     pointf_same_outside_range before (pointf_swap cur i j) low high.
 Proof.
+  setoid_rewrite pointf_same_outside_range_unfold.
   intros before cur low high i j Hsame Hi_range Hj_range Hi_len Hj_len.
   destruct Hsame as [Hlen Houtside].
-  unfold pointf_same_outside_range, pointf_swap.
+  try rewrite pointf_same_outside_range_unfold. unfold pointf_swap.
   split.
   - repeat rewrite Zlength_replace_Znth. exact Hlen.
   - intros k Hk Houtside_range.
@@ -708,10 +743,10 @@ Lemma pointf_partition_scan_inv_init__swap_partition :
   forall l low high,
     0 <= low ->
     low <= high ->
-    pointf_xy_partition_scan_inv l l low high
+    pointf_xy_partition_scan_inv_legacy l l low high
       (Znth high l default_pointf) (low - 1) low.
 Proof.
-  intros. unfold pointf_xy_partition_scan_inv.
+  intros. unfold pointf_xy_partition_scan_inv_legacy.
   split.
   - unfold pointf_permutation. apply Permutation_refl.
   - split.
@@ -723,12 +758,12 @@ Lemma pointf_partition_scan_inv_step_gt__swap_partition :
   forall before cur low high pivot i j,
     pointf_cmp_xy pivot (Znth j cur default_pointf) < 0 ->
     j < high ->
-    pointf_xy_partition_scan_inv before cur low high pivot i j ->
-    pointf_xy_partition_scan_inv before cur low high pivot i (j + 1).
+    pointf_xy_partition_scan_inv_legacy before cur low high pivot i j ->
+    pointf_xy_partition_scan_inv_legacy before cur low high pivot i (j + 1).
 Proof.
   intros before cur low high pivot i j Hguard Hj_high Hinv.
   destruct Hinv as [Hperm [Hsame [Hpivot [Hle Hgt]]]].
-  unfold pointf_xy_partition_scan_inv.
+  unfold pointf_xy_partition_scan_inv_legacy.
   split; [exact Hperm|].
   split; [exact Hsame|].
   split; [exact Hpivot|].
@@ -748,8 +783,8 @@ Lemma pointf_partition_scan_inv_step_le__swap_partition :
     low - 1 <= i ->
     i < j ->
     j <= high ->
-    pointf_xy_partition_scan_inv before cur low high pivot i j ->
-    pointf_xy_partition_scan_inv before (pointf_swap cur (i + 1) j)
+    pointf_xy_partition_scan_inv_legacy before cur low high pivot i j ->
+    pointf_xy_partition_scan_inv_legacy before (pointf_swap cur (i + 1) j)
       low high pivot (i + 1) (j + 1).
 Proof.
   intros before cur low high pivot i j Hlow Hlow_high Hhigh_len
@@ -757,7 +792,7 @@ Proof.
   destruct Hinv as [Hperm [Hsame [Hpivot [Hle Hgt]]]].
   assert (Hi1_len : 0 <= i + 1 < Zlength cur) by lia.
   assert (Hj_len : 0 <= j < Zlength cur) by lia.
-  unfold pointf_xy_partition_scan_inv.
+  unfold pointf_xy_partition_scan_inv_legacy.
   split.
   - eapply Permutation_trans; [exact Hperm|].
     apply pointf_swap_permutation__swap_partition; lia.
@@ -828,7 +863,7 @@ Lemma pointf_partition_scan_final_partitioned__swap_partition :
     j >= high ->
     i < j ->
     j <= high ->
-    pointf_xy_partition_scan_inv before cur low high pivot i j ->
+    pointf_xy_partition_scan_inv_legacy before cur low high pivot i j ->
     pointf_xy_partitioned_at (pointf_swap cur (i + 1) high)
       low high (i + 1).
 Proof.
@@ -882,7 +917,7 @@ Lemma pointf_partition_scan_final_same_outside__swap_partition :
   forall before cur low high pivot i j,
     0 <= low -> low <= high -> low - 1 <= i ->
     high < Zlength cur -> j >= high -> i < j -> j <= high ->
-    pointf_xy_partition_scan_inv before cur low high pivot i j ->
+    pointf_xy_partition_scan_inv_legacy before cur low high pivot i j ->
     pointf_same_outside_range before (pointf_swap cur (i + 1) high)
       low high.
 Proof.
@@ -897,7 +932,7 @@ Lemma pointf_partition_scan_final_permutation__swap_partition :
   forall before cur low high pivot i j,
     0 <= low -> low <= high -> low - 1 <= i ->
     high < Zlength cur -> j >= high -> i < j -> j <= high ->
-    pointf_xy_partition_scan_inv before cur low high pivot i j ->
+    pointf_xy_partition_scan_inv_legacy before cur low high pivot i j ->
     pointf_permutation before (pointf_swap cur (i + 1) high).
 Proof.
   intros before cur low high pivot i j Hlow Hlow_high Hlow_i Hhigh_len
@@ -973,6 +1008,7 @@ Lemma pointf_same_outside_range_trans__quicksort_top :
     pointf_same_outside_range l2 l3 low high ->
     pointf_same_outside_range l1 l3 low high.
 Proof.
+  setoid_rewrite pointf_same_outside_range_unfold.
   intros l1 l2 l3 low high [Hlen12 Heq12] [Hlen23 Heq23].
   split; [lia|].
   intros k Hk Hout.
@@ -988,6 +1024,7 @@ Lemma pointf_same_outside_range_weaken__quicksort_top :
     pointf_same_outside_range l1 l2 low high ->
     pointf_same_outside_range l1 l2 low' high'.
 Proof.
+  setoid_rewrite pointf_same_outside_range_unfold.
   intros l1 l2 low high low' high' Hlow Hhigh [Hlen Heq].
   split; [exact Hlen|].
   intros k Hk Hout. apply Heq; auto.
@@ -1056,6 +1093,7 @@ Lemma pointf_same_outside_range_prefix__quicksort_top :
     0 <= left <= Zlength l1 ->
     sublist 0 left l2 = sublist 0 left l1.
 Proof.
+  setoid_rewrite pointf_same_outside_range_unfold.
   intros l1 l2 left right [Hlen Heq] Hrange.
   apply sublist_eq_from_Znth_pointf__quicksort_top.
   - symmetry. exact Hlen.
@@ -1070,6 +1108,7 @@ Lemma pointf_same_outside_range_suffix__quicksort_top :
     sublist (right + 1) (Zlength l2) l2 =
     sublist (right + 1) (Zlength l1) l1.
 Proof.
+  setoid_rewrite pointf_same_outside_range_unfold.
   intros l1 l2 left right [Hlen Heq] Hrange.
   rewrite <- Hlen.
   apply sublist_eq_from_Znth_pointf__quicksort_top.
@@ -1132,6 +1171,7 @@ Lemma pointf_xy_partitioned_at_preserved_by_left__quicksort_top :
     pointf_xy_partitioned_at l1 left right p ->
     pointf_xy_partitioned_at l2 left right p.
 Proof.
+  setoid_rewrite pointf_same_outside_range_unfold.
   intros l1 l2 left right p Hperm Hleft0 Hsame Hrightlen Hpart.
   destruct Hsame as [Hlen Heq].
   destruct Hpart as [Hrange [Hleft Hright]].
@@ -1153,7 +1193,7 @@ Proof.
         eapply middle_permutation_pointf_of_same_outside__quicksort_top
           with (left := left) (right := p - 1).
         - exact Hperm.
-        - exact (conj Hlen Heq).
+        - apply (proj2 (pointf_same_outside_range_unfold _ _ _ _)). exact (conj Hlen Heq).
         - lia.
         - lia.
       }
@@ -1187,6 +1227,7 @@ Lemma pointf_xy_partitioned_at_preserved_by_right__quicksort_top :
     pointf_xy_partitioned_at l1 left right p ->
     pointf_xy_partitioned_at l2 left right p.
 Proof.
+  setoid_rewrite pointf_same_outside_range_unfold.
   intros l1 l2 left right p Hperm Hleft0 Hsame Hrightlen Hpart.
   destruct Hsame as [Hlen Heq].
   destruct Hpart as [Hrange [Hleft Hright]].
@@ -1213,7 +1254,7 @@ Proof.
     + eapply middle_permutation_pointf_of_same_outside__quicksort_top
         with (left := p + 1) (right := right).
       * exact Hperm.
-      * exact (conj Hlen Heq).
+      * apply (proj2 (pointf_same_outside_range_unfold _ _ _ _)). exact (conj Hlen Heq).
       * lia.
       * lia.
     + exact Hright.
@@ -1493,11 +1534,11 @@ Lemma is_andrew_hull_float_permutation_input__quicksort_top :
   forall input mid sorted hull,
     pointf_permutation input mid ->
     pointf_permutation mid sorted ->
-    is_andrew_hull_float mid sorted hull ->
-    is_andrew_hull_float input sorted hull.
+    is_andrew_hull_float_legacy mid sorted hull ->
+    is_andrew_hull_float_legacy input sorted hull.
 Proof.
   intros input mid sorted hull Hperm1 Hperm2 His.
-  unfold is_andrew_hull_float in *.
+  unfold is_andrew_hull_float_legacy in *.
   destruct His as [Hperm_is His].
   split.
   - eapply Permutation_trans; [exact Hperm1|exact Hperm_is].
@@ -1540,9 +1581,9 @@ Proof.
 Qed.
 Lemma pointf_pop_trace_prefix_until__andrew_lower :
   forall p before cur out,
-    pointf_pop_trace p before cur ->
-    pointf_pop_until p cur out ->
-    pointf_pop_until p before out.
+    pointf_pop_trace_legacy p before cur ->
+    pointf_pop_until_legacy p cur out ->
+    pointf_pop_until_legacy p before out.
 Proof.
   intros p before cur out Htrace.
   revert out.
@@ -1553,7 +1594,7 @@ Proof.
 Qed.
 Lemma pointf_scan_from_nonempty_length__andrew_lower :
   forall initial input out,
-    pointf_scan_from initial input out ->
+    pointf_scan_from_legacy initial input out ->
     initial = [] ->
     0 < Zlength input ->
     0 < Zlength out.
@@ -1573,7 +1614,7 @@ Proof.
 Qed.
 Lemma pointf_pop_trace_positive_length__andrew_lower :
   forall p before chain,
-    pointf_pop_trace p before chain ->
+    pointf_pop_trace_legacy p before chain ->
     0 < Zlength before ->
     0 < Zlength chain.
 Proof.
@@ -1653,7 +1694,7 @@ Proof.
 Qed.
 Lemma pointf_pop_until_In__andrew_lower :
   forall p before cur x,
-    pointf_pop_until p before cur ->
+    pointf_pop_until_legacy p before cur ->
     In x cur ->
     In x before.
 Proof.
@@ -1665,7 +1706,7 @@ Proof.
 Qed.
 Lemma pointf_pop_trace_In__andrew_lower :
   forall p before cur x,
-    pointf_pop_trace p before cur ->
+    pointf_pop_trace_legacy p before cur ->
     In x cur ->
     In x before.
 Proof.
@@ -1676,7 +1717,7 @@ Proof.
 Qed.
 Lemma pointf_scan_step_In__andrew_lower :
   forall before p after x,
-    pointf_scan_step before p after ->
+    pointf_scan_step_legacy before p after ->
     In x after ->
     In x before \/ x = p.
 Proof.
@@ -1687,7 +1728,7 @@ Proof.
 Qed.
 Lemma pointf_scan_from_In__andrew_lower :
   forall initial input out x,
-    pointf_scan_from initial input out ->
+    pointf_scan_from_legacy initial input out ->
     In x out ->
     In x initial \/ In x input.
 Proof.
@@ -1704,15 +1745,15 @@ Proof.
 Qed.
 Lemma pointf_lower_pop_inv_chain_member_sorted__andrew_lower :
   forall sorted before chain read top x,
-    pointf_lower_pop_inv sorted before chain read top ->
+    pointf_lower_pop_inv_legacy sorted before chain read top ->
     In x chain ->
     In x sorted.
 Proof.
   intros sorted before chain read top x Hpop Hin.
-  unfold pointf_lower_pop_inv in Hpop.
+  unfold pointf_lower_pop_inv_legacy in Hpop.
   destruct Hpop as [Hscan_inv [Htrace _]].
   apply pointf_pop_trace_In__andrew_lower with (x := x) in Htrace; auto.
-  unfold pointf_lower_scan_inv in Hscan_inv.
+  unfold pointf_lower_scan_inv_legacy in Hscan_inv.
   destruct Hscan_inv as [[Hread_low Hread_high] [_ [Hscan _]]].
   apply pointf_scan_from_In__andrew_lower with (x := x) in Hscan; auto.
   destruct Hscan as [[]|Hin_input].
@@ -1736,25 +1777,25 @@ Qed.
 Lemma pointf_lower_scan_inv_after_append__andrew_lower :
   forall sorted before chain read top,
     read < Zlength sorted ->
-    pointf_lower_pop_inv sorted before chain read top ->
-    pointf_pop_until (Znth read sorted default_pointf) chain chain ->
+    pointf_lower_pop_inv_legacy sorted before chain read top ->
+    pointf_pop_until_legacy (Znth read sorted default_pointf) chain chain ->
     (Zlength sorted <= read + 1 -> 2 <= top + 1) ->
-    pointf_lower_scan_inv sorted
+    pointf_lower_scan_inv_legacy sorted
       (chain ++ [Znth read sorted default_pointf]) (read + 1) (top + 1).
 Proof.
   intros sorted before chain read top Hread_lt Hpop Huntil Hdone_next.
-  unfold pointf_lower_pop_inv in Hpop.
+  unfold pointf_lower_pop_inv_legacy in Hpop.
   destruct Hpop as [Hscan_inv [Htrace Htop]].
-  unfold pointf_lower_scan_inv in Hscan_inv.
+  unfold pointf_lower_scan_inv_legacy in Hscan_inv.
   destruct Hscan_inv as [[Hread_low Hread_high] [Hbefore_len [Hscan Hdone]]].
-  unfold pointf_lower_scan_inv.
+  unfold pointf_lower_scan_inv_legacy.
   repeat split; try lia.
   - rewrite Zlength_app, Zlength_cons, Zlength_nil. lia.
   - rewrite (sublist_split 0 (read + 1) read sorted) by lia.
     rewrite sublist_single with (d := default_pointf) by lia.
     eapply pointf_scan_from_snoc.
     + exact Hscan.
-    + unfold pointf_scan_step.
+    + unfold pointf_scan_step_legacy.
       exists chain. split.
       * eapply pointf_pop_trace_prefix_until__andrew_lower; eauto.
       * reflexivity.
@@ -1886,8 +1927,8 @@ Lemma lower_scan_after_store_short__andrew_lower :
     k <= i ->
     Zlength sorted = n_pre ->
     Zlength hull = 2 * n_pre ->
-    pointf_lower_pop_inv sorted before (sublist 0 k hull) i k ->
-    pointf_lower_scan_inv sorted
+    pointf_lower_pop_inv_legacy sorted before (sublist 0 k hull) i k ->
+    pointf_lower_scan_inv_legacy sorted
       (sublist 0 (k + 1)
         (replace_Znth k
           (pointf_mk
@@ -1916,7 +1957,7 @@ Proof.
       rewrite Zlength_sublist by lia.
       lia.
     }
-    unfold pointf_lower_scan_inv in Hscan.
+    unfold pointf_lower_scan_inv_legacy in Hscan.
     destruct Hscan as [_ [_ [Hscan_from _]]].
     assert (Hbefore_pos : 0 < Zlength before).
     {
@@ -1951,8 +1992,8 @@ Lemma lower_scan_after_store_ccw__andrew_lower :
     k <= i ->
     Zlength sorted = n_pre ->
     Zlength hull = 2 * n_pre ->
-    pointf_lower_pop_inv sorted before (sublist 0 k hull) i k ->
-    pointf_lower_scan_inv sorted
+    pointf_lower_pop_inv_legacy sorted before (sublist 0 k hull) i k ->
+    pointf_lower_scan_inv_legacy sorted
       (sublist 0 (k + 1)
         (replace_Znth k
           (pointf_mk
@@ -2158,7 +2199,7 @@ Proof.
 Qed.
 Lemma pointf_upper_pop_trace_length_le__andrew_upper :
   forall lower_bound p before cur,
-    pointf_upper_pop_trace lower_bound p before cur ->
+    pointf_upper_pop_trace_legacy lower_bound p before cur ->
     Zlength cur <= Zlength before.
 Proof.
   intros lower_bound p before cur Htrace.
@@ -2169,9 +2210,9 @@ Proof.
 Qed.
 Lemma pointf_upper_pop_trace_prefix_until__andrew_upper :
   forall lower_bound p before cur out,
-    pointf_upper_pop_trace lower_bound p before cur ->
-    pointf_upper_pop_until lower_bound p cur out ->
-    pointf_upper_pop_until lower_bound p before out.
+    pointf_upper_pop_trace_legacy lower_bound p before cur ->
+    pointf_upper_pop_until_legacy lower_bound p cur out ->
+    pointf_upper_pop_until_legacy lower_bound p before out.
 Proof.
   intros lower_bound p before cur out Htrace.
   revert out.
@@ -2182,7 +2223,7 @@ Proof.
 Qed.
 Lemma pointf_upper_pop_until_In__andrew_upper :
   forall lower_bound p before cur x,
-    pointf_upper_pop_until lower_bound p before cur ->
+    pointf_upper_pop_until_legacy lower_bound p before cur ->
     In x cur ->
     In x before.
 Proof.
@@ -2195,7 +2236,7 @@ Proof.
 Qed.
 Lemma pointf_upper_pop_trace_In__andrew_upper :
   forall lower_bound p before cur x,
-    pointf_upper_pop_trace lower_bound p before cur ->
+    pointf_upper_pop_trace_legacy lower_bound p before cur ->
     In x cur ->
     In x before.
 Proof.
@@ -2206,7 +2247,7 @@ Proof.
 Qed.
 Lemma pointf_upper_scan_step_In__andrew_upper :
   forall lower_bound before p after x,
-    pointf_upper_scan_step lower_bound before p after ->
+    pointf_upper_scan_step_legacy lower_bound before p after ->
     In x after ->
     In x before \/ x = p.
 Proof.
@@ -2217,7 +2258,7 @@ Proof.
 Qed.
 Lemma pointf_upper_scan_from_In__andrew_upper :
   forall lower_bound initial input out x,
-    pointf_upper_scan_from lower_bound initial input out ->
+    pointf_upper_scan_from_legacy lower_bound initial input out ->
     In x out ->
     In x initial \/ In x input.
 Proof.
@@ -2235,15 +2276,15 @@ Qed.
 Lemma pointf_upper_pop_inv_chain_member_sorted__andrew_upper :
   forall sorted lower before chain read top lower_n x,
     0 <= read <= Zlength sorted - 2 ->
-    pointf_upper_pop_inv sorted lower before chain read top lower_n ->
+    pointf_upper_pop_inv_legacy sorted lower before chain read top lower_n ->
     In x chain ->
     In x sorted.
 Proof.
   intros sorted lower before chain read top lower_n x Hread Hpop Hin.
-  unfold pointf_upper_pop_inv in Hpop.
+  unfold pointf_upper_pop_inv_legacy in Hpop.
   destruct Hpop as [Hscan_inv [Htrace [_ [_ _]]]].
   apply pointf_upper_pop_trace_In__andrew_upper with (x := x) in Htrace; auto.
-  unfold pointf_upper_scan_inv in Hscan_inv.
+  unfold pointf_upper_scan_inv_legacy in Hscan_inv.
   destruct Hscan_inv as
     [Hread_next [_ [_ [_ [_ [Hscan_lower [Hscan_upper _]]]]]]].
   apply pointf_upper_scan_from_In__andrew_upper with (x := x) in Hscan_upper; auto.
@@ -2279,15 +2320,15 @@ Qed.
 Lemma pointf_upper_scan_inv_after_append__andrew_upper :
   forall sorted lower before chain read top lower_n,
     0 <= read < Zlength sorted - 1 ->
-    pointf_upper_pop_inv sorted lower before chain read top lower_n ->
-    pointf_upper_pop_until lower_n (Znth read sorted default_pointf) chain chain ->
-    pointf_upper_scan_inv sorted lower
+    pointf_upper_pop_inv_legacy sorted lower before chain read top lower_n ->
+    pointf_upper_pop_until_legacy lower_n (Znth read sorted default_pointf) chain chain ->
+    pointf_upper_scan_inv_legacy sorted lower
       (chain ++ [Znth read sorted default_pointf]) read (top + 1) lower_n.
 Proof.
   intros sorted lower before chain read top lower_n Hread Hpop Huntil.
-  unfold pointf_upper_pop_inv in Hpop.
+  unfold pointf_upper_pop_inv_legacy in Hpop.
   destruct Hpop as [Hscan [Htrace [Htop [Hlower_chain Hle_chain]]]].
-  unfold pointf_upper_scan_inv in Hscan.
+  unfold pointf_upper_scan_inv_legacy in Hscan.
   destruct Hscan as
     [Hread_next [Htop_before [Hlower_len
       [Hlower_before [Hle_before [Hscan_lower [Hupper_scan Hcap]]]]]]].
@@ -2296,7 +2337,7 @@ Proof.
     as Hchain_le_before.
   assert (Hlower_chain_len : lower_n <= Zlength chain).
   { rewrite <- Htop. exact Hle_chain. }
-  unfold pointf_upper_scan_inv.
+  unfold pointf_upper_scan_inv_legacy.
   split; [lia|].
   split.
   - rewrite Zlength_app, Zlength_cons, Zlength_nil. lia.
@@ -2314,7 +2355,7 @@ Proof.
         -- rewrite rev_sublist_snoc_Znth__andrew_upper by lia.
            eapply pointf_upper_scan_from_snoc.
            ++ exact Hupper_scan.
-           ++ unfold pointf_upper_scan_step.
+           ++ unfold pointf_upper_scan_step_legacy.
               exists chain. split; [|reflexivity].
               eapply pointf_upper_pop_trace_prefix_until__andrew_upper; eauto.
         -- unfold pointf_upper_capacity.
@@ -2344,15 +2385,15 @@ Lemma upper_scan_final_is_andrew_hull__andrew_upper :
   forall sorted lower chain k lower_n,
     2 <= Zlength sorted ->
     pointf_xy_sorted sorted ->
-    pointf_upper_scan_inv sorted lower chain 0 k lower_n ->
-    is_andrew_hull_float sorted sorted (pointf_drop_last chain).
+    pointf_upper_scan_inv_legacy sorted lower chain 0 k lower_n ->
+    is_andrew_hull_float_legacy sorted sorted (pointf_drop_last chain).
 Proof.
   intros sorted lower chain k lower_n Hsorted_len Hsorted Hinv.
-  unfold pointf_upper_scan_inv in Hinv.
+  unfold pointf_upper_scan_inv_legacy in Hinv.
   destruct Hinv as
     [Hread [Htop [Hlower_len [Hlower_prefix
       [Hlower_le [Hlower_scan [Hupper_scan Hcap]]]]]]].
-  unfold is_andrew_hull_float.
+  unfold is_andrew_hull_float_legacy.
   repeat split.
   - unfold pointf_permutation. reflexivity.
   - exact Hsorted.
@@ -2364,4 +2405,337 @@ Proof.
         with (sublist 0 (Zlength sorted - 1) sorted) by reflexivity.
       rewrite <- Hlower_len.
       exact Hupper_scan.
+Qed.
+
+(** Public mathematical transitions use the standard reflexive-transitive
+    closure.  The original inductive views above support proof reuse only. *)
+Definition pointf_pop_step (p : PointF) (before after : list PointF) : Prop :=
+  2 <= Zlength before /\
+  ~ pointf_ccw (Znth (Zlength before - 2) before default_pointf)
+               (Znth (Zlength before - 1) before default_pointf) p /\
+  after = removelast before.
+Definition pointf_pop_trace (p : PointF) : list PointF -> list PointF -> Prop :=
+  Relation_Operators.clos_refl_trans _ (pointf_pop_step p).
+Definition pointf_pop_stopped (p : PointF) (chain : list PointF) : Prop :=
+  Zlength chain < 2 \/
+  (2 <= Zlength chain /\
+   pointf_ccw (Znth (Zlength chain - 2) chain default_pointf)
+              (Znth (Zlength chain - 1) chain default_pointf) p).
+Definition pointf_pop_until (p : PointF) (before after : list PointF) : Prop :=
+  pointf_pop_trace p before after /\ pointf_pop_stopped p after.
+
+Definition pointf_upper_pop_step (lower_bound : Z) (p : PointF)
+    (before after : list PointF) : Prop :=
+  lower_bound < Zlength before /\ pointf_pop_step p before after.
+Definition pointf_upper_pop_trace (lower_bound : Z) (p : PointF)
+    : list PointF -> list PointF -> Prop :=
+  Relation_Operators.clos_refl_trans _ (pointf_upper_pop_step lower_bound p).
+Definition pointf_upper_pop_stopped (lower_bound : Z) (p : PointF)
+    (chain : list PointF) : Prop :=
+  Zlength chain <= lower_bound \/ Zlength chain < 2 \/
+  (lower_bound < Zlength chain /\ 2 <= Zlength chain /\
+   pointf_ccw (Znth (Zlength chain - 2) chain default_pointf)
+              (Znth (Zlength chain - 1) chain default_pointf) p).
+Definition pointf_upper_pop_until (lower_bound : Z) (p : PointF)
+    (before after : list PointF) : Prop :=
+  pointf_upper_pop_trace lower_bound p before after /\
+  pointf_upper_pop_stopped lower_bound p after.
+
+Lemma pointf_pop_trace_legacy_trans : forall p before middle after,
+  pointf_pop_trace_legacy p before middle ->
+  pointf_pop_trace_legacy p middle after ->
+  pointf_pop_trace_legacy p before after.
+Proof.
+  intros p before middle after Hfirst Hlast.
+  induction Hlast; eauto using pointf_pop_trace_pop.
+Qed.
+Lemma pointf_pop_trace_equiv : forall p before after,
+  pointf_pop_trace p before after <-> pointf_pop_trace_legacy p before after.
+Proof.
+  intros p before after. split.
+  - intros Htrace. induction Htrace.
+    + destruct H as [Hlen [Hccw Heq]]. subst y.
+      eapply pointf_pop_trace_pop; eauto using pointf_pop_trace_refl.
+    + apply pointf_pop_trace_refl.
+    + eapply pointf_pop_trace_legacy_trans; eauto.
+  - intros Htrace. induction Htrace.
+    + apply rt_refl.
+    + eapply rt_trans; [exact IHHtrace |]. apply rt_step.
+      unfold pointf_pop_step. auto.
+Qed.
+Lemma pointf_pop_until_equiv : forall p before after,
+  pointf_pop_until p before after <-> pointf_pop_until_legacy p before after.
+Proof.
+  intros p before after. split.
+  - intros [Htrace Hstop]. apply pointf_pop_trace_equiv in Htrace.
+    eapply pointf_pop_trace_prefix_until__andrew_lower; [exact Htrace |].
+    destruct Hstop as [Hshort | [Hlen Hccw]];
+      eauto using pointf_pop_until_short, pointf_pop_until_ccw.
+  - intros Huntil. induction Huntil.
+    + split; [apply rt_refl | left; assumption].
+    + split; [apply rt_refl | right; auto].
+    + destruct IHHuntil as [Htrace Hstop]. split; [|exact Hstop].
+      eapply rt_trans; [apply rt_step; unfold pointf_pop_step; eauto |exact Htrace].
+Qed.
+Lemma pointf_upper_pop_trace_legacy_trans : forall bound p before middle after,
+  pointf_upper_pop_trace_legacy bound p before middle ->
+  pointf_upper_pop_trace_legacy bound p middle after ->
+  pointf_upper_pop_trace_legacy bound p before after.
+Proof.
+  intros bound p before middle after Hfirst Hlast.
+  induction Hlast; eauto using pointf_upper_pop_trace_pop.
+Qed.
+Lemma pointf_upper_pop_trace_equiv : forall bound p before after,
+  pointf_upper_pop_trace bound p before after <->
+  pointf_upper_pop_trace_legacy bound p before after.
+Proof.
+  intros bound p before after. split.
+  - intros Htrace. induction Htrace.
+    + destruct H as [Hbound [Hlen [Hccw Heq]]]. subst y.
+      eapply pointf_upper_pop_trace_pop; eauto using pointf_upper_pop_trace_refl.
+    + apply pointf_upper_pop_trace_refl.
+    + eapply pointf_upper_pop_trace_legacy_trans; eauto.
+  - intros Htrace. induction Htrace.
+    + apply rt_refl.
+    + eapply rt_trans; [exact IHHtrace |]. apply rt_step.
+      unfold pointf_upper_pop_step, pointf_pop_step. auto.
+Qed.
+Lemma pointf_upper_pop_until_equiv : forall bound p before after,
+  pointf_upper_pop_until bound p before after <->
+  pointf_upper_pop_until_legacy bound p before after.
+Proof.
+  intros bound p before after. split.
+  - intros [Htrace Hstop]. apply pointf_upper_pop_trace_equiv in Htrace.
+    eapply pointf_upper_pop_trace_prefix_until__andrew_upper; [exact Htrace |].
+    destruct Hstop as [Hboundary | [Hshort | [Hbound [Hlen Hccw]]]];
+      eauto using pointf_upper_pop_until_boundary, pointf_upper_pop_until_short,
+                  pointf_upper_pop_until_ccw.
+  - intros Huntil. induction Huntil.
+    + split; [apply rt_refl | left; assumption].
+    + split; [apply rt_refl | right; left; assumption].
+    + split; [apply rt_refl | right; right; auto].
+    + destruct IHHuntil as [Htrace Hstop]. split; [|exact Hstop].
+      eapply rt_trans; [apply rt_step; unfold pointf_upper_pop_step, pointf_pop_step; eauto |exact Htrace].
+Qed.
+
+Definition pointf_scan_step (before : list PointF) (p : PointF)
+    (after : list PointF) : Prop :=
+  exists reduced, pointf_pop_until p before reduced /\ after = reduced ++ [p].
+Definition pointf_upper_scan_step (bound : Z)
+    (before : list PointF) (p : PointF) (after : list PointF) : Prop :=
+  exists reduced, pointf_upper_pop_until bound p before reduced /\
+    after = reduced ++ [p].
+Definition pointf_scan_transition
+    (step : list PointF -> PointF -> list PointF -> Prop)
+    (before after : list PointF * list PointF) : Prop :=
+  exists p, fst after = fst before ++ [p] /\ step (snd before) p (snd after).
+Definition pointf_scan_from (initial input after : list PointF) : Prop :=
+  Relation_Operators.clos_refl_trans _ (pointf_scan_transition pointf_scan_step)
+    ([], initial) (input, after).
+Definition pointf_upper_scan_from (bound : Z)
+    (initial input after : list PointF) : Prop :=
+  Relation_Operators.clos_refl_trans _
+    (pointf_scan_transition (pointf_upper_scan_step bound))
+    ([], initial) (input, after).
+Lemma pointf_scan_step_equiv : forall before p after,
+  pointf_scan_step before p after <-> pointf_scan_step_legacy before p after.
+Proof.
+  intros before p after. unfold pointf_scan_step, pointf_scan_step_legacy.
+  setoid_rewrite pointf_pop_until_equiv. reflexivity.
+Qed.
+Lemma pointf_upper_scan_step_equiv : forall bound before p after,
+  pointf_upper_scan_step bound before p after <->
+  pointf_upper_scan_step_legacy bound before p after.
+Proof.
+  intros bound before p after.
+  unfold pointf_upper_scan_step, pointf_upper_scan_step_legacy.
+  setoid_rewrite pointf_upper_pop_until_equiv. reflexivity.
+Qed.
+Lemma pointf_scan_from_equiv : forall initial input after,
+  pointf_scan_from initial input after <->
+  pointf_scan_from_legacy initial input after.
+Proof.
+  intros initial input after. split.
+  - assert (Hpreserve : forall before after,
+      Relation_Operators.clos_refl_trans _ (pointf_scan_transition pointf_scan_step) before after ->
+      forall origin, pointf_scan_from_legacy origin (fst before) (snd before) ->
+      pointf_scan_from_legacy origin (fst after) (snd after)).
+    { intros state1 state2 Htrace. induction Htrace; intros origin Hbefore.
+      - destruct x as [processed current], y as [extended final].
+        destruct H as [p [Heq Hstep]]. cbn in *. subst extended.
+        eapply pointf_scan_from_snoc; [exact Hbefore |].
+        apply pointf_scan_step_equiv. exact Hstep.
+      - exact Hbefore.
+      - apply IHHtrace2. apply IHHtrace1. exact Hbefore. }
+    intros Htrace. apply (Hpreserve ([], initial) (input, after) Htrace initial).
+    apply pointf_scan_from_nil.
+  - intros Hscan. induction Hscan.
+    + apply rt_refl.
+    + eapply rt_trans; [exact IHHscan |]. apply rt_step.
+      exists p. split; [reflexivity |]. apply pointf_scan_step_equiv. exact H.
+Qed.
+Lemma pointf_upper_scan_from_equiv : forall bound initial input after,
+  pointf_upper_scan_from bound initial input after <->
+  pointf_upper_scan_from_legacy bound initial input after.
+Proof.
+  intros bound initial input after. split.
+  - assert (Hpreserve : forall before after,
+      Relation_Operators.clos_refl_trans _
+        (pointf_scan_transition (pointf_upper_scan_step bound)) before after ->
+      forall origin, pointf_upper_scan_from_legacy bound origin (fst before) (snd before) ->
+      pointf_upper_scan_from_legacy bound origin (fst after) (snd after)).
+    { intros state1 state2 Htrace. induction Htrace; intros origin Hbefore.
+      - destruct x as [processed current], y as [extended final].
+        destruct H as [p [Heq Hstep]]. cbn in *. subst extended.
+        eapply pointf_upper_scan_from_snoc; [exact Hbefore |].
+        apply pointf_upper_scan_step_equiv. exact Hstep.
+      - exact Hbefore.
+      - apply IHHtrace2. apply IHHtrace1. exact Hbefore. }
+    intros Htrace. apply (Hpreserve ([], initial) (input, after) Htrace initial).
+    apply pointf_upper_scan_from_nil.
+  - intros Hscan. induction Hscan.
+    + apply rt_refl.
+    + eapply rt_trans; [exact IHHscan |]. apply rt_step.
+      exists p. split; [reflexivity |]. apply pointf_upper_scan_step_equiv. exact H.
+Qed.
+
+(** Mathematical progress only.  Read positions, stack lengths and capacity
+    estimates are stated separately in the C loop invariants. *)
+Definition pointf_lower_scan_inv (sorted chain : list PointF) (read top : Z) : Prop :=
+  pointf_scan_from [] (sublist 0 read sorted) chain.
+Definition pointf_lower_pop_inv (sorted before chain : list PointF) (read top : Z) : Prop :=
+  pointf_lower_scan_inv sorted before read (Zlength before) /\
+  pointf_pop_trace (Znth read sorted default_pointf) before chain.
+Definition pointf_upper_scan_inv
+    (sorted lower chain : list PointF) (read top lower_n : Z) : Prop :=
+  lower = sublist 0 lower_n chain /\
+  pointf_scan_from [] sorted lower /\
+  pointf_upper_scan_from lower_n lower
+    (rev (sublist read (Zlength sorted - 1) sorted)) chain.
+Definition pointf_upper_pop_inv
+    (sorted lower before chain : list PointF) (read top lower_n : Z) : Prop :=
+  pointf_upper_scan_inv sorted lower before (read + 1) (Zlength before) lower_n /\
+  pointf_upper_pop_trace lower_n (Znth read sorted default_pointf) before chain /\
+  lower = sublist 0 lower_n chain.
+Definition pointf_xy_partition_scan_inv
+    (before cur : list PointF) (lo hi : Z) (pivot : PointF) (split scan : Z) : Prop :=
+  pointf_permutation before cur /\ pointf_same_outside_range before cur lo hi /\
+  Znth hi cur default_pointf = pivot /\
+  Forall (fun p => pointf_cmp_xy p pivot <= 0) (sublist lo (split + 1) cur) /\
+  Forall (fun p => pointf_cmp_xy pivot p < 0) (sublist (split + 1) scan cur).
+Definition is_andrew_hull_float (input sorted hull : list PointF) : Prop :=
+  pointf_permutation input sorted /\ pointf_xy_sorted sorted /\
+  if Z.leb (Zlength sorted) 1 then hull = sorted else
+    exists lower combined,
+      pointf_scan_from [] sorted lower /\
+      pointf_upper_scan_from (Zlength lower) lower
+        (rev (sublist 0 (Zlength sorted - 1) sorted)) combined /\
+      hull = pointf_drop_last combined.
+
+Lemma is_andrew_hull_float_equiv : forall input sorted hull,
+  is_andrew_hull_float input sorted hull <->
+  is_andrew_hull_float_legacy input sorted hull.
+Proof.
+  intros input sorted hull.
+  unfold is_andrew_hull_float, is_andrew_hull_float_legacy.
+  destruct (Z.leb (Zlength sorted) 1); [reflexivity |].
+  setoid_rewrite pointf_scan_from_equiv.
+  setoid_rewrite pointf_upper_scan_from_equiv. reflexivity.
+Qed.
+
+Lemma pointf_lower_scan_legacy_view : forall sorted chain read top,
+  pointf_lower_scan_inv_legacy sorted chain read top <->
+  (0 <= read <= Zlength sorted /\ top = Zlength chain /\
+   pointf_lower_scan_inv sorted chain read top /\
+   (Zlength sorted <= read -> 2 <= top)).
+Proof.
+  intros. unfold pointf_lower_scan_inv_legacy, pointf_lower_scan_inv.
+  rewrite pointf_scan_from_equiv. reflexivity.
+Qed.
+Lemma pointf_lower_pop_legacy_view : forall sorted before chain read top,
+  pointf_lower_pop_inv_legacy sorted before chain read top <->
+  (0 <= read <= Zlength sorted /\ top = Zlength chain /\
+   (Zlength sorted <= read -> 2 <= Zlength before) /\
+   pointf_lower_pop_inv sorted before chain read top).
+Proof.
+  intros. unfold pointf_lower_pop_inv_legacy, pointf_lower_scan_inv_legacy,
+    pointf_lower_pop_inv, pointf_lower_scan_inv.
+  rewrite pointf_scan_from_equiv, pointf_pop_trace_equiv. intuition.
+Qed.
+Lemma pointf_upper_scan_legacy_view : forall sorted lower chain read top lower_n,
+  pointf_upper_scan_inv_legacy sorted lower chain read top lower_n <->
+  (0 <= read <= Zlength sorted /\ top = Zlength chain /\
+   lower_n = Zlength lower /\ lower_n <= top /\
+   pointf_upper_capacity sorted chain read lower_n /\
+   pointf_upper_scan_inv sorted lower chain read top lower_n).
+Proof.
+  intros. unfold pointf_upper_scan_inv_legacy, pointf_upper_scan_inv.
+  rewrite pointf_scan_from_equiv, pointf_upper_scan_from_equiv. tauto.
+Qed.
+Lemma pointf_upper_pop_legacy_view : forall sorted lower before chain read top lower_n,
+  pointf_upper_pop_inv_legacy sorted lower before chain read top lower_n <->
+  (0 <= read + 1 <= Zlength sorted /\ lower_n = Zlength lower /\
+   lower_n <= Zlength before /\
+   pointf_upper_capacity sorted before (read + 1) lower_n /\
+   top = Zlength chain /\ lower_n <= top /\
+   pointf_upper_pop_inv sorted lower before chain read top lower_n).
+Proof.
+  intros. unfold pointf_upper_pop_inv_legacy, pointf_upper_scan_inv_legacy,
+    pointf_upper_pop_inv, pointf_upper_scan_inv.
+  rewrite pointf_scan_from_equiv, pointf_upper_scan_from_equiv,
+    pointf_upper_pop_trace_equiv. intuition.
+Qed.
+Lemma pointf_lower_scan_math_of_legacy : forall sorted chain read top,
+  pointf_lower_scan_inv_legacy sorted chain read top ->
+  pointf_lower_scan_inv sorted chain read top.
+Proof. intros. apply pointf_lower_scan_legacy_view in H. tauto. Qed.
+Lemma pointf_lower_pop_math_of_legacy : forall sorted before chain read top,
+  pointf_lower_pop_inv_legacy sorted before chain read top ->
+  pointf_lower_pop_inv sorted before chain read top.
+Proof. intros. apply pointf_lower_pop_legacy_view in H. tauto. Qed.
+Lemma pointf_upper_scan_math_of_legacy : forall sorted lower chain read top lower_n,
+  pointf_upper_scan_inv_legacy sorted lower chain read top lower_n ->
+  pointf_upper_scan_inv sorted lower chain read top lower_n.
+Proof. intros. apply pointf_upper_scan_legacy_view in H. tauto. Qed.
+Lemma pointf_upper_pop_math_of_legacy : forall sorted lower before chain read top lower_n,
+  pointf_upper_pop_inv_legacy sorted lower before chain read top lower_n ->
+  pointf_upper_pop_inv sorted lower before chain read top lower_n.
+Proof. intros. apply pointf_upper_pop_legacy_view in H. tauto. Qed.
+
+Require Import AUXLib.MonotonicList.
+Lemma pointf_Forall_sublist : forall (P : PointF -> Prop) values lo hi,
+  0 <= lo <= hi -> hi <= Zlength values ->
+  (Forall P (sublist lo hi values) <->
+    forall index, lo <= index < hi -> P (Znth index values default_pointf)).
+Proof.
+  intros P values lo hi Hrange Hlength.
+  rewrite (Forall_Znth P default_pointf). rewrite Zlength_sublist by lia.
+  split; intros Hall index Hindex.
+  - specialize (Hall (index - lo) ltac:(lia)).
+    rewrite Znth_sublist in Hall by lia.
+    replace (index - lo + lo) with index in Hall by lia. exact Hall.
+  - rewrite Znth_sublist by lia. apply Hall. lia.
+Qed.
+Lemma pointf_partition_scan_math_iff : forall before cur lo hi pivot split scan,
+  0 <= lo -> lo - 1 <= split -> split < scan -> scan <= Zlength cur ->
+  (pointf_xy_partition_scan_inv before cur lo hi pivot split scan <->
+   pointf_xy_partition_scan_inv_legacy before cur lo hi pivot split scan).
+Proof.
+  intros before cur lo hi pivot split scan Hlo Hsplit Hscan Hlen.
+  unfold pointf_xy_partition_scan_inv, pointf_xy_partition_scan_inv_legacy.
+  rewrite !pointf_Forall_sublist by lia.
+  split; intros [Hperm [Hsame [Hpivot [Hleft Hright]]]].
+  all: split; [exact Hperm |].
+  all: split; [exact Hsame |].
+  all: split; [exact Hpivot |].
+  all: split; intros index Hindex; [apply Hleft | apply Hright]; lia.
+Qed.
+
+Lemma pointsf_finite_fields : forall values,
+  pointsf_finite values <->
+  Forall fp32_isFinite (map pointf_get_x values) /\
+  Forall fp32_isFinite (map pointf_get_y values).
+Proof.
+  intros values. unfold pointsf_finite, pointf_finite, pointf_get_x, pointf_get_y.
+  rewrite !Forall_map, !Forall_forall. firstorder.
 Qed.

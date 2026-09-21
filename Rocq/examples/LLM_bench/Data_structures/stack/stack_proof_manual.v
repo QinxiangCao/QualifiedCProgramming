@@ -11,7 +11,6 @@ From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
 Require Import SetsClass.SetsClass. Import SetsNotation.
 From SimpleC.SL Require Import Mem SeparationLogic.
 From SimpleC.EE.LLM_bench.Data_structures.stack Require Import stack_goal.
-From SimpleC.EE.LLM_bench.Data_structures.stack Require Import stack_proof_auto.
 Require Import Logic.LogicGenerator.demo932.Interface.
 Local Open Scope Z_scope.
 Local Open Scope sets.
@@ -21,66 +20,39 @@ Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Data_structures.stack.stack_lib.
 Local Open Scope sac.
 
-Lemma proof_of_push_entail_wit_1 : push_entail_wit_1.
+Lemma proof_of_push_return_wit_1_split_goal_spatial : push_return_wit_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  LLM_pre_process ltac:(lia || nia || int_auto).
   unfold store_stack.
   Intros concrete.
-  Exists concrete.
-  unfold StackConcreteView.
-  split_pure_spatial.
-  - cancel (IntArray.full stack_pre n_pre concrete).
-    cancel (IntArray.undef_seg stack_pre n_pre (n_pre + 1)).
-  - split_pures.
-    + dump_pre_spatial.
-      unfold stack_representation in H.
-      lia.
-    + dump_pre_spatial.
-      lia.
-    + dump_pre_spatial.
-      exact H.
-Qed.
-
-Lemma proof_of_push_entail_wit_2_split_goal_spatial : push_entail_wit_2_split_goal_spatial.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold store_stack.
   Exists (concrete ++ (x_pre :: nil)).
+  sep_apply_l_atomic (IntArray.seg_single stack_pre n_pre x_pre).
+  sep_apply_l_atomic (IntArray.full_to_seg stack_pre n_pre concrete).
+  sep_apply_l_atomic (IntArray.seg_merge_to_full stack_pre 0 n_pre (n_pre + 1) concrete (x_pre :: nil) ltac:(lia)).
+  replace (stack_pre + 0 * sizeof(INT)) with stack_pre by lia.
+  replace (n_pre + 1 - 0) with (n_pre + 1) by lia.
   split_pure_spatial.
-  - cancel (IntArray.full stack_pre (n_pre + 1)
-              (concrete ++ (x_pre :: nil))).
-  - dump_pre_spatial.
-    unfold StackConcreteView in *.
-    eapply stack_representation_push__push_state; eauto.
+  - cancel.
+  - dump_pre_spatial. eapply stack_representation_push__push_state; eauto.
 Qed.
 
-Lemma proof_of_push_entail_wit_2 : push_entail_wit_2.
+Lemma proof_of_push_return_wit_1 : push_return_wit_1.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_push_entail_wit_2_split_goal_spatial.
-Qed.
+  aggressive_pre_process. Goal_apply proof_of_push_return_wit_1_split_goal_spatial.
+Qed. 
 
 Lemma proof_of_pop_entail_wit_1 : pop_entail_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold store_stack.
-  Intros concrete.
-  match goal with
-  | Hrepresentation : stack_representation _ concrete n_pre |- _ =>
-      pose proof Hrepresentation as Hrepresentation_parts;
-      destruct Hrepresentation_parts as [_ [Hcapacity _]]
-  end.
-  Exists concrete.
-  unfold StackConcreteView.
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  unfold store_stack. Intros concrete. Exists concrete.
   split_pure_spatial.
-  - cancel (IntArray.full stack_pre n_pre concrete).
-  - split_pures; dump_pre_spatial; try assumption.
-Qed.
+  - cancel.
+  - split_pures; dump_pre_spatial; assumption.
+Qed. 
 
-Lemma proof_of_pop_entail_wit_2_split_goal_1 : pop_entail_wit_2_split_goal_1.
+Lemma proof_of_pop_return_wit_1_split_goal_1 : pop_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold StackConcreteView in PreH3.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   pose proof
     (stack_representation_pop__pop_state
       top rest concrete n_pre PreH1 PreH3)
@@ -89,10 +61,9 @@ Proof.
   exact Htop.
 Qed.
 
-Lemma proof_of_pop_entail_wit_2_split_goal_spatial : pop_entail_wit_2_split_goal_spatial.
+Lemma proof_of_pop_return_wit_1_split_goal_spatial : pop_return_wit_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold StackConcreteView in PreH3.
+  LLM_pre_process ltac:(lia || nia || int_auto).
   pose proof
     (stack_representation_pop__pop_state
       top rest concrete n_pre PreH1 PreH3)
@@ -124,16 +95,18 @@ Proof.
     exact Hrest_representation.
 Qed.
 
-Lemma proof_of_pop_entail_wit_2 : pop_entail_wit_2.
+Lemma proof_of_pop_return_wit_1 : pop_return_wit_1.
 Proof.
   aggressive_pre_process.
-  - Goal_apply proof_of_pop_entail_wit_2_split_goal_spatial.
-  - Goal_apply proof_of_pop_entail_wit_2_split_goal_1.
-Qed.
+  - Goal_apply proof_of_pop_return_wit_1_split_goal_spatial.
+  - Goal_apply proof_of_pop_return_wit_1_split_goal_1.
+Qed. 
 
 Lemma proof_of_build_entail_wit_1 : build_entail_wit_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  prop_apply (IntArray.full_Zlength stack_pre n_pre input).
+  Intros_p Hinput_length.
   destruct (Z.eq_dec n_pre 0) as [Hzero | Hpositive].
   - subst n_pre.
     Left.
@@ -164,11 +137,11 @@ Proof.
     replace (stack_pre + 0 * sizeof(INT)) with stack_pre by lia.
     replace (1 - 0) with 1 by lia.
     cancel.
-Qed.
+Qed. 
 
 Lemma proof_of_build_entail_wit_2 : build_entail_wit_2.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  LLM_pre_process ltac:(lia || nia || int_auto).
   Exists prefix_2.
   sep_apply
     (IntArray.seg_split_to_seg
@@ -190,11 +163,11 @@ Proof.
   - split_pures; dump_pre_spatial; try lia; try int_auto;
       try assumption; try reflexivity.
   all: try (rewrite Znth_sublist by lia; f_equal; lia).
-Qed.
+Qed. 
 
 Lemma proof_of_build_entail_wit_3_split_goal_1 : build_entail_wit_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  LLM_pre_process ltac:(lia || nia || int_auto).
   eapply build_stack_prefix_succ__build_loop; eauto; lia.
 Qed.
 
@@ -202,21 +175,15 @@ Lemma proof_of_build_entail_wit_3 : build_entail_wit_3.
 Proof.
   aggressive_pre_process.
   Goal_apply proof_of_build_entail_wit_3_split_goal_1.
-Qed.
+Qed. 
 
-Lemma proof_of_build_entail_wit_5_1_split_goal_1 : build_entail_wit_5_1_split_goal_1.
+Lemma proof_of_build_return_wit_1_split_goal_spatial : build_return_wit_1_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  unfold stack_capacity.
-  dump_pre_spatial.
-  lia.
-Qed.
-
-Lemma proof_of_build_entail_wit_5_1_split_goal_spatial : build_entail_wit_5_1_split_goal_spatial.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  LLM_pre_process ltac:(lia || nia || int_auto).
+  prop_apply (IntArray.full_Zlength stack_pre n_pre input).
+  Intros_p Hinput_length.
   subst n_pre.
-  apply Zlength_nil_inv in PreH4.
+  apply Zlength_nil_inv in Hinput_length.
   subst input.
   unfold store_stack.
   Exists (@nil Z).
@@ -228,16 +195,14 @@ Proof.
     repeat split; lia.
 Qed.
 
-Lemma proof_of_build_entail_wit_5_1 : build_entail_wit_5_1.
+Lemma proof_of_build_return_wit_1 : build_return_wit_1.
 Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_build_entail_wit_5_1_split_goal_spatial.
-  - Goal_apply proof_of_build_entail_wit_5_1_split_goal_1.
-Qed.
+  aggressive_pre_process. Goal_apply proof_of_build_return_wit_1_split_goal_spatial.
+Qed. 
 
-Lemma proof_of_build_entail_wit_5_2_split_goal_spatial : build_entail_wit_5_2_split_goal_spatial.
+Lemma proof_of_build_return_wit_2_split_goal_spatial : build_return_wit_2_split_goal_spatial.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  LLM_pre_process ltac:(lia || nia || int_auto).
   pose proof
     (build_stack_prefix_complete__build_completion
       prefix input i n_pre PreH1 PreH5 PreH6 PreH7)
@@ -250,8 +215,9 @@ Proof.
   cancel (store_stack stack_pre (sll_from_array input) n_pre).
 Qed.
 
-Lemma proof_of_build_entail_wit_5_2 : build_entail_wit_5_2.
+Lemma proof_of_build_return_wit_2 : build_return_wit_2.
 Proof.
   aggressive_pre_process.
-  - Goal_apply proof_of_build_entail_wit_5_2_split_goal_spatial.
-Qed.
+  - Goal_apply proof_of_build_return_wit_2_split_goal_spatial.
+Qed. 
+

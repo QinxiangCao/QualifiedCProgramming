@@ -53,13 +53,13 @@ Proof. Admitted.
 Lemma proof_of_multipleKnapsack_safety_wit_11 : multipleKnapsack_safety_wit_11.
 Proof. Admitted. 
 
+Lemma proof_of_multipleKnapsack_safety_wit_12 : multipleKnapsack_safety_wit_12.
+Proof. Admitted. 
+
 Lemma proof_of_multipleKnapsack_safety_wit_13 : multipleKnapsack_safety_wit_13.
 Proof. Admitted. 
 
 Lemma proof_of_multipleKnapsack_safety_wit_14 : multipleKnapsack_safety_wit_14.
-Proof. Admitted. 
-
-Lemma proof_of_multipleKnapsack_safety_wit_15 : multipleKnapsack_safety_wit_15.
 Proof. Admitted. 
 
 Lemma proof_of_multipleKnapsack_safety_wit_16 : multipleKnapsack_safety_wit_16.
@@ -86,13 +86,28 @@ Proof. Admitted.
 Lemma proof_of_multipleKnapsack_safety_wit_23 : multipleKnapsack_safety_wit_23.
 Proof. Admitted. 
 
-Lemma proof_of_multipleKnapsack_safety_wit_24 : multipleKnapsack_safety_wit_24.
-Proof. Admitted. 
-
 Lemma proof_of_multipleKnapsack_safety_wit_25 : multipleKnapsack_safety_wit_25.
 Proof. Admitted. 
 
-Lemma proof_of_multipleKnapsack_safety_wit_26 : multipleKnapsack_safety_wit_26.
+Lemma proof_of_multipleKnapsack_safety_wit_27 : multipleKnapsack_safety_wit_27.
+Proof. Admitted. 
+
+Lemma proof_of_multipleKnapsack_safety_wit_28 : multipleKnapsack_safety_wit_28.
+Proof. Admitted. 
+
+Lemma proof_of_multipleKnapsack_safety_wit_29 : multipleKnapsack_safety_wit_29.
+Proof. Admitted. 
+
+Lemma proof_of_multipleKnapsack_safety_wit_30 : multipleKnapsack_safety_wit_30.
+Proof. Admitted. 
+
+Lemma proof_of_multipleKnapsack_safety_wit_31 : multipleKnapsack_safety_wit_31.
+Proof. Admitted. 
+
+Lemma proof_of_multipleKnapsack_safety_wit_32 : multipleKnapsack_safety_wit_32.
+Proof. Admitted. 
+
+Lemma proof_of_multipleKnapsack_safety_wit_33 : multipleKnapsack_safety_wit_33.
 Proof. Admitted. 
 
 Lemma proof_of_multipleKnapsack_return_wit_1 : multipleKnapsack_return_wit_1.
@@ -144,5 +159,20 @@ Lemma proof_of_multipleKnapsack_partial_solve_wit_15 : multipleKnapsack_partial_
 Proof. Admitted. 
 
 Lemma proof_of_multipleKnapsack_partial_solve_wit_16 : multipleKnapsack_partial_solve_wit_16.
+Proof. Admitted. 
+
+Lemma proof_of_multipleKnapsack_partial_solve_wit_17 : multipleKnapsack_partial_solve_wit_17.
+Proof. Admitted. 
+
+Lemma proof_of_multipleKnapsack_partial_solve_wit_18 : multipleKnapsack_partial_solve_wit_18.
+Proof. Admitted. 
+
+Lemma proof_of_multipleKnapsack_partial_solve_wit_19 : multipleKnapsack_partial_solve_wit_19.
+Proof. Admitted. 
+
+Lemma proof_of_multipleKnapsack_partial_solve_wit_20 : multipleKnapsack_partial_solve_wit_20.
+Proof. Admitted. 
+
+Lemma proof_of_multipleKnapsack_partial_solve_wit_21 : multipleKnapsack_partial_solve_wit_21.
 Proof. Admitted. 
 

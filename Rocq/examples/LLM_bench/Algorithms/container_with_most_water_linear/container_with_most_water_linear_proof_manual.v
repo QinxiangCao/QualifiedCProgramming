@@ -11,7 +11,7 @@ From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
 Require Import SetsClass.SetsClass. Import SetsNotation.
 From SimpleC.SL Require Import Mem SeparationLogic.
 From SimpleC.EE.LLM_bench.Algorithms.container_with_most_water_linear Require Import container_with_most_water_linear_goal.
-From SimpleC.EE.LLM_bench.Algorithms.container_with_most_water_linear Require Import container_with_most_water_linear_proof_auto.
+Require Import AUXLib.MonotonicList.
 Require Import Logic.LogicGenerator.demo932.Interface.
 Local Open Scope Z_scope.
 Local Open Scope sets.
@@ -21,16 +21,54 @@ Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.container_with_most_water_linear.container_with_most_water_linear_lib.
 Local Open Scope sac.
 
+
+Ltac linear_arith :=
+  repeat match goal with
+  | H : Forall ?P ?l |- context [Znth ?i ?l 0] =>
+    let B := fresh "element_bound" in
+    pose proof (proj1 (Forall_Znth P 0 l) H i ltac:(lia)) as B;
+    clear H
+  end;
+  solve [nia | int_auto].
+
+Lemma proof_of_maxAreaLinear_safety_wit_10_split_goal_1 : maxAreaLinear_safety_wit_10_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(linear_arith).
+Qed.
+
+Lemma proof_of_maxAreaLinear_safety_wit_10_split_goal_2 : maxAreaLinear_safety_wit_10_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(linear_arith).
+Qed.
+
+Lemma proof_of_maxAreaLinear_safety_wit_10 : maxAreaLinear_safety_wit_10.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_maxAreaLinear_safety_wit_10_split_goal_1.
+  - Goal_apply proof_of_maxAreaLinear_safety_wit_10_split_goal_2.
+Qed.
+
+Lemma proof_of_maxAreaLinear_safety_wit_11_split_goal_1 : maxAreaLinear_safety_wit_11_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(linear_arith).
+Qed.
+
+Lemma proof_of_maxAreaLinear_safety_wit_11_split_goal_2 : maxAreaLinear_safety_wit_11_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(linear_arith).
+Qed.
+
+Lemma proof_of_maxAreaLinear_safety_wit_11 : maxAreaLinear_safety_wit_11.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_maxAreaLinear_safety_wit_11_split_goal_1.
+  - Goal_apply proof_of_maxAreaLinear_safety_wit_11_split_goal_2.
+Qed.
+
 Lemma proof_of_maxAreaLinear_entail_wit_1_split_goal_1 : maxAreaLinear_entail_wit_1_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  apply PreH7.
-  lia.
-Qed.
-
-Lemma proof_of_maxAreaLinear_entail_wit_1_split_goal_2 : maxAreaLinear_entail_wit_1_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  repeat match goal with H : Forall ?P ?l |- _ => rewrite (Forall_Znth P 0 l) in H end.
   unfold LinearContainerTwoPointerInvariant, LinearContainerBest.
   split.
   - left. reflexivity.
@@ -50,20 +88,13 @@ Qed.
 Lemma proof_of_maxAreaLinear_entail_wit_1 : maxAreaLinear_entail_wit_1.
 Proof.
   aggressive_pre_process.
-  - Goal_apply proof_of_maxAreaLinear_entail_wit_1_split_goal_1.
-  - Goal_apply proof_of_maxAreaLinear_entail_wit_1_split_goal_2.
+  Goal_apply proof_of_maxAreaLinear_entail_wit_1_split_goal_1.
 Qed.
 
 Lemma proof_of_maxAreaLinear_entail_wit_2_1_split_goal_1 : maxAreaLinear_entail_wit_2_1_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  apply PreH13.
-  exact H.
-Qed.
-
-Lemma proof_of_maxAreaLinear_entail_wit_2_1_split_goal_2 : maxAreaLinear_entail_wit_2_1_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  repeat match goal with H : Forall ?P ?l |- _ => rewrite (Forall_Znth P 0 l) in H end.
   replace ((right - left) * Znth left l 0)
     with (LinearContainerArea l left right).
   - apply (linear_container_invariant_update_best__best_update
@@ -79,12 +110,33 @@ Proof.
     reflexivity.
 Qed.
 
+Lemma proof_of_maxAreaLinear_entail_wit_2_1_split_goal_2 : maxAreaLinear_entail_wit_2_1_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(linear_arith).
+Qed.
+
 Lemma proof_of_maxAreaLinear_entail_wit_2_1_split_goal_3 : maxAreaLinear_entail_wit_2_1_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  LLM_pre_process ltac:(linear_arith).
   unfold LinearContainerArea, LinearContainerHeight.
-  rewrite Z.min_l by lia.
-  reflexivity.
+  first [rewrite Z.min_l by lia | rewrite Z.min_r by lia]; reflexivity.
+Qed.
+
+Lemma proof_of_maxAreaLinear_entail_wit_2_1_split_goal_4 : maxAreaLinear_entail_wit_2_1_split_goal_4.
+Proof.
+  LLM_pre_process ltac:(linear_arith).
+Qed.
+
+Lemma proof_of_maxAreaLinear_entail_wit_2_1_split_goal_5 : maxAreaLinear_entail_wit_2_1_split_goal_5.
+Proof.
+  LLM_pre_process ltac:(linear_arith).
+Qed.
+
+Lemma proof_of_maxAreaLinear_entail_wit_2_1_split_goal_6 : maxAreaLinear_entail_wit_2_1_split_goal_6.
+Proof.
+  LLM_pre_process ltac:(linear_arith).
+  unfold LinearContainerArea, LinearContainerHeight.
+  first [rewrite Z.min_l by lia | rewrite Z.min_r by lia]; reflexivity.
 Qed.
 
 Lemma proof_of_maxAreaLinear_entail_wit_2_1 : maxAreaLinear_entail_wit_2_1.
@@ -93,18 +145,15 @@ Proof.
   - Goal_apply proof_of_maxAreaLinear_entail_wit_2_1_split_goal_1.
   - Goal_apply proof_of_maxAreaLinear_entail_wit_2_1_split_goal_2.
   - Goal_apply proof_of_maxAreaLinear_entail_wit_2_1_split_goal_3.
+  - Goal_apply proof_of_maxAreaLinear_entail_wit_2_1_split_goal_4.
+  - Goal_apply proof_of_maxAreaLinear_entail_wit_2_1_split_goal_5.
+  - Goal_apply proof_of_maxAreaLinear_entail_wit_2_1_split_goal_6.
 Qed.
 
 Lemma proof_of_maxAreaLinear_entail_wit_2_2_split_goal_1 : maxAreaLinear_entail_wit_2_2_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  apply PreH13.
-  exact H.
-Qed.
-
-Lemma proof_of_maxAreaLinear_entail_wit_2_2_split_goal_2 : maxAreaLinear_entail_wit_2_2_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  repeat match goal with H : Forall ?P ?l |- _ => rewrite (Forall_Znth P 0 l) in H end.
   replace ((right - left) * Znth right l 0)
     with (LinearContainerArea l left right).
   - apply (linear_container_invariant_update_best__best_update
@@ -120,12 +169,33 @@ Proof.
     reflexivity.
 Qed.
 
+Lemma proof_of_maxAreaLinear_entail_wit_2_2_split_goal_2 : maxAreaLinear_entail_wit_2_2_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(linear_arith).
+Qed.
+
 Lemma proof_of_maxAreaLinear_entail_wit_2_2_split_goal_3 : maxAreaLinear_entail_wit_2_2_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  LLM_pre_process ltac:(linear_arith).
   unfold LinearContainerArea, LinearContainerHeight.
-  rewrite Z.min_r by lia.
-  reflexivity.
+  first [rewrite Z.min_l by lia | rewrite Z.min_r by lia]; reflexivity.
+Qed.
+
+Lemma proof_of_maxAreaLinear_entail_wit_2_2_split_goal_4 : maxAreaLinear_entail_wit_2_2_split_goal_4.
+Proof.
+  LLM_pre_process ltac:(linear_arith).
+Qed.
+
+Lemma proof_of_maxAreaLinear_entail_wit_2_2_split_goal_5 : maxAreaLinear_entail_wit_2_2_split_goal_5.
+Proof.
+  LLM_pre_process ltac:(linear_arith).
+Qed.
+
+Lemma proof_of_maxAreaLinear_entail_wit_2_2_split_goal_6 : maxAreaLinear_entail_wit_2_2_split_goal_6.
+Proof.
+  LLM_pre_process ltac:(linear_arith).
+  unfold LinearContainerArea, LinearContainerHeight.
+  first [rewrite Z.min_l by lia | rewrite Z.min_r by lia]; reflexivity.
 Qed.
 
 Lemma proof_of_maxAreaLinear_entail_wit_2_2 : maxAreaLinear_entail_wit_2_2.
@@ -134,28 +204,38 @@ Proof.
   - Goal_apply proof_of_maxAreaLinear_entail_wit_2_2_split_goal_1.
   - Goal_apply proof_of_maxAreaLinear_entail_wit_2_2_split_goal_2.
   - Goal_apply proof_of_maxAreaLinear_entail_wit_2_2_split_goal_3.
+  - Goal_apply proof_of_maxAreaLinear_entail_wit_2_2_split_goal_4.
+  - Goal_apply proof_of_maxAreaLinear_entail_wit_2_2_split_goal_5.
+  - Goal_apply proof_of_maxAreaLinear_entail_wit_2_2_split_goal_6.
 Qed.
 
 Lemma proof_of_maxAreaLinear_entail_wit_2_3_split_goal_1 : maxAreaLinear_entail_wit_2_3_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  apply PreH13.
-  lia.
+  LLM_pre_process ltac:(linear_arith).
 Qed.
 
 Lemma proof_of_maxAreaLinear_entail_wit_2_3_split_goal_2 : maxAreaLinear_entail_wit_2_3_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  specialize (PreH13 left ltac:(lia)).
-  nia.
+  LLM_pre_process ltac:(linear_arith).
+  unfold LinearContainerArea, LinearContainerHeight.
+  first [rewrite Z.min_l by lia | rewrite Z.min_r by lia]; reflexivity.
 Qed.
 
 Lemma proof_of_maxAreaLinear_entail_wit_2_3_split_goal_3 : maxAreaLinear_entail_wit_2_3_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  LLM_pre_process ltac:(linear_arith).
+Qed.
+
+Lemma proof_of_maxAreaLinear_entail_wit_2_3_split_goal_4 : maxAreaLinear_entail_wit_2_3_split_goal_4.
+Proof.
+  LLM_pre_process ltac:(linear_arith).
+Qed.
+
+Lemma proof_of_maxAreaLinear_entail_wit_2_3_split_goal_5 : maxAreaLinear_entail_wit_2_3_split_goal_5.
+Proof.
+  LLM_pre_process ltac:(linear_arith).
   unfold LinearContainerArea, LinearContainerHeight.
-  rewrite Z.min_l by lia.
-  reflexivity.
+  first [rewrite Z.min_l by lia | rewrite Z.min_r by lia]; reflexivity.
 Qed.
 
 Lemma proof_of_maxAreaLinear_entail_wit_2_3 : maxAreaLinear_entail_wit_2_3.
@@ -164,28 +244,37 @@ Proof.
   - Goal_apply proof_of_maxAreaLinear_entail_wit_2_3_split_goal_1.
   - Goal_apply proof_of_maxAreaLinear_entail_wit_2_3_split_goal_2.
   - Goal_apply proof_of_maxAreaLinear_entail_wit_2_3_split_goal_3.
+  - Goal_apply proof_of_maxAreaLinear_entail_wit_2_3_split_goal_4.
+  - Goal_apply proof_of_maxAreaLinear_entail_wit_2_3_split_goal_5.
 Qed.
 
 Lemma proof_of_maxAreaLinear_entail_wit_2_4_split_goal_1 : maxAreaLinear_entail_wit_2_4_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  apply PreH13.
-  lia.
+  LLM_pre_process ltac:(linear_arith).
 Qed.
 
 Lemma proof_of_maxAreaLinear_entail_wit_2_4_split_goal_2 : maxAreaLinear_entail_wit_2_4_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  specialize (PreH13 right ltac:(lia)).
-  nia.
+  LLM_pre_process ltac:(linear_arith).
+  unfold LinearContainerArea, LinearContainerHeight.
+  first [rewrite Z.min_l by lia | rewrite Z.min_r by lia]; reflexivity.
 Qed.
 
 Lemma proof_of_maxAreaLinear_entail_wit_2_4_split_goal_3 : maxAreaLinear_entail_wit_2_4_split_goal_3.
 Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  LLM_pre_process ltac:(linear_arith).
+Qed.
+
+Lemma proof_of_maxAreaLinear_entail_wit_2_4_split_goal_4 : maxAreaLinear_entail_wit_2_4_split_goal_4.
+Proof.
+  LLM_pre_process ltac:(linear_arith).
+Qed.
+
+Lemma proof_of_maxAreaLinear_entail_wit_2_4_split_goal_5 : maxAreaLinear_entail_wit_2_4_split_goal_5.
+Proof.
+  LLM_pre_process ltac:(linear_arith).
   unfold LinearContainerArea, LinearContainerHeight.
-  rewrite Z.min_r by lia.
-  reflexivity.
+  first [rewrite Z.min_l by lia | rewrite Z.min_r by lia]; reflexivity.
 Qed.
 
 Lemma proof_of_maxAreaLinear_entail_wit_2_4 : maxAreaLinear_entail_wit_2_4.
@@ -194,18 +283,14 @@ Proof.
   - Goal_apply proof_of_maxAreaLinear_entail_wit_2_4_split_goal_1.
   - Goal_apply proof_of_maxAreaLinear_entail_wit_2_4_split_goal_2.
   - Goal_apply proof_of_maxAreaLinear_entail_wit_2_4_split_goal_3.
+  - Goal_apply proof_of_maxAreaLinear_entail_wit_2_4_split_goal_4.
+  - Goal_apply proof_of_maxAreaLinear_entail_wit_2_4_split_goal_5.
 Qed.
 
 Lemma proof_of_maxAreaLinear_entail_wit_3_1_split_goal_1 : maxAreaLinear_entail_wit_3_1_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  apply PreH20.
-  lia.
-Qed.
-
-Lemma proof_of_maxAreaLinear_entail_wit_3_1_split_goal_2 : maxAreaLinear_entail_wit_3_1_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  repeat match goal with H : Forall ?P ?l |- _ => rewrite (Forall_Znth P 0 l) in H end.
   eapply linear_container_invariant_advance_left__pointer_transitions.
   - intros k Hk.
     apply PreH20.
@@ -220,20 +305,13 @@ Qed.
 Lemma proof_of_maxAreaLinear_entail_wit_3_1 : maxAreaLinear_entail_wit_3_1.
 Proof.
   aggressive_pre_process.
-  - Goal_apply proof_of_maxAreaLinear_entail_wit_3_1_split_goal_1.
-  - Goal_apply proof_of_maxAreaLinear_entail_wit_3_1_split_goal_2.
+  Goal_apply proof_of_maxAreaLinear_entail_wit_3_1_split_goal_1.
 Qed.
 
 Lemma proof_of_maxAreaLinear_entail_wit_3_2_split_goal_1 : maxAreaLinear_entail_wit_3_2_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  apply PreH20.
-  lia.
-Qed.
-
-Lemma proof_of_maxAreaLinear_entail_wit_3_2_split_goal_2 : maxAreaLinear_entail_wit_3_2_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
+  repeat match goal with H : Forall ?P ?l |- _ => rewrite (Forall_Znth P 0 l) in H end.
   eapply linear_container_invariant_retreat_right__pointer_transitions.
   - intros k Hk.
     apply PreH20.
@@ -248,13 +326,13 @@ Qed.
 Lemma proof_of_maxAreaLinear_entail_wit_3_2 : maxAreaLinear_entail_wit_3_2.
 Proof.
   aggressive_pre_process.
-  - Goal_apply proof_of_maxAreaLinear_entail_wit_3_2_split_goal_1.
-  - Goal_apply proof_of_maxAreaLinear_entail_wit_3_2_split_goal_2.
+  Goal_apply proof_of_maxAreaLinear_entail_wit_3_2_split_goal_1.
 Qed.
 
-Lemma proof_of_maxAreaLinear_entail_wit_4_split_goal_1 : maxAreaLinear_entail_wit_4_split_goal_1.
+Lemma proof_of_maxAreaLinear_return_wit_1_split_goal_1 : maxAreaLinear_return_wit_1_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  repeat match goal with H : Forall ?P ?l |- _ => rewrite (Forall_Znth P 0 l) in H end.
   eapply (linear_container_closed_invariant_maximum__final_result
             l left right maximumArea).
   - lia.
@@ -265,8 +343,8 @@ Proof.
   - exact PreH10.
 Qed.
 
-Lemma proof_of_maxAreaLinear_entail_wit_4 : maxAreaLinear_entail_wit_4.
+Lemma proof_of_maxAreaLinear_return_wit_1 : maxAreaLinear_return_wit_1.
 Proof.
   aggressive_pre_process.
-  Goal_apply proof_of_maxAreaLinear_entail_wit_4_split_goal_1.
+  Goal_apply proof_of_maxAreaLinear_return_wit_1_split_goal_1.
 Qed.

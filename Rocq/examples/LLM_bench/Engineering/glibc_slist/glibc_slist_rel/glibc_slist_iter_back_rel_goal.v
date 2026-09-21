@@ -55,48 +55,48 @@ forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) 
 
 Definition glibc_slist_clean_iter_back_safety_wit_3 := 
 (
-forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (ltail: (@list Z)) (x_next: Z) (r_2: Z) (retval: Z) (ltail_2: (@list Z)) (r: Z) (v: Z) (PreH1 : (safeExec ATrue (bind ((return ((maketuple (ltail_2) (r))))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (v)))) X_low_level_spec )) (PreH2 : (x_pre <> 0)) (PreH3 : (retval = r_2)) (PreH4 : (range ltail )) (PreH5 : (x_pre <> 0)) ,
-  ((( &( "x" ) )) # Ptr  |-> x_pre)
-  **  ((( &( "sum" ) )) # Int  |-> r)
+forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (v: Z) (ltail: (@list Z)) (x_next: Z) (l2: (@list Z)) (r: Z) (retval: Z) (PreH1 : (safeExec ATrue (bind ((return ((maketuple (l2) (r))))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (v)))) X_low_level_spec )) (PreH2 : (retval = r)) (PreH3 : (range ltail )) (PreH4 : (x_pre <> 0)) ,
+  (sll x_next l2 )
+  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
   **  ((&((x_pre)  # "list" ->ₛ "data")) # Int  |-> v)
+  **  ((( &( "sum" ) )) # Int  |-> retval)
   **  ((&((x_pre)  # "list" ->ₛ "next")) # Ptr  |-> x_next)
-  **  (sll x_next ltail_2 )
 |--
-  “ ((r + v ) <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= (r + v )) ”
+  “ ((retval + v ) <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= (retval + v )) ”
 ) \/
 (
-forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (ltail: (@list Z)) (x_next: Z) (r_2: Z) (retval: Z) (ltail_2: (@list Z)) (r: Z) (v: Z) (PreH1 : (safeExec ATrue (bind ((return ((maketuple (ltail_2) (r))))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (v)))) X_low_level_spec )) (PreH2 : (x_pre <> 0)) (PreH3 : (retval = r_2)) (PreH4 : (range ltail )) (PreH5 : (x_pre <> 0)) ,
-  ((( &( "x" ) )) # Ptr  |-> x_pre)
-  **  ((( &( "sum" ) )) # Int  |-> r)
+forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (v: Z) (ltail: (@list Z)) (x_next: Z) (l2: (@list Z)) (r: Z) (retval: Z) (PreH1 : (safeExec ATrue (bind ((return ((maketuple (l2) (r))))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (v)))) X_low_level_spec )) (PreH2 : (retval = r)) (PreH3 : (range ltail )) (PreH4 : (x_pre <> 0)) ,
+  (sll x_next l2 )
+  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
   **  ((&((x_pre)  # "list" ->ₛ "data")) # Int  |-> v)
+  **  ((( &( "sum" ) )) # Int  |-> retval)
   **  ((&((x_pre)  # "list" ->ₛ "next")) # Ptr  |-> x_next)
-  **  (sll x_next ltail_2 )
 |--
-  “ ((r + v ) <= INT_MAX) ” 
-  &&  “ ((INT_MIN) <= (r + v )) ”
+  “ ((retval + v ) <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= (retval + v )) ”
 ).
 
 Definition glibc_slist_clean_iter_back_safety_wit_3_split_goal_1 := 
-forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (ltail: (@list Z)) (x_next: Z) (r_2: Z) (retval: Z) (ltail_2: (@list Z)) (r: Z) (v: Z) (PreH1 : (safeExec ATrue (bind ((return ((maketuple (ltail_2) (r))))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (v)))) X_low_level_spec )) (PreH2 : (x_pre <> 0)) (PreH3 : (retval = r_2)) (PreH4 : (range ltail )) (PreH5 : (x_pre <> 0)) ,
-  ((( &( "x" ) )) # Ptr  |-> x_pre)
-  **  ((( &( "sum" ) )) # Int  |-> r)
+forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (v: Z) (ltail: (@list Z)) (x_next: Z) (l2: (@list Z)) (r: Z) (retval: Z) (PreH1 : (safeExec ATrue (bind ((return ((maketuple (l2) (r))))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (v)))) X_low_level_spec )) (PreH2 : (retval = r)) (PreH3 : (range ltail )) (PreH4 : (x_pre <> 0)) ,
+  (sll x_next l2 )
+  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
   **  ((&((x_pre)  # "list" ->ₛ "data")) # Int  |-> v)
+  **  ((( &( "sum" ) )) # Int  |-> retval)
   **  ((&((x_pre)  # "list" ->ₛ "next")) # Ptr  |-> x_next)
-  **  (sll x_next ltail_2 )
 |--
-  “ ((r + v ) <= INT_MAX) ”
+  “ ((retval + v ) <= INT_MAX) ”
 .
 
 Definition glibc_slist_clean_iter_back_safety_wit_3_split_goal_2 := 
-forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (ltail: (@list Z)) (x_next: Z) (r_2: Z) (retval: Z) (ltail_2: (@list Z)) (r: Z) (v: Z) (PreH1 : (safeExec ATrue (bind ((return ((maketuple (ltail_2) (r))))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (v)))) X_low_level_spec )) (PreH2 : (x_pre <> 0)) (PreH3 : (retval = r_2)) (PreH4 : (range ltail )) (PreH5 : (x_pre <> 0)) ,
-  ((( &( "x" ) )) # Ptr  |-> x_pre)
-  **  ((( &( "sum" ) )) # Int  |-> r)
+forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (v: Z) (ltail: (@list Z)) (x_next: Z) (l2: (@list Z)) (r: Z) (retval: Z) (PreH1 : (safeExec ATrue (bind ((return ((maketuple (l2) (r))))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (v)))) X_low_level_spec )) (PreH2 : (retval = r)) (PreH3 : (range ltail )) (PreH4 : (x_pre <> 0)) ,
+  (sll x_next l2 )
+  **  ((( &( "x" ) )) # Ptr  |-> x_pre)
   **  ((&((x_pre)  # "list" ->ₛ "data")) # Int  |-> v)
+  **  ((( &( "sum" ) )) # Int  |-> retval)
   **  ((&((x_pre)  # "list" ->ₛ "next")) # Ptr  |-> x_next)
-  **  (sll x_next ltail_2 )
 |--
-  “ ((INT_MIN) <= (r + v )) ”
+  “ ((INT_MIN) <= (retval + v )) ”
 .
 
 Definition glibc_slist_clean_iter_back_entail_wit_1 := 
@@ -131,46 +131,29 @@ forall (x_pre: Z) (l1_low_level_spec: (@list Z)) (X_low_level_spec: (((@list Z) 
   (range l0 )
 .
 
-Definition glibc_slist_clean_iter_back_entail_wit_2 := 
-forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (v_2: Z) (ltail: (@list Z)) (x_next: Z) (l2: (@list Z)) (r: Z) (retval: Z) (PreH1 : (safeExec ATrue (bind ((return ((maketuple (l2) (r))))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (v_2)))) X_low_level_spec )) (PreH2 : (retval = r)) (PreH3 : (range ltail )) (PreH4 : (x_pre <> 0)) ,
-  (sll x_next l2 )
-  **  ((&((x_pre)  # "list" ->ₛ "data")) # Int  |-> v_2)
-  **  ((&((x_pre)  # "list" ->ₛ "next")) # Ptr  |-> x_next)
-|--
-  EX (ltail_2: (@list Z))  (v: Z) ,
-  “ (safeExec ATrue (bind ((return ((maketuple (ltail_2) (retval))))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (v)))) X_low_level_spec ) ” 
-  &&  “ (x_pre <> 0) ” 
-  &&  “ (retval = r) ” 
-  &&  “ (range ltail ) ” 
-  &&  “ (x_pre <> 0) ”
-  &&  ((&((x_pre)  # "list" ->ₛ "data")) # Int  |-> v)
-  **  ((&((x_pre)  # "list" ->ₛ "next")) # Ptr  |-> x_next)
-  **  (sll x_next ltail_2 )
-.
-
 Definition glibc_slist_clean_iter_back_return_wit_1 := 
 (
-forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (ltail: (@list Z)) (x_next: Z) (r_3: Z) (retval: Z) (ltail_2: (@list Z)) (r_2: Z) (v: Z) (PreH1 : (safeExec ATrue (bind ((return ((maketuple (ltail_2) (r_2))))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (v)))) X_low_level_spec )) (PreH2 : (x_pre <> 0)) (PreH3 : (retval = r_3)) (PreH4 : (range ltail )) (PreH5 : (x_pre <> 0)) ,
-  ((&((x_pre)  # "list" ->ₛ "data")) # Int  |-> v)
+forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (v: Z) (ltail: (@list Z)) (x_next: Z) (l2_2: (@list Z)) (r_2: Z) (retval: Z) (PreH1 : (safeExec ATrue (bind ((return ((maketuple (l2_2) (r_2))))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (v)))) X_low_level_spec )) (PreH2 : (retval = r_2)) (PreH3 : (range ltail )) (PreH4 : (x_pre <> 0)) ,
+  (sll x_next l2_2 )
+  **  ((&((x_pre)  # "list" ->ₛ "data")) # Int  |-> v)
   **  ((&((x_pre)  # "list" ->ₛ "next")) # Ptr  |-> x_next)
-  **  (sll x_next ltail_2 )
 |--
   EX (l2: (@list Z))  (r: Z) ,
   “ (safeExec ATrue (return ((maketuple (l2) (r)))) X_low_level_spec ) ” 
-  &&  “ ((r_2 + v ) = r) ”
+  &&  “ ((retval + v ) = r) ”
   &&  (sll x_pre l2 )
 ) \/
 (
-forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (ltail: (@list Z)) (r_3: Z) (retval: Z) (ltail_2: (@list Z)) (r_2: Z) (v: Z) (PreH1 : (safeExec ATrue (bind ((return ((maketuple (ltail_2) (r_2))))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (v)))) X_low_level_spec )) (PreH2 : (x_pre <> 0)) (PreH3 : (retval = r_3)) (PreH4 : (range ltail )) (PreH5 : (x_pre <> 0)) ,
+forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (v: Z) (ltail: (@list Z)) (l2_2: (@list Z)) (r_2: Z) (retval: Z) (PreH1 : (safeExec ATrue (bind ((return ((maketuple (l2_2) (r_2))))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (v)))) X_low_level_spec )) (PreH2 : (retval = r_2)) (PreH3 : (range ltail )) (PreH4 : (x_pre <> 0)) ,
   TT && emp 
 |--
-  “ (safeExec ATrue (return ((maketuple ((cons (v) (ltail_2))) ((r_2 + v ))))) X_low_level_spec ) ”
+  “ (safeExec ATrue (return ((maketuple ((cons (v) (l2_2))) ((r_2 + v ))))) X_low_level_spec ) ”
   &&  emp
 ).
 
 Definition glibc_slist_clean_iter_back_return_wit_1_split_goal_1 := 
-forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (ltail: (@list Z)) (r_3: Z) (retval: Z) (ltail_2: (@list Z)) (r_2: Z) (v: Z) (PreH1 : (safeExec ATrue (bind ((return ((maketuple (ltail_2) (r_2))))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (v)))) X_low_level_spec )) (PreH2 : (x_pre <> 0)) (PreH3 : (retval = r_3)) (PreH4 : (range ltail )) (PreH5 : (x_pre <> 0)) ,
-  (safeExec ATrue (return ((maketuple ((cons (v) (ltail_2))) ((r_2 + v ))))) X_low_level_spec )
+forall (x_pre: Z) (X_low_level_spec: (((@list Z) * Z) -> (unit -> Prop))) (v: Z) (ltail: (@list Z)) (l2_2: (@list Z)) (r_2: Z) (retval: Z) (PreH1 : (safeExec ATrue (bind ((return ((maketuple (l2_2) (r_2))))) ((residual_prog_in_glibc_slist_clean_iter_back_M_call_1 (v)))) X_low_level_spec )) (PreH2 : (retval = r_2)) (PreH3 : (range ltail )) (PreH4 : (x_pre <> 0)) ,
+  (safeExec ATrue (return ((maketuple ((cons (v) (l2_2))) ((r_2 + v ))))) X_low_level_spec )
 .
 
 Definition glibc_slist_clean_iter_back_return_wit_2 := 
@@ -287,7 +270,6 @@ Axiom proof_of_glibc_slist_clean_iter_back_safety_wit_1 : glibc_slist_clean_iter
 Axiom proof_of_glibc_slist_clean_iter_back_safety_wit_2 : glibc_slist_clean_iter_back_safety_wit_2.
 Axiom proof_of_glibc_slist_clean_iter_back_safety_wit_3 : glibc_slist_clean_iter_back_safety_wit_3.
 Axiom proof_of_glibc_slist_clean_iter_back_entail_wit_1 : glibc_slist_clean_iter_back_entail_wit_1.
-Axiom proof_of_glibc_slist_clean_iter_back_entail_wit_2 : glibc_slist_clean_iter_back_entail_wit_2.
 Axiom proof_of_glibc_slist_clean_iter_back_return_wit_1 : glibc_slist_clean_iter_back_return_wit_1.
 Axiom proof_of_glibc_slist_clean_iter_back_return_wit_2 : glibc_slist_clean_iter_back_return_wit_2.
 Axiom proof_of_glibc_slist_clean_iter_back_partial_solve_wit_1_pure : glibc_slist_clean_iter_back_partial_solve_wit_1_pure.

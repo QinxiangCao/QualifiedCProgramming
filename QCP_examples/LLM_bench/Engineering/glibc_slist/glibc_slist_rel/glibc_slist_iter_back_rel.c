@@ -37,6 +37,5 @@ long glibc_slist_clean_iter_back(struct list *x)
 
     /*@ Assert exists v ltail, x == x@pre && range(ltail) && safeExec(ATrue, bind(glibc_slist_clean_iter_back_M(ltail), residual_prog_in_glibc_slist_clean_iter_back_M_call_1(v)), X) && x != 0 && x -> data == v && undef_data_at(&sum, long) * sll(x -> next, ltail) */
     sum = glibc_slist_clean_iter_back(x->next) /*@ where(low_level_spec_aux) X = X; B = (list Z * Z) */;
-    /*@ exists v ltail r, x == x@pre && safeExec(ATrue, bind(return(maketuple(ltail, r)), residual_prog_in_glibc_slist_clean_iter_back_M_call_1(v)), X) && sum == r && x != 0 && x -> data == v && sll(x -> next, ltail) */
     return sum + x->data;
 }

@@ -40,9 +40,6 @@ Proof. Admitted.
 Lemma proof_of_glibc_slist_clean_copy_safety_wit_4 : glibc_slist_clean_copy_safety_wit_4.
 Proof. Admitted. 
 
-Lemma proof_of_glibc_slist_clean_copy_entail_wit_3 : glibc_slist_clean_copy_entail_wit_3.
-Proof. Admitted. 
-
 Lemma proof_of_glibc_slist_clean_copy_partial_solve_wit_1 : glibc_slist_clean_copy_partial_solve_wit_1.
 Proof. Admitted. 
 

@@ -21,6 +21,111 @@ Require Import SimpleC.StdLib.string_lib.
 Require Import SimpleC.EE.LLM_bench.Algorithms.manacher.manacher_lib.
 Local Open Scope sac.
 
+Lemma expansion_seed_append : forall str s2 len p i r id limit maxId maxLen,
+  ManacherLoopState str s2 len p i id limit maxId maxLen ->
+  Zlength p = i -> CenterRadiusPalindrome s2 len i r ->
+  ExpansionLoopState str s2 len (p ++ r :: nil) i r id limit maxId maxLen.
+Proof.
+  intros str s2 len p i r id limit maxId maxLen Hloop Hlen Hpal.
+  unfold ExpansionLoopState. split.
+  - rewrite <- Hlen at 1. rewrite sublist_app_exact1. exact Hloop.
+  - split; [|exact Hpal]. rewrite app_Znth2 by lia.
+    replace (i - Zlength p) with 0 by lia. reflexivity.
+Qed.
+
+Lemma manacher_match_bounds : forall str s2 len i r,
+  ManacherTransformedString str s2 len ->
+  1 <= i < len -> 1 <= r -> 0 <= i - r -> i + r <= len ->
+  Znth (i - r) s2 0 = Znth (i + r) s2 0 ->
+  0 < i - r /\ i + r < len.
+Proof.
+  intros str s2 len i r Htrans Hi Hr Hl Hu Heq.
+  rewrite manacher_transformed_string_iff in Htrans.
+  destruct Htrans as [_ [_ [Hstart [_ [Hend [H36 [_ H0]]]]]]].
+  assert (Hright : i + r < len).
+  { destruct (Z.eq_dec (i + r) len); [|lia].
+    specialize (H0 (i - r) ltac:(lia)). rewrite e, Hend in Heq. congruence. }
+  split; [|exact Hright].
+  destruct (Z.eq_dec (i - r) 0); [|lia].
+  specialize (H36 (i + r) ltac:(lia)). rewrite e, Hstart in Heq. congruence.
+Qed.
+
+Lemma expansion_write_next : forall str s2 len p i r id limit maxId maxLen,
+  ExpansionLoopState str s2 len p i r id limit maxId maxLen ->
+  0 <= i < Zlength p -> 0 < i - r -> i + r < len ->
+  Znth (i - r) s2 0 = Znth (i + r) s2 0 ->
+  ExpansionLoopState str s2 len (replace_Znth i (r + 1) p)
+    i (r + 1) id limit maxId maxLen.
+Proof.
+  intros str s2 len p i r id limit maxId maxLen [Hloop [Hpi Hpal]] Hi Hl Hu Heq.
+  unfold ExpansionLoopState. split.
+  - assert (Hsub : sublist 0 i (replace_Znth i (r + 1) p) = sublist 0 i p).
+    { apply (proj2 (list_eq_ext _ _ 0)); split.
+      - repeat rewrite Zlength_sublist; try rewrite Zlength_replace_Znth; lia.
+      - intros k Hk. rewrite Zlength_sublist in Hk by (rewrite ?Zlength_replace_Znth; lia).
+        rewrite !Znth_sublist0 by lia. rewrite Znth_replace_Znth_Diff by lia.
+        reflexivity. }
+    rewrite Hsub. exact Hloop.
+  - split; [rewrite Znth_replace_Znth_Same by lia; reflexivity|].
+    unfold CenterRadiusPalindrome in *.
+    destruct Hpal as [Hcenter [Hradius [Hleft [Hright Hsym]]]].
+    repeat split; try lia. intros d Hd.
+    destruct (Z_lt_ge_dec d r); [apply Hsym; lia|].
+    assert (d = r) by lia. subst d. exact Heq.
+Qed.
+
+(* The proofs below reuse the former spatial cancellation and mathematical
+   arguments, with ranges extracted from array resources when needed. *)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lemma nonhash_sublist_length_mono : forall xs start cur finish,
+  0 <= start <= cur -> cur <= finish -> finish <= Zlength xs ->
+  Zlength (NonHashChars (sublist start cur xs)) <=
+  Zlength (NonHashChars (sublist start finish xs)).
+Proof.
+  intros xs start cur finish Hstart Hcur Hfinish.
+  rewrite (sublist_split start finish cur xs) by lia.
+  unfold NonHashChars. rewrite filter_app, Zlength_app.
+  pose proof (Zlength_nonneg (filter (fun z => negb (Z.eqb z 35)) (sublist cur finish xs))).
+  lia.
+Qed.
+
+
+
+
+
+
+
+
+
+
 Lemma proof_of_longestPalindrom_entail_wit_1 : longestPalindrom_entail_wit_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
@@ -50,6 +155,10 @@ Qed.
 Lemma proof_of_longestPalindrom_entail_wit_2 : longestPalindrom_entail_wit_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
+  prop_apply (CharArray.seg_Zlength &("s2") 0 (2 * i + 1 + 1 + 1)
+    ((s2_pre_2 ++ 35 :: nil) ++ Znth i (c_string str) 0 :: nil)).
+  Intros_p Hs2. rewrite !Zlength_app_cons in Hs2.
+  assert (Hprefix_len : Zlength s2_pre_2 = 2 * i + 1) by lia.
   Exists p_pre_2.
   Exists ((s2_pre_2 ++ 35 :: nil) ++ Znth i (c_string str) 0 :: nil).
   split_pure_spatial.
@@ -64,734 +173,285 @@ Proof.
     cancel (IntArray.seg &( "p") 0 1 p_pre_2).
     cancel (IntArray.undef_seg &( "p") 1 2003).
   - split_pures; dump_pre_spatial; auto; try lia.
-    + rewrite !Zlength_app_cons, PreH19. lia.
-    + replace (Znth i (c_string str) 0) with (Znth i str 0).
-      * apply manacher_transformed_prefix_append_char; auto.
-        unfold string_length in PreH5. lia.
+    replace (Znth i (c_string str) 0) with (Znth i str 0).
+      * eapply manacher_transformed_prefix_append_char; eauto.
+        unfold string_length in PreH4. lia.
       * unfold c_string. rewrite app_Znth1; auto.
-      unfold string_length in PreH5. lia.
-Qed. 
+      unfold string_length in PreH4. lia.
+Qed.
 
 Lemma proof_of_longestPalindrom_entail_wit_3 : longestPalindrom_entail_wit_3.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  Exists p_pre_2.
-  Exists ((s2_pre ++ 35 :: nil) ++ 0 :: nil).
-  split_pure_spatial.
-  - unfold store_string.
-    replace (2 * i + 2 + 1) with (2 * i + 1 + 1 + 1) by lia.
-    cancel (CharArray.full s_pre (string_length str + 1) (c_string str)).
-    cancel (CharArray.undef_full output_pre (n_pre + 1)).
-    cancel (CharArray.seg &( "s2") 0 (2 * i + 1 + 1 + 1)
-      ((s2_pre ++ 35 :: nil) ++ 0 :: nil)).
-    cancel (CharArray.undef_seg &( "s2") (2 * i + 1 + 1 + 1) 2003).
-    cancel (IntArray.seg &( "p") 0 1 p_pre_2).
-    cancel (IntArray.undef_seg &( "p") 1 2003).
-  - split_pures; dump_pre_spatial; auto; try lia.
-    + rewrite !Zlength_app_cons, PreH19. lia.
-    + apply manacher_transformed_prefix_close_string; auto.
-      unfold naive_C_Rules.string_length.
-      unfold string_length in PreH5.
-      lia.
-Qed. 
+  prop_apply (CharArray.seg_Zlength &("s2") 0 (2 * i + 1 + 1 + 1)
+    ((s2_pre ++ 35 :: nil) ++ 0 :: nil)).
+  Intros_p Hs2. rewrite !Zlength_app_cons in Hs2.
+  assert (Htrans : ManacherTransformedString str
+      ((s2_pre ++ 35 :: nil) ++ 0 :: nil) (2 * i + 2)).
+  { eapply manacher_transformed_prefix_close_string; eauto; try lia.
+    change (Zlength str = i). change (Zlength str = n_pre) in PreH4. lia. }
+  assert (Hstate : ManacherLoopState str
+      ((s2_pre ++ 35 :: nil) ++ 0 :: nil) (2 * i + 2) p_pre 1 0 0 0 0).
+  { unfold ManacherLoopState. split; [exact Htrans|].
+    split; [intros k Hk; lia|]. split; [intros Hlt; lia|].
+    rewrite best_radius_prefix_iff. repeat split; auto; intros; lia. }
+  Exists ((s2_pre ++ 35 :: nil) ++ 0 :: nil). Exists p_pre.
+  unfold store_string.
+  replace (2 * i + 2 + 1) with (2 * i + 1 + 1 + 1) by lia.
+  repeat (split_pure_spatial || split_pures);
+    try solve [repeat cancel | dump_pre_spatial; auto; lia].
+Qed.
 
 Lemma proof_of_longestPalindrom_entail_wit_4 : longestPalindrom_entail_wit_4.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  subst i id limit maxLen maxId j r mirror ret.
-  Exists p_pre.
-  Exists s2_full_2.
-  split_pure_spatial.
-  - cancel (store_string s_pre str).
-    cancel (CharArray.undef_full output_pre (n_pre + 1)).
-    cancel (CharArray.seg &( "s2") 0 (len + 1) s2_full_2).
-    cancel (CharArray.undef_seg &( "s2") (len + 1) 2003).
-    cancel (IntArray.seg &( "p") 0 1 p_pre).
-    cancel (IntArray.undef_seg &( "p") 1 2003).
-  - split_pures; dump_pre_spatial; simpl; auto; try lia.
-    unfold ManacherLoopState.
-    fold (ManacherTransformedString str s2_full_2 len).
-    fold (RadiusTablePrefix s2_full_2 len p_pre 1).
-    fold (CurrentRightmostWindow s2_full_2 len 0 0).
-    fold (BestRadiusPrefix s2_full_2 len p_pre 1 0 0).
-    split; [exact PreH19|].
-    split.
-    + unfold RadiusTablePrefix; repeat split; auto; try lia; try (intros; lia).
-    + split; [lia|].
-      split.
-      * unfold CurrentRightmostWindow; repeat split; try lia.
-      * unfold BestRadiusPrefix; repeat split; try lia; try (left; split; lia); try (intros; lia).
+  pose proof PreH22 as Hstate.
+  destruct PreH22 as [Ht [Hp [Hw Hb]]].
+  pose proof (Hw ltac:(lia)) as Hpal.
+  destruct Hpal as [_ [_ [Hleft _]]].
+  Exists s2_full_2. Exists p_cur_2. repeat (split_pure_spatial || split_pures);
+    try solve [repeat cancel | dump_pre_spatial; auto; lia].
 Qed.
 
-Lemma proof_of_longestPalindrom_entail_wit_5 : longestPalindrom_entail_wit_5.
+Lemma proof_of_longestPalindrom_entail_wit_5_1 : longestPalindrom_entail_wit_5_1.
 Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists p_cur_2.
-  Exists s2_full_2.
-  split_pure_spatial.
-  - cancel (store_string s_pre str).
-    cancel (CharArray.undef_full output_pre (n_pre + 1)).
-    cancel (CharArray.seg &( "s2") 0 (len + 1) s2_full_2).
-    cancel (CharArray.undef_seg &( "s2") (len + 1) 2003).
-    cancel (IntArray.seg &( "p") 0 i p_cur_2).
-    cancel (IntArray.undef_seg &( "p") i 2003).
-  - split_pures; dump_pre_spatial; simpl; auto; try lia.
-    all:
-      unfold ManacherLoopState, CurrentRightmostWindow, CenterRadiusPalindrome in PreH26;
-      destruct PreH26 as [_ [_ [[? ?] [Hwindow _]]]];
-      destruct Hwindow as [_ [_ Hwindow]];
-      assert (Hid_lt_limit : id < limit) by lia;
-      specialize (Hwindow Hid_lt_limit);
-      destruct Hwindow as [_ [_ [? _]]];
-      try change (0 <= 2 * id - i);
-      try change (2 * id - i < i);
-      lia.
+  LLM_pre_process ltac:(int_auto). replace (mirror - 0) with mirror in * by lia.
+  prop_apply (IntArray.seg_Zlength &("p") 0 (i + 1)
+    (p_cur ++ Znth mirror p_cur 0 :: nil)).
+  Intros_p Hplen. rewrite Zlength_app_cons in Hplen.
+  pose proof PreH24 as Hstate.
+  destruct PreH24 as [Ht [Hp [Hw Hb]]].
+  pose proof (Hw ltac:(lia)) as Hwin.
+  assert (Hmirpos : 0 < mirror) by (eapply manacher_mirror_positive; eauto; lia).
+  pose proof (Hp mirror ltac:(lia)) as Hmir.
+  rewrite center_radius_maximal_iff in Hmir. destruct Hmir as [Hmir _].
+  assert (Hrad : 1 <= Znth mirror p_cur 0) by
+    (unfold CenterRadiusPalindrome in Hmir; lia).
+  pose proof (manacher_mirror_candidate_inside str s2_full_2 len id limit i mirror
+    (Znth mirror p_cur 0) Ht PreH14 ltac:(lia) ltac:(lia) ltac:(lia)
+    Hwin Hmir ltac:(lia)) as [_ [_ [Hleft [Hright [Hpal _]]]]].
+  pose proof (expansion_seed_append str s2_full_2 len p_cur i (Znth mirror p_cur 0)
+    id limit maxId maxLen Hstate ltac:(lia) Hpal) as Hexp.
+  Exists s2_full_2. Exists (p_cur ++ Znth mirror p_cur 0 :: nil).
+  unfold store_string. repeat (split_pure_spatial || split_pures);
+    try solve [repeat cancel | dump_pre_spatial; auto; lia].
 Qed.
 
-Lemma proof_of_longestPalindrom_entail_wit_6_3 : longestPalindrom_entail_wit_6_3.
+Lemma proof_of_longestPalindrom_entail_wit_5_2 : longestPalindrom_entail_wit_5_2.
 Proof.
-  LLM_pre_process ltac:(int_auto).
-  pose proof PreH27 as Hloop_state.
-  destruct PreH27 as (Htrans & Hprefix & Hid_range & Hwindow & Hbest).
-  destruct Hprefix as (Hplen & Hi_range & Hprefix_max).
-  pose proof Hbest as Hbest_orig.
-  assert (Hcandidate: ExpansionCandidate s2_full_2 len i 1).
-  {
-    unfold ExpansionCandidate.
-    split; [lia|].
-    split; [lia|].
-    split; [lia|].
-    split; [lia|].
-    split.
-    - unfold CenterRadiusPalindrome.
-      repeat split; try lia.
-      intros d Hd.
-      replace d with 0 by lia.
-      replace (i - 0) with i by lia.
-      replace (i + 0) with i by lia.
-      reflexivity.
-    - intros Heq.
-      unfold ManacherTransformedString in Htrans.
-      destruct Htrans as (_ & _ & Hstart & _ & Hend & Hnot36 & _ & Hnonzero).
-      split.
-      + destruct (Z_lt_ge_dec (i + 1) len); [lia|].
-        assert (i + 1 = len) by lia.
-        assert (0 <= i - 1 < len) by lia.
-        specialize (Hnonzero (i - 1) H0).
-        replace (i + 1) with len in Heq by lia.
-        rewrite Hend in Heq.
-        congruence.
-      + destruct (Z_lt_ge_dec 0 (i - 1)); [lia|].
-        assert (i - 1 = 0) by lia.
-        assert (0 < i + 1 < len) by lia.
-        specialize (Hnot36 (i + 1) H0).
-        replace (i - 1) with 0 in Heq by lia.
-        rewrite Hstart in Heq.
-        congruence.
-  }
-  assert (Hp_len:
-    Zlength (p_cur ++ 1 :: nil) = i + 1).
-  {
-    rewrite Zlength_app, Hplen. simpl.
-    change (Zlength (1 :: nil)) with 1.
-    lia.
-  }
-  assert (Hp_sub:
-    sublist 0 i (p_cur ++ 1 :: nil) = p_cur).
-  {
-    replace i with (Zlength p_cur) by lia.
-    apply sublist_app_exact1.
-  }
-  assert (Hp_i:
-    Znth i (p_cur ++ 1 :: nil) 0 = 1).
-  {
-    rewrite app_Znth2 by lia.
-    replace (i - Zlength p_cur) with 0 by lia.
-    reflexivity.
-  }
-  assert (Hloop:
-    ExpansionLoopState str s2_full_2 len
-      (p_cur ++ 1 :: nil) i 1 id limit maxId maxLen).
-  {
-    unfold ExpansionLoopState.
-    split; [exact Hp_len|].
-    split.
-    - rewrite Hp_sub.
-      exact Hloop_state.
-    - split; [exact Hp_i|exact Hcandidate].
-  }
-  Exists (p_cur ++ 1 :: nil).
-  Exists s2_full_2.
-  split_pure_spatial.
-  - unfold store_string.
-    cancel (IntArray.seg &( "p") 0 (i + 1)
-      (p_cur ++ 1 :: nil)).
-    cancel (CharArray.full s_pre (string_length str + 1) (c_string str)).
-    cancel (CharArray.undef_full output_pre (n_pre + 1)).
-    cancel (CharArray.seg &( "s2") 0 (len + 1) s2_full_2).
-    cancel (CharArray.undef_seg &( "s2") (len + 1) 2003).
-    cancel (IntArray.undef_seg &( "p") (i + 1) 2003).
-  - split_pures; dump_pre_spatial; auto; try lia.
-Qed. 
+  LLM_pre_process ltac:(int_auto). replace (mirror - 0) with mirror in * by lia.
+  prop_apply (IntArray.seg_Zlength &("p") 0 (i + 1) (p_cur ++ (limit - i) :: nil)).
+  Intros_p Hplen. rewrite Zlength_app_cons in Hplen.
+  pose proof PreH24 as Hstate.
+  destruct PreH24 as [Ht [Hp [Hw Hb]]].
+  pose proof (Hw ltac:(lia)) as Hwin.
+  assert (Hmirpos : 0 < mirror) by (eapply manacher_mirror_positive; eauto; lia).
+  pose proof (Hp mirror ltac:(lia)) as Hmir.
+  rewrite center_radius_maximal_iff in Hmir. destruct Hmir as [Hmir _].
+  pose proof (manacher_mirror_candidate_at_limit str s2_full_2 len id limit i mirror
+    (Znth mirror p_cur 0) Ht PreH14 ltac:(lia) ltac:(lia) ltac:(lia)
+    Hwin Hmir PreH1) as [_ [_ [Hleft [Hright [Hpal _]]]]].
+  pose proof (expansion_seed_append str s2_full_2 len p_cur i (limit - i)
+    id limit maxId maxLen Hstate ltac:(lia) Hpal) as Hexp.
+  Exists s2_full_2. Exists (p_cur ++ (limit - i) :: nil).
+  unfold store_string. repeat (split_pure_spatial || split_pures);
+    try solve [repeat cancel | dump_pre_spatial; auto; lia].
+Qed.
 
-Lemma proof_of_longestPalindrom_entail_wit_6_2 : longestPalindrom_entail_wit_6_2.
+Lemma proof_of_longestPalindrom_entail_wit_5_3 : longestPalindrom_entail_wit_5_3.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  pose proof PreH22 as H20_orig.
-  destruct PreH22 as (Htrans & Hprefix & Hid_range & Hwindow & Hbest).
-  destruct Hprefix as (Hplen & Hi_range & Hprefix_max).
-  destruct Hwindow as (Hid_len & Hlimit_range & Hwindow_pal).
-  pose proof Hbest as Hbest_orig.
-  destruct Hbest as (Hbest_range & HmaxLen_nonneg & HmaxId_range & Hbest_pal & Hbest_le & Hbest_attain).
-  pose proof (Hwindow_pal ltac:(lia)) as Hwin_pal.
-  assert (Hmirror_pos : 0 < mirror).
-  {
-    eapply manacher_mirror_positive; eauto; lia.
-  }
-  pose proof (Hprefix_max mirror ltac:(lia)) as Hmirror_max.
-  destruct Hmirror_max as (Hmirror_pal & Hmirror_stop).
-  assert (Hcandidate:
-    ExpansionCandidate s2_full_2 len i (limit - i)).
-  {
-    replace (Znth (mirror - 0) p_cur 0) with (Znth mirror p_cur 0) in PreH1
-      by (replace (mirror - 0) with mirror by lia; reflexivity).
-    eapply manacher_mirror_candidate_at_limit; eauto; lia.
-  }
-  assert (Hp_len:
-    Zlength (p_cur ++ limit - i :: nil) = i + 1).
-  {
-    rewrite Zlength_app, Hplen. simpl.
-    change (Zlength (limit - i :: nil)) with 1.
-    lia.
-  }
-  assert (Hp_sub:
-    sublist 0 i (p_cur ++ limit - i :: nil) = p_cur).
-  {
-    replace i with (Zlength p_cur) by lia.
-    apply sublist_app_exact1.
-  }
-  assert (Hp_i:
-    Znth i (p_cur ++ limit - i :: nil) 0 = limit - i).
-  {
-    rewrite app_Znth2 by lia.
-    replace (i - Zlength p_cur) with 0 by lia.
-    reflexivity.
-  }
-  assert (Hloop:
-    ExpansionLoopState str s2_full_2 len
-      (p_cur ++ limit - i :: nil) i
-      (limit - i) id limit maxId maxLen).
-  {
-    unfold ExpansionLoopState.
-    split; [exact Hp_len|].
-    split.
-    - rewrite Hp_sub.
-      exact H20_orig.
-    - split; [exact Hp_i|exact Hcandidate].
-  }
-  Exists (p_cur ++ limit - i :: nil).
-  Exists s2_full_2.
-  split_pure_spatial.
-  - unfold store_string.
-    cancel (IntArray.seg &( "p") 0 (i + 1) (p_cur ++ limit - i :: nil)).
-    cancel (CharArray.full s_pre (string_length str + 1) (c_string str)).
-    cancel (CharArray.undef_full output_pre (n_pre + 1)).
-    cancel (CharArray.seg &( "s2") 0 (len + 1) s2_full_2).
-    cancel (CharArray.undef_seg &( "s2") (len + 1) 2003).
-    cancel (IntArray.undef_seg &( "p") (i + 1) 2003).
-  - split_pures; dump_pre_spatial; auto; try lia.
-    + eapply best_radius_prefix_maxLen_bound; [exact Hbest_orig|exact PreH8].
-    + unfold ExpansionCandidate in Hcandidate; tauto.
-Qed. 
+  prop_apply (IntArray.seg_Zlength &("p") 0 (i + 1) (p_cur ++ 1 :: nil)).
+  Intros_p Hplen. rewrite Zlength_app_cons in Hplen.
+  assert (Hpal : CenterRadiusPalindrome s2_full_2 len i 1).
+  { unfold CenterRadiusPalindrome. repeat split; try lia.
+    intros d Hd. assert (d = 0) by lia. subst d.
+    replace (i - 0) with i by lia. replace (i + 0) with i by lia. reflexivity. }
+  pose proof (expansion_seed_append str s2_full_2 len p_cur i 1
+    id limit maxId maxLen PreH23 ltac:(lia) Hpal) as Hexp.
+  Exists s2_full_2. Exists (p_cur ++ 1 :: nil).
+  unfold store_string. repeat (split_pure_spatial || split_pures);
+    try solve [repeat cancel | dump_pre_spatial; auto; lia].
+Qed.
 
-Lemma proof_of_longestPalindrom_entail_wit_6_1 : longestPalindrom_entail_wit_6_1.
+Lemma proof_of_longestPalindrom_entail_wit_6 : longestPalindrom_entail_wit_6.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  pose proof PreH22 as Hloop_state.
-  destruct PreH22 as (Htrans & Hprefix & Hid_range & Hwindow & Hbest).
-  destruct Hprefix as (Hplen & Hi_range & Hprefix_max).
-  destruct Hwindow as (Hid_len & Hlimit_range & Hwindow_pal).
-  pose proof Hbest as Hbest_orig.
-  destruct Hbest as (Hbest_range & HmaxLen_nonneg & HmaxId_range & Hbest_pal & Hbest_le & Hbest_attain).
-  pose proof (Hwindow_pal ltac:(lia)) as Hwin_pal.
-  assert (Hmirror_pos : 0 < mirror).
-  {
-    eapply manacher_mirror_positive; eauto; lia.
-  }
-  pose proof (Hprefix_max mirror ltac:(lia)) as Hmirror_max.
-  destruct Hmirror_max as (Hmirror_pal & Hmirror_stop).
-  pose proof Hmirror_pal as Hmirror_pal_copy.
-  unfold CenterRadiusPalindrome in Hmirror_pal_copy.
-  destruct Hmirror_pal_copy as (_ & Hmirror_radius_pos & _ & _ & _).
-  assert (Hcandidate:
-    ExpansionCandidate s2_full_2 len i (Znth (mirror - 0) p_cur 0)).
-  {
-    replace (Znth (mirror - 0) p_cur 0) with (Znth mirror p_cur 0)
-      by (replace (mirror - 0) with mirror by lia; reflexivity).
-    eapply (manacher_mirror_candidate_inside
-      str s2_full_2 len id limit i mirror (Znth mirror p_cur 0)).
-    - exact Htrans.
-    - exact PreH14.
-    - lia.
-    - lia.
-    - lia.
-    - exact Hwin_pal.
-    - exact Hmirror_pal.
-    - split; [exact Hmirror_radius_pos|].
-      replace (Znth mirror p_cur 0) with (Znth (mirror - 0) p_cur 0)
-        by (replace (mirror - 0) with mirror by lia; reflexivity).
-      exact PreH1.
-  }
-  assert (Hp_len:
-    Zlength (p_cur ++ Znth (mirror - 0) p_cur 0 :: nil) = i + 1).
-  {
-    rewrite Zlength_app, Hplen. simpl.
-    change (Zlength (Znth (mirror - 0) p_cur 0 :: nil)) with 1.
-    lia.
-  }
-  assert (Hp_sub:
-    sublist 0 i (p_cur ++ Znth (mirror - 0) p_cur 0 :: nil) = p_cur).
-  {
-    replace i with (Zlength p_cur) by lia.
-    apply sublist_app_exact1.
-  }
-  assert (Hp_i:
-    Znth i (p_cur ++ Znth (mirror - 0) p_cur 0 :: nil) 0 =
-    Znth (mirror - 0) p_cur 0).
-  {
-    rewrite app_Znth2 by lia.
-    replace (i - Zlength p_cur) with 0 by lia.
-    reflexivity.
-  }
-  assert (Hloop:
-    ExpansionLoopState str s2_full_2 len
-      (p_cur ++ Znth (mirror - 0) p_cur 0 :: nil) i
-      (Znth (mirror - 0) p_cur 0) id limit maxId maxLen).
-  {
-    unfold ExpansionLoopState.
-    split; [exact Hp_len|].
-    split.
-    - rewrite Hp_sub.
-      exact Hloop_state.
-    - split; [exact Hp_i|exact Hcandidate].
-  }
-  assert (Hcandidate_left : 0 <= i - Znth (mirror - 0) p_cur 0).
-  {
-    pose proof Hcandidate as Hcandidate_copy.
-    unfold ExpansionCandidate in Hcandidate_copy.
-    tauto.
-  }
-  Exists (p_cur ++ Znth (mirror - 0) p_cur 0 :: nil).
-  Exists s2_full_2.
+  assert (Ht : ManacherTransformedString str s2_full_2 len) by
+    (destruct PreH25 as [[Ht _] _]; exact Ht).
+  replace (i + r - 0) with (i + r) in PreH1 by lia.
+  replace (i - r - 0) with (i - r) in PreH1 by lia.
+  pose proof (manacher_match_bounds str s2_full_2 len i r Ht
+    ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia) ltac:(symmetry; exact PreH1))
+    as [Hl Hu].
+
+  prop_apply (IntArray.full_Zlength &("p") (i + 1)
+    (replace_Znth i (r + 1) p_written_2)).
+  Intros_p Hplen. rewrite Zlength_replace_Znth in Hplen.
+  pose proof (expansion_write_next str s2_full_2 len p_written_2 i r
+    id limit maxId maxLen PreH25 ltac:(lia) Hl Hu ltac:(symmetry; exact PreH1)) as Hexp.
+  Exists s2_full_2. Exists (replace_Znth i (r + 1) p_written_2).
+  unfold store_string.
   split_pure_spatial.
-  - unfold store_string.
-    cancel (CharArray.full s_pre (string_length str + 1) (c_string str)).
+  - cancel (CharArray.full s_pre (string_length str + 1) (c_string str)).
     cancel (CharArray.undef_full output_pre (n_pre + 1)).
-    cancel (CharArray.seg &( "s2") 0 (len + 1) s2_full_2).
-    cancel (CharArray.undef_seg &( "s2") (len + 1) 2003).
-    cancel (IntArray.seg &( "p") 0 (i + 1) (p_cur ++ Znth (mirror - 0) p_cur 0 :: nil)).
-    cancel (IntArray.undef_seg &( "p") (i + 1) 2003).
-  - split_pures; dump_pre_spatial; simpl; auto; try lia.
-    + replace (mirror - 0) with mirror by lia.
-      exact Hmirror_radius_pos.
-    + eapply best_radius_prefix_maxLen_bound; [exact Hbest_orig|exact PreH8].
+    cancel (CharArray.seg &("s2") 0 (len + 1) s2_full_2).
+    cancel (CharArray.undef_seg &("s2") (len + 1) 2003).
+    cancel (IntArray.undef_seg &("p") (i + 1) 2003).
+    apply IntArray.full_to_seg.
+  - split_pures; dump_pre_spatial; auto; lia.
+Qed.
+
+Lemma proof_of_longestPalindrom_entail_wit_7_1 : longestPalindrom_entail_wit_7_1.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  destruct PreH27 as [Hloop [Hpi Hpal]].
+  replace (i + r - 0) with (i + r) in PreH3 by lia.
+  replace (i - r - 0) with (i - r) in PreH3 by lia.
+  pose proof (manacher_loop_step str s2_full_2 len p_written i r id limit maxId maxLen
+    Hloop Hpal PreH3 Hpi PreH10) as Hnext.
+  destruct (Z_lt_dec limit (i + r)) in Hnext; try lia;
+    destruct (Z_lt_dec maxLen (r - 1)) in Hnext; try lia.
+  Exists s2_full_2. Exists p_written.
+  unfold store_string.
+  repeat (split_pure_spatial || split_pures);
+    try solve [repeat cancel | dump_pre_spatial; auto; lia].
+Qed.
+
+Lemma proof_of_longestPalindrom_entail_wit_7_2 : longestPalindrom_entail_wit_7_2.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  destruct PreH27 as [Hloop [Hpi Hpal]].
+  replace (i + r - 0) with (i + r) in PreH3 by lia.
+  replace (i - r - 0) with (i - r) in PreH3 by lia.
+  pose proof (manacher_loop_step str s2_full_2 len p_written i r id limit maxId maxLen
+    Hloop Hpal PreH3 Hpi PreH10) as Hnext.
+  destruct (Z_lt_dec limit (i + r)) in Hnext; try lia;
+    destruct (Z_lt_dec maxLen (r - 1)) in Hnext; try lia.
+  Exists s2_full_2. Exists p_written.
+  unfold store_string.
+  repeat (split_pure_spatial || split_pures);
+    try solve [repeat cancel | dump_pre_spatial; auto; lia].
+Qed.
+
+Lemma proof_of_longestPalindrom_entail_wit_7_3 : longestPalindrom_entail_wit_7_3.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  destruct PreH27 as [Hloop [Hpi Hpal]].
+  replace (i + r - 0) with (i + r) in PreH3 by lia.
+  replace (i - r - 0) with (i - r) in PreH3 by lia.
+  pose proof (manacher_loop_step str s2_full_2 len p_written i r id limit maxId maxLen
+    Hloop Hpal PreH3 Hpi PreH10) as Hnext.
+  destruct (Z_lt_dec limit (i + r)) in Hnext; try lia;
+    destruct (Z_lt_dec maxLen (r - 1)) in Hnext; try lia.
+  Exists s2_full_2. Exists p_written.
+  unfold store_string.
+  repeat (split_pure_spatial || split_pures);
+    try solve [repeat cancel | dump_pre_spatial; auto; lia].
+Qed.
+
+Lemma proof_of_longestPalindrom_entail_wit_7_4 : longestPalindrom_entail_wit_7_4.
+Proof.
+  LLM_pre_process ltac:(int_auto).
+  destruct PreH27 as [Hloop [Hpi Hpal]].
+  replace (i + r - 0) with (i + r) in PreH3 by lia.
+  replace (i - r - 0) with (i - r) in PreH3 by lia.
+  pose proof (manacher_loop_step str s2_full_2 len p_written i r id limit maxId maxLen
+    Hloop Hpal PreH3 Hpi PreH10) as Hnext.
+  destruct (Z_lt_dec limit (i + r)) in Hnext; try lia;
+    destruct (Z_lt_dec maxLen (r - 1)) in Hnext; try lia.
+  Exists s2_full_2. Exists p_written.
+  unfold store_string.
+  repeat (split_pure_spatial || split_pures);
+    try solve [repeat cancel | dump_pre_spatial; auto; lia].
 Qed.
 
 Lemma proof_of_longestPalindrom_entail_wit_8 : longestPalindrom_entail_wit_8.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  Exists p_written_2.
-  Exists s2_full_2.
-  split_pure_spatial.
-  - cancel (CharArray.seg &( "s2") 0 (len + 1) s2_full_2).
-    cancel (CharArray.undef_seg &( "s2") (len + 1) 2003).
-    cancel (IntArray.seg &( "p") 0 (i + 1) p_written_2).
-    cancel (IntArray.undef_seg &( "p") (i + 1) 2003).
-    cancel (CharArray.undef_full output_pre (n_pre + 1)).
-    unfold store_string.
-    cancel (CharArray.full s_pre (string_length str + 1) (c_string str)).
-  - split_pures; dump_pre_spatial; simpl; auto; try lia.
-    all: assert (Hmatch_bounds: i + r < len /\ 0 < i - r) by
-      (unfold ExpansionCandidate in PreH30;
-       destruct PreH30 as [_ [_ [_ [_ [_ Hnext]]]]];
-       apply Hnext;
-       replace (i - r) with (i - r - 0) by lia;
-       replace (i + r) with (i + r - 0) by lia;
-        symmetry; exact PreH1).
-    all: destruct Hmatch_bounds as [Hrlt Hrpos].
-    + exact Hrpos.
-    + exact Hrlt.
-    + unfold ExpansionAfterMatch.
-      split; [exact PreH30|].
-      split; [exact Hrlt|].
-      split; [exact Hrpos|].
-      replace (i - r) with (i - r - 0) by lia.
-      replace (i + r) with (i + r - 0) by lia.
-      symmetry; exact PreH1.
-Qed.
-
-Lemma proof_of_longestPalindrom_entail_wit_9 : longestPalindrom_entail_wit_9.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists (replace_Znth i (r + 1) p_written_2).
-  Exists s2_full_2.
-  split_pure_spatial.
-  - cancel (CharArray.seg &( "s2") 0 (len + 1) s2_full_2).
-    cancel (CharArray.undef_seg &( "s2") (len + 1) 2003).
-    cancel (IntArray.undef_seg &( "p") (i + 1) 2003).
-    cancel (CharArray.undef_full output_pre (n_pre + 1)).
-    unfold store_string.
-    cancel (CharArray.full s_pre (string_length str + 1) (c_string str)).
-    apply IntArray.full_to_seg.
-  - split_pures; dump_pre_spatial; simpl; auto; try lia.
-    all:
-      unfold ExpansionAfterMatch in PreH29;
-      destruct PreH29 as [Hcand_r [Hrlt [Hrpos Heq_r]]].
-    + rewrite Zlength_replace_Znth, PreH27; reflexivity.
-    + unfold ExpansionLoopState in *.
-      destruct PreH28 as [Hlen_written [Hloop [Hzr _]]].
-      split.
-       * rewrite Zlength_replace_Znth, PreH27; reflexivity.
-      * split.
-        -- replace (sublist 0 i (replace_Znth i (r + 1) p_written_2))
-             with (sublist 0 i p_written_2).
-           ++ exact Hloop.
-           ++ apply (proj2 (list_eq_ext _ _ 0)); split.
-              ** repeat rewrite Zlength_sublist; try lia.
-                  rewrite Zlength_replace_Znth, PreH27; lia.
-              ** intros k Hk.
-                 assert (Hk_i: 0 <= k < i).
-                 {
-                   rewrite Zlength_sublist in Hk; try lia.
-                 }
-                 rewrite Znth_sublist0 by lia.
-                 rewrite Znth_sublist0 by lia.
-                 rewrite Znth_replace_Znth_Diff; try lia.
-        -- split.
-           ++ rewrite Znth_replace_Znth_Same; try lia.
-           ++ unfold ExpansionCandidate in Hcand_r.
-              destruct Hcand_r as [Hci [Hr1 [Hleft [Hcand_right [Hcenter _]]]]].
-              unfold CenterRadiusPalindrome in Hcenter.
-              destruct Hcenter as [_ [_ [Hcenter_l [Hcenter_r Hpal]]]].
-              unfold ExpansionCandidate, CenterRadiusPalindrome.
-              split; [lia|].
-              split; [lia|].
-              split; [lia|].
-              split; [lia|].
-              split.
-              ** split; [lia|].
-                 split; [lia|].
-                 split; [lia|].
-                 split; [lia|].
-                 intros d Hd.
-                 destruct (Z_lt_ge_dec d r) as [Hdr | Hdr].
-                 --- apply Hpal; lia.
-                 --- assert (d = r) by lia.
-                     subst d.
-                     exact Heq_r.
-              ** intro Heq_next.
-                 unfold ManacherLoopState, ManacherTransformedString in Hloop.
-                 destruct Hloop as [Htrans _].
-                 destruct Htrans as [_ [_ [Hs0 [_ [Hsend [Hnot36 [_ Hnot0]]]]]]].
-                 assert (Hrnext: i + (r + 1) < len).
-                 {
-                   destruct (Z.eq_dec (i + (r + 1)) len) as [Hend | ?]; [|lia].
-                     assert (Hright: Znth (i + (r + 1)) s2_full_2 0 = 0) by
-                       (rewrite Hend; exact Hsend).
-                     assert (Hleft_in: 0 <= i - (r + 1) < len) by lia.
-                     specialize (Hnot0 (i - (r + 1)) Hleft_in).
-                     congruence.
-                 }
-                 assert (Hlnext: 0 < i - (r + 1)).
-                 {
-                   destruct (Z.eq_dec (i - (r + 1)) 0) as [Hstart | ?]; [|lia].
-                     assert (Hleft0: Znth (i - (r + 1)) s2_full_2 0 = 36) by
-                       (rewrite Hstart; exact Hs0).
-                     assert (Hright_in: 0 < i + (r + 1) < len) by lia.
-                     specialize (Hnot36 (i + (r + 1)) Hright_in).
-                     congruence.
-                 }
-                 split; assumption.
-    + unfold ExpansionCandidate in Hcand_r.
-      destruct Hcand_r as [Hci [Hr1 [Hleft [Hcand_right [Hcenter _]]]]].
-      unfold CenterRadiusPalindrome in Hcenter.
-      destruct Hcenter as [_ [_ [Hcenter_l [Hcenter_r Hpal]]]].
-      unfold ExpansionLoopState in PreH28.
-      destruct PreH28 as [_ [Hloop _]].
-      unfold ExpansionCandidate, CenterRadiusPalindrome.
-      split; [lia|].
-      split; [lia|].
-      split; [lia|].
-      split; [lia|].
-      split.
-      * split; [lia|].
-        split; [lia|].
-        split; [lia|].
-        split; [lia|].
-        intros d Hd.
-        destruct (Z_lt_ge_dec d r) as [Hdr | Hdr].
-        -- apply Hpal; lia.
-        -- assert (d = r) by lia.
-           subst d.
-           exact Heq_r.
-      * intro Heq_next.
-        unfold ManacherLoopState, ManacherTransformedString in Hloop.
-        destruct Hloop as [Htrans _].
-        destruct Htrans as [_ [_ [Hs0 [_ [Hsend [Hnot36 [_ Hnot0]]]]]]].
-        assert (Hrnext: i + (r + 1) < len).
-        {
-          destruct (Z.eq_dec (i + (r + 1)) len) as [Hend | ?]; [|lia].
-           assert (Hright: Znth (i + (r + 1)) s2_full_2 0 = 0) by
-             (rewrite Hend; exact Hsend).
-           assert (Hleft_in: 0 <= i - (r + 1) < len) by lia.
-           specialize (Hnot0 (i - (r + 1)) Hleft_in).
-           congruence.
-        }
-        assert (Hlnext: 0 < i - (r + 1)).
-        {
-          destruct (Z.eq_dec (i - (r + 1)) 0) as [Hstart | ?]; [|lia].
-           assert (Hleft0: Znth (i - (r + 1)) s2_full_2 0 = 36) by
-             (rewrite Hstart; exact Hs0).
-           assert (Hright_in: 0 < i + (r + 1) < len) by lia.
-           specialize (Hnot36 (i + (r + 1)) Hright_in).
-           congruence.
-        }
-        split; assumption.
-Qed.
-
-Lemma proof_of_longestPalindrom_entail_wit_10_4 : longestPalindrom_entail_wit_10_4.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists p_written.
-  Exists s2_full_2.
-  split_pure_spatial.
-  - unfold store_string.
-    cancel (CharArray.full s_pre (string_length str + 1) (c_string str)).
-    cancel (CharArray.undef_full output_pre (n_pre + 1)).
-    cancel (CharArray.seg &( "s2") 0 (len + 1) s2_full_2).
-    cancel (CharArray.undef_seg &( "s2") (len + 1) 2003).
-    cancel (IntArray.seg &( "p") 0 (i + 1) p_written).
-    cancel (IntArray.undef_seg &( "p") (i + 1) 2003).
-  - split_pures.
-    all: try (dump_pre_spatial; auto; try lia).
-    destruct PreH31 as [HpLen [HLoop [HpI Hcand]]].
-    eapply manacher_best_radius_keep_after_mismatch; eauto.
-Qed. 
-
-Lemma proof_of_longestPalindrom_entail_wit_10_3 : longestPalindrom_entail_wit_10_3.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists p_written.
-  Exists s2_full_2.
-  split_pure_spatial.
-  - unfold store_string.
-    cancel (CharArray.full s_pre (string_length str + 1) (c_string str)).
-    cancel (CharArray.undef_full output_pre (n_pre + 1)).
-    cancel (CharArray.seg &( "s2") 0 (len + 1) s2_full_2).
-    cancel (CharArray.undef_seg &( "s2") (len + 1) 2003).
-    cancel (IntArray.seg &( "p") 0 (i + 1) p_written).
-    cancel (IntArray.undef_seg &( "p") (i + 1) 2003).
-  - split_pures.
-    all: try (dump_pre_spatial; auto; try lia).
-    destruct PreH31 as [HpLen [HLoop [HpI Hcand]]].
-    eapply manacher_best_radius_keep_after_mismatch_new_window; eauto.
-Qed. 
-
-Lemma proof_of_longestPalindrom_entail_wit_10_2 : longestPalindrom_entail_wit_10_2.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists p_written. Exists s2_full_2.
-  split_pure_spatial.
-  - unfold store_string.
-    cancel (CharArray.seg &( "s2") 0 (len + 1) s2_full_2).
-    cancel (CharArray.full s_pre (string_length str + 1) (c_string str)).
-    cancel (CharArray.undef_full output_pre (n_pre + 1)).
-    cancel (CharArray.undef_seg &( "s2") (len + 1) 2003).
-    cancel (IntArray.seg &( "p") 0 (i + 1) p_written).
-    cancel (IntArray.undef_seg &( "p") (i + 1) 2003).
-  - split_pures; dump_pre_spatial; try lia; try auto.
-    eapply (expansion_loop_best_update_inside
-      str s2_full_2 len p_written i r id limit maxId maxLen);
-      try exact PreH31; eauto; lia.
-Qed. 
-
-Lemma proof_of_longestPalindrom_entail_wit_10_1 : longestPalindrom_entail_wit_10_1.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists p_written. Exists s2_full_2.
-  split_pure_spatial.
-  - unfold store_string.
-    cancel (CharArray.seg &( "s2") 0 (len + 1) s2_full_2).
-    cancel (CharArray.full s_pre (string_length str + 1) (c_string str)).
-    cancel (CharArray.undef_full output_pre (n_pre + 1)).
-    cancel (CharArray.undef_seg &( "s2") (len + 1) 2003).
-    cancel (IntArray.seg &( "p") 0 (i + 1) p_written).
-    cancel (IntArray.undef_seg &( "p") (i + 1) 2003).
-  - split_pures; dump_pre_spatial; try lia; try auto.
-    eapply (expansion_loop_best_update_extend
-      str s2_full_2 len p_written i r id limit maxId maxLen);
-      try exact PreH31; eauto; lia.
-Qed. 
-
-Lemma proof_of_longestPalindrom_entail_wit_11 : longestPalindrom_entail_wit_11.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists p_next.
-  Exists s2_full_2.
-  split_pure_spatial.
-  - cancel (store_string s_pre str).
-    cancel (CharArray.undef_full output_pre (n_pre + 1)).
-    cancel (CharArray.seg &( "s2") 0 (len + 1) s2_full_2).
-    cancel (CharArray.undef_seg &( "s2") (len + 1) 2003).
-    cancel (IntArray.seg &( "p") 0 i p_next).
-    cancel (IntArray.undef_seg &( "p") i 2003).
-  - split_pures; dump_pre_spatial; simpl; auto; try lia.
-    all:
-      match goal with
-      | Hstate : ManacherLoopState _ _ _ _ _ _ _ _ _ |- _ =>
-          unfold ManacherLoopState, CurrentRightmostWindow in Hstate;
-          destruct Hstate as [_ [_ [[? ?] [[? ?] _]]]]
-      end;
-      lia.
-Qed.
-
-Lemma proof_of_longestPalindrom_entail_wit_12 : longestPalindrom_entail_wit_12.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  assert (Hi_len : i = len) by lia.
-  pose proof PreH25 as Hstate_len.
-  rewrite Hi_len in Hstate_len.
+  assert (Hi : i = len) by lia. subst i.
   pose proof (manacher_final_selected_window_bounds
-    str s2_full_2 p_cur len id limit maxId maxLen n_pre PreH4 PreH5 PreH7 Hstate_len)
-    as [HmaxLen_pos [Hstart_nonneg Hend_lt]].
+    str s2_full_2 p_cur len id limit maxId maxLen n_pre
+    PreH3 PreH4 PreH6 PreH21) as [Hpositive [Hleft Hright]].
+  pose proof (manacher_selected_window_nonhash_length
+    str s2_full_2 len p_cur id limit maxId maxLen n_pre
+    PreH2 PreH3 PreH4 PreH6 PreH21) as Hcopy_len.
+  assert (Hcopy : OutputCopyPrefix s2_full_2
+    (NonHashChars (sublist (maxId - maxLen) (maxId + maxLen + 1) s2_full_2))
+    (maxId - maxLen) (maxId + maxLen + 1) maxLen).
+  { split; [reflexivity|symmetry; exact Hcopy_len]. }
+  pose proof (manacher_longest_result_from_final_prefix
+    str s2_full_2 len p_cur id limit maxId maxLen n_pre _
+    PreH2 PreH3 PreH4 PreH6 PreH21 Hcopy) as Hresult.
+  assert (Hempty : OutputCopyPrefix s2_full_2 nil (maxId - maxLen) (maxId - maxLen) 0).
+  { unfold OutputCopyPrefix. rewrite Zsublist_nil by lia. split; reflexivity. }
   Exists p_cur. Exists s2_full_2. Exists (@nil Z).
-  split_pure_spatial.
-  - unfold store_string.
-    cancel (CharArray.full s_pre (string_length str + 1) (c_string str)).
-    cancel (CharArray.undef_full output_pre (n_pre + 1)).
-    cancel (CharArray.seg &( "s2") 0 (len + 1) s2_full_2).
-    cancel (CharArray.undef_seg &( "s2") (len + 1) 2003).
-    rewrite Hi_len.
-    cancel (IntArray.seg &( "p") 0 len p_cur).
-    cancel (IntArray.undef_seg &( "p") len 2003).
-  - split_pures; try solve [dump_pre_spatial; eauto; lia].
-    + dump_pre_spatial.
-      apply output_copy_prefix_nil; lia.
-    + dump_pre_spatial.
-      intros cur Hcur.
-      eapply (manacher_output_copy_bound_from_selected_window
-        str s2_full_2 len p_cur id limit maxId maxLen n_pre cur); eauto.
+  sep_apply (char_undef_full_to_full0_undef output_pre (n_pre + 1) ltac:(lia)).
+  repeat (split_pure_spatial || split_pures);
+    try solve [repeat cancel | dump_pre_spatial; auto; lia].
 Qed.
 
-Lemma proof_of_longestPalindrom_entail_wit_13 : longestPalindrom_entail_wit_13.
+Lemma proof_of_longestPalindrom_entail_wit_9_1 : longestPalindrom_entail_wit_9_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  subst j. subst out_pre.
-  Exists p_done_2. Exists s2_full_2. Exists nil.
-  split_pure_spatial.
-  - sep_apply (char_undef_full_to_full0_undef output_pre (n_pre + 1) ltac:(lia)).
-    cancel (store_string s_pre str).
-    cancel (CharArray.full output_pre 0 nil).
-    cancel (CharArray.undef_seg output_pre 0 (n_pre + 1)).
-    cancel (CharArray.seg &( "s2") 0 (len + 1) s2_full_2).
-    cancel (CharArray.undef_seg &( "s2") (len + 1) 2003).
-    cancel (IntArray.seg &( "p") 0 len p_done_2).
-    cancel (IntArray.undef_seg &( "p") len 2003).
-  - split_pures; try solve [dump_pre_spatial; eauto; lia].
-Qed.
-
-Lemma proof_of_longestPalindrom_entail_wit_14_1 : longestPalindrom_entail_wit_14_1.
-Proof.
-  LLM_pre_process ltac:(int_auto).
-  pose proof (output_copy_prefix_step_nonhash
-    s2_full_2 out_prefix_2 (maxId - maxLen) i j maxLen
-    PreH23 (PreH24 (i + 1) ltac:(lia)) PreH1) as [Hpref_step Hj_step].
+  prop_apply (CharArray.seg_Zlength &("s2") 0 (len + 1) s2_full_2).
+  Intros_p Hs2.
+  pose proof PreH23 as [Hlen _].
+  assert (Hbound : 0 <= maxId - maxLen /\ maxId - maxLen <= i + 1 /\
+    i + 1 <= Zlength s2_full_2 /\
+    Zlength (NonHashChars (sublist (maxId - maxLen) (i + 1) s2_full_2)) <= maxLen).
+  { repeat split; try lia. rewrite Hlen at 2.
+    apply nonhash_sublist_length_mono; lia. }
+  pose proof (output_copy_prefix_step_nonhash s2_full_2 out_prefix_2
+    (maxId - maxLen) i j maxLen ltac:(lia) PreH22 Hbound PreH1) as [Hpref Hbound_j].
   Exists p_done_2. Exists s2_full_2.
   Exists (out_prefix_2 ++ Znth (i - 0) s2_full_2 0 :: nil).
-  split_pure_spatial.
-  - unfold store_string.
-    cancel (CharArray.full output_pre (j + 1)
-      (out_prefix_2 ++ Znth (i - 0) s2_full_2 0 :: nil)).
-    cancel (CharArray.undef_seg output_pre (j + 1) (n_pre + 1)).
-    cancel (CharArray.seg &( "s2") 0 (len + 1) s2_full_2).
-    cancel (CharArray.full s_pre (string_length str + 1) (c_string str)).
-    cancel (CharArray.undef_seg &( "s2") (len + 1) 2003).
-    cancel (IntArray.seg &( "p") 0 len p_done_2).
-    cancel (IntArray.undef_seg &( "p") len 2003).
-  - split_pures; try solve [dump_pre_spatial; eauto; lia].
-Qed. 
+  unfold store_string.
+  repeat (split_pure_spatial || split_pures);
+    try solve [repeat cancel | dump_pre_spatial; auto; lia].
+Qed.
 
-Lemma proof_of_longestPalindrom_entail_wit_14_2 : longestPalindrom_entail_wit_14_2.
+Lemma proof_of_longestPalindrom_entail_wit_9_2 : longestPalindrom_entail_wit_9_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  pose proof (output_copy_prefix_step_hash
-    s2_full_2 out_prefix_2 (maxId - maxLen) i j maxLen
-    PreH23 (PreH24 (i + 1) ltac:(lia)) PreH1) as Hpref_step.
+  prop_apply (CharArray.seg_Zlength &("s2") 0 (len + 1) s2_full_2).
+  Intros_p Hs2.
+  pose proof PreH23 as [Hlen _].
+  assert (Hbound : 0 <= maxId - maxLen /\ maxId - maxLen <= i + 1 /\
+    i + 1 <= Zlength s2_full_2 /\
+    Zlength (NonHashChars (sublist (maxId - maxLen) (i + 1) s2_full_2)) <= maxLen).
+  { repeat split; try lia. rewrite Hlen at 2.
+    apply nonhash_sublist_length_mono; lia. }
+  pose proof (output_copy_prefix_step_hash s2_full_2 out_prefix_2
+    (maxId - maxLen) i j maxLen ltac:(lia) PreH22 Hbound PreH1) as Hpref.
   Exists p_done_2. Exists s2_full_2. Exists out_prefix_2.
-  split_pure_spatial.
-  - unfold store_string.
-    cancel (CharArray.seg &( "s2") 0 (len + 1) s2_full_2).
-    cancel (CharArray.full s_pre (string_length str + 1) (c_string str)).
-    cancel (CharArray.full output_pre j out_prefix_2).
-    cancel (CharArray.undef_seg output_pre j (n_pre + 1)).
-    cancel (CharArray.undef_seg &( "s2") (len + 1) 2003).
-    cancel (IntArray.seg &( "p") 0 len p_done_2).
-    cancel (IntArray.undef_seg &( "p") len 2003).
-  - split_pures; try solve [dump_pre_spatial; eauto; lia].
-Qed. 
+  unfold store_string.
+  repeat (split_pure_spatial || split_pures);
+    try solve [repeat cancel | dump_pre_spatial; auto; lia].
+Qed.
 
-Lemma proof_of_longestPalindrom_entail_wit_15 : longestPalindrom_entail_wit_15.
+Lemma proof_of_longestPalindrom_entail_wit_10 : longestPalindrom_entail_wit_10.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  assert (Hi_done : i = maxId + maxLen + 1) by lia.
-  assert (Hj_done : j = maxLen).
-  {
-    rewrite Hi_done in PreH22.
-    eapply (manacher_output_copy_prefix_full_j
-      str s2_full_2 len p_done_2 id limit maxId maxLen n_pre out_prefix j); eauto.
-  }
-  subst i.
-  rewrite Hj_done.
-  rewrite Hj_done in PreH22.
-  pose proof PreH26 as Hstate_bounds.
-  unfold ManacherLoopState in Hstate_bounds.
-  destruct Hstate_bounds as [_ [_ [Hid_bounds [Hlimit_bounds _]]]].
-  unfold CurrentRightmostWindow in Hlimit_bounds.
-  destruct Hlimit_bounds as [Hid_limit [Hlimit_range _]].
-  assert (Hcopy_done :
-    OutputCopyDone str s2_full_2 out_prefix len maxId maxLen maxLen).
-  {
-    eapply (manacher_output_copy_done_from_final_prefix
-      str s2_full_2 len p_done_2 id limit maxId maxLen n_pre out_prefix); eauto.
-  }
-  assert (Hlong_done : LongestPalindromeResult str out_prefix maxLen).
-  {
-    eapply (manacher_longest_result_from_final_prefix
-      str s2_full_2 len p_done_2 id limit maxId maxLen n_pre out_prefix); eauto.
-  }
-  Exists p_done_2. Exists s2_full_2. Exists out_prefix.
-  split_pure_spatial.
-  - unfold store_string.
-    sep_apply (CharArray.seg_to_undef_seg &( "s2") 0 (len + 1) s2_full_2).
-    sep_apply (char_undef_seg0_merge_to_undef_full &( "s2") (len + 1) 2003 ltac:(lia)).
-    sep_apply (IntArray.seg_to_undef_seg &( "p") 0 len p_done_2).
-    sep_apply (int_undef_seg0_merge_to_undef_full &( "p") len 2003 ltac:(lia)).
-    cancel (CharArray.full s_pre (string_length str + 1) (c_string str)).
-    cancel (CharArray.full output_pre (maxLen + 1) (out_prefix ++ 0 :: nil)).
-    cancel (CharArray.undef_seg output_pre (maxLen + 1) (n_pre + 1)).
-    cancel (CharArray.undef_full &( "s2") 2003).
-    cancel (IntArray.undef_full &( "p") 2003).
-  - split_pures; try solve [dump_pre_spatial; eauto; lia].
+  assert (Hi : i = maxId + maxLen + 1) by lia. subst i.
+  destruct PreH20 as [Hout Hj].
+  assert (Hresult : LongestPalindromeResult str out_prefix_2 maxLen).
+  { rewrite Hout. exact PreH21. }
+  assert (Hj_done : j = maxLen) by (destruct Hresult as [Hlen _]; lia).
+  Exists out_prefix_2.
+  sep_apply (CharArray.seg_to_undef_seg &("s2") 0 (len + 1) s2_full).
+  sep_apply (char_undef_seg0_merge_to_undef_full &("s2") (len + 1) 2003 ltac:(lia)).
+  sep_apply (IntArray.seg_to_undef_seg &("p") 0 len p_done).
+  sep_apply (int_undef_seg0_merge_to_undef_full &("p") len 2003 ltac:(lia)).
+  repeat (split_pure_spatial || split_pures);
+    try solve [repeat cancel | dump_pre_spatial; auto; lia].
 Qed.
 
 Lemma proof_of_longestPalindrom_return_wit_1 : longestPalindrom_return_wit_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
-  Exists out_2.
+  subst j. unfold store_string.
+  Exists out_prefix.
   repeat (split_pure_spatial || split_pures);
-    try solve
-      [ repeat cancel
-      | reflexivity
-      | dump_pre_spatial; auto; lia
-      | dump_pre_spatial; rewrite <- PreH7; exact PreH24 ].
+    try solve [repeat cancel | dump_pre_spatial; auto; lia].
 Qed.

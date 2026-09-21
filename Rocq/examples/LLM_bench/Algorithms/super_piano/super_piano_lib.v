@@ -2,8 +2,12 @@ Require Import Coq.ZArith.ZArith.
 Require Import Coq.Lists.List.
 Require Import Coq.Sorting.Permutation.
 Require Import Coq.micromega.Lia.
-From AUXLib Require Import ListLib.
+From AUXLib Require Import ListLib MonotonicList.
 From MaxMinLib Require Import MaxMin Interface.
+
+Require Export SimpleC.EE.LLM_bench.Algorithms.rmq.rmq_lib.
+Require Import SimpleC.EE.LLM_bench.Data_structures.priority_queue.priority_queue_lib.
+From SumLib Require Import ZRange.
 
 Import ListNotations.
 Local Open Scope Z_scope.
@@ -13,8 +17,6 @@ Definition ST_LEVELS : Z := 17.
 
 Definition PrefixArrayPrefix
     (l pref : list Z) (upto : Z) : Prop :=
-  0 <= upto /\
-  upto <= Zlength l /\
   Zlength pref = upto + 1 /\
   Znth 0 pref 0 = 0 /\
   forall i,
@@ -22,22 +24,65 @@ Definition PrefixArrayPrefix
     Znth (i + 1) pref 0 = Znth i pref 0 + Znth i l 0.
 
 Definition PrefixSums (l pref : list Z) : Prop :=
-  PrefixArrayPrefix l pref (Zlength l).
+  Zlength pref = Zlength l + 1 /\
+  forall i, 0 <= i <= Zlength l -> Znth i pref 0 = sum (sublist 0 i l).
 
-Definition SparseArgmaxBuilt
-    (ps st_slots : list Z) (len : Z) : Prop :=
-  Zlength ps = len /\
-  Zlength st_slots = len * ST_LEVELS.
+Lemma piano_sum_prefix_step l i :
+  0 <= i < Zlength l ->
+  sum (sublist 0 (i+1) l) = sum (sublist 0 i l) + Znth i l 0.
+Proof.
+  intros Hi. rewrite (sublist_split 0 (i+1) i l) by lia.
+  rewrite (sublist_single 0 i l) by lia. rewrite sum_app. cbn. lia.
+Qed.
 
-Definition RangeArgmax
-    (ps : list Z) (lo hi best : Z) : Prop :=
-  0 <= lo /\
-  lo <= best /\
-  best <= hi /\
-  hi < Zlength ps /\
-  forall idx,
-    lo <= idx <= hi ->
-    Znth idx ps 0 <= Znth best ps 0.
+Lemma PrefixSums_recurrence l pref :
+  PrefixSums l pref <-> PrefixArrayPrefix l pref (Zlength l).
+Proof.
+  unfold PrefixSums, PrefixArrayPrefix. split.
+  - intros [Hlen Hall]. split; [exact Hlen|]. split.
+    + specialize (Hall 0 ltac:(pose proof (Zlength_nonneg l);lia)).
+      rewrite Zsublist_nil in Hall by lia. exact Hall.
+    + intros i Hi.
+      rewrite (Hall (i+1) ltac:(lia)), (Hall i ltac:(lia)).
+      apply piano_sum_prefix_step. exact Hi.
+  - intros [Hlen [Hzero Hstep]]. split; [exact Hlen|].
+    assert (Hmain : forall k, Z.of_nat k <= Zlength l ->
+      Znth (Z.of_nat k) pref 0 = sum (sublist 0 (Z.of_nat k) l)).
+    { induction k as [|k IH]; intro Hk.
+      - cbn. exact Hzero.
+      - replace (Z.of_nat (S k)) with (Z.of_nat k+1) by lia.
+        rewrite Hstep by lia. rewrite piano_sum_prefix_step by lia.
+        rewrite IH by lia. reflexivity. }
+    intros i Hi. replace i with (Z.of_nat (Z.to_nat i)) by lia.
+    apply Hmain. lia.
+Qed.
+
+Definition RangeArgmax (ps : list Z) (lo hi best : Z) : Prop :=
+  max_value_of_subset (fun i j => Znth i ps 0 <= Znth j ps 0)
+    (fun i : Z => lo <= i <= hi) (fun i : Z => i) best.
+
+Lemma RangeArgmax_unfold ps lo hi best :
+  RangeArgmax ps lo hi best <->
+  lo <= best /\ best <= hi /\
+  forall idx, lo <= idx <= hi -> Znth idx ps 0 <= Znth best ps 0.
+Proof.
+  unfold RangeArgmax, max_value_of_subset, max_object_of_subset. cbn beta.
+  split.
+  - intros [p [[Hp Hmax] Heq]]. subst p. change (lo<=best<=hi) in Hp.
+    split; [tauto|]. split; [tauto|]. exact Hmax.
+  - intros [Hlo [Hhi Hmax]]. exists best. split; [split |reflexivity]; [split;assumption|exact Hmax].
+Qed.
+
+Lemma Piano_max_at (f : Z -> Z) lo hi best value :
+  lo <= best <= hi -> f best = value ->
+  (max_value_of_subset Z.le (fun p : Z => lo <= p <= hi) f value <->
+   forall p, lo <= p <= hi -> f p <= value).
+Proof.
+  intros Hbest Hvalue. unfold max_value_of_subset, max_object_of_subset. split.
+  - intros [p [[Hp Hmax] Heq]] q Hq. specialize (Hmax q Hq). lia.
+  - intros Hmax. exists best. split; [split |exact Hvalue];
+    [exact Hbest |intros q Hq; specialize (Hmax q Hq); lia].
+Qed.
 
 Definition Node := (Z * Z * Z * Z * Z)%type.
 
@@ -83,27 +128,17 @@ Definition heap_top_best (slots : list Node) : Z :=
 Definition NodeArrays
     (slots : list Node)
     (vals starts los his bests : list Z) : Prop :=
-  Zlength vals = Zlength slots /\
-  Zlength starts = Zlength slots /\
-  Zlength los = Zlength slots /\
-  Zlength his = Zlength slots /\
-  Zlength bests = Zlength slots /\
-  forall idx,
-    0 <= idx < Zlength slots ->
-    Znth idx vals 0 = node_value (Znth idx slots default_node) /\
-    Znth idx starts 0 = node_start (Znth idx slots default_node) /\
-    Znth idx los 0 = node_lo (Znth idx slots default_node) /\
-    Znth idx his 0 = node_hi (Znth idx slots default_node) /\
-    Znth idx bests 0 = node_best (Znth idx slots default_node).
+  Forall2 (fun v nd => v = node_value nd) vals slots /\
+  Forall2 (fun v nd => v = node_start nd) starts slots /\
+  Forall2 (fun v nd => v = node_lo nd) los slots /\
+  Forall2 (fun v nd => v = node_hi nd) his slots /\
+  Forall2 (fun v nd => v = node_best nd) bests slots.
 
 Definition NodeHeapState (slots : list Node) (size : Z) : Prop :=
-  0 <= size /\
-  size <= Zlength slots /\
-  (0 < size ->
-    forall idx,
-      0 <= idx < size ->
-      node_value (Znth idx slots default_node) <=
-      node_value (Znth 0 slots default_node)).
+  heap_ordered (map node_value slots) size /\
+  (sublist 0 size slots = [] \/
+   max_value_of_subset Z.le
+     (fun nd => In nd (sublist 0 size slots)) node_value (heap_top_value slots)).
 
 Definition FrontierPushPrefix
     (slots : list Node) (size : Z) (nd : Node) (slots_out : list Node) : Prop :=
@@ -179,9 +214,29 @@ Definition ValidNode
   node_best nd <= node_hi nd /\
   node_value nd =
     Znth (node_best nd) ps 0 - Znth (node_start nd - 1) ps 0 /\
-  forall finish,
-    node_lo nd <= finish <= node_hi nd ->
+  max_value_of_subset Z.le
+    (fun finish : Z => node_lo nd <= finish <= node_hi nd)
+    (fun finish => Znth finish ps 0 - Znth (node_start nd - 1) ps 0)
+    (node_value nd).
+
+Lemma ValidNode_unfold ps n L R nd :
+  ValidNode ps n L R nd <->
+  Zlength ps = n + 1 /\
+  1 <= node_start nd /\ node_start nd <= n /\
+  node_start nd + L - 1 <= node_lo nd /\ node_lo nd <= node_hi nd /\
+  node_hi nd <= Z.min n (node_start nd + R - 1) /\
+  node_lo nd <= node_best nd /\ node_best nd <= node_hi nd /\
+  node_value nd = Znth (node_best nd) ps 0 - Znth (node_start nd - 1) ps 0 /\
+  forall finish, node_lo nd <= finish <= node_hi nd ->
     Znth finish ps 0 - Znth (node_start nd - 1) ps 0 <= node_value nd.
+Proof.
+  unfold ValidNode. split;
+    intros (Hlen&Hstart&Hend&Hlo&Hnonempty&Hhi&Hbestlo&Hbesthi&Hvalue&Hmax);
+    do 9 (split; [assumption|]).
+  - apply (proj1 (Piano_max_at (fun finish => Znth finish ps 0 - Znth (node_start nd - 1) ps 0) (node_lo nd) (node_hi nd) (node_best nd) (node_value nd) ltac:(lia) ltac:(symmetry;exact Hvalue))). exact Hmax.
+  - apply (proj2 (Piano_max_at (fun finish => Znth finish ps 0 - Znth (node_start nd - 1) ps 0) (node_lo nd) (node_hi nd) (node_best nd) (node_value nd) ltac:(lia) ltac:(symmetry;exact Hvalue))). exact Hmax.
+Qed.
+
 
 Definition ValidNodeFields
     (ps : list Z) (n L R value start lo hi best : Z) : Prop :=
@@ -386,7 +441,7 @@ Lemma PrefixArrayPrefix_entry_abs_bound :
     0 <= i <= upto ->
     -1000 * i <= Znth i pref 0 <= 1000 * i.
 Proof.
-  intros l pref upto i [Hupto0 [Huptolen [Hpreflen [Hpref0 Hstep]]]] Hbound Hi.
+  intros l pref upto i [Hpreflen [Hpref0 Hstep]] Hbound Hi.
   assert (Hmain :
     forall k,
       Z.of_nat k <= upto ->
@@ -415,8 +470,8 @@ Lemma PrefixArrayPrefix_functional :
     pref1 = pref2.
 Proof.
   intros l pref1 pref2 upto
-    [Hupto0 [Huptolen [Hlen1 [Hzero1 Hstep1]]]]
-    [_ [_ [Hlen2 [Hzero2 Hstep2]]]].
+    [Hlen1 [Hzero1 Hstep1]]
+    [Hlen2 [Hzero2 Hstep2]].
   apply (proj2 (list_eq_ext pref1 pref2 0)).
   split; [lia|].
   intros i Hi.
@@ -448,7 +503,7 @@ Lemma PrefixSums_functional :
     ps1 = ps2.
 Proof.
   intros l ps1 ps2 Hps1 Hps2.
-  unfold PrefixSums in *.
+  rewrite PrefixSums_recurrence in *.
   eapply PrefixArrayPrefix_functional; eauto.
 Qed.
 
@@ -463,7 +518,7 @@ Lemma PrefixSums_diff_int_bounds :
     -2147483648 <= Znth i ps 0 - Znth j ps 0 <= 2147483647.
 Proof.
   intros l ps n i j Hpref Hlenn Hn Hbound Hi Hj.
-  unfold PrefixSums in Hpref.
+  rewrite PrefixSums_recurrence in Hpref.
   rewrite Hlenn in Hpref.
   pose proof (PrefixArrayPrefix_entry_abs_bound l ps n i Hpref Hbound Hi)
     as Hi_bound.
@@ -483,7 +538,7 @@ Lemma ValidNodeFields_value_int_bound :
     -2147483648 <= value <= 2147483647.
 Proof.
   intros l ps n L R value start lo hi best Hpref Hlen Hn HL Hbound Hvalid.
-  unfold ValidNodeFields, ValidNode in Hvalid.
+  unfold ValidNodeFields in Hvalid; rewrite ValidNode_unfold in Hvalid.
   cbn in Hvalid.
   destruct Hvalid as
     [Hps_len [Hstart1 [Hstartn [HloL [Hlohi [Hhin [Hlobest [Hbest_hi [Hvalue _]]]]]]]]].
@@ -987,7 +1042,7 @@ Lemma valid_node_fields_chord_valid :
     ValidChordCode ps n L R (ChordCode n start best).
 Proof.
   intros ps n L R value start lo hi best HL Hvalid.
-  unfold ValidNodeFields, ValidNode, ValidChordCode in *.
+  unfold ValidNodeFields in *; rewrite ValidNode_unfold in *; unfold ValidChordCode in *.
   cbn in *.
   destruct Hvalid as
       [Hlen [Hstart1 [Hstartn [HloL [Hlohi [Hhin [Hlobest [Hbesthi _]]]]]]]].
@@ -1009,7 +1064,7 @@ Lemma valid_node_fields_covers_best :
     NodeCoversCode n (value, start, lo, hi, best) (ChordCode n start best).
 Proof.
   intros ps n L R value start lo hi best HL Hvalid.
-  unfold ValidNodeFields, ValidNode, NodeCoversCode in *.
+  unfold ValidNodeFields in *; rewrite ValidNode_unfold in *; unfold NodeCoversCode in *.
   cbn in *.
   destruct Hvalid as
       [_ [Hstart1 [Hstartn [HloL [Hlohi [Hhin [Hlobest [Hbesthi _]]]]]]]].
@@ -1027,7 +1082,7 @@ Lemma valid_node_fields_code_value :
     ChordValueOfCode ps n (ChordCode n start best) = value.
 Proof.
   intros ps n L R value start lo hi best HL Hvalid.
-  unfold ValidNodeFields, ValidNode in Hvalid.
+  unfold ValidNodeFields in Hvalid; rewrite ValidNode_unfold in Hvalid.
   cbn in Hvalid.
   destruct Hvalid as
       [_ [Hstart1 [Hstartn [HloL [_ [Hhin [Hlobest [Hbesthi [Hvalue _]]]]]]]]].
@@ -1043,7 +1098,7 @@ Lemma node_covers_code_value_le :
     ChordValueOfCode ps n code <= node_value nd.
 Proof.
   intros ps n L R [[[[value start] lo] hi] best] code Hvalid Hcover.
-  unfold ValidNode, NodeCoversCode in *.
+  rewrite ValidNode_unfold in *; unfold NodeCoversCode in *.
   simpl in *.
   destruct Hvalid as
       [Hlen [Hstart1 [Hstartn [HloL [Hlohi [Hhin [Hlobest [Hbesthi [Hvalue Hmax]]]]]]]]].
@@ -1056,21 +1111,14 @@ Qed.
 
 Lemma node_heap_state_sublist_bound :
   forall slots size nd,
-    0 < size ->
-    NodeHeapState slots size ->
-    In nd (sublist 0 size slots) ->
-    node_value nd <= heap_top_value slots.
+    0 < size -> NodeHeapState slots size ->
+    In nd (sublist 0 size slots) -> node_value nd <= heap_top_value slots.
 Proof.
-  intros slots size nd Hsize_pos Hheap Hin.
-  destruct Hheap as [Hsize_nonneg [Hsize_le Hbound]].
-  destruct (in_sublist0_Znth default_node size slots nd (conj Hsize_nonneg Hsize_le) Hin)
-    as [i [Hi Hz]].
-  rewrite <- Hz.
-  unfold heap_top_value, heap_top_node.
-  apply Hbound.
-  - exact Hsize_pos.
-  - exact Hi.
+  intros slots size nd Hsize [_ Hheap] Hin. destruct Hheap as [Hempty | [p [[Hp Hmax] Heq]]].
+  - rewrite Hempty in Hin. contradiction.
+  - specialize (Hmax nd Hin). lia.
 Qed.
+
 
 Lemma in_old_of_rest_perm :
   forall {A : Type} (top : A) rest old x,
@@ -1152,11 +1200,12 @@ Lemma valid_node_fields_left_child :
       start lo (best - 1) retval.
 Proof.
   intros ps n L R value start lo hi best retval Hvalid Harg Hnonempty.
-  unfold ValidNodeFields, ValidNode, RangeArgmax in *.
+  unfold ValidNodeFields in *; rewrite ValidNode_unfold in *; rewrite RangeArgmax_unfold in *.
   cbn in *.
   destruct Hvalid as
       [Hlen [Hstart1 [Hstartn [HloL [Hlohi [Hhin [Hlobest [Hbesthi [_ Hmax_old]]]]]]]]].
-  destruct Harg as [Hlo_ret [Hret_hi [Hret_best [Hhi_n Hmax]]]].
+  try rewrite RangeArgmax_unfold in Harg.
+  destruct Harg as [Hret_hi [Hret_best Hmax]].
   repeat split;
     [ exact Hlen
     | exact Hstart1
@@ -1180,11 +1229,12 @@ Lemma valid_node_fields_right_child :
       start (best + 1) hi retval.
 Proof.
   intros ps n L R value start lo hi best retval Hvalid Harg.
-  unfold ValidNodeFields, ValidNode, RangeArgmax in *.
+  unfold ValidNodeFields in *; rewrite ValidNode_unfold in *; rewrite RangeArgmax_unfold in *.
   cbn in *.
   destruct Hvalid as
       [Hlen [Hstart1 [Hstartn [HloL [Hlohi [Hhin [Hlobest [Hbesthi [_ _]]]]]]]]].
-  destruct Harg as [Hlo_ret [Hret_hi [Hret_best [Hhi_n Hmax]]]].
+  try rewrite RangeArgmax_unfold in Harg.
+  destruct Harg as [Hret_hi [Hret_best Hmax]].
   repeat split;
     [ exact Hlen
     | exact Hstart1
@@ -1253,7 +1303,7 @@ Proof.
   { eapply valid_node_fields_right_child; eauto. }
   assert (0 <= best <= n) as Hbest_bounds.
   {
-    unfold ValidNodeFields, ValidNode in Hvalid.
+    unfold ValidNodeFields in Hvalid; rewrite ValidNode_unfold in Hvalid.
     cbn in Hvalid.
     destruct Hvalid as
         [_ [Hstart1 [Hstartn [HloL0 [_ [Hhin0 [Hlobest0 [Hbesthi0 _]]]]]]]].
@@ -1368,7 +1418,8 @@ Proof.
         subst top left_node.
         unfold mkNode in *.
         cbn in *.
-        destruct Hleft as [Hlo_ret [Hret_hi [Hret_best [Hhi_n Hmax]]]].
+        try rewrite RangeArgmax_unfold in Hleft.
+        destruct Hleft as [Hret_hi [Hret_best Hmax]].
         exfalso.
         eapply disjoint_closed_no_overlap with (x := retval).
         -- exact Hold_disj.
@@ -1392,7 +1443,8 @@ Proof.
         subst top right_node.
         unfold mkNode in *.
         cbn in *.
-        destruct Hright as [Hlo_ret [Hret_hi [Hret_best [Hhi_n Hmax]]]].
+        try rewrite RangeArgmax_unfold in Hright.
+        destruct Hright as [Hret_hi [Hret_best Hmax]].
         exfalso.
         eapply disjoint_closed_no_overlap with (x := retval_2).
         -- exact Hold_disj.
@@ -1427,7 +1479,7 @@ Proof.
       cbn in *.
       assert (Hbest_le_hi : best <= hi).
       {
-        unfold ValidNodeFields, ValidNode in Hvalid; cbn in Hvalid.
+        unfold ValidNodeFields in Hvalid; rewrite ValidNode_unfold in Hvalid; cbn in Hvalid.
         lia.
       }
       lia.
@@ -1455,7 +1507,7 @@ Proof.
       cbn in *.
       assert (Hbest_le_hi : best <= hi).
       {
-        unfold ValidNodeFields, ValidNode in Hvalid; cbn in Hvalid.
+        unfold ValidNodeFields in Hvalid; rewrite ValidNode_unfold in Hvalid; cbn in Hvalid.
         lia.
       }
       lia.
@@ -1481,7 +1533,7 @@ Proof.
       cbn in *.
       assert (Hbest_le_hi : best <= hi).
       {
-        unfold ValidNodeFields, ValidNode in Hvalid; cbn in Hvalid.
+        unfold ValidNodeFields in Hvalid; rewrite ValidNode_unfold in Hvalid; cbn in Hvalid.
         lia.
       }
       lia.
@@ -1507,7 +1559,7 @@ Proof.
       cbn in *.
       assert (Hbest_le_hi : best <= hi).
       {
-        unfold ValidNodeFields, ValidNode in Hvalid; cbn in Hvalid.
+        unfold ValidNodeFields in Hvalid; rewrite ValidNode_unfold in Hvalid; cbn in Hvalid.
         lia.
       }
       lia.
@@ -1597,7 +1649,7 @@ Proof.
           destruct Hnd_cover as [Hcode_start [Hrange_lo Hrange_hi]].
           assert (Hbest_le_hi : best <= hi).
           {
-            unfold ValidNodeFields, ValidNode in Hvalid; cbn in Hvalid.
+            unfold ValidNodeFields in Hvalid; rewrite ValidNode_unfold in Hvalid; cbn in Hvalid.
             lia.
           }
           split; [exact Hcode_start | split; [exact Hrange_lo | lia]].
@@ -1650,7 +1702,7 @@ Proof.
         rewrite Hchosen_end in Hcode_range.
         assert (Htop_best_range : lo <= best <= hi).
         {
-          unfold ValidNodeFields, ValidNode in Hvalid; cbn in Hvalid.
+          unfold ValidNodeFields in Hvalid; rewrite ValidNode_unfold in Hvalid; cbn in Hvalid.
           lia.
         }
         eapply disjoint_closed_no_overlap with (x := best) in Hold_disj;
@@ -1703,7 +1755,7 @@ Proof.
   { eapply valid_node_fields_left_child; eauto. }
   assert (0 <= best <= n) as Hbest_bounds.
   {
-    unfold ValidNodeFields, ValidNode in Hvalid.
+    unfold ValidNodeFields in Hvalid; rewrite ValidNode_unfold in Hvalid.
     cbn in Hvalid.
     destruct Hvalid as
         [_ [Hstart1 [Hstartn [HloL0 [_ [Hhin0 [Hlobest0 [Hbesthi0 _]]]]]]]].
@@ -1806,7 +1858,7 @@ Proof.
         intro Heq.
         assert (Hbest_le_hi : best <= hi).
         {
-          unfold ValidNodeFields, ValidNode in Hvalid; cbn in Hvalid.
+          unfold ValidNodeFields in Hvalid; rewrite ValidNode_unfold in Hvalid; cbn in Hvalid.
           lia.
         }
         subst top left_node.
@@ -1817,10 +1869,11 @@ Proof.
       subst top left_node.
       unfold mkNode in *.
       cbn in *.
-      destruct Hleft as [Hlo_ret [Hret_hi [Hret_best [Hhi_n Hmax]]]].
+      try rewrite RangeArgmax_unfold in Hleft.
+      destruct Hleft as [Hret_hi [Hret_best Hmax]].
       assert (Hbest_le_hi : best <= hi).
       {
-        unfold ValidNodeFields, ValidNode in Hvalid; cbn in Hvalid.
+        unfold ValidNodeFields in Hvalid; rewrite ValidNode_unfold in Hvalid; cbn in Hvalid.
         lia.
       }
       exfalso.
@@ -1856,7 +1909,7 @@ Proof.
       cbn in *.
       assert (Hbest_le_hi : best <= hi).
       {
-        unfold ValidNodeFields, ValidNode in Hvalid; cbn in Hvalid.
+        unfold ValidNodeFields in Hvalid; rewrite ValidNode_unfold in Hvalid; cbn in Hvalid.
         lia.
       }
       lia.
@@ -1882,7 +1935,7 @@ Proof.
       cbn in *.
       assert (Hbest_le_hi : best <= hi).
       {
-        unfold ValidNodeFields, ValidNode in Hvalid; cbn in Hvalid.
+        unfold ValidNodeFields in Hvalid; rewrite ValidNode_unfold in Hvalid; cbn in Hvalid.
         lia.
       }
       lia.
@@ -1964,7 +2017,7 @@ Proof.
           destruct Hnd_cover as [Hcode_start [Hrange_lo Hrange_hi]].
           assert (Hbest_le_hi : best <= hi).
           {
-            unfold ValidNodeFields, ValidNode in Hvalid; cbn in Hvalid.
+            unfold ValidNodeFields in Hvalid; rewrite ValidNode_unfold in Hvalid; cbn in Hvalid.
             lia.
           }
           split; [exact Hcode_start | split; [exact Hrange_lo | lia]].
@@ -1997,7 +2050,7 @@ Proof.
         rewrite Hchosen_end in Hcode_range.
         assert (Htop_best_range : lo <= best <= hi).
         {
-          unfold ValidNodeFields, ValidNode in Hvalid; cbn in Hvalid.
+          unfold ValidNodeFields in Hvalid; rewrite ValidNode_unfold in Hvalid; cbn in Hvalid.
           lia.
         }
         eapply disjoint_closed_no_overlap with (x := best) in Hold_disj;
@@ -2049,7 +2102,7 @@ Proof.
   { eapply valid_node_fields_right_child; eauto. }
   assert (0 <= best <= n) as Hbest_bounds.
   {
-    unfold ValidNodeFields, ValidNode in Hvalid.
+    unfold ValidNodeFields in Hvalid; rewrite ValidNode_unfold in Hvalid.
     cbn in Hvalid.
     destruct Hvalid as
         [_ [Hstart1 [Hstartn [HloL0 [_ [Hhin0 [Hlobest0 [Hbesthi0 _]]]]]]]].
@@ -2089,7 +2142,7 @@ Proof.
   }
   assert (Hlo_best : lo <= best).
   {
-    unfold ValidNodeFields, ValidNode in Hvalid; cbn in Hvalid.
+    unfold ValidNodeFields in Hvalid; rewrite ValidNode_unfold in Hvalid; cbn in Hvalid.
     lia.
   }
   repeat split.
@@ -2163,7 +2216,8 @@ Proof.
       subst top right_node.
       unfold mkNode in *.
       cbn in *.
-      destruct Hright as [Hlo_ret [Hret_hi [Hret_best [Hhi_n Hmax]]]].
+      try rewrite RangeArgmax_unfold in Hright.
+      destruct Hright as [Hret_hi [Hret_best Hmax]].
       exfalso.
       eapply disjoint_closed_no_overlap with (x := retval).
       * exact Hold_disj.
@@ -2323,7 +2377,7 @@ Proof.
         rewrite Hchosen_end in Hcode_range.
         assert (Htop_best_range : lo <= best <= hi).
         {
-          unfold ValidNodeFields, ValidNode in Hvalid; cbn in Hvalid.
+          unfold ValidNodeFields in Hvalid; rewrite ValidNode_unfold in Hvalid; cbn in Hvalid.
           lia.
         }
         eapply disjoint_closed_no_overlap with (x := best) in Hold_disj;
@@ -2387,7 +2441,7 @@ Proof.
     as Hchosen_value.
   assert (0 <= best <= n) as Hbest_bounds.
   {
-    unfold ValidNodeFields, ValidNode in Hvalid.
+    unfold ValidNodeFields in Hvalid; rewrite ValidNode_unfold in Hvalid.
     cbn in Hvalid.
     destruct Hvalid as
         [_ [Hstart1 [Hstartn [HloL0 [_ [Hhin0 [Hlobest0 [Hbesthi0 _]]]]]]]].
@@ -2544,4 +2598,954 @@ Proof.
         -- simpl; right; exact Hnd_in_resid.
       * exact Hnd_covers.
       * exact Hcode_in_old.
+Qed.
+
+(** Sparse-table entries are maximizing positions, following the rmq interval
+    contract and preserving the positions needed to split chord intervals. *)
+Definition PianoSparseProgress (ps table : list Z) (n level upto : Z) : Prop :=
+  forall row column,
+    0 <= row -> 0 <= column < ST_LEVELS -> row + Power2 column <= n ->
+    (column < level \/ column = level /\ row < upto) ->
+    RangeArgmax ps row (row + Power2 column - 1)
+      (Znth (row * ST_LEVELS + column) table 0).
+Definition PianoSparseTable (ps table : list Z) (n : Z) : Prop :=
+  forall row column,
+    0 <= row -> 0 <= column < ST_LEVELS -> row + Power2 column <= n ->
+    RangeArgmax ps row (row + Power2 column - 1)
+      (Znth (row * ST_LEVELS + column) table 0).
+
+Definition PianoSwap (slots : list Node) (a b : Z) : list Node :=
+  replace_Znth b (Znth a slots default_node)
+    (replace_Znth a (Znth b slots default_node) slots).
+
+(** Node identities are preserved separately from the scalar priorities.
+    Sift invariants reuse the priority_queue mathematical contract. *)
+Definition PianoHeapPush (before current : list Node) (size child : Z) (nd : Node) : Prop :=
+  FrontierPushPrefix before size nd current /\
+  priority_queue_lib.PushLoopState
+    (map node_value (sublist 0 size before) ++ [node_value nd])
+    (map node_value (sublist 0 (size + 1) current)) size child (node_value nd).
+Definition PianoHeapPop (before current : list Node) (size index : Z) : Prop :=
+  FrontierPopTop before size current /\
+  priority_queue_lib.PopLoopState
+    (map node_value (sublist 0 size before))
+    (map node_value (sublist 0 size current)) size index.
+Definition PianoHeapSelected (current : list Node) (size index selected : Z) : Prop :=
+  priority_queue_lib.PopSelectedChild (map node_value (sublist 0 (size + 1) current)) size index selected.
+Definition PianoInitialPrefix (ps : list Z) (n L R upto : Z) (nodes : list Node) : Prop :=
+  Forall (fun nd => ValidNode ps n L R nd /\
+  1 <= node_start nd < upto /\ node_lo nd = node_start nd + L - 1 /\
+  node_hi nd = Z.min n (node_start nd + R - 1)) nodes /\
+  Permutation (map node_start nodes) (Zrange 1 upto).
+
+Definition PianoNodes (vals starts los his bests : list Z) : list Node :=
+  map (fun p => let '(v,(s,(l,(h,b)))) := p in mkNode v s l h b)
+    (combine vals (combine starts (combine los (combine his bests)))).
+
+Lemma piano_argmax_view ps lo hi best :
+  RangeArgmax ps lo hi best <->
+  (lo <= best <= hi /\ forall j, lo <= j <= hi -> Znth j ps 0 <= Znth best ps 0).
+Proof. rewrite RangeArgmax_unfold. tauto. Qed.
+Lemma piano_argmax_single ps i : RangeArgmax ps i i i.
+Proof.
+  apply piano_argmax_view. split; [lia|]. intros j Hj. assert (j = i) by lia. subst; lia.
+Qed.
+Lemma piano_argmax_join ps lo mid hi a b :
+  lo <= mid -> mid <= hi ->
+  RangeArgmax ps lo mid a -> RangeArgmax ps mid hi b ->
+  Znth b ps 0 <= Znth a ps 0 -> RangeArgmax ps lo hi a.
+Proof.
+  intros Hlo Hhi Ha Hb Hle.
+  apply piano_argmax_view in Ha, Hb. destruct Ha as [Ha Ham], Hb as [Hb Hbm].
+  apply piano_argmax_view. split; [lia|]. intros j Hj.
+  destruct (Z_le_dec j mid); [apply Ham; lia|]. specialize (Hbm j ltac:(lia)); lia.
+Qed.
+Lemma piano_argmax_union ps lo a_hi b_lo hi a b :
+  b_lo <= a_hi + 1 -> lo <= b_lo -> a_hi <= hi ->
+  RangeArgmax ps lo a_hi a -> RangeArgmax ps b_lo hi b ->
+  RangeArgmax ps lo hi (if Z.geb (Znth a ps 0) (Znth b ps 0) then a else b).
+Proof.
+  intros Hcover Hlo Hhi Ha Hb.
+  apply piano_argmax_view in Ha, Hb. destruct Ha as [Ha Ham], Hb as [Hb Hbm].
+  destruct (Z.geb_spec (Znth a ps 0) (Znth b ps 0)); apply piano_argmax_view;
+    split; try lia; intros j Hj; destruct (Z_le_dec j a_hi).
+  - apply Ham; lia.
+  - specialize (Hbm j ltac:(lia)); lia.
+  - specialize (Ham j ltac:(lia)); lia.
+  - apply Hbm; lia.
+Qed.
+Lemma piano_sparse_base_start ps table n : PianoSparseProgress ps table n 0 0.
+Proof. intros row col Hr Hc Hn Hdone. unfold ST_LEVELS in *. lia. Qed.
+Lemma piano_sparse_base_step ps table n i :
+  Zlength table = n * ST_LEVELS -> 0 <= i < n ->
+  PianoSparseProgress ps table n 0 i ->
+  PianoSparseProgress ps (replace_Znth (i * ST_LEVELS) i table) n 0 (i + 1).
+Proof.
+  intros Hlen Hi Hprev row col Hr Hc Hn Hdone.
+  assert (col = 0) by lia. subst col. unfold Power2 in Hn; simpl in Hn.
+  unfold ST_LEVELS in *. destruct (Z.eq_dec row i) as [->|Hne].
+  - rewrite Z.add_0_r, Znth_replace_Znth_Same by lia.
+    replace (i + Power2 0 - 1) with i by (unfold Power2; simpl; lia).
+    apply piano_argmax_single.
+  - rewrite Znth_replace_Znth_Diff by lia. apply Hprev; unfold ST_LEVELS, Power2 in *; simpl in *; lia.
+Qed.
+Lemma piano_sparse_base_complete ps table n :
+  PianoSparseProgress ps table n 0 n -> PianoSparseProgress ps table n 1 0.
+Proof.
+  intros H row col Hr Hc Hn Hd. assert (col = 0) by lia; subst col.
+  apply H; auto. right; split; auto. unfold Power2 in Hn; simpl in Hn; lia.
+Qed.
+Lemma piano_sparse_level_complete ps table n level i :
+  1 <= level < ST_LEVELS -> i + Power2 level > n ->
+  PianoSparseProgress ps table n level i -> PianoSparseProgress ps table n (level + 1) 0.
+Proof.
+  intros Hlevel Hi H row col Hr Hc Hn Hd. apply H; auto.
+  destruct (Z_lt_ge_dec col level); [left; lia|]. right; split; [lia|].
+  assert (col = level) by lia; subst col; lia.
+Qed.
+Lemma piano_sparse_complete ps table n :
+  PianoSparseProgress ps table n ST_LEVELS 0 -> PianoSparseTable ps table n.
+Proof. intros H row col Hr Hc Hn. apply H; auto; left; lia. Qed.
+Lemma piano_sparse_read ps table n level i half width :
+  1 <= level < ST_LEVELS -> half = Power2 (level - 1) -> width = Power2 level ->
+  0 <= i -> i + width <= n ->
+  PianoSparseProgress ps table n level i ->
+  RangeArgmax ps i (i + half - 1) (Znth (i * ST_LEVELS + level - 1) table 0) /\
+  RangeArgmax ps (i + half) (i + width - 1)
+    (Znth ((i + half) * ST_LEVELS + level - 1) table 0).
+Proof.
+  intros Hl Hhalf Hw Hi Hn Hprog; subst half width.
+  pose proof (Power2_pos (level - 1) ltac:(lia)).
+  pose proof (Power2_sub1_double level ltac:(lia)). split.
+  - replace (i * ST_LEVELS + level - 1) with (i * ST_LEVELS + (level - 1)) by lia.
+    apply Hprog; try lia; left; lia.
+  - replace ((i + Power2 (level - 1)) * ST_LEVELS + level - 1)
+      with ((i + Power2 (level - 1)) * ST_LEVELS + (level - 1)) by lia.
+    replace (i + Power2 level - 1)
+      with (i + Power2 (level - 1) + Power2 (level - 1) - 1) by lia.
+    apply Hprog; try lia; left; lia.
+Qed.
+Lemma piano_sparse_write ps table n level i best :
+  Zlength table = n * ST_LEVELS ->
+  0 <= level < ST_LEVELS -> 0 <= i -> i + Power2 level <= n ->
+  PianoSparseProgress ps table n level i ->
+  RangeArgmax ps i (i + Power2 level - 1) best ->
+  PianoSparseProgress ps (replace_Znth (i * ST_LEVELS + level) best table) n level (i + 1).
+Proof.
+  intros Hlen Hl Hi Hn Hprev Hbest row col Hr Hc Hrange Hdone.
+  pose proof (Power2_pos level ltac:(lia)).
+  pose proof (Power2_pos col ltac:(lia)).
+  destruct (Z.eq_dec (row * ST_LEVELS + col) (i * ST_LEVELS + level)) as [Heq|Hne].
+  - assert (Hrc : row = i /\ col = level) by (unfold ST_LEVELS in *; lia).
+    destruct Hrc as [-> ->]. rewrite Znth_replace_Znth_Same by (unfold ST_LEVELS in *; lia). exact Hbest.
+  - rewrite Znth_replace_Znth_Diff by (unfold ST_LEVELS in *; lia).
+    apply Hprev; auto. destruct Hdone as [Hlt|[Heq Hi']]; [left; auto|].
+    right; split; auto. subst col. assert (row <> i) by (intro; subst; contradiction). lia.
+Qed.
+Lemma piano_sparse_query ps table n lo hi level width :
+  0 <= lo <= hi -> hi < n -> 0 <= level < ST_LEVELS ->
+  width = Power2 level -> 1 <= width -> width <= hi - lo + 1 -> hi - lo + 1 < 2 * width ->
+  PianoSparseTable ps table n ->
+  RangeArgmax ps lo hi
+    (if Z.geb (Znth (Znth (lo * ST_LEVELS + level) table 0) ps 0)
+              (Znth (Znth ((hi - width + 1) * ST_LEVELS + level) table 0) ps 0)
+     then Znth (lo * ST_LEVELS + level) table 0
+     else Znth ((hi - width + 1) * ST_LEVELS + level) table 0).
+Proof.
+  intros Hlo Hhi Hl Hw Hwpos Hwlen Hcover Htable.
+  pose proof (Htable lo level ltac:(lia) Hl ltac:(lia)) as Ha.
+  pose proof (Htable (hi - width + 1) level ltac:(lia) Hl ltac:(lia)) as Hb.
+  rewrite <- Hw in Ha, Hb. replace (hi - width + 1 + width - 1) with hi in Hb by lia.
+  eapply piano_argmax_union with (a_hi := lo + width - 1) (b_lo := hi - width + 1); eauto; lia.
+Qed.
+
+Lemma piano_Forall2_map {A B} (f : A -> B) ys xs :
+  Forall2 (fun y x => y = f x) ys xs <-> ys = map f xs.
+Proof.
+  split.
+  - induction 1; simpl; f_equal; assumption.
+  - intros ->. induction xs; simpl; constructor; auto.
+Qed.
+Lemma piano_arrays_iff slots vals starts los his bests :
+  NodeArrays slots vals starts los his bests <->
+  vals = map node_value slots /\ starts = map node_start slots /\
+  los = map node_lo slots /\ his = map node_hi slots /\ bests = map node_best slots.
+Proof. unfold NodeArrays. rewrite !piano_Forall2_map. tauto. Qed.
+Lemma piano_nodes_maps slots :
+  PianoNodes (map node_value slots) (map node_start slots) (map node_lo slots)
+    (map node_hi slots) (map node_best slots) = slots.
+Proof.
+  induction slots as [|[[[[v s] l] h] b] rest IH]; simpl; [reflexivity|].
+  unfold PianoNodes in *; simpl in *; f_equal; exact IH.
+Qed.
+Lemma piano_nodes_eq slots vals starts los his bests :
+  NodeArrays slots vals starts los his bests -> PianoNodes vals starts los his bests = slots.
+Proof.
+  rewrite piano_arrays_iff. intros (->&->&->&->&->). apply piano_nodes_maps.
+Qed.
+Lemma piano_map_replace {A B} (f : A -> B) i x xs :
+  map f (replace_Znth i x xs) = replace_Znth i (f x) (map f xs).
+Proof.
+  unfold replace_Znth. generalize (Z.to_nat i) as k.
+  induction xs as [|a xs IH]; intros k; destruct k; simpl; auto.
+  rewrite IH; reflexivity.
+Qed.
+Lemma piano_map_sublist {A B} (f : A -> B) lo hi xs :
+  map f (sublist lo hi xs) = sublist lo hi (map f xs).
+Proof. unfold sublist. rewrite firstn_map, skipn_map; reflexivity. Qed.
+Lemma piano_map_Znth {A B} (f : A -> B) i xs d :
+  Znth i (map f xs) (f d) = f (Znth i xs d).
+Proof. unfold Znth. apply map_nth. Qed.
+Lemma piano_arrays_set slots vals starts los his bests i v s l h b :
+  NodeArrays slots vals starts los his bests ->
+  NodeArrays (replace_Znth i (mkNode v s l h b) slots)
+    (replace_Znth i v vals) (replace_Znth i s starts) (replace_Znth i l los)
+    (replace_Znth i h his) (replace_Znth i b bests).
+Proof.
+  rewrite !piano_arrays_iff. intros (->&->&->&->&->).
+  rewrite !piano_map_replace. repeat split; reflexivity.
+Qed.
+Lemma piano_arrays_read slots vals starts los his bests i :
+  NodeArrays slots vals starts los his bests ->
+  Znth i vals 0 = node_value (Znth i slots default_node) /\
+  Znth i starts 0 = node_start (Znth i slots default_node) /\
+  Znth i los 0 = node_lo (Znth i slots default_node) /\
+  Znth i his 0 = node_hi (Znth i slots default_node) /\
+  Znth i bests 0 = node_best (Znth i slots default_node).
+Proof.
+  rewrite piano_arrays_iff. intros (->&->&->&->&->).
+  repeat split; match goal with |- Znth ?j (map ?f ?xs) 0 = _ =>
+    exact (piano_map_Znth f j xs default_node) end.
+Qed.
+Lemma piano_arrays_swap slots vals starts los his bests a b :
+  NodeArrays slots vals starts los his bests ->
+  NodeArrays (PianoSwap slots a b)
+    (replace_Znth b (Znth a vals 0) (replace_Znth a (Znth b vals 0) vals))
+    (replace_Znth b (Znth a starts 0) (replace_Znth a (Znth b starts 0) starts))
+    (replace_Znth b (Znth a los 0) (replace_Znth a (Znth b los 0) los))
+    (replace_Znth b (Znth a his 0) (replace_Znth a (Znth b his 0) his))
+    (replace_Znth b (Znth a bests 0) (replace_Znth a (Znth b bests 0) bests)).
+Proof.
+  rewrite !piano_arrays_iff. intros (->&->&->&->&->).
+  unfold PianoSwap. rewrite !piano_map_replace.
+  repeat split; f_equal; try (match goal with |- Znth ?j (map ?f ?xs) 0 = _ => exact (piano_map_Znth f j xs default_node) end);
+    f_equal; match goal with |- Znth ?j (map ?f ?xs) 0 = _ => exact (piano_map_Znth f j xs default_node) end.
+Qed.
+
+Lemma piano_argmax_left ps lo a_hi b_lo hi a b :
+  b_lo <= a_hi + 1 -> lo <= b_lo -> a_hi <= hi ->
+  RangeArgmax ps lo a_hi a -> RangeArgmax ps b_lo hi b ->
+  Znth b ps 0 <= Znth a ps 0 -> RangeArgmax ps lo hi a.
+Proof.
+  intros Hcover Hl Hh Ha Hb Hle.
+  pose proof (piano_argmax_union ps lo a_hi b_lo hi a b Hcover Hl Hh Ha Hb) as H.
+  destruct (Z.geb_spec (Znth a ps 0) (Znth b ps 0)); [exact H|lia].
+Qed.
+Lemma piano_argmax_right ps lo a_hi b_lo hi a b :
+  b_lo <= a_hi + 1 -> lo <= b_lo -> a_hi <= hi ->
+  RangeArgmax ps lo a_hi a -> RangeArgmax ps b_lo hi b ->
+  Znth a ps 0 < Znth b ps 0 -> RangeArgmax ps lo hi b.
+Proof.
+  intros Hcover Hl Hh Ha Hb Hlt.
+  pose proof (piano_argmax_union ps lo a_hi b_lo hi a b Hcover Hl Hh Ha Hb) as H.
+  destruct (Z.geb_spec (Znth a ps 0) (Znth b ps 0)); [lia|exact H].
+Qed.
+Lemma piano_power_bound level : 0 <= level <= 16 -> Power2 level <= 65536.
+Proof.
+  intros H. change (2 ^ level <= 2 ^ 16).
+  apply Z.pow_le_mono_r; lia.
+Qed.
+Lemma piano_query_next_level n lo hi level width :
+  n <= 100001 -> 0 <= lo <= hi -> hi < n -> 0 <= level ->
+  width = Power2 level -> width * 2 <= hi - lo + 1 -> level + 1 < ST_LEVELS.
+Proof.
+  intros Hn Hlo Hhi Hl Hw Hstep. unfold ST_LEVELS.
+  destruct (Z_lt_ge_dec level 16); [lia|].
+  assert (65536 <= Power2 level).
+  { change (2 ^ 16 <= 2 ^ level). apply Z.pow_le_mono_r; lia. }
+  lia.
+Qed.
+
+(** The priority_queue swap lemmas, generalized to node payloads. *)
+Lemma piano_generic_replace_Znth_swap_form__push_sift_up {A : Type} :
+  forall (l1 l2 l3 : list A) (xi xj : A),
+    replace_Znth (Zlength l1 + 1 + Zlength l2) xi
+      (replace_Znth (Zlength l1) xj
+        (l1 ++ xi :: l2 ++ xj :: l3)) =
+    l1 ++ xj :: l2 ++ xi :: l3.
+Proof.
+  intros.
+  pose proof (Zlength_nonneg l2) as Hlen2.
+  set (n1 := Zlength l1).
+  set (n2 := Zlength l1 + 1 + Zlength l2).
+  rewrite replace_Znth_app_r with
+    (l1 := l1) (l2 := xi :: l2 ++ xj :: l3) by (subst n1; lia).
+  rewrite (replace_Znth_nothing (A := A) n1 l1 xj) by (subst n1; lia).
+  replace (n1 - Zlength l1) with 0 by (subst n1; lia).
+  assert
+    (H0 :
+      replace_Znth 0 xj (xi :: l2 ++ xj :: l3) =
+      xj :: l2 ++ xj :: l3) by reflexivity.
+  rewrite H0.
+  rewrite replace_Znth_app_r with
+    (l1 := l1) (l2 := xj :: l2 ++ xj :: l3) by (subst n2; lia).
+  rewrite
+    (replace_Znth_nothing (A := A)
+      (n1 + 1 + Zlength l2) l1 xi) by (subst n1; lia).
+  replace
+    (n1 + 1 + Zlength l2 - Zlength l1)
+    with (1 + Zlength l2) by (subst n1; lia).
+  rewrite replace_Znth_cons by lia.
+  replace (1 + Zlength l2 - 1) with (Zlength l2) by lia.
+  rewrite replace_Znth_app_r with
+    (l1 := l2) (l2 := xj :: l3) by lia.
+  rewrite (replace_Znth_nothing (A := A) (Zlength l2) l2 xi) by lia.
+  replace (Zlength l2 - Zlength l2) with 0 by lia.
+  assert (H1 : replace_Znth 0 xi (xj :: l3) = xi :: l3)
+    by reflexivity.
+  rewrite H1.
+  reflexivity.
+Qed.
+Lemma piano_generic_permutation_swap_Znth_lt__push_sift_up {A : Type} :
+  forall (l : list A) i j (d : A),
+    0 <= i /\ i < j /\ j < Zlength l ->
+    Permutation l
+      (replace_Znth j (Znth i l d)
+        (replace_Znth i (Znth j l d) l)).
+Proof.
+  intros l i j d Hrange.
+  destruct Hrange as [Hi [Hij Hj]].
+  remember (Znth i l d) as xi0.
+  remember (Znth j l d) as xj0.
+  set (ni := Z.to_nat i).
+  set (nj := Z.to_nat (j - i - 1)).
+  set (l1 := firstn ni l).
+  set (lr := skipn (S ni) l).
+  set (l2 := firstn nj lr).
+  set (l3 := skipn (S nj) lr).
+  assert (Hsplit_i : l = l1 ++ xi0 :: lr).
+  {
+    subst l1 lr ni.
+    rewrite (list_split_nth _ (Z.to_nat i) l d) at 1.
+    2:{ rewrite Zlength_correct in Hj; lia. }
+    rewrite Heqxi0.
+    reflexivity.
+  }
+  assert (Hj_lr : (nj < length lr)%nat).
+  {
+    subst nj lr ni.
+    rewrite length_skipn.
+    rewrite Zlength_correct in Hj.
+    lia.
+  }
+  assert (Hsplit_j : lr = l2 ++ xj0 :: l3).
+  {
+    subst l2 l3.
+    rewrite (list_split_nth _ nj lr d) at 1 by exact Hj_lr.
+    replace xj0 with (nth nj lr d).
+    2:{
+      subst nj lr ni.
+      rewrite Heqxj0.
+      unfold Znth.
+      rewrite nth_skipn.
+      assert
+        (Hnat :
+          (Z.to_nat (j - i - 1) + S (Z.to_nat i))%nat =
+          Z.to_nat j).
+      {
+        apply Nat2Z.inj.
+        rewrite Nat2Z.inj_add.
+        rewrite Nat2Z.inj_succ.
+        repeat rewrite Z2Nat.id by lia.
+        lia.
+      }
+      rewrite Nat.add_comm.
+      rewrite Hnat.
+      reflexivity.
+    }
+    reflexivity.
+  }
+  assert (Hl : l = l1 ++ xi0 :: l2 ++ xj0 :: l3).
+  {
+    rewrite Hsplit_j in Hsplit_i.
+    exact Hsplit_i.
+  }
+  replace l with (l1 ++ xi0 :: l2 ++ xj0 :: l3)
+    by (symmetry; exact Hl).
+  replace i with (Zlength l1).
+  2:{
+    subst l1 ni.
+    rewrite Zlength_correct, length_firstn.
+    rewrite Zlength_correct in Hj.
+    rewrite Nat.min_l by lia.
+    lia.
+  }
+  replace j with (Zlength l1 + 1 + Zlength l2).
+  2:{
+    subst l1 l2 lr ni nj.
+    rewrite !Zlength_correct.
+    rewrite !length_firstn.
+    rewrite length_skipn.
+    rewrite Zlength_correct in Hj.
+    lia.
+  }
+  rewrite piano_generic_replace_Znth_swap_form__push_sift_up.
+  eapply Permutation_trans.
+  2:{ reflexivity. }
+  apply Permutation_app_head.
+  eapply Permutation_trans.
+  - apply Permutation_middle.
+  - eapply Permutation_trans.
+    + apply Permutation_app_head.
+      apply perm_swap.
+    + apply Permutation_sym.
+      apply Permutation_middle.
+Qed.
+Lemma piano_generic_replace_nth_comm_Z__push_sift_up {A : Type} :
+  forall ni nj (l : list A) a b,
+    ni <> nj ->
+    replace_nth nj (replace_nth ni l a) b =
+    replace_nth ni (replace_nth nj l b) a.
+Proof.
+  intros ni nj l a b Hneq.
+  revert nj l Hneq.
+  induction ni; intros nj l Hneq; destruct l as [|x xs]; simpl.
+  - destruct nj; reflexivity.
+  - destruct nj; simpl.
+    + contradiction Hneq; reflexivity.
+    + reflexivity.
+  - destruct nj; reflexivity.
+  - destruct nj; simpl.
+    + reflexivity.
+    + f_equal.
+      apply IHni.
+      intros Heq.
+      apply Hneq.
+      now f_equal.
+Qed.
+Lemma piano_generic_replace_Znth_comm__push_sift_up {A : Type} :
+  forall (l : list A) i j (a b : A),
+    0 <= i ->
+    0 <= j ->
+    i <> j ->
+    replace_Znth j b (replace_Znth i a l) =
+    replace_Znth i a (replace_Znth j b l).
+Proof.
+  intros l i j a b Hi Hj Hneq.
+  unfold replace_Znth.
+  apply piano_generic_replace_nth_comm_Z__push_sift_up.
+  intro Heq.
+  apply Hneq.
+  apply Z2Nat.inj in Heq; lia.
+Qed.
+Lemma piano_generic_permutation_swap_Znth__push_sift_up {A : Type} :
+  forall (l : list A) i j (d : A),
+    0 <= i < Zlength l ->
+    0 <= j < Zlength l ->
+    Permutation l
+      (replace_Znth j (Znth i l d)
+        (replace_Znth i (Znth j l d) l)).
+Proof.
+  intros l i j d Hi Hj.
+  destruct (Z_lt_ge_dec i j) as [Hij | Hge].
+  - apply piano_generic_permutation_swap_Znth_lt__push_sift_up.
+    lia.
+  - destruct (Z_lt_ge_dec j i) as [Hji | Heq].
+    + rewrite piano_generic_replace_Znth_comm__push_sift_up by lia.
+      apply piano_generic_permutation_swap_Znth_lt__push_sift_up.
+      lia.
+    + assert (i = j) by lia.
+      subst j.
+      rewrite replace_Znth_Znth by lia.
+      rewrite replace_Znth_Znth by lia.
+      apply Permutation_refl.
+Qed.
+
+Lemma piano_prefix_set {A} (xs : list A) n i v (d : A) :
+  0 <= n <= Zlength xs -> 0 <= i < n ->
+  sublist 0 n (replace_Znth i v xs) = replace_Znth i v (sublist 0 n xs).
+Proof.
+  intros Hn Hi. apply (proj2 (list_eq_ext _ _ d)); split.
+  - rewrite Zlength_replace_Znth; rewrite !Zlength_sublist0 by (rewrite ?Zlength_replace_Znth; lia); reflexivity.
+  - intros j Hj. rewrite Zlength_sublist0 in Hj by
+      (rewrite ?Zlength_replace_Znth; lia).
+    rewrite Znth_sublist0 by lia.
+    destruct (Z.eq_dec i j) as [->|Hne].
+    + rewrite !Znth_replace_Znth_Same by (rewrite ?Zlength_sublist0; lia). reflexivity.
+    + rewrite !Znth_replace_Znth_Diff by (rewrite ?Zlength_sublist0; lia).
+      rewrite Znth_sublist0 by lia; reflexivity.
+Qed.
+Lemma piano_prefix_set_outside {A} (xs : list A) n i v (d : A) :
+  0 <= n <= i -> i < Zlength xs ->
+  sublist 0 n (replace_Znth i v xs) = sublist 0 n xs.
+Proof.
+  intros Hn Hi. apply (proj2 (list_eq_ext _ _ d)); split.
+  - rewrite !Zlength_sublist0 by (rewrite ?Zlength_replace_Znth; lia); reflexivity.
+  - intros j Hj. rewrite Zlength_sublist0 in Hj by
+      (rewrite ?Zlength_replace_Znth; lia).
+    rewrite !Znth_sublist0 by lia. rewrite Znth_replace_Znth_Diff by lia; reflexivity.
+Qed.
+Lemma piano_prefix_append {A} (xs : list A) n v (d : A) :
+  0 <= n < Zlength xs ->
+  sublist 0 (n + 1) (replace_Znth n v xs) = sublist 0 n xs ++ [v].
+Proof.
+  intros Hn.
+  rewrite (sublist_split 0 (n + 1) n) by (rewrite ?Zlength_replace_Znth; lia).
+  rewrite (piano_prefix_set_outside _ _ _ _ d) by lia.
+  rewrite (sublist_single d) by (rewrite Zlength_replace_Znth; lia).
+  rewrite Znth_replace_Znth_Same by lia; reflexivity.
+Qed.
+Lemma piano_swap_prefix (xs : list Node) n i j :
+  0 <= n <= Zlength xs -> 0 <= i < n -> 0 <= j < n ->
+  sublist 0 n (PianoSwap xs i j) = PianoSwap (sublist 0 n xs) i j.
+Proof.
+  intros Hn Hi Hj. unfold PianoSwap.
+  rewrite !(piano_prefix_set _ _ _ _ default_node) by (rewrite ?Zlength_replace_Znth; lia).
+  rewrite !Znth_sublist0 by lia. reflexivity.
+Qed.
+Lemma piano_swap_permutation (xs : list Node) i j :
+  0 <= i < Zlength xs -> 0 <= j < Zlength xs -> Permutation xs (PianoSwap xs i j).
+Proof. intros. apply piano_generic_permutation_swap_Znth__push_sift_up; auto. Qed.
+Lemma piano_map_length {A B} (f : A -> B) xs : Zlength (map f xs) = Zlength xs.
+Proof. rewrite !Zlength_correct, length_map; reflexivity. Qed.
+Lemma piano_order_prefix slots size :
+  0 <= size <= Zlength slots ->
+  heap_ordered (map node_value (sublist 0 size slots)) size <->
+  heap_ordered (map node_value slots) size.
+Proof.
+  intros Hsize. unfold heap_ordered. rewrite piano_map_sublist.
+  split; intros H i Hi; pose proof (heap_parent_positive_bounds__push_sift_up i size ltac:(lia) ltac:(lia)) as Hp.
+  - specialize (H i Hi). rewrite !Znth_sublist0 in H by lia. exact H.
+  - rewrite !Znth_sublist0 by lia. apply H; auto.
+Qed.
+Lemma piano_heap_from_order slots size :
+  0 <= size <= Zlength slots -> heap_ordered (map node_value slots) size -> NodeHeapState slots size.
+Proof.
+  intros Hsize Horder. split; [exact Horder|]. destruct (Z.eq_dec size 0) as [->|Hne].
+  - left. apply Zsublist_nil; lia.
+  - right. exists (heap_top_node slots). split; [split|reflexivity].
+    + unfold heap_top_node.
+      replace (Znth 0 slots default_node) with (Znth 0 (sublist 0 size slots) default_node)
+        by (rewrite Znth_sublist0 by lia; reflexivity).
+      apply Znth_In_Zlength. rewrite Zlength_sublist0 by lia; lia.
+    + intros nd Hin.
+      destruct (in_sublist0_Znth default_node size slots nd Hsize Hin) as [i [Hi Heq]]. subst nd.
+      pose proof (heap_ordered_root_upper_bound__pop_initialization
+        (map node_value slots) size i Horder Hi) as H.
+      unfold heap_top_value, heap_top_node.
+      change (Znth i (map node_value slots) (node_value default_node) <=
+        Znth 0 (map node_value slots) (node_value default_node)) in H.
+      rewrite !piano_map_Znth in H. exact H.
+Qed.
+
+Lemma piano_scalar_push_start :
+  forall (base : list Z) (size x : Z),
+    0 <= size -> Zlength base = size -> heap_ordered base size ->
+    HeapProofFacts.PushLoopState (base ++ [x]) (base ++ [x]) size size x.
+Proof.
+  intros base size x Hsize_nonneg Hbase_length Hordered.
+  unfold HeapProofFacts.PushLoopState.
+  split; [exact Hsize_nonneg |].
+  split.
+  - rewrite Zlength_app, Zlength_cons, Zlength_nil.
+    lia.
+  - split.
+    + rewrite Zlength_app, Zlength_cons, Zlength_nil.
+      lia.
+    + split; [exact Hsize_nonneg |].
+      split; [lia |].
+      split.
+      * rewrite app_Znth2 by lia.
+        rewrite Hbase_length.
+        replace (size - size) with 0 by lia.
+        reflexivity.
+      * split.
+        -- apply Permutation_refl.
+        -- split.
+           ++ unfold HeapProofFacts.HeapOrderExceptUp.
+              split; [exact Hsize_nonneg |].
+              split; [lia |].
+              intros node [Hnode_positive [Hnode_bound Hnode_not_hole]].
+              assert (Hnode_lt_size : node < size) by lia.
+              assert (Hparent_nonneg : 0 <= heap_parent node).
+              {
+                unfold heap_parent.
+                apply Z.quot_pos; lia.
+              }
+              assert (Hparent_lt_node : heap_parent node < node).
+              {
+                unfold heap_parent.
+                apply Z.quot_lt_upper_bound; lia.
+              }
+              rewrite app_Znth1 by (rewrite Hbase_length; lia).
+              rewrite app_Znth1 by (rewrite Hbase_length; lia).
+              apply Hordered.
+              lia.
+           ++ unfold PushHoleChildrenPreserved.
+              intros node [Hnode_positive [Hnode_bound Hparent_is_hole]].
+              assert (Hparent_lt_node : heap_parent node < node).
+              {
+                unfold heap_parent.
+                apply Z.quot_lt_upper_bound; lia.
+              }
+              lia.
+Qed.
+
+Lemma piano_push_start slots size nd :
+  0 <= size < Zlength slots -> NodeHeapState slots size ->
+  PianoHeapPush slots (replace_Znth size nd slots) size size nd.
+Proof.
+  intros Hsize [Horder Hmax]. unfold PianoHeapPush. split.
+  - unfold FrontierPushPrefix. split; [apply Zlength_replace_Znth|].
+    rewrite (piano_prefix_append _ _ _ default_node) by lia.
+    apply (Permutation_app_comm [nd] (sublist 0 size slots)).
+  - rewrite (piano_prefix_append _ _ _ default_node) by lia. rewrite map_app; simpl.
+    apply PushLoopState_forget. apply piano_scalar_push_start; try lia.
+    + rewrite piano_map_length, Zlength_sublist0 by lia; reflexivity.
+    + apply (proj2 (piano_order_prefix slots size ltac:(lia))); exact Horder.
+Qed.
+Lemma piano_swap_values slots i j :
+  map node_value (PianoSwap slots i j) =
+  replace_Znth j (Znth i (map node_value slots) 0)
+    (replace_Znth i (Znth j (map node_value slots) 0) (map node_value slots)).
+Proof.
+  unfold PianoSwap. rewrite !piano_map_replace.
+  rewrite <- (piano_map_Znth node_value i slots default_node).
+  rewrite <- (piano_map_Znth node_value j slots default_node). reflexivity.
+Qed.
+Lemma piano_push_swap before current size child nd :
+  0 <= size < Zlength current -> 0 < child <= size ->
+  PianoHeapPush before current size child nd ->
+  node_value (Znth (heap_parent child) current default_node) <
+  node_value (Znth child current default_node) ->
+  PianoHeapPush before (PianoSwap current (heap_parent child) child) size (heap_parent child) nd.
+Proof.
+  intros Hsize Hchild [Hperm Hloop] Hlt.
+  pose proof (heap_parent_positive_bounds__push_sift_up child size ltac:(lia) ltac:(lia)) as Hp.
+  assert (Hread : forall i, 0 <= i < size + 1 ->
+    Znth i (map node_value (sublist 0 (size + 1) current)) 0 =
+    node_value (Znth i current default_node)).
+  { intros i Hi. rewrite piano_map_sublist, Znth_sublist0 by lia.
+    exact (piano_map_Znth node_value i current default_node). }
+  unfold PianoHeapPush. split.
+  - destruct Hperm as [Hlen Hperm]. split; [unfold PianoSwap; rewrite !Zlength_replace_Znth; exact Hlen|].
+    rewrite piano_swap_prefix by lia.
+    eapply Permutation_trans; [exact Hperm|]. apply piano_swap_permutation;
+      rewrite Zlength_sublist0 by lia; lia.
+  - rewrite piano_swap_prefix by lia. rewrite piano_swap_values.
+    apply PushLoopState_forget.
+    apply (proj2 (HeapProofFacts.push_swap_advances_loop__push_sift_up
+      _ _ size child (heap_parent child) (node_value nd)
+      (proj1 (PushLoopState_compat _ _ size child (node_value nd) ltac:(lia) ltac:(lia)) Hloop)
+      ltac:(lia) eq_refl ltac:(rewrite !Hread by lia; exact Hlt))).
+Qed.
+Lemma piano_push_finish before current size child nd :
+  0 <= size < Zlength current -> 0 <= child <= size ->
+  PianoHeapPush before current size child nd ->
+  (child = 0 \/ node_value (Znth child current default_node) <=
+    node_value (Znth (heap_parent child) current default_node)) ->
+  NodeHeapState current (size + 1) /\ FrontierPushPrefix before size nd current.
+Proof.
+  intros Hsize Hchild [Hperm Hloop] Hstop. split; [|exact Hperm].
+  apply piano_heap_from_order; [lia|]. apply (proj1 (piano_order_prefix current (size + 1) ltac:(lia))).
+  destruct Hloop as (_ & _ & _ & _ & Hexcept & _).
+  intros i Hi. destruct (Z.eq_dec i child) as [->|Hne].
+  - destruct Hstop as [->|Hle]; [lia|].
+    pose proof (heap_parent_positive_bounds__push_sift_up child size ltac:(lia) ltac:(lia)) as Hp.
+    rewrite !piano_map_sublist, !Znth_sublist0 by lia.
+    change (Znth (heap_parent child) (map node_value current) (node_value default_node) >=
+      Znth child (map node_value current) (node_value default_node)).
+    rewrite !piano_map_Znth; lia.
+  - apply Hexcept; lia.
+Qed.
+
+Lemma piano_pop_remaining {A} (d : A) :
+  forall (before : list A) size,
+    1 < size ->
+    Zlength before = size ->
+    Permutation
+      (sublist 0 (size - 1)
+        (replace_Znth 0 (Znth (size - 1) before d) before))
+      (sublist 1 size before).
+Proof.
+  intros before size Hsize Hlength.
+  destruct before as [|head tail].
+  - rewrite Zlength_nil in Hlength. lia.
+  - rewrite Zlength_cons in Hlength.
+    change
+      (Permutation
+        (sublist 0 (size - 1)
+          (Znth (size - 1) (head :: tail) d :: tail))
+        (sublist 1 size (head :: tail))).
+    rewrite Znth_cons by lia.
+    rewrite sublist_cons1 by lia.
+    rewrite sublist_cons2 by (rewrite ?Zlength_cons; lia).
+    replace (1 - 1) with 0 by lia.
+    replace (size - 1 - 1) with (size - 2) by lia.
+    rewrite (sublist_split 0 (size - 1) (size - 2) tail) by lia.
+    replace (size - 1) with (size - 2 + 1) by lia.
+    rewrite (sublist_single d (size - 2) tail) by lia.
+    change
+      (Permutation
+        ([Znth (size - 2) tail d] ++ sublist 0 (size - 2) tail)
+        (sublist 0 (size - 2) tail ++ [Znth (size - 2) tail d])).
+    apply Permutation_app_comm.
+Qed.
+
+Lemma piano_prefix_cons (xs : list Node) n :
+  0 < n <= Zlength xs -> sublist 0 n xs = Znth 0 xs default_node :: sublist 1 n xs.
+Proof.
+  intros Hn. rewrite (sublist_split 0 n 1) by lia.
+  pose proof (sublist_single default_node 0 xs ltac:(lia)) as Hsingle.
+  replace (0 + 1) with 1 in Hsingle by lia. rewrite Hsingle; reflexivity.
+Qed.
+Lemma piano_pop_start slots size :
+  1 < size <= Zlength slots -> NodeHeapState slots size ->
+  PianoHeapPop slots (replace_Znth 0 (Znth (size - 1) slots default_node) slots) size 0.
+Proof.
+  intros Hsize [Horder Hmax]. unfold PianoHeapPop; split.
+  - unfold FrontierPopTop, FrontierPopPrefix. split; [apply Zlength_replace_Znth|].
+    split.
+    + unfold heap_top_node. rewrite piano_prefix_cons by lia; left; reflexivity.
+    + assert (Hremain : Permutation
+        (sublist 0 (size - 1) (replace_Znth 0 (Znth (size - 1) slots default_node) slots))
+        (sublist 1 size slots)).
+      { pose proof (piano_pop_remaining default_node (sublist 0 size slots) size
+          ltac:(lia) ltac:(rewrite Zlength_sublist0 by lia; reflexivity)) as H.
+        rewrite Znth_sublist0 in H by lia.
+        rewrite <- (piano_prefix_set _ _ _ _ default_node) in H by lia.
+        rewrite !Zsublist_Zsublist0 in H by lia. exact H. }
+      rewrite (piano_prefix_cons slots size ltac:(lia)). unfold heap_top_node. apply perm_skip; exact Hremain.
+  - rewrite (piano_prefix_set _ _ _ _ default_node) by lia.
+    rewrite piano_map_replace.
+    replace (node_value (Znth (size - 1) slots default_node))
+      with (Znth (size - 1) (map node_value (sublist 0 size slots)) 0).
+    2:{ rewrite piano_map_sublist, Znth_sublist0 by lia.
+        exact (piano_map_Znth node_value (size - 1) slots default_node). }
+    apply PopLoopState_forget. apply HeapProofFacts.pop_root_replacement_loop_state__pop_initialization.
+    + lia.
+    + rewrite piano_map_length, Zlength_sublist0 by lia; reflexivity.
+    + apply (proj2 (piano_order_prefix slots size ltac:(lia))); assumption.
+Qed.
+Lemma piano_pop_swap before current size index selected :
+  1 < size <= Zlength current -> 0 <= index < size - 1 -> 0 <= selected < size - 1 ->
+  PianoHeapPop before current size index -> PianoHeapSelected current (size - 1) index selected ->
+  node_value (Znth index current default_node) < node_value (Znth selected current default_node) ->
+  PianoHeapPop before (PianoSwap current index selected) size selected.
+Proof.
+  intros Hsize Hi Hs [Hperm Hloop] Hselected Hlt.
+  unfold PianoHeapSelected in Hselected. replace (size - 1 + 1) with size in Hselected by lia.
+  pose proof (PopSelectedChild_forward _ (size - 1) index selected ltac:(lia) Hselected) as Hforward.
+  unfold PianoHeapPop; split.
+  - destruct Hperm as [Hlen [Hin Hperm]]. split; [unfold PianoSwap; rewrite !Zlength_replace_Znth; exact Hlen|].
+    split; [exact Hin|]. rewrite piano_swap_prefix by lia.
+    eapply Permutation_trans; [|exact Hperm]. apply perm_skip. apply Permutation_sym.
+    apply piano_swap_permutation; rewrite Zlength_sublist0 by lia; lia.
+  - rewrite piano_swap_prefix by lia. rewrite piano_swap_values.
+    apply PopLoopState_forget. eapply HeapProofFacts.pop_swap_advances_loop__pop_swap_transition.
+    + apply (proj1 (PopLoopState_compat _ _ size index ltac:(lia) Hi)); exact Hloop.
+    + apply (proj1 (PopSelectedChild_compat _ (size - 1) index selected Hi Hforward Hs)); exact Hselected.
+    + rewrite !piano_map_sublist, !Znth_sublist0 by lia.
+      change (Znth index (map node_value current) (node_value default_node) <
+        Znth selected (map node_value current) (node_value default_node)).
+      rewrite !piano_map_Znth; exact Hlt.
+Qed.
+Lemma piano_pop_finish before current size index :
+  1 < size <= Zlength current -> 0 <= index < size - 1 ->
+  PianoHeapPop before current size index ->
+  (index * 2 + 1 >= size - 1 \/ exists selected,
+    0 <= selected < size - 1 /\ PianoHeapSelected current (size - 1) index selected /\
+    node_value (Znth selected current default_node) <= node_value (Znth index current default_node)) ->
+  NodeHeapState current (size - 1) /\ FrontierPopTop before size current.
+Proof.
+  intros Hsize Hi [Hperm Hloop] Hstop. split; [|exact Hperm].
+  apply piano_heap_from_order; [lia|].
+  assert (Hordered : heap_ordered (map node_value (sublist 0 size current)) (size - 1)).
+  { pose proof (proj1 (PopLoopState_compat _ _ size index ltac:(lia) Hi) Hloop) as Hlegacy.
+    pose proof Hlegacy as (_ & Hb & Hc & _ & _ & Hord & _).
+    assert (Hmax : HeapProofFacts.PrefixMaximum (map node_value (sublist 0 size before)) size
+      (Znth 0 (map node_value (sublist 0 size before)) 0)).
+    { unfold HeapProofFacts.PrefixMaximum. repeat split; try lia.
+      intros j Hj. apply heap_ordered_root_upper_bound__pop_initialization with (size := size); auto. }
+    assert (Hready : HeapProofFacts.PopReadyState
+      (map node_value (sublist 0 size before)) (map node_value (sublist 0 size current)) size
+      (Znth 0 (map node_value (sublist 0 size before)) 0)).
+    { destruct Hstop as [Hleaf|[selected [Hs [Hsel Hle]]]].
+      - eapply HeapProofFacts.pop_leaf_ready__pop_ready_exit; eauto.
+      - unfold PianoHeapSelected in Hsel. replace (size - 1 + 1) with size in Hsel by lia.
+        pose proof (PopSelectedChild_forward _ (size - 1) index selected ltac:(lia) Hsel) as Hforward.
+        eapply HeapProofFacts.pop_comparison_ready__pop_ready_exit; [exact Hmax|exact Hlegacy| |].
+        + apply (proj1 (PopSelectedChild_compat _ (size - 1) index selected Hi Hforward Hs)); exact Hsel.
+        + rewrite !piano_map_sublist, !Znth_sublist0 by lia.
+          change (Znth index (map node_value current) (node_value default_node) >=
+            Znth selected (map node_value current) (node_value default_node)).
+          rewrite !piano_map_Znth; lia. }
+    destruct Hready as (_ & _ & _ & _ & _ & _ & _ & Hord'). exact Hord'. }
+  unfold heap_ordered in *. intros child Hchild.
+  specialize (Hordered child Hchild).
+  pose proof (heap_parent_positive_bounds__push_sift_up child size ltac:(lia) ltac:(lia)) as Hp.
+  rewrite piano_map_sublist, !Znth_sublist0 in Hordered by lia. exact Hordered.
+Qed.
+
+Lemma piano_nodes_wf vals starts los his bests :
+  Zlength starts = Zlength vals -> Zlength los = Zlength vals ->
+  Zlength his = Zlength vals -> Zlength bests = Zlength vals ->
+  NodeArrays (PianoNodes vals starts los his bests) vals starts los his bests.
+Proof.
+  revert starts los his bests. induction vals as [|v vals IH]; intros starts los his bests Hs Hl Hh Hb;
+  destruct starts as [|s starts]; destruct los as [|l los]; destruct his as [|h his];
+  destruct bests as [|b bests]; rewrite ?Zlength_cons, ?Zlength_nil in *;
+    try (pose proof (Zlength_nonneg vals); lia);
+    try (pose proof (Zlength_nonneg starts); lia);
+    try (pose proof (Zlength_nonneg los); lia);
+    try (pose proof (Zlength_nonneg his); lia);
+    try (pose proof (Zlength_nonneg bests); lia).
+  - unfold NodeArrays, PianoNodes; simpl. repeat split; constructor.
+  - specialize (IH starts los his bests ltac:(lia) ltac:(lia) ltac:(lia) ltac:(lia)).
+    destruct IH as (Hv & Hs' & Hl' & Hh' & Hb').
+    unfold NodeArrays. cbn [PianoNodes]. repeat split; constructor; auto.
+Qed.
+Lemma piano_arrays_length slots vals starts los his bests :
+  NodeArrays slots vals starts los his bests -> Zlength vals = Zlength slots.
+Proof. rewrite piano_arrays_iff. intros (-> & _). apply piano_map_length. Qed.
+Lemma piano_initial_node ps n L R start lo hi best value :
+  Zlength ps = n + 1 -> 1 <= L <= R -> R <= n ->
+  1 <= start <= n - L + 1 -> lo = start + L - 1 -> hi = Z.min n (start + R - 1) ->
+  RangeArgmax ps lo hi best -> value = Znth best ps 0 - Znth (start - 1) ps 0 ->
+  ValidNodeFields ps n L R value start lo hi best.
+Proof.
+  intros Hps HLR HR Hstart Hlo Hhi Harg Hvalue.
+  apply piano_argmax_view in Harg. destruct Harg as [Hb Hmax].
+  unfold ValidNodeFields. apply ValidNode_unfold. cbn.
+  repeat split; try lia. intros finish Hfinish. specialize (Hmax finish Hfinish); lia.
+Qed.
+Lemma piano_initial_empty ps n L R : PianoInitialPrefix ps n L R 1 [].
+Proof. split; [constructor|]. change (@Permutation Z [] []). reflexivity. Qed.
+Lemma piano_Zrange_snoc lo hi : lo <= hi -> Zrange lo (hi + 1) = Zrange lo hi ++ [hi].
+Proof.
+  intros H. unfold Zrange.
+  replace (Z.to_nat (hi + 1 - lo)) with (Z.to_nat (hi - lo) + 1)%nat by lia.
+  rewrite Zrange_aux_app. simpl.
+  rewrite Z2Nat.id by lia. replace (lo + (hi - lo)) with hi by lia. reflexivity.
+Qed.
+Lemma piano_initial_step ps n L R start nodes out nd :
+  1 <= start -> PianoInitialPrefix ps n L R start nodes ->
+  ValidNode ps n L R nd -> node_start nd = start -> node_lo nd = start + L - 1 ->
+  node_hi nd = Z.min n (start + R - 1) ->
+  Permutation (nd :: nodes) out -> PianoInitialPrefix ps n L R (start + 1) out.
+Proof.
+  intros Hstart [Hnodes Hstarts] Hnd Hs Hl Hh Hperm. split.
+  - eapply Forall_permutation; [exact Hperm|]. constructor.
+    + split; [exact Hnd|]. rewrite Hs. repeat split; try assumption; lia.
+    + eapply Forall_impl; [|exact Hnodes]. intros x (Hv & Hr & Hlo & Hhi).
+      split; [exact Hv|]. repeat split; try assumption; lia.
+  - rewrite piano_Zrange_snoc by lia.
+    eapply Permutation_trans; [apply Permutation_sym; apply Permutation_map; exact Hperm|].
+    simpl. rewrite Hs. eapply Permutation_trans.
+    + apply perm_skip; exact Hstarts.
+    + apply (Permutation_app_comm [start] (Zrange 1 start)).
+Qed.
+Lemma piano_nodup_map_injective {A B} (f : A -> B) xs x y :
+  NoDup (map f xs) -> In x xs -> In y xs -> f x = f y -> x = y.
+Proof.
+  induction xs as [|a xs IH]; simpl; intros Hnodup Hx Hy Heq; [contradiction|].
+  inversion Hnodup as [|? ? Hnot Htail]; subst. destruct Hx as [->|Hx], Hy as [->|Hy]; auto.
+  - exfalso. apply Hnot. rewrite Heq. apply in_map; exact Hy.
+  - exfalso. apply Hnot. rewrite <- Heq. apply in_map; exact Hx.
+Qed.
+Lemma piano_initial_complete ps n L R nodes :
+  1 <= L <= R -> R <= n -> PianoInitialPrefix ps n L R (n - L + 2) nodes ->
+  InitialFrontierState ps n L R nodes.
+Proof.
+  intros HLR HR [Hnodes Hstarts].
+  assert (Hunique : NoDup (map node_start nodes)).
+  { eapply Permutation_NoDup; [apply Permutation_sym; exact Hstarts|]. apply NoDup_Zrange. }
+  unfold InitialFrontierState, FrontierState.
+  split; [unfold ValidSongCodes; repeat split; constructor|].
+  split; [unfold SongCodesSum; reflexivity|].
+  split; [intros picked rest Hin; contradiction|].
+  split.
+  - eapply Forall_impl; [|exact Hnodes]. intros nd H. exact (proj1 H).
+  - split.
+    + split.
+      * eapply NoDup_map_inv; exact Hunique.
+      * intros nd1 nd2 H1 H2 Hne Heq. exfalso. apply Hne.
+        eapply piano_nodup_map_injective; eauto.
+    + split.
+      * intros code Hvalid Hnot. unfold ValidChordCode in Hvalid.
+        destruct Hvalid as (Hps & Hlo & Horder & Hhi & Hlenlo & Hlenhi).
+        assert (Hin : In (CodeStart n code) (map node_start nodes)).
+        { eapply Permutation_in; [apply Permutation_sym; exact Hstarts|]. apply In_Zrange; lia. }
+        apply in_map_iff in Hin. destruct Hin as [nd [Heq Hin]]. exists nd; split; [exact Hin|].
+        rewrite Forall_forall in Hnodes. specialize (Hnodes nd Hin).
+        destruct Hnodes as (_ & _ & Hndlo & Hndhi).
+        unfold NodeCoversCode. rewrite Heq, Hndlo, Hndhi, Heq.
+        split; [reflexivity|]. split; [lia|]. apply Z.min_glb; lia.
+      * intros nd code Hin Hcover Hchosen; contradiction.
+Qed.
+
+Lemma piano_selected_left slots size index :
+  0 <= index -> index * 2 + 1 < size -> size + 1 <= Zlength slots ->
+  (index * 2 + 2 >= size \/
+   node_value (Znth (index * 2 + 1) slots default_node) >=
+   node_value (Znth (index * 2 + 2) slots default_node)) ->
+  PianoHeapSelected slots size index (index * 2 + 1).
+Proof.
+  intros Hi Hl Hlen Hchoice. unfold PianoHeapSelected.
+  apply PopSelectedChild_forget. apply HeapProofFacts.pop_select_left__pop_child_selection;
+    unfold heap_left_child, heap_right_child; try lia.
+  destruct Hchoice as [Hout|Hle]; [left; auto|]. right.
+  rewrite !piano_map_sublist, !Znth_sublist0 by lia.
+  change (Znth (index * 2 + 1) (map node_value slots) (node_value default_node) >=
+    Znth (index * 2 + 2) (map node_value slots) (node_value default_node)).
+  rewrite !piano_map_Znth; exact Hle.
+Qed.
+Lemma piano_selected_right slots size index :
+  0 <= index -> index * 2 + 2 < size -> size + 1 <= Zlength slots ->
+  node_value (Znth (index * 2 + 1) slots default_node) <
+    node_value (Znth (index * 2 + 2) slots default_node) ->
+  PianoHeapSelected slots size index (index * 2 + 2).
+Proof.
+  intros Hi Hr Hlen Hlt. unfold PianoHeapSelected.
+  apply PopSelectedChild_forget. apply HeapProofFacts.pop_select_right__pop_child_selection;
+    unfold heap_left_child, heap_right_child; try lia.
+  rewrite !piano_map_sublist, !Znth_sublist0 by lia.
+  change (Znth (index * 2 + 1) (map node_value slots) (node_value default_node) <
+    Znth (index * 2 + 2) (map node_value slots) (node_value default_node)).
+  rewrite !piano_map_Znth; exact Hlt.
+Qed.
+Lemma piano_pop_singleton slots :
+  1 <= Zlength slots -> NodeHeapState slots 0 /\ FrontierPopTop slots 1 slots.
+Proof.
+  intros Hlen. split.
+  - apply piano_heap_from_order; [lia|]. intros child H; lia.
+  - unfold FrontierPopTop, FrontierPopPrefix. split; [reflexivity|]. split.
+    + unfold heap_top_node. rewrite piano_prefix_cons by lia. left; reflexivity.
+    + rewrite (piano_prefix_cons slots 1 ltac:(lia)).
+      replace (1 - 1) with 0 by lia. rewrite !Zsublist_nil by lia.
+      unfold heap_top_node; reflexivity.
+Qed.
+
+Lemma piano_arrays_node slots vals starts los his bests i :
+  NodeArrays slots vals starts los his bests ->
+  mkNode (Znth i vals 0) (Znth i starts 0) (Znth i los 0) (Znth i his 0) (Znth i bests 0) =
+    Znth i slots default_node.
+Proof.
+  intros H. pose proof (piano_arrays_read slots vals starts los his bests i H)
+    as (Hv & Hs & Hl & Hh & Hb).
+  rewrite Hv, Hs, Hl, Hh, Hb.
+  destruct (Znth i slots default_node) as [[[[v s] l] h] b]; reflexivity.
+Qed.
+Lemma piano_prefix_bounds l ps n :
+  PrefixSums l ps -> Zlength l = n -> 0 <= n <= 100000 ->
+  Forall (Z.le (-1000)) l -> Forall (Z.ge 1000) l ->
+  Forall (Z.le (-100000000)) ps /\ Forall (Z.ge 100000000) ps.
+Proof.
+  intros Hps Hlen Hn Hlo Hhi. pose proof (proj1 Hps) as Hpslen.
+  apply PrefixSums_recurrence in Hps. rewrite Hlen in Hps, Hpslen.
+  assert (Hl : forall i, 0 <= i < n -> -1000 <= Znth i l 0 <= 1000).
+  { intros i Hi. pose proof (proj1 (Forall_Znth _ 0 l) Hlo i ltac:(lia)).
+    pose proof (proj1 (Forall_Znth _ 0 l) Hhi i ltac:(lia)). lia. }
+  split; apply (proj2 (Forall_Znth _ 0 ps)); intros i Hi;
+    pose proof (PrefixArrayPrefix_entry_abs_bound l ps n i Hps Hl ltac:(lia)); lia.
 Qed.

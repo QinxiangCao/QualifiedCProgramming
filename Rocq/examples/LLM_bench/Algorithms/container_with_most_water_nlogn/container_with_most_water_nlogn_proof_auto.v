@@ -173,16 +173,16 @@ Proof. Admitted.
 Lemma proof_of_maxAreaNLogN_safety_wit_7 : maxAreaNLogN_safety_wit_7.
 Proof. Admitted. 
 
+Lemma proof_of_maxAreaNLogN_safety_wit_8 : maxAreaNLogN_safety_wit_8.
+Proof. Admitted. 
+
+Lemma proof_of_maxAreaNLogN_safety_wit_9 : maxAreaNLogN_safety_wit_9.
+Proof. Admitted. 
+
 Lemma proof_of_maxAreaNLogN_safety_wit_10 : maxAreaNLogN_safety_wit_10.
 Proof. Admitted. 
 
 Lemma proof_of_maxAreaNLogN_safety_wit_11 : maxAreaNLogN_safety_wit_11.
-Proof. Admitted. 
-
-Lemma proof_of_maxAreaNLogN_safety_wit_12 : maxAreaNLogN_safety_wit_12.
-Proof. Admitted. 
-
-Lemma proof_of_maxAreaNLogN_safety_wit_13 : maxAreaNLogN_safety_wit_13.
 Proof. Admitted. 
 
 Lemma proof_of_maxAreaNLogN_safety_wit_14 : maxAreaNLogN_safety_wit_14.
@@ -372,6 +372,18 @@ Lemma proof_of_maxAreaNLogN_safety_wit_75 : maxAreaNLogN_safety_wit_75.
 Proof. Admitted. 
 
 Lemma proof_of_maxAreaNLogN_safety_wit_76 : maxAreaNLogN_safety_wit_76.
+Proof. Admitted. 
+
+Lemma proof_of_maxAreaNLogN_safety_wit_77 : maxAreaNLogN_safety_wit_77.
+Proof. Admitted. 
+
+Lemma proof_of_maxAreaNLogN_safety_wit_78 : maxAreaNLogN_safety_wit_78.
+Proof. Admitted. 
+
+Lemma proof_of_maxAreaNLogN_safety_wit_79 : maxAreaNLogN_safety_wit_79.
+Proof. Admitted. 
+
+Lemma proof_of_maxAreaNLogN_safety_wit_80 : maxAreaNLogN_safety_wit_80.
 Proof. Admitted. 
 
 Lemma proof_of_maxAreaNLogN_return_wit_1 : maxAreaNLogN_return_wit_1.

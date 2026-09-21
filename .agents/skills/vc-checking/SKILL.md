@@ -1,6 +1,6 @@
 ---
 name: vc-checking
-description: controller 已领取 vc-checking attempt、selected-backend dependency snapshot 已准备且主仓库 manual 至少含一个 top-level VC 时，由独立 vc-checking owner 使用；直接检查当前 manual，先完成廉价 top-level structural blocker scan，再对无确定 blocker 的输入完成全量 split-first 可证性判断、proof_mode 决策和严格 group plan，并完成本 attempt 的报告交付或原地报告修复。
+description: controller 已领取 vc-checking attempt、当前 backend 的依赖 plan 已准备且主仓库 manual 至少含一个 top-level VC 时，由独立 vc-checking owner 使用；直接检查当前 manual，先完成廉价 top-level structural blocker scan，再对无确定 blocker 的输入完成全量 split-first 可证性判断、proof_mode 决策和严格 group plan，并完成本 attempt 的报告交付或原地报告修复。
 ---
 
 # VC 检查
@@ -21,5 +21,5 @@ description: controller 已领取 vc-checking attempt、selected-backend depende
 - 读取 annotation 的 VC comparison，但把它当作优先复核线索；在当前 manual 中独立检查新增 premise 的来源和 related VCs。
 - structural scan 无确定 blocker 后，全部 top-level VC 严格执行全量 split-first 分析和唯一 `proof_mode` 决策。
 - 仅对所选正式目标写可执行策略；不做 witness reuse 分析。
-- 把依赖新重型数学 lemma 的 current/related VCs 单独放入最先运行的高风险 group，再完成其余分组，输出严格的 `group_plan.json` 和压缩的 `agent_output.md`。
-- 最后写 `agent_report.json`，停止所有写入并把 delivery 交回 main/controller；若 controller 要求原地报告修复，只在同一 owner、attempt 和允许边界内修复。
+- 自行评估风险并安排 plan 顺序，把依赖新重型数学 lemma 的 current/related VCs 尽量放在一起。Controller 保留包含 comparison `current` 的组为首批，各批次都按 plan 顺序派发，不按难度分数重排。
+- 最后写 `agent_report.json`，停止所有写入并把 delivery 交回 main/controller；`finalize-delivery` 完成当前报告与 plan 的全部验收；若要求修复，只在同一 owner、attempt 和允许边界内继续。

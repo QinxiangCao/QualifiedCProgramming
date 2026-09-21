@@ -22,54 +22,91 @@ Local Open Scope sac.
 (*----- Function lengthOfLNDS -----*)
 
 Definition lengthOfLNDS_safety_wit_1 := 
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (tails_l: (@list Z)) (l: (@list Z)) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_l)) = numsSize_pre)) ,
-  ((( &( "len" ) )) # Int  |->_)
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) ,
+  ((( &( "fill" ) )) # Int  |->_)
+  **  (IntArray.undef_full ( &( "tails" ) ) 100000 )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
-  **  ((( &( "tails" ) )) # Ptr  |-> tails_pre)
   **  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_l )
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
 Definition lengthOfLNDS_safety_wit_2 := 
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (tails_l: (@list Z)) (l: (@list Z)) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_l)) = numsSize_pre)) ,
-  ((( &( "i" ) )) # Int  |->_)
-  **  ((( &( "len" ) )) # Int  |-> 0)
-  **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (initialized: (@list Z)) (fill: Z) (PreH1 : (fill < numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= fill)) (PreH6 : (fill <= numsSize_pre)) (PreH7 : ((Zlength (initialized)) = fill)) ,
+  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
-  **  ((( &( "tails" ) )) # Ptr  |-> tails_pre)
+  **  ((( &( "fill" ) )) # Int  |-> fill)
   **  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_l )
+  **  (IntArray.seg ( &( "tails" ) ) 0 fill initialized )
+  **  (IntArray.undef_seg ( &( "tails" ) ) fill 100000 )
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
 Definition lengthOfLNDS_safety_wit_3 := 
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur: (@list Z)) (i: Z) (len: Z) (x: Z) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= len)) (PreH8 : (len <= i)) (PreH9 : (x = (Znth i l 0))) (PreH10 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH11 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH12 : (LNDSOptimalLength l i len )) (PreH13 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) ,
-  ((( &( "left" ) )) # Int  |->_)
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (initialized: (@list Z)) (fill: Z) (PreH1 : (fill < numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= fill)) (PreH6 : (fill <= numsSize_pre)) (PreH7 : ((Zlength (initialized)) = fill)) ,
+  (IntArray.seg ( &( "tails" ) ) 0 (fill + 1 ) (app (initialized) ((cons (0) ((@nil Z))))) )
+  **  (IntArray.undef_seg ( &( "tails" ) ) (fill + 1 ) 100000 )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "tails" ) )) # Ptr  |-> tails_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
-  **  ((( &( "i" ) )) # Int  |-> i)
-  **  ((( &( "len" ) )) # Int  |-> len)
-  **  ((( &( "x" ) )) # Int  |-> x)
+  **  ((( &( "fill" ) )) # Int  |-> fill)
   **  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
+|--
+  “ ((fill + 1 ) <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= (fill + 1 )) ”
+.
+
+Definition lengthOfLNDS_safety_wit_4 := 
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (initialized: (@list Z)) (fill: Z) (PreH1 : (fill >= numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= fill)) (PreH6 : (fill <= numsSize_pre)) (PreH7 : ((Zlength (initialized)) = fill)) ,
+  ((( &( "len" ) )) # Int  |->_)
+  **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
+  **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
+  **  (IntArray.full nums_pre numsSize_pre l )
+  **  (IntArray.seg ( &( "tails" ) ) 0 fill initialized )
+  **  (IntArray.undef_seg ( &( "tails" ) ) fill 100000 )
 |--
   “ (0 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 0) ”
 .
 
-Definition lengthOfLNDS_safety_wit_4 := 
+Definition lengthOfLNDS_safety_wit_5 := 
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (initialized: (@list Z)) (fill: Z) (PreH1 : (fill >= numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= fill)) (PreH6 : (fill <= numsSize_pre)) (PreH7 : ((Zlength (initialized)) = fill)) ,
+  ((( &( "i" ) )) # Int  |->_)
+  **  ((( &( "len" ) )) # Int  |-> 0)
+  **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
+  **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
+  **  (IntArray.full nums_pre numsSize_pre l )
+  **  (IntArray.seg ( &( "tails" ) ) 0 fill initialized )
+  **  (IntArray.undef_seg ( &( "tails" ) ) fill 100000 )
+|--
+  “ (0 <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= 0) ”
+.
+
+Definition lengthOfLNDS_safety_wit_6 := 
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (i < numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH11 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH12 : (LNDSOptimalLength l i len )) (PreH13 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) ,
+  ((( &( "left" ) )) # Int  |->_)
+  **  (IntArray.full nums_pre numsSize_pre l )
+  **  ((( &( "x" ) )) # Int  |-> (Znth i l 0))
+  **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
+  **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
+  **  ((( &( "i" ) )) # Int  |-> i)
+  **  ((( &( "len" ) )) # Int  |-> len)
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
+|--
+  “ (0 <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= 0) ”
+.
+
+Definition lengthOfLNDS_safety_wit_7 := 
 (
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (left < right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (left < right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
   ((( &( "mid" ) )) # Int  |->_)
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "tails" ) )) # Ptr  |-> tails_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "len" ) )) # Int  |-> len)
@@ -77,16 +114,16 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) 
   **  ((( &( "left" ) )) # Int  |-> left)
   **  ((( &( "right" ) )) # Int  |-> right)
   **  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   “ ((left + ((right - left ) ÷ 2 ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (left + ((right - left ) ÷ 2 ) )) ”
 ) \/
 (
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (left < right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (left < right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
   ((( &( "mid" ) )) # Int  |->_)
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "tails" ) )) # Ptr  |-> tails_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "len" ) )) # Int  |-> len)
@@ -94,17 +131,17 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) 
   **  ((( &( "left" ) )) # Int  |-> left)
   **  ((( &( "right" ) )) # Int  |-> right)
   **  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   “ ((left + ((right - left ) ÷ 2 ) ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (left + ((right - left ) ÷ 2 ) )) ”
 ).
 
-Definition lengthOfLNDS_safety_wit_4_split_goal_1 := 
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (left < right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
+Definition lengthOfLNDS_safety_wit_7_split_goal_1 := 
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (left < right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
   ((( &( "mid" ) )) # Int  |->_)
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "tails" ) )) # Ptr  |-> tails_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "len" ) )) # Int  |-> len)
@@ -112,16 +149,16 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) 
   **  ((( &( "left" ) )) # Int  |-> left)
   **  ((( &( "right" ) )) # Int  |-> right)
   **  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   “ ((left + ((right - left ) ÷ 2 ) ) <= INT_MAX) ”
 .
 
-Definition lengthOfLNDS_safety_wit_4_split_goal_2 := 
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (left < right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
+Definition lengthOfLNDS_safety_wit_7_split_goal_2 := 
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (left < right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
   ((( &( "mid" ) )) # Int  |->_)
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "tails" ) )) # Ptr  |-> tails_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "len" ) )) # Int  |-> len)
@@ -129,16 +166,16 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) 
   **  ((( &( "left" ) )) # Int  |-> left)
   **  ((( &( "right" ) )) # Int  |-> right)
   **  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   “ ((INT_MIN) <= (left + ((right - left ) ÷ 2 ) )) ”
 .
 
-Definition lengthOfLNDS_safety_wit_5 := 
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (left < right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
+Definition lengthOfLNDS_safety_wit_8 := 
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (left < right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
   ((( &( "mid" ) )) # Int  |->_)
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "tails" ) )) # Ptr  |-> tails_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "len" ) )) # Int  |-> len)
@@ -146,17 +183,17 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) 
   **  ((( &( "left" ) )) # Int  |-> left)
   **  ((( &( "right" ) )) # Int  |-> right)
   **  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   “ (((right - left ) <> (INT_MIN)) \/ (2 <> (-1))) ” 
   &&  “ (2 <> 0) ”
 .
 
-Definition lengthOfLNDS_safety_wit_6 := 
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (left < right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
+Definition lengthOfLNDS_safety_wit_9 := 
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (left < right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
   ((( &( "mid" ) )) # Int  |->_)
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "tails" ) )) # Ptr  |-> tails_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "len" ) )) # Int  |-> len)
@@ -164,17 +201,17 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) 
   **  ((( &( "left" ) )) # Int  |-> left)
   **  ((( &( "right" ) )) # Int  |-> right)
   **  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   “ ((right - left ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (right - left )) ”
 .
 
-Definition lengthOfLNDS_safety_wit_7 := 
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (left < right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
+Definition lengthOfLNDS_safety_wit_10 := 
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (left < right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
   ((( &( "mid" ) )) # Int  |->_)
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "tails" ) )) # Ptr  |-> tails_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "len" ) )) # Int  |-> len)
@@ -182,17 +219,17 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) 
   **  ((( &( "left" ) )) # Int  |-> left)
   **  ((( &( "right" ) )) # Int  |-> right)
   **  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   “ (2 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 2) ”
 .
 
-Definition lengthOfLNDS_safety_wit_8 := 
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (mid: Z) (PreH1 : ((Znth mid tails_cur 0) <= x)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left < right)) (PreH13 : (right <= len)) (PreH14 : (left <= mid)) (PreH15 : (mid < right)) (PreH16 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH17 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH18 : (LNDSOptimalLength l i len )) (PreH19 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH20 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
-  (IntArray.full tails_pre numsSize_pre tails_cur )
+Definition lengthOfLNDS_safety_wit_11 := 
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (mid: Z) (PreH1 : ((Znth mid tails_cur 0) <= x)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left < right)) (PreH13 : (right <= len)) (PreH14 : (left <= mid)) (PreH15 : (mid < right)) (PreH16 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH17 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH18 : (LNDSOptimalLength l i len )) (PreH19 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH20 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
+  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "tails" ) )) # Ptr  |-> tails_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "len" ) )) # Int  |-> len)
@@ -201,16 +238,16 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur:
   **  ((( &( "right" ) )) # Int  |-> right)
   **  ((( &( "mid" ) )) # Int  |-> mid)
   **  (IntArray.full nums_pre numsSize_pre l )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   “ ((mid + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (mid + 1 )) ”
 .
 
-Definition lengthOfLNDS_safety_wit_9 := 
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (mid: Z) (PreH1 : ((Znth mid tails_cur 0) <= x)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left < right)) (PreH13 : (right <= len)) (PreH14 : (left <= mid)) (PreH15 : (mid < right)) (PreH16 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH17 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH18 : (LNDSOptimalLength l i len )) (PreH19 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH20 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
-  (IntArray.full tails_pre numsSize_pre tails_cur )
+Definition lengthOfLNDS_safety_wit_12 := 
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (mid: Z) (PreH1 : ((Znth mid tails_cur 0) <= x)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left < right)) (PreH13 : (right <= len)) (PreH14 : (left <= mid)) (PreH15 : (mid < right)) (PreH16 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH17 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH18 : (LNDSOptimalLength l i len )) (PreH19 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH20 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
+  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
   **  ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "tails" ) )) # Ptr  |-> tails_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "len" ) )) # Int  |-> len)
@@ -219,15 +256,15 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur:
   **  ((( &( "right" ) )) # Int  |-> right)
   **  ((( &( "mid" ) )) # Int  |-> mid)
   **  (IntArray.full nums_pre numsSize_pre l )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition lengthOfLNDS_safety_wit_10 := 
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_old: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (PreH1 : (left = len)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_old)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= len)) (PreH13 : (right = left)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_old)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_old)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_old)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_old)) len x left left )) ,
+Definition lengthOfLNDS_safety_wit_13 := 
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_old: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (PreH1 : (left = len)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_old)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= len)) (PreH13 : (right = left)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_old)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_old)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_old)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_old)) len x left left )) ,
   ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "tails" ) )) # Ptr  |-> tails_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "len" ) )) # Int  |-> len)
@@ -235,16 +272,16 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_old:
   **  ((( &( "left" ) )) # Int  |-> left)
   **  ((( &( "right" ) )) # Int  |-> right)
   **  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre (app ((sublist (0) (left) (tails_old))) ((cons (x) ((sublist ((left + 1 )) (numsSize_pre) (tails_old)))))) )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre (app ((sublist (0) (left) (tails_old))) ((cons (x) ((sublist ((left + 1 )) (numsSize_pre) (tails_old)))))) )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   “ ((len + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (len + 1 )) ”
 .
 
-Definition lengthOfLNDS_safety_wit_11 := 
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_old: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (PreH1 : (left = len)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_old)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= len)) (PreH13 : (right = left)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_old)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_old)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_old)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_old)) len x left left )) ,
+Definition lengthOfLNDS_safety_wit_14 := 
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_old: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (PreH1 : (left = len)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_old)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= len)) (PreH13 : (right = left)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_old)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_old)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_old)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_old)) len x left left )) ,
   ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "tails" ) )) # Ptr  |-> tails_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "len" ) )) # Int  |-> len)
@@ -252,21 +289,22 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_old:
   **  ((( &( "left" ) )) # Int  |-> left)
   **  ((( &( "right" ) )) # Int  |-> right)
   **  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre (app ((sublist (0) (left) (tails_old))) ((cons (x) ((sublist ((left + 1 )) (numsSize_pre) (tails_old)))))) )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre (app ((sublist (0) (left) (tails_old))) ((cons (x) ((sublist ((left + 1 )) (numsSize_pre) (tails_old)))))) )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   “ (1 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 1) ”
 .
 
-Definition lengthOfLNDS_safety_wit_12 := 
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= len)) (PreH8 : (len <= (i + 1 ))) (PreH9 : (x = (Znth i l 0))) (PreH10 : (0 <= left)) (PreH11 : (left <= len)) (PreH12 : (right = left)) (PreH13 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH14 : (LNDTailsRealizability l (i + 1 ) (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDSOptimalLength l (i + 1 ) len )) (PreH16 : (LNDTailsMinimality l (i + 1 ) (sublist (0) (len) (tails_cur)) len )) ,
+Definition lengthOfLNDS_safety_wit_15 := 
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= len)) (PreH8 : (len <= (i + 1 ))) (PreH9 : (x = (Znth i l 0))) (PreH10 : (0 <= left)) (PreH11 : (left <= len)) (PreH12 : (right = left)) (PreH13 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH14 : (LNDTailsRealizability l (i + 1 ) (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDSOptimalLength l (i + 1 ) len )) (PreH16 : (LNDTailsMinimality l (i + 1 ) (sublist (0) (len) (tails_cur)) len )) ,
   ((( &( "nums" ) )) # Ptr  |-> nums_pre)
-  **  ((( &( "tails" ) )) # Ptr  |-> tails_pre)
   **  ((( &( "numsSize" ) )) # Int  |-> numsSize_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  ((( &( "len" ) )) # Int  |-> len)
   **  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   “ ((i + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i + 1 )) ”
@@ -274,9 +312,71 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur:
 
 Definition lengthOfLNDS_entail_wit_1 := 
 (
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (tails_l: (@list Z)) (l: (@list Z)) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_l)) = numsSize_pre)) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) ,
+  (IntArray.undef_full ( &( "tails" ) ) 100000 )
+  **  (IntArray.full nums_pre numsSize_pre l )
+|--
+  EX (initialized: (@list Z)) ,
+  “ (0 <= numsSize_pre) ” 
+  &&  “ (numsSize_pre <= 100000) ” 
+  &&  “ ((Zlength (l)) = numsSize_pre) ” 
+  &&  “ (0 <= 0) ” 
+  &&  “ (0 <= numsSize_pre) ” 
+  &&  “ ((Zlength (initialized)) = 0) ”
+  &&  (IntArray.full nums_pre numsSize_pre l )
+  **  (IntArray.seg ( &( "tails" ) ) 0 0 initialized )
+  **  (IntArray.undef_seg ( &( "tails" ) ) 0 100000 )
+) \/
+(
+forall (numsSize_pre: Z) (l: (@list Z)) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) ,
+  TT && emp 
+|--
+  “ ((Zlength ((@nil Z))) = 0) ”
+  &&  emp
+).
+
+Definition lengthOfLNDS_entail_wit_1_split_goal_1 := 
+forall (numsSize_pre: Z) (l: (@list Z)) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) ,
+  ((Zlength ((@nil Z))) = 0)
+.
+
+Definition lengthOfLNDS_entail_wit_2 := 
+(
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (initialized_2: (@list Z)) (fill: Z) (PreH1 : (fill < numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= fill)) (PreH6 : (fill <= numsSize_pre)) (PreH7 : ((Zlength (initialized_2)) = fill)) ,
+  (IntArray.seg ( &( "tails" ) ) 0 (fill + 1 ) (app (initialized_2) ((cons (0) ((@nil Z))))) )
+  **  (IntArray.undef_seg ( &( "tails" ) ) (fill + 1 ) 100000 )
+  **  (IntArray.full nums_pre numsSize_pre l )
+|--
+  EX (initialized: (@list Z)) ,
+  “ (0 <= numsSize_pre) ” 
+  &&  “ (numsSize_pre <= 100000) ” 
+  &&  “ ((Zlength (l)) = numsSize_pre) ” 
+  &&  “ (0 <= (fill + 1 )) ” 
+  &&  “ ((fill + 1 ) <= numsSize_pre) ” 
+  &&  “ ((Zlength (initialized)) = (fill + 1 )) ”
+  &&  (IntArray.full nums_pre numsSize_pre l )
+  **  (IntArray.seg ( &( "tails" ) ) 0 (fill + 1 ) initialized )
+  **  (IntArray.undef_seg ( &( "tails" ) ) (fill + 1 ) 100000 )
+) \/
+(
+forall (numsSize_pre: Z) (l: (@list Z)) (initialized_2: (@list Z)) (fill: Z) (PreH1 : (fill < numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= fill)) (PreH6 : (fill <= numsSize_pre)) (PreH7 : ((Zlength (initialized_2)) = fill)) ,
+  TT && emp 
+|--
+  “ ((Zlength ((app (initialized_2) ((cons (0) ((@nil Z))))))) = (fill + 1 )) ”
+  &&  emp
+).
+
+Definition lengthOfLNDS_entail_wit_2_split_goal_1 := 
+forall (numsSize_pre: Z) (l: (@list Z)) (initialized_2: (@list Z)) (fill: Z) (PreH1 : (fill < numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= fill)) (PreH6 : (fill <= numsSize_pre)) (PreH7 : ((Zlength (initialized_2)) = fill)) ,
+  ((Zlength ((app (initialized_2) ((cons (0) ((@nil Z))))))) = (fill + 1 ))
+.
+
+Definition lengthOfLNDS_entail_wit_3 := 
+(
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (initialized: (@list Z)) (fill: Z) (PreH1 : (fill >= numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= fill)) (PreH6 : (fill <= numsSize_pre)) (PreH7 : ((Zlength (initialized)) = fill)) ,
   (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_l )
+  **  (IntArray.seg ( &( "tails" ) ) 0 fill initialized )
+  **  (IntArray.undef_seg ( &( "tails" ) ) fill 100000 )
 |--
   EX (tails_cur: (@list Z)) ,
   “ (0 <= numsSize_pre) ” 
@@ -292,43 +392,35 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (tails_l: (@list Z)) (l: (
   &&  “ (LNDSOptimalLength l 0 0 ) ” 
   &&  “ (LNDTailsMinimality l 0 (sublist (0) (0) (tails_cur)) 0 ) ”
   &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 ) \/
 (
-forall (numsSize_pre: Z) (tails_l: (@list Z)) (l: (@list Z)) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_l)) = numsSize_pre)) ,
-  TT && emp 
+forall (numsSize_pre: Z) (l: (@list Z)) (initialized: (@list Z)) (fill: Z) (PreH1 : (fill >= numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= fill)) (PreH6 : (fill <= numsSize_pre)) (PreH7 : ((Zlength (initialized)) = fill)) ,
+  (IntArray.seg ( &( "tails" ) ) 0 fill initialized )
 |--
-  “ (LNDTailsMinimality l 0 (sublist (0) (0) (tails_l)) 0 ) ” 
+  EX (tails_cur: (@list Z)) ,
+  “ (0 <= numsSize_pre) ” 
+  &&  “ (numsSize_pre <= 100000) ” 
+  &&  “ ((Zlength (l)) = numsSize_pre) ” 
+  &&  “ ((Zlength (tails_cur)) = numsSize_pre) ” 
+  &&  “ (0 <= 0) ” 
+  &&  “ (0 <= numsSize_pre) ” 
+  &&  “ (0 <= 0) ” 
+  &&  “ (0 <= 0) ” 
+  &&  “ (LNDTailsRepresentation (sublist (0) (0) (tails_cur)) 0 ) ” 
+  &&  “ (LNDTailsRealizability l 0 (sublist (0) (0) (tails_cur)) 0 ) ” 
   &&  “ (LNDSOptimalLength l 0 0 ) ” 
-  &&  “ (LNDTailsRealizability l 0 (sublist (0) (0) (tails_l)) 0 ) ” 
-  &&  “ (LNDTailsRepresentation (sublist (0) (0) (tails_l)) 0 ) ”
-  &&  emp
+  &&  “ (LNDTailsMinimality l 0 (sublist (0) (0) (tails_cur)) 0 ) ”
+  &&  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
 ).
 
-Definition lengthOfLNDS_entail_wit_1_split_goal_1 := 
-forall (numsSize_pre: Z) (tails_l: (@list Z)) (l: (@list Z)) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_l)) = numsSize_pre)) ,
-  (LNDTailsMinimality l 0 (sublist (0) (0) (tails_l)) 0 )
-.
-
-Definition lengthOfLNDS_entail_wit_1_split_goal_2 := 
-forall (numsSize_pre: Z) (tails_l: (@list Z)) (l: (@list Z)) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_l)) = numsSize_pre)) ,
-  (LNDSOptimalLength l 0 0 )
-.
-
-Definition lengthOfLNDS_entail_wit_1_split_goal_3 := 
-forall (numsSize_pre: Z) (tails_l: (@list Z)) (l: (@list Z)) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_l)) = numsSize_pre)) ,
-  (LNDTailsRealizability l 0 (sublist (0) (0) (tails_l)) 0 )
-.
-
-Definition lengthOfLNDS_entail_wit_1_split_goal_4 := 
-forall (numsSize_pre: Z) (tails_l: (@list Z)) (l: (@list Z)) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_l)) = numsSize_pre)) ,
-  (LNDTailsRepresentation (sublist (0) (0) (tails_l)) 0 )
-.
-
-Definition lengthOfLNDS_entail_wit_2 := 
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (len: Z) (i: Z) (tails_cur_2: (@list Z)) (PreH1 : (i < numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH11 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH12 : (LNDSOptimalLength l i len )) (PreH13 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) ,
+Definition lengthOfLNDS_entail_wit_4 := 
+(
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (len: Z) (i: Z) (tails_cur_2: (@list Z)) (PreH1 : (i < numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH11 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH12 : (LNDSOptimalLength l i len )) (PreH13 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) ,
   (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur_2 )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur_2 )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   EX (tails_cur: (@list Z)) ,
   “ (0 <= numsSize_pre) ” 
@@ -340,30 +432,6 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (len: Z) (i
   &&  “ (0 <= len) ” 
   &&  “ (len <= i) ” 
   &&  “ ((Znth i l 0) = (Znth i l 0)) ” 
-  &&  “ (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len ) ” 
-  &&  “ (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len ) ” 
-  &&  “ (LNDSOptimalLength l i len ) ” 
-  &&  “ (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len ) ”
-  &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
-.
-
-Definition lengthOfLNDS_entail_wit_3 := 
-(
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur_2: (@list Z)) (i: Z) (len: Z) (x: Z) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= len)) (PreH8 : (len <= i)) (PreH9 : (x = (Znth i l 0))) (PreH10 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH11 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH12 : (LNDSOptimalLength l i len )) (PreH13 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) ,
-  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur_2 )
-|--
-  EX (tails_cur: (@list Z)) ,
-  “ (0 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100000) ” 
-  &&  “ ((Zlength (l)) = numsSize_pre) ” 
-  &&  “ ((Zlength (tails_cur)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ (0 <= len) ” 
-  &&  “ (len <= i) ” 
-  &&  “ (x = (Znth i l 0)) ” 
   &&  “ (0 <= 0) ” 
   &&  “ (0 <= len) ” 
   &&  “ (len <= len) ” 
@@ -371,28 +439,30 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur_
   &&  “ (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len ) ” 
   &&  “ (LNDSOptimalLength l i len ) ” 
   &&  “ (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len ) ” 
-  &&  “ (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x 0 len ) ”
+  &&  “ (UpperBoundPartition (sublist (0) (len) (tails_cur)) len (Znth i l 0) 0 len ) ”
   &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 ) \/
 (
-forall (numsSize_pre: Z) (l: (@list Z)) (tails_cur_2: (@list Z)) (i: Z) (len: Z) (x: Z) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= len)) (PreH8 : (len <= i)) (PreH9 : (x = (Znth i l 0))) (PreH10 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH11 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH12 : (LNDSOptimalLength l i len )) (PreH13 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) ,
+forall (numsSize_pre: Z) (l: (@list Z)) (len: Z) (i: Z) (tails_cur_2: (@list Z)) (PreH1 : (i < numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH11 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH12 : (LNDSOptimalLength l i len )) (PreH13 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) ,
   TT && emp 
 |--
-  “ (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x 0 len ) ”
+  “ (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len (Znth i l 0) 0 len ) ”
   &&  emp
 ).
 
-Definition lengthOfLNDS_entail_wit_3_split_goal_1 := 
-forall (numsSize_pre: Z) (l: (@list Z)) (tails_cur_2: (@list Z)) (i: Z) (len: Z) (x: Z) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= len)) (PreH8 : (len <= i)) (PreH9 : (x = (Znth i l 0))) (PreH10 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH11 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH12 : (LNDSOptimalLength l i len )) (PreH13 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) ,
-  (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x 0 len )
+Definition lengthOfLNDS_entail_wit_4_split_goal_1 := 
+forall (numsSize_pre: Z) (l: (@list Z)) (len: Z) (i: Z) (tails_cur_2: (@list Z)) (PreH1 : (i < numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH11 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH12 : (LNDSOptimalLength l i len )) (PreH13 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) ,
+  (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len (Znth i l 0) 0 len )
 .
 
-Definition lengthOfLNDS_entail_wit_4 := 
+Definition lengthOfLNDS_entail_wit_5 := 
 (
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur_2: (@list Z)) (PreH1 : (left < right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x left right )) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur_2: (@list Z)) (PreH1 : (left < right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x left right )) ,
   (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur_2 )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur_2 )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   EX (tails_cur: (@list Z)) ,
   “ (0 <= numsSize_pre) ” 
@@ -415,7 +485,8 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) 
   &&  “ (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len ) ” 
   &&  “ (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right ) ”
   &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 ) \/
 (
 forall (numsSize_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur_2: (@list Z)) (PreH1 : (left < right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x left right )) ,
@@ -426,21 +497,22 @@ forall (numsSize_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i:
   &&  emp
 ).
 
-Definition lengthOfLNDS_entail_wit_4_split_goal_1 := 
+Definition lengthOfLNDS_entail_wit_5_split_goal_1 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur_2: (@list Z)) (PreH1 : (left < right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x left right )) ,
   ((left + ((right - left ) ÷ 2 ) ) < right)
 .
 
-Definition lengthOfLNDS_entail_wit_4_split_goal_2 := 
+Definition lengthOfLNDS_entail_wit_5_split_goal_2 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur_2: (@list Z)) (PreH1 : (left < right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x left right )) ,
   (left <= (left + ((right - left ) ÷ 2 ) ))
 .
 
-Definition lengthOfLNDS_entail_wit_5_1 := 
+Definition lengthOfLNDS_entail_wit_6_1 := 
 (
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur_2: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (mid: Z) (PreH1 : ((Znth mid tails_cur_2 0) <= x)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left < right)) (PreH13 : (right <= len)) (PreH14 : (left <= mid)) (PreH15 : (mid < right)) (PreH16 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH17 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH18 : (LNDSOptimalLength l i len )) (PreH19 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) (PreH20 : (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x left right )) ,
-  (IntArray.full tails_pre numsSize_pre tails_cur_2 )
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur_2: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (mid: Z) (PreH1 : ((Znth mid tails_cur_2 0) <= x)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left < right)) (PreH13 : (right <= len)) (PreH14 : (left <= mid)) (PreH15 : (mid < right)) (PreH16 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH17 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH18 : (LNDSOptimalLength l i len )) (PreH19 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) (PreH20 : (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x left right )) ,
+  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur_2 )
   **  (IntArray.full nums_pre numsSize_pre l )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   EX (tails_cur: (@list Z)) ,
   “ (0 <= numsSize_pre) ” 
@@ -461,7 +533,8 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur_
   &&  “ (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len ) ” 
   &&  “ (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x (mid + 1 ) right ) ”
   &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 ) \/
 (
 forall (numsSize_pre: Z) (l: (@list Z)) (tails_cur_2: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (mid: Z) (PreH1 : ((Znth mid tails_cur_2 0) <= x)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left < right)) (PreH13 : (right <= len)) (PreH14 : (left <= mid)) (PreH15 : (mid < right)) (PreH16 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH17 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH18 : (LNDSOptimalLength l i len )) (PreH19 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) (PreH20 : (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x left right )) ,
@@ -471,16 +544,17 @@ forall (numsSize_pre: Z) (l: (@list Z)) (tails_cur_2: (@list Z)) (i: Z) (len: Z)
   &&  emp
 ).
 
-Definition lengthOfLNDS_entail_wit_5_1_split_goal_1 := 
+Definition lengthOfLNDS_entail_wit_6_1_split_goal_1 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (tails_cur_2: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (mid: Z) (PreH1 : ((Znth mid tails_cur_2 0) <= x)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left < right)) (PreH13 : (right <= len)) (PreH14 : (left <= mid)) (PreH15 : (mid < right)) (PreH16 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH17 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH18 : (LNDSOptimalLength l i len )) (PreH19 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) (PreH20 : (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x left right )) ,
   (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x (mid + 1 ) right )
 .
 
-Definition lengthOfLNDS_entail_wit_5_2 := 
+Definition lengthOfLNDS_entail_wit_6_2 := 
 (
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur_2: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (mid: Z) (PreH1 : ((Znth mid tails_cur_2 0) > x)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left < right)) (PreH13 : (right <= len)) (PreH14 : (left <= mid)) (PreH15 : (mid < right)) (PreH16 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH17 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH18 : (LNDSOptimalLength l i len )) (PreH19 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) (PreH20 : (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x left right )) ,
-  (IntArray.full tails_pre numsSize_pre tails_cur_2 )
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur_2: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (mid: Z) (PreH1 : ((Znth mid tails_cur_2 0) > x)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left < right)) (PreH13 : (right <= len)) (PreH14 : (left <= mid)) (PreH15 : (mid < right)) (PreH16 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH17 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH18 : (LNDSOptimalLength l i len )) (PreH19 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) (PreH20 : (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x left right )) ,
+  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur_2 )
   **  (IntArray.full nums_pre numsSize_pre l )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   EX (tails_cur: (@list Z)) ,
   “ (0 <= numsSize_pre) ” 
@@ -501,7 +575,8 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur_
   &&  “ (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len ) ” 
   &&  “ (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left mid ) ”
   &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 ) \/
 (
 forall (numsSize_pre: Z) (l: (@list Z)) (tails_cur_2: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (mid: Z) (PreH1 : ((Znth mid tails_cur_2 0) > x)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left < right)) (PreH13 : (right <= len)) (PreH14 : (left <= mid)) (PreH15 : (mid < right)) (PreH16 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH17 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH18 : (LNDSOptimalLength l i len )) (PreH19 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) (PreH20 : (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x left right )) ,
@@ -511,56 +586,17 @@ forall (numsSize_pre: Z) (l: (@list Z)) (tails_cur_2: (@list Z)) (i: Z) (len: Z)
   &&  emp
 ).
 
-Definition lengthOfLNDS_entail_wit_5_2_split_goal_1 := 
+Definition lengthOfLNDS_entail_wit_6_2_split_goal_1 := 
 forall (numsSize_pre: Z) (l: (@list Z)) (tails_cur_2: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (mid: Z) (PreH1 : ((Znth mid tails_cur_2 0) > x)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left < right)) (PreH13 : (right <= len)) (PreH14 : (left <= mid)) (PreH15 : (mid < right)) (PreH16 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH17 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH18 : (LNDSOptimalLength l i len )) (PreH19 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) (PreH20 : (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x left right )) ,
   (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x left mid )
 .
 
-Definition lengthOfLNDS_entail_wit_6 := 
-(
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur_2: (@list Z)) (PreH1 : (left >= right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x left right )) ,
-  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur_2 )
-|--
-  EX (tails_cur: (@list Z)) ,
-  “ (0 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100000) ” 
-  &&  “ ((Zlength (l)) = numsSize_pre) ” 
-  &&  “ ((Zlength (tails_cur)) = numsSize_pre) ” 
-  &&  “ (0 <= i) ” 
-  &&  “ (i < numsSize_pre) ” 
-  &&  “ (0 <= len) ” 
-  &&  “ (len <= i) ” 
-  &&  “ (x = (Znth i l 0)) ” 
-  &&  “ (0 <= left) ” 
-  &&  “ (left <= len) ” 
-  &&  “ (right = left) ” 
-  &&  “ (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len ) ” 
-  &&  “ (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len ) ” 
-  &&  “ (LNDSOptimalLength l i len ) ” 
-  &&  “ (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len ) ” 
-  &&  “ (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left left ) ”
-  &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
-) \/
-(
-forall (numsSize_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur_2: (@list Z)) (PreH1 : (left >= right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x left right )) ,
-  TT && emp 
-|--
-  “ (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x left left ) ”
-  &&  emp
-).
-
-Definition lengthOfLNDS_entail_wit_6_split_goal_1 := 
-forall (numsSize_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur_2: (@list Z)) (PreH1 : (left >= right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x left right )) ,
-  (UpperBoundPartition (sublist (0) (len) (tails_cur_2)) len x left left )
-.
-
 Definition lengthOfLNDS_entail_wit_7 := 
 (
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= len)) (PreH8 : (len <= i)) (PreH9 : (x = (Znth i l 0))) (PreH10 : (0 <= left)) (PreH11 : (left <= len)) (PreH12 : (right = left)) (PreH13 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH14 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDSOptimalLength l i len )) (PreH16 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH17 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left left )) ,
-  (IntArray.full tails_pre numsSize_pre (replace_Znth (left) (x) (tails_cur)) )
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (left >= right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
+  (IntArray.full ( &( "tails" ) ) numsSize_pre (replace_Znth (left) (x) (tails_cur)) )
   **  (IntArray.full nums_pre numsSize_pre l )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   EX (tails_old: (@list Z)) ,
   “ (0 <= numsSize_pre) ” 
@@ -581,15 +617,18 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur:
   &&  “ (LNDTailsMinimality l i (sublist (0) (len) (tails_old)) len ) ” 
   &&  “ (UpperBoundPartition (sublist (0) (len) (tails_old)) len x left left ) ”
   &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre (app ((sublist (0) (left) (tails_old))) ((cons (x) ((sublist ((left + 1 )) (numsSize_pre) (tails_old)))))) )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre (app ((sublist (0) (left) (tails_old))) ((cons (x) ((sublist ((left + 1 )) (numsSize_pre) (tails_old)))))) )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 ) \/
 (
-forall (numsSize_pre: Z) (l: (@list Z)) (tails_cur: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= len)) (PreH8 : (len <= i)) (PreH9 : (x = (Znth i l 0))) (PreH10 : (0 <= left)) (PreH11 : (left <= len)) (PreH12 : (right = left)) (PreH13 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH14 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDSOptimalLength l i len )) (PreH16 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH17 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left left )) ,
+forall (numsSize_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (left >= right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
   TT && emp 
 |--
   EX (tails_old: (@list Z)) ,
   “ ((replace_Znth (left) ((Znth i l 0)) (tails_cur)) = (app ((sublist (0) (left) (tails_old))) ((cons ((Znth i l 0)) ((sublist ((left + 1 )) ((Zlength (l))) (tails_old))))))) ” 
   &&  “ ((Zlength (tails_old)) = (Zlength (l))) ” 
+  &&  “ (left <= len) ” 
+  &&  “ (right = left) ” 
   &&  “ (LNDTailsRepresentation (sublist (0) (len) (tails_old)) len ) ” 
   &&  “ (LNDTailsRealizability l i (sublist (0) (len) (tails_old)) len ) ” 
   &&  “ (LNDTailsMinimality l i (sublist (0) (len) (tails_old)) len ) ” 
@@ -599,9 +638,10 @@ forall (numsSize_pre: Z) (l: (@list Z)) (tails_cur: (@list Z)) (i: Z) (len: Z) (
 
 Definition lengthOfLNDS_entail_wit_8_1 := 
 (
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_old: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (PreH1 : (left = len)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_old)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= len)) (PreH13 : (right = left)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_old)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_old)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_old)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_old)) len x left left )) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_old: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (PreH1 : (left = len)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_old)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= len)) (PreH13 : (right = left)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_old)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_old)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_old)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_old)) len x left left )) ,
   (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre (app ((sublist (0) (left) (tails_old))) ((cons (x) ((sublist ((left + 1 )) (numsSize_pre) (tails_old)))))) )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre (app ((sublist (0) (left) (tails_old))) ((cons (x) ((sublist ((left + 1 )) (numsSize_pre) (tails_old)))))) )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   EX (tails_cur: (@list Z)) ,
   “ (0 <= numsSize_pre) ” 
@@ -621,7 +661,8 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_old:
   &&  “ (LNDSOptimalLength l (i + 1 ) (len + 1 ) ) ” 
   &&  “ (LNDTailsMinimality l (i + 1 ) (sublist (0) ((len + 1 )) (tails_cur)) (len + 1 ) ) ”
   &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 ) \/
 (
 forall (numsSize_pre: Z) (l: (@list Z)) (tails_old: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (PreH1 : (left = len)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_old)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= len)) (PreH13 : (right = left)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_old)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_old)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_old)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_old)) len x left left )) ,
@@ -662,9 +703,10 @@ forall (numsSize_pre: Z) (l: (@list Z)) (tails_old: (@list Z)) (i: Z) (len: Z) (
 
 Definition lengthOfLNDS_entail_wit_8_2 := 
 (
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_old: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (PreH1 : (left <> len)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_old)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= len)) (PreH13 : (right = left)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_old)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_old)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_old)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_old)) len x left left )) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_old: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (PreH1 : (left <> len)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_old)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= len)) (PreH13 : (right = left)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_old)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_old)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_old)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_old)) len x left left )) ,
   (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre (app ((sublist (0) (left) (tails_old))) ((cons (x) ((sublist ((left + 1 )) (numsSize_pre) (tails_old)))))) )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre (app ((sublist (0) (left) (tails_old))) ((cons (x) ((sublist ((left + 1 )) (numsSize_pre) (tails_old)))))) )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   EX (tails_cur: (@list Z)) ,
   “ (0 <= numsSize_pre) ” 
@@ -684,7 +726,8 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_old:
   &&  “ (LNDSOptimalLength l (i + 1 ) len ) ” 
   &&  “ (LNDTailsMinimality l (i + 1 ) (sublist (0) (len) (tails_cur)) len ) ”
   &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 ) \/
 (
 forall (numsSize_pre: Z) (l: (@list Z)) (tails_old: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (PreH1 : (left <> len)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_old)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= len)) (PreH13 : (right = left)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_old)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_old)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_old)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_old)) len x left left )) ,
@@ -724,9 +767,10 @@ forall (numsSize_pre: Z) (l: (@list Z)) (tails_old: (@list Z)) (i: Z) (len: Z) (
 .
 
 Definition lengthOfLNDS_entail_wit_9 := 
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur_2: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= len)) (PreH8 : (len <= (i + 1 ))) (PreH9 : (x = (Znth i l 0))) (PreH10 : (0 <= left)) (PreH11 : (left <= len)) (PreH12 : (right = left)) (PreH13 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH14 : (LNDTailsRealizability l (i + 1 ) (sublist (0) (len) (tails_cur_2)) len )) (PreH15 : (LNDSOptimalLength l (i + 1 ) len )) (PreH16 : (LNDTailsMinimality l (i + 1 ) (sublist (0) (len) (tails_cur_2)) len )) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur_2: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= len)) (PreH8 : (len <= (i + 1 ))) (PreH9 : (x = (Znth i l 0))) (PreH10 : (0 <= left)) (PreH11 : (left <= len)) (PreH12 : (right = left)) (PreH13 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH14 : (LNDTailsRealizability l (i + 1 ) (sublist (0) (len) (tails_cur_2)) len )) (PreH15 : (LNDSOptimalLength l (i + 1 ) len )) (PreH16 : (LNDTailsMinimality l (i + 1 ) (sublist (0) (len) (tails_cur_2)) len )) ,
   (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur_2 )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur_2 )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   EX (tails_cur: (@list Z)) ,
   “ (0 <= numsSize_pre) ” 
@@ -742,57 +786,78 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur_
   &&  “ (LNDSOptimalLength l (i + 1 ) len ) ” 
   &&  “ (LNDTailsMinimality l (i + 1 ) (sublist (0) (len) (tails_cur)) len ) ”
   &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 .
 
 Definition lengthOfLNDS_entail_wit_10 := 
 (
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (len: Z) (i: Z) (tails_cur_2: (@list Z)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH11 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH12 : (LNDSOptimalLength l i len )) (PreH13 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH11 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH12 : (LNDSOptimalLength l i len )) (PreH13 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) ,
   (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur_2 )
-|--
-  EX (tails_cur: (@list Z)) ,
-  “ (0 <= numsSize_pre) ” 
-  &&  “ (numsSize_pre <= 100000) ” 
-  &&  “ ((Zlength (l)) = numsSize_pre) ” 
-  &&  “ ((Zlength (tails_cur)) = numsSize_pre) ” 
-  &&  “ (0 <= len) ” 
-  &&  “ (len <= numsSize_pre) ” 
-  &&  “ (LNDSLength l len ) ”
-  &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
-) \/
-(
-forall (numsSize_pre: Z) (l: (@list Z)) (len: Z) (i: Z) (tails_cur_2: (@list Z)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH11 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH12 : (LNDSOptimalLength l i len )) (PreH13 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) ,
-  TT && emp 
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   “ (LNDSLength l len ) ”
-  &&  emp
+  &&  (IntArray.full nums_pre numsSize_pre l )
+  **  (IntArray.undef_full ( &( "tails" ) ) 100000 )
+) \/
+(
+forall (numsSize_pre: Z) (l: (@list Z)) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH11 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH12 : (LNDSOptimalLength l i len )) (PreH13 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) ,
+  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
+|--
+  “ (LNDSLength l len ) ”
+  &&  (IntArray.undef_full ( &( "tails" ) ) 100000 )
 ).
 
 Definition lengthOfLNDS_entail_wit_10_split_goal_1 := 
-forall (numsSize_pre: Z) (l: (@list Z)) (len: Z) (i: Z) (tails_cur_2: (@list Z)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur_2)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur_2)) len )) (PreH11 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur_2)) len )) (PreH12 : (LNDSOptimalLength l i len )) (PreH13 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur_2)) len )) ,
-  (LNDSLength l len )
+forall (numsSize_pre: Z) (l: (@list Z)) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH11 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH12 : (LNDSOptimalLength l i len )) (PreH13 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) ,
+  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
+|--
+  “ (LNDSLength l len ) ”
+.
+
+Definition lengthOfLNDS_entail_wit_10_split_goal_spatial := 
+forall (numsSize_pre: Z) (l: (@list Z)) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (i >= numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH11 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH12 : (LNDSOptimalLength l i len )) (PreH13 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) ,
+  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
+|--
+  (IntArray.undef_full ( &( "tails" ) ) 100000 )
 .
 
 Definition lengthOfLNDS_return_wit_1 := 
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur: (@list Z)) (len: Z) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH5 : (0 <= len)) (PreH6 : (len <= numsSize_pre)) (PreH7 : (LNDSLength l len )) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (len: Z) (PreH1 : (LNDSLength l len )) ,
   (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
 |--
-  EX (tails_ret: (@list Z)) ,
-  “ (LNDSLength l len ) ” 
-  &&  “ (0 <= len) ” 
-  &&  “ (len <= numsSize_pre) ” 
-  &&  “ ((Zlength (tails_ret)) = numsSize_pre) ”
+  “ (LNDSLength l len ) ”
   &&  (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_ret )
 .
 
 Definition lengthOfLNDS_partial_solve_wit_1 := 
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (i < numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH11 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH12 : (LNDSOptimalLength l i len )) (PreH13 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) ,
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (initialized: (@list Z)) (fill: Z) (PreH1 : (fill < numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : (0 <= fill)) (PreH6 : (fill <= numsSize_pre)) (PreH7 : ((Zlength (initialized)) = fill)) ,
   (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
+  **  (IntArray.seg ( &( "tails" ) ) 0 fill initialized )
+  **  (IntArray.undef_seg ( &( "tails" ) ) fill 100000 )
+|--
+  “ (fill < numsSize_pre) ” 
+  &&  “ (0 <= numsSize_pre) ” 
+  &&  “ (numsSize_pre <= 100000) ” 
+  &&  “ ((Zlength (l)) = numsSize_pre) ” 
+  &&  “ (0 <= fill) ” 
+  &&  “ (fill <= numsSize_pre) ” 
+  &&  “ ((Zlength (initialized)) = fill) ”
+  &&  (((( &( "tails" ) ) + (fill * sizeof(INT)))) # Int  |->_)
+  **  (IntArray.undef_seg ( &( "tails" ) ) (fill + 1 ) 100000 )
+  **  (IntArray.full nums_pre numsSize_pre l )
+  **  (IntArray.seg ( &( "tails" ) ) 0 fill initialized )
+.
+
+Definition lengthOfLNDS_partial_solve_wit_2 := 
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (i < numsSize_pre)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i <= numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH11 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH12 : (LNDSOptimalLength l i len )) (PreH13 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) ,
+  (IntArray.full nums_pre numsSize_pre l )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   “ (i < numsSize_pre) ” 
   &&  “ (0 <= numsSize_pre) ” 
@@ -809,13 +874,15 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (len: Z) (i
   &&  “ (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len ) ”
   &&  (((nums_pre + (i * sizeof(INT)))) # Int  |-> (Znth i l 0))
   **  (IntArray.missing_i nums_pre i 0 numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 .
 
-Definition lengthOfLNDS_partial_solve_wit_2 := 
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (mid: Z) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= len)) (PreH8 : (len <= i)) (PreH9 : (x = (Znth i l 0))) (PreH10 : (0 <= left)) (PreH11 : (left < right)) (PreH12 : (right <= len)) (PreH13 : (left <= mid)) (PreH14 : (mid < right)) (PreH15 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH16 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH17 : (LNDSOptimalLength l i len )) (PreH18 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH19 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
+Definition lengthOfLNDS_partial_solve_wit_3 := 
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (mid: Z) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= len)) (PreH8 : (len <= i)) (PreH9 : (x = (Znth i l 0))) (PreH10 : (0 <= left)) (PreH11 : (left < right)) (PreH12 : (right <= len)) (PreH13 : (left <= mid)) (PreH14 : (mid < right)) (PreH15 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH16 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH17 : (LNDSOptimalLength l i len )) (PreH18 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH19 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
   (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
   “ (0 <= numsSize_pre) ” 
   &&  “ (numsSize_pre <= 100000) ” 
@@ -836,17 +903,20 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur:
   &&  “ (LNDSOptimalLength l i len ) ” 
   &&  “ (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len ) ” 
   &&  “ (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right ) ”
-  &&  (((tails_pre + (mid * sizeof(INT)))) # Int  |-> (Znth mid tails_cur 0))
-  **  (IntArray.missing_i tails_pre mid 0 numsSize_pre tails_cur )
+  &&  (((( &( "tails" ) ) + (mid * sizeof(INT)))) # Int  |-> (Znth mid tails_cur 0))
+  **  (IntArray.missing_i ( &( "tails" ) ) mid 0 numsSize_pre tails_cur )
   **  (IntArray.full nums_pre numsSize_pre l )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 .
 
-Definition lengthOfLNDS_partial_solve_wit_3 := 
-forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur: (@list Z)) (i: Z) (len: Z) (x: Z) (left: Z) (right: Z) (PreH1 : (0 <= numsSize_pre)) (PreH2 : (numsSize_pre <= 100000)) (PreH3 : ((Zlength (l)) = numsSize_pre)) (PreH4 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH5 : (0 <= i)) (PreH6 : (i < numsSize_pre)) (PreH7 : (0 <= len)) (PreH8 : (len <= i)) (PreH9 : (x = (Znth i l 0))) (PreH10 : (0 <= left)) (PreH11 : (left <= len)) (PreH12 : (right = left)) (PreH13 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH14 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDSOptimalLength l i len )) (PreH16 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH17 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left left )) ,
+Definition lengthOfLNDS_partial_solve_wit_4 := 
+forall (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (right: Z) (left: Z) (x: Z) (len: Z) (i: Z) (tails_cur: (@list Z)) (PreH1 : (left >= right)) (PreH2 : (0 <= numsSize_pre)) (PreH3 : (numsSize_pre <= 100000)) (PreH4 : ((Zlength (l)) = numsSize_pre)) (PreH5 : ((Zlength (tails_cur)) = numsSize_pre)) (PreH6 : (0 <= i)) (PreH7 : (i < numsSize_pre)) (PreH8 : (0 <= len)) (PreH9 : (len <= i)) (PreH10 : (x = (Znth i l 0))) (PreH11 : (0 <= left)) (PreH12 : (left <= right)) (PreH13 : (right <= len)) (PreH14 : (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len )) (PreH15 : (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len )) (PreH16 : (LNDSOptimalLength l i len )) (PreH17 : (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len )) (PreH18 : (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right )) ,
   (IntArray.full nums_pre numsSize_pre l )
-  **  (IntArray.full tails_pre numsSize_pre tails_cur )
+  **  (IntArray.full ( &( "tails" ) ) numsSize_pre tails_cur )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 |--
-  “ (0 <= numsSize_pre) ” 
+  “ (left >= right) ” 
+  &&  “ (0 <= numsSize_pre) ” 
   &&  “ (numsSize_pre <= 100000) ” 
   &&  “ ((Zlength (l)) = numsSize_pre) ” 
   &&  “ ((Zlength (tails_cur)) = numsSize_pre) ” 
@@ -856,16 +926,17 @@ forall (tails_pre: Z) (numsSize_pre: Z) (nums_pre: Z) (l: (@list Z)) (tails_cur:
   &&  “ (len <= i) ” 
   &&  “ (x = (Znth i l 0)) ” 
   &&  “ (0 <= left) ” 
-  &&  “ (left <= len) ” 
-  &&  “ (right = left) ” 
+  &&  “ (left <= right) ” 
+  &&  “ (right <= len) ” 
   &&  “ (LNDTailsRepresentation (sublist (0) (len) (tails_cur)) len ) ” 
   &&  “ (LNDTailsRealizability l i (sublist (0) (len) (tails_cur)) len ) ” 
   &&  “ (LNDSOptimalLength l i len ) ” 
   &&  “ (LNDTailsMinimality l i (sublist (0) (len) (tails_cur)) len ) ” 
-  &&  “ (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left left ) ”
-  &&  (((tails_pre + (left * sizeof(INT)))) # Int  |->_)
-  **  (IntArray.missing_i tails_pre left 0 numsSize_pre tails_cur )
+  &&  “ (UpperBoundPartition (sublist (0) (len) (tails_cur)) len x left right ) ”
+  &&  (((( &( "tails" ) ) + (left * sizeof(INT)))) # Int  |->_)
+  **  (IntArray.missing_i ( &( "tails" ) ) left 0 numsSize_pre tails_cur )
   **  (IntArray.full nums_pre numsSize_pre l )
+  **  (IntArray.undef_seg ( &( "tails" ) ) numsSize_pre 100000 )
 .
 
 Module Type VC_Correct.
@@ -883,13 +954,16 @@ Axiom proof_of_lengthOfLNDS_safety_wit_9 : lengthOfLNDS_safety_wit_9.
 Axiom proof_of_lengthOfLNDS_safety_wit_10 : lengthOfLNDS_safety_wit_10.
 Axiom proof_of_lengthOfLNDS_safety_wit_11 : lengthOfLNDS_safety_wit_11.
 Axiom proof_of_lengthOfLNDS_safety_wit_12 : lengthOfLNDS_safety_wit_12.
+Axiom proof_of_lengthOfLNDS_safety_wit_13 : lengthOfLNDS_safety_wit_13.
+Axiom proof_of_lengthOfLNDS_safety_wit_14 : lengthOfLNDS_safety_wit_14.
+Axiom proof_of_lengthOfLNDS_safety_wit_15 : lengthOfLNDS_safety_wit_15.
 Axiom proof_of_lengthOfLNDS_entail_wit_1 : lengthOfLNDS_entail_wit_1.
 Axiom proof_of_lengthOfLNDS_entail_wit_2 : lengthOfLNDS_entail_wit_2.
 Axiom proof_of_lengthOfLNDS_entail_wit_3 : lengthOfLNDS_entail_wit_3.
 Axiom proof_of_lengthOfLNDS_entail_wit_4 : lengthOfLNDS_entail_wit_4.
-Axiom proof_of_lengthOfLNDS_entail_wit_5_1 : lengthOfLNDS_entail_wit_5_1.
-Axiom proof_of_lengthOfLNDS_entail_wit_5_2 : lengthOfLNDS_entail_wit_5_2.
-Axiom proof_of_lengthOfLNDS_entail_wit_6 : lengthOfLNDS_entail_wit_6.
+Axiom proof_of_lengthOfLNDS_entail_wit_5 : lengthOfLNDS_entail_wit_5.
+Axiom proof_of_lengthOfLNDS_entail_wit_6_1 : lengthOfLNDS_entail_wit_6_1.
+Axiom proof_of_lengthOfLNDS_entail_wit_6_2 : lengthOfLNDS_entail_wit_6_2.
 Axiom proof_of_lengthOfLNDS_entail_wit_7 : lengthOfLNDS_entail_wit_7.
 Axiom proof_of_lengthOfLNDS_entail_wit_8_1 : lengthOfLNDS_entail_wit_8_1.
 Axiom proof_of_lengthOfLNDS_entail_wit_8_2 : lengthOfLNDS_entail_wit_8_2.
@@ -899,5 +973,6 @@ Axiom proof_of_lengthOfLNDS_return_wit_1 : lengthOfLNDS_return_wit_1.
 Axiom proof_of_lengthOfLNDS_partial_solve_wit_1 : lengthOfLNDS_partial_solve_wit_1.
 Axiom proof_of_lengthOfLNDS_partial_solve_wit_2 : lengthOfLNDS_partial_solve_wit_2.
 Axiom proof_of_lengthOfLNDS_partial_solve_wit_3 : lengthOfLNDS_partial_solve_wit_3.
+Axiom proof_of_lengthOfLNDS_partial_solve_wit_4 : lengthOfLNDS_partial_solve_wit_4.
 
 End VC_Correct.

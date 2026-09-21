@@ -24,9 +24,8 @@ struct list *glibc_slist_clean_multi_append(struct list *x, struct list *y,
 {
     /*@ safeExec(ATrue, bind(list_append_raw_M(l1, l2), residual_prog_in_glibc_slist_clean_multi_append_M_call_1(l3)), X) && sll(x, l1) * sll(y, l2) * sll(z, l3) */
     x = list_append_raw(x, y) /*@ where(low_level_spec_aux) X = X; B = (list Z) */;
-    /*@ exists l4, safeExec(ATrue, bind(return(l4), residual_prog_in_glibc_slist_clean_multi_append_M_call_1(l3)), X) && sll(x, l4) * sll(z, l3) */
+    
     /*@ exists l4, safeExec(ATrue, bind(list_append_raw_M(l4, l3), residual_prog_in_glibc_slist_clean_multi_append_M_call_2), X) && sll(x, l4) * sll(z, l3) */
     x = list_append_raw(x, z) /*@ where(low_level_spec_aux) X = X; B = (list Z) */;
-    /*@ exists l5, safeExec(ATrue, bind(return(l5), residual_prog_in_glibc_slist_clean_multi_append_M_call_2), X) && sll(x, l5) */
     return x;
 }

@@ -459,3 +459,30 @@ Proof.
         lia.
   - exact Hcandidatebest.
 Qed.
+
+(** Mathematical predicates exposed by the refactored annotation.  Existing
+    helper lemmas retain their original internal premises for proof reuse. *)
+Definition MatrixChainOptimalCost (dimensions : list Z) (count answer : Z) : Prop :=
+  MatrixChainIntervalMinimum dimensions 0 (count - 1) answer.
+Definition MatrixChainTableComplete (dimensions table : list Z) (count : Z) : Prop :=
+  forall left right, 0 <= left /\ left <= right /\ right < count ->
+    MatrixChainIntervalMinimum dimensions left right
+      (Znth (left * count + right) table 0).
+Definition MatrixChainLengthsComplete (dimensions table : list Z) (count next : Z) : Prop :=
+  forall len left right, 1 <= len < next -> right = left + len - 1 ->
+    0 <= left -> left + len <= count ->
+    MatrixChainIntervalMinimum dimensions left right
+      (Znth (left * count + right) table 0).
+Definition MatrixChainLeftComplete (dimensions table : list Z) (count len next : Z) : Prop :=
+  MatrixChainLengthsComplete dimensions table count len /\
+  forall left right, 0 <= left < next -> right = left + len - 1 ->
+    left + len <= count ->
+    MatrixChainIntervalMinimum dimensions left right
+      (Znth (left * count + right) table 0).
+Definition MatrixChainSplitMinimum (dimensions table : list Z)
+  (count width len left next best : Z) : Prop :=
+  MatrixChainLeftComplete dimensions table count len left /\
+  min_value_of_subset Z.le
+    (fun candidate => exists split, left <= split < next /\
+      MatrixChainSplitCandidate dimensions table width left (left + len - 1) split candidate)
+    (fun candidate => candidate) best.

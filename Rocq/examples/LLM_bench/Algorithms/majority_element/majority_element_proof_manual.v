@@ -69,7 +69,8 @@ Proof.
 	assert (Hzl : Znth i l 0 = a).
 	{ rewrite PreH3. exact Hz. }
 	unfold MajorityOnReduced in PreH12.
-	destruct PreH12 as [Hvote Hmajor].
+	pose proof PreH12 as Hmajor.
+	assert (Hvote : 0 <= vote) by lia.
 	Exists x_2.
 	Exists ((l1_2 ++ a :: nil)%list).
 	Exists rest.
@@ -119,7 +120,8 @@ Proof.
 	rewrite PreH4 in PreH1.
 	rewrite Hz in PreH1.
 	unfold MajorityOnReduced in PreH13.
-	destruct PreH13 as [Hvote Hmajor].
+	pose proof PreH13 as Hmajor.
+	assert (Hvote : 0 <= vote) by lia.
 	assert (0 < vote) by lia.
 	Exists x_2.
 	Exists ((l1_2 ++ a :: nil)%list).
@@ -167,7 +169,8 @@ Proof.
 	assert (Hzl : Znth i l 0 = a).
 	{ rewrite PreH4. exact Hz. }
 	unfold MajorityOnReduced in PreH13.
-	destruct PreH13 as [Hvote Hmajor].
+	pose proof PreH13 as Hmajor.
+	assert (Hvote : 0 <= vote) by lia.
 	Exists x_2.
 	Exists ((l1_2 ++ a :: nil)%list).
 	Exists rest.
@@ -212,7 +215,8 @@ Proof.
 	- cancel (IntArray.full nums_pre numsSize_pre l).
 	- dump_pre_spatial.
 	  unfold MajorityOnReduced in PreH11.
-	  destruct PreH11 as [Hvote Hmajor].
+	  pose proof PreH11 as Hmajor.
+	  assert (Hvote : 0 <= vote) by lia.
 	  assert (Hi : i = numsSize_pre) by lia.
 	  assert (Hl1len : Zlength l1 = numsSize_pre) by lia.
 	  assert (Hl2len : Zlength l2 = 0).

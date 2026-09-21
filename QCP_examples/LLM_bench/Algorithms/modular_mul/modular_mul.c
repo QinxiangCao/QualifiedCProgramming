@@ -21,17 +21,12 @@ int modular_mul(int a, int b, int modulus)
     }
 
     /*@ Inv Assert
-          0 - modulus@pre < a@pre && a@pre < modulus@pre &&
-          INT_MIN < b@pre && b@pre <= INT_MAX &&
           modulus == modulus@pre &&
           0 < modulus@pre && modulus@pre * 2 <= INT_MAX &&
           0 <= b && b <= INT_MAX &&
           (flag == 1 || flag == 0 - 1) &&
           0 - modulus@pre < a && a < modulus@pre &&
           0 - modulus@pre < res && res < modulus@pre &&
-          INT_MIN <= res + a && res + a <= INT_MAX &&
-          INT_MIN <= a + a && a + a <= INT_MAX &&
-          INT_MIN <= res * flag && res * flag <= INT_MAX &&
           ModularMulProgress(a@pre, b@pre, modulus@pre,
                              a, b, res, flag) && emp
      */

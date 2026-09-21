@@ -115,3 +115,18 @@ Proof.
     reflexivity.
   - exact Hprogress.
 Qed.
+
+Require Import SimpleC.SL.IntLib.
+
+Lemma modular_residue_int a modulus :
+  1 <= modulus <= 100000 ->
+  signed_last_nbits (Z.rem a modulus) 32 = Z.rem a modulus.
+Proof.
+  intros Hm. apply signed_last_nbits_eq; [lia |].
+  pose proof (Z.rem_bound_abs a modulus ltac:(lia)) as Hb.
+  rewrite (Z.abs_eq modulus) in Hb by lia.
+  change (-2147483648 <= Z.rem a modulus < 2147483648).
+  destruct (Z_le_gt_dec 0 (Z.rem a modulus)).
+  - rewrite Z.abs_eq in Hb by lia. lia.
+  - rewrite Z.abs_neq in Hb by lia. lia.
+Qed.

@@ -50,12 +50,6 @@ Proof. Admitted.
 Lemma proof_of_partition_entail_wit_2 : partition_entail_wit_2.
 Proof. Admitted. 
 
-Lemma proof_of_partition_entail_wit_3 : partition_entail_wit_3.
-Proof. Admitted. 
-
-Lemma proof_of_partition_entail_wit_5 : partition_entail_wit_5.
-Proof. Admitted. 
-
 Lemma proof_of_partition_partial_solve_wit_1 : partition_partial_solve_wit_1.
 Proof. Admitted. 
 

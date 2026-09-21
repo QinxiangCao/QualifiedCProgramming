@@ -271,15 +271,5 @@ void dfs_adjacency_matrix_2Darray(int **matrix, int vertex_count,
         /*@ Given visited_set2 values2 */
     }
 
-    /*@ Assert
-          exists (visited_set_out : Z -> Prop),
-            matrix == matrix@pre && visited == visited@pre &&
-            vertex_count == vertex_count@pre && vertex == vertex@pre &&
-            DFSAdjacencyMatrix2Darray::visited_extension(
-              visited_set, visited_set_out) &&
-            visited_set_out(vertex) &&
-            safeExec(eq(visited_set_out), return(tt), X) &&
-            DFSAdjacencyMatrix2Darray::store_graph(matrix, g, rows) *
-            DFSAdjacencyMatrix2Darray::visited(visited, g, visited_set_out)
-     */
+
 }

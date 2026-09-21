@@ -203,7 +203,7 @@ Lemma proof_of_dijkstra_linked_forward_star_init_entail_wit_1 : dijkstra_linked_
 Proof.
   aggressive_pre_process.
   Goal_apply proof_of_dijkstra_linked_forward_star_init_entail_wit_1_split_goal_1.
-Qed.
+Qed. 
 
 Lemma proof_of_dijkstra_linked_forward_star_init_entail_wit_2_split_goal_1 : dijkstra_linked_forward_star_init_entail_wit_2_split_goal_1.
 Proof.
@@ -215,23 +215,12 @@ Lemma proof_of_dijkstra_linked_forward_star_init_entail_wit_2 : dijkstra_linked_
 Proof.
   aggressive_pre_process.
   Goal_apply proof_of_dijkstra_linked_forward_star_init_entail_wit_2_split_goal_1.
-Qed.
-
-Lemma proof_of_dijkstra_linked_forward_star_init_entail_wit_3_split_goal_1 : dijkstra_linked_forward_star_init_entail_wit_3_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  replace i with 10 in * by lia; auto.
-Qed.
-
-Lemma proof_of_dijkstra_linked_forward_star_init_entail_wit_3 : dijkstra_linked_forward_star_init_entail_wit_3.
-Proof.
-  aggressive_pre_process.
-  Goal_apply proof_of_dijkstra_linked_forward_star_init_entail_wit_3_split_goal_1.
-Qed.
+Qed. 
 
 Lemma proof_of_dijkstra_linked_forward_star_init_return_wit_1_split_goal_1 : dijkstra_linked_forward_star_init_return_wit_1_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || nia || int_auto).
+  replace i with 10 in * by lia.
   apply dist_init_loop_to_dijkstra_init_dist; auto.
 Qed.
 
@@ -239,6 +228,27 @@ Lemma proof_of_dijkstra_linked_forward_star_init_return_wit_1 : dijkstra_linked_
 Proof.
   aggressive_pre_process.
   Goal_apply proof_of_dijkstra_linked_forward_star_init_return_wit_1_split_goal_1.
+Qed. 
+
+Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_1_split_goal_1 : dijkstra_linked_forward_star_decrease_key_entail_wit_1_split_goal_1.
+Proof.
+  unfold dijkstra_linked_forward_star_decrease_key_entail_wit_1_split_goal_1.
+  intros.
+  apply derivable1s_coq_prop_r.
+  reflexivity.
+Qed.
+
+Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_1_split_goal_spatial : dijkstra_linked_forward_star_decrease_key_entail_wit_1_split_goal_spatial.
+Proof.
+  unfold dijkstra_linked_forward_star_decrease_key_entail_wit_1_split_goal_spatial.
+  intros.
+  replace ((( &( "queue_key" ) ) + (0 * sizeof(INT)))) with ( &( "queue_key" ) ) by lia.
+  replace ((( &( "queue_data" ) ) + (0 * sizeof(INT)))) with ( &( "queue_data" ) ) by lia.
+  eapply derivable1_trans with (y :=
+    (IntArray.undef_seg ( &( "queue_data" ) ) 0 100000) **
+    (IntArray.undef_seg ( &( "queue_key" ) ) 0 100000)).
+  - apply derivable1_sepcon_mono; apply IntArray.undef_full_to_undef_seg.
+  - apply derivable1_sepcon_comm.
 Qed.
 
 Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_1 : dijkstra_linked_forward_star_decrease_key_entail_wit_1.
@@ -258,6 +268,12 @@ Proof.
     simpl.
     try reflexivity.
     entailer!.
+Qed. 
+
+Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_2_split_goal_1 : dijkstra_linked_forward_star_decrease_key_entail_wit_2_split_goal_1.
+Proof.
+  unfold dijkstra_linked_forward_star_decrease_key_entail_wit_2_split_goal_1.
+  intros. symmetry. apply repeat_Z_tail. lia.
 Qed.
 
 Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_2 : dijkstra_linked_forward_star_decrease_key_entail_wit_2.
@@ -270,20 +286,13 @@ Proof.
     symmetry.
     apply repeat_Z_tail.
     lia.
-Qed.
+Qed. 
 
 Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_3 : dijkstra_linked_forward_star_decrease_key_entail_wit_3.
 Proof.
-  right.
-  intros.
-  replace i with 10 by lia.
-  apply derivable1_refl.
-Qed.
-
-Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_4 : dijkstra_linked_forward_star_decrease_key_entail_wit_4.
-Proof.
-  right.
+right.
   LLM_pre_process ltac:(int_auto).
+  replace i with 10 in * by lia.
   Exists (partial_map_add partial_map_empty source_pre 0)
     (fun _ : Z => False).
   split_pure_spatial.
@@ -302,9 +311,9 @@ Proof.
     + unfold visited_set_empty; tauto.
     + apply partial_map_empty_absent.
     + unfold dk_map_queue_push_result; reflexivity.
-Qed.
+Qed. 
 
-Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_5 : dijkstra_linked_forward_star_decrease_key_entail_wit_5.
+Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_4 : dijkstra_linked_forward_star_decrease_key_entail_wit_4.
 Proof.
   right.
   LLM_pre_process ltac:(int_auto).
@@ -316,21 +325,11 @@ Proof.
     + eapply dijkstra_dk_initial_loop_state; eauto.
     + eapply dijkstra_dk_lfs_initial_to_loop_refines; eauto.
       unfold dk_map_queue_push_result; reflexivity.
-Qed.
+Qed. 
 
-Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_6 : dijkstra_linked_forward_star_decrease_key_entail_wit_6.
+Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_5 : dijkstra_linked_forward_star_decrease_key_entail_wit_5.
 Proof.
-  right.
-  LLM_pre_process ltac:(int_auto).
-  Exists visited_cur_2.
-  split_pure_spatial.
-  - entailer!.
-  - split_pures; dump_pre_spatial; auto; try lia.
-Qed.
-
-Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_7 : dijkstra_linked_forward_star_decrease_key_entail_wit_7.
-Proof.
-  right.
+right.
   LLM_pre_process ltac:(int_auto).
   destruct popped as [pop_key pop_data].
   simpl in PreH1, PreH2, PreH3.
@@ -347,7 +346,7 @@ Proof.
       g_low_level_spec vertex_count_pre source_pre visited_cur_2
       dist_cur_2 queue_map_2
       (partial_map_remove queue_map_2 pop_data) pop_data pop_key
-      PreH8 PreH11 Hpop)
+      PreH9 PreH12 Hpop)
     as (Hpop_storage & Hpop_vertex_bounds & Hpop_distance_bounds).
   pose proof
     (dijkstra_dk_map_loop_refines_pop
@@ -356,7 +355,7 @@ Proof.
       next_values_low_level_spec visited_cur_2 dist_cur_2
       queue_map_2 (partial_map_remove queue_map_2 pop_data)
       pop_data pop_key X_low_level_spec
-      Hpop PreH11 PreH12)
+      Hpop PreH12 PreH13)
     as Hafter_pop.
   Exists visited_cur_2 queue_map_2.
   split_pure_spatial.
@@ -370,7 +369,7 @@ Proof.
     + unfold item_key, DijkstraGraph.infinity in *; simpl in *; lia.
 Qed. 
 
-Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_8 : dijkstra_linked_forward_star_decrease_key_entail_wit_8.
+Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_6 : dijkstra_linked_forward_star_decrease_key_entail_wit_6.
 Proof.
   LLM_pre_process ltac:(int_auto).
   pose proof
@@ -430,7 +429,7 @@ Proof.
       * unfold edge_index in Hhead_edge; lia.
 Qed. 
 
-Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_9 : dijkstra_linked_forward_star_decrease_key_entail_wit_9.
+Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_7 : dijkstra_linked_forward_star_decrease_key_entail_wit_7.
 Proof.
   right.
   LLM_pre_process ltac:(int_auto).
@@ -452,7 +451,7 @@ Proof.
     try (unfold DijkstraGraph.infinity in Hweight_bounds; lia).
 Qed. 
 
-Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_10 : dijkstra_linked_forward_star_decrease_key_entail_wit_10.
+Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_8 : dijkstra_linked_forward_star_decrease_key_entail_wit_8.
 Proof.
   left.
   LLM_pre_process ltac:(int_auto).
@@ -619,7 +618,7 @@ Proof.
         try exact Hupdate_result; try exact PreH27.
 Qed. 
 
-Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_11_1 : dijkstra_linked_forward_star_decrease_key_entail_wit_11_1.
+Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_9_1 : dijkstra_linked_forward_star_decrease_key_entail_wit_9_1.
 Proof.
   LLM_pre_process ltac:(int_auto).
   pose proof
@@ -721,7 +720,7 @@ Proof.
       * unfold edge_index in Hnext_edge; lia.
 Qed. 
 
-Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_11_2 : dijkstra_linked_forward_star_decrease_key_entail_wit_11_2.
+Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_9_2 : dijkstra_linked_forward_star_decrease_key_entail_wit_9_2.
 Proof.
   LLM_pre_process ltac:(int_auto).
   pose proof
@@ -804,7 +803,7 @@ Proof.
       * unfold edge_index in Hnext_edge; lia.
 Qed. 
 
-Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_11_3 : dijkstra_linked_forward_star_decrease_key_entail_wit_11_3.
+Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_9_3 : dijkstra_linked_forward_star_decrease_key_entail_wit_9_3.
 Proof.
   LLM_pre_process ltac:(int_auto).
   pose proof
@@ -873,7 +872,7 @@ Proof.
       * unfold edge_index in Hnext_edge; lia.
 Qed. 
 
-Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_12 : dijkstra_linked_forward_star_decrease_key_entail_wit_12.
+Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_10 : dijkstra_linked_forward_star_decrease_key_entail_wit_10.
 Proof.
   LLM_pre_process ltac:(int_auto).
   assert (Hloop_state :
@@ -902,7 +901,7 @@ Proof.
   - split_pures; dump_pre_spatial; auto; try lia.
 Qed. 
 
-Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_13 : dijkstra_linked_forward_star_decrease_key_entail_wit_13.
+Lemma proof_of_dijkstra_linked_forward_star_decrease_key_entail_wit_11 : dijkstra_linked_forward_star_decrease_key_entail_wit_11.
 Proof.
   right.
   LLM_pre_process ltac:(int_auto).
@@ -985,29 +984,28 @@ Proof.
   destruct Hvertex_count_bounds as (Hvertex_count_pos & Hvertex_count_upper).
   split_pures; dump_pre_spatial.
   all: unfold DijkstraGraph.max_vertices in *; lia.
+Qed. 
+
+Lemma proof_of_dijkstra_linked_forward_star_decrease_key_partial_solve_wit_3_pure_split_goal_1 : dijkstra_linked_forward_star_decrease_key_partial_solve_wit_3_pure_split_goal_1.
+Proof.
+  unfold dijkstra_linked_forward_star_decrease_key_partial_solve_wit_3_pure_split_goal_1.
+  intros.
+  pose proof (graph_has_size_vertex_valid_bounds
+    g_low_level_spec vertex_count_pre source_pre PreH10 PreH11)
+    as ((Hvertex_pos & Hvertex_upper) & (Hsource_nonneg & Hsource_upper)).
+  unfold DijkstraGraph.max_vertices in Hvertex_upper.
+  entailer!; lia.
 Qed.
 
-Lemma dijkstra_dk_queue_pos_init_partial_solve_wit_2 : dijkstra_linked_forward_star_decrease_key_partial_solve_wit_2.
+Lemma proof_of_dijkstra_linked_forward_star_decrease_key_partial_solve_wit_3_pure_split_goal_2 : dijkstra_linked_forward_star_decrease_key_partial_solve_wit_3_pure_split_goal_2.
 Proof.
-  LLM_pre_process ltac:(lia || nia || int_auto).
-  pose proof
-    (graph_has_size_vertex_valid_bounds
-      g_low_level_spec vertex_count_pre source_pre PreH4 PreH5)
-    as (Hvertex_count_bounds & Hsource_bounds).
-  destruct Hvertex_count_bounds as (_ & Hvertex_count_upper).
-  rewrite (IntArray.undef_seg_unfold ( &( "queue_pos" ) ) i 10) by lia.
-  split_pure_spatial.
-  - cancel (IntArray.full head_pre vertex_count_pre head_values_low_level_spec);
-    cancel (IntArray.full to_pre edge_count_pre to_values_low_level_spec);
-    cancel (IntArray.full weight_pre edge_count_pre weight_values_low_level_spec);
-    cancel (IntArray.full next_pre edge_count_pre next_values_low_level_spec);
-    cancel (IntArray.full dist_pre 10 dist_init);
-    cancel (IntArray.undef_seg (( &( "queue_key" ) ) + (0 * sizeof(INT))) 0 100000);
-    cancel (IntArray.undef_seg (( &( "queue_data" ) ) + (0 * sizeof(INT))) 0 100000);
-    cancel (IntArray.full ( &( "queue_pos" ) ) i (repeat_Z (-1) i));
-    cancel.
-  - split_pures; dump_pre_spatial; auto.
-    all: unfold DijkstraGraph.max_vertices in *; lia.
+  unfold dijkstra_linked_forward_star_decrease_key_partial_solve_wit_3_pure_split_goal_2.
+  intros.
+  pose proof (graph_has_size_vertex_valid_bounds
+    g_low_level_spec vertex_count_pre source_pre PreH10 PreH11)
+    as ((Hvertex_pos & Hvertex_upper) & (Hsource_nonneg & Hsource_upper)).
+  unfold DijkstraGraph.max_vertices in Hvertex_upper.
+  entailer!; lia.
 Qed.
 
 Lemma proof_of_dijkstra_linked_forward_star_decrease_key_partial_solve_wit_3_pure : dijkstra_linked_forward_star_decrease_key_partial_solve_wit_3_pure.
@@ -1021,7 +1019,7 @@ Proof.
   destruct Hvertex_count_bounds as (_ & Hvertex_count_upper).
   split_pures; dump_pre_spatial.
   all: unfold DijkstraGraph.max_vertices in *; lia.
-Qed.
+Qed. 
 
 Lemma proof_of_dijkstra_linked_forward_star_decrease_key_derive_high_level_spec_by_low_level_spec : dijkstra_linked_forward_star_decrease_key_derive_high_level_spec_by_low_level_spec.
 Proof.
@@ -1127,4 +1125,5 @@ Proof.
       cancel (IntArray.full dist_pre 10 dist_out_2).
     + split_pures; dump_pre_spatial; auto.
   - split_pures; dump_pre_spatial; auto.
-Qed.
+Qed. 
+

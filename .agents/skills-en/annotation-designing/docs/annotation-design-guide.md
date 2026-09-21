@@ -44,7 +44,7 @@ Common forms:
 | total operation sequence | apply_op and fold |
 | relational operation sequence | relation composition |
 
-Use Z for numbers. Use lists for ordered objects and set predicates for unordered choices. Prefer Forall for elementwise conditions; use Znth or Forall2 for positions or correspondence.
+Use Z and Z-indexed list interfaces for logical integers, lengths, and indices. Use lists for ordered objects and set predicates for unordered choices. Use Forall for index-independent elementwise conditions and Forall2 for corresponding elements; retain guarded indexed quantification only for properties that depend on positions or relationships across indices.
 
 ## 3. Reuse Core Predicates First
 
@@ -57,7 +57,7 @@ Search in this order:
 
 Common interfaces:
 
-| Need | Prefer |
+| Need | Reuse |
 |---|---|
 | C array resources | IntArray::full, seg, undef_seg, and corresponding families |
 | list length, access, slice, update | Zlength, Znth, sublist, replace_Znth |
@@ -65,11 +65,14 @@ Common interfaces:
 | membership, distinctness, rearrangement | In, NoDup, Permutation |
 | monotonicity | one existing increasing/decreasing or mono family |
 | finite choices and counting | set predicates, #, existing Finite instances |
-| sums | sum, sum(sublist lo hi l), SumLib |
-| minima and maxima | min_value_of_subset, max_value_of_subset |
+| sums and range enumeration | sum_range / sum / sum_set_R and Zrange, selected by signature |
+| minima and maxima | min_value_of_subset and max_value_of_subset from MaxMinLib |
 | graphs | valid_vpath, reachable |
+| zero or more relation steps | clos_refl_trans |
 
 Use one existing interface for each kind of property throughout a case. Do not add a second monotonicity definition for annotation convenience.
+
+Extrema, sums, range enumeration, and reflexive-transitive closure must use these specified library semantics. Do not define IsMinimum / IsMaximum, recursive list sums, range enumeration, or a synonymous Reachable. See [knowledge rules §2](spec-and-contract-knowledge.md#2-arithmetic-and-library-interfaces) for imports, arguments, Finite instances, and endpoints.
 
 Directly write existing expressions for:
 
@@ -109,13 +112,13 @@ The final output property is the main definition. Helper contracts and Ensure re
 
 Do not expand or rename the same property separately in the specification, helper, and invariant.
 
-Use IntArray, string, list, or structure predicates for spatial ownership. Pure predicates contain mathematics only. Put ranges, guards, overflow facts, array-read bindings, and necessary @pre bridges directly in C annotations.
+Express spatial ownership separately with IntArray, string, list, or structure predicates. Result, helper, and progress pure predicates contain mathematics only, without input restrictions, capacities, or execution-safety conditions. State those conditions directly in Pre premises or the relevant C annotation, along with necessary array-read bindings and @pre bridges. Retain problem candidate sets, valid quantification domains, and answer intervals as mathematical meaning under [knowledge rules §0](spec-and-contract-knowledge.md#0-separate-mathematics-premise-ranges-and-spatial-resources).
 
 ## 5. Map to C Function Contracts
 
 - With introduces logical values corresponding to resources;
 - Require directly states input ranges, lengths, overflow conditions, and input resources;
-- Ensure invokes the mathematical output predicate and returns resources;
+- the mathematical part of Ensure invokes only the required final output relation, returning spatial resources separately without copying input ranges, execution-safety conditions, or intermediate construction state;
 - the top-level function connects directly to the problem Spec;
 - a helper exposes only the abstract result used by its caller.
 
@@ -135,7 +138,7 @@ Write one sentence of mathematical progress for each loop. Keep only:
 
 An invariant must initialize at loop entry, be preserved by one iteration, and imply the next phase or Ensure when the guard is false.
 
-Do not copy every function-entry condition. Do not repeat length and interval facts already supplied by IntArray::full, seg, or another resource. Still state the actual index range needed by an array access.
+Do not copy every function-entry condition. Do not repeat length and interval facts already supplied by IntArray::full, seg, or another resource. State actual access bounds directly in the invariant, outside progress predicates. Use Forall over the required list or sublist for index-independent element ranges.
 
 After v = a[i], retain the bounds, array resource, and v = Znth i l default when later reasoning needs the logical value. Split prefix, current, and suffix only when those regions have independent mathematical or spatial meaning.
 

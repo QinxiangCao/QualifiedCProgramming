@@ -848,3 +848,31 @@ Proof.
     rewrite good_color_count_snoc_expensive by lia.
     reflexivity.
 Qed.
+
+From SumLib Require Import ZRange.
+(** Public count definitions use Z-indexed library enumeration and Zlength.
+    Closed coffee-shop intervals [lo, hi] use Zrange lo (hi + 1). *)
+Definition InnsAffordable (costs : list Z) (p lo hi : Z) : bool :=
+  existsb (fun idx => Z.leb (Znth idx costs 0) p) (Zrange lo (hi + 1)).
+Definition InnsPairAllowed (colors costs : list Z) (p : Z) (pair : Z * Z) : bool :=
+  let (left, right) := pair in
+  same_colorb colors left right && InnsAffordable costs p left right.
+Definition InnsPairs (n : Z) : list (Z * Z) :=
+  flat_map (fun right => map (fun left => (left, right)) (Zrange 0 right)) (Zrange 0 n).
+Definition InnsPairCount (colors costs : list Z) (p n : Z) : Z :=
+  Zlength (filter (InnsPairAllowed colors costs p) (InnsPairs n)).
+Definition InnsColorCount (colors : list Z) (limit color : Z) : Z :=
+  Zlength (filter (fun idx => Z.eqb (Znth idx colors 0) color) (Zrange 0 limit)).
+Definition InnsGoodColorCount (colors costs : list Z) (limit p color : Z) : Z :=
+  Zlength (filter (fun idx => Z.eqb (Znth idx colors 0) color &&
+    InnsAffordable costs p idx (limit - 1)) (Zrange 0 limit)).
+Definition InnsPrefixCounts (colors costs : list Z) (limit k p answer : Z)
+  (seen good : list Z) : Prop :=
+  answer = InnsPairCount colors costs p limit /\
+  (forall color, 0 <= color < k -> Znth color seen 0 = InnsColorCount colors limit color) /\
+  (forall color, 0 <= color < k -> Znth color good 0 = InnsGoodColorCount colors costs limit p color).
+Definition InnsPairAnswer (colors costs : list Z) (n p answer : Z) : Prop :=
+  answer = InnsPairCount colors costs p n.
+Definition InnsCopiedPrefix (src old dst : list Z) (written k : Z) : Prop :=
+  Forall2 eq (sublist 0 written dst) (sublist 0 written src) /\
+  Forall2 eq (sublist written k dst) (sublist written k old).

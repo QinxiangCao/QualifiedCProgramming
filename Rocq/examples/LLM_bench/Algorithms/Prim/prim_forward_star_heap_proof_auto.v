@@ -319,13 +319,10 @@ Proof. Admitted.
 Lemma proof_of_prim_forward_star_heap_safety_wit_97 : prim_forward_star_heap_safety_wit_97.
 Proof. Admitted. 
 
-Lemma proof_of_prim_forward_star_heap_entail_wit_17 : prim_forward_star_heap_entail_wit_17.
+Lemma proof_of_prim_forward_star_heap_safety_wit_98 : prim_forward_star_heap_safety_wit_98.
 Proof. Admitted. 
 
-Lemma proof_of_prim_forward_star_heap_entail_wit_18 : prim_forward_star_heap_entail_wit_18.
-Proof. Admitted. 
-
-Lemma proof_of_prim_forward_star_heap_entail_wit_25 : prim_forward_star_heap_entail_wit_25.
+Lemma proof_of_prim_forward_star_heap_safety_wit_99 : prim_forward_star_heap_safety_wit_99.
 Proof. Admitted. 
 
 Lemma proof_of_prim_forward_star_heap_partial_solve_wit_1_pure : prim_forward_star_heap_partial_solve_wit_1_pure.
@@ -539,5 +536,8 @@ Lemma proof_of_prim_forward_star_heap_partial_solve_wit_56 : prim_forward_star_h
 Proof. Admitted. 
 
 Lemma proof_of_prim_forward_star_heap_partial_solve_wit_57 : prim_forward_star_heap_partial_solve_wit_57.
+Proof. Admitted. 
+
+Lemma proof_of_prim_forward_star_heap_partial_solve_wit_58 : prim_forward_star_heap_partial_solve_wit_58.
 Proof. Admitted. 
 

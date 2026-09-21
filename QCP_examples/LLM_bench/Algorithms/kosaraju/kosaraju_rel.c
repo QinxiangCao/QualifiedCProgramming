@@ -425,32 +425,7 @@ void transpose(int n, int m,
       j = j + 1;
     }
   }
-  /*@ Assert
-      exists rc_m rr_m pos_m,
-        n == n@pre &&
-        fadj_col == fadj_col@pre && fadj_row == fadj_row@pre &&
-        radj_col == radj_col@pre && radj_row == radj_row@pre &&
-        pos == pos@pre &&
-        1 <= n && n <= 2147483646 &&
-	        0 <= m && m == m_of(fadj_row_l) && m <= 2147483646 && sum == m &&
-	        Zlength(rc_m) == m_of(fadj_row_l) &&
-	        Zlength(radj_col_l) == m &&
-	        Zlength(pos_m) == n &&
-	        Zlength(rr_m) == n + 1 &&
-        csr_lo(0, rr_m) == 0 &&
-        csr_wf2_core(g, fadj_col_l, fadj_row_l) &&
-        csr_lo(0, fadj_row_l) == 0 &&
-        csr2_faithful(g, fadj_col_l, fadj_row_l) &&
-        AdjGraphValid(g) && adj_verts(g) == n &&
-        transpose_scatter_inv(n, m, csr_lo(n, fadj_row_l), fadj_col_l, rr_m, pos_m) &&
-        transpose_scatter_rows(n, m, fadj_col_l, rr_m) &&
-        transpose_scatter_contents(g, n, csr_lo(n, fadj_row_l), fadj_row_l, fadj_col_l, rr_m, rc_m) &&
-        IntArray::full(fadj_col, m_of(fadj_row_l), fadj_col_l) *
-        IntArray::full(fadj_row, n + 1, fadj_row_l) *
-        IntArray::full(radj_col, m_of(fadj_row_l), rc_m) *
-        IntArray::full(radj_row, n + 1, rr_m) *
-        IntArray::full(pos, n, pos_m)
-  */
+
 }
 
 /* ==================================================================== */
@@ -586,27 +561,7 @@ void kosaraju(int n, int *fadj_col, int *fadj_row, int *sid)
   /* step C: build the reverse CSR from the forward CSR.  The working
      arrays' pre-call contents (radj_col_l0/radj_row_l0/pos_l0) are
      arbitrary; transpose overwrites them. */
-  /*@ Assert
-      n == n@pre && m == m_of(fadj_row_l) &&
-      fadj_col == fadj_col@pre && fadj_row == fadj_row@pre && sid == sid@pre &&
-      1 <= n && n <= 2147483646 && timer == 0 &&
-      Zlength(sid_l) == n && Zlength(vis1_zero) == n && Zlength(vis2_zero) == n &&
-      (forall i, 0 <= i && i < n => Znth(i, vis1_zero, 0) == 0) &&
-      (forall i, 0 <= i && i < n => Znth(i, vis2_zero, 0) == 0) &&
-      csr2_faithful(g, fadj_col_l, fadj_row_l) &&
-      AdjGraphValid(g) && adj_verts(g) == n &&
-      csr_wf2_core(g, fadj_col_l, fadj_row_l) &&
-      csr_lo(0, fadj_row_l) == 0 &&
-      IntArray::full(fadj_col, m_of(fadj_row_l), fadj_col_l) *
-      IntArray::full(fadj_row, n + 1, fadj_row_l) *
-      IntArray::full(sid, n, sid_l) *
-      IntArray::full(radj_col, m_of(fadj_row_l), radj_col_l0) *
-      IntArray::full(radj_row, n + 1, radj_row_l0) *
-      IntArray::full(pos, n, pos_l0) *
-      IntArray::full(vis1, n, vis1_zero) *
-      IntArray::full(fin, n, fin_l0) *
-      IntArray::full(vis2, n, vis2_zero)
-  */
+
   transpose(n, m, fadj_col, fadj_row, radj_col, radj_row, pos)
       /*@ where(high_level_spec)
             g = g,
@@ -724,30 +679,7 @@ void kosaraju(int n, int *fadj_col, int *fadj_row, int *sid)
     }
   }
 
-  /*@ Assert
-      exists vis1_m fin_m radj_col_l radj_row_l pos_l,
-        phase1_sequence_refinement(g, radj_col_l, radj_row_l, vis1_m, fin_m,
-                                   vis1_zero, fin_l0, timer, n, n) &&
-        dfs1_finish_prefix_marked(fin_m, vis1_m, timer, n) &&
-        AdjGraphValid(g) && adj_verts(g) == n &&
-        n == n@pre && m == m_of(fadj_row_l) && m == m_of(radj_row_l) &&
-        fadj_col == fadj_col@pre && fadj_row == fadj_row@pre && sid == sid@pre &&
-        1 <= n && n <= 2147483646 &&
-        csr2_faithful(g, fadj_col_l, fadj_row_l) &&
-        csr_wf2_core(g, fadj_col_l, fadj_row_l) &&
-        csr_lo(0, fadj_row_l) == 0 &&
-        Zlength(sid_l) == n && Zlength(vis2_zero) == n &&
-        (forall i, 0 <= i && i < n => Znth(i, vis2_zero, 0) == 0) &&
-        IntArray::full(fadj_col, m_of(fadj_row_l), fadj_col_l) *
-        IntArray::full(fadj_row, n + 1, fadj_row_l) *
-        IntArray::full(sid, n, sid_l) *
-        IntArray::full(vis2, n, vis2_zero) *
-        IntArray::full(radj_col, m_of(radj_row_l), radj_col_l) *
-        IntArray::full(radj_row, n + 1, radj_row_l) *
-        IntArray::full(pos, n, pos_l) *
-        IntArray::full(vis1, n, vis1_m) *
-        IntArray::full(fin, n, fin_m)
-  */
+
 
   /* Reuse pos, which transpose no longer needs, as the decreasing
      finish-time traversal order required by phase 2. */

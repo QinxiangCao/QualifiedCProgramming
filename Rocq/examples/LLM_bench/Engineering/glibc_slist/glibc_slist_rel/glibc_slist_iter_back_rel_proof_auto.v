@@ -34,9 +34,6 @@ Proof. Admitted.
 Lemma proof_of_glibc_slist_clean_iter_back_safety_wit_2 : glibc_slist_clean_iter_back_safety_wit_2.
 Proof. Admitted. 
 
-Lemma proof_of_glibc_slist_clean_iter_back_entail_wit_2 : glibc_slist_clean_iter_back_entail_wit_2.
-Proof. Admitted. 
-
 Lemma proof_of_glibc_slist_clean_iter_back_partial_solve_wit_1_pure : glibc_slist_clean_iter_back_partial_solve_wit_1_pure.
 Proof. Admitted. 
 

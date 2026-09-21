@@ -41,9 +41,6 @@ Proof. Admitted.
 Lemma proof_of_euler_phi_safety_wit_7 : euler_phi_safety_wit_7.
 Proof. Admitted. 
 
-Lemma proof_of_euler_phi_safety_wit_8 : euler_phi_safety_wit_8.
-Proof. Admitted. 
-
 Lemma proof_of_euler_phi_safety_wit_9 : euler_phi_safety_wit_9.
 Proof. Admitted. 
 

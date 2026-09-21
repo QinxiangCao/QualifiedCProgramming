@@ -1,24 +1,12 @@
 ---
 name: final-check
-description: Use from the main agent after final-apply has written the accepted proving_merged result back to main root; verify consistency among generated files, manual, formal_case_lib, annotation backups, merge result, and cleanup.
+description: Use from main after final-apply publishes the current proving_merged candidate; check current C obligations, complete Rocq proofs, manual/library boundaries and side-product cleanup, with safe recovery on failure.
 ---
 
 # Final Check
 
-## When to invoke
+Only main uses this skill after the controller completes `final-apply`; do not create a subagent. Execute the current action's complete argv/cwd. Actions derive from current task status, so do not reuse commands from old reports.
 
-Only the main agent invokes this skill after the controller has completed `final-apply`; no subagent is created. If final-check fails and rollback succeeds, follow the controller action and perform `final-apply` again before another final-check.
+Read [the workflow](workflows/final-check.md) in full and follow the orchestrator's [paths and commands](../verification-orchestrator/workflows/paths-and-commands.md) and [public interface](../verification-orchestrator/docs/controller-cli.md). Do not edit proofs, clean directories manually, or invoke raw Coq/Dune/Make.
 
-A human starts the public boundary with the root uv/Python 3.12 environment. Here, main executes only the action argv beginning with the validated absolute `sys.executable`; it does not wrap final-check in uv again.
-
-## Broad purpose
-
-Use the controller to recheck source seals, symbolic-execution freshness, the full Rocq check, manual routes, the three active libraries, forbidden lemmas, and by-product cleanup. The run finishes only after every item passes.
-
-## Required reading
-
-- [Final-apply and final-check flow](workflows/final-check.md)
-- [Paths and commands](../verification-orchestrator/workflows/paths-and-commands.md)
-- [Controller public interface](../verification-orchestrator/docs/controller-cli.md)
-
-Main does not need to read a group-worker or other subagent skill. The controller mechanically checks forbidden lemmas, proof structure, and source seals. Main only executes the complete invocation carried by the action.
+`final-check` verifies current-source obligations, all proof routes, the case library, safety boundaries, and cleanup. Only complete success changes the run to `done`. After a failed check and safe rollback, perform the controller's `final-apply` action before another final check. Publication conflicts preserve current files for the user to resolve.

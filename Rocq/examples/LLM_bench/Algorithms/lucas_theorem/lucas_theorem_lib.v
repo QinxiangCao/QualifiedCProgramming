@@ -1,12 +1,10 @@
 From Coq Require Import ZArith List.
+From SumLib Require Import ZRange.
 Import ListNotations.
 Local Open Scope Z_scope.
 
-(** The frozen external contract for [modular_power] denotes the canonical
-    modular value of an integer power. *)
-Definition ModularPower
-    (base exponent modulus result : Z) : Prop :=
-  result = (base ^ exponent) mod modulus.
+(** The declaration and verified implementation share the same result predicate. *)
+Require Export SimpleC.EE.LLM_bench.Algorithms.modular_power.modular_power_lib.
 
 (** A positive integer is prime when it has no nontrivial divisor.  This
     case-local formulation keeps the public annotation surface independent of
@@ -17,8 +15,9 @@ Definition PrimeForLucas (p : Z) : Prop :=
     2 <= divisor < p ->
     p mod divisor <> 0.
 
-(** A Pascal-recursive mathematical binomial coefficient.  This is a
-    property-level object independent of the multiplicative C helper. *)
+(** Existing Pascal/factorial proof foundation.  Its nat implementation is
+    retained for the proved number-theory helpers below; the public coefficient,
+    digit, product and annotation interfaces all use Z. *)
 Fixpoint LucasNatBinomial (upper lower : nat) : nat :=
   match upper, lower with
   | _, O => 1%nat
@@ -40,17 +39,10 @@ Definition LucasBinomialResidue
     (n m p result : Z) : Prop :=
   result = LucasBinomialCoefficient (n + m) n mod p.
 
-(** The helper replaces [lower] by its symmetric, smaller choice before the
-    multiplicative loop. *)
-Definition DigitEffectiveLower (upper lower : Z) : Z :=
-  Z.min lower (upper - lower).
-
 (** A finite mathematical product of [count] consecutive integers beginning
     at [start]. *)
 Definition LucasRangeProduct (start count : Z) : Z :=
-  fold_right Z.mul 1
-    (map (fun offset => start + Z.of_nat offset)
-      (seq 0 (Z.to_nat count))).
+  fold_right Z.mul 1 (Zrange start (start + count)).
 
 Definition DigitNumeratorPrefix
     (upper lower processed : Z) : Z :=
@@ -59,54 +51,21 @@ Definition DigitNumeratorPrefix
 Definition DigitDenominatorPrefix (processed : Z) : Z :=
   LucasRangeProduct 1 processed.
 
-(** The precise signed-int safety promise for the digit helper.  It talks
-    about mathematical prefix residues rather than simulating C state. *)
-Definition DigitBinomialMachineSafe
-    (upper original_lower p : Z) : Prop :=
-  let lower := DigitEffectiveLower upper original_lower in
-  (forall next,
-      1 <= next <= lower ->
-      0 <=
-        (DigitNumeratorPrefix upper lower (next - 1) mod p) *
-        (upper - lower + next) <= 2147483647 /\
-      0 <=
-        (DigitDenominatorPrefix (next - 1) mod p) * next <=
-        2147483647) /\
-  (forall inverse,
-      ModularPower
-        (DigitDenominatorPrefix lower mod p) (p - 2) p inverse ->
-      0 <=
-        (DigitNumeratorPrefix upper lower lower mod p) * inverse <=
-        2147483647).
-
 (** The digit at [position] in a nonnegative integer's base-[p]
     representation. *)
-Definition LucasDigit (value p : Z) (position : nat) : Z :=
-  (value / p ^ Z.of_nat position) mod p.
+Definition LucasDigit (value p : Z) (position : Z) : Z :=
+  (value / p ^ position) mod p.
 
 (** Product, modulo [p], of the first [digits] Lucas digit coefficients. *)
 Definition LucasPrefixProduct
-    (upper lower p : Z) (digits : nat) : Z :=
+    (upper lower p : Z) (digits : Z) : Z :=
   fold_right Z.mul 1
     (map
       (fun position =>
         LucasBinomialCoefficient
           (LucasDigit upper p position)
           (LucasDigit lower p position) mod p)
-      (seq 0 digits)) mod p.
-
-(** The input-specific machine-safety promise for every digit that the main
-    loop can process. *)
-Definition LucasMachineSafe (n m p : Z) : Prop :=
-  forall processed : nat,
-    let upper_digit := LucasDigit (n + m) p processed in
-    let lower_digit := LucasDigit n p processed in
-    lower_digit <= upper_digit ->
-    DigitBinomialMachineSafe upper_digit lower_digit p /\
-    0 <=
-      LucasPrefixProduct (n + m) n p processed *
-      (LucasBinomialCoefficient upper_digit lower_digit mod p) <=
-      2147483647.
+      (Zrange 0 digits)) mod p.
 
 (** Internal mathematical state for the multiplicative digit helper. *)
 Definition DigitProductProgress
@@ -120,11 +79,12 @@ Definition DigitProductProgress
 Definition LucasProgress
     (original_upper original_lower p
      current_upper current_lower result : Z) : Prop :=
-  exists processed : nat,
+  exists processed : Z,
+    0 <= processed /\
     current_upper =
-      original_upper / p ^ Z.of_nat processed /\
+      original_upper / p ^ processed /\
     current_lower =
-      original_lower / p ^ Z.of_nat processed /\
+      original_lower / p ^ processed /\
     result =
       LucasPrefixProduct original_upper original_lower p processed /\
     LucasBinomialCoefficient original_upper original_lower mod p =
@@ -139,8 +99,8 @@ Lemma lucas_range_product_zero__digit_product_progress :
   forall start,
     LucasRangeProduct start 0 = 1.
 Proof.
-  intros start.
-  reflexivity.
+  intros start. unfold LucasRangeProduct, Zrange.
+  replace (start + 0 - start) with 0 by ring. reflexivity.
 Qed.
 Lemma lucas_range_product_succ__digit_product_progress :
   forall start count,
@@ -149,24 +109,16 @@ Lemma lucas_range_product_succ__digit_product_progress :
       LucasRangeProduct start count * (start + count).
 Proof.
   intros start count Hcount.
-  unfold LucasRangeProduct.
+  unfold LucasRangeProduct, Zrange.
+  replace (start + (count + 1) - start) with (count + 1) by ring.
+  replace (start + count - start) with count by ring.
   rewrite Z2Nat.inj_add by lia.
-  simpl Z.to_nat.
-  rewrite seq_app.
-  simpl.
-  rewrite map_app, fold_right_app.
-  simpl.
+  rewrite Zrange_aux_app. cbn [Z.to_nat Zrange_aux].
   rewrite Z2Nat.id by lia.
-  remember
-    (map (fun offset : nat => start + Z.of_nat offset)
-      (seq 0 (Z.to_nat count))) as factors.
-  clear Heqfactors.
-  induction factors as [|factor factors IH]; simpl.
-  - rewrite Z.mul_1_r.
-    destruct (start + count); reflexivity.
-  - rewrite IH.
-    rewrite Z.mul_assoc.
-    reflexivity.
+  rewrite fold_right_app. simpl.
+  induction (Zrange_aux start (Z.to_nat count)) as [|x xs IH]; simpl.
+  - rewrite Z.mul_1_r. now destruct (start + count).
+  - rewrite IH. ring.
 Qed.
 Lemma digit_product_progress_step__digit_product_progress :
   forall upper lower p next numerator denominator,
@@ -329,12 +281,9 @@ Lemma lucas_range_product_succ_end__digit_final_residue :
       (start + Z.of_nat count).
 Proof.
   intros start count.
-  unfold LucasRangeProduct.
-  rewrite !Nat2Z.id.
-  rewrite seq_S, map_app.
-  simpl map.
-  rewrite fold_right_Zmul_snoc__digit_final_residue.
-  simpl. ring.
+  rewrite Nat2Z.inj_succ.
+  replace (Z.succ (Z.of_nat count)) with (Z.of_nat count + 1) by lia.
+  apply lucas_range_product_succ__digit_product_progress. lia.
 Qed.
 Lemma lucas_range_product_succ_start__digit_final_residue :
   forall start count,
@@ -342,20 +291,10 @@ Lemma lucas_range_product_succ_start__digit_final_residue :
     start * LucasRangeProduct (start + 1) (Z.of_nat count).
 Proof.
   intros start count.
-  unfold LucasRangeProduct.
-  rewrite !Nat2Z.id.
-  simpl seq.
-  simpl map.
-  simpl fold_right.
-  rewrite Z.add_0_r.
-  f_equal.
-  rewrite <- (seq_shift count 0).
-  rewrite map_map.
-  f_equal.
-  apply map_ext.
-  intros offset.
-  rewrite Nat2Z.inj_succ.
-  lia.
+  unfold LucasRangeProduct, Zrange.
+  replace (start + Z.of_nat (S count) - start) with (Z.of_nat (S count)) by ring.
+  replace (start + 1 + Z.of_nat count - (start + 1)) with (Z.of_nat count) by ring.
+  rewrite !Nat2Z.id. reflexivity.
 Qed.
 Lemma lucas_nat_binomial_range_product__digit_final_residue :
   forall n k,
@@ -368,7 +307,7 @@ Proof.
   revert n.
   induction k as [|k IH]; intros n Hkn.
   - rewrite lucas_nat_binomial_zero__digit_final_residue.
-    unfold LucasRangeProduct. simpl. reflexivity.
+    rewrite !lucas_range_product_zero__digit_product_progress. simpl. reflexivity.
   - assert (Hklt : (k < n)%nat) by lia.
     pose proof (IH n ltac:(lia)) as IHrange.
     pose proof (lucas_nat_binomial_step__digit_final_residue n k Hklt)
@@ -444,20 +383,11 @@ Lemma digit_factorial_nonzero_mod_prime__digit_final_residue :
 Proof.
   intros lower p Hbounds Hprime Hzero.
   pose proof (prime_for_lucas_prime__digit_final_residue p Hprime) as Hp.
-  apply
-    (prime_product_not_divisible__digit_final_residue p
-      (map (fun offset => 1 + Z.of_nat offset)
-        (seq 0 (Z.to_nat lower))) Hp).
-  - apply Forall_forall.
-    intros x Hx.
-    apply in_map_iff in Hx.
-    destruct Hx as [offset [Hxeq Hoffset]].
-    subst x.
-    apply in_seq in Hoffset.
-    zify; lia.
-  - apply Zmod_divide; [lia|].
-    unfold DigitDenominatorPrefix, LucasRangeProduct in Hzero.
-    exact Hzero.
+  apply (prime_product_not_divisible__digit_final_residue p
+    (Zrange 1 (1 + lower)) Hp).
+  - apply Forall_forall. intros x Hx.
+    apply In_Zrange in Hx. lia.
+  - apply Zmod_divide; [lia|]. exact Hzero.
 Qed.
 Lemma NoDup_map_Zof_nat_seq__digit_final_residue :
   forall start len,
@@ -1370,28 +1300,22 @@ Proof.
 Qed.
 Lemma lucas_prefix_product_succ__lucas_digit_transition :
   forall upper lower p processed,
-    p <> 0 ->
-    LucasPrefixProduct upper lower p (S processed) =
+    p <> 0 -> 0 <= processed ->
+    LucasPrefixProduct upper lower p (processed + 1) =
       (LucasPrefixProduct upper lower p processed *
        (LucasBinomialCoefficient
           (LucasDigit upper p processed)
           (LucasDigit lower p processed) mod p)) mod p.
 Proof.
-  intros upper lower p processed Hp.
-  unfold LucasPrefixProduct.
-  rewrite List.seq_S, List.map_app, List.fold_right_app.
-  simpl.
-  rewrite Z.mul_mod_idemp_l by exact Hp.
-  f_equal.
-  induction (map
-    (fun position : nat =>
-       LucasBinomialCoefficient (LucasDigit upper p position)
-         (LucasDigit lower p position) mod p)
-    (seq 0 processed)) as [|x xs IH]; simpl.
-  - rewrite Z.mul_1_r.
-    destruct (LucasBinomialCoefficient (LucasDigit upper p processed)
-      (LucasDigit lower p processed) mod p); reflexivity.
-  - rewrite IH, <- Z.mul_assoc. reflexivity.
+  intros upper lower p processed Hp Hprocessed.
+  unfold LucasPrefixProduct, Zrange.
+  rewrite !Z.sub_0_r, Z2Nat.inj_add by lia.
+  rewrite Zrange_aux_app. cbn [Z.to_nat Zrange_aux].
+  rewrite Z2Nat.id, Z.add_0_l by lia.
+  change (Pos.to_nat 1) with 1%nat.
+  rewrite map_app. cbn [Zrange_aux map].
+  rewrite fold_right_Zmul_snoc__digit_final_residue.
+  rewrite Z.mul_mod_idemp_l by exact Hp. reflexivity.
 Qed.
 Lemma lucas_progress_advance__lucas_digit_transition :
   forall original_upper original_lower p upper lower result retval,
@@ -1406,25 +1330,26 @@ Proof.
   intros original_upper original_lower p upper lower result retval
     Hou Hol Hu0 Hl0 Hr0 Hv0 Hprime Hdigit Hprogress.
   assert (Hp : 2 <= p) by (destruct Hprime; lia).
-  destruct Hprogress as [processed [Hu [Hl [Hr Hres]]]].
-  exists (S processed).
-  assert (Hpowpos : 0 < p ^ Z.of_nat processed).
+  destruct Hprogress as [processed [Hprocessed [Hu [Hl [Hr Hres]]]]].
+  exists (processed + 1).
+  assert (Hpowpos : 0 < p ^ processed).
   { apply Z.pow_pos_nonneg; lia. }
   assert (Hupperdiv :
-    Z.quot upper p = original_upper / p ^ Z.of_nat (S processed)).
+    Z.quot upper p = original_upper / p ^ (processed + 1)).
   { rewrite Zquot_Zdiv_pos by lia.
     rewrite Hu.
     rewrite Zdiv_Zdiv by lia.
-    rewrite Nat2Z.inj_succ, Z.pow_succ_r by lia.
-    f_equal. ring. }
+    rewrite Z.pow_add_r by lia.
+    rewrite Z.pow_1_r. reflexivity. }
   assert (Hlowerdiv :
-    Z.quot lower p = original_lower / p ^ Z.of_nat (S processed)).
+    Z.quot lower p = original_lower / p ^ (processed + 1)).
   { rewrite Zquot_Zdiv_pos by lia.
     rewrite Hl.
     rewrite Zdiv_Zdiv by lia.
-    rewrite Nat2Z.inj_succ, Z.pow_succ_r by lia.
-    f_equal. ring. }
+    rewrite Z.pow_add_r by lia.
+    rewrite Z.pow_1_r. reflexivity. }
   repeat split.
+  - lia.
   - exact Hupperdiv.
   - exact Hlowerdiv.
   - rewrite lucas_prefix_product_succ__lucas_digit_transition by lia.
@@ -1496,7 +1421,7 @@ Lemma lucas_progress_terminal_residue__lucas_terminal_return :
 Proof.
   intros original_upper original_lower p result Hp Hresult Hprogress.
   unfold LucasProgress in Hprogress.
-  destruct Hprogress as [processed Hprogress].
+  destruct Hprogress as [processed [Hprocessed Hprogress]].
   destruct Hprogress as [Hupper Hprogress].
   destruct Hprogress as [Hlower Hprogress].
   destruct Hprogress as [Hstored Hcoef].

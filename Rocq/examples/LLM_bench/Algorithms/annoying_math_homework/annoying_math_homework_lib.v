@@ -3,6 +3,7 @@ Require Import Coq.ZArith.ZArith.
 Require Import Coq.micromega.Lia.
 Require Import Coq.micromega.Psatz.
 Require Import AUXLib.ListLib.
+Require Import SimpleC.EE.LLM_bench.Codeforces.SpecHelpers.
 From SimpleC.SL Require Import Mem SeparationLogic.
 Require Import Logic.LogicGenerator.demo932.Interface.
 
@@ -22,45 +23,25 @@ Inductive Base10DigitSum : Z -> Z -> Prop :=
       Base10DigitSum quotient quotient_sum ->
       Base10DigitSum n (quotient_sum + n mod 10).
 
-Inductive PrefixDigitSum : Z -> Z -> Prop :=
-| PrefixDigitSum_nonpositive :
-    forall x, x <= 0 -> PrefixDigitSum x 0
-| PrefixDigitSum_positive_base :
-    PrefixDigitSum 1 1
-| PrefixDigitSum_positive_step :
-    forall x total next_digit_sum,
-      1 <= x ->
-      PrefixDigitSum x total ->
-      Base10DigitSum (x + 1) next_digit_sum ->
-      PrefixDigitSum (x + 1)
-        ((total + next_digit_sum) mod digit_sum_modulus).
+(** Decimal decomposition is independent of the DP tables and machine bounds. *)
+Definition decimal_digit_sum (n : Z) : Z :=
+  epsilon (inhabits 0) (Base10DigitSum n).
 
-Inductive InclusiveDigitSum (lo : Z) : Z -> Z -> Prop :=
-| InclusiveDigitSum_single :
-    forall digit_sum,
-      Base10DigitSum lo digit_sum ->
-      InclusiveDigitSum lo lo digit_sum
-| InclusiveDigitSum_extend :
-    forall hi total next_digit_sum,
-      lo <= hi ->
-      InclusiveDigitSum lo hi total ->
-      Base10DigitSum (hi + 1) next_digit_sum ->
-      InclusiveDigitSum lo (hi + 1) (total + next_digit_sum).
+(** Inclusive sums use the shared finite-range sum. Empty ranges sum to zero. *)
+Definition PrefixDigitSum (x answer : Z) : Prop :=
+  answer = sum_range 1 x decimal_digit_sum mod digit_sum_modulus.
+
+Definition InclusiveDigitSum (lo hi total : Z) : Prop :=
+  total = sum_range lo hi decimal_digit_sum.
 
 Definition IntervalDigitSum (lo hi answer : Z) : Prop :=
-  exists total,
-    lo <= hi /\
-    InclusiveDigitSum lo hi total /\
-    answer = total mod digit_sum_modulus.
+  answer = sum_range lo hi decimal_digit_sum mod digit_sum_modulus.
 
 Definition PowerTable (power : list Z) : Prop :=
-  Zlength power = 20 /\
   forall i, 0 <= i < 20 ->
     Znth i power 0 = (10 ^ i) mod digit_sum_modulus.
 
 Definition PowerPrefix (power : list Z) (hi : Z) : Prop :=
-  Zlength power = hi /\
-  1 <= hi <= 20 /\
   forall i, 0 <= i < hi ->
     Znth i power 0 = (10 ^ i) mod digit_sum_modulus.
 
@@ -71,75 +52,46 @@ Definition DigitDPValue (places leading : Z) : Z :=
      45 * (places - 1) * 10 ^ (places - 2)) mod digit_sum_modulus.
 
 Definition DigitDPTable (dp : list Z) : Prop :=
-  Zlength dp = 200 /\
-  (forall j, 0 <= j < 10 -> Znth j dp 0 = 0) /\
+  (Forall (eq 0) (sublist 0 10 dp)) /\
   forall places leading,
     1 <= places < 20 -> 0 <= leading < 10 ->
     Znth (places * 10 + leading) dp 0 = DigitDPValue places leading.
 
-Definition ZeroSegment (values : list Z) (hi total : Z) : Prop :=
-  Zlength values = hi /\
-  0 <= hi <= total /\
-  forall k, 0 <= k < hi -> Znth k values 0 = 0.
-
 Definition DigitDPBaseProgress (dp : list Z) (next : Z) : Prop :=
-  Zlength dp = 200 /\
-  0 <= next <= 10 /\
   (forall j, 0 <= j < next -> Znth (10 + j) dp 0 = j) /\
-  (forall k, 0 <= k < 200 ->
-     (k < 10 \/ 20 <= k \/ 10 + next <= k) -> Znth k dp 0 = 0).
+  Forall (eq 0) (sublist 0 10 dp ++ sublist (10 + next) 200 dp).
 
 Definition DigitDPOuterProgress (dp : list Z) (next_places : Z) : Prop :=
-  Zlength dp = 200 /\
-  2 <= next_places <= 20 /\
-  (forall d, 0 <= d < 10 -> Znth d dp 0 = 0) /\
+  (Forall (eq 0) (sublist 0 10 dp)) /\
   (forall places leading,
      1 <= places < next_places -> 0 <= leading < 10 ->
      Znth (places * 10 + leading) dp 0 = DigitDPValue places leading) /\
-  (forall places leading,
-     next_places <= places < 20 -> 0 <= leading < 10 ->
-     Znth (places * 10 + leading) dp 0 = 0).
+  Forall (eq 0) (sublist (next_places * 10) 200 dp).
 
 Definition DigitDPRowProgress
     (dp : list Z) (places next_leading : Z) : Prop :=
-  Zlength dp = 200 /\
-  2 <= places < 20 /\
-  0 <= next_leading <= 10 /\
-  (forall d, 0 <= d < 10 -> Znth d dp 0 = 0) /\
+  (Forall (eq 0) (sublist 0 10 dp)) /\
   (forall p d, 1 <= p < places -> 0 <= d < 10 ->
      Znth (p * 10 + d) dp 0 = DigitDPValue p d) /\
   (forall d, 0 <= d < next_leading ->
      Znth (places * 10 + d) dp 0 = DigitDPValue places d) /\
-  (forall d, next_leading <= d < 10 ->
-     Znth (places * 10 + d) dp 0 = 0) /\
-  forall p d, places < p < 20 -> 0 <= d < 10 ->
-    Znth (p * 10 + d) dp 0 = 0.
+  Forall (eq 0) (sublist (places * 10 + next_leading) ((places + 1) * 10) dp) /\
+  Forall (eq 0) (sublist ((places + 1) * 10) 200 dp).
 
-Inductive InnerCandidateDigitSum
-    (dp : list Z) (places : Z) : Z -> Z -> Prop :=
-| InnerCandidateDigitSum_zero : InnerCandidateDigitSum dp places 0 0
-| InnerCandidateDigitSum_step :
-    forall next partial,
-      0 <= next ->
-      InnerCandidateDigitSum dp places next partial ->
-      InnerCandidateDigitSum dp places (next + 1)
-        ((partial + Znth (places * 10 + next) dp 0) mod digit_sum_modulus).
+Definition InnerCandidateDigitSum
+    (dp : list Z) (places count partial : Z) : Prop :=
+  partial = sum_range 0 (count - 1)
+    (fun digit => Znth (places * 10 + digit) dp 0) mod digit_sum_modulus.
 
 Definition DigitDPCellProgress
     (dp : list Z) (places leading next_suffix : Z) : Prop :=
-  Zlength dp = 200 /\
-  2 <= places < 20 /\
-  0 <= leading < 10 /\
-  0 <= next_suffix <= 10 /\
-  (forall d, 0 <= d < 10 -> Znth d dp 0 = 0) /\
+  (Forall (eq 0) (sublist 0 10 dp)) /\
   (forall p d, 1 <= p < places -> 0 <= d < 10 ->
      Znth (p * 10 + d) dp 0 = DigitDPValue p d) /\
   (forall d, 0 <= d < leading ->
      Znth (places * 10 + d) dp 0 = DigitDPValue places d) /\
-  (forall d, leading < d < 10 ->
-     Znth (places * 10 + d) dp 0 = 0) /\
-  (forall p d, places < p < 20 -> 0 <= d < 10 ->
-     Znth (p * 10 + d) dp 0 = 0) /\
+  Forall (eq 0) (sublist (places * 10 + leading + 1) ((places + 1) * 10) dp) /\
+  Forall (eq 0) (sublist ((places + 1) * 10) 200 dp) /\
   exists partial,
     InnerCandidateDigitSum dp (places - 1) next_suffix partial /\
     Znth (places * 10 + leading) dp 0 =
@@ -148,24 +100,20 @@ Definition DigitDPCellProgress
 
 Definition ExtractedDigitBuffer
     (x : Z) (digits : list Z) (count remaining : Z) : Prop :=
-  Zlength digits = 20 /\
-  0 <= count <= 19 /\
   remaining = x / 10 ^ count /\
   (forall k, 1 <= k <= count ->
      Znth k digits 0 = (x / 10 ^ (k - 1)) mod 10) /\
-  (forall k, count < k < 20 -> Znth k digits 0 = 0).
+  Forall (eq 0) (sublist (count + 1) 20 digits).
 
 Definition ExtractedDigitCount (x count : Z) : Prop :=
-  1 <= count <= 19 /\
   10 ^ (count - 1) <= x < 10 ^ count.
 
 Definition DigitPositionPower (position power : Z) : Prop :=
-  1 <= position <= 19 /\
   power = 10 ^ (position - 1).
 
 Definition OuterDigitPositionPower (position power : Z) : Prop :=
   (position = 0 /\ power = 0) \/
-  (1 <= position <= 19 /\ power = 10 ^ (position - 1)).
+  (1 <= position /\ power = 10 ^ (position - 1)).
 
 Definition AccumulatedDigitSumCorrect
     (x position answer : Z) : Prop :=
@@ -181,39 +129,136 @@ Definition AccumulatedDigitSumCorrect
         (x mod 10 ^ position + 1) * high_digit_sum)
          mod digit_sum_modulus).
 
-Inductive DigitPositionAccumulation
-    (x : Z) (dp digits : list Z) : Z -> Z -> Prop :=
-| DigitPositionAccumulation_start :
-    forall count,
-      ExtractedDigitBuffer x digits count 0 ->
-      ExtractedDigitCount x count ->
-      DigitPositionAccumulation x dp digits count 0
-| DigitPositionAccumulation_step :
-    forall places answer choice_sum,
-      1 <= places ->
-      DigitPositionAccumulation x dp digits places answer ->
-      InnerCandidateDigitSum dp places (Znth places digits 0) choice_sum ->
-      DigitPositionAccumulation x dp digits (places - 1)
-        ((answer + choice_sum +
-          (((x mod 10 ^ (places - 1)) + 1) mod digit_sum_modulus) *
-            Znth places digits 0) mod digit_sum_modulus).
-
-Definition OuterDigitPositionProgress
-    (x : Z) (dp digits : list Z) (position answer : Z) : Prop :=
-  DigitPositionAccumulation x dp digits position answer.
-
 Definition InnerCandidateDigitProgress
-    (x : Z) (dp digits : list Z) (places next_digit answer_before answer : Z) : Prop :=
-  1 <= places <= 19 /\
-  0 <= next_digit <= Znth places digits 0 /\
-  OuterDigitPositionProgress x dp digits places answer_before /\
+    (dp : list Z) (places next_digit answer_before answer : Z) : Prop :=
   exists choice_sum,
     InnerCandidateDigitSum dp places next_digit choice_sum /\
     answer = (answer_before + choice_sum) mod digit_sum_modulus.
 
-Definition CompletedDigitPositionScan
-    (x : Z) (dp digits : list Z) (answer : Z) : Prop :=
-  OuterDigitPositionProgress x dp digits 0 answer.
+Lemma Base10DigitSum_deterministic__interval_bridge :
+  forall n first second,
+    Base10DigitSum n first -> Base10DigitSum n second -> first = second.
+Proof.
+  intros n first second Hfirst. revert second.
+  induction Hfirst; intros second Hsecond; inversion Hsecond; subst; try lia.
+  f_equal. eapply IHHfirst; eauto.
+Qed.
+
+Lemma Base10DigitSum_exists : forall n, 0 <= n -> exists total, Base10DigitSum n total.
+Proof.
+  apply Zlt_0_ind. intros n H Hn.
+  destruct (Z.eq_dec n 0) as [->|Hnz].
+  - exists 0. constructor.
+  - destruct (H (n / 10) ltac:(split; [apply Z.div_pos; lia|apply Z.div_lt; lia])) as [total Htotal].
+    exists (total + n mod 10). eapply Base10DigitSum_positive; eauto; lia.
+Qed.
+
+Lemma decimal_digit_sum_correct : forall n total,
+  Base10DigitSum n total -> decimal_digit_sum n = total.
+Proof.
+  intros n total Htotal. unfold decimal_digit_sum.
+  apply Base10DigitSum_deterministic__interval_bridge with n.
+  - apply epsilon_spec. eauto.
+  - exact Htotal.
+Qed.
+
+Lemma PrefixDigitSum_nonpositive : forall x, x <= 0 -> PrefixDigitSum x 0.
+Proof.
+  intros x Hx. unfold PrefixDigitSum, sum_range.
+  rewrite sum_Z_range_empty by lia. reflexivity.
+Qed.
+
+Lemma PrefixDigitSum_positive_base : PrefixDigitSum 1 1.
+Proof.
+  unfold PrefixDigitSum, sum_range. rewrite sum_Z_range_single.
+  assert (Hdigit : Base10DigitSum 1 1).
+  { change (Base10DigitSum 1 (0 + 1 mod 10)).
+    eapply Base10DigitSum_positive with (quotient := 0); try reflexivity; try lia.
+    constructor. }
+  rewrite (decimal_digit_sum_correct _ _ Hdigit). reflexivity.
+Qed.
+
+Lemma PrefixDigitSum_positive_step : forall x total next_digit_sum,
+  1 <= x -> PrefixDigitSum x total -> Base10DigitSum (x + 1) next_digit_sum ->
+  PrefixDigitSum (x + 1) ((total + next_digit_sum) mod digit_sum_modulus).
+Proof.
+  intros x total next_digit_sum Hx Htotal Hdigit.
+  unfold PrefixDigitSum, sum_range in *.
+  rewrite Htotal, Z.add_mod_idemp_l by (unfold digit_sum_modulus; lia).
+  rewrite (sum_Z_range_extend_right 1 (x + 1) decimal_digit_sum) by lia.
+  rewrite (decimal_digit_sum_correct _ _ Hdigit). reflexivity.
+Qed.
+
+Lemma PrefixDigitSum_range : forall x total,
+  PrefixDigitSum x total -> 0 <= total < digit_sum_modulus.
+Proof.
+  intros x total ->. apply Z.mod_pos_bound. unfold digit_sum_modulus; lia.
+Qed.
+
+Lemma PrefixDigitSum_deterministic__interval_bridge : forall n first second,
+  PrefixDigitSum n first -> PrefixDigitSum n second -> first = second.
+Proof. unfold PrefixDigitSum; intros; congruence. Qed.
+
+Lemma PrefixDigitSum_predecessor : forall n total,
+  1 <= n -> PrefixDigitSum n total -> exists before digit_sum,
+  PrefixDigitSum (n - 1) before /\ Base10DigitSum n digit_sum /\
+  total = (before + digit_sum) mod digit_sum_modulus.
+Proof.
+  intros n total Hn Htotal.
+  destruct (Base10DigitSum_exists n ltac:(lia)) as [digit Hdigit].
+  exists (sum_range 1 (n - 1) decimal_digit_sum mod digit_sum_modulus), digit.
+  split; [reflexivity|]. split; [exact Hdigit|].
+  unfold PrefixDigitSum, sum_range in *. rewrite Htotal.
+  rewrite Z.add_mod_idemp_l by (unfold digit_sum_modulus; lia).
+  replace (n - 1 + 1) with n by lia.
+  rewrite (sum_Z_range_extend_right 1 n decimal_digit_sum) by lia.
+  rewrite (decimal_digit_sum_correct _ _ Hdigit). reflexivity.
+Qed.
+
+Lemma InnerCandidateDigitSum_zero : forall dp places, InnerCandidateDigitSum dp places 0 0.
+Proof.
+  intros. unfold InnerCandidateDigitSum, sum_range.
+  rewrite sum_Z_range_empty by lia. reflexivity.
+Qed.
+
+Lemma InnerCandidateDigitSum_step : forall dp places next partial,
+  0 <= next -> InnerCandidateDigitSum dp places next partial ->
+  InnerCandidateDigitSum dp places (next + 1)
+    ((partial + Znth (places * 10 + next) dp 0) mod digit_sum_modulus).
+Proof.
+  intros dp places next partial Hnext Hpartial.
+  unfold InnerCandidateDigitSum, sum_range in *.
+  rewrite Hpartial, Z.add_mod_idemp_l by (unfold digit_sum_modulus; lia).
+  replace (next - 1 + 1) with next by lia.
+  replace (next + 1 - 1 + 1) with (next + 1) by lia.
+  rewrite (sum_Z_range_extend_right 0 next) by lia. reflexivity.
+Qed.
+
+Lemma InnerCandidateDigitSum_ind : forall dp places (P : Z -> Z -> Prop),
+  P 0 0 ->
+  (forall next partial, 0 <= next -> InnerCandidateDigitSum dp places next partial ->
+    P next partial -> P (next + 1)
+      ((partial + Znth (places * 10 + next) dp 0) mod digit_sum_modulus)) ->
+  forall next partial, 0 <= next -> InnerCandidateDigitSum dp places next partial -> P next partial.
+Proof.
+  intros dp places P Hzero Hstep.
+  assert (Hind : forall next, 0 <= next -> forall partial, InnerCandidateDigitSum dp places next partial -> P next partial).
+  { refine (Zlt_0_ind (fun next => forall partial, InnerCandidateDigitSum dp places next partial -> P next partial) _).
+    intros next IH Hnext partial Hpartial.
+  destruct (Z.eq_dec next 0) as [->|Hnz].
+  - unfold InnerCandidateDigitSum, sum_range in Hpartial.
+    rewrite sum_Z_range_empty in Hpartial by lia. subst partial. exact Hzero.
+  - set (before := sum_range 0 (next - 1 - 1)
+      (fun digit => Znth (places * 10 + digit) dp 0) mod digit_sum_modulus).
+    assert (Hbefore : InnerCandidateDigitSum dp places (next - 1) before) by reflexivity.
+    pose proof (InnerCandidateDigitSum_step dp places (next - 1) before ltac:(lia) Hbefore) as Hafter.
+    assert (partial = (before + Znth (places * 10 + (next - 1)) dp 0) mod digit_sum_modulus).
+    { unfold InnerCandidateDigitSum in *. replace (next - 1 + 1) with next in Hafter by lia. congruence. }
+    subst partial. replace next with (next - 1 + 1) at 1 by lia.
+    apply Hstep; try lia; auto.
+    apply IH; try lia. exact Hbefore. }
+  intros; eapply Hind; eauto.
+Qed.
 
 Lemma Znth_app_left__digits_power_and_zero_init :
   forall (l1 l2 : list Z) (d : Z) (i : Z),
@@ -241,30 +286,6 @@ Proof.
     lia.
 Qed.
 
-Lemma ZeroSegment_app_zero__digits_power_and_zero_init :
-  forall (values : list Z) (hi total : Z),
-    ZeroSegment values hi total ->
-    hi < total ->
-    ZeroSegment (values ++ 0 :: nil) (hi + 1) total.
-Proof.
-  intros values hi total Hzero Hlt.
-  unfold ZeroSegment in *.
-  destruct Hzero as [Hlen [Hbounds Hzero]].
-  repeat split.
-  - rewrite Zlength_app, Hlen, Zlength_cons, Zlength_nil.
-    lia.
-  - lia.
-  - lia.
-  - intros k Hk.
-    destruct (Z_lt_ge_dec k hi).
-    + rewrite Znth_app_left__digits_power_and_zero_init by lia.
-      apply Hzero.
-      lia.
-    + assert (k = hi) by lia; subst k.
-      rewrite <- Hlen.
-      apply Znth_app_last__digits_power_and_zero_init.
-Qed.
-
 Lemma digits_dp_previous_term_bounds__digits_dp_cell :
   forall (power_l dp_l : list Z) (k j i : Z),
     k < 10 -> 2 <= i -> i < 20 -> 0 <= j -> j < 10 ->
@@ -276,10 +297,10 @@ Lemma digits_dp_previous_term_bounds__digits_dp_cell :
 Proof.
   intros power_l dp_l k j i Hk10 Hi2 Hi20 Hj0 Hj10 Hk0 Hk_le Hcell Hpower.
   unfold DigitDPCellProgress in Hcell.
-  destruct Hcell as [_ [_ [_ [_ [_ [Hprev _]]]]]].
+  destruct Hcell as [_ [Hprev _]].
   specialize (Hprev (i - 1) k ltac:(lia) ltac:(lia)).
   unfold PowerTable in Hpower.
-  destruct Hpower as [_ Hpow].
+  rename Hpower into Hpow.
   specialize (Hpow (i - 2) ltac:(lia)).
   assert (Hprev_nonneg : 0 <= Znth ((i - 1) * 10 + k) dp_l 0).
   { rewrite Hprev. unfold DigitDPValue.
@@ -320,7 +341,7 @@ Proof.
     as Hmoving_num.
   unfold DigitDPCellProgress in Hcell.
   destruct Hcell as
-    [_ [_ [_ [_ [_ [_ [_ [_ [_ [partial [_ Hcurrent]]]]]]]]]]].
+    [_ [_ [_ [_ [_ [partial [_ Hcurrent]]]]]]].
   assert (Hcurrent_bounds : 0 <= Znth (i * 10 + j) dp_l 0 < 1000000007).
   { rewrite Hcurrent.
     exact (Z.mod_pos_bound _ digit_sum_modulus
@@ -354,15 +375,10 @@ Lemma InnerCandidateDigitSum_replace_other__digits_dp_cell :
     InnerCandidateDigitSum (replace_Znth idx value dp) places count partial.
 Proof.
   intros dp places count partial idx value Hidx Haway Hinner.
-  induction Hinner as [|next partial Hnext Hinner IH].
-  - constructor.
-  - rewrite <- (Znth_replace_Znth_Diff
-      0 dp idx (places * 10 + next) value).
-    + apply InnerCandidateDigitSum_step; [exact Hnext |].
-      apply IH. intros next' Hnext'. apply Haway. lia.
-    + exact Hidx.
-    + exact (proj1 (Haway next ltac:(lia))).
-    + intro Heq. apply (proj2 (Haway next ltac:(lia))). symmetry. exact Heq.
+  unfold InnerCandidateDigitSum, sum_range in *.
+  rewrite Hinner. f_equal. apply sum_ext. intros next Hnext.
+  rewrite Znth_replace_Znth_Diff; try reflexivity; try assumption;
+    specialize (Haway next ltac:(lia)); lia.
 Qed.
 
 Lemma digit_dp_cell_mod_update__digits_dp_cell :
@@ -394,20 +410,18 @@ Lemma InnerCandidateDigitSum_next_inv__digits_dp_row :
           mod digit_sum_modulus.
 Proof.
   intros dp places next total Hnext Hsum.
-  remember (next + 1) as count eqn:Hcount.
-  change (InnerCandidateDigitSum dp places count total) in Hsum.
-  revert next Hnext Hcount.
-  induction Hsum as [|next' partial Hnext' Hsum IH];
-    intros next Hnext Hcount.
-  - lia.
-  - assert (next' = next) by lia.
-    subst next'.
-    exists partial.
-    split; [exact Hsum | reflexivity].
+  exists (sum_range 0 (next - 1) (fun digit => Znth (places * 10 + digit) dp 0)
+    mod digit_sum_modulus).
+  split; [reflexivity|].
+  pose proof (InnerCandidateDigitSum_step dp places next
+    (sum_range 0 (next - 1) (fun digit => Znth (places * 10 + digit) dp 0)
+      mod digit_sum_modulus) Hnext eq_refl) as Hstep.
+  unfold InnerCandidateDigitSum in *. congruence.
 Qed.
 
 Lemma InnerCandidateDigitSum_formula_ge2__digits_dp_row :
   forall dp places next partial,
+    0 <= next ->
     2 <= places ->
     (forall d, 0 <= d < next ->
        Znth (places * 10 + d) dp 0 = DigitDPValue places d) ->
@@ -417,16 +431,23 @@ Lemma InnerCandidateDigitSum_formula_ge2__digits_dp_row :
        next * 45 * (places - 1) * 10 ^ (places - 2))
         mod digit_sum_modulus.
 Proof.
-  intros dp places next partial Hplaces Hvalues Hsum.
+  intros dp places next partial Hcount Hplaces Hvalues Hsum.
   revert Hvalues.
-  induction Hsum as [|next partial Hnext Hsum IH]; intros Hvalues.
-  - replace
+  refine (InnerCandidateDigitSum_ind dp places
+    (fun next partial => (forall d, 0 <= d < next ->
+      Znth (places * 10 + d) dp 0 = DigitDPValue places d) ->
+      partial = (5 * next * (next - 1) * 10 ^ (places - 2) +
+        next * 45 * (places - 1) * 10 ^ (places - 2)) mod digit_sum_modulus)
+    _ _ next partial Hcount Hsum); clear next partial Hcount Hsum.
+  - intros Hvalues.
+    replace
       (5 * 0 * (0 - 1) * 10 ^ (places - 2) +
        0 * 45 * (places - 1) * 10 ^ (places - 2))
       with 0 by ring.
     unfold digit_sum_modulus.
     reflexivity.
-  - specialize (IH (fun d Hd => Hvalues d ltac:(lia))).
+  - intros next partial Hnext Hsum IH Hvalues.
+    specialize (IH (fun d Hd => Hvalues d ltac:(lia))).
     rewrite Hvalues by lia.
     unfold DigitDPValue.
     destruct (Z.eq_dec places 1) as [Heq | Hneq]; [lia |].
@@ -490,7 +511,8 @@ Proof.
       as [partial0 [Hsum0 Hpartial1]].
     assert (partial0 = 0).
     {
-      inversion Hsum0; subst; [reflexivity | lia].
+      unfold InnerCandidateDigitSum, sum_range in Hsum0.
+      rewrite sum_Z_range_empty in Hsum0 by lia. exact Hsum0.
     }
     subst partial0 partial1 partial2 partial3 partial4.
     subst partial5 partial6 partial7 partial8 partial9 partial.
@@ -499,7 +521,7 @@ Proof.
     vm_compute.
     reflexivity.
   - pose proof (InnerCandidateDigitSum_formula_ge2__digits_dp_row
-      dp places 10 partial ltac:(lia) Hvalues Hsum10) as Hpartial.
+      dp places 10 partial ltac:(lia) ltac:(lia) Hvalues Hsum10) as Hpartial.
     rewrite Hpartial.
     assert (Hpow :
       10 ^ (places - 1) = 10 * 10 ^ (places - 2)).
@@ -553,7 +575,7 @@ Lemma outer_power_predecessor__prefix_inner_outer_scan :
 Proof.
   intros i power Hi Hpower.
   unfold OuterDigitPositionPower in *.
-  destruct Hpower as [[Hz _] | [[_ Hile] Hpower]]; [lia|].
+  destruct Hpower as [[Hz _] | [Hile Hpower]]; [lia|].
   subst power.
   destruct (Z.eq_dec i 1) as [Heq | Hneq].
   - left.
@@ -575,127 +597,6 @@ Proof.
   intros value.
   pose proof (Z.mod_pos_bound value 1000000007 ltac:(lia)) as Hmod.
   rewrite signed_last_nbits_eq; lia.
-Qed.
-
-Lemma outer_progress_predecessor__prefix_inner_outer_scan :
-  forall x dp digits power answer_before ans j m i,
-    j >= Znth i digits 0 ->
-    1 <= x ->
-    1 <= i -> i <= m -> m <= 19 ->
-    0 <= Znth i digits 0 < 10 ->
-    0 <= j -> j <= Znth i digits 0 ->
-    0 <= ans < 1000000007 ->
-    ExtractedDigitBuffer x digits m 0 ->
-    ExtractedDigitCount x m ->
-    InnerCandidateDigitProgress x dp digits i j answer_before ans ->
-    OuterDigitPositionPower i power ->
-    OuterDigitPositionProgress x dp digits (i - 1)
-      (signed_last_nbits
-        (Z.rem
-          (ans +
-           Z.rem
-             (Z.rem (Z.rem x power + 1) 1000000007 *
-              Z.rem (Z.quot x power) 10)
-             1000000007)
-          1000000007) 32).
-Proof.
-  intros x dp digits power answer_before ans j m i
-    Hjdone Hx Hi Him Hm Hdigit Hj0 Hjle Hans Hbuffer Hcount
-    Hinner Hpower.
-  assert (Hjeq : j = Znth i digits 0) by lia.
-  unfold InnerCandidateDigitProgress in Hinner.
-  destruct Hinner as [Hip [_ [Houter [choice_sum [Hchoice HansEq]]]]].
-  unfold OuterDigitPositionProgress in Houter |- *.
-  unfold OuterDigitPositionPower in Hpower.
-  destruct Hpower as [[Hz _] | [[_ _] Hpow]]; [lia|].
-  pose proof Hbuffer as Hbuffer'.
-  unfold ExtractedDigitBuffer in Hbuffer'.
-  destruct Hbuffer' as [_ [_ [_ [Hdigits _]]]].
-  specialize (Hdigits i ltac:(lia)).
-  subst power.
-  assert (Hpowpos : 0 < 10 ^ (i - 1)) by (apply Z.pow_pos_nonneg; lia).
-  assert (Hxnonneg : 0 <= x) by lia.
-  assert (Hanswer :
-    signed_last_nbits
-      (Z.rem
-        (ans +
-         Z.rem
-           (Z.rem (Z.rem x (10 ^ (i - 1)) + 1) 1000000007 *
-            Z.rem (Z.quot x (10 ^ (i - 1))) 10)
-           1000000007)
-        1000000007) 32 =
-    (answer_before + choice_sum +
-      (((x mod 10 ^ (i - 1)) + 1) mod digit_sum_modulus) *
-        Znth i digits 0) mod digit_sum_modulus).
-  { rewrite (Z.rem_mod_nonneg x (10 ^ (i - 1))) by lia.
-    rewrite (Z.quot_div_nonneg x (10 ^ (i - 1))) by lia.
-    assert (Hdivnonneg : 0 <= x / 10 ^ (i - 1)) by (apply Z.div_pos; lia).
-    rewrite (Z.rem_mod_nonneg (x / 10 ^ (i - 1)) 10) by lia.
-    pose proof (Z.mod_pos_bound x (10 ^ (i - 1)) Hpowpos) as Hxmod.
-    rewrite (Z.rem_mod_nonneg (x mod 10 ^ (i - 1) + 1) 1000000007) by lia.
-    rewrite (Z.rem_mod_nonneg
-      (((x mod 10 ^ (i - 1) + 1) mod 1000000007) *
-       ((x / 10 ^ (i - 1)) mod 10)) 1000000007).
-    2: {
-      pose proof (Z.mod_pos_bound
-        (x mod 10 ^ (i - 1) + 1) 1000000007 ltac:(lia))
-        as Hlowmod.
-      pose proof (Z.mod_pos_bound
-        (x / 10 ^ (i - 1)) 10 ltac:(lia)) as Hdigitmod.
-      nia.
-    }
-    rewrite (Z.rem_mod_nonneg
-      (ans +
-       (((x mod 10 ^ (i - 1) + 1) mod 1000000007 *
-         ((x / 10 ^ (i - 1)) mod 10)) mod 1000000007))
-      1000000007).
-    2: {
-      pose proof (Z.mod_pos_bound
-        (((x mod 10 ^ (i - 1) + 1) mod 1000000007 *
-          ((x / 10 ^ (i - 1)) mod 10)))
-        1000000007 ltac:(lia)).
-      lia.
-    }
-    unfold digit_sum_modulus in *.
-    pose proof (Z.mod_pos_bound
-      (ans +
-        (((x mod 10 ^ (i - 1) + 1) mod 1000000007 *
-          ((x / 10 ^ (i - 1)) mod 10)) mod 1000000007))
-      1000000007 ltac:(lia)) as Houtermod.
-    replace
-      (signed_last_nbits
-        ((ans +
-          (((x mod 10 ^ (i - 1) + 1) mod 1000000007 *
-            ((x / 10 ^ (i - 1)) mod 10)) mod 1000000007))
-         mod 1000000007) 32)
-      with
-      ((ans +
-        (((x mod 10 ^ (i - 1) + 1) mod 1000000007 *
-          ((x / 10 ^ (i - 1)) mod 10)) mod 1000000007))
-       mod 1000000007).
-    2: {
-      symmetry.
-      apply signed_last_nbits_eq.
-      - lia.
-      - change (-2147483648 <=
-          (ans +
-            (((x mod 10 ^ (i - 1) + 1) mod 1000000007 *
-              ((x / 10 ^ (i - 1)) mod 10)) mod 1000000007))
-            mod 1000000007 < 2147483648).
-        lia.
-    }
-    rewrite Hdigits.
-    rewrite HansEq.
-    rewrite Z.add_mod_idemp_l by lia.
-    repeat rewrite Z.add_mod_idemp_r by lia.
-    reflexivity.
-    all: try lia.
-  }
-  rewrite Hanswer.
-  apply DigitPositionAccumulation_step; try lia.
-  - exact Houter.
-  - rewrite <- Hjeq.
-    exact Hchoice.
 Qed.
 
 Lemma interval_answer_upper__interval_bridge :
@@ -749,36 +650,6 @@ Proof.
   unfold digit_sum_modulus; lia.
 Qed.
 
-Lemma Base10DigitSum_deterministic__interval_bridge :
-  forall n first second,
-    Base10DigitSum n first ->
-    Base10DigitSum n second ->
-    first = second.
-Proof.
-  intros n first second Hfirst.
-  revert second.
-  induction Hfirst; intros second Hsecond; inversion Hsecond; subst; try lia.
-  f_equal.
-  eapply IHHfirst; eauto.
-Qed.
-
-Lemma PrefixDigitSum_deterministic__interval_bridge :
-  forall n first second,
-    PrefixDigitSum n first ->
-    PrefixDigitSum n second ->
-    first = second.
-Proof.
-  intros n first second Hfirst.
-  revert second.
-  induction Hfirst; intros second Hsecond; inversion Hsecond; subst;
-    try lia; try reflexivity.
-  assert (x0 = x) by lia; subst x0.
-  assert (total = total0) by (eapply IHHfirst; eauto).
-  assert (next_digit_sum = next_digit_sum0) by
-    (eapply Base10DigitSum_deterministic__interval_bridge; eauto).
-  subst; reflexivity.
-Qed.
-
 Lemma PrefixDigitSum_interval_bridge__interval_bridge :
   forall lo hi before after,
     1 <= lo ->
@@ -790,44 +661,12 @@ Lemma PrefixDigitSum_interval_bridge__interval_bridge :
       after = (before + total) mod digit_sum_modulus.
 Proof.
   intros lo hi before after Hlo Hle Hbefore Hafter.
-  induction Hafter as
-    [n Hnonpositive
-    |
-    | x total next_digit_sum Hx Hprefix IHprefix Hdigit].
-  - lia.
-  - assert (lo = 1) by lia; subst lo.
-    assert (before = 0).
-    { eapply PrefixDigitSum_deterministic__interval_bridge.
-      - exact Hbefore.
-      - apply PrefixDigitSum_nonpositive; lia. }
-    subst before.
-    exists 1.
-    split.
-    + apply InclusiveDigitSum_single.
-      eapply Base10DigitSum_positive with (quotient := 0) (quotient_sum := 0).
-      * lia.
-      * reflexivity.
-      * apply Base10DigitSum_zero.
-    + unfold digit_sum_modulus; reflexivity.
-  - destruct (Z.eq_dec lo (x + 1)) as [Heq | Hneq].
-    + subst lo.
-      assert (before = total).
-      { eapply PrefixDigitSum_deterministic__interval_bridge with (n := x).
-        - replace x with (x + 1 - 1) by lia; exact Hbefore.
-        - exact Hprefix. }
-      subst before.
-      exists next_digit_sum.
-      split.
-      * apply InclusiveDigitSum_single; exact Hdigit.
-      * reflexivity.
-    + assert (Hlox : lo <= x) by lia.
-      destruct (IHprefix Hlox) as [range_total [Hrange Htotal]].
-      exists (range_total + next_digit_sum).
-      split.
-      * eapply InclusiveDigitSum_extend; eauto; lia.
-      * rewrite Htotal.
-        rewrite Z.add_mod_idemp_l by (unfold digit_sum_modulus; lia).
-        f_equal; ring.
+  exists (sum_range lo hi decimal_digit_sum). split; [reflexivity|].
+  unfold PrefixDigitSum, sum_range in *.
+  rewrite Hbefore, Hafter, Z.add_mod_idemp_l by (unfold digit_sum_modulus; lia).
+  replace (lo - 1 + 1) with lo by lia.
+  rewrite (sum_Z_range_split 1 lo (hi + 1) decimal_digit_sum) by lia.
+  reflexivity.
 Qed.
 
 Lemma IntervalDigitSum_from_prefixes__interval_bridge :
@@ -844,8 +683,8 @@ Proof.
   destruct (PrefixDigitSum_interval_bridge__interval_bridge
     lo hi before after Hlo Hle Hbefore Hafter)
     as [total [Hrange Hafter_eq]].
-  exists total.
-  repeat split; try assumption.
+  unfold IntervalDigitSum.
+  unfold InclusiveDigitSum in Hrange. rewrite <- Hrange.
   rewrite normalized_rem_mod__interval_bridge.
   rewrite Hafter_eq.
   replace ((before + total) mod digit_sum_modulus - before)
@@ -853,19 +692,6 @@ Proof.
   rewrite Z.add_mod_idemp_l by (unfold digit_sum_modulus; lia).
   replace (before + total + - before) with total by ring.
   reflexivity.
-Qed.
-
-Lemma PrefixDigitSum_range :
-  forall x total,
-    PrefixDigitSum x total ->
-    0 <= total < digit_sum_modulus.
-Proof.
-  intros x total Hsum.
-  induction Hsum.
-  - unfold digit_sum_modulus; lia.
-  - unfold digit_sum_modulus; lia.
-  - apply Z.mod_pos_bound.
-    unfold digit_sum_modulus; lia.
 Qed.
 
 Lemma Base10DigitSum_append_digit :
@@ -896,40 +722,6 @@ Proof.
       rewrite Z.mod_add by lia.
       rewrite Z.mod_small by lia.
       reflexivity.
-Qed.
-
-Lemma PrefixDigitSum_predecessor :
-  forall n total,
-    1 <= n ->
-    PrefixDigitSum n total ->
-    exists before digit_sum,
-      PrefixDigitSum (n - 1) before /\
-      Base10DigitSum n digit_sum /\
-      total = (before + digit_sum) mod digit_sum_modulus.
-Proof.
-  intros n total Hn Hsum.
-  destruct (Z.eq_dec n 1) as [Heq | Hneq].
-  - subst n.
-    exists 0, 1.
-    split.
-    + apply PrefixDigitSum_nonpositive; lia.
-    + split.
-      * eapply Base10DigitSum_positive
-          with (quotient := 0) (quotient_sum := 0).
-        -- lia.
-        -- reflexivity.
-        -- constructor.
-      * assert (total = 1).
-        { eapply PrefixDigitSum_deterministic__interval_bridge.
-          - exact Hsum.
-          - constructor. }
-        subst total.
-        unfold digit_sum_modulus.
-        reflexivity.
-  - inversion Hsum; subst; try lia.
-    exists total0, next_digit_sum.
-    split; [replace (x + 1 - 1) with x by lia; assumption|].
-    split; [assumption|reflexivity].
 Qed.
 
 Lemma PrefixDigitSum_append_decimal_digits :
@@ -1027,8 +819,7 @@ Proof.
       * rewrite Hone in *.
         assert (triangle = 1) by nia.
         subst triangle.
-        unfold digit_sum_modulus.
-        constructor.
+        change (PrefixDigitSum 1 1). apply PrefixDigitSum_positive_base.
       * assert (Hprevious_triangle :
           2 * (triangle - count) = count * (count - 1)) by nia.
         specialize (IH (triangle - count) ltac:(lia)
@@ -1196,13 +987,14 @@ Qed.
 
 Lemma AccumulatedDigitSumCorrect_initial :
   forall x count,
+    1 <= count ->
     1 <= x ->
     ExtractedDigitCount x count ->
     AccumulatedDigitSumCorrect x count 0.
 Proof.
-  intros x count Hx Hcount.
+  intros x count Hcount_low Hx Hcount.
   unfold ExtractedDigitCount in Hcount.
-  destruct Hcount as [[Hcount_low Hcount_high] [Hx_low Hx_high]].
+  destruct Hcount as [Hx_low Hx_high].
   unfold AccumulatedDigitSumCorrect.
   right.
   split; [exact Hcount_low|].
@@ -1212,7 +1004,6 @@ Proof.
     apply Z.div_small.
     split; [lia|exact Hx_high].
   - constructor.
-  - apply PrefixDigitSum_nonpositive; lia.
   - replace
       (10 ^ count * 0 +
        45 * 0 * count * 10 ^ (count - 1) +
@@ -1231,15 +1022,21 @@ Lemma InnerCandidateDigitSum_one_formula :
 Proof.
   intros dp digit partial triangle Hdigit Htriangle Htable Hsum.
   unfold DigitDPTable in Htable.
-  destruct Htable as [_ [_ Htable]].
+  destruct Htable as [_ Htable].
+  assert (Hcount : 0 <= digit) by lia.
   revert triangle Hdigit Htriangle.
-  induction Hsum as [|next partial Hnext Hsum IH];
-    intros triangle Hdigit Htriangle.
-  - assert (triangle = 0) by nia.
+  refine (InnerCandidateDigitSum_ind dp 1
+    (fun digit partial => forall triangle, 0 <= digit < 10 ->
+      2 * triangle = digit * (digit - 1) ->
+      partial = triangle mod digit_sum_modulus)
+    _ _ digit partial Hcount Hsum); clear digit partial Hcount Hsum.
+  - intros triangle Hdigit Htriangle.
+    assert (triangle = 0) by nia.
     subst triangle.
     unfold digit_sum_modulus.
     reflexivity.
-  - assert (Hnext_bounds : 0 <= next < 10) by lia.
+  - intros next partial Hnext Hsum IH triangle Hdigit Htriangle.
+    assert (Hnext_bounds : 0 <= next < 10) by lia.
     assert (Hprevious_triangle :
       2 * (triangle - next) = next * (next - 1)) by nia.
     specialize (IH (triangle - next) ltac:(lia) Hprevious_triangle).
@@ -1320,7 +1117,7 @@ Proof.
     Hx Hposition Hcount Hbuffer Htable Hchoice Hcorrect.
   pose proof Hbuffer as Hbuffer_digits.
   unfold ExtractedDigitBuffer in Hbuffer_digits.
-  destruct Hbuffer_digits as [_ [_ [_ [Hdigits _]]]].
+  destruct Hbuffer_digits as [_ [Hdigits _]].
   specialize (Hdigits position ltac:(lia)).
   set (digit := Znth position digits 0) in *.
   pose proof (Z.mod_pos_bound
@@ -1436,13 +1233,14 @@ Proof.
   - assert (Hposition_two : 2 <= position) by lia.
     pose proof Htable as Htable_values.
     unfold DigitDPTable in Htable_values.
-    destruct Htable_values as [_ [_ Htable_values]].
+    destruct Htable_values as [_ Htable_values].
     assert (Hchoice_formula :
       choice_sum =
         (5 * digit * (digit - 1) * 10 ^ (position - 2) +
          digit * 45 * (position - 1) * 10 ^ (position - 2))
           mod digit_sum_modulus).
     { eapply InnerCandidateDigitSum_formula_ge2__digits_dp_row.
+      - lia.
       - exact Hposition_two.
       - intros candidate Hcandidate.
         apply Htable_values; lia.
@@ -1501,4 +1299,213 @@ Proof.
         (10 * triangle * 10 ^ (position - 2)) by nia.
       f_equal.
       ring.
+Qed.
+
+(** Proof views recover the old proof layout from explicit annotation bounds.
+    These lemmas add no assumptions to the mathematical predicates. *)
+Lemma zeros_sublist_view : forall values lo hi,
+  0 <= lo <= hi -> hi <= Zlength values ->
+  Forall (eq 0) (sublist lo hi values) <->
+  (forall k, lo <= k < hi -> Znth k values 0 = 0).
+Proof.
+  intros values lo hi Hrange Hlen.
+  rewrite (Forall_Znth (eq 0) 0), Zlength_sublist by lia.
+  split; intros H k Hk.
+  - specialize (H (k - lo) ltac:(lia)).
+    rewrite Znth_sublist in H by lia.
+    replace (k - lo + lo) with k in H by lia. symmetry. exact H.
+  - rewrite Znth_sublist by lia. symmetry. apply H. lia.
+Qed.
+
+Lemma zero_rows_view : forall values lo hi,
+  0 <= lo <= hi -> hi * 10 <= Zlength values ->
+  Forall (eq 0) (sublist (lo * 10) (hi * 10) values) <->
+  (forall p d, lo <= p < hi -> 0 <= d < 10 -> Znth (p * 10 + d) values 0 = 0).
+Proof.
+  intros values lo hi Hrange Hlen.
+  rewrite zeros_sublist_view by lia.
+  split; intros H.
+  - intros p d Hp Hd. apply H. lia.
+  - intros k Hk.
+    pose proof (Z.mod_pos_bound k 10 ltac:(lia)) as Hmod.
+    pose proof (Z.div_mod k 10 ltac:(lia)) as Hdiv.
+    replace k with (k / 10 * 10 + k mod 10) by lia.
+    apply H; lia.
+Qed.
+
+Lemma zero_row_slice_view : forall values p lo hi,
+  0 <= p -> 0 <= lo <= hi -> hi <= 10 ->
+  (p + 1) * 10 <= Zlength values ->
+  Forall (eq 0) (sublist (p * 10 + lo) (p * 10 + hi) values) <->
+  (forall d, lo <= d < hi -> Znth (p * 10 + d) values 0 = 0).
+Proof.
+  intros values p lo hi Hp Hrange Hhi Hlen.
+  rewrite zeros_sublist_view by lia.
+  split; intros H.
+  - intros d Hd. apply H; lia.
+  - intros k Hk. replace k with (p * 10 + (k - p * 10)) by lia. apply H; lia.
+Qed.
+
+Lemma PowerPrefix_view : forall (power : list Z) (hi : Z),
+  Zlength power = hi -> 1 <= hi <= 20 ->
+  PowerPrefix power hi <->
+  Zlength power = hi /\
+  1 <= hi <= 20 /\
+  forall i, 0 <= i < hi ->
+    Znth i power 0 = (10 ^ i) mod digit_sum_modulus.
+Proof.
+  intros power hi Hb0 Hb1.
+  unfold PowerPrefix; tauto.
+Qed.
+
+Lemma DigitDPBaseProgress_view : forall (dp : list Z) (next : Z),
+  Zlength dp = 200 -> 0 <= next <= 10 ->
+  DigitDPBaseProgress dp next <->
+  Zlength dp = 200 /\
+  0 <= next <= 10 /\
+  (forall j, 0 <= j < next -> Znth (10 + j) dp 0 = j) /\
+  (forall k, 0 <= k < 200 ->
+     (k < 10 \/ 20 <= k \/ 10 + next <= k) -> Znth k dp 0 = 0).
+Proof.
+  intros dp next Hb0 Hb1.
+  unfold DigitDPBaseProgress.
+  rewrite Forall_app, !zeros_sublist_view by lia.
+  split; intros H; repeat split; try tauto; try lia.
+  - intros k Hk Hcase. destruct H as [_ [Hlo Hhi]].
+    destruct (Z_lt_ge_dec k 10); [apply Hlo|apply Hhi]; lia.
+  - intros k Hk. destruct H as [_ [_ [_ Hzero]]]. apply Hzero; lia.
+  - intros k Hk. destruct H as [_ [_ [_ Hzero]]]. apply Hzero; lia.
+Qed.
+
+Lemma DigitDPOuterProgress_view : forall (dp : list Z) (next_places : Z),
+  Zlength dp = 200 -> 2 <= next_places <= 20 ->
+  DigitDPOuterProgress dp next_places <->
+  Zlength dp = 200 /\
+  2 <= next_places <= 20 /\
+  (forall d, 0 <= d < 10 -> Znth d dp 0 = 0) /\
+  (forall places leading,
+     1 <= places < next_places -> 0 <= leading < 10 ->
+     Znth (places * 10 + leading) dp 0 = DigitDPValue places leading) /\
+  (forall places leading,
+     next_places <= places < 20 -> 0 <= leading < 10 ->
+     Znth (places * 10 + leading) dp 0 = 0).
+Proof.
+  intros dp next_places Hb0 Hb1.
+  unfold DigitDPOuterProgress.
+  replace 200 with (20 * 10) at 1 by lia.
+  rewrite zero_rows_view by lia.
+  rewrite zeros_sublist_view by lia. tauto.
+Qed.
+
+Lemma DigitDPRowProgress_view : forall (dp : list Z) (places next_leading : Z),
+  Zlength dp = 200 -> 2 <= places < 20 -> 0 <= next_leading <= 10 ->
+  DigitDPRowProgress dp places next_leading <->
+  Zlength dp = 200 /\
+  2 <= places < 20 /\
+  0 <= next_leading <= 10 /\
+  (forall d, 0 <= d < 10 -> Znth d dp 0 = 0) /\
+  (forall p d, 1 <= p < places -> 0 <= d < 10 ->
+     Znth (p * 10 + d) dp 0 = DigitDPValue p d) /\
+  (forall d, 0 <= d < next_leading ->
+     Znth (places * 10 + d) dp 0 = DigitDPValue places d) /\
+  (forall d, next_leading <= d < 10 ->
+     Znth (places * 10 + d) dp 0 = 0) /\
+  forall p d, places < p < 20 -> 0 <= d < 10 ->
+    Znth (p * 10 + d) dp 0 = 0.
+Proof.
+  intros dp places next_leading Hb0 Hb1 Hb2.
+  unfold DigitDPRowProgress.
+  replace ((places + 1) * 10) with (places * 10 + 10) at 1 by lia.
+  rewrite zero_row_slice_view by lia.
+  replace 200 with (20 * 10) at 1 by lia.
+  rewrite zero_rows_view by lia.
+  rewrite zeros_sublist_view by lia.
+  assert ((forall p d, places + 1 <= p < 20 -> 0 <= d < 10 -> Znth (p * 10 + d) dp 0 = 0) <->
+          (forall p d, places < p < 20 -> 0 <= d < 10 -> Znth (p * 10 + d) dp 0 = 0)) by (split; intros Hz; intros; apply Hz; lia).
+  tauto.
+Qed.
+
+Lemma DigitDPCellProgress_view : forall (dp : list Z) (places leading next_suffix : Z),
+  Zlength dp = 200 -> 2 <= places < 20 -> 0 <= leading < 10 -> 0 <= next_suffix <= 10 ->
+  DigitDPCellProgress dp places leading next_suffix <->
+  Zlength dp = 200 /\
+  2 <= places < 20 /\
+  0 <= leading < 10 /\
+  0 <= next_suffix <= 10 /\
+  (forall d, 0 <= d < 10 -> Znth d dp 0 = 0) /\
+  (forall p d, 1 <= p < places -> 0 <= d < 10 ->
+     Znth (p * 10 + d) dp 0 = DigitDPValue p d) /\
+  (forall d, 0 <= d < leading ->
+     Znth (places * 10 + d) dp 0 = DigitDPValue places d) /\
+  (forall d, leading < d < 10 ->
+     Znth (places * 10 + d) dp 0 = 0) /\
+  (forall p d, places < p < 20 -> 0 <= d < 10 ->
+     Znth (p * 10 + d) dp 0 = 0) /\
+  exists partial,
+    InnerCandidateDigitSum dp (places - 1) next_suffix partial /\
+    Znth (places * 10 + leading) dp 0 =
+      (partial + next_suffix * (10 ^ (places - 2)) * leading)
+        mod digit_sum_modulus.
+Proof.
+  intros dp places leading next_suffix Hb0 Hb1 Hb2 Hb3.
+  unfold DigitDPCellProgress.
+  replace ((places + 1) * 10) with (places * 10 + 10) at 1 by lia.
+  replace (places * 10 + leading + 1) with (places * 10 + (leading + 1)) by lia.
+  rewrite zero_row_slice_view by lia.
+  replace 200 with (20 * 10) at 1 by lia.
+  rewrite zero_rows_view by lia.
+  rewrite zeros_sublist_view by lia.
+  assert ((forall p d, places + 1 <= p < 20 -> 0 <= d < 10 -> Znth (p * 10 + d) dp 0 = 0) <->
+          (forall p d, places < p < 20 -> 0 <= d < 10 -> Znth (p * 10 + d) dp 0 = 0)) by (split; intros Hz; intros; apply Hz; lia).
+  assert ((forall d, leading + 1 <= d < 10 -> Znth (places * 10 + d) dp 0 = 0) <->
+          (forall d, leading < d < 10 -> Znth (places * 10 + d) dp 0 = 0)) by (split; intros Hz; intros; apply Hz; lia).
+  tauto.
+Qed.
+
+Lemma ExtractedDigitBuffer_view : forall (x : Z) (digits : list Z) (count remaining : Z),
+  Zlength digits = 20 -> 0 <= count <= 19 ->
+  ExtractedDigitBuffer x digits count remaining <->
+  Zlength digits = 20 /\
+  0 <= count <= 19 /\
+  remaining = x / 10 ^ count /\
+  (forall k, 1 <= k <= count ->
+     Znth k digits 0 = (x / 10 ^ (k - 1)) mod 10) /\
+  (forall k, count < k < 20 -> Znth k digits 0 = 0).
+Proof.
+  intros x digits count remaining Hb0 Hb1.
+  unfold ExtractedDigitBuffer.
+  rewrite zeros_sublist_view by lia.
+  assert ((forall k, count + 1 <= k < 20 -> Znth k digits 0 = 0) <->
+          (forall k, count < k < 20 -> Znth k digits 0 = 0)) by (split; intros Hz; intros; apply Hz; lia).
+  tauto.
+Qed.
+
+Lemma ExtractedDigitCount_view : forall (x count : Z),
+  1 <= count <= 19 ->
+  ExtractedDigitCount x count <->
+  1 <= count <= 19 /\
+  10 ^ (count - 1) <= x < 10 ^ count.
+Proof.
+  intros x count Hb0.
+  unfold ExtractedDigitCount; tauto.
+Qed.
+
+Lemma DigitPositionPower_view : forall (position power : Z),
+  1 <= position <= 19 ->
+  DigitPositionPower position power <->
+  1 <= position <= 19 /\
+  power = 10 ^ (position - 1).
+Proof.
+  intros position power Hb0.
+  unfold DigitPositionPower; tauto.
+Qed.
+
+Lemma OuterDigitPositionPower_view : forall (position power : Z),
+  0 <= position <= 19 ->
+  OuterDigitPositionPower position power <->
+  (position = 0 /\ power = 0) \/
+  (1 <= position <= 19 /\ power = 10 ^ (position - 1)).
+Proof.
+  intros position power Hb0.
+  unfold OuterDigitPositionPower; intuition lia.
 Qed.

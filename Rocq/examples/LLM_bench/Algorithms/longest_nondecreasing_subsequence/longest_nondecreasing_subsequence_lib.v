@@ -34,7 +34,7 @@ Definition LastValueOf (l idxs : list Z) (v : Z) : Prop :=
 
 (* Data representation for the initialized prefix of the caller-owned
    workspace.  It deliberately says nothing about LNDS optimality. *)
-Definition LNDTailsRepresentation (tails : list Z) (len : Z) : Prop :=
+Definition LNDTailsRepresentationFacts (tails : list Z) (len : Z) : Prop :=
   Zlength tails = len /\
   increasing tails.
 
@@ -55,7 +55,7 @@ Definition LNDSOptimalLength (l : list Z) (i len : Z) : Prop :=
 
 (* Each realized frontier entry is the minimum possible tail among
    subsequences of the same length. *)
-Definition LNDTailsMinimality
+Definition LNDTailsLowerBounds
     (l : list Z) (i : Z) (tails : list Z) (len : Z) : Prop :=
   forall idxs k v,
     ValidNondecreasingSubsequence l i idxs ->
@@ -90,7 +90,7 @@ Definition LNDTailsState (l : list Z) (i : Z) (tails : list Z) (len : Z) : Prop 
 
 (* Mathematical partition maintained by upper-bound search.  Bounds and
    array representation remain explicit C safety facts. *)
-Definition UpperBoundPartition
+Definition UpperBoundPartitionIndexed
     (tails : list Z) (len x left right : Z) : Prop :=
   (forall k, 0 <= k < left -> Znth k tails 0 <= x) /\
   (forall k, right <= k < len -> x < Znth k tails 0).
@@ -100,7 +100,7 @@ Definition UpperBoundSearch
   Zlength tails = len /\
   0 <= left /\ left <= right /\ right <= len /\
   increasing tails /\
-  UpperBoundPartition tails len x left right.
+  UpperBoundPartitionIndexed tails len x left right.
 
 Require Import Coq.micromega.Psatz.
 
@@ -407,7 +407,7 @@ Lemma UpperBoundSearch_full :
     UpperBoundSearch tails len x 0 len.
 Proof.
   intros tails len x Hlen Hnd Hnonneg.
-  unfold UpperBoundSearch, UpperBoundPartition.
+  unfold UpperBoundSearch, UpperBoundPartitionIndexed.
   repeat split; auto; try lia.
 Qed.
 
@@ -420,7 +420,7 @@ Lemma UpperBoundSearch_left_preserve :
     UpperBoundSearch tails len x left mid.
 Proof.
   intros tails len x left right mid Hsearch Hmid Hleft Hright.
-  unfold UpperBoundSearch, UpperBoundPartition in *.
+  unfold UpperBoundSearch, UpperBoundPartitionIndexed in *.
   destruct Hsearch as
     [Hlen [Hleft0 [Hleftright [Hrightlen [Hnd [Hlow Hhigh]]]]]].
   repeat split; auto; try lia.
@@ -443,7 +443,7 @@ Lemma UpperBoundSearch_right_preserve :
     UpperBoundSearch tails len x (mid + 1) right.
 Proof.
   intros tails len x left right mid Hsearch Hmid Hleft Hright.
-  unfold UpperBoundSearch, UpperBoundPartition in *.
+  unfold UpperBoundSearch, UpperBoundPartitionIndexed in *.
   destruct Hsearch as
     [Hlen [Hleft0 [Hleftright [Hrightlen [Hnd [Hlow Hhigh]]]]]].
   repeat split; auto; try lia.
@@ -779,7 +779,7 @@ Proof.
   - unfold LNDTailsState in Hstate.
     destruct Hstate as
       [_ [_ [_ [_ [_ [Hwitness _]]]]]].
-    unfold UpperBoundSearch, UpperBoundPartition in Hsearch.
+    unfold UpperBoundSearch, UpperBoundPartitionIndexed in Hsearch.
     destruct Hsearch as [_ [_ [_ [_ [_ [Hlow _]]]]]].
     destruct (Hwitness (k - 1) ltac:(lia)) as
       [idxs [Hvalid [Hidxs_len Hlast]]].
@@ -817,7 +817,7 @@ Proof.
   unfold LNDTailsState in Hstate.
   destruct Hstate as
     [Hi_old [Hlen_i [Htails_len [Hnd [Hbest [Hwitness [Hbound Hmin]]]]]]].
-  unfold UpperBoundSearch, UpperBoundPartition in Hsearch.
+  unfold UpperBoundSearch, UpperBoundPartitionIndexed in Hsearch.
   destruct Hsearch as
     [Hsearch_len [Hleft0 [_ [Hrightlen [Hnd_search [Hlow _]]]]]].
   unfold LNDTailsState.
@@ -902,7 +902,7 @@ Proof.
   unfold LNDTailsState in Hstate.
   destruct Hstate as
     [Hi_old [Hlen_i [Htails_len [Hnd [Hbest [Hwitness [Hbound Hmin]]]]]]].
-  unfold UpperBoundSearch, UpperBoundPartition in Hsearch.
+  unfold UpperBoundSearch, UpperBoundPartitionIndexed in Hsearch.
   destruct Hsearch as
     [Hsearch_len [Hleft0 [_ [Hrightlen [Hnd_search [Hlow Hhigh]]]]]].
   assert (Hnew_bound :
@@ -1118,10 +1118,10 @@ Lemma LNDTailsState_of_public__lnds_state_transitions :
   forall l i tails len,
     0 <= i <= Zlength l ->
     0 <= len <= i ->
-    LNDTailsRepresentation tails len ->
+    LNDTailsRepresentationFacts tails len ->
     LNDTailsRealizability l i tails len ->
     LNDSOptimalLength l i len ->
-    LNDTailsMinimality l i tails len ->
+    LNDTailsLowerBounds l i tails len ->
     LNDTailsState l i tails len.
 Proof.
   intros l i tails len Hi Hlen Hrep Hreal Hopt Hmin.
@@ -1142,15 +1142,15 @@ Lemma LNDTailsPublic_append__lnds_state_transitions :
     0 <= i < Zlength l ->
     x = Znth i l 0 ->
     0 <= len <= i ->
-    LNDTailsRepresentation tails len ->
+    LNDTailsRepresentationFacts tails len ->
     LNDTailsRealizability l i tails len ->
     LNDSOptimalLength l i len ->
-    LNDTailsMinimality l i tails len ->
-    UpperBoundPartition tails len x len len ->
-    LNDTailsRepresentation (tails ++ x :: nil) (len + 1) /\
+    LNDTailsLowerBounds l i tails len ->
+    UpperBoundPartitionIndexed tails len x len len ->
+    LNDTailsRepresentationFacts (tails ++ x :: nil) (len + 1) /\
     LNDTailsRealizability l (i + 1) (tails ++ x :: nil) (len + 1) /\
     LNDSOptimalLength l (i + 1) (len + 1) /\
-    LNDTailsMinimality l (i + 1) (tails ++ x :: nil) (len + 1).
+    LNDTailsLowerBounds l (i + 1) (tails ++ x :: nil) (len + 1).
 Proof.
   intros l i tails len x Hi Hx Hlen Hrep Hreal Hopt Hmin Hpart.
   pose proof Hrep as [Htails Hinc].
@@ -1174,15 +1174,15 @@ Lemma LNDTailsPublic_replace__lnds_state_transitions :
     x = Znth i l 0 ->
     0 <= len <= i ->
     0 <= left < len ->
-    LNDTailsRepresentation tails len ->
+    LNDTailsRepresentationFacts tails len ->
     LNDTailsRealizability l i tails len ->
     LNDSOptimalLength l i len ->
-    LNDTailsMinimality l i tails len ->
-    UpperBoundPartition tails len x left left ->
-    LNDTailsRepresentation (replace_Znth left x tails) len /\
+    LNDTailsLowerBounds l i tails len ->
+    UpperBoundPartitionIndexed tails len x left left ->
+    LNDTailsRepresentationFacts (replace_Znth left x tails) len /\
     LNDTailsRealizability l (i + 1) (replace_Znth left x tails) len /\
     LNDSOptimalLength l (i + 1) len /\
-    LNDTailsMinimality l (i + 1) (replace_Znth left x tails) len.
+    LNDTailsLowerBounds l (i + 1) (replace_Znth left x tails) len.
 Proof.
   intros l i tails len x left Hi Hx Hlen Hleft Hrep Hreal Hopt Hmin Hpart.
   pose proof Hrep as [Htails Hinc].
@@ -1206,17 +1206,17 @@ Lemma UpperBoundPartition_right_preserve__partition_search_steps :
   forall tails len x left right mid,
     Zlength tails = len ->
     increasing tails ->
-    UpperBoundPartition tails len x left right ->
+    UpperBoundPartitionIndexed tails len x left right ->
     Znth mid tails 0 <= x ->
     0 <= left ->
     left <= mid ->
     mid < right ->
     right <= len ->
-    UpperBoundPartition tails len x (mid + 1) right.
+    UpperBoundPartitionIndexed tails len x (mid + 1) right.
 Proof.
   intros tails len x left right mid Hlen Hinc Hpart Hmid
     Hleft Hleftmid Hmidright Hrightlen.
-  unfold UpperBoundPartition in *.
+  unfold UpperBoundPartitionIndexed in *.
   destruct Hpart as [Hlow Hhigh].
   split.
   - intros k Hk.
@@ -1233,17 +1233,17 @@ Lemma UpperBoundPartition_left_preserve__partition_search_steps :
   forall tails len x left right mid,
     Zlength tails = len ->
     increasing tails ->
-    UpperBoundPartition tails len x left right ->
+    UpperBoundPartitionIndexed tails len x left right ->
     Znth mid tails 0 > x ->
     0 <= left ->
     left <= mid ->
     mid < right ->
     right <= len ->
-    UpperBoundPartition tails len x left mid.
+    UpperBoundPartitionIndexed tails len x left mid.
 Proof.
   intros tails len x left right mid Hlen Hinc Hpart Hmid
     Hleft Hleftmid Hmidright Hrightlen.
-  unfold UpperBoundPartition in *.
+  unfold UpperBoundPartitionIndexed in *.
   destruct Hpart as [Hlow Hhigh].
   split.
   - exact Hlow.
@@ -1256,7 +1256,7 @@ Proof.
         lia.
       * apply Hhigh. lia.
 Qed.
-Lemma LNDTailsPublic_append_update__append_transition :
+Lemma LNDTailsPublic_append_update__append_transition_facts :
   forall numsSize l tails_old i len x left,
     Zlength l = numsSize ->
     Zlength tails_old = numsSize ->
@@ -1264,18 +1264,18 @@ Lemma LNDTailsPublic_append_update__append_transition :
     0 <= len <= i ->
     x = Znth i l 0 ->
     left = len ->
-    LNDTailsRepresentation (sublist 0 len tails_old) len ->
+    LNDTailsRepresentationFacts (sublist 0 len tails_old) len ->
     LNDTailsRealizability l i (sublist 0 len tails_old) len ->
     LNDSOptimalLength l i len ->
-    LNDTailsMinimality l i (sublist 0 len tails_old) len ->
-    UpperBoundPartition (sublist 0 len tails_old) len x left left ->
+    LNDTailsLowerBounds l i (sublist 0 len tails_old) len ->
+    UpperBoundPartitionIndexed (sublist 0 len tails_old) len x left left ->
     let tails_cur :=
       sublist 0 left tails_old ++ x :: sublist (left + 1) numsSize tails_old in
     Zlength tails_cur = numsSize /\
-    LNDTailsMinimality l (i + 1) (sublist 0 (len + 1) tails_cur) (len + 1) /\
+    LNDTailsLowerBounds l (i + 1) (sublist 0 (len + 1) tails_cur) (len + 1) /\
     LNDSOptimalLength l (i + 1) (len + 1) /\
     LNDTailsRealizability l (i + 1) (sublist 0 (len + 1) tails_cur) (len + 1) /\
-    LNDTailsRepresentation (sublist 0 (len + 1) tails_cur) (len + 1).
+    LNDTailsRepresentationFacts (sublist 0 (len + 1) tails_cur) (len + 1).
 Proof.
   intros numsSize l tails_old i len x left Hl Htails Hi Hlen Hx Hleft
     Hrep Hreal Hopt Hmin Hpart.
@@ -1308,6 +1308,92 @@ Proof.
     split; [exact Hopt' |].
     split; [exact Hreal' | exact Hrep'].
 Qed.
+Lemma LNDTailsPublic_replace_update__replace_transition_facts :
+  forall l tails_old i len x left numsSize,
+    Zlength tails_old = numsSize ->
+    0 <= i < Zlength l ->
+    x = Znth i l 0 ->
+    0 <= len <= i ->
+    0 <= left < len ->
+    len <= numsSize ->
+    LNDTailsRepresentationFacts (sublist 0 len tails_old) len ->
+    LNDTailsRealizability l i (sublist 0 len tails_old) len ->
+    LNDSOptimalLength l i len ->
+    LNDTailsLowerBounds l i (sublist 0 len tails_old) len ->
+    UpperBoundPartitionIndexed (sublist 0 len tails_old) len x left left ->
+    let updated :=
+      sublist 0 left tails_old ++
+      x :: sublist (left + 1) numsSize tails_old in
+    LNDTailsRepresentationFacts (sublist 0 len updated) len /\
+    LNDTailsRealizability l (i + 1) (sublist 0 len updated) len /\
+    LNDSOptimalLength l (i + 1) len /\
+    LNDTailsLowerBounds l (i + 1) (sublist 0 len updated) len.
+Proof.
+  intros l tails_old i len x left numsSize Htails Hi Hx Hlen Hleft HlenSize
+    Hrep Hreal Hopt Hmin Hpart.
+  cbv zeta.
+  rewrite sublist_update_replace_prefix by lia.
+  eapply LNDTailsPublic_replace__lnds_state_transitions; eauto.
+Qed.
+
+(** Public mathematical tail properties; workspace lengths stay outside. *)
+Definition LNDTailsRepresentation (tails : list Z) (_len : Z) : Prop :=
+  increasing tails.
+Definition LNDTailsMinimality (l : list Z) (i : Z) (tails : list Z) (len : Z) : Prop :=
+  forall k, 0 <= k < len ->
+    min_value_of_subset Z.le
+      (fun v => exists idxs, ValidNondecreasingSubsequence l i idxs /\
+        Zlength idxs = k + 1 /\ LastValueOf l idxs v)
+      (fun v : Z => v) (Znth k tails 0).
+Lemma lnd_minimum_lower_bounds : forall l i tails len,
+  LNDTailsMinimality l i tails len -> LNDTailsLowerBounds l i tails len.
+Proof.
+  unfold LNDTailsMinimality, LNDTailsLowerBounds.
+  intros l i tails len Hmin idxs k v Hv Hlen Hk Hlast.
+  destruct (Hmin k Hk) as [best [[Hmem Hbound] Heq]].
+  cbn in Heq; subst best. apply Hbound. exists idxs; auto.
+Qed.
+Lemma lnd_realized_minimum : forall l i tails len,
+  LNDTailsRealizability l i tails len -> LNDTailsLowerBounds l i tails len ->
+  LNDTailsMinimality l i tails len.
+Proof.
+  unfold LNDTailsRealizability, LNDTailsLowerBounds, LNDTailsMinimality.
+  intros l i tails len Hreal Hbound k Hk.
+  exists (Znth k tails 0). split; [split | reflexivity].
+  - exact (Hreal k Hk).
+  - intros v [idxs [Hv [Hlen Hlast]]]. eapply Hbound; eauto.
+Qed.
+
+Lemma LNDTailsPublic_append_update__append_transition :
+  forall numsSize l tails_old i len x left,
+    Zlength l = numsSize ->
+    Zlength tails_old = numsSize ->
+    0 <= i < numsSize ->
+    0 <= len <= i ->
+    x = Znth i l 0 ->
+    left = len ->
+    LNDTailsRepresentation (sublist 0 len tails_old) len ->
+    LNDTailsRealizability l i (sublist 0 len tails_old) len ->
+    LNDSOptimalLength l i len ->
+    LNDTailsMinimality l i (sublist 0 len tails_old) len ->
+    UpperBoundPartitionIndexed (sublist 0 len tails_old) len x left left ->
+    let tails_cur :=
+      sublist 0 left tails_old ++ x :: sublist (left + 1) numsSize tails_old in
+    Zlength tails_cur = numsSize /\
+    LNDTailsMinimality l (i + 1) (sublist 0 (len + 1) tails_cur) (len + 1) /\
+    LNDSOptimalLength l (i + 1) (len + 1) /\
+    LNDTailsRealizability l (i + 1) (sublist 0 (len + 1) tails_cur) (len + 1) /\
+    LNDTailsRepresentation (sublist 0 (len + 1) tails_cur) (len + 1).
+Proof.
+  intros numsSize l tails_old i len x left Hl Htails Hi Hlen Hx Hleft Hrep Hreal Hopt Hmin Hpart.
+  assert (Hrepf : LNDTailsRepresentationFacts (sublist 0 len tails_old) len).
+  { split; [rewrite Zlength_sublist0 by lia; reflexivity | exact Hrep]. }
+  pose proof (LNDTailsPublic_append_update__append_transition_facts numsSize l tails_old i len x left Hl Htails Hi Hlen Hx Hleft Hrepf Hreal Hopt (lnd_minimum_lower_bounds _ _ _ _ Hmin) Hpart) as Hnext.
+  cbv zeta in *. destruct Hnext as [Hshape [Hmin' [Hopt' [Hreal' Hrep']]]].
+  split; [exact Hshape |]. split; [apply lnd_realized_minimum; assumption |].
+  split; [exact Hopt' |]. split; [exact Hreal' | exact (proj2 Hrep')].
+Qed.
+
 Lemma LNDTailsPublic_replace_update__replace_transition :
   forall l tails_old i len x left numsSize,
     Zlength tails_old = numsSize ->
@@ -1320,7 +1406,7 @@ Lemma LNDTailsPublic_replace_update__replace_transition :
     LNDTailsRealizability l i (sublist 0 len tails_old) len ->
     LNDSOptimalLength l i len ->
     LNDTailsMinimality l i (sublist 0 len tails_old) len ->
-    UpperBoundPartition (sublist 0 len tails_old) len x left left ->
+    UpperBoundPartitionIndexed (sublist 0 len tails_old) len x left left ->
     let updated :=
       sublist 0 left tails_old ++
       x :: sublist (left + 1) numsSize tails_old in
@@ -1329,9 +1415,37 @@ Lemma LNDTailsPublic_replace_update__replace_transition :
     LNDSOptimalLength l (i + 1) len /\
     LNDTailsMinimality l (i + 1) (sublist 0 len updated) len.
 Proof.
-  intros l tails_old i len x left numsSize Htails Hi Hx Hlen Hleft HlenSize
-    Hrep Hreal Hopt Hmin Hpart.
-  cbv zeta.
-  rewrite sublist_update_replace_prefix by lia.
-  eapply LNDTailsPublic_replace__lnds_state_transitions; eauto.
+  intros l tails_old i len x left numsSize Htails Hi Hx Hlen Hleft Hsize Hrep Hreal Hopt Hmin Hpart.
+  assert (Hrepf : LNDTailsRepresentationFacts (sublist 0 len tails_old) len).
+  { split; [rewrite Zlength_sublist0 by lia; reflexivity | exact Hrep]. }
+  pose proof (LNDTailsPublic_replace_update__replace_transition_facts l tails_old i len x left numsSize Htails Hi Hx Hlen Hleft Hsize Hrepf Hreal Hopt (lnd_minimum_lower_bounds _ _ _ _ Hmin) Hpart) as Hnext.
+  cbv zeta in *. destruct Hnext as [Hrep' [Hreal' [Hopt' Hmin']]].
+  split; [exact (proj2 Hrep') |]. split; [exact Hreal' |].
+  split; [exact Hopt' | apply lnd_realized_minimum; assumption].
+Qed.
+
+(** The search partition describes the values in each segment, independently
+    of their positions.  The indexed view above supports existing helpers. *)
+Definition UpperBoundPartition
+    (tails : list Z) (len x left right : Z) : Prop :=
+  Forall (Z.ge x) (sublist 0 left tails) /\
+  Forall (Z.lt x) (sublist right len tails).
+
+Lemma UpperBoundPartition_indexed : forall tails len x left right,
+  0 <= left <= right -> right <= len <= Zlength tails ->
+  (UpperBoundPartition tails len x left right <->
+   UpperBoundPartitionIndexed tails len x left right).
+Proof.
+  intros tails len x left right Hleft Hright.
+  unfold UpperBoundPartition, UpperBoundPartitionIndexed.
+  rewrite (AUXLib.MonotonicList.Forall_Znth (Z.ge x) 0 (sublist 0 left tails)).
+  rewrite (AUXLib.MonotonicList.Forall_Znth (Z.lt x) 0 (sublist right len tails)).
+  rewrite !Zlength_sublist by lia.
+  split; intros [Hprefix Hsuffix]; split; intros k Hk.
+  - specialize (Hprefix k ltac:(lia)). rewrite Znth_sublist0 in Hprefix by lia. lia.
+  - specialize (Hsuffix (k - right) ltac:(lia)).
+    rewrite Znth_sublist in Hsuffix by lia.
+    replace (k - right + right) with k in Hsuffix by lia. exact Hsuffix.
+  - rewrite Znth_sublist0 by lia. specialize (Hprefix k ltac:(lia)). lia.
+  - rewrite Znth_sublist by lia. apply Hsuffix. lia.
 Qed.

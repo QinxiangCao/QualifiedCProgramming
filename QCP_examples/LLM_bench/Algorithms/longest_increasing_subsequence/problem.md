@@ -15,8 +15,11 @@ increasing subsequence.
 ## Constraints
 
 - Original problem: $1 \le n \le 2500$ and $-10^4 \le nums_i \le 10^4$.
-- Verification case: $1 \le n \le 10^5$ and a caller-provided DP array of
-  length $n$.
+- Verification case: $1 \le n \le 10^5$.
+
+The function declares `dp[100000]` locally and uses its first $n$ cells.
+Its public inputs are `nums` and `numsSize`; the DP table is described only
+by the internal annotations.
 
 ## Source
 

@@ -6,7 +6,7 @@ Matrix $A_i$ has dimensions $p_i\times p_{i+1}$. Every full parenthesization
 computes the same product, but a split at $k$ inside $A_i\cdots A_j$ costs the
 two subproblem optima plus $p_i p_{k+1}p_{j+1}$ scalar multiplications. Minimize
 this cost over all full parenthesizations. The verification case fills an
-interval-DP table supplied by the caller.
+interval-DP table declared inside the function.
 
 ## Problem statement
 
@@ -19,8 +19,9 @@ optimal cost `15125`.
 
 ## Constraints
 
-The verification case uses $1\le n\le8$, $1\le p_i\le100$, and a workspace of
-$n^2$ integers. These bounds keep every cost at most $7,000,000$.
+The verification case uses $1\le n\le8$ and $1\le p_i\le100$. It declares
+`cost[64]` locally and uses its first $n^2$ cells. These bounds keep every
+cost at most $7,000,000$.
 
 ## Source
 

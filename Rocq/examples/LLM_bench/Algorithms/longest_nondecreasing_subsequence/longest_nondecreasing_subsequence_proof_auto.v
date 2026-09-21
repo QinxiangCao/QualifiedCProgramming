@@ -29,13 +29,13 @@ Proof. Admitted.
 Lemma proof_of_lengthOfLNDS_safety_wit_3 : lengthOfLNDS_safety_wit_3.
 Proof. Admitted. 
 
+Lemma proof_of_lengthOfLNDS_safety_wit_4 : lengthOfLNDS_safety_wit_4.
+Proof. Admitted. 
+
 Lemma proof_of_lengthOfLNDS_safety_wit_5 : lengthOfLNDS_safety_wit_5.
 Proof. Admitted. 
 
 Lemma proof_of_lengthOfLNDS_safety_wit_6 : lengthOfLNDS_safety_wit_6.
-Proof. Admitted. 
-
-Lemma proof_of_lengthOfLNDS_safety_wit_7 : lengthOfLNDS_safety_wit_7.
 Proof. Admitted. 
 
 Lemma proof_of_lengthOfLNDS_safety_wit_8 : lengthOfLNDS_safety_wit_8.
@@ -53,7 +53,13 @@ Proof. Admitted.
 Lemma proof_of_lengthOfLNDS_safety_wit_12 : lengthOfLNDS_safety_wit_12.
 Proof. Admitted. 
 
-Lemma proof_of_lengthOfLNDS_entail_wit_2 : lengthOfLNDS_entail_wit_2.
+Lemma proof_of_lengthOfLNDS_safety_wit_13 : lengthOfLNDS_safety_wit_13.
+Proof. Admitted. 
+
+Lemma proof_of_lengthOfLNDS_safety_wit_14 : lengthOfLNDS_safety_wit_14.
+Proof. Admitted. 
+
+Lemma proof_of_lengthOfLNDS_safety_wit_15 : lengthOfLNDS_safety_wit_15.
 Proof. Admitted. 
 
 Lemma proof_of_lengthOfLNDS_entail_wit_9 : lengthOfLNDS_entail_wit_9.
@@ -69,5 +75,8 @@ Lemma proof_of_lengthOfLNDS_partial_solve_wit_2 : lengthOfLNDS_partial_solve_wit
 Proof. Admitted. 
 
 Lemma proof_of_lengthOfLNDS_partial_solve_wit_3 : lengthOfLNDS_partial_solve_wit_3.
+Proof. Admitted. 
+
+Lemma proof_of_lengthOfLNDS_partial_solve_wit_4 : lengthOfLNDS_partial_solve_wit_4.
 Proof. Admitted. 
 

@@ -2,6 +2,8 @@ Require Import Coq.Lists.List.
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.micromega.Lia.
 Require Import AUXLib.ListLib.
+Require Import AUXLib.MonotonicList.
+Require Import MaxMinLib.MaxMin.
 
 Import ListNotations.
 Local Open Scope Z_scope.
@@ -19,12 +21,24 @@ Definition LinearContainerPair (l : list Z) (i j : Z) : Prop :=
 (** The exact, implementation-independent optimization problem: [ans] is
     attained by a valid pair and dominates every valid pair. *)
 Definition MaximumContainerArea (l : list Z) (ans : Z) : Prop :=
-  (exists i j,
-      LinearContainerPair l i j /\
-      ans = LinearContainerArea l i j) /\
-  forall i j,
-    LinearContainerPair l i j ->
-    LinearContainerArea l i j <= ans.
+  max_value_of_subset Z.le
+    (fun ij : Z * Z => LinearContainerPair l (fst ij) (snd ij))
+    (fun ij => LinearContainerArea l (fst ij) (snd ij)) ans.
+
+Lemma MaximumContainerArea_unfold l ans :
+  MaximumContainerArea l ans <->
+  (exists i j, LinearContainerPair l i j /\ ans = LinearContainerArea l i j) /\
+  forall i j, LinearContainerPair l i j -> LinearContainerArea l i j <= ans.
+Proof.
+  unfold MaximumContainerArea, max_value_of_subset, max_object_of_subset.
+  cbn. split.
+  - intros [[i j] [[Hp Hmax] Heq]]. cbn in *. split.
+    + exists i, j. auto.
+    + intros x y Hxy. specialize (Hmax (x,y) Hxy). cbn in Hmax. lia.
+  - intros [[i [j [Hp Heq]]] Hmax]. exists (i,j). cbn.
+    split; [split; [exact Hp | intros [x y] Hxy; cbn in *; specialize (Hmax x y Hxy); lia] | lia].
+Qed.
+
 
 (** [best] is either the initial zero or the area of an inspected pair. *)
 Definition LinearContainerBest (l : list Z) (best : Z) : Prop :=
@@ -188,7 +202,7 @@ Proof.
       destruct Hpq as [_ [Hpq _]].
       lia.
   }
-  unfold MaximumContainerArea.
+  apply MaximumContainerArea_unfold.
   split.
   - destruct Hbest as [Hzero | [i [j [Hpair Hattained]]]].
     + exists 0, 1.

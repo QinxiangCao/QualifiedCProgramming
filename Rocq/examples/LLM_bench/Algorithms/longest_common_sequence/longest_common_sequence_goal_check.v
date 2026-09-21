@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Algorithms.longest_common_sequence Require Import longest_common_sequence_goal longest_common_sequence_proof_auto longest_common_sequence_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include longest_common_sequence_proof_auto.
+  Include longest_common_sequence_proof_manual.
+End VC_Correctness.

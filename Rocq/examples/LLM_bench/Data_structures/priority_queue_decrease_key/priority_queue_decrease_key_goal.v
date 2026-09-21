@@ -290,85 +290,6 @@ forall (n_pre: Z) (data_bound_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (c
   **  (IntArray.undef_seg key_pre n_pre capacity )
   **  (IntArray.undef_seg data_pre n_pre capacity )
 |--
-  EX (pos_values: (@list Z))  (data_values: (@list Z))  (key_values: (@list Z)) ,
-  “ (n_pre <= capacity) ” 
-  &&  “ (capacity <= heap_capacity) ” 
-  &&  “ (0 < child) ” 
-  &&  “ (child < n_pre) ” 
-  &&  “ (0 <= parent) ” 
-  &&  “ (parent < child) ” 
-  &&  “ (parent < n_pre) ” 
-  &&  “ (parent = (heap_parent (child))) ” 
-  &&  “ (tmp_key = (Znth child key_values 0)) ” 
-  &&  “ (tmp_data = (Znth child data_values 0)) ” 
-  &&  “ (0 <= (Znth parent data_values 0)) ” 
-  &&  “ ((Znth parent data_values 0) < data_bound_pre) ” 
-  &&  “ (0 <= (Znth child data_values 0)) ” 
-  &&  “ ((Znth child data_values 0) < data_bound_pre) ” 
-  &&  “ (SiftUpState M key_values data_values pos_values data_bound_pre n_pre parent ) ”
-  &&  (IntArray.full key_pre n_pre key_values )
-  **  (IntArray.undef_seg key_pre n_pre capacity )
-  **  (IntArray.full data_pre n_pre data_values )
-  **  (IntArray.undef_seg data_pre n_pre capacity )
-  **  (IntArray.full pos_pre data_bound_pre pos_values )
-) \/
-(
-forall (n_pre: Z) (data_bound_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (child: Z) (parent: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 < child)) (PreH4 : (child < n_pre)) (PreH5 : (0 <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values_2 0) > (Znth child key_values_2 0))) (PreH10 : (tmp_key = (Znth parent key_values_2 0))) (PreH11 : (tmp_data = (Znth parent data_values_2 0))) (PreH12 : (0 <= (Znth parent data_values_2 0))) (PreH13 : ((Znth parent data_values_2 0) < data_bound_pre)) (PreH14 : (0 <= (Znth child data_values_2 0))) (PreH15 : ((Znth child data_values_2 0) < data_bound_pre)) (PreH16 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child )) ,
-  TT && emp 
-|--
-  “ (SiftUpState M (replace_Znth (child) (tmp_key) ((replace_Znth (parent) ((Znth child key_values_2 0)) (key_values_2)))) (replace_Znth (child) (tmp_data) ((replace_Znth (parent) ((Znth child data_values_2 0)) (data_values_2)))) (replace_Znth ((Znth child data_values_2 0)) (parent) ((replace_Znth (tmp_data) (child) (pos_values_2)))) data_bound_pre n_pre parent ) ” 
-  &&  “ ((Znth child (replace_Znth (child) (tmp_data) ((replace_Znth (parent) ((Znth child data_values_2 0)) (data_values_2)))) 0) < data_bound_pre) ” 
-  &&  “ (0 <= (Znth child (replace_Znth (child) (tmp_data) ((replace_Znth (parent) ((Znth child data_values_2 0)) (data_values_2)))) 0)) ” 
-  &&  “ ((Znth parent (replace_Znth (child) (tmp_data) ((replace_Znth (parent) ((Znth child data_values_2 0)) (data_values_2)))) 0) < data_bound_pre) ” 
-  &&  “ (0 <= (Znth parent (replace_Znth (child) (tmp_data) ((replace_Znth (parent) ((Znth child data_values_2 0)) (data_values_2)))) 0)) ” 
-  &&  “ (tmp_data = (Znth child (replace_Znth (child) (tmp_data) ((replace_Znth (parent) ((Znth child data_values_2 0)) (data_values_2)))) 0)) ” 
-  &&  “ (tmp_key = (Znth child (replace_Znth (child) (tmp_key) ((replace_Znth (parent) ((Znth child key_values_2 0)) (key_values_2)))) 0)) ”
-  &&  emp
-).
-
-Definition pqdk_sift_up_entail_wit_4_split_goal_1 := 
-forall (n_pre: Z) (data_bound_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (child: Z) (parent: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 < child)) (PreH4 : (child < n_pre)) (PreH5 : (0 <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values_2 0) > (Znth child key_values_2 0))) (PreH10 : (tmp_key = (Znth parent key_values_2 0))) (PreH11 : (tmp_data = (Znth parent data_values_2 0))) (PreH12 : (0 <= (Znth parent data_values_2 0))) (PreH13 : ((Znth parent data_values_2 0) < data_bound_pre)) (PreH14 : (0 <= (Znth child data_values_2 0))) (PreH15 : ((Znth child data_values_2 0) < data_bound_pre)) (PreH16 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child )) ,
-  (SiftUpState M (replace_Znth (child) (tmp_key) ((replace_Znth (parent) ((Znth child key_values_2 0)) (key_values_2)))) (replace_Znth (child) (tmp_data) ((replace_Znth (parent) ((Znth child data_values_2 0)) (data_values_2)))) (replace_Znth ((Znth child data_values_2 0)) (parent) ((replace_Znth (tmp_data) (child) (pos_values_2)))) data_bound_pre n_pre parent )
-.
-
-Definition pqdk_sift_up_entail_wit_4_split_goal_2 := 
-forall (n_pre: Z) (data_bound_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (child: Z) (parent: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 < child)) (PreH4 : (child < n_pre)) (PreH5 : (0 <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values_2 0) > (Znth child key_values_2 0))) (PreH10 : (tmp_key = (Znth parent key_values_2 0))) (PreH11 : (tmp_data = (Znth parent data_values_2 0))) (PreH12 : (0 <= (Znth parent data_values_2 0))) (PreH13 : ((Znth parent data_values_2 0) < data_bound_pre)) (PreH14 : (0 <= (Znth child data_values_2 0))) (PreH15 : ((Znth child data_values_2 0) < data_bound_pre)) (PreH16 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child )) ,
-  ((Znth child (replace_Znth (child) (tmp_data) ((replace_Znth (parent) ((Znth child data_values_2 0)) (data_values_2)))) 0) < data_bound_pre)
-.
-
-Definition pqdk_sift_up_entail_wit_4_split_goal_3 := 
-forall (n_pre: Z) (data_bound_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (child: Z) (parent: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 < child)) (PreH4 : (child < n_pre)) (PreH5 : (0 <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values_2 0) > (Znth child key_values_2 0))) (PreH10 : (tmp_key = (Znth parent key_values_2 0))) (PreH11 : (tmp_data = (Znth parent data_values_2 0))) (PreH12 : (0 <= (Znth parent data_values_2 0))) (PreH13 : ((Znth parent data_values_2 0) < data_bound_pre)) (PreH14 : (0 <= (Znth child data_values_2 0))) (PreH15 : ((Znth child data_values_2 0) < data_bound_pre)) (PreH16 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child )) ,
-  (0 <= (Znth child (replace_Znth (child) (tmp_data) ((replace_Znth (parent) ((Znth child data_values_2 0)) (data_values_2)))) 0))
-.
-
-Definition pqdk_sift_up_entail_wit_4_split_goal_4 := 
-forall (n_pre: Z) (data_bound_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (child: Z) (parent: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 < child)) (PreH4 : (child < n_pre)) (PreH5 : (0 <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values_2 0) > (Znth child key_values_2 0))) (PreH10 : (tmp_key = (Znth parent key_values_2 0))) (PreH11 : (tmp_data = (Znth parent data_values_2 0))) (PreH12 : (0 <= (Znth parent data_values_2 0))) (PreH13 : ((Znth parent data_values_2 0) < data_bound_pre)) (PreH14 : (0 <= (Znth child data_values_2 0))) (PreH15 : ((Znth child data_values_2 0) < data_bound_pre)) (PreH16 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child )) ,
-  ((Znth parent (replace_Znth (child) (tmp_data) ((replace_Znth (parent) ((Znth child data_values_2 0)) (data_values_2)))) 0) < data_bound_pre)
-.
-
-Definition pqdk_sift_up_entail_wit_4_split_goal_5 := 
-forall (n_pre: Z) (data_bound_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (child: Z) (parent: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 < child)) (PreH4 : (child < n_pre)) (PreH5 : (0 <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values_2 0) > (Znth child key_values_2 0))) (PreH10 : (tmp_key = (Znth parent key_values_2 0))) (PreH11 : (tmp_data = (Znth parent data_values_2 0))) (PreH12 : (0 <= (Znth parent data_values_2 0))) (PreH13 : ((Znth parent data_values_2 0) < data_bound_pre)) (PreH14 : (0 <= (Znth child data_values_2 0))) (PreH15 : ((Znth child data_values_2 0) < data_bound_pre)) (PreH16 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child )) ,
-  (0 <= (Znth parent (replace_Znth (child) (tmp_data) ((replace_Znth (parent) ((Znth child data_values_2 0)) (data_values_2)))) 0))
-.
-
-Definition pqdk_sift_up_entail_wit_4_split_goal_6 := 
-forall (n_pre: Z) (data_bound_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (child: Z) (parent: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 < child)) (PreH4 : (child < n_pre)) (PreH5 : (0 <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values_2 0) > (Znth child key_values_2 0))) (PreH10 : (tmp_key = (Znth parent key_values_2 0))) (PreH11 : (tmp_data = (Znth parent data_values_2 0))) (PreH12 : (0 <= (Znth parent data_values_2 0))) (PreH13 : ((Znth parent data_values_2 0) < data_bound_pre)) (PreH14 : (0 <= (Znth child data_values_2 0))) (PreH15 : ((Znth child data_values_2 0) < data_bound_pre)) (PreH16 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child )) ,
-  (tmp_data = (Znth child (replace_Znth (child) (tmp_data) ((replace_Znth (parent) ((Znth child data_values_2 0)) (data_values_2)))) 0))
-.
-
-Definition pqdk_sift_up_entail_wit_4_split_goal_7 := 
-forall (n_pre: Z) (data_bound_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (child: Z) (parent: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 < child)) (PreH4 : (child < n_pre)) (PreH5 : (0 <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values_2 0) > (Znth child key_values_2 0))) (PreH10 : (tmp_key = (Znth parent key_values_2 0))) (PreH11 : (tmp_data = (Znth parent data_values_2 0))) (PreH12 : (0 <= (Znth parent data_values_2 0))) (PreH13 : ((Znth parent data_values_2 0) < data_bound_pre)) (PreH14 : (0 <= (Znth child data_values_2 0))) (PreH15 : ((Znth child data_values_2 0) < data_bound_pre)) (PreH16 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child )) ,
-  (tmp_key = (Znth child (replace_Znth (child) (tmp_key) ((replace_Znth (parent) ((Znth child key_values_2 0)) (key_values_2)))) 0))
-.
-
-Definition pqdk_sift_up_entail_wit_5 := 
-forall (n_pre: Z) (data_bound_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (child: Z) (parent: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 < child)) (PreH4 : (child < n_pre)) (PreH5 : (0 <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : (tmp_key = (Znth child key_values_2 0))) (PreH10 : (tmp_data = (Znth child data_values_2 0))) (PreH11 : (0 <= (Znth parent data_values_2 0))) (PreH12 : ((Znth parent data_values_2 0) < data_bound_pre)) (PreH13 : (0 <= (Znth child data_values_2 0))) (PreH14 : ((Znth child data_values_2 0) < data_bound_pre)) (PreH15 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre parent )) ,
-  (IntArray.full key_pre n_pre key_values_2 )
-  **  (IntArray.undef_seg key_pre n_pre capacity )
-  **  (IntArray.full data_pre n_pre data_values_2 )
-  **  (IntArray.undef_seg data_pre n_pre capacity )
-  **  (IntArray.full pos_pre data_bound_pre pos_values_2 )
-|--
   EX (key_values: (@list Z))  (data_values: (@list Z))  (pos_values: (@list Z)) ,
   “ (n_pre <= capacity) ” 
   &&  “ (capacity <= heap_capacity) ” 
@@ -380,6 +301,18 @@ forall (n_pre: Z) (data_bound_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (c
   **  (IntArray.full data_pre n_pre data_values )
   **  (IntArray.undef_seg data_pre n_pre capacity )
   **  (IntArray.full pos_pre data_bound_pre pos_values )
+) \/
+(
+forall (n_pre: Z) (data_bound_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (child: Z) (parent: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 < child)) (PreH4 : (child < n_pre)) (PreH5 : (0 <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values_2 0) > (Znth child key_values_2 0))) (PreH10 : (tmp_key = (Znth parent key_values_2 0))) (PreH11 : (tmp_data = (Znth parent data_values_2 0))) (PreH12 : (0 <= (Znth parent data_values_2 0))) (PreH13 : ((Znth parent data_values_2 0) < data_bound_pre)) (PreH14 : (0 <= (Znth child data_values_2 0))) (PreH15 : ((Znth child data_values_2 0) < data_bound_pre)) (PreH16 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child )) ,
+  TT && emp 
+|--
+  “ (SiftUpState M (replace_Znth (child) (tmp_key) ((replace_Znth (parent) ((Znth child key_values_2 0)) (key_values_2)))) (replace_Znth (child) (tmp_data) ((replace_Znth (parent) ((Znth child data_values_2 0)) (data_values_2)))) (replace_Znth ((Znth child data_values_2 0)) (parent) ((replace_Znth (tmp_data) (child) (pos_values_2)))) data_bound_pre n_pre parent ) ”
+  &&  emp
+).
+
+Definition pqdk_sift_up_entail_wit_4_split_goal_1 := 
+forall (n_pre: Z) (data_bound_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (child: Z) (parent: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 < child)) (PreH4 : (child < n_pre)) (PreH5 : (0 <= parent)) (PreH6 : (parent < child)) (PreH7 : (parent < n_pre)) (PreH8 : (parent = (heap_parent (child)))) (PreH9 : ((Znth parent key_values_2 0) > (Znth child key_values_2 0))) (PreH10 : (tmp_key = (Znth parent key_values_2 0))) (PreH11 : (tmp_data = (Znth parent data_values_2 0))) (PreH12 : (0 <= (Znth parent data_values_2 0))) (PreH13 : ((Znth parent data_values_2 0) < data_bound_pre)) (PreH14 : (0 <= (Znth child data_values_2 0))) (PreH15 : ((Znth child data_values_2 0) < data_bound_pre)) (PreH16 : (SiftUpState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre child )) ,
+  (SiftUpState M (replace_Znth (child) (tmp_key) ((replace_Znth (parent) ((Znth child key_values_2 0)) (key_values_2)))) (replace_Znth (child) (tmp_data) ((replace_Znth (parent) ((Znth child data_values_2 0)) (data_values_2)))) (replace_Znth ((Znth child data_values_2 0)) (parent) ((replace_Znth (tmp_data) (child) (pos_values_2)))) data_bound_pre n_pre parent )
 .
 
 Definition pqdk_sift_up_return_wit_1 := 
@@ -1447,96 +1380,6 @@ forall (n_pre: Z) (data_bound_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (c
   **  (IntArray.undef_seg key_pre n_pre capacity )
   **  (IntArray.undef_seg data_pre n_pre capacity )
 |--
-  EX (pos_values: (@list Z))  (data_values: (@list Z))  (key_values: (@list Z)) ,
-  “ (n_pre <= capacity) ” 
-  &&  “ (capacity <= heap_capacity) ” 
-  &&  “ (0 <= current) ” 
-  &&  “ (current < n_pre) ” 
-  &&  “ (left = ((current * 2 ) + 1 )) ” 
-  &&  “ (right = (left + 1 )) ” 
-  &&  “ (0 <= left) ” 
-  &&  “ (left < n_pre) ” 
-  &&  “ (0 <= right) ” 
-  &&  “ (0 <= smallest) ” 
-  &&  “ (smallest < n_pre) ” 
-  &&  “ (current < smallest) ” 
-  &&  “ (tmp_key > (Znth current key_values 0)) ” 
-  &&  “ (tmp_key = (Znth smallest key_values 0)) ” 
-  &&  “ (tmp_data = (Znth smallest data_values 0)) ” 
-  &&  “ (0 <= (Znth current data_values 0)) ” 
-  &&  “ ((Znth current data_values 0) < data_bound_pre) ” 
-  &&  “ (0 <= (Znth smallest data_values 0)) ” 
-  &&  “ ((Znth smallest data_values 0) < data_bound_pre) ” 
-  &&  “ (SiftDownState M key_values data_values pos_values data_bound_pre n_pre smallest ) ”
-  &&  (IntArray.full key_pre n_pre key_values )
-  **  (IntArray.undef_seg key_pre n_pre capacity )
-  **  (IntArray.full data_pre n_pre data_values )
-  **  (IntArray.undef_seg data_pre n_pre capacity )
-  **  (IntArray.full pos_pre data_bound_pre pos_values )
-) \/
-(
-forall (n_pre: Z) (data_bound_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (current: Z) (left: Z) (right: Z) (smallest: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2 ) + 1 ))) (PreH6 : (right = (left + 1 ))) (PreH7 : (0 <= left)) (PreH8 : (left < n_pre)) (PreH9 : (0 <= right)) (PreH10 : (0 <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values_2 0) > (Znth smallest key_values_2 0))) (PreH14 : (tmp_key = (Znth current key_values_2 0))) (PreH15 : (tmp_data = (Znth current data_values_2 0))) (PreH16 : (0 <= (Znth current data_values_2 0))) (PreH17 : ((Znth current data_values_2 0) < data_bound_pre)) (PreH18 : (0 <= (Znth smallest data_values_2 0))) (PreH19 : ((Znth smallest data_values_2 0) < data_bound_pre)) (PreH20 : (SelectedChild key_values_2 n_pre current smallest )) (PreH21 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current )) ,
-  TT && emp 
-|--
-  “ (SiftDownState M (replace_Znth (smallest) (tmp_key) ((replace_Znth (current) ((Znth smallest key_values_2 0)) (key_values_2)))) (replace_Znth (smallest) (tmp_data) ((replace_Znth (current) ((Znth smallest data_values_2 0)) (data_values_2)))) (replace_Znth ((Znth smallest data_values_2 0)) (current) ((replace_Znth (tmp_data) (smallest) (pos_values_2)))) data_bound_pre n_pre smallest ) ” 
-  &&  “ ((Znth smallest (replace_Znth (smallest) (tmp_data) ((replace_Znth (current) ((Znth smallest data_values_2 0)) (data_values_2)))) 0) < data_bound_pre) ” 
-  &&  “ (0 <= (Znth smallest (replace_Znth (smallest) (tmp_data) ((replace_Znth (current) ((Znth smallest data_values_2 0)) (data_values_2)))) 0)) ” 
-  &&  “ ((Znth current (replace_Znth (smallest) (tmp_data) ((replace_Znth (current) ((Znth smallest data_values_2 0)) (data_values_2)))) 0) < data_bound_pre) ” 
-  &&  “ (0 <= (Znth current (replace_Znth (smallest) (tmp_data) ((replace_Znth (current) ((Znth smallest data_values_2 0)) (data_values_2)))) 0)) ” 
-  &&  “ (tmp_data = (Znth smallest (replace_Znth (smallest) (tmp_data) ((replace_Znth (current) ((Znth smallest data_values_2 0)) (data_values_2)))) 0)) ” 
-  &&  “ (tmp_key = (Znth smallest (replace_Znth (smallest) (tmp_key) ((replace_Znth (current) ((Znth smallest key_values_2 0)) (key_values_2)))) 0)) ” 
-  &&  “ (tmp_key > (Znth current (replace_Znth (smallest) (tmp_key) ((replace_Znth (current) ((Znth smallest key_values_2 0)) (key_values_2)))) 0)) ”
-  &&  emp
-).
-
-Definition pqdk_sift_down_entail_wit_5_split_goal_1 := 
-forall (n_pre: Z) (data_bound_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (current: Z) (left: Z) (right: Z) (smallest: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2 ) + 1 ))) (PreH6 : (right = (left + 1 ))) (PreH7 : (0 <= left)) (PreH8 : (left < n_pre)) (PreH9 : (0 <= right)) (PreH10 : (0 <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values_2 0) > (Znth smallest key_values_2 0))) (PreH14 : (tmp_key = (Znth current key_values_2 0))) (PreH15 : (tmp_data = (Znth current data_values_2 0))) (PreH16 : (0 <= (Znth current data_values_2 0))) (PreH17 : ((Znth current data_values_2 0) < data_bound_pre)) (PreH18 : (0 <= (Znth smallest data_values_2 0))) (PreH19 : ((Znth smallest data_values_2 0) < data_bound_pre)) (PreH20 : (SelectedChild key_values_2 n_pre current smallest )) (PreH21 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current )) ,
-  (SiftDownState M (replace_Znth (smallest) (tmp_key) ((replace_Znth (current) ((Znth smallest key_values_2 0)) (key_values_2)))) (replace_Znth (smallest) (tmp_data) ((replace_Znth (current) ((Znth smallest data_values_2 0)) (data_values_2)))) (replace_Znth ((Znth smallest data_values_2 0)) (current) ((replace_Znth (tmp_data) (smallest) (pos_values_2)))) data_bound_pre n_pre smallest )
-.
-
-Definition pqdk_sift_down_entail_wit_5_split_goal_2 := 
-forall (n_pre: Z) (data_bound_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (current: Z) (left: Z) (right: Z) (smallest: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2 ) + 1 ))) (PreH6 : (right = (left + 1 ))) (PreH7 : (0 <= left)) (PreH8 : (left < n_pre)) (PreH9 : (0 <= right)) (PreH10 : (0 <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values_2 0) > (Znth smallest key_values_2 0))) (PreH14 : (tmp_key = (Znth current key_values_2 0))) (PreH15 : (tmp_data = (Znth current data_values_2 0))) (PreH16 : (0 <= (Znth current data_values_2 0))) (PreH17 : ((Znth current data_values_2 0) < data_bound_pre)) (PreH18 : (0 <= (Znth smallest data_values_2 0))) (PreH19 : ((Znth smallest data_values_2 0) < data_bound_pre)) (PreH20 : (SelectedChild key_values_2 n_pre current smallest )) (PreH21 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current )) ,
-  ((Znth smallest (replace_Znth (smallest) (tmp_data) ((replace_Znth (current) ((Znth smallest data_values_2 0)) (data_values_2)))) 0) < data_bound_pre)
-.
-
-Definition pqdk_sift_down_entail_wit_5_split_goal_3 := 
-forall (n_pre: Z) (data_bound_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (current: Z) (left: Z) (right: Z) (smallest: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2 ) + 1 ))) (PreH6 : (right = (left + 1 ))) (PreH7 : (0 <= left)) (PreH8 : (left < n_pre)) (PreH9 : (0 <= right)) (PreH10 : (0 <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values_2 0) > (Znth smallest key_values_2 0))) (PreH14 : (tmp_key = (Znth current key_values_2 0))) (PreH15 : (tmp_data = (Znth current data_values_2 0))) (PreH16 : (0 <= (Znth current data_values_2 0))) (PreH17 : ((Znth current data_values_2 0) < data_bound_pre)) (PreH18 : (0 <= (Znth smallest data_values_2 0))) (PreH19 : ((Znth smallest data_values_2 0) < data_bound_pre)) (PreH20 : (SelectedChild key_values_2 n_pre current smallest )) (PreH21 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current )) ,
-  (0 <= (Znth smallest (replace_Znth (smallest) (tmp_data) ((replace_Znth (current) ((Znth smallest data_values_2 0)) (data_values_2)))) 0))
-.
-
-Definition pqdk_sift_down_entail_wit_5_split_goal_4 := 
-forall (n_pre: Z) (data_bound_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (current: Z) (left: Z) (right: Z) (smallest: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2 ) + 1 ))) (PreH6 : (right = (left + 1 ))) (PreH7 : (0 <= left)) (PreH8 : (left < n_pre)) (PreH9 : (0 <= right)) (PreH10 : (0 <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values_2 0) > (Znth smallest key_values_2 0))) (PreH14 : (tmp_key = (Znth current key_values_2 0))) (PreH15 : (tmp_data = (Znth current data_values_2 0))) (PreH16 : (0 <= (Znth current data_values_2 0))) (PreH17 : ((Znth current data_values_2 0) < data_bound_pre)) (PreH18 : (0 <= (Znth smallest data_values_2 0))) (PreH19 : ((Znth smallest data_values_2 0) < data_bound_pre)) (PreH20 : (SelectedChild key_values_2 n_pre current smallest )) (PreH21 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current )) ,
-  ((Znth current (replace_Znth (smallest) (tmp_data) ((replace_Znth (current) ((Znth smallest data_values_2 0)) (data_values_2)))) 0) < data_bound_pre)
-.
-
-Definition pqdk_sift_down_entail_wit_5_split_goal_5 := 
-forall (n_pre: Z) (data_bound_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (current: Z) (left: Z) (right: Z) (smallest: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2 ) + 1 ))) (PreH6 : (right = (left + 1 ))) (PreH7 : (0 <= left)) (PreH8 : (left < n_pre)) (PreH9 : (0 <= right)) (PreH10 : (0 <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values_2 0) > (Znth smallest key_values_2 0))) (PreH14 : (tmp_key = (Znth current key_values_2 0))) (PreH15 : (tmp_data = (Znth current data_values_2 0))) (PreH16 : (0 <= (Znth current data_values_2 0))) (PreH17 : ((Znth current data_values_2 0) < data_bound_pre)) (PreH18 : (0 <= (Znth smallest data_values_2 0))) (PreH19 : ((Znth smallest data_values_2 0) < data_bound_pre)) (PreH20 : (SelectedChild key_values_2 n_pre current smallest )) (PreH21 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current )) ,
-  (0 <= (Znth current (replace_Znth (smallest) (tmp_data) ((replace_Znth (current) ((Znth smallest data_values_2 0)) (data_values_2)))) 0))
-.
-
-Definition pqdk_sift_down_entail_wit_5_split_goal_6 := 
-forall (n_pre: Z) (data_bound_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (current: Z) (left: Z) (right: Z) (smallest: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2 ) + 1 ))) (PreH6 : (right = (left + 1 ))) (PreH7 : (0 <= left)) (PreH8 : (left < n_pre)) (PreH9 : (0 <= right)) (PreH10 : (0 <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values_2 0) > (Znth smallest key_values_2 0))) (PreH14 : (tmp_key = (Znth current key_values_2 0))) (PreH15 : (tmp_data = (Znth current data_values_2 0))) (PreH16 : (0 <= (Znth current data_values_2 0))) (PreH17 : ((Znth current data_values_2 0) < data_bound_pre)) (PreH18 : (0 <= (Znth smallest data_values_2 0))) (PreH19 : ((Znth smallest data_values_2 0) < data_bound_pre)) (PreH20 : (SelectedChild key_values_2 n_pre current smallest )) (PreH21 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current )) ,
-  (tmp_data = (Znth smallest (replace_Znth (smallest) (tmp_data) ((replace_Znth (current) ((Znth smallest data_values_2 0)) (data_values_2)))) 0))
-.
-
-Definition pqdk_sift_down_entail_wit_5_split_goal_7 := 
-forall (n_pre: Z) (data_bound_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (current: Z) (left: Z) (right: Z) (smallest: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2 ) + 1 ))) (PreH6 : (right = (left + 1 ))) (PreH7 : (0 <= left)) (PreH8 : (left < n_pre)) (PreH9 : (0 <= right)) (PreH10 : (0 <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values_2 0) > (Znth smallest key_values_2 0))) (PreH14 : (tmp_key = (Znth current key_values_2 0))) (PreH15 : (tmp_data = (Znth current data_values_2 0))) (PreH16 : (0 <= (Znth current data_values_2 0))) (PreH17 : ((Znth current data_values_2 0) < data_bound_pre)) (PreH18 : (0 <= (Znth smallest data_values_2 0))) (PreH19 : ((Znth smallest data_values_2 0) < data_bound_pre)) (PreH20 : (SelectedChild key_values_2 n_pre current smallest )) (PreH21 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current )) ,
-  (tmp_key = (Znth smallest (replace_Znth (smallest) (tmp_key) ((replace_Znth (current) ((Znth smallest key_values_2 0)) (key_values_2)))) 0))
-.
-
-Definition pqdk_sift_down_entail_wit_5_split_goal_8 := 
-forall (n_pre: Z) (data_bound_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (current: Z) (left: Z) (right: Z) (smallest: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2 ) + 1 ))) (PreH6 : (right = (left + 1 ))) (PreH7 : (0 <= left)) (PreH8 : (left < n_pre)) (PreH9 : (0 <= right)) (PreH10 : (0 <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values_2 0) > (Znth smallest key_values_2 0))) (PreH14 : (tmp_key = (Znth current key_values_2 0))) (PreH15 : (tmp_data = (Znth current data_values_2 0))) (PreH16 : (0 <= (Znth current data_values_2 0))) (PreH17 : ((Znth current data_values_2 0) < data_bound_pre)) (PreH18 : (0 <= (Znth smallest data_values_2 0))) (PreH19 : ((Znth smallest data_values_2 0) < data_bound_pre)) (PreH20 : (SelectedChild key_values_2 n_pre current smallest )) (PreH21 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current )) ,
-  (tmp_key > (Znth current (replace_Znth (smallest) (tmp_key) ((replace_Znth (current) ((Znth smallest key_values_2 0)) (key_values_2)))) 0))
-.
-
-Definition pqdk_sift_down_entail_wit_6 := 
-forall (n_pre: Z) (data_bound_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (current: Z) (left: Z) (right: Z) (smallest: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2 ) + 1 ))) (PreH6 : (right = (left + 1 ))) (PreH7 : (0 <= left)) (PreH8 : (left < n_pre)) (PreH9 : (0 <= right)) (PreH10 : (0 <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : (tmp_key > (Znth current key_values_2 0))) (PreH14 : (tmp_key = (Znth smallest key_values_2 0))) (PreH15 : (tmp_data = (Znth smallest data_values_2 0))) (PreH16 : (0 <= (Znth current data_values_2 0))) (PreH17 : ((Znth current data_values_2 0) < data_bound_pre)) (PreH18 : (0 <= (Znth smallest data_values_2 0))) (PreH19 : ((Znth smallest data_values_2 0) < data_bound_pre)) (PreH20 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre smallest )) ,
-  (IntArray.full key_pre n_pre key_values_2 )
-  **  (IntArray.undef_seg key_pre n_pre capacity )
-  **  (IntArray.full data_pre n_pre data_values_2 )
-  **  (IntArray.undef_seg data_pre n_pre capacity )
-  **  (IntArray.full pos_pre data_bound_pre pos_values_2 )
-|--
   EX (key_values: (@list Z))  (data_values: (@list Z))  (pos_values: (@list Z)) ,
   “ (n_pre <= capacity) ” 
   &&  “ (capacity <= heap_capacity) ” 
@@ -1548,6 +1391,18 @@ forall (n_pre: Z) (data_bound_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (c
   **  (IntArray.full data_pre n_pre data_values )
   **  (IntArray.undef_seg data_pre n_pre capacity )
   **  (IntArray.full pos_pre data_bound_pre pos_values )
+) \/
+(
+forall (n_pre: Z) (data_bound_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (current: Z) (left: Z) (right: Z) (smallest: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2 ) + 1 ))) (PreH6 : (right = (left + 1 ))) (PreH7 : (0 <= left)) (PreH8 : (left < n_pre)) (PreH9 : (0 <= right)) (PreH10 : (0 <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values_2 0) > (Znth smallest key_values_2 0))) (PreH14 : (tmp_key = (Znth current key_values_2 0))) (PreH15 : (tmp_data = (Znth current data_values_2 0))) (PreH16 : (0 <= (Znth current data_values_2 0))) (PreH17 : ((Znth current data_values_2 0) < data_bound_pre)) (PreH18 : (0 <= (Znth smallest data_values_2 0))) (PreH19 : ((Znth smallest data_values_2 0) < data_bound_pre)) (PreH20 : (SelectedChild key_values_2 n_pre current smallest )) (PreH21 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current )) ,
+  TT && emp 
+|--
+  “ (SiftDownState M (replace_Znth (smallest) (tmp_key) ((replace_Znth (current) ((Znth smallest key_values_2 0)) (key_values_2)))) (replace_Znth (smallest) (tmp_data) ((replace_Znth (current) ((Znth smallest data_values_2 0)) (data_values_2)))) (replace_Znth ((Znth smallest data_values_2 0)) (current) ((replace_Znth (tmp_data) (smallest) (pos_values_2)))) data_bound_pre n_pre smallest ) ”
+  &&  emp
+).
+
+Definition pqdk_sift_down_entail_wit_5_split_goal_1 := 
+forall (n_pre: Z) (data_bound_pre: Z) (capacity: Z) (M: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (current: Z) (left: Z) (right: Z) (smallest: Z) (tmp_key: Z) (tmp_data: Z) (PreH1 : (n_pre <= capacity)) (PreH2 : (capacity <= heap_capacity)) (PreH3 : (0 <= current)) (PreH4 : (current < n_pre)) (PreH5 : (left = ((current * 2 ) + 1 ))) (PreH6 : (right = (left + 1 ))) (PreH7 : (0 <= left)) (PreH8 : (left < n_pre)) (PreH9 : (0 <= right)) (PreH10 : (0 <= smallest)) (PreH11 : (smallest < n_pre)) (PreH12 : (current < smallest)) (PreH13 : ((Znth current key_values_2 0) > (Znth smallest key_values_2 0))) (PreH14 : (tmp_key = (Znth current key_values_2 0))) (PreH15 : (tmp_data = (Znth current data_values_2 0))) (PreH16 : (0 <= (Znth current data_values_2 0))) (PreH17 : ((Znth current data_values_2 0) < data_bound_pre)) (PreH18 : (0 <= (Znth smallest data_values_2 0))) (PreH19 : ((Znth smallest data_values_2 0) < data_bound_pre)) (PreH20 : (SelectedChild key_values_2 n_pre current smallest )) (PreH21 : (SiftDownState M key_values_2 data_values_2 pos_values_2 data_bound_pre n_pre current )) ,
+  (SiftDownState M (replace_Znth (smallest) (tmp_key) ((replace_Znth (current) ((Znth smallest key_values_2 0)) (key_values_2)))) (replace_Znth (smallest) (tmp_data) ((replace_Znth (current) ((Znth smallest data_values_2 0)) (data_values_2)))) (replace_Znth ((Znth smallest data_values_2 0)) (current) ((replace_Znth (tmp_data) (smallest) (pos_values_2)))) data_bound_pre n_pre smallest )
 .
 
 Definition pqdk_sift_down_return_wit_1 := 
@@ -2329,48 +2184,13 @@ forall (data_x_pre: Z) (data_bound_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: 
 
 Definition pqdk_push_entail_wit_2 := 
 (
-forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (PreH1 : (0 <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (0 <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre )) (PreH7 : (heap_representation M_before key_values_2 data_values_2 pos_values_2 data_bound_pre n )) ,
-  (IntArray.full pos_pre data_bound_pre (replace_Znth (data_x_pre) (n) (pos_values_2)) )
-  **  (IntArray.full data_pre (n + 1 ) (app (data_values_2) ((cons (data_x_pre) ((@nil Z))))) )
+forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (PreH1 : (0 <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (0 <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre )) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n )) ,
+  (IntArray.full pos_pre data_bound_pre (replace_Znth (data_x_pre) (n) (pos_values)) )
+  **  (IntArray.full data_pre (n + 1 ) (app (data_values) ((cons (data_x_pre) ((@nil Z))))) )
   **  (IntArray.undef_seg data_pre (n + 1 ) capacity )
-  **  (IntArray.full key_pre (n + 1 ) (app (key_values_2) ((cons (key_x_pre) ((@nil Z))))) )
+  **  (IntArray.full key_pre (n + 1 ) (app (key_values) ((cons (key_x_pre) ((@nil Z))))) )
   **  (IntArray.undef_seg key_pre (n + 1 ) capacity )
   **  ((size_pre) # Int  |-> (n + 1 ))
-|--
-  EX (key_values: (@list Z))  (data_values: (@list Z))  (pos_values: (@list Z)) ,
-  “ (0 <= n) ” 
-  &&  “ (n < capacity) ” 
-  &&  “ (capacity <= heap_capacity) ” 
-  &&  “ (PushWriteState M_before key_values data_values pos_values data_bound_pre n data_x_pre key_x_pre ) ”
-  &&  ((size_pre) # Int  |-> (n + 1 ))
-  **  (IntArray.full key_pre (n + 1 ) key_values )
-  **  (IntArray.undef_seg key_pre (n + 1 ) capacity )
-  **  (IntArray.full data_pre (n + 1 ) data_values )
-  **  (IntArray.undef_seg data_pre (n + 1 ) capacity )
-  **  (IntArray.full pos_pre data_bound_pre pos_values )
-) \/
-(
-forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (PreH1 : (0 <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (0 <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre )) (PreH7 : (heap_representation M_before key_values_2 data_values_2 pos_values_2 data_bound_pre n )) ,
-  TT && emp 
-|--
-  “ (PushWriteState M_before (app (key_values_2) ((cons (key_x_pre) ((@nil Z))))) (app (data_values_2) ((cons (data_x_pre) ((@nil Z))))) (replace_Znth (data_x_pre) (n) (pos_values_2)) data_bound_pre n data_x_pre key_x_pre ) ”
-  &&  emp
-).
-
-Definition pqdk_push_entail_wit_2_split_goal_1 := 
-forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (PreH1 : (0 <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (0 <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre )) (PreH7 : (heap_representation M_before key_values_2 data_values_2 pos_values_2 data_bound_pre n )) ,
-  (PushWriteState M_before (app (key_values_2) ((cons (key_x_pre) ((@nil Z))))) (app (data_values_2) ((cons (data_x_pre) ((@nil Z))))) (replace_Znth (data_x_pre) (n) (pos_values_2)) data_bound_pre n data_x_pre key_x_pre )
-.
-
-Definition pqdk_push_entail_wit_3 := 
-(
-forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (PreH1 : (0 <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (PushWriteState M_before key_values data_values pos_values data_bound_pre n data_x_pre key_x_pre )) ,
-  ((size_pre) # Int  |-> (n + 1 ))
-  **  (IntArray.full key_pre (n + 1 ) key_values )
-  **  (IntArray.undef_seg key_pre (n + 1 ) capacity )
-  **  (IntArray.full data_pre (n + 1 ) data_values )
-  **  (IntArray.undef_seg data_pre (n + 1 ) capacity )
-  **  (IntArray.full pos_pre data_bound_pre pos_values )
 |--
   “ (0 <= n) ” 
   &&  “ (n < capacity) ” 
@@ -2379,23 +2199,23 @@ forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos_pre
   **  (store_sift_up key_pre data_pre pos_pre data_bound_pre capacity (partial_map_add (M_before) (data_x_pre) (key_x_pre)) (n + 1 ) n )
 ) \/
 (
-forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (PreH1 : (0 <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (PushWriteState M_before key_values data_values pos_values data_bound_pre n data_x_pre key_x_pre )) ,
-  (IntArray.full key_pre (n + 1 ) key_values )
-  **  (IntArray.undef_seg key_pre (n + 1 ) capacity )
-  **  (IntArray.full data_pre (n + 1 ) data_values )
+forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (PreH1 : (0 <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (0 <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre )) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n )) ,
+  (IntArray.full pos_pre data_bound_pre (replace_Znth (data_x_pre) (n) (pos_values)) )
+  **  (IntArray.full data_pre (n + 1 ) (app (data_values) ((cons (data_x_pre) ((@nil Z))))) )
   **  (IntArray.undef_seg data_pre (n + 1 ) capacity )
-  **  (IntArray.full pos_pre data_bound_pre pos_values )
+  **  (IntArray.full key_pre (n + 1 ) (app (key_values) ((cons (key_x_pre) ((@nil Z))))) )
+  **  (IntArray.undef_seg key_pre (n + 1 ) capacity )
 |--
   (store_sift_up key_pre data_pre pos_pre data_bound_pre capacity (partial_map_add (M_before) (data_x_pre) (key_x_pre)) (n + 1 ) n )
 ).
 
-Definition pqdk_push_entail_wit_3_split_goal_spatial := 
-forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (PreH1 : (0 <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (PushWriteState M_before key_values data_values pos_values data_bound_pre n data_x_pre key_x_pre )) ,
-  (IntArray.full key_pre (n + 1 ) key_values )
-  **  (IntArray.undef_seg key_pre (n + 1 ) capacity )
-  **  (IntArray.full data_pre (n + 1 ) data_values )
+Definition pqdk_push_entail_wit_2_split_goal_spatial := 
+forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (PreH1 : (0 <= n)) (PreH2 : (n < capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (0 <= data_x_pre)) (PreH5 : (data_x_pre < data_bound_pre)) (PreH6 : (partial_map_absent M_before data_x_pre )) (PreH7 : (heap_representation M_before key_values data_values pos_values data_bound_pre n )) ,
+  (IntArray.full pos_pre data_bound_pre (replace_Znth (data_x_pre) (n) (pos_values)) )
+  **  (IntArray.full data_pre (n + 1 ) (app (data_values) ((cons (data_x_pre) ((@nil Z))))) )
   **  (IntArray.undef_seg data_pre (n + 1 ) capacity )
-  **  (IntArray.full pos_pre data_bound_pre pos_values )
+  **  (IntArray.full key_pre (n + 1 ) (app (key_values) ((cons (key_x_pre) ((@nil Z))))) )
+  **  (IntArray.undef_seg key_pre (n + 1 ) capacity )
 |--
   (store_sift_up key_pre data_pre pos_pre data_bound_pre capacity (partial_map_add (M_before) (data_x_pre) (key_x_pre)) (n + 1 ) n )
 .
@@ -2616,46 +2436,9 @@ forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (capacity: Z) (n: Z) (
 
 Definition pqdk_decrease_key_entail_wit_3 := 
 (
-forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (idx: Z) (PreH1 : (0 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (0 <= idx)) (PreH5 : (idx < n)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre )) (PreH7 : (heap_index_of M_before data_values_2 pos_values_2 data_x_pre idx )) (PreH8 : (heap_representation M_before key_values_2 data_values_2 pos_values_2 data_bound_pre n )) ,
-  (IntArray.full key_pre n (replace_Znth (idx) (key_x_pre) (key_values_2)) )
+forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (idx: Z) (PreH1 : (0 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (0 <= idx)) (PreH5 : (idx < n)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre )) (PreH7 : (heap_index_of M_before data_values pos_values data_x_pre idx )) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n )) ,
+  (IntArray.full key_pre n (replace_Znth (idx) (key_x_pre) (key_values)) )
   **  ((size_pre) # Int  |-> n)
-  **  (IntArray.undef_seg key_pre n capacity )
-  **  (IntArray.full data_pre n data_values_2 )
-  **  (IntArray.undef_seg data_pre n capacity )
-  **  (IntArray.full pos_pre data_bound_pre pos_values_2 )
-|--
-  EX (key_values: (@list Z))  (data_values: (@list Z))  (pos_values: (@list Z)) ,
-  “ (0 <= n) ” 
-  &&  “ (n <= capacity) ” 
-  &&  “ (capacity <= heap_capacity) ” 
-  &&  “ (0 <= idx) ” 
-  &&  “ (idx < n) ” 
-  &&  “ (DecreaseKeyWriteState M_before key_values data_values pos_values data_bound_pre n data_x_pre key_x_pre idx ) ”
-  &&  ((size_pre) # Int  |-> n)
-  **  (IntArray.full key_pre n key_values )
-  **  (IntArray.undef_seg key_pre n capacity )
-  **  (IntArray.full data_pre n data_values )
-  **  (IntArray.undef_seg data_pre n capacity )
-  **  (IntArray.full pos_pre data_bound_pre pos_values )
-) \/
-(
-forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (idx: Z) (PreH1 : (0 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (0 <= idx)) (PreH5 : (idx < n)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre )) (PreH7 : (heap_index_of M_before data_values_2 pos_values_2 data_x_pre idx )) (PreH8 : (heap_representation M_before key_values_2 data_values_2 pos_values_2 data_bound_pre n )) ,
-  TT && emp 
-|--
-  “ (DecreaseKeyWriteState M_before (replace_Znth (idx) (key_x_pre) (key_values_2)) data_values_2 pos_values_2 data_bound_pre n data_x_pre key_x_pre idx ) ”
-  &&  emp
-).
-
-Definition pqdk_decrease_key_entail_wit_3_split_goal_1 := 
-forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (idx: Z) (PreH1 : (0 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (0 <= idx)) (PreH5 : (idx < n)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre )) (PreH7 : (heap_index_of M_before data_values_2 pos_values_2 data_x_pre idx )) (PreH8 : (heap_representation M_before key_values_2 data_values_2 pos_values_2 data_bound_pre n )) ,
-  (DecreaseKeyWriteState M_before (replace_Znth (idx) (key_x_pre) (key_values_2)) data_values_2 pos_values_2 data_bound_pre n data_x_pre key_x_pre idx )
-.
-
-Definition pqdk_decrease_key_entail_wit_4 := 
-(
-forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (idx: Z) (PreH1 : (0 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (0 <= idx)) (PreH5 : (idx < n)) (PreH6 : (DecreaseKeyWriteState M_before key_values data_values pos_values data_bound_pre n data_x_pre key_x_pre idx )) ,
-  ((size_pre) # Int  |-> n)
-  **  (IntArray.full key_pre n key_values )
   **  (IntArray.undef_seg key_pre n capacity )
   **  (IntArray.full data_pre n data_values )
   **  (IntArray.undef_seg data_pre n capacity )
@@ -2670,8 +2453,8 @@ forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos_pre
   **  (store_sift_up key_pre data_pre pos_pre data_bound_pre capacity (partial_map_update (M_before) (data_x_pre) (key_x_pre)) n idx )
 ) \/
 (
-forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (idx: Z) (PreH1 : (0 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (0 <= idx)) (PreH5 : (idx < n)) (PreH6 : (DecreaseKeyWriteState M_before key_values data_values pos_values data_bound_pre n data_x_pre key_x_pre idx )) ,
-  (IntArray.full key_pre n key_values )
+forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (idx: Z) (PreH1 : (0 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (0 <= idx)) (PreH5 : (idx < n)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre )) (PreH7 : (heap_index_of M_before data_values pos_values data_x_pre idx )) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n )) ,
+  (IntArray.full key_pre n (replace_Znth (idx) (key_x_pre) (key_values)) )
   **  (IntArray.undef_seg key_pre n capacity )
   **  (IntArray.full data_pre n data_values )
   **  (IntArray.undef_seg data_pre n capacity )
@@ -2680,9 +2463,9 @@ forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (pos_pre: Z) (data_pre
   (store_sift_up key_pre data_pre pos_pre data_bound_pre capacity (partial_map_update (M_before) (data_x_pre) (key_x_pre)) n idx )
 ).
 
-Definition pqdk_decrease_key_entail_wit_4_split_goal_spatial := 
-forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (idx: Z) (PreH1 : (0 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (0 <= idx)) (PreH5 : (idx < n)) (PreH6 : (DecreaseKeyWriteState M_before key_values data_values pos_values data_bound_pre n data_x_pre key_x_pre idx )) ,
-  (IntArray.full key_pre n key_values )
+Definition pqdk_decrease_key_entail_wit_3_split_goal_spatial := 
+forall (key_x_pre: Z) (data_x_pre: Z) (data_bound_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (idx: Z) (PreH1 : (0 <= n)) (PreH2 : (n <= capacity)) (PreH3 : (capacity <= heap_capacity)) (PreH4 : (0 <= idx)) (PreH5 : (idx < n)) (PreH6 : (partial_map_decrease_key_pre M_before data_x_pre key_x_pre )) (PreH7 : (heap_index_of M_before data_values pos_values data_x_pre idx )) (PreH8 : (heap_representation M_before key_values data_values pos_values data_bound_pre n )) ,
+  (IntArray.full key_pre n (replace_Znth (idx) (key_x_pre) (key_values)) )
   **  (IntArray.undef_seg key_pre n capacity )
   **  (IntArray.full data_pre n data_values )
   **  (IntArray.undef_seg data_pre n capacity )
@@ -3526,8 +3309,11 @@ forall (key_out_pre: Z) (data_out_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos
 .
 
 Definition pqdk_pop_safety_wit_16 := 
-forall (key_out_pre: Z) (data_out_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (popped: (Z * Z)) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (result_key: Z) (result_data: Z) (PreH1 : (1 < n)) (PreH2 : (0 < (n - 1 ))) (PreH3 : ((n - 1 ) <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : (partial_map_minimum M_before popped )) (PreH8 : (0 <= (Znth 0 data_values 0))) (PreH9 : ((Znth 0 data_values 0) < data_bound_pre)) (PreH10 : (SiftDownState (partial_map_remove (M_before) ((item_data (popped)))) key_values data_values pos_values data_bound_pre (n - 1 ) 0 )) ,
-  ((( &( "key" ) )) # Ptr  |-> key_pre)
+forall (key_out_pre: Z) (data_out_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (popped: (Z * Z)) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (result_key: Z) (result_data: Z) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : (0 <= (n - 1 ))) (PreH8 : ((n - 1 ) < n)) (PreH9 : (0 <= (Znth (n - 1 ) data_values 0))) (PreH10 : ((Znth (n - 1 ) data_values 0) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped )) ,
+  (IntArray.full data_pre n (replace_Znth (0) ((Znth (n - 1 ) data_values 0)) (data_values)) )
+  **  (IntArray.full key_pre n (replace_Znth (0) ((Znth (n - 1 ) key_values 0)) (key_values)) )
+  **  (IntArray.full pos_pre data_bound_pre (replace_Znth ((Znth (n - 1 ) data_values 0)) (0) (pos_values)) )
+  **  ((( &( "key" ) )) # Ptr  |-> key_pre)
   **  ((( &( "data" ) )) # Ptr  |-> data_pre)
   **  ((( &( "pos" ) )) # Ptr  |-> pos_pre)
   **  ((( &( "size" ) )) # Ptr  |-> size_pre)
@@ -3538,11 +3324,8 @@ forall (key_out_pre: Z) (data_out_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos
   **  ((( &( "result_key" ) )) # Int  |-> result_key)
   **  ((( &( "result_data" ) )) # Int  |-> result_data)
   **  ((size_pre) # Int  |-> n)
-  **  (IntArray.full key_pre (n - 1 ) key_values )
-  **  (IntArray.undef_seg key_pre (n - 1 ) capacity )
-  **  (IntArray.full data_pre (n - 1 ) data_values )
-  **  (IntArray.undef_seg data_pre (n - 1 ) capacity )
-  **  (IntArray.full pos_pre data_bound_pre pos_values )
+  **  (IntArray.undef_seg key_pre n capacity )
+  **  (IntArray.undef_seg data_pre n capacity )
   **  ((data_out_pre) # Int  |-> result_data)
   **  ((key_out_pre) # Int  |-> result_key)
 |--
@@ -3551,8 +3334,11 @@ forall (key_out_pre: Z) (data_out_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos
 .
 
 Definition pqdk_pop_safety_wit_17 := 
-forall (key_out_pre: Z) (data_out_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (popped: (Z * Z)) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (result_key: Z) (result_data: Z) (PreH1 : (1 < n)) (PreH2 : (0 < (n - 1 ))) (PreH3 : ((n - 1 ) <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : (partial_map_minimum M_before popped )) (PreH8 : (0 <= (Znth 0 data_values 0))) (PreH9 : ((Znth 0 data_values 0) < data_bound_pre)) (PreH10 : (SiftDownState (partial_map_remove (M_before) ((item_data (popped)))) key_values data_values pos_values data_bound_pre (n - 1 ) 0 )) ,
-  ((( &( "key" ) )) # Ptr  |-> key_pre)
+forall (key_out_pre: Z) (data_out_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (popped: (Z * Z)) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (result_key: Z) (result_data: Z) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped)))) (PreH6 : (result_data = (item_data (popped)))) (PreH7 : (0 <= (n - 1 ))) (PreH8 : ((n - 1 ) < n)) (PreH9 : (0 <= (Znth (n - 1 ) data_values 0))) (PreH10 : ((Znth (n - 1 ) data_values 0) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped )) ,
+  (IntArray.full data_pre n (replace_Znth (0) ((Znth (n - 1 ) data_values 0)) (data_values)) )
+  **  (IntArray.full key_pre n (replace_Znth (0) ((Znth (n - 1 ) key_values 0)) (key_values)) )
+  **  (IntArray.full pos_pre data_bound_pre (replace_Znth ((Znth (n - 1 ) data_values 0)) (0) (pos_values)) )
+  **  ((( &( "key" ) )) # Ptr  |-> key_pre)
   **  ((( &( "data" ) )) # Ptr  |-> data_pre)
   **  ((( &( "pos" ) )) # Ptr  |-> pos_pre)
   **  ((( &( "size" ) )) # Ptr  |-> size_pre)
@@ -3563,11 +3349,8 @@ forall (key_out_pre: Z) (data_out_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos
   **  ((( &( "result_key" ) )) # Int  |-> result_key)
   **  ((( &( "result_data" ) )) # Int  |-> result_data)
   **  ((size_pre) # Int  |-> n)
-  **  (IntArray.full key_pre (n - 1 ) key_values )
-  **  (IntArray.undef_seg key_pre (n - 1 ) capacity )
-  **  (IntArray.full data_pre (n - 1 ) data_values )
-  **  (IntArray.undef_seg data_pre (n - 1 ) capacity )
-  **  (IntArray.full pos_pre data_bound_pre pos_values )
+  **  (IntArray.undef_seg key_pre n capacity )
+  **  (IntArray.undef_seg data_pre n capacity )
   **  ((data_out_pre) # Int  |-> result_data)
   **  ((key_out_pre) # Int  |-> result_key)
 |--
@@ -3727,44 +3510,6 @@ forall (data_bound_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_val
 
 Definition pqdk_pop_entail_wit_3 := 
 (
-forall (key_out_pre: Z) (data_out_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (result_key: Z) (result_data: Z) (PreH1 : (n = 1)) (PreH2 : (result_key = (Znth 0 key_values 0))) (PreH3 : (result_data = (Znth 0 data_values 0))) (PreH4 : (1 <= n)) (PreH5 : (n <= capacity)) (PreH6 : (capacity <= heap_capacity)) (PreH7 : (0 <= result_data)) (PreH8 : (result_data < data_bound_pre)) (PreH9 : (heap_representation M_before key_values data_values pos_values data_bound_pre n )) ,
-  (IntArray.full pos_pre data_bound_pre (replace_Znth (result_data) ((-1)) (pos_values)) )
-  **  ((size_pre) # Int  |-> 0)
-  **  (IntArray.full key_pre n key_values )
-  **  (IntArray.undef_seg key_pre n capacity )
-  **  (IntArray.full data_pre n data_values )
-  **  (IntArray.undef_seg data_pre n capacity )
-  **  ((data_out_pre) # Int  |-> result_data)
-  **  ((key_out_pre) # Int  |-> result_key)
-|--
-  EX (popped: (Z * Z)) ,
-  “ (n = 1) ” 
-  &&  “ (result_key = (item_key (popped))) ” 
-  &&  “ (result_data = (item_data (popped))) ” 
-  &&  “ (partial_map_minimum M_before popped ) ”
-  &&  ((size_pre) # Int  |-> 0)
-  **  (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_remove (M_before) ((item_data (popped)))) 0 )
-  **  ((data_out_pre) # Int  |-> result_data)
-  **  ((key_out_pre) # Int  |-> result_key)
-) \/
-(
-forall (data_bound_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (result_key: Z) (result_data: Z) (PreH1 : (n = 1)) (PreH2 : (result_key = (Znth 0 key_values 0))) (PreH3 : (result_data = (Znth 0 data_values 0))) (PreH4 : (1 <= n)) (PreH5 : (n <= capacity)) (PreH6 : (capacity <= heap_capacity)) (PreH7 : (0 <= result_data)) (PreH8 : (result_data < data_bound_pre)) (PreH9 : (heap_representation M_before key_values data_values pos_values data_bound_pre n )) ,
-  (IntArray.full pos_pre data_bound_pre (replace_Znth (result_data) ((-1)) (pos_values)) )
-  **  (IntArray.full key_pre n key_values )
-  **  (IntArray.undef_seg key_pre n capacity )
-  **  (IntArray.full data_pre n data_values )
-  **  (IntArray.undef_seg data_pre n capacity )
-|--
-  EX (popped: (Z * Z)) ,
-  “ (n = 1) ” 
-  &&  “ (result_key = (item_key (popped))) ” 
-  &&  “ (result_data = (item_data (popped))) ” 
-  &&  “ (partial_map_minimum M_before popped ) ”
-  &&  (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_remove (M_before) ((item_data (popped)))) 0 )
-).
-
-Definition pqdk_pop_entail_wit_4 := 
-(
 forall (key_out_pre: Z) (data_out_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (result_key: Z) (result_data: Z) (PreH1 : (n <> 1)) (PreH2 : (result_key = (Znth 0 key_values_2 0))) (PreH3 : (result_data = (Znth 0 data_values_2 0))) (PreH4 : (1 <= n)) (PreH5 : (n <= capacity)) (PreH6 : (capacity <= heap_capacity)) (PreH7 : (0 <= result_data)) (PreH8 : (result_data < data_bound_pre)) (PreH9 : (heap_representation M_before key_values_2 data_values_2 pos_values_2 data_bound_pre n )) ,
   (IntArray.full pos_pre data_bound_pre (replace_Znth (result_data) ((-1)) (pos_values_2)) )
   **  ((size_pre) # Int  |-> n)
@@ -3812,115 +3557,15 @@ forall (data_bound_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_val
   &&  emp
 ).
 
-Definition pqdk_pop_entail_wit_5 := 
+Definition pqdk_pop_entail_wit_4 := 
 (
-forall (key_out_pre: Z) (data_out_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (popped_2: (Z * Z)) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (result_key: Z) (result_data: Z) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped_2)))) (PreH6 : (result_data = (item_data (popped_2)))) (PreH7 : (0 <= (n - 1 ))) (PreH8 : ((n - 1 ) < n)) (PreH9 : (0 <= (Znth (n - 1 ) data_values_2 0))) (PreH10 : ((Znth (n - 1 ) data_values_2 0) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values_2 data_values_2 pos_values_2 data_bound_pre n popped_2 )) ,
-  (IntArray.full data_pre n (replace_Znth (0) ((Znth (n - 1 ) data_values_2 0)) (data_values_2)) )
-  **  (IntArray.full key_pre n (replace_Znth (0) ((Znth (n - 1 ) key_values_2 0)) (key_values_2)) )
-  **  (IntArray.full pos_pre data_bound_pre (replace_Znth ((Znth (n - 1 ) data_values_2 0)) (0) (pos_values_2)) )
-  **  ((size_pre) # Int  |-> n)
+forall (key_out_pre: Z) (data_out_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (popped_2: (Z * Z)) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (result_key: Z) (result_data: Z) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped_2)))) (PreH6 : (result_data = (item_data (popped_2)))) (PreH7 : (0 <= (n - 1 ))) (PreH8 : ((n - 1 ) < n)) (PreH9 : (0 <= (Znth (n - 1 ) data_values 0))) (PreH10 : ((Znth (n - 1 ) data_values 0) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped_2 )) ,
+  (IntArray.full data_pre n (replace_Znth (0) ((Znth (n - 1 ) data_values 0)) (data_values)) )
+  **  (IntArray.full key_pre n (replace_Znth (0) ((Znth (n - 1 ) key_values 0)) (key_values)) )
+  **  (IntArray.full pos_pre data_bound_pre (replace_Znth ((Znth (n - 1 ) data_values 0)) (0) (pos_values)) )
+  **  ((size_pre) # Int  |-> (n - 1 ))
   **  (IntArray.undef_seg key_pre n capacity )
   **  (IntArray.undef_seg data_pre n capacity )
-  **  ((data_out_pre) # Int  |-> result_data)
-  **  ((key_out_pre) # Int  |-> result_key)
-|--
-  EX (key_values: (@list Z))  (pos_values: (@list Z))  (data_values: (@list Z))  (popped: (Z * Z)) ,
-  “ (1 < n) ” 
-  &&  “ (0 < (n - 1 )) ” 
-  &&  “ ((n - 1 ) <= capacity) ” 
-  &&  “ (capacity <= heap_capacity) ” 
-  &&  “ (result_key = (item_key (popped))) ” 
-  &&  “ (result_data = (item_data (popped))) ” 
-  &&  “ (partial_map_minimum M_before popped ) ” 
-  &&  “ (0 <= (Znth 0 data_values 0)) ” 
-  &&  “ ((Znth 0 data_values 0) < data_bound_pre) ” 
-  &&  “ (SiftDownState (partial_map_remove (M_before) ((item_data (popped)))) key_values data_values pos_values data_bound_pre (n - 1 ) 0 ) ”
-  &&  ((size_pre) # Int  |-> n)
-  **  (IntArray.full key_pre (n - 1 ) key_values )
-  **  (IntArray.undef_seg key_pre (n - 1 ) capacity )
-  **  (IntArray.full data_pre (n - 1 ) data_values )
-  **  (IntArray.undef_seg data_pre (n - 1 ) capacity )
-  **  (IntArray.full pos_pre data_bound_pre pos_values )
-  **  ((data_out_pre) # Int  |-> result_data)
-  **  ((key_out_pre) # Int  |-> result_key)
-) \/
-(
-forall (data_bound_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (popped_2: (Z * Z)) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (result_key: Z) (result_data: Z) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped_2)))) (PreH6 : (result_data = (item_data (popped_2)))) (PreH7 : (0 <= (n - 1 ))) (PreH8 : ((n - 1 ) < n)) (PreH9 : (0 <= (Znth (n - 1 ) data_values_2 0))) (PreH10 : ((Znth (n - 1 ) data_values_2 0) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values_2 data_values_2 pos_values_2 data_bound_pre n popped_2 )) ,
-  (IntArray.full data_pre n (replace_Znth (0) ((Znth (n - 1 ) data_values_2 0)) (data_values_2)) )
-  **  (IntArray.full key_pre n (replace_Znth (0) ((Znth (n - 1 ) key_values_2 0)) (key_values_2)) )
-  **  (IntArray.undef_seg key_pre n capacity )
-  **  (IntArray.undef_seg data_pre n capacity )
-|--
-  EX (key_values: (@list Z))  (data_values: (@list Z))  (popped: (Z * Z)) ,
-  “ (1 < n) ” 
-  &&  “ (0 < (n - 1 )) ” 
-  &&  “ ((n - 1 ) <= capacity) ” 
-  &&  “ (capacity <= heap_capacity) ” 
-  &&  “ (result_key = (item_key (popped))) ” 
-  &&  “ (result_data = (item_data (popped))) ” 
-  &&  “ (partial_map_minimum M_before popped ) ” 
-  &&  “ (0 <= (Znth 0 data_values 0)) ” 
-  &&  “ ((Znth 0 data_values 0) < data_bound_pre) ” 
-  &&  “ (SiftDownState (partial_map_remove (M_before) ((item_data (popped)))) key_values data_values (replace_Znth ((Znth (n - 1 ) data_values_2 0)) (0) (pos_values_2)) data_bound_pre (n - 1 ) 0 ) ”
-  &&  (IntArray.full key_pre (n - 1 ) key_values )
-  **  (IntArray.undef_seg key_pre (n - 1 ) capacity )
-  **  (IntArray.full data_pre (n - 1 ) data_values )
-  **  (IntArray.undef_seg data_pre (n - 1 ) capacity )
-).
-
-Definition pqdk_pop_entail_wit_6 := 
-(
-forall (key_out_pre: Z) (data_out_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (popped_2: (Z * Z)) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (result_key: Z) (result_data: Z) (PreH1 : (1 < n)) (PreH2 : (0 < (n - 1 ))) (PreH3 : ((n - 1 ) <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped_2)))) (PreH6 : (result_data = (item_data (popped_2)))) (PreH7 : (partial_map_minimum M_before popped_2 )) (PreH8 : (0 <= (Znth 0 data_values_2 0))) (PreH9 : ((Znth 0 data_values_2 0) < data_bound_pre)) (PreH10 : (SiftDownState (partial_map_remove (M_before) ((item_data (popped_2)))) key_values_2 data_values_2 pos_values_2 data_bound_pre (n - 1 ) 0 )) ,
-  ((size_pre) # Int  |-> (n - 1 ))
-  **  (IntArray.full key_pre (n - 1 ) key_values_2 )
-  **  (IntArray.undef_seg key_pre (n - 1 ) capacity )
-  **  (IntArray.full data_pre (n - 1 ) data_values_2 )
-  **  (IntArray.undef_seg data_pre (n - 1 ) capacity )
-  **  (IntArray.full pos_pre data_bound_pre pos_values_2 )
-  **  ((data_out_pre) # Int  |-> result_data)
-  **  ((key_out_pre) # Int  |-> result_key)
-|--
-  EX (key_values: (@list Z))  (pos_values: (@list Z))  (data_values: (@list Z))  (popped: (Z * Z)) ,
-  “ (1 < n) ” 
-  &&  “ (0 < (n - 1 )) ” 
-  &&  “ ((n - 1 ) <= capacity) ” 
-  &&  “ (capacity <= heap_capacity) ” 
-  &&  “ (result_key = (item_key (popped))) ” 
-  &&  “ (result_data = (item_data (popped))) ” 
-  &&  “ (partial_map_minimum M_before popped ) ” 
-  &&  “ (0 <= (Znth 0 data_values 0)) ” 
-  &&  “ ((Znth 0 data_values 0) < data_bound_pre) ” 
-  &&  “ (SiftDownState (partial_map_remove (M_before) ((item_data (popped)))) key_values data_values pos_values data_bound_pre (n - 1 ) 0 ) ”
-  &&  ((size_pre) # Int  |-> (n - 1 ))
-  **  (IntArray.full key_pre (n - 1 ) key_values )
-  **  (IntArray.undef_seg key_pre (n - 1 ) capacity )
-  **  (IntArray.full data_pre (n - 1 ) data_values )
-  **  (IntArray.undef_seg data_pre (n - 1 ) capacity )
-  **  (IntArray.full pos_pre data_bound_pre pos_values )
-  **  ((data_out_pre) # Int  |-> result_data)
-  **  ((key_out_pre) # Int  |-> result_key)
-) \/
-(
-forall (data_bound_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (popped_2: (Z * Z)) (key_values_2: (@list Z)) (data_values_2: (@list Z)) (pos_values_2: (@list Z)) (result_key: Z) (result_data: Z) (PreH1 : (1 < n)) (PreH2 : (0 < (n - 1 ))) (PreH3 : ((n - 1 ) <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped_2)))) (PreH6 : (result_data = (item_data (popped_2)))) (PreH7 : (partial_map_minimum M_before popped_2 )) (PreH8 : (0 <= (Znth 0 data_values_2 0))) (PreH9 : ((Znth 0 data_values_2 0) < data_bound_pre)) (PreH10 : (SiftDownState (partial_map_remove (M_before) ((item_data (popped_2)))) key_values_2 data_values_2 pos_values_2 data_bound_pre (n - 1 ) 0 )) ,
-  TT && emp 
-|--
-  EX (popped: (Z * Z)) ,
-  “ ((item_key (popped_2)) = (item_key (popped))) ” 
-  &&  “ ((item_data (popped_2)) = (item_data (popped))) ” 
-  &&  “ (partial_map_minimum M_before popped ) ” 
-  &&  “ (SiftDownState (partial_map_remove (M_before) ((item_data (popped)))) key_values_2 data_values_2 pos_values_2 data_bound_pre (n - 1 ) 0 ) ”
-  &&  emp
-).
-
-Definition pqdk_pop_entail_wit_7 := 
-(
-forall (key_out_pre: Z) (data_out_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (popped_2: (Z * Z)) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (result_key: Z) (result_data: Z) (PreH1 : (1 < n)) (PreH2 : (0 < (n - 1 ))) (PreH3 : ((n - 1 ) <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped_2)))) (PreH6 : (result_data = (item_data (popped_2)))) (PreH7 : (partial_map_minimum M_before popped_2 )) (PreH8 : (0 <= (Znth 0 data_values 0))) (PreH9 : ((Znth 0 data_values 0) < data_bound_pre)) (PreH10 : (SiftDownState (partial_map_remove (M_before) ((item_data (popped_2)))) key_values data_values pos_values data_bound_pre (n - 1 ) 0 )) ,
-  ((size_pre) # Int  |-> (n - 1 ))
-  **  (IntArray.full key_pre (n - 1 ) key_values )
-  **  (IntArray.undef_seg key_pre (n - 1 ) capacity )
-  **  (IntArray.full data_pre (n - 1 ) data_values )
-  **  (IntArray.undef_seg data_pre (n - 1 ) capacity )
-  **  (IntArray.full pos_pre data_bound_pre pos_values )
   **  ((data_out_pre) # Int  |-> result_data)
   **  ((key_out_pre) # Int  |-> result_key)
 |--
@@ -3938,12 +3583,12 @@ forall (key_out_pre: Z) (data_out_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos
   **  ((key_out_pre) # Int  |-> result_key)
 ) \/
 (
-forall (data_bound_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (popped_2: (Z * Z)) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (result_key: Z) (result_data: Z) (PreH1 : (1 < n)) (PreH2 : (0 < (n - 1 ))) (PreH3 : ((n - 1 ) <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped_2)))) (PreH6 : (result_data = (item_data (popped_2)))) (PreH7 : (partial_map_minimum M_before popped_2 )) (PreH8 : (0 <= (Znth 0 data_values 0))) (PreH9 : ((Znth 0 data_values 0) < data_bound_pre)) (PreH10 : (SiftDownState (partial_map_remove (M_before) ((item_data (popped_2)))) key_values data_values pos_values data_bound_pre (n - 1 ) 0 )) ,
-  (IntArray.full key_pre (n - 1 ) key_values )
-  **  (IntArray.undef_seg key_pre (n - 1 ) capacity )
-  **  (IntArray.full data_pre (n - 1 ) data_values )
-  **  (IntArray.undef_seg data_pre (n - 1 ) capacity )
-  **  (IntArray.full pos_pre data_bound_pre pos_values )
+forall (data_bound_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (popped_2: (Z * Z)) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (result_key: Z) (result_data: Z) (PreH1 : (1 < n)) (PreH2 : (1 <= n)) (PreH3 : (n <= capacity)) (PreH4 : (capacity <= heap_capacity)) (PreH5 : (result_key = (item_key (popped_2)))) (PreH6 : (result_data = (item_data (popped_2)))) (PreH7 : (0 <= (n - 1 ))) (PreH8 : ((n - 1 ) < n)) (PreH9 : (0 <= (Znth (n - 1 ) data_values 0))) (PreH10 : ((Znth (n - 1 ) data_values 0) < data_bound_pre)) (PreH11 : (PopMarkedState M_before key_values data_values pos_values data_bound_pre n popped_2 )) ,
+  (IntArray.full data_pre n (replace_Znth (0) ((Znth (n - 1 ) data_values 0)) (data_values)) )
+  **  (IntArray.full key_pre n (replace_Znth (0) ((Znth (n - 1 ) key_values 0)) (key_values)) )
+  **  (IntArray.full pos_pre data_bound_pre (replace_Znth ((Znth (n - 1 ) data_values 0)) (0) (pos_values)) )
+  **  (IntArray.undef_seg key_pre n capacity )
+  **  (IntArray.undef_seg data_pre n capacity )
 |--
   EX (popped: (Z * Z)) ,
   “ (1 < n) ” 
@@ -3958,9 +3603,13 @@ forall (data_bound_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z)
 
 Definition pqdk_pop_return_wit_1 := 
 (
-forall (key_out_pre: Z) (data_out_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (popped_2: (Z * Z)) (result_key: Z) (result_data: Z) (PreH1 : (n = 1)) (PreH2 : (result_key = (item_key (popped_2)))) (PreH3 : (result_data = (item_data (popped_2)))) (PreH4 : (partial_map_minimum M_before popped_2 )) ,
-  ((size_pre) # Int  |-> 0)
-  **  (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_remove (M_before) ((item_data (popped_2)))) 0 )
+forall (key_out_pre: Z) (data_out_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (result_key: Z) (result_data: Z) (PreH1 : (n = 1)) (PreH2 : (result_key = (Znth 0 key_values 0))) (PreH3 : (result_data = (Znth 0 data_values 0))) (PreH4 : (1 <= n)) (PreH5 : (n <= capacity)) (PreH6 : (capacity <= heap_capacity)) (PreH7 : (0 <= result_data)) (PreH8 : (result_data < data_bound_pre)) (PreH9 : (heap_representation M_before key_values data_values pos_values data_bound_pre n )) ,
+  (IntArray.full pos_pre data_bound_pre (replace_Znth (result_data) ((-1)) (pos_values)) )
+  **  ((size_pre) # Int  |-> 0)
+  **  (IntArray.full key_pre n key_values )
+  **  (IntArray.undef_seg key_pre n capacity )
+  **  (IntArray.full data_pre n data_values )
+  **  (IntArray.undef_seg data_pre n capacity )
   **  ((data_out_pre) # Int  |-> result_data)
   **  ((key_out_pre) # Int  |-> result_key)
 |--
@@ -3974,8 +3623,12 @@ forall (key_out_pre: Z) (data_out_pre: Z) (data_bound_pre: Z) (size_pre: Z) (pos
   **  (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_remove (M_before) ((item_data (popped)))) (n - 1 ) )
 ) \/
 (
-forall (data_bound_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (popped_2: (Z * Z)) (result_key: Z) (result_data: Z) (PreH1 : (n = 1)) (PreH2 : (result_key = (item_key (popped_2)))) (PreH3 : (result_data = (item_data (popped_2)))) (PreH4 : (partial_map_minimum M_before popped_2 )) ,
-  (store_heap key_pre data_pre pos_pre data_bound_pre capacity (partial_map_remove (M_before) ((item_data (popped_2)))) 0 )
+forall (data_bound_pre: Z) (pos_pre: Z) (data_pre: Z) (key_pre: Z) (capacity: Z) (n: Z) (M_before: partial_map) (key_values: (@list Z)) (data_values: (@list Z)) (pos_values: (@list Z)) (result_key: Z) (result_data: Z) (PreH1 : (n = 1)) (PreH2 : (result_key = (Znth 0 key_values 0))) (PreH3 : (result_data = (Znth 0 data_values 0))) (PreH4 : (1 <= n)) (PreH5 : (n <= capacity)) (PreH6 : (capacity <= heap_capacity)) (PreH7 : (0 <= result_data)) (PreH8 : (result_data < data_bound_pre)) (PreH9 : (heap_representation M_before key_values data_values pos_values data_bound_pre n )) ,
+  (IntArray.full pos_pre data_bound_pre (replace_Znth (result_data) ((-1)) (pos_values)) )
+  **  (IntArray.full key_pre n key_values )
+  **  (IntArray.undef_seg key_pre n capacity )
+  **  (IntArray.full data_pre n data_values )
+  **  (IntArray.undef_seg data_pre n capacity )
 |--
   EX (popped: (Z * Z)) ,
   “ (result_data = (item_data (popped))) ” 
@@ -4349,7 +4002,6 @@ Axiom proof_of_pqdk_sift_up_entail_wit_1 : pqdk_sift_up_entail_wit_1.
 Axiom proof_of_pqdk_sift_up_entail_wit_2 : pqdk_sift_up_entail_wit_2.
 Axiom proof_of_pqdk_sift_up_entail_wit_3 : pqdk_sift_up_entail_wit_3.
 Axiom proof_of_pqdk_sift_up_entail_wit_4 : pqdk_sift_up_entail_wit_4.
-Axiom proof_of_pqdk_sift_up_entail_wit_5 : pqdk_sift_up_entail_wit_5.
 Axiom proof_of_pqdk_sift_up_return_wit_1 : pqdk_sift_up_return_wit_1.
 Axiom proof_of_pqdk_sift_up_return_wit_2 : pqdk_sift_up_return_wit_2.
 Axiom proof_of_pqdk_sift_up_partial_solve_wit_1 : pqdk_sift_up_partial_solve_wit_1.
@@ -4383,7 +4035,6 @@ Axiom proof_of_pqdk_sift_down_entail_wit_3_2 : pqdk_sift_down_entail_wit_3_2.
 Axiom proof_of_pqdk_sift_down_entail_wit_3_3 : pqdk_sift_down_entail_wit_3_3.
 Axiom proof_of_pqdk_sift_down_entail_wit_4 : pqdk_sift_down_entail_wit_4.
 Axiom proof_of_pqdk_sift_down_entail_wit_5 : pqdk_sift_down_entail_wit_5.
-Axiom proof_of_pqdk_sift_down_entail_wit_6 : pqdk_sift_down_entail_wit_6.
 Axiom proof_of_pqdk_sift_down_return_wit_1 : pqdk_sift_down_return_wit_1.
 Axiom proof_of_pqdk_sift_down_return_wit_2 : pqdk_sift_down_return_wit_2.
 Axiom proof_of_pqdk_sift_down_partial_solve_wit_1 : pqdk_sift_down_partial_solve_wit_1.
@@ -4408,7 +4059,6 @@ Axiom proof_of_pqdk_push_safety_wit_3 : pqdk_push_safety_wit_3.
 Axiom proof_of_pqdk_push_safety_wit_4 : pqdk_push_safety_wit_4.
 Axiom proof_of_pqdk_push_entail_wit_1 : pqdk_push_entail_wit_1.
 Axiom proof_of_pqdk_push_entail_wit_2 : pqdk_push_entail_wit_2.
-Axiom proof_of_pqdk_push_entail_wit_3 : pqdk_push_entail_wit_3.
 Axiom proof_of_pqdk_push_return_wit_1 : pqdk_push_return_wit_1.
 Axiom proof_of_pqdk_push_partial_solve_wit_1 : pqdk_push_partial_solve_wit_1.
 Axiom proof_of_pqdk_push_partial_solve_wit_2 : pqdk_push_partial_solve_wit_2.
@@ -4418,7 +4068,6 @@ Axiom proof_of_pqdk_push_partial_solve_wit_4 : pqdk_push_partial_solve_wit_4.
 Axiom proof_of_pqdk_decrease_key_entail_wit_1 : pqdk_decrease_key_entail_wit_1.
 Axiom proof_of_pqdk_decrease_key_entail_wit_2 : pqdk_decrease_key_entail_wit_2.
 Axiom proof_of_pqdk_decrease_key_entail_wit_3 : pqdk_decrease_key_entail_wit_3.
-Axiom proof_of_pqdk_decrease_key_entail_wit_4 : pqdk_decrease_key_entail_wit_4.
 Axiom proof_of_pqdk_decrease_key_return_wit_1 : pqdk_decrease_key_return_wit_1.
 Axiom proof_of_pqdk_decrease_key_partial_solve_wit_1 : pqdk_decrease_key_partial_solve_wit_1.
 Axiom proof_of_pqdk_decrease_key_partial_solve_wit_2 : pqdk_decrease_key_partial_solve_wit_2.
@@ -4460,9 +4109,6 @@ Axiom proof_of_pqdk_pop_entail_wit_1 : pqdk_pop_entail_wit_1.
 Axiom proof_of_pqdk_pop_entail_wit_2 : pqdk_pop_entail_wit_2.
 Axiom proof_of_pqdk_pop_entail_wit_3 : pqdk_pop_entail_wit_3.
 Axiom proof_of_pqdk_pop_entail_wit_4 : pqdk_pop_entail_wit_4.
-Axiom proof_of_pqdk_pop_entail_wit_5 : pqdk_pop_entail_wit_5.
-Axiom proof_of_pqdk_pop_entail_wit_6 : pqdk_pop_entail_wit_6.
-Axiom proof_of_pqdk_pop_entail_wit_7 : pqdk_pop_entail_wit_7.
 Axiom proof_of_pqdk_pop_return_wit_1 : pqdk_pop_return_wit_1.
 Axiom proof_of_pqdk_pop_return_wit_2 : pqdk_pop_return_wit_2.
 Axiom proof_of_pqdk_pop_partial_solve_wit_1 : pqdk_pop_partial_solve_wit_1.

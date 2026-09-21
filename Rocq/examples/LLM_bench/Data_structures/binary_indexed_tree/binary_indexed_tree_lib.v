@@ -1,6 +1,7 @@
 From Coq Require Import ZArith List Lia.
 Require Import Coq.ZArith.Zbitwise.
 Require Import AUXLib.ListLib.
+Require Import SumLib.ZRange.
 
 Import ListNotations.
 Local Open Scope Z_scope.
@@ -38,15 +39,6 @@ Definition FenwickRep
     1 <= i <= n ->
     Znth i bit 0 = FenwickNodeSum a i.
 
-(** This implementation uses signed [int].  Requiring every closed
-    subinterval of [a[1..n]] to fit makes every Fenwick node and every
-    partial accumulator used by [query] representable. *)
-Definition FenwickIntervalsIntSafe (a : list Z) (n : Z) : Prop :=
-  forall lo hi,
-    1 <= lo <= hi ->
-    hi <= n ->
-    -2147483648 <= sum (sublist lo (hi + 1) a) <= 2147483647.
-
 Definition FenwickCovers (node target : Z) : Prop :=
   FenwickNodeLo node <= target <= node.
 
@@ -54,17 +46,73 @@ Definition FenwickCovers (node target : Z) : Prop :=
     index: covering nodes already below [cursor] have received [delta], and
     every other node is still equal to the entry tree.  If [cursor] is live,
     it is itself the next covering node. *)
+Definition FenwickUpdated (node target cursor : Z) : bool :=
+  andb (andb (FenwickNodeLo node <=? target) (target <=? node))
+       (node <? cursor).
+
 Definition FenwickAddProgress
     (entry current : list Z) (n target cursor delta : Z) : Prop :=
   Zlength current = Zlength entry /\
   Znth 0 current 0 = Znth 0 entry 0 /\
   (cursor <= n -> FenwickCovers cursor target) /\
-  forall node,
-    1 <= node <= n ->
+  Forall2 (fun after before => after = before + delta)
+    (map (fun node => Znth node current 0)
+      (filter (fun node => FenwickUpdated node target cursor) (Zrange 1 (n + 1))))
+    (map (fun node => Znth node entry 0)
+      (filter (fun node => FenwickUpdated node target cursor) (Zrange 1 (n + 1)))) /\
+  Forall2 eq
+    (map (fun node => Znth node current 0)
+      (filter (fun node => negb (FenwickUpdated node target cursor)) (Zrange 1 (n + 1))))
+    (map (fun node => Znth node entry 0)
+      (filter (fun node => negb (FenwickUpdated node target cursor)) (Zrange 1 (n + 1)))).
+
+(** An unconditional bridge preserves the original indexed proof interface.
+    Both projections enumerate precisely the same mathematical node domain. *)
+Lemma Fenwick_Forall2_filtered {A B : Type} (R : A -> B -> Prop)
+    (f : Z -> A) (g : Z -> B) (keep : Z -> bool) lo hi :
+  Forall2 R (map f (filter keep (Zrange lo hi)))
+    (map g (filter keep (Zrange lo hi))) <->
+  forall node, lo <= node < hi -> keep node = true -> R (f node) (g node).
+Proof.
+  assert (Hmap : forall xs, Forall2 R (map f xs) (map g xs) <->
+    Forall (fun node => R (f node) (g node)) xs).
+  { induction xs as [|x xs IH]; cbn.
+    - split; intros; constructor.
+    - split; intro H; inversion H; subst; constructor; try assumption;
+      apply IH; assumption. }
+  rewrite Hmap, Forall_forall. split; intros H node Hnode.
+  - intro Hkeep. apply H. apply filter_In. split; [apply In_Zrange|]; assumption.
+  - apply filter_In in Hnode. destruct Hnode as [Hnode Hkeep].
+    apply H; [apply In_Zrange|]; assumption.
+Qed.
+
+Lemma FenwickAddProgress_unfold entry current n target cursor delta :
+  FenwickAddProgress entry current n target cursor delta <->
+  Zlength current = Zlength entry /\
+  Znth 0 current 0 = Znth 0 entry 0 /\
+  (cursor <= n -> FenwickCovers cursor target) /\
+  forall node, 1 <= node <= n ->
     ((FenwickCovers node target /\ node < cursor) ->
        Znth node current 0 = Znth node entry 0 + delta) /\
     ((~ FenwickCovers node target \/ cursor <= node) ->
        Znth node current 0 = Znth node entry 0).
+Proof.
+  unfold FenwickAddProgress, FenwickUpdated.
+  rewrite !Fenwick_Forall2_filtered. cbn beta.
+  setoid_rewrite Bool.negb_true_iff.
+  repeat setoid_rewrite Bool.andb_true_iff.
+  repeat setoid_rewrite Bool.andb_false_iff.
+  setoid_rewrite Z.leb_le. setoid_rewrite Z.leb_gt.
+  setoid_rewrite Z.ltb_lt. setoid_rewrite Z.ltb_ge.
+  repeat apply and_iff_compat_l.
+  split.
+  - intros [Hupdated Hunchanged] node Hnode. split; intro Hcondition.
+    + apply Hupdated; [lia | unfold FenwickCovers in Hcondition; tauto].
+    + apply Hunchanged; [lia | unfold FenwickCovers in Hcondition; lia].
+  - intros H. split; intros node Hnode Hcondition.
+    + apply (proj1 (H node ltac:(lia))). unfold FenwickCovers; tauto.
+    + apply (proj2 (H node ltac:(lia))). unfold FenwickCovers; lia.
+Qed.
 
 (** Internal state of [query].  The accumulator contains the disjoint
     closed node intervals already removed from the original closed prefix;
@@ -489,7 +537,8 @@ Qed.
 Lemma Fenwick_query_step_int_safe__query_step :
   forall a bit n target cursor accumulator,
     FenwickRep a bit n ->
-    FenwickIntervalsIntSafe a n ->
+    (forall lo hi, 1 <= lo <= hi /\ hi <= n ->
+       -2147483648 <= sum (sublist lo (hi + 1) a) <= 2147483647) ->
     0 < cursor ->
     cursor <= target ->
     target <= n ->
@@ -526,8 +575,7 @@ Proof.
     unfold FenwickQueryState in Hstate.
     lia.
   }
-  unfold FenwickIntervalsIntSafe in Hsafe.
   specialize
-    (Hsafe (cursor - FenwickLowbit cursor + 1) target ltac:(lia) ltac:(lia)).
+    (Hsafe (cursor - FenwickLowbit cursor + 1) target ltac:(lia)).
   lia.
 Qed.

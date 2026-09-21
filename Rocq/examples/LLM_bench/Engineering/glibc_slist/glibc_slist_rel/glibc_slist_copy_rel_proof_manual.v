@@ -90,13 +90,13 @@ Proof.
         exact PreH6. }
     + simpl; congruence.
 Qed. 
-Lemma proof_of_glibc_slist_clean_copy_entail_wit_4 : glibc_slist_clean_copy_entail_wit_4.
+Lemma proof_of_glibc_slist_clean_copy_entail_wit_3 : glibc_slist_clean_copy_entail_wit_3.
 Proof.
   LLM_pre_process ltac:(int_auto).
   subst_eqs.
   Exists (lprefix +:: v).
   Exists lrest.
-  Exists ldst.
+  Exists l3_2.
   split_pure_spatial.
   - sep_apply_left (sllseg_len1 node v y PreH2).
     sep_apply_left (sllseg_sllseg src_pre node y lprefix (v :: nil)).

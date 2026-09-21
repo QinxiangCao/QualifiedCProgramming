@@ -21,11 +21,11 @@ Agent 编写的 function spec、必要 predicate、C body annotation、case-lib 
 - 当前 agent_input.md；
 - problem context；
 - 目标 C；
-- canonical formal_case_lib；
+- 存在时的 canonical formal_case_lib；
 - 当前 generated manual；
 - annotation_plan.json。
 
-Retry 还读取 failed_vcs 的 source attempt、VC name/parent、annotation location、sealed manual 和 old gap，以及 handoff 列出的原始 blocker。
+Retry 还读取 failed_vcs 的 source attempt、VC name/parent、annotation location、historical manual 和 old gap，以及 handoff 列出的原始 blocker。
 
 只写：
 
@@ -34,7 +34,7 @@ Retry 还读取 failed_vcs 的 source attempt、VC name/parent、annotation loca
 - 当前 attempt 的 annotation_plan.json、agent_output.md 和 agent_report.json；
 - 由 handoff 中 symexec 命令统一刷新的 generated files。
 
-不改普通 C 代码、proof manual、controller state、group 文件、公共库或其他 case。不写 proof，不增加 Admitted、Axiom 或禁用 lemma。formal_case_lib policy 为 absent 时保持候选路径不存在。
+不改普通 C 代码、proof manual、controller state、group 文件、公共库或其他 case。不证明 manual VC；case-lib lemma 必须完整证明，不增加 Admitted、Axiom 或禁用 lemma。formal_case_lib policy 为 absent 时保持候选路径不存在。
 
 ## 2. 从题意生成 spec
 
@@ -72,7 +72,7 @@ Spec 的来源是题目描述、输入格式、输出格式和用于消除歧义
 - 总有定义的单步操作：apply_op 与 fold；
 - 关系式单步操作：关系组合。
 
-数值使用 Z。有顺序的对象使用 list；无顺序的选择使用集合谓词。逐元素条件优先使用 Forall；需要位置或对应关系时使用 Znth 或 Forall2。
+逻辑整数、长度和下标使用 Z 与 Z-indexed list 接口。有顺序的对象使用 list；无顺序的选择使用集合谓词。与下标无关的逐元素条件使用 Forall；两表对应关系使用 Forall2，真正依赖位置的条件保留 guarded indexed quantification。详细语义边界与指定库复用要求见[知识规则](../docs/spec-and-contract-knowledge.md)。
 
 最后映射到 C：
 
@@ -169,7 +169,7 @@ function_specs 对每个已写 C spec 的函数记录一句含义。loop_invaria
 2. symexec；
 3. policy 为 present/create 时运行 coq-check --target-kind formal-case-lib。
 
-根据第一个失败 VC 修改对应的 spec、invariant、资源或 lemma，再重跑。Generated files 只由 symexec 更新。
+命令以 handoff 的 argv/cwd 为准。按实际诊断修正对应的 spec、invariant、资源或 lemma，再决定是否重跑。工具错误没有次数门禁，也不会因重复失败自动换轮。Generated files 只由 symexec 更新；每次 symexec 在独立目录生成一次，完整成功后发布。
 
 首次 attempt 的 vc_comparisons 为空。Retry 对每个 failed VC 记录：
 
@@ -185,7 +185,7 @@ function_specs 对每个已写 C spec 的函数记录一句含义。loop_invaria
       "result": "resolved"
     }
 
-直接读取 sealed old manual 和 current manual，比较命题的 conclusion、pure premises、spatial resources、existential 和 witness。旧 VC 改名或拆分时，current 列出承担原责任的全部 VC。名称消失本身不表示缺口已经解决。
+直接读取 historical manual 和 current manual，比较命题的 conclusion、pure premises、spatial resources、existential 和 witness。旧 VC 改名或拆分时，current 列出承担原责任的全部 VC。名称消失本身不表示缺口已经解决。
 
 result 为 unresolved 时继续在当前 attempt 修改。所有 failed VC 都为 resolved 后再把 plan 设为 ready。
 
@@ -195,6 +195,10 @@ agent_output.md 简短记录本轮修改和 VC comparison。成功的 agent_repo
 
     {"status": "completed"}
 
-用户 spec 修改方案只写 agent_output.md，不写 terminal report。Tool blocker 和 workflow 要求的结构化 blocker 使用 handoff 给出的字段。
+用户 spec 修改方案只写 agent_output.md，不写 terminal report。明确的工具或环境 blocker 可写 `status: blocked`，并仅增加 `blocker`：字段严格为 `failure_class`、`kind`、`vcs`、`message`、`repair_boundary`。基础设施问题使用 `failure_class: infrastructure` 与空 `vcs`，其余文字字段给出具体诊断和修复边界。Annotation/spec 缺口继续在当前 attempt 修复，不能用工具 blocker 代替。
 
-写 terminal report 后停止修改，通知 main 执行原 finalize_invocation。若返回 report-repair-required，在同一 owner、attempt 中按 message 修正并重跑原 invocation。不要自行 accept、prove、merge、apply 或 final-check。
+写 terminal report 后停止修改，通知 main 执行当前 `finalize_invocation`。`finalize-delivery` 一次完成报告、plan、spec freeze、当前 symexec 输出与 case-lib 检查；成功即接受本 attempt，不再执行独立的 annotation round-check 命令。
+
+若返回 `report-repair-required`，main 派发同 owner 的 append action；重新读取更新后的 handoff，只在当前边界内修复，然后再次停止写入并交付。工具失败由 owner 根据诊断决定原地修复或报告 blocker；不要自行 accept、启动 proving、merge、apply 或 final-check。
+
+Function/loop/predicate 摘要与 contract 语义由 annotation owner 审查。脚本检查 plan 字段形状、VC comparisons 的身份和覆盖，不推测循环数量、predicate 用途或 overflow 条件。历史仅作参考；本次验收使用当前文件。下一步由 controller 根据当前任务状态派发，owner 不维护 state、action 或阶段副本。

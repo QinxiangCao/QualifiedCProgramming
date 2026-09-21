@@ -62,6 +62,24 @@ Proof. Admitted.
 Lemma proof_of_maxSlidingWindow_safety_wit_14 : maxSlidingWindow_safety_wit_14.
 Proof. Admitted. 
 
+Lemma proof_of_maxSlidingWindow_safety_wit_15 : maxSlidingWindow_safety_wit_15.
+Proof. Admitted. 
+
+Lemma proof_of_maxSlidingWindow_safety_wit_16 : maxSlidingWindow_safety_wit_16.
+Proof. Admitted. 
+
+Lemma proof_of_maxSlidingWindow_safety_wit_17 : maxSlidingWindow_safety_wit_17.
+Proof. Admitted. 
+
+Lemma proof_of_maxSlidingWindow_safety_wit_18 : maxSlidingWindow_safety_wit_18.
+Proof. Admitted. 
+
+Lemma proof_of_maxSlidingWindow_entail_wit_10_2 : maxSlidingWindow_entail_wit_10_2.
+Proof. Admitted. 
+
+Lemma proof_of_maxSlidingWindow_entail_wit_11 : maxSlidingWindow_entail_wit_11.
+Proof. Admitted. 
+
 Lemma proof_of_maxSlidingWindow_return_wit_1 : maxSlidingWindow_return_wit_1.
 Proof. Admitted. 
 
@@ -87,5 +105,11 @@ Lemma proof_of_maxSlidingWindow_partial_solve_wit_7 : maxSlidingWindow_partial_s
 Proof. Admitted. 
 
 Lemma proof_of_maxSlidingWindow_partial_solve_wit_8 : maxSlidingWindow_partial_solve_wit_8.
+Proof. Admitted. 
+
+Lemma proof_of_maxSlidingWindow_partial_solve_wit_9 : maxSlidingWindow_partial_solve_wit_9.
+Proof. Admitted. 
+
+Lemma proof_of_maxSlidingWindow_partial_solve_wit_10 : maxSlidingWindow_partial_solve_wit_10.
 Proof. Admitted. 
 

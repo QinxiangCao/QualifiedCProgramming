@@ -1,6 +1,7 @@
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.Bool.Bool.
 Require Import Coq.Strings.String.
+Require Import Coq.Strings.Ascii.
 Require Import Coq.Lists.List.
 Require Import Coq.Classes.RelationClasses.
 Require Import Coq.Classes.Morphisms.
@@ -10,127 +11,160 @@ From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
 Require Import SetsClass.SetsClass. Import SetsNotation.
 From SimpleC.SL Require Import Mem SeparationLogic.
 From SimpleC.EE.LLM_bench.Algorithms.split_array_largest_sum Require Import split_array_largest_sum_goal.
+Require Import AUXLib.MonotonicList.
 Require Import Logic.LogicGenerator.demo932.Interface.
 Local Open Scope Z_scope.
 Local Open Scope sets.
-Local Open Scope string.
+Local Open Scope string_scope.
 Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.split_array_largest_sum.split_array_largest_sum_lib.
 Local Open Scope sac.
 
+Lemma proof_of_check_entail_wit_1_split_goal_1 : check_entail_wit_1_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  change (SplitProgress (@nil Z) cap_pre 1 0). apply split_progress_empty.
+Qed.
+
 Lemma proof_of_check_entail_wit_1 : check_entail_wit_1.
 Proof.
-  LLM_pre_process ltac:(int_auto).
-  split_pure_spatial.
-  - cancel (IntArray.full arr_pre n_pre l).
-  - split_pures.
-    all: dump_pre_spatial; try lia; eauto using prefix_split_state_zero.
+  aggressive_pre_process.
+  Goal_apply proof_of_check_entail_wit_1_split_goal_1.
+Qed.
+
+Lemma proof_of_check_entail_wit_2_1_split_goal_1 : check_entail_wit_2_1_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  match goal with H : Forall (Z.le 0) l |- _ =>
+    pose proof (proj1 (Forall_Znth (Z.le 0) 0 l) H i ltac:(lia)) as Hnonnegative end.
+  rewrite (sublist_snoc_Znth 0 l i) by lia.
+  eapply split_progress_new_segment; try eassumption; try lia.
+  apply split_prefix_nonnegative; assumption || lia.
 Qed.
 
 Lemma proof_of_check_entail_wit_2_1 : check_entail_wit_2_1.
 Proof.
-  LLM_pre_process ltac:(int_auto).
-  split_pure_spatial.
-  - cancel (IntArray.full arr_pre n_pre l).
-  - split_pures.
-    all: dump_pre_spatial; try lia; eauto using prefix_split_state_step_over_cap.
+  aggressive_pre_process.
+  Goal_apply proof_of_check_entail_wit_2_1_split_goal_1.
+Qed.
+
+Lemma proof_of_check_entail_wit_2_2_split_goal_1 : check_entail_wit_2_2_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  match goal with H : Forall (Z.le 0) l |- _ =>
+    pose proof (proj1 (Forall_Znth (Z.le 0) 0 l) H i ltac:(lia)) as Hnonnegative end.
+  rewrite (sublist_snoc_Znth 0 l i) by lia.
+  eapply split_progress_extend; try eassumption; try lia.
+  apply split_prefix_nonnegative; assumption || lia.
+Qed.
+
+Lemma proof_of_check_entail_wit_2_2_split_goal_2 : check_entail_wit_2_2_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  pose proof (proj1 (Forall_Znth _ 0 l) PreH11 i ltac:(lia)). lia.
 Qed.
 
 Lemma proof_of_check_entail_wit_2_2 : check_entail_wit_2_2.
 Proof.
-  LLM_pre_process ltac:(int_auto).
-  split_pure_spatial.
-  - cancel (IntArray.full arr_pre n_pre l).
-  - split_pures.
-    all: dump_pre_spatial; try lia; eauto using prefix_split_state_extend_no_split.
-    + pose proof (PreH11 i ltac:(lia)); lia.
-    + eapply PrefixSplitState_extend; try eassumption; try lia.
-      pose proof (PreH11 i ltac:(lia)); lia.
+  aggressive_pre_process.
+  - Goal_apply proof_of_check_entail_wit_2_2_split_goal_1.
+  - Goal_apply proof_of_check_entail_wit_2_2_split_goal_2.
+Qed.
+
+Lemma proof_of_check_return_wit_1_split_goal_1 : check_return_wit_1_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  match goal with H : SplitProgress (sublist 0 i l) _ _ _ |- _ =>
+    replace i with (Zlength l) in H by lia;
+    rewrite sublist_self in H by reflexivity end.
+  eapply split_progress_infeasible; eassumption || lia.
 Qed.
 
 Lemma proof_of_check_return_wit_1 : check_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(int_auto).
-  split_pure_spatial.
-  - cancel (IntArray.full arr_pre n_pre l).
-  - split_pures.
-    + dump_pre_spatial; lia.
-    + dump_pre_spatial; lia.
-    + dump_pre_spatial; intros Hcontra; lia.
-    + dump_pre_spatial.
-      intros _. unfold CannotSplit.
-      intros cnt' cur' Hstate.
-      assert (Hi_len : i = Zlength l) by lia.
-      subst i.
-      pose proof (PrefixSplitState_unique _ _ _ _ _ _ _ PreH17 Hstate) as [Hcnt _].
-      lia.
+  aggressive_pre_process.
+  Goal_apply proof_of_check_return_wit_1_split_goal_1.
+Qed.
+
+Lemma proof_of_check_return_wit_2_split_goal_1 : check_return_wit_2_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  match goal with H : SplitProgress (sublist 0 i l) _ _ _ |- _ =>
+    replace i with (Zlength l) in H by lia;
+    rewrite sublist_self in H by reflexivity end.
+  eapply split_progress_feasible; eassumption || lia.
 Qed.
 
 Lemma proof_of_check_return_wit_2 : check_return_wit_2.
 Proof.
-  LLM_pre_process ltac:(int_auto).
-  split_pure_spatial.
-  - cancel (IntArray.full arr_pre n_pre l).
-  - split_pures.
-    + dump_pre_spatial; lia.
-    + dump_pre_spatial; lia.
-    + dump_pre_spatial.
-      intros _. unfold CanSplit.
-      exists cnt, cur.
-      split; [replace (Zlength l) with i by lia; exact PreH17 | lia].
-    + dump_pre_spatial; intros Hcontra; lia.
+  aggressive_pre_process.
+  Goal_apply proof_of_check_return_wit_2_split_goal_1.
+Qed.
+
+Lemma proof_of_check_return_wit_3_split_goal_1 : check_return_wit_3_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  apply (proj2 (SplitInfeasible_legacy l m_pre cap_pre ltac:(lia) ltac:(lia) PreH10)).
+  unfold CannotSplit. intros cnt' cur' Hstate.
+  pose proof (PrefixSplitState_items_bound _ _ _ _ _ Hstate i ltac:(lia)). lia.
 Qed.
 
 Lemma proof_of_check_return_wit_3 : check_return_wit_3.
 Proof.
-  LLM_pre_process ltac:(int_auto).
-  split_pure_spatial.
-  - cancel (IntArray.full arr_pre n_pre l).
-  - split_pures.
-    + dump_pre_spatial; lia.
-    + dump_pre_spatial; lia.
-    + dump_pre_spatial; intros Hcontra; lia.
-    + dump_pre_spatial.
-      intros _. unfold CannotSplit.
-      intros cnt' cur' Hstate.
-      pose proof (PrefixSplitState_items_bound _ _ _ _ _ Hstate i) as Hitem.
-      exfalso.
-      specialize (Hitem ltac:(lia)).
-      lia.
+  aggressive_pre_process.
+  Goal_apply proof_of_check_return_wit_3_split_goal_1.
+Qed.
+
+Lemma proof_of_splitArrayLargestSum_safety_wit_3_split_goal_1 : splitArrayLargestSum_safety_wit_3_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  apply dump_spatial_left.
+  assert (0 <= (right-left) ÷ 2) by (apply Z.quot_pos; lia).
+  assert ((right-left) ÷ 2 < right-left) by (apply Z.quot_lt; lia).
+  lia.
+Qed.
+
+Lemma proof_of_splitArrayLargestSum_safety_wit_3_split_goal_2 : splitArrayLargestSum_safety_wit_3_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  apply dump_spatial_left.
+  assert (0 <= (right-left) ÷ 2) by (apply Z.quot_pos; lia).
+  assert ((right-left) ÷ 2 < right-left) by (apply Z.quot_lt; lia).
+  lia.
 Qed.
 
 Lemma proof_of_splitArrayLargestSum_safety_wit_3 : splitArrayLargestSum_safety_wit_3.
 Proof.
-  LLM_pre_process ltac:(int_auto).
-  split_pures.
-  - dump_pre_spatial.
-    assert (Hdiff_nonneg : 0 <= right - left) by lia.
-    assert (Hquot_le : (right - left) ÷ 2 <= right - left) by
-      (apply Z.quot_le_upper_bound; lia).
-    lia.
-  - dump_pre_spatial.
-    assert (Hdiff_nonneg : 0 <= right - left) by lia.
-    assert (Hquot_nonneg : 0 <= (right - left) ÷ 2) by
-      (apply Z.quot_pos; lia).
-    lia.
-Qed. 
+  aggressive_pre_process.
+  - Goal_apply proof_of_splitArrayLargestSum_safety_wit_3_split_goal_1.
+  - Goal_apply proof_of_splitArrayLargestSum_safety_wit_3_split_goal_2.
+Qed.
+
+Lemma proof_of_splitArrayLargestSum_safety_wit_7_split_goal_1 : splitArrayLargestSum_safety_wit_7_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  apply dump_spatial_left.
+  assert (0 <= (right-left) ÷ 2) by (apply Z.quot_pos; lia).
+  assert ((right-left) ÷ 2 < right-left) by (apply Z.quot_lt; lia).
+  lia.
+Qed.
+
+Lemma proof_of_splitArrayLargestSum_safety_wit_7_split_goal_2 : splitArrayLargestSum_safety_wit_7_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  apply dump_spatial_left.
+  assert (0 <= (right-left) ÷ 2) by (apply Z.quot_pos; lia).
+  assert ((right-left) ÷ 2 < right-left) by (apply Z.quot_lt; lia).
+  lia.
+Qed.
 
 Lemma proof_of_splitArrayLargestSum_safety_wit_7 : splitArrayLargestSum_safety_wit_7.
 Proof.
-  LLM_pre_process ltac:(int_auto).
-  split_pures.
-  - dump_pre_spatial.
-    assert (Hdiff_nonneg : 0 <= right - left) by lia.
-    assert (Hquot_le : (right - left) ÷ 2 <= right - left) by
-      (apply Z.quot_le_upper_bound; lia).
-    lia.
-  - dump_pre_spatial.
-    assert (Hdiff_nonneg : 0 <= right - left) by lia.
-    assert (Hquot_nonneg : 0 <= (right - left) ÷ 2) by
-      (apply Z.quot_pos; lia).
-    lia.
-Qed. 
+  aggressive_pre_process.
+  - Goal_apply proof_of_splitArrayLargestSum_safety_wit_7_split_goal_1.
+  - Goal_apply proof_of_splitArrayLargestSum_safety_wit_7_split_goal_2.
+Qed.
 
 Lemma proof_of_splitArrayLargestSum_entail_wit_1 : splitArrayLargestSum_entail_wit_1.
 Proof.
@@ -143,79 +177,69 @@ Qed.
 
 Lemma proof_of_splitArrayLargestSum_entail_wit_2_1 : splitArrayLargestSum_entail_wit_2_1.
 Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists res_2.
-  split_pure_spatial.
+  LLM_pre_process ltac:(lia || int_auto).
+  assert (Hq0 : 0 <= (right-left) ÷ 2) by (apply Z.quot_pos; lia).
+  assert (Hqlt : (right-left) ÷ 2 < right-left) by (apply Z.quot_lt; lia).
+  assert (Hbound : res_2 <= left + (right-left) ÷ 2).
+  { match goal with H : _ -> SplitFeasible _ _ _ |- _ =>
+      specialize (H ltac:(lia)); destruct H as [v [Hp Hv]] end.
+    match goal with H : MinimizedMaxSegmentSum _ _ _ |- _ =>
+      pose proof (minimized_lower_bound _ _ _ _ H Hp) end. lia. }
+  Exists res_2. split_pure_spatial.
   - cancel.
-  - split_pures.
-    all: dump_pre_spatial; try lia; try assumption.
-    + destruct (mid_quot_bounds left right PreH12 PreH5 PreH13) as [_ Hmid_upper].
-      exact Hmid_upper.
-    + assert (Hq_nonneg : 0 <= (right - left) ÷ 2) by (apply Z.quot_pos; lia).
-      pose proof (Zplus_le_compat_l _ _ left Hq_nonneg) as Hleft_mid.
-      replace (left + 0) with left in Hleft_mid by ring.
-      exact Hleft_mid.
-    + assert (Hcan_mid :
-        CanSplit l m_pre (left + (right - left) ÷ 2)) by
-        (apply PreH3; lia).
-      pose proof (minmax_can_lower_bound
-        l m_pre res_2 (left + (right - left) ÷ 2)) as Hcannot_bound.
-      specialize (Hcannot_bound ltac:(rewrite PreH10; lia)).
-      specialize (Hcannot_bound ltac:(intros k Hk; pose proof (PreH11 k ltac:(lia)); lia)).
-      specialize (Hcannot_bound PreH17 Hcan_mid).
-      lia.
-Qed. 
+  - split_pures; dump_pre_spatial; try assumption; lia.
+Qed.
 
 Lemma proof_of_splitArrayLargestSum_entail_wit_2_2 : splitArrayLargestSum_entail_wit_2_2.
 Proof.
-  LLM_pre_process ltac:(int_auto).
-  Exists res_2.
-  split_pure_spatial.
+  LLM_pre_process ltac:(lia || int_auto).
+  assert (Hq0 : 0 <= (right-left) ÷ 2) by (apply Z.quot_pos; lia).
+  assert (Hqlt : (right-left) ÷ 2 < right-left) by (apply Z.quot_lt; lia).
+  assert (Hbound : left + (right-left) ÷ 2 < res_2).
+  { destruct (Z_lt_ge_dec (left + (right-left) ÷ 2) res_2); [assumption |].
+    exfalso. match goal with H : _ -> SplitInfeasible _ _ _ |- _ =>
+      specialize (H ltac:(lia)); apply H end.
+    exists res_2. split; [|lia].
+    eapply minimized_partition_witness; eassumption. }
+  Exists res_2. split_pure_spatial.
   - cancel.
-  - split_pures.
-    all: dump_pre_spatial; try lia; try assumption.
-    + destruct (mid_quot_bounds left right PreH12 PreH5 PreH13) as [Hmid_nonneg _].
-      lia.
-    + assert (Hq_lt : (right - left) ÷ 2 < right - left) by
-        (apply Z.quot_lt; lia).
-      lia.
-    + assert (Hcannot_mid :
-        CannotSplit l m_pre (left + (right - left) ÷ 2)) by
-        (apply PreH4; exact PreH18).
-      pose proof (minmax_cannot_upper_bound
-        l m_pre res_2 (left + (right - left) ÷ 2)) as Hcan_bound.
-      specialize (Hcan_bound ltac:(
-        assert (0 <= (right - left) ÷ 2) by (apply Z.quot_pos; lia);
-        lia)).
-      specialize (Hcan_bound ltac:(intros k Hk; pose proof (PreH11 k ltac:(lia)); lia)).
-      specialize (Hcan_bound PreH17 Hcannot_mid).
-      lia.
-Qed. 
+  - split_pures; dump_pre_spatial; try assumption; lia.
+Qed.
 
-Lemma proof_of_splitArrayLargestSum_partial_solve_wit_1_pure : splitArrayLargestSum_partial_solve_wit_1_pure.
+Lemma proof_of_splitArrayLargestSum_return_wit_1_split_goal_1 : splitArrayLargestSum_return_wit_1_split_goal_1.
 Proof.
-  LLM_pre_process ltac:(int_auto).
-  split_pures; try solve [dump_pre_spatial; auto].
-  - dump_pre_spatial.
-    assert (Hdiff_nonneg : 0 <= right - left) by lia.
-    assert (Hquot_le : (right - left) ÷ 2 <= right - left) by
-      (apply Z.quot_le_upper_bound; lia).
-    lia.
-  - dump_pre_spatial.
-    assert (Hdiff_nonneg : 0 <= right - left) by lia.
-    assert (Hquot_nonneg : 0 <= (right - left) ÷ 2) by
-      (apply Z.quot_pos; lia).
-    lia.
-Qed. 
-
+  LLM_pre_process ltac:(lia || int_auto).
+  replace left with res by lia. assumption.
+Qed.
 
 Lemma proof_of_splitArrayLargestSum_return_wit_1 : splitArrayLargestSum_return_wit_1.
 Proof.
-  LLM_pre_process ltac:(int_auto).
-  split_pure_spatial.
-  - cancel.
-  - dump_pre_spatial.
-    assert (left = res) by lia.
-    subst res. 
-    auto.
+  aggressive_pre_process.
+  Goal_apply proof_of_splitArrayLargestSum_return_wit_1_split_goal_1.
 Qed.
+
+Lemma proof_of_splitArrayLargestSum_partial_solve_wit_1_pure_split_goal_1 : splitArrayLargestSum_partial_solve_wit_1_pure_split_goal_1.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  apply dump_spatial_left.
+  assert (0 <= (right-left) ÷ 2) by (apply Z.quot_pos; lia).
+  assert ((right-left) ÷ 2 < right-left) by (apply Z.quot_lt; lia).
+  lia.
+Qed.
+
+Lemma proof_of_splitArrayLargestSum_partial_solve_wit_1_pure_split_goal_2 : splitArrayLargestSum_partial_solve_wit_1_pure_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  apply dump_spatial_left.
+  assert (0 <= (right-left) ÷ 2) by (apply Z.quot_pos; lia).
+  assert ((right-left) ÷ 2 < right-left) by (apply Z.quot_lt; lia).
+  lia.
+Qed.
+
+Lemma proof_of_splitArrayLargestSum_partial_solve_wit_1_pure : splitArrayLargestSum_partial_solve_wit_1_pure.
+Proof.
+  aggressive_pre_process.
+  - Goal_apply proof_of_splitArrayLargestSum_partial_solve_wit_1_pure_split_goal_1.
+  - Goal_apply proof_of_splitArrayLargestSum_partial_solve_wit_1_pure_split_goal_2.
+Qed.
+

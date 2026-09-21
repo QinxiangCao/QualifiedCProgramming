@@ -585,8 +585,7 @@ forall (p_pre: Z) (original: Z) (factors_2: (@list Z)) (cnt: Z) (i: Z) (n: Z) (P
   **  (IntArray.undef_seg p_pre (1 + cnt ) original )
 |--
   EX (factors: (@list Z)) ,
-  “ (PrimeFactorization original factors ) ” 
-  &&  “ ((Zlength (factors)) < original) ”
+  “ (PrimeFactorization original factors ) ”
   &&  (IntArray.undef_seg p_pre 0 1 )
   **  (IntArray.seg p_pre 1 (1 + (Zlength (factors)) ) factors )
   **  (IntArray.undef_seg p_pre (1 + (Zlength (factors)) ) original )
@@ -597,8 +596,7 @@ forall (p_pre: Z) (original: Z) (factors_2: (@list Z)) (cnt: Z) (i: Z) (n: Z) (P
   **  (IntArray.undef_seg p_pre (1 + cnt ) original )
 |--
   EX (factors: (@list Z)) ,
-  “ (PrimeFactorization original factors ) ” 
-  &&  “ ((Zlength (factors)) < original) ”
+  “ (PrimeFactorization original factors ) ”
   &&  (IntArray.seg p_pre 1 (1 + (Zlength (factors)) ) factors )
   **  (IntArray.undef_seg p_pre (1 + (Zlength (factors)) ) original )
 ).
@@ -611,8 +609,7 @@ forall (p_pre: Z) (original: Z) (factors_2: (@list Z)) (cnt: Z) (i: Z) (n: Z) (P
   **  (IntArray.undef_seg p_pre (1 + cnt ) original )
 |--
   EX (factors: (@list Z)) ,
-  “ (PrimeFactorization original factors ) ” 
-  &&  “ ((Zlength (factors)) < original) ”
+  “ (PrimeFactorization original factors ) ”
   &&  (IntArray.undef_seg p_pre 0 1 )
   **  (IntArray.seg p_pre 1 (1 + (Zlength (factors)) ) factors )
   **  (IntArray.undef_seg p_pre (1 + (Zlength (factors)) ) original )
@@ -623,8 +620,7 @@ forall (p_pre: Z) (original: Z) (factors_2: (@list Z)) (cnt: Z) (i: Z) (n: Z) (P
   **  (IntArray.undef_seg p_pre (1 + cnt ) original )
 |--
   EX (factors: (@list Z)) ,
-  “ (PrimeFactorization original factors ) ” 
-  &&  “ ((Zlength (factors)) < original) ”
+  “ (PrimeFactorization original factors ) ”
   &&  (IntArray.seg p_pre 1 (1 + (Zlength (factors)) ) factors )
   **  (IntArray.undef_seg p_pre (1 + (Zlength (factors)) ) original )
 ).

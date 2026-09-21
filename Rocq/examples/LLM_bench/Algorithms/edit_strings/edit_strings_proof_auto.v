@@ -59,13 +59,7 @@ Proof. Admitted.
 Lemma proof_of_max_edit_string_matches_safety_wit_13 : max_edit_string_matches_safety_wit_13.
 Proof. Admitted. 
 
-Lemma proof_of_max_edit_string_matches_safety_wit_14 : max_edit_string_matches_safety_wit_14.
-Proof. Admitted. 
-
 Lemma proof_of_max_edit_string_matches_safety_wit_15 : max_edit_string_matches_safety_wit_15.
-Proof. Admitted. 
-
-Lemma proof_of_max_edit_string_matches_safety_wit_16 : max_edit_string_matches_safety_wit_16.
 Proof. Admitted. 
 
 Lemma proof_of_max_edit_string_matches_safety_wit_17 : max_edit_string_matches_safety_wit_17.
@@ -95,12 +89,6 @@ Proof. Admitted.
 Lemma proof_of_max_edit_string_matches_safety_wit_25 : max_edit_string_matches_safety_wit_25.
 Proof. Admitted. 
 
-Lemma proof_of_max_edit_string_matches_safety_wit_26 : max_edit_string_matches_safety_wit_26.
-Proof. Admitted. 
-
-Lemma proof_of_max_edit_string_matches_safety_wit_27 : max_edit_string_matches_safety_wit_27.
-Proof. Admitted. 
-
 Lemma proof_of_max_edit_string_matches_safety_wit_28 : max_edit_string_matches_safety_wit_28.
 Proof. Admitted. 
 
@@ -122,13 +110,7 @@ Proof. Admitted.
 Lemma proof_of_max_edit_string_matches_safety_wit_34 : max_edit_string_matches_safety_wit_34.
 Proof. Admitted. 
 
-Lemma proof_of_max_edit_string_matches_safety_wit_35 : max_edit_string_matches_safety_wit_35.
-Proof. Admitted. 
-
 Lemma proof_of_max_edit_string_matches_safety_wit_36 : max_edit_string_matches_safety_wit_36.
-Proof. Admitted. 
-
-Lemma proof_of_max_edit_string_matches_safety_wit_37 : max_edit_string_matches_safety_wit_37.
 Proof. Admitted. 
 
 Lemma proof_of_max_edit_string_matches_safety_wit_38 : max_edit_string_matches_safety_wit_38.
@@ -158,12 +140,6 @@ Proof. Admitted.
 Lemma proof_of_max_edit_string_matches_safety_wit_46 : max_edit_string_matches_safety_wit_46.
 Proof. Admitted. 
 
-Lemma proof_of_max_edit_string_matches_safety_wit_47 : max_edit_string_matches_safety_wit_47.
-Proof. Admitted. 
-
-Lemma proof_of_max_edit_string_matches_safety_wit_48 : max_edit_string_matches_safety_wit_48.
-Proof. Admitted. 
-
 Lemma proof_of_max_edit_string_matches_safety_wit_49 : max_edit_string_matches_safety_wit_49.
 Proof. Admitted. 
 
@@ -185,12 +161,6 @@ Proof. Admitted.
 Lemma proof_of_max_edit_string_matches_safety_wit_55 : max_edit_string_matches_safety_wit_55.
 Proof. Admitted. 
 
-Lemma proof_of_max_edit_string_matches_safety_wit_56 : max_edit_string_matches_safety_wit_56.
-Proof. Admitted. 
-
-Lemma proof_of_max_edit_string_matches_safety_wit_57 : max_edit_string_matches_safety_wit_57.
-Proof. Admitted. 
-
 Lemma proof_of_max_edit_string_matches_safety_wit_58 : max_edit_string_matches_safety_wit_58.
 Proof. Admitted. 
 
@@ -207,18 +177,6 @@ Lemma proof_of_max_edit_string_matches_safety_wit_62 : max_edit_string_matches_s
 Proof. Admitted. 
 
 Lemma proof_of_max_edit_string_matches_safety_wit_63 : max_edit_string_matches_safety_wit_63.
-Proof. Admitted. 
-
-Lemma proof_of_max_edit_string_matches_safety_wit_64 : max_edit_string_matches_safety_wit_64.
-Proof. Admitted. 
-
-Lemma proof_of_max_edit_string_matches_safety_wit_65 : max_edit_string_matches_safety_wit_65.
-Proof. Admitted. 
-
-Lemma proof_of_max_edit_string_matches_safety_wit_66 : max_edit_string_matches_safety_wit_66.
-Proof. Admitted. 
-
-Lemma proof_of_max_edit_string_matches_safety_wit_67 : max_edit_string_matches_safety_wit_67.
 Proof. Admitted. 
 
 Lemma proof_of_max_edit_string_matches_safety_wit_68 : max_edit_string_matches_safety_wit_68.
@@ -245,16 +203,25 @@ Proof. Admitted.
 Lemma proof_of_max_edit_string_matches_safety_wit_75 : max_edit_string_matches_safety_wit_75.
 Proof. Admitted. 
 
-Lemma proof_of_max_edit_string_matches_safety_wit_76 : max_edit_string_matches_safety_wit_76.
+Lemma proof_of_max_edit_string_matches_safety_wit_84 : max_edit_string_matches_safety_wit_84.
 Proof. Admitted. 
 
-Lemma proof_of_max_edit_string_matches_safety_wit_77 : max_edit_string_matches_safety_wit_77.
+Lemma proof_of_max_edit_string_matches_safety_wit_85 : max_edit_string_matches_safety_wit_85.
 Proof. Admitted. 
 
-Lemma proof_of_max_edit_string_matches_entail_wit_26 : max_edit_string_matches_entail_wit_26.
+Lemma proof_of_max_edit_string_matches_safety_wit_86 : max_edit_string_matches_safety_wit_86.
 Proof. Admitted. 
 
-Lemma proof_of_max_edit_string_matches_entail_wit_28 : max_edit_string_matches_entail_wit_28.
+Lemma proof_of_max_edit_string_matches_safety_wit_87 : max_edit_string_matches_safety_wit_87.
+Proof. Admitted. 
+
+Lemma proof_of_max_edit_string_matches_safety_wit_88 : max_edit_string_matches_safety_wit_88.
+Proof. Admitted. 
+
+Lemma proof_of_max_edit_string_matches_safety_wit_89 : max_edit_string_matches_safety_wit_89.
+Proof. Admitted. 
+
+Lemma proof_of_max_edit_string_matches_safety_wit_90 : max_edit_string_matches_safety_wit_90.
 Proof. Admitted. 
 
 Lemma proof_of_max_edit_string_matches_return_wit_1 : max_edit_string_matches_return_wit_1.
@@ -468,5 +435,47 @@ Lemma proof_of_max_edit_string_matches_partial_solve_wit_69 : max_edit_string_ma
 Proof. Admitted. 
 
 Lemma proof_of_max_edit_string_matches_partial_solve_wit_70 : max_edit_string_matches_partial_solve_wit_70.
+Proof. Admitted. 
+
+Lemma proof_of_max_edit_string_matches_partial_solve_wit_71 : max_edit_string_matches_partial_solve_wit_71.
+Proof. Admitted. 
+
+Lemma proof_of_max_edit_string_matches_partial_solve_wit_72 : max_edit_string_matches_partial_solve_wit_72.
+Proof. Admitted. 
+
+Lemma proof_of_max_edit_string_matches_partial_solve_wit_73 : max_edit_string_matches_partial_solve_wit_73.
+Proof. Admitted. 
+
+Lemma proof_of_max_edit_string_matches_partial_solve_wit_74 : max_edit_string_matches_partial_solve_wit_74.
+Proof. Admitted. 
+
+Lemma proof_of_max_edit_string_matches_partial_solve_wit_75 : max_edit_string_matches_partial_solve_wit_75.
+Proof. Admitted. 
+
+Lemma proof_of_max_edit_string_matches_partial_solve_wit_76 : max_edit_string_matches_partial_solve_wit_76.
+Proof. Admitted. 
+
+Lemma proof_of_max_edit_string_matches_partial_solve_wit_77 : max_edit_string_matches_partial_solve_wit_77.
+Proof. Admitted. 
+
+Lemma proof_of_max_edit_string_matches_partial_solve_wit_78 : max_edit_string_matches_partial_solve_wit_78.
+Proof. Admitted. 
+
+Lemma proof_of_max_edit_string_matches_partial_solve_wit_79 : max_edit_string_matches_partial_solve_wit_79.
+Proof. Admitted. 
+
+Lemma proof_of_max_edit_string_matches_partial_solve_wit_80 : max_edit_string_matches_partial_solve_wit_80.
+Proof. Admitted. 
+
+Lemma proof_of_max_edit_string_matches_partial_solve_wit_81 : max_edit_string_matches_partial_solve_wit_81.
+Proof. Admitted. 
+
+Lemma proof_of_max_edit_string_matches_partial_solve_wit_82 : max_edit_string_matches_partial_solve_wit_82.
+Proof. Admitted. 
+
+Lemma proof_of_max_edit_string_matches_partial_solve_wit_83 : max_edit_string_matches_partial_solve_wit_83.
+Proof. Admitted. 
+
+Lemma proof_of_max_edit_string_matches_partial_solve_wit_84 : max_edit_string_matches_partial_solve_wit_84.
 Proof. Admitted. 
 

@@ -155,9 +155,6 @@ Proof. Admitted.
 Lemma proof_of_kruskal_safety_wit_12 : kruskal_safety_wit_12.
 Proof. Admitted. 
 
-Lemma proof_of_kruskal_entail_wit_1 : kruskal_entail_wit_1.
-Proof. Admitted. 
-
 Lemma proof_of_kruskal_partial_solve_wit_1_pure : kruskal_partial_solve_wit_1_pure.
 Proof. Admitted. 
 
@@ -197,13 +194,7 @@ Proof. Admitted.
 Lemma proof_of_kruskal_partial_solve_wit_8 : kruskal_partial_solve_wit_8.
 Proof. Admitted. 
 
-Lemma proof_of_kruskal_partial_solve_wit_9_pure : kruskal_partial_solve_wit_9_pure.
-Proof. Admitted. 
-
 Lemma proof_of_kruskal_partial_solve_wit_9 : kruskal_partial_solve_wit_9.
-Proof. Admitted. 
-
-Lemma proof_of_kruskal_partial_solve_wit_10_pure : kruskal_partial_solve_wit_10_pure.
 Proof. Admitted. 
 
 Lemma proof_of_kruskal_partial_solve_wit_10 : kruskal_partial_solve_wit_10.
@@ -228,5 +219,11 @@ Lemma proof_of_kruskal_partial_solve_wit_15 : kruskal_partial_solve_wit_15.
 Proof. Admitted. 
 
 Lemma proof_of_kruskal_partial_solve_wit_16 : kruskal_partial_solve_wit_16.
+Proof. Admitted. 
+
+Lemma proof_of_kruskal_partial_solve_wit_17 : kruskal_partial_solve_wit_17.
+Proof. Admitted. 
+
+Lemma proof_of_kruskal_partial_solve_wit_18 : kruskal_partial_solve_wit_18.
 Proof. Admitted. 
 

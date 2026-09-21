@@ -5,24 +5,25 @@
  *
  *   1 <= n, m, p <= 100000
  *
- * and that p is prime.  For this verification example, all arithmetic used by
- * the program is additionally assumed to stay within the signed int range.
+ * and that p is prime.  Products use long long and are reduced modulo p
+ * before conversion to int, covering the full problem modulus range.
  *
  * Input/output handling is intentionally left to the caller.  The function
  * lucas_theorem is the algorithmic entry point for one test case.
  */
 
 /*@ Extern Coq
+      (Z::min : Z -> Z -> Z)
+      (Z::modulo : Z -> Z -> Z)
       (ModularPower : Z -> Z -> Z -> Z -> Prop)
- */
-/*@ Extern Coq
       (PrimeForLucas : Z -> Prop)
-      (DigitBinomialMachineSafe : Z -> Z -> Z -> Prop)
+      (LucasBinomialCoefficient : Z -> Z -> Z)
       (BinomialDigitResidue : Z -> Z -> Z -> Z -> Prop)
-      (LucasMachineSafe : Z -> Z -> Z -> Prop)
       (LucasBinomialResidue : Z -> Z -> Z -> Z -> Prop)
- */
-/*@ Extern Coq
+      (DigitNumeratorPrefix : Z -> Z -> Z -> Z)
+      (DigitDenominatorPrefix : Z -> Z)
+      (LucasDigit : Z -> Z -> Z -> Z)
+      (LucasPrefixProduct : Z -> Z -> Z -> Z -> Z)
       (DigitProductProgress : Z -> Z -> Z -> Z -> Z -> Z -> Prop)
       (LucasProgress : Z -> Z -> Z -> Z -> Z -> Z -> Prop)
  */
@@ -31,27 +32,18 @@
 int modular_power(int base, int exponent, int modulus)
 /*@ Require
       0 <= base && base < modulus &&
-      0 <= exponent && 2 <= modulus && emp
-    Ensure
-      0 <= __return && __return < modulus &&
-      ModularPower(base, exponent, modulus, __return) && emp
+      0 <= exponent && 2 <= modulus && modulus <= 100000 && emp
+    Ensure ModularPower(base, exponent, modulus, __return) && emp
  */;
 
-/*
- * Compute C(upper, lower) modulo prime, where
- * 0 <= lower <= upper < prime.
- *
- * Because every factor in lower! is nonzero modulo prime, Fermat's little
- * theorem gives lower!^(prime - 2) as its modular inverse.
- */
+/* Compute C(upper, lower) modulo prime, using the symmetric smaller lower. */
 int binomial_digit_mod_prime(int upper, int lower, int prime)
 /*@ Require
       PrimeForLucas(prime) &&
       0 <= lower && lower <= upper && upper < prime &&
       2 <= prime && prime <= 100000 &&
-      DigitBinomialMachineSafe(upper, lower, prime) && emp
+      emp
     Ensure
-      0 <= __return && __return < prime@pre &&
       BinomialDigitResidue(upper@pre, lower@pre, prime@pre, __return) && emp
  */
 {
@@ -68,52 +60,29 @@ int binomial_digit_mod_prime(int upper, int lower, int prime)
 
     /*@ Inv Assert
           upper == upper@pre && prime == prime@pre &&
-          PrimeForLucas(prime@pre) &&
-          0 <= lower@pre && lower@pre <= upper@pre &&
-          upper@pre < prime@pre &&
-          2 <= prime@pre && prime@pre <= 100000 &&
-          ((lower == lower@pre &&
-            lower@pre <= upper@pre - lower@pre) ||
-           (lower == upper@pre - lower@pre &&
-            lower@pre > upper@pre - lower@pre)) &&
-          0 <= lower && lower <= upper@pre - lower &&
+          PrimeForLucas(prime) &&
+          0 <= lower@pre && lower@pre <= upper && upper < prime &&
+          2 <= prime && prime <= 100000 &&
+          lower == Z::min(lower@pre, upper - lower@pre) &&
+          0 <= lower && lower <= upper - lower &&
           1 <= i && i <= lower + 1 &&
-          0 <= numerator && numerator < prime@pre &&
-          0 <= denominator && denominator < prime@pre &&
-          DigitBinomialMachineSafe(upper@pre, lower@pre, prime@pre) &&
-          DigitProductProgress(upper@pre, lower, prime@pre,
+          0 <= numerator && numerator < prime &&
+          0 <= denominator && denominator < prime &&
+          DigitProductProgress(upper, lower, prime,
             i, numerator, denominator) && emp
      */
     for (int i = 1; i <= lower; ++i) {
         int factor = upper - lower + i;
-        int numerator_product = numerator * factor;
-        int denominator_product = denominator * i;
+        long long numerator_product = (long long)numerator * factor;
+        long long denominator_product = (long long)denominator * i;
 
-        numerator = numerator_product % prime;
-        denominator = denominator_product % prime;
+        numerator = (int)(numerator_product % prime);
+        denominator = (int)(denominator_product % prime);
     }
 
-    /*@ Assert
-          upper == upper@pre && prime == prime@pre &&
-          PrimeForLucas(prime@pre) &&
-          0 <= lower@pre && lower@pre <= upper@pre &&
-          upper@pre < prime@pre &&
-          2 <= prime@pre && prime@pre <= 100000 &&
-          ((lower == lower@pre &&
-            lower@pre <= upper@pre - lower@pre) ||
-           (lower == upper@pre - lower@pre &&
-            lower@pre > upper@pre - lower@pre)) &&
-          0 <= lower && lower <= upper@pre - lower &&
-          0 <= numerator && numerator < prime@pre &&
-          0 <= denominator && denominator < prime@pre &&
-          0 <= prime@pre - 2 &&
-          DigitBinomialMachineSafe(upper@pre, lower@pre, prime@pre) &&
-          DigitProductProgress(upper@pre, lower, prime@pre,
-            lower + 1, numerator, denominator) && emp
-     */
     int inverse = modular_power(denominator, prime - 2, prime);
-    int answer = numerator * inverse;
-    return answer % prime;
+    long long answer = (long long)numerator * inverse;
+    return (int)(answer % prime);
 }
 
 int lucas_theorem(int n, int m, int prime)
@@ -122,9 +91,8 @@ int lucas_theorem(int n, int m, int prime)
       1 <= m && m <= 100000 &&
       2 <= prime && prime <= 100000 &&
       PrimeForLucas(prime) &&
-      LucasMachineSafe(n, m, prime) && emp
+      emp
     Ensure
-      0 <= __return && __return < prime@pre &&
       LucasBinomialResidue(n@pre, m@pre, prime@pre, __return) && emp
  */
 {
@@ -134,16 +102,12 @@ int lucas_theorem(int n, int m, int prime)
 
     /*@ Inv Assert
           n == n@pre && m == m@pre && prime == prime@pre &&
-          1 <= n@pre && n@pre <= 100000 &&
-          1 <= m@pre && m@pre <= 100000 &&
-          2 <= prime@pre && prime@pre <= 100000 &&
-          PrimeForLucas(prime@pre) &&
-          LucasMachineSafe(n@pre, m@pre, prime@pre) &&
+          0 <= n && 0 <= m &&
+          2 <= prime && prime <= 100000 &&
+          PrimeForLucas(prime) &&
           0 <= lower && lower <= upper &&
-          upper <= n@pre + m@pre && n@pre + m@pre <= 200000 &&
-          0 <= result && result < prime@pre &&
-          LucasProgress(n@pre + m@pre, n@pre, prime@pre,
-            upper, lower, result) && emp
+          0 <= result && result < prime &&
+          LucasProgress(n + m, n, prime, upper, lower, result) && emp
      */
     while (upper > 0 || lower > 0) {
         int upper_digit = upper % prime;
@@ -153,29 +117,10 @@ int lucas_theorem(int n, int m, int prime)
             return 0;
         }
 
-        /*@ Assert
-              n == n@pre && m == m@pre && prime == prime@pre &&
-              1 <= n@pre && n@pre <= 100000 &&
-              1 <= m@pre && m@pre <= 100000 &&
-              2 <= prime@pre && prime@pre <= 100000 &&
-              PrimeForLucas(prime@pre) &&
-              LucasMachineSafe(n@pre, m@pre, prime@pre) &&
-              0 < upper && 0 <= lower && lower <= upper &&
-              upper <= n@pre + m@pre && n@pre + m@pre <= 200000 &&
-              upper_digit == upper % prime@pre &&
-              lower_digit == lower % prime@pre &&
-              0 <= lower_digit && lower_digit <= upper_digit &&
-              upper_digit < prime@pre &&
-              0 <= result && result < prime@pre &&
-              DigitBinomialMachineSafe(
-                upper_digit, lower_digit, prime@pre) &&
-              LucasProgress(n@pre + m@pre, n@pre, prime@pre,
-                upper, lower, result) && emp
-         */
         int digit_binomial =
             binomial_digit_mod_prime(upper_digit, lower_digit, prime);
-        int product = result * digit_binomial;
-        result = product % prime;
+        long long product = (long long)result * digit_binomial;
+        result = (int)(product % prime);
 
         upper /= prime;
         lower /= prime;

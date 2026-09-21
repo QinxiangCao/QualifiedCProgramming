@@ -22,7 +22,7 @@ Local Open Scope sac.
 (*----- Function check -----*)
 
 Definition check_safety_wit_1 := 
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= n_pre)) (PreH5 : (0 <= cap_pre)) (PreH6 : (cap_pre <= 1000000000)) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= n_pre)) (PreH5 : (0 <= cap_pre)) (PreH6 : (cap_pre <= 1000000000)) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : (Forall (Z.le (0)) l )) (PreH9 : (Forall (Z.gt (100000000)) l )) ,
   ((( &( "cnt" ) )) # Int  |->_)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -35,7 +35,7 @@ forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 : (
 .
 
 Definition check_safety_wit_2 := 
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= n_pre)) (PreH5 : (0 <= cap_pre)) (PreH6 : (cap_pre <= 1000000000)) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= n_pre)) (PreH5 : (0 <= cap_pre)) (PreH6 : (cap_pre <= 1000000000)) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : (Forall (Z.le (0)) l )) (PreH9 : (Forall (Z.gt (100000000)) l )) ,
   ((( &( "cur" ) )) # Int  |->_)
   **  ((( &( "cnt" ) )) # Int  |-> 1)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
@@ -49,7 +49,7 @@ forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 : (
 .
 
 Definition check_safety_wit_3 := 
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= n_pre)) (PreH5 : (0 <= cap_pre)) (PreH6 : (cap_pre <= 1000000000)) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= n_pre)) (PreH5 : (0 <= cap_pre)) (PreH6 : (cap_pre <= 1000000000)) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : (Forall (Z.le (0)) l )) (PreH9 : (Forall (Z.gt (100000000)) l )) ,
   ((( &( "i" ) )) # Int  |->_)
   **  ((( &( "cur" ) )) # Int  |-> 0)
   **  ((( &( "cnt" ) )) # Int  |-> 1)
@@ -64,7 +64,7 @@ forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 : (
 .
 
 Definition check_safety_wit_4 := 
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((Znth i l 0) > cap_pre)) (PreH2 : (i < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH11 : (0 <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (1 <= cnt)) (PreH14 : (cnt <= (i + 1 ))) (PreH15 : (0 <= cur)) (PreH16 : (cur <= cap_pre)) (PreH17 : (PrefixSplitState l cap_pre i cnt cur )) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((Znth i l 0) > cap_pre)) (PreH2 : (i < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : (Forall (Z.le (0)) l )) (PreH11 : (Forall (Z.gt (100000000)) l )) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
   (IntArray.full arr_pre n_pre l )
   **  ((( &( "x" ) )) # Int  |-> (Znth i l 0))
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
@@ -80,7 +80,7 @@ forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (
 .
 
 Definition check_safety_wit_5 := 
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((Znth i l 0) <= cap_pre)) (PreH2 : (i < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH11 : (0 <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (1 <= cnt)) (PreH14 : (cnt <= (i + 1 ))) (PreH15 : (0 <= cur)) (PreH16 : (cur <= cap_pre)) (PreH17 : (PrefixSplitState l cap_pre i cnt cur )) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((Znth i l 0) <= cap_pre)) (PreH2 : (i < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : (Forall (Z.le (0)) l )) (PreH11 : (Forall (Z.gt (100000000)) l )) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
   (IntArray.full arr_pre n_pre l )
   **  ((( &( "x" ) )) # Int  |-> (Znth i l 0))
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
@@ -96,7 +96,7 @@ forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (
 .
 
 Definition check_safety_wit_6 := 
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) > cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (PrefixSplitState l cap_pre i cnt cur )) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) > cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (Forall (Z.le (0)) l )) (PreH12 : (Forall (Z.gt (100000000)) l )) (PreH13 : (0 <= i)) (PreH14 : (i <= n_pre)) (PreH15 : (1 <= cnt)) (PreH16 : (cnt <= (i + 1 ))) (PreH17 : (0 <= cur)) (PreH18 : (cur <= cap_pre)) (PreH19 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
   (IntArray.full arr_pre n_pre l )
   **  ((( &( "x" ) )) # Int  |-> (Znth i l 0))
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
@@ -112,7 +112,7 @@ forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (
 .
 
 Definition check_safety_wit_7 := 
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) > cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (PrefixSplitState l cap_pre i cnt cur )) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) > cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (Forall (Z.le (0)) l )) (PreH12 : (Forall (Z.gt (100000000)) l )) (PreH13 : (0 <= i)) (PreH14 : (i <= n_pre)) (PreH15 : (1 <= cnt)) (PreH16 : (cnt <= (i + 1 ))) (PreH17 : (0 <= cur)) (PreH18 : (cur <= cap_pre)) (PreH19 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
   (IntArray.full arr_pre n_pre l )
   **  ((( &( "x" ) )) # Int  |-> (Znth i l 0))
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
@@ -128,7 +128,7 @@ forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (
 .
 
 Definition check_safety_wit_8 := 
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) <= cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (PrefixSplitState l cap_pre i cnt cur )) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) <= cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (Forall (Z.le (0)) l )) (PreH12 : (Forall (Z.gt (100000000)) l )) (PreH13 : (0 <= i)) (PreH14 : (i <= n_pre)) (PreH15 : (1 <= cnt)) (PreH16 : (cnt <= (i + 1 ))) (PreH17 : (0 <= cur)) (PreH18 : (cur <= cap_pre)) (PreH19 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
   (IntArray.full arr_pre n_pre l )
   **  ((( &( "x" ) )) # Int  |-> (Znth i l 0))
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
@@ -144,7 +144,7 @@ forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (
 .
 
 Definition check_safety_wit_9 := 
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) > cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (PrefixSplitState l cap_pre i cnt cur )) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) > cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (Forall (Z.le (0)) l )) (PreH12 : (Forall (Z.gt (100000000)) l )) (PreH13 : (0 <= i)) (PreH14 : (i <= n_pre)) (PreH15 : (1 <= cnt)) (PreH16 : (cnt <= (i + 1 ))) (PreH17 : (0 <= cur)) (PreH18 : (cur <= cap_pre)) (PreH19 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
   (IntArray.full arr_pre n_pre l )
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -159,7 +159,7 @@ forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (
 .
 
 Definition check_safety_wit_10 := 
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) <= cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (PrefixSplitState l cap_pre i cnt cur )) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) <= cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (Forall (Z.le (0)) l )) (PreH12 : (Forall (Z.gt (100000000)) l )) (PreH13 : (0 <= i)) (PreH14 : (i <= n_pre)) (PreH15 : (1 <= cnt)) (PreH16 : (cnt <= (i + 1 ))) (PreH17 : (0 <= cur)) (PreH18 : (cur <= cap_pre)) (PreH19 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
   (IntArray.full arr_pre n_pre l )
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -174,7 +174,7 @@ forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (
 .
 
 Definition check_safety_wit_11 := 
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : (cnt <= m_pre)) (PreH2 : (i >= n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH11 : (0 <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (1 <= cnt)) (PreH14 : (cnt <= (i + 1 ))) (PreH15 : (0 <= cur)) (PreH16 : (cur <= cap_pre)) (PreH17 : (PrefixSplitState l cap_pre i cnt cur )) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : (cnt <= m_pre)) (PreH2 : (i >= n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : (Forall (Z.le (0)) l )) (PreH11 : (Forall (Z.gt (100000000)) l )) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
   ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
@@ -188,7 +188,7 @@ forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (
 .
 
 Definition check_safety_wit_12 := 
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : (cnt > m_pre)) (PreH2 : (i >= n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH11 : (0 <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (1 <= cnt)) (PreH14 : (cnt <= (i + 1 ))) (PreH15 : (0 <= cur)) (PreH16 : (cur <= cap_pre)) (PreH17 : (PrefixSplitState l cap_pre i cnt cur )) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : (cnt > m_pre)) (PreH2 : (i >= n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : (Forall (Z.le (0)) l )) (PreH11 : (Forall (Z.gt (100000000)) l )) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
   ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "m" ) )) # Int  |-> m_pre)
@@ -203,7 +203,7 @@ forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (
 
 Definition check_entail_wit_1 := 
 (
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= n_pre)) (PreH5 : (0 <= cap_pre)) (PreH6 : (cap_pre <= 1000000000)) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= n_pre)) (PreH5 : (0 <= cap_pre)) (PreH6 : (cap_pre <= 1000000000)) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : (Forall (Z.le (0)) l )) (PreH9 : (Forall (Z.gt (100000000)) l )) ,
   (IntArray.full arr_pre n_pre l )
 |--
   “ (1 <= n_pre) ” 
@@ -213,38 +213,33 @@ forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (PreH1 : (
   &&  “ (0 <= cap_pre) ” 
   &&  “ (cap_pre <= 1000000000) ” 
   &&  “ ((Zlength (l)) = n_pre) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000))) ” 
+  &&  “ (Forall (Z.le (0)) l ) ” 
+  &&  “ (Forall (Z.gt (100000000)) l ) ” 
   &&  “ (0 <= 0) ” 
   &&  “ (0 <= n_pre) ” 
   &&  “ (1 <= 1) ” 
   &&  “ (1 <= (0 + 1 )) ” 
   &&  “ (0 <= 0) ” 
   &&  “ (0 <= cap_pre) ” 
-  &&  “ (PrefixSplitState l cap_pre 0 1 0 ) ”
+  &&  “ (SplitProgress (sublist (0) (0) (l)) cap_pre 1 0 ) ”
   &&  (IntArray.full arr_pre n_pre l )
 ) \/
 (
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= n_pre)) (PreH5 : (0 <= cap_pre)) (PreH6 : (cap_pre <= 1000000000)) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= n_pre)) (PreH5 : (0 <= cap_pre)) (PreH6 : (cap_pre <= 1000000000)) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : (Forall (Z.le (0)) l )) (PreH9 : (Forall (Z.gt (100000000)) l )) ,
   TT && emp 
 |--
-  “ (PrefixSplitState l cap_pre 0 1 0 ) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000))) ”
+  “ (SplitProgress (sublist (0) (0) (l)) cap_pre 1 0 ) ”
   &&  emp
 ).
 
 Definition check_entail_wit_1_split_goal_1 := 
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= n_pre)) (PreH5 : (0 <= cap_pre)) (PreH6 : (cap_pre <= 1000000000)) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) ,
-  (PrefixSplitState l cap_pre 0 1 0 )
-.
-
-Definition check_entail_wit_1_split_goal_2 := 
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= n_pre)) (PreH5 : (0 <= cap_pre)) (PreH6 : (cap_pre <= 1000000000)) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) ,
-  forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= n_pre)) (PreH5 : (0 <= cap_pre)) (PreH6 : (cap_pre <= 1000000000)) (PreH7 : ((Zlength (l)) = n_pre)) (PreH8 : (Forall (Z.le (0)) l )) (PreH9 : (Forall (Z.gt (100000000)) l )) ,
+  (SplitProgress (sublist (0) (0) (l)) cap_pre 1 0 )
 .
 
 Definition check_entail_wit_2_1 := 
 (
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) > cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (PrefixSplitState l cap_pre i cnt cur )) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) > cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (Forall (Z.le (0)) l )) (PreH12 : (Forall (Z.gt (100000000)) l )) (PreH13 : (0 <= i)) (PreH14 : (i <= n_pre)) (PreH15 : (1 <= cnt)) (PreH16 : (cnt <= (i + 1 ))) (PreH17 : (0 <= cur)) (PreH18 : (cur <= cap_pre)) (PreH19 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
   (IntArray.full arr_pre n_pre l )
 |--
   “ (1 <= n_pre) ” 
@@ -254,32 +249,33 @@ forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (
   &&  “ (0 <= cap_pre) ” 
   &&  “ (cap_pre <= 1000000000) ” 
   &&  “ ((Zlength (l)) = n_pre) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000))) ” 
+  &&  “ (Forall (Z.le (0)) l ) ” 
+  &&  “ (Forall (Z.gt (100000000)) l ) ” 
   &&  “ (0 <= (i + 1 )) ” 
   &&  “ ((i + 1 ) <= n_pre) ” 
   &&  “ (1 <= (cnt + 1 )) ” 
   &&  “ ((cnt + 1 ) <= ((i + 1 ) + 1 )) ” 
   &&  “ (0 <= (Znth i l 0)) ” 
   &&  “ ((Znth i l 0) <= cap_pre) ” 
-  &&  “ (PrefixSplitState l cap_pre (i + 1 ) (cnt + 1 ) (Znth i l 0) ) ”
+  &&  “ (SplitProgress (sublist (0) ((i + 1 )) (l)) cap_pre (cnt + 1 ) (Znth i l 0) ) ”
   &&  (IntArray.full arr_pre n_pre l )
 ) \/
 (
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) > cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (PrefixSplitState l cap_pre i cnt cur )) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) > cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (Forall (Z.le (0)) l )) (PreH12 : (Forall (Z.gt (100000000)) l )) (PreH13 : (0 <= i)) (PreH14 : (i <= n_pre)) (PreH15 : (1 <= cnt)) (PreH16 : (cnt <= (i + 1 ))) (PreH17 : (0 <= cur)) (PreH18 : (cur <= cap_pre)) (PreH19 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
   TT && emp 
 |--
-  “ (PrefixSplitState l cap_pre (i + 1 ) (cnt + 1 ) (Znth i l 0) ) ”
+  “ (SplitProgress (sublist (0) ((i + 1 )) (l)) cap_pre (cnt + 1 ) (Znth i l 0) ) ”
   &&  emp
 ).
 
 Definition check_entail_wit_2_1_split_goal_1 := 
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) > cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (PrefixSplitState l cap_pre i cnt cur )) ,
-  (PrefixSplitState l cap_pre (i + 1 ) (cnt + 1 ) (Znth i l 0) )
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) > cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (Forall (Z.le (0)) l )) (PreH12 : (Forall (Z.gt (100000000)) l )) (PreH13 : (0 <= i)) (PreH14 : (i <= n_pre)) (PreH15 : (1 <= cnt)) (PreH16 : (cnt <= (i + 1 ))) (PreH17 : (0 <= cur)) (PreH18 : (cur <= cap_pre)) (PreH19 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
+  (SplitProgress (sublist (0) ((i + 1 )) (l)) cap_pre (cnt + 1 ) (Znth i l 0) )
 .
 
 Definition check_entail_wit_2_2 := 
 (
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) <= cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (PrefixSplitState l cap_pre i cnt cur )) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) <= cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (Forall (Z.le (0)) l )) (PreH12 : (Forall (Z.gt (100000000)) l )) (PreH13 : (0 <= i)) (PreH14 : (i <= n_pre)) (PreH15 : (1 <= cnt)) (PreH16 : (cnt <= (i + 1 ))) (PreH17 : (0 <= cur)) (PreH18 : (cur <= cap_pre)) (PreH19 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
   (IntArray.full arr_pre n_pre l )
 |--
   “ (1 <= n_pre) ” 
@@ -289,103 +285,110 @@ forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (
   &&  “ (0 <= cap_pre) ” 
   &&  “ (cap_pre <= 1000000000) ” 
   &&  “ ((Zlength (l)) = n_pre) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000))) ” 
+  &&  “ (Forall (Z.le (0)) l ) ” 
+  &&  “ (Forall (Z.gt (100000000)) l ) ” 
   &&  “ (0 <= (i + 1 )) ” 
   &&  “ ((i + 1 ) <= n_pre) ” 
   &&  “ (1 <= cnt) ” 
   &&  “ (cnt <= ((i + 1 ) + 1 )) ” 
   &&  “ (0 <= (cur + (Znth i l 0) )) ” 
   &&  “ ((cur + (Znth i l 0) ) <= cap_pre) ” 
-  &&  “ (PrefixSplitState l cap_pre (i + 1 ) cnt (cur + (Znth i l 0) ) ) ”
+  &&  “ (SplitProgress (sublist (0) ((i + 1 )) (l)) cap_pre cnt (cur + (Znth i l 0) ) ) ”
   &&  (IntArray.full arr_pre n_pre l )
 ) \/
 (
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) <= cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (PrefixSplitState l cap_pre i cnt cur )) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) <= cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (Forall (Z.le (0)) l )) (PreH12 : (Forall (Z.gt (100000000)) l )) (PreH13 : (0 <= i)) (PreH14 : (i <= n_pre)) (PreH15 : (1 <= cnt)) (PreH16 : (cnt <= (i + 1 ))) (PreH17 : (0 <= cur)) (PreH18 : (cur <= cap_pre)) (PreH19 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
   TT && emp 
 |--
-  “ (PrefixSplitState l cap_pre (i + 1 ) cnt (cur + (Znth i l 0) ) ) ”
+  “ (SplitProgress (sublist (0) ((i + 1 )) (l)) cap_pre cnt (cur + (Znth i l 0) ) ) ” 
+  &&  “ (0 <= (cur + (Znth i l 0) )) ”
   &&  emp
 ).
 
 Definition check_entail_wit_2_2_split_goal_1 := 
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) <= cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (PrefixSplitState l cap_pre i cnt cur )) ,
-  (PrefixSplitState l cap_pre (i + 1 ) cnt (cur + (Znth i l 0) ) )
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) <= cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (Forall (Z.le (0)) l )) (PreH12 : (Forall (Z.gt (100000000)) l )) (PreH13 : (0 <= i)) (PreH14 : (i <= n_pre)) (PreH15 : (1 <= cnt)) (PreH16 : (cnt <= (i + 1 ))) (PreH17 : (0 <= cur)) (PreH18 : (cur <= cap_pre)) (PreH19 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
+  (SplitProgress (sublist (0) ((i + 1 )) (l)) cap_pre cnt (cur + (Znth i l 0) ) )
+.
+
+Definition check_entail_wit_2_2_split_goal_2 := 
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((cur + (Znth i l 0) ) <= cap_pre)) (PreH2 : ((Znth i l 0) <= cap_pre)) (PreH3 : (i < n_pre)) (PreH4 : (1 <= n_pre)) (PreH5 : (n_pre <= 100000)) (PreH6 : (1 <= m_pre)) (PreH7 : (m_pre <= n_pre)) (PreH8 : (0 <= cap_pre)) (PreH9 : (cap_pre <= 1000000000)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (Forall (Z.le (0)) l )) (PreH12 : (Forall (Z.gt (100000000)) l )) (PreH13 : (0 <= i)) (PreH14 : (i <= n_pre)) (PreH15 : (1 <= cnt)) (PreH16 : (cnt <= (i + 1 ))) (PreH17 : (0 <= cur)) (PreH18 : (cur <= cap_pre)) (PreH19 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
+  (0 <= (cur + (Znth i l 0) ))
 .
 
 Definition check_return_wit_1 := 
 (
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : (cnt > m_pre)) (PreH2 : (i >= n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH11 : (0 <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (1 <= cnt)) (PreH14 : (cnt <= (i + 1 ))) (PreH15 : (0 <= cur)) (PreH16 : (cur <= cap_pre)) (PreH17 : (PrefixSplitState l cap_pre i cnt cur )) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : (cnt > m_pre)) (PreH2 : (i >= n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : (Forall (Z.le (0)) l )) (PreH11 : (Forall (Z.gt (100000000)) l )) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
   (IntArray.full arr_pre n_pre l )
 |--
   “ (0 <= 0) ” 
   &&  “ (0 <= 1) ” 
-  &&  “ ((0 = 1) -> (CanSplit l m_pre cap_pre )) ” 
-  &&  “ ((0 = 0) -> (CannotSplit l m_pre cap_pre )) ”
+  &&  “ ((0 = 1) -> (SplitFeasible l m_pre cap_pre )) ” 
+  &&  “ ((0 = 0) -> (SplitInfeasible l m_pre cap_pre )) ”
   &&  (IntArray.full arr_pre n_pre l )
 ) \/
 (
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : (cnt > m_pre)) (PreH2 : (i >= n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH11 : (0 <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (1 <= cnt)) (PreH14 : (cnt <= (i + 1 ))) (PreH15 : (0 <= cur)) (PreH16 : (cur <= cap_pre)) (PreH17 : (PrefixSplitState l cap_pre i cnt cur )) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : (cnt > m_pre)) (PreH2 : (i >= n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : (Forall (Z.le (0)) l )) (PreH11 : (Forall (Z.gt (100000000)) l )) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
   TT && emp 
 |--
-  “ ((0 = 0) -> (CannotSplit l m_pre cap_pre )) ”
+  “ ((0 = 0) -> (SplitInfeasible l m_pre cap_pre )) ”
   &&  emp
 ).
 
 Definition check_return_wit_1_split_goal_1 := 
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : (cnt > m_pre)) (PreH2 : (i >= n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH11 : (0 <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (1 <= cnt)) (PreH14 : (cnt <= (i + 1 ))) (PreH15 : (0 <= cur)) (PreH16 : (cur <= cap_pre)) (PreH17 : (PrefixSplitState l cap_pre i cnt cur )) ,
-  ((0 = 0) -> (CannotSplit l m_pre cap_pre ))
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : (cnt > m_pre)) (PreH2 : (i >= n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : (Forall (Z.le (0)) l )) (PreH11 : (Forall (Z.gt (100000000)) l )) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
+  ((0 = 0) -> (SplitInfeasible l m_pre cap_pre ))
 .
 
 Definition check_return_wit_2 := 
 (
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : (cnt <= m_pre)) (PreH2 : (i >= n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH11 : (0 <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (1 <= cnt)) (PreH14 : (cnt <= (i + 1 ))) (PreH15 : (0 <= cur)) (PreH16 : (cur <= cap_pre)) (PreH17 : (PrefixSplitState l cap_pre i cnt cur )) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : (cnt <= m_pre)) (PreH2 : (i >= n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : (Forall (Z.le (0)) l )) (PreH11 : (Forall (Z.gt (100000000)) l )) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
   (IntArray.full arr_pre n_pre l )
 |--
   “ (0 <= 1) ” 
   &&  “ (1 <= 1) ” 
-  &&  “ ((1 = 1) -> (CanSplit l m_pre cap_pre )) ” 
-  &&  “ ((1 = 0) -> (CannotSplit l m_pre cap_pre )) ”
+  &&  “ ((1 = 1) -> (SplitFeasible l m_pre cap_pre )) ” 
+  &&  “ ((1 = 0) -> (SplitInfeasible l m_pre cap_pre )) ”
   &&  (IntArray.full arr_pre n_pre l )
 ) \/
 (
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : (cnt <= m_pre)) (PreH2 : (i >= n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH11 : (0 <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (1 <= cnt)) (PreH14 : (cnt <= (i + 1 ))) (PreH15 : (0 <= cur)) (PreH16 : (cur <= cap_pre)) (PreH17 : (PrefixSplitState l cap_pre i cnt cur )) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : (cnt <= m_pre)) (PreH2 : (i >= n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : (Forall (Z.le (0)) l )) (PreH11 : (Forall (Z.gt (100000000)) l )) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
   TT && emp 
 |--
-  “ ((1 = 1) -> (CanSplit l m_pre cap_pre )) ”
+  “ ((1 = 1) -> (SplitFeasible l m_pre cap_pre )) ”
   &&  emp
 ).
 
 Definition check_return_wit_2_split_goal_1 := 
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : (cnt <= m_pre)) (PreH2 : (i >= n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH11 : (0 <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (1 <= cnt)) (PreH14 : (cnt <= (i + 1 ))) (PreH15 : (0 <= cur)) (PreH16 : (cur <= cap_pre)) (PreH17 : (PrefixSplitState l cap_pre i cnt cur )) ,
-  ((1 = 1) -> (CanSplit l m_pre cap_pre ))
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : (cnt <= m_pre)) (PreH2 : (i >= n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : (Forall (Z.le (0)) l )) (PreH11 : (Forall (Z.gt (100000000)) l )) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
+  ((1 = 1) -> (SplitFeasible l m_pre cap_pre ))
 .
 
 Definition check_return_wit_3 := 
 (
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((Znth i l 0) > cap_pre)) (PreH2 : (i < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH11 : (0 <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (1 <= cnt)) (PreH14 : (cnt <= (i + 1 ))) (PreH15 : (0 <= cur)) (PreH16 : (cur <= cap_pre)) (PreH17 : (PrefixSplitState l cap_pre i cnt cur )) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((Znth i l 0) > cap_pre)) (PreH2 : (i < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : (Forall (Z.le (0)) l )) (PreH11 : (Forall (Z.gt (100000000)) l )) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
   (IntArray.full arr_pre n_pre l )
 |--
   “ (0 <= 0) ” 
   &&  “ (0 <= 1) ” 
-  &&  “ ((0 = 1) -> (CanSplit l m_pre cap_pre )) ” 
-  &&  “ ((0 = 0) -> (CannotSplit l m_pre cap_pre )) ”
+  &&  “ ((0 = 1) -> (SplitFeasible l m_pre cap_pre )) ” 
+  &&  “ ((0 = 0) -> (SplitInfeasible l m_pre cap_pre )) ”
   &&  (IntArray.full arr_pre n_pre l )
 ) \/
 (
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((Znth i l 0) > cap_pre)) (PreH2 : (i < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH11 : (0 <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (1 <= cnt)) (PreH14 : (cnt <= (i + 1 ))) (PreH15 : (0 <= cur)) (PreH16 : (cur <= cap_pre)) (PreH17 : (PrefixSplitState l cap_pre i cnt cur )) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((Znth i l 0) > cap_pre)) (PreH2 : (i < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : (Forall (Z.le (0)) l )) (PreH11 : (Forall (Z.gt (100000000)) l )) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
   TT && emp 
 |--
-  “ ((0 = 0) -> (CannotSplit l m_pre cap_pre )) ”
+  “ ((0 = 0) -> (SplitInfeasible l m_pre cap_pre )) ”
   &&  emp
 ).
 
 Definition check_return_wit_3_split_goal_1 := 
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((Znth i l 0) > cap_pre)) (PreH2 : (i < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH11 : (0 <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (1 <= cnt)) (PreH14 : (cnt <= (i + 1 ))) (PreH15 : (0 <= cur)) (PreH16 : (cur <= cap_pre)) (PreH17 : (PrefixSplitState l cap_pre i cnt cur )) ,
-  ((0 = 0) -> (CannotSplit l m_pre cap_pre ))
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : ((Znth i l 0) > cap_pre)) (PreH2 : (i < n_pre)) (PreH3 : (1 <= n_pre)) (PreH4 : (n_pre <= 100000)) (PreH5 : (1 <= m_pre)) (PreH6 : (m_pre <= n_pre)) (PreH7 : (0 <= cap_pre)) (PreH8 : (cap_pre <= 1000000000)) (PreH9 : ((Zlength (l)) = n_pre)) (PreH10 : (Forall (Z.le (0)) l )) (PreH11 : (Forall (Z.gt (100000000)) l )) (PreH12 : (0 <= i)) (PreH13 : (i <= n_pre)) (PreH14 : (1 <= cnt)) (PreH15 : (cnt <= (i + 1 ))) (PreH16 : (0 <= cur)) (PreH17 : (cur <= cap_pre)) (PreH18 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
+  ((0 = 0) -> (SplitInfeasible l m_pre cap_pre ))
 .
 
 Definition check_partial_solve_wit_1 := 
-forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : (0 <= cap_pre)) (PreH7 : (cap_pre <= 1000000000)) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000)))) (PreH10 : (0 <= i)) (PreH11 : (i <= n_pre)) (PreH12 : (1 <= cnt)) (PreH13 : (cnt <= (i + 1 ))) (PreH14 : (0 <= cur)) (PreH15 : (cur <= cap_pre)) (PreH16 : (PrefixSplitState l cap_pre i cnt cur )) ,
+forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (cnt: Z) (i: Z) (PreH1 : (i < n_pre)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : (0 <= cap_pre)) (PreH7 : (cap_pre <= 1000000000)) (PreH8 : ((Zlength (l)) = n_pre)) (PreH9 : (Forall (Z.le (0)) l )) (PreH10 : (Forall (Z.gt (100000000)) l )) (PreH11 : (0 <= i)) (PreH12 : (i <= n_pre)) (PreH13 : (1 <= cnt)) (PreH14 : (cnt <= (i + 1 ))) (PreH15 : (0 <= cur)) (PreH16 : (cur <= cap_pre)) (PreH17 : (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur )) ,
   (IntArray.full arr_pre n_pre l )
 |--
   “ (i < n_pre) ” 
@@ -396,14 +399,15 @@ forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (
   &&  “ (0 <= cap_pre) ” 
   &&  “ (cap_pre <= 1000000000) ” 
   &&  “ ((Zlength (l)) = n_pre) ” 
-  &&  “ forall (k: Z) , (((0 <= k) /\ (k < n_pre)) -> ((0 <= (Znth k l 0)) /\ ((Znth k l 0) < 100000000))) ” 
+  &&  “ (Forall (Z.le (0)) l ) ” 
+  &&  “ (Forall (Z.gt (100000000)) l ) ” 
   &&  “ (0 <= i) ” 
   &&  “ (i <= n_pre) ” 
   &&  “ (1 <= cnt) ” 
   &&  “ (cnt <= (i + 1 )) ” 
   &&  “ (0 <= cur) ” 
   &&  “ (cur <= cap_pre) ” 
-  &&  “ (PrefixSplitState l cap_pre i cnt cur ) ”
+  &&  “ (SplitProgress (sublist (0) (i) (l)) cap_pre cnt cur ) ”
   &&  (((arr_pre + (i * sizeof(INT)))) # Int  |-> (Znth i l 0))
   **  (IntArray.missing_i arr_pre i 0 n_pre l )
 .
@@ -411,7 +415,7 @@ forall (cap_pre: Z) (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (cur: Z) (
 (*----- Function splitArrayLargestSum -----*)
 
 Definition splitArrayLargestSum_safety_wit_1 := 
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ans: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= n_pre)) (PreH5 : ((Zlength (l)) = n_pre)) (PreH6 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) (PreH7 : (MinimizedMaxSegmentSum l m_pre ans )) (PreH8 : (0 <= ans)) (PreH9 : (ans <= 1000000000)) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ans: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= n_pre)) (PreH5 : ((Zlength (l)) = n_pre)) (PreH6 : (Forall (Z.le (0)) l )) (PreH7 : (Forall (Z.gt (100000000)) l )) (PreH8 : ((sum (l)) <= 1000000000)) (PreH9 : (MinimizedMaxSegmentSum l m_pre ans )) (PreH10 : (0 <= ans)) (PreH11 : (ans <= 1000000000)) ,
   ((( &( "left" ) )) # Int  |->_)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -423,7 +427,7 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ans: Z) (PreH1 : (1 <=
 .
 
 Definition splitArrayLargestSum_safety_wit_2 := 
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ans: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= n_pre)) (PreH5 : ((Zlength (l)) = n_pre)) (PreH6 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) (PreH7 : (MinimizedMaxSegmentSum l m_pre ans )) (PreH8 : (0 <= ans)) (PreH9 : (ans <= 1000000000)) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ans: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= n_pre)) (PreH5 : ((Zlength (l)) = n_pre)) (PreH6 : (Forall (Z.le (0)) l )) (PreH7 : (Forall (Z.gt (100000000)) l )) (PreH8 : ((sum (l)) <= 1000000000)) (PreH9 : (MinimizedMaxSegmentSum l m_pre ans )) (PreH10 : (0 <= ans)) (PreH11 : (ans <= 1000000000)) ,
   ((( &( "right" ) )) # Int  |->_)
   **  ((( &( "left" ) )) # Int  |-> 0)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
@@ -437,7 +441,7 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ans: Z) (PreH1 : (1 <=
 
 Definition splitArrayLargestSum_safety_wit_3 := 
 (
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) (PreH8 : (0 <= left)) (PreH9 : (right <= 1000000000)) (PreH10 : (left <= right)) (PreH11 : (left <= res)) (PreH12 : (res <= right)) (PreH13 : (MinimizedMaxSegmentSum l m_pre res )) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (Forall (Z.le (0)) l )) (PreH8 : (Forall (Z.gt (100000000)) l )) (PreH9 : (0 <= left)) (PreH10 : (right <= 1000000000)) (PreH11 : (left <= right)) (PreH12 : (left <= res)) (PreH13 : (res <= right)) (PreH14 : (MinimizedMaxSegmentSum l m_pre res )) ,
   ((( &( "mid" ) )) # Int  |->_)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -450,7 +454,7 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (le
   &&  “ ((INT_MIN) <= (left + ((right - left ) ÷ 2 ) )) ”
 ) \/
 (
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) (PreH8 : (0 <= left)) (PreH9 : (right <= 1000000000)) (PreH10 : (left <= right)) (PreH11 : (left <= res)) (PreH12 : (res <= right)) (PreH13 : (MinimizedMaxSegmentSum l m_pre res )) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (Forall (Z.le (0)) l )) (PreH8 : (Forall (Z.gt (100000000)) l )) (PreH9 : (0 <= left)) (PreH10 : (right <= 1000000000)) (PreH11 : (left <= right)) (PreH12 : (left <= res)) (PreH13 : (res <= right)) (PreH14 : (MinimizedMaxSegmentSum l m_pre res )) ,
   ((( &( "mid" ) )) # Int  |->_)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -464,7 +468,7 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (le
 ).
 
 Definition splitArrayLargestSum_safety_wit_3_split_goal_1 := 
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) (PreH8 : (0 <= left)) (PreH9 : (right <= 1000000000)) (PreH10 : (left <= right)) (PreH11 : (left <= res)) (PreH12 : (res <= right)) (PreH13 : (MinimizedMaxSegmentSum l m_pre res )) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (Forall (Z.le (0)) l )) (PreH8 : (Forall (Z.gt (100000000)) l )) (PreH9 : (0 <= left)) (PreH10 : (right <= 1000000000)) (PreH11 : (left <= right)) (PreH12 : (left <= res)) (PreH13 : (res <= right)) (PreH14 : (MinimizedMaxSegmentSum l m_pre res )) ,
   ((( &( "mid" ) )) # Int  |->_)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -477,7 +481,7 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (le
 .
 
 Definition splitArrayLargestSum_safety_wit_3_split_goal_2 := 
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) (PreH8 : (0 <= left)) (PreH9 : (right <= 1000000000)) (PreH10 : (left <= right)) (PreH11 : (left <= res)) (PreH12 : (res <= right)) (PreH13 : (MinimizedMaxSegmentSum l m_pre res )) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (Forall (Z.le (0)) l )) (PreH8 : (Forall (Z.gt (100000000)) l )) (PreH9 : (0 <= left)) (PreH10 : (right <= 1000000000)) (PreH11 : (left <= right)) (PreH12 : (left <= res)) (PreH13 : (res <= right)) (PreH14 : (MinimizedMaxSegmentSum l m_pre res )) ,
   ((( &( "mid" ) )) # Int  |->_)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -490,7 +494,7 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (le
 .
 
 Definition splitArrayLargestSum_safety_wit_4 := 
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) (PreH8 : (0 <= left)) (PreH9 : (right <= 1000000000)) (PreH10 : (left <= right)) (PreH11 : (left <= res)) (PreH12 : (res <= right)) (PreH13 : (MinimizedMaxSegmentSum l m_pre res )) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (Forall (Z.le (0)) l )) (PreH8 : (Forall (Z.gt (100000000)) l )) (PreH9 : (0 <= left)) (PreH10 : (right <= 1000000000)) (PreH11 : (left <= right)) (PreH12 : (left <= res)) (PreH13 : (res <= right)) (PreH14 : (MinimizedMaxSegmentSum l m_pre res )) ,
   ((( &( "mid" ) )) # Int  |->_)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -504,7 +508,7 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (le
 .
 
 Definition splitArrayLargestSum_safety_wit_5 := 
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) (PreH8 : (0 <= left)) (PreH9 : (right <= 1000000000)) (PreH10 : (left <= right)) (PreH11 : (left <= res)) (PreH12 : (res <= right)) (PreH13 : (MinimizedMaxSegmentSum l m_pre res )) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (Forall (Z.le (0)) l )) (PreH8 : (Forall (Z.gt (100000000)) l )) (PreH9 : (0 <= left)) (PreH10 : (right <= 1000000000)) (PreH11 : (left <= right)) (PreH12 : (left <= res)) (PreH13 : (res <= right)) (PreH14 : (MinimizedMaxSegmentSum l m_pre res )) ,
   ((( &( "mid" ) )) # Int  |->_)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -518,7 +522,7 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (le
 .
 
 Definition splitArrayLargestSum_safety_wit_6 := 
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) (PreH8 : (0 <= left)) (PreH9 : (right <= 1000000000)) (PreH10 : (left <= right)) (PreH11 : (left <= res)) (PreH12 : (res <= right)) (PreH13 : (MinimizedMaxSegmentSum l m_pre res )) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (Forall (Z.le (0)) l )) (PreH8 : (Forall (Z.gt (100000000)) l )) (PreH9 : (0 <= left)) (PreH10 : (right <= 1000000000)) (PreH11 : (left <= right)) (PreH12 : (left <= res)) (PreH13 : (res <= right)) (PreH14 : (MinimizedMaxSegmentSum l m_pre res )) ,
   ((( &( "mid" ) )) # Int  |->_)
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
@@ -533,7 +537,7 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (le
 
 Definition splitArrayLargestSum_safety_wit_7 := 
 (
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval <= 1)) (PreH3 : ((retval = 1) -> (CanSplit l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH4 : ((retval = 0) -> (CannotSplit l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH5 : (left < right)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre <= n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) (PreH12 : (0 <= left)) (PreH13 : (right <= 1000000000)) (PreH14 : (left <= right)) (PreH15 : (left <= res)) (PreH16 : (res <= right)) (PreH17 : (MinimizedMaxSegmentSum l m_pre res )) (PreH18 : (retval = 0)) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval <= 1)) (PreH3 : ((retval = 1) -> (SplitFeasible l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH4 : ((retval = 0) -> (SplitInfeasible l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH5 : (left < right)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre <= n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (Forall (Z.le (0)) l )) (PreH12 : (Forall (Z.gt (100000000)) l )) (PreH13 : (0 <= left)) (PreH14 : (right <= 1000000000)) (PreH15 : (left <= right)) (PreH16 : (left <= res)) (PreH17 : (res <= right)) (PreH18 : (MinimizedMaxSegmentSum l m_pre res )) (PreH19 : (retval = 0)) ,
   (IntArray.full arr_pre n_pre l )
   **  ((( &( "ok" ) )) # Int  |-> retval)
   **  ((( &( "mid" ) )) # Int  |-> (left + ((right - left ) ÷ 2 ) ))
@@ -547,7 +551,7 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (le
   &&  “ ((INT_MIN) <= ((left + ((right - left ) ÷ 2 ) ) + 1 )) ”
 ) \/
 (
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval <= 1)) (PreH3 : ((retval = 1) -> (CanSplit l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH4 : ((retval = 0) -> (CannotSplit l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH5 : (left < right)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre <= n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) (PreH12 : (0 <= left)) (PreH13 : (right <= 1000000000)) (PreH14 : (left <= right)) (PreH15 : (left <= res)) (PreH16 : (res <= right)) (PreH17 : (MinimizedMaxSegmentSum l m_pre res )) (PreH18 : (retval = 0)) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval <= 1)) (PreH3 : ((retval = 1) -> (SplitFeasible l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH4 : ((retval = 0) -> (SplitInfeasible l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH5 : (left < right)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre <= n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (Forall (Z.le (0)) l )) (PreH12 : (Forall (Z.gt (100000000)) l )) (PreH13 : (0 <= left)) (PreH14 : (right <= 1000000000)) (PreH15 : (left <= right)) (PreH16 : (left <= res)) (PreH17 : (res <= right)) (PreH18 : (MinimizedMaxSegmentSum l m_pre res )) (PreH19 : (retval = 0)) ,
   (IntArray.full arr_pre n_pre l )
   **  ((( &( "ok" ) )) # Int  |-> retval)
   **  ((( &( "mid" ) )) # Int  |-> (left + ((right - left ) ÷ 2 ) ))
@@ -562,7 +566,7 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (le
 ).
 
 Definition splitArrayLargestSum_safety_wit_7_split_goal_1 := 
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval <= 1)) (PreH3 : ((retval = 1) -> (CanSplit l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH4 : ((retval = 0) -> (CannotSplit l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH5 : (left < right)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre <= n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) (PreH12 : (0 <= left)) (PreH13 : (right <= 1000000000)) (PreH14 : (left <= right)) (PreH15 : (left <= res)) (PreH16 : (res <= right)) (PreH17 : (MinimizedMaxSegmentSum l m_pre res )) (PreH18 : (retval = 0)) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval <= 1)) (PreH3 : ((retval = 1) -> (SplitFeasible l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH4 : ((retval = 0) -> (SplitInfeasible l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH5 : (left < right)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre <= n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (Forall (Z.le (0)) l )) (PreH12 : (Forall (Z.gt (100000000)) l )) (PreH13 : (0 <= left)) (PreH14 : (right <= 1000000000)) (PreH15 : (left <= right)) (PreH16 : (left <= res)) (PreH17 : (res <= right)) (PreH18 : (MinimizedMaxSegmentSum l m_pre res )) (PreH19 : (retval = 0)) ,
   (IntArray.full arr_pre n_pre l )
   **  ((( &( "ok" ) )) # Int  |-> retval)
   **  ((( &( "mid" ) )) # Int  |-> (left + ((right - left ) ÷ 2 ) ))
@@ -576,7 +580,7 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (le
 .
 
 Definition splitArrayLargestSum_safety_wit_7_split_goal_2 := 
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval <= 1)) (PreH3 : ((retval = 1) -> (CanSplit l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH4 : ((retval = 0) -> (CannotSplit l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH5 : (left < right)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre <= n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) (PreH12 : (0 <= left)) (PreH13 : (right <= 1000000000)) (PreH14 : (left <= right)) (PreH15 : (left <= res)) (PreH16 : (res <= right)) (PreH17 : (MinimizedMaxSegmentSum l m_pre res )) (PreH18 : (retval = 0)) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval <= 1)) (PreH3 : ((retval = 1) -> (SplitFeasible l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH4 : ((retval = 0) -> (SplitInfeasible l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH5 : (left < right)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre <= n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (Forall (Z.le (0)) l )) (PreH12 : (Forall (Z.gt (100000000)) l )) (PreH13 : (0 <= left)) (PreH14 : (right <= 1000000000)) (PreH15 : (left <= right)) (PreH16 : (left <= res)) (PreH17 : (res <= right)) (PreH18 : (MinimizedMaxSegmentSum l m_pre res )) (PreH19 : (retval = 0)) ,
   (IntArray.full arr_pre n_pre l )
   **  ((( &( "ok" ) )) # Int  |-> retval)
   **  ((( &( "mid" ) )) # Int  |-> (left + ((right - left ) ÷ 2 ) ))
@@ -590,7 +594,7 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (le
 .
 
 Definition splitArrayLargestSum_safety_wit_8 := 
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval <= 1)) (PreH3 : ((retval = 1) -> (CanSplit l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH4 : ((retval = 0) -> (CannotSplit l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH5 : (left < right)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre <= n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) (PreH12 : (0 <= left)) (PreH13 : (right <= 1000000000)) (PreH14 : (left <= right)) (PreH15 : (left <= res)) (PreH16 : (res <= right)) (PreH17 : (MinimizedMaxSegmentSum l m_pre res )) (PreH18 : (retval = 0)) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval <= 1)) (PreH3 : ((retval = 1) -> (SplitFeasible l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH4 : ((retval = 0) -> (SplitInfeasible l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH5 : (left < right)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre <= n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (Forall (Z.le (0)) l )) (PreH12 : (Forall (Z.gt (100000000)) l )) (PreH13 : (0 <= left)) (PreH14 : (right <= 1000000000)) (PreH15 : (left <= right)) (PreH16 : (left <= res)) (PreH17 : (res <= right)) (PreH18 : (MinimizedMaxSegmentSum l m_pre res )) (PreH19 : (retval = 0)) ,
   (IntArray.full arr_pre n_pre l )
   **  ((( &( "ok" ) )) # Int  |-> retval)
   **  ((( &( "mid" ) )) # Int  |-> (left + ((right - left ) ÷ 2 ) ))
@@ -606,7 +610,7 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (le
 
 Definition splitArrayLargestSum_entail_wit_1 := 
 (
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ans: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= n_pre)) (PreH5 : ((Zlength (l)) = n_pre)) (PreH6 : forall (i_2: Z) , (((0 <= i_2) /\ (i_2 < n_pre)) -> ((0 <= (Znth i_2 l 0)) /\ ((Znth i_2 l 0) < 100000000)))) (PreH7 : (MinimizedMaxSegmentSum l m_pre ans )) (PreH8 : (0 <= ans)) (PreH9 : (ans <= 1000000000)) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ans: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= n_pre)) (PreH5 : ((Zlength (l)) = n_pre)) (PreH6 : (Forall (Z.le (0)) l )) (PreH7 : (Forall (Z.gt (100000000)) l )) (PreH8 : ((sum (l)) <= 1000000000)) (PreH9 : (MinimizedMaxSegmentSum l m_pre ans )) (PreH10 : (0 <= ans)) (PreH11 : (ans <= 1000000000)) ,
   (IntArray.full arr_pre n_pre l )
 |--
   EX (res: Z) ,
@@ -615,7 +619,8 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ans: Z) (PreH1 : (1 <=
   &&  “ (1 <= m_pre) ” 
   &&  “ (m_pre <= n_pre) ” 
   &&  “ ((Zlength (l)) = n_pre) ” 
-  &&  “ forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000))) ” 
+  &&  “ (Forall (Z.le (0)) l ) ” 
+  &&  “ (Forall (Z.gt (100000000)) l ) ” 
   &&  “ (0 <= 0) ” 
   &&  “ (1000000000 <= 1000000000) ” 
   &&  “ (0 <= 1000000000) ” 
@@ -625,7 +630,7 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (ans: Z) (PreH1 : (1 <=
   &&  (IntArray.full arr_pre n_pre l )
 ) \/
 (
-forall (m_pre: Z) (n_pre: Z) (l: (@list Z)) (ans: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= n_pre)) (PreH5 : ((Zlength (l)) = n_pre)) (PreH6 : forall (i_2: Z) , (((0 <= i_2) /\ (i_2 < n_pre)) -> ((0 <= (Znth i_2 l 0)) /\ ((Znth i_2 l 0) < 100000000)))) (PreH7 : (MinimizedMaxSegmentSum l m_pre ans )) (PreH8 : (0 <= ans)) (PreH9 : (ans <= 1000000000)) ,
+forall (m_pre: Z) (n_pre: Z) (l: (@list Z)) (ans: Z) (PreH1 : (1 <= n_pre)) (PreH2 : (n_pre <= 100000)) (PreH3 : (1 <= m_pre)) (PreH4 : (m_pre <= n_pre)) (PreH5 : ((Zlength (l)) = n_pre)) (PreH6 : (Forall (Z.le (0)) l )) (PreH7 : (Forall (Z.gt (100000000)) l )) (PreH8 : ((sum (l)) <= 1000000000)) (PreH9 : (MinimizedMaxSegmentSum l m_pre ans )) (PreH10 : (0 <= ans)) (PreH11 : (ans <= 1000000000)) ,
   TT && emp 
 |--
   EX (res: Z) ,
@@ -640,7 +645,7 @@ forall (m_pre: Z) (n_pre: Z) (l: (@list Z)) (ans: Z) (PreH1 : (1 <= n_pre)) (Pre
 
 Definition splitArrayLargestSum_entail_wit_2_1 := 
 (
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res_2: Z) (right: Z) (left: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval <= 1)) (PreH3 : ((retval = 1) -> (CanSplit l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH4 : ((retval = 0) -> (CannotSplit l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH5 : (left < right)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre <= n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) (PreH12 : (0 <= left)) (PreH13 : (right <= 1000000000)) (PreH14 : (left <= right)) (PreH15 : (left <= res_2)) (PreH16 : (res_2 <= right)) (PreH17 : (MinimizedMaxSegmentSum l m_pre res_2 )) (PreH18 : (retval <> 0)) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res_2: Z) (right: Z) (left: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval <= 1)) (PreH3 : ((retval = 1) -> (SplitFeasible l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH4 : ((retval = 0) -> (SplitInfeasible l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH5 : (left < right)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre <= n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (Forall (Z.le (0)) l )) (PreH12 : (Forall (Z.gt (100000000)) l )) (PreH13 : (0 <= left)) (PreH14 : (right <= 1000000000)) (PreH15 : (left <= right)) (PreH16 : (left <= res_2)) (PreH17 : (res_2 <= right)) (PreH18 : (MinimizedMaxSegmentSum l m_pre res_2 )) (PreH19 : (retval <> 0)) ,
   (IntArray.full arr_pre n_pre l )
 |--
   EX (res: Z) ,
@@ -649,7 +654,8 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res_2: Z) (right: Z) (
   &&  “ (1 <= m_pre) ” 
   &&  “ (m_pre <= n_pre) ” 
   &&  “ ((Zlength (l)) = n_pre) ” 
-  &&  “ forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000))) ” 
+  &&  “ (Forall (Z.le (0)) l ) ” 
+  &&  “ (Forall (Z.gt (100000000)) l ) ” 
   &&  “ (0 <= left) ” 
   &&  “ ((left + ((right - left ) ÷ 2 ) ) <= 1000000000) ” 
   &&  “ (left <= (left + ((right - left ) ÷ 2 ) )) ” 
@@ -659,7 +665,7 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res_2: Z) (right: Z) (
   &&  (IntArray.full arr_pre n_pre l )
 ) \/
 (
-forall (m_pre: Z) (n_pre: Z) (l: (@list Z)) (res_2: Z) (right: Z) (left: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval <= 1)) (PreH3 : ((retval = 1) -> (CanSplit l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH4 : ((retval = 0) -> (CannotSplit l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH5 : (left < right)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre <= n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) (PreH12 : (0 <= left)) (PreH13 : (right <= 1000000000)) (PreH14 : (left <= right)) (PreH15 : (left <= res_2)) (PreH16 : (res_2 <= right)) (PreH17 : (MinimizedMaxSegmentSum l m_pre res_2 )) (PreH18 : (retval <> 0)) ,
+forall (m_pre: Z) (n_pre: Z) (l: (@list Z)) (res_2: Z) (right: Z) (left: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval <= 1)) (PreH3 : ((retval = 1) -> (SplitFeasible l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH4 : ((retval = 0) -> (SplitInfeasible l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH5 : (left < right)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre <= n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (Forall (Z.le (0)) l )) (PreH12 : (Forall (Z.gt (100000000)) l )) (PreH13 : (0 <= left)) (PreH14 : (right <= 1000000000)) (PreH15 : (left <= right)) (PreH16 : (left <= res_2)) (PreH17 : (res_2 <= right)) (PreH18 : (MinimizedMaxSegmentSum l m_pre res_2 )) (PreH19 : (retval <> 0)) ,
   TT && emp 
 |--
   EX (res: Z) ,
@@ -673,7 +679,7 @@ forall (m_pre: Z) (n_pre: Z) (l: (@list Z)) (res_2: Z) (right: Z) (left: Z) (ret
 
 Definition splitArrayLargestSum_entail_wit_2_2 := 
 (
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res_2: Z) (right: Z) (left: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval <= 1)) (PreH3 : ((retval = 1) -> (CanSplit l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH4 : ((retval = 0) -> (CannotSplit l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH5 : (left < right)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre <= n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) (PreH12 : (0 <= left)) (PreH13 : (right <= 1000000000)) (PreH14 : (left <= right)) (PreH15 : (left <= res_2)) (PreH16 : (res_2 <= right)) (PreH17 : (MinimizedMaxSegmentSum l m_pre res_2 )) (PreH18 : (retval = 0)) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res_2: Z) (right: Z) (left: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval <= 1)) (PreH3 : ((retval = 1) -> (SplitFeasible l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH4 : ((retval = 0) -> (SplitInfeasible l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH5 : (left < right)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre <= n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (Forall (Z.le (0)) l )) (PreH12 : (Forall (Z.gt (100000000)) l )) (PreH13 : (0 <= left)) (PreH14 : (right <= 1000000000)) (PreH15 : (left <= right)) (PreH16 : (left <= res_2)) (PreH17 : (res_2 <= right)) (PreH18 : (MinimizedMaxSegmentSum l m_pre res_2 )) (PreH19 : (retval = 0)) ,
   (IntArray.full arr_pre n_pre l )
 |--
   EX (res: Z) ,
@@ -682,7 +688,8 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res_2: Z) (right: Z) (
   &&  “ (1 <= m_pre) ” 
   &&  “ (m_pre <= n_pre) ” 
   &&  “ ((Zlength (l)) = n_pre) ” 
-  &&  “ forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000))) ” 
+  &&  “ (Forall (Z.le (0)) l ) ” 
+  &&  “ (Forall (Z.gt (100000000)) l ) ” 
   &&  “ (0 <= ((left + ((right - left ) ÷ 2 ) ) + 1 )) ” 
   &&  “ (right <= 1000000000) ” 
   &&  “ (((left + ((right - left ) ÷ 2 ) ) + 1 ) <= right) ” 
@@ -692,7 +699,7 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res_2: Z) (right: Z) (
   &&  (IntArray.full arr_pre n_pre l )
 ) \/
 (
-forall (m_pre: Z) (n_pre: Z) (l: (@list Z)) (res_2: Z) (right: Z) (left: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval <= 1)) (PreH3 : ((retval = 1) -> (CanSplit l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH4 : ((retval = 0) -> (CannotSplit l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH5 : (left < right)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre <= n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) (PreH12 : (0 <= left)) (PreH13 : (right <= 1000000000)) (PreH14 : (left <= right)) (PreH15 : (left <= res_2)) (PreH16 : (res_2 <= right)) (PreH17 : (MinimizedMaxSegmentSum l m_pre res_2 )) (PreH18 : (retval = 0)) ,
+forall (m_pre: Z) (n_pre: Z) (l: (@list Z)) (res_2: Z) (right: Z) (left: Z) (retval: Z) (PreH1 : (0 <= retval)) (PreH2 : (retval <= 1)) (PreH3 : ((retval = 1) -> (SplitFeasible l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH4 : ((retval = 0) -> (SplitInfeasible l m_pre (left + ((right - left ) ÷ 2 ) ) ))) (PreH5 : (left < right)) (PreH6 : (1 <= n_pre)) (PreH7 : (n_pre <= 100000)) (PreH8 : (1 <= m_pre)) (PreH9 : (m_pre <= n_pre)) (PreH10 : ((Zlength (l)) = n_pre)) (PreH11 : (Forall (Z.le (0)) l )) (PreH12 : (Forall (Z.gt (100000000)) l )) (PreH13 : (0 <= left)) (PreH14 : (right <= 1000000000)) (PreH15 : (left <= right)) (PreH16 : (left <= res_2)) (PreH17 : (res_2 <= right)) (PreH18 : (MinimizedMaxSegmentSum l m_pre res_2 )) (PreH19 : (retval = 0)) ,
   TT && emp 
 |--
   EX (res: Z) ,
@@ -706,14 +713,14 @@ forall (m_pre: Z) (n_pre: Z) (l: (@list Z)) (res_2: Z) (right: Z) (left: Z) (ret
 
 Definition splitArrayLargestSum_return_wit_1 := 
 (
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left >= right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) (PreH8 : (0 <= left)) (PreH9 : (right <= 1000000000)) (PreH10 : (left <= right)) (PreH11 : (left <= res)) (PreH12 : (res <= right)) (PreH13 : (MinimizedMaxSegmentSum l m_pre res )) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left >= right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (Forall (Z.le (0)) l )) (PreH8 : (Forall (Z.gt (100000000)) l )) (PreH9 : (0 <= left)) (PreH10 : (right <= 1000000000)) (PreH11 : (left <= right)) (PreH12 : (left <= res)) (PreH13 : (res <= right)) (PreH14 : (MinimizedMaxSegmentSum l m_pre res )) ,
   (IntArray.full arr_pre n_pre l )
 |--
   “ (MinimizedMaxSegmentSum l m_pre left ) ”
   &&  (IntArray.full arr_pre n_pre l )
 ) \/
 (
-forall (m_pre: Z) (n_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left >= right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) (PreH8 : (0 <= left)) (PreH9 : (right <= 1000000000)) (PreH10 : (left <= right)) (PreH11 : (left <= res)) (PreH12 : (res <= right)) (PreH13 : (MinimizedMaxSegmentSum l m_pre res )) ,
+forall (m_pre: Z) (n_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left >= right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (Forall (Z.le (0)) l )) (PreH8 : (Forall (Z.gt (100000000)) l )) (PreH9 : (0 <= left)) (PreH10 : (right <= 1000000000)) (PreH11 : (left <= right)) (PreH12 : (left <= res)) (PreH13 : (res <= right)) (PreH14 : (MinimizedMaxSegmentSum l m_pre res )) ,
   TT && emp 
 |--
   “ (MinimizedMaxSegmentSum l m_pre left ) ”
@@ -721,13 +728,13 @@ forall (m_pre: Z) (n_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1
 ).
 
 Definition splitArrayLargestSum_return_wit_1_split_goal_1 := 
-forall (m_pre: Z) (n_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left >= right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000)))) (PreH8 : (0 <= left)) (PreH9 : (right <= 1000000000)) (PreH10 : (left <= right)) (PreH11 : (left <= res)) (PreH12 : (res <= right)) (PreH13 : (MinimizedMaxSegmentSum l m_pre res )) ,
+forall (m_pre: Z) (n_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left >= right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (Forall (Z.le (0)) l )) (PreH8 : (Forall (Z.gt (100000000)) l )) (PreH9 : (0 <= left)) (PreH10 : (right <= 1000000000)) (PreH11 : (left <= right)) (PreH12 : (left <= res)) (PreH13 : (res <= right)) (PreH14 : (MinimizedMaxSegmentSum l m_pre res )) ,
   (MinimizedMaxSegmentSum l m_pre left )
 .
 
 Definition splitArrayLargestSum_partial_solve_wit_1_pure := 
 (
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : forall (i_2: Z) , (((0 <= i_2) /\ (i_2 < n_pre)) -> ((0 <= (Znth i_2 l 0)) /\ ((Znth i_2 l 0) < 100000000)))) (PreH8 : (0 <= left)) (PreH9 : (right <= 1000000000)) (PreH10 : (left <= right)) (PreH11 : (left <= res)) (PreH12 : (res <= right)) (PreH13 : (MinimizedMaxSegmentSum l m_pre res )) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (Forall (Z.le (0)) l )) (PreH8 : (Forall (Z.gt (100000000)) l )) (PreH9 : (0 <= left)) (PreH10 : (right <= 1000000000)) (PreH11 : (left <= right)) (PreH12 : (left <= res)) (PreH13 : (res <= right)) (PreH14 : (MinimizedMaxSegmentSum l m_pre res )) ,
   ((( &( "ok" ) )) # Int  |->_)
   **  ((( &( "mid" ) )) # Int  |-> (left + ((right - left ) ÷ 2 ) ))
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
@@ -742,12 +749,13 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (le
   &&  “ (1 <= m_pre) ” 
   &&  “ (m_pre <= n_pre) ” 
   &&  “ ((Zlength (l)) = n_pre) ” 
-  &&  “ forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000))) ” 
+  &&  “ (Forall (Z.le (0)) l ) ” 
+  &&  “ (Forall (Z.gt (100000000)) l ) ” 
   &&  “ ((left + ((right - left ) ÷ 2 ) ) <= 1000000000) ” 
   &&  “ (0 <= (left + ((right - left ) ÷ 2 ) )) ”
 ) \/
 (
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (right <= INT_MAX)) (PreH2 : (left <= INT_MAX)) (PreH3 : (m_pre <= INT_MAX)) (PreH4 : (n_pre <= INT_MAX)) (PreH5 : ((left + ((right - left ) ÷ 2 ) ) <= INT_MAX)) (PreH6 : (right >= INT_MIN)) (PreH7 : (left >= INT_MIN)) (PreH8 : (m_pre >= INT_MIN)) (PreH9 : (n_pre >= INT_MIN)) (PreH10 : ((left + ((right - left ) ÷ 2 ) ) >= INT_MIN)) (PreH11 : (left < right)) (PreH12 : (1 <= n_pre)) (PreH13 : (n_pre <= 100000)) (PreH14 : (1 <= m_pre)) (PreH15 : (m_pre <= n_pre)) (PreH16 : ((Zlength (l)) = n_pre)) (PreH17 : forall (i_2: Z) , (((0 <= i_2) /\ (i_2 < n_pre)) -> ((0 <= (Znth i_2 l 0)) /\ ((Znth i_2 l 0) < 100000000)))) (PreH18 : (0 <= left)) (PreH19 : (right <= 1000000000)) (PreH20 : (left <= right)) (PreH21 : (left <= res)) (PreH22 : (res <= right)) (PreH23 : (MinimizedMaxSegmentSum l m_pre res )) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (right <= INT_MAX)) (PreH2 : (left <= INT_MAX)) (PreH3 : (m_pre <= INT_MAX)) (PreH4 : (n_pre <= INT_MAX)) (PreH5 : ((left + ((right - left ) ÷ 2 ) ) <= INT_MAX)) (PreH6 : (right >= INT_MIN)) (PreH7 : (left >= INT_MIN)) (PreH8 : (m_pre >= INT_MIN)) (PreH9 : (n_pre >= INT_MIN)) (PreH10 : ((left + ((right - left ) ÷ 2 ) ) >= INT_MIN)) (PreH11 : (left < right)) (PreH12 : (1 <= n_pre)) (PreH13 : (n_pre <= 100000)) (PreH14 : (1 <= m_pre)) (PreH15 : (m_pre <= n_pre)) (PreH16 : ((Zlength (l)) = n_pre)) (PreH17 : (Forall (Z.le (0)) l )) (PreH18 : (Forall (Z.gt (100000000)) l )) (PreH19 : (0 <= left)) (PreH20 : (right <= 1000000000)) (PreH21 : (left <= right)) (PreH22 : (left <= res)) (PreH23 : (res <= right)) (PreH24 : (MinimizedMaxSegmentSum l m_pre res )) ,
   ((( &( "ok" ) )) # Int  |->_)
   **  ((( &( "mid" ) )) # Int  |-> (left + ((right - left ) ÷ 2 ) ))
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
@@ -758,12 +766,11 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (le
   **  ((( &( "right" ) )) # Int  |-> right)
 |--
   “ (0 <= (left + ((right - left ) ÷ 2 ) )) ” 
-  &&  “ ((left + ((right - left ) ÷ 2 ) ) <= 1000000000) ” 
-  &&  “ forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000))) ”
+  &&  “ ((left + ((right - left ) ÷ 2 ) ) <= 1000000000) ”
 ).
 
 Definition splitArrayLargestSum_partial_solve_wit_1_pure_split_goal_1 := 
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (right <= INT_MAX)) (PreH2 : (left <= INT_MAX)) (PreH3 : (m_pre <= INT_MAX)) (PreH4 : (n_pre <= INT_MAX)) (PreH5 : ((left + ((right - left ) ÷ 2 ) ) <= INT_MAX)) (PreH6 : (right >= INT_MIN)) (PreH7 : (left >= INT_MIN)) (PreH8 : (m_pre >= INT_MIN)) (PreH9 : (n_pre >= INT_MIN)) (PreH10 : ((left + ((right - left ) ÷ 2 ) ) >= INT_MIN)) (PreH11 : (left < right)) (PreH12 : (1 <= n_pre)) (PreH13 : (n_pre <= 100000)) (PreH14 : (1 <= m_pre)) (PreH15 : (m_pre <= n_pre)) (PreH16 : ((Zlength (l)) = n_pre)) (PreH17 : forall (i_2: Z) , (((0 <= i_2) /\ (i_2 < n_pre)) -> ((0 <= (Znth i_2 l 0)) /\ ((Znth i_2 l 0) < 100000000)))) (PreH18 : (0 <= left)) (PreH19 : (right <= 1000000000)) (PreH20 : (left <= right)) (PreH21 : (left <= res)) (PreH22 : (res <= right)) (PreH23 : (MinimizedMaxSegmentSum l m_pre res )) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (right <= INT_MAX)) (PreH2 : (left <= INT_MAX)) (PreH3 : (m_pre <= INT_MAX)) (PreH4 : (n_pre <= INT_MAX)) (PreH5 : ((left + ((right - left ) ÷ 2 ) ) <= INT_MAX)) (PreH6 : (right >= INT_MIN)) (PreH7 : (left >= INT_MIN)) (PreH8 : (m_pre >= INT_MIN)) (PreH9 : (n_pre >= INT_MIN)) (PreH10 : ((left + ((right - left ) ÷ 2 ) ) >= INT_MIN)) (PreH11 : (left < right)) (PreH12 : (1 <= n_pre)) (PreH13 : (n_pre <= 100000)) (PreH14 : (1 <= m_pre)) (PreH15 : (m_pre <= n_pre)) (PreH16 : ((Zlength (l)) = n_pre)) (PreH17 : (Forall (Z.le (0)) l )) (PreH18 : (Forall (Z.gt (100000000)) l )) (PreH19 : (0 <= left)) (PreH20 : (right <= 1000000000)) (PreH21 : (left <= right)) (PreH22 : (left <= res)) (PreH23 : (res <= right)) (PreH24 : (MinimizedMaxSegmentSum l m_pre res )) ,
   ((( &( "ok" ) )) # Int  |->_)
   **  ((( &( "mid" ) )) # Int  |-> (left + ((right - left ) ÷ 2 ) ))
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
@@ -777,7 +784,7 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (le
 .
 
 Definition splitArrayLargestSum_partial_solve_wit_1_pure_split_goal_2 := 
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (right <= INT_MAX)) (PreH2 : (left <= INT_MAX)) (PreH3 : (m_pre <= INT_MAX)) (PreH4 : (n_pre <= INT_MAX)) (PreH5 : ((left + ((right - left ) ÷ 2 ) ) <= INT_MAX)) (PreH6 : (right >= INT_MIN)) (PreH7 : (left >= INT_MIN)) (PreH8 : (m_pre >= INT_MIN)) (PreH9 : (n_pre >= INT_MIN)) (PreH10 : ((left + ((right - left ) ÷ 2 ) ) >= INT_MIN)) (PreH11 : (left < right)) (PreH12 : (1 <= n_pre)) (PreH13 : (n_pre <= 100000)) (PreH14 : (1 <= m_pre)) (PreH15 : (m_pre <= n_pre)) (PreH16 : ((Zlength (l)) = n_pre)) (PreH17 : forall (i_2: Z) , (((0 <= i_2) /\ (i_2 < n_pre)) -> ((0 <= (Znth i_2 l 0)) /\ ((Znth i_2 l 0) < 100000000)))) (PreH18 : (0 <= left)) (PreH19 : (right <= 1000000000)) (PreH20 : (left <= right)) (PreH21 : (left <= res)) (PreH22 : (res <= right)) (PreH23 : (MinimizedMaxSegmentSum l m_pre res )) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (right <= INT_MAX)) (PreH2 : (left <= INT_MAX)) (PreH3 : (m_pre <= INT_MAX)) (PreH4 : (n_pre <= INT_MAX)) (PreH5 : ((left + ((right - left ) ÷ 2 ) ) <= INT_MAX)) (PreH6 : (right >= INT_MIN)) (PreH7 : (left >= INT_MIN)) (PreH8 : (m_pre >= INT_MIN)) (PreH9 : (n_pre >= INT_MIN)) (PreH10 : ((left + ((right - left ) ÷ 2 ) ) >= INT_MIN)) (PreH11 : (left < right)) (PreH12 : (1 <= n_pre)) (PreH13 : (n_pre <= 100000)) (PreH14 : (1 <= m_pre)) (PreH15 : (m_pre <= n_pre)) (PreH16 : ((Zlength (l)) = n_pre)) (PreH17 : (Forall (Z.le (0)) l )) (PreH18 : (Forall (Z.gt (100000000)) l )) (PreH19 : (0 <= left)) (PreH20 : (right <= 1000000000)) (PreH21 : (left <= right)) (PreH22 : (left <= res)) (PreH23 : (res <= right)) (PreH24 : (MinimizedMaxSegmentSum l m_pre res )) ,
   ((( &( "ok" ) )) # Int  |->_)
   **  ((( &( "mid" ) )) # Int  |-> (left + ((right - left ) ÷ 2 ) ))
   **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
@@ -790,22 +797,8 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (le
   “ ((left + ((right - left ) ÷ 2 ) ) <= 1000000000) ”
 .
 
-Definition splitArrayLargestSum_partial_solve_wit_1_pure_split_goal_3 := 
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (right <= INT_MAX)) (PreH2 : (left <= INT_MAX)) (PreH3 : (m_pre <= INT_MAX)) (PreH4 : (n_pre <= INT_MAX)) (PreH5 : ((left + ((right - left ) ÷ 2 ) ) <= INT_MAX)) (PreH6 : (right >= INT_MIN)) (PreH7 : (left >= INT_MIN)) (PreH8 : (m_pre >= INT_MIN)) (PreH9 : (n_pre >= INT_MIN)) (PreH10 : ((left + ((right - left ) ÷ 2 ) ) >= INT_MIN)) (PreH11 : (left < right)) (PreH12 : (1 <= n_pre)) (PreH13 : (n_pre <= 100000)) (PreH14 : (1 <= m_pre)) (PreH15 : (m_pre <= n_pre)) (PreH16 : ((Zlength (l)) = n_pre)) (PreH17 : forall (i_2: Z) , (((0 <= i_2) /\ (i_2 < n_pre)) -> ((0 <= (Znth i_2 l 0)) /\ ((Znth i_2 l 0) < 100000000)))) (PreH18 : (0 <= left)) (PreH19 : (right <= 1000000000)) (PreH20 : (left <= right)) (PreH21 : (left <= res)) (PreH22 : (res <= right)) (PreH23 : (MinimizedMaxSegmentSum l m_pre res )) ,
-  ((( &( "ok" ) )) # Int  |->_)
-  **  ((( &( "mid" ) )) # Int  |-> (left + ((right - left ) ÷ 2 ) ))
-  **  ((( &( "arr" ) )) # Ptr  |-> arr_pre)
-  **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  ((( &( "m" ) )) # Int  |-> m_pre)
-  **  (IntArray.full arr_pre n_pre l )
-  **  ((( &( "left" ) )) # Int  |-> left)
-  **  ((( &( "right" ) )) # Int  |-> right)
-|--
-  “ forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000))) ”
-.
-
 Definition splitArrayLargestSum_partial_solve_wit_1_aux := 
-forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : forall (i_2: Z) , (((0 <= i_2) /\ (i_2 < n_pre)) -> ((0 <= (Znth i_2 l 0)) /\ ((Znth i_2 l 0) < 100000000)))) (PreH8 : (0 <= left)) (PreH9 : (right <= 1000000000)) (PreH10 : (left <= right)) (PreH11 : (left <= res)) (PreH12 : (res <= right)) (PreH13 : (MinimizedMaxSegmentSum l m_pre res )) ,
+forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (left: Z) (PreH1 : (left < right)) (PreH2 : (1 <= n_pre)) (PreH3 : (n_pre <= 100000)) (PreH4 : (1 <= m_pre)) (PreH5 : (m_pre <= n_pre)) (PreH6 : ((Zlength (l)) = n_pre)) (PreH7 : (Forall (Z.le (0)) l )) (PreH8 : (Forall (Z.gt (100000000)) l )) (PreH9 : (0 <= left)) (PreH10 : (right <= 1000000000)) (PreH11 : (left <= right)) (PreH12 : (left <= res)) (PreH13 : (res <= right)) (PreH14 : (MinimizedMaxSegmentSum l m_pre res )) ,
   (IntArray.full arr_pre n_pre l )
 |--
   “ (1 <= n_pre) ” 
@@ -813,7 +806,8 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (le
   &&  “ (1 <= m_pre) ” 
   &&  “ (m_pre <= n_pre) ” 
   &&  “ ((Zlength (l)) = n_pre) ” 
-  &&  “ forall (i: Z) , (((0 <= i) /\ (i < n_pre)) -> ((0 <= (Znth i l 0)) /\ ((Znth i l 0) < 100000000))) ” 
+  &&  “ (Forall (Z.le (0)) l ) ” 
+  &&  “ (Forall (Z.gt (100000000)) l ) ” 
   &&  “ ((left + ((right - left ) ÷ 2 ) ) <= 1000000000) ” 
   &&  “ (0 <= (left + ((right - left ) ÷ 2 ) )) ” 
   &&  “ (left < right) ” 
@@ -822,7 +816,8 @@ forall (m_pre: Z) (n_pre: Z) (arr_pre: Z) (l: (@list Z)) (res: Z) (right: Z) (le
   &&  “ (1 <= m_pre) ” 
   &&  “ (m_pre <= n_pre) ” 
   &&  “ ((Zlength (l)) = n_pre) ” 
-  &&  “ forall (i_2: Z) , (((0 <= i_2) /\ (i_2 < n_pre)) -> ((0 <= (Znth i_2 l 0)) /\ ((Znth i_2 l 0) < 100000000))) ” 
+  &&  “ (Forall (Z.le (0)) l ) ” 
+  &&  “ (Forall (Z.gt (100000000)) l ) ” 
   &&  “ (0 <= left) ” 
   &&  “ (right <= 1000000000) ” 
   &&  “ (left <= right) ” 

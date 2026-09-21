@@ -1,136 +1,127 @@
 # State, Handoffs, and Reports
 
-## 1. Authoritative Data
+## One set of task facts
 
-`verification_runs/<run>/controller_state.json` is authoritative state; `reports/<run>/controller_target_topology.json` fixes case topology. Owner reports declare only terminal status/blockers.
+`reports/<run>/controller_state.json` uses **schema 4**. Fixed inputs include roots, `target_files`,
+library policy, and problem/specification constraints; `attempts` holds task facts. `current` contains
+only three current-task pointers: `annotation`, `vc-checking`, and `vc-proving`. Group-owner task
+records live in the corresponding proving attempt's `groups`.
 
-Key paths include annotation attempt reports/plans, sealed annotation `before`/`after` histories, proving base/group manifests, fixed group manual/library copies, group reports/notes, and optional `proof_reuse.md`. Every persisted path must match the current run/round/attempt layout. Source-byte drift after sealing rejects retry, acceptance, or merge.
+Owner tasks share one lifecycle:
 
-## 2. Annotation State
-
-User-spec state:
-
-```json
-{
-  "spec_freeze": {
-    "functions": ["f"],
-    "baseline": {}
-  }
-}
+```text
+prepared → claim → running → finalize begins → returned → accepted / blocked
+                                                      ↘ same-owner repair → prepared
 ```
 
-Only `init-run --freeze-spec` creates this record; without a user-provided specification, `spec_freeze` is `null`. After the user approves a change, `unfreeze` preserves `functions` and sets `baseline` to `null`. When the current annotation attempt is accepted, the controller records the checked current specification surface as the baseline.
+`returned` means the owner has stopped writing; acceptance may still be incomplete. `finalize-delivery`
+can continue from this state. Repairs retain the attempt, owner, and file directory, update feedback
+and `repair_index`, and lead to another append-action claim. A phase attempt id is also its CLI round id. A group delivery id is
+`<round>:<group_id>`.
 
-Every annotation attempt contains `failed_vcs`; the first attempt uses an empty list. Exact entry:
+The controller derives `next_actions` and `waiting_for` from facts on each call. They appear only in
+responses and are not persisted. There is no second `rounds`, `accepted_rounds`, or session state.
+`pending_retry` records only a confirmed retry destination, reason, and source; group annotation-gap
+batch handling derives directly from current groups' terminal states.
 
-```json
-{
-  "source_attempt": "<round-or-round:group>",
-  "name": "<top-level-or-split VC>",
-  "parent": null,
-  "annotation_location": "<C annotation point>",
-  "manual": "/absolute/sealed/manual.v",
-  "message": "<old gap>"
-}
+Main submits business state sequentially. Group tool checks do not change that state for timing.
+Never hand-edit state to fabricate acceptance. Schema 3 and older runs are not migrated: recover with
+the code that created them, or initialize a new run from current formal files.
+
+## Paths and files
+
+```text
+verification_runs/<run>/
+  dependency_plan.json
+  annotation_history/annotation-attemptN/{before,after}/...
+  <case>-vc-proving-rN/
+    groups/group_NN__<id>/<case>_proof_manual.v
+    groups/group_NN__<id>/<case>_lib.v       # when the library is active
+    proving_merged/...                    # current candidate
+  _coq_builds/...
+reports/<run>/
+  controller_state.json
+  controller_control.json
+  run_logs.json                           # JSON Lines
+  timing_summary.json
+  annotation-attempts/annotation-attemptN/
+    agent_input.md / agent_report.json / agent_output.md
+    annotation_plan.json
+  rounds/<case>-vc-checking-rN/
+    agent_input.md / agent_report.json / agent_output.md
+    group_plan.json
+    <case>_proof_manual.v                  # VC debug copy
+  rounds/<case>-vc-proving-rN/
+    groups/group_NN__<id>/
+      group_worker_input.md / group_worker_report.json / group_worker_output.md
+      tool_calls.jsonl
+      proof_reuse.md                      # optional
+  final-check/backup/...
 ```
 
-The controller checks that the manual is under the run root and that the VC name and parent exist.
+With no manual VCs, the empty `group_plan.json` lives at the run's report root. Group assignments,
+directories, and candidates derive from the current plan/manual/library plus round identity; do not
+write separate base manifests, worker manifests, or merged-result mirrors. `final_candidate` stores
+only the round; consumers reread candidate files.
 
-## 3. Annotation Plan Version 2
+Annotation before/after history preserves original bytes as read-only references for failed-VC
+explanations and model-selected reuse. A `failed_vcs` entry contains `source_attempt`, `name`, `parent`,
+`annotation_location`, `manual`, and `message`. Group ids use ASCII letters, digits, and underscores;
+new helpers use the exact `__<group_id>` suffix.
 
-Exact top-level fields:
+## Claim and owner handoff
 
-```json
-{
-  "version": 2,
-  "status": "planning",
-  "function_specs": [],
-  "loop_invariants": [],
-  "new_predicates": [],
-  "vc_comparisons": []
-}
-```
+Main executes the owner action's `claim_invocation`, retains the owner-to-agent-target mapping, and
+sends the returned `handoff.prompt` verbatim. Spawn on the first claim; append actions contact the
+same target. The annotation owner remains the same throughout a run; same-attempt repairs of other
+tasks also retain their owners.
 
-`function_specs` gives one sentence for each C function contract. `loop_invariants` gives one sentence for each lexical loop. `new_predicates` contains only predicates added by this case and the reason core interfaces are insufficient.
+Owners read the handoff's role skill, current assignment, write boundaries, and structured Commands.
+Write the terminal report last, then stop editing and notify main. Main uses the returned
+`finalize_invocation`; do not construct an acceptance command independently.
 
-The first attempt requires empty comparisons. A retry covers every failed VC exactly once, and every current VC exists in the current manual. The owner compares the old and current propositions directly and records the old gap, change, and `resolved` or `unresolved`. Ready status requires every result to be `resolved`. Accepted evidence stores the comparison count, resolved count, and source/current VC names.
+## Reports and plans
 
-## 4. Retry Handoff
-
-After VC checking or VC proving supplies an annotation gap, an annotation retry starts directly at `prepared`. The controller renders a complete `agent_input.md` containing assignment, targets/write boundary, original sealed Markdown/JSON sources, `failed_vcs`, related `Previous VC changes`, exact commands, and completion contract.
-
-History comes from prior comparisons in time order and retains records related by exact name, parent, or current VC name. Main and annotation owners maintain no second copy.
-
-The initial attempt uses `spawn-annotation-agent`; every retry immediately uses `append-annotation-agent` with the same owner/target.
-
-## 5. Agent Reports
-
-Success:
+A successful report is exactly:
 
 ```json
 {"status": "completed"}
 ```
 
-Blocked:
+A blocked report contains exactly `status` and one `blocker`:
 
 ```json
 {
   "status": "blocked",
   "blocker": {
     "failure_class": "annotation-gap",
-    "kind": "missing-annotation-premise",
-    "vcs": [
-      {
-        "name": "proof_of_f_entail_wit_1_split_goal_2",
-        "parent": "proof_of_f_entail_wit_1",
-        "annotation_location": "outer loop exit"
-      }
-    ],
-    "message": "<existing premises and missing conclusion>",
-    "repair_boundary": "<annotation/specification boundary>"
+    "kind": "missing-premise",
+    "vcs": [{"name": "vc_name", "parent": null, "annotation_location": "function/loop boundary"}],
+    "message": "Existing premises, missing conclusion, and the reason",
+    "repair_boundary": "C annotation"
   }
 }
 ```
 
-Blocker fields are exactly `failure_class`, `kind`, `vcs`, `message`, and `repair_boundary`. Group/VC-checking annotation/specification/dependency blockers require nonempty `vcs`; the controller never guesses a VC from `message`. Tool/report blockers may use empty `vcs`.
+Blocker and VC-entry fields are fixed. Semantic gaps must identify actual VCs; tool/report problems
+may use empty `vcs`. VC-checking gap classes are `annotation-gap`, `specification-gap`, and
+`dependency-gap`; `plan-defect`, `report-defect`, and `infrastructure` are also allowed. Group semantic
+gaps all use `annotation-gap`; each VC must belong to the group, with a nonempty explanation in
+`group_worker_output.md`. Scheduling reads structured fields and does not extract VCs from prose.
 
-VC-checking routing:
+`annotation_plan.json` is version 2, with `version`, `status`, `function_specs`, `loop_invariants`,
+`new_predicates`, and `vc_comparisons`. Owners provide design summaries. Scripts check required
+structure, VC identities, and comparison coverage, not mathematical quality inferred from guessed
+function/loop counts. The VC owner is responsible for current group-plan coverage and array order.
 
-- to annotation: `annotation-gap`, `specification-gap`, `dependency-gap`;
-- stay in VC checking: `plan-defect`, `report-defect`, `infrastructure`.
+## Pause, resumption, and diagnostics
 
-An agent-written specification changes directly in the current attempt without a report or a new attempt. If a user-provided specification needs a change, the annotation owner does not run `finalize-delivery`; it writes the proposal in `agent_output.md` and returns it to main. After user approval and `unfreeze`, the same owner continues in the same attempt.
+Pause updates run control and writes the control signal. Tasks, owners, and files remain unchanged;
+no suspended-action list is saved. Tools respond to the signal and clean up their process trees.
+After explicit resumption, run `step`: running owners continue their tasks, returned deliveries are
+finalized again, and prepared tasks remain available to claim.
 
-## 6. Group Blocker Aggregation
-
-The controller accepts only blocker VCs that exist in the sealed group manual and belong to assigned witnesses. Aggregate records preserve round/group id, assigned witnesses, exact `vcs`, message/repair boundary, and original output/report paths.
-
-The first proving round aggregates after ordinary concurrent groups reach terminal states. If a priority batch finds an annotation gap, no remaining group is dispatched; once already-running/returned priority work finishes, current priority blockers are aggregated immediately.
-
-`retry-round` expands every blocker VC into `failed_vcs` pointing to the group's sealed copied manual.
-
-## 7. Proving Manifest and Previous-Round Material
-
-The compact worker manifest records base/group-plan/public-helper/dependency-snapshot digests, group ids, dispatch order, and the immediately preceding proving round or `null`.
-
-The previous-round id comes directly from the latest proving attempt in controller state. Preparation does not probe the directory and silently clear it, or reread the just-written manifest to recover the same value.
-
-The proving attempt also stores `priority_group_ids`. Every group remains `prepared` after preparation. The controller does not copy old proofs, create a worker report or `proof_reuse.md`, or store reuse results in group state.
-
-When a previous round exists, each actually claimed worker handoff contains that directory and this group's optional `proof_reuse.md` path. The worker searches across old groups by current witness/helper names, reads only candidate proof blocks, and chooses what to reuse. Missing or empty Markdown does not block finalize; the current group check alone determines whether the proof is valid. The first round and groups never dispatched create no file.
-
-Accepted groups seal report, manual, and active group library. An annotation-gap group also seals `group_worker_output.md` as retry evidence.
-
-## 8. Owner, Claim, and Finalize
-
-Controller owners are stable:
-
-- one annotation owner per run;
-- one independent owner per vc-checking attempt;
-- one owner per round/group, reused for group repair.
-
-Main runs the action's `claim_invocation`, forwards the returned `handoff.prompt` verbatim, then runs the original `finalize_invocation` after owner return. `report-repair-required` keeps the same owner and invocation.
-
-## 9. Timing
-
-Timing separates annotation attempts, owner generation, controller refresh, clean replay, acceptance, VC checking, group work, parent verification, final apply, and final check. Progress is measured by VC comparisons and accepted proofs.
+Run/group logs record commands, durations, and exits. `timing_summary.json` contains `run`, `commands`,
+`annotation_attempts`, and `rounds`; summed durations are not parallel wall-clock time. Logging
+failures are diagnostic, not evidence for or against a proof. Symexec progress records only actual
+output, elapsed time, and file sizes; it does not guess the current function or mathematical progress.

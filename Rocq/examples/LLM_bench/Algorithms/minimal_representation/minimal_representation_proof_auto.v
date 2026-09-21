@@ -113,6 +113,9 @@ Proof. Admitted.
 Lemma proof_of_minimal_representation_safety_wit_31 : minimal_representation_safety_wit_31.
 Proof. Admitted. 
 
+Lemma proof_of_minimal_representation_return_wit_1 : minimal_representation_return_wit_1.
+Proof. Admitted. 
+
 Lemma proof_of_minimal_representation_partial_solve_wit_1 : minimal_representation_partial_solve_wit_1.
 Proof. Admitted. 
 

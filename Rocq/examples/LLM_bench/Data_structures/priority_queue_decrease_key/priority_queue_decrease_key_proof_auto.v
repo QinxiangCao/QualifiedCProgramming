@@ -35,9 +35,6 @@ Proof. Admitted.
 Lemma proof_of_pqdk_sift_up_safety_wit_5 : pqdk_sift_up_safety_wit_5.
 Proof. Admitted. 
 
-Lemma proof_of_pqdk_sift_up_entail_wit_5 : pqdk_sift_up_entail_wit_5.
-Proof. Admitted. 
-
 Lemma proof_of_pqdk_sift_up_partial_solve_wit_1 : pqdk_sift_up_partial_solve_wit_1.
 Proof. Admitted. 
 
@@ -105,9 +102,6 @@ Lemma proof_of_pqdk_sift_down_safety_wit_10 : pqdk_sift_down_safety_wit_10.
 Proof. Admitted. 
 
 Lemma proof_of_pqdk_sift_down_entail_wit_2 : pqdk_sift_down_entail_wit_2.
-Proof. Admitted. 
-
-Lemma proof_of_pqdk_sift_down_entail_wit_6 : pqdk_sift_down_entail_wit_6.
 Proof. Admitted. 
 
 Lemma proof_of_pqdk_sift_down_partial_solve_wit_1 : pqdk_sift_down_partial_solve_wit_1.

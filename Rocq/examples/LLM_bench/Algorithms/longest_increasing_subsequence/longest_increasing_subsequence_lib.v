@@ -40,7 +40,7 @@ Definition LISEndingAtLength (l : list Z) (i ans : Z) : Prop :=
     (fun idxs => Zlength idxs)
     ans.
 
-Definition LISDPTablePrefix
+Definition LISDPTablePrefixFacts
     (l dp : list Z) (hi : Z) : Prop :=
   0 <= hi <= Zlength l /\
   Zlength dp = hi /\
@@ -57,7 +57,7 @@ Definition LISDPInnerCandidate
     Znth k l 0 < Znth i l 0 /\
     candidate = Znth k dp 0 + 1.
 
-Definition LISInnerProgress
+Definition LISInnerProgressFacts
     (l dp : list Z) (i scanned : Z) : Prop :=
   0 <= i < Zlength l /\
   0 <= scanned <= i /\
@@ -72,7 +72,7 @@ Definition LISInnerProgress
     (Znth i dp 0) /\
   1 <= Znth i dp 0 <= i + 1.
 
-Definition LISBestSoFar (l : list Z) (limit ans : Z) : Prop :=
+Definition LISBestSoFarFacts (l : list Z) (limit ans : Z) : Prop :=
   0 <= limit <= Zlength l /\
   ((limit = 0 /\ ans = 1) \/
    (0 < limit /\ LISPrefix l limit ans)).
@@ -80,23 +80,23 @@ Definition LISBestSoFar (l : list Z) (limit ans : Z) : Prop :=
 Require Import Coq.micromega.Lia.
 Lemma lis_inner_progress_entry_bound__inner_foundations :
   forall l dp i scanned k,
-    LISInnerProgress l dp i scanned ->
+    LISInnerProgressFacts l dp i scanned ->
     0 <= k < i ->
     1 <= Znth k dp 0 <= k + 1.
 Proof.
   intros l dp i scanned k Hprogress Hk.
-  unfold LISInnerProgress in Hprogress.
+  unfold LISInnerProgressFacts in Hprogress.
   destruct Hprogress as [_ [_ [_ [Hprefix _]]]].
   exact (proj2 (Hprefix k Hk)).
 Qed.
 Lemma lis_inner_progress_init__inner_foundations :
   forall l dp i,
-    LISDPTablePrefix l dp i ->
+    LISDPTablePrefixFacts l dp i ->
     0 <= i < Zlength l ->
-    LISInnerProgress l (dp ++ [1]) i 0.
+    LISInnerProgressFacts l (dp ++ [1]) i 0.
 Proof.
   intros l dp i Hprefix Hi.
-  unfold LISDPTablePrefix in Hprefix.
+  unfold LISDPTablePrefixFacts in Hprefix.
   destruct Hprefix as [Hhi [Hlen Hentries]].
   assert (Hlast : Znth i (dp ++ [1]) 0 = 1).
   {
@@ -105,7 +105,7 @@ Proof.
     rewrite Znth0_cons.
     reflexivity.
   }
-  unfold LISInnerProgress.
+  unfold LISInnerProgressFacts.
   split; [exact Hi |].
   split; [lia |].
   split.
@@ -134,15 +134,15 @@ Proof.
 Qed.
 Lemma lis_inner_progress_take_candidate__inner_transitions :
   forall l dp i j,
-    LISInnerProgress l dp i j ->
+    LISInnerProgressFacts l dp i j ->
     0 <= j < i ->
     Znth j l 0 < Znth i l 0 ->
     Znth i dp 0 < Znth j dp 0 + 1 ->
-    LISInnerProgress l
+    LISInnerProgressFacts l
       (replace_Znth i (Znth j dp 0 + 1) dp) i (j + 1).
 Proof.
   intros l dp i j Hprogress Hj Hvalues Hlarger.
-  unfold LISInnerProgress in *.
+  unfold LISInnerProgressFacts in *.
   destruct Hprogress as
     [Hi [Hscan [Hlen [Hprefix [Hmaximum Hcurrent_bounds]]]]].
   assert (Hi_dp : 0 <= i < Zlength dp) by (rewrite Hlen; lia).
@@ -185,14 +185,14 @@ Proof.
 Qed.
 Lemma lis_inner_progress_skip_dominated__inner_transitions :
   forall l dp i j,
-    LISInnerProgress l dp i j ->
+    LISInnerProgressFacts l dp i j ->
     0 <= j < i ->
     Znth j l 0 < Znth i l 0 ->
     Znth j dp 0 + 1 <= Znth i dp 0 ->
-    LISInnerProgress l dp i (j + 1).
+    LISInnerProgressFacts l dp i (j + 1).
 Proof.
   intros l dp i j Hprogress Hj Hvalues Hdominated.
-  unfold LISInnerProgress in *.
+  unfold LISInnerProgressFacts in *.
   destruct Hprogress as
     [Hi [Hscan [Hlen [Hprefix [Hmaximum Hcurrent_bounds]]]]].
   split; [exact Hi |].
@@ -223,13 +223,13 @@ Proof.
 Qed.
 Lemma lis_inner_progress_skip_nonincreasing__inner_transitions :
   forall l dp i j,
-    LISInnerProgress l dp i j ->
+    LISInnerProgressFacts l dp i j ->
     0 <= j < i ->
     Znth i l 0 <= Znth j l 0 ->
-    LISInnerProgress l dp i (j + 1).
+    LISInnerProgressFacts l dp i (j + 1).
 Proof.
   intros l dp i j Hprogress Hj Hnonincreasing.
-  unfold LISInnerProgress in *.
+  unfold LISInnerProgressFacts in *.
   destruct Hprogress as
     [Hi [Hscan [Hlen [Hprefix [Hmaximum Hcurrent_bounds]]]]].
   split; [exact Hi |].
@@ -458,11 +458,11 @@ Proof.
 Qed.
 Lemma lis_inner_progress_complete__inner_transitions :
   forall l dp i,
-    LISInnerProgress l dp i i ->
-    LISDPTablePrefix l dp (i + 1).
+    LISInnerProgressFacts l dp i i ->
+    LISDPTablePrefixFacts l dp (i + 1).
 Proof.
   intros l dp i Hprogress.
-  unfold LISInnerProgress in Hprogress.
+  unfold LISInnerProgressFacts in Hprogress.
   destruct Hprogress as
     [Hi [Hscan [Hlen [Hprefix [Hcandidate_max Hcurrent_bounds]]]]].
   assert (Hcandidate_to_valid :
@@ -537,7 +537,7 @@ Proof.
       lia.
     - lia.
   }
-  unfold LISDPTablePrefix.
+  unfold LISDPTablePrefixFacts.
   split; [lia |].
   split; [exact Hlen |].
   intros k Hk.
@@ -548,13 +548,13 @@ Proof.
 Qed.
 Lemma lis_dp_table_entry_bounds__outer_best_update :
   forall l dp hi k,
-    LISDPTablePrefix l dp hi ->
+    LISDPTablePrefixFacts l dp hi ->
     0 <= k < hi ->
     LISEndingAtLength l k (Znth k dp 0) /\
     1 <= Znth k dp 0 <= k + 1.
 Proof.
   intros l dp hi k Htable Hk.
-  unfold LISDPTablePrefix in Htable.
+  unfold LISDPTablePrefixFacts in Htable.
   destruct Htable as [_ [_ Hentries]].
   apply Hentries. exact Hk.
 Qed.
@@ -703,10 +703,10 @@ Lemma lis_best_so_far_step__outer_best_update :
     0 <= i < Zlength l ->
     LISPrefix l i old ->
     LISEndingAtLength l i current ->
-    LISBestSoFar l (i + 1) (Z.max old current).
+    LISBestSoFarFacts l (i + 1) (Z.max old current).
 Proof.
   intros l i old current Hi Hold Hcurrent.
-  unfold LISBestSoFar.
+  unfold LISBestSoFarFacts.
   split; [lia |].
   right. split; [lia |].
   eapply lis_prefix_step_max__outer_best_update; eauto.
@@ -715,14 +715,67 @@ Lemma lis_best_so_far_full_implies_length__final_result :
   forall (l : list Z) (limit ans : Z),
     0 < limit ->
     Zlength l = limit ->
-    LISBestSoFar l limit ans ->
+    LISBestSoFarFacts l limit ans ->
     LISLength l ans.
 Proof.
   intros l limit ans Hpositive Hlength Hbest.
-  unfold LISBestSoFar in Hbest.
+  unfold LISBestSoFarFacts in Hbest.
   destruct Hbest as [_ [[Hzero _] | [_ Hprefix]]].
   - lia.
   - unfold LISLength.
     rewrite Hlength.
     exact Hprefix.
+Qed.
+
+(** Mathematical progress is separate from the workspace shape and bounds.
+    The established helper lemmas above retain their facts records for reuse. *)
+Definition LISDPTablePrefix (l dp : list Z) (hi : Z) : Prop :=
+  forall k, 0 <= k < hi -> LISEndingAtLength l k (Znth k dp 0).
+Definition LISInnerProgress (l dp : list Z) (i scanned : Z) : Prop :=
+  LISDPTablePrefix l dp i /\
+  max_value_of_subset Z.le
+    (fun candidate => LISDPInnerCandidate l dp i scanned candidate)
+    (fun candidate => candidate) (Znth i dp 0).
+Definition LISBestSoFar (l : list Z) (limit ans : Z) : Prop :=
+  (limit = 0 /\ ans = 1) \/ (0 < limit /\ LISPrefix l limit ans).
+
+Lemma lis_table_facts : forall l dp hi,
+  0 <= hi <= Zlength l -> Zlength dp = hi ->
+  (forall k, 0 <= k < hi -> 1 <= Znth k dp 0 <= k + 1) ->
+  LISDPTablePrefix l dp hi -> LISDPTablePrefixFacts l dp hi.
+Proof.
+  unfold LISDPTablePrefix, LISDPTablePrefixFacts.
+  intros l dp hi Hi Hl Hb Hp. split; [exact Hi |].
+  split; [exact Hl |]. intros k Hk; split; auto.
+Qed.
+Lemma lis_table_pure : forall l dp hi,
+  LISDPTablePrefixFacts l dp hi -> LISDPTablePrefix l dp hi.
+Proof. unfold LISDPTablePrefix, LISDPTablePrefixFacts; firstorder. Qed.
+Lemma lis_inner_facts : forall l dp i j,
+  0 <= i < Zlength l -> 0 <= j <= i -> Zlength dp = i + 1 ->
+  (forall k, 0 <= k < i + 1 -> 1 <= Znth k dp 0 <= k + 1) ->
+  LISInnerProgress l dp i j -> LISInnerProgressFacts l dp i j.
+Proof.
+  unfold LISInnerProgress, LISInnerProgressFacts, LISDPTablePrefix.
+  intros l dp i j Hi Hj Hlen Hbounds [Hp Hmax].
+  split; [exact Hi |]. split; [exact Hj |]. split; [exact Hlen |].
+  split.
+  - intros k Hk; split; [apply Hp | apply Hbounds]; lia.
+  - split; [exact Hmax | apply Hbounds; lia].
+Qed.
+Lemma lis_inner_pure : forall l dp i j,
+  LISInnerProgressFacts l dp i j -> LISInnerProgress l dp i j.
+Proof.
+  unfold LISInnerProgressFacts, LISInnerProgress, LISDPTablePrefix.
+  intros l dp i j [_ [_ [_ [Hp [Hm _]]]]].
+  split; [intros k Hk; exact (proj1 (Hp k Hk)) | exact Hm].
+Qed.
+Lemma lis_inner_bounds : forall l dp i j,
+  LISInnerProgressFacts l dp i j ->
+  forall k, 0 <= k < i + 1 -> 1 <= Znth k dp 0 <= k + 1.
+Proof.
+  unfold LISInnerProgressFacts.
+  intros l dp i j [_ [_ [_ [Hp [_ Hbound]]]]] k Hk.
+  destruct (Z.eq_dec k i); subst; auto.
+  exact (proj2 (Hp k ltac:(lia))).
 Qed.

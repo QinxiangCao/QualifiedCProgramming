@@ -90,15 +90,7 @@ void dijkstra_linked_forward_star_init(int vertex_count, int source, int *dist)
     dist[i] = INF;
   }
 
-  /*@ Assert
-      exists dist_all_inf,
-        vertex_count == vertex_count@pre && source == source@pre &&
-        dist == dist@pre &&
-        0 < vertex_count@pre && vertex_count@pre <= MAX_VERTEX_COUNT &&
-        0 <= source@pre && source@pre < vertex_count@pre &&
-	        dist_init_loop(MAX_VERTEX_COUNT, dist_all_inf) &&
-        IntArray::full(dist@pre, MAX_VERTEX_COUNT, dist_all_inf)
-   */
+
 
   dist[source] = 0;
 }
@@ -166,31 +158,7 @@ void dijkstra_linked_forward_star_index_queue(int vertex_count, int source, int 
   int queue_key[MAX_PRIORITY_QUEUE_SIZE];
   int queue_data[MAX_PRIORITY_QUEUE_SIZE];
 
-	  /*@ Assert
-	      exists dist_init,
-	        vertex_count == vertex_count@pre && source == source@pre &&
-	        edge_count == edge_count@pre &&
-	        head == head@pre && to == to@pre &&
-	        weight == weight@pre && next == next@pre && dist == dist@pre &&
-	        graph_has_size(g, vertex_count) &&
-	        vertex_valid(g, source) &&
-	        nonnegative_edges(g) &&
-	        0 < heap_capacity &&
-	        MAX_PRIORITY_QUEUE_SIZE <= heap_capacity &&
-	        edge_count + 1 <= heap_capacity &&
-	        dijkstra_init_dist(vertex_count, source, dist_init) &&
-	        dijkstra_heap_lfs_initial_refines(g, source,
-	          head_values, to_values, weight_values, next_values, X) &&
-	        forward_star_model(g, edge_count,
-	          head_values, to_values, weight_values, next_values) &&
-	        IntArray::full(head, vertex_count, head_values) *
-	        IntArray::full(to, edge_count, to_values) *
-	        IntArray::full(weight, edge_count, weight_values) *
-	        IntArray::full(next, edge_count, next_values) *
-	        IntArray::full(dist, MAX_VERTEX_COUNT, dist_init) *
-	        IntArray::undef_seg(pointer_offset(queue_key, 0, sizeof(int), int), 0, MAX_PRIORITY_QUEUE_SIZE) *
-        IntArray::undef_seg(pointer_offset(queue_data, 0, sizeof(int), int), 0, MAX_PRIORITY_QUEUE_SIZE)
-   */
+
   int queue_size = 0;
 
 	  /*@ Assert
@@ -255,33 +223,7 @@ void dijkstra_linked_forward_star_index_queue(int vertex_count, int source, int 
   while (queue_size != 0) {
     int cur_vertex;
     int cur_distance;
-	    /*@ Assert
-		        exists visited_cur dist_cur queue_set,
-	          vertex_count == vertex_count@pre && source == source@pre &&
-	          edge_count == edge_count@pre &&
-	          head == head@pre && to == to@pre &&
-	          weight == weight@pre && next == next@pre && dist == dist@pre &&
-          0 < queue_size && queue_size <= MAX_PRIORITY_QUEUE_SIZE &&
-          MAX_PRIORITY_QUEUE_SIZE <= heap_capacity &&
-          edge_count + 1 <= heap_capacity &&
-	          graph_has_size(g, vertex_count) &&
-	          vertex_valid(g, source) &&
-	          nonnegative_edges(g) &&
-		          dijkstra_heap_loop_state(g, source, visited_cur, dist_cur, queue_set) &&
-		          dijkstra_heap_loop_refines(g, source,
-		            head_values, to_values, weight_values, next_values,
-	            visited_cur, dist_cur, queue_set, X) &&
-	          forward_star_model(g, edge_count,
-	            head_values, to_values, weight_values, next_values) &&
-	          IntArray::full(head, vertex_count, head_values) *
-	          IntArray::full(to, edge_count, to_values) *
-	          IntArray::full(weight, edge_count, weight_values) *
-	          IntArray::full(next, edge_count, next_values) *
-	          IntArray::full(dist, MAX_VERTEX_COUNT, dist_cur) *
-	          store_heap(pointer_offset(queue_key, 0, sizeof(int), int), pointer_offset(queue_data, 0, sizeof(int), int), queue_set, queue_size) *
-          has_int_permission(&cur_vertex) *
-          has_int_permission(&cur_distance)
-     */
+
     /*@ Given queue_set */
     pop(queue_key, queue_data, queue_size, &cur_vertex, &cur_distance)
       /*@ where S_before = queue_set */;

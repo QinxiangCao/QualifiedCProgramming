@@ -20,6 +20,21 @@ Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.stock_trading.stock_trading_lib.
 Local Open Scope sac.
 
+Lemma proof_of_stock_init_storage_safety_wit_1 : stock_init_storage_safety_wit_1.
+Proof. Admitted. 
+
+Lemma proof_of_stock_init_storage_safety_wit_2 : stock_init_storage_safety_wit_2.
+Proof. Admitted. 
+
+Lemma proof_of_stock_init_storage_safety_wit_3 : stock_init_storage_safety_wit_3.
+Proof. Admitted. 
+
+Lemma proof_of_stock_init_storage_return_wit_1 : stock_init_storage_return_wit_1.
+Proof. Admitted. 
+
+Lemma proof_of_stock_init_storage_partial_solve_wit_1 : stock_init_storage_partial_solve_wit_1.
+Proof. Admitted. 
+
 Lemma proof_of_maximum_profit_safety_wit_1 : maximum_profit_safety_wit_1.
 Proof. Admitted. 
 
@@ -179,6 +194,9 @@ Proof. Admitted.
 Lemma proof_of_maximum_profit_safety_wit_53 : maximum_profit_safety_wit_53.
 Proof. Admitted. 
 
+Lemma proof_of_maximum_profit_safety_wit_54 : maximum_profit_safety_wit_54.
+Proof. Admitted. 
+
 Lemma proof_of_maximum_profit_safety_wit_55 : maximum_profit_safety_wit_55.
 Proof. Admitted. 
 
@@ -201,6 +219,9 @@ Lemma proof_of_maximum_profit_safety_wit_61 : maximum_profit_safety_wit_61.
 Proof. Admitted. 
 
 Lemma proof_of_maximum_profit_safety_wit_62 : maximum_profit_safety_wit_62.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_63 : maximum_profit_safety_wit_63.
 Proof. Admitted. 
 
 Lemma proof_of_maximum_profit_safety_wit_64 : maximum_profit_safety_wit_64.
@@ -239,13 +260,13 @@ Proof. Admitted.
 Lemma proof_of_maximum_profit_safety_wit_76 : maximum_profit_safety_wit_76.
 Proof. Admitted. 
 
+Lemma proof_of_maximum_profit_safety_wit_77 : maximum_profit_safety_wit_77.
+Proof. Admitted. 
+
 Lemma proof_of_maximum_profit_safety_wit_78 : maximum_profit_safety_wit_78.
 Proof. Admitted. 
 
 Lemma proof_of_maximum_profit_safety_wit_79 : maximum_profit_safety_wit_79.
-Proof. Admitted. 
-
-Lemma proof_of_maximum_profit_safety_wit_80 : maximum_profit_safety_wit_80.
 Proof. Admitted. 
 
 Lemma proof_of_maximum_profit_safety_wit_81 : maximum_profit_safety_wit_81.
@@ -261,6 +282,9 @@ Lemma proof_of_maximum_profit_safety_wit_84 : maximum_profit_safety_wit_84.
 Proof. Admitted. 
 
 Lemma proof_of_maximum_profit_safety_wit_85 : maximum_profit_safety_wit_85.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_86 : maximum_profit_safety_wit_86.
 Proof. Admitted. 
 
 Lemma proof_of_maximum_profit_safety_wit_87 : maximum_profit_safety_wit_87.
@@ -287,9 +311,6 @@ Proof. Admitted.
 Lemma proof_of_maximum_profit_safety_wit_95 : maximum_profit_safety_wit_95.
 Proof. Admitted. 
 
-Lemma proof_of_maximum_profit_safety_wit_96 : maximum_profit_safety_wit_96.
-Proof. Admitted. 
-
 Lemma proof_of_maximum_profit_safety_wit_97 : maximum_profit_safety_wit_97.
 Proof. Admitted. 
 
@@ -308,6 +329,9 @@ Proof. Admitted.
 Lemma proof_of_maximum_profit_safety_wit_102 : maximum_profit_safety_wit_102.
 Proof. Admitted. 
 
+Lemma proof_of_maximum_profit_safety_wit_103 : maximum_profit_safety_wit_103.
+Proof. Admitted. 
+
 Lemma proof_of_maximum_profit_safety_wit_104 : maximum_profit_safety_wit_104.
 Proof. Admitted. 
 
@@ -323,13 +347,10 @@ Proof. Admitted.
 Lemma proof_of_maximum_profit_safety_wit_108 : maximum_profit_safety_wit_108.
 Proof. Admitted. 
 
-Lemma proof_of_maximum_profit_safety_wit_109 : maximum_profit_safety_wit_109.
-Proof. Admitted. 
-
 Lemma proof_of_maximum_profit_safety_wit_110 : maximum_profit_safety_wit_110.
 Proof. Admitted. 
 
-Lemma proof_of_maximum_profit_safety_wit_111 : maximum_profit_safety_wit_111.
+Lemma proof_of_maximum_profit_safety_wit_112 : maximum_profit_safety_wit_112.
 Proof. Admitted. 
 
 Lemma proof_of_maximum_profit_safety_wit_113 : maximum_profit_safety_wit_113.
@@ -350,6 +371,9 @@ Proof. Admitted.
 Lemma proof_of_maximum_profit_safety_wit_118 : maximum_profit_safety_wit_118.
 Proof. Admitted. 
 
+Lemma proof_of_maximum_profit_safety_wit_119 : maximum_profit_safety_wit_119.
+Proof. Admitted. 
+
 Lemma proof_of_maximum_profit_safety_wit_120 : maximum_profit_safety_wit_120.
 Proof. Admitted. 
 
@@ -368,13 +392,13 @@ Proof. Admitted.
 Lemma proof_of_maximum_profit_safety_wit_125 : maximum_profit_safety_wit_125.
 Proof. Admitted. 
 
+Lemma proof_of_maximum_profit_safety_wit_126 : maximum_profit_safety_wit_126.
+Proof. Admitted. 
+
 Lemma proof_of_maximum_profit_safety_wit_127 : maximum_profit_safety_wit_127.
 Proof. Admitted. 
 
 Lemma proof_of_maximum_profit_safety_wit_128 : maximum_profit_safety_wit_128.
-Proof. Admitted. 
-
-Lemma proof_of_maximum_profit_safety_wit_129 : maximum_profit_safety_wit_129.
 Proof. Admitted. 
 
 Lemma proof_of_maximum_profit_safety_wit_130 : maximum_profit_safety_wit_130.
@@ -392,13 +416,16 @@ Proof. Admitted.
 Lemma proof_of_maximum_profit_safety_wit_134 : maximum_profit_safety_wit_134.
 Proof. Admitted. 
 
+Lemma proof_of_maximum_profit_safety_wit_135 : maximum_profit_safety_wit_135.
+Proof. Admitted. 
+
 Lemma proof_of_maximum_profit_safety_wit_136 : maximum_profit_safety_wit_136.
 Proof. Admitted. 
 
-Lemma proof_of_maximum_profit_safety_wit_138 : maximum_profit_safety_wit_138.
+Lemma proof_of_maximum_profit_safety_wit_137 : maximum_profit_safety_wit_137.
 Proof. Admitted. 
 
-Lemma proof_of_maximum_profit_safety_wit_139 : maximum_profit_safety_wit_139.
+Lemma proof_of_maximum_profit_safety_wit_138 : maximum_profit_safety_wit_138.
 Proof. Admitted. 
 
 Lemma proof_of_maximum_profit_safety_wit_140 : maximum_profit_safety_wit_140.
@@ -416,7 +443,10 @@ Proof. Admitted.
 Lemma proof_of_maximum_profit_safety_wit_144 : maximum_profit_safety_wit_144.
 Proof. Admitted. 
 
-Lemma proof_of_maximum_profit_safety_wit_147 : maximum_profit_safety_wit_147.
+Lemma proof_of_maximum_profit_safety_wit_145 : maximum_profit_safety_wit_145.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_146 : maximum_profit_safety_wit_146.
 Proof. Admitted. 
 
 Lemma proof_of_maximum_profit_safety_wit_148 : maximum_profit_safety_wit_148.
@@ -434,19 +464,130 @@ Proof. Admitted.
 Lemma proof_of_maximum_profit_safety_wit_152 : maximum_profit_safety_wit_152.
 Proof. Admitted. 
 
-Lemma proof_of_maximum_profit_entail_wit_1 : maximum_profit_entail_wit_1.
+Lemma proof_of_maximum_profit_safety_wit_153 : maximum_profit_safety_wit_153.
 Proof. Admitted. 
 
-Lemma proof_of_maximum_profit_entail_wit_2 : maximum_profit_entail_wit_2.
+Lemma proof_of_maximum_profit_safety_wit_154 : maximum_profit_safety_wit_154.
 Proof. Admitted. 
 
-Lemma proof_of_maximum_profit_entail_wit_8 : maximum_profit_entail_wit_8.
+Lemma proof_of_maximum_profit_safety_wit_156 : maximum_profit_safety_wit_156.
 Proof. Admitted. 
 
-Lemma proof_of_maximum_profit_entail_wit_35_1 : maximum_profit_entail_wit_35_1.
+Lemma proof_of_maximum_profit_safety_wit_157 : maximum_profit_safety_wit_157.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_158 : maximum_profit_safety_wit_158.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_159 : maximum_profit_safety_wit_159.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_160 : maximum_profit_safety_wit_160.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_161 : maximum_profit_safety_wit_161.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_162 : maximum_profit_safety_wit_162.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_163 : maximum_profit_safety_wit_163.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_164 : maximum_profit_safety_wit_164.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_165 : maximum_profit_safety_wit_165.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_166 : maximum_profit_safety_wit_166.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_167 : maximum_profit_safety_wit_167.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_169 : maximum_profit_safety_wit_169.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_171 : maximum_profit_safety_wit_171.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_172 : maximum_profit_safety_wit_172.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_173 : maximum_profit_safety_wit_173.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_174 : maximum_profit_safety_wit_174.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_175 : maximum_profit_safety_wit_175.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_176 : maximum_profit_safety_wit_176.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_177 : maximum_profit_safety_wit_177.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_178 : maximum_profit_safety_wit_178.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_179 : maximum_profit_safety_wit_179.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_180 : maximum_profit_safety_wit_180.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_181 : maximum_profit_safety_wit_181.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_182 : maximum_profit_safety_wit_182.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_183 : maximum_profit_safety_wit_183.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_184 : maximum_profit_safety_wit_184.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_185 : maximum_profit_safety_wit_185.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_186 : maximum_profit_safety_wit_186.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_187 : maximum_profit_safety_wit_187.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_188 : maximum_profit_safety_wit_188.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_189 : maximum_profit_safety_wit_189.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_safety_wit_190 : maximum_profit_safety_wit_190.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_entail_wit_3 : maximum_profit_entail_wit_3.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_entail_wit_22_1 : maximum_profit_entail_wit_22_1.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_entail_wit_33_1 : maximum_profit_entail_wit_33_1.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_return_wit_1 : maximum_profit_return_wit_1.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_partial_solve_wit_1_pure : maximum_profit_partial_solve_wit_1_pure.
 Proof. Admitted. 
 
 Lemma proof_of_maximum_profit_partial_solve_wit_1 : maximum_profit_partial_solve_wit_1.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_partial_solve_wit_2_pure : maximum_profit_partial_solve_wit_2_pure.
 Proof. Admitted. 
 
 Lemma proof_of_maximum_profit_partial_solve_wit_2 : maximum_profit_partial_solve_wit_2.
@@ -540,5 +681,17 @@ Lemma proof_of_maximum_profit_partial_solve_wit_31 : maximum_profit_partial_solv
 Proof. Admitted. 
 
 Lemma proof_of_maximum_profit_partial_solve_wit_32 : maximum_profit_partial_solve_wit_32.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_partial_solve_wit_33 : maximum_profit_partial_solve_wit_33.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_partial_solve_wit_34 : maximum_profit_partial_solve_wit_34.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_partial_solve_wit_35 : maximum_profit_partial_solve_wit_35.
+Proof. Admitted. 
+
+Lemma proof_of_maximum_profit_partial_solve_wit_36 : maximum_profit_partial_solve_wit_36.
 Proof. Admitted. 
 

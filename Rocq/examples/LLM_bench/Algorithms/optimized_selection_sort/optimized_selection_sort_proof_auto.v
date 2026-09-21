@@ -47,12 +47,6 @@ Proof. Admitted.
 Lemma proof_of_optimized_selection_sort_safety_wit_9 : optimized_selection_sort_safety_wit_9.
 Proof. Admitted. 
 
-Lemma proof_of_optimized_selection_sort_entail_wit_3_1 : optimized_selection_sort_entail_wit_3_1.
-Proof. Admitted. 
-
-Lemma proof_of_optimized_selection_sort_entail_wit_3_2 : optimized_selection_sort_entail_wit_3_2.
-Proof. Admitted. 
-
 Lemma proof_of_optimized_selection_sort_partial_solve_wit_1 : optimized_selection_sort_partial_solve_wit_1.
 Proof. Admitted. 
 

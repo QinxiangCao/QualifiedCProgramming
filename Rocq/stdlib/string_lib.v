@@ -403,3 +403,144 @@ Proof.
   rewrite app_Znth1 in Hz by lia.
   contradiction.
 Qed.
+
+Local Open Scope Z_scope.
+
+(** The destination slice is replaced using the source's pre-state contents;
+    bytes outside the destination retain their original values. *)
+Definition memmove_content (before : list Z) (source destination count : Z) : list Z :=
+  sublist 0 destination before ++ sublist source (source + count) before ++
+    sublist (destination + count) (Zlength before) before.
+
+Lemma memmove_content_length before source destination count :
+  0 <= source -> 0 <= destination -> 0 <= count ->
+  source + count <= Zlength before -> destination + count <= Zlength before ->
+  Zlength (memmove_content before source destination count) = Zlength before.
+Proof.
+  intros. unfold memmove_content. rewrite !Zlength_app, !Zlength_sublist by lia. lia.
+Qed.
+
+Lemma memmove_content_zero before source destination :
+  0 <= source <= Zlength before -> 0 <= destination <= Zlength before ->
+  memmove_content before source destination 0 = before.
+Proof.
+  intros. unfold memmove_content. rewrite !Z.add_0_r.
+  rewrite (Zsublist_nil before source source) by lia.
+  rewrite app_nil_l, <- sublist_split by lia. apply sublist_self. reflexivity.
+Qed.
+
+Lemma memmove_content_nth before source destination count k :
+  0 <= source -> 0 <= destination -> 0 <= count ->
+  source + count <= Zlength before -> destination + count <= Zlength before ->
+  0 <= k < Zlength before ->
+  Znth k (memmove_content before source destination count) 0 =
+    if andb (destination <=? k) (k <? destination + count)
+    then Znth (source + k - destination) before 0 else Znth k before 0.
+Proof.
+  intros Hs Hd Hn Hsl Hdl Hk. unfold memmove_content.
+  destruct (Z_lt_ge_dec k destination) as [Hbefore | Hafter].
+  - rewrite app_Znth1 by (rewrite Zlength_sublist by lia; lia).
+    rewrite Znth_sublist by lia.
+    assert (Htest : (destination <=? k) = false) by (apply Z.leb_gt; lia).
+    rewrite Htest. cbn. f_equal. lia.
+  - rewrite app_Znth2 by (rewrite Zlength_sublist by lia; lia).
+    rewrite Zlength_sublist by lia.
+    replace (destination - 0) with destination by lia.
+    destruct (Z_lt_ge_dec k (destination + count)) as [Hinside | Houtside].
+    + rewrite app_Znth1 by (rewrite Zlength_sublist by lia; lia).
+      rewrite Znth_sublist by lia.
+      assert (Hlo : (destination <=? k) = true) by (apply Z.leb_le; lia).
+      assert (Hhi : (k <? destination + count) = true) by (apply Z.ltb_lt; lia).
+      rewrite Hlo, Hhi. cbn. f_equal. lia.
+    + rewrite app_Znth2 by (rewrite Zlength_sublist by lia; lia).
+      rewrite Zlength_sublist by lia.
+      rewrite Znth_sublist by lia.
+      assert (Hlo : (destination <=? k) = true) by (apply Z.leb_le; lia).
+      assert (Hhi : (k <? destination + count) = false) by (apply Z.ltb_ge; lia).
+      rewrite Hlo, Hhi. cbn. f_equal. lia.
+Qed.
+
+Lemma memmove_content_outside before source destination count k :
+  0 <= source -> 0 <= destination -> 0 <= count ->
+  source + count <= Zlength before -> destination + count <= Zlength before ->
+  0 <= k < Zlength before -> (k < destination \/ destination + count <= k) ->
+  Znth k (memmove_content before source destination count) 0 = Znth k before 0.
+Proof.
+  intros. rewrite memmove_content_nth by lia.
+  destruct (Z.leb_spec0 destination k), (Z.ltb_spec0 k (destination + count)); cbn; try lia; reflexivity.
+Qed.
+
+Lemma memmove_content_forward_step before source destination i :
+  0 <= destination < source -> 0 <= i ->
+  source + i < Zlength before -> destination + i < Zlength before ->
+  replace_Znth (destination + i)
+    (Znth (source + i) (memmove_content before source destination i) 0)
+    (memmove_content before source destination i) =
+  memmove_content before source destination (i + 1).
+Proof.
+  intros Hds Hi Hs Hd.
+  rewrite memmove_content_outside by lia.
+  apply (proj2 (list_eq_ext _ _ 0)). split.
+  - rewrite Zlength_replace_Znth, !memmove_content_length by lia. reflexivity.
+  - intros k Hk. rewrite Zlength_replace_Znth, memmove_content_length in Hk by lia.
+    destruct (Z.eq_dec k (destination + i)) as [-> | Hne].
+    + rewrite Znth_replace_Znth_Same by (rewrite memmove_content_length by lia; lia).
+      rewrite memmove_content_nth by lia.
+      destruct (Z.leb_spec0 destination (destination + i)),
+        (Z.ltb_spec0 (destination + i) (destination + (i + 1))); cbn; try lia.
+      f_equal. lia.
+    + rewrite Znth_replace_Znth_Diff by (try rewrite memmove_content_length by lia; lia).
+      rewrite !memmove_content_nth by lia.
+      destruct (Z.leb_spec0 destination k), (Z.ltb_spec0 k (destination + i)),
+        (Z.ltb_spec0 k (destination + (i + 1))); cbn; try lia; reflexivity.
+Qed.
+
+Lemma memmove_content_backward_step before source destination count i :
+  0 <= source <= destination -> 0 < i <= count ->
+  source + count <= Zlength before -> destination + count <= Zlength before ->
+  replace_Znth (destination + (i - 1))
+    (Znth (source + (i - 1))
+      (memmove_content before (source + i) (destination + i) (count - i)) 0)
+    (memmove_content before (source + i) (destination + i) (count - i)) =
+  memmove_content before (source + (i - 1)) (destination + (i - 1)) (count - (i - 1)).
+Proof.
+  intros Hsd Hi Hs Hd.
+  rewrite memmove_content_outside by lia.
+  apply (proj2 (list_eq_ext _ _ 0)). split.
+  - rewrite Zlength_replace_Znth, !memmove_content_length by lia. reflexivity.
+  - intros k Hk. rewrite Zlength_replace_Znth, memmove_content_length in Hk by lia.
+    destruct (Z.eq_dec k (destination + (i - 1))) as [-> | Hne].
+    + rewrite Znth_replace_Znth_Same by (rewrite memmove_content_length by lia; lia).
+      rewrite memmove_content_nth by lia.
+      destruct (Z.leb_spec0 (destination + (i - 1)) (destination + (i - 1))),
+        (Z.ltb_spec0 (destination + (i - 1)) (destination + (i - 1) + (count - (i - 1)))); cbn; try lia.
+      f_equal. lia.
+    + rewrite Znth_replace_Znth_Diff by (try rewrite memmove_content_length by lia; lia).
+      rewrite !memmove_content_nth by lia.
+      replace (destination + i + (count - i)) with (destination + count) by lia.
+      replace (destination + (i - 1) + (count - (i - 1))) with (destination + count) by lia.
+      destruct (Z.leb_spec0 (destination + i) k),
+        (Z.leb_spec0 (destination + (i - 1)) k), (Z.ltb_spec0 k (destination + count));
+        cbn; try lia; try reflexivity; f_equal; lia.
+Qed.
+
+Lemma ascii_Znth_cast bytes k :
+  all_ascii bytes -> 0 <= k < Zlength bytes ->
+  signed_last_nbits (Znth k bytes 0) 8 = Znth k bytes 0.
+Proof.
+  intros Hascii Hk. specialize (Hascii k Hk).
+  apply signed_last_nbits_eq; [lia |]. change (-128 <= Znth k bytes 0 < 128). lia.
+Qed.
+
+Lemma char_buffer_seg_view base offset extent contents :
+  CharArray.seg (base + offset) (-offset) (extent - offset) contents --||--
+  CharArray.full base extent contents.
+Proof.
+  rewrite CharArray.seg_0_shift.
+  assert (Hchar : sizeof(CHAR) = 1) by reflexivity.
+  rewrite Hchar.
+  replace (base + offset + -offset * 1) with base by lia.
+  replace (extent - offset - -offset) with extent by lia.
+  unfold CharArray.seg, CharArray.full, store_array.
+  split; apply derivable1_refl.
+Qed.

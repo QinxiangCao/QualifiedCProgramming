@@ -170,18 +170,6 @@ Proof. Admitted.
 Lemma proof_of_quicksort_numbers_safety_wit_52 : quicksort_numbers_safety_wit_52.
 Proof. Admitted. 
 
-Lemma proof_of_quicksort_numbers_entail_wit_3 : quicksort_numbers_entail_wit_3.
-Proof. Admitted. 
-
-Lemma proof_of_quicksort_numbers_entail_wit_5 : quicksort_numbers_entail_wit_5.
-Proof. Admitted. 
-
-Lemma proof_of_quicksort_numbers_entail_wit_8 : quicksort_numbers_entail_wit_8.
-Proof. Admitted. 
-
-Lemma proof_of_quicksort_numbers_entail_wit_10 : quicksort_numbers_entail_wit_10.
-Proof. Admitted. 
-
 Lemma proof_of_quicksort_numbers_partial_solve_wit_1 : quicksort_numbers_partial_solve_wit_1.
 Proof. Admitted. 
 
@@ -251,9 +239,6 @@ Proof. Admitted.
 Lemma proof_of_quicksort_numbers_partial_solve_wit_22 : quicksort_numbers_partial_solve_wit_22.
 Proof. Admitted. 
 
-Lemma proof_of_quicksort_numbers_partial_solve_wit_23_pure : quicksort_numbers_partial_solve_wit_23_pure.
-Proof. Admitted. 
-
 Lemma proof_of_quicksort_numbers_partial_solve_wit_23 : quicksort_numbers_partial_solve_wit_23.
 Proof. Admitted. 
 
@@ -297,6 +282,9 @@ Lemma proof_of_concatenating_numbers_safety_wit_11 : concatenating_numbers_safet
 Proof. Admitted. 
 
 Lemma proof_of_concatenating_numbers_safety_wit_12 : concatenating_numbers_safety_wit_12.
+Proof. Admitted. 
+
+Lemma proof_of_concatenating_numbers_safety_wit_13 : concatenating_numbers_safety_wit_13.
 Proof. Admitted. 
 
 Lemma proof_of_concatenating_numbers_partial_solve_wit_1_pure : concatenating_numbers_partial_solve_wit_1_pure.

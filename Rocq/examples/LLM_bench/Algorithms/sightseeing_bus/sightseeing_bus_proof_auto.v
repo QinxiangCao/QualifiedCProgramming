@@ -173,13 +173,22 @@ Proof. Admitted.
 Lemma proof_of_solve_safety_wit_60 : solve_safety_wit_60.
 Proof. Admitted. 
 
-Lemma proof_of_solve_safety_wit_63 : solve_safety_wit_63.
+Lemma proof_of_solve_safety_wit_61 : solve_safety_wit_61.
 Proof. Admitted. 
 
-Lemma proof_of_solve_safety_wit_64 : solve_safety_wit_64.
+Lemma proof_of_solve_safety_wit_62 : solve_safety_wit_62.
 Proof. Admitted. 
 
 Lemma proof_of_solve_safety_wit_65 : solve_safety_wit_65.
+Proof. Admitted. 
+
+Lemma proof_of_solve_safety_wit_66 : solve_safety_wit_66.
+Proof. Admitted. 
+
+Lemma proof_of_solve_safety_wit_67 : solve_safety_wit_67.
+Proof. Admitted. 
+
+Lemma proof_of_solve_return_wit_1 : solve_return_wit_1.
 Proof. Admitted. 
 
 Lemma proof_of_solve_partial_solve_wit_1 : solve_partial_solve_wit_1.

@@ -11,10 +11,8 @@ from __future__ import annotations
 import json
 import os
 import re
-import shlex
 import shutil
 import stat
-import subprocess
 import sys
 from contextlib import suppress
 from datetime import datetime
@@ -74,19 +72,10 @@ def group_worker_commands(
     round_id: str,
     group_id: str,
     group_directory: Path,
-) -> dict[str, str]:
+) -> dict[str, Any]:
     """Derive current handoff commands from fixed controller-owned paths."""
 
-    controller = (
-        main_root
-        / ".agents"
-        / "scripts"
-        / "verification-orchestrator"
-        / "controller.py"
-    )
-
-    def render(argv: list[str]) -> str:
-        return subprocess.list2cmdline(argv) if os.name == "nt" else shlex.join(argv)
+    controller = Path(__file__).resolve().parents[1] / "verification-orchestrator/controller.py"
 
     common = [
         sys.executable,
@@ -134,9 +123,9 @@ def group_worker_commands(
         / group_debug_script_name(group_directory.name)
     )
     return {
-        "check": render(check),
-        "development": render(development),
-        "debug": render(debug),
+        "check": {"argv": check, "cwd": str(main_root)},
+        "development": {"argv": development, "cwd": str(main_root)},
+        "debug": {"argv": debug, "cwd": str(main_root)},
         "debug_script": str(debug_script),
     }
 
@@ -180,7 +169,7 @@ def group_build_workspace(
     """Return the shared compact exact workspace for one group directory."""
 
     return (
-        run_builds_root(run_root)
+        run_root / RUN_BUILDS_DIR_NAME
         / round_id
         / group_workspace_name(directory_name)
         / "src"
@@ -223,15 +212,18 @@ def path_is_link_like(path: Path) -> bool:
 def _reject_symlink_components(path: Path, *, label: str) -> Path:
     """Reject every existing link/reparse component of a lexical path."""
 
-    candidate = _lexical_absolute(path)
+    candidate = path.expanduser()
+    if not candidate.is_absolute():
+        candidate = Path.cwd() / candidate
     cursor = Path(candidate.anchor)
+    # Inspect before collapsing '..': link/../file still traverses the link.
     for part in candidate.parts[1:]:
         cursor /= part
         if path_is_link_like(cursor):
             raise SystemExit(
                 f"{label} cannot use a symlink ancestor or reparse point: {cursor}"
             )
-    return candidate
+    return _lexical_absolute(candidate)
 
 
 def fixed_path_under(path: Path, root: Path, *, label: str) -> Path:
@@ -476,12 +468,14 @@ def prepare_group_directory(
     groups_root: Path,
     group_id: str,
     index: int,
-    formal_manual: Path,
-    formal_case_lib: Path | None,
+    files: dict[str, bytes],
     run_root: Path,
     force: bool = False,
-) -> tuple[Path, Path, Path | None]:
-    """Create a group directory containing its copied active formal inputs."""
+) -> Path:
+    """Write independent group files from one current preparation read."""
+
+    if any(Path(name).name != name for name in files):
+        raise ValueError("group file names must be direct children")
 
     groups_root = fixed_path_under(
         groups_root, run_root, label="vc-proving groups directory"
@@ -496,13 +490,9 @@ def prepare_group_directory(
             )
         shutil.rmtree(directory)
     directory.mkdir(parents=True)
-    group_manual = directory / formal_manual.name
-    shutil.copy2(formal_manual, group_manual)
-    group_worker_lib: Path | None = None
-    if formal_case_lib is not None:
-        group_worker_lib = directory / formal_case_lib.name
-        shutil.copy2(formal_case_lib, group_worker_lib)
-    return directory, group_manual, group_worker_lib
+    for name, payload in files.items():
+        atomic_write_bytes(directory / name, payload)
+    return directory
 
 
 def write_json(path: Path, payload: dict[str, Any]) -> None:
@@ -538,212 +528,84 @@ def write_bytes(
 
 
 def render_group_worker_input(
-    group: dict[str, Any],
-    *,
-    formal_case_lib: str | None,
-    report_dir: Path,
-    commands: dict[str, str],
-    attempt_index: int = 1,
-    previous_compact_attempts: int = 0,
-    repair_index: int = 0,
-    repair_feedback: str | None = None,
+    group: dict[str, Any], *, formal_case_lib: str | None, report_dir: Path,
+    commands: dict[str, Any], repair_index: int = 0, repair_feedback: str | None = None,
 ) -> str:
-    has_active_case_lib = formal_case_lib is not None
-    if not has_active_case_lib and group.get("helpers"):
-        raise ValueError("a group without an active case lib cannot plan helpers")
-    witness_sections: list[str] = []
+    """Render only the current assignment; the skill owns shared proof rules."""
+    root = Path(commands["check"]["cwd"])
+    skill = Path(__file__).resolve().parents[2] / "skills/group-worker-proving/SKILL.md"
+    witnesses = []
+    editable = []
+    protected = []
     for witness in group["witnesses"]:
-        name = str(witness["name"])
-        proof_mode = str(witness["proof_mode"])
-        split_goals = witness.get("split_goals", [])
-        if proof_mode == "aggressive_pre_process":
-            split_text = (
-                "\n".join(
-                    f"  - `{item['name']}`: {item.get('strategy') or 'prove the displayed split goal'}"
-                    for item in split_goals
-                )
-                or "  - none generated"
-            )
-            route = (
-                "Prove every listed split goal first, each opening with "
-                "`LLM_pre_process ltac:(...)` and an explicit closer. Then prove the "
-                "top-level VC with `aggressive_pre_process` and close each resulting "
-                "branch with only `Goal_apply <split-goal lemma>` for the "
-                "corresponding split goal, with no other tactic in the top-level "
-                "proof. This is a worker proof rule; controller validation does not "
-                "inspect the spelling of these applications."
-            )
-            strategy_text = ""
+        name, mode = witness["name"], witness["proof_mode"]
+        editable.append(name)
+        lines = [f"### `{name}` — `{mode}`"]
+        if mode == "aggressive_pre_process":
+            editable.extend(item["name"] for item in witness["split_goals"])
+            lines.extend(f"- Split `{item['name']}`: {item['strategy']}" for item in witness["split_goals"])
         else:
-            split_text = (
-                "\n".join(
-                    f"  - `{item['name']}` — leave its generated `Proof. Abort.` block unchanged"
-                    for item in split_goals
-                )
-                or "  - none generated"
-            )
-            route = (
-                "Prove only the top-level VC, opening with "
-                "`LLM_pre_process ltac:(...)` and an explicit closer; "
-                "do not edit its split goals."
-            )
-            strategy_text = (
-                f"Strategy: {witness.get('strategy') or 'derive a proof from the current VC'}\n\n"
-            )
-        witness_sections.append(
-            f"### `{name}` — `{proof_mode}`\n\n"
-            f"{strategy_text}"
-            f"{route}\n\n"
-            f"Split goals:\n\n{split_text}"
-        )
-    witnesses = "\n\n".join(witness_sections)
-    helpers = "\n".join(
-        f"- `{item['name']}`; {item.get('visibility', 'local')}; "
-        f"expected use: {item['strategy']}"
-        for item in group.get("helpers", [])
-        if isinstance(item, dict)
-    ) or (
-        "- prohibited because this case has no active case lib"
-        if not has_active_case_lib
-        else "- none planned"
-    )
-    proof_reuse = (
-        f"""- Previous proving round: `{group['previous_proving_round']}` — read-only; search its group manuals and libraries for this assignment's witness/helper names, then read only useful candidate blocks.
-- Optional reuse note: `{group['proof_reuse']}`.
-
-When useful, write one short Markdown item for each assigned current witness: say whether a candidate proof/helper is reused directly, reused with changes, or not reused. Split-goal details may stay under the same witness item. Do not read every previous full manual when a targeted search finds the relevant declarations. This note is plain prose for people; the controller does not parse it or gate finalization on it. Missing or empty is accepted. The current assignment, manual, proof mode, and exact group check remain authoritative."""
-        if group.get("previous_proving_round")
-        else "- Previous proving round: none; no reuse note is expected."
-    )
-    editable_top_level = ", ".join(
-        f"`{witness['name']}`" for witness in group["witnesses"]
-    )
-    editable_split_goals = [
-        str(split_goal["name"])
-        for witness in group["witnesses"]
-        if witness.get("proof_mode") == "aggressive_pre_process"
-        for split_goal in witness.get("split_goals", [])
-    ]
-    protected_llm_splits = [
-        str(split_goal["name"])
-        for witness in group["witnesses"]
-        if witness.get("proof_mode") == "LLM_pre_process"
-        for split_goal in witness.get("split_goals", [])
-    ]
-    editable_split_text = (
-        ", ".join(f"`{name}`" for name in editable_split_goals) or "none"
-    )
-    protected_split_text = (
-        ", ".join(f"`{name}`" for name in protected_llm_splits) or "none"
-    )
-    repair_section = ""
-    if repair_feedback:
-        repair_section = f"""
-## Controller repair feedback
-
-This is recoverable repair {repair_index} in the same worker session and the same fixed group directory.
-Fix this first failure before finalizing again:
-
-```text
-{repair_feedback}
-```
-
-Do not create a replacement worker, change proof mode, or enter a new vc-checking round for this recoverable group failure.
-"""
-    lib_write_boundary = (
-        "- In `group_worker_lib`, append only proved suffixed helpers, "
-        "token-identical sealed helper copies, and needed official imports.\n"
-        "- All declaration statements, other proof tokens, the manual prelude, "
-        "and the seed library stay protected."
-        if has_active_case_lib
-        else "- This case has no active case lib. Edit only the assigned manual "
-        "proof spans; do not add helpers, imports, or another formal file.\n"
-        "- All declaration statements, other proof tokens, and the manual "
-        "prelude stay protected."
-    )
-    if has_active_case_lib:
-        formal_file_lines = f"""- Copied manual: `{group["proof_manual"]}`
-- `group_worker_lib`: `{group["group_worker_lib"]}`
-- Read-only `formal_case_lib`: `{formal_case_lib}`
-- Frozen helper candidates: `{group["public_helper_lemma_lib"]}` — search by needed helper/predicate names and read only matching declarations; never import this file"""
-        group_finish = "the copied manual and `group_worker_lib`"
-        sealed_file_count = "two formal files"
-        helper_outcome = (
-            "`local` stays in this group. A proved `public` helper is promoted "
-            "by the controller for later rounds. Historical token-identical "
-            "copies may keep their sealed suffix; adaptations use this group's suffix."
-        )
+            lines.append(witness["strategy"])
+            protected.extend(item["name"] for item in witness["split_goals"])
+        witnesses.append("\n\n".join(lines))
+    helper_lines = "\n".join(
+        f"- `{helper['name']}` ({helper['visibility']}): {helper['strategy']}"
+        for helper in group["helpers"]
+    ) or "- None planned."
+    if formal_case_lib is None:
+        library = "No case library exists: do not create helpers, imports, or a library."
     else:
-        formal_file_lines = f"""- Copied manual: `{group["proof_manual"]}`
-- Active case lib: none; no `group_worker_lib` exists for this group"""
-        group_finish = "only the copied manual"
-        sealed_file_count = "formal manual"
-        helper_outcome = (
-            "No helper may be planned or created because this case has no active case lib."
+        library = (
+            f"- Group library: `{group['group_worker_lib']}`\n"
+            f"- Read-only canonical library: `{root / formal_case_lib}`\n"
+            f"- Every new/adapted helper uses suffix `{group['helper_namespace']['suffix']}`. Preserve the seed."
         )
-    helper_assignment = (
-        "- Required suffix for every new or adapted helper: "
-        f"`{group['helper_namespace']['suffix']}`"
-        if has_active_case_lib
-        else "- Helpers: prohibited because this case has no active case lib"
+    repair = (
+        f"\n## Current repair {repair_index}\n\n{repair_feedback}\n"
+        if repair_feedback else ""
     )
+    invocations = {name: commands[name] for name in ("debug", "development", "check")}
     return f"""# Group worker handoff
 
-Read `.agents/skills/group-worker-proving/SKILL.md`, `.agents/skills/group-worker-proving/workflows/group-worker-proving.md`, and `.agents/skills/group-worker-proving/workflows/commands-and-checks.md` completely. This handoff adds only the current assignment; do not use a parent transcript or sibling output.
+Read `{skill}` and its required workflow documents completely. Use this assignment without relying on a parent transcript or current sibling output.
 
-## Assignment
+- Group: `{group['id']}`; difficulty hint: {group['estimated_difficulty']}/5.
+- Copied manual: `{group['proof_manual']}`.
+- Editable proof spans: {', '.join(f'`{name}`' for name in editable)}.
+- Protected LLM split blocks (keep generated Proof/Abort tokens): {', '.join(f'`{name}`' for name in protected) or 'none'}.
+- Statements, declaration order, prelude and all unassigned proof tokens remain fixed. Formatting is ignored.
+{library}
 
-- Group: `{group["id"]}`; attempt {attempt_index}; earlier compact attempts {previous_compact_attempts}
-- Difficulty hint: {group["estimated_difficulty"]}/5
-{helper_assignment}
-{f"- Same-session repair: {repair_index}" if repair_index else ""}
+{chr(10).join(witnesses)}
 
-{witnesses}
+## Helpers
 
-## Write boundary
+{helper_lines}
 
-- Editable top-level proof spans: {editable_top_level}.
-- Editable aggressive split-goal proof spans: {editable_split_text}.
-- Protected LLM_pre_process split blocks: {protected_split_text}; their tokens remain `Proof. Abort.`.
-{lib_write_boundary}
+## Historical references
 
-Whitespace, comments, line endings, and the final newline are formatting. The controller compares protected Rocq tokens, declaration ownership, proof mode, and kernel results. For an aggressive top-level proof, follow the worker rule above and use `Goal_apply` for the split lemmas; controller validation deliberately does not inspect that tactic choice.
-{repair_section}
+- Previous proving round: `{group.get('previous_proving_round') or 'none'}`.
+- Annotation history: `{group['annotation_history_directory']}`; earlier canonical proofs may be in an attempt's `before` directory.
+- Optional human reuse note: `{group['proof_reuse']}`.
 
-## Files
-
-{formal_file_lines}
-- Terminal report: `{report_dir / "group_worker_report.json"}`
-- Notes: `{report_dir / "group_worker_output.md"}`. They are optional for ordinary outcomes, but an
-  `annotation-gap` blocker requires a non-empty explanation here because the controller preserves this
-  exact Markdown as part of the aggregated annotation feedback.
-{proof_reuse}
-
-The group directory must finish with {group_finish}.
-
-## Planned helpers
-
-{helpers}
-
-{helper_outcome}
-
+Search relevant historical blocks when useful. The controller does not search, copy, or rename historical proofs. Decide whether to adapt them and recheck against current inputs.
+{repair}
 ## Commands
 
-Run a needed command unchanged with its bound cwd. Prefer a direct system-terminal call. If terminal operations are available only through `functions.exec`, use a transparent cell that awaits exactly one `tools.exec_command` to launch, or one `tools.write_stdin` to continue the same live session (or the runtime-documented normalized equivalent), and only forwards the result. Pass command/argv, every argument, and cwd unchanged when launching; preserve the exact session handle when continuing. Use a normalized equivalent only if its input shape accepts those values unchanged; never serialize argv into shell text, reparse a rendered command, or add quoting. Do not call another tool in the cell, construct, alter, sequence, wrap, pipe, or background commands. Preserve every outer cell and inner process/session handle until terminal exit; if the bridge yields a running cell, resume only that cell with `functions.wait`.
+Use these exact argv/cwd objects. Shell-only tools may quote each argument for the actual shell; PowerShell uses `&` with single-quoted arguments and doubled embedded apostrophes. Follow the skill for proof modes, safety, and checks.
 
-```text
-{commands["debug"]}
-{commands["development"]}
-{commands["check"]}
+```json
+{json.dumps(invocations, ensure_ascii=False, indent=2)}
 ```
 
-Debug script: `{commands["debug_script"]}`. Debug, development, and exact are optional proof feedback. `finalize-delivery` seals the {sealed_file_count} and immediately runs the single mandatory controller group validation.
+Debug script: `{commands['debug_script']}`. Continue each live tool session until its actual exit. Successful checks require both exit zero and JSON status passed.
 
-## Completion
+## Delivery
 
-Do not use raw Coq, Dune, Rocq MCP, `Admitted.`, new assumptions, forbidden lemmas, or the forbidden tactics `entailer!` and the bare alias `pre_process` (both are scanned exactly like a forbidden lemma; calls made inside `LLM_pre_process` and `Goal_apply` are unaffected). Repair a recoverable controller failure in this same worker. At the end, success is exactly `status: completed`; `blocked` adds one complete `blocker`. Do not copy version, diff, check status, or controller output.
+- Notes: `{report_dir / 'group_worker_output.md'}`; annotation-gap requires a nonempty explanation.
+- Terminal report: `{report_dir / 'group_worker_report.json'}`.
 
-If an assigned VC exposes an annotation/specification gap outside this group's write boundary, stop proof-only edits and return `blocked` with `blocker.failure_class` exactly `annotation-gap`. Its `vcs` must list every affected exact sealed-manual `name`, `parent`, and `annotation_location`; `message` explains existing premises and the missing conclusion. The controller validates and schedules from those structured VCs.
+Use the skill's exact completed/blocked report contract. Stop writing before main finalizes. The group directory contains only its copied manual and, when provided, group library. Finalization validates the current files.
 """
 
 
@@ -758,7 +620,7 @@ def init_group_worker_files(
     report_dir: Path,
     group: dict[str, Any],
     formal_case_lib: str | None,
-    commands: dict[str, str],
+    commands: dict[str, Any],
 ) -> None:
     report_dir = _reject_symlink_components(report_dir, label="group report directory")
     write_text(

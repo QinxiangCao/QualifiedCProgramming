@@ -1,584 +1,245 @@
 #!/usr/bin/env python3
-"""Transactional main-root generated-output refresh.
+"""Publish a completed generated bundle with exact-file backups and recovery.
 
-For annotation-owner commands, the controller has already sealed the attempt's
-immutable ``before`` history. Annotation acceptance and VC-checking acceptance
-reuse the same refresh transaction. Immediately before canonical main-root
-symbolic execution, this module backs up all four generated files, removes the
-manual, and leaves a durable receipt. A failed command restores the bundle; an
-interrupted command is rolled back before a new transaction starts.
+Symbolic execution runs in a separate directory. This transaction covers only
+publication; a failed generator never removes or modifies canonical output.
 """
-
-# ruff: noqa: E402 -- standalone controller modules resolve shared helpers at runtime.
 
 from __future__ import annotations
 
 import json
 import os
 import shutil
-import sys
 import tempfile
 from pathlib import Path
 from typing import Any
 
-SCRIPT_DIR = Path(__file__).resolve().parent
-VC_PROVING_SCRIPTS = SCRIPT_DIR.parent / "vc-proving"
-if str(VC_PROVING_SCRIPTS) not in sys.path:
-    sys.path.insert(0, str(VC_PROVING_SCRIPTS))
-
-from atomic_file import atomic_copy_file
-from file_integrity import sha256_file as _sha256
-from path_utils import fixed_path_under, path_is_link_like, write_json
+from atomic_file import atomic_write_bytes
+from path_utils import fixed_path_under, write_json
+from symexec_tooling import (
+    GENERATED_FILE_KEYS,
+    _generated_output_failure,
+    _lexical_regular_file_snapshot,
+    _snapshot_text,
+)
 
 TRANSACTION_DIRECTORY_NAME = ".generated-refresh-transaction"
 TRANSACTION_MANIFEST_NAME = "transaction.json"
-PREPARING_DIRECTORY_PREFIX = ".generated-refresh-preparing-"
-GENERATED_FILE_KEYS = (
-    "goal_file",
-    "proof_auto_file",
-    "proof_manual_file",
-    "goal_check_file",
-)
 
 
 class AnnotationRefreshError(RuntimeError):
-    """One compact controller-facing refresh failure."""
-
     def __init__(
-        self,
-        *,
-        kind: str,
-        message: str,
-        repair: str,
+        self, *, kind: str, message: str,
+        repair: str = "Restore the named file or its original backup, then rerun the unchanged symexec command.",
         category: str = "generated-output",
     ) -> None:
         super().__init__(message)
-        self.category = category
-        self.kind = kind
-        self.message = message
-        self.repair = repair
+        self.category, self.kind, self.repair = category, kind, repair
 
     def failure(self) -> dict[str, str]:
-        return {
-            "category": self.category,
-            "kind": self.kind,
-            "message": self.message,
-            "repair": self.repair,
-        }
+        return {"category": self.category, "kind": self.kind, "message": str(self), "repair": self.repair}
 
 
 def transaction_root_for_attempt(report_directory: Path) -> Path:
-    report = report_directory.expanduser().absolute()
-    if not report.is_dir() or report.resolve() != report:
-        raise AnnotationRefreshError(
-            category="structure",
-            kind="annotation-refresh-report-path",
-            message=(
-                "annotation report directory is missing, uses a symlink, or escaped "
-                f"its fixed path: {report}"
-            ),
-            repair=(
-                "Restore the controller-owned fixed annotation report directory, "
-                "then rerun the unchanged controller symexec command."
-            ),
-        )
-    transaction = report / TRANSACTION_DIRECTORY_NAME
-    if path_is_link_like(transaction):
-        raise AnnotationRefreshError(
-            category="structure",
-            kind="annotation-refresh-transaction-path",
-            message=(
-                f"annotation refresh transaction cannot be a symlink: {transaction}"
-            ),
-            repair=(
-                "Remove the unexpected symlink without changing formal files, then "
-                "rerun the unchanged controller symexec command."
-            ),
-        )
-    return transaction
+    return fixed_path_under(
+        report_directory / TRANSACTION_DIRECTORY_NAME,
+        report_directory, label="generated publication transaction",
+    )
 
 
-def _generated_paths(
-    main_root: Path, target_files: dict[str, str]
-) -> dict[str, Path]:
-    owner_input = Path(os.path.abspath(os.fspath(main_root.expanduser())))
-    try:
-        owner = fixed_path_under(
-            owner_input,
-            owner_input,
-            label="annotation refresh main root",
-        )
-    except SystemExit as exc:
-        raise AnnotationRefreshError(
-            category="structure",
-            kind="annotation-refresh-target-path",
-            message=str(exc),
-            repair=(
-                "Restore the fixed non-symlink main root, then rerun the unchanged "
-                "controller symexec command."
-            ),
-        ) from exc
-    paths: dict[str, Path] = {}
-    for role in GENERATED_FILE_KEYS:
-        relative = Path(str(target_files[role]))
-        if relative.is_absolute() or ".." in relative.parts:
+def _bundle(root: Path, target_files: dict[str, str]) -> dict[str, dict[str, Any]]:
+    snapshots = {role: _lexical_regular_file_snapshot(root=root, relative=relative, label=f"publication {role}")
+                 for role, relative in target_files.items()}
+    for role, snapshot in snapshots.items():
+        if snapshot.get("state") not in {"present", "missing"}:
             raise AnnotationRefreshError(
-                category="structure",
-                kind="annotation-refresh-target-path",
-                message=f"generated target is not repository-relative: {relative}",
-                repair=(
-                    "Repair the controller target-file mapping before retrying; do "
-                    "not delete or move generated files manually."
-                ),
+                kind="generated-output-path-invalid", message=f"{role}: {snapshot.get('message') or snapshot['state']}"
             )
-        try:
-            fixed_parent = fixed_path_under(
-                (owner / relative).parent,
-                owner,
-                label=f"annotation refresh {role} parent",
-            )
-        except SystemExit as exc:
-            raise AnnotationRefreshError(
-                category="structure",
-                kind="annotation-refresh-target-path",
-                message=str(exc),
-                repair=(
-                    "Restore the fixed non-symlink formal target path, then rerun the "
-                    "unchanged controller symexec command."
-                ),
-            ) from exc
-        paths[role] = fixed_parent / relative.name
-    return paths
+    return snapshots
 
 
-def _clear_exact_generated_leaf(path: Path) -> None:
-    """Remove only one already-validated generated leaf without following it."""
-
-    if not os.path.lexists(path):
-        return
-    if path_is_link_like(path):
-        try:
-            path.unlink()
-        except IsADirectoryError:
-            path.rmdir()
-    elif path.is_dir():
-        shutil.rmtree(path)
-    else:
-        path.unlink()
+def generated_output_contents(root: Path, target_files: dict[str, str]) -> dict[str, bytes | None]:
+    return file_contents(root, {role: target_files[role] for role in GENERATED_FILE_KEYS})
 
 
-def _manual_refresh_state(manual: Path) -> str:
-    if not os.path.lexists(manual):
-        return "missing"
-    if path_is_link_like(manual) or not manual.is_file():
-        raise AnnotationRefreshError(
-            category="structure",
-            kind="annotation-refresh-manual-path",
-            message=f"proof manual is not a fixed regular file: {manual}",
-            repair=(
-                "Restore the proof manual as a regular main-root file, then rerun the "
-                "unchanged controller symexec command."
-            ),
-        )
-    return "present"
+def file_contents(root: Path, files: dict[str, str]) -> dict[str, bytes | None]:
+    return {role: snapshot.get("data") for role, snapshot in _bundle(root, files).items()}
 
 
-def _load_manifest(
-    transaction_root: Path, target_files: dict[str, str]
-) -> dict[str, Any]:
-    manifest_path = transaction_root / TRANSACTION_MANIFEST_NAME
-    if (
-        path_is_link_like(manifest_path)
-        or manifest_path.resolve() != manifest_path.absolute()
-    ):
-        raise AnnotationRefreshError(
-            category="structure",
-            kind="annotation-refresh-transaction-contract",
-            message="annotation refresh transaction manifest uses a symlink",
-            repair=(
-                "Restore the controller-owned transaction manifest and backup "
-                "without following external paths."
-            ),
-        )
-    try:
-        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
-        raise AnnotationRefreshError(
-            category="structure",
-            kind="annotation-refresh-transaction-contract",
-            message=f"cannot read annotation refresh transaction: {exc}",
-            repair=(
-                "Restore the transaction manifest and its backup files, or recover "
-                "the generated bundle from the sealed attempt before snapshot."
-            ),
-        ) from exc
-    if set(manifest) != {"status", "generated_files"}:
-        raise AnnotationRefreshError(
-            category="structure",
-            kind="annotation-refresh-transaction-contract",
-            message="annotation refresh transaction has unsupported or missing fields",
-            repair=(
-                "Recover the generated bundle from the sealed attempt before "
-                "snapshot before retrying symbolic execution."
-            ),
-        )
-    if manifest.get("status") not in {"prepared", "committed"}:
-        raise AnnotationRefreshError(
-            category="structure",
-            kind="annotation-refresh-transaction-contract",
-            message="annotation refresh transaction has an invalid status",
-            repair=(
-                "Recover the generated bundle from the sealed attempt before "
-                "snapshot before retrying symbolic execution."
-            ),
-        )
-    records = manifest.get("generated_files")
-    if not isinstance(records, list) or len(records) != len(GENERATED_FILE_KEYS):
-        raise AnnotationRefreshError(
-            category="structure",
-            kind="annotation-refresh-transaction-contract",
-            message="annotation refresh transaction does not cover all generated files",
-            repair=(
-                "Recover the complete generated bundle from the sealed attempt "
-                "before snapshot before retrying symbolic execution."
-            ),
-        )
-    by_role: dict[str, dict[str, Any]] = {}
-    for record in records:
-        if not isinstance(record, dict):
-            by_role = {}
-            break
-        role = str(record.get("role") or "")
-        if role in by_role:
-            by_role = {}
-            break
-        by_role[role] = record
-    if set(by_role) != set(GENERATED_FILE_KEYS):
-        raise AnnotationRefreshError(
-            category="structure",
-            kind="annotation-refresh-transaction-contract",
-            message="annotation refresh transaction has invalid generated-file roles",
-            repair=(
-                "Recover the complete generated bundle from the sealed attempt "
-                "before snapshot before retrying symbolic execution."
-            ),
-        )
-    for role in GENERATED_FILE_KEYS:
-        record = by_role[role]
-        if (
-            set(record) != {"role", "relative_path", "state", "sha256"}
-            or record.get("relative_path") != str(target_files[role])
-            or record.get("state") not in {"present", "missing"}
-        ):
-            raise AnnotationRefreshError(
-                category="structure",
-                kind="annotation-refresh-transaction-contract",
-                message=f"annotation refresh transaction record is invalid: {role}",
-                repair=(
-                    "Recover the generated bundle from the sealed attempt before "
-                    "snapshot before retrying symbolic execution."
-                ),
-            )
+def _expect_contents(root: Path, relative: str, expected: bytes | None) -> None:
+    snapshot = _lexical_regular_file_snapshot(root=root, relative=relative, label="publication target")
+    if snapshot.get("state") not in {"present", "missing"} or snapshot.get("data") != expected:
+        raise ValueError(f"publication would overwrite an external edit: {relative}")
+
+
+def _load_transaction(transaction: Path, target_files: dict[str, str]) -> dict[str, Any]:
+    snapshot = _lexical_regular_file_snapshot(root=transaction, relative=TRANSACTION_MANIFEST_NAME, label="publication manifest")
+    manifest = json.loads(_snapshot_text(snapshot, label="publication manifest"))
+    if (not isinstance(manifest, dict) or set(manifest) != {"status", "files"}
+        or manifest.get("status") not in {"prepared", "committed"}
+        or not isinstance(manifest["files"], dict) or set(manifest["files"]) != set(target_files)):
+        raise ValueError("invalid generated publication manifest")
+    for role, record in manifest["files"].items():
+        if (not isinstance(record, dict) or set(record) != {"relative_path", "original_present", "candidate_present"}
+            or record["relative_path"] != target_files[role]
+            or type(record["original_present"]) is not bool or type(record["candidate_present"]) is not bool):
+            raise ValueError(f"invalid generated publication record: {role}")
     return manifest
 
 
-def _atomic_restore(source: Path, destination: Path) -> None:
-    atomic_copy_file(
-        source,
-        destination,
-        suffix=".annotation-refresh",
-        preserve_metadata=True,
-    )
+def _saved_contents(transaction: Path, role: str, kind: str, present: bool) -> bytes | None:
+    snapshot = _lexical_regular_file_snapshot(root=transaction, relative=f"{role}.{kind}", label="publication recovery file")
+    if snapshot["state"] != ("present" if present else "missing"):
+        raise ValueError(f"publication recovery file is missing or invalid: {role}.{kind}")
+    return snapshot.get("data")
 
 
-def _restore_transaction(
-    *,
-    main_root: Path,
-    target_files: dict[str, str],
-    transaction_root: Path,
-) -> None:
-    manifest = _load_manifest(transaction_root, target_files)
-    paths = _generated_paths(main_root, target_files)
-    records = {
-        str(record["role"]): record for record in manifest["generated_files"]
-    }
-
-    for role in GENERATED_FILE_KEYS:
-        record = records[role]
-        if record["state"] != "present":
+def _restore_transaction(main_root: Path, target_files: dict[str, str], transaction: Path, manifest: dict[str, Any]) -> None:
+    current = file_contents(main_root, target_files)
+    originals = {role: _saved_contents(transaction, role, "original", record["original_present"])
+                 for role, record in manifest["files"].items()}
+    candidates = {role: _saved_contents(transaction, role, "candidate", record["candidate_present"])
+                  for role, record in manifest["files"].items()}
+    for role in current:
+        if current[role] not in (originals[role], candidates[role]):
+            raise ValueError(f"publication recovery would overwrite an external edit: {target_files[role]}")
+    for role, payload in originals.items():
+        if current[role] == payload:
             continue
-        backup = transaction_root / "backup" / str(record["relative_path"])
-        if (
-            path_is_link_like(backup)
-            or backup.resolve() != backup.absolute()
-            or not backup.is_file()
-            or _sha256(backup) != record.get("sha256")
-        ):
-            raise AnnotationRefreshError(
-                category="structure",
-                kind="annotation-refresh-backup-integrity",
-                message=f"annotation refresh backup is missing or changed: {role}",
-                repair=(
-                    "Recover the complete generated bundle from the sealed attempt "
-                    "before snapshot before retrying symbolic execution."
-                ),
-            )
-
-    try:
-        for role in GENERATED_FILE_KEYS:
-            record = records[role]
-            destination = paths[role]
-            if record["state"] == "present":
-                source = transaction_root / "backup" / str(
-                    record["relative_path"]
-                )
-                _clear_exact_generated_leaf(destination)
-                _atomic_restore(source, destination)
-            else:
-                _clear_exact_generated_leaf(destination)
-    except OSError as exc:
-        raise AnnotationRefreshError(
-            category="tool",
-            kind="annotation-refresh-rollback",
-            message=f"failed to restore the generated bundle: {exc}",
-            repair=(
-                "Restore write access and rerun the unchanged controller symexec "
-                "command; the durable transaction backup must not be edited."
-            ),
-        ) from exc
-
-
-def _discard_transaction(transaction_root: Path) -> None:
-    try:
-        shutil.rmtree(transaction_root)
-    except OSError as exc:
-        raise AnnotationRefreshError(
-            category="tool",
-            kind="annotation-refresh-transaction-cleanup",
-            message=f"failed to remove annotation refresh transaction: {exc}",
-            repair=(
-                "Restore delete access to the annotation attempt report directory, "
-                "then rerun the unchanged controller symexec command."
-            ),
-        ) from exc
+        destination = fixed_path_under(main_root / target_files[role], main_root, label="recovery target")
+        def confirm_candidate() -> None:
+            _expect_contents(main_root, target_files[role], candidates[role])
+        if payload is None:
+            confirm_candidate()
+            destination.unlink()
+        else:
+            atomic_write_bytes(destination, payload, suffix=".generated-restore", validate_commit=confirm_candidate)
 
 
 def recover_interrupted_refresh(
-    *,
-    main_root: Path,
-    target_files: dict[str, str],
-    transaction_root: Path,
+    *, main_root: Path, target_files: dict[str, str], transaction_root: Path,
 ) -> str | None:
-    if not os.path.lexists(transaction_root):
-        return None
-    if path_is_link_like(transaction_root) or not transaction_root.is_dir():
-        raise AnnotationRefreshError(
-            category="structure",
-            kind="annotation-refresh-transaction-path",
-            message=(
-                "annotation refresh transaction is not a fixed directory: "
-                f"{transaction_root}"
-            ),
-            repair=(
-                "Restore the controller-owned transaction directory without changing "
-                "its backup, then rerun the unchanged controller symexec command."
-            ),
-        )
-    manifest = _load_manifest(transaction_root, target_files)
-    if manifest["status"] == "prepared":
-        _restore_transaction(
-            main_root=main_root,
-            target_files=target_files,
-            transaction_root=transaction_root,
-        )
-        recovery = "rolled-back-interrupted"
-    else:
-        recovery = "discarded-committed"
-    _discard_transaction(transaction_root)
-    return recovery
-
-
-def _discard_interrupted_preparations(report_directory: Path) -> int:
-    removed = 0
-    for candidate in report_directory.iterdir():
-        if not candidate.name.startswith(PREPARING_DIRECTORY_PREFIX):
-            continue
-        if path_is_link_like(candidate) or not candidate.is_dir():
-            raise AnnotationRefreshError(
-                category="structure",
-                kind="annotation-refresh-preparation-path",
-                message=(
-                    "interrupted annotation refresh preparation is not a fixed "
-                    f"directory: {candidate}"
-                ),
-                repair=(
-                    "Restore the controller-owned attempt report directory without "
-                    "following external paths, then rerun the unchanged command."
-                ),
-            )
-        _discard_transaction(candidate)
-        removed += 1
-    return removed
-
-
-def begin_generated_refresh(
-    *,
-    main_root: Path,
-    target_files: dict[str, str],
-    report_directory: Path,
-) -> dict[str, Any]:
-    transaction_root = transaction_root_for_attempt(report_directory)
-    recovered = recover_interrupted_refresh(
-        main_root=main_root,
-        target_files=target_files,
-        transaction_root=transaction_root,
-    )
-    discarded_preparations = _discard_interrupted_preparations(
-        transaction_root.parent
-    )
-    paths = _generated_paths(main_root, target_files)
-    manual = paths["proof_manual_file"]
-    manual_state = _manual_refresh_state(manual)
-
-    temporary = Path(
-        tempfile.mkdtemp(
-            prefix=PREPARING_DIRECTORY_PREFIX,
-            dir=transaction_root.parent,
-        )
-    )
+    target_files = {role: target_files[role] for role in GENERATED_FILE_KEYS}
     try:
-        records: list[dict[str, Any]] = []
-        for role in GENERATED_FILE_KEYS:
-            source = paths[role]
-            if os.path.lexists(source):
-                if path_is_link_like(source) or not source.is_file():
-                    raise AnnotationRefreshError(
-                        category="structure",
-                        kind="annotation-refresh-target-path",
-                        message=f"generated target is not a regular file: {source}",
-                        repair=(
-                            "Restore the fixed generated target path, then rerun the "
-                            "unchanged controller symexec command."
-                        ),
-                    )
-                destination = temporary / "backup" / str(target_files[role])
-                destination.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(source, destination)
-                records.append(
-                    {
-                        "role": role,
-                        "relative_path": str(target_files[role]),
-                        "state": "present",
-                        "sha256": _sha256(destination),
-                    }
-                )
-            else:
-                records.append(
-                    {
-                        "role": role,
-                        "relative_path": str(target_files[role]),
-                        "state": "missing",
-                        "sha256": None,
-                    }
-                )
-        write_json(
-            temporary / TRANSACTION_MANIFEST_NAME,
-            {
-                "status": "prepared",
-                "generated_files": records,
-            },
-        )
-        os.replace(temporary, transaction_root)
-        if os.path.lexists(manual):
-            _clear_exact_generated_leaf(manual)
-    except AnnotationRefreshError:
-        if temporary.exists():
-            shutil.rmtree(temporary, ignore_errors=True)
-        raise
-    except OSError as exc:
-        if (
-            os.path.lexists(transaction_root)
-            and not path_is_link_like(transaction_root)
-            and transaction_root.is_dir()
+        transaction = fixed_path_under(transaction_root, transaction_root.parent, label="generated publication transaction")
+        if not os.path.lexists(transaction):
+            return None
+        if not transaction.is_dir():
+            raise ValueError(f"generated publication transaction is not a directory: {transaction}")
+        manifest = _load_transaction(transaction, target_files)
+        if manifest["status"] == "prepared":
+            _restore_transaction(main_root, target_files, transaction, manifest)
+            result = "rolled-back-interrupted"
+        else:
+            result = "discarded-committed"
+        shutil.rmtree(transaction)
+        return result
+    except (OSError, ValueError, SystemExit) as exc:
+        raise AnnotationRefreshError(category="tool" if isinstance(exc, OSError) else "structure", kind="generated-publication-recovery", message=str(exc)) from exc
+
+
+def publish_generated_output(
+    *, main_root: Path, target_files: dict[str, str], output_root: Path,
+    report_directory: Path, expected: dict[str, bytes | None],
+) -> dict[str, Any]:
+    files = {role: target_files[role] for role in GENERATED_FILE_KEYS}
+    generated = _bundle(output_root, files)
+    failure = _generated_output_failure({"target_files": target_files}, output_root, snapshots=generated)
+    if failure:
+        raise AnnotationRefreshError(**{key: failure[key] for key in ("category", "kind", "message", "repair")})
+    payloads: dict[str, bytes | None] = {}
+    for role, snapshot in generated.items():
+        if snapshot["state"] == "missing":
+            payloads[role] = None
+            continue
+        text = _snapshot_text(snapshot, label=f"generated {role}")
+        for source, destination in (
+            (str(output_root), str(main_root)), (output_root.as_posix(), main_root.as_posix()),
+            (str(output_root).replace("/", "\\"), str(main_root).replace("/", "\\")),
         ):
+            text = text.replace(source, destination)
+        payloads[role] = text.replace("\r\n", "\n").encode("utf-8")
+    return publish_file_contents(main_root=main_root, target_files=files, payloads=payloads,
+                                 transaction=transaction_root_for_attempt(report_directory), expected=expected)
+
+
+def publish_file_contents(
+    *, main_root: Path, target_files: dict[str, str], payloads: dict[str, bytes | None],
+    transaction: Path, expected: dict[str, bytes | None] | None = None, keep_backup: bool = False,
+) -> dict[str, Any]:
+    transaction = fixed_path_under(transaction, main_root, label="publication transaction")
+    report_directory = transaction.parent
+    report_directory.mkdir(parents=True, exist_ok=True)
+    if os.path.lexists(transaction):
+        raise AnnotationRefreshError(kind="publication-pending", message="Recover the existing publication before writing another candidate.")
+    if set(target_files) != set(payloads):
+        raise ValueError("publication payload roles differ from the fixed targets")
+    manifest: dict[str, Any] | None = None
+    try:
+        originals = _bundle(main_root, target_files)
+        if expected is None:
+            expected = {role: item.get("data") for role, item in originals.items()}
+        if {role: item.get("data") for role, item in originals.items()} != expected:
+            raise ValueError("canonical generated files changed while symbolic execution was running")
+        manifest = {
+            "status": "prepared",
+            "files": {
+                role: {"relative_path": target_files[role], "original_present": originals[role]["state"] == "present",
+                       "candidate_present": payload is not None}
+                for role, payload in payloads.items()
+            },
+        }
+        # Building the backup cannot alter main-root files. Its atomic rename
+        # makes only a complete backup visible to recovery after a crash.
+        with tempfile.TemporaryDirectory(prefix=".publish-", dir=report_directory) as temporary:
+            preparation = Path(temporary) / "transaction"
+            preparation.mkdir()
+            for role, snapshot in originals.items():
+                if snapshot["state"] == "present":
+                    atomic_write_bytes(preparation / f"{role}.original", snapshot["data"])
+            for role, payload in payloads.items():
+                if payload is not None:
+                    atomic_write_bytes(preparation / f"{role}.candidate", payload)
+            write_json(preparation / TRANSACTION_MANIFEST_NAME, manifest)
+            os.replace(preparation, transaction)
+        for role, payload in payloads.items():
+            destination = fixed_path_under(main_root / target_files[role], main_root, label="generated publication target")
+            current = _lexical_regular_file_snapshot(root=main_root, relative=target_files[role], label="generated publication target")
+            if current.get("state") not in {"present", "missing"} or current.get("data") != expected[role]:
+                raise ValueError(f"generated publication conflict: {target_files[role]}")
+            if current.get("data") == payload:
+                continue
+            def confirm_original() -> None:
+                _expect_contents(main_root, target_files[role], expected[role])
+
+            if payload is None:
+                confirm_original()
+                destination.unlink()
+            else:
+                atomic_write_bytes(destination, payload, suffix=".generated-publish", validate_commit=confirm_original)
+        manifest["status"] = "committed"
+        write_json(transaction / TRANSACTION_MANIFEST_NAME, manifest)
+    except (OSError, ValueError, SystemExit, AnnotationRefreshError) as exc:
+        if manifest is not None and os.path.lexists(transaction):
             try:
-                _restore_transaction(
-                    main_root=main_root,
-                    target_files=target_files,
-                    transaction_root=transaction_root,
-                )
-                _discard_transaction(transaction_root)
-            except AnnotationRefreshError as rollback_exc:
-                raise rollback_exc from exc
-        if temporary.exists():
-            shutil.rmtree(temporary, ignore_errors=True)
-        raise AnnotationRefreshError(
-            category="tool",
-            kind="annotation-refresh-prepare",
-            message=f"failed to prepare the generated refresh transaction: {exc}",
-            repair=(
-                "Restore write access to the main generated files and annotation "
-                "report directory, then rerun the unchanged controller command."
-            ),
-        ) from exc
-    return {
-        "status": "prepared",
-        "manual_state": manual_state,
-        **(
-            {"interrupted_transaction": recovered}
-            if recovered is not None
-            else {}
-        ),
-        **(
-            {"discarded_interrupted_preparations": discarded_preparations}
-            if discarded_preparations
-            else {}
-        ),
-    }
+                _restore_transaction(main_root, target_files, transaction, _load_transaction(transaction, target_files))
+                shutil.rmtree(transaction)
+            except (OSError, ValueError, SystemExit, AnnotationRefreshError) as recovery_error:
+                raise AnnotationRefreshError(kind="generated-publication-recovery", message=f"{exc}; recovery: {recovery_error}") from exc
+        if isinstance(exc, AnnotationRefreshError):
+            raise
+        raise AnnotationRefreshError(category="tool" if isinstance(exc, OSError) else "generated-output", kind="generated-publication-failed", message=str(exc)) from exc
+    result: dict[str, Any] = {"status": "committed"}
+    if keep_backup:
+        return result
+    try:
+        shutil.rmtree(transaction)
+    except OSError as exc:
+        # The committed marker makes deferred backup cleanup safe on restart.
+        result["cleanup_diagnostic"] = str(exc)
+    return result
 
 
-def rollback_generated_refresh(
-    *,
-    main_root: Path,
-    target_files: dict[str, str],
-    report_directory: Path,
-) -> dict[str, str]:
-    transaction_root = transaction_root_for_attempt(report_directory)
-    if path_is_link_like(transaction_root) or not transaction_root.is_dir():
-        raise AnnotationRefreshError(
-            category="structure",
-            kind="annotation-refresh-transaction-missing",
-            message="generated refresh transaction is missing during rollback",
-            repair=(
-                "Recover the generated bundle from the sealed attempt before "
-                "snapshot before retrying symbolic execution."
-            ),
-        )
-    _restore_transaction(
-        main_root=main_root,
-        target_files=target_files,
-        transaction_root=transaction_root,
-    )
-    _discard_transaction(transaction_root)
-    return {"status": "rolled-back"}
-
-
-def commit_generated_refresh(
-    *, target_files: dict[str, str], report_directory: Path
-) -> dict[str, str]:
-    transaction_root = transaction_root_for_attempt(report_directory)
-    if path_is_link_like(transaction_root) or not transaction_root.is_dir():
-        raise AnnotationRefreshError(
-            category="structure",
-            kind="annotation-refresh-transaction-missing",
-            message="generated refresh transaction is missing during commit",
-            repair=(
-                "Rerun the unchanged controller symexec command so it can establish "
-                "a complete refresh transaction."
-            ),
-        )
-    manifest = _load_manifest(transaction_root, target_files)
-    manifest["status"] = "committed"
-    write_json(transaction_root / TRANSACTION_MANIFEST_NAME, manifest)
-    _discard_transaction(transaction_root)
-    return {"status": "committed"}
+def rollback_publication(*, main_root: Path, target_files: dict[str, str], transaction: Path) -> None:
+    transaction = fixed_path_under(transaction, main_root, label="publication recovery")
+    _restore_transaction(main_root, target_files, transaction, _load_transaction(transaction, target_files))

@@ -29,7 +29,6 @@ struct list *list_append_raw(struct list *x, struct list *y)
 
     /*@ safeExec(ATrue, bind(list_tail_M(l1), residual_prog_in_list_append_raw_M_call_1(l2)), X) && x != 0 && sll(x, l1) * sll(y, l2) */
     tail = list_tail(x) /*@ where(low_level_spec_aux) X = X; B = (list Z) */;
-    /*@ exists l3 v, safeExec(ATrue, bind(return(maketuple(l3, v)), residual_prog_in_list_append_raw_M_call_1(l2)), X) && tail != 0 && store(&(tail->next), struct list *, 0) * store(&(tail->data), int, v) * sllseg(x, tail, l3) * sll(y, l2) */
     tail->next = y;
     return x;
 }

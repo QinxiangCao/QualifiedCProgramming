@@ -19,11 +19,39 @@ Local Open Scope string_scope.
 Local Open Scope list.
 Import naive_C_Rules.
 Require Import SimpleC.EE.LLM_bench.Algorithms.chinese_remainder_theorem.chinese_remainder_theorem_lib.
+Require Import AUXLib.MonotonicList.
 Local Open Scope sac.
 
 Lemma proof_of_chinese_remainder_theorem_safety_wit_3_split_goal_1 : chinese_remainder_theorem_safety_wit_3_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH12.
+  rename PreH12 into NewPreH13.
+  rename PreH13 into NewPreH14.
+  rename PreH14 into NewPreH15.
+  rename PreH15 into NewPreH16.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  assert (PreH3 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH8. tauto. }
+  pose proof NewPreH12 as PreH5.
+  pose proof NewPreH13 as PreH6.
+  pose proof NewPreH14 as PreH7.
+  pose proof NewPreH15 as PreH8.
+  pose proof NewPreH16 as PreH9.
+  pose proof NewPreH10 as PreH10.
   pose proof
     (crt_prefix_product_bounds__product_progress
        remainders_l moduli_l (i + 1) PreH3 ltac:(lia)) as Hbounds.
@@ -38,11 +66,38 @@ Qed.
 Lemma proof_of_chinese_remainder_theorem_safety_wit_3_split_goal_2 : chinese_remainder_theorem_safety_wit_3_split_goal_2.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH12.
+  rename PreH12 into NewPreH13.
+  rename PreH13 into NewPreH14.
+  rename PreH14 into NewPreH15.
+  rename PreH15 into NewPreH16.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  assert (PreH3 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH8. tauto. }
+  pose proof NewPreH12 as PreH5.
+  pose proof NewPreH13 as PreH6.
+  pose proof NewPreH14 as PreH7.
+  pose proof NewPreH15 as PreH8.
+  pose proof NewPreH16 as PreH9.
+  pose proof NewPreH10 as PreH10.
   destruct PreH3 as [_ [_ [Hvalues _]]].
   specialize (Hvalues i ltac:(lia)).
   destruct Hvalues as [Hmodulus _].
   dump_pre_spatial.
-  nia.
+  lia.
 Qed.
 
 Lemma proof_of_chinese_remainder_theorem_safety_wit_3 : chinese_remainder_theorem_safety_wit_3.
@@ -55,11 +110,48 @@ Qed.
 Lemma proof_of_chinese_remainder_theorem_safety_wit_7_split_goal_1 : chinese_remainder_theorem_safety_wit_7_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
 Qed.
 
 Lemma proof_of_chinese_remainder_theorem_safety_wit_7_split_goal_2 : chinese_remainder_theorem_safety_wit_7_split_goal_2.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH12.
+  rename PreH12 into NewPreH13.
+  rename PreH13 into NewPreH14.
+  rename PreH14 into NewPreH15.
+  rename PreH15 into NewPreH16.
+  rename PreH16 into NewPreH17.
+  rename PreH17 into NewPreH18.
+  rename PreH18 into NewPreH19.
+  rename PreH19 into NewPreH20.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  assert (PreH3 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH8. tauto. }
+  pose proof NewPreH12 as PreH5.
+  pose proof NewPreH13 as PreH6.
+  pose proof NewPreH14 as PreH7.
+  pose proof NewPreH15 as PreH8.
+  pose proof NewPreH16 as PreH9.
+  pose proof NewPreH17 as PreH10.
+  pose proof NewPreH18 as PreH11.
+  pose proof (proj1 (crt_prefix_indexed remainders_l moduli_l i result ltac:(lia) ltac:(lia)) NewPreH19) as PreH12.
+  assert (PreH13 : forall (k: Z) , (((i <= k) /\ (k < n_pre)) -> ((result % ( (Znth (k) (moduli_l) (0)) ) ) = 0))).
+  { pose proof (proj1 (crt_unprocessed_zero_indexed moduli_l i result ltac:(lia)) NewPreH20) as Hzero.
+    intros k Hk. apply Hzero. lia. }
   unfold CRTInputValid in PreH3.
   destruct PreH3 as [_ [_ [Hentries _]]].
   pose proof (Hentries i ltac:(lia)) as [Hmodulus _].
@@ -74,58 +166,49 @@ Proof.
   - Goal_apply proof_of_chinese_remainder_theorem_safety_wit_7_split_goal_2.
 Qed.
 
-Lemma proof_of_chinese_remainder_theorem_safety_wit_9_split_goal_1 : chinese_remainder_theorem_safety_wit_9_split_goal_1.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  prop_apply_p (store_int_range (&( "coefficient" )) x_callee_v).
-  Intros_p Hcoefficient_range.
-  change Int.min_signed with (-2147483648) in Hcoefficient_range.
-  change Int.max_signed with 2147483647 in Hcoefficient_range.
-  unfold CRTMachineSafe in PreH6.
-  rewrite <- PreH7 in PreH6.
-  destruct PreH6 as [_ Hcoefficient].
-  pose proof
-    (Hcoefficient i x_callee_v ltac:(lia) Hcoefficient_range) as Hbound.
-  unfold CRTInputValid in PreH5.
-  destruct PreH5 as [_ [_ [Hentries _]]].
-  pose proof (Hentries i ltac:(lia)) as [Hmodulus _].
-  dump_pre_spatial.
-  rewrite Z.quot_div_nonneg by lia.
-  change INT_MAX with 2147483647.
-  lia.
-Qed.
-
-Lemma proof_of_chinese_remainder_theorem_safety_wit_9_split_goal_2 : chinese_remainder_theorem_safety_wit_9_split_goal_2.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  prop_apply_p (store_int_range (&( "coefficient" )) x_callee_v).
-  Intros_p Hcoefficient_range.
-  change Int.min_signed with (-2147483648) in Hcoefficient_range.
-  change Int.max_signed with 2147483647 in Hcoefficient_range.
-  unfold CRTMachineSafe in PreH6.
-  rewrite <- PreH7 in PreH6.
-  destruct PreH6 as [_ Hcoefficient].
-  pose proof
-    (Hcoefficient i x_callee_v ltac:(lia) Hcoefficient_range) as Hbound.
-  unfold CRTInputValid in PreH5.
-  destruct PreH5 as [_ [_ [Hentries _]]].
-  pose proof (Hentries i ltac:(lia)) as [Hmodulus _].
-  dump_pre_spatial.
-  rewrite Z.quot_div_nonneg by lia.
-  change INT_MIN with (-2147483648).
-  lia.
-Qed.
-
-Lemma proof_of_chinese_remainder_theorem_safety_wit_9 : chinese_remainder_theorem_safety_wit_9.
-Proof.
-  aggressive_pre_process.
-  - Goal_apply proof_of_chinese_remainder_theorem_safety_wit_9_split_goal_1.
-  - Goal_apply proof_of_chinese_remainder_theorem_safety_wit_9_split_goal_2.
-Qed.
-
 Lemma proof_of_chinese_remainder_theorem_safety_wit_11_split_goal_1 : chinese_remainder_theorem_safety_wit_11_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH11.
+  rename PreH12 into NewPreH12.
+  rename PreH13 into NewPreH14.
+  rename PreH14 into NewPreH15.
+  rename PreH15 into NewPreH16.
+  rename PreH16 into NewPreH17.
+  rename PreH17 into NewPreH18.
+  rename PreH18 into NewPreH19.
+  rename PreH19 into NewPreH20.
+  rename PreH20 into NewPreH21.
+  rename PreH21 into NewPreH22.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  pose proof NewPreH3 as PreH3.
+  pose proof NewPreH4 as PreH4.
+  assert (PreH5 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH10. tauto. }
+  pose proof NewPreH14 as PreH7.
+  pose proof NewPreH15 as PreH8.
+  pose proof NewPreH16 as PreH9.
+  pose proof NewPreH17 as PreH10.
+  pose proof NewPreH18 as PreH11.
+  pose proof NewPreH19 as PreH12.
+  pose proof NewPreH20 as PreH13.
+  pose proof (proj1 (crt_prefix_indexed remainders_l moduli_l i result ltac:(lia) ltac:(lia)) NewPreH21) as PreH14.
+  assert (PreH15 : forall (k: Z) , (((i <= k) /\ (k < n_pre)) -> ((result % ( (Znth (k) (moduli_l) (0)) ) ) = 0))).
+  { pose proof (proj1 (crt_unprocessed_zero_indexed moduli_l i result ltac:(lia)) NewPreH22) as Hzero.
+    intros k Hk. apply Hzero. lia. }
   pose proof
     (CRTInputValid_modulus_upper_bound__machine_safety
        remainders_l moduli_l i PreH5 ltac:(lia)) as Hmodulus_upper.
@@ -145,6 +228,46 @@ Qed.
 Lemma proof_of_chinese_remainder_theorem_safety_wit_11_split_goal_2 : chinese_remainder_theorem_safety_wit_11_split_goal_2.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH11.
+  rename PreH12 into NewPreH12.
+  rename PreH13 into NewPreH14.
+  rename PreH14 into NewPreH15.
+  rename PreH15 into NewPreH16.
+  rename PreH16 into NewPreH17.
+  rename PreH17 into NewPreH18.
+  rename PreH18 into NewPreH19.
+  rename PreH19 into NewPreH20.
+  rename PreH20 into NewPreH21.
+  rename PreH21 into NewPreH22.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  pose proof NewPreH3 as PreH3.
+  pose proof NewPreH4 as PreH4.
+  assert (PreH5 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH10. tauto. }
+  pose proof NewPreH14 as PreH7.
+  pose proof NewPreH15 as PreH8.
+  pose proof NewPreH16 as PreH9.
+  pose proof NewPreH17 as PreH10.
+  pose proof NewPreH18 as PreH11.
+  pose proof NewPreH19 as PreH12.
+  pose proof NewPreH20 as PreH13.
+  pose proof (proj1 (crt_prefix_indexed remainders_l moduli_l i result ltac:(lia) ltac:(lia)) NewPreH21) as PreH14.
+  assert (PreH15 : forall (k: Z) , (((i <= k) /\ (k < n_pre)) -> ((result % ( (Znth (k) (moduli_l) (0)) ) ) = 0))).
+  { pose proof (proj1 (crt_unprocessed_zero_indexed moduli_l i result ltac:(lia)) NewPreH22) as Hzero.
+    intros k Hk. apply Hzero. lia. }
   pose proof
     (CRTInputValid_modulus_upper_bound__machine_safety
        remainders_l moduli_l i PreH5 ltac:(lia)) as Hmodulus_upper.
@@ -171,6 +294,48 @@ Qed.
 Lemma proof_of_chinese_remainder_theorem_safety_wit_17_split_goal_1 : chinese_remainder_theorem_safety_wit_17_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH11.
+  rename PreH12 into NewPreH12.
+  rename PreH13 into NewPreH13.
+  rename PreH14 into NewPreH15.
+  rename PreH15 into NewPreH16.
+  rename PreH16 into NewPreH17.
+  rename PreH17 into NewPreH18.
+  rename PreH18 into NewPreH19.
+  rename PreH19 into NewPreH20.
+  rename PreH20 into NewPreH21.
+  rename PreH21 into NewPreH22.
+  rename PreH22 into NewPreH23.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  pose proof NewPreH3 as PreH3.
+  pose proof NewPreH4 as PreH4.
+  pose proof NewPreH5 as PreH5.
+  assert (PreH6 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH11. tauto. }
+  pose proof NewPreH15 as PreH8.
+  pose proof NewPreH16 as PreH9.
+  pose proof NewPreH17 as PreH10.
+  pose proof NewPreH18 as PreH11.
+  pose proof NewPreH19 as PreH12.
+  pose proof NewPreH20 as PreH13.
+  pose proof NewPreH21 as PreH14.
+  pose proof (proj1 (crt_prefix_indexed remainders_l moduli_l i result ltac:(lia) ltac:(lia)) NewPreH22) as PreH15.
+  assert (PreH16 : forall (k: Z) , (((i <= k) /\ (k < n_pre)) -> ((result % ( (Znth (k) (moduli_l) (0)) ) ) = 0))).
+  { pose proof (proj1 (crt_unprocessed_zero_indexed moduli_l i result ltac:(lia)) NewPreH23) as Hzero.
+    intros k Hk. apply Hzero. lia. }
   pose proof
     (Z.rem_bound_abs
        ((Z.rem
@@ -185,6 +350,7 @@ Qed.
 Lemma proof_of_chinese_remainder_theorem_safety_wit_17_split_goal_2 : chinese_remainder_theorem_safety_wit_17_split_goal_2.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
 Qed.
 
 Lemma proof_of_chinese_remainder_theorem_safety_wit_17 : chinese_remainder_theorem_safety_wit_17.
@@ -197,29 +363,14 @@ Qed.
 Lemma proof_of_chinese_remainder_theorem_entail_wit_1_split_goal_1 : chinese_remainder_theorem_entail_wit_1_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  unfold CRTMachineSafe in PreH3.
-  destruct PreH3 as [[_ Hupper] _].
-  exact Hupper.
+  all: try (rewrite crt_reduced_int_cast in * by lia).
 Qed.
 
 Lemma proof_of_chinese_remainder_theorem_entail_wit_1_split_goal_2 : chinese_remainder_theorem_entail_wit_1_split_goal_2.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  unfold CRTMachineSafe in PreH3.
-  destruct PreH3 as [[Hlower _] _].
-  exact Hlower.
-Qed.
-
-Lemma proof_of_chinese_remainder_theorem_entail_wit_1_split_goal_3 : chinese_remainder_theorem_entail_wit_1_split_goal_3.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-Qed.
-
-Lemma proof_of_chinese_remainder_theorem_entail_wit_1_split_goal_4 : chinese_remainder_theorem_entail_wit_1_split_goal_4.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof (Zlength_nonneg moduli_l).
-  lia.
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  all: match goal with H : forall x : Z, _ |- _ => solve [eapply H; eassumption] end.
 Qed.
 
 Lemma proof_of_chinese_remainder_theorem_entail_wit_1 : chinese_remainder_theorem_entail_wit_1.
@@ -227,13 +378,38 @@ Proof.
   aggressive_pre_process.
   - Goal_apply proof_of_chinese_remainder_theorem_entail_wit_1_split_goal_1.
   - Goal_apply proof_of_chinese_remainder_theorem_entail_wit_1_split_goal_2.
-  - Goal_apply proof_of_chinese_remainder_theorem_entail_wit_1_split_goal_3.
-  - Goal_apply proof_of_chinese_remainder_theorem_entail_wit_1_split_goal_4.
 Qed.
 
 Lemma proof_of_chinese_remainder_theorem_entail_wit_2_split_goal_1 : chinese_remainder_theorem_entail_wit_2_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH12.
+  rename PreH12 into NewPreH13.
+  rename PreH13 into NewPreH14.
+  rename PreH14 into NewPreH15.
+  rename PreH15 into NewPreH16.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  assert (PreH3 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH8. tauto. }
+  pose proof NewPreH12 as PreH5.
+  pose proof NewPreH13 as PreH6.
+  pose proof NewPreH14 as PreH7.
+  pose proof NewPreH15 as PreH8.
+  pose proof NewPreH16 as PreH9.
+  pose proof NewPreH10 as PreH10.
   pose proof
     (crt_prefix_product_bounds__product_progress
        remainders_l moduli_l (i + 1) PreH3 ltac:(lia)) as Hbounds.
@@ -247,15 +423,69 @@ Qed.
 Lemma proof_of_chinese_remainder_theorem_entail_wit_2_split_goal_2 : chinese_remainder_theorem_entail_wit_2_split_goal_2.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH12.
+  rename PreH12 into NewPreH13.
+  rename PreH13 into NewPreH14.
+  rename PreH14 into NewPreH15.
+  rename PreH15 into NewPreH16.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  assert (PreH3 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH8. tauto. }
+  pose proof NewPreH12 as PreH5.
+  pose proof NewPreH13 as PreH6.
+  pose proof NewPreH14 as PreH7.
+  pose proof NewPreH15 as PreH8.
+  pose proof NewPreH16 as PreH9.
+  pose proof NewPreH10 as PreH10.
   destruct PreH3 as [_ [_ [Hvalues _]]].
   specialize (Hvalues i ltac:(lia)).
   destruct Hvalues as [Hmodulus _].
-  nia.
+  lia.
 Qed.
 
 Lemma proof_of_chinese_remainder_theorem_entail_wit_2_split_goal_3 : chinese_remainder_theorem_entail_wit_2_split_goal_3.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH12.
+  rename PreH12 into NewPreH13.
+  rename PreH13 into NewPreH14.
+  rename PreH14 into NewPreH15.
+  rename PreH15 into NewPreH16.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  assert (PreH3 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH8. tauto. }
+  pose proof NewPreH12 as PreH5.
+  pose proof NewPreH13 as PreH6.
+  pose proof NewPreH14 as PreH7.
+  pose proof NewPreH15 as PreH8.
+  pose proof NewPreH16 as PreH9.
+  pose proof NewPreH10 as PreH10.
   rewrite PreH7.
   symmetry.
   apply crt_prefix_product_step__product_progress.
@@ -273,11 +503,41 @@ Qed.
 Lemma proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_1 : chinese_remainder_theorem_entail_wit_3_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  unfold CRTUnprocessedZero. apply Forall_forall. intros modulus Hmodulus. reflexivity.
 Qed.
 
 Lemma proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_2 : chinese_remainder_theorem_entail_wit_3_split_goal_2.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH12.
+  rename PreH12 into NewPreH13.
+  rename PreH13 into NewPreH14.
+  rename PreH14 into NewPreH15.
+  rename PreH15 into NewPreH16.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  assert (PreH3 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH8. tauto. }
+  pose proof NewPreH12 as PreH5.
+  pose proof NewPreH13 as PreH6.
+  pose proof NewPreH14 as PreH7.
+  pose proof NewPreH15 as PreH8.
+  pose proof NewPreH16 as PreH9.
+  pose proof NewPreH10 as PreH10.
+  match goal with |- CRTConsistentPrefix ?rs ?ms ?k ?r => apply (proj2 (crt_prefix_indexed rs ms k r ltac:(lia) ltac:(lia))) end.
   unfold CRTProcessedCongruences.
   intros k Hk.
   lia.
@@ -286,11 +546,45 @@ Qed.
 Lemma proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_3 : chinese_remainder_theorem_entail_wit_3_split_goal_3.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH12.
+  rename PreH12 into NewPreH13.
+  rename PreH13 into NewPreH14.
+  rename PreH14 into NewPreH15.
+  rename PreH15 into NewPreH16.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  assert (PreH3 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH8. tauto. }
+  pose proof NewPreH12 as PreH5.
+  pose proof NewPreH13 as PreH6.
+  pose proof NewPreH14 as PreH7.
+  pose proof NewPreH15 as PreH8.
+  pose proof NewPreH16 as PreH9.
+  pose proof NewPreH10 as PreH10.
   assert (i = n_pre) as Hi by lia.
   subst i.
   rewrite PreH2 in PreH7.
   rewrite sublist_self in PreH7 by reflexivity.
   exact PreH7.
+Qed.
+
+Lemma proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_4 : chinese_remainder_theorem_entail_wit_3_split_goal_4.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  all: match goal with H : forall x : Z, _ |- _ => solve [eapply H; eassumption] end.
 Qed.
 
 Lemma proof_of_chinese_remainder_theorem_entail_wit_3 : chinese_remainder_theorem_entail_wit_3.
@@ -299,11 +593,107 @@ Proof.
   - Goal_apply proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_1.
   - Goal_apply proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_2.
   - Goal_apply proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_3.
+  - Goal_apply proof_of_chinese_remainder_theorem_entail_wit_3_split_goal_4.
 Qed.
 
 Lemma proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_1 : chinese_remainder_theorem_entail_wit_4_1_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH11.
+  rename PreH12 into NewPreH12.
+  rename PreH13 into NewPreH13.
+  rename PreH14 into NewPreH15.
+  rename PreH15 into NewPreH16.
+  rename PreH16 into NewPreH17.
+  rename PreH17 into NewPreH18.
+  rename PreH18 into NewPreH19.
+  rename PreH19 into NewPreH20.
+  rename PreH20 into NewPreH21.
+  rename PreH21 into NewPreH22.
+  rename PreH22 into NewPreH23.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  pose proof NewPreH3 as PreH3.
+  pose proof NewPreH4 as PreH4.
+  pose proof NewPreH5 as PreH5.
+  assert (PreH6 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH11. tauto. }
+  pose proof NewPreH15 as PreH8.
+  pose proof NewPreH16 as PreH9.
+  pose proof NewPreH17 as PreH10.
+  pose proof NewPreH18 as PreH11.
+  pose proof NewPreH19 as PreH12.
+  pose proof NewPreH20 as PreH13.
+  pose proof NewPreH21 as PreH14.
+  pose proof (proj1 (crt_prefix_indexed remainders_l moduli_l i result ltac:(lia) ltac:(lia)) NewPreH22) as PreH15.
+  assert (PreH16 : forall (k: Z) , (((i <= k) /\ (k < n_pre)) -> ((result % ( (Znth (k) (moduli_l) (0)) ) ) = 0))).
+  { pose proof (proj1 (crt_unprocessed_zero_indexed moduli_l i result ltac:(lia)) NewPreH23) as Hzero.
+    intros k Hk. apply Hzero. lia. }
+  match goal with |- CRTUnprocessedZero _ _ (Z.rem ?sum product) =>
+    replace sum with
+      (result + Z.rem (Z.rem (x_callee_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product + 1 * product) by ring
+  end.
+  eapply crt_update_unprocessed_rem; try eassumption; lia.
+Qed.
+
+Lemma proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_2 : chinese_remainder_theorem_entail_wit_4_1_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH11.
+  rename PreH12 into NewPreH12.
+  rename PreH13 into NewPreH13.
+  rename PreH14 into NewPreH15.
+  rename PreH15 into NewPreH16.
+  rename PreH16 into NewPreH17.
+  rename PreH17 into NewPreH18.
+  rename PreH18 into NewPreH19.
+  rename PreH19 into NewPreH20.
+  rename PreH20 into NewPreH21.
+  rename PreH21 into NewPreH22.
+  rename PreH22 into NewPreH23.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  pose proof NewPreH3 as PreH3.
+  pose proof NewPreH4 as PreH4.
+  pose proof NewPreH5 as PreH5.
+  assert (PreH6 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH11. tauto. }
+  pose proof NewPreH15 as PreH8.
+  pose proof NewPreH16 as PreH9.
+  pose proof NewPreH17 as PreH10.
+  pose proof NewPreH18 as PreH11.
+  pose proof NewPreH19 as PreH12.
+  pose proof NewPreH20 as PreH13.
+  pose proof NewPreH21 as PreH14.
+  pose proof (proj1 (crt_prefix_indexed remainders_l moduli_l i result ltac:(lia) ltac:(lia)) NewPreH22) as PreH15.
+  assert (PreH16 : forall (k: Z) , (((i <= k) /\ (k < n_pre)) -> ((result % ( (Znth (k) (moduli_l) (0)) ) ) = 0))).
+  { pose proof (proj1 (crt_unprocessed_zero_indexed moduli_l i result ltac:(lia)) NewPreH23) as Hzero.
+    intros k Hk. apply Hzero. lia. }
+  match goal with |- CRTConsistentPrefix ?rs ?ms ?k ?r => apply (proj2 (crt_prefix_indexed rs ms k r ltac:(lia) ltac:(lia))) end.
   assert (Hupdate :
     CRTProcessedCongruences remainders_l moduli_l (i + 1)
       ((result +
@@ -411,9 +801,51 @@ Proof.
   exact Hupdate.
 Qed.
 
-Lemma proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_2 : chinese_remainder_theorem_entail_wit_4_1_split_goal_2.
+Lemma proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_3 : chinese_remainder_theorem_entail_wit_4_1_split_goal_3.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH11.
+  rename PreH12 into NewPreH12.
+  rename PreH13 into NewPreH13.
+  rename PreH14 into NewPreH15.
+  rename PreH15 into NewPreH16.
+  rename PreH16 into NewPreH17.
+  rename PreH17 into NewPreH18.
+  rename PreH18 into NewPreH19.
+  rename PreH19 into NewPreH20.
+  rename PreH20 into NewPreH21.
+  rename PreH21 into NewPreH22.
+  rename PreH22 into NewPreH23.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  pose proof NewPreH3 as PreH3.
+  pose proof NewPreH4 as PreH4.
+  pose proof NewPreH5 as PreH5.
+  assert (PreH6 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH11. tauto. }
+  pose proof NewPreH15 as PreH8.
+  pose proof NewPreH16 as PreH9.
+  pose proof NewPreH17 as PreH10.
+  pose proof NewPreH18 as PreH11.
+  pose proof NewPreH19 as PreH12.
+  pose proof NewPreH20 as PreH13.
+  pose proof NewPreH21 as PreH14.
+  pose proof (proj1 (crt_prefix_indexed remainders_l moduli_l i result ltac:(lia) ltac:(lia)) NewPreH22) as PreH15.
+  assert (PreH16 : forall (k: Z) , (((i <= k) /\ (k < n_pre)) -> ((result % ( (Znth (k) (moduli_l) (0)) ) ) = 0))).
+  { pose proof (proj1 (crt_unprocessed_zero_indexed moduli_l i result ltac:(lia)) NewPreH23) as Hzero.
+    intros k Hk. apply Hzero. lia. }
   pose proof
     (Z.rem_bound_abs
       (Z.rem
@@ -438,9 +870,51 @@ Proof.
   lia.
 Qed.
 
-Lemma proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_3 : chinese_remainder_theorem_entail_wit_4_1_split_goal_3.
+Lemma proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_4 : chinese_remainder_theorem_entail_wit_4_1_split_goal_4.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH11.
+  rename PreH12 into NewPreH12.
+  rename PreH13 into NewPreH13.
+  rename PreH14 into NewPreH15.
+  rename PreH15 into NewPreH16.
+  rename PreH16 into NewPreH17.
+  rename PreH17 into NewPreH18.
+  rename PreH18 into NewPreH19.
+  rename PreH19 into NewPreH20.
+  rename PreH20 into NewPreH21.
+  rename PreH21 into NewPreH22.
+  rename PreH22 into NewPreH23.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  pose proof NewPreH3 as PreH3.
+  pose proof NewPreH4 as PreH4.
+  pose proof NewPreH5 as PreH5.
+  assert (PreH6 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH11. tauto. }
+  pose proof NewPreH15 as PreH8.
+  pose proof NewPreH16 as PreH9.
+  pose proof NewPreH17 as PreH10.
+  pose proof NewPreH18 as PreH11.
+  pose proof NewPreH19 as PreH12.
+  pose proof NewPreH20 as PreH13.
+  pose proof NewPreH21 as PreH14.
+  pose proof (proj1 (crt_prefix_indexed remainders_l moduli_l i result ltac:(lia) ltac:(lia)) NewPreH22) as PreH15.
+  assert (PreH16 : forall (k: Z) , (((i <= k) /\ (k < n_pre)) -> ((result % ( (Znth (k) (moduli_l) (0)) ) ) = 0))).
+  { pose proof (proj1 (crt_unprocessed_zero_indexed moduli_l i result ltac:(lia)) NewPreH23) as Hzero.
+    intros k Hk. apply Hzero. lia. }
   pose proof
     (Z.rem_bound_abs
       (Z.rem
@@ -471,11 +945,107 @@ Proof.
   - Goal_apply proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_1.
   - Goal_apply proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_2.
   - Goal_apply proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_3.
+  - Goal_apply proof_of_chinese_remainder_theorem_entail_wit_4_1_split_goal_4.
 Qed.
 
 Lemma proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_1 : chinese_remainder_theorem_entail_wit_4_2_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH11.
+  rename PreH12 into NewPreH12.
+  rename PreH13 into NewPreH13.
+  rename PreH14 into NewPreH15.
+  rename PreH15 into NewPreH16.
+  rename PreH16 into NewPreH17.
+  rename PreH17 into NewPreH18.
+  rename PreH18 into NewPreH19.
+  rename PreH19 into NewPreH20.
+  rename PreH20 into NewPreH21.
+  rename PreH21 into NewPreH22.
+  rename PreH22 into NewPreH23.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  pose proof NewPreH3 as PreH3.
+  pose proof NewPreH4 as PreH4.
+  pose proof NewPreH5 as PreH5.
+  assert (PreH6 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH11. tauto. }
+  pose proof NewPreH15 as PreH8.
+  pose proof NewPreH16 as PreH9.
+  pose proof NewPreH17 as PreH10.
+  pose proof NewPreH18 as PreH11.
+  pose proof NewPreH19 as PreH12.
+  pose proof NewPreH20 as PreH13.
+  pose proof NewPreH21 as PreH14.
+  pose proof (proj1 (crt_prefix_indexed remainders_l moduli_l i result ltac:(lia) ltac:(lia)) NewPreH22) as PreH15.
+  assert (PreH16 : forall (k: Z) , (((i <= k) /\ (k < n_pre)) -> ((result % ( (Znth (k) (moduli_l) (0)) ) ) = 0))).
+  { pose proof (proj1 (crt_unprocessed_zero_indexed moduli_l i result ltac:(lia)) NewPreH23) as Hzero.
+    intros k Hk. apply Hzero. lia. }
+  match goal with |- CRTUnprocessedZero _ _ (Z.rem ?sum product) =>
+    replace sum with
+      (result + Z.rem (Z.rem (x_callee_v * Z.quot product (Znth i moduli_l 0)) product * Znth i remainders_l 0) product + 0 * product) by ring
+  end.
+  eapply crt_update_unprocessed_rem; try eassumption; lia.
+Qed.
+
+Lemma proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_2 : chinese_remainder_theorem_entail_wit_4_2_split_goal_2.
+Proof.
+  LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH11.
+  rename PreH12 into NewPreH12.
+  rename PreH13 into NewPreH13.
+  rename PreH14 into NewPreH15.
+  rename PreH15 into NewPreH16.
+  rename PreH16 into NewPreH17.
+  rename PreH17 into NewPreH18.
+  rename PreH18 into NewPreH19.
+  rename PreH19 into NewPreH20.
+  rename PreH20 into NewPreH21.
+  rename PreH21 into NewPreH22.
+  rename PreH22 into NewPreH23.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  pose proof NewPreH3 as PreH3.
+  pose proof NewPreH4 as PreH4.
+  pose proof NewPreH5 as PreH5.
+  assert (PreH6 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH11. tauto. }
+  pose proof NewPreH15 as PreH8.
+  pose proof NewPreH16 as PreH9.
+  pose proof NewPreH17 as PreH10.
+  pose proof NewPreH18 as PreH11.
+  pose proof NewPreH19 as PreH12.
+  pose proof NewPreH20 as PreH13.
+  pose proof NewPreH21 as PreH14.
+  pose proof (proj1 (crt_prefix_indexed remainders_l moduli_l i result ltac:(lia) ltac:(lia)) NewPreH22) as PreH15.
+  assert (PreH16 : forall (k: Z) , (((i <= k) /\ (k < n_pre)) -> ((result % ( (Znth (k) (moduli_l) (0)) ) ) = 0))).
+  { pose proof (proj1 (crt_unprocessed_zero_indexed moduli_l i result ltac:(lia)) NewPreH23) as Hzero.
+    intros k Hk. apply Hzero. lia. }
+  match goal with |- CRTConsistentPrefix ?rs ?ms ?k ?r => apply (proj2 (crt_prefix_indexed rs ms k r ltac:(lia) ltac:(lia))) end.
   assert (Hupdate :
     CRTProcessedCongruences remainders_l moduli_l (i + 1)
       ((result +
@@ -546,9 +1116,51 @@ Proof.
   exact Hupdate.
 Qed.
 
-Lemma proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_2 : chinese_remainder_theorem_entail_wit_4_2_split_goal_2.
+Lemma proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_3 : chinese_remainder_theorem_entail_wit_4_2_split_goal_3.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH11.
+  rename PreH12 into NewPreH12.
+  rename PreH13 into NewPreH13.
+  rename PreH14 into NewPreH15.
+  rename PreH15 into NewPreH16.
+  rename PreH16 into NewPreH17.
+  rename PreH17 into NewPreH18.
+  rename PreH18 into NewPreH19.
+  rename PreH19 into NewPreH20.
+  rename PreH20 into NewPreH21.
+  rename PreH21 into NewPreH22.
+  rename PreH22 into NewPreH23.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  pose proof NewPreH3 as PreH3.
+  pose proof NewPreH4 as PreH4.
+  pose proof NewPreH5 as PreH5.
+  assert (PreH6 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH11. tauto. }
+  pose proof NewPreH15 as PreH8.
+  pose proof NewPreH16 as PreH9.
+  pose proof NewPreH17 as PreH10.
+  pose proof NewPreH18 as PreH11.
+  pose proof NewPreH19 as PreH12.
+  pose proof NewPreH20 as PreH13.
+  pose proof NewPreH21 as PreH14.
+  pose proof (proj1 (crt_prefix_indexed remainders_l moduli_l i result ltac:(lia) ltac:(lia)) NewPreH22) as PreH15.
+  assert (PreH16 : forall (k: Z) , (((i <= k) /\ (k < n_pre)) -> ((result % ( (Znth (k) (moduli_l) (0)) ) ) = 0))).
+  { pose proof (proj1 (crt_unprocessed_zero_indexed moduli_l i result ltac:(lia)) NewPreH23) as Hzero.
+    intros k Hk. apply Hzero. lia. }
   pose proof
     (Z.rem_bound_pos
       (result +
@@ -560,9 +1172,51 @@ Proof.
   lia.
 Qed.
 
-Lemma proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_3 : chinese_remainder_theorem_entail_wit_4_2_split_goal_3.
+Lemma proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_4 : chinese_remainder_theorem_entail_wit_4_2_split_goal_4.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH11.
+  rename PreH12 into NewPreH12.
+  rename PreH13 into NewPreH13.
+  rename PreH14 into NewPreH15.
+  rename PreH15 into NewPreH16.
+  rename PreH16 into NewPreH17.
+  rename PreH17 into NewPreH18.
+  rename PreH18 into NewPreH19.
+  rename PreH19 into NewPreH20.
+  rename PreH20 into NewPreH21.
+  rename PreH21 into NewPreH22.
+  rename PreH22 into NewPreH23.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  pose proof NewPreH3 as PreH3.
+  pose proof NewPreH4 as PreH4.
+  pose proof NewPreH5 as PreH5.
+  assert (PreH6 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH11. tauto. }
+  pose proof NewPreH15 as PreH8.
+  pose proof NewPreH16 as PreH9.
+  pose proof NewPreH17 as PreH10.
+  pose proof NewPreH18 as PreH11.
+  pose proof NewPreH19 as PreH12.
+  pose proof NewPreH20 as PreH13.
+  pose proof NewPreH21 as PreH14.
+  pose proof (proj1 (crt_prefix_indexed remainders_l moduli_l i result ltac:(lia) ltac:(lia)) NewPreH22) as PreH15.
+  assert (PreH16 : forall (k: Z) , (((i <= k) /\ (k < n_pre)) -> ((result % ( (Znth (k) (moduli_l) (0)) ) ) = 0))).
+  { pose proof (proj1 (crt_unprocessed_zero_indexed moduli_l i result ltac:(lia)) NewPreH23) as Hzero.
+    intros k Hk. apply Hzero. lia. }
   pose proof
     (Z.rem_bound_pos
       (result +
@@ -580,16 +1234,54 @@ Proof.
   - Goal_apply proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_1.
   - Goal_apply proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_2.
   - Goal_apply proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_3.
+  - Goal_apply proof_of_chinese_remainder_theorem_entail_wit_4_2_split_goal_4.
 Qed.
 
 Lemma proof_of_chinese_remainder_theorem_return_wit_1_split_goal_1 : chinese_remainder_theorem_return_wit_1_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH12.
+  rename PreH12 into NewPreH13.
+  rename PreH13 into NewPreH14.
+  rename PreH14 into NewPreH15.
+  rename PreH15 into NewPreH16.
+  rename PreH16 into NewPreH17.
+  rename PreH17 into NewPreH18.
+  rename PreH18 into NewPreH19.
+  rename PreH19 into NewPreH20.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  assert (PreH3 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH8. tauto. }
+  pose proof NewPreH12 as PreH5.
+  pose proof NewPreH13 as PreH6.
+  pose proof NewPreH14 as PreH7.
+  pose proof NewPreH15 as PreH8.
+  pose proof NewPreH16 as PreH9.
+  pose proof NewPreH17 as PreH10.
+  pose proof NewPreH18 as PreH11.
+  pose proof (proj1 (crt_prefix_indexed remainders_l moduli_l i result ltac:(lia) ltac:(lia)) NewPreH19) as PreH12.
+  assert (PreH13 : forall (k: Z) , (((i <= k) /\ (k < n_pre)) -> ((result % ( (Znth (k) (moduli_l) (0)) ) ) = 0))).
+  { pose proof (proj1 (crt_unprocessed_zero_indexed moduli_l i result ltac:(lia)) NewPreH20) as Hzero.
+    intros k Hk. apply Hzero. lia. }
   unfold CanonicalCRTSolution.
   split.
   - rewrite <- PreH5.
     lia.
-  - intros k Hk.
+  - apply (proj2 (crt_Forall2_Znth _ remainders_l moduli_l ltac:(lia))).
+    intros k Hk.
     apply PreH12.
     lia.
 Qed.
@@ -603,6 +1295,62 @@ Qed.
 Lemma proof_of_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_1 : chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_1.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH11.
+  rename PreH12 into NewPreH12.
+  rename PreH13 into NewPreH13.
+  rename PreH14 into NewPreH14.
+  rename PreH15 into NewPreH15.
+  rename PreH16 into NewPreH16.
+  rename PreH17 into NewPreH17.
+  rename PreH18 into NewPreH18.
+  rename PreH19 into NewPreH19.
+  rename PreH20 into NewPreH20.
+  rename PreH21 into NewPreH22.
+  rename PreH22 into NewPreH23.
+  rename PreH23 into NewPreH24.
+  rename PreH24 into NewPreH25.
+  rename PreH25 into NewPreH26.
+  rename PreH26 into NewPreH27.
+  rename PreH27 into NewPreH28.
+  rename PreH28 into NewPreH29.
+  rename PreH29 into NewPreH30.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  pose proof NewPreH3 as PreH3.
+  pose proof NewPreH4 as PreH4.
+  pose proof NewPreH5 as PreH5.
+  pose proof NewPreH6 as PreH6.
+  pose proof NewPreH7 as PreH7.
+  pose proof NewPreH8 as PreH8.
+  pose proof NewPreH9 as PreH9.
+  pose proof NewPreH10 as PreH10.
+  pose proof NewPreH11 as PreH11.
+  pose proof NewPreH12 as PreH12.
+  assert (PreH13 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH18. tauto. }
+  pose proof NewPreH22 as PreH15.
+  pose proof NewPreH23 as PreH16.
+  pose proof NewPreH24 as PreH17.
+  pose proof NewPreH25 as PreH18.
+  pose proof NewPreH26 as PreH19.
+  pose proof NewPreH27 as PreH20.
+  pose proof NewPreH28 as PreH21.
+  pose proof (proj1 (crt_prefix_indexed remainders_l moduli_l i result ltac:(lia) ltac:(lia)) NewPreH29) as PreH22.
+  assert (PreH23 : forall (k: Z) , (((i <= k) /\ (k < n_pre)) -> ((result % ( (Znth (k) (moduli_l) (0)) ) ) = 0))).
+  { pose proof (proj1 (crt_unprocessed_zero_indexed moduli_l i result ltac:(lia)) NewPreH30) as Hzero.
+    intros k Hk. apply Hzero. lia. }
   pose proof
     (crt_factor_quotient_bounds__product_progress
        remainders_l moduli_l i PreH13 ltac:(lia)) as Hbounds.
@@ -616,6 +1364,62 @@ Qed.
 Lemma proof_of_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_2 : chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_2.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH11.
+  rename PreH12 into NewPreH12.
+  rename PreH13 into NewPreH13.
+  rename PreH14 into NewPreH14.
+  rename PreH15 into NewPreH15.
+  rename PreH16 into NewPreH16.
+  rename PreH17 into NewPreH17.
+  rename PreH18 into NewPreH18.
+  rename PreH19 into NewPreH19.
+  rename PreH20 into NewPreH20.
+  rename PreH21 into NewPreH22.
+  rename PreH22 into NewPreH23.
+  rename PreH23 into NewPreH24.
+  rename PreH24 into NewPreH25.
+  rename PreH25 into NewPreH26.
+  rename PreH26 into NewPreH27.
+  rename PreH27 into NewPreH28.
+  rename PreH28 into NewPreH29.
+  rename PreH29 into NewPreH30.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  pose proof NewPreH3 as PreH3.
+  pose proof NewPreH4 as PreH4.
+  pose proof NewPreH5 as PreH5.
+  pose proof NewPreH6 as PreH6.
+  pose proof NewPreH7 as PreH7.
+  pose proof NewPreH8 as PreH8.
+  pose proof NewPreH9 as PreH9.
+  pose proof NewPreH10 as PreH10.
+  pose proof NewPreH11 as PreH11.
+  pose proof NewPreH12 as PreH12.
+  assert (PreH13 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH18. tauto. }
+  pose proof NewPreH22 as PreH15.
+  pose proof NewPreH23 as PreH16.
+  pose proof NewPreH24 as PreH17.
+  pose proof NewPreH25 as PreH18.
+  pose proof NewPreH26 as PreH19.
+  pose proof NewPreH27 as PreH20.
+  pose proof NewPreH28 as PreH21.
+  pose proof (proj1 (crt_prefix_indexed remainders_l moduli_l i result ltac:(lia) ltac:(lia)) NewPreH29) as PreH22.
+  assert (PreH23 : forall (k: Z) , (((i <= k) /\ (k < n_pre)) -> ((result % ( (Znth (k) (moduli_l) (0)) ) ) = 0))).
+  { pose proof (proj1 (crt_unprocessed_zero_indexed moduli_l i result ltac:(lia)) NewPreH30) as Hzero.
+    intros k Hk. apply Hzero. lia. }
   destruct PreH13 as [_ [_ [Hvalues _]]].
   specialize (Hvalues i ltac:(lia)).
   destruct Hvalues as [Hmodulus _].
@@ -626,6 +1430,62 @@ Qed.
 Lemma proof_of_chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_3 : chinese_remainder_theorem_partial_solve_wit_4_pure_split_goal_3.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  all: try (rewrite crt_reduced_int_cast in * by lia).
+  rename PreH1 into NewPreH1.
+  rename PreH2 into NewPreH2.
+  rename PreH3 into NewPreH3.
+  rename PreH4 into NewPreH4.
+  rename PreH5 into NewPreH5.
+  rename PreH6 into NewPreH6.
+  rename PreH7 into NewPreH7.
+  rename PreH8 into NewPreH8.
+  rename PreH9 into NewPreH9.
+  rename PreH10 into NewPreH10.
+  rename PreH11 into NewPreH11.
+  rename PreH12 into NewPreH12.
+  rename PreH13 into NewPreH13.
+  rename PreH14 into NewPreH14.
+  rename PreH15 into NewPreH15.
+  rename PreH16 into NewPreH16.
+  rename PreH17 into NewPreH17.
+  rename PreH18 into NewPreH18.
+  rename PreH19 into NewPreH19.
+  rename PreH20 into NewPreH20.
+  rename PreH21 into NewPreH22.
+  rename PreH22 into NewPreH23.
+  rename PreH23 into NewPreH24.
+  rename PreH24 into NewPreH25.
+  rename PreH25 into NewPreH26.
+  rename PreH26 into NewPreH27.
+  rename PreH27 into NewPreH28.
+  rename PreH28 into NewPreH29.
+  rename PreH29 into NewPreH30.
+  pose proof NewPreH1 as PreH1.
+  pose proof NewPreH2 as PreH2.
+  pose proof NewPreH3 as PreH3.
+  pose proof NewPreH4 as PreH4.
+  pose proof NewPreH5 as PreH5.
+  pose proof NewPreH6 as PreH6.
+  pose proof NewPreH7 as PreH7.
+  pose proof NewPreH8 as PreH8.
+  pose proof NewPreH9 as PreH9.
+  pose proof NewPreH10 as PreH10.
+  pose proof NewPreH11 as PreH11.
+  pose proof NewPreH12 as PreH12.
+  assert (PreH13 : (CRTInputValid remainders_l moduli_l )).
+  { apply crt_input_from_explicit; try assumption.
+    intros j k Hj. apply NewPreH18. tauto. }
+  pose proof NewPreH22 as PreH15.
+  pose proof NewPreH23 as PreH16.
+  pose proof NewPreH24 as PreH17.
+  pose proof NewPreH25 as PreH18.
+  pose proof NewPreH26 as PreH19.
+  pose proof NewPreH27 as PreH20.
+  pose proof NewPreH28 as PreH21.
+  pose proof (proj1 (crt_prefix_indexed remainders_l moduli_l i result ltac:(lia) ltac:(lia)) NewPreH29) as PreH22.
+  assert (PreH23 : forall (k: Z) , (((i <= k) /\ (k < n_pre)) -> ((result % ( (Znth (k) (moduli_l) (0)) ) ) = 0))).
+  { pose proof (proj1 (crt_unprocessed_zero_indexed moduli_l i result ltac:(lia)) NewPreH30) as Hzero.
+    intros k Hk. apply Hzero. lia. }
   pose proof
     (crt_factor_quotient_bounds__product_progress
        remainders_l moduli_l i PreH13 ltac:(lia)) as Hbounds.

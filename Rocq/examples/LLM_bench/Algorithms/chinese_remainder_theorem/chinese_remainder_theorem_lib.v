@@ -44,9 +44,8 @@ Definition CRTMachineSafe
 Definition CanonicalCRTSolution
     (remainders moduli : list Z) (answer : Z) : Prop :=
   0 <= answer < CRTProduct moduli /\
-  forall i,
-    0 <= i < Zlength moduli ->
-    answer mod Znth i moduli 0 = Znth i remainders 0.
+  Forall2 (fun remainder modulus => answer mod modulus = remainder)
+    remainders moduli.
 
 (** Internal mathematical state for the accumulation phase.  C-level bounds,
     pointer ownership, and the range of [processed] deliberately remain in
@@ -657,4 +656,166 @@ Lemma crt_rem_eq_mod_of_nonnegative_dividend__crt_transition :
     Z.rem a b = a mod b.
 Proof.
   intros. apply Zrem_Zmod_pos; assumption.
+Qed.
+
+
+(** The public progress relation compares corresponding initialized equations. *)
+Definition CRTConsistentPrefix
+    (remainders moduli : list Z) (processed result : Z) : Prop :=
+  Forall2 (fun remainder modulus => result mod modulus = remainder)
+    (sublist 0 processed remainders) (sublist 0 processed moduli).
+
+Require Import AUXLib.MonotonicList.
+Lemma crt_Forall2_Znth (P : Z -> Z -> Prop) (xs ys : list Z) :
+  Zlength xs = Zlength ys ->
+  (Forall2 P xs ys <->
+   forall k, 0 <= k < Zlength ys -> P (Znth k xs 0) (Znth k ys 0)).
+Proof.
+  revert ys. induction xs as [|x xs IH]; intros [|y ys] Hlen;
+    rewrite ?Zlength_nil, ?Zlength_cons in Hlen;
+    try solve [pose proof (Zlength_nonneg xs); lia | pose proof (Zlength_nonneg ys); lia].
+  - split; intros; [rewrite Zlength_nil in *; lia | constructor].
+  - assert (Ht : Zlength xs = Zlength ys) by lia.
+    rewrite (Forall2_cons_iff P x y xs ys), (IH ys Ht).
+    rewrite Zlength_cons. pose proof (Zlength_nonneg ys) as Hnn.
+    split.
+    + intros [Hhead Htail] k Hk. destruct (Z.eq_dec k 0) as [->|Hne].
+      * rewrite !Znth0_cons. exact Hhead.
+      * rewrite !Znth_cons by lia. apply Htail. lia.
+    + intros H. split.
+      * specialize (H 0 ltac:(lia)). rewrite !Znth0_cons in H. exact H.
+      * intros k Hk. specialize (H (k + 1) ltac:(lia)).
+        rewrite !Znth_cons in H by lia.
+        replace (k + 1 - 1) with k in H by lia. exact H.
+Qed.
+
+Lemma crt_input_from_explicit remainders moduli :
+  Zlength remainders = Zlength moduli ->
+  1 <= Zlength moduli ->
+  Forall (Z.le 1) moduli -> Forall (Z.le 0) remainders ->
+  Forall2 Z.lt remainders moduli ->
+  (forall i j, 0 <= i /\ i < j /\ j < Zlength moduli ->
+      Z.gcd (Znth i moduli 0) (Znth j moduli 0) = 1) ->
+  CRTInputValid remainders moduli.
+Proof.
+  intros Hlen Hnonempty Hmod Hrem Hlt Hcoprime.
+  unfold CRTInputValid. split; [exact Hlen|]. split; [exact Hnonempty|].
+  split; [|exact Hcoprime]. intros i Hi.
+  pose proof (proj1 (Forall_Znth (Z.le 1) 0 moduli) Hmod i Hi).
+  pose proof (proj1 (Forall_Znth (Z.le 0) 0 remainders) Hrem i ltac:(lia)).
+  pose proof (proj1 (crt_Forall2_Znth Z.lt remainders moduli Hlen) Hlt i Hi).
+  lia.
+Qed.
+
+Lemma crt_prefix_indexed remainders moduli processed result :
+  Zlength remainders = Zlength moduli ->
+  0 <= processed <= Zlength moduli ->
+  (CRTConsistentPrefix remainders moduli processed result <->
+   CRTProcessedCongruences remainders moduli processed result).
+Proof.
+  intros Hlen Hp. unfold CRTConsistentPrefix, CRTProcessedCongruences.
+  rewrite crt_Forall2_Znth by (rewrite !Zlength_sublist by lia; lia).
+  rewrite Zlength_sublist by lia.
+  replace (processed - 0) with processed by lia.
+  split; intros H k Hk; specialize (H k Hk);
+    rewrite !Znth_sublist in * by lia;
+    replace (k + 0) with k in * by lia; exact H.
+Qed.
+
+
+Definition CRTUnprocessedZero (moduli : list Z) (processed result : Z) : Prop :=
+  Forall (fun modulus => Z.rem result modulus = 0)
+    (sublist processed (Zlength moduli) moduli).
+
+Lemma crt_unprocessed_zero_indexed moduli processed result :
+  0 <= processed <= Zlength moduli ->
+  (CRTUnprocessedZero moduli processed result <->
+   forall k, processed <= k < Zlength moduli ->
+     Z.rem result (Znth k moduli 0) = 0).
+Proof.
+  intros Hp. unfold CRTUnprocessedZero.
+  rewrite Forall_Znth with (d:=0), Zlength_sublist by lia.
+  split.
+  - intros H k Hk. specialize (H (k-processed) ltac:(lia)).
+    rewrite Znth_sublist in H by lia.
+    replace (k-processed+processed) with k in H by lia. exact H.
+  - intros H k Hk. rewrite Znth_sublist by lia. apply H. lia.
+Qed.
+
+Lemma crt_machine_from_Forall remainders moduli :
+  1 <= CRTProduct moduli <= 46340 ->
+  (forall coefficient, -2147483648 <= coefficient <= 2147483647 ->
+    Forall (Z.le (-2147483648))
+      (map (Z.mul coefficient) (map (Z.div (CRTProduct moduli)) moduli)) /\
+    Forall (Z.ge 2147483647)
+      (map (Z.mul coefficient) (map (Z.div (CRTProduct moduli)) moduli))) ->
+  CRTMachineSafe remainders moduli.
+Proof.
+  intros Hproduct Hsafe. unfold CRTMachineSafe. split; [exact Hproduct|].
+  intros k coefficient Hk Hcoefficient.
+  destruct (Hsafe coefficient Hcoefficient) as [Hlo Hhi].
+  rewrite !Forall_map in Hlo, Hhi.
+  pose proof (proj1 (Forall_Znth _ 0 moduli) Hlo k Hk) as Hlower.
+  pose proof (proj1 (Forall_Znth _ 0 moduli) Hhi k Hk) as Hupper.
+  cbn in Hlower, Hupper. lia.
+Qed.
+
+Lemma crt_rem_multiple m value modulus :
+  modulus <> 0 -> (m | value) -> (m | modulus) -> (m | Z.rem value modulus).
+Proof.
+  intros Hmod [a Ha] [b Hb].
+  pose proof (Z.quot_rem value modulus Hmod) as Hqr.
+  exists (a - b * Z.quot value modulus). nia.
+Qed.
+
+Lemma crt_update_unprocessed_rem remainders moduli result i product x offset :
+  CRTInputValid remainders moduli ->
+  0 <= i < Zlength moduli ->
+  product = CRTProduct moduli -> 0 < product ->
+  CRTUnprocessedZero moduli i result ->
+  CRTUnprocessedZero moduli (i+1)
+    (Z.rem (result +
+      Z.rem (Z.rem (x * Z.quot product (Znth i moduli 0)) product *
+        Znth i remainders 0) product + offset * product) product).
+Proof.
+  intros Hvalid Hi Hproduct Hpositive Hz.
+  pose proof (crt_product_factor_arithmetic__crt_transition remainders moduli i Hvalid Hi)
+    as [Hfactor [Hgcd Hothers]].
+  destruct Hvalid as [_ [_ [Hbounds Hcoprime]]].
+  pose proof (Hbounds i Hi) as [Hmi _].
+  rewrite Z.quot_div_nonneg by lia.
+  apply (proj2 (crt_unprocessed_zero_indexed moduli (i+1) _ ltac:(lia))).
+  pose proof (proj1 (crt_unprocessed_zero_indexed moduli i result ltac:(lia)) Hz) as Hz_indexed.
+  clear Hz. rename Hz_indexed into Hz.
+  intros k Hk. pose proof (Hbounds k ltac:(lia)) as [Hmk _].
+  specialize (Hothers k ltac:(lia) ltac:(lia)).
+  rewrite <- Hproduct in Hfactor, Hothers.
+  assert (HP : (Znth k moduli 0 | product)).
+  { rewrite <- Hfactor. apply Z.divide_mul_l. exact Hothers. }
+  apply (proj2 (Z.rem_divide _ (Znth k moduli 0) ltac:(lia))).
+  apply crt_rem_multiple; [lia| |exact HP].
+  apply Z.divide_add_r.
+  - apply Z.divide_add_r.
+    + apply (proj1 (Z.rem_divide result (Znth k moduli 0) ltac:(lia))).
+      apply Hz. lia.
+    + apply crt_rem_multiple; [lia| |exact HP].
+      apply Z.divide_mul_l.
+      apply crt_rem_multiple; [lia| |exact HP].
+      apply Z.divide_mul_r. exact Hothers.
+  - apply Z.divide_mul_r. exact HP.
+Qed.
+
+Require Import SimpleC.SL.IntLib.
+
+Lemma crt_reduced_int_cast a product :
+  1 <= product <= 46340 ->
+  signed_last_nbits (Z.rem a product) 32 = Z.rem a product.
+Proof.
+  intros Hp. apply signed_last_nbits_eq; [lia |].
+  pose proof (Z.rem_bound_abs a product ltac:(lia)) as Hb.
+  rewrite (Z.abs_eq product) in Hb by lia.
+  change (-2147483648 <= Z.rem a product < 2147483648).
+  destruct (Z_le_gt_dec 0 (Z.rem a product)).
+  - rewrite Z.abs_eq in Hb by lia. lia.
+  - rewrite Z.abs_neq in Hb by lia. lia.
 Qed.

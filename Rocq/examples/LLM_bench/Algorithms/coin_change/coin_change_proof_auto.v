@@ -65,6 +65,9 @@ Proof. Admitted.
 Lemma proof_of_coinChange_safety_wit_15 : coinChange_safety_wit_15.
 Proof. Admitted. 
 
+Lemma proof_of_coinChange_safety_wit_16 : coinChange_safety_wit_16.
+Proof. Admitted. 
+
 Lemma proof_of_coinChange_return_wit_1 : coinChange_return_wit_1.
 Proof. Admitted. 
 

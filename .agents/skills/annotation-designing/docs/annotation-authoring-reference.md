@@ -2,7 +2,7 @@
 
 本文件保留 QCP 语言、资源形状、循环不变量与失败分析细节。阶段顺序、命令与报告合同以 workflow 为准。
 
-本文件给唯一 annotation owner 使用。目标是在 main root 内共同修改 spec、C annotation 和 `formal_case_lib` declarations，直到可交给 main-owned `annotation-check-round`。
+本文件给唯一 annotation owner 使用。目标是在 main root 内共同修改 spec、C annotation 和 `formal_case_lib` declarations，直到可交给 main-owned `finalize-delivery`。
 
 ## 允许修改
 
@@ -54,8 +54,8 @@ Spec 来源是题目描述、输入输出格式和消除歧义所需的样例说
 优先使用短小、稳定、可复用的数学接口：
 
 - 对排序结果，组合 `Permutation` 与 `increasing` / `decreasing`。
-- 对 segment sum，普通场景直接用 `sum(sublist lo hi l)`；复杂 indexed sum 用 `SumLib` 包在业务 predicate 里。
-- 对最大/最小/最优性，优先直接使用 `min_value_of_subset`、`max_value_of_subset` 或当前依赖已有接口；只有题目概念在多处复用时保留一个业务名称。
+- 对 segment sum，普通场景直接用现有 list `sum(sublist lo hi l)`；indexed / finite-set sum 按签名复用 `sum_range` / `sum` / `sum_set_R`，区间枚举使用 `Zrange`，不得递归重写。仅在题目概念确需名称时保留一层业务 predicate，端点与同名接口见[知识规则 §2](spec-and-contract-knowledge.md#2-算术与库接口)。
+- 对最大/最小/最优性，必须使用 `MaxMinLib` 的 `min_value_of_subset` / `max_value_of_subset`，不得自定义 `IsMinimum` / `IsMaximum` 等同义接口；题目或跨函数接口需要名称时，保留一层直接引用库语义的 case predicate。
 - 对二分答案，定义 `CanX`、`CannotX` 和真实答案 predicate；主循环 invariant 维护答案在当前边界内。先读 [二分答案正例](examples/binary-search-answer.md)，配套 C annotation 见同目录的 `split_array_largest_sum.c`。
 - 对 DP，定义 table entry 的数学含义，而不是定义一份递归 DP 程序再追踪它。
 - 对 refinement proof，只保留 proof type 所需的 `safeExec` / monad spec；不要把最终 functional correctness 重复塞进 C loop invariant。
@@ -66,9 +66,9 @@ Spec 来源是题目描述、输入输出格式和消除歧义所需的样例说
 Definition BusinessPredicate (l : list Z) (args : Z) : Prop := ...
 ```
 
-优先使用 `forall` / `exists`、`Znth`、`Zlength`、`sublist`、`Permutation`、`sum` 和已有核心 predicate。题目或接口需要名称时只增加一层 case predicate。只有当归纳结构本身就是业务语义时才引入 `Inductive`；不要为了模拟程序循环写 `Fixpoint`。
+与下标无关的逐元素性质使用 `Forall`，两表对应关系使用 `Forall2`；真正依赖位置时才保留带有效域的 `forall`。直接复用 `exists`、`Znth`、`Zlength`、`sublist`、`Permutation`、`sum` 等核心接口。题目或接口需要名称时只增加一层 case predicate。Relation 的零步或多步闭包必须使用 `clos_refl_trans`，不自定义递归执行链；datatype 选型遵循知识规则 §1.4，不为模拟程序循环写 `Fixpoint`。
 
-这一层 case predicate 只用于题目数学语义，不再嵌套其他同义层。Function spec 的输入大小、标量/元素值范围和 overflow/safety 条件必须直接展开，不得定义或调用 `SizeSafe`、`InputValues`、`InputValid`、`InputBound` 一类包装 predicate。
+这一层 case predicate 只用于题目数学语义，不再嵌套其他同义层。结果与进度 predicate 都不包含内存 ownership、输入限制或实现安全范围；题目候选集合、量化有效域和答案区间仍须保留。输入大小、标量/元素值范围和 overflow/safety 条件在 `Require` 或需要它们的中间 annotation 中直接展开，不得定义或调用 `SizeSafe`、`InputValues`、`InputValid`、`InputBound` 一类包装 predicate。`Ensure` 的数学部分只承诺所需最终性质，资源单独归还。
 
 ## Annotation 风格
 
@@ -109,6 +109,8 @@ Inv Assert
 ```
 
 `IntArray::full(a, n, l)` 已包含 `Zlength(l) == n` 与 `0 <= n`；`IntArray::seg` 等资源同样已包含自己的长度/区间信息。不要在同一 annotation 中重复这些事实。数组访问所需的 `0 <= i < n` 仍按实际需要保留。
+
+`LoopStatePredicate` 只包含数学进度；范围、读取绑定和资源保持在外层，不复制整份入口条件。逐元素范围按知识规则使用 `Forall`，逻辑整数与列表操作统一使用 Z 接口。
 
 数组扫描常见形状：
 
@@ -163,16 +165,13 @@ Inv Assert
 - `invariant-too-strong`
 - `resource-loss`
 
-唯一 annotation owner 按当前阶段循环推进，直到 completed、stale、compact-error 或真实 blocker：
+唯一 annotation owner 按当前阶段循环推进，直到 completed、stale 或真实 blocker（上下文压缩由运行时处理）：
 
 1. 依次设计自然语言 spec、Rocq spec、function spec、必要 predicate、C annotation、case-lib lemmas 和简洁 plan。
 2. 依次运行 handoff 的 design coq-check、canonical symexec 与适用的 post-symexec case-lib check。
 3. 根据第一个失败 VC 在当前 attempt 修改对应的 spec、invariant、资源或 lemma；缺口未解决时继续。
 
-若 controller handoff 明确标出 `consider_broader_refactor: true`，先重新审视 spec 的抽象层次与方向，
-再同时检查 function postcondition、loop invariant 与局部 assertion 的连接。此时应考虑
-删除并重写错误的 annotation 结构，不能默认沿用前两次 annotation 根因修正的局部方向。该要求由
-controller 的因果计数产生，不按 annotation 目录序号推断。
+若局部修正不能解决缺口，由 owner 重新审视 spec 的抽象层次，以及 function postcondition、loop invariant 与局部 assertion 的连接，决定是否重写 annotation 结构。脚本不计数或发出更大重构提示。
 
 ## QCP 失败分析
 

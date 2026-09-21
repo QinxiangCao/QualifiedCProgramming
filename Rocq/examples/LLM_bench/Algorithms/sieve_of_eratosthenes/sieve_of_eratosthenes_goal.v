@@ -95,11 +95,11 @@ forall (f_pre: Z) (n_pre: Z) (current: (@list Z)) (i: Z) (PreH1 : (i > n_pre)) (
 .
 
 Definition solve_safety_wit_8 := 
-forall (f_pre: Z) (n_pre: Z) (current: (@list Z)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (SieveStage n_pre 2 current )) ,
+forall (f_pre: Z) (n_pre: Z) (current: (@list Z)) (i: Z) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (1 <= i)) (PreH5 : (i <= (n_pre + 1 ))) (PreH6 : (SieveInitPrefix n_pre i current )) ,
   ((( &( "i" ) )) # Int  |->_)
+  **  (IntArray.seg f_pre 1 (n_pre + 1 ) (replace_Znth ((2 - 1 )) (1) ((replace_Znth ((1 - 1 )) (0) (current)))) )
   **  ((( &( "f" ) )) # Ptr  |-> f_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
-  **  (IntArray.seg f_pre 1 (n_pre + 1 ) current )
 |--
   “ (2 <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= 2) ”
@@ -165,11 +165,22 @@ forall (f_pre: Z) (n_pre: Z) (current: (@list Z)) (j: Z) (i: Z) (PreH1 : (j <= n
 .
 
 Definition solve_safety_wit_14 := 
-forall (f_pre: Z) (n_pre: Z) (current: (@list Z)) (i: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (2 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (SieveStage n_pre (i + 1 ) current )) ,
+forall (f_pre: Z) (n_pre: Z) (current: (@list Z)) (j: Z) (i: Z) (PreH1 : (j > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((2 * i ) <= j)) (PreH7 : (j <= (n_pre + i ))) (PreH8 : (SieveMarkState n_pre i j current )) ,
   ((( &( "f" ) )) # Ptr  |-> f_pre)
   **  ((( &( "n" ) )) # Int  |-> n_pre)
   **  ((( &( "i" ) )) # Int  |-> i)
   **  (IntArray.seg f_pre 1 (n_pre + 1 ) current )
+|--
+  “ ((i + 1 ) <= INT_MAX) ” 
+  &&  “ ((INT_MIN) <= (i + 1 )) ”
+.
+
+Definition solve_safety_wit_15 := 
+forall (f_pre: Z) (n_pre: Z) (current: (@list Z)) (i: Z) (PreH1 : ((Znth (i - 1 ) current 0) <> 1)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000000000)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1 ))) (PreH7 : (SieveStage n_pre i current )) ,
+  (IntArray.seg f_pre 1 (n_pre + 1 ) current )
+  **  ((( &( "f" ) )) # Ptr  |-> f_pre)
+  **  ((( &( "n" ) )) # Int  |-> n_pre)
+  **  ((( &( "i" ) )) # Int  |-> i)
 |--
   “ ((i + 1 ) <= INT_MAX) ” 
   &&  “ ((INT_MIN) <= (i + 1 )) ”
@@ -235,6 +246,8 @@ forall (f_pre: Z) (n_pre: Z) (current_2: (@list Z)) (i: Z) (PreH1 : (i > n_pre))
   EX (current: (@list Z)) ,
   “ (2 <= n_pre) ” 
   &&  “ (n_pre <= 1000000000) ” 
+  &&  “ (2 <= 2) ” 
+  &&  “ (2 <= (n_pre + 1 )) ” 
   &&  “ (SieveStage n_pre 2 current ) ”
   &&  (IntArray.seg f_pre 1 (n_pre + 1 ) current )
 ) \/
@@ -252,19 +265,6 @@ forall (n_pre: Z) (current_2: (@list Z)) (i: Z) (PreH1 : (i > n_pre)) (PreH2 : (
 .
 
 Definition solve_entail_wit_4 := 
-forall (f_pre: Z) (n_pre: Z) (current_2: (@list Z)) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (SieveStage n_pre 2 current_2 )) ,
-  (IntArray.seg f_pre 1 (n_pre + 1 ) current_2 )
-|--
-  EX (current: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000000000) ” 
-  &&  “ (2 <= 2) ” 
-  &&  “ (2 <= (n_pre + 1 )) ” 
-  &&  “ (SieveStage n_pre 2 current ) ”
-  &&  (IntArray.seg f_pre 1 (n_pre + 1 ) current )
-.
-
-Definition solve_entail_wit_5 := 
 (
 forall (f_pre: Z) (n_pre: Z) (current_2: (@list Z)) (i: Z) (PreH1 : ((Znth (i - 1 ) current_2 0) = 1)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000000000)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1 ))) (PreH7 : (SieveStage n_pre i current_2 )) ,
   (IntArray.seg f_pre 1 (n_pre + 1 ) current_2 )
@@ -287,12 +287,12 @@ forall (n_pre: Z) (current_2: (@list Z)) (i: Z) (PreH1 : ((Znth (i - 1 ) current
   &&  emp
 ).
 
-Definition solve_entail_wit_5_split_goal_1 := 
+Definition solve_entail_wit_4_split_goal_1 := 
 forall (n_pre: Z) (current_2: (@list Z)) (i: Z) (PreH1 : ((Znth (i - 1 ) current_2 0) = 1)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000000000)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1 ))) (PreH7 : (SieveStage n_pre i current_2 )) ,
   (SieveMarkState n_pre i (i * 2 ) current_2 )
 .
 
-Definition solve_entail_wit_6 := 
+Definition solve_entail_wit_5 := 
 (
 forall (f_pre: Z) (n_pre: Z) (current_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((2 * i ) <= j)) (PreH7 : (j <= (n_pre + i ))) (PreH8 : (SieveMarkState n_pre i j current_2 )) ,
   (IntArray.seg f_pre 1 (n_pre + 1 ) (replace_Znth ((j - 1 )) (0) (current_2)) )
@@ -315,78 +315,14 @@ forall (n_pre: Z) (current_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j <= n_pre)) (P
   &&  emp
 ).
 
-Definition solve_entail_wit_6_split_goal_1 := 
+Definition solve_entail_wit_5_split_goal_1 := 
 forall (n_pre: Z) (current_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j <= n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((2 * i ) <= j)) (PreH7 : (j <= (n_pre + i ))) (PreH8 : (SieveMarkState n_pre i j current_2 )) ,
   (SieveMarkState n_pre i (j + i ) (replace_Znth ((j - 1 )) (0) (current_2)) )
 .
 
-Definition solve_entail_wit_7 := 
+Definition solve_entail_wit_6_1 := 
 (
 forall (f_pre: Z) (n_pre: Z) (current_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((2 * i ) <= j)) (PreH7 : (j <= (n_pre + i ))) (PreH8 : (SieveMarkState n_pre i j current_2 )) ,
-  (IntArray.seg f_pre 1 (n_pre + 1 ) current_2 )
-|--
-  EX (current: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000000000) ” 
-  &&  “ (2 <= i) ” 
-  &&  “ (i <= n_pre) ” 
-  &&  “ (SieveStage n_pre (i + 1 ) current ) ”
-  &&  (IntArray.seg f_pre 1 (n_pre + 1 ) current )
-) \/
-(
-forall (n_pre: Z) (current_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((2 * i ) <= j)) (PreH7 : (j <= (n_pre + i ))) (PreH8 : (SieveMarkState n_pre i j current_2 )) ,
-  TT && emp 
-|--
-  “ (SieveStage n_pre (i + 1 ) current_2 ) ”
-  &&  emp
-).
-
-Definition solve_entail_wit_7_split_goal_1 := 
-forall (n_pre: Z) (current_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((2 * i ) <= j)) (PreH7 : (j <= (n_pre + i ))) (PreH8 : (SieveMarkState n_pre i j current_2 )) ,
-  (SieveStage n_pre (i + 1 ) current_2 )
-.
-
-Definition solve_entail_wit_8_1 := 
-forall (f_pre: Z) (n_pre: Z) (current_2: (@list Z)) (i: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (2 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (SieveStage n_pre (i + 1 ) current_2 )) ,
-  (IntArray.seg f_pre 1 (n_pre + 1 ) current_2 )
-|--
-  EX (current: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000000000) ” 
-  &&  “ (2 <= i) ” 
-  &&  “ (i <= n_pre) ” 
-  &&  “ (SieveStage n_pre (i + 1 ) current ) ”
-  &&  (IntArray.seg f_pre 1 (n_pre + 1 ) current )
-.
-
-Definition solve_entail_wit_8_2 := 
-(
-forall (f_pre: Z) (n_pre: Z) (current_2: (@list Z)) (i: Z) (PreH1 : ((Znth (i - 1 ) current_2 0) <> 1)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000000000)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1 ))) (PreH7 : (SieveStage n_pre i current_2 )) ,
-  (IntArray.seg f_pre 1 (n_pre + 1 ) current_2 )
-|--
-  EX (current: (@list Z)) ,
-  “ (2 <= n_pre) ” 
-  &&  “ (n_pre <= 1000000000) ” 
-  &&  “ (2 <= i) ” 
-  &&  “ (i <= n_pre) ” 
-  &&  “ (SieveStage n_pre (i + 1 ) current ) ”
-  &&  (IntArray.seg f_pre 1 (n_pre + 1 ) current )
-) \/
-(
-forall (n_pre: Z) (current_2: (@list Z)) (i: Z) (PreH1 : ((Znth (i - 1 ) current_2 0) <> 1)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000000000)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1 ))) (PreH7 : (SieveStage n_pre i current_2 )) ,
-  TT && emp 
-|--
-  “ (SieveStage n_pre (i + 1 ) current_2 ) ”
-  &&  emp
-).
-
-Definition solve_entail_wit_8_2_split_goal_1 := 
-forall (n_pre: Z) (current_2: (@list Z)) (i: Z) (PreH1 : ((Znth (i - 1 ) current_2 0) <> 1)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000000000)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1 ))) (PreH7 : (SieveStage n_pre i current_2 )) ,
-  (SieveStage n_pre (i + 1 ) current_2 )
-.
-
-Definition solve_entail_wit_9 := 
-forall (f_pre: Z) (n_pre: Z) (current_2: (@list Z)) (i: Z) (PreH1 : (2 <= n_pre)) (PreH2 : (n_pre <= 1000000000)) (PreH3 : (2 <= i)) (PreH4 : (i <= n_pre)) (PreH5 : (SieveStage n_pre (i + 1 ) current_2 )) ,
   (IntArray.seg f_pre 1 (n_pre + 1 ) current_2 )
 |--
   EX (current: (@list Z)) ,
@@ -396,9 +332,47 @@ forall (f_pre: Z) (n_pre: Z) (current_2: (@list Z)) (i: Z) (PreH1 : (2 <= n_pre)
   &&  “ ((i + 1 ) <= (n_pre + 1 )) ” 
   &&  “ (SieveStage n_pre (i + 1 ) current ) ”
   &&  (IntArray.seg f_pre 1 (n_pre + 1 ) current )
+) \/
+(
+forall (n_pre: Z) (current_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((2 * i ) <= j)) (PreH7 : (j <= (n_pre + i ))) (PreH8 : (SieveMarkState n_pre i j current_2 )) ,
+  TT && emp 
+|--
+  “ (SieveStage n_pre (i + 1 ) current_2 ) ”
+  &&  emp
+).
+
+Definition solve_entail_wit_6_1_split_goal_1 := 
+forall (n_pre: Z) (current_2: (@list Z)) (j: Z) (i: Z) (PreH1 : (j > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= n_pre)) (PreH6 : ((2 * i ) <= j)) (PreH7 : (j <= (n_pre + i ))) (PreH8 : (SieveMarkState n_pre i j current_2 )) ,
+  (SieveStage n_pre (i + 1 ) current_2 )
 .
 
-Definition solve_entail_wit_10 := 
+Definition solve_entail_wit_6_2 := 
+(
+forall (f_pre: Z) (n_pre: Z) (current_2: (@list Z)) (i: Z) (PreH1 : ((Znth (i - 1 ) current_2 0) <> 1)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000000000)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1 ))) (PreH7 : (SieveStage n_pre i current_2 )) ,
+  (IntArray.seg f_pre 1 (n_pre + 1 ) current_2 )
+|--
+  EX (current: (@list Z)) ,
+  “ (2 <= n_pre) ” 
+  &&  “ (n_pre <= 1000000000) ” 
+  &&  “ (2 <= (i + 1 )) ” 
+  &&  “ ((i + 1 ) <= (n_pre + 1 )) ” 
+  &&  “ (SieveStage n_pre (i + 1 ) current ) ”
+  &&  (IntArray.seg f_pre 1 (n_pre + 1 ) current )
+) \/
+(
+forall (n_pre: Z) (current_2: (@list Z)) (i: Z) (PreH1 : ((Znth (i - 1 ) current_2 0) <> 1)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000000000)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1 ))) (PreH7 : (SieveStage n_pre i current_2 )) ,
+  TT && emp 
+|--
+  “ (SieveStage n_pre (i + 1 ) current_2 ) ”
+  &&  emp
+).
+
+Definition solve_entail_wit_6_2_split_goal_1 := 
+forall (n_pre: Z) (current_2: (@list Z)) (i: Z) (PreH1 : ((Znth (i - 1 ) current_2 0) <> 1)) (PreH2 : (i <= n_pre)) (PreH3 : (2 <= n_pre)) (PreH4 : (n_pre <= 1000000000)) (PreH5 : (2 <= i)) (PreH6 : (i <= (n_pre + 1 ))) (PreH7 : (SieveStage n_pre i current_2 )) ,
+  (SieveStage n_pre (i + 1 ) current_2 )
+.
+
+Definition solve_return_wit_1 := 
 (
 forall (f_pre: Z) (n_pre: Z) (current: (@list Z)) (i: Z) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= (n_pre + 1 ))) (PreH6 : (SieveStage n_pre i current )) ,
   (IntArray.seg f_pre 1 (n_pre + 1 ) current )
@@ -415,18 +389,9 @@ forall (n_pre: Z) (current: (@list Z)) (i: Z) (PreH1 : (i > n_pre)) (PreH2 : (2 
   &&  emp
 ).
 
-Definition solve_entail_wit_10_split_goal_1 := 
+Definition solve_return_wit_1_split_goal_1 := 
 forall (n_pre: Z) (current: (@list Z)) (i: Z) (PreH1 : (i > n_pre)) (PreH2 : (2 <= n_pre)) (PreH3 : (n_pre <= 1000000000)) (PreH4 : (2 <= i)) (PreH5 : (i <= (n_pre + 1 ))) (PreH6 : (SieveStage n_pre i current )) ,
   (PrimeIndicatorList n_pre current )
-.
-
-Definition solve_return_wit_1 := 
-forall (f_pre: Z) (n_pre: Z) (result_2: (@list Z)) (PreH1 : (PrimeIndicatorList n_pre result_2 )) ,
-  (IntArray.seg f_pre 1 (n_pre + 1 ) result_2 )
-|--
-  EX (result: (@list Z)) ,
-  “ (PrimeIndicatorList n_pre result ) ”
-  &&  (IntArray.seg f_pre 1 (n_pre + 1 ) result )
 .
 
 Definition solve_partial_solve_wit_1 := 
@@ -518,17 +483,14 @@ Axiom proof_of_solve_safety_wit_11 : solve_safety_wit_11.
 Axiom proof_of_solve_safety_wit_12 : solve_safety_wit_12.
 Axiom proof_of_solve_safety_wit_13 : solve_safety_wit_13.
 Axiom proof_of_solve_safety_wit_14 : solve_safety_wit_14.
+Axiom proof_of_solve_safety_wit_15 : solve_safety_wit_15.
 Axiom proof_of_solve_entail_wit_1 : solve_entail_wit_1.
 Axiom proof_of_solve_entail_wit_2 : solve_entail_wit_2.
 Axiom proof_of_solve_entail_wit_3 : solve_entail_wit_3.
 Axiom proof_of_solve_entail_wit_4 : solve_entail_wit_4.
 Axiom proof_of_solve_entail_wit_5 : solve_entail_wit_5.
-Axiom proof_of_solve_entail_wit_6 : solve_entail_wit_6.
-Axiom proof_of_solve_entail_wit_7 : solve_entail_wit_7.
-Axiom proof_of_solve_entail_wit_8_1 : solve_entail_wit_8_1.
-Axiom proof_of_solve_entail_wit_8_2 : solve_entail_wit_8_2.
-Axiom proof_of_solve_entail_wit_9 : solve_entail_wit_9.
-Axiom proof_of_solve_entail_wit_10 : solve_entail_wit_10.
+Axiom proof_of_solve_entail_wit_6_1 : solve_entail_wit_6_1.
+Axiom proof_of_solve_entail_wit_6_2 : solve_entail_wit_6_2.
 Axiom proof_of_solve_return_wit_1 : solve_return_wit_1.
 Axiom proof_of_solve_partial_solve_wit_1 : solve_partial_solve_wit_1.
 Axiom proof_of_solve_partial_solve_wit_2 : solve_partial_solve_wit_2.

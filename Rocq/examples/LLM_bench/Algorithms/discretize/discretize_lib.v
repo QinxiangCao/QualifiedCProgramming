@@ -22,18 +22,6 @@ Local Open Scope sac.
 
 Definition permutation : list Z -> list Z -> Prop := @Permutation Z.
 
-Fixpoint increasing_aux (l : list Z) (x : Z) : Prop :=
-  match l with
-  | nil => True
-  | y :: l0 => x <= y /\ increasing_aux l0 y
-  end.
-
-Definition increasing (l : list Z) : Prop :=
-  match l with
-  | nil => True
-  | x :: l0 => increasing_aux l0 x
-  end.
-
 Definition same_outside_range (l l1 : list Z) (left right : Z) : Prop :=
   Zlength l = Zlength l1 /\
   forall k,
@@ -51,32 +39,16 @@ Definition partition_scan_inv
   permutation l l1 /\
   same_outside_range l l1 low high /\
   Znth high l1 0 = pivot /\
-  (forall k, low <= k <= i -> Znth k l1 0 <= pivot) /\
-  (forall k, i < k < j -> pivot < Znth k l1 0).
+  Forall (fun x => x <= pivot) (sublist low (i + 1) l1) /\
+  Forall (fun x => pivot < x) (sublist (i + 1) j l1).
 
-Inductive sorted_range (l : list Z) (left right : Z) : Prop :=
-| sorted_range_base :
-    left >= right ->
-    sorted_range l left right
-| sorted_range_from_left : forall p,
-    p >= right ->
-    partitioned_at l left right p ->
-    sorted_range l left (p - 1) ->
-    sorted_range l left right
-| sorted_range_from_right : forall p,
-    p <= left ->
-    partitioned_at l left right p ->
-    sorted_range l (p + 1) right ->
-    sorted_range l left right
-| sorted_range_from_both : forall p,
-    left <= p <= right ->
-    partitioned_at l left right p ->
-    sorted_range l left (p - 1) ->
-    sorted_range l (p + 1) right ->
-    sorted_range l left right.
+(* Sorting is an order relation on the selected positions, independent of
+   the recursive calls used to establish it. *)
+Definition sorted_range (l : list Z) (left right : Z) : Prop :=
+  forall i j, 0 <= i -> left <= i -> i <= j -> j <= right ->
+    j < Zlength l -> Znth i l 0 <= Znth j l 0.
 
 Definition strict_increasing_prefix (l : list Z) (len : Z) : Prop :=
-  0 <= len <= Zlength l /\
   forall i j,
     0 <= i < j ->
     j < len ->
@@ -92,63 +64,84 @@ Definition same_values_prefix
 
 Definition dedup_scan_inv
     (src sorted cur : list Z) (slow fast : Z) : Prop :=
-  Zlength src = Zlength sorted /\
-  Zlength cur = Zlength sorted /\
   permutation src sorted /\
   increasing sorted /\
-  1 <= fast <= Zlength sorted /\
-  0 <= slow < fast /\
   strict_increasing_prefix cur (slow + 1) /\
   same_values_prefix cur (slow + 1) sorted fast /\
   (forall k, fast <= k < Zlength sorted -> Znth k cur 0 = Znth k sorted 0) /\
   Znth slow cur 0 = Znth (fast - 1) sorted 0.
 
-Definition discretize_result
-    (src : list Z) (n : Z) (out : list Z) (ret : Z) : Prop :=
-  Zlength src = n /\
-  Zlength out = n /\
-  1 <= n /\
-  1 <= ret <= n /\
+(* ret is the size of the sorted, duplicate-free output prefix.  Its
+   bounds describe the output format, not an input or machine limit. *)
+Definition discretize_result (src out : list Z) (ret : Z) : Prop :=
+  0 <= ret <= Zlength out /\
   strict_increasing_prefix out ret /\
-  same_values_prefix out ret src n /\
-  (forall i,
-      0 <= i < n ->
-      exists r,
-        0 <= r < ret /\ Znth r out 0 = Znth i src 0) /\
-  (forall r,
-      0 <= r < ret ->
-      exists i,
-        0 <= i < n /\ Znth r out 0 = Znth i src 0) /\
-  (forall i j ri rj,
-      0 <= i < n ->
-      0 <= j < n ->
-      0 <= ri < ret ->
-      0 <= rj < ret ->
-      Znth ri out 0 = Znth i src 0 ->
-      Znth rj out 0 = Znth j src 0 ->
-      (Znth i src 0 = Znth j src 0 -> ri = rj) /\
-      (Znth i src 0 < Znth j src 0 -> ri < rj)).
+  (forall x, In x (sublist 0 ret out) <-> In x src).
 
-Definition query_forward_result
-    (map : list Z) (map_size target ret : Z) : Prop :=
-  ((exists i,
-      0 <= i < map_size /\
-      Znth i map 0 = target /\
-      ret = i) /\
-   (forall j,
-      0 <= j < map_size ->
-      Znth j map 0 = target ->
-      ret = j)) \/
-  ((forall i, 0 <= i < map_size -> Znth i map 0 <> target) /\
-   ret = -1).
+Definition query_forward_result (map : list Z) (target ret : Z) : Prop :=
+  (0 <= ret < Zlength map /\ Znth ret map 0 = target) \/
+  (ret = -1 /\ ~ In target map).
 
 Definition query_forward_search_inv
     (map : list Z) (map_size target low high : Z) : Prop :=
-  0 <= low /\
-  high < map_size /\
-  low <= high + 1 /\
-  (forall i, 0 <= i < low -> Znth i map 0 < target) /\
-  (forall i, high < i < map_size -> target < Znth i map 0).
+  Forall (fun x => x < target) (sublist 0 low map) /\
+  Forall (fun x => target < x) (sublist (high + 1) map_size map).
+
+Lemma Forall_sublist_by_Znth__partition_scan :
+  forall (P : Z -> Prop) l lo hi,
+    0 <= lo <= hi ->
+    hi <= Zlength l ->
+    (forall k, lo <= k < hi -> P (Znth k l 0)) ->
+    Forall P (sublist lo hi l).
+Proof.
+  intros P l lo hi Hlohi Hhi_len Hrange.
+  apply Forall_forall.
+  intros x Hin.
+  destruct (In_nth (sublist lo hi l) x 0 Hin) as [n [Hn Hnth]].
+  assert (HnZ : 0 <= Z.of_nat n < Zlength (sublist lo hi l)).
+  {
+    rewrite Zlength_correct.
+    lia.
+  }
+  rewrite Zlength_sublist in HnZ by lia.
+  assert (Hz : Znth (Z.of_nat n) (sublist lo hi l) 0 = x).
+  {
+    unfold Znth.
+    rewrite Nat2Z.id.
+    exact Hnth.
+  }
+  rewrite <- Hz.
+  rewrite Znth_sublist_lt by lia.
+  apply Hrange.
+  lia.
+Qed.
+Lemma Forall_Znth__quicksort_range :
+  forall (P : Z -> Prop) (l : list Z) i (d : Z),
+    Forall P l ->
+    0 <= i < Zlength l ->
+    P (Znth i l d).
+Proof.
+  intros P l i d HForall Hrange.
+  apply Forall_forall with (x := Znth i l d) in HForall.
+  - exact HForall.
+  - unfold Znth.
+    apply nth_In.
+    rewrite Zlength_correct in Hrange.
+    lia.
+Qed.
+Lemma Forall_sublist_iff_indexed : forall (P : Z -> Prop) l lo hi,
+  0 <= lo <= hi -> hi <= Zlength l ->
+  (Forall P (sublist lo hi l) <->
+   forall k, lo <= k < hi -> P (Znth k l 0)).
+Proof.
+  intros P l lo hi Hlo Hhi. split.
+  - intros Hall k Hk.
+    pose proof (Forall_Znth__quicksort_range P (sublist lo hi l)
+      (k - lo) 0 Hall ltac:(rewrite Zlength_sublist by lia; lia)) as H.
+    rewrite Znth_sublist_lt in H by lia.
+    replace (lo + (k - lo)) with k in H by lia. exact H.
+  - apply Forall_sublist_by_Znth__partition_scan; lia.
+Qed.
 
 Lemma same_outside_range_refl__partition_scan :
   forall l left right,
@@ -364,11 +357,12 @@ Qed.
 Lemma partition_scan_inv_init__partition_scan :
   forall l low high,
     0 <= low ->
-    low <= high ->
+    low <= high -> high < Zlength l ->
     partition_scan_inv l l low high (Znth high l 0) (low - 1) low.
 Proof.
   intros.
   unfold partition_scan_inv.
+  rewrite !Forall_sublist_iff_indexed by (try rewrite !Zlength_replace_Znth; lia).
   split.
   - unfold permutation. apply Permutation_refl.
   - split.
@@ -379,14 +373,18 @@ Proof.
 Qed.
 Lemma partition_scan_inv_step_gt__partition_scan :
   forall l l1 low high pivot i j,
+    0 <= low -> low - 1 <= i -> i < j -> high < Zlength l1 ->
     pivot < Znth j l1 0 ->
     j < high ->
     partition_scan_inv l l1 low high pivot i j ->
     partition_scan_inv l l1 low high pivot i (j + 1).
 Proof.
-  intros l l1 low high pivot i j Hgt_guard Hj_high Hinv.
+  intros l l1 low high pivot i j Hlow Hlow_i Hij Hlen Hgt_guard Hj_high Hinv.
+  unfold partition_scan_inv in Hinv.
+  rewrite !Forall_sublist_iff_indexed in Hinv by lia.
   destruct Hinv as [Hperm [Hsame [Hpivot [Hle Hgt]]]].
   unfold partition_scan_inv.
+  rewrite !Forall_sublist_iff_indexed by (try rewrite !Zlength_replace_Znth; lia).
   split; [exact Hperm|].
   split; [exact Hsame|].
   split; [exact Hpivot|].
@@ -394,7 +392,7 @@ Proof.
   intros k Hk.
   assert (k = j \/ i < k < j) as [-> | Hmid] by lia.
   - exact Hgt_guard.
-  - apply Hgt. exact Hmid.
+  - apply Hgt. lia.
 Qed.
 Lemma partition_scan_inv_step_le__partition_scan :
   forall l l1 low high pivot i j,
@@ -414,10 +412,13 @@ Lemma partition_scan_inv_step_le__partition_scan :
 Proof.
   intros l l1 low high pivot i j Hlow Hlow_high Hhigh_len Hguard Hj_high
          Hlow_i Hij Hj_le Hinv.
+  unfold partition_scan_inv in Hinv.
+  rewrite !Forall_sublist_iff_indexed in Hinv by lia.
   destruct Hinv as [Hperm [Hsame [Hpivot [Hle Hgt]]]].
   assert (Hi1_len : 0 <= i + 1 < Zlength l1) by lia.
   assert (Hj_len : 0 <= j < Zlength l1) by lia.
   unfold partition_scan_inv.
+  rewrite !Forall_sublist_iff_indexed by (try rewrite !Zlength_replace_Znth; lia).
   split.
   - eapply Permutation_trans.
     + exact Hperm.
@@ -465,34 +466,6 @@ Proof.
               rewrite Znth_replace_Znth_Diff by lia.
               apply Hgt. lia.
 Qed.
-Lemma Forall_sublist_by_Znth__partition_scan :
-  forall (P : Z -> Prop) l lo hi,
-    0 <= lo <= hi ->
-    hi <= Zlength l ->
-    (forall k, lo <= k < hi -> P (Znth k l 0)) ->
-    Forall P (sublist lo hi l).
-Proof.
-  intros P l lo hi Hlohi Hhi_len Hrange.
-  apply Forall_forall.
-  intros x Hin.
-  destruct (In_nth (sublist lo hi l) x 0 Hin) as [n [Hn Hnth]].
-  assert (HnZ : 0 <= Z.of_nat n < Zlength (sublist lo hi l)).
-  {
-    rewrite Zlength_correct.
-    lia.
-  }
-  rewrite Zlength_sublist in HnZ by lia.
-  assert (Hz : Znth (Z.of_nat n) (sublist lo hi l) 0 = x).
-  {
-    unfold Znth.
-    rewrite Nat2Z.id.
-    exact Hnth.
-  }
-  rewrite <- Hz.
-  rewrite Znth_sublist_lt by lia.
-  apply Hrange.
-  lia.
-Qed.
 Lemma partition_scan_inv_final_swap_partitioned_at__partition_scan :
   forall l l1 low high pivot i j,
     0 <= low ->
@@ -512,6 +485,8 @@ Proof.
          Hj_ge Hij Hj_le Hinv.
   assert (Hj_eq : j = high) by lia.
   subst j.
+  unfold partition_scan_inv in Hinv.
+  rewrite !Forall_sublist_iff_indexed in Hinv by lia.
   destruct Hinv as [Hperm [Hsame [Hpivot [Hle Hgt]]]].
   set (l2 := replace_Znth high (Znth (i + 1) l1 0)
                (replace_Znth (i + 1) (Znth high l1 0) l1)).
@@ -585,6 +560,8 @@ Proof.
          Hj_ge Hij Hj_le Hinv.
   assert (j = high) by lia.
   subst j.
+  unfold partition_scan_inv in Hinv.
+  rewrite !Forall_sublist_iff_indexed in Hinv by lia.
   destruct Hinv as [_ [Hsame _]].
   apply same_outside_range_swap_inside__partition_scan; auto; lia.
 Qed.
@@ -606,6 +583,8 @@ Proof.
          Hj_ge Hij Hj_le Hinv.
   assert (j = high) by lia.
   subst j.
+  unfold partition_scan_inv in Hinv.
+  rewrite !Forall_sublist_iff_indexed in Hinv by lia.
   destruct Hinv as [Hperm [_]].
   eapply Permutation_trans.
   - exact Hperm.
@@ -672,20 +651,6 @@ Proof.
   - apply IHHperm2.
     apply IHHperm1.
     exact HForall.
-Qed.
-Lemma Forall_Znth__quicksort_range :
-  forall (P : Z -> Prop) (l : list Z) i (d : Z),
-    Forall P l ->
-    0 <= i < Zlength l ->
-    P (Znth i l d).
-Proof.
-  intros P l i d HForall Hrange.
-  apply Forall_forall with (x := Znth i l d) in HForall.
-  - exact HForall.
-  - unfold Znth.
-    apply nth_In.
-    rewrite Zlength_correct in Hrange.
-    lia.
 Qed.
 Lemma sublist_eq_from_Znth__quicksort_range :
   forall (l1 l2 : list Z) lo hi,
@@ -994,78 +959,9 @@ Lemma sorted_range_ext__quicksort_range :
     sorted_range l left right ->
     sorted_range l1 left right.
 Proof.
-  intros l l1 left right Hleft0 Hrightlen Hlen Heq Hsorted.
-  revert l1 Hlen Heq.
-  induction Hsorted; intros l1 Hlen Heq.
-  - apply sorted_range_base. exact H.
-  - apply sorted_range_from_left with (p := p).
-    + exact H.
-    + eapply partitioned_at_ext__quicksort_range.
-      * exact Hleft0.
-      * exact Hrightlen.
-      * exact Hlen.
-      * intros k Hk. apply Heq. lia.
-      * exact H0.
-    + apply IHHsorted.
-      * exact Hleft0.
-      * pose proof H0 as Hpart0.
-        destruct Hpart0 as [Hrange0 _].
-        lia.
-      * exact Hlen.
-      * intros k Hk.
-        pose proof H0 as Hpart0.
-        destruct Hpart0 as [Hrange0 _].
-        apply Heq.
-        lia.
-  - apply sorted_range_from_right with (p := p).
-    + exact H.
-    + eapply partitioned_at_ext__quicksort_range.
-      * exact Hleft0.
-      * exact Hrightlen.
-      * exact Hlen.
-      * intros k Hk. apply Heq. lia.
-      * exact H0.
-    + apply IHHsorted.
-      * pose proof H0 as Hpart0.
-        destruct Hpart0 as [Hrange0 _].
-        lia.
-      * exact Hrightlen.
-      * exact Hlen.
-      * intros k Hk.
-        pose proof H0 as Hpart0.
-        destruct Hpart0 as [Hrange0 _].
-        apply Heq.
-        lia.
-  - apply sorted_range_from_both with (p := p).
-    + exact H.
-    + eapply partitioned_at_ext__quicksort_range.
-      * exact Hleft0.
-      * exact Hrightlen.
-      * exact Hlen.
-      * intros k Hk. apply Heq. lia.
-      * exact H0.
-    + apply IHHsorted1.
-      * exact Hleft0.
-      * pose proof H0 as Hpart0.
-        destruct Hpart0 as [Hrange0 _].
-        lia.
-      * exact Hlen.
-      * intros k Hk.
-        pose proof H0 as Hpart0.
-        destruct Hpart0 as [Hrange0 _].
-        apply Heq.
-        lia.
-    + apply IHHsorted2.
-      * pose proof H0 as Hpart0.
-        destruct Hpart0 as [Hrange0 _].
-        lia.
-      * exact Hrightlen.
-      * exact Hlen.
-      * intros k Hk.
-        pose proof H0 as Hpart0.
-        destruct Hpart0 as [Hrange0 _].
-        apply Heq.
-        lia.
+  unfold sorted_range.
+  intros l l1 left right Hl Hr Hlen Heq Hsort i j Hi Hli Hij Hjr Hj.
+  rewrite !Heq by lia. apply Hsort; lia.
 Qed.
 Lemma increasing_aux_tail_increasing__quicksort_range :
   forall l x,
@@ -1167,82 +1063,52 @@ Lemma sorted_range_ordered__quicksort_range :
       j <= right ->
       Znth i l 0 <= Znth j l 0.
 Proof.
-  intros l left right Hleft0 Hrightlen Hsorted.
-  induction Hsorted; intros i j Hi Hij Hj.
-  - assert (i = j) by lia.
-    subst j.
-    reflexivity.
-  - pose proof H0 as Hpart.
-    destruct H0 as [[Hp_left Hp_right] _].
-    assert (p = right) by lia.
-    subst p.
-    destruct (Z.eq_dec j right) as [-> | Hjneq].
-    + destruct (Z.eq_dec i right) as [-> | Hineq].
-      * reflexivity.
-      * eapply partitioned_at_left_Znth_le__quicksort_range.
-        -- exact Hleft0.
-        -- lia.
-        -- exact Hpart.
-        -- lia.
-    + eapply IHHsorted; eauto; lia.
-  - pose proof H0 as Hpart.
-    destruct H0 as [[Hp_left Hp_right] _].
-    assert (p = left) by lia.
-    subst p.
-    destruct (Z.eq_dec i left) as [-> | Hineq].
-    + destruct (Z.eq_dec j left) as [-> | Hjneq].
-      * reflexivity.
-      * apply Z.lt_le_incl.
-        eapply partitioned_at_right_Znth_lt__quicksort_range.
-        -- exact Hleft0.
-        -- exact Hrightlen.
-        -- exact Hpart.
-        -- lia.
-    + eapply IHHsorted; eauto; lia.
-  - pose proof H0 as Hpart.
-    destruct H0 as [[Hp_left Hp_right] _].
-    destruct (Z_lt_ge_dec j p) as [Hjp | Hpj].
-    + eapply IHHsorted1; eauto; lia.
-    + destruct (Z_gt_le_dec i p) as [Hip | Hpi].
-      * eapply IHHsorted2; eauto; lia.
-      * assert (Hip_cases : i = p \/ i < p) by lia.
-        assert (Hj_cases : j = p \/ p < j) by lia.
-        destruct Hip_cases as [-> | Hip'].
-        {
-          destruct Hj_cases as [-> | Hpj'].
-          - reflexivity.
-          - apply Z.lt_le_incl.
-            eapply partitioned_at_right_Znth_lt__quicksort_range.
-            + exact Hleft0.
-            + exact Hrightlen.
-            + exact Hpart.
-            + lia.
-        }
-        {
-          destruct Hj_cases as [-> | Hpj'].
-          - eapply partitioned_at_left_Znth_le__quicksort_range.
-            + exact Hleft0.
-            + eapply Z.le_trans.
-              * exact Hp_right.
-              * apply Z.lt_le_incl. exact Hrightlen.
-            + exact Hpart.
-            + lia.
-          - eapply Z.le_trans.
-            + eapply partitioned_at_left_Znth_le__quicksort_range.
-              * exact Hleft0.
-              * eapply Z.le_trans.
-                { exact Hp_right. }
-                { apply Z.lt_le_incl. exact Hrightlen. }
-              * exact Hpart.
-              * lia.
-            + apply Z.lt_le_incl.
-              eapply partitioned_at_right_Znth_lt__quicksort_range.
-              * exact Hleft0.
-              * exact Hrightlen.
-              * exact Hpart.
-              * lia.
-        }
+  unfold sorted_range. intros l left right Hl Hr Hsort i j Hi Hij Hj.
+  apply Hsort; lia.
 Qed.
+Lemma sorted_range_base : forall l left right,
+  left >= right -> sorted_range l left right.
+Proof. unfold sorted_range; intros; assert (i = j) by lia; subst; lia. Qed.
+
+Lemma sorted_range_from_both : forall l left right p,
+  0 <= left -> right < Zlength l ->
+  left <= p <= right -> partitioned_at l left right p ->
+  sorted_range l left (p - 1) -> sorted_range l (p + 1) right ->
+  sorted_range l left right.
+Proof.
+  intros l left right p Hl Hr Hp Hpart Hleft Hright i j Hi Hli Hij Hjr Hj.
+  destruct (Z_lt_ge_dec j p) as [Hjp|Hpj].
+  - apply Hleft; lia.
+  - destruct (Z_lt_ge_dec p i) as [Hpi|Hip].
+    + apply Hright; lia.
+    + assert (Hle : Znth i l 0 <= Znth p l 0).
+      { destruct (Z.eq_dec i p) as [->|Hne]; [lia|].
+        eapply (partitioned_at_left_Znth_le__quicksort_range l left right p i); eauto; lia. }
+      assert (Hge : Znth p l 0 <= Znth j l 0).
+      { destruct (Z.eq_dec j p) as [->|Hne]; [lia|].
+        apply Z.lt_le_incl.
+        eapply (partitioned_at_right_Znth_lt__quicksort_range l left right p j); eauto; lia. }
+      lia.
+Qed.
+Lemma sorted_range_from_left : forall l left right p,
+  0 <= left -> right < Zlength l ->
+  p >= right -> partitioned_at l left right p ->
+  sorted_range l left (p - 1) -> sorted_range l left right.
+Proof.
+  intros. eapply sorted_range_from_both; eauto.
+  - destruct H2 as [Hp _]; lia.
+  - apply sorted_range_base; lia.
+Qed.
+Lemma sorted_range_from_right : forall l left right p,
+  0 <= left -> right < Zlength l ->
+  p <= left -> partitioned_at l left right p ->
+  sorted_range l (p + 1) right -> sorted_range l left right.
+Proof.
+  intros. eapply sorted_range_from_both; eauto.
+  - destruct H2 as [Hp _]; lia.
+  - apply sorted_range_base; lia.
+Qed.
+
 Lemma ordered_full_implies_increasing__quicksort_range :
   forall l,
     (forall i j,
@@ -1464,18 +1330,17 @@ Qed.
 Lemma dedup_scan_inv_step_duplicate__discretize_dedup :
   forall src sorted cur slow fast,
     dedup_scan_inv src sorted cur slow fast ->
+    Zlength cur = Zlength sorted ->
+    1 <= fast -> 0 <= slow < fast ->
     fast < Zlength sorted ->
     Znth fast cur 0 = Znth slow cur 0 ->
     dedup_scan_inv src sorted cur slow (fast + 1).
 Proof.
-  intros src sorted cur slow fast Hinv Hfast_lt Heq.
+  intros src sorted cur slow fast Hinv Hcur_len Hfast_pos Hslow_bounds Hfast_lt Heq.
   unfold dedup_scan_inv in *.
   destruct Hinv as
-    [Hsrc_len [Hcur_len [Hperm [Hinc [Hfast_bounds [Hslow_bounds
-    [Hstrict [Hsame [Htail Hlast]]]]]]]]].
+    [Hperm [Hinc [Hstrict [Hsame [Htail Hlast]]]]].
   repeat split; auto; try lia.
-  - destruct Hstrict as [_ Hstrict_vals].
-    apply Hstrict_vals; lia.
   - intro Hin.
     apply (proj2 (sublist0_extend_in_iff__discretize_dedup sorted fast x
       ltac:(lia))).
@@ -1500,17 +1365,18 @@ Qed.
 Lemma dedup_scan_inv_step_new__discretize_dedup :
   forall src sorted cur slow fast,
     dedup_scan_inv src sorted cur slow fast ->
+    Zlength cur = Zlength sorted ->
+    1 <= fast -> 0 <= slow < fast ->
     fast < Zlength sorted ->
     Znth fast cur 0 <> Znth slow cur 0 ->
     dedup_scan_inv src sorted
       (replace_Znth (slow + 1) (Znth fast cur 0) cur)
       (slow + 1) (fast + 1).
 Proof.
-  intros src sorted cur slow fast Hinv Hfast_lt Hneq.
+  intros src sorted cur slow fast Hinv Hcur_len Hfast_pos Hslow_bounds Hfast_lt Hneq.
   unfold dedup_scan_inv in *.
   destruct Hinv as
-    [Hsrc_len [Hcur_len [Hperm [Hinc [Hfast_bounds [Hslow_bounds
-    [Hstrict [Hsame [Htail Hlast]]]]]]]]].
+    [Hperm [Hinc [Hstrict [Hsame [Htail Hlast]]]]].
   assert (Hcur_fast : Znth fast cur 0 = Znth fast sorted 0) by
     (apply Htail; lia).
   assert (Hslow_fast_lt : Znth slow cur 0 < Znth fast cur 0).
@@ -1532,7 +1398,7 @@ Proof.
     lia.
   }
   repeat split; auto; try rewrite Zlength_replace_Znth; try lia.
-  - destruct Hstrict as [_ Hstrict_vals].
+  - pose proof Hstrict as Hstrict_vals.
     intros i j Hij Hj.
     destruct (Z_lt_ge_dec j (slow + 1)) as [Hj_old | Hj_new].
     + rewrite !Znth_replace_Znth_Diff by
@@ -1585,77 +1451,20 @@ Qed.
 Lemma dedup_scan_inv_to_discretize_result__discretize_dedup :
   forall src sorted cur slow n,
     dedup_scan_inv src sorted cur slow n ->
-    Zlength src = n ->
-    1 <= n ->
-    discretize_result src n cur (slow + 1).
+    Zlength src = n -> Zlength cur = n -> 0 <= slow < n ->
+    discretize_result src cur (slow + 1).
 Proof.
-  intros src sorted cur slow n Hinv Hlen Hn.
-  unfold dedup_scan_inv in Hinv.
-  destruct Hinv as
-    [Hsrc_len [Hcur_len [Hperm [Hinc [Hfast_bounds [Hslow_bounds
-    [Hstrict [Hsame [Htail Hlast]]]]]]]]].
-  assert (Hsorted_len : Zlength sorted = n) by lia.
-  assert (Hcur_len_n : Zlength cur = n) by lia.
-  assert (Hsame_src : same_values_prefix cur (slow + 1) src n).
-  {
-    unfold same_values_prefix in *.
-    intro x.
-    specialize (Hsame x).
-    replace (sublist 0 n sorted) with sorted in Hsame by
-      (symmetry; apply sublist_self; lia).
-    replace (sublist 0 n src) with src by
-      (symmetry; apply sublist_self; lia).
-    split; intro Hin.
-    - eapply Permutation_in.
-      + apply Permutation_sym. exact Hperm.
-      + apply Hsame. exact Hin.
-    - apply Hsame.
-      eapply Permutation_in; eauto.
-  }
-  unfold discretize_result.
-  split; [exact Hlen |].
-  split; [exact Hcur_len_n |].
-  split; [exact Hn |].
-  split; [lia |].
-  split; [exact Hstrict |].
-  split; [exact Hsame_src |].
-  split.
-  - intros i Hi.
-    assert (Hin_src : In (Znth i src 0) (sublist 0 n src)) by
-      (apply sublist0_Znth_In__discretize_dedup; lia).
-    assert (Hin_cur : In (Znth i src 0) (sublist 0 (slow + 1) cur)) by
-      (apply (proj2 (Hsame_src (Znth i src 0))); exact Hin_src).
-    destruct (sublist0_In_Znth_exists__discretize_dedup cur (slow + 1)
-      (Znth i src 0) ltac:(lia) Hin_cur) as [r [Hr Hz]].
-    exists r. split; auto.
-  - split.
-    + intros r Hr.
-      assert (Hin_cur : In (Znth r cur 0) (sublist 0 (slow + 1) cur)) by
-        (apply sublist0_Znth_In__discretize_dedup; lia).
-      assert (Hin_src : In (Znth r cur 0) (sublist 0 n src)) by
-        (apply (proj1 (Hsame_src (Znth r cur 0))); exact Hin_cur).
-      destruct (sublist0_In_Znth_exists__discretize_dedup src n
-        (Znth r cur 0) ltac:(lia) Hin_src) as [i [Hi Hz]].
-      exists i. split; auto.
-    + intros i j ri rj Hi Hj Hri Hrj Hri_eq Hrj_eq.
-      destruct Hstrict as [_ Hstrict_vals].
-      split.
-      * intro Hsrc_eq.
-        destruct (Z_lt_ge_dec ri rj) as [Hlt | Hge].
-        -- pose proof (Hstrict_vals ri rj ltac:(lia) ltac:(lia)) as Hord.
-           rewrite Hri_eq, Hrj_eq, Hsrc_eq in Hord. lia.
-        -- destruct (Z_lt_ge_dec rj ri) as [Hlt | Hge'].
-           ++ pose proof (Hstrict_vals rj ri ltac:(lia) ltac:(lia)) as Hord.
-              rewrite Hri_eq, Hrj_eq, Hsrc_eq in Hord. lia.
-           ++ lia.
-      * intro Hsrc_lt.
-        destruct (Z_lt_ge_dec ri rj) as [Hlt | Hge].
-        -- exact Hlt.
-        -- destruct (Z.eq_dec ri rj) as [Heq | Hneq].
-           ++ subst rj. rewrite <- Hri_eq, <- Hrj_eq in Hsrc_lt. lia.
-           ++ assert (Hrj_lt_ri : rj < ri) by lia.
-              pose proof (Hstrict_vals rj ri ltac:(lia) ltac:(lia)) as Hord.
-              rewrite Hri_eq, Hrj_eq in Hord. lia.
+  intros src sorted cur slow n Hinv Hlen Hc Hslow.
+  destruct Hinv as [Hp [Hi [Hstrict [Hsame Hrest]]]].
+  assert (Hs : Zlength src = Zlength sorted).
+  { rewrite !Zlength_correct. now rewrite (Permutation_length Hp). }
+  unfold discretize_result. split; [lia|]. split; [exact Hstrict|].
+  intro x. specialize (Hsame x).
+  unfold same_values_prefix in Hsame.
+  rewrite (sublist_self sorted n) in Hsame by lia.
+  rewrite Hsame. split; intro Hin.
+  - eapply Permutation_in; [apply Permutation_sym; exact Hp|exact Hin].
+  - eapply Permutation_in; eauto.
 Qed.
 Lemma midpoint_between_bounds__query_forward_search :
   forall low high,
@@ -1678,16 +1487,16 @@ Lemma strict_increasing_Znth_lt__query_forward_search :
 Proof.
   intros l i j Hinc Hij Hj.
   unfold strict_increasing, strict_increasing_prefix in Hinc.
-  destruct Hinc as [_ Hinc].
   apply Hinc; lia.
 Qed.
 Lemma query_forward_search_inv_init__query_forward_search :
   forall map map_size target,
-    0 <= map_size ->
+    Zlength map = map_size -> 0 <= map_size ->
     query_forward_search_inv map map_size target 0 (map_size - 1).
 Proof.
-  intros map map_size target Hsize.
+  intros map map_size target Hlen Hsize.
   unfold query_forward_search_inv.
+  rewrite !Forall_sublist_iff_indexed by lia.
   repeat split; intros; lia.
 Qed.
 Lemma query_forward_search_inv_step_right__query_forward_search :
@@ -1695,18 +1504,17 @@ Lemma query_forward_search_inv_step_right__query_forward_search :
     Zlength map = map_size ->
     strict_increasing map ->
     query_forward_search_inv map map_size target low high ->
+    0 <= low -> high < map_size ->
     low <= mid ->
     mid <= high ->
     Znth mid map 0 < target ->
     query_forward_search_inv map map_size target (mid + 1) high.
 Proof.
-  intros map map_size target low mid high Hlen Hinc Hinv Hlow_mid Hmid_high Hmid_val.
+  intros map map_size target low mid high Hlen Hinc Hinv Hlow0 Hhigh_size Hlow_mid Hmid_high Hmid_val.
   unfold query_forward_search_inv in *.
-  destruct Hinv as [Hlow0 [Hhigh_size [Hlow_high [Hleft Hright]]]].
+  rewrite !Forall_sublist_iff_indexed in * by lia.
+  destruct Hinv as [Hleft Hright].
   repeat split.
-  - lia.
-  - lia.
-  - lia.
   - intros i Hi.
     destruct (Z_lt_ge_dec i low) as [Hilow | Hlowi].
     + apply Hleft; lia.
@@ -1725,20 +1533,19 @@ Lemma query_forward_search_inv_step_left__query_forward_search :
     Zlength map = map_size ->
     strict_increasing map ->
     query_forward_search_inv map map_size target low high ->
+    0 <= low -> high < map_size ->
     low <= mid ->
     mid <= high ->
     Znth mid map 0 >= target ->
     Znth mid map 0 <> target ->
     query_forward_search_inv map map_size target low (mid - 1).
 Proof.
-  intros map map_size target low mid high Hlen Hinc Hinv Hlow_mid Hmid_high Hmid_ge Hmid_neq.
+  intros map map_size target low mid high Hlen Hinc Hinv Hlow0 Hhigh_size Hlow_mid Hmid_high Hmid_ge Hmid_neq.
   unfold query_forward_search_inv in *.
-  destruct Hinv as [Hlow0 [Hhigh_size [Hlow_high [Hleft Hright]]]].
+  rewrite !Forall_sublist_iff_indexed in * by lia.
+  destruct Hinv as [Hleft Hright].
   assert (Htarget_mid : target < Znth mid map 0) by lia.
   repeat split.
-  - lia.
-  - lia.
-  - lia.
   - intros i Hi.
     apply Hleft; lia.
   - intros i Hi.
@@ -1754,46 +1561,27 @@ Proof.
 Qed.
 Lemma query_forward_result_not_found__query_forward_search :
   forall map map_size target low high,
+    Zlength map = map_size ->
     query_forward_search_inv map map_size target low high ->
+    0 <= low <= map_size -> -1 <= high < map_size ->
     low > high ->
-    low <= high + 1 ->
-    query_forward_result map map_size target (-1).
+    query_forward_result map target (-1).
 Proof.
-  intros map map_size target low high Hinv Hgt Hgap.
-  unfold query_forward_result.
-  right.
-  split; [| reflexivity].
+  intros map map_size target low high Hlen Hinv Hlow Hhigh Hgt.
   unfold query_forward_search_inv in Hinv.
-  destruct Hinv as [_ [_ [_ [Hleft Hright]]]].
-  intros i Hi Heq.
-  destruct (Z_lt_ge_dec i low) as [Hilow | Hlowi].
-  - pose proof (Hleft i ltac:(lia)).
-    lia.
-  - pose proof (Hright i ltac:(lia)).
-    lia.
+  rewrite !Forall_sublist_iff_indexed in Hinv by lia.
+  destruct Hinv as [Hleft Hright].
+  right. split; [reflexivity|]. intro Hin.
+  rewrite <- (sublist_self map (Zlength map) eq_refl) in Hin.
+  destruct (sublist0_In_Znth_exists__discretize_dedup map (Zlength map) target
+    ltac:(pose proof (Zlength_nonneg map); lia) Hin) as [i [Hi Heq]].
+  destruct (Z_lt_ge_dec i low).
+  - specialize (Hleft i ltac:(lia)); lia.
+  - specialize (Hright i ltac:(lia)); lia.
 Qed.
 Lemma query_forward_result_found_unique__query_forward_search :
   forall map map_size target mid,
-    Zlength map = map_size ->
-    strict_increasing map ->
-    0 <= mid < map_size ->
-    Znth mid map 0 = target ->
-    query_forward_result map map_size target mid.
-Proof.
-  intros map map_size target mid Hlen Hinc Hmid Hhit.
-  unfold query_forward_result.
-  left.
-  split.
-  - exists mid.
-    repeat split; try lia; try assumption; reflexivity.
-  - intros j Hj Hjh.
-    destruct (Z_lt_ge_dec j mid) as [Hlt | Hge].
-    + pose proof (strict_increasing_Znth_lt__query_forward_search
-                    map j mid Hinc ltac:(lia) ltac:(lia)) as Horder.
-      lia.
-    + destruct (Z.eq_dec j mid) as [Heq | Hneq].
-      * lia.
-      * pose proof (strict_increasing_Znth_lt__query_forward_search
-                      map mid j Hinc ltac:(lia) ltac:(lia)) as Horder.
-        lia.
-Qed.
+    Zlength map = map_size -> strict_increasing map ->
+    0 <= mid < map_size -> Znth mid map 0 = target ->
+    query_forward_result map target mid.
+Proof. intros; left; split; auto; lia. Qed.

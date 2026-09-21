@@ -84,7 +84,7 @@ arr == arr@pre && n == n@pre && m == m@pre &&
 1 <= n && n <= 100000 &&
 1 <= m && m <= n &&
 IntArray::full(arr, n, l) &&
-(forall (i : Z), (0 <= i && i < n) => (0 <= l[i] && l[i] < 100000000)) &&
+Forall(Z::le(0), l) && Forall(Z::gt(100000000), l) &&
 0 <= left && right <= 1000000000 &&
 left <= right &&
 left <= res && res <= right &&
@@ -143,7 +143,7 @@ The correct route is:
 ## Checklist before writing a similar case
 
 1. Is the return value of `check` packaged as a `CanX` / `CannotX` decision property?
-2. Is the main problem expressed using `min_value_of_subset`, `max_value_of_subset`, or an equally mathematical definition?
+2. Do extrema in the main problem use `min_value_of_subset` / `max_value_of_subset` from `MaxMinLib`, including inside any necessary problem predicate?
 3. Does the main-loop invariant say that the true answer lies inside `[left, right]`?
 4. Do the `ok` branches have lemmas converting feasible/infeasible results into `res <= mid` or `mid < res`?
 5. Do the C annotations describe program state rather than track a Rocq program?

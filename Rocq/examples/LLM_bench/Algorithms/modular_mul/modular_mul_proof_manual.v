@@ -11,7 +11,6 @@ From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
 Require Import SetsClass.SetsClass. Import SetsNotation.
 From SimpleC.SL Require Import Mem SeparationLogic.
 From SimpleC.EE.LLM_bench.Algorithms.modular_mul Require Import modular_mul_goal.
-From SimpleC.EE.LLM_bench.Algorithms.modular_mul Require Import modular_mul_proof_auto.
 Require Import Logic.LogicGenerator.demo932.Interface.
 Local Open Scope Z_scope.
 Local Open Scope sets.
@@ -93,65 +92,13 @@ Qed.
 Lemma proof_of_modular_mul_entail_wit_2_1_split_goal_6 : modular_mul_entail_wit_2_1_split_goal_6.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  rewrite zdiv_equiv by lia.
   pose proof
-    (Z.rem_bound_abs (res + a) modulus_pre ltac:(lia)) as Hres_rem.
-  pose proof
-    (Z.rem_bound_abs (a + a) modulus_pre ltac:(lia)) as Ha_rem.
+    (Z.div_le_upper_bound b 2 b ltac:(lia) ltac:(lia)) as Hhalf_le.
   lia.
 Qed.
 
 Lemma proof_of_modular_mul_entail_wit_2_1_split_goal_7 : modular_mul_entail_wit_2_1_split_goal_7.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (Z.rem_bound_abs (res + a) modulus_pre ltac:(lia)) as Hres_rem.
-  pose proof
-    (Z.rem_bound_abs (a + a) modulus_pre ltac:(lia)) as Ha_rem.
-  lia.
-Qed.
-
-Lemma proof_of_modular_mul_entail_wit_2_1_split_goal_8 : modular_mul_entail_wit_2_1_split_goal_8.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (Z.rem_bound_abs (res + a) modulus_pre ltac:(lia)) as Hres_rem.
-  lia.
-Qed.
-
-Lemma proof_of_modular_mul_entail_wit_2_1_split_goal_9 : modular_mul_entail_wit_2_1_split_goal_9.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (Z.rem_bound_abs (res + a) modulus_pre ltac:(lia)) as Hres_rem.
-  lia.
-Qed.
-
-Lemma proof_of_modular_mul_entail_wit_2_1_split_goal_10 : modular_mul_entail_wit_2_1_split_goal_10.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (Z.rem_bound_abs (a + a) modulus_pre ltac:(lia)) as Ha_rem.
-  lia.
-Qed.
-
-Lemma proof_of_modular_mul_entail_wit_2_1_split_goal_11 : modular_mul_entail_wit_2_1_split_goal_11.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (Z.rem_bound_abs (a + a) modulus_pre ltac:(lia)) as Ha_rem.
-  lia.
-Qed.
-
-Lemma proof_of_modular_mul_entail_wit_2_1_split_goal_12 : modular_mul_entail_wit_2_1_split_goal_12.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  rewrite zdiv_equiv by lia.
-  pose proof
-    (Z.div_le_upper_bound b 2 b ltac:(lia) ltac:(nia)) as Hhalf_le.
-  lia.
-Qed.
-
-Lemma proof_of_modular_mul_entail_wit_2_1_split_goal_13 : modular_mul_entail_wit_2_1_split_goal_13.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   rewrite zdiv_equiv by lia.
@@ -168,12 +115,6 @@ Proof.
   - Goal_apply proof_of_modular_mul_entail_wit_2_1_split_goal_5.
   - Goal_apply proof_of_modular_mul_entail_wit_2_1_split_goal_6.
   - Goal_apply proof_of_modular_mul_entail_wit_2_1_split_goal_7.
-  - Goal_apply proof_of_modular_mul_entail_wit_2_1_split_goal_8.
-  - Goal_apply proof_of_modular_mul_entail_wit_2_1_split_goal_9.
-  - Goal_apply proof_of_modular_mul_entail_wit_2_1_split_goal_10.
-  - Goal_apply proof_of_modular_mul_entail_wit_2_1_split_goal_11.
-  - Goal_apply proof_of_modular_mul_entail_wit_2_1_split_goal_12.
-  - Goal_apply proof_of_modular_mul_entail_wit_2_1_split_goal_13.
 Qed.
 
 Lemma proof_of_modular_mul_entail_wit_2_2_split_goal_1 : modular_mul_entail_wit_2_2_split_goal_1.
@@ -220,65 +161,13 @@ Qed.
 Lemma proof_of_modular_mul_entail_wit_2_2_split_goal_6 : modular_mul_entail_wit_2_2_split_goal_6.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
+  rewrite zdiv_equiv by lia.
   pose proof
-    (Z.rem_bound_abs (res + a) modulus_pre ltac:(lia)) as Hres_rem.
-  pose proof
-    (Z.rem_bound_abs (a + a) modulus_pre ltac:(lia)) as Ha_rem.
+    (Z.div_le_upper_bound b 2 b ltac:(lia) ltac:(lia)) as Hhalf_le.
   lia.
 Qed.
 
 Lemma proof_of_modular_mul_entail_wit_2_2_split_goal_7 : modular_mul_entail_wit_2_2_split_goal_7.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (Z.rem_bound_abs (res + a) modulus_pre ltac:(lia)) as Hres_rem.
-  pose proof
-    (Z.rem_bound_abs (a + a) modulus_pre ltac:(lia)) as Ha_rem.
-  lia.
-Qed.
-
-Lemma proof_of_modular_mul_entail_wit_2_2_split_goal_8 : modular_mul_entail_wit_2_2_split_goal_8.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (Z.rem_bound_abs (res + a) modulus_pre ltac:(lia)) as Hres_rem.
-  lia.
-Qed.
-
-Lemma proof_of_modular_mul_entail_wit_2_2_split_goal_9 : modular_mul_entail_wit_2_2_split_goal_9.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (Z.rem_bound_abs (res + a) modulus_pre ltac:(lia)) as Hres_rem.
-  lia.
-Qed.
-
-Lemma proof_of_modular_mul_entail_wit_2_2_split_goal_10 : modular_mul_entail_wit_2_2_split_goal_10.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (Z.rem_bound_abs (a + a) modulus_pre ltac:(lia)) as Ha_rem.
-  lia.
-Qed.
-
-Lemma proof_of_modular_mul_entail_wit_2_2_split_goal_11 : modular_mul_entail_wit_2_2_split_goal_11.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (Z.rem_bound_abs (a + a) modulus_pre ltac:(lia)) as Ha_rem.
-  lia.
-Qed.
-
-Lemma proof_of_modular_mul_entail_wit_2_2_split_goal_12 : modular_mul_entail_wit_2_2_split_goal_12.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  rewrite zdiv_equiv by lia.
-  pose proof
-    (Z.div_le_upper_bound b 2 b ltac:(lia) ltac:(nia)) as Hhalf_le.
-  lia.
-Qed.
-
-Lemma proof_of_modular_mul_entail_wit_2_2_split_goal_13 : modular_mul_entail_wit_2_2_split_goal_13.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   rewrite zdiv_equiv by lia.
@@ -295,12 +184,6 @@ Proof.
   - Goal_apply proof_of_modular_mul_entail_wit_2_2_split_goal_5.
   - Goal_apply proof_of_modular_mul_entail_wit_2_2_split_goal_6.
   - Goal_apply proof_of_modular_mul_entail_wit_2_2_split_goal_7.
-  - Goal_apply proof_of_modular_mul_entail_wit_2_2_split_goal_8.
-  - Goal_apply proof_of_modular_mul_entail_wit_2_2_split_goal_9.
-  - Goal_apply proof_of_modular_mul_entail_wit_2_2_split_goal_10.
-  - Goal_apply proof_of_modular_mul_entail_wit_2_2_split_goal_11.
-  - Goal_apply proof_of_modular_mul_entail_wit_2_2_split_goal_12.
-  - Goal_apply proof_of_modular_mul_entail_wit_2_2_split_goal_13.
 Qed.
 
 Lemma proof_of_modular_mul_entail_wit_2_3_split_goal_1 : modular_mul_entail_wit_2_3_split_goal_1.
@@ -320,7 +203,7 @@ Lemma proof_of_modular_mul_entail_wit_2_3_split_goal_2 : modular_mul_entail_wit_
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   pose proof
-    (z_rem_strict_bounds__even_transition (a + a) modulus_pre PreH7)
+    (z_rem_strict_bounds__even_transition (a + a) modulus_pre ltac:(lia))
     as Hmod_bound.
   lia.
 Qed.
@@ -329,7 +212,7 @@ Lemma proof_of_modular_mul_entail_wit_2_3_split_goal_3 : modular_mul_entail_wit_
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   pose proof
-    (z_rem_strict_bounds__even_transition (a + a) modulus_pre PreH7)
+    (z_rem_strict_bounds__even_transition (a + a) modulus_pre ltac:(lia))
     as Hmod_bound.
   lia.
 Qed.
@@ -337,46 +220,10 @@ Qed.
 Lemma proof_of_modular_mul_entail_wit_2_3_split_goal_4 : modular_mul_entail_wit_2_3_split_goal_4.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (z_rem_strict_bounds__even_transition (a + a) modulus_pre PreH7)
-    as Hmod_bound.
-  lia.
-Qed.
-
-Lemma proof_of_modular_mul_entail_wit_2_3_split_goal_5 : modular_mul_entail_wit_2_3_split_goal_5.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (z_rem_strict_bounds__even_transition (a + a) modulus_pre PreH7)
-    as Hmod_bound.
-  lia.
-Qed.
-
-Lemma proof_of_modular_mul_entail_wit_2_3_split_goal_6 : modular_mul_entail_wit_2_3_split_goal_6.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (z_rem_strict_bounds__even_transition (a + a) modulus_pre PreH7)
-    as Hmod_bound.
-  lia.
-Qed.
-
-Lemma proof_of_modular_mul_entail_wit_2_3_split_goal_7 : modular_mul_entail_wit_2_3_split_goal_7.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (z_rem_strict_bounds__even_transition (a + a) modulus_pre PreH7)
-    as Hmod_bound.
-  lia.
-Qed.
-
-Lemma proof_of_modular_mul_entail_wit_2_3_split_goal_8 : modular_mul_entail_wit_2_3_split_goal_8.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
   apply Z.quot_le_upper_bound; lia.
 Qed.
 
-Lemma proof_of_modular_mul_entail_wit_2_3_split_goal_9 : modular_mul_entail_wit_2_3_split_goal_9.
+Lemma proof_of_modular_mul_entail_wit_2_3_split_goal_5 : modular_mul_entail_wit_2_3_split_goal_5.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   apply Z.quot_pos; lia.
@@ -390,10 +237,6 @@ Proof.
   - Goal_apply proof_of_modular_mul_entail_wit_2_3_split_goal_3.
   - Goal_apply proof_of_modular_mul_entail_wit_2_3_split_goal_4.
   - Goal_apply proof_of_modular_mul_entail_wit_2_3_split_goal_5.
-  - Goal_apply proof_of_modular_mul_entail_wit_2_3_split_goal_6.
-  - Goal_apply proof_of_modular_mul_entail_wit_2_3_split_goal_7.
-  - Goal_apply proof_of_modular_mul_entail_wit_2_3_split_goal_8.
-  - Goal_apply proof_of_modular_mul_entail_wit_2_3_split_goal_9.
 Qed.
 
 Lemma proof_of_modular_mul_entail_wit_2_4_split_goal_1 : modular_mul_entail_wit_2_4_split_goal_1.
@@ -413,7 +256,7 @@ Lemma proof_of_modular_mul_entail_wit_2_4_split_goal_2 : modular_mul_entail_wit_
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   pose proof
-    (z_rem_strict_bounds__even_transition (a + a) modulus_pre PreH7)
+    (z_rem_strict_bounds__even_transition (a + a) modulus_pre ltac:(lia))
     as Hmod_bound.
   lia.
 Qed.
@@ -422,7 +265,7 @@ Lemma proof_of_modular_mul_entail_wit_2_4_split_goal_3 : modular_mul_entail_wit_
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   pose proof
-    (z_rem_strict_bounds__even_transition (a + a) modulus_pre PreH7)
+    (z_rem_strict_bounds__even_transition (a + a) modulus_pre ltac:(lia))
     as Hmod_bound.
   lia.
 Qed.
@@ -430,46 +273,10 @@ Qed.
 Lemma proof_of_modular_mul_entail_wit_2_4_split_goal_4 : modular_mul_entail_wit_2_4_split_goal_4.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (z_rem_strict_bounds__even_transition (a + a) modulus_pre PreH7)
-    as Hmod_bound.
-  lia.
-Qed.
-
-Lemma proof_of_modular_mul_entail_wit_2_4_split_goal_5 : modular_mul_entail_wit_2_4_split_goal_5.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (z_rem_strict_bounds__even_transition (a + a) modulus_pre PreH7)
-    as Hmod_bound.
-  lia.
-Qed.
-
-Lemma proof_of_modular_mul_entail_wit_2_4_split_goal_6 : modular_mul_entail_wit_2_4_split_goal_6.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (z_rem_strict_bounds__even_transition (a + a) modulus_pre PreH7)
-    as Hmod_bound.
-  lia.
-Qed.
-
-Lemma proof_of_modular_mul_entail_wit_2_4_split_goal_7 : modular_mul_entail_wit_2_4_split_goal_7.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
-  pose proof
-    (z_rem_strict_bounds__even_transition (a + a) modulus_pre PreH7)
-    as Hmod_bound.
-  lia.
-Qed.
-
-Lemma proof_of_modular_mul_entail_wit_2_4_split_goal_8 : modular_mul_entail_wit_2_4_split_goal_8.
-Proof.
-  LLM_pre_process ltac:(lia || int_auto).
   apply Z.quot_le_upper_bound; lia.
 Qed.
 
-Lemma proof_of_modular_mul_entail_wit_2_4_split_goal_9 : modular_mul_entail_wit_2_4_split_goal_9.
+Lemma proof_of_modular_mul_entail_wit_2_4_split_goal_5 : modular_mul_entail_wit_2_4_split_goal_5.
 Proof.
   LLM_pre_process ltac:(lia || int_auto).
   apply Z.quot_pos; lia.
@@ -483,10 +290,6 @@ Proof.
   - Goal_apply proof_of_modular_mul_entail_wit_2_4_split_goal_3.
   - Goal_apply proof_of_modular_mul_entail_wit_2_4_split_goal_4.
   - Goal_apply proof_of_modular_mul_entail_wit_2_4_split_goal_5.
-  - Goal_apply proof_of_modular_mul_entail_wit_2_4_split_goal_6.
-  - Goal_apply proof_of_modular_mul_entail_wit_2_4_split_goal_7.
-  - Goal_apply proof_of_modular_mul_entail_wit_2_4_split_goal_8.
-  - Goal_apply proof_of_modular_mul_entail_wit_2_4_split_goal_9.
 Qed.
 
 Lemma proof_of_modular_mul_return_wit_1_split_goal_1 : modular_mul_return_wit_1_split_goal_1.
@@ -500,7 +303,7 @@ Proof.
   - reflexivity.
   - right. reflexivity.
   - lia.
-  - exact PreH21.
+  - assumption.
 Qed.
 
 Lemma proof_of_modular_mul_return_wit_1 : modular_mul_return_wit_1.
@@ -520,7 +323,7 @@ Proof.
   - reflexivity.
   - left. reflexivity.
   - lia.
-  - exact PreH21.
+  - assumption.
 Qed.
 
 Lemma proof_of_modular_mul_return_wit_2 : modular_mul_return_wit_2.

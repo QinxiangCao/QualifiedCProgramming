@@ -448,40 +448,7 @@ struct mst_tree* prim_forward_star_heap(int* from_arr, int* to_arr,
 		edge_parent[i] = -1;
 	}
 
-	/*@ Assert
-									exists l_first l_link l_from_new l_to_new l_weight_new,
-				2 <= n@pre && n@pre < INT_MAX &&
-				1 <= m@pre && 2 * m@pre + 2 < INT_MAX && 4 * m@pre + 6 < INT_MAX &&
-				2 * m@pre + 2 <= 100000 &&
-				src == 0 &&
-			n == n@pre && m == m@pre &&
-			from_arr == from_arr@pre && to_arr == to_arr@pre && weight_arr == weight_arr@pre &&
-			i == n@pre &&
-			(forall (k: Z), (0 <= k && k < m@pre) => 0 <= Znth(k, lf, 0) && Znth(k, lf, 0) < n@pre) &&
-			(forall (k: Z), (0 <= k && k < m@pre) => 0 <= Znth(k, lt, 0) && Znth(k, lt, 0) < n@pre) &&
-			(forall (k: Z), (0 <= k && k < m@pre) => 0 <= Znth(k, lw, 0) && Znth(k, lw, 0) < 1000000000) &&
-			array_graph(n@pre, m@pre, lf, lt, lw, g) &&
-			PrimEnv(g, src) &&
-			directed_array_graph(g, l_from_new, l_to_new, l_weight_new) &&
-			first_link_matches_vertex_directed_edges(g, l_from_new, l_first, l_link) &&
 
-			safeExec(initStPred(g, src), Prim2(g), X) &&
-
-			IntArray::full(from_arr@pre, m@pre, lf) *
-			IntArray::full(to_arr@pre, m@pre, lt) *
-			IntArray::full(weight_arr@pre, m@pre, lw) *
-			IntArray::undef_full(out_u, n@pre - 1) *
-			IntArray::undef_full(out_v, n@pre - 1) *
-			IntArray::undef_full(out_wt, n@pre - 1) *
-			IntArray::full(from_new, 2 * m@pre, l_from_new) *
-			IntArray::full(to_new, 2 * m@pre, l_to_new) *
-				IntArray::full(weight_new, 2 * m@pre, l_weight_new) *
-				IntArray::full(first, n@pre, l_first) *
-			IntArray::full(link, 2 * m@pre, l_link) *
-			IntArray::full(lowcost, n@pre, repeat_Z(1000000000, n@pre)) *
-				IntArray::full(visited, n@pre, repeat_Z(0, n@pre)) *
-				IntArray::full(edge_parent, n@pre, repeat_Z(-1, n@pre))
-		*/
 		}
 
 		int heap_capacity = 2 * m + 2;
@@ -580,45 +547,7 @@ struct mst_tree* prim_forward_star_heap(int* from_arr, int* to_arr,
 			/*@ where M_before = queue_map_empty, n = heap_size, capacity = heap_capacity */;
 
 		int chosen = 0;
-		/*@ Assert
-			exists l_first l_link l_from_new l_to_new l_weight_new queue_map s,
-				2 <= n@pre && n@pre < INT_MAX &&
-				1 <= m@pre && 2 * m@pre + 2 < INT_MAX && 4 * m@pre + 6 < INT_MAX &&
-				2 * m@pre + 2 <= 100000 &&
-				src == 0 &&
-				n == n@pre && m == m@pre &&
-				heap_capacity == 2 * m@pre + 2 &&
-				chosen == 0 && heap_size == 1 &&
-				from_arr == from_arr@pre && to_arr == to_arr@pre && weight_arr == weight_arr@pre &&
-				prim_queue_map_initial(partial_map_empty, queue_map, src, 0) &&
-				prim_heap_loop_state(g, src, chosen, s,
-					replace_Znth(0, 0, repeat_Z(1000000000, n@pre)),
-					repeat_Z(0, n@pre), repeat_Z(-1, n@pre), queue_map, X) &&
-				(chosen < n@pre => heap_size > 0) &&
-				(forall (k: Z), (0 <= k && k < m@pre) => 0 <= Znth(k, lf, 0) && Znth(k, lf, 0) < n@pre) &&
-				(forall (k: Z), (0 <= k && k < m@pre) => 0 <= Znth(k, lt, 0) && Znth(k, lt, 0) < n@pre) &&
-				(forall (k: Z), (0 <= k && k < m@pre) => 0 <= Znth(k, lw, 0) && Znth(k, lw, 0) < 1000000000) &&
-				array_graph(n@pre, m@pre, lf, lt, lw, g) &&
-				PrimEnv(g, src) &&
-				directed_array_graph(g, l_from_new, l_to_new, l_weight_new) &&
-				first_link_matches_vertex_directed_edges(g, l_from_new, l_first, l_link) &&
 
-				IntArray::full(from_arr@pre, m@pre, lf) *
-				IntArray::full(to_arr@pre, m@pre, lt) *
-				IntArray::full(weight_arr@pre, m@pre, lw) *
-				IntArray::undef_full(out_u, n@pre - 1) *
-				IntArray::undef_full(out_v, n@pre - 1) *
-				IntArray::undef_full(out_wt, n@pre - 1) *
-				IntArray::full(from_new, 2 * m@pre, l_from_new) *
-				IntArray::full(to_new, 2 * m@pre, l_to_new) *
-				IntArray::full(weight_new, 2 * m@pre, l_weight_new) *
-				IntArray::full(first, n@pre, l_first) *
-				IntArray::full(link, 2 * m@pre, l_link) *
-				IntArray::full(lowcost, n@pre, replace_Znth(0, 0, repeat_Z(1000000000, n@pre))) *
-				IntArray::full(visited, n@pre, repeat_Z(0, n@pre)) *
-				IntArray::full(edge_parent, n@pre, repeat_Z(-1, n@pre)) *
-				store_heap(heap_cost, heap_vertex, heap_pos, n@pre, heap_capacity, queue_map, heap_size)
-		*/
 
 		/*@ Inv Assert
 			exists l_first l_link l_from_new l_to_new l_weight_new
@@ -662,46 +591,7 @@ struct mst_tree* prim_forward_star_heap(int* from_arr, int* to_arr,
 		while (heap_size > 0 && chosen < n) {
 			int minIndex;
 			int min;
-			/*@ Assert
-				exists l_first l_link l_from_new l_to_new l_weight_new
-				       l_lowcost l_visited l_edge_parent queue_map s,
-					2 <= n@pre && n@pre < INT_MAX &&
-					1 <= m@pre && 2 * m@pre + 2 < INT_MAX && 4 * m@pre + 6 < INT_MAX &&
-					2 * m@pre + 2 <= 100000 &&
-					src == 0 &&
-					n == n@pre && m == m@pre &&
-					heap_capacity == 2 * m@pre + 2 &&
-					0 <= chosen && chosen < n@pre &&
-					0 < heap_size && heap_size <= heap_capacity &&
-					from_arr == from_arr@pre && to_arr == to_arr@pre && weight_arr == weight_arr@pre &&
-					(forall (k: Z), (0 <= k && k < m@pre) => 0 <= Znth(k, lf, 0) && Znth(k, lf, 0) < n@pre) &&
-					(forall (k: Z), (0 <= k && k < m@pre) => 0 <= Znth(k, lt, 0) && Znth(k, lt, 0) < n@pre) &&
-					(forall (k: Z), (0 <= k && k < m@pre) => 0 <= Znth(k, lw, 0) && Znth(k, lw, 0) < 1000000000) &&
-					array_graph(n@pre, m@pre, lf, lt, lw, g) &&
-					PrimEnv(g, src) &&
-					directed_array_graph(g, l_from_new, l_to_new, l_weight_new) &&
-					first_link_matches_vertex_directed_edges(g, l_from_new, l_first, l_link) &&
-					prim_heap_loop_state(g, src, chosen, s,
-						l_lowcost, l_visited, l_edge_parent, queue_map, X) &&
 
-					IntArray::full(from_arr@pre, m@pre, lf) *
-					IntArray::full(to_arr@pre, m@pre, lt) *
-					IntArray::full(weight_arr@pre, m@pre, lw) *
-					IntArray::undef_full(out_u, n@pre - 1) *
-					IntArray::undef_full(out_v, n@pre - 1) *
-					IntArray::undef_full(out_wt, n@pre - 1) *
-					IntArray::full(from_new, 2 * m@pre, l_from_new) *
-					IntArray::full(to_new, 2 * m@pre, l_to_new) *
-					IntArray::full(weight_new, 2 * m@pre, l_weight_new) *
-					IntArray::full(first, n@pre, l_first) *
-					IntArray::full(link, 2 * m@pre, l_link) *
-					IntArray::full(lowcost, n@pre, l_lowcost) *
-					IntArray::full(visited, n@pre, l_visited) *
-					IntArray::full(edge_parent, n@pre, l_edge_parent) *
-					store_heap(heap_cost, heap_vertex, heap_pos, n@pre, heap_capacity, queue_map, heap_size) *
-					has_int_permission(&minIndex) *
-					has_int_permission(&min)
-			*/
 			/*@ Given queue_map */
 			pqdk_pop(heap_cost, heap_vertex, heap_pos, &heap_size, n, &minIndex, &min)
 				/*@ where M_before = queue_map, n = heap_size, capacity = heap_capacity */;
@@ -807,62 +697,7 @@ struct mst_tree* prim_forward_star_heap(int* from_arr, int* to_arr,
 					if (0 <= to_node && to_node < n && visited[to_node] == 0 && edge_weight < lowcost[to_node]) {
 						lowcost[to_node] = edge_weight;
 						edge_parent[to_node] = cur_edge;
-						/*@ Assert
-								exists current_edge selected l_first l_link l_from_new l_to_new l_weight_new
-								       l_lowcost l_visited l_edge_parent
-								       l_lowcost_cur l_edge_parent_cur l_lowcost_next l_edge_parent_next
-							       queue_map_before queue_map_cur s s_after,
-								2 <= n@pre && n@pre < INT_MAX &&
-								1 <= m@pre && 2 * m@pre + 2 < INT_MAX && 4 * m@pre + 6 < INT_MAX &&
-								2 * m@pre + 2 <= 100000 &&
-								src == 0 &&
-								n == n@pre && m == m@pre &&
-								from_arr == from_arr@pre && to_arr == to_arr@pre && weight_arr == weight_arr@pre &&
-								heap_capacity == 2 * m@pre + 2 &&
-									0 <= heap_size && heap_size < heap_capacity &&
-									1 <= chosen && chosen <= n@pre &&
-										0 <= selected && selected < n@pre &&
-									0 <= cur_edge && cur_edge < 2 * m@pre &&
-									0 <= to_node && to_node < n@pre &&
-									INT_MIN <= edge_weight && edge_weight <= INT_MAX &&
-									cur_edge == current_edge &&
-									to_node == Znth(cur_edge, l_to_new, 0) &&
-									edge_weight == Znth(cur_edge, l_weight_new, 0) &&
-									edge_weight < Znth(to_node, l_lowcost_cur, 0) &&
-										Znth(to_node, replace_Znth(selected, 1, l_visited), 0) == 0 &&
-									l_lowcost_next == replace_Znth(to_node, edge_weight, l_lowcost_cur) &&
-									l_edge_parent_next == replace_Znth(to_node, cur_edge, l_edge_parent_cur) &&
-								partial_map_update_or_add_pre(queue_map_cur, to_node, edge_weight) &&
-									prim_heap_scan_state(g, src, chosen, s, s_after,
-										l_from_new, l_first, l_link, l_to_new, l_weight_new,
-										l_lowcost, replace_Znth(selected, 1, l_visited), l_edge_parent,
-										l_lowcost_cur, l_edge_parent_cur, current_edge, selected, min,
-										queue_map_before, l_lowcost_cur, l_edge_parent_cur, queue_map_cur, X) &&
-								(forall (k: Z), (0 <= k && k < m@pre) => 0 <= Znth(k, lf, 0) && Znth(k, lf, 0) < n@pre) &&
-								(forall (k: Z), (0 <= k && k < m@pre) => 0 <= Znth(k, lt, 0) && Znth(k, lt, 0) < n@pre) &&
-								(forall (k: Z), (0 <= k && k < m@pre) => 0 <= Znth(k, lw, 0) && Znth(k, lw, 0) < 1000000000) &&
-								array_graph(n@pre, m@pre, lf, lt, lw, g) &&
-								PrimEnv(g, src) &&
-								directed_array_graph(g, l_from_new, l_to_new, l_weight_new) &&
-								first_link_matches_vertex_directed_edges(g, l_from_new, l_first, l_link) &&
 
-								IntArray::full(from_arr@pre, m@pre, lf) *
-								IntArray::full(to_arr@pre, m@pre, lt) *
-								IntArray::full(weight_arr@pre, m@pre, lw) *
-								IntArray::undef_full(out_u, n@pre - 1) *
-								IntArray::undef_full(out_v, n@pre - 1) *
-								IntArray::undef_full(out_wt, n@pre - 1) *
-								IntArray::full(from_new, 2 * m@pre, l_from_new) *
-								IntArray::full(to_new, 2 * m@pre, l_to_new) *
-								IntArray::full(weight_new, 2 * m@pre, l_weight_new) *
-									IntArray::full(first, n@pre, l_first) *
-									IntArray::full(link, 2 * m@pre, l_link) *
-										IntArray::full(lowcost, n@pre, l_lowcost_next) *
-										IntArray::full(visited, n@pre, replace_Znth(selected, 1, l_visited)) *
-										IntArray::full(edge_parent, n@pre, l_edge_parent_next) *
-										store_heap(heap_cost, heap_vertex, heap_pos, n@pre, heap_capacity, queue_map_cur, heap_size) *
-										has_permission(&minIndex)
-						*/
 						/*@ Given queue_map_cur */
 						pqdk_update_or_push(heap_cost, heap_vertex, heap_pos, &heap_size, n, to_node, edge_weight)
 							/*@ where M_before = queue_map_cur, n = heap_size, capacity = heap_capacity */;
@@ -926,90 +761,10 @@ struct mst_tree* prim_forward_star_heap(int* from_arr, int* to_arr,
 					cur_edge = -1;
 				}
 			}
-			/*@ Assert
-					exists selected l_first l_link l_from_new l_to_new l_weight_new
-					       l_visited l_lowcost_next l_edge_parent_next queue_map s_after,
-					2 <= n@pre && n@pre < INT_MAX &&
-								1 <= m@pre && 2 * m@pre + 2 < INT_MAX && 4 * m@pre + 6 < INT_MAX &&
-					2 * m@pre + 2 <= 100000 &&
-					src == 0 &&
-					n == n@pre && m == m@pre &&
-					heap_capacity == 2 * m@pre + 2 &&
-					1 <= chosen && chosen <= n@pre &&
-					0 <= heap_size && heap_size <= heap_capacity &&
-					from_arr == from_arr@pre && to_arr == to_arr@pre && weight_arr == weight_arr@pre &&
-						prim_heap_loop_state(g, src, chosen, s_after,
-							l_lowcost_next, replace_Znth(selected, 1, l_visited),
-							l_edge_parent_next, queue_map, X) &&
-					(chosen < n@pre => heap_size > 0) &&
-					(forall (k: Z), (0 <= k && k < m@pre) => 0 <= Znth(k, lf, 0) && Znth(k, lf, 0) < n@pre) &&
-					(forall (k: Z), (0 <= k && k < m@pre) => 0 <= Znth(k, lt, 0) && Znth(k, lt, 0) < n@pre) &&
-					(forall (k: Z), (0 <= k && k < m@pre) => 0 <= Znth(k, lw, 0) && Znth(k, lw, 0) < 1000000000) &&
-					array_graph(n@pre, m@pre, lf, lt, lw, g) &&
-					PrimEnv(g, src) &&
-					directed_array_graph(g, l_from_new, l_to_new, l_weight_new) &&
-					first_link_matches_vertex_directed_edges(g, l_from_new, l_first, l_link) &&
 
-					IntArray::full(from_arr@pre, m@pre, lf) *
-					IntArray::full(to_arr@pre, m@pre, lt) *
-					IntArray::full(weight_arr@pre, m@pre, lw) *
-					IntArray::undef_full(out_u, n@pre - 1) *
-					IntArray::undef_full(out_v, n@pre - 1) *
-					IntArray::undef_full(out_wt, n@pre - 1) *
-					IntArray::full(from_new, 2 * m@pre, l_from_new) *
-					IntArray::full(to_new, 2 * m@pre, l_to_new) *
-					IntArray::full(weight_new, 2 * m@pre, l_weight_new) *
-						IntArray::full(first, n@pre, l_first) *
-						IntArray::full(link, 2 * m@pre, l_link) *
-						IntArray::full(lowcost, n@pre, l_lowcost_next) *
-						IntArray::full(visited, n@pre, replace_Znth(selected, 1, l_visited)) *
-							IntArray::full(edge_parent, n@pre, l_edge_parent_next) *
-							store_heap(heap_cost, heap_vertex, heap_pos, n@pre, heap_capacity, queue_map, heap_size) *
-							has_permission(&cur_edge) *
-							has_permission(&minIndex) *
-							has_permission(&min)
-				*/
 		}
 
-		/*@ Assert
-			exists l_first l_link l_from_new l_to_new l_weight_new
-			       l_lowcost l_visited l_edge_parent queue_map s,
-				2 <= n@pre && n@pre < INT_MAX &&
-								1 <= m@pre && 2 * m@pre + 2 < INT_MAX && 4 * m@pre + 6 < INT_MAX &&
-				2 * m@pre + 2 <= 100000 &&
-				src == 0 &&
-				n == n@pre && m == m@pre &&
-				heap_capacity == 2 * m@pre + 2 &&
-				chosen == n@pre &&
-				0 <= heap_size && heap_size <= heap_capacity &&
-				from_arr == from_arr@pre && to_arr == to_arr@pre && weight_arr == weight_arr@pre &&
-				prim_heap_loop_state(g, src, chosen, s,
-					l_lowcost, l_visited, l_edge_parent, queue_map, X) &&
-				prim_heap_done_state(g, src, s, l_lowcost, l_visited, l_edge_parent, queue_map, X) &&
-				(forall (k: Z), (0 <= k && k < m@pre) => 0 <= Znth(k, lf, 0) && Znth(k, lf, 0) < n@pre) &&
-				(forall (k: Z), (0 <= k && k < m@pre) => 0 <= Znth(k, lt, 0) && Znth(k, lt, 0) < n@pre) &&
-				(forall (k: Z), (0 <= k && k < m@pre) => 0 <= Znth(k, lw, 0) && Znth(k, lw, 0) < 1000000000) &&
-				array_graph(n@pre, m@pre, lf, lt, lw, g) &&
-				PrimEnv(g, src) &&
-				directed_array_graph(g, l_from_new, l_to_new, l_weight_new) &&
-				first_link_matches_vertex_directed_edges(g, l_from_new, l_first, l_link) &&
 
-				IntArray::full(from_arr@pre, m@pre, lf) *
-				IntArray::full(to_arr@pre, m@pre, lt) *
-				IntArray::full(weight_arr@pre, m@pre, lw) *
-				IntArray::undef_full(out_u, n@pre - 1) *
-				IntArray::undef_full(out_v, n@pre - 1) *
-				IntArray::undef_full(out_wt, n@pre - 1) *
-				IntArray::full(from_new, 2 * m@pre, l_from_new) *
-				IntArray::full(to_new, 2 * m@pre, l_to_new) *
-				IntArray::full(weight_new, 2 * m@pre, l_weight_new) *
-				IntArray::full(first, n@pre, l_first) *
-				IntArray::full(link, 2 * m@pre, l_link) *
-				IntArray::full(lowcost, n@pre, l_lowcost) *
-				IntArray::full(visited, n@pre, l_visited) *
-				IntArray::full(edge_parent, n@pre, l_edge_parent) *
-				store_heap(heap_cost, heap_vertex, heap_pos, n@pre, heap_capacity, queue_map, heap_size)
-		*/
 
 			int out_i = 1;
 		int mst_idx = 0;
@@ -1071,63 +826,7 @@ struct mst_tree* prim_forward_star_heap(int* from_arr, int* to_arr,
 			store_heap(heap_cost, heap_vertex, heap_pos, n@pre, heap_capacity, queue_map, heap_size)
 		*/
 		for (; out_i < n; out_i++) {
-			/*@ Assert
-				exists l_first l_link l_from_new l_to_new l_weight_new
-			       l_lowcost l_visited l_edge_parent
-			       l_out_u l_out_v l_out_wt queue_map s rg,
-				2 <= n@pre && n@pre < INT_MAX &&
-								1 <= m@pre && 2 * m@pre + 2 < INT_MAX && 4 * m@pre + 6 < INT_MAX &&
-				2 * m@pre + 2 <= 100000 &&
-				src == 0 &&
-				n == n@pre && m == m@pre &&
-				heap_capacity == 2 * m@pre + 2 &&
-				chosen == n@pre &&
-				from_arr == from_arr@pre && to_arr == to_arr@pre && weight_arr == weight_arr@pre &&
-				1 <= out_i && out_i < n@pre &&
-				mst_idx <= n@pre - 1 &&
-				mst_idx == out_i - 1 &&
-				(forall (a: Z), (0 <= a && a < m@pre) => 0 <= Znth(a, lf, 0) && Znth(a, lf, 0) < n@pre) &&
-				(forall (a: Z), (0 <= a && a < m@pre) => 0 <= Znth(a, lt, 0) && Znth(a, lt, 0) < n@pre) &&
-				(forall (a: Z), (0 <= a && a < m@pre) => 0 <= Znth(a, lw, 0) && Znth(a, lw, 0) < 1000000000) &&
-				array_graph(n@pre, m@pre, lf, lt, lw, g) &&
-				PrimEnv(g, src) &&
-				directed_array_graph(g, l_from_new, l_to_new, l_weight_new) &&
-				first_link_matches_vertex_directed_edges(g, l_from_new, l_first, l_link) &&
-				prim_heap_done_state(g, src, s, l_lowcost, l_visited, l_edge_parent, queue_map, X) &&
-				growing_subgraph_state(g, s) &&
-				visited_matches_state(g, s, l_visited) &&
-				state_vertex_count(s) == n@pre &&
-				selected_edges_match_state(g, src, s, l_edge_parent) &&
-				lowcost_parent_match(g, s, l_lowcost, l_edge_parent, 1000000000) &&
-				prim_state_graph_matches(rg, s) &&
-				prim_result_graph_matches_array_prefix(n@pre, mst_idx,
-					l_out_u, l_out_v, l_out_wt, g, rg,
-					l_edge_parent, l_from_new, l_to_new, l_weight_new) &&
-				(forall (v: Z), 1 <= v && v < n@pre =>
-					0 <= Znth(v, l_edge_parent, 0) && Znth(v, l_edge_parent, 0) < 2 * m@pre) &&
-				0 <= Znth(out_i, l_edge_parent, 0) && Znth(out_i, l_edge_parent, 0) < 2 * m@pre &&
-				safeExec(prim_state_is(s), return(tt), X) &&
 
-				IntArray::full(from_arr@pre, m@pre, lf) *
-				IntArray::full(to_arr@pre, m@pre, lt) *
-				IntArray::full(weight_arr@pre, m@pre, lw) *
-				IntArray::seg(out_u, 0, mst_idx, l_out_u) *
-				IntArray::undef_seg(out_u, mst_idx, n@pre - 1) *
-				IntArray::seg(out_v, 0, mst_idx, l_out_v) *
-				IntArray::undef_seg(out_v, mst_idx, n@pre - 1) *
-				IntArray::seg(out_wt, 0, mst_idx, l_out_wt) *
-				IntArray::undef_seg(out_wt, mst_idx, n@pre - 1) *
-				IntArray::full(from_new, 2 * m@pre, l_from_new) *
-				IntArray::full(to_new, 2 * m@pre, l_to_new) *
-				IntArray::full(weight_new, 2 * m@pre, l_weight_new) *
-				IntArray::full(first, n@pre, l_first) *
-				IntArray::full(link, 2 * m@pre, l_link) *
-				IntArray::full(lowcost, n@pre, l_lowcost) *
-				IntArray::full(visited, n@pre, l_visited) *
-				IntArray::missing_i(edge_parent, out_i, 0, n@pre, l_edge_parent) *
-				data_at(edge_parent + (out_i * sizeof(int)), int, Znth(out_i, l_edge_parent, 0)) *
-				store_heap(heap_cost, heap_vertex, heap_pos, n@pre, heap_capacity, queue_map, heap_size)
-			*/
 			int edge_id = edge_parent[out_i];
 			if (edge_id == -1) continue;
 			if (0 <= edge_id && edge_id < 2 * m && mst_idx < n - 1) {
@@ -1200,40 +899,7 @@ struct mst_tree* prim_forward_star_heap(int* from_arr, int* to_arr,
 			}
 		}
 
-	/*@ Assert
-		exists lru lrv lrwt rg
-		       l_from_new l_to_new l_weight_new l_first l_link
-		       l_lowcost l_visited l_edge_parent queue_map s,
-			safeExec(prim_state_graph_matches(rg), return(tt), X) &&
-			prim_result_graph_matches_array(n@pre, lru, lrv, lrwt, g, rg) &&
-			chosen == n@pre &&
-			heap_capacity == 2 * m@pre + 2 &&
-			0 <= heap_capacity &&
-			prim_heap_done_state(g, src, s, l_lowcost, l_visited, l_edge_parent, queue_map, X) &&
 
-			IntArray::full(out_u, n@pre - 1, lru) *
-			IntArray::full(out_v, n@pre - 1, lrv) *
-			IntArray::full(out_wt, n@pre - 1, lrwt) *
-			IntArray::full(from_arr@pre, m@pre, lf) *
-			IntArray::full(to_arr@pre, m@pre, lt) *
-			IntArray::full(weight_arr@pre, m@pre, lw) *
-			has_permission(&n) *
-			has_permission(&m) *
-			has_permission(&from_arr) *
-			has_permission(&to_arr) *
-			has_permission(&weight_arr) *
-			has_permission(&out_i) *
-			has_permission(&mst_idx) *
-			IntArray::full(from_new, 2 * m@pre, l_from_new) *
-			IntArray::full(to_new, 2 * m@pre, l_to_new) *
-			IntArray::full(weight_new, 2 * m@pre, l_weight_new) *
-			IntArray::full(first, n@pre, l_first) *
-			IntArray::full(link, 2 * m@pre, l_link) *
-			IntArray::full(lowcost, n@pre, l_lowcost) *
-			IntArray::full(visited, n@pre, l_visited) *
-			IntArray::full(edge_parent, n@pre, l_edge_parent) *
-			store_heap(heap_cost, heap_vertex, heap_pos, n@pre, heap_capacity, queue_map, heap_size)
-		*/
 
 		struct mst_tree* p = malloc_mst_tree();
 	p->u = out_u;

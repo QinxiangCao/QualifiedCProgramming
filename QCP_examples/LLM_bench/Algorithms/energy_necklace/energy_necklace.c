@@ -3,61 +3,48 @@
 
 
 /*@ Extern Coq
+      (Forall2 : {A B} -> (A -> B -> Prop) -> list A -> list B -> Prop)
+      (Forall : {A} -> (A -> Prop) -> list A -> Prop)
+      (Z::le : Z -> Z -> Prop)
+      (Z::ge : Z -> Z -> Prop)
+      (eq : {A} -> A -> A -> Prop)
+      (EnergyLengthsComplete : list Z -> list Z -> Z -> Z -> Prop)
+      (EnergyLeftComplete : list Z -> list Z -> Z -> Z -> Z -> Prop)
+      (EnergySplitBest : list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Prop)
+      (EnergyAnswerBest : list Z -> Z -> Z -> Z -> Prop)
       (EnergyValsDuplicated : list Z -> list Z -> Z -> Prop)
-      (EnergyLabelsBounded : list Z -> Z -> Prop)
-      (EnergyComputationBounded : list Z -> Z -> Z -> Prop)
+      (EnergyIntervalPlan : list Z -> Z -> Z -> Z -> Prop)
       (EnergyIntervalBest : list Z -> Z -> Z -> Z -> Prop)
       (EnergyNecklaceAnswer : list Z -> Z -> Z -> Prop)
-      (EnergyZeroTable : list Z -> Z -> Z -> Prop)
-      (EnergyLenDone : list Z -> list Z -> Z -> Z -> Z -> Prop)
-      (EnergyLeftProgress : list Z -> list Z -> Z -> Z -> Z -> Z -> Prop)
-      (EnergySplitProgress : list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Z -> Prop)
-      (EnergyUpdatedCell : list Z -> list Z -> list Z -> Z -> Z -> Z -> Z -> Prop)
-      (EnergyAnswerProgress : list Z -> list Z -> list Z -> Z -> Z -> Z -> Z -> Z -> Prop)
  */
 /*@ Import Coq Require Import SimpleC.EE.LLM_bench.Algorithms.energy_necklace.energy_necklace_lib */
 
-int energyNecklace(int *beads, int n, int *vals, int *dp)
+int energyNecklace(int *beads, int n)
 /*@ With (beads_l : list Z)
     Require
       4 <= n && n <= 100 &&
       Zlength(beads_l) == n &&
-      EnergyLabelsBounded(beads_l, n) &&
-      EnergyComputationBounded(beads_l, n, 2100000000) &&
-      IntArray::full(beads, n, beads_l) *
-      IntArray::undef_full(vals, 2 * n) *
-      IntArray::undef_full(dp, (2 * n) * (2 * n))
+      Zlength(beads_l) == n && Forall(Z::le(1), beads_l) && Forall(Z::ge(1000), beads_l) &&
+      (forall (ev : list Z) (start : Z) (energy : Z),
+        (EnergyValsDuplicated(beads_l, ev, n) &&
+         0 <= start && start < n &&
+         EnergyIntervalPlan(ev, start, start + n - 1, energy)) =>
+        energy <= 2100000000) &&
+      IntArray::full(beads, n, beads_l)
     Ensure
-      exists vals_l dp_l,
-      EnergyValsDuplicated(beads_l, vals_l, n) &&
-      EnergyLenDone(vals_l, dp_l, 2 * n, 2 * n, n + 1) &&
       EnergyNecklaceAnswer(beads_l, n, __return) &&
-      0 <= __return && __return <= 2100000000 &&
-      IntArray::full(beads, n, beads_l) *
-      IntArray::full(vals, 2 * n, vals_l) *
-      IntArray::full(dp, (2 * n) * (2 * n), dp_l)
+      IntArray::full(beads, n, beads_l)
  */
 {
+  int vals[200];
+  int dp[40000];
+
   int total = 2 * n;
   int width = total;
 
-  /*@ Assert
-      beads == beads@pre && vals == vals@pre && dp == dp@pre &&
-      n == n@pre &&
-      total == 2 * n@pre &&
-      width == total &&
-      4 <= n@pre && n@pre <= 100 &&
-      8 <= total && total <= 200 &&
-      Zlength(beads_l) == n@pre &&
-      EnergyLabelsBounded(beads_l, n@pre) &&
-      EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
-      IntArray::full(beads, n@pre, beads_l) *
-      IntArray::undef_full(vals, total) *
-      IntArray::undef_full(dp, total * width)
-   */
   /*@ Inv Assert
       exists vals_l,
-      beads == beads@pre && vals == vals@pre && dp == dp@pre &&
+      beads == beads@pre &&  
       n == n@pre &&
       total == 2 * n@pre &&
       width == total &&
@@ -66,39 +53,27 @@ int energyNecklace(int *beads, int n, int *vals, int *dp)
       Zlength(beads_l) == n@pre &&
       Zlength(vals_l) == i &&
       0 <= i && i <= n@pre &&
-      (forall (k : Z), (0 <= k && k < i) => (vals_l[k] == beads_l[k])) &&
-      EnergyLabelsBounded(beads_l, n@pre) &&
-      EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
+      Forall2(eq, sublist(0, i, vals_l), sublist(0, i, beads_l)) &&
+      Zlength(beads_l) == n@pre && Forall(Z::le(1), beads_l) && Forall(Z::ge(1000), beads_l) &&
+      (forall (ev : list Z) (start : Z) (energy : Z),
+        (EnergyValsDuplicated(beads_l, ev, n@pre) &&
+         0 <= start && start < n@pre &&
+         EnergyIntervalPlan(ev, start, start + n@pre - 1, energy)) =>
+        energy <= 2100000000) &&
       IntArray::full(beads, n@pre, beads_l) *
       IntArray::seg(vals, 0, i, vals_l) *
       IntArray::undef_seg(vals, i, total) *
-      IntArray::undef_full(dp, total * width)
+      IntArray::undef_full(dp, total * width) *
+      IntArray::undef_seg(vals, 2 * n@pre, 200) *
+      IntArray::undef_seg(dp, (2 * n@pre) * (2 * n@pre), 40000)
    */
   for (int i = 0; i < n; ++i) {
     vals[i] = beads[i];
   }
 
-  /*@ Assert
-      exists vals_l,
-      beads == beads@pre && vals == vals@pre && dp == dp@pre &&
-      n == n@pre &&
-      total == 2 * n@pre &&
-      width == total &&
-      4 <= n@pre && n@pre <= 100 &&
-      8 <= total && total <= 200 &&
-      Zlength(beads_l) == n@pre &&
-      Zlength(vals_l) == n@pre &&
-      (forall (k : Z), (0 <= k && k < n@pre) => (vals_l[k] == beads_l[k])) &&
-      EnergyLabelsBounded(beads_l, n@pre) &&
-      EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
-      IntArray::full(beads, n@pre, beads_l) *
-      IntArray::seg(vals, 0, n@pre, vals_l) *
-      IntArray::undef_seg(vals, n@pre, total) *
-      IntArray::undef_full(dp, total * width)
-   */
   /*@ Inv Assert
       exists vals_l,
-      beads == beads@pre && vals == vals@pre && dp == dp@pre &&
+      beads == beads@pre &&  
       n == n@pre &&
       total == 2 * n@pre &&
       width == total &&
@@ -107,38 +82,28 @@ int energyNecklace(int *beads, int n, int *vals, int *dp)
       Zlength(beads_l) == n@pre &&
       Zlength(vals_l) == n@pre + i &&
       0 <= i && i <= n@pre &&
-      (forall (k : Z), (0 <= k && k < n@pre) => (vals_l[k] == beads_l[k])) &&
-      (forall (k : Z), (0 <= k && k < i) => (vals_l[n@pre + k] == beads_l[k])) &&
-      EnergyLabelsBounded(beads_l, n@pre) &&
-      EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
+      Forall2(eq, sublist(0, n@pre, vals_l), sublist(0, n@pre, beads_l)) &&
+      Forall2(eq, sublist(n@pre, n@pre + i, vals_l), sublist(0, i, beads_l)) &&
+      Zlength(beads_l) == n@pre && Forall(Z::le(1), beads_l) && Forall(Z::ge(1000), beads_l) &&
+      (forall (ev : list Z) (start : Z) (energy : Z),
+        (EnergyValsDuplicated(beads_l, ev, n@pre) &&
+         0 <= start && start < n@pre &&
+         EnergyIntervalPlan(ev, start, start + n@pre - 1, energy)) =>
+        energy <= 2100000000) &&
       IntArray::full(beads, n@pre, beads_l) *
       IntArray::seg(vals, 0, n@pre + i, vals_l) *
       IntArray::undef_seg(vals, n@pre + i, total) *
-      IntArray::undef_full(dp, total * width)
+      IntArray::undef_full(dp, total * width) *
+      IntArray::undef_seg(vals, 2 * n@pre, 200) *
+      IntArray::undef_seg(dp, (2 * n@pre) * (2 * n@pre), 40000)
    */
   for (int i = 0; i < n; ++i) {
     vals[n + i] = beads[i];
   }
 
-  /*@ Assert
-      exists vals_l,
-      beads == beads@pre && vals == vals@pre && dp == dp@pre &&
-      n == n@pre &&
-      total == 2 * n@pre &&
-      width == total &&
-      4 <= n@pre && n@pre <= 100 &&
-      8 <= total && total <= 200 &&
-      Zlength(beads_l) == n@pre &&
-      EnergyValsDuplicated(beads_l, vals_l, n@pre) &&
-      EnergyLabelsBounded(beads_l, n@pre) &&
-      EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
-      IntArray::full(beads, n@pre, beads_l) *
-      IntArray::full(vals, total, vals_l) *
-      IntArray::undef_full(dp, total * width)
-   */
   /*@ Inv Assert
       exists vals_l dp_l,
-      beads == beads@pre && vals == vals@pre && dp == dp@pre &&
+      beads == beads@pre &&  
       n == n@pre &&
       total == 2 * n@pre &&
       width == total &&
@@ -147,41 +112,28 @@ int energyNecklace(int *beads, int n, int *vals, int *dp)
       Zlength(beads_l) == n@pre &&
       Zlength(dp_l) == i &&
       0 <= i && i <= total * width &&
-      (forall (k : Z), (0 <= k && k < i) => (dp_l[k] == 0)) &&
+      Forall(eq(0), dp_l) &&
       EnergyValsDuplicated(beads_l, vals_l, n@pre) &&
-      EnergyLabelsBounded(beads_l, n@pre) &&
-      EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
+      Zlength(beads_l) == n@pre && Forall(Z::le(1), beads_l) && Forall(Z::ge(1000), beads_l) &&
+      (forall (ev : list Z) (start : Z) (energy : Z),
+        (EnergyValsDuplicated(beads_l, ev, n@pre) &&
+         0 <= start && start < n@pre &&
+         EnergyIntervalPlan(ev, start, start + n@pre - 1, energy)) =>
+        energy <= 2100000000) &&
       IntArray::full(beads, n@pre, beads_l) *
       IntArray::full(vals, total, vals_l) *
       IntArray::seg(dp, 0, i, dp_l) *
-      IntArray::undef_seg(dp, i, total * width)
+      IntArray::undef_seg(dp, i, total * width) *
+      IntArray::undef_seg(vals, 2 * n@pre, 200) *
+      IntArray::undef_seg(dp, (2 * n@pre) * (2 * n@pre), 40000)
    */
   for (int i = 0; i < total * width; ++i) {
     dp[i] = 0;
   }
 
-  /*@ Assert
-      exists vals_l dp_l,
-      beads == beads@pre && vals == vals@pre && dp == dp@pre &&
-      n == n@pre &&
-      total == 2 * n@pre &&
-      width == total &&
-      4 <= n@pre && n@pre <= 100 &&
-      8 <= total && total <= 200 &&
-      Zlength(beads_l) == n@pre &&
-      Zlength(dp_l) == total * width &&
-      EnergyValsDuplicated(beads_l, vals_l, n@pre) &&
-      EnergyZeroTable(dp_l, total, width) &&
-      EnergyLenDone(vals_l, dp_l, total, width, 2) &&
-      EnergyLabelsBounded(beads_l, n@pre) &&
-      EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
-      IntArray::full(beads, n@pre, beads_l) *
-      IntArray::full(vals, total, vals_l) *
-      IntArray::full(dp, total * width, dp_l)
-   */
   /*@ Inv Assert
       exists vals_l dp_l,
-      beads == beads@pre && vals == vals@pre && dp == dp@pre &&
+      beads == beads@pre &&  
       n == n@pre &&
       total == 2 * n@pre &&
       width == total &&
@@ -191,17 +143,23 @@ int energyNecklace(int *beads, int n, int *vals, int *dp)
       Zlength(beads_l) == n@pre &&
       Zlength(dp_l) == total * width &&
       EnergyValsDuplicated(beads_l, vals_l, n@pre) &&
-      EnergyLenDone(vals_l, dp_l, total, width, len) &&
-      EnergyLabelsBounded(beads_l, n@pre) &&
-      EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
+      0 <= total && width == total && Zlength(vals_l) == total && Zlength(dp_l) == total * width && 1 <= len && EnergyLengthsComplete(vals_l, dp_l, width, len) &&
+      Zlength(beads_l) == n@pre && Forall(Z::le(1), beads_l) && Forall(Z::ge(1000), beads_l) &&
+      (forall (ev : list Z) (start : Z) (energy : Z),
+        (EnergyValsDuplicated(beads_l, ev, n@pre) &&
+         0 <= start && start < n@pre &&
+         EnergyIntervalPlan(ev, start, start + n@pre - 1, energy)) =>
+        energy <= 2100000000) &&
       IntArray::full(beads, n@pre, beads_l) *
       IntArray::full(vals, total, vals_l) *
-      IntArray::full(dp, total * width, dp_l)
+      IntArray::full(dp, total * width, dp_l) *
+      IntArray::undef_seg(vals, 2 * n@pre, 200) *
+      IntArray::undef_seg(dp, (2 * n@pre) * (2 * n@pre), 40000)
    */
   for (int len = 2; len <= n; ++len) {
     /*@ Inv Assert
         exists vals_l dp_l,
-        beads == beads@pre && vals == vals@pre && dp == dp@pre &&
+        beads == beads@pre &&  
         n == n@pre &&
         total == 2 * n@pre &&
         width == total &&
@@ -212,44 +170,26 @@ int energyNecklace(int *beads, int n, int *vals, int *dp)
         Zlength(beads_l) == n@pre &&
         Zlength(dp_l) == total * width &&
         EnergyValsDuplicated(beads_l, vals_l, n@pre) &&
-        EnergyLeftProgress(vals_l, dp_l, total, width, len, left) &&
-        EnergyLabelsBounded(beads_l, n@pre) &&
-        EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
+        0 <= total && width == total && Zlength(vals_l) == total && Zlength(dp_l) == total * width && 1 <= len && EnergyLengthsComplete(vals_l, dp_l, width, len) && 2 <= len && 0 <= left && EnergyLeftComplete(vals_l, dp_l, width, len, left) &&
+        Zlength(beads_l) == n@pre && Forall(Z::le(1), beads_l) && Forall(Z::ge(1000), beads_l) &&
+        (forall (ev : list Z) (start : Z) (energy : Z),
+          (EnergyValsDuplicated(beads_l, ev, n@pre) &&
+           0 <= start && start < n@pre &&
+           EnergyIntervalPlan(ev, start, start + n@pre - 1, energy)) =>
+          energy <= 2100000000) &&
         IntArray::full(beads, n@pre, beads_l) *
         IntArray::full(vals, total, vals_l) *
-        IntArray::full(dp, total * width, dp_l)
-     */
+        IntArray::full(dp, total * width, dp_l) *
+      IntArray::undef_seg(vals, 2 * n@pre, 200) *
+      IntArray::undef_seg(dp, (2 * n@pre) * (2 * n@pre), 40000)
+   */
     for (int left = 0; left < total - len; ++left) {
       int right = left + len - 1;
       int best = 0;
 
-      /*@ Assert
-          exists vals_l dp_l,
-          beads == beads@pre && vals == vals@pre && dp == dp@pre &&
-          n == n@pre &&
-          total == 2 * n@pre &&
-          width == total &&
-          4 <= n@pre && n@pre <= 100 &&
-          8 <= total && total <= 200 &&
-          2 <= len && len <= n@pre &&
-          0 <= left && left < total - len &&
-          right == left + len - 1 &&
-          left < right &&
-          0 <= right && right < total &&
-          right + 1 < total &&
-          Zlength(beads_l) == n@pre &&
-          Zlength(dp_l) == total * width &&
-          EnergyValsDuplicated(beads_l, vals_l, n@pre) &&
-          EnergySplitProgress(vals_l, dp_l, total, width, len, left, left, best) &&
-          EnergyLabelsBounded(beads_l, n@pre) &&
-          EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
-          IntArray::full(beads, n@pre, beads_l) *
-          IntArray::full(vals, total, vals_l) *
-          IntArray::full(dp, total * width, dp_l)
-       */
       /*@ Inv Assert
           exists vals_l dp_l,
-          beads == beads@pre && vals == vals@pre && dp == dp@pre &&
+          beads == beads@pre &&  
           n == n@pre &&
           total == 2 * n@pre &&
           width == total &&
@@ -266,17 +206,23 @@ int energyNecklace(int *beads, int n, int *vals, int *dp)
           Zlength(beads_l) == n@pre &&
           Zlength(dp_l) == total * width &&
           EnergyValsDuplicated(beads_l, vals_l, n@pre) &&
-          EnergySplitProgress(vals_l, dp_l, total, width, len, left, split, best) &&
-          EnergyLabelsBounded(beads_l, n@pre) &&
-          EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
+          0 <= total && width == total && Zlength(vals_l) == total && Zlength(dp_l) == total * width && 1 <= len && EnergyLengthsComplete(vals_l, dp_l, width, len) && 2 <= len && 0 <= left && EnergyLeftComplete(vals_l, dp_l, width, len, left) && left + len <= total && left <= split && split <= left + len - 1 && 0 <= best && best <= 2100000000 && EnergySplitBest(vals_l, dp_l, width, len, left, split, best) &&
+          Zlength(beads_l) == n@pre && Forall(Z::le(1), beads_l) && Forall(Z::ge(1000), beads_l) &&
+          (forall (ev : list Z) (start : Z) (energy : Z),
+            (EnergyValsDuplicated(beads_l, ev, n@pre) &&
+             0 <= start && start < n@pre &&
+             EnergyIntervalPlan(ev, start, start + n@pre - 1, energy)) =>
+            energy <= 2100000000) &&
           IntArray::full(beads, n@pre, beads_l) *
           IntArray::full(vals, total, vals_l) *
-          IntArray::full(dp, total * width, dp_l)
-       */
+          IntArray::full(dp, total * width, dp_l) *
+      IntArray::undef_seg(vals, 2 * n@pre, 200) *
+      IntArray::undef_seg(dp, (2 * n@pre) * (2 * n@pre), 40000)
+   */
       for (int split = left; split < right; ++split) {
         /*@ Assert
             exists vals_l dp_l,
-            beads == beads@pre && vals == vals@pre && dp == dp@pre &&
+            beads == beads@pre &&  
             n == n@pre &&
             total == 2 * n@pre &&
             width == total &&
@@ -298,13 +244,19 @@ int energyNecklace(int *beads, int n, int *vals, int *dp)
             Zlength(beads_l) == n@pre &&
             Zlength(dp_l) == total * width &&
             EnergyValsDuplicated(beads_l, vals_l, n@pre) &&
-            EnergySplitProgress(vals_l, dp_l, total, width, len, left, split, best) &&
-            EnergyLabelsBounded(beads_l, n@pre) &&
-            EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
+            0 <= total && width == total && Zlength(vals_l) == total && Zlength(dp_l) == total * width && 1 <= len && EnergyLengthsComplete(vals_l, dp_l, width, len) && 2 <= len && 0 <= left && EnergyLeftComplete(vals_l, dp_l, width, len, left) && left + len <= total && left <= split && split <= left + len - 1 && 0 <= best && best <= 2100000000 && EnergySplitBest(vals_l, dp_l, width, len, left, split, best) &&
+            Zlength(beads_l) == n@pre && Forall(Z::le(1), beads_l) && Forall(Z::ge(1000), beads_l) &&
+            (forall (ev : list Z) (start : Z) (energy : Z),
+              (EnergyValsDuplicated(beads_l, ev, n@pre) &&
+               0 <= start && start < n@pre &&
+               EnergyIntervalPlan(ev, start, start + n@pre - 1, energy)) =>
+              energy <= 2100000000) &&
             IntArray::full(beads, n@pre, beads_l) *
             IntArray::full(vals, total, vals_l) *
-            IntArray::full(dp, total * width, dp_l)
-         */
+            IntArray::full(dp, total * width, dp_l) *
+      IntArray::undef_seg(vals, 2 * n@pre, 200) *
+      IntArray::undef_seg(dp, (2 * n@pre) * (2 * n@pre), 40000)
+   */
         int left_value = dp[left * width + split];
         int right_value = dp[(split + 1) * width + right];
         int gain = vals[left] * vals[split + 1] * vals[right + 1];
@@ -312,7 +264,7 @@ int energyNecklace(int *beads, int n, int *vals, int *dp)
 
         /*@ Assert
             exists vals_l dp_l,
-            beads == beads@pre && vals == vals@pre && dp == dp@pre &&
+            beads == beads@pre &&  
             n == n@pre &&
             total == 2 * n@pre &&
             width == total &&
@@ -332,19 +284,25 @@ int energyNecklace(int *beads, int n, int *vals, int *dp)
             Zlength(beads_l) == n@pre &&
             Zlength(dp_l) == total * width &&
             EnergyValsDuplicated(beads_l, vals_l, n@pre) &&
-            EnergySplitProgress(vals_l, dp_l, total, width, len, left, split, best) &&
-            EnergyLabelsBounded(beads_l, n@pre) &&
-            EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
+            0 <= total && width == total && Zlength(vals_l) == total && Zlength(dp_l) == total * width && 1 <= len && EnergyLengthsComplete(vals_l, dp_l, width, len) && 2 <= len && 0 <= left && EnergyLeftComplete(vals_l, dp_l, width, len, left) && left + len <= total && left <= split && split <= left + len - 1 && 0 <= best && best <= 2100000000 && EnergySplitBest(vals_l, dp_l, width, len, left, split, best) &&
+            Zlength(beads_l) == n@pre && Forall(Z::le(1), beads_l) && Forall(Z::ge(1000), beads_l) &&
+            (forall (ev : list Z) (start : Z) (energy : Z),
+              (EnergyValsDuplicated(beads_l, ev, n@pre) &&
+               0 <= start && start < n@pre &&
+               EnergyIntervalPlan(ev, start, start + n@pre - 1, energy)) =>
+              energy <= 2100000000) &&
             IntArray::full(beads, n@pre, beads_l) *
             IntArray::full(vals, total, vals_l) *
-            IntArray::full(dp, total * width, dp_l)
-         */
+            IntArray::full(dp, total * width, dp_l) *
+      IntArray::undef_seg(vals, 2 * n@pre, 200) *
+      IntArray::undef_seg(dp, (2 * n@pre) * (2 * n@pre), 40000)
+   */
         if (candidate > best) {
           best = candidate;
         }
         /*@ Assert
             exists vals_l dp_l,
-            beads == beads@pre && vals == vals@pre && dp == dp@pre &&
+            beads == beads@pre &&  
             n == n@pre &&
             total == 2 * n@pre &&
             width == total &&
@@ -364,18 +322,24 @@ int energyNecklace(int *beads, int n, int *vals, int *dp)
             Zlength(beads_l) == n@pre &&
             Zlength(dp_l) == total * width &&
             EnergyValsDuplicated(beads_l, vals_l, n@pre) &&
-            EnergySplitProgress(vals_l, dp_l, total, width, len, left, split + 1, best) &&
-            EnergyLabelsBounded(beads_l, n@pre) &&
-            EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
+            0 <= total && width == total && Zlength(vals_l) == total && Zlength(dp_l) == total * width && 1 <= len && EnergyLengthsComplete(vals_l, dp_l, width, len) && 2 <= len && 0 <= left && EnergyLeftComplete(vals_l, dp_l, width, len, left) && left + len <= total && left <= split + 1 && split + 1 <= left + len - 1 && 0 <= best && best <= 2100000000 && EnergySplitBest(vals_l, dp_l, width, len, left, split + 1, best) &&
+            Zlength(beads_l) == n@pre && Forall(Z::le(1), beads_l) && Forall(Z::ge(1000), beads_l) &&
+            (forall (ev : list Z) (start : Z) (energy : Z),
+              (EnergyValsDuplicated(beads_l, ev, n@pre) &&
+               0 <= start && start < n@pre &&
+               EnergyIntervalPlan(ev, start, start + n@pre - 1, energy)) =>
+              energy <= 2100000000) &&
             IntArray::full(beads, n@pre, beads_l) *
             IntArray::full(vals, total, vals_l) *
-            IntArray::full(dp, total * width, dp_l)
-         */
+            IntArray::full(dp, total * width, dp_l) *
+      IntArray::undef_seg(vals, 2 * n@pre, 200) *
+      IntArray::undef_seg(dp, (2 * n@pre) * (2 * n@pre), 40000)
+   */
       }
 
       /*@ Assert
           exists vals_l dp_l,
-          beads == beads@pre && vals == vals@pre && dp == dp@pre &&
+          beads == beads@pre &&  
           n == n@pre &&
           total == 2 * n@pre &&
           width == total &&
@@ -391,84 +355,30 @@ int energyNecklace(int *beads, int n, int *vals, int *dp)
           Zlength(beads_l) == n@pre &&
           Zlength(dp_l) == total * width &&
           EnergyValsDuplicated(beads_l, vals_l, n@pre) &&
-          EnergySplitProgress(vals_l, dp_l, total, width, len, left, right, best) &&
+          0 <= total && width == total && Zlength(vals_l) == total && Zlength(dp_l) == total * width && 1 <= len && EnergyLengthsComplete(vals_l, dp_l, width, len) && 2 <= len && 0 <= left && EnergyLeftComplete(vals_l, dp_l, width, len, left) && left + len <= total && left <= right && right <= left + len - 1 && 0 <= best && best <= 2100000000 && EnergySplitBest(vals_l, dp_l, width, len, left, right, best) &&
           EnergyIntervalBest(vals_l, left, right, best) &&
-          EnergyLabelsBounded(beads_l, n@pre) &&
-          EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
+          Zlength(beads_l) == n@pre && Forall(Z::le(1), beads_l) && Forall(Z::ge(1000), beads_l) &&
+          (forall (ev : list Z) (start : Z) (energy : Z),
+            (EnergyValsDuplicated(beads_l, ev, n@pre) &&
+             0 <= start && start < n@pre &&
+             EnergyIntervalPlan(ev, start, start + n@pre - 1, energy)) =>
+            energy <= 2100000000) &&
           IntArray::full(beads, n@pre, beads_l) *
           IntArray::full(vals, total, vals_l) *
-          IntArray::full(dp, total * width, dp_l)
-       */
+          IntArray::full(dp, total * width, dp_l) *
+      IntArray::undef_seg(vals, 2 * n@pre, 200) *
+      IntArray::undef_seg(dp, (2 * n@pre) * (2 * n@pre), 40000)
+   */
       dp[left * width + right] = best;
-      /*@ Assert
-          exists vals_l dp_old dp_new,
-          beads == beads@pre && vals == vals@pre && dp == dp@pre &&
-          n == n@pre &&
-          total == 2 * n@pre &&
-          width == total &&
-          4 <= n@pre && n@pre <= 100 &&
-          8 <= total && total <= 200 &&
-          2 <= len && len <= n@pre &&
-          0 <= left && left < total - len &&
-          right == left + len - 1 &&
-          0 <= best && best <= 2100000000 &&
-          Zlength(beads_l) == n@pre &&
-          Zlength(dp_old) == total * width &&
-          Zlength(dp_new) == total * width &&
-          EnergyValsDuplicated(beads_l, vals_l, n@pre) &&
-          EnergyUpdatedCell(vals_l, dp_old, dp_new, width, left, right, best) &&
-          EnergyLeftProgress(vals_l, dp_new, total, width, len, left + 1) &&
-          EnergyLabelsBounded(beads_l, n@pre) &&
-          EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
-          IntArray::full(beads, n@pre, beads_l) *
-          IntArray::full(vals, total, vals_l) *
-          IntArray::full(dp, total * width, dp_new)
-       */
+
     }
-    /*@ Assert
-        exists vals_l dp_l,
-        beads == beads@pre && vals == vals@pre && dp == dp@pre &&
-        n == n@pre &&
-        total == 2 * n@pre &&
-        width == total &&
-        4 <= n@pre && n@pre <= 100 &&
-        8 <= total && total <= 200 &&
-        2 <= len && len <= n@pre &&
-        Zlength(beads_l) == n@pre &&
-        Zlength(dp_l) == total * width &&
-        EnergyValsDuplicated(beads_l, vals_l, n@pre) &&
-        EnergyLenDone(vals_l, dp_l, total, width, len + 1) &&
-        EnergyLabelsBounded(beads_l, n@pre) &&
-        EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
-        IntArray::full(beads, n@pre, beads_l) *
-        IntArray::full(vals, total, vals_l) *
-        IntArray::full(dp, total * width, dp_l)
-     */
+
   }
 
   int answer = 0;
-  /*@ Assert
-      exists vals_l dp_l,
-      beads == beads@pre && vals == vals@pre && dp == dp@pre &&
-      n == n@pre &&
-      total == 2 * n@pre &&
-      width == total &&
-      4 <= n@pre && n@pre <= 100 &&
-      8 <= total && total <= 200 &&
-      Zlength(beads_l) == n@pre &&
-      Zlength(dp_l) == total * width &&
-      EnergyValsDuplicated(beads_l, vals_l, n@pre) &&
-      EnergyLenDone(vals_l, dp_l, total, width, n@pre + 1) &&
-      EnergyAnswerProgress(beads_l, vals_l, dp_l, n@pre, total, width, 0, answer) &&
-      EnergyLabelsBounded(beads_l, n@pre) &&
-      EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
-      IntArray::full(beads, n@pre, beads_l) *
-      IntArray::full(vals, total, vals_l) *
-      IntArray::full(dp, total * width, dp_l)
-   */
   /*@ Inv Assert
       exists vals_l dp_l,
-      beads == beads@pre && vals == vals@pre && dp == dp@pre &&
+      beads == beads@pre &&  
       n == n@pre &&
       total == 2 * n@pre &&
       width == total &&
@@ -479,18 +389,24 @@ int energyNecklace(int *beads, int n, int *vals, int *dp)
       Zlength(beads_l) == n@pre &&
       Zlength(dp_l) == total * width &&
       EnergyValsDuplicated(beads_l, vals_l, n@pre) &&
-      EnergyLenDone(vals_l, dp_l, total, width, n@pre + 1) &&
-      EnergyAnswerProgress(beads_l, vals_l, dp_l, n@pre, total, width, start, answer) &&
-      EnergyLabelsBounded(beads_l, n@pre) &&
-      EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
+      0 <= total && width == total && Zlength(vals_l) == total && Zlength(dp_l) == total * width && 1 <= n@pre + 1 && EnergyLengthsComplete(vals_l, dp_l, width, n@pre + 1) &&
+      EnergyValsDuplicated(beads_l, vals_l, n@pre) && Zlength(dp_l) == total * width && width == total && 0 <= start && start <= n@pre && 0 <= answer && answer <= 2100000000 && EnergyAnswerBest(vals_l, n@pre, start, answer) &&
+      Zlength(beads_l) == n@pre && Forall(Z::le(1), beads_l) && Forall(Z::ge(1000), beads_l) &&
+      (forall (ev : list Z) (start : Z) (energy : Z),
+        (EnergyValsDuplicated(beads_l, ev, n@pre) &&
+         0 <= start && start < n@pre &&
+         EnergyIntervalPlan(ev, start, start + n@pre - 1, energy)) =>
+        energy <= 2100000000) &&
       IntArray::full(beads, n@pre, beads_l) *
       IntArray::full(vals, total, vals_l) *
-      IntArray::full(dp, total * width, dp_l)
+      IntArray::full(dp, total * width, dp_l) *
+      IntArray::undef_seg(vals, 2 * n@pre, 200) *
+      IntArray::undef_seg(dp, (2 * n@pre) * (2 * n@pre), 40000)
    */
   for (int start = 0; start < n; ++start) {
     /*@ Assert
         exists vals_l dp_l,
-        beads == beads@pre && vals == vals@pre && dp == dp@pre &&
+        beads == beads@pre &&  
         n == n@pre &&
         total == 2 * n@pre &&
         width == total &&
@@ -502,20 +418,26 @@ int energyNecklace(int *beads, int n, int *vals, int *dp)
         Zlength(beads_l) == n@pre &&
         Zlength(dp_l) == total * width &&
         EnergyValsDuplicated(beads_l, vals_l, n@pre) &&
-        EnergyLenDone(vals_l, dp_l, total, width, n@pre + 1) &&
-        EnergyAnswerProgress(beads_l, vals_l, dp_l, n@pre, total, width, start, answer) &&
+        0 <= total && width == total && Zlength(vals_l) == total && Zlength(dp_l) == total * width && 1 <= n@pre + 1 && EnergyLengthsComplete(vals_l, dp_l, width, n@pre + 1) &&
+        EnergyValsDuplicated(beads_l, vals_l, n@pre) && Zlength(dp_l) == total * width && width == total && 0 <= start && start <= n@pre && 0 <= answer && answer <= 2100000000 && EnergyAnswerBest(vals_l, n@pre, start, answer) &&
         EnergyIntervalBest(vals_l, start, start + n@pre - 1,
           dp_l[start * width + start + n@pre - 1]) &&
-        EnergyLabelsBounded(beads_l, n@pre) &&
-        EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
+        Zlength(beads_l) == n@pre && Forall(Z::le(1), beads_l) && Forall(Z::ge(1000), beads_l) &&
+        (forall (ev : list Z) (start : Z) (energy : Z),
+          (EnergyValsDuplicated(beads_l, ev, n@pre) &&
+           0 <= start && start < n@pre &&
+           EnergyIntervalPlan(ev, start, start + n@pre - 1, energy)) =>
+          energy <= 2100000000) &&
         IntArray::full(beads, n@pre, beads_l) *
         IntArray::full(vals, total, vals_l) *
-        IntArray::full(dp, total * width, dp_l)
-     */
+        IntArray::full(dp, total * width, dp_l) *
+      IntArray::undef_seg(vals, 2 * n@pre, 200) *
+      IntArray::undef_seg(dp, (2 * n@pre) * (2 * n@pre), 40000)
+   */
     int value = dp[start * width + start + n - 1];
     /*@ Assert
         exists vals_l dp_l,
-        beads == beads@pre && vals == vals@pre && dp == dp@pre &&
+        beads == beads@pre &&  
         n == n@pre &&
         total == 2 * n@pre &&
         width == total &&
@@ -527,21 +449,27 @@ int energyNecklace(int *beads, int n, int *vals, int *dp)
         Zlength(beads_l) == n@pre &&
         Zlength(dp_l) == total * width &&
         EnergyValsDuplicated(beads_l, vals_l, n@pre) &&
-        EnergyLenDone(vals_l, dp_l, total, width, n@pre + 1) &&
-        EnergyAnswerProgress(beads_l, vals_l, dp_l, n@pre, total, width, start, answer) &&
+        0 <= total && width == total && Zlength(vals_l) == total && Zlength(dp_l) == total * width && 1 <= n@pre + 1 && EnergyLengthsComplete(vals_l, dp_l, width, n@pre + 1) &&
+        EnergyValsDuplicated(beads_l, vals_l, n@pre) && Zlength(dp_l) == total * width && width == total && 0 <= start && start <= n@pre && 0 <= answer && answer <= 2100000000 && EnergyAnswerBest(vals_l, n@pre, start, answer) &&
         EnergyIntervalBest(vals_l, start, start + n@pre - 1, value) &&
-        EnergyLabelsBounded(beads_l, n@pre) &&
-        EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
+        Zlength(beads_l) == n@pre && Forall(Z::le(1), beads_l) && Forall(Z::ge(1000), beads_l) &&
+        (forall (ev : list Z) (start : Z) (energy : Z),
+          (EnergyValsDuplicated(beads_l, ev, n@pre) &&
+           0 <= start && start < n@pre &&
+           EnergyIntervalPlan(ev, start, start + n@pre - 1, energy)) =>
+          energy <= 2100000000) &&
         IntArray::full(beads, n@pre, beads_l) *
         IntArray::full(vals, total, vals_l) *
-        IntArray::full(dp, total * width, dp_l)
-     */
+        IntArray::full(dp, total * width, dp_l) *
+      IntArray::undef_seg(vals, 2 * n@pre, 200) *
+      IntArray::undef_seg(dp, (2 * n@pre) * (2 * n@pre), 40000)
+   */
     if (value > answer) {
       answer = value;
     }
     /*@ Assert
         exists vals_l dp_l,
-        beads == beads@pre && vals == vals@pre && dp == dp@pre &&
+        beads == beads@pre &&  
         n == n@pre &&
         total == 2 * n@pre &&
         width == total &&
@@ -554,36 +482,34 @@ int energyNecklace(int *beads, int n, int *vals, int *dp)
         Zlength(beads_l) == n@pre &&
         Zlength(dp_l) == total * width &&
         EnergyValsDuplicated(beads_l, vals_l, n@pre) &&
-        EnergyLenDone(vals_l, dp_l, total, width, n@pre + 1) &&
+        0 <= total && width == total && Zlength(vals_l) == total && Zlength(dp_l) == total * width && 1 <= n@pre + 1 && EnergyLengthsComplete(vals_l, dp_l, width, n@pre + 1) &&
         EnergyIntervalBest(vals_l, start, start + n@pre - 1, value) &&
-        EnergyAnswerProgress(beads_l, vals_l, dp_l, n@pre, total, width, start + 1, answer) &&
-        EnergyLabelsBounded(beads_l, n@pre) &&
-        EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
+        EnergyValsDuplicated(beads_l, vals_l, n@pre) && Zlength(dp_l) == total * width && width == total && 0 <= start + 1 && start + 1 <= n@pre && 0 <= answer && answer <= 2100000000 && EnergyAnswerBest(vals_l, n@pre, start + 1, answer) &&
+        Zlength(beads_l) == n@pre && Forall(Z::le(1), beads_l) && Forall(Z::ge(1000), beads_l) &&
+        (forall (ev : list Z) (start : Z) (energy : Z),
+          (EnergyValsDuplicated(beads_l, ev, n@pre) &&
+           0 <= start && start < n@pre &&
+           EnergyIntervalPlan(ev, start, start + n@pre - 1, energy)) =>
+          energy <= 2100000000) &&
         IntArray::full(beads, n@pre, beads_l) *
         IntArray::full(vals, total, vals_l) *
-        IntArray::full(dp, total * width, dp_l)
-     */
+        IntArray::full(dp, total * width, dp_l) *
+      IntArray::undef_seg(vals, 2 * n@pre, 200) *
+      IntArray::undef_seg(dp, (2 * n@pre) * (2 * n@pre), 40000)
+   */
   }
 
+
+  int result = answer;
   /*@ Assert
-      exists vals_l dp_l,
-      beads == beads@pre && vals == vals@pre && dp == dp@pre &&
-      n == n@pre &&
-      total == 2 * n@pre &&
-      width == total &&
-      4 <= n@pre && n@pre <= 100 &&
-      8 <= total && total <= 200 &&
-      0 <= answer && answer <= 2100000000 &&
-      Zlength(beads_l) == n@pre &&
-      Zlength(dp_l) == total * width &&
-      EnergyValsDuplicated(beads_l, vals_l, n@pre) &&
-      EnergyLenDone(vals_l, dp_l, total, width, n@pre + 1) &&
-      EnergyNecklaceAnswer(beads_l, n@pre, answer) &&
-      EnergyLabelsBounded(beads_l, n@pre) &&
-      EnergyComputationBounded(beads_l, n@pre, 2100000000) &&
-      IntArray::full(beads, n@pre, beads_l) *
-      IntArray::full(vals, total, vals_l) *
-      IntArray::full(dp, total * width, dp_l)
+      beads == beads@pre && n == n@pre &&
+      EnergyNecklaceAnswer(beads_l, n@pre, result) &&
+      IntArray::full(beads@pre, n@pre, beads_l) *
+      IntArray::undef_full(vals, 200) *
+      IntArray::undef_full(dp, 40000) *
+      has_int_permission(&total) *
+      has_int_permission(&width) *
+      has_int_permission(&answer)
    */
-  return answer;
+  return result;
 }

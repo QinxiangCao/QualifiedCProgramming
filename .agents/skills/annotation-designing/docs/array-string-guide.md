@@ -109,6 +109,6 @@ GlobalStrings : (string -> Z) -> Assertion
 - 当前候选元素、pivot、边界元素。
 - `replace_Znth` 写回前后的连接事实。
 
-不适合把 invariant 写成一长串孤立 `Znth` 等式。“当前 `best` 是已处理前缀的最大值”优先用 `sublist` 与已有最大值接口直接表达；partition 优先组合 `Forall`、`sublist` 和现有边界 predicate。只有同一长性质在多个位置复用且直接组合不清楚时，才保留一个业务 predicate。
+不适合把 invariant 写成一长串孤立 `Znth` 等式。“当前 `best` 是已处理前缀的最大值”用 `sublist` 与 `MaxMinLib` 的 `max_value_of_subset` 表达；partition 优先组合 `Forall`、`sublist` 和现有边界 predicate。必要的业务 predicate 内部同样复用指定库语义，不混入资源、输入范围或执行安全条件。
 
 若 proof 中发现必须新增基础 array/string memory semantics，先确认 builtin 是否已有；若 annotation 选错谓词，应回到 annotation 修正。

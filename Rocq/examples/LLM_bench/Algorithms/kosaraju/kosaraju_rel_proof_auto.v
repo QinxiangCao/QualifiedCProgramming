@@ -184,7 +184,7 @@ Proof. Admitted.
 Lemma proof_of_kosaraju_safety_wit_20 : kosaraju_safety_wit_20.
 Proof. Admitted. 
 
-Lemma proof_of_kosaraju_entail_wit_16 : kosaraju_entail_wit_16.
+Lemma proof_of_kosaraju_entail_wit_14 : kosaraju_entail_wit_14.
 Proof. Admitted. 
 
 Lemma proof_of_kosaraju_partial_solve_wit_1 : kosaraju_partial_solve_wit_1.
