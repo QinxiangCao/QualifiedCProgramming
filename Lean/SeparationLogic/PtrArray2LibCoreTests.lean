@@ -3,6 +3,7 @@ import Lean.Util.CollectAxioms
 
 namespace PtrArray2LibCoreTests
 
+open SimpleC.SL.CArch
 open AUXLib
 open SimpleC.SL.ArrayLib
 open SimpleC.SL.ArrayLib.ArrayLibSig
@@ -10,6 +11,7 @@ open SimpleC.SL.ArrayLibCore
 open SimpleC.SL.ArrayLibCore.ArrayLibCoreSig
 open SimpleC.SL.CommonAssertion
 open SimpleC.SL.CommonAssertion.DerivedPredSig
+open SimpleC.SL.CommonAssertion.DerivedPredSigCompat
 open SimpleC.SL.PtrArray2LibCore
 open SimpleC.SL.PtrArray2LibCore.PtrArray2LibCoreSig
 open SimpleC.SL.PtrArray2LibCore.PtrArray2LibCoreSig.PtrArray2Lib
@@ -46,8 +48,10 @@ elab_rules : command
         ``propext,
         ``Classical.choice,
         ``Quot.sound,
-        ``SimpleC.SL.CNotation.sizeof_front_end_type,
-        ``SimpleC.SL.CNotation.sizeof_ptr]
+        ``SimpleC.SL.CNotation.sizeof_struct_type,
+        ``SimpleC.SL.CNotation.sizeof_union_type,
+        ``SimpleC.SL.CNotation.sizeof_enum_type,
+        ``SimpleC.SL.CNotation.sizeof_alias_type]
       for name in names do
         for axiomName in (← collectAxioms name) do
           unless allowedAxioms.contains axiomName do
@@ -64,6 +68,7 @@ elab_rules : command
 #check single_to_iter_sepcon
 #check iter_sepcon_split_remove_Znth
 #check iter_sepcon_merge_remove_Znth
+#check ElemArray
 #check row_block
 #check mixed_row_block
 #check row_blocks
@@ -89,6 +94,8 @@ elab_rules : command
 #check mixed_missing_i_merge_to_mixed_full
 
 #check_ptr_array2_core_contract [
+  PtrArray2LibCoreSig,
+  PtrArray2LibCoreSig.canonical,
   remove_Znth,
   replace_nth_decomp,
   replace_Znth_decomp,
@@ -97,6 +104,7 @@ elab_rules : command
   single_to_iter_sepcon,
   iter_sepcon_split_remove_Znth,
   iter_sepcon_merge_remove_Znth,
+  ElemArray,
   row_block,
   mixed_row_block,
   row_blocks,
@@ -120,7 +128,7 @@ elab_rules : command
   missing_i_merge_to_full,
   mixed_full_split_to_mixed_missing_i,
   mixed_missing_i_merge_to_mixed_full
-] => 16725104168956533196
+] => 4881351298229122781
 
 example : remove_Znth (-3) [10, 20, 30] = [20, 30] := by native_decide
 example : remove_Znth 0 [10, 20, 30] = [20, 30] := by native_decide
@@ -146,9 +154,12 @@ example : Znth 1 (combine [1, 2] [10, 20]) (0, 0) =
 section
 
 variable {CRules : SeparationLogicSig}
-variable {DePredSig : DerivedPredSig CRules}
-variable {SLibSig : StoreLibSig CRules DePredSig}
-variable (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+variable {DePredSig : DerivedPredSigCompat.Sig CRules}
+variable {SLibSig : StoreLibSigCompat CRules DePredSig}
+variable (ES : ELEMENT_STORE Arch32 BigEndian CRules DePredSig SLibSig)
+
+example (x n : Int) (row : List ES.A) :
+    (ElemArray ES).full x n row = ArrayLib.full ES x n row := rfl
 
 example {B : Type} (i : Int) (l : List B) :
     remove_Znth i l = firstn i.toNat l ++ skipn i.toNat.succ l := rfl
@@ -187,7 +198,7 @@ example (x n : Int) (rows : List (List ES.A)) :
         CRules.andp
           (CRules.coq_prop (Zlength rowPtrs = n ∧ Zlength rows = n))
           (CRules.sepcon
-            ((PtrArray CRules DePredSig SLibSig).full x n rowPtrs)
+            ((PtrArray Arch32 BigEndian CRules DePredSig SLibSig).full x n rowPtrs)
             (row_blocks ES rowPtrs rows)) := rfl
 
 example (x n i rowPtr : Int) (rows : List (List ES.A)) :
@@ -198,7 +209,7 @@ example (x n i rowPtr : Int) (rows : List (List ES.A)) :
             (Zlength rowPtrs = n ∧ Zlength rows = n ∧
               rowPtr = Znth i rowPtrs 0))
           (CRules.sepcon
-            ((PtrArray CRules DePredSig SLibSig).missing_i x i 0 n rowPtrs)
+            ((PtrArray Arch32 BigEndian CRules DePredSig SLibSig).missing_i x i 0 n rowPtrs)
             (row_blocks_missing_i ES i rowPtrs rows)) := rfl
 
 example (x n : Int) (rows : List (List (Option ES.A))) :
@@ -207,7 +218,7 @@ example (x n : Int) (rows : List (List (Option ES.A))) :
         CRules.andp
           (CRules.coq_prop (Zlength rowPtrs = n ∧ Zlength rows = n))
           (CRules.sepcon
-            ((PtrArray CRules DePredSig SLibSig).full x n rowPtrs)
+            ((PtrArray Arch32 BigEndian CRules DePredSig SLibSig).full x n rowPtrs)
             (mixed_row_blocks ES rowPtrs rows)) := rfl
 
 example (x n i rowPtr : Int) (rows : List (List (Option ES.A))) :
@@ -218,12 +229,12 @@ example (x n i rowPtr : Int) (rows : List (List (Option ES.A))) :
             (Zlength rowPtrs = n ∧ Zlength rows = n ∧
               rowPtr = Znth i rowPtrs 0))
           (CRules.sepcon
-            ((PtrArray CRules DePredSig SLibSig).missing_i x i 0 n rowPtrs)
+            ((PtrArray Arch32 BigEndian CRules DePredSig SLibSig).missing_i x i 0 n rowPtrs)
             (mixed_row_blocks_missing_i ES i rowPtrs rows)) := rfl
 
 example (x n : Int) :
     undef_full ES x n =
-      (PtrArray CRules DePredSig SLibSig).undef_full x n := rfl
+      (PtrArray Arch32 BigEndian CRules DePredSig SLibSig).undef_full x n := rfl
 
 example {B : Type} (P : B -> CRules.expr) (i : Int) (l : List B) (d : B)
     (h : 0 <= i ∧ i < Zlength l) :
@@ -239,7 +250,7 @@ example (x : Int) (rows : List (List ES.A)) :
       (CRules.exp Int fun rowPtr =>
         CRules.sepcon
           (CRules.sepcon
-            ((StorePtrAsElement CRules DePredSig SLibSig).storeA x 0 rowPtr)
+            ((StorePtrAsElement Arch32 BigEndian CRules DePredSig SLibSig).storeA x 0 rowPtr)
             (ArrayLib.full ES rowPtr (Zlength (Znth 0 rows []))
               (Znth 0 rows [])))
           (missing_i ES x 3 0 rowPtr rows)) := by
@@ -251,7 +262,7 @@ example (x rowPtr : Int) (rows : List (List ES.A)) (row : List ES.A) :
     CRules.derivable1
       (CRules.sepcon
         (CRules.sepcon
-          ((StorePtrAsElement CRules DePredSig SLibSig).storeA x 2 rowPtr)
+          ((StorePtrAsElement Arch32 BigEndian CRules DePredSig SLibSig).storeA x 2 rowPtr)
           (ArrayLib.full ES rowPtr (Zlength row) row))
         (missing_i ES x 3 2 rowPtr rows))
       (full ES x 3 (replace_Znth 2 row rows)) := by
@@ -264,7 +275,7 @@ example (x : Int) (rows : List (List (Option ES.A))) :
       (CRules.exp Int fun rowPtr =>
         CRules.sepcon
           (CRules.sepcon
-            ((StorePtrAsElement CRules DePredSig SLibSig).storeA x 0 rowPtr)
+            ((StorePtrAsElement Arch32 BigEndian CRules DePredSig SLibSig).storeA x 0 rowPtr)
             (ArrayLib.mixed_full ES rowPtr (Zlength (Znth 0 rows []))
               (Znth 0 rows [])))
           (mixed_missing_i ES x 3 0 rowPtr rows)) := by
@@ -277,7 +288,7 @@ example (x rowPtr : Int) (rows : List (List (Option ES.A)))
     CRules.derivable1
       (CRules.sepcon
         (CRules.sepcon
-          ((StorePtrAsElement CRules DePredSig SLibSig).storeA x 2 rowPtr)
+          ((StorePtrAsElement Arch32 BigEndian CRules DePredSig SLibSig).storeA x 2 rowPtr)
           (ArrayLib.mixed_full ES rowPtr (Zlength row) row))
         (mixed_missing_i ES x 3 2 rowPtr rows))
       (mixed_full ES x 3 (replace_Znth 2 row rows)) := by

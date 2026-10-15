@@ -1,0 +1,8 @@
+import SimpleC.EE.QCP_demos_LLM.generated.safeexec_strategy_proof
+
+namespace SimpleC.EE.QCP_demos_LLM.generated.safeexec_strategy_goal_check
+
+def safeexec_Strategy_Correctness : SimpleC.EE.QCP_demos_LLM.generated.safeexec_strategy_goal.safeexec_Strategy_Correct where
+  safeexec_strategy1_correctness := SimpleC.EE.QCP_demos_LLM.generated.safeexec_strategy_proof.safeexec_strategy1_correctness
+
+end SimpleC.EE.QCP_demos_LLM.generated.safeexec_strategy_goal_check

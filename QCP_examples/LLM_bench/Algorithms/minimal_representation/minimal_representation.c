@@ -1,3 +1,4 @@
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.minimal_representation.minimal_representation_lib */
 /*
  * Find the lexicographically smallest cyclic rotation of an integer sequence.
  *

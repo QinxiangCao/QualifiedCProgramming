@@ -1,0 +1,75 @@
+import SimpleC.EE.LLM_bench.Algorithms.quicksort_hoare_swap_index.quicksort_lib
+
+-- Forward the exact library imported by this Coq case.
+namespace SimpleC.EE.LLM_bench.Algorithms.quicksort_lomuto_index.quicksort_lib
+export SimpleC.EE.LLM_bench.Algorithms.quicksort_hoare_swap_index.quicksort_lib (
+  same_outside_range
+  partitioned_at
+  range_nondecreasing
+  same_outside_range_trans_local
+  Forall_Znth_local
+  Forall_sublist_by_Znth_local
+  same_outside_range_swap_inside_local
+  same_outside_range_replace_inside_local
+  list_split_around_two_indices_local
+  sublist_suffix_full_local
+  replace_Znth_decomp_local
+  swap_Znth_perm_local
+  partition_outer_exit_swap_yields_partitioned_at
+  range_nondecreasing_full_to_increasing
+  same_outside_range_weaken_local
+  Forall_permutation_local
+  sublist_eq_from_Znth_local
+  list_decompose_sublist_local
+  same_outside_range_prefix_local
+  same_outside_range_suffix_local
+  middle_permutation_of_same_outside_local
+  partitioned_at_preserved_by_left_local
+  partitioned_at_preserved_by_right_local
+  partitioned_at_left_Znth_le_local
+  partitioned_at_right_Znth_ge_local
+  range_nondecreasing_ext_local
+  quicksort_partition_combine_right_only_local
+  quicksort_partition_combine_left_only_local
+  quicksort_partition_combine_both_sides_local
+  replace_nth_comm_Z_local
+  replace_Znth_comm_local
+  replace_nth_twice_Z_local
+  replace_Znth_twice_local
+  partition_hole_outer_fill_left_perm_split_local
+  partition_hole_left_fill_right_perm_split_local
+  partition_hole_outer_exit_partitioned_split_local
+  partition_hole_left_exit_partitioned_split_local
+  quicksort_partition_combine_right_guard_local
+  quicksort_partition_combine_left_guard_local
+  quicksort_partition_combine_short_local
+  int_array_full_merge_three_local
+  quicksort_permuted_partition_combine_local
+  increasing_length_le_1
+  lomuto_replace_Znth_swap_form
+  lomuto_permutation_swap_Znth_lt
+  lomuto_replace_nth_comm_Z
+  lomuto_replace_Znth_comm
+  lomuto_permutation_swap_Znth
+  lomuto_permutation_swap_Znth_by_result_length
+  same_outside_range_refl
+  same_outside_range_trans
+  same_outside_range_weaken
+  Forall_permutation
+  lomuto_Forall_Znth
+  lomuto_Znth_replace_eq
+  lomuto_Znth_replace_neq
+  sublist_eq_from_Znth
+  lomuto_list_decompose_sublist
+  same_outside_range_prefix
+  same_outside_range_suffix
+  middle_permutation_of_same_outside
+  lomuto_Forall_sublist_by_Znth
+  same_outside_range_swap_inside
+  partitioned_at_after_lomuto_final_swap
+  increasing increasing_aux)
+export AUXLib (Permutation)
+end SimpleC.EE.LLM_bench.Algorithms.quicksort_lomuto_index.quicksort_lib
+namespace SimpleC.EE.LLM_bench.Algorithms.quicksort_lomuto_index
+export quicksort_lib (Permutation increasing same_outside_range partitioned_at range_nondecreasing)
+end SimpleC.EE.LLM_bench.Algorithms.quicksort_lomuto_index

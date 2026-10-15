@@ -17,9 +17,13 @@ local instance dll_queueStrategyProofSacContext : SacContext := { CRules := naiv
 
 
 theorem dll_queue_strategy0_correctness : SimpleC.EE.QCP_demos_LLM.generated.dll_queue_strategy_goal.dll_queue_strategy0 := by
-  sorry
+  unfold SimpleC.EE.QCP_demos_LLM.generated.dll_queue_strategy_goal.dll_queue_strategy0
+  pre_process_default
+  all_goals (pureIntros; subst_vars; try cancel; try entailer!)
 
 theorem dll_queue_strategy1_correctness : SimpleC.EE.QCP_demos_LLM.generated.dll_queue_strategy_goal.dll_queue_strategy1 := by
-  sorry
+  unfold SimpleC.EE.QCP_demos_LLM.generated.dll_queue_strategy_goal.dll_queue_strategy1
+  pre_process_default
+  all_goals (pureIntros; subst_vars; try cancel; try entailer!)
 
 end SimpleC.EE.QCP_demos_LLM.generated.dll_queue_strategy_proof

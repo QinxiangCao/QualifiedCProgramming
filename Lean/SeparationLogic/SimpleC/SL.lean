@@ -1,5 +1,7 @@
 import SimpleC.SL.Mem
 import SimpleC.SL.IntLib
+import SimpleC.SL.FloatLib
+import SimpleC.SL.CArch
 import SimpleC.SL.CNotation
 import SimpleC.SL.UnifyslBridge
 import SimpleC.SL.CommonAssertion

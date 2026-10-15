@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P034_1999E_triple_operations_goal P034_1999E_triple_operations_proof_auto P034_1999E_triple_operations_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P034_1999E_triple_operations_proof_auto.
+  Include P034_1999E_triple_operations_proof_manual.
+End VC_Correctness.

@@ -1,3 +1,4 @@
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.lucas_theorem.lucas_theorem_lib */
 /*
  * Compute C(n + m, n) modulo a prime p with Lucas' theorem.
  *

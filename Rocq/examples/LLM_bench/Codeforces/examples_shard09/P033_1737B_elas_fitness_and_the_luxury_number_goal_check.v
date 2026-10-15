@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P033_1737B_elas_fitness_and_the_luxury_number_goal P033_1737B_elas_fitness_and_the_luxury_number_proof_auto P033_1737B_elas_fitness_and_the_luxury_number_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P033_1737B_elas_fitness_and_the_luxury_number_proof_auto.
+  Include P033_1737B_elas_fitness_and_the_luxury_number_proof_manual.
+End VC_Correctness.

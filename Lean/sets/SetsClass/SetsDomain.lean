@@ -1,6 +1,7 @@
 import Std.Tactic
 import AUXLib.Morphisms
 import SetsClass.SetElement
+import SetsClass.SetsUnfoldAttr
 
 universe u
 
@@ -813,25 +814,30 @@ theorem Sets_complement_union {T : Type u} [Sets.SETS T] [SETS_Algebra_Propertie
       (Sets.intersect (Sets.complement x) (Sets.complement y)) :=
   SETS_Algebra_Properties.complement_union x y
 
+private theorem propSetsPropInj (P : Prop) :
+    @Sets.prop_inj Prop Sets.Prop_SETS P = P := rfl
+
+attribute [sets_unfold_simps] Sets.full Sets.empty Sets.prop_inj Sets.complement
+  Sets.intersect Sets.union Sets.indexed_intersect Sets.indexed_union Sets.equiv
+  Sets.included Sets.general_intersect Sets.general_union Sets.Qaux Sets.Paux
+  Sets.conj_aux Sets.imply_aux Sets.forall_aux Sets.exists_aux Sets.inj_aux
+  Sets.singleton Sets.test1 Sets.lift1 Sets.filter1 Sets.Prop_SETS Sets.lift_SETS
+  SetsEle.In SetsEle.In_aux SetsEle.lift_In_aux Derived_SETS_ELE lift_PRE_SETS_ELE
+  Prop_PRE_SETS_ELE propSetsPropInj
+
+macro "Sets_unfold" : tactic =>
+  `(tactic| first | simp only [sets_unfold_simps] | skip)
+
+syntax "Sets_unfold" " at " ident : tactic
+macro_rules
+  | `(tactic| Sets_unfold at $h:ident) => do
+      let location ← `(Lean.Parser.Tactic.location| at $h:ident)
+      `(tactic| first | simp only [sets_unfold_simps] $location | skip)
+
 macro "sets_unfold" : tactic =>
-  `(tactic| first
-    | simp only [Sets.full, Sets.empty, Sets.prop_inj, Sets.complement,
-        Sets.intersect, Sets.union, Sets.indexed_intersect, Sets.indexed_union,
-        Sets.equiv, Sets.included, Sets.general_intersect, Sets.general_union,
-        Sets.Qaux, Sets.Paux, Sets.conj_aux, Sets.imply_aux, Sets.forall_aux,
-        Sets.exists_aux, Sets.inj_aux, Sets.singleton,
-        Sets.Prop_SETS, Sets.lift_SETS]
-    | skip)
+  `(tactic| Sets_unfold <;> unfold_In)
 
 syntax "sets_unfold" " at " ident : tactic
 macro_rules
-  | `(tactic| sets_unfold at $h:ident) => do
-      let location ← `(Lean.Parser.Tactic.location| at $h:ident)
-      `(tactic| first
-        | simp only [Sets.full, Sets.empty, Sets.prop_inj, Sets.complement,
-            Sets.intersect, Sets.union, Sets.indexed_intersect, Sets.indexed_union,
-            Sets.equiv, Sets.included, Sets.general_intersect, Sets.general_union,
-            Sets.Qaux, Sets.Paux, Sets.conj_aux, Sets.imply_aux, Sets.forall_aux,
-            Sets.exists_aux, Sets.inj_aux, Sets.singleton,
-            Sets.Prop_SETS, Sets.lift_SETS] $location
-        | skip)
+  | `(tactic| sets_unfold at $h:ident) =>
+      `(tactic| Sets_unfold at $h <;> unfold_In at $h)

@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P024_1102C_doors_breaking_and_repairing_goal P024_1102C_doors_breaking_and_repairing_proof_auto P024_1102C_doors_breaking_and_repairing_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P024_1102C_doors_breaking_and_repairing_proof_auto.
+  Include P024_1102C_doors_breaking_and_repairing_proof_manual.
+End VC_Correctness.

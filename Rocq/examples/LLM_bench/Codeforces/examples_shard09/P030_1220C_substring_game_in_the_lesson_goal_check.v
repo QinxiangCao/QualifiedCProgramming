@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P030_1220C_substring_game_in_the_lesson_goal P030_1220C_substring_game_in_the_lesson_proof_auto P030_1220C_substring_game_in_the_lesson_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P030_1220C_substring_game_in_the_lesson_proof_auto.
+  Include P030_1220C_substring_game_in_the_lesson_proof_manual.
+End VC_Correctness.

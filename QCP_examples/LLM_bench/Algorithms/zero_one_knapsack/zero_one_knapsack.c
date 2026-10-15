@@ -1,3 +1,7 @@
+/*@ Import Lean
+import SimpleC.EE.LLM_bench.Algorithms.zero_one_knapsack.zero_one_knapsack_lib
+open SimpleC.EE.LLM_bench.Algorithms.zero_one_knapsack.zero_one_knapsack_lib
+*/
 /*@ Extern Coq
       (Forall : {A} -> (A -> Prop) -> list A -> Prop)
       (Z::le : Z -> Z -> Prop)

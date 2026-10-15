@@ -1,3 +1,4 @@
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.concatenating_numbers.concatenating_numbers_lib */
 #include "array2_def.h"
 
 /*@ Extern Coq

@@ -1,3 +1,4 @@
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.discretize.discretize_lib */
 /* Sorted coordinate compression: the returned prefix contains exactly the
  * source values in strictly increasing order.  The remaining destination
  * cells are valid storage; their values are not part of the result.

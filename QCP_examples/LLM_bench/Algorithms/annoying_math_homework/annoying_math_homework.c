@@ -1,3 +1,4 @@
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.annoying_math_homework.annoying_math_homework_lib */
 #define N 20
 #define M 10
 #define P 1000000007

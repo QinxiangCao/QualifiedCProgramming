@@ -1,0 +1,73 @@
+import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib
+import Lean.Util.CollectAxioms
+
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.zlength_replace_znth__count_invariants
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.counted_prefix_counter_bound__count_invariants
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.counted_prefix_step__count_invariants
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.counted_prefix_full_count__parity_scan
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.counts_even_before_succ__parity_scan
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.combined_parity_from_full_counts__parity_scan
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.repair_state_initial__repair_control
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.no_value_range_empty__repair_control
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.no_value_range_extend__repair_control
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.operation_lists_empty__repair_control
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.repair_state_advance_equal__repair_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.replace_znth_preserves_char_bounds__repair_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.replace_Znth_decomp__repair_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.Zlength_replace_Znth__repair_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.cross_swap_combined_permutation__repair_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.combined_even_permutation__repair_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.swap_trace_append__repair_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.operation_lists_append__repair_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.repair_state_cross_swap__repair_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.repair_state_one_cross_swap__repair_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.repair_state_two_cross_swaps__repair_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.replace_Znth_decompose__final_results
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.cross_swap_preserves_count__final_results
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.trace_prefix_preserves_count__final_results
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.swap_trace_preserves_count__final_results
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.combined_odd_forbids_swaps_work__final_results
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.prefix_equal_full__final_results
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.repair_state_success_swaps_work__final_results
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.no_value_full_count_zero__final_results
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.paired_prefix_unmatched_count_odd__final_results
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.no_match_contradicts_combined_even__final_results
+
+run_cmd do
+  for decl in #[
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.zlength_replace_znth__count_invariants,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.counted_prefix_counter_bound__count_invariants,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.counted_prefix_step__count_invariants,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.counted_prefix_full_count__parity_scan,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.counts_even_before_succ__parity_scan,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.combined_parity_from_full_counts__parity_scan,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.repair_state_initial__repair_control,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.no_value_range_empty__repair_control,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.no_value_range_extend__repair_control,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.operation_lists_empty__repair_control,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.repair_state_advance_equal__repair_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.replace_znth_preserves_char_bounds__repair_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.replace_Znth_decomp__repair_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.Zlength_replace_Znth__repair_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.cross_swap_combined_permutation__repair_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.combined_even_permutation__repair_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.swap_trace_append__repair_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.operation_lists_append__repair_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.repair_state_cross_swap__repair_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.repair_state_one_cross_swap__repair_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.repair_state_two_cross_swaps__repair_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.replace_Znth_decompose__final_results,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.cross_swap_preserves_count__final_results,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.trace_prefix_preserves_count__final_results,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.swap_trace_preserves_count__final_results,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.combined_odd_forbids_swaps_work__final_results,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.prefix_equal_full__final_results,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.repair_state_success_swaps_work__final_results,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.no_value_full_count_zero__final_results,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.paired_prefix_unmatched_count_odd__final_results,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P046_1243B2_character_swap_lib.no_match_contradicts_combined_even__final_results
+  ] do
+    let axs ← Lean.collectAxioms decl
+    for ax in axs do
+      unless #[``propext, ``Classical.choice, ``Quot.sound].contains ax do
+        throwError "Unexpected axiom {ax} in {decl}"

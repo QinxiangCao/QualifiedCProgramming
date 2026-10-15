@@ -186,6 +186,54 @@ example
   prog_nf in h
   trivial
 
+example (P : Sigma -> Prop) (X : Nat -> Sigma -> Prop)
+    (c : StateRelMonad.program Sigma Nat)
+    (h1 : StateRelMonad.safeExec P
+      (StateRelMonad.bind (StateRelMonad.ret ()) (fun _ => c)) X)
+    (h2 : StateRelMonad.safeExec P
+      (StateRelMonad.bind (StateRelMonad.ret ()) (fun _ => c)) X) :
+    StateRelMonad.safeExec P c X /\ StateRelMonad.safeExec P c X := by
+  prog_nf in h1 h2
+  exact ⟨h1, h2⟩
+
+example (P : Sigma -> Prop) (X : Nat -> Sigma -> Prop)
+    (c : program Sigma Nat)
+    (h1 : safeExec P (MonadErr.bind (MonadErr.ret ()) (fun _ => c)) X)
+    (h2 : safeExec P (MonadErr.bind (MonadErr.ret ()) (fun _ => c)) X) :
+    safeExec P c X /\ safeExec P c X := by
+  prog_nf in h1 h2
+  exact ⟨h1, h2⟩
+
+example (P : Sigma -> Prop) (X : Nat -> Sigma -> Prop)
+    (c : StateRelMonad.program Sigma Nat)
+    (h : StateRelMonad.safeExec P c X) :
+    StateRelMonad.safeExec P
+      (StateRelMonad.bind (StateRelMonad.ret ()) (fun _ => c)) X := by
+  prog_nf in ⊢
+  exact h
+
+example (P : Sigma -> Prop) (X : Nat -> Sigma -> Prop)
+    (c : program Sigma Nat) (h : safeExec P c X) :
+    safeExec P (MonadErr.bind (MonadErr.ret ()) (fun _ => c)) X := by
+  prog_nf in ⊢
+  exact h
+
+example (P : Sigma -> Prop) (X : Nat -> Sigma -> Prop)
+    (c : StateRelMonad.program Sigma Nat)
+    (h : StateRelMonad.safeExec P
+      (StateRelMonad.bind (StateRelMonad.ret ()) (fun _ => c)) X) :
+    StateRelMonad.safeExec P
+      (StateRelMonad.bind (StateRelMonad.ret ()) (fun _ => c)) X := by
+  prog_nf in h ⊢
+  exact h
+
+example (P : Sigma -> Prop) (X : Nat -> Sigma -> Prop)
+    (c : program Sigma Nat)
+    (h : safeExec P (MonadErr.bind (MonadErr.ret ()) (fun _ => c)) X) :
+    safeExec P (MonadErr.bind (MonadErr.ret ()) (fun _ => c)) X := by
+  prog_nf in h ⊢
+  exact h
+
 example : StateRelMonad.mono_cont
     (fun W : StateRelMonad.program Sigma Unit =>
       StateRelMonad.choice W (StateRelMonad.ret ())) := by
@@ -219,16 +267,96 @@ example (body : program Sigma Unit) :
         (test (fun _ => Not False) ;; MonadErr.ret ())) := by
   unfold_loop
 
-example (body : StateRelMonad.program Sigma Unit)
-    (h : Sets.equiv (StateRelMonad.Repeat body)
-      (StateRelMonad.Repeat body)) : True := by
-  unfold_loop in h
+example (cond : Nat -> Sigma -> Prop) (body : Nat -> program Sigma Nat) :
+    equiv (whileretP cond body) (whileretP cond body) := by
+  unfold_loop
+
+example (cond : Nat -> Sigma -> Prop) (body : Nat -> program Sigma Nat)
+    (_h : equiv (whileretP cond body) (whileretP cond body)) : True := by
+  unfold_loop in _h
   trivial
 
-example (body : Nat -> program Sigma (CntOrBrk Nat Bool))
-    (h : equiv (repeat_break body) (repeat_break body)) : True := by
+example (body : StateRelMonad.program Sigma Unit)
+    (h : Sets.equiv (StateRelMonad.Repeat body)
+      (StateRelMonad.Repeat body)) :
+    Sets.equiv (body ;; StateRelMonad.Repeat body)
+      (body ;; StateRelMonad.Repeat body) := by
   unfold_loop in h
-  trivial
+  exact h
+
+example (body : program Sigma Unit)
+    (h : equiv (whileP (fun _ => False) body)
+      (whileP (fun _ => False) body)) :
+    equiv
+      (choice
+        (test (fun _ => False) ;; body ;; whileP (fun _ => False) body)
+        (test (fun _ => Not False) ;; MonadErr.ret ()))
+      (whileP (fun _ => False) body) := by
+  unfold_loop in h
+  exact h
+
+example (body : StateRelMonad.program Sigma Unit)
+    (h1 : Sets.equiv (StateRelMonad.Repeat body)
+      (StateRelMonad.Repeat body))
+    (h2 : Sets.equiv (StateRelMonad.Repeat body)
+      (StateRelMonad.Repeat body)) :
+    Sets.equiv (body ;; StateRelMonad.Repeat body)
+        (body ;; StateRelMonad.Repeat body) ∧
+      Sets.equiv (body ;; StateRelMonad.Repeat body)
+        (body ;; StateRelMonad.Repeat body) := by
+  unfold_loop in h1 h2
+  exact ⟨h1, h2⟩
+
+example (stateBody : StateRelMonad.program Sigma Unit)
+    (errBody : program Sigma Unit)
+    (hState : Sets.equiv (StateRelMonad.Repeat stateBody)
+      (StateRelMonad.Repeat stateBody))
+    (hErr : equiv (whileP (fun _ => False) errBody)
+      (whileP (fun _ => False) errBody)) :
+    Sets.equiv (stateBody ;; StateRelMonad.Repeat stateBody)
+        (stateBody ;; StateRelMonad.Repeat stateBody) ∧
+      equiv
+        (choice
+          (test (fun _ => False) ;; errBody ;;
+            whileP (fun _ => False) errBody)
+          (test (fun _ => Not False) ;; MonadErr.ret ()))
+        (whileP (fun _ => False) errBody) := by
+  unfold_loop in hState hErr
+  exact ⟨hState, hErr⟩
+
+example (body : StateRelMonad.program Sigma Unit) :
+    Sets.equiv (StateRelMonad.Repeat body)
+      (body ;; StateRelMonad.Repeat body) := by
+  unfold_loop in ⊢
+
+example (body : program Sigma Unit) :
+    equiv (whileP (fun _ => False) body)
+      (choice
+        (test (fun _ => False) ;; body ;; whileP (fun _ => False) body)
+        (test (fun _ => Not False) ;; MonadErr.ret ())) := by
+  unfold_loop in ⊢
+
+example (body c : StateRelMonad.program Sigma Unit)
+    (h : Sets.equiv (StateRelMonad.Repeat body)
+      c) :
+    Sets.equiv (StateRelMonad.Repeat body)
+      c := by
+  unfold_loop in h ⊢
+  change Sets.equiv (body ;; StateRelMonad.Repeat body) c
+  exact h
+
+example (body c : program Sigma Unit)
+    (h : equiv (whileP (fun _ => False) body)
+      c) :
+    equiv (whileP (fun _ => False) body)
+      c := by
+  unfold_loop in h ⊢
+  change equiv
+    (choice
+      (test (fun _ => False) ;; body ;; whileP (fun _ => False) body)
+      (test (fun _ => Not False) ;; MonadErr.ret ()))
+    c
+  exact h
 
 example (P : Sigma -> Prop) :
     StateRelMonad.Hoare P (StateRelMonad.ret ())

@@ -7,6 +7,7 @@ open SimpleC.SL.ArrayLib
 open SimpleC.SL.ArrayLib.ArrayLibSig
 open SimpleC.SL.CommonAssertion
 open SimpleC.SL.CommonAssertion.DerivedPredSig
+open SimpleC.SL.CArch
 open SimpleC.SL.Mem
 open SimpleC.SL.StoreAux
 open SimpleC.SL.StoreAux.StoreLibSig
@@ -87,20 +88,20 @@ theorem ListToString_StringToList (s : CoqString) :
 def valid_stringLit (s : CoqString) : Prop :=
   valid_string (StringToList s (StringLength s))
 
-noncomputable def store_string (CRules : SeparationLogicSig)
-    (DePredSig : DerivedPredSig CRules)
-    (SLibSig : StoreLibSig CRules DePredSig)
+noncomputable def store_string (Arch : CArchSig) (Endian : CEndianSig) (CRules : SeparationLogicSig)
+    (DePredSig : DerivedPredSig Arch Endian CRules)
+    (SLibSig : StoreLibSig Arch Endian CRules DePredSig)
     (x : addr) (s : List Int) : CRules.expr :=
   CRules.andp (CRules.coq_prop (valid_string s))
-    ((CharArray CRules DePredSig SLibSig).full
+    ((CharArray Arch Endian CRules DePredSig SLibSig).full
       x (string_length s + 1) (c_string s))
 
-noncomputable def store_stringLit (CRules : SeparationLogicSig)
-    (DePredSig : DerivedPredSig CRules)
-    (SLibSig : StoreLibSig CRules DePredSig)
+noncomputable def store_stringLit (Arch : CArchSig) (Endian : CEndianSig) (CRules : SeparationLogicSig)
+    (DePredSig : DerivedPredSig Arch Endian CRules)
+    (SLibSig : StoreLibSig Arch Endian CRules DePredSig)
     (x : addr) (s : CoqString) : CRules.expr :=
   CRules.andp (CRules.coq_prop (valid_stringLit s))
-    ((CharArray CRules DePredSig SLibSig).full
+    ((CharArray Arch Endian CRules DePredSig SLibSig).full
       x (StringLength s + 1) (StringToList s (StringLength s + 1)))
 
 theorem c_string_Zlength (s : List Int) :
@@ -125,56 +126,56 @@ theorem StringToList_c_length (s : CoqString) :
   have h : 0 <= StringLength s := by simp [StringLength]
   omega
 
-theorem store_string_length (CRules : SeparationLogicSig)
-    (DePredSig : DerivedPredSig CRules)
-    (SLibSig : StoreLibSig CRules DePredSig)
+theorem store_string_length (Arch : CArchSig) (Endian : CEndianSig) (CRules : SeparationLogicSig)
+    (DePredSig : DerivedPredSig Arch Endian CRules)
+    (SLibSig : StoreLibSig Arch Endian CRules DePredSig)
     (x : addr) (s : List Int) :
-    CRules.derivable1 (store_string CRules DePredSig SLibSig x s)
+    CRules.derivable1 (store_string Arch Endian CRules DePredSig SLibSig x s)
       (CRules.coq_prop (Zlength (c_string s) = string_length s + 1)) := by
   exact CRules.toContext.coq_prop_right _ _ (c_string_Zlength s)
 
-theorem store_stringLit_length (CRules : SeparationLogicSig)
-    (DePredSig : DerivedPredSig CRules)
-    (SLibSig : StoreLibSig CRules DePredSig)
+theorem store_stringLit_length (Arch : CArchSig) (Endian : CEndianSig) (CRules : SeparationLogicSig)
+    (DePredSig : DerivedPredSig Arch Endian CRules)
+    (SLibSig : StoreLibSig Arch Endian CRules DePredSig)
     (x : addr) (s : CoqString) :
-    CRules.derivable1 (store_stringLit CRules DePredSig SLibSig x s)
+    CRules.derivable1 (store_stringLit Arch Endian CRules DePredSig SLibSig x s)
       (CRules.coq_prop
         (Zlength (StringToList s (StringLength s + 1)) = StringLength s + 1)) := by
   exact CRules.toContext.coq_prop_right _ _ (StringToList_c_length s)
 
-theorem store_string_split_to_missing_i (CRules : SeparationLogicSig)
-    (DePredSig : DerivedPredSig CRules)
-    (SLibSig : StoreLibSig CRules DePredSig)
+theorem store_string_split_to_missing_i (Arch : CArchSig) (Endian : CEndianSig) (CRules : SeparationLogicSig)
+    (DePredSig : DerivedPredSig Arch Endian CRules)
+    (SLibSig : StoreLibSig Arch Endian CRules DePredSig)
     (x i : addr) (s : List Int) (hi : 0 <= i ∧ i < string_length s + 1) :
-    CRules.derivable1 (store_string CRules DePredSig SLibSig x s)
+    CRules.derivable1 (store_string Arch Endian CRules DePredSig SLibSig x s)
       (CRules.sepcon
-        (store_char CRules
-          (x + i * SimpleC.SL.CNotation.sizeof_front_end_type
+        (store_char Arch CRules
+          (x + i * SimpleC.SL.CNotation.CNotationSig.sizeof_front_end_type Arch
             SimpleC.SL.CNotation.FET_char)
           (Znth i (c_string s) 0))
-        ((CharArray CRules DePredSig SLibSig).missing_i
+        ((CharArray Arch Endian CRules DePredSig SLibSig).missing_i
           x i 0 (string_length s + 1) (c_string s))) := by
   exact CRules.toContext.derivable1_trans _ _ _
     (CRules.toContext.derivable1_andp_elim2 _ _)
-    ((CharArray CRules DePredSig SLibSig).full_split_to_missing_i
+    ((CharArray Arch Endian CRules DePredSig SLibSig).full_split_to_missing_i
       x i (string_length s + 1) (c_string s) (0 : Int) hi)
 
-theorem store_stringLit_split_to_missing_i (CRules : SeparationLogicSig)
-    (DePredSig : DerivedPredSig CRules)
-    (SLibSig : StoreLibSig CRules DePredSig)
+theorem store_stringLit_split_to_missing_i (Arch : CArchSig) (Endian : CEndianSig) (CRules : SeparationLogicSig)
+    (DePredSig : DerivedPredSig Arch Endian CRules)
+    (SLibSig : StoreLibSig Arch Endian CRules DePredSig)
     (x i : addr) (s : CoqString) (hi : 0 <= i ∧ i < StringLength s + 1) :
-    CRules.derivable1 (store_stringLit CRules DePredSig SLibSig x s)
+    CRules.derivable1 (store_stringLit Arch Endian CRules DePredSig SLibSig x s)
       (CRules.sepcon
-        (store_char CRules
-          (x + i * SimpleC.SL.CNotation.sizeof_front_end_type
+        (store_char Arch CRules
+          (x + i * SimpleC.SL.CNotation.CNotationSig.sizeof_front_end_type Arch
             SimpleC.SL.CNotation.FET_char)
           (Znth i (StringToList s (StringLength s + 1)) 0))
-        ((CharArray CRules DePredSig SLibSig).missing_i
+        ((CharArray Arch Endian CRules DePredSig SLibSig).missing_i
           x i 0 (StringLength s + 1)
           (StringToList s (StringLength s + 1)))) := by
   exact CRules.toContext.derivable1_trans _ _ _
     (CRules.toContext.derivable1_andp_elim2 _ _)
-    ((CharArray CRules DePredSig SLibSig).full_split_to_missing_i
+    ((CharArray Arch Endian CRules DePredSig SLibSig).full_split_to_missing_i
       x i (StringLength s + 1) (StringToList s (StringLength s + 1))
         (0 : Int) hi)
 
@@ -189,41 +190,41 @@ end StringLibSig
 /-- Source-faithful replacement for the abstract predicates and axioms in the
 Coq `StringLibSig` module type. -/
 structure StringLibSig
-    (CRules : SeparationLogicSig)
-    (DePredSig : DerivedPredSig CRules)
-    (SLibSig : StoreLibSig CRules DePredSig)
-    (_ALibSig : ArrayLibSig CRules DePredSig SLibSig) : Type where
+    (Arch : CArchSig) (Endian : CEndianSig) (CRules : SeparationLogicSig)
+    (DePredSig : DerivedPredSig Arch Endian CRules)
+    (SLibSig : StoreLibSig Arch Endian CRules DePredSig)
+    (_ALibSig : ArrayLibSig Arch Endian CRules DePredSig SLibSig) : Type where
   GlobalStrings : (CoqString -> addr) -> CRules.expr
   GlobalStrings_missing : (CoqString -> addr) -> List CoqString -> CRules.expr
   GlobalStrings_split : forall (LitMap : CoqString -> addr) (s : CoqString),
     CRules.derivable1 (GlobalStrings LitMap)
       (CRules.sepcon (GlobalStrings_missing LitMap [s])
-        (StringLibSig.store_stringLit CRules DePredSig SLibSig (LitMap s) s))
+        (StringLibSig.store_stringLit Arch Endian CRules DePredSig SLibSig (LitMap s) s))
   GlobalStrings_merge : forall (LitMap : CoqString -> addr) (s : CoqString),
     CRules.derivable1
       (CRules.sepcon (GlobalStrings_missing LitMap [s])
-        (StringLibSig.store_stringLit CRules DePredSig SLibSig (LitMap s) s))
+        (StringLibSig.store_stringLit Arch Endian CRules DePredSig SLibSig (LitMap s) s))
       (GlobalStrings LitMap)
   GlobalStrings_missing_split :
     forall (LitMap : CoqString -> addr) (l : List CoqString) (s : CoqString),
       s ∉ l ->
       CRules.derivable1 (GlobalStrings_missing LitMap l)
         (CRules.sepcon (GlobalStrings_missing LitMap (s :: l))
-          (StringLibSig.store_stringLit CRules DePredSig SLibSig (LitMap s) s))
+          (StringLibSig.store_stringLit Arch Endian CRules DePredSig SLibSig (LitMap s) s))
   GlobalStrings_missing_merge :
     forall (LitMap : CoqString -> addr) (l : List CoqString) (s : CoqString),
       CRules.derivable1
         (CRules.sepcon (GlobalStrings_missing LitMap (s :: l))
-          (StringLibSig.store_stringLit CRules DePredSig SLibSig (LitMap s) s))
+          (StringLibSig.store_stringLit Arch Endian CRules DePredSig SLibSig (LitMap s) s))
         (GlobalStrings_missing LitMap l)
   GlobalStrings_split_existing :
     forall (LitMap : CoqString -> addr) (s : CoqString),
       CRules.derivable1
         (CRules.sepcon
-          (StringLibSig.store_stringLit CRules DePredSig SLibSig (LitMap s) s)
+          (StringLibSig.store_stringLit Arch Endian CRules DePredSig SLibSig (LitMap s) s)
           (GlobalStrings LitMap))
         (CRules.sepcon
-          (StringLibSig.store_stringLit CRules DePredSig SLibSig (LitMap s) s)
+          (StringLibSig.store_stringLit Arch Endian CRules DePredSig SLibSig (LitMap s) s)
           (GlobalStrings_missing LitMap [s]))
 
 end SimpleC.SL.StringLib

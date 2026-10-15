@@ -45,6 +45,8 @@ $buildPlan = @(
     @{ Path = "sets"; Target = @() },
     @{ Path = "listlib"; Target = @() },
     @{ Path = "fixedpoints"; Target = @() },
+    @{ Path = "maxminlib"; Target = @() },
+    @{ Path = "flocq"; Target = @() },
     @{ Path = "SeparationLogic"; Target = @() },
     @{ Path = "MonadLib"; Target = @() },
     @{ Path = "examples"; Target = @() }
@@ -82,7 +84,7 @@ foreach ($pkg in $buildPlan) {
             break
         }
 
-        if ($Task -eq "build" -and $attempt -le ($Retries + 1)) {
+        if ($Task -eq "build" -and $attempt -le $Retries) {
             Write-Warning "lake build failed in $($pkg.Path) with exit code $exitCode; retrying ($attempt/$Retries)."
             Start-Sleep -Seconds 2
             continue

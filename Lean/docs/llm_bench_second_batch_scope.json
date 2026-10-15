@@ -1,0 +1,313 @@
+{
+  "repository_commit": "e95ad5cea97c21f90e12a7434ccb65a06e53254c",
+  "toolchain": "leanprover/lean4:v4.25.2",
+  "scope": "Original feasibility report B1 (second batch) plus B2 (remaining foundation-layer cases); no wholesale Lean library upgrade.",
+  "cases": [
+    {
+      "id": "stack",
+      "source": "Data_structures/stack/stack.c",
+      "group": "B1 较小专用库",
+      "status": "manual_verified",
+      "manual_owner": "manual_stack",
+      "manual_qed_verified": 16,
+      "source_auto_admitted": 14
+    },
+    {
+      "id": "majority_element",
+      "source": "Algorithms/majority_element/majority_element.c",
+      "group": "B1 较小专用库",
+      "status": "manual_verified",
+      "manual_owner": "manual_majority_element",
+      "manual_qed_verified": 5,
+      "source_auto_admitted": 17
+    },
+    {
+      "id": "container_with_most_water_linear",
+      "source": "Algorithms/container_with_most_water_linear/container_with_most_water_linear.c",
+      "group": "B1 较小专用库",
+      "status": "manual_verified",
+      "manual_owner": "manual_majority_element",
+      "manual_qed_verified": 27,
+      "source_auto_admitted": 20
+    },
+    {
+      "id": "sliding_window_maximum",
+      "source": "Algorithms/sliding_window_maximum/sliding_window_maximum.c",
+      "group": "B1 较小专用库",
+      "status": "manual_verified",
+      "manual_owner": "manual_majority_element",
+      "manual_qed_verified": 47,
+      "source_auto_admitted": 23
+    },
+    {
+      "id": "annoying_math_homework",
+      "source": "Algorithms/annoying_math_homework/annoying_math_homework.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_stack",
+      "manual_qed_verified": 97,
+      "source_auto_admitted": 117
+    },
+    {
+      "id": "bucket_sort",
+      "source": "Algorithms/bucket_sort/bucket_sort.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_stack",
+      "manual_qed_verified": 78,
+      "source_auto_admitted": 53
+    },
+    {
+      "id": "catalan_numbers",
+      "source": "Algorithms/catalan_numbers/catalan_numbers.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_stack",
+      "manual_qed_verified": 30,
+      "source_auto_admitted": 44
+    },
+    {
+      "id": "chinese_remainder_theorem",
+      "source": "Algorithms/chinese_remainder_theorem/chinese_remainder_theorem.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_majority_element",
+      "manual_qed_verified": 42,
+      "source_auto_admitted": 19
+    },
+    {
+      "id": "choosing_inns",
+      "source": "Algorithms/choosing_inns/choosing_inns.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_stack",
+      "manual_qed_verified": 43,
+      "source_auto_admitted": 35
+    },
+    {
+      "id": "concatenating_numbers",
+      "source": "Algorithms/concatenating_numbers/concatenating_numbers.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_majority_element",
+      "manual_qed_verified": 54,
+      "source_auto_admitted": 98
+    },
+    {
+      "id": "concatenating_numbers_dp",
+      "source": "Algorithms/concatenating_numbers_dp/concatenating_numbers_dp.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_majority_element",
+      "manual_qed_verified": 92,
+      "source_auto_admitted": 65
+    },
+    {
+      "id": "counting_sort",
+      "source": "Algorithms/counting_sort/counting_sort.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_stack",
+      "manual_qed_verified": 44,
+      "source_auto_admitted": 35
+    },
+    {
+      "id": "discretize",
+      "source": "Algorithms/discretize/discretize.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_majority_element",
+      "manual_qed_verified": 24,
+      "source_auto_admitted": 72
+    },
+    {
+      "id": "edit_strings",
+      "source": "Algorithms/edit_strings/edit_strings.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "review_semantics",
+      "manual_qed_verified": 155,
+      "source_auto_admitted": 150
+    },
+    {
+      "id": "euler_theorem_inverse",
+      "source": "Algorithms/euler_theorem_inverse/euler_theorem_inverse.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_majority_element",
+      "manual_qed_verified": 56,
+      "source_auto_admitted": 41
+    },
+    {
+      "id": "extended_chinese_remainder_theorem",
+      "source": "Algorithms/extended_chinese_remainder_theorem/extended_chinese_remainder_theorem.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_majority_element",
+      "manual_qed_verified": 53,
+      "source_auto_admitted": 18
+    },
+    {
+      "id": "integer_divide",
+      "source": "Algorithms/integer_divide/integer_divide.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_stack",
+      "manual_qed_verified": 11,
+      "source_auto_admitted": 18
+    },
+    {
+      "id": "lcs_n",
+      "source": "Algorithms/lcs_n/lcs_n.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "review_semantics",
+      "manual_qed_verified": 21,
+      "source_auto_admitted": 63
+    },
+    {
+      "id": "lucas_theorem",
+      "source": "Algorithms/lucas_theorem/lucas_theorem.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_majority_element",
+      "manual_qed_verified": 66,
+      "source_auto_admitted": 42
+    },
+    {
+      "id": "minimal_representation",
+      "source": "Algorithms/minimal_representation/minimal_representation.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_majority_element",
+      "manual_qed_verified": 36,
+      "source_auto_admitted": 41
+    },
+    {
+      "id": "quicksort_hoare_fill_index",
+      "source": "Algorithms/quicksort_hoare_fill_index/quicksort.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_majority_element",
+      "manual_qed_verified": 41,
+      "source_auto_admitted": 41
+    },
+    {
+      "id": "quicksort_hoare_fill_index2",
+      "source": "Algorithms/quicksort_hoare_fill_index2/quicksort.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_majority_element",
+      "manual_qed_verified": 41,
+      "source_auto_admitted": 47
+    },
+    {
+      "id": "quicksort_hoare_swap_index",
+      "source": "Algorithms/quicksort_hoare_swap_index/quicksort.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_stack",
+      "manual_qed_verified": 37,
+      "source_auto_admitted": 41
+    },
+    {
+      "id": "quicksort_hoare_swap_index2",
+      "source": "Algorithms/quicksort_hoare_swap_index2/quicksort.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_majority_element",
+      "manual_qed_verified": 37,
+      "source_auto_admitted": 47
+    },
+    {
+      "id": "quicksort_lomuto_index",
+      "source": "Algorithms/quicksort_lomuto_index/quicksort.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_majority_element",
+      "manual_qed_verified": 31,
+      "source_auto_admitted": 41
+    },
+    {
+      "id": "sieve_of_eratosthenes",
+      "source": "Algorithms/sieve_of_eratosthenes/sieve_of_eratosthenes.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_majority_element",
+      "manual_qed_verified": 16,
+      "source_auto_admitted": 23
+    },
+    {
+      "id": "sieve_of_euler",
+      "source": "Algorithms/sieve_of_euler/sieve_of_euler.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_majority_element",
+      "manual_qed_verified": 39,
+      "source_auto_admitted": 28
+    },
+    {
+      "id": "sort_point",
+      "source": "Algorithms/sort_point/sort_point.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_stack",
+      "manual_qed_verified": 80,
+      "source_auto_admitted": 213
+    },
+    {
+      "id": "stock_trading",
+      "source": "Algorithms/stock_trading/stock_trading.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "review_semantics",
+      "manual_qed_verified": 176,
+      "source_auto_admitted": 174
+    },
+    {
+      "id": "binary_indexed_tree",
+      "source": "Data_structures/binary_indexed_tree/binary_indexed_tree.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_stack",
+      "manual_qed_verified": 25,
+      "source_auto_admitted": 12
+    },
+    {
+      "id": "priority_queue",
+      "source": "Data_structures/priority_queue/priority_queue.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "review_semantics",
+      "manual_qed_verified": 45,
+      "source_auto_admitted": 69
+    },
+    {
+      "id": "priority_queue_decrease_key",
+      "source": "Data_structures/priority_queue_decrease_key/priority_queue_decrease_key.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "review_semantics",
+      "manual_qed_verified": 37,
+      "source_auto_admitted": 99
+    },
+    {
+      "id": "priority_queue_index",
+      "source": "Data_structures/priority_queue_index/priority_queue_index.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "review_semantics",
+      "manual_qed_verified": 43,
+      "source_auto_admitted": 86
+    },
+    {
+      "id": "minisat",
+      "source": "Engineering/minisat/vec.c",
+      "group": "B2 其余基础层案例",
+      "status": "manual_verified",
+      "manual_owner": "manual_stack",
+      "manual_qed_verified": 72,
+      "source_auto_admitted": 46
+    }
+  ]
+}

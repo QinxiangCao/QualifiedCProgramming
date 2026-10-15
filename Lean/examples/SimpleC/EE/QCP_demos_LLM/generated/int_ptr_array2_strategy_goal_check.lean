@@ -1,0 +1,11 @@
+import SimpleC.EE.QCP_demos_LLM.generated.int_ptr_array2_strategy_proof
+
+namespace SimpleC.EE.QCP_demos_LLM.generated.int_ptr_array2_strategy_goal_check
+
+def int_ptr_array2_Strategy_Correctness : SimpleC.EE.QCP_demos_LLM.generated.int_ptr_array2_strategy_goal.int_ptr_array2_Strategy_Correct where
+  int_ptr_array2_strategy1_correctness := SimpleC.EE.QCP_demos_LLM.generated.int_ptr_array2_strategy_proof.int_ptr_array2_strategy1_correctness
+  int_ptr_array2_strategy4_correctness := SimpleC.EE.QCP_demos_LLM.generated.int_ptr_array2_strategy_proof.int_ptr_array2_strategy4_correctness
+  int_ptr_array2_strategy5_correctness := SimpleC.EE.QCP_demos_LLM.generated.int_ptr_array2_strategy_proof.int_ptr_array2_strategy5_correctness
+  int_ptr_array2_strategy2_correctness := SimpleC.EE.QCP_demos_LLM.generated.int_ptr_array2_strategy_proof.int_ptr_array2_strategy2_correctness
+
+end SimpleC.EE.QCP_demos_LLM.generated.int_ptr_array2_strategy_goal_check

@@ -3,10 +3,12 @@ import Lean.Util.CollectAxioms
 
 namespace PtrArray2LibTests
 
+open SimpleC.SL.CArch
 open SimpleC.SL.ArrayLib
 open SimpleC.SL.ArrayLib.ArrayLibSig
 open SimpleC.SL.CommonAssertion
 open SimpleC.SL.CommonAssertion.DerivedPredSig
+open SimpleC.SL.CommonAssertion.DerivedPredSigCompat
 open SimpleC.SL.PtrArray2Lib
 open SimpleC.SL.PtrArray2Lib.PtrArray2LibSig
 open SimpleC.SL.StoreAux
@@ -42,16 +44,10 @@ elab_rules : command
         ``propext,
         ``Classical.choice,
         ``Quot.sound,
-        ``SimpleC.SL.CNotation.sizeof_front_end_type,
-        ``SimpleC.SL.CNotation.sizeof_char,
-        ``SimpleC.SL.CNotation.sizeof_uchar,
-        ``SimpleC.SL.CNotation.sizeof_short,
-        ``SimpleC.SL.CNotation.sizeof_ushort,
-        ``SimpleC.SL.CNotation.sizeof_int,
-        ``SimpleC.SL.CNotation.sizeof_uint,
-        ``SimpleC.SL.CNotation.sizeof_int64,
-        ``SimpleC.SL.CNotation.sizeof_uint64,
-        ``SimpleC.SL.CNotation.sizeof_ptr]
+        ``SimpleC.SL.CNotation.sizeof_struct_type,
+        ``SimpleC.SL.CNotation.sizeof_union_type,
+        ``SimpleC.SL.CNotation.sizeof_enum_type,
+        ``SimpleC.SL.CNotation.sizeof_alias_type]
       for name in names do
         for axiomName in (← collectAxioms name) do
           unless allowedAxioms.contains axiomName do
@@ -70,6 +66,10 @@ elab_rules : command
 #check Int64PtrArray2
 #check UInt64PtrArray2
 #check PtrPtrArray2
+#check PtrArray2Facade.A
+#check PtrArray2Facade.sizeA
+#check PtrArray2Facade.storeA
+#check PtrArray2Facade.undefstoreA
 #check PtrArray2Facade.remove_Znth
 #check PtrArray2Facade.replace_nth_decomp
 #check PtrArray2Facade.replace_Znth_decomp
@@ -115,6 +115,10 @@ elab_rules : command
   Int64PtrArray2,
   UInt64PtrArray2,
   PtrPtrArray2,
+  PtrArray2Facade.A,
+  PtrArray2Facade.sizeA,
+  PtrArray2Facade.storeA,
+  PtrArray2Facade.undefstoreA,
   PtrArray2Facade.remove_Znth,
   PtrArray2Facade.replace_nth_decomp,
   PtrArray2Facade.replace_Znth_decomp,
@@ -146,55 +150,55 @@ elab_rules : command
   PtrArray2Facade.missing_i_merge_to_full,
   PtrArray2Facade.mixed_full_split_to_mixed_missing_i,
   PtrArray2Facade.mixed_missing_i_merge_to_mixed_full
-] => 5106156880368916753
+] => 3336548420295697916
 
 section
 
 variable {CRules : SeparationLogicSig}
-variable {DePredSig : DerivedPredSig CRules}
-variable {SLibSig : StoreLibSig CRules DePredSig}
+variable {DePredSig : DerivedPredSigCompat.Sig CRules}
+variable {SLibSig : StoreLibSigCompat CRules DePredSig}
 
-example : (CharPtrArray2 CRules DePredSig SLibSig).A = Int := rfl
-example : (UCharPtrArray2 CRules DePredSig SLibSig).A = Int := rfl
-example : (ShortPtrArray2 CRules DePredSig SLibSig).A = Int := rfl
-example : (UShortPtrArray2 CRules DePredSig SLibSig).A = Int := rfl
-example : (IntPtrArray2 CRules DePredSig SLibSig).A = Int := rfl
-example : (UIntPtrArray2 CRules DePredSig SLibSig).A = Int := rfl
-example : (Int64PtrArray2 CRules DePredSig SLibSig).A = Int := rfl
-example : (UInt64PtrArray2 CRules DePredSig SLibSig).A = Int := rfl
-example : (PtrPtrArray2 CRules DePredSig SLibSig).A = Int := rfl
+example : (CharPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).A = Int := rfl
+example : (UCharPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).A = Int := rfl
+example : (ShortPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).A = Int := rfl
+example : (UShortPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).A = Int := rfl
+example : (IntPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).A = Int := rfl
+example : (UIntPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).A = Int := rfl
+example : (Int64PtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).A = Int := rfl
+example : (UInt64PtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).A = Int := rfl
+example : (PtrPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).A = Int := rfl
 
-example : (CharPtrArray2 CRules DePredSig SLibSig).elementStore =
-    StoreCharAsElement CRules DePredSig SLibSig := rfl
-example : (UCharPtrArray2 CRules DePredSig SLibSig).elementStore =
-    StoreUCharAsElement CRules DePredSig SLibSig := rfl
-example : (ShortPtrArray2 CRules DePredSig SLibSig).elementStore =
-    StoreShortAsElement CRules DePredSig SLibSig := rfl
-example : (UShortPtrArray2 CRules DePredSig SLibSig).elementStore =
-    StoreUShortAsElement CRules DePredSig SLibSig := rfl
-example : (IntPtrArray2 CRules DePredSig SLibSig).elementStore =
-    StoreIntAsElement CRules DePredSig SLibSig := rfl
-example : (UIntPtrArray2 CRules DePredSig SLibSig).elementStore =
-    StoreUIntAsElement CRules DePredSig SLibSig := rfl
-example : (Int64PtrArray2 CRules DePredSig SLibSig).elementStore =
-    StoreInt64AsElement CRules DePredSig SLibSig := rfl
-example : (UInt64PtrArray2 CRules DePredSig SLibSig).elementStore =
-    StoreUInt64AsElement CRules DePredSig SLibSig := rfl
-example : (PtrPtrArray2 CRules DePredSig SLibSig).elementStore =
-    StorePtrAsElement CRules DePredSig SLibSig := rfl
+example : (CharPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).elementStore =
+    StoreCharAsElement Arch32 BigEndian CRules DePredSig SLibSig := rfl
+example : (UCharPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).elementStore =
+    StoreUCharAsElement Arch32 BigEndian CRules DePredSig SLibSig := rfl
+example : (ShortPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).elementStore =
+    StoreShortAsElement Arch32 BigEndian CRules DePredSig SLibSig := rfl
+example : (UShortPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).elementStore =
+    StoreUShortAsElement Arch32 BigEndian CRules DePredSig SLibSig := rfl
+example : (IntPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).elementStore =
+    StoreIntAsElement Arch32 BigEndian CRules DePredSig SLibSig := rfl
+example : (UIntPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).elementStore =
+    StoreUIntAsElement Arch32 BigEndian CRules DePredSig SLibSig := rfl
+example : (Int64PtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).elementStore =
+    StoreInt64AsElement Arch32 BigEndian CRules DePredSig SLibSig := rfl
+example : (UInt64PtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).elementStore =
+    StoreUInt64AsElement Arch32 BigEndian CRules DePredSig SLibSig := rfl
+example : (PtrPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).elementStore =
+    StorePtrAsElement Arch32 BigEndian CRules DePredSig SLibSig := rfl
 
-example : (IntPtrArray2 CRules DePredSig SLibSig).remove_Znth (-1) [1, 2, 3] = [2, 3] := by
+example : (IntPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).remove_Znth (-1) [1, 2, 3] = [2, 3] := by
   rfl
 
-#check (CharPtrArray2 CRules DePredSig SLibSig).full
-#check (UCharPtrArray2 CRules DePredSig SLibSig).missing_i
-#check (ShortPtrArray2 CRules DePredSig SLibSig).mixed_full
-#check (UShortPtrArray2 CRules DePredSig SLibSig).undef_full
-#check (IntPtrArray2 CRules DePredSig SLibSig).full_split_to_missing_i
-#check (UIntPtrArray2 CRules DePredSig SLibSig).missing_i_merge_to_full
-#check (Int64PtrArray2 CRules DePredSig SLibSig).row_blocks_split_to_missing_i
-#check (UInt64PtrArray2 CRules DePredSig SLibSig).mixed_row_blocks_missing_i_merge_to_full
-#check (PtrPtrArray2 CRules DePredSig SLibSig).undef_full_valid
+#check (CharPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).full
+#check (UCharPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).missing_i
+#check (ShortPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).mixed_full
+#check (UShortPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).undef_full
+#check (IntPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).full_split_to_missing_i
+#check (UIntPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).missing_i_merge_to_full
+#check (Int64PtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).row_blocks_split_to_missing_i
+#check (UInt64PtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).mixed_row_blocks_missing_i_merge_to_full
+#check (PtrPtrArray2 Arch32 BigEndian CRules DePredSig SLibSig).undef_full_valid
 
 end
 

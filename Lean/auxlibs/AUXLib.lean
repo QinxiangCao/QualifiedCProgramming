@@ -5,8 +5,15 @@ import AUXLib.ListLib
 import AUXLib.IntAuto
 import AUXLib.Idents
 import AUXLib.Morphisms
+import AUXLib.MorphismsProp
 import AUXLib.NiaCompat
 import AUXLib.OrdersDecFact
 import AUXLib.BinaryTree
 import AUXLib.SetoidRewrite
 import AUXLib.VMap
+import AUXLib.Arithmetic
+import AUXLib.Sorting
+import AUXLib.NumberTheory
+import AUXLib.Prime
+import AUXLib.RelPrime
+import AUXLib.ZParity

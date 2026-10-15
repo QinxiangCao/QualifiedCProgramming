@@ -1,0 +1,66 @@
+import SimpleC.EE.LLM_bench.Algorithms.euler_theorem_inverse.euler_theorem_inverse_proof_auto
+import SimpleC.EE.LLM_bench.Algorithms.euler_theorem_inverse.euler_theorem_inverse_proof_manual
+
+namespace SimpleC.EE.LLM_bench.Algorithms.euler_theorem_inverse.euler_theorem_inverse_goal_check
+
+open SimpleC.EE.LLM_bench.Algorithms.euler_theorem_inverse.euler_theorem_inverse_proof_auto
+open SimpleC.EE.LLM_bench.Algorithms.euler_theorem_inverse.euler_theorem_inverse_proof_manual
+
+def VC_Correctness : SimpleC.EE.LLM_bench.Algorithms.euler_theorem_inverse.euler_theorem_inverse_goal.VC_Correct where
+  proof_of_euler_phi_safety_wit_1 := proof_of_euler_phi_safety_wit_1
+  proof_of_euler_phi_safety_wit_2 := proof_of_euler_phi_safety_wit_2
+  proof_of_euler_phi_safety_wit_3 := proof_of_euler_phi_safety_wit_3
+  proof_of_euler_phi_safety_wit_4 := proof_of_euler_phi_safety_wit_4
+  proof_of_euler_phi_safety_wit_5 := proof_of_euler_phi_safety_wit_5
+  proof_of_euler_phi_safety_wit_6 := proof_of_euler_phi_safety_wit_6
+  proof_of_euler_phi_safety_wit_7 := proof_of_euler_phi_safety_wit_7
+  proof_of_euler_phi_safety_wit_9 := proof_of_euler_phi_safety_wit_9
+  proof_of_euler_phi_safety_wit_10 := proof_of_euler_phi_safety_wit_10
+  proof_of_euler_phi_safety_wit_11 := proof_of_euler_phi_safety_wit_11
+  proof_of_euler_phi_safety_wit_12 := proof_of_euler_phi_safety_wit_12
+  proof_of_euler_phi_safety_wit_13 := proof_of_euler_phi_safety_wit_13
+  proof_of_euler_phi_safety_wit_14 := proof_of_euler_phi_safety_wit_14
+  proof_of_euler_phi_safety_wit_15 := proof_of_euler_phi_safety_wit_15
+  proof_of_euler_phi_safety_wit_16 := proof_of_euler_phi_safety_wit_16
+  proof_of_euler_phi_safety_wit_17 := proof_of_euler_phi_safety_wit_17
+  proof_of_euler_phi_safety_wit_18 := proof_of_euler_phi_safety_wit_18
+  proof_of_euler_phi_safety_wit_19 := proof_of_euler_phi_safety_wit_19
+  proof_of_euler_phi_safety_wit_20 := proof_of_euler_phi_safety_wit_20
+  proof_of_modular_power_safety_wit_1 := proof_of_modular_power_safety_wit_1
+  proof_of_modular_power_safety_wit_2 := proof_of_modular_power_safety_wit_2
+  proof_of_modular_power_safety_wit_3 := proof_of_modular_power_safety_wit_3
+  proof_of_modular_power_safety_wit_4 := proof_of_modular_power_safety_wit_4
+  proof_of_modular_power_safety_wit_5 := proof_of_modular_power_safety_wit_5
+  proof_of_modular_power_safety_wit_6 := proof_of_modular_power_safety_wit_6
+  proof_of_modular_power_safety_wit_7 := proof_of_modular_power_safety_wit_7
+  proof_of_modular_power_safety_wit_8 := proof_of_modular_power_safety_wit_8
+  proof_of_modular_power_safety_wit_9 := proof_of_modular_power_safety_wit_9
+  proof_of_modular_power_safety_wit_10 := proof_of_modular_power_safety_wit_10
+  proof_of_modular_power_safety_wit_11 := proof_of_modular_power_safety_wit_11
+  proof_of_modular_power_safety_wit_12 := proof_of_modular_power_safety_wit_12
+  proof_of_modular_power_safety_wit_13 := proof_of_modular_power_safety_wit_13
+  proof_of_modular_power_safety_wit_14 := proof_of_modular_power_safety_wit_14
+  proof_of_modular_power_safety_wit_15 := proof_of_modular_power_safety_wit_15
+  proof_of_euler_theorem_inverse_safety_wit_1 := proof_of_euler_theorem_inverse_safety_wit_1
+  proof_of_euler_theorem_inverse_safety_wit_2 := proof_of_euler_theorem_inverse_safety_wit_2
+  proof_of_euler_theorem_inverse_partial_solve_wit_1_pure := proof_of_euler_theorem_inverse_partial_solve_wit_1_pure
+  proof_of_euler_theorem_inverse_partial_solve_wit_1 := proof_of_euler_theorem_inverse_partial_solve_wit_1
+  proof_of_euler_theorem_inverse_partial_solve_wit_2_pure := proof_of_euler_theorem_inverse_partial_solve_wit_2_pure
+  proof_of_euler_theorem_inverse_partial_solve_wit_2 := proof_of_euler_theorem_inverse_partial_solve_wit_2
+  proof_of_euler_phi_safety_wit_8 := proof_of_euler_phi_safety_wit_8
+  proof_of_euler_phi_entail_wit_1 := proof_of_euler_phi_entail_wit_1
+  proof_of_euler_phi_entail_wit_2 := proof_of_euler_phi_entail_wit_2
+  proof_of_euler_phi_entail_wit_3 := proof_of_euler_phi_entail_wit_3
+  proof_of_euler_phi_entail_wit_4_1 := proof_of_euler_phi_entail_wit_4_1
+  proof_of_euler_phi_entail_wit_4_2 := proof_of_euler_phi_entail_wit_4_2
+  proof_of_euler_phi_entail_wit_5 := proof_of_euler_phi_entail_wit_5
+  proof_of_euler_phi_return_wit_1 := proof_of_euler_phi_return_wit_1
+  proof_of_euler_phi_return_wit_2 := proof_of_euler_phi_return_wit_2
+  proof_of_euler_phi_return_wit_3 := proof_of_euler_phi_return_wit_3
+  proof_of_modular_power_entail_wit_1 := proof_of_modular_power_entail_wit_1
+  proof_of_modular_power_entail_wit_2_1 := proof_of_modular_power_entail_wit_2_1
+  proof_of_modular_power_entail_wit_2_2 := proof_of_modular_power_entail_wit_2_2
+  proof_of_modular_power_return_wit_1 := proof_of_modular_power_return_wit_1
+  proof_of_euler_theorem_inverse_return_wit_1 := proof_of_euler_theorem_inverse_return_wit_1
+
+end SimpleC.EE.LLM_bench.Algorithms.euler_theorem_inverse.euler_theorem_inverse_goal_check

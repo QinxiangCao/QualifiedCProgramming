@@ -1,4 +1,4 @@
-import SimpleC.SL.SeparationLogic
+import SimpleC.SL.LeanPrinterPrelude
 
 import SimpleC.EE.QCP_demos_LLM.avl_shape
 
@@ -15,19 +15,47 @@ open SimpleC.SL.CommonAssertion.DerivedPredSig
 open SimpleC.SL.CommonAssertion.SeparationLogicSig
 open SimpleC.SL.IntLib
 open SimpleC.SL.SeparationLogic
-open scoped SimpleC.SL.SAC
+open scoped SimpleC.SL.SAC CoqZ
 
 local instance avl_insert_goalSacContext : SacContext := ⟨naive_C_Rules⟩
 
 private noncomputable abbrev charArray := naive_C_Rules.CharArray
+private noncomputable abbrev charArray2 := naive_C_Rules.CharArray2
+private noncomputable abbrev charArray3 := naive_C_Rules.CharArray3
+private noncomputable abbrev charPtrArray2 := naive_C_Rules.CharPtrArray2
 private noncomputable abbrev ucharArray := naive_C_Rules.UCharArray
+private noncomputable abbrev ucharArray2 := naive_C_Rules.UCharArray2
+private noncomputable abbrev ucharArray3 := naive_C_Rules.UCharArray3
+private noncomputable abbrev ucharPtrArray2 := naive_C_Rules.UCharPtrArray2
 private noncomputable abbrev shortArray := naive_C_Rules.ShortArray
+private noncomputable abbrev shortArray2 := naive_C_Rules.ShortArray2
+private noncomputable abbrev shortArray3 := naive_C_Rules.ShortArray3
+private noncomputable abbrev shortPtrArray2 := naive_C_Rules.ShortPtrArray2
 private noncomputable abbrev ushortArray := naive_C_Rules.UShortArray
+private noncomputable abbrev ushortArray2 := naive_C_Rules.UShortArray2
+private noncomputable abbrev ushortArray3 := naive_C_Rules.UShortArray3
+private noncomputable abbrev ushortPtrArray2 := naive_C_Rules.UShortPtrArray2
 private noncomputable abbrev intArray := naive_C_Rules.IntArray
+private noncomputable abbrev intArray2 := naive_C_Rules.IntArray2
+private noncomputable abbrev intArray3 := naive_C_Rules.IntArray3
+private noncomputable abbrev intPtrArray2 := naive_C_Rules.IntPtrArray2
 private noncomputable abbrev uintArray := naive_C_Rules.UIntArray
+private noncomputable abbrev uintArray2 := naive_C_Rules.UIntArray2
+private noncomputable abbrev uintArray3 := naive_C_Rules.UIntArray3
+private noncomputable abbrev uintPtrArray2 := naive_C_Rules.UIntPtrArray2
 private noncomputable abbrev int64Array := naive_C_Rules.Int64Array
+private noncomputable abbrev int64Array2 := naive_C_Rules.Int64Array2
+private noncomputable abbrev int64Array3 := naive_C_Rules.Int64Array3
+private noncomputable abbrev int64PtrArray2 := naive_C_Rules.Int64PtrArray2
 private noncomputable abbrev uint64Array := naive_C_Rules.UInt64Array
+private noncomputable abbrev uint64Array2 := naive_C_Rules.UInt64Array2
+private noncomputable abbrev uint64Array3 := naive_C_Rules.UInt64Array3
+private noncomputable abbrev uint64PtrArray2 := naive_C_Rules.UInt64PtrArray2
 private noncomputable abbrev ptrArray := naive_C_Rules.PtrArray
+private noncomputable abbrev ptrArray2 := naive_C_Rules.PtrArray2
+private noncomputable abbrev ptrArray3 := naive_C_Rules.PtrArray3
+private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
+private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def update_height_safety_wit_1 : Prop :=
   forall (root_pre : Int) ,
@@ -267,9 +295,9 @@ noncomputable def update_height_safety_wit_18 : Prop :=
 
 noncomputable def update_height_return_wit_1 : Prop :=
   forall (root_pre : Int) (tr : tree) (k : Int) (v : Int) (h : Int) (l : Int) (r : Int) (tr1 : tree) (tr2 : tree) (k_2 : Int) (v_2 : Int) (h_2 : Int) (l_2 : Int) (r_2 : Int) (tr1_2 : tree) (tr2_2 : tree) (k_3 : Int) (v_3 : Int) (h_3 : Int) (l_3 : Int) (r_3 : Int) (tr1_3 : tree) (tr2_3 : tree) (PreH1 : (h_2 > h_3)) (PreH2 : (h_3 <= 255)) (PreH3 : (h_3 >= (0 : Int))) (PreH4 : (tr2 = (make_tree (tr1_3) (tr2_3)))) (PreH5 : (r ≠ (0 : Int))) (PreH6 : (h_2 <= 255)) (PreH7 : (h_2 >= (0 : Int))) (PreH8 : (tr1 = (make_tree (tr1_2) (tr2_2)))) (PreH9 : (l ≠ (0 : Int))) (PreH10 : (h <= 255)) (PreH11 : (h >= (0 : Int))) (PreH12 : (tr = (make_tree (tr1) (tr2)))) (PreH13 : (root_pre ≠ (0 : Int))) (PreH14 : ((0 : Int) <= 255)) (PreH15 : ((0 : Int) >= (0 : Int))) ,
-  (single_tree_node root_pre k v (unsigned_last_nbits ((h_2 + 1)) (8)) l r)
-  ** (single_tree_node r k_3 v_3 h_3 l_3 r_3)
+  (single_tree_node r k_3 v_3 h_3 l_3 r_3)
   ** (single_tree_node l k_2 v_2 h_2 l_2 r_2)
+  ** (single_tree_node root_pre k v (unsigned_last_nbits ((h_2 + 1)) (8)) l r)
   ** (store_tree r_3 tr2_3)
   ** (store_tree l_3 tr1_3)
   ** (store_tree r_2 tr2_2)
@@ -279,8 +307,8 @@ noncomputable def update_height_return_wit_1 : Prop :=
 
 noncomputable def update_height_return_wit_2 : Prop :=
   forall (root_pre : Int) (tr : tree) (k : Int) (v : Int) (h : Int) (l : Int) (r : Int) (tr1 : tree) (tr2 : tree) (k_2 : Int) (v_2 : Int) (h_2 : Int) (l_2 : Int) (r_2 : Int) (tr1_2 : tree) (tr2_2 : tree) (PreH1 : (tr2 = empty)) (PreH2 : (h_2 > (0 : Int))) (PreH3 : (r = (0 : Int))) (PreH4 : (h_2 <= 255)) (PreH5 : (h_2 >= (0 : Int))) (PreH6 : (tr1 = (make_tree (tr1_2) (tr2_2)))) (PreH7 : (l ≠ (0 : Int))) (PreH8 : (h <= 255)) (PreH9 : (h >= (0 : Int))) (PreH10 : (tr = (make_tree (tr1) (tr2)))) (PreH11 : (root_pre ≠ (0 : Int))) (PreH12 : ((0 : Int) <= 255)) (PreH13 : ((0 : Int) >= (0 : Int))) ,
-  (single_tree_node root_pre k v (unsigned_last_nbits ((h_2 + 1)) (8)) l r)
-  ** (single_tree_node l k_2 v_2 h_2 l_2 r_2)
+  (single_tree_node l k_2 v_2 h_2 l_2 r_2)
+  ** (single_tree_node root_pre k v (unsigned_last_nbits ((h_2 + 1)) (8)) l r)
   ** (store_tree r_2 tr2_2)
   ** (store_tree l_2 tr1_2)
 |--
@@ -288,9 +316,9 @@ noncomputable def update_height_return_wit_2 : Prop :=
 
 noncomputable def update_height_return_wit_3 : Prop :=
   forall (root_pre : Int) (tr : tree) (k : Int) (v : Int) (h : Int) (l : Int) (r : Int) (tr1 : tree) (tr2 : tree) (k_2 : Int) (v_2 : Int) (h_2 : Int) (l_2 : Int) (r_2 : Int) (tr1_2 : tree) (tr2_2 : tree) (k_3 : Int) (v_3 : Int) (h_3 : Int) (l_3 : Int) (r_3 : Int) (tr1_3 : tree) (tr2_3 : tree) (PreH1 : (h_2 <= h_3)) (PreH2 : (h_3 <= 255)) (PreH3 : (h_3 >= (0 : Int))) (PreH4 : (tr2 = (make_tree (tr1_3) (tr2_3)))) (PreH5 : (r ≠ (0 : Int))) (PreH6 : (h_2 <= 255)) (PreH7 : (h_2 >= (0 : Int))) (PreH8 : (tr1 = (make_tree (tr1_2) (tr2_2)))) (PreH9 : (l ≠ (0 : Int))) (PreH10 : (h <= 255)) (PreH11 : (h >= (0 : Int))) (PreH12 : (tr = (make_tree (tr1) (tr2)))) (PreH13 : (root_pre ≠ (0 : Int))) (PreH14 : ((0 : Int) <= 255)) (PreH15 : ((0 : Int) >= (0 : Int))) ,
-  (single_tree_node root_pre k v (unsigned_last_nbits ((h_3 + 1)) (8)) l r)
-  ** (single_tree_node r k_3 v_3 h_3 l_3 r_3)
+  (single_tree_node r k_3 v_3 h_3 l_3 r_3)
   ** (single_tree_node l k_2 v_2 h_2 l_2 r_2)
+  ** (single_tree_node root_pre k v (unsigned_last_nbits ((h_3 + 1)) (8)) l r)
   ** (store_tree r_3 tr2_3)
   ** (store_tree l_3 tr1_3)
   ** (store_tree r_2 tr2_2)
@@ -300,8 +328,8 @@ noncomputable def update_height_return_wit_3 : Prop :=
 
 noncomputable def update_height_return_wit_4 : Prop :=
   forall (root_pre : Int) (tr : tree) (k : Int) (v : Int) (h : Int) (l : Int) (r : Int) (tr1 : tree) (tr2 : tree) (k_2 : Int) (v_2 : Int) (h_2 : Int) (l_2 : Int) (r_2 : Int) (tr1_2 : tree) (tr2_2 : tree) (PreH1 : ((0 : Int) <= h_2)) (PreH2 : (h_2 <= 255)) (PreH3 : (h_2 >= (0 : Int))) (PreH4 : (tr2 = (make_tree (tr1_2) (tr2_2)))) (PreH5 : (r ≠ (0 : Int))) (PreH6 : (tr1 = empty)) (PreH7 : (l = (0 : Int))) (PreH8 : (h <= 255)) (PreH9 : (h >= (0 : Int))) (PreH10 : (tr = (make_tree (tr1) (tr2)))) (PreH11 : (root_pre ≠ (0 : Int))) (PreH12 : ((0 : Int) <= 255)) (PreH13 : ((0 : Int) >= (0 : Int))) ,
-  (single_tree_node root_pre k v (unsigned_last_nbits ((h_2 + 1)) (8)) l r)
-  ** (single_tree_node r k_2 v_2 h_2 l_2 r_2)
+  (single_tree_node r k_2 v_2 h_2 l_2 r_2)
+  ** (single_tree_node root_pre k v (unsigned_last_nbits ((h_2 + 1)) (8)) l r)
   ** (store_tree r_2 tr2_2)
   ** (store_tree l_2 tr1_2)
 |--
@@ -309,8 +337,8 @@ noncomputable def update_height_return_wit_4 : Prop :=
 
 noncomputable def update_height_return_wit_5 : Prop :=
   forall (root_pre : Int) (tr : tree) (k : Int) (v : Int) (h : Int) (l : Int) (r : Int) (tr1 : tree) (tr2 : tree) (k_2 : Int) (v_2 : Int) (h_2 : Int) (l_2 : Int) (r_2 : Int) (tr1_2 : tree) (tr2_2 : tree) (PreH1 : (tr2 = empty)) (PreH2 : (h_2 <= (0 : Int))) (PreH3 : (r = (0 : Int))) (PreH4 : (h_2 <= 255)) (PreH5 : (h_2 >= (0 : Int))) (PreH6 : (tr1 = (make_tree (tr1_2) (tr2_2)))) (PreH7 : (l ≠ (0 : Int))) (PreH8 : (h <= 255)) (PreH9 : (h >= (0 : Int))) (PreH10 : (tr = (make_tree (tr1) (tr2)))) (PreH11 : (root_pre ≠ (0 : Int))) (PreH12 : ((0 : Int) <= 255)) (PreH13 : ((0 : Int) >= (0 : Int))) ,
-  (single_tree_node root_pre k v ((0 : Int) + 1) l r)
-  ** (single_tree_node l k_2 v_2 h_2 l_2 r_2)
+  (single_tree_node l k_2 v_2 h_2 l_2 r_2)
+  ** (single_tree_node root_pre k v ((0 : Int) + 1) l r)
   ** (store_tree r_2 tr2_2)
   ** (store_tree l_2 tr1_2)
 |--
@@ -326,7 +354,7 @@ noncomputable def update_height_partial_solve_wit_1 : Prop :=
   forall (root_pre : Int) ,
   (store_non_empty_tree root_pre)
 |--
-  EX tr2 : tree, EX tr1 : tree, EX r : Int, EX l : Int, EX h : Int, EX v : Int, EX k : Int, EX tr : tree,
+  EX tr : tree, EX k : Int, EX v : Int, EX h : Int, EX l : Int, EX r : Int, EX tr1 : tree, EX tr2 : tree,
   “ (h <= 255) ” &&
   “ (h >= (0 : Int)) ” &&
   “ (tr = (make_tree (tr1) (tr2))) ” &&
@@ -347,7 +375,7 @@ noncomputable def update_height_partial_solve_wit_2 : Prop :=
   ** (store_tree r tr2)
   ** (store_tree l tr1)
 |--
-  EX tr2_2 : tree, EX tr1_2 : tree, EX r_2 : Int, EX l_2 : Int, EX h_2 : Int, EX v_2 : Int, EX k_2 : Int,
+  EX k_2 : Int, EX v_2 : Int, EX h_2 : Int, EX l_2 : Int, EX r_2 : Int, EX tr1_2 : tree, EX tr2_2 : tree,
   “ (h_2 <= 255) ” &&
   “ (h_2 >= (0 : Int)) ” &&
   “ (tr1 = (make_tree (tr1_2) (tr2_2))) ” &&
@@ -465,7 +493,7 @@ noncomputable def update_height_partial_solve_wit_6 : Prop :=
   ** (store_tree l_2 tr1_2)
   ** (store_tree r tr2)
 |--
-  EX tr2_3 : tree, EX tr1_3 : tree, EX r_3 : Int, EX l_3 : Int, EX h_3 : Int, EX v_3 : Int, EX k_3 : Int,
+  EX k_3 : Int, EX v_3 : Int, EX h_3 : Int, EX l_3 : Int, EX r_3 : Int, EX tr1_3 : tree, EX tr2_3 : tree,
   “ (h_3 <= 255) ” &&
   “ (h_3 >= (0 : Int)) ” &&
   “ (tr2 = (make_tree (tr1_3) (tr2_3))) ” &&
@@ -549,7 +577,7 @@ noncomputable def update_height_partial_solve_wit_8 : Prop :=
   (single_tree_node root_pre k v h l r)
   ** (store_tree r tr2)
 |--
-  EX tr2_2 : tree, EX tr1_2 : tree, EX r_2 : Int, EX l_2 : Int, EX h_2 : Int, EX v_2 : Int, EX k_2 : Int,
+  EX k_2 : Int, EX v_2 : Int, EX h_2 : Int, EX l_2 : Int, EX r_2 : Int, EX tr1_2 : tree, EX tr2_2 : tree,
   “ (h_2 <= 255) ” &&
   “ (h_2 >= (0 : Int)) ” &&
   “ (tr2 = (make_tree (tr1_2) (tr2_2))) ” &&
@@ -832,7 +860,7 @@ noncomputable def rotateR_partial_solve_wit_1 : Prop :=
   ** (store_non_empty_tree l)
   ** (store_tree_shape r)
 |--
-  EX tr2 : tree, EX tr1 : tree, EX r_2 : Int, EX l_2 : Int, EX h_2 : Int, EX v_2 : Int, EX k_2 : Int, EX tr_2 : tree, EX tr : tree,
+  EX tr : tree, EX tr_2 : tree, EX k_2 : Int, EX v_2 : Int, EX h_2 : Int, EX l_2 : Int, EX r_2 : Int, EX tr1 : tree, EX tr2 : tree,
   “ (h <= 255) ” &&
   “ (h >= (0 : Int)) ” &&
   “ (h_2 <= 255) ” &&
@@ -914,8 +942,8 @@ noncomputable def rotateR_partial_solve_wit_3 : Prop :=
 
 noncomputable def rotateR_partial_solve_wit_4 : Prop :=
   forall (root_pre : Int) (h : Int) (v : Int) (k : Int) (r : Int) (l : Int) (tr : tree) (tr_2 : tree) (k_2 : Int) (v_2 : Int) (h_2 : Int) (l_2 : Int) (r_2 : Int) (tr1 : tree) (tr2 : tree) (PreH1 : (h <= 255)) (PreH2 : (h >= (0 : Int))) (PreH3 : (h_2 <= 255)) (PreH4 : (h_2 >= (0 : Int))) (PreH5 : (tr_2 = (make_tree (tr1) (tr2)))) (PreH6 : (l ≠ (0 : Int))) (PreH7 : (root_pre ≠ (0 : Int))) ,
-  (single_tree_node root_pre k v h r_2 r)
-  ** (single_tree_node l k_2 v_2 h_2 l_2 r_2)
+  (single_tree_node l k_2 v_2 h_2 l_2 r_2)
+  ** (single_tree_node root_pre k v h r_2 r)
   ** (store_tree r_2 tr2)
   ** (store_tree l_2 tr1)
   ** (store_tree r tr)
@@ -928,15 +956,15 @@ noncomputable def rotateR_partial_solve_wit_4 : Prop :=
   “ (l ≠ (0 : Int)) ” &&
   “ (root_pre ≠ (0 : Int)) ”
   &&  ((&((l # "tree")  ->ₛ "rchild")) # Ptr |->_)
-  ** ((&((l # "tree")  ->ₛ "lchild")) # Ptr |-> (l_2))
-  ** ((&((l # "tree")  ->ₛ "height")) # UChar |-> (h_2))
-  ** ((&((l # "tree")  ->ₛ "value")) # Int |-> (v_2))
-  ** ((&((l # "tree")  ->ₛ "key")) # Int |-> (k_2))
   ** ((&((root_pre # "tree")  ->ₛ "rchild")) # Ptr |-> (r))
   ** ((&((root_pre # "tree")  ->ₛ "lchild")) # Ptr |-> (r_2))
   ** ((&((root_pre # "tree")  ->ₛ "height")) # UChar |-> (h))
   ** ((&((root_pre # "tree")  ->ₛ "value")) # Int |-> (v))
   ** ((&((root_pre # "tree")  ->ₛ "key")) # Int |-> (k))
+  ** ((&((l # "tree")  ->ₛ "lchild")) # Ptr |-> (l_2))
+  ** ((&((l # "tree")  ->ₛ "height")) # UChar |-> (h_2))
+  ** ((&((l # "tree")  ->ₛ "value")) # Int |-> (v_2))
+  ** ((&((l # "tree")  ->ₛ "key")) # Int |-> (k_2))
   ** (store_tree r_2 tr2)
   ** (store_tree l_2 tr1)
   ** (store_tree r tr)
@@ -970,7 +998,7 @@ noncomputable def rotateR_partial_solve_wit_6 : Prop :=
   ** (store_non_empty_tree root_pre)
   ** (store_tree l_2 tr1)
 |--
-  EX tr2_2 : tree, EX tr1_2 : tree, EX h_3 : Int, EX tr_2 : tree,
+  EX tr_2 : tree, EX h_3 : Int, EX tr1_2 : tree, EX tr2_2 : tree,
   “ (h_3 <= 255) ” &&
   “ (h_3 >= (0 : Int)) ” &&
   “ (tr_2 = (make_tree (tr1_2) (tr2_2))) ” &&
@@ -997,7 +1025,7 @@ noncomputable def rotateL_partial_solve_wit_1 : Prop :=
   ** (store_tree_shape l)
   ** (store_non_empty_tree r)
 |--
-  EX tr2 : tree, EX tr1 : tree, EX r_2 : Int, EX l_2 : Int, EX h_2 : Int, EX v_2 : Int, EX k_2 : Int, EX tr_2 : tree, EX tr : tree,
+  EX tr : tree, EX tr_2 : tree, EX k_2 : Int, EX v_2 : Int, EX h_2 : Int, EX l_2 : Int, EX r_2 : Int, EX tr1 : tree, EX tr2 : tree,
   “ (h <= 255) ” &&
   “ (h >= (0 : Int)) ” &&
   “ (h_2 <= 255) ” &&
@@ -1079,8 +1107,8 @@ noncomputable def rotateL_partial_solve_wit_3 : Prop :=
 
 noncomputable def rotateL_partial_solve_wit_4 : Prop :=
   forall (root_pre : Int) (h : Int) (v : Int) (k : Int) (r : Int) (l : Int) (tr : tree) (tr_2 : tree) (k_2 : Int) (v_2 : Int) (h_2 : Int) (l_2 : Int) (r_2 : Int) (tr1 : tree) (tr2 : tree) (PreH1 : (h <= 255)) (PreH2 : (h >= (0 : Int))) (PreH3 : (h_2 <= 255)) (PreH4 : (h_2 >= (0 : Int))) (PreH5 : (tr_2 = (make_tree (tr1) (tr2)))) (PreH6 : (r ≠ (0 : Int))) (PreH7 : (root_pre ≠ (0 : Int))) ,
-  (single_tree_node root_pre k v h l l_2)
-  ** (single_tree_node r k_2 v_2 h_2 l_2 r_2)
+  (single_tree_node r k_2 v_2 h_2 l_2 r_2)
+  ** (single_tree_node root_pre k v h l l_2)
   ** (store_tree r_2 tr2)
   ** (store_tree l_2 tr1)
   ** (store_tree l tr)
@@ -1093,15 +1121,15 @@ noncomputable def rotateL_partial_solve_wit_4 : Prop :=
   “ (r ≠ (0 : Int)) ” &&
   “ (root_pre ≠ (0 : Int)) ”
   &&  ((&((r # "tree")  ->ₛ "lchild")) # Ptr |->_)
-  ** ((&((r # "tree")  ->ₛ "rchild")) # Ptr |-> (r_2))
-  ** ((&((r # "tree")  ->ₛ "height")) # UChar |-> (h_2))
-  ** ((&((r # "tree")  ->ₛ "value")) # Int |-> (v_2))
-  ** ((&((r # "tree")  ->ₛ "key")) # Int |-> (k_2))
   ** ((&((root_pre # "tree")  ->ₛ "rchild")) # Ptr |-> (l_2))
   ** ((&((root_pre # "tree")  ->ₛ "lchild")) # Ptr |-> (l))
   ** ((&((root_pre # "tree")  ->ₛ "height")) # UChar |-> (h))
   ** ((&((root_pre # "tree")  ->ₛ "value")) # Int |-> (v))
   ** ((&((root_pre # "tree")  ->ₛ "key")) # Int |-> (k))
+  ** ((&((r # "tree")  ->ₛ "rchild")) # Ptr |-> (r_2))
+  ** ((&((r # "tree")  ->ₛ "height")) # UChar |-> (h_2))
+  ** ((&((r # "tree")  ->ₛ "value")) # Int |-> (v_2))
+  ** ((&((r # "tree")  ->ₛ "key")) # Int |-> (k_2))
   ** (store_tree r_2 tr2)
   ** (store_tree l_2 tr1)
   ** (store_tree l tr)
@@ -1135,7 +1163,7 @@ noncomputable def rotateL_partial_solve_wit_6 : Prop :=
   ** (store_non_empty_tree root_pre)
   ** (store_tree r_2 tr2)
 |--
-  EX tr2_2 : tree, EX tr1_2 : tree, EX h_3 : Int, EX tr_2 : tree,
+  EX tr_2 : tree, EX h_3 : Int, EX tr1_2 : tree, EX tr2_2 : tree,
   “ (h_3 <= 255) ” &&
   “ (h_3 >= (0 : Int)) ” &&
   “ (tr_2 = (make_tree (tr1_2) (tr2_2))) ” &&
@@ -1164,7 +1192,7 @@ noncomputable def rotateRL_partial_solve_wit_1 : Prop :=
   ** (store_non_empty_tree l1)
   ** (store_tree_shape r1)
 |--
-  EX tr2 : tree, EX tr1 : tree, EX r_2 : Int, EX l_2 : Int, EX h_2 : Int, EX v_2 : Int, EX k_2 : Int, EX tr_3 : tree, EX tr_2 : tree, EX tr : tree,
+  EX tr : tree, EX tr_2 : tree, EX tr_3 : tree, EX k_2 : Int, EX v_2 : Int, EX h_2 : Int, EX l_2 : Int, EX r_2 : Int, EX tr1 : tree, EX tr2 : tree,
   “ (h1 <= 255) ” &&
   “ (h1 >= (0 : Int)) ” &&
   “ (h <= 255) ” &&
@@ -1247,7 +1275,7 @@ noncomputable def rotateRL_partial_solve_wit_3 : Prop :=
   ** (store_non_empty_tree l1)
   ** (store_tree l tr)
 |--
-  EX tr2_2 : tree, EX tr1_2 : tree, EX r_2 : Int, EX l_2 : Int, EX h_3 : Int, EX v_2 : Int, EX k_2 : Int, EX tr_3 : tree,
+  EX tr_3 : tree, EX k_2 : Int, EX v_2 : Int, EX h_3 : Int, EX l_2 : Int, EX r_2 : Int, EX tr1_2 : tree, EX tr2_2 : tree,
   “ (h_3 <= 255) ” &&
   “ (h_3 >= (0 : Int)) ” &&
   “ (tr_3 = (make_tree (tr1_2) (tr2_2))) ” &&
@@ -1280,8 +1308,8 @@ noncomputable def rotateRL_partial_solve_wit_3 : Prop :=
 noncomputable def rotateRL_partial_solve_wit_4_pure : Prop :=
   forall (root_pre : Int) (l1 : Int) (h1 : Int) (r : Int) (l : Int) (h : Int) (v : Int) (k : Int) (tr : tree) (tr_2 : tree) (h_2 : Int) (tr1 : tree) (tr2 : tree) (retval : Int) (tr_3 : tree) (k_2 : Int) (v_2 : Int) (h_3 : Int) (l_2 : Int) (r_2 : Int) (tr1_2 : tree) (tr2_2 : tree) (PreH1 : (h_3 <= 255)) (PreH2 : (h_3 >= (0 : Int))) (PreH3 : (tr_3 = (make_tree (tr1_2) (tr2_2)))) (PreH4 : (l1 ≠ (0 : Int))) (PreH5 : (retval = l1)) (PreH6 : (h1 <= 255)) (PreH7 : (h1 >= (0 : Int))) (PreH8 : (h <= 255)) (PreH9 : (h >= (0 : Int))) (PreH10 : (h_2 <= 255)) (PreH11 : (h_2 >= (0 : Int))) (PreH12 : (tr_2 = (make_tree (tr1) (tr2)))) (PreH13 : (l1 ≠ (0 : Int))) (PreH14 : (root_pre ≠ (0 : Int))) (PreH15 : (r ≠ (0 : Int))) ,
   ((( &( "temp" ) )) # Ptr |->_)
-  ** (single_tree_node root_pre k v h l retval)
   ** (single_tree_node l1 k_2 v_2 h_3 l_2 r_2)
+  ** (single_tree_node root_pre k v h l retval)
   ** (store_tree r_2 tr2_2)
   ** (store_tree l_2 tr1_2)
   ** (store_tree l tr)
@@ -1291,8 +1319,8 @@ noncomputable def rotateRL_partial_solve_wit_4_pure : Prop :=
 
 noncomputable def rotateRL_partial_solve_wit_4_aux : Prop :=
   forall (root_pre : Int) (l1 : Int) (h1 : Int) (r : Int) (l : Int) (h : Int) (v : Int) (k : Int) (tr : tree) (tr_2 : tree) (h_2 : Int) (tr1 : tree) (tr2 : tree) (retval : Int) (tr_3 : tree) (k_2 : Int) (v_2 : Int) (h_3 : Int) (l_2 : Int) (r_2 : Int) (tr1_2 : tree) (tr2_2 : tree) (PreH1 : (h_3 <= 255)) (PreH2 : (h_3 >= (0 : Int))) (PreH3 : (tr_3 = (make_tree (tr1_2) (tr2_2)))) (PreH4 : (l1 ≠ (0 : Int))) (PreH5 : (retval = l1)) (PreH6 : (h1 <= 255)) (PreH7 : (h1 >= (0 : Int))) (PreH8 : (h <= 255)) (PreH9 : (h >= (0 : Int))) (PreH10 : (h_2 <= 255)) (PreH11 : (h_2 >= (0 : Int))) (PreH12 : (tr_2 = (make_tree (tr1) (tr2)))) (PreH13 : (l1 ≠ (0 : Int))) (PreH14 : (root_pre ≠ (0 : Int))) (PreH15 : (r ≠ (0 : Int))) ,
-  (single_tree_node root_pre k v h l retval)
-  ** (single_tree_node l1 k_2 v_2 h_3 l_2 r_2)
+  (single_tree_node l1 k_2 v_2 h_3 l_2 r_2)
+  ** (single_tree_node root_pre k v h l retval)
   ** (store_tree r_2 tr2_2)
   ** (store_tree l_2 tr1_2)
   ** (store_tree l tr)
@@ -1334,7 +1362,7 @@ noncomputable def rotateLR_partial_solve_wit_1 : Prop :=
   ** (store_tree_shape l1)
   ** (store_non_empty_tree r1)
 |--
-  EX tr2 : tree, EX tr1 : tree, EX r_2 : Int, EX l_2 : Int, EX h_2 : Int, EX v_2 : Int, EX k_2 : Int, EX tr_3 : tree, EX tr_2 : tree, EX tr : tree,
+  EX tr : tree, EX tr_2 : tree, EX tr_3 : tree, EX k_2 : Int, EX v_2 : Int, EX h_2 : Int, EX l_2 : Int, EX r_2 : Int, EX tr1 : tree, EX tr2 : tree,
   “ (h1 <= 255) ” &&
   “ (h1 >= (0 : Int)) ” &&
   “ (h <= 255) ” &&
@@ -1417,7 +1445,7 @@ noncomputable def rotateLR_partial_solve_wit_3 : Prop :=
   ** (store_non_empty_tree r1)
   ** (store_tree r tr)
 |--
-  EX tr2_2 : tree, EX tr1_2 : tree, EX r_2 : Int, EX l_2 : Int, EX h_3 : Int, EX v_2 : Int, EX k_2 : Int, EX tr_3 : tree,
+  EX tr_3 : tree, EX k_2 : Int, EX v_2 : Int, EX h_3 : Int, EX l_2 : Int, EX r_2 : Int, EX tr1_2 : tree, EX tr2_2 : tree,
   “ (h_3 <= 255) ” &&
   “ (h_3 >= (0 : Int)) ” &&
   “ (tr_3 = (make_tree (tr1_2) (tr2_2))) ” &&
@@ -1450,8 +1478,8 @@ noncomputable def rotateLR_partial_solve_wit_3 : Prop :=
 noncomputable def rotateLR_partial_solve_wit_4_pure : Prop :=
   forall (root_pre : Int) (r1 : Int) (h1 : Int) (r : Int) (l : Int) (h : Int) (v : Int) (k : Int) (tr : tree) (tr_2 : tree) (h_2 : Int) (tr1 : tree) (tr2 : tree) (retval : Int) (tr_3 : tree) (k_2 : Int) (v_2 : Int) (h_3 : Int) (l_2 : Int) (r_2 : Int) (tr1_2 : tree) (tr2_2 : tree) (PreH1 : (h_3 <= 255)) (PreH2 : (h_3 >= (0 : Int))) (PreH3 : (tr_3 = (make_tree (tr1_2) (tr2_2)))) (PreH4 : (r1 ≠ (0 : Int))) (PreH5 : (retval = r1)) (PreH6 : (h1 <= 255)) (PreH7 : (h1 >= (0 : Int))) (PreH8 : (h <= 255)) (PreH9 : (h >= (0 : Int))) (PreH10 : (h_2 <= 255)) (PreH11 : (h_2 >= (0 : Int))) (PreH12 : (tr_2 = (make_tree (tr1) (tr2)))) (PreH13 : (r1 ≠ (0 : Int))) (PreH14 : (root_pre ≠ (0 : Int))) (PreH15 : (l ≠ (0 : Int))) ,
   ((( &( "temp" ) )) # Ptr |->_)
-  ** (single_tree_node root_pre k v h retval r)
   ** (single_tree_node r1 k_2 v_2 h_3 l_2 r_2)
+  ** (single_tree_node root_pre k v h retval r)
   ** (store_tree r_2 tr2_2)
   ** (store_tree l_2 tr1_2)
   ** (store_tree r tr)
@@ -1461,8 +1489,8 @@ noncomputable def rotateLR_partial_solve_wit_4_pure : Prop :=
 
 noncomputable def rotateLR_partial_solve_wit_4_aux : Prop :=
   forall (root_pre : Int) (r1 : Int) (h1 : Int) (r : Int) (l : Int) (h : Int) (v : Int) (k : Int) (tr : tree) (tr_2 : tree) (h_2 : Int) (tr1 : tree) (tr2 : tree) (retval : Int) (tr_3 : tree) (k_2 : Int) (v_2 : Int) (h_3 : Int) (l_2 : Int) (r_2 : Int) (tr1_2 : tree) (tr2_2 : tree) (PreH1 : (h_3 <= 255)) (PreH2 : (h_3 >= (0 : Int))) (PreH3 : (tr_3 = (make_tree (tr1_2) (tr2_2)))) (PreH4 : (r1 ≠ (0 : Int))) (PreH5 : (retval = r1)) (PreH6 : (h1 <= 255)) (PreH7 : (h1 >= (0 : Int))) (PreH8 : (h <= 255)) (PreH9 : (h >= (0 : Int))) (PreH10 : (h_2 <= 255)) (PreH11 : (h_2 >= (0 : Int))) (PreH12 : (tr_2 = (make_tree (tr1) (tr2)))) (PreH13 : (r1 ≠ (0 : Int))) (PreH14 : (root_pre ≠ (0 : Int))) (PreH15 : (l ≠ (0 : Int))) ,
-  (single_tree_node root_pre k v h retval r)
-  ** (single_tree_node r1 k_2 v_2 h_3 l_2 r_2)
+  (single_tree_node r1 k_2 v_2 h_3 l_2 r_2)
+  ** (single_tree_node root_pre k v h retval r)
   ** (store_tree r_2 tr2_2)
   ** (store_tree l_2 tr1_2)
   ** (store_tree r tr)
@@ -1756,7 +1784,7 @@ noncomputable def balance_factor_partial_solve_wit_1 : Prop :=
   forall (root_pre : Int) (PreH1 : (root_pre ≠ (0 : Int))) ,
   (store_tree_shape root_pre)
 |--
-  EX tr2 : tree, EX tr1 : tree, EX r : Int, EX l : Int, EX h : Int, EX v : Int, EX k : Int, EX tr : tree,
+  EX tr : tree, EX k : Int, EX v : Int, EX h : Int, EX l : Int, EX r : Int, EX tr1 : tree, EX tr2 : tree,
   “ (h <= 255) ” &&
   “ (h >= (0 : Int)) ” &&
   “ (tr = (make_tree (tr1) (tr2))) ” &&
@@ -1777,7 +1805,7 @@ noncomputable def balance_factor_partial_solve_wit_2 : Prop :=
   ** (store_tree r tr2)
   ** (store_tree l tr1)
 |--
-  EX tr2_2 : tree, EX tr1_2 : tree, EX r_2 : Int, EX l_2 : Int, EX h_2 : Int, EX v_2 : Int, EX k_2 : Int,
+  EX k_2 : Int, EX v_2 : Int, EX h_2 : Int, EX l_2 : Int, EX r_2 : Int, EX tr1_2 : tree, EX tr2_2 : tree,
   “ (h_2 <= 255) ” &&
   “ (h_2 >= (0 : Int)) ” &&
   “ (tr1 = (make_tree (tr1_2) (tr2_2))) ” &&
@@ -1895,7 +1923,7 @@ noncomputable def balance_factor_partial_solve_wit_6 : Prop :=
   ** (store_tree l_2 tr1_2)
   ** (store_tree r tr2)
 |--
-  EX tr2_3 : tree, EX tr1_3 : tree, EX r_3 : Int, EX l_3 : Int, EX h_3 : Int, EX v_3 : Int, EX k_3 : Int,
+  EX k_3 : Int, EX v_3 : Int, EX h_3 : Int, EX l_3 : Int, EX r_3 : Int, EX tr1_3 : tree, EX tr2_3 : tree,
   “ (h_3 <= 255) ” &&
   “ (h_3 >= (0 : Int)) ” &&
   “ (tr2 = (make_tree (tr1_3) (tr2_3))) ” &&
@@ -1979,7 +2007,7 @@ noncomputable def balance_factor_partial_solve_wit_8 : Prop :=
   (single_tree_node root_pre k v h l r)
   ** (store_tree r tr2)
 |--
-  EX tr2_2 : tree, EX tr1_2 : tree, EX r_2 : Int, EX l_2 : Int, EX h_2 : Int, EX v_2 : Int, EX k_2 : Int,
+  EX k_2 : Int, EX v_2 : Int, EX h_2 : Int, EX l_2 : Int, EX r_2 : Int, EX tr1_2 : tree, EX tr2_2 : tree,
   “ (h_2 <= 255) ” &&
   “ (h_2 >= (0 : Int)) ” &&
   “ (tr2 = (make_tree (tr1_2) (tr2_2))) ” &&
@@ -3563,7 +3591,7 @@ noncomputable def balance_partial_solve_wit_2 : Prop :=
   ** (store_tree_shape r)
   ** ((p_pre) # Ptr |-> (p_pre_v))
 |--
-  EX tr2 : tree, EX tr1 : tree, EX r_2 : Int, EX l_2 : Int, EX h_2 : Int, EX v_2 : Int, EX k_2 : Int, EX tr_2 : tree, EX tr : tree,
+  EX tr : tree, EX tr_2 : tree, EX k_2 : Int, EX v_2 : Int, EX h_2 : Int, EX l_2 : Int, EX r_2 : Int, EX tr1 : tree, EX tr2 : tree,
   “ (h <= 255) ” &&
   “ (h >= (0 : Int)) ” &&
   “ (h_2 <= 255) ” &&
@@ -3622,7 +3650,7 @@ noncomputable def balance_partial_solve_wit_4 : Prop :=
   ** (store_non_empty_tree r)
   ** ((p_pre) # Ptr |-> (p_pre_v))
 |--
-  EX tr2_2 : tree, EX tr1_2 : tree, EX r_3 : Int, EX l_3 : Int, EX h_3 : Int, EX v_3 : Int, EX k_3 : Int, EX tr_2 : tree, EX tr2 : tree, EX tr1 : tree, EX r_2 : Int, EX l_2 : Int, EX h_2 : Int, EX v_2 : Int, EX k_2 : Int, EX tr : tree,
+  EX tr : tree, EX k_2 : Int, EX v_2 : Int, EX h_2 : Int, EX l_2 : Int, EX r_2 : Int, EX tr1 : tree, EX tr2 : tree, EX tr_2 : tree, EX k_3 : Int, EX v_3 : Int, EX h_3 : Int, EX l_3 : Int, EX r_3 : Int, EX tr1_2 : tree, EX tr2_2 : tree,
   “ (h <= 255) ” &&
   “ (h >= (0 : Int)) ” &&
   “ (h_2 <= 255) ” &&
@@ -3722,7 +3750,7 @@ noncomputable def balance_partial_solve_wit_6_aux : Prop :=
   ** (store_tree r tr)
   ** ((p_pre) # Ptr |-> (p_pre_v))
 |--
-  EX tr2_2 : tree, EX tr1_2 : tree, EX h_4 : Int, EX tr_3 : tree,
+  EX tr_3 : tree, EX h_4 : Int, EX tr1_2 : tree, EX tr2_2 : tree,
   “ (p_pre_v ≠ (0 : Int)) ” &&
   “ (h_3 <= 255) ” &&
   “ (h_3 >= (0 : Int)) ” &&
@@ -3775,7 +3803,7 @@ noncomputable def balance_partial_solve_wit_7_aux : Prop :=
   ** (store_tree r tr)
   ** ((p_pre) # Ptr |-> (p_pre_v))
 |--
-  EX tr2_3 : tree, EX tr1_3 : tree, EX h_5 : Int, EX tr_4 : tree, EX tr2_2 : tree, EX tr1_2 : tree, EX h_4 : Int, EX tr_3 : tree,
+  EX tr_3 : tree, EX h_4 : Int, EX tr1_2 : tree, EX tr2_2 : tree, EX tr_4 : tree, EX h_5 : Int, EX tr1_3 : tree, EX tr2_3 : tree,
   “ (p_pre_v ≠ (0 : Int)) ” &&
   “ (h_3 <= 255) ” &&
   “ (h_3 >= (0 : Int)) ” &&
@@ -3836,7 +3864,7 @@ noncomputable def balance_partial_solve_wit_8_aux : Prop :=
   ** (store_tree l_2 tr1_2)
   ** ((p_pre) # Ptr |-> (p_pre_v))
 |--
-  EX tr2_3 : tree, EX tr1_3 : tree, EX h_5 : Int, EX tr_3 : tree,
+  EX tr_3 : tree, EX h_5 : Int, EX tr1_3 : tree, EX tr2_3 : tree,
   “ (p_pre_v ≠ (0 : Int)) ” &&
   “ (h_4 <= 255) ” &&
   “ (h_4 >= (0 : Int)) ” &&
@@ -3897,7 +3925,7 @@ noncomputable def balance_partial_solve_wit_9_aux : Prop :=
   ** (store_tree l_2 tr1_2)
   ** ((p_pre) # Ptr |-> (p_pre_v))
 |--
-  EX tr2_4 : tree, EX tr1_4 : tree, EX h_6 : Int, EX tr_4 : tree, EX tr2_3 : tree, EX tr1_3 : tree, EX h_5 : Int, EX tr_3 : tree,
+  EX tr_3 : tree, EX h_5 : Int, EX tr1_3 : tree, EX tr2_3 : tree, EX tr_4 : tree, EX h_6 : Int, EX tr1_4 : tree, EX tr2_4 : tree,
   “ (p_pre_v ≠ (0 : Int)) ” &&
   “ (h_4 <= 255) ” &&
   “ (h_4 >= (0 : Int)) ” &&
@@ -4012,7 +4040,7 @@ noncomputable def balance_partial_solve_wit_11_aux : Prop :=
   ** (store_tree r tr)
   ** ((p_pre) # Ptr |-> (p_pre_v))
 |--
-  EX tr2_2 : tree, EX tr1_2 : tree, EX h_4 : Int, EX tr_3 : tree,
+  EX tr_3 : tree, EX h_4 : Int, EX tr1_2 : tree, EX tr2_2 : tree,
   “ (p_pre_v ≠ (0 : Int)) ” &&
   “ (l ≠ (0 : Int)) ” &&
   “ (h_3 <= 255) ” &&
@@ -4135,7 +4163,7 @@ noncomputable def balance_partial_solve_wit_13_aux : Prop :=
   ** (store_tree l_2 tr1_2)
   ** ((p_pre) # Ptr |-> (p_pre_v))
 |--
-  EX tr2_3 : tree, EX tr1_3 : tree, EX h_5 : Int, EX tr_3 : tree,
+  EX tr_3 : tree, EX h_5 : Int, EX tr1_3 : tree, EX tr2_3 : tree,
   “ (p_pre_v ≠ (0 : Int)) ” &&
   “ (l ≠ (0 : Int)) ” &&
   “ (h_4 <= 255) ” &&
@@ -4177,7 +4205,7 @@ noncomputable def balance_partial_solve_wit_14 : Prop :=
   ** (store_non_empty_tree r)
   ** ((p_pre) # Ptr |-> (p_pre_v))
 |--
-  EX tr2 : tree, EX tr1 : tree, EX r_2 : Int, EX l_2 : Int, EX h_2 : Int, EX v_2 : Int, EX k_2 : Int, EX tr_2 : tree, EX tr : tree,
+  EX tr : tree, EX tr_2 : tree, EX k_2 : Int, EX v_2 : Int, EX h_2 : Int, EX l_2 : Int, EX r_2 : Int, EX tr1 : tree, EX tr2 : tree,
   “ (h <= 255) ” &&
   “ (h >= (0 : Int)) ” &&
   “ (h_2 <= 255) ” &&
@@ -4238,7 +4266,7 @@ noncomputable def balance_partial_solve_wit_16 : Prop :=
   ** (store_non_empty_tree r)
   ** ((p_pre) # Ptr |-> (p_pre_v))
 |--
-  EX tr2_2 : tree, EX tr1_2 : tree, EX r_3 : Int, EX l_3 : Int, EX h_3 : Int, EX v_3 : Int, EX k_3 : Int, EX tr_2 : tree, EX tr2 : tree, EX tr1 : tree, EX r_2 : Int, EX l_2 : Int, EX h_2 : Int, EX v_2 : Int, EX k_2 : Int, EX tr : tree,
+  EX tr : tree, EX k_2 : Int, EX v_2 : Int, EX h_2 : Int, EX l_2 : Int, EX r_2 : Int, EX tr1 : tree, EX tr2 : tree, EX tr_2 : tree, EX k_3 : Int, EX v_3 : Int, EX h_3 : Int, EX l_3 : Int, EX r_3 : Int, EX tr1_2 : tree, EX tr2_2 : tree,
   “ (h <= 255) ” &&
   “ (h >= (0 : Int)) ” &&
   “ (h_2 <= 255) ” &&
@@ -4340,7 +4368,7 @@ noncomputable def balance_partial_solve_wit_18_aux : Prop :=
   ** (store_tree l tr)
   ** ((p_pre) # Ptr |-> (p_pre_v))
 |--
-  EX tr2_2 : tree, EX tr1_2 : tree, EX h_4 : Int, EX tr_3 : tree,
+  EX tr_3 : tree, EX h_4 : Int, EX tr1_2 : tree, EX tr2_2 : tree,
   “ (p_pre_v ≠ (0 : Int)) ” &&
   “ (h_3 <= 255) ” &&
   “ (h_3 >= (0 : Int)) ” &&
@@ -4394,7 +4422,7 @@ noncomputable def balance_partial_solve_wit_19_aux : Prop :=
   ** (store_tree l tr)
   ** ((p_pre) # Ptr |-> (p_pre_v))
 |--
-  EX tr2_3 : tree, EX tr1_3 : tree, EX h_5 : Int, EX tr_4 : tree, EX tr2_2 : tree, EX tr1_2 : tree, EX h_4 : Int, EX tr_3 : tree,
+  EX tr_3 : tree, EX h_4 : Int, EX tr1_2 : tree, EX tr2_2 : tree, EX tr_4 : tree, EX h_5 : Int, EX tr1_3 : tree, EX tr2_3 : tree,
   “ (p_pre_v ≠ (0 : Int)) ” &&
   “ (h_3 <= 255) ” &&
   “ (h_3 >= (0 : Int)) ” &&
@@ -4456,7 +4484,7 @@ noncomputable def balance_partial_solve_wit_20_aux : Prop :=
   ** (store_tree l_2 tr1)
   ** ((p_pre) # Ptr |-> (p_pre_v))
 |--
-  EX tr2_3 : tree, EX tr1_3 : tree, EX h_5 : Int, EX tr_3 : tree,
+  EX tr_3 : tree, EX h_5 : Int, EX tr1_3 : tree, EX tr2_3 : tree,
   “ (p_pre_v ≠ (0 : Int)) ” &&
   “ (h_4 <= 255) ” &&
   “ (h_4 >= (0 : Int)) ” &&
@@ -4518,7 +4546,7 @@ noncomputable def balance_partial_solve_wit_21_aux : Prop :=
   ** (store_tree l_2 tr1)
   ** ((p_pre) # Ptr |-> (p_pre_v))
 |--
-  EX tr2_4 : tree, EX tr1_4 : tree, EX h_6 : Int, EX tr_4 : tree, EX tr2_3 : tree, EX tr1_3 : tree, EX h_5 : Int, EX tr_3 : tree,
+  EX tr_3 : tree, EX h_5 : Int, EX tr1_3 : tree, EX tr2_3 : tree, EX tr_4 : tree, EX h_6 : Int, EX tr1_4 : tree, EX tr2_4 : tree,
   “ (p_pre_v ≠ (0 : Int)) ” &&
   “ (h_4 <= 255) ” &&
   “ (h_4 >= (0 : Int)) ” &&
@@ -4635,7 +4663,7 @@ noncomputable def balance_partial_solve_wit_23_aux : Prop :=
   ** (store_tree l tr)
   ** ((p_pre) # Ptr |-> (p_pre_v))
 |--
-  EX tr2_2 : tree, EX tr1_2 : tree, EX h_4 : Int, EX tr_3 : tree,
+  EX tr_3 : tree, EX h_4 : Int, EX tr1_2 : tree, EX tr2_2 : tree,
   “ (p_pre_v ≠ (0 : Int)) ” &&
   “ (r ≠ (0 : Int)) ” &&
   “ (h_3 <= 255) ” &&
@@ -4760,7 +4788,7 @@ noncomputable def balance_partial_solve_wit_25_aux : Prop :=
   ** (store_tree l_2 tr1)
   ** ((p_pre) # Ptr |-> (p_pre_v))
 |--
-  EX tr2_3 : tree, EX tr1_3 : tree, EX h_5 : Int, EX tr_3 : tree,
+  EX tr_3 : tree, EX h_5 : Int, EX tr1_3 : tree, EX tr2_3 : tree,
   “ (p_pre_v ≠ (0 : Int)) ” &&
   “ (r ≠ (0 : Int)) ” &&
   “ (h_4 <= 255) ” &&
@@ -4913,7 +4941,7 @@ noncomputable def insert_partial_solve_wit_2 : Prop :=
   ((p_pre) # Ptr |-> (p_pre_v))
   ** (store_tree_shape p_pre_v)
 |--
-  EX k : Int, EX tr2 : tree, EX tr1 : tree, EX r : Int, EX l : Int, EX h : Int, EX v : Int, EX tr : tree,
+  EX tr : tree, EX k : Int, EX v : Int, EX h : Int, EX l : Int, EX r : Int, EX tr1 : tree, EX tr2 : tree,
   “ (h <= 255) ” &&
   “ (h >= (0 : Int)) ” &&
   “ (tr = (make_tree (tr1) (tr2))) ” &&
@@ -5027,7 +5055,7 @@ noncomputable def insert_partial_solve_wit_8 : Prop :=
   (store_non_empty_tree p_pre_v)
   ** ((p_pre) # Ptr |-> (p_pre_v))
 |--
-  EX tr2_2 : tree, EX tr1_2 : tree, EX h_2 : Int, EX tr_2 : tree,
+  EX tr_2 : tree, EX h_2 : Int, EX tr1_2 : tree, EX tr2_2 : tree,
   “ (h_2 <= 255) ” &&
   “ (h_2 >= (0 : Int)) ” &&
   “ (tr_2 = (make_tree (tr1_2) (tr2_2))) ” &&
@@ -5045,7 +5073,7 @@ noncomputable def insert_partial_solve_wit_9 : Prop :=
   (store_non_empty_tree p_pre_v)
   ** ((p_pre) # Ptr |-> (p_pre_v))
 |--
-  EX tr2_2 : tree, EX tr1_2 : tree, EX h_2 : Int, EX tr_2 : tree,
+  EX tr_2 : tree, EX h_2 : Int, EX tr1_2 : tree, EX tr2_2 : tree,
   “ (h_2 <= 255) ” &&
   “ (h_2 >= (0 : Int)) ” &&
   “ (tr_2 = (make_tree (tr1_2) (tr2_2))) ” &&

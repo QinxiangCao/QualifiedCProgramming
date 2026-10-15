@@ -1,4 +1,7 @@
-
+/*@ Import Lean
+import SimpleC.EE.LLM_bench.Algorithms.maximum_subarray.maximum_subarray_lib
+open SimpleC.EE.LLM_bench.Algorithms.maximum_subarray.maximum_subarray_lib
+*/
 
 /*@ Extern Coq
       (Forall : {A} -> (A -> Prop) -> list A -> Prop)

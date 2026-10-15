@@ -42,6 +42,10 @@ instance state_rel_monad (Sigma : Type u) : Monad (MonadErr.M Sigma) where
 abbrev program := MonadErr.M
 abbrev MONAD (A : Type) := program Unit A
 
+/-- Backend-independent recursive construction, implemented by `BW_fix`. -/
+@[irreducible] def Rec {X : Type u} [OmegaLub X] [Bot X] (F : X -> X) : X :=
+  BW_fix F
+
 abbrev step (Sigma : Type u) := Sigma -> Sigma -> Prop
 
 def step_to_program {Sigma : Type u} (m : step Sigma) : program Sigma Unit where
@@ -108,8 +112,8 @@ def if_else {Sigma : Type u} {A : Type} (cond : Sigma -> Prop)
 namespace MonadNotation
 
 scoped notation "skip" => MonadErr.ret ()
-scoped notation:50 "assume!! " P:50 => testPure P
-scoped notation:50 "assume " P:50 => test P
+scoped notation:62 "assume!! " P:63 => testPure P
+scoped notation:62 "assume " P:63 => test P
 
 end MonadNotation
 
@@ -161,6 +165,12 @@ instance Equivalence_program {Sigma : Type u} {A : Type} :
     fun _ => (h.errequiv _).symm⟩
   trans _ _ _ h1 h2 := ⟨fun s a s' => (h1.nrmequiv s a s').trans (h2.nrmequiv s a s'),
     fun s => (h1.errequiv s).trans (h2.errequiv s)⟩
+
+instance Equivalence_program_rel {Sigma : Type u} {A : Type} :
+    AUXLib.Equivalence (@ProgramPO.equiv Sigma A) where
+  refl := Equivalence_program.refl
+  symm := Equivalence_program.symm
+  trans := Equivalence_program.trans
 
 instance program_order {Sigma : Type u} {A : Type} : Order (program Sigma A) where
   order_rel := ProgramPO.order

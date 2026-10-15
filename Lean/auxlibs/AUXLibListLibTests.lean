@@ -93,12 +93,44 @@ import AUXLib.ListLib
 #check AUXLib.interval_list_valid3
 #check AUXLib.Zlist_max
 #check AUXLib.interval_perm_keep
+#check AUXLib.increasing_aux
 #check AUXLib.increasing
-#check AUXLib.increasing_nil
-#check AUXLib.increasing_cons
+#check AUXLib.increasing_aux_tail_increasing
+#check AUXLib.increasing_aux_head_le_all_In
+#check AUXLib.decreasing_aux
+#check AUXLib.decreasing
+#check AUXLib.decreasing_aux_tail_decreasing
+#check AUXLib.decreasing_aux_head_ge_all_In
+#check AUXLib.strict_decreasing_aux
+#check AUXLib.strict_decreasing
+#check AUXLib.strict_decreasing_aux_tail_strict_decreasing
+#check AUXLib.strict_decreasing_aux_head_gt_all_In
+#check AUXLib.upperbound
+#check AUXLib.upper_bound
+#check AUXLib.strict_upperbound
+#check AUXLib.lowerbound
+#check AUXLib.lower_bound
+#check AUXLib.strict_lowerbound
+#check AUXLib.prefix_suffix_sorted
+#check AUXLib.upperbound_Znth
+#check AUXLib.lowerbound_Znth
+#check AUXLib.upperbound_intro_Znth
+#check AUXLib.lowerbound_intro_Znth
+#check AUXLib.strict_upperbound_app
+#check AUXLib.upperbound_app
+#check AUXLib.strict_lowerbound_cons
+#check AUXLib.lowerbound_app_cons
+#check AUXLib.lowerbound_trans
+#check AUXLib.lowerbound_perm
+#check AUXLib.upperbound_sublist_elim
+#check AUXLib.upperbound_sublist_intro
+#check AUXLib.lowerbound_sublist_elim
+#check AUXLib.lowerbound_sublist_intro
 #check AUXLib.list_insert
 #check AUXLib.sort
 #check AUXLib.list_insert_In
+#check AUXLib.increasing_aux_list_insert
+#check AUXLib.increasing_list_insert
 #check AUXLib.sort_list_increasing
 #check AUXLib.list_insert_perm
 #check AUXLib.sort_list_perm
@@ -154,6 +186,25 @@ example : factorial 5 = 120 := by native_decide
 example : zeros (-3) = [] := by native_decide
 example : sum [3, -5, 7] = 5 := by native_decide
 example : sort [3, -1, 2, -1] = [-1, -1, 2, 3] := by native_decide
+example : increasing ([] : List Int) := by trivial
+example : increasing [1, 1, 2] := by simp [increasing, increasing_aux]
+example : Not (increasing [2, 1]) := by simp [increasing, increasing_aux]
+example : decreasing [3, 3, 1] := by simp [decreasing, decreasing_aux]
+example : Not (decreasing [1, 2]) := by simp [decreasing, decreasing_aux]
+example : strict_decreasing [3, 2, 1] := by
+  simp [strict_decreasing, strict_decreasing_aux]
+example : Not (strict_decreasing [3, 3]) := by
+  simp [strict_decreasing, strict_decreasing_aux]
+example : upperbound 4 [1, 4, -2] := by simp [upperbound]
+example : strict_upperbound 4 [1, 3, -2] := by simp [strict_upperbound]
+example : lowerbound 1 [1, 4, 2] := by simp [lowerbound]
+example : strict_lowerbound 1 [2, 4, 3] := by simp [strict_lowerbound]
+example : prefix_suffix_sorted [1, 2] [2, 4, 3] := by
+  simp [prefix_suffix_sorted, lowerbound]
+example : upperbound 4 (sublist 1 3 [9, 2, 4, 8]) := by
+  simp [sublist, upperbound]
+example : lowerbound 2 (sublist 1 3 [0, 2, 4, 1]) := by
+  simp [sublist, lowerbound]
 example : replace_Znth (-7) 9 [1, 2, 3] = [9, 2, 3] := by native_decide
 example : Zlength (replace_Znth 10 9 [1, 2, 3]) = 3 := by native_decide
 
@@ -240,4 +291,6 @@ example : Zlength ([1, 2] ++ [3, 4] : List Int) =
 #print axioms AUXLib.inverse_nperm_compose_refl1
 #print axioms AUXLib.sum_bound
 #print axioms AUXLib.interval_perm_keep
+#print axioms AUXLib.increasing_aux_head_le_all_In
+#print axioms AUXLib.lowerbound_sublist_intro
 #print axioms AUXLib.interval_list_range

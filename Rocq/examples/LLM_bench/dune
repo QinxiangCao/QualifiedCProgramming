@@ -1,21 +1,12 @@
+; Dune 3.16 passes every source in a theory to one coqdep process. Keep
+; the sources in separate child theories to stay below Windows' 32767
+; character process-command limit, while retaining this public umbrella.
 (coq.theory
  (name SimpleC.EE.LLM_bench)
  (theories
-  Algorithms
-  AUXLib
-  FP
-  GraphLib
-  ListLib
-  Logic
-  MaxMinLib
-  MonadLib
-  RecordUpdate
-  SetsClass
-  SimpleC.Common
-  SimpleC.EE.QCP_demos_LLM
-  SimpleC.SL
-  SimpleC.StdLib
-  SumLib
-  compcert.lib))
-
-(include_subdirs qualified)
+  SimpleC.EE.LLM_bench.Algorithms
+  SimpleC.EE.LLM_bench.Codeforces
+  SimpleC.EE.LLM_bench.Codeforces.examples_shard00
+  SimpleC.EE.LLM_bench.Codeforces.examples_shard09
+  SimpleC.EE.LLM_bench.Data_structures
+  SimpleC.EE.LLM_bench.Engineering))

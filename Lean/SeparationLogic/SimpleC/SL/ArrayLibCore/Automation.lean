@@ -8,19 +8,21 @@ open SimpleC.SL.CommonAssertion.DerivedPredSig
 open SimpleC.SL.Mem
 open Unifysl.LogicGenerator.demo932
 
+variable {Arch : SimpleC.SL.CArch.CArchSig}
+variable {Endian : SimpleC.SL.CArch.CEndianSig}
 variable {CRules : SeparationLogicSig}
-variable {DePredSig : DerivedPredSig CRules}
-variable {SLibSig : SimpleC.SL.StoreAux.StoreLibSig CRules DePredSig}
+variable {DePredSig : DerivedPredSig Arch Endian CRules}
+variable {SLibSig : SimpleC.SL.StoreAux.StoreLibSig Arch Endian CRules DePredSig}
 
 private theorem undef_full_unfold_auto
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n : Int) (h : n >= 0) :
     CRules.logic_equiv (undef_full ES x (n + 1))
       (CRules.sepcon (ES.undefstoreA x 0) (undef_seg ES x 1 (n + 1))) :=
   undef_full_unfold ES x n [] h
 
 private theorem full_shape_unfold_auto
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n : Int) (h : n >= 0) :
     CRules.logic_equiv (full_shape ES x (n + 1))
       (CRules.exp ES.A fun a =>

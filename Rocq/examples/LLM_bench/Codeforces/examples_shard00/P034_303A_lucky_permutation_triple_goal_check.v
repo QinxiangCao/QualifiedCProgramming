@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P034_303A_lucky_permutation_triple_goal P034_303A_lucky_permutation_triple_proof_auto P034_303A_lucky_permutation_triple_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P034_303A_lucky_permutation_triple_proof_auto.
+  Include P034_303A_lucky_permutation_triple_proof_manual.
+End VC_Correctness.

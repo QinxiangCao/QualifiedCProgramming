@@ -56,9 +56,9 @@ theorem increasing_program_le' {Sigma B : Type}
   intro hle h
   exact sseq_mono_nat_le c h hle
 
-theorem mono_intro {Sigma A B : Type}
-    (f : (A -> program Sigma B) -> A -> program Sigma B) :
-    (forall a, mono fun W => f W a) -> mono f := by
+theorem mono_intro {X I Y : Type} [Sets.SETS X] [Sets.SETS Y]
+    (f : X -> I -> Y) :
+    (forall i, mono fun x => f x i) -> mono f := by
   intro h
   constructor
   intro x y hxy a
@@ -75,9 +75,8 @@ private theorem mono_bind_core {Sigma X C D : Type} [Sets.SETS X]
   exact ⟨d, s0, h1.proper x y hxy s d s0 hd,
     (h2 d).proper x y hxy s0 c s' hc⟩
 
-theorem mono_bind {Sigma A B C D : Type}
-    (c1 : (A -> program Sigma B) -> program Sigma D)
-    (c2 : (A -> program Sigma B) -> D -> program Sigma C) :
+theorem mono_bind {Sigma X C D : Type} [Sets.SETS X]
+    (c1 : X -> program Sigma D) (c2 : X -> D -> program Sigma C) :
     mono c1 -> (forall d, mono fun W => c2 W d) ->
       mono fun W => bind (c1 W) (c2 W) :=
   mono_bind_core c1 c2
@@ -99,8 +98,8 @@ private theorem mono_choice_core {Sigma X D : Type} [Sets.SETS X]
   · exact Or.inl (h1.proper x y hxy s d s' h)
   · exact Or.inr (h2.proper x y hxy s d s' h)
 
-theorem mono_choice {Sigma A B D : Type}
-    (c1 c2 : (A -> program Sigma B) -> program Sigma D) :
+theorem mono_choice {Sigma X D : Type} [Sets.SETS X]
+    (c1 c2 : X -> program Sigma D) :
     mono c1 -> mono c2 -> mono fun W => choice (c1 W) (c2 W) :=
   mono_choice_core c1 c2
 
@@ -109,9 +108,9 @@ theorem mono_choice' {Sigma B D : Type}
     mono c1 -> mono c2 -> mono fun W => choice (c1 W) (c2 W) :=
   mono_choice_core c1 c2
 
-theorem continuous_intro {Sigma A B : Type}
-    (f : (A -> program Sigma B) -> A -> program Sigma B) :
-    (forall a, continuous fun W => f W a) -> continuous f := by
+theorem continuous_intro {X I Y : Type} [Sets.SETS X] [Sets.SETS Y]
+    (f : X -> I -> Y) :
+    (forall i, continuous fun x => f x i) -> continuous f := by
   intro h T hT a
   exact h a T hT
 
@@ -124,13 +123,18 @@ private theorem continuous_const_core {Sigma X C : Type} [Sets.SETS X]
   · rintro ⟨_, h⟩
     exact h
 
-theorem continuous_const {Sigma A B C : Type} (f : program Sigma C) :
-    continuous fun _ : A -> program Sigma B => f :=
-  continuous_const_core f
+theorem continuous_const {X Y : Type} [Sets.SETS X] [Sets.SETS Y]
+    [SETS_Properties Y] (y : Y) : continuous fun _ : X => y := by
+  intro _ _
+  apply (Sets_equiv_Sets_included _ _).mpr
+  constructor
+  · exact Sets_included_indexed_union (I := Nat) 0 (fun _ => y)
+  · exact Sets_indexed_union_included (I := Nat) (fun _ => y) y
+      (fun _ => Sets_included_refl.refl _)
 
 theorem continuous_const' {Sigma B C : Type} (f : program Sigma C) :
     continuous fun _ : program Sigma B => f :=
-  continuous_const_core f
+  continuous_const f
 
 private theorem continuous_bind_core {Sigma X C D : Type}
     [Sets.SETS X] [SETS_Properties X]
@@ -157,9 +161,9 @@ private theorem continuous_bind_core {Sigma X C D : Type}
     exact ⟨d, s0, (e1 s d s0).mpr ⟨i, hd⟩,
       ((hc2 d T hT) s0 c s').mpr ⟨i, hc⟩⟩
 
-theorem continuous_bind {Sigma A B C D : Type}
-    (c1 : (A -> program Sigma B) -> program Sigma D)
-    (c2 : (A -> program Sigma B) -> D -> program Sigma C) :
+theorem continuous_bind {Sigma X C D : Type}
+    [Sets.SETS X] [SETS_Properties X]
+    (c1 : X -> program Sigma D) (c2 : X -> D -> program Sigma C) :
     mono c1 -> continuous c1 ->
     (forall d, mono fun W => c2 W d) ->
     (forall d, continuous fun W => c2 W d) ->
@@ -193,8 +197,8 @@ private theorem continuous_choice_core {Sigma X D : Type} [Sets.SETS X]
     · exact Or.inl ((e1 s d s').mpr ⟨i, h⟩)
     · exact Or.inr ((e2 s d s').mpr ⟨i, h⟩)
 
-theorem continuous_choice {Sigma A B D : Type}
-    (c1 c2 : (A -> program Sigma B) -> program Sigma D) :
+theorem continuous_choice {Sigma X D : Type} [Sets.SETS X]
+    (c1 c2 : X -> program Sigma D) :
     continuous c1 -> continuous c2 ->
       continuous fun W => choice (c1 W) (c2 W) :=
   continuous_choice_core c1 c2
@@ -205,24 +209,41 @@ theorem continuous_choice' {Sigma B D : Type}
       continuous fun W => choice (c1 W) (c2 W) :=
   continuous_choice_core c1 c2
 
+theorem mono_cont_pointwise {X I Y : Type} [Sets.SETS X] [Sets.SETS Y]
+    (f : X -> I -> Y) :
+    (forall i, mono_cont fun x => f x i) -> mono_cont f := by
+  intro h
+  exact ⟨mono_intro f (fun i => (h i).1),
+    continuous_intro f (fun i => (h i).2)⟩
+
+theorem mono_cont_at {X I Y : Type} [Sets.SETS X] [Sets.SETS Y]
+    (f : X -> I -> Y) (i : I) :
+    mono_cont f -> mono_cont fun x => f x i := by
+  rintro ⟨hm, hc⟩
+  exact ⟨⟨fun x y hxy => hm.proper x y hxy i⟩,
+    fun T hT => hc T hT i⟩
+
+theorem mono_cont_id {X : Type} [Sets.SETS X] [SETS_Properties X] :
+    mono_cont fun x : X => x := by
+  exact ⟨⟨fun _ _ h => h⟩, fun _ _ => Sets_equiv_refl _⟩
+
 theorem mono_cont_intro {Sigma A B : Type}
     (f : (A -> program Sigma B) -> A -> program Sigma B) :
     (forall a, mono_cont fun W => f W a) -> mono_cont f := by
   intro h
-  exact ⟨mono_intro f (fun a => (h a).1),
-    continuous_intro f (fun a => (h a).2)⟩
+  exact mono_cont_pointwise f h
 
-theorem mono_cont_const {Sigma A B C : Type} (f : program Sigma C) :
-    mono_cont fun _ : A -> program Sigma B => f :=
-  ⟨⟨fun _ _ _ => Sets_included_refl.refl f⟩, continuous_const f⟩
+theorem mono_cont_const {X Y : Type} [Sets.SETS X] [Sets.SETS Y]
+    [SETS_Properties Y] (y : Y) : mono_cont fun _ : X => y :=
+  ⟨⟨fun _ _ _ => Sets_included_refl.refl y⟩, continuous_const y⟩
 
 theorem mono_cont_const' {Sigma B C : Type} (f : program Sigma C) :
     mono_cont fun _ : program Sigma B => f :=
-  ⟨⟨fun _ _ _ => Sets_included_refl.refl f⟩, continuous_const' f⟩
+  mono_cont_const f
 
-theorem mono_cont_bind {Sigma A B C D : Type}
-    (c1 : (A -> program Sigma B) -> program Sigma D)
-    (c2 : (A -> program Sigma B) -> D -> program Sigma C) :
+theorem mono_cont_bind {Sigma X C D : Type}
+    [Sets.SETS X] [SETS_Properties X]
+    (c1 : X -> program Sigma D) (c2 : X -> D -> program Sigma C) :
     mono_cont c1 -> (forall d, mono_cont fun W => c2 W d) ->
       mono_cont fun W => bind (c1 W) (c2 W) := by
   rintro ⟨hm1, hc1⟩ h2
@@ -238,8 +259,8 @@ theorem mono_cont_bind' {Sigma B C D : Type}
   exact ⟨mono_bind' c1 c2 hm1 (fun d => (h2 d).1),
     continuous_bind' c1 c2 hm1 hc1 (fun d => (h2 d).1) (fun d => (h2 d).2)⟩
 
-theorem mono_cont_choice {Sigma A B D : Type}
-    (c1 c2 : (A -> program Sigma B) -> program Sigma D) :
+theorem mono_cont_choice {Sigma X D : Type} [Sets.SETS X]
+    (c1 c2 : X -> program Sigma D) :
     mono_cont c1 -> mono_cont c2 ->
       mono_cont fun W => choice (c1 W) (c2 W) := by
   rintro ⟨hm1, hc1⟩ ⟨hm2, hc2⟩
@@ -356,6 +377,73 @@ theorem mono_cont_Lfix {A B : Type} [Sets.SETS A] [Sets.SETS B]
     · intro b
       exact (hfb b).2
 
+theorem Rec_unfold {X : Type} [Sets.SETS X] [SETS_Properties X]
+    (f : X -> X) : mono_cont f -> Sets.equiv (Rec f) (f (Rec f)) := by
+  intro h
+  unfold Rec
+  exact Lfix_fixpoint' f h
+
+theorem Rec_mono {A B : Type} [Sets.SETS A] [Sets.SETS B]
+    [SETS_Properties A] [SETS_Properties B] (f : A -> B -> B) :
+    (forall a, mono (f a)) ->
+    (forall b, mono fun x => f x b) ->
+    mono fun x => Rec (f x) := by
+  intro hfa hfb
+  unfold Rec
+  exact mono_Lfix f hfa hfb
+
+theorem Rec_continuous {A B : Type} [Sets.SETS A] [Sets.SETS B]
+    [SETS_Properties A] [SETS_Properties B] (f : A -> B -> B) :
+    (forall a, mono_cont (f a)) ->
+    (forall b, mono_cont fun x => f x b) ->
+    continuous fun x => Rec (f x) := by
+  intro hfa hfb
+  unfold Rec
+  exact (mono_cont_Lfix f hfa hfb).2
+
+theorem mono_cont_Rec {A B : Type} [Sets.SETS A] [Sets.SETS B]
+    [SETS_Properties A] [SETS_Properties B] (f : A -> B -> B) :
+    (forall a, mono_cont (f a)) ->
+    (forall b, mono_cont fun x => f x b) ->
+    mono_cont fun x => Rec (f x) := by
+  intro hfa hfb
+  unfold Rec
+  exact mono_cont_Lfix f hfa hfb
+
+private theorem Rec_unfold_left {X : Type} [Sets.SETS X] [SETS_Properties X]
+    (f : X -> X) (rhs : X) :
+    mono_cont f -> Sets.equiv (f (Rec f)) rhs -> Sets.equiv (Rec f) rhs := by
+  intro hm h
+  exact Sets_equiv_trans (Rec_unfold f hm) h
+
+private theorem Rec_unfold_right {X : Type} [Sets.SETS X] [SETS_Properties X]
+    (lhs : X) (f : X -> X) :
+    mono_cont f -> Sets.equiv lhs (f (Rec f)) -> Sets.equiv lhs (Rec f) := by
+  intro hm h
+  exact Sets_equiv_trans h (Sets_equiv_symm (Rec_unfold f hm))
+
+private theorem Rec_unfold_iff_left {X : Type} [Sets.SETS X]
+    [SETS_Properties X] (f : X -> X) (rhs : X) :
+    mono_cont f ->
+      (Sets.equiv (Rec f) rhs <-> Sets.equiv (f (Rec f)) rhs) := by
+  intro hm
+  constructor
+  · intro h
+    exact Sets_equiv_trans (Sets_equiv_symm (Rec_unfold f hm)) h
+  · intro h
+    exact Sets_equiv_trans (Rec_unfold f hm) h
+
+private theorem Rec_unfold_iff_right {X : Type} [Sets.SETS X]
+    [SETS_Properties X] (lhs : X) (f : X -> X) :
+    mono_cont f ->
+      (Sets.equiv lhs (Rec f) <-> Sets.equiv lhs (f (Rec f))) := by
+  intro hm
+  constructor
+  · intro h
+    exact Sets_equiv_trans h (Rec_unfold f hm)
+  · intro h
+    exact Sets_equiv_trans h (Sets_equiv_symm (Rec_unfold f hm))
+
 private theorem mono_cont_id_program {Sigma A : Type} :
     mono_cont (fun W : program Sigma A => W) := by
   constructor
@@ -415,26 +503,40 @@ macro_rules
   | `(tactic| state_mono_cont_auto) =>
       `(tactic|
         first
+          | assumption
+          | apply mono_cont_id
           | (apply mono_cont_intro <;> state_mono_cont_auto)
           | (apply mono_cont_bind <;> state_mono_cont_auto)
           | (apply mono_cont_choice <;> state_mono_cont_auto)
           | (apply mono_cont_bind' <;> state_mono_cont_auto)
           | (apply mono_cont_choice' <;> state_mono_cont_auto)
+          | (apply mono_cont_Rec <;> intro <;> state_mono_cont_auto)
           | (apply mono_cont_Lfix <;> intro <;> state_mono_cont_auto)
           | (__state_mono_cont_match <;> simp only <;> state_mono_cont_auto)
           | apply mono_cont_id_program
           | apply mono_cont_proj_program
           | apply mono_cont_const
           | apply mono_cont_const'
-          | assumption
           | (intro; state_mono_cont_auto)
           | trivial)
+
+macro "state_unfold_rec" : tactic =>
+  `(tactic|
+    first
+      | (apply Rec_unfold_left; · state_mono_cont_auto)
+      | (apply Rec_unfold_right; · state_mono_cont_auto))
+
+macro "state_unfold_rec" " in " loc:Lean.Parser.Tactic.locationHyp : tactic =>
+  `(tactic|
+    first
+      | rw [Rec_unfold_iff_left _ _ (by state_mono_cont_auto)] at $loc
+      | rw [Rec_unfold_iff_right _ _ (by state_mono_cont_auto)] at $loc)
 
 theorem whileb_unfold {Sigma : Type} (cond : program Sigma Bool)
     (body : program Sigma Unit) :
     Sets.equiv («while» cond body)
       (x <- cond ;; match x with | true => body ;; «while» cond body | false => ret ()) := by
-  apply Lfix_fixpoint'
+  apply Rec_unfold
   unfold while_f
   state_mono_cont_auto
 
@@ -445,7 +547,7 @@ theorem whileretb_unfold {Sigma A : Type} (cond : A -> program Sigma Bool)
         match x with
         | true => bind (body a) (whileret cond body)
         | false => ret a) := by
-  have h := Lfix_fixpoint' (whileret_f cond body)
+  have h := Rec_unfold (whileret_f cond body)
   exact h (by unfold whileret_f; state_mono_cont_auto) a
 
 theorem while_unfold {Sigma : Type} (cond : Sigma -> Prop)
@@ -453,7 +555,7 @@ theorem while_unfold {Sigma : Type} (cond : Sigma -> Prop)
     Sets.equiv (whileP cond body)
       (choice (test cond ;; body ;; whileP cond body)
         (test (fun s => Not (cond s)) ;; ret ())) := by
-  apply Lfix_fixpoint'
+  apply Rec_unfold
   unfold whileP_f
   state_mono_cont_auto
 
@@ -463,13 +565,13 @@ theorem whileret_unfold {Sigma A : Type} (cond : A -> Sigma -> Prop)
       (fun a => choice
         (test (fun s => cond a s) ;; a' <- body a ;; whileretP cond body a')
         (test (fun s => Not (cond a s)) ;; ret a)) := by
-  apply Lfix_fixpoint'
+  apply Rec_unfold
   unfold whileretP_f
   state_mono_cont_auto
 
 theorem Repeat_unfold {Sigma : Type} (body : program Sigma Unit) :
     Sets.equiv (Repeat body) (body ;; Repeat body) := by
-  apply Lfix_fixpoint'
+  apply Rec_unfold
   unfold Repeat_f
   state_mono_cont_auto
 
@@ -480,7 +582,7 @@ theorem repeat_break_unfold {Sigma A B : Type}
         match x with
         | .by_continue a' => repeat_break body a'
         | .by_break b => ret b) := by
-  apply Lfix_fixpoint'
+  apply Rec_unfold
   unfold repeat_break_f
   state_mono_cont_auto
 
@@ -491,18 +593,18 @@ theorem repeat_break_noin_unfold {Sigma B : Type}
         match x with
         | .by_continue _ => repeat_break_noin body
         | .by_break b => ret b) := by
-  apply Lfix_fixpoint'
+  apply Rec_unfold
   unfold repeat_break_f_noinput
   state_mono_cont_auto
 
 theorem forset_unfold_aux {Sigma A : Type} (body : A -> program Sigma Unit) :
-    Sets.equiv (Lfix (forset_f body))
+    Sets.equiv (Rec (forset_f body))
       (fun uPred => choice
         (a <- get (fun _ a => uPred a) ;;
           body a ;;
           forset (fun x => uPred x /\ x ≠ a) body)
         (test' (forall x, Not (uPred x)) ;; ret ())) := by
-  apply Lfix_fixpoint'
+  apply Rec_unfold
   unfold forset_f
   state_mono_cont_auto
 

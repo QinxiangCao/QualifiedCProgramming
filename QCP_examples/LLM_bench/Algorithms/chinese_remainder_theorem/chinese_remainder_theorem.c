@@ -1,3 +1,4 @@
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.chinese_remainder_theorem.chinese_remainder_theorem_lib */
 /*
  * Chinese remainder theorem, using the verified exgcd interface.
  *

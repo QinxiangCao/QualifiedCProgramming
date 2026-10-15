@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P018_1382B_sequential_nim_goal P018_1382B_sequential_nim_proof_auto P018_1382B_sequential_nim_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P018_1382B_sequential_nim_proof_auto.
+  Include P018_1382B_sequential_nim_proof_manual.
+End VC_Correctness.

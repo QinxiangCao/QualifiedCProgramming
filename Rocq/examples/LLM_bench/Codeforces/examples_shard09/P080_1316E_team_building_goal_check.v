@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P080_1316E_team_building_goal P080_1316E_team_building_proof_auto P080_1316E_team_building_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P080_1316E_team_building_proof_auto.
+  Include P080_1316E_team_building_proof_manual.
+End VC_Correctness.

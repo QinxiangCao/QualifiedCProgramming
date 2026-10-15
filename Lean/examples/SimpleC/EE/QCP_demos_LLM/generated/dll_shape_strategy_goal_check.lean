@@ -1,0 +1,21 @@
+import SimpleC.EE.QCP_demos_LLM.generated.dll_shape_strategy_proof
+
+namespace SimpleC.EE.QCP_demos_LLM.generated.dll_shape_strategy_goal_check
+
+def dll_shape_Strategy_Correctness : SimpleC.EE.QCP_demos_LLM.generated.dll_shape_strategy_goal.dll_shape_Strategy_Correct where
+  dll_shape_strategy1_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_shape_strategy_proof.dll_shape_strategy1_correctness
+  dll_shape_strategy2_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_shape_strategy_proof.dll_shape_strategy2_correctness
+  dll_shape_strategy3_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_shape_strategy_proof.dll_shape_strategy3_correctness
+  dll_shape_strategy4_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_shape_strategy_proof.dll_shape_strategy4_correctness
+  dll_shape_strategy12_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_shape_strategy_proof.dll_shape_strategy12_correctness
+  dll_shape_strategy7_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_shape_strategy_proof.dll_shape_strategy7_correctness
+  dll_shape_strategy13_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_shape_strategy_proof.dll_shape_strategy13_correctness
+  dll_shape_strategy14_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_shape_strategy_proof.dll_shape_strategy14_correctness
+  dll_shape_strategy15_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_shape_strategy_proof.dll_shape_strategy15_correctness
+  dll_shape_strategy16_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_shape_strategy_proof.dll_shape_strategy16_correctness
+  dll_shape_strategy8_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_shape_strategy_proof.dll_shape_strategy8_correctness
+  dll_shape_strategy11_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_shape_strategy_proof.dll_shape_strategy11_correctness
+  dll_shape_strategy5_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_shape_strategy_proof.dll_shape_strategy5_correctness
+  dll_shape_strategy6_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_shape_strategy_proof.dll_shape_strategy6_correctness
+
+end SimpleC.EE.QCP_demos_LLM.generated.dll_shape_strategy_goal_check

@@ -1,0 +1,23 @@
+; Keep coqdep below the Windows process command-line limit.
+(coq.theory
+ (name SimpleC.EE.LLM_bench.Codeforces.examples_shard00)
+ (theories
+  SimpleC.EE.LLM_bench.Codeforces
+  Algorithms
+  AUXLib
+  FP
+  GraphLib
+  ListLib
+  Logic
+  MaxMinLib
+  MonadLib
+  RecordUpdate
+  SetsClass
+  SimpleC.Common
+  SimpleC.EE.QCP_demos_LLM
+  SimpleC.SL
+  SimpleC.StdLib
+  SumLib
+  compcert.lib))
+
+(include_subdirs qualified)

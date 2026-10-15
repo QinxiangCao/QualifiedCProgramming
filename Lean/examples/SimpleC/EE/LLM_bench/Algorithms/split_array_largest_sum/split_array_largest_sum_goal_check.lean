@@ -1,0 +1,44 @@
+import SimpleC.EE.LLM_bench.Algorithms.split_array_largest_sum.split_array_largest_sum_proof_auto
+import SimpleC.EE.LLM_bench.Algorithms.split_array_largest_sum.split_array_largest_sum_proof_manual
+
+namespace SimpleC.EE.LLM_bench.Algorithms.split_array_largest_sum.split_array_largest_sum_goal_check
+
+open SimpleC.EE.LLM_bench.Algorithms.split_array_largest_sum.split_array_largest_sum_proof_auto
+open SimpleC.EE.LLM_bench.Algorithms.split_array_largest_sum.split_array_largest_sum_proof_manual
+
+def VC_Correctness : SimpleC.EE.LLM_bench.Algorithms.split_array_largest_sum.split_array_largest_sum_goal.VC_Correct where
+  proof_of_check_safety_wit_1 := proof_of_check_safety_wit_1
+  proof_of_check_safety_wit_2 := proof_of_check_safety_wit_2
+  proof_of_check_safety_wit_3 := proof_of_check_safety_wit_3
+  proof_of_check_safety_wit_4 := proof_of_check_safety_wit_4
+  proof_of_check_safety_wit_5 := proof_of_check_safety_wit_5
+  proof_of_check_safety_wit_6 := proof_of_check_safety_wit_6
+  proof_of_check_safety_wit_7 := proof_of_check_safety_wit_7
+  proof_of_check_safety_wit_8 := proof_of_check_safety_wit_8
+  proof_of_check_safety_wit_9 := proof_of_check_safety_wit_9
+  proof_of_check_safety_wit_10 := proof_of_check_safety_wit_10
+  proof_of_check_safety_wit_11 := proof_of_check_safety_wit_11
+  proof_of_check_safety_wit_12 := proof_of_check_safety_wit_12
+  proof_of_check_partial_solve_wit_1 := proof_of_check_partial_solve_wit_1
+  proof_of_splitArrayLargestSum_safety_wit_1 := proof_of_splitArrayLargestSum_safety_wit_1
+  proof_of_splitArrayLargestSum_safety_wit_2 := proof_of_splitArrayLargestSum_safety_wit_2
+  proof_of_splitArrayLargestSum_safety_wit_4 := proof_of_splitArrayLargestSum_safety_wit_4
+  proof_of_splitArrayLargestSum_safety_wit_5 := proof_of_splitArrayLargestSum_safety_wit_5
+  proof_of_splitArrayLargestSum_safety_wit_6 := proof_of_splitArrayLargestSum_safety_wit_6
+  proof_of_splitArrayLargestSum_safety_wit_8 := proof_of_splitArrayLargestSum_safety_wit_8
+  proof_of_splitArrayLargestSum_partial_solve_wit_1 := proof_of_splitArrayLargestSum_partial_solve_wit_1
+  proof_of_check_entail_wit_1 := proof_of_check_entail_wit_1
+  proof_of_check_entail_wit_2_1 := proof_of_check_entail_wit_2_1
+  proof_of_check_entail_wit_2_2 := proof_of_check_entail_wit_2_2
+  proof_of_check_return_wit_1 := proof_of_check_return_wit_1
+  proof_of_check_return_wit_2 := proof_of_check_return_wit_2
+  proof_of_check_return_wit_3 := proof_of_check_return_wit_3
+  proof_of_splitArrayLargestSum_safety_wit_3 := proof_of_splitArrayLargestSum_safety_wit_3
+  proof_of_splitArrayLargestSum_safety_wit_7 := proof_of_splitArrayLargestSum_safety_wit_7
+  proof_of_splitArrayLargestSum_entail_wit_1 := proof_of_splitArrayLargestSum_entail_wit_1
+  proof_of_splitArrayLargestSum_entail_wit_2_1 := proof_of_splitArrayLargestSum_entail_wit_2_1
+  proof_of_splitArrayLargestSum_entail_wit_2_2 := proof_of_splitArrayLargestSum_entail_wit_2_2
+  proof_of_splitArrayLargestSum_return_wit_1 := proof_of_splitArrayLargestSum_return_wit_1
+  proof_of_splitArrayLargestSum_partial_solve_wit_1_pure := proof_of_splitArrayLargestSum_partial_solve_wit_1_pure
+
+end SimpleC.EE.LLM_bench.Algorithms.split_array_largest_sum.split_array_largest_sum_goal_check

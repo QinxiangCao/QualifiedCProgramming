@@ -7,6 +7,7 @@ open SimpleC.SL.ArrayLib
 open SimpleC.SL.ArrayLib.ArrayLibSig
 open SimpleC.SL.ArrayLibCore
 open SimpleC.SL.ArrayLibCore.ArrayLibCoreSig
+open SimpleC.SL.CArch
 open SimpleC.SL.CommonAssertion
 open SimpleC.SL.CommonAssertion.DerivedPredSig
 open SimpleC.SL.Mem
@@ -16,24 +17,33 @@ open Unifysl.LogicGenerator.demo932
 open scoped SimpleC.SL.SAC
 
 structure PtrArray2LibCoreSig
+    (_Arch : CArchSig) (_Endian : CEndianSig)
     (_CRules : SeparationLogicSig)
-    (_DePredSig : DerivedPredSig _CRules)
-    (_SLibSig : StoreLibSig _CRules _DePredSig)
-    (_ALibSig : ArrayLibSig _CRules _DePredSig _SLibSig) : Type where
+    (_DePredSig : DerivedPredSig _Arch _Endian _CRules)
+    (_SLibSig : StoreLibSig _Arch _Endian _CRules _DePredSig)
+    (_ALibSig : ArrayLibSig _Arch _Endian _CRules _DePredSig _SLibSig) : Type where
 
 namespace PtrArray2LibCoreSig
 
-def canonical (CRules : SeparationLogicSig)
-    (DePredSig : DerivedPredSig CRules)
-    (SLibSig : StoreLibSig CRules DePredSig)
-    (ALibSig : ArrayLibSig CRules DePredSig SLibSig) :
-    PtrArray2LibCoreSig CRules DePredSig SLibSig ALibSig := {}
+def canonical (Arch : CArchSig) (Endian : CEndianSig) (CRules : SeparationLogicSig)
+    (DePredSig : DerivedPredSig Arch Endian CRules)
+    (SLibSig : StoreLibSig Arch Endian CRules DePredSig)
+    (ALibSig : ArrayLibSig Arch Endian CRules DePredSig SLibSig) :
+    PtrArray2LibCoreSig Arch Endian CRules DePredSig SLibSig ALibSig := {}
 
 namespace PtrArray2Lib
 
+variable {Arch : CArchSig} {Endian : CEndianSig}
 variable {CRules : SeparationLogicSig}
-variable {DePredSig : DerivedPredSig CRules}
-variable {SLibSig : StoreLibSig CRules DePredSig}
+variable {DePredSig : DerivedPredSig Arch Endian CRules}
+variable {SLibSig : StoreLibSig Arch Endian CRules DePredSig}
+
+/-- Coq `Module ElemArray := ArrayLib ES`, represented as a transparent
+first-class view so the complete migrated `ArrayFacade` API remains available. -/
+abbrev ElemArray (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig) :
+    SimpleC.SL.ArrayLib.ArrayLibSig.ArrayFacade
+      Arch Endian CRules DePredSig SLibSig :=
+  ⟨ES⟩
 
 def remove_Znth {B : Type} (i : Int) (l : List B) : List B :=
   firstn i.toNat l ++ skipn (Nat.succ i.toNat) l
@@ -242,44 +252,44 @@ theorem iter_sepcon_merge_remove_Znth (CRules : SeparationLogicSig)
     (List.map P (firstn i.toNat l))
     (List.map P (skipn i.toNat.succ l)) (P v)
 
-def row_block (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def row_block (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (pr : addr × List ES.A) : CRules.expr :=
-  ArrayLib.full ES pr.1 (Zlength pr.2) pr.2
+  (ElemArray ES).full pr.1 (Zlength pr.2) pr.2
 
-def mixed_row_block (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def mixed_row_block (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (pr : addr × List (Option ES.A)) : CRules.expr :=
-  ArrayLib.mixed_full ES pr.1 (Zlength pr.2) pr.2
+  (ElemArray ES).mixed_full pr.1 (Zlength pr.2) pr.2
 
-def row_blocks (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def row_blocks (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (row_ptrs : List Int) (rows : List (List ES.A)) : CRules.expr :=
   CRules.toContext.iter_sepcon ((combine row_ptrs rows).map (row_block ES))
 
-def mixed_row_blocks (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def mixed_row_blocks (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (row_ptrs : List Int) (rows : List (List (Option ES.A))) : CRules.expr :=
   CRules.toContext.iter_sepcon
     ((combine row_ptrs rows).map (mixed_row_block ES))
 
-def row_blocks_missing_i (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def row_blocks_missing_i (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (i : Int) (row_ptrs : List Int) (rows : List (List ES.A)) : CRules.expr :=
   CRules.toContext.iter_sepcon
     ((remove_Znth i (combine row_ptrs rows)).map (row_block ES))
 
-def mixed_row_blocks_missing_i (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def mixed_row_blocks_missing_i (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (i : Int) (row_ptrs : List Int)
     (rows : List (List (Option ES.A))) : CRules.expr :=
   CRules.toContext.iter_sepcon
     ((remove_Znth i (combine row_ptrs rows)).map (mixed_row_block ES))
 
-noncomputable def full (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+noncomputable def full (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (n : Int) (rows : List (List ES.A)) : CRules.expr :=
   CRules.exp (List Int) fun row_ptrs =>
     CRules.andp
       (CRules.coq_prop (Zlength row_ptrs = n ∧ Zlength rows = n))
       (CRules.sepcon
-        ((PtrArray CRules DePredSig SLibSig).full x n row_ptrs)
+        ((PtrArray Arch Endian CRules DePredSig SLibSig).full x n row_ptrs)
         (row_blocks ES row_ptrs rows))
 
-noncomputable def missing_i (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+noncomputable def missing_i (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (n i row_ptr : Int) (rows : List (List ES.A)) : CRules.expr :=
   CRules.exp (List Int) fun row_ptrs =>
     CRules.andp
@@ -287,20 +297,20 @@ noncomputable def missing_i (ES : ELEMENT_STORE CRules DePredSig SLibSig)
         (Zlength row_ptrs = n ∧ Zlength rows = n ∧
           row_ptr = Znth i row_ptrs 0))
       (CRules.sepcon
-        ((PtrArray CRules DePredSig SLibSig).missing_i x i 0 n row_ptrs)
+        ((PtrArray Arch Endian CRules DePredSig SLibSig).missing_i x i 0 n row_ptrs)
         (row_blocks_missing_i ES i row_ptrs rows))
 
-noncomputable def mixed_full (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+noncomputable def mixed_full (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (n : Int) (rows : List (List (Option ES.A))) : CRules.expr :=
   CRules.exp (List Int) fun row_ptrs =>
     CRules.andp
       (CRules.coq_prop (Zlength row_ptrs = n ∧ Zlength rows = n))
       (CRules.sepcon
-        ((PtrArray CRules DePredSig SLibSig).full x n row_ptrs)
+        ((PtrArray Arch Endian CRules DePredSig SLibSig).full x n row_ptrs)
         (mixed_row_blocks ES row_ptrs rows))
 
 noncomputable def mixed_missing_i
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (n i row_ptr : Int)
     (rows : List (List (Option ES.A))) : CRules.expr :=
   CRules.exp (List Int) fun row_ptrs =>
@@ -309,14 +319,14 @@ noncomputable def mixed_missing_i
         (Zlength row_ptrs = n ∧ Zlength rows = n ∧
           row_ptr = Znth i row_ptrs 0))
       (CRules.sepcon
-        ((PtrArray CRules DePredSig SLibSig).missing_i x i 0 n row_ptrs)
+        ((PtrArray Arch Endian CRules DePredSig SLibSig).missing_i x i 0 n row_ptrs)
         (mixed_row_blocks_missing_i ES i row_ptrs rows))
 
-noncomputable def undef_full (_ES : ELEMENT_STORE CRules DePredSig SLibSig)
+noncomputable def undef_full (_ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (n : Int) : CRules.expr :=
-  (PtrArray CRules DePredSig SLibSig).undef_full x n
+  (PtrArray Arch Endian CRules DePredSig SLibSig).undef_full x n
 
-theorem full_Zlength (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+theorem full_Zlength (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n : Int) (rows : List (List ES.A)) :
     CRules.derivable1 (full ES x n rows)
       (CRules.coq_prop (Zlength rows = n)) := by
@@ -324,7 +334,7 @@ theorem full_Zlength (ES : ELEMENT_STORE CRules DePredSig SLibSig)
   rintro ⟨_rowPtrs, hlen, _hspatial⟩
   exact hlen.2
 
-theorem mixed_full_Zlength (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+theorem mixed_full_Zlength (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n : Int) (rows : List (List (Option ES.A))) :
     CRules.derivable1 (mixed_full ES x n rows)
       (CRules.coq_prop (Zlength rows = n)) := by
@@ -332,10 +342,10 @@ theorem mixed_full_Zlength (ES : ELEMENT_STORE CRules DePredSig SLibSig)
   rintro ⟨_rowPtrs, hlen, _hspatial⟩
   exact hlen.2
 
-theorem undef_full_valid (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+theorem undef_full_valid (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n : Int) :
     CRules.derivable1 (undef_full ES x n) (CRules.coq_prop (0 <= n)) := by
-  exact (PtrArray CRules DePredSig SLibSig).undef_full_valid x n
+  exact (PtrArray Arch Endian CRules DePredSig SLibSig).undef_full_valid x n
 
 theorem Zlength_combine_eq {B C : Type} (l1 : List B) (l2 : List C)
     (h : Zlength l1 = Zlength l2) :
@@ -345,7 +355,7 @@ theorem Zlength_combine_eq {B C : Type} (l1 : List B) (l2 : List C)
   simp only [combine, List.length_zip, hnat, Nat.min_self]
 
 theorem row_blocks_split_to_missing_i
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (i : Int) (row_ptrs : List Int) (rows : List (List ES.A))
     (hi : 0 <= i ∧ i < Zlength row_ptrs)
     (hlen : Zlength row_ptrs = Zlength rows) :
@@ -363,7 +373,7 @@ theorem row_blocks_split_to_missing_i
   simpa only [row_blocks, row_blocks_missing_i, row_block, hselected] using hsplit
 
 theorem mixed_row_blocks_split_to_missing_i
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (i : Int) (row_ptrs : List Int)
     (rows : List (List (Option ES.A)))
     (hi : 0 <= i ∧ i < Zlength row_ptrs)
@@ -383,7 +393,7 @@ theorem mixed_row_blocks_split_to_missing_i
     mixed_row_block, hselected] using hsplit
 
 theorem row_blocks_missing_i_merge_to_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (i : Int) (row_ptrs : List Int) (rows : List (List ES.A))
     (row : List ES.A) (hi : 0 <= i ∧ i < Zlength row_ptrs)
     (hlen : Zlength row_ptrs = Zlength rows) :
@@ -401,7 +411,7 @@ theorem row_blocks_missing_i_merge_to_full
   simpa only [row_blocks, row_blocks_missing_i, row_block, hreplace] using hmerge
 
 theorem mixed_row_blocks_missing_i_merge_to_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (i : Int) (row_ptrs : List Int)
     (rows : List (List (Option ES.A))) (row : List (Option ES.A))
     (hi : 0 <= i ∧ i < Zlength row_ptrs)
@@ -439,13 +449,13 @@ private theorem sepcon_interchange (CRules : SeparationLogicSig)
         (CRules.sepcon Q S)).left
 
 theorem full_split_to_missing_i
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x i n : Int) (rows : List (List ES.A)) (h : 0 <= i ∧ i < n) :
     CRules.derivable1 (full ES x n rows)
       (CRules.exp Int fun row_ptr =>
         CRules.sepcon
           (CRules.sepcon
-            ((StorePtrAsElement CRules DePredSig SLibSig).storeA x i row_ptr)
+            ((StorePtrAsElement Arch Endian CRules DePredSig SLibSig).storeA x i row_ptr)
             (ArrayLib.full ES row_ptr (Zlength (Znth i rows []))
               (Znth i rows [])))
           (missing_i ES x n i row_ptr rows)) := by
@@ -454,7 +464,7 @@ theorem full_split_to_missing_i
   rcases hrowPtrs with ⟨hrowPtrs, hrows⟩
   have hiPtrs : 0 <= i ∧ i < Zlength row_ptrs := by omega
   have hlenRows : Zlength row_ptrs = Zlength rows := by omega
-  have hptr := (PtrArray CRules DePredSig SLibSig).full_split_to_missing_i
+  have hptr := (PtrArray Arch Endian CRules DePredSig SLibSig).full_split_to_missing_i
     x i n row_ptrs (0 : Int) h
   have hrow := row_blocks_split_to_missing_i
     ES i row_ptrs rows hiPtrs hlenRows
@@ -468,13 +478,13 @@ theorem full_split_to_missing_i
   exact ⟨row_ptrs, ⟨hrowPtrs, hrows, rfl⟩, hinner⟩
 
 theorem missing_i_merge_to_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x i n row_ptr : Int) (rows : List (List ES.A)) (row : List ES.A)
     (h : 0 <= i ∧ i < n) :
     CRules.derivable1
       (CRules.sepcon
         (CRules.sepcon
-          ((StorePtrAsElement CRules DePredSig SLibSig).storeA x i row_ptr)
+          ((StorePtrAsElement Arch Endian CRules DePredSig SLibSig).storeA x i row_ptr)
           (ArrayLib.full ES row_ptr (Zlength row) row))
         (missing_i ES x n i row_ptr rows))
       (full ES x n (replace_Znth i row rows)) := by
@@ -487,20 +497,20 @@ theorem missing_i_merge_to_full
   have hlenRows : Zlength row_ptrs = Zlength rows := by omega
   have hfour : CRules.sepcon
       (CRules.sepcon
-        ((StorePtrAsElement CRules DePredSig SLibSig).storeA x i
+        ((StorePtrAsElement Arch Endian CRules DePredSig SLibSig).storeA x i
           (Znth i row_ptrs (0 : Int)))
         (ArrayLib.full ES (Znth i row_ptrs (0 : Int)) (Zlength row) row))
       (CRules.sepcon
-        ((PtrArray CRules DePredSig SLibSig).missing_i x i 0 n row_ptrs)
+        ((PtrArray Arch Endian CRules DePredSig SLibSig).missing_i x i 0 n row_ptrs)
         (row_blocks_missing_i ES i row_ptrs rows)) state :=
     ⟨s1, s2, hjoin, hstoreElem, hptrRows⟩
   have hreordered := sepcon_interchange CRules
-    ((StorePtrAsElement CRules DePredSig SLibSig).storeA x i
+    ((StorePtrAsElement Arch Endian CRules DePredSig SLibSig).storeA x i
       (Znth i row_ptrs (0 : Int)))
     (ArrayLib.full ES (Znth i row_ptrs (0 : Int)) (Zlength row) row)
-    ((PtrArray CRules DePredSig SLibSig).missing_i x i 0 n row_ptrs)
+    ((PtrArray Arch Endian CRules DePredSig SLibSig).missing_i x i 0 n row_ptrs)
     (row_blocks_missing_i ES i row_ptrs rows) state hfour
-  have hptr := (PtrArray CRules DePredSig SLibSig).missing_i_merge_to_full
+  have hptr := (PtrArray Arch Endian CRules DePredSig SLibSig).missing_i_merge_to_full
     x i n (Znth i row_ptrs (0 : Int)) row_ptrs h
   have hrow := row_blocks_missing_i_merge_to_full
     ES i row_ptrs rows row hiPtrs hlenRows
@@ -511,14 +521,14 @@ theorem missing_i_merge_to_full
   exact ⟨hrowPtrs, by simpa only [Zlength_replace_Znth] using hrows⟩
 
 theorem mixed_full_split_to_mixed_missing_i
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x i n : Int) (rows : List (List (Option ES.A)))
     (h : 0 <= i ∧ i < n) :
     CRules.derivable1 (mixed_full ES x n rows)
       (CRules.exp Int fun row_ptr =>
         CRules.sepcon
           (CRules.sepcon
-            ((StorePtrAsElement CRules DePredSig SLibSig).storeA x i row_ptr)
+            ((StorePtrAsElement Arch Endian CRules DePredSig SLibSig).storeA x i row_ptr)
             (ArrayLib.mixed_full ES row_ptr (Zlength (Znth i rows []))
               (Znth i rows [])))
           (mixed_missing_i ES x n i row_ptr rows)) := by
@@ -527,7 +537,7 @@ theorem mixed_full_split_to_mixed_missing_i
   rcases hrowPtrs with ⟨hrowPtrs, hrows⟩
   have hiPtrs : 0 <= i ∧ i < Zlength row_ptrs := by omega
   have hlenRows : Zlength row_ptrs = Zlength rows := by omega
-  have hptr := (PtrArray CRules DePredSig SLibSig).full_split_to_missing_i
+  have hptr := (PtrArray Arch Endian CRules DePredSig SLibSig).full_split_to_missing_i
     x i n row_ptrs (0 : Int) h
   have hrow := mixed_row_blocks_split_to_missing_i
     ES i row_ptrs rows hiPtrs hlenRows
@@ -541,13 +551,13 @@ theorem mixed_full_split_to_mixed_missing_i
   exact ⟨row_ptrs, ⟨hrowPtrs, hrows, rfl⟩, hinner⟩
 
 theorem mixed_missing_i_merge_to_mixed_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x i n row_ptr : Int) (rows : List (List (Option ES.A)))
     (row : List (Option ES.A)) (h : 0 <= i ∧ i < n) :
     CRules.derivable1
       (CRules.sepcon
         (CRules.sepcon
-          ((StorePtrAsElement CRules DePredSig SLibSig).storeA x i row_ptr)
+          ((StorePtrAsElement Arch Endian CRules DePredSig SLibSig).storeA x i row_ptr)
           (ArrayLib.mixed_full ES row_ptr (Zlength row) row))
         (mixed_missing_i ES x n i row_ptr rows))
       (mixed_full ES x n (replace_Znth i row rows)) := by
@@ -560,20 +570,20 @@ theorem mixed_missing_i_merge_to_mixed_full
   have hlenRows : Zlength row_ptrs = Zlength rows := by omega
   have hfour : CRules.sepcon
       (CRules.sepcon
-        ((StorePtrAsElement CRules DePredSig SLibSig).storeA x i
+        ((StorePtrAsElement Arch Endian CRules DePredSig SLibSig).storeA x i
           (Znth i row_ptrs (0 : Int)))
         (ArrayLib.mixed_full ES (Znth i row_ptrs (0 : Int)) (Zlength row) row))
       (CRules.sepcon
-        ((PtrArray CRules DePredSig SLibSig).missing_i x i 0 n row_ptrs)
+        ((PtrArray Arch Endian CRules DePredSig SLibSig).missing_i x i 0 n row_ptrs)
         (mixed_row_blocks_missing_i ES i row_ptrs rows)) state :=
     ⟨s1, s2, hjoin, hstoreElem, hptrRows⟩
   have hreordered := sepcon_interchange CRules
-    ((StorePtrAsElement CRules DePredSig SLibSig).storeA x i
+    ((StorePtrAsElement Arch Endian CRules DePredSig SLibSig).storeA x i
       (Znth i row_ptrs (0 : Int)))
     (ArrayLib.mixed_full ES (Znth i row_ptrs (0 : Int)) (Zlength row) row)
-    ((PtrArray CRules DePredSig SLibSig).missing_i x i 0 n row_ptrs)
+    ((PtrArray Arch Endian CRules DePredSig SLibSig).missing_i x i 0 n row_ptrs)
     (mixed_row_blocks_missing_i ES i row_ptrs rows) state hfour
-  have hptr := (PtrArray CRules DePredSig SLibSig).missing_i_merge_to_full
+  have hptr := (PtrArray Arch Endian CRules DePredSig SLibSig).missing_i_merge_to_full
     x i n (Znth i row_ptrs (0 : Int)) row_ptrs h
   have hrow := mixed_row_blocks_missing_i_merge_to_full
     ES i row_ptrs rows row hiPtrs hlenRows

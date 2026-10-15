@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P015_435A_queue_on_bus_stop_goal P015_435A_queue_on_bus_stop_proof_auto P015_435A_queue_on_bus_stop_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P015_435A_queue_on_bus_stop_proof_auto.
+  Include P015_435A_queue_on_bus_stop_proof_manual.
+End VC_Correctness.

@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P023_765B_code_obfuscation_goal P023_765B_code_obfuscation_proof_auto P023_765B_code_obfuscation_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P023_765B_code_obfuscation_proof_auto.
+  Include P023_765B_code_obfuscation_proof_manual.
+End VC_Correctness.

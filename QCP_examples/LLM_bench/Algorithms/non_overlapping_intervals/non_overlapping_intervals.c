@@ -1,3 +1,8 @@
+/*@ Import Lean
+import SimpleC.EE.LLM_bench.Algorithms.non_overlapping_intervals.non_overlapping_intervals_lib
+open SimpleC.EE.LLM_bench.Algorithms.non_overlapping_intervals.non_overlapping_intervals_lib
+*/
+
 /*
  * LeetCode 435: Non-overlapping Intervals.
  *

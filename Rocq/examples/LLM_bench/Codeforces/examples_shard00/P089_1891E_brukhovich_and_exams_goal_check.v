@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P089_1891E_brukhovich_and_exams_goal P089_1891E_brukhovich_and_exams_proof_auto P089_1891E_brukhovich_and_exams_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P089_1891E_brukhovich_and_exams_proof_auto.
+  Include P089_1891E_brukhovich_and_exams_proof_manual.
+End VC_Correctness.

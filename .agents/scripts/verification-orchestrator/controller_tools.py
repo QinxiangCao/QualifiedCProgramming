@@ -46,7 +46,9 @@ def refresh_annotation(state: dict, task: dict, *, progress_name="symexec-progre
         expected = generated_output_contents(root, target)
         sources = {key: target[key] for key in ("c_file", "formal_case_lib")}
         before = file_contents(root, sources)
-        with tempfile.TemporaryDirectory(prefix=".gen-", dir=report, ignore_cleanup_errors=True) as temporary:
+        # Keep native generator filenames below MAX_PATH even when the run and
+        # case identifiers are long. Logs and publication backups stay per-attempt.
+        with tempfile.TemporaryDirectory(prefix=".gen-", dir=root / "reports", ignore_cleanup_errors=True) as temporary:
             profile = symexec_profile_for_state(state)
             result = run_symexec(
                 main_root=root, target_c_file=Path(target["c_file"]), target_files=target, output_root=Path(temporary),

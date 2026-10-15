@@ -185,8 +185,7 @@ theorem Hoare_choice_disj {Sigma A : Type} (P : Sigma -> Prop)
     · exact h2e s hp h
 
 theorem Hoare_assume' {Sigma : Type} (P : Sigma -> Prop) (Q : Prop) :
-    Q -> Hoare P (testPure Q) (fun _ s => P s /\ Q) := by
-  intro hQ
+    Hoare P (testPure Q) (fun _ s => P s /\ Q) := by
   constructor
   · rintro _ s1 s2 hp ⟨rfl, h⟩; exact ⟨hp, h⟩
   · intro _ _ h; exact False.elim h
@@ -198,7 +197,7 @@ theorem Hoare_assume_bind {A Sigma : Type} (P1 : Sigma -> Prop) (P2 : Prop)
   by_cases hp : P2
   · apply Hoare_bind P1 (fun _ => P1) Q (testPure P2) (fun _ => c)
     · exact Hoare_cons_post P1 (testPure P2) (fun _ s => P1 s /\ P2)
-        (fun _ => P1) (fun _ _ h => h.1) (Hoare_assume' P1 P2 hp)
+        (fun _ => P1) (fun _ _ h => h.1) (Hoare_assume' P1 P2)
     · intro _; exact h hp
   · constructor
     · rintro _ _ _ _ ⟨_, _, ⟨_, hfalse⟩, _⟩; exact False.elim (hp hfalse)
@@ -575,13 +574,60 @@ theorem Hoare_BW_fix_logicv_conj' {Sigma A B C : Type}
       (fun n => FP.nat_iter n f (fun _ => ProgramPO.bot) a)) (Q1 a c)
   exact Hoare_indexed_union _ _ _ (fun n => hiter1 n a c)
 
+theorem Hoare_Rec {Sigma A B : Type}
+    (f : (A -> program Sigma B) -> A -> program Sigma B)
+    (P : A -> Sigma -> Prop) (Q : A -> B -> Sigma -> Prop) (a : A) :
+    (forall W : A -> program Sigma B,
+      (forall a, Hoare (P a) (W a) (Q a)) ->
+      forall a, Hoare (P a) (f W a) (Q a)) ->
+    Hoare (P a) (Rec f a) (Q a) := by
+  intro h
+  unfold Rec
+  exact Hoare_BW_fix f P Q a h
+
+theorem Hoare_Rec_prog {Sigma A : Type}
+    (f : program Sigma A -> program Sigma A)
+    (P : Sigma -> Prop) (Q : A -> Sigma -> Prop) :
+    (forall W, Hoare P W Q -> Hoare P (f W) Q) ->
+    Hoare P (Rec f) Q := by
+  intro h
+  unfold Rec
+  exact Hoare_BW_fix_prog f P Q h
+
+theorem Hoare_Rec_logicv {Sigma A B C : Type}
+    (f : (A -> program Sigma B) -> A -> program Sigma B)
+    (P : A -> C -> Sigma -> Prop) (Q : A -> C -> B -> Sigma -> Prop)
+    (a : A) (c : C) :
+    (forall W : A -> program Sigma B,
+      (forall a c, Hoare (P a c) (W a) (Q a c)) ->
+      forall a c, Hoare (P a c) (f W a) (Q a c)) ->
+    Hoare (P a c) (Rec f a) (Q a c) := by
+  intro h
+  unfold Rec
+  exact Hoare_BW_fix_logicv f P Q a c h
+
+theorem Hoare_Rec_logicv_conj' {Sigma A B C : Type}
+    (f : (A -> program Sigma B) -> A -> program Sigma B)
+    (P1 : A -> C -> Sigma -> Prop) (Q1 : A -> C -> B -> Sigma -> Prop)
+    (a : A) (c : C) {D : Type}
+    (P2 : A -> D -> Sigma -> Prop) (Q2 : A -> D -> B -> Sigma -> Prop) :
+    (forall a d, Hoare (P2 a d) (Rec f a) (Q2 a d)) ->
+    (forall W : A -> program Sigma B,
+      (forall a d, Hoare (P2 a d) (W a) (Q2 a d)) ->
+      (forall a c, Hoare (P1 a c) (W a) (Q1 a c)) ->
+      (forall a d, Hoare (P2 a d) (f W a) (Q2 a d)) ->
+      forall a c, Hoare (P1 a c) (f W a) (Q1 a c)) ->
+    Hoare (P1 a c) (Rec f a) (Q1 a c) := by
+  unfold Rec
+  exact Hoare_BW_fix_logicv_conj' f P1 Q1 a c P2 Q2
+
 theorem Hoare_whileP {Sigma : Type} (cond : Sigma -> Prop)
     (body : program Sigma Unit) (P : Sigma -> Prop) :
     Hoare (fun s => cond s /\ P s) body (fun _ s => P s) ->
       Hoare P (whileP cond body) (fun _ s => P s /\ Not (cond s)) := by
   intro hbody
   unfold whileP
-  apply Hoare_BW_fix_prog (whileP_f cond body) P
+  apply Hoare_Rec_prog (whileP_f cond body) P
     (fun _ s => P s /\ Not (cond s))
   intro W hW
   unfold whileP_f
@@ -603,7 +649,7 @@ theorem Hoare_while {Sigma : Type} (cond : program Sigma Bool)
       Hoare P («while» cond body) (fun _ s => P s) := by
   intro hcond hbody
   unfold «while»
-  apply Hoare_BW_fix_prog (while_f cond body) P (fun _ s => P s)
+  apply Hoare_Rec_prog (while_f cond body) P (fun _ s => P s)
   intro W hW
   unfold while_f
   apply Hoare_bind P (fun _ s => P s) (fun _ s => P s) cond
@@ -623,7 +669,7 @@ theorem Hoare_whileret {Sigma A : Type}
       Hoare (P a) (whileret cond body a) P := by
   intro hcond hbody
   unfold whileret
-  apply Hoare_BW_fix (whileret_f cond body) P (fun _ => P) a
+  apply Hoare_Rec (whileret_f cond body) P (fun _ => P) a
   intro W hW a0
   unfold whileret_f
   apply Hoare_bind (P a0) (fun _ s => P a0 s) P (cond a0)
@@ -643,7 +689,7 @@ theorem Hoare_whileretP {Sigma A : Type}
         (fun a s => P a s /\ Not (cond a s)) := by
   intro hbody
   unfold whileretP
-  apply Hoare_BW_fix (whileretP_f cond body) P
+  apply Hoare_Rec (whileretP_f cond body) P
     (fun _ b s => P b s /\ Not (cond b s)) a
   intro W hW a0
   unfold whileretP_f
@@ -714,6 +760,20 @@ theorem Hoare_fix_logicv_fspecs {Sigma A R : Type}
     (fs.mFS_Post a lv)
   exact Hoare_indexed_union _ _ _ (fun n => hiter n a lv)
 
+theorem Hoare_Rec_fspecs {Sigma A R : Type}
+    (f : (A -> program Sigma R) -> A -> program Sigma R)
+    (fspecs : monad_funcspecs (Sigma := Sigma) (A := A) (R := R))
+    (fs : monad_funcspec (Sigma := Sigma) (A := A) (R := R)) :
+    Forall (fun fs0 => monad_sat_funcspec (fun a => Rec f a) fs0) fspecs ->
+    (forall W : A -> program Sigma R,
+      Forall (fun fs0 => monad_sat_funcspec W fs0) fspecs ->
+      (forall a lv, Hoare (fs.mFS_pre a lv) (W a) (fs.mFS_Post a lv)) ->
+      forall a lv, Hoare (fs.mFS_pre a lv) (f W a) (fs.mFS_Post a lv)) ->
+    forall a lv,
+      Hoare (fs.mFS_pre a lv) (Rec f a) (fs.mFS_Post a lv) := by
+  unfold Rec
+  exact Hoare_fix_logicv_fspecs f fspecs fs
+
 theorem Hoare_repeat_break {Sigma A B : Type}
     (f : A -> program Sigma (CntOrBrk A B)) (P : A -> Sigma -> Prop)
     (Q : B -> Sigma -> Prop) :
@@ -722,7 +782,7 @@ theorem Hoare_repeat_break {Sigma A B : Type}
       | .by_break b => Q b s)) ->
     forall a, Hoare (P a) (repeat_break f a) Q := by
   intro hf a
-  apply Hoare_BW_fix (repeat_break_f f) P (fun _ => Q) a
+  apply Hoare_Rec (repeat_break_f f) P (fun _ => Q) a
   intro W hW a0
   unfold repeat_break_f
   apply Hoare_bind (P a0)
@@ -755,7 +815,7 @@ theorem Hoare_repeat_break_noin {Sigma B : Type}
       | .by_break b => Q b s) ->
     Hoare P (repeat_break_noin body) Q := by
   intro hb
-  apply Hoare_BW_fix_prog (repeat_break_f_noinput body) P Q
+  apply Hoare_Rec_prog (repeat_break_f_noinput body) P Q
   intro W hW
   unfold repeat_break_f_noinput
   apply Hoare_bind P
@@ -787,9 +847,9 @@ theorem Hoare_range_iter' {A Sigma : Type}
   unfold range_iter
   apply Hoare_cons_pre
     (fun s => P lo a s /\ lo <= lo /\ lo <= hi) (P lo a)
-    (BW_fix (range_iter_f hi f) (lo, a)) (fun b => P hi b)
+    (Rec (range_iter_f hi f) (lo, a)) (fun b => P hi b)
   · intro s hp; exact ⟨hp, by omega, hlohi⟩
-  · apply Hoare_BW_fix (range_iter_f hi f)
+  · apply Hoare_Rec (range_iter_f hi f)
       (fun p s => P p.1 p.2 s /\ lo <= p.1 /\ p.1 <= hi)
       (fun _ b s => P hi b s) (lo, a)
     intro W hW p
@@ -843,9 +903,9 @@ theorem Hoare_range_iter_break' {A B Sigma : Type}
   unfold range_iter_break
   apply Hoare_cons_pre
     (fun s => P lo a s /\ lo <= lo /\ lo <= hi) (P lo a)
-    (BW_fix (range_iter_break_f hi f) (lo, a)) _
+    (Rec (range_iter_break_f hi f) (lo, a)) _
   · intro s hp; exact ⟨hp, by omega, hlohi⟩
-  · apply Hoare_BW_fix (range_iter_break_f hi f)
+  · apply Hoare_Rec (range_iter_break_f hi f)
       (fun p s => P p.1 p.2 s /\ lo <= p.1 /\ p.1 <= hi)
       (fun _ res s => match res with
         | .by_continue a' => P hi a' s
@@ -1003,7 +1063,7 @@ theorem Hoare_forset {Sigma A : Type}
       · intro h; exact False.elim h
     exact ⟨(ProperP.proper _ _ heq s s rfl).mpr hp, fun _ h => h⟩
   · unfold forset
-    apply Hoare_BW_fix (forset_f body)
+    apply Hoare_Rec (forset_f body)
       (fun todo s =>
         P (fun a => uPred a /\ Not (todo a)) s /\
         forall x, todo x -> uPred x)
@@ -1825,9 +1885,13 @@ macro "hoare_cons" h:term : tactic =>
       first | exact $h | (repeat intro; try simp_all))
 
 syntax "err_hoare_fix_nolv_auto " term:max : tactic
-syntax "hoare_fix_lv_auto " term:max term:max term:max : tactic
-syntax "hoare_fix_lv_auto_conj " term:max term:max term:max : tactic
-syntax "hoare_fix_lv_auto_conj' " term:max term:max term:max : tactic
+syntax "err_hoare_rec_nolv_auto " term:max : tactic
+syntax "err_hoare_rec " term:max term:max : tactic
+syntax "err_hoare_fix_lv_auto " term:max term:max term:max : tactic
+syntax "err_hoare_fix_lv_auto_conj " term:max term:max term:max : tactic
+syntax "err_hoare_fix_lv_auto_conj' " term:max term:max term:max : tactic
+syntax "err_hoare_rec_lv_auto " term:max term:max term:max : tactic
+syntax "err_hoare_rec_lv_auto_conj' " term:max term:max term:max : tactic
 
 namespace HoareFixTactic
 
@@ -1838,6 +1902,7 @@ private structure GoalData where
   fn : Expr
   arg : Expr
   post : Expr
+  isRec : Bool
 
 private def readGoal : TacticM (MVarId × GoalData) := withMainContext do
   let goal ← getMainGoal
@@ -1850,8 +1915,10 @@ private def readGoal : TacticM (MVarId × GoalData) := withMainContext do
   let pre := hoareArgs[hoareArgs.size - 3]!
   let program := hoareArgs[hoareArgs.size - 2]!
   let post := hoareArgs[hoareArgs.size - 1]!
-  unless program.consumeMData.getAppFn.isConstOf ``FP.BW_fix do
-    throwError "hoare_fix_*: expected BW_fix as the program"
+  let head := program.consumeMData.getAppFn
+  let isRec := head.isConstOf ``Rec
+  unless isRec || head.isConstOf ``FP.BW_fix do
+    throwError "hoare_fix_*: expected Rec or BW_fix as the program"
   let fixArgs := program.getAppArgs
   unless fixArgs.size >= 2 do
     throwError "hoare_fix_*: malformed BW_fix application"
@@ -1860,6 +1927,7 @@ private def readGoal : TacticM (MVarId × GoalData) := withMainContext do
     fn := fixArgs[fixArgs.size - 2]!
     arg := fixArgs[fixArgs.size - 1]!
     post
+    isRec
   })
 
 private def checkTypeArgument (stx : Lean.Syntax) (expected : Expr) : TacticM Unit :=
@@ -1883,7 +1951,8 @@ private def runNoLogicVar (aTypeSyntax : Lean.Syntax) : TacticM Unit := do
     checkTypeArgument aTypeSyntax aType
     let preFamily := abstractOne `a aType data.arg data.pre
     let postFamily := abstractOne `a aType data.arg data.post
-    let proof ← mkAppM ``Hoare_BW_fix
+    let theoremName := if data.isRec then ``Hoare_Rec else ``Hoare_BW_fix
+    let proof ← mkAppM theoremName
       #[data.fn, preFamily, postFamily, data.arg]
     replaceMainGoal (← goal.apply proof)
 
@@ -1898,7 +1967,10 @@ private def runLogicVar (aTypeSyntax cTypeSyntax cSyntax : Lean.Syntax)
     let c ← elabTerm cSyntax (some cType)
     let preFamily := abstractTwo `a `c aType cType data.arg c data.pre
     let postFamily := abstractTwo `a `c aType cType data.arg c data.post
-    let theoremName := if conj then ``Hoare_BW_fix_logicv_conj' else ``Hoare_BW_fix_logicv
+    let theoremName :=
+      if data.isRec then
+        if conj then ``Hoare_Rec_logicv_conj' else ``Hoare_Rec_logicv
+      else if conj then ``Hoare_BW_fix_logicv_conj' else ``Hoare_BW_fix_logicv
     let proof ← mkAppM theoremName
       #[data.fn, preFamily, postFamily, data.arg, c]
     replaceMainGoal (← goal.apply proof)
@@ -1908,11 +1980,21 @@ end HoareFixTactic
 elab_rules : tactic
   | `(tactic| err_hoare_fix_nolv_auto $A:term) =>
       HoareFixTactic.runNoLogicVar A
-  | `(tactic| hoare_fix_lv_auto $A:term $C:term $c:term) =>
+  | `(tactic| err_hoare_rec_nolv_auto $A:term) =>
+      HoareFixTactic.runNoLogicVar A
+  | `(tactic| err_hoare_fix_lv_auto $A:term $C:term $c:term) =>
       HoareFixTactic.runLogicVar A C c false
-  | `(tactic| hoare_fix_lv_auto_conj $A:term $C:term $c:term) =>
+  | `(tactic| err_hoare_fix_lv_auto_conj $A:term $C:term $c:term) =>
       HoareFixTactic.runLogicVar A C c true
-  | `(tactic| hoare_fix_lv_auto_conj' $A:term $C:term $c:term) =>
+  | `(tactic| err_hoare_fix_lv_auto_conj' $A:term $C:term $c:term) =>
       HoareFixTactic.runLogicVar A C c true
+  | `(tactic| err_hoare_rec_lv_auto $A:term $C:term $c:term) =>
+      HoareFixTactic.runLogicVar A C c false
+  | `(tactic| err_hoare_rec_lv_auto_conj' $A:term $C:term $c:term) =>
+      HoareFixTactic.runLogicVar A C c true
+
+macro_rules
+  | `(tactic| err_hoare_rec $P:term $Q:term) =>
+      `(tactic| apply Hoare_Rec (P := $P) (Q := $Q))
 
 end MonadLib

@@ -18,3 +18,8 @@ lean_lib QCPDemosLLM where
   roots := #[`SimpleC.EE.QCP_demos_LLM]
   globs := #[`SimpleC.EE.QCP_demos_LLM.*]
   srcDir := "Lean/examples"
+
+lean_lib LLMBench where
+  roots := #[`SimpleC.EE.LLM_bench]
+  globs := #[`SimpleC.EE.LLM_bench.*]
+  srcDir := "Lean/examples"

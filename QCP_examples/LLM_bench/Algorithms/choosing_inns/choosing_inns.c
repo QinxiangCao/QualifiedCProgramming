@@ -12,6 +12,7 @@
       (InnsPairAnswer : list Z -> list Z -> Z -> Z -> Z -> Prop)
  */
 /*@ Import Coq Require Import SimpleC.EE.LLM_bench.Algorithms.choosing_inns.choosing_inns_lib */
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.choosing_inns.choosing_inns_lib */
 
 void initCounts(int *seen, int *good, int k)
 /*@ Require

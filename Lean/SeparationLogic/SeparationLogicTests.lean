@@ -122,13 +122,26 @@ example : mem_byte_update (single_byte_mem 2 9) 3 8 2 = value 9 := by
   simp [mem_byte_update, single_byte_mem, addr_eqb]
 example : mem_remove (single_byte_mem 2 9) 2 2 = Noperm := by simp [mem_remove, addr_eqb]
 
--- The Coq source intentionally clears every non-target cell here.
-example : mem_noninit_update (single_byte_mem 10 7) 0 10 = Noperm := by
+-- A noninitializing update changes only its target address.
+example : mem_noninit_update (single_byte_mem 10 7) 0 10 = value 7 := by
+  simp [mem_noninit_update, single_byte_mem, addr_eqb]
+example : mem_noninit_update (single_byte_mem 10 7) 0 0 = Noninit := by
   simp [mem_noninit_update, addr_eqb]
 
 -- Tail-first recursion means the first duplicate address wins.
 example : mem_update_list empty_mem [0, 0] [some 1, some 2] 0 = value 1 := by
   simp [mem_update_list, mem_byte_update, addr_eqb]
+example : mem_update_list empty_mem [0, 1] [none, some 7] 1 = value 7 := by
+  simp [mem_update_list, mem_noninit_update, mem_byte_update, addr_eqb]
+example : mem_update_list empty_mem [0, 0] [none, some 7] 0 = Noninit := by
+  simp [mem_update_list, mem_noninit_update, addr_eqb]
+example : mem_update_list empty_mem [0, 1] [some 7, none] 0 = value 7 := by
+  simp [mem_update_list, mem_byte_update, addr_eqb]
+example : mem_update_list empty_mem [0, 1] [some 7, none] 1 = Noninit := by
+  simp [mem_update_list, mem_noninit_update, mem_byte_update, addr_eqb]
+example :
+    mem_update_list (single_byte_mem 10 9) [0] [none] 10 = value 9 := by
+  simp [mem_update_list, mem_noninit_update, single_byte_mem, addr_eqb]
 -- Unmatched list suffixes are ignored.
 example : mem_update_list empty_mem [0, 1] [some 7] 1 = Noperm := by
   simp [mem_update_list, mem_byte_update, empty_mem, addr_eqb]
@@ -256,89 +269,3 @@ example (m : mem) (h : mem_empty m) : m = m := by
 #print axioms AUXLib.functional_extensionality
 #print axioms AUXLib.propositional_extensionality
 #print axioms mem_join_assoc1
-
-namespace CNotationTests
-
-open SimpleC.SL.CNotation
-open scoped SimpleC
-
-#check fun (p : SimpleC.SL.CNotation.addr) (q : rvalue_expr) =>
-  p = &((q + 1) ->ₛ "pstPrev")
-
-#check fun (p : SimpleC.SL.CNotation.addr) (q : rvalue_expr) =>
-  p = &(q ->ₛ "pstPrev")
-
-#check fun (p : SimpleC.SL.CNotation.addr) =>
-  p = &((p # struct "LOS_DL_LIST") ->ₛ "pstPrev")
-
-#check fun (p : SimpleC.SL.CNotation.addr) =>
-  p = &(p # struct "LOS_DL_LIST" ->ₛ "pstPrev")
-
-#check fun (p : SimpleC.SL.CNotation.addr) =>
-  p = &(p # "LOS_DL_LIST" ->ₛ "pstPrev")
-
-#check fun (p : SimpleC.SL.CNotation.addr) =>
-  p = &(p # "LOS_TaskCB" ->ₛ "readWriteCnt"[0 + 1])
-
-#check fun (p : SimpleC.SL.CNotation.addr) =>
-  p = &(((p + 1)) # "LOS_TaskCB" ->ₛ "readWriteCnt"[0 + 1])
-
-#check fun (p : SimpleC.SL.CNotation.addr) =>
-  p = &("g_TaskCB")
-
-#check fun (p : SimpleC.SL.CNotation.addr) =>
-  p = &("g_TaskCB") + sizeof("TaskCB") * 1
-
-#check fun (p : SimpleC.SL.CNotation.addr) =>
-  p = &("g_X") + sizeof(INT) * 1
-
-#check fun (p : SimpleC.SL.CNotation.addr) (_n : Int) =>
-  p = &((p # "LOS_DL_LIST" + 1) ->ₛ "pstPrev")
-
-#check fun (p : SimpleC.SL.CNotation.addr) (_n : Int) =>
-  p = &((p # "LOS_DL_LIST" + (1)) ->ₛ "pstPrev")
-
-example (p : SimpleC.SL.CNotation.addr) :
-    &(&(p # "TaskCB" ->ₛ "pend_list") ->ₛ "pstPrev") =
-      &(p # "TaskCB" ->ₛ "pend_list" .ₛ "pstPrev") := by
-  csimpl
-  rfl
-
-example (q : SimpleC.SL.CNotation.addr) :
-    &(q # "TaskCB" ->ₛ "pend_list" .ₛ "pstPrev") =
-      &(&(q # "TaskCB" ->ₛ "pend_list") ->ₛ "pstPrev") := by
-  csimpl
-  rfl
-
-example (p : SimpleC.SL.CNotation.addr) :
-    let q := p + 10 * sizeof("TaskCB")
-    &(q # "TaskCB" ->ₛ "pend_list") =
-      &((p # "TaskCB" + 10) ->ₛ "pend_list") := by
-  dsimp
-  csimpl
-  rfl
-
-example (p : SimpleC.SL.CNotation.addr) :
-    let q := p + sizeof("TaskCB") * 10
-    &(q # "TaskCB" ->ₛ "pend_list") =
-      &((p # "TaskCB" + 10) ->ₛ "pend_list") := by
-  dsimp
-  csimpl
-  rfl
-
-example (p q : SimpleC.SL.CNotation.addr)
-    (h : &(q # "TaskCB" ->ₛ "pend_list") =
-      &((p # "TaskCB" + 10) ->ₛ "pend_list")) :
-    q = p + sizeof("TaskCB") * 10 := by
-  have h' := addr_of_arrow_field_inv _ _ _ h
-  cases h'
-
-example :
-    let q := eval_addr_expr (RE_addr_of ("x" : lvalue_expr))
-    &(q # "LOS_TaskCB" ->ₛ "pend_list") =
-      &(&("x") ->ₛ "pend_list") := by
-  dsimp
-  csimpl
-  rfl
-
-end CNotationTests

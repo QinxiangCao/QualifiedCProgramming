@@ -1,0 +1,105 @@
+import SimpleC.EE.LLM_bench.Algorithms.discretize.discretize_proof_auto
+import SimpleC.EE.LLM_bench.Algorithms.discretize.discretize_proof_manual
+
+namespace SimpleC.EE.LLM_bench.Algorithms.discretize.discretize_goal_check
+
+open SimpleC.EE.LLM_bench.Algorithms.discretize.discretize_proof_auto
+open SimpleC.EE.LLM_bench.Algorithms.discretize.discretize_proof_manual
+
+def VC_Correctness : SimpleC.EE.LLM_bench.Algorithms.discretize.discretize_goal.VC_Correct where
+  proof_of_swap_return_wit_1 := proof_of_swap_return_wit_1
+  proof_of_swap_partial_solve_wit_1 := proof_of_swap_partial_solve_wit_1
+  proof_of_swap_partial_solve_wit_2 := proof_of_swap_partial_solve_wit_2
+  proof_of_swap_partial_solve_wit_3 := proof_of_swap_partial_solve_wit_3
+  proof_of_swap_partial_solve_wit_4 := proof_of_swap_partial_solve_wit_4
+  proof_of_partition_safety_wit_1 := proof_of_partition_safety_wit_1
+  proof_of_partition_safety_wit_2 := proof_of_partition_safety_wit_2
+  proof_of_partition_safety_wit_3 := proof_of_partition_safety_wit_3
+  proof_of_partition_safety_wit_4 := proof_of_partition_safety_wit_4
+  proof_of_partition_safety_wit_5 := proof_of_partition_safety_wit_5
+  proof_of_partition_safety_wit_6 := proof_of_partition_safety_wit_6
+  proof_of_partition_safety_wit_7 := proof_of_partition_safety_wit_7
+  proof_of_partition_safety_wit_8 := proof_of_partition_safety_wit_8
+  proof_of_partition_safety_wit_9 := proof_of_partition_safety_wit_9
+  proof_of_partition_partial_solve_wit_1 := proof_of_partition_partial_solve_wit_1
+  proof_of_partition_partial_solve_wit_2 := proof_of_partition_partial_solve_wit_2
+  proof_of_partition_partial_solve_wit_3_pure := proof_of_partition_partial_solve_wit_3_pure
+  proof_of_partition_partial_solve_wit_3 := proof_of_partition_partial_solve_wit_3
+  proof_of_partition_partial_solve_wit_4_pure := proof_of_partition_partial_solve_wit_4_pure
+  proof_of_partition_partial_solve_wit_4 := proof_of_partition_partial_solve_wit_4
+  proof_of_quicksort_range_safety_wit_1 := proof_of_quicksort_range_safety_wit_1
+  proof_of_quicksort_range_safety_wit_2 := proof_of_quicksort_range_safety_wit_2
+  proof_of_quicksort_range_safety_wit_3 := proof_of_quicksort_range_safety_wit_3
+  proof_of_quicksort_range_safety_wit_4 := proof_of_quicksort_range_safety_wit_4
+  proof_of_quicksort_range_safety_wit_5 := proof_of_quicksort_range_safety_wit_5
+  proof_of_quicksort_range_safety_wit_6 := proof_of_quicksort_range_safety_wit_6
+  proof_of_quicksort_range_safety_wit_7 := proof_of_quicksort_range_safety_wit_7
+  proof_of_quicksort_range_partial_solve_wit_1_pure := proof_of_quicksort_range_partial_solve_wit_1_pure
+  proof_of_quicksort_range_partial_solve_wit_1 := proof_of_quicksort_range_partial_solve_wit_1
+  proof_of_quicksort_range_partial_solve_wit_2_pure := proof_of_quicksort_range_partial_solve_wit_2_pure
+  proof_of_quicksort_range_partial_solve_wit_2 := proof_of_quicksort_range_partial_solve_wit_2
+  proof_of_quicksort_range_partial_solve_wit_3_pure := proof_of_quicksort_range_partial_solve_wit_3_pure
+  proof_of_quicksort_range_partial_solve_wit_3 := proof_of_quicksort_range_partial_solve_wit_3
+  proof_of_quicksort_range_partial_solve_wit_4_pure := proof_of_quicksort_range_partial_solve_wit_4_pure
+  proof_of_quicksort_range_partial_solve_wit_4 := proof_of_quicksort_range_partial_solve_wit_4
+  proof_of_int_array_quicksort_safety_wit_1 := proof_of_int_array_quicksort_safety_wit_1
+  proof_of_int_array_quicksort_safety_wit_2 := proof_of_int_array_quicksort_safety_wit_2
+  proof_of_int_array_quicksort_safety_wit_3 := proof_of_int_array_quicksort_safety_wit_3
+  proof_of_int_array_quicksort_partial_solve_wit_1_pure := proof_of_int_array_quicksort_partial_solve_wit_1_pure
+  proof_of_int_array_quicksort_partial_solve_wit_1 := proof_of_int_array_quicksort_partial_solve_wit_1
+  proof_of_discretize_safety_wit_1 := proof_of_discretize_safety_wit_1
+  proof_of_discretize_safety_wit_2 := proof_of_discretize_safety_wit_2
+  proof_of_discretize_safety_wit_3 := proof_of_discretize_safety_wit_3
+  proof_of_discretize_safety_wit_4 := proof_of_discretize_safety_wit_4
+  proof_of_discretize_safety_wit_5 := proof_of_discretize_safety_wit_5
+  proof_of_discretize_safety_wit_6 := proof_of_discretize_safety_wit_6
+  proof_of_discretize_safety_wit_7 := proof_of_discretize_safety_wit_7
+  proof_of_discretize_safety_wit_8 := proof_of_discretize_safety_wit_8
+  proof_of_discretize_safety_wit_9 := proof_of_discretize_safety_wit_9
+  proof_of_discretize_partial_solve_wit_1 := proof_of_discretize_partial_solve_wit_1
+  proof_of_discretize_partial_solve_wit_2 := proof_of_discretize_partial_solve_wit_2
+  proof_of_discretize_partial_solve_wit_3_pure := proof_of_discretize_partial_solve_wit_3_pure
+  proof_of_discretize_partial_solve_wit_3 := proof_of_discretize_partial_solve_wit_3
+  proof_of_discretize_partial_solve_wit_4 := proof_of_discretize_partial_solve_wit_4
+  proof_of_discretize_partial_solve_wit_5 := proof_of_discretize_partial_solve_wit_5
+  proof_of_discretize_partial_solve_wit_6 := proof_of_discretize_partial_solve_wit_6
+  proof_of_discretize_partial_solve_wit_7 := proof_of_discretize_partial_solve_wit_7
+  proof_of_query_forward_safety_wit_1 := proof_of_query_forward_safety_wit_1
+  proof_of_query_forward_safety_wit_3 := proof_of_query_forward_safety_wit_3
+  proof_of_query_forward_safety_wit_5 := proof_of_query_forward_safety_wit_5
+  proof_of_query_forward_safety_wit_6 := proof_of_query_forward_safety_wit_6
+  proof_of_query_forward_safety_wit_7 := proof_of_query_forward_safety_wit_7
+  proof_of_query_forward_safety_wit_8 := proof_of_query_forward_safety_wit_8
+  proof_of_query_forward_safety_wit_9 := proof_of_query_forward_safety_wit_9
+  proof_of_query_forward_safety_wit_10 := proof_of_query_forward_safety_wit_10
+  proof_of_query_forward_safety_wit_11 := proof_of_query_forward_safety_wit_11
+  proof_of_query_forward_safety_wit_12 := proof_of_query_forward_safety_wit_12
+  proof_of_query_forward_safety_wit_13 := proof_of_query_forward_safety_wit_13
+  proof_of_query_forward_partial_solve_wit_1 := proof_of_query_forward_partial_solve_wit_1
+  proof_of_query_forward_partial_solve_wit_2 := proof_of_query_forward_partial_solve_wit_2
+  proof_of_partition_entail_wit_1 := proof_of_partition_entail_wit_1
+  proof_of_partition_entail_wit_2_1 := proof_of_partition_entail_wit_2_1
+  proof_of_partition_entail_wit_2_2 := proof_of_partition_entail_wit_2_2
+  proof_of_partition_return_wit_1 := proof_of_partition_return_wit_1
+  proof_of_quicksort_range_return_wit_1 := proof_of_quicksort_range_return_wit_1
+  proof_of_quicksort_range_return_wit_2 := proof_of_quicksort_range_return_wit_2
+  proof_of_quicksort_range_return_wit_3 := proof_of_quicksort_range_return_wit_3
+  proof_of_quicksort_range_return_wit_4 := proof_of_quicksort_range_return_wit_4
+  proof_of_int_array_quicksort_return_wit_1 := proof_of_int_array_quicksort_return_wit_1
+  proof_of_discretize_entail_wit_1 := proof_of_discretize_entail_wit_1
+  proof_of_discretize_entail_wit_2 := proof_of_discretize_entail_wit_2
+  proof_of_discretize_entail_wit_3 := proof_of_discretize_entail_wit_3
+  proof_of_discretize_entail_wit_4 := proof_of_discretize_entail_wit_4
+  proof_of_discretize_entail_wit_5_1 := proof_of_discretize_entail_wit_5_1
+  proof_of_discretize_entail_wit_5_2 := proof_of_discretize_entail_wit_5_2
+  proof_of_discretize_return_wit_1 := proof_of_discretize_return_wit_1
+  proof_of_query_forward_safety_wit_2 := proof_of_query_forward_safety_wit_2
+  proof_of_query_forward_safety_wit_4 := proof_of_query_forward_safety_wit_4
+  proof_of_query_forward_entail_wit_1 := proof_of_query_forward_entail_wit_1
+  proof_of_query_forward_entail_wit_2 := proof_of_query_forward_entail_wit_2
+  proof_of_query_forward_entail_wit_3_1 := proof_of_query_forward_entail_wit_3_1
+  proof_of_query_forward_entail_wit_3_2 := proof_of_query_forward_entail_wit_3_2
+  proof_of_query_forward_return_wit_1 := proof_of_query_forward_return_wit_1
+  proof_of_query_forward_return_wit_2 := proof_of_query_forward_return_wit_2
+
+end SimpleC.EE.LLM_bench.Algorithms.discretize.discretize_goal_check

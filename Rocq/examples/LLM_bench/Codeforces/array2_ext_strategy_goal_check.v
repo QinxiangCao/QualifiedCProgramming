@@ -1,0 +1,5 @@
+From SimpleC.EE.LLM_bench.Codeforces Require Import array2_ext_strategy_goal array2_ext_strategy_proof.
+
+Module array2_ext_Strategy_Correctness : array2_ext_Strategy_Correct.
+  Include array2_ext_strategy_proof.
+End array2_ext_Strategy_Correctness.

@@ -16,6 +16,7 @@
       (EditRemainingMatches : list Z -> list Z -> list Z -> list Z -> list Z -> list Z -> list Z -> list Z -> Z -> list Z -> list Z -> list Z -> list Z -> Z -> Prop)
  */
 /*@ Import Coq Require Import SimpleC.EE.LLM_bench.Algorithms.edit_strings.edit_strings_lib */
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.edit_strings.edit_strings_lib */
 
 int max_edit_string_matches(int *s1, int *s2, int *t1, int *t2, int n)
 /*@ With (s1_l s2_l t1_l t2_l : list Z)

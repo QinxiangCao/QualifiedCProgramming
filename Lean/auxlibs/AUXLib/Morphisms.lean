@@ -90,6 +90,17 @@ instance iff_equivalence : Equivalence Iff where
   symm _ _ h := Iff.symm h
   trans _ _ _ hpq hqr := Iff.trans hpq hqr
 
+instance (priority := low) equivalence_relation_proper
+    {A : Sort u} (R : A -> A -> Prop) [h : Equivalence R] :
+    Proper (flipRel R ==> R ==> Iff) R where
+  proper x x' hxx' y y' hyy' := by
+    constructor
+    · intro hxy
+      exact h.trans _ _ _ hxx' (h.trans _ _ _ hxy hyy')
+    · intro hx'y'
+      exact h.trans _ _ _ (h.symm _ _ hxx')
+        (h.trans _ _ _ hx'y' (h.symm _ _ hyy'))
+
 instance iff_forward_transport : ForwardTransport Iff where
   transport := Iff.mp
 

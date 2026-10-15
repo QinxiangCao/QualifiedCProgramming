@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P012_1326A_bad_ugly_numbers_goal P012_1326A_bad_ugly_numbers_proof_auto P012_1326A_bad_ugly_numbers_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P012_1326A_bad_ugly_numbers_proof_auto.
+  Include P012_1326A_bad_ugly_numbers_proof_manual.
+End VC_Correctness.

@@ -3,6 +3,7 @@ import SimpleC.SL.StoreAux
 namespace SimpleC.SL.MapLib
 
 open AUXLib
+open SimpleC.SL.CArch
 open SimpleC.SL.CommonAssertion
 open SimpleC.SL.CommonAssertion.DerivedPredSig
 open SimpleC.SL.StoreAux
@@ -10,16 +11,17 @@ open SimpleC.SL.StoreAux.StoreLibSig
 open Unifysl.LogicGenerator.demo932
 
 structure MapLibSig
+    (_Arch : CArchSig) (_Endian : CEndianSig)
     (_CRules : SeparationLogicSig)
-    (_DePredSig : DerivedPredSig _CRules)
-    (_SLibSig : StoreLibSig _CRules _DePredSig) : Type where
+    (_DePredSig : DerivedPredSig _Arch _Endian _CRules)
+    (_SLibSig : StoreLibSig _Arch _Endian _CRules _DePredSig) : Type where
 
 namespace MapLibSig
 
-def canonical (CRules : SeparationLogicSig)
-    (DePredSig : DerivedPredSig CRules)
-    (SLibSig : StoreLibSig CRules DePredSig) :
-    MapLibSig CRules DePredSig SLibSig := {}
+def canonical (Arch : CArchSig) (Endian : CEndianSig) (CRules : SeparationLogicSig)
+    (DePredSig : DerivedPredSig Arch Endian CRules)
+    (SLibSig : StoreLibSig Arch Endian CRules DePredSig) :
+    MapLibSig Arch Endian CRules DePredSig SLibSig := {}
 
 def store_map (CRules : SeparationLogicSig) {A B : Type}
     (P : A -> B -> CRules.expr) (m : A -> Option B) : CRules.expr :=

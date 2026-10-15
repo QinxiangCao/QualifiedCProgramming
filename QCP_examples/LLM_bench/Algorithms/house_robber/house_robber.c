@@ -1,3 +1,8 @@
+/*@ Import Lean
+import SimpleC.EE.LLM_bench.Algorithms.house_robber.house_robber_lib
+open SimpleC.EE.LLM_bench.Algorithms.house_robber.house_robber_lib
+*/
+
 
 
 

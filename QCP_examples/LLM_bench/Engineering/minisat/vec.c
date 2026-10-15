@@ -31,6 +31,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
       (vecp_shell : Z -> Assertion)
  */
 /*@ Import Coq Require Import vec_lib */
+/*@ Import Lean import SimpleC.EE.LLM_bench.Engineering.minisat.vec_lib */
 
 /* Success-only, typed allocator contracts.  They are the explicit trusted
    boundary required because the MiniSat implementation does not test OOM. */

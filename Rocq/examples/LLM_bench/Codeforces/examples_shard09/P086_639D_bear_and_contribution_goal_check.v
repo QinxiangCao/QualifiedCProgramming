@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P086_639D_bear_and_contribution_goal P086_639D_bear_and_contribution_proof_auto P086_639D_bear_and_contribution_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P086_639D_bear_and_contribution_proof_auto.
+  Include P086_639D_bear_and_contribution_proof_manual.
+End VC_Correctness.

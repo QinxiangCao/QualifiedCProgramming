@@ -53,9 +53,8 @@ def single_Noninit_mem (p : addr) : mem :=
 def mem_byte_update (m : mem) (p : addr) (n : byte) : mem :=
   fun p' => if addr_eqb p' p then value n else m p'
 
-set_option linter.unusedVariables false in
 def mem_noninit_update (m : mem) (p : addr) : mem :=
-  fun p' => if addr_eqb p' p then Noninit else Noperm
+  fun p' => if addr_eqb p' p then Noninit else m p'
 
 def mem_remove (m : mem) (p : addr) : mem :=
   fun p' => if addr_eqb p' p then Noperm else m p'
@@ -614,7 +613,7 @@ theorem sub_minus_mem_join {m1 m2 : mem} (h : sub m1 m2) :
 theorem mem_join_sub_l {m1 m2 m : mem} (h : mem_join m1 m2 m) : sub m1 m :=
   mem_join_incl_l m1 m2 m h
 
-theorem sub_merge_sub (m1 m2 m : mem) (h1 : sub m1 m) (h2 : sub m2 m) :
+theorem sub_merge_sub {m1 m2 m : mem} (h1 : sub m1 m) (h2 : sub m2 m) :
     sub (merge m1 m2) m := by
   intro x howned
   have hp1 := h1 x
@@ -626,7 +625,7 @@ theorem mem_join_disjoint_l_ex (m1 m2 m3 m4 m : mem)
     exists m5 m6, mem_join m1 m3 m5 /\ mem_join m5 m6 m := by
   refine ⟨merge m1 m3, minus m (merge m1 m3), disjoint_merge_mem_join hd, ?_⟩
   apply sub_minus_mem_join
-  apply sub_merge_sub m1 m3 m
+  apply sub_merge_sub
   · exact mem_join_sub_l h12
   · exact mem_join_sub_l h34
 

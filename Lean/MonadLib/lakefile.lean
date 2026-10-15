@@ -17,3 +17,11 @@ lean_lib MonadLibTests where
 @[default_target]
 lean_lib UnifiedTacticsTests where
   roots := #[`UnifiedTacticsTests]
+
+@[default_target]
+lean_lib FacadeImportTests where
+  roots := #[`FacadeImportTests]
+
+@[default_target]
+lean_lib P12Tests where
+  roots := #[`P12Tests]

@@ -14,6 +14,7 @@ CONFIGURE
 # Generated files
 .depend
 .depend.core
+.depend.build.*
 .depend.core.flocq
 .depend.core.project
 .depend.examples

@@ -3,9 +3,11 @@ import Lean.Util.CollectAxioms
 
 namespace MapLibTests
 
+open SimpleC.SL.CArch
 open AUXLib
 open SimpleC.SL.CommonAssertion
 open SimpleC.SL.CommonAssertion.DerivedPredSig
+open SimpleC.SL.CommonAssertion.DerivedPredSigCompat
 open SimpleC.SL.MapLib
 open SimpleC.SL.MapLib.MapLibSig
 open SimpleC.SL.StoreAux
@@ -68,19 +70,19 @@ elab_rules : command
   store_map_equiv,
   store_map_missing_i_equiv,
   store_map_empty
-] => 2048639483385255554
+] => 18272354290628626791
 
 section
 
 variable {CRules : SeparationLogicSig}
-variable {DePredSig : DerivedPredSig CRules}
-variable {SLibSig : StoreLibSig CRules DePredSig}
+variable {DePredSig : DerivedPredSigCompat.Sig CRules}
+variable {SLibSig : StoreLibSigCompat CRules DePredSig}
 variable {A B : Type}
 variable (P : A -> B -> CRules.expr)
 variable (m : A -> Option B)
 
-example : MapLibSig CRules DePredSig SLibSig :=
-  MapLibSig.canonical CRules DePredSig SLibSig
+example : MapLibSig Arch32 BigEndian CRules DePredSig SLibSig :=
+  MapLibSig.canonical Arch32 BigEndian CRules DePredSig SLibSig
 
 example : store_map CRules P m =
     CRules.exp (List A) fun l =>

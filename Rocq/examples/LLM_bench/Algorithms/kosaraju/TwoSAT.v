@@ -7,7 +7,7 @@ Require Import Coq.Logic.IndefiniteDescription.
 Require Import Coq.Logic.FunctionalExtensionality.
 Require Import Coq.micromega.Lia.
 Require Import Recdef.
-Require Import SetsClass.
+Require Import SetsClass.SetsClass.
 Require Import GraphLib.graph_basic.
 Require Import GraphLib.reachable.reachable_basic.
 Require Import GraphLib.Syntax.

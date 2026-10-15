@@ -1,0 +1,39 @@
+import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib
+import Lean.Util.CollectAxioms
+
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.terminal_frequency_summary_implies_Spec
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.length_replace_nth__counting_invariant
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.Zlength_replace_Znth__counting_invariant
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.count_prefix_step__counting_invariant
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.maximum_frequency_prefix_zero__counting_invariant
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.sublist_snoc_at__frequency_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.count_occ_sublist_zero_above__frequency_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.maximum_frequency_prefix_raise__frequency_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.maximum_frequency_prefix_tie__frequency_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.maximum_frequency_prefix_below__frequency_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.two_occurrences_nat_count_occ__terminal_result
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.two_distinct_Znth_count_occ__terminal_result
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.Znth_in_range_In__terminal_result
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.terminal_frequency_bounds__terminal_result
+
+run_cmd do
+  for decl in #[
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.terminal_frequency_summary_implies_Spec,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.length_replace_nth__counting_invariant,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.Zlength_replace_Znth__counting_invariant,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.count_prefix_step__counting_invariant,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.maximum_frequency_prefix_zero__counting_invariant,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.sublist_snoc_at__frequency_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.count_occ_sublist_zero_above__frequency_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.maximum_frequency_prefix_raise__frequency_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.maximum_frequency_prefix_tie__frequency_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.maximum_frequency_prefix_below__frequency_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.two_occurrences_nat_count_occ__terminal_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.two_distinct_Znth_count_occ__terminal_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.Znth_in_range_In__terminal_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P053_1393C_pinkie_pie_eats_patty_cakes_lib.terminal_frequency_bounds__terminal_result
+  ] do
+    let axs ← Lean.collectAxioms decl
+    for ax in axs do
+      unless #[``propext, ``Classical.choice, ``Quot.sound].contains ax do
+        throwError "Unexpected axiom {ax} in {decl}"

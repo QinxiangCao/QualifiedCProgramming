@@ -1,0 +1,77 @@
+import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P013_1744C_traffic_light_proof_auto
+import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P013_1744C_traffic_light_proof_manual
+
+namespace SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P013_1744C_traffic_light_goal_check
+
+open SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P013_1744C_traffic_light_proof_auto
+open SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P013_1744C_traffic_light_proof_manual
+
+def VC_Correctness : SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P013_1744C_traffic_light_goal.VC_Correct where
+  proof_of_solver_safety_wit_1_red := proof_of_solver_safety_wit_1_red
+  proof_of_solver_safety_wit_2_yellow := proof_of_solver_safety_wit_2_yellow
+  proof_of_solver_safety_wit_3_green := proof_of_solver_safety_wit_3_green
+  proof_of_solver_safety_wit_4_red := proof_of_solver_safety_wit_4_red
+  proof_of_solver_safety_wit_5_yellow := proof_of_solver_safety_wit_5_yellow
+  proof_of_solver_safety_wit_6_green := proof_of_solver_safety_wit_6_green
+  proof_of_solver_safety_wit_7_green := proof_of_solver_safety_wit_7_green
+  proof_of_solver_safety_wit_8_red := proof_of_solver_safety_wit_8_red
+  proof_of_solver_safety_wit_9_red := proof_of_solver_safety_wit_9_red
+  proof_of_solver_safety_wit_10_yellow := proof_of_solver_safety_wit_10_yellow
+  proof_of_solver_safety_wit_11_yellow := proof_of_solver_safety_wit_11_yellow
+  proof_of_solver_safety_wit_12_red := proof_of_solver_safety_wit_12_red
+  proof_of_solver_safety_wit_13_yellow := proof_of_solver_safety_wit_13_yellow
+  proof_of_solver_safety_wit_14_red := proof_of_solver_safety_wit_14_red
+  proof_of_solver_safety_wit_15_red := proof_of_solver_safety_wit_15_red
+  proof_of_solver_safety_wit_16_red := proof_of_solver_safety_wit_16_red
+  proof_of_solver_safety_wit_17_red := proof_of_solver_safety_wit_17_red
+  proof_of_solver_safety_wit_18_yellow := proof_of_solver_safety_wit_18_yellow
+  proof_of_solver_safety_wit_19_yellow := proof_of_solver_safety_wit_19_yellow
+  proof_of_solver_safety_wit_20_yellow := proof_of_solver_safety_wit_20_yellow
+  proof_of_solver_safety_wit_21_yellow := proof_of_solver_safety_wit_21_yellow
+  proof_of_solver_safety_wit_22_red := proof_of_solver_safety_wit_22_red
+  proof_of_solver_safety_wit_23_yellow := proof_of_solver_safety_wit_23_yellow
+  proof_of_solver_safety_wit_24_red := proof_of_solver_safety_wit_24_red
+  proof_of_solver_safety_wit_25_yellow := proof_of_solver_safety_wit_25_yellow
+  proof_of_solver_safety_wit_26_red := proof_of_solver_safety_wit_26_red
+  proof_of_solver_safety_wit_27_yellow := proof_of_solver_safety_wit_27_yellow
+  proof_of_solver_safety_wit_28_yellow := proof_of_solver_safety_wit_28_yellow
+  proof_of_solver_safety_wit_29_red := proof_of_solver_safety_wit_29_red
+  proof_of_solver_safety_wit_30_red := proof_of_solver_safety_wit_30_red
+  proof_of_solver_safety_wit_31_yellow := proof_of_solver_safety_wit_31_yellow
+  proof_of_solver_safety_wit_32_red := proof_of_solver_safety_wit_32_red
+  proof_of_solver_safety_wit_33_yellow := proof_of_solver_safety_wit_33_yellow
+  proof_of_solver_safety_wit_34_red := proof_of_solver_safety_wit_34_red
+  proof_of_solver_safety_wit_35_yellow := proof_of_solver_safety_wit_35_yellow
+  proof_of_solver_safety_wit_36_yellow := proof_of_solver_safety_wit_36_yellow
+  proof_of_solver_safety_wit_37_red := proof_of_solver_safety_wit_37_red
+  proof_of_solver_safety_wit_38_yellow := proof_of_solver_safety_wit_38_yellow
+  proof_of_solver_safety_wit_39_red := proof_of_solver_safety_wit_39_red
+  proof_of_solver_safety_wit_40_red := proof_of_solver_safety_wit_40_red
+  proof_of_solver_safety_wit_41_yellow := proof_of_solver_safety_wit_41_yellow
+  proof_of_solver_safety_wit_42_red := proof_of_solver_safety_wit_42_red
+  proof_of_solver_safety_wit_43_yellow := proof_of_solver_safety_wit_43_yellow
+  proof_of_solver_safety_wit_44_red := proof_of_solver_safety_wit_44_red
+  proof_of_solver_safety_wit_45_yellow := proof_of_solver_safety_wit_45_yellow
+  proof_of_solver_partial_solve_wit_1_red := proof_of_solver_partial_solve_wit_1_red
+  proof_of_solver_partial_solve_wit_2_yellow := proof_of_solver_partial_solve_wit_2_yellow
+  proof_of_solver_entail_wit_1_red := proof_of_solver_entail_wit_1_red
+  proof_of_solver_entail_wit_2_yellow := proof_of_solver_entail_wit_2_yellow
+  proof_of_solver_entail_wit_3_red := proof_of_solver_entail_wit_3_red
+  proof_of_solver_entail_wit_4_yellow := proof_of_solver_entail_wit_4_yellow
+  proof_of_solver_entail_wit_5_1_red := proof_of_solver_entail_wit_5_1_red
+  proof_of_solver_entail_wit_5_2_red := proof_of_solver_entail_wit_5_2_red
+  proof_of_solver_entail_wit_5_3_red := proof_of_solver_entail_wit_5_3_red
+  proof_of_solver_entail_wit_5_4_red := proof_of_solver_entail_wit_5_4_red
+  proof_of_solver_entail_wit_5_5_red := proof_of_solver_entail_wit_5_5_red
+  proof_of_solver_entail_wit_5_6_red := proof_of_solver_entail_wit_5_6_red
+  proof_of_solver_entail_wit_6_1_yellow := proof_of_solver_entail_wit_6_1_yellow
+  proof_of_solver_entail_wit_6_2_yellow := proof_of_solver_entail_wit_6_2_yellow
+  proof_of_solver_entail_wit_6_3_yellow := proof_of_solver_entail_wit_6_3_yellow
+  proof_of_solver_entail_wit_6_4_yellow := proof_of_solver_entail_wit_6_4_yellow
+  proof_of_solver_entail_wit_6_5_yellow := proof_of_solver_entail_wit_6_5_yellow
+  proof_of_solver_entail_wit_6_6_yellow := proof_of_solver_entail_wit_6_6_yellow
+  proof_of_solver_return_wit_1_red := proof_of_solver_return_wit_1_red
+  proof_of_solver_return_wit_2_yellow := proof_of_solver_return_wit_2_yellow
+  proof_of_solver_return_wit_3_green := proof_of_solver_return_wit_3_green
+
+end SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P013_1744C_traffic_light_goal_check

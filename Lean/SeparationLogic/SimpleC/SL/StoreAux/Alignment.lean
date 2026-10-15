@@ -3,10 +3,67 @@ import SimpleC.SL.StoreAux.Relations
 namespace SimpleC.SL.StoreAux.StoreLibSig
 
 open AUXLib
+open SimpleC.SL.CArch
 open SimpleC.SL.CommonAssertion
 open SimpleC.SL.CommonAssertion.DerivedPredSig
+open SimpleC.SL.FloatLib
 open Unifysl.LogicGenerator.demo932
 open scoped SimpleC.SL.SAC
+
+section Canonical
+
+variable {Arch : CArchSig} {Endian : CEndianSig}
+
+local notation "store_2byte" => DerivedPredSig.store_2byte Endian
+local notation "store_4byte" => DerivedPredSig.store_4byte Endian
+local notation "store_8byte" => DerivedPredSig.store_8byte Endian
+local notation "store_16byte" => DerivedPredSig.store_16byte Endian
+local notation "store_char" => DerivedPredSig.store_char Arch
+local notation "undef_store_char" => DerivedPredSig.undef_store_char Arch
+local notation "store_uchar" => DerivedPredSig.store_uchar Arch
+local notation "undef_store_uchar" => DerivedPredSig.undef_store_uchar Arch
+local notation "store_short" => DerivedPredSig.store_short Arch Endian
+local notation "undef_store_short" => DerivedPredSig.undef_store_short Arch
+local notation "store_ushort" => DerivedPredSig.store_ushort Arch Endian
+local notation "undef_store_ushort" => DerivedPredSig.undef_store_ushort Arch
+local notation "store_int" => DerivedPredSig.store_int Arch Endian
+local notation "undef_store_int" => DerivedPredSig.undef_store_int Arch
+local notation "store_uint" => DerivedPredSig.store_uint Arch Endian
+local notation "undef_store_uint" => DerivedPredSig.undef_store_uint Arch
+local notation "store_int64" => DerivedPredSig.store_int64 Arch Endian
+local notation "undef_store_int64" => DerivedPredSig.undef_store_int64 Arch
+local notation "store_uint64" => DerivedPredSig.store_uint64 Arch Endian
+local notation "undef_store_uint64" => DerivedPredSig.undef_store_uint64 Arch
+local notation "store_int128" => DerivedPredSig.store_int128 Arch Endian
+local notation "undef_store_int128" => DerivedPredSig.undef_store_int128 Arch
+local notation "store_uint128" => DerivedPredSig.store_uint128 Arch Endian
+local notation "undef_store_uint128" => DerivedPredSig.undef_store_uint128 Arch
+local notation "store_float" => DerivedPredSig.store_float Arch Endian
+local notation "undef_store_float" => DerivedPredSig.undef_store_float Arch
+local notation "store_double" => DerivedPredSig.store_double Arch Endian
+local notation "undef_store_double" => DerivedPredSig.undef_store_double Arch
+local notation "store_long_double" => DerivedPredSig.store_long_double Arch Endian
+local notation "undef_store_long_double" => DerivedPredSig.undef_store_long_double Arch
+local notation "store_finite_float" => DerivedPredSig.store_finite_float Arch Endian
+local notation "store_finite_double" => DerivedPredSig.store_finite_double Arch Endian
+local notation "store_finite_long_double" =>
+  DerivedPredSig.store_finite_long_double Arch Endian
+local notation "store_ptr" => DerivedPredSig.store_ptr Arch Endian
+local notation "undef_store_ptr" => DerivedPredSig.undef_store_ptr Arch
+local notation "store_align4_list" => DerivedPredSig.store_align4_list Arch
+local notation "store_align4_n" => DerivedPredSig.store_align4_n Arch
+local notation "store_align_list" => DerivedPredSig.store_align_list Arch
+local notation "store_align_n" => DerivedPredSig.store_align_n Arch
+local notation "isvalidptr_char" => DerivedPredSig.isvalidptr_char Arch
+local notation "isvalidptr_short" => DerivedPredSig.isvalidptr_short Arch
+local notation "isvalidptr_int" => DerivedPredSig.isvalidptr_int Arch
+local notation "isvalidptr_int64" => DerivedPredSig.isvalidptr_int64 Arch
+local notation "isvalidptr_int128" => DerivedPredSig.isvalidptr_int128 Arch
+local notation "isvalidptr_float" => DerivedPredSig.isvalidptr_float Arch
+local notation "isvalidptr_double" => DerivedPredSig.isvalidptr_double Arch
+local notation "isvalidptr_long_double" => DerivedPredSig.isvalidptr_long_double Arch
+local notation "isvalidptr" => DerivedPredSig.isvalidptr Arch
+local notation "valid_ptr_value" => DerivedPredSig.valid_ptr_value Arch
 
 theorem valid_store_char (CRules : SeparationLogicSig) (x v : Int) :
     CRules.derivable1 (store_char CRules x v)
@@ -107,11 +164,79 @@ theorem valid_undef_store_uint64 (CRules : SeparationLogicSig) (x : Int) :
   intro _ h
   exact h.1
 
-theorem valid_store_ptr (CRules : SeparationLogicSig) (x v : Int) :
-    CRules.derivable1 (store_ptr CRules x v)
-      (CRules.coq_prop (isvalidptr x ∧ 0 <= v ∧ v <= Int.max_unsigned)) := by
+theorem valid_store_int128 (CRules : SeparationLogicSig) (x v : Int) :
+    CRules.derivable1 (store_int128 CRules x v)
+      (CRules.coq_prop
+        ((SimpleC.SL.IntLib.Int128.min_signed <= v ∧
+            v <= SimpleC.SL.IntLib.Int128.max_signed) ∧ isvalidptr_int128 x)) := by
+  intro _ h
+  exact ⟨⟨h.1.2.2, h.1.2.1⟩, h.1.1⟩
+
+theorem valid_store_uint128 (CRules : SeparationLogicSig) (x v : Int) :
+    CRules.derivable1 (store_uint128 CRules x v)
+      (CRules.coq_prop
+        ((0 <= v ∧ v <= SimpleC.SL.IntLib.Int128.max_unsigned) ∧
+          isvalidptr_int128 x)) := by
+  intro _ h
+  exact ⟨h.1.2, h.1.1⟩
+
+theorem valid_undef_store_int128 (CRules : SeparationLogicSig) (x : Int) :
+    CRules.derivable1 (undef_store_int128 CRules x)
+      (CRules.coq_prop (isvalidptr_int128 x)) := by
   intro _ h
   exact h.1
+
+theorem valid_undef_store_uint128 (CRules : SeparationLogicSig) (x : Int) :
+    CRules.derivable1 (undef_store_uint128 CRules x)
+      (CRules.coq_prop (isvalidptr_int128 x)) := by
+  intro _ h
+  exact h.1
+
+theorem valid_store_float (CRules : SeparationLogicSig) (x : Int) (v : fp32) :
+    CRules.derivable1 (store_float CRules x v)
+      (CRules.coq_prop (isvalidptr_float x)) := by
+  intro _ h
+  exact h.1.1
+
+theorem valid_store_double (CRules : SeparationLogicSig) (x : Int) (v : fp64) :
+    CRules.derivable1 (store_double CRules x v)
+      (CRules.coq_prop (isvalidptr_double x)) := by
+  intro _ h
+  exact h.1.1
+
+theorem valid_store_long_double
+    (CRules : SeparationLogicSig) (x : Int) (v : fp128) :
+    CRules.derivable1 (store_long_double CRules x v)
+      (CRules.coq_prop (isvalidptr_long_double x)) := by
+  intro _ h
+  exact h.1.1
+
+theorem valid_store_finite_float
+    (CRules : SeparationLogicSig) (x : Int) (v : fp32) :
+    CRules.derivable1 (store_finite_float CRules x v)
+      (CRules.coq_prop (fp32_isFinite v ∧ isvalidptr_float x)) := by
+  intro _ h
+  exact ⟨h.1, h.2.1.1⟩
+
+theorem valid_store_finite_double
+    (CRules : SeparationLogicSig) (x : Int) (v : fp64) :
+    CRules.derivable1 (store_finite_double CRules x v)
+      (CRules.coq_prop (fp64_isFinite v ∧ isvalidptr_double x)) := by
+  intro _ h
+  exact ⟨h.1, h.2.1.1⟩
+
+theorem valid_store_finite_long_double
+    (CRules : SeparationLogicSig) (x : Int) (v : fp128) :
+    CRules.derivable1 (store_finite_long_double CRules x v)
+      (CRules.coq_prop (fp128_isFinite v ∧ isvalidptr_long_double x)) := by
+  intro _ h
+  exact ⟨h.1, h.2.1.1⟩
+
+theorem valid_store_ptr (CRules : SeparationLogicSig) (x v : Int) :
+    CRules.derivable1 (store_ptr CRules x v)
+      (CRules.coq_prop (isvalidptr x ∧ valid_ptr_value v)) := by
+  intro _ h
+  exact ⟨h.1.1, h.1.2⟩
 
 theorem valid_undef_store_ptr (CRules : SeparationLogicSig) (x : Int) :
     CRules.derivable1 (undef_store_ptr CRules x)
@@ -120,13 +245,14 @@ theorem valid_undef_store_ptr (CRules : SeparationLogicSig) (x : Int) :
   exact h.1
 
 private theorem singleton_interval0 (x : Int) (h : isvalidptr_char x) :
-    Zlength ([x] : List Int) = 1 ∧ interval_list 0 0 Int.max_unsigned ([x] : List Int) := by
-  unfold isvalidptr_char at h
+    Zlength ([x] : List Int) = 1 ∧ interval_list 0 0 Arch.addr_max_unsigned ([x] : List Int) := by
+  unfold DerivedPredSig.isvalidptr_char at h
+  change x >= 0 ∧ x <= Arch.addr_max_unsigned at h
   exact ⟨by simp, interval_list_cons [] x interval_list_nil h.1 (by omega) .nil⟩
 
 private theorem singleton_interval3 (x : Int) (hlo : 0 <= x)
-    (hhi : x + 3 <= Int.max_unsigned) :
-    Zlength ([x] : List Int) = 1 ∧ interval_list 3 0 Int.max_unsigned ([x] : List Int) :=
+    (hhi : x + 3 <= Arch.addr_max_unsigned) :
+    Zlength ([x] : List Int) = 1 ∧ interval_list 3 0 Arch.addr_max_unsigned ([x] : List Int) :=
   ⟨by simp, interval_list_cons [] x interval_list_nil hlo hhi .nil⟩
 
 theorem undef_store_char_align (CRules : SeparationLogicSig) (x : Int) :
@@ -150,7 +276,8 @@ theorem store_byte_align1 (CRules : SeparationLogicSig) (x : Int)
 
 theorem undef_store_uchar_align (CRules : SeparationLogicSig) (x : Int) :
     CRules.derivable1 (undef_store_uchar CRules x) (store_align_n CRules 1) := by
-  simpa [undef_store_uchar, undef_store_char] using undef_store_char_align CRules x
+  simpa [DerivedPredSig.undef_store_uchar,
+    DerivedPredSig.undef_store_char] using undef_store_char_align CRules x
 
 theorem store_uchar_align (CRules : SeparationLogicSig) (x v : Int) :
     CRules.derivable1 (store_uchar CRules x v) (store_align_n CRules 1) := by
@@ -159,10 +286,12 @@ theorem store_uchar_align (CRules : SeparationLogicSig) (x v : Int) :
     (store_uchar_undef_store_uchar CRules x v state h)
 
 private theorem undef_store_word_align4 (CRules : SeparationLogicSig) (x : Int)
-    (state : CRules.model) (h : isvalidptr x)
+    (state : CRules.model)
+    (h : isvalidptr_int x)
     (hstore : store_4byte_noninit CRules x state) :
     store_align4_n CRules 1 state := by
-  refine ⟨[x], singleton_interval3 x h.1 h.2.1, ?_⟩
+  have hhi : x + 3 <= Arch.addr_max_unsigned := h.2.1
+  refine ⟨[x], singleton_interval3 x h.1 hhi, ?_⟩
   exact ⟨h, CRules.toContext.derivable1_sepcon_emp_r _ _ hstore⟩
 
 theorem undef_store_int_align4 (CRules : SeparationLogicSig) (x : Int) :
@@ -178,7 +307,8 @@ theorem store_int_align4 (CRules : SeparationLogicSig) (x v : Int) :
 
 theorem undef_store_uint_align4 (CRules : SeparationLogicSig) (x : Int) :
     CRules.derivable1 (undef_store_uint CRules x) (store_align4_n CRules 1) := by
-  simpa [undef_store_uint, undef_store_int] using undef_store_int_align4 CRules x
+  simpa [DerivedPredSig.undef_store_uint,
+    DerivedPredSig.undef_store_int] using undef_store_int_align4 CRules x
 
 theorem store_uint_align4 (CRules : SeparationLogicSig) (x v : Int) :
     CRules.derivable1 (store_uint CRules x v) (store_align4_n CRules 1) := by
@@ -228,14 +358,15 @@ private theorem store8_split4 (CRules : SeparationLogicSig) (x : Int) :
     (CRules.toContext.derivable1_trans _ _ _ h2 h3)
 
 private theorem int64_valid_words (x : Int) (h : isvalidptr_int64 x) :
-    isvalidptr x ∧ isvalidptr (x + 4) := by
-  unfold isvalidptr_int64 at h
-  unfold isvalidptr
+    isvalidptr_int x ∧ isvalidptr_int (x + 4) := by
+  unfold DerivedPredSig.isvalidptr_int64 at h
   rcases h with ⟨hlo, hhi, halign⟩
   have halign4 : aligned_4 (x + 4) := by
     unfold aligned_4 at halign ⊢
     omega
-  exact ⟨⟨hlo, by omega, halign⟩, ⟨by omega, by omega, halign4⟩⟩
+  constructor
+  · exact ⟨hlo, by omega, halign⟩
+  · exact ⟨by omega, by omega, halign4⟩
 
 private theorem undef_store_int64_align4_core (CRules : SeparationLogicSig) (x : Int) :
     CRules.derivable1 (undef_store_int64 CRules x) (store_align4_n CRules 2) := by
@@ -265,7 +396,8 @@ theorem store_int64_align4 (CRules : SeparationLogicSig) (x v : Int) :
 
 theorem undef_store_uint64_align4 (CRules : SeparationLogicSig) (x : Int) :
     CRules.derivable1 (undef_store_uint64 CRules x) (store_align4_n CRules 2) := by
-  simpa [undef_store_uint64, undef_store_int64] using
+  simpa [DerivedPredSig.undef_store_uint64,
+    DerivedPredSig.undef_store_int64] using
     undef_store_int64_align4 CRules x
 
 theorem store_uint64_align4 (CRules : SeparationLogicSig) (x v : Int) :
@@ -274,15 +406,106 @@ theorem store_uint64_align4 (CRules : SeparationLogicSig) (x v : Int) :
   exact undef_store_uint64_align4 CRules x state
     (store_uint64_undef_store_uint64 CRules x v state h)
 
-theorem undef_store_ptr_align4 (CRules : SeparationLogicSig) (x : Int) :
-    CRules.derivable1 (undef_store_ptr CRules x) (store_align4_n CRules 1) := by
+theorem aligned_8_aligned_4 (x : Int) (h : aligned_8 x) : aligned_4 x := by
+  unfold aligned_8 aligned_4 at *
+  omega
+
+theorem store_float_aligned4
+    (CRules : SeparationLogicSig) (x : Int) (v : fp32) :
+    CRules.derivable1 (store_float CRules x v) (CRules.coq_prop (aligned_4 x)) := by
+  intro _ h
+  exact h.1.1.2.2
+
+theorem store_double_aligned8
+    (CRules : SeparationLogicSig) (x : Int) (v : fp64) :
+    CRules.derivable1 (store_double CRules x v) (CRules.coq_prop (aligned_8 x)) := by
+  intro _ h
+  exact h.1.1.2.2
+
+theorem store_finite_float_aligned4
+    (CRules : SeparationLogicSig) (x : Int) (v : fp32) :
+    CRules.derivable1 (store_finite_float CRules x v)
+      (CRules.coq_prop (aligned_4 x)) := by
+  intro state h
+  exact store_float_aligned4 CRules x v state h.2
+
+theorem store_finite_double_aligned8
+    (CRules : SeparationLogicSig) (x : Int) (v : fp64) :
+    CRules.derivable1 (store_finite_double CRules x v)
+      (CRules.coq_prop (aligned_8 x)) := by
+  intro state h
+  exact store_double_aligned8 CRules x v state h.2
+
+theorem store_long_double_aligned8
+    (CRules : SeparationLogicSig) (x : Int) (v : fp128) :
+    CRules.derivable1 (store_long_double CRules x v)
+      (CRules.coq_prop (aligned_8 x)) := by
+  intro _ h
+  exact h.1.1.2.2
+
+theorem store_finite_long_double_aligned8
+    (CRules : SeparationLogicSig) (x : Int) (v : fp128) :
+    CRules.derivable1 (store_finite_long_double CRules x v)
+      (CRules.coq_prop (aligned_8 x)) := by
+  intro state h
+  exact store_long_double_aligned8 CRules x v state h.2
+
+theorem undef_store_float_align4 (CRules : SeparationLogicSig) (x : Int) :
+    CRules.derivable1 (undef_store_float CRules x) (store_align4_n CRules 1) := by
   intro _ h
   exact undef_store_word_align4 CRules x _ h.1 h.2
 
-theorem store_ptr_align4 (CRules : SeparationLogicSig) (x v : Int) :
+theorem store_float_align4
+    (CRules : SeparationLogicSig) (x : Int) (v : fp32) :
+    CRules.derivable1 (store_float CRules x v) (store_align4_n CRules 1) :=
+  CRules.toContext.derivable1_trans _ _ _
+    (store_float_undef_store_float CRules x v)
+    (undef_store_float_align4 CRules x)
+
+theorem undef_store_double_align4 (CRules : SeparationLogicSig) (x : Int) :
+    CRules.derivable1 (undef_store_double CRules x) (store_align4_n CRules 2) := by
+  intro state h
+  have hvalid : isvalidptr_int64 x := by
+    exact ⟨h.1.1, h.1.2.1, aligned_8_aligned_4 x h.1.2.2⟩
+  exact undef_store_int64_align4 CRules x state ⟨hvalid, h.2⟩
+
+theorem store_double_align4
+    (CRules : SeparationLogicSig) (x : Int) (v : fp64) :
+    CRules.derivable1 (store_double CRules x v) (store_align4_n CRules 2) :=
+  CRules.toContext.derivable1_trans _ _ _
+    (store_double_undef_store_double CRules x v)
+    (undef_store_double_align4 CRules x)
+
+private theorem ptr_valid_int_of_size4 (x : Int) (hsize : Arch.ptr_size = 4)
+    (h : isvalidptr x) : isvalidptr_int x := by
+  change x >= 0 ∧ x + Arch.ptr_size_Z - 1 <= Arch.addr_max_unsigned ∧
+    Z.modulo x Arch.ptr_align = 0 at h
+  change x >= 0 ∧ x + 3 <= Arch.addr_max_unsigned ∧ aligned_4 x
+  rcases h with ⟨hlo, hhi, halign⟩
+  refine ⟨hlo, ?_, ?_⟩
+  · unfold CArchSig.ptr_size_Z at hhi
+    rw [hsize] at hhi
+    simp at hhi
+    omega
+  · unfold aligned_4
+    have h4 := Arch.ptr_aligned_aligned_4 x halign
+    unfold Z.modulo at h4
+    rw [Int.fmod_eq_emod_of_nonneg x (by decide)] at h4
+    exact h4
+
+theorem undef_store_ptr_align4 (CRules : SeparationLogicSig) (x : Int)
+    (hsize : Arch.ptr_size = 4) :
+    CRules.derivable1 (undef_store_ptr CRules x) (store_align4_n CRules 1) := by
+  intro _ h
+  simp only [DerivedPredSig.undef_store_ptr, hsize] at h
+  exact undef_store_word_align4 CRules x _
+    (ptr_valid_int_of_size4 x hsize h.1) h.2
+
+theorem store_ptr_align4 (CRules : SeparationLogicSig) (x v : Int)
+    (hsize : Arch.ptr_size = 4) :
     CRules.derivable1 (store_ptr CRules x v) (store_align4_n CRules 1) := by
   intro state h
-  exact undef_store_ptr_align4 CRules x state
+  exact undef_store_ptr_align4 CRules x hsize state
     (store_ptr_undef_store_ptr CRules x v state h)
 
 theorem store_byte_valid (CRules : SeparationLogicSig) (x y : Int) :
@@ -303,7 +526,6 @@ private theorem derivable_of_false (CRules : SeparationLogicSig)
   intro state hP
   exact False.elim (h state hP)
 
-set_option maxHeartbeats 1000000 in
 private theorem store_4byte_valid_proof [SacContext] (x y : Int) :
     SacContext.rules.derivable1
       (SacContext.rules.sepcon
@@ -422,7 +644,9 @@ theorem store_align4_valid (CRules : SeparationLogicSig) (x : Int) (l : List Int
       let X := store_4byte_noninit CRules x
       have hspatial : CRules.derivable1
           (CRules.sepcon
-            (CRules.andp (CRules.coq_prop (isvalidptr a)) (CRules.sepcon A L)) X)
+            (CRules.andp (CRules.coq_prop
+              (DerivedPredSig.isvalidptr_int Arch a))
+              (CRules.sepcon A L)) X)
           (CRules.sepcon (CRules.sepcon A L) X) :=
         CRules.toContext.derivable1_sepcon_mono _ _ _ _
           (CRules.toContext.derivable1_andp_elim2 _ _)
@@ -439,7 +663,9 @@ theorem store_align4_valid (CRules : SeparationLogicSig) (x : Int) (l : List Int
               (CRules.toContext.derivable1_refl L)))
       have hheadRaw : CRules.derivable1
           (CRules.sepcon
-            (CRules.andp (CRules.coq_prop (isvalidptr a)) (CRules.sepcon A L)) X)
+            (CRules.andp (CRules.coq_prop
+              (DerivedPredSig.isvalidptr_int Arch a))
+              (CRules.sepcon A L)) X)
           (CRules.coq_prop (a + 3 < x ∨ x + 3 < a)) := by
         exact CRules.toContext.derivable1_trans _ _ _ hspatial
           (CRules.toContext.derivable1_trans _ _ _ hreorder
@@ -450,7 +676,9 @@ theorem store_align4_valid (CRules : SeparationLogicSig) (x : Int) (l : List Int
               (sepcon_left_pure CRules _ CRules.truep)))
       have htail : CRules.derivable1
           (CRules.sepcon
-            (CRules.andp (CRules.coq_prop (isvalidptr a)) (CRules.sepcon A L)) X)
+            (CRules.andp (CRules.coq_prop
+              (DerivedPredSig.isvalidptr_int Arch a))
+              (CRules.sepcon A L)) X)
           (CRules.coq_prop (Forall (fun x' => x + 3 < x' ∨ x' + 3 < x) l)) := by
         exact CRules.toContext.derivable1_trans _ _ _ hspatial
           (CRules.toContext.derivable1_trans _ _ _
@@ -461,7 +689,9 @@ theorem store_align4_valid (CRules : SeparationLogicSig) (x : Int) (l : List Int
               (sepcon_right_pure CRules _ CRules.truep)))
       change CRules.derivable1
         (CRules.sepcon
-          (CRules.andp (CRules.coq_prop (isvalidptr a)) (CRules.sepcon A L)) X)
+          (CRules.andp (CRules.coq_prop
+            (DerivedPredSig.isvalidptr_int Arch a))
+            (CRules.sepcon A L)) X)
         (CRules.coq_prop
           (Forall (fun x' => x + 3 < x' ∨ x' + 3 < x) (a :: l)))
       intro state h
@@ -471,16 +701,23 @@ theorem store_align4_valid (CRules : SeparationLogicSig) (x : Int) (l : List Int
 
 theorem store_align4_n_valid (CRules : SeparationLogicSig) (n : Int) :
     CRules.derivable1 (store_align4_n CRules n)
-      (CRules.coq_prop (n <= Int.max_unsigned / 4 + 1)) := by
+      (CRules.coq_prop (n <= Arch.addr_max_unsigned / 4 + 1)) := by
   intro _ h
   rcases h with ⟨l, hproperties, _⟩
-  have hrange := interval_list_range l 3 0 Int.max_unsigned
-    (by omega) (by decide) hproperties.2
+  have hrange := interval_list_range l 3 0 Arch.addr_max_unsigned
+    (by omega) (by have := Arch.addr_max_unsigned_ge_7; omega) hproperties.2
   rw [hproperties.1] at hrange
-  unfold Int.max_unsigned Int.modulus Int.wordsize Wordsize_32.wordsize at hrange ⊢
-  simp at hrange ⊢
-  have hn : n <= 1073741824 := by omega
-  exact hn
+  have hrange' : n * 4 <= Arch.addr_max_unsigned + 4 := by omega
+  have hdiv := Int.ediv_le_ediv (show (0 : Int) < 4 by omega) hrange'
+  have hleft : (n * 4) / 4 = n := by
+    rw [Int.mul_comm, Int.mul_ediv_cancel_left n (by omega)]
+  have hright : (Arch.addr_max_unsigned + 4) / 4 = Arch.addr_max_unsigned / 4 + 1 := by
+    rw [Int.add_comm, Int.add_ediv_of_dvd_left (Int.dvd_refl 4)]
+    omega
+  calc
+    n = (n * 4) / 4 := hleft.symm
+    _ <= (Arch.addr_max_unsigned + 4) / 4 := hdiv
+    _ = Arch.addr_max_unsigned / 4 + 1 := hright
 
 private theorem forall_append {A : Type} {P : A -> Prop} {l1 l2 : List A}
     (h1 : Forall P l1) (h2 : Forall P l2) : Forall P (l1 ++ l2) := by
@@ -490,16 +727,16 @@ private theorem forall_append {A : Type} {P : A -> Prop} {l1 l2 : List A}
 
 private theorem store_align4_lists_merge (CRules : SeparationLogicSig)
     (l1 l2 : List Int)
-    (h1 : interval_list 3 0 Int.max_unsigned l1)
-    (h2 : interval_list 3 0 Int.max_unsigned l2) :
+    (h1 : interval_list 3 0 Arch.addr_max_unsigned l1)
+    (h2 : interval_list 3 0 Arch.addr_max_unsigned l2) :
     CRules.derivable1
       (CRules.sepcon (store_align4_list CRules l1) (store_align4_list CRules l2))
       (CRules.andp
-        (CRules.coq_prop (interval_list 3 0 Int.max_unsigned (l1 ++ l2)))
+        (CRules.coq_prop (interval_list 3 0 Arch.addr_max_unsigned (l1 ++ l2)))
         (store_align4_list CRules (l1 ++ l2))) := by
   induction h1 with
   | interval_list_nil =>
-      simp only [List.nil_append, store_align4_list]
+      simp only [List.nil_append, DerivedPredSig.store_align4_list]
       intro state h
       exact ⟨h2, (sepcon_emp_logic_equiv' CRules _).left state h⟩
   | interval_list_cons l x htail hlo hhi hsep ih =>
@@ -508,7 +745,9 @@ private theorem store_align4_lists_merge (CRules : SeparationLogicSig)
       let Other := store_align4_list CRules l2
       let Merged := store_align4_list CRules (l ++ l2)
       let Premise := CRules.sepcon
-        (CRules.andp (CRules.coq_prop (isvalidptr x)) (CRules.sepcon A Tail)) Other
+        (CRules.andp (CRules.coq_prop
+          (DerivedPredSig.isvalidptr_int Arch x))
+          (CRules.sepcon A Tail)) Other
       have hbase : CRules.derivable1 Premise
           (CRules.sepcon (CRules.sepcon A Tail) Other) :=
         CRules.toContext.derivable1_sepcon_mono _ _ _ _
@@ -520,7 +759,7 @@ private theorem store_align4_lists_merge (CRules : SeparationLogicSig)
           (CRules.toContext.logic_equiv_sepcon_assoc A Tail Other).right
       have ihInterval : CRules.derivable1
           (CRules.sepcon Tail Other)
-          (CRules.coq_prop (interval_list 3 0 Int.max_unsigned (l ++ l2))) :=
+          (CRules.coq_prop (interval_list 3 0 Arch.addr_max_unsigned (l ++ l2))) :=
         CRules.toContext.derivable1_trans _ _ _ ih
           (CRules.toContext.derivable1_andp_elim1 _ _)
       have ihSpatial : CRules.derivable1
@@ -528,7 +767,7 @@ private theorem store_align4_lists_merge (CRules : SeparationLogicSig)
         CRules.toContext.derivable1_trans _ _ _ ih
           (CRules.toContext.derivable1_andp_elim2 _ _)
       have htailInterval : CRules.derivable1 Premise
-          (CRules.coq_prop (interval_list 3 0 Int.max_unsigned (l ++ l2))) := by
+          (CRules.coq_prop (interval_list 3 0 Arch.addr_max_unsigned (l ++ l2))) := by
         exact CRules.toContext.derivable1_trans _ _ _ hassoc
           (CRules.toContext.derivable1_trans _ _ _
             (CRules.toContext.derivable1_sepcon_mono _ _ _ _
@@ -553,15 +792,17 @@ private theorem store_align4_lists_merge (CRules : SeparationLogicSig)
               (store_align4_valid CRules x l2)
               (CRules.toContext.derivable1_truep_intros Tail))
             (sepcon_left_pure CRules _ CRules.truep))
-      simp only [List.cons_append, store_align4_list]
+      simp only [List.cons_append, DerivedPredSig.store_align4_list]
       change CRules.derivable1 Premise
         (CRules.andp
           (CRules.coq_prop
-            (interval_list 3 0 Int.max_unsigned (x :: (l ++ l2))))
-          (CRules.andp (CRules.coq_prop (isvalidptr x))
+            (interval_list 3 0 Arch.addr_max_unsigned (x :: (l ++ l2))))
+          (CRules.andp (CRules.coq_prop
+            (DerivedPredSig.isvalidptr_int Arch x))
             (CRules.sepcon A Merged)))
       intro state h
-      have hxvalid : isvalidptr x := by
+      have hxvalid : DerivedPredSig.isvalidptr_int
+          Arch x := by
         rcases h with ⟨_, _, _, hxStore, _⟩
         exact hxStore.1
       exact ⟨
@@ -653,16 +894,16 @@ theorem store_align_valid (CRules : SeparationLogicSig) (x : Int) (l : List Int)
 
 private theorem store_align_lists_merge (CRules : SeparationLogicSig)
     (l1 l2 : List Int)
-    (h1 : interval_list 0 0 Int.max_unsigned l1)
-    (h2 : interval_list 0 0 Int.max_unsigned l2) :
+    (h1 : interval_list 0 0 Arch.addr_max_unsigned l1)
+    (h2 : interval_list 0 0 Arch.addr_max_unsigned l2) :
     CRules.derivable1
       (CRules.sepcon (store_align_list CRules l1) (store_align_list CRules l2))
       (CRules.andp
-        (CRules.coq_prop (interval_list 0 0 Int.max_unsigned (l1 ++ l2)))
+        (CRules.coq_prop (interval_list 0 0 Arch.addr_max_unsigned (l1 ++ l2)))
         (store_align_list CRules (l1 ++ l2))) := by
   induction h1 with
   | interval_list_nil =>
-      simp only [List.nil_append, store_align_list]
+      simp only [List.nil_append, DerivedPredSig.store_align_list]
       intro state h
       exact ⟨h2, (sepcon_emp_logic_equiv' CRules _).left state h⟩
   | interval_list_cons l x htail hlo hhi hsep ih =>
@@ -683,7 +924,7 @@ private theorem store_align_lists_merge (CRules : SeparationLogicSig)
           (CRules.toContext.logic_equiv_sepcon_assoc A Tail Other).right
       have ihInterval : CRules.derivable1
           (CRules.sepcon Tail Other)
-          (CRules.coq_prop (interval_list 0 0 Int.max_unsigned (l ++ l2))) :=
+          (CRules.coq_prop (interval_list 0 0 Arch.addr_max_unsigned (l ++ l2))) :=
         CRules.toContext.derivable1_trans _ _ _ ih
           (CRules.toContext.derivable1_andp_elim1 _ _)
       have ihSpatial : CRules.derivable1
@@ -691,7 +932,7 @@ private theorem store_align_lists_merge (CRules : SeparationLogicSig)
         CRules.toContext.derivable1_trans _ _ _ ih
           (CRules.toContext.derivable1_andp_elim2 _ _)
       have htailInterval : CRules.derivable1 Premise
-          (CRules.coq_prop (interval_list 0 0 Int.max_unsigned (l ++ l2))) := by
+          (CRules.coq_prop (interval_list 0 0 Arch.addr_max_unsigned (l ++ l2))) := by
         exact CRules.toContext.derivable1_trans _ _ _ hassoc
           (CRules.toContext.derivable1_trans _ _ _
             (CRules.toContext.derivable1_sepcon_mono _ _ _ _
@@ -716,11 +957,11 @@ private theorem store_align_lists_merge (CRules : SeparationLogicSig)
               (store_align_valid CRules x l2)
               (CRules.toContext.derivable1_truep_intros Tail))
             (sepcon_left_pure CRules _ CRules.truep))
-      simp only [List.cons_append, store_align_list]
+      simp only [List.cons_append, DerivedPredSig.store_align_list]
       change CRules.derivable1 Premise
         (CRules.andp
           (CRules.coq_prop
-            (interval_list 0 0 Int.max_unsigned (x :: (l ++ l2))))
+            (interval_list 0 0 Arch.addr_max_unsigned (x :: (l ++ l2))))
           (CRules.andp (CRules.coq_prop (isvalidptr_char x))
             (CRules.sepcon A Merged)))
       intro state h
@@ -756,13 +997,13 @@ theorem store_align_merge (CRules : SeparationLogicSig) (n m : Int) :
 
 private theorem short_valid_chars (x : Int) (h : isvalidptr_short x) :
     isvalidptr_char x ∧ isvalidptr_char (x + 1) := by
-  unfold isvalidptr_short at h
-  unfold isvalidptr_char
+  unfold DerivedPredSig.isvalidptr_short at h
+  unfold DerivedPredSig.isvalidptr_char
   omega
 
 theorem undef_store_short_align (CRules : SeparationLogicSig) (x : Int) :
     CRules.derivable1 (undef_store_short CRules x) (store_align_n CRules 2) := by
-  unfold undef_store_short store_2byte_noninit
+  unfold DerivedPredSig.undef_store_short store_2byte_noninit
   apply coq_prop_andp_left
   intro hvalid
   have hv := short_valid_chars x hvalid
@@ -780,7 +1021,8 @@ theorem store_short_align (CRules : SeparationLogicSig) (x v : Int) :
 
 theorem undef_store_ushort_align (CRules : SeparationLogicSig) (x : Int) :
     CRules.derivable1 (undef_store_ushort CRules x) (store_align_n CRules 2) := by
-  simpa [undef_store_ushort, undef_store_short] using undef_store_short_align CRules x
+  simpa [DerivedPredSig.undef_store_ushort,
+    DerivedPredSig.undef_store_short] using undef_store_short_align CRules x
 
 theorem store_ushort_align (CRules : SeparationLogicSig) (x v : Int) :
     CRules.derivable1 (store_ushort CRules x v) (store_align_n CRules 2) :=
@@ -788,27 +1030,85 @@ theorem store_ushort_align (CRules : SeparationLogicSig) (x v : Int) :
     (store_ushort_undef_store_ushort CRules x v)
     (undef_store_ushort_align CRules x)
 
+theorem store_bytes_noninit_align (CRules : SeparationLogicSig)
+    (n : Nat) (x : Int) (hlo : 0 <= x)
+    (hhi : x + Int.ofNat n - 1 <= Arch.addr_max_unsigned) :
+    CRules.derivable1 (store_bytes_noninit CRules x n)
+      (store_align_n CRules (Int.ofNat n)) := by
+  induction n generalizing x with
+  | zero =>
+      intro state h
+      exact ⟨[], ⟨by simp [Zlength], interval_list_nil⟩, h⟩
+  | succ n ih =>
+      have hsucc : Int.ofNat (n + 1) = Int.ofNat n + 1 :=
+        Int.natCast_succ n
+      rw [hsucc] at hhi ⊢
+      have hn : 0 <= Int.ofNat n := Int.ofNat_zero_le n
+      have hvalid : isvalidptr_char x := by
+        unfold DerivedPredSig.isvalidptr_char
+        change x >= 0 ∧ x <= Arch.addr_max_unsigned
+        constructor
+        · exact hlo
+        · omega
+      have htail := ih (x + 1) (by omega) (by omega)
+      have hparts := CRules.toContext.derivable1_sepcon_mono _ _ _ _
+        (store_byte_align1 CRules x hvalid) htail
+      exact CRules.toContext.derivable1_trans _ _ _ hparts
+        (by simpa [Int.add_comm] using store_align_merge CRules 1 (Int.ofNat n))
+
+theorem undef_store_int128_align (CRules : SeparationLogicSig) (x : Int) :
+    CRules.derivable1 (undef_store_int128 CRules x) (store_align_n CRules 16) := by
+  unfold DerivedPredSig.undef_store_int128 store_16byte_noninit
+  apply coq_prop_andp_left
+  intro hvalid
+  unfold DerivedPredSig.isvalidptr_int128 at hvalid
+  change x >= 0 ∧ x + 15 <= Arch.addr_max_unsigned ∧ aligned_4 x at hvalid
+  apply store_bytes_noninit_align CRules 16 x hvalid.1
+  change x + 16 - 1 <= Arch.addr_max_unsigned
+  omega
+
+theorem store_int128_align (CRules : SeparationLogicSig) (x v : Int) :
+    CRules.derivable1 (store_int128 CRules x v) (store_align_n CRules 16) :=
+  CRules.toContext.derivable1_trans _ _ _
+    (store_int128_undef_store_int128 CRules x v)
+    (undef_store_int128_align CRules x)
+
+theorem undef_store_uint128_align (CRules : SeparationLogicSig) (x : Int) :
+    CRules.derivable1 (undef_store_uint128 CRules x) (store_align_n CRules 16) := by
+  simpa [DerivedPredSig.undef_store_uint128,
+    DerivedPredSig.undef_store_int128] using
+    undef_store_int128_align CRules x
+
+theorem store_uint128_align (CRules : SeparationLogicSig) (x v : Int) :
+    CRules.derivable1 (store_uint128 CRules x v) (store_align_n CRules 16) :=
+  CRules.toContext.derivable1_trans _ _ _
+    (store_uint128_undef_store_uint128 CRules x v)
+    (undef_store_uint128_align CRules x)
+
 theorem store_align_n_valid (CRules : SeparationLogicSig) (n : Int) :
     CRules.derivable1 (store_align_n CRules n)
-      (CRules.coq_prop (n <= Int.max_unsigned / 1 + 1)) := by
+      (CRules.coq_prop (n <= Arch.addr_max_unsigned / 1 + 1)) := by
   intro _ h
   rcases h with ⟨l, hproperties, _⟩
-  have hrange := interval_list_range l 0 0 Int.max_unsigned
-    (by omega) (by decide) hproperties.2
+  have hrange := interval_list_range l 0 0 Arch.addr_max_unsigned
+    (by omega) (by have := Arch.addr_max_unsigned_ge_7; omega) hproperties.2
   rw [hproperties.1] at hrange
-  unfold Int.max_unsigned Int.modulus Int.wordsize Wordsize_32.wordsize at hrange ⊢
-  simp at hrange ⊢
-  exact hrange
+  simpa using hrange
 
-private theorem word_valid_chars (x : Int) (h : isvalidptr x) :
+private theorem word_valid_chars (x : Int) (h : isvalidptr_int x) :
     isvalidptr_char x ∧ isvalidptr_char (x + 1) ∧
       isvalidptr_char (x + 2) ∧ isvalidptr_char (x + 3) := by
-  unfold isvalidptr at h
-  unfold isvalidptr_char
+  unfold DerivedPredSig.isvalidptr_int at h
+  change x >= 0 ∧ x + 3 <= Arch.addr_max_unsigned ∧ aligned_4 x at h
+  unfold DerivedPredSig.isvalidptr_char
+  change (x >= 0 ∧ x <= Arch.addr_max_unsigned) ∧
+    (x + 1 >= 0 ∧ x + 1 <= Arch.addr_max_unsigned) ∧
+    (x + 2 >= 0 ∧ x + 2 <= Arch.addr_max_unsigned) ∧
+    (x + 3 >= 0 ∧ x + 3 <= Arch.addr_max_unsigned)
   omega
 
 private theorem store_4byte_align (CRules : SeparationLogicSig) (x : Int)
-    (hvalid : isvalidptr x) :
+    (hvalid : isvalidptr_int x) :
     CRules.derivable1 (store_4byte_noninit CRules x) (store_align_n CRules 4) := by
   have hv := word_valid_chars x hvalid
   let One := store_align_n CRules 1
@@ -849,7 +1149,7 @@ private theorem store_align4_list_to_store_align (CRules : SeparationLogicSig) :
       intro state h
       exact ⟨[], ⟨by simp, interval_list_nil⟩, h⟩
   | cons x l ih =>
-      simp only [store_align4_list]
+      simp only [DerivedPredSig.store_align4_list]
       apply coq_prop_andp_left
       intro hvalid
       have hmerged := CRules.toContext.derivable1_trans _ _ _
@@ -872,9 +1172,148 @@ theorem store_align4_to_store_align (CRules : SeparationLogicSig) (n : Int) :
   rw [hlen] at hconverted
   exact hconverted
 
-theorem store_ptr_store_uint (CRules : SeparationLogicSig) (x v : Int) :
-    CRules.derivable1 (store_ptr CRules x v) (store_uint CRules x v) := by
+theorem store_float_align
+    (CRules : SeparationLogicSig) (x : Int) (v : fp32) :
+    CRules.derivable1 (store_float CRules x v) (store_align_n CRules 4) :=
+  CRules.toContext.derivable1_trans _ _ _
+    (store_float_align4 CRules x v)
+    (by simpa using store_align4_to_store_align CRules 1)
+
+theorem store_double_align
+    (CRules : SeparationLogicSig) (x : Int) (v : fp64) :
+    CRules.derivable1 (store_double CRules x v) (store_align_n CRules 8) :=
+  CRules.toContext.derivable1_trans _ _ _
+    (store_double_align4 CRules x v)
+    (by simpa using store_align4_to_store_align CRules 2)
+
+theorem undef_store_long_double_align (CRules : SeparationLogicSig) (x : Int) :
+    CRules.derivable1 (undef_store_long_double CRules x) (store_align_n CRules 16) := by
+  unfold DerivedPredSig.undef_store_long_double store_16byte_noninit
+  apply coq_prop_andp_left
+  intro hvalid
+  unfold DerivedPredSig.isvalidptr_long_double at hvalid
+  change x >= 0 ∧ x + 15 <= Arch.addr_max_unsigned ∧ aligned_8 x at hvalid
+  apply store_bytes_noninit_align CRules 16 x hvalid.1
+  change x + 16 - 1 <= Arch.addr_max_unsigned
+  omega
+
+theorem store_long_double_align
+    (CRules : SeparationLogicSig) (x : Int) (v : fp128) :
+    CRules.derivable1 (store_long_double CRules x v) (store_align_n CRules 16) :=
+  CRules.toContext.derivable1_trans _ _ _
+    (store_long_double_undef_store_long_double CRules x v)
+    (undef_store_long_double_align CRules x)
+
+theorem store_finite_float_align
+    (CRules : SeparationLogicSig) (x : Int) (v : fp32) :
+    CRules.derivable1 (store_finite_float CRules x v) (store_align_n CRules 4) := by
+  intro state h
+  exact store_float_align CRules x v state h.2
+
+theorem store_finite_double_align
+    (CRules : SeparationLogicSig) (x : Int) (v : fp64) :
+    CRules.derivable1 (store_finite_double CRules x v) (store_align_n CRules 8) := by
+  intro state h
+  exact store_double_align CRules x v state h.2
+
+theorem store_finite_long_double_align
+    (CRules : SeparationLogicSig) (x : Int) (v : fp128) :
+    CRules.derivable1 (store_finite_long_double CRules x v)
+      (store_align_n CRules 16) := by
+  intro state h
+  exact store_long_double_align CRules x v state h.2
+
+private theorem ptr_valid_int64_of_size8 (x : Int) (hsize : Arch.ptr_size = 8)
+    (h : isvalidptr x) : isvalidptr_int64 x := by
+  change x >= 0 ∧ x + Arch.ptr_size_Z - 1 <= Arch.addr_max_unsigned ∧
+    Z.modulo x Arch.ptr_align = 0 at h
+  change x >= 0 ∧ x + 7 <= Arch.addr_max_unsigned ∧ aligned_4 x
+  rcases h with ⟨hlo, hhi, halign⟩
+  refine ⟨hlo, ?_, ?_⟩
+  · unfold CArchSig.ptr_size_Z at hhi
+    rw [hsize] at hhi
+    simp at hhi
+    omega
+  · unfold aligned_4
+    have h4 := Arch.ptr_aligned_aligned_4 x halign
+    unfold Z.modulo at h4
+    rw [Int.fmod_eq_emod_of_nonneg x (by decide)] at h4
+    exact h4
+
+theorem undef_store_ptr_undef_store_uint64 (CRules : SeparationLogicSig) (x : Int)
+    (hsize : Arch.ptr_size = 8) :
+    CRules.derivable1 (undef_store_ptr CRules x) (undef_store_uint64 CRules x) := by
   intro _ h
-  simpa [store_ptr, store_uint, isvalidptr, isvalidptr_int] using h
+  simp only [DerivedPredSig.undef_store_ptr, hsize] at h
+  exact ⟨ptr_valid_int64_of_size8 x hsize h.1, h.2⟩
+
+theorem undef_store_ptr_undef_store_int64 (CRules : SeparationLogicSig) (x : Int)
+    (hsize : Arch.ptr_size = 8) :
+    CRules.derivable1 (undef_store_ptr CRules x) (undef_store_int64 CRules x) := by
+  simpa [DerivedPredSig.undef_store_uint64,
+    DerivedPredSig.undef_store_int64] using
+    undef_store_ptr_undef_store_uint64 CRules x hsize
+
+theorem undef_store_ptr_align (CRules : SeparationLogicSig) (x : Int) :
+    CRules.derivable1 (undef_store_ptr CRules x)
+      (store_align_n CRules Arch.ptr_size_Z) := by
+  rcases Arch.ptr_size_32_or_64 with hsize | hsize
+  · exact CRules.toContext.derivable1_trans _ _ _
+      (undef_store_ptr_align4 CRules x hsize)
+      (by simpa [CArchSig.ptr_size_Z, hsize] using
+        store_align4_to_store_align CRules 1)
+  · exact CRules.toContext.derivable1_trans _ _ _
+      (undef_store_ptr_undef_store_uint64 CRules x hsize)
+      (CRules.toContext.derivable1_trans _ _ _
+        (undef_store_uint64_align4 CRules x)
+        (by simpa [CArchSig.ptr_size_Z, hsize] using
+          store_align4_to_store_align CRules 2))
+
+theorem store_ptr_align (CRules : SeparationLogicSig) (x v : Int) :
+    CRules.derivable1 (store_ptr CRules x v)
+      (store_align_n CRules Arch.ptr_size_Z) :=
+  CRules.toContext.derivable1_trans _ _ _
+    (store_ptr_undef_store_ptr CRules x v)
+    (undef_store_ptr_align CRules x)
+
+theorem store_ptr_store_uint (CRules : SeparationLogicSig) (x v : Int)
+    (hsize : Arch.ptr_size = 4) (haddr : Arch.addr_max_unsigned = Int.max_unsigned) :
+    CRules.derivable1 (store_ptr CRules x v) (store_uint CRules x v) := by
+  intro state h
+  simp only [DerivedPredSig.store_ptr, hsize] at h
+  have hvalid := ptr_valid_int_of_size4 x hsize h.1.1
+  have hvalue : 0 <= v ∧ v <= Int.max_unsigned := by
+    unfold DerivedPredSig.valid_ptr_value CArchSig.valid_ptr_value at h
+    rw [haddr] at h
+    exact h.1.2
+  exact ⟨⟨hvalid, hvalue⟩, h.2⟩
+
+theorem store_ptr_store_uint64 (CRules : SeparationLogicSig) (x v : Int)
+    (hsize : Arch.ptr_size = 8) (haddr : Arch.addr_max_unsigned = Int64.max_unsigned) :
+    CRules.derivable1 (store_ptr CRules x v) (store_uint64 CRules x v) := by
+  intro state h
+  simp only [DerivedPredSig.store_ptr, hsize] at h
+  have hvalid : isvalidptr_int64 x := by
+    unfold DerivedPredSig.isvalidptr at h
+    unfold DerivedPredSig.isvalidptr_int64
+    change x >= 0 ∧ x + 7 <= Arch.addr_max_unsigned ∧ aligned_4 x
+    rcases h.1.1 with ⟨hlo, hhi, halign⟩
+    refine ⟨hlo, ?_, ?_⟩
+    · change x + Int.ofNat Arch.ptr_size - 1 <= Arch.addr_max_unsigned at hhi
+      rw [hsize] at hhi
+      simp at hhi
+      omega
+    · unfold aligned_4
+      have h4 := Arch.ptr_aligned_aligned_4 x halign
+      unfold Z.modulo at h4
+      rw [Int.fmod_eq_emod_of_nonneg x (by decide)] at h4
+      exact h4
+  have hvalue : 0 <= v ∧ v <= Int64.max_unsigned := by
+    unfold DerivedPredSig.valid_ptr_value CArchSig.valid_ptr_value at h
+    rw [haddr] at h
+    exact h.1.2
+  exact ⟨⟨hvalid, hvalue⟩, h.2⟩
+
+end Canonical
 
 end SimpleC.SL.StoreAux.StoreLibSig

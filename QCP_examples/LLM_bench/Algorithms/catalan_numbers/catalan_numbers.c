@@ -1,3 +1,4 @@
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.catalan_numbers.catalan_numbers_lib */
 #include "int_array_def.h"
 
 /*@ Extern Coq

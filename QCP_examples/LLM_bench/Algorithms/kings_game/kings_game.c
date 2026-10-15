@@ -1,3 +1,8 @@
+/*@ Import Lean
+import SimpleC.EE.LLM_bench.Algorithms.kings_game.kings_game_lib
+open SimpleC.EE.LLM_bench.Algorithms.kings_game.kings_game_lib
+*/
+
 
 
 

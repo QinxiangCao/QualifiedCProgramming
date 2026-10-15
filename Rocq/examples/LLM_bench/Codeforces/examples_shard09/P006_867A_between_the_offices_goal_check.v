@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P006_867A_between_the_offices_goal P006_867A_between_the_offices_proof_auto P006_867A_between_the_offices_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P006_867A_between_the_offices_proof_auto.
+  Include P006_867A_between_the_offices_proof_manual.
+End VC_Correctness.

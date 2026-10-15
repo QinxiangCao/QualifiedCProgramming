@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P054_1776F_train_splitting_goal P054_1776F_train_splitting_proof_auto P054_1776F_train_splitting_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P054_1776F_train_splitting_proof_auto.
+  Include P054_1776F_train_splitting_proof_manual.
+End VC_Correctness.

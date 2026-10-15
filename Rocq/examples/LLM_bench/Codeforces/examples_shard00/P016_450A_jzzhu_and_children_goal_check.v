@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P016_450A_jzzhu_and_children_goal P016_450A_jzzhu_and_children_proof_auto P016_450A_jzzhu_and_children_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P016_450A_jzzhu_and_children_proof_auto.
+  Include P016_450A_jzzhu_and_children_proof_manual.
+End VC_Correctness.

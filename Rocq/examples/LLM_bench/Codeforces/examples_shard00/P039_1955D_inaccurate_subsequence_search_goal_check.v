@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P039_1955D_inaccurate_subsequence_search_goal P039_1955D_inaccurate_subsequence_search_proof_auto P039_1955D_inaccurate_subsequence_search_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P039_1955D_inaccurate_subsequence_search_proof_auto.
+  Include P039_1955D_inaccurate_subsequence_search_proof_manual.
+End VC_Correctness.

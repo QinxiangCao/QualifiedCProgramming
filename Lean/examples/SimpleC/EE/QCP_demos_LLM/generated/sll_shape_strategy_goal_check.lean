@@ -1,0 +1,28 @@
+import SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof
+
+namespace SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_goal_check
+
+def sll_shape_Strategy_Correctness : SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_goal.sll_shape_Strategy_Correct where
+  sll_shape_strategy3_correctness := SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof.sll_shape_strategy3_correctness
+  sll_shape_strategy4_correctness := SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof.sll_shape_strategy4_correctness
+  sll_shape_strategy5_correctness := SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof.sll_shape_strategy5_correctness
+  sll_shape_strategy14_correctness := SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof.sll_shape_strategy14_correctness
+  sll_shape_strategy15_correctness := SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof.sll_shape_strategy15_correctness
+  sll_shape_strategy23_correctness := SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof.sll_shape_strategy23_correctness
+  sll_shape_strategy25_correctness := SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof.sll_shape_strategy25_correctness
+  sll_shape_strategy6_correctness := SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof.sll_shape_strategy6_correctness
+  sll_shape_strategy10_correctness := SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof.sll_shape_strategy10_correctness
+  sll_shape_strategy16_correctness := SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof.sll_shape_strategy16_correctness
+  sll_shape_strategy21_correctness := SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof.sll_shape_strategy21_correctness
+  sll_shape_strategy11_correctness := SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof.sll_shape_strategy11_correctness
+  sll_shape_strategy17_correctness := SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof.sll_shape_strategy17_correctness
+  sll_shape_strategy18_correctness := SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof.sll_shape_strategy18_correctness
+  sll_shape_strategy19_correctness := SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof.sll_shape_strategy19_correctness
+  sll_shape_strategy20_correctness := SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof.sll_shape_strategy20_correctness
+  sll_shape_strategy24_correctness := SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof.sll_shape_strategy24_correctness
+  sll_shape_strategy7_correctness := SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof.sll_shape_strategy7_correctness
+  sll_shape_strategy8_correctness := SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof.sll_shape_strategy8_correctness
+  sll_shape_strategy9_correctness := SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof.sll_shape_strategy9_correctness
+  sll_shape_strategy22_correctness := SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_proof.sll_shape_strategy22_correctness
+
+end SimpleC.EE.QCP_demos_LLM.generated.sll_shape_strategy_goal_check

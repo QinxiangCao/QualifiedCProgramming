@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P026_2000D_right_left_wrong_goal P026_2000D_right_left_wrong_proof_auto P026_2000D_right_left_wrong_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P026_2000D_right_left_wrong_proof_auto.
+  Include P026_2000D_right_left_wrong_proof_manual.
+End VC_Correctness.

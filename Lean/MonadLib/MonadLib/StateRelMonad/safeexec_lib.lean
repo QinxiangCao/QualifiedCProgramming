@@ -318,6 +318,34 @@ theorem safeExec_bind_reta {Sigma A B : Type}
   rcases h X' hc1 with ⟨s', hp', hret⟩
   exact ⟨s', hp', hret a s' ⟨rfl, rfl⟩⟩
 
+theorem safeExec_bind_reta_target {Sigma A B : Type}
+    (c1 : program Sigma A) (c2 : A -> program Sigma B)
+    (P P' : Sigma -> Prop) (a : A) (c : program Sigma B) :
+    (forall X, safeExec P c1 X -> safeExec P' (ret a) X) ->
+    forall X, safeExec P (x <- c1 ;; c2 x) X ->
+      c = c2 a -> safeExec P' c X := by
+  intro h X hbind hc
+  subst c
+  exact safeExec_bind_reta c1 c2 P P' a h X hbind
+
+theorem safeExec_bind_partial_target {Sigma A B : Type}
+    (c1 c1' : program Sigma A) (c2 : A -> program Sigma B)
+    (P P' : Sigma -> Prop) (c : program Sigma B) :
+    (forall X, safeExec P c1 X -> safeExec P' c1' X) ->
+    forall X, safeExec P (x <- c1 ;; c2 x) X ->
+      c = (x <- c1' ;; c2 x) -> safeExec P' c X := by
+  intro h X hbind hc
+  subst c
+  let X' : A -> Sigma -> Prop := fun a s => safe s (c2 a) X
+  have hc1 : safeExec P c1 X' := by
+    rcases hbind with ⟨s, hp, hs⟩
+    exact ⟨s, hp, fun a s' hrun b s'' hnext =>
+      hs b s'' ⟨a, s', hrun, hnext⟩⟩
+  rcases h X' hc1 with ⟨s, hp, hs⟩
+  exact ⟨s, hp, fun b s'' hrun => by
+    rcases hrun with ⟨a, s', hfirst, hnext⟩
+    exact hs a s' hfirst b s'' hnext⟩
+
 theorem safeExec_bind' {Sigma A B : Type}
     (c1 : program Sigma A) (c2 : A -> program Sigma B)
     (P P' : Sigma -> Prop) :
@@ -394,6 +422,32 @@ theorem Hoare_result_state {Sigma A : Type} (P : Sigma -> Prop)
   intro h a s'
   rintro ⟨s, hp, hc⟩
   exact h s a s' hp hc
+
+theorem vertical_composition_rule {Sigma A : Type}
+    (P1 P2 : Sigma -> Prop) (c : program Sigma A)
+    (Q : A -> Sigma -> Prop) (a : A) :
+    (forall X, safeExec P1 c X -> safeExec P2 (ret a) X) ->
+    Hoare P1 c Q -> (exists s, P1 s) ->
+    exists s', Q a s' /\ P2 s' := by
+  rintro hderive hhoare ⟨s, hp1⟩
+  have hinit : safeExec P1 c (c s) :=
+    ⟨s, hp1, fun _ _ h => h⟩
+  rcases hderive (c s) hinit with ⟨s', hp2, hret⟩
+  have hc : c s a s' := hret a s' ⟨rfl, rfl⟩
+  exact ⟨s', hhoare s a s' hp1 hc, hp2⟩
+
+theorem Hoare_safeexec_imply_compose {Sigma A : Type}
+    (P1 P2 : Sigma -> Prop) (c : program Sigma A)
+    (Q : A -> Sigma -> Prop) (a : A) :
+    Hoare P1 c Q ->
+    (safeExec P1 c Q -> safeExec P2 (ret a) Q) ->
+    (exists s, P1 s) -> exists s', Q a s' /\ P2 s' := by
+  intro hhoare hderive hex
+  have hresult := safeExec_result_state P1 c hex
+  have hsafeQ := safeExec_X_subset c P1 (result_state P1 c) Q
+    (Hoare_result_state P1 c Q hhoare) hresult
+  rcases hderive hsafeQ with ⟨s', hp2, hret⟩
+  exact ⟨s', hret a s' ⟨rfl, rfl⟩, hp2⟩
 
 theorem Hoare_safeexec_compose {Sigma A : Type} (P1 : Sigma -> Prop)
     (c : program Sigma A) (Q : A -> Sigma -> Prop) :

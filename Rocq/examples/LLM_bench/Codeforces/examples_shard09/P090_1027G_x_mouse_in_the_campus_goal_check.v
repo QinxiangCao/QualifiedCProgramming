@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P090_1027G_x_mouse_in_the_campus_goal P090_1027G_x_mouse_in_the_campus_proof_auto P090_1027G_x_mouse_in_the_campus_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P090_1027G_x_mouse_in_the_campus_proof_auto.
+  Include P090_1027G_x_mouse_in_the_campus_proof_manual.
+End VC_Correctness.

@@ -1,3 +1,4 @@
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.integer_divide.integer_divide_lib */
 /*@ Extern Coq
       (PrimeFactorization : Z -> list Z -> Prop)
       (FactorizationProgress : Z -> list Z -> Z -> Z -> Prop)

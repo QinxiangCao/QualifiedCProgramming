@@ -1,5 +1,11 @@
 #!/bin/bash
-set -e
+set -euo pipefail
+
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+cd "$script_dir"
+for binary in linux-binary/symexec linux-binary/StrategyCheck; do
+  [[ -x "$binary" ]] || { echo "Missing executable: $binary" >&2; exit 2; }
+done
 
 cleanup_sacgen_tmp() {
   find . -type f -name '*.sacgen.tmp' -delete
@@ -313,6 +319,25 @@ for case in fme_gmp; do
 done
 for case in build_aug_basis_gmp build_inverse_cols_gmp col_swap_mod_gmp copy_vector_to_col_gmp gauss_solve_mod_gmp matrix_inverse_gmp mod_inv_gmp mod_norm_gmp rank_mod_gmp row_elim_mod_gmp row_scale_mod_gmp row_swap_mod_gmp solve_basis_into_col_gmp; do
   linux-binary/symexec --goal-file=Rocq/examples/Applications_human/fme_ge_gmp/ge/${case}_goal.v --proof-auto-file=Rocq/examples/Applications_human/fme_ge_gmp/ge/${case}_proof_auto.v --proof-manual-file=Rocq/examples/Applications_human/fme_ge_gmp/ge/${case}_proof_manual.v --coq-logic-path=SimpleC.EE.Applications_human.fme_ge_gmp.ge "${FME_GE_GE_SLP[@]}" "${FME_GE_COMMON[@]}" --input-file=QCP_examples/Applications_human/fme_ge_gmp/ge/${case}.c --no-exec-info
+done
+
+# Generate existing strategy obligations omitted from the original runner.
+linux-binary/StrategyCheck --coq-output-dir=Rocq/examples/LLM_bench/Algorithms/kosaraju/ --coq-logic-path=SimpleC.EE.LLM_bench.Algorithms.kosaraju -IQCP_examples/LLM_bench/Algorithms/kosaraju/ -slp QCP_examples/LLM_bench/Algorithms/kosaraju/ SimpleC.EE.LLM_bench.Algorithms.kosaraju -IQCP_examples/LLM_bench/ -slp QCP_examples/LLM_bench/ SimpleC.EE.LLM_bench -IQCP_examples/QCP_demos_LLM/ -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM --input-file=QCP_examples/LLM_bench/Algorithms/kosaraju/safeexecE.strategies --no-exec-info
+linux-binary/StrategyCheck --coq-output-dir=Rocq/examples/LLM_bench/Codeforces/ --coq-logic-path=SimpleC.EE.LLM_bench.Codeforces -IQCP_examples/LLM_bench/Codeforces/ -slp QCP_examples/LLM_bench/Codeforces/ SimpleC.EE.LLM_bench.Codeforces -IQCP_examples/LLM_bench/ -slp QCP_examples/LLM_bench/ SimpleC.EE.LLM_bench -IQCP_examples/QCP_demos_LLM/ -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM --input-file=QCP_examples/LLM_bench/Codeforces/array2_char.strategies --no-exec-info
+linux-binary/StrategyCheck --coq-output-dir=Rocq/examples/LLM_bench/Codeforces/ --coq-logic-path=SimpleC.EE.LLM_bench.Codeforces -IQCP_examples/LLM_bench/Codeforces/ -slp QCP_examples/LLM_bench/Codeforces/ SimpleC.EE.LLM_bench.Codeforces -IQCP_examples/LLM_bench/ -slp QCP_examples/LLM_bench/ SimpleC.EE.LLM_bench -IQCP_examples/QCP_demos_LLM/ -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM --input-file=QCP_examples/LLM_bench/Codeforces/array2_ext.strategies --no-exec-info
+linux-binary/StrategyCheck --coq-output-dir=Rocq/examples/QCP_demos_LLM/ --coq-logic-path=SimpleC.EE.QCP_demos_LLM -IQCP_examples/QCP_demos_LLM/ -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM -IQCP_examples/LLM_bench/ -slp QCP_examples/LLM_bench/ SimpleC.EE.LLM_bench -IQCP_examples/QCP_demos_LLM/ -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM --input-file=QCP_examples/QCP_demos_LLM/array3.strategies --no-exec-info
+linux-binary/StrategyCheck --coq-output-dir=Rocq/examples/QCP_demos_LLM/ --coq-logic-path=SimpleC.EE.QCP_demos_LLM -IQCP_examples/QCP_demos_LLM/ -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM -IQCP_examples/LLM_bench/ -slp QCP_examples/LLM_bench/ SimpleC.EE.LLM_bench -IQCP_examples/QCP_demos_LLM/ -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM --input-file=QCP_examples/QCP_demos_LLM/graph_matrix.strategies --no-exec-info
+
+# Only run shard cases which already have verification goals in this checkout.
+for source in QCP_examples/LLM_bench/Codeforces/examples_shard*/*.c; do
+  [[ -f "$source" ]] || continue
+  source_dir="${source%/*}"
+  shard="${source_dir##*/}"
+  stem="${source##*/}"
+  stem="${stem%.c}"
+  output="Rocq/examples/LLM_bench/Codeforces/$shard"
+  [[ -f "$output/${stem}_goal.v" ]] || continue
+  linux-binary/symexec --coq-output-dir="$output" --coq-logic-path="SimpleC.EE.LLM_bench.Codeforces.$shard" "-I$source_dir/" -slp "$source_dir/" "SimpleC.EE.LLM_bench.Codeforces.$shard" -IQCP_examples/LLM_bench/Codeforces/ -slp QCP_examples/LLM_bench/Codeforces/ SimpleC.EE.LLM_bench.Codeforces -IQCP_examples/QCP_demos_LLM/ -slp QCP_examples/QCP_demos_LLM/ SimpleC.EE.QCP_demos_LLM -slp QCP_examples/LLM_bench/ SimpleC.EE.LLM_bench -IQCP_examples/stdlib/ -slp QCP_examples/stdlib/ SimpleC.StdLib --input-file="$source" --no-exec-info
 done
 
 echo "All tests finished"

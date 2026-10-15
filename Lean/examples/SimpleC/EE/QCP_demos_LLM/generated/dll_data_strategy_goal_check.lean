@@ -1,0 +1,21 @@
+import SimpleC.EE.QCP_demos_LLM.generated.dll_data_strategy_proof
+
+namespace SimpleC.EE.QCP_demos_LLM.generated.dll_data_strategy_goal_check
+
+def dll_data_Strategy_Correctness : SimpleC.EE.QCP_demos_LLM.generated.dll_data_strategy_goal.dll_data_Strategy_Correct where
+  dll_data_strategy1_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_data_strategy_proof.dll_data_strategy1_correctness
+  dll_data_strategy2_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_data_strategy_proof.dll_data_strategy2_correctness
+  dll_data_strategy3_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_data_strategy_proof.dll_data_strategy3_correctness
+  dll_data_strategy4_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_data_strategy_proof.dll_data_strategy4_correctness
+  dll_data_strategy12_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_data_strategy_proof.dll_data_strategy12_correctness
+  dll_data_strategy7_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_data_strategy_proof.dll_data_strategy7_correctness
+  dll_data_strategy13_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_data_strategy_proof.dll_data_strategy13_correctness
+  dll_data_strategy14_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_data_strategy_proof.dll_data_strategy14_correctness
+  dll_data_strategy15_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_data_strategy_proof.dll_data_strategy15_correctness
+  dll_data_strategy16_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_data_strategy_proof.dll_data_strategy16_correctness
+  dll_data_strategy8_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_data_strategy_proof.dll_data_strategy8_correctness
+  dll_data_strategy11_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_data_strategy_proof.dll_data_strategy11_correctness
+  dll_data_strategy5_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_data_strategy_proof.dll_data_strategy5_correctness
+  dll_data_strategy6_correctness := SimpleC.EE.QCP_demos_LLM.generated.dll_data_strategy_proof.dll_data_strategy6_correctness
+
+end SimpleC.EE.QCP_demos_LLM.generated.dll_data_strategy_goal_check

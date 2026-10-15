@@ -36,7 +36,7 @@ final replay/apply 和 backup。启用 LongPathsEnabled 不代表每个外部工
 Dune 共享依赖刷新使用 workspace lock；Make 使用 exact 临时 Makefile，recipe 的 load paths 相对
 绑定 cwd，避免重复长 root。Current 模块每次实际编译。
 
-Coq check/debug 的 native 进程和 Dune 锁等待共享 900 秒预算。使用 `CREATE_NEW_PROCESS_GROUP`
+Coq check/debug 的 native 进程和 Dune 锁等待默认共享 900 秒预算；可通过 `QCP_COQ_TIMEOUT_SECONDS` 设置有限正数秒数以检查慢用例。使用 `CREATE_NEW_PROCESS_GROUP`
 及 `taskkill /T /F` 清理后代；零预算或已取消时不启动进程。成功清理后取回最终输出；Windows
 运行中不保证部分 stdout/stderr。脱离后代仍持有管道时报告 `cleanup_incomplete`，避免同步关闭
 被后台读取线程占用的流而无限阻塞。

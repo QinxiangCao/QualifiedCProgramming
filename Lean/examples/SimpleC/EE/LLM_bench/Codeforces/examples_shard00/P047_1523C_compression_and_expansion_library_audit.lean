@@ -1,0 +1,53 @@
+import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib
+import Lean.Util.CollectAxioms
+
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.BoundedItem_nil
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.BoundedItem_Znth
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.BoundedItem_append_one
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.BoundedItem_prefix
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.PopTarget_preserves_bounds
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.Forall_Znth__semantic_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.Forall2_Znth__semantic_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.Forall_removelast__semantic_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.Zlength_removelast_nonempty__semantic_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.Spec_step_and_last__semantic_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.PopTarget_remove_last__semantic_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.PopTarget_last_match__semantic_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.Znth_last_snoc__semantic_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.Spec_nonone_pop__semantic_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.Spec_one_append__semantic_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.stack_append_one_invariant__semantic_transitions
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.sublist_snoc_Znth__flattening_and_completion
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.FlatPrefix_snoc__flattening_and_completion
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.FlatPrefix_full__flattening_and_completion
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.LengthsPrefix_snoc__flattening_and_completion
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.LengthsPrefix_full__flattening_and_completion
+
+run_cmd do
+  for decl in #[
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.BoundedItem_nil,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.BoundedItem_Znth,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.BoundedItem_append_one,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.BoundedItem_prefix,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.PopTarget_preserves_bounds,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.Forall_Znth__semantic_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.Forall2_Znth__semantic_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.Forall_removelast__semantic_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.Zlength_removelast_nonempty__semantic_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.Spec_step_and_last__semantic_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.PopTarget_remove_last__semantic_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.PopTarget_last_match__semantic_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.Znth_last_snoc__semantic_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.Spec_nonone_pop__semantic_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.Spec_one_append__semantic_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.stack_append_one_invariant__semantic_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.sublist_snoc_Znth__flattening_and_completion,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.FlatPrefix_snoc__flattening_and_completion,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.FlatPrefix_full__flattening_and_completion,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.LengthsPrefix_snoc__flattening_and_completion,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P047_1523C_compression_and_expansion_lib.LengthsPrefix_full__flattening_and_completion
+  ] do
+    let axs ← Lean.collectAxioms decl
+    for ax in axs do
+      unless #[``propext, ``Classical.choice, ``Quot.sound].contains ax do
+        throwError "Unexpected axiom {ax} in {decl}"

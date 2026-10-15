@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P081_432E_square_tiling_goal P081_432E_square_tiling_proof_auto P081_432E_square_tiling_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P081_432E_square_tiling_proof_auto.
+  Include P081_432E_square_tiling_proof_manual.
+End VC_Correctness.

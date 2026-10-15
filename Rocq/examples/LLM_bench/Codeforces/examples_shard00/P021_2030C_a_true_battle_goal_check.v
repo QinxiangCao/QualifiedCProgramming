@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P021_2030C_a_true_battle_goal P021_2030C_a_true_battle_proof_auto P021_2030C_a_true_battle_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P021_2030C_a_true_battle_proof_auto.
+  Include P021_2030C_a_true_battle_proof_manual.
+End VC_Correctness.

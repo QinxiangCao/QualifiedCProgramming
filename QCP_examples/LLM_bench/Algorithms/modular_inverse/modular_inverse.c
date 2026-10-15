@@ -1,3 +1,4 @@
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.modular_inverse.modular_inverse_lib */
 /*@ Extern Coq (Zgcd: Z -> Z -> Z)
       (ModularInverse : Z -> Z -> Z -> Prop) */
 /*@ Import Coq Require Import SimpleC.EE.LLM_bench.Algorithms.modular_inverse.modular_inverse_lib */

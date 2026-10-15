@@ -1,0 +1,419 @@
+zlength_replace_znth__count_invariants
+
+COQ :
+  forall {A : Type} (l : list A) (n : Z) (v : A),
+    Zlength (replace_Znth n v l) = Zlength l.
+
+LEAN {A : Type} (l : List A) (n : Int) (v : A) : Zlength (replace_Znth n v l)=Zlength l
+
+counted_prefix_counter_bound__count_invariants
+
+COQ :
+  forall (s t counts : list Z) (i c : Z),
+    0 <= i ->
+    i <= Zlength s ->
+    i <= Zlength t ->
+    0 <= c < 26 ->
+    CountedPrefix s t i counts ->
+    0 <= Znth c counts 0 <= 2 * i.
+
+LEAN (s t counts : List Int) (i c : Int)
+    (hi : 0≤i) (his : i≤Zlength s) (hit : i≤Zlength t) (hc : 0≤c ∧ c<26) (h : CountedPrefix s t i counts) :
+    0≤Znth c counts 0 ∧ Znth c counts 0≤2*i
+
+counted_prefix_step__count_invariants
+
+COQ :
+  forall (s t counts : list Z) (i : Z),
+    0 <= i < Zlength s ->
+    0 <= i < Zlength t ->
+    97 <= Znth i s 0 <= 122 ->
+    97 <= Znth i t 0 <= 122 ->
+    CountedPrefix s t i counts ->
+    CountedPrefix s t (i + 1)
+      (replace_Znth (Znth i t 0 - 97)
+        (Znth (Znth i t 0 - 97)
+          (replace_Znth (Znth i s 0 - 97)
+            (Znth (Znth i s 0 - 97) counts 0 + 1) counts) 0 + 1)
+        (replace_Znth (Znth i s 0 - 97)
+          (Znth (Znth i s 0 - 97) counts 0 + 1) counts)).
+
+LEAN (s t counts : List Int) (i : Int)
+    (hs : 0≤i ∧ i<Zlength s) (ht : 0≤i ∧ i<Zlength t)
+    (hsv : 97≤Znth i s 0 ∧ Znth i s 0≤122) (htv : 97≤Znth i t 0 ∧ Znth i t 0≤122)
+    (h : CountedPrefix s t i counts) :
+    CountedPrefix s t (i+1)
+      (replace_Znth (Znth i t 0-97) (Znth (Znth i t 0-97)
+        (replace_Znth (Znth i s 0-97) (Znth (Znth i s 0-97) counts 0+1) counts) 0+1)
+        (replace_Znth (Znth i s 0-97) (Znth (Znth i s 0-97) counts 0+1) counts))
+
+counted_prefix_full_count__parity_scan
+
+COQ :
+  forall source target n counts c,
+    n = Zlength source ->
+    Zlength target = n ->
+    CountedPrefix source target n counts ->
+    0 <= c < 26 ->
+    Znth c counts 0 =
+      Z.of_nat (count_occ Z.eq_dec (source ++ target) (97 + c)).
+
+LEAN (source target : List Int) (n : Int) (counts : List Int) (c : Int)
+    (hs : n=Zlength source) (ht : Zlength target=n) (h : CountedPrefix source target n counts) (hc : 0≤c ∧ c<26) :
+    Znth c counts 0=((source++target).count (97+c):Int)
+
+counts_even_before_succ__parity_scan
+
+COQ :
+  forall counts c,
+    0 <= c ->
+    0 <= Znth c counts 0 ->
+    CountsEvenBefore counts c ->
+    Z.rem (Znth c counts 0) 2 = 0 ->
+    CountsEvenBefore counts (c + 1).
+
+LEAN (counts : List Int) (c : Int) (hc : 0≤c) (hn : 0≤Znth c counts 0)
+    (h : CountsEvenBefore counts c) (he : Z.rem (Znth c counts 0) 2=0) : CountsEvenBefore counts (c+1)
+
+combined_parity_from_full_counts__parity_scan
+
+COQ :
+  forall source target n counts,
+    n = Zlength source ->
+    Zlength target = n ->
+    CountedPrefix source target n counts ->
+    (CountsEvenBefore counts 26 -> CombinedEven source target) /\
+    (forall c,
+      0 <= c < 26 ->
+      Z.rem (Znth c counts 0) 2 <> 0 ->
+      CombinedOddAt source target c).
+
+LEAN (source target : List Int) (n : Int) (counts : List Int)
+    (hs : n=Zlength source) (ht : Zlength target=n) (h : CountedPrefix source target n counts) :
+    (CountsEvenBefore counts 26 → CombinedEven source target) ∧
+    (∀ c, (0≤c ∧ c<26) → Z.rem (Znth c counts 0) 2≠0 → CombinedOddAt source target c)
+
+repair_state_initial__repair_control
+
+COQ :
+  forall source target,
+    CombinedEven source target ->
+    RepairState source target source target 0 [].
+
+LEAN (source target : List Int) (he : CombinedEven source target) : RepairState source target source target 0 []
+
+no_value_range_empty__repair_control
+
+COQ :
+  forall l value lo,
+    NoValueInRange l value lo lo.
+
+LEAN (l : List Int) (value lo : Int) : NoValueInRange l value lo lo
+
+no_value_range_extend__repair_control
+
+COQ :
+  forall l value lo hi,
+    NoValueInRange l value lo hi ->
+    Znth hi l 0 <> value ->
+    NoValueInRange l value lo (hi + 1).
+
+LEAN (l : List Int) (value lo hi : Int) (h : NoValueInRange l value lo hi)
+    (hv : Znth hi l 0≠value) : NoValueInRange l value lo (hi+1)
+
+operation_lists_empty__repair_control
+
+COQ :
+  OperationLists [] [] [].
+
+LEAN : OperationLists [] [] []
+
+repair_state_advance_equal__repair_transitions
+
+COQ :
+  forall source target s t i ops,
+    RepairState source target s t i ops ->
+    0 <= i < Zlength s ->
+    Znth i s 0 = Znth i t 0 ->
+    RepairState source target s t (i + 1) ops.
+
+LEAN (source target s t : List Int) (i : Int) (ops : List (Int×Int))
+    (h : RepairState source target s t i ops) (hi : 0≤i ∧ i<Zlength s) (he : Znth i s 0=Znth i t 0) :
+    RepairState source target s t (i+1) ops
+
+replace_znth_preserves_char_bounds__repair_transitions
+
+COQ :
+  forall xs i v k,
+    Zlength xs = k ->
+    0 <= i < k ->
+    97 <= v <= 122 ->
+    (forall q, 0 <= q < k -> 97 <= Znth q xs 0 <= 122) ->
+    forall q, 0 <= q < k ->
+      97 <= Znth q (replace_Znth i v xs) 0 <= 122.
+
+LEAN (xs : List Int) (i v k : Int)
+    (hl : Zlength xs=k) (hi : 0≤i ∧ i<k) (hv : 97≤v ∧ v≤122)
+    (hb : ∀ q, (0≤q ∧ q<k) → 97≤Znth q xs 0 ∧ Znth q xs 0≤122) :
+    ∀ q, (0≤q ∧ q<k) → 97≤Znth q (replace_Znth i v xs) 0 ∧ Znth q (replace_Znth i v xs) 0≤122
+
+replace_Znth_decomp__repair_transitions
+
+COQ :
+  forall {A : Type} i (l : list A) (v : A),
+    0 <= i < Zlength l ->
+    replace_Znth i v l =
+      firstn (Z.to_nat i) l ++ v :: skipn (S (Z.to_nat i)) l.
+
+LEAN {A : Type} (i : Int) (l : List A) (v : A) (hi : 0≤i ∧ i<Zlength l) :
+    replace_Znth i v l=l.take i.toNat++v::l.drop (i.toNat+1)
+
+Zlength_replace_Znth__repair_transitions
+
+COQ :
+  forall {A : Type} (l : list A) i (v : A),
+    Zlength (replace_Znth i v l) = Zlength l.
+
+LEAN {A : Type} (l : List A) (n : Int) (v : A) : Zlength (replace_Znth n v l)=Zlength l
+
+cross_swap_combined_permutation__repair_transitions
+
+COQ :
+  forall s t a b,
+    0 <= a < Zlength s ->
+    0 <= b < Zlength t ->
+    Permutation (s ++ t)
+      (replace_Znth a (Znth b t 0) s ++
+       replace_Znth b (Znth a s 0) t).
+
+LEAN (s t : List Int) (a b : Int)
+    (ha : 0≤a ∧ a<Zlength s) (hb : 0≤b ∧ b<Zlength t) :
+    List.Perm (s++t) (replace_Znth a (Znth b t 0) s++replace_Znth b (Znth a s 0) t)
+
+combined_even_permutation__repair_transitions
+
+COQ :
+  forall s t s' t',
+    CombinedEven s t ->
+    Permutation (s ++ t) (s' ++ t') ->
+    CombinedEven s' t'.
+
+LEAN (s t s' t' : List Int) (h : CombinedEven s t)
+    (hp : List.Perm (s++t) (s'++t')) : CombinedEven s' t'
+
+swap_trace_append__repair_transitions
+
+COQ :
+  forall source target s t ops s' t' op,
+    SwapTrace source target s t ops ->
+    CrossSwap (s, t) (s', t') op ->
+    SwapTrace source target s' t' (ops ++ [op]).
+
+LEAN (source target s t : List Int) (ops : List (Int×Int)) (s' t' : List Int) (op : Int×Int)
+    (h : SwapTrace source target s t ops) (hstep : CrossSwap (s,t) (s',t') op) : SwapTrace source target s' t' (ops++[op])
+
+operation_lists_append__repair_transitions
+
+COQ :
+  forall ops is js a b,
+    OperationLists ops is js ->
+    OperationLists (ops ++ [(a, b)]) (is ++ [a + 1]) (js ++ [b + 1]).
+
+LEAN (ops : List (Int×Int)) (is js : List Int) (a b : Int)
+    (h : OperationLists ops is js) : OperationLists (ops++[(a,b)]) (is++[a+1]) (js++[b+1])
+
+repair_state_cross_swap__repair_transitions
+
+COQ :
+  forall source target s t i ops s' t' a b,
+    RepairState source target s t i ops ->
+    CrossSwap (s, t) (s', t') (a, b) ->
+    PrefixEqual s' t' (i + 1) ->
+    Zlength ops + 1 <= 2 * (i + 1) ->
+    RepairState source target s' t' (i + 1) (ops ++ [(a, b)]).
+
+LEAN (source target s t : List Int) (i : Int) (ops : List (Int×Int)) (s' t' : List Int) (a b : Int)
+    (h : RepairState source target s t i ops) (hc : CrossSwap (s,t) (s',t') (a,b))
+    (hp : PrefixEqual s' t' (i+1)) (hb : Zlength ops+1≤2*(i+1)) : RepairState source target s' t' (i+1) (ops++[(a,b)])
+
+repair_state_one_cross_swap__repair_transitions
+
+COQ :
+  forall source target s t i ops j,
+    RepairState source target s t i ops ->
+    Zlength s = Zlength t ->
+    0 <= i < Zlength s ->
+    i < j < Zlength s ->
+    Znth j s 0 = Znth i s 0 ->
+    RepairState source target
+      (replace_Znth j (Znth i t 0) s)
+      (replace_Znth i (Znth j s 0) t)
+      (i + 1) (ops ++ [(j, i)]).
+
+LEAN (source target s t : List Int) (i : Int) (ops : List (Int×Int)) (j : Int)
+    (h : RepairState source target s t i ops) (hl : Zlength s=Zlength t) (hi : 0≤i ∧ i<Zlength s)
+    (hj : i<j ∧ j<Zlength s) (hm : Znth j s 0=Znth i s 0) :
+    RepairState source target (replace_Znth j (Znth i t 0) s) (replace_Znth i (Znth j s 0) t) (i+1) (ops++[(j,i)])
+
+repair_state_two_cross_swaps__repair_transitions
+
+COQ :
+  forall source target s t i ops j,
+    RepairState source target s t i ops ->
+    Zlength s = Zlength t ->
+    0 <= i < Zlength s ->
+    i < j < Zlength s ->
+    Znth j t 0 = Znth i s 0 ->
+    RepairState source target
+      (replace_Znth j
+        (Znth i (replace_Znth j (Znth j s 0) t) 0)
+        (replace_Znth j (Znth j t 0) s))
+      (replace_Znth i
+        (Znth j (replace_Znth j (Znth j t 0) s) 0)
+        (replace_Znth j (Znth j s 0) t))
+      (i + 1) ((ops ++ [(j, j)]) ++ [(j, i)]).
+
+LEAN (source target s t : List Int) (i : Int) (ops : List (Int×Int)) (j : Int)
+    (h : RepairState source target s t i ops) (hl : Zlength s=Zlength t) (hi : 0≤i ∧ i<Zlength s)
+    (hj : i<j ∧ j<Zlength s) (hm : Znth j t 0=Znth i s 0) :
+    RepairState source target
+      (replace_Znth j (Znth i (replace_Znth j (Znth j s 0) t) 0) (replace_Znth j (Znth j t 0) s))
+      (replace_Znth i (Znth j (replace_Znth j (Znth j t 0) s) 0) (replace_Znth j (Znth j s 0) t))
+      (i+1) ((ops++[(j,j)])++[(j,i)])
+
+replace_Znth_decompose__final_results
+
+COQ :
+  forall (l : list Z) i v d,
+    0 <= i < Zlength l ->
+    exists pre suf,
+      l = pre ++ Znth i l d :: suf /\
+      replace_Znth i v l = pre ++ v :: suf.
+
+LEAN (l : List Int) (i v d : Int) (hi : 0≤i ∧ i<Zlength l) :
+    ∃ pre suf, l=pre++Znth i l d::suf ∧ replace_Znth i v l=pre++v::suf
+
+cross_swap_preserves_count__final_results
+
+COQ :
+  forall st st' op x,
+    CrossSwap st st' op ->
+    count_occ Z.eq_dec (fst st ++ snd st) x =
+    count_occ Z.eq_dec (fst st' ++ snd st') x.
+
+LEAN (st st' : List Int×List Int) (op : Int×Int) (x : Int) (h : CrossSwap st st' op) :
+    (st.1++st.2).count x=(st'.1++st'.2).count x
+
+trace_prefix_preserves_count__final_results
+
+COQ :
+  forall states ops q x,
+    (forall k, 0 <= k < Zlength ops ->
+      CrossSwap
+        (Znth k states ([], []))
+        (Znth (k + 1) states ([], []))
+        (Znth k ops (0, 0))) ->
+    0 <= q <= Zlength ops ->
+    count_occ Z.eq_dec
+      (fst (Znth 0 states ([], [])) ++ snd (Znth 0 states ([], []))) x =
+    count_occ Z.eq_dec
+      (fst (Znth q states ([], [])) ++ snd (Znth q states ([], []))) x.
+
+LEAN (states : List (List Int×List Int)) (ops : List (Int×Int)) (q x : Int)
+    (h : ∀ k, (0≤k ∧ k<Zlength ops) → CrossSwap (Znth k states ([],[])) (Znth (k+1) states ([],[])) (Znth k ops (0,0)))
+    (hq : 0≤q ∧ q≤Zlength ops) :
+    ((Znth 0 states ([],[])).1++(Znth 0 states ([],[])).2).count x=((Znth q states ([],[])).1++(Znth q states ([],[])).2).count x
+
+swap_trace_preserves_count__final_results
+
+COQ :
+  forall s0 t0 s t ops x,
+    SwapTrace s0 t0 s t ops ->
+    count_occ Z.eq_dec (s0 ++ t0) x =
+    count_occ Z.eq_dec (s ++ t) x.
+
+LEAN (s0 t0 s t : List Int) (ops : List (Int×Int)) (x : Int)
+    (h : SwapTrace s0 t0 s t ops) : (s0++t0).count x=(s++t).count x
+
+combined_odd_forbids_swaps_work__final_results
+
+COQ :
+  forall s t c ops,
+    CombinedOddAt s t c ->
+    ~ SwapsWork s t ops.
+
+LEAN (s t : List Int) (c : Int) (ops : List (Int×Int)) (hodd : CombinedOddAt s t c) : ¬SwapsWork s t ops
+
+prefix_equal_full__final_results
+
+COQ :
+  forall s t i,
+    Zlength s = Zlength t ->
+    Zlength s <= i ->
+    PrefixEqual s t i ->
+    s = t.
+
+LEAN (s t : List Int) (i : Int) (hl : Zlength s=Zlength t) (hi : Zlength s≤i)
+    (hp : PrefixEqual s t i) : s=t
+
+repair_state_success_swaps_work__final_results
+
+COQ :
+  forall source target s t i ops,
+    source <> target ->
+    Zlength source = Zlength target ->
+    i = Zlength source ->
+    RepairState source target s t i ops ->
+    SwapsWork source target ops.
+
+LEAN (source target s t : List Int) (i : Int) (ops : List (Int×Int))
+    (hne : source≠target) (hlen : Zlength source=Zlength target) (hi : i=Zlength source)
+    (h : RepairState source target s t i ops) : SwapsWork source target ops
+
+no_value_full_count_zero__final_results
+
+COQ :
+  forall l v,
+    NoValueInRange l v 0 (Zlength l) ->
+    count_occ Z.eq_dec l v = 0%nat.
+
+LEAN (l : List Int) (v : Int) (h : NoValueInRange l v 0 (Zlength l)) : l.count v=0
+
+paired_prefix_unmatched_count_odd__final_results
+
+COQ :
+  forall s t i v,
+    Zlength s = Zlength t ->
+    0 <= i < Zlength s ->
+    PrefixEqual s t i ->
+    Znth i s 0 = v ->
+    Znth i t 0 <> v ->
+    NoValueInRange s v (i + 1) (Zlength s) ->
+    NoValueInRange t v (i + 1) (Zlength t) ->
+    exists k : nat,
+      count_occ Z.eq_dec (s ++ t) v = (2 * k + 1)%nat.
+
+LEAN (s t : List Int) (i v : Int)
+    (hlen : Zlength s=Zlength t) (hi : 0≤i ∧ i<Zlength s) (hp : PrefixEqual s t i)
+    (hsi : Znth i s 0=v) (hti : Znth i t 0≠v)
+    (hsuf : NoValueInRange s v (i+1) (Zlength s)) (htuf : NoValueInRange t v (i+1) (Zlength t)) :
+    ∃ k:Nat, (s++t).count v=2*k+1
+
+no_match_contradicts_combined_even__final_results
+
+COQ :
+  forall s t i v,
+    Zlength s = Zlength t ->
+    0 <= i < Zlength s ->
+    97 <= v <= 122 ->
+    PrefixEqual s t i ->
+    Znth i s 0 = v ->
+    Znth i t 0 <> v ->
+    NoValueInRange s v (i + 1) (Zlength s) ->
+    NoValueInRange t v (i + 1) (Zlength t) ->
+    ~ CombinedEven s t.
+
+LEAN (s t : List Int) (i v : Int)
+    (hlen : Zlength s=Zlength t) (hi : 0≤i ∧ i<Zlength s) (hv : 97≤v ∧ v≤122) (hp : PrefixEqual s t i)
+    (hsi : Znth i s 0=v) (hti : Znth i t 0≠v)
+    (hsuf : NoValueInRange s v (i+1) (Zlength s)) (htuf : NoValueInRange t v (i+1) (Zlength t)) : ¬CombinedEven s t

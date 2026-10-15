@@ -1,3 +1,4 @@
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.lcs_n.lcs_n_lib */
 /*@ Extern Coq
       (LCSNLength : list Z -> list Z -> Z -> Prop)
       (LCSNTableResult : list Z -> list Z -> Z -> list Z -> Prop)

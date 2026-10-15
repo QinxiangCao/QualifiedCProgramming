@@ -1,6 +1,18 @@
 import SetsClass.SetsClass
 
+namespace SetsClassNoNotationTests
+
+example {A : Type} (_a : A) : True := by
+  fail_if_success
+    have _h : ({_a} : A -> Prop) _a := by
+      rfl
+  trivial
+
+end SetsClassNoNotationTests
+
 open scoped SetsNotation
+
+namespace SetsClassNotationTests
 
 #check Sets.SETS
 #check Sets.full
@@ -15,6 +27,7 @@ open scoped SetsNotation
 #check Sets.equiv
 #check Sets.included
 #check Sets.singleton
+#check ({(1 : Int)} : Int -> Prop)
 #check SETS_Properties
 #check SETS_Classical_Properties
 #check SetsEle.PRE_SETS_ELE
@@ -86,6 +99,32 @@ example {A : Type} (a x : A) (h : Sets.singleton a x) : a = x := by
   sets_unfold at h
   exact h
 
+example {A : Type} (a : A) : a ∈ ({a} : A -> Prop) := by
+  change ({a} : A -> Prop) a
+  rfl
+
+example {A : Type} (S : A -> Prop) (a : A) : a ∈ (S ∪ {a}) := by
+  change (S ∪ {a}) a
+  sets_unfold
+  exact Or.inr rfl
+
+example : ([1] : List Int) = [1] := rfl
+
+structure AlwaysSetCarrier (A : Type) where
+  token : Unit
+
+instance {A : Type} : SetsEle.SETS_ELE (AlwaysSetCarrier A) A where
+  In _ _ := True
+  set_transfer X := X
+
+example {A : Type} (a : A) (X : AlwaysSetCarrier A) : SetsEle.In a X := trivial
+
+example {A : Type} (_a : A) (_X : AlwaysSetCarrier A) : True := by
+  fail_if_success
+    have _h : _a ∈ _X := by
+      trivial
+  trivial
+
 example (P : Prop) (hP : P) : P := by
   sets_unfold
   exact hP
@@ -110,3 +149,5 @@ example {A : Type} : ACCUM_LeftId (List A) (List A) := inferInstance
 example {A : Type} : ACCUM_RightId (List A) (List A) := inferInstance
 
 #print axioms Sets_complement_self_union
+
+end SetsClassNotationTests

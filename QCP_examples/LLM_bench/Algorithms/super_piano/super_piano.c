@@ -1,3 +1,7 @@
+/*@ Import Lean
+import SimpleC.EE.LLM_bench.Algorithms.super_piano.super_piano_lib
+open SimpleC.EE.LLM_bench.Algorithms.super_piano.super_piano_lib
+*/
 /*@ Extern Coq
   (PianoNodes : list Z -> list Z -> list Z -> list Z -> list Z -> list (Z * Z * Z * Z * Z))
  */

@@ -6,10 +6,26 @@ open SimpleC.SL.IntLib
 #check INT_MIN
 #check INT_MAX
 #check UINT_MAX
+#check INT64_MIN
+#check INT64_MAX
+#check UINT64_MAX
 #check Zabs
 #check Zgcd
 #check unsigned_last_nbits
 #check signed_last_nbits
+#check Int128.min_signed
+#check Int128.max_signed
+#check Int128.max_unsigned
+
+example : INT64_MIN = -9223372036854775808 := rfl
+example : INT64_MAX = 9223372036854775807 := rfl
+example : UINT64_MAX = 18446744073709551615 := rfl
+example : Int128.min_signed = -170141183460469231731687303715884105728 := by
+  native_decide
+example : Int128.max_signed = 170141183460469231731687303715884105727 := by
+  native_decide
+example : Int128.max_unsigned = 340282366920938463463374607431768211455 := by
+  native_decide
 
 -- All 89 Coq lemmas/theorems.
 #check Zland_land

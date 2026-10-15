@@ -2,7 +2,9 @@ import SimpleC.SL.SeparationLogic
 
 namespace SimpleC.SL.NestedCriticalSTS
 
+open SimpleC.SL.CArch
 open SimpleC.SL.CommonAssertion
+open SimpleC.SL.CommonAssertion.DerivedPredSig
 open SimpleC.SL.ConAssertion
 open SimpleC.SL.CriticalSTS
 
@@ -79,7 +81,8 @@ structure NestedCriticalCSL
     (NC : nested_critical_STS_def)
     (S : nested_critical_STS_to_STS_def NC)
     (_R1 : ConAssertion.CSL S.toSTSDef)
-    (_R2 : DerivedPredSig _R1.toSeparationLogicSig) : Type where
+    (_Arch : CArchSig) (_Endian : CEndianSig)
+    (_R2 : DerivedPredSig _Arch _Endian _R1.toSeparationLogicSig) : Type where
   mk ::
 
 namespace NestedCriticalCSL
@@ -87,30 +90,32 @@ namespace NestedCriticalCSL
 def canonical (NC : nested_critical_STS_def)
     (S : nested_critical_STS_to_STS_def NC)
     (R1 : ConAssertion.CSL S.toSTSDef)
-    (R2 : DerivedPredSig R1.toSeparationLogicSig) :
-    NestedCriticalCSL NC S R1 R2 := .mk
+    (Arch : CArchSig) (Endian : CEndianSig)
+    (R2 : DerivedPredSig Arch Endian R1.toSeparationLogicSig) :
+    NestedCriticalCSL NC S R1 Arch Endian R2 := .mk
 
 def Critical {NC : nested_critical_STS_def}
     {S : nested_critical_STS_to_STS_def NC}
     {R1 : ConAssertion.CSL S.toSTSDef}
-    {R2 : DerivedPredSig R1.toSeparationLogicSig}
-    (_self : NestedCriticalCSL NC S R1 R2)
+    {Arch : CArchSig} {Endian : CEndianSig}
+    {R2 : DerivedPredSig Arch Endian R1.toSeparationLogicSig}
+    (_self : NestedCriticalCSL NC S R1 Arch Endian R2)
     (hs : List Int)
     (s : @critical_STS.critical_STS_state NC.nc_sts) : R1.expr :=
-  R1.andp (R1.coq_prop (hs = []))
-    (R1.orp
+  R1.orp
+    (R1.andp (R1.coq_prop (hs = []))
       (R1.exp (@critical_STS.critical_STS_state NC.nc_sts) fun s' =>
         R1.sepcon
           (R1.at_states fun cs =>
             exists s'',
               cs = Build_nested_critical_state [] s'' ∧
                 @critical_STS.critical_STS_transition NC.nc_sts s' s'')
-          (R1.has_tokens Sets.empty))
-      (R1.andp (R1.coq_prop (hs ≠ []))
-        (R1.sepcon
-          (R1.at_states fun cs =>
-            exists hs', cs = Build_nested_critical_state (hs' ++ hs) s)
-          (R1.has_tokens fun (n : Nat) => n < hs.length))))
+          (R1.has_tokens Sets.empty)))
+    (R1.andp (R1.coq_prop (hs ≠ []))
+      (R1.sepcon
+        (R1.at_states fun cs =>
+          exists hs', cs = Build_nested_critical_state (hs' ++ hs) s)
+        (R1.has_tokens fun (n : Nat) => n < hs.length)))
 
 end NestedCriticalCSL
 

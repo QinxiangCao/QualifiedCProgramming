@@ -22,6 +22,10 @@ instance state_rel_monad (Sigma : Type) : Monad (M Sigma) where
 abbrev program := M
 abbrev MONAD (A : Type) := program Unit A
 
+/-- Backend-independent recursive construction, implemented by `Lfix`. -/
+@[irreducible] def Rec {X : Type} [Sets.SETS X] (F : X -> X) : X :=
+  Lfix F
+
 def test {Sigma : Type} (P : Sigma -> Prop) : program Sigma Unit :=
   fun s1 _ s2 => P s1 /\ s1 = s2
 
@@ -57,8 +61,8 @@ def if_else {Sigma A : Type} (cond : Sigma -> Prop)
 namespace StateRelMonadNotation
 
 scoped notation "skip" => StateRelMonad.ret ()
-scoped notation:50 "assume!! " P:50 => StateRelMonad.test' P
-scoped notation:50 "assume " P:50 => StateRelMonad.test P
+scoped notation:62 "assume!! " P:63 => StateRelMonad.test' P
+scoped notation:62 "assume " P:63 => StateRelMonad.test P
 
 end StateRelMonadNotation
 
@@ -71,7 +75,7 @@ def while_f {Sigma : Type} (cond : program Sigma Bool) (body : program Sigma Uni
 
 def «while» {Sigma : Type} (cond : program Sigma Bool) (body : program Sigma Unit) :
     program Sigma Unit :=
-  Lfix (while_f cond body)
+  Rec (while_f cond body)
 
 def whileret_f {Sigma A : Type} (cond : A -> program Sigma Bool)
     (body : A -> program Sigma A) (W : A -> program Sigma A) :
@@ -84,7 +88,7 @@ def whileret_f {Sigma A : Type} (cond : A -> program Sigma Bool)
 
 def whileret {Sigma A : Type} (cond : A -> program Sigma Bool)
     (body : A -> program Sigma A) : A -> program Sigma A :=
-  Lfix (whileret_f cond body)
+  Rec (whileret_f cond body)
 
 def whileP_f {Sigma : Type} (cond : Sigma -> Prop) (body : program Sigma Unit)
     (W : program Sigma Unit) : program Sigma Unit :=
@@ -93,7 +97,7 @@ def whileP_f {Sigma : Type} (cond : Sigma -> Prop) (body : program Sigma Unit)
 
 def whileP {Sigma : Type} (cond : Sigma -> Prop) (body : program Sigma Unit) :
     program Sigma Unit :=
-  Lfix (whileP_f cond body)
+  Rec (whileP_f cond body)
 
 def whileretP_f {Sigma A : Type} (cond : A -> Sigma -> Prop)
     (body : A -> program Sigma A) (W : A -> program Sigma A) :
@@ -104,14 +108,14 @@ def whileretP_f {Sigma A : Type} (cond : A -> Sigma -> Prop)
 
 def whileretP {Sigma A : Type} (cond : A -> Sigma -> Prop)
     (body : A -> program Sigma A) : A -> program Sigma A :=
-  Lfix (whileretP_f cond body)
+  Rec (whileretP_f cond body)
 
 def Repeat_f {Sigma : Type} (body : program Sigma Unit)
     (W : program Sigma Unit) : program Sigma Unit :=
   body ;; W
 
 def Repeat {Sigma : Type} (body : program Sigma Unit) : program Sigma Unit :=
-  Lfix (Repeat_f body)
+  Rec (Repeat_f body)
 
 def repeat_break_f {Sigma A B : Type}
     (body : A -> program Sigma (CntOrBrk A B))
@@ -123,7 +127,7 @@ def repeat_break_f {Sigma A B : Type}
 
 def repeat_break {Sigma A B : Type}
     (body : A -> program Sigma (CntOrBrk A B)) : A -> program Sigma B :=
-  Lfix (repeat_break_f body)
+  Rec (repeat_break_f body)
 
 def repeat_break_f_noinput {Sigma B : Type}
     (body : program Sigma (CntOrBrk Unit B))
@@ -135,7 +139,7 @@ def repeat_break_f_noinput {Sigma B : Type}
 
 def repeat_break_noin {Sigma B : Type}
     (body : program Sigma (CntOrBrk Unit B)) : program Sigma B :=
-  Lfix (repeat_break_f_noinput body)
+  Rec (repeat_break_f_noinput body)
 
 def «continue» {Sigma A B : Type} (a : A) : program Sigma (CntOrBrk A B) :=
   ret (.by_continue a)
@@ -152,7 +156,7 @@ def range_iter_f {Sigma A : Type} (hi : Int)
 
 def range_iter {Sigma A : Type} (lo hi : Int)
     (body : Int -> A -> program Sigma A) : A -> program Sigma A :=
-  fun a => Lfix (range_iter_f hi body) (lo, a)
+  fun a => Rec (range_iter_f hi body) (lo, a)
 
 def range_iter_break_f {Sigma A B : Type} (hi : Int)
     (body : Int -> A -> program Sigma (CntOrBrk A B))
@@ -169,7 +173,7 @@ def range_iter_break_f {Sigma A B : Type} (hi : Int)
 def range_iter_break {Sigma A B : Type} (lo hi : Int)
     (body : Int -> A -> program Sigma (CntOrBrk A B)) :
     A -> program Sigma (CntOrBrk A B) :=
-  fun a => Lfix (range_iter_break_f hi body) (lo, a)
+  fun a => Rec (range_iter_break_f hi body) (lo, a)
 
 def forset_f {Sigma A : Type} (body : A -> program Sigma Unit)
     (W : (A -> Prop) -> program Sigma Unit) («universe» : A -> Prop) :
@@ -182,12 +186,61 @@ def forset_f {Sigma A : Type} (body : A -> program Sigma Unit)
 
 def forset {Sigma A : Type} («universe» : A -> Prop)
     (body : A -> program Sigma Unit) : program Sigma Unit :=
-  Lfix (forset_f body) «universe»
+  Rec (forset_f body) «universe»
 
 def list_iter {Sigma A B : Type} (body : A -> B -> program Sigma B) :
     List A -> B -> program Sigma B
   | [], b => ret b
   | a :: rest, b => b0 <- body a b ;; list_iter body rest b0
+
+namespace prog_scope
+
+scoped syntax:62 "UPDATE " ident " := " term:63 : term
+scoped syntax:62 "CHOOSE" "{" term:0 "|" term:0 "}" : term
+scoped syntax:62 "CHOOSE" "{" term:0 "|" term:0 "|" term:0 "}" : term
+scoped syntax:62 "CHOOSE" "{" term:0 "|" term:0 "|" term:0 "|" term:0 "}" : term
+scoped syntax:62 "CHOOSE" "{" term:0 "|" term:0 "|" term:0 "|" term:0 "|" term:0 "}" : term
+scoped syntax:62 "CHOOSE" "{" term:0 "|" term:0 "|" term:0 "|" term:0 "|" term:0 "|" term:0 "}" : term
+scoped syntax:62 "IF " ident ", " term:0 " THEN " term:0 " ELSE " term:0 " FI" : term
+scoped syntax:62 "WHEN " ident ", " term:0 " THEN " term:0 " END" : term
+scoped syntax:62 "WHILE " ident ", " term:0 " DO " term:0 " END" : term
+scoped syntax:62 "FOR " ident " FROM " term:0 " TO " term:0 " DO " term:0 " END" : term
+scoped syntax:62 "LOOP " term:0 " END" : term
+scoped syntax:62 "REPEAT " term:65 " FROM " term:0 " DO " term:0 " END" : term
+scoped syntax:62 "BREAK " term:63 : term
+scoped syntax:62 "NEXT " term:63 : term
+scoped syntax:62 "CONTINUE" : term
+
+scoped macro_rules
+  | `(UPDATE $s:ident := $e) => `(StateRelMonad.update' (fun $s => $e))
+  | `(CHOOSE { $c1 | $c2 }) => `(StateRelMonad.choice $c1 $c2)
+  | `(CHOOSE { $c1 | $c2 | $c3 }) =>
+      `(StateRelMonad.choice $c1 (StateRelMonad.choice $c2 $c3))
+  | `(CHOOSE { $c1 | $c2 | $c3 | $c4 }) =>
+      `(StateRelMonad.choice $c1 (StateRelMonad.choice $c2 (StateRelMonad.choice $c3 $c4)))
+  | `(CHOOSE { $c1 | $c2 | $c3 | $c4 | $c5 }) =>
+      `(StateRelMonad.choice $c1 (StateRelMonad.choice $c2
+        (StateRelMonad.choice $c3 (StateRelMonad.choice $c4 $c5))))
+  | `(CHOOSE { $c1 | $c2 | $c3 | $c4 | $c5 | $c6 }) =>
+      `(StateRelMonad.choice $c1 (StateRelMonad.choice $c2
+        (StateRelMonad.choice $c3 (StateRelMonad.choice $c4
+          (StateRelMonad.choice $c5 $c6)))))
+  | `(IF $s:ident, $b THEN $c1 ELSE $c2 FI) =>
+      `(StateRelMonad.if_else (fun $s => $b) $c1 $c2)
+  | `(WHEN $s:ident, $b THEN $c END) =>
+      `(StateRelMonad.If (fun $s => $b) $c)
+  | `(WHILE $s:ident, $b DO $c END) =>
+      `(StateRelMonad.whileP (fun $s => $b) $c)
+  | `(FOR $i:ident FROM $lo TO $hi DO $c END) =>
+      `(StateRelMonad.range_iter $lo $hi (fun $i _ => $c) ())
+  | `(LOOP $c END) => `(StateRelMonad.repeat_break_noin $c)
+  | `(REPEAT $p:term FROM $a0 DO $c END) =>
+      `(StateRelMonad.repeat_break (fun $p => $c) $a0)
+  | `(BREAK $e) => `(StateRelMonad.break $e)
+  | `(NEXT $a) => `(StateRelMonad.continue $a)
+  | `(CONTINUE) => `(StateRelMonad.continue ())
+
+end prog_scope
 
 theorem bind_equiv {Sigma A B : Type} (c1 c1' : program Sigma A)
     (c2 c2' : A -> program Sigma B) :

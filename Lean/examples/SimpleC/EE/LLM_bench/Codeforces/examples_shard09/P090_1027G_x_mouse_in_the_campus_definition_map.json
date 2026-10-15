@@ -1,0 +1,1146 @@
+{
+  "case_id": "cf_shard09_P090_1027G_x_mouse_in_the_campus",
+  "status": "complete",
+  "source_path": "Rocq/examples/LLM_bench/Codeforces/examples_shard09/P090_1027G_x_mouse_in_the_campus_lib.v",
+  "source_sha256": "742fcd30d1b7b10bb35fd0839bb2d676a4a50c59263c68a3e61e9538b7658409",
+  "lean_path": "Lean/examples/SimpleC/EE/LLM_bench/Codeforces/examples_shard09/P090_1027G_x_mouse_in_the_campus_definitions.lean",
+  "counts": {
+    "Definition": 106,
+    "Fixpoint": 10,
+    "Inductive": 5,
+    "constructors": 10,
+    "nonalias_modules": 29,
+    "module_aliases": 6,
+    "vc_definitions": 305,
+    "lib_qed_pending": 0,
+    "manual_qed_pending": 0,
+    "inherited_auto_admitted": 103
+  },
+  "definitions": [
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.CatchesAll",
+      "source_line": 14,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.CatchesAll"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.Pre",
+      "source_line": 17,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.Pre"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.Spec",
+      "source_line": 21,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.Spec"
+    },
+    {
+      "source_kind": "Fixpoint",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.coprime_count",
+      "source_line": 28,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.coprime_count"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.EulerPhi",
+      "source_line": 36,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.EulerPhi"
+    },
+    {
+      "source_kind": "Fixpoint",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.order_search",
+      "source_line": 38,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.order_search"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.Ord",
+      "source_line": 47,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.Ord"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.IsPrime",
+      "source_line": 51,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.IsPrime"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.CycleTerm",
+      "source_line": 55,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.CycleTerm"
+    },
+    {
+      "source_kind": "Fixpoint",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.sum_nat_range",
+      "source_line": 58,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.sum_nat_range"
+    },
+    {
+      "source_kind": "Fixpoint",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.walk_suffix_lists",
+      "source_line": 64,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.walk_suffix_lists"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.WalkSuffix",
+      "source_line": 72,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.WalkSuffix"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.WalkExpSuffix",
+      "source_line": 75,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.WalkExpSuffix"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.WalkLoopState",
+      "source_line": 84,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.WalkLoopState"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.WalkGlobalBounds",
+      "source_line": 89,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.WalkGlobalBounds"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.WalkMachineBounds",
+      "source_line": 94,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.WalkMachineBounds"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.WalkBudget",
+      "source_line": 97,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.WalkBudget"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.WalkPendingState",
+      "source_line": 100,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.WalkPendingState"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.WalkExponentState",
+      "source_line": 105,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.WalkExponentState"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.MulLoopState",
+      "source_line": 113,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.MulLoopState"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.PowLoopState",
+      "source_line": 116,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.PowLoopState"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.GcdLoopState",
+      "source_line": 119,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.GcdLoopState"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderInput",
+      "source_line": 122,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderInput"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderResult",
+      "source_line": 131,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderResult"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderTrialState",
+      "source_line": 137,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderTrialState"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderFactorState",
+      "source_line": 146,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderFactorState"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderStripState",
+      "source_line": 150,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderStripState"
+    },
+    {
+      "source_kind": "Fixpoint",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.factor_product",
+      "source_line": 154,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.factor_product"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.FactorPrefix",
+      "source_line": 160,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.FactorPrefix"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.TrialState",
+      "source_line": 174,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.TrialState"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.FactorAtPrime",
+      "source_line": 178,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.FactorAtPrime"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.ValidFactorTable",
+      "source_line": 188,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.ValidFactorTable"
+    },
+    {
+      "source_kind": "Inductive",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.PrefixSelected",
+      "source_line": 198,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.PrefixSelected"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.PrefixChoice",
+      "source_line": 208,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.PrefixChoice"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.PrimePowerTransition",
+      "source_line": 216,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.PrimePowerTransition"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.CycleAnswer",
+      "source_line": 231,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.CycleAnswer"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.DivisorCycleSum",
+      "source_line": 234,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.DivisorCycleSum"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderCore",
+      "source_line": 384,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderCore"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.PrimeSupport",
+      "source_line": 392,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.PrimeSupport"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.PrimeSupportExcept",
+      "source_line": 395,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.PrimeSupportExcept"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.NoPrimeBelow",
+      "source_line": 398,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.NoPrimeBelow"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderTrialStateEx",
+      "source_line": 401,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderTrialStateEx"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderFactorStateEx",
+      "source_line": 410,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderFactorStateEx"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderStripStateEx",
+      "source_line": 420,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderStripStateEx"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderFinalStateEx",
+      "source_line": 425,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderFinalStateEx"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderPowerLaw",
+      "source_line": 433,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.OrderPowerLaw"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.OrderCore",
+      "source_line": 1359,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.OrderCore"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.PrimeSupport",
+      "source_line": 1367,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.PrimeSupport"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.PrimeSupportExcept",
+      "source_line": 1370,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.PrimeSupportExcept"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.NoPrimeBelow",
+      "source_line": 1373,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.NoPrimeBelow"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.OrderTrialStateEx",
+      "source_line": 1376,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.OrderTrialStateEx"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.OrderFactorStateEx",
+      "source_line": 1385,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.OrderFactorStateEx"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.OrderStripStateEx",
+      "source_line": 1395,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.OrderStripStateEx"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.OrderFinalStateEx",
+      "source_line": 1400,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.OrderFinalStateEx"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.OrderPowerLaw",
+      "source_line": 1412,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.OrderPowerLaw"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.PrimeFactorExistsLaw",
+      "source_line": 1416,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.PrimeFactorExistsLaw"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.PrimeDivisorProductLaw",
+      "source_line": 1419,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.PrimeDivisorProductLaw"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.PrimeDivisorOfPrimeLaw",
+      "source_line": 1422,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.PrimeDivisorOfPrimeLaw"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.SmallestRemainingDivisorPrimeLaw",
+      "source_line": 1425,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.SmallestRemainingDivisorPrimeLaw"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.ResidualRemainderPrimeLaw",
+      "source_line": 1433,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess.ResidualRemainderPrimeLaw"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorTable.StrictPrimePrefix",
+      "source_line": 2348,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorTable.StrictPrimePrefix"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorTable.StrictFactorPrefix",
+      "source_line": 2353,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorTable.StrictFactorPrefix"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorFoundations.FactorEntriesAtLeastTwo",
+      "source_line": 2658,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorFoundations.FactorEntriesAtLeastTwo"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkFoundations.ExactOrderCriterion",
+      "source_line": 3128,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkFoundations.ExactOrderCriterion"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkBridge.WalkCompleted",
+      "source_line": 3929,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkBridge.WalkCompleted"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkBridge.OrbitCoverUpperBound",
+      "source_line": 3933,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkBridge.OrbitCoverUpperBound"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkBridge.OrbitCoverLowerBound",
+      "source_line": 3939,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkBridge.OrbitCoverLowerBound"
+    },
+    {
+      "source_kind": "Inductive",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_TableBudget.OrderedPrimeTable",
+      "source_line": 4000,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_TableBudget.OrderedPrimeTable"
+    },
+    {
+      "source_kind": "Fixpoint",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_TableBudget.enumerated_phi_sum",
+      "source_line": 4081,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_TableBudget.enumerated_phi_sum"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_TableBudget.CoprimeToTable",
+      "source_line": 4162,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_TableBudget.CoprimeToTable"
+    },
+    {
+      "source_kind": "Inductive",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.ExponentTrace",
+      "source_line": 4413,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.ExponentTrace"
+    },
+    {
+      "source_kind": "Fixpoint",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.enumerated_products",
+      "source_line": 4422,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.enumerated_products"
+    },
+    {
+      "source_kind": "Fixpoint",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.enumerated_walk_terms",
+      "source_line": 4434,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.enumerated_walk_terms"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.NonUnitDivisorCycleSum",
+      "source_line": 4447,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.NonUnitDivisorCycleSum"
+    },
+    {
+      "source_kind": "Inductive",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.PrefixSelectedTrace",
+      "source_line": 4720,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.PrefixSelectedTrace"
+    },
+    {
+      "source_kind": "Inductive",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCompleteness.CanonicalFactorTable",
+      "source_line": 4786,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCompleteness.CanonicalFactorTable"
+    },
+    {
+      "source_kind": "Fixpoint",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCompleteness.enumerated_exponent_vectors",
+      "source_line": 5152,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCompleteness.enumerated_exponent_vectors"
+    },
+    {
+      "source_kind": "Fixpoint",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCompleteness.exponent_vector_product",
+      "source_line": 5163,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCompleteness.exponent_vector_product"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorConsumer.StrictTrialState",
+      "source_line": 5627,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorConsumer.StrictTrialState"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorConsumer.StrictFactorAtPrime",
+      "source_line": 5631,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorConsumer.StrictFactorAtPrime"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorMachineBounds.FactorInputLimit",
+      "source_line": 5833,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorMachineBounds.FactorInputLimit"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorMachineBounds.FactorCandidateGuardLimit",
+      "source_line": 5834,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorMachineBounds.FactorCandidateGuardLimit"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorMachineBounds.FactorCandidateStateLimit",
+      "source_line": 5835,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorMachineBounds.FactorCandidateStateLimit"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorMachineBounds.Signed64Max",
+      "source_line": 5836,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorMachineBounds.Signed64Max"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorMachineBounds.FactorMachineTrialState",
+      "source_line": 5842,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorMachineBounds.FactorMachineTrialState"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorMachineBounds.FactorMachineAtPrime",
+      "source_line": 5848,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorMachineBounds.FactorMachineAtPrime"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkExponentConsumer.WalkExponentPhiUpdate",
+      "source_line": 7266,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkExponentConsumer.WalkExponentPhiUpdate"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.OrbitHit",
+      "source_line": 7541,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.OrbitHit"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.OrbitSeparated",
+      "source_line": 7574,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.OrbitSeparated"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.OrbitCoversRange",
+      "source_line": 7583,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.OrbitCoversRange"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.OrbitRepresentativeSystem",
+      "source_line": 7591,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.OrbitRepresentativeSystem"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.StratumCovers",
+      "source_line": 7762,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.StratumCovers"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.StratumRepresentativeSystem",
+      "source_line": 7771,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.StratumRepresentativeSystem"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.UnitOrbitList",
+      "source_line": 7833,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.UnitOrbitList"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.EquivalenceLaws",
+      "source_line": 7894,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.EquivalenceLaws"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.CanonicalKey",
+      "source_line": 7900,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.CanonicalKey"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.FiniteQuotient",
+      "source_line": 7907,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.FiniteQuotient"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.UnitOrbitRelatedb",
+      "source_line": 8467,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.UnitOrbitRelatedb"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_UnitOrbitPartition.UnitResidue",
+      "source_line": 8573,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_UnitOrbitPartition.UnitResidue"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_UnitOrbitPartition.UnitResidueb",
+      "source_line": 8576,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_UnitOrbitPartition.UnitResidueb"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_UnitOrbitPartition.UnitResidues",
+      "source_line": 8580,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_UnitOrbitPartition.UnitResidues"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_UnitOrbitPartition.UnitOrbitEquiv",
+      "source_line": 8675,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_UnitOrbitPartition.UnitOrbitEquiv"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_UnitOrbitPartition.UnitOrbitEquivb",
+      "source_line": 8681,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_UnitOrbitPartition.UnitOrbitEquivb"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_UnitOrbitPartition.UnitRepresentatives",
+      "source_line": 8758,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_UnitOrbitPartition.UnitRepresentatives"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_UnitOrbitPartition.UnitOrbitBlocks",
+      "source_line": 8933,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_UnitOrbitPartition.UnitOrbitBlocks"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_UnitOrbitPartition.UnitOrbitRepresentativeSystem",
+      "source_line": 9120,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_UnitOrbitPartition.UnitOrbitRepresentativeSystem"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GcdStratumTransport.StratumLift",
+      "source_line": 9191,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GcdStratumTransport.StratumLift"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GcdStratumTransport.StratumProject",
+      "source_line": 9194,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GcdStratumTransport.StratumProject"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GcdStratumTransport.LiftedRepresentatives",
+      "source_line": 9197,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GcdStratumTransport.LiftedRepresentatives"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCycleBridge.positive_divisor_list",
+      "source_line": 9564,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCycleBridge.positive_divisor_list"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCycleBridge.ConcreteNonUnitDivisorCycleSum",
+      "source_line": 9569,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCycleBridge.ConcreteNonUnitDivisorCycleSum"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCycleBridge.RoomZeroCycleTotal",
+      "source_line": 9575,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCycleBridge.RoomZeroCycleTotal"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GlobalOrbitBridge.AlignedStratumSystems",
+      "source_line": 9785,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GlobalOrbitBridge.AlignedStratumSystems"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GlobalOrbitBridge.ExactNonUnitDivisorSystems",
+      "source_line": 9792,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GlobalOrbitBridge.ExactNonUnitDivisorSystems"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GlobalOrbitBridge.ExactZeroStratumSystem",
+      "source_line": 9803,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GlobalOrbitBridge.ExactZeroStratumSystem"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GlobalOrbitBridge.DivisorStrataClassify",
+      "source_line": 9810,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GlobalOrbitBridge.DivisorStrataClassify"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GlobalOrbitBridge.DistinctGlobalStratumKeys",
+      "source_line": 9819,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GlobalOrbitBridge.DistinctGlobalStratumKeys"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorStrataKeys.concrete_nonunit_divisors",
+      "source_line": 10197,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorStrataKeys.concrete_nonunit_divisors"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FinalOrbitInstantiation.ConcreteZeroBlock",
+      "source_line": 10500,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FinalOrbitInstantiation.ConcreteZeroBlock"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FinalOrbitInstantiation.ConcreteNonUnitBlock",
+      "source_line": 10503,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FinalOrbitInstantiation.ConcreteNonUnitBlock"
+    },
+    {
+      "source_kind": "Definition",
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FinalOrbitInstantiation.ConcreteNonUnitBlocks",
+      "source_line": 10508,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FinalOrbitInstantiation.ConcreteNonUnitBlocks"
+    }
+  ],
+  "constructors": [
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.prefix_selected_zero",
+      "source_line": 199,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.prefix_selected_zero",
+      "lean_constructor_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.PrefixSelected.prefix_selected_zero"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.prefix_selected_step",
+      "source_line": 201,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.prefix_selected_step",
+      "lean_constructor_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.PrefixSelected.prefix_selected_step"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_TableBudget.ordered_prime_table_nil",
+      "source_line": 4001,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_TableBudget.ordered_prime_table_nil",
+      "lean_constructor_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_TableBudget.OrderedPrimeTable.ordered_prime_table_nil"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_TableBudget.ordered_prime_table_cons",
+      "source_line": 4002,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_TableBudget.ordered_prime_table_cons",
+      "lean_constructor_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_TableBudget.OrderedPrimeTable.ordered_prime_table_cons"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.exponent_trace_nil",
+      "source_line": 4414,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.exponent_trace_nil",
+      "lean_constructor_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.ExponentTrace.exponent_trace_nil"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.exponent_trace_cons",
+      "source_line": 4416,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.exponent_trace_cons",
+      "lean_constructor_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.ExponentTrace.exponent_trace_cons"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.prefix_selected_trace_zero",
+      "source_line": 4722,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.prefix_selected_trace_zero",
+      "lean_constructor_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.PrefixSelectedTrace.prefix_selected_trace_zero"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.prefix_selected_trace_step",
+      "source_line": 4724,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.prefix_selected_trace_step",
+      "lean_constructor_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration.PrefixSelectedTrace.prefix_selected_trace_step"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCompleteness.canonical_factor_table_nil",
+      "source_line": 4787,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCompleteness.canonical_factor_table_nil",
+      "lean_constructor_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCompleteness.CanonicalFactorTable.canonical_factor_table_nil"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCompleteness.canonical_factor_table_cons",
+      "source_line": 4789,
+      "lean_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCompleteness.canonical_factor_table_cons",
+      "lean_constructor_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCompleteness.CanonicalFactorTable.canonical_factor_table_cons"
+    }
+  ],
+  "modules": [
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess",
+      "source_line": 1348,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess",
+      "definition_descendants": 14,
+      "status": "namespace_with_definitions"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess",
+      "source_line": 1352,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExcess.P090_OrderExcess",
+      "definition_descendants": 14,
+      "status": "namespace_with_definitions"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderFoundations",
+      "source_line": 1912,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderFoundations",
+      "definition_descendants": 0,
+      "status": "theorems_pending"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderFoundations.P090_OrderFoundations",
+      "source_line": 1918,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderFoundations.P090_OrderFoundations",
+      "definition_descendants": 0,
+      "status": "theorems_pending"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExact",
+      "source_line": 2077,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExact",
+      "definition_descendants": 0,
+      "status": "theorems_pending"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExact.P090_OrderExact",
+      "source_line": 2083,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExact.P090_OrderExact",
+      "definition_descendants": 0,
+      "status": "theorems_pending"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorTable",
+      "source_line": 2339,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorTable",
+      "definition_descendants": 2,
+      "status": "namespace_with_definitions"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorFoundations",
+      "source_line": 2652,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorFoundations",
+      "definition_descendants": 1,
+      "status": "namespace_with_definitions"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkFoundations",
+      "source_line": 2904,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkFoundations",
+      "definition_descendants": 1,
+      "status": "namespace_with_definitions"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitOptimality",
+      "source_line": 3427,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitOptimality",
+      "definition_descendants": 0,
+      "status": "theorems_pending"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkBridge",
+      "source_line": 3696,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkBridge",
+      "definition_descendants": 3,
+      "status": "namespace_with_definitions"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_TableBudget",
+      "source_line": 3992,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_TableBudget",
+      "definition_descendants": 3,
+      "status": "namespace_with_definitions"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration",
+      "source_line": 4406,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorEnumeration",
+      "definition_descendants": 5,
+      "status": "namespace_with_definitions"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCompleteness",
+      "source_line": 4777,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCompleteness",
+      "definition_descendants": 3,
+      "status": "namespace_with_definitions"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderInputBridge",
+      "source_line": 5348,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderInputBridge",
+      "definition_descendants": 0,
+      "status": "theorems_pending"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorConsumer",
+      "source_line": 5616,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorConsumer",
+      "definition_descendants": 2,
+      "status": "namespace_with_definitions"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorMachineBounds",
+      "source_line": 5828,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FactorMachineBounds",
+      "definition_descendants": 6,
+      "status": "namespace_with_definitions"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderConsumer",
+      "source_line": 6101,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderConsumer",
+      "definition_descendants": 0,
+      "status": "theorems_pending"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkConsumer",
+      "source_line": 6271,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkConsumer",
+      "definition_descendants": 0,
+      "status": "theorems_pending"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkCallBudget",
+      "source_line": 6550,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkCallBudget",
+      "definition_descendants": 0,
+      "status": "theorems_pending"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_PrimePowerConsumer",
+      "source_line": 6765,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_PrimePowerConsumer",
+      "definition_descendants": 0,
+      "status": "theorems_pending"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkExponentConsumer",
+      "source_line": 7212,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkExponentConsumer",
+      "definition_descendants": 1,
+      "status": "namespace_with_definitions"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient",
+      "source_line": 7531,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient",
+      "definition_descendants": 11,
+      "status": "namespace_with_definitions"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_UnitOrbitPartition",
+      "source_line": 8562,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_UnitOrbitPartition",
+      "definition_descendants": 8,
+      "status": "namespace_with_definitions"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GcdStratumTransport",
+      "source_line": 9183,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GcdStratumTransport",
+      "definition_descendants": 3,
+      "status": "namespace_with_definitions"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCycleBridge",
+      "source_line": 9556,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorCycleBridge",
+      "definition_descendants": 3,
+      "status": "namespace_with_definitions"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GlobalOrbitBridge",
+      "source_line": 9776,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GlobalOrbitBridge",
+      "definition_descendants": 5,
+      "status": "namespace_with_definitions"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorStrataKeys",
+      "source_line": 10191,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_DivisorStrataKeys",
+      "definition_descendants": 1,
+      "status": "namespace_with_definitions"
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FinalOrbitInstantiation",
+      "source_line": 10494,
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_FinalOrbitInstantiation",
+      "definition_descendants": 3,
+      "status": "namespace_with_definitions"
+    }
+  ],
+  "module_aliases": [
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkFoundations.ETI",
+      "source_line": 2909,
+      "source_target": "SimpleC.EE.LLM_bench.Algorithms.euler_theorem_inverse.euler_theorem_inverse_lib",
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_WalkFoundations.ETI",
+      "lean_target": "SimpleC.EE.LLM_bench.Algorithms.euler_theorem_inverse.euler_theorem_inverse_lib",
+      "status": "complete_member_exports",
+      "note": "The complete Coq alias member closure, including nested alias members and ModularPower notation, is preserved. Every member is checked for definitional equality with its source target in the library audit.",
+      "export_statement": "Exports are distributed between definitions, theorem modules and _aliases.lean; nested namespaces retain the source hierarchy.",
+      "member_count": 54
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderInputBridge.ETI",
+      "source_line": 5352,
+      "source_target": "SimpleC.EE.LLM_bench.Algorithms.euler_theorem_inverse.euler_theorem_inverse_lib",
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderInputBridge.ETI",
+      "lean_target": "SimpleC.EE.LLM_bench.Algorithms.euler_theorem_inverse.euler_theorem_inverse_lib",
+      "status": "complete_member_exports",
+      "note": "The complete Coq alias member closure, including nested alias members and ModularPower notation, is preserved. Every member is checked for definitional equality with its source target in the library audit.",
+      "export_statement": "Exports are distributed between definitions, theorem modules and _aliases.lean; nested namespaces retain the source hierarchy.",
+      "member_count": 54
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.OrderExact",
+      "source_line": 7536,
+      "source_target": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExact.P090_OrderExact",
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient.OrderExact",
+      "lean_target": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExact.P090_OrderExact",
+      "status": "complete_member_exports",
+      "note": "The complete Coq alias member closure, including nested alias members and ModularPower notation, is preserved. Every member is checked for definitional equality with its source target in the library audit.",
+      "export_statement": "Exports are distributed between definitions, theorem modules and _aliases.lean; nested namespaces retain the source hierarchy.",
+      "member_count": 11
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_UnitOrbitPartition.ETI",
+      "source_line": 8567,
+      "source_target": "SimpleC.EE.LLM_bench.Algorithms.euler_theorem_inverse.euler_theorem_inverse_lib",
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_UnitOrbitPartition.ETI",
+      "lean_target": "SimpleC.EE.LLM_bench.Algorithms.euler_theorem_inverse.euler_theorem_inverse_lib",
+      "status": "complete_member_exports",
+      "note": "The complete Coq alias member closure, including nested alias members and ModularPower notation, is preserved. Every member is checked for definitional equality with its source target in the library audit.",
+      "export_statement": "Exports are distributed between definitions, theorem modules and _aliases.lean; nested namespaces retain the source hierarchy.",
+      "member_count": 54
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GcdStratumTransport.OQ",
+      "source_line": 9188,
+      "source_target": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient",
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GcdStratumTransport.OQ",
+      "lean_target": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrbitQuotient",
+      "status": "complete_member_exports",
+      "note": "The complete Coq alias member closure, including nested alias members and ModularPower notation, is preserved. Every member is checked for definitional equality with its source target in the library audit.",
+      "export_statement": "Exports are distributed between definitions, theorem modules and _aliases.lean; nested namespaces retain the source hierarchy.",
+      "member_count": 56
+    },
+    {
+      "source_name": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GcdStratumTransport.OE",
+      "source_line": 9189,
+      "source_target": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExact.P090_OrderExact",
+      "lean_namespace": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_GcdStratumTransport.OE",
+      "lean_target": "SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib.P090_OrderExact.P090_OrderExact",
+      "status": "complete_member_exports",
+      "note": "The complete Coq alias member closure, including nested alias members and ModularPower notation, is preserved. Every member is checked for definitional equality with its source target in the library audit.",
+      "export_statement": "Exports are distributed between definitions, theorem modules and _aliases.lean; nested namespaces retain the source hierarchy.",
+      "member_count": 11
+    }
+  ],
+  "representation_notes": {
+    "integer_operations": "Z.div / Z.modulo / Z.pow / Z.divide retain the Coq Z definitions; local notation is used only inside the lib.",
+    "list_models": "Forall, Forall2, NoDup, Zlength and Znth use existing AUXLib; seq/map/filter/concat/fold_right/find use List.range'/map/filter/flatten/foldr/find?.",
+    "nodup": "Coq nodup Z.eq_dec keeps the last occurrence; List.dedup uses the same last-occurrence semantics (unlike List.eraseDups).",
+    "bool_exists": "private coq_existsb adjusts List.any argument order; it adds no assumption.",
+    "nested_modules": "Both occurrences in P090_OrderExcess.P090_OrderExcess, P090_OrderFoundations.P090_OrderFoundations and P090_OrderExact.P090_OrderExact are retained, with all 488 source Qed declarations proved."
+  },
+  "c_sha256": "e50c0814cecb1c61755ebce114cdf1012719fb2db5f9df5f7103844fc075c5c5",
+  "validation_logs": [
+    "/tmp/p090-lib-build.log",
+    "/tmp/p090-goal-build.log",
+    "/tmp/p090-generation-check.log",
+    "/tmp/p090-definition-axioms.log",
+    "/tmp/p090-library-audit.log",
+    "/tmp/p090-manual-mulmod.log",
+    "/tmp/p090-manual-powmod-gcd.log",
+    "/tmp/p090-manual-order.log",
+    "/tmp/p090-manual-walk.log",
+    "/tmp/p090-manual-solver.log",
+    "/tmp/p090-proof-final.log",
+    "/tmp/p090-generation-final.log"
+  ],
+  "verification": {
+    "definitions_build": "passed",
+    "goal_build": "passed",
+    "generation_check": "passed",
+    "source_c_payload_byte_preservation": "passed",
+    "definition_axiom_audit": "passed: all 121 definitions and 10 constructor aliases have no sorryAx or added assumptions; dependencies are empty or Lean standard propext",
+    "library_source_qed_coverage": "488 / 488",
+    "manual_source_qed_coverage": "192 / 192",
+    "module_alias_member_coverage": "6 / 6 complete member closures checked by rfl",
+    "proof_audit": "passed: all 680 source Qed recursively have no sorryAx; existing Lean and CNotation parameters explicitly whitelisted",
+    "goal_check_build": "passed",
+    "final_generation_check": "passed; existing proof files preserved",
+    "source_c_and_coq_hashes": "unchanged from initial definition migration"
+  },
+  "lean_sha256": "c4fc83ae9e9e6d4ddd1c3cd5c39c00d1e319f4bec83eb897cd38f0dfb9cfa038",
+  "validation_command_notes": [
+    "lake build SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_lib",
+    "lake build SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_goal",
+    "python3 scripts/generate-llm-bench-lean.py cf_shard09_P090_1027G_x_mouse_in_the_campus --check",
+    "Definition axiom audit uses lake env lean --setup=/tmp/P090DefinitionAudit.setup.json /tmp/P090DefinitionAudit.lean; setup is copied from the built goal with the audit module name, preserving importArts for the shared SimpleC namespace."
+  ],
+  "proof_progress": {
+    "library_qed_completed": 488,
+    "library_qed_total": 488,
+    "library_qed_remaining": 0,
+    "manual_qed_completed": 192,
+    "manual_qed_total": 192,
+    "library_audit": "488 source Qed recursively checked with Lean.collectAxioms; no sorryAx. All six module alias member closures checked by rfl.",
+    "manual_qed_remaining": 0,
+    "manual_leaf_validation": "All 192 same-name source Qed proofs built in five manual modules; exact source-name coverage verified.",
+    "full_qed_audit": "All 488 library and 192 manual source Qed declarations recursively audited with Lean.collectAxioms: no sorryAx and no additional axioms. Full goal_check and proof_audit build passed (1059 jobs).",
+    "existing_axiom_parameters": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice",
+      "SimpleC.SL.CNotation.eval_addr_expr",
+      "SimpleC.SL.CNotation.sizeof_struct_type",
+      "SimpleC.SL.CNotation.sizeof_union_type",
+      "SimpleC.SL.CNotation.sizeof_enum_type",
+      "SimpleC.SL.CNotation.sizeof_alias_type"
+    ]
+  }
+}

@@ -1,3 +1,7 @@
+/*@ Import Lean
+import SimpleC.EE.LLM_bench.Algorithms.multiple_knapsack.multiple_knapsack_lib
+open SimpleC.EE.LLM_bench.Algorithms.multiple_knapsack.multiple_knapsack_lib
+*/
 /* Bounded knapsack: choose one integer quantity per item type, within counts,
    with total weight at most capacity, and return the maximum total value.
    All dynamic programming and queue workspaces are local to the function. */

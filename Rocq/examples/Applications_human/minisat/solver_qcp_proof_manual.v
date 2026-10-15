@@ -1,16 +1,16 @@
-(* COLLECTOR - do not add lemmas here; they belong in the part files.  The nine
+(* COLLECTOR - do not add lemmas here; they belong in the part files.  The ten
    solver_qcp_proof_manual_partN.v files are the source of truth - edit them directly.
 
    The build layers, in dependency order, are
 
      solver_qcp_lib.v -> solver_qcp_goal.v -> solver_qcp_proof_auto.v
-       -> solver_qcp_proof_common.v -> solver_qcp_proof_manual_part1..9.v
+       -> solver_qcp_proof_common.v -> solver_qcp_proof_manual_part1..10.v
        -> this collector
 
    Parts are mutually independent: each Requires only those four files below it and
    never another part, so shared proof content goes to solver_qcp_proof_common.v when
    only the parts consume it and to solver_qcp_lib.v when the library does too.  That
-   independence is what lets the nine parts build in parallel.
+   independence is what lets the ten parts build in parallel.
 
    Some verification conditions in solver_qcp_goal.v have identical statement text
    under different names: the symbolic executor emits one VC per syntactic obligation,
@@ -33,6 +33,7 @@ From SimpleC.EE.Applications_human.minisat Require Import solver_qcp_proof_manua
 From SimpleC.EE.Applications_human.minisat Require Import solver_qcp_proof_manual_part7.
 From SimpleC.EE.Applications_human.minisat Require Import solver_qcp_proof_manual_part8.
 From SimpleC.EE.Applications_human.minisat Require Import solver_qcp_proof_manual_part9.
+From SimpleC.EE.Applications_human.minisat Require Import solver_qcp_proof_manual_part10.
 
 Include solver_qcp_proof_manual_part1.
 Include solver_qcp_proof_manual_part2.
@@ -43,3 +44,4 @@ Include solver_qcp_proof_manual_part6.
 Include solver_qcp_proof_manual_part7.
 Include solver_qcp_proof_manual_part8.
 Include solver_qcp_proof_manual_part9.
+Include solver_qcp_proof_manual_part10.

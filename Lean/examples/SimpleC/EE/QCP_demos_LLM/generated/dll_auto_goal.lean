@@ -1,4 +1,4 @@
-import SimpleC.SL.SeparationLogic
+import SimpleC.SL.LeanPrinterPrelude
 
 import SimpleC.EE.QCP_demos_LLM.dll_shape_lib
 
@@ -15,19 +15,47 @@ open SimpleC.SL.CommonAssertion.DerivedPredSig
 open SimpleC.SL.CommonAssertion.SeparationLogicSig
 open SimpleC.SL.IntLib
 open SimpleC.SL.SeparationLogic
-open scoped SimpleC.SL.SAC
+open scoped SimpleC.SL.SAC CoqZ
 
 local instance dll_auto_goalSacContext : SacContext := ⟨naive_C_Rules⟩
 
 private noncomputable abbrev charArray := naive_C_Rules.CharArray
+private noncomputable abbrev charArray2 := naive_C_Rules.CharArray2
+private noncomputable abbrev charArray3 := naive_C_Rules.CharArray3
+private noncomputable abbrev charPtrArray2 := naive_C_Rules.CharPtrArray2
 private noncomputable abbrev ucharArray := naive_C_Rules.UCharArray
+private noncomputable abbrev ucharArray2 := naive_C_Rules.UCharArray2
+private noncomputable abbrev ucharArray3 := naive_C_Rules.UCharArray3
+private noncomputable abbrev ucharPtrArray2 := naive_C_Rules.UCharPtrArray2
 private noncomputable abbrev shortArray := naive_C_Rules.ShortArray
+private noncomputable abbrev shortArray2 := naive_C_Rules.ShortArray2
+private noncomputable abbrev shortArray3 := naive_C_Rules.ShortArray3
+private noncomputable abbrev shortPtrArray2 := naive_C_Rules.ShortPtrArray2
 private noncomputable abbrev ushortArray := naive_C_Rules.UShortArray
+private noncomputable abbrev ushortArray2 := naive_C_Rules.UShortArray2
+private noncomputable abbrev ushortArray3 := naive_C_Rules.UShortArray3
+private noncomputable abbrev ushortPtrArray2 := naive_C_Rules.UShortPtrArray2
 private noncomputable abbrev intArray := naive_C_Rules.IntArray
+private noncomputable abbrev intArray2 := naive_C_Rules.IntArray2
+private noncomputable abbrev intArray3 := naive_C_Rules.IntArray3
+private noncomputable abbrev intPtrArray2 := naive_C_Rules.IntPtrArray2
 private noncomputable abbrev uintArray := naive_C_Rules.UIntArray
+private noncomputable abbrev uintArray2 := naive_C_Rules.UIntArray2
+private noncomputable abbrev uintArray3 := naive_C_Rules.UIntArray3
+private noncomputable abbrev uintPtrArray2 := naive_C_Rules.UIntPtrArray2
 private noncomputable abbrev int64Array := naive_C_Rules.Int64Array
+private noncomputable abbrev int64Array2 := naive_C_Rules.Int64Array2
+private noncomputable abbrev int64Array3 := naive_C_Rules.Int64Array3
+private noncomputable abbrev int64PtrArray2 := naive_C_Rules.Int64PtrArray2
 private noncomputable abbrev uint64Array := naive_C_Rules.UInt64Array
+private noncomputable abbrev uint64Array2 := naive_C_Rules.UInt64Array2
+private noncomputable abbrev uint64Array3 := naive_C_Rules.UInt64Array3
+private noncomputable abbrev uint64PtrArray2 := naive_C_Rules.UInt64PtrArray2
 private noncomputable abbrev ptrArray := naive_C_Rules.PtrArray
+private noncomputable abbrev ptrArray2 := naive_C_Rules.PtrArray2
+private noncomputable abbrev ptrArray3 := naive_C_Rules.PtrArray3
+private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
+private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def dll_copy_safety_wit_1 : Prop :=
   forall (x_pre : Int) ,
@@ -250,7 +278,7 @@ noncomputable def dll_free_partial_solve_wit_1 : Prop :=
   forall (x : Int) (prev : Int) (PreH1 : (x ≠ (0 : Int))) ,
   (dlistrep_shape x prev)
 |--
-  EX y : Int, EX x_2 : Int,
+  EX x_2 : Int, EX y : Int,
   “ (x ≠ (0 : Int)) ”
   &&  ((&((x # "list")  ->ₛ "next")) # Ptr |-> (y))
   ** (dlistrep_shape y x)
@@ -315,7 +343,7 @@ noncomputable def reverse_partial_solve_wit_1 : Prop :=
   (dlistrep_shape w v)
   ** (dlistrep_shape v w)
 |--
-  EX y : Int, EX x : Int,
+  EX x : Int, EX y : Int,
   “ (v ≠ (0 : Int)) ”
   &&  ((&((v # "list")  ->ₛ "next")) # Ptr |-> (y))
   ** (dlistrep_shape y v)
@@ -411,7 +439,7 @@ noncomputable def append_partial_solve_wit_1 : Prop :=
   (dlistrep_shape x_pre (0 : Int))
   ** (dlistrep_shape y_pre (0 : Int))
 |--
-  EX y : Int, EX x : Int,
+  EX x : Int, EX y : Int,
   “ (x_pre ≠ (0 : Int)) ”
   &&  ((&((x_pre # "list")  ->ₛ "next")) # Ptr |-> (y))
   ** (dlistrep_shape y x_pre)
@@ -428,7 +456,7 @@ noncomputable def append_partial_solve_wit_2 : Prop :=
   ** ((&((t # "list")  ->ₛ "prev")) # Ptr |-> (t_prev))
   ** (dllseg_shape x_pre (0 : Int) t_prev t)
 |--
-  EX y : Int, EX x : Int,
+  EX x : Int, EX y : Int,
   “ (u = t_next) ” &&
   “ (t ≠ (0 : Int)) ” &&
   “ (u ≠ (0 : Int)) ”
@@ -451,7 +479,7 @@ noncomputable def append_partial_solve_wit_3 : Prop :=
   ** ((&((t # "list")  ->ₛ "prev")) # Ptr |-> (t_prev))
   ** (dllseg_shape x_pre (0 : Int) t_prev t)
 |--
-  EX y : Int, EX x : Int,
+  EX x : Int, EX y : Int,
   “ (u = t_next) ” &&
   “ (t ≠ (0 : Int)) ” &&
   “ (u = (0 : Int)) ” &&
@@ -497,7 +525,7 @@ noncomputable def iter_partial_solve_wit_1 : Prop :=
   (dllseg_shape l_pre (0 : Int) p_prev p)
   ** (dlistrep_shape p p_prev)
 |--
-  EX y : Int, EX x : Int,
+  EX x : Int, EX y : Int,
   “ (p ≠ (0 : Int)) ”
   &&  ((&((p # "list")  ->ₛ "next")) # Ptr |-> (y))
   ** (dlistrep_shape y p)
@@ -949,7 +977,7 @@ noncomputable def multi_merge_partial_solve_wit_2 : Prop :=
   ** (dlistrep_shape y_pre (0 : Int))
   ** (dlistrep_shape z_pre (0 : Int))
 |--
-  EX y : Int, EX x : Int,
+  EX x : Int, EX y : Int,
   “ (x_pre ≠ (0 : Int)) ”
   &&  ((&((x_pre # "list")  ->ₛ "next")) # Ptr |-> (y))
   ** (dlistrep_shape y x_pre)
@@ -968,7 +996,7 @@ noncomputable def multi_merge_partial_solve_wit_3 : Prop :=
   ** ((&((t # "list")  ->ₛ "prev")) # Ptr |-> (t_prev))
   ** (dllseg_shape x_pre (0 : Int) t_prev t)
 |--
-  EX y_2 : Int, EX x : Int,
+  EX x : Int, EX y_2 : Int,
   “ (u = t_next) ” &&
   “ (t ≠ (0 : Int)) ” &&
   “ (u ≠ (0 : Int)) ” &&
@@ -997,7 +1025,7 @@ noncomputable def multi_merge_partial_solve_wit_4 : Prop :=
   ** ((&((t # "list")  ->ₛ "prev")) # Ptr |-> (t_prev))
   ** (dllseg_shape x_pre (0 : Int) t_prev t)
 |--
-  EX y_3 : Int, EX x_2 : Int,
+  EX x_2 : Int, EX y_3 : Int,
   “ (u = t_next) ” &&
   “ (t ≠ (0 : Int)) ” &&
   “ (u ≠ (0 : Int)) ” &&
@@ -1032,7 +1060,7 @@ noncomputable def multi_merge_partial_solve_wit_5 : Prop :=
   ** ((&((t # "list")  ->ₛ "prev")) # Ptr |-> (t_prev))
   ** (dllseg_shape x_pre (0 : Int) t_prev t)
 |--
-  EX y_4 : Int, EX x_3 : Int,
+  EX x_3 : Int, EX y_4 : Int,
   “ (u = t_next) ” &&
   “ (t ≠ (0 : Int)) ” &&
   “ (u ≠ (0 : Int)) ” &&
@@ -1095,7 +1123,7 @@ noncomputable def multi_merge_partial_solve_wit_7 : Prop :=
   ** ((&((t # "list")  ->ₛ "prev")) # Ptr |-> (t_prev))
   ** (dllseg_shape x_pre (0 : Int) t_prev t)
 |--
-  EX y_5 : Int, EX x_4 : Int,
+  EX x_4 : Int, EX y_5 : Int,
   “ (u = t_next) ” &&
   “ (t ≠ (0 : Int)) ” &&
   “ (u ≠ (0 : Int)) ” &&
@@ -1138,7 +1166,7 @@ noncomputable def multi_merge_partial_solve_wit_8 : Prop :=
   ** ((&((t # "list")  ->ₛ "prev")) # Ptr |-> (t_prev))
   ** (dllseg_shape x_pre (0 : Int) t_prev t)
 |--
-  EX y_4 : Int, EX x_3 : Int,
+  EX x_3 : Int, EX y_4 : Int,
   “ (u = t_next) ” &&
   “ (t ≠ (0 : Int)) ” &&
   “ (u ≠ (0 : Int)) ” &&
@@ -1183,7 +1211,7 @@ noncomputable def multi_merge_partial_solve_wit_9 : Prop :=
   ** ((&((t # "list")  ->ₛ "prev")) # Ptr |-> (t_prev))
   ** (dllseg_shape x_pre (0 : Int) t_prev t)
 |--
-  EX y_6 : Int, EX x_5 : Int,
+  EX x_5 : Int, EX y_6 : Int,
   “ (u = t_next) ” &&
   “ (t ≠ (0 : Int)) ” &&
   “ (u ≠ (0 : Int)) ” &&
@@ -1232,7 +1260,7 @@ noncomputable def multi_merge_partial_solve_wit_10 : Prop :=
   ** ((&((t # "list")  ->ₛ "prev")) # Ptr |-> (t_prev))
   ** (dllseg_shape x_pre (0 : Int) t_prev t)
 |--
-  EX y_5 : Int, EX x_4 : Int,
+  EX x_4 : Int, EX y_5 : Int,
   “ (u = t_next) ” &&
   “ (t ≠ (0 : Int)) ” &&
   “ (u ≠ (0 : Int)) ” &&
@@ -1354,7 +1382,7 @@ noncomputable def multi_merge_partial_solve_wit_14 : Prop :=
   ** ((&((t # "list")  ->ₛ "prev")) # Ptr |-> (t_prev))
   ** (dllseg_shape x_pre (0 : Int) t_prev t)
 |--
-  EX y : Int, EX x : Int,
+  EX x : Int, EX y : Int,
   “ (u = t_next) ” &&
   “ (t ≠ (0 : Int)) ” &&
   “ (u = (0 : Int)) ” &&
@@ -1471,7 +1499,7 @@ noncomputable def multi_rev_partial_solve_wit_1 : Prop :=
   ** (dlistrep_shape x y)
   ** (dlistrep_shape y x)
 |--
-  EX y_2 : Int, EX x_2 : Int,
+  EX x_2 : Int, EX y_2 : Int,
   “ (v ≠ (0 : Int)) ”
   &&  ((&((v # "list")  ->ₛ "next")) # Ptr |-> (y_2))
   ** (dlistrep_shape y_2 v)
@@ -1488,7 +1516,7 @@ noncomputable def multi_rev_partial_solve_wit_2 : Prop :=
   ** (dlistrep_shape x y)
   ** (dlistrep_shape y x)
 |--
-  EX y_2 : Int, EX x_2 : Int,
+  EX x_2 : Int, EX y_2 : Int,
   “ (v = (0 : Int)) ” &&
   “ (y ≠ (0 : Int)) ”
   &&  ((&((y # "list")  ->ₛ "next")) # Ptr |-> (y_2))

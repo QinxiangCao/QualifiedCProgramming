@@ -1,0 +1,85 @@
+import SimpleC.EE.LLM_bench.Engineering.minisat.vec_proof_auto
+import SimpleC.EE.LLM_bench.Engineering.minisat.vec_proof_manual
+
+namespace SimpleC.EE.LLM_bench.Engineering.minisat.vec_goal_check
+
+open SimpleC.EE.LLM_bench.Engineering.minisat.vec_proof_auto
+open SimpleC.EE.LLM_bench.Engineering.minisat.vec_proof_manual
+
+def VC_Correctness : SimpleC.EE.LLM_bench.Engineering.minisat.vec_goal.VC_Correct where
+  proof_of_veci_new_safety_wit_1 := proof_of_veci_new_safety_wit_1
+  proof_of_veci_new_safety_wit_2 := proof_of_veci_new_safety_wit_2
+  proof_of_veci_new_partial_solve_wit_1 := proof_of_veci_new_partial_solve_wit_1
+  proof_of_veci_new_partial_solve_wit_2_pure := proof_of_veci_new_partial_solve_wit_2_pure
+  proof_of_veci_new_partial_solve_wit_2 := proof_of_veci_new_partial_solve_wit_2
+  proof_of_veci_delete_partial_solve_wit_1 := proof_of_veci_delete_partial_solve_wit_1
+  proof_of_veci_delete_partial_solve_wit_2_pure := proof_of_veci_delete_partial_solve_wit_2_pure
+  proof_of_veci_delete_partial_solve_wit_2 := proof_of_veci_delete_partial_solve_wit_2
+  proof_of_veci_begin_partial_solve_wit_1 := proof_of_veci_begin_partial_solve_wit_1
+  proof_of_veci_size_partial_solve_wit_1 := proof_of_veci_size_partial_solve_wit_1
+  proof_of_veci_resize_partial_solve_wit_1 := proof_of_veci_resize_partial_solve_wit_1
+  proof_of_veci_push_safety_wit_1 := proof_of_veci_push_safety_wit_1
+  proof_of_veci_push_safety_wit_2 := proof_of_veci_push_safety_wit_2
+  proof_of_veci_push_safety_wit_3 := proof_of_veci_push_safety_wit_3
+  proof_of_veci_push_safety_wit_4 := proof_of_veci_push_safety_wit_4
+  proof_of_veci_push_safety_wit_5 := proof_of_veci_push_safety_wit_5
+  proof_of_veci_push_entail_wit_1_1 := proof_of_veci_push_entail_wit_1_1
+  proof_of_veci_push_return_wit_1 := proof_of_veci_push_return_wit_1
+  proof_of_veci_push_partial_solve_wit_1 := proof_of_veci_push_partial_solve_wit_1
+  proof_of_veci_push_partial_solve_wit_2 := proof_of_veci_push_partial_solve_wit_2
+  proof_of_veci_push_partial_solve_wit_3 := proof_of_veci_push_partial_solve_wit_3
+  proof_of_veci_push_partial_solve_wit_4_pure := proof_of_veci_push_partial_solve_wit_4_pure
+  proof_of_veci_push_partial_solve_wit_4 := proof_of_veci_push_partial_solve_wit_4
+  proof_of_vecp_new_safety_wit_1 := proof_of_vecp_new_safety_wit_1
+  proof_of_vecp_new_safety_wit_2 := proof_of_vecp_new_safety_wit_2
+  proof_of_vecp_new_partial_solve_wit_1 := proof_of_vecp_new_partial_solve_wit_1
+  proof_of_vecp_new_partial_solve_wit_2_pure := proof_of_vecp_new_partial_solve_wit_2_pure
+  proof_of_vecp_new_partial_solve_wit_2 := proof_of_vecp_new_partial_solve_wit_2
+  proof_of_vecp_delete_partial_solve_wit_1 := proof_of_vecp_delete_partial_solve_wit_1
+  proof_of_vecp_delete_partial_solve_wit_2_pure := proof_of_vecp_delete_partial_solve_wit_2_pure
+  proof_of_vecp_delete_partial_solve_wit_2 := proof_of_vecp_delete_partial_solve_wit_2
+  proof_of_vecp_begin_partial_solve_wit_1 := proof_of_vecp_begin_partial_solve_wit_1
+  proof_of_vecp_size_partial_solve_wit_1 := proof_of_vecp_size_partial_solve_wit_1
+  proof_of_vecp_resize_partial_solve_wit_1 := proof_of_vecp_resize_partial_solve_wit_1
+  proof_of_vecp_push_safety_wit_1 := proof_of_vecp_push_safety_wit_1
+  proof_of_vecp_push_safety_wit_2 := proof_of_vecp_push_safety_wit_2
+  proof_of_vecp_push_safety_wit_3 := proof_of_vecp_push_safety_wit_3
+  proof_of_vecp_push_safety_wit_4 := proof_of_vecp_push_safety_wit_4
+  proof_of_vecp_push_safety_wit_5 := proof_of_vecp_push_safety_wit_5
+  proof_of_vecp_push_entail_wit_1_1 := proof_of_vecp_push_entail_wit_1_1
+  proof_of_vecp_push_return_wit_1 := proof_of_vecp_push_return_wit_1
+  proof_of_vecp_push_partial_solve_wit_1 := proof_of_vecp_push_partial_solve_wit_1
+  proof_of_vecp_push_partial_solve_wit_2 := proof_of_vecp_push_partial_solve_wit_2
+  proof_of_vecp_push_partial_solve_wit_3 := proof_of_vecp_push_partial_solve_wit_3
+  proof_of_vecp_push_partial_solve_wit_4_pure := proof_of_vecp_push_partial_solve_wit_4_pure
+  proof_of_vecp_push_partial_solve_wit_4 := proof_of_vecp_push_partial_solve_wit_4
+  proof_of_veci_new_return_wit_1 := proof_of_veci_new_return_wit_1
+  proof_of_veci_new_which_implies_wit_1 := proof_of_veci_new_which_implies_wit_1
+  proof_of_veci_delete_return_wit_1 := proof_of_veci_delete_return_wit_1
+  proof_of_veci_delete_which_implies_wit_1 := proof_of_veci_delete_which_implies_wit_1
+  proof_of_veci_begin_return_wit_1 := proof_of_veci_begin_return_wit_1
+  proof_of_veci_begin_which_implies_wit_1 := proof_of_veci_begin_which_implies_wit_1
+  proof_of_veci_size_return_wit_1 := proof_of_veci_size_return_wit_1
+  proof_of_veci_size_which_implies_wit_1 := proof_of_veci_size_which_implies_wit_1
+  proof_of_veci_resize_return_wit_1 := proof_of_veci_resize_return_wit_1
+  proof_of_veci_resize_which_implies_wit_1 := proof_of_veci_resize_which_implies_wit_1
+  proof_of_veci_push_entail_wit_1_2 := proof_of_veci_push_entail_wit_1_2
+  proof_of_veci_push_partial_solve_wit_2_pure := proof_of_veci_push_partial_solve_wit_2_pure
+  proof_of_veci_push_which_implies_wit_1 := proof_of_veci_push_which_implies_wit_1
+  proof_of_veci_push_which_implies_wit_2 := proof_of_veci_push_which_implies_wit_2
+  proof_of_vecp_new_return_wit_1 := proof_of_vecp_new_return_wit_1
+  proof_of_vecp_new_which_implies_wit_1 := proof_of_vecp_new_which_implies_wit_1
+  proof_of_vecp_delete_return_wit_1 := proof_of_vecp_delete_return_wit_1
+  proof_of_vecp_delete_which_implies_wit_1 := proof_of_vecp_delete_which_implies_wit_1
+  proof_of_vecp_begin_return_wit_1 := proof_of_vecp_begin_return_wit_1
+  proof_of_vecp_begin_which_implies_wit_1 := proof_of_vecp_begin_which_implies_wit_1
+  proof_of_vecp_size_return_wit_1 := proof_of_vecp_size_return_wit_1
+  proof_of_vecp_size_which_implies_wit_1 := proof_of_vecp_size_which_implies_wit_1
+  proof_of_vecp_resize_return_wit_1 := proof_of_vecp_resize_return_wit_1
+  proof_of_vecp_resize_which_implies_wit_1 := proof_of_vecp_resize_which_implies_wit_1
+  proof_of_vecp_push_entail_wit_1_2 := proof_of_vecp_push_entail_wit_1_2
+  proof_of_vecp_push_partial_solve_wit_2_pure := proof_of_vecp_push_partial_solve_wit_2_pure
+  proof_of_vecp_push_which_implies_wit_1 := proof_of_vecp_push_which_implies_wit_1
+  proof_of_vecp_push_which_implies_wit_2 := proof_of_vecp_push_which_implies_wit_2
+
+end SimpleC.EE.LLM_bench.Engineering.minisat.vec_goal_check

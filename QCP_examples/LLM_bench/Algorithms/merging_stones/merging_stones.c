@@ -1,3 +1,7 @@
+/*@ Import Lean
+import SimpleC.EE.LLM_bench.Algorithms.merging_stones.merging_stones_lib
+open SimpleC.EE.LLM_bench.Algorithms.merging_stones.merging_stones_lib
+*/
 #include "array2_def.h"
 
 /*@ include strategies "undef_uint_array.strategies" */

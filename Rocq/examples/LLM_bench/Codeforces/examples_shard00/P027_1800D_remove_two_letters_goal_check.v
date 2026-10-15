@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P027_1800D_remove_two_letters_goal P027_1800D_remove_two_letters_proof_auto P027_1800D_remove_two_letters_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P027_1800D_remove_two_letters_proof_auto.
+  Include P027_1800D_remove_two_letters_proof_manual.
+End VC_Correctness.

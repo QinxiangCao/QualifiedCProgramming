@@ -99,13 +99,13 @@ theorem is_suffix_snoc_snoc_iff {A : Type} (l1 l2 : List A) (a1 a2 : A) :
 theorem prefix_Zlength {A : Type} (l1 l2 : List A) :
     is_prefix l1 l2 -> Zlength l1 <= Zlength l2 := by
   rintro ⟨l, rfl⟩
-  simp [ListLib.Zlength, AUXLib.Zlength]
+  simp [AUXLib.Zlength]
   omega
 
 theorem suffix_Zlength {A : Type} (l1 l2 : List A) :
     is_suffix l1 l2 -> Zlength l1 <= Zlength l2 := by
   rintro ⟨l, rfl⟩
-  simp [ListLib.Zlength, AUXLib.Zlength]
+  simp [AUXLib.Zlength]
   omega
 
 theorem presuffix_Zlength {A : Type} (l1 l2 : List A) :
@@ -130,7 +130,7 @@ theorem prefix_iff {A : Type} (default : A) (l1 l2 : List A) :
   · rintro ⟨hlen, hnth⟩
     let tail := AUXLib.sublist (AUXLib.Zlength l1) (AUXLib.Zlength l2) l2
     refine ⟨tail, ?_⟩
-    apply ListLib.list_eq_ext l2 (l1 ++ tail) default
+    apply (ListLib.list_eq_ext l2 (l1 ++ tail) default).mpr
     constructor
     · change AUXLib.Zlength l2 = AUXLib.Zlength (l1 ++ tail)
       have htail : AUXLib.Zlength tail = AUXLib.Zlength l2 - AUXLib.Zlength l1 := by
@@ -207,7 +207,7 @@ theorem suffix_iff {A : Type} (default : A) (l1 l2 : List A) :
         AUXLib.Zlength head + AUXLib.Zlength l1 := by
       omega
     refine ⟨head, ?_⟩
-    apply ListLib.list_eq_ext l2 (head ++ l1) default
+    apply (ListLib.list_eq_ext l2 (head ++ l1) default).mpr
     constructor
     · change AUXLib.Zlength l2 = AUXLib.Zlength (head ++ l1)
       have happ := AUXLib.Zlength_app head l1
@@ -419,7 +419,7 @@ theorem sublist_one_ele {A : Type} (i : Int) (text : List A)
     ⟨by omega, by omega⟩ ⟨by omega, by omega⟩]
   congr 1
   exact (congrArg (fun x => [x]) hch).trans
-    (ListLib.sublist_one_ele default text i hi).symm
+    (ListLib.Zsublist_one_ele default text i hi).symm
 
 theorem sublist_one_ele' {A : Type} (i : Int) (text : List A)
     (default : A) (hi : 0 <= i /\ i < Zlength text) :
@@ -476,7 +476,7 @@ theorem Zlength_nonnil {A : Type} (l : List A) :
   cases l with
   | nil => simp
   | cons a l =>
-      simp [ListLib.Zlength, AUXLib.Zlength]
+      simp [AUXLib.Zlength]
 
 def jrange {B : Type} (j : Int) (array : List B) : Prop :=
   0 <= j /\ j < Zlength array

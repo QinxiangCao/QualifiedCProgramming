@@ -1,5 +1,6 @@
 import SimpleC.SL.CommonAssertion.Derived
 import AUXLib.NiaCompat
+import Lean.Attributes
 import Lean.Elab.Tactic
 import Lean.Elab.Tactic.Injection
 import Lean.Meta.Tactic.Rename
@@ -16,9 +17,23 @@ universe u
 class SacContext where
   CRules : SeparationLogicSig
 
+class SacArchContext where
+  Arch : SimpleC.SL.CArch.CArchSig
+
+class SacEndianContext where
+  Endian : SimpleC.SL.CArch.CEndianSig
+
+instance (priority := low) defaultSacArchContext : SacArchContext :=
+  ⟨SimpleC.SL.CArch.Arch32⟩
+
+instance (priority := low) defaultSacEndianContext : SacEndianContext :=
+  ⟨SimpleC.SL.CArch.BigEndian⟩
+
 namespace SacContext
 
 abbrev rules [ctx : SacContext] : SeparationLogicSig := ctx.CRules
+abbrev arch [ctx : SacArchContext] : SimpleC.SL.CArch.CArchSig := ctx.Arch
+abbrev endian [ctx : SacEndianContext] : SimpleC.SL.CArch.CEndianSig := ctx.Endian
 abbrev Assertion [SacContext] : Type := rules.expr
 
 abbrev exp [SacContext] {A : Type u} (P : A -> Assertion) : Assertion :=
@@ -28,6 +43,10 @@ abbrev allp [SacContext] {A : Type u} (P : A -> Assertion) : Assertion :=
   Unifysl.LogicGenerator.demo932.DerivedNamesSig.allp rules.DerivedNames A P
 
 end SacContext
+
+instance (priority := high) sacCNotationContext [ctx : SacArchContext] :
+    SimpleC.SL.CNotation.CNotationContext :=
+  ⟨ctx.Arch⟩
 
 namespace DerivedPredSig
 
@@ -104,6 +123,24 @@ theorem sepcon_cancel_lhs_emp (P Q : CRules.expr)
     (CRules.toContext.derivable1_sepcon_emp_l P)
 
 namespace AutomationHelpers
+
+theorem fold_addr_max_unsigned (Arch : SimpleC.SL.CArch.CArchSig) :
+    Arch.addr_max_unsigned = DerivedPredSig.addr_max_unsigned Arch := rfl
+
+theorem fold_ptr_size (Arch : SimpleC.SL.CArch.CArchSig) :
+    Arch.ptr_size = DerivedPredSig.ptr_size Arch := rfl
+
+theorem fold_ptr_align (Arch : SimpleC.SL.CArch.CArchSig) :
+    Arch.ptr_align = DerivedPredSig.ptr_align Arch := rfl
+
+theorem fold_ptr_size_Z (Arch : SimpleC.SL.CArch.CArchSig) :
+    Arch.ptr_size_Z = DerivedPredSig.ptr_size_Z Arch := rfl
+
+theorem fold_ptr_width_Z (Arch : SimpleC.SL.CArch.CArchSig) :
+    Arch.ptr_width_Z = DerivedPredSig.ptr_width_Z Arch := rfl
+
+theorem fold_aligned (Arch : SimpleC.SL.CArch.CArchSig) (align p : Int) :
+    Arch.aligned align p = DerivedPredSig.aligned Arch align p := rfl
 
 open SimpleC.SL.CNotation
 
@@ -193,59 +230,137 @@ theorem int32_lower_of_abs_lt_abs {x y : Int}
   · simp only [SimpleC.SL.IntLib.INT_MIN, SimpleC.SL.IntLib.INT_MAX]
     omega
 
+variable (Arch : SimpleC.SL.CArch.CArchSig)
+  (Endian : SimpleC.SL.CArch.CEndianSig)
+
 theorem poly_store_unfold_int :
-    poly_store CRules FET_int = store_int CRules := rfl
+    poly_store Arch Endian CRules FET_int = store_int Arch Endian CRules := rfl
 
 theorem poly_store_unfold_char :
-    poly_store CRules FET_char = store_char CRules := rfl
+    poly_store Arch Endian CRules FET_char = store_char Arch CRules := rfl
 
 theorem poly_store_unfold_int64 :
-    poly_store CRules FET_int64 = store_int64 CRules := rfl
+    poly_store Arch Endian CRules FET_int64 = store_int64 Arch Endian CRules := rfl
 
 theorem poly_store_unfold_short :
-    poly_store CRules FET_short = store_short CRules := rfl
+    poly_store Arch Endian CRules FET_short = store_short Arch Endian CRules := rfl
 
 theorem poly_store_unfold_uint :
-    poly_store CRules FET_uint = store_uint CRules := rfl
+    poly_store Arch Endian CRules FET_uint = store_uint Arch Endian CRules := rfl
 
 theorem poly_store_unfold_uchar :
-    poly_store CRules FET_uchar = store_uchar CRules := rfl
+    poly_store Arch Endian CRules FET_uchar = store_uchar Arch CRules := rfl
 
 theorem poly_store_unfold_uint64 :
-    poly_store CRules FET_uint64 = store_uint64 CRules := rfl
+    poly_store Arch Endian CRules FET_uint64 = store_uint64 Arch Endian CRules := rfl
+
+theorem poly_store_unfold_int128 :
+    poly_store Arch Endian CRules FET_int128 = store_int128 Arch Endian CRules := rfl
+
+theorem poly_store_unfold_uint128 :
+    poly_store Arch Endian CRules FET_uint128 = store_uint128 Arch Endian CRules := rfl
 
 theorem poly_store_unfold_ushort :
-    poly_store CRules FET_ushort = store_ushort CRules := rfl
+    poly_store Arch Endian CRules FET_ushort = store_ushort Arch Endian CRules := rfl
 
 theorem poly_store_unfold_ptr :
-    poly_store CRules FET_ptr = store_ptr CRules := rfl
+    poly_store Arch Endian CRules FET_ptr = store_ptr Arch Endian CRules := rfl
+
+theorem poly_store_unfold_float :
+    poly_store Arch Endian CRules FET_float =
+      fun x z => store_float Arch Endian CRules x (SimpleC.SL.FloatLib.fp32_of_bits z) := rfl
+
+theorem poly_store_unfold_double :
+    poly_store Arch Endian CRules FET_double =
+      fun x z => store_double Arch Endian CRules x (SimpleC.SL.FloatLib.fp64_of_bits z) := rfl
+
+theorem poly_store_unfold_long_double :
+    poly_store Arch Endian CRules FET_long_double =
+      fun x z => store_long_double Arch Endian CRules x (SimpleC.SL.FloatLib.fp128_of_bits z) := rfl
+
+theorem typed_poly_store_unfold_int :
+    typed_poly_store Arch Endian CRules FET_int = store_int Arch Endian CRules := rfl
+
+theorem typed_poly_store_unfold_char :
+    typed_poly_store Arch Endian CRules FET_char = store_char Arch CRules := rfl
+
+theorem typed_poly_store_unfold_int64 :
+    typed_poly_store Arch Endian CRules FET_int64 = store_int64 Arch Endian CRules := rfl
+
+theorem typed_poly_store_unfold_short :
+    typed_poly_store Arch Endian CRules FET_short = store_short Arch Endian CRules := rfl
+
+theorem typed_poly_store_unfold_uint :
+    typed_poly_store Arch Endian CRules FET_uint = store_uint Arch Endian CRules := rfl
+
+theorem typed_poly_store_unfold_uchar :
+    typed_poly_store Arch Endian CRules FET_uchar = store_uchar Arch CRules := rfl
+
+theorem typed_poly_store_unfold_uint64 :
+    typed_poly_store Arch Endian CRules FET_uint64 = store_uint64 Arch Endian CRules := rfl
+
+theorem typed_poly_store_unfold_int128 :
+    typed_poly_store Arch Endian CRules FET_int128 = store_int128 Arch Endian CRules := rfl
+
+theorem typed_poly_store_unfold_uint128 :
+    typed_poly_store Arch Endian CRules FET_uint128 = store_uint128 Arch Endian CRules := rfl
+
+theorem typed_poly_store_unfold_ushort :
+    typed_poly_store Arch Endian CRules FET_ushort = store_ushort Arch Endian CRules := rfl
+
+theorem typed_poly_store_unfold_float :
+    typed_poly_store Arch Endian CRules FET_float = store_float Arch Endian CRules := rfl
+
+theorem typed_poly_store_unfold_double :
+    typed_poly_store Arch Endian CRules FET_double = store_double Arch Endian CRules := rfl
+
+theorem typed_poly_store_unfold_long_double :
+    typed_poly_store Arch Endian CRules FET_long_double = store_long_double Arch Endian CRules := rfl
+
+theorem typed_poly_store_unfold_ptr :
+    typed_poly_store Arch Endian CRules FET_ptr = store_ptr Arch Endian CRules := rfl
 
 theorem poly_undef_store_unfold_int :
-    poly_undef_store CRules FET_int = undef_store_int CRules := rfl
+    poly_undef_store Arch CRules FET_int = undef_store_int Arch CRules := rfl
 
 theorem poly_undef_store_unfold_char :
-    poly_undef_store CRules FET_char = undef_store_char CRules := rfl
+    poly_undef_store Arch CRules FET_char = undef_store_char Arch CRules := rfl
 
 theorem poly_undef_store_unfold_int64 :
-    poly_undef_store CRules FET_int64 = undef_store_int64 CRules := rfl
+    poly_undef_store Arch CRules FET_int64 = undef_store_int64 Arch CRules := rfl
 
 theorem poly_undef_store_unfold_short :
-    poly_undef_store CRules FET_short = undef_store_short CRules := rfl
+    poly_undef_store Arch CRules FET_short = undef_store_short Arch CRules := rfl
 
 theorem poly_undef_store_unfold_uint :
-    poly_undef_store CRules FET_uint = undef_store_uint CRules := rfl
+    poly_undef_store Arch CRules FET_uint = undef_store_uint Arch CRules := rfl
 
 theorem poly_undef_store_unfold_uchar :
-    poly_undef_store CRules FET_uchar = undef_store_uchar CRules := rfl
+    poly_undef_store Arch CRules FET_uchar = undef_store_uchar Arch CRules := rfl
 
 theorem poly_undef_store_unfold_uint64 :
-    poly_undef_store CRules FET_uint64 = undef_store_uint64 CRules := rfl
+    poly_undef_store Arch CRules FET_uint64 = undef_store_uint64 Arch CRules := rfl
+
+theorem poly_undef_store_unfold_int128 :
+    poly_undef_store Arch CRules FET_int128 = undef_store_int128 Arch CRules := rfl
+
+theorem poly_undef_store_unfold_uint128 :
+    poly_undef_store Arch CRules FET_uint128 = undef_store_uint128 Arch CRules := rfl
 
 theorem poly_undef_store_unfold_ushort :
-    poly_undef_store CRules FET_ushort = undef_store_ushort CRules := rfl
+    poly_undef_store Arch CRules FET_ushort = undef_store_ushort Arch CRules := rfl
 
 theorem poly_undef_store_unfold_ptr :
-    poly_undef_store CRules FET_ptr = undef_store_ptr CRules := rfl
+    poly_undef_store Arch CRules FET_ptr = undef_store_ptr Arch CRules := rfl
+
+theorem poly_undef_store_unfold_float :
+    poly_undef_store Arch CRules FET_float = undef_store_float Arch CRules := rfl
+
+theorem poly_undef_store_unfold_double :
+    poly_undef_store Arch CRules FET_double = undef_store_double Arch CRules := rfl
+
+theorem poly_undef_store_unfold_long_double :
+    poly_undef_store Arch CRules FET_long_double = undef_store_long_double Arch CRules := rfl
 
 theorem coq_prop_andp_right_equiv (P : CRules.expr) (Q : Prop) :
     CRules.logic_equiv (CRules.andp P (CRules.coq_prop Q))
@@ -584,73 +699,123 @@ scoped macro_rules
 
 scoped notation "Assertion" => SacContext.Assertion
 
-scoped notation:25 x:26 " # " "CHAR" " |-> " value:25 =>
-  store_char SacContext.rules x value
-scoped notation:25 x:26 " # " "UCHAR" " |-> " value:25 =>
-  store_uchar SacContext.rules x value
-scoped notation:25 x:26 " # " "SHORT" " |-> " value:25 =>
-  store_short SacContext.rules x value
-scoped notation:25 x:26 " # " "USHORT" " |-> " value:25 =>
-  store_ushort SacContext.rules x value
-scoped notation:25 x:26 " # " "INT" " |-> " value:25 =>
-  store_int SacContext.rules x value
-scoped notation:25 x:26 " # " "UINT" " |-> " value:25 =>
-  store_uint SacContext.rules x value
-scoped notation:25 x:26 " # " "INT64" " |-> " value:25 =>
-  store_int64 SacContext.rules x value
-scoped notation:25 x:26 " # " "UINT64" " |-> " value:25 =>
-  store_uint64 SacContext.rules x value
-scoped notation:25 x:26 " # " "PTR" " |-> " value:25 =>
-  store_ptr SacContext.rules x value
+scoped notation:60 x:61 " # " "CHAR" " |-> " value:60 =>
+  store_char SacContext.arch SacContext.rules x value
+scoped notation:60 x:61 " # " "UCHAR" " |-> " value:60 =>
+  store_uchar SacContext.arch SacContext.rules x value
+scoped notation:60 x:61 " # " "SHORT" " |-> " value:60 =>
+  store_short SacContext.arch SacContext.endian SacContext.rules x value
+scoped notation:60 x:61 " # " "USHORT" " |-> " value:60 =>
+  store_ushort SacContext.arch SacContext.endian SacContext.rules x value
+scoped notation:60 x:61 " # " "INT" " |-> " value:60 =>
+  store_int SacContext.arch SacContext.endian SacContext.rules x value
+scoped notation:60 x:61 " # " "UINT" " |-> " value:60 =>
+  store_uint SacContext.arch SacContext.endian SacContext.rules x value
+scoped notation:60 x:61 " # " "INT64" " |-> " value:60 =>
+  store_int64 SacContext.arch SacContext.endian SacContext.rules x value
+scoped notation:60 x:61 " # " "UINT64" " |-> " value:60 =>
+  store_uint64 SacContext.arch SacContext.endian SacContext.rules x value
+scoped notation:60 x:61 " # " "INT128" " |-> " value:60 =>
+  store_int128 SacContext.arch SacContext.endian SacContext.rules x value
+scoped notation:60 x:61 " # " "UINT128" " |-> " value:60 =>
+  store_uint128 SacContext.arch SacContext.endian SacContext.rules x value
+scoped notation:60 x:61 " # " "PTR" " |-> " value:60 =>
+  store_ptr SacContext.arch SacContext.endian SacContext.rules x value
 
-scoped syntax:25 (name := rocqDataAt)
-  term:26 " # " ident " |-> " term:25 : term
+scoped syntax:60 (name := rocqDataAt) (priority := high)
+  term:61 " # " ident " |-> " term:60 : term
 scoped macro_rules (kind := rocqDataAt)
   | `($x:term # Char |-> $value:term) =>
-      `(store_char SacContext.rules $x $value)
+      `(store_char SacContext.arch SacContext.rules $x $value)
   | `($x:term # UChar |-> $value:term) =>
-      `(store_uchar SacContext.rules $x $value)
+      `(store_uchar SacContext.arch SacContext.rules $x $value)
   | `($x:term # Short |-> $value:term) =>
-      `(store_short SacContext.rules $x $value)
+      `(store_short SacContext.arch SacContext.endian SacContext.rules $x $value)
   | `($x:term # UShort |-> $value:term) =>
-      `(store_ushort SacContext.rules $x $value)
+      `(store_ushort SacContext.arch SacContext.endian SacContext.rules $x $value)
   | `($x:term # Int |-> $value:term) =>
-      `(store_int SacContext.rules $x $value)
+      `(store_int SacContext.arch SacContext.endian SacContext.rules $x $value)
   | `($x:term # UInt |-> $value:term) =>
-      `(store_uint SacContext.rules $x $value)
+      `(store_uint SacContext.arch SacContext.endian SacContext.rules $x $value)
   | `($x:term # Int64 |-> $value:term) =>
-      `(store_int64 SacContext.rules $x $value)
+      `(store_int64 SacContext.arch SacContext.endian SacContext.rules $x $value)
   | `($x:term # UInt64 |-> $value:term) =>
-      `(store_uint64 SacContext.rules $x $value)
+      `(store_uint64 SacContext.arch SacContext.endian SacContext.rules $x $value)
+  | `($x:term # Int128 |-> $value:term) =>
+      `(store_int128 SacContext.arch SacContext.endian SacContext.rules $x $value)
+  | `($x:term # UInt128 |-> $value:term) =>
+      `(store_uint128 SacContext.arch SacContext.endian SacContext.rules $x $value)
+  | `($x:term # Float |-> $value:term) =>
+      `(store_float SacContext.arch SacContext.endian SacContext.rules $x $value)
+  | `($x:term # Double |-> $value:term) =>
+      `(store_double SacContext.arch SacContext.endian SacContext.rules $x $value)
+  | `($x:term # LongDouble |-> $value:term) =>
+      `(store_long_double SacContext.arch SacContext.endian SacContext.rules $x $value)
+  | `($x:term # FiniteFloat |-> $value:term) =>
+      `(store_finite_float SacContext.arch SacContext.endian SacContext.rules $x $value)
+  | `($x:term # FiniteDouble |-> $value:term) =>
+      `(store_finite_double SacContext.arch SacContext.endian SacContext.rules $x $value)
+  | `($x:term # FiniteLongDouble |-> $value:term) =>
+      `(store_finite_long_double SacContext.arch SacContext.endian SacContext.rules $x $value)
   | `($x:term # Ptr |-> $value:term) =>
-      `(store_ptr SacContext.rules $x $value)
+      `(store_ptr SacContext.arch SacContext.endian SacContext.rules $x $value)
+  | `($x:term # $type:ident |-> $value:term) => do
+      match type.getId with
+      | `Float => `(store_float SacContext.arch SacContext.endian SacContext.rules $x $value)
+      | `Double => `(store_double SacContext.arch SacContext.endian SacContext.rules $x $value)
+      | `LongDouble => `(store_long_double SacContext.arch SacContext.endian SacContext.rules $x $value)
+      | `FiniteFloat => `(store_finite_float SacContext.arch SacContext.endian SacContext.rules $x $value)
+      | `FiniteDouble => `(store_finite_double SacContext.arch SacContext.endian SacContext.rules $x $value)
+      | `FiniteLongDouble => `(store_finite_long_double SacContext.arch SacContext.endian SacContext.rules $x $value)
+      | _ => `(poly_store SacContext.arch SacContext.endian SacContext.rules $type $x $value)
 
-scoped notation:25 x:26 " # " "CHAR" " |->_" => undef_store_char SacContext.rules x
-scoped notation:25 x:26 " # " "UCHAR" " |->_" => undef_store_uchar SacContext.rules x
-scoped notation:25 x:26 " # " "SHORT" " |->_" => undef_store_short SacContext.rules x
-scoped notation:25 x:26 " # " "USHORT" " |->_" => undef_store_ushort SacContext.rules x
-scoped notation:25 x:26 " # " "INT" " |->_" => undef_store_int SacContext.rules x
-scoped notation:25 x:26 " # " "UINT" " |->_" => undef_store_uint SacContext.rules x
-scoped notation:25 x:26 " # " "INT64" " |->_" => undef_store_int64 SacContext.rules x
-scoped notation:25 x:26 " # " "UINT64" " |->_" => undef_store_uint64 SacContext.rules x
-scoped notation:25 x:26 " # " "PTR" " |->_" => undef_store_ptr SacContext.rules x
+scoped notation:60 x:61 " # " "CHAR" " |->_" => undef_store_char SacContext.arch SacContext.rules x
+scoped notation:60 x:61 " # " "UCHAR" " |->_" => undef_store_uchar SacContext.arch SacContext.rules x
+scoped notation:60 x:61 " # " "SHORT" " |->_" => undef_store_short SacContext.arch SacContext.rules x
+scoped notation:60 x:61 " # " "USHORT" " |->_" => undef_store_ushort SacContext.arch SacContext.rules x
+scoped notation:60 x:61 " # " "INT" " |->_" => undef_store_int SacContext.arch SacContext.rules x
+scoped notation:60 x:61 " # " "UINT" " |->_" => undef_store_uint SacContext.arch SacContext.rules x
+scoped notation:60 x:61 " # " "INT64" " |->_" => undef_store_int64 SacContext.arch SacContext.rules x
+scoped notation:60 x:61 " # " "UINT64" " |->_" => undef_store_uint64 SacContext.arch SacContext.rules x
+scoped notation:60 x:61 " # " "INT128" " |->_" => undef_store_int128 SacContext.arch SacContext.rules x
+scoped notation:60 x:61 " # " "UINT128" " |->_" => undef_store_uint128 SacContext.arch SacContext.rules x
+scoped notation:60 x:61 " # " "PTR" " |->_" => undef_store_ptr SacContext.arch SacContext.rules x
 
-scoped syntax:25 (name := rocqUndefDataAt) term:26 " # " ident " |->_" : term
+scoped syntax:60 (name := rocqUndefDataAt) (priority := high)
+  term:61 " # " ident " |->_" : term
 scoped macro_rules (kind := rocqUndefDataAt)
-  | `($x:term # Char |->_) => `(undef_store_char SacContext.rules $x)
-  | `($x:term # UChar |->_) => `(undef_store_uchar SacContext.rules $x)
-  | `($x:term # Short |->_) => `(undef_store_short SacContext.rules $x)
-  | `($x:term # UShort |->_) => `(undef_store_ushort SacContext.rules $x)
-  | `($x:term # Int |->_) => `(undef_store_int SacContext.rules $x)
-  | `($x:term # UInt |->_) => `(undef_store_uint SacContext.rules $x)
-  | `($x:term # Int64 |->_) => `(undef_store_int64 SacContext.rules $x)
-  | `($x:term # UInt64 |->_) => `(undef_store_uint64 SacContext.rules $x)
-  | `($x:term # Ptr |->_) => `(undef_store_ptr SacContext.rules $x)
+  | `($x:term # Char |->_) => `(undef_store_char SacContext.arch SacContext.rules $x)
+  | `($x:term # UChar |->_) => `(undef_store_uchar SacContext.arch SacContext.rules $x)
+  | `($x:term # Short |->_) => `(undef_store_short SacContext.arch SacContext.rules $x)
+  | `($x:term # UShort |->_) => `(undef_store_ushort SacContext.arch SacContext.rules $x)
+  | `($x:term # Int |->_) => `(undef_store_int SacContext.arch SacContext.rules $x)
+  | `($x:term # UInt |->_) => `(undef_store_uint SacContext.arch SacContext.rules $x)
+  | `($x:term # Int64 |->_) => `(undef_store_int64 SacContext.arch SacContext.rules $x)
+  | `($x:term # UInt64 |->_) => `(undef_store_uint64 SacContext.arch SacContext.rules $x)
+  | `($x:term # Int128 |->_) => `(undef_store_int128 SacContext.arch SacContext.rules $x)
+  | `($x:term # UInt128 |->_) => `(undef_store_uint128 SacContext.arch SacContext.rules $x)
+  | `($x:term # Float |->_) => `(undef_store_float SacContext.arch SacContext.rules $x)
+  | `($x:term # Double |->_) => `(undef_store_double SacContext.arch SacContext.rules $x)
+  | `($x:term # LongDouble |->_) => `(undef_store_long_double SacContext.arch SacContext.rules $x)
+  | `($x:term # FiniteFloat |->_) => `(undef_store_finite_float SacContext.arch SacContext.rules $x)
+  | `($x:term # FiniteDouble |->_) => `(undef_store_finite_double SacContext.arch SacContext.rules $x)
+  | `($x:term # FiniteLongDouble |->_) =>
+      `(undef_store_finite_long_double SacContext.arch SacContext.rules $x)
+  | `($x:term # Ptr |->_) => `(undef_store_ptr SacContext.arch SacContext.rules $x)
+  | `($x:term # $type:ident |->_) => do
+      match type.getId with
+      | `Float => `(undef_store_float SacContext.arch SacContext.rules $x)
+      | `Double => `(undef_store_double SacContext.arch SacContext.rules $x)
+      | `LongDouble => `(undef_store_long_double SacContext.arch SacContext.rules $x)
+      | `FiniteFloat => `(undef_store_finite_float SacContext.arch SacContext.rules $x)
+      | `FiniteDouble => `(undef_store_finite_double SacContext.arch SacContext.rules $x)
+      | `FiniteLongDouble => `(undef_store_finite_long_double SacContext.arch SacContext.rules $x)
+      | _ => `(poly_undef_store SacContext.arch SacContext.rules $type $x)
 
-scoped notation:25 x:26 " # " type:26 " |-> " value:25 =>
-  poly_store SacContext.rules type x value
-scoped notation:25 x:26 " # " type:26 " |->_" =>
-  poly_undef_store SacContext.rules type x
+scoped notation:60 x:61 " # " type:61 " |-> " value:60 =>
+  poly_store SacContext.arch SacContext.endian SacContext.rules type x value
+scoped notation:60 x:61 " # " type:61 " |->_" =>
+  poly_undef_store SacContext.arch SacContext.rules type x
 
 scoped notation:25 "Padding(" x ", " name ")" =>
   struct_padding SacContext.rules x name
@@ -708,15 +873,29 @@ private partial def shallowUnfoldAtom (expression : Expr) : Nat → MetaM Expr
 private def finiteStoreAtomName? (expression : Expr) : Option Name :=
   match expression.getAppFn.consumeMData with
   | .const name _ =>
-      if [``store_byte, ``store_2byte, ``store_4byte, ``store_8byte,
+      if [``store_byte, ``store_2byte, ``store_4byte, ``store_8byte, ``store_16byte,
           ``store_byte_noninit, ``store_2byte_noninit,
-          ``store_4byte_noninit, ``store_8byte_noninit].contains name then
+          ``store_4byte_noninit, ``store_8byte_noninit,
+          ``store_16byte_noninit].contains name then
         some name
       else
         none
   | _ => none
 
+private def unfoldFiniteStoreCompat? (expression : Expr) : MetaM Expr := do
+  match expression.getAppFn.consumeMData with
+  | .const name _ =>
+      if [``DerivedPredSigCompat.store_2byte,
+          ``DerivedPredSigCompat.store_4byte,
+          ``DerivedPredSigCompat.store_8byte,
+          ``DerivedPredSigCompat.store_16byte].contains name then
+        return (← unfoldDefinition? expression).getD expression
+      return expression
+  | _ => return expression
+
 private def isDefEqFiniteStoreAtom (lhs rhs : Expr) : MetaM Bool := do
+  let lhs ← unfoldFiniteStoreCompat? lhs
+  let rhs ← unfoldFiniteStoreCompat? rhs
   let some lhsName := finiteStoreAtomName? lhs | return false
   let some rhsName := finiteStoreAtomName? rhs | return false
   if lhsName != rhsName then
@@ -725,26 +904,75 @@ private def isDefEqFiniteStoreAtom (lhs rhs : Expr) : MetaM Bool := do
   let rhsArgs := rhs.getAppArgs.toList
   if lhsArgs.length != rhsArgs.length then
     return false
-  let some lhsRules := lhsArgs.head? | return false
-  let some rhsRules := rhsArgs.head? | return false
-  let saved <- saveState
-  if !(<- withTransparency .all <| isDefEq lhsRules rhsRules) then
-    restoreState saved
-    return false
-  for (lhsArg, rhsArg) in lhsArgs.tail.zip rhsArgs.tail do
-    if !(<- withTransparency .reducible <| isDefEq lhsArg rhsArg) then
+  let environmentArgCount :=
+    if [``store_2byte, ``store_4byte, ``store_8byte,
+        ``store_16byte].contains lhsName then 2 else 1
+  for (lhsArg, rhsArg) in
+      (lhsArgs.take environmentArgCount).zip (rhsArgs.take environmentArgCount) do
+    let saved <- saveState
+    if !(<- withTransparency .all <| isDefEq lhsArg rhsArg) then
+      restoreState saved
+      return false
+  for (lhsArg, rhsArg) in
+      (lhsArgs.drop environmentArgCount).zip (rhsArgs.drop environmentArgCount) do
+    let saved <- saveState
+    if !(<- withTransparency .all <| isDefEq lhsArg rhsArg) then
       restoreState saved
       return false
   return true
 
-private def isStoreFacadeAtom (expression : Expr) : Bool :=
+private partial def containsConst (target : Name) : Expr -> Bool
+  | .const name _ => name == target
+  | .app fn argument => containsConst target fn || containsConst target argument
+  | .lam _ type body _ => containsConst target type || containsConst target body
+  | .forallE _ type body _ => containsConst target type || containsConst target body
+  | .letE _ type value body _ =>
+      containsConst target type || containsConst target value ||
+        containsConst target body
+  | .mdata _ expression => containsConst target expression
+  | .proj _ _ expression => containsConst target expression
+  | _ => false
+
+private def isArchitectureStoreBranch (expression : Expr) : Bool :=
+  containsConst ``ptr_size expression
+
+private def storeFacadeBaseName? (expression : Expr) : Option String :=
   match expression.getAppFn.consumeMData with
   | .const name _ =>
-      let isElementStoreProjection :=
+      let baseName :=
         match name with
-        | .str _ base => base == "storeA" || base == "undefstoreA"
-        | _ => false
-      isElementStoreProjection || [``store_char, ``undef_store_char,
+        | .str _ base => base
+        | _ => ""
+      if #["storeA", "undefstoreA",
+       "store_char", "undef_store_char",
+       "store_uchar", "undef_store_uchar",
+       "store_short", "undef_store_short",
+       "store_ushort", "undef_store_ushort",
+       "store_int", "undef_store_int",
+       "store_uint", "undef_store_uint",
+       "store_int64", "undef_store_int64",
+       "store_uint64", "undef_store_uint64",
+       "store_int128", "undef_store_int128",
+       "store_uint128", "undef_store_uint128",
+       "store_float", "undef_store_float",
+       "store_double", "undef_store_double",
+       "store_long_double", "undef_store_long_double",
+       "store_finite_float", "undef_store_finite_float",
+       "store_finite_double", "undef_store_finite_double",
+       "store_finite_long_double", "undef_store_finite_long_double",
+       "store_ptr", "undef_store_ptr"].contains baseName then
+        some baseName
+      else
+        none
+  | _ => none
+
+private def isStoreFacadeAtom (expression : Expr) : Bool :=
+  (storeFacadeBaseName? expression).isSome
+
+private def isDynamicStoreWrapper (expression : Expr) : Bool :=
+  match expression.getAppFn.consumeMData with
+  | .const name _ =>
+      [``store_char, ``undef_store_char,
        ``store_uchar, ``undef_store_uchar,
        ``store_short, ``undef_store_short,
        ``store_ushort, ``undef_store_ushort,
@@ -752,7 +980,65 @@ private def isStoreFacadeAtom (expression : Expr) : Bool :=
        ``store_uint, ``undef_store_uint,
        ``store_int64, ``undef_store_int64,
        ``store_uint64, ``undef_store_uint64,
+       ``store_int128, ``undef_store_int128,
+       ``store_uint128, ``undef_store_uint128,
+       ``store_float, ``undef_store_float,
+       ``store_double, ``undef_store_double,
+       ``store_long_double, ``undef_store_long_double,
+       ``store_finite_float, ``undef_store_finite_float,
+       ``store_finite_double, ``undef_store_finite_double,
+       ``store_finite_long_double, ``undef_store_finite_long_double,
        ``store_ptr, ``undef_store_ptr].contains name
+  | _ => false
+
+private partial def unfoldToDynamicStoreWrapper? (expression : Expr)
+    (visited : List Name := []) : MetaM (Option Expr) := do
+  let expression := expression.headBeta
+  if isDynamicStoreWrapper expression then
+    return some expression
+  match expression.getAppFn.consumeMData with
+  | .const name _ =>
+      if visited.contains name || !isStoreFacadeAtom expression ||
+          (← Lean.isIrreducible name) then
+        return none
+      let some unfolded ← unfoldDefinition? expression | return none
+      if unfolded == expression then
+        return none
+      unfoldToDynamicStoreWrapper? unfolded (name :: visited)
+  | .proj .. =>
+      let some reducedFn ←
+          withTransparency .all <| reduceProj? expression.getAppFn.consumeMData
+        | return none
+      unfoldToDynamicStoreWrapper?
+        ((mkAppN reducedFn expression.getAppArgs).headBeta) visited
+  | _ => return none
+
+private def isDefEqStoreWrapperAtom (lhs rhs : Expr) : MetaM (Option Bool) := do
+  let some lhs ← unfoldToDynamicStoreWrapper? lhs | return none
+  let some rhs ← unfoldToDynamicStoreWrapper? rhs | return none
+  if lhs.getAppFn.consumeMData != rhs.getAppFn.consumeMData then
+    return some false
+  let lhsArgs := lhs.getAppArgs.toList
+  let rhsArgs := rhs.getAppArgs.toList
+  if lhsArgs.length != rhsArgs.length then
+    return some false
+  let saved ← saveState
+  for (lhsArg, rhsArg) in lhsArgs.zip rhsArgs do
+    unless ← withTransparency .reducible <| isDefEq lhsArg rhsArg do
+      restoreState saved
+      return some false
+  return some true
+
+private def isLowLevelStoreAtom (expression : Expr) : Bool :=
+  match expression.getAppFn.consumeMData with
+  | .const name _ =>
+      [``store_2byte, ``store_4byte, ``store_8byte, ``store_16byte,
+       ``store_2byte_noninit, ``store_4byte_noninit,
+       ``store_8byte_noninit, ``store_16byte_noninit,
+       ``DerivedPredSigCompat.store_2byte,
+       ``DerivedPredSigCompat.store_4byte,
+       ``DerivedPredSigCompat.store_8byte,
+       ``DerivedPredSigCompat.store_16byte].contains name
   | _ => false
 
 private def isDefEqAtom (lhs rhs : Expr) : MetaM Bool := do
@@ -768,7 +1054,38 @@ private def isDefEqAtom (lhs rhs : Expr) : MetaM Bool := do
   restoreState saved
   if <- isDefEqFiniteStoreAtom lhs rhs then
     return true
-  if isStoreFacadeAtom lhs || isStoreFacadeAtom rhs then
+  match ← isDefEqStoreWrapperAtom lhs rhs with
+  | some true => return true
+  | some false | none => pure ()
+  match storeFacadeBaseName? lhs, storeFacadeBaseName? rhs with
+  | some lhsName, some rhsName =>
+      if lhsName != rhsName then
+        return false
+      let saved <- saveState
+      if <- withTransparency .all <| isDefEq lhs rhs then
+        return true
+      restoreState saved
+  | some _, none =>
+      unless isLowLevelStoreAtom rhs || isArchitectureStoreBranch rhs do
+        return false
+      let saved <- saveState
+      if <- withTransparency .all <| isDefEq lhs rhs then
+        return true
+      restoreState saved
+  | none, some _ =>
+      unless isLowLevelStoreAtom lhs || isArchitectureStoreBranch lhs do
+        return false
+      let saved <- saveState
+      if <- withTransparency .all <| isDefEq lhs rhs then
+        return true
+      restoreState saved
+  | none, none => pure ()
+  if isArchitectureStoreBranch lhs || isArchitectureStoreBranch rhs then
+    let saved <- saveState
+    if <- withTransparency .all <| isDefEq lhs rhs then
+      return true
+    restoreState saved
+  if isLowLevelStoreAtom lhs != isLowLevelStoreAtom rhs then
     let saved <- saveState
     if <- withTransparency .all <| isDefEq lhs rhs then
       return true
@@ -804,10 +1121,12 @@ private def defEqOperatorNoCommit (lhs rhs : Expr) : MetaM Bool := do
     return true
   if operatorBaseName? lhs != operatorBaseName? rhs then
     return false
-  let saved <- saveState
-  let result <- withTransparency .instances <| isDefEq lhs rhs
+  if ← defEqNoCommit lhs rhs then
+    return true
+  let saved ← saveState
+  let result ← withTransparency .all <| isDefEq lhs rhs
   restoreState saved
-  pure result
+  return result
 
 private def isDefEqProofType (lhs rhs : Expr) : MetaM Bool :=
   withTransparency .instances <| isDefEq lhs rhs
@@ -875,31 +1194,80 @@ private def isCanonicalStoreWrapper (expression : Expr) : Bool :=
        ``store_uint, ``undef_store_uint,
        ``store_int64, ``undef_store_int64,
        ``store_uint64, ``undef_store_uint64,
-       ``store_ptr, ``undef_store_ptr].contains name
+       ``store_int128, ``undef_store_int128,
+       ``store_uint128, ``undef_store_uint128,
+       ``store_float, ``undef_store_float,
+       ``store_double, ``undef_store_double,
+       ``store_long_double, ``undef_store_long_double,
+       ``store_finite_float, ``undef_store_finite_float,
+       ``store_finite_double, ``undef_store_finite_double,
+       ``store_finite_long_double, ``undef_store_finite_long_double,
+       ``store_ptr, ``undef_store_ptr,
+       ``DerivedPredSigCompat.store_char, ``DerivedPredSigCompat.undef_store_char,
+       ``DerivedPredSigCompat.store_uchar, ``DerivedPredSigCompat.undef_store_uchar,
+       ``DerivedPredSigCompat.store_short, ``DerivedPredSigCompat.undef_store_short,
+       ``DerivedPredSigCompat.store_ushort, ``DerivedPredSigCompat.undef_store_ushort,
+       ``DerivedPredSigCompat.store_int, ``DerivedPredSigCompat.undef_store_int,
+       ``DerivedPredSigCompat.store_uint, ``DerivedPredSigCompat.undef_store_uint,
+       ``DerivedPredSigCompat.store_int64, ``DerivedPredSigCompat.undef_store_int64,
+       ``DerivedPredSigCompat.store_uint64, ``DerivedPredSigCompat.undef_store_uint64,
+       ``DerivedPredSigCompat.store_int128, ``DerivedPredSigCompat.undef_store_int128,
+       ``DerivedPredSigCompat.store_uint128, ``DerivedPredSigCompat.undef_store_uint128,
+       ``DerivedPredSigCompat.store_float, ``DerivedPredSigCompat.undef_store_float,
+       ``DerivedPredSigCompat.store_double, ``DerivedPredSigCompat.undef_store_double,
+       ``DerivedPredSigCompat.store_long_double,
+       ``DerivedPredSigCompat.undef_store_long_double,
+       ``DerivedPredSigCompat.store_finite_float,
+       ``DerivedPredSigCompat.undef_store_finite_float,
+       ``DerivedPredSigCompat.store_finite_double,
+       ``DerivedPredSigCompat.undef_store_finite_double,
+       ``DerivedPredSigCompat.store_finite_long_double,
+       ``DerivedPredSigCompat.undef_store_finite_long_double,
+       ``DerivedPredSigCompat.store_ptr, ``DerivedPredSigCompat.undef_store_ptr].contains name
   | _ => false
 
-private def isLowLevelStoreAtom (expression : Expr) : Bool :=
-  match expression.getAppFn.consumeMData with
-  | .const name _ =>
-      [``store_2byte, ``store_4byte, ``store_8byte,
-       ``store_2byte_noninit, ``store_4byte_noninit,
-       ``store_8byte_noninit].contains name
-  | _ => false
-
-private partial def unfoldToCanonicalStoreWrapper? (expression : Expr)
-    (visited : List Name := []) : MetaM (Option Expr) := do
-  if isCanonicalStoreWrapper expression then
-    return some expression
+private partial def unfoldStoreForInspection? (ops : Ops) (expression : Expr)
+    (seenStoreWrapper : Bool := false) (visited : List Name := []) :
+    MetaM (Option Expr) := do
+  if let some wrapper ← unfoldToDynamicStoreWrapper? expression then
+    let unfolded ← withTransparency .all <| whnf wrapper
+    if unfolded != expression then
+      if (← matchBinary ops.andp unfolded).isSome then
+        return some unfolded
+      if let some inspected ← unfoldStoreForInspection? ops unfolded true visited then
+        return some inspected
+  let seenStoreWrapper := seenStoreWrapper || isStoreFacadeAtom expression ||
+    isCanonicalStoreWrapper expression
+  if (← matchBinary ops.andp expression).isSome then
+    return if seenStoreWrapper then some expression else none
+  if !seenStoreWrapper && (finiteStoreAtomName? expression).isSome then
+    return none
+  let unfoldOpaqueFacade : MetaM (Option Expr) := do
+    unless isStoreFacadeAtom expression do
+      return none
+    let unfolded ← withTransparency .all <| whnf expression
+    if unfolded == expression then
+      return none
+    unfoldStoreForInspection? ops unfolded true visited
   let name <-
     match expression.getAppFn.consumeMData with
     | .const name _ => pure name
-    | _ => return none
+    | .proj .. =>
+        let some reducedFn ←
+            withTransparency .all <| reduceProj? expression.getAppFn.consumeMData
+          | return ← unfoldOpaqueFacade
+        let unfolded := (mkAppN reducedFn expression.getAppArgs).headBeta
+        if unfolded != expression then
+          return ← unfoldStoreForInspection? ops unfolded seenStoreWrapper visited
+        return ← unfoldOpaqueFacade
+    | _ => return ← unfoldOpaqueFacade
   if visited.contains name || (← Lean.isIrreducible name) then
-    return none
-  let some unfolded ← unfoldDefinition? expression | return none
+    return ← unfoldOpaqueFacade
+  let some unfolded ← unfoldDefinition? expression
+    | return ← unfoldOpaqueFacade
   if unfolded == expression then
     return none
-  unfoldToCanonicalStoreWrapper? unfolded (name :: visited)
+  unfoldStoreForInspection? ops unfolded seenStoreWrapper (name :: visited)
 
 private def foldAtoms (ops : Ops) : List Expr -> Expr
   | [] => ops.emp
@@ -949,14 +1317,30 @@ private def derivableAndpMono (ops : Ops) (p p' q q' hp hq : Expr) : MetaM Expr 
 private structure KnownPureNormalized where
   expression : Expr
   proof : Expr
+  sideGoals : List MVarId := []
+
+private structure StoreGuardsEliminated where
+  expression : Expr
+  proof : Expr
 
 private def findLocalProof? (proposition : Expr) : MetaM (Option Expr) := do
   for localDecl in ← getLCtx do
     let saved ← saveState
-    if ← withTransparency .instances <| isDefEq localDecl.type proposition then
+    if ← withTransparency .all <| isDefEq localDecl.type proposition then
       return some (mkFVar localDecl.fvarId)
     restoreState saved
   return none
+
+private def dischargeLocalPureSideGoals (sideGoals : List MVarId) :
+    MetaM (List MVarId) := do
+  let mut pending := []
+  for sideGoal in sideGoals do
+    unless ← sideGoal.isAssigned do
+      let proposition ← instantiateMVars (← sideGoal.getType)
+      match ← findLocalProof? proposition with
+      | some proof => sideGoal.assign proof
+      | none => pending := pending.concat sideGoal
+  return pending
 
 private partial def stripKnownPureStoreGuards (ops : Ops) (expression : Expr) :
     MetaM KnownPureNormalized := do
@@ -968,23 +1352,272 @@ private partial def stripKnownPureStoreGuards (ops : Ops) (expression : Expr) :
     let normalized := mkApp2 ops.sepcon leftNorm.expression rightNorm.expression
     let proof ← derivableSepconMono ops leftNorm.expression left
       rightNorm.expression right leftNorm.proof rightNorm.proof
-    return { expression := normalized, proof }
+    return {
+      expression := normalized
+      proof
+      sideGoals := leftNorm.sideGoals ++ rightNorm.sideGoals
+    }
   let inspected ←
-    match ← unfoldToCanonicalStoreWrapper? expression with
-    | some wrapper =>
-        match ← unfoldDefinition? wrapper with
-        | some unfolded => pure unfolded
-        | none => pure expression
+    match ← unfoldStoreForInspection? ops expression with
+    | some unfolded => pure unfolded
     | none => pure expression
   if let some (pureAssertion, spatial) ← matchBinary ops.andp inspected then
     if let some proposition ← matchUnary ops.coqProp pureAssertion then
-      if let some localProof ← findLocalProof? proposition then
-        let spatialNorm ← stripKnownPureStoreGuards ops spatial
-        let proof ← mkAppM ``coq_prop_andp_right
-          #[ops.rules, proposition, spatial, spatialNorm.expression,
-            spatialNorm.proof, localProof]
+      let spatialNorm ← stripKnownPureStoreGuards ops spatial
+      let (pureProof, pureSideGoals) ←
+        if proposition.hasMVar then
+          let pureGoal ← mkFreshExprSyntheticOpaqueMVar proposition
+          pure (pureGoal, [pureGoal.mvarId!])
+        else match ← findLocalProof? proposition with
+        | some localProof => pure (localProof, [])
+        | none => do
+            let pureGoal ← mkFreshExprSyntheticOpaqueMVar proposition
+            pure (pureGoal, [pureGoal.mvarId!])
+      let proof ← mkAppM ``coq_prop_andp_right
+        #[ops.rules, proposition, spatial, spatialNorm.expression,
+          spatialNorm.proof, pureProof]
+      return {
+        expression := spatialNorm.expression
+        proof
+        sideGoals := spatialNorm.sideGoals ++ pureSideGoals
+      }
+    else
+      logInfo m!"store guard was not recognized as coq_prop: {pureAssertion}"
+  return { expression, proof := ← derivableRefl ops expression }
+
+private def storeWrapperSpatial? (ops : Ops) (expression : Expr) :
+    MetaM (Option Expr) := do
+  let some inspected ← unfoldStoreForInspection? ops expression | return none
+  let some (_, spatial) ← matchBinary ops.andp inspected | return none
+  return some spatial
+
+private def matchesAnyAtomNoCommit (_ops : Ops) (expression : Expr)
+    (candidates : List Expr) : MetaM Bool := do
+  if isStoreFacadeAtom expression || isCanonicalStoreWrapper expression then
+    for candidate in candidates do
+      unless isStoreFacadeAtom candidate || isCanonicalStoreWrapper candidate do
+        continue
+      match ← isDefEqStoreWrapperAtom expression candidate with
+      | some true => return true
+      | some false | none =>
+          if ← defEqNoCommit expression candidate then
+            return true
+    return false
+  for candidate in candidates do
+    let equivalent ← defEqNoCommit expression candidate
+    if equivalent then
+      return true
+  return false
+
+private partial def stripUnmatchedPureStoreGuards (ops : Ops)
+    (goalAtoms : List Expr) (expression : Expr) : MetaM KnownPureNormalized := do
+  let expression ← instantiateMVars expression
+  let expression := expression.headBeta
+  if let some (left, right) ← matchBinary ops.sepcon expression then
+    let leftNorm ← stripUnmatchedPureStoreGuards ops goalAtoms left
+    let rightNorm ← stripUnmatchedPureStoreGuards ops goalAtoms right
+    let normalized := mkApp2 ops.sepcon leftNorm.expression rightNorm.expression
+    let proof ← derivableSepconMono ops leftNorm.expression left
+      rightNorm.expression right leftNorm.proof rightNorm.proof
+    return {
+      expression := normalized
+      proof
+      sideGoals := leftNorm.sideGoals ++ rightNorm.sideGoals
+    }
+  if ← matchesAnyAtomNoCommit ops expression goalAtoms then
+    return { expression, proof := ← derivableRefl ops expression }
+  let inspected ←
+    match ← unfoldStoreForInspection? ops expression with
+    | some unfolded => pure unfolded
+    | none => pure expression
+  if let some (pureAssertion, spatial) ← matchBinary ops.andp inspected then
+    if let some proposition ← matchUnary ops.coqProp pureAssertion then
+      let spatialNorm ← stripUnmatchedPureStoreGuards ops goalAtoms spatial
+      let (pureProof, pureSideGoals) ←
+        if proposition.hasMVar then
+          let pureGoal ← mkFreshExprSyntheticOpaqueMVar proposition
+          pure (pureGoal, [pureGoal.mvarId!])
+        else match ← findLocalProof? proposition with
+        | some localProof => pure (localProof, [])
+        | none => do
+            let pureGoal ← mkFreshExprSyntheticOpaqueMVar proposition
+            pure (pureGoal, [pureGoal.mvarId!])
+      let proof ← mkAppM ``coq_prop_andp_right
+        #[ops.rules, proposition, spatial, spatialNorm.expression,
+          spatialNorm.proof, pureProof]
+      return {
+        expression := spatialNorm.expression
+        proof
+        sideGoals := spatialNorm.sideGoals ++ pureSideGoals
+      }
+  return { expression, proof := ← derivableRefl ops expression }
+
+private partial def eliminateStoreGuards (ops : Ops) (expression : Expr) :
+    MetaM StoreGuardsEliminated := do
+  let expression ← instantiateMVars expression
+  let expression := expression.headBeta
+  if let some (left, right) ← matchBinary ops.sepcon expression then
+    let leftNorm ← eliminateStoreGuards ops left
+    let rightNorm ← eliminateStoreGuards ops right
+    let normalized := mkApp2 ops.sepcon leftNorm.expression rightNorm.expression
+    let proof ← derivableSepconMono ops left leftNorm.expression
+      right rightNorm.expression leftNorm.proof rightNorm.proof
+    return { expression := normalized, proof }
+  let inspected ←
+    match ← unfoldStoreForInspection? ops expression with
+    | some unfolded => pure unfolded
+    | none => pure expression
+  if let some (pureAssertion, spatial) ← matchBinary ops.andp inspected then
+    if let some proposition ← matchUnary ops.coqProp pureAssertion then
+      let spatialNorm ← eliminateStoreGuards ops spatial
+      let implication ← withLocalDeclD `_ proposition fun premise =>
+        mkLambdaFVars #[premise] spatialNorm.proof
+      let proof ← mkAppM ``coq_prop_andp_left
+        #[ops.rules, proposition, spatial, spatialNorm.expression, implication]
+      return { expression := spatialNorm.expression, proof }
+  return { expression, proof := ← derivableRefl ops expression }
+
+private partial def eliminateSelectedStoreGuards (ops : Ops)
+    (storeAtoms : List Expr) (expression : Expr) : MetaM StoreGuardsEliminated := do
+  let expression ← instantiateMVars expression
+  let expression := expression.headBeta
+  if let some (left, right) ← matchBinary ops.sepcon expression then
+    let leftNorm ← eliminateSelectedStoreGuards ops storeAtoms left
+    let rightNorm ← eliminateSelectedStoreGuards ops storeAtoms right
+    let normalized := mkApp2 ops.sepcon leftNorm.expression rightNorm.expression
+    let proof ← derivableSepconMono ops left leftNorm.expression
+      right rightNorm.expression leftNorm.proof rightNorm.proof
+    return { expression := normalized, proof }
+  let inspected ←
+    match ← unfoldStoreForInspection? ops expression with
+    | some unfolded => pure unfolded
+    | none => pure expression
+  if let some (pureAssertion, spatial) ← matchBinary ops.andp inspected then
+    if let some proposition ← matchUnary ops.coqProp pureAssertion then
+      if ← matchesAnyAtomNoCommit ops spatial storeAtoms then
+        let spatialNorm ← eliminateSelectedStoreGuards ops storeAtoms spatial
+        let implication ← withLocalDeclD `_ proposition fun premise =>
+          mkLambdaFVars #[premise] spatialNorm.proof
+        let proof ← mkAppM ``coq_prop_andp_left
+          #[ops.rules, proposition, spatial, spatialNorm.expression, implication]
         return { expression := spatialNorm.expression, proof }
   return { expression, proof := ← derivableRefl ops expression }
+
+private def hasConflictingStoreWrappers (ops : Ops) (lemmaAtoms goalAtoms : List Expr) :
+    MetaM Bool := do
+  for lemmaAtom in lemmaAtoms do
+    let some lemmaName := storeFacadeBaseName? lemmaAtom | continue
+    let some lemmaSpatial ← storeWrapperSpatial? ops lemmaAtom | continue
+    for goalAtom in goalAtoms do
+      let some goalName := storeFacadeBaseName? goalAtom | continue
+      if lemmaName == goalName then
+        continue
+      let some goalSpatial ← storeWrapperSpatial? ops goalAtom | continue
+      if ← defEqNoCommit lemmaSpatial goalSpatial then
+        return true
+  return false
+
+private partial def normalizeStoreGuardsForMatch (ops : Ops) (expression : Expr) :
+    MetaM (Expr × Expr) := do
+  let expression ← instantiateMVars expression
+  let expression := expression.headBeta
+  if let some unfolded ← unfoldStoreForInspection? ops expression then
+    if unfolded != expression then
+      let (normalized, normalizedProof) ←
+        normalizeStoreGuardsForMatch ops unfolded
+      let unfoldProof ← equivRefl ops expression
+      return (normalized, ← equivTrans ops expression unfolded normalized
+        unfoldProof normalizedProof)
+  if let some (left, right) ← matchBinary ops.andp expression then
+    let (newLeft, leftProof) ← normalizeStoreGuardsForMatch ops left
+    let (newRight, rightProof) ← normalizeStoreGuardsForMatch ops right
+    let combined := mkApp2 ops.andp newLeft newRight
+    let proof ← equivAndpMono ops left newLeft right newRight leftProof rightProof
+    return (combined, proof)
+  if let some (left, right) ← matchBinary ops.sepcon expression then
+    let (newLeft, leftProof) ← normalizeStoreGuardsForMatch ops left
+    let (newRight, rightProof) ← normalizeStoreGuardsForMatch ops right
+    let combined := mkApp2 ops.sepcon newLeft newRight
+    let congruence ←
+      equivSepconMono ops left newLeft right newRight leftProof rightProof
+    if let some (pureAssertion, spatial) ← matchBinary ops.andp newLeft then
+      if let some proposition ← matchUnary ops.coqProp pureAssertion then
+        let lifted := mkApp2 ops.andp pureAssertion
+          (mkApp2 ops.sepcon spatial newRight)
+        let liftProof ← mkAppM
+          ``Automation.logic_equiv_coq_prop_andp_sepcon_rule
+          #[ops.rules, proposition, spatial, newRight]
+        let combinedProof ← equivTrans ops expression combined lifted
+          congruence liftProof
+        let (normalized, normalizedProof) ←
+          normalizeStoreGuardsForMatch ops lifted
+        return (normalized, ← equivTrans ops expression lifted normalized
+          combinedProof normalizedProof)
+    if let some (pureAssertion, spatial) ← matchBinary ops.andp newRight then
+      if let some proposition ← matchUnary ops.coqProp pureAssertion then
+        let regrouped := mkApp2 ops.sepcon
+          (mkApp2 ops.andp pureAssertion newLeft) spatial
+        let lifted := mkApp2 ops.andp pureAssertion
+          (mkApp2 ops.sepcon newLeft spatial)
+        let movePure ← mkAppM
+          ``Automation.logic_equiv_sepcon_coq_prop_andp_rule
+          #[ops.rules, newLeft, proposition, spatial]
+        let liftPure ← mkAppM
+          ``Automation.logic_equiv_coq_prop_andp_sepcon_rule
+          #[ops.rules, proposition, newLeft, spatial]
+        let moved ← equivTrans ops combined regrouped lifted movePure liftPure
+        let combinedProof ← equivTrans ops expression combined lifted
+          congruence moved
+        let (normalized, normalizedProof) ←
+          normalizeStoreGuardsForMatch ops lifted
+        return (normalized, ← equivTrans ops expression lifted normalized
+          combinedProof normalizedProof)
+    return (combined, congruence)
+  return (expression, ← equivRefl ops expression)
+
+private partial def leadingPureGuards (ops : Ops) (expression : Expr) :
+    MetaM (List Expr × Expr) := do
+  if let some (pureAssertion, rest) ← matchBinary ops.andp expression then
+    if (← matchUnary ops.coqProp pureAssertion).isSome then
+      let (guards, spatial) ← leadingPureGuards ops rest
+      return (pureAssertion :: guards, spatial)
+  return ([], expression)
+
+private def wrapPureGuards (ops : Ops) (guards : List Expr) (spatial : Expr) : Expr :=
+  guards.foldr (fun guard rest => mkApp2 ops.andp guard rest) spatial
+
+private partial def liftEquivThroughPureGuards (ops : Ops) (guards : List Expr)
+    (source target proof : Expr) : MetaM Expr := do
+  match guards with
+  | [] => return proof
+  | guard :: guards =>
+      let liftedTail ← liftEquivThroughPureGuards ops guards source target proof
+      equivAndpMono ops guard guard (wrapPureGuards ops guards source)
+        (wrapPureGuards ops guards target) (← equivRefl ops guard) liftedTail
+
+private partial def factorPureGuardsAcrossSepcon (ops : Ops) (guards : List Expr)
+    (left right : Expr) : MetaM Expr := do
+  match guards with
+  | [] => return (← equivRefl ops (mkApp2 ops.sepcon left right))
+  | guard :: guards =>
+      let tailProof ← factorPureGuardsAcrossSepcon ops guards left right
+      let sourceTail := wrapPureGuards ops guards (mkApp2 ops.sepcon left right)
+      let factoredTail := mkApp2 ops.sepcon (wrapPureGuards ops guards left) right
+      let congruence ← equivAndpMono ops guard guard sourceTail factoredTail
+        (← equivRefl ops guard) tailProof
+      let some proposition ← matchUnary ops.coqProp guard
+        | throwError "internal error: non-pure assertion in store guard list"
+      let forward ← mkAppM
+        ``Automation.logic_equiv_coq_prop_andp_sepcon_rule
+        #[ops.rules, proposition, wrapPureGuards ops guards left, right]
+      let backward ← equivSymm ops
+        (mkApp2 ops.sepcon (mkApp2 ops.andp guard
+          (wrapPureGuards ops guards left)) right)
+        (mkApp2 ops.andp guard factoredTail) forward
+      equivTrans ops (mkApp2 ops.andp guard sourceTail)
+        (mkApp2 ops.andp guard factoredTail)
+        (mkApp2 ops.sepcon (wrapPureGuards ops (guard :: guards) left) right)
+        congruence backward
 
 private partial def appendProof (ops : Ops) (left right : List Expr) : MetaM Expr := do
   match left with
@@ -1043,6 +1676,26 @@ private partial def normalizeExpression (ops : Ops) (expression : Expr) : MetaM 
     let proof <- equivTrans ops expression unfolded normalized.expression
       unfoldedRefl normalized.proof
     pure { normalized with proof }
+  else
+    pure { atoms := [expression], expression, proof := <- equivRefl ops expression }
+
+-- Coq's sep_lift_L treats named assertions as atoms and only reassociates
+-- sepcon nodes already exposed in the goal.  Keep that behavior as the fast
+-- path; definition unfolding belongs to the compatibility fallback below.
+private partial def normalizeExposedSepcon (ops : Ops) (expression : Expr) :
+    MetaM Normalized := do
+  let expression <- instantiateMVars expression
+  let expression := expression.headBeta
+  if let some (left, right) <- matchBinary ops.sepcon expression then
+    let leftNorm <- normalizeExposedSepcon ops left
+    let rightNorm <- normalizeExposedSepcon ops right
+    let combined := mkApp2 ops.sepcon leftNorm.expression rightNorm.expression
+    let congr <- equivSepconMono ops left leftNorm.expression right rightNorm.expression
+      leftNorm.proof rightNorm.proof
+    let appended <- appendProof ops leftNorm.atoms rightNorm.atoms
+    let atoms := leftNorm.atoms ++ rightNorm.atoms
+    let proof <- equivTrans ops expression combined (foldAtoms ops atoms) congr appended
+    pure { atoms, expression := foldAtoms ops atoms, proof }
   else
     pure { atoms := [expression], expression, proof := <- equivRefl ops expression }
 
@@ -1106,6 +1759,43 @@ private def normalizedTo (ops : Ops) (source : Expr) (norm : Normalized)
   let reordered <- reorderProof ops norm.atoms desired
   equivTrans ops source norm.expression (foldAtoms ops desired)
     norm.proof reordered
+
+-- Move only the requested assertions to the front, in request order.  The
+-- untouched suffix remains the frame, matching CommonAssertion.v's
+-- sep_lift_L/prop_apply_L algorithm instead of canonicalizing the whole list.
+private partial def liftPrefixProof (ops : Ops) (current requested : List Expr) :
+    MetaM (Expr × List Expr) := do
+  match requested with
+  | [] => pure (<- equivRefl ops (foldAtoms ops current), current)
+  | target :: requestedTail =>
+      let some index <- findDefEqIndex target current
+        | throwError "internal error: requested assertion is absent from sepcon frame"
+      let (frontProof, moved) <- moveFront ops current index
+      match moved with
+      | [] => throwError "internal error: empty lifted sepcon frame"
+      | front :: currentTail =>
+          if requestedTail.isEmpty then
+            pure (frontProof, moved)
+          else
+            if currentTail.isEmpty then
+              throwError "internal error: sepcon frame is shorter than the requested prefix"
+            let (tailProof, liftedTail) <-
+              liftPrefixProof ops currentTail requestedTail
+            let frontRefl <- equivRefl ops front
+            let lifted <- equivSepconMono ops front target
+              (foldAtoms ops currentTail) (foldAtoms ops liftedTail)
+              frontRefl tailProof
+            let destination := front :: liftedTail
+            let proof <- equivTrans ops (foldAtoms ops current) (foldAtoms ops moved)
+              (foldAtoms ops destination) frontProof lifted
+            pure (proof, destination)
+
+private def normalizedLiftPrefix (ops : Ops) (source : Expr) (norm : Normalized)
+    (requested : List Expr) : MetaM (Expr × List Expr) := do
+  let (lifted, atoms) <- liftPrefixProof ops norm.atoms requested
+  let proof <- equivTrans ops source norm.expression (foldAtoms ops atoms)
+    norm.proof lifted
+  pure (proof, atoms)
 
 private partial def takeDefEq (needle : Expr) : List Expr -> MetaM (Option (Expr × List Expr))
   | [] => pure none
@@ -1442,6 +2132,15 @@ private partial def takeUnifying (needle : Expr) : List Expr ->
         | none => pure none
         | some (found, rest) => pure (some (found, head :: rest))
 
+private partial def preUnifyStoreAtoms (needles available : List Expr)
+    (matchedAny : Bool := false) : MetaM Bool := do
+  match needles with
+  | [] => return matchedAny
+  | needle :: needles =>
+      match ← takeUnifying needle available with
+      | some (_, rest) => preUnifyStoreAtoms needles rest true
+      | none => preUnifyStoreAtoms needles available matchedAny
+
 private partial def selectUnifyingAtoms (needles available : List Expr) :
     MetaM (Option (List Expr × List Expr)) := do
   match needles with
@@ -1462,6 +2161,93 @@ private partial def selectUnifyingAtoms (needles available : List Expr) :
             tryCandidates (candidate :: seen) candidates
       tryCandidates [] available
 
+private structure GuardedStoreMatch where
+  preparedLeft : Expr
+  preparedProof : Expr
+  lemmaNorm : Normalized
+  matched : List Expr
+  rest : List Expr
+  goalNorm : Normalized
+
+private def prepareGuardedStoreMatch (ops : Ops) (lemmaLeft lemmaRight lemmaProof
+    goalLeft : Expr) : MetaM (Option GuardedStoreMatch) := do
+  let (lemmaStore, lemmaStoreProof) ← normalizeStoreGuardsForMatch ops lemmaLeft
+  let (lemmaGuards, lemmaSpatial) ← leadingPureGuards ops lemmaStore
+  if lemmaGuards.isEmpty then
+    return none
+  let (goalStore, goalStoreProof) ← normalizeStoreGuardsForMatch ops goalLeft
+  let (goalGuards, goalSpatial) ← leadingPureGuards ops goalStore
+  unless lemmaGuards.length == goalGuards.length do
+    return none
+  for (lemmaGuard, goalGuard) in lemmaGuards.zip goalGuards do
+    let saved ← saveState
+    let guardsMatch ← withTransparency .all <| isDefEq lemmaGuard goalGuard
+    restoreState saved
+    unless guardsMatch do
+      return none
+  let lemmaSpatialNorm ← normalizeExpression ops lemmaSpatial
+  let goalSpatialNorm ← normalizeExpression ops goalSpatial
+  let some (matched, rest) ←
+      selectUnifyingAtoms lemmaSpatialNorm.atoms goalSpatialNorm.atoms
+    | return none
+  let desired := matched ++ rest
+  let goalSpatialToFlat ← normalizedTo ops goalSpatial goalSpatialNorm desired
+  let matchedExpr := foldAtoms ops matched
+  let targetSpatial :=
+    if rest.isEmpty then matchedExpr
+    else mkApp2 ops.sepcon matchedExpr (foldAtoms ops rest)
+  let goalSpatialToTarget ←
+    if rest.isEmpty then
+      pure goalSpatialToFlat
+    else do
+      let groupedToFlat ← appendProof ops matched rest
+      let flatToGrouped ← equivSymm ops targetSpatial (foldAtoms ops desired)
+        groupedToFlat
+      equivTrans ops goalSpatial (foldAtoms ops desired) targetSpatial
+        goalSpatialToFlat flatToGrouped
+  let guardedMatched := wrapPureGuards ops goalGuards matchedExpr
+  let matchingExpression := foldAtoms ops (guardedMatched :: rest)
+  let guardedGoalProof ← liftEquivThroughPureGuards ops goalGuards
+    goalSpatial targetSpatial goalSpatialToTarget
+  let goalStoreToMatching ←
+    if rest.isEmpty then
+      pure guardedGoalProof
+    else do
+      let factored ← factorPureGuardsAcrossSepcon ops goalGuards matchedExpr
+        (foldAtoms ops rest)
+      equivTrans ops goalStore (wrapPureGuards ops goalGuards targetSpatial)
+        matchingExpression guardedGoalProof factored
+  let goalProof ← equivTrans ops goalLeft goalStore matchingExpression
+    goalStoreProof goalStoreToMatching
+
+  let guardedLemma := wrapPureGuards ops lemmaGuards lemmaSpatialNorm.expression
+  let liftedLemmaProof ← liftEquivThroughPureGuards ops lemmaGuards lemmaSpatial
+    lemmaSpatialNorm.expression lemmaSpatialNorm.proof
+  let lemmaEquiv ← equivTrans ops lemmaLeft lemmaStore guardedLemma
+    lemmaStoreProof liftedLemmaProof
+  let lemmaBackward ← mkAppM ``Automation.logic_equiv_backward_rule
+    #[ops.rules, lemmaLeft, guardedLemma, lemmaEquiv]
+  let preparedProof ← derivableTrans ops guardedLemma lemmaLeft lemmaRight
+    lemmaBackward lemmaProof
+  let lemmaNorm : Normalized := {
+    atoms := [guardedLemma]
+    expression := guardedLemma
+    proof := ← equivRefl ops guardedLemma
+  }
+  let goalNorm : Normalized := {
+    atoms := guardedMatched :: rest
+    expression := matchingExpression
+    proof := goalProof
+  }
+  return some {
+    preparedLeft := guardedLemma
+    preparedProof
+    lemmaNorm
+    matched := [guardedMatched]
+    rest
+    goalNorm
+  }
+
 private partial def canonicalStoreSpatialAtoms (ops : Ops)
     (expression : Expr) : MetaM (List Expr) := do
   let expression ← instantiateMVars expression
@@ -1470,9 +2256,7 @@ private partial def canonicalStoreSpatialAtoms (ops : Ops)
     let leftAtoms ← canonicalStoreSpatialAtoms ops left
     let rightAtoms ← canonicalStoreSpatialAtoms ops right
     return leftAtoms ++ rightAtoms
-  let some wrapper ← unfoldToCanonicalStoreWrapper? expression
-    | return []
-  let some unfolded ← unfoldDefinition? wrapper | return []
+  let some unfolded ← unfoldStoreForInspection? ops expression | return []
   let some (_, spatial) ← matchBinary ops.andp unfolded | return []
   return [spatial]
 
@@ -1489,23 +2273,113 @@ private def asForwardEntailment (ops : Ops) (proof : Expr) :
 
 private def applyOnLeft (ops : Ops) (goal : MVarId) (lemmaLeft lemmaRight
     lemmaProof goalLeft goalRight : Expr) : TacticM Unit := do
-  let goalNorm ← normalizeExpression ops goalLeft
-  let storeAtoms ← canonicalStoreSpatialAtoms ops lemmaLeft
-  let _ ← selectUnifyingAtoms storeAtoms goalNorm.atoms
-  let preparedLemma ← stripKnownPureStoreGuards ops lemmaLeft
-  let preparedProof ← derivableTrans ops preparedLemma.expression lemmaLeft
-    lemmaRight preparedLemma.proof lemmaProof
-  let lemmaNorm ← normalizeExpression ops preparedLemma.expression
-  let some (matched, rest) ← selectUnifyingAtoms lemmaNorm.atoms goalNorm.atoms
-    | throwError "sep_apply_l_atomic: the lemma's left-hand side is absent from the goal premise"
+  let exposedState <- saveState
+  let exposedGoalNorm <- normalizeExposedSepcon ops goalLeft
+  let exposedLemmaNorm <- normalizeExposedSepcon ops lemmaLeft
+  let exposedMatch <-
+    selectUnifyingAtoms exposedLemmaNorm.atoms exposedGoalNorm.atoms
+  let (preparedLeft, preparedProof, lemmaNorm, matched, rest, pureSideGoals,
+      matchingGoalLeft, matchingGoalNorm, matchingGoalProof) ←
+    match exposedMatch with
+    | some (matched, rest) =>
+        pure (lemmaLeft, lemmaProof, exposedLemmaNorm, matched, rest, [],
+          goalLeft, exposedGoalNorm, <- derivableRefl ops goalLeft)
+    | none => do
+        restoreState exposedState
+        let goalNorm <- normalizeExpression ops goalLeft
+        let directNorm <- normalizeExpression ops lemmaLeft
+        let directState <- saveState
+        let directMatch <- selectUnifyingAtoms directNorm.atoms goalNorm.atoms
+        match directMatch with
+        | some (matched, rest) =>
+            pure (lemmaLeft, lemmaProof, directNorm, matched, rest, [],
+              goalLeft, goalNorm, <- derivableRefl ops goalLeft)
+        | none => do
+          restoreState directState
+          let guardedState ← saveState
+          match ← prepareGuardedStoreMatch ops lemmaLeft lemmaRight lemmaProof goalLeft with
+          | some guarded =>
+              pure (guarded.preparedLeft, guarded.preparedProof,
+                guarded.lemmaNorm, guarded.matched, guarded.rest, [],
+                goalLeft, guarded.goalNorm, ← derivableRefl ops goalLeft)
+          | none => do
+              restoreState guardedState
+              let eliminatedGoal ← eliminateStoreGuards ops goalLeft
+              let eliminatedGoalNorm ← normalizeExpression ops eliminatedGoal.expression
+              let storeAtoms ← canonicalStoreSpatialAtoms ops lemmaLeft
+              unless storeAtoms.isEmpty do
+                let storesPresent ←
+                  if storeAtoms.length > 1 then
+                    let preUnifyState ← saveState
+                    match ← selectUnifyingAtoms storeAtoms eliminatedGoalNorm.atoms with
+                    | some _ => pure true
+                    | none => restoreState preUnifyState; pure false
+                  else
+                    let preUnifyState ← saveState
+                    let storesPresent ← preUnifyStoreAtoms storeAtoms eliminatedGoalNorm.atoms
+                    restoreState preUnifyState
+                    pure storesPresent
+                unless storesPresent do
+                  throwError "sep_apply_l_atomic: the lemma's store atoms are absent from the goal premise"
+              let matchingGoal ←
+                eliminateSelectedStoreGuards ops storeAtoms goalLeft
+              let matchingGoalNorm ← normalizeExpression ops matchingGoal.expression
+              let anchoredNorm ← normalizeExpression ops lemmaLeft
+              let anchoredMatch ← selectUnifyingAtoms anchoredNorm.atoms goalNorm.atoms
+              match anchoredMatch with
+              | some (matched, rest) =>
+                  pure (lemmaLeft, lemmaProof, anchoredNorm, matched, rest, [],
+                    goalLeft, goalNorm, ← derivableRefl ops goalLeft)
+              | none => do
+                  let mixedState ← saveState
+                  let preparedLemma ←
+                    stripUnmatchedPureStoreGuards ops goalNorm.atoms directNorm.expression
+                  let normalizedBackward ← mkAppM ``Automation.logic_equiv_backward_rule
+                    #[ops.rules, lemmaLeft, directNorm.expression, directNorm.proof]
+                  let preparedToOriginal ← derivableTrans ops preparedLemma.expression
+                    directNorm.expression lemmaLeft preparedLemma.proof normalizedBackward
+                  let preparedProof ← derivableTrans ops preparedLemma.expression lemmaLeft
+                    lemmaRight preparedToOriginal lemmaProof
+                  let lemmaNorm ← normalizeExpression ops preparedLemma.expression
+                  let mixedMatch ← selectUnifyingAtoms lemmaNorm.atoms goalNorm.atoms
+                  match mixedMatch with
+                  | some (matched, rest) =>
+                      pure (preparedLemma.expression, preparedProof, lemmaNorm,
+                        matched, rest, preparedLemma.sideGoals,
+                        goalLeft, goalNorm, ← derivableRefl ops goalLeft)
+                  | none => do
+                      restoreState mixedState
+                      if ← hasConflictingStoreWrappers ops directNorm.atoms goalNorm.atoms then
+                        throwError "sep_apply_l_atomic: incompatible typed store wrappers share the same spatial atom"
+                      let preparedLemma ← stripKnownPureStoreGuards ops directNorm.expression
+                      let normalizedBackward ← mkAppM
+                        ``Automation.logic_equiv_backward_rule
+                        #[ops.rules, lemmaLeft, directNorm.expression, directNorm.proof]
+                      let preparedToOriginal ← derivableTrans ops preparedLemma.expression
+                        directNorm.expression lemmaLeft preparedLemma.proof normalizedBackward
+                      let preparedProof ← derivableTrans ops preparedLemma.expression lemmaLeft
+                        lemmaRight preparedToOriginal lemmaProof
+                      let lemmaNorm ← normalizeExpression ops preparedLemma.expression
+                      let some (matched, rest) ←
+                          selectUnifyingAtoms lemmaNorm.atoms matchingGoalNorm.atoms
+                        | throwError "sep_apply_l_atomic: the lemma's left-hand side is absent from the goal premise"
+                      pure (preparedLemma.expression, preparedProof, lemmaNorm,
+                        matched, rest, preparedLemma.sideGoals,
+                        matchingGoal.expression, matchingGoalNorm, matchingGoal.proof)
+  let pureSideGoals ← dischargeLocalPureSideGoals pureSideGoals
   let desired := matched ++ rest
-  let goalEquiv ← normalizedTo ops goalLeft goalNorm desired
+  let (goalEquiv, liftedAtoms) <-
+    normalizedLiftPrefix ops matchingGoalLeft matchingGoalNorm matched
+  unless liftedAtoms.length == desired.length do
+    throwError "internal error: lifted sepcon frame has the wrong length"
   let goalForward ← mkAppM ``Automation.logic_equiv_forward_rule
-    #[ops.rules, goalLeft, foldAtoms ops desired, goalEquiv]
+    #[ops.rules, matchingGoalLeft, foldAtoms ops desired, goalEquiv]
+  let preparedGoalForward ← derivableTrans ops goalLeft matchingGoalLeft
+    (foldAtoms ops desired) matchingGoalProof goalForward
   let lemmaBackward ← mkAppM ``Automation.logic_equiv_backward_rule
-    #[ops.rules, preparedLemma.expression, lemmaNorm.expression, lemmaNorm.proof]
+    #[ops.rules, preparedLeft, lemmaNorm.expression, lemmaNorm.proof]
   let normalizedLemma ← derivableTrans ops lemmaNorm.expression
-    preparedLemma.expression lemmaRight lemmaBackward preparedProof
+    preparedLeft lemmaRight lemmaBackward preparedProof
   let (newLeft, rewriteStep) ← match rest with
     | [] => pure (lemmaRight, normalizedLemma)
     | _ => do
@@ -1523,14 +2397,14 @@ private def applyOnLeft (ops : Ops) (goal : MVarId) (lemmaLeft lemmaRight
         pure (next, ← derivableTrans ops (foldAtoms ops desired) grouped next
           regroup lifted)
   let preProof ← derivableTrans ops goalLeft (foldAtoms ops desired) newLeft
-    goalForward rewriteStep
+    preparedGoalForward rewriteStep
   let residualType := mkApp2 ops.derivable newLeft goalRight
   let residual ← mkFreshExprSyntheticOpaqueMVar residualType (← goal.getTag)
   let proof ← derivableTrans ops goalLeft newLeft goalRight preProof residual
   unless ← isDefEqProofType (← inferType proof) (← goal.getType) do
     throwError "internal error: left spatial application proof does not match the goal"
   goal.assign proof
-  replaceMainGoal [residual.mvarId!]
+  replaceMainGoal (residual.mvarId! :: pureSideGoals)
 
 private partial def buildRightRewrite (ops : Ops) (lemmaLeft lemmaRight
     lemmaProof expression : Expr) : MetaM (Option (Expr × Expr)) := do
@@ -1824,6 +2698,111 @@ partial def rightAssociateSepconLhs : TacticM Unit := withMainContext do
   replaceMainGoal [residual.mvarId!]
   rightAssociateSepconLhs
 
+private partial def normalizeSepconAssociativity (ops : Ops)
+    (expression : Expr) : MetaM (Expr × Expr) := do
+  let expression ← instantiateMVars expression
+  let expression := expression.headBeta
+  if let some (left, right) ← matchBinary ops.sepcon expression then
+    let (newLeft, leftProof) ← normalizeSepconAssociativity ops left
+    let (newRight, rightProof) ← normalizeSepconAssociativity ops right
+    let combined := mkApp2 ops.sepcon newLeft newRight
+    let congruence ← equivSepconMono ops left newLeft right newRight
+      leftProof rightProof
+    let normalized ← normalizeExpression ops combined
+    let proof ← equivTrans ops expression combined normalized.expression
+      congruence normalized.proof
+    return (normalized.expression, proof)
+  if let some (left, right) ← matchBinary ops.andp expression then
+    let (newLeft, leftProof) ← normalizeSepconAssociativity ops left
+    let (newRight, rightProof) ← normalizeSepconAssociativity ops right
+    let proof ← equivAndpMono ops left newLeft right newRight
+      leftProof rightProof
+    return (mkApp2 ops.andp newLeft newRight, proof)
+  if let some (left, right) ← matchBinary ops.orp expression then
+    let (newLeft, leftProof) ← normalizeSepconAssociativity ops left
+    let (newRight, rightProof) ← normalizeSepconAssociativity ops right
+    let proof ← mkAppM ``Automation.logic_equiv_orp_mono_rule
+      #[ops.rules, left, newLeft, right, newRight, leftProof, rightProof]
+    return (mkApp2 ops.orp newLeft newRight, proof)
+  if let some (left, right) ← matchBinary ops.wand expression then
+    let (newLeft, leftProof) ← normalizeSepconAssociativity ops left
+    let (newRight, rightProof) ← normalizeSepconAssociativity ops right
+    let proof ← mkAppM ``Automation.logic_equiv_wand_mono_rule
+      #[ops.rules, left, newLeft, right, newRight, leftProof, rightProof]
+    return (mkApp2 ops.wand newLeft newRight, proof)
+  if let some (left, right) ← matchBinary ops.impp expression then
+    let (newLeft, leftProof) ← normalizeSepconAssociativity ops left
+    let (newRight, rightProof) ← normalizeSepconAssociativity ops right
+    let proof ← mkAppM ``Automation.logic_equiv_impp_mono_rule
+      #[ops.rules, left, newLeft, right, newRight, leftProof, rightProof]
+    return (mkApp2 ops.impp newLeft newRight, proof)
+  if let some (left, right) ← matchBinary ops.iffp expression then
+    let (newLeft, leftProof) ← normalizeSepconAssociativity ops left
+    let (newRight, rightProof) ← normalizeSepconAssociativity ops right
+    let proof ← mkAppM ``Automation.logic_equiv_iffp_mono_rule
+      #[ops.rules, left, newLeft, right, newRight, leftProof, rightProof]
+    return (mkApp2 ops.iffp newLeft newRight, proof)
+  if let some (witnessType, predicate) ← matchBinary ops.exp expression then
+    return ← withLocalDecl `_x .default witnessType fun witness => do
+      let (newBody, bodyProof) ←
+        normalizeSepconAssociativity ops (mkApp predicate witness)
+      let newPredicate ← mkLambdaFVars #[witness] newBody
+      let proofFamily ← mkLambdaFVars #[witness] bodyProof
+      let proof ← mkAppOptM ``Automation.logic_equiv_exp_rule
+        #[some ops.rules, some witnessType, some predicate,
+          some newPredicate, some proofFamily]
+      return (mkApp2 ops.exp witnessType newPredicate, proof)
+  if let some (witnessType, predicate) ← matchBinary ops.allp expression then
+    return ← withLocalDecl `_x .default witnessType fun witness => do
+      let (newBody, bodyProof) ←
+        normalizeSepconAssociativity ops (mkApp predicate witness)
+      let newPredicate ← mkLambdaFVars #[witness] newBody
+      let proofFamily ← mkLambdaFVars #[witness] bodyProof
+      let proof ← mkAppOptM ``Automation.logic_equiv_allp_rule
+        #[some ops.rules, some witnessType, some predicate,
+          some newPredicate, some proofFamily]
+      return (mkApp2 ops.allp witnessType newPredicate, proof)
+  return (expression, ← equivRefl ops expression)
+
+def rightAssociateSepconGoal : TacticM Unit := withMainContext do
+  let goal ← getMainGoal
+  let target ← instantiateMVars (← goal.getType)
+  let ops ← getOps
+  if let some (left, right) ← matchBinary ops.derivable target then
+    let (newLeft, leftEquiv) ← normalizeSepconAssociativity ops left
+    let (newRight, rightEquiv) ← normalizeSepconAssociativity ops right
+    if left == newLeft && right == newRight then
+      return
+    let residualType := mkApp2 ops.derivable newLeft newRight
+    let residual ← mkFreshExprSyntheticOpaqueMVar residualType (← goal.getTag)
+    let leftForward ← mkAppM ``Automation.logic_equiv_forward_rule
+      #[ops.rules, left, newLeft, leftEquiv]
+    let rightBackward ← mkAppM ``Automation.logic_equiv_backward_rule
+      #[ops.rules, right, newRight, rightEquiv]
+    let firstProof ← derivableTrans ops left newLeft newRight
+      leftForward residual
+    let proof ← derivableTrans ops left newRight right
+      firstProof rightBackward
+    unless ← isDefEqProofType (← inferType proof) target do
+      throwError "internal error: sepcon association proof does not match the goal"
+    goal.assign proof
+    replaceMainGoal [residual.mvarId!]
+    return
+  if let some (left, right) ← matchBinary ops.logicEquiv target then
+    let (newLeft, leftEquiv) ← normalizeSepconAssociativity ops left
+    let (newRight, rightEquiv) ← normalizeSepconAssociativity ops right
+    if left == newLeft && right == newRight then
+      return
+    let residualType := mkApp2 ops.logicEquiv newLeft newRight
+    let residual ← mkFreshExprSyntheticOpaqueMVar residualType (← goal.getTag)
+    let firstProof ← equivTrans ops left newLeft newRight leftEquiv residual
+    let rightBackward ← equivSymm ops right newRight rightEquiv
+    let proof ← equivTrans ops left newRight right firstProof rightBackward
+    unless ← isDefEqProofType (← inferType proof) target do
+      throwError "internal error: sepcon association proof does not match the goal"
+    goal.assign proof
+    replaceMainGoal [residual.mvarId!]
+
 def splitOnePreprocessedPureGoal : TacticM Bool := withMainContext do
   leftAssociateAndpRhs
   let ops ← getOps
@@ -1865,44 +2844,6 @@ def closeAggressiveTrivial : TacticM Unit := withMainContext do
     throwError "aggressive_pre_process: entailment is neither reflexive nor directly pure"
   evalTactic (← `(tactic| apply dump_spatial_left; assumption))
 
-private def introduceLeadingCoqProp : TacticM Bool := withMainContext do
-  let ops ← getOps
-  let target ← instantiateMVars (← (← getMainGoal).getType)
-  let some (left, _) ← matchBinary ops.derivable target | return false
-  let some (pureAssertion, _) ← matchBinary ops.andp left | return false
-  unless (← matchUnary ops.coqProp pureAssertion).isSome do
-    return false
-  evalTactic (← `(tactic|
-    refine coq_prop_andp_left SacContext.rules _ _ _ ?_; intro))
-  return true
-
-private def dischargeLeadingRightCoqProp : TacticM Bool := withMainContext do
-  let goal ← getMainGoal
-  let ops ← getOps
-  let target ← instantiateMVars (← goal.getType)
-  let some (left, right) ← matchBinary ops.derivable target | return false
-  let some (pureAssertion, rest) ← matchBinary ops.andp right | return false
-  let some proposition ← matchUnary ops.coqProp pureAssertion | return false
-  let localProof? ←
-    match ← findLocalProof? proposition with
-    | some proof => pure (some proof)
-    | none => do
-        let normalized ← whnf proposition
-        if normalized.isConstOf ``True then
-          pure (some (mkConst ``True.intro))
-        else
-          pure none
-  let some localProof := localProof? | return false
-  let residualType := mkApp2 ops.derivable left rest
-  let residual ← mkFreshExprSyntheticOpaqueMVar residualType (← goal.getTag)
-  let proof ← mkAppM ``coq_prop_andp_right
-    #[ops.rules, proposition, rest, left, residual, localProof]
-  unless ← isDefEqProofType (← inferType proof) target do
-    throwError "internal error: right pure discharge proof does not match the goal"
-  goal.assign proof
-  replaceMainGoal [residual.mvarId!]
-  return true
-
 private def dumpPureConclusion : TacticM Bool := withMainContext do
   let ops ← getOps
   let target ← instantiateMVars (← (← getMainGoal).getType)
@@ -1914,15 +2855,15 @@ private def dumpPureConclusion : TacticM Bool := withMainContext do
   evalTactic (← `(tactic| apply dump_spatial_left))
   return true
 
-def runEExists : TacticM Unit := withMainContext do
+private def runEExistsWithWitness (witness : Expr) : TacticM Unit :=
+    withMainContext do
   let goal ← getMainGoal
   let target ← instantiateMVars (← goal.getType)
   let ops ← getOps
   let some (left, right) ← matchBinary ops.derivable target
     | throwError "eExists: goal is not a separation-logic entailment"
-  let some (witnessType, predicate) ← matchBinary ops.exp right
+  let some (_, predicate) ← matchBinary ops.exp right
     | throwError "eExists: right-hand side is not existential"
-  let witness ← mkFreshExprSyntheticOpaqueMVar witnessType (← goal.getTag)
   let body := mkApp predicate witness
   let residualType := mkApp2 ops.derivable left body
   let residual ← mkFreshExprSyntheticOpaqueMVar residualType (← goal.getTag)
@@ -1931,6 +2872,17 @@ def runEExists : TacticM Unit := withMainContext do
     throwError "internal error: eExists proof does not match the goal"
   goal.assign proof
   replaceMainGoal [residual.mvarId!]
+
+def runEExists : TacticM Unit := withMainContext do
+  let goal ← getMainGoal
+  let target ← instantiateMVars (← goal.getType)
+  let ops ← getOps
+  let some (_, right) ← matchBinary ops.derivable target
+    | throwError "eExists: goal is not a separation-logic entailment"
+  let some (witnessType, _) ← matchBinary ops.exp right
+    | throwError "eExists: right-hand side is not existential"
+  let witness ← mkFreshExprSyntheticOpaqueMVar witnessType (← goal.getTag)
+  runEExistsWithWitness witness
 
 private def isKnownAssertionForm (ops : Ops) (expression : Expr) : MetaM Bool := do
   if (matchBinarySyntactic ops.sepcon expression).isSome then return true
@@ -2032,13 +2984,15 @@ def rhsStartsWithExp : TacticM Bool := withMainContext do
   let some (_, right) ← matchBinary ops.derivable target | return false
   return (← matchBinary ops.exp right).isSome
 
-def rhsHasTopLevelAllpFrame : TacticM Bool := withMainContext do
+def closeSyntacticReflexiveEntailment : TacticM Bool := withMainContext do
   let target ← instantiateMVars (← (← getMainGoal).getType)
   let ops ← getOps
-  let some (_, right) ← matchBinary ops.derivable target | return false
-  let some (first, second) ← matchBinary ops.sepcon right | return false
-  return (← matchBinary ops.allp first).isSome ||
-    (← matchBinary ops.allp second).isSome
+  let some (left, right) ← matchBinary ops.derivable target | return false
+  unless left == right do
+    return false
+  evalTactic (← `(tactic|
+    exact SacContext.rules.toContext.derivable1_refl _))
+  return true
 
 end SpatialAutomation
 
@@ -2054,11 +3008,17 @@ syntax "asrt_complex_simpl" : tactic
 syntax "asrt_simpl_pure" : tactic
 syntax "asrt_simpl" : tactic
 syntax "pureIntros" : tactic
+syntax "unfold_arch" : tactic
+syntax "fold_arch" : tactic
+syntax "solve_arch" : tactic
+syntax "simpl_auto_with " "(" tacticSeq ")" : tactic
 syntax "simpl_auto" : tactic
+syntax "simpl_entail_with " "(" tacticSeq ")" : tactic
 syntax "simpl_entail" : tactic
 syntax "andp_cancel" : tactic
 syntax "_andp_cancel_core" : tactic
 syntax "entailer_pure" : tactic
+syntax "entailer_with " "(" tacticSeq ")" : tactic
 syntax "entailer!" : tactic
 syntax "normalize" : tactic
 syntax "Intro_any" : tactic
@@ -2070,6 +3030,8 @@ syntax "Split" : tactic
 syntax "elim_emp" : tactic
 syntax "wand_elim" : tactic
 syntax "pre_process_pure" : tactic
+syntax "LLM_pre_process_tac " "(" tacticSeq ")" : tactic
+syntax "LLM_pre_process " "(" tacticSeq ")" : tactic
 syntax "pre_process" : tactic
 syntax "pre_process_default" : tactic
 syntax "dump_pre_spatial" : tactic
@@ -2086,16 +3048,174 @@ syntax "_unfold_goal_head" : tactic
 syntax "_sac_normalize" : tactic
 syntax "_sac_normalize_stores" : tactic
 syntax "_dump_pure_right" : tactic
-syntax "_safe_simp_all" : tactic
 syntax "_int_nia_compat" : tactic
 syntax "_sac_unfold_transparent" : tactic
 syntax "_andp_split_right" : tactic
 syntax "_andp_use_left" : tactic
 syntax "_andp_use_right" : tactic
+syntax "_split_prop_and" : tactic
+syntax "_empty_resource_cleanup" : tactic
+syntax (name := sac_empty_resource) "sac_empty_resource " ident ident num : attr
 
 namespace SpatialAutomation
 
 open Lean Meta Elab Tactic
+
+inductive EmptyResourceShape where
+  | emptyList
+  | sameLastTwo
+  | zeroLast
+  deriving Inhabited, BEq, Repr
+
+structure EmptyResourceRule where
+  head : Name
+  shape : EmptyResourceShape
+  theoremName : Name
+  explicitArity : Nat
+  deriving Inhabited, BEq, Repr
+
+private def parseEmptyResourceShape (stx : Syntax) :
+    AttrM EmptyResourceShape :=
+  match stx.getId with
+  | `emptyList => pure .emptyList
+  | `sameLastTwo => pure .sameLastTwo
+  | `zeroLast => pure .zeroLast
+  | _ =>
+      throwErrorAt stx
+        "unknown empty-resource shape; expected emptyList, sameLastTwo, or zeroLast"
+
+private def parseEmptyResourceRuleAttr
+    (theoremName : Name) (stx : Syntax) : AttrM EmptyResourceRule := do
+  match stx with
+  | `(attr| sac_empty_resource $head:ident $shape:ident $arity:num) => do
+      let headName ← realizeGlobalConstNoOverloadWithInfo head
+      let shape ← parseEmptyResourceShape shape
+      let some explicitArity := arity.raw.isNatLit?
+        | throwErrorAt arity "expected a natural-number arity"
+      unless explicitArity > 0 do
+        throwErrorAt arity "empty-resource rule arity must be positive"
+      return {
+        head := headName
+        shape
+        theoremName
+        explicitArity
+      }
+  | _ => throwUnsupportedSyntax
+
+initialize emptyResourceRuleAttr : ParametricAttribute EmptyResourceRule ←
+  registerParametricAttribute {
+    name := `sac_empty_resource
+    descr :=
+      "Register a theorem as a conservative empty-resource cleanup rule for entailer!."
+    getParam := parseEmptyResourceRuleAttr
+  }
+
+private def registeredEmptyResourceRules (env : Environment) :
+    Array EmptyResourceRule := Id.run do
+  let state := emptyResourceRuleAttr.ext.toEnvExtension.getState env
+  let mut result := #[]
+  for importedEntries in state.importedEntries do
+    for (_, rule) in importedEntries do
+      result := result.push rule
+  let (decls, rulesByName) := state.state
+  for theoremName in decls.reverse do
+    if let some rule := rulesByName.find? theoremName then
+      result := result.push rule
+  result
+
+private def ofNatValue? (expr : Expr) : Option Nat :=
+  if expr.getAppFn.isConstOf ``OfNat.ofNat then
+    let args := expr.getAppArgs
+    if args.size >= 2 then args[args.size - 2]!.rawNatLit? else none
+  else
+    none
+
+private def matchesEmptyResourceShape
+    (expr : Expr) (name : Name) (shape : EmptyResourceShape) : Bool :=
+  if !expr.getAppFn.isConstOf name then
+    false
+  else
+    let args := expr.getAppArgs
+    if args.isEmpty then
+      false
+    else
+      let last := args[args.size - 1]!
+      match shape with
+      | .emptyList => last.getAppFn.isConstOf ``List.nil
+      | .sameLastTwo =>
+          args.size >= 2 && args[args.size - 2]! == last
+      | .zeroLast => ofNatValue? last == some 0
+
+private def firstSome {α : Type} : List (MetaM (Option α)) -> MetaM (Option α)
+  | [] => pure none
+  | action :: rest => do
+      match ← action with
+      | some value => pure (some value)
+      | none => firstSome rest
+
+private partial def findEmptyResourceMatch?
+    (target : Expr) (name : Name) (shape : EmptyResourceShape) :
+    MetaM (Option Expr) := do
+  let target ←
+    match ← withTransparency .reducible <| unfoldDefinition? target with
+    | some unfolded => pure unfolded
+    | none => pure target
+  if matchesEmptyResourceShape target name shape then
+    pure (some target)
+  else
+    match target with
+    | .app fn arg =>
+        firstSome [findEmptyResourceMatch? fn name shape,
+          findEmptyResourceMatch? arg name shape]
+    | .lam _ type body _ | .forallE _ type body _ =>
+        firstSome [findEmptyResourceMatch? type name shape,
+          findEmptyResourceMatch? body name shape]
+    | .letE _ type value body _ =>
+        firstSome [findEmptyResourceMatch? type name shape,
+          findEmptyResourceMatch? value name shape,
+          findEmptyResourceMatch? body name shape]
+    | .mdata _ body | .proj _ _ body => findEmptyResourceMatch? body name shape
+    | _ => pure none
+
+private def explicitEmptyResourceArgs (expr : Expr) (arity : Nat) :
+    MetaM (Array Expr) := do
+  let args := expr.getAppArgs
+  if args.size < arity then
+    throwError
+      "empty-resource rule arity {arity} exceeds matched argument count {args.size}"
+  return args.extract (args.size - arity) args.size
+
+private def buildEmptyResourceRule
+    (branch : EmptyResourceRule) (matched : Expr) : MetaM Expr := do
+  if matched.hasLooseBVars then
+    return ← mkConstWithFreshMVarLevels branch.theoremName
+  let args ← explicitEmptyResourceArgs matched branch.explicitArity
+  let theoremArgs := match branch.shape with
+    | .emptyList | .sameLastTwo | .zeroLast => args.extract 0 (args.size - 1)
+  mkAppM branch.theoremName theoremArgs
+
+private def tryEmptyResourceRewrite (rule : Expr) : TacticM Bool := do
+  let saved ← saveState
+  try
+    AUXLib.SetoidRewrite.rewriteTargetOnce rule
+    return true
+  catch _ =>
+    restoreState saved
+    return false
+
+partial def runEmptyResourceCleanup : TacticM Unit := do
+  let goals ← getGoals
+  let some goal := goals.head? | return
+  let target ← instantiateMVars (← goal.getType)
+  let env ← getEnv
+  for branch in registeredEmptyResourceRules env do
+    unless env.contains branch.head && env.contains branch.theoremName do
+      continue
+    if let some matched ← findEmptyResourceMatch? target branch.head branch.shape then
+      let rule ← buildEmptyResourceRule branch matched
+      if ← tryEmptyResourceRewrite rule then
+        runEmptyResourceCleanup
+        return
 
 partial def runPureSplitsToFixpoint : TacticM Unit := do
   let before ← getGoals
@@ -2116,6 +3236,12 @@ def unfoldGoalHead : TacticM Unit := withMainContext do
   let target ← instantiateMVars (← goal.getType)
   let some unfolded ← Lean.Meta.unfoldDefinition? target | return
   replaceMainGoal [← goal.change unfolded]
+
+def splitSyntacticPropAnd : TacticM Unit := withMainContext do
+  let target ← instantiateMVars (← (← getMainGoal).getType)
+  unless target.getAppFn.consumeMData.isConstOf ``And do
+    throwError "goal is not a syntactically exposed conjunction"
+  evalTactic (← `(tactic| apply And.intro))
 
 private def restoreSourceBinderNamesAt (goal : MVarId) : TacticM MVarId := do
   let goalDecl ← goal.getDecl
@@ -2223,7 +3349,9 @@ end SpatialAutomation
 
 macro_rules
   | `(tactic| set_String_name) => `(tactic| skip)
-  | `(tactic| subst_all_strings) => `(tactic| try subst_vars)
+  | `(tactic| subst_all_strings) => `(tactic| skip)
+  | `(tactic| solve_arch) =>
+      `(tactic| unfold_arch; first | rfl | omega | skip)
   | `(tactic| _sac_unfold_transparent) =>
       `(tactic| first | simp only [sac_unfold] | skip)
   | `(tactic| poly_store_unfold) =>
@@ -2236,8 +3364,27 @@ macro_rules
            AutomationHelpers.poly_store_unfold_uint,
            AutomationHelpers.poly_store_unfold_uchar,
            AutomationHelpers.poly_store_unfold_uint64,
+           AutomationHelpers.poly_store_unfold_int128,
+           AutomationHelpers.poly_store_unfold_uint128,
            AutomationHelpers.poly_store_unfold_ushort,
+           AutomationHelpers.poly_store_unfold_float,
+           AutomationHelpers.poly_store_unfold_double,
+           AutomationHelpers.poly_store_unfold_long_double,
            AutomationHelpers.poly_store_unfold_ptr,
+           AutomationHelpers.typed_poly_store_unfold_int,
+           AutomationHelpers.typed_poly_store_unfold_char,
+           AutomationHelpers.typed_poly_store_unfold_int64,
+           AutomationHelpers.typed_poly_store_unfold_short,
+           AutomationHelpers.typed_poly_store_unfold_uint,
+           AutomationHelpers.typed_poly_store_unfold_uchar,
+           AutomationHelpers.typed_poly_store_unfold_uint64,
+           AutomationHelpers.typed_poly_store_unfold_int128,
+           AutomationHelpers.typed_poly_store_unfold_uint128,
+           AutomationHelpers.typed_poly_store_unfold_ushort,
+           AutomationHelpers.typed_poly_store_unfold_float,
+           AutomationHelpers.typed_poly_store_unfold_double,
+           AutomationHelpers.typed_poly_store_unfold_long_double,
+           AutomationHelpers.typed_poly_store_unfold_ptr,
            AutomationHelpers.poly_undef_store_unfold_int,
            AutomationHelpers.poly_undef_store_unfold_char,
            AutomationHelpers.poly_undef_store_unfold_int64,
@@ -2245,14 +3392,53 @@ macro_rules
            AutomationHelpers.poly_undef_store_unfold_uint,
            AutomationHelpers.poly_undef_store_unfold_uchar,
            AutomationHelpers.poly_undef_store_unfold_uint64,
+           AutomationHelpers.poly_undef_store_unfold_int128,
+           AutomationHelpers.poly_undef_store_unfold_uint128,
            AutomationHelpers.poly_undef_store_unfold_ushort,
-           AutomationHelpers.poly_undef_store_unfold_ptr]
+           AutomationHelpers.poly_undef_store_unfold_float,
+           AutomationHelpers.poly_undef_store_unfold_double,
+           AutomationHelpers.poly_undef_store_unfold_long_double,
+           AutomationHelpers.poly_undef_store_unfold_ptr,
+           store_finite_float,
+           store_finite_double,
+           store_finite_long_double,
+           store_float,
+           store_double,
+           store_long_double,
+           SimpleC.SL.FloatLib.bits_of_float_value,
+           SimpleC.SL.FloatLib.bits_of_double_value,
+           SimpleC.SL.FloatLib.bits_of_long_double_value]
         | skip)
+  | `(tactic| simpl_auto_with ($tac:tacticSeq)) =>
+      `(tactic| solve
+        | exact SacContext.rules.toContext.derivable1_refl _
+        | (intros <;> assumption)
+        | assumption | rfl | trivial | contradiction
+        | exact AUXLib.Reflexive.refl _
+        | simp_all only
+        | solve_by_elim only [*]
+        | (apply Or.inl; assumption)
+        | (apply Or.inr; assumption)
+        | (apply AutomationHelpers.upper_of_abs_le <;> assumption)
+        | (apply AutomationHelpers.lower_of_abs_le <;>
+            first | assumption | omega)
+        | (apply AutomationHelpers.upper_of_abs_lt_abs <;>
+            first | assumption | omega)
+        | (apply AutomationHelpers.lower_of_abs_lt_abs <;>
+            first | assumption | omega)
+        | (apply AutomationHelpers.int32_upper_of_abs_lt_abs <;> assumption)
+        | (apply AutomationHelpers.int32_lower_of_abs_lt_abs <;> assumption)
+        | $tac)
   | `(tactic| simpl_auto) =>
       `(tactic| solve
         | exact SacContext.rules.toContext.derivable1_refl _
         | (intros <;> assumption)
-        | assumption | rfl | trivial
+        | assumption | rfl | trivial | contradiction
+        | exact AUXLib.Reflexive.refl _
+        | simp_all only
+        | solve_by_elim only [*]
+        | (apply Or.inl; assumption)
+        | (apply Or.inr; assumption)
         | (apply AutomationHelpers.upper_of_abs_le <;> assumption)
         | (apply AutomationHelpers.lower_of_abs_le <;>
             first | assumption | omega)
@@ -2263,8 +3449,13 @@ macro_rules
         | (apply AutomationHelpers.int32_upper_of_abs_lt_abs <;> assumption)
         | (apply AutomationHelpers.int32_lower_of_abs_lt_abs <;> assumption)
         | omega | int auto | _int_nia_compat | nia)
+  | `(tactic| simpl_entail_with ($tac:tacticSeq)) =>
+      `(tactic| first
+        | (_split_prop_and <;> simpl_entail_with ($tac))
+        | simpl_auto_with ($tac)
+        | skip)
   | `(tactic| simpl_entail) =>
-      `(tactic| first | (constructor <;> simpl_entail) | simpl_auto)
+      `(tactic| first | (_split_prop_and <;> simpl_entail) | simpl_auto | skip)
   | `(tactic| _andp_cancel_core) =>
       `(tactic| first
         | exact SacContext.rules.toContext.derivable1_refl _
@@ -2284,17 +3475,19 @@ macro_rules
       `(tactic| asrt_simpl; apply Automation.allp_right_rule; intro; pureIntros)
   | `(tactic| Left) =>
       `(tactic| first
-        | rel_rw [← SacContext.rules.toContext.derivable1_orp_intros1]
-        | apply Automation.orp_intros_left)
+        | apply Automation.orp_intros_left
+        | rel_rw [← SacContext.rules.toContext.derivable1_orp_intros1])
   | `(tactic| Right) =>
       `(tactic| first
-        | rel_rw [← SacContext.rules.toContext.derivable1_orp_intros2]
-        | apply Automation.orp_intros_right)
+        | apply Automation.orp_intros_right
+        | rel_rw [← SacContext.rules.toContext.derivable1_orp_intros2])
   | `(tactic| elim_emp) => `(tactic| asrt_complex_simpl)
   | `(tactic| pre_process_default) => `(tactic| pre_process)
   | `(tactic| dump_pre_spatial) => `(tactic| apply dump_spatial_left)
   | `(tactic| split_pure_and_solve) =>
       `(tactic| split_pures <;> try (dump_pre_spatial; simpl_auto))
+  | `(tactic| LLM_pre_process ($tac:tacticSeq)) =>
+      `(tactic| LLM_pre_process_tac ($tac))
 
 private def automationStep (step : Syntax) : TacticM Unit := do
   if !(← getGoals).isEmpty then
@@ -2309,36 +3502,37 @@ private def tryAutomationStep (step : Syntax) : TacticM Unit := do
   catch _ =>
     restoreState saved
 
-private def currentGoalTypes : TacticM (List Expr) := do
-  (← getGoals).mapM fun goal => do
-    instantiateMVars (← goal.getType)
-
-private partial def runEntailerToFixpoint : Nat → TacticM Unit
-  | 0 => throwError "entailer! exceeded its normalization limit"
-  | fuel + 1 => do
-      let before ← currentGoalTypes
-      if before.isEmpty then
-        return
-      while ← SpatialAutomation.introduceLeadingCoqProp do
-        pure ()
-      while ← SpatialAutomation.dischargeLeadingRightCoqProp do
-        pure ()
-      let _ ← SpatialAutomation.dumpPureConclusion
-      tryAutomationStep (← `(tactic| poly_store_unfold))
-      if ← SpatialAutomation.rhsHasTopLevelAllpFrame then
-        let beforeFrameCancel ← currentGoalTypes
-        tryAutomationStep (← `(tactic| _cancel_progress))
-        if beforeFrameCancel != (← currentGoalTypes) then
-          return
-      tryAutomationStep (← `(tactic| _sac_normalize_stores))
-      tryAutomationStep (← `(tactic| entailer_pure))
-      tryAutomationStep (← `(tactic| simpl_auto))
-      let after ← currentGoalTypes
-      if after.isEmpty || before == after then
-        return
-      runEntailerToFixpoint fuel
-
 elab_rules : tactic
+  | `(tactic| _split_prop_and) => SpatialAutomation.splitSyntacticPropAnd
+  | `(tactic| unfold_arch) => do
+      tryAutomationStep (← `(tactic| unfold DerivedPredSig.ptr_width_Z at *))
+      tryAutomationStep (← `(tactic| unfold DerivedPredSig.ptr_size_Z at *))
+      tryAutomationStep (← `(tactic| unfold DerivedPredSig.ptr_size at *))
+      tryAutomationStep (← `(tactic| unfold DerivedPredSig.ptr_align at *))
+      tryAutomationStep (← `(tactic| unfold DerivedPredSig.addr_max_unsigned at *))
+      tryAutomationStep (← `(tactic| unfold DerivedPredSig.aligned at *))
+      tryAutomationStep (← `(tactic|
+        simp only [SimpleC.SL.CArch.CArchSig.ptr_width_Z,
+          SimpleC.SL.CArch.CArchSig.ptr_size_Z] at *))
+  | `(tactic| fold_arch) => do
+      tryAutomationStep (← `(tactic| rw [AutomationHelpers.fold_aligned] at *))
+      tryAutomationStep
+        (← `(tactic| rw [AutomationHelpers.fold_addr_max_unsigned] at *))
+      tryAutomationStep (← `(tactic| rw [AutomationHelpers.fold_ptr_align] at *))
+      tryAutomationStep (← `(tactic| rw [AutomationHelpers.fold_ptr_size] at *))
+      tryAutomationStep (← `(tactic| rw [AutomationHelpers.fold_ptr_size_Z] at *))
+      tryAutomationStep (← `(tactic| rw [AutomationHelpers.fold_ptr_width_Z] at *))
+  | `(tactic| _empty_resource_cleanup) => SpatialAutomation.runEmptyResourceCleanup
+  | `(tactic| entailer_with ($tac:tacticSeq)) => do
+      evalTactic (← `(tactic| set_String_name))
+      tryAutomationStep (← `(tactic| poly_store_unfold))
+      tryAutomationStep (← `(tactic| _empty_resource_cleanup))
+      tryAutomationStep (← `(tactic| entailer_pure))
+      tryAutomationStep (← `(tactic| _empty_resource_cleanup))
+      tryAutomationStep (← `(tactic| entailer_pure))
+      evalTactic (← `(tactic| simpl_entail_with ($tac)))
+      evalTactic (← `(tactic| subst_all_strings))
+      SpatialAutomation.restoreSourceBinderNames
   | `(tactic| andp_cancel) => withMainContext do
       let goal ← getMainGoal
       let target ← instantiateMVars (← goal.getType)
@@ -2369,10 +3563,8 @@ elab_rules : tactic
       SpatialAutomation.runRewriteSet
         [(.andpAssocLeft, ← `(tactic|
           rel_rw [SacContext.rules.toContext.logic_equiv_andp_assoc]))]
-  | `(tactic| sepcon_assoc_change) => do
-      SpatialAutomation.runRewriteSet
-        [(.sepconAssocLeft, ← `(tactic|
-          rel_rw [← SacContext.rules.toContext.logic_equiv_sepcon_assoc]))]
+  | `(tactic| sepcon_assoc_change) =>
+      SpatialAutomation.rightAssociateSepconGoal
   | `(tactic| coq_prop_lift) => do
       SpatialAutomation.runRewriteSet
         [(.pureAndpSepconLeft, ← `(tactic|
@@ -2431,17 +3623,28 @@ elab_rules : tactic
       tryAutomationStep (← `(tactic| _sac_normalize_stores))
       automationStep (← `(tactic| pureIntros_without_rename))
   | `(tactic| entailer_pure) => do
-      tryAutomationStep (← `(tactic| _sac_unfold_transparent))
       automationStep (← `(tactic| asrt_simpl_pure))
-      tryAutomationStep (← `(tactic| sepcon_assoc_change))
-      tryAutomationStep (← `(tactic| pureIntros))
-      tryAutomationStep (← `(tactic| andp_cancel))
-      tryAutomationStep (← `(tactic| cancel))
-      tryAutomationStep (← `(tactic| simpl_entail))
+      evalTactic (← `(tactic| sepcon_assoc_change))
+      evalTactic (← `(tactic| andp_cancel))
   | `(tactic| pre_process_pure) => do
       automationStep (← `(tactic| pureIntros))
       automationStep (← `(tactic| wand_elim))
       automationStep (← `(tactic| asrt_simpl_pure))
+  | `(tactic| LLM_pre_process_tac ($tac:tacticSeq)) => do
+      tryAutomationStep (← `(tactic| _unfold_goal_head))
+      tryAutomationStep (← `(tactic| left))
+      tryAutomationStep (← `(tactic| intros))
+      SpatialAutomation.restoreSourceBinderNames
+      tryAutomationStep (← `(tactic| _sac_unfold_transparent))
+      tryAutomationStep (← `(tactic| poly_store_unfold))
+      automationStep (← `(tactic| pre_process_pure))
+      tryAutomationStep (← `(tactic| _sac_unfold_transparent))
+      tryAutomationStep (← `(tactic| poly_store_unfold))
+      discard <| SpatialAutomation.closeSyntacticReflexiveEntailment
+      if (← getGoals).isEmpty then
+        return
+      unless ← SpatialAutomation.rhsStartsWithExp do
+        tryAutomationStep (← `(tactic| solve | entailer_with ($tac)))
   | `(tactic| pre_process) => do
       tryAutomationStep (← `(tactic| _unfold_goal_head))
       tryAutomationStep (← `(tactic| left))
@@ -2452,6 +3655,9 @@ elab_rules : tactic
       automationStep (← `(tactic| pre_process_pure))
       tryAutomationStep (← `(tactic| _sac_unfold_transparent))
       tryAutomationStep (← `(tactic| poly_store_unfold))
+      discard <| SpatialAutomation.closeSyntacticReflexiveEntailment
+      if (← getGoals).isEmpty then
+        return
       unless ← SpatialAutomation.rhsStartsWithExp do
         tryAutomationStep (← `(tactic| solve | entailer!))
   | `(tactic| aggressive_pre_process) => do
@@ -2466,7 +3672,10 @@ elab_rules : tactic
         | skip))
       tryAutomationStep (← `(tactic| _dump_empty_pre_spatial))
   | `(tactic| entailer!) => do
-      runEntailerToFixpoint 8
+      if (← getGoals).isEmpty then
+        return
+      evalTactic (← `(tactic|
+        entailer_with (first | omega | int auto | _int_nia_compat | nia)))
   | `(tactic| split_pure_spatial) => do
       automationStep (← `(tactic| asrt_simpl_pure))
       SpatialAutomation.leftAssociateAndpRhs
@@ -2485,12 +3694,6 @@ elab_rules : tactic
       let dumped ← SpatialAutomation.dumpPureConclusion
       unless dumped do
         throwError "_dump_pure_right: conclusion is not a standalone lifted proposition"
-  | `(tactic| _safe_simp_all) => withMainContext do
-      let target ← instantiateMVars (← (← getMainGoal).getType)
-      let ops ← SpatialAutomation.getOps
-      if (← SpatialAutomation.matchBinary ops.derivable target).isSome then
-        throwError "_safe_simp_all: refusing to unfold a separation-logic entailment"
-      evalTactic (← `(tactic| simp_all))
   | `(tactic| _int_nia_compat) =>
       SpatialAutomation.runIntNiaCompat
   | `(tactic| _andp_split_right) => withMainContext do
@@ -2562,10 +3765,16 @@ elab "Intros_r" patterns:(colGt rcasesPat)* : tactic => do
     throwError "Intros_r: supports at most 20 arguments"
   for pattern in patterns do
     let (name, applyPattern) ← introPatternName pattern
-    unless ← SpatialAutomation.introduceAllpRight name do
+    let mut introduced ← SpatialAutomation.introduceAllpRight name
+    unless introduced do
       evalTactic (← `(tactic| asrt_simpl))
-      unless ← SpatialAutomation.introduceAllpRight name do
-        throwError "Intros_r: no universal assertion on the right"
+      introduced ← SpatialAutomation.introduceAllpRight name
+    unless introduced do
+      let id := mkIdent name
+      evalTactic (← `(tactic|
+        apply Automation.allp_right_rule <;>
+        intro $id:ident <;>
+        pureIntros))
     if applyPattern then
       applyIntroPattern name pattern
   evalTactic (← `(tactic| pureIntros))
@@ -2635,9 +3844,14 @@ private partial def normalizeGoalApplyAssertion (unfoldStores : Bool)
   let expression := expression.headBeta
   if isLowLevelStoreAtom expression then
     return (expression, ← equivRefl ops expression)
-  if unfoldStores && isCanonicalStoreWrapper expression then
-    if let some unfolded ← unfoldDefinition? expression then
-      return ← normalizeGoalApplyAssertion unfoldStores ops unfolded
+  if unfoldStores then
+    if let some unfolded ← unfoldStoreForInspection? ops expression then
+      if unfolded != expression then
+        let (normalized, normalizedProof) ←
+          normalizeGoalApplyAssertion unfoldStores ops unfolded
+        let unfoldProof ← equivRefl ops expression
+        return (normalized, ← equivTrans ops expression unfolded normalized
+          unfoldProof normalizedProof)
   if let some (left, right) ← matchBinary ops.andp expression then
     let (newLeft, leftProof) ← normalizeGoalApplyAssertion unfoldStores ops left
     let (newRight, rightProof) ← normalizeGoalApplyAssertion unfoldStores ops right
@@ -3024,14 +4238,29 @@ private partial def runGoalApplyProof (proof : Expr)
       finishGoalApply proof
 
 def runGoalApply (rule : Syntax) : TacticM Unit := withMainContext do
+  let saved ← saveState
+  let siblingGoals := (← getGoals).tail
+  try
+    let proof ← elaborateRule rule
+    runGoalApplyProof proof
+    unless (← getGoals) == siblingGoals do
+      throwError "Goal_apply: greedy instantiation did not completely solve the goal; use explicit sep_apply/exact with manually supplied parameters"
+  catch ex =>
+    restoreState saved
+    throw ex
+
+def runGoalApplyFinish (rule : Syntax) : TacticM Unit := withMainContext do
   let proof ← elaborateRule rule
-  runGoalApplyProof proof
+  finishGoalApply proof
 
 end SpatialAutomation
 
+syntax "Goal_apply_finish " term : tactic
 syntax "Goal_apply " term : tactic
 
 elab_rules : tactic
+  | `(tactic| Goal_apply_finish $h:term) =>
+      SpatialAutomation.runGoalApplyFinish h
   | `(tactic| Goal_apply $h:term) => SpatialAutomation.runGoalApply h
 
 end SimpleC.SL.CommonAssertion.DerivedPredSig

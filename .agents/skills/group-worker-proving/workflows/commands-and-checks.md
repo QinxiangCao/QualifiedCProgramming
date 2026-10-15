@@ -10,4 +10,4 @@ Controller 派生 copied manual/lib overlay、exact/development build、group wr
 
 历史 proof/helper 和人工复用说明都不作为检查凭据。`finalize-delivery` 对最新文件执行完整验收：completed 必须通过全部结构与本组 Rocq；annotation-gap 必须有准确 blocker/VC/位置、合法写入与安全内容，但不强求不可证目标的完整 Coq 成功。报告或 proof 错误按反馈由同 owner 在当前目录修复。
 
-每个 coq-check/coq-debug 的外部进程共享 900 秒预算；timeout/pause 会终止工具进程并清理子进程；若返回 cleanup 未完成的诊断，保留诊断交回 main。所有路径和文件类型仍由 controller 校验，不用链接、junction 或 reparse point 绕过目录边界。
+每个 coq-check/coq-debug 的外部进程默认共享 900 秒预算，可用 `QCP_COQ_TIMEOUT_SECONDS` 配置为有限正数秒数；timeout/pause 会终止工具进程并清理子进程；若返回 cleanup 未完成的诊断，保留诊断交回 main。所有路径和文件类型仍由 controller 校验，不用链接、junction 或 reparse point 绕过目录边界。

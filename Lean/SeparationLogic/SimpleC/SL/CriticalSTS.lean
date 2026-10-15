@@ -4,6 +4,7 @@ import SimpleC.SL.ConAssertion
 
 namespace SimpleC.SL.CriticalSTS
 
+open SimpleC.SL.CArch
 open SimpleC.SL.CommonAssertion
 open SimpleC.SL.CommonAssertion.DerivedPredSig
 open SimpleC.SL.ConAssertion
@@ -75,7 +76,8 @@ structure CriticalCSL
     (C : critical_STS_def)
     (S : critical_STS_to_STS_def C)
     (_R1 : ConAssertion.CSL S.toSTSDef)
-    (_R2 : DerivedPredSig _R1.toSeparationLogicSig) : Type where
+    (_Arch : CArchSig) (_Endian : CEndianSig)
+    (_R2 : DerivedPredSig _Arch _Endian _R1.toSeparationLogicSig) : Type where
   mk ::
 
 namespace CriticalCSL
@@ -83,14 +85,16 @@ namespace CriticalCSL
 def canonical (C : critical_STS_def)
     (S : critical_STS_to_STS_def C)
     (R1 : ConAssertion.CSL S.toSTSDef)
-    (R2 : DerivedPredSig R1.toSeparationLogicSig) :
-    CriticalCSL C S R1 R2 := .mk
+    (Arch : CArchSig) (Endian : CEndianSig)
+    (R2 : DerivedPredSig Arch Endian R1.toSeparationLogicSig) :
+    CriticalCSL C S R1 Arch Endian R2 := .mk
 
 def InsideCritical {C : critical_STS_def}
     {S : critical_STS_to_STS_def C}
     {R1 : ConAssertion.CSL S.toSTSDef}
-    {R2 : DerivedPredSig R1.toSeparationLogicSig}
-    (_self : CriticalCSL C S R1 R2)
+    {Arch : CArchSig} {Endian : CEndianSig}
+    {R2 : DerivedPredSig Arch Endian R1.toSeparationLogicSig}
+    (_self : CriticalCSL C S R1 Arch Endian R2)
     (s : @critical_STS.critical_STS_state C.c_sts) : R1.expr :=
   R1.sepcon
     (R1.at_states (Sets.singleton (inside_state s)))
@@ -99,8 +103,9 @@ def InsideCritical {C : critical_STS_def}
 def OutsideCritical {C : critical_STS_def}
     {S : critical_STS_to_STS_def C}
     {R1 : ConAssertion.CSL S.toSTSDef}
-    {R2 : DerivedPredSig R1.toSeparationLogicSig}
-    (_self : CriticalCSL C S R1 R2)
+    {Arch : CArchSig} {Endian : CEndianSig}
+    {R2 : DerivedPredSig Arch Endian R1.toSeparationLogicSig}
+    (_self : CriticalCSL C S R1 Arch Endian R2)
     (s : @critical_STS.critical_STS_state C.c_sts) : R1.expr :=
   R1.exp (@critical_STS.critical_STS_state C.c_sts) fun s' =>
     R1.andp

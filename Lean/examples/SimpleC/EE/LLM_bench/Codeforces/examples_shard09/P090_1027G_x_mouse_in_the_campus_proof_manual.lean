@@ -1,0 +1,1 @@
+import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P090_1027G_x_mouse_in_the_campus_manual_solver

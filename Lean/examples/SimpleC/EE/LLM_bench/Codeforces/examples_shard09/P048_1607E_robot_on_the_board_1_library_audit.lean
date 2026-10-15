@@ -1,0 +1,49 @@
+import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib
+import Lean.Util.CollectAxioms
+
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.prefix_window_zero__initialization
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.prefix_window_step_up_new_min__up_new_min
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.prefix_window_step_up_inside__up_inside
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.Znth_app_left__down_new_max
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.Znth_app_last__down_new_max
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.prefix_window_step_down_new_max__down_new_max
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.prefix_window_step_down_inside__down_inside
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.Znth_app_last__left_impossible_low_row
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.fold_right_add_base__left_valid_row
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.nonzero_Znth_sentinel_lt__left_valid_row
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.prefix_window_step_left_cases__left_valid_row
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.fold_right_Z_add_base__right_valid_row
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.row_col_offset_step_right__right_valid_row
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.prefix_window_step_right_cases__right_valid_row
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.Znth_app_left__termination_optimality
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.feasible_prefix_iff_window_fits__termination_optimality
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.optimal_prefix_at_end__termination_optimality
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.optimal_prefix_before_overflow__termination_optimality
+#check SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.optimal_window_realizes_spec__final_result
+
+run_cmd do
+  for decl in #[
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.prefix_window_zero__initialization,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.prefix_window_step_up_new_min__up_new_min,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.prefix_window_step_up_inside__up_inside,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.Znth_app_left__down_new_max,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.Znth_app_last__down_new_max,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.prefix_window_step_down_new_max__down_new_max,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.prefix_window_step_down_inside__down_inside,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.Znth_app_last__left_impossible_low_row,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.fold_right_add_base__left_valid_row,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.nonzero_Znth_sentinel_lt__left_valid_row,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.prefix_window_step_left_cases__left_valid_row,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.fold_right_Z_add_base__right_valid_row,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.row_col_offset_step_right__right_valid_row,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.prefix_window_step_right_cases__right_valid_row,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.Znth_app_left__termination_optimality,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.feasible_prefix_iff_window_fits__termination_optimality,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.optimal_prefix_at_end__termination_optimality,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.optimal_prefix_before_overflow__termination_optimality,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P048_1607E_robot_on_the_board_1_lib.optimal_window_realizes_spec__final_result
+  ] do
+    let axs ← Lean.collectAxioms decl
+    for ax in axs do
+      unless #[``propext, ``Classical.choice, ``Quot.sound].contains ax do
+        throwError "Unexpected axiom {ax} in {decl}"

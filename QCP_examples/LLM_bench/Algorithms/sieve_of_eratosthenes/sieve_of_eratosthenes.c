@@ -1,3 +1,4 @@
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.sieve_of_eratosthenes.sieve_of_eratosthenes_lib */
 /*@ Extern Coq
       (StrictPrime : Z -> Prop)
       (PrimeIndicatorList : Z -> list Z -> Prop)

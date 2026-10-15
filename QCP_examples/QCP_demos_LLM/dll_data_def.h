@@ -1,3 +1,4 @@
+/*@ Import Lean import SimpleC.EE.QCP_demos_LLM.dll_queue_lib */
 struct list {
     struct list *next;
     struct list *prev;

@@ -1,3 +1,4 @@
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.modular_mul.modular_mul_lib */
 /*@ Extern Coq
       (ModularMul : Z -> Z -> Z -> Z -> Prop)
       (ModularMulProgress : Z -> Z -> Z -> Z -> Z -> Z -> Z -> Prop)

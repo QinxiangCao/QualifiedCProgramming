@@ -1,0 +1,5 @@
+From SimpleC.EE.QCP_demos_LLM Require Import graph_matrix_strategy_goal graph_matrix_strategy_proof.
+
+Module graph_matrix_Strategy_Correctness : graph_matrix_Strategy_Correct.
+  Include graph_matrix_strategy_proof.
+End graph_matrix_Strategy_Correctness.

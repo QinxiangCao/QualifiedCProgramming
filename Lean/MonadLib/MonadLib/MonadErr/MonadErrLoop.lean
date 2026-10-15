@@ -86,9 +86,9 @@ theorem increasing_program_le' {Sigma : Type u} {B : Type}
   intro hle h
   exact seq_mono_nat_le c h hle
 
-theorem mono_intro {Sigma : Type u} {A B : Type}
-    (f : (A -> program Sigma B) -> A -> program Sigma B) :
-    (forall a, mono fun W => f W a) -> mono f := by
+theorem mono_intro {X Y : Type u} {I : Type} [Order X] [Order Y]
+    (f : X -> I -> Y) :
+    (forall i : I, mono fun x : X => f x i) -> mono f := by
   intro h
   constructor
   intro x y hxy a
@@ -111,9 +111,8 @@ private theorem mono_bind_core {Sigma : Type u} {X : Type u} [Order X]
     · exact Or.inl (hc1.errle s h)
     · exact Or.inr ⟨d, s0, hc1.nrmle s d s0 hd, ((h2 d).proper x y hxy).errle s0 he⟩
 
-theorem mono_bind {Sigma : Type u} {A B C D : Type}
-    (c1 : (A -> program Sigma B) -> program Sigma D)
-    (c2 : (A -> program Sigma B) -> D -> program Sigma C) :
+theorem mono_bind {Sigma : Type u} {X : Type u} [Order X] {C D : Type}
+    (c1 : X -> program Sigma D) (c2 : X -> D -> program Sigma C) :
     mono c1 -> (forall d, mono fun W => c2 W d) ->
       mono fun W => MonadErr.bind (c1 W) (c2 W) :=
   mono_bind_core c1 c2
@@ -141,8 +140,8 @@ private theorem mono_choice_core {Sigma : Type u} {X : Type u} [Order X]
     · exact Or.inl (hc1.errle s h)
     · exact Or.inr (hc2.errle s h)
 
-theorem mono_choice {Sigma : Type u} {A B D : Type}
-    (c1 c2 : (A -> program Sigma B) -> program Sigma D) :
+theorem mono_choice {Sigma : Type u} {X : Type u} [Order X] {D : Type}
+    (c1 c2 : X -> program Sigma D) :
     mono c1 -> mono c2 -> mono fun W => choice (c1 W) (c2 W) :=
   mono_choice_core c1 c2
 
@@ -151,9 +150,9 @@ theorem mono_choice' {Sigma : Type u} {B D : Type}
     mono c1 -> mono c2 -> mono fun W => choice (c1 W) (c2 W) :=
   mono_choice_core c1 c2
 
-theorem continuous_intro {Sigma : Type u} {A B : Type}
-    (f : (A -> program Sigma B) -> A -> program Sigma B) :
-    (forall a, continuous fun W => f W a) -> continuous f := by
+theorem continuous_intro {X Y : Type u} {I : Type} [Order X] [OmegaLub X]
+    [Equiv Y] [OmegaLub Y] (f : X -> I -> Y) :
+    (forall i : I, continuous fun x : X => f x i) -> continuous f := by
   intro h T hT a
   exact h a T hT
 
@@ -171,13 +170,16 @@ private theorem continuous_const_core {Sigma : Type u} {X : Type u}
     · intro h; exact ⟨0, h⟩
     · rintro ⟨_, h⟩; exact h
 
-theorem continuous_const {Sigma : Type u} {A B C : Type} (f : program Sigma C) :
-    continuous fun _ : A -> program Sigma B => f :=
-  continuous_const_core f
+theorem continuous_const {X Y : Type u} [Order X] [OmegaLub X]
+    [Order Y] [Equiv Y] [OmegaLub Y] [Bot Y]
+    [AUXLib.Equivalence (@equiv Y _)] [CompletePartialOrder_Setoid Y]
+    (y : Y) : continuous fun _ : X => y := by
+  intro _ _
+  exact AUXLib.Equivalence.symm _ _ (const_limit y)
 
 theorem continuous_const' {Sigma : Type u} {B C : Type} (f : program Sigma C) :
     continuous fun _ : program Sigma B => f :=
-  continuous_const_core f
+  continuous_const f
 
 private theorem continuous_bind_core {Sigma : Type u} {X : Type u}
     [Order X] [OmegaLub X] [AUXLib.Reflexive (@order_rel X _)]
@@ -225,9 +227,10 @@ private theorem continuous_bind_core {Sigma : Type u} {X : Type u}
       · exact Or.inr ⟨d, s0, (e1.nrmequiv s d s0).mpr ⟨i, hd⟩,
           ((hc2 d T hT).errequiv s0).mpr ⟨i, he⟩⟩
 
-theorem continuous_bind {Sigma : Type u} {A B C D : Type}
-    (c1 : (A -> program Sigma B) -> program Sigma D)
-    (c2 : (A -> program Sigma B) -> D -> program Sigma C) :
+theorem continuous_bind {Sigma : Type u} {X : Type u}
+    [Order X] [Equiv X] [OmegaLub X] [Bot X]
+    [AUXLib.Equivalence (@equiv X _)] [CompletePartialOrder_Setoid X]
+    {C D : Type} (c1 : X -> program Sigma D) (c2 : X -> D -> program Sigma C) :
     mono c1 -> continuous c1 ->
     (forall d, mono fun W => c2 W d) ->
     (forall d, continuous fun W => c2 W d) ->
@@ -268,8 +271,8 @@ private theorem continuous_choice_core {Sigma : Type u} {X : Type u}
       · exact Or.inl ((e1.errequiv s).mpr ⟨i, h⟩)
       · exact Or.inr ((e2.errequiv s).mpr ⟨i, h⟩)
 
-theorem continuous_choice {Sigma : Type u} {A B D : Type}
-    (c1 c2 : (A -> program Sigma B) -> program Sigma D) :
+theorem continuous_choice {Sigma : Type u} {X : Type u}
+    [Order X] [OmegaLub X] {D : Type} (c1 c2 : X -> program Sigma D) :
     continuous c1 -> continuous c2 ->
       continuous fun W => choice (c1 W) (c2 W) :=
   continuous_choice_core c1 c2
@@ -280,23 +283,46 @@ theorem continuous_choice' {Sigma : Type u} {B D : Type}
       continuous fun W => choice (c1 W) (c2 W) :=
   continuous_choice_core c1 c2
 
+theorem mono_cont_pointwise {X Y : Type u} {I : Type} [Order X] [OmegaLub X]
+    [Order Y] [Equiv Y] [OmegaLub Y] (f : X -> I -> Y) :
+    (forall i : I, mono_cont fun x : X => f x i) -> mono_cont f := by
+  intro h
+  exact ⟨mono_intro f (fun i => (h i).1),
+    continuous_intro f (fun i => (h i).2)⟩
+
+theorem mono_cont_at {X Y : Type u} {I : Type} [Order X] [OmegaLub X]
+    [Order Y] [Equiv Y] [OmegaLub Y] (f : X -> I -> Y) (i : I) :
+    mono_cont f -> mono_cont fun x : X => f x i := by
+  rintro ⟨hm, hc⟩
+  exact ⟨⟨fun x y hxy => hm.proper x y hxy i⟩,
+    fun T hT => hc T hT i⟩
+
+theorem mono_cont_id {X : Type u} [Order X] [Equiv X] [OmegaLub X] [Bot X]
+    [AUXLib.Equivalence (@equiv X _)] [CompletePartialOrder_Setoid X] :
+    mono_cont fun x : X => x := by
+  exact ⟨⟨fun _ _ h => h⟩, fun _ _ => AUXLib.Equivalence.refl _⟩
+
 theorem mono_cont_intro {Sigma : Type u} {A B : Type}
     (f : (A -> program Sigma B) -> A -> program Sigma B) :
     (forall a, mono_cont fun W => f W a) -> mono_cont f := by
   intro h
-  exact ⟨mono_intro f (fun a => (h a).1), continuous_intro f (fun a => (h a).2)⟩
+  exact ⟨mono_intro f (fun a => (h a).1),
+    continuous_intro f (fun a => (h a).2)⟩
 
-theorem mono_cont_const {Sigma : Type u} {A B C : Type} (f : program Sigma C) :
-    mono_cont fun _ : A -> program Sigma B => f :=
-  ⟨⟨fun _ _ _ => AUXLib.Reflexive.refl f⟩, continuous_const f⟩
+theorem mono_cont_const {X Y : Type u} [Order X] [OmegaLub X]
+    [Order Y] [Equiv Y] [OmegaLub Y] [Bot Y]
+    [AUXLib.Equivalence (@equiv Y _)] [CompletePartialOrder_Setoid Y]
+    (y : Y) : mono_cont fun _ : X => y :=
+  ⟨⟨fun _ _ _ => AUXLib.Reflexive.refl y⟩, continuous_const y⟩
 
 theorem mono_cont_const' {Sigma : Type u} {B C : Type} (f : program Sigma C) :
     mono_cont fun _ : program Sigma B => f :=
-  ⟨⟨fun _ _ _ => AUXLib.Reflexive.refl f⟩, continuous_const' f⟩
+  mono_cont_const f
 
-theorem mono_cont_bind {Sigma : Type u} {A B C D : Type}
-    (c1 : (A -> program Sigma B) -> program Sigma D)
-    (c2 : (A -> program Sigma B) -> D -> program Sigma C) :
+theorem mono_cont_bind {Sigma : Type u} {X : Type u}
+    [Order X] [Equiv X] [OmegaLub X] [Bot X]
+    [AUXLib.Equivalence (@equiv X _)] [CompletePartialOrder_Setoid X]
+    {C D : Type} (c1 : X -> program Sigma D) (c2 : X -> D -> program Sigma C) :
     mono_cont c1 -> (forall d, mono_cont fun W => c2 W d) ->
       mono_cont fun W => MonadErr.bind (c1 W) (c2 W) := by
   rintro ⟨hm1, hc1⟩ h2
@@ -312,8 +338,10 @@ theorem mono_cont_bind' {Sigma : Type u} {B C D : Type}
   exact ⟨mono_bind' c1 c2 hm1 (fun d => (h2 d).1),
     continuous_bind' c1 c2 hm1 hc1 (fun d => (h2 d).1) (fun d => (h2 d).2)⟩
 
-theorem mono_cont_choice {Sigma : Type u} {A B D : Type}
-    (c1 c2 : (A -> program Sigma B) -> program Sigma D) :
+theorem mono_cont_choice {Sigma : Type u} {X : Type u}
+    [Order X] [Equiv X] [OmegaLub X] [Bot X]
+    [AUXLib.Equivalence (@equiv X _)] [CompletePartialOrder_Setoid X]
+    {D : Type} (c1 c2 : X -> program Sigma D) :
     mono_cont c1 -> mono_cont c2 ->
       mono_cont fun W => choice (c1 W) (c2 W) := by
   rintro ⟨hm1, hc1⟩ ⟨hm2, hc2⟩
@@ -448,6 +476,86 @@ theorem mono_cont_BW_fix {A B : Type u} [Order A] [Equiv A]
           ((hfb b1).1.proper a1 a2 ha) ((hfa a2).1.proper b1 b2 hb))
       (fun a => (hfa a).2) (fun b => (hfb b).2)⟩
 
+theorem Rec_unfold {X : Type u} [Order X] [Equiv X] [OmegaLub X] [Bot X]
+    [AUXLib.Equivalence (@equiv X _)] [CompletePartialOrder_Setoid X]
+    (f : X -> X) : mono_cont f -> equiv (Rec f) (f (Rec f)) := by
+  intro h
+  unfold Rec
+  exact BW_fixpoint' f h
+
+theorem Rec_mono {A B : Type u} [Order A] [Order B] [Equiv B]
+    [OmegaLub B] [Bot B] [AUXLib.Equivalence (@equiv B _)]
+    [CompletePartialOrder_Setoid B] (f : A -> B -> B) :
+    (forall a, mono (f a)) ->
+    (forall b, mono fun x => f x b) ->
+    mono fun x => Rec (f x) := by
+  intro hfa hfb
+  unfold Rec
+  exact mono_BW_fix f hfa hfb
+
+theorem Rec_continuous {A B : Type u} [Order A] [Equiv A]
+    [OmegaLub A] [Bot A] [CompletePartialOrder_Setoid A]
+    [Order B] [Equiv B] [OmegaLub B] [Bot B]
+    [AUXLib.Equivalence (@equiv A _)] [AUXLib.Equivalence (@equiv B _)]
+    [CompletePartialOrder_Setoid B] (f : A -> B -> B) :
+    (forall a, mono_cont (f a)) ->
+    (forall b, mono_cont fun x => f x b) ->
+    continuous fun x => Rec (f x) := by
+  intro hfa hfb
+  unfold Rec
+  exact (mono_cont_BW_fix f hfa hfb).2
+
+theorem mono_cont_Rec {A B : Type u} [Order A] [Equiv A]
+    [OmegaLub A] [Bot A] [CompletePartialOrder_Setoid A]
+    [Order B] [Equiv B] [OmegaLub B] [Bot B]
+    [AUXLib.Equivalence (@equiv A _)] [AUXLib.Equivalence (@equiv B _)]
+    [CompletePartialOrder_Setoid B] (f : A -> B -> B) :
+    (forall a, mono_cont (f a)) ->
+    (forall b, mono_cont fun x => f x b) ->
+    mono_cont fun x => Rec (f x) := by
+  intro hfa hfb
+  unfold Rec
+  exact mono_cont_BW_fix f hfa hfb
+
+private theorem Rec_unfold_left {X : Type u} [Order X] [Equiv X]
+    [OmegaLub X] [Bot X] [AUXLib.Equivalence (@equiv X _)]
+    [CompletePartialOrder_Setoid X] (f : X -> X) (rhs : X) :
+    mono_cont f -> equiv (f (Rec f)) rhs -> equiv (Rec f) rhs := by
+  intro hm h
+  exact AUXLib.Equivalence.trans _ _ _ (Rec_unfold f hm) h
+
+private theorem Rec_unfold_right {X : Type u} [Order X] [Equiv X]
+    [OmegaLub X] [Bot X] [AUXLib.Equivalence (@equiv X _)]
+    [CompletePartialOrder_Setoid X] (lhs : X) (f : X -> X) :
+    mono_cont f -> equiv lhs (f (Rec f)) -> equiv lhs (Rec f) := by
+  intro hm h
+  exact AUXLib.Equivalence.trans _ _ _ h
+    (AUXLib.Equivalence.symm _ _ (Rec_unfold f hm))
+
+private theorem Rec_unfold_iff_left {X : Type u} [Order X] [Equiv X]
+    [OmegaLub X] [Bot X] [AUXLib.Equivalence (@equiv X _)]
+    [CompletePartialOrder_Setoid X] (f : X -> X) (rhs : X) :
+    mono_cont f -> (equiv (Rec f) rhs <-> equiv (f (Rec f)) rhs) := by
+  intro hm
+  constructor
+  · intro h
+    exact AUXLib.Equivalence.trans _ _ _
+      (AUXLib.Equivalence.symm _ _ (Rec_unfold f hm)) h
+  · intro h
+    exact AUXLib.Equivalence.trans _ _ _ (Rec_unfold f hm) h
+
+private theorem Rec_unfold_iff_right {X : Type u} [Order X] [Equiv X]
+    [OmegaLub X] [Bot X] [AUXLib.Equivalence (@equiv X _)]
+    [CompletePartialOrder_Setoid X] (lhs : X) (f : X -> X) :
+    mono_cont f -> (equiv lhs (Rec f) <-> equiv lhs (f (Rec f))) := by
+  intro hm
+  constructor
+  · intro h
+    exact AUXLib.Equivalence.trans _ _ _ h (Rec_unfold f hm)
+  · intro h
+    exact AUXLib.Equivalence.trans _ _ _ h
+      (AUXLib.Equivalence.symm _ _ (Rec_unfold f hm))
+
 private theorem mono_cont_id_program {Sigma : Type u} {A : Type} :
     mono_cont (fun W : program Sigma A => W) := by
   constructor
@@ -500,20 +608,34 @@ macro_rules
   | `(tactic| err_mono_cont_auto) =>
       `(tactic|
         first
+          | assumption
+          | apply mono_cont_id
           | (apply mono_cont_intro <;> err_mono_cont_auto)
           | (apply mono_cont_bind <;> err_mono_cont_auto)
           | (apply mono_cont_choice <;> err_mono_cont_auto)
           | (apply mono_cont_bind' <;> err_mono_cont_auto)
           | (apply mono_cont_choice' <;> err_mono_cont_auto)
+          | (apply mono_cont_Rec <;> intro <;> err_mono_cont_auto)
           | (apply mono_cont_BW_fix <;> err_mono_cont_auto)
           | (__err_mono_cont_match <;> simp only <;> err_mono_cont_auto)
           | apply mono_cont_id_program
           | apply mono_cont_proj_program
           | apply mono_cont_const
           | apply mono_cont_const'
-          | assumption
           | (intro; err_mono_cont_auto)
           | trivial)
+
+macro "err_unfold_rec" : tactic =>
+  `(tactic|
+    first
+      | (apply Rec_unfold_left; · err_mono_cont_auto)
+      | (apply Rec_unfold_right; · err_mono_cont_auto))
+
+macro "err_unfold_rec" " in " loc:Lean.Parser.Tactic.locationHyp : tactic =>
+  `(tactic|
+    first
+      | rw [Rec_unfold_iff_left _ _ (by err_mono_cont_auto)] at $loc
+      | rw [Rec_unfold_iff_right _ _ (by err_mono_cont_auto)] at $loc)
 
 def while_f {Sigma : Type u} (cond : program Sigma Bool) (body : program Sigma Unit)
     (W : program Sigma Unit) : program Sigma Unit :=
@@ -521,7 +643,7 @@ def while_f {Sigma : Type u} (cond : program Sigma Bool) (body : program Sigma U
 
 def «while» {Sigma : Type u} (cond : program Sigma Bool) (body : program Sigma Unit) :
     program Sigma Unit :=
-  BW_fix (while_f cond body)
+  Rec (while_f cond body)
 
 def whileP_f {Sigma : Type u} (cond : Sigma -> Prop) (body : program Sigma Unit)
     (W : program Sigma Unit) : program Sigma Unit :=
@@ -530,7 +652,7 @@ def whileP_f {Sigma : Type u} (cond : Sigma -> Prop) (body : program Sigma Unit)
 
 def whileP {Sigma : Type u} (cond : Sigma -> Prop) (body : program Sigma Unit) :
     program Sigma Unit :=
-  BW_fix (whileP_f cond body)
+  Rec (whileP_f cond body)
 
 def whileret_f {Sigma : Type u} {A : Type} (cond : A -> program Sigma Bool)
     (body : A -> program Sigma A) (W : A -> program Sigma A) :
@@ -545,7 +667,7 @@ def «break» {Sigma : Type u} {A B : Type} (b : B) : program Sigma (CntOrBrk A 
 
 def whileret {Sigma : Type u} {A : Type} (cond : A -> program Sigma Bool)
     (body : A -> program Sigma A) : A -> program Sigma A :=
-  BW_fix (whileret_f cond body)
+  Rec (whileret_f cond body)
 
 def whileretP_f {Sigma : Type u} {A : Type} (cond : A -> Sigma -> Prop)
     (body : A -> program Sigma A) (W : A -> program Sigma A) :
@@ -556,7 +678,7 @@ def whileretP_f {Sigma : Type u} {A : Type} (cond : A -> Sigma -> Prop)
 
 def whileretP {Sigma : Type u} {A : Type} (cond : A -> Sigma -> Prop)
     (body : A -> program Sigma A) : A -> program Sigma A :=
-  BW_fix (whileretP_f cond body)
+  Rec (whileretP_f cond body)
 
 def repeat_break_f {Sigma : Type u} {A B : Type}
     (body : A -> program Sigma (CntOrBrk A B)) (W : A -> program Sigma B) :
@@ -567,7 +689,7 @@ def repeat_break_f {Sigma : Type u} {A B : Type}
 
 def repeat_break {Sigma : Type u} {A B : Type}
     (body : A -> program Sigma (CntOrBrk A B)) : A -> program Sigma B :=
-  BW_fix (repeat_break_f body)
+  Rec (repeat_break_f body)
 
 def repeat_break_f_noinput {Sigma : Type u} {B : Type}
     (body : program Sigma (CntOrBrk Unit B)) (W : program Sigma B) : program Sigma B :=
@@ -577,7 +699,7 @@ def repeat_break_f_noinput {Sigma : Type u} {B : Type}
 
 def repeat_break_noin {Sigma : Type u} {B : Type}
     (body : program Sigma (CntOrBrk Unit B)) : program Sigma B :=
-  BW_fix (repeat_break_f_noinput body)
+  Rec (repeat_break_f_noinput body)
 
 def range_iter_f {Sigma : Type u} {A : Type} (hi : Int)
     (body : Int -> A -> program Sigma A) (W : Int × A -> program Sigma A) :
@@ -588,7 +710,7 @@ def range_iter_f {Sigma : Type u} {A : Type} (hi : Int)
 
 def range_iter {Sigma : Type u} {A : Type} (lo hi : Int)
     (body : Int -> A -> program Sigma A) : A -> program Sigma A :=
-  fun a => BW_fix (range_iter_f hi body) (lo, a)
+  fun a => Rec (range_iter_f hi body) (lo, a)
 
 def range_iter_break_f {Sigma : Type u} {A B : Type} (hi : Int)
     (body : Int -> A -> program Sigma (CntOrBrk A B))
@@ -603,7 +725,7 @@ def range_iter_break_f {Sigma : Type u} {A B : Type} (hi : Int)
 def range_iter_break {Sigma : Type u} {A B : Type} (lo hi : Int)
     (body : Int -> A -> program Sigma (CntOrBrk A B)) :
     A -> program Sigma (CntOrBrk A B) :=
-  fun a => BW_fix (range_iter_break_f hi body) (lo, a)
+  fun a => Rec (range_iter_break_f hi body) (lo, a)
 
 def forset_f {Sigma : Type} {A : Type} (body : A -> program Sigma Unit)
     (W : (A -> Prop) -> program Sigma Unit) («universe» : A -> Prop) :
@@ -615,19 +737,65 @@ def forset_f {Sigma : Type} {A : Type} (body : A -> program Sigma Unit)
 
 def forset {Sigma : Type} {A : Type} («universe» : A -> Prop)
     (body : A -> program Sigma Unit) : program Sigma Unit :=
-  BW_fix (forset_f body) «universe»
+  Rec (forset_f body) «universe»
 
 def Repeat_f {Sigma : Type u} (body : program Sigma Unit)
     (W : program Sigma Unit) : program Sigma Unit :=
   body ;; W
 
 def Repeat {Sigma : Type u} (body : program Sigma Unit) : program Sigma Unit :=
-  BW_fix (Repeat_f body)
+  Rec (Repeat_f body)
 
 def list_iter {Sigma : Type u} {A B : Type} (body : A -> B -> program Sigma B) :
     List A -> B -> program Sigma B
   | [], b => MonadErr.ret b
   | a :: rest, b => b0 <- body a b ;; list_iter body rest b0
+
+namespace progerr_scope
+
+scoped syntax:62 "UPDATE " ident " := " term:63 : term
+scoped syntax:62 "CHOOSE" "{" term:0 "|" term:0 "}" : term
+scoped syntax:62 "CHOOSE" "{" term:0 "|" term:0 "|" term:0 "}" : term
+scoped syntax:62 "CHOOSE" "{" term:0 "|" term:0 "|" term:0 "|" term:0 "}" : term
+scoped syntax:62 "CHOOSE" "{" term:0 "|" term:0 "|" term:0 "|" term:0 "|" term:0 "}" : term
+scoped syntax:62 "CHOOSE" "{" term:0 "|" term:0 "|" term:0 "|" term:0 "|" term:0 "|" term:0 "}" : term
+scoped syntax:62 "IF " ident ", " term:0 " THEN " term:0 " ELSE " term:0 " FI" : term
+scoped syntax:62 "WHEN " ident ", " term:0 " THEN " term:0 " END" : term
+scoped syntax:62 "WHILE " ident ", " term:0 " DO " term:0 " END" : term
+scoped syntax:62 "FOR " ident " FROM " term:0 " TO " term:0 " DO " term:0 " END" : term
+scoped syntax:62 "LOOP " term:0 " END" : term
+scoped syntax:62 "REPEAT " term:65 " FROM " term:0 " DO " term:0 " END" : term
+scoped syntax:62 "BREAK " term:63 : term
+scoped syntax:62 "NEXT " term:63 : term
+scoped syntax:62 "CONTINUE" : term
+
+scoped macro_rules
+  | `(UPDATE $s:ident := $e) => `(MonadLib.update' (fun $s => $e))
+  | `(CHOOSE { $c1 | $c2 }) => `(MonadLib.choice $c1 $c2)
+  | `(CHOOSE { $c1 | $c2 | $c3 }) =>
+      `(MonadLib.choice $c1 (MonadLib.choice $c2 $c3))
+  | `(CHOOSE { $c1 | $c2 | $c3 | $c4 }) =>
+      `(MonadLib.choice $c1 (MonadLib.choice $c2 (MonadLib.choice $c3 $c4)))
+  | `(CHOOSE { $c1 | $c2 | $c3 | $c4 | $c5 }) =>
+      `(MonadLib.choice $c1 (MonadLib.choice $c2
+        (MonadLib.choice $c3 (MonadLib.choice $c4 $c5))))
+  | `(CHOOSE { $c1 | $c2 | $c3 | $c4 | $c5 | $c6 }) =>
+      `(MonadLib.choice $c1 (MonadLib.choice $c2
+        (MonadLib.choice $c3 (MonadLib.choice $c4 (MonadLib.choice $c5 $c6)))))
+  | `(IF $s:ident, $b THEN $c1 ELSE $c2 FI) =>
+      `(MonadLib.if_else (fun $s => $b) $c1 $c2)
+  | `(WHEN $s:ident, $b THEN $c END) => `(MonadLib.If (fun $s => $b) $c)
+  | `(WHILE $s:ident, $b DO $c END) => `(MonadLib.whileP (fun $s => $b) $c)
+  | `(FOR $i:ident FROM $lo TO $hi DO $c END) =>
+      `(MonadLib.range_iter $lo $hi (fun $i _ => $c) ())
+  | `(LOOP $c END) => `(MonadLib.repeat_break_noin $c)
+  | `(REPEAT $p:term FROM $a0 DO $c END) =>
+      `(MonadLib.repeat_break (fun $p => $c) $a0)
+  | `(BREAK $e) => `(MonadLib.break $e)
+  | `(NEXT $a) => `(MonadLib.continue $a)
+  | `(CONTINUE) => `(MonadLib.continue ())
+
+end progerr_scope
 
 def ret_some {Sigma : Type u} {A : Type} : Option A -> program Sigma Bool
   | some _ => MonadErr.ret true
@@ -769,7 +937,7 @@ theorem while_unfold {Sigma : Type u} (cond : program Sigma Bool)
     (body : program Sigma Unit) :
     equiv («while» cond body)
       (x <- cond ;; if x then body ;; «while» cond body else MonadErr.ret ()) := by
-  simpa [«while», while_f] using BW_fixpoint' (while_f cond body)
+  simpa [«while», while_f] using Rec_unfold (while_f cond body)
     (while_f_mono_cont cond body)
 
 theorem whileP_unfold {Sigma : Type u} (cond : Sigma -> Prop)
@@ -777,7 +945,7 @@ theorem whileP_unfold {Sigma : Type u} (cond : Sigma -> Prop)
     equiv (whileP cond body)
       (choice (test cond ;; body ;; whileP cond body)
         (test (fun s => Not (cond s)) ;; MonadErr.ret ())) := by
-  simpa [whileP, whileP_f] using BW_fixpoint' (whileP_f cond body)
+  simpa [whileP, whileP_f] using Rec_unfold (whileP_f cond body)
     (whileP_f_mono_cont cond body)
 
 theorem whileret_unfold {Sigma : Type u} {A : Type}
@@ -785,7 +953,7 @@ theorem whileret_unfold {Sigma : Type u} {A : Type}
     equiv (whileret cond body)
       (fun a => x <- cond a ;;
         if x then y <- body a ;; whileret cond body y else MonadErr.ret a) := by
-  simpa [whileret, whileret_f] using BW_fixpoint' (whileret_f cond body)
+  simpa [whileret, whileret_f] using Rec_unfold (whileret_f cond body)
     (whileret_f_mono_cont cond body)
 
 theorem whileret_unfold_apply {Sigma : Type u} {A : Type}
@@ -801,7 +969,7 @@ theorem repeat_break_unfold {Sigma : Type u} {A B : Type}
       x <- body a ;; match x with
         | .by_continue a0 => repeat_break body a0
         | .by_break b0 => MonadErr.ret b0) := by
-  simpa [repeat_break, repeat_break_f] using BW_fixpoint' (repeat_break_f body)
+  simpa [repeat_break, repeat_break_f] using Rec_unfold (repeat_break_f body)
     (repeat_break_f_mono_cont body)
 
 theorem repeat_break_unfold_apply {Sigma : Type u} {A B : Type}
@@ -819,7 +987,7 @@ theorem repeat_break_noin_unfold {Sigma : Type u} {B : Type}
         | .by_continue _ => repeat_break_noin body
         | .by_break b0 => MonadErr.ret b0) := by
   simpa [repeat_break_noin, repeat_break_f_noinput] using
-    BW_fixpoint' (repeat_break_f_noinput body) (repeat_break_noin_f_mono_cont body)
+    Rec_unfold (repeat_break_f_noinput body) (repeat_break_noin_f_mono_cont body)
 
 theorem range_iter_unfold_aux {Sigma : Type u} {A : Type} (hi : Int)
     (body : Int -> A -> program Sigma A) :
@@ -828,7 +996,7 @@ theorem range_iter_unfold_aux {Sigma : Type u} {A : Type} (hi : Int)
         (testPure (p.1 < hi) ;; b <- body p.1 p.2 ;;
           range_iter (p.1 + 1) hi body b)
         (testPure (p.1 >= hi) ;; MonadErr.ret p.2)) := by
-  simpa [range_iter, range_iter_f] using BW_fixpoint' (range_iter_f hi body)
+  simpa [range_iter, range_iter_f] using Rec_unfold (range_iter_f hi body)
     (range_iter_f_mono_cont hi body)
 
 theorem range_iter_unfold {Sigma : Type u} {A : Type} (hi : Int)
@@ -849,7 +1017,7 @@ theorem range_iter_break_unfold_aux {Sigma : Type u} {A B : Type} (hi : Int)
           | .by_break b' => «break» b')
         (testPure (p.1 >= hi) ;; «continue» p.2)) := by
   simpa [range_iter_break, range_iter_break_f] using
-    BW_fixpoint' (range_iter_break_f hi body) (range_iter_break_f_mono_cont hi body)
+    Rec_unfold (range_iter_break_f hi body) (range_iter_break_f_mono_cont hi body)
 
 theorem range_iter_break_unfold {Sigma : Type u} {A B : Type} (hi : Int)
     (body : Int -> A -> program Sigma (CntOrBrk A B)) (lo : Int) (a : A) :
@@ -863,12 +1031,12 @@ theorem range_iter_break_unfold {Sigma : Type u} {A B : Type} (hi : Int)
 
 theorem forset_unfold_aux {Sigma : Type} {A : Type}
     (body : A -> program Sigma Unit) :
-    equiv (BW_fix (forset_f body)) (fun uPred =>
+    equiv (Rec (forset_f body)) (fun uPred =>
       choice
         (a <- get (fun _ a => uPred a) ;; body a ;;
           forset (fun x => uPred x /\ x ≠ a) body)
         (testPure (forall x, Not (uPred x)) ;; MonadErr.ret ())) := by
-  simpa [forset, forset_f] using BW_fixpoint' (forset_f body)
+  simpa [forset, forset_f] using Rec_unfold (forset_f body)
     (forset_f_mono_cont body)
 
 theorem forset_unfold {Sigma : Type} {A : Type} (uPred : A -> Prop)

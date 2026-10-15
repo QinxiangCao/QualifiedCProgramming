@@ -1,0 +1,55 @@
+import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib
+import Lean.Util.CollectAxioms
+
+-- All 39 source library Qed and 7 computational Defined declarations.
+run_cmd do
+  for decl in #[
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.checked_swap_prefix_init,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.checked_swap_prefix_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.prefix_residual_flag_boolean,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.suffix_residual_flag_boolean,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.prefix_residual_state_init__prefix_construction,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.prefix_residual_init_bound__prefix_construction,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.replace_Znth_app_last__prefix_construction,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.prefix_residual_extend_core__prefix_construction,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.prefix_residual_extend_bound__prefix_construction,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.prefix_residual_extend_prior_false__prefix_construction,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.prefix_residual_extend_success__prefix_construction,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.prefix_residual_extend_current_false__prefix_construction,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.suffix_residual_state_terminal_init__suffix_setup,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.replace_Znth_app_last__suffix_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.suffix_residual_prepend_core__suffix_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.suffix_residual_prepend_bound__suffix_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.residual_ok_from__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.ResidualOK__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.Zlength_replace_Znth__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.residual_ok_reverse_clean_step__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.CleanReach__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.clean_reach_cons_zero__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.residual_ok_reach_zero__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.residual_ok_all_zero__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.trace_residual_ok__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.clean_reach_trace__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.direct_cleanable_implies_residual_ok__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.residual_ok_from_recurrence__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.residual_ok_recurrence_facts__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.DirectCleanable__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.direct_cleanable_residual_ok_iff__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.cleanable_direct_iff__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.residuals_from__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.canonical_residuals__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.residuals_from_zero__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.residuals_from_recurrence__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.swap1__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.swap1_length__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.swap1_left__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.swap1_right__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.swap1_other__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.cleanable_cases__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.recurrence_unique_interval__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.recurrence_unique_interval_backward__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.cleanable_one_swap_iff__final_result,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P075_1474D_cleaning_lib.cleanable_residual_characterization__final_result
+  ] do
+    if (← Lean.collectAxioms decl).contains ``sorryAx then
+      throwError "P075 source proof {decl} depends on sorryAx"

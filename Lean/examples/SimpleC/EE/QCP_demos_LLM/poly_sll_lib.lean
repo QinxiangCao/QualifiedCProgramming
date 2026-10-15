@@ -25,8 +25,8 @@ def sll {A : Type} (storeA : addr -> A -> Assertion) (x : addr) :
   | a :: l0 =>
       “ x ≠ NULL ” &&
         (EX h : addr, EX y : addr,
-          store_ptr naive_C_Rules (data_addr x) h **
-          store_ptr naive_C_Rules (next_addr x) y **
+          naive_C_Rules.store_ptr (data_addr x) h **
+          naive_C_Rules.store_ptr (next_addr x) y **
           storeA h a ** sll storeA y l0)
 
 def sllseg {A : Type} (storeA : addr -> A -> Assertion) (x y : addr) :
@@ -35,8 +35,8 @@ def sllseg {A : Type} (storeA : addr -> A -> Assertion) (x y : addr) :
   | a :: l0 =>
       “ x ≠ NULL ” &&
         (EX h : addr, EX q : addr,
-          store_ptr naive_C_Rules (data_addr x) h **
-          store_ptr naive_C_Rules (next_addr x) q **
+          naive_C_Rules.store_ptr (data_addr x) h **
+          naive_C_Rules.store_ptr (next_addr x) q **
           storeA h a ** sllseg storeA q y l0)
 
 def append {A : Type} (l1 l2 : List A) : List A := l1 ++ l2
@@ -62,8 +62,8 @@ theorem sll_not_zero {A : Type} (storeA : addr -> A -> Assertion)
     sll storeA x l |--
       EX h : addr, EX y : addr, EX a : A, EX l0 : List A,
         “ l = a :: l0 ” &&
-        store_ptr naive_C_Rules (data_addr x) h **
-        store_ptr naive_C_Rules (next_addr x) y **
+        naive_C_Rules.store_ptr (data_addr x) h **
+        naive_C_Rules.store_ptr (next_addr x) y **
         storeA h a ** sll storeA y l0 := by
   cases l with
   | nil =>
@@ -75,6 +75,27 @@ theorem sll_not_zero {A : Type} (storeA : addr -> A -> Assertion)
       intro state h
       rcases h with ⟨_, h, y, hspatial⟩
       exact ⟨h, y, a, l, rfl, hspatial⟩
+
+theorem sllseg_self_with_sll {A : Type} (storeA : addr -> A -> Assertion)
+    (p : addr) (l tail : List A) :
+    sllseg storeA p p l ** sll storeA p tail |--
+      “ l = [] ” && sll storeA p tail := by
+  cases l with
+  | nil =>
+      rw [sllseg.eq_1]
+      entailer!
+  | cons a l =>
+      cases tail with
+      | nil =>
+          rw [sllseg.eq_2, sll.eq_1]
+          Intros h q
+          pureIntros
+          contradiction
+      | cons b tail =>
+          rw [sllseg.eq_2, sll.eq_2]
+          Intros h q h' q'
+          sep_apply (naive_C_Rules.dup_store_ptr (data_addr p) h h')
+          entailer!
 
 theorem sllseg_sll {A : Type} (storeA : addr -> A -> Assertion)
     (x y : addr) (l1 l2 : List A) :

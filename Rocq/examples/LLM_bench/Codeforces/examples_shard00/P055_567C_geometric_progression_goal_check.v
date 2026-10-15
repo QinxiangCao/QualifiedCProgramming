@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P055_567C_geometric_progression_goal P055_567C_geometric_progression_proof_auto P055_567C_geometric_progression_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P055_567C_geometric_progression_proof_auto.
+  Include P055_567C_geometric_progression_proof_manual.
+End VC_Correctness.

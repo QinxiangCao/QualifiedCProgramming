@@ -1,0 +1,69 @@
+import SimpleC.EE.LLM_bench.Algorithms.quicksort_hoare_fill_index2.quicksort_proof_auto
+import SimpleC.EE.LLM_bench.Algorithms.quicksort_hoare_fill_index2.quicksort_proof_manual
+
+namespace SimpleC.EE.LLM_bench.Algorithms.quicksort_hoare_fill_index2.quicksort_goal_check
+
+open SimpleC.EE.LLM_bench.Algorithms.quicksort_hoare_fill_index2.quicksort_proof_auto
+open SimpleC.EE.LLM_bench.Algorithms.quicksort_hoare_fill_index2.quicksort_proof_manual
+
+def VC_Correctness : SimpleC.EE.LLM_bench.Algorithms.quicksort_hoare_fill_index2.quicksort_goal.VC_Correct where
+  proof_of_partition_safety_wit_1 := proof_of_partition_safety_wit_1
+  proof_of_partition_safety_wit_2 := proof_of_partition_safety_wit_2
+  proof_of_partition_safety_wit_3 := proof_of_partition_safety_wit_3
+  proof_of_partition_safety_wit_4 := proof_of_partition_safety_wit_4
+  proof_of_partition_safety_wit_5 := proof_of_partition_safety_wit_5
+  proof_of_partition_safety_wit_6 := proof_of_partition_safety_wit_6
+  proof_of_partition_safety_wit_7 := proof_of_partition_safety_wit_7
+  proof_of_partition_safety_wit_8 := proof_of_partition_safety_wit_8
+  proof_of_partition_safety_wit_9 := proof_of_partition_safety_wit_9
+  proof_of_partition_entail_wit_2 := proof_of_partition_entail_wit_2
+  proof_of_partition_partial_solve_wit_1 := proof_of_partition_partial_solve_wit_1
+  proof_of_partition_partial_solve_wit_2 := proof_of_partition_partial_solve_wit_2
+  proof_of_partition_partial_solve_wit_3 := proof_of_partition_partial_solve_wit_3
+  proof_of_partition_partial_solve_wit_4 := proof_of_partition_partial_solve_wit_4
+  proof_of_partition_partial_solve_wit_5 := proof_of_partition_partial_solve_wit_5
+  proof_of_partition_partial_solve_wit_6 := proof_of_partition_partial_solve_wit_6
+  proof_of_partition_partial_solve_wit_7 := proof_of_partition_partial_solve_wit_7
+  proof_of_partition_partial_solve_wit_8 := proof_of_partition_partial_solve_wit_8
+  proof_of_partition_partial_solve_wit_9 := proof_of_partition_partial_solve_wit_9
+  proof_of_quicksort_range_safety_wit_1 := proof_of_quicksort_range_safety_wit_1
+  proof_of_quicksort_range_safety_wit_2 := proof_of_quicksort_range_safety_wit_2
+  proof_of_quicksort_range_safety_wit_3 := proof_of_quicksort_range_safety_wit_3
+  proof_of_quicksort_range_safety_wit_4 := proof_of_quicksort_range_safety_wit_4
+  proof_of_quicksort_range_safety_wit_5 := proof_of_quicksort_range_safety_wit_5
+  proof_of_quicksort_range_safety_wit_6 := proof_of_quicksort_range_safety_wit_6
+  proof_of_quicksort_range_safety_wit_7 := proof_of_quicksort_range_safety_wit_7
+  proof_of_quicksort_range_safety_wit_8 := proof_of_quicksort_range_safety_wit_8
+  proof_of_quicksort_range_safety_wit_9 := proof_of_quicksort_range_safety_wit_9
+  proof_of_quicksort_range_safety_wit_10 := proof_of_quicksort_range_safety_wit_10
+  proof_of_quicksort_range_safety_wit_11 := proof_of_quicksort_range_safety_wit_11
+  proof_of_quicksort_range_safety_wit_12 := proof_of_quicksort_range_safety_wit_12
+  proof_of_quicksort_range_partial_solve_wit_1_pure := proof_of_quicksort_range_partial_solve_wit_1_pure
+  proof_of_quicksort_range_partial_solve_wit_1 := proof_of_quicksort_range_partial_solve_wit_1
+  proof_of_quicksort_range_partial_solve_wit_2_pure := proof_of_quicksort_range_partial_solve_wit_2_pure
+  proof_of_quicksort_range_partial_solve_wit_2 := proof_of_quicksort_range_partial_solve_wit_2
+  proof_of_quicksort_range_partial_solve_wit_3_pure := proof_of_quicksort_range_partial_solve_wit_3_pure
+  proof_of_quicksort_range_partial_solve_wit_3 := proof_of_quicksort_range_partial_solve_wit_3
+  proof_of_quicksort_range_partial_solve_wit_4_pure := proof_of_quicksort_range_partial_solve_wit_4_pure
+  proof_of_quicksort_range_partial_solve_wit_4 := proof_of_quicksort_range_partial_solve_wit_4
+  proof_of_quicksort_safety_wit_1 := proof_of_quicksort_safety_wit_1
+  proof_of_quicksort_safety_wit_2 := proof_of_quicksort_safety_wit_2
+  proof_of_quicksort_safety_wit_3 := proof_of_quicksort_safety_wit_3
+  proof_of_quicksort_safety_wit_4 := proof_of_quicksort_safety_wit_4
+  proof_of_quicksort_partial_solve_wit_1_pure := proof_of_quicksort_partial_solve_wit_1_pure
+  proof_of_quicksort_partial_solve_wit_1 := proof_of_quicksort_partial_solve_wit_1
+  proof_of_partition_entail_wit_1 := proof_of_partition_entail_wit_1
+  proof_of_partition_entail_wit_3 := proof_of_partition_entail_wit_3
+  proof_of_partition_entail_wit_4 := proof_of_partition_entail_wit_4
+  proof_of_partition_entail_wit_5 := proof_of_partition_entail_wit_5
+  proof_of_partition_entail_wit_6 := proof_of_partition_entail_wit_6
+  proof_of_partition_return_wit_1 := proof_of_partition_return_wit_1
+  proof_of_partition_return_wit_2 := proof_of_partition_return_wit_2
+  proof_of_quicksort_range_return_wit_1 := proof_of_quicksort_range_return_wit_1
+  proof_of_quicksort_range_return_wit_2 := proof_of_quicksort_range_return_wit_2
+  proof_of_quicksort_range_return_wit_3 := proof_of_quicksort_range_return_wit_3
+  proof_of_quicksort_range_return_wit_4 := proof_of_quicksort_range_return_wit_4
+  proof_of_quicksort_return_wit_1 := proof_of_quicksort_return_wit_1
+  proof_of_quicksort_return_wit_2 := proof_of_quicksort_return_wit_2
+
+end SimpleC.EE.LLM_bench.Algorithms.quicksort_hoare_fill_index2.quicksort_goal_check

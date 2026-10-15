@@ -2,6 +2,7 @@ import SimpleC.SL.SeparationLogic
 
 open SimpleC.SL.CommonAssertion
 open SimpleC.SL.CommonAssertion.DerivedPredSig
+open SimpleC.SL.CommonAssertion.DerivedPredSigCompat
 open SimpleC.SL.IntLib
 
 example (x : Int) (h : 0 <= x) : x = Zabs x := by

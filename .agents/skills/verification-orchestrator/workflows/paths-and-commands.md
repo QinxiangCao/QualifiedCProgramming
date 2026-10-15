@@ -44,7 +44,7 @@ VC debug manual 和 group copies 以 overlay 进入 run 的 build 目录，canon
 
 ## 工具预算和输出
 
-一次 Coq check/debug 的依赖准备、等待和编译共享至多 900 秒。Dune workspace lock 串行化共享
+一次 Coq check/debug 的依赖准备、等待和编译默认共享至多 900 秒；`QCP_COQ_TIMEOUT_SECONDS` 可配置这个共享上限（有限正数秒数）。Dune workspace lock 串行化共享
 依赖刷新，释放后组内编译继续并行；等待计入预算并响应取消。较长 native 命令向 stderr 报告
 阶段与耗时，stdout 留给终态 JSON。
 

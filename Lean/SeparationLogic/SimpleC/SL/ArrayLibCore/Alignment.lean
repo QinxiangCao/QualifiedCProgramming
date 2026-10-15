@@ -9,9 +9,11 @@ open SimpleC.SL.Mem
 open SimpleC.SL.StoreAux.StoreLibSig
 open Unifysl.LogicGenerator.demo932
 
+variable {Arch : SimpleC.SL.CArch.CArchSig}
+variable {Endian : SimpleC.SL.CArch.CEndianSig}
 variable {CRules : SeparationLogicSig}
-variable {DePredSig : DerivedPredSig CRules}
-variable {SLibSig : SimpleC.SL.StoreAux.StoreLibSig CRules DePredSig}
+variable {DePredSig : DerivedPredSig Arch Endian CRules}
+variable {SLibSig : SimpleC.SL.StoreAux.StoreLibSig Arch Endian CRules DePredSig}
 
 private theorem store_undef_array_rec_mono
     (source target : addr -> Int -> CRules.expr)
@@ -28,7 +30,7 @@ private theorem store_undef_array_rec_mono
         (hstore x lo) (ih (lo := lo + 1))
 
 theorem seg_shape_to_undef_seg
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig) (x lo hi : Int) :
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig) (x lo hi : Int) :
     CRules.derivable1 (seg_shape ES x lo hi) (undef_seg ES x lo hi) := by
   apply store_undef_array_rec_mono
   intro p i
@@ -37,7 +39,7 @@ theorem seg_shape_to_undef_seg
   exact ES.store_to_undefstore p i a
 
 theorem full_shape_to_undef_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig) (x n : Int) :
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig) (x n : Int) :
     CRules.derivable1 (full_shape ES x n) (undef_full ES x n) := by
   have hResult := CRules.toContext.derivable1_trans _ _ _
     (full_shape_to_seg_shape ES x n)
@@ -47,16 +49,16 @@ theorem full_shape_to_undef_full
   simpa only [Int.zero_mul, Int.add_zero, Int.sub_zero] using hResult
 
 private theorem emp_to_store_align_zero (CRules : SeparationLogicSig) :
-    CRules.derivable1 CRules.emp (store_align_n CRules 0) := by
+    CRules.derivable1 CRules.emp (store_align_n Arch CRules 0) := by
   intro state hEmp
   exact ⟨[], ⟨rfl, interval_list_nil⟩, hEmp⟩
 
 private theorem store_undef_array_rec_to_align
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo hi : Int) (n : Nat) (hn : n = (hi - lo).toNat) :
     CRules.derivable1
       (store_undef_array_rec CRules ES.undefstoreA x lo hi n)
-      (store_align_n CRules ((hi - lo) * ES.sizeA)) := by
+      (store_align_n Arch CRules ((hi - lo) * ES.sizeA)) := by
   induction n generalizing lo hi with
   | zero =>
       simp only [store_undef_array_rec]
@@ -88,70 +90,70 @@ private theorem store_undef_array_rec_to_align
       exact hCombined
 
 theorem undef_seg_to_align
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig) (x lo hi : Int) :
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig) (x lo hi : Int) :
     CRules.derivable1 (undef_seg ES x lo hi)
-      (store_align_n CRules ((hi - lo) * ES.sizeA)) := by
+      (store_align_n Arch CRules ((hi - lo) * ES.sizeA)) := by
   exact store_undef_array_rec_to_align ES x lo hi (hi - lo).toNat rfl
 
 theorem seg_to_align
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo hi : Int) (l : List ES.A) :
     CRules.derivable1 (seg ES x lo hi l)
-      (store_align_n CRules ((hi - lo) * ES.sizeA)) :=
+      (store_align_n Arch CRules ((hi - lo) * ES.sizeA)) :=
   CRules.toContext.derivable1_trans _ _ _
     (seg_to_undef_seg ES x lo hi l) (undef_seg_to_align ES x lo hi)
 
 theorem mixed_seg_to_align
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo hi : Int) (l : List (Option ES.A)) :
     CRules.derivable1 (mixed_seg ES x lo hi l)
-      (store_align_n CRules ((hi - lo) * ES.sizeA)) :=
+      (store_align_n Arch CRules ((hi - lo) * ES.sizeA)) :=
   CRules.toContext.derivable1_trans _ _ _
     (mixed_seg_to_undef_seg ES x lo hi l) (undef_seg_to_align ES x lo hi)
 
 theorem seg_shape_to_align
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig) (x lo hi : Int) :
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig) (x lo hi : Int) :
     CRules.derivable1 (seg_shape ES x lo hi)
-      (store_align_n CRules ((hi - lo) * ES.sizeA)) :=
+      (store_align_n Arch CRules ((hi - lo) * ES.sizeA)) :=
   CRules.toContext.derivable1_trans _ _ _
     (seg_shape_to_undef_seg ES x lo hi) (undef_seg_to_align ES x lo hi)
 
 theorem full_to_align
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n : Int) (l : List ES.A) :
     CRules.derivable1 (full ES x n l)
-      (store_align_n CRules (n * ES.sizeA)) := by
+      (store_align_n Arch CRules (n * ES.sizeA)) := by
   have hResult := CRules.toContext.derivable1_trans _ _ _
     (full_to_seg ES x n l) (seg_to_align ES x 0 n l)
   simpa only [Int.sub_zero] using hResult
 
 theorem mixed_full_to_align
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n : Int) (l : List (Option ES.A)) :
     CRules.derivable1 (mixed_full ES x n l)
-      (store_align_n CRules (n * ES.sizeA)) := by
+      (store_align_n Arch CRules (n * ES.sizeA)) := by
   have hResult := CRules.toContext.derivable1_trans _ _ _
     (mixed_full_to_mixed_seg ES x n l) (mixed_seg_to_align ES x 0 n l)
   simpa only [Int.sub_zero] using hResult
 
 theorem undef_full_to_align
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig) (x n : Int) :
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig) (x n : Int) :
     CRules.derivable1 (undef_full ES x n)
-      (store_align_n CRules (n * ES.sizeA)) := by
+      (store_align_n Arch CRules (n * ES.sizeA)) := by
   have hResult := CRules.toContext.derivable1_trans _ _ _
     (undef_full_to_undef_seg ES x n) (undef_seg_to_align ES x 0 n)
   simpa only [Int.sub_zero] using hResult
 
 theorem full_shape_to_align
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig) (x n : Int) :
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig) (x n : Int) :
     CRules.derivable1 (full_shape ES x n)
-      (store_align_n CRules (n * ES.sizeA)) := by
+      (store_align_n Arch CRules (n * ES.sizeA)) := by
   have hResult := CRules.toContext.derivable1_trans _ _ _
     (full_shape_to_seg_shape ES x n) (seg_shape_to_align ES x 0 n)
   simpa only [Int.sub_zero] using hResult
 
 theorem undef_full_valid
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig) (x n : Int) :
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig) (x n : Int) :
     CRules.derivable1 (undef_full ES x n) (CRules.coq_prop (0 <= n)) := by
   intro _ hs
   change 0 <= n
@@ -164,7 +166,7 @@ theorem undef_full_valid
     omega
 
 theorem full_shape_valid
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig) (x n : Int) :
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig) (x n : Int) :
     CRules.derivable1 (full_shape ES x n) (CRules.coq_prop (0 <= n)) := by
   intro _ hs
   change 0 <= n
@@ -177,30 +179,31 @@ theorem full_shape_valid
     omega
 
 private theorem length_range_of_valid_align
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (P : CRules.expr) (count : Int)
     (hvalid : CRules.derivable1 P (CRules.coq_prop (0 <= count)))
     (halign : CRules.derivable1 P
-      (store_align_n CRules (count * ES.sizeA))) :
+      (store_align_n Arch CRules (count * ES.sizeA))) :
     CRules.derivable1 P
       (CRules.coq_prop
         (0 <= count * ES.sizeA ∧
-          count * ES.sizeA <= Int.max_unsigned + 1)) := by
+          count * ES.sizeA <= Arch.addr_max_unsigned + 1)) := by
   intro state hs
   have hCount := hvalid state hs
   have hAlign := halign state hs
-  have hUpper := store_align_n_valid CRules (count * ES.sizeA) state hAlign
+  have hUpper := store_align_n_valid (Arch := Arch)
+    CRules (count * ES.sizeA) state hAlign
   constructor
   · exact Int.mul_nonneg hCount (Int.le_of_lt ES.sizeA_valid.1)
   · simpa using hUpper
 
 theorem seg_length_range
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo hi : Int) (l : List ES.A) :
     CRules.derivable1 (seg ES x lo hi l)
       (CRules.coq_prop
         (0 <= (hi - lo) * ES.sizeA ∧
-          (hi - lo) * ES.sizeA <= Int.max_unsigned + 1)) :=
+          (hi - lo) * ES.sizeA <= Arch.addr_max_unsigned + 1)) :=
   length_range_of_valid_align ES (seg ES x lo hi l) (hi - lo)
     (by
       intro state hs
@@ -210,12 +213,12 @@ theorem seg_length_range
     (seg_to_align ES x lo hi l)
 
 theorem mixed_seg_length_range
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo hi : Int) (l : List (Option ES.A)) :
     CRules.derivable1 (mixed_seg ES x lo hi l)
       (CRules.coq_prop
         (0 <= (hi - lo) * ES.sizeA ∧
-          (hi - lo) * ES.sizeA <= Int.max_unsigned + 1)) :=
+          (hi - lo) * ES.sizeA <= Arch.addr_max_unsigned + 1)) :=
   length_range_of_valid_align ES (mixed_seg ES x lo hi l) (hi - lo)
     (by
       intro state hs
@@ -225,11 +228,11 @@ theorem mixed_seg_length_range
     (mixed_seg_to_align ES x lo hi l)
 
 theorem undef_seg_length_range
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig) (x lo hi : Int) :
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig) (x lo hi : Int) :
     CRules.derivable1 (undef_seg ES x lo hi)
       (CRules.coq_prop
         (0 <= (hi - lo) * ES.sizeA ∧
-          (hi - lo) * ES.sizeA <= Int.max_unsigned + 1)) :=
+          (hi - lo) * ES.sizeA <= Arch.addr_max_unsigned + 1)) :=
   length_range_of_valid_align ES (undef_seg ES x lo hi) (hi - lo)
     (by
       intro state hs
@@ -239,11 +242,11 @@ theorem undef_seg_length_range
     (undef_seg_to_align ES x lo hi)
 
 theorem seg_shape_length_range
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig) (x lo hi : Int) :
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig) (x lo hi : Int) :
     CRules.derivable1 (seg_shape ES x lo hi)
       (CRules.coq_prop
         (0 <= (hi - lo) * ES.sizeA ∧
-          (hi - lo) * ES.sizeA <= Int.max_unsigned + 1)) :=
+          (hi - lo) * ES.sizeA <= Arch.addr_max_unsigned + 1)) :=
   length_range_of_valid_align ES (seg_shape ES x lo hi) (hi - lo)
     (by
       intro state hs
@@ -253,11 +256,11 @@ theorem seg_shape_length_range
     (seg_shape_to_align ES x lo hi)
 
 theorem full_length_range
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n : Int) (l : List ES.A) :
     CRules.derivable1 (full ES x n l)
       (CRules.coq_prop
-        (0 <= n * ES.sizeA ∧ n * ES.sizeA <= Int.max_unsigned + 1)) :=
+        (0 <= n * ES.sizeA ∧ n * ES.sizeA <= Arch.addr_max_unsigned + 1)) :=
   length_range_of_valid_align ES (full ES x n l) n
     (by
       intro state hs
@@ -267,11 +270,11 @@ theorem full_length_range
     (full_to_align ES x n l)
 
 theorem mixed_full_length_range
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n : Int) (l : List (Option ES.A)) :
     CRules.derivable1 (mixed_full ES x n l)
       (CRules.coq_prop
-        (0 <= n * ES.sizeA ∧ n * ES.sizeA <= Int.max_unsigned + 1)) :=
+        (0 <= n * ES.sizeA ∧ n * ES.sizeA <= Arch.addr_max_unsigned + 1)) :=
   length_range_of_valid_align ES (mixed_full ES x n l) n
     (by
       intro state hs
@@ -281,18 +284,18 @@ theorem mixed_full_length_range
     (mixed_full_to_align ES x n l)
 
 theorem undef_full_length_range
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig) (x n : Int) :
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig) (x n : Int) :
     CRules.derivable1 (undef_full ES x n)
       (CRules.coq_prop
-        (0 <= n * ES.sizeA ∧ n * ES.sizeA <= Int.max_unsigned + 1)) :=
+        (0 <= n * ES.sizeA ∧ n * ES.sizeA <= Arch.addr_max_unsigned + 1)) :=
   length_range_of_valid_align ES (undef_full ES x n) n
     (undef_full_valid ES x n) (undef_full_to_align ES x n)
 
 theorem full_shape_length_range
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig) (x n : Int) :
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig) (x n : Int) :
     CRules.derivable1 (full_shape ES x n)
       (CRules.coq_prop
-        (0 <= n * ES.sizeA ∧ n * ES.sizeA <= Int.max_unsigned + 1)) :=
+        (0 <= n * ES.sizeA ∧ n * ES.sizeA <= Arch.addr_max_unsigned + 1)) :=
   length_range_of_valid_align ES (full_shape ES x n) n
     (full_shape_valid ES x n) (full_shape_to_align ES x n)
 

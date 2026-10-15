@@ -1,0 +1,55 @@
+import SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib
+import Lean.Util.CollectAxioms
+
+-- All 46 source library Qed declarations; manual proofs are audited separately.
+run_cmd do
+  for decl in #[
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.normalized_schedule_state_cell,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.normalized_schedule_state_full_spec,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.sublist_0_succ__normalized_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.Znth_app_left__normalized_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.Znth_app_last__normalized_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.fold_right_add_snoc__normalized_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.other_cpu_label_valid__normalized_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.other_cpu_label_neq__normalized_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.binary_label_other__normalized_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.valid_schedule_active_label__normalized_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.valid_schedule_snoc__normalized_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.hot_start_snoc_old_iff__normalized_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.run_time_snoc_old_iff__normalized_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.other_cpu_last_continue__normalized_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.other_cpu_last_switch__normalized_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.hot_start_continue_final_iff__normalized_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.hot_start_switch_final_iff__normalized_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.run_time_continue_final_iff__normalized_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.run_time_switch_final_iff__normalized_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.run_times_snoc__normalized_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.run_cost_snoc__normalized_step,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.run_cost_single__initialization,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.run_cost_single_exists__initialization,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.other_cpu_single__initialization,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.prefix_state_cost_one__initialization,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.normalized_schedule_state_initial__initialization,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.normalized_schedule_state_min_le__state_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.run_cost_snoc_inv__state_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.other_cpu_last_exists__state_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.other_cpu_last_continue_inv__state_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.other_cpu_last_switch_value__state_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.prefix_state_cost_step_iff__state_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.min_value_member_le__state_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.min_value_member__state_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.prefix_state_cost_other_bound__state_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.normalized_switch_minimum__state_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.normalized_cell_continue_step__state_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.normalized_cell_switch_step__state_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.normalized_vector_min_replace__state_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.normalized_cells_min_spec__state_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.normalized_schedule_state_step__state_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.normalized_unequal_transition_branches__state_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.normalized_baseline_transition_branches__state_transitions,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.Zlength_replace_Znth__state_write_update,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.Znth_zero_replace_positive__state_write_update,
+    ``SimpleC.EE.LLM_bench.Codeforces.examples_shard09.P073_1799D2_hot_start_up_lib.replace_Znth_dp_bounds__state_write_update
+  ] do
+    if (← Lean.collectAxioms decl).contains ``sorryAx then
+      throwError "P073 source Qed {decl} depends on sorryAx"

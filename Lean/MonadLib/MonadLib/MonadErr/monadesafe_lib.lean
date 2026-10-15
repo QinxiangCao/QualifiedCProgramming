@@ -288,6 +288,31 @@ theorem safeExec_bind_reta {Sigma A B : Type} (c1 : program Sigma A)
   rcases h (fun a => weakestpre (c2 a) X) hc1 with ⟨s, hp', hs⟩
   exact ⟨s, hp', (wp_ret a (fun a => weakestpre (c2 a) X) s).mp hs⟩
 
+theorem safeExec_bind_reta_target {Sigma A B : Type}
+    (c1 : program Sigma A) (c2 : A -> program Sigma B)
+    (P P' : Sigma -> Prop) (a : A) (c : program Sigma B) :
+    (forall X, safeExec P c1 X -> safeExec P' (MonadErr.ret a) X) ->
+    forall X, safeExec P (MonadErr.bind c1 c2) X ->
+      c = c2 a -> safeExec P' c X := by
+  intro h X hbind hc
+  subst c
+  exact safeExec_bind_reta c1 c2 P P' a h X hbind
+
+theorem safeExec_bind_partial_target {Sigma A B : Type}
+    (c1 c1' : program Sigma A) (c2 : A -> program Sigma B)
+    (P P' : Sigma -> Prop) (c : program Sigma B) :
+    (forall X, safeExec P c1 X -> safeExec P' c1' X) ->
+    forall X, safeExec P (MonadErr.bind c1 c2) X ->
+      c = MonadErr.bind c1' c2 -> safeExec P' c X := by
+  intro h X hbind hc
+  subst c
+  let X' : A -> Sigma -> Prop := fun a => weakestpre (c2 a) X
+  have hc1 : safeExec P c1 X' := by
+    rcases hbind with ⟨s, hp, hs⟩
+    exact ⟨s, hp, ((wp_bind c1 c2 X) s).mp hs⟩
+  rcases h X' hc1 with ⟨s, hp, hs⟩
+  exact ⟨s, hp, ((wp_bind c1' c2 X) s).mpr hs⟩
+
 theorem safeExec_bind' {Sigma A B : Type} (c1 : program Sigma A)
     (c2 : A -> program Sigma B) (P P' : Sigma -> Prop) :
     (forall X, safeExec P c1 X -> exists a, safeExec P' (MonadErr.ret a) X) ->
@@ -443,6 +468,33 @@ theorem Hoare_result_state {Sigma A : Type} (P : Sigma -> Prop)
     Hoare P c Q -> forall a s, result_state P c a s -> Q a s := by
   rintro h a s ⟨s0, hp, hn⟩
   exact h.1 a s0 s hp hn
+
+theorem vertical_composition_rule {Sigma A : Type}
+    (P1 P2 : Sigma -> Prop) (c : program Sigma A)
+    (Q : A -> Sigma -> Prop) (a : A) :
+    (forall X, safeExec P1 c X -> safeExec P2 (MonadErr.ret a) X) ->
+    Hoare P1 c Q -> (exists s, P1 s) ->
+    exists s', Q a s' /\ P2 s' := by
+  rintro hderive hhoare ⟨s, hp1⟩
+  have hnoerr : Not (c.err s) := fun herr => hhoare.2 s hp1 herr
+  have hinit : safeExec P1 c (c.nrm s) := ⟨s, hp1, wp_self c s hnoerr⟩
+  rcases hderive (c.nrm s) hinit with ⟨s', hp2, hret⟩
+  have hn : c.nrm s a s' := (wp_ret a (c.nrm s) s').mp hret
+  exact ⟨s', hhoare.1 a s s' hp1 hn, hp2⟩
+
+theorem Hoare_safeexec_imply_compose {Sigma A : Type}
+    (P1 P2 : Sigma -> Prop) (c : program Sigma A)
+    (Q : A -> Sigma -> Prop) (a : A) :
+    Hoare P1 c Q ->
+    (safeExec P1 c Q -> safeExec P2 (MonadErr.ret a) Q) ->
+    (exists s, P1 s) -> exists s', Q a s' /\ P2 s' := by
+  rintro hhoare hderive ⟨s, hp1⟩
+  have hnoerr : Not (c.err s) := fun herr => hhoare.2 s hp1 herr
+  have hresult := safeExec_result_state P1 c ⟨s, hp1, hnoerr⟩
+  have hsafeQ := safeExec_X_subset c P1 (result_state P1 c) Q
+    (fun a s hs => Hoare_result_state P1 c Q hhoare a s hs) hresult
+  rcases hderive hsafeQ with ⟨s', hp2, hret⟩
+  exact ⟨s', (wp_ret a Q s').mp hret, hp2⟩
 
 theorem Hoare_safeexec_compose {Sigma A : Type} (P1 : Sigma -> Prop)
     (c : program Sigma A) (Q : A -> Sigma -> Prop) :

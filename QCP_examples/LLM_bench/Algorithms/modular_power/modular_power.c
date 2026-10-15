@@ -1,3 +1,4 @@
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.modular_power.modular_power_lib */
 /*@ Extern Coq
       (ModularPower : Z -> Z -> Z -> Z -> Prop)
       (ModularPowerProgress : Z -> Z -> Z -> Z -> Z -> Z -> Prop)

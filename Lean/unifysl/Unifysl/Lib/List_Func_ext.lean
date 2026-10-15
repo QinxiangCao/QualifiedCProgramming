@@ -283,16 +283,14 @@ theorem semi_group_fold_concat {A : Type u}
   | nil =>
       simpa [semi_group_fold] using EqRA.refl default
   | cons l ls ih =>
-      cases hls with
-      | cons hl hls =>
-          cases ls with
-          | nil =>
-              simpa [semi_group_fold] using EqRA.refl (semi_group_fold default f l)
-          | cons l' ls =>
+      rcases coq_list_forall_cons_iff.mp hls with ⟨hl, hls⟩
+      cases ls with
+      | nil =>
+          simpa [semi_group_fold] using EqRA.refl (semi_group_fold default f l)
+      | cons l' ls =>
               have hflat_tail : not_nil (List.flatten (l' :: ls)) := by
-                cases hls with
-                | cons hl' _ =>
-                    exact not_nil_app_l l' (List.flatten ls) hl'
+                have hl' := (coq_list_forall_cons_iff.mp hls).1
+                exact not_nil_app_l l' (List.flatten ls) hl'
               have hmap_tail :
                   not_nil (List.map (semi_group_fold default f) (l' :: ls)) := by
                 simp [not_nil]

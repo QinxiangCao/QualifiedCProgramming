@@ -11,7 +11,7 @@ Require Import SetsClass.SetsClass.
 From MonadLib.MonadErr Require Import MonadErrBasic MonadErrHoare MonadErrLoop MonadErrHoarePartial MonadErrLoop.
 From GraphLib Require Import graph_basic reachable_basic.
 From SimpleC.EE.LLM_bench.Algorithms.kosaraju Require Import SCC.
-Require Import BourbakiWitt.
+Require Import FP.BourbakiWitt.
 Import SetsNotation.
 Import MonadNotation.
 Local Open Scope sets.

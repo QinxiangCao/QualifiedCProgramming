@@ -1,20 +1,91 @@
+import Mathlib.Data.List.Defs
+
 namespace List
 
 abbrev get? (xs : List α) (i : Nat) : Option α :=
   xs[i]?
 
-inductive Forall (P : α -> Prop) : List α -> Prop where
-| nil : Forall P []
-| cons {x : α} {xs : List α} : P x -> Forall P xs -> Forall P (x :: xs)
+namespace Forall
 
-inductive Forall₂ (P : α -> β -> Prop) : List α -> List β -> Prop where
-| nil : Forall₂ P [] []
-| cons {x : α} {y : β} {xs : List α} {ys : List β} :
-    P x y -> Forall₂ P xs ys -> Forall₂ P (x :: xs) (y :: ys)
+theorem nil {P : α -> Prop} : List.Forall P [] := by
+  simp [List.Forall]
+
+theorem cons {P : α -> Prop} {x : α} {xs : List α}
+    (hx : P x) (hxs : List.Forall P xs) : List.Forall P (x :: xs) := by
+  cases xs with
+  | nil => simpa [List.Forall] using hx
+  | cons y ys => simpa [List.Forall] using And.intro hx hxs
+
+@[elab_as_elim, induction_eliminator]
+protected noncomputable def rec {P : α -> Prop}
+    {motive : (xs : List α) -> List.Forall P xs -> Sort v}
+    (nil : motive [] List.Forall.nil)
+    (cons : forall {x xs} (hx : P x) (hxs : List.Forall P xs),
+      motive xs hxs -> motive (x :: xs) (List.Forall.cons hx hxs)) :
+    forall {xs} (hxs : List.Forall P xs), motive xs hxs := by
+  intro xs
+  induction xs with
+  | nil =>
+      intro hxs
+      simpa only [Subsingleton.elim hxs List.Forall.nil] using nil
+  | cons x xs ih =>
+      intro hxs
+      have parts : P x /\ List.Forall P xs := by
+        cases xs with
+        | nil => simpa [List.Forall] using hxs
+        | cons y ys => simpa [List.Forall] using hxs
+      have step := cons parts.1 parts.2 (ih parts.2)
+      simpa only [Subsingleton.elim hxs (List.Forall.cons parts.1 parts.2)] using step
+
+@[elab_as_elim, cases_eliminator]
+protected noncomputable def casesOn {P : α -> Prop}
+    {motive : (xs : List α) -> List.Forall P xs -> Sort v}
+    (hxs : List.Forall P xs)
+    (nil : motive [] List.Forall.nil)
+    (cons : forall {x xs} (hx : P x) (hxs : List.Forall P xs),
+      motive (x :: xs) (List.Forall.cons hx hxs)) : motive xs hxs := by
+  cases xs with
+  | nil =>
+      simpa only [Subsingleton.elim hxs List.Forall.nil] using nil
+  | cons x xs =>
+      have parts : P x /\ List.Forall P xs := by
+        cases xs with
+        | nil => simpa [List.Forall] using hxs
+        | cons y ys => simpa [List.Forall] using hxs
+      have step := cons parts.1 parts.2
+      simpa only [Subsingleton.elim hxs (List.Forall.cons parts.1 parts.2)] using step
+
+end Forall
 
 end List
 
 namespace Unifysl
+
+theorem coq_list_forall_cons_iff {A : Type u} {P : A -> Prop}
+    {x : A} {xs : List A} :
+    List.Forall P (x :: xs) <-> P x /\ List.Forall P xs := by
+  cases xs <;> simp [List.Forall]
+
+theorem coq_list_forall_iff_forall_mem {A : Type u} {P : A -> Prop}
+    {xs : List A} :
+    List.Forall P xs <-> forall x, x ∈ xs -> P x := by
+  induction xs with
+  | nil => simp [List.Forall]
+  | cons x xs ih =>
+      rw [coq_list_forall_cons_iff]
+      simp only [List.mem_cons]
+      constructor
+      · rintro ⟨hx, hxs⟩ y (rfl | hy)
+        · exact hx
+        · exact ih.mp hxs y hy
+      · intro h
+        exact ⟨h x (Or.inl rfl), ih.mpr (fun y hy => h y (Or.inr hy))⟩
+
+theorem coq_list_forall_impl {A : Type u} {P Q : A -> Prop}
+    (h : forall x, P x -> Q x) {xs : List A}
+    (hxs : List.Forall P xs) : List.Forall Q xs :=
+  coq_list_forall_iff_forall_mem.mpr fun x hx =>
+    h x (coq_list_forall_iff_forall_mem.mp hxs x hx)
 
 theorem prop_ext : forall A B : Prop, (A <-> B) -> A = B := by
   intro A B h
@@ -22,30 +93,16 @@ theorem prop_ext : forall A B : Prop, (A <-> B) -> A = B := by
 
 private theorem Forall_impl {A : Type u} {P Q : A -> Prop}
     (h : forall x, P x -> Q x) :
-    forall {xs : List A}, List.Forall P xs -> List.Forall Q xs
-  | [], List.Forall.nil => List.Forall.nil
-  | x :: _, List.Forall.cons hx hxs => List.Forall.cons (h x hx) (Forall_impl h hxs)
+    forall {xs : List A}, List.Forall P xs -> List.Forall Q xs :=
+  fun {_} hxs => coq_list_forall_impl h hxs
 
 private theorem Forall_mem {A : Type u} {P : A -> Prop} {xs : List A}
-    (h : List.Forall P xs) : forall x, x ∈ xs -> P x := by
-  induction h with
-  | nil =>
-      intro x hx
-      cases hx
-  | cons hx hxs ih =>
-      intro y hy
-      cases hy with
-      | head =>
-          exact hx
-      | tail _ hy =>
-          exact ih y hy
+    (h : List.Forall P xs) : forall x, x ∈ xs -> P x :=
+  coq_list_forall_iff_forall_mem.mp h
 
 private theorem Forall_of_forall_mem {A : Type u} {P : A -> Prop} :
-    forall {xs : List A}, (forall x, x ∈ xs -> P x) -> List.Forall P xs
-  | [], _ => List.Forall.nil
-  | x :: xs, h =>
-      List.Forall.cons (h x (List.Mem.head xs))
-        (Forall_of_forall_mem (fun y hy => h y (List.Mem.tail x hy)))
+    forall {xs : List A}, (forall x, x ∈ xs -> P x) -> List.Forall P xs :=
+  fun {_} h => coq_list_forall_iff_forall_mem.mpr h
 
 theorem fin_subset_match {A : Type u} {B : Type v} {P : A -> B -> Prop} :
     forall (X : A -> Prop) (Y : B -> Prop),
@@ -53,12 +110,13 @@ theorem fin_subset_match {A : Type u} {B : Type v} {P : A -> B -> Prop} :
       forall xs, List.Forall (fun x => X x) xs ->
         exists ys, List.Forall₂ P xs ys /\ List.Forall (fun y => Y y) ys := by
   intro X Y h xs hxs
-  induction hxs with
+  induction xs with
   | nil =>
       exact ⟨[], List.Forall₂.nil, List.Forall.nil⟩
-  | cons hx hxs ih =>
-      rcases ih with ⟨ys, hrel, hall⟩
-      rcases h _ hx with ⟨y, hpy, hy⟩
+  | cons x xs ih =>
+      rcases coq_list_forall_cons_iff.mp hxs with ⟨hx, htail⟩
+      rcases ih htail with ⟨ys, hrel, hall⟩
+      rcases h x hx with ⟨y, hpy, hy⟩
       exact ⟨y :: ys, List.Forall₂.cons hpy hrel, List.Forall.cons hy hall⟩
 
 theorem Forall2_lr_rev {A : Type u} {B : Type v} {P : A -> B -> Prop} :
@@ -88,14 +146,12 @@ theorem Forall_app_iff :
       intro l2
       constructor
       · intro h
-        cases h with
-        | cons hx htail =>
-            have hboth := (ih l2).mp htail
-            exact ⟨List.Forall.cons hx hboth.1, hboth.2⟩
+        rcases coq_list_forall_cons_iff.mp h with ⟨hx, htail⟩
+        have hboth := (ih l2).mp htail
+        exact ⟨List.Forall.cons hx hboth.1, hboth.2⟩
       · intro h
-        cases h.1 with
-        | cons hx hxs =>
-            exact List.Forall.cons hx ((ih l2).mpr ⟨hxs, h.2⟩)
+        rcases coq_list_forall_cons_iff.mp h.1 with ⟨hx, hxs⟩
+        exact List.Forall.cons hx ((ih l2).mpr ⟨hxs, h.2⟩)
 
 inductive remove_rel {A : Type u} : A -> List A -> List A -> Prop where
 | remove_rel_nil : forall a, remove_rel a [] []

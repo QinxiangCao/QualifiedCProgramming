@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P053_1393C_pinkie_pie_eats_patty_cakes_goal P053_1393C_pinkie_pie_eats_patty_cakes_proof_auto P053_1393C_pinkie_pie_eats_patty_cakes_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P053_1393C_pinkie_pie_eats_patty_cakes_proof_auto.
+  Include P053_1393C_pinkie_pie_eats_patty_cakes_proof_manual.
+End VC_Correctness.

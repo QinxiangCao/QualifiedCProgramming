@@ -275,26 +275,16 @@ theorem derivable1_axiom2 {L : Language.{u}} [MinimumLanguage L]
 
 private theorem list_forall_impl {A : Type u} {P Q : A -> Prop}
     (h : forall x, P x -> Q x) :
-    forall {xs : List A}, List.Forall P xs -> List.Forall Q xs
-  | [], List.Forall.nil => List.Forall.nil
-  | _ :: _, List.Forall.cons hx hxs =>
-      List.Forall.cons (h _ hx) (list_forall_impl h hxs)
+    forall {xs : List A}, List.Forall P xs -> List.Forall Q xs :=
+  fun {_} hxs => coq_list_forall_impl h hxs
 
 private theorem list_forall_mem_self {A : Type u} :
-    forall xs : List A, List.Forall (fun x => x ∈ xs) xs
-  | [] => List.Forall.nil
-  | x :: xs =>
-      List.Forall.cons (List.Mem.head xs)
-        (list_forall_impl (fun _ hz => List.Mem.tail x hz)
-          (list_forall_mem_self xs))
+    forall xs : List A, List.Forall (fun x => x ∈ xs) xs :=
+  fun xs => (coq_list_forall_iff_forall_mem (xs := xs)).mpr fun _ hx => hx
 
 private theorem list_forall_mem {A : Type u} {P : A -> Prop} :
-    forall {xs : List A}, List.Forall P xs -> forall x, x ∈ xs -> P x
-  | [], List.Forall.nil, x, hx => by cases hx
-  | _ :: _, List.Forall.cons hx hxs, x, hmem => by
-      cases hmem with
-      | head => exact hx
-      | tail _ htail => exact list_forall_mem hxs x htail
+    forall {xs : List A}, List.Forall P xs -> forall x, x ∈ xs -> P x :=
+  fun {_} hxs => coq_list_forall_iff_forall_mem.mp hxs
 
 section DerivableRulesFromAxiomatization
 
@@ -629,8 +619,7 @@ theorem provable_multi_imp_split :
         simpa [multi_imp] using hprov⟩
   | cons a xs ih =>
       intro y hxs hprov
-      cases hxs with
-      | cons hx htail =>
+      rcases coq_list_forall_cons_iff.mp hxs with ⟨hx, htail⟩
       have hswitched : @Provable.provable L Gamma
           (multi_imp xs (a ⟶ y)) := by
         exact MinimumAxiomatization.modus_ponens (Gamma := Gamma) _ _
@@ -731,18 +720,17 @@ private theorem provable_multi_imp_singleton_right :
         (MinimumAxiomatization.axiom1 (Gamma := Gamma) y x)
   | cons a xs ih =>
       intro hxs
-      cases hxs with
-      | cons hsing htail =>
-          cases hsing
-          have ihTail : @Provable.provable L Gamma (multi_imp xs y ⟶ x ⟶ y) :=
-            ih htail
-          have hlift : @Provable.provable L Gamma
-              ((x ⟶ multi_imp xs y) ⟶ x ⟶ x ⟶ y) := by
-            exact aux_minimun_rule01 (multi_imp xs y) (x ⟶ y) x ihTail
-          exact by
-            simpa [multi_imp] using
-              (aux_minimun_rule02 (x ⟶ multi_imp xs y) (x ⟶ x ⟶ y)
-                (x ⟶ y) hlift (aux_minimun_theorem04 x y))
+      rcases coq_list_forall_cons_iff.mp hxs with ⟨hsing, htail⟩
+      cases hsing
+      have ihTail : @Provable.provable L Gamma (multi_imp xs y ⟶ x ⟶ y) :=
+        ih htail
+      have hlift : @Provable.provable L Gamma
+          ((x ⟶ multi_imp xs y) ⟶ x ⟶ x ⟶ y) := by
+        exact aux_minimun_rule01 (multi_imp xs y) (x ⟶ y) x ihTail
+      exact by
+        simpa [multi_imp] using
+          (aux_minimun_rule02 (x ⟶ multi_imp xs y) (x ⟶ x ⟶ y)
+            (x ⟶ y) hlift (aux_minimun_theorem04 x y))
 
 end DerivableRulesMultiImpp
 
@@ -770,8 +758,8 @@ theorem Axiomatization2SequentCalculus_GammaPD :
     | nil =>
         simpa [multi_imp] using hprov
     | cons a xs =>
-        cases hxs with
-        | cons ha _ => cases ha
+        have ha := (coq_list_forall_cons_iff.mp hxs).1
+        cases ha
 
 theorem Axiomatization2SequentCalculus_fwSC :
     FiniteWitnessedSequentCalculus L GammaD := by

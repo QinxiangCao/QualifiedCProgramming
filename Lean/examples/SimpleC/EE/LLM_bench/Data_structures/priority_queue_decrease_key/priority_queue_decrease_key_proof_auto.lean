@@ -1,0 +1,299 @@
+import SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal
+
+set_option linter.unusedVariables false
+
+namespace SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_proof_auto
+
+theorem proof_of_pqdk_sift_up_safety_wit_1 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_up_safety_wit_1 := by
+  sorry
+
+theorem proof_of_pqdk_sift_up_safety_wit_2 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_up_safety_wit_2 := by
+  sorry
+
+theorem proof_of_pqdk_sift_up_safety_wit_3 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_up_safety_wit_3 := by
+  sorry
+
+theorem proof_of_pqdk_sift_up_safety_wit_4 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_up_safety_wit_4 := by
+  sorry
+
+theorem proof_of_pqdk_sift_up_safety_wit_5 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_up_safety_wit_5 := by
+  sorry
+
+theorem proof_of_pqdk_sift_up_partial_solve_wit_1 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_up_partial_solve_wit_1 := by
+  sorry
+
+theorem proof_of_pqdk_sift_up_partial_solve_wit_2 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_up_partial_solve_wit_2 := by
+  sorry
+
+theorem proof_of_pqdk_sift_up_partial_solve_wit_3 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_up_partial_solve_wit_3 := by
+  sorry
+
+theorem proof_of_pqdk_sift_up_partial_solve_wit_4 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_up_partial_solve_wit_4 := by
+  sorry
+
+theorem proof_of_pqdk_sift_up_partial_solve_wit_5 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_up_partial_solve_wit_5 := by
+  sorry
+
+theorem proof_of_pqdk_sift_up_partial_solve_wit_6 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_up_partial_solve_wit_6 := by
+  sorry
+
+theorem proof_of_pqdk_sift_up_partial_solve_wit_7 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_up_partial_solve_wit_7 := by
+  sorry
+
+theorem proof_of_pqdk_sift_up_partial_solve_wit_8 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_up_partial_solve_wit_8 := by
+  sorry
+
+theorem proof_of_pqdk_sift_up_partial_solve_wit_9 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_up_partial_solve_wit_9 := by
+  sorry
+
+theorem proof_of_pqdk_sift_up_partial_solve_wit_10 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_up_partial_solve_wit_10 := by
+  sorry
+
+theorem proof_of_pqdk_sift_up_partial_solve_wit_11 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_up_partial_solve_wit_11 := by
+  sorry
+
+theorem proof_of_pqdk_sift_up_partial_solve_wit_12 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_up_partial_solve_wit_12 := by
+  sorry
+
+theorem proof_of_pqdk_sift_up_partial_solve_wit_13 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_up_partial_solve_wit_13 := by
+  sorry
+
+theorem proof_of_pqdk_sift_up_partial_solve_wit_14 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_up_partial_solve_wit_14 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_safety_wit_3 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_safety_wit_3 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_safety_wit_4 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_safety_wit_4 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_safety_wit_5 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_safety_wit_5 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_safety_wit_6 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_safety_wit_6 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_safety_wit_7 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_safety_wit_7 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_safety_wit_8 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_safety_wit_8 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_safety_wit_9 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_safety_wit_9 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_safety_wit_10 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_safety_wit_10 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_entail_wit_2 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_entail_wit_2 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_partial_solve_wit_1 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_partial_solve_wit_1 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_partial_solve_wit_2 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_partial_solve_wit_2 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_partial_solve_wit_3 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_partial_solve_wit_3 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_partial_solve_wit_4 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_partial_solve_wit_4 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_partial_solve_wit_5 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_partial_solve_wit_5 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_partial_solve_wit_6 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_partial_solve_wit_6 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_partial_solve_wit_7 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_partial_solve_wit_7 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_partial_solve_wit_8 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_partial_solve_wit_8 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_partial_solve_wit_9 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_partial_solve_wit_9 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_partial_solve_wit_10 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_partial_solve_wit_10 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_partial_solve_wit_11 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_partial_solve_wit_11 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_partial_solve_wit_12 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_partial_solve_wit_12 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_partial_solve_wit_13 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_partial_solve_wit_13 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_partial_solve_wit_14 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_partial_solve_wit_14 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_partial_solve_wit_15 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_partial_solve_wit_15 := by
+  sorry
+
+theorem proof_of_pqdk_sift_down_partial_solve_wit_16 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_sift_down_partial_solve_wit_16 := by
+  sorry
+
+theorem proof_of_pqdk_push_safety_wit_2 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_push_safety_wit_2 := by
+  sorry
+
+theorem proof_of_pqdk_push_safety_wit_3 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_push_safety_wit_3 := by
+  sorry
+
+theorem proof_of_pqdk_push_safety_wit_4 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_push_safety_wit_4 := by
+  sorry
+
+theorem proof_of_pqdk_push_return_wit_1 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_push_return_wit_1 := by
+  sorry
+
+theorem proof_of_pqdk_push_partial_solve_wit_1 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_push_partial_solve_wit_1 := by
+  sorry
+
+theorem proof_of_pqdk_push_partial_solve_wit_2 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_push_partial_solve_wit_2 := by
+  sorry
+
+theorem proof_of_pqdk_push_partial_solve_wit_3 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_push_partial_solve_wit_3 := by
+  sorry
+
+theorem proof_of_pqdk_push_partial_solve_wit_4_pure : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_push_partial_solve_wit_4_pure := by
+  sorry
+
+theorem proof_of_pqdk_push_partial_solve_wit_4 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_push_partial_solve_wit_4 := by
+  sorry
+
+theorem proof_of_pqdk_decrease_key_return_wit_1 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_decrease_key_return_wit_1 := by
+  sorry
+
+theorem proof_of_pqdk_decrease_key_partial_solve_wit_1 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_decrease_key_partial_solve_wit_1 := by
+  sorry
+
+theorem proof_of_pqdk_decrease_key_partial_solve_wit_2 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_decrease_key_partial_solve_wit_2 := by
+  sorry
+
+theorem proof_of_pqdk_decrease_key_partial_solve_wit_3_pure : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_decrease_key_partial_solve_wit_3_pure := by
+  sorry
+
+theorem proof_of_pqdk_decrease_key_partial_solve_wit_3 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_decrease_key_partial_solve_wit_3 := by
+  sorry
+
+theorem proof_of_pqdk_update_or_push_safety_wit_1 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_update_or_push_safety_wit_1 := by
+  sorry
+
+theorem proof_of_pqdk_update_or_push_return_wit_1 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_update_or_push_return_wit_1 := by
+  sorry
+
+theorem proof_of_pqdk_update_or_push_partial_solve_wit_1 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_update_or_push_partial_solve_wit_1 := by
+  sorry
+
+theorem proof_of_pqdk_update_or_push_partial_solve_wit_2_pure : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_update_or_push_partial_solve_wit_2_pure := by
+  sorry
+
+theorem proof_of_pqdk_update_or_push_partial_solve_wit_2 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_update_or_push_partial_solve_wit_2 := by
+  sorry
+
+theorem proof_of_pqdk_update_or_push_partial_solve_wit_3_pure : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_update_or_push_partial_solve_wit_3_pure := by
+  sorry
+
+theorem proof_of_pqdk_update_or_push_partial_solve_wit_3 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_update_or_push_partial_solve_wit_3 := by
+  sorry
+
+theorem proof_of_pqdk_pop_safety_wit_1 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_safety_wit_1 := by
+  sorry
+
+theorem proof_of_pqdk_pop_safety_wit_2 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_safety_wit_2 := by
+  sorry
+
+theorem proof_of_pqdk_pop_safety_wit_3 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_safety_wit_3 := by
+  sorry
+
+theorem proof_of_pqdk_pop_safety_wit_4 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_safety_wit_4 := by
+  sorry
+
+theorem proof_of_pqdk_pop_safety_wit_5 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_safety_wit_5 := by
+  sorry
+
+theorem proof_of_pqdk_pop_safety_wit_6 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_safety_wit_6 := by
+  sorry
+
+theorem proof_of_pqdk_pop_safety_wit_7 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_safety_wit_7 := by
+  sorry
+
+theorem proof_of_pqdk_pop_safety_wit_8 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_safety_wit_8 := by
+  sorry
+
+theorem proof_of_pqdk_pop_safety_wit_9 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_safety_wit_9 := by
+  sorry
+
+theorem proof_of_pqdk_pop_safety_wit_10 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_safety_wit_10 := by
+  sorry
+
+theorem proof_of_pqdk_pop_safety_wit_11 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_safety_wit_11 := by
+  sorry
+
+theorem proof_of_pqdk_pop_safety_wit_12 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_safety_wit_12 := by
+  sorry
+
+theorem proof_of_pqdk_pop_safety_wit_13 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_safety_wit_13 := by
+  sorry
+
+theorem proof_of_pqdk_pop_safety_wit_14 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_safety_wit_14 := by
+  sorry
+
+theorem proof_of_pqdk_pop_safety_wit_15 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_safety_wit_15 := by
+  sorry
+
+theorem proof_of_pqdk_pop_safety_wit_16 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_safety_wit_16 := by
+  sorry
+
+theorem proof_of_pqdk_pop_safety_wit_17 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_safety_wit_17 := by
+  sorry
+
+theorem proof_of_pqdk_pop_safety_wit_18 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_safety_wit_18 := by
+  sorry
+
+theorem proof_of_pqdk_pop_safety_wit_19 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_safety_wit_19 := by
+  sorry
+
+theorem proof_of_pqdk_pop_safety_wit_20 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_safety_wit_20 := by
+  sorry
+
+theorem proof_of_pqdk_pop_return_wit_2 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_return_wit_2 := by
+  sorry
+
+theorem proof_of_pqdk_pop_partial_solve_wit_1 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_partial_solve_wit_1 := by
+  sorry
+
+theorem proof_of_pqdk_pop_partial_solve_wit_2 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_partial_solve_wit_2 := by
+  sorry
+
+theorem proof_of_pqdk_pop_partial_solve_wit_3 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_partial_solve_wit_3 := by
+  sorry
+
+theorem proof_of_pqdk_pop_partial_solve_wit_4 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_partial_solve_wit_4 := by
+  sorry
+
+theorem proof_of_pqdk_pop_partial_solve_wit_5 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_partial_solve_wit_5 := by
+  sorry
+
+theorem proof_of_pqdk_pop_partial_solve_wit_6 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_partial_solve_wit_6 := by
+  sorry
+
+theorem proof_of_pqdk_pop_partial_solve_wit_7 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_partial_solve_wit_7 := by
+  sorry
+
+theorem proof_of_pqdk_pop_partial_solve_wit_8 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_partial_solve_wit_8 := by
+  sorry
+
+theorem proof_of_pqdk_pop_partial_solve_wit_9 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_partial_solve_wit_9 := by
+  sorry
+
+theorem proof_of_pqdk_pop_partial_solve_wit_10_pure : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_partial_solve_wit_10_pure := by
+  sorry
+
+theorem proof_of_pqdk_pop_partial_solve_wit_10 : SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_goal.pqdk_pop_partial_solve_wit_10 := by
+  sorry
+
+
+end SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_proof_auto

@@ -1,0 +1,54 @@
+import SimpleC.EE.LLM_bench.Algorithms.huffman_encoding.huffman_encoding_proof_auto
+import SimpleC.EE.LLM_bench.Algorithms.huffman_encoding.huffman_encoding_proof_manual
+
+namespace SimpleC.EE.LLM_bench.Algorithms.huffman_encoding.huffman_encoding_goal_check
+
+open SimpleC.EE.LLM_bench.Algorithms.huffman_encoding.huffman_encoding_proof_auto
+open SimpleC.EE.LLM_bench.Algorithms.huffman_encoding.huffman_encoding_proof_manual
+
+def VC_Correctness : SimpleC.EE.LLM_bench.Algorithms.huffman_encoding.huffman_encoding_goal.VC_Correct where
+  proof_of_huffman_cost_safety_wit_1 := proof_of_huffman_cost_safety_wit_1
+  proof_of_huffman_cost_safety_wit_2 := proof_of_huffman_cost_safety_wit_2
+  proof_of_huffman_cost_safety_wit_3 := proof_of_huffman_cost_safety_wit_3
+  proof_of_huffman_cost_safety_wit_4 := proof_of_huffman_cost_safety_wit_4
+  proof_of_huffman_cost_safety_wit_5 := proof_of_huffman_cost_safety_wit_5
+  proof_of_huffman_cost_safety_wit_6 := proof_of_huffman_cost_safety_wit_6
+  proof_of_huffman_cost_safety_wit_7 := proof_of_huffman_cost_safety_wit_7
+  proof_of_huffman_cost_safety_wit_8 := proof_of_huffman_cost_safety_wit_8
+  proof_of_huffman_cost_safety_wit_9 := proof_of_huffman_cost_safety_wit_9
+  proof_of_huffman_cost_safety_wit_10 := proof_of_huffman_cost_safety_wit_10
+  proof_of_huffman_cost_safety_wit_11 := proof_of_huffman_cost_safety_wit_11
+  proof_of_huffman_cost_safety_wit_12 := proof_of_huffman_cost_safety_wit_12
+  proof_of_huffman_cost_safety_wit_13 := proof_of_huffman_cost_safety_wit_13
+  proof_of_huffman_cost_safety_wit_14 := proof_of_huffman_cost_safety_wit_14
+  proof_of_huffman_cost_safety_wit_17 := proof_of_huffman_cost_safety_wit_17
+  proof_of_huffman_cost_entail_wit_5 := proof_of_huffman_cost_entail_wit_5
+  proof_of_huffman_cost_return_wit_1 := proof_of_huffman_cost_return_wit_1
+  proof_of_huffman_cost_partial_solve_wit_1 := proof_of_huffman_cost_partial_solve_wit_1
+  proof_of_huffman_cost_partial_solve_wit_2 := proof_of_huffman_cost_partial_solve_wit_2
+  proof_of_huffman_cost_partial_solve_wit_3 := proof_of_huffman_cost_partial_solve_wit_3
+  proof_of_huffman_cost_partial_solve_wit_4 := proof_of_huffman_cost_partial_solve_wit_4
+  proof_of_huffman_cost_partial_solve_wit_5 := proof_of_huffman_cost_partial_solve_wit_5
+  proof_of_huffman_cost_partial_solve_wit_6 := proof_of_huffman_cost_partial_solve_wit_6
+  proof_of_huffman_cost_partial_solve_wit_7 := proof_of_huffman_cost_partial_solve_wit_7
+  proof_of_huffman_cost_partial_solve_wit_8 := proof_of_huffman_cost_partial_solve_wit_8
+  proof_of_huffman_cost_partial_solve_wit_9 := proof_of_huffman_cost_partial_solve_wit_9
+  proof_of_huffman_cost_partial_solve_wit_10 := proof_of_huffman_cost_partial_solve_wit_10
+  proof_of_huffman_cost_partial_solve_wit_11 := proof_of_huffman_cost_partial_solve_wit_11
+  proof_of_huffman_cost_partial_solve_wit_12 := proof_of_huffman_cost_partial_solve_wit_12
+  proof_of_huffman_cost_partial_solve_wit_13 := proof_of_huffman_cost_partial_solve_wit_13
+  proof_of_huffman_cost_safety_wit_15 := proof_of_huffman_cost_safety_wit_15
+  proof_of_huffman_cost_safety_wit_16 := proof_of_huffman_cost_safety_wit_16
+  proof_of_huffman_cost_entail_wit_1 := proof_of_huffman_cost_entail_wit_1
+  proof_of_huffman_cost_entail_wit_2 := proof_of_huffman_cost_entail_wit_2
+  proof_of_huffman_cost_entail_wit_3 := proof_of_huffman_cost_entail_wit_3
+  proof_of_huffman_cost_entail_wit_4 := proof_of_huffman_cost_entail_wit_4
+  proof_of_huffman_cost_entail_wit_6_1 := proof_of_huffman_cost_entail_wit_6_1
+  proof_of_huffman_cost_entail_wit_6_2 := proof_of_huffman_cost_entail_wit_6_2
+  proof_of_huffman_cost_entail_wit_7 := proof_of_huffman_cost_entail_wit_7
+  proof_of_huffman_cost_entail_wit_8_1 := proof_of_huffman_cost_entail_wit_8_1
+  proof_of_huffman_cost_entail_wit_8_2 := proof_of_huffman_cost_entail_wit_8_2
+  proof_of_huffman_cost_entail_wit_9 := proof_of_huffman_cost_entail_wit_9
+  proof_of_huffman_cost_entail_wit_10 := proof_of_huffman_cost_entail_wit_10
+
+end SimpleC.EE.LLM_bench.Algorithms.huffman_encoding.huffman_encoding_goal_check

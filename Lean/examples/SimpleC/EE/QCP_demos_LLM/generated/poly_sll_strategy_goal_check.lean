@@ -1,0 +1,21 @@
+import SimpleC.EE.QCP_demos_LLM.generated.poly_sll_strategy_proof
+
+namespace SimpleC.EE.QCP_demos_LLM.generated.poly_sll_strategy_goal_check
+
+def poly_sll_Strategy_Correctness : SimpleC.EE.QCP_demos_LLM.generated.poly_sll_strategy_goal.poly_sll_Strategy_Correct where
+  poly_sll_strategy1_correctness := SimpleC.EE.QCP_demos_LLM.generated.poly_sll_strategy_proof.poly_sll_strategy1_correctness
+  poly_sll_strategy2_correctness := SimpleC.EE.QCP_demos_LLM.generated.poly_sll_strategy_proof.poly_sll_strategy2_correctness
+  poly_sll_strategy4_correctness := SimpleC.EE.QCP_demos_LLM.generated.poly_sll_strategy_proof.poly_sll_strategy4_correctness
+  poly_sll_strategy5_correctness := SimpleC.EE.QCP_demos_LLM.generated.poly_sll_strategy_proof.poly_sll_strategy5_correctness
+  poly_sll_strategy16_correctness := SimpleC.EE.QCP_demos_LLM.generated.poly_sll_strategy_proof.poly_sll_strategy16_correctness
+  poly_sll_strategy17_correctness := SimpleC.EE.QCP_demos_LLM.generated.poly_sll_strategy_proof.poly_sll_strategy17_correctness
+  poly_sll_strategy18_correctness := SimpleC.EE.QCP_demos_LLM.generated.poly_sll_strategy_proof.poly_sll_strategy18_correctness
+  poly_sll_strategy19_correctness := SimpleC.EE.QCP_demos_LLM.generated.poly_sll_strategy_proof.poly_sll_strategy19_correctness
+  poly_sll_strategy7_correctness := SimpleC.EE.QCP_demos_LLM.generated.poly_sll_strategy_proof.poly_sll_strategy7_correctness
+  poly_sll_strategy10_correctness := SimpleC.EE.QCP_demos_LLM.generated.poly_sll_strategy_proof.poly_sll_strategy10_correctness
+  poly_sll_strategy11_correctness := SimpleC.EE.QCP_demos_LLM.generated.poly_sll_strategy_proof.poly_sll_strategy11_correctness
+  poly_sll_strategy12_correctness := SimpleC.EE.QCP_demos_LLM.generated.poly_sll_strategy_proof.poly_sll_strategy12_correctness
+  poly_sll_strategy8_correctness := SimpleC.EE.QCP_demos_LLM.generated.poly_sll_strategy_proof.poly_sll_strategy8_correctness
+  poly_sll_strategy9_correctness := SimpleC.EE.QCP_demos_LLM.generated.poly_sll_strategy_proof.poly_sll_strategy9_correctness
+
+end SimpleC.EE.QCP_demos_LLM.generated.poly_sll_strategy_goal_check

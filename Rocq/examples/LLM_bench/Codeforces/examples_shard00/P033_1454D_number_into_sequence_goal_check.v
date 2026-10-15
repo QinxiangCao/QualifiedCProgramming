@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P033_1454D_number_into_sequence_goal P033_1454D_number_into_sequence_proof_auto P033_1454D_number_into_sequence_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P033_1454D_number_into_sequence_proof_auto.
+  Include P033_1454D_number_into_sequence_proof_manual.
+End VC_Correctness.

@@ -1,0 +1,18 @@
+import SimpleC.EE.QCP_demos_LLM.generated.array2_strategy_proof
+
+namespace SimpleC.EE.QCP_demos_LLM.generated.array2_strategy_goal_check
+
+def array2_Strategy_Correctness : SimpleC.EE.QCP_demos_LLM.generated.array2_strategy_goal.array2_Strategy_Correct where
+  array2_strategy1_correctness := SimpleC.EE.QCP_demos_LLM.generated.array2_strategy_proof.array2_strategy1_correctness
+  array2_strategy6_correctness := SimpleC.EE.QCP_demos_LLM.generated.array2_strategy_proof.array2_strategy6_correctness
+  array2_strategy7_correctness := SimpleC.EE.QCP_demos_LLM.generated.array2_strategy_proof.array2_strategy7_correctness
+  array2_strategy4_correctness := SimpleC.EE.QCP_demos_LLM.generated.array2_strategy_proof.array2_strategy4_correctness
+  array2_strategy5_correctness := SimpleC.EE.QCP_demos_LLM.generated.array2_strategy_proof.array2_strategy5_correctness
+  array2_strategy2_correctness := SimpleC.EE.QCP_demos_LLM.generated.array2_strategy_proof.array2_strategy2_correctness
+  array2_strategy8_correctness := SimpleC.EE.QCP_demos_LLM.generated.array2_strategy_proof.array2_strategy8_correctness
+  array2_strategy9_correctness := SimpleC.EE.QCP_demos_LLM.generated.array2_strategy_proof.array2_strategy9_correctness
+  array2_strategy10_correctness := SimpleC.EE.QCP_demos_LLM.generated.array2_strategy_proof.array2_strategy10_correctness
+  array2_strategy11_correctness := SimpleC.EE.QCP_demos_LLM.generated.array2_strategy_proof.array2_strategy11_correctness
+  array2_strategy12_correctness := SimpleC.EE.QCP_demos_LLM.generated.array2_strategy_proof.array2_strategy12_correctness
+
+end SimpleC.EE.QCP_demos_LLM.generated.array2_strategy_goal_check

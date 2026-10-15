@@ -1,3 +1,7 @@
+/*@ Import Lean
+import SimpleC.EE.LLM_bench.Algorithms.energy_necklace.energy_necklace_lib
+open SimpleC.EE.LLM_bench.Algorithms.energy_necklace.energy_necklace_lib
+*/
 
 
 

@@ -30,6 +30,7 @@
       (StockAnswerProgress : list Z -> list Z -> list Z -> list Z -> list (list Z) -> Z -> Z -> Z -> Z -> Z -> Prop)
  */
 /*@ Import Coq Require Import SimpleC.EE.LLM_bench.Algorithms.stock_trading.stock_trading_lib */
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.stock_trading.stock_trading_lib */
 
 /* Initialize owned local storage before the dynamic programming invariants. */
 void stock_init_storage(int *storage, int length)

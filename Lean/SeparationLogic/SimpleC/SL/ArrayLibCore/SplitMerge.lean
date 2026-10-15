@@ -8,12 +8,14 @@ open SimpleC.SL.CommonAssertion.DerivedPredSig
 open SimpleC.SL.Mem
 open Unifysl.LogicGenerator.demo932
 
+variable {Arch : SimpleC.SL.CArch.CArchSig}
+variable {Endian : SimpleC.SL.CArch.CEndianSig}
 variable {CRules : SeparationLogicSig}
-variable {DePredSig : DerivedPredSig CRules}
-variable {SLibSig : SimpleC.SL.StoreAux.StoreLibSig CRules DePredSig}
+variable {DePredSig : DerivedPredSig Arch Endian CRules}
+variable {SLibSig : SimpleC.SL.StoreAux.StoreLibSig Arch Endian CRules DePredSig}
 
 theorem seg_split_to_missing_i
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo n m : Int) (l : List ES.A) (a : ES.A)
     (h : lo <= n ∧ n < m) :
     CRules.derivable1 (seg ES x lo m l)
@@ -23,7 +25,7 @@ theorem seg_split_to_missing_i
     store_array_rec_split_to_missing_i CRules ES.A ES.storeA x lo n m l a h
 
 theorem full_split_to_missing_i
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (l : List ES.A) (a : ES.A)
     (h : 0 <= n ∧ n < m) :
     CRules.derivable1 (full ES x m l)
@@ -33,7 +35,7 @@ theorem full_split_to_missing_i
     store_array_split_to_missing_i CRules ES.A ES.storeA x n m l a h
 
 theorem mixed_seg_split_to_mixed_missing_i
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo n m : Int) (l : List (Option ES.A)) (a : Option ES.A)
     (h : lo <= n ∧ n < m) :
     CRules.derivable1 (mixed_seg ES x lo m l)
@@ -44,7 +46,7 @@ theorem mixed_seg_split_to_mixed_missing_i
       x lo n m l a h
 
 theorem mixed_full_split_to_mixed_missing_i
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (l : List (Option ES.A)) (a : Option ES.A)
     (h : 0 <= n ∧ n < m) :
     CRules.derivable1 (mixed_full ES x m l)
@@ -55,7 +57,7 @@ theorem mixed_full_split_to_mixed_missing_i
       x n m l a h
 
 theorem missing_i_merge_to_seg
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo n m : Int) (a : ES.A) (l : List ES.A)
     (h : lo <= n ∧ n < m) :
     CRules.derivable1
@@ -66,7 +68,7 @@ theorem missing_i_merge_to_seg
       x lo n m a l h
 
 theorem missing_i_merge_to_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (a : ES.A) (l : List ES.A)
     (h : 0 <= n ∧ n < m) :
     CRules.derivable1
@@ -77,7 +79,7 @@ theorem missing_i_merge_to_full
       x n m a l h
 
 theorem mixed_missing_i_merge_to_mixed_seg
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo n m : Int) (a : Option ES.A) (l : List (Option ES.A))
     (h : lo <= n ∧ n < m) :
     CRules.derivable1
@@ -89,7 +91,7 @@ theorem mixed_missing_i_merge_to_mixed_seg
       x lo n m a l h
 
 theorem mixed_missing_i_merge_to_mixed_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (a : Option ES.A) (l : List (Option ES.A))
     (h : 0 <= n ∧ n < m) :
     CRules.derivable1
@@ -101,7 +103,7 @@ theorem mixed_missing_i_merge_to_mixed_full
       x n m a l h
 
 theorem undef_seg_split_to_undef_missing_i
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo n m : Int) (h : lo <= n ∧ n < m) :
     CRules.derivable1 (undef_seg ES x lo m)
       (CRules.sepcon (ES.undefstoreA x n) (undef_missing_i ES x n lo m)) := by
@@ -120,7 +122,7 @@ theorem undef_seg_split_to_undef_missing_i
     (CRules.toContext.derivable1_trans _ _ _ hSplit hForget)
 
 theorem undef_full_split_to_undef_missing_i
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (h : 0 <= n ∧ n < m) :
     CRules.derivable1 (undef_full ES x m)
       (CRules.sepcon (ES.undefstoreA x n) (undef_missing_i ES x n 0 m)) :=
@@ -129,7 +131,7 @@ theorem undef_full_split_to_undef_missing_i
     (undef_seg_split_to_undef_missing_i ES x 0 n m h)
 
 theorem undef_missing_i_merge_to_undef_seg
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo n m : Int) (h : lo <= n ∧ n < m) :
     CRules.derivable1
       (CRules.sepcon (ES.undefstoreA x n) (undef_missing_i ES x n lo m))
@@ -153,7 +155,7 @@ theorem undef_missing_i_merge_to_undef_seg
       (mixed_seg_to_undef_seg ES x lo m values)
 
 theorem undef_missing_i_merge_to_undef_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (h : 0 <= n ∧ n < m) :
     CRules.derivable1
       (CRules.sepcon (ES.undefstoreA x n) (undef_missing_i ES x n 0 m))
@@ -164,7 +166,7 @@ theorem undef_missing_i_merge_to_undef_full
   simpa only [Int.zero_mul, Int.add_zero, Int.sub_zero] using hMerge
 
 theorem mixed_seg_split_to_undef_missing_i
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo n m : Int) (l : List (Option ES.A))
     (h : lo <= n ∧ n < m) :
     CRules.derivable1 (mixed_seg ES x lo m l)
@@ -174,7 +176,7 @@ theorem mixed_seg_split_to_undef_missing_i
     (undef_seg_split_to_undef_missing_i ES x lo n m h)
 
 theorem mixed_full_split_to_undef_missing_i
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (l : List (Option ES.A))
     (h : 0 <= n ∧ n < m) :
     CRules.derivable1 (mixed_full ES x m l)
@@ -184,7 +186,7 @@ theorem mixed_full_split_to_undef_missing_i
     (undef_full_split_to_undef_missing_i ES x n m h)
 
 theorem mixed_missing_i_merge_to_undef_seg
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo n m : Int) (a : Option ES.A) (l : List (Option ES.A))
     (h : lo <= n ∧ n < m) :
     CRules.derivable1
@@ -198,7 +200,7 @@ theorem mixed_missing_i_merge_to_undef_seg
     (undef_missing_i_merge_to_undef_seg ES x lo n m h)
 
 theorem mixed_missing_i_merge_to_undef_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (a : Option ES.A) (l : List (Option ES.A))
     (h : 0 <= n ∧ n < m) :
     CRules.derivable1
@@ -211,8 +213,8 @@ theorem mixed_missing_i_merge_to_undef_full
   simpa only [Int.zero_mul, Int.add_zero, Int.sub_zero] using hMerge
 
 private def shapeElementStore
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig) :
-    ELEMENT_STORE CRules DePredSig SLibSig where
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig) :
+    ELEMENT_STORE Arch Endian CRules DePredSig SLibSig where
   A := Unit
   sizeA := ES.sizeA
   storeA := fun x i _ => CRules.exp ES.A fun a => ES.storeA x i a
@@ -243,7 +245,7 @@ private def shapeElementStore
   sizeA_valid := ES.sizeA_valid
 
 theorem seg_shape_split_to_missing_i_shape
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo n m : Int) (h : lo <= n ∧ n < m) :
     CRules.derivable1 (seg_shape ES x lo m)
       (CRules.exp ES.A fun a =>
@@ -257,7 +259,7 @@ theorem seg_shape_split_to_missing_i_shape
     hMove
 
 theorem full_shape_split_to_missing_i_shape
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (h : 0 <= n ∧ n < m) :
     CRules.derivable1 (full_shape ES x m)
       (CRules.exp ES.A fun a =>
@@ -267,7 +269,7 @@ theorem full_shape_split_to_missing_i_shape
     (seg_shape_split_to_missing_i_shape ES x 0 n m h)
 
 theorem missing_i_shape_merge_to_seg_shape
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo n m : Int) (a : ES.A) (h : lo <= n ∧ n < m) :
     CRules.derivable1
       (CRules.sepcon (ES.storeA x n a) (missing_i_shape ES x n lo m))
@@ -284,7 +286,7 @@ theorem missing_i_shape_merge_to_seg_shape
         shapeElementStore] using hMerge)
 
 theorem missing_i_shape_merge_to_full_shape
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (a : ES.A) (h : 0 <= n ∧ n < m) :
     CRules.derivable1
       (CRules.sepcon (ES.storeA x n a) (missing_i_shape ES x n 0 m))
@@ -295,7 +297,7 @@ theorem missing_i_shape_merge_to_full_shape
   simpa only [Int.zero_mul, Int.add_zero, Int.sub_zero] using hMerge
 
 theorem seg_split_to_seg
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo mid hi : Int) (l : List ES.A)
     (h : lo <= mid ∧ mid <= hi) :
     CRules.derivable1 (seg ES x lo hi l)
@@ -386,8 +388,8 @@ theorem seg_split_to_seg
             (CRules.toContext.logic_equiv_sepcon_assoc _ _ _).left
 
 private def mixedElementStore
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig) :
-    ELEMENT_STORE CRules DePredSig SLibSig where
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig) :
+    ELEMENT_STORE Arch Endian CRules DePredSig SLibSig where
   A := Option ES.A
   sizeA := ES.sizeA
   storeA := mixedstoreA ES
@@ -404,7 +406,7 @@ private def mixedElementStore
   sizeA_valid := ES.sizeA_valid
 
 theorem mixed_seg_split_to_mixed_seg
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo mid hi : Int) (l : List (Option ES.A))
     (h : lo <= mid ∧ mid <= hi) :
     CRules.derivable1 (mixed_seg ES x lo hi l)
@@ -455,7 +457,7 @@ private theorem store_undef_array_rec_split
         (CRules.toContext.logic_equiv_sepcon_assoc _ _ _).left
 
 theorem undef_seg_split_to_undef_seg
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo mid hi : Int) (h : lo <= mid ∧ mid <= hi) :
     CRules.derivable1 (undef_seg ES x lo hi)
       (CRules.sepcon (undef_seg ES x lo mid) (undef_seg ES x mid hi)) := by
@@ -469,7 +471,7 @@ theorem undef_seg_split_to_undef_seg
     (by simp only [n1]) (by simp only [n2])
 
 theorem seg_shape_split_to_seg_shape
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo mid hi : Int) (h : lo <= mid ∧ mid <= hi) :
     CRules.derivable1 (seg_shape ES x lo hi)
       (CRules.sepcon (seg_shape ES x lo mid) (seg_shape ES x mid hi)) := by
@@ -477,7 +479,7 @@ theorem seg_shape_split_to_seg_shape
     undef_seg_split_to_undef_seg (shapeElementStore ES) x lo mid hi h
 
 theorem full_split_to_seg
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (l : List ES.A) (h : 0 <= n ∧ n <= m) :
     CRules.derivable1 (full ES x m l)
       (CRules.sepcon
@@ -488,7 +490,7 @@ theorem full_split_to_seg
   simpa only [Int.sub_zero] using hSplit
 
 theorem mixed_full_split_to_mixed_seg
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (l : List (Option ES.A)) (h : 0 <= n ∧ n <= m) :
     CRules.derivable1 (mixed_full ES x m l)
       (CRules.sepcon
@@ -500,7 +502,7 @@ theorem mixed_full_split_to_mixed_seg
   simpa only [Int.sub_zero] using hSplit
 
 theorem full_split_to_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (l : List ES.A) (h : 0 <= n ∧ n <= m) :
     CRules.derivable1 (full ES x m l)
       (CRules.sepcon
@@ -514,7 +516,7 @@ theorem full_split_to_full
   simpa only [Int.zero_mul, Int.add_zero, Int.sub_zero] using hResult
 
 theorem mixed_full_split_to_mixed_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (l : List (Option ES.A)) (h : 0 <= n ∧ n <= m) :
     CRules.derivable1 (mixed_full ES x m l)
       (CRules.sepcon
@@ -528,7 +530,7 @@ theorem mixed_full_split_to_mixed_full
   simpa only [Int.zero_mul, Int.add_zero, Int.sub_zero] using hResult
 
 theorem undef_full_split_to_undef_seg
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (h : 0 <= n ∧ n <= m) :
     CRules.derivable1 (undef_full ES x m)
       (CRules.sepcon (undef_seg ES x 0 n) (undef_seg ES x n m)) :=
@@ -537,7 +539,7 @@ theorem undef_full_split_to_undef_seg
     (undef_seg_split_to_undef_seg ES x 0 n m h)
 
 theorem undef_full_split_to_undef_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (h : 0 <= n ∧ n <= m) :
     CRules.derivable1 (undef_full ES x m)
       (CRules.sepcon (undef_full ES x n)
@@ -550,7 +552,7 @@ theorem undef_full_split_to_undef_full
   simpa only [Int.zero_mul, Int.add_zero, Int.sub_zero] using hResult
 
 theorem full_shape_split_to_seg_shape
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (h : 0 <= n ∧ n <= m) :
     CRules.derivable1 (full_shape ES x m)
       (CRules.sepcon (seg_shape ES x 0 n) (seg_shape ES x n m)) :=
@@ -559,7 +561,7 @@ theorem full_shape_split_to_seg_shape
     (seg_shape_split_to_seg_shape ES x 0 n m h)
 
 theorem full_shape_split_to_full_shape
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (h : 0 <= n ∧ n <= m) :
     CRules.derivable1 (full_shape ES x m)
       (CRules.sepcon (full_shape ES x n)
@@ -572,7 +574,7 @@ theorem full_shape_split_to_full_shape
   simpa only [Int.zero_mul, Int.add_zero, Int.sub_zero] using hResult
 
 theorem seg_merge_to_seg
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo mid hi : Int) (l1 l2 : List ES.A)
     (h : lo <= mid ∧ mid <= hi) :
     CRules.derivable1
@@ -620,7 +622,7 @@ theorem seg_merge_to_seg
             (CRules.toContext.derivable1_refl _) hMerge)
 
 theorem mixed_seg_merge_to_mixed_seg
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo mid hi : Int) (l1 l2 : List (Option ES.A))
     (h : lo <= mid ∧ mid <= hi) :
     CRules.derivable1
@@ -667,7 +669,7 @@ private theorem store_undef_array_rec_merge
           (CRules.toContext.derivable1_refl _) hTail)
 
 theorem undef_seg_merge_to_undef_seg
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo mid hi : Int) (h : lo <= mid ∧ mid <= hi) :
     CRules.derivable1
       (CRules.sepcon (undef_seg ES x lo mid) (undef_seg ES x mid hi))
@@ -682,7 +684,7 @@ theorem undef_seg_merge_to_undef_seg
     (by simp only [n1]) (by simp only [n2])
 
 theorem seg_shape_merge_to_seg_shape
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo mid hi : Int) (h : lo <= mid ∧ mid <= hi) :
     CRules.derivable1
       (CRules.sepcon (seg_shape ES x lo mid) (seg_shape ES x mid hi))
@@ -691,7 +693,7 @@ theorem seg_shape_merge_to_seg_shape
     undef_seg_merge_to_undef_seg (shapeElementStore ES) x lo mid hi h
 
 theorem seg_merge_to_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo mid hi : Int) (l1 l2 : List ES.A)
     (h : lo <= mid ∧ mid <= hi) :
     CRules.derivable1
@@ -702,7 +704,7 @@ theorem seg_merge_to_full
     (seg_to_full ES x lo hi (l1 ++ l2))
 
 theorem mixed_seg_merge_to_mixed_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo mid hi : Int) (l1 l2 : List (Option ES.A))
     (h : lo <= mid ∧ mid <= hi) :
     CRules.derivable1
@@ -714,7 +716,7 @@ theorem mixed_seg_merge_to_mixed_full
     (mixed_seg_to_mixed_full ES x lo hi (l1 ++ l2))
 
 theorem undef_seg_merge_to_undef_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo mid hi : Int) (h : lo <= mid ∧ mid <= hi) :
     CRules.derivable1
       (CRules.sepcon (undef_seg ES x lo mid) (undef_seg ES x mid hi))
@@ -724,7 +726,7 @@ theorem undef_seg_merge_to_undef_full
     (undef_seg_to_undef_full ES x lo hi)
 
 theorem seg_shape_merge_to_full_shape
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x lo mid hi : Int) (h : lo <= mid ∧ mid <= hi) :
     CRules.derivable1
       (CRules.sepcon (seg_shape ES x lo mid) (seg_shape ES x mid hi))
@@ -734,7 +736,7 @@ theorem seg_shape_merge_to_full_shape
     (seg_shape_to_full_shape ES x lo hi)
 
 theorem full_merge_to_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (l1 l2 : List ES.A) (h : 0 <= n ∧ n <= m) :
     CRules.derivable1
       (CRules.sepcon (full ES x n l1)
@@ -751,7 +753,7 @@ theorem full_merge_to_full
   simpa only [Int.zero_mul, Int.add_zero, Int.sub_zero] using hResult
 
 theorem mixed_full_merge_to_mixed_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (l1 l2 : List (Option ES.A))
     (h : 0 <= n ∧ n <= m) :
     CRules.derivable1
@@ -770,7 +772,7 @@ theorem mixed_full_merge_to_mixed_full
   simpa only [Int.zero_mul, Int.add_zero, Int.sub_zero] using hResult
 
 theorem undef_full_merge_to_undef_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (h : 0 <= n ∧ n <= m) :
     CRules.derivable1
       (CRules.sepcon (undef_full ES x n)
@@ -787,7 +789,7 @@ theorem undef_full_merge_to_undef_full
   simpa only [Int.zero_mul, Int.add_zero, Int.sub_zero] using hResult
 
 theorem full_shape_merge_to_full_shape
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (h : 0 <= n ∧ n <= m) :
     CRules.derivable1
       (CRules.sepcon (full_shape ES x n)

@@ -1,3 +1,8 @@
+/*@ Import Lean
+import SimpleC.EE.LLM_bench.Algorithms.rod_cutting.rod_cutting_lib
+open SimpleC.EE.LLM_bench.Algorithms.rod_cutting.rod_cutting_lib
+*/
+
 /*@ Extern Coq
       (Forall : {A} -> (A -> Prop) -> list A -> Prop)
       (Z::le : Z -> Z -> Prop)

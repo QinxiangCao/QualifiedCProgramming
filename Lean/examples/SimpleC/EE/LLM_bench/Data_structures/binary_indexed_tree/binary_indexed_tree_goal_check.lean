@@ -1,0 +1,32 @@
+import SimpleC.EE.LLM_bench.Data_structures.binary_indexed_tree.binary_indexed_tree_proof_auto
+import SimpleC.EE.LLM_bench.Data_structures.binary_indexed_tree.binary_indexed_tree_proof_manual
+
+namespace SimpleC.EE.LLM_bench.Data_structures.binary_indexed_tree.binary_indexed_tree_goal_check
+
+open SimpleC.EE.LLM_bench.Data_structures.binary_indexed_tree.binary_indexed_tree_proof_auto
+open SimpleC.EE.LLM_bench.Data_structures.binary_indexed_tree.binary_indexed_tree_proof_manual
+
+def VC_Correctness : SimpleC.EE.LLM_bench.Data_structures.binary_indexed_tree.binary_indexed_tree_goal.VC_Correct where
+  proof_of_lowbit_safety_wit_1 := proof_of_lowbit_safety_wit_1
+  proof_of_add_partial_solve_wit_1 := proof_of_add_partial_solve_wit_1
+  proof_of_add_partial_solve_wit_2 := proof_of_add_partial_solve_wit_2
+  proof_of_add_partial_solve_wit_3_pure := proof_of_add_partial_solve_wit_3_pure
+  proof_of_add_partial_solve_wit_3 := proof_of_add_partial_solve_wit_3
+  proof_of_query_safety_wit_1 := proof_of_query_safety_wit_1
+  proof_of_query_safety_wit_2 := proof_of_query_safety_wit_2
+  proof_of_query_partial_solve_wit_1 := proof_of_query_partial_solve_wit_1
+  proof_of_query_partial_solve_wit_2_pure := proof_of_query_partial_solve_wit_2_pure
+  proof_of_query_partial_solve_wit_2 := proof_of_query_partial_solve_wit_2
+  proof_of_lowbit_return_wit_1 := proof_of_lowbit_return_wit_1
+  proof_of_add_safety_wit_1 := proof_of_add_safety_wit_1
+  proof_of_add_safety_wit_2 := proof_of_add_safety_wit_2
+  proof_of_add_entail_wit_1 := proof_of_add_entail_wit_1
+  proof_of_add_entail_wit_2 := proof_of_add_entail_wit_2
+  proof_of_add_return_wit_1 := proof_of_add_return_wit_1
+  proof_of_query_safety_wit_3 := proof_of_query_safety_wit_3
+  proof_of_query_safety_wit_4 := proof_of_query_safety_wit_4
+  proof_of_query_entail_wit_1 := proof_of_query_entail_wit_1
+  proof_of_query_entail_wit_2 := proof_of_query_entail_wit_2
+  proof_of_query_return_wit_1 := proof_of_query_return_wit_1
+
+end SimpleC.EE.LLM_bench.Data_structures.binary_indexed_tree.binary_indexed_tree_goal_check

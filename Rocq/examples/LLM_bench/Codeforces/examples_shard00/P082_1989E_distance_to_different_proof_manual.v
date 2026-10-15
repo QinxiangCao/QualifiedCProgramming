@@ -1,0 +1,61 @@
+Require Import Coq.ZArith.ZArith.
+Require Import Coq.Bool.Bool.
+Require Import Coq.Strings.String.
+Require Import Coq.Strings.Ascii.
+Require Import Coq.Lists.List.
+Require Import Coq.Classes.RelationClasses.
+Require Import Coq.Classes.Morphisms.
+Require Import Coq.micromega.Psatz.
+Require Import Coq.Sorting.Permutation.
+From AUXLib Require Import int_auto Axioms Feq Idents ListLib VMap.
+Require Import SetsClass.SetsClass. Import SetsNotation.
+From SimpleC.SL Require Import Mem SeparationLogic.
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P082_1989E_distance_to_different_goal.
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P082_1989E_distance_to_different_proof_auto.
+Require Import Logic.LogicGenerator.demo932.Interface.
+Local Open Scope Z_scope.
+Local Open Scope sets.
+Local Open Scope string_scope.
+Local Open Scope list.
+Import naive_C_Rules.
+Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_lib.
+Local Open Scope sac.
+
+(* Proof bodies are split into independently compiled units. Parts 1-14
+   isolate the expensive safety subproofs; part 15 assembles the safety
+   witnesses, and part 16 contains the remaining proofs. Include keeps
+   every proof_of_* field available to the existing goal_check module. *)
+
+Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part1.
+Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part2.
+Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part3.
+Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part4.
+Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part5.
+Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part6.
+Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part7.
+Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part8.
+Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part9.
+Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part10.
+Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part11.
+Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part12.
+Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part13.
+Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part14.
+Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part15.
+Require Import SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part16.
+
+Include SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part1.
+Include SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part2.
+Include SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part3.
+Include SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part4.
+Include SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part5.
+Include SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part6.
+Include SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part7.
+Include SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part8.
+Include SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part9.
+Include SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part10.
+Include SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part11.
+Include SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part12.
+Include SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part13.
+Include SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part14.
+Include SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part15.
+Include SimpleC.EE.LLM_bench.Codeforces.examples_shard00.P082_1989E_distance_to_different_proof_manual_part16.

@@ -101,6 +101,18 @@ Dune 即使只构建 Coq 文件也会检查 PATH 中的 `ocamlc`。`dune.cmd` �
 `tools\windows\fake-ocaml` 下的最小 shim，以满足该检查，然后把原参数传给真实 `dune.exe`。
 </details>
 
+#### `LLM_bench` 的 `CreateProcess` 报错
+
+旧版构建配置可能在生成 `Rocq/examples/LLM_bench/.SimpleC.EE.theory.d` 时报告
+`Error: CreateProcess(): No such file or directory`。如果 `coqdep.exe` 存在且可以运行，
+用 `.\dune.cmd build --display verbose -j1` 检查失败的命令：Dune 3.16 会把一个 theory 的
+全部 `.v` 文件传给同一次 `coqdep` 调用，过长的参数列表会超过 Windows 的 32,767 字符限制。
+
+本仓库已将 `LLM_bench` 按四个子目录拆成独立 theory，保留原有逻辑导入路径和父 theory 入口。
+更新时需要同时取得父目录及 `Algorithms`、`Codeforces`、`Data_structures`、`Engineering`
+目录中的五个 `dune` 文件，然后继续执行 `.\dune.cmd build -j4`。只替换 `dune.cmd`、降低并行数
+或启用系统长路径不能修复该命令行限制；普通 `coqdep` 包装程序也会在启动之前失败。
+
 ### Lean
 
 在仓库根执行以下命令。setup script 安装 `elan`；pinned toolchain 提供 Lean 4.25.2 与 Lake。

@@ -81,6 +81,10 @@ instance Derived_RELS_TEST (A T : Type) [Rels.PRE_RELS_ID A T] [Sets.SETS T] :
     Rels.RELS_TEST (A -> Prop) (A -> T) where
   test X := Sets.filter1 X Rels.id
 
+attribute [sets_unfold_simps] Rels.concat_aux Rels.id_aux Rels.concat Rels.id Rels.test
+  Prop_PRE_RELS Prop_PRE_RELS_ID lift_PRE_RELS lift_PRE_RELS_ID Derived_RELS
+  Derived_RELS_ID Derived_RELS_TEST
+
 class ACCUM_Assoc (I1 I2 I3 I12 I23 I123 : Type)
     [acc12 : Rels.ACCUM I1 I2 I12] [acc23 : Rels.ACCUM I2 I3 I23]
     [acc123l : Rels.ACCUM I12 I3 I123]

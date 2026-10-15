@@ -1,0 +1,8 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P002_1382A_common_subsequence_goal P002_1382A_common_subsequence_proof_auto P002_1382A_common_subsequence_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include char_array_strategy_proof.
+  Include string_strategy_proof.
+  Include P002_1382A_common_subsequence_proof_auto.
+  Include P002_1382A_common_subsequence_proof_manual.
+End VC_Correctness.

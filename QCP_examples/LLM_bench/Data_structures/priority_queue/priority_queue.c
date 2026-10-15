@@ -25,6 +25,7 @@
       (increasing : list Z -> Prop)
  */
 /*@ Import Coq Require Import SimpleC.EE.LLM_bench.Data_structures.priority_queue.priority_queue_lib */
+/*@ Import Lean import SimpleC.EE.LLM_bench.Data_structures.priority_queue.priority_queue_lib */
 
 void push(int *heap, int n, int x)
 /*@ With (S_before : multiset Z)

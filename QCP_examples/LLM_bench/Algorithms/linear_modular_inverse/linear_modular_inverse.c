@@ -1,3 +1,4 @@
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.linear_modular_inverse.linear_modular_inverse_lib */
 /*
  * Compute the modular inverses of 1, ..., p - 1 in linear time.
  *

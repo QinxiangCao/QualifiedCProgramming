@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P043_649C_pechat_uslovii_goal P043_649C_pechat_uslovii_proof_auto P043_649C_pechat_uslovii_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P043_649C_pechat_uslovii_proof_auto.
+  Include P043_649C_pechat_uslovii_proof_manual.
+End VC_Correctness.

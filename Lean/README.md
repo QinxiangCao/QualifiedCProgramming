@@ -9,6 +9,12 @@
 仓库根目录，请先执行 `cd Lean`；或者使用 QCP 根目录下的
 `scripts/build-lean.*` 包装脚本。
 
+本次同步版本、兼容性检查和待处理问题见 [新版库同步记录](docs/lean_library_update_2026_09_06.md)。
+
+## 共用数学接口
+
+案例共用的 Coq 数学接口放在 `auxlibs/AUXLib`，可分别导入 `AUXLib.NumberTheory`、`AUXLib.Prime`、`AUXLib.RelPrime` 和 `AUXLib.ZParity`，也包含在 `import AUXLib` 中。最小公倍数、Bézout 关系和奇偶性保留 `Z.*` 名称；素数与互素接口分别使用 `AUXLib.Prime.*`、`AUXLib.RelPrime.*`。这些模块只依赖现有整数基础库，不依赖分离逻辑或案例目录。
+
 ## 环境要求
 
 本仓库使用 Lean `v4.25.2`，需要 `git`、`curl`、`elan`，在 macOS/Linux
@@ -67,9 +73,11 @@ Windows 上偶发的 Lean 原生进程崩溃进行包级重试。
 4. `sets`
 5. `listlib`
 6. `fixedpoints`
-7. `SeparationLogic`
-8. `MonadLib`
-9. `examples`
+7. `maxminlib`
+8. `flocq`（自动获取固定版本 Mathlib）
+9. `SeparationLogic`
+10. `MonadLib`
+11. `examples`
 
 Lake 支持增量构建。再次执行 `make build` 时，只会重新编译受到源码变更影响的目标。
 

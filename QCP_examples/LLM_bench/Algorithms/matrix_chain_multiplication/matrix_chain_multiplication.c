@@ -1,3 +1,8 @@
+/*@ Import Lean
+import SimpleC.EE.LLM_bench.Algorithms.matrix_chain_multiplication.matrix_chain_multiplication_lib
+open SimpleC.EE.LLM_bench.Algorithms.matrix_chain_multiplication.matrix_chain_multiplication_lib
+*/
+
 /*
  * Matrix-chain multiplication (CLRS interval dynamic programming).
  *

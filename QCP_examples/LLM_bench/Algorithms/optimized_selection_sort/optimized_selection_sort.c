@@ -1,3 +1,4 @@
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.optimized_selection_sort.optimized_selection_sort_lib */
 /*@ Extern Coq (Permutation : list Z -> list Z -> Prop) */
 /*@ Extern Coq (increasing : list Z -> Prop) */
 /*@ Extern Coq

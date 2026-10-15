@@ -24,48 +24,45 @@ namespace Unifysl
 
 private theorem list_forall_impl {A : Type v} {P Q : A -> Prop}
     (h : forall x, P x -> Q x) :
-    forall {xs : List A}, List.Forall P xs -> List.Forall Q xs
-  | [], List.Forall.nil => List.Forall.nil
-  | x :: _, List.Forall.cons hx hxs =>
-      List.Forall.cons (h x hx) (list_forall_impl h hxs)
+    forall {xs : List A}, List.Forall P xs -> List.Forall Q xs :=
+  fun {_} hxs => coq_list_forall_impl h hxs
 
 private theorem split_union_forall {A : Type v} (Phi Psi : A -> Prop) :
     forall {xs : List A},
       List.Forall (Union A Phi Psi) xs ->
         exists xs' : List A,
-          (forall x, x ∈ xs -> Phi x \/ x ∈ xs') /\ List.Forall Psi xs'
-  | [], List.Forall.nil =>
-      ⟨[], by
+          (forall x, x ∈ xs -> Phi x \/ x ∈ xs') /\ List.Forall Psi xs' := by
+  intro xs hxs
+  induction xs with
+  | nil =>
+      exact ⟨[], by
         constructor
         · intro x hx
           cases hx
         · exact List.Forall.nil⟩
-  | x :: _, List.Forall.cons hx htail =>
-      match split_union_forall Phi Psi htail with
-      | ⟨xs', hmem, hpsi⟩ =>
-          match hx with
-          | Or.inl hPhi =>
-              ⟨xs', by
-                constructor
-                · intro z hz
-                  cases hz with
-                  | head =>
-                      exact Or.inl hPhi
-                  | tail _ hzTail =>
-                      exact hmem z hzTail
-                · exact hpsi⟩
-          | Or.inr hPsi =>
-              ⟨x :: xs', by
-                constructor
-                · intro z hz
-                  cases hz with
-                  | head =>
-                      exact Or.inr (List.Mem.head xs')
-                  | tail _ hzTail =>
-                      cases hmem z hzTail with
-                      | inl hPhi => exact Or.inl hPhi
-                      | inr hIn => exact Or.inr (List.Mem.tail _ hIn)
-                · exact List.Forall.cons hPsi hpsi⟩
+  | cons x xs ih =>
+      rcases coq_list_forall_cons_iff.mp hxs with ⟨hx, htail⟩
+      rcases ih htail with ⟨xs', hmem, hpsi⟩
+      cases hx with
+      | inl hPhi =>
+          exact ⟨xs', by
+            constructor
+            · intro z hz
+              cases hz with
+              | head => exact Or.inl hPhi
+              | tail _ hzTail => exact hmem z hzTail
+            · exact hpsi⟩
+      | inr hPsi =>
+          exact ⟨x :: xs', by
+            constructor
+            · intro z hz
+              cases hz with
+              | head => exact Or.inr (List.Mem.head xs')
+              | tail _ hzTail =>
+                  cases hmem z hzTail with
+                  | inl hPhi => exact Or.inl hPhi
+                  | inr hIn => exact Or.inr (List.Mem.tail _ hIn)
+            · exact List.Forall.cons hPsi hpsi⟩
 
 section PropertiesOfSequentCalculus
 
@@ -180,10 +177,9 @@ theorem DeductionWeaken_ContextualDerivableFiniteWitnessed_DeductionSubst1_2_Ded
           hDerNil
     | cons x xs ih =>
         intro hall hDerCons
-        cases hall with
-        | cons hx htail =>
-            apply ih htail
-            exact hSubst1 (Union _ Phi (fun z => z ∈ xs)) x y
+        rcases coq_list_forall_cons_iff.mp hall with ⟨hx, htail⟩
+        apply ih htail
+        exact hSubst1 (Union _ Phi (fun z => z ∈ xs)) x y
               (hWeak Phi (Union _ Phi (fun z => z ∈ xs)) x
                 (by
                   intro z hz

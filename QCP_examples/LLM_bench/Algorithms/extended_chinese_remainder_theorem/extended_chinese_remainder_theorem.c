@@ -1,3 +1,4 @@
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.extended_chinese_remainder_theorem.extended_chinese_remainder_theorem_lib */
 /*@ Extern Coq
       (Forall : {A} -> (A -> Prop) -> list A -> Prop)
       (Forall2 : {A B} -> (A -> B -> Prop) -> list A -> list B -> Prop)

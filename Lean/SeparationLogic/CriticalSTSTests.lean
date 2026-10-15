@@ -3,8 +3,10 @@ import Lean.Util.CollectAxioms
 
 namespace CriticalSTSTests
 
+open SimpleC.SL.CArch
 open SimpleC.SL.CommonAssertion
 open SimpleC.SL.CommonAssertion.DerivedPredSig
+open SimpleC.SL.CommonAssertion.DerivedPredSigCompat
 open SimpleC.SL.ConAssertion
 open SimpleC.SL.CriticalSTS
 
@@ -86,7 +88,7 @@ elab_rules : command
   CriticalCSL.canonical,
   CriticalCSL.InsideCritical,
   CriticalCSL.OutsideCritical
-] => 7379886619862721357
+] => 17174626958167006226
 
 abbrev CounterSTS : critical_STS where
   critical_STS_state := Nat
@@ -145,10 +147,10 @@ example (s1 s2 : Nat) : CounterFacade.GTrans s1 s2 = (s2 = s1 + 1) := rfl
 
 def CounterLogic : CSL CounterFacade.toSTSDef :=
   CSL.canonical CounterFacade.toSTSDef
-def CounterDerived : DerivedPredSig CounterLogic.toSeparationLogicSig :=
-  DerivedPredSig.canonical CounterLogic.toSeparationLogicSig
-def CounterCritical : CriticalCSL CounterDef CounterFacade CounterLogic CounterDerived :=
-  CriticalCSL.canonical CounterDef CounterFacade CounterLogic CounterDerived
+def CounterDerived : DerivedPredSigCompat.Sig CounterLogic.toSeparationLogicSig :=
+  DerivedPredSigCompat.canonical CounterLogic.toSeparationLogicSig
+def CounterCritical : CriticalCSL CounterDef CounterFacade CounterLogic Arch32 BigEndian CounterDerived :=
+  CriticalCSL.canonical CounterDef CounterFacade CounterLogic Arch32 BigEndian CounterDerived
 
 example (s : Nat) : CounterCritical.InsideCritical s =
     CounterLogic.sepcon

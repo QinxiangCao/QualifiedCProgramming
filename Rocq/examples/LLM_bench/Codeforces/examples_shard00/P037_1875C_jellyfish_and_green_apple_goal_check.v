@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P037_1875C_jellyfish_and_green_apple_goal P037_1875C_jellyfish_and_green_apple_proof_auto P037_1875C_jellyfish_and_green_apple_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P037_1875C_jellyfish_and_green_apple_proof_auto.
+  Include P037_1875C_jellyfish_and_green_apple_proof_manual.
+End VC_Correctness.

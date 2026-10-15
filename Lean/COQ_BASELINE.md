@@ -1,5 +1,11 @@
 # Coq Source Baseline
 
+> This file records the original July snapshot. The bundled libraries were updated
+> on 2026-09-06; their current upstream baseline is recorded in
+> [upstream_coq_source_baseline.md](docs/upstream_coq_source_baseline.md) and
+> [the library sync record](docs/lean_library_update_2026_09_06.md).
+> The democases Rocq sources and benchmark C files were not changed by that sync.
+
 This repository is a Lean migration of the Coq repository at the exact
 revision recorded below. The commit hashes, rather than branch names, are the
 authoritative synchronization points.

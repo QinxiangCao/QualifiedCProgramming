@@ -1,0 +1,29 @@
+import SimpleC.EE.LLM_bench.Algorithms.maximum_subarray.maximum_subarray_proof_auto
+import SimpleC.EE.LLM_bench.Algorithms.maximum_subarray.maximum_subarray_proof_manual
+
+namespace SimpleC.EE.LLM_bench.Algorithms.maximum_subarray.maximum_subarray_goal_check
+
+open SimpleC.EE.LLM_bench.Algorithms.maximum_subarray.maximum_subarray_proof_auto
+open SimpleC.EE.LLM_bench.Algorithms.maximum_subarray.maximum_subarray_proof_manual
+
+def VC_Correctness : SimpleC.EE.LLM_bench.Algorithms.maximum_subarray.maximum_subarray_goal.VC_Correct where
+  proof_of_max_sub_array_safety_wit_1 := proof_of_max_sub_array_safety_wit_1
+  proof_of_max_sub_array_safety_wit_2 := proof_of_max_sub_array_safety_wit_2
+  proof_of_max_sub_array_safety_wit_3 := proof_of_max_sub_array_safety_wit_3
+  proof_of_max_sub_array_safety_wit_4 := proof_of_max_sub_array_safety_wit_4
+  proof_of_max_sub_array_safety_wit_5 := proof_of_max_sub_array_safety_wit_5
+  proof_of_max_sub_array_safety_wit_7 := proof_of_max_sub_array_safety_wit_7
+  proof_of_max_sub_array_partial_solve_wit_1 := proof_of_max_sub_array_partial_solve_wit_1
+  proof_of_max_sub_array_partial_solve_wit_2 := proof_of_max_sub_array_partial_solve_wit_2
+  proof_of_max_sub_array_partial_solve_wit_3 := proof_of_max_sub_array_partial_solve_wit_3
+  proof_of_max_sub_array_partial_solve_wit_4 := proof_of_max_sub_array_partial_solve_wit_4
+  proof_of_max_sub_array_partial_solve_wit_5 := proof_of_max_sub_array_partial_solve_wit_5
+  proof_of_max_sub_array_partial_solve_wit_6 := proof_of_max_sub_array_partial_solve_wit_6
+  proof_of_max_return_wit_1 := proof_of_max_return_wit_1
+  proof_of_max_return_wit_2 := proof_of_max_return_wit_2
+  proof_of_max_sub_array_safety_wit_6 := proof_of_max_sub_array_safety_wit_6
+  proof_of_max_sub_array_entail_wit_1 := proof_of_max_sub_array_entail_wit_1
+  proof_of_max_sub_array_entail_wit_2 := proof_of_max_sub_array_entail_wit_2
+  proof_of_max_sub_array_return_wit_1 := proof_of_max_sub_array_return_wit_1
+
+end SimpleC.EE.LLM_bench.Algorithms.maximum_subarray.maximum_subarray_goal_check

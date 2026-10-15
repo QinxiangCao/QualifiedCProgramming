@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P089_946G_almost_increasing_array_goal P089_946G_almost_increasing_array_proof_auto P089_946G_almost_increasing_array_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P089_946G_almost_increasing_array_proof_auto.
+  Include P089_946G_almost_increasing_array_proof_manual.
+End VC_Correctness.

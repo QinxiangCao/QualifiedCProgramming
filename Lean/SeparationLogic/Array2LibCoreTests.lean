@@ -3,12 +3,14 @@ import Lean.Util.CollectAxioms
 
 namespace Array2LibCoreTests
 
+open SimpleC.SL.CArch
 open AUXLib
 open SimpleC.SL.Array2LibCore
 open SimpleC.SL.Array2LibCore.Array2LibCoreSig
 open SimpleC.SL.ArrayLibCore.ArrayLibCoreSig
 open SimpleC.SL.CommonAssertion
 open SimpleC.SL.CommonAssertion.DerivedPredSig
+open SimpleC.SL.CommonAssertion.DerivedPredSigCompat
 open SimpleC.SL.StoreAux
 open SimpleC.SL.StoreAux.StoreLibSig
 
@@ -50,6 +52,7 @@ elab_rules : command
 #check store_array_to_undef_array
 #check store_undef_array_rec_split_to_missing_i
 #check store_undef_array_split_to_missing_i
+#check Array2Lib.ElemArray
 #check Array2Lib.row_addr
 #check Array2Lib.row_store
 #check Array2Lib.mixed_row_store
@@ -77,13 +80,16 @@ elab_rules : command
 #check Array2Lib.mixed_full_to_undef_full
 #check Array2Lib.undef_full_valid
 
--- The 30-item manifest freezes names, complete types, binder order and visibility.
+-- The 33-item manifest freezes names, complete types, binder order and visibility.
 -- It also rejects dependencies outside the three expected Lean foundations.
 #check_array2_core_contract [
+  Array2LibCoreSig,
+  Array2LibCoreSig.canonical,
   store_array_rec_to_undef_array_rec,
   store_array_to_undef_array,
   store_undef_array_rec_split_to_missing_i,
   store_undef_array_split_to_missing_i,
+  Array2Lib.ElemArray,
   Array2Lib.row_addr,
   Array2Lib.row_store,
   Array2Lib.mixed_row_store,
@@ -110,14 +116,17 @@ elab_rules : command
   Array2Lib.full_to_undef_full,
   Array2Lib.mixed_full_to_undef_full,
   Array2Lib.undef_full_valid
-] => 14583817559535070111
+] => 1118737266033546885
 
 section
 
 variable {CRules : SeparationLogicSig}
-variable {DePredSig : DerivedPredSig CRules}
-variable {SLibSig : StoreLibSig CRules DePredSig}
-variable (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+variable {DePredSig : DerivedPredSigCompat.Sig CRules}
+variable {SLibSig : StoreLibSigCompat CRules DePredSig}
+variable (ES : ELEMENT_STORE Arch32 BigEndian CRules DePredSig SLibSig)
+
+example (x n : Int) (row : List ES.A) :
+    (Array2Lib.ElemArray ES).full x n row = ArrayLib.full ES x n row := rfl
 
 example (x m i : Int) :
     Array2Lib.row_addr ES x m i = x + i * m * ES.sizeA := rfl

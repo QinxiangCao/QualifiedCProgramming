@@ -46,6 +46,7 @@
         list Z -> list Z -> list Z -> list Z -> Z -> Z * Z -> Prop)
  */
 /*@ Import Coq Require Import SimpleC.EE.LLM_bench.Data_structures.priority_queue_index.priority_queue_index_lib */
+/*@ Import Lean import SimpleC.EE.LLM_bench.Data_structures.priority_queue_index.priority_queue_index_lib */
 
 void push(int *key, int *data, int n, int data_x, int key_x)
 /*@ With (S_before : multiset (Z * Z))

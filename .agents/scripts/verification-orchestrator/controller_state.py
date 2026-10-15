@@ -109,7 +109,7 @@ def _windows_path_length_error(
             / longest_formal
         ),
         "group development build": group_build_workspace(run_root, proving_round, "group_9999__projection").parent / "dev" / longest_formal,
-        "annotation generation": report_root / ANNOTATION_ATTEMPTS_DIR_NAME / annotation_attempt_directory_name(10) / ".gen-xxxxxxxx" / longest_formal,
+        "annotation generation": main_root / "reports" / ".gen-xxxxxxxx" / longest_formal,
         "final replay": report_root / "final-check" / "symexec-refresh" / longest_formal,
         "final apply build": run_root / "_coq_builds" / "final-apply" / "src" / longest_formal,
         "parent build": (

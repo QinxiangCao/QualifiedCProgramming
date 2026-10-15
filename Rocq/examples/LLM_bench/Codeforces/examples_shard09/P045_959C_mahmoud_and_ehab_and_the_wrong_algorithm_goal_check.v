@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P045_959C_mahmoud_and_ehab_and_the_wrong_algorithm_goal P045_959C_mahmoud_and_ehab_and_the_wrong_algorithm_proof_auto P045_959C_mahmoud_and_ehab_and_the_wrong_algorithm_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P045_959C_mahmoud_and_ehab_and_the_wrong_algorithm_proof_auto.
+  Include P045_959C_mahmoud_and_ehab_and_the_wrong_algorithm_proof_manual.
+End VC_Correctness.

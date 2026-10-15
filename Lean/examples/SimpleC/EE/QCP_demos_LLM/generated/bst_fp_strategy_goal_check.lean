@@ -1,0 +1,10 @@
+import SimpleC.EE.QCP_demos_LLM.generated.bst_fp_strategy_proof
+
+namespace SimpleC.EE.QCP_demos_LLM.generated.bst_fp_strategy_goal_check
+
+def bst_fp_Strategy_Correctness : SimpleC.EE.QCP_demos_LLM.generated.bst_fp_strategy_goal.bst_fp_Strategy_Correct where
+  bst_fp_strategy0_correctness := SimpleC.EE.QCP_demos_LLM.generated.bst_fp_strategy_proof.bst_fp_strategy0_correctness
+  bst_fp_strategy1_correctness := SimpleC.EE.QCP_demos_LLM.generated.bst_fp_strategy_proof.bst_fp_strategy1_correctness
+  bst_fp_strategy2_correctness := SimpleC.EE.QCP_demos_LLM.generated.bst_fp_strategy_proof.bst_fp_strategy2_correctness
+
+end SimpleC.EE.QCP_demos_LLM.generated.bst_fp_strategy_goal_check

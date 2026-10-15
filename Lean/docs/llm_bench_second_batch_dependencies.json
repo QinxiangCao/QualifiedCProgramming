@@ -1,0 +1,437 @@
+{
+  "scope": "Reached dependency slices only; the remaining declarations of these source modules are outside this migration slice.",
+  "slices": [
+    {
+      "source_origin": "Coq standard library Numbers/Integer/Abstract/ZLcm.v",
+      "source_sha256": "ec385eebc3eff8d9fffea031c8d0ef40ebd2dc70f833f4fc7411e447240790ef",
+      "lean_path": "Lean/auxlibs/AUXLib/NumberTheory.lean",
+      "declarations": [
+        {
+          "name": "lcm",
+          "lean_name": "Z.lcm",
+          "coq_kind": "Definition",
+          "coq_proof": null,
+          "status": "ported"
+        },
+        {
+          "name": "divide_lcm_l",
+          "lean_name": "Z.divide_lcm_l",
+          "coq_kind": "Lemma",
+          "coq_proof": "Qed",
+          "status": "ported"
+        },
+        {
+          "name": "divide_lcm_r",
+          "lean_name": "Z.divide_lcm_r",
+          "coq_kind": "Lemma",
+          "coq_proof": "Qed",
+          "status": "ported"
+        },
+        {
+          "name": "lcm_least",
+          "lean_name": "Z.lcm_least",
+          "coq_kind": "Lemma",
+          "coq_proof": "Qed",
+          "status": "ported"
+        },
+        {
+          "name": "lcm_1_l_nonneg",
+          "lean_name": "Z.lcm_1_l_nonneg",
+          "coq_kind": "Lemma",
+          "coq_proof": "Qed",
+          "status": "ported"
+        }
+      ],
+      "source_relative_path": "Numbers/Integer/Abstract/ZLcm.v"
+    },
+    {
+      "source_origin": "Coq standard library Numbers/Integer/Abstract/ZGcd.v",
+      "source_sha256": "b10804e51d0e6bd2fc35bb19addf136c83ff5f230dd9eb97805dca272cf409e2",
+      "lean_path": "Lean/auxlibs/AUXLib/NumberTheory.lean",
+      "declarations": [
+        {
+          "name": "Bezout",
+          "lean_name": "Z.Bezout",
+          "coq_kind": "Definition",
+          "coq_proof": null,
+          "status": "ported"
+        }
+      ],
+      "source_relative_path": "Numbers/Integer/Abstract/ZGcd.v"
+    },
+    {
+      "source_origin": "Rocq/SeparationLogic/CArch.v (Arch32, default naive_C_Rules32)",
+      "source_path": "Rocq/SeparationLogic/CArch.v",
+      "source_sha256": "ef0cf21032ff09cdfdad35edbc543e41dcfc0e949a7877106943e43997686448",
+      "lean_path": "Lean/SeparationLogic/SimpleC/SL/CArch.lean",
+      "declarations": [
+        {
+          "name": "ptr_size",
+          "lean_name": "SimpleC.SL.CArch.Arch32.ptr_size",
+          "coq_kind": "Definition",
+          "coq_proof": null,
+          "status": "ported"
+        },
+        {
+          "name": "addr_max_unsigned",
+          "lean_name": "SimpleC.SL.CArch.Arch32.addr_max_unsigned",
+          "coq_kind": "Definition",
+          "coq_proof": null,
+          "status": "ported"
+        },
+        {
+          "name": "ptr_size_Z",
+          "lean_name": "SimpleC.SL.CArch.Arch32.ptr_size_Z",
+          "coq_kind": "Definition",
+          "coq_proof": null,
+          "status": "ported"
+        }
+      ]
+    },
+    {
+      "source_origin": "Coq standard library ZArith/Znumtheory.v",
+      "source_relative_path": "ZArith/Znumtheory.v",
+      "source_sha256": "3c0e7942fe4a6d5949dbb6d30b8540e75160722cdd6d2d2a4b15035eb78f159d",
+      "lean_path": "Lean/auxlibs/AUXLib/RelPrime.lean",
+      "declarations": [
+        {
+          "name": "Zis_gcd",
+          "lean_name": "AUXLib.RelPrime.Zis_gcd",
+          "coq_kind": "Inductive",
+          "coq_proof": null,
+          "status": "ported"
+        },
+        {
+          "name": "Zis_gcd_intro",
+          "lean_name": "AUXLib.RelPrime.Zis_gcd_intro",
+          "coq_kind": "Constructor",
+          "coq_proof": null,
+          "status": "ported"
+        },
+        {
+          "name": "rel_prime",
+          "lean_name": "AUXLib.RelPrime.rel_prime",
+          "coq_kind": "Definition",
+          "coq_proof": null,
+          "status": "ported"
+        },
+        {
+          "name": "Zgcd_1_rel_prime",
+          "lean_name": "AUXLib.RelPrime.Zgcd_1_rel_prime",
+          "coq_kind": "Lemma",
+          "coq_proof": "Qed",
+          "status": "ported"
+        }
+      ]
+    },
+    {
+      "source_origin": "Coq standard library ZArith/Znumtheory.v",
+      "source_relative_path": "ZArith/Znumtheory.v",
+      "source_sha256": "3c0e7942fe4a6d5949dbb6d30b8540e75160722cdd6d2d2a4b15035eb78f159d",
+      "lean_path": "Lean/auxlibs/AUXLib/Prime.lean",
+      "declarations": [
+        {
+          "name": "prime",
+          "lean_name": "AUXLib.Prime.prime",
+          "coq_kind": "Inductive",
+          "coq_proof": null,
+          "status": "ported"
+        },
+        {
+          "name": "prime_intro",
+          "lean_name": "AUXLib.Prime.prime_intro",
+          "coq_kind": "Constructor",
+          "coq_proof": null,
+          "status": "ported"
+        },
+        {
+          "name": "prime'",
+          "lean_name": "AUXLib.Prime.prime'",
+          "coq_kind": "Definition",
+          "coq_proof": null,
+          "status": "ported"
+        },
+        {
+          "name": "prime_alt",
+          "lean_name": "AUXLib.Prime.prime_alt",
+          "coq_kind": "Lemma",
+          "coq_proof": "Qed",
+          "status": "ported"
+        },
+        {
+          "name": "prime_ge_2",
+          "lean_name": "AUXLib.Prime.prime_ge_2",
+          "coq_kind": "Lemma",
+          "coq_proof": "Qed",
+          "status": "ported"
+        },
+        {
+          "name": "prime_divisors",
+          "lean_name": "AUXLib.Prime.prime_divisors",
+          "coq_kind": "Lemma",
+          "coq_proof": "Qed",
+          "status": "ported"
+        },
+        {
+          "name": "prime_mult",
+          "lean_name": "AUXLib.Prime.prime_mult",
+          "coq_kind": "Lemma",
+          "coq_proof": "Qed",
+          "status": "ported"
+        },
+        {
+          "name": "not_prime_divide",
+          "lean_name": "AUXLib.Prime.not_prime_divide",
+          "coq_kind": "Lemma",
+          "coq_proof": "Qed",
+          "status": "ported"
+        }
+      ]
+    },
+    {
+      "source_origin": "Coq standard library Sorting/Sorted.v",
+      "source_relative_path": "Sorting/Sorted.v",
+      "source_sha256": "3fee27ff07668c90bc8f5f4938990bf48c989e6304841f656bcf8b7a890e322d",
+      "lean_path": "Lean/examples/SimpleC/EE/LLM_bench/Algorithms/bucket_sort/bucket_sort_lib.lean",
+      "declarations": [
+        {
+          "name": "StronglySorted",
+          "lean_name": "SimpleC.EE.LLM_bench.Algorithms.bucket_sort.bucket_sort_lib.StronglySorted",
+          "coq_kind": "Inductive",
+          "coq_proof": null,
+          "status": "ported"
+        },
+        {
+          "name": "SSorted_nil",
+          "lean_name": "SimpleC.EE.LLM_bench.Algorithms.bucket_sort.bucket_sort_lib.SSorted_nil",
+          "coq_kind": "Constructor",
+          "coq_proof": null,
+          "status": "ported"
+        },
+        {
+          "name": "SSorted_cons",
+          "lean_name": "SimpleC.EE.LLM_bench.Algorithms.bucket_sort.bucket_sort_lib.SSorted_cons",
+          "coq_kind": "Constructor",
+          "coq_proof": null,
+          "status": "ported"
+        }
+      ]
+    },
+    {
+      "source_origin": "Rocq/auxlibs/ListLib.v",
+      "source_path": "Rocq/auxlibs/ListLib.v",
+      "source_sha256": "fb8675e2e55c6a2bb29497b40ec1e0ae40aa4d335e5dda241ff2db27cc835bd9",
+      "lean_path": "Lean/examples/SimpleC/EE/LLM_bench/Algorithms/bucket_sort/bucket_sort_lib.lean",
+      "declarations": [
+        {
+          "name": "upperbound",
+          "lean_name": "SimpleC.EE.LLM_bench.Algorithms.bucket_sort.bucket_sort_lib.upperbound",
+          "coq_kind": "Fixpoint",
+          "coq_proof": null,
+          "status": "ported"
+        }
+      ]
+    },
+    {
+      "source_origin": "Coq standard library Arith/Factorial.v",
+      "source_relative_path": "Arith/Factorial.v",
+      "source_sha256": "afad92e961914b0efcb0b3e1cdb8d899d3fb22be1037bd0ac7a9c8cc50136d7f",
+      "lean_path": "Lean/examples/SimpleC/EE/LLM_bench/Algorithms/lucas_theorem/lucas_theorem_lib.lean",
+      "declarations": [
+        {
+          "name": "fact",
+          "lean_name": "SimpleC.EE.LLM_bench.Algorithms.lucas_theorem.lucas_theorem_lib.fact",
+          "coq_kind": "Fixpoint",
+          "coq_proof": null,
+          "status": "ported"
+        }
+      ]
+    },
+    {
+      "source_origin": "Coq standard library ZArith/BinIntDef.v",
+      "source_relative_path": "ZArith/BinIntDef.v",
+      "source_sha256": "bcf2583782f3517dc339d4fc301e43013bc2ab5e04aa16ec0756895268d43547",
+      "lean_path": "Lean/examples/SimpleC/EE/LLM_bench/Algorithms/concatenating_numbers_dp/concatenating_numbers_dp_lib.lean",
+      "declarations": [
+        {
+          "name": "log2",
+          "lean_name": "Z.log2",
+          "coq_kind": "Definition",
+          "coq_proof": null,
+          "status": "ported"
+        },
+        {
+          "name": "eqb",
+          "lean_name": "Z.eqb",
+          "coq_kind": "Definition",
+          "coq_proof": null,
+          "status": "ported"
+        }
+      ]
+    },
+    {
+      "source_origin": "Coq standard library Lists/List.v",
+      "source_relative_path": "Lists/List.v",
+      "source_sha256": "f207317516199c81d540a367ddc55158961b96a522c4516f28592fc57005921e",
+      "lean_path": "Lean/examples/SimpleC/EE/LLM_bench/Algorithms/concatenating_numbers_dp/concatenating_numbers_dp_lib.lean",
+      "declarations": [
+        {
+          "name": "list_power",
+          "lean_name": "SimpleC.EE.LLM_bench.Algorithms.concatenating_numbers_dp.concatenating_numbers_dp_lib.list_power",
+          "coq_kind": "Fixpoint",
+          "coq_proof": null,
+          "status": "ported"
+        }
+      ]
+    },
+    {
+      "source_origin": "Coq standard library ZArith/BinIntDef.v",
+      "source_relative_path": "ZArith/BinIntDef.v",
+      "source_sha256": "bcf2583782f3517dc339d4fc301e43013bc2ab5e04aa16ec0756895268d43547",
+      "lean_path": "Lean/auxlibs/AUXLib/ZParity.lean",
+      "note": "Reached by third-batch parity contracts. Specification statements unfold Coq Even/Odd into their existential definitions.",
+      "declarations": [
+        {
+          "name": "even",
+          "lean_name": "Z.even",
+          "coq_kind": "Definition",
+          "coq_proof": null,
+          "status": "ported"
+        },
+        {
+          "name": "odd",
+          "lean_name": "Z.odd",
+          "coq_kind": "Definition",
+          "coq_proof": null,
+          "status": "ported"
+        }
+      ]
+    },
+    {
+      "source_origin": "Coq standard library ZArith/BinInt.v",
+      "source_relative_path": "ZArith/BinInt.v",
+      "source_sha256": "ff49bc68ae4b548fdfa836e6bb79b72d038002c0e2039fe9906895f7a39300bd",
+      "lean_path": "Lean/auxlibs/AUXLib/ZParity.lean",
+      "note": "Reached by third-batch parity contracts. Specification statements unfold Coq Even/Odd into their existential definitions.",
+      "declarations": [
+        {
+          "name": "even_spec",
+          "lean_name": "Z.even_spec",
+          "coq_kind": "Lemma",
+          "coq_proof": "Qed",
+          "status": "ported"
+        },
+        {
+          "name": "odd_spec",
+          "lean_name": "Z.odd_spec",
+          "coq_kind": "Lemma",
+          "coq_proof": "Qed",
+          "status": "ported"
+        }
+      ]
+    },
+    {
+      "source_origin": "Rocq/SeparationLogic/Array2LibCore.v (undef_full, instantiated as the concrete IntArray2 from Array2Lib.v)",
+      "source_path": "Rocq/SeparationLogic/Array2LibCore.v",
+      "source_sha256": "224742dcb01cce306d2191b189a35404234a5a2ca5fefc6eca86a0563e6d458d",
+      "lean_path": "Lean/SeparationLogic/SimpleC/SL/Array2LibCore.lean",
+      "declarations": [
+        {
+          "name": "undef_full",
+          "lean_name": "SimpleC.SL.SeparationLogic.naive_C_Rules.IntArray2.undef_full",
+          "coq_kind": "Definition",
+          "coq_proof": null,
+          "status": "ported"
+        }
+      ],
+      "note": "Use the current concrete core predicate directly. No benchmark-local export alias is required."
+    }
+  ],
+  "source_toolchain": "Coq 8.20.1 (OCaml 5.2.1)",
+  "proof_helpers": [
+    {
+      "lean_name": "AUXLib.RelPrime.gcd_eq_one_bezout",
+      "lean_path": "Lean/auxlibs/AUXLib/RelPrime.lean",
+      "note": "New constructive Euclidean algorithm helper; distinct from Coq unqualified inductive Bezout."
+    }
+  ],
+  "export_extensions": [],
+  "shared_math_library": {
+    "directory": "Lean/auxlibs/AUXLib",
+    "modules": [
+      "AUXLib.NumberTheory",
+      "AUXLib.Prime",
+      "AUXLib.RelPrime",
+      "AUXLib.ZParity"
+    ],
+    "aggregate_import": "AUXLib",
+    "namespaces": {
+      "NumberTheory": "Z",
+      "Prime": "AUXLib.Prime",
+      "RelPrime": "AUXLib.RelPrime",
+      "ZParity": "Z"
+    },
+    "legacy_example_modules_removed": true,
+    "upward_dependencies_removed": [
+      "SimpleC.SL.SeparationLogic",
+      "SimpleC.EE.QCP_demos_LLM.simple_arith.test_prime_lib"
+    ],
+    "helper_change": "Removed prime_iff_legacy; consumers use prime_alt directly. The demo equivalence is checked in DependencyChecks, with an explicit demo import there.",
+    "validation": {
+      "auxlib_build": {
+        "command": "lake build AUXLib",
+        "directory": "Lean/auxlibs",
+        "status": "passed",
+        "jobs": 32,
+        "log": "/tmp/qcp-auxlib-math-core.log"
+      },
+      "example_regression": {
+        "command": "lake build LLMBench QCPDemosLLM UpstreamLibraryChecks",
+        "directory": "Lean/examples",
+        "status": "passed",
+        "jobs": 2046,
+        "log": "/tmp/qcp-auxlib-math-regression.log"
+      },
+      "shared_math_axiom_audit": {
+        "proofs": 13,
+        "status": "passed",
+        "allowed_axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "log": "/tmp/qcp-auxlib-math-core-audit.log"
+      },
+      "source_and_hole_audit": {
+        "status": "passed",
+        "cases": 107,
+        "inherited_admitted": 5032,
+        "source_apis": 34,
+        "source_qed": 12,
+        "additional_helpers": 13,
+        "extra_public_exports": 0,
+        "log": "/tmp/qcp-auxlib-math-static.log"
+      },
+      "stored_goal_files": {
+        "checked": 214,
+        "changed": 0
+      }
+    }
+  },
+  "aggregate_checks": {
+    "status": "removed",
+    "files": [
+      "DependencyChecks.lean",
+      "SecondBatchChecks.lean",
+      "SecondBatchSemantics.lean",
+      "SecondBatchBehaviorChecks.lean",
+      "ThirdBatchChecks.lean"
+    ],
+    "remaining_script_checks": [
+      "source hashes",
+      "recorded migration status",
+      "explicit proof-hole sets"
+    ],
+    "note": "Previously recorded build and axiom-audit results are historical. The removed aggregate modules are no longer prerequisites for the static checker or the LLM_bench entry."
+  }
+}

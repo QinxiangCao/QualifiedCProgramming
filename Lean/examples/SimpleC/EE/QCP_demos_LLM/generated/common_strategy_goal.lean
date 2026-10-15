@@ -1,4 +1,4 @@
-import SimpleC.SL.SeparationLogic
+import SimpleC.SL.LeanPrinterPrelude
 
 set_option maxHeartbeats 2000000
 set_option maxRecDepth 4000
@@ -18,6 +18,44 @@ open scoped SimpleC.SL.SAC
 
 local instance commonStrategyGoalSacContext : SacContext := { CRules := naive_C_Rules }
 
+private noncomputable abbrev charArray := naive_C_Rules.CharArray
+private noncomputable abbrev charArray2 := naive_C_Rules.CharArray2
+private noncomputable abbrev charArray3 := naive_C_Rules.CharArray3
+private noncomputable abbrev charPtrArray2 := naive_C_Rules.CharPtrArray2
+private noncomputable abbrev ucharArray := naive_C_Rules.UCharArray
+private noncomputable abbrev ucharArray2 := naive_C_Rules.UCharArray2
+private noncomputable abbrev ucharArray3 := naive_C_Rules.UCharArray3
+private noncomputable abbrev ucharPtrArray2 := naive_C_Rules.UCharPtrArray2
+private noncomputable abbrev shortArray := naive_C_Rules.ShortArray
+private noncomputable abbrev shortArray2 := naive_C_Rules.ShortArray2
+private noncomputable abbrev shortArray3 := naive_C_Rules.ShortArray3
+private noncomputable abbrev shortPtrArray2 := naive_C_Rules.ShortPtrArray2
+private noncomputable abbrev ushortArray := naive_C_Rules.UShortArray
+private noncomputable abbrev ushortArray2 := naive_C_Rules.UShortArray2
+private noncomputable abbrev ushortArray3 := naive_C_Rules.UShortArray3
+private noncomputable abbrev ushortPtrArray2 := naive_C_Rules.UShortPtrArray2
+private noncomputable abbrev intArray := naive_C_Rules.IntArray
+private noncomputable abbrev intArray2 := naive_C_Rules.IntArray2
+private noncomputable abbrev intArray3 := naive_C_Rules.IntArray3
+private noncomputable abbrev intPtrArray2 := naive_C_Rules.IntPtrArray2
+private noncomputable abbrev uintArray := naive_C_Rules.UIntArray
+private noncomputable abbrev uintArray2 := naive_C_Rules.UIntArray2
+private noncomputable abbrev uintArray3 := naive_C_Rules.UIntArray3
+private noncomputable abbrev uintPtrArray2 := naive_C_Rules.UIntPtrArray2
+private noncomputable abbrev int64Array := naive_C_Rules.Int64Array
+private noncomputable abbrev int64Array2 := naive_C_Rules.Int64Array2
+private noncomputable abbrev int64Array3 := naive_C_Rules.Int64Array3
+private noncomputable abbrev int64PtrArray2 := naive_C_Rules.Int64PtrArray2
+private noncomputable abbrev uint64Array := naive_C_Rules.UInt64Array
+private noncomputable abbrev uint64Array2 := naive_C_Rules.UInt64Array2
+private noncomputable abbrev uint64Array3 := naive_C_Rules.UInt64Array3
+private noncomputable abbrev uint64PtrArray2 := naive_C_Rules.UInt64PtrArray2
+private noncomputable abbrev ptrArray := naive_C_Rules.PtrArray
+private noncomputable abbrev ptrArray2 := naive_C_Rules.PtrArray2
+private noncomputable abbrev ptrArray3 := naive_C_Rules.PtrArray3
+private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
+private noncomputable abbrev store_string := naive_C_Rules.store_string
+
 
 noncomputable def common_strategy0 : Prop :=
   forall (A : Type) (x : A),
@@ -29,10 +67,11 @@ noncomputable def common_strategy0 : Prop :=
     TT &&
     emp
     ) ** (
+(
     TT &&
-    emp -*
+    emp) -* (
     TT &&
-    emp
+    emp)
     )
 
 noncomputable def common_strategy1 : Prop :=
@@ -44,11 +83,12 @@ noncomputable def common_strategy1 : Prop :=
   emp
   ) ** (
   ALL A : Type, ALL x : A, 
+(
     TT &&
-    emp -*
+    emp) -* (
     TT &&
     (“ (x = x) ”) &&
-    emp
+    emp)
     )
 
 noncomputable def common_strategy6 : Prop :=
@@ -63,13 +103,14 @@ noncomputable def common_strategy6 : Prop :=
     emp **
     ((p # ty |-> (x)))
     ) ** (
+(
     TT &&
     (“ (x = y) ”) &&
     emp **
-    ((p # ty |-> (y))) -*
+    ((p # ty |-> (y)))) -* (
     TT &&
     emp **
-    ((p # ty |-> (y)))
+    ((p # ty |-> (y))))
     )
 
 noncomputable def common_strategy19 : Prop :=
@@ -84,10 +125,11 @@ noncomputable def common_strategy19 : Prop :=
     emp **
     ((p # INT |-> (x)))
     ) ** (
+(
     TT &&
-    emp -*
+    emp) -* (
     TT &&
-    emp
+    emp)
     )
 
 noncomputable def common_strategy20 : Prop :=
@@ -102,10 +144,11 @@ noncomputable def common_strategy20 : Prop :=
     emp **
     ((p # INT |-> (x)))
     ) ** (
+(
     TT &&
-    emp -*
+    emp) -* (
     TT &&
-    emp
+    emp)
     )
 
 noncomputable def common_strategy21 : Prop :=
@@ -120,10 +163,11 @@ noncomputable def common_strategy21 : Prop :=
     emp **
     ((p # UINT |-> (x)))
     ) ** (
+(
     TT &&
-    emp -*
+    emp) -* (
     TT &&
-    emp
+    emp)
     )
 
 noncomputable def common_strategy22 : Prop :=
@@ -138,10 +182,11 @@ noncomputable def common_strategy22 : Prop :=
     emp **
     ((p # UINT |-> (x)))
     ) ** (
+(
     TT &&
-    emp -*
+    emp) -* (
     TT &&
-    emp
+    emp)
     )
 
 noncomputable def common_strategy3 : Prop :=
@@ -153,12 +198,13 @@ noncomputable def common_strategy3 : Prop :=
   emp
   ) ** (
   ALL A : Type, ALL y : A, ALL x : A, 
+(
     TT &&
     (“ (x = y) ” || “ (y = x) ”) &&
-    emp -*
+    emp) -* (
     TT &&
     (“ (x = y) ” || “ (y = x) ”) &&
-    emp
+    emp)
     )
 
 noncomputable def common_strategy15 : Prop :=
@@ -175,11 +221,12 @@ noncomputable def common_strategy15 : Prop :=
     ((p # ty |-> (x))) **
     ((p # ty1 |-> (y)))
     ) ** (
+(
     TT &&
     emp **
-    ((dup_data_at_error SacContext.rules p)) -*
+    ((dup_data_at_error SacContext.rules p))) -* (
     TT &&
-    emp
+    emp)
     )
 
 noncomputable def common_strategy16 : Prop :=
@@ -196,11 +243,12 @@ noncomputable def common_strategy16 : Prop :=
     ((p # ty |-> (x))) **
     ((p # ty1 |->_))
     ) ** (
+(
     TT &&
     emp **
-    ((dup_data_at_error SacContext.rules p)) -*
+    ((dup_data_at_error SacContext.rules p))) -* (
     TT &&
-    emp
+    emp)
     )
 
 noncomputable def common_strategy17 : Prop :=
@@ -217,11 +265,12 @@ noncomputable def common_strategy17 : Prop :=
     ((p # ty |->_)) **
     ((p # ty1 |->_))
     ) ** (
+(
     TT &&
     emp **
-    ((dup_data_at_error SacContext.rules p)) -*
+    ((dup_data_at_error SacContext.rules p))) -* (
     TT &&
-    emp
+    emp)
     )
 
 noncomputable def common_strategy12 : Prop :=
@@ -234,10 +283,11 @@ noncomputable def common_strategy12 : Prop :=
     TT &&
     emp
     ) ** (
+(
     TT &&
-    emp -*
+    emp) -* (
     TT &&
-    emp
+    emp)
     )
 
 noncomputable def common_strategy13 : Prop :=
@@ -249,11 +299,12 @@ noncomputable def common_strategy13 : Prop :=
   emp
   ) ** (
   ALL A : Type, ALL b : A, ALL a : A, 
+(
     TT &&
-    emp -*
+    emp) -* (
     TT &&
     (“ (should_be_equal a b) ”) &&
-    emp
+    emp)
     )
 
 noncomputable def common_strategy18 : Prop :=
@@ -265,10 +316,11 @@ noncomputable def common_strategy18 : Prop :=
   TT &&
   emp
   ) ** (
+(
   TT &&
-  emp -*
+  emp) -* (
   TT &&
-  emp
+  emp)
   )
 
 noncomputable def common_strategy7 : Prop :=
@@ -281,11 +333,12 @@ noncomputable def common_strategy7 : Prop :=
     TT &&
     emp
     ) ** (
+(
     TT &&
-    emp -*
+    emp) -* (
     TT &&
     emp **
-    ((p # ty |-> (x)))
+    ((p # ty |-> (x))))
     )
 
 noncomputable def common_strategy8 : Prop :=
@@ -299,13 +352,14 @@ noncomputable def common_strategy8 : Prop :=
     emp
     ) ** (
     ALL y : Int, 
+(
       TT &&
       (“ (x = y) ”) &&
-      emp -*
+      emp) -* (
       TT &&
       (“ (x = y) ”) &&
       emp **
-      ((p # ty |-> (y)))
+      ((p # ty |-> (y))))
       )
 
 noncomputable def common_strategy9 : Prop :=
@@ -318,11 +372,12 @@ noncomputable def common_strategy9 : Prop :=
     TT &&
     emp
     ) ** (
+(
     TT &&
-    emp -*
+    emp) -* (
     TT &&
     emp **
-    ((p # ty |->_))
+    ((p # ty |->_)))
     )
 
 noncomputable def common_strategy10 : Prop :=
@@ -335,11 +390,12 @@ noncomputable def common_strategy10 : Prop :=
     TT &&
     emp
     ) ** (
+(
     TT &&
-    emp -*
+    emp) -* (
     TT &&
     emp **
-    ((p # ty |->_))
+    ((p # ty |->_)))
     )
 
 noncomputable def common_strategy11 : Prop :=
@@ -355,12 +411,13 @@ noncomputable def common_strategy11 : Prop :=
     emp
     ) ** (
     ALL y : Int, 
+(
       TT &&
       (“ (x = y) ”) &&
-      emp -*
+      emp) -* (
       TT &&
       emp **
-      ((q # ty |-> (y)))
+      ((q # ty |-> (y))))
       )
 
 noncomputable def common_strategy23 : Prop :=
@@ -374,11 +431,12 @@ noncomputable def common_strategy23 : Prop :=
     emp
     ) ** (
     ALL x : Int, 
+(
       TT &&
-      emp -*
+      emp) -* (
       TT &&
       (“ ((unsigned_last_nbits x n) >= (0 : Int)) ”) &&
-      emp
+      emp)
       )
 
 noncomputable def common_strategy14 : Prop :=
@@ -390,12 +448,13 @@ noncomputable def common_strategy14 : Prop :=
   emp
   ) ** (
   ALL ty, ALL x : Int, ALL p : Int, 
+(
     TT &&
     emp **
-    ((p # ty |-> (x))) -*
+    ((p # ty |-> (x)))) -* (
     TT &&
     emp **
-    ((p # ty |->_))
+    ((p # ty |->_)))
     )
 
 structure common_Strategy_Correct : Type where

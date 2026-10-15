@@ -3,6 +3,7 @@ import Lean.Util.CollectAxioms
 
 namespace NestedCriticalSTSTests
 
+open SimpleC.SL.CArch
 open SimpleC.SL.CommonAssertion
 open SimpleC.SL.ConAssertion
 open SimpleC.SL.CriticalSTS
@@ -79,7 +80,7 @@ elab_rules : command
   NestedCriticalCSL,
   NestedCriticalCSL.canonical,
   NestedCriticalCSL.Critical
-] => 12796742306923022250
+] => 2824302200388039415
 
 abbrev CounterSTS : critical_STS where
   critical_STS_state := Nat
@@ -133,41 +134,41 @@ example (s1 s2 : Nat) : CounterFacade.GTrans s1 s2 = (s2 = s1 + 1) := rfl
 
 def CounterLogic : CSL CounterFacade.toSTSDef :=
   CSL.canonical CounterFacade.toSTSDef
-def CounterDerived : DerivedPredSig CounterLogic.toSeparationLogicSig :=
-  DerivedPredSig.canonical CounterLogic.toSeparationLogicSig
+def CounterDerived : DerivedPredSigCompat.Sig CounterLogic.toSeparationLogicSig :=
+  DerivedPredSigCompat.canonical CounterLogic.toSeparationLogicSig
 def CounterNested :
-    NestedCriticalCSL CounterDef CounterFacade CounterLogic CounterDerived :=
-  NestedCriticalCSL.canonical CounterDef CounterFacade CounterLogic CounterDerived
+    NestedCriticalCSL CounterDef CounterFacade CounterLogic Arch32 BigEndian CounterDerived :=
+  NestedCriticalCSL.canonical CounterDef CounterFacade CounterLogic Arch32 BigEndian CounterDerived
 
 example (s : Nat) : CounterNested.Critical [] s =
-    CounterLogic.andp (CounterLogic.coq_prop ([] = ([] : List Int)))
-      (CounterLogic.orp
+    CounterLogic.orp
+      (CounterLogic.andp (CounterLogic.coq_prop ([] = ([] : List Int)))
         (CounterLogic.exp Nat fun s' =>
           CounterLogic.sepcon
             (CounterLogic.at_states fun cs =>
               exists s'',
                 cs = Build_nested_critical_state [] s'' ∧ s'' = s' + 1)
-            (CounterLogic.has_tokens Sets.empty))
-        (CounterLogic.andp (CounterLogic.coq_prop (([] : List Int) ≠ []))
-          (CounterLogic.sepcon
-            (CounterLogic.at_states fun cs =>
-              exists hs', cs = Build_nested_critical_state (hs' ++ []) s)
-            (CounterLogic.has_tokens fun (n : Nat) => n < (0 : Nat))))) := rfl
+            (CounterLogic.has_tokens Sets.empty)))
+      (CounterLogic.andp (CounterLogic.coq_prop (([] : List Int) ≠ []))
+        (CounterLogic.sepcon
+          (CounterLogic.at_states fun cs =>
+            exists hs', cs = Build_nested_critical_state (hs' ++ []) s)
+          (CounterLogic.has_tokens fun (n : Nat) => n < (0 : Nat)))) := rfl
 
 example (s : Nat) (hs : List Int) : CounterNested.Critical hs s =
-    CounterLogic.andp (CounterLogic.coq_prop (hs = []))
-      (CounterLogic.orp
+    CounterLogic.orp
+      (CounterLogic.andp (CounterLogic.coq_prop (hs = []))
         (CounterLogic.exp Nat fun s' =>
           CounterLogic.sepcon
             (CounterLogic.at_states fun cs =>
               exists s'',
                 cs = Build_nested_critical_state [] s'' ∧ s'' = s' + 1)
-            (CounterLogic.has_tokens Sets.empty))
-        (CounterLogic.andp (CounterLogic.coq_prop (hs ≠ []))
-          (CounterLogic.sepcon
-            (CounterLogic.at_states fun cs =>
-              exists hs', cs = Build_nested_critical_state (hs' ++ hs) s)
-            (CounterLogic.has_tokens fun (n : Nat) => n < hs.length)))) := rfl
+            (CounterLogic.has_tokens Sets.empty)))
+      (CounterLogic.andp (CounterLogic.coq_prop (hs ≠ []))
+        (CounterLogic.sepcon
+          (CounterLogic.at_states fun cs =>
+            exists hs', cs = Build_nested_critical_state (hs' ++ hs) s)
+          (CounterLogic.has_tokens fun (n : Nat) => n < hs.length))) := rfl
 
 -- Reproduce the module assembly used by examples/nested_critical_sll_lib.v.
 abbrev sll_CS : critical_STS where
@@ -181,12 +182,12 @@ def sll_NC_CSL : CSL NC_STS_sll_facade.toSTSDef :=
   CSL.canonical NC_STS_sll_facade.toSTSDef
 abbrev sll_NC_Rules : SeparationLogicSig :=
   sll_NC_CSL.toSeparationLogicSig
-def sll_NC_Derived : DerivedPredSig sll_NC_Rules :=
-  DerivedPredSig.canonical sll_NC_Rules
+def sll_NC_Derived : DerivedPredSigCompat.Sig sll_NC_Rules :=
+  DerivedPredSigCompat.canonical sll_NC_Rules
 def sll_NC_Nested :
-    NestedCriticalCSL NC_STS_sll NC_STS_sll_facade sll_NC_CSL sll_NC_Derived :=
+    NestedCriticalCSL NC_STS_sll NC_STS_sll_facade sll_NC_CSL Arch32 BigEndian sll_NC_Derived :=
   NestedCriticalCSL.canonical
-    NC_STS_sll NC_STS_sll_facade sll_NC_CSL sll_NC_Derived
+    NC_STS_sll NC_STS_sll_facade sll_NC_CSL Arch32 BigEndian sll_NC_Derived
 
 namespace sll_NC_Rules
 
@@ -211,10 +212,11 @@ example (l1 l2 : List Int) : sll_NC_Rules.RTrans l1 l2 := rfl
 example (l1 l2 : List Int) : sll_NC_Rules.GTrans l1 l2 := rfl
 example (p v : Int) :
     sll_NC_Rules.store_int p v =
-      DerivedPredSig.store_int sll_NC_Rules p v := rfl
+      DerivedPredSigCompat.store_int sll_NC_Rules p v := rfl
 example : sll_NC_Rules.IntArray.elementStore =
     SimpleC.SL.ArrayLib.StoreIntAsElement
-      sll_NC_Rules sll_NC_Rules.derivedPredSig sll_NC_Rules.storeLibSig := rfl
+      Arch32 BigEndian sll_NC_Rules sll_NC_Rules.derivedPredSig
+        sll_NC_Rules.storeLibSig := rfl
 example (hs s : List Int) :
     sll_NC_Rules.Critical hs s = sll_NC_Nested.Critical hs s := rfl
 

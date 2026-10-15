@@ -8,6 +8,9 @@ namespace SimpleC.SL.IntLib
 abbrev INT_MIN : Int := -2147483648
 abbrev INT_MAX : Int := 2147483647
 abbrev UINT_MAX : Int := 4294967295
+abbrev INT64_MIN : Int := -9223372036854775808
+abbrev INT64_MAX : Int := 9223372036854775807
+abbrev UINT64_MAX : Int := 18446744073709551615
 abbrev Zabs : Int -> Int := Z.abs
 abbrev Zgcd : Int -> Int -> Int := Z.gcd
 
@@ -17,6 +20,14 @@ def unsigned_last_nbits (x n : Int) : Int :=
 def signed_last_nbits (x n : Int) : Int :=
   let v := Z.modulo x (Z.pow 2 n)
   if v < Z.pow 2 (n - 1) then v else v - Z.pow 2 n
+
+namespace Int128
+
+def min_signed : Int := -Z.pow 2 127
+def max_signed : Int := Z.pow 2 127 - 1
+def max_unsigned : Int := Z.pow 2 128 - 1
+
+end Int128
 
 private theorem pow_two_pos (n : Int) (hn : 0 <= n) :
     0 < Z.pow 2 n := by

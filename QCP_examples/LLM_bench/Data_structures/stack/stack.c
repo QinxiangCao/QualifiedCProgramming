@@ -1,3 +1,4 @@
+/*@ Import Lean import SimpleC.EE.LLM_bench.Data_structures.stack.stack_lib */
 /*@ Extern Coq (sll :: *) */
 /*@ Extern Coq
       (stack_capacity : Z)

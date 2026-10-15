@@ -9,7 +9,8 @@ import MonadLib.MonadErr.monadesafe_lib
 
 syntax "__guard_monad_family_target " ident : tactic
 syntax "__guard_monad_family_hyp " ident ident : tactic
-syntax "__dispatch_monad_hyp " ident ident : tactic
+syntax "__dispatch_monad_location " ident " in "
+  Lean.Parser.Tactic.locationHyp : tactic
 
 namespace MonadLib.UnifiedTactics
 
@@ -44,9 +45,11 @@ private def isErrProgramName (name : Name) : Bool :=
     name == ``MonadLib.any ||
     name == ``MonadLib.get ||
     name == ``MonadLib.update ||
+    name == ``MonadLib.Rec ||
     name == ``MonadLib.whileP ||
     name == ``MonadLib.«while» ||
     name == ``MonadLib.whileret ||
+    name == ``MonadLib.whileretP ||
     name == ``MonadLib.Repeat ||
     name == ``MonadLib.repeat_break ||
     name == ``MonadLib.repeat_break_noin ||
@@ -105,6 +108,50 @@ private def guardFamily (family : Name) (type : Expr) : TacticM Unit := do
   | none =>
       throwError "cannot determine the monad family from the target structure"
 
+private def underlyingTacticName (operation : Name)
+    (family : MonadFamily) : TacticM String :=
+  match operation.eraseMacroScopes, family with
+  | `prog_nf, .state => pure "state_prog_nf"
+  | `prog_nf, .err => pure "err_prog_nf"
+  | `unfold_loop, .state => pure "state_unfold_loop"
+  | `unfold_loop, .err => pure "err_unfold_loop"
+  | `unfold_rec, .state => pure "state_unfold_rec"
+  | `unfold_rec, .err => pure "err_unfold_rec"
+  | _, _ => throwError "unknown monad location operation"
+
+private def evalUnderlyingAtTarget (operation : Name)
+    (family : MonadFamily) : TacticM Unit := do
+  let tacticName ← underlyingTacticName operation family
+  match Lean.Parser.runParserCategory (← getEnv) `tactic tacticName with
+  | .ok tactic => evalTactic tactic
+  | .error message => throwError message
+
+private def evalUnderlyingAtHyp (operation : Name) (family : MonadFamily)
+    (fvarId : FVarId) : TacticM Unit := do
+  let tacticName ← underlyingTacticName operation family
+  let userName ← fvarId.getUserName
+  let source := s!"{tacticName} in {userName.eraseMacroScopes}"
+  match Lean.Parser.runParserCategory (← getEnv) `tactic source with
+  | .ok tactic => evalTactic tactic
+  | .error message => throwError message
+
+private def dispatchMonadLocation (operation : Name)
+    (location : Syntax) : TacticM Unit := do
+  for item in location[0].getArgs do
+    if item.getKind == ``Lean.Parser.Tactic.locationType then
+      withMainContext do
+        let target ← instantiateMVars (← getMainTarget)
+        let some family := inferFamily? target |
+          throwError "cannot determine the monad family from the target structure"
+        evalUnderlyingAtTarget operation family
+    else
+      withMainContext do
+        let fvarId ← getFVarId item
+        let type ← instantiateMVars (← fvarId.getType)
+        let some family := inferFamily? type |
+          throwError "cannot determine the monad family from hypothesis {item}"
+        evalUnderlyingAtHyp operation family fvarId
+
 elab_rules : tactic
   | `(tactic| __guard_monad_family_target $family:ident) => withMainContext do
       let target <- instantiateMVars (← getMainTarget)
@@ -113,21 +160,8 @@ elab_rules : tactic
       let fvarId <- getFVarId h
       let type <- instantiateMVars (← fvarId.getType)
       guardFamily family.getId type
-  | `(tactic| __dispatch_monad_hyp $operation:ident $h:ident) => withMainContext do
-      let fvarId <- getFVarId h
-      let type <- instantiateMVars (← fvarId.getType)
-      let some family := inferFamily? type |
-        throwError "cannot determine the monad family from hypothesis {h.getId}"
-      let tacticName <- match operation.getId.eraseMacroScopes, family with
-        | `prog_nf, .state => pure "state_prog_nf"
-        | `prog_nf, .err => pure "err_prog_nf"
-        | `unfold_loop, .state => pure "state_unfold_loop"
-        | `unfold_loop, .err => pure "err_unfold_loop"
-        | _, _ => throwError "unknown monad hypothesis operation"
-      let source := s!"{tacticName} in {h.getId.eraseMacroScopes}"
-      match Lean.Parser.runParserCategory (← getEnv) `tactic source with
-      | .ok tactic => evalTactic tactic
-      | .error message => throwError message
+  | `(tactic| __dispatch_monad_location $operation:ident in $location) =>
+      dispatchMonadLocation operation.getId location
 
 end MonadLib.UnifiedTactics
 
@@ -135,8 +169,8 @@ macro "prog_nf" : tactic =>
   `(tactic| first
       | (__guard_monad_family_target state; state_prog_nf)
       | (__guard_monad_family_target err; err_prog_nf))
-macro "prog_nf" " in " h:ident : tactic =>
-  `(tactic| __dispatch_monad_hyp prog_nf $h)
+macro "prog_nf" " in " location:Lean.Parser.Tactic.locationHyp : tactic =>
+  `(tactic| __dispatch_monad_location prog_nf in $location)
 macro "mono_cont_auto" : tactic =>
   `(tactic| first
       | (__guard_monad_family_target state; state_mono_cont_auto)
@@ -145,8 +179,14 @@ macro "unfold_loop" : tactic =>
   `(tactic| first
       | (__guard_monad_family_target state; state_unfold_loop)
       | (__guard_monad_family_target err; err_unfold_loop))
-macro "unfold_loop" " in " h:ident : tactic =>
-  `(tactic| __dispatch_monad_hyp unfold_loop $h)
+macro "unfold_loop" " in " location:Lean.Parser.Tactic.locationHyp : tactic =>
+  `(tactic| __dispatch_monad_location unfold_loop in $location)
+macro "unfold_rec" : tactic =>
+  `(tactic| first
+      | (__guard_monad_family_target state; state_unfold_rec)
+      | (__guard_monad_family_target err; err_unfold_rec))
+macro "unfold_rec" " in " location:Lean.Parser.Tactic.locationHyp : tactic =>
+  `(tactic| __dispatch_monad_location unfold_rec in $location)
 macro "hoare_step" : tactic =>
   `(tactic| first
       | (__guard_monad_family_target state; state_hoare_step)
@@ -159,6 +199,34 @@ macro "hoare_fix_nolv_auto " A:term : tactic =>
   `(tactic| first
       | (__guard_monad_family_target state; state_hoare_fix_nolv_auto $A)
       | (__guard_monad_family_target err; err_hoare_fix_nolv_auto $A))
+macro "hoare_fix_lv_auto " A:term:max C:term:max c:term:max : tactic =>
+  `(tactic| first
+      | (__guard_monad_family_target state; state_hoare_fix_lv_auto $A $C $c)
+      | (__guard_monad_family_target err; err_hoare_fix_lv_auto $A $C $c))
+macro "hoare_fix_lv_auto_conj " A:term:max C:term:max c:term:max : tactic =>
+  `(tactic| first
+      | (__guard_monad_family_target state; state_hoare_fix_lv_auto_conj $A $C $c)
+      | (__guard_monad_family_target err; err_hoare_fix_lv_auto_conj $A $C $c))
+macro "hoare_fix_lv_auto_conj' " A:term:max C:term:max c:term:max : tactic =>
+  `(tactic| first
+      | (__guard_monad_family_target state; state_hoare_fix_lv_auto_conj' $A $C $c)
+      | (__guard_monad_family_target err; err_hoare_fix_lv_auto_conj' $A $C $c))
+macro "hoare_rec_nolv_auto " A:term : tactic =>
+  `(tactic| first
+      | (__guard_monad_family_target state; state_hoare_rec_nolv_auto $A)
+      | (__guard_monad_family_target err; err_hoare_rec_nolv_auto $A))
+macro "hoare_rec_lv_auto " A:term:max C:term:max c:term:max : tactic =>
+  `(tactic| first
+      | (__guard_monad_family_target state; state_hoare_rec_lv_auto $A $C $c)
+      | (__guard_monad_family_target err; err_hoare_rec_lv_auto $A $C $c))
+macro "hoare_rec_lv_auto_conj' " A:term:max C:term:max c:term:max : tactic =>
+  `(tactic| first
+      | (__guard_monad_family_target state; state_hoare_rec_lv_auto_conj' $A $C $c)
+      | (__guard_monad_family_target err; err_hoare_rec_lv_auto_conj' $A $C $c))
+macro "hoare_rec " P:term:max Q:term:max : tactic =>
+  `(tactic| first
+      | (__guard_monad_family_target state; state_hoare_rec $P $Q)
+      | (__guard_monad_family_target err; err_hoare_rec $P $Q))
 macro "prove_by_one_abs_step " x:term : tactic =>
   `(tactic| first
       | (__guard_monad_family_target state; state_prove_by_one_abs_step $x)

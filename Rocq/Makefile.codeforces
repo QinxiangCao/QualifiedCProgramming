@@ -1,0 +1,354 @@
+# Focused build for the verified Codeforces cases.
+#
+# Run this makefile from the repository root:
+#   make -C Rocq -f Makefile.codeforces codeforces
+#
+# QCP symbolic execution is responsible for creating the four generated Rocq
+# files listed below.  This makefile tracks and compiles those outputs; it does
+# not invoke the symbolic-execution binary.
+
+CURRENT_DIR = .
+COQBIN ?=
+SUF ?=
+
+-include CONFIGURE
+
+COQC = $(COQBIN)coqc$(SUF)
+COQDEP = $(COQBIN)coqdep$(SUF)
+
+# Keep these flags synchronized with Rocq/Makefile.
+COQ_FLAG = -R flocq/src Flocq -R SeparationLogic SimpleC.SL -R unifysl Logic -R sets SetsClass -R compcert_lib compcert.lib -R auxlibs AUXLib -R examples SimpleC.EE -R stdlib SimpleC.StdLib -R StrategyLib SimpleC.StrategyLib -R Common SimpleC.Common -R fixedpoints FP -R MonadLib MonadLib -R listlib ListLib -R MaxMinLib MaxMinLib -R GraphLib GraphLib -R SumLib SumLib -R tracelib TraceLib -R coq-record-update/src RecordUpdate -Q algorithms Algorithms
+DEP_FLAG = $(COQ_FLAG)
+
+CODEFORCES_C_DIR = ../QCP_examples/LLM_bench/Codeforces
+CODEFORCES_LOGICAL_HELPER_DIR = examples/LLM_bench/Codeforces
+CODEFORCES_ROCQ_DIR = examples/LLM_bench/Codeforces
+CODEFORCES_SHARED_STRATEGY_DIR = examples/QCP_demos_LLM
+
+# Add a case here once; the C input, Rocq specification, and generated files
+# are derived from the same canonical stem.  Both trees share the
+# shard-relative stem examples_shard<NN>/P<nnn>_<contest><index>_<slug>, where
+# <nnn> is the slot rank from the PV-bench SHARD<NN>.md work-list.
+CODEFORCES_CASES = \
+	examples_shard09/P001_1031A_golden_plate \
+	examples_shard09/P002_1382A_common_subsequence \
+	examples_shard09/P003_1438A_specific_tastes_of_andre \
+	examples_shard09/P004_2008B_square_or_not \
+	examples_shard09/P005_707A_brains_photos \
+	examples_shard09/P006_867A_between_the_offices \
+	examples_shard09/P007_1313A_fast_food_restaurant \
+	examples_shard09/P008_26A_almost_prime \
+	examples_shard09/P009_275A_lights_out \
+	examples_shard09/P010_412A_poster \
+	examples_shard09/P011_460A_vasya_and_socks \
+	examples_shard09/P012_1139B_chocolates \
+	examples_shard09/P013_1725B_basketball_together \
+	examples_shard09/P014_1765E_exchange \
+	examples_shard09/P015_2051C_preparing_for_the_exam \
+	examples_shard09/P016_371A_k_periodic_array \
+	examples_shard09/P017_753A_santa_claus_and_candies \
+	examples_shard09/P018_1382B_sequential_nim \
+	examples_shard09/P019_1787B_number_factorization \
+	examples_shard09/P020_433A_kitahara_harukis_gift \
+	examples_shard09/P021_602A_two_bases \
+	examples_shard09/P022_705B_spider_man \
+	examples_shard09/P023_985A_chess_placing \
+	examples_shard09/P024_1102C_doors_breaking_and_repairing \
+	examples_shard09/P025_1384A_common_prefixes \
+	examples_shard09/P026_2000D_right_left_wrong \
+	examples_shard09/P027_459A_pashmak_and_garden \
+	examples_shard09/P028_474B_worms \
+	examples_shard09/P029_817A_treasure_hunt \
+	examples_shard09/P030_1220C_substring_game_in_the_lesson \
+	examples_shard09/P031_1311C_perform_the_combo \
+	examples_shard09/P032_1561C_deep_down_below \
+	examples_shard09/P033_1737B_elas_fitness_and_the_luxury_number \
+	examples_shard09/P034_1999E_triple_operations \
+	examples_shard09/P035_288A_polo_the_penguin_and_strings \
+	examples_shard09/P036_1201C_maximum_median \
+	examples_shard09/P037_1266C_diverse_matrix \
+	examples_shard09/P038_1365C_rotation_matching \
+	examples_shard09/P039_435B_pasha_maximizes \
+	examples_shard09/P040_81A_plug_in \
+	examples_shard09/P041_1538F_interesting_function \
+	examples_shard09/P042_555A_case_of_matryoshkas \
+	examples_shard09/P043_649C_pechat_uslovii \
+	examples_shard09/P044_837C_two_seals \
+	examples_shard09/P045_959C_mahmoud_and_ehab_and_the_wrong_algorithm \
+	examples_shard09/P046_1243B2_character_swap \
+	examples_shard09/P047_1582D_vupsen_pupsen_and_0 \
+	examples_shard09/P048_1607E_robot_on_the_board_1 \
+	examples_shard09/P049_411B_multi_core_processor \
+	examples_shard09/P050_847H_load_testing \
+	examples_shard09/P051_986A_fair \
+	examples_shard09/P053_1594D_the_number_of_imposters \
+	examples_shard09/P055_276D_little_girl_and_maximum_xor \
+	examples_shard09/P056_65B_harry_potter_and_the_history_of_magic \
+	examples_shard09/P057_1355C_count_triangles \
+	examples_shard09/P058_1721D_maximum_and \
+	examples_shard09/P060_1930D1_sum_over_all_substrings \
+	examples_shard09/P062_1492D_geniuss_gambit \
+	examples_shard09/P063_1569D_inconvenient_pairs \
+	examples_shard09/P064_223C_partial_sums \
+	examples_shard09/P065_535C_tavas_and_karafs \
+	examples_shard09/P066_1288D_minimax_problem \
+	examples_shard09/P068_21C_stripe_2 \
+	examples_shard09/P070_509E_pretty_song \
+	examples_shard09/P073_1799D2_hot_start_up \
+	examples_shard09/P075_1474D_cleaning \
+	examples_shard09/P080_1316E_team_building \
+	examples_shard09/P081_432E_square_tiling \
+	examples_shard09/P082_623B_array_gcd \
+	examples_shard09/P083_938E_max_history \
+	examples_shard09/P085_498D_traffic_jams_in_the_land \
+	examples_shard09/P086_639D_bear_and_contribution \
+	examples_shard09/P089_946G_almost_increasing_array \
+	examples_shard09/P090_1027G_x_mouse_in_the_campus \
+	examples_shard09/P093_1750F_majority \
+	examples_shard09/P096_1436F_sum_over_subsets \
+	examples_shard00/P001_1102A_integer_sequence_dividing \
+	examples_shard00/P002_1747A_two_groups \
+	examples_shard00/P003_1763A_absolute_maximization \
+	examples_shard00/P004_1890A_doremys_paint_3 \
+	examples_shard00/P005_1891A_sorting_with_twos \
+	examples_shard00/P006_38A_army \
+	examples_shard00/P008_1537B_bad_boy \
+	examples_shard00/P009_1696B_nit_destroys_the_universe \
+	examples_shard00/P010_48A_rock_paper_scissors \
+	examples_shard00/P011_765A_neverending_competitions \
+	examples_shard00/P012_1326A_bad_ugly_numbers \
+	examples_shard00/P013_1744C_traffic_light \
+	examples_shard00/P014_1784A_monsters_easy_version \
+	examples_shard00/P015_435A_queue_on_bus_stop \
+	examples_shard00/P016_450A_jzzhu_and_children \
+	examples_shard00/P017_887A_div_64 \
+	examples_shard00/P018_1146B_hate_a \
+	examples_shard00/P019_1807G2_subsequence_addition_hard \
+	examples_shard00/P020_1994B_fun_game \
+	examples_shard00/P021_2030C_a_true_battle \
+	examples_shard00/P022_245B_internet_address \
+	examples_shard00/P023_765B_code_obfuscation \
+	examples_shard00/P024_1104B_game_with_string \
+	examples_shard00/P026_1355A_sequence_with_digits \
+	examples_shard00/P027_1800D_remove_two_letters \
+	examples_shard00/P028_1941D_rudolf_and_the_ball_game \
+	examples_shard00/P029_690D1_the_wall_easy \
+	examples_shard00/P030_1113B_sasha_and_magnetic_machines \
+	examples_shard00/P031_1194C_from_s_to_t \
+	examples_shard00/P032_1367C_social_distance \
+	examples_shard00/P033_1454D_number_into_sequence \
+	examples_shard00/P034_303A_lucky_permutation_triple \
+	examples_shard00/P035_807B_t_shirt_hunt \
+	examples_shard00/P036_1705C_mark_and_his_unfinished_essay \
+	examples_shard00/P037_1875C_jellyfish_and_green_apple \
+	examples_shard00/P038_1903C_theofanis_nightmare \
+	examples_shard00/P039_1955D_inaccurate_subsequence_search \
+	examples_shard00/P040_1983C_have_your_cake_and_eat_it_too \
+	examples_shard00/P041_1054C_candies_distribution \
+	examples_shard00/P042_1551C_interesting_story \
+	examples_shard00/P043_276C_little_girl_and_maximum_sum \
+	examples_shard00/P044_545C_woodcutters \
+	examples_shard00/P045_569A_music \
+	examples_shard00/P046_1082C_multi_subject_competition \
+	examples_shard00/P047_1523C_compression_and_expansion \
+	examples_shard00/P048_1771C_hossam_and_trainees \
+	examples_shard00/P049_1946C_tree_cutting \
+	examples_shard00/P050_440B_balancer \
+	examples_shard00/P051_639B_bear_and_forgotten_tree_3 \
+	examples_shard00/P052_1168A_increasing_by_modulo \
+	examples_shard00/P053_1393C_pinkie_pie_eats_patty_cakes \
+	examples_shard00/P054_1776F_train_splitting \
+	examples_shard00/P055_567C_geometric_progression \
+	examples_shard00/P056_630I_parking_lot \
+	examples_shard00/P057_1067B_multihedgehog \
+	examples_shard00/P058_132C_logo_turtle \
+	examples_shard00/P059_1468J_road_reform \
+	examples_shard00/P061_2042C_competitive_fishing \
+	examples_shard00/P062_1729F_kirei_and_the_linear_function \
+	examples_shard00/P063_1977C_nikita_and_lcm \
+	examples_shard00/P064_1992F_valuable_cards \
+	examples_shard00/P067_1415D_xor_gun \
+	examples_shard00/P068_1416C_xor_inverse \
+	examples_shard00/P070_886D_restoration_of_string \
+	examples_shard00/P071_2044H_hard_demon_problem \
+	examples_shard00/P073_400E_inna_and_binary_logic \
+	examples_shard00/P078_1967B2_reverse_card_hard \
+	examples_shard00/P080_1204E_natasha_sasha_and_prefix_sums \
+	examples_shard00/P081_1965C_folding_strip
+
+
+# Part 1: C inputs consumed by QCP symbolic execution.
+CODEFORCES_C_FILES = \
+	$(addprefix $(CODEFORCES_C_DIR)/,$(addsuffix .c,$(CODEFORCES_CASES)))
+
+# Part 2: hand-maintained Rocq pre/post libraries.
+CODEFORCES_LIB_FILES = \
+	$(addprefix $(CODEFORCES_ROCQ_DIR)/,$(addsuffix _lib.v,$(CODEFORCES_CASES)))
+
+# Part 3: Rocq files generated by the QCP symbolic-execution binary.
+CODEFORCES_GENERATED_SUFFIXES = \
+	_goal.v \
+	_proof_auto.v \
+	_proof_manual.v \
+	_goal_check.v
+
+CODEFORCES_GENERATED_FILES = \
+	$(foreach case,$(CODEFORCES_CASES),\
+		$(addprefix $(CODEFORCES_ROCQ_DIR)/$(case),$(CODEFORCES_GENERATED_SUFFIXES)))
+
+# A large manual may be split into independent _proof_manual_partN.v files that
+# the manual itself re-exports.  These are discovered rather than listed, so a
+# case can be split or unsplit without editing this makefile.
+CODEFORCES_MANUAL_PART_FILES = \
+	$(foreach case,$(CODEFORCES_CASES),\
+		$(wildcard $(CODEFORCES_ROCQ_DIR)/$(case)_proof_manual_part*.v))
+
+# Part 4: shared Codeforces Rocq definitions used by case libraries.
+CODEFORCES_CORE_DEP_FILES = \
+	GraphLib/reachable/reachable_restricted.v \
+	GraphLib/directed/rootedtree.v \
+	SumLib/ZRect.v
+
+CODEFORCES_HELPER_FILES = \
+	$(CODEFORCES_LOGICAL_HELPER_DIR)/SpecHelpers.v \
+	$(CODEFORCES_LOGICAL_HELPER_DIR)/array2_ext_lib.v \
+	$(CODEFORCES_LOGICAL_HELPER_DIR)/GraphInstances.v \
+	$(CODEFORCES_LOGICAL_HELPER_DIR)/GraphDistanceZ.v \
+	$(CODEFORCES_LOGICAL_HELPER_DIR)/ForwardStarZ.v \
+	$(CODEFORCES_LOGICAL_HELPER_DIR)/RootedTreeInstances.v \
+	$(CODEFORCES_LOGICAL_HELPER_DIR)/RootedTreeDistance.v
+
+# Shared array strategies imported by generated goals.  char_array serves the
+# shard09 P002 and P020 goals; array2 and int_array additionally serve the
+# two-dimensional cases (shard09 P009).
+CODEFORCES_SHARED_STRATEGY_FILES = \
+	$(CODEFORCES_SHARED_STRATEGY_DIR)/char_array_strategy_goal.v \
+	$(CODEFORCES_SHARED_STRATEGY_DIR)/char_array_strategy_proof.v \
+	$(CODEFORCES_SHARED_STRATEGY_DIR)/int_array_strategy_goal.v \
+	$(CODEFORCES_SHARED_STRATEGY_DIR)/int_array_strategy_proof.v \
+	$(CODEFORCES_SHARED_STRATEGY_DIR)/array2_strategy_goal.v \
+	$(CODEFORCES_SHARED_STRATEGY_DIR)/array2_strategy_proof.v \
+	$(CODEFORCES_SHARED_STRATEGY_DIR)/ptr_array2_strategy_goal.v \
+	$(CODEFORCES_SHARED_STRATEGY_DIR)/ptr_array2_strategy_proof.v
+
+# Strategies owned by this bench: the char 2D rules and the array2_ext rules
+# that cover the mixed/undef 2D axis.  goal_check is built too, so a broken
+# soundness proof fails this makefile rather than passing silently.
+CODEFORCES_LOCAL_STRATEGY_FILES = \
+	$(CODEFORCES_ROCQ_DIR)/array2_char_strategy_goal.v \
+	$(CODEFORCES_ROCQ_DIR)/array2_char_strategy_proof.v \
+	$(CODEFORCES_ROCQ_DIR)/array2_char_strategy_goal_check.v \
+	$(CODEFORCES_ROCQ_DIR)/array2_ext_strategy_goal.v \
+	$(CODEFORCES_ROCQ_DIR)/array2_ext_strategy_proof.v \
+	$(CODEFORCES_ROCQ_DIR)/array2_ext_strategy_goal_check.v
+
+CODEFORCES_ROCQ_FILES = \
+	$(CODEFORCES_CORE_DEP_FILES) \
+	$(CODEFORCES_HELPER_FILES) \
+	$(CODEFORCES_SHARED_STRATEGY_FILES) \
+	$(CODEFORCES_LOCAL_STRATEGY_FILES) \
+	$(CODEFORCES_LIB_FILES) \
+	$(CODEFORCES_MANUAL_PART_FILES) \
+	$(CODEFORCES_GENERATED_FILES)
+
+# Builds and dependency generation can run before every expected library or
+# symexec output exists.  Re-evaluating wildcard when make starts
+# automatically picks up newly generated files on the next invocation.
+CODEFORCES_PRESENT_CORE_DEP_FILES = $(wildcard $(CODEFORCES_CORE_DEP_FILES))
+CODEFORCES_PRESENT_HELPER_FILES = $(wildcard $(CODEFORCES_HELPER_FILES))
+CODEFORCES_PRESENT_SHARED_STRATEGY_FILES = $(wildcard $(CODEFORCES_SHARED_STRATEGY_FILES))
+CODEFORCES_PRESENT_LOCAL_STRATEGY_FILES = $(wildcard $(CODEFORCES_LOCAL_STRATEGY_FILES))
+CODEFORCES_PRESENT_LIB_FILES = $(wildcard $(CODEFORCES_LIB_FILES))
+CODEFORCES_PRESENT_GENERATED_FILES = $(wildcard $(CODEFORCES_GENERATED_FILES))
+
+CODEFORCES_PRESENT_ROCQ_FILES = \
+	$(CODEFORCES_PRESENT_CORE_DEP_FILES) \
+	$(CODEFORCES_PRESENT_HELPER_FILES) \
+	$(CODEFORCES_PRESENT_SHARED_STRATEGY_FILES) \
+	$(CODEFORCES_PRESENT_LOCAL_STRATEGY_FILES) \
+	$(CODEFORCES_PRESENT_LIB_FILES) \
+	$(CODEFORCES_MANUAL_PART_FILES) \
+	$(CODEFORCES_PRESENT_GENERATED_FILES)
+
+CODEFORCES_ROCQ_OUTPUTS = \
+	$(CODEFORCES_ROCQ_FILES:%.v=%.glob) \
+	$(CODEFORCES_ROCQ_FILES:%.v=%.vo) \
+	$(CODEFORCES_ROCQ_FILES:%.v=%.vok) \
+	$(CODEFORCES_ROCQ_FILES:%.v=%.vos)
+
+CODEFORCES_AUX_OUTPUTS = \
+	$(foreach file,$(CODEFORCES_ROCQ_FILES),\
+		$(dir $(file)).$(notdir $(basename $(file))).aux)
+
+CODEFORCES_DEPEND = .depend.codeforces
+CODEFORCES_DEPEND_TMP = .depend.codeforces.tmp
+CODEFORCES_DEPEND_ARGS = .coqdep.codeforces.args.tmp
+
+$(CODEFORCES_ROCQ_FILES:%.v=%.vo): %.vo: %.v
+ifeq ($(TIMING),)
+	@printf "%s\n" "COQC $<"
+	@$(COQC) $(COQ_FLAG) $(CURRENT_DIR)/$<
+else
+	@printf "%-70s" "COQC $<"; \
+	t0=`date +%s`; \
+	$(COQC) $(COQ_FLAG) $(CURRENT_DIR)/$<; \
+	t1=`date +%s`; \
+	echo "$$((t1 - t0)) s"
+endif
+
+all: codeforces
+
+codeforces: \
+	codeforces-c-files \
+	$(CODEFORCES_PRESENT_ROCQ_FILES:%.v=%.vo)
+	@:
+
+codeforces-c-files: $(CODEFORCES_C_FILES)
+
+codeforces-helpers: \
+	$(CODEFORCES_PRESENT_CORE_DEP_FILES:%.v=%.vo) \
+	$(CODEFORCES_PRESENT_HELPER_FILES:%.v=%.vo)
+
+codeforces-strategies: \
+	$(CODEFORCES_PRESENT_SHARED_STRATEGY_FILES:%.v=%.vo) \
+	$(CODEFORCES_PRESENT_LOCAL_STRATEGY_FILES:%.v=%.vo)
+
+codeforces-libs: $(CODEFORCES_PRESENT_LIB_FILES:%.v=%.vo)
+
+codeforces-generated: $(CODEFORCES_PRESENT_GENERATED_FILES:%.v=%.vo)
+
+$(CODEFORCES_DEPEND): Makefile.codeforces $(CODEFORCES_PRESENT_ROCQ_FILES)
+	@printf '%s\n' '$(DEP_FLAG) $(CODEFORCES_PRESENT_ROCQ_FILES)' > $(CODEFORCES_DEPEND_ARGS)
+	@$(COQDEP) -f $(CODEFORCES_DEPEND_ARGS) > $(CODEFORCES_DEPEND_TMP)
+	@mv -f $(CODEFORCES_DEPEND_TMP) $(CODEFORCES_DEPEND)
+	@rm -f $(CODEFORCES_DEPEND_ARGS)
+
+depend-codeforces: $(CODEFORCES_DEPEND)
+
+clean-codeforces:
+	@rm -f \
+		$(CODEFORCES_ROCQ_OUTPUTS) \
+		$(CODEFORCES_AUX_OUTPUTS) \
+		$(CODEFORCES_DEPEND) \
+		$(CODEFORCES_DEPEND_TMP) \
+		$(CODEFORCES_DEPEND_ARGS)
+
+clean: clean-codeforces
+
+.PHONY: \
+	all \
+	codeforces \
+	codeforces-c-files \
+	codeforces-helpers \
+	codeforces-strategies \
+	codeforces-libs \
+	codeforces-generated \
+	depend-codeforces \
+	clean-codeforces \
+	clean
+
+.DEFAULT_GOAL := codeforces
+
+ifeq ($(filter clean clean-codeforces,$(MAKECMDGOALS)),)
+-include $(CODEFORCES_DEPEND)
+endif

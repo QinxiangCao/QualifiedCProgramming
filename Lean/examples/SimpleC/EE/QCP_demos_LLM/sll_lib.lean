@@ -132,6 +132,22 @@ theorem sllseg_len1 (x : addr) (a : Int) (y : addr) (hx : x ≠ NULL) :
   refine coq_prop_andp_right naive_C_Rules (y = y) _ _ ?_ rfl
   exact naive_C_Rules.toContext.derivable1_refl _
 
+theorem sllseg_unfold_head (x y : addr) (l : List Int) (hxy : x ≠ y) :
+    sllseg x y l |-- EX a : Int, EX z : addr, EX tail : List Int,
+      “ l = a :: tail ” &&
+      store_int naive_C_Rules (data_addr x) a **
+      store_ptr naive_C_Rules (next_addr x) z ** sllseg z y tail := by
+  cases l with
+  | nil =>
+      rw [sllseg.eq_1]
+      intro _ h
+      exact (hxy h.1).elim
+  | cons a tail =>
+      rw [sllseg.eq_2]
+      intro _ h
+      rcases h with ⟨_, z, hspatial⟩
+      exact ⟨a, z, tail, rfl, hspatial⟩
+
 theorem sllseg_sllseg (x y z : addr) (l1 l2 : List Int) :
     sllseg x y l1 ** sllseg y z l2 |-- sllseg x z (l1 ++ l2) := by
   induction l1 generalizing x with
@@ -280,6 +296,18 @@ theorem sllseg_0_sll (x : addr) (l : List Int) :
       simpa [NULL] using h
   | cons a l ih =>
       rw [sllseg.eq_2, sll.eq_2]
+      intro state h
+      rcases h with ⟨hx, z, stores, tail, hjoin, hstores, htail⟩
+      exact ⟨hx, z, stores, tail, hjoin, hstores, ih z tail htail⟩
+
+theorem sll_sllseg_0 (x : addr) (l : List Int) :
+    sll x l |-- sllseg x 0 l := by
+  induction l generalizing x with
+  | nil =>
+      rw [sll.eq_1, sllseg.eq_1]
+      exact fun _ h => h
+  | cons a l ih =>
+      rw [sll.eq_2, sllseg.eq_2]
       intro state h
       rcases h with ⟨hx, z, stores, tail, hjoin, hstores, htail⟩
       exact ⟨hx, z, stores, tail, hjoin, hstores, ih z tail htail⟩

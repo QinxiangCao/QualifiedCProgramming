@@ -35,6 +35,7 @@ static struct Point gp;
       (point_swap_points : list point -> Z -> Z -> list point)
  */
 /*@ Import Coq Require Import SimpleC.EE.LLM_bench.Algorithms.sort_point.sort_point_lib */
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.sort_point.sort_point_lib */
 
 int cmp_polar_values(int gx, int gy, int a_x, int a_y, int b_x, int b_y)
 /*@ Require

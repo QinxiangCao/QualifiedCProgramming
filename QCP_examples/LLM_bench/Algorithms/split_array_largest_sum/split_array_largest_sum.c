@@ -1,3 +1,8 @@
+/*@ Import Lean
+import SimpleC.EE.LLM_bench.Algorithms.split_array_largest_sum.split_array_largest_sum_lib
+open SimpleC.EE.LLM_bench.Algorithms.split_array_largest_sum.split_array_largest_sum_lib
+*/
+
 
 
 

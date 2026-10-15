@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P046_1243B2_character_swap_goal P046_1243B2_character_swap_proof_auto P046_1243B2_character_swap_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P046_1243B2_character_swap_proof_auto.
+  Include P046_1243B2_character_swap_proof_manual.
+End VC_Correctness.

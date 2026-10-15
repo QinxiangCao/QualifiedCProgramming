@@ -2,7 +2,9 @@ import ListLib.Base.Positional
 
 namespace ListLib
 
-theorem list_snoc_destruct {A : Type} (l : List A) :
+universe u
+
+theorem list_snoc_destruct {A : Type u} (l : List A) :
     l = [] \/ exists a l', l = l' ++ [a] := by
   induction l with
   | nil => exact Or.inl rfl
@@ -15,7 +17,7 @@ theorem list_snoc_destruct {A : Type} (l : List A) :
           rcases h with ⟨b, l', rfl⟩
           exact Or.inr ⟨b, a :: l', by simp⟩
 
-theorem app_eq_app {A : Type} (l1 l2 l3 l4 : List A) :
+theorem app_eq_app {A : Type u} (l1 l2 l3 l4 : List A) :
     l1 ++ l2 = l3 ++ l4 ->
       (exists m, l1 = l3 ++ m /\ l4 = m ++ l2) \/
       (exists m, l3 = l1 ++ m /\ l2 = m ++ l4) := by

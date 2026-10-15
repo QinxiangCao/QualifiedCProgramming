@@ -1,3 +1,8 @@
+/*@ Import Lean
+import SimpleC.EE.LLM_bench.Algorithms.huffman_encoding.huffman_encoding_lib
+open SimpleC.EE.LLM_bench.Algorithms.huffman_encoding.huffman_encoding_lib
+*/
+
 /*
  * Huffman encoding: minimum weighted path length of a binary prefix code.
  *

@@ -34,7 +34,7 @@ powershell -NoProfile -Command "Get-ChildItem -Path $(call powershell_list,$(1))
 endef
 else
 	print_line = @printf "%s\n" "$(1)"
-	timeit = @printf "%-70s" "$(1)"; t0=`date +%s`; $(2); t1=`date +%s`; echo "$$((t1 - t0)) s"
+	timeit = @printf "%-70s" "$(1)"; t0=`date +%s`; $(2); status=$$?; t1=`date +%s`; echo "$$((t1 - t0)) s"; exit $$status
 
 define MOVE_FILE
 mv -f $(1) $(2)
@@ -406,7 +406,7 @@ LLM_FRIENDLY_CASES_Lib_FILES = \
 	bubble_sort_lib.v zephyr_slist_lib.v union_find_err_rel_lib.v simple_arith/test_prime_lib.v graph_matrix_lib.v \
 
 LLM_FRIENDLY_CASES_EXTRA_FILES = \
-	graph_matrix_strategy_goal.v graph_matrix_strategy_proof.v
+	graph_matrix_strategy_goal.v graph_matrix_strategy_proof.v graph_matrix_strategy_goal_check.v
 
 LLM_BENCH_Lib_FILES = \
 	Algorithms/annoying_math_homework/annoying_math_homework_lib.v \
@@ -424,6 +424,7 @@ LLM_BENCH_Lib_FILES = \
 	Algorithms/concatenating_numbers_dp/concatenating_numbers_dp_lib.v \
 	Algorithms/convex_hull_float/convex_hull_float_lib.v \
 	Algorithms/counting_sort/counting_sort_lib.v \
+	Algorithms/decimal_digits/decimal_digits_lib.v \
 	Algorithms/DFS/concrete_graphs.v \
 	Algorithms/DFS/DFS_adjacency_list_lib.v \
 	Algorithms/DFS/DFS_adjacency_matrix_lib.v \
@@ -438,6 +439,7 @@ LLM_BENCH_Lib_FILES = \
 	Algorithms/kosaraju/SCC.v \
 	Algorithms/kosaraju/Kosaraju.v \
 	Algorithms/kosaraju/KosarajuCRefinement.v \
+	Algorithms/kosaraju/TwoSAT.v \
 	Algorithms/kosaraju/dfs1_lib.v \
 	Algorithms/kosaraju/dfs2_lib.v \
 	Algorithms/kosaraju/kosaraju_rel_lib.v \
@@ -751,6 +753,7 @@ APPLICATION_PROOF_SPLIT_FILES = \
 	minisat/solver_qcp_proof_manual_part7.v \
 	minisat/solver_qcp_proof_manual_part8.v \
 	minisat/solver_qcp_proof_manual_part9.v \
+	minisat/solver_qcp_proof_manual_part10.v \
 	minisat/solver_qcp_proof_common.v \
 	hashtable/hashtbl_proof_manual_create_bucks.v \
 	hashtable/hashtbl_proof_manual_init_hashtbl.v \
@@ -763,12 +766,8 @@ APPLICATION_PROOF_SPLIT_FILES = \
 	hashtable/hashtbl_proof_manual_hashtbl_clear.v \
 	hashtable/hashtbl_proof_manual_free_hashtbl.v
 
-LLM_BENCH_PROOF_SPLIT_FILES = \
-	Algorithms/stock_trading/stock_trading_proof_manual_part1.v \
-	Algorithms/stock_trading/stock_trading_proof_manual_part2.v \
-	Algorithms/stock_trading/stock_trading_proof_manual_part3.v \
-	Algorithms/stock_trading/stock_trading_proof_manual_part4.v \
-	Algorithms/stock_trading/stock_trading_proof_manual_part5.v
+# Include shared strategies, libraries, shard modules, and split manuals.
+LLM_BENCH_CODEFORCES_FILES = $(patsubst examples/%,%,$(wildcard examples/LLM_bench/Codeforces/*.v examples/LLM_bench/Codeforces/examples_shard*/*.v))
 
 QCP_DEMO_Examples_FILES = \
 	$(addsuffix _goal.v, $(QCP_DEMO_EXAMPLE_FILE_NAME:%=QCP_demos_human/%)) \
@@ -809,7 +808,7 @@ LLM_FRIENDLY_CASES_Examples_FILES = \
 
 LLM_BENCH_Examples_FILES = \
 	$(LLM_BENCH_Lib_FILES:%=LLM_bench/%) \
-	$(LLM_BENCH_PROOF_SPLIT_FILES:%=LLM_bench/%) \
+	$(LLM_BENCH_CODEFORCES_FILES) \
 	$(addsuffix _strategy_goal.v, $(LLM_BENCH_STRATEGY_FILE_NAME:%=LLM_bench/%)) \
 	$(addsuffix _strategy_goal_check.v, $(LLM_BENCH_STRATEGY_FILE_NAME:%=LLM_bench/%)) \
 	$(addsuffix _strategy_proof.v, $(LLM_BENCH_STRATEGY_FILE_NAME:%=LLM_bench/%)) \
@@ -1086,7 +1085,8 @@ examples/Applications_human/minisat/solver_qcp_proof_manual.vo: \
 	examples/Applications_human/minisat/solver_qcp_proof_manual_part6.vo \
 	examples/Applications_human/minisat/solver_qcp_proof_manual_part7.vo \
 	examples/Applications_human/minisat/solver_qcp_proof_manual_part8.vo \
-	examples/Applications_human/minisat/solver_qcp_proof_manual_part9.vo
+	examples/Applications_human/minisat/solver_qcp_proof_manual_part9.vo \
+	examples/Applications_human/minisat/solver_qcp_proof_manual_part10.vo
 
 
 
@@ -1262,6 +1262,7 @@ clean-examples-llm-bench:
 	@$(call REMOVE_FILES,.depend.examples.llm_bench .depend.examples.llm_bench.tmp .depend.examples .depend.examples.tmp .depend.tmp .depend)
 
 clean-deps:
+	@$(call REMOVE_FILES,$(addprefix .depend.build.,$(SCOPED_BUILD_TARGETS)))
 	@$(call REMOVE_FILES,$(CLEAN_TMP_FILES))
 	@$(call REMOVE_FILES,.depend.convex_hull .depend.convex_hull.tmp .depend.core.flocq .depend.core.flocq.tmp .depend.core.project .depend.core.project.tmp .depend.core .depend.core.tmp .depend.examples.applications .depend.examples.applications.tmp .depend.examples.qcp_democases .depend.examples.qcp_democases.tmp .depend.examples.qcp_demo_feature_cases .depend.examples.qcp_demo_feature_cases.tmp .depend.examples.qcp_demo_tutorial .depend.examples.qcp_demo_tutorial.tmp .depend.examples.llm_friendly_cases .depend.examples.llm_friendly_cases.tmp .depend.examples.llm_bench .depend.examples.llm_bench.tmp .depend.examples .depend.examples.tmp .depend.tmp .depend)
 
@@ -1273,27 +1274,28 @@ DEPEND_TARGETS = depend depend-core depend-examples depend-examples-applications
 .PHONY: all examples clean clean-core clean-examples clean-examples-applications clean-examples-qcp-democases clean-examples-qcp-demo-feature-cases clean-examples-qcp-demo-tutorial clean-examples-llm-friendly-cases clean-examples-llm-bench clean-deps clean-tmp depend depend-core depend-examples depend-examples-applications depend-examples-qcp-democases depend-examples-qcp-demo-feature-cases depend-examples-qcp-demo-tutorial depend-examples-llm-friendly-cases depend-examples-llm-bench core coq-record-update tracelib algorithms convex-hull examples-applications examples-qcp-democases examples-qcp-demo-feature-cases examples-qcp-demo-tutorial examples-llm-friendly-cases examples-llm-bench
 .DEFAULT_GOAL := core
 
-ifeq ($(strip $(MAKECMDGOALS)),)
--include .depend.core
-ifeq ($(wildcard .depend.core),)
--include .depend
+# Required dependency includes must fail if coqdep fails. Scoped builds use
+# only their own dependency graph; they must not regenerate the full .depend.
+BUILD_SOURCES_core = $(CORE_EXAMPLE) $(Unify_DEP_FILES)
+BUILD_SOURCES_examples-applications = $(BUILD_SOURCES_core) $(APPLICATION_EXAMPLE_ONLY)
+BUILD_SOURCES_examples-qcp-democases = $(BUILD_SOURCES_core) $(QCP_DEMO_EXAMPLE_ONLY)
+BUILD_SOURCES_examples-qcp-demo-feature-cases = $(BUILD_SOURCES_core) $(QCP_DEMO_TUTORIAL_FEATURE_EXAMPLE_ONLY)
+BUILD_SOURCES_examples-qcp-demo-tutorial = $(BUILD_SOURCES_core) $(QCP_DEMO_TUTORIAL_EXAMPLE_ONLY)
+BUILD_SOURCES_examples-llm-friendly-cases = $(BUILD_SOURCES_core) $(LLM_FRIENDLY_CASES_EXAMPLE_ONLY)
+BUILD_SOURCES_examples-llm-bench = $(BUILD_SOURCES_core) $(LLM_BENCH_EXAMPLE_ONLY)
+BUILD_SOURCES_convex-hull = $(BUILD_SOURCES_core) $(CONVEX_HULL_EXAMPLE_FILES)
+SCOPED_BUILD_TARGETS = core examples-applications examples-qcp-democases examples-qcp-demo-feature-cases examples-qcp-demo-tutorial examples-llm-friendly-cases examples-llm-bench convex-hull
+
+# Each graph owns its temporary files, so parallel graph generation is safe.
+$(foreach scope,$(SCOPED_BUILD_TARGETS),$(eval .depend.build.$(scope): Makefile $(BUILD_SOURCES_$(scope))))
+.depend.build.%:
+	@$(call RUN_COQDEP_ATOMIC,$@.args.tmp,$(BUILD_SOURCES_$*),$@.tmp,$@)
+
+BUILD_GOALS = $(if $(strip $(MAKECMDGOALS)),$(filter-out $(DEPEND_TARGETS),$(MAKECMDGOALS)),core)
+ifneq ($(strip $(BUILD_GOALS)),)
+ifeq ($(filter-out $(SCOPED_BUILD_TARGETS),$(BUILD_GOALS)),)
+include $(addprefix .depend.build.,$(BUILD_GOALS))
+else
+include .depend
 endif
-else ifeq ($(strip $(MAKECMDGOALS)),core)
--include .depend.core
-ifeq ($(wildcard .depend.core),)
--include .depend
-endif
-else ifneq ($(filter convex-hull,$(MAKECMDGOALS)),)
--include .depend
--include .depend.convex_hull
-else ifeq ($(filter $(DEPEND_TARGETS),$(MAKECMDGOALS)),)
--include .depend.core
--include .depend.examples.applications
--include .depend.examples.qcp_democases
--include .depend.examples.qcp_demo_feature_cases
--include .depend.examples.qcp_demo_tutorial
--include .depend.examples.llm_friendly_cases
--include .depend.examples.llm_bench
--include .depend.examples
--include .depend
 endif

@@ -1,0 +1,443 @@
+// array2_ext.strategies -- 2D-array strategy rules that the shipped
+// array2.strategies / array2_char.strategies leave uncovered.
+//
+// The 1D mixed/undef rules (IntArray::mixed_full, mixed_missing_i,
+// undef_missing_i, ...) are built into the driver and are complete.  What is
+// missing is the 2D layer, so every rule here only peels or restores the OUTER
+// (row) level and lets the builtin 1D rules finish the element access.
+//
+//   A  tolerant row fold        Array2::missing_i * Array::full(row)
+//                                 -> Array2::full(replace_row i row rows)
+//      CharArray2 only: upstream array2.strategies ids 10/11/12 (post(2))
+//      already do this for IntArray2, and int_array id 31 stops a pure read
+//      from rewriting the row in the first place.
+//      The shipped ids 2/8/9 only fold a row that is still syntactically
+//      rows[i].  After a cell access the 1D rules have rewritten the row into
+//      replace_Znth j (Znth j rows[i]) rows[i], so those rules no longer match
+//      and the fold falls through to a manual VC.  These run at post(3) so the
+//      shipped exact-match rules keep priority.
+//
+//   B  mixed 2D cell access      Array2::mixed_full -> Array2::mixed_missing_i
+//                                 * Array::mixed_missing_i(row)
+//      Peels both levels in one step, mirroring the shipped ids 1/6/7.  The
+//      accessed value is reported as Array2::mixed_val(rows[i], j) and the
+//      cell's definedness as the obligation Array2::mixed_def(rows[i], j) --
+//      the engine needs the value as an equation it can solve for, and QCP's
+//      strategy DSL cannot spell `Znth j rows[i] None == Some v` directly
+//      (only a bare identifier is accepted in a {..} type instantiation).
+//      Both helpers are plain definitions in array2_ext_lib.v.
+//
+//   BW mixed 2D cell WRITE       Array2::mixed_full -> Array2::mixed_missing_i
+//                                 * Array::mixed_missing_i(row)
+//      Same peel as B but triggered by an `undef_data_at` need and carrying NO
+//      definedness obligation -- a write must not require the cell to already
+//      hold a value.  Without this rule B captures writes too and emits an
+//      unprovable Array2::mixed_def obligation on every store.
+//
+//   C  mixed 2D row fold        Array2::mixed_missing_i * Array::mixed_full(row)
+//                                 -> Array2::mixed_full(replace_mixed_row ...)
+//
+//   D  undef 2D row split       Array2::undef_full -> Array::undef_full(row)
+//                                 * Array2::undef_missing_i
+//      Lets the first write into an uninitialized 2D array reach the builtin
+//      1D undef rules.  There is deliberately no fold rule back out of
+//      undef_missing_i: that needs a heterogeneous "some rows written, some
+//      still undef" predicate, which the separation-logic library does not
+//      define yet.
+//
+//   E  mixed/full -> undef weakening (forgetting a 2D array's contents), and
+//      mixed -> full once every cell has been written (Array2::some_rows l is
+//      map (map Some) l).  The latter is how a partially-initialized array
+//      leaves the mixed world; the 1D library has mixed_full_to_full, the 2D
+//      functor does not, so array2_ext_lib.v proves it.
+//
+// Address forms mirror the shipped files: p + i*m*sizeof(T) + j*sizeof(T),
+// pointer_offset(p, i*m + j, T), and pointer_offset(pointer_offset(p,i,T[m]),j,T).
+//
+// Every rule is discharged in
+//   Rocq/examples/LLM_bench/Codeforces/array2_ext_strategy_proof.v
+
+#include "array2_ext_def.h"
+
+id : 1
+priority : core(1)
+left : IntArray2::mixed_full(?p, ?n, ?m, ?rows) at 0
+right : data_at((?p + ((?i * ?m) * sizeof(I32))) + (?j * sizeof(I32)), I32, ?v) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(0 <= j);
+        infer(j < m);
+action : right_erase(1);
+         left_erase(0);
+         left_add(IntArray2::mixed_missing_i(p, i, 0, n, m, rows));
+         left_add(IntArray::mixed_missing_i(p + (i * m * sizeof(I32)), j, 0, m, rows[i]));
+         right_add(v == Array2::mixed_val(rows[i], j));
+         right_add(Array2::mixed_def(rows[i], j));
+
+id : 2
+priority : core(1)
+left : IntArray2::mixed_full(?p, ?n, ?m, ?rows) at 0
+right : data_at(pointer_offset(?p, ((?i * ?m) + ?j), I32), I32, ?v) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(0 <= j);
+        infer(j < m);
+action : right_erase(1);
+         left_erase(0);
+         left_add(IntArray2::mixed_missing_i(p, i, 0, n, m, rows));
+         left_add(IntArray::mixed_missing_i(pointer_offset(p, (i * m), I32), j, 0, m, rows[i]));
+         right_add(v == Array2::mixed_val(rows[i], j));
+         right_add(Array2::mixed_def(rows[i], j));
+
+id : 3
+priority : core(1)
+left : IntArray2::mixed_full(?p, ?n, ?m, ?rows) at 0
+right : data_at(pointer_offset(pointer_offset(?p, ?i, I32[?w]), ?j, I32), I32, ?v) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(0 <= j);
+        infer(j < m);
+        infer(w == m);
+action : right_erase(1);
+         left_erase(0);
+         left_add(IntArray2::mixed_missing_i(p, i, 0, n, m, rows));
+         left_add(IntArray::mixed_missing_i(pointer_offset(p, i, I32[w]), j, 0, m, rows[i]));
+         right_add(v == Array2::mixed_val(rows[i], j));
+         right_add(Array2::mixed_def(rows[i], j));
+
+id : 4
+priority : core(1)
+left : IntArray2::mixed_full(?p, ?n, ?m, ?rows) at 0
+right : undef_data_at((?p + ((?i * ?m) * sizeof(I32))) + (?j * sizeof(I32)), I32) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(0 <= j);
+        infer(j < m);
+action : right_erase(1);
+         left_erase(0);
+         left_add(IntArray2::mixed_missing_i(p, i, 0, n, m, rows));
+         left_add(IntArray::mixed_missing_i(p + (i * m * sizeof(I32)), j, 0, m, rows[i]));
+
+id : 5
+priority : core(1)
+left : IntArray2::mixed_full(?p, ?n, ?m, ?rows) at 0
+right : undef_data_at(pointer_offset(?p, ((?i * ?m) + ?j), I32), I32) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(0 <= j);
+        infer(j < m);
+action : right_erase(1);
+         left_erase(0);
+         left_add(IntArray2::mixed_missing_i(p, i, 0, n, m, rows));
+         left_add(IntArray::mixed_missing_i(pointer_offset(p, (i * m), I32), j, 0, m, rows[i]));
+
+id : 6
+priority : core(1)
+left : IntArray2::mixed_full(?p, ?n, ?m, ?rows) at 0
+right : undef_data_at(pointer_offset(pointer_offset(?p, ?i, I32[?w]), ?j, I32), I32) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(0 <= j);
+        infer(j < m);
+        infer(w == m);
+action : right_erase(1);
+         left_erase(0);
+         left_add(IntArray2::mixed_missing_i(p, i, 0, n, m, rows));
+         left_add(IntArray::mixed_missing_i(pointer_offset(p, i, I32[w]), j, 0, m, rows[i]));
+
+id : 7
+priority : post(1)
+left : IntArray2::mixed_missing_i(?p, ?i, 0, ?n, ?m, ?rows) at 0
+       IntArray::mixed_full(p + (i * m * sizeof(I32)), m, ?row) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(1);
+         left_erase(0);
+         left_add(IntArray2::mixed_full(p, n, m, Array2::replace_mixed_row(i, row, rows)));
+
+id : 8
+priority : post(1)
+left : IntArray2::mixed_missing_i(?p, ?i, 0, ?n, ?m, ?rows) at 0
+       IntArray::mixed_full(pointer_offset(p, i, I32[?w]), m, ?row) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(w == m);
+action : left_erase(1);
+         left_erase(0);
+         left_add(IntArray2::mixed_full(p, n, m, Array2::replace_mixed_row(i, row, rows)));
+
+id : 9
+priority : post(1)
+left : IntArray2::mixed_missing_i(?p, ?i, 0, ?n, ?m, ?rows) at 0
+       IntArray::mixed_full(pointer_offset(p, (i * m), I32), m, ?row) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(1);
+         left_erase(0);
+         left_add(IntArray2::mixed_full(p, n, m, Array2::replace_mixed_row(i, row, rows)));
+
+id : 10
+priority : core(2)
+left : IntArray2::undef_full(?p, ?n, ?m) at 0
+right : undef_data_at((?p + ((?i * ?m) * sizeof(I32))) + (?j * sizeof(I32)), I32) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(0 <= j);
+        infer(j < m);
+action : left_erase(0);
+         left_add(IntArray2::undef_missing_i(p, i, 0, n, m));
+         left_add(IntArray::undef_full(p + (i * m * sizeof(I32)), m));
+
+id : 11
+priority : core(2)
+left : IntArray2::undef_full(?p, ?n, ?m) at 0
+right : undef_data_at(pointer_offset(?p, ((?i * ?m) + ?j), I32), I32) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(0 <= j);
+        infer(j < m);
+action : left_erase(0);
+         left_add(IntArray2::undef_missing_i(p, i, 0, n, m));
+         left_add(IntArray::undef_full(pointer_offset(p, (i * m), I32), m));
+
+id : 12
+priority : core(2)
+left : IntArray2::undef_full(?p, ?n, ?m) at 0
+right : undef_data_at(pointer_offset(pointer_offset(?p, ?i, I32[?w]), ?j, I32), I32) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(0 <= j);
+        infer(j < m);
+        infer(w == m);
+action : left_erase(0);
+         left_add(IntArray2::undef_missing_i(p, i, 0, n, m));
+         left_add(IntArray::undef_full(pointer_offset(p, i, I32[w]), m));
+
+id : 13
+priority : core(1)
+left : IntArray2::mixed_full(?p, ?n, ?m, ?rows) at 0
+right : IntArray2::full(p, n, m, ?l) at 1
+action : left_erase(0);
+         right_erase(1);
+         right_add(rows == Array2::some_rows(l));
+
+id : 14
+priority : core(1)
+left : IntArray2::mixed_full(?p, ?n, ?m, ?rows) at 0
+right : IntArray2::undef_full(p, n, m) at 1
+action : left_erase(0);
+         right_erase(1);
+
+id : 15
+priority : core(1)
+left : IntArray2::full(?p, ?n, ?m, ?rows) at 0
+right : IntArray2::undef_full(p, n, m) at 1
+action : left_erase(0);
+         right_erase(1);
+
+id : 16
+priority : post(3)
+left : CharArray2::missing_i(?p, ?i, 0, ?n, ?m, ?rows) at 0
+       CharArray::full(p + (i * m * sizeof(I8)), m, ?row) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(1);
+         left_erase(0);
+         left_add(CharArray2::full(p, n, m, Array2::replace_row(i, row, rows)));
+
+id : 17
+priority : post(3)
+left : CharArray2::missing_i(?p, ?i, 0, ?n, ?m, ?rows) at 0
+       CharArray::full(pointer_offset(p, i, I8[?w]), m, ?row) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(w == m);
+action : left_erase(1);
+         left_erase(0);
+         left_add(CharArray2::full(p, n, m, Array2::replace_row(i, row, rows)));
+
+id : 18
+priority : post(3)
+left : CharArray2::missing_i(?p, ?i, 0, ?n, ?m, ?rows) at 0
+       CharArray::full(pointer_offset(p, (i * m), I8), m, ?row) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(1);
+         left_erase(0);
+         left_add(CharArray2::full(p, n, m, Array2::replace_row(i, row, rows)));
+
+id : 19
+priority : core(1)
+left : CharArray2::mixed_full(?p, ?n, ?m, ?rows) at 0
+right : data_at((?p + ((?i * ?m) * sizeof(I8))) + (?j * sizeof(I8)), I8, ?v) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(0 <= j);
+        infer(j < m);
+action : right_erase(1);
+         left_erase(0);
+         left_add(CharArray2::mixed_missing_i(p, i, 0, n, m, rows));
+         left_add(CharArray::mixed_missing_i(p + (i * m * sizeof(I8)), j, 0, m, rows[i]));
+         right_add(v == Array2::mixed_val(rows[i], j));
+         right_add(Array2::mixed_def(rows[i], j));
+
+id : 20
+priority : core(1)
+left : CharArray2::mixed_full(?p, ?n, ?m, ?rows) at 0
+right : data_at(pointer_offset(?p, ((?i * ?m) + ?j), I8), I8, ?v) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(0 <= j);
+        infer(j < m);
+action : right_erase(1);
+         left_erase(0);
+         left_add(CharArray2::mixed_missing_i(p, i, 0, n, m, rows));
+         left_add(CharArray::mixed_missing_i(pointer_offset(p, (i * m), I8), j, 0, m, rows[i]));
+         right_add(v == Array2::mixed_val(rows[i], j));
+         right_add(Array2::mixed_def(rows[i], j));
+
+id : 21
+priority : core(1)
+left : CharArray2::mixed_full(?p, ?n, ?m, ?rows) at 0
+right : data_at(pointer_offset(pointer_offset(?p, ?i, I8[?w]), ?j, I8), I8, ?v) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(0 <= j);
+        infer(j < m);
+        infer(w == m);
+action : right_erase(1);
+         left_erase(0);
+         left_add(CharArray2::mixed_missing_i(p, i, 0, n, m, rows));
+         left_add(CharArray::mixed_missing_i(pointer_offset(p, i, I8[w]), j, 0, m, rows[i]));
+         right_add(v == Array2::mixed_val(rows[i], j));
+         right_add(Array2::mixed_def(rows[i], j));
+
+id : 22
+priority : core(1)
+left : CharArray2::mixed_full(?p, ?n, ?m, ?rows) at 0
+right : undef_data_at((?p + ((?i * ?m) * sizeof(I8))) + (?j * sizeof(I8)), I8) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(0 <= j);
+        infer(j < m);
+action : right_erase(1);
+         left_erase(0);
+         left_add(CharArray2::mixed_missing_i(p, i, 0, n, m, rows));
+         left_add(CharArray::mixed_missing_i(p + (i * m * sizeof(I8)), j, 0, m, rows[i]));
+
+id : 23
+priority : core(1)
+left : CharArray2::mixed_full(?p, ?n, ?m, ?rows) at 0
+right : undef_data_at(pointer_offset(?p, ((?i * ?m) + ?j), I8), I8) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(0 <= j);
+        infer(j < m);
+action : right_erase(1);
+         left_erase(0);
+         left_add(CharArray2::mixed_missing_i(p, i, 0, n, m, rows));
+         left_add(CharArray::mixed_missing_i(pointer_offset(p, (i * m), I8), j, 0, m, rows[i]));
+
+id : 24
+priority : core(1)
+left : CharArray2::mixed_full(?p, ?n, ?m, ?rows) at 0
+right : undef_data_at(pointer_offset(pointer_offset(?p, ?i, I8[?w]), ?j, I8), I8) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(0 <= j);
+        infer(j < m);
+        infer(w == m);
+action : right_erase(1);
+         left_erase(0);
+         left_add(CharArray2::mixed_missing_i(p, i, 0, n, m, rows));
+         left_add(CharArray::mixed_missing_i(pointer_offset(p, i, I8[w]), j, 0, m, rows[i]));
+
+id : 25
+priority : post(1)
+left : CharArray2::mixed_missing_i(?p, ?i, 0, ?n, ?m, ?rows) at 0
+       CharArray::mixed_full(p + (i * m * sizeof(I8)), m, ?row) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(1);
+         left_erase(0);
+         left_add(CharArray2::mixed_full(p, n, m, Array2::replace_mixed_row(i, row, rows)));
+
+id : 26
+priority : post(1)
+left : CharArray2::mixed_missing_i(?p, ?i, 0, ?n, ?m, ?rows) at 0
+       CharArray::mixed_full(pointer_offset(p, i, I8[?w]), m, ?row) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(w == m);
+action : left_erase(1);
+         left_erase(0);
+         left_add(CharArray2::mixed_full(p, n, m, Array2::replace_mixed_row(i, row, rows)));
+
+id : 27
+priority : post(1)
+left : CharArray2::mixed_missing_i(?p, ?i, 0, ?n, ?m, ?rows) at 0
+       CharArray::mixed_full(pointer_offset(p, (i * m), I8), m, ?row) at 1
+check : infer(0 <= i);
+        infer(i < n);
+action : left_erase(1);
+         left_erase(0);
+         left_add(CharArray2::mixed_full(p, n, m, Array2::replace_mixed_row(i, row, rows)));
+
+id : 28
+priority : core(2)
+left : CharArray2::undef_full(?p, ?n, ?m) at 0
+right : undef_data_at((?p + ((?i * ?m) * sizeof(I8))) + (?j * sizeof(I8)), I8) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(0 <= j);
+        infer(j < m);
+action : left_erase(0);
+         left_add(CharArray2::undef_missing_i(p, i, 0, n, m));
+         left_add(CharArray::undef_full(p + (i * m * sizeof(I8)), m));
+
+id : 29
+priority : core(2)
+left : CharArray2::undef_full(?p, ?n, ?m) at 0
+right : undef_data_at(pointer_offset(?p, ((?i * ?m) + ?j), I8), I8) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(0 <= j);
+        infer(j < m);
+action : left_erase(0);
+         left_add(CharArray2::undef_missing_i(p, i, 0, n, m));
+         left_add(CharArray::undef_full(pointer_offset(p, (i * m), I8), m));
+
+id : 30
+priority : core(2)
+left : CharArray2::undef_full(?p, ?n, ?m) at 0
+right : undef_data_at(pointer_offset(pointer_offset(?p, ?i, I8[?w]), ?j, I8), I8) at 1
+check : infer(0 <= i);
+        infer(i < n);
+        infer(0 <= j);
+        infer(j < m);
+        infer(w == m);
+action : left_erase(0);
+         left_add(CharArray2::undef_missing_i(p, i, 0, n, m));
+         left_add(CharArray::undef_full(pointer_offset(p, i, I8[w]), m));
+
+id : 31
+priority : core(1)
+left : CharArray2::mixed_full(?p, ?n, ?m, ?rows) at 0
+right : CharArray2::full(p, n, m, ?l) at 1
+action : left_erase(0);
+         right_erase(1);
+         right_add(rows == Array2::some_rows(l));
+
+id : 32
+priority : core(1)
+left : CharArray2::mixed_full(?p, ?n, ?m, ?rows) at 0
+right : CharArray2::undef_full(p, n, m) at 1
+action : left_erase(0);
+         right_erase(1);
+
+id : 33
+priority : core(1)
+left : CharArray2::full(?p, ?n, ?m, ?rows) at 0
+right : CharArray2::undef_full(p, n, m) at 1
+action : left_erase(0);
+         right_erase(1);

@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P052_1168A_increasing_by_modulo_goal P052_1168A_increasing_by_modulo_proof_auto P052_1168A_increasing_by_modulo_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P052_1168A_increasing_by_modulo_proof_auto.
+  Include P052_1168A_increasing_by_modulo_proof_manual.
+End VC_Correctness.

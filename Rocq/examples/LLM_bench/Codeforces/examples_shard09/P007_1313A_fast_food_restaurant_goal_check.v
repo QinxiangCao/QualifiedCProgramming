@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P007_1313A_fast_food_restaurant_goal P007_1313A_fast_food_restaurant_proof_auto P007_1313A_fast_food_restaurant_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P007_1313A_fast_food_restaurant_proof_auto.
+  Include P007_1313A_fast_food_restaurant_proof_manual.
+End VC_Correctness.

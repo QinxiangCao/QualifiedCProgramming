@@ -297,6 +297,180 @@ Definition Z_to_fp32 := fp32_of_Z.
 Definition Z_to_fp64 := fp64_of_Z.
 Definition Z_to_fp128 := fp128_of_Z.
 
+(** Conversions between formats, as emitted by symexec for C casts between
+    float, double and long double. Finite values round to nearest-even
+    (exact when widening); zeros and infinities keep their sign; a NaN
+    becomes the target format's default NaN, as in the arithmetic above. *)
+Definition fp32_to_fp64 (x : fp32) : fp64 :=
+  match x with
+  | Binary.B754_zero _ _ s => @Binary.B754_zero 53 1024 s
+  | Binary.B754_infinity _ _ s => @Binary.B754_infinity 53 1024 s
+  | Binary.B754_nan _ _ _ _ _ => fp64_nan
+  | Binary.B754_finite _ _ s m e _ =>
+      Binary.binary_normalize 53 1024 eq_refl eq_refl mode_NE (cond_Zopp s (Zpos m)) e s
+  end.
+Definition fp64_to_fp32 (x : fp64) : fp32 :=
+  match x with
+  | Binary.B754_zero _ _ s => @Binary.B754_zero 24 128 s
+  | Binary.B754_infinity _ _ s => @Binary.B754_infinity 24 128 s
+  | Binary.B754_nan _ _ _ _ _ => fp32_nan
+  | Binary.B754_finite _ _ s m e _ =>
+      Binary.binary_normalize 24 128 eq_refl eq_refl mode_NE (cond_Zopp s (Zpos m)) e s
+  end.
+Definition fp32_to_fp128 (x : fp32) : fp128 :=
+  match x with
+  | Binary.B754_zero _ _ s => @Binary.B754_zero 113 16384 s
+  | Binary.B754_infinity _ _ s => @Binary.B754_infinity 113 16384 s
+  | Binary.B754_nan _ _ _ _ _ => fp128_nan
+  | Binary.B754_finite _ _ s m e _ =>
+      Binary.binary_normalize 113 16384 eq_refl eq_refl mode_NE (cond_Zopp s (Zpos m)) e s
+  end.
+Definition fp64_to_fp128 (x : fp64) : fp128 :=
+  match x with
+  | Binary.B754_zero _ _ s => @Binary.B754_zero 113 16384 s
+  | Binary.B754_infinity _ _ s => @Binary.B754_infinity 113 16384 s
+  | Binary.B754_nan _ _ _ _ _ => fp128_nan
+  | Binary.B754_finite _ _ s m e _ =>
+      Binary.binary_normalize 113 16384 eq_refl eq_refl mode_NE (cond_Zopp s (Zpos m)) e s
+  end.
+
+Definition fp128_to_fp32 (x : fp128) : fp32 :=
+  match x with
+  | Binary.B754_zero _ _ s => @Binary.B754_zero 24 128 s
+  | Binary.B754_infinity _ _ s => @Binary.B754_infinity 24 128 s
+  | Binary.B754_nan _ _ _ _ _ => fp32_nan
+  | Binary.B754_finite _ _ s m e _ =>
+      Binary.binary_normalize 24 128 eq_refl eq_refl mode_NE
+        (if s then Z.neg m else Z.pos m) e s
+  end.
+
+Definition fp128_to_fp64 (x : fp128) : fp64 :=
+  match x with
+  | Binary.B754_zero _ _ s => @Binary.B754_zero 53 1024 s
+  | Binary.B754_infinity _ _ s => @Binary.B754_infinity 53 1024 s
+  | Binary.B754_nan _ _ _ _ _ => fp64_nan
+  | Binary.B754_finite _ _ s m e _ =>
+      Binary.binary_normalize 53 1024 eq_refl eq_refl mode_NE
+        (if s then Z.neg m else Z.pos m) e s
+  end.
+
+Lemma fp32_to_fp64_exact : forall x : fp32,
+  Binary.is_finite 24 128 x = true ->
+  Binary.is_finite 53 1024 (fp32_to_fp64 x) = true /\
+  Binary.B2R 53 1024 (fp32_to_fp64 x) = Binary.B2R 24 128 x.
+Proof.
+  intros [s|s|s pl Hpl|s m e Hb] Hfin; try discriminate; [split; reflexivity|].
+  pose proof (Binary.generic_format_B2R 24 128 (Binary.B754_finite 24 128 s m e Hb)) as Hg.
+  pose proof (Binary.abs_B2R_lt_emax 24 128 (Binary.B754_finite 24 128 s m e Hb)) as Hlt.
+  simpl in Hg, Hlt.
+  apply FLT_format_generic in Hg; [|reflexivity].
+  destruct Hg as [[mx ex] Hx Hm He]. simpl in Hm, He.
+  assert (Hg' : generic_format radix2 (FLT_exp (3 - 1024 - 53) 53)
+                  (F2R (Float radix2 (cond_Zopp s (Z.pos m)) e))).
+  { apply generic_format_FLT. exists (Float radix2 mx ex); simpl; auto.
+    - eapply Z.lt_le_trans; [exact Hm|]. unfold Z.le; vm_compute; discriminate.
+    - unfold SpecFloat.emin in He. unfold FLT_exp; lia. }
+  pose proof (Binary.binary_normalize_correct 53 1024 eq_refl eq_refl mode_NE
+                (cond_Zopp s (Z.pos m)) e s) as H.
+  rewrite round_generic in H by (auto with typeclass_instances).
+  rewrite Rlt_bool_true in H.
+  - destruct H as [HR [HF _]]. simpl. split; assumption.
+  - eapply Rlt_le_trans; [exact Hlt|]. simpl. apply IZR_le. unfold Z.le; vm_compute; discriminate.
+Qed.
+
+Lemma fp64_to_fp32_round : forall x : fp64,
+  Binary.is_finite 53 1024 x = true ->
+  Rabs (rounded32 mode_NE (Binary.B2R 53 1024 x)) < bpow radix2 128 ->
+  Binary.is_finite 24 128 (fp64_to_fp32 x) = true /\
+  Binary.B2R 24 128 (fp64_to_fp32 x) = rounded32 mode_NE (Binary.B2R 53 1024 x).
+Proof.
+  intros [s|s|s pl Hpl|s m e Hb] Hfin Hov; try discriminate.
+  - split; [reflexivity|]. simpl. unfold rounded32. rewrite round_0; auto with typeclass_instances.
+  - pose proof (Binary.binary_normalize_correct 24 128 eq_refl eq_refl mode_NE
+                  (cond_Zopp s (Z.pos m)) e s) as H.
+    unfold rounded32, fexp32 in Hov |- *. simpl in Hov |- *.
+    rewrite Rlt_bool_true in H by exact Hov.
+    destruct H as [HR [HF _]]. split; assumption.
+Qed.
+
+Lemma fp32_to_fp128_exact : forall x : fp32,
+  Binary.is_finite 24 128 x = true ->
+  Binary.is_finite 113 16384 (fp32_to_fp128 x) = true /\
+  Binary.B2R 113 16384 (fp32_to_fp128 x) = Binary.B2R 24 128 x.
+Proof.
+  intros [s|s|s pl Hpl|s m e Hb] Hfin; try discriminate; [split; reflexivity|].
+  pose proof (Binary.generic_format_B2R 24 128 (Binary.B754_finite 24 128 s m e Hb)) as Hg.
+  pose proof (Binary.abs_B2R_lt_emax 24 128 (Binary.B754_finite 24 128 s m e Hb)) as Hlt.
+  simpl in Hg, Hlt.
+  apply FLT_format_generic in Hg; [|reflexivity].
+  destruct Hg as [[mx ex] Hx Hm He]. simpl in Hm, He.
+  assert (Hg' : generic_format radix2 (FLT_exp (3 - 16384 - 113) 113)
+                  (F2R (Float radix2 (cond_Zopp s (Z.pos m)) e))).
+  { apply generic_format_FLT. exists (Float radix2 mx ex); simpl; auto.
+    - eapply Z.lt_le_trans; [exact Hm|]. unfold Z.le; vm_compute; discriminate.
+    - unfold SpecFloat.emin in He. unfold FLT_exp; lia. }
+  pose proof (Binary.binary_normalize_correct 113 16384 eq_refl eq_refl mode_NE
+                (cond_Zopp s (Z.pos m)) e s) as H.
+  rewrite round_generic in H by (auto with typeclass_instances).
+  rewrite Rlt_bool_true in H.
+  - destruct H as [HR [HF _]]. simpl. split; assumption.
+  - eapply Rlt_le_trans; [exact Hlt|]. simpl. apply IZR_le. unfold Z.le; vm_compute; discriminate.
+Qed.
+
+Lemma fp64_to_fp128_exact : forall x : fp64,
+  Binary.is_finite 53 1024 x = true ->
+  Binary.is_finite 113 16384 (fp64_to_fp128 x) = true /\
+  Binary.B2R 113 16384 (fp64_to_fp128 x) = Binary.B2R 53 1024 x.
+Proof.
+  intros [s|s|s pl Hpl|s m e Hb] Hfin; try discriminate; [split; reflexivity|].
+  pose proof (Binary.generic_format_B2R 53 1024 (Binary.B754_finite 53 1024 s m e Hb)) as Hg.
+  pose proof (Binary.abs_B2R_lt_emax 53 1024 (Binary.B754_finite 53 1024 s m e Hb)) as Hlt.
+  simpl in Hg, Hlt.
+  apply FLT_format_generic in Hg; [|reflexivity].
+  destruct Hg as [[mx ex] Hx Hm He]. simpl in Hm, He.
+  assert (Hg' : generic_format radix2 (FLT_exp (3 - 16384 - 113) 113)
+                  (F2R (Float radix2 (cond_Zopp s (Z.pos m)) e))).
+  { apply generic_format_FLT. exists (Float radix2 mx ex); simpl; auto.
+    - eapply Z.lt_le_trans; [exact Hm|]. unfold Z.le; vm_compute; discriminate.
+    - unfold SpecFloat.emin in He. unfold FLT_exp; lia. }
+  pose proof (Binary.binary_normalize_correct 113 16384 eq_refl eq_refl mode_NE
+                (cond_Zopp s (Z.pos m)) e s) as H.
+  rewrite round_generic in H by (auto with typeclass_instances).
+  rewrite Rlt_bool_true in H.
+  - destruct H as [HR [HF _]]. simpl. split; assumption.
+  - eapply Rlt_le_trans; [exact Hlt|]. simpl. apply IZR_le. unfold Z.le; vm_compute; discriminate.
+Qed.
+
+Lemma fp128_to_fp32_round : forall x : fp128,
+  Binary.is_finite 113 16384 x = true ->
+  Rabs (rounded32 mode_NE (Binary.B2R 113 16384 x)) < bpow radix2 128 ->
+  Binary.is_finite 24 128 (fp128_to_fp32 x) = true /\
+  Binary.B2R 24 128 (fp128_to_fp32 x) = rounded32 mode_NE (Binary.B2R 113 16384 x).
+Proof.
+  intros [s|s|s pl Hpl|s m e Hb] Hfin Hov; try discriminate.
+  - split; [reflexivity|]. simpl. unfold rounded32. rewrite round_0; auto with typeclass_instances.
+  - pose proof (Binary.binary_normalize_correct 24 128 eq_refl eq_refl mode_NE
+                  (cond_Zopp s (Z.pos m)) e s) as H.
+    unfold rounded32, fexp32 in Hov |- *. simpl in Hov |- *.
+    rewrite Rlt_bool_true in H by exact Hov.
+    destruct H as [HR [HF _]]. split; assumption.
+Qed.
+
+Lemma fp128_to_fp64_round : forall x : fp128,
+  Binary.is_finite 113 16384 x = true ->
+  Rabs (rounded64 mode_NE (Binary.B2R 113 16384 x)) < bpow radix2 1024 ->
+  Binary.is_finite 53 1024 (fp128_to_fp64 x) = true /\
+  Binary.B2R 53 1024 (fp128_to_fp64 x) = rounded64 mode_NE (Binary.B2R 113 16384 x).
+Proof.
+  intros [s|s|s pl Hpl|s m e Hb] Hfin Hov; try discriminate.
+  - split; [reflexivity|]. simpl. unfold rounded64. rewrite round_0; auto with typeclass_instances.
+  - pose proof (Binary.binary_normalize_correct 53 1024 eq_refl eq_refl mode_NE
+                  (cond_Zopp s (Z.pos m)) e s) as H.
+    unfold rounded64, fexp64 in Hov |- *. simpl in Hov |- *.
+    rewrite Rlt_bool_true in H by exact Hov.
+    destruct H as [HR [HF _]]. split; assumption.
+Qed.
+
 Definition fp32_to_R (x : fp32) : option R :=
   if Binary.is_finite 24 128 x then Some (Binary.B2R 24 128 x) else None.
 Definition fp64_to_R (x : fp64) : option R :=

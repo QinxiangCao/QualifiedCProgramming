@@ -16,6 +16,7 @@
       (IntArray::mixed_full : Z -> Z -> list (option Z) -> Assertion)
  */
 /*@ Import Coq Require Import SimpleC.EE.LLM_bench.Algorithms.bucket_sort.bucket_sort_lib */
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.bucket_sort.bucket_sort_lib */
 
 /* Stable decimal-bucket radix sort for non-negative integers.
  * The result is an increasing permutation of the input. */

@@ -48,13 +48,24 @@ instance Derived_SETS_ELE {S : Type u} {E : Type v}
   set_transfer := fun X => @SetsEle.set_transfer_aux S Prop E _
     (fun a => @SetsEle.In_aux S Prop E _ a X)
 
+private theorem setsEleInDerived {S : Type u} {E : Type v}
+    [pre : SetsEle.PRE_SETS_ELE S Prop E] (a : E) (X : S) :
+    @SetsEle.In S E (@Derived_SETS_ELE S E pre) a X ↔
+      @SetsEle.In_aux S Prop E pre a X := Iff.rfl
+
 macro "unfold_In" : tactic =>
-  `(tactic| simp only [SetsEle.In, SetsEle.In_aux, SetsEle.lift_In_aux,
-      Derived_SETS_ELE, lift_PRE_SETS_ELE, Prop_PRE_SETS_ELE])
+  `(tactic| first
+    | simp only [setsEleInDerived, SetsEle.In,
+        SetsEle.In_aux, SetsEle.lift_In_aux, Derived_SETS_ELE,
+        lift_PRE_SETS_ELE, Prop_PRE_SETS_ELE]
+    | skip)
 
 syntax "unfold_In" " at " ident : tactic
 macro_rules
   | `(tactic| unfold_In at $h:ident) => do
       let location <- `(Lean.Parser.Tactic.location| at $h:ident)
-      `(tactic| simp only [SetsEle.In, SetsEle.In_aux, SetsEle.lift_In_aux,
-          Derived_SETS_ELE, lift_PRE_SETS_ELE, Prop_PRE_SETS_ELE] $location)
+      `(tactic| first
+        | simp only [setsEleInDerived, SetsEle.In,
+            SetsEle.In_aux, SetsEle.lift_In_aux, Derived_SETS_ELE,
+            lift_PRE_SETS_ELE, Prop_PRE_SETS_ELE] $location
+        | skip)

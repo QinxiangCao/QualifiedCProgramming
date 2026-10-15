@@ -17,6 +17,13 @@ theorem BoxRel_equiv : AUXLib.Equivalence BoxRel where
 
 attribute [instance] BoxRel_equiv
 
+example : Proper (flipRel BoxRel ==> BoxRel ==> Iff) BoxRel := inferInstance
+
+example (x y z : Box) (hxy : BoxRel x y) (hyz : BoxRel y z) :
+    BoxRel x z := by
+  rel_rw [hxy]
+  exact hyz
+
 theorem wrap_congr : Proper (Eq ==> BoxRel) Box.wrap where
   proper := by intro x y h; exact h
 

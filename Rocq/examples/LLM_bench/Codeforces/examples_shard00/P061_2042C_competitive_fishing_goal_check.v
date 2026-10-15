@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P061_2042C_competitive_fishing_goal P061_2042C_competitive_fishing_proof_auto P061_2042C_competitive_fishing_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P061_2042C_competitive_fishing_proof_auto.
+  Include P061_2042C_competitive_fishing_proof_manual.
+End VC_Correctness.

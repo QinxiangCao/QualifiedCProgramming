@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P073_1799D2_hot_start_up_goal P073_1799D2_hot_start_up_proof_auto P073_1799D2_hot_start_up_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P073_1799D2_hot_start_up_proof_auto.
+  Include P073_1799D2_hot_start_up_proof_manual.
+End VC_Correctness.

@@ -10,67 +10,69 @@ open Unifysl.LogicGenerator.demo932
 
 universe u
 
+variable {Arch : SimpleC.SL.CArch.CArchSig}
+variable {Endian : SimpleC.SL.CArch.CEndianSig}
 variable {CRules : SeparationLogicSig}
-variable {DePredSig : DerivedPredSig CRules}
-variable {SLibSig : SimpleC.SL.StoreAux.StoreLibSig CRules DePredSig}
+variable {DePredSig : DerivedPredSig Arch Endian CRules}
+variable {SLibSig : SimpleC.SL.StoreAux.StoreLibSig Arch Endian CRules DePredSig}
 
-def mixedstoreA (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def mixedstoreA (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (lo : Int) (a : Option ES.A) : CRules.expr :=
   match a with
   | some v => ES.storeA x lo v
   | none => ES.undefstoreA x lo
 
-def seg (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def seg (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (lo hi : Int) (l : List ES.A) : CRules.expr :=
   store_array_rec CRules ES.storeA x lo hi l
 
-def missing_i (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def missing_i (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (i lo hi : Int) (l : List ES.A) : CRules.expr :=
   store_array_missing_i_rec CRules ES.storeA x i lo hi l
 
-def full (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def full (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (n : Int) (l : List ES.A) : CRules.expr :=
   store_array CRules ES.storeA x n l
 
-def undef_seg (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def undef_seg (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (lo hi : Int) : CRules.expr :=
   store_undef_array_rec CRules ES.undefstoreA x lo hi (hi - lo).toNat
 
-def undef_missing_i (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def undef_missing_i (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (i lo hi : Int) : CRules.expr :=
   store_undef_array_missing_i_rec CRules ES.undefstoreA x i lo hi (hi - lo).toNat
 
-def undef_full (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def undef_full (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (n : Int) : CRules.expr :=
   store_undef_array CRules ES.undefstoreA x n
 
-def seg_shape (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def seg_shape (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (lo hi : Int) : CRules.expr :=
   store_undef_array_rec CRules
     (fun p i => CRules.exp ES.A fun a => ES.storeA p i a)
     x lo hi (hi - lo).toNat
 
-def missing_i_shape (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def missing_i_shape (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (i lo hi : Int) : CRules.expr :=
   store_undef_array_missing_i_rec CRules
     (fun p j => CRules.exp ES.A fun a => ES.storeA p j a)
     x i lo hi (hi - lo).toNat
 
-def full_shape (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def full_shape (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (n : Int) : CRules.expr :=
   store_undef_array CRules
     (fun p i => CRules.exp ES.A fun a => ES.storeA p i a)
     x n
 
-def mixed_seg (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def mixed_seg (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (lo hi : Int) (l : List (Option ES.A)) : CRules.expr :=
   store_array_rec CRules (mixedstoreA ES) x lo hi l
 
-def mixed_missing_i (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def mixed_missing_i (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (i lo hi : Int) (l : List (Option ES.A)) : CRules.expr :=
   store_array_missing_i_rec CRules (mixedstoreA ES) x i lo hi l
 
-def mixed_full (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def mixed_full (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (n : Int) (l : List (Option ES.A)) : CRules.expr :=
   store_array CRules (mixedstoreA ES) x n l
 

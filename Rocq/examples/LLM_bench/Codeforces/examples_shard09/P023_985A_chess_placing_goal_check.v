@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard09 Require Import P023_985A_chess_placing_goal P023_985A_chess_placing_proof_auto P023_985A_chess_placing_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P023_985A_chess_placing_proof_auto.
+  Include P023_985A_chess_placing_proof_manual.
+End VC_Correctness.

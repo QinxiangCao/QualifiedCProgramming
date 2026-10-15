@@ -1,3 +1,8 @@
+/*@ Import Lean
+import SimpleC.EE.LLM_bench.Algorithms.container_with_most_water_nlogn.container_with_most_water_nlogn_lib
+open SimpleC.EE.LLM_bench.Algorithms.container_with_most_water_nlogn.container_with_most_water_nlogn_lib
+*/
+
 /*@ Extern Coq
       (Forall : {A} -> (A -> Prop) -> list A -> Prop)
       (Z::le : Z -> Z -> Prop)

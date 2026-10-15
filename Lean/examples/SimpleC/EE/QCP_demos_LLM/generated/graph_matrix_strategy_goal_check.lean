@@ -1,0 +1,17 @@
+import SimpleC.EE.QCP_demos_LLM.generated.graph_matrix_strategy_proof
+
+namespace SimpleC.EE.QCP_demos_LLM.generated.graph_matrix_strategy_goal_check
+
+def graph_matrix_Strategy_Correctness : SimpleC.EE.QCP_demos_LLM.generated.graph_matrix_strategy_goal.graph_matrix_Strategy_Correct where
+  graph_matrix_strategy2_correctness := SimpleC.EE.QCP_demos_LLM.generated.graph_matrix_strategy_proof.graph_matrix_strategy2_correctness
+  graph_matrix_strategy3_correctness := SimpleC.EE.QCP_demos_LLM.generated.graph_matrix_strategy_proof.graph_matrix_strategy3_correctness
+  graph_matrix_strategy4_correctness := SimpleC.EE.QCP_demos_LLM.generated.graph_matrix_strategy_proof.graph_matrix_strategy4_correctness
+  graph_matrix_strategy6_correctness := SimpleC.EE.QCP_demos_LLM.generated.graph_matrix_strategy_proof.graph_matrix_strategy6_correctness
+  graph_matrix_strategy7_correctness := SimpleC.EE.QCP_demos_LLM.generated.graph_matrix_strategy_proof.graph_matrix_strategy7_correctness
+  graph_matrix_strategy8_correctness := SimpleC.EE.QCP_demos_LLM.generated.graph_matrix_strategy_proof.graph_matrix_strategy8_correctness
+  graph_matrix_strategy9_correctness := SimpleC.EE.QCP_demos_LLM.generated.graph_matrix_strategy_proof.graph_matrix_strategy9_correctness
+  graph_matrix_strategy10_correctness := SimpleC.EE.QCP_demos_LLM.generated.graph_matrix_strategy_proof.graph_matrix_strategy10_correctness
+  graph_matrix_strategy11_correctness := SimpleC.EE.QCP_demos_LLM.generated.graph_matrix_strategy_proof.graph_matrix_strategy11_correctness
+  graph_matrix_strategy1_correctness := SimpleC.EE.QCP_demos_LLM.generated.graph_matrix_strategy_proof.graph_matrix_strategy1_correctness
+
+end SimpleC.EE.QCP_demos_LLM.generated.graph_matrix_strategy_goal_check

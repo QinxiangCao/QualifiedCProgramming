@@ -1,0 +1,5 @@
+From SimpleC.EE.LLM_bench.Codeforces Require Import array2_char_strategy_goal array2_char_strategy_proof.
+
+Module array2_char_Strategy_Correctness : array2_char_Strategy_Correct.
+  Include array2_char_strategy_proof.
+End array2_char_Strategy_Correctness.

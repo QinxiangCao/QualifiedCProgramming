@@ -1,5 +1,7 @@
 #include "priority_queue_decrease_key_def.h"
 
+/*@ Import Lean import SimpleC.EE.LLM_bench.Data_structures.priority_queue_decrease_key.priority_queue_decrease_key_lib */
+
 void pqdk_sift_up(int *key, int *data, int *pos, int data_bound,
                   int n, int idx)
 /*@ With (M : partial_map) (capacity : Z)

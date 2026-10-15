@@ -7,6 +7,7 @@ open CompCert
 open SimpleC.SL.Mem
 open SimpleC.SL.CommonAssertion
 open SimpleC.SL.CommonAssertion.DerivedPredSig
+open SimpleC.SL.CommonAssertion.DerivedPredSigCompat
 open SimpleC.SL.ConAssertion
 open scoped SimpleC.SL.SAC
 

@@ -1,0 +1,6 @@
+From SimpleC.EE.LLM_bench.Codeforces.examples_shard00 Require Import P073_400E_inna_and_binary_logic_goal P073_400E_inna_and_binary_logic_proof_auto P073_400E_inna_and_binary_logic_proof_manual.
+
+Module VC_Correctness : VC_Correct.
+  Include P073_400E_inna_and_binary_logic_proof_auto.
+  Include P073_400E_inna_and_binary_logic_proof_manual.
+End VC_Correctness.

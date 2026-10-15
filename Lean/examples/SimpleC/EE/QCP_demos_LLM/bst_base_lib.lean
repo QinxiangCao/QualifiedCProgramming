@@ -615,7 +615,9 @@ theorem store_tree_zero (p : Int) (tr : tree) (hp : p = 0) :
   | empty => simp only [store_tree, empty]; entailer!
   | make_tree l k v r =>
       simp only [store_tree]
-      entailer!
+      refine coq_prop_andp_left naive_C_Rules _ _ _ ?_
+      intro hnull
+      exact False.elim (hnull rfl)
 
 theorem store_tree_not_zero (p : Int) (tr : tree) (hp : p ≠ 0) :
     store_tree p tr |--

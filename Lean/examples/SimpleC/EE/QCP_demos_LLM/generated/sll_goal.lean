@@ -1,4 +1,4 @@
-import SimpleC.SL.SeparationLogic
+import SimpleC.SL.LeanPrinterPrelude
 
 import SimpleC.EE.QCP_demos_LLM.sll_lib
 
@@ -15,19 +15,47 @@ open SimpleC.SL.CommonAssertion.DerivedPredSig
 open SimpleC.SL.CommonAssertion.SeparationLogicSig
 open SimpleC.SL.IntLib
 open SimpleC.SL.SeparationLogic
-open scoped SimpleC.SL.SAC
+open scoped SimpleC.SL.SAC CoqZ
 
 local instance sll_goalSacContext : SacContext := ⟨naive_C_Rules⟩
 
 private noncomputable abbrev charArray := naive_C_Rules.CharArray
+private noncomputable abbrev charArray2 := naive_C_Rules.CharArray2
+private noncomputable abbrev charArray3 := naive_C_Rules.CharArray3
+private noncomputable abbrev charPtrArray2 := naive_C_Rules.CharPtrArray2
 private noncomputable abbrev ucharArray := naive_C_Rules.UCharArray
+private noncomputable abbrev ucharArray2 := naive_C_Rules.UCharArray2
+private noncomputable abbrev ucharArray3 := naive_C_Rules.UCharArray3
+private noncomputable abbrev ucharPtrArray2 := naive_C_Rules.UCharPtrArray2
 private noncomputable abbrev shortArray := naive_C_Rules.ShortArray
+private noncomputable abbrev shortArray2 := naive_C_Rules.ShortArray2
+private noncomputable abbrev shortArray3 := naive_C_Rules.ShortArray3
+private noncomputable abbrev shortPtrArray2 := naive_C_Rules.ShortPtrArray2
 private noncomputable abbrev ushortArray := naive_C_Rules.UShortArray
+private noncomputable abbrev ushortArray2 := naive_C_Rules.UShortArray2
+private noncomputable abbrev ushortArray3 := naive_C_Rules.UShortArray3
+private noncomputable abbrev ushortPtrArray2 := naive_C_Rules.UShortPtrArray2
 private noncomputable abbrev intArray := naive_C_Rules.IntArray
+private noncomputable abbrev intArray2 := naive_C_Rules.IntArray2
+private noncomputable abbrev intArray3 := naive_C_Rules.IntArray3
+private noncomputable abbrev intPtrArray2 := naive_C_Rules.IntPtrArray2
 private noncomputable abbrev uintArray := naive_C_Rules.UIntArray
+private noncomputable abbrev uintArray2 := naive_C_Rules.UIntArray2
+private noncomputable abbrev uintArray3 := naive_C_Rules.UIntArray3
+private noncomputable abbrev uintPtrArray2 := naive_C_Rules.UIntPtrArray2
 private noncomputable abbrev int64Array := naive_C_Rules.Int64Array
+private noncomputable abbrev int64Array2 := naive_C_Rules.Int64Array2
+private noncomputable abbrev int64Array3 := naive_C_Rules.Int64Array3
+private noncomputable abbrev int64PtrArray2 := naive_C_Rules.Int64PtrArray2
 private noncomputable abbrev uint64Array := naive_C_Rules.UInt64Array
+private noncomputable abbrev uint64Array2 := naive_C_Rules.UInt64Array2
+private noncomputable abbrev uint64Array3 := naive_C_Rules.UInt64Array3
+private noncomputable abbrev uint64PtrArray2 := naive_C_Rules.UInt64PtrArray2
 private noncomputable abbrev ptrArray := naive_C_Rules.PtrArray
+private noncomputable abbrev ptrArray2 := naive_C_Rules.PtrArray2
+private noncomputable abbrev ptrArray3 := naive_C_Rules.PtrArray3
+private noncomputable abbrev ptrPtrArray2 := naive_C_Rules.PtrPtrArray2
+private noncomputable abbrev store_string := naive_C_Rules.store_string
 
 noncomputable def length_safety_wit_1 : Prop :=
   forall (p_pre : Int) (l : (List Int)) (PreH1 : ((Zlength (l)) <= INT_MAX)) ,
@@ -657,13 +685,13 @@ forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (a : Int)
 forall (x_pre : Int) (l1 : (List Int)) (a : Int) (l1n : (List Int)) (PreH1 : (x_pre ≠ (0 : Int))) (PreH2 : (l1 = (a :: l1n))) ,
   TT && emp 
 |--
-  “ (((@List.nil Int) ++ (a :: l1n)) = l1) ”
+  “ (((@List.nil Int) ++ l1) = l1) ”
   &&  emp
 )
 
 noncomputable def append_entail_wit_2_split_goal_1 : Prop :=
   forall (x_pre : Int) (l1 : (List Int)) (a : Int) (l1n : (List Int)) (PreH1 : (x_pre ≠ (0 : Int))) (PreH2 : (l1 = (a :: l1n))) ,
-  (((@List.nil Int) ++ (a :: l1n)) = l1)
+  (((@List.nil Int) ++ l1) = l1)
 
 noncomputable def append_entail_wit_3 : Prop :=
   forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (u : Int) (t_next_2 : Int) (l1a_2 : (List Int)) (t_data_2 : Int) (t : Int) (l1b_2 : (List Int)) (PreH1 : (u ≠ (0 : Int))) (PreH2 : ((l1a_2 ++ (t_data_2 :: l1b_2)) = l1)) (PreH3 : (x_pre ≠ (0 : Int))) (PreH4 : (t ≠ (0 : Int))) (PreH5 : (t_next_2 = u)) ,
@@ -855,13 +883,13 @@ forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (a : Int)
 forall (x_pre : Int) (l1 : (List Int)) (a : Int) (l1b : (List Int)) (xn : Int) (PreH1 : (xn ≠ (0 : Int))) (PreH2 : (x_pre ≠ (0 : Int))) (PreH3 : (l1 = (a :: l1b))) ,
   TT && emp 
 |--
-  “ (((@List.nil Int) ++ (a :: l1b)) = l1) ”
+  “ (((@List.nil Int) ++ l1) = l1) ”
   &&  emp
 )
 
 noncomputable def append_long_entail_wit_2_split_goal_1 : Prop :=
   forall (x_pre : Int) (l1 : (List Int)) (a : Int) (l1b : (List Int)) (xn : Int) (PreH1 : (xn ≠ (0 : Int))) (PreH2 : (x_pre ≠ (0 : Int))) (PreH3 : (l1 = (a :: l1b))) ,
-  (((@List.nil Int) ++ (a :: l1b)) = l1)
+  (((@List.nil Int) ++ l1) = l1)
 
 noncomputable def append_long_entail_wit_3 : Prop :=
   forall (y_pre : Int) (x_pre : Int) (l2 : (List Int)) (l1 : (List Int)) (u : Int) (t_next_2 : Int) (t : Int) (l1a_2 : (List Int)) (b_2 : Int) (l1c_2 : (List Int)) (PreH1 : (u ≠ (0 : Int))) (PreH2 : ((l1a_2 ++ (b_2 :: l1c_2)) = l1)) (PreH3 : (t_next_2 = u)) (PreH4 : (t ≠ (0 : Int))) (PreH5 : (x_pre ≠ (0 : Int))) ,

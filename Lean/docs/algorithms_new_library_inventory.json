@@ -1,0 +1,1883 @@
+[
+  {
+    "name": "DFS/DFS_adjacency_list",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/DFS/DFS_adjacency_list.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_list_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_list_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_list_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_list_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_list_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_2Darray_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_2Darray_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_2Darray_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_2Darray_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_2Darray_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/concrete_graphs.v"
+    ],
+    "includes": [
+      "\"safeexec_def.h\"",
+      "\"int_array_def.h\"",
+      "\"sll_def.h\""
+    ],
+    "generation": {
+      "name": "DFS/DFS_adjacency_list",
+      "status": "generated",
+      "seconds": 0.83,
+      "log": "/tmp/algorithms-new-library-generation/DFS/DFS_adjacency_list/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/DFS/DFS_adjacency_list/DFS_adjacency_list_goal.lean",
+      "goal_bytes": 111963,
+      "vc_count": 22
+    },
+    "support_group": "needs_graph_models",
+    "source_proof_markers": {
+      "Qed": 62
+    }
+  },
+  {
+    "name": "DFS/DFS_adjacency_matrix",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_list_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_list_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_list_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_list_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_list_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_2Darray_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_2Darray_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_2Darray_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_2Darray_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_2Darray_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/concrete_graphs.v"
+    ],
+    "includes": [
+      "\"safeexec_def.h\"",
+      "\"array2_def.h\"",
+      "\"graph_matrix_def.h\""
+    ],
+    "generation": {
+      "name": "DFS/DFS_adjacency_matrix",
+      "status": "generated",
+      "seconds": 0.46,
+      "log": "/tmp/algorithms-new-library-generation/DFS/DFS_adjacency_matrix/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/DFS/DFS_adjacency_matrix/DFS_adjacency_matrix_goal.lean",
+      "goal_bytes": 88173,
+      "vc_count": 28
+    },
+    "support_group": "needs_graph_models",
+    "source_proof_markers": {
+      "Qed": 62
+    }
+  },
+  {
+    "name": "DFS/DFS_adjacency_matrix_2Darray",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_2Darray.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_list_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_list_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_list_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_list_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_list_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_2Darray_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_2Darray_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_2Darray_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_2Darray_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_2Darray_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/DFS_adjacency_matrix_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/DFS/concrete_graphs.v"
+    ],
+    "includes": [
+      "\"safeexec_def.h\"",
+      "\"int_ptr_array2_def.h\""
+    ],
+    "generation": {
+      "name": "DFS/DFS_adjacency_matrix_2Darray",
+      "status": "generated",
+      "seconds": 0.62,
+      "log": "/tmp/algorithms-new-library-generation/DFS/DFS_adjacency_matrix_2Darray/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/DFS/DFS_adjacency_matrix_2Darray/DFS_adjacency_matrix_2Darray_goal.lean",
+      "goal_bytes": 87771,
+      "vc_count": 24
+    },
+    "support_group": "needs_graph_models",
+    "source_proof_markers": {
+      "Qed": 62
+    }
+  },
+  {
+    "name": "Dijkstra/Dijkstra_linked_forward_star_decrease_key",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_decrease_key.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_common_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_decrease_key_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_decrease_key_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_decrease_key_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_decrease_key_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_decrease_key_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_index_queue_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_index_queue_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_index_queue_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_index_queue_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_index_queue_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/concrete_graphs.v"
+    ],
+    "includes": [
+      "\"safeexec_def.h\"",
+      "\"Data_structures/priority_queue_decrease_key/priority_queue_decrease_key_def.h\""
+    ],
+    "generation": {
+      "name": "Dijkstra/Dijkstra_linked_forward_star_decrease_key",
+      "status": "generated",
+      "seconds": 2.31,
+      "log": "/tmp/algorithms-new-library-generation/Dijkstra/Dijkstra_linked_forward_star_decrease_key/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/Dijkstra/Dijkstra_linked_forward_star_decrease_key/Dijkstra_linked_forward_star_decrease_key_goal.lean",
+      "goal_bytes": 316431,
+      "vc_count": 94
+    },
+    "support_group": "needs_graph_models",
+    "source_proof_markers": {
+      "Qed": 322,
+      "Defined": 1
+    }
+  },
+  {
+    "name": "Dijkstra/Dijkstra_linked_forward_star_index_queue",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_index_queue.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_common_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_decrease_key_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_decrease_key_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_decrease_key_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_decrease_key_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_decrease_key_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_index_queue_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_index_queue_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_index_queue_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_index_queue_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/Dijkstra_linked_forward_star_index_queue_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Dijkstra/concrete_graphs.v"
+    ],
+    "includes": [
+      "\"safeexec_def.h\"",
+      "\"Data_structures/priority_queue_index/priority_queue_index_def.h\""
+    ],
+    "generation": {
+      "name": "Dijkstra/Dijkstra_linked_forward_star_index_queue",
+      "status": "generated",
+      "seconds": 1.98,
+      "log": "/tmp/algorithms-new-library-generation/Dijkstra/Dijkstra_linked_forward_star_index_queue/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/Dijkstra/Dijkstra_linked_forward_star_index_queue/Dijkstra_linked_forward_star_index_queue_goal.lean",
+      "goal_bytes": 280872,
+      "vc_count": 83
+    },
+    "support_group": "needs_graph_models",
+    "source_proof_markers": {
+      "Qed": 322,
+      "Defined": 1
+    }
+  },
+  {
+    "name": "Floyd/Floyd_adjacency_matrix",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_2Darray_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_2Darray_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_2Darray_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_2Darray_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_ptr_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_ptr_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_ptr_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_ptr_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/concrete_graphs.v"
+    ],
+    "includes": [
+      "\"safeexec_def.h\"",
+      "\"graph_matrix_def.h\""
+    ],
+    "generation": {
+      "name": "Floyd/Floyd_adjacency_matrix",
+      "status": "failed",
+      "seconds": 0.08,
+      "log": "/tmp/algorithms-new-library-generation/Floyd/Floyd_adjacency_matrix/generator.log",
+      "diagnostic": "    0 <= j &&\n    j <= n@pre &&\n    (forall r_448 c_449, 0 <= r_448 && r_448 < 10 && 0 <= c_449 && c_449 < 10 => 0 <= dist_j_460[r_448][c_449] && dist_j_460[r_448][c_449] <= 1000000000) &&\n    safeExec(FloydAdjacencyMatrix2Darray.state_model(dist_j_460), FloydAdjacencyMatrix2Darray.floyd_j_i_k_from(g, n@pre, k, i, j), X) &&\n    FloydAdjacencyMatrix2Darray.matrix_shape(dist_j_460) &&\n    FloydAdjacencyMatrix2Darray.matrix_values_safe(dist_j_460) &&\n    (*pointer_offset(dist@pre, i * 10 + k, 4, int) == Znth(k, dist_j_460[i], 0)) *\n    IntArray.missing_i(pointer_offset(dist@pre, i * 10, 4, int), k, 0, 10, dist_j_460[i]) *\n    IntArray2.missing_i(dist@pre, i, 0, 10, 10, dist_j_460) *\n    (n == n@pre) *\n    (dist == dist@pre)\n",
+      "first_error": "fatal error: Symbolic execution failed: cannot read memory through this pointer because the current assertion does not prove readable memory at the target address. Add a Require/Assert memory predicate such as data_at(pointer, value), or prove that the pointer aliases an owned memory cell. in QCP_examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix.c:160:36"
+    },
+    "support_group": "needs_graph_models",
+    "source_proof_markers": {
+      "Qed": 87
+    }
+  },
+  {
+    "name": "Floyd/Floyd_adjacency_matrix_2Darray",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_2Darray.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_2Darray_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_2Darray_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_2Darray_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_2Darray_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_ptr_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_ptr_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_ptr_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_ptr_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/concrete_graphs.v"
+    ],
+    "includes": [
+      "\"safeexec_def.h\"",
+      "\"array2_def.h\"",
+      "\"graph_matrix_def.h\""
+    ],
+    "generation": {
+      "name": "Floyd/Floyd_adjacency_matrix_2Darray",
+      "status": "generated",
+      "seconds": 0.95,
+      "log": "/tmp/algorithms-new-library-generation/Floyd/Floyd_adjacency_matrix_2Darray/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/Floyd/Floyd_adjacency_matrix_2Darray/Floyd_adjacency_matrix_2Darray_goal.lean",
+      "goal_bytes": 108743,
+      "vc_count": 41
+    },
+    "support_group": "needs_graph_models",
+    "source_proof_markers": {
+      "Qed": 87
+    }
+  },
+  {
+    "name": "Floyd/Floyd_adjacency_matrix_ptr",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_ptr.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_2Darray_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_2Darray_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_2Darray_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_2Darray_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_ptr_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_ptr_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_ptr_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/Floyd_adjacency_matrix_ptr_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Floyd/concrete_graphs.v"
+    ],
+    "includes": [
+      "\"safeexec_def.h\"",
+      "\"graph_matrix_def.h\""
+    ],
+    "generation": {
+      "name": "Floyd/Floyd_adjacency_matrix_ptr",
+      "status": "generated",
+      "seconds": 1.37,
+      "log": "/tmp/algorithms-new-library-generation/Floyd/Floyd_adjacency_matrix_ptr/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/Floyd/Floyd_adjacency_matrix_ptr/Floyd_adjacency_matrix_ptr_goal.lean",
+      "goal_bytes": 171601,
+      "vc_count": 62
+    },
+    "support_group": "needs_graph_models",
+    "source_proof_markers": {
+      "Qed": 87
+    }
+  },
+  {
+    "name": "Kruskal/kruskal_union_find",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/Kruskal/kruskal_union_find.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/Kruskal/kruskal_union_find_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Kruskal/kruskal_union_find_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Kruskal/kruskal_union_find_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Kruskal/kruskal_union_find_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Kruskal/kruskal_union_find_proof_manual.v"
+    ],
+    "includes": [
+      "\"safeexec_def.h\"",
+      "\"../../Data_structures/union_find/union_find_def.h\"",
+      "\"verification_stdlib.h\"",
+      "\"verification_list.h\"",
+      "\"int_array_def.h\""
+    ],
+    "generation": {
+      "name": "Kruskal/kruskal_union_find",
+      "status": "generated",
+      "seconds": 6.91,
+      "log": "/tmp/algorithms-new-library-generation/Kruskal/kruskal_union_find/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/Kruskal/kruskal_union_find/kruskal_union_find_goal.lean",
+      "goal_bytes": 364420,
+      "vc_count": 147
+    },
+    "support_group": "needs_graph_models",
+    "source_proof_markers": {
+      "Qed": 164,
+      "Defined": 7
+    }
+  },
+  {
+    "name": "Prim/prim_adjacency_matrix",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_return_matrix_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_return_matrix_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_return_matrix_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_return_matrix_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_heap_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_heap_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_heap_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_heap_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_heap_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_proof_manual.v"
+    ],
+    "includes": [
+      "\"verification_stdlib.h\"",
+      "\"verification_list.h\"",
+      "\"int_ptr_array2_def.h\"",
+      "\"graph_matrix_def.h\"",
+      "\"int_array_def.h\"",
+      "\"safeexec_def.h\""
+    ],
+    "generation": {
+      "name": "Prim/prim_adjacency_matrix",
+      "status": "generated",
+      "seconds": 11.32,
+      "log": "/tmp/algorithms-new-library-generation/Prim/prim_adjacency_matrix/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/Prim/prim_adjacency_matrix/prim_adjacency_matrix_goal.lean",
+      "goal_bytes": 572790,
+      "vc_count": 145
+    },
+    "support_group": "needs_graph_models",
+    "source_proof_markers": {
+      "Defined": 16,
+      "Qed": 777
+    }
+  },
+  {
+    "name": "Prim/prim_adjacency_matrix_return_matrix",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_return_matrix.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_return_matrix_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_return_matrix_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_return_matrix_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_return_matrix_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_heap_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_heap_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_heap_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_heap_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_heap_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_proof_manual.v"
+    ],
+    "includes": [
+      "\"verification_stdlib.h\"",
+      "\"verification_list.h\"",
+      "\"int_ptr_array2_def.h\"",
+      "\"graph_matrix_def.h\"",
+      "\"int_array_def.h\"",
+      "\"safeexec_def.h\""
+    ],
+    "generation": {
+      "name": "Prim/prim_adjacency_matrix_return_matrix",
+      "status": "generated",
+      "seconds": 15.49,
+      "log": "/tmp/algorithms-new-library-generation/Prim/prim_adjacency_matrix_return_matrix/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/Prim/prim_adjacency_matrix_return_matrix/prim_adjacency_matrix_return_matrix_goal.lean",
+      "goal_bytes": 810573,
+      "vc_count": 191
+    },
+    "support_group": "needs_graph_models",
+    "source_proof_markers": {
+      "Defined": 16,
+      "Qed": 777
+    }
+  },
+  {
+    "name": "Prim/prim_forward_star",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/Prim/prim_forward_star.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_return_matrix_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_return_matrix_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_return_matrix_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_return_matrix_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_heap_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_heap_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_heap_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_heap_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_heap_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_proof_manual.v"
+    ],
+    "includes": [
+      "\"verification_stdlib.h\"",
+      "\"verification_list.h\"",
+      "\"int_array_def.h\"",
+      "\"safeexec_def.h\""
+    ],
+    "generation": {
+      "name": "Prim/prim_forward_star",
+      "status": "generated",
+      "seconds": 55.68,
+      "log": "/tmp/algorithms-new-library-generation/Prim/prim_forward_star/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/Prim/prim_forward_star/prim_forward_star_goal.lean",
+      "goal_bytes": 1757610,
+      "vc_count": 333
+    },
+    "support_group": "needs_graph_models",
+    "source_proof_markers": {
+      "Defined": 16,
+      "Qed": 777
+    }
+  },
+  {
+    "name": "Prim/prim_forward_star_heap",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/Prim/prim_forward_star_heap.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_return_matrix_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_return_matrix_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_return_matrix_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_adjacency_matrix_return_matrix_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_heap_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_heap_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_heap_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_heap_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_heap_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/Prim/prim_forward_star_proof_manual.v"
+    ],
+    "includes": [
+      "\"verification_stdlib.h\"",
+      "\"verification_list.h\"",
+      "\"int_array_def.h\"",
+      "\"safeexec_def.h\"",
+      "\"Data_structures/priority_queue_decrease_key/priority_queue_decrease_key_def.h\""
+    ],
+    "generation": {
+      "name": "Prim/prim_forward_star_heap",
+      "status": "generated",
+      "seconds": 22.08,
+      "log": "/tmp/algorithms-new-library-generation/Prim/prim_forward_star_heap/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/Prim/prim_forward_star_heap/prim_forward_star_heap_goal.lean",
+      "goal_bytes": 1252587,
+      "vc_count": 261
+    },
+    "support_group": "needs_graph_models",
+    "source_proof_markers": {
+      "Defined": 16,
+      "Qed": 777
+    }
+  },
+  {
+    "name": "annoying_math_homework/annoying_math_homework",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/annoying_math_homework/annoying_math_homework.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/annoying_math_homework/annoying_math_homework_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/annoying_math_homework/annoying_math_homework_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/annoying_math_homework/annoying_math_homework_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/annoying_math_homework/annoying_math_homework_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/annoying_math_homework/annoying_math_homework_proof_manual.v"
+    ],
+    "includes": [
+      "\"int_array_def.h\""
+    ],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "bubble_sort/bubble_sort",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/bubble_sort/bubble_sort.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/bubble_sort/bubble_sort_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/bubble_sort/bubble_sort_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/bubble_sort/bubble_sort_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/bubble_sort/bubble_sort_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/bubble_sort/bubble_sort_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "bucket_sort/bucket_sort",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/bucket_sort/bucket_sort.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/bucket_sort/bucket_sort_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/bucket_sort/bucket_sort_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/bucket_sort/bucket_sort_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/bucket_sort/bucket_sort_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/bucket_sort/bucket_sort_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "catalan_numbers/catalan_numbers",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/catalan_numbers/catalan_numbers.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/catalan_numbers/catalan_numbers_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/catalan_numbers/catalan_numbers_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/catalan_numbers/catalan_numbers_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/catalan_numbers/catalan_numbers_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/catalan_numbers/catalan_numbers_proof_manual.v"
+    ],
+    "includes": [
+      "\"int_array_def.h\""
+    ],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "chinese_remainder_theorem/chinese_remainder_theorem",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/chinese_remainder_theorem/chinese_remainder_theorem.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/chinese_remainder_theorem/chinese_remainder_theorem_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/chinese_remainder_theorem/chinese_remainder_theorem_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/chinese_remainder_theorem/chinese_remainder_theorem_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/chinese_remainder_theorem/chinese_remainder_theorem_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/chinese_remainder_theorem/chinese_remainder_theorem_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "choir_singing/choir_singing",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/choir_singing/choir_singing.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/choir_singing/choir_singing_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/choir_singing/choir_singing_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/choir_singing/choir_singing_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/choir_singing/choir_singing_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/choir_singing/choir_singing_proof_manual.v"
+    ],
+    "includes": [],
+    "generation": {
+      "name": "choir_singing/choir_singing",
+      "status": "generated",
+      "seconds": 1.48,
+      "log": "/tmp/algorithms-new-library-generation/choir_singing/choir_singing/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/choir_singing/choir_singing/choir_singing_goal.lean",
+      "goal_bytes": 171502,
+      "vc_count": 120
+    },
+    "support_group": "needs_monotonic_list",
+    "source_proof_markers": {
+      "Qed": 90
+    }
+  },
+  {
+    "name": "choosing_inns/choosing_inns",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/choosing_inns/choosing_inns.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/choosing_inns/choosing_inns_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/choosing_inns/choosing_inns_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/choosing_inns/choosing_inns_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/choosing_inns/choosing_inns_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/choosing_inns/choosing_inns_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "climbing_stairs/climbing_stairs",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/climbing_stairs/climbing_stairs.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/climbing_stairs/climbing_stairs_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/climbing_stairs/climbing_stairs_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/climbing_stairs/climbing_stairs_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/climbing_stairs/climbing_stairs_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/climbing_stairs/climbing_stairs_proof_manual.v"
+    ],
+    "includes": [],
+    "generation": {
+      "name": "climbing_stairs/climbing_stairs",
+      "status": "generated",
+      "seconds": 0.13,
+      "log": "/tmp/algorithms-new-library-generation/climbing_stairs/climbing_stairs/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/climbing_stairs/climbing_stairs/climbing_stairs_goal.lean",
+      "goal_bytes": 10819,
+      "vc_count": 15
+    },
+    "support_group": "needs_sumlib",
+    "source_proof_markers": {
+      "Qed": 28,
+      "Defined": 1
+    }
+  },
+  {
+    "name": "coin_change/coin_change",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/coin_change/coin_change.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/coin_change/coin_change_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/coin_change/coin_change_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/coin_change/coin_change_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/coin_change/coin_change_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/coin_change/coin_change_proof_manual.v"
+    ],
+    "includes": [],
+    "generation": {
+      "name": "coin_change/coin_change",
+      "status": "generated",
+      "seconds": 1.06,
+      "log": "/tmp/algorithms-new-library-generation/coin_change/coin_change/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/coin_change/coin_change/coin_change_goal.lean",
+      "goal_bytes": 91658,
+      "vc_count": 61
+    },
+    "support_group": "new_maxmin_candidate",
+    "source_proof_markers": {
+      "Qed": 29
+    }
+  },
+  {
+    "name": "concatenating_numbers/concatenating_numbers",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/concatenating_numbers/concatenating_numbers.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/concatenating_numbers/concatenating_numbers_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/concatenating_numbers/concatenating_numbers_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/concatenating_numbers/concatenating_numbers_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/concatenating_numbers/concatenating_numbers_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/concatenating_numbers/concatenating_numbers_proof_manual.v"
+    ],
+    "includes": [
+      "\"array2_def.h\""
+    ],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "concatenating_numbers_dp/concatenating_numbers_dp",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/concatenating_numbers_dp/concatenating_numbers_dp.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/concatenating_numbers_dp/concatenating_numbers_dp_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/concatenating_numbers_dp/concatenating_numbers_dp_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/concatenating_numbers_dp/concatenating_numbers_dp_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/concatenating_numbers_dp/concatenating_numbers_dp_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/concatenating_numbers_dp/concatenating_numbers_dp_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "container_with_most_water_linear/container_with_most_water_linear",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/container_with_most_water_linear/container_with_most_water_linear.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/container_with_most_water_linear/container_with_most_water_linear_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/container_with_most_water_linear/container_with_most_water_linear_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/container_with_most_water_linear/container_with_most_water_linear_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/container_with_most_water_linear/container_with_most_water_linear_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/container_with_most_water_linear/container_with_most_water_linear_proof_manual.v"
+    ],
+    "includes": [
+      "\"verification_stdlib.h\"",
+      "\"verification_list.h\"",
+      "\"int_array_def.h\""
+    ],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "container_with_most_water_nlogn/container_with_most_water_nlogn",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/container_with_most_water_nlogn/container_with_most_water_nlogn.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/container_with_most_water_nlogn/container_with_most_water_nlogn_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/container_with_most_water_nlogn/container_with_most_water_nlogn_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/container_with_most_water_nlogn/container_with_most_water_nlogn_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/container_with_most_water_nlogn/container_with_most_water_nlogn_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/container_with_most_water_nlogn/container_with_most_water_nlogn_proof_manual.v"
+    ],
+    "includes": [],
+    "generation": {
+      "name": "container_with_most_water_nlogn/container_with_most_water_nlogn",
+      "status": "generated",
+      "seconds": 21.18,
+      "log": "/tmp/algorithms-new-library-generation/container_with_most_water_nlogn/container_with_most_water_nlogn/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/container_with_most_water_nlogn/container_with_most_water_nlogn/container_with_most_water_nlogn_goal.lean",
+      "goal_bytes": 1037103,
+      "vc_count": 325
+    },
+    "support_group": "new_maxmin_candidate",
+    "source_proof_markers": {
+      "Qed": 231
+    }
+  },
+  {
+    "name": "convex_hull_float/convex_hull_float",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/convex_hull_float/convex_hull_float.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/convex_hull_float/convex_hull_float_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/convex_hull_float/convex_hull_float_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/convex_hull_float/convex_hull_float_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/convex_hull_float/convex_hull_float_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/convex_hull_float/convex_hull_float_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/convex_hull_float/pointf_array_strategy_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/convex_hull_float/pointf_array_strategy_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/convex_hull_float/pointf_array_strategy_proof.v"
+    ],
+    "includes": [
+      "\"convex_hull_float_def.h\""
+    ],
+    "generation": {
+      "name": "convex_hull_float/convex_hull_float",
+      "status": "failed",
+      "seconds": 3.01,
+      "log": "/tmp/algorithms-new-library-generation/convex_hull_float/convex_hull_float/generator.log",
+      "diagnostic": "End of function `point_cross`\nFunction `swap_points`\nEnd of function `swap_points`\nFunction `partition_xy_points`\nEnd of function `partition_xy_points`\nFunction `quicksort_xy_points`\nEnd of function `quicksort_xy_points`\nFunction `andrew_build_from_sorted`\nEnd of function `andrew_build_from_sorted`\nFunction `convex_hull_float`\nEnd of function `convex_hull_float`\nfatal error: Lean data_at does not support floating-point stores32:23",
+      "first_error": "fatal error: Lean data_at does not support floating-point stores32:23"
+    },
+    "support_group": "generator_float_blocker",
+    "source_proof_markers": {
+      "Axiom": 1,
+      "Qed": 259
+    }
+  },
+  {
+    "name": "counting_sort/counting_sort",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/counting_sort/counting_sort.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/counting_sort/counting_sort_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/counting_sort/counting_sort_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/counting_sort/counting_sort_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/counting_sort/counting_sort_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/counting_sort/counting_sort_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "discretize/discretize",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/discretize/discretize.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/discretize/discretize_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/discretize/discretize_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/discretize/discretize_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/discretize/discretize_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/discretize/discretize_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "edit_strings/edit_strings",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/edit_strings/edit_strings.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/edit_strings/edit_strings_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/edit_strings/edit_strings_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/edit_strings/edit_strings_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/edit_strings/edit_strings_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/edit_strings/edit_strings_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "energy_necklace/energy_necklace",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/energy_necklace/energy_necklace.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/energy_necklace/energy_necklace_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/energy_necklace/energy_necklace_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/energy_necklace/energy_necklace_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/energy_necklace/energy_necklace_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/energy_necklace/energy_necklace_proof_manual.v"
+    ],
+    "includes": [],
+    "generation": {
+      "name": "energy_necklace/energy_necklace",
+      "status": "generated",
+      "seconds": 8.0,
+      "log": "/tmp/algorithms-new-library-generation/energy_necklace/energy_necklace/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/energy_necklace/energy_necklace/energy_necklace_goal.lean",
+      "goal_bytes": 287457,
+      "vc_count": 131
+    },
+    "support_group": "new_maxmin_candidate",
+    "source_proof_markers": {
+      "Qed": 56
+    }
+  },
+  {
+    "name": "euler_theorem_inverse/euler_theorem_inverse",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/euler_theorem_inverse/euler_theorem_inverse.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/euler_theorem_inverse/euler_theorem_inverse_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/euler_theorem_inverse/euler_theorem_inverse_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/euler_theorem_inverse/euler_theorem_inverse_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/euler_theorem_inverse/euler_theorem_inverse_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/euler_theorem_inverse/euler_theorem_inverse_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "extended_chinese_remainder_theorem/extended_chinese_remainder_theorem",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/extended_chinese_remainder_theorem/extended_chinese_remainder_theorem.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/extended_chinese_remainder_theorem/extended_chinese_remainder_theorem_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/extended_chinese_remainder_theorem/extended_chinese_remainder_theorem_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/extended_chinese_remainder_theorem/extended_chinese_remainder_theorem_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/extended_chinese_remainder_theorem/extended_chinese_remainder_theorem_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/extended_chinese_remainder_theorem/extended_chinese_remainder_theorem_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "house_robber/house_robber",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/house_robber/house_robber.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/house_robber/house_robber_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/house_robber/house_robber_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/house_robber/house_robber_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/house_robber/house_robber_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/house_robber/house_robber_proof_manual.v"
+    ],
+    "includes": [],
+    "generation": {
+      "name": "house_robber/house_robber",
+      "status": "generated",
+      "seconds": 0.29,
+      "log": "/tmp/algorithms-new-library-generation/house_robber/house_robber/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/house_robber/house_robber/house_robber_goal.lean",
+      "goal_bytes": 23419,
+      "vc_count": 20
+    },
+    "support_group": "new_maxmin_candidate",
+    "source_proof_markers": {
+      "Qed": 33
+    }
+  },
+  {
+    "name": "huffman_encoding/huffman_encoding",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/huffman_encoding/huffman_encoding.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/huffman_encoding/huffman_encoding_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/huffman_encoding/huffman_encoding_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/huffman_encoding/huffman_encoding_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/huffman_encoding/huffman_encoding_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/huffman_encoding/huffman_encoding_proof_manual.v"
+    ],
+    "includes": [],
+    "generation": {
+      "name": "huffman_encoding/huffman_encoding",
+      "status": "generated",
+      "seconds": 2.76,
+      "log": "/tmp/algorithms-new-library-generation/huffman_encoding/huffman_encoding/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/huffman_encoding/huffman_encoding/huffman_encoding_goal.lean",
+      "goal_bytes": 125272,
+      "vc_count": 72
+    },
+    "support_group": "new_maxmin_candidate",
+    "source_proof_markers": {
+      "Qed": 98
+    }
+  },
+  {
+    "name": "insertion_sort/insertion_sort",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/insertion_sort/insertion_sort.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/insertion_sort/insertion_sort_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/insertion_sort/insertion_sort_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/insertion_sort/insertion_sort_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/insertion_sort/insertion_sort_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/insertion_sort/insertion_sort_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "integer_divide/integer_divide",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/integer_divide/integer_divide.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/integer_divide/integer_divide_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/integer_divide/integer_divide_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/integer_divide/integer_divide_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/integer_divide/integer_divide_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/integer_divide/integer_divide_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "kings_game/kings_game",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/kings_game/kings_game.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/kings_game/kings_game_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/kings_game/kings_game_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/kings_game/kings_game_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/kings_game/kings_game_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/kings_game/kings_game_proof_manual.v"
+    ],
+    "includes": [],
+    "generation": {
+      "name": "kings_game/kings_game",
+      "status": "generated",
+      "seconds": 1.63,
+      "log": "/tmp/algorithms-new-library-generation/kings_game/kings_game/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/kings_game/kings_game/kings_game_goal.lean",
+      "goal_bytes": 151577,
+      "vc_count": 96
+    },
+    "support_group": "new_maxmin_candidate",
+    "source_proof_markers": {
+      "Qed": 61
+    }
+  },
+  {
+    "name": "kosaraju/dfs1",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/kosaraju/dfs1.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/Kosaraju.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/KosarajuCRefinement.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/SCC.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/TwoSAT.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs1_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs1_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs1_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs1_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs1_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs2_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs2_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs2_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs2_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs2_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/kosaraju_rel_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/kosaraju_rel_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/kosaraju_rel_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/kosaraju_rel_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/kosaraju_rel_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/safeexecE_strategy_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/safeexecE_strategy_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/safeexecE_strategy_proof.v"
+    ],
+    "includes": [
+      "\"dfs1.h\""
+    ],
+    "generation": {
+      "name": "kosaraju/dfs1",
+      "status": "generated",
+      "seconds": 2.77,
+      "log": "/tmp/algorithms-new-library-generation/kosaraju/dfs1/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/kosaraju/dfs1/dfs1_goal.lean",
+      "goal_bytes": 215498,
+      "vc_count": 61
+    },
+    "support_group": "needs_graph_models",
+    "source_proof_markers": {
+      "Qed": 443,
+      "Defined": 3
+    }
+  },
+  {
+    "name": "kosaraju/dfs2",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/kosaraju/dfs2.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/Kosaraju.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/KosarajuCRefinement.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/SCC.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/TwoSAT.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs1_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs1_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs1_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs1_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs1_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs2_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs2_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs2_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs2_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs2_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/kosaraju_rel_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/kosaraju_rel_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/kosaraju_rel_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/kosaraju_rel_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/kosaraju_rel_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/safeexecE_strategy_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/safeexecE_strategy_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/safeexecE_strategy_proof.v"
+    ],
+    "includes": [
+      "\"dfs2.h\""
+    ],
+    "generation": {
+      "name": "kosaraju/dfs2",
+      "status": "generated",
+      "seconds": 3.16,
+      "log": "/tmp/algorithms-new-library-generation/kosaraju/dfs2/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/kosaraju/dfs2/dfs2_goal.lean",
+      "goal_bytes": 323603,
+      "vc_count": 84
+    },
+    "support_group": "needs_graph_models",
+    "source_proof_markers": {
+      "Qed": 443,
+      "Defined": 3
+    }
+  },
+  {
+    "name": "kosaraju/kosaraju_rel",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/kosaraju/kosaraju_rel.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/Kosaraju.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/KosarajuCRefinement.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/SCC.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/TwoSAT.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs1_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs1_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs1_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs1_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs1_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs2_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs2_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs2_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs2_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/dfs2_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/kosaraju_rel_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/kosaraju_rel_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/kosaraju_rel_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/kosaraju_rel_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/kosaraju_rel_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/safeexecE_strategy_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/safeexecE_strategy_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/kosaraju/safeexecE_strategy_proof.v"
+    ],
+    "includes": [
+      "\"safeexecE_def.h\"",
+      "\"dfs1.h\"",
+      "\"dfs2.h\""
+    ],
+    "generation": {
+      "name": "kosaraju/kosaraju_rel",
+      "status": "generated",
+      "seconds": 8.6,
+      "log": "/tmp/algorithms-new-library-generation/kosaraju/kosaraju_rel/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/kosaraju/kosaraju_rel/kosaraju_rel_goal.lean",
+      "goal_bytes": 685827,
+      "vc_count": 226
+    },
+    "support_group": "needs_graph_models",
+    "source_proof_markers": {
+      "Qed": 443,
+      "Defined": 3
+    }
+  },
+  {
+    "name": "lcs_n/lcs_n",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/lcs_n/lcs_n.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/lcs_n/lcs_n_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/lcs_n/lcs_n_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/lcs_n/lcs_n_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/lcs_n/lcs_n_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/lcs_n/lcs_n_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "linear_modular_inverse/linear_modular_inverse",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/linear_modular_inverse/linear_modular_inverse.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/linear_modular_inverse/linear_modular_inverse_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/linear_modular_inverse/linear_modular_inverse_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/linear_modular_inverse/linear_modular_inverse_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/linear_modular_inverse/linear_modular_inverse_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/linear_modular_inverse/linear_modular_inverse_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "longest_increasing_subsequence/longest_increasing_subsequence",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/longest_increasing_subsequence/longest_increasing_subsequence.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/longest_increasing_subsequence/longest_increasing_subsequence_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/longest_increasing_subsequence/longest_increasing_subsequence_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/longest_increasing_subsequence/longest_increasing_subsequence_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/longest_increasing_subsequence/longest_increasing_subsequence_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/longest_increasing_subsequence/longest_increasing_subsequence_proof_manual.v"
+    ],
+    "includes": [],
+    "generation": {
+      "name": "longest_increasing_subsequence/longest_increasing_subsequence",
+      "status": "generated",
+      "seconds": 0.72,
+      "log": "/tmp/algorithms-new-library-generation/longest_increasing_subsequence/longest_increasing_subsequence/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/longest_increasing_subsequence/longest_increasing_subsequence/longest_increasing_subsequence_goal.lean",
+      "goal_bytes": 49911,
+      "vc_count": 40
+    },
+    "support_group": "needs_monotonic_list",
+    "source_proof_markers": {
+      "Qed": 39
+    }
+  },
+  {
+    "name": "longest_nondecreasing_subsequence/longest_nondecreasing_subsequence",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/longest_nondecreasing_subsequence/longest_nondecreasing_subsequence.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/longest_nondecreasing_subsequence/longest_nondecreasing_subsequence_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/longest_nondecreasing_subsequence/longest_nondecreasing_subsequence_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/longest_nondecreasing_subsequence/longest_nondecreasing_subsequence_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/longest_nondecreasing_subsequence/longest_nondecreasing_subsequence_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/longest_nondecreasing_subsequence/longest_nondecreasing_subsequence_proof_manual.v"
+    ],
+    "includes": [],
+    "generation": {
+      "name": "longest_nondecreasing_subsequence/longest_nondecreasing_subsequence",
+      "status": "generated",
+      "seconds": 1.55,
+      "log": "/tmp/algorithms-new-library-generation/longest_nondecreasing_subsequence/longest_nondecreasing_subsequence/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/longest_nondecreasing_subsequence/longest_nondecreasing_subsequence/longest_nondecreasing_subsequence_goal.lean",
+      "goal_bytes": 85612,
+      "vc_count": 51
+    },
+    "support_group": "needs_monotonic_list",
+    "source_proof_markers": {
+      "Qed": 81
+    }
+  },
+  {
+    "name": "lucas_theorem/lucas_theorem",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/lucas_theorem/lucas_theorem.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/lucas_theorem/lucas_theorem_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/lucas_theorem/lucas_theorem_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/lucas_theorem/lucas_theorem_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/lucas_theorem/lucas_theorem_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/lucas_theorem/lucas_theorem_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "majority_element/majority_element",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/majority_element/majority_element.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/majority_element/majority_element_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/majority_element/majority_element_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/majority_element/majority_element_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/majority_element/majority_element_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/majority_element/majority_element_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "manacher/manacher",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/manacher/manacher.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/manacher/manacher_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/manacher/manacher_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/manacher/manacher_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/manacher/manacher_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/manacher/manacher_proof_manual.v"
+    ],
+    "includes": [
+      "\"string.h\""
+    ],
+    "generation": {
+      "name": "manacher/manacher",
+      "status": "generated",
+      "seconds": 8.48,
+      "log": "/tmp/algorithms-new-library-generation/manacher/manacher/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/manacher/manacher/manacher_goal.lean",
+      "goal_bytes": 341392,
+      "vc_count": 153
+    },
+    "support_group": "needs_string_slice",
+    "source_proof_markers": {
+      "Qed": 60
+    }
+  },
+  {
+    "name": "matrix_chain_multiplication/matrix_chain_multiplication",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/matrix_chain_multiplication/matrix_chain_multiplication.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/matrix_chain_multiplication/matrix_chain_multiplication_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/matrix_chain_multiplication/matrix_chain_multiplication_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/matrix_chain_multiplication/matrix_chain_multiplication_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/matrix_chain_multiplication/matrix_chain_multiplication_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/matrix_chain_multiplication/matrix_chain_multiplication_proof_manual.v"
+    ],
+    "includes": [],
+    "generation": {
+      "name": "matrix_chain_multiplication/matrix_chain_multiplication",
+      "status": "generated",
+      "seconds": 7.64,
+      "log": "/tmp/algorithms-new-library-generation/matrix_chain_multiplication/matrix_chain_multiplication/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/matrix_chain_multiplication/matrix_chain_multiplication/matrix_chain_multiplication_goal.lean",
+      "goal_bytes": 291576,
+      "vc_count": 122
+    },
+    "support_group": "new_maxmin_candidate",
+    "source_proof_markers": {
+      "Qed": 66
+    }
+  },
+  {
+    "name": "max_sum_increasing_sequence/max_sum_increasing_sequence",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/max_sum_increasing_sequence/max_sum_increasing_sequence.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/max_sum_increasing_sequence/max_sum_increasing_sequence_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/max_sum_increasing_sequence/max_sum_increasing_sequence_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/max_sum_increasing_sequence/max_sum_increasing_sequence_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/max_sum_increasing_sequence/max_sum_increasing_sequence_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/max_sum_increasing_sequence/max_sum_increasing_sequence_proof_manual.v"
+    ],
+    "includes": [],
+    "generation": {
+      "name": "max_sum_increasing_sequence/max_sum_increasing_sequence",
+      "status": "generated",
+      "seconds": 1.04,
+      "log": "/tmp/algorithms-new-library-generation/max_sum_increasing_sequence/max_sum_increasing_sequence/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/max_sum_increasing_sequence/max_sum_increasing_sequence/max_sum_increasing_sequence_goal.lean",
+      "goal_bytes": 69470,
+      "vc_count": 46
+    },
+    "support_group": "needs_monotonic_list",
+    "source_proof_markers": {
+      "Qed": 41
+    }
+  },
+  {
+    "name": "maximum_subarray/maximum_subarray",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/maximum_subarray/maximum_subarray.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/maximum_subarray/maximum_subarray_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/maximum_subarray/maximum_subarray_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/maximum_subarray/maximum_subarray_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/maximum_subarray/maximum_subarray_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/maximum_subarray/maximum_subarray_proof_manual.v"
+    ],
+    "includes": [],
+    "generation": {
+      "name": "maximum_subarray/maximum_subarray",
+      "status": "generated",
+      "seconds": 0.61,
+      "log": "/tmp/algorithms-new-library-generation/maximum_subarray/maximum_subarray/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/maximum_subarray/maximum_subarray/maximum_subarray_goal.lean",
+      "goal_bytes": 42653,
+      "vc_count": 41
+    },
+    "support_group": "new_maxmin_candidate",
+    "source_proof_markers": {
+      "Qed": 20
+    }
+  },
+  {
+    "name": "merging_stones/merging_stones",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/merging_stones/merging_stones.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/merging_stones/merging_stones_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/merging_stones/merging_stones_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/merging_stones/merging_stones_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/merging_stones/merging_stones_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/merging_stones/merging_stones_proof_manual.v"
+    ],
+    "includes": [
+      "\"array2_def.h\""
+    ],
+    "generation": {
+      "name": "merging_stones/merging_stones",
+      "status": "generated",
+      "seconds": 3.01,
+      "log": "/tmp/algorithms-new-library-generation/merging_stones/merging_stones/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/merging_stones/merging_stones/merging_stones_goal.lean",
+      "goal_bytes": 202558,
+      "vc_count": 122
+    },
+    "support_group": "new_maxmin_candidate",
+    "source_proof_markers": {
+      "Qed": 102
+    }
+  },
+  {
+    "name": "minimal_representation/minimal_representation",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/minimal_representation/minimal_representation.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/minimal_representation/minimal_representation_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/minimal_representation/minimal_representation_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/minimal_representation/minimal_representation_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/minimal_representation/minimal_representation_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/minimal_representation/minimal_representation_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "modular_inverse/modular_inverse",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/modular_inverse/modular_inverse.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/modular_inverse/modular_inverse_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/modular_inverse/modular_inverse_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/modular_inverse/modular_inverse_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/modular_inverse/modular_inverse_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/modular_inverse/modular_inverse_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "modular_mul/modular_mul",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/modular_mul/modular_mul.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/modular_mul/modular_mul_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/modular_mul/modular_mul_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/modular_mul/modular_mul_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/modular_mul/modular_mul_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/modular_mul/modular_mul_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "modular_power/modular_power",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/modular_power/modular_power.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/modular_power/modular_power_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/modular_power/modular_power_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/modular_power/modular_power_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/modular_power/modular_power_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/modular_power/modular_power_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "multiple_knapsack/multiple_knapsack",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/multiple_knapsack/multiple_knapsack.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/multiple_knapsack/multiple_knapsack_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/multiple_knapsack/multiple_knapsack_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/multiple_knapsack/multiple_knapsack_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/multiple_knapsack/multiple_knapsack_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/multiple_knapsack/multiple_knapsack_proof_manual.v"
+    ],
+    "includes": [],
+    "generation": {
+      "name": "multiple_knapsack/multiple_knapsack",
+      "status": "generated",
+      "seconds": 22.31,
+      "log": "/tmp/algorithms-new-library-generation/multiple_knapsack/multiple_knapsack/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/multiple_knapsack/multiple_knapsack/multiple_knapsack_goal.lean",
+      "goal_bytes": 577123,
+      "vc_count": 153
+    },
+    "support_group": "new_maxmin_candidate",
+    "source_proof_markers": {
+      "Qed": 163
+    }
+  },
+  {
+    "name": "non_overlapping_intervals/non_overlapping_intervals",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/non_overlapping_intervals/non_overlapping_intervals.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/non_overlapping_intervals/non_overlapping_intervals_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/non_overlapping_intervals/non_overlapping_intervals_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/non_overlapping_intervals/non_overlapping_intervals_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/non_overlapping_intervals/non_overlapping_intervals_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/non_overlapping_intervals/non_overlapping_intervals_proof_manual.v"
+    ],
+    "includes": [],
+    "generation": {
+      "name": "non_overlapping_intervals/non_overlapping_intervals",
+      "status": "generated",
+      "seconds": 1.28,
+      "log": "/tmp/algorithms-new-library-generation/non_overlapping_intervals/non_overlapping_intervals/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/non_overlapping_intervals/non_overlapping_intervals/non_overlapping_intervals_goal.lean",
+      "goal_bytes": 120955,
+      "vc_count": 76
+    },
+    "support_group": "new_maxmin_candidate",
+    "source_proof_markers": {
+      "Qed": 83
+    }
+  },
+  {
+    "name": "optimized_selection_sort/optimized_selection_sort",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/optimized_selection_sort/optimized_selection_sort.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/optimized_selection_sort/optimized_selection_sort_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/optimized_selection_sort/optimized_selection_sort_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/optimized_selection_sort/optimized_selection_sort_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/optimized_selection_sort/optimized_selection_sort_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/optimized_selection_sort/optimized_selection_sort_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "paint_house_ii/paint_house_ii",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/paint_house_ii/paint_house_ii.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/paint_house_ii/paint_house_ii_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/paint_house_ii/paint_house_ii_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/paint_house_ii/paint_house_ii_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/paint_house_ii/paint_house_ii_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/paint_house_ii/paint_house_ii_proof_manual.v"
+    ],
+    "includes": [
+      "\"int_ptr_array2_def.h\""
+    ],
+    "generation": {
+      "name": "paint_house_ii/paint_house_ii",
+      "status": "generated",
+      "seconds": 2.51,
+      "log": "/tmp/algorithms-new-library-generation/paint_house_ii/paint_house_ii/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/paint_house_ii/paint_house_ii/paint_house_ii_goal.lean",
+      "goal_bytes": 200130,
+      "vc_count": 89
+    },
+    "support_group": "needs_sumlib",
+    "source_proof_markers": {
+      "Qed": 29
+    }
+  },
+  {
+    "name": "quicksort_hoare_fill_index/quicksort",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/quicksort_hoare_fill_index/quicksort.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_hoare_fill_index/quicksort_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_hoare_fill_index/quicksort_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_hoare_fill_index/quicksort_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_hoare_fill_index/quicksort_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "quicksort_hoare_fill_index2/quicksort",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/quicksort_hoare_fill_index2/quicksort.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_hoare_fill_index2/quicksort_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_hoare_fill_index2/quicksort_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_hoare_fill_index2/quicksort_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_hoare_fill_index2/quicksort_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "quicksort_hoare_swap_index/quicksort",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/quicksort_hoare_swap_index/quicksort.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_hoare_swap_index/quicksort_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_hoare_swap_index/quicksort_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_hoare_swap_index/quicksort_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_hoare_swap_index/quicksort_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_hoare_swap_index/quicksort_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "quicksort_hoare_swap_index2/quicksort",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/quicksort_hoare_swap_index2/quicksort.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_hoare_swap_index2/quicksort_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_hoare_swap_index2/quicksort_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_hoare_swap_index2/quicksort_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_hoare_swap_index2/quicksort_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "quicksort_lomuto_index/quicksort",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/quicksort_lomuto_index/quicksort.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_lomuto_index/quicksort_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_lomuto_index/quicksort_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_lomuto_index/quicksort_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_lomuto_index/quicksort_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/quicksort_lomuto_index/quicksort_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "rmq/rmq",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/rmq/rmq.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/rmq/rmq_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/rmq/rmq_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/rmq/rmq_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/rmq/rmq_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/rmq/rmq_proof_manual.v"
+    ],
+    "includes": [],
+    "generation": {
+      "name": "rmq/rmq",
+      "status": "generated",
+      "seconds": 3.5,
+      "log": "/tmp/algorithms-new-library-generation/rmq/rmq/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/rmq/rmq/rmq_goal.lean",
+      "goal_bytes": 308351,
+      "vc_count": 206
+    },
+    "support_group": "new_maxmin_candidate",
+    "source_proof_markers": {
+      "Qed": 207
+    }
+  },
+  {
+    "name": "rod_cutting/rod_cutting",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/rod_cutting/rod_cutting.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/rod_cutting/rod_cutting_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/rod_cutting/rod_cutting_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/rod_cutting/rod_cutting_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/rod_cutting/rod_cutting_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/rod_cutting/rod_cutting_proof_manual.v"
+    ],
+    "includes": [],
+    "generation": {
+      "name": "rod_cutting/rod_cutting",
+      "status": "generated",
+      "seconds": 0.84,
+      "log": "/tmp/algorithms-new-library-generation/rod_cutting/rod_cutting/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/rod_cutting/rod_cutting/rod_cutting_goal.lean",
+      "goal_bytes": 60425,
+      "vc_count": 31
+    },
+    "support_group": "new_maxmin_candidate",
+    "source_proof_markers": {
+      "Qed": 22
+    }
+  },
+  {
+    "name": "selection_sort/selection_sort",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/selection_sort/selection_sort.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/selection_sort/selection_sort_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/selection_sort/selection_sort_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/selection_sort/selection_sort_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/selection_sort/selection_sort_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "sieve_of_eratosthenes/sieve_of_eratosthenes",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/sieve_of_eratosthenes/sieve_of_eratosthenes.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/sieve_of_eratosthenes/sieve_of_eratosthenes_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/sieve_of_eratosthenes/sieve_of_eratosthenes_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/sieve_of_eratosthenes/sieve_of_eratosthenes_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/sieve_of_eratosthenes/sieve_of_eratosthenes_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/sieve_of_eratosthenes/sieve_of_eratosthenes_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "sieve_of_euler/sieve_of_euler",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/sieve_of_euler/sieve_of_euler.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/sieve_of_euler/sieve_of_euler_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/sieve_of_euler/sieve_of_euler_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/sieve_of_euler/sieve_of_euler_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/sieve_of_euler/sieve_of_euler_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/sieve_of_euler/sieve_of_euler_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "sightseeing_bus/sightseeing_bus",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/sightseeing_bus/sightseeing_bus.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/sightseeing_bus/sightseeing_bus_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/sightseeing_bus/sightseeing_bus_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/sightseeing_bus/sightseeing_bus_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/sightseeing_bus/sightseeing_bus_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/sightseeing_bus/sightseeing_bus_proof_manual.v"
+    ],
+    "includes": [],
+    "generation": {
+      "name": "sightseeing_bus/sightseeing_bus",
+      "status": "generated",
+      "seconds": 7.45,
+      "log": "/tmp/algorithms-new-library-generation/sightseeing_bus/sightseeing_bus/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/sightseeing_bus/sightseeing_bus/sightseeing_bus_goal.lean",
+      "goal_bytes": 721473,
+      "vc_count": 252
+    },
+    "support_group": "needs_sumlib",
+    "source_proof_markers": {
+      "Qed": 332
+    }
+  },
+  {
+    "name": "sliding_window_maximum/sliding_window_maximum",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/sliding_window_maximum/sliding_window_maximum.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/sliding_window_maximum/sliding_window_maximum_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/sliding_window_maximum/sliding_window_maximum_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/sliding_window_maximum/sliding_window_maximum_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/sliding_window_maximum/sliding_window_maximum_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/sliding_window_maximum/sliding_window_maximum_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "sort_point/sort_point",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/sort_point/sort_point.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/sort_point/sort_point_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/sort_point/sort_point_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/sort_point/sort_point_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/sort_point/sort_point_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/sort_point/sort_point_proof_manual.v"
+    ],
+    "includes": [],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "split_array_largest_sum/split_array_largest_sum",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/split_array_largest_sum/split_array_largest_sum.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/split_array_largest_sum/split_array_largest_sum_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/split_array_largest_sum/split_array_largest_sum_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/split_array_largest_sum/split_array_largest_sum_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/split_array_largest_sum/split_array_largest_sum_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/split_array_largest_sum/split_array_largest_sum_proof_manual.v"
+    ],
+    "includes": [],
+    "generation": {
+      "name": "split_array_largest_sum/split_array_largest_sum",
+      "status": "generated",
+      "seconds": 0.63,
+      "log": "/tmp/algorithms-new-library-generation/split_array_largest_sum/split_array_largest_sum/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/split_array_largest_sum/split_array_largest_sum/split_array_largest_sum_goal.lean",
+      "goal_bytes": 71773,
+      "vc_count": 49
+    },
+    "support_group": "new_maxmin_candidate",
+    "source_proof_markers": {
+      "Qed": 48
+    }
+  },
+  {
+    "name": "stock_trading/stock_trading",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/stock_trading/stock_trading.c",
+    "lean_exists": true,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/stock_trading/stock_trading_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/stock_trading/stock_trading_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/stock_trading/stock_trading_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/stock_trading/stock_trading_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/stock_trading/stock_trading_proof_manual.v",
+      "Rocq/examples/LLM_bench/Algorithms/stock_trading/stock_trading_proof_manual_part1.v",
+      "Rocq/examples/LLM_bench/Algorithms/stock_trading/stock_trading_proof_manual_part2.v",
+      "Rocq/examples/LLM_bench/Algorithms/stock_trading/stock_trading_proof_manual_part3.v",
+      "Rocq/examples/LLM_bench/Algorithms/stock_trading/stock_trading_proof_manual_part4.v",
+      "Rocq/examples/LLM_bench/Algorithms/stock_trading/stock_trading_proof_manual_part5.v"
+    ],
+    "includes": [
+      "\"int_array_def.h\"",
+      "\"array2_def.h\""
+    ],
+    "support_group": "existing_lean"
+  },
+  {
+    "name": "streetlight/streetlight",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/streetlight/streetlight.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/streetlight/streetlight_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/streetlight/streetlight_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/streetlight/streetlight_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/streetlight/streetlight_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/streetlight/streetlight_proof_manual.v"
+    ],
+    "includes": [
+      "\"verification_stdlib.h\"",
+      "\"verification_list.h\"",
+      "\"array2_def.h\""
+    ],
+    "generation": {
+      "name": "streetlight/streetlight",
+      "status": "timeout",
+      "seconds": 180.07,
+      "log": "/tmp/algorithms-new-library-generation/streetlight/streetlight/generator.log",
+      "diagnostic": "File Path: builtin/int_array.strategies\nFinish parsing strategies file int_array\nStart to parse strategies file undef_int_array\nFile Path: builtin/undef_int_array.strategies\nFinish parsing strategies file undef_int_array\nStart to parse strategies file mixed_int_array\nFile Path: builtin/mixed_int_array.strategies\nFinish parsing strategies file mixed_int_array\nStart to parse strategies file int_array_shape\nFile Path: builtin/int_array_shape.strategies\nFinish parsing strategies file int_array_shape\nFunction `solve`",
+      "first_error": ""
+    },
+    "support_group": "new_maxmin_candidate",
+    "source_proof_markers": {
+      "Qed": 361
+    }
+  },
+  {
+    "name": "super_piano/super_piano",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/super_piano/super_piano.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/super_piano/super_piano_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/super_piano/super_piano_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/super_piano/super_piano_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/super_piano/super_piano_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/super_piano/super_piano_proof_manual.v"
+    ],
+    "includes": [],
+    "generation": {
+      "name": "super_piano/super_piano",
+      "status": "generated",
+      "seconds": 21.24,
+      "log": "/tmp/algorithms-new-library-generation/super_piano/super_piano/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/super_piano/super_piano/super_piano_goal.lean",
+      "goal_bytes": 810144,
+      "vc_count": 177
+    },
+    "support_group": "new_maxmin_candidate",
+    "source_proof_markers": {
+      "Qed": 74
+    }
+  },
+  {
+    "name": "zero_one_knapsack/zero_one_knapsack",
+    "c_path": "QCP_examples/LLM_bench/Algorithms/zero_one_knapsack/zero_one_knapsack.c",
+    "lean_exists": false,
+    "coq_files": [
+      "Rocq/examples/LLM_bench/Algorithms/zero_one_knapsack/zero_one_knapsack_goal.v",
+      "Rocq/examples/LLM_bench/Algorithms/zero_one_knapsack/zero_one_knapsack_goal_check.v",
+      "Rocq/examples/LLM_bench/Algorithms/zero_one_knapsack/zero_one_knapsack_lib.v",
+      "Rocq/examples/LLM_bench/Algorithms/zero_one_knapsack/zero_one_knapsack_proof_auto.v",
+      "Rocq/examples/LLM_bench/Algorithms/zero_one_knapsack/zero_one_knapsack_proof_manual.v"
+    ],
+    "includes": [],
+    "generation": {
+      "name": "zero_one_knapsack/zero_one_knapsack",
+      "status": "generated",
+      "seconds": 7.66,
+      "log": "/tmp/algorithms-new-library-generation/zero_one_knapsack/zero_one_knapsack/generator.log",
+      "goal": "/tmp/algorithms-new-library-generation/zero_one_knapsack/zero_one_knapsack/zero_one_knapsack_goal.lean",
+      "goal_bytes": 185608,
+      "vc_count": 66
+    },
+    "support_group": "new_maxmin_candidate",
+    "source_proof_markers": {
+      "Qed": 61
+    }
+  }
+]

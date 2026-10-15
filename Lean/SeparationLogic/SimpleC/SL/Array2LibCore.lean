@@ -3,6 +3,7 @@ import SimpleC.SL.ArrayLib
 namespace SimpleC.SL.Array2LibCore
 
 open AUXLib
+open SimpleC.SL.CArch
 open SimpleC.SL.CommonAssertion
 open SimpleC.SL.CommonAssertion.DerivedPredSig
 open SimpleC.SL.Mem
@@ -13,19 +14,22 @@ open Unifysl.LogicGenerator.demo932
 open scoped SimpleC.SL.SAC
 
 structure Array2LibCoreSig
+    (_Arch : CArchSig) (_Endian : CEndianSig)
     (_CRules : SeparationLogicSig)
-    (_DePredSig : DerivedPredSig _CRules)
-    (_SLibSig : StoreLibSig _CRules _DePredSig)
-    (_ALibSig : SimpleC.SL.ArrayLib.ArrayLibSig _CRules _DePredSig _SLibSig) :
+    (_DePredSig : DerivedPredSig _Arch _Endian _CRules)
+    (_SLibSig : StoreLibSig _Arch _Endian _CRules _DePredSig)
+    (_ALibSig : SimpleC.SL.ArrayLib.ArrayLibSig
+      _Arch _Endian _CRules _DePredSig _SLibSig) :
     Type where
 
 namespace Array2LibCoreSig
 
-def canonical (CRules : SeparationLogicSig)
-    (DePredSig : DerivedPredSig CRules)
-    (SLibSig : StoreLibSig CRules DePredSig)
-    (ALibSig : SimpleC.SL.ArrayLib.ArrayLibSig CRules DePredSig SLibSig) :
-    Array2LibCoreSig CRules DePredSig SLibSig ALibSig := {}
+def canonical (Arch : CArchSig) (Endian : CEndianSig) (CRules : SeparationLogicSig)
+    (DePredSig : DerivedPredSig Arch Endian CRules)
+    (SLibSig : StoreLibSig Arch Endian CRules DePredSig)
+    (ALibSig : SimpleC.SL.ArrayLib.ArrayLibSig
+      Arch Endian CRules DePredSig SLibSig) :
+    Array2LibCoreSig Arch Endian CRules DePredSig SLibSig ALibSig := {}
 
 private theorem store_array_rec_to_undef_array_rec_with_length
     (CRules : SeparationLogicSig) (B : Type)
@@ -151,66 +155,74 @@ theorem store_undef_array_split_to_missing_i
 
 namespace Array2Lib
 
+variable {Arch : CArchSig} {Endian : CEndianSig}
 variable {CRules : SeparationLogicSig}
-variable {DePredSig : DerivedPredSig CRules}
-variable {SLibSig : StoreLibSig CRules DePredSig}
+variable {DePredSig : DerivedPredSig Arch Endian CRules}
+variable {SLibSig : StoreLibSig Arch Endian CRules DePredSig}
 
-def row_addr (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+/-- Coq `Module ElemArray := ArrayLib ES`, represented as a transparent
+first-class view so the complete migrated `ArrayFacade` API remains available. -/
+abbrev ElemArray (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig) :
+    SimpleC.SL.ArrayLib.ArrayLibSig.ArrayFacade
+      Arch Endian CRules DePredSig SLibSig :=
+  ⟨ES⟩
+
+def row_addr (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (m i : Int) : addr :=
   x + i * m * ES.sizeA
 
-def row_store (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def row_store (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (m : Int) (x : addr) (i : Int) (row : List ES.A) : CRules.expr :=
-  ArrayLib.full ES (row_addr ES x m i) m row
+  (ElemArray ES).full (row_addr ES x m i) m row
 
-def mixed_row_store (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def mixed_row_store (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (m : Int) (x : addr) (i : Int) (row : List (Option ES.A)) : CRules.expr :=
-  ArrayLib.mixed_full ES (row_addr ES x m i) m row
+  (ElemArray ES).mixed_full (row_addr ES x m i) m row
 
-def undef_row_store (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def undef_row_store (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (m : Int) (x : addr) (i : Int) : CRules.expr :=
-  ArrayLib.undef_full ES (row_addr ES x m i) m
+  (ElemArray ES).undef_full (row_addr ES x m i) m
 
-def full (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def full (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (n m : Int) (rows : List (List ES.A)) : CRules.expr :=
   store_array CRules (row_store ES m) x n rows
 
-def missing_i (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def missing_i (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (i lo hi m : Int) (rows : List (List ES.A)) : CRules.expr :=
   store_array_missing_i_rec CRules (row_store ES m) x i lo hi rows
 
-def mixed_full (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def mixed_full (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (n m : Int) (rows : List (List (Option ES.A))) : CRules.expr :=
   store_array CRules (mixed_row_store ES m) x n rows
 
-def mixed_missing_i (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def mixed_missing_i (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (i lo hi m : Int)
     (rows : List (List (Option ES.A))) : CRules.expr :=
   store_array_missing_i_rec CRules (mixed_row_store ES m) x i lo hi rows
 
-def undef_full (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def undef_full (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (n m : Int) : CRules.expr :=
   store_undef_array CRules (undef_row_store ES m) x n
 
-def undef_missing_i (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+def undef_missing_i (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x : addr) (i lo hi m : Int) : CRules.expr :=
   store_undef_array_missing_i_rec CRules (undef_row_store ES m)
     x i lo hi (hi - lo).toNat
 
-theorem full_Zlength (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+theorem full_Zlength (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (rows : List (List ES.A)) :
     CRules.derivable1 (full ES x n m rows)
       (CRules.coq_prop (Zlength rows = n)) := by
   exact store_array_Zlength CRules (List ES.A) (row_store ES m) x n rows
 
-theorem mixed_full_Zlength (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+theorem mixed_full_Zlength (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (rows : List (List (Option ES.A))) :
     CRules.derivable1 (mixed_full ES x n m rows)
       (CRules.coq_prop (Zlength rows = n)) := by
   exact store_array_Zlength CRules (List (Option ES.A))
     (mixed_row_store ES m) x n rows
 
-theorem missing_i_Zlength (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+theorem missing_i_Zlength (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x i lo hi m : Int) (rows : List (List ES.A)) :
     CRules.derivable1 (missing_i ES x i lo hi m rows)
       (CRules.coq_prop (Zlength rows = hi - lo)) := by
@@ -218,19 +230,19 @@ theorem missing_i_Zlength (ES : ELEMENT_STORE CRules DePredSig SLibSig)
     (row_store ES m) x i lo hi rows
 
 theorem mixed_missing_i_Zlength
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x i lo hi m : Int) (rows : List (List (Option ES.A))) :
     CRules.derivable1 (mixed_missing_i ES x i lo hi m rows)
       (CRules.coq_prop (Zlength rows = hi - lo)) := by
   exact store_array_missing_i_rec_Zlength CRules (List (Option ES.A))
     (mixed_row_store ES m) x i lo hi rows
 
-theorem full_valid (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+theorem full_valid (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (rows : List (List ES.A)) :
     CRules.derivable1 (full ES x n m rows) (CRules.coq_prop (0 <= n)) := by
   exact store_array_valid CRules (List ES.A) (row_store ES m) x n rows
 
-theorem mixed_full_valid (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+theorem mixed_full_valid (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (rows : List (List (Option ES.A))) :
     CRules.derivable1 (mixed_full ES x n m rows)
       (CRules.coq_prop (0 <= n)) := by
@@ -238,20 +250,20 @@ theorem mixed_full_valid (ES : ELEMENT_STORE CRules DePredSig SLibSig)
     (mixed_row_store ES m) x n rows
 
 theorem row_store_to_undef_row_store
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x m i : Int) (row : List ES.A) :
     CRules.derivable1 (row_store ES m x i row) (undef_row_store ES m x i) := by
   exact ArrayLib.full_to_undef_full ES (row_addr ES x m i) m row
 
 theorem mixed_row_store_to_undef_row_store
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x m i : Int) (row : List (Option ES.A)) :
     CRules.derivable1 (mixed_row_store ES m x i row)
       (undef_row_store ES m x i) := by
   exact ArrayLib.mixed_full_to_undef_full ES (row_addr ES x m i) m row
 
 theorem full_split_to_missing_i
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x i n m : Int) (rows : List (List ES.A)) (h : 0 <= i ∧ i < n) :
     CRules.derivable1 (full ES x n m rows)
       (CRules.sepcon
@@ -261,7 +273,7 @@ theorem full_split_to_missing_i
     (row_store ES m) x i n rows [] h
 
 theorem missing_i_merge_to_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x i n m : Int) (rows : List (List ES.A)) (row : List ES.A)
     (h : 0 <= i ∧ i < n) :
     CRules.derivable1
@@ -272,7 +284,7 @@ theorem missing_i_merge_to_full
     (row_store ES m) x i n row rows h
 
 theorem mixed_full_split_to_mixed_missing_i
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x i n m : Int) (rows : List (List (Option ES.A)))
     (h : 0 <= i ∧ i < n) :
     CRules.derivable1 (mixed_full ES x n m rows)
@@ -283,7 +295,7 @@ theorem mixed_full_split_to_mixed_missing_i
     (mixed_row_store ES m) x i n rows [] h
 
 theorem mixed_missing_i_merge_to_mixed_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x i n m : Int) (rows : List (List (Option ES.A)))
     (row : List (Option ES.A)) (h : 0 <= i ∧ i < n) :
     CRules.derivable1
@@ -295,7 +307,7 @@ theorem mixed_missing_i_merge_to_mixed_full
     (mixed_row_store ES m) x i n row rows h
 
 theorem undef_full_split_to_undef_missing_i
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x i n m : Int) (h : 0 <= i ∧ i < n) :
     CRules.derivable1 (undef_full ES x n m)
       (CRules.sepcon (ArrayLib.undef_full ES (row_addr ES x m i) m)
@@ -305,7 +317,7 @@ theorem undef_full_split_to_undef_missing_i
       (undef_row_store ES m) x i n h
 
 theorem full_to_undef_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (rows : List (List ES.A)) :
     CRules.derivable1 (full ES x n m rows) (undef_full ES x n m) := by
   exact store_array_to_undef_array CRules (List ES.A)
@@ -313,14 +325,14 @@ theorem full_to_undef_full
     (fun x i row => row_store_to_undef_row_store ES x m i row) x n rows
 
 theorem mixed_full_to_undef_full
-    (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+    (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) (rows : List (List (Option ES.A))) :
     CRules.derivable1 (mixed_full ES x n m rows) (undef_full ES x n m) := by
   exact store_array_to_undef_array CRules (List (Option ES.A))
     (mixed_row_store ES m) (undef_row_store ES m)
     (fun x i row => mixed_row_store_to_undef_row_store ES x m i row) x n rows
 
-theorem undef_full_valid (ES : ELEMENT_STORE CRules DePredSig SLibSig)
+theorem undef_full_valid (ES : ELEMENT_STORE Arch Endian CRules DePredSig SLibSig)
     (x n m : Int) :
     CRules.derivable1 (undef_full ES x n m) (CRules.coq_prop (0 <= n)) := by
   intro _ hs

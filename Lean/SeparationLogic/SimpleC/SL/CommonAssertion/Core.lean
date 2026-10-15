@@ -42,9 +42,12 @@ structure SeparationLogicSig : Type 1 extends Facade.Context.{0, 0} where
         (toContext.sepcon (mstore_noninit x) (mstore_noninit x))
         (toContext.coq_prop False)
 
--- The Coq module type adds no abstract data beyond `CRules`; all of its
+-- The Coq module type adds no abstract data beyond its three parameters; all
 -- definitions and lemmas are the canonical declarations in the namespace below.
-structure DerivedPredSig (_CRules : SeparationLogicSig) : Type where
+structure DerivedPredSig
+    (_Arch : SimpleC.SL.CArch.CArchSig)
+    (_Endian : SimpleC.SL.CArch.CEndianSig)
+    (_CRules : SeparationLogicSig) : Type where
 
 namespace SeparationLogicSig
 
@@ -93,8 +96,27 @@ def isvalidptr_int (x : Int) : Prop :=
 def isvalidptr_int64 (x : Int) : Prop :=
   x >= 0 ∧ x + 7 <= Int.max_unsigned ∧ aligned_4 x
 
-def isvalidptr (x : Int) : Prop :=
+def isvalidptr_int128 (x : Int) : Prop :=
+  x >= 0 ∧ x + 15 <= Int.max_unsigned ∧ aligned_4 x
+
+def isvalidptr_float (x : Int) : Prop :=
   x >= 0 ∧ x + 3 <= Int.max_unsigned ∧ aligned_4 x
+
+def isvalidptr_double (x : Int) : Prop :=
+  x >= 0 ∧ x + 7 <= Int.max_unsigned ∧ aligned_8 x
+
+def isvalidptr_long_double (x : Int) : Prop :=
+  x >= 0 ∧ x + 15 <= Int.max_unsigned ∧ aligned_8 x
+
+def isvalidptr (x : Int) : Prop :=
+  x >= 0 ∧
+    x + SimpleC.SL.CArch.CArchSig.ptr_size_Z SimpleC.SL.CArch.Arch32 - 1 <=
+      SimpleC.SL.CArch.Arch32.addr_max_unsigned ∧
+    SimpleC.SL.CArch.CArchSig.aligned SimpleC.SL.CArch.Arch32
+      SimpleC.SL.CArch.Arch32.ptr_align x
+
+def valid_ptr_value (v : Int) : Prop :=
+  SimpleC.SL.CArch.CArchSig.valid_ptr_value SimpleC.SL.CArch.Arch32 v
 
 def merge_short (x1 x2 y : Int) : Prop :=
   y % (2 ^ 16) = x1 % (2 ^ 8) * (2 ^ 8) + x2 % (2 ^ 8)

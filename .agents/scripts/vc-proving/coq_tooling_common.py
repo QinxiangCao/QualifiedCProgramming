@@ -532,10 +532,16 @@ def dependency_closure(
 
 
 def command_deadline(timeout_seconds: int | float | None) -> float:
-    timeout = COQ_COMMAND_TIMEOUT_SECONDS if timeout_seconds is None else float(timeout_seconds)
+    try:
+        limit = float(os.environ.get("QCP_COQ_TIMEOUT_SECONDS", COQ_COMMAND_TIMEOUT_SECONDS))
+    except ValueError:
+        raise ValueError("QCP_COQ_TIMEOUT_SECONDS must be finite and positive") from None
+    if not math.isfinite(limit) or limit <= 0:
+        raise ValueError("QCP_COQ_TIMEOUT_SECONDS must be finite and positive")
+    timeout = limit if timeout_seconds is None else float(timeout_seconds)
     if not math.isfinite(timeout) or timeout < 0:
         raise ValueError("Coq timeout must be finite and non-negative")
-    return time.monotonic() + min(timeout, COQ_COMMAND_TIMEOUT_SECONDS)
+    return time.monotonic() + min(timeout, limit)
 
 
 def run_tool(

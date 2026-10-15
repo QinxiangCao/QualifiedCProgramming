@@ -4,12 +4,14 @@ import Lean.Util.CollectAxioms
 
 namespace StringLibTests
 
+open SimpleC.SL.CArch
 open AUXLib
 open SimpleC.SL.ArrayLib
 open SimpleC.SL.ArrayLib.ArrayLibSig
 open SimpleC.SL.Assertion
 open SimpleC.SL.CommonAssertion
 open SimpleC.SL.CommonAssertion.DerivedPredSig
+open SimpleC.SL.CommonAssertion.DerivedPredSigCompat
 open SimpleC.SL.Mem
 open SimpleC.SL.StoreAux
 open SimpleC.SL.StoreAux.StoreLibSig
@@ -21,11 +23,11 @@ open Lean Elab Command
 
 local instance : SacContext := ⟨SL⟩
 
-private abbrev TestDerived : DerivedPredSig SL :=
-  DerivedPredSig.canonical SL
+private abbrev TestDerived : DerivedPredSigCompat.Sig SL :=
+  DerivedPredSigCompat.canonical SL
 
-private abbrev TestStore : StoreLibSig SL TestDerived :=
-  StoreLibSig.canonical SL TestDerived
+private abbrev TestStore : StoreLibSigCompat SL TestDerived :=
+  StoreLibSigCompat.canonical SL TestDerived
 
 private def resolveApiDecls (ids : Array Syntax) : CommandElabM (Array Name) :=
   ids.mapM fun id => liftCoreM <| realizeGlobalConstNoOverloadWithInfo id
@@ -54,16 +56,10 @@ elab_rules : command
         ``propext,
         ``Classical.choice,
         ``Quot.sound,
-        ``SimpleC.SL.CNotation.sizeof_front_end_type,
-        ``SimpleC.SL.CNotation.sizeof_char,
-        ``SimpleC.SL.CNotation.sizeof_uchar,
-        ``SimpleC.SL.CNotation.sizeof_short,
-        ``SimpleC.SL.CNotation.sizeof_ushort,
-        ``SimpleC.SL.CNotation.sizeof_int,
-        ``SimpleC.SL.CNotation.sizeof_uint,
-        ``SimpleC.SL.CNotation.sizeof_int64,
-        ``SimpleC.SL.CNotation.sizeof_uint64,
-        ``SimpleC.SL.CNotation.sizeof_ptr]
+        ``SimpleC.SL.CNotation.sizeof_struct_type,
+        ``SimpleC.SL.CNotation.sizeof_union_type,
+        ``SimpleC.SL.CNotation.sizeof_enum_type,
+        ``SimpleC.SL.CNotation.sizeof_alias_type]
       for name in names do
         for axiomName in (← collectAxioms name) do
           unless allowedAxioms.contains axiomName do
@@ -144,7 +140,7 @@ elab_rules : command
   store_string_split_to_missing_i,
   store_stringLit_split_to_missing_i,
   AsciiToZ_range
-] => 16695267313444289595
+] => 14899891327909765336
 
 example (c : CoqAscii) : AsciiToZ c = Int.ofNat c.toNat := rfl
 example (z : Int) : ZToAscii z = UInt8.ofNat (z % 256).toNat := rfl
@@ -181,56 +177,56 @@ example (c : CoqAscii) : ZToAscii (AsciiToZ c) = c :=
 section
 
 variable {CRules : SeparationLogicSig}
-variable {DePredSig : DerivedPredSig CRules}
-variable {SLibSig : StoreLibSig CRules DePredSig}
-variable {ALibSig : ArrayLibSig CRules DePredSig SLibSig}
+variable {DePredSig : DerivedPredSigCompat.Sig CRules}
+variable {SLibSig : StoreLibSigCompat CRules DePredSig}
+variable {ALibSig : ArrayLibSig Arch32 BigEndian CRules DePredSig SLibSig}
 
 example (x : addr) (s : List Int) :
-    store_string CRules DePredSig SLibSig x s =
+    store_string Arch32 BigEndian CRules DePredSig SLibSig x s =
       CRules.andp (CRules.coq_prop (valid_string s))
-        ((CharArray CRules DePredSig SLibSig).full
+        ((CharArray Arch32 BigEndian CRules DePredSig SLibSig).full
           x (string_length s + 1) (c_string s)) := rfl
 
 example (x : addr) (s : CoqString) :
-    store_stringLit CRules DePredSig SLibSig x s =
+    store_stringLit Arch32 BigEndian CRules DePredSig SLibSig x s =
       CRules.andp (CRules.coq_prop (valid_stringLit s))
-        ((CharArray CRules DePredSig SLibSig).full
+        ((CharArray Arch32 BigEndian CRules DePredSig SLibSig).full
           x (StringLength s + 1) (StringToList s (StringLength s + 1))) := rfl
 
 example (x : addr) (s : List Int) :
-    CRules.derivable1 (store_string CRules DePredSig SLibSig x s)
+    CRules.derivable1 (store_string Arch32 BigEndian CRules DePredSig SLibSig x s)
       (CRules.coq_prop (Zlength (c_string s) = string_length s + 1)) :=
-  store_string_length CRules DePredSig SLibSig x s
+  store_string_length Arch32 BigEndian CRules DePredSig SLibSig x s
 
 example (x i : addr) (s : List Int) (hi : 0 <= i ∧ i < string_length s + 1) :
-    CRules.derivable1 (store_string CRules DePredSig SLibSig x s)
+    CRules.derivable1 (store_string Arch32 BigEndian CRules DePredSig SLibSig x s)
       (CRules.sepcon
-        (store_char CRules
-          (x + i * SimpleC.SL.CNotation.sizeof_front_end_type
+        (SimpleC.SL.CommonAssertion.DerivedPredSig.store_char Arch32 CRules
+          (x + i * SimpleC.SL.CNotation.CNotationSig.sizeof_front_end_type Arch32
             SimpleC.SL.CNotation.FET_char)
           (Znth i (c_string s) 0))
-        ((CharArray CRules DePredSig SLibSig).missing_i
+        ((CharArray Arch32 BigEndian CRules DePredSig SLibSig).missing_i
           x i 0 (string_length s + 1) (c_string s))) :=
-  store_string_split_to_missing_i CRules DePredSig SLibSig x i s hi
+  store_string_split_to_missing_i Arch32 BigEndian CRules DePredSig SLibSig x i s hi
 
 example (x i : addr) (s : CoqString) (hi : 0 <= i ∧ i < StringLength s + 1) :
-    CRules.derivable1 (store_stringLit CRules DePredSig SLibSig x s)
+    CRules.derivable1 (store_stringLit Arch32 BigEndian CRules DePredSig SLibSig x s)
       (CRules.sepcon
-        (store_char CRules
-          (x + i * SimpleC.SL.CNotation.sizeof_front_end_type
+        (SimpleC.SL.CommonAssertion.DerivedPredSig.store_char Arch32 CRules
+          (x + i * SimpleC.SL.CNotation.CNotationSig.sizeof_front_end_type Arch32
             SimpleC.SL.CNotation.FET_char)
           (Znth i (StringToList s (StringLength s + 1)) 0))
-        ((CharArray CRules DePredSig SLibSig).missing_i
+        ((CharArray Arch32 BigEndian CRules DePredSig SLibSig).missing_i
           x i 0 (StringLength s + 1)
           (StringToList s (StringLength s + 1)))) :=
-  store_stringLit_split_to_missing_i CRules DePredSig SLibSig x i s hi
+  store_stringLit_split_to_missing_i Arch32 BigEndian CRules DePredSig SLibSig x i s hi
 
-variable (API : StringLibSig CRules DePredSig SLibSig ALibSig)
+variable (API : StringLibSig Arch32 BigEndian CRules DePredSig SLibSig ALibSig)
 variable (LitMap : CoqString -> addr) (s : CoqString)
 
 example : CRules.derivable1 (API.GlobalStrings LitMap)
     (CRules.sepcon (API.GlobalStrings_missing LitMap [s])
-      (store_stringLit CRules DePredSig SLibSig (LitMap s) s)) :=
+      (store_stringLit Arch32 BigEndian CRules DePredSig SLibSig (LitMap s) s)) :=
   API.GlobalStrings_split LitMap s
 
 end
@@ -238,14 +234,14 @@ end
 section SourceTactics
 
 example (x : addr) (s : List Int) :
-    SL.derivable1 (store_string SL TestDerived TestStore x s)
+    SL.derivable1 (store_string Arch32 BigEndian SL TestDerived TestStore x s)
       (SL.coq_prop (Zlength (c_string s) = string_length s + 1)) := by
   unfold store_string
   entailer!
   all_goals exact c_string_Zlength s
 
 example (x : addr) (s : CoqString) :
-    SL.derivable1 (store_stringLit SL TestDerived TestStore x s)
+    SL.derivable1 (store_stringLit Arch32 BigEndian SL TestDerived TestStore x s)
       (SL.coq_prop
         (Zlength (StringToList s (StringLength s + 1)) =
           StringLength s + 1)) := by
@@ -254,35 +250,35 @@ example (x : addr) (s : CoqString) :
   all_goals exact StringToList_c_length s
 
 example (x i : addr) (s : List Int) (hi : 0 <= i ∧ i < string_length s + 1) :
-    SL.derivable1 (store_string SL TestDerived TestStore x s)
+    SL.derivable1 (store_string Arch32 BigEndian SL TestDerived TestStore x s)
       (SL.sepcon
-        (store_char SL
-          (x + i * SimpleC.SL.CNotation.sizeof_front_end_type
+        (SimpleC.SL.CommonAssertion.DerivedPredSig.store_char Arch32 SL
+          (x + i * SimpleC.SL.CNotation.CNotationSig.sizeof_front_end_type Arch32
             SimpleC.SL.CNotation.FET_char)
           (Znth i (c_string s) 0))
-        ((CharArray SL TestDerived TestStore).missing_i
+        ((CharArray Arch32 BigEndian SL TestDerived TestStore).missing_i
           x i 0 (string_length s + 1) (c_string s))) := by
   unfold store_string
   refine coq_prop_andp_left SL _ _ _ ?_
   intro _
-  sep_apply ((CharArray SL TestDerived TestStore).full_split_to_missing_i
+  sep_apply ((CharArray Arch32 BigEndian SL TestDerived TestStore).full_split_to_missing_i
     x i (string_length s + 1) (c_string s) (0 : Int) hi)
   exact SL.toContext.derivable1_refl _
 
 example (x i : addr) (s : CoqString) (hi : 0 <= i ∧ i < StringLength s + 1) :
-    SL.derivable1 (store_stringLit SL TestDerived TestStore x s)
+    SL.derivable1 (store_stringLit Arch32 BigEndian SL TestDerived TestStore x s)
       (SL.sepcon
-        (store_char SL
-          (x + i * SimpleC.SL.CNotation.sizeof_front_end_type
+        (SimpleC.SL.CommonAssertion.DerivedPredSig.store_char Arch32 SL
+          (x + i * SimpleC.SL.CNotation.CNotationSig.sizeof_front_end_type Arch32
             SimpleC.SL.CNotation.FET_char)
           (Znth i (StringToList s (StringLength s + 1)) 0))
-        ((CharArray SL TestDerived TestStore).missing_i
+        ((CharArray Arch32 BigEndian SL TestDerived TestStore).missing_i
           x i 0 (StringLength s + 1)
           (StringToList s (StringLength s + 1)))) := by
   unfold store_stringLit
   refine coq_prop_andp_left SL _ _ _ ?_
   intro _
-  sep_apply ((CharArray SL TestDerived TestStore).full_split_to_missing_i
+  sep_apply ((CharArray Arch32 BigEndian SL TestDerived TestStore).full_split_to_missing_i
     x i (StringLength s + 1) (StringToList s (StringLength s + 1))
       (0 : Int) hi)
   exact SL.toContext.derivable1_refl _

@@ -1,3 +1,6 @@
+/*@ Import Lean import MonadLib.MonadErr.monadesafe_lib */
+/*@ Import Lean open MonadLib */
+/*@ Printing Lean Name program := MonadLib.MonadErr.M */
 /*@ Extern Coq (program :: * => * => *) */
 /*@ Extern Coq (unit :: *) */
 /*@ Extern Coq (safeExec : {Sigma} {A} -> (Sigma -> Prop) -> program Sigma A -> (A -> Sigma -> Prop) -> Prop)

@@ -1,0 +1,9 @@
+import SimpleC.EE.QCP_demos_LLM.generated.functional_queue_strategy_proof
+
+namespace SimpleC.EE.QCP_demos_LLM.generated.functional_queue_strategy_goal_check
+
+def functional_queue_Strategy_Correctness : SimpleC.EE.QCP_demos_LLM.generated.functional_queue_strategy_goal.functional_queue_Strategy_Correct where
+  functional_queue_strategy0_correctness := SimpleC.EE.QCP_demos_LLM.generated.functional_queue_strategy_proof.functional_queue_strategy0_correctness
+  functional_queue_strategy1_correctness := SimpleC.EE.QCP_demos_LLM.generated.functional_queue_strategy_proof.functional_queue_strategy1_correctness
+
+end SimpleC.EE.QCP_demos_LLM.generated.functional_queue_strategy_goal_check

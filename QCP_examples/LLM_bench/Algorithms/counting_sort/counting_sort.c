@@ -15,6 +15,7 @@
       (CountingCopyProgress : list Z -> list Z -> list Z -> Z -> Prop)
  */
 /*@ Import Coq Require Import SimpleC.EE.LLM_bench.Algorithms.counting_sort.counting_sort_lib */
+/*@ Import Lean import SimpleC.EE.LLM_bench.Algorithms.counting_sort.counting_sort_lib */
 
 /*
  * Stable counting sort for values in the fixed range [0, 99].

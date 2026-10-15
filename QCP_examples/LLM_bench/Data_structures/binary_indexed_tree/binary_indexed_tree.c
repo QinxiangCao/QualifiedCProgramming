@@ -1,3 +1,4 @@
+/*@ Import Lean import SimpleC.EE.LLM_bench.Data_structures.binary_indexed_tree.binary_indexed_tree_lib */
 /*@ Extern Coq
       (FenwickLowbit : Z -> Z)
       (FenwickNodeLo : Z -> Z)
